@@ -190,6 +190,67 @@ block modal-body-content
           button#add-seats-btn.btn.btn-primary Add Licenses
       hr
 
+  if view.aileagueProducts.length
+    h3.m-t-3#prepaids Existing AI League Products
+    table.table.table-condensed
+      tr
+        th ID
+        th Shared by
+        th Type
+        if view.timeZone == 'Asia/Shanghai'
+          th Issued (CT)
+          th Start (CT)
+          th End (CT)
+        else
+          th Issued (PT)
+          th Start (PT)
+          th End (PT)
+        th Used
+      for product in view.aileagueProducts.models
+        - var prepaidControlId=product.id
+
+  //- could be clan owner, but let's check teacher first
+  if view.user.isTeacher()
+    h3.m-t-3#ai-leauge-product Grant AI League Products 
+    #ai-league-product-form.form
+      if view.state === 'creating-ai-league-product'
+        .progress.progress-striped.active
+          .progress-bar(style="width: 100%")
+
+      else if view.state === 'made-ai-league-product'
+        .alert.alert-success AI League Product created!
+
+      else
+        if view.timeZone == 'Asia/Shanghai'
+          h4.small(style="max-width: 700px") Product start at 12am CT on the start date and end at 11:59pm CT on the end date listed.
+        else
+          h4.small(style="max-width: 700px") Product start at 12am PT on the start date and end at 11:59pm PT on the end date listed.
+        +license-form-group('Start Date')(type="date" name="startDate" value=moment.timezone().tz(view.timeZone).format('YYYY-MM-DD'))
+        +license-form-group('End Date')(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'month').format('YYYY-MM-DD'))
+        .form-group
+          - AILeagueType = view.AILeagueType
+          label
+            span AI League Product Type
+            =":"
+            #ai-league-type-select
+              .radio
+                label.product-type
+                  input(type='radio', name='AILeagueType', value='single', checked=AILeagueType==='single')
+                  span Single
+              .radio
+                label.product-type
+                  input(type='radio', name='AILeagueType', value='multiple', checked=AILeagueType==='multiple')
+                  span Multiple
+        +license-form-group('Addons')(type="checkbox" name="addon")
+          span(style="margin-left: 10px") Make sure you check this if you want to add addons.
+        +license-form-group('Addons - team')(type="number" name="team" value=(AILeagueType === 'single' ? 1 : 5) min=(AILeagueType === 'single' ? 1 : 5) max=10 step=1)
+        +license-form-group('Addons - tournament')(type="number" name="tournament" value=(AILeagueType === 'single' ? 1 : 3) min=(AILeagueType === 'single' ? 1 : 3) step=1)
+        +license-form-group('Addons - arena(slug)')(type="text" name="arena")
+                  
+        .form-group
+          button#add-ai-league-product-btn.btn.btn-primary Add AI League Product
+      hr
+ 
   if view.classrooms.size()
     h3.m-t-3#classrooms Classrooms
     table#classroom-table.table

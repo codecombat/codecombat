@@ -26,6 +26,7 @@ module.exports = class AdministerUserModal extends ModelModal
     'click #save-changes': 'onClickSaveChanges'
     'click #create-payment-btn': 'onClickCreatePayment'
     'click #add-seats-btn': 'onClickAddSeatsButton'
+    'click #add-ai-league-product-btn': 'onClickAddAILeagueProductButton'
     'click #destudent-btn': 'onClickDestudentButton'
     'click #deteacher-btn': 'onClickDeteacherButton'
     'click #reset-progress-btn': 'onClickResetProgressButton'
@@ -45,6 +46,7 @@ module.exports = class AdministerUserModal extends ModelModal
     'click #teacher-search-button': 'onSubmitTeacherSearchForm'
     'click .remove-teacher-button': 'onClickRemoveAdministeredTeacher'
     'click #license-type-select>.radio': 'onSelectLicenseType'
+    'click #ai-league-type-select>.radio': 'onSelectAILeagueType'
     'click .other-user-link': 'onClickOtherUserLink'
     'click #volume-checkbox': 'onClickVolumeCheckbox'
     'click #music-checkbox': 'onClickMusicCheckbox'
@@ -68,11 +70,13 @@ module.exports = class AdministerUserModal extends ModelModal
         if prepaid.loaded and not prepaid.creator
           prepaid.creator = new User()
           @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
+    @aileagueProducts = @user.allProducts('ai-league')
     @trialRequests = new TrialRequests()
     @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle) if me.isAdmin()
     @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
     @licenseType = 'all'
     @licensePresets = LICENSE_PRESETS
+    @AILeagueType = 'single'
     @utils = utils
     options.models = [@user]  # For ModelModal to generate a Treema of this user
     super options
@@ -192,6 +196,40 @@ module.exports = class AdministerUserModal extends ModelModal
     @listenTo prepaid, 'sync', ->
       @state = 'made-prepaid'
       @renderSelectors('#prepaid-form')
+
+  onClickAddAILeagueProductButton: ->
+    attrs = forms.formToObject(@$('#ai-league-product-form'))
+
+    return unless _.all(_.values(attrs))
+    return unless attrs.endDate and attrs.startDate and attrs.endDate > attrs.startDate
+    attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
+
+    attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
+    attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
+
+    attrs.productOptions = {type: attrs.AILeagueType}
+    delete attrs.AILeagueType
+
+    if attrs.addon.length
+      attrs.productOptions.team = parseInt(attrs.team)
+      attrs.productOptions.tournament = parseInt(attrs.tournament)
+      attrs.productOptions.arena = attrs.arena if attrs.arena
+
+    delete attrs.team
+    delete attrs.tournament
+    delete attrs.arena
+    delete attrs.addon
+
+    _.extend(attrs, {
+      type: 'ai-league'
+      purchaser: @user.id
+      recipient: @user.id
+      paymentService: 'external'
+      paymentDetails:
+        adminAdded: me.id
+    })
+    # TODO: save to server safely
+    console.log('ai league product:', attrs)
 
   onClickDestudentButton: (e) ->
     button = @$(e.currentTarget)
@@ -478,6 +516,10 @@ module.exports = class AdministerUserModal extends ModelModal
   onSelectLicenseType: (e) ->
     @licenseType = $(e.target).parent().children('input').val()
     @renderSelectors("#license-type-select")
+
+  onSelectAILeagueType: (e) ->
+    @AILeagueType = $(e.target).parent().children('input').val()
+    @renderSelectors("#ai-league-product-form")
 
   administratedSchools: (teachers) ->
     schools = {}

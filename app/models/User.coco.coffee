@@ -437,6 +437,13 @@ module.exports = class User extends CocoModel
       return p.product == type && (new Date(p.endDate) > now || !p.endDate)
     )
 
+  allProducts: (type) ->
+    products = @get('products')
+    return products unless type
+    _.filter(products, (p) ->
+      return p.product == type
+    )
+
   hasAiLeagueActiveProduct: ->
     @activeProducts('ai-league').length > 0
 
