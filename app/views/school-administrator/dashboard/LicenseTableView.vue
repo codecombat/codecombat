@@ -1,7 +1,6 @@
 <template>
   <loading-progress :loading-status="loadingStatuses">
     <div v-if="!loading">
-      prepaids load ends
       <div
         class="btn btn-large"
         @click="downloads"
