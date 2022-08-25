@@ -61,7 +61,9 @@
       showCharCx: false,
       classroom: undefined,
       nextLevelIsLocked: false,
-      doReload: false  // This was used for preventing memory leaks, but should no longer be needed
+      doReload: false, // This was used for preventing memory leaks, but should no longer be needed
+      focusTrapDeactivated: false,
+      focusTrap: null
     }),
     computed: {
       ...mapGetters({
@@ -148,11 +150,15 @@
         // Hack: can't focus it right away, have to wait a bit
         // If we knew when we could focus it, we could use checkCanFocusTrap option to create a Promise for when it would be ready to trap. When some animation finishes? When some data loads? When some other Vue lifecycle step finishes?
         // TODO: do this generally for all modals
+        if (this.focusTrapDeactivated) return
         this.focusTrap = focusTrap.createFocusTrap($('.ozaria-modal')[0], {
           initialFocus: '.next-button.ozaria-primary-button'
         })
         this.focusTrap.activate()
-      }, 500)
+
+        // fallback
+        if (this.focusTrapDeactivated) this.deactivateFocusTrap()
+      }, 1000)
     },
 
     beforeDestroy () {
@@ -165,9 +171,8 @@
         buildLevelsData: 'unitMap/buildLevelsData'
       }),
       deactivateFocusTrap () {
-        if (this.focusTrap) {
-          this.focusTrap.deactivate()
-        }
+        this.focusTrapDeactivated = true
+        this.focusTrap?.deactivate()
       },
       async fetchRequiredData (campaignHandle) {
         this.loading = true;
