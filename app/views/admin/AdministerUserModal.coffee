@@ -61,6 +61,8 @@ module.exports = class AdministerUserModal extends ModelModal
         @listenTo @classrooms, 'sync', @loadClassroomTeacherNames
       else if @user.isTeacher()
         @supermodel.trackRequest @classrooms.fetchByOwner(@userHandle)
+      @esportsProducts = @user.allProducts('esports')
+      @renderSelectors('#esports-products')
     @supermodel.trackRequest @user.fetch({cache: false})
     @coupons = new StripeCoupons()
     @supermodel.trackRequest @coupons.fetch({cache: false}) if me.isAdmin()
@@ -213,12 +215,12 @@ module.exports = class AdministerUserModal extends ModelModal
     delete attrs.esportsType
 
     if attrs.addon.length
-      attrs.productOptions.team = parseInt(attrs.team)
-      attrs.productOptions.tournament = parseInt(attrs.tournament)
+      attrs.productOptions.teams = parseInt(attrs.teams)
+      attrs.productOptions.tournaments = parseInt(attrs.tournaments)
       attrs.productOptions.arenas = attrs.arenas if attrs.arenas
 
-    delete attrs.team
-    delete attrs.tournament
+    delete attrs.teams
+    delete attrs.tournaments
     delete attrs.arenas
     delete attrs.addon
 
@@ -231,14 +233,20 @@ module.exports = class AdministerUserModal extends ModelModal
         adminAdded: me.id
     })
     # TODO: save to server safely
-
-    products = @user.get('products')
-    products.push(attrs)
-    @user.set('products', products)
-
-    @esportsProducts = @user.allProducts('esports')
-    @renderSelectors('#esports-products')
-    console.log('ai league product:', attrs)
+    @state = 'creating-esports-product'
+    @renderSelectors('#esports-product-form')
+    $('#esports-product-form').addClass('in')
+    fetchJson('/db/user/products', {
+      method: 'PUT',
+      json: {
+        user: @user.id,
+        product: attrs
+      }
+    }).then (res) =>
+      console.log("? ", @state)
+      @state = 'made-esports-product'
+      @renderSelectors('#esports-product-form')
+      $('#esports-product-form').addClass('in')
 
   onClickDestudentButton: (e) ->
     button = @$(e.currentTarget)
@@ -528,7 +536,7 @@ module.exports = class AdministerUserModal extends ModelModal
 
   onSelectEsportsType: (e) ->
     @esportsType = $(e.target).parent().children('input').val()
-    @renderSelectors("#esports-product-form")
+    @renderSelectors("#esports-type-select")
 
   onSelectEsportsAddon: (e) ->
     @esportsAddon = $(e.target).parent().children('input').is(':checked')
