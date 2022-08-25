@@ -775,7 +775,7 @@ module.exports = class User extends CocoModel
   useDataDog: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
-  canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" # teacher can only access CS1 freely in China
+  canAccessCampaignFreelyFromChina: (campaignID) -> (utils.isCodeCombat and campaignID == "55b29efd1cd6abe8ce07db0d") or (utils.isOzaria and campaignID == "5d1a8368abd38e8b5363bad9") # teacher can only access CS1 or CH1 freely in China
   isCreatedByTarena: -> @get('clientCreator') == '60fa65059e17ca0019950fdd' || @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2/Tarena3 on koudashijie.com
   isILK: -> @get('clientCreator') is '6082ec9996895d00a9b96e90' or _.find(@get('clientPermissions') ? [], client: '6082ec9996895d00a9b96e90')
   isICode: -> @get('clientCreator') is '61393874c324991d0f68fc70' or _.find(@get('clientPermissions') ? [], client: '61393874c324991d0f68fc70')
@@ -787,7 +787,6 @@ module.exports = class User extends CocoModel
   showChinaRegistration: -> features?.china ? false
   enableCpp: -> utils.isCodeCombat and (@hasSubscription() or @isStudent() or @isTeacher())
   useQiyukf: -> false
-  useQiyukf: -> features?.china ? false
   useChinaServices: -> features?.china ? false
   useGeneralArticle: -> not (features?.china ? false)
 

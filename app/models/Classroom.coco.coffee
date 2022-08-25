@@ -324,20 +324,20 @@ module.exports = class Classroom extends CocoModel
     students = new Users()
     Promise.all(students.fetchForClassroom(@, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,products,deleted'}}))
       .then =>
-      studentsToRevoke = students.models.filter((student) => student.prepaidStatus() is 'enrolled' and student.prepaidType() is 'course')
-      if studentsToRevoke.length > 0
-        @showRevokeConfirm(studentsToRevoke).then (revokeConfirmed) =>
-          return unless revokeConfirmed
+        studentsToRevoke = students.models.filter((student) => student.prepaidStatus() is 'enrolled' and student.prepaidType() is 'course')
+        if studentsToRevoke.length > 0
+          @showRevokeConfirm(studentsToRevoke).then (revokeConfirmed) =>
+            return unless revokeConfirmed
 
-          if !@isOwner() and @hasWritePermission()
-            sharedClassroomId = @id
+            if !@isOwner() and @hasWritePermission()
+              sharedClassroomId = @id
 
-          prepaids.actions.revokeLicenses(null, {
-            members: students.models,
-            sharedClassroomId,
-            confirmed: true,
-            updateUserProducts: true
-          })
+            prepaids.actions.revokeLicenses(null, {
+              members: students.models,
+              sharedClassroomId,
+              confirmed: true,
+              updateUserProducts: true
+            })
 
   showRevokeConfirm: (studentsToRevoke)->
     new Promise((resolve) ->

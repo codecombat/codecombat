@@ -5,10 +5,10 @@ levelUtils = require '../core/levelUtils'
 { findNextLevelsBySession, getLevelsDataByOriginals } = require 'ozaria/site/common/ozariaUtils'
 coursesHelper = require '../lib/coursesHelper'
 User = require 'models/User'
-Users = require 'collections/Users'
 Level = require 'models/Level'
 api = require 'core/api'
 ClassroomLib = require './ClassroomLib'
+Users = require 'collections/Users'
 classroomUtils = require 'app/lib/classroom-utils'
 prepaids = require('core/store/modules/prepaids').default
 
@@ -363,7 +363,6 @@ module.exports = class Classroom extends CocoModel
         ]
       notification.$buttons.addClass('style-flat')
     )
-
 
 # Make ClassroomLib accessible as static methods.
 _.assign(Classroom, ClassroomLib.default)
