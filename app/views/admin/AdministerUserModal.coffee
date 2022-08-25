@@ -26,7 +26,7 @@ module.exports = class AdministerUserModal extends ModelModal
     'click #save-changes': 'onClickSaveChanges'
     'click #create-payment-btn': 'onClickCreatePayment'
     'click #add-seats-btn': 'onClickAddSeatsButton'
-    'click #add-ai-league-product-btn': 'onClickAddAILeagueProductButton'
+    'click #add-esports-product-btn': 'onClickAddEsportsProductButton'
     'click #destudent-btn': 'onClickDestudentButton'
     'click #deteacher-btn': 'onClickDeteacherButton'
     'click #reset-progress-btn': 'onClickResetProgressButton'
@@ -46,7 +46,7 @@ module.exports = class AdministerUserModal extends ModelModal
     'click #teacher-search-button': 'onSubmitTeacherSearchForm'
     'click .remove-teacher-button': 'onClickRemoveAdministeredTeacher'
     'click #license-type-select>.radio': 'onSelectLicenseType'
-    'click #ai-league-type-select>.radio': 'onSelectAILeagueType'
+    'click #esports-type-select>.radio': 'onSelectEsportsType'
     'click .other-user-link': 'onClickOtherUserLink'
     'click #volume-checkbox': 'onClickVolumeCheckbox'
     'click #music-checkbox': 'onClickMusicCheckbox'
@@ -70,13 +70,13 @@ module.exports = class AdministerUserModal extends ModelModal
         if prepaid.loaded and not prepaid.creator
           prepaid.creator = new User()
           @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
-    @aileagueProducts = @user.allProducts('ai-league')
+    @esportsProducts = @user.allProducts('esports')
     @trialRequests = new TrialRequests()
     @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle) if me.isAdmin()
     @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
     @licenseType = 'all'
     @licensePresets = LICENSE_PRESETS
-    @AILeagueType = 'single'
+    @esportsType = 'single'
     @utils = utils
     options.models = [@user]  # For ModelModal to generate a Treema of this user
     super options
@@ -198,8 +198,8 @@ module.exports = class AdministerUserModal extends ModelModal
       @state = 'made-prepaid'
       @renderSelectors('#prepaid-form')
 
-  onClickAddAILeagueProductButton: ->
-    attrs = forms.formToObject(@$('#ai-league-product-form'))
+  onClickAddEsportsProductButton: ->
+    attrs = forms.formToObject(@$('#esports-product-form'))
 
     return unless _.all(_.values(attrs))
     return unless attrs.endDate and attrs.startDate and attrs.endDate > attrs.startDate
@@ -208,21 +208,21 @@ module.exports = class AdministerUserModal extends ModelModal
     attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
     attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
 
-    attrs.productOptions = {type: attrs.AILeagueType, id: _.uniqueId()}
-    delete attrs.AILeagueType
+    attrs.productOptions = {type: attrs.esportsType, id: _.uniqueId()}
+    delete attrs.esportsType
 
     if attrs.addon.length
       attrs.productOptions.team = parseInt(attrs.team)
       attrs.productOptions.tournament = parseInt(attrs.tournament)
-      attrs.productOptions.arena = attrs.arena if attrs.arena
+      attrs.productOptions.arenas = attrs.arenas if attrs.arenas
 
     delete attrs.team
     delete attrs.tournament
-    delete attrs.arena
+    delete attrs.arenas
     delete attrs.addon
 
     _.extend(attrs, {
-      product: 'ai-league'
+      product: 'esports'
       purchaser: @user.id
       recipient: @user.id
       paymentService: 'external'
@@ -231,12 +231,12 @@ module.exports = class AdministerUserModal extends ModelModal
     })
     # TODO: save to server safely
 
-    # products = @user.get('products')
-    # products.push(attrs)
-    # @user.set('products', products)
+    products = @user.get('products')
+    products.push(attrs)
+    @user.set('products', products)
 
-    # @aileagueProducts = @user.allProducts('ai-league')
-    # @renderSelectors('#ai-league-products')
+    @esportsProducts = @user.allProducts('esports')
+    @renderSelectors('#esports-products')
     console.log('ai league product:', attrs)
 
   onClickDestudentButton: (e) ->
@@ -525,9 +525,9 @@ module.exports = class AdministerUserModal extends ModelModal
     @licenseType = $(e.target).parent().children('input').val()
     @renderSelectors("#license-type-select")
 
-  onSelectAILeagueType: (e) ->
-    @AILeagueType = $(e.target).parent().children('input').val()
-    @renderSelectors("#ai-league-product-form")
+  onSelectesportsType: (e) ->
+    @esportsType = $(e.target).parent().children('input').val()
+    @renderSelectors("#esports-product-form")
 
   administratedSchools: (teachers) ->
     schools = {}

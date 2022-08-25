@@ -445,7 +445,7 @@ module.exports = class User extends CocoModel
     )
 
   hasAiLeagueActiveProduct: ->
-    @activeProducts('ai-league').length > 0
+    @activeProducts('esports').length > 0
 
   prepaidNumericalCourses: ->
     courseProducts = @activeProducts('course')

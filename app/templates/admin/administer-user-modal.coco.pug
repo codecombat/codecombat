@@ -108,61 +108,62 @@ block modal-body-content
       #school-admin-result
 
   if view.prepaids.size()
-    h3.m-t-3#prepaids Existing Prepaids
-    table.table.table-condensed
-      tr
-        th ID
-        th Shared by
-        th Type
-        if view.timeZone == 'Asia/Shanghai'
-          th Issued (CT)
-          th Start (CT)
-          th End (CT)
-        else
-          th Issued (PT)
-          th Start (PT)
-          th End (PT)
-        th Used
-      for prepaid in view.prepaids.models
-        - var prepaidControlId=prepaid.id
-        tr(id=prepaidControlId)
-          td= prepaid.id
-          td
-            if prepaid.creator
-              if prepaid.creator.id !== view.user.id
-                a.user-link(data-user-id=prepaid.creator.id)
-                  = prepaid.creator.get('name')
-              else
-                | -
-          td= prepaid.typeDescription()
-          td= moment.timezone(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).tz(view.timeZone).format('l')
-          td
-            if prepaid.get('startDate')
+    h3.m-t-3#prepaids(data-toggle="collapse" data-target="#prepaids-table" aria-expanded="false" aria-controls="prepaids-table") Existing Prepaids
+    #prepaids-table.collapse.multi-collpase
+      table.table.table-condensed
+        tr
+          th ID
+          th Shared by
+          th Type
+          if view.timeZone == 'Asia/Shanghai'
+            th Issued (CT)
+            th Start (CT)
+            th End (CT)
+          else
+            th Issued (PT)
+            th Start (PT)
+            th End (PT)
+          th Used
+        for prepaid in view.prepaids.models
+          - var prepaidControlId=prepaid.id
+          tr(id=prepaidControlId)
+            td= prepaid.id
+            td
+              if prepaid.creator
+                if prepaid.creator.id !== view.user.id
+                  a.user-link(data-user-id=prepaid.creator.id)
+                    = prepaid.creator.get('name')
+                else
+                  | -
+            td= prepaid.typeDescription()
+            td= moment.timezone(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).tz(view.timeZone).format('l')
+            td
+              if prepaid.get('startDate')
+                if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+                  - var startDateControlId='startDate-'+prepaid.id
+                  input(id= startDateControlId type="date" name="startDate" value=moment.timezone(prepaid.get('startDate')).tz(view.timeZone).format('YYYY-MM-DD'))
+                else
+                  = moment.timezone(prepaid.get('startDate')).tz(view.timeZone).format('l')
+            td
+              if prepaid.get('endDate')
+                if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+                  - var endDateControlId='endDate-'+prepaid.id
+                  input(id= endDateControlId type="date" name="endDate" value=moment.timezone(prepaid.get('endDate')).tz(view.timeZone).format('YYYY-MM-DD'))
+                else
+                  = moment.timezone(prepaid.get('endDate')).tz(view.timeZone).format('l')
+            td
               if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
-                - var startDateControlId='startDate-'+prepaid.id
-                input(id= startDateControlId type="date" name="startDate" value=moment.timezone(prepaid.get('startDate')).tz(view.timeZone).format('YYYY-MM-DD'))
+                - var totalLicensesControlId='totalLicenses-'+prepaid.id
+                = (prepaid.get('redeemers') || []).length + ' / '
+                input(id=totalLicensesControlId type="number" name="totalLicenses" value=prepaid.get('maxRedeemers'), style="width:50px")
               else
-                = moment.timezone(prepaid.get('startDate')).tz(view.timeZone).format('l')
-          td
-            if prepaid.get('endDate')
+                = (prepaid.get('redeemers') || []).length + ' / ' + prepaid.get('maxRedeemers') || 0
+            td
               if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
-                - var endDateControlId='endDate-'+prepaid.id
-                input(id= endDateControlId type="date" name="endDate" value=moment.timezone(prepaid.get('endDate')).tz(view.timeZone).format('YYYY-MM-DD'))
+                button.btn.btn-primary.save-prepaid-info-btn(data-prepaid-id=prepaid.id) Save
+                button.btn.btn-primary.cancel-prepaid-info-edit-btn(data-prepaid-id=prepaid.id) Cancel
               else
-                = moment.timezone(prepaid.get('endDate')).tz(view.timeZone).format('l')
-          td
-            if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
-              - var totalLicensesControlId='totalLicenses-'+prepaid.id
-              = (prepaid.get('redeemers') || []).length + ' / '
-              input(id=totalLicensesControlId type="number" name="totalLicenses" value=prepaid.get('maxRedeemers'), style="width:50px")
-            else
-              = (prepaid.get('redeemers') || []).length + ' / ' + prepaid.get('maxRedeemers') || 0
-          td
-            if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
-              button.btn.btn-primary.save-prepaid-info-btn(data-prepaid-id=prepaid.id) Save
-              button.btn.btn-primary.cancel-prepaid-info-edit-btn(data-prepaid-id=prepaid.id) Cancel
-            else
-              button.btn.btn-primary.edit-prepaids-info-btn(data-prepaid-id=prepaid.id) Edit
+                button.btn.btn-primary.edit-prepaids-info-btn(data-prepaid-id=prepaid.id) Edit
     hr
 
   if view.user.isTeacher()
@@ -189,10 +190,10 @@ block modal-body-content
         .form-group
           button#add-seats-btn.btn.btn-primary Add Licenses
       hr
-  #ai-league-products
-    if view.aileagueProducts.length
-      h3.m-t-3 Existing AI League Products
-      table.table.table-condensed
+  #esports-products
+    if view.esportsProducts.length
+      h3.m-t-3(data-toggle="collapse" data-target="#esports-product-table" aria-expanded="false" aria-controls="esports-product-table") Existing Esports Products
+      table#esports-product-table.collapse.multi-collapse.table.table-condensed
         tr
           th Type
           if view.timeZone == 'Asia/Shanghai'
@@ -205,8 +206,7 @@ block modal-body-content
           th teams
           th tournaments
           th arena
-        for product in view.aileagueProducts
-          - console.log('?', product)
+        for product in view.esportsProducts
           - var productControlId = product.productOptions.id
           tr(id=productControlId)
             td= product.productOptions.type
@@ -228,14 +228,14 @@ block modal-body-content
             td= product.productOptions.arena
 
   //- could be clan owner, but let's check teacher first
-  if view.user.isTeacher()
-    h3.m-t-3#ai-leauge-product Grant AI League Products 
-    #ai-league-product-form.form
-      if view.state === 'creating-ai-league-product'
+  if view.user.isTeacher() || view.user.isHomeUser()
+    h3.m-t-3#esports-product(data-toggle="collapse" data-target="#esports-product-form" aria-expanded="false" aria-controls="esports-product-form") Grant Esports Products 
+    #esports-product-form.form.collapse.multi-collapse
+      if view.state === 'creating-esports-product'
         .progress.progress-striped.active
           .progress-bar(style="width: 100%")
 
-      else if view.state === 'made-ai-league-product'
+      else if view.state === 'made-esports-product'
         .alert.alert-success AI League Product created!
 
       else
@@ -246,64 +246,65 @@ block modal-body-content
         +license-form-group('Start Date')(type="date" name="startDate" value=moment.timezone().tz(view.timeZone).format('YYYY-MM-DD'))
         +license-form-group('End Date')(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'month').format('YYYY-MM-DD'))
         .form-group
-          - AILeagueType = view.AILeagueType
+          - esportsType = view.esportsType
           label
-            span AI League Product Type
+            span Esports Product Type
             =":"
-            #ai-league-type-select
+            #esports-type-select
               .radio
                 label.product-type
-                  input(type='radio', name='AILeagueType', value='single', checked=AILeagueType==='single')
+                  input(type='radio', name='esportsType', value='single', checked=esportsType==='single')
                   span Single
               .radio
                 label.product-type
-                  input(type='radio', name='AILeagueType', value='multiple', checked=AILeagueType==='multiple')
+                  input(type='radio', name='esportsType', value='multiple', checked=esportsType==='multiple')
                   span Multiple
         +license-form-group('Addons')(type="checkbox" name="addon")
           span(style="margin-left: 10px") Make sure you check this if you want to add addons.
-        +license-form-group('Addons - team')(type="number" name="team" value=(AILeagueType === 'single' ? 1 : 5) min=(AILeagueType === 'single' ? 1 : 5) max=10 step=1)
-        +license-form-group('Addons - tournament')(type="number" name="tournament" value=(AILeagueType === 'single' ? 1 : 3) min=(AILeagueType === 'single' ? 1 : 3) step=1)
-        +license-form-group('Addons - arena(slug)')(type="text" name="arena")
+        +license-form-group('Addons - team')(type="number" name="team" value=(esportsType=== 'single' ? 1 : 5) min=(esportsType=== 'single' ? 1 : 5) max=10 step=1)
+        +license-form-group('Addons - tournament')(type="number" name="tournament" value=(esportsType=== 'single' ? 1 : 3) min=(esportsType=== 'single' ? 1 : 3) step=1)
+        +license-form-group('Addons - arenas(slug)')(type="text" name="arenas")
                   
         .form-group
-          button#add-ai-league-product-btn.btn.btn-primary Add AI League Product
-      hr
+          button#add-esports-product-btn.btn.btn-primary Add Esports Product
+    hr
  
   if view.classrooms.size()
-    h3.m-t-3#classrooms Classrooms
-    table#classroom-table.table
-      tr
-        th Name
-        th Lang
-        th Students
-        if view.user.isTeacher()
-          th # Levels / Courses
-          th
-        else
-          th Teacher
-        th
-      for classroom in view.classrooms.models
+    h3.m-t-3#classrooms(data-toggle="collapse" data-target="#classroom-table" aria-expanded="false" aria-controls="classroom-table") Classrooms
+    #classroom-table.collapse.multi-collapse
+      table.table
         tr
-          td
-            = classroom.get('name')
-            if classroom.get('archived')
-              i.spl.text-muted (archived)
-          td= classroom.capitalLanguage
-          td= (classroom.get('members') || []).length
+          th Name
+          th Lang
+          th Students
           if view.user.isTeacher()
-            td #{classroom.getLevels().size()} / #{classroom.get('courses').length}
-            td
-              button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update All Levels
-              button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses
+            th # Levels / Courses
+            th
           else
+            th Teacher
+          th
+        for classroom in view.classrooms.models
+          tr
             td
-              a.other-user-link(href='#' + classroom.get('ownerID') data-user-id=classroom.get('ownerID'))
-                if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
-                  span= view.ownerNameMap[classroom.get('ownerID')]
-                else
-                  span= classroom.get('ownerID')
-          td
-            a(href='/teachers/classes/' + classroom.get('_id') + '#students-tab') View Class
+              = classroom.get('name')
+              if classroom.get('archived')
+                i.spl.text-muted (archived)
+            td= classroom.capitalLanguage
+            td= (classroom.get('members') || []).length
+            if view.user.isTeacher()
+              td #{classroom.getLevels().size()} / #{classroom.get('courses').length}
+              td
+                button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update All Levels
+                button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses
+            else
+              td
+                a.other-user-link(href='#' + classroom.get('ownerID') data-user-id=classroom.get('ownerID'))
+                  if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
+                    span= view.ownerNameMap[classroom.get('ownerID')]
+                  else
+                    span= classroom.get('ownerID')
+            td
+              a(href='/teachers/classes/' + classroom.get('_id') + '#students-tab') View Class
     hr
 
   if view.user.isHomeUser()
