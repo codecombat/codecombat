@@ -234,7 +234,7 @@
       },
 
       handleSubmit () {
-        this.submitButtonDisabled = true;
+        this.submitButtonDisabled = true
         let valid = null
         try {
           valid = this.$refs['name-form'].reportValidity()
@@ -245,10 +245,12 @@
         }
         const name = this.characterName.trim()
         if (!valid) {
+          this.submitButtonDisabled = false
           return
         }
         if (name === '') {
           // TODO: handle_error_ozaria
+          this.submitButtonDisabled = false
           return noty({ text: 'Invalid Name', layout: 'topCenter', type: 'error', timeout: 8000 })
         }
 

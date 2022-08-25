@@ -152,19 +152,23 @@
           initialFocus: '.next-button.ozaria-primary-button'
         })
         this.focusTrap.activate()
-      }, 1000)
+      }, 500)
     },
 
     beforeDestroy () {
-      if (this.focusTrap) {
-        this.focusTrap.deactivate()
-      }
+      // seems not work when this component is destroyed by parent conditional-render
+      this.deactivateFocusTrap()
     },
 
     methods: {
       ...mapActions({
         buildLevelsData: 'unitMap/buildLevelsData'
       }),
+      deactivateFocusTrap () {
+        if (this.focusTrap) {
+          this.focusTrap.deactivate()
+        }
+      },
       async fetchRequiredData (campaignHandle) {
         this.loading = true;
         // TODO: Fix duplicate fetching here. The `buildLevelsData` also fetches this.
@@ -265,6 +269,7 @@
         }
       },
       nextButtonClick () {
+        this.deactivateFocusTrap()
         if (this.supermodel && !this.doReload) {
           // Hack: save the current supermodel globally so that the next content view can grab it during initialization and doesn't have to reload everything
           window.temporarilyPreservedSupermodel = this.supermodel
@@ -282,6 +287,7 @@
       // PlayLevelView is a backbone view, so replay button dismisses modal for that
       // IntroLevelPage is vue component and handles the event `replay`
       replayButtonClick () {
+        this.deactivateFocusTrap()
         this.$emit('replay', this.currentIntroContent)
       },
       continueEditingButtonClick () {
