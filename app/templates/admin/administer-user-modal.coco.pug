@@ -1,5 +1,8 @@
 extends /templates/core/modal-base-flat
 
+include ../teachers/common/license-form-group-mixin
+include ../teachers/common/license-type-mixin
+
 //- DNT
 
 block modal-header-content
@@ -167,8 +170,6 @@ block modal-body-content
     hr
 
   if view.user.isTeacher()
-    include ../teachers/common/license-form-group-mixin
-    include ../teachers/common/license-type-mixin
     h3.m-t-3#licenses Grant Student Licenses
     #prepaid-form.form
       if view.state === 'creating-prepaid'
@@ -259,11 +260,13 @@ block modal-body-content
                 label.product-type
                   input(type='radio', name='esportsType', value='multiple', checked=esportsType==='multiple')
                   span Multiple
-        +license-form-group('Addons')(type="checkbox" name="addon")
+        +license-form-group('Addons')(type="checkbox" name="addon" id="esports-product-addon")
           span(style="margin-left: 10px") Make sure you check this if you want to add addons.
-        +license-form-group('Addons - team')(type="number" name="team" value=(esportsType=== 'single' ? 1 : 5) min=(esportsType=== 'single' ? 1 : 5) max=10 step=1)
-        +license-form-group('Addons - tournament')(type="number" name="tournament" value=(esportsType=== 'single' ? 1 : 3) min=(esportsType=== 'single' ? 1 : 3) step=1)
-        +license-form-group('Addons - arenas(slug)')(type="text" name="arenas")
+        #esports-product-addon-items
+          if view.esportsAddon
+            +license-form-group('Addons - team')(type="number" name="team" value=(esportsType=== 'single' ? 1 : 5) min=(esportsType=== 'single' ? 1 : 5) max=10 step=1)
+            +license-form-group('Addons - tournament')(type="number" name="tournament" value=(esportsType=== 'single' ? 1 : 3) min=(esportsType=== 'single' ? 1 : 3) step=1)
+            +license-form-group('Addons - arenas(slug)')(type="text" name="arenas")
                   
         .form-group
           button#add-esports-product-btn.btn.btn-primary Add Esports Product

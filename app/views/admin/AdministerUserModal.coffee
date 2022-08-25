@@ -47,6 +47,7 @@ module.exports = class AdministerUserModal extends ModelModal
     'click .remove-teacher-button': 'onClickRemoveAdministeredTeacher'
     'click #license-type-select>.radio': 'onSelectLicenseType'
     'click #esports-type-select>.radio': 'onSelectEsportsType'
+    'click #esports-product-addon': 'onSelectEsportsAddon'
     'click .other-user-link': 'onClickOtherUserLink'
     'click #volume-checkbox': 'onClickVolumeCheckbox'
     'click #music-checkbox': 'onClickMusicCheckbox'
@@ -525,9 +526,13 @@ module.exports = class AdministerUserModal extends ModelModal
     @licenseType = $(e.target).parent().children('input').val()
     @renderSelectors("#license-type-select")
 
-  onSelectesportsType: (e) ->
+  onSelectEsportsType: (e) ->
     @esportsType = $(e.target).parent().children('input').val()
     @renderSelectors("#esports-product-form")
+
+  onSelectEsportsAddon: (e) ->
+    @esportsAddon = $(e.target).parent().children('input').is(':checked')
+    @renderSelectors('#esports-product-addon-items')
 
   administratedSchools: (teachers) ->
     schools = {}
