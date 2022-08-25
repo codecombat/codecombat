@@ -1,3 +1,5 @@
+utils = require 'core/utils'
+
 module.exports =
   projectGallery: ({ courseInstanceID }) ->
     return "/students/project-gallery/#{courseInstanceID}"
