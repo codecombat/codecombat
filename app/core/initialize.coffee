@@ -19,13 +19,13 @@ Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
 Vue.use(VueMoment.default)
 
-if utils.isOzaria
+if utils.isCodeCombat
   Vue.use(VueYoutube.default)
 
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
 
-if utils.isCodeCombat
+if utils.isOzaria
   Vue.use(VueShepherd);
   Vue.use(utils.vueNonReactiveInstall)
   Vue.use(VueAsyncComputed)
