@@ -339,6 +339,7 @@ module.exports = class Angel extends CocoClass
     work.world.realTimeInputEvents = work.realTimeInputEvents ? []
     work.world.difficulty = work.difficulty ? 0
     work.world.capstoneStage = work.capstoneStage ? 1
+    work.world.language = me.get('preferredLanguage', true)
     work.world.loadFromLevel work.level, true
     work.world.preloading = work.preload
     work.world.headless = work.headless

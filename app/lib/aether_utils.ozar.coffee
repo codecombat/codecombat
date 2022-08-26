@@ -92,6 +92,27 @@ module.exports.translateJS = (jsCode, language='cpp', fullCode=true) ->
 translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
   # Supports cpp or java
 
+  # Find all global statement(except global variables) and move into main function
+  reorderGlobals = (strs) ->
+    insertPlace = strs.length-1
+    for i in [strs.length-2..0] by -1
+      continue if /\n?function/.test(strs[i])
+      continue if /^[ \t]+\/\//.test(strs[i])
+      insertPlace -= 1
+      strs.splice(insertPlace, 0, strs.splice(i,1)[0])
+
+    mainLen = strs[strs.length-1].split('\n').length
+    final = strs.splice(insertPlace).join('')
+    finals = final.split('\n')
+    insertPlace = finals.length - mainLen
+    for i in [finals.length-mainLen-1..0] by -1
+      continue unless finals[i]
+      continue if /var /.test(finals[i])
+      insertPlace -= 1
+      finals.splice(insertPlace, 0, finals.splice(i,1)[0])
+
+    return strs.concat([finals.slice(0, insertPlace).join('\n'), finals.slice(insertPlace).join('\n')])
+
   # Find header comments function definitions in order to hoist them out of the main function
   matchBrackets = (str, startIndex) ->
     cc = 0
