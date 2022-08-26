@@ -192,6 +192,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     top_banner_blurb_podcast: "NEW: Explore the world of EdTech with our new podcast EdTech Adventures."
+    top_banner_blurb_demo_day: "Please join us for a demo day webinar on Thursday, August 25 at 4:00 pm EDT."
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -3762,6 +3763,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     totals_explanation_8: 'Projects created'
     totals_explanation_9: 'Counts total games and web pages created.'
     date_thru_date: '__startDateRange__ thru __endDateRange__'
+    teachers: 'Teachers'
+    students_enrolled: 'Students Enrolled'
 
   interactives:
     phenomenal_job: 'Phenomenal Job!'
@@ -4108,8 +4111,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     prize_footer4_2: "the right to determine in its sole discretion if a player qualifies and will receive a prize."
     place: "Place" # as in 1st place
     unlock_ai_league: "Unlock the full potential of the AI League."
+    esports_anonymous_changing: "Esports player name visibility changing September 1"
     esports_get_full_access: "Get Full Access"
+    click_to_unlock_now: "Click to dismiss for now"
+    click_to_unlock_before_sep: "Click to make the anonymizing go away before Sep.1"
     unlock_content_padding: "Contact our team today to see your student's scoress, ranks, code and more!"
+    unlock_leaderboard: "Contact Us to unlock the leaderboard"
     without_license_blurb: "Unlock the full potential of AI League. Purchase a custom tournament package to access your students’ scores, ranks, code and experience more tournament customization options. See our"
     custom_pricing: "Custom Options and Implementation Guide"
     more_details: "for more details."

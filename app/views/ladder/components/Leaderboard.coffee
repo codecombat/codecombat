@@ -20,7 +20,7 @@ module.exports = class LeaderboardView extends CocoView
   template: require('templates/play/ladder/leaderboard-view')
   VueComponent: LeaderboardComponent
   constructor: (options, @level, @sessions, @anonymousPlayerName) ->
-    { @league, @tournament } = options
+    { @league, @tournament, @leagueType, @course } = options
     # params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
     super options
     @tableTitles = [
@@ -35,7 +35,7 @@ module.exports = class LeaderboardView extends CocoView
       {slug: 'age', col: 1, title: $.i18n.t('ladder.age_bracket')},
       {slug: 'country', col:1, title: '🏴‍☠️'}
     ]
-    @propsData = { @tableTitles, @league, @level, scoreType: 'tournament' }
+    @propsData = { @tableTitles, @league, @level, @leagueType, @course, scoreType: 'tournament' }
     unless @tournament
       @propsData.tableTitles = [
         {slug: 'creator', col: 0, title: ''},
@@ -100,6 +100,10 @@ module.exports = class LeaderboardView extends CocoView
       )
       @vueComponent.$on('load-more', (data) =>
         @onClickLoadMore()
+      )
+      @vueComponent.$on('temp-unlock', () =>
+        @anonymousPlayerName = false
+        @render()
       )
 
     super(arguments...)
