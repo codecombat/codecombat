@@ -6,10 +6,6 @@
     h5.text-white.col-md-8
       | 为鼓励广大青少年学习计算机编程，扣哒世界每年同权威学术机构和技术机构开展面向青少年的人工智能创意和算法公益竞赛。本栏目收集从2019年开始历届比赛的扣哒之星获奖者，作为榜样的力量激励更多的青少年投入到代码编程、算法设计和人工智能学习中来，自强不息、精益求精、追求卓越！
 
-  .part
-    .width-container
-      a(href="https://appkgnjywge8466.h5.xiaoeknow.com/v1/course/text/i_605c3fc1e4b09f6eae88c7df?type=2&ref_id=r_605c3fc1e4b09f6eae88c7e0" target="_blank")
-        img.camp(src="/images/pages/cocostar/cocostar_camp.png")
   .part(v-for="event in events")
     .bobby-duke.row.width-container(v-if="event.ctype=='title'")
       h1.text-teal.title {{ event.title }}
