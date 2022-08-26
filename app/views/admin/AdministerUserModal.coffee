@@ -79,7 +79,7 @@ module.exports = class AdministerUserModal extends ModelModal
     @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
     @licenseType = 'all'
     @licensePresets = LICENSE_PRESETS
-    @esportsType = 'single'
+    @esportsType = 'basic'
     @utils = utils
     options.models = [@user]  # For ModelModal to generate a Treema of this user
     super options
@@ -537,6 +537,7 @@ module.exports = class AdministerUserModal extends ModelModal
   onSelectEsportsType: (e) ->
     @esportsType = $(e.target).parent().children('input').val()
     @renderSelectors("#esports-type-select")
+    @renderSelectors("#esports-product-addon-items")
 
   onSelectEsportsAddon: (e) ->
     @esportsAddon = $(e.target).parent().children('input').is(':checked')
