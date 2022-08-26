@@ -15,11 +15,16 @@ module.exports = {
     timesCodeRun: 0
     timesAutocompleteUsed: 0
     playing: false
+    tutorial: []
+    tutorialActive: false
+    codeBankOpen: false
+    clickedUpdateCapstoneCode: false
+    hasPlayedGame: false
     levelSolution: {
       # Number of times state.levelSolution has been auto filled into the code editor.
       autoFilled: 0
       source: ''
-    }
+    },
   }
   mutations: {
     setPlaying: (state, playing) ->
