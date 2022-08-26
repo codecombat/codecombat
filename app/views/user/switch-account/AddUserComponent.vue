@@ -54,7 +54,7 @@
           class="u-form__check u-form__label"
           for="u-form-check"
         >
-          {{ $t('related_accounts.bi_directional') }}
+          {{ $t('related_accounts.bi_directional') }} <span class="u-form__bi-dir-help">({{ $t('related_accounts.bi_directional_help_text') }})</span>
         </label>
       </div>
       <div class="form-group row auth">
@@ -265,12 +265,13 @@ export default {
     float: right;
   }
 
-  //&__label {
-  //  font-size: 1.8rem;
-  //}
-
   &__check {
     margin-left: 5px;
+  }
+
+  &__bi-dir-help {
+    color: #a9a9a9;
+    font-size: 1.5rem;
   }
 }
 

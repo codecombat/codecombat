@@ -57,7 +57,7 @@
             <div class="related__user__switch">
               <button
                 class="btn btn-success"
-                :disabled="!user.verified"
+                :disabled="!user.verified || isInSwitchedAccount()"
                 @click="() => onSwitch({ email: user.email })"
               >
                 {{ $t('related_accounts.switch') }}
@@ -115,6 +115,9 @@ export default {
       }
       if (info.length === 0) return ''
       return `( ${info.join(' - ')} )`
+    },
+    isInSwitchedAccount () {
+      return window.serverSession && window.serverSession.amActually
     }
   }
 }

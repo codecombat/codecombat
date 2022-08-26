@@ -87,6 +87,13 @@ else
                 input#password2.form-control(name="password2", type="password")
             button.save-button.passwd-btn.btn.btn-primary.form-control.disabled(data-i18n="delta.no_changes" disabled="true")
 
+      .panel.panel-default.related-account
+        .panel-heading
+          .panel-title(data-i18n="related_accounts.title")
+        .panel-body
+          .related-account-sub(data-i18n="related_accounts.subtitle")
+          a.btn.btn-primary.related-account-manage(href="/users/switch-account" target="_blank") Manage
+
       if me.canDeleteAccount()
         .panel.panel-default
           .panel-heading

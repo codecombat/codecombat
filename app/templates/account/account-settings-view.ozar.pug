@@ -89,6 +89,13 @@ block content
                     label.control-label(for="password2", data-i18n="account_settings.new_password_verify") Verify
                     input#password2.form-control(name="password2", type="password")
 
+          .panel.panel-default.related-account
+            .panel-heading
+              .panel-title(data-i18n="related_accounts.title")
+            .panel-body
+              .related-account-sub(data-i18n="related_accounts.subtitle")
+              a.btn.btn-primary.related-account-manage(href="/users/switch-account" target="_blank") Manage
+
           .panel.panel-default
             .panel-heading
               .panel-title#delete-account-panel-title(data-i18n="account_settings.delete_account_tab")

@@ -117,7 +117,12 @@ export default {
     },
     async onSwitchUser ({ email }) {
       await me.spy(email)
-      window.location.reload()
+      const text = `Switching to ${email} account..`
+      const type = 'success'
+      noty({ text, type, timeout: 5000, killer: true })
+      setTimeout(() => {
+        window.location.reload()
+      }, 3000)
     },
     async onRemoveUser ({ userId }) {
       this.inProgress = $.t('related_accounts.removing')
