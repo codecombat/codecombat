@@ -162,13 +162,13 @@ module.exports = class Level extends CocoModel
             config.voiceRange = placeholderConfig.voiceRange
             config.cooldown = placeholderConfig.cooldown
 
-      if isHero
-        if equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
-          inventory = session?.get('heroConfig')?.inventory
-          equips.config ?= {}
-          equips.config.inventory = $.extend true, {}, inventory if inventory
-        for original, placeholderComponent of placeholders when not placeholdersUsed[original]
-          levelThang.components.push placeholderComponent
+    if utils.isCodeCombat and isHero
+      if equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
+        inventory = session?.get('heroConfig')?.inventory
+        equips.config ?= {}
+        equips.config.inventory = $.extend true, {}, inventory if inventory
+      for original, placeholderComponent of placeholders when not placeholdersUsed[original]
+        levelThang.components.push placeholderComponent
 
     # Load the user's chosen hero AFTER getting stats from default char
     if utils.isOzaria
