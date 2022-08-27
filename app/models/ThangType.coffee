@@ -55,7 +55,7 @@ module.exports = class ThangType extends CocoModel
     super()
     @building = {}
     @spriteSheets = {}
-    if utils.isOzaira
+    if utils.isOzaria
       @textureAtlases = new Map()
 
       # Vue recursively traverses objects making them reactive.
@@ -92,7 +92,7 @@ module.exports = class ThangType extends CocoModel
   loadRasterImage: ->
     return if @loadingRaster or @loadedRaster
     return unless raster = @get('raster')
-    if utils.isOzaira
+    if utils.isOzaria
       @rasterImage = $("<img crossOrigin='Anonymous' src='/file/#{raster}' />")
     else
       # IE11 does not support CORS for images in the canvas element
@@ -392,7 +392,7 @@ module.exports = class ThangType extends CocoModel
     unless movesConfig = _.find(components, original: LevelComponent.MovesID)?.config
       return console.warn @get('name'), 'is not a moving hero, but you are asking for its hero stats.'
     programmableConfig = _.find(components, original: LevelComponent.ProgrammableID)?.config
-    if utils.isOzaira
+    if utils.isOzaria
       programmableConfig = _.find(components, (c) => c.original in LevelComponent.ProgrammableIDs)?.config
     unless programmableConfig
       return console.warn @get('name'), 'is not a Programmable hero, but you are asking for its hero stats.'

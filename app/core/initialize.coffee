@@ -240,7 +240,7 @@ setUpIOSLogging = ->
 loadOfflineFonts = ->
   $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/openSansCondensed.css">'
   $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/openSans.css">'
-  if utils.isOzaira
+  if utils.isOzaria
     $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/workSans.css">'
     $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/spaceMono.css">'
 
