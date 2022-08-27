@@ -123,7 +123,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if aLank = a.lank
       if aThang = aLank.thang
         aPos = aThang.pos
-        if aThang.health < 0 and aThang.pos.z <= aThang.depth / 2 and utils.isCodeCombat
+        if utils.isCodeCombat and aThang.health < 0 and aThang.pos.z <= aThang.depth / 2
           # Nice for not being knee deep in the dead, just not nice for ogres flying behind trees when exploded
           --az
     if bLank = b.lank
