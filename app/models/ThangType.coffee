@@ -55,15 +55,16 @@ module.exports = class ThangType extends CocoModel
     super()
     @building = {}
     @spriteSheets = {}
-    @textureAtlases = new Map()
+    if utils.isOzaira
+      @textureAtlases = new Map()
 
-    # Vue recursively traverses objects making them reactive.
-    # Our thangs are referenced from a reactive object somewhere in the
-    # codebase adding a large performance hit with no functional benefit.
-    #
-    # This line tricks Vue into thinking it has already made this ThangType
-    # reactive.
-    Vue.nonreactive(@)
+      # Vue recursively traverses objects making them reactive.
+      # Our thangs are referenced from a reactive object somewhere in the
+      # codebase adding a large performance hit with no functional benefit.
+      #
+      # This line tricks Vue into thinking it has already made this ThangType
+      # reactive.
+      Vue.nonreactive(@)
 
     ## Testing memory clearing
     #f = =>
@@ -91,7 +92,13 @@ module.exports = class ThangType extends CocoModel
   loadRasterImage: ->
     return if @loadingRaster or @loadedRaster
     return unless raster = @get('raster')
-    @rasterImage = $("<img crossOrigin='Anonymous' src='/file/#{raster}' />")
+    if utils.isOzaira
+      @rasterImage = $("<img crossOrigin='Anonymous' src='/file/#{raster}' />")
+    else
+      # IE11 does not support CORS for images in the canvas element
+      # https://caniuse.com/#feat=cors
+      @rasterImage = if utils.isIE() then $("<img src='/file/#{raster}' />")
+      else $("<img crossOrigin='Anonymous', src='/file/#{raster}' />")
     @loadingRaster = true
     @rasterImage.one 'load', =>
       @loadingRaster = false
@@ -384,7 +391,10 @@ module.exports = class ThangType extends CocoModel
       return console.warn @get('name'), 'is not an equipping hero, but you are asking for its hero stats. (Did you project away components?)'
     unless movesConfig = _.find(components, original: LevelComponent.MovesID)?.config
       return console.warn @get('name'), 'is not a moving hero, but you are asking for its hero stats.'
-    unless programmableConfig = _.find(components, (c) => c.original in LevelComponent.ProgrammableIDs)?.config
+    programmableConfig = _.find(components, original: LevelComponent.ProgrammableID)?.config
+    if utils.isOzaira
+      programmableConfig = _.find(components, (c) => c.original in LevelComponent.ProgrammableIDs)?.config
+    unless programmableConfig
       return console.warn @get('name'), 'is not a Programmable hero, but you are asking for its hero stats.'
     @classStatAverages ?=
       attack: {Warrior: 7.5, Ranger: 5, Wizard: 2.5}
