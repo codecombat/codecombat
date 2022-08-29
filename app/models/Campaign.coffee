@@ -22,12 +22,13 @@ module.exports = class Campaign extends CocoModel
   @getLevels: (campaign) ->
     levels = campaign.levels
     levels = _.sortBy(levels, 'campaignIndex')
-    if not me.isAdmin() and me.isInternal()
-      # remove beta levels
-      levels = levels.filter((l) => l.releasePhase != 'beta')
-    else if not me.isAdmin() and not me.isInternal() and not utils.internalCampaignIds.includes(campaign._id)
-      # remove beta+internal levels
-      levels = levels.filter((l) => l.releasePhase != 'beta' && l.releasePhase != 'internalRelease')
+    if utils.isOzaria
+      if not me.isAdmin() and me.isInternal()
+        # remove beta levels
+        levels = levels.filter((l) => l.releasePhase != 'beta')
+      else if not me.isAdmin() and not me.isInternal() and not utils.internalCampaignIds.includes(campaign._id)
+        # remove beta+internal levels
+        levels = levels.filter((l) => l.releasePhase != 'beta' && l.releasePhase != 'internalRelease')
     return levels
 
   getLevels: ->

@@ -146,7 +146,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     return unless scripts?.currentScript
     script = _.find @scripts, {id: scripts.currentScript}
     return unless script
-    canSkipScript = ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
+    canSkipScript = utils.isCodeCombat or ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
     if canSkipScript
       @triggered.push(script.id)
     noteChain = @processScript(script)
@@ -167,7 +167,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
         console.warn 'Couldn\'t find script for', scriptID, 'from scripts', @scripts, 'when restoring session scripts.'
         continue
       continue if script.repeats # repeating scripts are not 'rerun'
-      canSkipScript = ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
+      canSkipScript = utils.isCodeCombat or ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
       if canSkipScript
         @triggered.push(scriptID)
         @ended.push(scriptID)
@@ -186,7 +186,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       for note in script.noteChain or []
         if note.surface?.focus?
           surfaceModule = _.find note.modules or [], (module) -> module.surfaceCameraNote
-          if surfaceModule
+          if surfaceModule or utils.isOzaria
             cameraNote = surfaceModule.surfaceCameraNote true
             @publishNote cameraNote
             return
@@ -225,11 +225,12 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       @triggered.push(script.id) unless alreadyTriggered
       noteChain = @processScript(script)
 
-      # There may have been new conditions that are met so we are now in a
-      # position to add new say events to the tutorial. Duplicates are ignored.
-      sayEvents = ScriptManager.extractSayEvents(script)
-      if sayEvents.length
-        store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
+      if utils.isOzaria
+        # There may have been new conditions that are met so we are now in a
+        # position to add new say events to the tutorial. Duplicates are ignored.
+        sayEvents = ScriptManager.extractSayEvents(script)
+        if sayEvents.length
+          store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
 
       if not noteChain then return @trackScriptCompletions (script.id)
       @addNoteChain(noteChain)
