@@ -2,16 +2,36 @@
   <div class="podcast-head">
     <div class="container">
       <div class="row">
-        <div class="col-md-4 podcast-head__guest">
-          <img :src="`/file/${podcast.guestImage}`" alt="Guest Image" class="podcast-head__guest-img">
+        <div
+          :class="{ 'col-md-6': podcast.additionalGuestImage, 'col-md-4': !podcast.additionalGuestImage, 'podcast-head__guest': true }"
+        >
+          <img
+            :src="`/file/${podcast.guestImage}`"
+            alt="Guest Image"
+            :class="{ 'podcast-head__guest-img': true, 'podcast-head__guest-img-2': podcast.additionalGuestImage }"
+          >
+          <img
+            v-if="podcast.additionalGuestImage"
+            :src="`/file/${podcast.additionalGuestImage}`"
+            alt="Guest Image"
+            :class="{ 'podcast-head__guest-img': true, 'podcast-head__guest-img-2': podcast.additionalGuestImage }"
+          >
         </div>
-        <div class="col-md-7">
+        <div
+          :class="{ 'col-md-6': podcast.additionalGuestImage, 'col-md-7': !podcast.additionalGuestImage }"
+        >
           <div class="podcast-head__heading">
             <h1 class="podcast-head__heading-title">
               {{ formatName }} {{ $t('signup.with') }}
             </h1>
             <h1 class="podcast-head__heading-guest">
               {{ formatGuestName }}
+            </h1>
+            <h1
+              v-if="podcast.additionalGuestName"
+              class="podcast-head__heading-guest"
+            >
+              {{ $t('code.and') }} {{ formatAdditionalGuestName }}
             </h1>
           </div>
         </div>
@@ -36,6 +56,9 @@ export default {
     },
     formatGuestName () {
       return i18n(this.podcast, 'guestName')
+    },
+    formatAdditionalGuestName () {
+      return i18n(this.podcast, 'additionalGuestName')
     }
   }
 }
@@ -52,6 +75,10 @@ export default {
     &-img {
       max-width: 100%;
       height: 25rem;
+
+      &-2 {
+        max-width: 45%;
+      }
     }
   }
 

@@ -4253,6 +4253,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     air_date: "Air date" # upload date
     play_episode: "Play Episode"
     about_guest: "About Our Guest"
+    about_guests: "About Our Guests"
     all_episodes: "View All Episodes"
     no_permission: "You don't have permission to view this podcast"
     listen_now: "Listen Now"
