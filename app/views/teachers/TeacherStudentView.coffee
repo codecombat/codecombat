@@ -297,7 +297,7 @@ module.exports = class TeacherStudentView extends RootView
       StandardDev = Math.sqrt(variance)
       PerformanceStandardDev = Math.sqrt(performanceVariance)
 
-      perf = -(performanceStudentCourseTotal - performanceMean) / PerformanceStandardDev
+      perf = if utils.isCodeCombat then -(performanceStudentCourseTotal - performanceMean) / PerformanceStandardDev else -(studentCourseTotal - mean) / StandardDev
       perf = if perf > 0 then Math.ceil(perf) else Math.floor(perf)
 
       @courseComparisonMap.push {
