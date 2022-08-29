@@ -2,7 +2,7 @@
   <div class="episode">
     <div class="container">
       <div class="row episode__frame">
-        <div class="col-md-offset-3 col-md-7" @click="onIframeClick">
+        <div class="col-md-offset-3 col-md-7">
           <iframe :src="transistorUrl"
                   width='100%' height='180' frameborder='0' scrolling='no'
                   seamless='true' style='width:100%; height:180px;' :id="`podcast-${podcast._id}`">
