@@ -12,6 +12,7 @@ module.exports = class LevelComponent extends CocoModel
   @LandID: '524b7aff7fc0f6d519000006'
   @CollidesID: '524b7b857fc0f6d519000012'
   @PlansID: '524b7b517fc0f6d51900000d'
+  @ProgrammableID: '524b7b5a7fc0f6d51900000e'
   @MovesID: '524b7b8c7fc0f6d519000013'
   @MissileID: '524cc2593ea855e0ab000142'
   @FindsPathsID: '52872b0ead92b98561000002'

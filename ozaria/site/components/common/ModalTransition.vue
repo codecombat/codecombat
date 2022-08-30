@@ -61,7 +61,9 @@
       showCharCx: false,
       classroom: undefined,
       nextLevelIsLocked: false,
-      doReload: false  // This was used for preventing memory leaks, but should no longer be needed
+      doReload: false, // This was used for preventing memory leaks, but should no longer be needed
+      focusTrapDeactivated: false,
+      focusTrap: null
     }),
     computed: {
       ...mapGetters({
@@ -148,23 +150,30 @@
         // Hack: can't focus it right away, have to wait a bit
         // If we knew when we could focus it, we could use checkCanFocusTrap option to create a Promise for when it would be ready to trap. When some animation finishes? When some data loads? When some other Vue lifecycle step finishes?
         // TODO: do this generally for all modals
+        if (this.focusTrapDeactivated) return
         this.focusTrap = focusTrap.createFocusTrap($('.ozaria-modal')[0], {
           initialFocus: '.next-button.ozaria-primary-button'
         })
         this.focusTrap.activate()
+
+        // fallback
+        if (this.focusTrapDeactivated) this.deactivateFocusTrap()
       }, 1000)
     },
 
     beforeDestroy () {
-      if (this.focusTrap) {
-        this.focusTrap.deactivate()
-      }
+      // seems not work when this component is destroyed by parent conditional-render
+      this.deactivateFocusTrap()
     },
 
     methods: {
       ...mapActions({
         buildLevelsData: 'unitMap/buildLevelsData'
       }),
+      deactivateFocusTrap () {
+        this.focusTrapDeactivated = true
+        this.focusTrap?.deactivate()
+      },
       async fetchRequiredData (campaignHandle) {
         this.loading = true;
         // TODO: Fix duplicate fetching here. The `buildLevelsData` also fetches this.
@@ -265,6 +274,7 @@
         }
       },
       nextButtonClick () {
+        this.deactivateFocusTrap()
         if (this.supermodel && !this.doReload) {
           // Hack: save the current supermodel globally so that the next content view can grab it during initialization and doesn't have to reload everything
           window.temporarilyPreservedSupermodel = this.supermodel
@@ -282,6 +292,7 @@
       // PlayLevelView is a backbone view, so replay button dismisses modal for that
       // IntroLevelPage is vue component and handles the event `replay`
       replayButtonClick () {
+        this.deactivateFocusTrap()
         this.$emit('replay', this.currentIntroContent)
       },
       continueEditingButtonClick () {
