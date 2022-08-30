@@ -61,7 +61,7 @@ module.exports = class AdministerUserModal extends ModelModal
         @listenTo @classrooms, 'sync', @loadClassroomTeacherNames
       else if @user.isTeacher()
         @supermodel.trackRequest @classrooms.fetchByOwner(@userHandle)
-      @esportsProducts = @user.allProducts('esports')
+      @esportsProducts = @user.getProductsByType('esports')
       @renderSelectors('#esports-products')
     @supermodel.trackRequest @user.fetch({cache: false})
     @coupons = new StripeCoupons()
@@ -73,7 +73,7 @@ module.exports = class AdministerUserModal extends ModelModal
         if prepaid.loaded and not prepaid.creator
           prepaid.creator = new User()
           @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
-    @esportsProducts = @user.allProducts('esports')
+    @esportsProducts = @user.getProductsByType('esports')
     @trialRequests = new TrialRequests()
     @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle) if me.isAdmin()
     @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
@@ -179,7 +179,7 @@ module.exports = class AdministerUserModal extends ModelModal
     return unless attrs.maxRedeemers > 0
     return unless attrs.endDate and attrs.startDate and attrs.endDate > attrs.startDate
     attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-    attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
+    attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone).toISOString()
     attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
 
     if attrs.licenseType of @licensePresets
@@ -236,14 +236,10 @@ module.exports = class AdministerUserModal extends ModelModal
     @state = 'creating-esports-product'
     @renderSelectors('#esports-product-form')
     $('#esports-product-form').addClass('in')
-    fetchJson('/db/user/products', {
-      method: 'PUT',
-      json: {
-        user: @user.id,
-        product: attrs
-      }
+    api.users.putUserProducts({
+      user: @user.id,
+      product: attrs
     }).then (res) =>
-      console.log("? ", @state)
       @state = 'made-esports-product'
       @renderSelectors('#esports-product-form')
       $('#esports-product-form').addClass('in')

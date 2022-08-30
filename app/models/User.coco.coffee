@@ -437,7 +437,7 @@ module.exports = class User extends CocoModel
       return p.product == type && (new Date(p.endDate) > now || !p.endDate)
     )
 
-  allProducts: (type) ->
+  getProductsByType: (type) ->
     products = @get('products')
     return products unless type
     _.filter(products, (p) ->

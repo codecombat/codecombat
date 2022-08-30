@@ -108,4 +108,10 @@ module.exports = {
       method: 'POST'
       json: attrs
     }))
+
+  putUserProducts: (json, options={}) ->
+    fetchJson('/db/user/products', _.assign({}, options, {
+      method: 'PUT',
+      json
+    }))
 }
