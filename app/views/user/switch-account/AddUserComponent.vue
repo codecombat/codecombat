@@ -205,8 +205,8 @@ export default {
           body.verify.sendLinkConfirmEmail = true
         }
       } else {
-        body.unVerify = commonBody
-        body.unVerify.userRole = this.accountType
+        body.accountNotExists = commonBody
+        body.accountNotExists.userRole = this.accountType
       }
       this.$emit('onAddSwitchAccount', body)
     },
