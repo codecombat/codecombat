@@ -346,6 +346,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'libraries': go('core/SingletonAppVueComponentView')
     'library/*path': go('core/SingletonAppVueComponentView')
 
+    'api-dashboard': go('core/SingletonAppVueComponentView')
+
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
 

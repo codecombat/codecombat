@@ -68,6 +68,10 @@ export default function getVueRouter () {
           ]
         },
         {
+          path: '/api-dashboard',
+          component: () => import(/* webpackChunkName: "apiViews" */ 'app/views/api/components/ApiDashboard')
+        },
+        {
           path: '/outcomes-report/:kind/:country?/:idOrSlug',
           component: () => import(/* webpackChunkName: "outcomesReport" */ 'app/views/outcomes-report/PageOutcomesReport'),
         },
