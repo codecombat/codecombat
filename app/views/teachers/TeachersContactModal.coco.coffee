@@ -14,6 +14,7 @@ module.exports = class TeachersContactModal extends ModalView
     'change #form-licensesNeeded': 'onLicenseNeededChange'
 
   initialize: (options={}) ->
+    @utils = require 'core/utils'
     @state = new State({
       formValues: {
         name: ''

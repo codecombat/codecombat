@@ -13,6 +13,7 @@ module.exports = class TeachersContactModal extends ModalView
     'submit form': 'onSubmitForm'
 
   initialize: (options={}) ->
+    @utils = require 'core/utils'
     @state = new State({
       formValues: {
         name: ''
