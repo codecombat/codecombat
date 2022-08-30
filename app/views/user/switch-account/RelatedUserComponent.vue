@@ -117,7 +117,7 @@ export default {
       return `( ${info.join(' - ')} )`
     },
     isInSwitchedAccount () {
-      return window.serverSession && window.serverSession.amActually
+      return window.serverSession?.switchingUserActualId
     }
   }
 }

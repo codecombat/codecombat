@@ -557,6 +557,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sign_into_ozaria: "Sign Into Ozaria.com"
     individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!"
     accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
+    stop_spying: "Stop Spying"
+    stop_switching: "Stop Switching"
 
   signup:
     complete_subscription: "Complete Subscription"
@@ -729,6 +731,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     remove: "Remove"
     locked: "Locked"
     internal_error: "Internal Error"
+    manage: "Manage"
 
   general:
     and: "and"
