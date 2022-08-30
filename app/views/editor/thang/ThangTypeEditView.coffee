@@ -10,6 +10,7 @@ require 'lib/setupTreema'
 createjs = require 'lib/createjs-parts'
 LZString = require 'lz-string'
 initSlider = require 'lib/initSlider'
+utils = require 'core/utils'
 replaceRgbaWithCustomizableHex = require('./replaceRgbaWithCustomizableHex.js').default
 SpriteOptimizer = require('lib/sprites/SpriteOptimizer')
 
@@ -805,7 +806,7 @@ module.exports = class ThangTypeEditView extends RootView
     optimizer = new SpriteOptimizer @thangType, options
     optimizer.optimize()
     @treema.set '/', @getThangData()
-    if _.size @thangType.get('colorGroups')
+    if utils.isOzaria and _.size @thangType.get('colorGroups')
       @colorsView.destroy()
       @colorsView = @insertSubView(new ThangTypeColorsTabView(@thangType))
     @updateFileSize()

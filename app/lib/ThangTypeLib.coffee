@@ -4,7 +4,7 @@ ThangTypeLib =
   getPortraitURL: (thangTypeObj) ->
     return '' if application.testing
     prefix = ''
-    if window.location.host is 'localhost:3000' and me.get('slug') is 'nick'
+    if utils.isCodeCombat and window.location.host is 'localhost:3000' and me.get('slug') is 'nick'
       # Create a way to bypass local database portrait loading, since it slows down level editor
       # TODO hack alert: is there a clean/general way to do this?
       prefix = 'https://codecombat.com'

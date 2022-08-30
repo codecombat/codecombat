@@ -15,9 +15,15 @@ module.exports = {
     timesCodeRun: 0
     timesAutocompleteUsed: 0
     playing: false
+    tutorial: []
+    tutorialActive: false
+    codeBankOpen: false
+    clickedUpdateCapstoneCode: false
+    hasPlayedGame: false
+    # Source for solving the level, and number of times it has been used:
     levelSolution: {
       # Number of times state.levelSolution has been auto filled into the code editor.
-      autoFilled: 0
+      autoFillCount: 0,
       source: ''
     }
   }

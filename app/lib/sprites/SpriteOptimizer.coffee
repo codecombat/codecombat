@@ -50,7 +50,7 @@ module.exports = class SpriteOptimizer
   saveToModel: ->
     @thangTypeModel.set('raw', @raw)
     @thangTypeModel.set('actions', @actions)
-    if _.size @colorGroups
+    if utils.isOzaria and _.size @colorGroups
       @thangTypeModel.set('colorGroups', @colorGroups)
 
   keyForShape: (shape) ->
