@@ -82,7 +82,7 @@ init = ->
   if utils.isOzaria
     checkAndLogBrowserCrash()
     checkAndRegisterHocModalInterval()
-  window.globalVar = globalVar if me.isAdmin() or !app.isProduction() or serverSession?.amActually
+  window.globalVar = globalVar if me.isAdmin() or !app.isProduction() or serverSession?.amActually or serverSession?.switchingUserActualId
   parent.globalVar = globalVar if self != parent
 
 module.exports.init = init
