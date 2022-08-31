@@ -22,6 +22,7 @@ module.exports = {
     hasPlayedGame: false
     # Source for solving the level, and number of times it has been used:
     levelSolution: {
+      # Number of times state.levelSolution has been auto filled into the code editor.
       autoFillCount: 0,
       source: ''
     }
@@ -43,8 +44,6 @@ module.exports = {
       state.timesAutocompleteUsed += 1
     setTimesAutocompleteUsed: (state, times) ->
       state.timesAutocompleteUsed = times
-    setLevelSolution: (state, solution) ->
-      state.levelSolution = solution
     addTutorialStep: (state, step) ->
       if state.tutorial.find((s) ->
         # There is a function property that needs to be omitted because they don't compare
