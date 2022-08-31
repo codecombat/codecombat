@@ -1,5 +1,6 @@
 CocoView = require 'views/core/CocoView'
 template = require 'app/templates/editor/component/thang-component-config-view'
+utils = require 'core/utils'
 
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
@@ -46,7 +47,7 @@ module.exports = class ThangComponentConfigView extends CocoView
     schema.default ?= {}
     _.merge schema.default, @additionalDefaults if @additionalDefaults
 
-    if @level?.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
+    if utils.isCodeCombat or @level?.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
       schema.required = []
     treemaOptions =
       supermodel: @supermodel
