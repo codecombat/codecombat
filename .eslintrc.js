@@ -33,7 +33,8 @@ module.exports = {
       baseIndent: 0,
       switchCase: 0,
       ignores: []
-    }]
+    }],
+    'vue/comment-directive': 'off'
   },
 
   ignorePatterns: [
@@ -41,7 +42,9 @@ module.exports = {
     '*.png',
     '*.pug',
     '*.sass',
-    '*.jpg'
+    '*.jpg',
+    '*.svg',
+    '*.scss'
   ],
 
   overrides: [

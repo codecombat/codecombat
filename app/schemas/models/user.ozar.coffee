@@ -453,8 +453,14 @@ _.extend UserSchema.properties,
   }
   related: c.array(
     { description: 'related accounts to this user' },
-    c.objectId(
-      { description: 'userId of the account currentUser is related to' }
+    c.object(
+      {},
+      {
+        userId: c.objectId({ description: 'userId of the account currentUser is related to' }),
+        verified: { type: 'boolean', description: 'whether linking is verified/authenticated' },
+        relation: c.shortString({ description: 'relation of this user to related one' }),
+        code: c.shortString({ description: 'confirmation code for linking user' })
+      }
     )
   )
 
