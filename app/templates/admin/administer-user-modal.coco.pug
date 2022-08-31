@@ -226,10 +226,10 @@ block modal-body-content
                   input(id= endDateControlId type="date" name="endDate" value=moment.timezone(product.endDate).tz(view.timeZone).format('YYYY-MM-DD'))
                 else
                   = moment.timezone(product.endDate).tz(view.timeZone).format('l')
-              td= (product.productOptions.team ? 'Yes': 'No')
-              td= product.productOptions.team
-              td= product.productOptions.tournament
-              td= product.productOptions.arena
+              td= (product.productOptions.teams ? 'Yes': 'No')
+              td= product.productOptions.teams
+              td= product.productOptions.tournaments
+              td= product.productOptions.arenas
       hr
 
   //- could be clan owner, but let's check teacher first

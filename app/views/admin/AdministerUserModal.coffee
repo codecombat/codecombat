@@ -200,6 +200,13 @@ module.exports = class AdministerUserModal extends ModelModal
     @listenTo prepaid, 'sync', ->
       @state = 'made-prepaid'
       @renderSelectors('#prepaid-form')
+      @prepaids.push(prepaid)
+      @renederSelectors('#prepaids-table')
+      $('#prepaids-table').addClass('in')
+      setTimeout(() =>
+        @state = ''
+        @renderSelectors('#prepaid-form')
+      , 1000)
 
   onClickAddEsportsProductButton: ->
     attrs = forms.formToObject(@$('#esports-product-form'))
@@ -232,7 +239,6 @@ module.exports = class AdministerUserModal extends ModelModal
       paymentDetails:
         adminAdded: me.id
     })
-    # TODO: save to server safely
     @state = 'creating-esports-product'
     @renderSelectors('#esports-product-form')
     $('#esports-product-form').addClass('in')
@@ -243,6 +249,14 @@ module.exports = class AdministerUserModal extends ModelModal
       @state = 'made-esports-product'
       @renderSelectors('#esports-product-form')
       $('#esports-product-form').addClass('in')
+      @esportsProducts.push(attrs)
+      @renderSelectors('#esports-product-table')
+      $('#esports-product-table').addClass('in')
+      setTimeout(() =>
+        @state = ''
+        @renderSelectors('#esports-product-form')
+        $('#esports-product-form').addClass('in')
+      , 1000)
 
   onClickDestudentButton: (e) ->
     button = @$(e.currentTarget)
