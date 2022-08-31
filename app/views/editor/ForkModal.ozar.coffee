@@ -1,6 +1,7 @@
 ModalView = require 'views/core/ModalView'
 template = require 'app/templates/editor/fork-modal'
 forms = require 'core/forms'
+utils = require 'core/utils'
 
 module.exports = class ForkModal extends ModalView
   id: 'fork-modal'
@@ -30,9 +31,13 @@ module.exports = class ForkModal extends ModalView
     newModel.unset 'parent'
     newModel.unset 'i18n'
     newModel.unset 'i18nCoverage'
-    newModel.unset 'tasks'
+    if utils.isOzaria
+      newModel.unset 'tasks'
     newModel.set 'commitMessage', "Forked from #{@model.get('name')}"
     newModel.set 'name', @$el.find('#fork-model-name').val()
+    if utils.isCodeCombat and newModel.get('tasks')
+      newModel.set 'tasks', newModel.get('tasks').map (task) ->
+        {name: task.name, complete: false}
     if @model.schema().properties.permissions
       newModel.set 'permissions', [access: 'owner', target: me.id]
     newPathPrefix = "editor/#{@editorPath}/"
