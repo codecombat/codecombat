@@ -23,7 +23,7 @@ module.exports = class LevelComponent extends CocoModel
     '524b7b5a7fc0f6d51900000e',
     '5f7d7be6bad19a002837b394'
   ]
-  
+
 
   @positionIDs = [
     '524b75ad7fc0f6d519000001',
