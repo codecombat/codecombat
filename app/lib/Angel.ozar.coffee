@@ -303,12 +303,12 @@ module.exports = class Angel extends CocoClass
 
   onStopRealTimePlayback: (e) ->
     # TODO Improve later with GoalManger reworking
-    if store.getters['game/clickedUpdateCapstoneCode'] and @work?.world?.goalManager?.goalStates?["has-stopped-playing-game"]
+    if utils.isOzaria and store.getters['game/clickedUpdateCapstoneCode'] and @work?.world?.goalManager?.goalStates?["has-stopped-playing-game"]
       # The update button goal is a simple way to ensure that the student presses update to test their code.
       # After the first time the update button has been pressed, it is in a 'success' state until the page reloads.
       @work.world.goalManager.setGoalState("has-clicked-update-button", "success")
 
-    if store.getters['game/hasPlayedGame'] and @work?.world?.goalManager?.goalStates?["has-stopped-playing-game"]
+    if utils.isOzaria and store.getters['game/hasPlayedGame'] and @work?.world?.goalManager?.goalStates?["has-stopped-playing-game"]
       # Mark the goal completed and prevent the goalmanager being destroying
       @work.world.goalManager.setGoalState("has-stopped-playing-game", "success")
       @work.world.endWorld(true, 0)
