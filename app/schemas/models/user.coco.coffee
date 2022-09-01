@@ -423,7 +423,7 @@ _.extend UserSchema.properties,
   products: c.array {title: 'Products purchased or used by this user'},
     c.object { required: ['product', 'startDate', 'recipient', 'paymentService', 'paymentDetails'],  additionalProperties: true },
       # ensure we can add additionalProperties
-      product: { type: 'string', enum: ['course', 'basic_subscription', 'pd', 'ai-league', 'online-classes'], decription: 'The "name" field for the product purchased' }  # And/or the ID of the Product in the database, if we make a Product for each thing we can buy?
+      product: { type: 'string', enum: ['course', 'basic_subscription', 'pd', 'esports', 'online-classes'], decription: 'The "name" field for the product purchased' }  # And/or the ID of the Product in the database, if we make a Product for each thing we can buy?
 
       prepaid: c.objectId(links: [ {rel: 'db', href: '/db/prepaid/{($)}'} ])  # required for type: “course” for legacy compatibility, optional for other types
       productOptions:
@@ -440,15 +440,16 @@ _.extend UserSchema.properties,
       paymentService: { enum: ['stripe', 'testing', 'free', 'api', 'external', 'paypal']}  # Removed 'ios', could perhaps remove 'paypal', could differentiate 'external' further
       paymentDetails:
         c.object {additionalProperties: true},
-          purchaseDate: c.date()  # TODO: separate payment date and invoice date (esp. online classes)?
-          amount: { type: 'integer', description: 'Payment in cents on US server and in RMB cents on the China server' }
+          allOf:
+            purchaseDate: c.date()  # TODO: separate payment date and invoice date (esp. online classes)?
+            amount: { type: 'integer', description: 'Payment in cents on US server and in RMB cents on the China server' }
           # Do we need something about autorenewal / frequency here?
-          oneOf: [
-            { stripeCustomerId: { type: 'string' }, subscriptionId: { type: 'string' }, paymentSession: c.objectId(links: [ {rel: 'extra', href: '/db/payment.session/{($)}'} ]) }  # TODO: other various Stripe-specific options
-            { paypalCustomerId: { type: 'string' } }  # TODO: various PayPal-specific options, if we keep PayPal
-            { staffCreator: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) }  # any other external payment source options?
-            # ... etc. for each possible payment service ...
-          ]
+            oneOf: [
+              { stripeCustomerId: { type: 'string' }, subscriptionId: { type: 'string' }, paymentSession: c.objectId(links: [ {rel: 'extra', href: '/db/payment.session/{($)}'} ]) }  # TODO: other various Stripe-specific options
+              { paypalCustomerId: { type: 'string' } }  # TODO: various PayPal-specific options, if we keep PayPal
+              { staffCreator: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) }  # any other external payment source options?
+              # ... etc. for each possible payment service ...
+            ]
   edLink: c.object {}, {
     profileId: { type: 'string' }
     refreshToken: { type: 'string', description: 'token to get access token to get user details' }

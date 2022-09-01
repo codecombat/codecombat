@@ -109,6 +109,12 @@ module.exports = {
       json: attrs
     }))
 
+  putUserProducts: (json, options={}) ->
+    fetchJson('/db/user/products', _.assign({}, options, {
+      method: 'PUT',
+      json
+    }))
+
   getRelatedAccount: ({ userId }) ->
     fetchJson("/db/user/related-accounts/#{userId}", _.assign({}, {
       method: 'GET'
