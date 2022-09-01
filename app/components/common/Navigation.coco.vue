@@ -151,7 +151,7 @@
                 img#logo-img(src="/images/pages/base/logo-cn.png")
               a.navbar-brand(v-else-if="me.isTecmilenio()" href="/home")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-                img.tecmilenio-logo(src="/images/pages/payment/tecmilenio-logo-colored.png" alt="Tecmilenio logo")
+                img.tecmilenio-logo(src="/images/pages/payment/tecmilenio-logo-2.png" alt="Tecmilenio logo")
               a.navbar-brand(v-else :href="hideNav ? '#' : '/home'")
                 img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
 
@@ -267,7 +267,9 @@
                     li(v-if="me.isAdmin()")
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
                     li(v-if="serverSession && serverSession.amActually")
-                      a.account-dropdown-item#nav-stop-spying-button Stop Spying
+                      a.account-dropdown-item#nav-stop-spying-button {{ $t('login.stop_spying') }}
+                    li(v-else-if="serverSession && serverSession.switchingUserActualId")
+                      a.account-dropdown-item#nav-stop-spying-button {{ $t('login.stop_switching') }}
                     li
                       a.account-dropdown-item#logout-button {{ $t('login.log_out') }}
 

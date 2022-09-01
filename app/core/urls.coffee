@@ -23,8 +23,19 @@ module.exports =
     url += "&codeLanguage=#{level.get('primerLanguage')}" if level.get('primerLanguage')
     url
 
-  courseWorldMap: ({courseId, courseInstanceId, campaignPage, campaignId, codeLanguage}) ->
-    if not campaignId and utils.isOzaria
+  courseWorldMap: (param) ->
+    if utils.isOzaria
+      @courseWorldMapOzaria(param)
+    else
+      @courseWorldMapCoCo(param)
+
+  courseWorldMapCoCo: ({course, courseInstance}) ->
+    course = course.attributes || course
+    courseInstance = courseInstance.attributes || courseInstance
+    "/play/#{course.campaignID}?course-instance=#{courseInstance._id}"
+
+  courseWorldMapOzaria: ({courseId, courseInstanceId, campaignPage, campaignId, codeLanguage}) ->
+    unless campaignId
       console.error('courseWorldMap: campaign id is not defined')
       return ""
     url = "/play/#{encodeURIComponent(campaignId)}"

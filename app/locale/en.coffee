@@ -557,6 +557,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sign_into_ozaria: "Sign Into Ozaria.com"
     individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!"
     accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
+    stop_spying: "Stop Spying"
+    stop_switching: "Stop Switching"
 
   signup:
     complete_subscription: "Complete Subscription"
@@ -728,6 +730,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     done: "Done"
     remove: "Remove"
     locked: "Locked"
+    internal_error: "Internal Error"
+    manage: "Manage"
 
   general:
     and: "and"
@@ -4250,6 +4254,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     air_date: "Air date" # upload date
     play_episode: "Play Episode"
     about_guest: "About Our Guest"
+    about_guests: "About Our Guests"
     all_episodes: "View All Episodes"
     no_permission: "You don't have permission to view this podcast"
     listen_now: "Listen Now"
@@ -4291,3 +4296,32 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_modal_members: "Members Needing Access"
     license_modal_members_placeholder: "Approximately how many members will need access?"
     license_modal_contact: "Contact Our Team"
+
+  related_accounts:
+    subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."
+    wrong_account: "Please log in to the correct account to confirm the account linking. Log In to the account and open link from email again."
+    link_account: "Link your account to"
+    link_successful_redirect: "Account linked successfully, redirecting"
+    add_related_user: "Add Related User"
+    adding: "Adding"
+    removing: "Removing"
+    added: "Account added"
+    related_email: "Related User Email"
+    relation: "Relation"
+    bi_directional: "Bi-directional"
+    account_exists: "Account exists"
+    link_using_email: "Link account using confirmation email"
+    link_using_email_blurb: "User will receive a mail on __email__. Please ask the user to confirm linking by pressing on link present in email."
+    account_not_exist: "Account does not exist"
+    account_type: "Account Type"
+    create_account_and_email: "Create account and send email to link"
+    authenticate: "Authenticate"
+    invite: "Invite"
+    auth_using_pass: "Authenticate using __email__ password"
+    related_users: "Related Users"
+    no_related_users: "No related users right now"
+    send_verify_email: "Send Verify Email"
+    verified: "Verified"
+    switch: "Switch"
+    title: "Related Accounts"
+    bi_directional_help_text: "Allow added user to switch to your account?"

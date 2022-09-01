@@ -34,9 +34,7 @@ module.exports = {
       switchCase: 0,
       ignores: []
     }],
-    'vue/comment-directive': ['warn', {
-      reportUnusedDisableDirectives: false
-    }]
+    'vue/comment-directive': 'off'
   },
 
   ignorePatterns: [
@@ -45,7 +43,9 @@ module.exports = {
     '*.pug',
     '*.sass',
     '*.jpg',
-    '*.jpeg'
+    '*.jpeg',
+    '*.svg',
+    '*.scss'
   ],
 
   overrides: [

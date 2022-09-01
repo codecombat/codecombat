@@ -437,8 +437,15 @@ module.exports = class User extends CocoModel
       return p.product == type && (new Date(p.endDate) > now || !p.endDate)
     )
 
+  getProductsByType: (type) ->
+    products = @get('products')
+    return products unless type
+    _.filter(products, (p) ->
+      return p.product == type
+    )
+
   hasAiLeagueActiveProduct: ->
-    @activeProducts('ai-league').length > 0
+    @activeProducts('esports').length > 0
 
   prepaidNumericalCourses: ->
     courseProducts = @activeProducts('course')
@@ -752,7 +759,20 @@ module.exports = class User extends CocoModel
       me.startExperiment('m7', value, probability)
     value
 
-  # Feature Flags
+  removeRelatedAccount: (relatedUserId, options={}) ->
+    options.url = '/db/user/related-accounts'
+    options.type = 'DELETE'
+    options.data ?= {}
+    options.data.userId = relatedUserId
+    @fetch(options)
+
+  linkRelatedAccount: (body, options = {}) ->
+    options.url = '/db/user/related-accounts'
+    options.type = 'PUT'
+    options.data ?= body
+    @fetch(options)
+
+# Feature Flags
   # Abstract raw settings away from specific UX changes
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
   canBuyGems: -> false  # Disabled direct buying of gems around 2021-03-16
