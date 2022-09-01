@@ -278,10 +278,13 @@ module.exports = class LevelLoader extends CocoClass
       @consolidateFlagHistory() if @session.loaded
     # course-ladder is hard to handle because there's 2 sessions
     if @level.isType('course') and (not me.showHeroAndInventoryModalsToStudents() or @level.isAssessment())
-      heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
+      if utils.isOzaria
+        heroThangType = me.get('ozariaUserOptions')?.isometricThangTypeOriginal or ThangType.heroes['hero-b']
+      else
+        heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
       # set default hero for assessment levels in class if classroomItems is on
       if @level.isAssessment() and me.showHeroAndInventoryModalsToStudents()
-        heroThangType = ThangType.heroes.captain
+        heroThangType = if utils.isOzaria then ThangType.heroes['hero-b'] else ThangType.heroes.captain
       console.debug "Course mode, loading custom hero: ", heroThangType if LOG
       url = "/db/thang.type/#{heroThangType}/version"
       if heroResource = @maybeLoadURL(url, ThangType, 'thang')
@@ -295,11 +298,15 @@ module.exports = class LevelLoader extends CocoClass
           @onWorldNecessitiesLoaded()
         return
     # Load the ThangTypes needed for the session's heroConfig for these types of levels
-    heroConfig = session.get('heroConfig')
-    heroConfig ?= me.get('heroConfig') if session is @session and not @headless
+    heroConfig = _.cloneDeep(session.get('heroConfig'))
+    heroConfig ?= _.cloneDeep(me.get('heroConfig')) if session is @session and not @headless
     heroConfig ?= {}
     heroConfig.inventory ?= feet: '53e237bf53457600003e3f05'  # If all else fails, assign simple boots.
-    heroConfig.thangType ?= '529ffbf1cf1818f2be000001'  # If all else fails, assign Tharin as the hero.
+    if utils.isOzaria
+      # This is where ozaria hero is being loaded from.
+      heroConfig.thangType = me.get('ozariaUserOptions')?.isometricThangTypeOriginal or ThangType.heroes['hero-b']  # If all else fails, assign Hero B as the hero.
+    else
+      heroConfig.thangType ?= '529ffbf1cf1818f2be000001'  # If all else fails, assign Tharin as the hero.
     session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
     url = "/db/thang.type/#{heroConfig.thangType}/version"
     if heroResource = @maybeLoadURL(url, ThangType, 'thang')
@@ -628,6 +635,7 @@ module.exports = class LevelLoader extends CocoClass
   # Initial Sound Loading
 
   playJingle: ->
+    return if utils.isOzaria # TODO: replace with Ozaria level loading jingles
     return if @headless or not me.get('volume')
     volume = 0.5
     if me.level() < 3
@@ -640,6 +648,7 @@ module.exports = class LevelLoader extends CocoClass
     setTimeout f, 500
 
   loadAudio: ->
+    return if utils.isOzaria  # TODO: replace with Ozaria sound
     return if @headless or not me.get('volume')
     AudioPlayer.preloadInterfaceSounds ['victory']
 

@@ -1082,15 +1082,6 @@ freeAccessLevels = [
   { access: 'china-classroom', slug: 'careful-steps' }
   { access: 'china-classroom', slug: 'long-steps' }
   { access: 'china-classroom', slug: 'favorable-odds' }
-  { access: 'short', slug: '1fhcutscene1b'}
-  { access: 'short', slug: '1fhm1l1l1b'}
-  { access: 'short', slug: '1fhm1l1l2b'}
-  { access: 'short', slug: '1fhm1l1l3b'}
-  { access: 'short', slug: '1fhm1l1l4b'}
-  { access: 'short', slug: '1fhm1l1l5b'}
-  { access: 'short', slug: '1fhm1l1l6b'}
-  { access: 'short', slug: '1fhm1l1l7b'}
-  { access: 'short', slug: '1fhm1l1l8b'}
 ]
 
 orgKindString = (kind, org=null) ->
