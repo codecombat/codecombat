@@ -4,6 +4,7 @@ State = require 'models/State'
 TrialRequests = require 'collections/TrialRequests'
 forms = require 'core/forms'
 contact = require 'core/contact'
+utils = require 'core/utils'
 
 module.exports = class TeachersContactModal extends ModalView
   id: 'teachers-contact-modal'
@@ -13,6 +14,7 @@ module.exports = class TeachersContactModal extends ModalView
     'submit form': 'onSubmitForm'
 
   initialize: (options={}) ->
+    @isCodeCombat = utils.isCodeCombat
     @state = new State({
       formValues: {
         name: ''

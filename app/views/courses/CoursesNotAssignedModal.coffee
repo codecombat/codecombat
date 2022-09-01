@@ -15,5 +15,12 @@ module.exports = class CoursesNotAssignedModal extends ModalView
     })
     if options.courseID in STARTER_LICENSE_COURSE_IDS
       @supermodel.trackRequest(me.getLeadPriority())
-        .then(({ priority }) => @state.set({ promoteStarterLicenses: (priority is 'low') and (me.get('preferredLanguage') isnt 'nl-BE')}))
+        # I think the modification of this commit can go to ozar as well: https://github.com/codecombat/codecombat/commit/dd806564d0b2ca7fa3599b4556800fda715ce42b
+        .then(({ priority }) => @state.set({ promoteStarterLicenses:
+          me.useStripe() and
+          (priority is 'low') and
+          (me.get('preferredLanguage') not in ['nl-BE', 'nl-NL']) and
+          (me.get('country') not in ['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia']) and
+          not me.get('administratedTeachers')?.length
+        }))
     @listenTo @state, 'change', @render
