@@ -479,6 +479,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     account_settings: 'Account Settings'
     back_to_tutorial: 'Back to tutorial'
     teacher_vega_message: 'Students are guided by these tutorial messages. In order to view these messages and to save your progress as you play through the game, please create a student account and play Ozaria as a student.'
+    beta_levels_on: 'beta levels on'
+    beta_levels_turn_off: 'turn off'
+    confirm_m7_off: 'Are you sure to turn beta levels off?'
 
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)

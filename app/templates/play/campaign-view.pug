@@ -328,6 +328,11 @@ if showGameDevAlert
           //- if me.isPremium()
           //-   button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
         select.language-dropdown.btn.btn-illustrated.btn-primary
+        if me.getM7ExperimentValue() == 'beta'
+          span.beta-levels
+            span(data-i18n="play.beta_levels_on")
+            | &nbsp;
+            span.m7-off(data-i18n="play.beta_levels_turn_off")
 
   button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
     .glyphicon.glyphicon-volume-off
