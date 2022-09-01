@@ -128,6 +128,8 @@ cite    { font-style: normal; }
 
 .page-header {
   padding-bottom: (math.div($line-height-computed, 2) - 1);
+  // The ozar version looks better for me, but I've found no usage of .page-header
+  // in the codebase so doesn't really matter.
   margin: math.div($line-height-computed, 2) 0 $line-height-computed;
   border-bottom: 1px solid $page-header-border-color;
 }
