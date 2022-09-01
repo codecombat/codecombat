@@ -32,6 +32,8 @@ module.exports = {
       state.playing = playing
     setLevel: (state, updates) ->
       state.level = $.extend(true, {}, updates)
+    setLevelSolution: (state, solution) ->
+      state.levelSolution = solution
     setHintsVisible: (state, visible) ->
       state.hintsVisible = visible
     incrementTimesCodeRun: (state) ->
@@ -42,8 +44,6 @@ module.exports = {
       state.timesAutocompleteUsed += 1
     setTimesAutocompleteUsed: (state, times) ->
       state.timesAutocompleteUsed = times
-    setLevelSolution: (state, solution) ->
-      state.levelSolution = solution
     addTutorialStep: (state, step) ->
       if state.tutorial.find((s) ->
         # There is a function property that needs to be omitted because they don't compare
