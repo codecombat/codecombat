@@ -10,9 +10,12 @@ SuperModel = require 'models/SuperModel'
 Campaigns = require 'collections/Campaigns'
 Level = require 'models/Level'
 
-CocoLegacyCampaigns = ['intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6', 'course-8',
-         'dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano', 'campaign-game-dev-1',
-         'campaign-game-dev-2', 'campaign-game-dev-3', 'hoc-2018']
+if utils.isOzaria
+  CocoLegacyCampaigns = ['intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6', 'course-8',
+           'dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano', 'campaign-game-dev-1',
+           'campaign-game-dev-2', 'campaign-game-dev-3', 'hoc-2018']
+else
+  CocoLegacyCampaigns = []
 
 module.exports = class VerifierView extends RootView
   className: 'style-flat'
