@@ -39,7 +39,10 @@ TeacherRolePanel = Vue.extend
       @commitValues()
       window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Continue Success', category: 'Teachers'
       # Facebook Pixel tracking for Teacher conversions.
-      window.fbq?('trackCustom', 'UniqueTeacherSignup')
+      if utils.isOzaria
+        window.fbq?('trackCustom', 'OzariaUniqueTeacherSignup')
+      else
+        window.fbq?('trackCustom', 'UniqueTeacherSignup')
       # Google AdWord teacher conversion.
       gtag?('event', 'conversion', {'send_to': 'AW-811324643/8dp2CJK6_5QBEOOp74ID'});
       @$emit('continue')
