@@ -15,10 +15,12 @@ module.exports = class ConfirmationView extends CocoView
 
   initialize: ({ @signupState } = {}) ->
     @saveUserPromise = Promise.resolve()
+    # I think it can go to Ozaria as well.
     @hideEmail = userUtils.shouldHideEmail()
 
   onClickStartButton: ->
     @saveUserPromise.then =>
+      # I think it can go to Ozaria as well.
       if window.nextURL
         window.location.href = window.nextURL
         return
