@@ -207,9 +207,12 @@ module.exports = (env) => {
           ]
         },
         {
-          test: /\.mjs$/, // https://github.com/formatjs/formatjs/issues/1395#issuecomment-518823361
+          test: /\.m?js$/, // https://github.com/formatjs/formatjs/issues/1395#issuecomment-518823361
           include: /node_modules/,
-          type: "javascript/auto"
+          type: "javascript/auto",
+          resolve: {
+            fullySpecified: false
+          }
         }
       ]
     },
@@ -225,7 +228,8 @@ module.exports = (env) => {
         `.${productSuffix}.coffee`, `.${productSuffix}.js`, `.${productSuffix}.pug`, `.${productSuffix}.sass`, `.${productSuffix}.vue`,  //, `.${productSuffix}.scss` ?
       ],
       alias: { // Replace Backbone's underscore with lodash
-        'underscore': 'lodash'
+        'underscore': 'lodash',
+        'ace-builds': path.resolve(__dirname, 'bower_components/ace-builds')
       },
       // https://github.com/facebook/create-react-app/issues/11756#issuecomment-1047253186
       fallback: {
@@ -247,7 +251,8 @@ module.exports = (env) => {
       new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
         $: 'jquery',
         jQuery: 'jquery',
-        application: path.resolve(PWD, 'app/core/application')
+        application: path.resolve(PWD, 'app/core/application'),
+        process: 'process/browser', // because of algoliasearch which needs access to process: https://github.com/algolia/docsearch/issues/980
       }),
       new webpack.IgnorePlugin({ resourceRegExp: /\/fonts\/bootstrap\/.*$/ }), // Ignore Bootstrap's fonts
       new webpack.IgnorePlugin({ resourceRegExp: /^memwatch$/ }), // Just used by the headless client on the server side
