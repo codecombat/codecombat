@@ -2,6 +2,11 @@
 
 ace = require('lib/aceContainer');
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
+UndoManager = ace.require('ace/undomanager').UndoManager
+Y = require 'yjs'
+{ WebrtcProvider } = require 'y-webrtc'
+{ WebsocketProvider } = require 'y-websocket'
+{ AceBinding } = require 'y-ace'
 
 aceEditModes =
   javascript: 'ace/mode/javascript'
@@ -136,8 +141,34 @@ parseUserSnippets = (source, lang, session) ->
   newIdentifiers
   # @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
 
+
+setupCRDT = (key, userName, doc, editor) =>
+  ydoc = new Y.Doc()
+  server = window.location.host
+  url = "ws://#{server}/yjs/websocket"
+  provider = new WebsocketProvider(url, key, ydoc)
+  yType = ydoc.getText('ace')
+  provider.on('status', (event) =>
+    console.log("what event.status:", event.status)
+  )
+  provider.once('synced', () =>
+    console.log("provider synced here, value", yType.toString())
+    if yType.toString() == ''
+      yType.insert(0, doc)
+    new AceBinding(yType, editor, provider.awareness)
+    editor.session.setUndoManager(new UndoManager())
+  )
+  user =
+    name: userName
+    color: '#' + Math.floor(Math.random()*16777215).toString(16)
+  provider.awareness.setLocalStateField('user', user)
+
+  return provider
+
+
 module.exports = {
   aceEditModes
   initializeACE
   parseUserSnippets
+  setupCRDT
 }
