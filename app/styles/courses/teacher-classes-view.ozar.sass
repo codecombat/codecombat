@@ -1,6 +1,7 @@
 @import "app/styles/bootstrap/variables"
 @import "app/styles/mixins"
 @import "app/styles/style-flat-variables"
+@import "app/styles/utils"
 
 #teacher-classes-view
 
@@ -33,12 +34,18 @@
   .student-count
     display: inline-block
 
+  @if $is-codecombat
+    .shared-access
+      display: inline-block
+
   .class-links
     a
       font-weight: bold
       color: black
       margin-right: 1rem
       text-decoration: underline
+      @if $is-codecombat
+        text-transform: lowercase
 
   .classes
     margin-top: 20px
@@ -185,3 +192,45 @@
 
       li:last-of-type
         border-right: 0
+  @if $is-codecombat
+    .try-ozaria
+      text-align: right
+
+      margin-top: -40px
+      margin-bottom: 10px
+
+      a
+        font-size: 14px
+
+@if $is-codecombat
+  #teacher-classes-view, #teacher-class-view
+    .ai-league-stats .container
+      margin-top: 30px
+      padding-bottom: 50px
+
+      .text-h6
+        font-weight: bold
+        color: black
+        margin-left: 1rem
+        text-decoration: underline
+        text-transform: lowercase
+
+      h4
+        font-weight: bold
+        margin-top: 30px
+        bottom-bottom: 15px
+
+      h5
+        margin: 15px 0 5px 5px
+        font-weight: normal
+
+      h5 ~ .stat
+        margin-left: 10px
+
+      .stat
+        .stat-details
+          font-size: 14px
+          margin-left: 4px
+
+    #classes-shared-subview
+      padding-top: 15px
