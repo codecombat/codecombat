@@ -6,6 +6,9 @@ name: Node.js CI
 # Triggering workflow on all push
 on: [push]
 
+permissions:
+  contents: read
+
 jobs:
   build:
 
