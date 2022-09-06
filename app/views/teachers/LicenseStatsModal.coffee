@@ -20,10 +20,11 @@ module.exports = class LicenseStatsModal extends ModalComponent
     )
     @propsData =
       hide: () => @hide()
-      loading: true
+      loading: { finished: false }
       redeemers: @redeemers
       removedRedeemers: @removedRedeemers
 
+    @supermodel.resetProgress()
     userNameRequest = @supermodel.addRequestResource 'user_names', {
       url: '/db/user/-/names'
       data: {ids: redeemerIds.concat(removedRedeemerIds)}
@@ -31,30 +32,17 @@ module.exports = class LicenseStatsModal extends ModalComponent
       success: (@nameMap) =>
         @redeemers.forEach(@nameMapping)
         @removedRedeemers.forEach(@nameMapping)
-        @propsData.loading = false
-        console.log('loading, ',@redeemers, @removedRedeemers)
+        @propsData.loading.finished = true
     }
     userNameRequest.load()
 
   nameMapping: (r, index, arr) =>
     user = @nameMap[r.userID]
-    name = user.firstName + ' ' + user.lastName if user?.firstName
+    name = user.firstName if user?.firstName
+    name += ' ' + user.lastName if user?.lastName?
     name ||= user?.name
-    name ||= "Anonymous #{opponent.userID.substr(18)}" if user
-    name ||= opponent.name
-    name ||= '<bad match data>'
     arr[index].name = name
 
-  # render: ->
-  #   super()
-  #   if @VueComponent
-  #     @$el.find("#modal-base-flat").replaceWith(@VueComponent.$el)
-  #   else
-  #     @VueComponent = new @VueComponent({
-  #       el: @$el.find('#modal-base-falt')[0]
-  #       propsData: @propsData,
-  #     })
-  # onLoaded: -> @render()
   destroy: ->
     @onDestroy?()
     super()

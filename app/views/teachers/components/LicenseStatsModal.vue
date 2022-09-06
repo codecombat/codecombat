@@ -14,39 +14,71 @@ export default Vue.extend({
 
 <template lang="pug">
 #modal-base-flat
-  .modal-header
-    .loading(v-if="loading") {{ 'loading...' }}
-    .loaded(v-else) {{ Stats }}
-  .modal-body(v-if="!loading")
-    .redeemers(v-if="redeemers.length")
-      .title {{ 'Redeemers' }}
-      .content
-        .user(v-for="user in redeemers")
-          .name {{ user.name }}
-          .startDate {{ moment(user.date).format('ll') }}
-    .removedRedeemers(v-if="removedRedeemers.length")
-      .title {{ 'RemovedRedeemers' }}
-      .content
-        .user(v-for="user in redeemers")
-          .name {{ user.name }}
-          .startDate {{ moment(user.startDate).format('ll') }}
-          .endDate {{ moment(user.endDate).format('ll') }}
+  .modal-content.style-flat
+    span.glyphicon.glyphicon-remove.button.close
+    h3.modal-header.text-center {{ $t('teacher.license_stats') }}
+    .modal-body
+      .loading.text-center(v-if="!loading.finished") {{ $t('common.loading') }}
+      .stats(v-else)
+        .redeemers(v-if="redeemers.length")
+          h4.title {{ $t('teacher.redeemers') }}
+          .content
+            .header
+              .name {{ $t('general.name') }}
+              .startDate {{ $t('outcomes.start_date') }}
+            .user(v-for="user in redeemers")
+              .name {{ user.name }}
+              .startDate {{ moment(user.date).format('ll') }}
+        .removedRedeemers(v-if="removedRedeemers.length")
+          h4.title {{ $t('teacher.removed_redeemers') }}
+          .content
+            .header
+              .name {{ $t('general.name') }}
+              .startDate {{ $t('outcomes.start_date') }}
+              .endDate {{ $t('outcomes.end_date') }}
+            .user(v-for="user in removedRedeemers")
+              .name {{ user.name }}
+              .startDate {{ moment(user.startDate).format('ll') }}
+              .endDate {{ moment(user.endDate).format('ll') }}
+      .text-center.footer-text
+        button.btn.btn-lg.btn-navy-alt(data-dismiss="modal")
+          span.m-l-3.m-r-3
+            | {{ $t("general.close_window") }}
 
 </template>
 
 <style scoped lang="scss">
-
 #modal-base-flat {
-  background: #F4FAFF;
-  box-shadow: 2px 2px 2px 2px #777;
+  background: white;
+  box-shadow: 0 3px 9px rgb(0 0 0 / 50%);
+  font-size: 20px;
 }
 
-.user {
-  display: flex;
+.stats {
+  min-height: 400px;
+  margin-bottom: 20px;
 
-  .name, .startDate, .endDate {
-    flex-basis: 10em;
+  .removedRedeemers {
+    margin-top: 50px;
+  }
+  .user, .header {
+    display: flex;
+
+    .name, .startDate, .endDate {
+      flex-basis: 10em;
+    }
+  }
+
+  .header {
+    font-weight: 800;
+  }
+  .user {
+    &:nth-child(2n+1) {
+      background-color: #ebebeb;
+    }
+    &:nth-child(2n) {
+      background-color: #f5f5f5;
+    }
   }
 }
-
 </style>
