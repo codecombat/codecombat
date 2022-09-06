@@ -2502,6 +2502,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     archive_revoke_confirm: " students of the archived class have active licenses. Would you like to revoke them so that you can re-apply them to other students?"
     archive_without_revoking: "Archive Without Revoking"
     revoke_and_archive: "Revoke and Archive"
+    license_stats: "Stats"
 
   teacher_licenses:
     active_licenses: "Active Licenses"
