@@ -1,5 +1,6 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
+@import "app/styles/utils"
 
 #hero-victory-modal
   $hero-yellow-text: rgb(252, 201, 53)
@@ -258,13 +259,14 @@
 
   //- Footer
 
-  #lenovo-link
-    width: 100%
-    padding-top: 20px
+  @if $is-ozaria
+    #lenovo-link
+      width: 100%
+      padding-top: 20px
 
-  #sweepstakes-entry
-    height: 60px
-    display: inline-block
+    #sweepstakes-entry
+      height: 60px
+      display: inline-block
 
   #totals
     width: 709px
@@ -381,6 +383,26 @@
 
   .sign-up-poke
     width: 430px
+
+    @if $is-codecombat
+      .sign-up-blurb
+        width: 175px
+        font-family: $headings-font-family
+        font-weight: bold
+        text-transform: uppercase
+        font-size: 18px
+        line-height: 18px
+        text-align: left
+        float: left
+        margin: 5px 0 0 5px
+        color: rgb(160, 150, 126)
+
+      .sign-up-button
+        width: 250px
+        height: 60px
+        line-height: 30px
+        margin: 0
+        float: left
 
   .subscribe-button
     width: 209px
