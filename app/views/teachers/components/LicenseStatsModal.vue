@@ -15,23 +15,25 @@ export default Vue.extend({
 <template lang="pug">
 #modal-base-flat
   .modal-content.style-flat
-    span.glyphicon.glyphicon-remove.button.close
+    span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal")
     h3.modal-header.text-center {{ $t('teacher.license_stats') }}
     .modal-body
       .loading.text-center(v-if="!loading.finished") {{ $t('common.loading') }}
       .stats(v-else)
-        .redeemers(v-if="redeemers.length")
+        .redeemers
           h4.title {{ $t('teacher.redeemers') }}
-          .content
+          .content(v-if="redeemers.length")
             .header
               .name {{ $t('general.name') }}
               .startDate {{ $t('outcomes.start_date') }}
             .user(v-for="user in redeemers")
               .name {{ user.name }}
               .startDate {{ moment(user.date).format('ll') }}
-        .removedRedeemers(v-if="removedRedeemers.length")
+          .content(v-else)
+            .header {{ $t('common.empty_results') }}
+        .removedRedeemers
           h4.title {{ $t('teacher.removed_redeemers') }}
-          .content
+          .content(v-if="removedRedeemers.length")
             .header
               .name {{ $t('general.name') }}
               .startDate {{ $t('outcomes.start_date') }}
@@ -40,6 +42,8 @@ export default Vue.extend({
               .name {{ user.name }}
               .startDate {{ moment(user.startDate).format('ll') }}
               .endDate {{ moment(user.endDate).format('ll') }}
+          .content(v-else)
+            .header {{ $t('common.empty_results') }}
       .text-center.footer-text
         button.btn.btn-lg.btn-navy-alt(data-dismiss="modal")
           span.m-l-3.m-r-3

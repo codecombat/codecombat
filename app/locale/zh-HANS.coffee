@@ -730,6 +730,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     done: "完成"
 #    remove: "Remove"
     locked: "已锁定"
+    empty_results: "未找到结果"
 
   general:
     and: "与"

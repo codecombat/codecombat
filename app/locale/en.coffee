@@ -735,6 +735,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     locked: "Locked"
     internal_error: "Internal Error"
     manage: "Manage"
+    empty_results: "Empty Results."
 
   general:
     and: "and"
