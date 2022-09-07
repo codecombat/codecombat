@@ -1,11 +1,63 @@
 <template>
   <loading-progress :loading-status="loadingStatuses">
     <div v-if="!loading">
-      <div
-        class="btn btn-large"
-        @click="downloads"
-      >
-        Exports
+      <div class="row">
+        <h4>{{ $t('school_administrator.select_time_range') }}</h4>
+      </div>
+      <div class="row">
+        <div class="form-control">
+          <label for=""> {{ $t('teacher.start_date') }}</label>
+          <input
+            v-model="startDate"
+            type="date"
+          >
+        </div>
+        <div class="form-control">
+          <label for=""> {{ $t('teacher.end_date') }}</label>
+          <input
+            v-model="endDate"
+            type="date"
+          >
+        </div>
+        <div
+          class="btn btn-lg btn-navy-alt"
+          @click="downloads"
+        >
+          {{ $t('school_administrator.export') }}
+        </div>
+      </div>
+      <div class="table">
+        <div class="preview note">
+          {{ $t('school_administrator.preview') }}
+        </div>
+        <div class="row header">
+          <span
+            v-for="h in header"
+            :key="'header'+h"
+            class="item"
+          >
+            {{ h }}
+          </span>
+        </div>
+        <div v-if="studentData.length === 0">
+          {{ $t('school_administrator.empty_results') }}
+        </div>
+        <div
+          v-for="(data, idx) in studentData.slice(0, lengthLimit)"
+          :key="'row'+idx"
+          class="row"
+        >
+          <span
+            v-for="(it, index) in data"
+            :key="`row-${idx}-item-${index}`"
+            class="item"
+          >
+            {{ [0, 3, 5].includes(index) ? ('*' + it.slice(18)) : it }}
+          </span>
+        </div>
+        <div v-if="studentData.length > lengthLimit">
+          ...
+        </div>
       </div>
     </div>
   </loading-progress>
@@ -14,6 +66,7 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import LoadingProgress from 'app/views/core/LoadingProgress'
+import moment from 'moment'
 
 export default {
   name: 'LicensesTable',
@@ -22,7 +75,10 @@ export default {
   },
   data () {
     return {
-      myId: undefined
+      myId: undefined,
+      lengthLimit: 200,
+      startDate: moment().subtract(1, 'month').format('YYYY-MM-DD'),
+      endDate: moment().format('YYYY-MM-DD')
     }
   },
   computed: {
@@ -34,7 +90,6 @@ export default {
         return s.prepaids.byTeacher[this.myId]
       }
     }),
-
     ...mapState('schoolAdministrator', {
       teachersLoading: s => s.loading.teachers,
       administratedTeachers: s => s.administratedTeachers || []
@@ -58,6 +113,26 @@ export default {
               ...this.prepaids.empty.map(this.mapPrepaid),
               ...this.prepaids.expired.map(this.mapPrepaid),
               ...this.prepaids.pending.map(this.mapPrepaid)]
+    },
+    timeStart () {
+      return moment(this.startDate)
+    },
+    timeEnd () {
+      return moment(this.endDate)
+    },
+    header () {
+      return 'license,startDate,school,teacherID,teacher,student,startDate,endDate,isActive'.split(',')
+    },
+    studentData () {
+      const data = []
+      for (const license of this.licenseStats) {
+        for (const joiner of license.joiners) {
+          for (const student of joiner.students) {
+            data.push([license.id, license.startDate, joiner.school, joiner.id, joiner.name, student.id, student.startDate, student.endDate, student.active])
+          }
+        }
+      }
+      return data
     }
   },
   created () {
@@ -74,22 +149,18 @@ export default {
       fetchPrepaids: 'prepaids/fetchPrepaidsForTeacher'
     }),
     downloads () {
-      let csvContent = 'license,startDate,school,teacherID,teacher,student,date,endDate\n'
-      for (const license of this.licenseStats) {
-        for (const joiner of license.joiners) {
-          for (const student of joiner.students) {
-            csvContent += `${license.id},${license.startDate},${joiner.school},${joiner.id},${joiner.name},${student.id},${student.date},${license.endDate}\n`
-          }
-        }
-      }
+      let csvContent = `${this.header.join(',')}\n`
       const file = new Blob([csvContent], { type: 'text/csv;charset=utf-8' })
+      this.studentData.forEach((row) => {
+        csvContent += `${row.join(',')}\n`
+      })
       window.saveAs.saveAs(file, `License-stats-${new Date().toLocaleDateString()}.csv`)
     },
     mapPrepaid (prepaid) {
       /* const joiners = prepaid.joiners */
       /* const joinersWithId = window._.indexBy(joiners, 'userID') */
       const teachers = {}
-      prepaid.redeemers.forEach((re) => {
+      const remap = (re, active) => {
         const teacher = this.teacherMap[re.teacherID]
         const trailRequest = teacher?._trialRequest || {}
         if (!(re.teacherID in teachers)) {
@@ -100,10 +171,26 @@ export default {
             students: []
           }
         }
-        teachers[re.teacherID].students.push({
-          id: re.userID,
-          date: new Date(re.date).toLocaleDateString()
-        })
+        const user = { id: re.userID, active }
+        if (active) {
+          user.startDate = new Date(re.date).toLocaleDateString()
+          user.endDate = new Date(prepaid.endDate).toLocaleDateString()
+          if (moment().isAfter(prepaid.endDate)) {
+            user.active = false
+          }
+        } else {
+          user.startDate = new Date(re.startDate).toLocaleDateString()
+          user.endDate = new Date(re.endDate).toLocaleDateString()
+        }
+        if (moment(user.startDate).isBefore(this.endDate) && moment(user.endDate).isAfter(this.startDate)) {
+          teachers[re.teacherID].students.push(user)
+        }
+      }
+      (prepaid.redeemers || []).forEach((re) => {
+        remap(re, true)
+      });
+      (prepaid.removedRedeemers || []).forEach((re) => {
+        remap(re, false)
       })
 
       return {
@@ -117,3 +204,37 @@ export default {
 
 }
 </script>
+
+<style scoped lang="scss">
+.table {
+  margin-top: 10px;
+  .row {
+    display: flex;
+    .item {
+      &:nth-child(1), &:nth-child(4), &:nth-child(6) {
+        flex-basis: 6em;
+      }
+      &:nth-child(2), &:nth-child(7), &:nth-child(8) {
+        flex-basis: 8em;
+      }
+      &:nth-child(3), &:nth-child(5) {
+        flex-basis: 9em;
+      }
+      &:nth-child(9) {
+        flex-basis: 4em;
+      }
+    }
+  }
+  .header {
+    font-weight: 800;
+  }
+  .row {
+    &:nth-child(2n+1) {
+      background-color: #ebebeb;
+    }
+    &:nth-child(2n) {
+      background-color: #f5f5f5;
+    }
+  }
+}
+</style>

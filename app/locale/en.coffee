@@ -3765,6 +3765,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     date_thru_date: '__startDateRange__ thru __endDateRange__'
     teachers: 'Teachers'
     students_enrolled: 'Students Enrolled'
+    select_time_range: 'Select the time range:'
+    export: "Export"
+    preview: 'Here is a preview for top 200 lines, Click the Export to get full stats'
+    empty_results: "Empty Results."
 
   interactives:
     phenomenal_job: 'Phenomenal Job!'
