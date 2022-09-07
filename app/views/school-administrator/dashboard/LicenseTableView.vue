@@ -32,8 +32,8 @@
         </div>
         <div class="row header">
           <span
-            v-for="h in header"
-            :key="'header'+h"
+            v-for="(h, i) in header"
+            :key="`header-${i}-${h}`"
             class="item"
           >
             {{ h }}
