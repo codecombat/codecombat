@@ -438,20 +438,14 @@ module.exports = class AnalyticsView extends RootView
       prepaidUserMap = {}
       for user in data.students
         continue unless studentPaidStatusMap[user._id]
-
-        if utils.isOzaria
-          if prepaidID = user.coursePrepaid?._id
-            studentPaidStatusMap[user._id] = 'paid'
-            prepaidUserMap[prepaidID] ?= []
-            prepaidUserMap[prepaidID].push(user._id)
-        else
-          products = user.products.filter((p) ->
-            return p.product == 'course' && new Date(p.endDate) > now
-          )
-          for product in products
-            studentPaidStatusMap[user._id] = 'paid'
-            prepaidUserMap[product.prepaid] ?= []
-            prepaidUserMap[product.prepaid].push(user._id)
+        # since we use user.products in ozar too
+        products = user.products.filter((p) ->
+          return p.product == 'course' && new Date(p.endDate) > now
+        )
+        for product in products
+          studentPaidStatusMap[user._id] = 'paid'
+          prepaidUserMap[product.prepaid] ?= []
+          prepaidUserMap[product.prepaid].push(user._id)
 
       # Find trial students
       for prepaid in data.prepaids
