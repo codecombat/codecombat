@@ -113,6 +113,7 @@ module.exports = class CampaignView extends RootView
     'click #videos-button': 'onClickVideosButton'
     'click #esports-arena': 'onClickEsportsButton'
     'click a.start-esports': 'onClickEsportsLink'
+    'click .m7-off': 'onClickM7OffButton'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -1054,6 +1055,8 @@ module.exports = class CampaignView extends RootView
     if new Date(me.get('dateCreated')) < new Date('2021-09-21')
       defaultAccess = 'all'
     access = me.getExperimentValue 'home-content', defaultAccess
+    if me.showChinaResourceInfo() or me.get('country') is 'japan'
+      access = 'short'
     freeAccessLevels = (fal.slug for fal in utils.freeAccessLevels when _.any [
       fal.access is 'short'
       fal.access is 'medium' and access in ['medium', 'long', 'extended']
@@ -1338,6 +1341,16 @@ module.exports = class CampaignView extends RootView
     @openModalView new SubscribeModal()
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'campaignview premium button'
 
+  onClickM7OffButton: (e) ->
+    noty({ text: $.i18n.t('play.confirm_m7_off'), layout: 'center', type: 'warning', buttons: [
+      { text: 'Yes', onClick: ($noty) =>
+        if me.getM7ExperimentValue() == 'beta'
+          me.updateExperimentValue('m7', 'control')
+          $noty.close()
+          @render()
+      }, { text: 'No', onClick: ($noty) -> $noty.close() }]
+    })
+
   getLoadTrackingTag: () ->
     @campaign?.get?('slug') or 'overworld'
 
@@ -1544,6 +1557,9 @@ module.exports = class CampaignView extends RootView
 
     if what is 'santa-clara-logo'
       return userUtils.libraryName() is 'santa-clara'
+
+    if what is 'garfield-logo'
+      return userUtils.libraryName() is 'garfield'
 
     if what is 'arapahoe-logo'
       return userUtils.libraryName() is 'arapahoe'

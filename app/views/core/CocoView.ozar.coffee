@@ -59,6 +59,8 @@ module.exports = class CocoView extends Backbone.View
     @listenTo(@supermodel, 'failed', @onResourceLoadFailed)
     @warnConnectionError = _.throttle(@warnConnectionError, 3000)
 
+    $('body').addClass 'product-' + utils.getProductName().toLowerCase()
+
     # Warn about easy-to-create race condition that only shows up in production
     listenedSupermodel = @supermodel
     _.defer =>
