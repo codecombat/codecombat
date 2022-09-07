@@ -21,6 +21,7 @@ module.exports = class LicenseStatsModal extends ModalComponent
     @propsData =
       hide: () => @hide()
       loading: { finished: false }
+      prepaid: @prepaid
       redeemers: @redeemers
       removedRedeemers: @removedRedeemers
 

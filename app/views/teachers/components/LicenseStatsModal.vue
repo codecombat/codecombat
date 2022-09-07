@@ -2,7 +2,7 @@
 const moment = require('moment')
 export default Vue.extend({
   name: 'LicenseStatsModal',
-  props: ['hide', 'loading', 'redeemers', 'removedRedeemers'],
+  props: ['hide', 'loading', 'redeemers', 'removedRedeemers', 'prepaid'],
   computed: {
     moment () {
       return moment
@@ -26,9 +26,11 @@ export default Vue.extend({
             .header
               .name {{ $t('general.name') }}
               .startDate {{ $t('outcomes.start_date') }}
+              .endDate {{ $t('outcomes.end_date') }}
             .user(v-for="user in redeemers")
               .name {{ user.name }}
               .startDate {{ moment(user.date).format('ll') }}
+              .endDate {{ moment(prepaid.get('endDate')).format('ll') }}
           .content(v-else)
             .header {{ $t('common.empty_results') }}
         .removedRedeemers
