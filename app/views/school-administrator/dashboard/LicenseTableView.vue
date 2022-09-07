@@ -6,14 +6,14 @@
       </div>
       <div class="row">
         <div class="form-control">
-          <label for=""> {{ $t('teacher.start_date') }}</label>
+          <label for="startDate"> {{ $t('teacher.start_date') }}</label>
           <input
             v-model="startDate"
             type="date"
           >
         </div>
         <div class="form-control">
-          <label for=""> {{ $t('teacher.end_date') }}</label>
+          <label for="endDate"> {{ $t('teacher.end_date') }}</label>
           <input
             v-model="endDate"
             type="date"
@@ -67,6 +67,7 @@
 import { mapActions, mapState } from 'vuex'
 import LoadingProgress from 'app/views/core/LoadingProgress'
 import moment from 'moment'
+const saveAs = require('file-saver/FileSaver.js')
 
 export default {
   name: 'LicensesTable',
@@ -114,12 +115,6 @@ export default {
               ...this.prepaids.expired.map(this.mapPrepaid),
               ...this.prepaids.pending.map(this.mapPrepaid)]
     },
-    timeStart () {
-      return moment(this.startDate)
-    },
-    timeEnd () {
-      return moment(this.endDate)
-    },
     header () {
       return 'license,startDate,school,teacherID,teacher,student,startDate,endDate,isActive'.split(',')
     },
@@ -136,9 +131,6 @@ export default {
     }
   },
   created () {
-    if (!window.saveAs) {
-      window.saveAs = require('file-saver/FileSaver.js')
-    }
     this.myId = me.get('_id')
     this.fetchTeachers()
     this.fetchPrepaids({ teacherId: this.myId, includeShared: false })
@@ -150,15 +142,13 @@ export default {
     }),
     downloads () {
       let csvContent = `${this.header.join(',')}\n`
-      const file = new Blob([csvContent], { type: 'text/csv;charset=utf-8' })
       this.studentData.forEach((row) => {
         csvContent += `${row.join(',')}\n`
       })
-      window.saveAs.saveAs(file, `License-stats-${new Date().toLocaleDateString()}.csv`)
+      const file = new Blob([csvContent], { type: 'text/csv;charset=utf-8' })
+      saveAs.saveAs(file, `License-stats-${new Date().toLocaleDateString()}.csv`)
     },
     mapPrepaid (prepaid) {
-      /* const joiners = prepaid.joiners */
-      /* const joinersWithId = window._.indexBy(joiners, 'userID') */
       const teachers = {}
       const remap = (re, active) => {
         const teacher = this.teacherMap[re.teacherID]
@@ -173,16 +163,18 @@ export default {
         }
         const user = { id: re.userID, active }
         if (active) {
-          user.startDate = new Date(re.date).toLocaleDateString()
-          user.endDate = new Date(prepaid.endDate).toLocaleDateString()
+          user.startDate = new Date(re.date)
+          user.endDate = new Date(prepaid.endDate)
           if (moment().isAfter(prepaid.endDate)) {
             user.active = false
           }
         } else {
-          user.startDate = new Date(re.startDate).toLocaleDateString()
-          user.endDate = new Date(re.endDate).toLocaleDateString()
+          user.startDate = new Date(re.startDate)
+          user.endDate = new Date(re.endDate)
         }
         if (moment(user.startDate).isBefore(this.endDate) && moment(user.endDate).isAfter(this.startDate)) {
+          user.startDate = user.startDate.toLocaleDateString()
+          user.endDate = user.endDate.toLocaleDateString()
           teachers[re.teacherID].students.push(user)
         }
       }

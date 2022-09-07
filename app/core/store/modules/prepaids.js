@@ -114,12 +114,8 @@ export default {
   },
 
   actions: {
-    fetchPrepaidsForTeacher: ({ commit }, { teacherId, sharedClassroomId, includeShared }) => {
+    fetchPrepaidsForTeacher: ({ commit }, { teacherId, sharedClassroomId, includeShared = true }) => {
       commit('toggleLoadingForTeacher', teacherId)
-
-      if (includeShared === undefined) {
-        includeShared = true
-      }
 
       // Fetch teacher's prepaids and shared prepaids.
       return prepaidsApi.getByCreator(teacherId, { data: { includeShared, sharedClassroomId } })
