@@ -52,7 +52,7 @@
             :key="`row-${idx}-item-${index}`"
             class="item"
           >
-            {{ [0, 3, 5].includes(index) ? ('*' + it.slice(18)) : it }}
+            {{ ([0, 3, 5].includes(index) && it) ? ('*' + it.slice(18)) : it }}
           </span>
         </div>
         <div v-if="studentData.length > lengthLimit">
