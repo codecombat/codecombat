@@ -270,7 +270,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     educator: "教育工作者"
     student: "学生"
     go_to_my_dashboard: "进入我的课程"
-    our_coding_programs: "我们的代码程序"
+    our_coding_programs: "我们的编程课程"
     codecombat: "扣哒世界 (CodeCombat) "
     ozaria: "奥佳睿 (Ozaria) "
     codecombat_blurb: "我们原创的编程游戏，推荐给家长、个人、教育工作者和学生，让他们体验世界上最受欢迎的编程游戏之一。"
@@ -629,7 +629,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     confirm_individual_blurb: "记下这些信息，等会可能用得上。我们已发送验证邮件，验证后可用其重置密码！"
 #    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "记下来："
-    start_playing: "开始"
+    start_playing: "开始！"
     sso_connected: "成功与以下账号关联："
     select_your_starting_hero: "选择你的英雄："
     you_can_always_change_your_hero_later: "之后你可以随时更换。"
@@ -1488,6 +1488,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     jobs_benefit_4: "无限制假期" # {change}
     jobs_benefit_5: "专业开发以及继续教育的支持 - 免费书籍/游戏！"
     jobs_benefit_6: "医疗 (金), 牙科, 视力，交通费" # {change}
+    jobs_benefit_7: "提供站立式办公桌"
     jobs_benefit_9: "10年公司期权"
     jobs_benefit_10: "产假：10周工资及未来6周55%工资"
     jobs_benefit_11: "陪产假: 10周工资" # {change}
