@@ -155,9 +155,13 @@ module.exports = class LevelLoader extends CocoClass
     @loadDependenciesForSession @session
 
   loadSession: ->
+    league = utils.getQueryVariable 'league'
     if @sessionID
       url = "/db/level.session/#{@sessionID}"
-      url += "?interpret=true" if @spectateMode
+      if @spectateMode
+        url += "?interpret=true"
+        if league
+          url = "/db/spectate/#{league}/level.session/#{@sessionID}"
     else
       url = "/db/level/#{@levelID}/session"
       if @team
@@ -165,7 +169,6 @@ module.exports = class LevelLoader extends CocoClass
           url += '?team=humans' # only query for humans when type ladder
         else
           url += "?team=#{@team}"
-        league = utils.getQueryVariable 'league'
         if @level.isType('course-ladder') and league and not @courseInstanceID
           url += "&courseInstance=#{league}"
         else if utils.isCodeCombat and @courseID
@@ -191,6 +194,8 @@ module.exports = class LevelLoader extends CocoClass
     @session = @sessionResource.model
     if @opponentSessionID
       opponentURL = "/db/level.session/#{@opponentSessionID}?interpret=true"
+      if league
+        opponentURL = "/db/spectate/#{league}/level.session/#{@opponentSessionID}"
       if @tournament
         opponentURL = "/db/level.session/#{@opponentSessionID}/tournament-snapshot/#{@tournament}" # this url also get interpret
       opponentSession = new LevelSession().setURL opponentURL
