@@ -201,7 +201,7 @@ module.exports = class AdministerUserModal extends ModelModal
       @state = 'made-prepaid'
       @renderSelectors('#prepaid-form')
       @prepaids.push(prepaid)
-      @renederSelectors('#prepaids-table')
+      @renderSelectors('#prepaids-table')
       $('#prepaids-table').addClass('in')
       setTimeout(() =>
         @state = ''

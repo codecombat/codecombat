@@ -411,6 +411,15 @@ module.exports = class User extends CocoModel
     @set 'experiments', experiments
     experiment
 
+  updateExperimentValue: (experimentName, newValue = null) ->
+    experiments = _.sortBy(@get('experiments') ? [], 'startDate').reverse()
+    experiment = _.find(experiments, name: experimentName)
+    return console.error "No experiment found" unless experiment
+    experiment.value = newValue
+    experiment.probability = 1
+    @set({ experiments })
+    @save()
+
   getExperimentValue: (experimentName, defaultValue=null, defaultValueIfAdmin=null) ->
     # Latest experiment to start with this experiment name wins, in the off chance we have multiple duplicate entries
     defaultValue = defaultValueIfAdmin if defaultValueIfAdmin? and @isAdmin()

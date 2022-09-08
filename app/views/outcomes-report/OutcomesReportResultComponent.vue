@@ -45,7 +45,7 @@ export default Vue.extend({
     },
 
     codeLanguageStats () {
-      if (!this.org.progress) return 
+      if (!this.org.progress) return
       let languageStats = {}
       let totalPrograms = 0
       for (let language of ['python', 'javascript', 'cpp']) {
@@ -127,7 +127,7 @@ export default Vue.extend({
 
   // TODO: figure out how to sync included status back to the parent
   // https://vuejs.org/v2/guide/components-custom-events.html#sync-Modifier
-  
+
   mounted () {
   },
 
@@ -299,7 +299,7 @@ export default Vue.extend({
             .under
               img.code-language-icon(alt="" :src="'/images/common/code_languages/' + stats.language + '_small.png'")
               span= stats.name
-  
+
   .dont-break.block.summary(v-if="org.progress && org.progress.programs > 1 && included")
     h1= $t('clans.summary')
     if org.kind != 'student'
@@ -387,7 +387,23 @@ export default Vue.extend({
 
 
 <style lang="scss">
+@import "app/styles/utils";
+
 #page-outcomes-report .outcomes-report-result-component {
+  $eve: #2d585a;
+  $dawn: #532e48;
+  $moon: #f7d047;
+  $dusk: #5db9ac;
+  $sun: #ff8600;
+
+  @if $is-codecombat {
+    $eve:  rgb(31, 87, 43);
+    $dawn: rgb(14, 75, 96);
+    $moon: rgb(242, 190, 24);
+    $dusk: rgb(75, 96, 14);
+    $sun: rgb(96, 14, 75);
+  }
+
   .address {
     margin-top: 0.25in;
     padding-left: 0.5in;
@@ -438,19 +454,19 @@ export default Vue.extend({
       circle.top {
         fill: transparent;
         stroke-width: 50;
-        stroke: rgb(14, 75, 96);
+        stroke: $dawn;
 
         // TODO: better colors
         &.top1 {
-          stroke: rgb(96, 14, 75);
+          stroke: $sun;
         }
 
         &.top2 {
-          stroke: rgb(75, 96, 14);
+          stroke: $dusk;
         }
       }
       circle.bottom {
-        fill: rgb(242, 190, 24);
+        fill: $moon;
       }
 
       &.code-language-stat {
@@ -567,9 +583,9 @@ export default Vue.extend({
       margin-top: 0.05in;
       margin-bottom: 0.15in;
 
-      background-color: rgb(31, 87, 43);
+      background-color: $eve;
       -webkit-print-color-adjust: exact !important;
-      background: linear-gradient(rgb(31, 87, 43), rgb(31, 87, 43)) !important;
+      background: linear-gradient($eve, $eve) !important;
 
       height: 0.4in;
       line-height: 0.4in;
@@ -640,7 +656,7 @@ export default Vue.extend({
     hr {
       width: 100%;
     }
-    
+
     @media screen {
       height: 1in;
     }

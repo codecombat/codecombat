@@ -48,6 +48,12 @@ module.exports = class PlayGameDevLevelView extends RootView
       isOwner: false
     })
 
+    if utils.isCodeCombat
+      $(window).keydown (event) ->
+        # prevent space from scrolling on the page since it can be used as a control in the game.
+        if (event.keyCode == 32 && event.target == document.body)
+          event.preventDefault()
+
     if utils.getQueryVariable 'dev'
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
@@ -147,7 +153,8 @@ module.exports = class PlayGameDevLevelView extends RootView
       worldCreationOptions = {spells: @spells, preload: false, realTime: true, justBegin: false, keyValueDb: @session.get('keyValueDb') ? {}, synchronous: true}
       @god.createWorld(worldCreationOptions)
       @willUpdateFrontEnd = true
-      @subscribeShortcuts()
+      if utils.isOzaria
+        @subscribeShortcuts()
     .catch (e) =>
       throw e if e.stack
       @state.set('errorMessage', e.message)
@@ -160,12 +167,19 @@ module.exports = class PlayGameDevLevelView extends RootView
     }
 
   onEditLevelButton: ->
+    viewClass = 'views/play/level/PlayLevelView'
     route = "/play/level/#{@level.get('slug')}"
     if @courseID and @courseInstanceID
       route += "?course=#{@courseID}&course-instance=#{@courseInstanceID}"
-    else if codeLanguage = @session.get('codeLanguage') # for anon/indiv users
+    else if utils.isOzaria and codeLanguage = @session.get('codeLanguage') # for anon/indiv users
       route += "?codeLanguage=#{codeLanguage}"
-    application.router.navigate(route, { trigger: true })
+    if utils.isOzaria
+      application.router.navigate(route, { trigger: true })
+    else
+      Backbone.Mediator.publish 'router:navigate', {
+        route, viewClass
+        viewArgs: [{}, @levelID]
+      }
 
   onClickPlayButton: ->
     $('#play-btn').blur()   # Removes focus from the button after clicking on it.
@@ -236,6 +250,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @victoryMessage = @world.uiText?.victoryMessage
 
   getLevelName: () ->
+    # I think `@level.get('displayName')` can go to coco without flagging
     @levelName || @level.get('displayName') || @level.get('name')
 
   updateDb: ->
@@ -256,11 +271,14 @@ module.exports = class PlayGameDevLevelView extends RootView
     key?.deleteScope('play-game-dev-level-view-shortcut-scope')
 
   destroy: ->
-    @unsubscribeShortcuts()
+    if utils.isOzaria
+      @unsubscribeShortcuts()
     @levelLoader?.destroy()
     @surface?.destroy()
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
     delete window.world # not sure where this is set, but this is one way to clean it up
+    if utils.isCodeCombat
+      $(window).off("keydown")
     super()
