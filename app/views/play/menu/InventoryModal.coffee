@@ -18,6 +18,7 @@ CreateAccountModal = require 'views/core/CreateAccountModal'
 SubscribeModal = require 'views/core/SubscribeModal'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
+utils = require 'core/utils'
 
 hasGoneFullScreenOnce = false
 
@@ -748,8 +749,13 @@ module.exports = class InventoryModal extends ModalView
   #- Paper doll equipment updating
   onEquipmentChanged: ->
     heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
+    if utils.isCodeCombat
+      heroSlug = @selectedHero?.get('slug') ? ''
     gender = ThangTypeLib.getGender @selectedHero
-    @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass}"
+    if utils.isCodeCombat
+      @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass} #{heroSlug}"
+    else
+      @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass}"
     equipment = @getCurrentEquipmentConfig()
     @onScrollUnequipped()
     return unless _.size(equipment) and @supermodel.finished()
@@ -771,6 +777,8 @@ module.exports = class InventoryModal extends ModalView
 
   addDollImage: (slot, dollImages, heroClass, gender, item) ->
     heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
+    if utils.isCodeCombat
+      heroSlug = @selectedHero?.get('slug') ? ''
     gender = ThangTypeLib.getGender @selectedHero
     didAdd = false
     if slot is 'pet'
@@ -792,7 +800,10 @@ module.exports = class InventoryModal extends ModalView
       if not imageURL
         console.log "Hmm, should have #{slot} #{imageKey} paper doll image, but don't have it."
       else
-        imageEl = $('<img>').attr('src', "/file/#{imageURL}").addClass("doll-image #{slot} #{heroClass} #{gender} #{_.string.underscored(imageKey).replace(/_/g, '-')}").attr('draggable', false)
+        if utils.isCodeCombat
+          imageEl = $('<img>').attr('src', "/file/#{imageURL}").addClass("doll-image #{slot} #{heroClass} #{heroSlug} #{gender} #{_.string.underscored(imageKey).replace(/_/g, '-')}").attr('draggable', false)
+        else
+          imageEl = $('<img>').attr('src', "/file/#{imageURL}").addClass("doll-image #{slot} #{heroClass} #{gender} #{_.string.underscored(imageKey).replace(/_/g, '-')}").attr('draggable', false)
         @$el.find('#equipped').append imageEl
         didAdd = true
     didAdd
