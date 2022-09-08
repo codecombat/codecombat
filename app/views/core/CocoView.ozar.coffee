@@ -78,7 +78,10 @@ module.exports = class CocoView extends Backbone.View
     view.destroy() for id, view of @subviews
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
     @$el.find('.has-tooltip, [data-original-title]').tooltip 'destroy'
-    @$('.nano').nanoScroller destroy: true
+    try
+      @$('.nano').nanoScroller destroy: true
+    catch e
+      console.log('dont know why but ', @$('.nano'), ' failed with ', e)
     @endHighlight()
     @getPointer(false).remove()
     @[key] = undefined for key, value of @
