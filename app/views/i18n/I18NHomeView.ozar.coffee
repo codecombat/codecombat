@@ -3,8 +3,10 @@ template = require 'app/templates/i18n/i18n-home-view'
 CocoCollection = require 'collections/CocoCollection'
 Courses = require 'collections/Courses'
 Article = require 'models/Article'
-Interactive = require 'ozaria/site/models/Interactive'
-Cutscene = require 'ozaria/site/models/Cutscene'
+utils = require 'core/utils'
+if utils.isOzaria
+  Interactive = require 'ozaria/site/models/Interactive'
+  Cutscene = require 'ozaria/site/models/Cutscene'
 ResourceHubResource = require 'models/ResourceHubResource'
 
 LevelComponent = require 'models/LevelComponent'
@@ -12,7 +14,8 @@ ThangType = require 'models/ThangType'
 Level = require 'models/Level'
 Achievement = require 'models/Achievement'
 Campaign = require 'models/Campaign'
-Cinematic = require 'ozaria/site/models/Cinematic'
+if utils.isOzaria
+  Cinematic = require 'ozaria/site/models/Cinematic'
 Poll = require 'models/Poll'
 
 languages = _.keys(require 'locale/locale').sort()
@@ -46,12 +49,19 @@ module.exports = class I18NHomeView extends RootView
     @campaigns = new CocoCollection([], { url: "/db/campaign#{QUERY_PARAMS}", project: project, model: Campaign })
     @polls = new CocoCollection([], { url: "/db/poll#{QUERY_PARAMS}", project: project, model: Poll })
     @courses = new Courses()
-    @cinematics = new CocoCollection([], { url: "/db/cinematic#{QUERY_PARAMS}", project: project, model: Cinematic })
+    if utils.isOzaria
+      @cinematics = new CocoCollection([], { url: "/db/cinematic#{QUERY_PARAMS}", project: project, model: Cinematic })
     @articles = new CocoCollection([], { url: "/db/article#{QUERY_PARAMS}", project: project, model: Article })
-    @interactive = new CocoCollection([], { url: "/db/interactive#{QUERY_PARAMS}", project: project, model: Interactive })
-    @cutscene = new CocoCollection([], { url: "/db/cutscene#{QUERY_PARAMS}", project: project, model: Cutscene })
+    if utils.isOzaria
+      @interactive = new CocoCollection([], { url: "/db/interactive#{QUERY_PARAMS}", project: project, model: Interactive })
+      @cutscene = new CocoCollection([], { url: "/db/cutscene#{QUERY_PARAMS}", project: project, model: Cutscene })
     @resourceHubResource = new CocoCollection([], { url: "/db/resource_hub_resource#{QUERY_PARAMS}", project: project, model: ResourceHubResource })
-    for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @interactive, @cinematics, @cutscene, @resourceHubResource]
+
+    if utils.isOzaria
+      collections = [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @interactive, @cinematics, @cutscene, @resourceHubResource]
+    else
+      collections = [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @resourceHubResource]
+    for c in collections
       c.skip = 0
 
       c.fetch({data: {skip: 0, limit: PAGE_SIZE}, cache:false})
