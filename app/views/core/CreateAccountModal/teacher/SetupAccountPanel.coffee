@@ -1,8 +1,10 @@
+utils = require 'core/utils'
+
 SetupAccountPanel = Vue.extend
   name: 'setup-account-panel'
   template: require('app/templates/core/create-account-modal/setup-account-panel')()
   data: -> {
-    supportEmail: "<a href='mailto:support@codecombat.com'>support@codecombat.com</a>"
+    supportEmail: if utils.isOzaria then "<a href='mailto:support@ozaria.com'>support@ozaria.com</a>" else "<a href='mailto:support@codecombat.com'>support@codecombat.com</a>"
     saving: true
     error: ''
   }
@@ -41,6 +43,7 @@ SetupAccountPanel = Vue.extend
         .then =>
           # Make sure to add conditions if we change this to be used on non-teacher path
           window.tracker?.trackEvent 'CreateAccountModal Teacher SetupAccountPanel Finish Clicked', category: 'Teachers'
+          # I think the block below can go to both coco/ozaria
           if window.nextURL
             window.location.href = window.nextURL
             return

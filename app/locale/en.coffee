@@ -735,6 +735,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     locked: "Locked"
     internal_error: "Internal Error"
     manage: "Manage"
+    empty_results: "Empty Results."
 
   general:
     and: "and"
@@ -2502,6 +2503,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     archive_revoke_confirm: " students of the archived class have active licenses. Would you like to revoke them so that you can re-apply them to other students?"
     archive_without_revoking: "Archive Without Revoking"
     revoke_and_archive: "Revoke and Archive"
+    license_stats: "License Stats"
+    redeemers: "Active Students"
+    removed_redeemers: "Inactive Students"
 
   teacher_licenses:
     active_licenses: "Active Licenses"
@@ -3773,6 +3777,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     date_thru_date: '__startDateRange__ thru __endDateRange__'
     teachers: 'Teachers'
     students_enrolled: 'Students Enrolled'
+    select_time_range: 'Select the time range:'
+    export: "Export"
+    preview: 'Here is a preview for top 200 lines, Click the Export to get full stats'
+    empty_results: "Empty Results."
 
   interactives:
     phenomenal_job: 'Phenomenal Job!'

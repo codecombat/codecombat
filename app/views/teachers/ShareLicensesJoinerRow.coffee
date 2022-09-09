@@ -34,6 +34,8 @@ module.exports = ShareLicensesJoinerRow =
         this.editing = true
 
       revokeTeacher: ->
+        # coco version can be applied for both, because this code
+        # doesn't run in Ozaria anyway
         if @joiner.licensesUsed > 0
           noty
             text: $.i18n.t 'share_licenses.teacher_delete_warning'

@@ -79,7 +79,7 @@ module.exports = class PollModal extends ModalView
     @updateAnswers true
     @userPollsRecord.save {polls: pollVotes}, {success: =>
       @awardRandomGems?()
-
+      return if utils.isOzaria
       myAnswer = (@userPollsRecord.get('polls') ? {})[@poll.id]
       answerObj = _.find(@poll.get('answers'), (answer) => answer.key == myAnswer) or {}
       nextPollId = answerObj.nextPoll
@@ -164,4 +164,5 @@ commentStarts =
   coffeescript: '# '
   lua: '-- '
   java: '// '
+  # next line applied from coco for both
   cpp: '// '
