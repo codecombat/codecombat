@@ -1,11 +1,13 @@
 require 'app/styles/modal/create-account-modal/school-info-panel.sass'
 NcesSearchInput = require './NcesSearchInput'
 algolia = require 'core/services/algolia'
+utils = require 'core/utils'
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students']
 SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone'])
+# NOTE: Phone number in algolia search results is for a school, not a district
+{ countries } = require 'core/utils';
 countryList = require('country-list')()
 UsaStates = require('usa-states').UsaStates
-# NOTE: Phone number in algolia search results is for a school, not a district
 
 SchoolInfoPanel =
   name: 'school-info-panel'
@@ -23,9 +25,17 @@ SchoolInfoPanel =
         'country'
       ])
 
+    if utils.isOzaria
+      Object.assign formData {
+        countries: countryList.getNames()
+      }
+    else
+      Object.assign formData {
+        countriesList: countryList.getNames()
+      }
+
     return _.assign(ncesData, formData, {
       showRequired: false
-      countries: countryList.getNames()
       usaStates: new UsaStates().states
       usaStatesAbbreviations: new UsaStates().arrayOf('abbreviations')
       countryMap:
@@ -96,5 +106,22 @@ SchoolInfoPanel =
 
   mounted: ->
     $("input[name*='organization']").focus()
+
+    if utils.isOzaria
+      return
+
+    if me.showChinaRegistration()
+      @country = 'China'
+    else
+      userCountry = me.get('country')
+      matchingCountryName = if userCountry then _.find(countryList.getNames(), (c) => c is _.string.slugify(userCountry) or c.toLowerCase() is userCountry.toLowerCase()) else undefined
+      if matchingCountryName
+        @country = matchingCountryName
+      else
+        @country = 'United States'
+
+    if !me.addressesIncludeAdministrativeRegion()
+      @state = ' '
+
 
 module.exports = SchoolInfoPanel

@@ -24,9 +24,17 @@ SchoolInfoPanel =
         'country'
       ])
 
+    if utils.isOzaria
+      Object.assign formData {
+        countries: countryList.getNames()
+      }
+    else
+      Object.assign formData {
+        countriesList: countryList.getNames()
+      }
+
     return _.assign(ncesData, formData, {
       showRequired: false
-      countriesList: countryList.getNames()
       usaStates: new UsaStates().states
       usaStatesAbbreviations: new UsaStates().arrayOf('abbreviations')
       countryMap:
@@ -97,6 +105,9 @@ SchoolInfoPanel =
 
   mounted: ->
     $("input[name*='organization']").focus()
+
+    if utils.isOzaria
+      return
 
     if me.showChinaRegistration()
       @country = 'China'
