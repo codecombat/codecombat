@@ -114,7 +114,7 @@ block content
 
     +createClassButton
 
-    if !me.showChinaResourceInfo()
+    if !me.showChinaResourceInfo() and view.aiLeagueStats
       +clanLeagueStatsMixin(view.aiLeagueStats, (view.teacherClan ? view.teacherClan._id : null), false, null)
 
     if !me.hideOtherProductCTAs()

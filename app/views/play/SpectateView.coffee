@@ -256,7 +256,8 @@ module.exports = class SpectateLevelView extends RootView
     Backbone.Mediator.publish 'level:set-volume', volume: volume
 
   initSpectateCode: ->
-    return @$el.find('.spectate-code').remove() unless me.isAdmin()
+    hasSubmittedCode = @session.get('submittedCode')? and @otherSession.get('submittedCode')?
+    return @$el.find('.spectate-code').remove() unless me.isAdmin() or (me.activeProducts('esports').length and hasSubmittedCode)
     @editors = {}
     for team in ['humans', 'ogres']
       session = if team is 'humans' then @session else @otherSession

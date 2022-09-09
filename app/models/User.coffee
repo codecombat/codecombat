@@ -781,7 +781,7 @@ module.exports = class User extends CocoModel
     options.data ?= body
     @fetch(options)
 
-# Feature Flags
+  # Feature Flags
   # Abstract raw settings away from specific UX changes
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
   canBuyGems: -> false  # Disabled direct buying of gems around 2021-03-16

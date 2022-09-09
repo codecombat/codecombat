@@ -102,6 +102,8 @@ module.exports = class LevelLoader extends CocoClass
           return 'hero' if arguments[0] is 'type'
           return 'web-dev' if arguments[0] is 'realType'
           originalGet.apply @, arguments
+    # I think the modification from https://github.com/codecombat/codecombat/commit/09e354177cb5df7e82cc66668f4c9b6d66d1d740#diff-0aef265179ff51db5b47a0f5be07eea7765664222fcbea6780439f50cd374209L105-R105
+    # Can go to Ozaria as well
     if (@courseID and not @level.isType('course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')) or window.serverConfig.picoCTF
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
       originalGet = @level.get
@@ -153,9 +155,13 @@ module.exports = class LevelLoader extends CocoClass
     @loadDependenciesForSession @session
 
   loadSession: ->
+    league = utils.getQueryVariable 'league'
     if @sessionID
       url = "/db/level.session/#{@sessionID}"
-      url += "?interpret=true" if @spectateMode
+      if @spectateMode
+        url += "?interpret=true"
+        if league
+          url = "/db/spectate/#{league}/level.session/#{@sessionID}"
     else
       url = "/db/level/#{@levelID}/session"
       if @team
@@ -163,10 +169,9 @@ module.exports = class LevelLoader extends CocoClass
           url += '?team=humans' # only query for humans when type ladder
         else
           url += "?team=#{@team}"
-        league = utils.getQueryVariable 'league'
         if @level.isType('course-ladder') and league and not @courseInstanceID
           url += "&courseInstance=#{league}"
-        else if @courseID
+        else if utils.isCodeCombat and @courseID
           url += "&course=#{@courseID}"
           if @courseInstanceID
             url += "&courseInstance=#{@courseInstanceID}"
@@ -189,6 +194,8 @@ module.exports = class LevelLoader extends CocoClass
     @session = @sessionResource.model
     if @opponentSessionID
       opponentURL = "/db/level.session/#{@opponentSessionID}?interpret=true"
+      if league
+        opponentURL = "/db/spectate/#{league}/level.session/#{@opponentSessionID}"
       if @tournament
         opponentURL = "/db/level.session/#{@opponentSessionID}/tournament-snapshot/#{@tournament}" # this url also get interpret
       opponentSession = new LevelSession().setURL opponentURL
