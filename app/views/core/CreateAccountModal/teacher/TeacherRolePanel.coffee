@@ -32,18 +32,21 @@ TeacherRolePanel = Vue.extend
     clickContinue: ->
       # Make sure to add conditions if we change this to be used on non-teacher path
       window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Continue Clicked', category: 'Teachers'
-      requiredAttrs = _.pick(@, ['role', 'numStudents'].concat(if this.phoneNumberRequired then ['phoneNumber'] else []))
+      requiredAttrs = _.pick(@, ['role','numStudents'].concat(if this.phoneNumberRequired then ['phoneNumber'] else []))
       unless _.all(requiredAttrs) and @validPhoneNumber
         @showRequired = true
         return
       @commitValues()
       window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Continue Success', category: 'Teachers'
       # Facebook Pixel tracking for Teacher conversions.
-      window.fbq?('trackCustom', 'OzariaUniqueTeacherSignup')
+      if utils.isOzaria
+        window.fbq?('trackCustom', 'OzariaUniqueTeacherSignup')
+      else
+        window.fbq?('trackCustom', 'UniqueTeacherSignup')
       # Google AdWord teacher conversion.
       gtag?('event', 'conversion', {'send_to': 'AW-811324643/8dp2CJK6_5QBEOOp74ID'});
       @$emit('continue')
-      
+
     clickBack: ->
       @commitValues()
       window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Back Clicked', category: 'Teachers'
