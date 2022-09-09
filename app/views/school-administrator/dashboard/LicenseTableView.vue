@@ -172,7 +172,8 @@ export default {
           user.startDate = new Date(re.startDate)
           user.endDate = new Date(re.endDate)
         }
-        if (moment(user.startDate).isBefore(this.endDate) && moment(user.endDate).isAfter(this.startDate)) {
+        const endDate = this.endDate + ' 23:59:59' // end of day
+        if (moment(user.startDate).isBefore(endDate) && moment(user.endDate).isAfter(this.startDate)) {
           user.startDate = user.startDate.toLocaleDateString()
           user.endDate = user.endDate.toLocaleDateString()
           teachers[re.teacherID].students.push(user)
