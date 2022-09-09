@@ -3765,6 +3765,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     totals_explanation_8: "项目创建"
     totals_explanation_9: "统计创建的游戏和网页总数。"
     date_thru_date: "从 __startDateRange__ 到 __endDateRange__"
+    select_time_range: '选择一个时间段：'
+    export: "下载"
+    preview: '以下为前200行的数据预览，点击下载以获得完整数据'
+    empty_results: "未找到结果"
 
   interactives:
     phenomenal_job: "了不起的工作！"
