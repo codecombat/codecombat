@@ -53,7 +53,7 @@ else
   productHeroClasses =
     Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja', 'stalwart', 'armando-hoyos']
 
-Object assign ThangTypeConstants.heroes productHeroClasses
-Object assign ThangTypeConstants.heroClasses productHeroClasses
+Object.assign ThangTypeConstants.heroes productHeroes
+Object.assign ThangTypeConstants.heroClasses productHeroClasses
 
 module.exports = ThangTypeConstants
