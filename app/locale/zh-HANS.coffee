@@ -730,6 +730,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     done: "完成"
 #    remove: "Remove"
     locked: "已锁定"
+    empty_results: "未找到结果"
 
   general:
     and: "与"
@@ -2494,6 +2495,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    not_write_permission: "You don't have write permission to the class"
 #    not_read_permission: "You don't have read permission to the class"
     owned_license: "已有许可"
+    license_stats: "许可数据"
+    redeemers: "学生（已激活）"
+    removed_redeemers: "学生（曾激活）"
 
   teacher_licenses:
     active_licenses: "可用许可"

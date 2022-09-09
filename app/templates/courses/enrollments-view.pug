@@ -135,11 +135,14 @@ mixin prepaidCard(prepaid, className)
       if prepaid.get('creator') === me.id
         a.share-licenses-link(data-prepaid-id=prepaid.id)
           span(data-i18n="share_licenses.share_licenses")
+        a.license-stats(data-prepaid-id=prepaid.id)
+          span(data-i18n="teacher.license_stats")
       else if !prepaid.creator.loading
-        span(data-i18n="share_licenses.shared_by")
-        = " "
-        a(href="mailto:" + prepaid.creator.get('email'))
-          span= prepaid.creator.broadName()
+        .shared_by
+          span(data-i18n="share_licenses.shared_by")
+          = " "
+          a(href="mailto:" + prepaid.creator.get('email'))
+            span= prepaid.creator.broadName()
 
 mixin addCredits
   .text-center.m-b-3.m-t-3
