@@ -77,6 +77,7 @@ _.extend UserSchema.properties,
   githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
   cleverID: c.shortString({title: 'Clever ID'})
+  edLinkID: c.shortString({title: 'Clever ID'})
   oAuthIdentities: {
     description: 'List of OAuth identities this user has.'
     type: 'array'
@@ -439,15 +440,25 @@ _.extend UserSchema.properties,
       paymentService: { enum: ['stripe', 'testing', 'free', 'api', 'external', 'paypal']}  # Removed 'ios', could perhaps remove 'paypal', could differentiate 'external' further
       paymentDetails:
         c.object {additionalProperties: true},
-          purchaseDate: c.date()  # TODO: separate payment date and invoice date (esp. online classes)?
-          amount: { type: 'integer', description: 'Payment in cents on US server and in RMB cents on the China server' }
+          allOf:
+            purchaseDate: c.date()  # TODO: separate payment date and invoice date (esp. online classes)?
+            amount: { type: 'integer', description: 'Payment in cents on US server and in RMB cents on the China server' }
           # Do we need something about autorenewal / frequency here?
-          oneOf: [
-            { stripeCustomerId: { type: 'string' }, subscriptionId: { type: 'string' }, paymentSession: c.objectId(links: [ {rel: 'extra', href: '/db/payment.session/{($)}'} ]) }  # TODO: other various Stripe-specific options
-            { paypalCustomerId: { type: 'string' } }  # TODO: various PayPal-specific options, if we keep PayPal
-            { staffCreator: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) }  # any other external payment source options?
-            # ... etc. for each possible payment service ...
-          ]
+            oneOf: [
+              { stripeCustomerId: { type: 'string' }, subscriptionId: { type: 'string' }, paymentSession: c.objectId(links: [ {rel: 'extra', href: '/db/payment.session/{($)}'} ]) }  # TODO: other various Stripe-specific options
+              { paypalCustomerId: { type: 'string' } }  # TODO: various PayPal-specific options, if we keep PayPal
+              { staffCreator: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) }  # any other external payment source options?
+              # ... etc. for each possible payment service ...
+            ]
+  edLink: c.object {}, {
+    profileId: { type: 'string' }
+    refreshToken: { type: 'string', description: 'token to get access token to get user details' }
+    identifiers: c.array { description: 'identifiers to canvas, clever etc' },
+      c.object {}, {
+        iType: { type: 'string' }
+        iValue: { type: 'string' }
+      }
+  }
   library: c.object {}, {
     profileId: { type: 'string' }
   }
