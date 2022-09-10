@@ -26,11 +26,11 @@ SchoolInfoPanel =
       ])
 
     if utils.isOzaria
-      Object.assign formData {
+      Object.assign formData, {
         countries: countryList.getNames()
       }
     else
-      Object.assign formData {
+      Object.assign formData, {
         countriesList: countryList.getNames()
       }
 
