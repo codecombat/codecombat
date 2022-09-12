@@ -12,7 +12,7 @@ div.row.p-t-1.p-b-1(v-if="joiner")
   div.col-xs-5(v-if="editing")
     b
       | {{ $t('share_licenses.licenses_limit') }}
-      input(v-model="maxRedeemers" type="number")
+      input(v-model="maxRedeemers" type="number" min=0 :max="prepaid.maxRedeemers")
   div.col-xs-5(v-else)
     b(v-if="joiner.licensesUsed === 1")
       | {{ $t("share_licenses.one_license_used", { all: joiner.maxRedeemers }) }}
