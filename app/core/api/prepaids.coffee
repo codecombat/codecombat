@@ -15,6 +15,12 @@ module.exports = {
       json: { userID }
     })
 
+  setJoinerMaxRedeemers: ({ prepaidID, userID, maxRedeemers}, options={}) ->
+    fetchJson(@url(prepaidID, 'joiners'), _.assign {}, options, {
+      method: 'PUT'
+      json: { userID, maxRedeemers }
+    })
+
   fetchJoiners: ({ prepaidID }, options={}) ->
     fetchJson(@url(prepaidID, 'joiners'))
     

@@ -2566,12 +2566,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teachers_using_these: "Teachers who can access these licenses:"
     footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
     you: "(you)"
-    one_license_used: "(1 license used)"
-    licenses_used: "(__licensesUsed__ licenses used)"
-    licenses_used_no_braces: "__licensesUsed__ licenses used"
+    one_license_used: "(1/__all__ license used)"
+    licenses_used: "(__licensesUsed__/__all__ licenses used)"
+    licenses_used_no_braces: "__licensesUsed__/__all__ licenses used"
     more_info: "More info"
     shared_pool_label: "Teachers in your shared pool:"
     teacher_delete_warning: "The shared licenses assigned to the teacher won't be revoked!"
+    licenses_limit: "Licenses Limit:"
 
   sharing:
     game: "Game"

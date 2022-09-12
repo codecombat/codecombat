@@ -50,6 +50,9 @@ ShareLicensesComponent = Vue.extend
     revokeJoiner: (prepaidID, joiner) ->
       @$store.dispatch('modal/revokeTeacher', {prepaidID: prepaidID, userID: joiner._id}).then =>
         @$emit 'setJoiners', prepaidID, @rawJoiners
+    setJoinerMaxRedeemers: (prepaidID, joiner, maxRedeemers) ->
+      @$store.dispatch('modal/setJoinerMaxRedeemers', {prepaidID: prepaidID, userID: joiner._id, maxRedeemers}).then =>
+        @$emit 'setJoiners', prepaidID, @rawJoiners
   created: ->
   destroyed: ->
     @$store.commit('modal/clearData')
