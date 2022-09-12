@@ -260,9 +260,13 @@ module.exports = class TeacherClassesView extends RootView
     @myClans = clans
     return unless @teacherClan = _.find (clans ? []), (c) -> /teacher/.test c.name
     clansApi.getAILeagueStats(@teacherClan._id).then (stats) =>
-      @aiLeagueStats = JSON.parse(stats)
-      @renderSelectors '.ai-league-stats'
-      @$('.ai-league-stats [data-toggle="tooltip"]').tooltip()
+      try
+        @aiLeagueStats = JSON.parse(stats)
+        @renderSelectors '.ai-league-stats'
+        @$('.ai-league-stats [data-toggle="tooltip"]').tooltip()
+      catch e
+        @aiLeagueStats = undefined
+        console.log('no ai league stats, skip')
 
   onLoaded: ->
     helper.calculateDots(@classrooms, @courses, @courseInstances)
