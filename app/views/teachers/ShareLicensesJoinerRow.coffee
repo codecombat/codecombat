@@ -17,13 +17,22 @@ module.exports = ShareLicensesJoinerRow =
         joiners: []
   created: ->
   data: ->
-    me: me
+    me: me,
+    editing: false,
+    maxRedeemers: @joiner.maxRedeemers
   computed:
     broadName: ->
       (new User(@joiner)).broadName()
   components: {}
   methods:
     {
+      saveJoiner: ->
+        @$emit 'setJoinerMaxRedeemers', @prepaid._id, @joiner, @maxRedeemers
+        this.editing = false
+
+      editJoiner: ->
+        this.editing = true
+
       revokeTeacher: ->
         # coco version can be applied for both, because this code
         # doesn't run in Ozaria anyway

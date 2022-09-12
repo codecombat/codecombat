@@ -2545,11 +2545,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teachers_using_these: "可以访问这些许可证的教师："
     footer: "许可证分配后不支持撤销。"
     you: "（您）"
-    one_license_used: "（1个许可证被使用）"
-    licenses_used: "（__licensesUsed__个许可证被使用）"
-    licenses_used_no_braces: "__licensesUsed__个许可证被使用"
+    one_license_used: "（1/__all__个许可证被使用）"
+    licenses_used: "（__licensesUsed__/__all__个许可证被使用）"
+    licenses_used_no_braces: "__licensesUsed__/__all__个许可证被使用"
     more_info: "更多信息"
     shared_pool_label: "共享池中的老师列表:"
+    licenses_limit: "限制许可证数量："
 
   sharing:
     game: "游戏"
