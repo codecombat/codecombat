@@ -32,6 +32,13 @@ module.exports = ShareLicensesStoreModule =
       })
     revokeTeacher: (state, joinerID) ->
       state._prepaid.joiners = _.filter state._prepaid.joiners, (j) -> j._id != joinerID
+    updateTeacher: (state, {userID, maxRedeemers}) ->
+      state._prepaid.joiners = _.map state._prepaid.joiners, (j) ->
+        if j._id == userID
+          j.maxRedeemers = maxRedeemers
+          if maxRedeemers <= 0 || maxRedeemers >= state._prepaid.maxRedeemers
+            j.maxRedeemers = state._prepaid.maxRedeemers
+        return j
     setError: (state, error) ->
       state.error = error
     clearData: (state) ->
@@ -58,15 +65,22 @@ module.exports = ShareLicensesStoreModule =
         commit('revokeTeacher', input.userID)
       .catch (error) =>
         commit('setError', translateError(error.responseJSON or error))
+    setJoinerMaxRedeemers: ({commit, state}, input) ->
+      api.prepaids.setJoinerMaxRedeemers(input).then =>
+        commit('updateTeacher', input)
+      .catch (error) =>
+        commit('setError', translateError(error.responseJSON or error))
   getters:
     prepaid: (state) ->
       joinersAndMe = state._prepaid.joiners.concat _.assign({ userID: me.id }, me.pick('name', 'firstName', 'lastName', 'email'))
       _.assign({}, state._prepaid, {
         joiners: joinersAndMe.map((joiner) ->
-          _.assign {}, joiner,
+          usage =
             licensesUsed: _.countBy(state._prepaid.redeemers, (redeemer) ->
               (not redeemer.teacherID and joiner.userID is me.id) or (redeemer.teacherID is joiner.userID)
-            )[true] or 0
+            )[true] or 0,
+            maxRedeemers: state._prepaid.maxRedeemers
+          _.assign {}, usage, joiner # so that we get correct maxRedeemers
         ).reverse()
       })
     rawJoiners: (state) ->
