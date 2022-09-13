@@ -1067,7 +1067,7 @@ AILeagueSeasons = [
   {number: 2, championshipType: 'blitz', image: '/images/pages/league/logo_blitz.png',       video: '8a347a9c0da34f487ae4fdaa8234000a', videoThumbnailTime: '837s'}
   {number: 3, championshipType: 'clash', image: '/images/pages/league/logo_clash.png',       video: '26bee42b433e19f789271ae400529025', videoThumbnailTime: '1732s'}
   {number: 4, championshipType: 'cup',   image: '/images/pages/league/tundra-tower-cup.png', video: 'bfbf1a5187888d110ee47f97b7491c2a', videoThumbnailTime: '1568s'}
-  {number: 5, championshipType: 'blitz', image: '/images/pages/league/sand-storm-blitz.png', video: 'a681441780a6d14bbe39e81abaa3635c', videoThumbnailTime: '1638s'}
+  {number: 5, championshipType: 'blitz', image: '/images/pages/league/sand-storm-blitz.png', video: '4d73a54ff2cdc9b0084a538beb476437', videoThumbnailTime: '1638s'}
   {number: 6, championshipType: 'clash', image: '/images/pages/league/lava-lake-clash.png',  video: '',                                 videoThumbnailTime: ''}
 ]
 
