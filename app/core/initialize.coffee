@@ -2,6 +2,7 @@ Backbone.Mediator.setValidationEnabled false
 app = null
 utils = require './utils'
 { installVueI18n } = require 'locale/locale'
+{ log } = require 'ozaria/site/common/logger'
 globalVar = require 'core/globalVar'
 
 VueRouter = require 'vue-router'
@@ -10,14 +11,25 @@ VTooltip = require 'v-tooltip'
 VueMoment = require 'vue-moment'
 VueMeta = require 'vue-meta'
 VueYoutube = require 'vue-youtube'
+VueShepherd = require 'vue-shepherd'
+{ VueMaskDirective } = require 'v-mask'
+VueAsyncComputed = require 'vue-async-computed'
 
 Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
 Vue.use(VueMoment.default)
-Vue.use(VueYoutube.default)
+
+if utils.isCodeCombat
+  Vue.use(VueYoutube.default)
 
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
+
+if utils.isOzaria
+  Vue.use(VueShepherd);
+  Vue.use(utils.vueNonReactiveInstall)
+  Vue.use(VueAsyncComputed)
+  Vue.directive('mask', VueMaskDirective)
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'
@@ -59,19 +71,24 @@ init = ->
   setUpBackboneMediator(app)
   app.initialize()
   loadOfflineFonts() unless app.isProduction()
-  # We always want to load this font.
-  $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/vt323.css">'
+  if utils.isCodeCombat
+    # We always want to load this font.
+    $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/vt323.css">'
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
+  setUpTv4()
   installVueI18n()
-  window.globalVar = globalVar if me.isAdmin() or !app.isProduction() or serverSession?.amActually
+  if utils.isOzaria
+    checkAndLogBrowserCrash()
+    checkAndRegisterHocModalInterval()
+  window.globalVar = globalVar if me.isAdmin() or !app.isProduction() or serverSession?.amActually or serverSession?.switchingUserActualId
   parent.globalVar = globalVar if self != parent
 
 module.exports.init = init
 
 handleNormalUrls = ->
-  # http://artsy.github.com/blog/2012/06/25/replacing-hashbang-routes-with-pushstate/
+  # https://artsy.github.io/blog/2012/06/25/replacing-hashbang-routes-with-pushstate/
   $(document).on 'click', "a[href^='/']", (event) ->
 
     href = $(event.currentTarget).attr('href')
@@ -97,12 +114,32 @@ handleNormalUrls = ->
 setUpBackboneMediator = (app) ->
   Backbone.Mediator.addDefSchemas schemas for definition, schemas of definitionSchemas
   Backbone.Mediator.addChannelSchemas schemas for channel, schemas of channelSchemas
+  # Major performance bottleneck if it is true in production
   Backbone.Mediator.setValidationEnabled(not app.isProduction())
-  if false  # Debug which events are being fired
-    originalPublish = Backbone.Mediator.publish
-    Backbone.Mediator.publish = ->
-      console.log 'Publishing event:', arguments... unless /(tick|frame-changed)/.test(arguments[0])
-      originalPublish.apply Backbone.Mediator, arguments
+
+  if window.location.hostname == 'localhost'
+    if window.sessionStorage?.getItem('COCO_DEBUG_LOGGING') == "1"
+      unwantedEventsRegex = new RegExp('tick|mouse-moved|mouse-over|mouse-out|hover-line|check-away|new-thang-added|zoom-updated|away-back')
+      unwantedStackRegex = new RegExp('eval|debounce|defer|delay|Backbone|Idle')
+      originalPublish = Backbone.Mediator.publish
+      Backbone.Mediator.publish = ->
+        unless unwantedEventsRegex.test(arguments[0])
+          try
+            splitStack = (new Error()).stack.split("\n").slice(1)
+            maxDepth = 5
+            for s, i in splitStack
+              break if i > maxDepth
+              filteredStack = s.trim().replace(/at\ |prototype|module|exports/gi, '').replace('..', '')
+              filteredStack = filteredStack.split('(webpack-internal')[0]
+              unless unwantedStackRegex.test(filteredStack)
+                console.log ">>> #{filteredStack}->", arguments...
+                break
+          catch
+            console.log ">>> ? -> ", arguments...
+
+        originalPublish.apply Backbone.Mediator, arguments
+    else
+      console.log("Not logging Backbone events. Turn on by typing this in your browser console: window.sessionStorage.setItem('COCO_DEBUG_LOGGING', 1)")
 
 setUpMoment = ->
   {me} = require 'core/auth'
@@ -116,6 +153,21 @@ setUpMoment = ->
   setMomentLanguage me.get('preferredLanguage', true)
   me.on 'change:preferredLanguage', (me) ->
     setMomentLanguage me.get('preferredLanguage', true)
+
+setUpTv4 = ->
+  forms = require 'core/forms'
+  tv4.addFormat({
+  'email': (email) ->
+    if forms.validateEmail(email)
+      return null
+    else
+      return {code: tv4.errorCodes.FORMAT_CUSTOM, message: $.t('form_validation_errors.requireValidEmail')}
+  'phoneNumber': (phoneNumber) ->
+    if forms.validatePhoneNumber(phoneNumber)
+      return null
+    else
+      return {code: tv4.errorCodes.FORMAT_CUSTOM, message: $.t('form_validation_errors.requireValidPhone')}
+  })
 
 setupConsoleLogging = ->
   # IE9 doesn't expose console object unless debugger tools are loaded
@@ -188,6 +240,9 @@ setUpIOSLogging = ->
 loadOfflineFonts = ->
   $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/openSansCondensed.css">'
   $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/openSans.css">'
+  if utils.isOzaria
+    $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/workSans.css">'
+    $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/spaceMono.css">'
 
 # This is so hacky... hopefully it's restrictive enough to not be slow.
 # We could also keep a list of events we are actually subscribed for and only try to send those over.
@@ -218,12 +273,34 @@ window.serializeForIOS = serializeForIOS = (obj, depth=3) ->
   seen = null if root
   clone
 
+# We refresh the browser between levels due to memory leak issues
+# hence should register hoc progress modal check after every refresh if relevant
+checkAndRegisterHocModalInterval = ->
+  if window.sessionStorage?.getItem('hoc_progress_modal_time') # set in unit map
+    utils.registerHocProgressModalCheck()
+
+# Check if the crash happened, and log it on datadog. Note that the application should be initialized before this.
+checkAndLogBrowserCrash = ->
+  if window.sessionStorage?.getItem('oz_crashed')
+    log('Browser crashed', {}, 'error')
+    window.sessionStorage?.removeItem('oz_crashed')
+
 window.onbeforeunload = (e) ->
+  if utils.isOzaria
+    window.sessionStorage?.setItem('oz_exit', 'true')
   leavingMessage = _.result(globalVar.currentView, 'onLeaveMessage')
   if leavingMessage
     # Custom messages don't work any more, main browsers just show generic ones. So, this could be refactored.
     return leavingMessage
   else
     return
+
+if utils.isOzaria
+  window.onload = () ->
+    if window.sessionStorage
+      # Check if the browser crashed before the current loading in order to log it on datadog
+      if window.sessionStorage.getItem('oz_exit') and window.sessionStorage.getItem('oz_exit') != 'true'
+        window.sessionStorage.setItem('oz_crashed', 'true');
+      window.sessionStorage.setItem('oz_exit', 'pending');
 
 $ -> init()

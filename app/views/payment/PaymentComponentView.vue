@@ -6,7 +6,7 @@
       </div>
     </template>
     <template v-else-if="paymentGroup && paymentGroup.groupType ==='studentLicenses' &&
-      me && !me.anonymous">
+      me && (!me.anonymous || (paymentGroup.metadata && paymentGroup.metadata.isTecmilenioPartner))">
       <payment-student-licenses-component
         :payment-group="paymentGroup"
       />
@@ -26,20 +26,20 @@
 </template>
 
 <script>
-import PaymentOnlineClassesView from "./PaymentOnlineClassesView";
-import PaymentStudentLicensesComponent from './PaymentStudentLicensesComponent'
+import PaymentOnlineClassesView from "./online-class/PageView";
+import PaymentStudentLicensesComponent from './student-license/PageView'
 export default {
   name: "PaymentComponentView",
   components: {
     PaymentOnlineClassesView,
-    PaymentStudentLicensesComponent,
+    PaymentStudentLicensesComponent
   },
   data() {
     return {
-      me: me.attributes,
-    };
+      me: me.attributes
+    }
   },
-  created() {
+  created(){
     this.$store.dispatch('paymentGroups/fetch', this.$route.params.slug);
   },
   computed: {

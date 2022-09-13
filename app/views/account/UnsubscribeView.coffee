@@ -1,6 +1,6 @@
 require('app/styles/account/unsubscribe-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/account/unsubscribe-view'
+template = require 'app/templates/account/unsubscribe-view'
 {me} = require 'core/auth'
 utils = require 'core/utils'
 

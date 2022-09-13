@@ -45,7 +45,7 @@ export default Vue.extend({
     },
 
     codeLanguageStats () {
-      if (!this.org.progress) return 
+      if (!this.org.progress) return
       let languageStats = {}
       let totalPrograms = 0
       for (let language of ['python', 'javascript', 'cpp']) {
@@ -127,7 +127,7 @@ export default Vue.extend({
 
   // TODO: figure out how to sync included status back to the parent
   // https://vuejs.org/v2/guide/components-custom-events.html#sync-Modifier
-  
+
   mounted () {
   },
 
@@ -183,11 +183,12 @@ export default Vue.extend({
       if codeLanguageString
         span  (#{codeLanguageString})
       if !included && org.progress && org.progress.studentsWithCode && org.kind != 'student'
-        span  - #{org.progress.studentsWithCode} #{$t('courses.students')}
+        span  - #{org.progress.studentsWithCode} #{$t('courses.students').toLocaleLowerCase()}
       label.edit-label.editing-only(:for="'includeOrg-' + org._id" v-if="editing && isSubOrg")
         span  &nbsp;
         input(:id="'includeOrg-' + org._id" name="'includeOrg-' + org._id" type="checkbox" v-model="included")
-        span= $t('outcomes.include')
+        span= ' '
+        span= $t('outcomes.include').toLocaleLowerCase()
       if included && isAdmin && editing
         span(v-if="org.address")
           br
@@ -210,7 +211,7 @@ export default Vue.extend({
       if included && org.students && org.kind == 'course' && parentOrgKind != 'student'
         for student in org.students
           br
-          span= 'Student: '
+          span= $t('courses.student') + ': '
           a(:href="'/outcomes-report/student/' + student._id" target="_blank")
             b= student.displayName
       if included && org.classrooms && org.kind == 'student' && parentOrgKind != 'classroom'
@@ -219,7 +220,7 @@ export default Vue.extend({
           span= $t('outcomes.classroom') + ': '
           a(:href="'/outcomes-report/classroom/' + classroom._id" target="_blank")
             b= classroom.name
-          span  #{classroom.codeLanguage} - #{formatNumber(classroom.studentCount)} #{$t('courses.students')}
+          span  #{classroom.codeLanguage} - #{formatNumber(classroom.studentCount)} #{$t('courses.students').toLocaleLowerCase()}
       if included && org.teachers && ['classroom', 'student'].indexOf(org.kind) != -1 && ['teacher', 'classroom'].indexOf(parentOrgKind) == -1
         for teacher in org.teachers
           br
@@ -262,7 +263,7 @@ export default Vue.extend({
               .under= $t('courses.complete')
             .el(v-if="org.kind != 'student'")
               .big #{formatNumber(course.studentsStarting)}
-              .under= course.studentsStarting === 1 ? $t("courses.student") : $t("courses.students")
+              .under= (course.studentsStarting === 1 ? $t("courses.student") : $t("courses.students")).toLocaleLowerCase()
             .el.concepts-list
               b= $t('outcomes.key_concepts') + ':'
               ul
@@ -276,7 +277,7 @@ export default Vue.extend({
               circle.bottom(r=radius,cx=radius,cy=radius)
               circle.top(r=radius / 2, cx=radius, cy=radius, :style="'stroke-dasharray: ' + 3.1415926 * 50 * course.completion + 'px ' + 3.1415926 * 50 + 'px'")
             if org.kind != 'student'
-              .overlay-text.top-text #{formatNumber(course.studentsStarting)} #{course.studentsStarting === 1 ? $t('courses.student') : $t('courses.students')}
+              .overlay-text.top-text #{formatNumber(course.studentsStarting)} #{(course.studentsStarting === 1 ? $t('courses.student') : $t('courses.students')).toLocaleLowerCase()}
             .overlay-text.mid-text= course.acronym
             .overlay-text.bot-text= Math.round(100 * course.completion) + '% ' + $t('courses.complete')
 
@@ -298,7 +299,7 @@ export default Vue.extend({
             .under
               img.code-language-icon(alt="" :src="'/images/common/code_languages/' + stats.language + '_small.png'")
               span= stats.name
-  
+
   .dont-break.block.summary(v-if="org.progress && org.progress.programs > 1 && included")
     h1= $t('clans.summary')
     if org.kind != 'student'
@@ -307,9 +308,9 @@ export default Vue.extend({
         div
           | #{formatNumber(org.progress.studentsWithCode)}
           = " "
-          small= org.progress.studentsWithCode == 1 ? $t('courses.student') : $t('courses.students')
+          small= (org.progress.studentsWithCode == 1 ? $t('courses.student') : $t('courses.students')).toLocaleLowerCase()
     if org.kind === 'student'
-      h4= (org.displayName || org.name) + $t('outcomes.wrote')
+      h4= (org.displayName || org.name) + ' ' + $t('outcomes.wrote')
     else
       h4= $t('outcomes.wrote')
     .fakebar
@@ -341,7 +342,7 @@ export default Vue.extend({
           = " "
           small= $t('outcomes.report_content_1') + (org.progress.projects == 1 ? $t('outcomes.project') : $t('outcomes.projects'))
     if org.progress && org.progress.sampleSize < org.progress.populationSize
-      em=  "* " + $t('outcomes.progress_stast', {sampleSize: formatNumber(org.progress.sampleSize), populationSize: formatNumber(org.progress.populationSize)})
+      em=  "* " + $t('outcomes.progress_stats', {sampleSize: formatNumber(org.progress.sampleSize), populationSize: formatNumber(org.progress.populationSize)})
 
   .block(v-if="included && false")
     h1 Uncategorized Info
@@ -386,7 +387,23 @@ export default Vue.extend({
 
 
 <style lang="scss">
+@import "app/styles/utils";
+
 #page-outcomes-report .outcomes-report-result-component {
+  $eve: #2d585a;
+  $dawn: #532e48;
+  $moon: #f7d047;
+  $dusk: #5db9ac;
+  $sun: #ff8600;
+
+  @if $is-codecombat {
+    $eve:  rgb(31, 87, 43);
+    $dawn: rgb(14, 75, 96);
+    $moon: rgb(242, 190, 24);
+    $dusk: rgb(75, 96, 14);
+    $sun: rgb(96, 14, 75);
+  }
+
   .address {
     margin-top: 0.25in;
     padding-left: 0.5in;
@@ -437,19 +454,19 @@ export default Vue.extend({
       circle.top {
         fill: transparent;
         stroke-width: 50;
-        stroke: rgb(14, 75, 96);
+        stroke: $dawn;
 
         // TODO: better colors
         &.top1 {
-          stroke: rgb(96, 14, 75);
+          stroke: $sun;
         }
 
         &.top2 {
-          stroke: rgb(75, 96, 14);
+          stroke: $dusk;
         }
       }
       circle.bottom {
-        fill: rgb(242, 190, 24);
+        fill: $moon;
       }
 
       &.code-language-stat {
@@ -566,9 +583,9 @@ export default Vue.extend({
       margin-top: 0.05in;
       margin-bottom: 0.15in;
 
-      background-color: rgb(31, 87, 43);
+      background-color: $eve;
       -webkit-print-color-adjust: exact !important;
-      background: linear-gradient(rgb(31, 87, 43), rgb(31, 87, 43)) !important;
+      background: linear-gradient($eve, $eve) !important;
 
       height: 0.4in;
       line-height: 0.4in;
@@ -639,7 +656,7 @@ export default Vue.extend({
     hr {
       width: 100%;
     }
-    
+
     @media screen {
       height: 1in;
     }

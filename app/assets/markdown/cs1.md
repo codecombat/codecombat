@@ -66,9 +66,9 @@ teacher.dropBall()
 - Desk or table
 - Recycling bin
 - Balls of paper to recycle
-- Optional: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- Optional: [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
-- Optional: [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- Optional: [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- Optional: [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- Optional: [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 #### Learning Objectives
 
@@ -171,9 +171,9 @@ Sample Response:
 #### Additional Supports:
 - Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
 - Students struggling with a given level will be automatically directed to additional practice levels within the game.
-- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- If students struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem-solving approach.
-- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If students struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem-solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 #### Extension Activities:
 
@@ -186,13 +186,13 @@ Sample Response:
 
 In prior levels, students have had to write long sequences of actions with no shortcuts. Levels 9-14 introduce loops, which allow them to achieve more with fewer lines of code. Specifically, students use **while True loops** which allow a block of code to be repeated infinitely until the level is completed.
 
-The puzzles in this section are harder to solve than in the first module. Encourage collaboration among your students as they first must understand what their goal is, then devise a strategy for solving the level, then put that plan into action. Consider using the [Pair Programming approach](https://codecombat.com/teachers/resources/pair-programming) or the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf).
+The puzzles in this section are harder to solve than in the first module. Encourage collaboration among your students as they first must understand what their goal is, then devise a strategy for solving the level, then put that plan into action. Consider using the [Pair Programming approach](https://codecombat.com/teachers/resources/pair-programming) or the [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf).
 
 #### Materials
-- Optional: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- Optional: [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 - Optional: [Pair Programming Guide](https://codecombat.com/teachers/resources/pair-programming)
-- Optional: [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
-- Optional: [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- Optional: [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- Optional: [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 
 #### Learning Objectives
@@ -321,9 +321,9 @@ Sample Response:
 #### Additional Supports:
 - Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
 - Students struggling with a given level will be automatically directed to additional practice levels within the game.
-- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- If students struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem-solving approach.
-- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If students struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem-solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 #### Extension Activities:
 
@@ -341,16 +341,33 @@ Sample Response:
 #### _(Levels 15 - 17)_
 ### Summary
 
-Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like "School Supplies", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called "School Supplies". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings.  
+Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like "School Supplies", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called "School Supplies". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings. In many programming languages, we need to declare the type of data a variable can store before using it. For example, in Java, a variable named “age” which stores the value 16, has to be declared with the integer data type, by preceding the assignment statement with the word “int”, to not result in errors. It would look like this: 
+
+```java
+int age = 16;
+```
+
+There are many other data types that can be used with variables. These types include numbers, Booleans, lists, and strings. 
+
+The following is a list of the most common data types and what they represent:
+
+| Type      | Description | Example |
+| ----------- | ----------- | ----------- |
+| String (or str or text)      |  for characters, letters, numbers and symbols.       | “43llo” |
+| Integer (or int)   |  for whole numbers        |    44, 6, 9028     |
+| Float (or Real)   |   for numbers that contain decimal points, or fractions.        |    8.443, 3.5, 0.92     |
+| Boolean (or bool)   |  True/False       |    -   |
+
+For further information, share the following article with students: https://www.bbc.co.uk/bitesize/guides/zwmbgk7/revision/3
 
 In these levels, variables are used to name enemies, so that the hero knows which character to attack.
 
 #### Materials
 - shoebox, or other small container, with a blank label
 - assortment of school supplies
-- Optional: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- Optional: [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
-- Optional: [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- Optional: [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- Optional: [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- Optional: [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 
 #### Learning Objectives
@@ -450,9 +467,9 @@ Sample Response:
 #### Additional Supports:
 - Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
 - Students struggling with a given level will be automatically directed to additional practice levels within the game.
-- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- If students struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem-solving approach.
-- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If students struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem-solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 #### Extension Activities:
 
@@ -466,9 +483,9 @@ Sample Response:
 The arena level is an opportunity for students to creatively apply all the concepts they have learned to develop a program that solves a problem. Students first develop an algorithm that will defeat a computer opponent, then they compete against classmates, refining their algorithm to beat the level as quickly as possible. The friendly competition in this level is intended to motivate students to apply an iterative development process, creating and testing multiple possible solutions. Students can also work collaboratively using a pair programming approach, which may make the competition more comfortable for some students.
 
 #### Materials
-- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
 - Optional: [Pair Programming Guide](https://codecombat.com/teachers/resources/pair-programming)
-- Optional: [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- Optional: [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 
 #### Learning Objectives
@@ -508,7 +525,7 @@ PLAN: Choose one part of the problem to solve first. What do you need the comput
 IMPLEMENT: Write the solution to each part of your problem in code. 
 TEST: Run your code! Does it solve the problem the way you intended? If not, redesign. Does it work without errors? If not, trace through it to find and fix the bug(s), then test again. Once it works, move on to the planning and implementing the next part! 
 
-Provide each student with a copy of the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) that they can use to plan their program once they navigate to the level. 
+Provide each student with a copy of the [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) that they can use to plan their program once they navigate to the level. 
 
 
 #### Discuss

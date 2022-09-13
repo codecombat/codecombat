@@ -111,7 +111,7 @@ export default class DriftTracker extends BaseTracker {
   }
 
   get isChatEnabled () {
-    return !this.onPlayPage && !this.store.getters['me/isStudent'] && !this.store.getters['me/isHomePlayer']  // && !this.disableAllTracking
+    return !this.onPlayPage && !this.store.getters['me/isStudent'] && !this.store.getters['me/isHomePlayer'] && this.store.getters['me/isTeacher']
   }
 
   async updateDriftConfiguration () {
@@ -147,7 +147,7 @@ export default class DriftTracker extends BaseTracker {
 
     await this.initializationComplete
     if (!window.drift) {
-      return;
+      return
     }
 
     const { me } = this.store.state
@@ -177,12 +177,15 @@ export default class DriftTracker extends BaseTracker {
     })
   }
 
-  async trackPageView (includeIntegrations = []) {
+  async trackPageView () {
     if (this.disableAllTracking) {
       return
     }
 
     await this.initializationComplete
+    if (!window.drift) {
+      return
+    }
 
     const url = `/${Backbone.history.getFragment()}`
     await window.drift.page(url)
@@ -194,6 +197,9 @@ export default class DriftTracker extends BaseTracker {
     }
 
     await this.initializationComplete
+    if (!window.drift) {
+      return
+    }
 
     await window.drift.track(action, properties)
   }

@@ -322,7 +322,8 @@ OutcomesReportComponent = {
                   _.min _.map classroom.sessions, (s) -> new Date(s.created)
             Promise.all([
               @fetchCourseInstances(teacher).then (courseInstances) =>
-                _.remove courseInstances, (c) -> c.courseID is '5d41d731a8d1836b5aa3cba1'  # Skip Oz CH1, deleted
+                if utils.isCodeCombat
+                  _.remove courseInstances, (c) -> c.courseID is '5d41d731a8d1836b5aa3cba1'  # Skip Oz CH1, deleted
                 @courseInstances = courseInstances
               @fetchCourses().then (courses) =>
                 @courses = courses
@@ -330,7 +331,8 @@ OutcomesReportComponent = {
               courseIDs = _.uniq courseInstances.map (courseInstance) =>
                 courseInstance.courseID
               indexedCourses = _.indexBy(courses, '_id')
-              courseIDs = _.filter courseIDs, (courseID) => indexedCourses[courseID]  # Skip unmatched courses, like deleted Oz CH1
+              if utils.isCodeCombat
+                courseIDs = _.filter courseIDs, (courseID) => indexedCourses[courseID]  # Skip unmatched courses, like deleted Oz CH1
               @courses = utils.sortCourses(courseIDs.map (courseID) =>
                 indexedCourses[courseID]
               )
@@ -404,7 +406,7 @@ OutcomesReportComponent = {
 
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 
 #outcomes-report-view
   textarea

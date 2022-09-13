@@ -1,8 +1,8 @@
 SuperModel = require 'models/SuperModel'
 utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
-loadingScreenTemplate = require 'templates/core/loading'
-loadingErrorTemplate = require 'templates/core/loading-error'
+loadingScreenTemplate = require 'app/templates/core/loading'
+loadingErrorTemplate = require 'app/templates/core/loading-error'
 require('app/styles/core/loading-error.sass')
 auth = require 'core/auth'
 ViewVisibleTimer = require 'core/ViewVisibleTimer'
@@ -59,6 +59,8 @@ module.exports = class CocoView extends Backbone.View
     @listenTo(@supermodel, 'failed', @onResourceLoadFailed)
     @warnConnectionError = _.throttle(@warnConnectionError, 3000)
 
+    $('body').addClass 'product-' + utils.getProductName().toLowerCase()
+
     # Warn about easy-to-create race condition that only shows up in production
     listenedSupermodel = @supermodel
     _.defer =>
@@ -75,9 +77,13 @@ module.exports = class CocoView extends Backbone.View
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
-    $('#modal-wrapper .modal').off 'shown.bs.modal', @modalShown
+    if utils.isCodeCombat
+      $('#modal-wrapper .modal').off 'shown.bs.modal', @modalShown
     @$el.find('.has-tooltip, [data-original-title]').tooltip 'destroy'
-    @$('.nano').nanoScroller destroy: true
+    try
+      @$('.nano').nanoScroller destroy: true
+    catch e
+      console.log('dont know why but ', @$('.nano'), ' failed with ', e)
     @endHighlight()
     @getPointer(false).remove()
     @[key] = undefined for key, value of @
@@ -209,6 +215,7 @@ module.exports = class CocoView extends Backbone.View
     context.serverConfig = window.serverConfig
     context.serverSession = window.serverSession
     context.features = window.features
+    context.getQueryVariable = utils.getQueryVariable
     context
 
   afterRender: ->
@@ -259,7 +266,11 @@ module.exports = class CocoView extends Backbone.View
     # so we go directly to zendesk. This could potentially be improved in the future by checking
     # availability of support somehow, and going to zendesk if no one is there to answer drift chat.
     openDirectContactModal = =>
-      DirectContactModal = require('app/views/core/DirectContactModal').default
+      if utils.isCodeCombat
+        DirectContactModal = require('app/views/core/DirectContactModal').default
+      else
+        DirectContactModal = require('ozaria/site/views/core/DirectContactModal').default
+
       @openModalView(new DirectContactModal())
 
     if (me.isTeacher(true) and window?.tracker?.drift?.openChat) or me.showChinaResourceInfo()
@@ -303,12 +314,15 @@ module.exports = class CocoView extends Backbone.View
     modalOptions = {show: true, backdrop: if modalView.closesOnClickOutside then true else 'static'}
     if typeof modalView.closesOnEscape is 'boolean' and modalView.closesOnEscape is false # by default, closes on escape, i.e. if modalView.closesOnEscape = undefined
       modalOptions.keyboard = false
-    $('.modal-backdrop').remove()  # Hack: get rid of any extras that might be left over from mishandled Vue modals
-    modalRef = $('#modal-wrapper .modal').modal(modalOptions)
-    # Hack: Vue modals don't know how to turn the background off because they never really close/destroy. Or maybe they just create two copies sometimes? So, if this is a Vue modal, hide its modal-backdrop
-    $('.modal-backdrop').toggleClass 'vue-modal', Boolean(modalView.VueComponent)
-    modalRef.on 'hidden.bs.modal', @modalClosed
-    modalRef.on 'shown.bs.modal', @modalShown
+    if utils.isCodeCombat
+      $('.modal-backdrop').remove()  # Hack: get rid of any extras that might be left over from mishandled Vue modals
+      modalRef = $('#modal-wrapper .modal').modal(modalOptions)
+      # Hack: Vue modals don't know how to turn the background off because they never really close/destroy. Or maybe they just create two copies sometimes? So, if this is a Vue modal, hide its modal-backdrop
+      $('.modal-backdrop').toggleClass 'vue-modal', Boolean(modalView.VueComponent)
+      modalRef.on 'hidden.bs.modal', @modalClosed
+      modalRef.on 'shown.bs.modal', @modalShown
+    else
+      $('#modal-wrapper .modal').modal(modalOptions).on 'hidden.bs.modal', @modalClosed
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
     Backbone.Mediator.publish 'modal:opened', {}
@@ -580,8 +594,8 @@ module.exports = class CocoView extends Backbone.View
       @playSound 'full-screen-end' if req
     return
 
-  playSound: (trigger, volume=1) ->
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: trigger, volume: volume
+  playSound: (trigger, volume=1, delay=0, pos=null, pan=0) ->
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: trigger, volume: volume, delay: delay, pos: pos, pan: pan
 
   tryCopy: ->
     try

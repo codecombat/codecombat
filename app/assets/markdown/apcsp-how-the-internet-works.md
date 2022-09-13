@@ -12,6 +12,18 @@ Inquiry Activity
  
 Begin by giving students 3-5 minutes to write down how they think the internet works. Have two or three students share their thoughts. For now, don’t focus on letting them know if they are right or wrong - instead allow them to simply share their differing views with the class.
 
+##  What is the Internet?
+
+
+- Have the students watch this code.org video [“The Internet: Packets, Routing & Reliability”](https://www.youtube.com/watch?v=AYdF7b3nMto)
+- Discuss the video with your class. 
+- Use the following questions to check their understanding:
+  - How has the internet been engineered to be fault tolerant?
+  - What happens If a particular device or connection on the Internet fails?
+
+- The World Wide Web: Discuss the difference between the internet, a network of connected computers that the web works, and the World Wide Web, a system of linked pages, programs, and files. Establish with them how the World Wide Web uses the internet to display different types of media.
+
+
 ## Internet Protocol (IP) Address
 
 Ask the students who has heard of an IP address before. Feel free to let students quickly discuss what they think an IP address is. Share the following definition by either writing it on the board or projecting a slide of it:

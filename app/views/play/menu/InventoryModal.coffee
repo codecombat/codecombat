@@ -1,10 +1,10 @@
 require('app/styles/play/menu/inventory-modal.sass')
 require('app/styles/play/modal/play-items-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/menu/inventory-modal'
-buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
-earnGemsPromptTemplate = require 'templates/play/modal/earn-gems-prompt'
-subscribeForGemsPrompt = require 'templates/play/modal/subscribe-for-gems-prompt'
+template = require 'app/templates/play/menu/inventory-modal'
+buyGemsPromptTemplate = require 'app/templates/play/modal/buy-gems-prompt'
+earnGemsPromptTemplate = require 'app/templates/play/modal/earn-gems-prompt'
+subscribeForGemsPrompt = require 'app/templates/play/modal/subscribe-for-gems-prompt'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 ThangTypeLib = require 'lib/ThangTypeLib'
@@ -18,6 +18,7 @@ CreateAccountModal = require 'views/core/CreateAccountModal'
 SubscribeModal = require 'views/core/SubscribeModal'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
+utils = require 'core/utils'
 
 hasGoneFullScreenOnce = false
 
@@ -748,9 +749,13 @@ module.exports = class InventoryModal extends ModalView
   #- Paper doll equipment updating
   onEquipmentChanged: ->
     heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
-    heroSlug = @selectedHero?.get('slug') ? ''
+    if utils.isCodeCombat
+      heroSlug = @selectedHero?.get('slug') ? ''
     gender = ThangTypeLib.getGender @selectedHero
-    @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass} #{heroSlug}"
+    if utils.isCodeCombat
+      @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass} #{heroSlug}"
+    else
+      @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass}"
     equipment = @getCurrentEquipmentConfig()
     @onScrollUnequipped()
     return unless _.size(equipment) and @supermodel.finished()
@@ -772,7 +777,8 @@ module.exports = class InventoryModal extends ModalView
 
   addDollImage: (slot, dollImages, heroClass, gender, item) ->
     heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
-    heroSlug = @selectedHero?.get('slug') ? ''
+    if utils.isCodeCombat
+      heroSlug = @selectedHero?.get('slug') ? ''
     gender = ThangTypeLib.getGender @selectedHero
     didAdd = false
     if slot is 'pet'
@@ -794,7 +800,10 @@ module.exports = class InventoryModal extends ModalView
       if not imageURL
         console.log "Hmm, should have #{slot} #{imageKey} paper doll image, but don't have it."
       else
-        imageEl = $('<img>').attr('src', "/file/#{imageURL}").addClass("doll-image #{slot} #{heroClass} #{heroSlug} #{gender} #{_.string.underscored(imageKey).replace(/_/g, '-')}").attr('draggable', false)
+        if utils.isCodeCombat
+          imageEl = $('<img>').attr('src', "/file/#{imageURL}").addClass("doll-image #{slot} #{heroClass} #{heroSlug} #{gender} #{_.string.underscored(imageKey).replace(/_/g, '-')}").attr('draggable', false)
+        else
+          imageEl = $('<img>').attr('src', "/file/#{imageURL}").addClass("doll-image #{slot} #{heroClass} #{gender} #{_.string.underscored(imageKey).replace(/_/g, '-')}").attr('draggable', false)
         @$el.find('#equipped').append imageEl
         didAdd = true
     didAdd

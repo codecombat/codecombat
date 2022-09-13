@@ -14,7 +14,7 @@ locale = require 'locale/locale'
 
 module.exports = class CertificatesView extends RootView
   id: 'certificates-view'
-  template: require 'templates/user/certificates-view'
+  template: require 'app/templates/user/certificates-view'
 
   events:
     'click .print-btn': 'onClickPrintButton'
@@ -30,12 +30,14 @@ module.exports = class CertificatesView extends RootView
   initialize: (options, @userID) ->
     if @userID is me.id
       @user = me
-      @setHero()
+      if utils.isCodeCombat
+        @setHero()
     else
       @user = new User _id: @userID
       @user.fetch()
       @supermodel.trackModel @user
-      @listenToOnce @user, 'sync', => @setHero?()
+      if utils.isCodeCombat
+        @listenToOnce @user, 'sync', => @setHero?()
       @user.fetchNameForClassmate success: (data) =>
         @studentName = User.broadName(data)
         @render?()

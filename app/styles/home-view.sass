@@ -314,10 +314,6 @@
     .crt-widget-waterfall
       padding-bottom: 0
 
-      .crt-feed-scroll:nth-child(2)
-        // Some sort of inclusion error is making this show up twice sometimes, only in production. Until we figure it out, hide the second copy.
-        display: none
-
       // Tighten the spacing on these up
       .crt-post-header
         padding-top: 10px
@@ -405,6 +401,16 @@
       .row h4
         margin-top: 30px
 
+      .row.faq-links-row
+        margin: 0
+        padding: 0
+        text-align: center
+
+        p
+          font-size: 18px
+          line-height: 22px
+          color: black
+
       & > .container
         border: 4px solid $teal-light-2
         border-radius: 40px
@@ -425,11 +431,6 @@
         line-height: 18px
         letter-spacing: 0.267px
         color: $pitch
-
-      p.contact-us
-        font-size: 18px
-        line-height: 22px
-        color: black
 
     .container-background-header
       position: absolute

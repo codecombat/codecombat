@@ -15,10 +15,7 @@ module.exports = class Course extends CocoModel
     @fetch options
 
   acronym: ->
-    # TODO: i18n (optional parameter so we can still get English acronym, too)
-    acronym = switch
-      when /game-dev/.test(@get('slug')) then 'GD'
-      when /web-dev/.test(@get('slug')) then 'WD'
-      else 'CS'
-    number = @get('slug')?.match(/(\d+)$/)?[1] or '1'
-    acronym + number
+    utils.courseAcronyms[@get('_id')]
+
+  isCh1Course: () ->
+    @get('_id') == utils.courseIDs.CHAPTER_ONE

@@ -9,7 +9,7 @@ utils = require 'core/utils'
 
 module.exports = class AdminLevelHintsView extends RootView
   id: 'admin-level-hints-view'
-  template: require 'templates/admin/admin-level-hints'
+  template: require 'app/templates/admin/admin-level-hints'
 
   initialize: ->
     return super() unless me.isAdmin()
@@ -54,7 +54,7 @@ module.exports = class AdminLevelHintsView extends RootView
         specific = _.filter(docs.specificArticles or [], (a) => a?)
         hints = (docs.hintsB or docs.hints or []).concat(specific).concat(general)
         hints = _.sortBy hints, (doc) ->
-          return -1 if doc.name is 'Intro'
+          return -1 if doc?.name is 'Intro'
           return 0
         levelHintsMap[level.slug] = hints
       @campaignHints = []

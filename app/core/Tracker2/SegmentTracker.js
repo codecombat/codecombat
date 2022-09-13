@@ -1,4 +1,4 @@
-import BaseTracker, { DEFAULT_USER_TRAITS_TO_REPORT, extractDefaultUserTraits } from './BaseTracker'
+import BaseTracker, { extractDefaultUserTraits } from './BaseTracker'
 
 // Copied from Segment analytics-js getting started guide at:
 // https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/
@@ -120,7 +120,7 @@ export default class SegmentTracker extends BaseTracker {
     }
   }
 
-  async trackPageView (includeIntegrations = []) {
+  async trackPageView () {
     await this.initializationComplete
 
     if (!this.enabled || this.disableAllTracking) {
@@ -128,8 +128,6 @@ export default class SegmentTracker extends BaseTracker {
     }
 
     const options = { ...DEFAULT_SEGMENT_OPTIONS }
-    this.addIntegrationsToSegmentOptions(options, includeIntegrations)
-
     const url = `/${Backbone.history.getFragment()}`
     return new Promise((resolve) => {
       window.analytics.page(undefined, url, {}, options, resolve)
@@ -144,18 +142,11 @@ export default class SegmentTracker extends BaseTracker {
     }
 
     const { me } = this.store.state
-
-    const {
-      _id,
-      ...meAttrs
-    } = me
-
     const filteredMeAttributes = extractDefaultUserTraits(me)
-
     const options = { ...DEFAULT_SEGMENT_OPTIONS }
     return new Promise((resolve) => {
       window.analytics.identify(
-        _id,
+        me._id,
         {
           ...filteredMeAttributes,
           ...traits
@@ -166,7 +157,7 @@ export default class SegmentTracker extends BaseTracker {
     })
   }
 
-  async trackEvent (action, properties = {}, includeIntegrations = []) {
+  async trackEvent (action, properties = {}) {
     await this.initializationComplete
 
     if (!this.enabled || this.disableAllTracking) {
@@ -174,7 +165,6 @@ export default class SegmentTracker extends BaseTracker {
     }
 
     const options = { ...DEFAULT_SEGMENT_OPTIONS }
-    this.addIntegrationsToSegmentOptions(options, includeIntegrations)
 
     return new Promise((resolve) => {
       window.analytics.track(action, properties, options, resolve)
@@ -200,16 +190,5 @@ export default class SegmentTracker extends BaseTracker {
       this.enabled = true
       loadSegment()
     }
-  }
-
-  addIntegrationsToSegmentOptions (options = {}, includeIntegrations = []) {
-    if (includeIntegrations.length > 0) {
-      options.integrations = includeIntegrations.reduce((integrations, integration) => {
-        integrations[integration] = true;
-        return integrations;
-      }, { All: false });
-    }
-
-    return options;
   }
 }

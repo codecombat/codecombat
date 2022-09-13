@@ -42,9 +42,9 @@ module.exports = class HomeCNView extends RootView
       @supermodel.loadCollection(@trialRequests)
 
   getMeta: ->
-    title: $.i18n.t 'new_home.title'
+    title: $.i18n.t 'new_home.title_coco'
     meta: [
-        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description' }
+        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description_coco' }
     ],
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
@@ -86,16 +86,12 @@ module.exports = class HomeCNView extends RootView
 
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
-  homePageEvent: (action, extraproperties={}, includeIntegrations=[]) ->
+  homePageEvent: (action, extraproperties={}) ->
     defaults =
       category: 'Homepage'
       user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
     properties = _.merge(defaults, extraproperties)
-
-    window.tracker?.trackEvent(
-        action,
-        properties,
-        includeIntegrations )
+    window.tracker?.trackEvent(action, properties)
 
   onClickAnchor: (e) ->
     return unless anchor = e?.currentTarget
@@ -111,12 +107,12 @@ module.exports = class HomeCNView extends RootView
       properties = {trackABResult: true}
 
     if anchorText
-      @homePageEvent("Link: #{anchorText}", properties || {}, ['Google Analytics'])
+      @homePageEvent("Link: #{anchorText}", properties || {})
     else
       _.extend(properties || {}, {
         clicked: e?.currentTarget?.host or "unknown"
       })
-      @homePageEvent("Link:", properties, ['Google Analytics'])
+      @homePageEvent("Link:", properties)
 
   afterRender: ->
     if me.isAnonymous()

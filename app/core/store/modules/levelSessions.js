@@ -17,10 +17,17 @@ export default {
      *    sessions: [],
      *    levelCompletionsByUser: {
      *       LEVEL_ID: true / false
+     *     },
+     *    levelSessionsMapByUser: {
+     *      USER_ID: {
+     *        LEVEL_ORIGINAL: {}
+     *       } 
      *     }
      *  }
      */
-    levelSessionsByClassroom: {}
+    levelSessionsByClassroom: {},
+    // level sessions for a campaign in any language depending on whats fetched from fetchLevelSessionsForCampaign
+    levelSessionsByCampaign: {}
   },
 
   mutations: {
@@ -40,24 +47,51 @@ export default {
 
       Vue.set(state.levelSessionsByClassroom, classroomId, {
         sessions: [],
-        levelCompletionsByUser: {}
+        levelCompletionsByUser: {},
+        levelSessionMapByUser: {}
+      })
+    },
+
+    initSessionsByCampaignState: (state, campaign) => {
+      if (state.levelSessionsByCampaign[campaign]) {
+        return
+      }
+
+      Vue.set(state.levelSessionsByCampaign, campaign, {
+        sessions: []
       })
     },
 
     setSessionsForClassroom: (state, { classroomId, sessions }) => {
       state.levelSessionsByClassroom[classroomId].sessions = sessions
       state.levelSessionsByClassroom[classroomId].levelCompletionsByUser = {}
+      state.levelSessionsByClassroom[classroomId].levelSessionMapByUser = {}
     },
 
     addLevelCompletionsByUserForClassroom: (state, { classroomId, levelCompletionsByUser }) => {
       state.levelSessionsByClassroom[classroomId].levelCompletionsByUser = levelCompletionsByUser
+    },
+
+    addLevelSessionMapForClassroom: (state, { classroomId, levelSessionMapByUser }) => {
+      state.levelSessionsByClassroom[classroomId].levelSessionMapByUser = levelSessionMapByUser
+    },
+
+    setSessionsForCampaign: (state, { campaign, sessions }) => {
+      state.levelSessionsByCampaign[campaign].sessions = sessions
     }
   },
-
+  getters: {
+    getSessionsForCampaign: (state) => (campaign) => {
+      return state.levelSessionsByCampaign[campaign]
+    },
+    getSessionsMapForClassroom: (state) => (classroom) => {
+      return (state.levelSessionsByClassroom[classroom] || {}).levelSessionMapByUser
+    }
+  },
   // TODO add a way to clear out old level session data
   actions: {
     // TODO how do we handle two sets of parallel requests here? (ie user vists page, hits back and then visits again quickly)
-    fetchForClassroomMembers: ({ commit }, classroom) => {
+    fetchForClassroomMembers: ({ commit, dispatch }, { classroom, options = {} }) => {
       commit('toggleClassroomLoading', classroom._id)
       commit('initSessionsByClassroomState', classroom._id)
 
@@ -71,7 +105,7 @@ export default {
           data: {
             memberLimit: SESSIONS_PER_REQUEST,
             memberSkip: i * SESSIONS_PER_REQUEST,
-            project: 'state.complete,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts'
+            project: options.project || 'state.complete,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts'
           }
         })
       )
@@ -93,6 +127,8 @@ export default {
             classroomId: classroom._id,
             sessions: Object.freeze(sessions)
           })
+
+          dispatch('computeLevelSessionMapForClassroom', classroom._id)
         })
         .catch((e) => noty({ text: 'Fetch level sessions failure' + e, type: 'error' }))
         .finally(() => commit('toggleClassroomLoading', classroom._id))
@@ -117,6 +153,43 @@ export default {
         classroomId,
         levelCompletionsByUser: Object.freeze(levelCompletionsByUser)
       })
+    },
+
+    computeLevelSessionMapForClassroom ({ commit, state }, classroomId) {
+      if (!state.levelSessionsByClassroom[classroomId] || !state.levelSessionsByClassroom[classroomId].sessions) {
+        throw new Error('Sessions not loaded')
+      }
+
+      const classroomSessions = _.sortBy(state.levelSessionsByClassroom[classroomId].sessions || [], (s) => (s || {}).changed);
+
+      const levelSessionMapByUser = {} // levelsessions grouped by user and level.original
+
+      for (const session of classroomSessions) {
+        const user = session.creator
+        const levelOriginal = (session.level || {}).original
+        if (levelOriginal) {
+          levelSessionMapByUser[user] = levelSessionMapByUser[user] || {}
+          levelSessionMapByUser[user][levelOriginal] = session
+        }
+      }
+
+      commit('addLevelSessionMapForClassroom', {
+        classroomId,
+        levelSessionMapByUser
+      })
+    },
+
+    async fetchLevelSessionsForCampaign ({ commit }, { campaignHandle, options }) {
+      commit('initSessionsByCampaignState', campaignHandle)
+
+      try {
+        const campaignSessions = await levelSessionsApi.fetchForCampaign(campaignHandle, options)
+        commit('setSessionsForCampaign', { campaign: campaignHandle, sessions: campaignSessions })
+        return campaignSessions
+      } catch (e) {
+        console.error('Error in fetching campaign sessions', e)
+        noty({ text: 'Error in fetching campaign sessions', type: 'error', timeout: 1000 })
+      }
     }
   }
 }

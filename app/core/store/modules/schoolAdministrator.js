@@ -17,8 +17,14 @@ export default {
     toggleLoading: (state, key) => state.loading[key] = !state.loading[key],
 
     addTeachers: (state, teachers) => {
-      state.administratedTeachers = teachers;
-    },
+      state.administratedTeachers = teachers
+    }
+  },
+
+  getters: {
+    getTeachers: (state) => {
+      return state.administratedTeachers
+    }
   },
 
   actions: {

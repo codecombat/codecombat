@@ -1,14 +1,16 @@
 require('app/styles/editor/thang/home.sass')
 SearchView = require 'views/common/SearchView'
+utils = require 'core/utils'
 
 module.exports = class ThangTypeSearchView extends SearchView
   id: 'thang-type-home-view'
   modelLabel: 'Thang Type'
   model: require 'models/ThangType'
   modelURL: '/db/thang.type'
-  tableTemplate: require 'templates/editor/thang/table'
+  tableTemplate: require 'app/templates/editor/thang/table'
   projection: ['original', 'name', 'version', 'description', 'slug', 'kind', 'rasterIcon', 'tasks']
   page: 'thang'
+  archived: false if utils.isOzaria
 
   getRenderData: ->
     context = super()

@@ -1,6 +1,6 @@
 require('app/styles/play/level/tome/spell.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/spell'
+template = require 'app/templates/play/level/tome/spell'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 ace = require('lib/aceContainer')
@@ -44,6 +44,8 @@ module.exports = class SpellView extends CocoView
     'god:non-user-code-problem': 'onNonUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
     'tome:spell-changed': 'onSpellChanged'
+    'tome:spell-created': 'onSpellCreated'
+    'tome:completer-add-user-snippets': 'onAddUserSnippets'
     'level:session-will-save': 'onSessionWillSave'
     'modal:closed': 'focus'
     'tome:focus-editor': 'focus'
@@ -77,6 +79,7 @@ module.exports = class SpellView extends CocoView
     $(window).on 'resize', @onWindowResize
     @observing = @session.get('creator') isnt me.id
     @loadedToken = {}
+    @addUserSnippets = _.debounce @reallyAddUserSnippets, 500, {maxWait: 1500, leading: true, trailing: false}
 
   afterRender: ->
     super()
@@ -125,7 +128,10 @@ module.exports = class SpellView extends CocoView
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     $(@ace.container).find('.ace_gutter').on 'click', @onGutterClick
-    @initAutocomplete aceConfig.liveCompletion ? true
+    liveCompletion = aceConfig.liveCompletion ? true
+    classroomLiveCompletion = (@options.classroomAceConfig ? {liveCompletion: true}).liveCompletion
+    liveCompletion = classroomLiveCompletion && liveCompletion
+    @initAutocomplete liveCompletion
 
     return if @session.get('creator') isnt me.id or @session.fake
     # Create a Spade to 'dig' into Ace.
@@ -133,6 +139,10 @@ module.exports = class SpellView extends CocoView
     @spade.track(@ace)
     # If a user is taking longer than 10 minutes, let's log it.
     saveSpadeDelay = 10 * 60 * 1000
+    if @options.level.get('releasePhase') is 'beta'
+      saveSpadeDelay = 3 * 60 * 1000  # Capture faster for beta levels, to be more likely to get something
+    else if Math.random() < 0.05 and _.find(utils.freeAccessLevels, access: 'short', slug: @options.level.get('slug'))
+      saveSpadeDelay = 3 * 60 * 1000  # Capture faster for some free levels to compare with beta levels
     @saveSpadeTimeout = setTimeout @saveSpade, saveSpadeDelay
 
   createACEShortcuts: ->
@@ -185,6 +195,17 @@ module.exports = class SpellView extends CocoView
       readOnly: true
       exec: ->
         Backbone.Mediator.publish 'level:escape-pressed', {}
+    addCommand
+      name: 'unfocus-editor'
+      bindKey: {win: 'Escape', mac: 'Escape'}
+      readOnly: true
+      exec: ->
+        return unless utils.isOzaria
+        # In screen reader mode, we need to move focus to next element on escape, since tab won't.
+        # Next element happens to be #run button, or maybe #update-code button in game-dev.
+        # We need this even when you're not in screen reader mode, so you can tab over to enable it.
+        if $(document.activeElement).hasClass 'ace_text-input'
+          $('#run, #update-code').focus()
     addCommand
       name: 'toggle-grid'
       bindKey: {win: 'Ctrl-G', mac: 'Command-G|Ctrl-G'}
@@ -536,6 +557,11 @@ module.exports = class SpellView extends CocoView
   updateAutocomplete: (@autocompleteOn) ->
     @autocomplete?.set 'snippets', @autocompleteOn
 
+  reallyAddUserSnippets: (source, lang, session) ->
+    newIdentifiers = aceUtils.parseUserSnippets(source, lang, session)
+    # console.log 'debug newIdentifiers: ', newIdentifiers
+    @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
+
   addAutocompleteSnippets: (e) ->
     # Snippet entry format:
     # content: code inserted into document
@@ -712,6 +738,10 @@ module.exports = class SpellView extends CocoView
     if @saveSpadeTimeout?
       window.clearTimeout @saveSpadeTimeout
       @saveSpadeTimeout = null
+      if @options.level.get('releasePhase') is 'beta'
+        @saveSpade()
+      else if Math.random() < 0.05 and _.find(utils.freeAccessLevels, access: 'short', slug: @options.level.get('slug'))
+        @saveSpade()
 
   onManualCast: (e) ->
     cast = @$el.parent().length
@@ -1056,6 +1086,17 @@ module.exports = class SpellView extends CocoView
     for key, value of oldSpellThangAether
       @spell.thang.aether[key] = value
 
+  onAddUserSnippets: ->
+    if @spell.team is me.team
+      @addUserSnippets(@spell.getSource(), @spell.language, @ace?.getSession?())
+
+  onSpellCreated: (e) ->
+    if e.spell.team is me.team
+      # ace session won't get correct language mode when created. so we wait for 1.5s
+      setTimeout(() =>
+        @addUserSnippets(e.spell.getSource(), e.spell.language, @ace?.getSession?())
+      , 1500)
+
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
     @spellHasChanged = true
@@ -1129,8 +1170,9 @@ module.exports = class SpellView extends CocoView
   focus: ->
     # TODO: it's a hack checking if a modal is visible; the events should be removed somehow
     # but this view is not part of the normal subview destroying because of how it's swapped
-    return unless @controlsEnabled and @writable and $('.modal:visible').length is 0
+    return unless @controlsEnabled and @writable and $('.modal:visible, .shepherd-button:visible').length is 0
     return if @ace.isFocused()
+    return if me.get('aceConfig')?.screenReaderMode and utils.isOzaria  # Screen reader users get to control their own focus manually
     @ace.focus()
     @ace.clearSelection()
 

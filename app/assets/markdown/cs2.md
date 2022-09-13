@@ -127,7 +127,7 @@ Code is called code because we’re encoding our ideas into a language the compu
 
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -215,7 +215,7 @@ Label the parts of these conditionals: _keywords_ (`if` and `else`), _expression
 **Do you always need an else?** (no, it depends on the situation)
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -289,7 +289,7 @@ Invite volunteers to share their finished schedules with the class.
 **What does it mean when an action is indented by 8 spaces?** (It depends on two expressions being True or False)
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -367,7 +367,7 @@ def out-over-up():
     p2.shoot()
 ```
 
-Then when the coach wants this sequence of actions to happen, she just calls out the name of the play: “Out-over-up!”
+Then when the coach wants this sequence of actions to happen, she just calls out the name of the play: “Out-over-up!”. This practice of grouping different functions to build a program is commonplace in programming. The subdivision of a computer program into separate subprograms is called modularity.
 
 ### Interact (5 mins)
 **Simon Says.**
@@ -399,7 +399,7 @@ Then, play Simon Says by calling the functions, e.g.
 **What does the keyword def stand for?** (define, or make)
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -497,7 +497,7 @@ bigRedButton.on("press", initiateSelfDestruct)
 **Why don't you use function parentheses when you start listening to an event?** (The parentheses would make the function run now, and you want to run it later when the event happens.)
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -531,9 +531,9 @@ Select appropriate prompt(s) for the students respond to, referring to their not
 The arena level is an opportunity for students to creatively apply all the concepts they have learned to develop a program that solves a problem. Students first develop an algorithm that will defeat a computer opponent, then they compete against classmates, refining their algorithm to beat the level as quickly as possible. The friendly competition in this level is intended to motivate students to apply an iterative development process, creating and testing multiple possible solutions. Students can also work collaboratively using a pair programming approach, which may make the competition more comfortable for some students.
 
 #### Materials
-- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
 - Optional: [Pair Programming Guide](https://codecombat.com/teachers/resources/pair-programming)
-- Optional: [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- Optional: [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 
 #### Learning Objectives
@@ -570,7 +570,7 @@ PLAN: Choose one part of the problem to solve first. What do you need the comput
 IMPLEMENT: Write the solution to each part of your problem in code. 
 TEST: Run your code! Does it solve the problem the way you intended? If not, redesign. Does it work without errors? If not, trace through it to find and fix the bug(s), then test again. Once it works, move on to the planning and implementing the next part! 
 
-Provide each student with a copy of the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) that they can use to plan their program once they navigate to the level. 
+Provide each student with a copy of the [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) that they can use to plan their program once they navigate to the level. 
 
 
 #### Discuss

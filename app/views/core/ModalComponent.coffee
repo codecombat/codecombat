@@ -22,6 +22,7 @@ module.exports = class ModalComponent extends ModalView
         propsData: @propsData
         store
       })
+
       super(arguments...)
 
   destroy: ->

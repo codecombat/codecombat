@@ -1,6 +1,6 @@
 require('app/styles/editor/related-achievements.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/level/related-achievements'
+template = require 'app/templates/editor/level/related-achievements'
 RelatedAchievementsCollection = require 'collections/RelatedAchievementsCollection'
 Achievement = require 'models/Achievement'
 NewAchievementModal = require './modals/NewAchievementModal'

@@ -1,5 +1,5 @@
 NewModelModal = require 'views/editor/modal/NewModelModal'
-template = require 'templates/editor/level/modal/new-achievement'
+template = require 'app/templates/editor/level/modal/new-achievement'
 forms = require 'core/forms'
 Achievement = require 'models/Achievement'
 

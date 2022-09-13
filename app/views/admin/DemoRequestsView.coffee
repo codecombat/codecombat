@@ -1,6 +1,6 @@
 require('app/styles/admin/demo-requests.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/admin/demo-requests'
+template = require 'app/templates/admin/demo-requests'
 CocoCollection = require 'collections/CocoCollection'
 TrialRequest = require 'models/TrialRequest'
 

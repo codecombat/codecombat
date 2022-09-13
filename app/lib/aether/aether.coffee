@@ -131,6 +131,7 @@ module.exports = class Aether
         problemOptions = error: error, code: token.src, codePrefix: "", reporter: @language.parserID, kind: error.index or error.id, type: 'transpile'
         @addProblem @createUserCodeProblem problemOptions
       else
+        @problems = @lint token.src
         @pure = token.src
         @ast = token.ast
     else
@@ -181,6 +182,7 @@ module.exports = class Aether
   # Add problem to the proper level's array within the given problems object (or @problems).
   addProblem: (problem, problems=null) ->
     return if problem.level is "ignore"
+    return if problem.message is 'Missing semicolon.' # TODO: configurable in esper instead?
     (problems ? @problems)[problem.level + "s"].push problem
     problem
 

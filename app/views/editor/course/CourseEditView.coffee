@@ -1,6 +1,6 @@
 require('app/styles/editor/course/edit.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/editor/course/edit'
+template = require 'app/templates/editor/course/edit'
 Course = require 'models/Course'
 ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
@@ -14,6 +14,7 @@ module.exports = class CourseEditView extends RootView
 
   events:
     'click #save-button': 'onClickSaveButton'
+    'click #i18n-button': 'onPopulateI18N'
 
   constructor: (options, @courseID) ->
     super options
@@ -47,6 +48,9 @@ module.exports = class CourseEditView extends RootView
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@course), @$el.find('.patches-view'))
     @patchesView.load()
+
+  onPopulateI18N: ->
+    @course.populateI18N()
 
   onClickSaveButton: (e) ->
     @treema.endExistingEdits()

@@ -1,3 +1,5 @@
+utils = require 'core/utils'
+
 module.exports = loadSegmentio = if not me.useSocialSignOn() then -> Promise.resolve([]) else _.once ->
   return new Promise (accept, reject) ->
     analytics = window.analytics = window.analytics or []
@@ -41,6 +43,10 @@ module.exports = loadSegmentio = if not me.useSocialSignOn() then -> Promise.res
       accept(analytics)
       return
 
-    analytics.SNIPPET_VERSION = '3.1.0'
-    analytics.load 'yJpJZWBw68fEj0aPSv8ffMMgof5kFnU9'
+    if utils.isOzaria
+      analytics.SNIPPET_VERSION = '4.1.0'
+      analytics.load 'ZIGwW67jO16hiTOq2S40Th3i9EKGaWH9'
+    else
+      analytics.SNIPPET_VERSION = '3.1.0'
+      analytics.load 'yJpJZWBw68fEj0aPSv8ffMMgof5kFnU9'
     #analytics.page()  # Don't track the page view on initial inclusion

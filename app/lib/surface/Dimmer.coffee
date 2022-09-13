@@ -65,7 +65,7 @@ module.exports = class Dimmer extends CocoClass
   updateDimMask: =>
     @dimMask.graphics.clear()
     for thangID, sprite of @sprites
-      continue unless (thangID in @highlightedThangIDs) or sprite.isTalking?()
+      continue unless (thangID in @highlightedThangIDs)
       sup = x: sprite.sprite.x, y: sprite.sprite.y
       cap = @camera.surfaceToCanvas sup
       r = 50 * @camera.zoom  # TODO: find better way to get the radius based on the sprite's size

@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/delta'
+template = require 'app/templates/editor/delta'
 deltasLib = require 'core/deltas'
 modelDeltas = require 'lib/modelDeltas'
 jsondiffpatch = require('lib/jsondiffpatch')

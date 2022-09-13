@@ -15,6 +15,8 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
         @wrapRow 'Level name', ['name'], name, i18n[lang]?.name, []
       if description = @model.get('description')
         @wrapRow 'Level description', ['description'], description, i18n[lang]?.description, []
+      if displayName = @model.get('displayName')
+        @wrapRow 'Display name', ['displayName'], displayName, i18n[lang]?.displayName, []
       if loadingTip = @model.get('loadingTip')
         @wrapRow 'Loading tip', ['loadingTip'], loadingTip, i18n[lang]?.loadingTip, []
       if studentPlayInstructions = @model.get('studentPlayInstructions')
@@ -24,6 +26,12 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
     for goal, index in @model.get('goals') ? []
       if i18n = goal.i18n
         @wrapRow 'Goal name', ['name'], goal.name, i18n[lang]?.name, ['goals', index]
+
+    # additional goals
+    for goals, gIndex in @model.get('additionalGoals') ? []
+      for goal, index in goals.goals ? []
+        if i18n = goal.i18n
+          @wrapRow 'Additional Goal name', ['name'], goal.name, i18n[lang]?.name, ['additionalGoals', gIndex, 'goals', index]
 
     # documentation
     for doc, index in @model.get('documentation')?.specificArticles ? []
@@ -65,7 +73,7 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
     # code comments
     for thang, thangIndex in @model.get('thangs') ? []
       for component, componentIndex in thang.components ? []
-        continue unless component.original is LevelComponent.ProgrammableID
+        continue unless component.original in LevelComponent.ProgrammableIDs
         for methodName, method of component.config?.programmableMethods ? {}
           if (i18n = method.i18n) and (context = method.context)
             for key, value of context

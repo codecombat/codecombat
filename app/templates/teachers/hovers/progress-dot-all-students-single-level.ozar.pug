@@ -1,0 +1,25 @@
+div.tooltip-label-text.nowrap.text-capitalize
+    span= label
+
+if started
+  .small-details.nowrap
+    .fraction-students.small-details
+      = numStarted
+      | /
+      = numStudents
+      if completed
+        span.spl(data-i18n='teacher.completed')
+      else  
+        span.spl(data-i18n='teacher.started')
+  
+  if type == 'interactive'
+    if needsReview
+      .review-learning-goal
+        span(data-i18n='teacher.review_learning_goal', data-i18n-options={learningGoal: learningGoal})
+    .link-to-view
+      span(data-i18n='teacher.click_to_view_concept_check')
+  else if type == 'capstone project'
+    .link-to-view
+      span(data-i18n='teacher.click_to_view_project_gallery')
+else
+  span.small-details.nowrap(data-i18n='teacher.no_progress')

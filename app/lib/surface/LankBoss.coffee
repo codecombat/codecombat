@@ -18,6 +18,7 @@ module.exports = class LankBoss extends CocoClass
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'camera:dragged': 'onCameraDragged'
+    'camera:zoom-updated': 'onCameraZoomUpdated'
     'sprite:loaded': -> @update(true)
     'level:flag-color-selected': 'onFlagColorSelected'
     'level:flag-updated': 'onFlagUpdated'
@@ -43,8 +44,9 @@ module.exports = class LankBoss extends CocoClass
 
   destroy: ->
     @removeLank lank for thangID, lank of @lanks
-    @targetMark?.destroy()
-    @selectionMark?.destroy()
+    if utils.isCodeCombat
+      @targetMark?.destroy()
+      @selectionMark?.destroy()
     lankLayer.destroy() for lankLayer in _.values @layerAdapters
     super()
 
@@ -91,7 +93,8 @@ module.exports = class LankBoss extends CocoClass
     lank
 
   createMarks: ->
-    @targetMark = new Mark name: 'target', camera: @camera, layer: @layerAdapters['Ground'], thangType: 'target'
+    if @world.showTargetMark
+      @targetMark = new Mark name: 'target', camera: @camera, layer: @layerAdapters['Ground'], thangType: 'target'
     @selectionMark = new Mark name: 'selection', camera: @camera, layer: @layerAdapters['Ground'], thangType: 'selection'
 
   createLankOptions: (options) ->
@@ -148,7 +151,8 @@ module.exports = class LankBoss extends CocoClass
   update: (frameChanged) ->
     @adjustLankExistence() if frameChanged
     lank.update frameChanged for lank in @lankArray
-    @updateSelection()
+    if utils.isCodeCombat
+      @updateSelection()
     @layerAdapters['Default'].updateLayerOrder()
     @cacheObstacles()
 
@@ -183,20 +187,46 @@ module.exports = class LankBoss extends CocoClass
     @updateScreenReader()
 
   updateScreenReader: ->
+    if utils.isOzaria
+      @updateScreenReaderOzaria();
+    else
+      @updateScreenReaderCodeCombat()
+
+  updateScreenReaderCodeCombat: ->
     # Testing ASCII map for screen readers
     return unless me.get('name') is 'zersiax'  #in ['zersiax', 'Nick']
     ascii = $('#ascii-surface')
     thangs = (lank.thang for lank in @lankArray)
-    grid = new Grid thangs, @world.width, @world.height, 0, 0, 0, true
-    utils.replaceText ascii, grid.toString true
-    ascii.css 'transform', 'initial'
-    fullWidth = ascii.innerWidth()
-    fullHeight = ascii.innerHeight()
-    availableWidth = ascii.parent().innerWidth()
-    availableHeight = ascii.parent().innerHeight()
-    scale = availableWidth / fullWidth
-    scale = Math.min scale, availableHeight / fullHeight
-    ascii.css 'transform', "scale(#{scale})"
+    bounds = @world.calculateSimpleMovementBounds()
+    width = Math.min bounds.right - bounds.left, Math.round(@camera.worldViewport.width)
+    height = Math.min bounds.top - bounds.bottom, Math.round(@camera.worldViewport.height)
+    left = Math.max bounds.left, Math.round(@camera.worldViewport.x)
+    bottom = Math.max bounds.bottom, Math.round(@camera.worldViewport.y - @camera.worldViewport.height)  # y is inverted
+    simpleMovementResolution = 10  # It's always 10 in Ozaria
+    padding = 0
+    rogue = true
+    simpleMovementGrid = new Grid thangs, width, height, padding, left, bottom, rogue, simpleMovementResolution
+    Backbone.Mediator.publish 'surface:update-screen-reader-map', grid: simpleMovementGrid
+
+  updateScreenReaderOzaria: ->
+    return unless me.get('aceConfig')?.screenReaderMode and utils.isOzaria
+    wv = @camera.worldViewport
+    thangs = (lank.thang for lank in @lankArray when (
+      (wv.x             <= lank.thang.pos?.x <= wv.x + wv.width) and
+        (wv.y - wv.height <= lank.thang.pos?.y <= wv.y)
+    )
+    )  # Ignore off-screen Thangs
+    bounds = @world.calculateSimpleMovementBounds thangs
+    width = Math.min bounds.right - bounds.left, Math.round(wv.width)
+    height = Math.min bounds.top - bounds.bottom, Math.round(wv.height)
+    left = Math.max bounds.left, Math.round(wv.x)
+    bottom = Math.max bounds.bottom, Math.round(wv.y - wv.height)  # y is inverted
+    simpleMovementResolution = 10  # It's always 10 in Ozaria
+    padding = 0
+    rogue = true
+    simpleMovementGrid = new Grid thangs, width, height, padding, left, bottom, rogue, simpleMovementResolution
+    bounds = {left, bottom, width, height}
+    Backbone.Mediator.publish 'surface:update-screen-reader-map', grid: simpleMovementGrid, bounds: bounds
 
   equipNewItems: (thang) ->
     itemsJustEquipped = []
@@ -245,13 +275,15 @@ module.exports = class LankBoss extends CocoClass
 
   play: ->
     lank.play() for lank in @lankArray
-    @selectionMark?.play()
-    @targetMark?.play()
+    if utils.isCodeCombat
+      @selectionMark?.play()
+      @targetMark?.play()
 
   stop: ->
     lank.stop() for lank in @lankArray
-    @selectionMark?.stop()
-    @targetMark?.stop()
+    if utils.isCodeCombat
+      @selectionMark?.stop()
+      @targetMark?.stop()
 
   # Selection
 
@@ -266,6 +298,9 @@ module.exports = class LankBoss extends CocoClass
 
   onCameraDragged: ->
     @dragged += 1
+
+  onCameraZoomUpdated: (e) ->
+    @updateScreenReader()
 
   onLankMouseUp: (e) ->
     return unless @handleEvents

@@ -21,7 +21,7 @@
     )
       .dot-label.text-center
         .dot-label-inner {{ labelText }}
-    
+
 
 </template>
 
@@ -31,7 +31,7 @@
   utils = require 'core/utils'
   urls = require('core/urls')
   translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
-  singleStudentLevelProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
+  singleStudentLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
   PieChart = require('core/components/PieComponent').default
 
   module.exports = Vue.extend({
@@ -48,11 +48,11 @@
     components: {
       PieChart
     }
-    computed: { 
-      progressAttribute: -> 
+    computed: {
+      progressAttribute: ->
         return 'complete' if @progress.completed
         return 'started' if @progress.started
-        return 'not started' 
+        return 'not started'
       dotClass: ->
         classes = {}
         if @progress.completed
@@ -68,7 +68,7 @@
           classes['practice'] = true
         return classes
       levelName: ->
-        utils.i18n(@level, 'name')
+        utils.i18n(@level, 'displayName') || utils.i18n(@level, 'name')
       link: ->
         if @progress.started
           if @readOnly
@@ -98,7 +98,7 @@
       titleTemplate: ->
         context = _.merge(
           @progress,
-          { 
+          {
             @levelName,
             moment,
             practice: @level.practice
@@ -126,7 +126,7 @@
 
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   .student-level-progress-dot-link
     display: inline-block
     position: relative

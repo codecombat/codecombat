@@ -1,0 +1,196 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/common/common"
+
+#level-loading-view
+  position: fixed
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  z-index: 20
+  background-color: $eve
+
+  #loading-details
+    z-index: 100
+    color: darkslategray
+    font-size: 15px
+    text-align: center
+    font-family: 'Open Sans Condensed'
+    position: fixed
+
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+
+    padding: $chromeTopPadding $chromeRightPadding $chromeBottomPadding $chromeLeftPadding
+
+    background-color: $eve
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+
+    .progress-or-start-container
+      color: white
+      width: 450px
+
+      img
+        width: 144px
+      
+      p
+        font-size: 22px
+        margin-top: 10px
+        margin-bottom: 14px
+
+      .load-progress
+        width: 100%
+        height: 15px
+
+        .progress
+          height: 100%
+          position: relative
+          background-color: transparent
+          @include box-shadow(none)
+          border-radius: 0
+
+          .progress-background
+            width: 100%
+            height: 100%
+            background-color: $color-primary-brand-white
+            position: absolute
+            z-index: -1
+
+          .progress-bar-container
+            width: 100%
+            height: 100%
+            position: absolute
+
+            .progress-bar
+              width: 1%
+              height: 100%
+              transition-duration: 0
+              background-color: $moon
+              @include box-shadow(none)
+
+          &.active .progress-bar
+            transition-duration: 1.2s
+
+    .course-membership-required, .could-not-load, .license-required, .resource-not-found
+      display: none
+      margin-top: 40px
+      color: black
+      font-size: 24px
+
+      .btn
+        width: 100%
+        margin: 20px auto 0px
+        font-size: 40px
+        font-variant: small-caps
+
+    // NOTE: copied as-is from LayoutChrome.vue
+    .chrome-border
+      $topOffset: 25px
+      position: absolute
+
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+
+      pointer-events: none
+      z-index: 10
+
+      &.chrome-on-slice
+        border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-on.png)
+
+      &.chrome-off-slice
+        border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-off.png)
+
+      &.chrome-off-slice, &.chrome-on-slice
+        border-image-slice: 182 194 130 118 fill
+        border-image-width: 140px 148px 124px 90px
+        border-image-repeat: round
+
+      .side-center-on
+        background: url(/images/ozaria/layout/chrome/central_on.png)
+
+      .side-center-off
+        background: url(/images/ozaria/layout/chrome/central_off.png)
+
+      .side-center-off, .side-center-on
+        width: 75px
+        height: 100%
+        overflow: hidden
+        position: absolute
+        right: 0
+        top: $topOffset
+        background-position: center
+        background-size: contain
+        background-repeat: no-repeat
+
+      #chrome-menu
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+        width: 58px
+        height: 80vh
+        position: absolute
+        top: calc(10vh + #{$topOffset})
+        right: 0
+        pointer-events: auto
+        .button-flex-item
+          width: 58px
+          height: 58px
+          margin: 3px 0
+          cursor: pointer
+
+        .spacer
+          flex-grow: 1
+          min-height: 224px
+
+        .hideBtn
+          visibility: hidden
+
+        .options-btn
+          background: url(/images/ozaria/layout/chrome/Global_Neutral_LevelOptions.png)
+
+          &:hover
+            background: url(/images/ozaria/layout/chrome/Global_Hover_LevelOptions.png)
+
+        .restart-btn
+          background: url(/images/ozaria/layout/chrome/Global_Neutral_Restart.png)
+
+          &:hover
+            background: url(/images/ozaria/layout/chrome/Global_Hover_Restart.png)
+        .map-btn
+          background: url(/images/ozaria/layout/chrome/Global_Neutral_Map.png)
+
+          &:hover
+            background: url(/images/ozaria/layout/chrome/Global_Hover_Map.png)
+
+        .fullscreen-btn
+          background: url(/images/ozaria/layout/chrome/Global_Neutral_MaxBrowser.png)
+
+          &:hover
+            background: url(/images/ozaria/layout/chrome/Global_Hover_MaxBrowser.png)
+
+        .sound-btn
+          background: url(/images/ozaria/layout/chrome/Global_Neutral_SoundOn.png)
+
+          &:hover
+            background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOn.png)
+
+          &.menuVolumeOff
+            background: url(/images/ozaria/layout/chrome/Global_Neutral_SoundOff.png)
+
+          &.menuVolumeOff:hover
+            background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOff.png)
+
+        .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn
+          &, &:hover
+            background-size: 45px
+            background-position: center
+            background-repeat: no-repeat

@@ -49,3 +49,5 @@ exports.view =
   isMobile: () -> false
   isOldBrowser: () -> false
   isIPadBrowser: () -> false
+
+exports.getQueryVariable = -> null

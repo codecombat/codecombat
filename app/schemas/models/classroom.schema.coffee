@@ -15,6 +15,7 @@ _.extend ClassroomSchema.properties,
   codeCamel: c.shortString(title: "UpperCamelCase version of code for display purposes")
   aceConfig:
     language: {type: 'string', 'enum': ['python', 'javascript', 'cpp']}
+    liveCompletion: {type: 'boolean', default: true}
   averageStudentExp: { type: 'string' }
   ageRangeMin: { type: 'string' }
   ageRangeMax: { type: 'string' }
@@ -67,9 +68,9 @@ _.extend ClassroomSchema.properties,
       ozariaType: c.shortString()
       introContent: c.array()
     }
-    campaign: CampaignSchema  # Deprecated; can remove once we delete these denormalized copies from previous implementation of campaign versioning
   }
   googleClassroomId: { title: 'Google classroom id', type: 'string' }
+  lmsClassroomId: { title: 'LMS classroom id', type: 'string' }
   grades: c.array { title: 'Class Grades' }, { type: 'string', enum: ['elementary','middle','high'] }
   settings: c.object {title: 'Classroom Settings', required: []}, {
     optionsEditable: { type: 'boolean', description: 'Allow teacher to use these settings.', default: false }
@@ -87,8 +88,8 @@ _.extend ClassroomSchema.properties,
         levelOriginal: c.objectId()
       })
   }, {}
-
   stats: c.object { additionalProperties: true }
+  type: { title: 'Class Type', type: 'string', enum: ['', 'in-school', 'after-school', 'online', 'camp', 'homeschool', 'other'] }
 
 c.extendBasicProperties ClassroomSchema, 'Classroom'
 ClassroomSchema.properties.settings.additionalProperties = true

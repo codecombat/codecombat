@@ -13,6 +13,7 @@ async function handleCheckoutSession(options) {
   const stripe = await getStripeLib()
   const sessionOptions = { ...options }
   try {
+    window.tracker.trackEvent('Checkout initiated', sessionOptions)
     const session = await createPaymentSession(sessionOptions);
     const sessionId = session.data.sessionId;
     const result = await stripe.redirectToCheckout({ sessionId });
@@ -25,7 +26,7 @@ async function handleCheckoutSession(options) {
   } catch (err) {
     console.error('paymentSession creation failed', err);
     return {
-      errMsg: err.message
+      errMsg: err?.message || 'Payment session creation failed'
     }
   }
 }

@@ -10,6 +10,7 @@ allScriptModules.push(require './SurfaceScriptModule')
 allScriptModules.push(require './PlaybackScriptModule')
 allScriptModules.push(require './SoundScriptModule')
 
+store = require 'app/core/store'
 
 DEFAULT_BOT_MOVE_DURATION = 500
 DEFAULT_SCRUB_DURATION = 1000
@@ -38,6 +39,16 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     '⇧+space, space, enter': -> Backbone.Mediator.publish 'level:shift-space-pressed', {}
     'escape': -> Backbone.Mediator.publish 'level:escape-pressed', {}
 
+  @extractSayEvents: (script) ->
+    sayEvents = []
+    script?.noteChain?.forEach((note) ->
+      note?.sprites?.forEach((sprites) ->
+        if sprites?.say?.text
+          sayEvents.push(sprites)
+      )
+    )
+    return sayEvents
+
   # SETUP / TEARDOWN
 
   constructor: (options) ->
@@ -47,6 +58,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @levelID = options.levelID
     @debugScripts = application.isIPadApp or utils.getQueryVariable 'dev'
     @initProperties()
+    if utils.isOzaria
+      @saveSayEventsToStore()
     @addScriptSubscriptions()
     @beginTicking()
 
@@ -58,6 +71,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @quiet = false
     @addScriptSubscriptions()
     @run()
+    if utils.isOzaria
+      @saveSayEventsToStore()
 
   filterScripts: (scripts) ->
     _.filter scripts, (script) ->
@@ -81,6 +96,24 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       script.id = (idNum++).toString() unless script.id
       callback = makeCallback(script.channel) # curry in the channel argument
       @addNewSubscription(script.channel, callback)
+
+  # All say events that are valid need to be added to the tutorial as the
+  # script manager starts up. Future say events will be added to the tutorial
+  # as they become valid and are published.
+  saveSayEventsToStore: ->
+    sayEvents = []
+
+    @scripts.forEach((script) =>
+      if not @scriptPrereqsSatisfied(script)
+        return
+      if script.eventPrereqs
+        return
+
+      sayEvents = sayEvents.concat(ScriptManager.extractSayEvents(script))
+    )
+
+    if sayEvents.length
+      store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
 
   beginTicking: ->
     @tickInterval = setInterval @tick, 5000
@@ -113,10 +146,12 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     return unless scripts?.currentScript
     script = _.find @scripts, {id: scripts.currentScript}
     return unless script
-    @triggered.push(script.id)
+    canSkipScript = utils.isCodeCombat or ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
+    if canSkipScript
+      @triggered.push(script.id)
     noteChain = @processScript(script)
     return unless noteChain
-    if scripts.currentScriptOffset
+    if scripts.currentScriptOffset and canSkipScript
       noteGroup.skipMe = true for noteGroup in noteChain[..scripts.currentScriptOffset-1]
     @addNoteChain(noteChain, false)
 
@@ -132,11 +167,14 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
         console.warn 'Couldn\'t find script for', scriptID, 'from scripts', @scripts, 'when restoring session scripts.'
         continue
       continue if script.repeats # repeating scripts are not 'rerun'
-      @triggered.push(scriptID)
-      @ended.push(scriptID)
+      canSkipScript = utils.isCodeCombat or ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
+      if canSkipScript
+        @triggered.push(scriptID)
+        @ended.push(scriptID)
       noteChain = @processScript(script)
       return unless noteChain
-      noteGroup.skipMe = true for noteGroup in noteChain
+      if canSkipScript
+        noteGroup.skipMe = true for noteGroup in noteChain
       @addNoteChain(noteChain, false)
 
   setWorldLoading: (@worldLoading) ->
@@ -148,7 +186,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       for note in script.noteChain or []
         if note.surface?.focus?
           surfaceModule = _.find note.modules or [], (module) -> module.surfaceCameraNote
-          if surfaceModule
+          if surfaceModule or utils.isOzaria
             cameraNote = surfaceModule.surfaceCameraNote true
             @publishNote cameraNote
             return
@@ -178,12 +216,22 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
         continue if script.neverRun
 
       continue unless @scriptPrereqsSatisfied(script)
+      # This allows the content team to filter scripts by language.
+      event.codeLanguage ?= @session.get('codeLanguage') ? 'python'
       continue unless scriptMatchesEventPrereqs(script, event)
       # everything passed!
       console.debug "SCRIPT: Running script '#{script.id}'" if @debugScripts
       script.lastTriggered = new Date().getTime()
       @triggered.push(script.id) unless alreadyTriggered
       noteChain = @processScript(script)
+
+      if utils.isOzaria
+        # There may have been new conditions that are met so we are now in a
+        # position to add new say events to the tutorial. Duplicates are ignored.
+        sayEvents = ScriptManager.extractSayEvents(script)
+        if sayEvents.length
+          store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
+
       if not noteChain then return @trackScriptCompletions (script.id)
       @addNoteChain(noteChain)
       @run()
@@ -279,7 +327,13 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @publishNote(note)
 
   publishNote: (note) ->
-    Backbone.Mediator.publish note.channel, note.event ? {}
+    if note.vuex
+      store.dispatch(
+        note.channel,
+        note.event ? {}
+      )
+    else
+      Backbone.Mediator.publish note.channel, note.event ? {}
 
   # ENDING NOTES
 

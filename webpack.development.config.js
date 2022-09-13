@@ -17,13 +17,14 @@ module.exports = (env) => {
   const baseConfig = baseConfigFn(env);
   const plugins = [
     new webpack.BannerPlugin({ // Label each module in the output bundle
-      banner: "hash:[hash], chunkhash:[chunkhash], name:[name], filebase:[filebase], query:[query], file:[file]"
+      banner: "hash:[fullhash], chunkhash:[chunkhash], name:[name], filebase:[base], query:[query], file:[file]"
     }),
     new LiveReloadPlugin({ // Reload the page upon rebuild
       appendScriptTag: true,
-      port: process.env.WEBPACK_LIVE_RELOAD_PORT || 35432
-    }),
-  ];
+      useSourceHash: true,
+      port: process.env.WEBPACK_LIVE_RELOAD_PORT || (process.env.COCO_PRODUCT == 'ozaria' ? 35729 : 35432)
+    })
+  ]
   return smp.wrap(
     _.merge(baseConfig, {
       output: _.merge({}, baseConfig.output, {
@@ -31,6 +32,9 @@ module.exports = (env) => {
       }),
       devtool: 'eval-source-map', // https://webpack.js.org/configuration/devtool/
       plugins: baseConfig.plugins.concat(plugins),
+      watchOptions: {
+        ignored: /node_modules|bower_components|\.#|~$/,
+      },
       mode: 'development'
     })
   )

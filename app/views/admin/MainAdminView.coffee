@@ -2,8 +2,11 @@ require('app/styles/admin.sass')
 {backboneFailure, genericFailure} = require 'core/errors'
 errors = require 'core/errors'
 RootView = require 'views/core/RootView'
-template = require 'templates/admin'
+template = require 'app/templates/admin'
 AdministerUserModal = require 'views/admin/AdministerUserModal'
+MaintenanceModal = require 'views/admin/MaintenanceModal'
+TeacherLicenseCodeModal = require 'views/admin/TeacherLicenseCodeModal'
+ModelModal = require 'views/modal/ModelModal'
 forms = require 'core/forms'
 utils = require 'core/utils'
 
@@ -14,8 +17,12 @@ Course = require 'models/Course'
 Courses = require 'collections/Courses'
 LevelSessions = require 'collections/LevelSessions'
 InteractiveSessions = require 'collections/InteractiveSessions'
+Prepaid = require 'models/Prepaid'
 User = require 'models/User'
 Users = require 'collections/Users'
+Mandate = require 'models/Mandate'
+window.saveAs ?= require 'file-saver/FileSaver.js' # `window.` is necessary for spec to spy on it
+window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format changed with webpack?
 
 module.exports = class MainAdminView extends RootView
   id: 'admin-view'
@@ -32,8 +39,12 @@ module.exports = class MainAdminView extends RootView
     'click #user-search-result': 'onClickUserSearchResult'
     'click #create-free-sub-btn': 'onClickFreeSubLink'
     'click #terminal-create': 'onClickTerminalSubLink'
+    'click #terminal-activation-create': 'onClickTerminalActivationLink'
     'click .classroom-progress-csv': 'onClickExportProgress'
     'click #clear-feature-mode-btn': 'onClickClearFeatureModeButton'
+    'click .edit-mandate': 'onClickEditMandate'
+    'click #maintenance-mode': 'onClickMaintenanceMode'
+    'click #teacher-license-code': 'onClickTeacherLicenseCode'
 
   getTitle: -> return $.i18n.t('account_settings.admin')
 
@@ -43,6 +54,7 @@ module.exports = class MainAdminView extends RootView
       @amActually.fetch()
       @supermodel.trackModel(@amActually)
     @featureMode = window.serverSession.featureMode
+    @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
     super()
 
   afterInsert: ->
@@ -155,7 +167,8 @@ module.exports = class MainAdminView extends RootView
           <td>#{user.lastName or ''}</td>
           <td>
             #{if me.isAdmin() then "<button class='user-spy-button'>Spy</button>" else ""}
-            #{if new User(user).isTeacher() then "<button class='teacher-dashboard-button'>View Classes</button>" else ""}
+            <!-- New Teacher Dashboard doesn't allow admin to navigate to a teacher classroom. -->
+            #{if new User(user).isTeacher() and not utils.isOzaria then "<button class='teacher-dashboard-button'>View Classes</button>" else ""}
           </td>
         </tr>")
       result = "<table class=\"table\">#{result.join('\n')}</table>"
@@ -216,6 +229,27 @@ module.exports = class MainAdminView extends RootView
       console.error 'Failed to create prepaid', response
     @supermodel.addRequestResource('create_prepaid', options, 0).load()
 
+  onClickTerminalActivationLink: (e) =>
+    return unless me.isAdmin()
+    attrs =
+      type: 'terminal_subscription'
+      creator: me.id
+      maxRedeemers: parseInt($("#users").val())
+      generateActivationCodes: true
+      endDate: $("#endDate").val() + ' ' + "23:59"
+      properties:
+        months: parseInt($("#months").val())
+    prepaid = new Prepaid(attrs)
+    prepaid.save(0)
+    @listenTo prepaid, 'sync', ->
+      csvContent = 'Code,Months,Expires\n'
+      ocode = prepaid.get('code').toUpperCase()
+      months = prepaid.get('properties').months
+      for code in prepaid.get('redeemers')
+        csvContent += "#{ocode.slice(0, 4)}-#{code.code.toUpperCase()}-#{ocode.slice(4)},#{months},#{code.date}\n"
+      file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
+      window.saveAs(file, 'ActivationCodes.csv')
+
   afterRender: ->
     super()
     @$el.find('.search-help-toggle').click () =>
@@ -274,8 +308,10 @@ module.exports = class MainAdminView extends RootView
           playtime = session.get('playtime')
         userLevelPlaytimeMap[userID][levelID] = playtime
       interactiveSessions = new InteractiveSessions()
-      #Promise.resolve($.when(interactiveSessions.fetchForAllClassroomMembers(classroom)...))
-      Promise.resolve([])  # No interactives in CodeCombat yet
+      if utils.isOzaria
+        Promise.resolve($.when(interactiveSessions.fetchForAllClassroomMembers(classroom)...))
+      else
+        Promise.resolve([])  # No interactives in CodeCombat yet
     .then (models) =>
       userInteractiveAttemptMap = {}
       for session in interactiveSessions.models
@@ -320,8 +356,7 @@ module.exports = class MainAdminView extends RootView
       currentLevel = 1
       courseLabelIndexes = CS: 1, GD: 0, WD: 0, CH: 1
       lastCourseIndex = 1
-      #lastCourseLabel = 'CH1'  # TODO: differentiate products
-      lastCourseLabel = 'CS1'
+      lastCourseLabel = if utils.isOzaria then 'CH1' else 'CS1'
       for level in courseLevels
         unless level.courseIndex is lastCourseIndex
           currentLevel = 1
@@ -356,3 +391,20 @@ module.exports = class MainAdminView extends RootView
       $('.classroom-progress-csv').prop('disabled', false)
       console.error error
       throw error
+
+  onClickEditMandate: (e) ->
+    @mandate ?= @supermodel.loadModel(new Mandate()).model
+    if @mandate.loaded
+      @editMandate @mandate
+    else
+      @listenTo @mandate, 'sync', @editMandate
+
+  onClickMaintenanceMode: (e) ->
+    @openModalView? new MaintenanceModal() if me.isAdmin()
+
+  onClickTeacherLicenseCode: (e) ->
+    @openModalView? new TeacherLicenseCodeModal() if me.isAdmin()
+
+  editMandate: (mandate) =>
+    mandate = new Mandate _id: mandate.get('0')._id  # Work around weirdness in this actually being a singleton
+    @openModalView? new ModelModal models: [mandate]

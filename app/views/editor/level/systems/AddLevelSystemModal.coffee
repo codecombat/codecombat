@@ -1,7 +1,7 @@
 require('app/styles/editor/level/system/add.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/editor/level/system/add'
-availableSystemTemplate = require 'templates/editor/level/system/available_system'
+template = require 'app/templates/editor/level/system/add'
+availableSystemTemplate = require 'app/templates/editor/level/system/available_system'
 LevelSystem = require 'models/LevelSystem'
 CocoCollection = require 'collections/CocoCollection'
 

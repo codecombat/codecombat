@@ -23,7 +23,7 @@ export default class CookieConsentTracker extends BaseTracker {
     const preferredLocaleLoaded = this.store.getters['localeLoaded'](preferredLocale)
 
     if (!preferredLocaleLoaded) {
-      console.error('Preferred locale not loaded for user, this will result in consent tracker showing in incorrect language.')
+      console.error('Preferred locale not loaded for user. This will result in consent tracker showing in incorrect language.')
     }
 
     if (!this.store.getters['me/inEU']) {

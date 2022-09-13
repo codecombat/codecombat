@@ -2,7 +2,7 @@ require('app/styles/play/level/control-bar-view.sass')
 storage = require 'core/storage'
 
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/control-bar-view'
+template = require 'app/templates/play/level/control-bar-view'
 {me} = require 'core/auth'
 utils = require 'core/utils'
 
@@ -118,7 +118,7 @@ module.exports = class ControlBarView extends CocoView
       @homeViewClass = 'views/ladder/LadderView'
       @homeViewArgs.push levelID
       if leagueID = utils.getQueryVariable('league') or utils.getQueryVariable('course-instance')
-        leagueType = if @level.isType('course-ladder') then 'course' else 'clan'
+        leagueType = if @level.isType('course-ladder') or (@level.isType('ladder') and utils.getQueryVariable('course-instance')) then 'course' else 'clan'
         @homeViewArgs.push leagueType
         @homeViewArgs.push leagueID
         @homeLink += "/#{leagueType}/#{leagueID}"
@@ -147,7 +147,7 @@ module.exports = class ControlBarView extends CocoView
     c
 
   showGameMenuModal: (e, tab=null) ->
-    gameMenuModal = new GameMenuModal level: @level, session: @session, supermodel: @supermodel, showTab: tab
+    gameMenuModal = new GameMenuModal level: @level, session: @session, supermodel: @supermodel, showTab: tab, classroomAceConfig: @options.classroomAceConfig
     @openModalView gameMenuModal
     @listenToOnce gameMenuModal, 'change-hero', ->
       @setupManager?.destroy()
@@ -157,7 +157,7 @@ module.exports = class ControlBarView extends CocoView
   onClickHome: (e) ->
     if @level.isType('course')
       category = if me.isTeacher() then 'Teachers' else 'Students'
-      window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug, ['Mixpanel']
+      window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug
     e.preventDefault()
     e.stopImmediatePropagation()
     Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs

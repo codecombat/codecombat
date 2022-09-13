@@ -22,9 +22,11 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 CocoClass = require 'core/CocoClass'
 SegmentedSprite = require './SegmentedSprite'
 SingularSprite = require './SingularSprite'
+RasterAtlasSprite = require 'ozaria/engine/surface/RasterAtlasSprite'
 ThangType = require 'models/ThangType'
 createjs = require 'lib/createjs-parts'
 utils = require 'core/utils'
+{ log, startTimer } = require 'ozaria/site/common/logger'
 
 NEVER_RENDER_ANYTHING = false # set to true to test placeholders
 
@@ -47,6 +49,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   resolutionFactor: SPRITE_RESOLUTION_FACTOR
   numThingsLoading: 0
   lanks: null
+  labels: null
   spriteSheet: null
   container: null
   customGraphics: null
@@ -64,6 +67,26 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @transformStyle = options.transform ? LayerAdapter.TRANSFORM_SURFACE
     @camera = options.camera
     @updateLayerOrder = _.throttle @updateLayerOrder, 1000 / 30  # Don't call multiple times in one frame; 30 FPS is probably good enough
+    @lanks = []
+    @labels = []
+
+    if utils.isOzaria
+      @totalTimeSpentRendering = 0
+
+      # Explicitly setting class as non reactive for performance benefit.
+      Vue.nonreactive(@)
+
+      @reportRenderTime = _.debounce(
+        () =>
+          if @totalTimeSpentRendering != 0 and Math.random() < 0.01
+            log(
+              'LayerAdapter Render Time', {
+                totalTimeSpentRendering: @totalTimeSpentRendering
+                name: @name
+              }
+            )
+        500
+      )
 
     @webGL = !!options.webGL
     if @webGL
@@ -72,11 +95,14 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       @container = new createjs.Container(@spriteSheet)
       @actionRenderState = {}
       @toRenderBundles = []
-      @lanks = []
       @initializing = false
 
     else
       @container = new createjs.Container()
+
+    if utils.isOzaria
+      # Explicitly setting class as non reactive for performance benefit.
+      Vue.nonreactive(@container)
 
   toString: -> "<Layer #{@layerPriority}: #{@name}>"
 
@@ -97,7 +123,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if aLank = a.lank
       if aThang = aLank.thang
         aPos = aThang.pos
-        if aThang.health < 0 and aThang.pos.z <= aThang.depth / 2
+        if utils.isCodeCombat and aThang.health < 0 and aThang.pos.z <= aThang.depth / 2
           # Nice for not being knee deep in the dead, just not nice for ogres flying behind trees when exploded
           --az
     if bLank = b.lank
@@ -168,6 +194,17 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @container.removeChild lank.sprite
     @lanks = _.without @lanks, lank
 
+  addLabel: (label) ->
+    @labels.push label unless label in @labels
+    @addChild label.label
+    @addChild label.background
+    @updateLayerOrder()
+
+  removeLabel: (label) ->
+    @removeChild label.label if label.label
+    @removeChild label.background if label.background
+    @labels = _.without @labels, label
+
   #- Loading network resources dynamically
 
   loadThangType: (thangType) ->
@@ -176,9 +213,26 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       thangType.fetch() unless thangType.loading
       @numThingsLoading++
       @listenToOnce(thangType, 'sync', @somethingLoaded)
+      if Math.random() < 0.01 and utils.isOzaria
+        @listenToOnce(thangType, 'sync', ((loadingTimer) -> -> log('ThangType Loaded', {
+          loadTimeMS: loadingTimer()
+          original: thangType.get('original')
+          name: thangType.get('name')
+        }))(startTimer()))
     else if thangType.get('raster') and not thangType.loadedRaster
       thangType.loadRasterImage()
       @listenToOnce(thangType, 'raster-image-loaded', @somethingLoaded)
+      @numThingsLoading++
+      if Math.random() < 0.01 and utils.isOzaria
+        @listenToOnce(thangType, 'raster-image-loaded', ((loadingTimer) -> -> log('ThangType Loaded', {
+          loadTimeMS: loadingTimer()
+          original: thangType.get('original')
+          name: thangType.get('name')
+        }))(startTimer()))
+    else if thangType.get('spriteType') is 'rasterAtlas' and utils.isOzaria
+      return if thangType.loadingRasterAtlas or thangType.loadedRasterAtlas
+      thangType.loadAllRasterTextureAtlases()
+      @listenToOnce(thangType, 'texture-atlas-loaded', -> @somethingLoaded(thangType))
       @numThingsLoading++
     else if prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheetToLoad()
       startedLoading = prerenderedSpriteSheet.loadImage()
@@ -204,8 +258,14 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if lank.thangType.get('raster')
       @upsertActionToRender(lank.thangType)
     else
+      if utils.isOzaria
+        # Cinematic lanks preload all their own animations and don't use the default action list.
+        defaultActions = if lank?.isCinematicLank then [] else ThangType.defaultActions
+        defaultRenderableActions = defaultActions.concat(lank.thangType.get('preLoadActions') or [])
+      else
+        defaultRenderableActions = ThangType.defaultActions.concat(lank.thangType.get('preLoadActions') or [])
       for action in _.values(lank.thangType.getActions())
-        continue unless _.any ThangType.defaultActions, (prefix) -> _.string.startsWith(action.name, prefix)
+        continue unless _.any defaultRenderableActions, (prefix) -> _.string.startsWith(action.name, prefix)
         @upsertActionToRender(lank.thangType, action.name, lank.options.colorConfig)
 
   upsertActionToRender: (thangType, actionName, colorConfig) ->
@@ -232,6 +292,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   _renderNewSpriteSheet: (async) ->
     return if @destroyed
+    if utils.isOzaria
+      @renderNewSpriteSheetStartedTime = performance?.now()
     @asyncBuilder.stopAsync() if @asyncBuilder
     @asyncBuilder = null
 
@@ -268,14 +330,17 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
           @renderSegmentedThangType(args...)
         else
           @renderSingularThangType(args...)
+      else if thangType.get('spriteType') is 'rasterAtlas' and utils.isOzaria
+        @buildRasterAtlasSpriteSheet(thangType, actionNames)
       else
         @renderRasterThangType(thangType, builder)
 
     if async
       try
-        builder.buildAsync()
+        builder.buildAsync() # will build empty spritesheet for rasterAtlas since not attaching anything to it, but its still required because of its coupling with the lank
       catch e
         @resolutionFactor *= 0.9
+        console.log('Failed to build sprite sheet async:', e)
         return @_renderNewSpriteSheet(async)
       builder.on 'complete', @onBuildSpriteSheetComplete, @, true, builder
       @asyncBuilder = builder
@@ -284,12 +349,16 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         sheet = builder.build()
       catch e
         @resolutionFactor *= 0.9
+        console.log('Failed to build sprite sheet sync:', e)
         return @_renderNewSpriteSheet(async)
       @onBuildSpriteSheetComplete({async:async}, builder)
       return sheet
 
   onBuildSpriteSheetComplete: (e, builder) ->
     return if @initializing or @destroyed
+    if performance and utils.isOzaria
+      @totalTimeSpentRendering += performance?.now() - @renderNewSpriteSheetStartedTime
+      @reportRenderTime()
     @asyncBuilder = null
     builder?.removeAllEventListeners()
 
@@ -304,10 +373,18 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     oldLayer?.removeAllEventListeners()
 
     @container = new createjs.Container(@spriteSheet)
+
+    # Explicitly setting object as non reactive for performance benefit.
+    if utils.isOzaria
+      Vue.nonreactive(@container)
+
     for lank in @lanks
       console.log 'zombie sprite found on layer', @name if lank.destroyed
       continue if lank.destroyed
       @setSpriteToLank(lank)
+    for label in @labels when label.label
+      @container.addChild label.label
+      @container.addChild label.background
     for prop in ['scaleX', 'scaleY', 'regX', 'regY']
       @container[prop] = oldLayer[prop]
     if parent = oldLayer.parent
@@ -337,7 +414,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     # TODO: Experiment with this. Perhaps have rectangles if default layer is obstacle or floor,
     # and different colors for different layers.
     g = new createjs.Graphics()
-    g.setStrokeStyle(5)
+    g.setStrokeStyle(1)
     color = {
       'Land': [0, 50, 0]
       'Ground': [230, 230, 230]
@@ -350,7 +427,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     color.push 0.7
     g.beginFill(createjs.Graphics.getRGB(color...))
     width = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH
-    bounds = [0, 0, width, width]
+    bounds = [1, 1, width - 2, width - 2]
     if @name in ['Default', 'Ground', 'Floating', 'Path']
       g.drawEllipse(bounds...)
     else
@@ -488,21 +565,22 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         name = @renderGroupingKey(thangType, action.name, colorConfig)
         spriteSheetBuilder.addAnimation(name, [frame], false)
 
+  #- Build the spritesheet for rasterAtlas sprite type
+
+  buildRasterAtlasSpriteSheet: (thangType, actionNames) ->
+    spriteBuilder = new SpriteBuilder(thangType)
+    spriteBuilder.buildSpriteSheetFromTextureAtlas(actionNames) # builds and attaches the spritesheet to the movie clip file
+
   #- Rendering frames for raster thang types
 
   renderRasterThangType: (thangType, spriteSheetBuilder) ->
     unless thangType.rasterImage
       console.error("Cannot render the LayerAdapter SpriteSheet until the raster image for <#{thangType.get('name')}> is loaded.")
 
-    # hack for IE9, otherwise width/height are not set
-    $img = $(thangType.rasterImage[0])
-    $('body').append($img)
-
     bm = new createjs.Bitmap(thangType.rasterImage[0])
     scale = thangType.get('scale') or 1
     frame = spriteSheetBuilder.addFrame(bm, null, scale)
     spriteSheetBuilder.addAnimation(@renderGroupingKey(thangType), [frame], false)
-    $img.remove()
 
   #- Distributing new Segmented/Singular/RasterSprites to Lanks
 
@@ -524,6 +602,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       sprite.regY = -reg.y * scale
       sprite.gotoAndStop(@renderGroupingKey(lank.thangType))
       sprite.baseScaleX = sprite.baseScaleY = 1
+
+    else if lank.thangType.get('spriteType') is 'rasterAtlas' and utils.isOzaria
+      sprite = new RasterAtlasSprite(lank.thangType)
 
     else
       SpriteClass = if (lank.thangType.get('spriteType') or @defaultSpriteType) is 'segmented' then SegmentedSprite else SingularSprite

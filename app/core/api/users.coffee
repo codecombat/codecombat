@@ -92,4 +92,43 @@ module.exports = {
     fetchJson("/db/user/setUserCountryGeo", _.assign({}, options, {
       method: 'PUT'
     }))
+
+  fetchCreatorOfPrepaid: ({prepaidId}, options={}) ->
+    fetchJson("/db/prepaid/#{prepaidId}/creator", _.assign({}, options, {
+      method: 'GET'
+    }))
+
+  provisionSubscription: ({ userId }) ->
+    fetchJson("/db/user/#{userId}/provision-subscription", _.assign({}, {
+      method: 'PUT'
+    }))
+
+  loginArapahoe: (attrs, options={}) ->
+    fetchJson("/auth/login-arapahoe", _.assign({}, options, {
+      method: 'POST'
+      json: attrs
+    }))
+
+  putUserProducts: (json, options={}) ->
+    fetchJson('/db/user/products', _.assign({}, options, {
+      method: 'PUT',
+      json
+    }))
+
+  getRelatedAccount: ({ userId }) ->
+    fetchJson("/db/user/related-accounts/#{userId}", _.assign({}, {
+      method: 'GET'
+    }))
+
+  verifyRelatedAccount: ({ userAskingToRelateId, body }) ->
+    fetchJson("/db/user/related-accounts/#{userAskingToRelateId}/verify", _.assign({}, {
+      method: 'PUT'
+      json: body
+    }))
+
+  sendVerifyEmail: (body) ->
+    fetchJson("/db/user/related-accounts/confirm-email", _.assign({}, {
+      method: 'POST'
+      json: body
+    }))
 }

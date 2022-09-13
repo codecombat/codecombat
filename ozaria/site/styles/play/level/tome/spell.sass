@@ -1,0 +1,245 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/common/variables"
+
+@mixin editor-height($extraHeight)
+  width: 98%
+  height: 88%
+  height: unquote("-webkit-calc(88% - 50px -")$extraHeight unquote(")")
+  height: unquote("calc(88% - 50px -")$extraHeight unquote(")")
+
+#spell-view
+  height: 100%
+  display: none
+  position: relative
+  z-index: 1
+  overflow: hidden
+
+  &.shown
+    display: block
+
+  .code-background
+    position: absolute
+    top: -68px
+    left: 0px
+    height: 100%
+    right: -10px
+    border: 1px solid transparent
+
+  span.code-background
+    background-color: #ffffff
+
+  img.code-background
+    display: none
+    width: 100%
+
+  .save-status
+    display: none
+    position: absolute
+    top: 5px
+    left: 20px
+    z-index: 4
+
+  .programming-language-container
+    position: absolute
+    top: 10px
+    right: 26px
+    z-index: 4
+    font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+    font-size: 14px
+    padding: 0px 10px
+    .programming-language-label
+      color: #6E654B
+      font-weight: bold
+      text-transform: uppercase
+    .programming-language
+      color: darkred
+
+  .firepad
+    // When Firepad is active, it wraps .ace_editor in .firepad.
+    @include editor-height(0px)
+    width: 94%
+
+    .ace_editor
+      width: 100%
+      height: 100%
+
+    .powered-by-firepad
+      display: none
+
+  .ace_editor
+    // When Firepad isn't active, .ace_editor needs the width/height set itself.
+    @include editor-height(0px)
+    margin: 0
+    width: 99%
+    position: relative
+    background-color: transparent
+    overflow: visible
+    // https://github.com/codecombat/codecombat/issues/1411#issuecomment-60492750 -- trying to make sure system defaults don't mess up our monospace font.
+    font-family: $code-font-style !important
+    font-size: 16px
+    @include transition(height 0.25s ease-in-out)
+
+    body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+      font-family: $code-font-style !important
+
+    &.disabled
+      @include opacity(0.8)
+      .ace_cursor, .executing, .ace_active-line, .ace_gutter-active-line
+        @include opacity(0.1)
+
+    .ace_gutter
+      background-color: transparent
+      border-right: 1px solid rgb(195, 178, 156)
+      //background-color: rgba(255, 255, 255, 0.25)
+      width: 47px
+      margin-left: 4px
+      padding-top: 3px
+
+    .ace_layer
+      overflow: visible
+    // End experiment....
+
+    .ace_scroller
+      background-color: transparent
+      margin-left: 10px // TODO: creates a white space/break in the line highlighting in code editor
+      padding-top: 3px
+
+    .ace_active-line, .ace_gutter-active-line
+      background-color: rgba(255, 255, 255, 0.4)
+
+    .ace_gutter-cell.ace_error
+      background-image: url(/images/ozaria/level/error_icon.png) !important
+      background-size: 40%
+
+    .ace_content
+      .executing, .executed, .problem-marker-info, .problem-marker-warning, .problem-marker-error, .problem-line
+        position: absolute
+    .executing
+      // https://github.com/codecombat/codecombat/issues/6
+      background-color: rgba(255, 255, 255, 0.75)
+      @include gradient-striped()
+      outline: 2px outset #0099ff
+      @include box-shadow(1px 1px 4px black)
+    &.playback-ended .executing, &.user-code-problem .executing
+      background-color: rgba(50, 255, 80, 0.65)
+      outline: 0
+      @include box-shadow(0 0 0px black)
+    .executed
+      background-color: rgba(110, 110, 110, 0.12)
+
+    +keyframes(pulseRedBackground)
+      from
+        background-color: rgba(255, 45, 27, 0.4)
+      50%
+        background-color: rgba(255, 45, 27, 0.2)
+      to
+        background-color: rgba(255, 45, 27, 0.4)
+
+    // problem-marker-#{@aetherProblem.level} set in Problem.coffee
+    .problem-marker-info
+      background-color: rgba(196, 163, 184, 0.25)
+    .problem-marker-warning
+      background-color: rgba(100, 65, 20, 0.25)
+    .problem-marker-error
+      background-color: rgba(255, 45, 27, 0.5)
+    .problem-line
+      // TODO: Pulses too quickly during playback
+      @include animation(pulseRedBackground 1s infinite)
+
+    &:not(.playback-ended):not(.user-code-problem)
+      .executing:not(.ace_gutter-cell)
+        background-size: 40px 40px
+        @include animation(progress-bar-stripes 0.5s linear infinite)
+
+    &:not(.user-code-problem)
+      .ace_gutter-cell.executing:not(.ace_error):not(.ace_warning):not(.ace_info)
+        margin-left: 1px
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMjgwMTE3NDA3MjA2ODExOEE2REU4Q0M1MTM1MkIxRiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBQjVEQUNDMzQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBQjVEQUNDMjQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1LjEgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QTU1MjE3RDIzMTIwNjgxMThEQkI4NTlBMjQ1QTEwOTUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDI4MDExNzQwNzIwNjgxMThBNkRFOENDNTEzNTJCMUYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7SazaGAAAAiElEQVR42mL8//8/AzUBEwOVweA3kAWboI2jCyhgDwBx4ZH9ey5Qy4UOQHweaHg/EAtQ08sFUIMDqBmGCkC8HmgoCCtQM1ICoK5toGYsg8KzHmjo+UGbDj8AcSMwORkSnQ7xgA3QtPmApISNBTyAGrSBGl6eAMSGxBhGyIVkZT3G0fKQYgAQYACL+C2ZM6PC7AAAAABJRU5ErkJggg==)
+        background-position: 0px center
+
+    .ace_gutter-cell.executed:not(.ace_error):not(.ace_warning):not(.ace_info)
+      margin-left: 1px
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAANhJREFUeNpi/P//PwM1ARMDlcHgMrA428MAiANQBEFhSA4uynIXAOJ+dHFKXDgfiDdSxctAbzYAqQ+9U3ccQJdjIcMwByCVD8SGFEcK0DAFILUeiCcCXfeAIgOBhglADfsAxBNwqSPFy/1AbADEiUDXfSApHQJdcx+I9yPxE4AUCB8AGrYAn62M6HkZ6rX3UG4jEG8A4vNQviO2mMXrQqh3GqHcemi4gcACQobhixRQoMNiUQEaEY1k52WoKwuRhHAmE6KTDdCADdDwu4AvmRCMlOFfwAIEGAD4On+N4aXlhgAAAABJRU5ErkJggg==)
+      background-position: 0px center
+
+    .ace_gutter-cell.ace_error
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTM5jWRgMAAAAVdEVYdENyZWF0aW9uIFRpbWUAMi8xNy8wOCCcqlgAAAQRdEVYdFhNTDpjb20uYWRvYmUueG1wADw/eHBhY2tldCBiZWdpbj0iICAgIiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+Cjx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDQuMS1jMDM0IDQ2LjI3Mjk3NiwgU2F0IEphbiAyNyAyMDA3IDIyOjExOjQxICAgICAgICAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp4YXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iPgogICAgICAgICA8eGFwOkNyZWF0b3JUb29sPkFkb2JlIEZpcmV3b3JrcyBDUzM8L3hhcDpDcmVhdG9yVG9vbD4KICAgICAgICAgPHhhcDpDcmVhdGVEYXRlPjIwMDgtMDItMTdUMDI6MzY6NDVaPC94YXA6Q3JlYXRlRGF0ZT4KICAgICAgICAgPHhhcDpNb2RpZnlEYXRlPjIwMDgtMDMtMjRUMTk6MDA6NDJaPC94YXA6TW9kaWZ5RGF0ZT4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyI+CiAgICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2UvcG5nPC9kYzpmb3JtYXQ+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDUdUmQAAAD5SURBVDiNpZMxagMxEEWfgiCXcB3IbXwD7zbaM0nNyjdIl1O4Dk7pbsslEFbEZFKsJsiJrGDy4YM0M//zRyAoINAJyB8cS43RwwIdMFrvaeE8DADxXqQ3Jstn6GaQ5L3M0GQxsyaZoJtA3r2XCS6o+FkvZkdOIG/eywl+UVHrqcYm4BNIjb1rPdXYBTivj3gVtZ5q/p8gAfPhcLOBamzKcW41UI1dgA/qez4bU6muUE0zwVYEgKeKkWruEnTHENg4R8pFZblCyY1zHEMgQTQAe9gB8cE5XkO4GhugmIk76L+z+Wzy6FzT4CWLXf5MF8upSdMB4gC9Xr4AiezTJHGxdq0AAAAASUVORK5CYII=)
+
+    .ace_marker-layer
+      .ace_bracket
+        // Override faint gray
+        border-color: #BFF
+
+      .locked-code
+        border: 1px dashed rgba(53, 45, 34, 0.5)
+        background-color: transparent
+        @include transition(background-color 0.25s ease-in-out)
+
+        &:after
+          content: "Locked"
+          opacity: 0
+          display: block
+          text-align: right
+          @include transition(opacity 4s ease-in-out)
+          font-size: 24px
+
+        &.pulsating
+          background-color: rgba(53, 45, 34, 0.5)
+
+          &:after
+            opacity: 1
+
+    // Decided it wasn't useful to show what can be hovered, since almost anything can, so we have to make it too faint to be useful if we don't want it to be really distracting.
+    //.ace_identifier
+    //  border-bottom: 1px dotted rgba(0, 51, 255, 0.25)
+
+    // TODO: objects, methods, variables.  Probably requires custom theme rather than narrow overrides here.
+    // TODO: https://codecombat.slab.com/posts/code-editor-colors-accessibility-t1g8eh7w
+
+    .ace_text-layer .ace_comment
+      color: #697688
+
+    .ace_text-layer .ace_function
+      color: #1900AD
+
+    .ace_text-layer .ace_keyword
+      color: #8B572A
+
+    .ace_text-layer .ace_numeric
+      color: #CC0033
+
+    .ace_text-layer .ace_type
+      color: #8B572A
+
+    .ace_text-layer .ace_string
+      color: #B800B8
+
+    // TODO: this doesn't seem to be used anymore
+    .ace_text-layer .ace_variable
+      color: rgb(145, 48, 50)
+
+    .ace_text-layer .ace_invisible_space
+      visibility: hidden
+
+    .ace_search
+      background-color: rgba(216, 187, 165, 1)
+      border: 0
+      @include box-shadow(1px 2px 1px #444)
+
+      .ace_search_field
+        width: 190px
+
+      .ace_searchbtn, .ace_replacebtn
+        padding: 0px 4px
+
+.ace_autocomplete .ace_line:not(.ace_selected) .ace_completion-meta
+  // Don't show "press enter" on lines that aren't currently selected
+  display: none
+
+html.no-borderimage
+  #spell-view
+    span.code-background
+      display: none
+    img.code-background
+      display: block

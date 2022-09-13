@@ -7,6 +7,15 @@ Data - There are trade-offs when representing information as digital data.
 ### Learning Objectives
 - (LO) 3.3.1 Analyze how data representation, storage, security, and transmission of data involve computational manipulation of information. [P4]
 
+### Class Discussion
+
+- Watch this code.org video [“Digital Compression explained by Aloe Blacc”](https://www.youtube.com/watch?v=By30SCp-Tsw)
+- Discuss the video with your class. 
+- Use the following questions to check their understanding:
+  - Why do we need data compression?
+  - What are the different modes of data compression?
+  - What is the difference between lossy & lossless compression?
+
 **Information for the instructor**
 
 Many decisions need to be made when storing or transmitting data digitally. These can affect the amount of storage space used, bandwidth needed, and security of the digital materials.
@@ -25,9 +34,10 @@ This is a close up of a map of Backwoods Forest, held by one of CodeCombat’s h
 
 <img alt="high res image" src="/images/pages/teachers/resources/markdown/compression-high-res.jpg" class="res-image" />
 
-The details of the map can be clearly seen.  This image is not compressed at all and takes up  194KB or storage space. This also means it takes that much bandwidth to transmit.
+The details of the map can be clearly seen. This image is not compressed at all and takes up  194KB or storage space. This also means it takes that much bandwidth to transmit. Note: fewer bits does not necessarily mean less information.”
 
-Here is the same image, but after is has been compressed 90%. Now it only takes 20KB of storage space and bandwidth.
+Here is the same image, but after is has been compressed 90%. Now it only takes 20KB of storage space and bandwidth. That’s why lossy compression algorithms are often used when minimizing data size or transmission time is maximally important.
+
 
 <img alt="low res image" src="/images/pages/teachers/resources/markdown/compression-low-res.jpg" class="res-image" />
 
@@ -143,6 +153,7 @@ The same is true for pickled peppers.
 
 Could it be compressed even more? Pick and peck are also common words (though pick is often part of picked). 
 
+Notice how we look for patterns when we are trying to compress data. The amount of size reduction from compression depends on both the amount of redundancy in the original data representation and the compression algorithm applied.
 
 ### Video Analysis 
 1. Have students find a high-resolution (4K) YouTube video and click settings to change the resolution from 2160p to 1080p then to 480p and finally to 144p. 

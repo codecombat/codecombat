@@ -9,7 +9,7 @@ if me.isAnonymous()
   module.exports.makeNewInstance = _.clone(module.exports)
 else if not StripeCheckout?
   module.exports = {}
-  console.error "Failure loading StripeCheckout API, returning empty object."
+  console.log "Failure loading StripeCheckout API, returning empty object."
 else
   makeNewInstance = ->
     handler = StripeCheckout.configure({

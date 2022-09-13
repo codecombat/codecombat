@@ -14,7 +14,9 @@ import { titleize, arenas, activeArenas } from '../../../core/utils'
 
 import BackboneModalHarness from '../../common/BackboneModalHarness'
 import CreateAccountModal from '../../core/CreateAccountModal/CreateAccountModal'
-import YearlyArenaInfo from "./components/YearlyArenaInfo";
+import YearlyArenaInfo from './components/YearlyArenaInfo'
+const marked = require('marked')
+const _ = require('lodash')
 
 const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular' && a.end > new Date()))
 const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type === 'championship' && a.end > new Date()))
@@ -22,7 +24,7 @@ const previousRegularArena = _.last(_.filter(arenas, a => a.end < new Date() && 
 const previousChampionshipArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'championship' && (!currentChampionshipArena || a.slug !== currentChampionshipArena.slug)))
 
 const tournamentsByLeague = {
-  '5ff88bcdfe17d7bb1c7d2d00': {  // autoclan-school-network-academica
+  '5ff88bcdfe17d7bb1c7d2d00': { // autoclan-school-network-academica
     'blazing-battle': '60c159f8a78b083f4205cbf7',
     'infinite-inferno': '60c15b1fa78b083f4205cdc1'
   }
@@ -55,11 +57,16 @@ export default {
     previousChampionshipArenaSlug: previousChampionshipArena ? previousChampionshipArena.slug : null,
     regularArenaSlug: currentRegularArena ? currentRegularArena.slug : 'mages-might',
     championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
-    championshipActive: !!currentChampionshipArena
+    championshipActive: !!currentChampionshipArena,
+    anonymousPlayerName: false,
+    dateBeforeSep: new Date() < new Date('2022-9-1')
   }),
 
   beforeRouteUpdate (to, from, next) {
     this.clanIdOrSlug = to.params.idOrSlug || null
+    if (this.clanIdOrSlug) {
+      this.anonymousPlayerName = features.enableAnonymization
+    }
     next()
   },
 
@@ -88,8 +95,8 @@ export default {
     let rotationCount = 0
     const rotateHero = () => {
       $('.rotating-esports-header-background.fade-out').removeClass('fade-out').addClass('fade-in')
-      $(`.rotating-esports-header.fade-in`).removeClass('fade-in').addClass('fade-out')
-      $($(`.rotating-esports-header`)[rotationCount]).removeClass('fade-out').addClass('fade-in')
+      $('.rotating-esports-header.fade-in').removeClass('fade-in').addClass('fade-out')
+      $($('.rotating-esports-header')[rotationCount]).removeClass('fade-out').addClass('fade-in')
       rotationCount = (rotationCount + 1) % 3
     }
     this.heroRotationInterval = setInterval(rotateHero, 5000)
@@ -97,17 +104,17 @@ export default {
 
     // Scroll to the current hash, once everything in the browser is set up
     // TODO: Should this be a general thing we do in all top-level Vue views, like it is on CocoViews?
-    let scrollTo = () => {
-      let link = $(document.location.hash)
+    const scrollTo = () => {
+      const link = $(document.location.hash)
       if (link.length) {
-        let scrollTo = link.offset().top - 100
+        const scrollTo = link.offset().top - 100
         $('html, body').animate({ scrollTop: scrollTo }, 300)
       }
     }
     _.delay(scrollTo, 1000)
   },
 
-  beforeDestroy() {
+  beforeDestroy () {
     clearInterval(this.heroRotationInterval)
   },
 
@@ -151,6 +158,9 @@ export default {
                 console.error('Failed to retrieve child clans.')
               })
         }
+        $.get('/esports/anonymous/' + this.currentSelectedClan._id).then((res) => {
+          this.anonymousPlayerName = res.anonymous
+        })
 
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
         this.loadChampionshipClanRequiredData({ leagueId: this.clanIdSelected })
@@ -252,7 +262,7 @@ export default {
       this.createAccountModalOpen = true
     },
 
-    createAccountModalClosed() {
+    createAccountModalClosed () {
       this.createAccountModalOpen = false
     },
 
@@ -262,7 +272,11 @@ export default {
 
     // Assumption that anyone with an account can create a clan.
     canCreateClan () {
-      return !me.isAnonymous()
+      return !me.isAnonymous() && !me.isTeacher()
+    },
+
+    showContactUsForTournament () {
+      return me.isTeacher()
     },
 
     isAnonymous () {
@@ -292,6 +306,12 @@ export default {
       }
       return `${window.location.origin}/league/${this.clanIdOrSlug}`
     },
+    isTeacher () {
+      return me.isTeacher()
+    },
+    unlockEsports () {
+      this.anonymousPlayerName = false
+    }
   },
 
   computed: {
@@ -311,9 +331,11 @@ export default {
       isLoading: 'clans/isLoading',
       isStudent: 'me/isStudent',
       isAPIClient: 'me/isAPIClient',
-      codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount',
+      codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount'
     }),
-
+    AILeagueProductCTA () {
+      return 'https://form.typeform.com/to/qXqgbubC'
+    },
     currentSelectedClan () {
       return this.clanByIdOrSlug(this.clanIdOrSlug) || null
     },
@@ -337,8 +359,7 @@ export default {
 
     currentSelectedClanName () {
       let name = (this.currentSelectedClan || {}).displayName || (this.currentSelectedClan || {}).name || ''
-      if (!/[a-z]/.test(name))
-        name = titleize(name)  // Convert any all-uppercase clan names to title-case
+      if (!/[a-z]/.test(name)) name = titleize(name) // Convert any all-uppercase clan names to title-case
       return name
     },
 
@@ -364,7 +385,7 @@ export default {
       if (image) {
         return `/file/${image}`
       }
-      return `/images/pages/league/student_hugging.png`
+      return '/images/pages/league/student_hugging.png'
     },
 
     customEsportsImageClass () {
@@ -407,7 +428,7 @@ export default {
       return !this.currentSelectedClan?.kind
     },
 
-    regularArenaUrl () { return `/play/ladder/${this.regularArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
+    regularArenaUrl () { return `/play/ladder/${this.regularArenaSlug}` + (this.clanIdSelected ? `/clan/${this.clanIdSelected}` : '') },
 
     previousRegularArenaUrl () {
       let url = `/play/ladder/${this.previousRegularArenaSlug}`
@@ -417,12 +438,11 @@ export default {
         const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
         tournament = tournaments[this.previousRegularArenaSlug] || tournament
       }
-      if (tournament)
-        url += `?tournament=${tournament}`
+      if (tournament) url += `?tournament=${tournament}`
       return url
     },
 
-    championshipArenaUrl () { return `/play/ladder/${this.championshipArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
+    championshipArenaUrl () { return `/play/ladder/${this.championshipArenaSlug}` + (this.clanIdSelected ? `/clan/${this.clanIdSelected}` : '') },
 
     previousChampionshipArenaUrl () {
       let url = `/play/ladder/${this.previousChampionshipArenaSlug}`
@@ -432,8 +452,7 @@ export default {
         const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
         tournament = tournaments[this.previousChampionshipArenaSlug] || tournament
       }
-      if (tournament)
-        url += `?tournament=${tournament}`
+      if (tournament) url += `?tournament=${tournament}`
       return url
     },
 
@@ -491,16 +510,20 @@ export default {
     />
 
     <section class="row esports-header section-space">
-      <div class="col-sm-5">
+      <div class="col-sm-4">
         <clan-selector v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" style="margin-bottom: 40px;"/>
         <h1 class="esports-h1"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
-      <img class="ai-league-logo" src="/images/pages/league/logo_badge.png">
-      <div class="hero-rotation">
-        <img class="rotating-esports-header-background img-responsive fade-out" src="/images/pages/league/hero_background_pink.png" />
-        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_anya.png" />
-        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_okar.png" loading="lazy" />
-        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_lady_ida.png" loading="lazy" />
+      <div class="col-sm-4">
+        <div>
+          <img class="ai-league-logo" src="/images/pages/league/hyperx-cobranded-logo-1.png">
+        </div>
+      </div>
+      <div class="hero-rotation col-sm-4">
+        <img class="rotating-esports-header-background img-responsive fade-out img-response-ai-league" src="/images/pages/league/hero_background_pink.png" />
+        <img class="rotating-esports-header img-responsive fade-out img-response-ai-league" src="/images/pages/league/hero_anya.png" />
+        <img class="rotating-esports-header img-responsive fade-out img-response-ai-league" src="/images/pages/league/hero_okar.png" loading="lazy" />
+        <img class="rotating-esports-header img-responsive fade-out img-response-ai-league" src="/images/pages/league/hero_lady_ida.png" loading="lazy" />
       </div>
     </section>
 
@@ -528,11 +551,11 @@ export default {
 
     <section v-if="currentSelectedClanName === 'HyperX'"  class="row text-center partner-banner">
       <div class="col-sm-12">
-        <h1>Deal: 15% off with code <a href="http://hyperx.gg/codecombathxrevolver" target="_blank"><strong>HXCOMBAT</strong></a></h1>
+        <h1>Deal: 20% off with code <a href="https://hyperx.com/discount/HXCODECOMBAT" target="_blank"><strong>HXCODECOMBAT</strong></a></h1>
         <p>
-          <em>Valid through 2021. Standard shipping options/rates and quantity limits apply. Cannot be combined with other discount code/sale promotions.</em>
+          <em>Offer cannot be used on already discounted items and cannot be combined with any other offer. No item limit. Discount does not impact  shipping charges. Code is for the U.S. site only. Code valid through March 31, 2023.</em>
         </p>
-        <a href="http://hyperx.gg/codecombathxrevolver" target="_blank">
+        <a href="https://hyperx.com/discount/HXCODECOMBAT" target="_blank">
           <img class="custom-esports-image-banner" alt="" src="/images/pages/league/hyperx-banner.jpg">
         </a>
       </div>
@@ -547,19 +570,11 @@ export default {
       </div>
       <div class="col-lg-6 section-space" style="text-align: left;">
         <div>
-          <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
-          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 3 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
+          <img class="img-responsive" src="/images/pages/league/sand-storm-blitz.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
+          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 5 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
         </div>
-        <p>{{ $t('league.season3_announcement_1') }}</p>
-        <p>{{ $t('league.season3_announcement_2') }}</p>
-        <p>{{ $t('league.season3_announcement_3') }}</p>
-        <ul style="list-style-type: none; padding: 0px;">
-          <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.season1_prize_1') }}</li>
-          <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.season1_prize_2') }}</li>
-          <li><span class="bullet-point" style="background-color: #30EFD3;"/><a href="http://hyperx.gg/codecombathxrevolver" target="_blank">{{ $t('league.season1_prize_hyperx') }}</a> - <a href="/league/hyperx">{{ $t('league.join_team') }}</a></li>
-          <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_3') }}</li>
-          <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.season1_prize_4') }}</li>
-        </ul>
+        <p>{{ $t('league.season5_announcement_1') }}</p>
+        <p>{{ $t('league.season5_announcement_2') }}</p>
       </div>
     </div>
 
@@ -575,9 +590,15 @@ export default {
       <InputClanSearch v-if="isGlobalPage" :max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" :anonymousPlayerName="anonymousPlayerName" />
         <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
-        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
+        <template
+          v-if="showContactUsForTournament() && anonymousPlayerName"
+          >
+          <div v-if="dateBeforeSep" @click.stop="unlockEsports" class="btn btn-large btn-primary btn-moon play-btn-cta"> {{ $t("league.click_to_unlock_before_sep") }}</div>
+          <a :href="AILeagueProductCTA" target="_blank" class="btn btn-large btn-primary btn-moon play-btn-cta" v-else> {{ $t("league.unlock_leaderboard") }}</a>
+        </template>
+        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta" v-else>{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
       </div>
       <div class="col-lg-6 section-space">
         <leaderboard :title="$t('league.codepoints')" :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"
@@ -604,7 +625,7 @@ export default {
 
     <div class="row flex-row video-iframe-section section-space" style="margin: 0 0 0 0" v-if="previousChampionshipArenaResultsPublished">
       <div class="col-sm-10 video-backer video-iframe">
-        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/26bee42b433e19f789271ae400529025?poster=https://videodelivery.net/26bee42b433e19f789271ae400529025/thumbnails/thumbnail.jpg%3Ftime%3D1732s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 3 - Titan Age"></iframe></div>
+        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/a681441780a6d14bbe39e81abaa3635c?poster=https://videodelivery.net/a681441780a6d14bbe39e81abaa3635c/thumbnails/thumbnail.jpg%3Ftime%3D1638s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 5 - Sands of Time"></iframe></div>
       </div>
     </div>
 
@@ -632,50 +653,113 @@ export default {
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.free_4') }}</li>
         </ul>
         <div class="xs-centered">
-          <a v-if="clanIdSelected === '' && !doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
+          <a v-if="clanIdSelected === '' && !doneRegistering && !isTeacher()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
+          <router-link
+            v-else-if="isTeacher()"
+            :to="{ name: 'LaddersList' }"
+            class="btn btn-large btn-primary btn-moon"
+          >
+            {{ $t('league.create_custom') }}
+          </router-link>
         </div>
       </div>
     </section>
 
-    <div class="row section-space prize-section">
-      <div class="row">
-        <!-- <h1 class="subheader1 text-center" style="margin-bottom: 64px;"><span class="esports-pink">Compete </span><span class="esports-green">in </span><span class="esports-aqua">the </span><span class="esports-purple">Colossus Clash </span><span class="esports-aqua">for </span><span class="esports-green">a </span><span class="esports-pink">chance </span><span class="esports-purple">to </span><span class="esports-aqua">win!</span></h1> -->
-        <h1 class="subheader1 text-center" style="margin-bottom: 64px;"><span class="esports-pink">Season </span><span class="esports-green">3 </span><span class="esports-aqua">- </span><span class="esports-purple">Colossus Clash </span><span class="esports-aqua">- </span><span class="esports-green">Prize </span><span class="esports-pink">List</span></h1>
+    <div class="row prize-section">
+      <div class="prize-section__heading subheader1">
+        <h1 class="prize-section__heading-text esports-pink"><span class="esports-aqua">{{ $t('league.you_win') }}</span> {{ $t('league.great_prizes') }}</h1>
       </div>
-      <div class="row">
-        <div class="col-sm-4 text-center">
-          <a href="https://respawnproducts.com/products/respawn-110-racing-style-gaming-chair" target="_blank">
-            <img src="/images/pages/league/respawn-logo.png" alt="RESPAWN company logo" class="responsive-img" style="max-width: 160px; margin-bottom: 64px;"/>
-            <br />
-            <img src="/images/pages/league/respawn-gaming-chair.png" alt="RESPAWN Gaming Chair" class="responsive-img" style="max-width: 525px; width: 100%"/>
-          </a>
-        </div>
-        <div class="col-sm-4">
-          <ul style="list-style-type: none; padding: 0px; margin-top: 74px;">
-            <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.season1_prize_1') }}</li>
-            <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_2') }}</li>
-            <li><span class="bullet-point" style="background-color: #30EFD3;"/><a href="http://hyperx.gg/codecombathxrevolver" target="_blank">{{ $t('league.season1_prize_hyperx') }}</a> - <a href="/league/hyperx">{{ $t('league.join_team') }}</a></li>
-            <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.season1_prize_3') }}</li>
-            <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.season1_prize_4') }}</li>
-          </ul>
-          <p>
-            <em>Prizes will be awarded to players who reach the top of the leaderboard in the Finals arena.  Some prizes are limited to US participants only.
-            <a href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view?usp=sharing">CodeCombat reserves</a> the right to determine in its sole discretion if a player qualifies and will receive a prize. <!-- Players in China, Taiwan, Hong Kong, and Macao should be play on our China server at <a href="https://koudashijie.com/">koudashijie.com</a> to be eligible for prizes. --></em>
-          </p>
-        </div>
-        <div class="col-sm-4 text-center">
-          <a href="http://hyperx.gg/codecombathxrevolver" target="_blank">
-            <img src="/images/pages/league/hyperx-logo.png" alt="HyperX company logo" class="responsive-img" style="max-width: 160px; margin-bottom: 64px;"/>
-            <br />
-            <img src="/images/pages/league/hyperx-package.png" alt="HyperX Gaming peripherals" class="responsive-img" style="max-width: 525px; width: 100%"/>
-          </a>
+      <div class="prize-section__sponsor">
+        <div class="prize-section__sponsor-block">
+          <span class="prize-section__sponsor-text">{{ $t('league.powered_by') }}</span>
+          <img src="/images/pages/league/hyperx-red-logo.png" alt="HyperX logo" class="prize-section__sponsor-img">
         </div>
       </div>
-      <div class="text-center" style="margin: 32px 0;">
-        <a :href="championshipArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Now</a>
+      <div class="prize-section__info">
+        <div class="prize-section__info-1">
+          {{ $t('league.grand_prize') }}: {{ $t('league.season1_prize_1') }}<span class="prize-section__small-top">1</span>
+        </div>
+        <div class="prize-section__info-2">
+          {{ $t('league.top_players_win') }} <span class="prize-section__small-top">2</span>
+        </div>
       </div>
-      <div class="two-pixel-star">
-        <img class="img-responsive" src="/images/pages/league/two_pixel_star.png">
+      <div class="prize-section__winners clearfix">
+        <div class="prize-section__winners-1 prize-section-box">
+          <div class="prize-section__winners-text">1<span class="prize-section__small-top">st</span> {{ $t('league.place') }}</div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="prize-section__winners--product-link">
+                <div>
+                  <img src="/images/pages/league/hyperx-headphones-w-glow.png" alt="Cloud Revolver 7.1 Headset" class="prize-section__winners-1--img">
+                </div>
+                Cloud Revolver 7.1 Headset
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="prize-section__winners--product-link">
+                <div>
+                  <img src="/images/pages/league/hyperx-keyboard-w-glow.png" alt="Alloy Origins Keyboard" class="prize-section__winners-1--img">
+                </div>
+                Alloy Origins Keyboard
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="prize-section__winners--product-link">
+                <div>
+                  <img src="/images/pages/league/hyperx-mouse-w-glow.png" alt="Pulsefire FPS Pro Mouse" class="prize-section__winners-1--img">
+                </div>
+                Pulsefire FPS Pro Mouse
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="prize-section__winners-2">
+          <div class="col-sm-6 prize-section-box">
+            <div class="prize-section__winners-text">2<span class="prize-section__small-top">nd</span> {{ $t('league.place') }}</div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="prize-section__winners--product-link">
+                  <div>
+                    <img src="/images/pages/league/hyperx-cloud2-headphones-w-glow.png" alt="Cloud II Headset" class="prize-section__winners-2--img">
+                  </div>
+                  Cloud II Headset
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="prize-section__winners--product-link">
+                  <div>
+                    <img src="/images/pages/league/hyperx-earbuds-w-glow.png" alt="Cloud Earbuds" class="prize-section__winners-2--img">
+                  </div>
+                  Cloud Earbuds
+                </div>
+              </div>
+            </div>
+          </div>
+<!--          <div class="col-sm-3">&nbsp;</div>-->
+          <div class="col-sm-3 col-sm-offset-3 prize-section-box">
+            <div class="prize-section__winners-text">3<span class="prize-section__small-top">rd</span> {{ $t('league.place') }}</div>
+            <div class="prize-section__winners--product-link">
+              <div>
+                <img src="/images/pages/league/hyperx-cloud-stinger-headset-w-glow.png" alt="Cloud Stinger Core Headset" class="prize-section__winners-2--img">
+              </div>
+              Cloud Stinger Core Headset
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="prize-section__promo">
+        {{ $t('courses.join') }} <a href="/league/hyperx" class="prize-section__promo-link esports-aqua">{{ $t('league.team_hyperx') }}</a>
+        {{ $t('code.and') }} {{ $t('league.earn_more_gear') }}
+      </div>
+      <div class="prize-section__footer">
+        <p class="prize-section__footer-text"><span class="prize-section__terms">1</span> {{ $t('league.prize_footer1') }}</p>
+        <p class="prize-section__footer-text"><span class="prize-section__terms">2</span> {{ $t('league.prize_footer2') }}</p>
+        <p class="prize-section__footer-text">{{ $t('league.prize_footer3') }}</p>
+        <p class="prize-section__footer-text">
+          {{ $t('league.prize_footer4_1') }}
+          <a href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view" class="prize_section__reserves-link esports-aqua" target="_blank">{{ $t('league.coco_reserves') }}</a>
+          {{ $t('league.prize_footer4_2') }}
+        </p>
       </div>
     </div>
 
@@ -700,63 +784,9 @@ export default {
     <div class="row flex-row text-center">
       <h1><span class="esports-goldenlight">Season </span><span class="esports-purple">arenas</span></h1>
     </div>
-    <div id="season-arenas" class="row flex-row">
-      <div class="col-sm-4 text-center xs-pb-20">
-        <h3>Infinite Inferno Cup</h3>
-        <div>Jan - April 2021</div>
-        <!-- <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy"/> -->
-        <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0">
-          <div class="col-xs-12 video-backer video-iframe">
-            <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/1422969c8f5fbee2a62ee60021becfb4?poster=https://videodelivery.net/1422969c8f5fbee2a62ee60021becfb4/thumbnails/thumbnail.jpg%3Ftime%3D1584s" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 1 - Forged in Flame"></iframe></div>
-          </div>
-        </div>
-        <div class="row text-center">
-          <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/blazing-battle?tournament=608cea0f8f2b971478556ac6" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.blazing_battle`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
-          </div>
-          <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/infinite-inferno?tournament=608cd3f814fa0bf9f1c1f928" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.infinite_inferno`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 text-center xs-pb-20">
-        <h3>Sorcerer's Blitz</h3>
-        <div>May - Aug 2021</div>
-        <!-- <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy" /> -->
-        <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0">
-          <div class="col-xs-12 video-backer video-iframe">
-            <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a?poster=https://videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a/thumbnails/thumbnail.jpg%3Ftime%3D837s" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 2 - Spells of Fortune"></iframe></div>
-          </div>
-        </div>
-        <div class="row text-center">
-          <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/mages-might?tournament=612d554b9abe2e0019aeffb9" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.mages_might`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
-          </div>
-          <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/sorcerers?tournament=612d556f9abe2e0019af000b" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.sorcerers`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 text-center">
-        <h3>Colossus Clash</h3>
-        <div>Sep - Dec 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_clash.png" loading="lazy" v-if="!previousChampionshipArenaResultsPublished" />
-        <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0" v-if="previousChampionshipArenaResultsPublished">
-          <div class="col-xs-12 video-backer video-iframe">
-            <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/26bee42b433e19f789271ae400529025?poster=https://videodelivery.net/26bee42b433e19f789271ae400529025/thumbnails/thumbnail.jpg%3Ftime%3D1732s" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 3 - Titan Age"></iframe></div>
-          </div>
-        </div>
-        <div class="row text-center" v-if="previousChampionshipArenaResultsPublished">
-          <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/giants-gate?tournament=612d554b9abe2e0019aeffb9" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.giants_gate`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
-          </div>
-          <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/colossus?tournament=612d556f9abe2e0019af000b" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.colossus`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
-          </div>
-        </div>
-      </div>
-    </div>
+
     <yearly-arena-info />
+
     <div class="row">
       <div class="col-xs-12">
         <p>
@@ -768,13 +798,19 @@ export default {
           {{ $t('league.season_subheading2') }}
         </p>
       </div>
+      <div class="col-xs-12 ladder-list">
+        <span>{{ $t('league.check_out_all') }}</span>
+        <router-link :to="{ name: 'LaddersList' }" class="ladder-list__route esports-aqua">{{ $t('ladder.title') }}</router-link>
+        <span>{{ $t('general.and') }}</span>
+        <span>{{ $t('league.pick_best_tournaments') }}</span>
+      </div>
     </div>
 
     <div v-if="!doneRegistering && !isClanCreator()" class="row flex-row text-center section-space xs-mt-0">
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
     </div>
 
-    <div class="row flex-row text-dont-just-play-code" style="justify-content: flex-end;">
+    <div class="row flex-row text-dont-just-play-code" style="justify-content: flex-end;" id="trailer">
       <img src="/images/pages/league/text_dont_just_play_code.svg" class="img-responsive" />
     </div>
     <div class="row flex-row video-iframe-section section-space">
@@ -863,6 +899,12 @@ export default {
     <div class="row flex-row text-center section-space">
       <a v-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">{{ $t('league.edit_team') }}</a>
       <a v-else-if="!currentSelectedClan && canCreateClan()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">{{ $t('league.start_team') }}</a>
+      <div v-else-if="!doneRegistering && showContactUsForTournament" class="contact-us">
+        <a class="btn btn-large btn-primary btn-moon contact-us__btn" href="https://form.typeform.com/to/qXqgbubC" target="_blank">
+          {{ $t('general.contact_us') }}
+        </a>
+        <div class="contact-us__text">{{ $t('league.custom_tournament') }}</div>
+      </div>
       <a v-else-if="!doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
     </div>
 
@@ -901,12 +943,14 @@ export default {
         <h1 style="margin-bottom: 50px;"><span class="esports-aqua">Bring </span><span class="esports-pink">competitive coding </span><span class="esports-aqua">to your </span><span class="esports-purple">school</span></h1>
         <p class="subheader2" style="margin-bottom: 50px;">{{ $t('league.share_flyer') }}</p>
         <div class="xs-centered">
-          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">{{ $t('league.download_flyer') }}</a>
-          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit?usp=sharing" target="_blank" rel="noopener noreferrer">{{ $t('teacher.teacher_getting_started') }}</a>
-          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank" rel="noopener noreferrer">
+          <a class="btn btn-large btn-primary btn-moon btn-esports-flyer" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">{{ $t('league.download_flyer') }}</a>
+          <a class="btn btn-large btn-primary btn-moon btn-esports-flyer" href="https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit?usp=sharing" target="_blank" rel="noopener noreferrer">{{ $t('teacher.teacher_getting_started') }}</a>
+          <a class="btn btn-large btn-primary btn-moon btn-esports-flyer" href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank" rel="noopener noreferrer">
             <span class="glyphicon glyphicon-facetime-video"></span>
-            <span class="spl">Tutorial</span>
+            <span class="spl">{{ $t('game_menu.guide_video_tutorial') }}</span>
           </a>
+          <a class="btn btn-large btn-primary btn-moon btn-esports-flyer" href="https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League" target="_blank">{{ $t('contact.faq') }}</a>
+          <a class="btn btn-large btn-primary btn-moon btn-esports-flyer" href="https://docs.google.com/presentation/d/1fXzV0gh9U0QqhSDcYYlIOIuM3uivFbdC9UfT1OBydEE/edit?usp=sharing" target="_blank">{{ $t('league.package_options_and_guide') }}</a>
         </div>
       </div>
       <div class="col-sm-4">
@@ -941,11 +985,11 @@ export default {
     color: white;
   }
 
-  .esports-pink {
+  ::v-deep .esports-pink {
     color: #ff39a6;
   }
 
-  .esports-goldenlight {
+  ::v-deep .esports-goldenlight {
     color: #f7d047;
   }
 
@@ -953,11 +997,11 @@ export default {
     color: #30efd3;
   }
 
-  .esports-green {
+  ::v-deep .esports-green {
     color: #bcff16;
   }
 
-  .esports-purple {
+  ::v-deep .esports-purple {
     color: #9b83ff;
   }
 
@@ -986,9 +1030,19 @@ export default {
     margin-top: 30px;
   }
 
-  .esports-header .ai-league-logo {
-    width: 15vw;
-    max-width: 296px;
+  .esports-header {
+    .ai-league-logo {
+      width: 20vw;
+      max-width: 296px;
+    }
+
+    &-powered-by {
+      text-transform: uppercase;
+      padding-top: 15px;
+
+      position: relative;
+      left: 10%;
+    }
   }
 
   @media screen and (max-width: 767px) {
@@ -1077,47 +1131,6 @@ export default {
     }
   }
 
-  #season-arenas {
-    margin-bottom: 30px;
-    h3, p {
-      color: #30EFD3;
-    }
-
-    h3 {
-      font-size: 28px;
-      line-height: 40px;
-    }
-
-    img {
-      max-height: 250px;
-      margin: 15px auto 0 auto;
-    }
-
-    @media screen and (min-width: 992px) {
-      .view-winners-col:nth-child(1) {
-        padding-right: 0
-      }
-      .view-winners-col:nth-child(2) {
-        padding-left: 0
-      }
-    }
-
-    @media screen and (max-width: 992px) {
-      .view-winners-col:nth-child(2) {
-        padding-top: 10px;
-      }
-    }
-
-    .btn-primary.btn-moon.btn-small {
-      padding: 10px;
-      letter-spacing: 0;
-      line-height: 18px;
-      font-size: 14px;
-      margin: 0px;
-      width: calc(100% - 5px);
-    }
-  }
-
   #features {
     .img-container {
       height: 90px;
@@ -1195,7 +1208,7 @@ export default {
   }
 
   .partner-banner  {
-    margin-top: -80px;
+    margin-top: 5px;
     margin-bottom: 70px;
 
     p {
@@ -1380,7 +1393,7 @@ export default {
     }
 
     .esports-header {
-      margin-bottom: 200px;
+      margin-bottom: 100px;
     }
   }
 
@@ -1475,7 +1488,140 @@ export default {
     }
   }
 
+  .ladder-list {
+    &__route {
+      text-decoration: underline;
+      text-transform: lowercase;
+    }
+  }
+  .btn-esports-flyer {
+    margin-bottom: 20px;
+  }
+
+  .contact-us {
+    &__btn {
+      display: block;
+    }
+    &__text {
+      padding-top: 10px;
+      text-transform: uppercase;
+      font-size: 90%;
+    }
+  }
+
+  .prize-section {
+    &__heading {
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: bold;
+
+      line-height: initial;
+
+      &-text {
+        border-bottom: 2px solid #ffffff;
+
+        display: inline-block;
+      }
+    }
+
+    &__sponsor {
+      text-transform: uppercase;
+      text-align: center;
+
+      &-text {
+        padding-right: 1%;
+        font-weight: bold;
+      }
+
+      &-img {
+        width: 25%;
+        position: relative;
+        top: 20px;
+      }
+    }
+
+    &__info {
+      text-align: center;
+      padding: 30px;
+
+      &-1 {
+        font-size: 45px;
+        padding-bottom: 10px;
+      }
+
+      &-2 {
+        font-size: 20px;
+      }
+    }
+
+    &__small-top {
+      vertical-align: super;
+      font-size: small;
+    }
+
+    &__promo {
+      text-align: center;
+      padding-top: 20px;
+
+      &-link {
+        text-decoration: underline;
+        text-underline-position: under;
+      }
+    }
+
+    &__footer {
+      font-size: small;
+      line-height: initial;
+      padding: 20px;
+
+      &-text {
+        margin-bottom: 5px;
+      }
+    }
+
+    &-box {
+      padding: 10px;
+      border: 1px solid white;
+      box-shadow: 2px 2px 2px #888888;
+    }
+
+    &__winners {
+      &-1 {
+        text-align: center;
+
+        &--img {
+          width: 50%;
+          padding-bottom: 10px;
+        }
+      }
+
+      &-text {
+        font-size: 35px;
+        text-transform: capitalize;
+        padding-bottom: 10px;
+        font-weight: bold;
+      }
+
+      &--product-link {
+        color: #ffffff;
+      }
+
+      &-2 {
+        text-align: center;
+        padding-top: 50px;
+
+        &--img {
+          width: 50%;
+          padding-bottom: 10px;
+        }
+      }
+    }
+
+  }
+
+  .img-response-ai-league {
+    max-width: 90%;
+  }
 
 }
 </style>
-

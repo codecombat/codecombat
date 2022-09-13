@@ -3,7 +3,7 @@ CourseNagModal = require 'views/teachers/CourseNagModal'
 Prepaids = require 'collections/Prepaids'
 utils = require 'core/utils'
 
-template = require 'templates/teachers/course-nag'
+template = require 'app/templates/teachers/course-nag'
 
 # Shows up if you have prepaids but haven't enrolled any students
 module.exports = class CourseNagSubview extends CocoView

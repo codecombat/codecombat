@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/account/payments-view'
+template = require 'app/templates/account/payments-view'
 CocoCollection = require 'collections/CocoCollection'
 Payments = require 'collections/Payments'
 Prepaids = require 'collections/Prepaids'

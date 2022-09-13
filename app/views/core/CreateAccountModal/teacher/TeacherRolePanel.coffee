@@ -1,8 +1,9 @@
 forms = require 'core/forms'
+utils = require 'core/utils'
 
 TeacherRolePanel = Vue.extend
   name: 'teacher-role-panel'
-  template: require('templates/core/create-account-modal/teacher-role-panel')()
+  template: require('app/templates/core/create-account-modal/teacher-role-panel')()
   data: ->
     formData = _.pick(@$store.state.modal.trialRequestProperties, [
       'role'
@@ -12,7 +13,8 @@ TeacherRolePanel = Vue.extend
       'phoneNumber'
     ])
     return _.assign(formData, {
-      showRequired: false
+      showRequired: false,
+      product: utils.getProductName()
     })
 
   computed:
@@ -37,7 +39,10 @@ TeacherRolePanel = Vue.extend
       @commitValues()
       window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Continue Success', category: 'Teachers'
       # Facebook Pixel tracking for Teacher conversions.
-      window.fbq?('trackCustom', 'UniqueTeacherSignup')
+      if utils.isOzaria
+        window.fbq?('trackCustom', 'OzariaUniqueTeacherSignup')
+      else
+        window.fbq?('trackCustom', 'UniqueTeacherSignup')
       # Google AdWord teacher conversion.
       gtag?('event', 'conversion', {'send_to': 'AW-811324643/8dp2CJK6_5QBEOOp74ID'});
       @$emit('continue')

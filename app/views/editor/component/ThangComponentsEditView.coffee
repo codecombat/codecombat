@@ -1,6 +1,6 @@
 require('app/styles/editor/component/thang-components-edit-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/component/thang-components-edit-view'
+template = require 'app/templates/editor/component/thang-components-edit-view'
 
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'

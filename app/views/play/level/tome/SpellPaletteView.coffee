@@ -15,7 +15,7 @@ N_ROWS = 4
 
 module.exports = class SpellPaletteView extends CocoView
   id: 'spell-palette-view'
-  template: require 'templates/play/level/tome/spell-palette-view'
+  template: require 'app/templates/play/level/tome/spell-palette-view'
   controlsEnabled: true
 
   subscriptions:
@@ -267,6 +267,9 @@ module.exports = class SpellPaletteView extends CocoView
               for prop in _.sortBy(props) when prop[0] isnt '_' and not itemsByProp[prop]  # no private properties
                 continue if prop is 'moveXY' and @options.level.get('slug') is 'slalom'  # Hide for Slalom
                 continue if @thang.excludedProperties and prop in @thang.excludedProperties
+                # Temporary: switching up method documentation for M7 levels
+                continue if @options.level.get('releasePhase') is 'beta' and (prop in ['moveUp', 'moveRight', 'moveDown', 'moveLeft'])
+                continue if @options.level.get('releasePhase') isnt 'beta' and (prop in ['moveTo', 'use'])
                 propsByItem[item.get('name')] ?= []
                 propsByItem[item.get('name')].push owner: owner, prop: prop, item: item
                 itemsByProp[prop] = item
@@ -295,6 +298,9 @@ module.exports = class SpellPaletteView extends CocoView
         continue if prop is 'say' and @options.level.get 'hidesSay'  # Hide for Dungeon Campaign
         continue if prop is 'moveXY' and @options.level.get('slug') is 'slalom'  # Hide for Slalom
         continue if @thang.excludedProperties and prop in @thang.excludedProperties
+        # Temporary: switching up method documentation for M7 levels
+        continue if @options.level.get('releasePhase') is 'beta' and (prop in ['moveUp', 'moveRight', 'moveDown', 'moveLeft'])
+        continue if @options.level.get('releasePhase') isnt 'beta' and (prop in ['moveTo', 'use'])
         propsByItem['Hero'] ?= []
         propsByItem['Hero'].push owner: owner, prop: prop, item: itemThangTypes[@thang.spriteName]
         ++propCount

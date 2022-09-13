@@ -1,0 +1,450 @@
+extends /templates/core/modal-base-flat
+
+include ../teachers/common/license-form-group-mixin
+include ../teachers/common/license-type-mixin
+
+//- DNT
+
+block modal-header-content
+
+  .row
+    .col-sm-6
+      h4 Name: #{view.user.get('name')} (#{view.user.get('firstName')} #{view.user.get('lastName')})
+      h4 Email: #{view.user.get('emailLower') || view.user.get('email')}
+      h4
+        span= 'ID: '
+        code= view.user.get('_id')
+      if view.user.isTeacher() && view.trialRequest
+        - var props = view.trialRequest.get('properties') || {}
+        h4 School: #{props.nces_school || props.organization}
+        h4 District: #{props.nces_district || props.district}
+      if view.user.get('role')
+        h4
+          - var outcomesReportKind = view.user.isStudent() ? 'student' : view.user.isSchoolAdmin() ? 'school-admin' : 'teacher'
+          a(href='/outcomes-report/' + outcomesReportKind + '/' + view.user.get('_id') data-i18n="outcomes.view_outcomes_report")
+
+    .col-sm-3
+      if view.user.isStudent() && me.isAdmin()
+        button#destudent-btn.btn.btn-burgundy.btn-block Destudent
+      if view.user.isTeacher() && me.isAdmin()
+        button#deteacher-btn.btn.btn-burgundy.btn-block Deteacher
+      if !view.user.isTeacher() && me.isAdmin()
+        button#reset-progress-btn.btn.btn-burgundy.btn-block Reset Progress
+      if me.isAdmin()
+        a#export-data-btn.btn.btn-primary.btn-block(target='_blank' href='/db/user/' + view.user.id + '/export-data') Export GDPR User Data
+
+    .col-sm-3
+      if view.prepaids.size()
+        div
+          a(href="#prepaids") Existing Prepaids
+      if view.user.isTeacher()
+        div
+          a(href="#licenses") Grant Student Licenses
+      if view.classrooms.size()
+        div
+          a(href="#classrooms") Classrooms
+      if view.user.isHomeUser()
+        div
+          a(href="#stripe") Modify Subscription
+      if me.isOnlineTeacher()
+        div
+          a(href="#other-controls") Other Controls
+      // Not currently used
+      //div
+      //  a(href="#create-payment") Create Payment
+      div
+        a(href="#database-entries") Database Entries
+
+  if view.user.isTeacher() && me.isAdmin()
+    div.m-t-1
+      // Not currently used
+      //label
+      //  input#verified-teacher-checkbox(type='checkbox', checked=view.userIsVerifiedTeacher())
+      //  span.p-l-1
+      //    | APCSP Verified Teacher (has access to private forum)
+      //br
+      label
+        input#school-admin-checkbox(type='checkbox', checked=view.userIsSchoolAdmin())
+        span.p-l-1
+          | Enable School Administrator
+        span.p-l-1
+          a#edit-school-admins-link edit teachers
+      div
+        if view.userSaveState == 'saving'
+          | Saving...
+        else if view.userSaveState == 'saved'
+          | Saved!
+
+  if view.user.isHomeUser() && me.isAdmin()
+    div.m-t-1
+      label
+        input#online-teacher-checkbox(type='checkbox', checked=view.userIsOnlineTeacher())
+        span.p-l-1
+          | Enable Online Teacher
+      div
+        if view.userSaveState == 'saving'
+          | Saving...
+        else if view.userSaveState == 'saved'
+          | Saved!
+
+block modal-body-content
+  if view.editingSchoolAdmins
+    h3.m-t-3#school-admins-title Edit School Admin Teacher Access
+    h5 Add teacher
+    table.table.table-condensed
+      .form-horizontal
+        form#teacher-search-form.form-group
+        .col-sm-4
+          input.form-control#teacher-search(type="text")
+        .col-sm-1
+          button.btn.btn-primary.btn-large#teacher-search-button Search
+        .col-sm-1
+          button.btn.btn-large#clear-teacher-search-button Clear results
+      #teacher-search-result
+    if view.userSaveState
+      br
+      div= view.userSaveState
+    br
+    h5 Edit teachers
+    br
+    table.table.table-condensed
+      #school-admin-result
+
+  if view.prepaids.size()
+    h3.m-t-3#prepaids(data-toggle="collapse" data-target="#prepaids-table" aria-expanded="false" aria-controls="prepaids-table") Existing Prepaids
+      span.small click to toggle collapse
+    #prepaids-table.collapse.in.multi-collpase
+      table.table.table-condensed
+        tr
+          th ID
+          th Shared by
+          th Type
+          if view.timeZone == 'Asia/Shanghai'
+            th Issued (CT)
+            th Start (CT)
+            th End (CT)
+          else
+            th Issued (PT)
+            th Start (PT)
+            th End (PT)
+          th Used
+        for prepaid in view.prepaids.models
+          - var prepaidControlId=prepaid.id
+          tr(id=prepaidControlId)
+            td= prepaid.id
+            td
+              if prepaid.creator
+                if prepaid.creator.id !== view.user.id
+                  a.user-link(data-user-id=prepaid.creator.id)
+                    = prepaid.creator.get('name')
+                else
+                  | -
+            td= prepaid.typeDescription()
+            td= moment.timezone(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).tz(view.timeZone).format('l')
+            td
+              if prepaid.get('startDate')
+                if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+                  - var startDateControlId='startDate-'+prepaid.id
+                  input(id= startDateControlId type="date" name="startDate" value=moment.timezone(prepaid.get('startDate')).tz(view.timeZone).format('YYYY-MM-DD'))
+                else
+                  = moment.timezone(prepaid.get('startDate')).tz(view.timeZone).format('l')
+            td
+              if prepaid.get('endDate')
+                if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+                  - var endDateControlId='endDate-'+prepaid.id
+                  input(id= endDateControlId type="date" name="endDate" value=moment.timezone(prepaid.get('endDate')).tz(view.timeZone).format('YYYY-MM-DD'))
+                else
+                  = moment.timezone(prepaid.get('endDate')).tz(view.timeZone).format('l')
+            td
+              if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+                - var totalLicensesControlId='totalLicenses-'+prepaid.id
+                = (prepaid.get('redeemers') || []).length + ' / '
+                input(id=totalLicensesControlId type="number" name="totalLicenses" value=prepaid.get('maxRedeemers'), style="width:50px")
+              else
+                = (prepaid.get('redeemers') || []).length + ' / ' + prepaid.get('maxRedeemers') || 0
+            td
+              if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+                button.btn.btn-primary.save-prepaid-info-btn(data-prepaid-id=prepaid.id) Save
+                button.btn.btn-primary.cancel-prepaid-info-edit-btn(data-prepaid-id=prepaid.id) Cancel
+              else
+                button.btn.btn-primary.edit-prepaids-info-btn(data-prepaid-id=prepaid.id) Edit
+    hr
+
+  if view.user.isTeacher()
+    h3.m-t-3#licenses Grant Student Licenses
+    #prepaid-form.form
+      if view.state === 'creating-prepaid'
+        .progress.progress-striped.active
+          .progress-bar(style="width: 100%")
+
+      else if view.state === 'made-prepaid'
+        .alert.alert-success Licenses created!
+
+      else
+        if view.timeZone == 'Asia/Shanghai'
+          h4.small(style="max-width: 700px") Licenses start at 12am CT on the start date and end at 11:59pm CT on the end date listed.
+        else
+          h4.small(style="max-width: 700px") Licenses start at 12am PT on the start date and end at 11:59pm PT on the end date listed.
+        +license-form-group('Number of Licenses')(id="seats-input" type="number", name="maxRedeemers", min="1")
+        +license-type(view.licenseType, view.licensePresets, view.utils)
+        +license-form-group('Start Date')(type="date" name="startDate" value=moment.timezone().tz(view.timeZone).format('YYYY-MM-DD'))
+        +license-form-group('End Date')(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
+        .form-group
+          button#add-seats-btn.btn.btn-primary Add Licenses
+      hr
+  #esports-products
+    if view.esportsProducts.length
+      h3.m-t-3(data-toggle="collapse" data-target="#esports-product-table" aria-expanded="false" aria-controls="esports-product-table") Existing Esports Products
+        span.small click to toggle collapse
+      #esports-product-table.collapse.multi-collapse
+        table.table.table-condensed
+          tr
+            th Type
+            if view.timeZone == 'Asia/Shanghai'
+              th Start (CT)
+              th End (CT)
+            else
+              th Start (PT)
+              th End (PT)
+            th Addons
+            th teams
+            th tournaments
+            th arena
+          for product in view.esportsProducts
+            - var productControlId = product.productOptions.id
+            tr(id=productControlId)
+              td= product.productOptions.type
+              td
+                if view.productTableState && view.productTableState[productControlId] === 'editMode'
+                  - var startDateControlId='startDate-'+productControlId
+                  input(id= startDateControlId type="date" name="startDate" value=moment.timezone(product.startDate).tz(view.timeZone).format('YYYY-MM-DD'))
+                else
+                  = moment.timezone(product.startDate).tz(view.timeZone).format('l')
+              td
+                if view.productTableState && view.productTableState[productControlId] === 'editMode'
+                  - var endDateControlId='endDate-'+productControlId
+                  input(id= endDateControlId type="date" name="endDate" value=moment.timezone(product.endDate).tz(view.timeZone).format('YYYY-MM-DD'))
+                else
+                  = moment.timezone(product.endDate).tz(view.timeZone).format('l')
+              td= (product.productOptions.teams ? 'Yes': 'No')
+              td= product.productOptions.teams
+              td= product.productOptions.tournaments
+              td= product.productOptions.arenas
+      hr
+
+  //- could be clan owner, but let's check teacher first
+  if view.user.isTeacher() || view.user.isHomeUser()
+    h3.m-t-3#esports-product(data-toggle="collapse" data-target="#esports-product-form" aria-expanded="false" aria-controls="esports-product-form") Grant Esports Products 
+      span.small click to toggle collapse
+    #esports-product-form.form.collapse.multi-collapse
+      if view.state === 'creating-esports-product'
+        .progress.progress-striped.active
+          .progress-bar(style="width: 100%")
+
+      else if view.state === 'made-esports-product'
+        .alert.alert-success Esports Product created!
+
+      else
+        if view.timeZone == 'Asia/Shanghai'
+          h4.small(style="max-width: 700px") Product start at 12am CT on the start date and end at 11:59pm CT on the end date listed.
+        else
+          h4.small(style="max-width: 700px") Product start at 12am PT on the start date and end at 11:59pm PT on the end date listed.
+        +license-form-group('Start Date')(type="date" name="startDate" value=moment.timezone().tz(view.timeZone).format('YYYY-MM-DD'))
+        +license-form-group('End Date')(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'month').format('YYYY-MM-DD'))
+        .form-group
+          - esportsType = view.esportsType
+          label
+            span Esports Product Type
+            =":"
+            #esports-type-select
+              .radio
+                label.product-type
+                  input(type='radio', name='esportsType', value='basic', checked=esportsType==='basic')
+                  span Basic
+                h4.small one custom tournament using current arenas, one custom team, etc.
+              .radio
+                label.product-type
+                  input(type='radio', name='esportsType', value='pro', checked=esportsType==='pro')
+                  span Pro
+                h4.small up to three custom tournaments using any arenas, up to five custom teams, etc.
+        +license-form-group('Addons')(type="checkbox" name="addon" id="esports-product-addon")
+          //- span(style="margin-left: 10px") Make sure you re-check this if you change type.
+        #esports-product-addon-items
+          if view.esportsAddon
+            +license-form-group('Custom Tournaments')(type="number" name="tournaments" value=(esportsType=== 'basic' ? 1 : 3) min=(esportsType=== 'basic' ? 1 : 3) step=1)
+              h4.small how many custom tournaments they can create
+            +license-form-group('Custom Teams')(type="number" name="teams" value=(esportsType=== 'basic' ? 1 : 5) min=(esportsType=== 'basic' ? 1 : 5) max=10 step=1)
+              h4.small  how may custom teams we’ll create for them
+            +license-form-group('Extra arenas(slug)')(type="text" name="arenas" placeholder="amdocs-quickfire-infinite-inferno,codestars-challenge" style="width: 50em")
+              h4.small level slugs of custom arenas they can run tournaments on, comma-separated
+                  
+        .form-group
+          button#add-esports-product-btn.btn.btn-primary Add Esports Product
+    hr
+ 
+  if view.classrooms.size()
+    h3.m-t-3#classrooms(data-toggle="collapse" data-target="#classroom-table" aria-expanded="false" aria-controls="classroom-table") Classrooms
+      span.small click to toggle collapse
+    #classroom-table.collapse.multi-collapse
+      table.table
+        tr
+          th Name
+          th Lang
+          th Students
+          if view.user.isTeacher()
+            th # Levels / Courses
+            th
+          else
+            th Teacher
+          th
+        for classroom in view.classrooms.models
+          tr
+            td
+              = classroom.get('name')
+              if classroom.get('archived')
+                i.spl.text-muted (archived)
+            td= classroom.capitalLanguage
+            td= (classroom.get('members') || []).length
+            if view.user.isTeacher()
+              td #{classroom.getLevels().size()} / #{classroom.get('courses').length}
+              td
+                button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update All Levels
+                button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses
+            else
+              td
+                a.other-user-link(href='#' + classroom.get('ownerID') data-user-id=classroom.get('ownerID'))
+                  if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
+                    span= view.ownerNameMap[classroom.get('ownerID')]
+                  else
+                    span= classroom.get('ownerID')
+            td
+              a(href='/teachers/classes/' + classroom.get('_id') + '#students-tab') View Class
+    hr
+
+  if view.user.isHomeUser()
+    if me.isAdmin()
+      h3.m-t-3#stripe Modify Subscription
+      h4= 'Status: ' + (view.user.hasSubscription() ? 'subscribed' : 'not subscribed')
+      .small Use this to grant premium access and gems to this user for the home version.
+      .form
+        .form-group
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="" checked=view.none)
+              | None
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="free" checked=view.free)
+              | Free
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
+              span Free Until
+              =" "
+              input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
+              span Coupon
+              =" "
+            select#coupon-select
+              for coupon in view.coupons.models
+                option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
+        .form-group
+          label
+            span Gems to add to user
+            =" "
+            input#stripe-add-gems(type="number", name="addGems", value=0)
+            |  (they have #{view.user.gems().toLocaleString()})
+        button#save-changes.btn.btn-primary Save Changes
+      hr
+    else if me.isOnlineTeacher()
+      h3.m-t-3#stripe Modify Subscription
+      h4= 'Status: ' + (view.user.hasSubscription() ? 'subscribed' : 'not subscribed')
+      .small Use this to grant premium access and gems to this user for the home version.
+      .form
+        .form-group
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="" checked=view.none)
+              | None
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="free" checked=view.free)
+              | Free (use this for paid students)
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
+              span Free Until
+              =" "
+              input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
+              |  (use this for trial class students)
+        .form-group
+          label
+            span Gems to add to user
+            =" "
+            input#stripe-add-gems(type="number", name="addGems", value=0)
+            |  (they have #{view.user.gems().toLocaleString()})
+        button#save-changes.btn.btn-primary Save Changes
+      hr
+
+    if me.isOnlineTeacher()
+      h3.m-t-3#other-controls Other Controls
+      .small Currently only works when user is playing a level, takes effect when they finish the level.
+      .form
+        .form-group
+          .checkbox
+            label
+              input#volume-checkbox(type='checkbox', checked=view.user.get('volume', true) > 0)
+              span Volume
+          .checkbox
+            label
+              input#music-checkbox(type='checkbox', checked=view.user.get('music', true))
+              span Music
+      hr
+
+  // Not currently used
+  //h3#create-payment Create Payment
+  //.small Use this to create a payment entry for this user.
+  //.form
+  //  .form-group
+  //    pre
+  //      table
+  //        tr
+  //          td purchaser:
+  //          td= view.user.id
+  //        tr
+  //          td recipient:
+  //          td= view.user.id
+  //        tr
+  //          td service:
+  //          td
+  //            input#payment-service(type='text', value='paypal')
+  //            =" "
+  //            span Only enter paypal, stripe, or external
+  //        tr
+  //          td gems:
+  //          td
+  //            input#payment-gems(type='number', value='10500')
+  //        tr
+  //          td amount:
+  //          td
+  //            input#payment-amount(type='number', value='2997')
+  //        tr
+  //          td description:
+  //          td
+  //            input#payment-description(type='text')
+  //  button#create-payment-btn.btn.btn-primary Create Payment
+  //hr
+
+  h1#database-entries Database Entries
+  for model in view.models
+    .model-container(data-model-id=model.id)
+      h3= model.type() + ': ' + model.id
+      .model-treema(data-model-id=model.id)
+      if me.isAdmin()
+        btn.btn.btn-success.save-model(data-i18n="common.save") Save
+    hr
+
+
+block modal-footer

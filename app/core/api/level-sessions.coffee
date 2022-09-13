@@ -40,4 +40,7 @@ module.exports = {
   
   fetchMySessions: (levelOriginal, options={}) ->
     fetchJson("/db/level/#{levelOriginal}/my_sessions", options)
+
+  fetchForCampaign: (campaignHandle, options) ->
+    fetchJson("/db/campaign/#{campaignHandle}/sessions", options)
 }

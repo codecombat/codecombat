@@ -1,6 +1,6 @@
 require('app/styles/courses/remove-student-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/courses/remove-student-modal'
+template = require 'app/templates/courses/remove-student-modal'
 
 module.exports = class RemoveStudentModal extends ModalView
   id: 'remove-student-modal'

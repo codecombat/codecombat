@@ -1,6 +1,7 @@
 CocoClass = require 'core/CocoClass'
 GameUIState = require 'models/GameUIState'
 createjs = require 'lib/createjs-parts'
+utils = require 'core/utils'
 
 # If I were the kind of math major who remembered his math, this would all be done with matrix transforms.
 
@@ -42,10 +43,16 @@ module.exports = class Camera extends CocoClass
   # INIT
 
   subscriptions:
-    'camera:zoom-in': 'onZoomIn'
-    'camera:zoom-out': 'onZoomOut'
-    'camera:zoom-to': 'onZoomTo'
-    'level:restarted': 'onLevelRestarted'
+    Object.assign(
+      {
+        'camera:zoom-to': 'onZoomTo'
+        'level:restarted': 'onLevelRestarted'
+      },
+      if utils.isCodeCombat then {
+        'camera:zoom-out': 'onZoomOut'
+        'camera:zoom-in': 'onZoomIn'
+      } else {}
+    )
 
   constructor: (@canvas, @options={}) ->
     angle=Math.asin(0.75)

@@ -14,11 +14,11 @@
 2. On the left side of your dashboard, click “Add Applications”.
 3. Search for **“CodeCombat”** (no spaces), then click “Select”, and “Next” to continue.
 
-<img src="http://files.codecombat.com/docs/clever-faq/add-application.png" title="Add CodeCombat Application" alt="add-application" width="500px" />
+<img src="https://files.codecombat.com/docs/clever-faq/add-application.png" title="Add CodeCombat Application" alt="add-application" width="500px" />
 
   On the confirmation page, you’ll need to select whether you’ve already purchased student licenses to use with CodeCombat.
 
-<img src="http://files.codecombat.com/docs/clever-faq/confirm-application.png" title="Confirm CodeCombat Application" alt="confirm-application" width="500px" />
+<img src="https://files.codecombat.com/docs/clever-faq/confirm-application.png" title="Confirm CodeCombat Application" alt="confirm-application" width="500px" />
 
 
 If you’ve already purchased student licenses, select the **“Already Purchased”** option on the confirmation page. Our team will approve your request and make sure your licenses work properly.
@@ -29,7 +29,7 @@ If you haven’t already purchased student licenses, select the **“Haven’t P
 ### How do my students and teachers log into CodeCombat using Clever?
 Once we’ve approved your CodeCombat integration, schools you’ve approved to use CodeCombat will see CodeCombat on their Clever portal — they will be instantly logged into CodeCombat when they click the CodeCombat icon.
 
-<img src="http://files.codecombat.com/docs/clever-faq/coco-logo.png" title="CodeCombat" alt="CodeCombat" />
+<img src="https://files.codecombat.com/docs/clever-faq/coco-logo.png" title="CodeCombat" alt="CodeCombat" />
 
 New teachers will need to **Create a New Class**, then share the Class Code or Class URL with their students to make sure they join the correct class.
 

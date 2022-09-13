@@ -1,7 +1,7 @@
 require('app/styles/modal/create-account-modal/coppa-deny-view.sass')
 CocoView = require 'views/core/CocoView'
 State = require 'models/State'
-template = require 'templates/core/create-account-modal/coppa-deny-view'
+template = require 'app/templates/core/create-account-modal/coppa-deny-view'
 forms = require 'core/forms'
 contact = require 'core/contact'
 
@@ -13,11 +13,11 @@ module.exports = class CoppaDenyView extends CocoView
     'click .send-parent-email-button': 'onClickSendParentEmailButton'
     'change input[name="parentEmail"]': 'onChangeParentEmail'
     'click .back-btn': 'onClickBackButton'
-    
+
   initialize: ({ @signupState } = {}) ->
     @state = new State({ parentEmail: '' })
     @listenTo @state, 'all', _.debounce(@render)
-    
+
   onChangeParentEmail: (e) ->
     parentEmail = $(e.currentTarget).val()
     @state.set { parentEmail }, { silent: true }

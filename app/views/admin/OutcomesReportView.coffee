@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/base-flat'
+template = require 'app/templates/base-flat'
 OutcomesReportComponent = Vue.extend(require('./OutcomesReportComponent.vue')['default'])
 
 module.exports = class OutcomesReportView extends RootView

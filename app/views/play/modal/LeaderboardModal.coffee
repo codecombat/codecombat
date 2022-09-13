@@ -1,6 +1,6 @@
 require('app/styles/play/modal/leaderboard-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/modal/leaderboard-modal'
+template = require 'app/templates/play/modal/leaderboard-modal'
 LeaderboardTabView = require 'views/play/modal/LeaderboardTabView'
 Level = require 'models/Level'
 utils = require 'core/utils'

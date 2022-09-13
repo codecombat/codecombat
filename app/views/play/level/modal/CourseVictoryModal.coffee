@@ -1,6 +1,6 @@
 require('app/styles/play/level/modal/course-victory-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/level/modal/course-victory-modal'
+template = require 'app/templates/play/level/modal/course-victory-modal'
 Level = require 'models/Level'
 Course = require 'models/Course'
 LevelSession = require 'models/LevelSession'
@@ -71,9 +71,9 @@ module.exports = class CourseVictoryModal extends ModalView
       goalStates = @session.get('state').goalStates
       succeededConcepts = concepts.filter((c) => goalStates[c]?.status is 'success')
       _.assign(properties, {concepts, succeededConcepts})
-    window.tracker?.trackEvent 'Play Level Victory Modal Loaded', properties, []
+    window.tracker?.trackEvent 'Play Level Victory Modal Loaded', properties
 
-    if @level.isType('hero', 'course', 'course-ladder', 'game-dev', 'web-dev')
+    if @level.isType('hero', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')
       @achievements = options.achievements
       if not @achievements
         @achievements = new Achievements()
@@ -187,7 +187,7 @@ module.exports = class CourseVictoryModal extends ModalView
     })
 
   onNextLevel: ->
-    window.tracker?.trackEvent 'Play Level Victory Modal Next Level', category: 'Students', levelSlug: @level.get('slug'), nextLevelSlug: @nextLevel.get('slug'), []
+    window.tracker?.trackEvent 'Play Level Victory Modal Next Level', category: 'Students', levelSlug: @level.get('slug'), nextLevelSlug: @nextLevel.get('slug')
     if me.isSessionless()
       link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
     else
@@ -201,11 +201,11 @@ module.exports = class CourseVictoryModal extends ModalView
       link = "/teachers/courses"
     else
       link = "/play/#{@course.get('campaignID')}?course-instance=#{@courseInstanceID}"
-    window.tracker?.trackEvent 'Play Level Victory Modal Back to Map', category: 'Students', levelSlug: @level.get('slug'), []
+    window.tracker?.trackEvent 'Play Level Victory Modal Back to Map', category: 'Students', levelSlug: @level.get('slug')
     application.router.navigate(link, {trigger: true})
 
   onDone: ->
-    window.tracker?.trackEvent 'Play Level Victory Modal Done', category: 'Students', levelSlug: @level.get('slug'), []
+    window.tracker?.trackEvent 'Play Level Victory Modal Done', category: 'Students', levelSlug: @level.get('slug')
     if me.isSessionless()
       link = '/teachers/courses'
     else
@@ -214,7 +214,7 @@ module.exports = class CourseVictoryModal extends ModalView
     application.router.navigate(link, {trigger: true})
 
   onPublish: ->
-    window.tracker?.trackEvent 'Play Level Victory Modal Publish', category: 'Students', levelSlug: @level.get('slug'), []
+    window.tracker?.trackEvent 'Play Level Victory Modal Publish', category: 'Students', levelSlug: @level.get('slug')
     if @session.isFake()
       application.router.navigate(@galleryURL, {trigger: true})
     else
@@ -231,7 +231,7 @@ module.exports = class CourseVictoryModal extends ModalView
     viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
     ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}"
     if leagueID = (@courseInstanceID or utils.getQueryVariable 'league')
-      leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
+      leagueType = if @level.isType('course-ladder') or (@level.isType('ladder') and utils.getQueryVariable('course-instance')) then 'course' else 'clan'
       viewArgs.push leagueType
       viewArgs.push leagueID
       ladderURL += "/#{leagueType}/#{leagueID}"

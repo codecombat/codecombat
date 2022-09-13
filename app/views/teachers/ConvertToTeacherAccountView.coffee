@@ -11,13 +11,14 @@ algolia = require 'core/services/algolia'
 countryList = require('country-list')()
 UsaStates = require('usa-states').UsaStates
 State = require 'models/State'
+utils = require 'core/utils'
 
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']
 SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 
 module.exports = class ConvertToTeacherAccountView extends RootView
   id: 'convert-to-teacher-account-view'
-  template: require 'templates/teachers/convert-to-teacher-account-view'
+  template: require 'app/templates/teachers/convert-to-teacher-account-view'
   logoutRedirectURL: null
 
   events:
@@ -30,6 +31,9 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     'change input[name="district"]': 'invalidateNCES'
     'change select[name="country"]': 'onChangeCountry'
 
+  getRenderData: ->
+    _.merge super(arguments...), { product: utils.getProductName() }
+
   initialize: ->
     if me.isAnonymous()
       application.router.navigate('/teachers/signup', {trigger: true, replace: true})
@@ -41,7 +45,7 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     @countries = countryList.getNames()
     @usaStates = new UsaStates().states
     @usaStatesAbbreviations = new UsaStates().arrayOf('abbreviations')
-    window.tracker?.trackEvent 'Teachers Convert Account Loaded', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Convert Account Loaded', category: 'Teachers'
     @state = new State {
       showUsaStateDropdown: true
       stateValue: null
@@ -66,7 +70,7 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     stateVal = stateElem.val()
     @state.set({stateValue: stateVal})
 
-    if e.target.value == 'United States' 
+    if e.target.value == 'United States'
       @state.set({showUsaStateDropdown: true})
       if !@usaStatesAbbreviations.includes(stateVal)
         @state.set({stateValue: ''})
@@ -143,7 +147,7 @@ module.exports = class ConvertToTeacherAccountView extends RootView
 
   onChangeForm: ->
     unless @formChanged
-      window.tracker?.trackEvent 'Teachers Convert Account Form Started', category: 'Teachers', ['Mixpanel']
+      window.tracker?.trackEvent 'Teachers Convert Account Form Started', category: 'Teachers'
     @formChanged = true
 
   onSubmitForm: (e) ->
@@ -205,7 +209,7 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     errors.showNotyNetworkError(arguments...)
 
   onTrialRequestSubmit: ->
-    window.tracker?.trackEvent 'Teachers Convert Account Submitted', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Convert Account Submitted', category: 'Teachers'
     @formChanged = false
     me.setRole @trialRequest.get('properties').role.toLowerCase(), true
     me.unsubscribe()
