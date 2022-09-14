@@ -1,4 +1,4 @@
-FROM node:8.15.1-jessie
+FROM node:14.20.0-buster
 
 ARG RUBY_VERSION=2.6.1
 ENV NPM_GLOBAL_PREFIX=/npm
