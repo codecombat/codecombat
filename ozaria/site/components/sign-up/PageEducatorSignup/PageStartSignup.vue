@@ -39,7 +39,8 @@
         return false
       },
 
-      async clickGoogleSignup () {
+      async clickGoogleSignup (e) {
+        e.preventDefault()
         try {
           this.errorMessage = ''
           await new Promise((resolve, reject) =>
@@ -87,7 +88,8 @@
         this.$emit('startSignup', 'gplus')
       },
 
-      clickEmailSignup () {
+      clickEmailSignup (e) {
+        e.preventDefault()
         this.errorMessage = ''
         this.resetState()
         this.$emit('startSignup', 'email')

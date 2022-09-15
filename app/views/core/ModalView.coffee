@@ -33,7 +33,10 @@ module.exports = class ModalView extends CocoView
     @focusTrap?.deactivate?()
     super()
     @focusTrap ?= focusTrap.createFocusTrap @el
-    @focusTrap?.activate()
+    try
+      @focusTrap?.activate()
+    catch e
+      console.log 'No focus trap for modal with no focusable elements'
 
   afterRender: ->
     super()
