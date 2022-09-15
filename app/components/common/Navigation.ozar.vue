@@ -170,8 +170,8 @@
                   li
                     a.text-p(data-event-action="Header Request Quote CTA", href="/contact-cn") {{ $t('new_home.request_quote') }}
 
-                li
-                  ul.nav.navbar-nav(v-if="me.isAnonymous()")
+                li(v-if="me.isAnonymous()")
+                  ul.nav.navbar-nav
                     li.dropdown.dropdown-hover
                       a.text-p(:href="isCodeCombat ? '/impact' : '#'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
                         span {{ $t('nav.educators') }}
@@ -192,8 +192,8 @@
                 li
                   a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
 
-                li
-                  ul.nav.navbar-nav(v-if="me.isTeacher()")
+                li(v-if="me.isTeacher()")
+                  ul.nav.navbar-nav
                     li.dropdown.dropdown-hover
                       a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                         span {{ $t('nav.educators') }}
@@ -208,8 +208,8 @@
                           a.text-p(:href="ozPath('/professional-development')")
                             span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
 
-                li
-                  ul.nav.navbar-nav(v-else-if="me.isStudent()")
+                li(v-else-if="me.isStudent()")
+                  ul.nav.navbar-nav
                     li.dropdown.dropdown-hover
                       a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                         span {{ $t('nav.my_courses') }}
