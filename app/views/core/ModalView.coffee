@@ -1,4 +1,5 @@
 CocoView = require './CocoView'
+focusTrap = require 'focus-trap'
 
 module.exports = class ModalView extends CocoView
   className: 'modal fade'
@@ -27,6 +28,15 @@ module.exports = class ModalView extends CocoView
 
   subscriptions:
     {}
+
+  render: ->
+    @focusTrap?.deactivate?()
+    super()
+    @focusTrap ?= focusTrap.createFocusTrap @el
+    try
+      @focusTrap?.activate()
+    catch e
+      console.log 'No focus trap for modal with no focusable elements'
 
   afterRender: ->
     super()
@@ -71,4 +81,5 @@ module.exports = class ModalView extends CocoView
   destroy: ->
     @hide() unless @hidden
     @$el.off 'hide.bs.modal' if @$el
+    @focusTrap?.deactivate?()
     super()

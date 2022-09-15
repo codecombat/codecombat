@@ -170,21 +170,21 @@
                   li
                     a.text-p(data-event-action="Header Request Quote CTA", href="/contact-cn") {{ $t('new_home.request_quote') }}
 
-                ul.nav.navbar-nav(v-if="me.isAnonymous()")
-                  li.dropdown.dropdown-hover
-                    a.text-p(:href="isCodeCombat ? '/impact' : '#'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
-                      span {{ $t('nav.educators') }}
-                      span.caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/')")
-                          span(:class="isOzaria && !checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                      li
-                        a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
-                      li
-                        a.text-p(:href="ozPath('/professional-development')")
-                          span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
-                          span.new-pill {{ $t('nav.new') }}
+                li(v-if="me.isAnonymous()")
+                  ul.nav.navbar-nav
+                    li.dropdown.dropdown-hover
+                      a.text-p(:href="isCodeCombat ? '/impact' : '#'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
+                        span {{ $t('nav.educators') }}
+                        span.caret
+                      ul(class="dropdown-menu")
+                        li
+                          a.text-p(:href="ozPath('/')")
+                            span(:class="isOzaria && !checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
+                        li
+                          a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
+                        li
+                          a.text-p(:href="ozPath('/professional-development')")
+                            span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
 
                 li(v-if="!me.isStudent() && !me.isTeacher()")
                   a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
@@ -192,34 +192,34 @@
                 li
                   a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
 
-                ul.nav.navbar-nav(v-if="me.isTeacher()")
-                  li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span {{ $t('nav.educators') }}
-                      span.caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/teachers/classes')")
-                          span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_dashboard') }}
-                      li
-                        a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t('nav.codecombat_dashboard') }}
-                      li
-                        a.text-p(:href="ozPath('/professional-development')")
-                          span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
-                          span.new-pill {{ $t('nav.new') }}
+                li(v-if="me.isTeacher()")
+                  ul.nav.navbar-nav
+                    li.dropdown.dropdown-hover
+                      a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                        span {{ $t('nav.educators') }}
+                        span.caret
+                      ul(class="dropdown-menu")
+                        li
+                          a.text-p(:href="ozPath('/teachers/classes')")
+                            span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_dashboard') }}
+                        li
+                          a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t('nav.codecombat_dashboard') }}
+                        li
+                          a.text-p(:href="ozPath('/professional-development')")
+                            span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
 
-                ul.nav.navbar-nav(v-else-if="me.isStudent()")
-                  li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span {{ $t('nav.my_courses') }}
-                      span.caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/students')")
-                          span(:class="checkLocation('/students', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                          span.new-pill {{ $t('nav.new') }}
-                      li
-                        a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") {{ $t('nav.codecombat_classroom') }}
+                li(v-else-if="me.isStudent()")
+                  ul.nav.navbar-nav
+                    li.dropdown.dropdown-hover
+                      a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                        span {{ $t('nav.my_courses') }}
+                        span.caret
+                      ul(class="dropdown-menu")
+                        li
+                          a.text-p(:href="ozPath('/students')")
+                            span(:class="checkLocation('/students', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
+                        li
+                          a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") {{ $t('nav.codecombat_classroom') }}
 
                 li.dashboard-toggle(v-if="me.isSchoolAdmin()")
                   //- Only show divider if neither side is toggled.
@@ -261,24 +261,24 @@
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
                       a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
-                    li(v-if="me.isAdmin() || (me.get('emailVerified') && (me.isTeacher() || (!me.get('role') && !me.isAnonymous())))")
+                    li(v-if="isCodeCombat && (me.isAdmin() || (me.get('emailVerified') && (me.isTeacher() || (!me.get('role') && !me.isAnonymous()))))")
                       a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                     li(v-if="me.isAPIClient()")
                       a.account-dropdown-item(href="/api-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                     li(v-if="me.isAdmin()")
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
                     li(v-if="serverSession && serverSession.amActually")
-                      a.account-dropdown-item#nav-stop-spying-button {{ $t('login.stop_spying') }}
+                      a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_spying') }}
                     li(v-else-if="serverSession && serverSession.switchingUserActualId")
-                      a.account-dropdown-item#nav-stop-spying-button {{ $t('login.stop_switching') }}
+                      a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_switching') }}
                     li
-                      a.account-dropdown-item#logout-button {{ $t('login.log_out') }}
+                      a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
 
               ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
                 li
-                  a#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
+                  button#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
                 li
-                  a#login-link.login-button(data-event-action="Header Login CTA") {{ $t('signup.login') }}
+                  button#login-link.login-button(data-event-action="Header Login CTA") {{ $t('signup.login') }}
 </template>
 
 <style lang="scss" scoped>
@@ -308,7 +308,7 @@
     margin: 0;
   }
 
-  p, .text-p {
+  p, .text-p, .text-p button {
     font-family: $body-font;
     font-size: 18px;
     font-weight: 400;
@@ -333,7 +333,9 @@
     width: 94px;
     border: 1px solid $teal;
     border-radius: 0 4px 4px 0;
-    color: $teal;
+    /*color: $teal;*/ /* too faint for WCAG AAA */
+    color: #16837f; /* increased contrast by lowering luminance */
+    background: transparent;
     &:hover {
       background-color: #1FBAB4;
       color: white;
@@ -370,6 +372,9 @@
     }
     & li {
       display: inline-block;
+    }
+    & button {
+      line-height: 20px;
     }
   }
   a.navbar-brand {
@@ -429,11 +434,13 @@
     max-height: 100vh;
 
     .text-teal {
-      color: $teal;
+      /*color: $teal;*/ /* too faint for WCAG AAA */
+      color: #16837f; /* increased contrast by lowering luminance */
+      font-weight: 600;  /* increased contrast by increasing weight */
     }
   }
 
-  .nav > li > a {
+  .nav > li > a, .nav > li > button {
     // TODO: Move this to bootstrap variables for navbars
 
     // TODO: getting overridden by .navbar .nav > li > a for some reason
@@ -450,7 +457,7 @@
     }
   }
   // TODO: what is this for?
-  .nav > li.disabled > a {
+  .nav > li.disabled > a, .nav > li.disabled > button {
     color: black;
     &:hover {
       background: white;
@@ -489,7 +496,7 @@
   }
 
   @media (max-width: $grid-float-breakpoint) {
-    .nav > li > a {
+    .nav > li > a, .nav > li > button {
       padding: 10px 20px;
       height: 45px;
     }

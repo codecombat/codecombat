@@ -39,7 +39,7 @@
         p If this is showing, you dun goofed
 
   block footer
-    #footer.small
+    #footer.small(role='contentinfo')
       if !me.hideFooter()
         if !getQueryVariable('landing', false)
           .container
