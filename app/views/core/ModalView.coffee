@@ -9,6 +9,7 @@ module.exports = class ModalView extends CocoView
   plain: false
   instant: false
   template: require 'app/templates/core/modal-base'
+  trapsFocus: true
 
   events:
     'click a': 'toggleModal'
@@ -32,11 +33,7 @@ module.exports = class ModalView extends CocoView
   render: ->
     @focusTrap?.deactivate?()
     super()
-    @focusTrap ?= focusTrap.createFocusTrap @el
-    try
-      @focusTrap?.activate()
-    catch e
-      console.log 'No focus trap for modal with no focusable elements'
+    @trapFocus()
 
   afterRender: ->
     super()
@@ -54,10 +51,19 @@ module.exports = class ModalView extends CocoView
     $(document.activeElement).blur()
 
     if localStorage?.showViewNames
-      title = @constructor.name
+      title = @constructor?.name
       setTimeout ->
-        $('title').text(title)
+        $('title').text(title) unless @destroyed
       , 500
+
+  trapFocus: ->
+    return unless @trapsFocus
+    console.log @constructor?.name, 'trapping focus within modal'
+    @focusTrap ?= focusTrap.createFocusTrap @el
+    try
+      @focusTrap?.activate()
+    catch e
+      console.log @constructor?.name, 'not trapping focus for modal with no focusable elements'
 
   showLoading: ($el) ->
     $el = @$el.find('.modal-body') unless $el
