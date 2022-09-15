@@ -26,6 +26,28 @@
           .col-md-4
             a.btn.btn-primary.btn-lg(href="https://files.codecombat.com/docs/resources/hourofcode/HourofCodeCodeCombatLessonPlan2020.pdf" target="_blank" data-i18n="hoc_2018.download_pdf")
 
+      else if activity() == 'goblins'
+        .row
+          h1.page-heading(data-i18n="hoc_2018.page_heading_goblins")
+        .row.get-started
+          .col-md-4
+            h4.bold-header(data-i18n="hoc_2018.step_1")
+            <iframe src="https://www.youtube.com/embed/niKXOofTckE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          .col-md-4
+            h4.bold-header(data-i18n="hoc_2018.step_2")
+            // TODO: image
+            img.activity-tile(src='/images/pages/play/ladder/multiplayer_notext.jpg' alt="")
+          .col-md-4
+            h4.bold-header(data-i18n="hoc_2018.step_3")
+            .glyphicon.glyphicon-download-alt.download-icon
+
+        .row.get-started
+          .col-md-4
+          .col-md-4
+            a.btn.btn-primary.btn-lg(href="/play/goblins-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
+          .col-md-4
+            a.btn.btn-primary.btn-lg(href="/teachers/resources/hoc-goblins" target="_blank" data-i18n="hoc_2018.download_pdf")
+
       else
         .row
           h1.page-heading(data-i18n="hoc_2018.page_heading_ai_league")
@@ -74,6 +96,15 @@
               a.btn.btn-primary.btn-md(href="/play/ai-league-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
             div
               a.btn.btn-primary.btn-md(href="/teachers/hour-of-code" data-i18n="hoc_2018.activity_button_1")
+        if activity() != 'goblins' && isAdmin
+          .col-md-4
+            // TODO: image
+            img.activity-tile(src='/images/pages/play/ladder/multiplayer_notext.jpg' alt="")
+            h6(data-i18n="hoc_2018.activity_label_goblins")
+            div
+              a.btn.btn-primary.btn-md(href="/play/goblins-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
+            div
+              a.btn.btn-primary.btn-md(href="/teachers/hour-of-code" data-i18n="hoc_2018.activity_button_1")
         .col-md-4
           img(src='/images/pages/teachers/hour-of-code/escape_the_dungeon.png' alt="")
           h6(data-i18n="hoc_2018.activity_label_1")
@@ -97,7 +128,6 @@
             div
               a.btn.btn-primary.btn-md(href="/teachers/hour-of-code?activity=teacher-gd" data-i18n="hoc_2018.activity_button_1")
 
-      .row.activities-row(style="margin-top: 40px;")
         .col-md-4
           img(src='/images/pages/teachers/hour-of-code/advanced_buildagame.png' alt="")
           h6(data-i18n="hoc_2018.activity_label_3")
@@ -145,7 +175,8 @@ module.exports = Vue.extend({
 
   data: function() {
     return {
-      teacherEmail: ''
+      teacherEmail: '',
+      isAdmin: me.isAdmin()
     }
   },
   props: {
@@ -245,6 +276,9 @@ module.exports = Vue.extend({
   .activities-row
     .btn
       width: 120px
+
+    .col-md-4
+      min-height: 345px
 
   .activity-tile
     height: 212px
