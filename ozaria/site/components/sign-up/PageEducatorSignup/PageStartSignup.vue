@@ -111,15 +111,15 @@
           span.li-title {{ $t("signup.educator_signup_list_3_title") }}!{' '}
           span.li-desc {{ $t("signup.educator_signup_list_3_desc") }}
       .social-sign-in(v-if="useSocialSignOn")
-        a(@click="clickGoogleSignup")
+        a(@click="clickGoogleSignup" href="#")
           img(src="/images/ozaria/common/google_signin_classroom.png")
         span.error(v-if="errorMessage") {{ $t(errorMessage) }}
       .email-sign-up
         span {{ $t("general.or") }}!{' '}
-        a(@click="clickEmailSignup") {{ $t("signup.signup_with_email") }}
+        a(@click="clickEmailSignup" href="#") {{ $t("signup.signup_with_email") }}
     .log-in
       span {{ $t("signup.already_have_account") }}!{'? '}
-        a(@click="$emit('signIn')") {{ $t("signup.sign_in") }}
+        a(@click="$emit('signIn')" href="#") {{ $t("signup.sign_in") }}
 </template>
 
 <style lang="sass" scoped>

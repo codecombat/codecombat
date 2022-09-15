@@ -177,11 +177,11 @@ export default {
 
     .socialSignOn(v-if="useSocialSignOn")
       .auth-network-logins()
-        a#gplus-login-btn(:disabled="!gplusLoaded" @click="onClickGPlusLoginButton")
+        a#gplus-login-btn(:disabled="!gplusLoaded" @click="onClickGPlusLoginButton" href="#")
           img(src="/images/ozaria/common/log-in-google-sso.svg" draggable="false")
           .gplus-login-wrapper
             .gplus-login-button
-        a#clever-login-btn(@click="onClickCleverLoginButton")
+        a#clever-login-btn(@click="onClickCleverLoginButton" href="#")
           img(src="/images/pages/modal/auth/clever_sso_button@2x.png" draggable="false")
       .row.or-row
         .line
@@ -218,6 +218,7 @@ export default {
           #recover-account-wrapper
             a#link-to-recover(
               @click="$emit('clickRecoverModal')"
+              href="#"
             ) {{ $t("login.forgot_password") }}
         input#login-btn.btn.btn-block.btn-success(
           :value="$t('login.sign_in')"
@@ -228,7 +229,7 @@ export default {
         h3 {{ $t("login.logging_in") }}
 
     .extra-pane
-      a#switch-to-signup-btn(@click="$emit('switchToSignup')") {{ $t("login.auth_sign_up") }}
+      a#switch-to-signup-btn(@click="$emit('switchToSignup')" href="#") {{ $t("login.auth_sign_up") }}
       p {{ $t("login.already_have_account1") }}
       p {{ $t("login.already_have_account2") }}
 </template>
