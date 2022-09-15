@@ -300,7 +300,7 @@ See the [AI League Educators Getting Started Guide](https://docs.google.com/pres
 
 ### Coding Time (40-55 mins)
 
-Have students navigate to the last level, **Giant's Gate**, and complete it at their own pace. 
+Have students navigate to the last level, **Magma Mountain**, and complete it at their own pace. 
 
 #### Rankings**
 
