@@ -1,7 +1,7 @@
-###### Last updated: 09/28/2021
+###### Last updated: 09/15/2022
 
 ##### Lesson Plans
-# The Road to AI League
+# Esports Bootcamp: AI League
 
 ### Curriculum Summary
 - Level: Beginner

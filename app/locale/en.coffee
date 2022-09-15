@@ -3718,7 +3718,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     activity_label_2: " Beginner GD: Build a Game!"
     activity_label_3: "Advanced GD: Build an Arcade Game!"
     activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
-    activity_label_ai_league: "Beginner CS: Road to the AI League"
+    activity_label_ai_league: "Beginner CS: Esports Bootcamp: AI League"
     activity_button_1: "View Lesson"
     about: "About CodeCombat"
     about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."
