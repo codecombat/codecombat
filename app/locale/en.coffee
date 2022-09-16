@@ -3709,6 +3709,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     step_3: "Step 3: Download Lesson Plan"
     try_activity: "Try Activity"
     download_pdf: "Download PDF"
+    solutions: "Solutions"
     teacher_signup_heading: "Turn Hour of Code into a Year of Code"
     teacher_signup_blurb: "Everything you need to teach computer science, no prior experience needed."
     teacher_signup_input_blurb: "Get first course free:"
