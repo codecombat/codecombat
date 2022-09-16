@@ -8,7 +8,7 @@ block page_nav
         |&lt;
         span= ' '
         spna(data-i18n="teacher.back_to_course_guides")
-    if view.paidTeacher || view.course.get('free')
+    if view.paidTeacher || (view.course && view.course.get('free') || view.campaign && view.campaign.get('type') == 'hoc')
       .quick-actions-container
         a.print-btn.btn.btn-md.btn-navy(href='javascript:window.print()')
           span.glyphicon.glyphicon-print &#160;
@@ -24,15 +24,19 @@ block content
     a(href="/")
       img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
     h2.text-center(data-i18n="teacher.teacher_account_required")
-  else if !view.paidTeacher && !view.course.get('free')
+  else if !view.paidTeacher && (view.course && !view.course.get('free') || view.campaign && view.campaign.get('type') != 'hoc')
     h2.text-center(data-i18n="courses.solutions_require_licenses")
   else
     .text-center
       img(src="http://direct.codecombat.com/images/pages/base/logo.png")
-      if view.course.loaded
-        h1 #{i18n(view.course.attributes, 'name')}
+      if (view.course && view.course.loaded || view.campaign && view.campaign.loaded)
+        if view.course
+          h1 #{i18n(view.course.attributes, 'name')}
+        else
+          h1 #{i18n(view.campaign.attributes, 'fullName')}
         h3 #{view.prettyLanguage}
-        i= i18n(view.course.attributes, 'description')
+        if view.course
+          i= i18n(view.course.attributes, 'description')
     br
 
     if view.levels
