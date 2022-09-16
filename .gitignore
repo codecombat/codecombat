@@ -62,6 +62,8 @@ tmp/
 
 # Brunch output
 public/
+public_coco/
+public_ozar/
 
 # Redis?
 dump.rdb
