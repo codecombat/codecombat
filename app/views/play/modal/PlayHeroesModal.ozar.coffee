@@ -22,6 +22,7 @@ module.exports = class PlayHeroesModal extends ModalView
   className: 'modal fade play-modal'
   template: template
   id: 'play-heroes-modal'
+  trapsFocus: false
 
   events:
     'slide.bs.carousel #hero-carousel': 'onHeroChanged'

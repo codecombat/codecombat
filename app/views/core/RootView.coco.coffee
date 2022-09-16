@@ -175,7 +175,7 @@ module.exports = class RootView extends CocoView
     for code, localeInfo of locale when (not (code in genericCodes) or code is initialVal)
       if $select.is('ul') # base-flat template
         $select.append(
-          $('<li data-code="' + code + '"><a class="language-dropdown-item">' + localeInfo.nativeDescription + '</a></li>'))
+          $('<li data-code="' + code + '"><a class="language-dropdown-item" href="#">' + localeInfo.nativeDescription + '</a></li>'))
         if code is 'pt-BR'
           $select.append($('<li role="separator" class="divider"</li>'))
       else # base template

@@ -179,7 +179,7 @@
     <li>
       <router-link to="/teachers/professional-development" id="PDAnchor" :class="{ 'current-route': pdSelected }" @click.native="trackEvent" data-action="PD: Nav Clicked">
         <div id="IconPD" />
-        <div id="IconNew">New!</div>
+        <!-- <div id="IconNew">New!</div> -->
         {{ $t('teacher_dashboard.pd_short') }}
       </router-link>
     </li>

@@ -1,6 +1,6 @@
 .style-flat
   block header
-    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center
+    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(class=!serverConfig.static && /^\/(league|play\/ladder)/.test(document.location.pathname) ? "dark-mode" : '')
       .container-fluid
         .row
           .col-md-12
@@ -28,7 +28,7 @@
 
   block footer
     if !me.hideFooter()
-      .container-fluid.style-ozaria
+      .container-fluid.style-ozaria(role='contentinfo')
         #footer
           .container
             .row
@@ -42,7 +42,7 @@
                       ul.list-unstyled
                         if !me.showChinaResourceInfo()
                           li
-                            a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+                            a.contact-modal(href="#", data-i18n="nav.contact")
                         li
                           - var aboutURL = me.showChinaResourceInfo() ? 'https://koudashijie.com/about' : 'https://codecombat.com/about';
                           a(href=aboutURL, data-i18n="nav.about", data-event-action="Click: Footer About")
@@ -83,11 +83,11 @@
                           a(href="https://www.instagram.com/playozaria/", target="_blank", data-event-action="Click: Footer Instagram" rel="noreferrer")
                             img(src="/images/pages/base/instagram-logo.png", width="40" alt="Instagram")
 
-      #final-footer
-        if me.showChinaResourceInfo()
-          a.small 商务合作：bill@codecombat.com
-          a.small 业务咨询：13810906731 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        span= ' © 2022 CodeCombat Inc. '
-        span.spl(data-i18n="nav.copyright_suffix")
-        a.small(href="http://codecombat.com/legal", data-i18n="nav.term_of_service")
-        a.small(href="http://codecombat.com/privacy", data-i18n="nav.privacy")
+        #final-footer
+          if me.showChinaResourceInfo()
+            a.small 商务合作：bill@codecombat.com
+            a.small 业务咨询：13810906731 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          span= ' © 2022 CodeCombat Inc. '
+          span.spl(data-i18n="nav.copyright_suffix")
+          a.small(href="http://codecombat.com/legal", data-i18n="nav.term_of_service")
+          a.small(href="http://codecombat.com/privacy", data-i18n="nav.privacy")
