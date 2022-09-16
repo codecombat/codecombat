@@ -2,6 +2,7 @@ require('app/styles/teachers/teacher-course-solution-view.sass')
 utils = require 'core/utils'
 RootView = require 'views/core/RootView'
 Course = require 'models/Course'
+Campaign = require 'models/Campaign'
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
 Prepaids = require 'collections/Prepaids'
@@ -30,7 +31,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
 
   getTitle: ->
     title = $.i18n.t('teacher.course_solution')
-    title += " " + @course.acronym()
+    title += " " + @course.acronym() if @course
     if @language != "html"
       title +=  " " + utils.capitalLanguages[@language]
     title
@@ -46,9 +47,15 @@ module.exports = class TeacherCourseSolutionView extends RootView
     @isWebDev = @courseID in [utils.courseIDs.WEB_DEVELOPMENT_2]
     if me.isTeacher() or me.isAdmin()
       @prettyLanguage = @camelCaseLanguage(@language)
-      @course = new Course(_id: @courseID)
-      @supermodel.trackRequest(@course.fetch())
-      @levels = new Levels([], { url: "/db/course/#{@courseID}/level-solutions"})
+      if options.campaignMode
+        campaignSlug = @courseID
+        @campaign = new Campaign(_id: campaignSlug)
+        @supermodel.trackRequest(@campaign.fetch())
+        @levels = new Levels([], { url: "/db/campaign/#{campaignSlug}/level-solutions"})
+      else
+        @course = new Course(_id: @courseID)
+        @supermodel.trackRequest(@course.fetch())
+        @levels = new Levels([], { url: "/db/course/#{@courseID}/level-solutions"})
       @supermodel.loadCollection(@levels, 'levels', {cache: false})
 
       @levelNumberMap = {}

@@ -13,7 +13,7 @@ block page_nav
     else
       //- Create space when the backlink is missing.
       div(style="height: 40px;")
-    if view.paidTeacher || view.course.get('free')
+    if view.paidTeacher || (view.course && view.course.get('free') || view.campaign && view.campaign.get('type') == 'hoc')
       .print
         .btn.btn-md.btn-navy
           a.print-btn(href='javascript:window.print()')
@@ -26,14 +26,18 @@ block content
     a(href="/")
       img#nav-logo(src="/images/ozaria/home/ozaria-logo.png", title="Ozaria - Computer Science that Captivates", alt="Ozaria")
     h2.text-center(data-i18n="teacher.teacher_account_required")
-  else if !view.paidTeacher && !view.course.get('free')
+  else if !view.paidTeacher && (view.course && !view.course.get('free') || view.campaign && view.campaign.get('type') != 'hoc')
     h2.text-center(data-i18n="courses.solutions_require_licenses")
   else
     .text-center
-      if view.course.loaded
-        h1 #{i18n(view.course.attributes, 'name')}
+      if (view.course && view.course.loaded || view.campaign && view.campaign.loaded)
+        if view.course
+          h1 #{i18n(view.course.attributes, 'name')}
+        else
+          h1 #{i18n(view.campaign.attributes, 'fullName')}
         h3 #{view.prettyLanguage}
-        i= i18n(view.course.attributes, 'description')
+        if view.course
+          i= i18n(view.course.attributes, 'description')
     br
 
     if view.levels
