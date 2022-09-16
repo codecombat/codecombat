@@ -12,6 +12,10 @@ const fs = require("fs-extra");
 const webpack = require("webpack");
 const path = require("path");
 
+const product = process.env.COCO_PRODUCT || 'codecombat';
+const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product];
+const publicFolderName = 'public_'+productSuffix;
+
 // List of esper langauge plugins we want to move into the public directory.
 const targets = ["lua", "python", "coffeescript"];
 
@@ -88,7 +92,7 @@ function copyLanguagesFromEsper(targets) {
         ),
         path.join(
           PWD,
-          "public",
+          publicFolderName,
           "javascripts",
           "app",
           "vendor",
@@ -104,7 +108,7 @@ function copyLanguagesFromEsper(targets) {
         ),
         path.join(
           PWD,
-          "public",
+          publicFolderName,
           "javascripts",
           "app",
           "vendor",
@@ -131,7 +135,7 @@ function copyLanguagesFromEsper(targets) {
   );
   const dest = path.join(
     PWD,
-    "public",
+    publicFolderName,
     "javascripts",
     "app",
     "vendor",
