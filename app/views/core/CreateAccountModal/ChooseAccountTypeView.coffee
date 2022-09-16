@@ -8,7 +8,7 @@ module.exports = class ChooseAccountTypeView extends CocoView
   template: template
 
   events:
-    'click .teacher-path-button': -> @trigger 'choose-path', if utils.isCodeCombat then 'teacher' else 'oz-vs-coco'
+    'click .teacher-path-button': -> @trigger 'choose-path', if utils.isOzaria then 'teacher' else 'oz-vs-coco'
     'click .student-path-button': -> @trigger 'choose-path', 'student'
     'click .individual-path-button': -> @trigger 'choose-path', 'individual'
     'input .class-code-input': 'onInputClassCode'
