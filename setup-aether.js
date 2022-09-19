@@ -11,10 +11,7 @@
 const fs = require("fs-extra");
 const webpack = require("webpack");
 const path = require("path");
-
-const product = process.env.COCO_PRODUCT || 'codecombat';
-const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product];
-const publicFolderName = 'public_'+productSuffix;
+const { publicFolderName } = require('./development/utils')
 
 // List of esper langauge plugins we want to move into the public directory.
 const targets = ["lua", "python", "coffeescript"];
