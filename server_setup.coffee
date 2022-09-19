@@ -14,8 +14,9 @@ wrap = require 'co-express'
 morgan = require 'morgan'
 timeout = require('connect-timeout')
 PWD = process.env.PWD || __dirname
-productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[config.product]
-publicFolderName = 'public_'+productSuffix
+devUtils = require './development/utils'
+productSuffix = devUtils.productSuffix
+publicFolderName = devUtils.publicFolderName
 publicPath = path.join(PWD, publicFolderName)
 
 {countries} = require './app/core/utils'

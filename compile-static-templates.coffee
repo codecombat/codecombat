@@ -7,12 +7,13 @@ basePath = path.resolve('./app')
 _ = require 'lodash'
 fs = require('fs')
 load = require 'pug-load'
+devUtils = require './development/utils'
 
 # TODO: stop webpack build on error (e.g. http://dev.topheman.com/how-to-fail-webpack-build-on-error/)
 
-product = process.env.COCO_PRODUCT or 'codecombat'
-productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
-publicFolderName = 'public_'+productSuffix
+product = devUtils.product
+productSuffix = devUtils.productSuffix
+publicFolderName = devUtils.publicFolderName
 
 
 productFallbackPlugin =

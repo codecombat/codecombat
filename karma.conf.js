@@ -1,8 +1,7 @@
 const product = process.env.COCO_PRODUCT || 'codecombat'
 const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
 const otherProductSuffix = { codecombat: 'ozar', ozaria: 'coco' }[product]
-const publicFolderName = 'public_'+productSuffix;
-
+const { publicFolderName } = require('./development/utils')
 
 module.exports = function(config) {
 
