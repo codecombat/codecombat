@@ -112,7 +112,7 @@
           console.error('Error in creating data for intro level', err)
           let textMessage = $.i18n.t('courses.error_in_creating_data')
           if (err.code === HTTP_STATUS_CODES.PAYMENT_REQUIRED_CODE) {
-            textMessage = $.i18n.t('courses.license_required_to_play')
+            textMessage = $.i18n.t('courses.license_required_to_play_ozar')
           }
           noty({ text: textMessage, type: 'error' })
           return

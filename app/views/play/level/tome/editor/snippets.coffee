@@ -12,6 +12,20 @@ Fuzziac = require './fuzziac' # https://github.com/stollcri/fuzziac.js
 ace = require('lib/aceContainer')
 store = require('core/store')
 
+checkingParentheses = (line, left) ->
+  findRight = left
+  i = 0
+  while i < line.length
+    c = line[i]
+    left += 1 if c is '('
+    left -= 1 if c is ')'
+    i += 1
+    break if findRight and not left
+  if findRight
+    return i
+  else
+    return left
+
 module.exports = (SnippetManager, autoLineEndings) ->
   {Range} = ace.require 'ace/range'
   util = ace.require 'ace/autocomplete/util'
@@ -37,7 +51,9 @@ module.exports = (SnippetManager, autoLineEndings) ->
         # Remove previous word if it's at the beginning of the snippet
         prevWordIndex = snippet.toLowerCase().indexOf prevWord.toLowerCase()
         if prevWordIndex is 0
-          range = new Range cursor.row, cursor.column - 1 - prevWord.length, cursor.row, cursor.column
+          removedStart = cursor.column - 1 - prevWord.length
+          removedEnd = cursor.column
+          range = new Range cursor.row, removedStart, cursor.row, removedEnd
           editor.session.remove range
         else
           # console.log "Snippets cursor.column=#{cursor.column} snippet='#{snippet}' line='#{line}' prevWord='#{prevWord}'"
@@ -92,7 +108,9 @@ module.exports = (SnippetManager, autoLineEndings) ->
 
                   # console.log "Snippets originalObject='#{originalObject}' prevObject='#{prevObject}'", finalScore
                   if finalScore > 0.5
-                    range = new Range cursor.row, prevObjectIndex, cursor.row, snippetStart
+                    removedStart = prevObjectIndex
+                    removedEnd = snippetStart
+                    range = new Range cursor.row, removedStart, cursor.row, removedEnd
                     editor.session.remove range
                   else if /^[^.]+\./.test snippet
                     # Remove the first part of the snippet, and use whats there.
@@ -102,16 +120,32 @@ module.exports = (SnippetManager, autoLineEndings) ->
                 # Remove any alphanumeric characters on this line immediately before prefix
                 extraIndex-- while extraIndex >= 0 and /\w/.test(line[extraIndex])
                 extraIndex++ if extraIndex < 0 or not /\w/.test(line[extraIndex])
-                range = new Range cursor.row, extraIndex, cursor.row, snippetStart
+                removedStart = extraIndex
+                removedEnd = snippetStart
+                range = new Range cursor.row, removedStart, cursor.row, removedEnd
                 editor.session.remove range
 
     #Remove anything that looks like an identifier after the completion
     afterIndex = cursor.column
     trailingText = line.substring afterIndex
+    newLine = editor.session.getLine cursor.row # get current session line
+    hasAfterRange = false
+    if newLine != line
+      # deal with we already remove some of code because of begging of the snippet
+      removedStr = line.slice(removedStart, removedEnd)
+      left = checkingParentheses removedStr, 0
+      if left
+        length = checkingParentheses newLine.substring(removedStart), left
+        afterRange = new Range cursor.row, removedStart, cursor.row, removedStart + length
+        editor.session.remove afterRange
+        hasAfterRange = true
+
     match = trailingText.match /^[a-zA-Z_0-9]*(\(\s*\))?/
-    afterIndex += match[0].length if match
-    afterRange = new Range cursor.row, cursor.column, cursor.row, afterIndex
-    editor.session.remove afterRange
+    if match[0]
+      afterIndex += match[0].length
+      # debugLine = editor.session.getLine cursor.row # get current session line
+      afterRange = new Range cursor.row, cursor.column, cursor.row, afterIndex
+      editor.session.remove afterRange
 
     baseInsertSnippet.call @, editor, snippet
 
@@ -125,6 +159,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
     # meta: displayed right-justfied in popup
     lang = session.getMode()?.$id?.substr 'ace/mode/'.length
     line = session.getLine pos.row
+
     completions = []
 
     #If the prefix is a member expression, supress completions
@@ -137,8 +172,11 @@ module.exports = (SnippetManager, autoLineEndings) ->
       return callback null, completions
 
     beginningOfLine = session.getLine(pos.row).substring(0,pos.column - prefix.length)
+    emptyBeginning = /^\s*$/.test(beginningOfLine)
 
-    unless (fullPrefixParts.length < 3 and /^(hero|self|this|@|db|game|ui)$/.test(fullPrefixParts[0]) ) or /^\s*$/.test(beginningOfLine)
+    # we already returned if fullPrefixParts.length > 2, so fullPrefixParts.length < 3 always true here
+    # and we want to enable auto completion when cursor is inside a function call as param. so add more check
+    unless /^(hero|pet|db|game|ui)$/.test(fullPrefixParts[0]) or /^\s*$/.test(beginningOfLine) or /(,| |\()$/.test(beginningOfLine)
       # console.log "DEBUG: autocomplete bailing", fullPrefixParts, '|', prefix, '|', beginningOfLine, '|', pos.column - prefix.length
       @completions = completions
       return callback null, completions
@@ -150,6 +188,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
       for s in snippets
         caption  = s.name or s.tabTrigger
         continue unless caption
+        continue if /^['"]/.test(caption) and emptyBeginning # don't show string completions at the end of line
         [snippet, fuzzScore] = scrubSnippet s.content, caption, line, prefix, pos, lang, autoLineEndings, s.captureReturn
         completions.push
           content: s.content  # Used internally by Snippets, not by ace autocomplete
@@ -165,7 +204,6 @@ module.exports = (SnippetManager, autoLineEndings) ->
       @completions = _.filter(completions, (x) -> x.caption.indexOf prefix is 0)
       return callback null, @completions
 
-    # console.log 'Snippets snippet completions', completions
     @completions = completions
     callback null, completions
 
@@ -220,8 +258,18 @@ scrubSnippet = (snippet, caption, line, input, pos, lang, autoLineEndings, captu
       linePrefix = line.substr linePrefixIndex, pos.column - input.length - linePrefixIndex
     else
       linePrefix = ''
+
     lineSuffix = line.substr pos.column, snippetSuffix.length - 1 + caption.length - input.length + 1
-    lineSuffix = '' if snippet.indexOf(lineSuffix) < 0
+    # eat un-matched quotes
+    if /['"]/.test(caption[0])
+      quote = caption[0]
+      num = (line.match(new RegExp(quote, 'g')) || []).length
+      if num % 2 == 0
+        lineSuffix = quote
+      else
+        lineSuffix = '' unless snippet.endsWith(lineSuffix)
+    else
+      lineSuffix = '' unless snippet.endsWith(lineSuffix)
 
     # TODO: This is broken for attack(find in Python, but seems ok in JavaScript.
 
@@ -241,11 +289,12 @@ scrubSnippet = (snippet, caption, line, input, pos, lang, autoLineEndings, captu
     # If at end of line
     # And, no parentheses are before snippet. E.g. 'if ('
     # And, line doesn't start with whitespace followed by 'if ' or 'elif '
+    # And, the snippet is a function
     # console.log "Snippets autoLineEndings linePrefixIndex='#{linePrefixIndex}'"
     if lineSuffix.length is 0 and /^\s*$/.test line.slice pos.column
       # console.log 'Snippets atLineEnd', pos.column, lineSuffix.length, line.slice(pos.column + lineSuffix.length), line
       toLinePrefix = line.substring 0, linePrefixIndex
-      if linePrefixIndex < 0 or linePrefixIndex >= 0 and not /[\(\)]/.test(toLinePrefix) and not /^[ \t]*(?:if\b|elif\b)/.test(toLinePrefix)
+      if (linePrefixIndex < 0 or linePrefixIndex >= 0 and not /[\(\)]/.test(toLinePrefix) and not /^[ \t]*(?:if\b|elif\b)/.test(toLinePrefix)) and /\([^)]*\)/.test(snippet)
         snippet += autoLineEndings[lang] if snippetLineBreaks is 0 and autoLineEndings[lang]
         snippet += "\n" if snippetLineBreaks is 0 and not /\$\{/.test(snippet)
 

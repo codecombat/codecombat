@@ -1,3 +1,4 @@
+/* eslint import/no-absolute-path: 0 */
 import VueRouter from 'vue-router'
 
 let vueRouter
@@ -50,7 +51,8 @@ export default function getVueRouter () {
             { path: '', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/teachers/SchoolAdminTeacherListView') },
             { path: 'teacher/:teacherId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/dashboard/SchoolAdminDashboardTeacherView') },
             { path: 'teacher/:teacherId/classroom/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/courses/TeacherClassViewV2.vue') },
-            { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/classes/TeacherStudentView.vue') }
+            { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/classes/TeacherStudentView.vue') },
+            { path: 'licenses/stats', component: () => import(/* webpackChunkName: 'LicenseStats' */ 'app/views/school-administrator/dashboard/LicenseTableView.vue') }
           ]
         },
         {
@@ -134,6 +136,17 @@ export default function getVueRouter () {
           path: '/podcast/:handle',
           name: 'PodcastSingle',
           component: () => import(/* webpackChunkName: "podcastSingle" */'/app/views/podcast/SinglePodcastView')
+        },
+        {
+          path: '/users/switch-account',
+          name: 'UserSwitchAccount',
+          component: () => import(/* webpackChunkName: "userSwitchAccount" */'/app/views/user/SwitchAccountView')
+        },
+        {
+          path: '/users/switch-account/:confirmingUserId/:requestingConfirmUserId/confirm',
+          name: 'UserSwitchAccount',
+          component: () => import(/* webpackChunkName: "userSwitchAccountConfirm" */'/app/views/user/SwitchAccountConfirmationView'),
+          props: (route) => ({ ...route.query, ...route.params })
         }
       ],
       scrollBehavior(to) {

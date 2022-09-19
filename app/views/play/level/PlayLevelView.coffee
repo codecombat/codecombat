@@ -103,6 +103,7 @@ module.exports = class PlayLevelView extends RootView
     'ipad:memory-warning': 'onIPadMemoryWarning'
     'store:item-purchased': 'onItemPurchased'
     'tome:manual-cast': 'onRunCode'
+    'world:update-key-value-db': 'updateKeyValueDb'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -235,7 +236,7 @@ module.exports = class PlayLevelView extends RootView
     return unless @timeOffset
     return unless @mandate.loaded
     return unless @levelSlug
-    return unless @level.get('type') is 'course-ladder'
+    return unless @level?.get('type') is 'course-ladder'
     courseInstanceID = @courseInstanceID or utils.getQueryVariable 'league'
     mandate = @mandate.get('0')
 
@@ -738,7 +739,7 @@ module.exports = class PlayLevelView extends RootView
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world, parent: @}
     ModalClass = if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder') then HeroVictoryModal else VictoryModal
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
-    if @level.isType('course-ladder')
+    if @level.isType('course-ladder') or @level.isType('ladder') and @courseInstanceID
       ModalClass = CourseVictoryModal
       options.courseInstanceID = utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
@@ -824,7 +825,8 @@ module.exports = class PlayLevelView extends RootView
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
-    @session.updateKeyValueDb(e.keyValueDb) if @level.isType('game-dev')
+    if @level.isType('game-dev', 'hero', 'course')
+      @session.updateKeyValueDb(e.keyValueDb)
 
   # Real-time playback
   onRealTimePlaybackStarted: (e) ->
@@ -845,6 +847,11 @@ module.exports = class PlayLevelView extends RootView
     @renderSelectors('#how-to-play-game-dev-panel')
     @$('#how-to-play-game-dev-panel').removeClass('hide')
 
+  updateKeyValueDb: ->
+    return unless @world.keyValueDb
+    @session.updateKeyValueDb _.cloneDeep(@world.keyValueDb)
+    @session.saveKeyValueDb()
+
   updateLevelName: () ->
     if @world.uiText?.levelName
       @controlBar.setLevelName(@world.uiText.levelName)
@@ -854,7 +861,8 @@ module.exports = class PlayLevelView extends RootView
     @$('#how-to-play-game-dev-panel').addClass('hide') if @level.isType('game-dev')
     @$el.removeClass 'real-time'
     @onWindowResize()
-    @session.saveKeyValueDb() if @level.isType('game-dev')
+    if @level.isType('game-dev', 'hero', 'course')
+      @session.saveKeyValueDb()
     if @world.frames.length is @world.totalFrames and not @surface.countdownScreen?.showing and not @realTimePlaybackWaitingForFrames
       _.delay @onSubmissionComplete, 750  # Wait for transition to end.
     else
@@ -922,4 +930,5 @@ module.exports = class PlayLevelView extends RootView
     @level?.get 'slug'
 
   onRunCode: ->
+    @updateKeyValueDb()
     store.commit('game/incrementTimesCodeRun')

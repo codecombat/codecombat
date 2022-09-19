@@ -11,6 +11,7 @@ HowToEnrollModal = require 'views/teachers/HowToEnrollModal'
 TeachersContactModal = require 'views/teachers/TeachersContactModal'
 utils = require 'core/utils'
 ShareLicensesModal = require 'views/teachers/ShareLicensesModal'
+LicenseStatsModal = require 'views/teachers/LicenseStatsModal'
 
 {
   STARTER_LICENSE_COURSE_IDS
@@ -26,6 +27,7 @@ module.exports = class EnrollmentsView extends RootView
     'click #how-to-enroll-link': 'onClickHowToEnrollLink'
     'click #contact-us-btn': 'onClickContactUsButton'
     'click .share-licenses-link': 'onClickShareLicensesLink'
+    'click .license-stats': 'onClickLicenseStats'
 
   getTitle: -> return $.i18n.t('teacher.enrollments')
 
@@ -259,6 +261,11 @@ module.exports = class EnrollmentsView extends RootView
       prepaid = @prepaids.get(prepaidID)
       prepaid.set({ joiners })
     @openModalView(@shareLicensesModal)
+
+  onClickLicenseStats: (e) ->
+    prepaidID = $(e.currentTarget).data('prepaidId')
+    @licenseStatsModal = new LicenseStatsModal({prepaid: @prepaids.get(prepaidID)})
+    @openModalView(@licenseStatsModal)
 
   getEnrollmentExplanation: ->
     t = {}

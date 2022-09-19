@@ -67,7 +67,8 @@ module.exports = class LadderView extends RootView
 
     onLoaded = =>
       return if @destroyed
-      @levelDescription = marked(utils.i18n(@level.attributes, 'description')) if @level.get('description')
+      @levelDescription = marked(utils.i18n(@level.attributes, 'description')).replace(/<img.*?>/, '') if @level.get('description')
+      @levelBanner = @level.get('banner')
       @teams = teamDataFromLevel @level
 
     if @level.loaded then onLoaded() else @level.once('sync', onLoaded)
@@ -237,12 +238,12 @@ module.exports = class LadderView extends RootView
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
     unless @tournamentState in ['ended', 'ranking']
       if @level.isType('ladder')
-        @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league}, @level, @sessions, @anonymousPlayerName ))
+        @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, leagueType: @leagueType, course: @course}, @level, @sessions, @anonymousPlayerName ))
       else
         @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
-      @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions, @anonymousPlayerName))
+      @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league, leagueType: @leagueType, course: @course}, @level, @sessions, @anonymousPlayerName))
     else
-      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId}, @level, @sessions ))
+      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId, leagueType: 'clan'}, @level, @sessions )) # classroom ladder do not have tournament for now
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
@@ -329,7 +330,7 @@ module.exports = class LadderView extends RootView
 
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
-    modal = new LadderPlayModal({league: @league, tournament: @tournamentId}, @level, session, teamID)
+    modal = new LadderPlayModal({league: @league, leagueType: @leagueType, tournament: @tournamentId, course: @course}, @level, session, teamID)
     @openModalView modal
 
   onClickedLink: (e) ->

@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <base-modal-container class="ozaria-modal">
+  <base-modal-container class="ozaria-modal" role="dialog" tabindex="0" >
     <slot name="close-icon" />
     <div class="ozaria-modal-content">
       <div class="ozaria-modal-header">

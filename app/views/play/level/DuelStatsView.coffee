@@ -30,7 +30,7 @@ module.exports = class DuelStatsView extends CocoView
     unless options.otherSession
       options.otherSession = get: (prop) => {
         creatorName: $.i18n.t 'ladder.simple_ai'
-        creator: @myId # fake a creator to make sure we don't anonymize ai names
+        creator: me.get('_id') # fake a creator to make sure we don't anonymize ai names
         team: if options.session.get('team') is 'humans' then 'ogres' else 'humans'
         heroConfig: options.session.get('heroConfig')
       }[prop]
@@ -56,6 +56,7 @@ module.exports = class DuelStatsView extends CocoView
     @avatars ?= {}
     return if @avatars[team]
     thang = _.find @options.thangs, id: heroID
+    return unless thang
     @avatars[team] = avatar = new ThangAvatarView thang: thang, includeName: false, supermodel: @supermodel
     @$find(team, '.thang-avatar-placeholder').replaceWith avatar.$el
     avatar.render()
@@ -68,8 +69,8 @@ module.exports = class DuelStatsView extends CocoView
 
   update: ->
     for player in @players
-      thang = _.find @options.thangs, id: @avatars[player.team].thang.id
-      @updateHealth thang
+      if thang = (_.find @options.thangs, id: @avatars?[player.team]?.thang?.id)
+        @updateHealth thang
     @updatePower() if @showsPower
 
   updateHealth: (thang) ->
@@ -94,7 +95,8 @@ module.exports = class DuelStatsView extends CocoView
     powers = humans: 0, ogres: 0
     setPowerTeams = []
     for player in @players
-      hero = _.find @options.thangs, id: @avatars[player.team].thang.id
+      hero = _.find @options.thangs, id: @avatars?[player.team]?.thang?.id
+      continue unless hero
       if hero.teamPower? and powers[hero.team]?
         powers[hero.team] = hero.teamPower
         setPowerTeams.push hero.team

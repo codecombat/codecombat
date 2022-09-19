@@ -1,4 +1,25 @@
 extends /templates/core/modal-base
+ 
+mixin playLevelLink(levelID, league, leagueType, team, tournament, opponent)
+  - url = '/play/level/' + levelID
+  if team
+    - url += `?team=${team}`
+  else
+    - url += `?t=h`
+  if league
+    if leagueType == 'clan'
+      - url += `&league=${league.id}`
+    else
+      - url += `&course-instance=${league.id}`
+      if view.options.course
+        - url += `&course=${view.options.course.id}`
+  if tournament
+    - url += `&tournament=${tournament}`
+  if opponent
+    - url += `&opponent=${opponent}`
+  a(href=url, target='_blank')&attributes(attributes)
+    if block
+      block
 
 block modal-header-content
   h3(data-i18n="ladder.choose_opponent") Choose an Opponent
@@ -13,7 +34,7 @@ block modal-body-content
           option(value=option.id selected=(view.language === option.id))= option.name
 
   div#noob-view.secret
-    a(target="_blank" href=`/play/level/${view.levelID}-tutorial` + (view.options.league ? "?league=" + view.options.league.id : "")).btn.btn-success.btn-block.btn-lg
+    +playLevelLink(view.levelID + '-tutorial', view.options.league, view.options.leagueType).btn.btn-success.btn-block.btn-lg
       p
         strong(data-i18n="ladder.tutorial_play") Play Tutorial
       span(data-i18n="ladder.tutorial_recommended") Recommended if you've never played before
@@ -24,8 +45,8 @@ block modal-body-content
       p.tutorial-suggestion
         strong(data-i18n="ladder.tutorial_not_sure") Not sure what's going on?
         |
-        a(target="_blank" href=`/play/level/${view.levelID}-tutorial` + (view.options.league ? "?league=" + view.options.league.id : ""), data-i18n="ladder.tutorial_play_first") Play the tutorial first.
-    a(target="_blank" href=`/play/level/${view.levelID}?team=${view.team}` + (view.options.league ? "&league=" + view.options.league.id : "")+ (view.options.tournament ? "&tournament=" + view.options.tournament: ""))
+        +playLevelLink(view.levelID + '-tutorial', view.options.league, view.options.leagueType)(data-i18n="ladder.tutorial_play_first")
+    +playLevelLink(view.levelID, view.options.league, view.options.leagueType, view.team, view.options.tournament)
       div.play-option
         img(src=view.myPortrait).my-icon.only-one
         img(src=`/images/pages/play/ladder/${view.team}_ladder_tutorial.png`, style=`border: 1px solid ${view.teamColor}; background: ${view.teamBackgroundColor}`).my-team-icon.img-circle.only-one
@@ -40,7 +61,7 @@ block modal-body-content
           span(data-i18n="ladder.warmup") Warmup
 
     if view.challengers && view.challengers.easy
-      a(target="_blank" href=`/play/level/${view.levelID}?team=${view.team}&opponent=${view.challengers.easy.sessionID}` + (view.options.league ? "&league=" + view.options.league.id : "") + (view.options.tournament ? "&tournament=" + view.options.tournament: ""))
+      +playLevelLink(view.levelID, view.options.league, view.options.leagueType, view.team, view.options.tournament, view.challengers.easy.sessionID)
         div.play-option.easy-option
           img(src=view.myPortrait).my-icon.only-one
           img(src=`/images/pages/play/ladder/${view.team}_ladder_easy.png`, style=`border: 1px solid ${view.teamColor}; background: ${view.teamBackgroundColor}`).my-team-icon.img-circle.only-one
@@ -56,7 +77,7 @@ block modal-body-content
             span(data-i18n="general.easy") Easy
 
     if view.challengers && view.challengers.medium
-      a(target="_blank" href=`/play/level/${view.levelID}?team=${view.team}&opponent=${view.challengers.medium.sessionID}` + (view.options.league ? "&league=" + view.options.league.id : "")+ (view.options.tournament ? "&tournament=" + view.options.tournament: ""))
+      +playLevelLink(view.levelID, view.options.league, view.options.leagueType, view.team, view.options.tournament, view.challengers.medium.sessionID)
         div.play-option.medium-option
           img(src=view.myPortrait).my-icon.only-one
           img(src=`/images/pages/play/ladder/${view.team}_ladder_medium.png`, style=`border: 1px solid ${view.teamColor}; background: ${view.teamBackgroundColor}`).my-team-icon.img-circle.only-one
@@ -72,7 +93,7 @@ block modal-body-content
             span(data-i18n="general.medium") Medium
 
     if view.challengers && view.challengers.hard
-      a(target="_blank" href=`/play/level/${view.levelID}?team=${view.team}&opponent=${view.challengers.hard.sessionID}` + (view.options.league ? "&league=" + view.options.league.id : "")+ (view.options.tournament ? "&tournament=" + view.options.tournament: ""))
+      +playLevelLink(view.levelID, view.options.league, view.options.leagueType, view.team, view.options.tournament, view.challengers.hard.sessionID)
         div.play-option.hard-option
           img(src=view.myPortrait).my-icon.only-one
           img(src=`/images/pages/play/ladder/${view.team}_ladder_hard.png`, style=`border: 1px solid ${view.teamColor}; background: ${view.teamBackgroundColor}`).my-team-icon.img-circle.only-one

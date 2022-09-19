@@ -304,9 +304,6 @@ class PlayLevelView extends RootView {
     ) // May not have @level loaded yet
     this.$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
-    if (me.get('aceConfig') && me.get('aceConfig').screenReaderMode) {
-      $('body').addClass('screen-reader-mode')  // TODO: keep this updated
-    };
   }
 
   afterInsert () {

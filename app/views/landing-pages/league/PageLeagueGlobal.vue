@@ -58,7 +58,8 @@ export default {
     regularArenaSlug: currentRegularArena ? currentRegularArena.slug : 'mages-might',
     championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
     championshipActive: !!currentChampionshipArena,
-    anonymousPlayerName: false
+    anonymousPlayerName: false,
+    dateBeforeSep: new Date() < new Date('2022-9-1')
   }),
 
   beforeRouteUpdate (to, from, next) {
@@ -307,6 +308,9 @@ export default {
     },
     isTeacher () {
       return me.isTeacher()
+    },
+    unlockEsports () {
+      this.anonymousPlayerName = false
     }
   },
 
@@ -566,7 +570,7 @@ export default {
       </div>
       <div class="col-lg-6 section-space" style="text-align: left;">
         <div>
-          <img class="img-responsive" src="/images/pages/league/sandstorm-blitz.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
+          <img class="img-responsive" src="/images/pages/league/sand-storm-blitz.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
           <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 5 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
         </div>
         <p>{{ $t('league.season5_announcement_1') }}</p>
@@ -588,7 +592,12 @@ export default {
       <div class="col-lg-6 section-space">
         <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" :anonymousPlayerName="anonymousPlayerName" />
         <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
-        <a :href="AILeagueProductCTA" target="_blank" class="btn btn-large btn-primary btn-moon play-btn-cta" v-if="showContactUsForTournament() && anonymousPlayerName">Contact Us to unlock the leaderboard</a>
+        <template
+          v-if="showContactUsForTournament() && anonymousPlayerName"
+          >
+          <div v-if="dateBeforeSep" @click.stop="unlockEsports" class="btn btn-large btn-primary btn-moon play-btn-cta"> {{ $t("league.click_to_unlock_before_sep") }}</div>
+          <a :href="AILeagueProductCTA" target="_blank" class="btn btn-large btn-primary btn-moon play-btn-cta" v-else> {{ $t("league.unlock_leaderboard") }}</a>
+        </template>
         <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta" v-else>{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
       </div>
       <div class="col-lg-6 section-space">
@@ -616,7 +625,7 @@ export default {
 
     <div class="row flex-row video-iframe-section section-space" style="margin: 0 0 0 0" v-if="previousChampionshipArenaResultsPublished">
       <div class="col-sm-10 video-backer video-iframe">
-        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/bfbf1a5187888d110ee47f97b7491c2a?poster=https://videodelivery.net/bfbf1a5187888d110ee47f97b7491c2a/thumbnails/thumbnail.jpg%3Ftime%3D1568s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 4 - Tundra Tower"></iframe></div>
+        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/4d73a54ff2cdc9b0084a538beb476437?poster=https://videodelivery.net/4d73a54ff2cdc9b0084a538beb476437/thumbnails/thumbnail.jpg%3Ftime%3D1638s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 5 - Sands of Time"></iframe></div>
       </div>
     </div>
 

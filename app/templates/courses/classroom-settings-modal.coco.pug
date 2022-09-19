@@ -75,7 +75,7 @@ block modal-body-content
         if view.enableCpp
           option(value="cpp") C++
 
-      .form-group.hide
+    .form-group.hide
       // We don't show this any more, as we didn't do anything with the data anyway
       label
         span(data-i18n="courses.avg_student_exp_label")
@@ -92,7 +92,8 @@ block modal-body-content
     .form-group
       label(for="type")
         span(data-i18n="courses.class_type_label")
-        i.spl.text-muted(data-i18n="signup.optional")
+        if (!me.isILK())
+          i.spl.text-muted(data-i18n="signup.optional")
       select.form-control(name="type", value=view.classroom.get('type'))
         option(value="" data-i18n="courses.avg_student_exp_select")
         option(value="in-school" data-i18n="courses.class_type_in_school")
