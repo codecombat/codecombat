@@ -29,21 +29,21 @@ ThangTypeConstants =
     'simple-boots': '53e237bf53457600003e3f05'
 
 if utils.isOzaria
-  productHeroes =
-    ozariaHeroes:
-      'hero-a': '5d1630bf14281c002af1ee51'  # Male, thin
-      'hero-b': '5d164dfedf16b90034a2ce89'  # Female, thin
-      'hero-c': '60f8f30a5b55bb0029710795'  # Female, curvy
-      'hero-d': '60ff9b255b55bb002971b998'  # Male, stocky
-      'hero-e': '60ff9b6b28067a00236ea9f0'  # Female, androgynous
-      'hero-f': '60ff9b7a5b55bb002971b9e5'  # Male, wheelchair
-    ozariaCinematicHeroes:
-      'hero-a': '5d03e18887ed53004682e340'  # Male, thin
-      'hero-b': '5d03e60dab809900234a0037'  # Female, thin
-      'hero-c': '60fe44d128067a00236e6cc5'  # Female, curvy
-      'hero-d': '60ff9b9d28067a00236eaa21'  # Male, stocky
-      'hero-e': '60ff9bc75b55bb002971ba41'  # Female, androgynous
-      'hero-f': '60ff9bd728067a00236eaa57'  # Male, wheelchair
+  productHeroes = {}
+  ThangTypeConstants.ozariaHeroes =
+    'hero-a': '5d1630bf14281c002af1ee51'  # Male, thin
+    'hero-b': '5d164dfedf16b90034a2ce89'  # Female, thin
+    'hero-c': '60f8f30a5b55bb0029710795'  # Female, curvy
+    'hero-d': '60ff9b255b55bb002971b998'  # Male, stocky
+    'hero-e': '60ff9b6b28067a00236ea9f0'  # Female, androgynous
+    'hero-f': '60ff9b7a5b55bb002971b9e5'  # Male, wheelchair
+  ThangTypeConstants.ozariaCinematicHeroes =
+    'hero-a': '5d03e18887ed53004682e340'  # Male, thin
+    'hero-b': '5d03e60dab809900234a0037'  # Female, thin
+    'hero-c': '60fe44d128067a00236e6cc5'  # Female, curvy
+    'hero-d': '60ff9b9d28067a00236eaa21'  # Male, stocky
+    'hero-e': '60ff9bc75b55bb002971ba41'  # Female, androgynous
+    'hero-f': '60ff9bd728067a00236eaa57'  # Male, wheelchair
   productHeroClasses =
     Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja', 'stalwart']
 else
