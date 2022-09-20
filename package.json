@@ -41,8 +41,10 @@
     "webpack": "NODE_OPTIONS='--max-old-space-size=4096' webpack",
     "bower": "bower",
     "dev": "NODE_OPTIONS='--max-old-space-size=4096' webpack --watch",
+    "dev:ozaria": "COCO_PRODUCT=ozaria npm run dev",
     "dev-container": "DEV_CONTAINER=1 NODE_OPTIONS='--max-old-space-size=4096' webpack --watch",
     "proxy": "COCO_PROXY='true' nodemon",
+    "proxy:ozaria": "COCO_PRODUCT=ozaria COCO_PORT=3001 npm run proxy",
     "proxy-win": "cross-env COCO_PROXY='true' nodemon",
     "analyzer": "COCO_ANALYZER_BUNDLE=1 NODE_OPTIONS='--max-old-space-size=4096' webpack --profile --json > stats.json",
     "lint": "eslint --max-warnings 0 '**/*.{js,vue}'"
@@ -59,6 +61,8 @@
       "vendor/**",
       "spec/**",
       "public/**",
+      "public_coco/**",
+      "public_ozar/**",
       "**/styles/**"
     ]
   },
