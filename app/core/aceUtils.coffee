@@ -145,11 +145,14 @@ parseUserSnippets = (source, lang, session) ->
 setupCRDT = (key, userName, doc, editor) =>
   ydoc = new Y.Doc()
   server = window.location.host
-  url = "ws://#{server}/yjs/websocket"
+  url = "ws://#{server}/yjs/websocket/level.session"
   provider = new WebsocketProvider(url, key, ydoc)
   yType = ydoc.getText('ace')
-  provider.on('status', (event) =>
-    console.log("what event.status:", event.status)
+  provider.on('connection-close', (event) =>
+    console.log("what event.status:", event)
+    if event.code == 1003 and event.reason == 'unauthorized'
+      console.log('disconnect because of unauth')
+      provider.disconnect()
   )
   provider.once('synced', () =>
     console.log("provider synced here, value", yType.toString())
