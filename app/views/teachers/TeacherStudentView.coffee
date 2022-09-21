@@ -94,6 +94,14 @@ module.exports = class TeacherStudentView extends RootView
     @singleStudentLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
     @levelProgressMap = {}
     me.getClientCreatorPermissions()?.then(() => @render?())
+
+
+    queryUserOnline = {
+      to: @studentID
+      type: 'fetch'
+      info: ['online']
+    }
+    @ws?.onopen = () => @ws?.sendJSON(queryUserOnline)
     super(options)
 
   getRenderData: ->
