@@ -1,33 +1,154 @@
 @import "app/styles/style-flat-variables"
+@import "app/styles/bootstrap/variables"
 @import "ozaria/site/styles/common/common.scss"
+@import "app/styles/utils"
 
-#choose-account-type-view
-  text-align: center
-
-  .constrain-text-width
+@if $is-ozaria
+  #choose-account-type-view
     text-align: center
-    margin: 0 auto
-    width: 350px
-    margin-bottom: 10px
 
-  button.ozaria-primary-button
-    width: 290px
-    min-height: 46px
+    .constrain-text-width
+      text-align: center
+      margin: 0 auto
+      width: 350px
+      margin-bottom: 10px
 
-  .row.or-row
-    margin: 20px auto
+    button.ozaria-primary-button
+      width: 290px
+      min-height: 46px
 
-  .form-group
-    align-items: center
+    .row.or-row
+      margin: 20px auto
 
-  input, label.control-label span
-    width: 290px
-    display: block
-    text-align: left
-  
-  input
-    color: $color-tertiary-brand
+    .form-group
+      align-items: center
 
-  label.control-label span
-    margin-top: 20px
-    @include font-p-2-paragraph-medium-gray
+    input, label.control-label span
+      width: 290px
+      display: block
+      text-align: left
+
+    input
+      color: $color-tertiary-brand
+
+    label.control-label span
+      margin-top: 20px
+      @include font-p-2-paragraph-medium-gray
+
+@if $is-codecombat
+  #choose-account-type-view
+    width: 1048px
+    @media (max-width: $screen-md-min)
+      width: fit-content
+
+    .choose-type-title
+      display: flex
+      flex-direction: column
+    .modal-body-content
+      padding: 0
+      margin: 0 50px
+
+    h4
+      padding-bottom: 20px
+
+    .path-cards
+      margin-top: 45px
+      max-width: 100%
+
+      &:nth-child(2)
+        margin-top: 17px
+        @media (max-width: $screen-md-min)
+          margin-top: 0px
+
+    .path-card
+      &.navy
+        border-color: $navy
+        .card-title
+          background-color: $navy
+
+      &.forest
+        border-color: $forest
+        .card-title
+          background-color: $forest
+
+
+      .card-title
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        height: 50px
+        max-height: 5vh
+        color: white
+        font-weight: bold
+        text-align: center
+
+      .card-content
+        flex-grow: 1
+        display: flex
+        flex-direction: column
+        justify-content: center
+        margin: 0 20px
+
+        ul
+          align-self: center
+          text-align: left
+          padding-left: 20px
+          &[dir="rtl"]
+            text-align: right
+          li
+            span
+              position: relative
+              left: -5px
+
+      .card-image
+        width: 300px
+        height: 200px
+        background: #C4C4C4
+        border-radius: 10px
+        cursor: pointer
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.11))
+        @media (max-width: $screen-md-min)
+          display: none
+
+      .card-footer
+        margin: 0 35px 20px
+        min-height: 62px
+        display: flex
+        flex-direction: column
+        justify-content: flex-end
+        span
+          @media (max-width: $screen-md-min)
+            order: 2
+          &.small div
+            line-height: 25px
+            font-weight: 300
+            font-size: 18px
+            white-space: nowrap
+            margin: 15px -100%
+            @media (max-width: $screen-md-min)
+              margin-top: 7px
+              margin-bottom: 25px
+
+        .primary-oz-button
+          max-width: 300px
+          margin: 0px auto
+
+
+    .individual-section
+      display: flex
+      flex-grow: 1
+      flex-direction: column
+      align-items: center
+      justify-content: center
+      max-width: 425px
+
+    .individual-title
+      font-weight: bold
+
+    .individual-description
+      margin: 0px 0px 20px 0px
+      width: 100%
+
+    .text-h6
+      color: white
