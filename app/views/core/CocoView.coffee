@@ -8,7 +8,6 @@ auth = require 'core/auth'
 ViewVisibleTimer = require 'core/ViewVisibleTimer'
 storage = require 'core/storage'
 zendesk = require 'core/services/zendesk'
-websocket = require 'lib/websocket'
 
 visibleModal = null
 waitingModal = null
@@ -60,8 +59,6 @@ module.exports = class CocoView extends Backbone.View
     @listenTo(@supermodel, 'failed', @onResourceLoadFailed)
     @warnConnectionError = _.throttle(@warnConnectionError, 3000)
 
-    @ws = websocket.setupBaseWS()
-
     $('body').addClass 'product-' + utils.getProductName().toLowerCase()
 
     # Warn about easy-to-create race condition that only shows up in production
@@ -73,7 +70,6 @@ module.exports = class CocoView extends Backbone.View
     super arguments...
 
   destroy: ->
-    @ws?.close()
     @viewVisibleTimer?.destroy()
     @stopListening()
     @off()
