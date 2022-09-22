@@ -1,21 +1,21 @@
-const c = require('./../schemas');
-
+const c = require('./../schemas')
+const _ = require('lodash')
 
 const MongoQueryOperatorSchema = {
   title: 'Query Operator',
   type: 'object',
   properties: {
-    '$gt': { type: 'number' },
-    '$gte': { type: 'number' },
-    '$in': { type: 'array' },
-    '$lt': { type: 'number' },
-    '$lte': { type: 'number' },
-    '$ne': { type: ['number', 'string'] },
-    '$nin': { type: 'array' },
-    '$exists': { type: 'boolean' }
+    $gt: { type: 'number' },
+    $gte: { type: 'number' },
+    $in: { type: 'array' },
+    $lt: { type: 'number' },
+    $lte: { type: 'number' },
+    $ne: { type: ['number', 'string'] },
+    $nin: { type: 'array' },
+    $exists: { type: 'boolean' }
   },
   additionalProperties: false
-};
+}
 
 const MongoFindQuerySchema = {
   title: 'Query',
@@ -23,18 +23,17 @@ const MongoFindQuerySchema = {
   patternProperties: {
     '^[-a-zA-Z0-9._]*$': {
       anyOf: [
-        {$ref: '#/definitions/mongoQueryOperator'},
-        {type: 'string'},
-        {type: 'object'},
-        {type: 'boolean'}
+        { $ref: '#/definitions/mongoQueryOperator' },
+        { type: 'string' },
+        { type: 'object' },
+        { type: 'boolean' }
       ]
     }
   },
   properties: {},
   additionalProperties: false,
   definitions: {}
-};
-
+}
 
 const AnnouncementSchema = c.object({
   title: 'Announcement',
@@ -66,7 +65,7 @@ const AnnouncementSchema = c.object({
       }
     }
   ]
-});
+})
 
 // c.extendNamedProperties AnnouncementSchema # do we need name/slug ?
 
@@ -84,7 +83,7 @@ _.extend(AnnouncementSchema.properties, {
     format: 'markdown'
   },
   startDate: c.stringDate(),
-  endDate: c.stringDate(), //unset for forever
+  endDate: c.stringDate(), // unset for forever
   query: {
     $ref: '#/definitions/mongoFindQuery'
   },
@@ -121,13 +120,13 @@ _.extend(AnnouncementSchema.properties, {
     format: 'i18n',
     props: ['name', 'content']
   }
-});
+})
 
-AnnouncementSchema.definitions = {};
-AnnouncementSchema.definitions['mongoQueryOperator'] = MongoQueryOperatorSchema;
-AnnouncementSchema.definitions['mongoFindQuery'] = MongoFindQuerySchema;
-c.extendBasicProperties(AnnouncementSchema, 'announcement');
-c.extendSearchableProperties(AnnouncementSchema);
-c.extendTranslationCoverageProperties(AnnouncementSchema);
+AnnouncementSchema.definitions = {}
+AnnouncementSchema.definitions.mongoQueryOperator = MongoQueryOperatorSchema
+AnnouncementSchema.definitions.mongoFindQuery = MongoFindQuerySchema
+c.extendBasicProperties(AnnouncementSchema, 'announcement')
+c.extendSearchableProperties(AnnouncementSchema)
+c.extendTranslationCoverageProperties(AnnouncementSchema)
 
-module.exports = AnnouncementSchema;
+module.exports = AnnouncementSchema
