@@ -38,7 +38,7 @@ module.exports = class HomeCNView extends RootView
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetchReleased()
 
-    @getBanner()
+    # @getBanner()
     if me.isTeacher()
       @trialRequests = new TrialRequests()
       @trialRequests.fetchOwn()
