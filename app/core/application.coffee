@@ -1,4 +1,5 @@
 globalVar = require 'core/globalVar'
+websocket = require 'lib/websocket'
 
 # TODO: move this out of here to where it should go
 window.SPRITE_RESOLUTION_FACTOR = 3
@@ -52,6 +53,7 @@ Application =
     # propagate changes from global 'me' User to 'me' vuex module
     store = require('core/store')
 
+    globalVar.ws = websocket.setupBaseWS()
     me.on('change', ->
       store.commit('me/updateUser', me.changedAttributes())
     )
