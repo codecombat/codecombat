@@ -115,8 +115,8 @@ block content
           else if typeof view.personalSub.free === 'string'
             if new Date() < new Date(view.personalSub.free)
               div
-                span.spr(data-i18n="subscribe.currently_free_until")
-                span= moment(new Date(view.personalSub.free)).format('l')
+                - date = moment(new Date(view.personalSub.free)).format('l')
+                span.spr(data-i18n="subscribe.currently_free_until", data-i18n-options={date})
             else
               span.spr(data-i18n="subscribe.was_free_until")
               span= moment(new Date(view.personalSub.free)).format('l')

@@ -1,21 +1,57 @@
 <template>
   <div class="guest-info">
     <div class="container">
-      <div class="row">
+      <div class="row guest-info__about">
+        <h2 class="guest-info__about-text">
+          {{ podcast.additionalGuestName ? $t('podcast.about_guests') : $t('podcast.about_guest') }}
+        </h2>
+      </div>
+      <div class="row guest-info__container">
         <div class="col-md-offset-1 col-md-5">
           <div class="guest-info__about">
-            <h2 class="guest-info__about-text">
-              {{ $t('podcast.about_guest') }}
-            </h2>
-            <div class="guest-info__about-desc" v-html="formatGuestDetails"></div>
+            <h2
+              class="guest-info__about-text"
+              v-html="formatGuestName"
+            />
+            <div
+              class="guest-info__about-desc"
+              v-html="formatGuestDetails"
+            />
           </div>
         </div>
         <div class="col-md-5 col-md-offset-1">
-          <img :src="`/file/${podcast.guestImage}`" alt="Guest Image" class="guest-info__img">
+          <img
+            :src="`/file/${podcast.guestImage}`"
+            alt="Guest Image"
+            class="guest-info__img"
+          >
+        </div>
+      </div>
+      <div
+        v-if="podcast.additionalGuestName"
+        class="row guest-info__container"
+      >
+        <div class="col-md-5 col-md-offset-1">
+          <img
+            :src="`/file/${podcast.additionalGuestImage}`"
+            alt="Guest Image"
+            class="guest-info__img guest-info__img-add"
+          >
+        </div>
+        <div class="col-md-5">
+          <div class="guest-info__about">
+            <h2
+              class="guest-info__about-text"
+              v-html="formatAdditionalGuestName"
+            />
+            <div
+              class="guest-info__about-desc"
+              v-html="formatAdditionalGuestDetails"
+            />
+          </div>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -34,6 +70,15 @@ export default {
   computed: {
     formatGuestDetails () {
       return marked(i18n(this.podcast, 'guestDetails'), { renderer: podcastLinkRenderer() })
+    },
+    formatAdditionalGuestDetails () {
+      return marked(i18n(this.podcast, 'additionalGuestDetails'), { renderer: podcastLinkRenderer() })
+    },
+    formatGuestName () {
+      return marked(i18n(this.podcast, 'guestName'), { renderer: podcastLinkRenderer() })
+    },
+    formatAdditionalGuestName () {
+      return marked(i18n(this.podcast, 'additionalGuestName'), { renderer: podcastLinkRenderer() })
     }
   }
 }
@@ -42,6 +87,10 @@ export default {
 <style scoped lang="scss">
 .guest-info {
   padding-top: 6rem;
+
+  &__container {
+    margin-bottom: 5rem;
+  }
 
   &__about {
     padding-bottom: 2rem;

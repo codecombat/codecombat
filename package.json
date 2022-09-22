@@ -41,8 +41,10 @@
     "webpack": "NODE_OPTIONS='--max-old-space-size=4096' webpack",
     "bower": "bower",
     "dev": "NODE_OPTIONS='--max-old-space-size=4096' webpack --watch",
+    "dev:ozaria": "COCO_PRODUCT=ozaria npm run dev",
     "dev-container": "DEV_CONTAINER=1 NODE_OPTIONS='--max-old-space-size=4096' webpack --watch",
     "proxy": "COCO_PROXY='true' nodemon",
+    "proxy:ozaria": "COCO_PRODUCT=ozaria COCO_PORT=3001 npm run proxy",
     "proxy-win": "cross-env COCO_PROXY='true' nodemon",
     "analyzer": "COCO_ANALYZER_BUNDLE=1 NODE_OPTIONS='--max-old-space-size=4096' webpack --profile --json > stats.json",
     "lint": "eslint --max-warnings 0 '**/*.{js,vue}'"
@@ -59,6 +61,8 @@
       "vendor/**",
       "spec/**",
       "public/**",
+      "public_coco/**",
+      "public_ozar/**",
       "**/styles/**"
     ]
   },
@@ -108,6 +112,7 @@
     "fitty": "^2.2.6",
     "flexsearch": "^0.6.32",
     "focus-trap": "^6.9.4",
+    "git-diff": "^2.0.6",
     "graceful-fs": "4.2.9",
     "howler": "^2.2.0",
     "htmlparser2": "^3.9.1",
@@ -179,6 +184,7 @@
     "copy-webpack-plugin": "^8.1.1",
     "cross-env": "^5.2.0",
     "css-loader": "^5.2.7",
+    "diff": "^5.1.0",
     "eslint": "^8.20.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-diff": "^1.0.15",
@@ -193,6 +199,7 @@
     "exports-loader": "^0.6.4",
     "file-loader": "^5.1.0",
     "fs-extra": "^0.26.2",
+    "globby": "^13.1.2",
     "http-proxy": "^1.13.2",
     "import-glob-loader": "^1.1.0",
     "imports-loader": "^0.6.5",

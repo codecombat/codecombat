@@ -36,7 +36,7 @@
       .course-acronym
         padding: 0 4px
 
-  .share-details .share-licenses-link
+  .share-details .share-licenses-link, .share-details .license-stats
     color: black
     text-decoration: underline
 
@@ -52,7 +52,9 @@
       float: left !important
 
   .share-details
-    text-align: right
+    display: flex
+    flex-direction: row-reverse
+    justify-content: space-between
 
   .how-to-enroll
     padding: 10px
