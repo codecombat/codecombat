@@ -1,121 +1,124 @@
 @import "app/styles/bootstrap/variables"
 @import "ozaria/site/styles/common/variables"
+@import "app/styles/utils"
 
-#options-view
-    
-  //- Volume slider
+@if $is-ozaria
 
-  #volume-group
-    position: relative
-    width: 100%
-    height: 25px
-    margin: 15px 0
+  #options-view
 
-    & > *
-      position: absolute
+    //- Volume slider
 
-    .ui-slider
-      left: 40px
-      right: 40px
-      top: 4px
-      background-color: $teal
-      border: 2px solid rgb(26,21,18)
-      height: 18px
-      border-radius: 18px
-
-      .ui-slider-handle
-        background-color: rgb(26,21,18)
-        width: 28px
-        height: 28px
-        border-radius: 28px
-        top: -7px
-        outline: 0
-
-    .glyphicon
-      font-size: 30px
-      top: -2px
-      color: rgb(26,21,18)
-
-    .glyphicon-volume-down
-      position: absolute
-      left: 0
-
-    .glyphicon-volume-up
-      position: absolute
-      right: -10px
-
-  .options-title
-    margin-top: 5px
-    color: #000000
-    font-size: 24px
-    font-weight: 600
-    letter-spacing: 0.82px
-    line-height: 28px
-    font-family: $label-font-style
-    font-variant: unset
-
-
-  //- All form groups
-  
-  .form-group
-    font-size: 16px
-    color: rgb(51,51,51)
-    padding-top: 4px
-    padding-left: 40px
-   
-  label
-    color: #4a4a4a
-    font-family: $label-font-style
-    font-size: 18px
-    line-height: 21px
-
-  //- Check boxes
-  
-  .form-group.checkbox
-    margin-top: 20px
-    
-    label
+    #volume-group
       position: relative
-    
-    input
-      display: none
-      
-      & + .custom-checkbox
-        .glyphicon
-          display: none
-        
-      &:checked + .custom-checkbox .glyphicon
-        display: inline
-        color: #0e4c60
-        text-align: center
-        font-size: 14px
+      width: 100%
+      height: 25px
+      margin: 15px 0
+
+      & > *
+        position: absolute
+
+      .ui-slider
+        left: 40px
+        right: 40px
+        top: 4px
+        background-color: $teal
+        border: 2px solid rgb(26,21,18)
+        height: 18px
+        border-radius: 18px
+
+        .ui-slider-handle
+          background-color: rgb(26,21,18)
+          width: 28px
+          height: 28px
+          border-radius: 28px
+          top: -7px
+          outline: 0
+
+      .glyphicon
+        font-size: 30px
+        top: -2px
+        color: rgb(26,21,18)
+
+      .glyphicon-volume-down
+        position: absolute
+        left: 0
+
+      .glyphicon-volume-up
+        position: absolute
+        right: -10px
+
+    .options-title
+      margin-top: 5px
+      color: #000000
+      font-size: 24px
+      font-weight: 600
+      letter-spacing: 0.82px
+      line-height: 28px
+      font-family: $label-font-style
+      font-variant: unset
+
+
+    //- All form groups
+
+    .form-group
+      font-size: 16px
+      color: rgb(51,51,51)
+      padding-top: 4px
+      padding-left: 40px
+
+    label
+      color: #4a4a4a
+      font-family: $label-font-style
+      font-size: 18px
+      line-height: 21px
+
+    //- Check boxes
+
+    .form-group.checkbox
+      margin-top: 20px
+
+      label
         position: relative
-        top: -1px
 
-      &:disabled + .custom-checkbox
-        filter: grayscale(100%)
-  
-    .custom-checkbox
-      border-radius: 4px
-      height: 18px
-      width: 18px
-      position: absolute
-      background: #d8d8d8
-      text-align: center
-      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.33)
+      input
+        display: none
 
-      // this undoes the padding of the form groups
-      left: -35px 
-      top: 2px
+        & + .custom-checkbox
+          .glyphicon
+            display: none
 
-    .help-block
-      font-family: $body-font-style
-      color: #9B9B9B
-      font-size: 14px
-      letter-spacing: 0.48px
-      line-height: 19px
+        &:checked + .custom-checkbox .glyphicon
+          display: inline
+          color: #0e4c60
+          text-align: center
+          font-size: 14px
+          position: relative
+          top: -1px
 
-  .done-button
-    width: 180px
-    display: block
-    margin: 30px auto
+        &:disabled + .custom-checkbox
+          filter: grayscale(100%)
+
+      .custom-checkbox
+        border-radius: 4px
+        height: 18px
+        width: 18px
+        position: absolute
+        background: #d8d8d8
+        text-align: center
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.33)
+
+        // this undoes the padding of the form groups
+        left: -35px
+        top: 2px
+
+      .help-block
+        font-family: $body-font-style
+        color: #9B9B9B
+        font-size: 14px
+        letter-spacing: 0.48px
+        line-height: 19px
+
+    .done-button
+      width: 180px
+      display: block
+      margin: 30px auto
