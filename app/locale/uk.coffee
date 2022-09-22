@@ -50,7 +50,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    faq_row2_header: "What ages or grades are appropriate for Ozaria?"
 #    faq_row2_p: "Ozaria is aligned to the CSTA and ISTE middle school CS standards, but has been practiced and enjoyed by students ranging from upper elementary through high school."
 #    faq_row3_header: "How much does it cost to access all of the available units and resources?"
-#    faq_row3_p_part1: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. "
+#    faq_row3_p_part1: "We customize solutions for schools and districts and work with you to understand your use case, fext, and budget. "
 #    faq_row3_p_part2: " for further details! We also provide a "
 #    faq_row3_p_part3: "funding resources guide"
 #    faq_row3_p_part4: " for school and district CS programs."
@@ -1350,9 +1350,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     required_parameters: "Обов'язкові параметри"
     optional_parameters: "Необов'якові параметри"
     returns: "Повертає"
-    granted_by: "Забезпечує" # "Забезпечено" would be better in this context: "Granted by Some Item"
+    granted_by: "Надано"
 #    still_undocumented: "Still undocumented, sorry."
-#    description_coming_soon: "Description coming soon"
+    description_coming_soon: "Опис скоро буде."
 
   save_load:
     granularity_saved_games: "Збережено"
