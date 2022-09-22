@@ -16,8 +16,12 @@ module.exports = class HeroSelectView extends CocoView
     'click .hero-option': 'onClickHeroOption'
 
   initialize: (@options = {}) ->
-    defaultHeroOriginal = ThangTypeConstants.heroes.captain
-    currentHeroOriginal = me.get('heroConfig')?.thangType or defaultHeroOriginal
+    if utils.isCodeCombat
+      defaultHeroOriginal = ThangTypeConstants.heroes.captain
+      currentHeroOriginal = me.get('heroConfig')?.thangType or defaultHeroOriginal
+    else
+      defaultHeroOriginal = ThangTypeConstants.ozariaHeroes['hero-b']
+      currentHeroOriginal = me.get('ozariaUserOptions')?.isometricThangTypeOriginal or defaultHeroOriginal
 
     @debouncedRender = _.debounce @render, 0
 
@@ -26,16 +30,24 @@ module.exports = class HeroSelectView extends CocoView
       selectedHeroOriginal: currentHeroOriginal
     })
 
-    api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'i18n', 'heroClass', 'slug', 'ozaria', 'poseImage'] }).then (heroes) =>
-      return if @destroyed
-      @heroes = heroes.filter (hero) ->
-        return false if hero.ozaria
-        if clanHero = _.find(utils.clanHeroes, thangTypeOriginal: hero.original)
-          return false if clanHero.clanId not in (me.get('clans') ? [])
-        if hero.original is ThangTypeConstants.heroes['code-ninja']
-          return false if window.location.host isnt 'coco.code.ninja'
-        true
-      @debouncedRender()
+    if utils.isCodeCombat
+      api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'i18n', 'heroClass', 'slug', 'ozaria', 'poseImage'] }).then (heroes) =>
+        return if @destroyed
+        @heroes = heroes.filter (hero) ->
+          return false if hero.ozaria
+          if clanHero = _.find(utils.clanHeroes, thangTypeOriginal: hero.original)
+            return false if clanHero.clanId not in (me.get('clans') ? [])
+          if hero.original is ThangTypeConstants.heroes['code-ninja']
+            return false if window.location.host isnt 'coco.code.ninja'
+          true
+        @debouncedRender()
+     else
+      # @heroes = new ThangTypes({}, { project: ['original', 'name', 'heroClass, 'slug''] })
+      # @supermodel.trackRequest @heroes.fetchHeroes()
+
+      api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'heroClass', 'slug', 'ozaria'] }).then (heroes) =>
+        @heroes = heroes.filter((h) => !h.ozaria)
+        @debouncedRender()
 
     @listenTo @state, 'all', -> @debouncedRender()
     # @listenTo @heroes, 'all', -> @debouncedRender()
@@ -58,7 +70,7 @@ module.exports = class HeroSelectView extends CocoView
 
     hero = _.find(@heroes, { original: heroOriginal })
     me.save().then =>
-      return if @destroyed
+      return if utils.isCodeCmbat and @destroyed
       event = 'Hero selected'
       event += if me.isStudent() then ' student' else ' teacher'
       event += ' create account' if @options.createAccount
