@@ -1141,7 +1141,7 @@ module.exports = class SpellView extends CocoView
   focus: ->
     # TODO: it's a hack checking if a modal is visible; the events should be removed somehow
     # but this view is not part of the normal subview destroying because of how it's swapped
-    return unless @controlsEnabled and @writable and $('.modal:visible, .shepherd-button:visible').length is 0
+    return unless @controlsEnabled and @writable and $('.modal:visible').length is 0
     return if @ace.isFocused()
     return if me.get('aceConfig')?.screenReaderMode and utils.isOzaria  # Screen reader users get to control their own focus manually
     @ace.focus()
