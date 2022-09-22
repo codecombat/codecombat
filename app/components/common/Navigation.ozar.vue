@@ -82,9 +82,11 @@
       this.OZARIA = OZARIA
     },
     mounted () {
-      this.checkAnnouncements('fromNav')
-      if(!this.announcementInterval)
-        this.startInterval('fromNav')
+      if (false) { // TODO: currently do not enable announcemnt checking. using websocket later
+        this.checkAnnouncements('fromNav')
+        if(!this.announcementInterval)
+          this.startInterval('fromNav')
+      }
     },
     beforeUnmounted() {
       if(this.announcementInterval)
@@ -157,7 +159,7 @@
 
 <template lang="pug">
     nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
-      announcement-modal(v-if="announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
+      announcement-modal(v-if="false && announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
       .container-fluid
         .row
           .col-md-12
@@ -270,8 +272,8 @@
                   a.text-p#logout-button {{ $t('login.log_out') }}
                 li.dropdown(v-else)
                   a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
-                    span.unreadMessage(v-if="unread")
+                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''" v-if="false")
+                    span.unreadMessage(v-if="false && unread")
                     span {{ $t('nav.my_account') }}
                     span.caret
                   ul.dropdown-menu.pull-right
@@ -284,7 +286,7 @@
                       a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                    li
+                    li(v-if="false")
                       a.account-dropdown-item(href="/announcements") {{ $t('announcement.announcement') }}
                         span.unread(v-if="unread") {{ unread }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")

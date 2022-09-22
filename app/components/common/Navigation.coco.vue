@@ -81,9 +81,11 @@
       this.OZARIA = OZARIA
     },
     mounted () {
-      this.checkAnnouncements('fromNav')
-      if(!this.announcementInterval)
-        this.startInterval('fromNav')
+      if (false) { // TODO: currently do not enable announcemnt checking. using websocket later
+        this.checkAnnouncements('fromNav')
+        if(!this.announcementInterval)
+          this.startInterval('fromNav')
+      }
     },
     beforeUnmounted() {
       if(this.announcementInterval)
@@ -166,7 +168,7 @@
 
 <template lang="pug">
   div
-    announcement-modal(@close="closeAnnouncementModal" :announcement="announcementDisplay")
+    announcement-modal(v-if="false" @close="closeAnnouncementModal" :announcement="announcementDisplay")
     nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
 
       .container-fluid
@@ -281,8 +283,8 @@
                   a.text-p#logout-button {{ $t('login.log_out') }}
                 li.dropdown(v-else)
                   a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="{'border-navy': me.isTeacher()}")
-                    span.unreadMessage(v-if="unread")
+                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="{'border-navy': me.isTeacher()}" v-if="false")
+                    span.unreadMessage(v-if="false && unread")
                     span {{ $t('nav.my_account') }}
                     span.caret
                   ul.dropdown-menu.pull-right
@@ -295,7 +297,7 @@
                       a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                    li(v-if="unread")
+                    li(v-if="false && unread")
                       a.account-dropdown-item(@click="readAnnouncement") {{ $t('announcement.message') }}
                         span.unread {{ unread }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")

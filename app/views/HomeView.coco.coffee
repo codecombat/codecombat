@@ -34,7 +34,7 @@ module.exports = class HomeView extends RootView
   initialize: (options) ->
     super(options)
     @renderedPaymentNoty = false
-    @getBanner()
+    # @getBanner()
 
   getRenderData: (context={}) ->
     context = super context
