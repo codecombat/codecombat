@@ -156,6 +156,7 @@ module.exports = class CampaignView extends RootView
         when 'game-dev-hoc' then 'code_combat_gamedev'
         when 'game-dev-hoc-2' then 'code_combat_build_arcade'
         when 'ai-league-hoc' then 'cc_ai'
+        when 'goblins-hoc' then 'cc_goblins'
         else 'code_combat'
       $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
     else if me.isTeacher() and not utils.getQueryVariable('course-instance') and
@@ -301,9 +302,12 @@ module.exports = class CampaignView extends RootView
         sessionStorage.setItem(@terrain, "seen-modal")
         clearTimeout(@playMusicTimeout)
         setTimeout(=>
+            activity = 'ai-league'
+            activity = 'teacher-gd' if @terrain is 'hoc-2018'
+            activity = 'goblins' if @terrain is 'goblins-hoc'
             @openModalView new HoCModal({
-              activity: if @terrain is "hoc-2018" then "teacher-gd" else "ai-league"
-              showVideo: @terrain is "hoc-2018",
+              activity: activity
+              showVideo: @terrain is "hoc-2018"
               onDestroy: =>
                 return if @destroyed
                 delayMusicStart()

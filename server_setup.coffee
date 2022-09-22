@@ -14,6 +14,10 @@ wrap = require 'co-express'
 morgan = require 'morgan'
 timeout = require('connect-timeout')
 PWD = process.env.PWD || __dirname
+devUtils = require './development/utils'
+productSuffix = devUtils.productSuffix
+publicFolderName = devUtils.publicFolderName
+publicPath = path.join(PWD, publicFolderName)
 
 {countries} = require './app/core/utils'
 
@@ -57,21 +61,19 @@ setupExpressMiddleware = (app) ->
     res.header 'X-Cluster-ID', config.clusterID
     next()
 
-  public_path = path.join(PWD, 'public')
-
-  app.use('/', express.static(path.join(public_path, 'templates', 'static')))
+  app.use('/', express.static(path.join(publicPath, 'templates', 'static')))
 
   if config.buildInfo.sha isnt 'dev' and config.isProduction
-    app.use("/#{config.buildInfo.sha}", express.static(public_path, maxAge: '1y'))
+    app.use("/#{config.buildInfo.sha}", express.static(publicPath, maxAge: '1y'))
   else
-    app.use('/dev', express.static(public_path, maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
+    app.use('/dev', express.static(publicPath, maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
 
-  app.use(express.static(public_path, maxAge: 0))
+  app.use(express.static(publicPath, maxAge: 0))
 
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
-  productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[config.product]
-  app.use require('serve-favicon') path.join(PWD, 'public', 'images', 'favicon', "favicon-#{productSuffix}", 'favicon.ico')
+
+  app.use require('serve-favicon') path.join(publicPath, 'images', 'favicon', "favicon-#{productSuffix}", 'favicon.ico')
   app.use require('cookie-parser')()
   app.use require('body-parser').json limit: '25mb', strict: false
   app.use require('body-parser').urlencoded extended: true, limit: '25mb'
@@ -197,7 +199,7 @@ templates = {}
 getStaticTemplate = (file) ->
   # Don't cache templates in development so you can just edit then.
   return templates[file] if templates[file] and config.isProduction
-  templates[file] = fs.readFileAsync(path.join(PWD, 'public', 'templates', 'static', file), 'utf8')
+  templates[file] = fs.readFileAsync(path.join(publicPath, 'templates', 'static', file), 'utf8')
 
 renderMain = wrap (template, req, res) ->
   template = yield getStaticTemplate(template)

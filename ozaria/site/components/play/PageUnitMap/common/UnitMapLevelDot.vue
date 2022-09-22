@@ -151,11 +151,14 @@
       <a
         class="level-dot-link"
         :href="playLevelLink"
+        :title="`${displayName} - ${levelStatus}`"
+        :tabindex="levelData.locked ? '-1' : '0'"
       >
         <img
           class="level-dot-image"
           :class="levelDotClasses"
           :src="levelIcon[levelStatus]"
+          alt=""
         >
       </a>
 

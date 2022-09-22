@@ -1,6 +1,7 @@
 require 'app/styles/modal/create-account-modal/school-info-panel.sass'
 NcesSearchInput = require './NcesSearchInput'
 algolia = require 'core/services/algolia'
+utils = require 'core/utils'
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students']
 SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone'])
 # NOTE: Phone number in algolia search results is for a school, not a district
@@ -24,9 +25,17 @@ SchoolInfoPanel =
         'country'
       ])
 
+    if utils.isOzaria
+      Object.assign formData, {
+        countries: countryList.getNames()
+      }
+    else
+      Object.assign formData, {
+        countriesList: countryList.getNames()
+      }
+
     return _.assign(ncesData, formData, {
       showRequired: false
-      countriesList: countryList.getNames()
       usaStates: new UsaStates().states
       usaStatesAbbreviations: new UsaStates().arrayOf('abbreviations')
       countryMap:
@@ -97,6 +106,9 @@ SchoolInfoPanel =
 
   mounted: ->
     $("input[name*='organization']").focus()
+
+    if utils.isOzaria
+      return
 
     if me.showChinaRegistration()
       @country = 'China'

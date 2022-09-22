@@ -15,6 +15,7 @@ const CompileStaticTemplatesPlugin = require('./compile-static-templates')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const PWD = process.env.PWD || __dirname
 const fs = require('fs')
+const { publicFolderName } = require('./development/utils')
 
 console.log(`Starting Webpack for product ${product}`)
 
@@ -79,7 +80,7 @@ module.exports = (env) => {
     output: {
       filename: 'javascripts/[name].js', // TODO: Use chunkhash in layout.static.pug's script tags instead of GIT_SHA
       // chunkFilename is determined by build type
-      path: path.resolve(PWD, 'public'),
+      path: path.resolve(PWD, publicFolderName),
       publicPath: '/' // Base URL path webpack tries to load other bundles from
     },
     module: {
@@ -221,7 +222,7 @@ module.exports = (env) => {
         'node_modules' // Or maybe require('foo') for the Node module "foo".
       ],
       extensions: [
-        '.web.coffee', '.web.js', '.coffee', '.js', '.pug', '.sass', '.vue', 
+        '.web.coffee', '.web.js', '.coffee', '.js', '.pug', '.sass', '.vue',
         `.${productSuffix}.coffee`, `.${productSuffix}.js`, `.${productSuffix}.pug`, `.${productSuffix}.sass`, `.${productSuffix}.vue`,  //, `.${productSuffix}.scss` ?
       ],
       alias: { // Replace Backbone's underscore with lodash

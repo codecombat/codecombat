@@ -26,9 +26,9 @@ block content
         else
           p(data-i18n="ozaria_home.item_list_p")
           div
-            a.btn.btn-primary.btn-large.btn-moon.teacher-btn(data-i18n="ozaria_home.im_an_educator" data-event-action="Click: I'm an Educator")
+            button.btn.btn-primary.btn-large.btn-moon.teacher-btn(data-i18n="ozaria_home.im_an_educator" data-event-action="Click: I'm an Educator")
           div
-            a.btn.btn-primary.btn-large.btn-moon.student-btn(data-i18n="ozaria_home.im_a_student" data-event-action="Click: I'm a Student")
+            button.btn.btn-primary.btn-large.btn-moon.student-btn(data-i18n="ozaria_home.im_a_student" data-event-action="Click: I'm a Student")
 
     section#graphics-1
       .move-image
@@ -71,7 +71,7 @@ block content
           p(data-i18n="[html]ozaria_home.pd_blurb", data-i18n-options=JSON.stringify(i18nData))
 
     section.full-width.section-spacer#back_cta_1
-      a.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-i18n="ozaria_home.back_cta_1_a" data-event-action="Click: Try Chapter 1 CTA 1")
+      button.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-i18n="ozaria_home.back_cta_1_a" data-event-action="Click: Try Chapter 1 CTA 1")
 
     section.section-spacer#speech-bubble-testimonial-1(style="padding-top:130px;")
       .row.xs-marg-15
@@ -182,7 +182,7 @@ block content
           p(data-i18n="ozaria_home.admin_dashboard_row2_p")
 
       .row.flex-row.text-center(style="width: 100%;")
-        a.btn.btn-primary.btn-large.btn-moon.request-quote(data-i18n="ozaria_home.admin_dashboard_row3_a" data-event-action="Click: Request a Quote")
+        button.btn.btn-primary.btn-large.btn-moon.request-quote(data-i18n="ozaria_home.admin_dashboard_row3_a" data-event-action="Click: Request a Quote")
 
     section#acodus-awards
       .row
@@ -199,7 +199,7 @@ block content
             .col-md-4
               img(src="/images/ozaria/home/award_3.png" class="img-responsive" alt="Member CS for All consortium")
       .row.flex-row(style="margin: 85px 0 130px;")
-        a.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-i18n="ozaria_home.acodus_awards_a" data-event-action="Click: Try Chapter 1 CTA 2")
+        button.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-i18n="ozaria_home.acodus_awards_a" data-event-action="Click: Try Chapter 1 CTA 2")
 
 
     section#speech-bubble-testimonial-2
@@ -225,7 +225,7 @@ block content
         a.btn.btn-primary.btn-large.btn-moon(data-i18n="ozaria_home.shareable_resources_a" data-event-action="Click: Download Flyer" style="margin: 20px;" href="https://drive.google.com/file/d/1T_UNIAN7v3gMJzOyyYAdbBoRTea1wkRp/view" target="_blank" rel="noopener")
 
     section.full-width#back_cta_2
-      a.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-i18n="ozaria_home.back_cta_2_a" data-event-action="Click: Try Chapter 1 CTA 3")
+      button.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-i18n="ozaria_home.back_cta_2_a" data-event-action="Click: Try Chapter 1 CTA 3")
 
     section#faq(style="padding-top: 130px;")
       h1.heading-corner(data-i18n="ozaria_home.faq_header" style="margin-bottom: 60px;")
@@ -240,7 +240,7 @@ block content
           h2(data-i18n="ozaria_home.faq_row3_header")
           p
             span(data-i18n="ozaria_home.faq_row3_p_part1")
-            a.contact-us(data-i18n="general.contact_us")
+            a.contact-us(data-i18n="general.contact_us", href="#")
             span(data-i18n="ozaria_home.faq_row3_p_part2")
             a(href="/funding" data-i18n="nav.funding_resources_guide")
             span(data-i18n="ozaria_home.faq_row3_p_part4")
@@ -258,5 +258,5 @@ block content
           span(data-i18n="ozaria_home.see_faq_suffix")
         p
           span(data-i18n="ozaria_home.faq_row6_p_part1")
-          a.contact-us(data-i18n="general.contact_us")
+          a.contact-us(data-i18n="general.contact_us", href="#")
           | .
