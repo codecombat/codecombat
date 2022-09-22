@@ -1,25 +1,28 @@
 .modal-body
   .modal-body-content
 
-    h3.text-pitch.m-y-1(data-i18n="signup.account_created")
+    h4.m-y-1(data-i18n="signup.account_created")
 
     .confirm_container.text-center.m-y-1
       if view.signupState.get('path') === 'student'
-        p.medium-gray(data-i18n="signup.confirm_student_blurb")
+        p(data-i18n="signup.confirm_student_blurb")
 
       else
-        p.medium-gray(data-i18n="signup.confirm_individual_blurb")
+        if view.hideEmail
+          p(data-i18n="signup.confirm_individual_blurb_without_email")
+        else
+          p(data-i18n="signup.confirm_individual_blurb")
 
     .signup-info-box-wrapper
-      p.medium-gray(data-i18n="signup.write_this_down")
+      .text-burgundy(data-i18n="signup.write_this_down")
       .signup-info-box.text-center
         if me.get('name')
-          p.large-gray
+          h4
             b
               span(data-i18n="general.username")
-              |:  #{me.get('name')}
+              | : #{me.get('name')}
         if me.get('email')
-          p.large-gray
+          h5
             b
               - var ssoUsed = view.signupState.get('ssoUsed');
               if ssoUsed === 'facebook'
@@ -36,4 +39,4 @@
     if view.signupState.get('wantInSchool')
       div#nces-search-input
 
-    button#start-btn.btn.btn-lg.m-t-3.ozaria-primary-button(data-i18n="signup.start_playing")
+    button#start-btn.btn.btn-navy.btn-lg.m-t-3(data-i18n="signup.start_playing")
