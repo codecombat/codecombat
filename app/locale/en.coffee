@@ -1501,6 +1501,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     jobs_benefit_4: "Flexible hours, unlimited vacation"
     jobs_benefit_5: "$1000/yr professional development and continuing education support"
     jobs_benefit_6: "Medical (gold), dental, vision, 401K"
+    jobs_benefit_7: ""
     jobs_benefit_9: "10-year option exercise window"
     jobs_benefit_10: "Maternity leave: 12 weeks paid, next 6 @ 55% salary"
     jobs_benefit_11: "12 weeks paid parental leave"
