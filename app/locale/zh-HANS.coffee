@@ -99,7 +99,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     title_cn_home: "CodeCombat - 玩游戏学编程|零基础Python, Javascript入门|CodeCombat 个人版"
     meta_keywords_coco: "扣哒世界, 青少年编程, 少儿编程, 信息学奥赛, CodeCombat官网,CodeCombat中文,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,CodeCombat中国"
     meta_keywords_ozar: "CodeCombat,青少年编程,少儿编程,奥佳睿官网,Ozaria,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,Ozaria中文"
-    meta_description_coco: "扣哒世界，CodeCombat中国唯一官方网站，支持Python, C++, JavaScript, 美国大学理事会（AP)认证，AI世青赛全球独家技术平台，支持中美信息学奥赛(NOI, CSP-J/S, USACO)、电子学会考试和国际青少年编程认证。"
+    meta_description_coco: "扣哒世界是教育部白名单赛事平台，信奥CSP-J/S学习平台，AI世青赛、图灵计划和Code Quest官方竞赛平台，支持Python, C++, JavaScript。"
     meta_description_ozar: "CodeCombat原创作品，支持Python, JavaScript 和编程英语学习，奥佳睿（Ozaria）既是计算机科学程序，扣人心弦的冒险游戏，也是一个让学生们掌握计算机代码魔法来拯救世界的科幻故事。"
     meta_og_url: "https://koudashijie.com"
     become_investor: "成为 CodeCombat 的投资者"
