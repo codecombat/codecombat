@@ -8,6 +8,7 @@ import FullStoryTracker from './FullStoryTracker'
 import GoogleOptimizeTracker from './GoogleOptimizeTracker'
 import FacebookPixelTracker from './FacebookPixelTracker'
 import ProfitWellTracker from './ProfitWellTracker'
+import MakelogTracker from './MakelogTracker'
 
 const SESSION_STORAGE_IDENTIFIED_AT_SESSION_START_KEY = 'coco.tracker.identifiedAtSessionStart'
 const SESSION_STORAGE_IDENTIFY_ON_NEXT_PAGE_LOAD = 'coco.tracker.identifyOnNextPageLoad'
@@ -37,9 +38,11 @@ export default class Tracker2 extends BaseTracker {
     this.googleOptimizeTracker = new GoogleOptimizeTracker(this.store)
     this.facebookPixelTracker = new FacebookPixelTracker(this.store)
     this.profitWellTracker = new ProfitWellTracker(this.store)
+    this.makelogTracker = new MakelogTracker(this.store)
 
     this.trackers = [
-      this.internalTracker
+      this.internalTracker,
+      this.makelogTracker
     ]
 
     const isGlobal = !(window.features || {}).china

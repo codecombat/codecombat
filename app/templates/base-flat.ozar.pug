@@ -59,6 +59,12 @@
                           a(href=faqURL data-i18n="nav.faq", data-event-action="Click: Footer FAQ")
                         li
                           a(href="http://press.ozaria.com" data-i18n="nav.press" data-event-action="Click: Footer Press")
+                        if me.isAdmin()
+                          li
+                            mklog-ledger(organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W', kind='popper')
+                              a(href="#")
+                                span Changelog
+                                mklog-since-last-viewed(organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W', color="candy")
                         if me.showChinaResourceInfo()
                           li
                             a(href="https://ozaria.com") 奥佳睿全球官网
