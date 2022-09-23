@@ -4,7 +4,8 @@ template = require 'app/templates/play/ladder/play_modal'
 ThangType = require 'models/ThangType'
 {me} = require 'core/auth'
 LeaderboardCollection = require 'collections/LeaderboardCollection'
-{teamDataFromLevel, isCodeCombat} = require './utils'
+{teamDataFromLevel} = require './utils'
+{isCodeCombat} = require 'core/utils'
 
 module.exports = class LadderPlayModal extends ModalView
   id: 'ladder-play-modal'
