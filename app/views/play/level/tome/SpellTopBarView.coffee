@@ -37,7 +37,7 @@ module.exports = class SpellTopBarView extends CocoView
     @courseID = options.courseID
 
     @hideHint = false
-    if @courseInstanceID.toString() == '632d1adf5292c3001944a912' || @courseInstanceID.toString() == '632d1b815735a1002049e983'
+    if @courseInstanceID?.toString() == '632d1adf5292c3001944a912' || @courseInstanceID?.toString() == '632d1b815735a1002049e983'
       if me.isCreatedByTarena() and moment().isBefore('2022-09-24 12:00:00') and moment().isAfter('2022-09-24 08:59:00')
         @hideHint = true
     super(options)
