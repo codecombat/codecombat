@@ -255,6 +255,17 @@ module.exports = class CoursesView extends RootView
       @allCompleted = false
       return
 
+    if me.isCreatedByTarena()
+      if  ['62ebc41756f29d177fe2c692', '62ebc41c56f29d177fe2c784'].indexOf(me.get('_id').toString()) != -1 or (moment().isBefore('2022-09-24 12:00:00') and moment().isAfter('2022-09-24 08:59:00'))
+        @classrooms.models.forEach((cls) =>
+          if cls.get('_id').toString() == '632d109d5735a1002048ffaf' # zhongxue
+            url = '/play/56462ac4410c528505e1160a?course-instance=632d1adf5292c3001944a912'
+            application.router.navigate(url, {trigger: true})
+          if cls.get('_id').toString() == '632d1102c00cc1001931013d'
+            url = '/play/56462ac4410c528505e1160a?course-instance=632d1b815735a1002049e983'
+            application.router.navigate(url, {trigger: true})
+        )
+
     @allCompleted = not _.some @classrooms.models, ((classroom) ->
       _.some @courseInstances.where({classroomID: classroom.id}), ((courseInstance) ->
         course = @store.state.courses.byId[courseInstance.get('courseID')]
