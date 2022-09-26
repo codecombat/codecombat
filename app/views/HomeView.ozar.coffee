@@ -7,6 +7,8 @@ CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
+fetchJson = require 'core/api/fetch-json'
+DOMPurify = require 'dompurify'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -21,6 +23,10 @@ module.exports = class HomeView extends RootView
     'click .try-chapter-1': 'onClickGenericTryChapter1'
     'click .contact-us': 'onClickContactModal'
     'click a': 'onClickAnchor'
+
+  initialize: (options) ->
+    super(options)
+    @getBanner()
 
   getRenderData: (context={}) ->
     context = super context
@@ -40,6 +46,13 @@ module.exports = class HomeView extends RootView
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
     ]
+
+  getBanner: ->
+    fetchJson('/db/banner').then((data) =>
+      @banner = data
+      content = utils.i18n data, 'content'
+      @banner.display = DOMPurify.sanitize marked(content ? '')
+    )
 
   onClickRequestQuote: (e) ->
     @playSound 'menu-button-click'

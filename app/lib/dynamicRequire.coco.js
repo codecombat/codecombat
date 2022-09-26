@@ -58,6 +58,8 @@ module.exports = {
   'views/contribute/ArtisanView': function () { return import(/* webpackChunkName: "contribute" */ 'views/contribute/ArtisanView') },
   'views/contribute/DiplomatView': function () { return import(/* webpackChunkName: "contribute" */ 'views/contribute/DiplomatView') },
   'views/contribute/ScribeView': function () { return import(/* webpackChunkName: "contribute" */ 'views/contribute/ScribeView') },
+  'views/editor/announcement/AnnouncementSearchView': function () { return import(/* webpackChunkName: "announcementSearchView" */ 'views/editor/announcement/AnnouncementSearchView') },
+  'views/editor/announcement/AnnouncementEditView': function () { return import(/* webpackChunkName: "announcementEditView" */ 'views/editor/announcement/AnnouncementEditView') },
   'views/editor/docs/ComponentsDocumentationView': function () { return import(/* webpackChunkName: "docs" */ 'views/editor/docs/ComponentsDocumentationView') },
   'views/editor/docs/SystemsDocumentationView': function () { return import(/* webpackChunkName: "docs" */ 'views/editor/docs/SystemsDocumentationView') },
   'views/editor/achievement/AchievementSearchView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/achievement/AchievementSearchView') },

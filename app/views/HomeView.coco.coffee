@@ -8,6 +8,8 @@ storage = require 'core/storage'
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').default
 paymentUtils = require 'app/lib/paymentUtils'
+fetchJson = require 'core/api/fetch-json'
+DOMPurify = require 'dompurify'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -32,6 +34,7 @@ module.exports = class HomeView extends RootView
   initialize: (options) ->
     super(options)
     @renderedPaymentNoty = false
+    # @getBanner()
 
   getRenderData: (context={}) ->
     context = super context
@@ -53,6 +56,13 @@ module.exports = class HomeView extends RootView
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
     ]
+
+  getBanner: ->
+    fetchJson('/db/banner').then((data) =>
+      @banner = data
+      content = utils.i18n data, 'content'
+      @banner.display = DOMPurify.sanitize marked(content ? '')
+    )
 
   onClickStudentButton: (e) ->
     @homePageEvent('Started Signup')

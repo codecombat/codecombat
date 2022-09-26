@@ -5,7 +5,9 @@ block content
     .row#top-banner
       .row
         .col-xs-12
-          if maintenanceStartTime && maintenanceStartTime.isAfter(moment().subtract(3, 'hours'))
+          if view.banner
+            span!=view.banner.display
+          else if maintenanceStartTime && maintenanceStartTime.isAfter(moment().subtract(3, 'hours'))
             span(data-i18n="new_home.top_banner_blurb_maintenance", data-i18n-options=JSON.stringify(i18nData))
           else if me.isTeacher() && new Date() < new Date("2022-08-25T16:30:00.000-04:00")
             span(data-i18n="new_home.top_banner_blurb_demo_day")
