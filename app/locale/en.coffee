@@ -4025,6 +4025,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     end_to_end: 'Unlike other esports platforms serving schools, we own the structure top to bottom, which means we’re not tied to any game developer or have issues with licensing. That also means we can make custom modifications in-game for your school or organization.'
     path_success: 'The game platform fits into a regular Computer Science curriculum, so as students play through the game levels, they’re completing course work. Students learn coding and computer science while they play, then use these skills in arena battles as they practice and play on the same platform.'
     unlimited_potential: 'Our tournament structure is adaptable to any environment or use case. Students can participate at a designated time during regular learning, play at home asynchronously, or participate on their own schedule.'
+    team: 'Team'
     edit_team: 'Edit Team'
     start_team: 'Start a Team'
     leave_team: 'Leave Team'

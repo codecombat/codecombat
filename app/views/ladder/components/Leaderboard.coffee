@@ -31,7 +31,7 @@ module.exports = class LeaderboardView extends CocoView
       {slug: 'wins', col: 1, title: $.i18n.t('ladder.win_num')},
       {slug: 'losses', col: 1, title: $.i18n.t('ladder.loss_num')},
       {slug: 'win-rate', col: 1, title: $.i18n.t('ladder.win_rate')},
-      {slug: 'clan', col: 2, title: $.i18n.t('clans.clan')},
+      {slug: 'clan', col: 2, title: $.i18n.t('league.team')},
       {slug: 'age', col: 1, title: $.i18n.t('ladder.age_bracket')},
       {slug: 'country', col:1, title: '🏴‍☠️'}
     ]
