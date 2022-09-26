@@ -281,8 +281,8 @@ module.exports = class LadderView extends RootView
     e.stopImmediatePropagation()
     humanSession = @ladderTab.spectateTargets?.humans
     ogreSession = @ladderTab.spectateTargets?.ogres
-    return unless humanSession and ogreSession
-    url = "/play/spectate/#{@level.get('slug')}?session-one=#{humanSession}&session-two=#{ogreSession}"
+    url = "/play/spectate/#{@level.get('slug')}?"
+    url += "session-one=#{humanSession}&session-two=#{ogreSession}" if humanSession and ogreSession
     url += '&league=' + @league.id if @league
     url += '&autoplay=false' if key.command
     url += '&tournament=' + @tournamentId if @tournamentState is 'ended'
