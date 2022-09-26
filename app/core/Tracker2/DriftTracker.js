@@ -105,13 +105,13 @@ export default class DriftTracker extends BaseTracker {
     this.updateDriftConfiguration()
   }
 
-  get onPlayPage () {
+  get onNoDriftPage () {
     const { route } = this.store.state
-    return (route.path || '').indexOf('/play') === 0
+    return /(\/play|\/certificates)/.test(route.path || '')
   }
 
   get isChatEnabled () {
-    return !this.onPlayPage && !this.store.getters['me/isStudent'] && !this.store.getters['me/isHomePlayer'] && this.store.getters['me/isTeacher']
+    return !this.onNoDriftPage && !this.store.getters['me/isStudent'] && !this.store.getters['me/isHomePlayer'] && this.store.getters['me/isTeacher']
   }
 
   async updateDriftConfiguration () {
