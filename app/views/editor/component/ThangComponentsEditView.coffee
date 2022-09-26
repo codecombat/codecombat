@@ -86,6 +86,7 @@ module.exports = class ThangComponentsEditView extends CocoView
     return unless @supermodel.finished()
     @buildComponentsTreema()
     @addThangComponentConfigViews()
+    @selectKeyComponent()
 
   buildComponentsTreema: ->
     components = _.zipObject((c.original for c in @components), @components)
@@ -256,6 +257,8 @@ module.exports = class ThangComponentsEditView extends CocoView
         subview = @makeThangComponentConfigView(componentRef)
         continue unless subview
         @registerSubView(subview)
+      else unless _.isEqual componentRef.config, subview.config
+        subview.setConfig componentRef.config ? {}
       subview.setIsDefaultComponent(not @componentsTreema.data[componentRef.original])
       configsEl.append(subview.$el)
 
@@ -298,6 +301,12 @@ module.exports = class ThangComponentsEditView extends CocoView
 
     @updateComponentsList()
     @reportChanges()
+
+  selectKeyComponent: ->
+    for child in _.values(@componentsTreema.childrenTreemas)
+      if child.keyForParent in [LevelComponent.RefereeID].concat(LevelComponent.ProgrammableIDs)
+        @onSelectComponent null, [child]
+        break
 
   onSelectComponent: (e, nodes) =>
     @componentsTreema.$el.find('.dependent').removeClass('dependent')

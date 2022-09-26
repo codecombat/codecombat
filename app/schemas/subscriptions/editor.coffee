@@ -31,8 +31,14 @@ module.exports =
     thangData: {type: 'object'}
     oldPath: {type: 'string'}
 
-  'editor:thangs-edited': c.object {required: ['thangs']},
+  'editor:level-thangs-changed': c.object {required: ['thangs'], description: 'Something has changed the list of thangs in the level config'},
     thangs: c.array {}, {type: 'object'}
+
+  'editor:thangs-edited': c.object {required: ['thangs'], description: 'Something has edited the fully built thangs in the world'},
+    thangs: c.array {}, {type: 'object'}
+
+  'editor:thang-deleted': c.object {required: ['thangID'], description: 'We have deleted a Thang'},
+    thangID: {type: 'string'}
 
   'editor:level-loaded': c.object {required: ['level']},
     level: {type: 'object'}
