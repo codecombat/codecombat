@@ -10,6 +10,7 @@ ThangComponentConfigView = require './ThangComponentConfigView'
 AddThangComponentsModal = require './AddThangComponentsModal'
 nodes = require '../level/treema_nodes'
 require 'lib/setupTreema'
+utils = require 'core/utils'
 
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
@@ -337,6 +338,7 @@ module.exports = class ThangComponentsEditView extends CocoView
 
   checkForMissingSystems: ->
     return unless @level
+    return if utils.isOzaria  # Ozaria has different systems and doesn't track relationships between Components and Systems there
     extantSystems =
       (@supermodel.getModelByOriginalAndMajorVersion LevelSystem, sn.original, sn.majorVersion).attributes.name.toLowerCase() for idx, sn of @level.get('systems')
 
