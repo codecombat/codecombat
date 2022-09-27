@@ -272,7 +272,7 @@
                   a.text-p#logout-button {{ $t('login.log_out') }}
                 li.dropdown(v-else)
                   a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''" v-if="false")
+                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
                     span.unreadMessage(v-if="false && unread")
                     span {{ $t('nav.my_account') }}
                     span.caret
