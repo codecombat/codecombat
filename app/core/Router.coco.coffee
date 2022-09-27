@@ -93,6 +93,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/outcomes-report': go('admin/OutcomesReportView')
     'admin/clan(/:clanID)': go('core/SingletonAppVueComponentView')
 
+    'announcements': go('core/SingletonAppVueComponentView')
+
     'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
     'api-dashboard': go('core/SingletonAppVueComponentView')
@@ -150,6 +152,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/article': go('editor/article/ArticleSearchView')
     'editor/article/preview': go('editor/article/ArticlePreviewView')
     'editor/article/:articleID': go('editor/article/ArticleEditView')
+    'editor/announcement': go('editor/announcement/AnnouncementSearchView')
+    'editor/announcement/:announcementId': go('editor/announcement/AnnouncementEditView')
     'editor/level': go('editor/level/LevelSearchView')
     'editor/level/:levelID': go('editor/level/LevelEditView')
     'editor/thang': go('editor/thang/ThangTypeSearchView')

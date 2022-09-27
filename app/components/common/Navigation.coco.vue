@@ -9,13 +9,21 @@
     isOzaria,
     getQueryVariable
   } from 'core/utils'
-
+  import AnnouncementModal from '../../views/announcement/announcementModal'
+  import { mapActions, mapGetters } from 'vuex'
   /**
    * Unified navigation bar component between CodeCombat and Ozaria.
    * This must be copied exactly to the Ozaria repo.
    */
   export default Vue.extend({
     computed: {
+      ...mapGetters('announcements', [
+        'announcements',
+        'unread',
+        'announcementInterval',
+        'announcementModalOpen',
+        'announcementDisplay',
+      ]),
       isOldBrowser () {
         return isOldBrowser()
       },
@@ -72,8 +80,23 @@
       this.CODECOMBAT = CODECOMBAT
       this.OZARIA = OZARIA
     },
-
+    mounted () {
+      if (false) { // TODO: currently do not enable announcemnt checking. using websocket later
+        this.checkAnnouncements('fromNav')
+        if(!this.announcementInterval)
+          this.startInterval('fromNav')
+      }
+    },
+    beforeUnmounted() {
+      if(this.announcementInterval)
+        clearInterval(this.announcementInterval)
+    },
     methods: {
+      ...mapActions('announcements', [
+        'closeAnnouncementModal',
+        'checkAnnouncements',
+        'startInterval'
+      ]),
       navEvent (e) {
         // Only track if user has clicked a link on the nav bar
         if (!e || !e.target || e.target.tagName !== 'A') {
@@ -125,13 +148,29 @@
 
       ozPath (relativePath) {
         return `${this.ozBaseURL}${relativePath}`
+      },
+
+      readAnnouncement () {
+        if(this.unread > 1) {
+          return application.router.navigate('/announcements', {trigger: true})
+        } else {
+
+        }
+
       }
+    },
+    components: {
+      AnnouncementModal
     }
+
   })
 </script>
 
 <template lang="pug">
+  div
+    announcement-modal(v-if="false" @close="closeAnnouncementModal" :announcement="announcementDisplay")
     nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
+
       .container-fluid
         .row
           .col-md-12
@@ -244,7 +283,8 @@
                   a.text-p#logout-button {{ $t('login.log_out') }}
                 li.dropdown(v-else)
                   a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
+                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="{'border-navy': me.isTeacher()}" v-if="false")
+                    span.unreadMessage(v-if="false && unread")
                     span {{ $t('nav.my_account') }}
                     span.caret
                   ul.dropdown-menu.pull-right
@@ -257,6 +297,9 @@
                       a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
+                    li(v-if="false && unread")
+                      a.account-dropdown-item(@click="readAnnouncement") {{ $t('announcement.message') }}
+                        span.unread {{ unread }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
@@ -537,6 +580,29 @@
 
   .border-navy {
     border-color: $navy;
+  }
+
+  span.unreadMessage {
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: 10px;
+    left: 45px;
+    border-radius: 50%;
+    background-color: $yellow;
+    box-shadow: 0 0 2px 2px $yellow;
+  }
+
+  span.unread {
+    width: 1.2em;
+    height: 1.2em;
+    margin-left: 1em;
+    line-height: 1.2em;
+    border-radius: 50%;
+    background-color: $yellow;
+    color: white;
+    display: inline-block;
+    margin-left: 0.5em;
   }
 
   .dashboard-toggle {

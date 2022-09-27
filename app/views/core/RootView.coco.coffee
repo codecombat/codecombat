@@ -16,6 +16,7 @@ userUtils = require '../../lib/user-utils'
 
 BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
 Navigation = require('app/components/common/Navigation.vue').default
+store = require 'core/store'
 
 # TODO remove
 
@@ -265,7 +266,8 @@ module.exports = class RootView extends CocoView
     return unless staticNav
 
     @navigation = new Navigation({
-      el: staticNav
+      el: staticNav,
+      store
     })
 
     # Hack - It would be better for the Navigation component to manage the language dropdown.
