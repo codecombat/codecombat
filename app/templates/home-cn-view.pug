@@ -2,10 +2,10 @@ extends /templates/base-flat
 
 block content
   .container-fluid
-    #top-banner
-      .row
-        .col-xs-12
-          if view.banner
+    if view.banner
+      #top-banner
+        .row
+          .col-xs-12
             span!=view.banner.display
     .row#jumbotron-container-fluid
       .col-lg-6
