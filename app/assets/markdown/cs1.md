@@ -35,6 +35,8 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 
 **Argument** - extra information passed into a method to modify what the method does. In both Python and JavaScript, arguments are represented by code that is inside the parentheses after a method. For example, in the method `hero.moveLeft(3)`, the argument _3_ is a number that tells how many spaces the hero should move. In the method `hero.Attack("Brak")`, the argument _"Brak"_ is a string that tells the name of the character that should be attacked. 
 
+**Statement** - A part of a program that tells a computer to perform an action, like assign a value to a variable.
+
 **String** - a type of data that represents text. In both Python and JavaScript, strings are represented by text inside quotes. In Course 1, strings are used to identify objects for the hero to attack.
 
 **Loop** - a programming structure used to repeat actions without the player needing to write the same lines of code over and over. In Python, the code that loops must be indented. In JavaScript, the code that loops must be enclosed by curly brackets {}. There are different kinds of loops:

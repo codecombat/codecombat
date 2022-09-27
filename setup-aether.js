@@ -11,6 +11,7 @@
 const fs = require("fs-extra");
 const webpack = require("webpack");
 const path = require("path");
+const { publicFolderName } = require('./development/utils')
 
 // List of esper langauge plugins we want to move into the public directory.
 const targets = ["lua", "python", "coffeescript"];
@@ -88,7 +89,7 @@ function copyLanguagesFromEsper(targets) {
         ),
         path.join(
           PWD,
-          "public",
+          publicFolderName,
           "javascripts",
           "app",
           "vendor",
@@ -104,7 +105,7 @@ function copyLanguagesFromEsper(targets) {
         ),
         path.join(
           PWD,
-          "public",
+          publicFolderName,
           "javascripts",
           "app",
           "vendor",
@@ -131,7 +132,7 @@ function copyLanguagesFromEsper(targets) {
   );
   const dest = path.join(
     PWD,
-    "public",
+    publicFolderName,
     "javascripts",
     "app",
     "vendor",

@@ -11,6 +11,10 @@ export default function getVueRouter () {
 
       routes: [
         {
+          path: '/announcements',
+          component: () => import(/* webpackChunkName: "AnnouncementView" */ 'app/views/announcement/AnnouncementView')
+        },
+        {
           path: '/diversity-equity-and-inclusion',
           component: () => import(/* webpackChunkName: "dei" */ 'app/views/dei/DEIView.vue')
         },
@@ -67,6 +71,10 @@ export default function getVueRouter () {
             { path: 'licenses', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminLicenses/index.vue') },
             { path: 'licenses/stats', component: () => import(/* webpackChunkName: 'LicenseStats' */ 'app/views/school-administrator/dashboard/LicenseTableView.vue') }
           ]
+        },
+        {
+          path: '/api-dashboard',
+          component: () => import(/* webpackChunkName: "apiViews" */ 'app/views/api/components/ApiDashboard')
         },
         {
           path: '/outcomes-report/:kind/:country?/:idOrSlug',

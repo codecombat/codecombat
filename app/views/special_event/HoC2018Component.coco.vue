@@ -25,6 +25,30 @@
             a.btn.btn-primary.btn-lg(href="/play/hoc-2018" data-i18n="hoc_2018.try_activity")
           .col-md-4
             a.btn.btn-primary.btn-lg(href="https://files.codecombat.com/docs/resources/hourofcode/HourofCodeCodeCombatLessonPlan2020.pdf" target="_blank" data-i18n="hoc_2018.download_pdf")
+            a.btn.btn-primary.btn-lg(v-if="isTeacher" href="/teachers/campaign-solution/hoc-2018/python" target="_blank" data-i18n="courses.view_guide_online")
+
+      else if activity() == 'goblins'
+        .row
+          h1.page-heading(data-i18n="hoc_2018.page_heading_goblins")
+        .row.get-started
+          .col-md-4
+            h4.bold-header(data-i18n="hoc_2018.step_1")
+            <iframe src="https://www.youtube.com/embed/niKXOofTckE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          .col-md-4
+            h4.bold-header(data-i18n="hoc_2018.step_2")
+            // TODO: image
+            img.activity-tile(src='/images/pages/play/ladder/multiplayer_notext.jpg' alt="")
+          .col-md-4
+            h4.bold-header(data-i18n="hoc_2018.step_3")
+            .glyphicon.glyphicon-download-alt.download-icon
+
+        .row.get-started
+          .col-md-4
+          .col-md-4
+            a.btn.btn-primary.btn-lg(href="/play/goblins-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
+          .col-md-4
+            a.btn.btn-primary.btn-lg(href="/teachers/resources/hoc-goblins" target="_blank" data-i18n="hoc_2018.download_pdf")
+            a.btn.btn-primary.btn-lg(v-if="isTeacher" href="/teachers/campaign-solution/goblins-hoc/python" target="_blank" data-i18n="courses.view_guide_online")
 
       else
         .row
@@ -41,14 +65,19 @@
             h4.bold-header(data-i18n="hoc_2018.step_3")
             .glyphicon.glyphicon-download-alt.download-icon
 
+          .col-md-4(v-if="isTeacher")
+            h4.bold-header(data-i18n="courses.view_guide_online")
+            .glyphicon.glyphicon-download-alt.download-icon
+
         .row.get-started
           .col-md-4
           .col-md-4
             a.btn.btn-primary.btn-lg(href="/play/ai-league-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
           .col-md-4
             a.btn.btn-primary.btn-lg(href="/teachers/resources/hoc-ai-league" target="_blank" data-i18n="hoc_2018.download_pdf")
+            a.btn.btn-primary.btn-lg(v-if="isTeacher" href="/teachers/campaign-solution/ai-league-hoc/python" target="_blank" data-i18n="courses.view_guide_online")
 
-      .row
+      .row(v-if="isAnonymous")
         br
         h1.page-heading(data-i18n="hoc_2018.teacher_signup_heading")
         h4(data-i18n="hoc_2018.teacher_signup_blurb")
@@ -72,20 +101,31 @@
             h6(data-i18n="hoc_2018.activity_label_ai_league")
             div
               a.btn.btn-primary.btn-md(href="/play/ai-league-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
-            div
               a.btn.btn-primary.btn-md(href="/teachers/hour-of-code" data-i18n="hoc_2018.activity_button_1")
+              a.btn.btn-primary.btn-md(v-if="isTeacher" href="/teachers/campaign-solution/ai-league-hoc/python" target="_blank" data-i18n="hoc_2018.solutions")
+        if activity() != 'goblins' && isAdmin
+          .col-md-4
+            // TODO: image
+            img.activity-tile(src='/images/pages/play/ladder/multiplayer_notext.jpg' alt="")
+            h6(data-i18n="hoc_2018.activity_label_goblins")
+            div
+              a.btn.btn-primary.btn-md(href="/play/goblins-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
+              a.btn.btn-primary.btn-md(href="/teachers/hour-of-code" data-i18n="hoc_2018.activity_button_1")
+              a.btn.btn-primary.btn-md(v-if="isTeacher" href="/teachers/campaign-solution/goblins-hoc/python" target="_blank" data-i18n="hoc_2018.solutions")
         .col-md-4
           img(src='/images/pages/teachers/hour-of-code/escape_the_dungeon.png' alt="")
           h6(data-i18n="hoc_2018.activity_label_1")
           div
             a.btn.btn-primary.btn-md(href="/play/dungeon?hour_of_code=true" data-i18n="hoc_2018.try_activity")
-          div
             a.btn.btn-primary.btn-md(href="/teachers/resources/hoc" data-i18n="hoc_2018.activity_button_1")
+            a.btn.btn-primary.btn-md(v-if="isTeacher" href="/teachers/campaign-solution/dungeon/python" target="_blank" data-i18n="hoc_2018.solutions")
 
         .col-md-4
           img(src='/images/pages/teachers/hour-of-code/beginner_buildagame.png' alt="")
           h6(data-i18n="hoc_2018.activity_label_2")
-          a.btn.btn-primary.btn-md(href="/play/game-dev-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
+          div
+            a.btn.btn-primary.btn-md(href="/play/game-dev-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
+            a.btn.btn-primary.btn-md(v-if="isTeacher" href="/teachers/campaign-solution/game-dev-hoc/python" target="_blank" data-i18n="hoc_2018.solutions")
 
         if activity() != 'teacher-gd'
           .col-md-4
@@ -94,14 +134,15 @@
             h6(data-i18n="hoc_2018.activity_label_hoc_2018") 
             div
               a.btn.btn-primary.btn-md(href="/play/hoc-2018?hour_of_code=true" data-i18n="hoc_2018.try_activity")
-            div
               a.btn.btn-primary.btn-md(href="/teachers/hour-of-code?activity=teacher-gd" data-i18n="hoc_2018.activity_button_1")
+              a.btn.btn-primary.btn-md(v-if="isTeacher" href="/teachers/campaign-solution/hoc-2018/python" target="_blank" data-i18n="hoc_2018.solutions")
 
-      .row.activities-row(style="margin-top: 40px;")
         .col-md-4
           img(src='/images/pages/teachers/hour-of-code/advanced_buildagame.png' alt="")
           h6(data-i18n="hoc_2018.activity_label_3")
-          a.btn.btn-primary.btn-md(href="/play/game-dev-hoc-2?hour_of_code=true" data-i18n="hoc_2018.try_activity")
+          div
+            a.btn.btn-primary.btn-md(href="/play/game-dev-hoc-2?hour_of_code=true" data-i18n="hoc_2018.try_activity")
+            a.btn.btn-primary.btn-md(v-if="isTeacher" href="/teachers/campaign-solution/game-dev-hoc-2/python" target="_blank" data-i18n="hoc_2018.solutions")
 
       .row
         br
@@ -145,7 +186,10 @@ module.exports = Vue.extend({
 
   data: function() {
     return {
-      teacherEmail: ''
+      teacherEmail: '',
+      isAdmin: me.isAdmin(),
+      isTeacher: me.isTeacher(),
+      isAnonymous: me.isAnonymous(),
     }
   },
   props: {
@@ -245,6 +289,9 @@ module.exports = Vue.extend({
   .activities-row
     .btn
       width: 120px
+
+    .col-md-4
+      min-height: 345px
 
   .activity-tile
     height: 212px

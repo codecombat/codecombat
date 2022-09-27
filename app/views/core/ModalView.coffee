@@ -1,4 +1,5 @@
 CocoView = require './CocoView'
+focusTrap = require 'focus-trap'
 
 module.exports = class ModalView extends CocoView
   className: 'modal fade'
@@ -8,6 +9,7 @@ module.exports = class ModalView extends CocoView
   plain: false
   instant: false
   template: require 'app/templates/core/modal-base'
+  trapsFocus: true
 
   events:
     'click a': 'toggleModal'
@@ -28,6 +30,11 @@ module.exports = class ModalView extends CocoView
   subscriptions:
     {}
 
+  render: ->
+    @focusTrap?.deactivate?()
+    super()
+    @trapFocus()
+
   afterRender: ->
     super()
     if @modalWidthPercent
@@ -44,10 +51,19 @@ module.exports = class ModalView extends CocoView
     $(document.activeElement).blur()
 
     if localStorage?.showViewNames
-      title = @constructor.name
+      title = @constructor?.name
       setTimeout ->
-        $('title').text(title)
+        $('title').text(title) unless @destroyed
       , 500
+
+  trapFocus: ->
+    return unless @trapsFocus
+    console.log @constructor?.name, 'trapping focus within modal'
+    @focusTrap ?= focusTrap.createFocusTrap @el
+    try
+      @focusTrap?.activate()
+    catch e
+      console.log @constructor?.name, 'not trapping focus for modal with no focusable elements'
 
   showLoading: ($el) ->
     $el = @$el.find('.modal-body') unless $el
@@ -64,6 +80,7 @@ module.exports = class ModalView extends CocoView
   hide: ->
     @trigger 'hide'
     @$el.removeClass('fade').modal 'hide' unless @destroyed
+    @focusTrap?.deactivate?()
 
   onHidden: ->
     @trigger 'hidden'
@@ -71,4 +88,5 @@ module.exports = class ModalView extends CocoView
   destroy: ->
     @hide() unless @hidden
     @$el.off 'hide.bs.modal' if @$el
+    @focusTrap?.deactivate?()
     super()

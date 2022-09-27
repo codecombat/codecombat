@@ -9,13 +9,21 @@
     isOzaria,
     getQueryVariable
   } from 'core/utils'
-
+  import AnnouncementModal from '../../views/announcement/announcementModal'
+  import { mapActions, mapGetters } from 'vuex'
   /**
    * Unified navigation bar component between CodeCombat and Ozaria.
    * This must be copied exactly to the Ozaria repo.
    */
   export default Vue.extend({
     computed: {
+      ...mapGetters('announcements', [
+        'announcements',
+        'unread',
+        'announcementInterval',
+        'announcementModalOpen',
+        'announcementDisplay',
+      ]),
       isOldBrowser () {
         return isOldBrowser()
       },
@@ -72,8 +80,23 @@
       this.CODECOMBAT = CODECOMBAT
       this.OZARIA = OZARIA
     },
-
+    mounted () {
+      if (false) { // TODO: currently do not enable announcemnt checking. using websocket later
+        this.checkAnnouncements('fromNav')
+        if(!this.announcementInterval)
+          this.startInterval('fromNav')
+      }
+    },
+    beforeUnmounted() {
+      if(this.announcementInterval)
+        clearInterval(this.announcementInterval)
+    },
     methods: {
+      ...mapActions('announcements', [
+        'closeAnnouncementModal',
+        'checkAnnouncements',
+        'startInterval'
+      ]),
       navEvent (e) {
         // Only track if user has clicked a link on the nav bar
         if (!e || !e.target || e.target.tagName !== 'A') {
@@ -125,13 +148,29 @@
 
       ozPath (relativePath) {
         return `${this.ozBaseURL}${relativePath}`
+      },
+
+      readAnnouncement () {
+        if(this.unread > 1) {
+          return application.router.navigate('/announcements', {trigger: true})
+        } else {
+
+        }
+
       }
+    },
+    components: {
+      AnnouncementModal
     }
+
   })
 </script>
 
 <template lang="pug">
+  div
+    announcement-modal(v-if="false" @close="closeAnnouncementModal" :announcement="announcementDisplay")
     nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
+
       .container-fluid
         .row
           .col-md-12
@@ -243,7 +282,8 @@
                   a.text-p#logout-button {{ $t('login.log_out') }}
                 li.dropdown(v-else)
                   a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
+                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="{'border-navy': me.isTeacher()}" v-if="false")
+                    span.unreadMessage(v-if="false && unread")
                     span {{ $t('nav.my_account') }}
                     span.caret
                   ul.dropdown-menu.pull-right
@@ -257,6 +297,10 @@
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
                     li(v-if="isCodeCombat && (!me.showChinaHomeVersion()) && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
+                    li(v-if="false && unread")
+                      a.account-dropdown-item(@click="readAnnouncement") {{ $t('announcement.message') }}
+                        span.unread {{ unread }}
+                    li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()|| (me.showChinaHomeVersion() && me.isHomeUser()))")
                       a.account-dropdown-item(:href="`/account/${me.showChinaHomeVersion() ? 'prepaid' : 'subscription'}`") {{ $t('account.subscription') }}
@@ -267,17 +311,17 @@
                     li(v-if="me.isAdmin()")
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
                     li(v-if="serverSession && serverSession.amActually")
-                      a.account-dropdown-item#nav-stop-spying-button {{ $t('login.stop_spying') }}
+                      a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_spying') }}
                     li(v-else-if="serverSession && serverSession.switchingUserActualId")
-                      a.account-dropdown-item#nav-stop-spying-button {{ $t('login.stop_switching') }}
+                      a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_switching') }}
                     li
-                      a.account-dropdown-item#logout-button {{ $t('login.log_out') }}
+                      a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
 
               ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
                 li
-                  a#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
+                  button#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
                 li
-                  a#login-link.login-button(data-event-action="Header Login CTA") {{ $t('signup.login') }}
+                  button#login-link.login-button(data-event-action="Header Login CTA") {{ $t('signup.login') }}
 </template>
 
 <style lang="scss" scoped>
@@ -307,7 +351,7 @@
     margin: 0;
   }
 
-  p, .text-p {
+  p, .text-p, .text-p button {
     font-family: $body-font;
     font-size: 18px;
     font-weight: 400;
@@ -332,7 +376,9 @@
     width: 94px;
     border: 1px solid $teal;
     border-radius: 0 4px 4px 0;
-    color: $teal;
+    /*color: $teal;*/ /* too faint for WCAG AAA */
+    color: #16837f; /* increased contrast by lowering luminance */
+    background: transparent;
     &:hover {
       background-color: #1FBAB4;
       color: white;
@@ -369,6 +415,9 @@
     }
     & li {
       display: inline-block;
+    }
+    & button {
+      line-height: 20px;
     }
   }
   a.navbar-brand {
@@ -428,11 +477,13 @@
     max-height: 100vh;
 
     .text-teal {
-      color: $teal;
+      /*color: $teal;*/ /* too faint for WCAG AAA */
+      color: #16837f; /* increased contrast by lowering luminance */
+      font-weight: 600;  /* increased contrast by increasing weight */
     }
   }
 
-  .nav > li > a {
+  .nav > li > a, .nav > li > button {
     // TODO: Move this to bootstrap variables for navbars
 
     // TODO: getting overridden by .navbar .nav > li > a for some reason
@@ -449,7 +500,7 @@
     }
   }
   // TODO: what is this for?
-  .nav > li.disabled > a {
+  .nav > li.disabled > a, .nav > li.disabled > button {
     color: black;
     &:hover {
       background: white;
@@ -488,7 +539,7 @@
   }
 
   @media (max-width: $grid-float-breakpoint) {
-    .nav > li > a {
+    .nav > li > a, .nav > li > button {
       padding: 10px 20px;
       height: 45px;
     }
@@ -529,6 +580,29 @@
 
   .border-navy {
     border-color: $navy;
+  }
+
+  span.unreadMessage {
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: 10px;
+    left: 45px;
+    border-radius: 50%;
+    background-color: $yellow;
+    box-shadow: 0 0 2px 2px $yellow;
+  }
+
+  span.unread {
+    width: 1.2em;
+    height: 1.2em;
+    margin-left: 1em;
+    line-height: 1.2em;
+    border-radius: 50%;
+    background-color: $yellow;
+    color: white;
+    display: inline-block;
+    margin-left: 0.5em;
   }
 
   .dashboard-toggle {

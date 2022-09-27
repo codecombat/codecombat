@@ -4,12 +4,18 @@
   // TODO migrate api calls to the Vuex store.
   import { getThangTypeOriginal } from '../../../../../app/core/api/thang-types'
   import { mapGetters, mapActions } from 'vuex'
+  import * as focusTrap from 'focus-trap'
 
   const { hslToHex } = require('core/utils')
   const ThangType = require('models/ThangType')
   const ThangTypeConstants = require('lib/ThangTypeConstants')
 
   const hslToHex_aux = ({ hue, saturation, lightness }) => hslToHex([hue, saturation, lightness])
+
+  const tintNames = {
+    hair: ['paprika', 'maroon', 'hot purple', 'tulip tree', 'bazaar', 'gold drop', 'medium red violet', 'lachmara'],
+    skin: ['sorbus', 'froly', 'tosca', 'sandy beach', 'tacao', 'karma', 'burning sand', 'smoke tree']
+  }
 
   // TODO Ozaria Heroes need to be driven from the database.
   const ozariaHeroes = {
@@ -20,7 +26,8 @@
         scaleFactorX: 1,
         scaleFactorY: 1,
         pos: { y: -38 }
-      }
+      },
+      alt: 'Hero Connie'
     },
     'hero-a': {
       buttonIcon: 'Replace HeroA icon',
@@ -29,7 +36,8 @@
         scaleFactorX: 1,
         scaleFactorY: 1,
         pos: { y: -43 }
-      }
+      },
+      alt: 'Hero Lars'
     },
     'hero-c': {
       buttonIcon: 'Replace HeroC icon',
@@ -38,7 +46,8 @@
         scaleFactorX: 0.9,
         scaleFactorY: 0.9,
         pos: { x: 1, y: -38 }
-      }
+      },
+      alt: 'Hero Amethyst' 
     },
     'hero-d': {
       buttonIcon: 'Replace HeroD icon',
@@ -47,7 +56,8 @@
         scaleFactorX: 1,
         scaleFactorY: 1,
         pos: { y: -38 }
-      }
+      },
+      alt: 'Hero Steven'
     },
     'hero-e': {
       buttonIcon: 'Replace HeroE icon',
@@ -56,7 +66,8 @@
         scaleFactorX: 1,
         scaleFactorY: 1,
         pos: { y: -38 }
-      }
+      },
+      alt: 'Hero Garnet'
     },
     'hero-f': {
       buttonIcon: 'Replace HeroF icon',
@@ -65,7 +76,8 @@
         scaleFactorX: 1,
         scaleFactorY: 1,
         pos: { y: -38 }
-      }
+      },
+      alt: 'Hero Jamie'
     }
   }
 
@@ -96,7 +108,10 @@
         hair: -1,
         skin: -1
       },
-      submitButtonDisabled: false
+      tintNames: tintNames,
+      submitButtonDisabled: false,
+      focusTrapDeactivated: false,
+      focusTrap: null
     }),
 
     async created () {
@@ -125,11 +140,25 @@
         ['Google Analytics'])
     },
 
+    mounted () {
+      // TODO: do this generally for all modals
+      this.focusTrap = focusTrap.createFocusTrap(this.$el, {
+        initialFocus: 'input',
+        onDeactivate: () => {
+          this.focusTrapDeactivated = true
+        }
+      })
+      this.focusTrap.activate()
+      // fallback
+      if (this.focusTrapDeactivated) this.deactivateFocusTrap()
+    },
+
     beforeDestroy () {
       const selectedHeroOriginalId = ThangTypeConstants.ozariaCinematicHeroes[this.selectedHero];
       window.tracker.trackEvent('Unloaded Character Customization',
         {selectedHeroOriginalId},
         ['Google Analytics'])
+      this.deactivateFocusTrap()
     },
 
     computed: {
@@ -143,7 +172,8 @@
           const hero = {
             slug: k,
             onClick: () => this.selectBodyType(k),
-            silhouetteImagePath: ozariaHeroes[k].silhouetteImagePath
+            silhouetteImagePath: ozariaHeroes[k].silhouetteImagePath,
+            alt: ozariaHeroes[k].alt
           }
 
           bodyTypes.push(hero)
@@ -282,9 +312,14 @@
             this.$emit('saved')
           },
         })
+      },
+
+      deactivateFocusTrap () {
+        this.focusTrapDeactivated = true
+        this.focusTrap?.deactivate()
       }
     }
-  })
+ })
 </script>
 
 <template>
@@ -296,24 +331,39 @@
       <div class="row">
         <div :class="responsiveColumnClassesHeroes">
           <div class='body-label'>
-            <label>{{ this.$t('char_customization_modal.body') }}</label>
+            <label id="body-label" >{{ this.$t('char_customization_modal.body') }}</label>
           </div>
           <div
             class="row body-row"
+            role="radiogroup"
+            aria-labelledby="body-label"
           >
             <div
-              v-for="({ slug, silhouetteImagePath, onClick }) in bodyTypes"
+              v-for="({ slug, silhouetteImagePath, onClick, alt }) in bodyTypes"
               v-bind:key="slug"
               class="col-xs-4"
             >
               <div
                 @click="onClick"
+                class="hero-body-choice"
                 :class="[slug === selectedHero ? 'selectedHero' : 'unselectedHero']"
               >
-                <img
-                  :class="'silhouette ' + slug"
-                  :src="silhouetteImagePath"
+                <input
+                  type="radio"
+                  :id="`hero-body-${slug}`"
+                  name="hero-body"
+                  @click="onClick"
+                  class="hero-body-radio"
+                  :aria-checked="[slug === selectedHero ? 'true' : 'false']"
+                  :aria-label="alt"
                 />
+                <label :for="`hero-body-${slug}`" class="hero-body-radio-label">
+                  <img
+                    :class="'silhouette ' + slug"
+                    :src="silhouetteImagePath"
+                    :alt="alt"
+                  />
+                </label>
               </div>
             </div>
           </div>
@@ -345,7 +395,18 @@
             <label>{{ this.$t('char_customization_modal.hair_label') }}</label>
             <div>
               <template v-for="(tint, i) in hairSwatches">
-                <div
+                <input
+                  type="radio"
+                  name="hair-color"
+                  class="hair-color-radio"
+                  :id="`hair-color-${i}`"
+                  :aria-label="`${tintNames.hair[i]} hair color`"
+                  :key="i"
+                  @click="() => onClickSwatch('hair', i)"
+                />
+                <label
+                  for="`hair-color-${i}`"
+                  :aria-label="`${tintNames.hair[i]} hair color`"
                   :key="i"
                   :class="['swatch', tintIndexSelection.hair === i ? 'selected' : '']"
                   :style="{ backgroundColor: tint }"
@@ -358,7 +419,18 @@
             <label>{{ this.$t('char_customization_modal.skin_label') }}</label>
             <div>
               <template v-for="(tint, i) in skinSwatches">
-                <div
+                <input
+                  type="radio"
+                  name="skin-color"
+                  class="skin-color-radio"
+                  :id="`skin-color-${i}`"
+                  :aria-label="`${tintNames.skin[i]} skin color`"
+                  :key="i"
+                  @click="() => onClickSwatch('skin', i)"
+                />
+                <label
+                  for="`skin-color-${i}`"
+                  :aria-label="`${tintNames.skin[i]} skin color`"
                   :key="i"
                   :class="['swatch', tintIndexSelection.skin === i ? 'selected' : '']"
                   :style="{ backgroundColor: tint }"
@@ -457,10 +529,10 @@
     margin-top: 50px
     margin-left: -30px
 
-.selectedHero > img
+.selectedHero img
   border: 4px solid #4298f5
   padding: 4px
-.unselectedHero > img
+.unselectedHero img
   padding: 8px
   opacity: 0.5
 
@@ -476,4 +548,17 @@
 
 .character-display-area
   height: 50vh
+
+.hero-body-radio
+  appearance: none
+  margin: 0
+  display: inline
+
+.hair-color-radio, .skin-color-radio
+  appearance: none
+  margin: -2px
+
+.hero-body-radio-label
+  display: block
+
 </style>

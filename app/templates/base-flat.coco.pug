@@ -45,7 +45,7 @@
         p If this is showing, you dun goofed
 
   block footer
-    #footer.small
+    #footer.small(role='contentinfo')
       if !me.hideFooter()
         if !getQueryVariable('landing', false)
           .container
@@ -148,6 +148,12 @@
                           a(href="/parents", data-i18n="nav.parent")
                         li
                           a(href="https://blog.codecombat.com/", data-i18n="nav.blog", target="_blank")
+                        if me.isAdmin()
+                          li
+                            mklog-ledger(organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W', kind='popper')
+                              a(href="#changelog")
+                                span Changelog
+                                mklog-since-last-viewed(organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W', color="candy")
                     .col-lg-3
                       if !me.isStudent()
                         h3(data-i18n="nav.educators")

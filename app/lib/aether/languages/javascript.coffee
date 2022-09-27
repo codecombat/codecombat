@@ -62,6 +62,11 @@ module.exports = class JavaScript extends Language
     catch e
       null # do nothing
     lintProblems = super(rawCode, aether)
+    try
+      if btoa(atob(rawCode)) == rawCode
+        return [] # dont lint other session
+    catch e
+      null # do nothing
     # return lintProblems unless jshintHolder.jshint
     wrappedCode = @wrap rawCode, aether
 

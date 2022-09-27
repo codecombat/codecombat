@@ -15,6 +15,7 @@ utils = require 'core/utils'
 
 BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
 Navigation = require('app/components/common/Navigation.vue').default
+store = require 'core/store'
 
 # TODO remove
 
@@ -176,7 +177,7 @@ module.exports = class RootView extends CocoView
     for code, localeInfo of filteredLocale when (not (code in genericCodes) or code is initialVal)
       if $select.is('ul') # base-flat template
         $select.append(
-          $('<li data-code="' + code + '"><a class="language-dropdown-item">' + localeInfo.nativeDescription + '</a></li>'))
+          $('<li data-code="' + code + '"><a class="language-dropdown-item" href="#">' + localeInfo.nativeDescription + '</a></li>'))
         #if code is 'pt-BR'
         #  $select.append($('<li role="separator" class="divider"</li>'))
       else # base template
@@ -263,13 +264,12 @@ module.exports = class RootView extends CocoView
     return unless staticNav
 
     @navigation = new Navigation({
-      el: staticNav
+      el: staticNav,
+      store
     })
 
     # Hack - It would be better for the Navigation component to manage the language dropdown.
-    setTimeout(() =>
-      @buildLanguages()
-    , 0)
+    _.defer => @buildLanguages?()
 
   # Set the page title when the view is loaded.  This value is merged into the
   # result of getMeta.  It will override any title specified in getMeta.  Kept

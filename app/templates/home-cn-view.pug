@@ -2,6 +2,11 @@ extends /templates/base-flat
 
 block content
   .container-fluid
+    #top-banner
+      .row
+        .col-xs-12
+          if view.banner
+            span!=view.banner.display
     .row#jumbotron-container-fluid
       .col-lg-6
         h1.text-white(data-i18n="new_home.slogan")

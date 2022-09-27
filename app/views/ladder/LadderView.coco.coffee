@@ -245,7 +245,7 @@ module.exports = class LadderView extends RootView
       modal = new AuthModal()
       @openModalView(modal)
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
-    unless @tournamentState is 'ended'
+    unless @tournamentState in ['ended', 'ranking']
       if @level.isType('ladder')
         @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, leagueType: @leagueType, course: @course}, @level, @sessions, @anonymousPlayerName ))
       else

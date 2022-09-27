@@ -1286,6 +1286,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tornado_description: "It is good to have a reset button when one's cover is blown."
     wallOfDarkness_name: "Wall of Darkness"
     wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
+    announcement: 'Announcement'
+    xAnnouncements: '__x__ Announcements'
+    xAnnouncementsWithUnread: '__x__ Announcements(__y__ unread)'
+    message: 'Message'
+    see_more: "See __unread__ more unread announcements"
 
   avatar_selection:
     pick_an_avatar: "Pick an avatar that will represent you as a player"
@@ -3717,11 +3722,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     banner_ozar: "Happy Computer Science Education Week!"
     page_heading: "Your students will learn to code by building their own game!"
     page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
+    page_heading_goblins: "Your students will learn coding by saving a village from goblins!"
     step_1: "Step 1: Watch Video Overview"
     step_2: "Step 2: Try it Yourself"
     step_3: "Step 3: Download Lesson Plan"
     try_activity: "Try Activity"
     download_pdf: "Download PDF"
+    solutions: "Solutions"
     teacher_signup_heading: "Turn Hour of Code into a Year of Code"
     teacher_signup_blurb: "Everything you need to teach computer science, no prior experience needed."
     teacher_signup_input_blurb: "Get first course free:"
@@ -3732,7 +3739,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     activity_label_2: " Beginner GD: Build a Game!"
     activity_label_3: "Advanced GD: Build an Arcade Game!"
     activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
-    activity_label_ai_league: "Beginner CS: Road to the AI League"
+    activity_label_ai_league: "Beginner CS: Esports Bootcamp: AI League"
+    activity_label_goblins: "Beginner CS: Goblins 'n' Glory"
     activity_button_1: "View Lesson"
     about: "About CodeCombat"
     about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."

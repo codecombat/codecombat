@@ -504,11 +504,17 @@
 
           headerElement.append(`<div class="${headerClasses.join(' ')}"></div>`)
 
-          if (tutorialStep.targetElement === 'Run Button' || (tutorialStep.position === 'stationary' &&
-            !tutorialStep.targetElement && !tutorialStep.animation)) {
-            overlayElement.css('display', 'none')
-          } else {
-            overlayElement.css('display', 'block')
+          const hideOverlay = (
+              tutorialStep.targetElement === 'Run Button' ||
+              (tutorialStep.position === 'stationary' && !tutorialStep.targetElement && !tutorialStep.animation)
+          )
+          overlayElement.css('display', hideOverlay ? 'none' : 'block')
+
+          // We should only focus the code editor if it is visible,
+          // which happens when it is the target element, and shepherd highlights it
+          // or when the shepherd overlay is hidden.
+          if (tutorialStep.targetElement === 'Code Editor Window' || hideOverlay) {
+            Backbone.Mediator.publish('tome:focus-editor', {})
           }
 
           if (tutorialStep.animation === 'Glow') {

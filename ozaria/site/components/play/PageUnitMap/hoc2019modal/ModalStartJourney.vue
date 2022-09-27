@@ -1,10 +1,38 @@
 <script>
 import CloseModalBar from './layout/CloseModalBar'
-export default {
+import * as focusTrap from 'focus-trap'
+
+export default Vue.extend({
   components: {
     CloseModalBar
+  },
+  data: () => ({
+    focusTrapDeactivated: false,
+    focusTrap: null
+  }),
+  mounted () {
+    // TODO: do this generally for all modals
+    this.focusTrap = focusTrap.createFocusTrap(this.$el, {
+      initialFocus: '.btn-primary',
+      onDeactivate: () => {
+        this.focusTrapDeactivated = true
+      }
+    })
+    this.focusTrap.activate()
+    // fallback
+    if (this.focusTrapDeactivated) this.deactivateFocusTrap()
+  },
+  beforeDestroy () {
+    // seems not work when this component is destroyed by parent conditional-render
+    this.deactivateFocusTrap()
+  },
+  methods: {
+    deactivateFocusTrap () {
+      this.focusTrapDeactivated = true
+      this.focusTrap?.deactivate()
+    }
   }
-}
+})
 </script>
 
 <template>

@@ -9,6 +9,8 @@
     isOzaria,
     getQueryVariable
   } from 'core/utils'
+  import AnnouncementModal from '../../views/announcement/announcementModal'
+  import { mapActions, mapGetters } from 'vuex'
 
   /**
    * Unified navigation bar component between CodeCombat and Ozaria.
@@ -16,6 +18,13 @@
    */
   export default Vue.extend({
     computed: {
+      ...mapGetters('announcements', [
+        'announcements',
+        'unread',
+        'announcementInterval',
+        'announcementModalOpen',
+        'announcementDisplay',
+      ]),
       isOldBrowser () {
         return isOldBrowser()
       },
@@ -72,8 +81,23 @@
       this.CODECOMBAT = CODECOMBAT
       this.OZARIA = OZARIA
     },
-
+    mounted () {
+      if (false) { // TODO: currently do not enable announcemnt checking. using websocket later
+        this.checkAnnouncements('fromNav')
+        if(!this.announcementInterval)
+          this.startInterval('fromNav')
+      }
+    },
+    beforeUnmounted() {
+      if(this.announcementInterval)
+        clearInterval(this.announcementInterval)
+    },
     methods: {
+      ...mapActions('announcements', [
+        'closeAnnouncementModal',
+        'checkAnnouncements',
+        'startInterval'
+      ]),
       navEvent (e) {
         // Only track if user has clicked a link on the nav bar
         if (!e || !e.target || e.target.tagName !== 'A') {
@@ -126,12 +150,16 @@
       ozPath (relativePath) {
         return `${this.ozBaseURL}${relativePath}`
       }
+    },
+    components: {
+      AnnouncementModal
     }
   })
 </script>
 
 <template lang="pug">
-    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="document.location.href.search('/league') >= 0 ? 'dark-mode' : ''" @click="navEvent")
+    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
+      announcement-modal(v-if="false && announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
       .container-fluid
         .row
           .col-md-12
@@ -147,8 +175,8 @@
               a.navbar-brand(v-else-if="serverConfig.codeNinjas" href="/home")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
                 img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
-              a.navbar-brand(v-else-if="me.isTecmilenio()")
-                img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+              a.navbar-brand(v-else-if="me.isTecmilenio()" href="/home")
+                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
                 img.tecmilenio-logo(src="/images/pages/payment/tecmilenio-logo-2.png" alt="Tecmilenio logo")
               a.navbar-brand(v-else-if="me.showChinaResourceInfo()" href="/home")
                 img#logo-img(src="/images/pages/base/logo-cn.png")
@@ -244,7 +272,8 @@
                   a.text-p#logout-button {{ $t('login.log_out') }}
                 li.dropdown(v-else)
                   a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
+                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''" v-if="false")
+                    span.unreadMessage(v-if="false && unread")
                     span {{ $t('nav.my_account') }}
                     span.caret
                   ul.dropdown-menu.pull-right
@@ -257,24 +286,31 @@
                       a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
+                    li(v-if="false")
+                      a.account-dropdown-item(href="/announcements") {{ $t('announcement.announcement') }}
+                        span.unread(v-if="unread") {{ unread }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
                       a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
+                    li(v-if="isCodeCombat && (me.isAdmin() || (me.get('emailVerified') && (me.isTeacher() || (!me.get('role') && !me.isAnonymous()))))")
+                      a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
+                    li(v-if="me.isAPIClient()")
+                      a.account-dropdown-item(href="/api-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                     li(v-if="me.isAdmin()")
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
                     li(v-if="serverSession && serverSession.amActually")
-                      a.account-dropdown-item#nav-stop-spying-button {{ $t('login.stop_spying') }}
+                      a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_spying') }}
                     li(v-else-if="serverSession && serverSession.switchingUserActualId")
-                      a.account-dropdown-item#nav-stop-spying-button {{ $t('login.stop_switching') }}
+                      a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_switching') }}
                     li
-                      a.account-dropdown-item#logout-button {{ $t('login.log_out') }}
+                      a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
 
               ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
                 li
-                  a#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
+                  button#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
                 li
-                  a#login-link.login-button(data-event-action="Header Login CTA") {{ $t('signup.login') }}
+                  button#login-link.login-button(data-event-action="Header Login CTA") {{ $t('signup.login') }}
 </template>
 
 <style lang="scss" scoped>
@@ -304,7 +340,7 @@
     margin: 0;
   }
 
-  p, .text-p {
+  p, .text-p, .text-p button {
     font-family: $body-font;
     font-size: 18px;
     font-weight: 400;
@@ -329,7 +365,9 @@
     width: 94px;
     border: 1px solid $teal;
     border-radius: 0 4px 4px 0;
-    color: $teal;
+    /*color: $teal;*/ /* too faint for WCAG AAA */
+    color: #16837f; /* increased contrast by lowering luminance */
+    background: transparent;
     &:hover {
       background-color: #1FBAB4;
       color: white;
@@ -366,6 +404,9 @@
     }
     & li {
       display: inline-block;
+    }
+    & button {
+      line-height: 20px;
     }
   }
   a.navbar-brand {
@@ -425,11 +466,13 @@
     max-height: 100vh;
 
     .text-teal {
-      color: $teal;
+      /*color: $teal;*/ /* too faint for WCAG AAA */
+      color: #16837f; /* increased contrast by lowering luminance */
+      font-weight: 600;  /* increased contrast by increasing weight */
     }
   }
 
-  .nav > li > a {
+  .nav > li > a, .nav > li > button {
     // TODO: Move this to bootstrap variables for navbars
 
     // TODO: getting overridden by .navbar .nav > li > a for some reason
@@ -446,7 +489,7 @@
     }
   }
   // TODO: what is this for?
-  .nav > li.disabled > a {
+  .nav > li.disabled > a, .nav > li.disabled > button {
     color: black;
     &:hover {
       background: white;
@@ -485,7 +528,7 @@
   }
 
   @media (max-width: $grid-float-breakpoint) {
-    .nav > li > a {
+    .nav > li > a, .nav > li > button {
       padding: 10px 20px;
       height: 45px;
     }
@@ -528,6 +571,27 @@
     border-color: $navy;
   }
 
+  span.unreadMessage {
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: 10px;
+    left: 45px;
+    border-radius: 50%;
+    background-color: red;
+    box-shadow: 0 0 2px 2px red;
+  }
+
+  span.unread {
+    width: 1.2em;
+    height: 1.2em;
+    line-height: 1.2em;
+    border-radius: 50%;
+    background-color: #ff4848;
+    color: white;
+    display: inline-block;
+  }
+
   .dashboard-toggle {
     border-radius: 8px;
     margin: 8px 15px;
@@ -557,6 +621,56 @@
 
     .show-divider:not(:last-child) {
       border-right: 1px solid #131b25;
+    }
+  }
+}
+
+nav#main-nav.navbar.dark-mode {
+  background-color: #0C1016;
+
+  .nav > li > a {
+    color: #FCBB00;
+
+    &:hover {
+      color: #FF39A6;
+    }
+  }
+
+  .dashboard-toggle {
+    border: 1px solid #FCBB00;
+
+    & > .show-divider {
+      border-right: 1px solid #FCBB00 !important;
+    }
+  }
+
+  .dashboard-toggle .dashboard-button a {
+    color: #FCBB00;
+  }
+
+  .dropdown-menu {
+    background-color: white;
+  }
+
+  #create-account-link {
+    background-color: #FCBB00;
+    border: 1px solid #FCBB00;
+    color: #0C1016;
+
+    &:hover {
+      background-color: #FF39A6;
+      border: 1px solid #FF39A6;
+    }
+  }
+
+  #login-link {
+    color: #FCBB00;
+    border: 1px solid #FCBB00;
+
+    &:hover {
+      background-color: #FF39A6;
+      border: 1px solid #FF39A6;
+      color: #0C1016;
     }
   }
 }

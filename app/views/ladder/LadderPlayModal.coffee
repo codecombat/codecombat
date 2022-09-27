@@ -5,6 +5,7 @@ ThangType = require 'models/ThangType'
 {me} = require 'core/auth'
 LeaderboardCollection = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './utils'
+{isCodeCombat} = require 'core/utils'
 
 module.exports = class LadderPlayModal extends ModalView
   id: 'ladder-play-modal'
@@ -27,7 +28,8 @@ module.exports = class LadderPlayModal extends ModalView
 
   initialize: (options, @level, @session, @team) ->
     @otherTeam = if @team is 'ogres' then 'humans' else 'ogres'
-    @otherTeam = 'humans' if @level.isType('ladder')
+    if isCodeCombat
+      @otherTeam = 'humans' if @level.isType('ladder')
     @wizardType = ThangType.loadUniversalWizard()
     @startLoadingChallengersMaybe()
     @levelID = @level.get('slug') or @level.id
@@ -57,7 +59,10 @@ module.exports = class LadderPlayModal extends ModalView
     me.patch()
     if @session
       @session.set 'codeLanguage', aceConfig.language
-      @session.save({codeLanguage: aceConfig.language}, {patch: true, type: 'PUT'})
+      if isCodeCombat
+        @session.save({codeLanguage: aceConfig.language}, {patch: true, type: 'PUT'})
+      else
+        @session.patch()
 
   # PART 1: Load challengers from the db unless some are in the matches
   startLoadingChallengersMaybe: ->
@@ -84,6 +89,7 @@ module.exports = class LadderPlayModal extends ModalView
           {colorConfig: challenger.opponentWizard.colorConfig})
 
     success = (@nameMap) =>
+      # it seems to be fix that could go to both
       return if @destroyed
       for challenger in _.values(@challengers)
         challenger.opponentName = @nameMap[challenger.opponentID]?.name or 'Anonymous'
@@ -129,7 +135,8 @@ module.exports = class LadderPlayModal extends ModalView
     @$el.find('#noob-view').addClass('secret')
 
   checkTutorialLevelExists: (cb) ->
-    return  # We don't have any tutorials, currently. TODO: should remove this or update to create more tutorials.
+    if isCodeCombat
+      return  # We don't have any tutorials, currently. TODO: should remove this or update to create more tutorials.
     levelID = @level.get('slug') or @level.id
     tutorialLevelID = "#{levelID}-tutorial"
     success = => cb true

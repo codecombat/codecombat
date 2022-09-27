@@ -106,7 +106,7 @@ module.exports = class CreateAccountModal extends ModalView
 
     @listenTo @signupState, 'all', _.debounce @render
 
-    @listenTo @insertSubView(new ChooseAccountTypeView()),
+    @listenTo @insertSubView(new ChooseAccountTypeView({ @signupState })),
       'choose-path': (path) ->
         if path is 'teacher'
           startSignupTracking()
