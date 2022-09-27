@@ -79,6 +79,14 @@ module.exports = class ControlBarView extends CocoView
   onLoaded: ->
     if @classroom
       @levelNumber = @classroom.getLevelNumber(@level.get('original'), @levelNumber)
+      newClassroomItemsSetting = @classroom.get('classroomItems', true)
+      oldClassroomItemsSetting = me.lastClassroomItems()
+      me.setLastClassroomItems @classroom.get('classroomItems', true)
+      if newClassroomItemsSetting isnt oldClassroomItemsSetting and @level.isType('course')
+        # Teacher must have just changed the setting, so we need to reload the page
+        me.setLastClassroomItems newClassroomItemsSetting
+        noty text: 'Classroom items & gems setting changed; reloading', layout: 'topCenter', type: 'success', killer: false, timeout: 2000
+        _.delay (-> document.location.reload()), 2000
     else if @campaign
       @levelNumber = @campaign.getLevelNumber(@level.get('original'), @levelNumber)
     if application.getHocCampaign() or @level.get('assessment')

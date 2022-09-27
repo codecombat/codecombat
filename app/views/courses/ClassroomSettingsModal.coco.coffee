@@ -24,6 +24,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     'click .create-manually': 'onClickCreateManually'
     'click .pick-image-button': 'onPickImage'
     'click #link-lms-classroom-btn': 'onClickLinkLMSClassroom'
+    'change #classroom-items': 'onChangeClassroomItems'
 
   initialize: (options={}) ->
     @classroom = options.classroom or new Classroom()
@@ -46,6 +47,10 @@ module.exports = class ClassroomSettingsModal extends ModalView
     super()
     forms.updateSelects(@$('form'))
 
+  onChangeClassroomItems: (e) ->
+    # Unless we manually change this, we're not saving it, so that we can easily change the schema default later
+    @hasChangedClassroomItems = true
+
   onSubmitForm: (e) ->
     @classroom.notyErrors = false
     e.preventDefault()
@@ -62,6 +67,11 @@ module.exports = class ClassroomSettingsModal extends ModalView
     if not attrs.type and me.isILK()
       forms.setErrorToProperty(form, 'type', $.i18n.t('common.required_field'))
       return
+
+    if attrs.classroomItems and @hasChangedClassroomItems
+      attrs.classroomItems = attrs.classroomItems[0] == 'on'
+    else
+      delete attrs.classroomItems
 
     if attrs.liveCompletion
       attrs.aceConfig.liveCompletion = attrs.liveCompletion[0] == 'on'

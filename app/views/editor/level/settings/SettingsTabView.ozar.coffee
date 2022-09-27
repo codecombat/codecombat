@@ -8,31 +8,24 @@ nodes = require './../treema_nodes'
 {me} = require 'core/auth'
 require 'lib/setupTreema'
 concepts = require 'schemas/concepts'
+utils = require 'core/utils'
 
 module.exports = class SettingsTabView extends CocoView
   id: 'editor-level-settings-tab-view'
   className: 'tab-pane'
   template: template
 
-  # not thangs or scripts or the backend stuff
-  editableSettings: [
-    'name', 'description', 'documentation', 'nextLevel', 'victory', 'i18n', 'goals',
-    'type', 'kind', 'terrain', 'banner', 'loadingTip', 'requiresSubscription', 'adventurer', 'adminOnly',
-    'helpVideos', 'replayable', 'scoreTypes', 'concepts', 'primaryConcepts', 'picoCTFProblem', 'practice', 'assessment',
-    'practiceThresholdMinutes', 'primerLanguage', 'shareable', 'studentPlayInstructions', 'requiredCode', 'suspectCode',
-    'requiredGear', 'restrictedGear', 'requiredProperties', 'restrictedProperties', 'recommendedHealth', 'allowedHeroes',
-    'maximumHealth', 'assessmentPlacement', 'password', 'mirrorMatch', 'autocompleteReplacement', 'introContent',
-    'additionalGoals', 'isPlayedInStages', 'ozariaType', 'methodsBankList', 'displayName', 'characterPortrait', 'creativeMode', 'screenshot',
-    'exemplarProjectUrl', 'exemplarCodeUrl', 'projectRubricUrl', 'totalStages', 'campaign'
-  ]
-
   subscriptions:
     'editor:level-loaded': 'onLevelLoaded'
     'editor:thangs-edited': 'onThangsEdited'
     'editor:random-terrain-generated': 'onRandomTerrainGenerated'
 
+  # Not thangs or scripts or the backend stuff. Most properties will be added from the schema inEditor field.
+  editableSettings: ['name']
+
   constructor: (options) ->
     super options
+    @editableSettings = @editableSettings.concat _.keys(_.pick(Level.schema.properties, (value, key) => value.inEditor is true or value.inEditor is utils.getProduct()))
 
   onLoaded: ->
   onLevelLoaded: (e) ->
@@ -58,12 +51,14 @@ module.exports = class SettingsTabView extends CocoView
         'solution-stats': SolutionStatsNode
         concept: ConceptNode
         'concepts-list': ConceptsListNode
+        'clans-list': ClansListNode
       solutions: @level.getSolutions()
 
     @settingsTreema = @$el.find('#settings-treema').treema treemaOptions
     @settingsTreema.build()
     @settingsTreema.open()
     @lastTerrain = data.terrain
+    @lastType = data.type
 
   getThangIDs: ->
     (t.id for t in @level.get('thangs') ? [])
@@ -75,6 +70,8 @@ module.exports = class SettingsTabView extends CocoView
     if (terrain = @settingsTreema.data.terrain) isnt @lastTerrain
       @lastTerrain = terrain
       Backbone.Mediator.publish 'editor:terrain-changed', terrain: terrain
+    if (type = @settingsTreema.data.type) isnt @lastType
+      @onTypeChanged type
     for goal, index in @settingsTreema.data.goals ? []
       continue if goal.id
       goalIndex = index
@@ -92,6 +89,17 @@ module.exports = class SettingsTabView extends CocoView
 
   onRandomTerrainGenerated: (e) ->
     @settingsTreema.set '/terrain', e.terrain
+
+  onTypeChanged: (type) ->
+    @lastType = type
+    if type is 'ladder' and @settingsTreema.get('/mirrorMatch') isnt false
+      @settingsTreema.set '/mirrorMatch', false
+      noty {
+        text: "Type updated to 'ladder', so mirrorMatch has been updated to false."
+        layout: 'topCenter'
+        timeout: 5000
+        type: 'information'
+      }
 
   destroy: ->
     @settingsTreema?.destroy()
@@ -172,3 +180,6 @@ class ConceptsListNode extends TreemaNode.nodeMap.array
     return -1 if aAutomatic and not bAutomatic  # Auto before manual
     return 0 if not aAutomatic and not bAutomatic  # No ordering within manual
     super a, b  # Alpha within auto
+
+class ClansListNode extends TreemaNode.nodeMap.array
+  nodeDescription: 'ClansList'

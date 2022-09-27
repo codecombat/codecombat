@@ -301,6 +301,8 @@ module.exports = class SpellPaletteView extends CocoView
         # Temporary: switching up method documentation for M7 levels
         continue if @options.level.get('releasePhase') is 'beta' and (prop in ['moveUp', 'moveRight', 'moveDown', 'moveLeft'])
         continue if @options.level.get('releasePhase') isnt 'beta' and (prop in ['moveTo', 'use'])
+        warriorHeroProps = ['warcry', 'throw', 'throwAt', 'throwPos', 'throwRange', 'shieldBubble', 'slam', 'reflect', 'forcePush', 'charismagnetize', 'stomp', 'hurl', 'absoluteShield', 'heartShield']
+        continue if me.isStudent() and me.showHeroAndInventoryModalsToStudents() and (prop in warriorHeroProps)
         propsByItem['Hero'] ?= []
         propsByItem['Hero'].push owner: owner, prop: prop, item: itemThangTypes[@thang.spriteName]
         ++propCount

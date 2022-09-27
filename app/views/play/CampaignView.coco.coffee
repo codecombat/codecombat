@@ -224,6 +224,7 @@ module.exports = class CampaignView extends RootView
           @classroom = new Classroom(_id: classroomID)
           @supermodel.trackRequest @classroom.fetch()
           @listenToOnce @classroom, 'sync', =>
+            me.setLastClassroomItems @classroom.get('classroomItems', true)
             @updateClassroomSessions()
             @render()
             @courseInstance.sessions = new CocoCollection([], {
@@ -1530,13 +1531,13 @@ module.exports = class CampaignView extends RootView
       return me.finishedAnyLevels() and not features.noAds and not isStudentOrTeacher and me.get('country') is 'united-states' and me.get('preferredLanguage', true) is 'en-US' and new Date() < new Date(2019, 11, 20)
 
     if what in ['status-line']
-      return (me.showGemsAndXp() or !isStudentOrTeacher) and not @editorMode
+      return (me.showGemsAndXpInClassroom() or !isStudentOrTeacher) and not @editorMode
 
     if what in ['gems']
-      return me.showGemsAndXp() or !isStudentOrTeacher
+      return me.showGemsAndXpInClassroom() or !isStudentOrTeacher
 
     if what in ['level', 'xp']
-      return me.showGemsAndXp() or !isStudentOrTeacher
+      return me.showGemsAndXpInClassroom() or !isStudentOrTeacher
 
     if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans']
       return !isStudentOrTeacher and not @editorMode

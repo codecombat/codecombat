@@ -271,15 +271,6 @@ module.exports = class Classroom extends CocoModel
     options.type = 'POST'
     @fetch(options)
 
-  getSetting: (name) =>
-    settings = @get('settings') or {}
-    propInfo = Classroom.schema.properties.settings.properties
-    return settings[name] if name in Object.keys(settings)
-    if name in Object.keys(propInfo)
-      return propInfo[name].default
-
-    return false
-
   hasAssessments: (options={}) ->
     if options.courseId
       course = _.find(@get('courses'), (c) => c._id is options.courseId)

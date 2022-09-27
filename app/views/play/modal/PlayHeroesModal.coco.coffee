@@ -62,7 +62,9 @@ module.exports = class PlayHeroesModal extends ModalView
     @heroes.reset(@heroes.filter((hero) => not hero.get('ozaria')))
     @formatHero hero for hero in @heroes.models
     @heroes.reset(@heroes.filter((hero) => not hero.hidden))
-    if me.freeOnly() or application.getHocCampaign()
+    if me.isStudent() and me.showHeroAndInventoryModalsToStudents()
+      @heroes.reset(@heroes.filter((hero) => hero.get('heroClass') is 'Warrior'))
+    else if me.freeOnly() or application.getHocCampaign()
       @heroes.reset(@heroes.filter((hero) => !hero.locked))
     unless me.isAdmin()
       @heroes.reset(@heroes.filter((hero) => hero.get('releasePhase') isnt 'beta'))
@@ -78,7 +80,8 @@ module.exports = class PlayHeroesModal extends ModalView
     hero.unlockBySubscribing = hero.attributes.slug in ['samurai', 'ninja', 'librarian']
     hero.premium = not hero.free and not hero.unlockBySubscribing
     hero.locked = not me.ownsHero(original) and not (hero.unlockBySubscribing and me.isPremium())
-    hero.purchasable = hero.locked and (me.isPremium() or me.allowStudentHeroPurchase())
+    hero.locked = false if me.isStudent() and me.showHeroAndInventoryModalsToStudents() and hero.get('heroClass') is 'Warrior'
+    hero.purchasable = hero.locked and me.isPremium()
     if @options.level and allowedHeroes = @options.level.get 'allowedHeroes'
       hero.restricted = not (hero.get('original') in allowedHeroes)
     hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()
@@ -308,7 +311,7 @@ module.exports = class PlayHeroesModal extends ModalView
   #- Exiting
 
   saveAndHide: ->
-    if !me.hasSubscription() and @subscriberCodeLanguageList.find((l) => l.id == @codeLanguage)
+    if !me.hasSubscription() and @subscriberCodeLanguageList.find((l) => l.id == @codeLanguage) and not me.isStudent()
       @openModalView new SubscribeModal()
       window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: experimental language'
       return

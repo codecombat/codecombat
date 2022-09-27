@@ -197,14 +197,12 @@ module.exports = class PlayLevelView extends RootView
       @anonymousPlayerName = anonymous
     )
 
-    unless @courseInstanceID
-      # playLevelView for home users and teacher users has no courseInstanceID
-      @classroomAceConfig = {liveCompletion: true}
-    else
+    @classroomAceConfig = {liveCompletion: true}  # default (home users, teachers, etc.)
+    if @courseInstanceID
       fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members")
       @supermodel.trackRequest fetchAceConfig
       fetchAceConfig.then (classroom) =>
-        @classroomAceConfig = _.assign {liveCompletion: true}, classroom.aceConfig
+        @classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion ? true
 
   hasAccessThroughClan: (level) ->
     _.intersection(level.get('clans') ? [], me.get('clans') ? []).length
