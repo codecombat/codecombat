@@ -103,7 +103,7 @@ class ViewLoadTimer
           return true if /ace/.test(entry.name)
           return true if /esper/.test(entry.name)
           return true if /aether/.test(entry.name)
-          return true if /esper.modern.min.js/.test(entry.name)
+          return true if /esper.modern.js/.test(entry.name)
           return true if /lodash.js/.test(entry.name)
           return true if /run-tests.js/.test(entry.name)
           return true if /setImmediate.js/.test(entry.name)

@@ -69,10 +69,10 @@ try {
   //Detect very modern javascript support.
   (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
   console.log("Modern javascript detected, aw yeah!");
-  self.importScripts('/javascripts/esper.modern.min.js');
+  self.importScripts('/javascripts/esper.modern.js');
 } catch (e) {
   console.log("Legacy javascript detected, falling back...", e.message);
-  self.importScripts('/javascripts/esper.min.js');
+  self.importScripts('/javascripts/esper.js');
 }
 
 
