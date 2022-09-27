@@ -79,6 +79,133 @@ export default Vue.extend({
       return [
         {
           ctype: 'title',
+          title: 'Code Quest全球青少年人工智能挑战活动总决赛',
+          data: [['2022年8月', '比赛时间'],
+                 ['扣哒世界', '技术支持'],
+                 ['3977人', '参数人数'],
+                 ['CodeCombat 斯坦福大学', '发起单位'],
+                 ['72个国家和地区', '覆盖区域'],
+                 ]
+        },
+        {
+          ctype: 'rank',
+          bg: 'dark',
+          rank: [
+            ['Venneth', '（印尼）'],
+            ['李成',  '（中国）'],
+            ['Shininglice', '（加拿大）']
+          ]
+        },
+        {
+          ctype: 'champion-group',
+          bg: 'light',
+          title: '小初组（小学1-3年级）',
+          rewards: {
+            title: '一等奖',
+            members: [
+              '姜秉呈（中国台湾）、',
+              '官庭兆（中国）、',
+              'Zhou Sihong Ethan（中国香港）、',
+              '蔡畅叙（中国）、',
+              'Tran Quyet Tien（越南）、',
+              'quyettien2（越南）、',
+              '胡博文（中国）、',
+              'Zhou Andrew（中国香港）、',
+              '黄嘉诚（中国）、',
+              '宿栢诚（中国）、',
+              '張宬暟（中国台湾）、',
+              '朱迅冉（中国）、',
+              '张乃文（中国）、',
+              '王英恺（中国）、',
+              '王子鑫（中国）、',
+              '巢戈弋（中国）、',
+              '叶沐晨（中国）、',
+              '许江南（中国）、',
+              '郑茗予（中国）、',
+              'Chu Leong Sing Jamie（中国香港）、',
+              'Zhou  Sihan Bruce（中国香港）、',
+              '卜奕博（中国）、',
+              'Aoi Oi Hang（中国澳门）、',
+              '黄煜翔（中国）、',
+              'Gianpk（荷兰）、',
+              '张圃献（中国）、',
+              '丁以乐（中国）、',
+              '何牧之（中国）、',
+              '林群翰（中国台湾）、',
+              '賴鼎安（中国台湾）、',
+              '陈雨博（中国）、',
+            ]
+          }
+        },
+        {
+          ctype: 'champion-group',
+          bg: 'dark',
+          title: '中学组',
+          rewards: {
+            title: '一等奖',
+            members: [
+              'Venneth（印尼）、',
+              '李成（中国）、',
+              'Shininglice（加拿大）、',
+              'DimaP123（俄罗斯）、',
+              'Renegade Penguin（美国）、',
+              'Yuwantat（中国）、',
+              '杨欣蓥（中国）、',
+              'Yung Sze Wai（中国香港）、',
+              'Chan Ngo Wang（中国香港）、',
+              'Leung Ching Hong（中国香港）、',
+              'RedDragon9（美国）、',
+              'Henri Cui（中国）、',
+              'Tsang Tsz Hin（中国香港）、',
+              '吳婕寧（中国台湾）、',
+              'Buddeycc（美国）、',
+              '范佳乐（中国）、',
+              'gianghnt（越南）、',
+              'Chan Chi Fung（中国香港）、',
+              '束欣铭（中国）、',
+              'Law Sau Ho（中国香港）、',
+              'Ieong Cory Hoi Yip（中国澳门）、',
+              '陈岐昊（中国）、',
+              '梁哲浩（中国）、',
+              'Kwan Cedric（中国香港）、',
+              'Samuel422（英国）、',
+              '宋铭灏（中国）、',
+              '唐鹏宇（中国）、',
+            ]
+          }
+        },
+        {
+          ctype: 'champion-group',
+          bg: 'light',
+          title: '开放组',
+          rewards: {
+            title: '一等奖',
+            members: [
+              'Miracle_Knight（美国）、',
+              'hubowen（德国）、',
+              'EthanChen2（美国）、',
+              'ICanCode_Tutors（中国香港）、',
+              'Hungtq（波兰）、',
+              'Hieunh（以色列）、',
+              'KANAU（日本）、',
+              'Chriddy（美国）、',
+              'StOrMbReAkEr2022（新西兰）、',
+              'AmIGroot（加拿大）、',
+              'PawełS1（波兰）、',
+              'MinhHoàng（越南）、',
+              'Smloh（美国）、',
+              'Daveminh（美国）、',
+              'hamsterparty5（美国）、',
+              'Ori H（美国）、',
+              'north626（泰国）、',
+              'Lucas.Wu（中国台湾）、',
+              'SzymonM_（波兰）、',
+              'ceri_rj（英国）、',
+            ]
+          }
+        },
+        {
+          ctype: 'title',
           title: '教育部白名单大赛少年硅谷AI算法竞技赛',
           data: [['2022年3月-2022年7月', '比赛时间'],
                  ['扣哒世界', '技术支持'],
@@ -502,7 +629,7 @@ export default Vue.extend({
                    n: ['Guangxuan Wu, Jinhao Jin', 'Adam Zhuang']
           }]]
         }
-      ]
+]
     }
   },
   mounted () {
