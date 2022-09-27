@@ -560,7 +560,7 @@ module.exports = class SpellView extends CocoView
   reallyAddUserSnippets: (source, lang, session) ->
     newIdentifiers = aceUtils.parseUserSnippets(source, lang, session)
     # console.log 'debug newIdentifiers: ', newIdentifiers
-    @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
+    @autocomplete?.addCustomSnippets Object.values(newIdentifiers), lang
 
   addAutocompleteSnippets: (e) ->
     # Snippet entry format:
@@ -1102,7 +1102,7 @@ module.exports = class SpellView extends CocoView
     @spellHasChanged = true
 
   onAceMouseOut: (e) ->
-    Backbone.Mediator.publish("web-dev:stop-hovering-line")
+    Backbone.Mediator.publish("web-dev:stop-hovering-line", {})
 
   onAceMouseMove: (e) =>
     return if @destroyed

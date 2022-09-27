@@ -189,7 +189,6 @@ module.exports = class PlayLevelView extends RootView
     levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
-    console.debug 'PlayLevelView: Create LevelLoader'
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
@@ -309,7 +308,6 @@ module.exports = class PlayLevelView extends RootView
   # Partially Loaded Setup ####################################################
 
   onWorldNecessitiesLoaded: ->
-    console.debug('PlayLevelView: world necessities loaded')
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
 
@@ -466,7 +464,6 @@ module.exports = class PlayLevelView extends RootView
   # Load Completed Setup ######################################################
 
   onSessionLoaded: (e) ->
-    console.log 'PlayLevelView: loaded session', e.session
     store.commit('game/setTimesCodeRun', e.session.get('timesCodeRun') or 0)
     store.commit('game/setTimesAutocompleteUsed', e.session.get('timesAutocompleteUsed') or 0)
     return if @session
@@ -540,7 +537,6 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelStarted: ->
     return unless @surface? or @webSurface?
-    console.log 'PlayLevelView: level started'
     @loadingView.showReady()
     @trackLevelLoadEnd()
     if window.currentModal and not window.currentModal.destroyed and [VictoryModal, CourseVictoryModal, HeroVictoryModal].indexOf(window.currentModal.constructor) is -1

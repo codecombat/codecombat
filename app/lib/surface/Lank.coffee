@@ -430,7 +430,7 @@ module.exports = Lank = class Lank extends CocoClass
     action ?= 'idle'
     unless @actions[action]?
       @warnedFor ?= {}
-      console.warn 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless @warnedFor[action]
+      console.info 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless @warnedFor[action]
       @warnedFor[action] = true
       return if @action is 'idle' then null else 'idle'
     #action = 'break' if @actions.break? and @thang?.erroredOut  # This makes it looks like it's dead when it's not: bad in Brawlwood.

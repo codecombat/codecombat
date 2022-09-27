@@ -148,3 +148,10 @@ module.exports =
   'tome:html-updated': c.object {title: 'HTML Updated', required: ['html', 'create']},
     html: {type: 'string', description: 'The full HTML to display'}
     create: {type: 'boolean', description: 'Whether we should (re)create the DOM (as opposed to updating it)'}
+
+  'tome:remove-all-markers': c.object {}
+  'tome:scroll-to-top': c.object {}
+  'tome:update-aether-running': c.object {}
+  'tome:update-aether': c.object {}
+  'tome:completer-add-user-snippets': c.object {}
+  'tome:completer-popup-focus-change': c.object {}
