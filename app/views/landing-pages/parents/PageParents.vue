@@ -10,7 +10,7 @@
     -->
     <modal-timetap-schedule
       v-if="type !== 'parents'"
-      :show="showTimetapModal" 
+      :show="showTimetapModal"
       :class-type="timetapModalClassType"
       @close="showTimetapModal = false"
       @booked="onClassBooked"
@@ -19,6 +19,10 @@
       v-if="type === 'thank-you'"
       :show="showTimetapConfirmationModal"
       @close="showTimetapConfirmationModal = false"
+    />
+    <ModalScheduleFreeClass
+        v-if="showScheduleFreeClassModal"
+        @close="showScheduleFreeClassModal = false"
     />
     <!-- END Modals -->
 
@@ -597,6 +601,7 @@ import PageParentsSectionPremium from './PageParentsSectionPremium'
 import PageParentsJumbotron from './PageParentsJumbotron'
 import ModalTimetapSchedule from './ModalTimetapSchedule'
 import ModalTimetapConfirmation from './ModalTimetapConfirmation'
+import ModalScheduleFreeClass from './ModalScheduleFreeClass'
 import ButtonMainCta from './ButtonMainCta'
 import IconGem from './IconGem'
 import ButtonArrow from './ButtonArrow'
@@ -610,6 +615,7 @@ export default {
   components: {
     ModalUserDetails,
     ModalTimetapSchedule,
+    ModalScheduleFreeClass,
     PageParentsSectionPremium,
     PageParentsJumbotron,
     ModalTimetapConfirmation,
@@ -634,7 +640,8 @@ export default {
     timetapModalClassType: undefined,
     showTimetapModal: false,
     showTimetapConfirmationModal: false,
-    modalClassType: undefined
+    modalClassType: undefined,
+    showScheduleFreeClassModal: false
   }),
 
   metaInfo () {
@@ -701,7 +708,9 @@ export default {
 
     onClickMainCta () {
       this.trackCtaClicked()
-      if (this.brightchampsExperiment === 'brightchamps') {
+      if (this.scheduleFreeClassExperiment === 'schedule-free-class') {
+        this.showScheduleFreeClassModal = true
+      } else if (this.brightchampsExperiment === 'brightchamps') {
         const url = 'https://learn.brightchamps.com/book-trial-class/?utm_source=B2B&utm_medium=Codecombat#'
         window.open(url, '_blank')
       } else if (this.trialClassExperiment === 'trial-class') {
@@ -791,11 +800,9 @@ export default {
     mainCtaSubtext (buttonNum) {
       if (this.brightchampsExperiment === 'brightchamps') {
         return ''
-      }
-      else if (this.trialClassExperiment === 'trial-class' && buttonNum === 0) {
+      } else if (this.trialClassExperiment === 'trial-class' && buttonNum === 0) {
         return 'Or, <a href="/payments/initial-online-classes-71#">enroll now</a>'
-      }
-      else if (this.trialClassExperiment === 'trial-class') {
+      } else if (this.trialClassExperiment === 'trial-class') {
         return ''
       } else if (!buttonNum) {
         return ''
@@ -844,6 +851,29 @@ export default {
         //me.startExperiment('trial-class', value, 0.5)
         value = 'trial-class'
         me.startExperiment('trial-class', value, 1)  // End experiment in favor of trial-class group; keep measuring
+      }
+      return value
+    },
+
+    scheduleFreeClassExperiment () {
+      let value = {
+        'true': 'schedule-free-class',
+        'false': 'no-schedule-free-class'
+      }[this.$route.query['schedule-free-class']]
+      if (!value) {
+        value = me.getExperimentValue('schedule-free-class', null, 'no-schedule-free-class')
+        if (value) value = 'schedule-free-class' // Switch to trial-class for members of previous no-trial-class group
+      }
+      if (!value && new Date(me.get('dateCreated')) < new Date('2022-09-27')) {
+        // Don't include users created before experiment start date
+        value = 'schedule-free-class'
+      }
+
+      if (!value) {
+        value = ['schedule-free-class', 'no-schedule-free-class'][Math.floor(me.get('testGroupNumber') / 2) % 2]
+        me.startExperiment('schedule-free-class', value, 0.5)
+        // value = 'schedule-free-class'
+        // me.startExperiment('schedule-free-class', value, 1)  // End experiment in favor of schedule-free-class group; keep measuring
       }
       return value
     },
