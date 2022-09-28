@@ -11,9 +11,9 @@
   } from 'core/utils'
   import AnnouncementModal from '../../views/announcement/announcementModal'
   import { mapActions, mapGetters } from 'vuex'
+
   /**
    * Unified navigation bar component between CodeCombat and Ozaria.
-   * This must be copied exactly to the Ozaria repo.
    */
   export default Vue.extend({
     computed: {
@@ -162,7 +162,6 @@
     components: {
       AnnouncementModal
     }
-
   })
 </script>
 

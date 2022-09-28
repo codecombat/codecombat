@@ -81,7 +81,7 @@ class ViewLoadTimer
       console.log "Saw view load event", thatThereId, @view.id
 
       if @view.destroyed
-        console.log "Sure did toss that thing."
+        console.log "Sure did toss that thing." if VIEW_LOAD_LOG
         window.bored += totalTime
         return
       return console.warn("Unknown view at: #{document.location.href}, could not record perf.") if not @view.id
