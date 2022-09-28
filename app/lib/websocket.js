@@ -31,20 +31,6 @@ const baseInfoHandler = {
   }
 }
 
-const initWSInfos = {
-  teacher: {
-    students: {}, // student id as key so that easy to visit
-    friends: {}
-  },
-  student: {
-    teachers: {},
-    friends: {}
-  },
-  home: {
-    friends: {}
-  }
-}
-
 module.exports = {
   setupBaseWS: () => {
     if (!WebWS) {
@@ -74,17 +60,13 @@ module.exports = {
         ws.sendJSON(obj)
         break
       case 'send': // receive infos
-        // globalVar.wsInfos = _.assign({}, globalVar.wsInfos, data.infos)
+        globalVar.wsInfos.friends[data.from].infos = _.assign({},
+                                                              globalVar.wsInfos.friends[data.from].infos,
+                                                              data.infos)
         Backbone.Mediator.publish('websocket:update-infos')
         // globalVar.currentView.trigger('websocket:update-infos')
         break
       case 'pong': // check alive
-        if (window.me.isStudent() && data.from in globalVar.wsInfos.teachers) {
-          globalVar.wsInfos.teachers[data.from].alive = true
-        } else if (window.me.isTeacher() && data.from in globalVar.wsInfos.students) {
-          globalVar.wsInfos.students[data.from].alive = true
-        }
-
         if (data.from in globalVar.wsInfos.friends) {
           globalVar.wsInfos.friends[data.from].alive = true
         }
@@ -93,8 +75,12 @@ module.exports = {
       }
     })
 
+    ws.addEventListener('open', () => {
+      clearInterval(ws.reconnectInterval)
+    })
     ws.addEventListener('close', () => {
-      console.log('ws close unexpected!')
+      console.log('ws close unexpected! try reconnect in 10 secnds...')
+      ws.reconnectInterval = setInterval(() => module.exports.setupBaseWS(), 10000)
     })
 
     ws.sendJSON = (data) => {
@@ -106,23 +92,12 @@ module.exports = {
     return ws
   },
   setupWSInfos: (me) => {
-    if (me.isStudent()) {
-      globalVar.wsInfos = initWSInfos.student
-    } else if (me.isTeacher()) {
-      globalVar.wsInfos = initWSInfos.teacher
-    } else {
-      globalVar.wsInfos = initWSInfos.home
+    globalVar.wsInfos = {
+      friends: {} // role: friends | teacher | student
     }
   },
   pingFriends: (me) => {
-    let friends = []
-    if (me.isStudent()) {
-      friends = Object.keys(globalVar.wsInfos.teachers)
-    } else if (me.isTeacher()) {
-      friends = Object.keys(globalVar.wsInfos.students)
-    }
-    friends = [...friends, ...Object.keys(globalVar.wsInfos.friends)]
-
+    const friends = Object.keys(globalVar.wsInfos.friends)
     globalVar.ws.sendJSON({
       to: friends,
       type: 'ping'

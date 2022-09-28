@@ -230,7 +230,7 @@ module.exports = class CoursesView extends RootView
         url: courseInstance.url() + '/course-level-sessions/' + me.id,
         model: LevelSession
       })
-      globalVar.wsInfos[courseInstance.get('ownerID').toString()] = { alive: false } if initWsInfos
+      globalVar.wsInfos.friends[courseInstance.get('ownerID').toString()] = { role: 'teacher', alive: false } if initWsInfos
       courseInstance.sessions.comparator = 'changed'
       @supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete,level.original,playtime,changed' }})
 

@@ -546,7 +546,7 @@ module.exports = class TeacherStudentView extends RootView
     queryUserOnline = {
       to: @studentID
       type: 'fetch'
-      infos: ['online', 'play-level']
+      infos: ['play-level']
     }
     if globalVar.ws?.readyState == 1
       globalVar.ws?.sendJSON(queryUserOnline)
