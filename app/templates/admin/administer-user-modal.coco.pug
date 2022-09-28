@@ -24,6 +24,8 @@ block modal-header-content
           a(href='/outcomes-report/' + outcomesReportKind + '/' + view.user.get('_id') data-i18n="outcomes.view_outcomes_report")
 
     .col-sm-3
+      if me.isAdmin()
+        button#user-spy-btn.btn.btn-primary.btn-block Spy
       if view.user.isStudent() && me.isAdmin()
         button#destudent-btn.btn.btn-burgundy.btn-block Destudent
       if view.user.isTeacher() && me.isAdmin()

@@ -6,6 +6,7 @@ User = require 'models/User'
 Prepaid = require 'models/Prepaid'
 StripeCoupons = require 'collections/StripeCoupons'
 forms = require 'core/forms'
+errors = require 'core/errors'
 Prepaids = require 'collections/Prepaids'
 Classrooms = require 'collections/Classrooms'
 TrialRequests = require 'collections/TrialRequests'
@@ -27,6 +28,7 @@ module.exports = class AdministerUserModal extends ModelModal
     'click #create-payment-btn': 'onClickCreatePayment'
     'click #add-seats-btn': 'onClickAddSeatsButton'
     'click #add-esports-product-btn': 'onClickAddEsportsProductButton'
+    'click #user-spy-btn': 'onClickUserSpyButton'
     'click #destudent-btn': 'onClickDestudentButton'
     'click #deteacher-btn': 'onClickDeteacherButton'
     'click #reset-progress-btn': 'onClickResetProgressButton'
@@ -258,6 +260,16 @@ module.exports = class AdministerUserModal extends ModelModal
         @renderSelectors('#esports-product-form')
         $('#esports-product-form').addClass('in')
       , 1000)
+
+  onClickUserSpyButton: (e) ->
+    e.stopPropagation()
+    button = $(e.currentTarget)
+    forms.disableSubmit(button)
+    me.spy @user.id,
+      success: -> window.location.reload()
+      error: ->
+        forms.enableSubmit(button)
+        errors.showNotyNetworkError(arguments...)
 
   onClickDestudentButton: (e) ->
     button = @$(e.currentTarget)
