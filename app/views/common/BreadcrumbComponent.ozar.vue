@@ -1,21 +1,37 @@
 <style lang="scss" scoped>
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
-li {
-  @include font-p-2-paragraph-medium-gray;
-  color: $twilight;
-  display: inline;
-  a {
-    text-decoration: underline;
+@import "app/styles/utils";
+@if $is-ozaria {
+  li {
+    @include font-p-2-paragraph-medium-gray;
+    color: $twilight;
+    display: inline;
+
+    a {
+      text-decoration: underline;
+    }
+  }
+  li:not(:first-child):before {
+    content: " > ";
+    color: $twilight;
+    font-weight: bold;
+  }
+  li:last-child {
+    color: #6D8392;
   }
 }
-li:not(:first-child):before {
-  content: " > ";
-  color: $twilight;
-  font-weight: bold;
-}
-li:last-child {
-  color: #6D8392;
+@if $is-codecombat {
+  * {
+    color: #065e73;
+  }
+  li {
+    display: inline;
+  }
+  li:not(:first-child):before {
+    color: #000;
+    content: " > ";
+  }
 }
 </style>
 
