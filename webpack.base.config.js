@@ -88,7 +88,6 @@ module.exports = (env) => {
         return _.any([
           /vendor.*coffeescript/,
           /bower_components.*aether/,
-          /bower_components.*jsondiffpatch.*\.js$/,
           /fuzzaldrin/
         ], (regex) => { return regex.test(name) })
       },
