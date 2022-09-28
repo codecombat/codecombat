@@ -36,24 +36,24 @@ block modal-header-content
     .col-sm-3
       if view.prepaids.size()
         div
-          a(href="#prepaids") Existing Prepaids
+          a.modal-nav-link(href="#prepaids") Existing Prepaids
       if view.user.isTeacher()
         div
-          a(href="#licenses") Grant Student Licenses
+          a.modal-nav-link(href="#licenses") Grant Student Licenses
       if view.classrooms.size()
         div
-          a(href="#classrooms") Classrooms
+          a.modal-nav-link(href="#classrooms") Classrooms
       if view.user.isHomeUser()
         div
-          a(href="#stripe") Modify Subscription
+          a.modal-nav-link(href="#stripe") Modify Subscription
       if me.isOnlineTeacher()
         div
-          a(href="#other-controls") Other Controls
+          a.modal-nav-link(href="#other-controls") Other Controls
       // Not currently used
       //div
-      //  a(href="#create-payment") Create Payment
+      //  a.modal-nav-link(href="#create-payment") Create Payment
       div
-        a(href="#database-entries") Database Entries
+        a.modal-nav-link(href="#database-entries") Database Entries
 
   if view.user.isTeacher() && me.isAdmin()
     div.m-t-1

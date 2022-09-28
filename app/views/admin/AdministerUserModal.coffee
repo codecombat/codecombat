@@ -49,6 +49,7 @@ module.exports = class AdministerUserModal extends ModelModal
     'click #esports-type-select>.radio': 'onSelectEsportsType'
     'click #esports-product-addon': 'onSelectEsportsAddon'
     'click .other-user-link': 'onClickOtherUserLink'
+    'click .modal-nav-link': 'onClickModalNavLink'
     'click #volume-checkbox': 'onClickVolumeCheckbox'
     'click #music-checkbox': 'onClickMusicCheckbox'
 
@@ -577,6 +578,10 @@ module.exports = class AdministerUserModal extends ModelModal
     e.preventDefault()
     userID = $(e.target).closest('a').data('user-id')
     @openModalView new AdministerUserModal({}, userID)
+
+  onClickModalNavLink: (e) ->
+    e.preventDefault()
+    @$el.animate({scrollTop: $($(e.target).attr('href')).offset().top}, 0)
 
   onClickMusicCheckbox: (e) ->
     val = @$(e.target).prop('checked')
