@@ -118,7 +118,7 @@ block content
     if view.aiLeagueStats
       +clanLeagueStatsMixin(view.aiLeagueStats, (view.teacherClan ? view.teacherClan._id : null), false, null)
 
-    if !me.hideOtherProductCTAs()
+    if !me.hideOtherProductCTAs() && !(me.get('activity') && me.get('activity')['visit-ozaria'])
       .container.try-ozaria
         a(data-i18n="teacher.try_ozaria_footer")
 
