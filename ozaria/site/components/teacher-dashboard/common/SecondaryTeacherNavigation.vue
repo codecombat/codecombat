@@ -319,7 +319,8 @@
     }
 
     & > a {
-      padding-top: 3px;
+      white-space: nowrap;
+      padding: 3px 5px 0 5px;
       border-radius: 10px 10px 0 0;
     }
 
