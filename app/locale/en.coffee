@@ -926,6 +926,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     non_user_code_problem_title: "Unable to Load Level"
     infinite_loop_title: "Infinite Loop Detected"
     infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
+    non_user_code_problem_description: "The initial code to build the world never finished running because of an error: <pre>__error__</pre>You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
     check_dev_console: "You can also open the developer console to see what might be going wrong."
     check_dev_console_link: "(instructions)"
     infinite_loop_try_again: "Try Again"

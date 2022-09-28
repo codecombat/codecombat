@@ -103,6 +103,8 @@ module.exports =
 
   'tome:comment-my-code': c.object {title: 'Comment My Code', description: 'Published when we comment out a chunk of your code'}
 
+  'tome:reset-my-code': c.object {title: 'Reset My Code', description: 'Published when we force reset your code from an error modal'}
+
   'tome:change-config': c.object {title: 'Change Config', description: 'Published when you change your tome settings'}
 
   'tome:update-snippets': c.object {title: 'Update Snippets', description: 'Published when we need to add autocomplete snippets', required: ['propGroups', 'allDocs']},
