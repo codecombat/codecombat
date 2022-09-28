@@ -523,12 +523,12 @@ module.exports = class CocoRouter extends Backbone.Router
 
       # send url info to teachers
       if me.isStudent()
-        teachers = Object.keys(globalVar.wsInfos.teachers)
-        teachers?.forEach((to) =>
+        Object.entries(globalVar.wsInfos?.friends ? {}).forEach(([to, friend]) =>
+          return unless friend.role == 'teacher' and friend.alive
           routeInfo =
             to: to,
             type: 'send',
-            infos: { viewName: ViewClass.constructo.name, url: window.location.href }
+            infos: { viewName: ViewClass.default.name, url: window.location.href }
           globalVar.ws.sendJSON(routeInfo)
         )
 
