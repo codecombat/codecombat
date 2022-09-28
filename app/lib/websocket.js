@@ -18,7 +18,6 @@ if (typeof WebSocket !== 'undefined') {
 }
 
 const baseInfoHandler = {
-  online: () => true, // when a user recieves a message, the user is online anyway
   'play-level': () => {
     const curView = globalVar.currentView
     if (curView.id === 'level-view' && curView.constructor.name === 'PlayLevelView') {
@@ -29,6 +28,20 @@ const baseInfoHandler = {
     } else {
       return false
     }
+  }
+}
+
+const initWSInfos = {
+  teacher: {
+    students: {}, // student id as key so that easy to visit
+    friends: {}
+  },
+  student: {
+    teachers: {},
+    friends: {}
+  },
+  home: {
+    friends: {}
   }
 }
 
@@ -47,7 +60,9 @@ module.exports = {
         data = JSON.parse(data)
       } catch (e) {}
 
-      if (data.type === 'fetch') {
+
+      switch (data.type) {
+      case 'fetch':  // return infos
         const obj = {
           to: data.from,
           type: 'send',
@@ -56,14 +71,25 @@ module.exports = {
         data.infos.forEach(info => {
           obj.infos[info] = baseInfoHandler[info]()
         })
-        console.log('send?', obj)
         ws.sendJSON(obj)
-      } else if (data.type === 'send') {
-        console.log('get infos from other user')
-        globalVar.wsInfos = _.assign({}, globalVar.wsInfos, data.infos)
-        console.log('trigger?')
+        break
+      case 'send': // receive infos
+        // globalVar.wsInfos = _.assign({}, globalVar.wsInfos, data.infos)
         Backbone.Mediator.publish('websocket:update-infos')
         // globalVar.currentView.trigger('websocket:update-infos')
+        break
+      case 'pong': // check alive
+        if (window.me.isStudent() && data.from in globalVar.wsInfos.teachers) {
+          globalVar.wsInfos.teachers[data.from].alive = true
+        } else if (window.me.isTeacher() && data.from in globalVar.wsInfos.students) {
+          globalVar.wsInfos.students[data.from].alive = true
+        }
+
+        if (data.from in globalVar.wsInfos.friends) {
+          globalVar.wsInfos.friends[data.from].alive = true
+        }
+        break
+
       }
     })
 
@@ -78,5 +104,28 @@ module.exports = {
       ws.send(data)
     }
     return ws
+  },
+  setupWSInfos: (me) => {
+    if (me.isStudent()) {
+      globalVar.wsInfos = initWSInfos.student
+    } else if (me.isTeacher()) {
+      globalVar.wsInfos = initWSInfos.teacher
+    } else {
+      globalVar.wsInfos = initWSInfos.home
+    }
+  },
+  pingFriends: (me) => {
+    let friends = []
+    if (me.isStudent()) {
+      friends = Object.keys(globalVar.wsInfos.teachers)
+    } else if (me.isTeacher()) {
+      friends = Object.keys(globalVar.wsInfos.students)
+    }
+    friends = [...friends, ...Object.keys(globalVar.wsInfos.friends)]
+
+    globalVar.ws.sendJSON({
+      to: friends,
+      type: 'ping'
+    })
   }
 }

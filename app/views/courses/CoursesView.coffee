@@ -29,6 +29,7 @@ store = require 'core/store'
 leaderboardApi = require 'core/api/leaderboard'
 clansApi = require 'core/api/clans'
 coursesHelper = require 'lib/coursesHelper'
+websocket = require 'lib/websocket'
 
 class LadderCollection extends CocoCollection
   url: ''
@@ -234,6 +235,10 @@ module.exports = class CoursesView extends RootView
     # HoC 2015 used special single player course instances
     @courseInstances.remove(@courseInstances.where({hourOfCode: true}))
 
+    unless globalVar.wsInfos
+      initWsInfos = true
+      websocket.setupWSInfos(me)
+
     for courseInstance in @courseInstances.models
       continue if not courseInstance.get('classroomID')
       courseID = courseInstance.get('courseID')
@@ -241,8 +246,11 @@ module.exports = class CoursesView extends RootView
         url: courseInstance.url() + '/course-level-sessions/' + me.id,
         model: LevelSession
       })
+      globalVar.wsInfos[courseInstance.get('ownerID').toString()] = { alive: false } if initWsInfos
       courseInstance.sessions.comparator = 'changed'
       @supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete,level.original,playtime,changed' }})
+
+    websocket.pingFriends(me)
 
   onLoaded: ->
     super()
