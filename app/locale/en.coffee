@@ -370,6 +370,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     funding_resources_guide: "Funding Resources Guide"
     partnerships: "Partnerships"
     podcast: "Our Podcast"
+    dashboard: "Dashboard"
 
   modal:
     close: "Close"
