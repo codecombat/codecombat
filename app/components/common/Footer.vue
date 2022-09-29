@@ -135,7 +135,7 @@
         let ChinaFooter = [
           {
             title: 'nav.general',
-            condition: !this.chinaHome,
+            condition: !this.isChinaHome,
             lists: [
               { url: this.cocoPath('/events'), title: 'nav.events' },
               { url: this.cocoPath('/contact-cn'), title: 'nav.contact', hide: me.isStudent() },
@@ -143,13 +143,8 @@
             ]
           },
           {
-            title: '',
-            condition: this.chinaHome,
-            lists: []
-          },
-          {
             title: 'nav.educators',
-            condition: !me.isStudent(),
+            condition: !me.isStudent() && !this.isChinaHome,
             lists: [
               { url: '/teachers/resources/faq-zh-HANS.coco', title: 'teacher.educator_faq' },
               { url: '/teachers/resources', title: 'nav.resource_hub' },
@@ -159,7 +154,7 @@
           },
           {
             title: '',
-            condition: me.isStudent(),
+            condition: me.isStudent() || this.isChinaHome,
             lists: []
           },
           {
