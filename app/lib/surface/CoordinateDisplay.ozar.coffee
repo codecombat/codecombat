@@ -1,11 +1,15 @@
 createjs = require 'lib/createjs-parts'
+utils = require 'core/utils'
 
 DEFAULT_DISPLAY_OPTIONS = {
   fontWeight: 'bold',
   fontSize: '16px',
   fontFamily: 'Arial',
   fontColor: '#FFFFFF',
-  templateString: '<%= x %>, <%= y %>',
+  templateString: {
+    ozaria: '<%= x %>, <%= y %>'
+    codecombat: '{x: <%= x %>, y: <%= y %>}'
+  }[if utils.isOzaria then 'ozaria' else 'codecombat'],  # utils.getProduct()
   backgroundFillColor: 'rgba(0,0,0,0.4)',
   backgroundStrokeColor: 'rgba(0,0,0,0.6)',
   backgroundStroke: 1,
@@ -157,7 +161,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
   isNearRightEdge: (width) ->
     @lastSurfacePos.x + width > @camera.surfaceViewport.width
-    
+
   orient: (verticalEdge, horizontalEdge, totalHeight, totalWidth) ->
     @label.regY = @background.regY = verticalEdge.posShift
     @label.regX = @background.regX = horizontalEdge.posShift
