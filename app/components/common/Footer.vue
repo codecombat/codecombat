@@ -25,6 +25,10 @@
         return isOzaria
       },
 
+      isChinaHome () {
+        return features.chinaHome
+      },
+
       cocoBaseURL () {
         if (this.isCodeCombat) {
           return ''
@@ -66,6 +70,117 @@
           link += `c/other-languages/${lang}`
         }
         return link
+      },
+
+      footerUrls () {
+        /* footer url example
+           column: {
+             title: i18n keys on column title
+             condition: display column or not, i.e. me.isStudent()
+             lists: lists of links in footer }
+           each link: {
+             url: a.href
+             title: i18n keys on link title
+             extra: if we do not use i18n title, set this as span.spr
+             attrs: extra dom attributes setting in object, i.e. {target: '_blank'}
+           }
+
+           chinaFooter is standalone so don't worry on China resources.
+        */
+        let globalFooter = [
+          {
+            title: 'nav.general',
+            condition: true, // always display
+            lists: [
+              { url: this.cocoPath('/about'), title: 'nav.about', attrs: { 'data-event-action': 'Click: Footer About' } },
+              { url: 'https://codecombat.zendesk.com/hc/en-us', title: 'contact.faq', attrs: { target: '_blank', 'data-event-action': 'Click: Footer FAQ' } },
+              { url: this.cocoPath('/about#careers'), title: 'nav.careers' },
+              { title: 'nav.contact', attrs: { class: 'contact-modal', tabindex: -1 } },
+              { url: this.cocoPath('/parents'), title: 'nav.parent' },
+              { url: 'https://blog.codecombat.com/', title: 'nav.blog' }
+            ]
+          },
+          {
+            title: 'nav.educators',
+            condition: !me.isStudent(),
+            lists: [
+              { url: '/efficacy', title: 'efficacy.ozaria_efficacy', hide: this.isCodeCombat},
+              { url: '/impact', title: 'nav.impact', hide: this.isOzaria },
+              { url: '/teachers/resources', title: 'nav.resource_hub' },
+              { url: '/teachers/classes', title: 'nav.my_classrooms' },
+              { url: this.ozPath('/'), title: 'new_home.try_ozaria', attrs: { 'data-event-action': 'Click: Footer Try Ozaria' }, hide: this.isOzaria},
+              { url: this.cocoPath('/'), title: 'nav.return_coco', attrs: { 'data-event-action': 'Click: Footer Return to CodeCombat' }, hide: this.isCodeCombat},
+              { url: this.cocoPath('/partners'), title: 'nav.partnerships' },
+              { url: this.cocoPath('/podcast'), title: 'nav.podcast' }
+            ]
+          },
+          {
+            title: '',
+            condition: me.isStudent(),
+            lists: []
+          },
+          {
+            title: 'nav.get_involved',
+            condition: true,
+            lists: [
+              { url: 'https://github.com/codecombat/codecombat', extra: 'Github' },
+              { url: this.cocoPath('/community'), title: 'nav.community' },
+              { url: this.cocoPath('/contribute'), title: 'nav.contribute' },
+              { url: this.cocoPath('/league'), title: 'game_menu.multiplayer_tab' },
+              { url: this.forumLink, title: 'nav.forum', attrs: { target: '_blank' }, hide: me.isStudent() || !me.showForumLink() }
+            ]
+          }
+        ]
+
+        let ChinaFooter = [
+          {
+            title: 'nav.general',
+            condition: !this.chinaHome,
+            lists: [
+              { url: this.cocoPath('/events'), title: 'nav.events' },
+              { url: this.cocoPath('/contact-cn'), title: 'nav.contact', hide: me.isStudent() },
+              { url: this.cocoPath('/CoCoStar'), title: 'nav.star' },
+            ]
+          },
+          {
+            title: '',
+            condition: this.chinaHome,
+            lists: []
+          },
+          {
+            title: 'nav.educators',
+            condition: !me.isStudent(),
+            lists: [
+              { url: '/teachers/resources/faq-zh-HANS.coco', title: 'teacher.educator_faq' },
+              { url: '/teachers/resources', title: 'nav.resource_hub' },
+              { url: '/teachers/resources', extra: '课程体系' },
+              { url: 'teachers/classes', title: 'nav.my_classrooms' }
+            ]
+          },
+          {
+            title: '',
+            condition: me.isStudent(),
+            lists: []
+          },
+          {
+            title: 'nav.related_urls',
+            condition: true,
+            lists: [
+              { url: 'https://xuetang.koudashijie.com', extra: '扣哒学堂' },
+              { url: 'https://aojiarui.com', extra: '奥佳睿' },
+              { url: 'https://aishiqingsai.org.cn', extra: 'AI世青赛' },
+
+              { url: 'https://koudashijie.com', extra: '扣哒世界', hide: !this.isChinaHome },
+              { url: 'https://codecombat.cn', extra: 'CodeCombat 个人版', hide: this.isChinaHome },
+            ]
+          }
+        ]
+
+        if (window.me.showChinaResourceInfo()) {
+          return ChinaFooter
+        } else {
+          return globalFooter
+        }
       }
     },
 
@@ -139,70 +254,19 @@
       .row
         .col-lg-12
           .row
-            .col-lg-3
-              h3 {{ $t("nav.general") }}
+            .col-lg-3(v-for="col in footerUrls" v-if="col.condition")
+              h3 {{ $t(col.title) }}
               ul.list-unstyled
-                li
-                  a(:href="cocoPath('/about')" data-event-action="Click: Footer About") {{ $t("nav.about") }}
-                li(v-if="!me.showChinaResourceInfo()")
-                  - var faqURL = "https://codecombat.zendesk.com/hc/en-us"
-                  a(href=faqURL, target="_blank" data-event-action="Click: Footer FAQ") {{ $t("contact.faq") }}
-                li(v-if="!me.showChinaResourceInfo()")
-                  a(:href="cocoPath('/about#careers')") {{ $t("nav.careers") }}
-                li(v-if="!me.showChinaResourceInfo()")
-                  a.contact-modal(tabindex=-1) {{ $t("nav.contact") }}
-                li(v-else-if="!me.isStudent()")
-                  a(:href="cocoPath('/contact-cn')") {{ $t("nav.contact") }}
-                li(v-if="!me.showChinaResourceInfo()")
-                  a(:href="cocoPath('/parents')") {{ $t("nav.parent") }}
-                li(v-if="!me.showChinaResourceInfo()")
-                  a(href="https://blog.codecombat.com/", , target="_blank") {{ $t("nav.blog") }}
-                li(v-if="me.isAdmin()")
+                li(v-for="l in col.lists" v-if="!l.hide")
+                  a(:href="l.url" v-bind="l.attrs") {{ $t(l.title) }}
+                    span.spr(v-if="l.extra") {{ l.extra }}
+                li(v-if="col.title === 'nav.general' && me.isAdmin()")
                   mklog-ledger(v-pre organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W' kind='popper')
                     a(href="#changelog")
                       span Changelog
                       mklog-since-last-viewed(v-pre organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W', color="candy")
-                li(v-if="me.showChinaResourceInfo()")
-                  a(href="https://beian.miit.gov.cn/") 京ICP备19012263号
             .col-lg-3
-              if !me.isStudent()
-                h3 {{ $t("nav.educators") }}
-                ul.list-unstyled
-                  li(v-if="!me.showChinaResourceInfo()")
-                    if isOzaria
-                      a(href="/efficacy") {{ $t("efficacy.ozaria_efficacy") }}
-                    else
-                      a(href="/impact") {{ $t("nav.impact") }}
-                  li
-                    a(href="/teachers/resources") {{ $t("nav.resource_hub") }}
-                  li
-                    a(href="/teachers/classes") {{ $t("nav.my_classrooms") }}
-                  li(v-if="isCodeCombat")
-                    a(:href="ozPath('/')" data-event-action="Click: Footer Try Ozaria") {{ $t("new_home.try_ozaria") }}
-                  li(v-else)
-                    a(:href="cocoPath('/')" data-event-action="Click: Footer Return to CodeCombat") {{ $t("nav.return_coco") }}
-                  li(v-if="!me.showChinaResourceInfo()")
-                    a(:href="cocoPath('/partners')") {{ $t("nav.partnerships") }}
-                  li(v-if="!me.showChinaResourceInfo()")
-                    a(:href="cocoPath('/podcast')") {{ $t("nav.podcast") }}
-            .col-lg-3(v-if="!me.showChinaResourceInfo()")
-              h3 {{ $t("nav.get_involved") }}
-              ul.list-unstyled
-                li
-                  a(href="https://github.com/codecombat/codecombat")
-                    span.spr GitHub
-                    //iframe.github-star-button(src="https://ghbtns.com/github-btn.html?user=codecombat&repo=codecombat&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110", height="20") // Cute, but maybe not worth the extra requests.
-                li
-                  a(:href="cocoPath('/community')") {{ $t("nav.community") }}
-                li
-                  a(:href="cocoPath('/contribute')") {{ $t("nav.contribute") }}
-                li
-                  a(:href="cocoPath('/league')") {{ $t("game_menu.multiplayer_tab") }}
-                if !me.isStudent() && me.showForumLink()
-                  li
-                    a(:href="forumLink", , target="_blank") {{ $t("nav.forum") }}
-            .col-lg-3
-              if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
+              template(v-if="!me.showingStaticPagesWhileLoading() && me.useSocialSignOn()")
                 h3 {{ $t("nav.follow_us") }}
                 div.social-buttons
                   a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA" target="_blank" data-event-action="Click: Footer Youtube")
@@ -213,23 +277,50 @@
                     img(src="/images/pages/base/facebook_logo_btn.png" width="40" alt="Facebook")
                   a(href="https://www.instagram.com/codecombat/" target="_blank" data-event-action="Click: Footer Instagram")
                     img(src="/images/pages/base/instagram-logo.png" width="40" alt="Instagram")
-                  
-              else if me.showChinaResourceInfo()
+              template(v-if="me.showChinaResourceInfo()")
                 h3 {{ $t("nav.follow_us") }}
-                img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
+                .follow_us
+                  .socialicon
+                    .si.si-wechat
+                      .mpqrcode(v-if="isChinaHome")
+                        img.mpqr(src="https://assets.koudashijie.com/images/homeVersion/mpqr.jpeg")
+                      .mpqrcode(v-else)
+                        .span
+                          span='老师请扫'
+                          img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
+                        .span
+                          span='家长请扫'
+                          img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode-xuetang.jpeg")
+                    template(v-if="!isChinaHome")
+                      .si.si-tiktok
+                        .tkqrcode
+                          img.tkqr(src="https://assets.koudashijie.com/images/home/tiktokqr.jpg")
+                      a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
+                      a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
 
     #final-footer(dir="ltr")
-      if isOzaria
-        img(src="/images/ozaria/home/ozaria-wordmark-500px.png" alt="Ozaria logo")
-      else
-        img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+      img(v-if="isOzaria" src="/images/ozaria/home/ozaria-wordmark-500px.png" alt="Ozaria logo")
+      img(v-else src="/images/pages/base/logo.png" alt="CodeCombat logo")
       .float-right
         if me.showChinaResourceInfo()
           span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
-          span.contact= "业务咨询："+COCO_CHINA_CONST.CONTACT_PHONE
         span {{ $t("nav.copyright_prefix") }}
         span= ' ©2022 CodeCombat Inc. '
         span {{ $t("nav.copyright_suffix") }}
+        if me.showChinaResourceInfo()
+          if me.showChinaHomeVersion()
+            a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-20
+          else
+            a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号
+          if !me.showChinaHomeVersion()
+            a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802031936")
+              img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
+              span='京公网安备 11010802031936号'
+          else
+            a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038619")
+              img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
+              span='京公网安备 11010802038619号'
+
         a.small(href="/legal") {{ $t("nav.term_of_service") }}
         a.small(href="/privacy") {{ $t("nav.privacy") }}
 </template>
@@ -295,6 +386,59 @@ footer#site-footer
   .mpqr
     width: 95px
 
+  .follow_us
+    display: flex
+    flex-direction: column
+    .socialicon
+      display: flex
+      justify-content: space-between
+      .si
+        width: 50px
+        height: 45px
+        background-size: 50px
+        background-position: center
+        background-repeat: no-repeat
+        position: relative
+        cursor: pointer
+      .si-bilibili
+        background-image: url('https://assets.koudashijie.com/images/home/icon/bilibili-dark.png')
+        &:hover
+          background-image: url('https://assets.koudashijie.com/images/home/icon/bilibili-light.png')
+      .si-wechat
+        background-image: url('https://assets.koudashijie.com/images/home/icon/wechat-dark.png')
+        &:hover
+          background-image: url('https://assets.koudashijie.com/images/home/icon/wechat-light.png')
+        &:hover .mpqrcode
+          display: flex
+      .si-tiktok
+        background-image: url('https://assets.koudashijie.com/images/home/icon/tiktok-dark.png')
+        &:hover
+          background-image: url('https://assets.koudashijie.com/images/home/icon/tiktok-light.png')
+        &:hover .tkqrcode
+          display: flex
+      .si-weibo
+        background-image: url('https://assets.koudashijie.com/images/home/icon/weibo-dark.png')
+        &:hover
+          background-image: url('https://assets.koudashijie.com/images/home/icon/weibo-light.png')
+
+    .tkqrcode
+      display: none
+      position: absolute
+      top: 50px
+      left: 0
+      .tkqr
+        width: 120px
+    .mpqrcode
+      display: none
+      position: absolute
+      top: 50px
+      left: 0
+      .span
+        margin-right: 20px
+        display: flex
+        flex-direction: column
+        align-items: center
+
   #final-footer
     padding: 20px 70px 14px
     color: rgba(255,255,255,0.8)
@@ -321,6 +465,10 @@ footer#site-footer
     img
       height: 40px
       margin-right: 20px
+
+    img#mps
+      height: 1em
+      margin-right: 0
 
     .small
       color: rgba(255,255,255,0.8)
