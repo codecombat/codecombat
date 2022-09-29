@@ -77,6 +77,7 @@
 <script>
 import Modal from 'app/components/common/Modal'
 import { sendFormEntry } from 'core/api/parents'
+import moment from 'moment'
 
 export default {
   name: 'ModalScheduleFreeClass',
@@ -84,12 +85,14 @@ export default {
     Modal
   },
   data () {
+    const timeZone = moment.tz.guess()
+    const timeZoneCode = moment.tz(timeZone).format('zz')
     return {
       name: me.get('firstName') || me.get('name'),
       phone: null,
       available: null,
       preferredTime: null,
-      timeZone: new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1],
+      timeZone: `${timeZoneCode} (${timeZone})`,
       email: me.get('email'),
       isSuccess: false,
       inProgress: false
