@@ -20,6 +20,8 @@ MusicPlayer = require './MusicPlayer'
 GameUIState = require 'models/GameUIState'
 createjs = require 'lib/createjs-parts'
 require 'jquery-mousewheel'
+store = require 'app/core/store'
+utils = require 'core/utils'
 
 resizeDelay = 1  # At least as much as $level-resize-transition-time.
 
@@ -106,6 +108,8 @@ module.exports = Surface = class Surface extends CocoClass
     @onResize = _.debounce @onResize, resizeDelay
     @initEasel()
     @initAudio()
+    @pathLayerAdapter = @lankBoss.layerAdapters['Path']
+    @listenTo(@pathLayerAdapter, 'new-spritesheet', @updatePaths)
     $(window).on 'resize', @onResize
     if @world.ended
       _.defer => @setWorld @world
@@ -161,7 +165,9 @@ module.exports = Surface = class Surface extends CocoClass
     @coordinateGrid ?= new CoordinateGrid {camera: @camera, layer: @gridLayer, textLayer: @surfaceTextLayer}, @world.size()
     @coordinateGrid.showGrid() if @world.showGrid or @options.grid
     @showCoordinates = if @options.coords? then @options.coords else @world.showCoordinates
-    @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer if @showCoordinates
+    if @showCoordinates
+      coordinateOptions = if @options.showInvisible then {} else @world.showCoordinatesOptions
+      @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer, displayOptions: coordinateOptions
 
   hookUpChooseControls: ->
     chooserOptions = stage: @webGLStage, surfaceLayer: @surfaceTextLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
@@ -169,9 +175,8 @@ module.exports = Surface = class Surface extends CocoClass
     @chooser = new klass chooserOptions
 
   initAudio: ->
+    return if utils.isOzaria  # Ozaria uses a different sound system
     @musicPlayer = new MusicPlayer()
-
-
 
   #- Setting the world
 
@@ -187,7 +192,7 @@ module.exports = Surface = class Surface extends CocoClass
     return if @destroyed
     return if @loaded
     @loaded = true
-    @lankBoss.createMarks()
+    @lankBoss.createMarks() unless utils.isOzaria
     @updateState true
     @drawCurrentFrame()
     createjs.Ticker.addEventListener 'tick', @tick
@@ -711,19 +716,30 @@ module.exports = Surface = class Surface extends CocoClass
       @options.resizeStrategy = @options.originalResizeStrategy
 
   updatePaths: ->
-    return unless @options.paths and @heroLank
+    showPathFor = switch
+      when not @options.paths then []
+      when @world.showPathFor then @world.showPathFor
+      when utils.isCodeCombat then [@heroLank?.thang?.id]
+      else []
+    return unless showPathFor.length
     @hidePaths()
     return if @world.showPaths is 'never'
-    layerAdapter = @lankBoss.layerAdapters['Path']
-    @trailmaster ?= new TrailMaster @camera, layerAdapter
-    @paths = @trailmaster.generatePaths @world, @heroLank.thang
-    @paths.name = 'paths'
-    layerAdapter.addChild @paths
+    @trailmaster ?= new TrailMaster @camera, @pathLayerAdapter
+    @trailmaster.cleanUp()
+    @paths = []
+    for thangID in showPathFor
+      lank = @lankBoss.lankFor thangID
+      continue if not lank
+      path = @trailmaster.generatePaths @world, lank.thang
+      continue if not path
+      path.name = 'paths'
+      @pathLayerAdapter.addChild path
+      @paths.push(path)
 
   hidePaths: ->
-    return if not @paths
-    if @paths.parent
-      @paths.parent.removeChild @paths
+    return if not @paths?.length
+    for path in @paths when path.parent
+      path.parent.removeChild path
     @paths = null
 
 
@@ -816,6 +832,7 @@ module.exports = Surface = class Surface extends CocoClass
     @camera?.destroy()
     createjs.Ticker.removeEventListener('tick', @tick)
     createjs.Sound.stop()
+    store.dispatch('audio/fadeAndStopAll', { to: 0, duration: 1000, unload: true }) if utils.isOzaria
     layer.destroy() for layer in @normalLayers
     @lankBoss.destroy()
     @chooser?.destroy()

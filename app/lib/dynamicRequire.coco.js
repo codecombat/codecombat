@@ -6,7 +6,8 @@ module.exports = {
   'views/ChinaBridgeView': function () { return import(/* webpackChunkName: "ContactGEEKView" */ 'views/ChinaBridgeView') },
   'views/account/OAuthAIYouthView': function () { return import(/* webpackChunkName: "OAuthAIYouthView" */ 'views/account/OAuthAIYouthView') },
   'views/account/MainAccountView': function () { return import(/* webpackChunkName: "account" */ 'views/account/MainAccountView') },
-  'views/account/AccountSettingsRootView': function () { return import(/* webpackChunkName: "account" */ 'views/account/AccountSettingsRootView') },
+  'views/account/AccountSettingsRootView': function () { return import(/* webpackChunkName: "AccountSettingsRoot" */ 'views/account/AccountSettingsRootView') },
+  'views/account/AccountSettingsView': function () { return import(/* webpackChunkName: "AccountSettings" */ 'views/account/AccountSettingsView') },
   'views/account/UnsubscribeView': function () { return import(/* webpackChunkName: "account" */ 'views/account/UnsubscribeView') },
   'views/account/PaymentsView': function () { return import(/* webpackChunkName: "account" */ 'views/account/PaymentsView') },
   'views/account/SubscriptionView': function () { return import(/* webpackChunkName: "account" */ 'views/account/SubscriptionView') },
@@ -16,6 +17,7 @@ module.exports = {
   'views/admin/CLAsView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/CLAsView') },
   'views/admin/AdminClassroomContentView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/AdminClassroomContentView') },
   'views/admin/AdminClassroomLevelsView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/AdminClassroomLevelsView') },
+  'views/admin/PartialUnitReleaseView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/PartialUnitReleaseView') },
   'views/admin/AdminClassroomsProgressView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/AdminClassroomsProgressView') },
   'views/admin/FilesView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/FilesView') },
   'views/admin/AnalyticsView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/AnalyticsView') },
@@ -90,8 +92,12 @@ module.exports = {
   'views/i18n/I18NEditCampaignView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditCampaignView') },
   'views/i18n/I18NEditPollView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditPollView') },
   'views/i18n/I18NEditCourseView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditCourseView') },
+  'views/i18n/I18NEditCinematicView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditCinematicView') },
   'views/i18n/I18NEditProductView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditProductView') },
   'views/i18n/I18NEditArticleView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditArticleView') },
+  'views/i18n/I18NEditInteractiveView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditInteractiveView') },
+  'views/i18n/I18NEditCutsceneView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditCutsceneView') },
+  'views/i18n/I18NEditResourceHubResourceView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditResourceHubResourceView') },
   'views/user/IdentifyView': function () { return import(/* webpackChunkName: "user" */ 'views/user/IdentifyView') },
   'views/account/IsraelSignupView': function () { return import(/* webpackChunkName: "account" */ 'views/account/IsraelSignupView') },
   'views/LegalView': function () { return import(/* webpackChunkName: "LegalView" */ 'views/LegalView') },
@@ -141,5 +147,14 @@ module.exports = {
 
   // All Vue app components will be loaded via a vue chunk.  Eventually we will integrate webpack loading with Vue and
   // at that time we can remove this dynamic import and instead include SingletonAppVueComponentView in the main bundle
-  'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "vue" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) }
+  'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "vue" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) },
+
+  // TODO: Why does chunk name `ozariaPlay` not work sporadically?
+  'views/ozaria/site/play/PageUnitMap': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageUnitMap') },
+  'views/ozaria/site/avatarSelector': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/avatar-selector/PageAvatarSelector') },
+  'views/ozaria/site/play/PagePlayLevel': function () { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PagePlayLevel') },
+  'views/cinematic': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cinematic/PageCinematic') },
+  'views/cutscene': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cutscene/PageCutscene') },
+  'views/interactive': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/interactive/PageInteractive') },
+  'views/introLevel': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageIntroLevel') },
 }
