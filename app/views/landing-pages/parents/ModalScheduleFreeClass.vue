@@ -5,53 +5,54 @@
   >
     <form @submit.prevent="onFormSubmit" class="schedule-free-class-form">
       <p>
-        Thank you for choosing CodeCombat.
+        {{ $t('modal_free_class.paragraph_1') }}
       </p>
 
       <p>
-        Our team is eager to connect with you to get your child scheduled for a free trial class.
+        {{ $t('modal_free_class.paragraph_2') }}
       </p>
 
       <p>
-        Please provide your contact information and one of our learning advisors will call you to gather student
-        information, identify a teacher based on your child’s preferred learning style and to schedule the trial class.
+        {{ $t('modal_free_class.paragraph_3') }}
       </p>
       <div class="form-group">
-        <label for="name">Name</label>
+        <label for="name">{{ $t('modal_free_class.name') }}</label>
         <input type="text" id="name" placeholder="Enter name" v-model="name" class="form-control"/>
       </div>
       <div class="form-group">
-        <label for="phone">Phone Number</label>
+        <label for="phone">{{ $t('modal_free_class.phone_number') }}</label>
         <input type="text" id="phone" placeholder="Enter phone number" v-model="phone" class="form-control"/>
       </div>
       <div class="form-group">
-        <label for="org">Are you available to talk now?</label>
+        <label for="org">{{ $t('modal_free_class.available') }}</label>
         <div class="form-check">
           <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="available" value="yes" v-model="available"> Yes
+            <input type="radio" class="form-check-input" name="available" value="yes" v-model="available">
+            {{ $t('modal_free_class.yes') }}
           </label>
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="available" value="no" v-model="available"> No
+            <input type="radio" class="form-check-input" name="available" value="no" v-model="available">
+            {{ $t('modal_free_class.no') }}
           </label>
         </div>
       </div>
       <div class="form-group">
-        <label for="role">Preferred time for call if we can't connect now</label>
+        <label for="role">{{ $t('modal_free_class.preferred_time') }}</label>
         <select class="form-control" v-model="preferredTime">
-          <option>Anytime</option>
-          <option>Morning (8AM - 12PM)</option>
-          <option>Afternoon (12PM - 4PM)</option>
-          <option>Evening (4PM - 8PM)</option>
+          <option>{{ $t('modal_free_class.anytime') }}</option>
+          <option>{{ $t('modal_free_class.morning') }}</option>
+          <option>{{ $t('modal_free_class.afternoon') }}</option>
+          <option>{{ $t('modal_free_class.evening') }}</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="userTimeZone">Your Time Zone</label>
+        <label for="userTimeZone">{{ $t('modal_free_class.time_zone') }}</label>
         <input type="text" id="userTimeZone" placeholder="Enter time zone" v-model="timeZone" class="form-control"/>
       </div>
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">{{ $t('modal_free_class.email') }}</label>
         <input type="email" id="email" placeholder="Enter email" v-model="email" class="form-control"/>
       </div>
       <div class="form-group pull-right">
