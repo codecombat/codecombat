@@ -166,10 +166,8 @@
 </script>
 
 <template lang="pug">
-  div
-    announcement-modal(v-if="false" @close="closeAnnouncementModal" :announcement="announcementDisplay")
     nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
-
+      announcement-modal(v-if="false" @close="closeAnnouncementModal" :announcement="announcementDisplay")
       .container-fluid
         .row
           .col-md-12
