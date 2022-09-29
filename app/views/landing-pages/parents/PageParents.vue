@@ -862,7 +862,6 @@ export default {
       }[this.$route.query['schedule-free-class']]
       if (!value) {
         value = me.getExperimentValue('schedule-free-class', null, 'no-schedule-free-class')
-        if (value) value = 'schedule-free-class' // Switch to trial-class for members of previous no-trial-class group
       }
       if (!value && new Date(me.get('dateCreated')) < new Date('2022-09-27')) {
         // Don't include users created before experiment start date
@@ -872,8 +871,6 @@ export default {
       if (!value) {
         value = ['schedule-free-class', 'no-schedule-free-class'][Math.floor(me.get('testGroupNumber') / 2) % 2]
         me.startExperiment('schedule-free-class', value, 0.5)
-        // value = 'schedule-free-class'
-        // me.startExperiment('schedule-free-class', value, 1)  // End experiment in favor of schedule-free-class group; keep measuring
       }
       return value
     },

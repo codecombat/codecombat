@@ -109,7 +109,7 @@ export default {
         await sendFormEntry(details)
         this.isSuccess = true
       } catch (err) {
-        console.error('podcast contact err', err)
+        console.error('schedule free class err', err)
         noty({
           text: 'Failed to contact server, please reach out to support@codecombat.com',
           type: 'error',
