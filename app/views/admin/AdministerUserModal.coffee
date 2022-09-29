@@ -41,6 +41,7 @@ module.exports = class AdministerUserModal extends ModelModal
     'click .save-prepaid-info-btn': 'onClickSavePrepaidInfo'
     'click #school-admin-checkbox': 'onClickSchoolAdminCheckbox'
     'click #online-teacher-checkbox': 'onClickOnlineTeacherCheckbox'
+    'click #beta-tester-checkbox': 'onClickBetaTesterCheckbox'
     'click #edit-school-admins-link': 'onClickEditSchoolAdmins'
     'submit #teacher-search-form': 'onSubmitTeacherSearchForm'
     'click .add-administer-teacher': 'onClickAddAdministeredTeacher'
@@ -388,6 +389,8 @@ module.exports = class AdministerUserModal extends ModelModal
 
   userIsOnlineTeacher: -> @user.isOnlineTeacher()
 
+  userIsBetaTester: -> @user.isBetaTester()
+
   onClickOnlineTeacherCheckbox: (e) ->
     checked = @$(e.target).prop('checked')
     unless @updateUserPermission User.PERMISSIONS.ONLINE_TEACHER, checked
@@ -396,6 +399,11 @@ module.exports = class AdministerUserModal extends ModelModal
   onClickSchoolAdminCheckbox: (e) ->
     checked = @$(e.target).prop('checked')
     unless @updateUserPermission User.PERMISSIONS.SCHOOL_ADMINISTRATOR, checked
+      e.preventDefault()
+
+  onClickBetaTesterCheckbox: (e) ->
+    checked = @$(e.target).prop('checked')
+    unless @updateUserPermission User.PERMISSIONS.BETA_TESTER, checked
       e.preventDefault()
 
   updateUserPermission: (permission, enabled) ->

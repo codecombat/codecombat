@@ -89,6 +89,19 @@ block modal-header-content
         else if view.userSaveState == 'saved'
           | Saved!
 
+  if view.user.isTeacher() && me.isAdmin()
+    div.m-t-1
+      label
+        input#beta-tester-checkbox(type='checkbox', checked=view.userIsBetaTester())
+        span.p-l-1
+          | Enable Beta Tester
+        span.small  (classroom Java)
+      div
+        if view.userSaveState == 'saving'
+          | Saving...
+        else if view.userSaveState == 'saved'
+          | Saved!
+
 block modal-body-content
   if view.editingSchoolAdmins
     h3.m-t-3#school-admins-title Edit School Admin Teacher Access
