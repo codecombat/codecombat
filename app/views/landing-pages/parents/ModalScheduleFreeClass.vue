@@ -41,10 +41,10 @@
       <div class="form-group">
         <label for="role">{{ $t('modal_free_class.preferred_time') }}</label>
         <select class="form-control" v-model="preferredTime">
-          <option>{{ $t('modal_free_class.anytime') }}</option>
-          <option>{{ $t('modal_free_class.morning') }}</option>
-          <option>{{ $t('modal_free_class.afternoon') }}</option>
-          <option>{{ $t('modal_free_class.evening') }}</option>
+          <option value="Anytime">{{ $t('modal_free_class.anytime') }}</option>
+          <option value="Morning (8AM - 12PM)">{{ $t('modal_free_class.morning') }}</option>
+          <option value="Afternoon (12PM - 4PM)">{{ $t('modal_free_class.afternoon') }}</option>
+          <option value="Evening (4PM - 8PM)">{{ $t('modal_free_class.evening') }}</option>
         </select>
       </div>
       <div class="form-group">
@@ -63,6 +63,7 @@
           Success
         </span>
         <button
+            v-if="!isSuccess"
             class="btn btn-success btn-lg"
             type="submit"
             :disabled="inProgress"
@@ -90,8 +91,8 @@ export default {
     return {
       name: me.get('firstName') || me.get('name'),
       phone: null,
-      available: null,
-      preferredTime: null,
+      available: 'yes',
+      preferredTime: 'Anytime',
       timeZone: `${timeZoneCode} (${timeZone})`,
       email: me.get('email'),
       isSuccess: false,
