@@ -23,7 +23,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'app/templates/play/level/tome/tome'
 {me} = require 'core/auth'
 Spell = require './Spell'
-SpellPaletteView = require './SpellPaletteView'
+SpellPaletteViewBot = require './SpellPaletteViewBot'
 CastButtonView = require './CastButtonView'
 utils = require 'core/utils'
 store = require 'core/store'
@@ -220,7 +220,13 @@ module.exports = class TomeView extends CocoView
     @spellView?.setThang thang
 
   updateSpellPalette: (thang, spell) ->
-    @options.playLevelView?.updateSpellPalette thang, spell
+    paletteManagedInParent = @options.playLevelView?.updateSpellPalette thang, spell
+    @$('#spell-palette-view-bot').toggleClass 'hidden', paletteManagedInParent
+    return if paletteManagedInParent
+    useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
+    @removeSubview @spellPaletteView if @spellPaletteView
+    @spellPaletteView = @insertSubView new SpellPaletteViewBot { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session, level: @options.level, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID, useHero }
+    @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view
 
   spellFor: (thang, spellName) ->
     return null unless thang?.isProgrammable

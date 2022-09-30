@@ -632,7 +632,7 @@ module.exports = Surface = class Surface extends CocoClass
       newWidth = $('#canvas-wrapper').width()
       newHeight = newWidth / aspectRatio
     else
-      newWidth = 0.55 * pageWidth
+      newWidth = 0.57 * pageWidth
       newHeight = newWidth / aspectRatio
     return unless newWidth > 100 and newHeight > 100
 
