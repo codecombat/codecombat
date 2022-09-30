@@ -92,12 +92,12 @@ module.exports = class SpellPaletteView extends CocoView
     if methodsBankList.length == 0
       console.log("Methods Bank list is empty!!")
     else
-      @organizePaletteHero methodsBankList, allDocs, excludedDocs
+      @organizePalette methodsBankList, allDocs, excludedDocs
     @publishAutoCompleteEvent(allDocs)
 
   # Reads the methods bank list and find its documentation from allDocs(i.e. docs coming from level components)
   # This also groups the list based on the section
-  organizePaletteHero: (methodsBankList, allDocs, excludedDocs) ->
+  organizePalette: (methodsBankList, allDocs, excludedDocs) ->
     @entries = []
     @tts = @supermodel.getModels ThangType
     defaultSection = 'methods'
@@ -111,13 +111,13 @@ module.exports = class SpellPaletteView extends CocoView
       propName = prop.name
       doc = _.find (allDocs['__' + propName] ? []), (doc) ->
         return true if !prop.componentName or (doc.componentName == prop.componentName)
-      if not doc and not excludedDocs['__' + propName] 
+      if not doc and not excludedDocs['__' + propName]
         console.log 'could not find doc for', propName, 'from', allDocs['__' + propName]
         doc = propName
       if doc
         @entries.push @addEntry(doc, section, subSection, false)
     @entryGroups = _.groupBy @entries, (entry) -> entry.doc.section
-    
+
 
   addEntry: (doc, section, subSection, shortenize=true, isSnippet=false, item=null, showImage=false) ->
     if doc.type is 'spawnable'
@@ -133,7 +133,7 @@ module.exports = class SpellPaletteView extends CocoView
       new SpellPaletteEntryView doc: doc, section: section, subSection: subSection, thang: @thang, shortenize: shortenize, isSnippet: isSnippet, language: @options.language, writable: writable, level: @options.level, item: item, showImage: showImage, useHero: @useHero
 
   # This uses the legacy logic to publish event for auto completion in the code editor using programmable properties.
-  # This can potentially be merged with the logic in organizePaletteHero, but currently doing that makes it behave differently, so keeping it as it is for now
+  # This can potentially be merged with the logic in organizePalette, but currently doing that makes it behave differently, so keeping it as it is for now
   publishAutoCompleteEvent: (allDocs) ->
     propsByItem = {}
     itemsByProp = {}
@@ -161,7 +161,7 @@ module.exports = class SpellPaletteView extends CocoView
     else
       propStorage =
         'this': ['apiProperties', 'apiMethods']
-    
+
     itemThangTypes = {}
     itemThangTypes[tt.get('name')] = tt for tt in @supermodel.getModels ThangType  # Also heroes
 
@@ -194,7 +194,7 @@ module.exports = class SpellPaletteView extends CocoView
         propsByItem['Hero'] ?= []
         propsByItem['Hero'].push owner: owner, prop: prop, item: itemThangTypes[@thang.spriteName]
     Backbone.Mediator.publish 'tome:update-snippets', propGroups: propsByItem, allDocs: allDocs, language: @options.language
-  
+
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
   toggleControls: (e, enabled) ->
