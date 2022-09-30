@@ -30,6 +30,7 @@ leaderboardApi = require 'core/api/leaderboard'
 clansApi = require 'core/api/clans'
 coursesHelper = require 'lib/coursesHelper'
 websocket = require 'lib/websocket'
+globalVar = require 'core/globalVar'
 
 class LadderCollection extends CocoCollection
   url: ''
@@ -100,6 +101,7 @@ module.exports = class CoursesView extends RootView
     @originalLevelMap = {}
     @urls = require('core/urls')
 
+    @wsBus = globalVar.application.wsBus #shortcut
     if utils.isCodeCombat
       @ladderImageMap = {}
       @ladders = @supermodel.loadCollection(new LadderCollection()).model
@@ -235,10 +237,6 @@ module.exports = class CoursesView extends RootView
     # HoC 2015 used special single player course instances
     @courseInstances.remove(@courseInstances.where({hourOfCode: true}))
 
-    unless globalVar.wsInfos
-      initWsInfos = true
-      websocket.setupWSInfos(me)
-
     for courseInstance in @courseInstances.models
       continue if not courseInstance.get('classroomID')
       courseID = courseInstance.get('courseID')
@@ -246,11 +244,15 @@ module.exports = class CoursesView extends RootView
         url: courseInstance.url() + '/course-level-sessions/' + me.id,
         model: LevelSession
       })
-      globalVar.wsInfos.friends[courseInstance.get('ownerID').toString()] = { role: 'teacher', alive: false } if initWsInfos
+
+      unless @wsBus.wsInfos.inited # in case we need to init friends in other places
+        teacherID = courseInstance.get('ownerID').toString()
+        @wsBus.addFriend(teacherID, {role: 'teacher'})
       courseInstance.sessions.comparator = 'changed'
       @supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete,level.original,playtime,changed' }})
 
-    websocket.pingFriends(me)
+    @wsBus.wsInfos.inited = true
+    @wsBus.pingFriends()
 
   onLoaded: ->
     super()
