@@ -165,15 +165,15 @@
       </ul>
     </li>
     <li>
-      <router-link to="/teachers/licenses" id="LicensesAnchor" :class="{ 'current-route': licensesSelected } " @click.native="trackEvent" data-action="My Licenses: Nav Clicked">
-        <div id="IconLicense" />
-        {{ $t('teacher_dashboard.my_licenses') }}
-      </router-link>
-    </li>
-    <li>
       <router-link to="/teachers/resources" id="ResourceAnchor" :class="{ 'current-route': resourceHubSelected }" @click.native="trackEvent" data-action="Resource Hub: Nav Clicked">
         <div id="IconResourceHub" />
         {{ $t('teacher_dashboard.resource_hub') }}
+      </router-link>
+    </li>
+    <li>
+      <router-link to="/teachers/licenses" id="LicensesAnchor" :class="{ 'current-route': licensesSelected } " @click.native="trackEvent" data-action="My Licenses: Nav Clicked">
+        <div id="IconLicense" />
+        {{ $t('teacher_dashboard.my_licenses') }}
       </router-link>
     </li>
     <li>
