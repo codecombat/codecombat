@@ -24,7 +24,10 @@ module.exports = class RequestQuoteView extends RootView
   logoutRedirectURL: null
 
   getRenderData: ->
-    _.merge super(arguments...), { product: utils.getProductName() }
+    _.merge super(arguments...), {
+      product: utils.getProductName()
+      isOzaria: utils.isOzaria
+    }
 
   events:
     'change #request-form': 'onChangeRequestForm'
