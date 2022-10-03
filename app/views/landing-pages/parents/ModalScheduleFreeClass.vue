@@ -41,15 +41,22 @@
       <div class="form-group">
         <label for="role">{{ $t('modal_free_class.preferred_time') }}</label>
         <select class="form-control" v-model="preferredTime">
-          <option>{{ $t('modal_free_class.anytime') }}</option>
-          <option>{{ $t('modal_free_class.morning') }}</option>
-          <option>{{ $t('modal_free_class.afternoon') }}</option>
-          <option>{{ $t('modal_free_class.evening') }}</option>
+          <option value="Anytime">{{ $t('modal_free_class.anytime') }}</option>
+          <option value="Morning (8AM - 12PM)">{{ $t('modal_free_class.morning') }}</option>
+          <option value="Afternoon (12PM - 4PM)">{{ $t('modal_free_class.afternoon') }}</option>
+          <option value="Evening (4PM - 8PM)">{{ $t('modal_free_class.evening') }}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="userTimeZone">{{ $t('modal_free_class.time_zone') }}</label>
-        <input type="text" id="userTimeZone" placeholder="Enter time zone" v-model="timeZone" class="form-control"/>
+        <select  type="text" id="userTimeZone" v-model="timeZone" class="form-control">
+          <option
+              v-for="zone in timeZones"
+              :key="zone"
+          >
+            {{ zone }}
+          </option>
+        </select>
       </div>
       <div class="form-group">
         <label for="email">{{ $t('modal_free_class.email') }}</label>
@@ -63,6 +70,7 @@
           Success
         </span>
         <button
+            v-if="!isSuccess"
             class="btn btn-success btn-lg"
             type="submit"
             :disabled="inProgress"
@@ -86,25 +94,26 @@ export default {
   },
   data () {
     const timeZone = moment.tz.guess()
-    const timeZoneCode = moment.tz(timeZone).format('zz')
     return {
       name: me.get('firstName') || me.get('name'),
       phone: null,
-      available: null,
-      preferredTime: null,
-      timeZone: `${timeZoneCode} (${timeZone})`,
+      available: 'yes',
+      preferredTime: 'Anytime',
+      timeZone: `${timeZone}`,
       email: me.get('email'),
       isSuccess: false,
-      inProgress: false
+      inProgress: false,
+      timeZones: moment.tz.names()
     }
   },
   methods: {
     async onFormSubmit () {
       this.inProgress = true
       this.isSuccess = false
-      const details = {
-        ...this.$data
-      }
+      const {
+        isSuccess, inProgress, timeZones,
+        ...details
+      } = this.$data
       try {
         await sendFormEntry(details)
         this.isSuccess = true
