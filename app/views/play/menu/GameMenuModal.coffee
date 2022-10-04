@@ -1,11 +1,16 @@
+utils = require 'core/utils'
+
+submenuViews = []
 require('app/styles/play/menu/game-menu-modal.sass')
+
+if utils.isOzaria
+  submenuViews.push require 'ozaria/site/views/play/menu/OptionsView'
+else
+  submenuViews.push require 'views/play/menu/OptionsView'
+
 ModalView = require 'views/core/ModalView'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 template = require 'app/templates/play/menu/game-menu-modal'
-submenuViews = [
-  require 'views/play/menu/SaveLoadView'
-  require 'views/play/menu/OptionsView'
-]
 
 module.exports = class GameMenuModal extends ModalView
   className: 'modal fade play-modal'
@@ -14,10 +19,11 @@ module.exports = class GameMenuModal extends ModalView
   instant: true
 
   events:
+    'click .done-button': 'hide'
+    'click #close-modal': 'hide'
     'change input.select': 'onSelectionChanged'
     'shown.bs.tab #game-menu-nav a': 'onTabShown'
     'click #change-hero-tab': -> @trigger 'change-hero'
-    'click #close-modal': 'hide'
     'click .auth-tab': 'onClickSignupButton'
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
 
@@ -30,16 +36,13 @@ module.exports = class GameMenuModal extends ModalView
 
   getRenderData: (context={}) ->
     context = super(context)
-    docs = @options.level.get('documentation') ? {}
-    submenus = ['options', 'save-load']
-    submenus = _.without submenus, 'options' if window.serverConfig.picoCTF
-    submenus = _.without submenus, 'save-load' unless me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
-    @includedSubmenus = submenus
+    submenus = ['options']
     context.showTab = @options.showTab ? submenus[0]
-    context.submenus = submenus
     context.iconMap =
       'options': 'cog'
       'save-load': 'floppy-disk'
+    context.submenus = submenus
+    context.isCodeCombat = utils.isCodeCombat
     context
 
   showsChooseHero: ->
