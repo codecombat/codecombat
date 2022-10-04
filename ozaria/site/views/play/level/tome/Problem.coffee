@@ -15,7 +15,7 @@ module.exports = class Problem
       @annotation = @buildAnnotationFromAetherProblem(@aetherProblem)
       { @lineMarkerRange, @textMarkerRange } = @buildMarkerRangesFromAetherProblem(@aetherProblem) if isCast
 
-      { @level, @range, @message, @hint, @userInfo } = @aetherProblem
+      { @level, @range, @message, @hint, @userInfo, @errorCode, @i18nParams } = @aetherProblem
       { @row, @column: col } = @aetherProblem.range?[0] or {}
       @createdBy = 'aether'
     else
@@ -37,7 +37,12 @@ module.exports = class Problem
       @createdBy = 'web-dev-iframe'
       # TODO: Include runtime/transpile error types depending on something?
 
-    @message = @translate(@message)
+    camelToSnake = (str) ->
+      str.replace(/[A-Z]/g, (letter) -> "_#{letter.toLowerCase()}");
+    if @errorCode
+      @message = $.i18n.t("esper.error#{camelToSnake(@errorCode)}", @i18nParams)
+    else
+      @message = @translate(@message)
     @hint = @translate(@hint)
     # TODO: get ACE screen line, too, for positioning, since any multiline "lines" will mess up positioning
     Backbone.Mediator.publish("problem:problem-created", line: @annotation.row, text: @annotation.text) if application.isIPadApp

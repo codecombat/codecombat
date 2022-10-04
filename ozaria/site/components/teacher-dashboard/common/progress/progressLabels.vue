@@ -89,8 +89,8 @@
 
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
+  align-items: flex-start;
 
   & > div {
     width: 50px;
@@ -99,6 +99,13 @@
 
   & > div.help-container {
     width: 26px;
+
+    ::v-deep .v-popover {
+      display: flex;
+      .trigger {
+        line-height: 19px;
+      }
+    }
   }
 }
 
@@ -115,6 +122,7 @@
   font-size: 10px;
   line-height: 11px;
   text-align: center;
+  white-space: nowrap;
 }
 
 .dot-border {

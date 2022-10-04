@@ -13,11 +13,11 @@
         //- TODO: Disabled until login works on ozaria.
         //- button#facebook-login-btn.btn.btn-primary.btn-lg(disabled=true)
         //-   span.sign-in-blurb#facebook-blurb(data-i18n="login.sign_in_with_facebook")
-        a#gplus-login-btn(disabled=true)
+        a#gplus-login-btn(disabled=true, href="#")
           img(src="/images/ozaria/common/log-in-google-sso.svg" draggable="false")
           .gplus-login-wrapper
             .gplus-login-button
-        a#clever-login-btn
+        a#clever-login-btn(href="#")
           img(src="/images/pages/modal/auth/clever_sso_button@2x.png" draggable="false")
       .row.or-row
         .line
@@ -56,6 +56,7 @@
               data-toggle="coco-modal"
               data-target="core/RecoverModal"
               data-i18n="login.forgot_password"
+              href="#"
             )
         input#login-btn.btn.btn-block.btn-success(
           value=translate("login.sign_in")
@@ -66,6 +67,6 @@
         h3(data-i18n="login.logging_in")
 
     .extra-pane
-      a#switch-to-signup-btn(data-i18n="login.auth_sign_up")
+      a#switch-to-signup-btn(data-i18n="login.auth_sign_up", href="#")
       p(data-i18n="login.already_have_account1")
       p(data-i18n="login.already_have_account2")

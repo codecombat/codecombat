@@ -1,0 +1,25 @@
+mixin license-type(licenseType, licensePresets, utils)
+  .form-group
+    label
+      span Licenses Type
+      =":"
+      #license-type-select
+        .radio
+          label.license-type
+            input(type="radio", name="licenseType", value="all", checked=licenseType==='all')
+            span(data-i18n="admin.license_type_full")
+        each v, preset in licensePresets
+          .radio
+            label.license-type
+              input(type="radio", name="licenseType", value=preset, checked=licenseType===preset)
+              span=preset
+        .radio
+          label.license-type
+            input(type="radio", name="licenseType", value="customize", checked=licenseType==='customize')
+            span(data-i18n="admin.license_type_customize")
+        #select-courses
+          if licenseType === 'customize'
+            each courseID, key in utils.courseIDs
+              label.course-name
+                input(type="checkbox", name="includedCourseIDs", value=courseID, checked=key==='INTRODUCTION_TO_COMPUTER_SCIENCE')
+                span=utils.courseAcronyms[courseID]

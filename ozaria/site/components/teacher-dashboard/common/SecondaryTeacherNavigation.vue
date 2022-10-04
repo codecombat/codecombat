@@ -91,7 +91,7 @@
         aria-labelledby="ClassesDropdown"
       >
         <li :class="allClassesSelected ? 'selected': null">
-          <router-link tag="a" to="/teachers" class="dropdown-item underline-item" @click.native="trackEvent" data-action="All Classes: Nav Clicked">
+          <router-link tag="a" to="/teachers" class="dropdown-item underline-item" @click.native="trackEvent" data-action="All Classes: Nav Clicked" data-toggle="dropdown">
             {{ $t('teacher_dashboard.all_classes') }}
           </router-link>
         </li>
@@ -106,6 +106,7 @@
             class="dropdown-item"
             @click.native="trackEvent"
             data-action="Track Progress: Nav Clicked"
+            data-toggle="dropdown"
             :data-label="$route.path"
           >
             {{ classroom.name }}
@@ -145,6 +146,7 @@
             class="dropdown-item"
             @click.native="trackEvent"
             data-action="Student Projects: Nav Clicked"
+            data-toggle="dropdown"
           >
             {{ classroom.name }}
           </router-link>
@@ -177,7 +179,7 @@
     <li>
       <router-link to="/teachers/professional-development" id="PDAnchor" :class="{ 'current-route': pdSelected }" @click.native="trackEvent" data-action="PD: Nav Clicked">
         <div id="IconPD" />
-        <div id="IconNew">New!</div>
+        <!-- <div id="IconNew">New!</div> -->
         {{ $t('teacher_dashboard.pd_short') }}
       </router-link>
     </li>

@@ -113,6 +113,7 @@ module.exports = class CampaignView extends RootView
     'click #videos-button': 'onClickVideosButton'
     'click #esports-arena': 'onClickEsportsButton'
     'click a.start-esports': 'onClickEsportsLink'
+    'click .m7-off': 'onClickM7OffButton'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -155,6 +156,7 @@ module.exports = class CampaignView extends RootView
         when 'game-dev-hoc' then 'code_combat_gamedev'
         when 'game-dev-hoc-2' then 'code_combat_build_arcade'
         when 'ai-league-hoc' then 'cc_ai'
+        when 'goblins-hoc' then 'cc_goblins'
         else 'code_combat'
       $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
     else if me.isTeacher() and not utils.getQueryVariable('course-instance') and
@@ -300,9 +302,12 @@ module.exports = class CampaignView extends RootView
         sessionStorage.setItem(@terrain, "seen-modal")
         clearTimeout(@playMusicTimeout)
         setTimeout(=>
+            activity = 'ai-league'
+            activity = 'teacher-gd' if @terrain is 'hoc-2018'
+            activity = 'goblins' if @terrain is 'goblins-hoc'
             @openModalView new HoCModal({
-              activity: if @terrain is "hoc-2018" then "teacher-gd" else "ai-league"
-              showVideo: @terrain is "hoc-2018",
+              activity: activity
+              showVideo: @terrain is "hoc-2018"
               onDestroy: =>
                 return if @destroyed
                 delayMusicStart()
@@ -1054,6 +1059,8 @@ module.exports = class CampaignView extends RootView
     if new Date(me.get('dateCreated')) < new Date('2021-09-21')
       defaultAccess = 'all'
     access = me.getExperimentValue 'home-content', defaultAccess
+    if me.showChinaResourceInfo() or me.get('country') is 'japan'
+      access = 'short'
     freeAccessLevels = (fal.slug for fal in utils.freeAccessLevels when _.any [
       fal.access is 'short'
       fal.access is 'medium' and access in ['medium', 'long', 'extended']
@@ -1338,6 +1345,16 @@ module.exports = class CampaignView extends RootView
     @openModalView new SubscribeModal()
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'campaignview premium button'
 
+  onClickM7OffButton: (e) ->
+    noty({ text: $.i18n.t('play.confirm_m7_off'), layout: 'center', type: 'warning', buttons: [
+      { text: 'Yes', onClick: ($noty) =>
+        if me.getM7ExperimentValue() == 'beta'
+          me.updateExperimentValue('m7', 'control')
+          $noty.close()
+          @render()
+      }, { text: 'No', onClick: ($noty) -> $noty.close() }]
+    })
+
   getLoadTrackingTag: () ->
     @campaign?.get?('slug') or 'overworld'
 
@@ -1543,7 +1560,13 @@ module.exports = class CampaignView extends RootView
       return @campaign?.get('slug') is 'game-dev-hoc'
 
     if what is 'santa-clara-logo'
-      return userUtils.isInLibraryNetwork()
+      return userUtils.libraryName() is 'santa-clara'
+
+    if what is 'garfield-logo'
+      return userUtils.libraryName() is 'garfield'
+
+    if what is 'arapahoe-logo'
+      return userUtils.libraryName() is 'arapahoe'
 
     if what is 'league-arena'
       # Note: Currently the tooltips don't work in the campaignView overworld.

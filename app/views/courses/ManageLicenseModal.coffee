@@ -45,7 +45,7 @@ module.exports = class ManageLicenseModal extends ModalView
     @users.comparator = (user) -> user.broadName().toLowerCase()
     @prepaids = new Prepaids()
     @prepaids.comparator = 'endDate' # use prepaids in order of expiration
-    @supermodel.trackRequest @prepaids.fetchMineAndShared()
+    @supermodel.trackRequest @prepaids.fetchForClassroom(@classroom) # do we need this or just passing prepaids from parent view?
     @classrooms = new Classrooms()
     @selectedPrepaidType = null
     @prepaidByGroup = {}

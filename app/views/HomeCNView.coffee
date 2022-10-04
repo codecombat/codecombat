@@ -9,6 +9,8 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
+fetchJson = require 'core/api/fetch-json'
+DOMPurify = require 'dompurify'
 
 module.exports = class HomeCNView extends RootView
   id: 'home-cn-view'
@@ -36,20 +38,28 @@ module.exports = class HomeCNView extends RootView
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetchReleased()
 
+    # @getBanner()
     if me.isTeacher()
       @trialRequests = new TrialRequests()
       @trialRequests.fetchOwn()
       @supermodel.loadCollection(@trialRequests)
 
   getMeta: ->
-    title: $.i18n.t 'new_home.title'
+    title: $.i18n.t 'new_home.title_coco'
     meta: [
-        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description' }
+        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description_coco' }
     ],
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
 
     ]
+
+  getBanner: ->
+    fetchJson('/db/banner').then((data) =>
+      @banner = data
+      content = utils.i18n data, 'content'
+      @banner.display = DOMPurify.sanitize marked(content ? '')
+    )
 
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()

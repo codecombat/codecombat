@@ -1,7 +1,7 @@
 <template>
-  <form class="purchase-form">
+  <form class="purchase-form" @submit.prevent="onPurchaseNow">
     <div class="form-group">
-      <label for="licenseType">Select License</label>
+      <label for="licenseType">{{ isTecmilenioPartner ? 'Seleccionar licencia' : 'Select License' }}</label>
       <select
           class="form-control"
           id="licenseType"
@@ -12,43 +12,76 @@
             :value="price.id"
             :key="price.id"
         >
-          {{$t(`payments.${price.metadata.i18nName}`)}} - {{getCurrency(price)}}{{getUnitPrice(price)}}
+          {{ isTecmilenioPartner ? 'Licencia anual de estudiante - Universidad Tecmilenio' : $t(`payments.${price.metadata.i18nName}`)}} - {{getCurrency(price)}}{{getUnitPrice(price)}}
         </option>
       </select>
     </div>
     <div class="form-group">
-      <label for="licenseNum">Number of Licenses</label>
-      <input type="text" class="form-control" id="licenseNum" @keydown="updateLicenseNum" @keyup="updateLicenseNum">
-      <p v-if="licenseNum && !errMsg" class="total-price">Total price: {{selectedCurrency}}{{totalPrice}}</p>
-      <p class="error">{{errMsg}}</p>
+      <label for="licenseNum">{{ isTecmilenioPartner ? 'Número de Licencias' : 'Number of Licenses' }}</label>
+      <input type="text" class="form-control" id="licenseNum" v-model="licenseNum"
+        :disabled="isTecmilenioPartner"
+      >
+      <p v-if="licenseNum && !errMsg" class="total-price">
+        {{ isTecmilenioPartner ? 'Total a pagar' : 'Total price' }}: {{selectedCurrency}}{{totalPrice}}
+      </p>
     </div>
+    <div class="tecmilenio" v-if="isTecmilenioPartner">
+      <div class="form-group">
+        <label for="parentEmail">Correo electrónico del padre, madre o tutor</label>
+        <input type="email" class="form-control" id="parentEmail" v-model="parentEmail" required>
+      </div>
+      <div class="form-group">
+        <label for="studentEmail">Correo institucional del alumno (Ejemplo: al02962150@tecmilenio.mx)</label>
+        <input type="email" class="form-control" id="studentEmail"
+          v-model="studentEmail" placeholder="al02962150@tecmilenio.mx"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="studentName">Matrícula del alumno</label>
+        <input type="text" class="form-control" id="studentName"
+          v-model="studentName" required>
+      </div>
+    </div>
+    <p class="error">{{errMsg}}</p>
     <div class="form-group">
       <button
           type="submit"
           class="btn btn-primary btn-lg purchase-btn"
-          :class="licenseNum && !errMsg ? '' : 'disabled'"
-          @click="onPurchaseNow"
+          :class="licenseNum ? '' : 'disabled'"
       >
-        Purchase Now
+        {{ isTecmilenioPartner ? 'Comprar ahora' : 'Purchase Now' }}
       </button>
+      <icon-loading  v-if="showLoading" />
     </div>
   </form>
 </template>
 
 <script>
 import { handleCheckoutSession } from '../paymentPriceHelper'
-
+import IconLoading from 'app/core/components/IconLoading'
 export default {
   name: "PaymentStudentLicensePurchaseView",
+  components: {
+    IconLoading
+  },
   props: {
     priceData: Array,
     paymentGroupId: String,
+    isTecmilenioPartner: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
-      licenseNum: 0,
+      licenseNum: this.isTecmilenioPartner ? 1 : null,
       selectedPrice: this.priceData[0].id,
       errMsg: '',
+      parentEmail: null,
+      studentEmail: null,
+      studentName: null,
+      showLoading: false
     }
   },
   methods: {
@@ -84,8 +117,10 @@ export default {
     getSelectedPrice() {
       return this.priceData.find((p) => p.id === this.selectedPrice)
     },
-    async onPurchaseNow(e) {
-      e.preventDefault();
+    async onPurchaseNow() {
+      this.errMsg = ''
+      this.showLoading = true
+      if (!this.isFormDataValid()) return
       const sessionOptions = {
         stripePriceId: this.selectedPrice,
         paymentGroupId: this.paymentGroupId,
@@ -94,8 +129,27 @@ export default {
         userId: me.get('_id'),
         totalAmount: this.totalAmountInDecimal
       }
+
+      if (this.isTecmilenioPartner) {
+        sessionOptions.email = this.parentEmail
+        sessionOptions.details = {
+          studentName: this.studentName,
+          studentEmail: this.studentEmail
+        }
+      }
       const { errMsg } = await handleCheckoutSession(sessionOptions)
       this.errMsg = errMsg
+      this.showLoading = false
+    },
+    isFormDataValid () {
+      if (this.isTecmilenioPartner) {
+        if (!this.studentEmail || !this.studentEmail.includes('@tecmilenio.mx')) {
+          this.errMsg = 'inválido Correo institucional del alumno'
+          this.showLoading = false
+          return false
+        }
+      }
+      return true
     }
   },
   computed: {
@@ -116,8 +170,8 @@ export default {
 
 <style lang="scss" scoped>
 .purchase-form {
-  width: 60%;
-  padding-left: 40%;
+  width: 70%;
+  padding-left: 30%;
   padding-top: 15px;
 }
 .purchase-btn {

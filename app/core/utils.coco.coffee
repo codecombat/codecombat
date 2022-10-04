@@ -3,6 +3,30 @@ slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and 
 isCodeCombat = true
 isOzaria = false
 
+getAnonymizedName = (shouldAnonymize, session) ->
+  if shouldAnonymize and me.get('_id').toString() != session.get('creator')
+    anonymizingUser(session.get('creator'))
+  else
+    session.get('creatorName') or 'Anonymous'
+
+getAnonymizationStatus = (league, supermodel) ->
+  unless league and features.enableAnonymization
+    return new Promise (resolve, reject) ->
+      resolve(false)
+
+  fetchAnonymous = $.get('/esports/anonymous/' + league)
+  supermodel.trackRequest(fetchAnonymous)
+  return new Promise((resolve, reject) ->
+    fetchAnonymous.then((res) =>
+      resolve(res.anonymous)
+    ))
+
+anonymizingUser = (user) ->
+  id = user?.id ? user
+  hashString = (str) ->
+    (str.charCodeAt i for i in [0...str.length]).reduce(((hash, char) -> ((hash << 5) + hash) + char), 5381)  # hash * 33 + c
+  $.i18n.t('general.player') + ' ' + Math.abs(hashString(id)) % 10000
+
 clone = (obj) ->
   return obj if obj is null or typeof (obj) isnt 'object'
   temp = obj.constructor()
@@ -1031,9 +1055,9 @@ arenas = [
   {season: 3, slug: 'colossus'         , type: 'championship', start: new Date("2021-11-19T00:00:00.000-08:00"), end: new Date("2021-12-15T00:00:00.000-08:00"), results: new Date("2021-12-21T07:00:00.000-08:00"), levelOriginal: '615ffaf2b20b4900280e0070', tournament: '61983f74fd75db5e28ac127a', image: "/file/db/level/615ffaf2b20b4900280e0070/Colossus-Clash-02.jpg"}
   {season: 4, slug: 'iron-and-ice'     , type: 'regular',      start: new Date("2022-01-01T00:00:00.000-08:00"), end: new Date("2022-05-01T00:00:00.000-07:00"), results: new Date("2022-05-10T07:00:00.000-07:00"), levelOriginal: '618a5a13994545008d2d4990', tournament: '623a648580501d0025d8f4ef', image: "/file/db/level/618a5a13994545008d2d4990/Iron-and-Ice-Arena-Banner-02.jpg"}
   {season: 4, slug: 'tundra-tower'     , type: 'championship', start: new Date("2022-03-11T00:00:00.000-07:00"), end: new Date("2022-05-01T00:00:00.000-07:00"), results: new Date("2022-05-10T07:00:00.000-07:00"), levelOriginal: '620cb80a9bc0f1005e9189d7', tournament: '623a652b53903c1c6c1c6045', image: '/file/db/level/620cb80a9bc0f1005e9189d7/Tundra-Tower-Cup-Arena-Banner-1000px.jpeg'}
-  {season: 5, slug: 'desert-duel'      , type: 'regular',      start: new Date("2022-05-01T00:00:00.000-07:00"), end: new Date("2022-09-01T00:00:00.000-07:00"), results: new Date("2022-09-08T07:00:00.000-07:00"), levelOriginal: '62540bd270cb4400504ad44c', tournament: '626c6017deb6dd43a1937b81', image: 'file/db/level/62540bd270cb4400504ad44c/Basketball-Arena-Banner-01.jpg'}
-  {season: 5, slug: 'sandstorm'        , type: 'championship', start: new Date("2022-08-01T00:00:00.000-07:00"), end: new Date("2022-09-01T00:00:00.000-07:00"), results: new Date("2022-09-08T07:00:00.000-07:00"), levelOriginal: ''}
-  {season: 6, slug: 'magma-mountain'   , type: 'regular',      start: new Date("2022-09-01T00:00:00.000-07:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-10T07:00:00.000-08:00"), levelOriginal: ''}
+  {season: 5, slug: 'desert-duel'      , type: 'regular',      start: new Date("2022-05-01T00:00:00.000-07:00"), end: new Date("2022-09-01T00:00:00.000-07:00"), results: new Date("2022-09-13T07:00:00.000-07:00"), levelOriginal: '62540bd270cb4400504ad44c', tournament: '626c6017deb6dd43a1937b81', image: '/file/db/level/62540bd270cb4400504ad44c/Basketball-Arena-Banner-01.jpg'}
+  {season: 5, slug: 'sandstorm'        , type: 'championship', start: new Date("2022-08-01T00:00:00.000-07:00"), end: new Date("2022-09-01T00:00:00.000-07:00"), results: new Date("2022-09-13T07:00:00.000-07:00"), levelOriginal: '62d50c5cd722b00025eddac7', tournament: '62e6ff22a6960064d67d87c3', image: '/file/db/level/62d50c5cd722b00025eddac7/Basketball-Arena-Sandstorm-Banner-02.jpg'}
+  {season: 6, slug: 'magma-mountain'   , type: 'regular',      start: new Date("2022-09-01T00:00:00.000-07:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-10T07:00:00.000-08:00"), levelOriginal: '62f9f6506428860025b15a8b'}
   {season: 6, slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-10T07:00:00.000-08:00"), levelOriginal: ''}
 ]
 
@@ -1042,8 +1066,8 @@ AILeagueSeasons = [
   {number: 1, championshipType: 'cup',   image: '/images/pages/league/logo_cup.png',         video: '1422969c8f5fbee2a62ee60021becfb4', videoThumbnailTime: '1584s'}
   {number: 2, championshipType: 'blitz', image: '/images/pages/league/logo_blitz.png',       video: '8a347a9c0da34f487ae4fdaa8234000a', videoThumbnailTime: '837s'}
   {number: 3, championshipType: 'clash', image: '/images/pages/league/logo_clash.png',       video: '26bee42b433e19f789271ae400529025', videoThumbnailTime: '1732s'}
-  {number: 4, championshipType: 'cup',   image: '/images/pages/league/tundra-tower-cup.png', video: 'bfbf1a5187888d110ee47f97b7491c2a', videoThumbnailTime: '1568'}
-  {number: 5, championshipType: 'blitz', image: '/images/pages/league/sand-storm-blitz.png', video: '',                                 videoThumbnailTime: ''}
+  {number: 4, championshipType: 'cup',   image: '/images/pages/league/tundra-tower-cup.png', video: 'bfbf1a5187888d110ee47f97b7491c2a', videoThumbnailTime: '1568s'}
+  {number: 5, championshipType: 'blitz', image: '/images/pages/league/sand-storm-blitz.png', video: '4d73a54ff2cdc9b0084a538beb476437', videoThumbnailTime: '1638s'}
   {number: 6, championshipType: 'clash', image: '/images/pages/league/lava-lake-clash.png',  video: '',                                 videoThumbnailTime: ''}
 ]
 
@@ -1057,7 +1081,6 @@ teamSpells = humans: ['hero-placeholder/plan'], ogres: ['hero-placeholder-1/plan
 
 clanHeroes = [
   {clanId: '601351bb4b79b4013e198fbe', clanSlug: 'team-derbezt', thangTypeOriginal: '6037ed81ad0ac000f5e9f0b5', thangTypeSlug: 'armando-hoyos'}
-  {clanId: '6137aab4e0bae40025bed266', clanSlug: 'team-ned', thangTypeOriginal: '6136fe7e9f1147002c1316b4', thangTypeSlug: 'ned-fulmer'}
 ]
 
 freeAccessLevels = [
@@ -1107,6 +1130,12 @@ orgKindString = (kind, org=null) ->
   }[kind]
   return $.i18n.t(key)
 
+getProductName = ()->
+  product = if isOzaria then OZARIA else CODECOMBAT
+  $.i18n.t("new_home." + product)
+
+supportEmail = 'support@codecombat.com'
+
 module.exports = {
   activeAndPastArenas
   activeArenas
@@ -1116,6 +1145,7 @@ module.exports = {
   ageBracketsChina
   ageOfConsent
   ageToBracket
+  anonymizingUser
   arenas
   bracketToAge
   campaignIDs
@@ -1149,10 +1179,13 @@ module.exports = {
   getCoursePraise
   getDocumentSearchString
   getPrepaidCodeAmount
+  getProductName
   getQueryVariable
   getQueryVariables
   getSponsoredSubsAmount
   getUTCDay
+  getAnonymizationStatus
+  getAnonymizedName
   grayscale
   hexToHSL
   hourOfCodeOptions
@@ -1197,4 +1230,5 @@ module.exports = {
   isOldBrowser
   isCodeCombat
   isOzaria
+  supportEmail
 }

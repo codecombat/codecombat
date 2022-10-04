@@ -65,6 +65,8 @@ module.exports.createUserCodeProblem = (options) ->
   p.hint = config.hint or options.hint or ''  # Additional details about error message (sentence)
   p.range = options.range  # Like [{ofs: 305, row: 15, col: 15}, {ofs: 312, row: 15, col: 22}], or null
   p.userInfo = options.userInfo ? {}  # Record extra information with the error here
+  p.errorCode = options.errorCode
+  p.i18nParams = options.i18nParams
   p
 
 
@@ -266,6 +268,8 @@ esperLocToAetherLoc = (loc) ->
 extractRuntimeErrorDetails = (options) ->
   if error = options.error
     options.kind ?= error.name  # I think this will pick up [Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError, DOMException]
+    options.errorCode = error.code if error.code
+    options.i18nParams = error.i18nParams if error.i18nParams
     options.message = error.message or error.toString()
     options.hint = error.hint or getRuntimeHint options
     options.level ?= error.level

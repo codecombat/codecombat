@@ -1,0 +1,6 @@
+<svg width="19px" height="24px" viewBox="0 0 19 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svg__download episode__play-button-svg">
+    <g stroke="none" stroke-width="1" fill="#000000" fill-rule="evenodd">
+        <rect x="0" y="21" width="19" height="3" rx="1"></rect>
+        <path d="M6.4,10.4 L6.4,2 C6.4,0.8954305 7.2954305,2.02906125e-16 8.4,0 L10.8,0 C11.9045695,-2.02906125e-16 12.8,0.8954305 12.8,2 L12.8,10.4 L17.6,10.4 C18.3562221,10.4 18.6902663,11.3522868 18.099756,11.824695 L10.099756,18.224695 C9.80758112,18.458435 9.39241888,18.458435 9.10024396,18.224695 L1.10024396,11.824695 C0.509733706,11.3522868 0.843777893,10.4 1.6,10.4 L6.4,10.4 Z" fill-rule="nonzero"></path>
+    </g>
+</svg>

@@ -1,7 +1,7 @@
 <template lang="pug">
   .container.m-t-3
     p
-      a(href="/students", data-i18n="courses.back_courses")
+      a(href="/students") {{ $t('courses.back_courses_' + product) }}
     div.m-t-2
       h2(v-if="courseName").text-center.course-name
         | {{ courseName }}
@@ -72,7 +72,8 @@ export default Vue.extend({
         basic_syntax:"",
         while_loops:"",
         variables:""
-    }
+    },
+    product: utils.isOzaria ? 'ozar' : 'coco'
   }),
   created() {
     let levelMap = {

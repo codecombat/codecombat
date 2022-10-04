@@ -3,6 +3,7 @@ import usersApi from 'core/api/users'
 
 const Prepaid = require('models/Prepaid')
 const User = require('models/User')
+const Bluebird = require('bluebird')
 
 export default {
   namespaced: true,
@@ -113,11 +114,15 @@ export default {
   },
 
   actions: {
-    fetchPrepaidsForTeacher: ({ commit }, { teacherId, sharedClassroomId }) => {
+    fetchPrepaidsForTeacher: ({ commit }, { teacherId, sharedClassroomId, includeShared = true } = {}) => {
       commit('toggleLoadingForTeacher', teacherId)
 
+      const data = { sharedClassroomId }
+      if (includeShared) {
+        data.includeShared = true // so that we can pass correct false to server
+      }
       // Fetch teacher's prepaids and shared prepaids.
-      return prepaidsApi.getByCreator(teacherId, { data: { includeShared: true, sharedClassroomId } })
+      return prepaidsApi.getByCreator(teacherId, { data })
         .then(res => {
           if (res) {
             commit('addPrepaidsForTeacher', {
@@ -130,6 +135,10 @@ export default {
         })
         .catch((e) => noty({ text: 'Fetch prepaids failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
         .finally(() => commit('toggleLoadingForTeacher', teacherId))
+    },
+
+    joinPrepaidByCodes: ({ commit }, options) => {
+      return prepaidsApi.joinByCodes(options)
     },
 
     fetchJoinersForPrepaid: ({ commit }, prepaidId) => {
@@ -265,8 +274,10 @@ export default {
       await Promise.all(requests)
     },
 
-    async revokeLicenses (_, { members, sharedClassroomId }) {
-      const students = members.map(data => new User(data)).filter(u => u.isEnrolled())
+    async revokeLicenses (_, { members, sharedClassroomId, confirmed = false, updateUserProducts = false }) {
+      const students = members
+        .map(data => data instanceof User ? data : new User(data))
+        .filter(u => u.isEnrolled() && u.prepaidType() === 'course')
 
       const existsLicenseToRevoke = students.length > 0
       if (!existsLicenseToRevoke) {
@@ -274,57 +285,63 @@ export default {
         return
       }
 
-      let confirmed = false
-      await new Promise((resolve) => noty({
-        text: `Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you'd like to proceed.`,
-        buttons: [
-          {
-            addClass: 'btn btn-primary',
-            text: 'Ok',
-            onClick: function ($noty) {
-              confirmed = true
-              $noty.close()
-              resolve()
-            }
-          },
-          {
-            addClass: 'btn btn-danger',
-            text: 'Cancel',
-            onClick: function ($noty) {
-              $noty.close()
-              resolve()
-            }
-          }
-        ]
-      }))
-
       if (!confirmed) {
-        return
+        await new Promise((resolve) => noty({
+          text: `Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you'd like to proceed.`,
+          buttons: [
+            {
+              addClass: 'btn btn-primary',
+              text: 'Ok',
+              onClick: function ($noty) {
+                confirmed = true
+                $noty.close()
+                resolve()
+              }
+            },
+            {
+              addClass: 'btn btn-danger',
+              text: 'Cancel',
+              onClick: function ($noty) {
+                $noty.close()
+                resolve()
+              }
+            }
+          ]
+        }))
+
+        if (!confirmed) {
+          return
+        }
       }
 
-      const promises = []
       for (const student of students) {
         const courseProducts = student.activeProducts('course')
-        courseProducts.map(product => {
-          let prepaid = new Prepaid({
+        await Bluebird.map(courseProducts, async product => {
+          const prepaid = new Prepaid({
             _id: product.prepaid,
             type: 'course'
           })
-          promises.push(new Promise((resolve, reject) =>
+          await new Promise((resolve, reject) =>
             prepaid.revoke(student, {
               success: resolve,
-              error: () => {
-                console.error(`Didn't revoke this license`)
-                resolve()
-              },
+              error: reject,
               data: { sharedClassroomId }
             })
-          ))
+          )
+
+          if (updateUserProducts) {
+            student.set(
+              'products',
+              (student.get('products') || []).map((p) => {
+                if (p.prepaid === product.prepaid) {
+                  p.endDate = new Date().toISOString()
+                }
+                return p
+              })
+            )
+          }
         })
       }
-
-      // TODO: Handle error
-      await Promise.all(promises)
     }
   }
 }

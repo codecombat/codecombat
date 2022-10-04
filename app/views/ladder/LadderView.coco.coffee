@@ -67,7 +67,8 @@ module.exports = class LadderView extends RootView
 
     onLoaded = =>
       return if @destroyed
-      @levelDescription = marked(utils.i18n(@level.attributes, 'description')) if @level.get('description')
+      @levelDescription = marked(utils.i18n(@level.attributes, 'description')).replace(/<img.*?>/, '') if @level.get('description')
+      @levelBanner = @level.get('banner')
       @teams = teamDataFromLevel @level
 
     if @level.loaded then onLoaded() else @level.once('sync', onLoaded)
@@ -87,6 +88,11 @@ module.exports = class LadderView extends RootView
     # TODO: query for matching tournaments for the level and show tournaments list to click into results
     @loadLeague()
     @urls = require('core/urls')
+
+    if @leagueType is 'clan'
+      utils.getAnonymizationStatus(@leagueID, @supermodel).then((anonymous) =>
+        @anonymousPlayerName = anonymous
+      )
 
     if @tournamentId
       @checkTournamentCloseInterval = setInterval @checkTournamentClose.bind(@), 3000
@@ -230,14 +236,14 @@ module.exports = class LadderView extends RootView
     super()
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
-    unless @tournamentState is 'ended'
+    unless @tournamentState in ['ended', 'ranking']
       if @level.isType('ladder')
-        @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league}, @level, @sessions ))
+        @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, leagueType: @leagueType, course: @course}, @level, @sessions, @anonymousPlayerName ))
       else
         @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
-      @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
+      @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league, leagueType: @leagueType, course: @course}, @level, @sessions, @anonymousPlayerName))
     else
-      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId}, @level, @sessions ))
+      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId, leagueType: 'clan'}, @level, @sessions )) # classroom ladder do not have tournament for now
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
@@ -324,7 +330,7 @@ module.exports = class LadderView extends RootView
 
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
-    modal = new LadderPlayModal({league: @league, tournament: @tournamentId}, @level, session, teamID)
+    modal = new LadderPlayModal({league: @league, leagueType: @leagueType, tournament: @tournamentId, course: @course}, @level, session, teamID)
     @openModalView modal
 
   onClickedLink: (e) ->
@@ -348,7 +354,6 @@ module.exports = class LadderView extends RootView
   isAILeagueArena: -> _.find utils.arenas, slug: @levelID
 
   teamOffers: [
-    {slug: 'ned', clanId: '6137aab4e0bae40025bed266', name: 'Team Ned', clanSlug: 'team-ned'}
     {slug: 'hyperx', clanId: '60a4378875b540004c78f121', name: 'Team HyperX', clanSlug: 'hyperx'}
     {slug: 'derbezt', clanId: '601351bb4b79b4013e198fbe', name: 'Team DerBezt', clanSlug: 'team-derbezt'}
   ]

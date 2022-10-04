@@ -1,15 +1,45 @@
 <template>
   <div
-    class="ladder-view-v2"
+    class="ladder-view-v2 container"
   >
-    <div class="ladder-head">
+    <div class="ladder-head row">
       <h3 class="ladder-head__title">{{ $t('ladder.title') }}</h3>
       <h5 class="ladder-head__subtitle">{{ $t('play.campaign_multiplayer_description') }}</h5>
     </div>
-    <div class="ladder-view" v-if="usableArenas">
+    <div class="ladder-subhead row">
+      <a
+        href="https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com"
+        target="_blank"
+        class="btn btn-moon"
+      >
+        {{ $t('general.contact_us') }}
+      </a>
       <div
-        class="arena"
+        v-if="hasActiveAiLeagueProduct()"
+        class="ladder-subhead__text"
+      >
+        {{ $t('league.contact_sales_custom') }}
+      </div>
+      <div
+        v-else
+        class="ladder-subhead__text"
+      >
+        {{ $t('league.without_license_blurb') }}
+        <a
+          href="https://docs.google.com/presentation/d/1fXzV0gh9U0QqhSDcYYlIOIuM3uivFbdC9UfT1OBydEE/edit#slide=id.gea9e183bfa_0_54"
+          target="_blank"
+          class="ladder-link"
+        >
+          {{ $t('league.custom_pricing') }}
+        </a>
+        {{ $t('league.more_details') }}
+      </div>
+    </div>
+    <div class="ladder-view container" v-if="usableArenas">
+      <div
         v-for="arena in usableArenas"
+        :key="arena.slug"
+        class="arena row"
       >
         <a class="arena__info" :href="`/play/ladder/${arena.slug}`">
           <img :src="arena.image" :alt="arena.name" class="arena__image">
@@ -51,26 +81,26 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'MainLadderViewV2',
-  async created() {
-    await this.fetchUsableArenas()
-  },
-  updated() {
-    try {
-      $('#flying-focus').css({top: 0, left: 0}) // because it creates empty space on bottom of page when coming from /league page
-    } catch (err) {
-      console.log('flying-focus error deleting', err)
-    }
-  },
   computed: {
     ...mapGetters({
       usableArenas: 'seasonalLeague/usableArenas'
     }),
     canUseArenaHelpers () {
       return me.isAdmin()
+    }
+  },
+  async created () {
+    await this.fetchUsableArenas()
+  },
+  updated () {
+    try {
+      $('#flying-focus').css({ top: 0, left: 0 }) // because it creates empty space on bottom of page when coming from /league page
+    } catch (err) {
+      console.log('flying-focus error deleting', err)
     }
   },
   methods: {
@@ -94,12 +124,16 @@ export default {
     },
     difficultyStars (difficulty) {
       return Array(difficulty).fill().map(i => '★').join('')
+    },
+    hasActiveAiLeagueProduct () {
+      return me.hasAiLeagueActiveProduct()
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/common/button";
 .ladder-view-v2 {
   font-size: 62.5%;
 }
@@ -107,11 +141,6 @@ export default {
 .ladder-view {
   padding: 5rem 20rem;
   color: #ffffff;
-}
-
-.btn-moon {
-  background-color: #d1b147;
-  color: #232323;
 }
 
 .ladder-head {
@@ -126,6 +155,24 @@ export default {
   }
 }
 
+.ladder-subhead {
+  text-align: center;
+
+  & > * {
+    margin-top: 1.5rem;
+  }
+
+  &__text {
+    color: #ffffff;
+    font-size: 1.8rem;
+  }
+}
+
+.ladder-link {
+  color: #30efd3;
+  text-decoration: underline;
+}
+
 .arena {
   &__info {
     display: block;
@@ -133,6 +180,12 @@ export default {
 
     text-decoration: none;
     color: inherit;
+
+    &:hover {
+      filter: brightness(1.2);
+      -webkit-filter: brightness(1.2);
+      box-shadow: 0 0 5px #000;
+    }
   }
 
   &:not(:last-child) {

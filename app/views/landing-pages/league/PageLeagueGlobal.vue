@@ -14,7 +14,9 @@ import { titleize, arenas, activeArenas } from '../../../core/utils'
 
 import BackboneModalHarness from '../../common/BackboneModalHarness'
 import CreateAccountModal from '../../core/CreateAccountModal/CreateAccountModal'
-import YearlyArenaInfo from "./components/YearlyArenaInfo";
+import YearlyArenaInfo from './components/YearlyArenaInfo'
+const marked = require('marked')
+const _ = require('lodash')
 
 const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular' && a.end > new Date()))
 const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type === 'championship' && a.end > new Date()))
@@ -22,7 +24,7 @@ const previousRegularArena = _.last(_.filter(arenas, a => a.end < new Date() && 
 const previousChampionshipArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'championship' && (!currentChampionshipArena || a.slug !== currentChampionshipArena.slug)))
 
 const tournamentsByLeague = {
-  '5ff88bcdfe17d7bb1c7d2d00': {  // autoclan-school-network-academica
+  '5ff88bcdfe17d7bb1c7d2d00': { // autoclan-school-network-academica
     'blazing-battle': '60c159f8a78b083f4205cbf7',
     'infinite-inferno': '60c15b1fa78b083f4205cdc1'
   }
@@ -55,11 +57,16 @@ export default {
     previousChampionshipArenaSlug: previousChampionshipArena ? previousChampionshipArena.slug : null,
     regularArenaSlug: currentRegularArena ? currentRegularArena.slug : 'mages-might',
     championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
-    championshipActive: !!currentChampionshipArena
+    championshipActive: !!currentChampionshipArena,
+    anonymousPlayerName: false,
+    dateBeforeSep: new Date() < new Date('2022-9-1')
   }),
 
   beforeRouteUpdate (to, from, next) {
     this.clanIdOrSlug = to.params.idOrSlug || null
+    if (this.clanIdOrSlug) {
+      this.anonymousPlayerName = features.enableAnonymization
+    }
     next()
   },
 
@@ -88,8 +95,8 @@ export default {
     let rotationCount = 0
     const rotateHero = () => {
       $('.rotating-esports-header-background.fade-out').removeClass('fade-out').addClass('fade-in')
-      $(`.rotating-esports-header.fade-in`).removeClass('fade-in').addClass('fade-out')
-      $($(`.rotating-esports-header`)[rotationCount]).removeClass('fade-out').addClass('fade-in')
+      $('.rotating-esports-header.fade-in').removeClass('fade-in').addClass('fade-out')
+      $($('.rotating-esports-header')[rotationCount]).removeClass('fade-out').addClass('fade-in')
       rotationCount = (rotationCount + 1) % 3
     }
     this.heroRotationInterval = setInterval(rotateHero, 5000)
@@ -97,17 +104,17 @@ export default {
 
     // Scroll to the current hash, once everything in the browser is set up
     // TODO: Should this be a general thing we do in all top-level Vue views, like it is on CocoViews?
-    let scrollTo = () => {
-      let link = $(document.location.hash)
+    const scrollTo = () => {
+      const link = $(document.location.hash)
       if (link.length) {
-        let scrollTo = link.offset().top - 100
+        const scrollTo = link.offset().top - 100
         $('html, body').animate({ scrollTop: scrollTo }, 300)
       }
     }
     _.delay(scrollTo, 1000)
   },
 
-  beforeDestroy() {
+  beforeDestroy () {
     clearInterval(this.heroRotationInterval)
   },
 
@@ -151,6 +158,9 @@ export default {
                 console.error('Failed to retrieve child clans.')
               })
         }
+        $.get('/esports/anonymous/' + this.currentSelectedClan._id).then((res) => {
+          this.anonymousPlayerName = res.anonymous
+        })
 
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
         this.loadChampionshipClanRequiredData({ leagueId: this.clanIdSelected })
@@ -252,7 +262,7 @@ export default {
       this.createAccountModalOpen = true
     },
 
-    createAccountModalClosed() {
+    createAccountModalClosed () {
       this.createAccountModalOpen = false
     },
 
@@ -296,6 +306,12 @@ export default {
       }
       return `${window.location.origin}/league/${this.clanIdOrSlug}`
     },
+    isTeacher () {
+      return me.isTeacher()
+    },
+    unlockEsports () {
+      this.anonymousPlayerName = false
+    }
   },
 
   computed: {
@@ -315,9 +331,11 @@ export default {
       isLoading: 'clans/isLoading',
       isStudent: 'me/isStudent',
       isAPIClient: 'me/isAPIClient',
-      codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount',
+      codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount'
     }),
-
+    AILeagueProductCTA () {
+      return 'https://form.typeform.com/to/qXqgbubC'
+    },
     currentSelectedClan () {
       return this.clanByIdOrSlug(this.clanIdOrSlug) || null
     },
@@ -341,8 +359,7 @@ export default {
 
     currentSelectedClanName () {
       let name = (this.currentSelectedClan || {}).displayName || (this.currentSelectedClan || {}).name || ''
-      if (!/[a-z]/.test(name))
-        name = titleize(name)  // Convert any all-uppercase clan names to title-case
+      if (!/[a-z]/.test(name)) name = titleize(name) // Convert any all-uppercase clan names to title-case
       return name
     },
 
@@ -368,7 +385,7 @@ export default {
       if (image) {
         return `/file/${image}`
       }
-      return `/images/pages/league/student_hugging.png`
+      return '/images/pages/league/student_hugging.png'
     },
 
     customEsportsImageClass () {
@@ -411,7 +428,7 @@ export default {
       return !this.currentSelectedClan?.kind
     },
 
-    regularArenaUrl () { return `/play/ladder/${this.regularArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
+    regularArenaUrl () { return `/play/ladder/${this.regularArenaSlug}` + (this.clanIdSelected ? `/clan/${this.clanIdSelected}` : '') },
 
     previousRegularArenaUrl () {
       let url = `/play/ladder/${this.previousRegularArenaSlug}`
@@ -421,12 +438,11 @@ export default {
         const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
         tournament = tournaments[this.previousRegularArenaSlug] || tournament
       }
-      if (tournament)
-        url += `?tournament=${tournament}`
+      if (tournament) url += `?tournament=${tournament}`
       return url
     },
 
-    championshipArenaUrl () { return `/play/ladder/${this.championshipArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
+    championshipArenaUrl () { return `/play/ladder/${this.championshipArenaSlug}` + (this.clanIdSelected ? `/clan/${this.clanIdSelected}` : '') },
 
     previousChampionshipArenaUrl () {
       let url = `/play/ladder/${this.previousChampionshipArenaSlug}`
@@ -436,8 +452,7 @@ export default {
         const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
         tournament = tournaments[this.previousChampionshipArenaSlug] || tournament
       }
-      if (tournament)
-        url += `?tournament=${tournament}`
+      if (tournament) url += `?tournament=${tournament}`
       return url
     },
 
@@ -520,7 +535,6 @@ export default {
       </div>
       <div class="col-sm-7">
         <img v-if="currentSelectedClanName === 'Team DerBezt'" class="custom-esports-image-2" alt="" src="/file/db/thang.type/6037ed81ad0ac000f5e9f0b5/armando-pose.png">
-        <img v-if="currentSelectedClanName === 'Team Ned'" class="custom-esports-image-2 flip-horizontally" alt="" src="/file/db/thang.type/6136fe7e9f1147002c1316b4/Ned-Fulmer-Pose.png">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <div class="clan-description" style="margin-bottom: 40px;" v-html="currentSelectedClanDescription"></div>
         <p v-if="currentSelectedClanName === 'Team DerBezt'">{{ $t('league.team_derbezt') }}</p>
@@ -555,11 +569,11 @@ export default {
       </div>
       <div class="col-lg-6 section-space" style="text-align: left;">
         <div>
-          <img class="img-responsive" src="/images/pages/league/tundra-tower-cup.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
-          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 4 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
+          <img class="img-responsive" src="/images/pages/league/sand-storm-blitz.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
+          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 5 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
         </div>
-        <p>{{ $t('league.season4_announcement_1') }}</p>
-        <p>{{ $t('league.season4_announcement_2') }}</p>
+        <p>{{ $t('league.season5_announcement_1') }}</p>
+        <p>{{ $t('league.season5_announcement_2') }}</p>
       </div>
     </div>
 
@@ -575,9 +589,15 @@ export default {
       <InputClanSearch v-if="isGlobalPage" :max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" :anonymousPlayerName="anonymousPlayerName" />
         <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
-        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
+        <template
+          v-if="showContactUsForTournament() && anonymousPlayerName"
+          >
+          <div v-if="dateBeforeSep" @click.stop="unlockEsports" class="btn btn-large btn-primary btn-moon play-btn-cta"> {{ $t("league.click_to_unlock_before_sep") }}</div>
+          <a :href="AILeagueProductCTA" target="_blank" class="btn btn-large btn-primary btn-moon play-btn-cta" v-else> {{ $t("league.unlock_leaderboard") }}</a>
+        </template>
+        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta" v-else>{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
       </div>
       <div class="col-lg-6 section-space">
         <leaderboard :title="$t('league.codepoints')" :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"
@@ -604,7 +624,7 @@ export default {
 
     <div class="row flex-row video-iframe-section section-space" style="margin: 0 0 0 0" v-if="previousChampionshipArenaResultsPublished">
       <div class="col-sm-10 video-backer video-iframe">
-        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/bfbf1a5187888d110ee47f97b7491c2a?poster=https://videodelivery.net/bfbf1a5187888d110ee47f97b7491c2a/thumbnails/thumbnail.jpg%3Ftime%3D1568s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 4 - Tundra Tower"></iframe></div>
+        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/4d73a54ff2cdc9b0084a538beb476437?poster=https://videodelivery.net/4d73a54ff2cdc9b0084a538beb476437/thumbnails/thumbnail.jpg%3Ftime%3D1638s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 5 - Sands of Time"></iframe></div>
       </div>
     </div>
 
@@ -632,7 +652,14 @@ export default {
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.free_4') }}</li>
         </ul>
         <div class="xs-centered">
-          <a v-if="clanIdSelected === '' && !doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
+          <a v-if="clanIdSelected === '' && !doneRegistering && !isTeacher()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
+          <router-link
+            v-else-if="isTeacher()"
+            :to="{ name: 'LaddersList' }"
+            class="btn btn-large btn-primary btn-moon"
+          >
+            {{ $t('league.create_custom') }}
+          </router-link>
         </div>
       </div>
     </section>
@@ -782,7 +809,7 @@ export default {
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
     </div>
 
-    <div class="row flex-row text-dont-just-play-code" style="justify-content: flex-end;">
+    <div class="row flex-row text-dont-just-play-code" style="justify-content: flex-end;" id="trailer">
       <img src="/images/pages/league/text_dont_just_play_code.svg" class="img-responsive" />
     </div>
     <div class="row flex-row video-iframe-section section-space">
@@ -1597,4 +1624,3 @@ export default {
 
 }
 </style>
-

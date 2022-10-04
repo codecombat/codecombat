@@ -56,7 +56,12 @@ module.exports = class JavaScript extends Language
 
   # Return an array of problems detected during linting.
   lint: (rawCode, aether) ->
-    lintProblems = []
+    lintProblems = super(rawCode, aether)
+    try
+      if btoa(atob(rawCode)) == rawCode
+        return [] # dont lint other session
+    catch e
+      null # do nothing
     # return lintProblems unless jshintHolder.jshint
     wrappedCode = @wrap rawCode, aether
 

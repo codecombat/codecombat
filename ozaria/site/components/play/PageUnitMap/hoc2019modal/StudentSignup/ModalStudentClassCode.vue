@@ -2,6 +2,7 @@
   import { mapMutations } from 'vuex'
   import LayoutSplit from '../layout/LayoutSplit'
   import CloseModalBar from '../layout/CloseModalBar'
+  import * as focusTrap from 'focus-trap'
 
   const Classroom = require('models/Classroom')
   const utils = require('core/utils')
@@ -10,7 +11,9 @@
     data: () => ({
       classCode: '',
       classroom: {},
-      validClassCodes: new Set()
+      validClassCodes: new Set(),
+      focusTrapDeactivated: false,
+      focusTrap: null
     }),
 
     components: {
@@ -21,6 +24,22 @@
     mounted() {
       const { _cc } = utils.getQueryVariables()
       this.classCode = _cc
+      // TODO: do this generally for all modals
+      // TODO: do it on parent? Can't get to back button this way
+      this.focusTrap = focusTrap.createFocusTrap(this.$el, {
+        initialFocus: 'input',
+        onDeactivate: () => {
+          this.focusTrapDeactivated = true
+        }
+      })
+      this.focusTrap.activate()
+      // fallback
+      if (this.focusTrapDeactivated) this.deactivateFocusTrap()
+    },
+
+    beforeDestroy () {
+      // seems not work when this component is destroyed by parent conditional-render
+      this.deactivateFocusTrap()
     },
 
     methods: {
@@ -56,6 +75,11 @@
           console.error('Error in validating class code', err)
           return false
         }
+      },
+
+      deactivateFocusTrap () {
+        this.focusTrapDeactivated = true
+        this.focusTrap?.deactivate()
       }
     }
   }

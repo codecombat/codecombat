@@ -8,6 +8,8 @@ storage = require 'core/storage'
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').default
 paymentUtils = require 'app/lib/paymentUtils'
+fetchJson = require 'core/api/fetch-json'
+DOMPurify = require 'dompurify'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -32,6 +34,7 @@ module.exports = class HomeView extends RootView
   initialize: (options) ->
     super(options)
     @renderedPaymentNoty = false
+    # @getBanner()
 
   getRenderData: (context={}) ->
     context = super context
@@ -46,13 +49,20 @@ module.exports = class HomeView extends RootView
     context
 
   getMeta: ->
-    title: $.i18n.t 'new_home.title'
+    title: $.i18n.t 'new_home.title_coco'
     meta: [
-        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description' }
+        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description_coco' }
     ],
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
     ]
+
+  getBanner: ->
+    fetchJson('/db/banner').then((data) =>
+      @banner = data
+      content = utils.i18n data, 'content'
+      @banner.display = DOMPurify.sanitize marked(content ? '')
+    )
 
   onClickStudentButton: (e) ->
     @homePageEvent('Started Signup')
@@ -144,6 +154,8 @@ module.exports = class HomeView extends RootView
         _.defer => @openModalView(new CreateAccountModal()) unless @destroyed
       if document.location.hash is '#create-account-individual'
         _.defer => @openModalView(new CreateAccountModal({startOnPath: 'individual'})) unless @destroyed
+      if document.location.hash is '#create-account-home'
+        _.defer => @openModalView(new CreateAccountModal({startOnPath: 'individual-basic'})) unless @destroyed
       if document.location.hash is '#create-account-student'
         _.defer => @openModalView(new CreateAccountModal({startOnPath: 'student'})) unless @destroyed
       if document.location.hash is '#create-account-teacher'
@@ -154,6 +166,8 @@ module.exports = class HomeView extends RootView
       if paymentResult is 'success'
         title = $.i18n.t 'payments.studentLicense_successful'
         type = 'success'
+        if utils.getQueryVariable 'tecmilenio'
+          title = '¡Felicidades! El alumno recibirá más información de su profesor para acceder a la licencia de CodeCombat.'
         @trackPurchase("Student license purchase #{type}")
       else
         title = $.i18n.t 'payments.failed'

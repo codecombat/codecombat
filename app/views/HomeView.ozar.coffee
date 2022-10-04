@@ -7,6 +7,8 @@ CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
+fetchJson = require 'core/api/fetch-json'
+DOMPurify = require 'dompurify'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -21,11 +23,10 @@ module.exports = class HomeView extends RootView
     'click .try-chapter-1': 'onClickGenericTryChapter1'
     'click .contact-us': 'onClickContactModal'
     'click a': 'onClickAnchor'
-    'click button.press-engage': ()->@onCarouselDirectMove(0)
-    'click button.press-explore': ()->@onCarouselDirectMove(1)
-    'click button.press-explain': ()->@onCarouselDirectMove(2)
-    'click button.press-elaborate': ()->@onCarouselDirectMove(3)
-    'click button.press-evaluate': ()->@onCarouselDirectMove(4)
+
+  initialize: (options) ->
+    super(options)
+    @getBanner()
 
   getRenderData: (context={}) ->
     context = super context
@@ -37,14 +38,21 @@ module.exports = class HomeView extends RootView
     context
 
   getMeta: ->
-    title: $.i18n.t 'new_home.title'
+    title: $.i18n.t 'new_home.title_ozar'
     meta: [
-        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description' },
+        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description_ozar' },
         { vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }
     ],
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
     ]
+
+  getBanner: ->
+    fetchJson('/db/banner').then((data) =>
+      @banner = data
+      content = utils.i18n data, 'content'
+      @banner.display = DOMPurify.sanitize marked(content ? '')
+    )
 
   onClickRequestQuote: (e) ->
     @playSound 'menu-button-click'
@@ -110,6 +118,13 @@ module.exports = class HomeView extends RootView
         @openModalView(new CreateAccountModal({startOnPath: 'student'}))
       if document.location.hash is '#create-account-teacher'
         @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+
+    window.addEventListener 'load', ->
+      $('#core-curriculum-carousel').data('bs.carousel').$element.on 'slid.bs.carousel', (event) ->
+        nextActiveSlide = $(event.relatedTarget).index()
+        $buttons = $('.control-buttons > button')
+        $buttons.removeClass 'active'
+        $('[data-slide-to=\'' + nextActiveSlide + '\']').addClass('active')
     super()
 
   afterInsert: ->

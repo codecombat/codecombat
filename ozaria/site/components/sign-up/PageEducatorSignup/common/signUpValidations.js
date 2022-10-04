@@ -29,7 +29,7 @@ export const basicInfoValidations = {
   },
   password: {
     required,
-    minLength: minLength(8),
+    minLength: minLength(4),
     maxLength: maxLength(64),
     repeating: not(helpers.regex('repeating', /([\s\S])\1\1/))
   }

@@ -24,7 +24,7 @@ module.exports = class TeacherCoursesView extends RootView
     'click .show-change-log': 'onClickShowChange'
     'click .video-thumbnail': 'onClickVideoThumbnail'
 
-  getTitle: -> return $.i18n.t('teacher.courses')
+  getTitle: -> return $.i18n.t('teacher.courses_coco')
 
   initialize: (options) ->
     super(options)

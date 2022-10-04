@@ -131,6 +131,7 @@ module.exports = class Aether
         problemOptions = error: error, code: token.src, codePrefix: "", reporter: @language.parserID, kind: error.index or error.id, type: 'transpile'
         @addProblem @createUserCodeProblem problemOptions
       else
+        @problems = @lint token.src
         @pure = token.src
         @ast = token.ast
     else

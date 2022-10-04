@@ -1,0 +1,8 @@
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svg__transcript episode__play-button-svg">
+    <g stroke="none" stroke-width="1" fill="#000000" fill-rule="evenodd">
+        <rect x="3" y="3" width="7.6" height="1.6" rx="0.8"></rect>
+        <path d="M2,1 C1.44771525,1 1,1.44771525 1,2 L1,12 C1,12.5522847 1.44771525,13 2,13 L12,13 C12.5522847,13 13,12.5522847 13,12 L13,2 C13,1.44771525 12.5522847,1 12,1 L2,1 Z M2,0 L12,0 C13.1045695,-2.02906125e-16 14,0.8954305 14,2 L14,12 C14,13.1045695 13.1045695,14 12,14 L2,14 C0.8954305,14 1.3527075e-16,13.1045695 0,12 L0,2 C-1.3527075e-16,0.8954305 0.8954305,2.02906125e-16 2,0 Z" fill-rule="nonzero"></path>
+        <rect x="3" y="6" width="7.6" height="1.6" rx="0.8"></rect>
+        <rect x="3" y="9" width="7.6" height="1.6" rx="0.8"></rect>
+    </g>
+</svg>
