@@ -42,6 +42,9 @@ style.
         if view.supermodel.isLoading || !view.courseStats
           h1.loading-indicator(data-i18n="common.loading")
         else
+          if me.isTecmilenio()
+            div(class="tecmilenio")
+              img.base-logo.tec-logo-img(src="/images/pages/payment/tecmilenio-logo-black.png")
           h3.certificate-of-completion(data-i18n="user.certificate_of_completion")
           h1.student-name= view.studentName || view.user.broadName()
           h4.course-name

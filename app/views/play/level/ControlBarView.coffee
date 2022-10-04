@@ -118,7 +118,7 @@ module.exports = class ControlBarView extends CocoView
       @homeViewClass = 'views/ladder/LadderView'
       @homeViewArgs.push levelID
       if leagueID = utils.getQueryVariable('league') or utils.getQueryVariable('course-instance')
-        leagueType = if @level.isType('course-ladder') then 'course' else 'clan'
+        leagueType = if @level.isType('course-ladder') or (@level.isType('ladder') and utils.getQueryVariable('course-instance')) then 'course' else 'clan'
         @homeViewArgs.push leagueType
         @homeViewArgs.push leagueID
         @homeLink += "/#{leagueType}/#{leagueID}"
@@ -147,7 +147,7 @@ module.exports = class ControlBarView extends CocoView
     c
 
   showGameMenuModal: (e, tab=null) ->
-    gameMenuModal = new GameMenuModal level: @level, session: @session, supermodel: @supermodel, showTab: tab
+    gameMenuModal = new GameMenuModal level: @level, session: @session, supermodel: @supermodel, showTab: tab, classroomAceConfig: @options.classroomAceConfig
     @openModalView gameMenuModal
     @listenToOnce gameMenuModal, 'change-hero', ->
       @setupManager?.destroy()

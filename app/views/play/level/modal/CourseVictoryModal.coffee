@@ -73,7 +73,7 @@ module.exports = class CourseVictoryModal extends ModalView
       _.assign(properties, {concepts, succeededConcepts})
     window.tracker?.trackEvent 'Play Level Victory Modal Loaded', properties
 
-    if @level.isType('hero', 'course', 'course-ladder', 'game-dev', 'web-dev')
+    if @level.isType('hero', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')
       @achievements = options.achievements
       if not @achievements
         @achievements = new Achievements()
@@ -231,7 +231,7 @@ module.exports = class CourseVictoryModal extends ModalView
     viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
     ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}"
     if leagueID = (@courseInstanceID or utils.getQueryVariable 'league')
-      leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
+      leagueType = if @level.isType('course-ladder') or (@level.isType('ladder') and utils.getQueryVariable('course-instance')) then 'course' else 'clan'
       viewArgs.push leagueType
       viewArgs.push leagueID
       ladderURL += "/#{leagueType}/#{leagueID}"

@@ -211,7 +211,8 @@ module.exports = class HeroVictoryModal extends ModalView
       lastLevelOriginal = switch hocCampaignSlug
         when 'game-dev-hoc' then '57ee6f5786cf4e1f00afca2c' # game grove
         when 'game-dev-hoc-2' then '57b71dce7a14ff35003a8f71' # palimpsest
-        when 'ai-league-hoc' then '60e69b24bed8ae001ac6ce3e' # giants-gate; can change, but we will use isType('ladder') to cover that
+        when 'ai-league-hoc' then '62f9f6506428860025b15a8b' # magma-mountain; can change, but we will use isType('ladder') to cover that
+        #when 'goblins-hoc' then '' # jungle-hunt
         else '541c9a30c6362edfb0f34479' # kithgard gates for dungeon
       lastLevel = @level.get('original') is lastLevelOriginal or @level.isType('ladder')
       enough = elapsed >= 20 * 60 * 1000 or lastLevel
@@ -222,6 +223,7 @@ module.exports = class HeroVictoryModal extends ModalView
           when 'game-dev-hoc' then 'code_combat_gamedev'
           when 'game-dev-hoc-2' then 'code_combat_gamedev2'
           when 'ai-league-hoc' then 'cc_ai'
+          when 'goblins-hoc' then 'cc_goblins'
           else 'code_combat'
         $('body').append($("<img src='https://code.org/api/hour/finish_#{pixelCode}.png' style='visibility: hidden;'>"))
         me.set 'hourOfCodeComplete', true

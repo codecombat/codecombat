@@ -334,8 +334,8 @@ main#page-outcomes-report
       img.anya(src="/images/pages/admin/outcomes-report/anya.png")
       .block.room-for-anya
         h1= $t('outcomes.standards_coverage')
-        p= $t('outcomes.coverage_p1')
-        p= $t('outcomes.coverage_p2')
+        p= $t('outcomes.coverage_p1_coco')
+        p= $t('outcomes.coverage_p2_coco')
 
       .bottom
         p= $t('outcomes.questions')

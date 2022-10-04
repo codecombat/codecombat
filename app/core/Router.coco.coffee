@@ -93,6 +93,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/outcomes-report': go('admin/OutcomesReportView')
     'admin/clan(/:clanID)': go('core/SingletonAppVueComponentView')
 
+    'announcements': go('core/SingletonAppVueComponentView')
+
     'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
     'api-dashboard': go('core/SingletonAppVueComponentView')
@@ -150,6 +152,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/article': go('editor/article/ArticleSearchView')
     'editor/article/preview': go('editor/article/ArticlePreviewView')
     'editor/article/:articleID': go('editor/article/ArticleEditView')
+    'editor/announcement': go('editor/announcement/AnnouncementSearchView')
+    'editor/announcement/:announcementId': go('editor/announcement/AnnouncementEditView')
     'editor/level': go('editor/level/LevelSearchView')
     'editor/level/:levelID': go('editor/level/LevelEditView')
     'editor/thang': go('editor/thang/ThangTypeSearchView')
@@ -164,6 +168,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/resource': go('editor/resource/ResourceSearchView')
     'editor/resource/:resourceID': go('editor/resource/ResourceEditView')
     'editor/archived-elements': go('core/SingletonAppVueComponentView')
+    'editor/podcast': go('editor/podcast/PodcastSearchView')
+    'editor/podcast/:podcastId': go('editor/podcast/PodcastEditView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')
@@ -193,6 +199,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'impact': () ->
       @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+
+    'partners': () ->
+      @routeDirectly('PagePartners', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
 
     'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
     'league/kipp': redirect('/league/autoclan-school-network-kipp') # Redirect for KIPP.
@@ -257,13 +266,16 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/classes/:classroomID': go('courses/TeacherClassView', { redirectStudents: true, teachersOnly: true })
     'teachers/courses': go('courses/TeacherCoursesView', { redirectStudents: true })
     'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true })
+    'teachers/campaign-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true, campaignMode: true })
     'teachers/demo': redirect('/teachers/quote')
     'teachers/enrollments': redirect('/teachers/licenses')
     'teachers/hour-of-code': go('special_event/HoC2018View')
-    'teachers/licenses': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true })
+    'teachers/licenses/v0': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true })
     'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true })
-    'teachers/resources': go('teachers/ResourceHubView', { redirectStudents: true })
+    'teachers/resources_old': go('teachers/ResourceHubView', { redirectStudents: true })
+    'teachers/resources': if me.useChinaHomeView() then go('teachers/ResourceHubView', { redirectStudents: true }) else go('core/SingletonAppVueComponentView')
+    'teachers/resources_new': go('core/SingletonAppVueComponentView')
     'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
     'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })
     'teachers/signup': ->
@@ -287,9 +299,19 @@ module.exports = class CocoRouter extends Backbone.Router
     'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
     'user/:userID/opt-in/:verificationCode': go('user/UserOptInView')
 
+    'users/switch-account': go('core/SingletonAppVueComponentView')
+    'users/switch-account/*path': go('core/SingletonAppVueComponentView')
+
     'payments/*path': go('core/SingletonAppVueComponentView')
     'ladders/*path': go('core/SingletonAppVueComponentView')
     'ed-link/*path': go('core/SingletonAppVueComponentView')
+    'teachers/licenses': go('core/SingletonAppVueComponentView')
+    'teachers/licenses/join': go('core/SingletonAppVueComponentView')
+    'podcast': go('core/SingletonAppVueComponentView')
+    'podcast/*path': go('core/SingletonAppVueComponentView')
+
+    'libraries': go('core/SingletonAppVueComponentView')
+    'library/*path': go('core/SingletonAppVueComponentView')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
@@ -301,7 +323,8 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args=[], options={}) ->
-    @vueRouter.push("/#{Backbone.history.getFragment()}")
+    @vueRouter.push("/#{Backbone.history.getFragment()}").catch (e) ->
+      console.error 'vue router push warning:', e
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView

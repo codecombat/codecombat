@@ -273,6 +273,11 @@ export default {
         return
       }
 
+      if (track && track === 'background' && !me.get('music', true)) {
+        // Take this opportunity to mute the background music track if we me.get('music') has been disabled
+        dispatch('muteTrack', track)
+      }
+
       // Default to playing sounds immediately upon load but allow
       // consumers to specify autoplay behavior to support scenarios
       // such as pre loading sound effects.

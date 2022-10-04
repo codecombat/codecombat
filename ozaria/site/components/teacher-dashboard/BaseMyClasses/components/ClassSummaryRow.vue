@@ -66,63 +66,65 @@
       id="class-header"
       class="flex-row"
     >
-      <router-link
-        v-if="!archived && !displayOnly"
-        id="class-header-shepherd"
-        tag="a"
-        :to="`/teachers/classes/${classId}`"
-        class="flex-row clickable"
-        @click.native="trackEvent('All Classes: Class Card Clicked')"
-      >
-        <h2 class="padding-left">
-          {{ classroomName }}
-        </h2>
-        <class-info-row
-          :language="language"
-          :num-students="numStudents"
-          :date-created="dateCreated"
-          :share-permission="sharePermission"
-          :archived="archived"
-        />
-      </router-link>
-      <div
-        v-else
-        class="flex-row full-width"
-      >
-        <h2 class="padding-left">
-          {{ classroomName }}
-        </h2>
-        <class-info-row
-          :language="language"
-          :num-students="numStudents"
-          :date-created="dateCreated"
-          :share-permission="sharePermission"
-          :archived="archived"
-        />
-      </div>
-      <div
-        v-if="!displayOnly && codeCamel"
-        class="flex-row class-code"
-      >
-        <span class="class-code-title">{{ $t('teachers.class_code') }}</span>
-        <span class="class-code-text">{{ codeCamel }}</span>
-      </div>
-      <div class="flex-row floaty-right">
-        <icon-button-with-text
-          class="icon-with-text"
-          :icon-name="displayOnly ? 'IconAddStudents_Gray' : 'IconAddStudents'"
-          :text="$t('courses.add_students')"
-          :inactive="displayOnly"
-          @click="$emit('clickAddStudentsModalButton')"
-        />
-      </div>
-      <div
-        v-if="!displayOnly"
-        class="btn-ellipse share"
-        @click="$emit('clickShareClassWithTeacherModalButton')"
-      >
-        <icon-share-dusk />
-        <span class="share-text">{{this.$t('teacher_dashboard.share')}}</span>
+      <div class="class-hover-area flex-row">
+        <router-link
+          v-if="!archived && !displayOnly"
+          id="class-header-shepherd"
+          tag="a"
+          :to="`/teachers/classes/${classId}`"
+          class="flex-row clickable"
+          @click.native="trackEvent('All Classes: Class Card Clicked')"
+        >
+          <h2 class="padding-left">
+            {{ classroomName }}
+          </h2>
+          <class-info-row
+            :language="language"
+            :num-students="numStudents"
+            :date-created="dateCreated"
+            :share-permission="sharePermission"
+            :archived="archived"
+          />
+        </router-link>
+        <div
+          v-else
+          class="flex-row full-width"
+        >
+          <h2 class="padding-left">
+            {{ classroomName }}
+          </h2>
+          <class-info-row
+            :language="language"
+            :num-students="numStudents"
+            :date-created="dateCreated"
+            :share-permission="sharePermission"
+            :archived="archived"
+          />
+        </div>
+        <div
+          v-if="!displayOnly && codeCamel"
+          class="flex-row class-code"
+        >
+          <span class="class-code-title">{{ $t('teachers.class_code') }}</span>
+          <span class="class-code-text">{{ codeCamel }}</span>
+        </div>
+        <div class="flex-row floaty-right">
+          <icon-button-with-text
+            class="icon-with-text"
+            :icon-name="displayOnly ? 'IconAddStudents_Gray' : 'IconAddStudents'"
+            :text="$t('courses.add_students')"
+            :inactive="displayOnly"
+            @click="$emit('clickAddStudentsModalButton')"
+          />
+        </div>
+        <div
+          v-if="!displayOnly"
+          class="btn-ellipse share"
+          @click="$emit('clickShareClassWithTeacherModalButton')"
+        >
+          <icon-share-dusk />
+          <span class="share-text">{{this.$t('teacher_dashboard.share')}}</span>
+        </div>
       </div>
       <div
         v-if="!displayOnly"
@@ -217,12 +219,33 @@
     align-items: center;
   }
 
+  .class-hover-area {
+    width: 100%;
+    &:hover {
+      position: relative;
+      > * {
+        z-index: 10; // Ensure all children will appear over the border element.
+      }
+      &::after {
+        /* In order to make sure the elements inside are not moving, we create a new
+        absolute positioned element for the border */
+        border: 0.5px solid #74C6DF;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right:0;
+        z-index: 1;
+      }
+    }
+  }
+
   .clickable {
     width: 100%;
     height: 100%;
     text-decoration: none;
     &:hover {
-      border: 0.5px solid #74C6DF;
       cursor: pointer;
     }
   }
@@ -239,9 +262,10 @@
   }
 
   .btn-ellipse {
-    border: 0.5px solid #d8d8d8;
+    border-left: 0.5px solid #d8d8d8;
     width: 62px;
-    height: 46px;
+    height: 44px;
+    margin: 1px 0;
 
     display: flex;
     justify-content: center;

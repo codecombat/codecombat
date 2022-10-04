@@ -6,8 +6,13 @@
       </div>
     </div>
     <div class="col-md-3 info-data">
-      <h2 class="info-title">CodeCombat</h2>
-      <ul class="info-list">
+      <h2 class="info-title">{{ isTecmilenioPartner ? 'Acceso ' : '' }}CodeCombat</h2>
+      <ul class="info-list" v-if="isTecmilenioPartner">
+        <li>La informática</li>
+        <li>Desarrollo web</li>
+        <li>Desarrollo de juegos</li>
+      </ul>
+      <ul class="info-list" v-else>
         <li>Computer Science 1-6</li>
         <li>Web Development 1-2</li>
         <li>Game Development 1-2</li>
@@ -18,7 +23,13 @@
 
 <script>
 export default {
-name: "CocoHeadInfoComponent"
+  name: "CocoHeadInfoComponent",
+  props: {
+    isTecmilenioPartner: {
+      type: Boolean,
+      default: false
+    }
+  }
 }
 </script>
 

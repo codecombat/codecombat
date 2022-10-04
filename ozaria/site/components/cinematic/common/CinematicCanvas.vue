@@ -56,7 +56,7 @@
               src="/images/ozaria/level/Logo_Bevelled@4x.png"
               alt="Ozaria logo"
             >
-            <p>{{ $t("common.LOADING") }}</p>
+            <p>{{ $t("common.loading") }}</p>
             <div class="load-progress">
               <div class="progress">
                 <div class="progress-background" />

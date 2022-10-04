@@ -1,7 +1,7 @@
-###### Last updated: 09/28/2021
+###### Last updated: 09/15/2022
 
 ##### Lesson Plans
-# The Road to AI League
+# Esports Bootcamp: AI League
 
 ### Curriculum Summary
 - Level: Beginner
@@ -300,7 +300,7 @@ See the [AI League Educators Getting Started Guide](https://docs.google.com/pres
 
 ### Coding Time (40-55 mins)
 
-Have students navigate to the last level, **Giant's Gate**, and complete it at their own pace. 
+Have students navigate to the last level, **Magma Mountain**, and complete it at their own pace. 
 
 #### Rankings**
 

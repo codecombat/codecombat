@@ -1,3 +1,6 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
 #ladder-view
   background-color: black
 
@@ -42,6 +45,9 @@
     left: calc(50% - 50px)
     top: 5px
     z-index: 1030
+    height: 105px
+    object-fit: cover
+    object-position: top
 
     @media only screen and (max-width: 1600px)
       display: none
@@ -49,10 +55,33 @@
   #level-column
     padding-top: 14px
     text-align: center
+    position: relative
 
     img
       margin-top: -23px
       width: 100%
+
+    .dynamic-level-name
+      position: absolute
+      z-index: 1
+      left: 0
+      width: 100%
+      top: 43px
+      text-align: center
+      text-shadow: 0px 5px 5px black, -2px 0px 2px black, 2px 0px 2px black, 0px -2px 2px black
+      font-size: 72px
+      color: $yellow
+      font-family: $headings-font-family
+      font-variant: small-caps
+      @include transition(color .10s linear)
+
+    &:hover img
+      filter: brightness(1.2)
+      -webkit-filter: brightness(1.2)
+      box-shadow: 0 0 5px black
+
+    &:hover .dynamic-level-name
+      color: lighten($yellow, 20%)
 
   h1
     text-align: center

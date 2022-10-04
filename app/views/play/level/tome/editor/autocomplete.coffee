@@ -40,6 +40,7 @@ module.exports = class Autocomplete
     defaultsCopy = _.extend {}, defaults
     @options = _.merge defaultsCopy, options
 
+    @onPopupFocusChange = _.throttle @onPopupFocusChange, 25
 
     #TODO: Renable option validation if we care
     #validationResult = optionsValidator @options
@@ -120,6 +121,18 @@ module.exports = class Autocomplete
           @snippetManager.register m.snippets
           @oldSnippets = m.snippets
 
+  addCustomSnippets: (snippets, language) ->
+    # add user custom identifiers. do not overwrite the codecombat snippets
+    @options.language = language
+    ace.config.loadModule 'ace/ext/language_tools', () =>
+      @snippetManager = ace.require('ace/snippets').snippetManager
+      snippetModulePath = 'ace/snippets/' + language
+      ace.config.loadModule snippetModulePath, (m) =>
+        if m?
+          @snippetManager.unregister @oldCustomSnippets if @oldCustomSnippets?
+          @snippetManager.register snippets
+          @oldCustomSnippets = snippets
+
   setLiveCompletion: (val) ->
     if val is true or val is false
       @options.liveCompletion = val
@@ -174,7 +187,9 @@ module.exports = class Autocomplete
     if e.command.name is "backspace" or e.command.name is "insertstring"
       pos = editor.getCursorPosition()
       token = (new TokenIterator editor.getSession(), pos.row, pos.column).getCurrentToken()
-      if token? and token.type not in ['comment', 'string']
+      if e.args is '\n' # insert new line
+        return Backbone.Mediator.publish 'tome:completer-add-user-snippets'
+      if token? and token.type not in ['comment']
         prefix = @getCompletionPrefix editor
         # Bake a fresh autocomplete every keystroke
         editor.completer?.detach() if hasCompleter
@@ -202,6 +217,30 @@ module.exports = class Autocomplete
               Autocomplete.prototype.commands["Shift-Return"] = exitAndReturn
 
             editor.completer = new Autocomplete()
+            getCompletionPrefix = @getCompletionPrefix
+            editor.completer.gatherCompletions = (editor, callback) ->
+              session = editor.getSession();
+              pos = editor.getCursorPosition();
+
+              prefix = getCompletionPrefix(editor);
+
+              @base = session.doc.createAnchor(pos.row, pos.column - prefix.length);
+              @base.$insertRight = true;
+
+              matches = [];
+              total = editor.completers.length;
+              editor.completers.forEach (completer, i) =>
+                completer.getCompletions(editor, session, pos, prefix, (err, results) =>
+                  if (!err && results)
+                    matches = matches.concat(results);
+                  # Fetch prefix again, because they may have changed by now
+                  callback(null, {
+                    prefix: getCompletionPrefix(editor),
+                    matches: matches,
+                    finished: (--total == 0)
+                  })
+                )
+              return true;
 
           # Disable autoInsert and show popup
           editor.completer.autoSelect = true
@@ -211,7 +250,7 @@ module.exports = class Autocomplete
           # Hide popup if too many suggestions
           # TODO: Completions aren't asked for unless we show popup, so this is super hacky
           # TODO: Backspacing to yield more suggestions does not close popup
-          if editor.completer?.completions?.filtered?.length > 20
+          if editor.completer?.completions?.filtered?.length > 50
             editor.completer.detach()
 
           # Update popup CSS after it's been launched
@@ -223,6 +262,7 @@ module.exports = class Autocomplete
             $('.ace_autocomplete').css('line-height', @options.popupLineHeightPx + 'px') if @options.popupLineHeightPx?
             $('.ace_autocomplete').css('width', @options.popupWidthPx + 'px') if @options.popupWidthPx?
             editor.completer.popup.resize?()
+            editor.completer.popup.on("mousemove", @onPopupFocusChange(editor, TokenIterator))
 
             # TODO: Can't change padding before resize(), but changing it afterwards clears new padding
             # TODO: Figure out how to hook into events rather than using setTimeout()
@@ -235,6 +275,19 @@ module.exports = class Autocomplete
     # Update tokens for text completer
     if @options.completers.text and e.command.name in ['backspace', 'del', 'insertstring', 'removetolinestart', 'Enter', 'Return', 'Space', 'Tab']
       @bgTokenizer.fireUpdateEvent 0, @editor.getSession().getLength()
+
+  onPopupFocusChange: (editor, TokenIterator) =>
+    (e) =>
+      pos = e.getDocumentPosition()
+      it = new TokenIterator editor.completer.popup.session, pos.row, pos.column
+      word = null
+      if it.getCurrentTokenRow() is pos.row
+        line = editor.completer.completions.filtered[pos.row].caption
+        [fun, params] = line.split('(')
+        prefixParts = fun.split(/[.:]/g)
+        word = prefixParts.slice(-1)[0]
+        markerRange = new Range pos.row, pos.column, pos.row, pos.column + word.length
+      Backbone.Mediator.publish 'tome:completer-popup-focus-change', {word, markerRange}
 
   getCompletionPrefix: (editor) ->
     # TODO: this is not used to get prefix that is passed to completer.getCompletions
@@ -249,7 +302,9 @@ module.exports = class Autocomplete
         completer.identifierRegexps.forEach (identifierRegex) ->
           if not prefix and identifierRegex
             prefix = util.retrievePrecedingIdentifier line, pos.column, identifierRegex
-    prefix = util.retrievePrecedingIdentifier line, pos.column unless prefix?
+
+    identifierRegex = /['"\.a-zA-Z_0-9\$\-\u00A2-\uFFFF]/
+    prefix = util.retrievePrecedingIdentifier line, pos.column, identifierRegex unless prefix?
     prefix
 
   addCodeCombatSnippets: (level, spellView, e) ->
@@ -372,3 +427,4 @@ module.exports = class Autocomplete
     lang = aceUtils.aceEditModes[e.language].substr 'ace/mode/'.length
     @addSnippets snippetEntries, lang
     spellView.editorLang = lang
+    snippetEntries

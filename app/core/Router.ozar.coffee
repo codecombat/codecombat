@@ -87,6 +87,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
     'admin/outcomes-report': go('admin/OutcomesReportView')
 
+    'announcements': go('core/SingletonAppVueComponentView')
     # Removing route, leaving plumbing.  Unclear how much we'd rewrite this, given a new endorsement.
     # 'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
@@ -144,6 +145,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/article': go('editor/article/ArticleSearchView')
     'editor/article/preview': go('editor/article/ArticlePreviewView')
     'editor/article/:articleID': go('editor/article/ArticleEditView')
+    'editor/announcement': go('editor/announcement/AnnouncementSearchView')
+    'editor/announcement/:announcementId': go('editor/announcement/AnnouncementEditView')
     'editor/cinematic(/*subpath)': go('core/SingletonAppVueComponentView')
     'editor/cutscene(/*subpath)': go('core/SingletonAppVueComponentView')
     'editor/interactive(/*subpath)': go('core/SingletonAppVueComponentView')
@@ -161,6 +164,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/resource': go('editor/resource/ResourceSearchView')
     'editor/resource/:resourceID': go('editor/resource/ResourceEditView')
     'editor/archived-elements': go('core/SingletonAppVueComponentView')
+    'editor/podcast': go('editor/podcast/PodcastSearchView')
+    'editor/podcast/:podcastId': go('editor/podcast/PodcastEditView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')
@@ -206,8 +211,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'logout': 'logout'
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
-
-    'parents': go('ParentsView')
 
     'outcomes-report(/*subpath)': go('core/SingletonAppVueComponentView')
 
@@ -275,6 +278,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'professional-development': go('core/SingletonAppVueComponentView')
     'pd': go('core/SingletonAppVueComponentView')
+    'efficacy': go('core/SingletonAppVueComponentView')
 
     'sel': go('core/SingletonAppVueComponentView')
     'social-and-emotional-learning': go('core/SingletonAppVueComponentView')
@@ -299,6 +303,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/courses': redirect('/teachers') # Redirected 8/20/2019
     'teachers/units': redirect('/teachers') # Redirected 9/10/2020
     'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true })
+    'teachers/campaign-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true, campaignMode: true })
     'teachers/demo': redirect('/teachers/quote')
     'teachers/enrollments': redirect('/teachers/licenses')
     'teachers/hour-of-code': => window.location.href = 'https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'
@@ -335,6 +340,17 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
     'user/:userID/opt-in/:verificationCode': go('user/UserOptInView')
+
+    'users/switch-account': go('core/SingletonAppVueComponentView')
+    'users/switch-account/*path': go('core/SingletonAppVueComponentView')
+
+    'podcast': go('core/SingletonAppVueComponentView')
+    'podcast/*path': go('core/SingletonAppVueComponentView')
+
+    'libraries': go('core/SingletonAppVueComponentView')
+    'library/*path': go('core/SingletonAppVueComponentView')
+
+    'api-dashboard': go('core/SingletonAppVueComponentView')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')

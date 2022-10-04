@@ -35,6 +35,8 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 
 **Argument** - extra information passed into a method to modify what the method does. In both Python and JavaScript, arguments are represented by code that is inside the parentheses after a method. For example, in the method `hero.moveLeft(3)`, the argument _3_ is a number that tells how many spaces the hero should move. In the method `hero.Attack("Brak")`, the argument _"Brak"_ is a string that tells the name of the character that should be attacked. 
 
+**Statement** - A part of a program that tells a computer to perform an action, like assign a value to a variable.
+
 **String** - a type of data that represents text. In both Python and JavaScript, strings are represented by text inside quotes. In Course 1, strings are used to identify objects for the hero to attack.
 
 **Loop** - a programming structure used to repeat actions without the player needing to write the same lines of code over and over. In Python, the code that loops must be indented. In JavaScript, the code that loops must be enclosed by curly brackets {}. There are different kinds of loops:
@@ -341,7 +343,11 @@ Sample Response:
 #### _(Levels 15 - 17)_
 ### Summary
 
-Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like "School Supplies", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called "School Supplies". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings. In many programming languages, we need to declare the type of data a variable can store before using it. For example, in JavaScript, a variable named “age” which stores the value 16, has to be declared with the integer data type, by preceding the assignment statement with the word “int”, to not result in errors. It would look like this:
+Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like "School Supplies", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called "School Supplies". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings. In many programming languages, we need to declare the type of data a variable can store before using it. For example, in Java, a variable named “age” which stores the value 16, has to be declared with the integer data type, by preceding the assignment statement with the word “int”, to not result in errors. It would look like this: 
+
+```java
+int age = 16;
+```
 
 There are many other data types that can be used with variables. These types include numbers, Booleans, lists, and strings. 
 

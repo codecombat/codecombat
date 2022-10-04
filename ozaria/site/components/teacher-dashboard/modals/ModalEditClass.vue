@@ -3,6 +3,7 @@
   import Modal from '../../common/Modal'
   import SecondaryButton from '../common/buttons/SecondaryButton'
   import TertiaryButton from '../common/buttons/TertiaryButton'
+  import Classroom from 'models/Classroom'
 
   export default Vue.extend({
     components: {
@@ -23,6 +24,7 @@
       return {
         newClassName: '',
         newProgrammingLanguage: '',
+        newLiveCompletion: true,
       }
     },
 
@@ -38,12 +40,16 @@
       },
       archived () {
         return (this.classroom || {}).archived
+      },
+      liveCompletion () {
+        return _.assign({liveCompletion: true}, (this.classroom || {}).aceConfig).liveCompletion
       }
     },
 
     mounted () {
       this.newClassName = this.classroomName
       this.newProgrammingLanguage = this.language
+      this.newLiveCompletion = this.liveCompletion
     },
 
     methods: {
@@ -52,20 +58,9 @@
         fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers'
       }),
       archiveClass () {
-        noty({
-          text: "If you haven't done so already, please revoke your students' licenses before archiving the class so that you can re-apply them to other students. Please confirm that you’d like to proceed:",
-          type: 'info',
-          layout: 'center',
-          buttons: [
-            { text: 'Cancel', onClick: ($noty) => $noty.close() },
-            { text: 'Archive',
-              onClick: ($noty) => {
-                this.updateClassroom({ classroom: this.classroom, updates: { archived: true } })
-                $noty.close()
-              }
-            }
-          ]
-        })
+        this.updateClassroom({ classroom: this.classroom, updates: { archived: true } })
+        const classroom = new Classroom(this.classroom)
+        classroom.revokeStudentLicenses()
         this.$emit('close')
       },
       unarchiveClass () {
@@ -80,9 +75,13 @@
         if (this.newClassName && this.newClassName !== this.classroomName) {
           updates.name = this.newClassName
         }
+        const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
         if (this.newProgrammingLanguage && this.newProgrammingLanguage !== this.language) {
-          const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
           aceConfig.language = this.newProgrammingLanguage
+          updates.aceConfig = aceConfig
+        }
+        if (this.newLiveCompletion !== this.liveCompletion) {
+          aceConfig.liveCompletion = this.newLiveCompletion
           updates.aceConfig = aceConfig
         }
         if (_.size(updates)) {
@@ -127,6 +126,17 @@
               </option>
             </select>
             <span class="control-label-desc"> {{ $t("teachers.programming_language_edit_desc_new") }} </span>
+          </div>
+        </div>
+        <div class="form-group row autoComplete">
+          <div class="col-xs-12">
+            <span class="control-label"> {{ $t('courses.classroom_live_completion') }}</span>
+            <input
+              v-model="newLiveCompletion"
+              type="checkbox"
+              id="liveCompletion"
+              >
+            <span class="control-label-desc">{{ $t("teachers.classroom_live_completion") }}</span>
           </div>
         </div>
         <div class="form-group row buttons">
@@ -176,9 +186,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .form-group .control-label-desc {
+    display: inline-block;
+    text-align: justify;
+    line-height: 19px;
+    margin-top: 3px;
+  }
 }
 
-.class-name, .language {
+.class-name, .language, .autoComplete {
   width: 100%;
 }
 
@@ -196,7 +213,16 @@
     height: 35px;
     margin: 0 10px;
     text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
   }
+}
+
+#liveCompletion {
+  marign-left: 15px;
+  height: 18px;
+  width: 18px;
 }
 
 </style>

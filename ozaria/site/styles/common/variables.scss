@@ -1,40 +1,42 @@
-
+@import "app/styles/utils";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 @import "app/styles/style-flat-variables.sass";
 
-$title-font-style: 'Arvo', serif;
-$body-font-style: 'Open Sans', sans-serif;
-$label-font-style: 'Work Sans', sans-serif;
-$code-font-style: 'Roboto Mono', monospace;
+@if $is-ozaria {
+  $title-font-style: 'Arvo', serif !global;
+  $body-font-style: 'Open Sans', sans-serif !global;
+  $label-font-style: 'Work Sans', sans-serif !global;
+  $code-font-style: 'Roboto Mono', monospace !global;
 
-// Ozaria Chrome
-$chromeTopPadding: 8vh;
-$chromeRightPadding: 6vw;
-$chromeBottomPadding: 4vh;
-$chromeLeftPadding: 2vw;
+  // Ozaria Chrome
+  $chromeTopPadding: 8vh !global;
+  $chromeRightPadding: 6vw !global;
+  $chromeBottomPadding: 4vh !global;
+  $chromeLeftPadding: 2vw !global;
 
-// Used in the signup modals
-$authGray: #a4a4a4;
+  // Used in the signup modals
+  $authGray: #a4a4a4 !global;
 
-// Used in Single class table
-$studentNameWidth: 260px;
+  // Used in Single class table
+  $studentNameWidth: 260px !global;
 
-// Following Ozaria marketing guide
-$white: #ffffff;
-$mist: #eeeced;
-$moon: #f7d047;
-$goldenlight: #d1b147;
-$sun: #ff8600;
-$dawn: #532e4b;
-$dusk: #5db9ac;
-$dusk-dark: #379b8d;
-$fog: #6bd7ef;
-$twilight: #476fb1;
-$eve: #2d5859;
-$pitch: #131b25;
-$haze: #6d8594;
-$acodus-glow: #40f3e4;
+  // Following Ozaria marketing guide
+  $white: #ffffff !global;
+  $mist: #eeeced !global;
+  $moon: #f7d047 !global;
+  $goldenlight: #d1b147 !global;
+  $sun: #ff8600 !global;
+  $dawn: #532e4b !global;
+  $dusk: #5db9ac !global;
+  $dusk-dark: #379b8d !global;
+  $fog: #6bd7ef !global;
+  $twilight: #476fb1 !global;
+  $eve: #2d5859 !global;
+  $pitch: #131b25 !global;
+  $haze: #6d8594 !global;
+  $acodus-glow: #40f3e4 !global;
 
-// For the single progress table
-$tooltip-spacing: 200px;
-$anti-tooltip-spacing: -200px;
+  // For the single progress table
+  $tooltip-spacing: 200px !global;
+  $anti-tooltip-spacing: -200px !global;
+}

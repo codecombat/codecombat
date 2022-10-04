@@ -7,11 +7,14 @@ basePath = path.resolve('./app')
 _ = require 'lodash'
 fs = require('fs')
 load = require 'pug-load'
+devUtils = require './development/utils'
 
 # TODO: stop webpack build on error (e.g. http://dev.topheman.com/how-to-fail-webpack-build-on-error/)
 
-product = process.env.COCO_PRODUCT or 'codecombat'
-productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
+product = devUtils.product
+productSuffix = devUtils.productSuffix
+publicFolderName = devUtils.publicFolderName
+
 
 productFallbackPlugin =
   read: (path) ->
@@ -98,13 +101,13 @@ compile = (contents, locals, filename, cb) ->
 
   # console.log {outFile}
 
-  if not fs.existsSync(path.resolve('./public'))
-    fs.mkdirSync(path.resolve('./public'))
-  if not fs.existsSync(path.resolve('./public/templates'))
-    fs.mkdirSync(path.resolve('./public/templates'))
-  if not fs.existsSync(path.resolve('./public/templates/static'))
-    fs.mkdirSync(path.resolve('./public/templates/static'))
-  fs.writeFileSync(path.join(path.resolve('./public/templates/static'), outFile), c.html())
+  if not fs.existsSync(path.resolve("./#{publicFolderName}"))
+    fs.mkdirSync(path.resolve("./#{publicFolderName}"))
+  if not fs.existsSync(path.resolve("./#{publicFolderName}/templates"))
+    fs.mkdirSync(path.resolve("./#{publicFolderName}/templates"))
+  if not fs.existsSync(path.resolve("./#{publicFolderName}/templates/static"))
+    fs.mkdirSync(path.resolve("./#{publicFolderName}/templates/static"))
+  fs.writeFileSync(path.join(path.resolve("./#{publicFolderName}/templates/static"), outFile), c.html())
   cb()
   # cb(null, [{filename: outFile, content: c.html()}], deps) # old brunch callback
 
