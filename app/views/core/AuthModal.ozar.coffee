@@ -12,6 +12,7 @@ globalVar = require 'core/globalVar'
 module.exports = class AuthModal extends ModalView
   id: 'auth-modal'
   template: template
+  trapsFocus: false  # TODO: re-enable this in a way that doesn't break Google login Noty
 
   events:
     'click #switch-to-signup-btn': 'onSignupInstead'
@@ -136,13 +137,17 @@ module.exports = class AuthModal extends ModalView
                   @onGPlusLoginError(res, jqxhr)
             })
         })
+      error: (e) ->
+        @onGPlusLoginError()
+        e.message ||= "Google login failed: #{e.error} - #{e.details}" if e?.error and e?.details
+        noty({text: e?.message or e?.details or e?.toString?() or 'Unknown Google login error', layout: 'topCenter', type: 'error', timeout: 5000, killer: false, dismissQueue: true})
     })
 
   onGPlusLoginError: (res, jqxhr) ->
-    if jqxhr.status is 401 and jqxhr.responseJSON.errorID and jqxhr.responseJSON.errorID is 'individuals-not-supported'
+    if jqxhr?.status is 401 and jqxhr.responseJSON.errorID and jqxhr.responseJSON.errorID is 'individuals-not-supported'
       forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
     else
-      errors.showNotyNetworkError(arguments...)
+      errors.showNotyNetworkError(arguments...) if arguments.length
 
     btn = @$('#gplus-login-btn')
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_gplus'))
