@@ -2086,6 +2086,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_announcement: "Classroom Announcement"
     link_lms_classroom: "Link LMS Classroom"
     classroom_live_completion: "Classroom Code Autocomplete: "
+    learn_without_classroom_title: "You can still learn and play without a classroom"
+    learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
