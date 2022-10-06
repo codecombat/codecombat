@@ -11,6 +11,12 @@ Levels = require 'collections/Levels'
 tagger = require 'lib/SolutionConceptTagger'
 conceptList = require 'schemas/concepts'
 loadAetherLanguage = require 'lib/loadAetherLanguage'
+utils = require 'core/utils'
+
+if utils.isOzaria
+  unless typeof esper is 'undefined'
+    realm = new esper().realm
+    parser = realm.parser.bind(realm)
 
 module.exports = class LevelConceptMap extends RootView
   template: template
@@ -44,10 +50,11 @@ module.exports = class LevelConceptMap extends RootView
   problemCount: 0
 
   initialize: ->
-    loadAetherLanguage('javascript').then (aetherLang) =>
-      unless typeof esper is 'undefined'
-        realm = new esper().realm
-        @parser = realm.parser.bind(realm)
+    if utils.isCodeCombat
+      loadAetherLanguage('javascript').then (aetherLang) =>
+        unless typeof esper is 'undefined'
+          realm = new esper().realm
+          @parser = realm.parser.bind(realm)
     @campaigns = new Campaigns([])
     @listenTo(@campaigns, 'sync', @onCampaignsLoaded)
     @supermodel.trackRequest(@campaigns.fetch(
@@ -100,8 +107,12 @@ module.exports = class LevelConceptMap extends RootView
           )
         )
 
-        if thangs.length > 2
+        if utils.isCodeCombat and thangs.length > 2
           console.warn 'Level has more than 2 programmableMethod Thangs', levelSlug
+          continue
+
+        if utils.isOzaria and thangs.length > 1
+          console.warn 'Level has more than 1 programmableMethod Thangs', levelSlug
           continue
 
         unless component?
@@ -112,6 +123,8 @@ module.exports = class LevelConceptMap extends RootView
         level.tags = @tagLevel _.find plan.solutions, (s) -> s.language is 'javascript'
       @data[campaignSlug] = _.sortBy _.values(@loadedLevels[campaignSlug]), 'seqNo'
 
+    if utils.isOzaria
+      console.log @render, @loadedLevels
     @render()
 
   tagLevel: (src) ->
