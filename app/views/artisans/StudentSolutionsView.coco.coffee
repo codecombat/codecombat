@@ -1,6 +1,7 @@
 require('app/styles/artisans/student-solutions-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'app/templates/artisans/student-solutions-view'
+utils = require 'core/utils'
 
 Campaigns = require 'collections/Campaigns'
 Campaign = require 'models/Campaign'
@@ -8,10 +9,16 @@ Campaign = require 'models/Campaign'
 Levels = require 'collections/Levels'
 Level = require 'models/Level'
 LevelSessions = require 'collections/LevelSessions'
+LevelComponent = require 'models/LevelComponent'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
 {createAetherOptions} = require 'lib/aether_utils'
 loadAetherLanguage = require 'lib/loadAetherLanguage'
+
+if utils.isOzaria
+  unless typeof esper is 'undefined'
+    realm = new esper().realm
+    parser = realm.parser.bind(realm)
 
 module.exports = class StudentSolutionsView extends RootView
   template: template
@@ -26,10 +33,11 @@ module.exports = class StudentSolutionsView extends RootView
 
   initialize: () ->
     @validLanguages = ['python', 'javascript']
-    Promise.all(@validLanguages.map loadAetherLanguage).then =>
-      unless typeof esper is 'undefined'
-        realm = new esper().realm
-        @parser = realm.parser.bind(realm)
+    if utils.isCodeCombat
+      Promise.all(@validLanguages.map loadAetherLanguage).then =>
+        unless typeof esper is 'undefined'
+          realm = new esper().realm
+          @parser = realm.parser.bind(realm)
     @resetLevelInfo()
     @resetSolutionsInfo()
 
@@ -153,9 +161,14 @@ module.exports = class StudentSolutionsView extends RootView
         return src
 
     # TODO: put this into Level? if so, also use it in TeacherCourseSolutionView
-    programmableComponentOriginal = '524b7b5a7fc0f6d51900000e'
+    if utils.isCodeCombat
+      programmableComponentOriginal = '524b7b5a7fc0f6d51900000e'
     heroPlaceholder = _.find level.get('thangs'), id: 'Hero Placeholder'
-    comp = _.find heroPlaceholder?.components, original: programmableComponentOriginal
+    if utils.isCodeCombat
+      comp = _.find heroPlaceholder?.components, original: programmableComponentOriginal
+    else
+      comp = _.find heroPlaceholder?.components, (c) => c in LevelComponent.ProgrammableIDs
+
     programmableMethod = comp?.config.programmableMethods.plan
     result = {}
 
