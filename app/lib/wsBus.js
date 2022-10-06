@@ -55,6 +55,9 @@ module.exports = wsBus = class WsBus extends CocoClass {
       case 'pong': // check alive
         this.updateFriend(data.from, { online: true })
         break
+      case 'close':
+        this.updateFriend(data.from, { online: false })
+        break
       }
     })
     this.ws.addEventListener('open', () => {
