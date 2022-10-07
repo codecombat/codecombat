@@ -11,9 +11,10 @@ module.exports =
   'web-dev:hover-line': c.object {
     title: 'Web-dev Hover Line',
     description: 'Published when the user is hovering over a line of code, for the purposes of highlighting nodes based on the hovered CSS selector'
-  },
-  row: { type: 'integer', description: 'The row number of the hovered line (zero-indexed!)' }
-  line: { type: 'string', description: 'The full line of code that the user is hovering over' }
+  }, {
+    row: { type: 'integer', description: 'The row number of the hovered line (zero-indexed!)' }
+    line: { type: 'string', description: 'The full line of code that the user is hovering over' }
+  }
 
   'web-dev:stop-hovering-line': c.object {
     title: 'Stop hovering line'

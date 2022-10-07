@@ -357,9 +357,9 @@
           if (this.hasLineHighlighting) {
             // Hack for short screens to get around the fact that loading is messy and the
             // ace editor isn't always available to scroll up in when you expect it to.
-            setTimeout(() => Backbone.Mediator.publish('tome:scroll-to-top'), 2000)
-            setTimeout(() => Backbone.Mediator.publish('tome:scroll-to-top'), 3000)
-            setTimeout(() => Backbone.Mediator.publish('tome:scroll-to-top'), 4000)
+            setTimeout(() => Backbone.Mediator.publish('tome:scroll-to-top', {}), 2000)
+            setTimeout(() => Backbone.Mediator.publish('tome:scroll-to-top', {}), 3000)
+            setTimeout(() => Backbone.Mediator.publish('tome:scroll-to-top', {}), 4000)
           }
 
           this.previousSteps = steps.slice()
@@ -390,8 +390,8 @@
         if (this.hasLineHighlighting) {
           // The editor tries to scroll down to show the latest code. For line highlighting, we need specific
           // line numbers, so we to scroll to the top (as early as possible) so the offset is correct:
-          Backbone.Mediator.publish('tome:remove-all-markers')
-          Backbone.Mediator.publish('tome:scroll-to-top')
+          Backbone.Mediator.publish('tome:remove-all-markers', {})
+          Backbone.Mediator.publish('tome:scroll-to-top', {})
         }
         $(".full-gold-highlight").removeClass("full-gold-highlight")
         $('.button-glow').removeClass('button-glow')

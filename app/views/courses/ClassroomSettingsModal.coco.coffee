@@ -31,6 +31,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     @lmsClassrooms = []
     @isGoogleClassroom = false
     @enableCpp = me.enableCpp()
+    @enableJava = me.enableJava()
     @uploadFilePath = "db/classroom/#{@classroom.id}"
     initializeFilePicker()
     if @shouldShowLMSButton()

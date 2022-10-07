@@ -71,7 +71,7 @@ module.exports = class Angel extends CocoClass
   testWorker: =>
     return if @destroyed
     clearTimeout @condemnTimeout
-    @condemnTimeout = _.delay @infinitelyLooped, @infiniteLoopTimeoutDuration
+    @condemnTimeout = _.delay (=> @infinitelyLooped {timedOut: true}), @infiniteLoopTimeoutDuration
     @say 'Let\'s give it', @infiniteLoopTimeoutDuration, 'to not loop.'
     @worker.postMessage func: 'reportIn'
 
@@ -103,7 +103,7 @@ module.exports = class Angel extends CocoClass
       when 'non-user-code-problem'
         @publishGodEvent 'non-user-code-problem', problem: event.data.problem
         if @shared.firstWorld
-          @infinitelyLooped(false, true)  # For now, this should do roughly the right thing if it happens during load.
+          @infinitelyLooped escaped: false, nonUserCodeProblem: true, problem: event.data.problem  # For now, this should do roughly the right thing if it happens during load.
         else
           @fireWorker()
 
@@ -193,14 +193,24 @@ module.exports = class Angel extends CocoClass
     @worker.postMessage func: 'finalizePreload'
     @work.preload = false
 
-  infinitelyLooped: (escaped=false, nonUserCodeProblem=false) =>
+  infinitelyLooped: ({escaped=false, nonUserCodeProblem=false, problem=null, timedOut=false}) =>
+    console.log 'Infinitely looped.', escaped, nonUserCodeProblem, problem, timedOut
     @say 'On infinitely looped! Aborting?', @aborting
     return if @aborting
-    problem = type: 'runtime', level: 'error', id: 'runtime_InfiniteLoop', message: 'Code never finished. It\'s either really slow or has an infinite loop.'
-    problem.message = 'Escape pressed; code aborted.' if escaped
+    problem ?= {}
+    problem.type ?= 'runtime'
+    problem.level ?= 'error'
+    problem.id ?= 'runtime_InfiniteLoop'  # TODO: use some other ID for non-user-code problems?
+    problem.message ?= 'Escape pressed; code aborted.' if escaped
+    problem.message ?= 'Code never finished. It\'s either really slow or has an infinite loop.' if timedOut
+    problem.message ?= 'Unknown error.'
     @publishGodEvent 'user-code-problem', problem: problem
-    @publishGodEvent 'infinite-loop', firstWorld: @shared.firstWorld, nonUserCodeProblem: nonUserCodeProblem
+    @publishGodEvent 'infinite-loop', firstWorld: @shared.firstWorld, nonUserCodeProblem: nonUserCodeProblem, problem: problem, timedOut: timedOut
     @reportLoadError() if nonUserCodeProblem
+    if timedOut
+      # If they try again, give them more time next time
+      @infiniteLoopIntervalDuration *= 2
+      @infiniteLoopTimeoutDuration *= 2
     @fireWorker()
 
   publishGodEvent: (channel, e) ->
@@ -324,7 +334,7 @@ module.exports = class Angel extends CocoClass
   onEscapePressed: (e) ->
     return unless @running and not @work.realTime
     return if (new Date() - @lastRealTimeWork) < 1000  # Fires right after onStopRealTimePlayback
-    @infinitelyLooped true
+    @infinitelyLooped escaped: true
 
   #### Synchronous code for running worlds on main thread (profiling / IE9) ####
   simulateSync: (work) =>

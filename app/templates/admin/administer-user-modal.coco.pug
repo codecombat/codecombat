@@ -24,6 +24,8 @@ block modal-header-content
           a(href='/outcomes-report/' + outcomesReportKind + '/' + view.user.get('_id') data-i18n="outcomes.view_outcomes_report")
 
     .col-sm-3
+      if me.isAdmin()
+        button#user-spy-btn.btn.btn-primary.btn-block Spy
       if view.user.isStudent() && me.isAdmin()
         button#destudent-btn.btn.btn-burgundy.btn-block Destudent
       if view.user.isTeacher() && me.isAdmin()
@@ -36,24 +38,24 @@ block modal-header-content
     .col-sm-3
       if view.prepaids.size()
         div
-          a(href="#prepaids") Existing Prepaids
+          a.modal-nav-link(href="#prepaids") Existing Prepaids
       if view.user.isTeacher()
         div
-          a(href="#licenses") Grant Student Licenses
+          a.modal-nav-link(href="#licenses") Grant Student Licenses
       if view.classrooms.size()
         div
-          a(href="#classrooms") Classrooms
+          a.modal-nav-link(href="#classrooms") Classrooms
       if view.user.isHomeUser()
         div
-          a(href="#stripe") Modify Subscription
+          a.modal-nav-link(href="#stripe") Modify Subscription
       if me.isOnlineTeacher()
         div
-          a(href="#other-controls") Other Controls
+          a.modal-nav-link(href="#other-controls") Other Controls
       // Not currently used
       //div
-      //  a(href="#create-payment") Create Payment
+      //  a.modal-nav-link(href="#create-payment") Create Payment
       div
-        a(href="#database-entries") Database Entries
+        a.modal-nav-link(href="#database-entries") Database Entries
 
   if view.user.isTeacher() && me.isAdmin()
     div.m-t-1
@@ -81,6 +83,19 @@ block modal-header-content
         input#online-teacher-checkbox(type='checkbox', checked=view.userIsOnlineTeacher())
         span.p-l-1
           | Enable Online Teacher
+      div
+        if view.userSaveState == 'saving'
+          | Saving...
+        else if view.userSaveState == 'saved'
+          | Saved!
+
+  if view.user.isTeacher() && me.isAdmin()
+    div.m-t-1
+      label
+        input#beta-tester-checkbox(type='checkbox', checked=view.userIsBetaTester())
+        span.p-l-1
+          | Enable Beta Tester
+        span.small  (classroom Java)
       div
         if view.userSaveState == 'saving'
           | Saving...
