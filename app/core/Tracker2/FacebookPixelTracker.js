@@ -36,7 +36,6 @@ export default class FacebookPixelTracker extends BaseTracker {
 
     // Facebook pixels are currently tracked via Segment, which is enabled for all teachers so do not
     // double enable it for teachers
-    // TODO - remove it via segment
     const isStudent = this.store.getters['me/isStudent']
     const isChina = (window.features || {}).china
 
