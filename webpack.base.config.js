@@ -12,7 +12,7 @@ const product = process.env.COCO_PRODUCT || 'codecombat'
 const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
 require.extensions[`.${productSuffix}.coffee`] = require.extensions['.coffee']
 const CompileStaticTemplatesPlugin = require('./compile-static-templates')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const { VueLoaderPlugin } = require('vue-loader')
 const PWD = process.env.PWD || __dirname
 const fs = require('fs')
 const { publicFolderName } = require('./development/utils')
@@ -252,18 +252,6 @@ module.exports = (env) => {
       new webpack.IgnorePlugin({ resourceRegExp: /\/fonts\/bootstrap\/.*$/ }), // Ignore Bootstrap's fonts
       new webpack.IgnorePlugin({ resourceRegExp: /^memwatch$/ }), // Just used by the headless client on the server side
       new webpack.IgnorePlugin({ resourceRegExp: /.DS_Store$/ }),
-
-      // Enable IgnorePlugins for development to speed webpack
-      // new webpack.IgnorePlugin(/\!locale/),
-      // new webpack.IgnorePlugin(/\/admin\//),
-      // new webpack.IgnorePlugin(/\/artisan\//),
-      // new webpack.IgnorePlugin(/\/clans\//),
-      // new webpack.IgnorePlugin(/\/contribute\//),
-      // new webpack.IgnorePlugin(/\/courses\//),
-      // new webpack.IgnorePlugin(/\/editor\//),
-      // new webpack.IgnorePlugin(/\/ladder\//),
-      // new webpack.IgnorePlugin(/\/teachers\//),
-      // new webpack.IgnorePlugin(/\/play\//),
 
       new CopyWebpackPlugin({
         patterns: [
