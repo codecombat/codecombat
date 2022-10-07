@@ -19,6 +19,9 @@
           li(class= path.indexOf('/teachers/classes') === 0 ? 'active' : '')
             a.track-click-event(href='/teachers/classes', data-event-action='Teacher Nav Click My Classes')
               small.label(data-i18n='teacher.my_classes')
+          li(class= path.indexOf('/teachers/resources') === 0 ? 'active' : '')
+            a.track-click-event(href='/teachers/resources', data-event-action='Teacher Nav Click Resource Hub')
+              small.label(data-i18n='teacher.resource_hub')
           li(class= path.indexOf('/teachers/courses') === 0 ? 'active' : '')
             a.track-click-event(href='/teachers/courses', data-event-action='Teacher Nav Click Unit Guides')
               small.label(data-i18n='teacher.courses_coco')
@@ -26,6 +29,4 @@
             li(class= path.indexOf('/teachers/licenses') === 0 ? 'active' : '')
               a.track-click-event(href='/teachers/licenses', data-event-action='Teacher Nav Click Student Licenses')
                 small.label(data-i18n='teacher.enrollments')
-          li(class= path.indexOf('/teachers/resources') === 0 ? 'active' : '')
-            a.track-click-event(href='/teachers/resources', data-event-action='Teacher Nav Click Resource Hub')
-              small.label(data-i18n='teacher.resource_hub')
+

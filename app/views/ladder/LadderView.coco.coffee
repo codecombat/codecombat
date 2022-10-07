@@ -22,6 +22,7 @@ CourseInstance = require 'models/CourseInstance'
 Course = require 'models/Course'
 Mandate = require 'models/Mandate'
 Tournament = require 'models/Tournament'
+TournamentSubmission = require 'models/TournamentSubmission'
 
 HIGHEST_SCORE = 1000000
 
@@ -85,6 +86,11 @@ module.exports = class LadderView extends RootView
     @mandate = @supermodel.loadModel(new Mandate()).model
 
     @tournamentId = utils.getQueryVariable 'tournament'
+    if @tournamentId
+      url = "/db/tournament/#{@tournamentId}/submission"
+      @myTournamentSubmission = new TournamentSubmission().setURL url
+      @supermodel.loadModel(@myTournamentSubmission)
+
     # TODO: query for matching tournaments for the level and show tournaments list to click into results
     @loadLeague()
     @urls = require('core/urls')
@@ -238,12 +244,12 @@ module.exports = class LadderView extends RootView
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
     unless @tournamentState in ['ended', 'ranking']
       if @level.isType('ladder')
-        @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, leagueType: @leagueType, course: @course}, @level, @sessions, @anonymousPlayerName ))
+        @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, leagueType: @leagueType, course: @course, myTournamentSubmission: @myTournamentSubmission}, @level, @sessions, @anonymousPlayerName ))
       else
         @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
       @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league, leagueType: @leagueType, course: @course}, @level, @sessions, @anonymousPlayerName))
     else
-      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId, leagueType: 'clan'}, @level, @sessions )) # classroom ladder do not have tournament for now
+      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId, leagueType: 'clan', myTournamentSubmission: @myTournamentSubmission}, @level, @sessions )) # classroom ladder do not have tournament for now
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
@@ -281,8 +287,8 @@ module.exports = class LadderView extends RootView
     e.stopImmediatePropagation()
     humanSession = @ladderTab.spectateTargets?.humans
     ogreSession = @ladderTab.spectateTargets?.ogres
-    return unless humanSession and ogreSession
-    url = "/play/spectate/#{@level.get('slug')}?session-one=#{humanSession}&session-two=#{ogreSession}"
+    url = "/play/spectate/#{@level.get('slug')}?"
+    url += "session-one=#{humanSession}&session-two=#{ogreSession}" if humanSession and ogreSession
     url += '&league=' + @league.id if @league
     url += '&autoplay=false' if key.command
     url += '&tournament=' + @tournamentId if @tournamentState is 'ended'
@@ -354,7 +360,6 @@ module.exports = class LadderView extends RootView
   isAILeagueArena: -> _.find utils.arenas, slug: @levelID
 
   teamOffers: [
-    {slug: 'ned', clanId: '6137aab4e0bae40025bed266', name: 'Team Ned', clanSlug: 'team-ned'}
     {slug: 'hyperx', clanId: '60a4378875b540004c78f121', name: 'Team HyperX', clanSlug: 'hyperx'}
     {slug: 'derbezt', clanId: '601351bb4b79b4013e198fbe', name: 'Team DerBezt', clanSlug: 'team-derbezt'}
   ]

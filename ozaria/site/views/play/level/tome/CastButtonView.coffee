@@ -77,8 +77,8 @@ module.exports = class CastButtonView extends CocoView
     Backbone.Mediator.publish 'tome:manual-cast', { realTime: false }
 
   onUpdateButtonClick: (e) ->
-    Backbone.Mediator.publish 'tome:updateAetherRunning'
-    Backbone.Mediator.publish 'tome:updateAether'
+    Backbone.Mediator.publish 'tome:update-aether-running', {}
+    Backbone.Mediator.publish 'tome:update-aether', {}
 
   onNextButtonClick: (e) ->
     if @winnable

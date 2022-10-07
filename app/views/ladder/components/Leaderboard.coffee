@@ -31,7 +31,7 @@ module.exports = class LeaderboardView extends CocoView
       {slug: 'wins', col: 1, title: $.i18n.t('ladder.win_num')},
       {slug: 'losses', col: 1, title: $.i18n.t('ladder.loss_num')},
       {slug: 'win-rate', col: 1, title: $.i18n.t('ladder.win_rate')},
-      {slug: 'clan', col: 2, title: $.i18n.t('clans.clan')},
+      {slug: 'clan', col: 2, title: $.i18n.t('league.team')},
       {slug: 'age', col: 1, title: $.i18n.t('ladder.age_bracket')},
       {slug: 'country', col:1, title: '🏴‍☠️'}
     ]
@@ -130,14 +130,17 @@ module.exports = class LeaderboardView extends CocoView
       if model?.type == 'BLANK_ROW'
         return model
       if @tournament
+        isMyLevelSession = model.get('creator') is me.id and model.constructor.name is 'LevelSession'
+        wins = model.get('wins') ? (if isMyLevelSession then model.myWins else 0)
+        losses = model.get('losses') ? (if isMyLevelSession then model.myLosses else 0)
         return [
           model.get('creator'),
           model.get('submittedCodeLanguage'),
-          index+1,
+          model.rank ? index+1,
           (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
-          model.get('wins'),
-          model.get('losses'),
-          ((model.get('wins') or 0) / (((model.get('wins') or 0) + (model.get('losses') or 0)) or 1) * 100).toFixed(2) + '%',
+          wins,
+          losses,
+          ((wins or 0) / (((wins or 0) + (losses or 0)) or 1) * 100).toFixed(2) + '%',
           @getClanName(model),
           @getAgeBracket(model),
           model.get('creatorCountryCode')
@@ -166,7 +169,7 @@ module.exports = class LeaderboardView extends CocoView
       oldLeaderboard.destroy()
 
     teamSession = _.find @sessions.models, (session) -> session.get('team') is 'humans'
-    @leaderboards = new LeaderboardData(@level, 'humans', teamSession, @ladderLimit, @league, @tournament, @ageBracket)
+    @leaderboards = new LeaderboardData(@level, 'humans', teamSession, @ladderLimit, @league, @tournament, @ageBracket, @options.myTournamentSubmission)
     @leaderboardRes = @supermodel.addModelResource(@leaderboards, 'leaderboard', {cache: false}, 3)
     @leaderboardRes.load()
 

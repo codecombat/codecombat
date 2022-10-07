@@ -11,6 +11,7 @@ globalVar = require 'core/globalVar'
 module.exports = class AuthModal extends ModalView
   id: 'auth-modal'
   template: template
+  trapsFocus: false  # TODO: re-enable this in a way that doesn't break Google login Noty
 
   events:
     'click #switch-to-signup-btn': 'onSignupInstead'
@@ -129,13 +130,17 @@ module.exports = class AuthModal extends ModalView
                   @onGPlusLoginError(res, jqxhr)
             })
         })
+      error: (e) ->
+        @onGPlusLoginError()
+        e.message ||= "Google login failed: #{e.error} - #{e.details}" if e?.error and e?.details
+        noty({text: e?.message or e?.details or e?.toString?() or 'Unknown Google login error', layout: 'topCenter', type: 'error', timeout: 5000, killer: false, dismissQueue: true})
     })
 
   onGPlusLoginError: =>
     btn = @$('#gplus-login-btn')
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_gplus'))
     btn.attr('disabled', false)
-    errors.showNotyNetworkError(arguments...)
+    errors.showNotyNetworkError(arguments...) if arguments.length
 
 
   # Facebook

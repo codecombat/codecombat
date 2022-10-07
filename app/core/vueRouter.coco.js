@@ -144,7 +144,7 @@ export default function getVueRouter () {
         },
         {
           path: '/users/switch-account/:confirmingUserId/:requestingConfirmUserId/confirm',
-          name: 'UserSwitchAccount',
+          name: 'UserSwitchAccountConfirmation',
           component: () => import(/* webpackChunkName: "userSwitchAccountConfirm" */'/app/views/user/SwitchAccountConfirmationView'),
           props: (route) => ({ ...route.query, ...route.params })
         }

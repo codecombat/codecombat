@@ -53,7 +53,7 @@ export default {
           img(src="/images/ozaria/home/ozaria_logo_sun.png" alt="Ozaria branding logo")
         h1(style="margin-bottom:15px;") Need to find funding for your CS program? We can help!
         h2.subtitle-mid Our team is here to help you navigate the COVID-19 Relief Funding Bill and get the most for you and your students.
-        h2.subtitle-mid Our CS solutions align with the high-priority initiatives supported by COVID-19 CARES Act–ESSER & GEER relief funding programs–to provide flexible, high-quality academic and social-emotional learning curricula to address learning loss, help students meet grade-level proficiency, and accelerate learning.
+        h2.subtitle-mid Our CS solutions align with the high-priority initiatives supported by COVID-19 CARES Act–#[strong ESSER] & #[strong GEER] relief funding programs–to provide flexible, high-quality academic and social-emotional learning curricula to address learning loss, help students meet grade-level proficiency, and accelerate learning.
         div
           a.btn.btn-primary.btn-large.btn-moon.sales-btn(@click="onClickSalesCTA") Contact Our Team
 
@@ -121,13 +121,13 @@ export default {
                   h4 Ozaria & CodeCombat
                   p ESSER and GEER funds can be used for any expense geared toward learning loss mitigation, and for educational technology (hardware, software, and connectivity) that aids in the regular and substantive educational interaction between students and their classroom instructors. Additionally, all expenses authorized by the Elementary and Secondary Education Act (ESEA) and the Perkins V Act are eligible.
                   ul
-                    li With our built-in scaffolded support and self-paced learning activities, our programs do the differentiating for you.
-                    li Our curriculum also provides extensive opportunities for remediation and extension.
-                    li Our dashboard provides teachers with actionable insights into learner pace, progress, and mastery level, allowing teachers to monitor and address learning needs at point of use.
-                    li Our turn-key lesson slides address knowledge gaps and ensure all learners are prepared for grade-level content.
+                    li With our built-in #[strong scaffolded support] and #[strong self-paced learning] activities, our programs do the #[strong differentiating] for you.
+                    li Our curriculum also provides extensive opportunities for #[strong remediation] and #[strong extension].
+                    li Our dashboard provides teachers with actionable insights into learner pace, progress, and mastery level, allowing teachers to monitor and address #[strong learning needs at point of use].
+                    li Our turn-key lesson slides address #[strong knowledge gaps] and ensure all learners are #[strong prepared for grade-level content].
                 .col-md-6.col-sm-12
                   img.img-responsive(src="/images/pages/funding/funding-carousel-0.jpg" loading="lazy" alt="Students coding screenshot")
-                  p With many relevant and engaging unplugged activities and collaborative projects included in our curriculum, you can prioritize students' social and emotional needs and provide opportunities to fully re-engage them in the learning progress.
+                  p With many relevant and engaging unplugged activities and collaborative projects included in our curriculum, you can prioritize students' #[strong social and emotional needs] and provide opportunities to fully #[strong re-engage them in the learning progress].
             .item(data-slide=1)
               .row
                 .col-md-6.col-sm-12
@@ -137,9 +137,9 @@ export default {
                 .col-md-6.col-sm-12
                   h4 Professional Development
                   p ESSER and GEER funds may be used to provide professional development to educators on research-based strategies for meeting students' academic, social, emotional, mental health, and college, career, and future readiness needs. 
-                  p Our PD was developed using evidence-based best practices for teaching and learning.
-                  p We provide the tools, resources, and training for educators to improve their teaching quality and effectiveness and better meet the needs of diverse learners and students suffering learning loss as a result of COVID-19.
-                  p Our online course includes modules on implementing activities to support students' social and emotional learning, growth mindset, scaffolding instruction for diverse learners, digital citizenship, and diversity, equity, and inclusion awareness, among many other topics.
+                  p Our PD was developed using #[strong evidence-based best practices] for teaching and learning.
+                  p We provide the tools, resources, and training for educators to improve their teaching quality and effectiveness and better #[strong meet the needs of diverse learners and students suffering learning loss] as a result of COVID-19.
+                  p Our online course includes modules on implementing activities to support students' #[strong social and emotional learning], #[strong growth mindset], #[strong scaffolding] instruction for diverse learners, #[strong digital citizenship], and #[strong diversity, equity, and inclusion awareness], among many other topics.
             .item(data-slide=2)
               .row
                 .col-md-6.col-sm-12
@@ -147,7 +147,7 @@ export default {
                 .col-md-6.col-sm-12
                   h4 Live Online Tutoring
                   p All federal funding and grants allow for "supporting learning programs for summer school, after school, extended day, and extended year" to accommodate learning loss due to the pandemic.
-                  p Our live online classes for individual students or small groups provide individualized instruction and feedback to ensure students get the personalized support they need and are on-track for grade-level instruction. 
+                  p Our live online classes for individual students or small groups provide individualized instruction and feedback to ensure students get the #[strong personalized support] they need and are #[strong on-track for grade-level instruction]. 
         .col-lg-12.text-center
           //- Reference https://getbootstrap.com/docs/3.4/javascript/
           .carousel-dot.active(data-selector="#solutions", data-slide-num="0", @click="() => onCarouselDirectMove(0)")

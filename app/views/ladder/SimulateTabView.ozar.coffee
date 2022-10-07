@@ -17,7 +17,7 @@ module.exports = class SimulateTabView extends CocoView
     @simulatorsLeaderboardDataRes = @supermodel.addModelResource(@simulatorsLeaderboardData, 'top_simulators', {cache: false})
     @simulatorsLeaderboardDataRes.load()
     Promise.all(
-      ["javascript", "python", "coffeescript", "lua"].map(
+      ["javascript", "python", "coffeescript", "lua", "cpp", "java"].map(
         loadAetherLanguage
       )
     )

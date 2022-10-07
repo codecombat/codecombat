@@ -41,7 +41,7 @@
     @close="onClose"
   >
     <div class="onboarding-video-modal">
-      <span class="sub-title"> Watch this brief video for best practices and tips on how to make the most of your dashboard. You can always re-watch it in the <a href="/teachers/resources" @click="onClickResourceHub"> Resource Hub. </a> </span>
+      <span class="sub-title"> Watch this brief video for best practices and tips on how to make the most of your dashboard. You can always re-watch it in the <a href="/teachers/resources" @click="onClickResourceHub"> Teacher Toolkit. </a> </span>
       <div class="video">
         <base-cloudflare-video
           :video-cloudflare-id="videoId"

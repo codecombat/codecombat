@@ -32,7 +32,7 @@ class ViewLoadTimer
     .then =>
       @networkLoad = performance.now()
       return if @view.destroyed
-      
+
       imagePromises = []
       if VIEW_LOAD_LOG
         console.groupCollapsed('Images')
@@ -78,7 +78,7 @@ class ViewLoadTimer
       console.log "networkTime: #{networkTime}" if VIEW_LOAD_LOG
       totalTime = endTime - @t0
       console.log "totalTime: #{totalTime}" if VIEW_LOAD_LOG
-      console.log "Saw view load event", thatThereId, @view.id
+      console.log "Saw view load event", thatThereId, @view.id if VIEW_LOAD_LOG
 
       if @view.destroyed
         console.log "Sure did toss that thing." if VIEW_LOAD_LOG
@@ -135,7 +135,7 @@ class ViewLoadTimer
           totalEssentialEncodedBodySize, totalEssentialTransferSize, cachedEssentialResources, totalEssentialResources }
       else
         resourceInfo = {}
-      
+
       props = _.assign({networkTime, totalTime, viewId: @view.id, @firstLoad }, resourceInfo)
       props.tag = tag if tag
       window.performanceInfo = props;

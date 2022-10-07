@@ -15,11 +15,14 @@
   font-size: 14px
   min-width: 230px
 
-  &.brighter
-    font-size: 18px
-    font-size: 1.4vw
-    border-width: 0.91vw 1.22vw 3.10vw 0.91vw
-    min-width: 23vw
+  @media screen and (min-width: 1600px)
+    &.brighter
+      transform: scale(1.2)
+      transform-origin: top left
+
+  @media screen and (min-width: 1800px)
+    &.brighter
+      transform: scale(1.4)
     
 #goals-view.collapsed i.collapsed, #goals-view.expanded i.expanded
   display: none

@@ -37,7 +37,7 @@ ThangTypeConstants =
     'hero-e': '60ff9bc75b55bb002971ba41'  # Female, androgynous
     'hero-f': '60ff9bd728067a00236eaa57'  # Male, wheelchair
   heroClasses:
-    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja', 'stalwart', 'armando-hoyos']
+    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja', 'stalwart', 'armando-hoyos', 'ned-fulmer']
     Ranger: ['ninja', 'forest-archer', 'trapper', 'pixie', 'assassin']
     Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'master-wizard']
   items:

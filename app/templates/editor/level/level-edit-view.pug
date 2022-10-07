@@ -18,27 +18,27 @@ block header
 
       ul.nav.navbar-nav.nav-tabs
         li.active
-          a(href="#thangs-tab-view", data-toggle="tab", data-i18n="editor.level_tab_thangs") Thangs
+          a(href="#thangs-tab-view", data-toggle="tab", data-i18n="editor.level_tab_thangs")
         li
-          a(href="#editor-level-scripts-tab-view", data-toggle="tab", data-i18n="editor.level_tab_scripts") Scripts
+          a(href="#editor-level-scripts-tab-view", data-toggle="tab", data-i18n="editor.level_tab_scripts")
         li
-          a(href="#editor-level-settings-tab-view", data-toggle="tab", data-i18n="play.settings") Settings
+          a(href="#editor-level-settings-tab-view", data-toggle="tab", data-i18n="play.settings")
         li
-          a(href="#editor-level-components-tab-view", data-toggle="tab", data-i18n="editor.level_tab_components")#components-tab Components
+          a(href="#editor-level-components-tab-view", data-toggle="tab", data-i18n="editor.level_tab_components")#components-tab
         li
-          a(href="#systems-tab-view", data-toggle="tab", data-i18n="editor.level_tab_systems") Systems
+          a(href="#systems-tab-view", data-toggle="tab", data-i18n="editor.level_tab_systems")
         li
           a(href="#editor-level-tasks-tab-view", data-toggle="tab", data-i18n="editor.level_tab_tasks")#tasks-tab= "Tasks" + " " + view.getTaskCompletionRatio()
         li
           a(href="#editor-level-patches", data-toggle="tab")#patches-tab
-            span(data-i18n="resources.patches").spr Patches
+            span(data-i18n="resources.patches").spr
             - var patches = level.get('patches')
             if patches && patches.length
               span.badge= patches.length
         li
-          a(href="#related-achievements-view", data-toggle="tab", data-i18n="user.achievements_title") Achievements
+          a(href="#related-achievements-view", data-toggle="tab", data-i18n="user.achievements_title")
         li
-          a(href="#editor-level-documentation", data-toggle="tab", data-i18n="editor.level_tab_docs") Documentation
+          a(href="#editor-level-documentation", data-toggle="tab", data-i18n="editor.level_tab_docs")
         li
           a(href="#level-feedback-view", data-toggle="tab")
             .glyphicon.glyphicon-star
@@ -157,6 +157,10 @@ block outer_content
       div.tab-pane#editor-level-components-tab-view
 
       div.tab-pane#systems-tab-view
+
+      div.tab-pane#editor-hero-tab-view
+
+      div.tab-pane#editor-manager-tab-view
 
       div.tab-pane#editor-level-tasks-tab-view
 
