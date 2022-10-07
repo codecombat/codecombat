@@ -121,6 +121,7 @@ Application =
       awayTimeout: 5 * 60 * 1000
     @idleTracker.start()
     @trackProductVisit()
+    @handleTracking()
 
   checkForNewAchievement: ->
     utils = require 'core/utils'
@@ -172,6 +173,14 @@ Application =
     last = me.get('activity')?[activity]?.last
     return if last and moment(last).isAfter(moment().subtract(12, 'hour'))
     me.trackActivity activity
+
+  handleTracking: ->
+    if me.isStudent() || (me.isHomeUser() && !me.isAnonymous())
+      fbqTrackingScript = document.getElementById('analytics-fbq')
+      if fbqTrackingScript
+        console.log('removing fbq tracking')
+        fbqTrackingScript.remove()
+        window.fbq = null
 
 module.exports = Application
 globalVar.application = Application

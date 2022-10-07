@@ -126,10 +126,6 @@ module.exports = TeacherSignupStoreModule = {
             window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
           )
 
-        trackerCalls.push(
-          globalVar.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
-        )
-
         return Promise.all(trackerCalls).catch(->)
   }
 }
