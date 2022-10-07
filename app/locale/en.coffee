@@ -343,6 +343,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     toggle_nav: "Toggle navigation"
     schools: "Schools"
     get_involved: "Get Involved"
+    related_urls: "Related Links"
     open_source: "Open source (GitHub)"
     support: "Support"
     faqs: "FAQs"

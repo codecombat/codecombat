@@ -344,6 +344,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     toggle_nav: "切换导航栏"
     schools: "学校"
     get_involved: "参与"
+    related_urls: "相关链接"
     open_source: "开放的源码 (GitHub)"
     support: "支持"
     faqs: "常见问题"
