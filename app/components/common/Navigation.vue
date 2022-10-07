@@ -167,10 +167,8 @@
 </script>
 
 <template lang="pug">
-  div
-    announcement-modal(v-if="false" @close="closeAnnouncementModal" :announcement="announcementDisplay")
     nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
-
+      announcement-modal(v-if="false && announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
       .container-fluid
         .row
           .col-md-12
@@ -283,7 +281,7 @@
                   a.text-p#logout-button {{ $t('login.log_out') }}
                 li.dropdown(v-else)
                   a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="{'border-navy': me.isTeacher()}" v-if="false")
+                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="{'border-navy': me.isTeacher()}")
                     span.unreadMessage(v-if="false && unread")
                     span {{ $t('nav.my_account') }}
                     span.caret

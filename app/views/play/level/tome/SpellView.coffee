@@ -558,6 +558,7 @@ module.exports = class SpellView extends CocoView
     @autocomplete?.set 'snippets', @autocompleteOn
 
   reallyAddUserSnippets: (source, lang, session) ->
+    return unless @autocomplete and @autocompleteOn
     newIdentifiers = aceUtils.parseUserSnippets(source, lang, session)
     # console.log 'debug newIdentifiers: ', newIdentifiers
     @autocomplete?.addCustomSnippets Object.values(newIdentifiers), lang

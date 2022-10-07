@@ -2088,6 +2088,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_announcement: "Classroom Announcement"
     link_lms_classroom: "Link LMS Classroom"
     classroom_live_completion: "Classroom Code Autocomplete: "
+    learn_without_classroom_title: "You can still learn and play without a classroom"
+    learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -4348,3 +4350,19 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     switch: "Switch"
     title: "Related Accounts"
     bi_directional_help_text: "Allow added user to switch to your account?"
+  modal_free_class:
+    paragraph_1: "Thank you for choosing CodeCombat."
+    paragraph_2: "Our team is eager to connect with you to get your child scheduled for a free trial class."
+    paragraph_3: "Please provide your contact information and one of our learning advisors will call you to gather student information, identify a teacher based on your child’s preferred learning style and to schedule the trial class."
+    name: "Name"
+    phone_number: "Phone Number"
+    available: "Are you available to talk now?"
+    yes: "Yes"
+    no: "No"
+    preferred_time: "Preferred time for call if we can't connect now"
+    anytime: "Anytime"
+    morning: "Morning (8AM - 12PM)"
+    afternoon: "Afternoon (12PM - 4PM)"
+    evening: "Evening (4PM - 8PM)"
+    time_zone: "Your Time Zone"
+    email: "Email"

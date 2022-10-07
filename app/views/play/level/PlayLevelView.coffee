@@ -844,7 +844,7 @@ module.exports = class PlayLevelView extends RootView
     @$('#how-to-play-game-dev-panel').removeClass('hide')
 
   updateKeyValueDb: ->
-    return unless @world.keyValueDb
+    return unless @world?.keyValueDb
     @session.updateKeyValueDb _.cloneDeep(@world.keyValueDb)
     @session.saveKeyValueDb()
 
