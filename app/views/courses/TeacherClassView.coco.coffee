@@ -617,7 +617,7 @@ module.exports = class TeacherClassView extends RootView
     unless @classClan
       console.error "Couldn't find autoclan for classroom #{@classroom.id} out of", @myClans
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: @classroom.id
-    application.router.navigate("/league/#{classClan?._id ? ''}", { trigger: true })
+    application.router.navigate("/league/#{@classClan?._id ? ''}", { trigger: true })
 
   onClickViewAILeagueQuickstartVideo: (e) ->
     clanLevel = $(e.target).data('clan-level')

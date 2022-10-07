@@ -95,7 +95,7 @@ module.exports = class MainAdminView extends RootView
   onSubmitEspionageForm: (e) ->
     e.preventDefault()
     button = @$('#enter-espionage-mode')
-    userNameOrEmail = @$el.find('#espionage-name-or-email').val().toLowerCase()
+    userNameOrEmail = @$el.find('#espionage-name-or-email').val().toLowerCase().trim()
     forms.disableSubmit(button)
     @clearQueryParams()
     me.spy(userNameOrEmail, {
@@ -127,7 +127,7 @@ module.exports = class MainAdminView extends RootView
 
   onSubmitUserSearchForm: (e) ->
     e.preventDefault()
-    searchValue = @$el.find('#user-search').val()
+    searchValue = @$el.find('#user-search').val().trim()
     return if searchValue is @lastUserSearchValue
     return @onSearchRequestSuccess [] unless @lastUserSearchValue = searchValue.toLowerCase()
     forms.disableSubmit(@$('#user-search-button'))

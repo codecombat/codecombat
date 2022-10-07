@@ -47,10 +47,22 @@ export class SoundSystem {
       const musicCommand = new SyncFunction(async () => {
         await store.dispatch('audio/stopTrack', 'background')
 
+        let srcFiles = []
+        if (music.files.mp3) {
+          srcFiles.push(music.files.mp3)
+        }
+        if (music.files.ogg) {
+          srcFiles.push(music.files.ogg)
+          if (!music.files.mp3) {
+            // We usually have an .mp3 with the same filename, but in many cinematics we didn't specify it.
+            // Safari cannot play .ogg, so we need to specify the .mp3 file.
+            srcFiles.push(music.files.ogg.replace(/\.ogg$/, '.mp3'))
+          }
+        }
         await store.dispatch('audio/playSound', {
           track: 'background',
           volume: BACKGROUND_VOLUME,
-          src: Object.values(music.files).map(f => `/file/${f}`),
+          src: srcFiles.map(f => `/file/${f}`),
           loop: music.loop
         })
       })

@@ -37,10 +37,10 @@ module.exports = class LadderPlayModal extends ModalView
     @languages = [
       {id: 'python', name: 'Python'}
       {id: 'javascript', name: 'JavaScript'}
-      {id: 'coffeescript', name: 'CoffeeScript (Experimental)'}
+      {id: 'coffeescript', name: 'CoffeeScript'}
       {id: 'lua', name: 'Lua'}
-      {id: 'java', name: 'Java'}
       {id: 'cpp', name: 'C++'}
+      {id: 'java', name: 'Java (Experimental)'}
     ]
     @myName = me.get('name') || 'Newcomer'
 

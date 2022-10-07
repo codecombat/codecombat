@@ -11,9 +11,9 @@
   } from 'core/utils'
   import AnnouncementModal from '../../views/announcement/announcementModal'
   import { mapActions, mapGetters } from 'vuex'
+
   /**
    * Unified navigation bar component between CodeCombat and Ozaria.
-   * This must be copied exactly to the Ozaria repo.
    */
   export default Vue.extend({
     computed: {
@@ -162,7 +162,6 @@
     components: {
       AnnouncementModal
     }
-
   })
 </script>
 
@@ -210,7 +209,7 @@
                 li(v-if="me.isAnonymous()")
                   ul.nav.navbar-nav
                     li.dropdown.dropdown-hover
-                      a.text-p(:href="isCodeCombat ? '/impact' : '#'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
+                      a.text-p(:href="isCodeCombat ? '/impact' : '/'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
                         span {{ $t('nav.educators') }}
                         span.caret
                       ul(class="dropdown-menu")
@@ -233,7 +232,7 @@
                   ul.nav.navbar-nav
                     li.dropdown.dropdown-hover
                       a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                        span {{ $t('nav.educators') }}
+                        span {{ $t('nav.dashboard') }}
                         span.caret
                       ul(class="dropdown-menu")
                         li
@@ -241,8 +240,8 @@
                             span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_dashboard') }}
                         li
                           a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t('nav.codecombat_dashboard') }}
-                        li
-                          a.text-p(:href="ozPath('/professional-development')")
+                        li(v-if="isCodeCombat || !checkLocation('/teachers/')")
+                          a.text-p(:href="ozPath('/teachers/professional-development')")
                             span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
 
                 li(v-else-if="me.isStudent()")
@@ -306,7 +305,7 @@
                       a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                     li(v-if="me.isAPIClient()")
                       a.account-dropdown-item(href="/api-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
-                    li(v-if="me.isAdmin()")
+                    li(v-if="me.isAdmin() || me.isOnlineTeacher()")
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
                     li(v-if="serverSession && serverSession.amActually")
                       a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_spying') }}

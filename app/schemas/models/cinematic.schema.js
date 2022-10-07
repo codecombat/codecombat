@@ -80,7 +80,7 @@ const ShotSetup = c.object({
         { title: 'Music' },
         {
           files: c.sound(),
-          loop: { type: 'boolean', default: false }
+          loop: { type: 'boolean', default: true }
         }),
 
       // Legacy sound schema.  Present for backwards compatibility.
