@@ -117,7 +117,7 @@ block content
 
     //- Premium dashboard
     if clan.get('dashboardType') === 'premium'
-      table.table.table-condensed
+      table.table.table-condensed(class=isOwner ? "is-owner" : "")
         thead
           tr
             th

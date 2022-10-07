@@ -1274,7 +1274,6 @@ module.exports = class CampaignView extends RootView
 
   onClickCampaignSwitch: (e) ->
     campaignSlug = $(e.target).data('campaign-slug')
-    console.log campaignSlug, @isPremiumCampaign campaignSlug
     if @isPremiumCampaign(campaignSlug) and not me.isPremium()
       e.preventDefault()
       e.stopImmediatePropagation()

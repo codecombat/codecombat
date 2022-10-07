@@ -29,6 +29,9 @@ module.exports = class LevelThangEditView extends CocoView
     'click #prev-thang-link': 'navigateToPreviousThang'
     'click #next-thang-link': 'navigateToNextThang'
 
+  subscriptions:
+    'editor:level-thangs-changed': 'onThangsEdited'
+
   constructor: (options) ->
     options ?= {}
     super options
@@ -36,7 +39,7 @@ module.exports = class LevelThangEditView extends CocoView
     @thangData = $.extend true, {}, options.thangData ? {}
     @level = options.level
     @oldPath = options.oldPath
-    @reportChanges = _.debounce @reportChanges, 1000
+    @reportChanges = _.debounce @reportChanges, 500
 
   onLoaded: -> @render()
   afterRender: ->
@@ -111,4 +114,15 @@ module.exports = class LevelThangEditView extends CocoView
 
   reportChanges: =>
     return if @destroyed
+    @reporting = true
     Backbone.Mediator.publish 'editor:level-thang-edited', {thangData: $.extend(true, {}, @thangData), oldPath: @oldPath}
+    @reporting = false
+
+  onThangsEdited: (e) ->
+    # Propagate these edits to our Thang
+    return if @reporting  # Not if they're our own edits
+    return unless newThang = _.find e.thangs, id: @thangData.id
+    return if _.isEqual newThang, @thangData
+    @thangData = newThang
+    @thangComponentEditView.components = newThang.components ? []
+    @thangComponentEditView.onComponentsChanged()

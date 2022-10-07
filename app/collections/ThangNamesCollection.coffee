@@ -9,8 +9,6 @@ module.exports = class ThangNamesCollection extends CocoCollection
   constructor: (@ids) ->
     super()
     @ids.sort()
-    if @ids.length > 55
-      console.error 'Too many ids, we\'ll likely go over the GET url kind-of-limit of 2000 characters.'
 
   fetch: (options) ->
     options ?= {}

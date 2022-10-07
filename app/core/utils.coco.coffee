@@ -251,7 +251,6 @@ else
   courseIDs =
     CHAPTER_ONE: '5d41d731a8d1836b5aa3cba1'
     CHAPTER_TWO: '5d8a57abe8919b28d5113af1'
-    CHAPTER_TWO_PLAYTEST: '5eb34fc8dc0fd35e8eae66b0'
     CHAPTER_THREE: '5e27600d1c9d440000ac3ee7'
     CHAPTER_FOUR: '5f0cb0b7a2492bba0b3520df'
 
@@ -265,7 +264,6 @@ else
   orderedCourseIDs = [
     courseIDs.CHAPTER_ONE
     courseIDs.CHAPTER_TWO
-    courseIDs.CHAPTER_TWO_PLAYTEST
     courseIDs.CHAPTER_THREE
     courseIDs.CHAPTER_FOUR
   ]
@@ -289,7 +287,6 @@ else
   courseAcronyms = {}
   courseAcronyms[courseIDs.CHAPTER_ONE] = 'CH1'
   courseAcronyms[courseIDs.CHAPTER_TWO] = 'CH2'
-  courseAcronyms[courseIDs.CHAPTER_TWO_PLAYTEST] = 'CH2P'
   courseAcronyms[courseIDs.CHAPTER_THREE] = 'CH3'
   courseAcronyms[courseIDs.CHAPTER_FOUR] = 'CH4'
 
@@ -300,14 +297,6 @@ else
     '1': 'Introduction to Coding'
   }
   courseModules[courseIDs.CHAPTER_TWO] = {
-    '1': 'Algorithms and Syntax',
-    '2': 'Debugging',
-    '3': 'Variables',
-    '4': 'Conditionals',
-    '5': 'Capstone Intro',
-    '6': 'Capstone Project'
-  }
-  courseModules[courseIDs.CHAPTER_TWO_PLAYTEST] = {
     '1': 'Algorithms and Syntax',
     '2': 'Debugging',
     '3': 'Variables',

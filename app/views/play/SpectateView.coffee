@@ -214,7 +214,7 @@ module.exports = class SpectateLevelView extends RootView
 
   onInfiniteLoop: (e) ->
     return unless e.firstWorld and e.god is @god
-    @openModalView new InfiniteLoopModal()
+    @openModalView new InfiniteLoopModal nonUserCodeProblem: e.nonUserCodeProblem, problem: e.problem, timedOut: e.timedOut
     window.tracker?.trackEvent 'Saw Initial Infinite Loop', level: @world.name, label: @world.name
 
   # initialization

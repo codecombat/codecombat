@@ -311,7 +311,6 @@ module.exports = class ClanDetailsView extends RootView
     @render?()
 
   onMouseEnterPoint: (e) ->
-    $('.level-popup-container').hide()
     container = $(e.target).find('.level-popup-container').show()
     margin = 20
     offset = $(e.target).offset()
@@ -319,11 +318,18 @@ module.exports = class ClanDetailsView extends RootView
     height = container.outerHeight()
     container.css('left', offset.left + e.offsetX)
     container.css('top', offset.top + scrollTop - height - margin)
+    if @lastPopup
+      @lastPopup.hide()
+    @lastPopup = container
 
   onMouseLeavePoint: (e) ->
     $(e.target).find('.level-popup-container').hide()
+    if @lastPopup
+      @lastPopup.hide()
+      @lastPopup = null
 
   onClickLevel: (e) ->
+    return unless @clan.get('ownerID') is me.id
     levelInfo = $(e.target).data 'level-info'
     return unless levelInfo?.levelID? and levelInfo?.sessionID?
     url = "/play/level/#{levelInfo.levelID}?session=#{levelInfo.sessionID}&observing=true"

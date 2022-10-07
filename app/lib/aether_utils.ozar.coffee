@@ -122,32 +122,32 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
         cc -= 1
         return i+2 unless cc
   splitFunctions = (str) ->
-    creg = /\n[ \t]*[^\/]/
-    codeIndex = creg.exec(str)
-    if str and str[0] != '/'
-      startComments = ''
-    else if codeIndex
-      codeIndex = codeIndex.index + 1
-      startComments = str.slice 0, codeIndex
-      str = str.slice codeIndex
+    creg = /\n?[ \t]*[^\/]/
+    startCommentReg = /^\n?(\/\/.*?\n)*\n/
+    comments = startCommentReg.exec(str)
+    if comments
+      startComments = comments[0].slice(0, -1) # left the tailing \n
+      str = str.slice startComments.length
+      unless creg.exec str
+        return [startComments, str]
     else
-      return [str, '']
+      strComments = ''
 
     indices = []
-    reg = /\nfunction/gi
+    reg = /\n(\/\/.*?\n)*function/gi
     indices.push 0 if str.startsWith("function ")
     while (result = reg.exec(str))
       indices.push result.index+1
     split = []
     end = 0
-    split.push {s: 0, e: indices[0]} if indices.length
+    # split.push {s: 0, e: indices[0]} if indices.length
     for i in indices
+      split.push {s: end, e: i} if end != i
       end = matchBrackets str, i
       split.push {s: i, e: end}
     split.push {s: end, e: str.length}
     header = if startComments then [startComments] else []
-    # TODO: this loses startComments before any function that isn't the first function
-    return header.concat split.map (s) -> str.slice s.s, s.e
+    return header.concat(reorderGlobals(split.map (s) -> str.slice s.s, s.e ))
 
   jsCodes = splitFunctions jsCode
   if fullCode
@@ -168,6 +168,13 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
         }
       """
     else if language is 'java'
+      if len > 2 and !(/function/.test jsCodes[len-2])
+        jsCodes[len-2] = (jsCodes[len-2].split('\n').map (line) ->
+          if / = /.test line
+            line = 'static ' + line
+          line
+        ).join('\n')
+
       hasHeader = /^\/\//.test(jsCodes[0])
       startIndex = if hasHeader then 1 else 0
       functionLines = jsCodes.splice(startIndex, len - 1 - startIndex).join('\n').trimStart().split('\n')
@@ -183,7 +190,7 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
   else
     jsCodes[len-1] = (lines.map (line) -> ' ' + line).join('\n')  # Add whitespace at beginning of each line to make regexes easier
 
-  functionReturnType = if language is 'cpp' then 'auto' else 'public static void'  # TODO: figure out some auto return types for Java
+  functionReturnType = if language is 'cpp' then 'auto' else 'public static var'  # TODO: figure out some auto return types for Java
   functionParamType = if language is 'cpp' then 'auto' else 'Object'  # TODO: figure out some auto/void param types for Java
   for i in [0...len]
     s = jsCodes[i]
@@ -195,6 +202,8 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     s = s.replace /var (i|j|k)(?![a-zA-Z0-9_])/g, 'int $1'
     s = s.replace /\ ===\ /g, ' == '
     s = s.replace /\ !== /g, ' != '
+    s = s.replace /hero\.throw\(/g, 'hero.throwEnemy('
+    s = s.replace /\ = \[([^;]*)\];/g, ' = {$1};'
 
     if language is 'cpp'
       s = s.replace /\.length/g, '.size()'
@@ -202,9 +211,10 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
       s = s.replace /\.pop\(/g, '.pop_back('
       s = s.replace /\.shift\(/g, '.pop('
       s = s.replace /\ var /g, ' auto '
-      s = s.replace /\ = \[([^;]*)\];/g, ' = {$1};'
       s = s.replace /\(var /g, '(auto '
       s = s.replace /\nvar /g, '\nauto '
+      s = s.replace /\ const /g, ' const auto '
+      s = s.replace /\nconst /g, '\nconst auto '
       s = s.replace /\ return \[([^;]*)\];/g, ' return {$1};'
 
     # TODO: figure out how we are going to call other methods in Java
@@ -212,7 +222,7 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     # TODO: figure out how we are going to handle array methods in Java
 
     # Don't substitute these within comments
-    noComment = '^ *([^/\\r\\n]*?)'
+    noComment = '^( *[^/\\r\\n]*?)' # keep leading whitespace
     if language is 'cpp'
       newRegex = new RegExp(noComment + '([^*])new ', 'gm')
       while newRegex.test(s)
@@ -221,7 +231,11 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     while quotesReg.test(s)
       s = s.replace quotesReg, '$1"$2"'
     # first replace ' to " then replace object
-    s = s.replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, '{$1, $2}'  # {x:1, y:1} -> {1, 1}
+    if language is 'cpp'
+      s = s.replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, '{$1, $2}'  # {x:1, y:1} -> {1, 1}
+    else if language is 'java'
+      # Let's use Vectors instead of object literals in this case
+      s = s.replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, 'new Vector($1, $2)'  # {x:1, y:1} -> new Vector(1, 1)
     jsCodes[i] = s
 
   unless fullCode
@@ -236,11 +250,11 @@ translateJSWhitespace = (jsCode, language='lua') ->
   s = jsCode.split('\n').map((line) -> ' ' + line).join('\n')  # Add whitespace at beginning of each line to make regexes easier
 
   if language is 'lua'
-    s = s.replace /function (.+?)\((.*?)\) ?{/g, 'function $1($2)'  # Just remove the trailing {
+    s = s.replace /function (.+?)\((.*)\) ?{/g, 'function $1($2)'  # Just remove the trailing {
   else if language is 'python'
-    s = s.replace /function (.+?)\((.*?)\) ?{/g, 'def $1($2):'  # Convert trailing { to :
+    s = s.replace /function (.+?)\((.*)\) ?{/g, 'def $1($2):'  # Convert trailing { to :
   else if language is 'coffeescript'
-    s = s.replace /function (.+?)\((.*?)\) ?{/g, (match, functionName, functionParams) ->
+    s = s.replace /function (.+?)\((.*)\) ?{/g, (match, functionName, functionParams) ->
       if functionParams
         "#{functionName} = (#{functionParams}) ->"
       else
@@ -283,6 +297,19 @@ translateJSWhitespace = (jsCode, language='lua') ->
   else if language is 'coffeescript'
     # for i in [0...10]
     s = s.replace cStyleForLoopRegex, 'for $1 [$2...$3]'
+
+  # for(y=110; y >= 38; i -= 18) {
+  # This is brittle and will not get inclusive vs. exclusive ranges right, but better than nothing
+  cStyleForLoopWithArithmeticRegex = /for ?\((?:var )?(.+?) ?= ?(\d+); ?\1 ?(<=|<|>=|>) ?(.+?); ?\1 ?\+?(-?)= ?(.*)\) *\{?/g
+  if language is 'lua'
+    # for y=110, 38, -18 do
+    s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1=$2, $4, $5$6 do'
+  else if language is 'python'
+    # for y in range(110, 38, -18):
+    s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1 in range($2, $4, $5$6):'
+  else if language is 'coffeescript'
+    # for y in [110...38, -18]
+    s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1 [$2...$4, $5$6]'
 
   # There are a lot of other for-loop possibilities, but we'll handle those with manual solutions
 
@@ -349,11 +376,11 @@ translateJSWhitespace = (jsCode, language='lua') ->
 
   # Rewrite while loops
   if language is 'lua'
-    s = s.replace /^(\s*while) ?\((.*?)\) ?\{?/gm, '$1 $2 do'
+    s = s.replace /^(\s*while) ?\((.*)\) ?\{?/gm, '$1 $2 do'
   else if language is 'python'
-    s = s.replace /^(\s*while) ?\((.*?)\) ?\{?/gm, '$1 $2:'
+    s = s.replace /^(\s*while) ?\((.*)\) ?\{?/gm, '$1 $2:'
   else if language is 'coffeescript'
-    s = s.replace /^(\s*while) ?\((.*?)\) ?\{?/gm, '$1 $2'
+    s = s.replace /^(\s*while) ?\((.*)\) ?\{?/gm, '$1 $2'
 
   # Rewrite if conditions
   if language is 'lua'
@@ -422,7 +449,10 @@ startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
 module.exports.filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
   currentLanguage = language or me.get('aceConfig')?.language or 'python'
-  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp', 'html'], if currentLanguage == 'cpp' then 'javascript' else currentLanguage
+  excludeCpp = 'cpp'
+  unless /```cpp\n[^`]+```\n?/.test text
+    excludeCpp = 'javascript'
+  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp', 'html', 'io', 'clojure'], if currentLanguage == 'cpp' then excludeCpp else currentLanguage
   # Exclude language-specific code blocks like ```python (... code ...)``
   # ` for each non-target language.
   codeBlockExclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
@@ -450,7 +480,7 @@ module.exports.filterMarkdownCodeLanguages = (text, language) ->
       text = text.replace ///(\ a|A)n(\ `#{to}`)///g, "$1$2"
     if not startsWithVowel(from) and startsWithVowel(to)
       text = text.replace ///(\ a|A)(\ `#{to}`)///g, "$1n$2"
-  if currentLanguage == 'cpp'
+  if currentLanguage == 'cpp' and excludeCpp == 'javascript'
     jsRegex = new RegExp "```javascript\n([^`]+)```", 'gm'
     text = text.replace jsRegex, (a, l) =>
       """```cpp

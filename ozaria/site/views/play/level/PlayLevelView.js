@@ -59,7 +59,7 @@ const SurfaceContextMenuView = require('./SurfaceContextMenuView')
 const WebSurfaceView = require('./WebSurfaceView')
 const SpellPaletteView = require('./tome/SpellPaletteView')
 const store = require('core/store')
-const GameMenuModal = require('ozaria/site/views/play/menu/GameMenuModal')
+const GameMenuModal = require('views/play/menu/GameMenuModal')
 const TutorialPlayView = require('./TutorialPlayView').default
 const ThangTypeHUDComponent = require('./ThangTypeHUDComponent').default
 const ScreenReaderSurfaceView = require('app/views/play/level/ScreenReaderSurfaceView')
@@ -177,7 +177,6 @@ class PlayLevelView extends RootView {
     if (me.isSessionless()) {
       levelLoaderOptions.fakeSessionConfig = {}
     }
-    console.debug('PlayLevelView: Create LevelLoader')
     this.levelLoader = new LevelLoader(levelLoaderOptions)
     this.listenToOnce(
       this.levelLoader,
@@ -313,7 +312,6 @@ class PlayLevelView extends RootView {
   // Partially Loaded Setup ####################################################
 
   onWorldNecessitiesLoaded () {
-    console.debug('PlayLevelView: world necessities loaded')
     // Called when we have enough to build the world, but not everything is loaded
     store.dispatch('game/resetTutorial')
     this.grabLevelLoaderData()
@@ -758,7 +756,6 @@ class PlayLevelView extends RootView {
 
   onSessionLoaded (e) {
     let left1
-    console.log('PlayLevelView: loaded session', e.session)
     store.commit('game/setTimesCodeRun', e.session.get('timesCodeRun') || 0)
     store.commit(
       'game/setTimesAutocompleteUsed',
@@ -916,7 +913,6 @@ class PlayLevelView extends RootView {
     if (this.surface == null && this.webSurface == null) {
       return
     }
-    console.log('PlayLevelView: level started')
     this.loadingView.showReady()
     this.trackLevelLoadEnd()
     if (
@@ -1306,7 +1302,7 @@ class PlayLevelView extends RootView {
       return
     }
     this.openModalView(
-      new InfiniteLoopModal({ nonUserCodeProblem: e.nonUserCodeProblem, isCapstone: this.level.isCapstone() || false })
+      new InfiniteLoopModal({ nonUserCodeProblem: e.nonUserCodeProblem, isCapstone: this.level.isCapstone() || false, problem: e.problem, timedOut: e.timedOut })
     )
     if (!this.observing) {
       trackEvent('Saw Initial Infinite Loop', {
@@ -1734,7 +1730,7 @@ class PlayLevelView extends RootView {
     this.goalManager.destroy()
     this.initGoalManager()
     this.tome.softReloadCapstoneStage(this.capstoneStage)
-    Backbone.Mediator.publish('tome:updateAether')
+    Backbone.Mediator.publish('tome:update-aether', {})
 
     this.loadScriptsForCapstoneStage(this.world.scripts, this.capstoneStage)
     store.dispatch('game/setTutorialActive', true)
@@ -1798,7 +1794,7 @@ PlayLevelView.prototype.subscriptions = {
   'store:item-purchased': 'onItemPurchased',
   'tome:manual-cast': 'onRunCode',
   'tome:spell-changed': 'onSpellChanged',
-  'tome:updateAetherRunning': 'updateAetherRunning',
+  'tome:update-aether-running': 'updateAetherRunning',
   'world:update-key-value-db': 'updateKeyValueDb'
 }
 

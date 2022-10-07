@@ -28,6 +28,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     @googleClassrooms = me.get('googleClassrooms') || []
     @isGoogleClassroom = false
     @enableCpp = me.enableCpp()
+    @enableJava = me.enableJava()
     @uploadFilePath = "db/classroom/#{@classroom.id}"
     initializeFilePicker()
 

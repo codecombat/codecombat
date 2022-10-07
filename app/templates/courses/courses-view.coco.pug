@@ -170,7 +170,7 @@ block content
                   #just-added-text.text-center(data-i18n="courses.class_added")
                 h5(dir="auto")
                   span.spr= classroom.get('name')
-                  - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++'}
+                  - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++', java: 'Java'}
                   span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
                 p
                   span(data-i18n="courses.teacher")

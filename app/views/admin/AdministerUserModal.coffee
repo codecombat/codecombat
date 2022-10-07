@@ -6,6 +6,7 @@ User = require 'models/User'
 Prepaid = require 'models/Prepaid'
 StripeCoupons = require 'collections/StripeCoupons'
 forms = require 'core/forms'
+errors = require 'core/errors'
 Prepaids = require 'collections/Prepaids'
 Classrooms = require 'collections/Classrooms'
 TrialRequests = require 'collections/TrialRequests'
@@ -27,6 +28,7 @@ module.exports = class AdministerUserModal extends ModelModal
     'click #create-payment-btn': 'onClickCreatePayment'
     'click #add-seats-btn': 'onClickAddSeatsButton'
     'click #add-esports-product-btn': 'onClickAddEsportsProductButton'
+    'click #user-spy-btn': 'onClickUserSpyButton'
     'click #destudent-btn': 'onClickDestudentButton'
     'click #deteacher-btn': 'onClickDeteacherButton'
     'click #reset-progress-btn': 'onClickResetProgressButton'
@@ -39,6 +41,7 @@ module.exports = class AdministerUserModal extends ModelModal
     'click .save-prepaid-info-btn': 'onClickSavePrepaidInfo'
     'click #school-admin-checkbox': 'onClickSchoolAdminCheckbox'
     'click #online-teacher-checkbox': 'onClickOnlineTeacherCheckbox'
+    'click #beta-tester-checkbox': 'onClickBetaTesterCheckbox'
     'click #edit-school-admins-link': 'onClickEditSchoolAdmins'
     'submit #teacher-search-form': 'onSubmitTeacherSearchForm'
     'click .add-administer-teacher': 'onClickAddAdministeredTeacher'
@@ -49,6 +52,7 @@ module.exports = class AdministerUserModal extends ModelModal
     'click #esports-type-select>.radio': 'onSelectEsportsType'
     'click #esports-product-addon': 'onSelectEsportsAddon'
     'click .other-user-link': 'onClickOtherUserLink'
+    'click .modal-nav-link': 'onClickModalNavLink'
     'click #volume-checkbox': 'onClickVolumeCheckbox'
     'click #music-checkbox': 'onClickMusicCheckbox'
 
@@ -258,6 +262,16 @@ module.exports = class AdministerUserModal extends ModelModal
         $('#esports-product-form').addClass('in')
       , 1000)
 
+  onClickUserSpyButton: (e) ->
+    e.stopPropagation()
+    button = $(e.currentTarget)
+    forms.disableSubmit(button)
+    me.spy @user.id,
+      success: -> window.location.reload()
+      error: ->
+        forms.enableSubmit(button)
+        errors.showNotyNetworkError(arguments...)
+
   onClickDestudentButton: (e) ->
     button = @$(e.currentTarget)
     button.attr('disabled', true).text('...')
@@ -375,6 +389,8 @@ module.exports = class AdministerUserModal extends ModelModal
 
   userIsOnlineTeacher: -> @user.isOnlineTeacher()
 
+  userIsBetaTester: -> @user.isBetaTester()
+
   onClickOnlineTeacherCheckbox: (e) ->
     checked = @$(e.target).prop('checked')
     unless @updateUserPermission User.PERMISSIONS.ONLINE_TEACHER, checked
@@ -383,6 +399,11 @@ module.exports = class AdministerUserModal extends ModelModal
   onClickSchoolAdminCheckbox: (e) ->
     checked = @$(e.target).prop('checked')
     unless @updateUserPermission User.PERMISSIONS.SCHOOL_ADMINISTRATOR, checked
+      e.preventDefault()
+
+  onClickBetaTesterCheckbox: (e) ->
+    checked = @$(e.target).prop('checked')
+    unless @updateUserPermission User.PERMISSIONS.BETA_TESTER, checked
       e.preventDefault()
 
   updateUserPermission: (permission, enabled) ->
@@ -577,6 +598,10 @@ module.exports = class AdministerUserModal extends ModelModal
     e.preventDefault()
     userID = $(e.target).closest('a').data('user-id')
     @openModalView new AdministerUserModal({}, userID)
+
+  onClickModalNavLink: (e) ->
+    e.preventDefault()
+    @$el.animate({scrollTop: $($(e.target).attr('href')).offset().top}, 0)
 
   onClickMusicCheckbox: (e) ->
     val = @$(e.target).prop('checked')

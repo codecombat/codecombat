@@ -3,9 +3,11 @@
 @import "app/styles/play/variables"
 
 #thang-hud
+  width: calc(57% - 200px)
   width: calc(#{$game-view-width} - #{$api-bar-width})
   #level-view.no-api &
-    width: $game-view-width
+    width: 57%
+    width: $game-view-width-no-api
   height: 80px
   position: relative
   overflow: visible
