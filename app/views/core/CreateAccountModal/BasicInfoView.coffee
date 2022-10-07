@@ -60,8 +60,7 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
     @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
-    if isCodeCombat
-      @hideEmail = userUtils.shouldHideEmail()
+    @hideEmail = if isCodeCombat then userUtils.shouldHideEmail() else false
 
   afterRender: ->
     @$el.find('#first-name-input').focus()
@@ -80,7 +79,7 @@ module.exports = class BasicInfoView extends CocoView
   checkEmail: ->
     email = @$('[name="email"]').val()
 
-    if isCodeCombat and @hideEmail
+    if @hideEmail
       return Promise.resolve(true)
 
     if @signupState.get('path') isnt 'student' and (not _.isEmpty(email) and email is @state.get('checkEmailValue'))
