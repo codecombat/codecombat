@@ -3885,14 +3885,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     want_to_save_tooltip: "<h3>想要保存你的学习进度吗？</h3><p>请创建学生账号，作为学生学习奥佳睿课程可以保存学习进度.</p>"
 #    intro_explain_tooltip: "<b>\"Intros\"</b> introduce new concepts or further the storyline in a scaffolded way. They typically include Cinematics and/or Concept Checks."
     chapter_num: '章节 __num__'
-#    read: "View Only"
-#    write: "Full Access"
-#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
-#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
-#    shared_with_none: "This class is not currently shared with any other teachers."
-#    share_info: "To give other teachers access to the class, add their emails below."
-#    class_owner: "Class Owner"
-#    share: "Share"
+    read: '只能查看'
+    write: '全部权限'
+    read_blurb: '只能查看权限允许添加的教师查看您的班级和学生进度，但是不能修改您的班级相关信息'
+    write_blurb: '全部权限给添加的教师权限可以修改您的班级（包括添加/移除学生，分配课程，更改许可）'
+    shared_with: '共管情况'
+    shared_with_none: '这个班级目前没有其他老师参与共管。'
+    share_info: '邀请其他老师一起共管班级，请添加对方的账号。'
+    class_owner: '班主任'
+    share: '共管'
+    add: '添加'
+    note: '注'
 
   outcomes:
     outcomes_report: "学习报告"
@@ -4219,19 +4222,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    numberGreaterThanZero: "Should be a number greater than 0"
     requireValidEmail: "请输入正确的邮箱地址"
     requireValidPhone: "请输入加区号的手机号码"
-
-  teacher_dashboard:
-    read: '只能查看'
-    write: '全部权限'
-    read_blurb: '只能查看权限允许添加的教师查看您的班级和学生进度，但是不能修改您的班级相关信息'
-    write_blurb: '全部权限给添加的教师权限可以修改您的班级（包括添加/移除学生，分配课程，更改许可）'
-    shared_with: '共管情况'
-    shared_with_none: '这个班级目前没有其他老师参与共管。'
-    share_info: '邀请其他老师一起共管班级，请添加对方的账号。'
-    class_owner: '班主任'
-    share: '共管'
-    add: '添加'
-    note: '注'
 
 #  partners:
 #    headline: "Join us in our mission to make coding engaging and accessible to all"

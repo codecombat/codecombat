@@ -222,7 +222,7 @@
                         li
                           a.text-p(:href="cocoPath('/play')" :class="checkLocation('/play', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
      
-                     template(v-if="!me.showChinaResourceInfo()")
+                      template(v-if="!me.showChinaResourceInfo()")
                         li(v-if="!me.isStudent() && !me.isTeacher()")
                           a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
 
