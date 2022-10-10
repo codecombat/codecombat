@@ -90,7 +90,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
     @views = []
 
-    if me.showGemsAndXp() and @achievements.length > 0
+    if me.showGemsAndXpInClassroom() and @achievements.length > 0
       @achievements.models = _.filter @achievements.models, (m) -> not m.get('query')?.ladderAchievementDifficulty  # Don't show higher AI difficulty achievements
       showAchievements = false  # show achievements only if atleast one achievement is completed
       for achievement in @achievements.models

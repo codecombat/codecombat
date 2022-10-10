@@ -126,11 +126,11 @@ block modal-body-content
       label.form-check-label
         span(data-i18n="courses.classroom_live_completion")
         i.spl.text-muted(data-i18n="signup.optional")
-      - var aceConfig = view.classroom.get('aceConfig') || {}
-      - var liveCompletion = aceConfig.liveCompletion
-      if liveCompletion === undefined
-        - liveCompletion = true
-      input#liveCompletion.form-check-input(name="liveCompletion" checked=liveCompletion type='checkbox')
+        - var aceConfig = view.classroom.get('aceConfig') || {}
+        - var liveCompletion = aceConfig.liveCompletion
+        if liveCompletion === undefined
+          - liveCompletion = true
+        input#live-completion.form-check-input(name="liveCompletion" checked=liveCompletion type='checkbox')
       .help-block.small.text-navy(data-i18n="teachers.classroom_live_completion")
 
 block modal-footer-content
