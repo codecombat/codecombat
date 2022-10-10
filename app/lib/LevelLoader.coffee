@@ -14,7 +14,7 @@ World = require 'lib/world/world'
 utils = require 'core/utils'
 loadAetherLanguage = require 'lib/loadAetherLanguage'
 
-LOG = true
+LOG = false
 
 # This is an initial stab at unifying loading and setup into a single place which can
 # monitor everything and keep a LoadingScreen visible overall progress.

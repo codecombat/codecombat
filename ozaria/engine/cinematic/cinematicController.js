@@ -114,7 +114,7 @@ export class CinematicController {
     const hasRunner = !!this.runner
     // Defensive in order to avoid a bad state.
     if (!hasRunner) {
-      console.warn(`cinematicController: 'wasCancelled' state unexpected.`)
+      // console.warn(`cinematicController: 'wasCancelled' state unexpected.`) // This (almost?) always fires, don't think this is a problem.
       this.wasCancelled = false
     }
 

@@ -22,6 +22,7 @@ module.exports = class God extends CocoClass
     options ?= {}
     @retrieveValueFromFrame = _.throttle @retrieveValueFromFrame, 1000
     @gameUIState ?= options.gameUIState or new GameUIState()
+    @capstoneStage = options.capstoneStage or 1
     @indefiniteLength = options.indefiniteLength or false
     super()
 
@@ -68,6 +69,10 @@ module.exports = class God extends CocoClass
   setGoalManager: (goalManager) ->
     @angelsShare.goalManager?.destroy() unless @angelsShare.goalManager is goalManager
     @angelsShare.goalManager = goalManager
+    state = goalManager?.options?.session?.get("state")
+    if state?.capstoneStage
+      @capstoneStage = state.capstoneStage
+
   setWorldClassMap: (worldClassMap) -> @angelsShare.worldClassMap = worldClassMap
 
   onTomeCast: (e) ->
@@ -78,10 +83,16 @@ module.exports = class God extends CocoClass
     @lastDifficulty = e.difficulty
     @createWorld e
 
-  createWorld: ({spells, preload, realTime, justBegin, keyValueDb, synchronous}) ->
+  createWorld: ({spells, preload, realTime, justBegin, keyValueDb, synchronous, spellJustLoaded}) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
     userCodeMap = @getUserCodeMap spells
-
+    if spellJustLoaded and not justBegin
+      # If spellJustLoaded it signals that this is the first world after the level
+      # was created. We want no user code to run on loading and no errors to show up.
+      # Thus we unassign the user's code.
+      # `justBegin` is set if the level is game-dev or capstone.
+      # We have to do this because it appears the capstone breaks if the code is cleared.
+      userCodeMap = {}
     # We only want one world being simulated, so we abort other angels, unless we had one preloading this very code.
     hadPreloader = false
     for angel in @angelsShare.busyAngels.slice()
@@ -107,6 +118,7 @@ module.exports = class God extends CocoClass
       fixedSeed: @lastFixedSeed
       flagHistory: @lastFlagHistory
       difficulty: @lastDifficulty
+      capstoneStage: @capstoneStage
       goals: @angelsShare.goalManager?.getGoals()
       headless: @angelsShare.headless
       preload
@@ -145,6 +157,7 @@ module.exports = class God extends CocoClass
         fixedSeed: @fixedSeed
         flagHistory: @lastFlagHistory
         difficulty: @lastDifficulty
+        capstoneStage: @capstoneStage
         goals: @goalManager?.getGoals()
         frame: args.frame
         currentThangID: args.thangID

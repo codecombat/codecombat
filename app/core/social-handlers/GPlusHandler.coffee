@@ -81,7 +81,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       authOptions.login_hint = me.get('email')
     gapi.auth2.authorize authOptions, (e) =>
       if (e.error and options.error)
-        options.error.bind(options.context)()
+        options.error.bind(options.context)(e)
         return
       return unless e.access_token
       @connected = true

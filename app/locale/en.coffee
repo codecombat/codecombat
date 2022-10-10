@@ -343,6 +343,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     toggle_nav: "Toggle navigation"
     schools: "Schools"
     get_involved: "Get Involved"
+    related_urls: "Related Links"
     open_source: "Open source (GitHub)"
     support: "Support"
     faqs: "FAQs"
@@ -350,7 +351,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     copyright_suffix: "All Rights Reserved."
     help_pref: "Need help? Email"
     help_suff: "and we'll get in touch!"
-    resource_hub: "Resource Hub"
+    resource_hub: "Teacher Toolkit" # {change}
     apcsp: "AP CS Principles"
     parent: "Parents"
     faq: "FAQ"
@@ -370,6 +371,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     funding_resources_guide: "Funding Resources Guide"
     partnerships: "Partnerships"
     podcast: "Our Podcast"
+    dashboard: "Dashboard"
 
   modal:
     close: "Close"
@@ -640,7 +642,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_list_resource_hub_2_coco: "Course Guides"
     teacher_list_resource_hub_2_ozar: "Unit Guides"
     teacher_list_resource_hub_3: "for solutions to every level, and the"
-    teacher_list_resource_hub_4: "Resource Hub"
+    teacher_list_resource_hub_4: "Teacher Toolkit" # {change}
     teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
     teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
     dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
@@ -925,6 +927,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     non_user_code_problem_title: "Unable to Load Level"
     infinite_loop_title: "Infinite Loop Detected"
     infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
+    non_user_code_problem_description: "The initial code to build the world never finished running because of an error: <pre>__error__</pre>You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
     check_dev_console: "You can also open the developer console to see what might be going wrong."
     check_dev_console_link: "(instructions)"
     infinite_loop_try_again: "Try Again"
@@ -1218,7 +1221,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     feature_learn: "Learn to make games and websites"
     feature_languages: "Get all supported languages"
     feature_aiyouth: ""
-    feature_gems: "Receive __gems__ gems per month"
+    feature_gems: "Earn __gems__ gems/mo (__gems12__ gems/yr)" # {change}
     month_price: "$__price__/mo"
     first_month_price: "Only $__price__ for your first month!"
     lifetime: "Lifetime Access"
@@ -2088,6 +2091,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     link_lms_classroom: "Link LMS Classroom"
     classroom_items: "Items & Gems"
     classroom_live_completion: "Classroom Code Autocomplete: "
+    learn_without_classroom_title: "You can still learn and play without a classroom"
+    learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -2113,7 +2118,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     removing_course: "Removing course"
     solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
     solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
-    solution_project_blurb: "Students are encouraged to build a creative project in this level. Please refer to curriculum guides in the Resource Hub for information on how to evaluate these projects."
+    solution_project_blurb: "Students are encouraged to build a creative project in this level. Please refer to curriculum guides in the Teacher Toolkit for information on how to evaluate these projects." # {change}
     feedback_capstone: 'The student will create a base project in Part 1. They will make creative updates based on peer feedback in Part 2. Here is a <a target="_blank" rel="noopener" href="https://docs.google.com/document/d/1itB0vY6WphjINQYJ9NHkILATcLLlYD3GDSg6FJg55OQ">Peer Feedback Template</a> that you can share with your students.'
     students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
     course_solution: "Course Solution"
@@ -2266,7 +2271,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     view_project: "View Project"
     unpublished: "(unpublished)"
     view_arena_ladder: "View Arena Ladder"
-    resource_hub: "Resource Hub"
+    resource_hub: "Teacher Toolkit" # {change}
     pacing_guides: "Classroom-in-a-Box Pacing Guides"
     pacing_guides_desc: "Learn how to incorporate all of CodeCombat's resources to plan your school year!"
     pacing_guides_elem: "Elementary School Pacing Guide"
@@ -2418,7 +2423,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_quest_add_students: "Add Students"
     teacher_quest_teach_methods: "Help your students learn how to `call methods`."
     teacher_quest_teach_methods_step1: "Get 75% of at least one class through the first level, Dungeons of Kithgard"
-    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](https://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Resource Hub."
+    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](https://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Teacher Toolkit." # {change}
     teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
     teacher_quest_teach_strings_step1: "Get 75% of at least one class through True Names"
     teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview True Names."
@@ -2433,7 +2438,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_quest_kithgard_gates_100_step2: "Guide students to think through hard problems using the [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)."
     teacher_quest_wakka_maul_100: "Prepare to duel in Wakka Maul."
     teacher_quest_wakka_maul_100_step1: "Get 75% of at least one class to Wakka Maul."
-    teacher_quest_wakka_maul_100_step2: "See the [Arena Guide](/teachers/resources/arenas) in the [Resource Hub](/teachers/resources) for tips on how to run a successful arena day."
+    teacher_quest_wakka_maul_100_step2: "See the [Arena Guide](/teachers/resources/arenas) in the [Teacher Toolkit](/teachers/resources) for tips on how to run a successful arena day." # {change}
     teacher_quest_reach_gamedev: "Explore new worlds!"
     teacher_quest_reach_gamedev_step1: "[Get licenses](/teachers/licenses) so that your students can explore new worlds, like Game Development and Web Development!"
     teacher_quest_done: "Want your students to learn even more code? Get in touch with our [school specialists](mailto:schools@codecombat.com) today!"
@@ -2455,7 +2460,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
     level_label: "Level:"
     time_played_label: "Time Spent:"
-    back_to_resource_hub: "Back to Resource Hub"
+    back_to_resource_hub: "Back to Teacher Toolkit" # {change}
     back_to_course_guides: "Back to Course Guides"
     print_guide: "Print this guide"
     combo: "Combo"
@@ -3834,7 +3839,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     add_classes: 'Add classes and get students started with the first free chapter!'
     all_classes: 'All Classes'
     my_licenses: 'My Licenses'
-    resource_hub: 'Resource Hub'
+    resource_hub: 'Teacher Toolkit' # {change}
     pd: 'Professional Development'
     pd_short: 'PD'
     curriculum_guide: 'Curriculum Guide'
@@ -4027,6 +4032,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     end_to_end: 'Unlike other esports platforms serving schools, we own the structure top to bottom, which means we’re not tied to any game developer or have issues with licensing. That also means we can make custom modifications in-game for your school or organization.'
     path_success: 'The game platform fits into a regular Computer Science curriculum, so as students play through the game levels, they’re completing course work. Students learn coding and computer science while they play, then use these skills in arena battles as they practice and play on the same platform.'
     unlimited_potential: 'Our tournament structure is adaptable to any environment or use case. Students can participate at a designated time during regular learning, play at home asynchronously, or participate on their own schedule.'
+    team: 'Team'
     edit_team: 'Edit Team'
     start_team: 'Start a Team'
     leave_team: 'Leave Team'
@@ -4175,7 +4181,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     just: 'Just'
     teachers_upto: 'Teacher can purchase upto'
     great_courses: 'Great Courses included for'
-    studentLicense_successful: 'Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students.'
+    studentLicense_successful: 'Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Teacher Toolkit to learn how to apply them to your students.' # {change}
     onlineClasses_successful: 'Congratulations! Your payment was successful. Our team will reach out to you with the next steps.'
     homeSubscriptions_successful: 'Congratulations! Your payment was successful. Your premium access will be available in few minutes.'
     failed: 'Your payment failed, please try again'
@@ -4347,3 +4353,19 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     switch: "Switch"
     title: "Related Accounts"
     bi_directional_help_text: "Allow added user to switch to your account?"
+  modal_free_class:
+    paragraph_1: "Thank you for choosing CodeCombat."
+    paragraph_2: "Our team is eager to connect with you to get your child scheduled for a free trial class."
+    paragraph_3: "Please provide your contact information and one of our learning advisors will call you to gather student information, identify a teacher based on your child’s preferred learning style and to schedule the trial class."
+    name: "Name"
+    phone_number: "Phone Number"
+    available: "Are you available to talk now?"
+    yes: "Yes"
+    no: "No"
+    preferred_time: "Preferred time for call if we can't connect now"
+    anytime: "Anytime"
+    morning: "Morning (8AM - 12PM)"
+    afternoon: "Afternoon (12PM - 4PM)"
+    evening: "Evening (4PM - 8PM)"
+    time_zone: "Your Time Zone"
+    email: "Email"

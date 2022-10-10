@@ -53,7 +53,7 @@ HintsView = require './HintsView'
 SurfaceContextMenuView = require './SurfaceContextMenuView'
 HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
-SpellPaletteView = require './tome/SpellPaletteView'
+SpellPaletteViewMid = require './tome/SpellPaletteViewMid'
 store = require('core/store')
 
 require 'lib/game-libraries'
@@ -189,7 +189,6 @@ module.exports = class PlayLevelView extends RootView
     levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
-    console.debug 'PlayLevelView: Create LevelLoader'
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
@@ -289,10 +288,6 @@ module.exports = class PlayLevelView extends RootView
     c.world = @world
     c
 
-  toggleSpellPalette: ->
-    @$el.toggleClass 'no-api'
-    $(window).trigger 'resize'
-
   afterRender: ->
     super()
     window.onPlayLevelViewLoaded? @  # still a hack
@@ -307,7 +302,6 @@ module.exports = class PlayLevelView extends RootView
   # Partially Loaded Setup ####################################################
 
   onWorldNecessitiesLoaded: ->
-    console.debug('PlayLevelView: world necessities loaded')
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
 
@@ -346,6 +340,8 @@ module.exports = class PlayLevelView extends RootView
       @howToPlayText = marked(@howToPlayText, { sanitize: true })
       @renderSelectors('#how-to-play-game-dev-panel')
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
+    @spellPalettePosition = @getSpellPalettePosition()
+    @$el.addClass 'no-api' if @spellPalettePosition is 'bot'
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
     @otherSession = @levelLoader.opponentSession
@@ -413,13 +409,34 @@ module.exports = class PlayLevelView extends RootView
     @goalManager.destroy()
     @initGoalManager()
 
+  getSpellPalettePosition: ->
+    return @spellPalettePosition if @spellPalettePosition
+    return position if position = utils.getQueryVariable('apis')
+    return 'mid' if @level.isType('game-dev', 'web-dev')
+    heroID = if @team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
+    return 'mid' unless heroThang = @world?.getThangByID(heroID)
+    programmablePropCount = 0
+    for propStorage in ['programmableProperties', 'programmableSnippets', 'moreProgrammableProperties']
+      programmablePropCount += heroThang[propStorage]?.length or 0
+    if programmablePropCount < 16
+      return 'bot'
+    else
+      return 'mid'
+
   updateSpellPalette: (thang, spell) ->
-    return unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
+    return false unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
     useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
     @removeSubview @spellPaletteView if @spellPaletteView
-    @spellPaletteView = @insertSubView new SpellPaletteView { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @session.get('codeLanguage'), session: @session, level: @level, courseID: @courseID, courseInstanceID: @courseInstanceID, useHero }
-    #@spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view   # TODO: know when palette should have been disabled but didn't exist
-
+    @spellPaletteView = null
+    if @getSpellPalettePosition() is 'bot'
+      # We'l make it inside Tome instead
+      @$el.toggleClass 'no-api', true
+      return false
+    # We'll manage it here
+    @spellPaletteView = @insertSubView new SpellPaletteViewMid { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @session.get('codeLanguage'), session: @session, level: @level, courseID: @courseID, courseInstanceID: @courseInstanceID, useHero }
+    @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view
+    @$el.toggleClass 'no-api', false
+    return true
 
   insertSubviews: ->
     @hintsState = new HintsState({ hidden: true }, { @session, @level, @supermodel })
@@ -464,7 +481,6 @@ module.exports = class PlayLevelView extends RootView
   # Load Completed Setup ######################################################
 
   onSessionLoaded: (e) ->
-    console.log 'PlayLevelView: loaded session', e.session
     store.commit('game/setTimesCodeRun', e.session.get('timesCodeRun') or 0)
     store.commit('game/setTimesAutocompleteUsed', e.session.get('timesAutocompleteUsed') or 0)
     return if @session
@@ -538,7 +554,6 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelStarted: ->
     return unless @surface? or @webSurface?
-    console.log 'PlayLevelView: level started'
     @loadingView.showReady()
     @trackLevelLoadEnd()
     if window.currentModal and not window.currentModal.destroyed and [VictoryModal, CourseVictoryModal, HeroVictoryModal].indexOf(window.currentModal.constructor) is -1
@@ -757,7 +772,7 @@ module.exports = class PlayLevelView extends RootView
 
   onInfiniteLoop: (e) ->
     return unless e.firstWorld and e.god is @god
-    @openModalView new InfiniteLoopModal nonUserCodeProblem: e.nonUserCodeProblem
+    @openModalView new InfiniteLoopModal nonUserCodeProblem: e.nonUserCodeProblem, problem: e.problem, timedOut: e.timedOut
     application.tracker?.trackEvent 'Saw Initial Infinite Loop', category: 'Play Level', level: @level.get('name'), label: @level.get('name') unless @observing or @isEditorPreview
 
   onHighlightDOM: (e) -> @highlightElement e.selector, delay: e.delay, sides: e.sides, offset: e.offset, rotation: e.rotation

@@ -14,7 +14,6 @@
 
   /**
    * Unified navigation bar component between CodeCombat and Ozaria.
-   * This must be copied exactly to the Ozaria repo.
    */
   export default Vue.extend({
     computed: {
@@ -149,6 +148,15 @@
 
       ozPath (relativePath) {
         return `${this.ozBaseURL}${relativePath}`
+      },
+
+      readAnnouncement () {
+        if(this.unread > 1) {
+          return application.router.navigate('/announcements', {trigger: true})
+        } else {
+
+        }
+
       }
     },
     components: {
@@ -201,7 +209,7 @@
                 li(v-if="me.isAnonymous()")
                   ul.nav.navbar-nav
                     li.dropdown.dropdown-hover
-                      a.text-p(:href="isCodeCombat ? '/impact' : '#'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
+                      a.text-p(:href="isCodeCombat ? '/impact' : '/'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
                         span {{ $t('nav.educators') }}
                         span.caret
                       ul(class="dropdown-menu")
@@ -224,7 +232,7 @@
                   ul.nav.navbar-nav
                     li.dropdown.dropdown-hover
                       a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                        span {{ $t('nav.educators') }}
+                        span {{ $t('nav.dashboard') }}
                         span.caret
                       ul(class="dropdown-menu")
                         li
@@ -232,8 +240,8 @@
                             span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_dashboard') }}
                         li
                           a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t('nav.codecombat_dashboard') }}
-                        li
-                          a.text-p(:href="ozPath('/professional-development')")
+                        li(v-if="isCodeCombat || !checkLocation('/teachers/')")
+                          a.text-p(:href="ozPath('/teachers/professional-development')")
                             span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
 
                 li(v-else-if="me.isStudent()")
@@ -272,7 +280,7 @@
                   a.text-p#logout-button {{ $t('login.log_out') }}
                 li.dropdown(v-else)
                   a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
+                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="{'border-navy': me.isTeacher()}")
                     span.unreadMessage(v-if="false && unread")
                     span {{ $t('nav.my_account') }}
                     span.caret
@@ -286,9 +294,9 @@
                       a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                    li(v-if="false")
-                      a.account-dropdown-item(href="/announcements") {{ $t('announcement.announcement') }}
-                        span.unread(v-if="unread") {{ unread }}
+                    li(v-if="false && unread")
+                      a.account-dropdown-item(@click="readAnnouncement") {{ $t('announcement.message') }}
+                        span.unread {{ unread }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
@@ -297,7 +305,7 @@
                       a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                     li(v-if="me.isAPIClient()")
                       a.account-dropdown-item(href="/api-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
-                    li(v-if="me.isAdmin()")
+                    li(v-if="me.isAdmin() || me.isOnlineTeacher()")
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
                     li(v-if="serverSession && serverSession.amActually")
                       a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_spying') }}
@@ -578,18 +586,20 @@
     top: 10px;
     left: 45px;
     border-radius: 50%;
-    background-color: red;
-    box-shadow: 0 0 2px 2px red;
+    background-color: $yellow;
+    box-shadow: 0 0 2px 2px $yellow;
   }
 
   span.unread {
     width: 1.2em;
     height: 1.2em;
+    margin-left: 1em;
     line-height: 1.2em;
     border-radius: 50%;
-    background-color: #ff4848;
+    background-color: $yellow;
     color: white;
     display: inline-block;
+    margin-left: 0.5em;
   }
 
   .dashboard-toggle {

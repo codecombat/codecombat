@@ -16,10 +16,12 @@ CoordinateGrid = require './CoordinateGrid'
 LankBoss = require './LankBoss'
 PointChooser = require './PointChooser'
 RegionChooser = require './RegionChooser'
+MusicPlayer = require './MusicPlayer'
 GameUIState = require 'models/GameUIState'
 createjs = require 'lib/createjs-parts'
 require 'jquery-mousewheel'
 store = require 'app/core/store'
+utils = require 'core/utils'
 
 resizeDelay = 1  # At least as much as $level-resize-transition-time.
 
@@ -95,7 +97,7 @@ module.exports = Surface = class Surface extends CocoClass
     @options = _.clone(@defaults)
     @options = _.extend(@options, givenOptions) if givenOptions
     @handleEvents = @options.handleEvents ? true
-    @zoomToHero = @options.levelType isnt "game-dev" # In game-dev levels the hero is gameReferee
+    @zoomToHero = if @world.preventZoomToHero then false else @options.levelType isnt "game-dev" # In game-dev levels the hero is gameReferee
     @gameUIState = @options.gameUIState or new GameUIState({
       canDragCamera: true
     })
@@ -105,6 +107,7 @@ module.exports = Surface = class Surface extends CocoClass
       @listenTo(@gameUIState, 'surface:stage-mouse-move', @onWorldMouseMove)
     @onResize = _.debounce @onResize, resizeDelay
     @initEasel()
+    @initAudio()
     @pathLayerAdapter = @lankBoss.layerAdapters['Path']
     @listenTo(@pathLayerAdapter, 'new-spritesheet', @updatePaths)
     $(window).on 'resize', @onResize
@@ -139,7 +142,7 @@ module.exports = Surface = class Surface extends CocoClass
       choosing: @options.choosing
       navigateToSelection: @options.navigateToSelection
       showInvisible: @options.showInvisible
-      playerNames: if @options.levelType is 'course-ladder' then @options.playerNames else null
+      playerNames: if @options.levelType in ['course-ladder', 'ladder'] then @options.playerNames else null
       @gameUIState
       @handleEvents
     })
@@ -171,6 +174,10 @@ module.exports = Surface = class Surface extends CocoClass
     klass = if @options.choosing is 'point' then PointChooser else RegionChooser
     @chooser = new klass chooserOptions
 
+  initAudio: ->
+    return if utils.isOzaria  # Ozaria uses a different sound system
+    @musicPlayer = new MusicPlayer()
+
   #- Setting the world
 
   setWorld: (@world) ->
@@ -185,6 +192,7 @@ module.exports = Surface = class Surface extends CocoClass
     return if @destroyed
     return if @loaded
     @loaded = true
+    @lankBoss.createMarks() unless utils.isOzaria
     @updateState true
     @drawCurrentFrame()
     createjs.Ticker.addEventListener 'tick', @tick
@@ -205,9 +213,10 @@ module.exports = Surface = class Surface extends CocoClass
       if frameAdvanced and @playing
         advanceBy = @world.frameRate / @options.frameRate
         if @fastForwardingToFrame and @currentFrame < @fastForwardingToFrame - advanceBy
-          advanceBy = Math.min(@currentFrame + advanceBy * @fastForwardingSpeed, @fastForwardingToFrame) - @currentFrame
+          advanceBy = Math.min(@currentFrame + advanceBy * @gameUIState.get('fastForwardingSpeed'), @fastForwardingToFrame) - @currentFrame
         else if @fastForwardingToFrame
-          @fastForwardingToFrame = @fastForwardingSpeed = null
+          @fastForwardingToFrame = null
+          @gameUIState.set 'fastForwardingSpeed', null
         @currentFrame += advanceBy
         @currentFrame = Math.min @currentFrame, lastFrame
       newWorldFrame = Math.floor @currentFrame
@@ -285,11 +294,12 @@ module.exports = Surface = class Surface extends CocoClass
     progress = Math.max(Math.min(progress, 1), 0.0)
 
     @fastForwardingToFrame = null
+    @gameUIState.set 'fastForwardingSpeed', null
     @scrubbing = true
     onTweenEnd = =>
       @scrubbingTo = null
       @scrubbing = false
-      @scrubbingPlaybackSpeed = null
+      @gameUIState.set 'scrubbingPlaybackSpeed', null
 
     if @scrubbingTo?
       # cut to the chase for existing tween
@@ -299,7 +309,7 @@ module.exports = Surface = class Surface extends CocoClass
     @scrubbingTo = Math.round(progress * (@world.frames.length - 1))
     @scrubbingTo = Math.max @scrubbingTo, 1
     @scrubbingTo = Math.min @scrubbingTo, @world.frames.length - 1
-    @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
+    @gameUIState.set 'scrubbingPlaybackSpeed', Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
     if scrubDuration
       t = createjs.Tween
         .get(@)
@@ -328,7 +338,7 @@ module.exports = Surface = class Surface extends CocoClass
         @currentFrame = tempFrame
         frame = @world.getFrame(@getCurrentFrame())
         frame.restoreState()
-        volume = Math.max(0.05, Math.min(1, 1 / @scrubbingPlaybackSpeed))
+        volume = Math.max(0.05, Math.min(1, 1 / @gameUIState.get('scrubbingPlaybackSpeed')))
         lank.playSounds false, volume for lank in @lankBoss.lankArray
         tempFrame += if rising then 1 else -1
       @currentFrame = actualCurrentFrame
@@ -455,6 +465,7 @@ module.exports = Surface = class Surface extends CocoClass
       @currentFrame = 1  # Go back to the beginning (but not frame 0, that frame is weird)
     if @fastForwardingToFrame and not @playing
       @fastForwardingToFrame = null
+      @gameUIState.set 'fastForwardingSpeed', null
     @updateGrabbability()
 
   onSetTime: (e) ->
@@ -499,19 +510,20 @@ module.exports = Surface = class Surface extends CocoClass
     if @playing and not @realTime and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length - 1)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
       @fastForwardingToFrame = ffToFrame
       if @cinematic
-        @fastForwardingSpeed = Math.max 1, Math.min(2, (ffToFrame * @world.dt) / 15)
+        @gameUIState.set 'fastForwardingSpeed', Math.max 1, Math.min(2, (ffToFrame * @world.dt) / 15)
       else
-        @fastForwardingSpeed = Math.max 3, 3 * (@world.maxTotalFrames * @world.dt) / 60
+        @gameUIState.set 'fastForwardingSpeed', Math.max 3, 3 * (@world.maxTotalFrames * @world.dt) / 60
     else if @realTime
       buffer = if @world.indefiniteLength then 0 else @world.realTimeBufferMax
       lag = (@world.frames.length - 1) * @world.dt - @world.age
       intendedLag = @world.dt + buffer
       if lag > intendedLag * 1.2
         @fastForwardingToFrame = @world.frames.length - buffer * @world.frameRate
-        @fastForwardingSpeed = lag / intendedLag
+        @gameUIState.set 'fastForwardingSpeed', lag / intendedLag
       else
-        @fastForwardingToFrame = @fastForwardingSpeed = null
-    #console.log "on new world, lag", lag, "intended lag", intendedLag, "fastForwardingToFrame", @fastForwardingToFrame, "speed", @fastForwardingSpeed, "cause we are at", @world.age, "of", @world.frames.length * @world.dt
+        @fastForwardingToFrame = null
+        @gameUIState.set 'fastForwardingSpeed', null
+    #console.log "on new world, lag", lag, "intended lag", intendedLag, "fastForwardingToFrame", @fastForwardingToFrame, "speed", @gameUIState.get('fastForwardingSpeed'), "cause we are at", @world.age, "of", @world.frames.length * @world.dt
     if event.finished
       @updatePaths()
     else
@@ -620,7 +632,7 @@ module.exports = Surface = class Surface extends CocoClass
       newWidth = $('#canvas-wrapper').width()
       newHeight = newWidth / aspectRatio
     else
-      newWidth = 0.55 * pageWidth
+      newWidth = 0.57 * pageWidth
       newHeight = newWidth / aspectRatio
     return unless newWidth > 100 and newHeight > 100
 
@@ -704,13 +716,18 @@ module.exports = Surface = class Surface extends CocoClass
       @options.resizeStrategy = @options.originalResizeStrategy
 
   updatePaths: ->
-    return unless @options.paths and @world.showPathFor?.length
+    showPathFor = switch
+      when not @options.paths then []
+      when @world.showPathFor then @world.showPathFor
+      when utils.isCodeCombat then [@heroLank?.thang?.id]
+      else []
+    return unless showPathFor.length
     @hidePaths()
     return if @world.showPaths is 'never'
     @trailmaster ?= new TrailMaster @camera, @pathLayerAdapter
     @trailmaster.cleanUp()
     @paths = []
-    for thangID in @world.showPathFor
+    for thangID in showPathFor
       lank = @lankBoss.lankFor thangID
       continue if not lank
       path = @trailmaster.generatePaths @world, lank.thang
@@ -753,8 +770,9 @@ module.exports = Surface = class Surface extends CocoClass
     if @showingPathFinding then @showPathFinding() else @hidePathFinding()
 
   hidePathFinding: ->
-    @surfaceLayer.removeChild @navRectangles if @navRectangles
-    @surfaceLayer.removeChild @navPaths if @navPaths
+    surfaceLayer = @gridLayer
+    surfaceLayer.removeChild @navRectangles if @navRectangles
+    surfaceLayer.removeChild @navPaths if @navPaths
     @navRectangles = @navPaths = null
 
   showPathFinding: ->
@@ -762,19 +780,18 @@ module.exports = Surface = class Surface extends CocoClass
 
     mesh = _.values(@world.navMeshes or {})[0]
     return unless mesh
-    @navRectangles = new createjs.Container()
-    @navRectangles.layerPriority = -1
+    surfaceLayer = @gridLayer
+    @navRectangles = new createjs.Container(surfaceLayer.spriteSheet)
     @addMeshRectanglesToContainer mesh, @navRectangles
-    @surfaceLayer.addChild @navRectangles
-    @surfaceLayer.updateLayerOrder()
+    surfaceLayer.addChild @navRectangles
+    surfaceLayer.updateLayerOrder()
 
     graph = _.values(@world.graphs or {})[0]
-    return @surfaceLayer.updateLayerOrder() unless graph
-    @navPaths = new createjs.Container()
-    @navPaths.layerPriority = -1
+    return surfaceLayer.updateLayerOrder() unless graph
+    @navPaths = new createjs.Container(surfaceLayer.spriteSheet)
     @addNavPathsToContainer graph, @navPaths
-    @surfaceLayer.addChild @navPaths
-    @surfaceLayer.updateLayerOrder()
+    surfaceLayer.addChild @navPaths
+    surfaceLayer.updateLayerOrder()
 
   addMeshRectanglesToContainer: (mesh, container) ->
     for rect in mesh
@@ -799,10 +816,12 @@ module.exports = Surface = class Surface extends CocoClass
     v2 = @camera.worldToSurface v2
     shape.graphics
     .setStrokeStyle(1)
-    .moveTo(v1.x, v1.y)
     .beginStroke('rgba(128,0,0,0.4)')
-    .lineTo(v2.x, v2.y)
+    .moveTo(0, 0)
+    .lineTo(v2.x - v1.x, v2.y - v1.y)
     .endStroke()
+    shape.x = v1.x
+    shape.y = v1.y
     container.addChild shape
 
 
@@ -812,8 +831,8 @@ module.exports = Surface = class Surface extends CocoClass
   destroy: ->
     @camera?.destroy()
     createjs.Ticker.removeEventListener('tick', @tick)
-    createjs.Sound.stop() # TODO remove this once sounds transitioned
-    store.dispatch('audio/fadeAndStopAll', { to: 0, duration: 1000, unload: true })
+    createjs.Sound.stop()
+    store.dispatch('audio/fadeAndStopAll', { to: 0, duration: 1000, unload: true }) if utils.isOzaria
     layer.destroy() for layer in @normalLayers
     @lankBoss.destroy()
     @chooser?.destroy()
@@ -824,6 +843,7 @@ module.exports = Surface = class Surface extends CocoClass
     @coordinateGrid?.destroy()
     @normalStage.clear()
     @webGLStage.clear()
+    @musicPlayer?.destroy()
     @trailmaster?.destroy()
     @normalStage.removeAllChildren()
     @webGLStage.removeAllChildren()

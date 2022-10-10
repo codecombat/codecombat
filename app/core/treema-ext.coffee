@@ -346,8 +346,10 @@ class CodeTreema extends TreemaNode.nodeMap.ace
   constructor: ->
     super(arguments...)
     @workingSchema.aceTabSize = 4
-    # TODO: Find a less hacky solution for this
+    # Hacky heuristics for finding the right code language in various cases without calling code needing to specify it
     @workingSchema.aceMode = mode if mode = aceUtils.aceEditModes[@keyForParent]
+    @workingSchema.aceMode = mode if mode = aceUtils.aceEditModes[@parent?.parent?.parent?.data?.codeLanguage]
+    @workingSchema.aceMode = mode if mode = aceUtils.aceEditModes[@parent?.parent?.data?.codeLanguage]
     @workingSchema.aceMode = mode if mode = aceUtils.aceEditModes[@parent?.data?.language]
 
   initEditor: (args...) ->
@@ -365,7 +367,6 @@ class JavaScriptTreema extends CodeTreema
     super(arguments...)
     @workingSchema.aceMode = 'ace/mode/javascript'
     @workingSchema.aceTabSize = 4
-
 
 class InternationalizationNode extends TreemaNode.nodeMap.object
   findLanguageName: (languageCode) ->

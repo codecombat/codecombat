@@ -18,7 +18,7 @@ const ResourceHubResourceSchema = schema.object(
     section: schema.shortString({
       title: 'Section',
       description: 'Declares which section the resource will appear in.',
-      enum: ['gettingStarted', 'educatorResources', 'studentResources', 'lessonSlides']
+      enum: ['gettingStarted', 'educatorResources', 'lessonSlides', 'studentResources']
     }),
 
     link: {

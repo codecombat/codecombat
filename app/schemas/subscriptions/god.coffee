@@ -37,10 +37,12 @@ module.exports =
     god: {type: 'object'}
     problem: {type: 'object'}
 
-  'god:infinite-loop': c.object {required: ['firstWorld', 'god']},
+  'god:infinite-loop': c.object {required: ['firstWorld', 'god'], description: 'Used for both infinite loops and non-user-code problems'},
     god: {type: 'object'}
     firstWorld: {type: 'boolean'}
     nonUserCodeProblem: {type: 'boolean'}
+    problem: {type: 'object'}
+    timedOut: {type: 'boolean'}
 
   'god:new-world-created': worldUpdatedEventSchema
 

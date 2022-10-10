@@ -120,7 +120,7 @@ module.exports = class HomeView extends RootView
         @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
     window.addEventListener 'load', ->
-      $('#core-curriculum-carousel').data('bs.carousel').$element.on 'slid.bs.carousel', (event) ->
+      $('#core-curriculum-carousel').data('bs.carousel')?.$element.on 'slid.bs.carousel', (event) ->
         nextActiveSlide = $(event.relatedTarget).index()
         $buttons = $('.control-buttons > button')
         $buttons.removeClass 'active'

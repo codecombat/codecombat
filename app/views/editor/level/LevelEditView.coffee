@@ -22,6 +22,7 @@ SettingsTabView = require './settings/SettingsTabView'
 ScriptsTabView = require './scripts/ScriptsTabView'
 ComponentsTabView = require './components/ComponentsTabView'
 SystemsTabView = require './systems/SystemsTabView'
+KeyThangTabView = require './thangs/KeyThangTabView'
 TasksTabView = require './tasks/TasksTabView'
 SaveLevelModal = require './modals/SaveLevelModal'
 ArtisanGuideModal = require './modals/ArtisanGuideModal'
@@ -83,6 +84,9 @@ module.exports = class LevelEditView extends RootView
     'mouseup .nav-tabs > li a': 'toggleTab'
     'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
     'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal'
+
+  subscriptions:
+    'editor:thang-deleted': 'onThangDeleted'
 
   constructor: (options, @levelID) ->
     super options
@@ -147,19 +151,20 @@ module.exports = class LevelEditView extends RootView
   afterRender: ->
     super()
     return unless @supermodel.finished()
-    @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
-      Backbone.Mediator.publish 'editor:view-switched', {targetURL: $(e.target).attr('href')}
     @listenTo @level, 'change:tasks', => @renderSelectors '#tasks-tab'
-    @insertSubView new ThangsTabView world: @world, supermodel: @supermodel, level: @level
+    @thangsTabView = @insertSubView new ThangsTabView world: @world, supermodel: @supermodel, level: @level
     @insertSubView new SettingsTabView supermodel: @supermodel
     @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
     @insertSubView new ComponentsTabView supermodel: @supermodel
     @insertSubView new SystemsTabView supermodel: @supermodel, world: @world
+    @insertKeyThangTabViews()
     @insertSubView new TasksTabView world: @world, supermodel: @supermodel, level: @level
     @insertSubView new RelatedAchievementsView supermodel: @supermodel, level: @level
     @insertSubView new ComponentsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new SystemsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new LevelFeedbackView level: @level
+    @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
+      Backbone.Mediator.publish 'editor:view-switched', {targetURL: $(e.target).attr('href')}
 
     Backbone.Mediator.publish 'editor:level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
@@ -171,6 +176,29 @@ module.exports = class LevelEditView extends RootView
       else
         location.reload() unless key.shift  # Reload to make sure changes propagate, unless secret shift shortcut
     @$el.find('#level-watch-button').find('> span').toggleClass('secret') if @level.watching()
+
+  insertKeyThangTabViews: ->
+    @keyThangTabViews ?= {}
+    @keyThangIDs = ['Hero Placeholder', 'Hero Placeholder 1', 'Referee', 'RefereeJS', 'Level Manager', 'Level Manager JS'].reverse()
+    for id in @keyThangIDs
+      continue unless thang = _.find(@level.get('thangs') ? [], {id: id})
+      continue if @keyThangTabViews[id]
+      thangPath = @thangsTabView.pathForThang thang
+      tabId = "key-thang-tab-view-#{_.string.slugify(thang.id)}"
+      tabName = id.replace(/ ?(Placeholder|JS|Level)/g, '')
+      $subView = new KeyThangTabView thangData: thang, level: @level, world: @world, supermodel: @supermodel, oldPath: thangPath, id: tabId
+      $subView.$el.insertAfter @$el.find('#systems-tab-view')
+      $subView.render()
+      $subView.afterInsert()
+      @keyThangTabViews[id] = @registerSubView $subView
+      $tabBarEntry = $("<li><a data-toggle='tab' href='##{tabId}'>#{tabName}</a></li>")
+      $tabBarEntry.insertAfter @$el.find('a[href="#systems-tab-view"]').parent()
+    null
+
+  onThangDeleted: (e) ->
+    return unless e.thangID in (@keyThangIDs ? [])
+    @removeSubView @keyThangTabViews[e.thangID]
+    @keyThangTabViews[e.thangID] = null
 
   openRevertModal: (e) ->
     e.stopPropagation()

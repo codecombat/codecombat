@@ -72,8 +72,11 @@ setupExpressMiddleware = (app) ->
 
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
-
-  app.use require('serve-favicon') path.join(publicPath, 'images', 'favicon', "favicon-#{productSuffix}", 'favicon.ico')
+  try
+    app.use require('serve-favicon') path.join(publicPath, 'images', 'favicon', "favicon-#{productSuffix}", 'favicon.ico')
+  catch e
+    console.error "Error. Couldn't find #{path.join(publicPath, 'images', 'favicon', 'favicon-' + productSuffix)}. It is likely that the #{publicFolderName} folder is not built. Try:\n\n  npm run build\n\nfor an initial build, or\n\n  npm run dev\n\nfor live rebuilding of your front-end changes. If those don't work, make sure you are running the correct version of node and have installed all dependencies with:\n\n  npm install --also=dev\n"
+    process.exit(1)
   app.use require('cookie-parser')()
   app.use require('body-parser').json limit: '25mb', strict: false
   app.use require('body-parser').urlencoded extended: true, limit: '25mb'

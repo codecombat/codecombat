@@ -45,7 +45,8 @@ module.exports = class User extends CocoModel
     GOD_MODE: 'godmode',
     LICENSOR: 'licensor',
     API_CLIENT: 'apiclient',
-    ONLINE_TEACHER: 'onlineTeacher'
+    ONLINE_TEACHER: 'onlineTeacher',
+    BETA_TESTER: 'betaTester'
   }
 
   get: (attr, withDefault=false) ->
@@ -61,6 +62,7 @@ module.exports = class User extends CocoModel
   isInGodMode: -> @constructor.PERMISSIONS.GOD_MODE in @get('permissions', true) or @constructor.PERMISSIONS.ONLINE_TEACHER in @get('permissions', true)
   isSchoolAdmin: -> @constructor.PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
   isAPIClient: -> @constructor.PERMISSIONS.API_CLIENT in @get('permissions', true)
+  isBetaTester: -> @constructor.PERMISSIONS.BETA_TESTER in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
   isIndividualUser: -> not @isStudent() and not User.isTeacher(@attributes)
@@ -824,6 +826,7 @@ module.exports = class User extends CocoModel
   useChinaHomeView: -> features?.china and ! features?.chinaHome ? false
   showChinaRegistration: -> features?.china ? false
   enableCpp: -> utils.isCodeCombat and (@hasSubscription() or @isStudent() or @isTeacher())
+  enableJava: -> utils.isCodeCombat and (@hasSubscription() or @isStudent() or (@isTeacher() and @isBetaTester()))
   useQiyukf: -> false
   useChinaServices: -> features?.china ? false
   useGeneralArticle: -> not (features?.china ? false)

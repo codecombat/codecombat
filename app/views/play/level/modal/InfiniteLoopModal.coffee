@@ -7,5 +7,5 @@ module.exports = class InfiniteLoopModal extends ModalView
 
   events:
     'click #restart-level-infinite-loop-retry-button': -> Backbone.Mediator.publish 'tome:cast-spell', {}
-    'click #restart-level-infinite-loop-confirm-button': -> Backbone.Mediator.publish 'level:restart', {}
+    'click #restart-level-infinite-loop-confirm-button': -> Backbone.Mediator.publish 'tome:reset-my-code', {}
     'click #restart-level-infinite-loop-comment-button': -> Backbone.Mediator.publish 'tome:comment-my-code', {}
