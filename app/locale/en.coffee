@@ -1546,6 +1546,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_new_students_imported: "No new students imported"
     error_in_importing_classrooms: "Error in importing classrooms"
     error_in_importing_students: "Error in importing students"
+    classroom_items_description: "Whether students should earn gems and equip items during gameplay."
     classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled."
 
   no_licenses_page:
@@ -2088,6 +2089,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     view_winners: "View Winners"
     classroom_announcement: "Classroom Announcement"
     link_lms_classroom: "Link LMS Classroom"
+    classroom_items: "Items & Gems"
     classroom_live_completion: "Classroom Code Autocomplete: "
     learn_without_classroom_title: "You can still learn and play without a classroom"
     learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."

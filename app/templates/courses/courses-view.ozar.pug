@@ -121,6 +121,9 @@ block content
                     .course-instance-entry.rtl-allowed
                       - var courseID = courseInstance.get('courseID')
                       - var course = view.store.state.courses.byId[courseID];
+                      // internal play-test course which we removed later
+                      if course._id === '5eb34fc8dc0fd35e8eae66b0'
+                        - continue
                       - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
                       - var nextLevel = stats.levels.next;
                       - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)

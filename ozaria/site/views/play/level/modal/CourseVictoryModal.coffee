@@ -92,7 +92,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
     @views = []
 
-    if me.showGemsAndXp() and @achievements.length > 0
+    if me.showGemsAndXpInClassroom() and @achievements.length > 0
       @achievements.models = _.filter @achievements.models, (m) -> not m.get('query')?.ladderAchievementDifficulty  # Don't show higher AI difficulty achievements
       showAchievements = false  # show achievements only if atleast one achievement is completed
       for achievement in @achievements.models
@@ -124,13 +124,13 @@ module.exports = class CourseVictoryModal extends ModalView
     @levelSessions?.add(@session)
 
     # get next level for ozaria course, no nextAssessment for ozaria courses
-    if utils.orderedCourseIDs.includes(@courseID) 
-      @getNextLevelOzaria().then (level) => 
+    if utils.orderedCourseIDs.includes(@courseID)
+      @getNextLevelOzaria().then (level) =>
         @nextLevel.set(level)
         @loadViews()
     else
       @loadViews()
-  
+
   loadViews: ->
     if @level.isLadder() or @level.isProject()
       @courseID ?= @course.id

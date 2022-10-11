@@ -2,7 +2,12 @@ c = require './../schemas'
 
 CampaignSchema = require './campaign.schema'
 
-ClassroomSchema = c.object {title: 'Classroom', required: ['name']}
+ClassroomSchema = c.object
+  title: 'Classroom'
+  required: ['name']
+  default:
+    classroomItems: false
+
 c.extendNamedProperties ClassroomSchema  # name first
 
 _.extend ClassroomSchema.properties,
@@ -72,13 +77,7 @@ _.extend ClassroomSchema.properties,
   googleClassroomId: { title: 'Google classroom id', type: 'string' }
   lmsClassroomId: { title: 'LMS classroom id', type: 'string' }
   grades: c.array { title: 'Class Grades' }, { type: 'string', enum: ['elementary','middle','high'] }
-  settings: c.object {title: 'Classroom Settings', required: []}, {
-    optionsEditable: { type: 'boolean', description: 'Allow teacher to use these settings.', default: false }
-    map: { type: 'boolean', description: 'Classroom map.', default: false }
-    backToMap: { type: 'boolean', description: 'Go back to the map after victory.', default: true }
-    gems: {type: 'boolean', description: 'Allow students to earn gems.', default: false}
-    xp: {type: 'boolean', description: 'Students collect XP and level up.', default: false}
-  }
+  classroomItems: { title: 'Items & Gems', type: 'boolean', description: 'Whether students should earn gems and equip items during gameplay' }
   studentLockMap: c.object {
     title: 'Student Locking Info',
     description: 'The teacher controls this in order to control student progress through the chapters.'
@@ -92,7 +91,6 @@ _.extend ClassroomSchema.properties,
   type: { title: 'Class Type', type: 'string', enum: ['', 'in-school', 'after-school', 'online', 'camp', 'homeschool', 'other'] }
 
 c.extendBasicProperties ClassroomSchema, 'Classroom'
-ClassroomSchema.properties.settings.additionalProperties = true
 
 c.extendPermissionsProperties ClassroomSchema
 
