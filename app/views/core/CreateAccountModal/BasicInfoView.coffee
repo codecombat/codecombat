@@ -8,6 +8,9 @@ User = require 'models/User'
 State = require 'models/State'
 store = require 'core/store'
 globalVar = require 'core/globalVar'
+{capitalizeFirstLetter, isCodeCombat, isOzaria} = require 'core/utils'
+_ = require 'lodash'
+userUtils = require '../../../lib/user-utils'
 
 ###
 This view handles the primary form for user details — name, email, password, etc,
@@ -29,6 +32,8 @@ module.exports = class BasicInfoView extends CocoView
   template: template
 
   events:
+    'change input[name="firstName"]': 'onChangeNames'
+    'change input[name="lastName"]': 'onChangeNames'
     'change input[name="email"]': 'onChangeEmail'
     'change input[name="name"]': 'onChangeName'
     'change input[name="password"]': 'onChangePassword'
@@ -37,6 +42,7 @@ module.exports = class BasicInfoView extends CocoView
     'click .use-suggested-name-link': 'onClickUseSuggestedNameLink'
     'click #facebook-signup-btn': 'onClickSsoSignupButton'
     'click #gplus-signup-btn': 'onClickSsoSignupButton'
+    'click #clever-signup-btn': 'onClickSsoSignupButton'
 
   initialize: ({ @signupState } = {}) ->
     @state = new State {
@@ -54,6 +60,7 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
     @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
+    @hideEmail = if isCodeCombat then userUtils.shouldHideEmail() else false
 
   afterRender: ->
     @$el.find('#first-name-input').focus()
@@ -71,6 +78,9 @@ module.exports = class BasicInfoView extends CocoView
 
   checkEmail: ->
     email = @$('[name="email"]').val()
+
+    if @hideEmail
+      return Promise.resolve(true)
 
     if @signupState.get('path') isnt 'student' and (not _.isEmpty(email) and email is @state.get('checkEmailValue'))
       return @state.get('checkEmailPromise')
@@ -100,6 +110,13 @@ module.exports = class BasicInfoView extends CocoView
       )
     })
     return @state.get('checkEmailPromise')
+
+  onChangeNames: () ->
+    firstName = @$el.find('#first-name-input').val() or ''
+    lastName = @$el.find('#last-name-input').val() or ''
+    userName = capitalizeFirstLetter(firstName)+capitalizeFirstLetter(lastName)
+    @$el.find('#username-input').val(userName)
+    @checkName()
 
   onChangeName: (e) ->
     @updateAuthModalInitialValues { name: @$(e.currentTarget).val() }
@@ -169,20 +186,33 @@ module.exports = class BasicInfoView extends CocoView
         message: $.i18n.t('signup.invalid')
       })
 
-
     forms.applyErrorsToForm(@$('form'), res.errors) unless res.valid
     return res.valid
 
   formSchema: ->
-    type: 'object'
-    properties:
-      email: User.schema.properties.email
-      name: User.schema.properties.name
-      password: User.schema.properties.password
-    required: switch @signupState.get('path')
-      when 'student' then ['name', 'password', 'firstName', 'lastName']
-      when 'teacher' then ['password', 'email', 'firstName', 'lastName']
-      else ['name', 'password', 'email']
+    if isOzaria
+      type: 'object'
+      properties:
+        email: User.schema.properties.email
+        name: User.schema.properties.name
+        password: User.schema.properties.password
+      required: switch @signupState.get('path')
+        when 'student' then ['name', 'password', 'firstName', 'lastName']
+        when 'teacher' then ['password', 'email', 'firstName', 'lastName']
+        else ['name', 'password', 'email']
+    else
+      type: 'object'
+      properties:
+        email: User.schema.properties.email
+        name: User.schema.properties.name
+        password: User.schema.properties.password
+        firstName: User.schema.properties.firstName
+        lastName: User.schema.properties.lastName
+      required: switch @signupState.get('path')
+        when 'student' then ['name', 'password', 'firstName'].concat(if me.showChinaRegistration() then [] else ['lastName'])
+        when 'teacher' then ['password', 'email', 'firstName'].concat(if me.showChinaRegistration() then [] else ['lastName'])
+        else
+          ['name', 'password'].concat(if @hideEmail then [] else ['email'])
 
   onClickBackButton: ->
     if @signupState.get('path') is 'teacher'
@@ -333,7 +363,28 @@ module.exports = class BasicInfoView extends CocoView
   onClickSsoSignupButton: (e) ->
     e.preventDefault()
     ssoUsed = $(e.currentTarget).data('sso-used')
-    handler = if ssoUsed is 'facebook' then application.facebookHandler else application.gplusHandler
+    if isOzaria
+      handler = if ssoUsed is 'facebook' then application.facebookHandler else application.gplusHandler
+    else
+      handler = switch ssoUsed
+        when 'facebook' then application.facebookHandler
+        when 'gplus' then application.gplusHandler
+        when 'clever' then 'clever'
+
+    if handler is 'clever'
+      if window.location.hostname in ['next.codecombat.com', 'localhost']  # dev
+        cleverClientId = '943ece596555cac13fcc'
+        redirectTo = 'https://next.codecombat.com/auth/login-clever'
+        districtId = '5b2ad81a709e300001e2cd7a'  # Clever Library test district
+      else  # prod
+        cleverClientId = 'ffce544a7e02c0daabf2'
+        redirectTo = 'https://codecombat.com/auth/login-clever'
+      url = "https://clever.com/oauth/authorize?response_type=code&redirect_uri=#{encodeURIComponent(redirectTo)}&client_id=#{cleverClientId}"
+      if districtId
+        url += '&district_id=' + districtId
+      window.open url, '_blank'
+      return
+
     handler.connect({
       context: @
       success: ->
