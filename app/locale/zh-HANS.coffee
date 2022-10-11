@@ -378,6 +378,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    funding_resources_guide: "Funding Resources Guide"
 #    partnerships: "Partnerships"
 #    podcast: "Our Podcast"
+    dashboard: "我的班级"
 
   modal:
     close: "关闭"

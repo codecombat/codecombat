@@ -226,8 +226,8 @@
                         li(v-if="!me.isStudent() && !me.isTeacher()")
                           a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
 
-                  li
-                    a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
+                        li
+                          a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
 
                 li(v-if="me.isTeacher()")
                   ul.nav.navbar-nav
