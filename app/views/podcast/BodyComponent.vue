@@ -3,9 +3,12 @@
     <div class="podcast-content" v-if="podcastsLoaded">
       <div
         class="podcast-item"
-        v-for="podcast in allPodcasts"
+        v-for="(podcast, index) in allPodcasts"
       >
-        <div class="container" v-if="isPodcastVisible(podcast)">
+        <div
+          v-if="isPodcastVisible(podcast) && (!showTop3Only || (showTop3Only && index < 3))"
+          class="container"
+        >
           <div class="row">
             <router-link :to="{ name: 'PodcastSingle', params: { handle: podcast.slug } }">
               <div class="col-md-6 podcast-item__info">
@@ -35,6 +38,18 @@
           />
         </div>
       </div>
+
+      <div
+        v-if="showTop3Only && allPodcasts.length > 3"
+        class="show-more"
+      >
+        <button
+          class="btn btn-warning btn-large show-more__btn"
+          @click="showAllEpisodes"
+        >
+          {{ $t('podcast.show_remaining_episodes') }}
+        </button>
+      </div>
     </div>
     <div class="podcast-loading" v-else>
       {{ $t('common.loading') }}
@@ -59,7 +74,8 @@ export default {
   data () {
     return {
       podcastsLoaded: false,
-      showPlayModal: null
+      showPlayModal: null,
+      showTop3Only: true
     }
   },
   mixins: [ uploadDateMixin, podcastVisibleMixin, trackPlayMixin ],
@@ -84,6 +100,9 @@ export default {
     },
     formatShortDescription (podcast) {
       return i18n(podcast, 'shortDescription')
+    },
+    showAllEpisodes () {
+      this.showTop3Only = false
     }
   },
   computed: {
@@ -170,6 +189,16 @@ export default {
 
   &__player {
     padding: 1rem;
+  }
+}
+
+.show-more {
+  text-align: center;
+
+  &__btn {
+    padding: 1rem 1.8rem;
+    font-weight: bold;
+    font-size: 1.6rem;
   }
 }
 </style>
