@@ -783,15 +783,24 @@ module.exports = class User extends CocoModel
     options.data ?= body
     @fetch(options)
 
+  lastClassroomItems: ->
+    # We don't always have a classroom at hand, so whenever we do interact with a classroom, we can temporarily store the classroom items setting
+    return @lastClassroomItemsCache if @lastClassroomItemsCache?
+    @lastClassroomItemsCache = storage.load('last-classroom-items')
+    @lastClassroomItemsCache ? false
+
+  setLastClassroomItems: (enabled) ->
+    @lastClassroomItemsCache = enabled
+    storage.save('last-classroom-items', enabled)
+
   # Feature Flags
   # Abstract raw settings away from specific UX changes
-  allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
   canBuyGems: -> false  # Disabled direct buying of gems around 2021-03-16
-  constrainHeroHealth: -> features?.classroomItems ? false and @isStudent()
+  constrainHeroHealth: -> features?.classroomItems ? @lastClassroomItems() and @isStudent()
   promptForClassroomSignup: -> not ((features?.chinaUx ? false) or (window.serverConfig?.codeNinjas ? false) or (features?.brainPop ? false) or userUtils.isInLibraryNetwork())
-  showGearRestrictionsInClassroom: -> features?.classroomItems ? false and @isStudent()
-  showGemsAndXp: -> features?.classroomItems ? false and @isStudent()
-  showHeroAndInventoryModalsToStudents: -> features?.classroomItems and @isStudent()
+  showGearRestrictionsInClassroom: -> features?.classroomItems ? @lastClassroomItems() and @isStudent()
+  showGemsAndXpInClassroom: -> features?.classroomItems ? @lastClassroomItems() and @isStudent()
+  showHeroAndInventoryModalsToStudents: -> features?.classroomItems ? @lastClassroomItems() and @isStudent()
   skipHeroSelectOnStudentSignUp: -> features?.classroomItems ? false
   useDexecure: -> not (features?.chinaInfra ? false)
   useSocialSignOn: -> not ((features?.chinaUx ? false) or (features?.china ? false))

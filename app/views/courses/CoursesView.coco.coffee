@@ -251,6 +251,7 @@ module.exports = class CoursesView extends RootView
         window.location.href = '/students?autorefresh=true'
 
     if not @classrooms.models.length
+      me.setLastClassroomItems true  # Default players to being able to see classroom items if they aren't in any classrooms
       @nextLevelInfo = courseAcronym: 'CS1'  # Don't both trying to figure out the next level for edge case of student with no classrooms
       @allCompleted = false
       return
@@ -265,6 +266,10 @@ module.exports = class CoursesView extends RootView
             url = '/play/56462ac4410c528505e1160a?course-instance=632d1b815735a1002049e983'
             application.router.navigate(url, {trigger: true})
         )
+
+    if @classrooms.models.length is 1
+      # If we're in only one classroom, we can use its classroom item setting
+      me.setLastClassroomItems @classrooms.models[0].get('classroomItems', true)
 
     @allCompleted = not _.some @classrooms.models, ((classroom) ->
       _.some @courseInstances.where({classroomID: classroom.id}), ((courseInstance) ->
