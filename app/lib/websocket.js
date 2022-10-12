@@ -12,6 +12,16 @@ if (typeof WebSocket !== 'undefined') {
 } else if (typeof self !== 'undefined') {
   WebWS = self.WebSocket || self.MozWebSocket
 }
+const subOrUnsub = (type, topics, ws) => {
+  if (!Array.isArray(topics) && typeof topics === 'string') {
+    topics = [topics] // always send array
+  }
+  const msg = {
+    type,
+    topics
+  }
+  ws.send(JSON.stringify(msg))
+}
 
 module.exports = {
   setupBaseWS: () => {
@@ -26,6 +36,18 @@ module.exports = {
         data = JSON.stringify(data)
       }
       ws.send(data)
+    }
+
+    ws.subscribe = topics => subOrUnsub('subscribe', topics, ws)
+    ws.unsubscribe = topics => subOrUnsub('unsubscribe', topics, ws)
+
+    ws.publish = (topics, info) => {
+      const msg = {
+        type: 'publish',
+        topics,
+        info
+      }
+      ws.send(JSON.stringify(msg))
     }
     return ws
   }
