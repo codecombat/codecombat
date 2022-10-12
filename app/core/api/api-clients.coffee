@@ -51,4 +51,15 @@ module.exports = {
   getApiClientId: () ->
     fetchJson("/api/get-client-id")
 
+  getTeacherNumber: (clientID, options={}) ->
+    fetchJson("/db/api-clients/#{clientID}/teacher-number")
+
+  getTeachers: (clientID, { skip, limit }) ->
+    fetchJson("/db/api-clients/#{clientID}/teachers", {
+      method: 'GET',
+      data: {
+        skip,
+        limit
+      }
+    })
 }
