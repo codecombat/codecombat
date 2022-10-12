@@ -407,6 +407,10 @@ _.extend UserSchema.properties,
       studentsStartedDungeonsOfKithgard: { type: 'integer', description: "The number of a teacher's students who have started Dungeons of Kithgard" }
       studentsStartedTrueNames: { type: 'integer', description: "The number of a teacher's students who have started True Names" }
     }
+  friends: c.array {title: 'User Friends in CoCo'},
+    c.object { required: ['userId'] }
+      userId: c.objectId(linkes: [ {rel: 'db', href: '/db/user/{($)}'} ])
+      role: enum: ['friend', 'teacher', 'student']
 
   administratedTeachers: c.array {}, c.objectId()
   administratingTeachers: c.array {}, c.objectId()
