@@ -391,7 +391,7 @@ class LevelNode extends TreemaObjectNode
 
     completion = ''
 
-    published = data.permissions.some((permission) ->
+    published = data.permissions?.some((permission) ->
       permission.access == 'read' and permission.target == 'public'
     )
 
@@ -414,7 +414,7 @@ class LevelNode extends TreemaObjectNode
 class NextLevelNode extends LevelNode
   populateData: ->
     return if @data.name?
-    data = _.pick LevelsNode.levels[@keyForParent].attributes, ['original', 'name', 'slug', 'type']
+    data = _.pick LevelsNode.levels[@keyForParent].attributes, ['original', 'name', 'slug', 'type', 'permissions']
     _.extend @data, data
 
 class CampaignsNode extends TreemaObjectNode
