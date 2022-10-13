@@ -244,7 +244,6 @@ module.exports = class CoursesView extends RootView
         url: courseInstance.url() + '/course-level-sessions/' + me.id,
         model: LevelSession
       })
-
       courseInstance.sessions.comparator = 'changed'
       @supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete,level.original,playtime,changed' }})
 

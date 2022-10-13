@@ -122,7 +122,6 @@ module.exports = class TeacherClassesView extends RootView
 
   initialize: (options) ->
     super(options)
-    @wsBus = globalVar.application.wsBus
     @teacherID = (me.isAdmin() and utils.getQueryVariable('teacherID')) or me.id
     @classrooms = new Classrooms()
     @classrooms.comparator = (a, b) -> b.id.localeCompare(a.id)
@@ -132,7 +131,6 @@ module.exports = class TeacherClassesView extends RootView
       sharedClassroomIds = []
       for classroom in @classrooms.models
         continue if classroom.get('archived')
-
         if !classroom.isOwner() && classroom.hasReadPermission()
           sharedClassroomIds.push(classroom.id)
         classroom.sessions = new LevelSessions()

@@ -145,12 +145,13 @@ module.exports = class SpellView extends CocoView
     @initAutocomplete liveCompletion
 
 
-    # TODO: do auth checking server side
-    @yjsProvider = aceUtils.setupCRDT("#{@session.id}", me.broadName(), @spell.source, @ace)
-    # @yjsProvider.connections = 1
-    # @yjsProvider.awareness.on('change', () =>
-    #   @yjsProvider.connections = @yjsProvider.awareness.getStates().size
-    # )
+    if utils.useWebsocket
+      # TODO: do auth checking server side
+      @yjsProvider = aceUtils.setupCRDT("#{@session.id}", me.broadName(), @spell.source, @ace)
+      # @yjsProvider.connections = 1
+      # @yjsProvider.awareness.on('change', () =>
+      #   @yjsProvider.connections = @yjsProvider.awareness.getStates().size
+      # )
 
     return if @session.get('creator') isnt me.id or @session.fake
     # Create a Spade to 'dig' into Ace.
@@ -427,6 +428,10 @@ module.exports = class SpellView extends CocoView
         parentNode = markerLayer.element.childNodes[markerLayer.i - 1] ? markerLayer.element.lastChild
         parentNode.appendChild(indentVisualMarker) for indentVisualMarker in @indentDivMarkers
 
+  fillACE: ->
+    @ace.setValue @spell.source
+    @aceSession.setUndoManager(new UndoManager())
+    @ace.clearSelection()
 
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?

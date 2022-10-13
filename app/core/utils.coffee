@@ -1368,4 +1368,5 @@ module.exports = {
   tournamentSortFn
   cocoBaseURL
   ozBaseURL
+  useWebsocket
 }

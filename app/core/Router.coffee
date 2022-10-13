@@ -522,7 +522,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return go('NotFoundView') if not ViewClass
 
       # send url info to teachers
-      if me.isStudent()
+      if utils.useWebsocket && me.isStudent()
         wsBus = globalVar.application.wsBus
         Object.entries(wsBus.wsInfos?.friends ? {}).forEach(([to, friend]) =>
           return unless friend.role == 'teacher' and friend.online
