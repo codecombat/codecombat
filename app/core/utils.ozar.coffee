@@ -2,6 +2,7 @@ slugify = require('underscore.string').slugify # TODO: why _.string on client an
 
 isCodeCombat = false
 isOzaria = true
+useWebsocket = false
 
 clone = (obj) ->
   return obj if obj is null or typeof (obj) isnt 'object'
@@ -1170,4 +1171,5 @@ module.exports = {
   isCodeCombat
   isOzaria
   supportEmail
+  useWebsocket
 }

@@ -207,12 +207,9 @@ module.exports = (env) => {
           ]
         },
         {
-          test: /\.m?js$/, // https://github.com/formatjs/formatjs/issues/1395#issuecomment-518823361
+          test: /\.mjs$/, // https://github.com/formatjs/formatjs/issues/1395#issuecomment-518823361
           include: /node_modules/,
-          type: "javascript/auto",
-          resolve: {
-            fullySpecified: false
-          }
+          type: "javascript/auto"
         }
       ]
     },
@@ -235,6 +232,7 @@ module.exports = (env) => {
       fallback: {
         util: require.resolve('util/'), // because of 'console-browserify' package used by jshint, details: https://github.com/facebook/create-react-app/issues/11756
         assert: require.resolve('assert/'), // because of 'console-browserify'
+        'process/browser': require.resolve('process/browser')
       },
       plugins: [new ProductResolverPlugin()]
     },

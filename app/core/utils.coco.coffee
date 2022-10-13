@@ -1,8 +1,7 @@
-slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
+slugify = require('underscore.string').slugify # TODO: why _.string on client and _.str on server?
 
 isCodeCombat = true
 isOzaria = false
-
 useWebsocket = false
 
 getAnonymizedName = (shouldAnonymize, session) ->
