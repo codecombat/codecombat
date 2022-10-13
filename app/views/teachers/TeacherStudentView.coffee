@@ -17,13 +17,9 @@ AceDiff = require 'ace-diff'
 require('app/styles/common/ace-diff.sass')
 fullPageTemplate = require 'app/templates/teachers/teacher-student-view-full'
 viewTemplate = require 'app/templates/teachers/teacher-student-view'
-globalVar = require 'core/globalVar'
 
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
-
-  subscriptions:
-    'websocket:update-infos': 'onWebsocketInfoUpdate'
 
   events:
     'change #course-dropdown': 'onChangeCourseChart'
@@ -91,7 +87,6 @@ module.exports = class TeacherStudentView extends RootView
     @singleStudentLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
     @levelProgressMap = {}
     me.getClientCreatorPermissions()?.then(() => @render?())
-
     super(options)
 
   getRenderData: ->

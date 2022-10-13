@@ -251,8 +251,7 @@ module.exports = (env) => {
       new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
         $: 'jquery',
         jQuery: 'jquery',
-        application: path.resolve(PWD, 'app/core/application'),
-        process: 'process/browser', // because of algoliasearch which needs access to process: https://github.com/algolia/docsearch/issues/980
+        application: path.resolve(PWD, 'app/core/application')
       }),
       new webpack.IgnorePlugin({ resourceRegExp: /\/fonts\/bootstrap\/.*$/ }), // Ignore Bootstrap's fonts
       new webpack.IgnorePlugin({ resourceRegExp: /^memwatch$/ }), // Just used by the headless client on the server side

@@ -53,7 +53,8 @@ Application =
     # propagate changes from global 'me' User to 'me' vuex module
     store = require('core/store')
 
-    @wsBus = new wsBus()
+    if utils.useWebsocket
+      @wsBus = new wsBus()
     me.on('change', ->
       store.commit('me/updateUser', me.changedAttributes())
     )

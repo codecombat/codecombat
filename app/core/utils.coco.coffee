@@ -3,6 +3,8 @@ slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and 
 isCodeCombat = true
 isOzaria = false
 
+useWebsocket = false
+
 getAnonymizedName = (shouldAnonymize, session) ->
   if shouldAnonymize and me.get('_id').toString() != session.get('creator')
     anonymizingUser(session.get('creator'))
@@ -1225,4 +1227,5 @@ module.exports = {
   isCodeCombat
   isOzaria
   supportEmail
+  useWebsocket
 }

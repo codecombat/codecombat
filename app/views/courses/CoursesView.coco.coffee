@@ -28,7 +28,6 @@ utils = require 'core/utils'
 store = require 'core/store'
 leaderboardApi = require 'core/api/leaderboard'
 clansApi = require 'core/api/clans'
-globalVar = require 'core/globalVar'
 
 class LadderCollection extends CocoCollection
   url: ''
@@ -88,8 +87,6 @@ module.exports = class CoursesView extends RootView
     @ladderImageMap = {}
     @ladders = @supermodel.loadCollection(new LadderCollection()).model
     @listenToOnce @ladders, 'sync', @onLaddersLoaded
-
-    @wsBus = globalVar.application.wsBus #shortcut
 
     if me.get('role') is 'student'
       tournaments = new CocoCollection([], { url: "/db/tournaments?memberId=#{me.id}", model: Tournament})
@@ -228,7 +225,6 @@ module.exports = class CoursesView extends RootView
         url: courseInstance.url() + '/course-level-sessions/' + me.id,
         model: LevelSession
       })
-
       courseInstance.sessions.comparator = 'changed'
       @supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete,level.original,playtime,changed' }})
 
