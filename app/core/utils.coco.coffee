@@ -1126,6 +1126,8 @@ getProductName = -> $.i18n.t("new_home." + getProduct())
 
 supportEmail = 'support@codecombat.com'
 
+capitalizeFirstLetter = (str) -> (str[0] or '').toUpperCase() + str.slice(1)
+
 module.exports = {
   activeAndPastArenas
   activeArenas
@@ -1139,6 +1141,7 @@ module.exports = {
   arenas
   bracketToAge
   campaignIDs
+  capitalizeFirstLetter
   capitalLanguages
   clanHeroes
   clone

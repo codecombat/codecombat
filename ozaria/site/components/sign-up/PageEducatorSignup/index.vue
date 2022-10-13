@@ -162,6 +162,7 @@
 
       finishLogin () {
         window.tracker?.trackEvent('Teachers Signup Success', { category: 'Onboarding' })
+        window.tracker?.trackEvent('OzariaUniqueTeacherSignup')
         window.location.replace('/teachers/classes')
       },
 
