@@ -1,22 +1,22 @@
 module.exports = nativeDescription: "български език", englishDescription: "Bulgarian", translation:
 
 #  ozaria_home:
-#    subtitle: "Computer Science that Captivates"
-#    heading_subtitle: "A coding adventure for students and your turnkey solution for teaching Computer Science."
-#    item_list_p: "Try Chapter 1 for Free Today!"
+  subtitle: "Компютърни науки, които пленяват" #  {change}
+  heading_subtitle: "Кодиращо приключение за ученици и твоето цялостно решение за учене на Компютърни Науки." #  {change}
+  item_list_p: "Опитай глава първа безплатно, днес!" #  {change}
 #    engaging_heading_corner: "A solution to Engage Students and Support Teachers"
-#    engaging_row1_h2: "Easy Implementation"
+  engaging_row1_h2: "Лесно изпълнение" #  {change}
 #    engaging_row1_p: "Even with no coding experience, you can teach a full Computer Science curriculum with Ozaria. Our ready-to-go lesson plans and intuitive dashboard will provide you with the tools you need to be ready to teach on day one."
-#    engaging_row2_h2: "Immersive Gameplay"
+  engaging_row2_h2: "Завладяващ геймплей" #  {change}
 #    engaging_row2_p: "Students are immersed in an adventure game in which their knowledge of Computer Science advances with the storyline. In this engaging learning environment, students build real-world skills through the power of play."
-#    engaging_row3_h2: "Standards-Aligned Curriculum"
+  engaging_row3_h2: "Учебна програма съобразена със стандартите" #  {change}
 #    engaging_row3_p: "Ozaria meets CSTA and ISTE standards, enabling you to teach with confidence as your students master core Computer Science concepts, develop computational thinking skills, and learn about the relevance of Computer Science to their daily lives."
 #    pd_blurb: "Learn the skills to effectively teach computer science with our self-directed, CSTA-accredited __pd__ course. Earn up to 40 credit hours any time, from any device."
-#    back_cta_1_a: "Try Chapter 1 for Free"
+  back_cta_1_a: "Опитай глава първа безплатно" #  {change}
 #    speech_bubble_testimonial_1_blockquote: "Once again, your team has managed to accomplish the Holy Grail of Edutainment. In my opinion as a 26-year veteran Middle School educator, there is no more engaging resource for teaching coding."
 #    core_curriculum_header: "Core Computer Science Curriculum"
-#    core_curriculum_p: "We have developed our instructional model based on proven theories and extensive evidence around how students learn best."
-#    core_curriculum_carousel_item1_header: "Make Connections"
+ core_curriculum_p: "Разработихме нашия модел на обучение въз основа на доказани теории и обширни изследвания за това как учениците учат най-добре." #  {change}
+ core_curriculum_carousel_item1_header: "Създаване на връзки" #  {change}
 #    core_curriculum_carousel_item1_p: "At the start of every module, use our turnkey lesson slides to help your students make the connection between new Computer Science concepts and relevant examples from their daily lives."
 #    core_curriculum_carousel_item2_header: "Construct Own Meaning"
 #    core_curriculum_carousel_item2_p: "Next, guide your students in constructing a deeper understanding of new concepts through unplugged and discussion activities that are built into our lesson plans."
@@ -77,16 +77,16 @@ module.exports = nativeDescription: "български език", englishDescri
 #    teach_with_support: "Teach with Support"
 #    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
 #    request_demo: "Request a Demo"
-#    im_an_educator: "I'm an Educator"
-#    im_a_student: "I'm a Student"
-#    global_title: "Join Our Global Community of Learners and Educators"
-#    global_subtitle1: "Learners"
-#    global_subtitle2: "Lines of Code"
-#    global_subtitle3: "Teachers"
-#    global_subtitle4: "Countries"
+  im_an_educator: "Аз съм Преподавател" #  {change}
+  im_a_student: "Аз съм Студент" #  {change}
+  global_title: "Присъедини се към нашата Глобална Общност на Учащи и Преподаващи" #  {change}
+  global_subtitle1: "Учащи" #  {change}
+  global_subtitle2: "Линии код" #  {change}
+  global_subtitle3: "Учители" #  {change}
+  global_subtitle4: "Държави" #  {change}
 #    sign_up: "Sign Up"
-#    learner_number: "12 Million"
-#    code_line_number: "1 Billion"
+   learner_number: "12 Милиона" # {change}
+   code_line_number: "1 Милиард" # {change}
 
   new_home:
 #    title_coco: "CodeCombat - Coding games to learn Python and JavaScript"
@@ -191,14 +191,14 @@ module.exports = nativeDescription: "български език", englishDescri
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
 #    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
 #    top_banner_blurb_podcast: "NEW: Explore the world of EdTech with our new podcast EdTech Adventures."
-#    try_the_game: "Try the game"
+    try_the_game: "Пробвай играта" # {change}
     classroom_edition: "За училища:"
     learn_to_code: "Научи се да програмираш:"
     play_now: "Започни играта"
-#    im_a_parent: "I'm a Parent"
+    im_a_parent: "Аз съм родител" # {change}
 #    im_a_parent_description: "Explore our live online coding classes"
-#    im_an_educator: "I'm an Educator"
-#    im_an_educator_description: "Teach Computer Science with CodeCombat"
+    im_an_educator: "Аз съм преподавател" # {change}
+    im_an_educator_description: "Преподавай компютърни науки с CodeCombat" # {change}
     im_a_teacher: "Аз съм учител"
     im_a_student: "Аз съм ученик"
 #    im_a_student_description: "Learn Computer Science with your class"
@@ -341,11 +341,11 @@ module.exports = nativeDescription: "български език", englishDescri
 #    faqs: "FAQs"
 #    copyright_prefix: "Copyright"
 #    copyright_suffix: "All Rights Reserved."
-#    help_pref: "Need help? Email"
+  help_pref: "Имаш нужда от помощ? Email" #  {change}
 #    help_suff: "and we'll get in touch!"
 #    resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
-#    parent: "Parents"
+    parent: "Родители" #  {change}
 #    faq: "FAQ"
 #    return_coco: "Return to CodeCombat"
 #    classes: "Classes"
@@ -368,7 +368,7 @@ module.exports = nativeDescription: "български език", englishDescri
     close: "Затвори"
     okay: "Добре"
 #    cancel: "Cancel"
-#    try_again: "Try Again"
+ try_again: "Опитай отново" #  {change}
 
   not_found:
     page_not_found: "Страницата не е намерена"
@@ -448,8 +448,8 @@ module.exports = nativeDescription: "български език", englishDescri
     change_hero: "Смени герой" # Go back from choose inventory to choose hero
 #    change_hero_or_language: "Change Hero or Language"
     buy_gems: "Купи скъпоценни камъни"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
+    subscribers_only: "Само за абонирани!" #   {change}
+    subscribe_unlock: "Абонирай се, за да отключиш!" #   {change}
 #    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
 #    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Анонимен играч"
@@ -552,7 +552,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
-#    complete_subscription: "Complete Subscription"
+    complete_subscription: "Пълен абонамент" # {change}
 #    create_student_header: "Create Student Account"
 #    create_teacher_header: "Create Teacher Account"
 #    create_individual_header: "Create Individual Account"
