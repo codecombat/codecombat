@@ -60,7 +60,9 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       po = document.createElement('script')
       po.type = 'text/javascript'
       po.async = true
-      po.src = 'https://apis.google.com/js/client:platform.js?onload=init'
+      po.defer = true
+      #po.src = 'https://apis.google.com/js/client:platform.js?onload=init'
+      po.src = 'https://accounts.google.com/gsi/client?onload=init'
       s = document.getElementsByTagName('script')[0]
       s.parentNode.insertBefore po, s
       @startedLoading = true
@@ -70,35 +72,54 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
 
 
   connect: (options={}) ->
+    console.log 'connect'
     options.success ?= _.noop
     options.context ?= options
-    authOptions = {
-      client_id: clientID
-      scope: options.scope || 'profile email'
-      response_type: 'permission'
-    }
-    if me.get('gplusID') and me.get('email')  # when already logged in and reauthorizing for new scopes or new access token
-      authOptions.login_hint = me.get('email')
-    gapi.auth2.authorize authOptions, (e) =>
-      if (e.error and options.error)
-        options.error.bind(options.context)(e)
-        return
-      return unless e.access_token
-      @connected = true
-      try
-      # Without removing this, we sometimes get a cross-domain error
-        d = _.omit(e, 'g-oauth-window')
-        storage.save(GPLUS_TOKEN_KEY, d, 0)
-      catch e
-        console.error 'Unable to save G+ token key', e
-      @accessToken = e
-      @trigger 'connect'
-      options.success.bind(options.context)()
+    google.accounts.id.initialize({
+      client_id: clientID,
+      callback: (resp) =>
+        console.log('jwt resp', resp)
+        @trigger 'connect'
+        options.success.bind(options.context)(resp)
+    })
+    google.accounts.id.renderButton(
+      document.getElementById("google-login-button"),
+      { theme: "outline", size: "large" }
+    )
+#    google.accounts.id.prompt()
+#    authOptions = {
+#      client_id: clientID
+#      scope: options.scope || 'profile email'
+#      response_type: 'permission'
+#    }
+#    if me.get('gplusID') and me.get('email')  # when already logged in and reauthorizing for new scopes or new access token
+#      authOptions.login_hint = me.get('email')
+#    gapi.auth2.authorize authOptions, (e) =>
+#      if (e.error and options.error)
+#        options.error.bind(options.context)(e)
+#        return
+#      return unless e.access_token
+#      @connected = true
+#      try
+#      # Without removing this, we sometimes get a cross-domain error
+#        d = _.omit(e, 'g-oauth-window')
+#        storage.save(GPLUS_TOKEN_KEY, d, 0)
+#      catch e
+#        console.error 'Unable to save G+ token key', e
+#      @accessToken = e
+#      @trigger 'connect'
+#      options.success.bind(options.context)()
 
 
   loadPerson: (options={}) ->
     options.success ?= _.noop
     options.context ?= options
+    options.resp ?= null
+
+    if options.resp
+      console.log('load person', options.resp)
+      return
+
     # email and profile data loaded separately
     gapi.client.load 'people', 'v1', =>
       gapi.client.people.people.get({

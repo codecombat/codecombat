@@ -387,8 +387,9 @@ module.exports = class BasicInfoView extends CocoView
 
     handler.connect({
       context: @
-      success: ->
+      success: (resp = {}) ->
         handler.loadPerson({
+          resp: resp
           context: @
           success: (ssoAttrs) ->
             @signupState.set { ssoAttrs }
