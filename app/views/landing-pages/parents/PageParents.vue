@@ -23,6 +23,7 @@
     <ModalScheduleFreeClass
         v-if="showScheduleFreeClassModal"
         @close="showScheduleFreeClassModal = false"
+        :availabilityPDT="availabilityPDT"
     />
     <!-- END Modals -->
 
@@ -606,7 +607,8 @@ import ButtonMainCta from './ButtonMainCta'
 import IconGem from './IconGem'
 import ButtonArrow from './ButtonArrow'
 import { mapGetters } from 'vuex'
-import ModalUserDetails from "./ModalUserDetails";
+import ModalUserDetails from './ModalUserDetails'
+import { getAvailability } from 'core/api/parents'
 
 const DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID = 214809
 const DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID = 222065
@@ -641,7 +643,8 @@ export default {
     showTimetapModal: false,
     showTimetapConfirmationModal: false,
     modalClassType: undefined,
-    showScheduleFreeClassModal: false
+    showScheduleFreeClassModal: false,
+    availabilityPDT: []
   }),
 
   metaInfo () {
@@ -706,9 +709,13 @@ export default {
       $("#student-outcome-carousel").carousel(frameNum)
     },
 
-    onClickMainCta () {
+    async onClickMainCta () {
       this.trackCtaClicked()
-      if (this.scheduleFreeClassExperiment === 'schedule-free-class') {
+
+      const { isAvailable, availabilityPDT } = await getAvailability()
+      this.availabilityPDT = availabilityPDT
+
+      if (isAvailable && await this.scheduleFreeClassExperiment === 'schedule-free-class') {
         this.showScheduleFreeClassModal = true
       } else if (this.brightchampsExperiment === 'brightchamps') {
         const url = 'https://learn.brightchamps.com/book-trial-class/?utm_source=B2B&utm_medium=Codecombat#'
@@ -865,7 +872,7 @@ export default {
       }
       if (!value && new Date(me.get('dateCreated')) < new Date('2022-09-27')) {
         // Don't include users created before experiment start date
-        value = 'schedule-free-class'
+        value = 'no-schedule-free-class'
       }
 
       if (!value) {

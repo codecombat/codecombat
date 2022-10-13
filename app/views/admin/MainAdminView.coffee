@@ -9,6 +9,7 @@ TeacherLicenseCodeModal = require 'views/admin/TeacherLicenseCodeModal'
 ModelModal = require 'views/modal/ModelModal'
 forms = require 'core/forms'
 utils = require 'core/utils'
+{ updateAvailabilityStatus } = require 'core/api/parents'
 
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
@@ -45,6 +46,7 @@ module.exports = class MainAdminView extends RootView
     'click .edit-mandate': 'onClickEditMandate'
     'click #maintenance-mode': 'onClickMaintenanceMode'
     'click #teacher-license-code': 'onClickTeacherLicenseCode'
+    'click #toggle-admin-availability': 'onClickToggleAdminAvailability'
 
   getTitle: -> return $.i18n.t('account_settings.admin')
 
@@ -56,6 +58,12 @@ module.exports = class MainAdminView extends RootView
     @featureMode = window.serverSession.featureMode
     @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
     super()
+
+  getRenderData: (context={}) ->
+    context = super context
+    context.parentAdminAvailabilityStatus = @parentAdminAvailabilityStatus or 'on'
+    context.parentAdminUpdateInProgress = @parentAdminUpdateInProgress or false
+    context
 
   afterInsert: ->
     super()
@@ -205,6 +213,20 @@ module.exports = class MainAdminView extends RootView
     options.error = (model, response, options) =>
       console.error 'Failed to create prepaid', response
     @supermodel.addRequestResource('create_prepaid', options, 0).load()
+
+  onClickToggleAdminAvailability: (e) =>
+    if @parentAdminUpdateInProgress
+      return
+
+    status = $(e.target).data('value')
+    @parentAdminUpdateInProgress = true
+    @parentAdminAvailabilityStatus = status
+    @render?()
+
+    updateAvailabilityStatus(status).then (response) =>
+      @parentAdminUpdateInProgress = false
+      @parentAdminAvailabilityStatus = response.status
+      @render?()
 
   onClickTerminalSubLink: (e) =>
     @freeSubLink = ''
