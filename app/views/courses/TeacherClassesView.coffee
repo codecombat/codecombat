@@ -133,10 +133,6 @@ module.exports = class TeacherClassesView extends RootView
       for classroom in @classrooms.models
         continue if classroom.get('archived')
 
-        unless @wsBus.wsInfos.inited
-          classroom.get('members').forEach((stu) =>
-            @wsBus.addFriend(stu.toString(), {role: 'student'})
-          )
         if !classroom.isOwner() && classroom.hasReadPermission()
           sharedClassroomIds.push(classroom.id)
         classroom.sessions = new LevelSessions()
@@ -157,9 +153,6 @@ module.exports = class TeacherClassesView extends RootView
         @sharedCourseInstances = new CourseInstances()
         @sharedCourseInstances.fetchByClassrooms(sharedClassroomIds)
         @supermodel.trackCollection(@sharedCourseInstances)
-
-      @wsBus.wsInfos.inited = true
-      @wsBus.pingFriends()
 
     window.tracker?.trackEvent 'Teachers Classes Loaded', category: 'Teachers'
 

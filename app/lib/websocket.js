@@ -26,6 +26,7 @@ const subOrUnsub = (type, topics, ws) => {
 module.exports = {
   setupBaseWS: () => {
     if (!WebWS) {
+      console.log('WebSocket not found!')
       return null
     }
     const server = window.location.host
@@ -42,6 +43,9 @@ module.exports = {
     ws.unsubscribe = topics => subOrUnsub('unsubscribe', topics, ws)
 
     ws.publish = (topics, info) => {
+      if (!Array.isArray(topics) && typeof topics === 'string') {
+        topics = [topics] // always send array
+      }
       const msg = {
         type: 'publish',
         topics,
@@ -49,6 +53,8 @@ module.exports = {
       }
       ws.send(JSON.stringify(msg))
     }
+
+    ws.topicName = (topic, id) => `${topic}-${id}`
     return ws
   }
 }
