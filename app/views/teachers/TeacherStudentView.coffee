@@ -33,7 +33,6 @@ module.exports = class TeacherStudentView extends RootView
     'click .progress-dot a': 'onClickProgressDot'
     'click .level-progress-dot': 'onClickStudentProgressDot'
     'click .nav-link': 'onClickSolutionTab'
-    'click .ws-btn': 'onClickWS'
 
   getMeta: -> { title: if utils.isOzaria then "#{$.i18n.t('teacher.student_profile')} | #{$.i18n.t('common.ozaria')}" else @user?.broadName() }
 
@@ -553,21 +552,6 @@ module.exports = class TeacherStudentView extends RootView
     utils.formatStudentLicenseStatusDate(status, date)
 
   canViewStudentProfile: () -> @classroom && (@classroom.get('ownerID') == me.id || me.isAdmin())
-
-  onClickWS: () ->
-    queryUserOnline = {
-      to: @studentID
-      type: 'fetch'
-      infos: ['play-level']
-    }
-    if globalVar.ws?.readyState == 1
-      globalVar.ws?.sendJSON(queryUserOnline)
-    else
-      globalVar.ws?.onopen = () => globalVar.ws?.sendJSON(queryUserOnline)
-
-  onWebsocketInfoUpdate: () ->
-    console.log("what? ", globalVar.wsInfos)
-    alert(JSON.stringify(globalVar.wsInfos))
 
 
   # TODO: Hookup enroll/assign functionality
