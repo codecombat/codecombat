@@ -363,13 +363,14 @@ module.exports = class CocoRouter extends Backbone.Router
 
       # send url info to teachers
       if me.isStudent()
-        Object.entries(globalVar.wsInfos?.friends ? {}).forEach(([to, friend]) =>
-          return unless friend.role == 'teacher' and friend.alive
+        wsBus = globalVar.application.wsBus
+        Object.entries(wsBus.wsInfos?.friends ? {}).forEach(([to, friend]) =>
+          return unless friend.role == 'teacher' and friend.online
           routeInfo =
             to: to,
             type: 'send',
             infos: { viewName: ViewClass.default.name, url: window.location.href }
-          globalVar.ws.sendJSON(routeInfo)
+          wsBus.ws.sendJSON(routeInfo)
         )
 
       SingletonAppVueComponentView = require('views/core/SingletonAppVueComponentView').default
