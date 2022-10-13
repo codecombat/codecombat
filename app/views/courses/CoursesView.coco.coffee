@@ -229,14 +229,8 @@ module.exports = class CoursesView extends RootView
         model: LevelSession
       })
 
-      unless @wsBus.wsInfos.inited # in case we need to init friends in other places
-        teacherID = courseInstance.get('ownerID').toString()
-        @wsBus.addFriend(teacherID, {role: 'teacher'})
       courseInstance.sessions.comparator = 'changed'
       @supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete,level.original,playtime,changed' }})
-
-    @wsBus.wsInfos.inited = true
-    @wsBus.pingFriends()
 
   onLoaded: ->
     super()
