@@ -18,8 +18,7 @@ export default {
     doNotTrack: window.navigator && window.navigator.doNotTrack === "1",
     spying: window.serverSession && typeof window.serverSession.amActually !== 'undefined',
     switching: window.serverSession?.switchingUserActualId,
-    trackingEnabledForEnvironment: DEFAULT_TRACKING_DOMAINS.includes(window.location.hostname),
-
+    trackingEnabledForEnvironment: DEFAULT_TRACKING_DOMAINS.includes(window.location.hostname.replace('www.', '')),
     enableTrackingOverride: hasTrackingOverrideQueryParameter,
 
     cookieConsent: {
