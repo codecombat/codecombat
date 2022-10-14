@@ -257,13 +257,13 @@ module.exports = class CoursesView extends RootView
       return
 
     if me.isCreatedByTarena()
-      if  ['62ebc41756f29d177fe2c692', '62ebc41c56f29d177fe2c784'].indexOf(me.get('_id').toString()) != -1 or (moment().isBefore('2022-09-24 12:00:00') and moment().isAfter('2022-09-24 08:59:00'))
+      if  ['62ebc41856f29d177fe2c6de', '62ebc41c56f29d177fe2c784' ].indexOf(me.get('_id').toString()) != -1 or (moment().isBefore('2022-10-15 12:00:00') and moment().isAfter('2022-10-15 08:59:00'))
         @classrooms.models.forEach((cls) =>
-          if cls.get('_id').toString() == '632d109d5735a1002048ffaf' # zhongxue
-            url = '/play/56462ac4410c528505e1160a?course-instance=632d1adf5292c3001944a912'
+          if cls.get('_id').toString() == '6348d1da014b470019692207' # zhongxue
+            url = '/play/56462ac4410c528505e1160a?course-instance=6348d6ed1d4111001967d7ae'
             application.router.navigate(url, {trigger: true})
-          if cls.get('_id').toString() == '632d1102c00cc1001931013d'
-            url = '/play/56462ac4410c528505e1160a?course-instance=632d1b815735a1002049e983'
+          if cls.get('_id').toString() == '6348d1cabb58f0001fd92dd5'
+            url = '/play/56462ac4410c528505e1160a?course-instance=6348d740aa06ca001aad5496'
             application.router.navigate(url, {trigger: true})
         )
 

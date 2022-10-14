@@ -254,7 +254,7 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
               li(v-for="l in col.lists" v-if="!l.hide")
                 a(:href="l.url" v-bind="l.attrs") {{ $t(l.title) }}
                   span.spr(v-if="l.extra") {{ l.extra }}
-              li(v-if="col.title === 'nav.general'")
+              li(v-if="col.title === 'nav.general' && (!me.showChinaResourceInfo() || me.isAdmin())")
                 mklog-ledger(v-pre organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W' kind='popper')
                   a(href="#changelog")
                     span Changelog
