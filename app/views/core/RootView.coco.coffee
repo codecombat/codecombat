@@ -215,6 +215,8 @@ module.exports = class RootView extends CocoView
 
   isOldBrowser: utils.isOldBrowser
 
+  isChinaOldBrowser: utils.isChinaOldBrowser
+
   logoutRedirectURL: '/'
 
   navigateToAdmin: ->
