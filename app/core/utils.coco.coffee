@@ -1026,12 +1026,18 @@ OZARIA = 'ozaria'
 OZARIA_CHINA = 'aojiarui'
 
 isOldBrowser = () ->
-  if features.china and $.browser
+  if $.browser
     return true if not ($.browser.webkit or $.browser.mozilla or $.browser.msedge)
     majorVersion = $.browser.versionNumber
-    return true if $.browser.mozilla && majorVersion < 25
-    return true if $.browser.chrome && majorVersion < 72  # forbid some chinese browser
-    return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
+    # css math function supports
+    return true if $.browser.mozilla && majorVersion < 75
+    return true if $.browser.chrome && majorVersion < 79
+    return true if $.browser.safari && majorVersion < 11.1
+  return false
+
+isChinaOldBrowser = () ->
+  if features.china && isOldBrowser()
+    return true
   return false
 
 # AI League arenas
@@ -1222,6 +1228,7 @@ module.exports = {
   CODECOMBAT_CHINA
   OZARIA_CHINA
   isOldBrowser
+  isChinaOldBrowser
   isCodeCombat
   isOzaria
   supportEmail

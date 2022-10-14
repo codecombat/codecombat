@@ -5,6 +5,7 @@
     OZARIA,
     OZARIA_CHINA,
     isOldBrowser,
+    isChinaOldBrowser,
     isCodeCombat,
     isOzaria,
     getQueryVariable
@@ -24,8 +25,8 @@
         'announcementModalOpen',
         'announcementDisplay',
       ]),
-      isOldBrowser () {
-        return isOldBrowser()
+      isChinaOldBrowser () {
+        return isChinaOldBrowser()
       },
 
       isCodeCombat () {
@@ -191,7 +192,7 @@
               a.navbar-brand(v-else :href="hideNav ? '#' : '/home'")
                 img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
 
-            .navbar-browser-recommendation.navbar-header(v-if="isOldBrowser")
+            .navbar-browser-recommendation.navbar-header(v-if="isChinaOldBrowser")
               .nav-spacer
                 .navbar-nav
                   a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/") {{ $t('nav.browser_recommendation') }}
