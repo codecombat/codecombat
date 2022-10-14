@@ -10,7 +10,6 @@ GameMenuModal = require 'views/play/menu/GameMenuModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
-utils = require 'core/utils'
 
 N_ROWS = 4
 
@@ -38,8 +37,6 @@ module.exports = class SpellPaletteView extends CocoView
     docs = @options.level.get('documentation') ? {}
     @createPalette()
     $(window).on 'resize', @onResize
-
-  isOldBrowser: utils.isOldBrowser
 
   getRenderData: ->
     c = super()
@@ -128,11 +125,6 @@ module.exports = class SpellPaletteView extends CocoView
   afterInsert: ->
     super()
     _.delay => @$el?.css('bottom', 0) unless $('#spell-view').is('.shown')
-    if @isOldBrowser() and @position is 'mid'
-      # fallback in old browsers that doesn't support css math function
-      vw = window.innerWidth
-      @$el?.css('right', 0.435*vw)
-
 
   updateCodeLanguage: (language) ->
     @options.language = language
