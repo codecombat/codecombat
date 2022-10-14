@@ -223,9 +223,15 @@ module.exports = class MainAdminView extends RootView
     @parentAdminAvailabilityStatus = status
     @render?()
 
-    updateAvailabilityStatus(status).then (response) =>
+    updateAvailabilityStatus(status)
+    .then (response) =>
       @parentAdminUpdateInProgress = false
       @parentAdminAvailabilityStatus = response.status
+      noty({ text: "Status successfully updated to \"#{response.status}\"", layout: 'topCenter', type: 'success', timeout: 3000 })
+    .catch (e) =>
+      noty({ text: 'Status save failure: ' + e, layout: 'topCenter', type: 'error', timeout: 3000 })
+      @parentAdminUpdateInProgress = false
+    .finally () =>
       @render?()
 
   onClickTerminalSubLink: (e) =>
