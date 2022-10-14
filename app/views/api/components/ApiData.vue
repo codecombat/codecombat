@@ -168,9 +168,12 @@ module.exports = Vue.extend({
   display: flex;
   align-items: center;
   justify-content: space-around;
+  background: #eee;
+
   .tab {
     border-radius: 5px;
     padding: 5px;
+    cursor: pointer;
 
     &.active{
       border: 2px solid black;

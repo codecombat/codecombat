@@ -98,7 +98,7 @@ export default {
   },
   computed: {
     header () {
-      return 'license,startDate,school,teacherID,teacher,student,startDate,endDate,isActive'.split(',')
+      return ['license', 'startDate', 'school', 'teacherID', 'teacher', 'student', 'startDate', 'endDate', 'isActive']
     },
     licenseStats () {
       if (this.loading) {

@@ -84,7 +84,7 @@ export default {
     fetchTeachers: ({ commit, rootState }, clientId) => {
       commit('toggleLoading', 'teachers')
 
-      apiclientsApi.getTeacherNumber(clientId)
+      apiclientsApi.getTeacherCount(clientId)
         .then(res => {
           const groupSize = 100
           const groups = Math.ceil(res.num / (groupSize * 1.0))
