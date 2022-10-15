@@ -1060,7 +1060,7 @@ module.exports = class CampaignView extends RootView
     level = _.find _.values(@getLevels()), slug: levelSlug
 
     if me.showChinaResourceInfo() and not me.showChinaHomeVersion()
-      freeAccessLevels =  ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'cell-commentary', 'true-names', 'kounter-kithwise', 'crawlways-of-kithgard', 'forgetful-gemsmith', 'illusory-interruption', 'favorable-odds', 'the-raised-sword', 'careful-steps', 'long-steps']
+      freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => ['short', 'china-classroom'].includes(faLevel.access)).map((faLevel) => faLevel.slug)
       requiresSubscription = level.requiresSubscription or (not (level.slug in freeAccessLevels))
     else
       defaultAccess = if me.get('hourOfCode') or @campaign?.get('type') is 'hoc' or @campaign?.get('slug') is 'intro' then 'long' else 'short'
