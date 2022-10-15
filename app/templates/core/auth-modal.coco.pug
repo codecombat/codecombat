@@ -57,7 +57,6 @@
 
   if me.useSocialSignOn()
     - var showClever = !/^\/play/.test(window.location.pathname);
-    div(id="google-login-button")
     div(class="auth-network-logins" + (showClever ? " three-choices" : " two-choices"))
       // GitHub login complete, but the button does not fit in with the design yet. Hidden for now
       //div.network-login
@@ -66,7 +65,7 @@
       //    | GitHub
       a#facebook-login-btn.network-login(disabled=true)
         img.fb-login-img(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
-      a#gplus-login-btn.network-login(disabled=true)
+      a#google-login-button.network-login(disabled=true)
         img.google-login-img(src="/images/pages/modal/auth/gplus_sso_button2.svg" draggable="false")
       if showClever
         a#clever-signup-btn.network-login

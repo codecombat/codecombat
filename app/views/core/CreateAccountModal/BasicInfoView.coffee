@@ -388,6 +388,7 @@ module.exports = class BasicInfoView extends CocoView
     handler.connect({
       context: @
       success: (resp = {}) ->
+        console.log('success', resp)
         handler.loadPerson({
           resp: resp
           context: @

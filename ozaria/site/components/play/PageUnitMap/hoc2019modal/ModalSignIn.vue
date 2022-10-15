@@ -89,17 +89,19 @@ export default {
       }
     },
     async onClickGPlusLoginButton () {
-      await new Promise((resolve, reject) =>
+      const res = await new Promise((resolve, reject) =>
         application.gplusHandler.connect({
           context: this,
-          success: resolve
+          success: (resp = {}) => resolve(resp)
         }))
+      console.log('res', res)
       try {
         const gplusAttrs = await new Promise((resolve, reject) =>
           application.gplusHandler.loadPerson({
             context: this,
             success: resolve,
-            error: reject
+            error: reject,
+            resp: res
           }))
 
         const existingUser = new User()
@@ -176,6 +178,7 @@ export default {
     h2 {{ $t("login.sign_into_ozaria") }}
 
     .socialSignOn(v-if="useSocialSignOn")
+      div(id="google-login-button")
       .auth-network-logins()
         a#gplus-login-btn(:disabled="!gplusLoaded" @click="onClickGPlusLoginButton" href="#")
           img(src="/images/ozaria/common/log-in-google-sso.svg" draggable="false")

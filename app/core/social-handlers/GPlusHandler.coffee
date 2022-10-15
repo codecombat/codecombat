@@ -3,6 +3,7 @@ CocoClass = require 'core/CocoClass'
 {backboneFailure} = require 'core/errors'
 storage = require 'core/storage'
 GPLUS_TOKEN_KEY = 'gplusToken'
+authUtils = require '../../lib/auth-util'
 
 clientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
 
@@ -115,9 +116,12 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     options.success ?= _.noop
     options.context ?= options
     options.resp ?= null
-
+    console.log('load-person options', options)
     if options.resp
-      console.log('load person', options.resp)
+      console.log('load person', options.resp, authUtils.parseGoogleJwtResponse(options.resp.credential))
+      attrs = authUtils.parseGoogleJwtResponse(options.resp.credential)
+      @trigger 'load-person', attrs
+      options.success.bind(options.context)(attrs)
       return
 
     # email and profile data loaded separately
