@@ -39,6 +39,17 @@
         </div>
       </div>
       <div class="form-group">
+        <label for="userTimeZone">{{ $t('modal_free_class.time_zone') }}</label>
+        <select type="text" id="userTimeZone" v-model="timeZone" class="form-control">
+          <option
+              v-for="zone in timeZones"
+              :key="zone"
+          >
+            {{ zone }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
         <label for="role">{{ $t('modal_free_class.preferred_time') }}</label>
         <select class="form-control" v-model="preferredTime">
           <option
@@ -47,17 +58,6 @@
               :value="value"
           >
             {{ label }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="userTimeZone">{{ $t('modal_free_class.time_zone') }}</label>
-        <select type="text" id="userTimeZone" v-model="timeZone" class="form-control">
-          <option
-              v-for="zone in timeZones"
-              :key="zone"
-          >
-            {{ zone }}
           </option>
         </select>
       </div>
@@ -131,11 +131,14 @@ export default {
     preferredTimeRanges () {
       // show only options when admin is available by schedule
       const preferredTimeRanges = [
-        { value: 'Anytime (8AM - 8PM)', label: $.i18n.t('modal_free_class.anytime') },
+        { value: 'Anytime (8AM - 8PM)', label: $.i18n.t('modal_free_class.anytime'), allTimeZones: true },
         { value: 'Morning (8AM - 12PM)', label: $.i18n.t('modal_free_class.morning') },
         { value: 'Afternoon (12PM - 4PM)', label: $.i18n.t('modal_free_class.afternoon') },
         { value: 'Evening (4PM - 8PM)', label: $.i18n.t('modal_free_class.evening') }
-      ].filter(({ value }) => {
+      ].filter(({ value, allTimeZones }) => {
+        if(allTimeZones) {
+          return true;
+        }
         const [from, to] = value.match(/\d+(?:AM|PM)/g)
         return [].concat(...Object.values(this.availabilityPDT)).map(range => range.split('-')).some((range) => {
           const fromPDT = changeTimeZone(from, 'hA', this.timeZone, 'US/Pacific', null)
