@@ -107,7 +107,7 @@ export default {
             context: this,
             success: resolve,
             error: reject,
-            resp: res
+            resp
           }))
 
         const existingUser = new User()

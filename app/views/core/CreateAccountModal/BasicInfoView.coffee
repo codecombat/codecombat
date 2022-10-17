@@ -392,11 +392,9 @@ module.exports = class BasicInfoView extends CocoView
     @handleSSOConnect(handler)
 
   handleSSOConnect: (handler, ssoUsed = true) ->
-    console.log('handleSso called')
     handler.connect({
       context: @
       success: (resp = {}) ->
-        console.log('success', resp)
         handler.loadPerson({
           resp: resp
           context: @

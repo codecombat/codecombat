@@ -33,7 +33,6 @@ module.exports = class AuthModal extends ModalView
     if me.useSocialSignOn()
       # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
       application.gplusHandler.loadAPI({ success: => _.defer =>
-        console.log('authModal success loadApi')
         @$('#google-login-button').attr('disabled', false)
         @onClickGPlusLoginButton()
       })

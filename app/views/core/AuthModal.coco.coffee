@@ -33,7 +33,6 @@ module.exports = class AuthModal extends ModalView
       # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
       application.gplusHandler.loadAPI({ success: => _.defer =>
         @$('#google-login-button').attr('disabled', false)
-        console.log('inside loadApi')
         @onClickGPlusLoginButton()
       })
       application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })
@@ -94,12 +93,10 @@ module.exports = class AuthModal extends ModalView
   # Google Plus
 
   onClickGPlusLoginButton: ->
-    console.log('onClickGplus called')
     btn = @$('#google-login-button')
     application.gplusHandler.connect({
       context: @
       success: (resp = {}) ->
-        console.log('auth modal', resp)
         btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
         btn.attr('disabled', true)
         application.gplusHandler.loadPerson({

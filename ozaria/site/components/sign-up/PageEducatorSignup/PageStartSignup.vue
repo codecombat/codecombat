@@ -64,7 +64,6 @@
       },
 
       async postGoogleLoginClick ({ resp = {} }) {
-        console.log('postGoogle called', resp)
         const gplusAttrs = await new Promise((resolve, reject) =>
           application.gplusHandler.loadPerson({
             context: this,

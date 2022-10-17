@@ -50,7 +50,6 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     @trigger 'connect'
 
   loadAPI: (options={}) ->
-    console.log('loadAPI inside', options)
     options.success ?= _.noop
     options.context ?= options
     if @apiLoaded
@@ -60,15 +59,13 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
 
     if not @startedLoading
       window.init = =>
-        console.log('init called')
         @apiLoaded = true
         @trigger 'load-api'
       po = document.createElement('script')
       po.type = 'text/javascript'
       po.async = true
       po.defer = true
-      #po.src = 'https://apis.google.com/js/client:platform.js?onload=init'
-      po.src = 'https://accounts.google.com/gsi/client?onload=init'
+      po.src = 'https://accounts.google.com/gsi/client'
       s = document.getElementsByTagName('script')[0]
       s.parentNode.insertBefore po, s
       po.addEventListener('load', window.init)
@@ -76,13 +73,11 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
 
 
   connect: (options={}) ->
-    console.log 'connect'
     options.success ?= _.noop
     options.context ?= options
     google.accounts.id.initialize({
       client_id: clientID,
       callback: (resp) =>
-        console.log('jwt resp', resp)
         @trigger 'connect'
         options.success.bind(options.context)(resp)
     })
@@ -92,61 +87,17 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       { theme: "outline", size: "large" }
     )
     google.accounts.id.prompt()
-#    authOptions = {
-#      client_id: clientID
-#      scope: options.scope || 'profile email'
-#      response_type: 'permission'
-#    }
-#    if me.get('gplusID') and me.get('email')  # when already logged in and reauthorizing for new scopes or new access token
-#      authOptions.login_hint = me.get('email')
-#    gapi.auth2.authorize authOptions, (e) =>
-#      if (e.error and options.error)
-#        options.error.bind(options.context)(e)
-#        return
-#      return unless e.access_token
-#      @connected = true
-#      try
-#      # Without removing this, we sometimes get a cross-domain error
-#        d = _.omit(e, 'g-oauth-window')
-#        storage.save(GPLUS_TOKEN_KEY, d, 0)
-#      catch e
-#        console.error 'Unable to save G+ token key', e
-#      @accessToken = e
-#      @trigger 'connect'
-#      options.success.bind(options.context)()
-
 
   loadPerson: (options={}) ->
     options.success ?= _.noop
     options.context ?= options
     options.resp ?= null
-    console.log('load-person options', options)
     if options.resp
-      console.log('load person', options.resp, authUtils.parseGoogleJwtResponse(options.resp.credential))
       attrs = authUtils.parseGoogleJwtResponse(options.resp.credential)
       @trigger 'load-person', attrs
       options.success.bind(options.context)(attrs)
-      return
-
-    # email and profile data loaded separately
-    gapi.client.load 'people', 'v1', =>
-      gapi.client.people.people.get({
-          'resourceName': 'people/me'
-          'personFields': 'names,genders,emailAddresses'
-        }).execute (r) =>
-          attrs = {}
-          if r.resourceName
-            attrs.gplusID = r.resourceName.split('/')[1]   # resourceName is of the form 'people/<id>'
-          if r.names?.length
-            attrs.firstName = r.names[0].givenName
-            attrs.lastName = r.names[0].familyName
-          if r.emailAddresses?.length
-            attrs.email = r.emailAddresses[0].value
-          if r.genders?.length
-            attrs.gender = r.genders[0].value
-          @trigger 'load-person', attrs
-          options.success.bind(options.context)(attrs)
-
+    else
+      console.error 'gplus login failed', options
 
   renderButtons: ->
     return false unless gapi?.plusone?
