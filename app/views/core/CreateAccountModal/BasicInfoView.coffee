@@ -64,6 +64,10 @@ module.exports = class BasicInfoView extends CocoView
 
   afterRender: ->
     @$el.find('#first-name-input').focus()
+    application.gplusHandler.loadAPI({
+      success: =>
+        @handleSSOConnect(application.gplusHandler)
+    })
     super()
 
   # These values are passed along to AuthModal if the user clicks "Sign In" (handled by CreateAccountModal)
@@ -385,6 +389,10 @@ module.exports = class BasicInfoView extends CocoView
       window.open url, '_blank'
       return
 
+    @handleSSOConnect(handler)
+
+  handleSSOConnect: (handler, ssoUsed = true) ->
+    console.log('handleSso called')
     handler.connect({
       context: @
       success: (resp = {}) ->

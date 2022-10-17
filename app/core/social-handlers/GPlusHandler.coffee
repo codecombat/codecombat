@@ -50,6 +50,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     @trigger 'connect'
 
   loadAPI: (options={}) ->
+    console.log('loadAPI inside', options)
     options.success ?= _.noop
     options.context ?= options
     if @apiLoaded
@@ -58,6 +59,10 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       @once 'load-api', options.success, options.context
 
     if not @startedLoading
+      window.init = =>
+        console.log('init called')
+        @apiLoaded = true
+        @trigger 'load-api'
       po = document.createElement('script')
       po.type = 'text/javascript'
       po.async = true
@@ -66,10 +71,8 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       po.src = 'https://accounts.google.com/gsi/client?onload=init'
       s = document.getElementsByTagName('script')[0]
       s.parentNode.insertBefore po, s
+      po.addEventListener('load', window.init)
       @startedLoading = true
-      window.init = =>
-        @apiLoaded = true
-        @trigger 'load-api'
 
 
   connect: (options={}) ->
@@ -87,7 +90,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       document.getElementById("google-login-button"),
       { theme: "outline", size: "large" }
     )
-#    google.accounts.id.prompt()
+    google.accounts.id.prompt()
 #    authOptions = {
 #      client_id: clientID
 #      scope: options.scope || 'profile email'

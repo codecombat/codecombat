@@ -31,7 +31,11 @@ module.exports = class AuthModal extends ModalView
 
     if me.useSocialSignOn()
       # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
-      application.gplusHandler.loadAPI({ success: => _.defer => @$('#google-login-button').attr('disabled', false) })
+      application.gplusHandler.loadAPI({ success: => _.defer =>
+        @$('#google-login-button').attr('disabled', false)
+        console.log('inside loadApi')
+        @onClickGPlusLoginButton()
+      })
       application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })
     @subModalContinue = options.subModalContinue
 
@@ -90,6 +94,7 @@ module.exports = class AuthModal extends ModalView
   # Google Plus
 
   onClickGPlusLoginButton: ->
+    console.log('onClickGplus called')
     btn = @$('#google-login-button')
     application.gplusHandler.connect({
       context: @
