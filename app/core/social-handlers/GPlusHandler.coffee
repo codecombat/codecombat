@@ -86,8 +86,9 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
         @trigger 'connect'
         options.success.bind(options.context)(resp)
     })
+    elementId = options.elementId || 'google-login-button'
     google.accounts.id.renderButton(
-      document.getElementById("google-login-button"),
+      document.getElementById(elementId),
       { theme: "outline", size: "large" }
     )
     google.accounts.id.prompt()
