@@ -188,8 +188,8 @@ class PlayLevelView extends RootView {
       let fetchAceConfig = $.get(`/db/course_instance/${this.courseInstanceID}/classroom?project=aceConfig,members`)
       this.supermodel.trackRequest(fetchAceConfig)
       fetchAceConfig.then(classroom => {
-        if (classroom.aceConfig?.liveCompletion) {
-          this.classroomAceConfig.liveCompletion = true
+        if (classroom.aceConfig?.liveCompletion !== null && classroom.aceConfig?.liveCompletion !== undefined) {
+          this.classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion
         }
       })
     }
