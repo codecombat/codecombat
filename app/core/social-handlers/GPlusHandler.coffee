@@ -6,6 +6,7 @@ GPLUS_TOKEN_KEY = 'gplusToken'
 authUtils = require '../../lib/auth-util'
 
 clientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
+API_KEY = 'AIzaSyDW8CsHHJbAREZw8uXg0Hix8dtlJnuutls'
 
 module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   constructor: ->
@@ -71,6 +72,20 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       po.addEventListener('load', window.init)
       @startedLoading = true
 
+      window.initGapi = =>
+        window.gapi.load('client', () ->
+          window.gapi.client.init({
+            apiKey: API_KEY
+          })
+        )
+      po1 = document.createElement('script')
+      po1.type = 'text/javascript'
+      po1.async = true
+      po1.defer = true
+      po1.src = 'https://apis.google.com/js/api.js'
+      s1 = document.getElementsByTagName('script')[0]
+      s1.parentNode.insertBefore po1, s1
+      po1.addEventListener('load', window.initGapi)
 
   connect: (options={}) ->
     options.success ?= _.noop
@@ -102,6 +117,20 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   renderButtons: ->
     return false unless gapi?.plusone?
     gapi.plusone.go?()  # Handles +1 button
+
+  requestGoogleAuthorization: (scope, callbackFn)->
+    authClient = google.accounts.oauth2.initTokenClient({
+      client_id: clientID,
+      scope: scope,
+      callback: (resp) =>
+        @accessToken = resp
+        setTimeout () =>
+          @accessToken = null
+        ,@accessToken.expires_in * 1000
+        if callbackFn
+          callbackFn()
+    })
+    authClient.requestAccessToken({ prompt: 'consent' })
 
   # Friends logic, not in use
 
