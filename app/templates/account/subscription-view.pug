@@ -116,7 +116,7 @@ block content
             if new Date() < new Date(view.personalSub.free)
               div
                 - date = moment(new Date(view.personalSub.free)).format('l')
-                span.spr(data-i18n="subscribe.currently_free_until", data-i18n-options={date})
+                span.spr(data-i18n="[html]subscribe.currently_free_until", data-i18n-options={date})
             else
               span.spr(data-i18n="subscribe.was_free_until")
               span= moment(new Date(view.personalSub.free)).format('l')
