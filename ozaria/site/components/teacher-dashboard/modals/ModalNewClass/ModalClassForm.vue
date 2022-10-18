@@ -113,12 +113,6 @@
             success: resolve,
             error: reject
           }))
-        await new Promise((resolve, reject) =>
-          application.gplusHandler.connect({
-            scope: GoogleClassroomHandler.scopes,
-            context: this,
-            success: resolve
-          }))
         GoogleClassroomHandler.importClassrooms()
           .then(() => {
             this.googleClassrooms = me.get('googleClassrooms').filter((c) => !c.importedToOzaria && !c.deletedFromGC)

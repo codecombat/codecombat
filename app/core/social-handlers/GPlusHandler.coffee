@@ -70,7 +70,6 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       s = document.getElementsByTagName('script')[0]
       s.parentNode.insertBefore po, s
       po.addEventListener('load', window.init)
-      @startedLoading = true
 
       window.initGapi = =>
         window.gapi.load('client', () ->
@@ -87,21 +86,24 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       s1.parentNode.insertBefore po1, s1
       po1.addEventListener('load', window.initGapi)
 
+      @startedLoading = true
+
   connect: (options={}) ->
     options.success ?= _.noop
     options.context ?= options
-    google.accounts.id.initialize({
+    window.google.accounts.id.initialize({
       client_id: clientID,
       callback: (resp) =>
         @trigger 'connect'
         options.success.bind(options.context)(resp)
     })
     elementId = options.elementId || 'google-login-button'
-    google.accounts.id.renderButton(
-      document.getElementById(elementId),
-      { theme: "outline", size: "large" }
-    )
-    google.accounts.id.prompt()
+    if document.getElementById(elementId)
+      window.google.accounts.id.renderButton(
+        document.getElementById(elementId),
+        { theme: "outline", size: "large" }
+      )
+    window.google.accounts.id.prompt()
 
   loadPerson: (options={}) ->
     options.success ?= _.noop
@@ -119,7 +121,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     gapi.plusone.go?()  # Handles +1 button
 
   requestGoogleAuthorization: (scope, callbackFn)->
-    authClient = google.accounts.oauth2.initTokenClient({
+    authClient = window.google.accounts.oauth2.initTokenClient({
       client_id: clientID,
       scope: scope,
       callback: (resp) =>
