@@ -144,6 +144,12 @@ if isCodeCombat
     COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
     COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
 
+  otherCourseIDs =
+    CHAPTER_ONE: '5d41d731a8d1836b5aa3cba1'
+    CHAPTER_TWO: '5d8a57abe8919b28d5113af1'
+    CHAPTER_THREE: '5e27600d1c9d440000ac3ee7'
+    CHAPTER_FOUR: '5f0cb0b7a2492bba0b3520df'
+
   CSCourseIDs = [
     courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
     courseIDs.COMPUTER_SCIENCE_2
@@ -169,34 +175,6 @@ if isCodeCombat
     courseIDs.COMPUTER_SCIENCE_5
     courseIDs.COMPUTER_SCIENCE_6
   ]
-
-  courseNumericalStatus = {}
-  courseNumericalStatus['NO_ACCESS'] = 0
-  courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 1
-  courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 2
-  courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 4
-  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 8
-  courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 16
-  courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 32
-  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 64
-  courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 128
-  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
-  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
-  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
-  courseNumericalStatus['FULL_ACCESS'] = 2047
-
-  courseAcronyms = {}
-  courseAcronyms[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
-  courseAcronyms[courseIDs.GAME_DEVELOPMENT_1] = 'GD1'
-  courseAcronyms[courseIDs.WEB_DEVELOPMENT_1] = 'WD1'
-  courseAcronyms[courseIDs.COMPUTER_SCIENCE_2] = 'CS2'
-  courseAcronyms[courseIDs.GAME_DEVELOPMENT_2] = 'GD2'
-  courseAcronyms[courseIDs.WEB_DEVELOPMENT_2] = 'WD2'
-  courseAcronyms[courseIDs.COMPUTER_SCIENCE_3] = 'CS3'
-  courseAcronyms[courseIDs.GAME_DEVELOPMENT_3] = 'GD3'
-  courseAcronyms[courseIDs.COMPUTER_SCIENCE_4] = 'CS4'
-  courseAcronyms[courseIDs.COMPUTER_SCIENCE_5] = 'CS5'
-  courseAcronyms[courseIDs.COMPUTER_SCIENCE_6] = 'CS6'
 
   # Ozaria uses this
   courseModules = {}
@@ -230,6 +208,19 @@ else
     CHAPTER_THREE: '5e27600d1c9d440000ac3ee7'
     CHAPTER_FOUR: '5f0cb0b7a2492bba0b3520df'
 
+  otherCourseIDs =
+    INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
+    GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
+    WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f'
+    COMPUTER_SCIENCE_2: '5632661322961295f9428638'
+    GAME_DEVELOPMENT_2: '57b621e7ad86a6efb5737e64'
+    WEB_DEVELOPMENT_2: '5789587aad86a6efb5737020'
+    COMPUTER_SCIENCE_3: '56462f935afde0c6fd30fc8c'
+    GAME_DEVELOPMENT_3: '5a0df02b8f2391437740f74f'
+    COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d'
+    COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
+    COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
+
   CSCourseIDs = [
     courseIDs.CHAPTER_ONE
     courseIDs.CHAPTER_TWO
@@ -243,28 +234,6 @@ else
     courseIDs.CHAPTER_THREE
     courseIDs.CHAPTER_FOUR
   ]
-
-  # TODO: how can we support Ozaria-specific or mixed licenses? Copied these from CodeCombat, but they are not Ozaria courses
-  courseNumericalStatus = {}
-  courseNumericalStatus['NO_ACCESS'] = 0
-  #courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 1
-  #courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 2
-  #courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 4
-  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 8
-  #courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 16
-  #courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 32
-  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 64
-  #courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 128
-  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
-  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
-  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
-  courseNumericalStatus['FULL_ACCESS'] = 2047
-
-  courseAcronyms = {}
-  courseAcronyms[courseIDs.CHAPTER_ONE] = 'CH1'
-  courseAcronyms[courseIDs.CHAPTER_TWO] = 'CH2'
-  courseAcronyms[courseIDs.CHAPTER_THREE] = 'CH3'
-  courseAcronyms[courseIDs.CHAPTER_FOUR] = 'CH4'
 
   # Harcoding module names for simplicity
   # Use db to store these later when we add sophisticated module functionality, right now its only used for UI
@@ -303,6 +272,34 @@ else
     name: 'Chapter 1: Up The Mountain',
     progressModalAfter: 1500000 #25 mins
   }
+
+allCourseIDs = _.assign(courseIDs, otherCourseIDs)
+
+courseNumericalStatus = {}
+do ->
+  courseNumericalStatus['NO_ACCESS'] = 0
+  index = 1
+  for key of allCourseIDs
+    courseNumericalStatus[key] = index
+    index *= 2
+  courseNumericalStatus['FULL_ACCESS'] = index - 1
+
+courseAcronyms = {}
+courseAcronyms[allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
+courseAcronyms[allCourseIDs.GAME_DEVELOPMENT_1] = 'GD1'
+courseAcronyms[allCourseIDs.WEB_DEVELOPMENT_1] = 'WD1'
+courseAcronyms[allCourseIDs.COMPUTER_SCIENCE_2] = 'CS2'
+courseAcronyms[allCourseIDs.GAME_DEVELOPMENT_2] = 'GD2'
+courseAcronyms[allCourseIDs.WEB_DEVELOPMENT_2] = 'WD2'
+courseAcronyms[allCourseIDs.COMPUTER_SCIENCE_3] = 'CS3'
+courseAcronyms[allCourseIDs.GAME_DEVELOPMENT_3] = 'GD3'
+courseAcronyms[allCourseIDs.COMPUTER_SCIENCE_4] = 'CS4'
+courseAcronyms[allCourseIDs.COMPUTER_SCIENCE_5] = 'CS5'
+courseAcronyms[allCourseIDs.COMPUTER_SCIENCE_6] = 'CS6'
+courseAcronyms[allCourseIDs.CHAPTER_ONE] = 'CH1'
+courseAcronyms[allCourseIDs.CHAPTER_TWO] = 'CH2'
+courseAcronyms[allCourseIDs.CHAPTER_THREE] = 'CH3'
+courseAcronyms[allCourseIDs.CHAPTER_FOUR] = 'CH4'
 
 registerHocProgressModalCheck = ->
   hocProgressModalCheck = setInterval(() =>

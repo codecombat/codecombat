@@ -85,7 +85,8 @@ module.exports = class Prepaid extends CocoModel
 
   numericalCourses: ->
     return utils.courseNumericalStatus['FULL_ACCESS'] unless @get('includedCourseIDs')?.length
-    fun = (s, k) => s + utils.courseNumericalStatus[k]
+    fun = (s, k) =>
+      s + utils.courseNumericalStatus[k]
     return _.reduce(@get('includedCourseIDs'), fun, 0)
 
   revoke: (user, options={}) ->
