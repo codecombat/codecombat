@@ -66,7 +66,7 @@ module.exports = class BasicInfoView extends CocoView
     @$el.find('#first-name-input').focus()
     application.gplusHandler.loadAPI({
       success: =>
-        @handleSSOConnect(application.gplusHandler)
+        @handleSSOConnect(application.gplusHandler, 'gplus')
     })
     super()
 
@@ -389,9 +389,9 @@ module.exports = class BasicInfoView extends CocoView
       window.open url, '_blank'
       return
 
-    @handleSSOConnect(handler)
+    @handleSSOConnect(handler, ssoUsed)
 
-  handleSSOConnect: (handler, ssoUsed = true) ->
+  handleSSOConnect: (handler, ssoUsed) ->
     handler.connect({
       context: @
       success: (resp = {}) ->
