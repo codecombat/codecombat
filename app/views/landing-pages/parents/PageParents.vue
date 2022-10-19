@@ -715,9 +715,14 @@ export default {
       const { isAvailable, availabilityPDT } = await getAvailability()
       this.availabilityPDT = availabilityPDT
 
-      if (isAvailable && await this.scheduleFreeClassExperiment === 'schedule-free-class') {
-        this.showScheduleFreeClassModal = true
-      } else if (this.brightchampsExperiment === 'brightchamps') {
+      if (isAvailable) {
+        if (this.scheduleFreeClassExperiment === 'schedule-free-class') {
+          this.showScheduleFreeClassModal = true
+          return;
+        }
+      }
+
+      if (this.brightchampsExperiment === 'brightchamps') {
         const url = 'https://learn.brightchamps.com/book-trial-class/?utm_source=B2B&utm_medium=Codecombat#'
         window.open(url, '_blank')
       } else if (this.trialClassExperiment === 'trial-class') {
