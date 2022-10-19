@@ -24,6 +24,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   fakeAPI: ->
     window.gapi =
       client:
+        init: ->
         load: (api, version, cb) -> cb()
         people:
           people:
@@ -42,6 +43,13 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       auth2:
         authorize: (opts, cb) ->
           cb({access_token: '1234'})
+
+    window.google =
+      accounts:
+        id:
+          initialize: ->
+          renderButton: ->
+          prompt: ->
 
     @startedLoading = true
     @apiLoaded = true

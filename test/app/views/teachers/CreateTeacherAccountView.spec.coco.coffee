@@ -155,7 +155,7 @@ describe 'CreateTeacherAccountView', ->
                 expect(_.isEqual(expected, actual)).toBe(true)
                 done()
 
-  if !window.features.chinaUx
+  if false
     describe 'clicking the G+ button', ->
 
       beforeEach ->

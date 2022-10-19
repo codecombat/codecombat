@@ -97,7 +97,7 @@ form#basic-info-form.modal-body.basic-info
 
       .auth-network-logins.text-center
         .gplus-login#google-login-button
-          a#gplus-signup-btn.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
+          a.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
             img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.svg", draggable="false")
         if !/(teacher|student)/.test(view.signupState.get('path'))
           .facebook-login

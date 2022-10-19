@@ -17,7 +17,6 @@ const GoogleClassroomAPIHandler = class GoogleClassroomAPIHandler extends CocoCl
         gapi.client.load('classroom', 'v1', () => {
           gapi.client.classroom.courses.list({ access_token: application.gplusHandler.token(), teacherId: me.get('gplusID'), courseStates: 'ACTIVE' })
             .then((r) => {
-              console.log('list class', r)
               resolve(r.result.courses || [])
             })
             .catch((err) => {

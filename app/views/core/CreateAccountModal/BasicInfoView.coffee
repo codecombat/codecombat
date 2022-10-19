@@ -41,7 +41,6 @@ module.exports = class BasicInfoView extends CocoView
     'submit form': 'onSubmitForm'
     'click .use-suggested-name-link': 'onClickUseSuggestedNameLink'
     'click #facebook-signup-btn': 'onClickSsoSignupButton'
-    'click #gplus-signup-btn': 'onClickSsoSignupButton'
     'click #clever-signup-btn': 'onClickSsoSignupButton'
 
   initialize: ({ @signupState } = {}) ->
