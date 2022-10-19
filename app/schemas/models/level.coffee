@@ -457,13 +457,12 @@ _.extend LevelSchema.properties,
   restrictedProperties: { type: 'array', items: {type: 'string'}, description: 'Names of properties a hero must not have equipped to play.', title: 'Restricted Properties', inEditor: 'codecombat' }
   recommendedHealth: { type: 'number', minimum: 0, exclusiveMinimum: true, description: 'If set, will show the recommended health to be able to beat this level with the intended main solution to the player when choosing equipment.', format: 'solution-stats', title: 'Recommended Health', inEditor: 'codecombat' }
   maximumHealth: { type: 'number', minimum: 0, exclusiveMinimum: true, description: 'If set, will enforce the maximum health of the hero.', title: 'Maximum Health', inEditor: 'codecombat' }
-  clampedProperties: { type: 'object', title: 'Clamped Properties', description: 'Other non-health properties that should be clamped to a range of values (attackDamage, maxSpeed, etc.)', additionalProperties: {
+  clampedProperties: { type: 'object', title: 'Clamped Properties', description: 'Other non-health properties that should be clamped to a range of values (attackDamage, maxSpeed, etc.). Only applies for classroom players with classroom items enabled.', inEditor: 'codecombat', additionalProperties: {
     type: 'object'
     properties: {
       min: { type: 'number' }
       max: { type: 'number' }
     }
-    inEditor: 'codecombat'
   }}
   allowedHeroes: { type: 'array', title: 'Allowed Heroes', description: 'Which heroes can play this level. For any hero, leave unset.', inEditor: 'codecombat', items: {
     type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'

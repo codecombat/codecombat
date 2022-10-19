@@ -4,7 +4,7 @@
     data () {
       return {
         show: false,
-        when: new Date('2022-08-25 16:00 EDT')
+        when: new Date('2022-10-20 16:00 CDT')
       }
     },
     created () {
@@ -22,9 +22,9 @@
     <div class="row">
       <div class="col-xs-12">
         <div id="announcement">
-          <h3>[WEBINAR] CodeCombat & Ozaria Demo Day</h3>
+          <h3>[WEBINAR] Spooktacular CodeCombat & Ozaria Demo Day</h3>
           <h4>{{ whenDisplay }}</h4>
-          <p>Please join us for an informative webinar covering curriculum and platform features. <a href="https://us06web.zoom.us/webinar/register/WN_q4hJZhMPTlKCT-cDG-rN5Q" target="_blank">Register here</a>.</p>
+          <p>Please join us for an informative webinar covering curriculum and plaftform features. <a href="https://us06web.zoom.us/webinar/register/WN_NU2XXsQORZ-_lkx7rxUplQ" target="_blank">Register here</a>.</p>
         </div>
       </div>
     </div>
