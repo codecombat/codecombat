@@ -199,6 +199,12 @@ if isCodeCombat
     courseIDs.COMPUTER_SCIENCE_5
     courseIDs.COMPUTER_SCIENCE_6
   ]
+  otherOrderedCourseIDs = [
+    otherCourseIDs.CHAPTER_ONE
+    otherCourseIDs.CHAPTER_TWO
+    otherCourseIDs.CHAPTER_THREE
+    otherCourseIDs.CHAPTER_FOUR
+  ]
 
   # Ozaria uses this
   courseModules = {}
@@ -258,6 +264,19 @@ else
     courseIDs.CHAPTER_THREE
     courseIDs.CHAPTER_FOUR
   ]
+  otherOrderedCourseIDs = [
+    otherCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+    otherCourseIDs.GAME_DEVELOPMENT_1
+    otherCourseIDs.WEB_DEVELOPMENT_1
+    otherCourseIDs.COMPUTER_SCIENCE_2
+    otherCourseIDs.GAME_DEVELOPMENT_2
+    otherCourseIDs.WEB_DEVELOPMENT_2
+    otherCourseIDs.COMPUTER_SCIENCE_3
+    otherCourseIDs.GAME_DEVELOPMENT_3
+    otherCourseIDs.COMPUTER_SCIENCE_4
+    otherCourseIDs.COMPUTER_SCIENCE_5
+    otherCourseIDs.COMPUTER_SCIENCE_6
+  ]
 
   # Harcoding module names for simplicity
   # Use db to store these later when we add sophisticated module functionality, right now its only used for UI
@@ -303,8 +322,8 @@ courseNumericalStatus = {}
 do ->
   courseNumericalStatus['NO_ACCESS'] = 0
   index = 1
-  for key, value of allCourseIDs
-    courseNumericalStatus[value] = index
+  for key in [orderedCourseIDs..., otherOrderedCourseIDs...]
+    courseNumericalStatus[key] = index
     index *= 2
   courseNumericalStatus['FULL_ACCESS'] = index - 1
 
