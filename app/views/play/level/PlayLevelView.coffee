@@ -135,11 +135,12 @@ module.exports = class PlayLevelView extends RootView
     super options
 
     @courseID = options.courseID or utils.getQueryVariable 'course'
-    @courseInstanceID = options.courseInstanceID or utils.getQueryVariable 'course-instance'
+    @courseInstanceID = options.courseInstanceID or utils.getQueryVariable 'course-instance' or utils.getQueryVariable 'instance' # instance to avoid sessionless to be false when teaching
 
     @isEditorPreview = utils.getQueryVariable 'dev'
     @sessionID = (utils.getQueryVariable 'session') || @options.sessionID
     @observing = utils.getQueryVariable 'observing'
+    @teaching = utils.getQueryVariable 'teaching'
 
     @opponentSessionID = utils.getQueryVariable('opponent')
     @opponentSessionID ?= @options.opponent
@@ -187,7 +188,7 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
+    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID, @teaching }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
@@ -201,6 +202,9 @@ module.exports = class PlayLevelView extends RootView
       fetchAceConfig.then (classroom) =>
         @classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion ? true
         @teacherID = classroom.ownerID
+
+        if @teaching and (not @teacherID.equals(me.id))
+          return _.defer -> application.router.redirectHome()
 
   hasAccessThroughClan: (level) ->
     _.intersection(level.get('clans') ? [], me.get('clans') ? []).length
@@ -309,7 +313,7 @@ module.exports = class PlayLevelView extends RootView
 
     unless @level.isType 'ladder'
       randomTeam = @world?.teamForPlayer()  # If no team is set, then we will want to equally distribute players to teams
-    team = utils.getQueryVariable('team') ? @session.get('team') ? randomTeam ? 'humans'
+    team = utils.getQueryVariable('team') ? @session?.get('team') ? randomTeam ? 'humans'
     @loadOpponentTeam(team)
     @setupGod()
     @setTeam team

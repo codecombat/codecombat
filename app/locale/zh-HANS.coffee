@@ -1110,6 +1110,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     content_type_cinematic: "剧情"
     content_type_interactive: "互动"
 #    feedback: "Feedback"
+    ask_teacher_for_help: "向你的老师寻求帮助"
+    ask_teacher_for_help_offline: "你的老师当前不在线"
 
   apis:
     methods: "函数"

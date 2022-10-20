@@ -51,6 +51,9 @@ module.exports = wsBus = class WsBus extends CocoClass {
           this.getSendMessage(data)
           // globalVar.currentView.trigger('websocket:update-infos')
           break
+        case 'msg':
+          this.getMsg(data)
+          break
         case 'publish':
           this.getPublishMessage(data)
           break
@@ -85,6 +88,21 @@ module.exports = wsBus = class WsBus extends CocoClass {
       obj.infos[info] = baseInfoHandler[info]()
     })
     this.ws.sendJSON(obj)
+  }
+
+  getMsg (data) {
+    noty({
+      text: data.info.text,
+      layout: 'centerRight',
+      type: 'alert',
+      buttons: [
+        {
+          text: 'Okay', onClick: ($noty) => {
+          $noty.close()
+          window.open(data.info.url, '_blank')
+        }}
+      ]
+    })
   }
 
   getSendMessage (data) {

@@ -1112,7 +1112,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     content_type_interactive: "Concept Check"
     feedback: "Feedback"
     ask_teacher_for_help: "Ask your teacher for help"
-    ask_teacher_for_help_offline: "When teacher online, Ask him/her for help"
+    ask_teacher_for_help_offline: "Your Teacher is currently offline"
 
   apis:
     methods: "Methods"
@@ -2630,6 +2630,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     from_the_podcast: "From the Podcast"
     edit_student_access_title: "Edit Student Access to Levels"
     edit_student_access_subtitle: "You have selected __levels__ levels for __students__ students."
+    student_ask_for_help: "Your studnet __name__ asking for your help."
 
   teacher_licenses:
     active_licenses: "Active Licenses"

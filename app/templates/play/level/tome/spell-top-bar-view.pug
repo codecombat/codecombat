@@ -28,8 +28,8 @@ if showAmazonLogo
     button.btn.btn-small.btn-illustrated.btn-success#fill-solution
       span(data-i18n="play_level.fill_in_solution")
 
-  if view.courseID
-    button.btn.btn-small.btn-illustrated.btn-success#ask-teacher-for-help(class=view.teacherOnline() ? '' : 'disabled')
+  if view.courseID && me.isStudent()
+    button.btn.btn-small.btn-illustrated.btn-success#ask-teacher-for-help(class=view.teacherOnline() ? '' : 'disabled', title=askingTeacher)
       span(data-i18n="common.help")
 
   if view.hintsState && view.hintsState.get('total') > 0

@@ -7,5 +7,9 @@ module.exports = {
                                     {
                                       user: {type: 'object'},
                                     }
-                                   )
+                                   ),
+  'websocket:asking-help': c.object({title: 'Asking help', description: 'Turn playLevelView to YJS and send message to teacher'},
+                                    {
+                                      msg: {type: 'object'}
+                                    })
 }

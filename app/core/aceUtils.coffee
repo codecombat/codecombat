@@ -142,7 +142,7 @@ parseUserSnippets = (source, lang, session) ->
   # @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
 
 
-setupCRDT = (key, userName, doc, editor) =>
+setupCRDT = (key, userName, doc, editor, next) =>
   ydoc = new Y.Doc()
   server = window.location.host
   url = "ws://#{server}/yjs/websocket/level.session"
@@ -160,6 +160,9 @@ setupCRDT = (key, userName, doc, editor) =>
       yType.insert(0, doc)
     new AceBinding(yType, editor, provider.awareness)
     editor.session.setUndoManager(new UndoManager())
+
+    if next?
+      next() # run callback function when synced
   )
   user =
     name: userName

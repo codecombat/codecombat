@@ -31,6 +31,7 @@ module.exports = class SpellTopBarView extends CocoView
     'click .videos-button': 'onClickVideosButton'
     'click #fill-solution': 'onFillSolution'
     'click #switch-team': 'onSwitchTeam'
+    'click #ask-teacher-for-help': 'onClickHelpButton'
 
   constructor: (options) ->
     @hintsState = options.hintsState
@@ -38,6 +39,8 @@ module.exports = class SpellTopBarView extends CocoView
     @courseInstanceID = options.courseInstanceID
     @courseID = options.courseID
     @teacherID = options.teacherID
+
+    @wsBus = globalVar.application.wsBus
     super(options)
 
   getRenderData: (context={}) ->
@@ -48,6 +51,7 @@ module.exports = class SpellTopBarView extends CocoView
     context.maximizeShortcutVerbose = "#{ctrl}+#{shift}+M: #{$.i18n.t 'keyboard_shortcuts.maximize_editor'}"
     context.codeLanguage = @options.codeLanguage
     context.showAmazonLogo = application.getHocCampaign() is 'game-dev-hoc'
+    context.askingTeacher = if me.isStudent() and @teacherOnline() then $.i18n.t('play_level.ask_teacher_for_help') else $.i18n.t('play_level.ask_teacher_for_help_offline')
     context
 
   afterRender: ->
@@ -59,8 +63,7 @@ module.exports = class SpellTopBarView extends CocoView
     me.isStudent() and @courseID == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
 
   teacherOnline: () ->
-    wsBus = globalVar.application.wsBus # turn to this.wsBus if needed
-    wsBus.wsInfos.friends[@teacherID].online
+    @wsBus.wsInfos.friends[@teacherID].online
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
@@ -117,7 +120,7 @@ module.exports = class SpellTopBarView extends CocoView
     @updateReloadButton()
 
   onUserOnlineChanged: (e) ->
-    if e.user.toString() == @teacherID.toString()
+    if e.user.toString() == @teacherID?.toString()
       @renderSelectors('#ask-teacher-for-help')
 
   toggleControls: (e, enabled) ->
@@ -160,6 +163,16 @@ module.exports = class SpellTopBarView extends CocoView
     else
       query = '?team='
     window.location.href = protocol+host+pathname+query + @otherTeam()
+
+  onClickHelpButton: ->
+    Backbone.Mediator.publish('websocket:asking-help', {
+      msg:
+        to: [@teacherID.toString()],
+        type: 'msg',
+        info:
+          text: $.i18n.t('teacher.student_ask_for_help', {name: me.broadName()})
+          url: window.location.pathname
+    })
 
   destroy: ->
     super()
