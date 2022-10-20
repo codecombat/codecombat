@@ -1111,6 +1111,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     content_type_cinematic: "Cinematic"
     content_type_interactive: "Concept Check"
     feedback: "Feedback"
+    ask_teacher_for_help: "Ask your teacher for help"
+    ask_teacher_for_help_offline: "When teacher online, Ask him/her for help"
 
   apis:
     methods: "Methods"

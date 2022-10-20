@@ -2,6 +2,7 @@ product = (COCO_PRODUCT ? process?.env?.COCO_PRODUCT) ? 'codecombat'
 isCodeCombat = product == 'codecombat'
 isOzaria = !isCodeCombat
 _ = require 'lodash'
+useWebsocket = true
 
 # Yuqiang: i don't know why we use same slugify from different source but let's keep it right now since change it sometimes trigger unbelievable bug
 if isCodeCombat

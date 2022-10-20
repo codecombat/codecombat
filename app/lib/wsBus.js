@@ -23,7 +23,7 @@ const baseInfoHandler = {
 module.exports = wsBus = class WsBus extends CocoClass {
   constructor (...args) {
     wsBus.prototype.subscriptions = {
-      'auth:me-synced': 'onMeSynced'
+      'auth:me-synced': 'onMeSynced',
     }
     super() // make sure we set prototype.subscriptions first
 
@@ -122,9 +122,7 @@ module.exports = wsBus = class WsBus extends CocoClass {
       })
       this.ws.subscribe(friendTopics)
       const onlineFriends = await me.fetchOnlineFriends() // fetch online friends
-      onlineFriends.forEach(f => {
-        this.updateFriend(f, { online: true })
-      })
+      this.updateOnlineFriends(onlineFriends)
       this.wsInfos.inited = true
     }
     // console.log('wsInfos reset success')
@@ -146,10 +144,17 @@ module.exports = wsBus = class WsBus extends CocoClass {
     this.wsInfos.friends[id] = _.assign(state, oldFriend) // do not override the friend here
   }
 
+  updateOnlineFriends (friends) {
+    friends.forEach(f => {
+      this.updateFriend(f, { online: true })
+    })
+  }
+
   updateFriend (id, state) {
     if (!(id in this.wsInfos.friends)) {
       return
     }
     this.wsInfos.friends[id] = _.assign(this.wsInfos.friends[id], state) // override friend here
+    Backbone.Mediator.publish('websocket:user-online', {user: id})
   }
 }

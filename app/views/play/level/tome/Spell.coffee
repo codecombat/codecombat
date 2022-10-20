@@ -35,6 +35,7 @@ module.exports = class Spell
         session: options.session
         courseID: options.courseID
         courseInstanceID: options.courseInstanceID
+        teacherID: options.teacherID
       @topBarView.render()
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 

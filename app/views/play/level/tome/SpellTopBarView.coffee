@@ -6,6 +6,7 @@ ImageGalleryModal = require 'views/play/level/modal/ImageGalleryModal'
 utils = require 'core/utils'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
 store = require 'core/store'
+globalVar = require 'core/globalVar'
 
 module.exports = class SpellTopBarView extends CocoView
   template: template
@@ -19,6 +20,7 @@ module.exports = class SpellTopBarView extends CocoView
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-changed-language': 'onSpellChangedLanguage'
     'tome:toggle-maximize': 'onToggleMaximize'
+    'websocket:user-online': 'onUserOnlineChanged'
 
   events:
     'click .reload-code': 'onCodeReload'
@@ -35,6 +37,7 @@ module.exports = class SpellTopBarView extends CocoView
     @spell = options.spell
     @courseInstanceID = options.courseInstanceID
     @courseID = options.courseID
+    @teacherID = options.teacherID
     super(options)
 
   getRenderData: (context={}) ->
@@ -54,6 +57,10 @@ module.exports = class SpellTopBarView extends CocoView
 
   showVideosButton: () ->
     me.isStudent() and @courseID == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+
+  teacherOnline: () ->
+    wsBus = globalVar.application.wsBus # turn to this.wsBus if needed
+    wsBus.wsInfos.friends[@teacherID].online
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
@@ -108,6 +115,10 @@ module.exports = class SpellTopBarView extends CocoView
     @options.codeLanguage = e.language
     @render()
     @updateReloadButton()
+
+  onUserOnlineChanged: (e) ->
+    if e.user.toString() == @teacherID.toString()
+      @renderSelectors('#ask-teacher-for-help')
 
   toggleControls: (e, enabled) ->
     return if e.controls and not ('editor' in e.controls)
