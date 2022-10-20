@@ -7,7 +7,7 @@ STARTER_LICENSE_COURSE_IDS = [
   "5789587aad86a6efb573701f" # Web Development 1
 ]
 
-LICENSE_PRESETS = if !utils.isOzaria then {
+LICENSE_PRESETS = {
   'CS1+CS2+GD1+WD1': STARTER_LICENSE_COURSE_IDS
   'CS1+CS2+CS3+CS4': [
     '560f1a9f22961295f9427742' # Introduction to Computer Science
@@ -37,7 +37,6 @@ LICENSE_PRESETS = if !utils.isOzaria then {
     '5789587aad86a6efb573701e' # Game Development 1
     '57b621e7ad86a6efb5737e64' # GD 2
   ]
-} else {
   'CH1+CH2+CH3+CH4': OZARIA_COURSE_IDS
 }
 

@@ -65,11 +65,11 @@
       //    | GitHub
       a#facebook-login-btn.network-login(disabled=true)
         img.fb-login-img(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
-      a#gplus-login-btn.network-login(disabled=true)
-        img.google-login-img(src="/images/pages/modal/auth/gplus_sso_button2.svg" draggable="false")
       if showClever
         a#clever-signup-btn.network-login
           img.clever-login-img(src="/images/pages/modal/auth/clever_sso_button@2x.png", draggable="false")
+      a#google-login-button.network-login(disabled=true)
+        img.google-login-img(src="/images/pages/modal/auth/gplus_sso_button2.svg" draggable="false")
 
   .extra-pane
     .switch-explanation(data-i18n="login.signup_switch")

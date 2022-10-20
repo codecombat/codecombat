@@ -41,7 +41,6 @@ module.exports = class BasicInfoView extends CocoView
     'submit form': 'onSubmitForm'
     'click .use-suggested-name-link': 'onClickUseSuggestedNameLink'
     'click #facebook-signup-btn': 'onClickSsoSignupButton'
-    'click #gplus-signup-btn': 'onClickSsoSignupButton'
     'click #clever-signup-btn': 'onClickSsoSignupButton'
 
   initialize: ({ @signupState } = {}) ->
@@ -64,6 +63,10 @@ module.exports = class BasicInfoView extends CocoView
 
   afterRender: ->
     @$el.find('#first-name-input').focus()
+    application.gplusHandler.loadAPI({
+      success: =>
+        @handleSSOConnect(application.gplusHandler, 'gplus')
+    })
     super()
 
   # These values are passed along to AuthModal if the user clicks "Sign In" (handled by CreateAccountModal)
@@ -385,10 +388,14 @@ module.exports = class BasicInfoView extends CocoView
       window.open url, '_blank'
       return
 
+    @handleSSOConnect(handler, ssoUsed)
+
+  handleSSOConnect: (handler, ssoUsed) ->
     handler.connect({
       context: @
-      success: ->
+      success: (resp = {}) ->
         handler.loadPerson({
+          resp: resp
           context: @
           success: (ssoAttrs) ->
             @signupState.set { ssoAttrs }
