@@ -26,7 +26,7 @@ module.exports = class CreateTeacherAccountView extends RootView
     'click .login-link': 'onClickLoginLink'
     'change form#signup-form': 'onChangeForm'
     'submit form#signup-form': 'onSubmitForm'
-    'click #gplus-signup-btn': 'onClickGPlusSignupButton'
+    'click #google-login-button-ctav': 'onClickGPlusSignupButton'
     'click #facebook-signup-btn': 'onClickFacebookSignupButton'
     'change input[name="city"]': 'invalidateNCES'
     'change input[name="state"]': 'invalidateNCES'
@@ -78,6 +78,7 @@ module.exports = class CreateTeacherAccountView extends RootView
           email: @trialRequest?.get('properties')?.email
         }
       })
+    @onClickGPlusSignupButton()
     super()
 
   invalidateNCES: ->
@@ -337,16 +338,18 @@ module.exports = class CreateTeacherAccountView extends RootView
   # GPlus signup
 
   onClickGPlusSignupButton: ->
-    btn = @$('#gplus-signup-btn')
+    btn = @$('#google-login-button-ctav')
     btn.attr('disabled', true)
     application.gplusHandler.loadAPI({
       success: =>
         btn.attr('disabled', false)
         application.gplusHandler.connect({
-          success: =>
+          elementId: 'google-login-button-ctav'
+          success: (resp = {}) =>
             btn.find('.sign-in-blurb').text($.i18n.t('signup.creating'))
             btn.attr('disabled', true)
             application.gplusHandler.loadPerson({
+              resp: resp
               success: (@gplusAttrs) =>
                 existingUser = new User()
                 existingUser.fetchGPlusUser(@gplusAttrs.gplusID, @gplusAttrs.email, {

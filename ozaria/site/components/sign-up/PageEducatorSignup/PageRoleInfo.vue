@@ -41,7 +41,7 @@
 
     mounted () {
       // Set default value for country
-      const userCountry = (utils.countries || []).find((c) => c.country === me.get('country')).countryCode
+      const userCountry = (utils.countries || []).find((c) => c.country === me.get('country'))?.countryCode
       if (userCountry) {
         this.country = countryList.getName(userCountry)
         this.updateTrialRequestProperties({ country: this.country })

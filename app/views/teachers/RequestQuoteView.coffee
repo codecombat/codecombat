@@ -40,7 +40,7 @@ module.exports = class RequestQuoteView extends RootView
     'click #email-exists-login-link': 'onClickEmailExistsLoginLink'
     'submit #signup-form': 'onSubmitSignupForm'
     'click #logout-link': -> me.logout()
-    'click #gplus-signup-btn': 'onClickGPlusSignupButton'
+    'click #google-login-button-ctav': 'onClickGPlusSignupButton'
     'click #facebook-signup-btn': 'onClickFacebookSignupButton'
     'change input[name="email"]': 'onChangeEmail'
     'change input[name="name"]': 'onChangeName'
@@ -88,6 +88,7 @@ module.exports = class RequestQuoteView extends RootView
           email: @trialRequest?.get('properties')?.email
         }
       })
+    @onClickGPlusSignupButton()
     super()
 
   invalidateNCES: ->
@@ -273,18 +274,20 @@ module.exports = class RequestQuoteView extends RootView
     $('#flying-focus').css({top: 0, left: 0}) # Hack copied from Router.coffee#187. Ideally we'd swap out the view and have view-swapping logic handle this
 
   onClickGPlusSignupButton: ->
-    btn = @$('#gplus-signup-btn')
+    btn = @$('#google-login-button-ctav')
     btn.attr('disabled', true)
     application.gplusHandler.loadAPI({
       context: @
-      success: ->
+      success: () ->
         btn.attr('disabled', false)
         application.gplusHandler.connect({
           context: @
-          success: ->
+          elementId: 'google-login-button-ctav'
+          success: (resp = {}) ->
             btn.find('.sign-in-blurb').text($.i18n.t('signup.creating'))
             btn.attr('disabled', true)
             application.gplusHandler.loadPerson({
+              resp: resp
               context: @
               success: (gplusAttrs) ->
                 me.set(gplusAttrs)
