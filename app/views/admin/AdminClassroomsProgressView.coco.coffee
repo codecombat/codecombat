@@ -37,7 +37,7 @@ module.exports = class AdminClassroomsProgressView extends RootView
     endDate = new Date(@endDay)
     @totalTime = endDate.getTime() - startDate.getTime()
     colors = ['olive', 'deeppink', 'yellow', 'forestgreen', 'red', 'purple', 'brown', 'blue', 'fuchsia', 'lime']
-    @courseColorMap = Object.keys(utils.courseAcronyms).reduce (m, c, i) =>
+    @courseColorMap = Object.keys(utils.courseIDs).reduce (m, c, i) =>
       m[c] = colors[i % colors.length]
       return m
     , {}
