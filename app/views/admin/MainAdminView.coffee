@@ -9,7 +9,7 @@ TeacherLicenseCodeModal = require 'views/admin/TeacherLicenseCodeModal'
 ModelModal = require 'views/modal/ModelModal'
 forms = require 'core/forms'
 utils = require 'core/utils'
-{ updateAvailabilityStatus } = require 'core/api/parents'
+{ updateAvailabilityStatus, getAvailability } = require 'core/api/parents'
 
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
@@ -56,8 +56,18 @@ module.exports = class MainAdminView extends RootView
       @amActually.fetch()
       @supermodel.trackModel(@amActually)
     @featureMode = window.serverSession.featureMode
+    if me.isParentAdmin()
+      @checkParentAdminAvailability()
     @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
     super()
+
+  checkParentAdminAvailability: ->
+    @parentAdminUpdateInProgress = true
+    getAvailability()
+    .then ({adminAvailabilityStatus}) =>
+      @parentAdminAvailabilityStatus = adminAvailabilityStatus
+      @parentAdminUpdateInProgress = false
+      @render()
 
   getRenderData: (context={}) ->
     context = super context
