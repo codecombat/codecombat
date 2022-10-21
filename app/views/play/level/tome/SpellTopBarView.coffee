@@ -30,6 +30,7 @@ module.exports = class SpellTopBarView extends CocoView
     'click .image-gallery-button': 'onClickImageGalleryButton'
     'click .videos-button': 'onClickVideosButton'
     'click #fill-solution': 'onFillSolution'
+    'click #toggle-solution': 'onToggleSolution'
     'click #switch-team': 'onSwitchTeam'
     'click #ask-teacher-for-help': 'onClickHelpButton'
 
@@ -39,6 +40,7 @@ module.exports = class SpellTopBarView extends CocoView
     @courseInstanceID = options.courseInstanceID
     @courseID = options.courseID
     @teacherID = options.teacherID
+    @teaching = utils.getQueryVariable 'teaching'
 
     @wsBus = globalVar.application.wsBus
     super(options)
@@ -63,7 +65,7 @@ module.exports = class SpellTopBarView extends CocoView
     me.isStudent() and @courseID == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
 
   teacherOnline: () ->
-    @wsBus.wsInfos.friends[@teacherID].online
+    @wsBus?.wsInfos?.friends?[@teacherID]?.online
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
@@ -83,6 +85,9 @@ module.exports = class SpellTopBarView extends CocoView
   onFillSolution: ->
     return unless me.canAutoFillCode()
     store.dispatch('game/autoFillSolution', @options.codeLanguage)
+
+  onToggleSolution: ->
+    Backbone.Mediator.publish 'level:toggle-solution', {}
 
   onCodeReload: (e) ->
     if key.shift
@@ -167,7 +172,7 @@ module.exports = class SpellTopBarView extends CocoView
   onClickHelpButton: ->
     Backbone.Mediator.publish('websocket:asking-help', {
       msg:
-        to: [@teacherID.toString()],
+        to: @teacherID.toString(),
         type: 'msg',
         info:
           text: $.i18n.t('teacher.student_ask_for_help', {name: me.broadName()})

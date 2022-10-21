@@ -1080,6 +1080,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     octans_character: "Octans Character"
     click_to_continue: "Click to Continue"
     fill_in_solution: "Fill in solution"
+    toggle_solution: "Toggle solution"
     play_as_humans: "Play As Red"
     play_as_ogres: "Play As Blue"
     changed: "Last edited "
