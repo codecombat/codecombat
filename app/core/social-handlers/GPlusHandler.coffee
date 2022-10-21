@@ -11,7 +11,7 @@ API_KEY = 'AIzaSyDW8CsHHJbAREZw8uXg0Hix8dtlJnuutls'
 module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   constructor: ->
     unless me.useSocialSignOn() then throw new Error('Social single sign on not supported')
-    @accessToken = storage.load GPLUS_TOKEN_KEY, false
+    @accessToken = storage.load GPLUS_TOKEN_KEY, true
     super()
 
   token: -> @accessToken?.access_token
@@ -134,6 +134,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       scope: scope,
       callback: (resp) =>
         @accessToken = resp
+        storage.save(GPLUS_TOKEN_KEY, @accessToken, 30)
         setTimeout () =>
           @accessToken = null
         ,@accessToken.expires_in * 1000

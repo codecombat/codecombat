@@ -20,7 +20,7 @@ const GoogleClassroomAPIHandler = class GoogleClassroomAPIHandler extends CocoCl
               resolve(r.result.courses || [])
             })
             .catch((err) => {
-              console.error('Error in fetching from Google Classroom:', err)
+              console.error('Error in fetching from Google Classroom loadClassroom:', err)
               reject(err)
             })
         })
@@ -34,14 +34,13 @@ const GoogleClassroomAPIHandler = class GoogleClassroomAPIHandler extends CocoCl
       const fun = () => gapi.client.load('classroom', 'v1', () => {
         gapi.client.classroom.courses.students.list({access_token: application.gplusHandler.token(), courseId: googleClassroomId, pageToken: nextPageToken})
         .then((r) => {
-          resolve(r.result || {})
+            resolve(r.result || {})
           })
         .catch ((err) => {
-          console.error("Error in fetching from Google Classroom:", err)
-          reject(err)
+            console.error('Error in fetching from Google Classroom loadStudent:', err)
+            reject(err)
           })
         })
-
       if (!application.gplusHandler.token()) this.requestGoogleAccessToken(fun)
       else fun()
     })
