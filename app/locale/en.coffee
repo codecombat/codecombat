@@ -4287,7 +4287,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     all_episodes: "View All Episodes"
     no_permission: "You don't have permission to view this podcast"
     listen_now: "Listen Now"
-    show_remaining_episodes: "Show remaining episodes"
+    show_all_episodes: "Show all episodes"
 
   library:
     enter_library_card: "Enter your Library Card Number:"
