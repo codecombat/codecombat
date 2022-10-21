@@ -47,7 +47,7 @@
           class="btn btn-warning btn-large show-more__btn"
           @click="showAllEpisodes"
         >
-          {{ $t('podcast.show_remaining_episodes') }}
+          {{ $t('podcast.show_all_episodes') }}
         </button>
       </div>
     </div>
