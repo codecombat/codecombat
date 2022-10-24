@@ -15,7 +15,7 @@ require 'd3/d3.js'
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
 AceDiff = require 'ace-diff'
-require('app/styles/common/ace-diff.sass')
+require('app/styles/teachers/ace-diff-teacher-student.sass')
 fullPageTemplate = require 'app/templates/teachers/teacher-student-view-full'
 viewTemplate = require 'app/templates/teachers/teacher-student-view'
 userClassroomHelper = require '../../lib/user-classroom-helper'

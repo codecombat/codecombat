@@ -25,7 +25,7 @@ globalVar = require 'core/globalVar'
 fetchJson = require 'core/api/fetch-json'
 store = require 'core/store'
 AceDiff = require 'ace-diff'
-require('app/styles/common/ace-diff.sass')
+require('app/styles/play/level/tome/ace-diff-spell.sass')
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -456,7 +456,7 @@ module.exports = class SpellView extends CocoView
     @aceDiff = new AceDiff({
       element: '#solution-view'
       showDiffs: false,
-      showConnectors: false,
+      showConnectors: true,
       mode: aceUtils.aceEditModes[@spell.language],
       left: {
         ace: aceSolution,
@@ -464,7 +464,8 @@ module.exports = class SpellView extends CocoView
         copyLinkEnabled: false
       },
       right: {
-        ace: @ace
+        ace: @ace,
+        copyLinkEnabled: false
       }
     })
 
