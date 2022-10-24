@@ -7,6 +7,7 @@ import DriftTracker from './DriftTracker'
 import FullStoryTracker from './FullStoryTracker'
 import GoogleOptimizeTracker from './GoogleOptimizeTracker'
 import FacebookPixelTracker from './FacebookPixelTracker'
+import TwitterPixelTracker from './TwitterPixelTracker'
 import ProfitWellTracker from './ProfitWellTracker'
 import MakelogTracker from './MakelogTracker'
 
@@ -39,6 +40,7 @@ export default class Tracker2 extends BaseTracker {
     this.facebookPixelTracker = new FacebookPixelTracker(this.store)
     this.profitWellTracker = new ProfitWellTracker(this.store)
     this.makelogTracker = new MakelogTracker(this.store)
+    this.twitterPixelTracker = new TwitterPixelTracker(this.store)
 
     this.trackers = [
       this.internalTracker,
@@ -56,6 +58,7 @@ export default class Tracker2 extends BaseTracker {
         this.fullStoryTracker,
         this.googleOptimizeTracker,
         this.facebookPixelTracker,
+        this.twitterPixelTracker,
         this.profitWellTracker
       ]
     }
