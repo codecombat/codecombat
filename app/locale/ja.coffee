@@ -655,10 +655,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
 #    with: "with"
-   want_to_play_codecombat: "持って無いけどやりたい！"
-   have_a_classcode: "クラスコードを持っていますか？"
-   yes_i_have_classcode: "持ってる！"
-   enter_it_here: "ここに入力しましょう:"
+    want_to_play_codecombat: "持って無いけどやりたい！"
+    have_a_classcode: "クラスコードを持っていますか？"
+    yes_i_have_classcode: "持ってる！"
+    enter_it_here: "ここに入力しましょう:"
 
   recover:
     recover_account_title: "パスワードを忘れた場合"
