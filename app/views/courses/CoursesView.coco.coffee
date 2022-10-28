@@ -94,6 +94,12 @@ module.exports = class CoursesView extends RootView
         @tournaments = (t.toJSON() for t in tournaments.models)
         @tournamentsByState = _.groupBy @tournaments, 'state'
         @renderSelectors('.student-profile-area')
+
+        if me.isCreatedByTarena()
+          tctmTournament = _.find(@tournaments, {"_id": "635b4591ec8aca00184a50bf"})
+          if tctmTournament?.state == 'starting' or (moment().isBefore('2022-10-30 12:00:00') and moment().isAfter('2022-10-30 08:59:00'))
+            url = "/play/ladder/#{tctmTournament.slug}/clan/#{tctmTournament.clan}?tournament=#{tctmTournament._id}"
+            application.router.navigate(url, {trigger: true})
       @supermodel.loadCollection(tournaments, 'tournaments', {cache: false})
 
     # TODO: Trim this section for only what's necessary
