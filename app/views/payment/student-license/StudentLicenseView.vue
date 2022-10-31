@@ -3,6 +3,7 @@
     <payment-student-license-head-component
       :i18n-heading-name="i18nName"
       :is-dsh-partner="isDshPartner"
+      :is-b-d-partner="isBDPartner"
       :is-tecmilenio-partner="isTecmilenioPartner"
     />
     <modal-get-licenses
@@ -16,13 +17,44 @@
       <h3 class="per-student text-center" v-else>
         {{$t('payments.just')}} {{this.getCurrency()}}{{this.getUnitPrice()}} {{$t('payments.per_student')}}
       </h3>
-      <ul class="information" v-if="!isTecmilenioPartner">
-        <li class="light-text" v-if="!this.licenseCap || this.licenseCap < 10000">
-          <payment-license-min-max-text-component :min-licenses="this.minLicenses" :max-licenses="this.licenseCap" :max-value-to-show="10000" /> <span>can be purchased, <a href="#" @click="this.enableContactModal">Contact Us</a> to purchase more</span>
-        </li>
-        <li class="light-text">Licenses are active for {{this.licenseValidityPeriodInDays}} days from the day of purchase</li>
-        <li class="light-text">Teacher account licenses are free with purchase</li>
-      </ul>
+      <div
+        v-if="isBDPartner"
+        class="information middle-section__bd"
+      >
+        <div class="middle-section__bd-text">
+          {{ $t('payments.includes') }}
+        </div>
+        <ul>
+          <li
+            class="light-text"
+          >
+            {{ $t('payments.bd_includes_1') }}
+          </li>
+          <li
+            class="light-text"
+          >
+            {{ $t('payments.bd_includes_2') }}
+          </li>
+          <li
+            class="light-text"
+          >
+            {{ $t('payments.bd_includes_3') }}
+          </li>
+        </ul>
+      </div>
+
+      <div
+        v-else-if="!isTecmilenioPartner"
+        class="middle-section__general"
+      >
+        <ul class="information">
+          <li class="light-text" v-if="!this.licenseCap || this.licenseCap < 10000">
+            <payment-license-min-max-text-component :min-licenses="this.minLicenses" :max-licenses="this.licenseCap" :max-value-to-show="10000" /> <span>can be purchased, <a href="#" @click="this.enableContactModal">Contact Us</a> to purchase more</span>
+          </li>
+          <li class="light-text">Licenses are active for {{this.licenseValidityPeriodInDays}} days from the day of purchase</li>
+          <li class="light-text">Teacher account licenses are free with purchase</li>
+        </ul>
+      </div>
     </div>
   </span>
 </template>
@@ -78,6 +110,10 @@ export default {
     isTecmilenioPartner: {
       type: Boolean,
       default: false
+    },
+    isBDPartner: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -111,6 +147,11 @@ export default {
 
   .per-student {
     font-weight: bold;
+  }
+
+  & &__bd {
+    padding-top: 5px;
+    padding-left: 30%;
   }
 }
 

@@ -4226,7 +4226,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     chap2_info: "Chapter 2: 30 class sessions"
     chap3_info: "Chapter 3: 25 class sessions"
     chap4_info: "Chapter 4: 20 class sessions"
-    includes: "Includes"
+    includes: "Includes:"
     show_plan_features: "Show Plan Features"
     purchase_annually: "Available for purchase one time annually."
     class_school_solution: "We'll help you build a solution that meets the needs of your class, school or district."
@@ -4234,6 +4234,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     discounts: "discounts"
     available: "available"
     request_quote: "Request a Quote"
+    business_partner_licenses: "Business Partner Licenses"
+    bd_subheading: "For Business Partners with at least 15 students, get premium access to CodeCombat’s computer science and coding games:"
+    bd_info_list_heading: "CodeCombat is the preferred partner for dozens of coding education businesses because:"
+    bd_info_list_1: "students love our game-based curriculum based in fantasy and adventure and keep coming back for more sessions"
+    bd_info_list_2: "anyone can teach coding with CodeCombat; the game is the primary teacher and we provide extensive support resources"
+    bd_info_list_3: "you will receive over 200 hours of curriculum, providing years of educational content for your business"
+    bd_includes_1: "Full access to CodeCombat and Ozaria with over 200 hours of premium game-based content"
+    bd_includes_2: "Teacher dashboard for record keeping and progress tracking "
+    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials"
+    bd_help: "For any help, contact"
 
   form_validation_errors:
     required: 'Field is required'

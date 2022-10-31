@@ -60,6 +60,7 @@
 <script>
 import { handleCheckoutSession } from '../paymentPriceHelper'
 import IconLoading from 'app/core/components/IconLoading'
+import priceHelperMixin from './price-helper-mixin'
 export default {
   name: "PaymentStudentLicensePurchaseView",
   components: {
@@ -71,8 +72,15 @@ export default {
     isTecmilenioPartner: {
       type: Boolean,
       default: false
+    },
+    isBDPartner: {
+      type: Boolean,
+      default: false
     }
   },
+  mixins: [
+    priceHelperMixin
+  ],
   data() {
     return {
       licenseNum: this.isTecmilenioPartner ? 1 : null,
@@ -94,25 +102,25 @@ export default {
     updateSelectedPrice(e) {
       this.selectedPrice = e.target.value;
     },
-    updateLicenseNum(e) {
+    validateLicenseNum () {
       this.errMsg = '';
-      const licenseNum = parseInt(e.target.value);
-      if (isNaN(licenseNum)) {
+      if (isNaN(this.licenseNum)) {
         this.errMsg = 'Invalid number';
-        return
+        return false
       }
+      const licenseNum = parseInt(this.licenseNum)
       const price = this.getSelectedPrice();
-      const licenseCap = price.metadata.licenseCap
-      if (licenseCap && licenseNum > licenseCap) {
-        this.errMsg = `Sorry, you cannot purchase more than ${licenseCap} licenses`;
-        return;
+      const licenseCap = this.getLicenseCap(price)
+      if (licenseCap && (licenseNum > licenseCap)) {
+        this.errMsg = `Sorry, you cannot purchase more than ${licenseCap} licenses`
+        return false
       }
-      const minLicenses = price.metadata.minLicenses;
-      if (minLicenses && licenseNum < minLicenses) {
+      const minLicenses = this.getMinLicenses(price)
+      if (minLicenses && (licenseNum < minLicenses)) {
         this.errMsg = `Sorry, you cannot purchase less than ${minLicenses} licenses`;
-        return;
+        return false
       }
-      this.licenseNum = licenseNum;
+      return true
     },
     getSelectedPrice() {
       return this.priceData.find((p) => p.id === this.selectedPrice)
@@ -148,6 +156,10 @@ export default {
           this.showLoading = false
           return false
         }
+      }
+      if (!this.validateLicenseNum()) {
+        this.showLoading = false
+        return false
       }
       return true
     }
