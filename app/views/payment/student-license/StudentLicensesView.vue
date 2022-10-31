@@ -45,6 +45,9 @@ import FooterComponent from './FooterComponent'
 import priceHelperMixin from './price-helper-mixin'
 export default {
   name: "PaymentStudentLicensesView",
+  mixins: [
+    priceHelperMixin
+  ],
   props: {
     priceData: {
       type: Array,
@@ -58,9 +61,6 @@ export default {
       type: Object
     }
   },
-  mixins: [
-    priceHelperMixin
-  ],
   data () {
     return {
       isPurchaseViewEnabled: false,

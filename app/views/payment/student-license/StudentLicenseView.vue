@@ -48,10 +48,13 @@
         class="middle-section__general"
       >
         <ul class="information">
-          <li class="light-text" v-if="!this.licenseCap || this.licenseCap < 10000">
-            <payment-license-min-max-text-component :min-licenses="this.minLicenses" :max-licenses="this.licenseCap" :max-value-to-show="10000" /> <span>can be purchased, <a href="#" @click="this.enableContactModal">Contact Us</a> to purchase more</span>
+          <li
+            v-if="!licenseCap || licenseCap < 10000"
+            class="light-text"
+          >
+            <payment-license-min-max-text-component :min-licenses="minLicenses" :max-licenses="licenseCap" :max-value-to-show="10000" /> <span>can be purchased, <a href="#" @click="enableContactModal">Contact Us</a> to purchase more</span>
           </li>
-          <li class="light-text">Licenses are active for {{this.licenseValidityPeriodInDays}} days from the day of purchase</li>
+          <li class="light-text">Licenses are active for {{ licenseValidityPeriodInDays }} days from the day of purchase</li>
           <li class="light-text">Teacher account licenses are free with purchase</li>
         </ul>
       </div>

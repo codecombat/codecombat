@@ -1,5 +1,7 @@
 <template>
-  <div class="footer-cmpt">
+  <div
+    class="footer-cmpt"
+  >
     <div
       v-if="isBDPartner"
       class="footer-cmpt-bd"

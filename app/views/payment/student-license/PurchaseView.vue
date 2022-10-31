@@ -66,6 +66,9 @@ export default {
   components: {
     IconLoading
   },
+  mixins: [
+    priceHelperMixin
+  ],
   props: {
     priceData: Array,
     paymentGroupId: String,
@@ -78,9 +81,6 @@ export default {
       default: false
     }
   },
-  mixins: [
-    priceHelperMixin
-  ],
   data() {
     return {
       licenseNum: this.isTecmilenioPartner ? 1 : null,

@@ -15,10 +15,10 @@
             v-else-if="isBDPartner"
             class="heading-row__txt"
           >
-            {{ $t(`payments.${this.i18nHeadingName}`) }}
+            {{ $t(`payments.${i18nHeadingName}`) }}
           </h1>
           <h1 v-else>
-            {{ title || $t(`payments.${this.i18nHeadingName}`)}}
+            {{ title || $t(`payments.${i18nHeadingName}`) }}
           </h1>
 
           <p class="dsh-info" v-if="isDshPartner">
@@ -32,7 +32,6 @@
               En la siguiente página, se le pedirá que ingrese el correo del estudiante de Tecmilenio. Ejemplo: al02962166@tecmilenio.mx. Asegúrese de que esta información sea correcta, ya que nos permite saber que el estudiante ha pagado por su licencia el estudiante.
             </p>
           </div>
-
           <h5 v-if="isTecmilenioPartner">
             La licencia del estudiante incluye:
           </h5>
@@ -45,7 +44,6 @@
           <h5 v-else>
             {{ subTitle || $t('payments.great_courses') }}
           </h5>
-
         </div>
         <div class="row info-row">
           <template v-if="isDshPartner">
@@ -88,7 +86,6 @@
             </ul>
           </div>
         </div>
-
       </div>
     </div>
   </div>
