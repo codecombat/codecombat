@@ -8,9 +8,22 @@
             src="/images/pages/payment/tecmilenio-logo.png" alt="Tecmilenio logo"
             class="tecmilenio-heading-img"
           >
-          <h1 v-if="!isTecmilenioPartner">{{ title || $t(`payments.${this.i18nHeadingName}`)}}</h1>
-          <h1 class="tecmilenio-heading-txt" v-else>Licencias de Estudiantes</h1>
-          <p class="dsh-info" v-if="isDshPartner"><b>Digital Schoolhouse</b> has partnered with CodeCombat to offer the entirety of the Ozaria story-based computer science adventure game (all 4 Chapters, and over 70 hours of comprehensive instruction) as well as our original game CodeCombat (11 courses spanning Computer Science, Game Development and Web Development) for the <b>discounted rate of $25 USD per annual license (normally $30 USD)</b>. Happy coding!</p>
+          <h1 class="tecmilenio-heading-txt" v-if="isTecmilenioPartner">
+            Licencias de Estudiantes
+          </h1>
+          <h1
+            v-else-if="isBDPartner"
+            class="heading-row__txt"
+          >
+            {{ $t(`payments.${i18nHeadingName}`) }}
+          </h1>
+          <h1 v-else>
+            {{ title || $t(`payments.${i18nHeadingName}`) }}
+          </h1>
+
+          <p class="dsh-info" v-if="isDshPartner">
+            <b>Digital Schoolhouse</b> has partnered with CodeCombat to offer the entirety of the Ozaria story-based computer science adventure game (all 4 Chapters, and over 70 hours of comprehensive instruction) as well as our original game CodeCombat (11 courses spanning Computer Science, Game Development and Web Development) for the <b>discounted rate of $25 USD per annual license (normally $30 USD)</b>. Happy coding!
+          </p>
           <div class="tecmilenio-info" v-else-if="isTecmilenioPartner">
             <p class="tecmilenio-info-txt">
               Tecmilenio se asoció con CodeCombat para ofrecer educación en programación en Python, basada en juegos, por el precio con descuento de $12.52 USD. Todos los estudiantes de Tecmilenio que reciban este enlace deberán comprar el software CodeCombat.
@@ -19,8 +32,18 @@
               En la siguiente página, se le pedirá que ingrese el correo del estudiante de Tecmilenio. Ejemplo: al02962166@tecmilenio.mx. Asegúrese de que esta información sea correcta, ya que nos permite saber que el estudiante ha pagado por su licencia el estudiante.
             </p>
           </div>
-          <h5 v-if="!isTecmilenioPartner">{{ subTitle || $t('payments.great_courses')}}</h5>
-          <h5 v-else>La licencia del estudiante incluye:</h5>
+          <h5 v-if="isTecmilenioPartner">
+            La licencia del estudiante incluye:
+          </h5>
+          <div
+            v-else-if="isBDPartner"
+            class="heading-row__subtext"
+          >
+            {{ $t('payments.bd_subheading') }}
+          </div>
+          <h5 v-else>
+            {{ subTitle || $t('payments.great_courses') }}
+          </h5>
         </div>
         <div class="row info-row">
           <template v-if="isDshPartner">
@@ -39,7 +62,29 @@
             <coco-head-info-component />
             <ozaria-head-info-component />
           </template>
-
+        </div>
+        <div class="more-info">
+          <div
+            v-if="isBDPartner"
+            class="more-info__txt"
+          >
+            <h3
+              class="more-info__txt-heading"
+            >
+              {{ $t('payments.bd_info_list_heading') }}
+            </h3>
+            <ul class="more-info__txt-list">
+              <li class="more-info__txt-list__item">
+                {{ $t('payments.bd_info_list_1') }}
+              </li>
+              <li class="more-info__txt-list__item">
+                {{ $t('payments.bd_info_list_2') }}
+              </li>
+              <li class="more-info__txt-list__item">
+                {{ $t('payments.bd_info_list_3') }}
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -64,6 +109,10 @@ export default {
       default: false
     },
     isTecmilenioPartner: {
+      type: Boolean,
+      default: false
+    },
+    isBDPartner: {
       type: Boolean,
       default: false
     }
@@ -118,6 +167,24 @@ export default {
 
   @media (max-width: $screen-md-min) {
     position: unset;
+  }
+}
+
+.more-info {
+  padding-top: 20px;
+
+  &__txt {
+    &-heading {
+      font-weight: bold;
+      font-size: 20px;
+      text-align: left;
+    }
+
+    &-list {
+      &__item {
+        text-align: left;
+      }
+    }
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <span>
     <template
-      v-if="minLicenses && maxLicenses"
+      v-if="minLicenses && maxLicenses && (maxLicenses < maxValueToShow)"
     >
       Between {{minLicenses}} - {{maxLicenses}} Licenses
     </template>
@@ -9,6 +9,11 @@
       v-else-if="maxLicenses && maxLicenses < maxValueToShow"
     >
       Up to {{maxLicenses}} Licenses
+    </template>
+    <template
+      v-else-if="minLicenses && (!maxLicenses || (maxLicenses > maxValueToShow))"
+    >
+      Minimum {{ minLicenses }} Licenses
     </template>
   </span>
 </template>
