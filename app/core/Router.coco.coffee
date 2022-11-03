@@ -309,6 +309,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/licenses/join': go('core/SingletonAppVueComponentView')
     'podcast': go('core/SingletonAppVueComponentView')
     'podcast/*path': go('core/SingletonAppVueComponentView')
+    'open-athens': go('core/SingletonAppVueComponentView')
 
     'libraries': go('core/SingletonAppVueComponentView')
     'library/*path': go('core/SingletonAppVueComponentView')

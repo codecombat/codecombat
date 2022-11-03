@@ -1,9 +1,12 @@
 <template>
   <div>
     <div class="library-login">
-      <div class="arapahoe" v-if="libraryId === 'arapahoe-13579'">
-        <div class="arapahoe__head">
-          <img src="/images/pages/play/arapahoe-logo.png" alt="Arapahoe logo" class="arapahoe__head-logo">
+      <div
+        v-if="libraryId === 'arapahoe-13579'"
+        class="arapahoe common"
+      >
+        <div class="common__head">
+          <img src="/images/pages/play/arapahoe-logo.png" alt="Arapahoe logo" class="common__head-logo">
         </div>
         <div
           v-if="alreadyInArapahoeLibrary"
@@ -16,7 +19,7 @@
             <a href="/play" class="arapahoe__existing-link">{{ $t('new_home.click_here') }}</a> {{ $t('library.not_redirect_auto') }}
           </div>
         </div>
-        <form @submit.prevent="onArapahoeLogin" v-if="!alreadyHaveProfileId && !alreadyInArapahoeLibrary">
+        <form @submit.prevent="onLibraryLogin" v-if="!alreadyHaveProfileId && !alreadyInArapahoeLibrary">
           <div class="arapahoe__body">
             <div class="arapahoe__body__library">
               <h2 class="arapahoe__body__library-text">
@@ -31,7 +34,7 @@
                 {{ $t('library.access_coco') }}
               </button>
             </div>
-            <div class="arapahoe__error" v-if="errMsg">
+            <div class="arapahoe__error error" v-if="errMsg">
               {{ errMsg }}
             </div>
           </div>
@@ -45,6 +48,41 @@
           </div>
         </div>
       </div>
+      <div
+        v-else-if="isHoustonLibrary"
+        class="houston common"
+      >
+        <div class="common__head">
+          <img src="/images/pages/play/houston-library-logo.png" alt="Houston logo" class="common__head-logo">
+        </div>
+        <div
+          v-show="!progressState"
+          id="wayfinder"
+        >
+          {{ $t('common.loading') }}
+        </div>
+        <div class="houston__login">
+          <button
+            v-if="!progressState"
+            class="btn btn-primary btn-lg"
+            @click="redirectToOpenAthens"
+          >
+            Sign Up / Login
+          </button>
+        </div>
+        <div
+          v-if="progressState"
+          class="houston__progress"
+        >
+          {{ progressState }}
+        </div>
+        <div
+          v-else-if="errMsg"
+          class="houston__error error"
+        >
+          {{ errMsg }}
+        </div>
+      </div>
       <div class="unknown" v-else>
         {{ $t('not_found.page_not_found') }}
       </div>
@@ -53,9 +91,10 @@
 </template>
 
 <script>
+import { libraryName } from '../../lib/user-utils'
+import { getUserInfo } from '../../core/api/open-athens'
 const usersLib = require('../../core/api/users')
 const globalVar = require('core/globalVar')
-import { libraryName } from '../../lib/user-utils'
 export default {
   name: 'LibraryLoginView',
   data () {
@@ -63,25 +102,38 @@ export default {
       libraryProfileId: null,
       errMsg: null,
       alreadyHaveProfileId: false,
-      alreadyInArapahoeLibrary: false
+      alreadyInArapahoeLibrary: false,
+      progressState: null
     }
   },
   props: {
     libraryId: {
       type: String,
       required: true
+    },
+    code: {
+      type: String, // houston library response contains code
+      default: null
     }
   },
-  created () {
+  mounted () {
     if (me.get('library')?.profileId) {
       this.libraryProfileId = me.get('library').profileId
     }
     this.alreadyHaveProfileId = me.get('library')?.profileId
     this.alreadyInArapahoeLibrary = libraryName() === 'arapahoe'
+    if (this.isHoustonLibrary) {
+      this.handleHoustonLibrary()
+    }
     // adding a check after x seconds so that if provision-subscription request is not over by created, we get to check again
     setTimeout(() => {
       this.alreadyInArapahoeLibrary = libraryName() === 'arapahoe'
     }, 10000)
+  },
+  computed: {
+    isHoustonLibrary () {
+      return this.libraryId === 'houston'
+    }
   },
   watch: {
     alreadyInArapahoeLibrary (newVal, oldVal) {
@@ -92,20 +144,65 @@ export default {
     }
   },
   methods: {
-    async onArapahoeLogin () {
+    async onLibraryLogin () {
       this.errMsg = null
       try {
-        await usersLib.loginArapahoe({ libraryProfileId: this.libraryProfileId })
-        await me.fetch({ cache: false })
-        window.location = '/play'
+        const loginFunc = this.isHoustonLibrary ? usersLib.loginHouston : usersLib.loginArapahoe
+        await loginFunc({ libraryProfileId: this.libraryProfileId })
+        await this.postLogin()
       } catch (err) {
         console.log('error resp', err)
         this.errMsg = err.message
+        this.progressState = null
       }
     },
     async loginAgain () {
       globalVar.currentView.logoutRedirectURL = null
       await me.logout()
+    },
+    async postLogin () {
+      await me.fetch({ cache: false })
+      window.location = '/play'
+    },
+    async handleHoustonLibrary () {
+      if (this.code) {
+        this.progressState = 'Fetching user info...'
+        try {
+          const resp = await getUserInfo({
+            code: this.code,
+            state: this.state
+          })
+          const { eduPersonUniqueId } = resp.data
+          this.libraryProfileId = eduPersonUniqueId
+        } catch (err) {
+          this.errMsg = 'Failed to retrieve user info'
+          this.progressState = null
+          this.loadWayFinder()
+          return
+        }
+        this.progressState = 'Trying to login...'
+        await this.onLibraryLogin()
+      } else {
+        this.loadWayFinder()
+      }
+    },
+    loadWayFinder () {
+      /* eslint-disable */
+      (function(w,a,y,f){
+          w._wayfinder=w._wayfinder||function(){(w._wayfinder.q=w._wayfinder.q||[]).push(arguments)};
+          const p={oaDomain:'codecombat.com',oaAppId:'6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6'};
+          w._wayfinder.settings=p;const h=a.getElementsByTagName('head')[0];const s=a.createElement('script');s.async=1;
+          const q=Object.keys(p).map(function(key){return key+'='+p[key]}).join('&');
+          s.src=y+'v1'+f+"?"+q;h.appendChild(s);}
+      )(window,document,'https://wayfinder.openathens.net/embed/','/loader.js')
+    },
+    redirectToOpenAthens () {
+      // change clientId before prod
+      const clientId = globalVar.application.isProduction() ? 'codecombat.com.oidc-app-v1.6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6' : 'codecombat.com.oidc-app-v1.6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6'
+      const scope = 'openid'
+      const responseType = 'code'
+      const redirectUri = encodeURIComponent(`${window.location.origin}/library/houston/login`)
+      window.location = `https://connect.openathens.net/oidc/auth?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}`
     }
   }
 }
@@ -115,9 +212,8 @@ export default {
 .library-login {
   font-size: 62.5%;
 }
-.arapahoe {
+.common {
   text-align: center;
-  background-color: #f4f2f2;
   margin-left: 25%;
   margin-right: 25%;
   padding: 5rem 3rem;
@@ -129,6 +225,9 @@ export default {
       width: 20rem;
     }
   }
+}
+.arapahoe {
+  background-color: #f4f2f2;
 
   &__body {
 
@@ -153,13 +252,6 @@ export default {
     }
   }
 
-  &__error {
-    color: #ff0000;
-    text-align: center;
-    font-size: 2rem;
-    margin-top: 1rem;
-  }
-
   &__msg {
     font-size: 1.8rem;
     padding: 2rem;
@@ -170,8 +262,27 @@ export default {
   }
 }
 
+.houston {
+  background-color: #f4f2f2;
+
+  &__progress {
+    font-size: 1.8rem;
+  }
+
+  &__login {
+    padding-top: 5px;
+  }
+}
+
 .unknown {
   text-align: center;
   font-size: 2rem;
+}
+
+.error {
+  color: #ff0000;
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 1rem;
 }
 </style>

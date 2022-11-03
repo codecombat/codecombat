@@ -109,6 +109,12 @@ module.exports = {
       json: attrs
     }))
 
+  loginHouston: (attrs, options={}) ->
+    fetchJson("/auth/login-houston", _.assign({}, options, {
+      method: 'POST'
+      json: attrs
+    }))
+
   putUserProducts: (json, options={}) ->
     fetchJson('/db/user/products', _.assign({}, options, {
       method: 'PUT',

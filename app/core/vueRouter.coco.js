@@ -147,6 +147,12 @@ export default function getVueRouter () {
           name: 'UserSwitchAccountConfirmation',
           component: () => import(/* webpackChunkName: "userSwitchAccountConfirm" */'/app/views/user/SwitchAccountConfirmationView'),
           props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/open-athens',
+          name: 'OpenAthensHome',
+          component: () => import(/* webpackChunkName: "openAthensHome" */'/app/views/partners/open-athens/HomeView'),
+          props: (route) => ({ ...route.query, ...route.params })
         }
       ],
       scrollBehavior(to) {
