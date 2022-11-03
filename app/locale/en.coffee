@@ -4235,7 +4235,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     available: "available"
     request_quote: "Request a Quote"
     business_partner_licenses: "Business Partner Licenses"
-    bd_subheading: "For Business Partners with at least 15 students, get premium access to CodeCombat’s computer science and coding games:"
+    bd_subheading: "For Business Partners with at least 10 students, get premium access to CodeCombat’s computer science and coding games:"
     bd_info_list_heading: "CodeCombat is the preferred partner for dozens of coding education businesses because:"
     bd_info_list_1: "students love our game-based curriculum based in fantasy and adventure and keep coming back for more sessions"
     bd_info_list_2: "anyone can teach coding with CodeCombat; the game is the primary teacher and we provide extensive support resources"
