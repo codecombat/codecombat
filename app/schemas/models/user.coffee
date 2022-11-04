@@ -426,10 +426,11 @@ _.extend UserSchema.properties,
       # ensure we can add additionalProperties
       product: { type: 'string', enum: ['course', 'basic_subscription', 'pd', 'esports', 'online-classes'], decription: 'The "name" field for the product purchased' }  # And/or the ID of the Product in the database, if we make a Product for each thing we can buy?
 
-      prepaid: c.objectId(links: [ {rel: 'db', href: '/db/prepaid/{($)}'} ])  # required for type: “course” for legacy compatibility, optional for other types
+      prepaid: c.objectId(links: [ {rel: 'db', href: '/db/prepaid/{($)}'} ])  # required for type: “course” for legacy compatibility, optional for other types, consider putting into productOptions
       productOptions:
         oneOf: [
-          includedCourseIDs: {type: ['array', 'null']}
+          { includedCourseIDs: {type: ['array', 'null']} }, # for course
+          { event: c.objectId(links: [ {rel: 'db', href: '/db/event/{($)}'} ]) } # for online-classes
         ]
       startDate: c.date()
       endDate: c.date()  # TODO: optional indication of no end date (lasts forever) - or do we just leave unset?
