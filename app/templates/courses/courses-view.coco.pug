@@ -160,7 +160,7 @@ block content
                 span(data-i18n="courses.ask_next_course")
 
             for classroom in view.classrooms.models
-              if ['6348d1da014b470019692207', '6348d1cabb58f0001fd92dd5'].indexOf(classroom.get('_id').toString()) != -1
+              if ['6364da14f6a51300206e4206', '6364da0ba9abf5003ac898ce', '6364d9fd8fb83a0032f3d8f0'].indexOf(classroom.get('_id').toString()) != -1
                 - continue
               hr.class-break
               - var justAdded = classroom.id === view.classroomJustAdded;
