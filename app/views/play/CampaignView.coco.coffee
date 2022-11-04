@@ -1568,6 +1568,9 @@ module.exports = class CampaignView extends RootView
     if what is 'arapahoe-logo'
       return userUtils.libraryName() is 'arapahoe'
 
+    if what is 'houston-logo'
+      return userUtils.libraryName() is 'houston'
+
     if what is 'league-arena'
       # Note: Currently the tooltips don't work in the campaignView overworld.
       return not me.isAnonymous() and @campaign?.get('slug') and not @editorMode
