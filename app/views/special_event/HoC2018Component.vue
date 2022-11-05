@@ -31,17 +31,27 @@
         .row
           h1.page-heading(data-i18n="hoc_2018.page_heading_goblins")
         .row.get-started
+          if !isTeacher
+            .col-md-3
           .col-md-6
             img.activity-tile(src='/images/pages/teachers/hour-of-code/goblins_n_glory.jpeg' alt="")
-          .col-md-6
-            .glyphicon.glyphicon-download-alt.download-icon
+          if isTeacher
+            .col-md-6
+              .glyphicon.glyphicon-download-alt.download-icon
+          else
+            .col-md-3
 
         .row.get-started
+          if !isTeacher
+            .col-md-3
           .col-md-6
             a.btn.btn-primary.btn-lg(href="/play/goblins-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
-          .col-md-6
-            a.btn.btn-primary.btn-lg(href="/teachers/resources/hoc-goblins" target="_blank" data-i18n="hoc_2018.download_pdf")
-            a.btn.btn-primary.btn-lg(v-if="isTeacher" href="/teachers/campaign-solution/goblins-hoc/python" target="_blank" data-i18n="courses.view_guide_online")
+          if isTeacher
+            .col-md-6
+              //a.btn.btn-primary.btn-lg(href="/teachers/resources/hoc-goblins" target="_blank" data-i18n="hoc_2018.download_pdf")  // TODO: write this
+              a.btn.btn-primary.btn-lg(v-if="isTeacher" href="/teachers/campaign-solution/goblins-hoc/python" target="_blank" data-i18n="courses.view_guide_online")
+          else
+            .col-md-3
 
       else
         .row
