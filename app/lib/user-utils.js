@@ -38,9 +38,16 @@ function libraryNameKey () {
   return `library-name-${me.get('_id')}`
 }
 
+function removeLibraryKeys () {
+  localStorage.remove(hideEmailLibraryKey())
+  localStorage.remove(libraryNameKey())
+  localStorage.remove(libraryNetworkLSKey())
+}
+
 module.exports = {
   provisionPremium,
   isInLibraryNetwork,
   shouldHideEmail,
-  libraryName
+  libraryName,
+  removeLibraryKeys
 }

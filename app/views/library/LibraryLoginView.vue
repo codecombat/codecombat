@@ -19,7 +19,7 @@
             <a href="/play" class="arapahoe__existing-link">{{ $t('new_home.click_here') }}</a> {{ $t('library.not_redirect_auto') }}
           </div>
         </div>
-        <form @submit.prevent="onLibraryLogin" v-if="!alreadyHaveProfileId && !alreadyInArapahoeLibrary">
+        <form @submit.prevent="() => onLibraryLogin({ libraryName: 'arapahoe' })" v-if="!alreadyHaveProfileId && !alreadyInArapahoeLibrary">
           <div class="arapahoe__body">
             <div class="arapahoe__body__library">
               <h2 class="arapahoe__body__library-text">
@@ -49,26 +49,45 @@
         </div>
       </div>
       <div
-        v-else-if="isHoustonLibrary"
+        v-else-if="isOpenAthens || isHoustonLibrary"
         class="houston common"
       >
-        <div class="common__head">
+        <div
+          v-if="isHoustonLibrary"
+          class="common__head"
+        >
           <img src="/images/pages/play/houston-library-logo.png" alt="Houston logo" class="common__head-logo">
         </div>
         <div
-          v-show="!progressState"
+          v-show="!progressState && !alreadyLoggedIn"
           id="wayfinder"
         >
           {{ $t('common.loading') }}
         </div>
-        <div class="houston__login">
-          <button
+        <div
+          class="houston__login"
+          v-if="!alreadyLoggedIn"
+        >
+          <p
             v-if="!progressState"
-            class="btn btn-primary btn-lg"
-            @click="redirectToOpenAthens"
+            class="houston__login__option"
           >
-            Sign Up / Login
-          </button>
+            {{ $t('library.search_box_option') }}
+            <a
+              @click.prevent="redirectToOpenAthens"
+              href="#"
+              class="houston__login__option-link"
+            >
+              {{ $t('general.here') }}
+            </a>
+            {{ $t('code.or') }} <a href="mailto:support@codecombat.com">{{ $t('contact.contact_us') }} </a>
+          </p>
+        </div>
+        <div
+          v-else
+          class="houston__already"
+        >
+          {{ $t('library.already_logged_in') }}
         </div>
         <div
           v-if="progressState"
@@ -103,7 +122,8 @@ export default {
       errMsg: null,
       alreadyHaveProfileId: false,
       alreadyInArapahoeLibrary: false,
-      progressState: null
+      progressState: null,
+      alreadyLoggedIn: false
     }
   },
   props: {
@@ -114,15 +134,18 @@ export default {
     code: {
       type: String, // houston library response contains code
       default: null
+    },
+    libName: {
+      type: String,
+      default: null
     }
   },
   mounted () {
-    if (me.get('library')?.profileId) {
-      this.libraryProfileId = me.get('library').profileId
-    }
-    this.alreadyHaveProfileId = me.get('library')?.profileId
+    this.libraryProfileId = me.get('library')?.profileId
+    this.alreadyHaveProfileId = !!me.get('library')?.profileId
     this.alreadyInArapahoeLibrary = libraryName() === 'arapahoe'
-    if (this.isHoustonLibrary) {
+    this.alreadyLoggedIn = !me.isAnonymous()
+    if (this.isHoustonLibrary || this.isOpenAthens) {
       this.handleHoustonLibrary()
     }
     // adding a check after x seconds so that if provision-subscription request is not over by created, we get to check again
@@ -132,7 +155,10 @@ export default {
   },
   computed: {
     isHoustonLibrary () {
-      return this.libraryId === 'houston'
+      return this.libName === 'houston'
+    },
+    isOpenAthens () {
+      return this.libraryId === 'open-athens'
     }
   },
   watch: {
@@ -144,11 +170,11 @@ export default {
     }
   },
   methods: {
-    async onLibraryLogin () {
+    async onLibraryLogin ({ libraryName }) {
       this.errMsg = null
       try {
-        const loginFunc = this.isHoustonLibrary ? usersLib.loginHouston : usersLib.loginArapahoe
-        await loginFunc({ libraryProfileId: this.libraryProfileId })
+        const loginFunc = (this.isHoustonLibrary || this.isOpenAthens) ? usersLib.loginHouston : usersLib.loginArapahoe
+        await loginFunc({ libraryProfileId: this.libraryProfileId, libraryName })
         await this.postLogin()
       } catch (err) {
         console.log('error resp', err)
@@ -165,15 +191,20 @@ export default {
       window.location = '/play'
     },
     async handleHoustonLibrary () {
+      if (this.alreadyLoggedIn) {
+        return
+      }
       if (this.code) {
         this.progressState = 'Fetching user info...'
+        let libraryNameDetected
         try {
           const resp = await getUserInfo({
             code: this.code,
             state: this.state
           })
-          const { eduPersonUniqueId } = resp.data
+          const { eduPersonUniqueId, eduPersonScopedAffiliation } = resp.data
           this.libraryProfileId = eduPersonUniqueId
+          libraryNameDetected = this.guessOpenAthensLibraryName(eduPersonScopedAffiliation)
         } catch (err) {
           this.errMsg = 'Failed to retrieve user info'
           this.progressState = null
@@ -181,7 +212,7 @@ export default {
           return
         }
         this.progressState = 'Trying to login...'
-        await this.onLibraryLogin()
+        await this.onLibraryLogin({ libraryName: libraryNameDetected })
       } else {
         this.loadWayFinder()
       }
@@ -201,8 +232,15 @@ export default {
       const clientId = globalVar.application.isProduction() ? 'codecombat.com.oidc-app-v1.6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6' : 'codecombat.com.oidc-app-v1.6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6'
       const scope = 'openid'
       const responseType = 'code'
-      const redirectUri = encodeURIComponent(`${window.location.origin}/library/houston/login`)
+      const redirectUri = encodeURIComponent(`${window.location.origin}/library/${this.libraryId}/login`)
       window.location = `https://connect.openathens.net/oidc/auth?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}`
+    },
+    guessOpenAthensLibraryName (eduPersonScopedAffiliation) {
+      if (eduPersonScopedAffiliation.includes('@codecombat.com'))
+        return 'codecombat'
+      else if (eduPersonScopedAffiliation.includes('houston'))
+        return 'houston'
+      return `open-athens|${eduPersonScopedAffiliation}`
     }
   }
 }
@@ -270,7 +308,15 @@ export default {
   }
 
   &__login {
-    padding-top: 5px;
+    padding-top: 1rem;
+
+    &__option {
+      font-size: 1.5rem;
+    }
+  }
+
+  &__already {
+    font-size: 1.5rem;
   }
 }
 
