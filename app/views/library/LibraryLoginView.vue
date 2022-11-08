@@ -49,7 +49,7 @@
           <img src="/images/pages/play/houston-library-logo.png" alt="Houston logo" class="common__head-logo">
         </div>
         <div
-          v-show="!progressState && !alreadyLoggedIn"
+          v-show="!progressState && !alreadyLoggedIn && showWayFinder"
           id="wayfinder"
         >
           {{ $t('common.loading') }}
@@ -144,6 +144,9 @@ export default {
     },
     isArapahoe () {
       return this.libraryId === 'arapahoe-13579'
+    },
+    showWayFinder () {
+      return this.libName === 'way-finder'
     }
   },
   methods: {
@@ -202,7 +205,7 @@ export default {
           w._wayfinder.settings=p;const h=a.getElementsByTagName('head')[0];const s=a.createElement('script');s.async=1;
           const q=Object.keys(p).map(function(key){return key+'='+p[key]}).join('&');
           s.src=y+'v1'+f+"?"+q;h.appendChild(s);}
-      )(window,document,'https://wayfinder.openathens.net/embed/','/loader.js')
+      )(window,document,'https://wayfinder.openathens.net/embed/','/loader.js');
     },
     redirectToOpenAthens () {
       // change clientId before prod
@@ -213,8 +216,10 @@ export default {
       window.location = `https://connect.openathens.net/oidc/auth?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}`
     },
     guessOpenAthensLibraryName (eduPersonScopedAffiliation) {
-      if (eduPersonScopedAffiliation.includes('@codecombat.com'))
+      if (eduPersonScopedAffiliation.includes('codecombat.com'))
         return 'codecombat'
+      else if (eduPersonScopedAffiliation.includes('sd.openathens.net'))
+        return 'sd.openathens.net'
       else if (eduPersonScopedAffiliation.includes('houston'))
         return 'houston'
       return `open-athens|${eduPersonScopedAffiliation}`
