@@ -2,24 +2,16 @@
   <div>
     <div class="library-login">
       <div
-        v-if="libraryId === 'arapahoe-13579'"
+        v-if="isArapahoe"
         class="arapahoe common"
       >
         <div class="common__head">
           <img src="/images/pages/play/arapahoe-logo.png" alt="Arapahoe logo" class="common__head-logo">
         </div>
-        <div
-          v-if="alreadyInArapahoeLibrary"
-          class="already-library arapahoe__msg"
+        <form
+          v-if="!alreadyLoggedIn"
+          @submit.prevent="() => onLibraryLogin({ libraryName: 'arapahoe' })"
         >
-          <div class="arapahoe__msg-text">
-            {{ $t('library.network_detected') }}
-          </div>
-          <div class="arapahoe__msg-subtext">
-            <a href="/play" class="arapahoe__existing-link">{{ $t('new_home.click_here') }}</a> {{ $t('library.not_redirect_auto') }}
-          </div>
-        </div>
-        <form @submit.prevent="() => onLibraryLogin({ libraryName: 'arapahoe' })" v-if="!alreadyHaveProfileId && !alreadyInArapahoeLibrary">
           <div class="arapahoe__body">
             <div class="arapahoe__body__library">
               <h2 class="arapahoe__body__library-text">
@@ -39,13 +31,11 @@
             </div>
           </div>
         </form>
-        <div class="arapahoe__existing arapahoe__msg" v-if="alreadyHaveProfileId">
-          <div class="arapahoe__msg-text">
-            {{ $t('library.already_using_library_id') }} <b>{{ libraryProfileId }}</b>, <a href="/play" class="arapahoe__existing-link">{{ $t('new_home.click_here') }}</a> {{ $t('library.play_coco') }}
-          </div>
-          <div class="arapahoe__msg-subtext">
-            {{ $t('library.not_library_id') }}, <a href="#" class="arapahoe__new_link" @click.prevent="loginAgain">{{ $t('new_home.click_here') }}</a> {{ $t('library.access_using_id') }}
-          </div>
+        <div
+          v-else
+          class="common__already"
+        >
+          {{ $t('library.already_logged_in') }}
         </div>
       </div>
       <div
@@ -85,7 +75,7 @@
         </div>
         <div
           v-else
-          class="houston__already"
+          class="common__already"
         >
           {{ $t('library.already_logged_in') }}
         </div>
@@ -120,8 +110,6 @@ export default {
     return {
       libraryProfileId: null,
       errMsg: null,
-      alreadyHaveProfileId: false,
-      alreadyInArapahoeLibrary: false,
       progressState: null,
       alreadyLoggedIn: false
     }
@@ -142,31 +130,20 @@ export default {
   },
   mounted () {
     this.libraryProfileId = me.get('library')?.profileId
-    this.alreadyHaveProfileId = !!me.get('library')?.profileId
-    this.alreadyInArapahoeLibrary = libraryName() === 'arapahoe'
     this.alreadyLoggedIn = !me.isAnonymous()
     if (this.isHoustonLibrary || this.isOpenAthens) {
       this.handleHoustonLibrary()
     }
-    // adding a check after x seconds so that if provision-subscription request is not over by created, we get to check again
-    setTimeout(() => {
-      this.alreadyInArapahoeLibrary = libraryName() === 'arapahoe'
-    }, 10000)
   },
   computed: {
     isHoustonLibrary () {
-      return this.libName === 'houston'
+      return this.isOpenAthens && this.libName === 'houston'
     },
     isOpenAthens () {
       return this.libraryId === 'open-athens'
-    }
-  },
-  watch: {
-    alreadyInArapahoeLibrary (newVal, oldVal) {
-      if (newVal)
-        setTimeout(() => {
-          window.location = '/play'
-        }, 2000)
+    },
+    isArapahoe () {
+      return this.libraryId === 'arapahoe-13579'
     }
   },
   methods: {
@@ -263,6 +240,10 @@ export default {
       width: 20rem;
     }
   }
+
+  &__already {
+    font-size: 1.5rem;
+  }
 }
 .arapahoe {
   background-color: #f4f2f2;
@@ -313,10 +294,6 @@ export default {
     &__option {
       font-size: 1.5rem;
     }
-  }
-
-  &__already {
-    font-size: 1.5rem;
   }
 }
 
