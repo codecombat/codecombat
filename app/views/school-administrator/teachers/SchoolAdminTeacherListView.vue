@@ -76,6 +76,9 @@ import { mapActions, mapGetters, mapState } from 'vuex'
             });
           }
           return groupNameTeacherArr;
+        },
+        me () {
+          return me
         }
       }
     ),
@@ -179,6 +182,9 @@ import { mapActions, mapGetters, mapState } from 'vuex'
 
 <template>
   <div>
+    <h3 style="text-align: right"  v-if="me.get('_id').toString() === '63034d47767a600023e3b879'">
+      <a :href="'/school-administrator/licenses/stats'"> {{ $t('teacher.license_stats') }}</a>
+    </h3>
     <h3>
       <span>{{ $t('school_administrator.my_teachers') }}</span>
       <a class="pull-right" :href="'/outcomes-report/school-admin/' + myId" target="_blank"> {{ $t('outcomes.view_outcomes_report') }}</a>
