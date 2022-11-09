@@ -216,13 +216,16 @@ export default {
       window.location = `https://connect.openathens.net/oidc/auth?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}`
     },
     guessOpenAthensLibraryName (eduPersonScopedAffiliation) {
-      if (eduPersonScopedAffiliation.includes('codecombat.com'))
+      let affiliation = eduPersonScopedAffiliation
+      if (Array.isArray(eduPersonScopedAffiliation))
+        affiliation = eduPersonScopedAffiliation.join('-')
+      if (affiliation.includes('codecombat.com'))
         return 'codecombat'
-      else if (eduPersonScopedAffiliation.includes('sd.openathens.net'))
+      else if (affiliation.includes('sd.openathens.net'))
         return 'sd.openathens.net'
-      else if (eduPersonScopedAffiliation.includes('houston'))
+      else if (affiliation.includes('houston'))
         return 'houston'
-      return `open-athens|${eduPersonScopedAffiliation}`
+      return `open-athens|${affiliation}`
     }
   }
 }
