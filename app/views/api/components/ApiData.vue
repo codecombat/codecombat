@@ -13,7 +13,7 @@
           th.number.border Users with active licenses
           th.number.border Lines of Code
           th.number.border Programs wrote
-          th.number.border Times spent (in min)
+          th.number.border Time spent (in min)
         tr(v-for="(stats, row) in licenseDaysByMonth" :class="{odd: row % 2 == 1, even: row % 2 == 0, sum: stats.month == 'Total'}")
           td.month.border {{stats.month}}
           td.number.border {{stats.licenseDaysUsed.toLocaleString()}}
