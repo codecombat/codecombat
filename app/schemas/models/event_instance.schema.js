@@ -14,7 +14,8 @@ const EventInstanceSchema = schema.object(
     }, schema.objectId()),
     startDate: schema.stringDate({ description: 'the start time of event instance' }),
     endDate: schema.stringDate({ description: 'the (first) end time of event' }),
-    done: { type: 'boolean' }
+    done: { type: 'boolean' },
+    index: { type: 'number', description: 'the instance index of recurring events' }
   }
 )
 

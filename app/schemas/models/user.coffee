@@ -430,7 +430,7 @@ _.extend UserSchema.properties,
       productOptions:
         oneOf: [
           { includedCourseIDs: {type: ['array', 'null']} }, # for course
-          { event: c.objectId(links: [ {rel: 'db', href: '/db/event/{($)}'} ]) } # for online-classes
+          { event: c.objectId(links: [ {rel: 'db', href: '/db/event/{($)}'} ]), count: {type:' number'} } # for online-classes
         ]
       startDate: c.date()
       endDate: c.date()  # TODO: optional indication of no end date (lasts forever) - or do we just leave unset?
