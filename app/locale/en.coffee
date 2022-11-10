@@ -4343,6 +4343,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     time_spent_min: "Time spent (in min)"
     month: "Month"
     teacher_classroom_name: "Teacher or classroom name"
+    already_logged_in: "Already logged in, please logout from the top navigation bar to login again."
+    search_box_option: "If search box doesn't load, login by clicking"
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."

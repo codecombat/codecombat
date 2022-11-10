@@ -49,7 +49,7 @@ module.exports = Vue.extend({
   props: ['viewport'],
   data () {
     return {
-      tab: 'byStudent'
+      tab: 'byMonth'
     }
   },
   computed: {
@@ -154,6 +154,11 @@ module.exports = Vue.extend({
   },
   created () {
     this.myId = me.get('_id')
+    const geccId = '61e7e20658f1020024bd8cf7'
+    if (this.myId.toString() === geccId) {
+      this.tab = 'byStudent'
+    }
+
     this.fetchClientId()
     // current play time for apiclient is the total time of all students so i think
     // we doesn't need it now
