@@ -543,6 +543,7 @@ module.exports = class User extends CocoModel
 
   clearUserSpecificLocalStorage: ->
     storage.remove key for key in ['hoc-campaign']
+    userUtils.removeLibraryKeys()
 
   signupWithPassword: (name, email, password, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-password'

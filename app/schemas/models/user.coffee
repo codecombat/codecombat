@@ -461,7 +461,8 @@ _.extend UserSchema.properties,
       }
   }
   library: c.object {}, {
-    profileId: { type: 'string' }
+    profileId: { type: 'string' },
+    name: { type: 'string', description: 'name of library for the user' }
   }
   related: c.array(
     { description: 'related accounts to this user' },
