@@ -5,15 +5,15 @@
       .tab(@click="tab = 'byMonth'" :class="{active: tab === 'byMonth'}") By Time
       .tab(@click="tab = 'byStudent'" :class="{active: tab === 'byStudent'}") By Student
     template(v-if="tab === 'byMonth'")
-      h2(v-if="licenseDaysByMonth && viewport == 'full'") License Days by Month
-      table.table.table-condensed(v-if="!licenseStatsLoading && viewport == 'full'")
+      h2(v-if="licenseDaysByMonth && viewport === 'full'") License Days by Month
+      table.table.table-condensed(v-if="!licenseStatsLoading && viewport === 'full'")
         tr(class="odd")
-          th.month.border Month
-          th.number.border License days used
-          th.number.border Users with active licenses
-          th.number.border Lines of Code
-          th.number.border Programs wrote
-          th.number.border Time spent (in min)
+          th.month.border {{ $t('library.month') }}
+          th.number.border {{ $t('library.license_days_used') }}
+          th.number.border {{ $t('library.users_active_licenses') }}
+          th.number.border {{ $t('library.lines_code') }}
+          th.number.border {{ $t('library.programs_written') }}
+          th.number.border {{ $t('library.time_spent_min') }}
         tr(v-for="(stats, row) in licenseDaysByMonth" :class="{odd: row % 2 == 1, even: row % 2 == 0, sum: stats.month == 'Total'}")
           td.month.border {{stats.month}}
           td.number.border {{stats.licenseDaysUsed.toLocaleString()}}
@@ -25,10 +25,10 @@
       h2(v-if="licenseDaysByMonthAndTeacher && viewport=='full'") License Days by Month and Teacher/Classroom
       table.table.table-condensed(v-if="licenseDaysByMonthAndTeacher")
         tr(class="odd")
-          th.month.border Month
-          th.name.border Teacher or classroom name
-          th.number.border License days used
-          th.number.border Users with active licenses
+          th.month.border {{ $t('library.month') }}
+          th.name.border {{ $t('library.teacher_classroom_name') }}
+          th.number.border {{ $t('library.license_days_used') }}
+          th.number.border {{ $t('library.users_active_licenses') }}
         tr(v-for="(stats, row) in licenseDaysByMonthAndTeacher" :class="{odd: row % 2 == 1, even: row % 2 == 0, sum: stats.teacher == 'Total'}")
           td.month.border {{stats.month}}
           td.name.border {{stats.teacher}}
