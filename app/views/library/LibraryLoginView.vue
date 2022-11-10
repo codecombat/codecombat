@@ -111,7 +111,6 @@
 
 <script>
 import { libraryName } from '../../lib/user-utils'
-import { getUserInfo } from '../../core/api/open-athens'
 const usersLib = require('../../core/api/users')
 const globalVar = require('core/globalVar')
 export default {
@@ -150,7 +149,7 @@ export default {
       return this.isOpenAthens && this.libName === 'houston'
     },
     isOpenAthens () {
-      return this.libraryId === 'open-athens'
+      return this.libraryId === 'open-athens' || this.libraryId === 'open-athens-redirect'
     },
     isArapahoe () {
       return this.libraryId === 'arapahoe-13579'
@@ -163,11 +162,10 @@ export default {
     async onLibraryLogin ({ libraryName }) {
       this.errMsg = null
       try {
-        const loginFunc = (this.isHoustonLibrary || this.isOpenAthens) ? usersLib.loginHouston : usersLib.loginArapahoe
-        await loginFunc({ libraryProfileId: this.libraryProfileId, libraryName })
+        await usersLib.loginArapahoe({ libraryProfileId: this.libraryProfileId, libraryName })
         await this.postLogin()
       } catch (err) {
-        console.log('error resp', err)
+        console.error('error resp', err)
         this.errMsg = err.message
         this.progressState = null
       }
@@ -184,27 +182,21 @@ export default {
       if (this.alreadyLoggedIn) {
         return
       }
+      this.loadWayFinder()
       if (this.code) {
         this.progressState = 'Fetching user info...'
-        let libraryNameDetected
-        try {
-          const resp = await getUserInfo({
-            code: this.code,
-            state: this.state
-          })
-          const { eduPersonUniqueId, eduPersonScopedAffiliation } = resp.data
-          this.libraryProfileId = eduPersonUniqueId
-          libraryNameDetected = this.guessOpenAthensLibraryName(eduPersonScopedAffiliation)
-        } catch (err) {
-          this.errMsg = 'Failed to retrieve user info'
-          this.progressState = null
-          this.loadWayFinder()
-          return
-        }
+        this.errMsg = null
+        await usersLib.loginHouston({ code: this.code })
         this.progressState = 'Trying to login...'
-        await this.onLibraryLogin({ libraryName: libraryNameDetected })
-      } else {
-        this.loadWayFinder()
+        await this.postLogin()
+        try {
+          await usersLib.loginHouston({ code: this.code })
+          await this.postLogin()
+        } catch (err) {
+          console.error('handleOA err', err)
+          this.errMsg = err?.message || 'Failed to retrieve user info'
+          this.progressState = null
+        }
       }
     },
     loadWayFinder () {
@@ -218,26 +210,12 @@ export default {
       )(window,document,'https://wayfinder.openathens.net/embed/','/loader.js');
     },
     redirectToOpenAthens () {
-      // change clientId before prod
-      const clientId = globalVar.application.isProduction() ? 'codecombat.com.oidc-app-v1.6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6' : 'codecombat.com.oidc-app-v1.6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6'
+      const clientId = globalVar.application.isProduction() ? 'codecombat.com.oidc-app-v1.705681f4-8cce-48aa-a022-a7a3c65f23c9' : 'codecombat.com.oidc-app-v1.6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6'
       const scope = 'openid'
       const responseType = 'code'
-      const redirectUri = encodeURIComponent(`${window.location.origin}/library/${this.libraryId}/login`)
+      const redirectId = this.libraryId.includes('-redirect') ? this.libraryId : `${this.libraryId}-redirect`
+      const redirectUri = encodeURIComponent(`${window.location.origin}/library/${redirectId}/login`)
       window.location = `https://connect.openathens.net/oidc/auth?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}`
-    },
-    guessOpenAthensLibraryName (eduPersonScopedAffiliation) {
-      console.log('abc', eduPersonScopedAffiliation)
-      let affiliation = eduPersonScopedAffiliation
-      if (Array.isArray(eduPersonScopedAffiliation))
-        affiliation = eduPersonScopedAffiliation.join('-')
-      console.log('def', affiliation)
-      if (affiliation.includes('codecombat.com'))
-        return 'codecombat'
-      else if (affiliation.includes('sd.openathens.net'))
-        return 'sd.openathens.net'
-      else if (affiliation.includes('houston'))
-        return 'houston'
-      return `open-athens|${affiliation}`
     }
   }
 }
