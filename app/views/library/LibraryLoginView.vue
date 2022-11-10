@@ -216,9 +216,11 @@ export default {
       window.location = `https://connect.openathens.net/oidc/auth?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}`
     },
     guessOpenAthensLibraryName (eduPersonScopedAffiliation) {
+      console.log('abc', eduPersonScopedAffiliation)
       let affiliation = eduPersonScopedAffiliation
       if (Array.isArray(eduPersonScopedAffiliation))
         affiliation = eduPersonScopedAffiliation.join('-')
+      console.log('def', affiliation)
       if (affiliation.includes('codecombat.com'))
         return 'codecombat'
       else if (affiliation.includes('sd.openathens.net'))
