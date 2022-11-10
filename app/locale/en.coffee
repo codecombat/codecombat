@@ -4336,6 +4336,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_modal_members: "Members Needing Access"
     license_modal_members_placeholder: "Approximately how many members will need access?"
     license_modal_contact: "Contact Our Team"
+    license_days_used: "License days used"
+    users_active_licenses: "Users with active licenses"
+    lines_code: "Lines of Code"
+    programs_written: "Programs written"
+    time_spent_min: "Time spent (in min)"
+    month: "Month"
+    teacher_classroom_name: "Teacher or classroom name"
+    already_logged_in: "Already logged in, please logout from the top navigation bar to login again."
+    search_box_option: "If search box doesn't load, login by clicking"
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."

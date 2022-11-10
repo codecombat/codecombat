@@ -165,6 +165,9 @@ export default {
         remap(re, true)
       });
       (prepaid.removedRedeemers || []).forEach((re) => {
+        if (!re.teacherID) {
+          re.teacherID = prepaid.creator // fall back to creator as revoke teacher
+        }
         remap(re, false)
       })
 
