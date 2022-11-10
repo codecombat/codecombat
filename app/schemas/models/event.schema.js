@@ -3,7 +3,7 @@ const schema = require('./../schemas')
 const EventSchema = schema.object(
   {
     title: 'Calendar Events',
-    required: ['type'],
+    required: ['type', 'owner', 'startDate'],
     default: {
       type: 'online-classes'
     }
