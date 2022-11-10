@@ -59,7 +59,7 @@
           v-if="!alreadyLoggedIn"
         >
           <p
-            v-if="!progressState"
+            v-if="!progressState && showWayFinder"
             class="houston__login__option"
           >
             {{ $t('library.search_box_option') }}
@@ -72,6 +72,16 @@
             </a>
             {{ $t('code.or') }} <a href="mailto:support@codecombat.com">{{ $t('contact.contact_us') }} </a>
           </p>
+          <div
+            v-if="!progressState && !showWayFinder"
+          >
+            <button
+              @click="redirectToOpenAthens"
+              class="btn btn-primary btn-lg"
+            >
+              Login / Sign Up
+            </button>
+          </div>
         </div>
         <div
           v-else
