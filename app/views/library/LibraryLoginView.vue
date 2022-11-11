@@ -135,11 +135,28 @@ export default {
     libName: {
       type: String,
       default: null
+    },
+    isDeeplink: {
+      type: String,
+      default: 'false'
+    },
+    entityID: {
+      type: String,
+      default: null
+    },
+    target: {
+      type: String,
+      default: null
     }
   },
   mounted () {
     this.libraryProfileId = me.get('library')?.profileId
     this.alreadyLoggedIn = !me.isAnonymous()
+    if (this.isDeeplink === 'true') {
+      // document.cookie = `deeplink=${this.target}; max-age=300; path=/;`
+      this.redirectToOpenAthens()
+      return
+    }
     if (this.isHoustonLibrary || this.isOpenAthens) {
       this.handleHoustonLibrary()
     }
@@ -215,7 +232,9 @@ export default {
       const responseType = 'code'
       const redirectId = this.libraryId.includes('-redirect') ? this.libraryId : `${this.libraryId}-redirect`
       const redirectUri = encodeURIComponent(`${window.location.origin}/library/${redirectId}/login`)
-      window.location = `https://connect.openathens.net/oidc/auth?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}`
+      // window.location = `https://connect.openathens.net/codecombat.com/6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6/login?entity=https://idp.bigpharma.com/entity`
+      const entityParam = this.entityID ? `&entityID=${encodeURIComponent(this.entityID)}` : ''
+      window.location = `https://connect.openathens.net/oidc/auth?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}${entityParam}`
     }
   }
 }
