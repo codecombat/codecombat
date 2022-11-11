@@ -132,7 +132,9 @@ module.exports = wsBus = class WsBus extends CocoClass {
 
   async onMeSynced () {
     // this.ws.send('me synced') // ping to make sure server websocket has correct user id
-    await this.resetWSInfos()
+    if (this.connected) {
+      await this.resetWSInfos()
+    }
   }
 
   addFriend (id, { role = 'friend', online = false } = {}) {
