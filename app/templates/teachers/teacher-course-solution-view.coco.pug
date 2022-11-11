@@ -53,12 +53,9 @@ block content
         h3(data-i18n="teacher.level_overview_solutions")
         i #{i18n(level.attributes, 'description')}
         div
-          h4.text-center(data-i18n="common.intro")
           if level.get('intro')
+            h4.text-center(data-i18n="common.intro")
             p!= level.get('intro')
-          else
-            .text-center
-              i(data-i18n="common.coming_soon")
           h4.text-center(data-i18n="common.default_code")
           if level.get('begin')
             pre
@@ -68,12 +65,9 @@ block content
               i(data-i18n="common.coming_soon")
         div.overview
           br
-          h4.text-center(data-i18n="common.overview")
           if level.get('guide')
+            h4.text-center(data-i18n="common.overview")
             p!= level.get('guide')
-          else
-            .text-center
-              i(data-i18n="common.coming_soon")
           h4.text-center
             span= i18n(level.attributes, 'name')
             span.spl(data-i18n="common.solution")

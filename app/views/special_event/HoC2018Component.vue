@@ -48,7 +48,7 @@
             a.btn.btn-primary.btn-lg(href="/play/goblins-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
           if isTeacher
             .col-md-6
-              //a.btn.btn-primary.btn-lg(href="/teachers/resources/hoc-goblins" target="_blank" data-i18n="hoc_2018.download_pdf")  // TODO: write this
+              a.btn.btn-primary.btn-lg(href="/teachers/resources/hoc-goblins" target="_blank" data-i18n="hoc_2018.download_pdf")
               a.btn.btn-primary.btn-lg(v-if="isTeacher" href="/teachers/campaign-solution/goblins-hoc/python" target="_blank" data-i18n="courses.view_guide_online")
           else
             .col-md-3
