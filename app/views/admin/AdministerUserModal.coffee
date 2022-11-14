@@ -222,13 +222,16 @@ module.exports = class AdministerUserModal extends ModelModal
     attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
     attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
 
-    attrs.productOptions = {type: attrs.esportsType, id: _.uniqueId()}
+    attrs.productOptions = {type: attrs.esportsType, id: _.uniqueId(), createdTournaments: 0}
     delete attrs.esportsType
 
     if attrs.addon.length
       attrs.productOptions.teams = parseInt(attrs.teams)
       attrs.productOptions.tournaments = parseInt(attrs.tournaments)
       attrs.productOptions.arenas = attrs.arenas if attrs.arenas
+    else
+      attrs.productOptions.teams = if attrs.productOptions.type == 'basic' then 1 else 5
+      attrs.productOptions.tournaments = if attrs.productOptions.type == 'basic' then 1 else 3
 
     delete attrs.teams
     delete attrs.tournaments

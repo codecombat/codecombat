@@ -26,9 +26,10 @@ export default function getVueRouter () {
             // Stub pages
             { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') },
             {
-              path: 'ladders',
+              path: 'ladders/:idOrSlug?',
               name: 'LaddersList',
               component: () => import(/* webpackChunkName: "mainLadderViewV2" */'app/views/ladder/MainLadderViewV2'),
+              props: (route) => ({ idOrSlug: route.params.idOrSlug || '-' }),
               meta: { toTop: true }
             },
             { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') }

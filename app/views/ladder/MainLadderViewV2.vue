@@ -8,6 +8,7 @@
     </div>
     <div class="ladder-subhead row">
       <a
+        v-if="!canUseArenaHelpers"
         href="https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com"
         target="_blank"
         class="btn btn-moon"
@@ -15,7 +16,7 @@
         {{ $t('general.contact_us') }}
       </a>
       <div
-        v-if="hasActiveAiLeagueProduct()"
+        v-if="canUseArenaHelpers"
         class="ladder-subhead__text"
       >
         {{ $t('league.contact_sales_custom') }}
@@ -35,62 +36,102 @@
         {{ $t('league.more_details') }}
       </div>
     </div>
-    <div class="ladder-view container" v-if="usableArenas">
-      <div
-        v-for="arena in usableArenas"
-        :key="arena.slug"
-        class="arena row"
-      >
-        <a class="arena__info" :href="`/play/ladder/${arena.slug}`">
-          <img :src="arena.image" :alt="arena.name" class="arena__image">
-          <span class="arena__difficulty" v-if="arena.difficulty">
-            {{ $t('play.level_difficulty') }} <span class="arena__stars">{{ difficultyStars(arena.difficulty) }}</span>
-          </span>
-        </a>
-        <div
-          class="arena__helpers"
-        >
-          <div class="arena__helpers__description">{{ readableDescription({ description: arena.description, imgPath: arena.image }) }}</div>
-          <div
-            v-if="canUseArenaHelpers"
-            class="arena__helpers__permission"
-          >
-            <span class="arena__helpers-element">
-              <button
-                class="btn btn-secondary btn-moon"
-                @click="handleCreateTournament"
-              >
-                {{ $t('tournament.create_tournament') }}
-              </button>
-            </span>
-
-            <span class="arena__helpers-element">
-              <button
-                class="btn btn-secondary btn-moon"
-                @click="handleEditTournament"
-              >
-                {{ $t('tournament.edit_tournament') }}
-              </button>
-            </span>
-          </div>
-
-        </div>
+    <div class="clan-selector">
+      <div>
+        select your team to creat/edit your tournaments
       </div>
+      <clan-selector
+        v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0"
+        :clans="myClans"
+        :selected="idOrSlug"
+        style="margin-bottom: 40px;"
+        @change="e => changeClanSelected(e)"
+      />
+    </div>
+    <div
+      v-if="currentTournaments?.length"
+      class="ladder-view container"
+    >
+      <div class="ladder-view__text">
+        You already created {{ currentTournaments.length }} tournaments here:
+      </div>
+      <ladder-panel
+        v-for="t in currentTournaments"
+        :key="t._id"
+        class="row"
+        :arena="arenaMap[t.slug]"
+        :can-create="false"
+        :can-edit="true"
+        @create-tournament="handleCreateTournament"
+        @edit-tournament="handleEditTournament"
+      />
+    </div>
+    <div
+      v-if="usableArenas"
+      class="ladder-view container"
+    >
+      <div class="ladder-view__text">
+        You can create  {{ tournamentsLeft }}  more tournament(s) from below:
+      </div>
+      <ladder-panel
+        v-for="arena in filteredArenas"
+        :key="arena.slug"
+        class="row"
+        :arena="arena"
+        :can-create="canUseArenaHelpers && tournamentsLeft > 0"
+        :can-edit="false"
+        @create-tournament="handleCreateTournament"
+        @edit-tournament="handleEditTournament"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import _ from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
+import ClanSelector from '../landing-pages/league/components/ClanSelector.vue'
+import LadderPanel from './components/ladderPanel'
 
 export default {
   name: 'MainLadderViewV2',
+  components: {
+    ClanSelector, LadderPanel
+  },
+  props: {
+    idOrSlug: {
+      type: String
+    }
+  },
+  data () {
+    return {
+      tournamentsLeft: 0
+    }
+  },
   computed: {
     ...mapGetters({
-      usableArenas: 'seasonalLeague/usableArenas'
+      usableArenas: 'seasonalLeague/usableArenas',
+      myClans: 'clans/myClans',
+      isLoading: 'clans/isLoading',
+      clanByIdOrSlug: 'clans/clanByIdOrSlug',
+      tournamentsByClan: 'clans/tournamentsByClan'
     }),
     canUseArenaHelpers () {
-      return me.isAdmin()
+      return me.isAdmin() || (this.currentSelectedClan && me.hasAiLeagueActiveProduct())
+    },
+    currentSelectedClan () {
+      return this.clanByIdOrSlug(this.idOrSlug) || null
+    },
+    currentTournaments () {
+      return this.tournamentsByClan(this.idOrSlug)
+    },
+    arenaMap () {
+      return _.indexBy(this.usableArenas, 'slug')
+    },
+    filteredArenas () {
+      return this.usableArenas.filter(a => {
+        return !_.find(this.currentTournaments, t => t.slug === a.slug)
+      })
     }
   },
   async created () {
@@ -105,28 +146,50 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchUsableArenas: 'seasonalLeague/fetchUsableArenas'
+      fetchUsableArenas: 'seasonalLeague/fetchUsableArenas',
+      fetchTournaments: 'clans/fetchTournaments'
     }),
     handleCreateTournament () {
       window.alert('Create Tournament not ready')
+
+      // TODO: this.tournamentsLeft -= 1
     },
     handleEditTournament () {
       window.alert('Dummy')
     },
     // if we want to i18n this, then we need to hardcode them in front-end
-    readableDescription ({ description, imgPath }) {
-      if (!imgPath) return description
-      const imgExtension = imgPath.slice(imgPath.indexOf('.'))
-      const imgExtensionIndex = description.indexOf(imgExtension)
-      if (imgExtensionIndex === -1) return description
-      const startPosition = imgExtensionIndex + imgExtension.length + 1
-      return description.slice(startPosition) || null
-    },
-    difficultyStars (difficulty) {
-      return Array(difficulty).fill().map(i => '★').join('')
-    },
     hasActiveAiLeagueProduct () {
       return me.hasAiLeagueActiveProduct()
+    },
+    changeClanSelected (e) {
+      let newSelectedClan = ''
+      if (e.target.value === 'global') {
+        newSelectedClan = ''
+      } else {
+        newSelectedClan = e.target.value
+      }
+
+      const leagueURL = newSelectedClan ? `/league/ladders/${newSelectedClan}` : '/league/ladders'
+
+      application.router.navigate(leagueURL, { trigger: true })
+    },
+    getCanCreateTournamentNums () {
+      const products = me.activeProducts('esports')
+      return products.reduce((s, c) => {
+        const tournaments = c.productOptions.tournaments || (c.productOptions.type === 'basic' ? 1 : 3)
+        const createdTournaments = c.productOptions.createdTournaments || 0
+        return s + (tournaments - createdTournaments)
+      }, 0)
+    }
+  },
+  mounted () {
+    this.tournamentsLeft = this.getCanCreateTournamentNums()
+
+    const newSelectedClan = this.idOrSlug
+    if (newSelectedClan !== '-') {
+      if (typeof this.currentTournaments === 'undefined') {
+        this.fetchTournaments({ clanId: newSelectedClan })
+      }
     }
   }
 }
@@ -141,6 +204,10 @@ export default {
 .ladder-view {
   padding: 5rem 20rem;
   color: #ffffff;
+
+  &__text {
+    font-size: 1.8rem;
+  }
 }
 
 .ladder-head {
@@ -173,76 +240,12 @@ export default {
   text-decoration: underline;
 }
 
-.arena {
-  &__info {
-    display: block;
-    position: relative;
-
-    text-decoration: none;
-    color: inherit;
-
-    &:hover {
-      filter: brightness(1.2);
-      -webkit-filter: brightness(1.2);
-      box-shadow: 0 0 5px #000;
-    }
-  }
-
-  &:not(:last-child) {
-    padding-bottom: 2rem;
-  }
-
-  &__name {
-    font-size: 1.5rem;
-  }
-
-  &__image {
-    width: 100%;
-
-    color: #ffffff;
-    font-size: 3.5rem;
-  }
-
-  &__difficulty {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-
-    font-size: 2rem;
-    font-weight: 500;
-
-    background-color: rgba(#808080, 1);
-
-    padding: .5rem;
-    box-shadow: 0 1.5rem 4rem rgba(black, 0.4);
-    border-radius: 2px;
-  }
-
-  &__helpers {
-    background-color: #d3d3d3;
-
-    &__permission {
-      text-align: right;
-      padding: .5rem;
-    }
-
-    &__description {
-      font-weight: bold;
-      color: black;
-
-      padding: .5rem;
-      line-height: 2rem;
-
-      &:empty {
-        padding: 0;
-      }
-    }
-
-    &-element {
-      &:not(:last-child) {
-        padding-right: 1rem;
-      }
-    }
-  }
+.clan-selector {
+  display: flex;
+  font-size: 1.8rem;
+  color: #fff;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
 }
 </style>

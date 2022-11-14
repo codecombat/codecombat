@@ -221,7 +221,6 @@ block modal-body-content
             else
               th Start (PT)
               th End (PT)
-            th Addons
             th teams
             th tournaments
             th arena
@@ -241,7 +240,6 @@ block modal-body-content
                   input(id= endDateControlId type="date" name="endDate" value=moment.timezone(product.endDate).tz(view.timeZone).format('YYYY-MM-DD'))
                 else
                   = moment.timezone(product.endDate).tz(view.timeZone).format('l')
-              td= (product.productOptions.teams ? 'Yes': 'No')
               td= product.productOptions.teams
               td= product.productOptions.tournaments
               td= product.productOptions.arenas

@@ -1,4 +1,4 @@
-import { getPublicClans, getMyClans, getClan, getChildClanDetails } from '../../api/clans'
+import { getPublicClans, getMyClans, getClan, getChildClanDetails, getTournaments } from '../../api/clans'
 
 export default {
   namespaced: true,
@@ -7,6 +7,7 @@ export default {
     clans: {},
     // key is the clan id that initiated the request. Response array is memoized.
     childClanDetails: {},
+    tournaments: {},
     loading: false
   },
 
@@ -29,6 +30,11 @@ export default {
       return id => {
         return state.childClanDetails[id] || []
       }
+    },
+    tournamentsByClan (state) {
+      return clanId => {
+        return state.tournaments[clanId]
+      }
     }
   },
 
@@ -49,6 +55,10 @@ export default {
 
     setLoading (state, loading) {
       state.loading = loading
+    },
+
+    setTournaments (state, { clanId, tournaments }) {
+      Vue.set(state.tournaments, clanId, Object.values(tournaments)[0])
     }
   },
 
@@ -91,6 +101,13 @@ export default {
     async fetchChildClanDetails ({ commit }, { id }) {
       const childClans = await getChildClanDetails(id)
       commit('setClanDetails', { clanId: id, childClans })
+    },
+
+    async fetchTournaments ({ commit }, { clanId }) {
+      const tournaments = await getTournaments(clanId)
+      if (tournaments) {
+        commit('setTournaments', { clanId, tournaments })
+      }
     }
   }
 }

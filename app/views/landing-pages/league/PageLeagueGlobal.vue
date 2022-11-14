@@ -408,7 +408,7 @@ export default {
     },
 
     selectedClanChampionshipRankings () {
-      return this.clanChampionshipRankings(this.clanIdSelected)
+      return this.clanChampionshipRankings(this.clanIdSelected) || []
     },
 
     selectedClanChampionshipLeaderboardPlayerCount () {
@@ -416,7 +416,7 @@ export default {
     },
 
     selectedClanCodePointsRankings () {
-      return this.codePointsRankings(this.clanIdSelected)
+      return this.codePointsRankings(this.clanIdSelected) || []
     },
 
     showJoinTeamBtn () {

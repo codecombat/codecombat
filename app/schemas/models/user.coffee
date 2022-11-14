@@ -429,7 +429,15 @@ _.extend UserSchema.properties,
       prepaid: c.objectId(links: [ {rel: 'db', href: '/db/prepaid/{($)}'} ])  # required for type: “course” for legacy compatibility, optional for other types
       productOptions:
         oneOf: [
-          includedCourseIDs: {type: ['array', 'null']}
+          { includedCourseIDs: {type: ['array', 'null']} }, # course
+          { # esports
+            type: { type: 'string', enum: ['basic', 'pro'] },
+            id: { type: 'string' },
+            teams: { type: 'number' },
+            tournaments: { type: 'number' },
+            createdTournaments: { type: 'number' },
+            arenas: { type: 'string' }
+          }
         ]
       startDate: c.date()
       endDate: c.date()  # TODO: optional indication of no end date (lasts forever) - or do we just leave unset?
