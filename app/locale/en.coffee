@@ -4155,6 +4155,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     more_details: "for more details."
     contact_sales_custom: "Your custom tournament awaits. Choose the arena that you’d like to use for your custom tournament and contact your CodeCombat sales representative to confirm set up and scheduling details."
     create_custom: "Create Custom Tournament"
+    custom_tournament_text: "Custom Tournament"
 
   tournament:
     mini_tournaments: "Mini Tournaments"
