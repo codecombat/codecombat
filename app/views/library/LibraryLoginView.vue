@@ -73,7 +73,7 @@
             {{ $t('code.or') }} <a href="mailto:support@codecombat.com">{{ $t('contact.contact_us') }} </a>
           </p>
           <div
-            v-if="!progressState && !showWayFinder"
+            v-if="!progressState && !showWayFinder && !isDeeplink"
           >
             <button
               @click="redirectToOpenAthens"
@@ -81,6 +81,12 @@
             >
               Login / Sign Up
             </button>
+          </div>
+          <div
+            v-else-if="isDeeplink === 'true'"
+            class="houston__login__redirect"
+          >
+            Redirecting..
           </div>
         </div>
         <div
@@ -152,7 +158,7 @@ export default {
   mounted () {
     this.libraryProfileId = me.get('library')?.profileId
     this.alreadyLoggedIn = !me.isAnonymous()
-    if (this.isDeeplink === 'true') {
+    if (this.isDeeplink === 'true' && !this.alreadyLoggedIn) {
       // document.cookie = `deeplink=${this.target}; max-age=300; path=/;`
       this.redirectToOpenAthens()
       return
@@ -203,11 +209,9 @@ export default {
       if (this.code) {
         this.progressState = 'Fetching user info...'
         this.errMsg = null
-        await usersLib.loginHouston({ code: this.code })
-        this.progressState = 'Trying to login...'
-        await this.postLogin()
         try {
           await usersLib.loginHouston({ code: this.code })
+          this.progressState = 'Trying to login...'
           await this.postLogin()
         } catch (err) {
           console.error('handleOA err', err)
@@ -309,6 +313,10 @@ export default {
     padding-top: 1rem;
 
     &__option {
+      font-size: 1.5rem;
+    }
+
+    &__redirect {
       font-size: 1.5rem;
     }
   }
