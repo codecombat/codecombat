@@ -60,6 +60,7 @@
         :key="t._id"
         class="row"
         :arena="arenaMap[t.slug]"
+        :clan-id="currentSelectedClan?._id"
         :tournament="t"
         :can-create="false"
         :can-edit="true"
@@ -75,6 +76,7 @@
             :key="t._id"
             class="row"
             :arena="arenaMap[t.slug]"
+            :clan-id="currentSelectedClan?._id"
             :tournament="t"
             :can-create="false"
             :can-edit="true"
@@ -107,6 +109,7 @@
         :key="arena.slug"
         class="row"
         :arena="arena"
+        :clan-id="currentSelectedClan?._id"
         :can-create="canUseArenaHelpers && tournamentsLeft > 0"
         :can-edit="false"
         @create-tournament="handleCreateTournament(arena)"
@@ -115,7 +118,6 @@
     <edit-tournament-modal
       v-if="showModal"
       :tournament="editableTournament"
-      :clanId="idOrSlug"
       @close="showModal = false"
       @submit="handleTournamentSubmit"
     />
@@ -124,6 +126,7 @@
 
 <script>
 import _ from 'lodash'
+import moment from 'moment'
 import { mapActions, mapGetters } from 'vuex'
 import ClanSelector from '../landing-pages/league/components/ClanSelector.vue'
 import LadderPanel from './components/ladderPanel'
@@ -164,7 +167,7 @@ export default {
       return this.clanByIdOrSlug(this.idOrSlug) || null
     },
     currentTournaments () {
-      if (this.idOrSlug === '-') {
+      if (this.idOrSlug === 'global') {
         return _.flatten(Object.values(this.tournaments))
       }
       if (this.allTournamentsLoaded) {
@@ -200,7 +203,7 @@ export default {
       fetchAllTournaments: 'clans/fetchAllTournaments'
     }),
     handleCreateTournament (arena) {
-      if (!this.canUseArenaHelpers) {
+      if (!this.tournamentsLeft && !me.isAdmin()) {
         window.open('https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com', '_blank')
       } else {
         console.log('handle create', arena)
@@ -211,8 +214,8 @@ export default {
           clan: this.idOrSlug,
           state: 'disabled',
           startDate: new Date().toISOString(),
-          endDate: undefined,
-          resultsDate: undefined,
+          endDate: moment().add(1, 'day').toISOString(),
+          resultsDate: moment().add(3, 'day').toISOString(),
           editing: 'new'
         }
         this.showModal = true
@@ -250,7 +253,8 @@ export default {
     getCanCreateTournamentNums () {
       const products = me.activeProducts('esports')
       return products.reduce((s, c) => {
-        const tournaments = c.productOptions.tournaments || (c.productOptions.type === 'basic' ? 1 : 3)
+        const t = c.productOptions.tournaments
+        const tournaments = typeof t === 'undefined' ? (c.productOptions.type === 'basic' ? 1 : 3) : t
         const createdTournaments = c.productOptions.createdTournaments || 0
         return s + (tournaments - createdTournaments)
       }, 0)
@@ -261,7 +265,7 @@ export default {
 
     const newSelectedClan = this.idOrSlug
     if (!this.allTournamentsLoaded) {
-      if (newSelectedClan !== '-') {
+      if (newSelectedClan !== 'global') {
         if (typeof this.currentTournaments === 'undefined') {
           this.fetchTournaments({ clanId: newSelectedClan })
         }

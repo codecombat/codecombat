@@ -29,7 +29,7 @@ export default function getVueRouter () {
               path: 'ladders/:idOrSlug?',
               name: 'LaddersList',
               component: () => import(/* webpackChunkName: "mainLadderViewV2" */'app/views/ladder/MainLadderViewV2'),
-              props: (route) => ({ idOrSlug: route.params.idOrSlug || '-' }),
+              props: (route) => ({ idOrSlug: route.params.idOrSlug || 'global' }),
               meta: { toTop: true }
             },
             { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') }

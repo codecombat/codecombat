@@ -18,41 +18,41 @@
         >
         <template v-if="clanId">
           <label for="clan"> Team </label>
+          <span class="small text-navy">Team is required to create a tournament</span>
           <clan-selector
             :clans="ownedClans"
-            :selected="idOrSlug"
+            :selected="selectedClanId"
             :label="false"
-            style="margin-bottom: 40px;"
+            :disabled="tournament.editing === 'edit'"
             @change="e => changeClanSelected(e)"
           />
         </template>
-        <label for="description">Description</label>
-        <input
-          id="description"
-          v-model="editableTournament.description"
-          type="text"
-          class="form-control"
-        >
         <label for="startDate">Start Date</label>
+        <span class="small text-navy">The start time of tournament</span>
         <input
           id="startDate"
           v-model="_startDate"
           type="datetime-local"
           class="form-control"
+          :disabled="disableEdit"
         >
         <label for="endDate">End Date</label>
+        <span class="small text-navy">The end time of tournament</span>
         <input
           id="endDate"
           v-model="_endDate"
           type="datetime-local"
           class="form-control"
+          :disabled="disableEdit"
         >
         <label for="resultsDate">Results Date</label>
+        <span class="small text-navy">Tournament need 2 days to generate final leaderboard</span>
         <input
           id="resultsDate"
           v-model="_resultsDate"
           type="datetime-local"
           class="form-control"
+          :disabled="!me.isAdmin()"
         >
       </div>
       <div class="form-group pull-right">
@@ -65,7 +65,7 @@
         <button
           class="btn btn-success btn-lg"
           type="submit"
-          :disabled="inProgress"
+          :disabled="inProgress || disableEdit"
         >
           Submit
         </button>
@@ -84,6 +84,8 @@ import { postTournament, putTournament } from '../../../core/api/tournaments'
 import Modal from '../../../components/common/Modal'
 import ClanSelector from '../../landing-pages/league/components/ClanSelector.vue'
 
+const OneDay = 86400000
+
 const HTML5_FMT_DATETIME_LOCAL = 'YYYY-MM-DDTHH:mm' // moment 1.20+ do have this string but we use 1.19 :joy:
 
 export default {
@@ -101,13 +103,14 @@ export default {
     clanId: {
       type: String,
       default () {
-        return ''
+        return 'global'
       }
     }
   },
   data () {
     return {
       editableTournament: {},
+      selectedClanId: 'global',
       isSuccess: false,
       inProgress: false
     }
@@ -116,6 +119,21 @@ export default {
     ...mapGetters({
       myClans: 'clans/myClans'
     }),
+    me () {
+      return me
+    },
+    isNick () {
+      return me.get('_id') === '512ef4805a67a8c507000001'
+    },
+    disableEdit () {
+      if (this.selectedClanId === 'global') {
+        // nick can create global-tournament
+        return !this.isNick
+      }
+      // admin can create/edit any tournaments
+      // normal teacher can only create/edit their own tournaments
+      return !this.ownedClanById(this.selectedClanId) && !me.isAdmin()
+    },
     ownedClans () {
       return this.myClans.filter(c => c?.ownerID === me.get('_id'))
     },
@@ -133,6 +151,8 @@ export default {
       },
       set (val) {
         this.editableTournament.endDate = new Date(val).toISOString()
+
+        this.editableTournament.resultsDate = new Date(new Date(val).getTime() + OneDay * 2).toISOString()
       }
     },
     _resultsDate: {
@@ -145,10 +165,18 @@ export default {
     }
   },
   mounted () {
+    this.selectedClanId = this.tournament.clan
     this.editableTournament = _.clone(this.tournament)
     console.log(this.editableTournament)
   },
   methods: {
+    ownedClanById (id) {
+      return _.find(this.ownedClans, c => c?._id === id)
+    },
+    changeClanSelected (e) {
+      this.selectedClanId = e.target.value
+      this.editableTournament.clan = e.target.value
+    },
     async onFormSubmit () {
       this.inProgress = true
       this.isSuccess = false
