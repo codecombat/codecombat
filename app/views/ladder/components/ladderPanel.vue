@@ -27,9 +27,9 @@
       >
         <span class="arena__helpers-element">
           <button
-            v-if="canCreate"
+            v-if="!canEdit"
             class="btn btn-secondary btn-moon"
-            @click="emit('createTournament')"
+            @click="handleCreate"
           >
             {{ $t('tournament.create_tournament') }}
           </button>
@@ -39,7 +39,7 @@
           <button
             v-if="canEdit"
             class="btn btn-secondary btn-moon"
-            @click="emit('editTournament')"
+            @click="$emit('edit-tournament')"
           >
             {{ $t('tournament.edit_tournament') }}
           </button>
@@ -67,6 +67,13 @@ export default {
     }
   },
   methods: {
+    handleCreate () {
+      if (this.canCreate) {
+        this.$emit('create-tournament')
+      } else {
+        window.open('https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com', '_blank')
+      }
+    },
     difficultyStars (difficulty) {
       return Array(difficulty).fill().map(i => '★').join('')
     },
@@ -84,6 +91,10 @@ export default {
 
 <style scoped lang="scss">
 @import "app/styles/common/button";
+
+.btn-moon {
+  padding: 0.5rem 0 !important;
+}
 .arena {
   &__info {
     display: block;

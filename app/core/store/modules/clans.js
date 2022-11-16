@@ -1,4 +1,6 @@
 import { getPublicClans, getMyClans, getClan, getChildClanDetails, getTournaments } from '../../api/clans'
+import { getTournamentsByMember } from '../../api/tournaments'
+const _ = require('lodash')
 
 export default {
   namespaced: true,
@@ -8,7 +10,8 @@ export default {
     // key is the clan id that initiated the request. Response array is memoized.
     childClanDetails: {},
     tournaments: {},
-    loading: false
+    loading: false,
+    allTournamentsLoaded: false
   },
 
   getters: {
@@ -35,6 +38,12 @@ export default {
       return clanId => {
         return state.tournaments[clanId]
       }
+    },
+    tournaments (state) {
+      return state.tournaments
+    },
+    allTournamentsLoaded (state) {
+      return state.allTournamentsLoaded
     }
   },
 
@@ -58,7 +67,11 @@ export default {
     },
 
     setTournaments (state, { clanId, tournaments }) {
-      Vue.set(state.tournaments, clanId, Object.values(tournaments)[0])
+      Vue.set(state.tournaments, clanId, tournaments)
+    },
+
+    loadAllTournaments (state) {
+      state.allTournamentsLoaded = true
     }
   },
 
@@ -106,7 +119,18 @@ export default {
     async fetchTournaments ({ commit }, { clanId }) {
       const tournaments = await getTournaments(clanId)
       if (tournaments) {
-        commit('setTournaments', { clanId, tournaments })
+        commit('setTournaments', { clanId, tournaments: Object.values(tournaments)[0] })
+      }
+    },
+
+    async fetchAllTournaments ({ commit }, { userId }) {
+      const tournaments = await getTournamentsByMember(userId)
+      if (tournaments) {
+        const tournamentsByClan = _.groupBy(tournaments, 'clan')
+        for (const key in tournamentsByClan) {
+          commit('setTournaments', { clanId: key, tournaments: tournamentsByClan[key] })
+        }
+        commit('loadAllTournaments')
       }
     }
   }
