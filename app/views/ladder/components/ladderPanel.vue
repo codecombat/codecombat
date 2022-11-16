@@ -88,7 +88,8 @@ export default {
       type: Boolean
     },
     clanId: {
-      type: String
+      type: String,
+      default: () => ''
     }
   },
   computed: {
@@ -124,7 +125,11 @@ export default {
     url () {
       const baseUrl = `/play/ladder/${this.arena.slug}`
       if (this.tournament) {
-        return baseUrl + `/clan/${this.tournament.clan}?tournament=${this.tournament._id}`
+        if (this.tournament.clan) {
+          return baseUrl + `/clan/${this.tournament.clan}?tournament=${this.tournament._id}`
+        } else {
+          return baseUrl + `?tournament=${this.tournament._id}` // for global AI league
+        }
       }
       if (this.clanId) {
         return baseUrl + `/clan/${this.clanId}`
