@@ -73,7 +73,8 @@
             {{ $t('code.or') }} <a href="mailto:support@codecombat.com">{{ $t('contact.contact_us') }} </a>
           </p>
           <div
-            v-if="!progressState && !showWayFinder && !isDeeplink"
+            v-if="!progressState && !showWayFinder && isDeeplink !== 'true'"
+            class="houston__login__btn"
           >
             <button
               @click="redirectToOpenAthens"
