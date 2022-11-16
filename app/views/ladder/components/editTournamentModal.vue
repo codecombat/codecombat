@@ -16,6 +16,16 @@
           class="form-control"
           disabled
         >
+        <template v-if="clanId">
+          <label for="clan"> Team </label>
+          <clan-selector
+            :clans="ownedClans"
+            :selected="idOrSlug"
+            :label="false"
+            style="margin-bottom: 40px;"
+            @change="e => changeClanSelected(e)"
+          />
+        </template>
         <label for="description">Description</label>
         <input
           id="description"
@@ -65,17 +75,21 @@
 </template>
 
 <script>
-import Modal from '../../../components/common/Modal'
 import _ from 'lodash'
 import moment from 'moment'
+import { mapGetters } from 'vuex'
+
 import { postTournament, putTournament } from '../../../core/api/tournaments'
+
+import Modal from '../../../components/common/Modal'
+import ClanSelector from '../../landing-pages/league/components/ClanSelector.vue'
 
 const HTML5_FMT_DATETIME_LOCAL = 'YYYY-MM-DDTHH:mm' // moment 1.20+ do have this string but we use 1.19 :joy:
 
 export default {
   name: 'EditTournamentModal',
   components: {
-    Modal
+    Modal, ClanSelector
   },
   props: {
     tournament: {
@@ -83,7 +97,12 @@ export default {
       default () {
         return {}
       }
-
+    },
+    clanId: {
+      type: String,
+      default () {
+        return ''
+      }
     }
   },
   data () {
@@ -94,6 +113,12 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      myClans: 'clans/myClans'
+    }),
+    ownedClans () {
+      return this.myClans.filter(c => c?.ownerID === me.get('_id'))
+    },
     _startDate: {
       get () {
         return moment(this.editableTournament.startDate).format(HTML5_FMT_DATETIME_LOCAL)

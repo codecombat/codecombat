@@ -60,6 +60,7 @@
         :key="t._id"
         class="row"
         :arena="arenaMap[t.slug]"
+        :tournament="t"
         :can-create="false"
         :can-edit="true"
         @edit-tournament="handleEditTournament(t)"
@@ -74,6 +75,7 @@
             :key="t._id"
             class="row"
             :arena="arenaMap[t.slug]"
+            :tournament="t"
             :can-create="false"
             :can-edit="true"
             @edit-tournament="handleEditTournament(t)"
@@ -113,6 +115,7 @@
     <edit-tournament-modal
       v-if="showModal"
       :tournament="editableTournament"
+      :clanId="idOrSlug"
       @close="showModal = false"
       @submit="handleTournamentSubmit"
     />
@@ -155,7 +158,7 @@ export default {
       allTournamentsLoaded: 'clans/allTournamentsLoaded'
     }),
     canUseArenaHelpers () {
-      return me.isAdmin() || (this.currentSelectedClan && this.currentSelectedClan.ownerID === me.get('_id') && me.hasAiLeagueActiveProduct())
+      return me.isAdmin() || (me.hasAiLeagueActiveProduct() && (!this.currentSelectedClan || this.currentSelectedClan.ownerID === me.get('_id')))
     },
     currentSelectedClan () {
       return this.clanByIdOrSlug(this.idOrSlug) || null
@@ -197,19 +200,23 @@ export default {
       fetchAllTournaments: 'clans/fetchAllTournaments'
     }),
     handleCreateTournament (arena) {
-      console.log('handle create', arena)
-      this.editableTournament = {
-        name: arena.name,
-        levelOriginal: arena.original,
-        slug: arena.slug,
-        clan: this.idOrSlug,
-        state: 'disabled',
-        startDate: new Date().toISOString(),
-        endDate: undefined,
-        resultsDate: undefined,
-        editing: 'new'
+      if (!this.canUseArenaHelpers) {
+        window.open('https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com', '_blank')
+      } else {
+        console.log('handle create', arena)
+        this.editableTournament = {
+          name: arena.name,
+          levelOriginal: arena.original,
+          slug: arena.slug,
+          clan: this.idOrSlug,
+          state: 'disabled',
+          startDate: new Date().toISOString(),
+          endDate: undefined,
+          resultsDate: undefined,
+          editing: 'new'
+        }
+        this.showModal = true
       }
-      this.showModal = true
     },
     handleEditTournament (tournament) {
       /* console.log('handle edit', tournament) */

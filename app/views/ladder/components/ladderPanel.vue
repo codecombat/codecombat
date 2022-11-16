@@ -23,13 +23,27 @@
         {{ readableDescription({ description: arena.description, imgPath: arena.image }) }}
       </div>
       <div
+        v-if="tournament"
+        class="arena__helpers__tournament_status row"
+      >
+        <div class="clan col-sm-4">
+          {{ $t('tournament.team_name', {name: clan.displayName || clan.name }) }}
+        </div>
+        <div class="status col-sm-4">
+          {{ $t('tournament.status', { state: tournament.state }) }}
+        </div>
+        <div class="time col-sm-4">
+          {{ tournamentTime }}
+        </div>
+      </div>
+      <div
         class="arena__helpers__permission"
       >
         <span class="arena__helpers-element">
           <button
             v-if="!canEdit"
             class="btn btn-secondary btn-moon"
-            @click="handleCreate"
+            @click="$emit('create-tournament')"
           >
             {{ $t('tournament.create_tournament') }}
           </button>
@@ -50,6 +64,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+import { mapGetters } from 'vuex'
 export default {
   name: 'LadderPanel',
   props: {
@@ -59,6 +75,12 @@ export default {
         return {}
       }
     },
+    tournament: {
+      type: Object,
+      default () {
+        return undefined
+      }
+    },
     canCreate: {
       type: Boolean
     },
@@ -66,14 +88,38 @@ export default {
       type: Boolean
     }
   },
-  methods: {
-    handleCreate () {
-      if (this.canCreate) {
-        this.$emit('create-tournament')
-      } else {
-        window.open('https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com', '_blank')
+  computed: {
+    ...mapGetters({
+      clanByIdOrSlug: 'clans/clanByIdOrSlug'
+    }),
+    tournamentTime () {
+      if (this.tournament) {
+        switch (this.tournament.state) {
+        case 'initializing': return $.i18n.t('tournament.from_start', { time: this.time })
+        case 'ended':
+        case 'starting': return $.i18n.t('tournament.from_end', { time: this.time })
+        }
       }
+      return ''
     },
+    clan () {
+      if (this.tournament) {
+        return this.clanByIdOrSlug(this.tournament.clan)
+      }
+      return {}
+    },
+    time () {
+      if (this.tournament) {
+        switch (this.tournament.state) {
+        case 'initializing': return moment(this.tournament.startDate).fromNow()
+        case 'ended':
+        case 'starting': return moment(this.tournament.endDate).fromNow()
+        }
+      }
+      return undefined
+    }
+  },
+  methods: {
     difficultyStars (difficulty) {
       return Array(difficulty).fill().map(i => '★').join('')
     },
@@ -142,6 +188,13 @@ export default {
 
   &__helpers {
     background-color: #d3d3d3;
+
+    &__tournament_status {
+      color: black;
+      display: flex;
+      font-weight: bold;
+      line-height: 2rem;
+    }
 
     &__permission {
       text-align: right;

@@ -4172,6 +4172,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ended: 'Ended'
     view_results: 'View Results'
     estimate_days: 'In __time__ Days'
+    team_name: 'Team: __name__'
+    status: 'Status: __state__'
+    from_start: 'Start __time__'
+    from_end: 'End __time__'
 
   payments:
     student_licenses: 'Student Licenses'

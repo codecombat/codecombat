@@ -11,6 +11,11 @@ export default {
       type: String,
       required: false,
       default: ''
+    },
+
+    label: {
+      type: Boolean,
+      default: () => true
     }
   },
 
@@ -24,7 +29,7 @@ export default {
 
 <template>
   <div>
-    <label for="clans">My Teams:</label>
+    <label for="clans" v-if="label">My Teams:</label>
     <select id="clans" name="clans" @change="e => $emit('change', e)">
       <option value="global" :selected="selected===''">--</option>
       <option  v-for="clan in clansSanitized" :key="clan._id" :value="clan._id" :selected="selected===clan._id">
