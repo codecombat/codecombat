@@ -63,7 +63,7 @@ const ResourceHubResourceSchema = schema.object(
       format: 'courses',
       items: schema.shortString({
         format: 'course',
-        enum: Object.keys(utils.courseIDs).map(c => utils.courseAcronyms[c])
+        enum: Object.values(utils.courseIDs).map(c => utils.courseAcronyms[c])
       })
     }
   }
