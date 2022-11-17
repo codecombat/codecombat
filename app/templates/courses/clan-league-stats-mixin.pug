@@ -14,6 +14,7 @@ mixin clanLeagueStatsMixin(stats, clanId, showIfEmpty, classroom)
               span= ' '
               if !window.features.chinaUx
                 a.ai-league-quickstart-video.text-h6(data-i18n='league.quickstart_video' data-event-action="Teachers Classes View AI League Quickstart video" data-clan-level='teacher' data-clan-source-object-id=me.id href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank")
+                a.ai-league-custom-tournament.text-h6(data-i18n='league.custom_tournament_text' href='/league/ladders' target="_blank")
         .row
           if stats.arenas && _.some(stats.arenas, ageStat => _.some(ageStat, stat => stat.clanPlayers > 1 || (stat.topPlayer && stat.topPlayer.percentileRank < 0.2)))
             .col-md-7.stats-col
@@ -118,6 +119,7 @@ mixin clanLeagueStatsMixin(stats, clanId, showIfEmpty, classroom)
         .row
           .col-xs-12
             if !stats
-              h3(data-i18n="common.loading")
-            else
-              h3 No AI League stats yet.
+              h3(style="display: inline-block;") No AI League stats yet.
+            if !window.features.chinaUx
+              a.ai-league-quickstart-video.text-h6(data-i18n='league.quickstart_video' data-event-action="Teachers Classes View AI League Quickstart video" data-clan-level='teacher' data-clan-source-object-id=me.id href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank")
+              a.ai-league-custom-tournament.text-h6(data-i18n='league.custom_tournament_text' href='/league/ladders' target="_blank")
