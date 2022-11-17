@@ -712,7 +712,6 @@ module.exports = class SpellView extends CocoView
       lines = Math.max linesAtMinHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), 8
       lines = 8 if _.isNaN lines
       @ace.setOptions minLines: lines, maxLines: lines
-      console.log '----------------------', lines
 
       ## If bot: move spell palette up, slightly overlapping us.
       #newTop = 185 + lineHeight * lines
@@ -1323,7 +1322,7 @@ module.exports = class SpellView extends CocoView
       lineHasComment = @singleLineCommentRegex().test line
       lineHasCode = line.trim()[0] and not @singleLineCommentOnlyRegex().test line
       lineIsBlank = /^[ \t]*$/.test line
-      lineHasExplicitMarker = line.indexOf('∆') isnt -1
+      lineHasExplicitMarker = /[Δ∆]/.test(line)  # Two different identical-seeming delta codepoints
 
       originalLine = originalLines[index]
       lineHasChanged = line isnt originalLine

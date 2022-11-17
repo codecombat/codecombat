@@ -20,7 +20,7 @@ DEFAULT_LABEL_OPTIONS  = {
   backgroundBorderRadius: {D: 10, S: 3, N: 3, V: 3, T: 0},
   layerPriority: {D: 10, S: 5, N: 5, V: 5, T: 10},
   maxWidth: {D: 300, S: 300, N: 180, V: 100, T: 100},
-  maxLength: {D: 100, S: 100, N: 30, V: 30, T: 100}
+  maxLength: {D: 300, S: 300, N: 30, V: 30, T: 100}
 }
 
 
