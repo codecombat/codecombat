@@ -235,6 +235,13 @@ export default {
     handleTournamentSubmit () {
       if (this.editableTournament.editing === 'new') {
         this.tournamentsLeft -= 1
+        // fetch the tournament so that view refresh
+        const newSelectedClan = this.idOrSlug
+        if (newSelectedClan !== 'global') {
+          this.fetchTournaments({ clanId: newSelectedClan })
+        } else {
+          this.fetchAllTournaments({ userId: me.get('_id') })
+        }
       }
       setTimeout(() => { this.showModal = false }, 1000)
     },
