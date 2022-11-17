@@ -126,7 +126,7 @@ block modal-body-content
       #school-admin-result
 
   if view.prepaids.size()
-    h3.m-t-3#prepaids(data-toggle="collapse" data-target="#prepaids-table" aria-expanded="false" aria-controls="prepaids-table") Existing Prepaids
+    h3.m-t-3#prepaids(data-toggle="collapse" data-target="#prepaids-table" aria-expanded="trrue" aria-controls="prepaids-table") Existing Prepaids
       span.small click to toggle collapse
     #prepaids-table.collapse.in.multi-collpase
       table.table.table-condensed
@@ -298,9 +298,9 @@ block modal-body-content
     hr
  
   if view.classrooms.size()
-    h3.m-t-3#classrooms(data-toggle="collapse" data-target="#classroom-table" aria-expanded="false" aria-controls="classroom-table") Classrooms
+    h3.m-t-3#classrooms(data-toggle="collapse" data-target="#classroom-table" aria-expanded="true" aria-controls="classroom-table") Classrooms
       span.small click to toggle collapse
-    #classroom-table.collapse.multi-collapse
+    #classroom-table.collapse.in.multi-collapse
       table.table
         tr
           th Name
@@ -321,7 +321,7 @@ block modal-body-content
             td= classroom.capitalLanguage
             td= (classroom.get('members') || []).length
             if view.user.isTeacher()
-              td #{classroom.getLevels().size()} / #{classroom.get('courses').length}
+              td #{classroom.getLevels().size()} / #{(classroom.get('courses') || []).length}
               td
                 button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update All Levels
                 button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses

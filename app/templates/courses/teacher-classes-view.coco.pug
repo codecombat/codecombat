@@ -116,8 +116,7 @@ block content
 
     +createClassButton
 
-    if view.aiLeagueStats
-      +clanLeagueStatsMixin(view.aiLeagueStats, (view.teacherClan ? view.teacherClan._id : null), false, null)
+    +clanLeagueStatsMixin(view.aiLeagueStats, (view.teacherClan ? view.teacherClan._id : null), true, null)
 
     if !me.hideOtherProductCTAs() && !(me.get('activity') && me.get('activity')['visit-ozaria'])
       .container.try-ozaria

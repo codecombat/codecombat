@@ -24,17 +24,12 @@ module.exports =
     url
 
   courseWorldMap: (param) ->
-    if utils.isOzaria
-      @courseWorldMapOzaria(param)
-    else
-      @courseWorldMapCoCo(param)
+    courseId = param.courseId or param.course?.id or param.course
+    courseInstanceId = param.courseInstanceId or param.courseInstance?.id or param.courseInstance
+    campaignId = param.campaignId or param.course?.attributes?.campaignID or param.course?.campaignID
+    campaignPage = param.campaignPage
+    codeLanguage = param.codeLanguage
 
-  courseWorldMapCoCo: ({course, courseInstance}) ->
-    course = course.attributes || course
-    courseInstance = courseInstance.attributes || courseInstance
-    "/play/#{course.campaignID}?course-instance=#{courseInstance._id}"
-
-  courseWorldMapOzaria: ({courseId, courseInstanceId, campaignPage, campaignId, codeLanguage}) ->
     unless campaignId
       console.error('courseWorldMap: campaign id is not defined')
       return ""
@@ -44,7 +39,6 @@ module.exports =
     queryParams['course-instance'] = encodeURIComponent(courseInstanceId) if courseInstanceId
     queryParams['campaign-page'] = encodeURIComponent(campaignPage) if campaignPage
     queryParams['codeLanguage'] = encodeURIComponent(codeLanguage) if codeLanguage
-
     queryString = $.param(queryParams)
     if queryString
       url += "?#{queryString}"

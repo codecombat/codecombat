@@ -1318,7 +1318,7 @@ module.exports = class SpellView extends CocoView
       lineHasComment = @singleLineCommentRegex().test line
       lineHasCode = line.trim()[0] and not @singleLineCommentOnlyRegex().test line
       lineIsBlank = /^[ \t]*$/.test line
-      lineHasExplicitMarker = line.indexOf('∆') isnt -1
+      lineHasExplicitMarker = /[Δ∆]/.test(line)  # Two different identical-seeming delta codepoints
 
       originalLine = originalLines[index]
       lineHasChanged = line isnt originalLine
