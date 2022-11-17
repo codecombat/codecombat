@@ -15,6 +15,9 @@ module.exports = class LevelDialogueView extends CocoView
     'level:escape-pressed': 'onEscapePressed'
     'sprite:dialogue-sound-completed': 'onDialogueSoundCompleted'
     'level:open-items-modal': 'openItemsModal'
+    'sprite:some-sound-started': 'onSomeSoundStarted'
+    'sprite:some-sound-completed': 'onSomeSoundCompleted'
+    'tome:cast-spell': 'onCastSpell'
 
   events:
     'click': 'onClick'
@@ -44,6 +47,7 @@ module.exports = class LevelDialogueView extends CocoView
 
   onSpriteDialogue: (e) ->
     return unless e.message
+    @clearActiveSounds()
     @$el.find('.dialogue-area').show()
     @$el.addClass 'active speaking'
     $('body').addClass('dialogue-view-active')
@@ -66,6 +70,21 @@ module.exports = class LevelDialogueView extends CocoView
     @$el.removeClass(@lastMood) if @lastMood
     @$el.find('.dialogue-area').hide()
     @updateVideo()
+
+  onSomeSoundStarted: (e) ->
+    @activeSounds ?= []
+    @activeSounds.push(e.soundInstance)
+
+  onSomeSoundCompleted: (e) ->
+    @activeSounds = _.without @activeSounds, e.soundInstance
+
+  onCastSpell: (e) ->
+    @clearActiveSounds()
+
+  clearActiveSounds: ->
+    for sound in @activeSounds ? []
+      sound.stop()
+    @activeSounds = []
 
   setMessage: (message, mood, responses) ->
     message = marked message

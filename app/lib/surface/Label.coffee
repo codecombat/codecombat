@@ -83,6 +83,10 @@ module.exports = class Label extends CocoClass
     offset.y += 10 if @style is Label.STYLE_VAR
     rotation = @sprite.getRotation()
     offset.x *= -1 if rotation >= 135 or rotation <= -135
+    if @sprite?.thang?.id is 'Hero Placeholder' and ((offset.x is 10 and offset.y is -38) or (offset.x is 0 and offset.y is 0))
+      # Hack: fix weird Sophia offset
+      offset.x = 151
+      offset.y -= 30
     @label.x = @background.x = @sprite.sprite.x + offset.x
     @label.y = @background.y = @sprite.sprite.y + offset.y
     if @returnBounds and @background.bitmapCache and @sprite?.options?.camera

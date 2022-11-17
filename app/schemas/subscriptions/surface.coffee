@@ -59,6 +59,14 @@ module.exports =  # /app/lib/surface
 
   'level:sprite-clear-dialogue': c.object {}
 
+  'sprite:some-sound-started': c.object {},
+    lank: {type: 'object'},
+    soundInstance: {type: 'object'}
+
+  'sprite:some-sound-completed': c.object {},
+    lank: {type: 'object'},
+    soundInstance: {type: 'object'}
+
   'surface:gold-changed': c.object {required: ['team', 'gold']},
     team: {type: 'string'}
     gold: {type: 'number'}

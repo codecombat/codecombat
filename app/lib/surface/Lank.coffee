@@ -700,7 +700,7 @@ module.exports = Lank = class Lank extends CocoClass
     sound = e.sound ? AudioPlayer.soundForDialogue e.message, @thangType.get 'soundTriggers'
     if utils.isCodeCombat
       @dialogueSoundInstance?.stop()
-      if @dialogueSoundInstance = @playSound sound, false
+      if @dialogueSoundInstance = @playSound sound, false, 1, true
         @dialogueSoundInstance.addEventListener 'complete', -> Backbone.Mediator.publish 'sprite:dialogue-sound-completed', {}
       if utils.getQueryVariable('demo')
         $.post '/service/sophia/say', text: e.message, who: 'Little Sophia'
@@ -764,7 +764,7 @@ module.exports = Lank = class Lank extends CocoClass
     @previouslySaidMessages[m] = t1
     return true if t1 - t0 < 5 * 1000
     # Don't pronounce long say messages while scrubbing or doing fast-forward playback
-    return true if m.length > 20 and (@gameUIState.get('scrubbingPlaybackSpeed') > 1.1 or @gameUIState.get('fastForwardingSpeed') > 1.1)
+    return true if m.length > 10 and (@gameUIState.get('scrubbingPlaybackSpeed') > 1.1 or @gameUIState.get('fastForwardingSpeed') > 1.1)
     false
 
   playSounds: (withDelay=true, volume=1.0) ->
@@ -784,7 +784,7 @@ module.exports = Lank = class Lank extends CocoClass
           update = "#{who} says, \"#{@thang.sayMessage}\""
           $('#screen-reader-live-updates').append($("<div>#{update}</div>"))  # TODO: move this to a store or lib? Limit how many lines?
 
-  playSound: (sound, withDelay=true, volume=1.0) ->
+  playSound: (sound, withDelay=true, volume=1.0, isMainDialogue=false) ->
     if utils.isCodeCombat
       if _.isString sound
         soundTriggers = utils.i18n @thangType.attributes, 'soundTriggers'
@@ -796,10 +796,22 @@ module.exports = Lank = class Lank extends CocoClass
       name = AudioPlayer.nameForSoundReference sound
       AudioPlayer.preloadSoundReference sound
       instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
-      #console.log @thang?.id, 'played sound', name, 'with delay', delay, 'volume', volume, 'and got sound instance', instance
+      #console.log @thang?.id, 'played sound', name, 'with delay', delay, 'volume', volume, 'and got sound instance', @instance
+      if instance
+        if @lastSoundInstance
+          @lastSoundInstance.removeAllEventListeners()
+          @lastSoundInstance.stop()
+          Backbone.Mediator.publish 'sprite:some-sound-completed', {lank: @, soundInstance: @lastSoundInstance}
+        if not isMainDialogue
+          @lastSoundInstance = instance
+          Backbone.Mediator.publish 'sprite:some-sound-started', {lank: @, soundInstance: @lastSoundInstance}
+          @lastSoundInstance.addEventListener 'complete', =>
+            Backbone.Mediator.publish 'sprite:some-sound-completed', {lank: @, soundInstance: @lastSoundInstance}
+            @lastSoundInstance.removeAllEventListeners()
+            @lastSoundInstance = null
       if /Hero Placeholder/.test(@thang?.id) and utils.getQueryVariable('demo') and @thang.sayMessage
         $.post '/service/sophia/say', text: @thang.sayMessage, who: 'Sophia'
-      instance
+      @lastSoundInstance
     else # Ozaria
       # Sounds are triggered once and play until they complete.
       # If a sound is already playing, it is not played again.
@@ -913,4 +925,5 @@ module.exports = Lank = class Lank extends CocoClass
     clearInterval @effectInterval if @effectInterval
     if utils.isCodeCombat
       @dialogueSoundInstance?.removeAllEventListeners()
+      @lastSoundInstance?.removeAllEventListeners()
     super()
