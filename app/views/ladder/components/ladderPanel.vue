@@ -22,42 +22,41 @@
       <div class="arena__helpers__description">
         {{ readableDescription({ description: arena.description, imgPath: arena.image }) }}
       </div>
-      <div
-        v-if="tournament"
-        class="arena__helpers__tournament_status row"
-      >
-        <div class="clan col-sm-4">
-          {{ $t('tournament.team_name', {name: clan.displayName || clan.name }) }}
+      <div class="arena__helpers__bottom">
+        <div
+          v-if="tournament"
+          class="arena__helpers__bottom__tournament_status"
+        >
+          <div class="clan">
+            {{ $t('tournament.team_name', {name: clan.displayName || clan.name }) }}
+          </div>
+          <div class="status">
+            {{ $t('tournament.status', { state: tournament.state }) }}
+          </div>
+          <div class="time">
+            {{ tournamentTime }}
+          </div>
         </div>
-        <div class="status col-sm-4">
-          {{ $t('tournament.status', { state: tournament.state }) }}
+        <div class="arena__helpers__bottom__permission">
+          <span class="arena__helpers-element">
+            <button
+              v-if="!canEdit"
+              class="btn btn-secondary btn-moon"
+              @click="$emit('create-tournament')"
+            >
+              {{ $t('tournament.create_tournament') }}
+            </button>
+          </span>
+          <span class="arena__helpers-element">
+            <button
+              v-if="canEdit"
+              class="btn btn-secondary btn-moon"
+              @click="$emit('edit-tournament')"
+            >
+              {{ $t('tournament.edit_tournament') }}
+            </button>
+          </span>
         </div>
-        <div class="time col-sm-4">
-          {{ tournamentTime }}
-        </div>
-      </div>
-      <div
-        class="arena__helpers__permission"
-      >
-        <span class="arena__helpers-element">
-          <button
-            v-if="!canEdit"
-            class="btn btn-secondary btn-moon"
-            @click="$emit('create-tournament')"
-          >
-            {{ $t('tournament.create_tournament') }}
-          </button>
-        </span>
-
-        <span class="arena__helpers-element">
-          <button
-            v-if="canEdit"
-            class="btn btn-secondary btn-moon"
-            @click="$emit('edit-tournament')"
-          >
-            {{ $t('tournament.edit_tournament') }}
-          </button>
-        </span>
       </div>
     </div>
   </div>
@@ -156,9 +155,10 @@ export default {
 <style scoped lang="scss">
 @import "app/styles/common/button";
 
-.btn-moon {
-  padding: 0.5rem 0 !important;
-}
+/* .btn-moon {
+   padding: 0.5rem 0 !important;
+   } */
+
 .arena {
   &__info {
     display: block;
@@ -207,16 +207,23 @@ export default {
   &__helpers {
     background-color: #d3d3d3;
 
-    &__tournament_status {
-      color: black;
+    &__bottom {
       display: flex;
-      font-weight: bold;
-      line-height: 2rem;
-    }
+      justify-content: space-between;
+      align-items: flex-end;
 
-    &__permission {
-      text-align: right;
-      padding: .5rem;
+      &__tournament_status {
+        margin-left: 1rem;
+        color: black;
+        font-weight: bold;
+        line-height: 2rem;
+      }
+
+      &__permission {
+        flex-grow: 1;
+        text-align: right;
+        padding: .5rem;
+      }
     }
 
     &__description {
