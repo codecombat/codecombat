@@ -495,11 +495,14 @@ module.exports = class InventoryModal extends ModalView
       restrictedPropertiesOnThisItem = _.intersection(item.programmableProperties, restrictedProperties)
       continue unless requiredPropertiesOnThisItem.length and not restrictedPropertiesOnThisItem.length
       for slot in item.getAllowedSlots()
+        requiredPropertiesNotOnThisItem = _.without(requiredPropertiesPerSlot[slot] ? [], item.programmableProperties...)
         continue if slot isnt 'right-hand' and _.isEqual requiredPropertiesOnThisItem, ['buildXY']  # Don't require things like caltrops belt
+        continue if requiredPropertiesNotOnThisItem.length
         requiredGear[slot] ?= []
         requiredGear[slot].push(item.get('original')) unless item.get('original') in requiredGear[slot]
         requiredPropertiesPerSlot[slot] ?= []
         requiredPropertiesPerSlot[slot].push(prop) for prop in requiredPropertiesOnThisItem when prop not in requiredPropertiesPerSlot[slot]
+        console.log(slot, 'has required item', item, 'because restrictedPropertiesOnThisItem is', restrictedPropertiesOnThisItem, 'and requiredPropertiesOnThisItem is', requiredPropertiesOnThisItem) if debugInventory
     @requiredPropertiesPerSlot = requiredPropertiesPerSlot
     @requiredGearPerSlot = requiredGear
     @requiredGearPerSlot
@@ -519,6 +522,7 @@ module.exports = class InventoryModal extends ModalView
         if restrictedPropertiesOnThisItem.length or requiredPropertiesNotOnThisItem.length
           restrictedGear[slot] ?= []
           restrictedGear[slot].push(item.get('original')) unless item.get('original') in restrictedGear[slot]
+          console.log(slot, 'has restricted item', item, 'because restrictedPropertiesOnThisItem is', restrictedPropertiesOnThisItem, 'and requiredPropertiesNotOnThisItem is', requiredPropertiesNotOnThisItem) if debugInventory
     @restrictedGearPerSlot = restrictedGear
     @restrictedGearPerSlot
 

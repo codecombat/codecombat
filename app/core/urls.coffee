@@ -24,8 +24,8 @@ module.exports =
     url
 
   courseWorldMap: (param) ->
-    courseId = param.courseId or param.course?.id or param.course
-    courseInstanceId = param.courseInstanceId or param.courseInstance?.id or param.courseInstance
+    courseId = param.courseId or param.course?.id or param.course?._id or param.course
+    courseInstanceId = param.courseInstanceId or param.courseInstance?.id or param.courseInstance?._id or param.courseInstance
     campaignId = param.campaignId or param.course?.attributes?.campaignID or param.course?.campaignID
     campaignPage = param.campaignPage
     codeLanguage = param.codeLanguage
