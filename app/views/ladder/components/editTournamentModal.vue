@@ -8,7 +8,9 @@
       @submit.prevent="onFormSubmit"
     >
       <div class="form-group">
-        <label for="name">Ladder</label>
+        <label for="name">
+          {{ $t('courses.arena') }}
+        </label>
         <input
           id="name"
           v-model="editableTournament.name"
@@ -17,6 +19,7 @@
           disabled
         >
         <template v-if="clanId">
+          <!-- TODO i18n -->
           <label for="clan"> Team </label>
           <span class="small text-navy">Team is required to create a tournament</span>
           <clan-selector
@@ -27,8 +30,10 @@
             @change="e => changeClanSelected(e)"
           />
         </template>
-        <label for="startDate">Start Date</label>
-        <span class="small text-navy">The start time of tournament</span>
+        <label for="startDate">
+          {{ $t('tournament.start_date_time') }}
+        </label>
+        <span class="small text-navy"> {{ `(${timeZone})` + $t('tournament.start_date_description') }}</span>
         <input
           id="startDate"
           v-model="_startDate"
@@ -36,8 +41,10 @@
           class="form-control"
           :disabled="disableEdit"
         >
-        <label for="endDate">End Date</label>
-        <span class="small text-navy">The end time of tournament</span>
+        <label for="endDate">
+          {{ $t('tournament.end_date_time') }}
+        </label>
+        <span class="small text-navy">{{ `(${timeZone})` + $t('tournament.end_date_description') }}</span>
         <input
           id="endDate"
           v-model="_endDate"
@@ -45,8 +52,10 @@
           class="form-control"
           :disabled="disableEdit"
         >
-        <label for="resultsDate">Results Date</label>
-        <span class="small text-navy">Tournament need 2 days to generate final leaderboard</span>
+        <label for="resultsDate">
+          {{ $t('tournament.results_date_time') }}
+        </label>
+        <span class="small text-navy">{{ `(${timeZone})` + $t('tournament.results_date_description') }}</span>
         <input
           id="resultsDate"
           v-model="_resultsDate"
@@ -60,14 +69,14 @@
           v-if="isSuccess"
           class="success-msg"
         >
-          Success
+          {{ $t('teacher.success') }}
         </span>
         <button
           class="btn btn-success btn-lg"
           type="submit"
           :disabled="inProgress || disableEdit"
         >
-          Submit
+          {{ $t('common.submit') }}
         </button>
       </div>
     </form>
@@ -119,6 +128,10 @@ export default {
     ...mapGetters({
       myClans: 'clans/myClans'
     }),
+    timeZone () {
+      if (features?.chinaInfra) return '北京时间'
+      return 'PT'
+    },
     me () {
       return me
     },

@@ -38,7 +38,7 @@
     </div>
     <div class="clan-selector">
       <div>
-        select your team to creat/edit your tournaments
+        {{ $t('tournament.select_team_desc') }}
       </div>
       <clan-selector
         v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0"
@@ -53,7 +53,7 @@
       class="ladder-view container"
     >
       <div class="ladder-view__text">
-        You already created {{ currentTournaments.length }} tournaments here:
+        {{ $t('tournament.already_create_tournaments_num', { num: currentTournaments.length }) }}
       </div>
       <ladder-panel
         v-for="t in tournamentsTop3"
@@ -102,7 +102,7 @@
       class="ladder-view container"
     >
       <div class="ladder-view__text">
-        You can create  {{ tournamentsLeft }}  more tournament(s) from below:
+        {{ $t('tournament.can_create_tournaments_num', {num: tournamentsLeft }) }}
       </div>
       <ladder-panel
         v-for="arena in usableArenas"

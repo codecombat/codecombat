@@ -33,7 +33,12 @@ export default {
 
 <template>
   <div>
-    <label for="clans" v-if="label">My Teams:</label>
+    <label
+      v-if="label"
+      for="clans"
+    >
+      {{ $t('tournament.my_teams') }}
+    </label>
     <select
       id="clans"
       name="clans"
