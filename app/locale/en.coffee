@@ -3746,6 +3746,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     point6: "✓ Full lesson plans"
     title: "HOUR OF CODE"
     acronym: "HOC"
+    play_video: "Play Video"
+    featured_title_1: "CodeCombat: Goblins 'n' Glory"
+    featured_subtitle_1: "Grades 6-8 | JavaScript, Python"
+    featured_blurb_1: "We need your help! Embark on an epic quest where you take control of the game through your powers of programming."
+    featured_title_2: "Esports Bootcamp: AI League"
+    featured_subtitle_2: "Grades 6-8 | JavaScript, Python"
+    featured_blurb_2: "Competitive coding has never been so epic! Learn the skills you need to play like the pros in our Esports Bootcamp. No coding experience needed"
+    featured_title_3: "Ozaria: Your Journey Begins"
+    featured_subtitle_3: "Grades 6-8 | JavaScript, Python"
+    featured_blurb_3: "Enter the world of Ozaria where you must use the power of coding to defeat a darkness that has taken over the world!"
 
   hoc_2018_interstitial:
     welcome: "Welcome to CodeCombat's Hour of Code!"
