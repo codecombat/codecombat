@@ -7,7 +7,7 @@ APCSPLanding = require('./APCSPLanding').default
 
 module.exports = class DynamicAPCSPView extends RootView
   id: 'dynamic-apcsp-view'
-  template: require 'templates/teachers/dynamic-apcsp-view'
+  template: require 'app/templates/teachers/dynamic-apcsp-view'
 
   getMeta: ->
     title: $.i18n.t 'apcsp.title'
@@ -45,7 +45,7 @@ module.exports = class DynamicAPCSPView extends RootView
       )
 
   cannotAccess: ->
-    return me.isAnonymous() or !me.isTeacher() or !me.get('verifiedTeacher')
+    return false # me.isAnonymous() or !me.isTeacher() or !me.get('verifiedTeacher')
 
   afterRender: ->
     super()

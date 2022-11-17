@@ -1,0 +1,26 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+.spell-debug-view
+  position: absolute
+  z-index: 9001
+  min-width: 250px
+  max-width: 400px
+  padding: 10px
+  border-style: solid
+  border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+  border-width: 8px 6px
+  .progress
+    position: relative
+    span
+      position: absolute
+      display: block
+      color: black
+      width: 100%
+
+html.no-borderimage
+  .spell-debug-view
+    background: transparent url(/images/level/popover_background.png)
+    background-size: 100% 100%
+    border: 0
+      

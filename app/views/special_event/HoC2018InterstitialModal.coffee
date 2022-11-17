@@ -1,9 +1,10 @@
 ModalComponent = require 'views/core/ModalComponent'
 HoCInterstitialComponent = require('./HoC2018InterstitialModal.vue').default
+utils = require 'core/utils'
 
 module.exports = class HoC2018InterstitialModal extends ModalComponent
   id: 'hoc-interstitial-modal'
-  template: require 'templates/core/modal-base-flat'
+  template: require 'app/templates/core/modal-base-flat'
   closeButton: true
   VueComponent: HoCInterstitialComponent
 
@@ -11,7 +12,7 @@ module.exports = class HoC2018InterstitialModal extends ModalComponent
   initialize: ->
     @propsData = {
       clickStudent: () => @hide(),
-      clickTeacher: () => application.router.navigate("/teachers/hour-of-code?activity=#{@options.activity or 'ai-league'}", { trigger: true }),
+      clickTeacher: () => application.router.navigate("/teachers/hour-of-code" + (if utils.isCodeCombat then "?activity=#{@options.activity or 'ai-league'}" else ""), { trigger: true }),
       showVideo: false
     }
   constructor: (options) ->

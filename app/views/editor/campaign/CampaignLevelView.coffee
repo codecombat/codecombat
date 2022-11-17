@@ -8,7 +8,7 @@ utils = require 'core/utils'
 
 module.exports = class CampaignLevelView extends CocoView
   id: 'campaign-level-view'
-  template: require 'templates/editor/campaign/campaign-level-view'
+  template: require 'app/templates/editor/campaign/campaign-level-view'
 
   events:
     'change .line-graph-checkbox': 'updateGraphCheckbox'
@@ -191,7 +191,7 @@ module.exports = class CampaignLevelView extends CocoView
           y: avg
           day: day.created
           pointID: "#{playtimeLineID}#{i}"
-          values: ["Average playtime: #{avg.toFixed(2)}s"]
+          values: ["Average playtime: #{avg.toFixed(2)}s, #{day.count} players"]
       # Ensure points for each day
       for day, i in days
         if playtimePoints.length <= i or playtimePoints[i].day isnt day

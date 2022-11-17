@@ -1,0 +1,20 @@
+form.modal-body.choose-account-type
+  .row
+    p.medium-gray.constrain-text-width(data-i18n="signup.educators_create_account")
+  .row
+    button.btn.btn-lg.teacher-path-button.ozaria-primary-button(data-i18n="signup.signup_as_teacher" type="button")
+
+  .row.or-row
+    .line
+    p.or(data-i18n="login.or")
+    .line
+
+  .form-group
+    p.medium-gray.constrain-text-width(data-i18n="signup.request_class_code")
+
+    label.control-label(for="classCode")
+      span(data-i18n="play.anon_signup_enter_code")
+    .class-code-input-group.form-group
+      input.class-code-input(name="classCode" value=view.signupState.get('classCode') spellcheck="false" required)
+
+    button.btn.btn-lg.student-path-button.ozaria-primary-button(type="submit" data-i18n="signup.signup_as_student")

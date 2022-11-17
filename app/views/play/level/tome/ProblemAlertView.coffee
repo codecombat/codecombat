@@ -1,7 +1,7 @@
 require('app/styles/play/level/tome/problem_alert.sass')
 CocoView = require 'views/core/CocoView'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
-template = require 'templates/play/level/tome/problem_alert'
+template = require 'app/templates/play/level/tome/problem_alert'
 {me} = require 'core/auth'
 
 module.exports = class ProblemAlertView extends CocoView

@@ -20,6 +20,9 @@ module.exports =
   'audio-player:play-sound': c.object {required: ['trigger']},
     trigger: {type: 'string'}
     volume: {type: 'number', minimum: 0, maximum: 1}
+    delay: {type: 'number', minimum: 0, description: 'Delay in seconds before the sound should play'}
+    pos: {type: ['object', 'null'], description: 'World coordinates for where the sound is coming from, for in-game sounds'}
+    pan: {type: 'number', minimum: -1, maximum: 1, description: 'Left/right panning (default: 0, center)'}
 
   'music-player:play-music': c.object {required: ['play']},
     play: {type: 'boolean'}

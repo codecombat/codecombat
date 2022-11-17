@@ -1,0 +1,51 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/play/variables"
+
+#gold-view
+  display: none
+  position: absolute
+  right: calc(45% + 10px + #{$api-bar-width})
+  #level-view.no-api &
+    right: calc(50% + 20px)
+    z-index: 10
+  top: 62px
+  z-index: 6
+  @include transition(box-shadow .2s linear)
+  @include user-select(none)
+  padding: 0.4vw
+  background: transparent url(/images/level/gold_background.png) no-repeat
+  background-size: 100% 100%
+  border-radius: 4px
+
+  &:hover
+    box-shadow: 2px 2px 2px black
+
+  .team-gold
+    font-size: 1.4vw
+    line-height: 1.4vw
+    margin: 0
+    color: hsla(205,0%,51%,1)
+    display: inline-block
+    padding: 0px 4px
+
+    &.team-humans
+      color: hsla(4,80%,51%,1)
+
+    &.team-ogres
+      color: hsla(205,100%,51%,1)
+
+    &.team-allies, &.team-minions
+      color: hsla(116,80%,51%,1)
+
+    img
+      width: 1.2vw
+      height: 1.2vw
+      border-radius: 2px
+      padding: 0.1vw
+      margin-top: -0.2vw
+      margin-right: 0.1vw
+  
+    .gold-amount
+      display: inline-block
+      min-width: 20px

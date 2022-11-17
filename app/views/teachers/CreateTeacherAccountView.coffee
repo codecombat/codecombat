@@ -11,6 +11,7 @@ State = require 'models/State'
 countryList = require('country-list')()
 UsaStates = require('usa-states').UsaStates
 globalVar = require 'core/globalVar'
+utils = require 'core/utils'
 
 
 SIGNUP_REDIRECT = '/teachers/classes'
@@ -19,13 +20,13 @@ SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 
 module.exports = class CreateTeacherAccountView extends RootView
   id: 'create-teacher-account-view'
-  template: require 'templates/teachers/create-teacher-account-view'
+  template: require 'app/templates/teachers/create-teacher-account-view'
 
   events:
     'click .login-link': 'onClickLoginLink'
     'change form#signup-form': 'onChangeForm'
     'submit form#signup-form': 'onSubmitForm'
-    'click #gplus-signup-btn': 'onClickGPlusSignupButton'
+    'click #google-login-button-ctav': 'onClickGPlusSignupButton'
     'click #facebook-signup-btn': 'onClickFacebookSignupButton'
     'change input[name="city"]': 'invalidateNCES'
     'change input[name="state"]': 'invalidateNCES'
@@ -34,6 +35,9 @@ module.exports = class CreateTeacherAccountView extends RootView
     'change select[name="country"]': 'onChangeCountry'
     'change input[name="email"]': 'onChangeEmail'
     'change input[name="name"]': 'onChangeName'
+
+  getRenderData: ->
+    _.merge super(arguments...), { product: utils.getProductName() }
 
   initialize: ->
     @trialRequest = new TrialRequest()
@@ -74,6 +78,7 @@ module.exports = class CreateTeacherAccountView extends RootView
           email: @trialRequest?.get('properties')?.email
         }
       })
+    @onClickGPlusSignupButton()
     super()
 
   invalidateNCES: ->
@@ -183,13 +188,6 @@ module.exports = class CreateTeacherAccountView extends RootView
       trialRequestAttrs.educationLevel.push(val) if val
 
     forms.clearFormAlerts(form)
-    tv4.addFormat({
-      'phoneNumber': (phoneNumber) ->
-        if forms.validatePhoneNumber(phoneNumber)
-          return null
-        else
-          return {code: tv4.errorCodes.FORMAT_CUSTOM, message: 'Please enter a valid phone number, including area code.'}
-    })
 
     result = tv4.validateMultiple(trialRequestAttrs, formSchema)
     error = false
@@ -311,10 +309,6 @@ module.exports = class CreateTeacherAccountView extends RootView
           window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
         )
 
-      trackerCalls.push(
-        globalVar.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
-      )
-
       return Promise.all(trackerCalls).catch(->)
 
     .then =>
@@ -344,16 +338,18 @@ module.exports = class CreateTeacherAccountView extends RootView
   # GPlus signup
 
   onClickGPlusSignupButton: ->
-    btn = @$('#gplus-signup-btn')
+    btn = @$('#google-login-button-ctav')
     btn.attr('disabled', true)
     application.gplusHandler.loadAPI({
       success: =>
         btn.attr('disabled', false)
         application.gplusHandler.connect({
-          success: =>
+          elementId: 'google-login-button-ctav'
+          success: (resp = {}) =>
             btn.find('.sign-in-blurb').text($.i18n.t('signup.creating'))
             btn.attr('disabled', true)
             application.gplusHandler.loadPerson({
+              resp: resp
               success: (@gplusAttrs) =>
                 existingUser = new User()
                 existingUser.fetchGPlusUser(@gplusAttrs.gplusID, @gplusAttrs.email, {

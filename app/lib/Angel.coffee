@@ -8,6 +8,7 @@ GoalManager = require 'lib/world/GoalManager'
 {sendContactMessage} = require 'core/contact'
 errors = require 'core/errors'
 utils = require 'core/utils'
+store = require 'core/store'
 
 reportedLoadErrorAlready = false
 
@@ -70,7 +71,7 @@ module.exports = class Angel extends CocoClass
   testWorker: =>
     return if @destroyed
     clearTimeout @condemnTimeout
-    @condemnTimeout = _.delay @infinitelyLooped, @infiniteLoopTimeoutDuration
+    @condemnTimeout = _.delay (=> @infinitelyLooped {timedOut: true}), @infiniteLoopTimeoutDuration
     @say 'Let\'s give it', @infiniteLoopTimeoutDuration, 'to not loop.'
     @worker.postMessage func: 'reportIn'
 
@@ -102,7 +103,7 @@ module.exports = class Angel extends CocoClass
       when 'non-user-code-problem'
         @publishGodEvent 'non-user-code-problem', problem: event.data.problem
         if @shared.firstWorld
-          @infinitelyLooped(false, true)  # For now, this should do roughly the right thing if it happens during load.
+          @infinitelyLooped escaped: false, nonUserCodeProblem: true, problem: event.data.problem  # For now, this should do roughly the right thing if it happens during load.
         else
           @fireWorker()
 
@@ -192,14 +193,24 @@ module.exports = class Angel extends CocoClass
     @worker.postMessage func: 'finalizePreload'
     @work.preload = false
 
-  infinitelyLooped: (escaped=false, nonUserCodeProblem=false) =>
+  infinitelyLooped: ({escaped=false, nonUserCodeProblem=false, problem=null, timedOut=false}) =>
+    console.log 'Infinitely looped.', escaped, nonUserCodeProblem, problem, timedOut
     @say 'On infinitely looped! Aborting?', @aborting
     return if @aborting
-    problem = type: 'runtime', level: 'error', id: 'runtime_InfiniteLoop', message: 'Code never finished. It\'s either really slow or has an infinite loop.'
-    problem.message = 'Escape pressed; code aborted.' if escaped
+    problem ?= {}
+    problem.type ?= 'runtime'
+    problem.level ?= 'error'
+    problem.id ?= 'runtime_InfiniteLoop'  # TODO: use some other ID for non-user-code problems?
+    problem.message ?= 'Escape pressed; code aborted.' if escaped
+    problem.message ?= 'Code never finished. It\'s either really slow or has an infinite loop.' if timedOut
+    problem.message ?= 'Unknown error.'
     @publishGodEvent 'user-code-problem', problem: problem
-    @publishGodEvent 'infinite-loop', firstWorld: @shared.firstWorld, nonUserCodeProblem: nonUserCodeProblem
+    @publishGodEvent 'infinite-loop', firstWorld: @shared.firstWorld, nonUserCodeProblem: nonUserCodeProblem, problem: problem, timedOut: timedOut
     @reportLoadError() if nonUserCodeProblem
+    if timedOut
+      # If they try again, give them more time next time
+      @infiniteLoopIntervalDuration *= 2
+      @infiniteLoopTimeoutDuration *= 2
     @fireWorker()
 
   publishGodEvent: (channel, e) ->
@@ -301,6 +312,17 @@ module.exports = class Angel extends CocoClass
       @worker.postMessage func: 'addRealTimeInputEvent', args: realTimeInputEvent.toJSON()
 
   onStopRealTimePlayback: (e) ->
+    # TODO Improve later with GoalManger reworking
+    if utils.isOzaria and store.getters['game/clickedUpdateCapstoneCode'] and @work?.world?.goalManager?.goalStates?["has-stopped-playing-game"]
+      # The update button goal is a simple way to ensure that the student presses update to test their code.
+      # After the first time the update button has been pressed, it is in a 'success' state until the page reloads.
+      @work.world.goalManager.setGoalState("has-clicked-update-button", "success")
+
+    if utils.isOzaria and store.getters['game/hasPlayedGame'] and @work?.world?.goalManager?.goalStates?["has-stopped-playing-game"]
+      # Mark the goal completed and prevent the goalmanager being destroying
+      @work.world.goalManager.setGoalState("has-stopped-playing-game", "success")
+      @work.world.endWorld(true, 0)
+      return
     return unless @running and @work.realTime
     if @work.synchronous
       return @abort()
@@ -312,7 +334,7 @@ module.exports = class Angel extends CocoClass
   onEscapePressed: (e) ->
     return unless @running and not @work.realTime
     return if (new Date() - @lastRealTimeWork) < 1000  # Fires right after onStopRealTimePlayback
-    @infinitelyLooped true
+    @infinitelyLooped escaped: true
 
   #### Synchronous code for running worlds on main thread (profiling / IE9) ####
   simulateSync: (work) =>
@@ -326,6 +348,7 @@ module.exports = class Angel extends CocoClass
     work.world.flagHistory = work.flagHistory ? []
     work.world.realTimeInputEvents = work.realTimeInputEvents ? []
     work.world.difficulty = work.difficulty ? 0
+    work.world.capstoneStage = work.capstoneStage ? 1
     work.world.language = me.get('preferredLanguage', true)
     work.world.loadFromLevel work.level, true
     work.world.preloading = work.preload
@@ -335,7 +358,7 @@ module.exports = class Angel extends CocoClass
     work.world.justBegin = work.justBegin
     work.world.keyValueDb = work.keyValueDb
     if @shared.goalManager
-      goalManager = new GoalManager(work.world)
+      goalManager = new GoalManager(work.world, @shared.goalManager.initialGoals, null, @shared.goalManager.options)
       goalManager.setGoals work.goals
       goalManager.setCode work.userCodeMap
       goalManager.worldGenerationWillBegin()

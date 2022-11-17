@@ -20,10 +20,10 @@ require('app/styles/play/level/tome/tome.sass')
 # SpellPaletteViews are destroyed and recreated whenever you switch Thangs.
 
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/tome'
+template = require 'app/templates/play/level/tome/tome'
 {me} = require 'core/auth'
 Spell = require './Spell'
-SpellPaletteView = require './SpellPaletteView'
+SpellPaletteViewBot = require './SpellPaletteViewBot'
 CastButtonView = require './CastButtonView'
 utils = require 'core/utils'
 store = require 'core/store'
@@ -42,6 +42,7 @@ module.exports = class TomeView extends CocoView
     'surface:sprite-selected': 'onSpriteSelected'
     'god:new-world-created': 'onNewWorld'
     'tome:comment-my-code': 'onCommentMyCode'
+    'tome:reset-my-code': 'onResetMyCode'
     'tome:select-primary-sprite': 'onSelectPrimarySprite'
 
   events:
@@ -83,7 +84,13 @@ module.exports = class TomeView extends CocoView
       commentedSource = spell.view.commentOutMyCode() + 'Commented out to stop infinite loop.\n' + spell.getSource()
       spell.view.updateACEText commentedSource
       spell.view.recompile false
-    @cast()
+    _.delay (=> @cast?()), 1000
+
+  onResetMyCode: (e) ->
+    for spellKey, spell of @spells when spell.canWrite()
+      spell.view.updateACEText spell.originalSource
+      spell.view.recompile false
+    _.delay (=> @cast?()), 1000
 
   onChangeMyCode: (solution) ->
     for spellKey, spell of @spells when spell.canWrite()
@@ -142,6 +149,7 @@ module.exports = class TomeView extends CocoView
           god: @options.god
           courseID: @options.courseID
           courseInstanceID: @options.courseInstanceID
+          classroomAceConfig: @options.classroomAceConfig
 
     for thangID, spellKeys of @thangSpells
       thang = @fakeProgrammableThang ? world.getThangByID thangID
@@ -212,10 +220,13 @@ module.exports = class TomeView extends CocoView
     @spellView?.setThang thang
 
   updateSpellPalette: (thang, spell) ->
-    return unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
+    paletteManagedInParent = @options.playLevelView?.updateSpellPalette thang, spell
+    @$('#spell-palette-view-bot').toggleClass 'hidden', paletteManagedInParent
+    return if paletteManagedInParent
     useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
-    @spellPaletteView = @insertSubView new SpellPaletteView { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session, level: @options.level, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID, useHero }
-    @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view   # TODO: know when palette should have been disabled but didn't exist
+    @removeSubview @spellPaletteView if @spellPaletteView
+    @spellPaletteView = @insertSubView new SpellPaletteViewBot { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session, level: @options.level, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID, useHero }
+    @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view
 
   spellFor: (thang, spellName) ->
     return null unless thang?.isProgrammable
@@ -231,7 +242,7 @@ module.exports = class TomeView extends CocoView
   reloadAllCode: ->
     if utils.getQueryVariable 'dev'
       @options.playLevelView?.spellPaletteView?.destroy()
-      @updateSpellPalette @spellView.thang, @spellView.spell
+      @updateSpellPalette @spellView.thang, @spellView.spell if @spellView
     spell.view.reloadCode false for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
     @cast false, false
 

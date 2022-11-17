@@ -1,6 +1,6 @@
 require('app/styles/artisans/level-guides-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/artisans/level-guides-view'
+template = require 'app/templates/artisans/level-guides-view'
 
 Campaigns = require 'collections/Campaigns'
 Campaign = require 'models/Campaign'

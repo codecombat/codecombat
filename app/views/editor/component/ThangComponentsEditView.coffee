@@ -1,6 +1,6 @@
 require('app/styles/editor/component/thang-components-edit-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/component/thang-components-edit-view'
+template = require 'app/templates/editor/component/thang-components-edit-view'
 
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
@@ -10,6 +10,7 @@ ThangComponentConfigView = require './ThangComponentConfigView'
 AddThangComponentsModal = require './AddThangComponentsModal'
 nodes = require '../level/treema_nodes'
 require 'lib/setupTreema'
+utils = require 'core/utils'
 
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
@@ -85,6 +86,7 @@ module.exports = class ThangComponentsEditView extends CocoView
     return unless @supermodel.finished()
     @buildComponentsTreema()
     @addThangComponentConfigViews()
+    @selectKeyComponent()
 
   buildComponentsTreema: ->
     components = _.zipObject((c.original for c in @components), @components)
@@ -255,6 +257,8 @@ module.exports = class ThangComponentsEditView extends CocoView
         subview = @makeThangComponentConfigView(componentRef)
         continue unless subview
         @registerSubView(subview)
+      else unless _.isEqual componentRef.config, subview.config
+        subview.setConfig componentRef.config ? {}
       subview.setIsDefaultComponent(not @componentsTreema.data[componentRef.original])
       configsEl.append(subview.$el)
 
@@ -298,6 +302,12 @@ module.exports = class ThangComponentsEditView extends CocoView
     @updateComponentsList()
     @reportChanges()
 
+  selectKeyComponent: ->
+    for child in _.values(@componentsTreema.childrenTreemas)
+      if child.keyForParent in [LevelComponent.RefereeID].concat(LevelComponent.ProgrammableIDs)
+        @onSelectComponent null, [child]
+        break
+
   onSelectComponent: (e, nodes) =>
     @componentsTreema.$el.find('.dependent').removeClass('dependent')
     @$el.find('.selected-component').removeClass('selected-component')
@@ -337,6 +347,7 @@ module.exports = class ThangComponentsEditView extends CocoView
 
   checkForMissingSystems: ->
     return unless @level
+    return if utils.isOzaria  # Ozaria has different systems and doesn't track relationships between Components and Systems there
     extantSystems =
       (@supermodel.getModelByOriginalAndMajorVersion LevelSystem, sn.original, sn.majorVersion).attributes.name.toLowerCase() for idx, sn of @level.get('systems')
 

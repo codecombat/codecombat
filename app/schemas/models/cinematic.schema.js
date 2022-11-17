@@ -1,5 +1,5 @@
 const c = require('./../schemas')
-//const { LEFT_LANK_KEY, RIGHT_LANK_KEY, HERO_PET, BACKGROUND_OBJECT } = require('./../../../ozaria/engine/cinematic/constants')
+const { LEFT_LANK_KEY, RIGHT_LANK_KEY, HERO_PET, BACKGROUND_OBJECT } = require('./../../../ozaria/engine/cinematic/constants')
 
 const ThangTypeSchema = (title, description) => c.object({
   title,
@@ -80,7 +80,7 @@ const ShotSetup = c.object({
         { title: 'Music' },
         {
           files: c.sound(),
-          loop: { type: 'boolean', default: false }
+          loop: { type: 'boolean', default: true }
         }),
 
       // Legacy sound schema.  Present for backwards compatibility.
@@ -136,7 +136,7 @@ const DialogNode = c.object({
       title: 'Change Idle Action',
       description: 'Setting this will update the default idle action for the rest of the cinematic. The default value is \'idle\'.'
     }, {
-      character: c.shortString({ title: 'Character', description: 'Which character has default idle action updated', }),  //enum: [LEFT_LANK_KEY, RIGHT_LANK_KEY, BACKGROUND_OBJECT] }),
+      character: c.shortString({ title: 'Character', description: 'Which character has default idle action updated', enum: [LEFT_LANK_KEY, RIGHT_LANK_KEY, BACKGROUND_OBJECT] }),
       newIdleAction: c.shortString({ title: 'New Idle Action' })
     })
     ),
@@ -185,7 +185,7 @@ const DialogNode = c.object({
       delay: c.int({ title: 'Delay(ms)' }),
       duration: c.int({ title: 'Duration(ms)' }),
       animation: c.shortString({ title: 'Animation', description: 'Animation to trigger on the ThangType' }),
-      lankTarget: c.shortString({ title: 'Thang', description: 'Thang on stage to play animation on', }) //enum: [ LEFT_LANK_KEY, RIGHT_LANK_KEY, HERO_PET, BACKGROUND_OBJECT ] })
+      lankTarget: c.shortString({ title: 'Thang', description: 'Thang on stage to play animation on', enum: [LEFT_LANK_KEY, RIGHT_LANK_KEY, HERO_PET, BACKGROUND_OBJECT] })
     })),
     soundFxTriggers: c.array({
       title: 'SoundFX triggers',

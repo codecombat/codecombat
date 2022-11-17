@@ -19,8 +19,8 @@ module.exports = class LeaderboardView extends CocoView
   id: 'new-leaderboard-view'
   template: require('templates/play/ladder/leaderboard-view')
   VueComponent: LeaderboardComponent
-  constructor: (options, @level, @sessions) ->
-    { @league, @tournament } = options
+  constructor: (options, @level, @sessions, @anonymousPlayerName) ->
+    { @league, @tournament, @leagueType, @course } = options
     # params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
     super options
     @tableTitles = [
@@ -31,11 +31,11 @@ module.exports = class LeaderboardView extends CocoView
       {slug: 'wins', col: 1, title: $.i18n.t('ladder.win_num')},
       {slug: 'losses', col: 1, title: $.i18n.t('ladder.loss_num')},
       {slug: 'win-rate', col: 1, title: $.i18n.t('ladder.win_rate')},
-      {slug: 'clan', col: 2, title: $.i18n.t('clans.clan')},
+      {slug: 'clan', col: 2, title: $.i18n.t('league.team')},
       {slug: 'age', col: 1, title: $.i18n.t('ladder.age_bracket')},
       {slug: 'country', col:1, title: '🏴‍☠️'}
     ]
-    @propsData = { @tableTitles, @league, @level, scoreType: 'tournament' }
+    @propsData = { @tableTitles, @league, @level, @leagueType, @course, scoreType: 'tournament' }
     unless @tournament
       @propsData.tableTitles = [
         {slug: 'creator', col: 0, title: ''},
@@ -52,7 +52,7 @@ module.exports = class LeaderboardView extends CocoView
     @myRank = -1
     @playerRankings = []
     @session = null
-    @dataObj = { myRank: @myRank, rankings: @rankings, session: @session, playerRankings: @playerRankings }
+    @dataObj = { myRank: @myRank, rankings: @rankings, session: @session, playerRankings: @playerRankings, showContactUs: @anonymousPlayerName && me.isTeacher() }
 
     @refreshLadder()
 
@@ -101,6 +101,10 @@ module.exports = class LeaderboardView extends CocoView
       @vueComponent.$on('load-more', (data) =>
         @onClickLoadMore()
       )
+      @vueComponent.$on('temp-unlock', () =>
+        @anonymousPlayerName = false
+        @render()
+      )
 
     super(arguments...)
 
@@ -126,14 +130,17 @@ module.exports = class LeaderboardView extends CocoView
       if model?.type == 'BLANK_ROW'
         return model
       if @tournament
+        isMyLevelSession = model.get('creator') is me.id and model.constructor.name is 'LevelSession'
+        wins = model.get('wins') ? (if isMyLevelSession then model.myWins else 0)
+        losses = model.get('losses') ? (if isMyLevelSession then model.myLosses else 0)
         return [
           model.get('creator'),
           model.get('submittedCodeLanguage'),
-          index+1,
+          model.rank ? index+1,
           (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
-          model.get('wins'),
-          model.get('losses'),
-          ((model.get('wins') or 0) / (((model.get('wins') or 0) + (model.get('losses') or 0)) or 1) * 100).toFixed(2) + '%',
+          wins,
+          losses,
+          ((wins or 0) / (((wins or 0) + (losses or 0)) or 1) * 100).toFixed(2) + '%',
           @getClanName(model),
           @getAgeBracket(model),
           model.get('creatorCountryCode')
@@ -143,7 +150,7 @@ module.exports = class LeaderboardView extends CocoView
           model.get('creator'),
           model.get('submittedCodeLanguage'),
           model.rank || index+1,
-          (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
+          if @anonymousPlayerName and me.get('_id').toString() != model.get('creator') then utils.anonymizingUser(model.get('creator')) else (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
           @correctScore(model),
           @getAgeBracket(model),
           moment(model.get('submitDate')).fromNow().replace('a few ', ''),
@@ -162,7 +169,7 @@ module.exports = class LeaderboardView extends CocoView
       oldLeaderboard.destroy()
 
     teamSession = _.find @sessions.models, (session) -> session.get('team') is 'humans'
-    @leaderboards = new LeaderboardData(@level, 'humans', teamSession, @ladderLimit, @league, @tournament, @ageBracket)
+    @leaderboards = new LeaderboardData(@level, 'humans', teamSession, @ladderLimit, @league, @tournament, @ageBracket, @options.myTournamentSubmission)
     @leaderboardRes = @supermodel.addModelResource(@leaderboards, 'leaderboard', {cache: false}, 3)
     @leaderboardRes.load()
 
@@ -220,7 +227,7 @@ module.exports = class LeaderboardView extends CocoView
     name
 
   getAgeBracket: (model) ->
-    $.i18n.t("ladder.bracket_#{(model.get('ageBracket') || 'open').replace(/-/g, '_')}")
+    $.i18n.t("ladder.bracket_#{(model.get('ageBracket') || model.ageBracket || 'open').replace(/-/g, '_')}")
 
   correctScore: (model) ->
     sessionStats = if @league then _.find(model.get('leagues'), {leagueID: @league.id})?.stats else model.attributes

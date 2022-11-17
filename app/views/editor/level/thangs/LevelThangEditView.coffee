@@ -1,9 +1,10 @@
 require('app/styles/editor/level/thang/level-thang-edit-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/level/thang/level-thang-edit-view'
+template = require 'app/templates/editor/level/thang/level-thang-edit-view'
 ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditView'
 ThangType = require 'models/ThangType'
 ace = require('lib/aceContainer')
+utils = require 'core/utils'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
@@ -28,6 +29,9 @@ module.exports = class LevelThangEditView extends CocoView
     'click #prev-thang-link': 'navigateToPreviousThang'
     'click #next-thang-link': 'navigateToNextThang'
 
+  subscriptions:
+    'editor:level-thangs-changed': 'onThangsEdited'
+
   constructor: (options) ->
     options ?= {}
     super options
@@ -35,7 +39,7 @@ module.exports = class LevelThangEditView extends CocoView
     @thangData = $.extend true, {}, options.thangData ? {}
     @level = options.level
     @oldPath = options.oldPath
-    @reportChanges = _.debounce @reportChanges, 1000
+    @reportChanges = _.debounce @reportChanges, 500
 
   onLoaded: -> @render()
   afterRender: ->
@@ -46,7 +50,8 @@ module.exports = class LevelThangEditView extends CocoView
       supermodel: @supermodel
       level: @level
       world: @world
-      thangType: thangType
+
+    if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') or utils.isCodeCombat then options.thangType = thangType
 
     @thangComponentEditView = new ThangComponentsEditView options
     @listenTo @thangComponentEditView, 'components-changed', @onComponentsChanged
@@ -109,4 +114,15 @@ module.exports = class LevelThangEditView extends CocoView
 
   reportChanges: =>
     return if @destroyed
+    @reporting = true
     Backbone.Mediator.publish 'editor:level-thang-edited', {thangData: $.extend(true, {}, @thangData), oldPath: @oldPath}
+    @reporting = false
+
+  onThangsEdited: (e) ->
+    # Propagate these edits to our Thang
+    return if @reporting  # Not if they're our own edits
+    return unless newThang = _.find e.thangs, id: @thangData.id
+    return if _.isEqual newThang, @thangData
+    @thangData = newThang
+    @thangComponentEditView.components = newThang.components ? []
+    @thangComponentEditView.onComponentsChanged()

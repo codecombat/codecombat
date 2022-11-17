@@ -1,6 +1,7 @@
 @import "app/styles/bootstrap/variables"
 @import "app/styles/mixins"
 @import "app/styles/play/variables"
+@import "app/styles/utils"
 
 // https://github.com/twbs/bootstrap/issues/9237 -- need a version that's not !important
 .secret
@@ -37,17 +38,17 @@ iframe
     //position: absolute
     width: 99%
     background: #3f4045
-    
+
   .background-wrapper.plain
     background: white
-    
+
   .plain
     h1, h2, h3, h4, h5, h6
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important
 
   .modal-content
     @include box-shadow(none)
-  
+
   .modal-header
     margin: 0 14px
     padding: 8px 0
@@ -73,7 +74,7 @@ iframe
       padding-bottom: 10px
   .login-link
     cursor: pointer
-      
+
 
 // loading screens for everything but the play view
 .loading-screen
@@ -81,7 +82,7 @@ iframe
     width: 50%
     margin: 0 25%
   margin-bottom: 20px
-    
+
 // all loading screens
 .loading-container
   text-align: center
@@ -110,9 +111,10 @@ iframe
 table.table
   background-color: white
 
-.ui-autocomplete.ui-front
-  z-index: $zindex-autocomplete
-  
+@if $is-codecombat
+  .ui-autocomplete.ui-front
+    z-index: $zindex-autocomplete
+
 .ui-slider
   border: 1px solid black
 .ui-slider-handle
@@ -156,23 +158,17 @@ body[lang='ja']
     font-variant: small-caps
     letter-spacing: -1px !important
 
-  #top-nav
-    .navbar-nav
-      li
-        a.header-font
-          font-size: 16px
-   
 @media only screen and (max-width: 800px)
   .main-content-area
     width: 100%
   .content
     width: 100%
-    
+
   .footer-link-text a
     font-size: 17px
     margin-left: 3px
     margin-right: 3px
-    
+
   .share-buttons
     margin-bottom: 20px
   .partner-badges
@@ -183,7 +179,7 @@ body[lang='ja']
    display: none
 
 // point the new glyphicons to the fonts in public
-  
+
 @font-face
   font-family: 'Glyphicons Halflings'
   src: url("/fonts/glyphicons-halflings-regular.eot")
@@ -353,7 +349,7 @@ html.no-borderimage
     background-image: url(/images/common/button-background-active.png)
     background-size: 100% 100%
     padding: 7px 10px 10px 10px
-    
+
     &.btn-primary
       background-image: url(/images/common/button-background-primary-active.png)
     &.btn-success
@@ -401,11 +397,11 @@ body > iframe[src^="https://apis.google.com"]
 // TODO: update Bootstrap, remove this
 .text-uppercase
   text-transform: uppercase
-  
+
 .text-capitalize
   text-transform: capitalize
 
-  
+
 // Made for new victory modal as temp features. TODO: Replace with static art or make general, sprite versions
 .well-parchment
   border: 2px solid #14110e
@@ -416,7 +412,7 @@ body > iframe[src^="https://apis.google.com"]
   border: 4px solid #fef9a3
   padding: 2px
   background: #693415
-  
+
 .label-banner
   border: 2px solid #350f0d
   background: #e6251c
@@ -430,41 +426,42 @@ body:not(.picoctf) .picoctf-show
   display: none
 
 
-// Used to be just in style-flat, made global
-// Spacing
-// Copied spacing classes in bootstrap v4 alpha 2
-// http://v4-alpha.getbootstrap.com/components/utilities/#spacing
+@if $is-codecombat
+  // Used to be just in style-flat, made global
+  // Spacing
+  // Copied spacing classes in bootstrap v4 alpha 2
+  // http://v4-alpha.getbootstrap.com/components/utilities/#spacing
 
-$spacer: 1rem !default
-$spacer-x: $spacer !default
-$spacer-y: $spacer !default
-$spacers: ( 0: ( x: 0, y: 0 ), 1: ( x: $spacer-x, y: $spacer-y ), 2: ( x: ($spacer-x * 1.5), y:   ($spacer-y * 1.5) ), 3: ( x:   ($spacer-x * 3), y:   ($spacer-y * 3) ), 4: ( x:   ($spacer-x * 4), y:   ($spacer-y * 4) ), 5: ( x:   ($spacer-x * 5), y:   ($spacer-y * 5) ) ) !default
+  $spacer: 1rem !default
+  $spacer-x: $spacer !default
+  $spacer-y: $spacer !default
+  $spacers: ( 0: ( x: 0, y: 0 ), 1: ( x: $spacer-x, y: $spacer-y ), 2: ( x: ($spacer-x * 1.5), y:   ($spacer-y * 1.5) ), 3: ( x:   ($spacer-x * 3), y:   ($spacer-y * 3) ), 4: ( x:   ($spacer-x * 4), y:   ($spacer-y * 4) ), 5: ( x:   ($spacer-x * 5), y:   ($spacer-y * 5) ) ) !default
 
-.m-x-auto
-  margin-right: auto !important
-  margin-left:  auto !important
+  .m-x-auto
+    margin-right: auto !important
+    margin-left:  auto !important
 
-@each $prop, $abbrev in (margin: m, padding: p)
-  @each $size, $lengths in $spacers
-    $length-x:   map-get($lengths, x)
-    $length-y:   map-get($lengths, y)
+  @each $prop, $abbrev in (margin: m, padding: p)
+    @each $size, $lengths in $spacers
+      $length-x:   map-get($lengths, x)
+      $length-y:   map-get($lengths, y)
 
-    .#{$abbrev}-a-#{$size}
-      #{$prop}: $length-y $length-x !important // a = All sides
-    .#{$abbrev}-t-#{$size}
-      #{$prop}-top:    $length-y !important
-    .#{$abbrev}-r-#{$size}
-      #{$prop}-right:  $length-x !important
-    .#{$abbrev}-b-#{$size}
-      #{$prop}-bottom: $length-y !important
-    .#{$abbrev}-l-#{$size}
-      #{$prop}-left:   $length-x !important
+      .#{$abbrev}-a-#{$size}
+        #{$prop}: $length-y $length-x !important // a = All sides
+      .#{$abbrev}-t-#{$size}
+        #{$prop}-top:    $length-y !important
+      .#{$abbrev}-r-#{$size}
+        #{$prop}-right:  $length-x !important
+      .#{$abbrev}-b-#{$size}
+        #{$prop}-bottom: $length-y !important
+      .#{$abbrev}-l-#{$size}
+        #{$prop}-left:   $length-x !important
 
-    // Axes
-    .#{$abbrev}-x-#{$size}
-      #{$prop}-right:  $length-x !important
-      #{$prop}-left:   $length-x !important
+      // Axes
+      .#{$abbrev}-x-#{$size}
+        #{$prop}-right:  $length-x !important
+        #{$prop}-left:   $length-x !important
 
-    .#{$abbrev}-y-#{$size}
-      #{$prop}-top:    $length-y !important
-      #{$prop}-bottom: $length-y !important
+      .#{$abbrev}-y-#{$size}
+        #{$prop}-top:    $length-y !important
+        #{$prop}-bottom: $length-y !important

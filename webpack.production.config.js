@@ -8,7 +8,6 @@ require('coffee-script');
 require('coffee-script/register');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const EventHooksWebpackPlugin = require('event-hooks-webpack-plugin')
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
 const smp = new SpeedMeasurePlugin({
@@ -25,7 +24,10 @@ combos = {
   three: ['play', 'editor'],
   ace: ['admin', 'teachers', 'i18n', 'artisans', 'ladder', 'editor', 'play'],
 }
-commonsPlugins = [];
+// commonsPlugins = _.sortBy(_.map(combos, (combo, key) => {
+//   return new webpack.optimize.CommonsChunkPlugin({ chunks: combo, async: key || true, minChunks: combo.length })
+// }), (plugin) => -plugin.selectedChunks.length) // Run the biggest ones first
+commonsPlugins = []
 
 const baseConfigFn = require('./webpack.base.config')
 // Production webpack config
@@ -39,12 +41,7 @@ module.exports = (env) => {
   devtool: 'source-map', // https://webpack.js.org/configuration/devtool/
   mode: 'production',
   optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true,
-      }),
-    ],
+    // check if we need to manually mention terser or webpack prod mode does it by default
   },
   plugins: baseConfig.plugins
     .concat(commonsPlugins)
@@ -88,7 +85,7 @@ module.exports = (env) => {
           // modules: true,
           // children: true,
         },
-        logLevel: 'info',
+        logLevel: 'error',
       })
     )
   })

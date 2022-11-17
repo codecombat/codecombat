@@ -1,6 +1,6 @@
 require('app/styles/editor/level/documentation_tab.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/editor/level/level-edit-view'
+template = require 'app/templates/editor/level/level-edit-view'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
 LevelComponent = require 'models/LevelComponent'
@@ -22,6 +22,7 @@ SettingsTabView = require './settings/SettingsTabView'
 ScriptsTabView = require './scripts/ScriptsTabView'
 ComponentsTabView = require './components/ComponentsTabView'
 SystemsTabView = require './systems/SystemsTabView'
+KeyThangTabView = require './thangs/KeyThangTabView'
 TasksTabView = require './tasks/TasksTabView'
 SaveLevelModal = require './modals/SaveLevelModal'
 ArtisanGuideModal = require './modals/ArtisanGuideModal'
@@ -38,7 +39,7 @@ LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
 storage = require 'core/storage'
 utils = require 'core/utils'
 loadAetherLanguage = require 'lib/loadAetherLanguage'
-presenceApi = require 'core/api/presence'
+presenceApi = require(if utils.isOzaria then '../../../../ozaria/site/api/presence' else 'core/api/presence')
 globalVar = require 'core/globalVar'
 
 require 'vendor/scripts/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
@@ -83,6 +84,9 @@ module.exports = class LevelEditView extends RootView
     'mouseup .nav-tabs > li a': 'toggleTab'
     'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
     'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal'
+
+  subscriptions:
+    'editor:thang-deleted': 'onThangDeleted'
 
   constructor: (options, @levelID) ->
     super options
@@ -147,19 +151,20 @@ module.exports = class LevelEditView extends RootView
   afterRender: ->
     super()
     return unless @supermodel.finished()
-    @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
-      Backbone.Mediator.publish 'editor:view-switched', {targetURL: $(e.target).attr('href')}
     @listenTo @level, 'change:tasks', => @renderSelectors '#tasks-tab'
-    @insertSubView new ThangsTabView world: @world, supermodel: @supermodel, level: @level
+    @thangsTabView = @insertSubView new ThangsTabView world: @world, supermodel: @supermodel, level: @level
     @insertSubView new SettingsTabView supermodel: @supermodel
     @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
     @insertSubView new ComponentsTabView supermodel: @supermodel
     @insertSubView new SystemsTabView supermodel: @supermodel, world: @world
+    @insertKeyThangTabViews()
     @insertSubView new TasksTabView world: @world, supermodel: @supermodel, level: @level
     @insertSubView new RelatedAchievementsView supermodel: @supermodel, level: @level
     @insertSubView new ComponentsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new SystemsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new LevelFeedbackView level: @level
+    @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
+      Backbone.Mediator.publish 'editor:view-switched', {targetURL: $(e.target).attr('href')}
 
     Backbone.Mediator.publish 'editor:level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
@@ -171,6 +176,29 @@ module.exports = class LevelEditView extends RootView
       else
         location.reload() unless key.shift  # Reload to make sure changes propagate, unless secret shift shortcut
     @$el.find('#level-watch-button').find('> span').toggleClass('secret') if @level.watching()
+
+  insertKeyThangTabViews: ->
+    @keyThangTabViews ?= {}
+    @keyThangIDs = ['Hero Placeholder', 'Hero Placeholder 1', 'Referee', 'RefereeJS', 'Level Manager', 'Level Manager JS'].reverse()
+    for id in @keyThangIDs
+      continue unless thang = _.find(@level.get('thangs') ? [], {id: id})
+      continue if @keyThangTabViews[id]
+      thangPath = @thangsTabView.pathForThang thang
+      tabId = "key-thang-tab-view-#{_.string.slugify(thang.id)}"
+      tabName = id.replace(/ ?(Placeholder|JS|Level)/g, '')
+      $subView = new KeyThangTabView thangData: thang, level: @level, world: @world, supermodel: @supermodel, oldPath: thangPath, id: tabId
+      $subView.$el.insertAfter @$el.find('#systems-tab-view')
+      $subView.render()
+      $subView.afterInsert()
+      @keyThangTabViews[id] = @registerSubView $subView
+      $tabBarEntry = $("<li><a data-toggle='tab' href='##{tabId}'>#{tabName}</a></li>")
+      $tabBarEntry.insertAfter @$el.find('a[href="#systems-tab-view"]').parent()
+    null
+
+  onThangDeleted: (e) ->
+    return unless e.thangID in (@keyThangIDs ? [])
+    @removeSubView @keyThangTabViews[e.thangID]
+    @keyThangTabViews[e.thangID] = null
 
   openRevertModal: (e) ->
     e.stopPropagation()
@@ -196,6 +224,9 @@ module.exports = class LevelEditView extends RootView
     else
       newClassMode = @lastNewClassMode
     newClassLanguage = @lastNewClassLanguage = ($(e.target).data('code-language') ? @lastNewClassLanguage) or undefined
+    if utils.isOzaria and @childWindow and (@childWindow.closed or not @childWindow.onPlayLevelViewLoaded)
+      @childWindow?.close?()
+      return noty timeout: 4000, text: 'Error: child window disconnected, you will have to reload this page to preview.', type: 'error', layout: 'top'
     sendLevel = =>
       @childWindow.Backbone.Mediator.publish 'level:reload-from-data', level: @level, supermodel: @supermodel
     if @childWindow and not @childWindow.closed and @playClassMode is newClassMode and @playClassLanguage is newClassLanguage
@@ -211,7 +242,9 @@ module.exports = class LevelEditView extends RootView
       if @playClassMode
         scratchLevelID += "&course=#{@courseID}"
         scratchLevelID += "&codeLanguage=#{@playClassLanguage}"
-      if me.get('name') is 'Nick'
+      if utils.isOzaria
+        @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window')
+      else if me.get('name') is 'Nick'
         @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=2560,height=1080,left=0,top=-1600,location=1,menubar=1,scrollbars=1,status=0,titlebar=1,toolbar=1', true)
       else
         @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1280,height=640,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)

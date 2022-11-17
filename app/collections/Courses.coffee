@@ -7,5 +7,8 @@ module.exports = class Courses extends CocoCollection
 
   fetchReleased: (options = {}) ->
     options.data ?= {}
-    options.data.releasePhase = 'released'
+    if me.isInternal()
+      options.data.fetchInternal = true # will fetch 'released' and 'internalRelease' courses
+    else
+      options.data.releasePhase = 'released'
     @fetch(options)

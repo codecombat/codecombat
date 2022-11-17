@@ -6,7 +6,7 @@ aceUtils = require 'core/aceUtils'
 aetherUtils = require 'lib/aether_utils'
 
 module.exports = class HintsView extends CocoView
-  template: require('templates/play/level/hints-view')
+  template: require('app/templates/play/level/hints-view')
   className: 'hints-view'
   hintUsedThresholdSeconds: 10
 

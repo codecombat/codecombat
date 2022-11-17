@@ -1,9 +1,29 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
+@import "app/styles/play/variables"
 
 #level-view.hero .spell-palette-entry-view
   // Not clickable.
   cursor: default
+
+#spell-palette-view-mid .spell-palette-entry-view
+  margin-left: 38px
+  width: 174px
+  width: calc(100% - 38px)
+
+  span
+    cursor: pointer
+    user-select: none
+
+  &:hover
+    color: #f3cd90
+
+  &.selected
+    color: white
+
+#spell-palette-view-bot .spell-palette-entry-view
+  margin: 0 1vw 0 0
+  min-width: 10vw
 
 .spell-palette-entry-view
   display: block
@@ -38,7 +58,7 @@
     border: 1px solid #000000
 
   &.pinned
-    background-color: darken(#FFFFFF, 25%)
+    background-color: #26478a
 
   &.single-entry
     height: 38px
@@ -119,12 +139,16 @@
   &.pinned
     top: 50px !important
     right: 45%
+    right: calc(#{$code-area-width} + 1.5%)
+    .no-api &
+      right: calc(#{$code-area-width-no-api} + 1.5%)
+
     // bottom: 151px
     @include user-select(text)
     // Wish I could set max-width and max-height (and override Bootstrap's stuff)
     // but without explicitly setting height, child overflow-y: scroll doesn't work
     min-width: 45%
-    height: 60%
+    max-height: 60%
 
     .arrow
       display: none

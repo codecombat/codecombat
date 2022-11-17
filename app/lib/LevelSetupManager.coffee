@@ -5,6 +5,7 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 SuperModel = require 'models/SuperModel'
 ThangType = require 'models/ThangType'
+utils = require 'core/utils'
 
 lastHeroesEarned = me.get('earned')?.heroes ? []
 lastHeroesPurchased = me.get('purchased')?.heroes ? []
@@ -60,7 +61,7 @@ module.exports = class LevelSetupManager extends CocoClass
   fillSessionWithDefaults: ->
     if @options.codeLanguage
       @session.set('codeLanguage', @options.codeLanguage)
-    heroConfig = _.merge {}, me.get('heroConfig'), @session.get('heroConfig')
+    heroConfig = _.merge {}, _.cloneDeep(me.get('heroConfig')), @session.get('heroConfig')
     @session.set('heroConfig', heroConfig)
     if @level.loaded
       @loadModals()
@@ -73,7 +74,7 @@ module.exports = class LevelSetupManager extends CocoClass
      @onInventoryModalPlayClicked()
      return
 
-    if @level.isType('course-ladder', 'ladder', 'game-dev', 'web-dev') or (@level.isType('course') and (not me.showHeroAndInventoryModalsToStudents() or @level.isAssessment())) or window.serverConfig.picoCTF
+    if @level.isType('course-ladder', 'game-dev', 'web-dev') or (utils.isCodeCombat and @level.isType('ladder')) or (@level.isType('course') and (not me.showHeroAndInventoryModalsToStudents() or @level.isAssessment())) or window.serverConfig.picoCTF
       @onInventoryModalPlayClicked()
       return
 
@@ -100,11 +101,11 @@ module.exports = class LevelSetupManager extends CocoClass
     firstModal = if @options.hadEverChosenHero then @inventoryModal else @heroesModal
     if ((not _.isEqual(lastHeroesEarned, me.get('earned')?.heroes ? []) or
         not _.isEqual(lastHeroesPurchased, me.get('purchased')?.heroes ? [])) and
-        not (me.isAnonymous() and me.isInHourOfCode()))
+        (utils.isOzaria or not (me.isAnonymous() and me.isInHourOfCode())))
       console.log 'Showing hero picker because heroes earned/purchased has changed.'
       firstModal = @heroesModal
     else if allowedHeroOriginals = @level.get 'allowedHeroes'
-      unless _.contains allowedHeroOriginals, me.get('heroConfig')?.thangType
+      unless (utils.isOzaria and _.contains allowedHeroOriginals, me.get('ozariaUserOptions')?.isometricThangTypeOriginal) or (utils.isCodeCombat and _.contains allowedHeroOriginals, me.get('heroConfig')?.thangType)
         firstModal = @heroesModal
 
 

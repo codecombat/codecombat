@@ -1,0 +1,32 @@
+- var path = document.location.pathname
+
+#teacher-dashboard-nav
+  nav.navbar
+    .container-fluid.container
+      .navbar-header
+        button.navbar-toggle.collapsed(type='button' data-toggle='collapse' data-target='#teacher-dashboard-nav-collapse')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        span.navbar-brand.text-h4(data-i18n='teacher.teacher_dashboard')
+      #teacher-dashboard-nav-collapse.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          if me.isSchoolAdmin()
+            li(class= path.indexOf('/school-administrator') === 0 ? 'active' : '')
+              a(href='/school-administrator')
+                small.label(data-i18n='school_administrator.my_teachers')
+          li(class= path.indexOf('/teachers/classes') === 0 ? 'active' : '')
+            a.track-click-event(href='/teachers/classes', data-event-action='Teacher Nav Click My Classes')
+              small.label(data-i18n='teacher.my_classes')
+          li(class= path.indexOf('/teachers/resources') === 0 ? 'active' : '')
+            a.track-click-event(href='/teachers/resources', data-event-action='Teacher Nav Click Resource Hub')
+              small.label(data-i18n='teacher.resource_hub')
+          li(class= path.indexOf('/teachers/courses') === 0 ? 'active' : '')
+            a.track-click-event(href='/teachers/courses', data-event-action='Teacher Nav Click Unit Guides')
+              small.label(data-i18n='teacher.courses_coco')
+          if me.canManageLicensesViaUI()
+            li(class= path.indexOf('/teachers/licenses') === 0 ? 'active' : '')
+              a.track-click-event(href='/teachers/licenses', data-event-action='Teacher Nav Click Student Licenses')
+                small.label(data-i18n='teacher.enrollments')
+

@@ -1,4 +1,11 @@
 #classroom-settings-modal
+  @media screen and (min-width: 1200px)
+    .modal-dialog
+      width: 1200px
+
+      .form-group
+        max-width: calc(600px - 62px)
+
   #name-input
     width: 50%
     
@@ -21,3 +28,8 @@
   .classes-per-week-help, .minutes-per-class-help
     display: inline-block
     vertical-align: bottom
+
+  #live-completion, #classroom-items
+    margin-left: 15px
+    width: 18px
+    height: 18px

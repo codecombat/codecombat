@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/spell_debug'
+template = require 'app/templates/play/level/tome/spell_debug'
 ace = require('lib/aceContainer')
 Range = ace.require('ace/range').Range
 TokenIterator = ace.require('ace/token_iterator').TokenIterator

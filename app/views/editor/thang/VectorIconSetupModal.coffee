@@ -1,6 +1,6 @@
 require('app/styles/editor/thang/vector-icon-setup-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/editor/thang/vector-icon-setup-modal'
+template = require 'app/templates/editor/thang/vector-icon-setup-modal'
 
 module.exports = class VectorIconSetupModal extends ModalView
   id: "vector-icon-setup-modal"

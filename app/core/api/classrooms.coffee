@@ -37,10 +37,51 @@ module.exports = {
       json: {members}
     }))
 
-  fetchByOwner: (ownerId) ->
-    fetchJson("/db/classroom?ownerID=#{ownerId}", {
+  fetchByOwner: (ownerId, options={}) ->
+    projectionString = ""
+    if Array.isArray(options.project)
+      projectionString += "&project=#{options.project.join(',')}"
+    if (options.includeShared)
+      projectionString += "&includeShared=true"
+    fetchJson("/db/classroom?ownerID=#{ownerId}#{projectionString}", {
       method: 'GET'
     })
+
+  fetchByCourseInstanceId: (courseInstanceId) ->
+    fetchJson("/db/classroom?courseInstanceId=#{courseInstanceId}", {
+      method: 'GET'
+    })
+
+# classDetails = { aceConfig: {language: ''}, name: ''}
+  post: (classDetails, options={}) ->
+    fetchJson("/db/classroom",  _.assign({}, options, {
+      method: 'POST'
+      json: classDetails
+    }))
+
+  fetchGameContent: (classroomID, options={}) ->
+    fetchJson("/db/classroom/#{classroomID}/game-content", options)
+
+  inviteMembers: ({classroomID, emails, recaptchaResponseToken}, options={}) ->
+    fetchJson("/db/classroom/#{classroomID}/invite-members",  _.assign({}, options, {
+      method: 'POST',
+      json: {
+        emails: emails
+        recaptchaResponseToken: recaptchaResponseToken
+      }
+    }))
+
+  removeMember: ({classroomID, userId}, options={}) ->
+    fetchJson("/db/classroom/#{classroomID}/members/#{userId}",  _.assign({}, options, {
+      method: 'DELETE'
+    }))
+
+# updates = { archived: '', name: ''}
+  update: ({classroomID, updates}, options={}) ->
+    fetchJson("/db/classroom/#{classroomID}",  _.assign({}, options, {
+      method: 'PUT'
+      json: updates
+    }))
 
   addPermission: ({ classroomID, permission }) ->
     fetchJson("/db/classroom/#{classroomID}/permission",  _.assign({}, {
@@ -57,6 +98,11 @@ module.exports = {
     fetchJson("/db/classroom/#{classroomID}/permission",  _.assign({}, {
       method: 'DELETE'
       json: { permission }
+    }))
+
+  getEdLinkClassrooms: () ->
+    fetchJson("/ed-link/classrooms",  _.assign({}, {
+      method: 'GET'
     }))
 
 }

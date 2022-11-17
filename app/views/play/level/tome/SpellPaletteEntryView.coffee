@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/spell_palette_entry'
+template = require 'app/templates/play/level/tome/spell_palette_entry'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 DocFormatter = require './DocFormatter'
@@ -37,6 +37,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
   afterRender: ->
     super()
     @$el.addClass _.string.slugify @doc.type
+    return if @options.spellPalettePosition is 'mid'
     placement = -> if $('body').hasClass('dialogue-view-active') then 'top' else 'left'
     @$el.popover(
       animation: false
@@ -57,7 +58,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
   afterRenderPopover: ->
     popover = @$el.data('bs.popover')
     popover?.$tip?.i18n()
-    return  # Ace editors broken for some reason
+    #return  # Ace editors broken for some reason  # fixed?
     codeLanguage = @options.language
     oldEditor.destroy() for oldEditor in @aceEditors
     @aceEditors = []
@@ -68,18 +69,22 @@ module.exports = class SpellPaletteEntryView extends CocoView
       aceEditors.push aceEditor
 
   resetPopoverContent: ->
+    return if @options.spellPalettePosition is 'mid'
     @$el.data('bs.popover').options.content = @docFormatter.formatPopover()
     @$el.popover('setContent')
 
   onMouseEnter: (e) ->
+    return if @options.spellPalettePosition is 'mid'
     return if @popoverPinned or @otherPopoverPinned
     @resetPopoverContent()
     @$el.popover 'show'
 
   onMouseLeave: (e) ->
+    return if @options.spellPalettePosition is 'mid'
     @$el.popover 'hide' unless @popoverPinned or @otherPopoverPinned
 
   togglePinned: ->
+    return if @options.spellPalettePosition is 'mid'
     if @popoverPinned
       @popoverPinned = false
       @$el.add('.spell-palette-popover.popover').removeClass 'pinned'
@@ -104,7 +109,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
     if key.shift
       Backbone.Mediator.publish 'tome:insert-snippet', doc: @options.doc, language: @options.language, formatted: @doc
       return
-    #@togglePinned()
+    @togglePinned()
     Backbone.Mediator.publish 'tome:palette-clicked', thang: @thang, prop: @doc.name, entry: @
 
   onFrameChanged: (e) ->

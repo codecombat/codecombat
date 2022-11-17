@@ -15,6 +15,12 @@ module.exports = {
       json: { userID }
     })
 
+  setJoinerMaxRedeemers: ({ prepaidID, userID, maxRedeemers}, options={}) ->
+    fetchJson(@url(prepaidID, 'joiners'), _.assign {}, options, {
+      method: 'PUT'
+      json: { userID, maxRedeemers }
+    })
+
   fetchJoiners: ({ prepaidID }, options={}) ->
     fetchJson(@url(prepaidID, 'joiners'))
     
@@ -39,4 +45,6 @@ module.exports = {
     options.data.client = clientId
     fetchJson('/db/prepaid/client', options)
 
+  joinByCodes: (options = {}) ->
+    fetchJson('/db/prepaids/-/join-by-codes', options)
 }

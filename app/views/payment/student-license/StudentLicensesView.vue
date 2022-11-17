@@ -1,7 +1,7 @@
 <template>
   <span>
   <div class="student-licenses">
-    <payment-student-license-view
+    <student-license-view
       v-for="price in priceData"
       :currency="price.currency"
       :unit-amount="price.unit_amount"
@@ -12,24 +12,42 @@
       :min-licenses="getMinLicenses(price)"
       :key="price.id"
       :is-dsh-partner="!!(paymentGroupMetadata ? paymentGroupMetadata.isDshPartner : false)"
+      :is-b-d-partner="isBDPartner"
+      :is-tecmilenio-partner="isTecmilenioPartner"
     />
     <div class="text-center footer">
-      <button type="button" class="btn btn-success btn-lg btn-buy-now" @click="onBuyNow()">Buy Now</button>
+      <button
+        v-if="!isTecmilenioPartner && !isBDPartner"
+        class="btn btn-success btn-lg btn-buy-now"
+        @click="onBuyNow()"
+      >
+        Buy Now
+      </button>
     </div>
-    <payment-student-license-purchase-view
+    <purchase-view
       v-if="isPurchaseViewEnabled"
       :price-data="priceData"
       :payment-group-id="paymentGroupId"
+      :is-tecmilenio-partner="isTecmilenioPartner"
+      :is-b-d-partner="isBDPartner"
+    />
+    <footer-component
+      :is-b-d-partner="isBDPartner"
     />
   </div>
   </span>
 </template>
 
 <script>
-import PaymentStudentLicenseView from "./StudentLicenseView";
-import PaymentStudentLicensePurchaseView from "./PurchaseView";
+import StudentLicenseView from "./StudentLicenseView";
+import PurchaseView from "./PurchaseView";
+import FooterComponent from './FooterComponent'
+import priceHelperMixin from './price-helper-mixin'
 export default {
   name: "PaymentStudentLicensesView",
+  mixins: [
+    priceHelperMixin
+  ],
   props: {
     priceData: {
       type: Array,
@@ -49,19 +67,25 @@ export default {
     }
   },
   components: {
-    'payment-student-license-view': PaymentStudentLicenseView,
-    'payment-student-license-purchase-view': PaymentStudentLicensePurchaseView,
+    StudentLicenseView,
+    PurchaseView,
+    FooterComponent
   },
   methods: {
     onBuyNow() {
       this.isPurchaseViewEnabled = true
-    },
-    getMinLicenses(price) {
-      return price.metadata.minLicenses ? parseInt(price.metadata.minLicenses) : null
-    },
-    getLicenseCap(price) {
-      return price.metadata.licenseCap ? parseInt(price.metadata.licenseCap) : null
     }
+  },
+  computed: {
+    isTecmilenioPartner () {
+      return !!(this.paymentGroupMetadata ? this.paymentGroupMetadata.isTecmilenioPartner : false)
+    },
+    isBDPartner () {
+      return !!(this.paymentGroupMetadata ? this.paymentGroupMetadata.isBDPartner : false)
+    }
+  },
+  mounted () {
+    this.isPurchaseViewEnabled = this.isTecmilenioPartner || this.isBDPartner
   }
 }
 </script>

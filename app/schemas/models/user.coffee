@@ -77,6 +77,7 @@ _.extend UserSchema.properties,
   githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
   cleverID: c.shortString({title: 'Clever ID'})
+  edLinkID: c.shortString({title: 'Clever ID'})
   oAuthIdentities: {
     description: 'List of OAuth identities this user has.'
     type: 'array'
@@ -218,12 +219,13 @@ _.extend UserSchema.properties,
     })
 
   aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
-    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'lua', 'java', 'cpp']}
-    keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}  # Deprecated 2016-05-30; now we just always give them 'default'.
-    invisibles: {type: 'boolean' }
-    indentGuides: {type: 'boolean' }
-    behaviors: {type: 'boolean' }
-    liveCompletion: {type: 'boolean' }
+    language: { type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'lua', 'java', 'cpp'] }
+    keyBindings: { type: 'string', 'enum': ['default', 'vim', 'emacs'] }  # Deprecated 2016-05-30; now we just always give them 'default'.
+    invisibles: { type: 'boolean' }
+    indentGuides: { type: 'boolean' }
+    behaviors: { type: 'boolean' }
+    liveCompletion: { type: 'boolean' }
+    screenReaderMode: { type: 'boolean' }
 
   simulatedBy: {type: 'integer', minimum: 0 }
   simulatedFor: {type: 'integer', minimum: 0 }
@@ -357,6 +359,7 @@ _.extend UserSchema.properties,
       endDate: c.stringDate()
       type: { type: ['string', 'null'] }
       includedCourseIDs: { type: ['array', 'null'], description: 'courseIDs that this prepaid includes access to', items: c.objectId() }
+      migrated: {type: 'boolean'}
     }
   }
   enrollmentRequestSent: { type: 'boolean', description: 'deprecated' }
@@ -384,6 +387,7 @@ _.extend UserSchema.properties,
   lastAnnouncementSeen:
     type: 'number'
     description: 'The highed announcement modal index displayed to the user.'
+  lastAnnouncementGen: c.date
   studentMilestones:
     type: 'object'
     description: "Flags for whether a teacher's students have reached a given level. Used for Intercom campaigns."
@@ -417,6 +421,62 @@ _.extend UserSchema.properties,
         additionalProperties: FeatureRecipientSchema
 
   archived: c.date {description: 'Marks this record for automatic online archiving to cold storage by our cloud database.'}
+  products: c.array {title: 'Products purchased or used by this user'},
+    c.object { required: ['product', 'startDate', 'recipient', 'paymentService', 'paymentDetails'],  additionalProperties: true },
+      # ensure we can add additionalProperties
+      product: { type: 'string', enum: ['course', 'basic_subscription', 'pd', 'esports', 'online-classes'], decription: 'The "name" field for the product purchased' }  # And/or the ID of the Product in the database, if we make a Product for each thing we can buy?
+
+      prepaid: c.objectId(links: [ {rel: 'db', href: '/db/prepaid/{($)}'} ])  # required for type: “course” for legacy compatibility, optional for other types
+      productOptions:
+        oneOf: [
+          includedCourseIDs: {type: ['array', 'null']}
+        ]
+      startDate: c.date()
+      endDate: c.date()  # TODO: optional indication of no end date (lasts forever) - or do we just leave unset?
+      purchaser: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) # in case of gifts
+      recipient: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
+      purchaserDesc:
+        detailType: enum: ['email', 'phone']
+        detail: c.shortString(description: 'We may have a purchaser with no account, in which case only this email/phone/... will be set')
+      paymentService: { enum: ['stripe', 'testing', 'free', 'api', 'external', 'paypal']}  # Removed 'ios', could perhaps remove 'paypal', could differentiate 'external' further
+      paymentDetails:
+        c.object {additionalProperties: true},
+          allOf:
+            purchaseDate: c.date()  # TODO: separate payment date and invoice date (esp. online classes)?
+            amount: { type: 'integer', description: 'Payment in cents on US server and in RMB cents on the China server' }
+          # Do we need something about autorenewal / frequency here?
+            oneOf: [
+              { stripeCustomerId: { type: 'string' }, subscriptionId: { type: 'string' }, paymentSession: c.objectId(links: [ {rel: 'extra', href: '/db/payment.session/{($)}'} ]) }  # TODO: other various Stripe-specific options
+              { paypalCustomerId: { type: 'string' } }  # TODO: various PayPal-specific options, if we keep PayPal
+              { staffCreator: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) }  # any other external payment source options?
+              # ... etc. for each possible payment service ...
+            ]
+  edLink: c.object {}, {
+    profileId: { type: 'string' }
+    refreshToken: { type: 'string', description: 'token to get access token to get user details' }
+    identifiers: c.array { description: 'identifiers to canvas, clever etc' },
+      c.object {}, {
+        iType: { type: 'string' }
+        iValue: { type: 'string' }
+      }
+  }
+  library: c.object {}, {
+    profileId: { type: 'string' },
+    name: { type: 'string', description: 'name of library for the user' }
+  }
+  related: c.array(
+    { description: 'related accounts to this user' },
+    c.object(
+      {},
+      {
+        userId: c.objectId({ description: 'userId of the account currentUser is related to' }),
+        verified: { type: 'boolean', description: 'whether linking is verified/authenticated' },
+        relation: c.shortString({ description: 'relation of this user to related one' }),
+        code: c.shortString({ description: 'confirmation code for linking user' })
+      }
+    )
+  )
+
 
 c.extendBasicProperties UserSchema, 'user'
 

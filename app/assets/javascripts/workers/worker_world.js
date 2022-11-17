@@ -68,10 +68,10 @@ self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascri
 try {
   //Detect very modern javascript support.
   (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
-  console.log("Modern javascript detected, aw yeah!");
+  //console.log("Modern javascript detected, aw yeah!");
   self.importScripts('/javascripts/esper.modern.js');
 } catch (e) {
-  console.log("Legacy javascript detected, falling back...", e.message);
+  //console.log("Legacy javascript detected, falling back...", e.message);
   self.importScripts('/javascripts/esper.js');
 }
 
@@ -85,10 +85,10 @@ var ensureLanguageImported = function(language) {
   //Detect very modern javascript support.
   try {
     (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
-    console.log(`Using modern language plugin: ${language}`);
+    //console.log(`Using modern language plugin: ${language}`);
     myImportScripts("/javascripts/app/vendor/aether-" + language + ".modern.js");
   } catch (e) {
-    console.log("Legacy javascript detected, using legacy plugin for ", language, e.message);
+    //console.log("Legacy javascript detected, using legacy plugin for ", language, e.message);
     myImportScripts("/javascripts/app/vendor/aether-" + language + ".js");
   }
   languagesImported[language] = true;
@@ -330,6 +330,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
             self.debugWorld.flagHistory = args.flagHistory;
             self.debugWorld.realTimeInputEvents = args.realTimeInputEvents;
             self.debugWorld.difficulty = args.difficulty;
+            self.world.capstoneStage = args.capstoneStage || 1;
             self.debugWorld.language = args.language || 'en-US';
             if (args.level)
                 self.debugWorld.loadFromLevel(args.level, true);
@@ -394,6 +395,7 @@ self.runWorld = function runWorld(args) {
     self.world.flagHistory = args.flagHistory || [];
     self.world.realTimeInputEvents = args.realTimeInputEvents || [];
     self.world.difficulty = args.difficulty || 0;
+    self.world.capstoneStage = args.capstoneStage || 1;
     self.world.language = args.language || 'en-US';
     if(args.level)
       self.world.loadFromLevel(args.level, true);

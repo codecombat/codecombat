@@ -8,9 +8,10 @@ Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 Levels = require 'collections/Levels'
 RootView = require 'views/core/RootView'
-template = require 'templates/courses/course-details'
+template = require 'app/templates/courses/course-details'
 User = require 'models/User'
 storage = require 'core/storage'
+utils = require 'core/utils'
 
 module.exports = class CourseDetailsView extends RootView
   id: 'course-details-view'
@@ -82,7 +83,8 @@ module.exports = class CourseDetailsView extends RootView
       @levelConceptMap[level.get('original')] ?= {}
       for concept in level.get('concepts') or []
         @levelConceptMap[level.get('original')][concept] = true
-      if level.isLadder()
+      #  I'm not sure about this modification. Aren't the methods below give the same response?
+      if (utils.isCodeCombat and level.isLadder()) or (utils.isOzaria and level.isType('course-ladder'))
         @arenaLevel = level
 
     # console.log 'onLevelSessionsSync'

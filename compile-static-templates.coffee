@@ -6,20 +6,37 @@ zh = require './app/locale/zh-HANS'
 basePath = path.resolve('./app')
 _ = require 'lodash'
 fs = require('fs')
+load = require 'pug-load'
+devUtils = require './development/utils'
 
 # TODO: stop webpack build on error (e.g. http://dev.topheman.com/how-to-fail-webpack-build-on-error/)
 
+product = devUtils.product
+productSuffix = devUtils.productSuffix
+publicFolderName = devUtils.publicFolderName
+
+
+productFallbackPlugin =
+  read: (path) ->
+    unless fs.existsSync path
+      other = path.replace /pug$/, "#{productSuffix}.pug"
+      if fs.existsSync other
+        return load.read other
+    load.read path
+
 compile = (contents, locals, filename, cb) ->
   # console.log "Compile", filename, basePath
-  outFile = filename.replace /.static.pug$/, '.html'
+  outFile = filename.replace ///.static.(#{productSuffix}\.)?pug$///, '.html'
   # console.log {outFile, filename, basePath}
   out = pug.compileClientWithDependenciesTracked contents,
     filename: path.join(basePath, 'templates/static', filename)
     basedir: basePath
+    plugins: [productFallbackPlugin]
 
   outFn = pug.compile(contents, {
     filename: path.join(basePath, 'templates/static', filename),
     basedir: basePath
+    plugins: [productFallbackPlugin]
   })
 
   translate = (key, chinaInfra) ->
@@ -57,8 +74,9 @@ compile = (contents, locals, filename, cb) ->
     locals.me.useSocialSignOn = -> false  #not (locals.chinaInfra ? false)
     locals.me.useGoogleAnalytics = -> not (locals.chinaInfra ? false)
     locals.me.useStripe = -> false  #not (locals.chinaInfra ? false)
-    # Netease Qiyu Live Chat Plugin
-    locals.me.useQiyukf = -> locals.chinaInfra ? false
+    locals.me.useQiyukf = -> locals.chinaInfra ? false  # Netease Qiyu Live Chat Plugin
+    locals.me.useDataDog = -> false  #not (locals.chinaInfra ? false)
+    locals.me.showChinaVideo = -> locals.chinaInfra ? false
     str = outFn(locals)
   catch e
     console.log "Compile", filename, basePath
@@ -83,13 +101,13 @@ compile = (contents, locals, filename, cb) ->
 
   # console.log {outFile}
 
-  if not fs.existsSync(path.resolve('./public'))
-    fs.mkdirSync(path.resolve('./public'))
-  if not fs.existsSync(path.resolve('./public/templates'))
-    fs.mkdirSync(path.resolve('./public/templates'))
-  if not fs.existsSync(path.resolve('./public/templates/static'))
-    fs.mkdirSync(path.resolve('./public/templates/static'))
-  fs.writeFileSync(path.join(path.resolve('./public/templates/static'), outFile), c.html())
+  if not fs.existsSync(path.resolve("./#{publicFolderName}"))
+    fs.mkdirSync(path.resolve("./#{publicFolderName}"))
+  if not fs.existsSync(path.resolve("./#{publicFolderName}/templates"))
+    fs.mkdirSync(path.resolve("./#{publicFolderName}/templates"))
+  if not fs.existsSync(path.resolve("./#{publicFolderName}/templates/static"))
+    fs.mkdirSync(path.resolve("./#{publicFolderName}/templates/static"))
+  fs.writeFileSync(path.join(path.resolve("./#{publicFolderName}/templates/static"), outFile), c.html())
   cb()
   # cb(null, [{filename: outFile, content: c.html()}], deps) # old brunch callback
 
@@ -100,7 +118,8 @@ module.exports = WebpackStaticStuff = (options = {}) ->
 
 WebpackStaticStuff.prototype.apply = (compiler) ->
   # Compile the static files
-  compiler.plugin 'emit', (compilation, callback) =>
+  # https://github.com/ionic-team/stencil-webpack/pull/9
+  compiler.hooks.emit.tapAsync 'CompileStaticTemplatesEmit', (compilation, callback) =>
     files = fs.readdirSync(path.resolve('./app/templates/static'))
     promises = []
     for filename in files
@@ -109,11 +128,13 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
       if @prevTemplates[filename] is content
         continue
       @prevTemplates[filename] = content
+      chunkPaths = {}
+      compilation.chunks.map (c) ->
+        if c.name
+          chunkPaths[c.name] = compiler.options.output.chunkFilename.replace('[name]',c.name).replace('[chunkhash]',c.renderedHash)
+
       locals = _.merge({}, @options.locals, {
-        chunkPaths: _.zipObject.apply(null, _.zip(compilation.chunks.map((c)=>[
-          c.name,
-          compiler.options.output.chunkFilename.replace('[name]',c.name).replace('[chunkhash]',c.renderedHash)
-        ])))
+        chunkPaths: chunkPaths
       })
       try
         compile(content, locals, filename, _.noop)
@@ -124,7 +145,7 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
     callback()
 
   # Watch the static template files for changes
-  compiler.plugin 'after-emit', (compilation, callback) =>
+  compiler.hooks.afterEmit.tapAsync 'CompileStaticTemplatesAfterEmit', (compilation, callback) =>
     files = fs.readdirSync(path.resolve('./app/templates/static'))
     compilationFileDependencies = compilation.fileDependencies
     _.forEach(files, (filename) =>

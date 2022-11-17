@@ -2,7 +2,7 @@ require('app/styles/play/level/level-loading-view.sass')
 require('app/styles/play/level/tome/spell_palette_entry.sass')
 require('app/styles/play/play-level-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/play/play-level-view'
+template = require 'app/templates/play/play-level-view'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
@@ -53,6 +53,7 @@ HintsView = require './HintsView'
 SurfaceContextMenuView = require './SurfaceContextMenuView'
 HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
+SpellPaletteViewMid = require './tome/SpellPaletteViewMid'
 store = require('core/store')
 
 require 'lib/game-libraries'
@@ -103,6 +104,7 @@ module.exports = class PlayLevelView extends RootView
     'store:item-purchased': 'onItemPurchased'
     'tome:manual-cast': 'onRunCode'
     'ladder:game-submitted': 'onGameSubmitted'
+    'world:update-key-value-db': 'updateKeyValueDb'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -188,10 +190,19 @@ module.exports = class PlayLevelView extends RootView
     levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
-    console.debug 'PlayLevelView: Create LevelLoader'
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
+    utils.getAnonymizationStatus(utils.getQueryVariable('league'), @supermodel).then((anonymous) =>
+      @anonymousPlayerName = anonymous
+    )
+
+    @classroomAceConfig = {liveCompletion: true}  # default (home users, teachers, etc.)
+    if @courseInstanceID
+      fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members")
+      @supermodel.trackRequest fetchAceConfig
+      fetchAceConfig.then (classroom) =>
+        @classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion ? true
 
   hasAccessThroughClan: (level) ->
     _.intersection(level.get('clans') ? [], me.get('clans') ? []).length
@@ -223,7 +234,7 @@ module.exports = class PlayLevelView extends RootView
     return unless @timeOffset
     return unless @mandate.loaded
     return unless @levelSlug
-    return unless @level.get('type') is 'course-ladder'
+    return unless @level?.get('type') is 'course-ladder'
     courseInstanceID = @courseInstanceID or utils.getQueryVariable 'league'
     mandate = @mandate.get('0')
 
@@ -278,10 +289,6 @@ module.exports = class PlayLevelView extends RootView
     c.world = @world
     c
 
-  toggleSpellPalette: ->
-    @$el.toggleClass 'no-api'
-    $(window).trigger 'resize'
-
   afterRender: ->
     super()
     window.onPlayLevelViewLoaded? @  # still a hack
@@ -296,7 +303,6 @@ module.exports = class PlayLevelView extends RootView
   # Partially Loaded Setup ####################################################
 
   onWorldNecessitiesLoaded: ->
-    console.debug('PlayLevelView: world necessities loaded')
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
 
@@ -335,6 +341,8 @@ module.exports = class PlayLevelView extends RootView
       @howToPlayText = marked(@howToPlayText, { sanitize: true })
       @renderSelectors('#how-to-play-game-dev-panel')
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
+    @spellPalettePosition = @getSpellPalettePosition()
+    @$el.addClass 'no-api' if @spellPalettePosition is 'bot'
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
     @otherSession = @levelLoader.opponentSession
@@ -402,13 +410,43 @@ module.exports = class PlayLevelView extends RootView
     @goalManager.destroy()
     @initGoalManager()
 
+  getSpellPalettePosition: ->
+    return 'bot'
+    return @spellPalettePosition if @spellPalettePosition
+    return position if position = utils.getQueryVariable('apis')
+    return 'mid' if @level.isType('game-dev', 'web-dev')
+    heroID = if @team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
+    return 'mid' unless heroThang = @world?.getThangByID(heroID)
+    programmablePropCount = 0
+    for propStorage in ['programmableProperties', 'programmableSnippets', 'moreProgrammableProperties']
+      programmablePropCount += heroThang[propStorage]?.length or 0
+    if programmablePropCount < 16
+      return 'bot'
+    else
+      return 'mid'
+
+  updateSpellPalette: (thang, spell) ->
+    return false unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
+    useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
+    @removeSubview @spellPaletteView if @spellPaletteView
+    @spellPaletteView = null
+    if @getSpellPalettePosition() is 'bot'
+      # We'l make it inside Tome instead
+      @$el.toggleClass 'no-api', true
+      return false
+    # We'll manage it here
+    @spellPaletteView = @insertSubView new SpellPaletteViewMid { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @session.get('codeLanguage'), session: @session, level: @level, courseID: @courseID, courseInstanceID: @courseInstanceID, useHero }
+    @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view
+    @$el.toggleClass 'no-api', false
+    return true
+
   insertSubviews: ->
     @hintsState = new HintsState({ hidden: true }, { @session, @level, @supermodel })
     store.commit('game/setHintsVisible', false)
     @hintsState.on('change:hidden', (hintsState, newHiddenValue) ->
       store.commit('game/setHintsVisible', !newHiddenValue)
     )
-    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
+    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState, @classroomAceConfig }
     @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
     @insertSubView new GoalsView {level: @level, session: @session}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
@@ -421,8 +459,8 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     @insertSubView new SurfaceContextMenuView session: @session, level: @level
-    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isLadder()
-    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID}
+    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, anonymous: @anonymousPlayerName, showsGold: goldInDuelStatsView if @level.isLadder()
+    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID, @classroomAceConfig}
     @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
     @insertSubView @webSurface = new WebSurfaceView {level: @level, @goalManager} if @level.isType('web-dev')
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
@@ -446,7 +484,6 @@ module.exports = class PlayLevelView extends RootView
   # Load Completed Setup ######################################################
 
   onSessionLoaded: (e) ->
-    console.log 'PlayLevelView: loaded session', e.session
     store.commit('game/setTimesCodeRun', e.session.get('timesCodeRun') or 0)
     store.commit('game/setTimesAutocompleteUsed', e.session.get('timesAutocompleteUsed') or 0)
     return if @session
@@ -513,14 +550,13 @@ module.exports = class PlayLevelView extends RootView
     return {} unless @level.isType('ladder', 'hero-ladder', 'course-ladder')
     playerNames = {}
     for session in [@session, @otherSession] when session?.get('team')
-      playerNames[session.get('team')] = session.get('creatorName') or 'Anonymous'
+      playerNames[session.get('team')] = utils.getAnonymizedName(@anonymousPlayerName, session)
     playerNames
 
   # Once Surface is Loaded ####################################################
 
   onLevelStarted: ->
     return unless @surface? or @webSurface?
-    console.log 'PlayLevelView: level started'
     @loadingView.showReady()
     @trackLevelLoadEnd()
     if window.currentModal and not window.currentModal.destroyed and [VictoryModal, CourseVictoryModal, HeroVictoryModal].indexOf(window.currentModal.constructor) is -1
@@ -719,7 +755,7 @@ module.exports = class PlayLevelView extends RootView
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world, parent: @}
     ModalClass = if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder') then HeroVictoryModal else VictoryModal
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
-    if @level.isType('course-ladder')
+    if @level.isType('course-ladder') or @level.isType('ladder') and @courseInstanceID
       ModalClass = CourseVictoryModal
       options.courseInstanceID = utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
@@ -739,7 +775,7 @@ module.exports = class PlayLevelView extends RootView
 
   onInfiniteLoop: (e) ->
     return unless e.firstWorld and e.god is @god
-    @openModalView new InfiniteLoopModal nonUserCodeProblem: e.nonUserCodeProblem
+    @openModalView new InfiniteLoopModal nonUserCodeProblem: e.nonUserCodeProblem, problem: e.problem, timedOut: e.timedOut
     application.tracker?.trackEvent 'Saw Initial Infinite Loop', category: 'Play Level', level: @level.get('name'), label: @level.get('name') unless @observing or @isEditorPreview
 
   onHighlightDOM: (e) -> @highlightElement e.selector, delay: e.delay, sides: e.sides, offset: e.offset, rotation: e.rotation
@@ -805,7 +841,8 @@ module.exports = class PlayLevelView extends RootView
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
-    @session.updateKeyValueDb(e.keyValueDb) if @level.isType('game-dev')
+    if @level.isType('game-dev', 'hero', 'course')
+      @session.updateKeyValueDb(e.keyValueDb)
 
   # Real-time playback
   onRealTimePlaybackStarted: (e) ->
@@ -826,6 +863,11 @@ module.exports = class PlayLevelView extends RootView
     @renderSelectors('#how-to-play-game-dev-panel')
     @$('#how-to-play-game-dev-panel').removeClass('hide')
 
+  updateKeyValueDb: ->
+    return unless @world?.keyValueDb
+    @session.updateKeyValueDb _.cloneDeep(@world.keyValueDb)
+    @session.saveKeyValueDb()
+
   updateLevelName: () ->
     if @world.uiText?.levelName
       @controlBar.setLevelName(@world.uiText.levelName)
@@ -835,7 +877,8 @@ module.exports = class PlayLevelView extends RootView
     @$('#how-to-play-game-dev-panel').addClass('hide') if @level.isType('game-dev')
     @$el.removeClass 'real-time'
     @onWindowResize()
-    @session.saveKeyValueDb() if @level.isType('game-dev')
+    if @level.isType('game-dev', 'hero', 'course')
+      @session.saveKeyValueDb()
     if @world.frames.length is @world.totalFrames and not @surface.countdownScreen?.showing and not @realTimePlaybackWaitingForFrames
       _.delay @onSubmissionComplete, 750  # Wait for transition to end.
     else
@@ -920,4 +963,5 @@ module.exports = class PlayLevelView extends RootView
     @level?.get 'slug'
 
   onRunCode: ->
+    @updateKeyValueDb()
     store.commit('game/incrementTimesCodeRun')

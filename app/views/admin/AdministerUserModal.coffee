@@ -1,11 +1,12 @@
 _ = require 'lodash'
 require('app/styles/admin/administer-user-modal.sass')
 ModelModal = require 'views/modal/ModelModal'
-template = require 'templates/admin/administer-user-modal'
+template = require 'app/templates/admin/administer-user-modal'
 User = require 'models/User'
 Prepaid = require 'models/Prepaid'
 StripeCoupons = require 'collections/StripeCoupons'
 forms = require 'core/forms'
+errors = require 'core/errors'
 Prepaids = require 'collections/Prepaids'
 Classrooms = require 'collections/Classrooms'
 TrialRequests = require 'collections/TrialRequests'
@@ -26,6 +27,8 @@ module.exports = class AdministerUserModal extends ModelModal
     'click #save-changes': 'onClickSaveChanges'
     'click #create-payment-btn': 'onClickCreatePayment'
     'click #add-seats-btn': 'onClickAddSeatsButton'
+    'click #add-esports-product-btn': 'onClickAddEsportsProductButton'
+    'click #user-spy-btn': 'onClickUserSpyButton'
     'click #destudent-btn': 'onClickDestudentButton'
     'click #deteacher-btn': 'onClickDeteacherButton'
     'click #reset-progress-btn': 'onClickResetProgressButton'
@@ -38,6 +41,7 @@ module.exports = class AdministerUserModal extends ModelModal
     'click .save-prepaid-info-btn': 'onClickSavePrepaidInfo'
     'click #school-admin-checkbox': 'onClickSchoolAdminCheckbox'
     'click #online-teacher-checkbox': 'onClickOnlineTeacherCheckbox'
+    'click #beta-tester-checkbox': 'onClickBetaTesterCheckbox'
     'click #edit-school-admins-link': 'onClickEditSchoolAdmins'
     'submit #teacher-search-form': 'onSubmitTeacherSearchForm'
     'click .add-administer-teacher': 'onClickAddAdministeredTeacher'
@@ -45,7 +49,10 @@ module.exports = class AdministerUserModal extends ModelModal
     'click #teacher-search-button': 'onSubmitTeacherSearchForm'
     'click .remove-teacher-button': 'onClickRemoveAdministeredTeacher'
     'click #license-type-select>.radio': 'onSelectLicenseType'
+    'click #esports-type-select>.radio': 'onSelectEsportsType'
+    'click #esports-product-addon': 'onSelectEsportsAddon'
     'click .other-user-link': 'onClickOtherUserLink'
+    'click .modal-nav-link': 'onClickModalNavLink'
     'click #volume-checkbox': 'onClickVolumeCheckbox'
     'click #music-checkbox': 'onClickMusicCheckbox'
 
@@ -58,6 +65,8 @@ module.exports = class AdministerUserModal extends ModelModal
         @listenTo @classrooms, 'sync', @loadClassroomTeacherNames
       else if @user.isTeacher()
         @supermodel.trackRequest @classrooms.fetchByOwner(@userHandle)
+      @esportsProducts = @user.getProductsByType('esports')
+      @renderSelectors('#esports-products')
     @supermodel.trackRequest @user.fetch({cache: false})
     @coupons = new StripeCoupons()
     @supermodel.trackRequest @coupons.fetch({cache: false}) if me.isAdmin()
@@ -68,11 +77,13 @@ module.exports = class AdministerUserModal extends ModelModal
         if prepaid.loaded and not prepaid.creator
           prepaid.creator = new User()
           @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
+    @esportsProducts = @user.getProductsByType('esports')
     @trialRequests = new TrialRequests()
     @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle) if me.isAdmin()
     @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
     @licenseType = 'all'
     @licensePresets = LICENSE_PRESETS
+    @esportsType = 'basic'
     @utils = utils
     options.models = [@user]  # For ModelModal to generate a Treema of this user
     super options
@@ -82,6 +93,7 @@ module.exports = class AdministerUserModal extends ModelModal
     @trialRequest = @trialRequests.first()
     @models.push @trialRequest if @trialRequest
     @prepaidTableState={}
+    @productTableState={}
     @foundTeachers = []
     @administratedTeachers = []
     @trialRequests = new TrialRequests()
@@ -171,7 +183,7 @@ module.exports = class AdministerUserModal extends ModelModal
     return unless attrs.maxRedeemers > 0
     return unless attrs.endDate and attrs.startDate and attrs.endDate > attrs.startDate
     attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-    attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
+    attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone).toISOString()
     attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
 
     if attrs.licenseType of @licensePresets
@@ -192,6 +204,73 @@ module.exports = class AdministerUserModal extends ModelModal
     @listenTo prepaid, 'sync', ->
       @state = 'made-prepaid'
       @renderSelectors('#prepaid-form')
+      @prepaids.push(prepaid)
+      @renderSelectors('#prepaids-table')
+      $('#prepaids-table').addClass('in')
+      setTimeout(() =>
+        @state = ''
+        @renderSelectors('#prepaid-form')
+      , 1000)
+
+  onClickAddEsportsProductButton: ->
+    attrs = forms.formToObject(@$('#esports-product-form'))
+
+    return unless _.all(_.values(attrs))
+    return unless attrs.endDate and attrs.startDate and attrs.endDate > attrs.startDate
+    attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
+
+    attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
+    attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
+
+    attrs.productOptions = {type: attrs.esportsType, id: _.uniqueId()}
+    delete attrs.esportsType
+
+    if attrs.addon.length
+      attrs.productOptions.teams = parseInt(attrs.teams)
+      attrs.productOptions.tournaments = parseInt(attrs.tournaments)
+      attrs.productOptions.arenas = attrs.arenas if attrs.arenas
+
+    delete attrs.teams
+    delete attrs.tournaments
+    delete attrs.arenas
+    delete attrs.addon
+
+    _.extend(attrs, {
+      product: 'esports'
+      purchaser: @user.id
+      recipient: @user.id
+      paymentService: 'external'
+      paymentDetails:
+        adminAdded: me.id
+    })
+    @state = 'creating-esports-product'
+    @renderSelectors('#esports-product-form')
+    $('#esports-product-form').addClass('in')
+    api.users.putUserProducts({
+      user: @user.id,
+      product: attrs
+    }).then (res) =>
+      @state = 'made-esports-product'
+      @renderSelectors('#esports-product-form')
+      $('#esports-product-form').addClass('in')
+      @esportsProducts.push(attrs)
+      @renderSelectors('#esports-product-table')
+      $('#esports-product-table').addClass('in')
+      setTimeout(() =>
+        @state = ''
+        @renderSelectors('#esports-product-form')
+        $('#esports-product-form').addClass('in')
+      , 1000)
+
+  onClickUserSpyButton: (e) ->
+    e.stopPropagation()
+    button = $(e.currentTarget)
+    forms.disableSubmit(button)
+    me.spy @user.id,
+      success: -> window.location.reload()
+      error: ->
+        forms.enableSubmit(button)
+        errors.showNotyNetworkError(arguments...)
 
   onClickDestudentButton: (e) ->
     button = @$(e.currentTarget)
@@ -310,6 +389,8 @@ module.exports = class AdministerUserModal extends ModelModal
 
   userIsOnlineTeacher: -> @user.isOnlineTeacher()
 
+  userIsBetaTester: -> @user.isBetaTester()
+
   onClickOnlineTeacherCheckbox: (e) ->
     checked = @$(e.target).prop('checked')
     unless @updateUserPermission User.PERMISSIONS.ONLINE_TEACHER, checked
@@ -318,6 +399,11 @@ module.exports = class AdministerUserModal extends ModelModal
   onClickSchoolAdminCheckbox: (e) ->
     checked = @$(e.target).prop('checked')
     unless @updateUserPermission User.PERMISSIONS.SCHOOL_ADMINISTRATOR, checked
+      e.preventDefault()
+
+  onClickBetaTesterCheckbox: (e) ->
+    checked = @$(e.target).prop('checked')
+    unless @updateUserPermission User.PERMISSIONS.BETA_TESTER, checked
       e.preventDefault()
 
   updateUserPermission: (permission, enabled) ->
@@ -479,6 +565,15 @@ module.exports = class AdministerUserModal extends ModelModal
     @licenseType = $(e.target).parent().children('input').val()
     @renderSelectors("#license-type-select")
 
+  onSelectEsportsType: (e) ->
+    @esportsType = $(e.target).parent().children('input').val()
+    @renderSelectors("#esports-type-select")
+    @renderSelectors("#esports-product-addon-items")
+
+  onSelectEsportsAddon: (e) ->
+    @esportsAddon = $(e.target).parent().children('input').is(':checked')
+    @renderSelectors('#esports-product-addon-items')
+
   administratedSchools: (teachers) ->
     schools = {}
     _.forEach teachers, (teacher) =>
@@ -503,6 +598,10 @@ module.exports = class AdministerUserModal extends ModelModal
     e.preventDefault()
     userID = $(e.target).closest('a').data('user-id')
     @openModalView new AdministerUserModal({}, userID)
+
+  onClickModalNavLink: (e) ->
+    e.preventDefault()
+    @$el.animate({scrollTop: $($(e.target).attr('href')).offset().top}, 0)
 
   onClickMusicCheckbox: (e) ->
     val = @$(e.target).prop('checked')

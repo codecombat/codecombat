@@ -11,7 +11,7 @@ utils = require 'core/utils'
 
 module.exports = class PlayWebDevLevelView extends RootView
   id: 'play-web-dev-level-view'
-  template: require 'templates/play/level/play-web-dev-level-view'
+  template: require 'app/templates/play/level/play-web-dev-level-view'
 
   initialize: (@options, @sessionID) ->
     super(@options)

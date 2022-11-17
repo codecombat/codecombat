@@ -22,6 +22,7 @@ module.exports =
     justBegin: {type: 'boolean'}
     cinematic: {type: 'boolean'}
     keyValueDb: {type: 'object'}
+    spellJustLoaded: {type: 'boolean'}
 
   'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
     realTime: {type: 'boolean'}
@@ -102,6 +103,8 @@ module.exports =
 
   'tome:comment-my-code': c.object {title: 'Comment My Code', description: 'Published when we comment out a chunk of your code'}
 
+  'tome:reset-my-code': c.object {title: 'Reset My Code', description: 'Published when we force reset your code from an error modal'}
+
   'tome:change-config': c.object {title: 'Change Config', description: 'Published when you change your tome settings'}
 
   'tome:update-snippets': c.object {title: 'Update Snippets', description: 'Published when we need to add autocomplete snippets', required: ['propGroups', 'allDocs']},
@@ -147,3 +150,10 @@ module.exports =
   'tome:html-updated': c.object {title: 'HTML Updated', required: ['html', 'create']},
     html: {type: 'string', description: 'The full HTML to display'}
     create: {type: 'boolean', description: 'Whether we should (re)create the DOM (as opposed to updating it)'}
+
+  'tome:remove-all-markers': c.object {}
+  'tome:scroll-to-top': c.object {}
+  'tome:update-aether-running': c.object {}
+  'tome:update-aether': c.object {}
+  'tome:completer-add-user-snippets': c.object {}
+  'tome:completer-popup-focus-change': c.object {}

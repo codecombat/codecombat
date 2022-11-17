@@ -1,6 +1,6 @@
 require('app/styles/play/modal/poll-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/modal/poll-modal'
+template = require 'app/templates/play/modal/poll-modal'
 utils = require 'core/utils'
 UserPollsRecord = require 'models/UserPollsRecord'
 
@@ -77,13 +77,13 @@ module.exports = class PollModal extends ModalView
     pollVotes[@poll.id] = $selectedAnswer.data('answer').toString()
     @userPollsRecord.set 'polls', pollVotes
     @updateAnswers true
-    @userPollsRecord.save {polls: pollVotes}, {success: => 
+    @userPollsRecord.save {polls: pollVotes}, {success: =>
       @awardRandomGems?()
-
+      return if utils.isOzaria
       myAnswer = (@userPollsRecord.get('polls') ? {})[@poll.id]
       answerObj = _.find(@poll.get('answers'), (answer) => answer.key == myAnswer) or {}
       nextPollId = answerObj.nextPoll
-      
+
       # The following block allows for the user to be indecisive with their answer, updating UI accordingly.
       btn = @$el.find('.btn.btn-illustrated.btn-lg.done-button')
       btn.off('click')
@@ -164,4 +164,5 @@ commentStarts =
   coffeescript: '# '
   lua: '-- '
   java: '// '
+  # next line applied from coco for both
   cpp: '// '

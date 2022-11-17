@@ -1,6 +1,6 @@
 require('app/styles/play/level/tome/cast_button.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/cast-button-view'
+template = require 'app/templates/play/level/tome/cast-button-view'
 {me} = require 'core/auth'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 LevelSession = require 'models/LevelSession'

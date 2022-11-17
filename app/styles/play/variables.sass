@@ -1,4 +1,23 @@
 $api-bar-width: 0px
+$level-resize-transition-time: 0.25s
+
+////$max-code-area-width: 875px // 100 characters on a line
+//$max-code-area-width: 708px  // 80 characters on a line
+$min-code-area-width: 43.5%
+$max-code-area-width: 43.5%
+//$max-widescreen-code-area-width: 50%
+$max-widescreen-code-area-width: 43.5%
+//$code-area-width: Max(Min($max-code-area-width, $min-code-area-width), Min($max-widescreen-code-area-width, calc(100vw - $api-bar-width - 924 / 589 * (100vh - 50px - 43px - 80px))))
+//$code-area-width-no-api: Max(Min($max-code-area-width, $min-code-area-width), Min($max-widescreen-code-area-width, calc(100vw - 924 / 589 * (100vh - 50px - 43px - 80px))))
+$code-area-width: 43.5%
+$code-area-width-no-api: 43.5%
+
+$code-area-overlap: 0.5%
+//$game-view-width: calc(100% - $code-area-width + $code-area-overlap)
+//$game-view-width-no-api: calc(100% - $code-area-width-no-api + $code-area-overlap)
 $game-view-width: 57%
-$spell-pallete-right: 100% - $game-view-width
+$game-view-width-no-api: 57%
+
+$spell-palette-right: calc(100% - $game-view-width)
+
 $ls-font: "VT323", Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace

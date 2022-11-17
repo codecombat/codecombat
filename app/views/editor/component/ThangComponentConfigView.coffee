@@ -1,5 +1,6 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/component/thang-component-config-view'
+template = require 'app/templates/editor/component/thang-component-config-view'
+utils = require 'core/utils'
 
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
@@ -26,8 +27,9 @@ module.exports = class ThangComponentConfigView extends CocoView
     @buildTreema()
 
   setConfig: (config) ->
+    @config = config
     @handlingChange = true
-    @editThangTreema.set('/', config)
+    @editThangTreema.set('/', @config)
     @handlingChange = false
 
   setIsDefaultComponent: (isDefaultComponent) ->
@@ -45,7 +47,9 @@ module.exports = class ThangComponentConfigView extends CocoView
     schema = $.extend true, {}, @component.get('configSchema')
     schema.default ?= {}
     _.merge schema.default, @additionalDefaults if @additionalDefaults
-    schema.required = []
+
+    if utils.isCodeCombat or @level?.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
+      schema.required = []
     treemaOptions =
       supermodel: @supermodel
       schema: schema
@@ -76,6 +80,7 @@ module.exports = class ThangComponentConfigView extends CocoView
     @editThangTreema = @$el.find('.treema').treema treemaOptions
     @editThangTreema.build()
     @editThangTreema.open(2)
+    @openTastyTreemas()
     if _.isEqual(@editThangTreema.data, {}) and not @editThangTreema.canAddChild()
       @$el.find('.panel-body').hide()
 
@@ -90,6 +95,18 @@ module.exports = class ThangComponentConfigView extends CocoView
   destroy: ->
     @editThangTreema?.destroy()
     super()
+
+  openTastyTreemas: ->
+    # To save on quick inspection, let's auto-open the properties we're most likely to want to see.
+    delicacies = [
+      ['programmableMethods', 'plan', 'languages']
+    ]
+    for dish in delicacies
+      node = @editThangTreema
+      for ingredient in dish
+        continue unless child = node.childrenTreemas?[ingredient]
+        child.open()
+        node = child
 
 class ComponentConfigNode extends TreemaObjectNode
   nodeDescription: 'Component Property'

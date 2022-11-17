@@ -24,6 +24,10 @@ export default {
     trialClassExperiment: {
       type: String,
       default: 'trial-class'
+    },
+    brightchampsExperiment: {
+      type: String,
+      default: 'control'
     }
   }
 }
@@ -31,7 +35,7 @@ export default {
 </script>
 
 <template>
-  <div class="top-jumbotron">
+  <div :class="'top-jumbotron' + (brightchampsExperiment === 'brightchamps' ? ' brightchamps' : '')">
     <img class="animated-griffin"
          src="/images/pages/parents/Griffin_and_Alejandro1.svg"
          alt="flying griffin"
@@ -63,6 +67,13 @@ export default {
           :buttonText="mainCtaButtonText"
           :subtext="mainCtaSubtext"
         />
+      </div>
+    </div>
+
+    <div class="row partnership-row" v-if="brightchampsExperiment === 'brightchamps'">
+      <div class="col-lg-12 text-center">
+        <h1 class="pixelated parents-header-text">in partnership with</h1>
+        <img class="img-responsive" src="/images/pages/parents/brightchamps-logo.png" alt="BrightCHAMPS">
       </div>
     </div>
   </div>
@@ -158,6 +169,16 @@ export default {
         bottom 52px right 475px;
     }
 
+    .top-jumbotron.brightchamps {
+      /* Moves images out of the way of the heading to keep it legible */
+      background-size: 210px, 0, 90px, 260px, 250px;
+      background-position: top 0% left 0%,
+      top 50px left 30px,
+      top 35px right 280px,
+      top 360px right 300px,
+      bottom 52px right 475px;
+    }
+
     .animated-griffin {
       position: absolute;
       top: -1%;
@@ -198,6 +219,27 @@ export default {
         top 360px right 300px,
         bottom 52px right 475px;
     }
+
+    .top-jumbotron.brightchamps {
+      /* Moves images out of the way of the heading to keep it legible */
+      background-size: 210px, 0, 90px, 260px, 250px;
+      background-position: top 0% left 0%,
+      top 50px left 30px,
+      top 35px right 280px,
+      top 360px right 300px,
+      bottom 52px right 475px;
+    }
+  }
+
+  .partnership-row {
+    margin-top: 58px;
+  }
+  .partnership-row h1 {
+    margin-bottom: 10px;
+  }
+  .partnership-row img.img-responsive {
+    width: 320px;
+    margin: 0px auto;
   }
 
 </style>

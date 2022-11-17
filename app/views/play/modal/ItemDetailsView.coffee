@@ -1,6 +1,6 @@
 require('app/styles/play/modal/item-details-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/modal/item-details-view'
+template = require 'app/templates/play/modal/item-details-view'
 CocoCollection = require 'collections/CocoCollection'
 LevelComponent = require 'models/LevelComponent'
 

@@ -1,7 +1,7 @@
 require('app/styles/user/email-verified-view.sass')
 RootView = require 'views/core/RootView'
 State = require 'models/State'
-template = require 'templates/user/email-verified-view'
+template = require 'app/templates/user/email-verified-view'
 User = require 'models/User'
 
 module.exports = class EmailVerifiedView extends RootView

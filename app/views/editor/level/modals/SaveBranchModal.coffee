@@ -1,6 +1,6 @@
 require('app/styles/editor/level/modal/save-branch-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/editor/level/modal/save-branch-modal'
+template = require 'app/templates/editor/level/modal/save-branch-modal'
 DeltaView = require 'views/editor/DeltaView'
 deltasLib = require 'core/deltas'
 modelDeltas = require 'lib/modelDeltas'
@@ -23,16 +23,16 @@ module.exports = class SaveBranchModal extends ModalView
 
   initialize: ({ @components, @systems }) ->
     # Should be given all loaded, up to date systems and components with existing changes
-    
+
     # Create a list of components and systems we'll be saving a branch for
     @componentsWithChanges = new LevelComponents(@components.filter((c) -> c.hasLocalChanges()))
     @systemsWithChanges = new LevelSystems(@systems.filter((c) -> c.hasLocalChanges()))
-    
+
     # Load existing branches
     @branches = new Branches()
     @branches.fetch({url: '/db/branches'})
     .then(=>
-      
+
       # Load any patch target we don't already have
       fetches = []
       for branch in @branches.models
@@ -45,9 +45,9 @@ module.exports = class SaveBranchModal extends ModalView
             model.once 'sync', -> @markToRevert()
             collection.add(model)
       return $.when(fetches...)
-      
+
     ).then(=>
-      
+
       # Go through each branch and make clones of patch targets, with patches applied, so we can show the deltas
       for branch in @branches.models
         branch.components = new Backbone.Collection()
@@ -71,7 +71,7 @@ module.exports = class SaveBranchModal extends ModalView
   afterRender: ->
     super()
     @renderSelectedBranch()
-    
+
     # insert all the Delta views for the systems/components which will form the branch
     changeEls = @$el.find('.component-changes-stub')
     for changeEl in changeEls
@@ -84,7 +84,7 @@ module.exports = class SaveBranchModal extends ModalView
       systemId = $(changeEl).data('system-id')
       system = @systemsWithChanges.find((c) -> c.id is systemId)
       @insertDeltaView(system, changeEl)
-      
+
   insertDeltaView: (model, changeEl, headModel) ->
     try
       deltaView = new DeltaView({model: model, headModel, skipPaths: deltasLib.DOC_SKIP_PATHS})
@@ -92,11 +92,11 @@ module.exports = class SaveBranchModal extends ModalView
       return deltaView
     catch e
       console.error 'Couldn\'t create delta view:', e
-        
+
   renderSelectedBranch: ->
     # insert delta subviews for the selected branch, including the 'headComponent' which shows
     # what, if any, conflicts the existing branch has with the client's local changes
-    
+
     @removeSubView(view) for view in @selectedBranchDeltaViews if @selectedBranchDeltaViews
     @selectedBranchDeltaViews = []
     @renderSelectors('#selected-branch-col')
@@ -146,14 +146,14 @@ module.exports = class SaveBranchModal extends ModalView
       if @branches.findWhere({slug})
         return noty text: 'Name taken', layout: 'topCenter', type: 'error', killer: false
       branch = new Branch({name})
-    
+
     patches = []
     toRevert = []
     selectedComponents = _.map(@$('.component-checkbox:checked'), (checkbox) => @componentsWithChanges.get($(checkbox).data('component-id')))
     for component in selectedComponents
       patches.push(modelDeltas.makePatch(component).toJSON())
       toRevert.push(component)
-    
+
     selectedSystems = _.map(@$('.system-checkbox:checked'), (checkbox) => @systemsWithChanges.get($(checkbox).data('system-id')))
     for system in selectedSystems
       patches.push(modelDeltas.makePatch(system).toJSON())
@@ -163,7 +163,7 @@ module.exports = class SaveBranchModal extends ModalView
     button = $(e.currentTarget)
     if not jqxhr
       return button.text('Save Failed (validation error)')
-      
+
     button.attr('disabled', true).text('Saving...')
     Promise.resolve(jqxhr)
     .then =>

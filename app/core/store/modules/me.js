@@ -11,6 +11,10 @@ export default {
   state: _.cloneDeep(emptyUser),
 
   getters: {
+    currentUserId (state) {
+      return state._id
+    },
+
     isInGodMode (state) {
       return ((state || {}).permissions || []).indexOf(User.PERMISSIONS.GOD_MODE) > -1 || ((state || {}).permissions || []).indexOf(User.PERMISSIONS.ONLINE_TEACHER) > -1
     },
@@ -63,6 +67,31 @@ export default {
       return state.preferredLanguage || 'en-US'
     },
 
+    isPaidTeacher (_state, _getters, _rootState, rootGetters) {
+      const prepaids = rootGetters['prepaids/getPrepaidsByTeacher'](me.get('_id'))
+      if (me.isPaidTeacher()) {
+        return true
+      }
+
+      if (!prepaids) {
+        return false
+      }
+
+      const { pending, empty, available } = prepaids
+      if (pending.length + empty.length + available.length > 0) {
+        return true
+      }
+
+      return me.isPremium()
+    },
+
+    /**
+     * @returns {object|undefined} avatar schema object or undefined if not defined.
+     */
+    getCh1Avatar (state) {
+      return (state.ozariaUserOptions || {}).avatar
+    },
+
     inEU (state) {
       if (!state.country) {
         return undefined
@@ -70,6 +99,7 @@ export default {
 
       return utils.inEU(state.country)
     },
+
     isSmokeTestUser (state) {
       return utils.isSmokeTestEmail(state.email)
     },
@@ -111,6 +141,17 @@ export default {
           me.set(updates) // will also call updateUser
           return state
         })
+    },
+
+    setCh1Avatar ({ state, commit }, { cinematicThangTypeId, cinematicPetThangId, avatarCodeString }) {
+      if (!(cinematicThangTypeId && cinematicPetThangId && avatarCodeString)) {
+        throw new Error('Require a cinematicThangTypeId, cinematicPetThangId, and avatarCodeString')
+      }
+
+      const ozariaConfig = state.ozariaUserOptions || {}
+      commit('updateUser', { ozariaUserOptions:
+        { ...ozariaConfig, avatar: { cinematicThangTypeId, cinematicPetThangId, avatarCodeString } }
+      })
     },
 
     authenticated ({ commit }, user) {

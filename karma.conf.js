@@ -1,3 +1,7 @@
+const product = process.env.COCO_PRODUCT || 'codecombat'
+const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
+const otherProductSuffix = { codecombat: 'ozar', ozaria: 'coco' }[product]
+const { publicFolderName } = require('./development/utils')
 
 module.exports = function(config) {
 
@@ -9,11 +13,11 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files : [
-      'public/javascripts/esper.modern.js', // Doesn't load properly from vendor.js.
-      'public/javascripts/app/vendor/aether-python.modern.js',
-      'public/javascripts/app/vendor/aether-coffeescript.modern.js',
-      'public/javascripts/app/vendor/aether-lua.modern.js',
-      'public/javascripts/test.js',
+      `${publicFolderName}/javascripts/esper.modern.js`, // Doesn't load properly from vendor.js.
+      `${publicFolderName}/javascripts/app/vendor/aether-python.modern.js`,
+      `${publicFolderName}/javascripts/app/vendor/aether-coffeescript.modern.js`,
+      `${publicFolderName}/javascripts/app/vendor/aether-lua.modern.js`,
+      `${publicFolderName}/javascripts/test.js`,
       // 'public/javascripts/chunks/TestView.bundle.js',
       // 'public/javascripts/vendor.js', // need for jade definition...
       // 'public/javascripts/whole-vendor.js',
@@ -31,7 +35,10 @@ module.exports = function(config) {
     },
 
     // list of files to exclude
-    exclude : [],
+    exclude : [
+      `**/*.${otherProductSuffix}.js`,
+      `**/*.${otherProductSuffix}.coffee`
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit'
@@ -77,10 +84,10 @@ module.exports = function(config) {
       dir : 'coverage/'
     },
 
-    //browserConsoleLogOptions: {
-    //  level: 'log',
-    //  terminal: true
-    //},
+    browserConsoleLogOptions: {
+     level: 'log',
+     terminal: true
+    },
 
     plugins : [
       'karma-jasmine',

@@ -1,6 +1,6 @@
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
-template = require 'templates/courses/courses-not-assigned-modal'
+template = require 'app/templates/courses/courses-not-assigned-modal'
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
@@ -15,6 +15,7 @@ module.exports = class CoursesNotAssignedModal extends ModalView
     })
     if options.courseID in STARTER_LICENSE_COURSE_IDS
       @supermodel.trackRequest(me.getLeadPriority())
+        # I think the modification of this commit can go to ozar as well: https://github.com/codecombat/codecombat/commit/dd806564d0b2ca7fa3599b4556800fda715ce42b
         .then(({ priority }) => @state.set({ promoteStarterLicenses:
           me.useStripe() and
           (priority is 'low') and

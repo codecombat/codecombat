@@ -1,7 +1,12 @@
-extends /templates/base-flat.jade
+extends /templates/base-flat
 
 block content
   .container-fluid
+    #top-banner
+      .row
+        .col-xs-12
+          if view.banner
+            span!=view.banner.display
     .row#jumbotron-container-fluid
       .col-lg-6
         h1.text-white(data-i18n="new_home.slogan")
@@ -452,7 +457,7 @@ block content
               .container-fluid.featured-section
                 .row
                   .col-xs-12
-                    h2.text-navy(data-i18n="new_home.featured_partners_title1") 
+                    h2.text-navy(data-i18n="new_home.featured_partners_title1")
                     .pink-bar
                       img(src="/images/pages/home/pink_rectangle.png")
                 .row
@@ -476,7 +481,7 @@ block content
               .container-fluid.partners-section
                 .row
                   .col-xs-12
-                    h2.text-navy(data-i18n="new_home.featured_partners_title2") 
+                    h2.text-navy(data-i18n="new_home.featured_partners_title2")
                     .pink-bar
                       img(src="/images/pages/home/pink_rectangle.png")
                 .row

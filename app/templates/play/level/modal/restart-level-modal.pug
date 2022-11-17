@@ -1,0 +1,11 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3(data-i18n="play_level.reload_title")
+
+block modal-body-content
+  p(data-i18n="play_level.restart_really")
+
+block modal-footer-content
+  a.button-confirm(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="play_level.restart_confirm").btn.btn-primary#restart-level-confirm-button
+  a.button-cancel(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.cancel").btn

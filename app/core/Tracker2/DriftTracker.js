@@ -105,13 +105,13 @@ export default class DriftTracker extends BaseTracker {
     this.updateDriftConfiguration()
   }
 
-  get onPlayPage () {
+  get onNoDriftPage () {
     const { route } = this.store.state
-    return (route.path || '').indexOf('/play') === 0
+    return /(\/play|\/certificates)/.test(route.path || '')
   }
 
   get isChatEnabled () {
-    return !this.onPlayPage && !this.store.getters['me/isStudent'] && !this.store.getters['me/isHomePlayer']  // && !this.disableAllTracking
+    return !this.onNoDriftPage && !this.store.getters['me/isStudent'] && !this.store.getters['me/isHomePlayer'] && this.store.getters['me/isTeacher']
   }
 
   async updateDriftConfiguration () {
@@ -147,7 +147,7 @@ export default class DriftTracker extends BaseTracker {
 
     await this.initializationComplete
     if (!window.drift) {
-      return;
+      return
     }
 
     const { me } = this.store.state
@@ -183,6 +183,9 @@ export default class DriftTracker extends BaseTracker {
     }
 
     await this.initializationComplete
+    if (!window.drift) {
+      return
+    }
 
     const url = `/${Backbone.history.getFragment()}`
     await window.drift.page(url)
@@ -194,6 +197,9 @@ export default class DriftTracker extends BaseTracker {
     }
 
     await this.initializationComplete
+    if (!window.drift) {
+      return
+    }
 
     await window.drift.track(action, properties)
   }

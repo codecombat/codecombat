@@ -6,7 +6,11 @@
   $control-yellow: rgb(237, 139, 65)
   $control-yellow-highlight: rgb(254, 167, 72)
 
+  width: 57%
   width: $game-view-width
+  #level-view.no-api &
+    width: 57%
+    width: $game-view-width-no-api
   height: 50px
   @include box-sizing(border-box)
   overflow: visible
@@ -180,13 +184,10 @@
         .hamburger span.icon-bar
           background-color: $control-yellow-highlight
 
-    #level-done-button, #next-game-button, #control-bar-sign-up-button, #version-switch-button
+    #level-done-button, #next-game-button, #control-bar-sign-up-button
       top: 7px
       font-size: 13px
       height: 24px
-
-    #version-switch-button
-      display: none
 
     #level-done-button
       display: none

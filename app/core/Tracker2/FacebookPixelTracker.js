@@ -20,20 +20,8 @@ const facebookEventActions = {
   'Student licenses purchase success': PURCHASE_EVENT, // should include properties: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
   'Online classes purchase success': SUBSCRIBE_EVENT, // should include properties: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
   'Home subscription purchase success': SUBSCRIBE_EVENT, // should include properties: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
-}
-
-function loadFacebookPixel () {
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-
-  fbq('init', '514962702046652')
-  fbq('track', 'PageView')
+  UniqueTeacherSignup: true,
+  OzariaUniqueTeacherSignup: true
 }
 
 export default class FacebookPixelTracker extends BaseTracker {
@@ -48,13 +36,10 @@ export default class FacebookPixelTracker extends BaseTracker {
 
     // Facebook pixels are currently tracked via Segment, which is enabled for all teachers so do not
     // double enable it for teachers
-    const isTeacher = this.store.getters['me/isTeacher']
-
     const isStudent = this.store.getters['me/isStudent']
     const isChina = (window.features || {}).china
 
-    if (!this.disableAllTracking && !isTeacher && !isStudent && !isChina) {
-      loadFacebookPixel()
+    if (!this.disableAllTracking && !isStudent && !isChina) {
       this.enabled = true
     } else {
       this.enabled = false
@@ -68,7 +53,7 @@ export default class FacebookPixelTracker extends BaseTracker {
   async trackPageView () {}
 
   async trackEvent (action, properties = {}) {
-    if (this.disableAllTracking) {
+    if (this.disableAllTracking || !window.fbq) {
       return
     }
 
@@ -85,10 +70,10 @@ export default class FacebookPixelTracker extends BaseTracker {
 
     this.log('tracking event', fbEvent, this.mapToFbProperties(fbEvent, properties))
     if (fbEvent === true) {
-      fbq('trackCustom', action, properties)
+      window.fbq('trackCustom', action, this.mapToFbProperties(fbEvent, properties))
     } else if (typeof fbEvent === 'string') {
       // Track as standard event name
-      fbq('track', fbEvent, this.mapToFbProperties(fbEvent, properties))
+      window.fbq('track', fbEvent, this.mapToFbProperties(fbEvent, properties))
     }
   }
 
@@ -106,7 +91,10 @@ export default class FacebookPixelTracker extends BaseTracker {
       result.value = purchaseAmount
       result.currency = currency
     } else {
-      result = properties
+      result = { ...properties }
+      if (properties.category) result.content_category = properties.category
+      if (properties.label) result.content_name = properties.label
+      if (fbEvent === 'CompleteRegistration') result.status = true
     }
     return result
   }

@@ -1,6 +1,6 @@
 require('app/styles/account/subscription-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/account/subscription-view'
+template = require 'app/templates/account/subscription-view'
 CocoCollection = require 'collections/CocoCollection'
 Products = require 'collections/Products'
 Product = require 'models/Product'
@@ -75,13 +75,42 @@ module.exports = class SubscriptionView extends RootView
   onSubscribed: ->
     document.location.reload()
 
-  onClickEndSubscription: (e) ->
-    window.tracker?.trackEvent 'Unsubscribe Start'
+  showNativeCancellationForm: ->
+    window.tracker?.trackEvent 'Unsubscribe Start - Native', category: 'Subscription'
     @$el.find('.end-subscription-button').blur().addClass 'disabled', 250
     @$el.find('.unsubscribe-feedback').show(500).find('textarea').focus()
 
+  showProfitwellCancellationForm: ->
+    window.tracker?.trackEvent 'Unsubscribe Start - Profitwell', category: 'Subscription'
+    subscriptionID = me.get('stripe').subscriptionID
+    window.profitwell('init_cancellation_flow', subscription_id: subscriptionID).then (result) =>
+      window.tracker?.trackEvent 'Unsubscribe Result - Profitwell', label: result.status, category: 'Subscription'
+      if result.status in ['retained', 'aborted']
+        # User either aborted the flow (i.e.they clicked on "never mind, I don't want to cancel"),
+        # or accepted a salvage attempt or salvage offer.
+        # Thus, do nothing, since they won't cancel.
+        return
+      if result.status is 'error'
+        # The widget oculdn't be shown; fall back to native cancellation form
+        @showNativeCancellationForm()
+        return
+      if result.status isnt 'chose_to_cancel'
+        console.error "Unknown Retain status: #{result.status}. Proceeding to cancellation."
+      message = ''
+      message += "Cancellation reason: #{result.cancelReason}\n" if result.cancelReason
+      message += "Satisfied with: #{result.satisfactionInsight}\n" if result.satisfactionInsight
+      message += "Feedback: #{result.additionalFeedback}\n" if result.additionalFeedback
+      @personalSub.unsubscribe(message, => @render?())
+
+  onClickEndSubscription: (e) ->
+    window.tracker?.trackEvent 'Unsubscribe Start', category: 'Subscription'
+    if window.profitwell and me.get('preferredLanguage', true).startsWith('en') and me.get('stripe')?.subscriptionID and utils.getQueryVariable('retain')
+      @showProfitwellCancellationForm()
+    else
+      @showNativeCancellationForm()
+
   onClickCancelEndSubscription: (e) ->
-    window.tracker?.trackEvent 'Unsubscribe Cancel'
+    window.tracker?.trackEvent 'Unsubscribe Cancel', category: 'Subscription'
     @$el.find('.unsubscribe-feedback').hide(500).find('textarea').blur()
     @$el.find('.end-subscription-button').focus().removeClass 'disabled', 250
 
@@ -155,7 +184,7 @@ class PersonalSub
     me.set('stripe', stripeInfo)
 
     me.once 'sync', =>
-      application.tracker?.trackEvent 'Finished subscription purchase', value: 0
+      application.tracker?.trackEvent 'Finished subscription purchase', value: 0, category: 'Subscription'
       delete @prepaidCode
       @update(render)
     me.once 'error', (user, response, options) =>
@@ -182,7 +211,7 @@ class PersonalSub
     if payPalInfo?.billingAgreementID
       api.users.cancelBillingAgreement({userID: me.id, billingAgreementID: payPalInfo?.billingAgreementID})
       .then (response) =>
-        window.tracker?.trackEvent 'Unsubscribe End', message: message
+        window.tracker?.trackEvent 'Unsubscribe End', message: message, category: 'Subscription'
         document.location.reload()
       .catch (jqxhr) =>
         console.error('PayPal unsubscribe', jqxhr)
@@ -190,7 +219,7 @@ class PersonalSub
       delete stripeInfo.planID
       me.set('stripe', stripeInfo)
       me.once 'sync', ->
-        window.tracker?.trackEvent 'Unsubscribe End', message: message
+        window.tracker?.trackEvent 'Unsubscribe End', message: message, category: 'Subscription'
         document.location.reload()
       me.patch({headers: {'X-Change-Plan': 'true'}})
 
@@ -314,6 +343,7 @@ class PersonalSub
             @nextPaymentDate = new Date(lastPayment.get('created'))
             @nextPaymentDate.setUTCMonth(@nextPaymentDate.getUTCMonth() + 1)
             @cost = "$#{(lastPayment.get('amount')/100).toFixed(2)}"
+            @subscribed = @nextPaymentDate > Date.now()
             render()
           else
             console.error("No subscription payments found!")
@@ -340,7 +370,7 @@ class RecipientSubs
     _.remove(@recipientEmails, (email) -> _.isEmpty(email))
     return if @recipientEmails.length < 1
 
-    window.tracker?.trackEvent 'Start sponsored subscription'
+    window.tracker?.trackEvent 'Start sponsored subscription', category: 'Subscription'
 
     # TODO: this sometimes shows a rounded amount (e.g. $8.00)
     currentSubCount = me.get('stripe')?.recipients?.length ? 0
@@ -370,7 +400,7 @@ class RecipientSubs
     me.set('stripe', stripeInfo)
 
     me.once 'sync', =>
-      application.tracker?.trackEvent 'Finished sponsored subscription purchase'
+      application.tracker?.trackEvent 'Finished sponsored subscription purchase', category: 'Subscription'
       @update(render)
     me.once 'error', (user, response, options) =>
       console.error 'We got an error subscribing with Stripe from our server:', response

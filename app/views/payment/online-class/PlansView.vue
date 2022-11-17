@@ -53,9 +53,9 @@ export default {
       const colKeys = _.uniq(this.priceData.map((price) => price.metadata.groupKey)).sort()
       if (this.shouldChangeOrderOfData) {
         return [
-            ...colKeys.slice(0, parseInt(colKeys.length / 2)),
-            '',
-            ...colKeys.slice(parseInt(colKeys.length / 2))
+          '',
+          ...colKeys.slice(0, parseInt(colKeys.length / 2)),
+          ...colKeys.slice(parseInt(colKeys.length / 2))
         ]
       } else {
         return ['', ...colKeys];
@@ -73,9 +73,9 @@ export default {
         let row
         if (this.shouldChangeOrderOfData) {
           row = [
-              ...rowWithSameIntervalSorted.slice(0, parseInt(rowWithSameIntervalSorted.length / 2)),
-              interval,
-              ...rowWithSameIntervalSorted.slice(parseInt(rowWithSameIntervalSorted.length / 2))
+            interval,
+            ...rowWithSameIntervalSorted.slice(0, parseInt(rowWithSameIntervalSorted.length / 2)),
+            ...rowWithSameIntervalSorted.slice(parseInt(rowWithSameIntervalSorted.length / 2))
           ]
         } else {
           row = [interval, ...rowWithSameIntervalSorted]

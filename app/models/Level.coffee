@@ -4,6 +4,7 @@ LevelSystem = require './LevelSystem'
 LevelConstants = require 'lib/LevelConstants'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
 utils = require 'core/utils'
+store = require 'core/store'
 
 # Pure functions for use in Vue
 # First argument is always a raw Level.attributes
@@ -70,7 +71,7 @@ module.exports = class Level extends CocoModel
 
   denormalize: (supermodel, session, otherSession) ->
     o = $.extend true, {}, @attributes
-    if o.thangs
+    if o.thangs and (utils.isCodeCombat or @isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev'))
       thangTypesWithComponents = (tt for tt in supermodel.getModels('ThangType') when tt.get('components')?)
       thangTypesByOriginal = _.indexBy thangTypesWithComponents, (tt) -> tt.get('original')  # Optimization
       for levelThang in o.thangs
@@ -79,42 +80,43 @@ module.exports = class Level extends CocoModel
 
   denormalizeThang: (levelThang, supermodel, session, otherSession, thangTypesByOriginal) ->
     levelThang.components ?= []
-    if /Hero Placeholder/.test(levelThang.id) and @get('assessment') isnt 'open-ended'
-      if @isType('hero', 'hero-ladder', 'hero-coop') and !me.isStudent()
-        isHero = true
-      else if @isType('course') and me.showHeroAndInventoryModalsToStudents() and not @isAssessment()
-        isHero = true
-      else
-        isHero = false
+    if utils.isCodeCombat
+      if /Hero Placeholder/.test(levelThang.id) and @get('assessment') isnt 'open-ended'
+        if @isType('hero', 'hero-ladder', 'hero-coop') and !me.isStudent()
+          isHero = true
+        else if @isType('course') and me.showHeroAndInventoryModalsToStudents() and not @isAssessment()
+          isHero = true
+        else
+          isHero = false
 
-    if isHero and @usesConfiguredMultiplayerHero()
-      isHero = false  # Don't use the hero from the session, but rather the one configured in this level
+      if isHero and @usesConfiguredMultiplayerHero()
+        isHero = false  # Don't use the hero from the session, but rather the one configured in this level
 
-    if isHero and otherSession
-      # If it's a hero and there's another session, find the right session for it.
-      # If there is no other session (playing against default code, or on single player), clone all placeholders.
-      # TODO: actually look at the teams on these Thangs to determine which session should go with which placeholder.
-      if levelThang.id is 'Hero Placeholder 1' and session.get('team') is 'humans'
-        session = otherSession
-      else if levelThang.id is 'Hero Placeholder' and session.get('team') is 'ogres'
-        session = otherSession
+      if isHero and otherSession
+        # If it's a hero and there's another session, find the right session for it.
+        # If there is no other session (playing against default code, or on single player), clone all placeholders.
+        # TODO: actually look at the teams on these Thangs to determine which session should go with which placeholder.
+        if levelThang.id is 'Hero Placeholder 1' and session.get('team') is 'humans'
+          session = otherSession
+        else if levelThang.id is 'Hero Placeholder' and session.get('team') is 'ogres'
+          session = otherSession
 
-    # Empty out placeholder Components and store their values if we're the hero placeholder.
-    if isHero
-      placeholders = {}
-      placeholdersUsed = {}
-      placeholderThangType = thangTypesByOriginal[levelThang.thangType]
-      unless placeholderThangType
-        console.error "Couldn't find placeholder ThangType for the hero!"
-        isHero = false
-      else
-        for defaultPlaceholderComponent in placeholderThangType.get('components')
-          placeholders[defaultPlaceholderComponent.original] = defaultPlaceholderComponent
-        for thangComponent in levelThang.components
-          placeholders[thangComponent.original] = thangComponent
-        levelThang.components = []  # We have stored the placeholder values, so we can inherit everything else.
-        heroThangType = session?.get('heroConfig')?.thangType
-        levelThang.thangType = heroThangType if heroThangType
+      # Empty out placeholder Components and store their values if we're the hero placeholder.
+      if isHero
+        placeholders = {}
+        placeholdersUsed = {}
+        placeholderThangType = thangTypesByOriginal[levelThang.thangType]
+        unless placeholderThangType
+          console.error "Couldn't find placeholder ThangType for the hero!"
+          isHero = false
+        else
+          for defaultPlaceholderComponent in placeholderThangType.get('components')
+            placeholders[defaultPlaceholderComponent.original] = defaultPlaceholderComponent
+          for thangComponent in levelThang.components
+            placeholders[thangComponent.original] = thangComponent
+          levelThang.components = []  # We have stored the placeholder values, so we can inherit everything else.
+          heroThangType = session?.get('heroConfig')?.thangType
+          levelThang.thangType = heroThangType if heroThangType
 
     thangType = thangTypesByOriginal[levelThang.thangType]
 
@@ -133,33 +135,34 @@ module.exports = class Level extends CocoModel
         levelThangComponent = $.extend true, {}, defaultThangComponent
         levelThang.components.push levelThangComponent
 
-      if isHero and placeholderComponent = placeholders[defaultThangComponent.original]
-        placeholdersUsed[placeholderComponent.original] = true
-        placeholderConfig = placeholderComponent.config ? {}
-        levelThangComponent.config ?= {}
-        config = levelThangComponent.config
-        if placeholderConfig.pos  # Pull in Physical pos x and y
-          config.pos ?= {}
-          config.pos.x = placeholderConfig.pos.x
-          config.pos.y = placeholderConfig.pos.y
-          config.rotation = placeholderConfig.rotation
-        else if placeholderConfig.team  # Pull in Allied team
-          config.team = placeholderConfig.team
-        else if placeholderConfig.significantProperty  # For levels where we cheat on what counts as an enemy
-          config.significantProperty = placeholderConfig.significantProperty
-        else if placeholderConfig.programmableMethods
-          # Take the ThangType default Programmable and merge level-specific Component config into it
-          copy = $.extend true, {}, placeholderConfig
-          programmableProperties = config?.programmableProperties ? []
-          copy.programmableProperties = _.union programmableProperties, copy.programmableProperties ? []
-          levelThangComponent.config = config = _.merge copy, config
-        else if placeholderConfig.extraHUDProperties
-          config.extraHUDProperties = _.union(config.extraHUDProperties ? [], placeholderConfig.extraHUDProperties)
-        else if placeholderConfig.voiceRange  # Pull in voiceRange
-          config.voiceRange = placeholderConfig.voiceRange
-          config.cooldown = placeholderConfig.cooldown
+      if utils.isCodeCombat
+        if isHero and placeholderComponent = placeholders[defaultThangComponent.original]
+          placeholdersUsed[placeholderComponent.original] = true
+          placeholderConfig = placeholderComponent.config ? {}
+          levelThangComponent.config ?= {}
+          config = levelThangComponent.config
+          if placeholderConfig.pos  # Pull in Physical pos x and y
+            config.pos ?= {}
+            config.pos.x = placeholderConfig.pos.x
+            config.pos.y = placeholderConfig.pos.y
+            config.rotation = placeholderConfig.rotation
+          else if placeholderConfig.team  # Pull in Allied team
+            config.team = placeholderConfig.team
+          else if placeholderConfig.significantProperty  # For levels where we cheat on what counts as an enemy
+            config.significantProperty = placeholderConfig.significantProperty
+          else if placeholderConfig.programmableMethods
+            # Take the ThangType default Programmable and merge level-specific Component config into it
+            copy = $.extend true, {}, placeholderConfig
+            programmableProperties = config?.programmableProperties ? []
+            copy.programmableProperties = _.union programmableProperties, copy.programmableProperties ? []
+            levelThangComponent.config = config = _.merge copy, config
+          else if placeholderConfig.extraHUDProperties
+            config.extraHUDProperties = _.union(config.extraHUDProperties ? [], placeholderConfig.extraHUDProperties)
+          else if placeholderConfig.voiceRange  # Pull in voiceRange
+            config.voiceRange = placeholderConfig.voiceRange
+            config.cooldown = placeholderConfig.cooldown
 
-    if isHero
+    if utils.isCodeCombat and isHero
       if equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
         inventory = session?.get('heroConfig')?.inventory
         equips.config ?= {}
@@ -168,12 +171,21 @@ module.exports = class Level extends CocoModel
         levelThang.components.push placeholderComponent
 
     # Load the user's chosen hero AFTER getting stats from default char
-    if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless and not window.serverConfig.picoCTF and @get('assessment') isnt 'open-ended' and (not me.showHeroAndInventoryModalsToStudents() or @isAssessment())
-      heroThangType = me.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
-      # use default hero in class if classroomItems is on
-      if @isAssessment() and me.showHeroAndInventoryModalsToStudents()
-        heroThangType = ThangTypeConstants.heroes.captain
-      levelThang.thangType = heroThangType if heroThangType
+    if utils.isOzaria
+      if /Hero Placeholder/.test(levelThang.id)
+        if @isType('course') and not @headless and not @sessionless
+          heroThangType = me.get('ozariaUserOptions')?.isometricThangTypeOriginal
+        else
+          heroThangType = session?.get('heroConfig')?.thangType
+        if heroThangType
+          levelThang.thangType = heroThangType
+    else
+      if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless and not window.serverConfig.picoCTF and @get('assessment') isnt 'open-ended' and (not me.showHeroAndInventoryModalsToStudents() or @isAssessment())
+        heroThangType = me.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
+        # use default hero in class if classroomItems is on
+        if @isAssessment() and me.showHeroAndInventoryModalsToStudents()
+          heroThangType = ThangTypeConstants.heroes.captain
+        levelThang.thangType = heroThangType if heroThangType
 
   sortSystems: (levelSystems, systemModels) ->
     [sorted, originalsSeen] = [[], {}]
@@ -298,8 +310,11 @@ module.exports = class Level extends CocoModel
     return [] unless plan = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)?.config.programmableMethods.plan
     solutions = _.cloneDeep plan.solutions ? []
     for solution in solutions
+      context = utils.i18n(plan, 'context')
+      if utils.isOzaria
+        context = _.merge({ external_ch1_avatar: store.getters?['me/getCh1Avatar']?.avatarCodeString || 'crown' }, context)
       try
-        solution.source = _.template(solution?.source)(utils.i18n(plan, 'context'))
+        solution.source = _.template(solution?.source)(context)
       catch e
         console.error "Problem with template and solution comments for '#{@get('slug') or @get('name')}'\n", e
     solutions
@@ -311,8 +326,11 @@ module.exports = class Level extends CocoModel
     sampleCode = _.cloneDeep plan.languages ? {}
     sampleCode.javascript = plan.source
     for language, code of sampleCode
+      context = plan.context
+      if utils.isOzaria
+        context = _.merge({ external_ch1_avatar: store.getters?['me/getCh1Avatar']?.avatarCodeString || 'crown' }, context )
       try
-        sampleCode[language] = _.template(code)(plan.context)
+        sampleCode[language] = _.template(code)(context)
       catch e
         console.error "Problem with template and solution comments for '#{@get('slug') or @get('name')}'\n", e
     sampleCode
@@ -340,6 +358,21 @@ module.exports = class Level extends CocoModel
     return equips?.config?.inventory?
 
   isAssessment: -> @get('assessment')?
+
+  isCapstone: -> @get('ozariaType') == 'capstone'
+
+  isChallenge: -> @get('ozariaType') == 'challenge'
+
+  getDisplayContentType: ->
+    return 'capstone' if @isCapstone()
+    return 'challenge' if @isChallenge()
+    if @get('type') == 'intro'
+      introContent = @get('introContent') || []
+      if (introContent.length == 1 && introContent[0].type == 'cutscene-video')
+        return 'cutscene'
+      else
+        return 'intro'
+    return 'practice'
 
   checkRemoteChanges: ->
     fetch(this.url()).then (response) =>

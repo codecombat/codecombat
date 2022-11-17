@@ -11,13 +11,14 @@ algolia = require 'core/services/algolia'
 countryList = require('country-list')()
 UsaStates = require('usa-states').UsaStates
 State = require 'models/State'
+utils = require 'core/utils'
 
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']
 SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 
 module.exports = class ConvertToTeacherAccountView extends RootView
   id: 'convert-to-teacher-account-view'
-  template: require 'templates/teachers/convert-to-teacher-account-view'
+  template: require 'app/templates/teachers/convert-to-teacher-account-view'
   logoutRedirectURL: null
 
   events:
@@ -29,6 +30,9 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     'change select[name="state"]': 'invalidateNCES'
     'change input[name="district"]': 'invalidateNCES'
     'change select[name="country"]': 'onChangeCountry'
+
+  getRenderData: ->
+    _.merge super(arguments...), { product: utils.getProductName() }
 
   initialize: ->
     if me.isAnonymous()

@@ -1,9 +1,9 @@
 CreateAccountModal = require 'views/core/CreateAccountModal'
 RootView = require 'views/core/RootView'
 {me} = require 'core/auth'
-contributorSignupAnonymousTemplate = require 'templates/contribute/contributor_signup_anonymous'
-contributorSignupTemplate = require 'templates/contribute/contributor_signup'
-contributorListTemplate = require 'templates/contribute/contributor_list'
+contributorSignupAnonymousTemplate = require 'app/templates/contribute/contributor_signup_anonymous'
+contributorSignupTemplate = require 'app/templates/contribute/contributor_signup'
+contributorListTemplate = require 'app/templates/contribute/contributor_list'
 
 module.exports = class ContributeClassView extends RootView
 

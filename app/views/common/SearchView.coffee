@@ -1,6 +1,6 @@
 RootView = require 'views/core/RootView'
 NewModelModal = require 'views/editor/modal/NewModelModal'
-template = require 'templates/common/search-view'
+template = require 'app/templates/common/search-view'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 
 class SearchCollection extends Backbone.Collection

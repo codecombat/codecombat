@@ -1,7 +1,7 @@
 require('app/styles/play/level/modal/hero-victory-modal.sass')
 ModalView = require 'views/core/ModalView'
 CreateAccountModal = require 'views/core/CreateAccountModal'
-template = require 'templates/play/level/modal/hero-victory-modal'
+template = require 'app/templates/play/level/modal/hero-victory-modal'
 Achievement = require 'models/Achievement'
 EarnedAchievement = require 'models/EarnedAchievement'
 CocoCollection = require 'collections/CocoCollection'
@@ -213,7 +213,8 @@ module.exports = class HeroVictoryModal extends ModalView
       lastLevelOriginal = switch hocCampaignSlug
         when 'game-dev-hoc' then '57ee6f5786cf4e1f00afca2c' # game grove
         when 'game-dev-hoc-2' then '57b71dce7a14ff35003a8f71' # palimpsest
-        when 'ai-league-hoc' then '60e69b24bed8ae001ac6ce3e' # giants-gate; can change, but we will use isType('ladder') to cover that
+        when 'ai-league-hoc' then '62f9f6506428860025b15a8b' # magma-mountain; can change, but we will use isType('ladder') to cover that
+        #when 'goblins-hoc' then '' # jungle-hunt
         else '541c9a30c6362edfb0f34479' # kithgard gates for dungeon
       lastLevel = @level.get('original') is lastLevelOriginal or @level.isType('ladder')
       enough = elapsed >= 20 * 60 * 1000 or lastLevel
@@ -222,8 +223,9 @@ module.exports = class HeroVictoryModal extends ModalView
       if enough and not tooMuch and not me.get('hourOfCodeComplete')
         pixelCode = switch hocCampaignSlug
           when 'game-dev-hoc' then 'code_combat_gamedev'
-          when 'game-dev-hoc-2' then 'code_combat_gamedev2'
-          when 'ai-league-hoc' then 'cc_ai'
+          when 'game-dev-hoc-2' then 'code_combat_build_arcade'
+          when 'ai-league-hoc' then 'codecombat_esports'
+          when 'goblins-hoc' then 'codecombat_goblins'
           else 'code_combat'
         $('body').append($("<img src='https://code.org/api/hour/finish_#{pixelCode}.png' style='visibility: hidden;'>"))
         me.set 'hourOfCodeComplete', true

@@ -1,5 +1,5 @@
 require('app/styles/play/level/tome/spell-top-bar-view.sass')
-template = require 'templates/play/level/tome/spell-top-bar-view'
+template = require 'app/templates/play/level/tome/spell-top-bar-view'
 ReloadLevelModal = require 'views/play/level/modal/ReloadLevelModal'
 CocoView = require 'views/core/CocoView'
 ImageGalleryModal = require 'views/play/level/modal/ImageGalleryModal'
@@ -63,6 +63,7 @@ module.exports = class SpellTopBarView extends CocoView
 
   onClickHintsButton: ->
     return unless @hintsState?
+    Backbone.Mediator.publish 'level:hints-button', {state: @hintsState.get('hidden')}
     @hintsState.set('hidden', not @hintsState.get('hidden'))
     window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0
 

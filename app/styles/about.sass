@@ -296,6 +296,20 @@
           margin-left: -85px
         p
           margin-top: 15px
+        .job-description
+          max-height: 174px
+          overflow: hidden
+          position: relative
+
+          &::after
+            content: ""
+            text-align: right
+            position: absolute
+            bottom: 0
+            right: 0
+            width: 70%
+            height: 21px
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%)
 
   #files
     padding: 30px 0

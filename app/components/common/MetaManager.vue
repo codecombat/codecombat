@@ -1,4 +1,7 @@
 <script>
+  import {
+    isOzaria,
+  } from 'core/utils'
   /**
    * Renderless component that manages default head tag configuration for vue-meta.
    */
@@ -26,13 +29,20 @@
         links.push({ vmid: 'rel-canonical', rel: 'canonical', href: urlWithoutUtm.toString() })
       }
 
-      return {
-        title: this.$t('common.default_title'),
-        titleTemplate: '%s | CodeCombat',
+      let defaultTitleKey
+      if (me.get('aceConfig') && me.get('aceConfig').screenReaderMode) {
+        // Shorten page titles when in screen reader mode
+        defaultTitleKey = isOzaria ? 'common.ozaria' : 'new_home.codecombat'
+      } else {
+        defaultTitleKey = 'common.default_title_' + (isOzaria ? 'ozar' : 'coco')
+      }
 
+      return {
+        title: this.$t(defaultTitleKey),
+        ...(isOzaria ? {} : { titleTemplate: '%s | CodeCombat' }),
         meta: [
-          { vmid: 'meta-description', name: 'description', content: this.$t('common.default_meta_description') },
-          { vmid: 'viewport', name: 'viewport', content: 'width=1024' }
+          { vmid: 'meta-description', name: 'description', content: this.$t('common.default_meta_description_' + (isOzaria ? 'ozar' : 'coco')) },
+          { vmid: 'viewport', name: 'viewport', content: 'width=device-width,initial-scale=1.0' }
         ],
 
         link: links

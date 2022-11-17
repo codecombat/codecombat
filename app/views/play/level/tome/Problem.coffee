@@ -15,7 +15,7 @@ module.exports = class Problem
       @annotation = @buildAnnotationFromAetherProblem(@aetherProblem)
       { @lineMarkerRange, @textMarkerRange } = @buildMarkerRangesFromAetherProblem(@aetherProblem) if isCast
 
-      { @level, @range, @message, @hint, @userInfo } = @aetherProblem
+      { @level, @range, @message, @hint, @userInfo, @errorCode, @i18nParams } = @aetherProblem
       { @row, @column: col } = @aetherProblem.range?[0] or {}
       @createdBy = 'aether'
     else
@@ -37,7 +37,7 @@ module.exports = class Problem
       @createdBy = 'web-dev-iframe'
       # TODO: Include runtime/transpile error types depending on something?
 
-    @message = @translate(@message)
+    @message = @translate(@message, @errorCode, @i18nParams)
     @hint = @translate(@hint)
     # TODO: get ACE screen line, too, for positioning, since any multiline "lines" will mess up positioning
     Backbone.Mediator.publish("problem:problem-created", line: @annotation.row, text: @annotation.text) if application.isIPadApp
@@ -117,10 +117,14 @@ module.exports = class Problem
       return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")
     new RegExp(escapeRegExp(englishString).replace(/\\\$\d/g, '(.+)').replace(/ +/g, ' +'))
 
-  translate: (msg) ->
+  translate: (msg, errorCode, i18nParams) ->
     return msg if not msg
     if /\n/.test(msg) # Translate each line independently, since regexes act weirdly with newlines
       return msg.split('\n').map((line) => @translate(line)).join('\n')
+
+    if /^i18n::/.test(msg) # handle i18n msgs from aether_worker
+      msgs = msg.split('::')
+      return $.i18n.t(msgs[1], JSON.parse(msgs[2]))
 
     msg = msg.replace /([A-Za-z]+Error:) \1/, '$1'
     return msg if $.i18n.language in ['en', 'en-US']
@@ -140,12 +144,19 @@ module.exports = class Problem
     # These need to be applied in this order, before the main text is translated
     prefixKeys = ['line_no', 'uncaught', 'reference_error', 'argument_error', 'type_error', 'syntax_error', 'error']
 
-    for keySet in [prefixKeys, Object.keys(_.omit(en.esper), prefixKeys)]
-      for translationKey in keySet
-        englishString = en.esper[translationKey]
-        regex = @makeTranslationRegex(englishString)
-        [msg, didTranslate] = applyReplacementTranslation msg, regex, translationKey
-        break if didTranslate and keySet isnt prefixKeys
-        null
+    msgs = msg.split(': ')
+    for i of msgs
+      m = msgs[i]
+      m += ': ' unless +i == msgs.length - 1 # i is string
+      for keySet in [prefixKeys, Object.keys(_.omit(en.esper), prefixKeys)]
+        for translationKey in keySet
+          englishString = en.esper[translationKey]
+          regex = @makeTranslationRegex(englishString)
+          [m, didTranslate] = applyReplacementTranslation m, regex, translationKey
+          break if didTranslate and keySet isnt prefixKeys
+      msgs[i] = m
 
-    msg
+    if errorCode
+      msgs[msgs.length - 1] = $.i18n.t("esper.error_#{_.string.underscored(errorCode)}", i18nParams)
+
+    msgs.join('')

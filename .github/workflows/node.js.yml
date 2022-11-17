@@ -6,6 +6,9 @@ name: Node.js CI
 # Triggering workflow on all push
 on: [push]
 
+permissions:
+  contents: read
+
 jobs:
   build:
 
@@ -13,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.24.0]
+        node-version: [18.10.0]
 
     steps:
       - uses: actions/checkout@v2
@@ -29,9 +32,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
       # We can skip webpack since we will build it for testing-ubuntu
-      - run: npm run build
+      - run: npm ci
         env:
           SKIP_WEBPACK: true
+      - run: npm run build
       - run: npm run test-ubuntu

@@ -1,0 +1,10 @@
+button.btn.btn-xs.btn-inverse#play-button.paused
+  .glyphicon.glyphicon-play
+  .glyphicon.glyphicon-pause
+
+if !view.options.level.isType('game-dev')
+  .scrubber
+    .scrubber-inner
+      .progress.secret#timeProgress
+        .progress-bar
+          .scrubber-handle
