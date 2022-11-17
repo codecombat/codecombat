@@ -20,8 +20,8 @@
         >
         <template v-if="clanId">
           <!-- TODO i18n -->
-          <label for="clan"> Team </label>
-          <span class="small text-navy">Team is required to create a tournament</span>
+          <label for="clan"> {{ $t('tournament.team') }} </label>
+          <span class="small text-navy"> {{ $t('tournament.team_description') }} </span>
           <clan-selector
             :clans="ownedClans"
             :selected="selectedClanId"
@@ -33,7 +33,7 @@
         <label for="startDate">
           {{ $t('tournament.start_date_time') }}
         </label>
-        <span class="small text-navy"> {{ `(${timeZone})` + $t('tournament.start_date_description') }}</span>
+        <span class="small text-navy"> {{ $t('tournament.start_date_description') }}</span>
         <input
           id="startDate"
           v-model="_startDate"
@@ -44,7 +44,7 @@
         <label for="endDate">
           {{ $t('tournament.end_date_time') }}
         </label>
-        <span class="small text-navy">{{ `(${timeZone})` + $t('tournament.end_date_description') }}</span>
+        <span class="small text-navy">{{ $t('tournament.end_date_description') }}</span>
         <input
           id="endDate"
           v-model="_endDate"
@@ -55,7 +55,7 @@
         <label for="resultsDate">
           {{ $t('tournament.results_date_time') }}
         </label>
-        <span class="small text-navy">{{ `(${timeZone})` + $t('tournament.results_date_description') }}</span>
+        <span class="small text-navy">{{ $t('tournament.results_date_description') }}</span>
         <input
           id="resultsDate"
           v-model="_resultsDate"
@@ -93,8 +93,6 @@ import { postTournament, putTournament } from '../../../core/api/tournaments'
 import Modal from '../../../components/common/Modal'
 import ClanSelector from '../../landing-pages/league/components/ClanSelector.vue'
 
-const OneDay = 86400000
-
 const HTML5_FMT_DATETIME_LOCAL = 'YYYY-MM-DDTHH:mm' // moment 1.20+ do have this string but we use 1.19 :joy:
 
 export default {
@@ -128,10 +126,6 @@ export default {
     ...mapGetters({
       myClans: 'clans/myClans'
     }),
-    timeZone () {
-      if (features?.chinaInfra) return '北京时间'
-      return 'PT'
-    },
     me () {
       return me
     },
@@ -155,7 +149,7 @@ export default {
         return moment(this.editableTournament.startDate).format(HTML5_FMT_DATETIME_LOCAL)
       },
       set (val) {
-        this.editableTournament.startDate = new Date(val).toISOString()
+        this.$set(this.editableTournament, 'startDate', moment(val).toISOString())
       }
     },
     _endDate: {
@@ -163,9 +157,9 @@ export default {
         return moment(this.editableTournament.endDate).format(HTML5_FMT_DATETIME_LOCAL)
       },
       set (val) {
-        this.editableTournament.endDate = new Date(val).toISOString()
+        this.$set(this.editableTournament, 'endDate', moment(val).toISOString())
 
-        this.editableTournament.resultsDate = new Date(new Date(val).getTime() + OneDay * 2).toISOString()
+        this.$set(this.editableTournament, 'resultsDate', moment(val).add(2, 'days').toISOString())
       }
     },
     _resultsDate: {
@@ -173,7 +167,7 @@ export default {
         return moment(this.editableTournament.resultsDate).format(HTML5_FMT_DATETIME_LOCAL)
       },
       set (val) {
-        this.editableTournament.resultsDate = new Date(val).toISOString()
+        this.$set(this.editableTournament, 'resultsDate', moment(val).toISOString())
       }
     }
   },

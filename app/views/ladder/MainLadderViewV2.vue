@@ -128,6 +128,7 @@
 import _ from 'lodash'
 import moment from 'moment'
 import { mapActions, mapGetters } from 'vuex'
+import utils from '../../core/utils'
 import ClanSelector from '../landing-pages/league/components/ClanSelector.vue'
 import LadderPanel from './components/ladderPanel'
 import EditTournamentModal from './components/editTournamentModal'
@@ -176,11 +177,14 @@ export default {
       // do not fall back to empty array if not all tournaments loaded
       return this.tournamentsByClan(this.idOrSlug)
     },
+    sortedTournaments () {
+      return [...this.currentTournaments].sort(utils.tournamentSortFn)
+    },
     tournamentsTop3 () {
-      return this.currentTournaments.slice(0, 3)
+      return this.sortedTournaments.slice(0, 3)
     },
     tournamentsRests () {
-      return this.currentTournaments.slice(3)
+      return this.sortedTournaments.slice(3)
     },
     arenaMap () {
       return _.indexBy(this.usableArenas, 'slug')
@@ -232,7 +236,7 @@ export default {
       if (this.editableTournament.editing === 'new') {
         this.tournamentsLeft -= 1
       }
-      setTimeout(() => { this.showModal = false }, 1500)
+      setTimeout(() => { this.showModal = false }, 1000)
     },
     // if we want to i18n this, then we need to hardcode them in front-end
     hasActiveAiLeagueProduct () {

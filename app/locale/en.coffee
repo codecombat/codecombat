@@ -4179,13 +4179,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     start_date_time: 'Start Time'
     end_date_time: 'End Time'
     results_date_time: 'Results Time'
-    start_date_description: 'The start time of tournament'
-    end_date_description: 'The end time of tournament'
-    results_date_description: 'Tournament need 2 days to generate final leaderboard'
+    start_date_description: '(PT) The start time of tournament'
+    end_date_description: '(PT) The end time of tournament'
+    results_date_description: '(PT) Tournament need 2 days to generate final leaderboard'
     select_team_desc: 'select your team to creat/edit your tournaments'
     already_create_tournaments_num: 'You already created __num__ tournaments here:'
     can_create_tournaments_num: 'You can create __num__ more tournament(s) from below:'
     my_teams: 'My Teams:'
+    team: 'Team'
+    team_description: '(Required) Only the players in the team can join this tournament'
 
   payments:
     student_licenses: 'Student Licenses'
