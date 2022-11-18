@@ -70,7 +70,7 @@
                 p(data-i18n="hoc_2018.featured_blurb_1")
                 div
                   a.btn.btn-primary.btn-md(href="/play/goblins-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
-                  button.btn.btn-primary.btn-md(data-toggle="modal" data-video-id="s0RI4IXKE_o" data-target="#youtubeModal" @click="playVideo" data-i18n="hoc_2018.play_video")
+                  button.btn.btn-primary.btn-md(data-toggle="modal" data-video-id="YZjnpqb73ms" data-target="#youtubeModal" @click="playVideo" data-i18n="hoc_2018.play_video")
                   a.btn.btn-primary.btn-md(v-if="isTeacher" href="/teachers/campaign-solution/goblins-hoc/python" target="_blank" data-i18n="hoc_2018.solutions")
           .row
             .col-md-4
