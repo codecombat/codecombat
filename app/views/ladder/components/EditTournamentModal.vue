@@ -99,7 +99,7 @@ import { postTournament, putTournament } from '../../../core/api/tournaments'
 import Modal from '../../../components/common/Modal'
 import ClanSelector from '../../landing-pages/league/components/ClanSelector.vue'
 
-const HTML5_FMT_DATETIME_LOCAL = 'YYYY-MM-DDTHH:mm' // moment 2.20+ do have this string but we use 2.19 :joy:
+import { HTML5_FMT_DATETIME_LOCAL } from '../../../core/constants'
 
 export default {
   name: 'EditTournamentModal',

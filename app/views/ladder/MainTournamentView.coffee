@@ -7,8 +7,8 @@ Clan = require 'models/Clan'
 Tournament = require 'models/Tournament'
 forms = require 'core/forms'
 CocoCollection = require 'collections/CocoCollection'
+{ HTML5_FMT_DATETIME_LOCAL } = require('core/constants')
 
-HTML5_FMT_DATETIME_LOCAL = 'YYYY-MM-DDTHH:mm' # moment 2.20+ do have this string but we use 2.19 :joy:
 class LevelSessionsCollection extends CocoCollection
   url: ''
   model: LevelSession

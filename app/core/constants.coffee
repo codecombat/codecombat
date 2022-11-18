@@ -75,6 +75,8 @@ ESPORTS_PRODUCT_STATS = {
   }
 }
 
+HTML5_FMT_DATETIME_LOCAL = 'YYYY-MM-DDTHH:mm' # moment 2.20+ do have this string but we use 2.19 :joy:
+
 module.exports = {
   STARTER_LICENSE_COURSE_IDS
   FREE_COURSE_IDS
@@ -84,4 +86,5 @@ module.exports = {
   HTTP_STATUS_CODES
   LICENSE_PRESETS
   ESPORTS_PRODUCT_STATS
+  HTML5_FMT_DATETIME_LOCAL
 }
