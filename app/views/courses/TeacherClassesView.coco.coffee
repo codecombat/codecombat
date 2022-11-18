@@ -21,7 +21,7 @@ GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 co = require('co')
 OzariaEncouragementModal = require('app/views/teachers/OzariaEncouragementModal').default
 PanelTryOzaria = require('app/components/teacher/PanelTryOzaria').default
-BannerWebinar = require('./BannerWebinar').default
+BannerHoC = require('./BannerHoC').default
 clansApi = require 'core/api/clans'
 helper = require 'lib/coursesHelper'
 TrialRequest = require 'models/TrialRequest'
@@ -199,8 +199,8 @@ module.exports = class TeacherClassesView extends RootView
       el: @$('.try-ozaria')[0]
     })
 
-    @bannerWebinar = new BannerWebinar({
-      el: @$('.banner-webinar')[0]
+    @bannerHoC = new BannerHoC({
+      el: @$('.banner-hoc')[0]
     })
 
     $('.progress-dot').each (i, el) ->
