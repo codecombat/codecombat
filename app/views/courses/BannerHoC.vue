@@ -1,4 +1,6 @@
+<script src="../../locale/en.coffee"></script>
 <script>
+import utils from 'core/utils'
 export default Vue.extend({
   data () {
     return {
@@ -9,6 +11,9 @@ export default Vue.extend({
   created () {
     this.show = new Date() < new Date(this.when.getTime() + 60 * 60 * 1000)
     this.whenDisplay = moment(this.when).calendar(null, { sameElse: 'ddd MMM D, LT' })
+
+    const host = utils.isCodeCombat ? '' : 'https://codecombat.com'
+    this.url = `${host}/teachers/hour-of-code`
   }
 })
 </script>
@@ -22,10 +27,10 @@ export default Vue.extend({
       <div class="col-xs-12">
         <div id="announcement">
           <p>
-            Join us on {{ whenDisplay }} for our Hour of Code Walkthrough! Our team will take you through the latest
-            activities and show you how you can best use them in your classroom.<br>
-            <a href="https://us06web.zoom.us/webinar/register/WN_-KLRylhdRqaYB_qZ9IrzUw" target="_blank">
-              Register here!
+            Join us {{ whenDisplay }} for our Hour of Code Walkthrough! Everything you need to implement our all new
+            activities
+            <a :href="url" target="_blank">
+              HERE.
             </a>
           </p>
         </div>
@@ -34,9 +39,22 @@ export default Vue.extend({
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "app/styles/utils";
+
+@if $is-ozaria {
+  #announcement {
+    background-color: #cff2fc;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 80px 40px 80px;
+    text-align: center;
+  }
+}
+
 #announcement p {
   margin: 14px;
   text-align: center;
 }
+
 </style>

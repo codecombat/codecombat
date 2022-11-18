@@ -7,7 +7,7 @@
   import moment from 'moment'
   import ModalShareWithTeachers from "../modals/ModalShareWithTeachers"
 
-  import BannerWebinar from './components/BannerWebinar'
+  import BannerHoC from 'app/views/courses/BannerHoC'
 
   import ButtonsSchoolAdmin from './ButtonsSchoolAdmin'
 
@@ -17,7 +17,7 @@
       ClassStatCalculator,
       ModalEditClass,
       ButtonsSchoolAdmin,
-      BannerWebinar,
+      BannerHoC,
       ModalAddStudents,
       ModalShareWithTeachers,
     },
@@ -128,8 +128,7 @@
 
 <template>
   <div>
-    <banner-webinar />
-
+    <banner-ho-c />
     <div id="class-stats-area">
       <div
         v-for="clas in sortedActiveClasses"
@@ -153,7 +152,7 @@
         />
       </div>
     </div>
-    
+
     <div id="shared-classes">
       <div class="shared-title title-tab">
         <h1>{{ $t('teacher.shared_classes') }}</h1>
@@ -162,7 +161,7 @@
           <div v-else class="arrow-icon-down" />
         </div>
       </div>
-  
+
       <div
         v-for="clas in sortedSharedClassrooms"
         v-show="!sharedHidden"
