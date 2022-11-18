@@ -1,4 +1,4 @@
-import { getPublicClans, getMyClans, getClan, getChildClanDetails, getTournaments } from '../../api/clans'
+import { getPublicClans, getMyClans, getClan, getChildClanDetails, getTournamentsByClan } from '../../api/clans'
 import { getTournamentsByMember } from '../../api/tournaments'
 const _ = require('lodash')
 
@@ -116,8 +116,8 @@ export default {
       commit('setClanDetails', { clanId: id, childClans })
     },
 
-    async fetchTournaments ({ commit }, { clanId }) {
-      const tournaments = await getTournaments(clanId)
+    async fetchTournamentsForClan ({ commit }, { clanId }) {
+      const tournaments = await getTournamentsByClan(clanId)
       if (tournaments) {
         commit('setTournaments', { clanId, tournaments: Object.values(tournaments)[0] })
       }

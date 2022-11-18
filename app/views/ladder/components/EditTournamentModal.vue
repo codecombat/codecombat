@@ -71,6 +71,12 @@
         >
           {{ $t('teacher.success') }}
         </span>
+        <span
+          v-if="errorMessage"
+          class="error-msg"
+        >
+          {{ errorMessage }}
+        </span>
         <button
           class="btn btn-success btn-lg"
           type="submit"
@@ -93,7 +99,7 @@ import { postTournament, putTournament } from '../../../core/api/tournaments'
 import Modal from '../../../components/common/Modal'
 import ClanSelector from '../../landing-pages/league/components/ClanSelector.vue'
 
-const HTML5_FMT_DATETIME_LOCAL = 'YYYY-MM-DDTHH:mm' // moment 1.20+ do have this string but we use 1.19 :joy:
+const HTML5_FMT_DATETIME_LOCAL = 'YYYY-MM-DDTHH:mm' // moment 2.20+ do have this string but we use 2.19 :joy:
 
 export default {
   name: 'EditTournamentModal',
@@ -119,7 +125,8 @@ export default {
       editableTournament: {},
       selectedClanId: 'global',
       isSuccess: false,
-      inProgress: false
+      inProgress: false,
+      errorMessage: ''
     }
   },
   computed: {
@@ -187,7 +194,13 @@ export default {
     async onFormSubmit () {
       this.inProgress = true
       this.isSuccess = false
-      console.log(this.editableTournament)
+      const endDate = new Date(this.editableTournament.endDate)
+      if (endDate < new Date(this.editableTournament.startDate)) {
+        this.errorMessage = this.$t('tournament.error_end_date_too_early')
+        this.inProgress = false
+        return
+      }
+
       try {
         if (this.editableTournament.editing === 'new') {
           await postTournament(this.editableTournament)
@@ -222,6 +235,12 @@ export default {
 .success-msg {
   font-size: 1.6rem;
   color: #0B6125;
+  display: inline-block;
+  margin-right: 1rem;
+}
+.error-msg {
+  font-size: 1.6rem;
+  color: #7D0101;
   display: inline-block;
   margin-right: 1rem;
 }

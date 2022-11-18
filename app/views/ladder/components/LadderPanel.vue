@@ -88,7 +88,7 @@ export default {
     },
     clanId: {
       type: String,
-      default: () => ''
+      default: ''
     }
   },
   computed: {
@@ -98,9 +98,9 @@ export default {
     tournamentTime () {
       if (this.tournament) {
         switch (this.tournament.state) {
-        case 'initializing': return $.i18n.t('tournament.from_start', { time: this.time })
+        case 'initializing': return $.i18n.t('tournament.from_start', { time: this.duration })
         case 'ended':
-        case 'starting': return $.i18n.t('tournament.from_end', { time: this.time })
+        case 'starting': return $.i18n.t('tournament.from_end', { time: this.duration })
         }
       }
       return ''
@@ -111,7 +111,7 @@ export default {
       }
       return {}
     },
-    time () {
+    duration () {
       if (this.tournament) {
         switch (this.tournament.state) {
         case 'initializing': return moment(this.tournament.startDate).fromNow()

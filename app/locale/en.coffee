@@ -4188,6 +4188,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     my_teams: 'My Teams:'
     team: 'Team'
     team_description: '(Required) Only the players in the team can join this tournament'
+    error_end_date_too_early: 'The End Time cannot be earlier than Start Time'
 
   payments:
     student_licenses: 'Student Licenses'

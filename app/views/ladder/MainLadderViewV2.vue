@@ -130,8 +130,9 @@ import moment from 'moment'
 import { mapActions, mapGetters } from 'vuex'
 import utils from '../../core/utils'
 import ClanSelector from '../landing-pages/league/components/ClanSelector.vue'
-import LadderPanel from './components/ladderPanel'
-import EditTournamentModal from './components/editTournamentModal'
+import LadderPanel from './components/LadderPanel'
+import EditTournamentModal from './components/EditTournamentModal'
+import { ESPORTS_PRODUCT_STATS } from '../../core/constants'
 
 export default {
   name: 'MainLadderViewV2',
@@ -140,7 +141,8 @@ export default {
   },
   props: {
     idOrSlug: {
-      type: String
+      type: String,
+      default: 'global'
     }
   },
   data () {
@@ -203,7 +205,7 @@ export default {
   methods: {
     ...mapActions({
       fetchUsableArenas: 'seasonalLeague/fetchUsableArenas',
-      fetchTournaments: 'clans/fetchTournaments',
+      fetchTournamentsForClan: 'clans/fetchTournamentsForClan',
       fetchAllTournaments: 'clans/fetchAllTournaments'
     }),
     handleCreateTournament (arena) {
@@ -235,13 +237,13 @@ export default {
     handleTournamentSubmit () {
       if (this.editableTournament.editing === 'new') {
         this.tournamentsLeft -= 1
-        // fetch the tournament so that view refresh
-        const newSelectedClan = this.idOrSlug
-        if (newSelectedClan !== 'global') {
-          this.fetchTournaments({ clanId: newSelectedClan })
-        } else {
-          this.fetchAllTournaments({ userId: me.get('_id') })
-        }
+      }
+      // fetch the tournament so that view refresh
+      const newSelectedClan = this.idOrSlug
+      if (newSelectedClan !== 'global') {
+        this.fetchTournamentsForClan({ clanId: newSelectedClan })
+      } else {
+        this.fetchAllTournaments({ userId: me.get('_id') })
       }
       setTimeout(() => { this.showModal = false }, 1000)
     },
@@ -265,7 +267,8 @@ export default {
       const products = me.activeProducts('esports')
       return products.reduce((s, c) => {
         const t = c.productOptions.tournaments
-        const tournaments = typeof t === 'undefined' ? (c.productOptions.type === 'basic' ? 1 : 3) : t
+        const upperType = c.productOptions.type.toUpperCase()
+        const tournaments = typeof t === 'undefined' ? (ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType] || 0) : t
         const createdTournaments = c.productOptions.createdTournaments || 0
         return s + (tournaments - createdTournaments)
       }, 0)
@@ -278,7 +281,7 @@ export default {
     if (!this.allTournamentsLoaded) {
       if (newSelectedClan !== 'global') {
         if (typeof this.currentTournaments === 'undefined') {
-          this.fetchTournaments({ clanId: newSelectedClan })
+          this.fetchTournamentsForClan({ clanId: newSelectedClan })
         }
       } else {
         this.fetchAllTournaments({ userId: me.get('_id') })

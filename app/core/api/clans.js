@@ -22,4 +22,4 @@ export const getChildClanDetails = idOrSlug => fetchJson(`/db/clan/${idOrSlug}/s
 
 export const getAILeagueStats = clanId => fetchJson(`/db/clan/${clanId}/league-stats`)
 
-export const getTournaments = clanId => fetchJson(`/db/tournaments?clanId=${clanId}`)
+export const getTournamentsByClan = clanId => fetchJson(`/db/tournaments?clanId=${clanId}`)
