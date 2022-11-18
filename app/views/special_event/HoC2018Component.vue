@@ -55,7 +55,7 @@
 
       else
         .row
-          h1.page-heading Our latest activities are easy to implement and fun to play
+          h1.page-heading(data-i18n="hoc_2018.page_heading_latest_activities")
 
           banner-webinar
 
@@ -347,29 +347,11 @@ module.exports = Vue.extend({
   .featured
     text-align: left
 
-    h3, h6, p
-      font-family: Arial
-
-    p
-      font-size: 20px
-      line-height: 31px
-
     h6
       font-weight: normal
 
     .row
       margin-bottom: 40px
-
-
-    .btn
-      background-color: #0097A7
-      border: 3px solid #595959
-      box-shadow: none
-      text-transform: uppercase
-      font-weight: 700
-      text-decoration: underline
-      text-shadow: none
-      font-family: Arial
 
     .activity-tile
       height: initial

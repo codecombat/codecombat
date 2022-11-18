@@ -3756,6 +3756,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     featured_title_3: "Ozaria: Your Journey Begins"
     featured_subtitle_3: "Grades 6-8 | JavaScript, Python"
     featured_blurb_3: "Enter the world of Ozaria where you must use the power of coding to defeat a darkness that has taken over the world!"
+    page_heading_latest_activities: "Our latest activities are easy to implement and fun to play"
 
   hoc_2018_interstitial:
     welcome: "Welcome to CodeCombat's Hour of Code!"
