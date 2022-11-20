@@ -308,6 +308,8 @@
                       a.account-dropdown-item(href="/api-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                     li(v-if="me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin()")
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
+                    li(v-if="me.isAdmin()")
+                      a.account-dropdown-item(href="/event-calendar") calendar
                     li(v-if="serverSession && serverSession.amActually")
                       a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_spying') }}
                     li(v-else-if="serverSession && serverSession.switchingUserActualId")

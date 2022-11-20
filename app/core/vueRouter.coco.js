@@ -15,6 +15,10 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "AnnouncementView" */ 'app/views/announcement/AnnouncementView')
         },
         {
+          path: '/event-calendar',
+          component: () => import(/* webpackChunkName: "EventView" */ 'app/views/events/index')
+        },
+        {
           path: '/parents',
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
           props: (route) => ({ showPremium: true, type: route.query.type })
