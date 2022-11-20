@@ -6,8 +6,13 @@ block content
       section#top-banner.full-width
         .row
           .col-xs-12
-            if maintenanceStartTime && maintenanceStartTime.isAfter(moment().subtract(3, 'hours'))
+            if view.banner
+              span!=view.banner.display
+            else if maintenanceStartTime && maintenanceStartTime.isAfter(moment().subtract(3, 'hours'))
               span(data-i18n="new_home.top_banner_blurb_maintenance", data-i18n-options=JSON.stringify(i18nData))
+            else if me.isTeacher() && new Date() < new Date("2022-10-20T16:30:00.000-05:00")
+              span(data-i18n="new_home.top_banner_blurb_demo_day_10_20")
+              a(href="https://us06web.zoom.us/webinar/register/WN_NU2XXsQORZ-_lkx7rxUplQ", data-i18n="league.register", data-event-action="Click: Homepage Banner Demo Day")
             else
               span(data-i18n="new_home.top_banner_blurb_funding")
               a(href="/funding", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Funding Page")

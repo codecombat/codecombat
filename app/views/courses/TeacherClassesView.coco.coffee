@@ -21,7 +21,7 @@ GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 co = require('co')
 OzariaEncouragementModal = require('app/views/teachers/OzariaEncouragementModal').default
 PanelTryOzaria = require('app/components/teacher/PanelTryOzaria').default
-BannerWebinar = require('./BannerWebinar').default
+BannerHoC = require('./BannerHoC').default
 clansApi = require 'core/api/clans'
 helper = require 'lib/coursesHelper'
 TrialRequest = require 'models/TrialRequest'
@@ -37,6 +37,7 @@ officeHours = [
   {time: moment('2018-03-15 12:30-08').toDate(), link: 'https://zoom.us/meeting/register/16f0a6b4122087667c24e00bf0acd2b8', host: 'Sean', name: 'Building Student Engagement with CodeCombat'}
   {time: moment('2018-03-21 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/4e7eb093f8689e21c5b9141539e44ee6', host: 'Liz', name: 'CodeCombat for Beginner Teachers'}
   {time: moment('2022-08-25 16:00-04').toDate(), link: 'https://us06web.zoom.us/webinar/register/WN_q4hJZhMPTlKCT-cDG-rN5Q', host: 'Kerry, Gabby, & Tom', name: 'CodeCombat & Ozaria Demo Day'}
+  {time: moment('2022-10-20 16:00-05').toDate(), link: 'https://us06web.zoom.us/webinar/register/WN_NU2XXsQORZ-_lkx7rxUplQ', host: 'Alex, Adam, & Rob', name: 'CodeCombat & Ozaria Spooktacular Demo Day'}
 ]
 
 module.exports = class TeacherClassesView extends RootView
@@ -201,8 +202,8 @@ module.exports = class TeacherClassesView extends RootView
     })
 
     if not me.showChinaResourceInfo()
-      @bannerWebinar = new BannerWebinar({
-        el: @$('.banner-webinar')[0]
+      @bannerHoC = new BannerHoC({
+        el: @$('.banner-hoc')[0]
       })
 
     $('.progress-dot').each (i, el) ->

@@ -158,8 +158,8 @@ module.exports = class CampaignView extends RootView
       pixelCode = switch @terrain
         when 'game-dev-hoc' then 'code_combat_gamedev'
         when 'game-dev-hoc-2' then 'code_combat_build_arcade'
-        when 'ai-league-hoc' then 'cc_ai'
-        when 'goblins-hoc' then 'cc_goblins'
+        when 'ai-league-hoc' then 'codecombat_esports'
+        when 'goblins-hoc' then 'codecombat_goblins'
         else 'code_combat'
       $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
     else if me.isTeacher() and not utils.getQueryVariable('course-instance') and
@@ -1572,6 +1572,9 @@ module.exports = class CampaignView extends RootView
 
     if what is 'arapahoe-logo'
       return userUtils.libraryName() is 'arapahoe'
+
+    if what is 'houston-logo'
+      return userUtils.libraryName() is 'houston'
 
     if what is 'league-arena'
       return false if me.showChinaResourceInfo()

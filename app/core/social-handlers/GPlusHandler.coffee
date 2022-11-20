@@ -3,13 +3,15 @@ CocoClass = require 'core/CocoClass'
 {backboneFailure} = require 'core/errors'
 storage = require 'core/storage'
 GPLUS_TOKEN_KEY = 'gplusToken'
+authUtils = require '../../lib/auth-util'
 
 clientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
+API_KEY = 'AIzaSyDW8CsHHJbAREZw8uXg0Hix8dtlJnuutls'
 
 module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   constructor: ->
     unless me.useSocialSignOn() then throw new Error('Social single sign on not supported')
-    @accessToken = storage.load GPLUS_TOKEN_KEY, false
+    @accessToken = storage.load GPLUS_TOKEN_KEY, true
     super()
 
   token: -> @accessToken?.access_token
@@ -22,6 +24,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   fakeAPI: ->
     window.gapi =
       client:
+        init: ->
         load: (api, version, cb) -> cb()
         people:
           people:
@@ -41,6 +44,13 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
         authorize: (opts, cb) ->
           cb({access_token: '1234'})
 
+    window.google =
+      accounts:
+        id:
+          initialize: ->
+          renderButton: ->
+          prompt: ->
+
     @startedLoading = true
     @apiLoaded = true
 
@@ -57,71 +67,81 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       @once 'load-api', options.success, options.context
 
     if not @startedLoading
-      po = document.createElement('script')
-      po.type = 'text/javascript'
-      po.async = true
-      po.src = 'https://apis.google.com/js/client:platform.js?onload=init'
-      s = document.getElementsByTagName('script')[0]
-      s.parentNode.insertBefore po, s
-      @startedLoading = true
       window.init = =>
         @apiLoaded = true
         @trigger 'load-api'
+      po = document.createElement('script')
+      po.type = 'text/javascript'
+      po.async = true
+      po.defer = true
+      po.src = 'https://accounts.google.com/gsi/client'
+      s = document.getElementsByTagName('script')[0]
+      s.parentNode.insertBefore po, s
+      po.addEventListener('load', window.init)
 
+      window.initGapi = =>
+        window.gapi.load('client', () ->
+          window.gapi.client.init({
+            apiKey: API_KEY
+          })
+        )
+      po1 = document.createElement('script')
+      po1.type = 'text/javascript'
+      po1.async = true
+      po1.defer = true
+      po1.src = 'https://apis.google.com/js/api.js'
+      s1 = document.getElementsByTagName('script')[0]
+      s1.parentNode.insertBefore po1, s1
+      po1.addEventListener('load', window.initGapi)
+
+      @startedLoading = true
 
   connect: (options={}) ->
     options.success ?= _.noop
     options.context ?= options
-    authOptions = {
-      client_id: clientID
-      scope: options.scope || 'profile email'
-      response_type: 'permission'
-    }
-    if me.get('gplusID') and me.get('email')  # when already logged in and reauthorizing for new scopes or new access token
-      authOptions.login_hint = me.get('email')
-    gapi.auth2.authorize authOptions, (e) =>
-      if (e.error and options.error)
-        options.error.bind(options.context)(e)
-        return
-      return unless e.access_token
-      @connected = true
-      try
-      # Without removing this, we sometimes get a cross-domain error
-        d = _.omit(e, 'g-oauth-window')
-        storage.save(GPLUS_TOKEN_KEY, d, 0)
-      catch e
-        console.error 'Unable to save G+ token key', e
-      @accessToken = e
-      @trigger 'connect'
-      options.success.bind(options.context)()
-
+    window.google.accounts.id.initialize({
+      client_id: clientID,
+      callback: (resp) =>
+        @trigger 'connect'
+        options.success.bind(options.context)(resp)
+    })
+    elementId = options.elementId || 'google-login-button'
+    if document.getElementById(elementId)
+      window.google.accounts.id.renderButton(
+        document.getElementById(elementId),
+        { theme: "outline", size: "large" }
+      )
+    window.google.accounts.id.prompt()
 
   loadPerson: (options={}) ->
     options.success ?= _.noop
     options.context ?= options
-    # email and profile data loaded separately
-    gapi.client.load 'people', 'v1', =>
-      gapi.client.people.people.get({
-          'resourceName': 'people/me'
-          'personFields': 'names,genders,emailAddresses'
-        }).execute (r) =>
-          attrs = {}
-          if r.resourceName
-            attrs.gplusID = r.resourceName.split('/')[1]   # resourceName is of the form 'people/<id>'
-          if r.names?.length
-            attrs.firstName = r.names[0].givenName
-            attrs.lastName = r.names[0].familyName
-          if r.emailAddresses?.length
-            attrs.email = r.emailAddresses[0].value
-          if r.genders?.length
-            attrs.gender = r.genders[0].value
-          @trigger 'load-person', attrs
-          options.success.bind(options.context)(attrs)
-
+    options.resp ?= null
+    if options.resp
+      attrs = authUtils.parseGoogleJwtResponse(options.resp.credential)
+      @trigger 'load-person', attrs
+      options.success.bind(options.context)(attrs)
+    else
+      console.error 'gplus login failed', options
 
   renderButtons: ->
     return false unless gapi?.plusone?
     gapi.plusone.go?()  # Handles +1 button
+
+  requestGoogleAuthorization: (scope, callbackFn)->
+    authClient = window.google.accounts.oauth2.initTokenClient({
+      client_id: clientID,
+      scope: scope,
+      callback: (resp) =>
+        @accessToken = resp
+        storage.save(GPLUS_TOKEN_KEY, @accessToken, 30)
+        setTimeout () =>
+          @accessToken = null
+        ,@accessToken.expires_in * 1000
+        if callbackFn
+          callbackFn()
+    })
+    authClient.requestAccessToken({ prompt: 'consent' })
 
   # Friends logic, not in use
 

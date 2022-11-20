@@ -30,7 +30,7 @@ module.exports = class SubscribeModal extends ModalView
 
     super(options)
     # Path check due to modal refresh when user isn't signed in.
-    @hideMonthlySub = options?.hideMonthlySub or window.location.pathname.startsWith('/parents') or null
+    @hideMonthlySub = options?.hideMonthlySub or window.location.pathname.startsWith('/parents') or me.get('country') is 'japan' or null
     @state = 'standby'
     @couponID = utils.getQueryVariable('coupon')
     @subModalContinue = options.subModalContinue

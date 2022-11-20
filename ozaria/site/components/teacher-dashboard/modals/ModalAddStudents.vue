@@ -59,12 +59,6 @@
               success: resolve,
               error: reject
             }))
-          await new Promise((resolve, reject) =>
-            application.gplusHandler.connect({
-              scope: GoogleClassroomHandler.scopes,
-              context: this,
-              success: resolve
-            }))
           const importedMembers = await GoogleClassroomHandler.importStudentsToClassroom(this.classroom)
           if (importedMembers.length > 0) {
             console.debug('Students imported to classroom:', importedMembers)

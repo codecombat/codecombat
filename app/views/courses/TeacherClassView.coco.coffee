@@ -270,9 +270,12 @@ module.exports = class TeacherClassView extends RootView
     return unless @classClan = _.find((@myClans ? []), (clan) => clan.name is "autoclan-classroom-#{@classroom.id}")
     clansApi.getAILeagueStats(@classClan._id).then (stats) =>
       return if @destroyed
-      @aiLeagueStats = JSON.parse(stats)
-      @renderSelectors '.ai-league-stats'
-      @$('.ai-league-stats [data-toggle="tooltip"]').tooltip()
+      try
+        @aiLeagueStats = JSON.parse(stats)
+        @renderSelectors '.ai-league-stats'
+        @$('.ai-league-stats [data-toggle="tooltip"]').tooltip()
+      catch e
+        console.log('ai league stats error:', e)
 
   onLoaded: ->
     # Get latest courses for student assignment dropdowns

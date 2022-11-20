@@ -66,7 +66,7 @@ module.exports = Vue.extend
     inCourses: {}
     courses: []
     selectedCourse: ''
-    product: utils.isOzaria ? 'ozar' : 'coco'
+    product: if utils.isOzaria then 'ozar' else 'coco'
   computed:
     backToClassroomUrl: -> "/teachers/classes/#{@classroom?._id}"
   created: ->

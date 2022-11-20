@@ -308,7 +308,7 @@
                       a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                     li(v-if="me.isAPIClient()")
                       a.account-dropdown-item(href="/api-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
-                    li(v-if="me.isAdmin() || me.isOnlineTeacher()")
+                    li(v-if="me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin()")
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
                     li(v-if="serverSession && serverSession.amActually")
                       a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_spying') }}

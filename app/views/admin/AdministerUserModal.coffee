@@ -14,7 +14,7 @@ fetchJson = require('core/api/fetch-json')
 utils = require 'core/utils'
 api = require 'core/api'
 NameLoader = require 'core/NameLoader'
-{ LICENSE_PRESETS } = require 'core/constants'
+{ LICENSE_PRESETS, ESPORTS_PRODUCT_STATS } = require 'core/constants'
 
 # TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
 # TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
@@ -222,13 +222,17 @@ module.exports = class AdministerUserModal extends ModelModal
     attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
     attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
 
-    attrs.productOptions = {type: attrs.esportsType, id: _.uniqueId()}
+    attrs.productOptions = {type: attrs.esportsType, id: _.uniqueId(), createdTournaments: 0}
     delete attrs.esportsType
 
     if attrs.addon.length
       attrs.productOptions.teams = parseInt(attrs.teams)
       attrs.productOptions.tournaments = parseInt(attrs.tournaments)
       attrs.productOptions.arenas = attrs.arenas if attrs.arenas
+    else
+      upperType = attrs.productOptions.type.toUpperCase()
+      attrs.productOptions.teams = ESPORTS_PRODUCT_STATS.TEAMS[upperType]
+      attrs.productOptions.tournaments = ESPORTS_PRODUCT_STATS.TOURNAMENTS[UpperType]
 
     delete attrs.teams
     delete attrs.tournaments

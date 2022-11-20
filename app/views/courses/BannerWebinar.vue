@@ -1,29 +1,33 @@
 <script>
 export default Vue.extend({
-  data() {
+  data () {
     return {
       show: false,
-      when: new Date('2021-05-26 13:00 PDT')
+      when: new Date('2022-12-01 14:00 PST')
     }
   },
   created () {
     this.show = new Date() < new Date(this.when.getTime() + 60 * 60 * 1000)
-    this.whenDisplay = moment(this.when).calendar(null, {sameElse: 'ddd MMM D, LT'})
+    this.whenDisplay = moment(this.when).calendar(null, { sameElse: 'ddd MMM D, LT' })
   }
 })
 </script>
 
 <template>
   <div
-    v-if="show"
-    class="container"
+      v-if="show"
+      class="container"
   >
     <div class="row">
       <div class="col-xs-12">
         <div id="announcement">
-          <h3>[WEBINAR] Lessons Learned from Distance Learning</h3>
-          <h4>{{ whenDisplay }}</h4>
-          <p>Please join us for an informative webinar about the mindsets, tools, and strategies that educators have learned during distance learning and leverage those ideas to come up with a framework for next year. <a href="https://bit.ly/2SMpy97" target="_blank">Register here</a>.</p>
+          <p>
+            Join us on {{ whenDisplay }} for our Hour of Code Walkthrough! Our team will take you through the latest
+            activities and show you how you can best use them in your classroom.<br>
+            <a href="https://us06web.zoom.us/webinar/register/WN_-KLRylhdRqaYB_qZ9IrzUw" target="_blank">
+              Register here!
+            </a>
+          </p>
         </div>
       </div>
     </div>
@@ -31,17 +35,8 @@ export default Vue.extend({
 </template>
 
 <style scoped>
-#announcement h3 {
-  font-size: 30px;
-}
-#announcement h4 {
-  margin-bottom: 16px;
-}
-#announcement p, #announcement ul {
-  text-align: left;
-}
-#announcement p:last-of-type {
-  margin-top: 32px;
+#announcement p {
+  margin: 14px;
   text-align: center;
 }
-</style> 
+</style>

@@ -424,8 +424,11 @@ module.exports = class CoursesView extends RootView
   nextLevelUrl: ->
     return null unless @nextLevelInfo
     return '/play/intro' unless @nextLevelInfo.level
-    urlFn = if @nextLevelInfo.level.isLadder() then @urls.courseArenaLadder else @urls.courseLevel
-    urlFn level: @originalLevelMap[@nextLevelInfo.level.get('original')] or @nextLevelInfo.level, courseInstance: @nextLevelInfo.courseInstance
+    urlFn = switch
+      when @nextLevelInfo.level.isLadder() then @urls.courseArenaLadder
+      when me.showHeroAndInventoryModalsToStudents() then @urls.courseWorldMap
+      else @urls.courseLevel
+    urlFn level: @originalLevelMap[@nextLevelInfo.level.get('original')] or @nextLevelInfo.level, courseInstance: @nextLevelInfo.courseInstance, course: @nextLevelInfo.course
 
   onClickPlayNextLevel: (e) ->
     if @nextLevelInfo?.locked

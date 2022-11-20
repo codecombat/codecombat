@@ -11,6 +11,15 @@ export default {
       type: String,
       required: false,
       default: ''
+    },
+
+    label: {
+      type: Boolean,
+      default: () => true
+    },
+    disabled: {
+      type: Boolean,
+      default: () => false
     }
   },
 
@@ -24,8 +33,18 @@ export default {
 
 <template>
   <div>
-    <label for="clans">My Teams:</label>
-    <select id="clans" name="clans" @change="e => $emit('change', e)">
+    <label
+      v-if="label"
+      for="clans"
+    >
+      {{ $t('tournament.my_teams') }}
+    </label>
+    <select
+      id="clans"
+      name="clans"
+      :disabled="disabled"
+      @change="e => $emit('change', e)"
+    >
       <option value="global" :selected="selected===''">--</option>
       <option  v-for="clan in clansSanitized" :key="clan._id" :value="clan._id" :selected="selected===clan._id">
         {{ clan.displayName || clan.name }}

@@ -408,7 +408,7 @@ export default {
     },
 
     selectedClanChampionshipRankings () {
-      return this.clanChampionshipRankings(this.clanIdSelected)
+      return this.clanChampionshipRankings(this.clanIdSelected) || []
     },
 
     selectedClanChampionshipLeaderboardPlayerCount () {
@@ -416,7 +416,7 @@ export default {
     },
 
     selectedClanCodePointsRankings () {
-      return this.codePointsRankings(this.clanIdSelected)
+      return this.codePointsRankings(this.clanIdSelected) || []
     },
 
     showJoinTeamBtn () {
@@ -541,7 +541,15 @@ export default {
         <p>{{showJoinTeamBtn ? $t('league.invite_link') : $t('league.public_link') }}</p>
         <input readonly :value="clanInviteLink()" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
-        <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">{{ $t('league.edit_team') }}</a>
+        <template v-else-if="isClanCreator()">
+          <a class="btn btn-large btn-primary btn-moon" @click="openClanCreation">{{ $t('league.edit_team') }}</a>
+          <router-link
+            :to="{ name: 'LaddersList', params: { idOrSlug: currentSelectedClan._id } }"
+            class="btn btn-large btn-primary btn-moon"
+          >
+            {{ $t('league.create_custom') }}
+          </router-link>
+        </template>
         <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">{{ $t('league.leave_team') }}</a>
         <a v-else v-show="showJoinTeamBtn" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">{{ $t('league.join_team') }}</a>
         <!-- if is owner then a.btn.btn-illustrated.btn-lg.text-uppercase#make-tournament(href='/tournaments/clan/#{clan.id}', data-i18n="tournament.make_tournament") TODO -->

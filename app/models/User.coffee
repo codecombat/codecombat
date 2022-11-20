@@ -46,7 +46,8 @@ module.exports = class User extends CocoModel
     LICENSOR: 'licensor',
     API_CLIENT: 'apiclient',
     ONLINE_TEACHER: 'onlineTeacher',
-    BETA_TESTER: 'betaTester'
+    BETA_TESTER: 'betaTester',
+    PARENT_ADMIN: 'parentAdmin'
   }
 
   get: (attr, withDefault=false) ->
@@ -63,6 +64,7 @@ module.exports = class User extends CocoModel
   isSchoolAdmin: -> @constructor.PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
   isAPIClient: -> @constructor.PERMISSIONS.API_CLIENT in @get('permissions', true)
   isBetaTester: -> @constructor.PERMISSIONS.BETA_TESTER in @get('permissions', true)
+  isParentAdmin: -> @constructor.PERMISSIONS.PARENT_ADMIN in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
   isIndividualUser: -> not @isStudent() and not User.isTeacher(@attributes)
@@ -541,6 +543,7 @@ module.exports = class User extends CocoModel
 
   clearUserSpecificLocalStorage: ->
     storage.remove key for key in ['hoc-campaign']
+    userUtils.removeLibraryKeys()
 
   signupWithPassword: (name, email, password, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-password'

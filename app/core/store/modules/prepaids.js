@@ -136,7 +136,22 @@ export default {
         .catch((e) => noty({ text: 'Fetch prepaids failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
         .finally(() => commit('toggleLoadingForTeacher', teacherId))
     },
-
+    fetchPrepaidsForAPIClient: ({ commit }, { clientId, teacherId }) => {
+      commit('toggleLoadingForTeacher', teacherId)
+      return prepaidsApi.getByClient(clientId)
+        .then(res => {
+          if (res) {
+            commit('addPrepaidsForTeacher', {
+              teacherId,
+              prepaids: res
+            })
+          } else {
+            throw new Error('Unexpected response from fetch classrooms API.')
+          }
+        })
+        .catch((e) => noty({ text: 'Fetch prepaids failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
+        .finally(() => commit('toggleLoadingForTeacher', teacherId))
+    },
     joinPrepaidByCodes: ({ commit }, options) => {
       return prepaidsApi.joinByCodes(options)
     },

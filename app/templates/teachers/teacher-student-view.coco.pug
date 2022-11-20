@@ -155,20 +155,23 @@ mixin breadcrumbs
           // index is the index number of power 2
           // also see core/utils courseNumericalStatus 
           .status-col.cs
-            - for(var index = 5; index < 11; index ++)
+            - let CSIndexes =  [0, 3, 6, 8, 9, 10]
+            - for(let index in CSIndexes)
               .cell
-                = index - 4
-                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+                = (+index) + 1
+                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, CSIndexes[index])) ? 'checked': undefined, onclick="return false")
           .status-col.gd
-            - for(var index = 2; index < 5; index ++)
+            - let GDIndexes =  [1, 4, 7]
+            - for(let index in GDIndexes)
               .cell
-                = index - 1
-                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+                = (+index) + 1
+                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, GDIndexes[index])) ? 'checked': undefined, onclick="return false")
           .status-col.wd
-            - for(var index = 0; index < 2; index ++)
+            - let WDIndexes =  [2, 5]
+            - for(let index in WDIndexes)
               .cell
-                = index + 1
-                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+                = (+index) + 1
+                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, WDIndexes[index])) ? 'checked': undefined, onclick="return false")
 
   .playtime-charts
     h4(data-i18n="teacher.playtime_detail")

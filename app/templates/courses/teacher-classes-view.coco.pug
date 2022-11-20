@@ -62,7 +62,7 @@ block content
               a.see-all-office-hours.btn.btn-primary.btn-small.pull-right(data-i18n="general.more") More
 
     if !me.hideOtherProductCTAs()
-      .banner-webinar
+      .banner-hoc
 
     .container
       +teacher-quests
@@ -117,7 +117,7 @@ block content
     +createClassButton
 
     if !me.showChinaResourceInfo() && view.aiLeagueStats
-      +clanLeagueStatsMixin(view.aiLeagueStats, (view.teacherClan ? view.teacherClan._id : null), false, null)
+      +clanLeagueStatsMixin(view.aiLeagueStats, (view.teacherClan ? view.teacherClan._id : null), true, null)
 
     if !me.hideOtherProductCTAs() && !(me.get('activity') && me.get('activity')['visit-ozaria'])
       .container.try-ozaria
