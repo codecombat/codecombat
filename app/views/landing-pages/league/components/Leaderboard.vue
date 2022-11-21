@@ -35,11 +35,14 @@ export default {
 
   methods: {
     nameForDisplay (row) {
-      if(this.anonymousPlayerName && row.creator !== me.id && this.scoreType !== 'codePoints') {
-        return utils.anonymizingUser(row.creator)
+      if (this.scoreType === 'codePoints') {
+        return row.creatorName || $.i18n.t('play.anonymous')
       }
-      return row.fullName || row.creatorName || $.i18n.t("play.anonymous")
-
+      let fullName
+      if (row.fullName) {
+        fullName = row.fullName.replace('Anonymous', $.i18n.t('general.player'))
+      }
+      return fullName || row.creatorName || $.i18n.t('play.anonymous')
     },
     scoreForDisplay (row) {
       if (this.scoreType === 'codePoints') {
