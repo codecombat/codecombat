@@ -232,7 +232,7 @@ module.exports = class AdministerUserModal extends ModelModal
     else
       upperType = attrs.productOptions.type.toUpperCase()
       attrs.productOptions.teams = ESPORTS_PRODUCT_STATS.TEAMS[upperType]
-      attrs.productOptions.tournaments = ESPORTS_PRODUCT_STATS.TOURNAMENTS[UpperType]
+      attrs.productOptions.tournaments = ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType]
 
     delete attrs.teams
     delete attrs.tournaments
