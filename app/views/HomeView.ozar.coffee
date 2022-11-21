@@ -3,6 +3,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/home-view'
 CocoCollection = require 'collections/CocoCollection'
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
+BannerHoC = require("./courses/BannerHoC").default
 
 utils = require 'core/utils'
 storage = require 'core/storage'
@@ -125,6 +126,11 @@ module.exports = class HomeView extends RootView
         $buttons = $('.control-buttons > button')
         $buttons.removeClass 'active'
         $('[data-slide-to=\'' + nextActiveSlide + '\']').addClass('active')
+
+    @bannerHoC = new BannerHoC({
+      el: @$('.banner-hoc')[0]
+    })
+
     super()
 
   afterInsert: ->
