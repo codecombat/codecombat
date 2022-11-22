@@ -67,11 +67,14 @@ HTTP_STATUS_CODES = {
 ESPORTS_PRODUCT_STATS = {
   TOURNAMENTS: {
     BASIC: 1,
-    PRO: 3
+    PRO: 3,
+    MIN: 0,
   },
   TEAMS: {
     BASIC: 1,
-    PRO: 5
+    PRO: 5,
+    MIN: 0,
+    MAX: 10
   }
 }
 

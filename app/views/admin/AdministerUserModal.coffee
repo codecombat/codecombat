@@ -39,6 +39,9 @@ module.exports = class AdministerUserModal extends ModelModal
     'click .edit-prepaids-info-btn': 'onClickEditPrepaidsInfoButton'
     'click .cancel-prepaid-info-edit-btn': 'onClickCancelPrepaidInfoEditButton'
     'click .save-prepaid-info-btn': 'onClickSavePrepaidInfo'
+    'click .edit-product-info-btn': 'onClickEditProductInfoButton'
+    'click .cancel-product-info-edit-btn': 'onClickCancelProductInfoEditButton'
+    'click .save-product-info-btn': 'onClickSaveProductInfo'
     'click #school-admin-checkbox': 'onClickSchoolAdminCheckbox'
     'click #online-teacher-checkbox': 'onClickOnlineTeacherCheckbox'
     'click #beta-tester-checkbox': 'onClickBetaTesterCheckbox'
@@ -57,6 +60,7 @@ module.exports = class AdministerUserModal extends ModelModal
     'click #music-checkbox': 'onClickMusicCheckbox'
 
   initialize: (options, @userHandle) ->
+    @ESPORTS_PRODUCT_STATS = ESPORTS_PRODUCT_STATS
     @user = new User({_id: @userHandle})
     @classrooms = new Classrooms()
     @listenTo @user, 'sync', =>
@@ -252,7 +256,8 @@ module.exports = class AdministerUserModal extends ModelModal
     $('#esports-product-form').addClass('in')
     api.users.putUserProducts({
       user: @user.id,
-      product: attrs
+      product: attrs,
+      kind: 'new'
     }).then (res) =>
       @state = 'made-esports-product'
       @renderSelectors('#esports-product-form')
@@ -388,6 +393,46 @@ module.exports = class AdministerUserModal extends ModelModal
           @prepaidTableState[prepaidId] = 'viewMode'
           @renderSelectors('#'+prepaidId)
         return
+
+  onClickEditProductInfoButton: (e) ->
+    productId=@$(e.target).data('product-id')
+    @productTableState[productId] = 'editMode'
+    @renderSelectors('#product-'+productId)
+
+  onClickCancelProductInfoEditButton: (e) ->
+    productId=@$(e.target).data('product-id')
+    @productTableState[productId] = 'viewMode'
+    @renderSelectors('#product-'+productId)
+
+  onClickSaveProductInfo: (e) ->
+    productId= '' + @$(e.target).data('product-id') # make sure it is string
+    productStartDate= @$el.find('#product-startDate-'+productId).val()
+    productEndDate= @$el.find('#product-endDate-'+productId).val()
+    tournaments = @$el.find('#product-tournaments-'+productId).val()
+    teams = @$el.find('#product-teams-'+productId).val()
+    arenas = @$el.find('#product-arenas-'+productId).val()
+
+    @esportsProducts.forEach (product, i) =>
+      if product.productOptions.id == productId
+        #validations
+        unless productStartDate and productEndDate
+          return
+        if(productStartDate >= productEndDate)
+          alert('End date cannot be on or before start date')
+          return
+        product.startDate = moment.timezone.tz(productStartDate, @timeZone).toISOString()
+        product.endDate = moment.timezone.tz(productEndDate, @timeZone).toISOString()
+        product.productOptions.teams = parseInt(teams)
+        product.productOptions.tournaments = parseInt(tournaments)
+        product.productOptions.arenas = arenas
+        api.users.putUserProducts({
+          user: @user.id,
+          product,
+          kind: 'edit'
+        }).then (res) =>
+          @productTableState[productId] = 'viewMode'
+          @esportsProducts[i] = product
+          @renderSelectors('#product-'+productId)
 
   userIsSchoolAdmin: -> @user.isSchoolAdmin()
 
