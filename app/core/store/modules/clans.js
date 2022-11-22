@@ -1,4 +1,6 @@
-import { getPublicClans, getMyClans, getClan, getChildClanDetails } from '../../api/clans'
+import { getPublicClans, getMyClans, getClan, getChildClanDetails, getTournamentsByClan } from '../../api/clans'
+import { getTournamentsByMember } from '../../api/tournaments'
+const _ = require('lodash')
 
 export default {
   namespaced: true,
@@ -7,7 +9,9 @@ export default {
     clans: {},
     // key is the clan id that initiated the request. Response array is memoized.
     childClanDetails: {},
-    loading: false
+    tournaments: {},
+    loading: false,
+    allTournamentsLoaded: false
   },
 
   getters: {
@@ -29,6 +33,17 @@ export default {
       return id => {
         return state.childClanDetails[id] || []
       }
+    },
+    tournamentsByClan (state) {
+      return clanId => {
+        return state.tournaments[clanId]
+      }
+    },
+    tournaments (state) {
+      return state.tournaments
+    },
+    allTournamentsLoaded (state) {
+      return state.allTournamentsLoaded
     }
   },
 
@@ -49,6 +64,14 @@ export default {
 
     setLoading (state, loading) {
       state.loading = loading
+    },
+
+    setTournaments (state, { clanId, tournaments }) {
+      Vue.set(state.tournaments, clanId, tournaments)
+    },
+
+    loadAllTournaments (state) {
+      state.allTournamentsLoaded = true
     }
   },
 
@@ -91,6 +114,24 @@ export default {
     async fetchChildClanDetails ({ commit }, { id }) {
       const childClans = await getChildClanDetails(id)
       commit('setClanDetails', { clanId: id, childClans })
+    },
+
+    async fetchTournamentsForClan ({ commit }, { clanId }) {
+      const tournaments = await getTournamentsByClan(clanId)
+      if (tournaments) {
+        commit('setTournaments', { clanId, tournaments: Object.values(tournaments)[0] })
+      }
+    },
+
+    async fetchAllTournaments ({ commit }, { userId }) {
+      const tournaments = await getTournamentsByMember(userId)
+      if (tournaments) {
+        const tournamentsByClan = _.groupBy(tournaments, 'clan')
+        for (const key in tournamentsByClan) {
+          commit('setTournaments', { clanId: key, tournaments: tournamentsByClan[key] })
+        }
+        commit('loadAllTournaments')
+      }
     }
   }
 }

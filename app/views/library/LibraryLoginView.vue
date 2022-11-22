@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { libraryName } from '../../lib/user-utils'
+import { provisionPremium } from '../../lib/user-utils'
 const usersLib = require('../../core/api/users')
 const globalVar = require('core/globalVar')
 export default {
@@ -199,6 +199,7 @@ export default {
       await me.logout()
     },
     async postLogin () {
+      provisionPremium()
       await me.fetch({ cache: false })
       window.location = '/play'
     },

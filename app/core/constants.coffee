@@ -64,6 +64,19 @@ HTTP_STATUS_CODES = {
   PAYMENT_REQUIRED_CODE: 402,
 }
 
+ESPORTS_PRODUCT_STATS = {
+  TOURNAMENTS: {
+    BASIC: 1,
+    PRO: 3
+  },
+  TEAMS: {
+    BASIC: 1,
+    PRO: 5
+  }
+}
+
+HTML5_FMT_DATETIME_LOCAL = 'YYYY-MM-DDTHH:mm' # moment 2.20+ do have this string but we use 2.19 :joy:
+
 module.exports = {
   STARTER_LICENSE_COURSE_IDS
   FREE_COURSE_IDS
@@ -72,4 +85,6 @@ module.exports = {
   COCO_CHINA_CONST
   HTTP_STATUS_CODES
   LICENSE_PRESETS
+  ESPORTS_PRODUCT_STATS
+  HTML5_FMT_DATETIME_LOCAL
 }
