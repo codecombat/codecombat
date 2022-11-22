@@ -26,10 +26,6 @@ export default {
     title: {
       type: String,
       default: ''
-    },
-    anonymousPlayerName: {
-      type: Boolean,
-      default: false
     }
   },
 
