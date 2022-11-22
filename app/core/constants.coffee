@@ -81,6 +81,12 @@ ESPORTS_PRODUCT_STATS = {
   }
 }
 
+LEADERBOARDNAME = {
+  FULLNAME: 'fullName',
+  ANONYMOUS: 'anonymous',
+  NAME: 'name' # default
+}
+
 HTML5_FMT_DATETIME_LOCAL = 'YYYY-MM-DDTHH:mm' # moment 2.20+ do have this string but we use 2.19 :joy:
 
 module.exports = {
@@ -94,4 +100,5 @@ module.exports = {
   DEEP_API_LIST
   ESPORTS_PRODUCT_STATS
   HTML5_FMT_DATETIME_LOCAL
+  LEADERBOARDNAME
 }

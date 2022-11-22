@@ -125,6 +125,9 @@ module.exports = class LeaderboardView extends CocoView
       delta = @rankings.length - nearby[0].rank + 1
       return nearby.slice(delta)
 
+  mapFullName: (fullName) ->
+    fullName.replace(/^Anonymous/, $.i18n.t('general.player'))
+
   mapRankings: (data ) ->
     return _.map data, (model, index) =>
       if model?.type == 'BLANK_ROW'
@@ -150,7 +153,7 @@ module.exports = class LeaderboardView extends CocoView
           model.get('creator'),
           model.get('submittedCodeLanguage'),
           model.rank || index+1,
-          if @anonymousPlayerName and me.get('_id').toString() != model.get('creator') then utils.anonymizingUser(model.get('creator')) else (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
+          (@mapFullName(model.get('fullName')) || model.get('creatorName') || $.i18n.t("play.anonymous")),
           @correctScore(model),
           @getAgeBracket(model),
           moment(model.get('submitDate')).fromNow().replace('a few ', ''),
