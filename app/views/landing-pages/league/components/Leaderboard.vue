@@ -31,12 +31,9 @@ export default {
 
   methods: {
     nameForDisplay (row) {
-      if (this.scoreType === 'codePoints') {
-        return row.creatorName || $.i18n.t('play.anonymous')
-      }
       let fullName
       if (row.fullName) {
-        fullName = row.fullName.replace('Anonymous', $.i18n.t('general.player'))
+        fullName = row.fullName.replace(/^Anonymous/, $.i18n.t('general.player'))
       }
       return fullName || row.creatorName || $.i18n.t('play.anonymous')
     },
