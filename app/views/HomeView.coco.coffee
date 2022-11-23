@@ -10,6 +10,7 @@ GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').def
 paymentUtils = require 'app/lib/paymentUtils'
 fetchJson = require 'core/api/fetch-json'
 DOMPurify = require 'dompurify'
+BannerHoC = require("./courses/BannerHoC").default
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -192,6 +193,10 @@ module.exports = class HomeView extends RootView
       noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
     _.delay(@activateCarousels, 1000)
+
+    @bannerHoC = new BannerHoC({
+      el: @$('.banner-hoc')[0]
+    })
     super()
 
   trackPurchase: (event) ->

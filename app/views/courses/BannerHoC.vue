@@ -1,4 +1,3 @@
-<script src="../../locale/en.coffee"></script>
 <script>
 import utils from 'core/utils'
 export default Vue.extend({
@@ -20,6 +19,7 @@ export default Vue.extend({
 
 <template>
   <div
+      id="banner-hoc"
       v-if="show"
       class="container"
   >
@@ -42,19 +42,52 @@ export default Vue.extend({
 <style lang="scss" scoped>
 @import "app/styles/utils";
 
+#banner-hoc {
+
 @if $is-ozaria {
   #announcement {
     background-color: #cff2fc;
     border-radius: 10px;
     padding: 20px;
-    margin: 20px 80px 40px 80px;
+    margin: 20px 80px 20px 80px;
     text-align: center;
   }
 }
 
-#announcement p {
-  margin: 14px;
-  text-align: center;
-}
+  @if $is-codecombat {
 
+    #announcement {
+      background-color: #0097A7;
+      border: 3px solid #595959;
+      border-radius: 20px;
+
+      p {
+        color: white;
+      }
+
+      a {
+        color: white;
+        text-decoration: underline;
+        font-weight: bold;
+      }
+    }
+  }
+
+  #announcement {
+    margin-right: 80px;
+    margin-left: 80px;
+    p {
+      margin: 14px;
+      font-size: 18px;
+      line-height: 29px;
+      text-align: center;
+    }
+  }
+
+  &.container {
+    .row {
+      padding: 0 !important
+    }
+  }
+}
 </style>
