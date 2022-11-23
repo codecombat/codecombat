@@ -227,41 +227,41 @@ block modal-body-content
             th
           for product in view.esportsProducts
             - var productControlId = product.productOptions.id
-            - upperType = product.productOptions.type.toUpperCase()
-            tr(id=("product-" + productControlId))
+            - var upperType = product.productOptions.type.toUpperCase()
+            tr(id=('product-' + productControlId))
               td= product.productOptions.type
               td
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
                   - var startDateControlId = 'product-startDate-' + productControlId
-                  input(id=startDateControlId type="date" name="startDate" value=moment.timezone(product.startDate).tz(view.timeZone).format('YYYY-MM-DD'))
+                  input(id=startDateControlId, type="date" name="startDate" value=moment.timezone(product.startDate).tz(view.timeZone).format('YYYY-MM-DD'))
                 else
                   = moment.timezone(product.startDate).tz(view.timeZone).format('l')
               td
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
                   - var endDateControlId = 'product-endDate-' + productControlId
-                  input(id= endDateControlId type="date" name="endDate" value=moment.timezone(product.endDate).tz(view.timeZone).format('YYYY-MM-DD'))
+                  input(id=endDateControlId, type="date" name="endDate" value=moment.timezone(product.endDate).tz(view.timeZone).format('YYYY-MM-DD'))
                 else
                   = moment.timezone(product.endDate).tz(view.timeZone).format('l')
               td
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
                   - var teamsControlId = 'product-teams-' + productControlId
-                  - teams = product.productOptions.teams
-                  - teams = typeof teams === 'undefined' ? (view.ESPORTS_PRODUCT_STATS.TEAMS[upperType]) : teams
-                  input(id= teamsControlId type="number" name="teams" value=teams min=view.ESPORTS_PRODUCT_STATS.TEAMS.MIN max=view.ESPORTS_PRODUCT_STATS.TEAMS.MAX step=1)
+                  - var teams = product.productOptions.teams
+                  - teams = (typeof teams === 'undefined') ? view.ESPORTS_PRODUCT_STATS.TEAMS[upperType] : teams
+                  input(id=teamsControlId, type="number" name="teams" value=teams min=view.ESPORTS_PRODUCT_STATS.TEAMS.MIN max=view.ESPORTS_PRODUCT_STATS.TEAMS.MAX step=1)
                 else
                   = product.productOptions.teams
               td
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
                   - var tournamentsControlId = 'product-tournaments-' + productControlId
-                  - tournaments = product.productOptions.tournaments
-                  - tournaments = typeof tournaments === 'undefined' ? (view.ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType]) : tournaments
-                  input(id= tournamentsControlId type="number" name="tournaments" value=tournaments min=view.ESPORTS_PRODUCT_STATS.TOURNAMENTS.MIN step=1)
+                  - var tournaments = product.productOptions.tournaments
+                  - tournaments = (typeof tournaments === 'undefined') ? view.ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType] : tournaments
+                  input(id=tournamentsControlId, type="number" name="tournaments" value=tournaments min=view.ESPORTS_PRODUCT_STATS.TOURNAMENTS.MIN step=1)
                 else
                   = product.productOptions.tournaments
               td
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
                   - var arenasControlId = 'product-arenas-' + productControlId
-                  input(id=areansControlId type="text" name="arenas" value=(product.productOptions.arenas || '') placeholder="amdocs-quickfire-infinite-inferno,codestars-challenge")
+                  input(id=areansControlId, type="text" name="arenas" value=(product.productOptions.arenas || '') placeholder="amdocs-quickfire-infinite-inferno,codestars-challenge")
                 else
                   = product.productOptions.arenas
               td
