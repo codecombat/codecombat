@@ -6,7 +6,7 @@ ClassroomSchema = c.object
   title: 'Classroom'
   required: ['name']
   default:
-    classroomItems: true
+    classroomItems: false
 
 c.extendNamedProperties ClassroomSchema  # name first
 
