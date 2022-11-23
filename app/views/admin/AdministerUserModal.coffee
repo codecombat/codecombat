@@ -405,12 +405,12 @@ module.exports = class AdministerUserModal extends ModelModal
     @renderSelectors('#product-'+productId)
 
   onClickSaveProductInfo: (e) ->
-    productId= '' + @$(e.target).data('product-id') # make sure it is string
-    productStartDate= @$el.find('#product-startDate-'+productId).val()
-    productEndDate= @$el.find('#product-endDate-'+productId).val()
-    tournaments = @$el.find('#product-tournaments-'+productId).val()
-    teams = @$el.find('#product-teams-'+productId).val()
-    arenas = @$el.find('#product-arenas-'+productId).val()
+    productId = '' + @$(e.target).data('product-id') # make sure it is string
+    productStartDate = @$el.find('#product-startDate-' + productId).val()
+    productEndDate = @$el.find('#product-endDate-' + productId).val()
+    tournaments = @$el.find('#product-tournaments-' + productId).val()
+    teams = @$el.find('#product-teams-' + productId).val()
+    arenas = @$el.find('#product-arenas-' + productId).val()
 
     @esportsProducts.forEach (product, i) =>
       if product.productOptions.id == productId
@@ -432,7 +432,7 @@ module.exports = class AdministerUserModal extends ModelModal
         }).then (res) =>
           @productTableState[productId] = 'viewMode'
           @esportsProducts[i] = product
-          @renderSelectors('#product-'+productId)
+          @renderSelectors('#product-' + productId)
 
   userIsSchoolAdmin: -> @user.isSchoolAdmin()
 
