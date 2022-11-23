@@ -224,30 +224,57 @@ block modal-body-content
             th teams
             th tournaments
             th arena
+            th
           for product in view.esportsProducts
             - var productControlId = product.productOptions.id
-            tr(id=productControlId)
+            - upperType = product.productOptions.type.toUpperCase()
+            tr(id=("product-" + productControlId))
               td= product.productOptions.type
               td
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
-                  - var startDateControlId='startDate-'+productControlId
-                  input(id= startDateControlId type="date" name="startDate" value=moment.timezone(product.startDate).tz(view.timeZone).format('YYYY-MM-DD'))
+                  - var startDateControlId = 'product-startDate-' + productControlId
+                  input(id=startDateControlId type="date" name="startDate" value=moment.timezone(product.startDate).tz(view.timeZone).format('YYYY-MM-DD'))
                 else
                   = moment.timezone(product.startDate).tz(view.timeZone).format('l')
               td
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
-                  - var endDateControlId='endDate-'+productControlId
+                  - var endDateControlId = 'product-endDate-' + productControlId
                   input(id= endDateControlId type="date" name="endDate" value=moment.timezone(product.endDate).tz(view.timeZone).format('YYYY-MM-DD'))
                 else
                   = moment.timezone(product.endDate).tz(view.timeZone).format('l')
-              td= product.productOptions.teams
-              td= product.productOptions.tournaments
-              td= product.productOptions.arenas
+              td
+                if view.productTableState && view.productTableState[productControlId] === 'editMode'
+                  - var teamsControlId = 'product-teams-' + productControlId
+                  - teams = product.productOptions.teams
+                  - teams = typeof teams === 'undefined' ? (view.ESPORTS_PRODUCT_STATS.TEAMS[upperType]) : teams
+                  input(id= teamsControlId type="number" name="teams" value=teams min=view.ESPORTS_PRODUCT_STATS.TEAMS.MIN max=view.ESPORTS_PRODUCT_STATS.TEAMS.MAX step=1)
+                else
+                  = product.productOptions.teams
+              td
+                if view.productTableState && view.productTableState[productControlId] === 'editMode'
+                  - var tournamentsControlId = 'product-tournaments-' + productControlId
+                  - tournaments = product.productOptions.tournaments
+                  - tournaments = typeof tournaments === 'undefined' ? (view.ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType]) : tournaments
+                  input(id= tournamentsControlId type="number" name="tournaments" value=tournaments min=view.ESPORTS_PRODUCT_STATS.TOURNAMENTS.MIN step=1)
+                else
+                  = product.productOptions.tournaments
+              td
+                if view.productTableState && view.productTableState[productControlId] === 'editMode'
+                  - var arenasControlId = 'product-arenas-' + productControlId
+                  input(id=areansControlId type="text" name="arenas" value=(product.productOptions.arenas || '') placeholder="amdocs-quickfire-infinite-inferno,codestars-challenge")
+                else
+                  = product.productOptions.arenas
+              td
+                if view.productTableState && view.productTableState[productControlId] === 'editMode'
+                  button.btn.btn-primary.save-product-info-btn(data-product-id=productControlId) Save
+                  button.btn.btn-primary.cancel-product-info-edit-btn(data-product-id=productControlId) Cancel
+                else
+                  button.btn.btn-primary.edit-product-info-btn(data-product-id=productControlId) Edit
       hr
 
   //- could be clan owner, but let's check teacher first
   if view.user.isTeacher() || view.user.isHomeUser()
-    h3.m-t-3#esports-product(data-toggle="collapse" data-target="#esports-product-form" aria-expanded="false" aria-controls="esports-product-form") Grant Esports Products 
+    h3.m-t-3#esports-product(data-toggle="collapse" data-target="#esports-product-form" aria-expanded="false" aria-controls="esports-product-form") Grant Esports Products
       span.small click to toggle collapse
     #esports-product-form.form.collapse.multi-collapse
       if view.state === 'creating-esports-product'
@@ -284,17 +311,18 @@ block modal-body-content
           //- span(style="margin-left: 10px") Make sure you re-check this if you change type.
         #esports-product-addon-items
           if view.esportsAddon
-            +license-form-group('Custom Tournaments')(type="number" name="tournaments" value=(esportsType=== 'basic' ? 1 : 3) min=0 step=1)
+            - upperType = esportsType.toUpperCase()
+            +license-form-group('Custom Tournaments')(type="number" name="tournaments" value=(view.ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType] || 0) min=view.ESPORTS_PRODUCT_STATS.TOURNAMENTS.MIN step=1)
               h4.small how many custom tournaments they can create
-            +license-form-group('Custom Teams')(type="number" name="teams" value=(esportsType=== 'basic' ? 1 : 5) min=0 max=10 step=1)
+            +license-form-group('Custom Teams')(type="number" name="teams" value=(view.ESPORTS_PRODUCT_STATS.TEAMS[upperType] || 0) min=view.ESPORTS_PRODUCT_STATS.TEAMS.MIN max=view.ESPORTS_PRODUCT_STATS.TEAMS.MAX step=1)
               h4.small  how may custom teams we’ll create for them
             +license-form-group('Extra arenas(slug)')(type="text" name="arenas" placeholder="amdocs-quickfire-infinite-inferno,codestars-challenge" style="width: 50em")
               h4.small level slugs of custom arenas they can run tournaments on, comma-separated
-                  
+
         .form-group
           button#add-esports-product-btn.btn.btn-primary Add Esports Product
     hr
- 
+
   if view.classrooms.size()
     h3.m-t-3#classrooms(data-toggle="collapse" data-target="#classroom-table" aria-expanded="true" aria-controls="classroom-table") Classrooms
       span.small click to toggle collapse
