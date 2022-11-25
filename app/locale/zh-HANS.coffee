@@ -3735,7 +3735,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     acronym: "HOC"
 
   hoc_2018_interstitial:
-    welcome: "欢迎来到 CodeCombat 的“2020 编码一小时” "
+    welcome: "欢迎来到扣哒世界的“编程体验活动”"
     educator: "我是一名教育工作者"
     show_resources: "让我看看教师资源吧！"
     student: "我是一名学生"
