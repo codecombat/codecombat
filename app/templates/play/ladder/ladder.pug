@@ -145,6 +145,11 @@ block content
               a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href='/play/spectate/' + view.level.get('slug') + (view.league ? "?league=" + view.league.id : ""))
                 span.glyphicon.glyphicon-eye-open
                 span.spl(data-i18n="play.spectate")
+            if view.tournamentState === 'waiting' && me.get('_id') === view.league.ownerID
+              div.column.column-2
+                a.btn.btn-illustrated.btn-block.btn-lg.btn-success.publish-button
+                  span(data-i18n="tournament.publish_results")
+
             if !window.features.chinaUx
               div.column.column-2
                 a.btn.btn-illustrated.btn-block.btn-lg.btn-info(data-team='humans' href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank")

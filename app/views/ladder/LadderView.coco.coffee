@@ -54,6 +54,7 @@ module.exports = class LadderView extends RootView
   events:
     'click .play-button': 'onClickPlayButton'
     'click a:not([data-toggle])': 'onClickedLink'
+    'click .publish-button': 'onClickPublishButton'
     'click .spectate-button': 'onClickSpectateButton'
     'click .simulate-all-button': 'onClickSimulateAllButton'
     'click .early-results-button': 'onClickEarlyResultsButton'
@@ -242,14 +243,14 @@ module.exports = class LadderView extends RootView
     super()
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
-    unless @tournamentState in ['ended', 'ranking']
+    if @tournamentState == 'ended' or (@tournamentState == 'waiting' and me.get('_id') == @league.ownerID)
+      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId, leagueType: 'clan', myTournamentSubmission: @myTournamentSubmission}, @level, @sessions )) # classroom ladder do not have tournament for now
+    else if @tournamentState != 'ranking' # ranking do nothing
       if @level.isType('ladder')
         @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, leagueType: @leagueType, course: @course, myTournamentSubmission: @myTournamentSubmission}, @level, @sessions, @anonymousPlayerName ))
       else
         @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
       @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league, leagueType: @leagueType, course: @course}, @level, @sessions, @anonymousPlayerName))
-    else
-      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId, leagueType: 'clan', myTournamentSubmission: @myTournamentSubmission}, @level, @sessions )) # classroom ladder do not have tournament for now
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
@@ -281,6 +282,17 @@ module.exports = class LadderView extends RootView
 
   onClickPlayButton: (e) ->
     @showPlayModal($(e.target).closest('.play-button').data('team'))
+
+  onClickPublishButton: (e) ->
+    return unless (@tournamentId and @tournamentState == 'waiting' and me.get('_id') == @league.ownerID)
+    $.ajax
+      url: "/db/tournament/#{@tournamentId}/publish"
+      type: 'PUT'
+      data: {}
+      success: (res) ->
+        window.location.href = window.location.href
+      error: (err) ->
+        alert('tournament results publish failed')
 
   onClickSpectateButton: (e) ->
     e.preventDefault()

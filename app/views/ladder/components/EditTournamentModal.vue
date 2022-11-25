@@ -52,6 +52,16 @@
           class="form-control"
           :disabled="disableEdit"
         >
+        <label for="waiting">
+          {{$t('tournament.waiting_publish')}}
+        </label>
+        <input
+          id="waiting"
+          v-model="editableTournament.waiting"
+          type="checkbox"
+        >
+        <div class="small text-navy">{{ $t('tournament.waiting_description') }}</div>
+        <template v-if="!editableTournament.waiting">
         <label for="resultsDate">
           {{ $t('tournament.results_date_time') }}
         </label>
@@ -63,6 +73,7 @@
           class="form-control"
           :disabled="!me.isAdmin()"
         >
+        </template>
       </div>
       <div class="form-group pull-right">
         <span
@@ -199,6 +210,10 @@ export default {
         this.errorMessage = this.$t('tournament.error_end_date_too_early')
         this.inProgress = false
         return
+      }
+
+      if(this.editableTournament.waiting) {
+        delete this.editableTournament.resultsDate
       }
 
       try {

@@ -4200,7 +4200,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     my_teams: 'My Teams:'
     team: 'Team'
     team_description: '(Required) Only the players in the team can join this tournament'
+    waiting_publish: 'Review Results'
+    waiting_description: 'We will email you the results of tournament, and wait you to publish it to participants.'
     error_end_date_too_early: 'The End Time cannot be earlier than Start Time'
+    publish_results: 'Publish Results'
 
   payments:
     student_licenses: 'Student Licenses'
