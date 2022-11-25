@@ -12,17 +12,8 @@ module.exports = class ResourceHubView extends RootView
   getTitle: -> return $.i18n.t('teacher.resource_hub')
 
   initialize: ->
-    @organizeLessonSlides()
     me.getClientCreatorPermissions()?.then(() => @render?())
 
   onClickResourceLink: (e) ->
     link = $(e.target).closest('a')?.attr('href')
     window.tracker?.trackEvent 'Teachers Click Resource Hub Link', { category: 'Teachers', label: link }
-
-  organizeLessonSlides: ->
-    courseLessonSlidesURLs = utils.courseLessonSlidesURLs
-    @lessonSlidesURLsByCourse = {}
-    for courseID of utils.courseIDs
-      acronym = utils.courseAcronyms[courseID]
-      if url = utils.courseLessonSlidesURLs[courseID]
-        @lessonSlidesURLsByCourse[acronym.toLowerCase()] = url

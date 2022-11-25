@@ -67,12 +67,21 @@ HTTP_STATUS_CODES = {
 ESPORTS_PRODUCT_STATS = {
   TOURNAMENTS: {
     BASIC: 1,
-    PRO: 3
+    PRO: 3,
+    MIN: 0,
   },
   TEAMS: {
     BASIC: 1,
-    PRO: 5
+    PRO: 5,
+    MIN: 0,
+    MAX: 10
   }
+}
+
+LEADERBOARDNAME = {
+  FULLNAME: 'fullName',
+  ANONYMOUS: 'anonymous',
+  NAME: 'name' # default
 }
 
 HTML5_FMT_DATETIME_LOCAL = 'YYYY-MM-DDTHH:mm' # moment 2.20+ do have this string but we use 2.19 :joy:
@@ -87,4 +96,5 @@ module.exports = {
   LICENSE_PRESETS
   ESPORTS_PRODUCT_STATS
   HTML5_FMT_DATETIME_LOCAL
+  LEADERBOARDNAME
 }

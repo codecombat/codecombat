@@ -26,20 +26,16 @@ export default {
     title: {
       type: String,
       default: ''
-    },
-    anonymousPlayerName: {
-      type: Boolean,
-      default: false
     }
   },
 
   methods: {
     nameForDisplay (row) {
-      if(this.anonymousPlayerName && row.creator !== me.id && this.scoreType !== 'codePoints') {
-        return utils.anonymizingUser(row.creator)
+      let fullName
+      if (row.fullName) {
+        fullName = row.fullName.replace(/^Anonymous/, $.i18n.t('general.player'))
       }
-      return row.fullName || row.creatorName || $.i18n.t("play.anonymous")
-
+      return fullName || row.creatorName || $.i18n.t('play.anonymous')
     },
     scoreForDisplay (row) {
       if (this.scoreType === 'codePoints') {
