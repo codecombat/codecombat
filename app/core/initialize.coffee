@@ -15,14 +15,14 @@ VueShepherd = require 'vue-shepherd'
 { VueMaskDirective } = require 'v-mask'
 VueAsyncComputed = require 'vue-async-computed'
 
-Vue.use(VueRouter.default)
-Vue.use(Vuex.default)
-Vue.use(VueMoment.default)
+Vue.use(VueRouter)
+Vue.use(Vuex)
+Vue.use(VueMoment)
 
 if utils.isCodeCombat
-  Vue.use(VueYoutube.default)
+  Vue.use(VueYoutube)
 
-Vue.use(VTooltip.default)
+Vue.use(VTooltip)
 Vue.use(VueMeta)
 
 if utils.isOzaria
