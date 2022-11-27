@@ -90,7 +90,6 @@ block content
 
 mixin course-info(course)
   - var campaign = view.campaigns.get(course.get('campaignID'));
-  - var courseLessonSlidesURL = view.courseLessonSlidesURLs[course.id]
   .course-info
     .text-h4.semibold
       = i18n(course.attributes, 'name')
@@ -132,16 +131,13 @@ mixin course-info(course)
               span Java
 
       - var courseResources = view.resourcesByCourse[view.utils.courseAcronyms[course.get('_id')]]
-      if courseLessonSlidesURL || courseResources
+      if courseResources
         p.semibold
           span(data-i18n="teacher.resources")
           = ": "
-          if courseLessonSlidesURL && !features.china
-            a.guide-btn.btn.btn-primary(disabled=disableButtons href=(courseLessonSlidesURL) data-course-id=course.id data-course-name=course.get('name') data-event-action="Lesson Slides" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled') target="_blank")
-              span(data-i18n="courses.lesson_slides")
           for resource in (courseResources || [])
             a.guide-btn.btn.btn-primary(disabled=disableButtons href=view.utils.i18n(resource, 'link') data-course-id=course.id data-course-name=course.get('name') data-event-action=('Resource: ' + resource.name) class=(me.isTeacher() || me.isAdmin() ? '': 'disabled') target="_blank")
-              span(title=view.utils.i18n(resource, 'description'))= view.utils.i18n(resource, 'name')
+              span(title=view.utils.i18n(resource, 'description'))= view.utils.i18n(resource, 'name').replace(/^(CS|GD|WD)\d ?/, '')
 
     if course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE && Object.keys(view.videoLevels || {}).length > 0
       - var levelNameMap = campaign.getLevelNameMap()

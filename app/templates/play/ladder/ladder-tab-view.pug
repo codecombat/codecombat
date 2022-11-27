@@ -9,7 +9,10 @@
         - var levelType = view.level.get('type', true)
         - var topSessions = team.leaderboard.topPlayers.models;
         - var showJustTop = team.leaderboard.inTopSessions() || me.get('anonymous');
-        - if(!showJustTop && topSessions.length === 20) topSessions = topSessions.slice(0, 10);
+        - var nearBy = team.leaderboard.nearbySessions() || [];
+        - var nearByTopRank = nearBy[0] ? nearBy[0].rank : 0;
+        - var showBlank = (nearByTopRank > topSessions.length + 1);
+        - if(!showJustTop && !showBlank) nearBy = nearBy.slice(topSessions.length - nearByTopRank + 1);
         thead
           tr
             th(colspan=levelType === 'hero-ladder' ? 3 : 2)
@@ -44,10 +47,11 @@
               td.spectate-cell.iconic-cell
                 .glyphicon.glyphicon-eye-open
 
-          if !showJustTop && team.leaderboard.nearbySessions().length
+          if !showJustTop && nearBy.length
             tr(class="active")
-              td(colspan=4).ellipsis-row ...
-            for session in team.leaderboard.nearbySessions()
+              if showBlank
+                td(colspan=4).ellipsis-row ...
+            for session in nearBy
               - var myRow = session.get('creator') === me.id
               - var sessionStats = league ? (_.find(session.get('leagues'), {leagueID: league.id}) || {}).stats || {} : session.attributes;
               tr(class=myRow ? "success" : "", data-player-id=session.get('creator'), data-session-id=(tournamentId? session.get('levelSession') : session.id))

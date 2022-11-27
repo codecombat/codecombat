@@ -185,16 +185,6 @@ if isCodeCombat
   # Ozaria uses this
   courseModules = {}
 
-  courseLessonSlidesURLs = {}
-  unless features?.china
-    courseLessonSlidesURLs[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'https://drive.google.com/drive/folders/1YU7LEZ6TLQzbAsSMw90nNJfvU7gDrcid?usp=sharing'
-    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_2] = 'https://drive.google.com/drive/folders/1x24P6ZY_MBOBoHvlikbDr7jvMPYVRVkJ?usp=sharing'
-    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_3] = 'https://drive.google.com/drive/folders/1hBl-h5Xvo5chYH4q9e6IEo42JozlrTG9?usp=sharing'
-    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_4] = 'https://drive.google.com/drive/folders/1tbuE4Xn0ahJ0xcF1-OaiPs9lHeIs9zqG?usp=sharing'
-    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_5] = 'https://drive.google.com/drive/folders/1ThxWFZjoXzU5INtMzlqKEn8xkgHhVnl4?usp=sharing'
-    courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_1] = 'https://drive.google.com/drive/folders/1YSJ9wcfHRJ2854F-vUdSWqoLBuSJye7V?usp=sharing'
-    courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_2] = 'https://drive.google.com/drive/folders/1Mks2MA-WGMrwNpZj6VtKkL3loPnHp_bs?usp=sharing'
-
   hourOfCodeOptions = {
     campaignId: freeCampaignIds[0],
     courseId: courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
@@ -281,9 +271,6 @@ else
     '3': 'Writing Functions',
     '4': 'Capstone'
   }
-
-  # CodeCombat uses this, for now
-  courseLessonSlidesURLs = {}
 
   hourOfCodeOptions = {
     campaignId: freeCampaignIds[0],
@@ -1120,7 +1107,6 @@ module.exports = {
   countryCodeToName
   courseAcronyms
   courseIDs
-  courseLessonSlidesURLs
   courseModules
   courseNumericalStatus
   CSCourseIDs
