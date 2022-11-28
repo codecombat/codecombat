@@ -96,9 +96,12 @@ module.exports = class LadderPlayModal extends ModalView
         challenger.opponentWizard = @nameMap[challenger.opponentID]?.wizard or {}
       @checkWizardLoaded()
 
+    data =  { ids, wizard: true }
+    if @options.league
+      data.leagueId = @options.league.id
     userNamesRequest = @supermodel.addRequestResource 'user_names', {
-      url: '/db/user/-/names'
-      data: {ids: ids, wizard: true}
+      url: '/db/user/-/getFullNames'
+      data,
       method: 'POST'
       success: success
     }, 0
