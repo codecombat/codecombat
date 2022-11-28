@@ -41,6 +41,9 @@ export default Vue.extend({
       type: String,
       default: ''
     },
+    showContactUs: {
+      type: Boolean
+    },
     tableTitles: {
       type: Array,
       default () {
