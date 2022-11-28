@@ -120,12 +120,15 @@ block content
             span.spl#tournament-time-left= view.tournamentTimeLeftString
             span(data-i18n="ladder.tournament_started")
             span.spl#tournament-time-elapsed= view.tournamentTimeElapsedString
-      else if view.tournamentState == 'ranking'
+      else if ['ranking', 'waiting'].includes(view.tournamentState)
         p
           span(data-i18n="ladder.tournament_ended")
           span.spl#tournament-time-left= view.tournamentTimeLeftString
-          span(data-i18n="ladder.tournament_results_published")
-          span.spl#tournament-results-time-left= view.tournamentResultsTimeLeftString
+          if view.tournament.get('resultsDate')
+            span(data-i18n="ladder.tournament_results_published")
+            span.spl#tournament-results-time-left= view.tournamentResultsTimeLeftString
+          else
+            span(data-i18n="ladder.tournament_results_wait_publish")
       else if view.tournamentEnd
         if view.tournamentTimeLeftString
           p
