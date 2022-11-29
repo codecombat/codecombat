@@ -4090,6 +4090,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
+    season6_announcement_1: "The Lava Lake Clash Final is on. Guide your lava snail to victory!"
+    season6_announcement_2: "Note: arena balance adjustments may occur up until December 15th. So be sure to come back often to test your code against the global leaderboard."
     season5_announcement_1: "The Sandstorm Blitz Final is on. In this basketbrawl of an arena, you must summon the right heroes, call the right plays, and outscore your opponent to take the victory!"
     season5_announcement_2: "Note: arena balance adjustments may occur up until September 15th. So be sure to come back often to test your code against the global leaderboard."
     season4_announcement_1: "The Tundra Tower Cup Final is on. In this all new take on the classic tower defense gameplay, you must protect your base from the horde of monsters by building towers and using gravitational anomalies."
