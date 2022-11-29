@@ -1,7 +1,6 @@
 <script>
   import ModalDivider from './ModalDivider'
   import Modal from './Modal'
-  const zendesk = require('core/services/zendesk')
 
   export default Vue.extend({
     components: {
@@ -9,7 +8,6 @@
       Modal
     },
     data: () => ({
-      zendeskError: null
     }),
     methods: {
       programaticallyClose () {
@@ -28,7 +26,7 @@
       },
       clickedSalesChat () {
         try {
-          window.tracker.drift.openChat()
+          zE('messenger', 'open')
           this.programaticallyClose()
           window.tracker.trackEvent('Sales chat opened')
         } catch (e) {
@@ -37,32 +35,13 @@
       },
       clickedSupportChat () {
         try {
-          window.tracker.drift.startInteraction({ interactionId: 135698 })
-
+          zE('messenger', 'open')
           this.programaticallyClose()
           window.tracker.trackEvent('Support chat opened')
         } catch (e) {
           this.showError(e)
         }
       },
-      clickedEmail () {
-        zendesk.loadZendesk().then(() => {
-          try {
-            zE('webWidget', 'prefill', {
-              email: {
-                value: me.get('email')
-              }
-            })
-            zE('webWidget', 'open')
-            zE('webWidget', 'show')
-            this.programaticallyClose()
-            window.tracker.trackEvent('Support email opened')
-          } catch (e) {
-            this.showError(e)
-            this.zendeskError = true
-          }
-        })
-      }
     }
   })
 </script>
@@ -86,12 +65,8 @@
 
       <modal-divider />
 
-      <div v-if="zendeskError">
+      <div>
         {{ $t('general.email_us') }}: <a href="mailto:support@ozaria.com">support@ozaria.com</a>
-      </div>
-      <div v-else class="flex-container column">
-        <p>{{ $t("general.email_us") }}</p>
-        <button @click.prevent="clickedEmail" class="btn btn-large btn-primary btn-moon">{{ $t("general.email") }}</button>
       </div>
     </div>
   </modal>
