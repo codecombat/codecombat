@@ -3,11 +3,13 @@ slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and 
 isCodeCombat = true
 isOzaria = false
 
-getAnonymizedName = (shouldAnonymize, session) ->
-  if shouldAnonymize and me.get('_id').toString() != session.get('creator')
-    anonymizingUser(session.get('creator'))
+getCorrectName = (session) ->
+  if session.fullName # already handle anonymize in server side
+    session.fullName.replace(/^Anonymous/, $.i18n.t('general.player'))
+  else if session.get('fullName')
+    session.get('fullName').replace(/^Anonymous/, $.i18n.t('general.player'))
   else
-    session.get('creatorName') or 'Anonymous'
+    session.creatorName or session.get('creatorName') or $.i18n.t('play.anonymous')
 
 getAnonymizationStatus = (league, supermodel) ->
   unless league and features.enableAnonymization
@@ -1196,7 +1198,7 @@ module.exports = {
   getSponsoredSubsAmount
   getUTCDay
   getAnonymizationStatus
-  getAnonymizedName
+  getCorrectName
   grayscale
   hexToHSL
   hourOfCodeOptions
