@@ -104,9 +104,6 @@ module.exports = class LadderView extends RootView
     if @tournamentId
       @checkTournamentCloseInterval = setInterval @checkTournamentClose.bind(@), 3000
       @checkTournamentClose()
-    if features.china
-      @checkTournamentEndInterval = setInterval @checkTournamentEnd.bind(@), 3000
-      @checkTournamentEnd()
 
   calcTimeOffset: ->
     $.ajax
@@ -118,28 +115,6 @@ module.exports = class LadderView extends RootView
     for session in @sessions.models
       if _.isEmpty(session.get('code'))
         session.set 'code', session.get('submittedCode')
-
-  checkTournamentEnd: ->
-    return unless @timeOffset
-    return unless @mandate.loaded
-    return unless @level.loaded
-    return if (@leagueID and not @league.loaded)
-    mandate = @mandate.get('0')
-
-    tournamentState = STOP_CHECK_TOURNAMENT_OPEN
-
-    if mandate
-      tournamentState = @getTournamentState mandate, @courseInstance?.id, @level.get('slug'), @timeOffset
-      if tournamentState in TOURNAMENT_OPEN
-        if @tournamentEnd
-          @tournamentEnd = false
-          @render()
-      else
-        unless @tournamentEnd or me.isAdmin()
-          @tournamentEnd = true
-          @render()
-    if tournamentState in STOP_CHECK_TOURNAMENT
-      clearInterval @checkTournamentEndInterval
 
   getTournamentState: (mandate, courseInstanceID, levelSlug, timeOffset) ->
     tournament = _.find mandate.currentTournament or [], (t) ->
@@ -199,7 +174,7 @@ module.exports = class LadderView extends RootView
         else if @tournament.get('state') is 'starting'
           @tournamentEnd = false
           newInterval = if @tournamentTimeLeft > 10 * 1000 then Math.min(10 * 60 * 1000, @tournamentTimeLeft / 2) else 1000
-        else if @tournament.get('state') is 'ranking'
+        else if ['ranking', 'waiting'].includes(@tournament.get('state'))
           @tournamentEnd = true
           newInterval = if @tournamentResultsTimeLeft > 10 * 1000 then Math.min(10 * 60 * 1000, @tournamentResultsTimeLeft / 2) else 1000
         else if @tournament.get('state') is 'ended'
@@ -243,7 +218,7 @@ module.exports = class LadderView extends RootView
     super()
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
-    if @tournamentState == 'ended' or (@tournamentState == 'waiting' and me.get('_id') == @league.ownerID)
+    if @tournamentState == 'ended' or (@tournamentState == 'waiting' and me.get('_id') == @league.get('ownerID'))
       @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId, leagueType: 'clan', myTournamentSubmission: @myTournamentSubmission}, @level, @sessions )) # classroom ladder do not have tournament for now
     else if @tournamentState != 'ranking' # ranking do nothing
       if @level.isType('ladder')
@@ -284,7 +259,7 @@ module.exports = class LadderView extends RootView
     @showPlayModal($(e.target).closest('.play-button').data('team'))
 
   onClickPublishButton: (e) ->
-    return unless (@tournamentId and @tournamentState == 'waiting' and me.get('_id') == @league.ownerID)
+    return unless (@tournamentId and @tournamentState == 'waiting' and me.get('_id') == @league.get('ownerID'))
     $.ajax
       url: "/db/tournament/#{@tournamentId}/publish"
       type: 'PUT'
@@ -380,8 +355,6 @@ module.exports = class LadderView extends RootView
     clearInterval @refreshInterval
     if @tournamentTimeRefreshInterval
       clearInterval @tournamentTimeRefreshInterval
-    if @checkTournamentEndInterval
-      clearInterval @checkTournamentEndInterval
     if @checkTournamentCloseInterval
       clearInterval @checkTournamentCloseInterval
     super()
