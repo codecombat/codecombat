@@ -212,7 +212,7 @@ export default {
       if (!this.tournamentsLeft && !me.isAdmin()) {
         window.open('https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com', '_blank')
       } else {
-        console.log('handle create', arena)
+        /* console.log('handle create', arena) */
         this.editableTournament = {
           name: arena.name,
           levelOriginal: arena.original,
@@ -229,7 +229,7 @@ export default {
       }
     },
     handleEditTournament (tournament) {
-      console.log('handle edit', tournament)
+      /* console.log('handle edit', tournament) */
       this.editableTournament = Object.assign(tournament, {
         waiting: !tournament.resultsDate,
         editing: 'edit'

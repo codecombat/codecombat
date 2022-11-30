@@ -9,6 +9,7 @@ CocoCollection = require 'collections/CocoCollection'
 co = require 'co'
 utils = require 'core/utils'
 {joinClan} = require 'core/api/clans'
+{publishTournament} = require 'core/api/tournaments'
 
 LadderTabView = require './LadderTabView'
 MyMatchesTabView = require './MyMatchesTabView'
@@ -260,14 +261,12 @@ module.exports = class LadderView extends RootView
 
   onClickPublishButton: (e) ->
     return unless (@tournamentId and @tournamentState == 'waiting' and me.get('_id') == @league.get('ownerID'))
-    $.ajax
-      url: "/db/tournament/#{@tournamentId}/publish"
-      type: 'PUT'
-      data: {}
-      success: (res) ->
+
+    publishTournament({id: @tournamentId}).then((res) =>
         window.location.href = window.location.href
-      error: (err) ->
-        alert('tournament results publish failed')
+    ).catch((err) =>
+      alert('tournament results publish failed')
+    )
 
   onClickSpectateButton: (e) ->
     e.preventDefault()
