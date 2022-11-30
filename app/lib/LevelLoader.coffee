@@ -261,6 +261,9 @@ module.exports = class LevelLoader extends CocoClass
       session.patch = session.save = session.put = -> console.error "Not saving session, since we didn't create it."
     else if codeLanguage = utils.getQueryVariable 'codeLanguage'
       session.set 'codeLanguage', codeLanguage
+    if me.id is session.get('creator')
+      # do not use .set since we won't update fullName to server
+      session.fullName = _.filter([me.get('firstName'), me.get('lastName')]).join(' ')
     @worldNecessities = @worldNecessities.concat(@loadCodeLanguagesForSession session)
     if compressed = session.get 'interpret'
       uncompressed = LZString.decompressFromUTF16 compressed

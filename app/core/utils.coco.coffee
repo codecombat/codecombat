@@ -3,11 +3,13 @@ slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and 
 isCodeCombat = true
 isOzaria = false
 
-getAnonymizedName = (shouldAnonymize, session) ->
-  if shouldAnonymize and me.get('_id').toString() != session.get('creator')
-    anonymizingUser(session.get('creator'))
+getCorrectName = (session) ->
+  if session.fullName # already handle anonymize in server side
+    session.fullName.replace(/^Anonymous/, $.i18n.t('general.player'))
+  else if session.get('fullName')
+    session.get('fullName').replace(/^Anonymous/, $.i18n.t('general.player'))
   else
-    session.get('creatorName') or 'Anonymous'
+    session.creatorName or session.get('creatorName') or $.i18n.t('play.anonymous')
 
 getAnonymizationStatus = (league, supermodel) ->
   unless league and features.enableAnonymization
@@ -1064,7 +1066,7 @@ arenas = [
   {season: 5, slug: 'desert-duel'      , type: 'regular',      start: new Date("2022-05-01T00:00:00.000-07:00"), end: new Date("2022-09-01T00:00:00.000-07:00"), results: new Date("2022-09-13T07:00:00.000-07:00"), levelOriginal: '62540bd270cb4400504ad44c', tournament: '626c6017deb6dd43a1937b81', image: '/file/db/level/62540bd270cb4400504ad44c/Basketball-Arena-Banner-01.jpg'}
   {season: 5, slug: 'sandstorm'        , type: 'championship', start: new Date("2022-08-01T00:00:00.000-07:00"), end: new Date("2022-09-01T00:00:00.000-07:00"), results: new Date("2022-09-13T07:00:00.000-07:00"), levelOriginal: '62d50c5cd722b00025eddac7', tournament: '62e6ff22a6960064d67d87c3', image: '/file/db/level/62d50c5cd722b00025eddac7/Basketball-Arena-Sandstorm-Banner-02.jpg'}
   {season: 6, slug: 'magma-mountain'   , type: 'regular',      start: new Date("2022-09-01T00:00:00.000-07:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-10T07:00:00.000-08:00"), levelOriginal: '62f9f6506428860025b15a8b'}
-  {season: 6, slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-10T07:00:00.000-08:00"), levelOriginal: ''}
+  {season: 6, slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-10T07:00:00.000-08:00"), levelOriginal: '635bceb16dc3150020acb1f8'}
 ]
 
 # AI League seasons
@@ -1196,7 +1198,7 @@ module.exports = {
   getSponsoredSubsAmount
   getUTCDay
   getAnonymizationStatus
-  getAnonymizedName
+  getCorrectName
   grayscale
   hexToHSL
   hourOfCodeOptions

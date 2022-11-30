@@ -70,7 +70,7 @@
                 p(data-i18n="hoc_2018.featured_blurb_1")
                 div
                   a.btn.btn-primary.btn-md(href="/play/goblins-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
-                  button.btn.btn-primary.btn-md(data-toggle="modal" data-video-id="YZjnpqb73ms" data-target="#youtubeModal" @click="playVideo" data-i18n="hoc_2018.play_video")
+                  button.btn.btn-primary.btn-md(data-toggle="modal" data-video-id="100412c840bf03141644c1855784c785" data-target="#videoModal" @click="playVideo" data-i18n="hoc_2018.play_video")
                   a.btn.btn-primary.btn-md(v-if="isTeacher" href="/teachers/campaign-solution/goblins-hoc/python" target="_blank" data-i18n="hoc_2018.solutions")
           .row
             .col-md-4
@@ -81,7 +81,7 @@
               p(data-i18n="hoc_2018.featured_blurb_2")
               div
                 a.btn.btn-primary.btn-md(href="/play/ai-league-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
-                button.btn.btn-primary.btn-md(data-toggle="modal" data-video-id="niKXOofTckE" data-target="#youtubeModal" @click="playVideo" data-i18n="hoc_2018.play_video")
+                button.btn.btn-primary.btn-md(data-toggle="modal" data-video-id="0bdb79d2ce155d589745f891b087f572" data-target="#videoModal" @click="playVideo" data-i18n="hoc_2018.play_video")
           .row
             .col-md-4
               img.activity-tile(src='/images/pages/teachers/hour-of-code/ozaria-your-journey-begins.png' alt="")
@@ -92,7 +92,7 @@
               div
                 a.btn.btn-primary.btn-md(href="https://www.ozaria.com/play/chapter-1-sky-mountain?hour_of_code=true" data-i18n="hoc_2018.try_activity")
                 a.btn.btn-primary.btn-md(href="https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/present#slide=id.g89b5bc74f5_2_0" data-i18n="hoc_2018.activity_button_1")
-                button.btn.btn-primary.btn-md(data-toggle="modal" data-video-id="zdKaVO5uUug" data-target="#youtubeModal" @click="playVideo" data-i18n="hoc_2018.play_video")
+                button.btn.btn-primary.btn-md(data-toggle="modal" data-video-id="94e611192ce86d5b4cf6ba2343a53927" data-target="#videoModal" @click="playVideo" data-i18n="hoc_2018.play_video")
                 a.btn.btn-primary.btn-md(v-if="isTeacher" href="https://www.ozaria.com/teachers/course-solution/5d41d731a8d1836b5aa3cba1/python" target="_blank" data-i18n="hoc_2018.solutions")
 
       .row(v-if="isAnonymous")
@@ -181,22 +181,25 @@
         a.btn.btn-primary.btn-lg(href="/home#create-account-teacher" data-i18n="signup.sign_up")
 
 
-    #youtubeModal.modal.fade(aria-labelledby='youtubeModal' aria-hidden='true' ref="modal").bs-example-modal-lg
+    #videoModal.modal.fade(aria-labelledby='videoModal' aria-hidden='true' ref="modal").bs-example-modal-lg
       .modal-dialog.modal-lg
         .modal-content
           .modal-body
             button.close(type='button' data-dismiss='modal' aria-label='Close')
               span(aria-hidden='true') &times;
-            youtube(:video-id="videoId" ref="youtube" width="100%" aspect-ratio="16 / 9")
+            base-cloudflare-video(:video-cloudflare-id="videoId" ref="video" width="100%" aspect-ratio="16 / 9")
 
 </template>
 
 <script>
 import BannerWebinar from '../courses/BannerWebinar'
+import BaseCloudflareVideo from 'ozaria/site/components/common/BaseCloudflareVideo'
+
 
 module.exports = Vue.extend({
   components: {
-    BannerWebinar
+    BannerWebinar,
+    BaseCloudflareVideo
   },
 
   mounted: function () {
@@ -238,7 +241,7 @@ module.exports = Vue.extend({
   },
   computed: {
     player () {
-      return this.$refs.youtube.player
+      return this.$refs.video
     }
   },
 
@@ -390,6 +393,11 @@ module.exports = Vue.extend({
     height: fit-content
     width: 100%
     background: rgba(255, 255, 255, 0.9)
+
+    button.close
+      top: 0
+      position: absolute
+      right: 4px
 
     iframe
       height: auto

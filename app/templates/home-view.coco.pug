@@ -12,6 +12,8 @@ block content
           else if me.isTeacher() && new Date() < new Date("2022-10-20T16:30:00.000-05:00")
             span(data-i18n="new_home.top_banner_blurb_demo_day_10_20")
             a(href="https://us06web.zoom.us/webinar/register/WN_NU2XXsQORZ-_lkx7rxUplQ", data-i18n="league.register", data-event-action="Click: Homepage Banner Demo Day")
+          else if me.isTeacher() && new Date() < new Date("2022-12-01T14:30:00.000-05:00")
+            span(data-i18n="[html]new_home.top_banner_blurb_hoc_2022_12_01", data-i18n-options=JSON.stringify(i18nData))
           else
             span(data-i18n="new_home.top_banner_blurb_podcast")
             a(href="/podcast", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Podcast Page")
@@ -19,7 +21,6 @@ block content
     .cloud-wrapper
       .row#jumbotron-container-fluid
         .col-md-8
-          .banner-hoc
           h1(data-i18n="new_home.slogan_power_of_play")
           div.button-section
             if me.isAnonymous()
