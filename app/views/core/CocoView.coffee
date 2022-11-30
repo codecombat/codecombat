@@ -272,10 +272,12 @@ module.exports = class CocoView extends Backbone.View
         DirectContactModal = require('ozaria/site/views/core/DirectContactModal').default
 
       @openModalView(new DirectContactModal())
-    if (me.isTeacher(true) and zE) or me.showChinaResourceInfo()
+    if me.isTeacher(true) or me.showChinaResourceInfo()
       openDirectContactModal()
     else
-      location.href = 'mailto:support@codecombat.com'
+      zendesk.loadZendesk()
+        .then(-> if not zendesk.openZendesk() then openDirectContactModal())
+        .catch(-> openDirectContactModal())
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise

@@ -1,6 +1,7 @@
 <script>
   import ModalDivider from './ModalDivider'
   import Modal from './Modal'
+  import zendesk from '../../../../app/core/services/zendesk'
 
   export default Vue.extend({
     components: {
@@ -8,6 +9,7 @@
       Modal
     },
     data: () => ({
+      zendeskError: !window.cocoZeLoaded
     }),
     methods: {
       programaticallyClose () {
@@ -42,6 +44,22 @@
           this.showError(e)
         }
       },
+      clickedEmail () {
+        zendesk.loadZendesk().then(() => {
+          try {
+            const opened = zendesk.openZendesk()
+            if (!opened) {
+              this.zendeskError = true
+              return
+            }
+            this.programaticallyClose()
+            window.tracker.trackEvent('Support email opened')
+          } catch (e) {
+            this.showError(e)
+            this.zendeskError = true
+          }
+        })
+      }
     }
   })
 </script>
@@ -65,8 +83,12 @@
 
       <modal-divider />
 
-      <div>
+      <div v-if="zendeskError">
         {{ $t('general.email_us') }}: <a href="mailto:support@ozaria.com">support@ozaria.com</a>
+      </div>
+      <div v-else class="flex-container column">
+        <p>{{ $t("general.email_us") }}</p>
+        <button @click.prevent="clickedEmail" class="btn btn-large btn-primary btn-moon">{{ $t("general.email") }}</button>
       </div>
     </div>
   </modal>

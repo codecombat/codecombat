@@ -1,4 +1,5 @@
 import BaseTracker from './BaseTracker'
+const zendeskHelper = require('../../core/services/zendesk')
 
 export default class ZendeskTracker extends BaseTracker {
   constructor (store) {
@@ -17,12 +18,7 @@ export default class ZendeskTracker extends BaseTracker {
   }
 
   loadZendesk () {
-    const scr = document.createElement('script')
-    scr.type = 'text/javascript'
-    scr.async = true
-    scr.id = 'ze-snippet'
-    scr.src = 'https://static.zdassets.com/ekr/snippet.js?key=ed461a46-91a6-430a-a09c-73c364e02ffe'
-    document.getElementsByTagName('head')[0].appendChild(scr)
+    zendeskHelper.loadZendesk()
   }
 
   async _initializeTracker () {

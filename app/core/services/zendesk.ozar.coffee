@@ -1,27 +1,16 @@
 loadZendesk = _.once () ->
   return new Promise (accept, reject) ->
     onLoad = ->
-      # zE is the global variable created by the script. We never want the floating button to show, so we:
-      # 1: Hide it right away
-      # 2: Bind showing it to opening it
-      # 3: Bind closing it to hiding it
-      zE('webWidget', 'hide')
-      zE('webWidget:on', 'userEvent', (event) ->
-        if event.action == 'Contact Form Shown'
-          zE('webWidget', 'open')
-      )
-      zE('webWidget:on', 'close', -> zE('webWidget', 'hide'))
-      zE('webWidget', 'updateSettings', {
-        webWidget: {
-          offset: { horizontal: '100px', vertical: '20px' }
-        }
-      })
+      zE('messenger', 'close')
+      window.cocoZeLoaded = true
       accept()
 
     onError = (e) ->
       console.error 'Zendesk failed to initialize:', e
       reject()
 
+    if window.cocoZeLoaded
+      return accept()
     zendeskElement = document.createElement('script')
     zendeskElement.id ="ze-snippet"
     zendeskElement.type = 'text/javascript'
@@ -33,15 +22,8 @@ loadZendesk = _.once () ->
     script.parentNode.insertBefore(zendeskElement, script)
 
 openZendesk = ->
-  prefillOptions = {}
-  prefillOptions.email = value: me.get('email') if me.get('email')
-  prefillOptions.name = value: me.broadName() if me.get('firstName')
-
   try
-    if _.size prefillOptions
-      zE('webWidget', 'prefill', prefillOptions)
-    zE('webWidget', 'open')
-    zE('webWidget', 'show')
+    zE('messenger', 'open')
   catch e
     console.error('Error trying to open Zendesk widget: ', e)
     return false
