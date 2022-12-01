@@ -162,7 +162,7 @@ module.exports = class CreateAccountModal extends ModalView
           store.commit('modalTeacher/updateSignupForm', @signupState.get('signupForm'))
           trProperties = _.pick(@signupState.get('signupForm'), 'firstName', 'lastName')
           if (utils.getQueryVariable('referrerEvent'))
-            trProperties.referrer = utils.getQueryVariable('referrerEvent')
+            trProperties.marketingReferrer = utils.getQueryVariable('referrerEvent')
           store.commit('modalTeacher/updateTrialRequestProperties', trProperties)
           @signupState.set { screen: 'teacher-signup-component' }
         else if @signupState.get('subModalContinue')
@@ -234,8 +234,6 @@ module.exports = class CreateAccountModal extends ModalView
   destroy: ->
     if @teacherSignupComponent
       @teacherSignupComponent.$destroy()
-    try
-      store.unregisterModule('modal')
     super()
 
   onClickLoginLink: ->
