@@ -3,18 +3,15 @@
     <div class="page-mobile-container">
       <a v-if="isCodeCombat" href="/"><img class="coco-logo" src="/images/pages/base/logo.png"></a>
       <a v-if="isOzaria" href="/"><img class="ozaria-logo" src="/images/pages/mobile/ozaria-logo.svg"></a>
-      <p v-if="activeStep!==STEP_DONE" class="subtitle">Get free access to the most engaging way to teach
-        CS</p>
+      <p v-if="activeStep!==STEP_DONE" class="subtitle">{{ $t('mobile_landing.subtitle') }}</p>
 
       <img v-if="isCodeCombat && activeStep===STEP_DONE" src="/images/pages/mobile/you-re-set.svg" class="title-image"/>
-      <h3 v-if="isOzaria && activeStep===STEP_DONE" class="you-re-set">YOU'RE SET!</h3>
-      <p v-if="activeStep===STEP_DONE" class="blurb-done">Check your email for instructions on accessing your
-        teacher
-        account. For the best experience, we suggest using a device with an external keyboard and larger screen.</p>
-      <div>
+      <h3 v-if="isOzaria && activeStep===STEP_DONE" class="you-re-set">{{ $t('mobile_landing.you_re_set') }}</h3>
+      <p v-if="activeStep===STEP_DONE" class="blurb-done">{{ $t('mobile_landing.done_blurb') }}</p>
+      <div class="form-container" :class="{'step-done':activeStep===STEP_DONE}">
         <!-- Wrapper for slides -->
         <div v-if="activeStep!==STEP_DONE" class="page-mobile-inner">
-          <div class="line" :class="{'step-1':activeStep===STEP_NAME}">
+          <div class="line" :class="{'step-name':activeStep===STEP_NAME}">
             <img v-if="isCodeCombat" src="/images/pages/mobile/hero1.svg"
                  :class="{'moved-out':activeStep!==STEP_EMAIL}"/>
           </div>
@@ -44,7 +41,7 @@
 
           <div v-if="activeStep!==STEP_DONE" class="input-container input-container-button"
                :class="{'moved-out': activeStep===STEP_DONE}">
-            <img v-if="isCodeCombat" class="hero-2" src="/images/pages/mobile/hero2.svg"
+            <img v-if="isCodeCombat" class="hero-2" src="/images/pages/mobile/hero2.png"
                  :class="{'moved-out': activeStep!==0}"/>
             <button @click="setActiveStep(activeStep + 1)" :disabled="nextButtonDisabled">
               <span :class="{hidden: activeStep!==STEP_EMAIL}">START</span>
@@ -55,28 +52,31 @@
 
         <ol class="carousel-indicators">
           <li :class="{active: activeStep===STEP_EMAIL}" @click="setActiveStep(STEP_EMAIL)">
-            <span class="">STEP 1</span>
+            <span class="">{{ $t('mobile_landing.step_email') }}</span>
           </li>
           <li :class="{active: activeStep===STEP_NAME}" @click="setActiveStep(STEP_NAME)">
-            <span class="">STEP 2</span>
+            <span class="">{{ $t('mobile_landing.step_name') }}</span>
           </li>
           <li :class="{active: activeStep===STEP_DONE}">
-            <span class="">DONE</span>
+            <span class="">{{ $t('mobile_landing.step_done') }}</span>
           </li>
         </ol>
 
         <div class="screenshot-container">
-          <h4 v-if="activeStep===STEP_DONE" class="">GET A SNEAK PEAK HERE</h4>
-          <img v-if="(isCodeCombat && activeStep===STEP_DONE)" src="/images/pages/mobile/sneak-peak.png"
-               class="screenshot-image"/>
-          <img v-if="(isOzaria && activeStep===STEP_DONE)" src="/images/pages/mobile/ozaria-sneak-peak.png"
-               class="screenshot-image"/>
+          <h4 v-if="activeStep===STEP_DONE" class="">{{ $t('mobile_landing.video_title') }}</h4>
+          <base-cloudflare-video v-if="(isCodeCombat && activeStep===STEP_DONE)"
+                                 video-cloudflare-id="100412c840bf03141644c1855784c785" ref="video"/>
+          <base-cloudflare-video v-if="(isOzaria && activeStep===STEP_DONE)"
+                                 video-cloudflare-id="94e611192ce86d5b4cf6ba2343a53927" ref="video"/>
         </div>
       </div>
-      <a v-if="isOzaria" href="https://codecombat.com" target="_blank">
-        <img class="coco-logo-bottom" src="/images/pages/base/logo.png" :class="{'step-2':activeStep===STEP_DONE}">
-      </a>
     </div>
+    <footer>
+      <a v-if="isOzaria" href="https://codecombat.com" target="_blank">
+        <img class="coco-logo-bottom" src="/images/pages/base/logo.png" :class="{'step-done':activeStep===STEP_DONE}">
+      </a>
+      <final-footer></final-footer>
+    </footer>
   </div>
 </template>
 
@@ -86,9 +86,15 @@ import { mapGetters, mapActions } from 'vuex'
 import User from '../../../models/User'
 import { register } from 'core/api/mobile'
 import { debounce } from 'lodash'
+import BaseCloudflareVideo from 'ozaria/site/components/common/BaseCloudflareVideo'
+import FinalFooter from 'app/components/common/FinalFooter'
 
 export default Vue.extend({
   name: 'PageMobileView',
+  components: {
+    BaseCloudflareVideo,
+    FinalFooter
+  },
   metaInfo () {
     return {
       title: utils.getProductName(),
@@ -108,7 +114,7 @@ export default Vue.extend({
       isEmailAvailable: false,
       checkingEmail: false,
       checkEmailState: null,
-      activeStep: 0,
+      activeStep: 2,
       STEP_EMAIL: 0,
       STEP_NAME: 1,
       STEP_DONE: 2,
@@ -273,22 +279,9 @@ export default Vue.extend({
 <style lang="scss">
 $background-color: #e6fafa;
 
-#main-nav {
-  display: none;
-}
-
-.style-flat {
-  padding-top: 0;
-  background: transparent;
-}
-
 body {
   background-color: $background-color;
   min-height: 100vh;
-}
-
-footer {
-  display: none;
 }
 
 html {
@@ -335,6 +328,9 @@ $circle-radius: 2.5rem;
   max-width: 100vw;
   overflow: hidden;
   margin: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 
   // If a screen is larger than 1000px of width, the page will be centered.
   padding-right: calc((100vw - 100rem) / 2);
@@ -345,11 +341,10 @@ $circle-radius: 2.5rem;
     background-repeat: no-repeat;
     background-position: bottom center, top 29vh right -15rem, top 50vh left -14rem, top 69vh right -10.7rem;
     background-size: contain, 33rem, 42rem, 30rem;
-    padding-bottom: 37rem;
   } @else {
-    background-image: url(/images/pages/mobile/ozaria-blur.svg), url(/images/pages/mobile/ozaria-background.png);
-    background-size: contain, cover;
-    background-position-x: 0, center;
+    background-image: url(/images/pages/mobile/ozaria-background.png);
+    background-size: cover;
+    background-position-x: center;
     background-repeat: no-repeat;
   }
 
@@ -365,6 +360,33 @@ $circle-radius: 2.5rem;
   .page-mobile-container {
     width: 100rem;
     position: relative;
+    flex: 1 0 auto;
+    z-index: 0;
+
+    @if $is-ozaria {
+      &:before {
+        content: '';
+        display: block;
+        background: black;
+        width: 1px;
+        height: 1px;
+        position: absolute;
+        top: 40rem;
+        left: 50rem;
+        box-shadow: 0px 0px 50rem 30rem rgb(0 0 0 / 50%);
+        z-index: -1;
+      }
+    }
+  }
+
+  .form-container {
+    padding-bottom: 27rem;
+
+    &.step-done {
+      @if $is-ozaria {
+        padding-bottom: 10rem;
+      }
+    }
   }
 
   h1 {
@@ -380,20 +402,43 @@ $circle-radius: 2.5rem;
   }
 
   .coco-logo-bottom {
-    width: 30rem;
+    width: max(30rem, 100px);
     margin-top: 20rem;
-    margin-bottom: 7rem;
 
-    &.step-2 {
+    &.step-done {
       margin-top: 1rem;
     }
+  }
 
-    @media (max-aspect-ratio: 1/2) {
-      // keep the logo at the bottom for extra narrow screens too (where all other content is stuck to the top)
-      position: fixed;
-      bottom: 49px;
-      left: 50%;
-      transform: translateX(-50%);
+  footer {
+    flex-shrink: 0;
+
+    #final-footer {
+      width: 100%;
+      background: transparent;
+      padding: 0 1rem;
+      margin: 1rem 0;
+
+      @if $is-ozaria {
+        background: rgba(42, 78, 91, 0.9);
+      }
+
+      ::v-deep {
+        img {
+          display: none
+        }
+
+        .float-right {
+          padding: 0;
+          float: initial;
+        }
+
+        a, span {
+          white-space: nowrap;
+          display: inline-block;
+          margin-left: 1rem;
+        }
+      }
     }
   }
 
@@ -403,8 +448,9 @@ $circle-radius: 2.5rem;
     margin-bottom: 1rem;
   }
 
-  .screenshot-image {
-    width: 100%;
+  .cloudflare-video-div {
+    margin: 2rem 8rem 0;
+    box-shadow: 0px 0px 2rem #000000aa;
   }
 
   .title-image {
@@ -436,7 +482,7 @@ $circle-radius: 2.5rem;
     padding-top: 16rem;
     margin-top: calc(9rem * 229 / 281);
 
-    &.step-1 {
+    &.step-name {
       padding-top: 5rem;
       @if $is-ozaria {
         padding-top: 11rem;

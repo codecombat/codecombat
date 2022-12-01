@@ -4408,6 +4408,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     switch: "Switch"
     title: "Related Accounts"
     bi_directional_help_text: "Allow added user to switch to your account?"
+
   modal_free_class:
     paragraph_1: "Thank you for choosing CodeCombat."
     paragraph_2: "Our team is eager to connect with you to get your child scheduled for a free trial class."
@@ -4424,3 +4425,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     evening: "Evening (4PM - 8PM)"
     time_zone: "Your Time Zone"
     email: "Email"
+
+  mobile_landing:
+    subtitle: "Get free access to the most engaging way to teach CS"
+    you_re_set: "YOU'RE SET!"
+    done_blurb: "Check your email for instructions on accessing your teacher account. For the best experience, we suggest using a device with an external keyboard and larger screen."
+    step_email: "STEP 1"
+    step_name: "STEP 2"
+    step_done: "DONE"
+    video_title: "GET A SNEAK PEEK HERE"
