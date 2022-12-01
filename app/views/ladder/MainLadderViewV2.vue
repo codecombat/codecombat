@@ -222,7 +222,9 @@ export default {
           startDate: new Date().toISOString(),
           endDate: moment().add(1, 'day').toISOString(),
           resultsDate: moment().add(3, 'day').toISOString(),
-          waiting: false,
+          reviewResults: false,
+          publishImmediately: false,
+          simulationPriority: 0,
           editing: 'new'
         }
         this.showModal = true
@@ -231,7 +233,7 @@ export default {
     handleEditTournament (tournament) {
       /* console.log('handle edit', tournament) */
       this.editableTournament = Object.assign(tournament, {
-        waiting: !tournament.resultsDate,
+        publishImmediately: !(tournament.reviewResults && tournament.resultsDate),
         editing: 'edit'
       })
       this.showModal = true

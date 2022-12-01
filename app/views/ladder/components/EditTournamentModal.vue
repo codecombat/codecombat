@@ -52,27 +52,43 @@
           class="form-control"
           :disabled="disableEdit"
         >
-        <label for="waiting">
-          {{$t('tournament.waiting_publish')}}
+        <label for="review">
+          {{$t('tournament.review_results')}}
         </label>
         <input
-          id="waiting"
-          v-model="editableTournament.waiting"
+          id="review"
+          v-model="editableTournament.reviewResults"
           type="checkbox"
         >
-        <div class="small text-navy">{{ $t('tournament.waiting_description') }}</div>
-        <template v-if="!editableTournament.waiting">
-        <label for="resultsDate">
-          {{ $t('tournament.results_date_time') }}
-        </label>
-        <span class="small text-navy">{{ $t('tournament.results_date_description') }}</span>
-        <input
-          id="resultsDate"
-          v-model="_resultsDate"
-          type="datetime-local"
-          class="form-control"
-          :disabled="!me.isAdmin()"
-        >
+        <div class="small text-navy">{{ $t('tournament.review_description') }}</div>
+        <template v-if="!editableTournament.reviewResults">
+          <label for="publish">
+            {{ $t('tournament.publish_immediately') }}
+          </label>
+          <input
+            id="publish"
+            v-model="editableTournament.publishImmediately"
+            type="checkbox"
+          >
+          <div class="small text-navy">
+            {{ $t('tournament.publish_description') }}
+          </div>
+          <template v-if="!editableTournament.publishImmediately">
+            <label for="resultsDate">
+              {{ $t('tournament.results_date_time') }}
+            </label>
+            <span class="small text-navy">{{ $t('tournament.results_date_description') }}</span>
+            <p class="small text-navy"> {{$t('tournament.results_date_suggestion_1')}}</p>
+            <p class="small text-navy"> {{$t('tournament.results_date_suggestion_2')}}</p>
+            <p class="small text-navy"> {{$t('tournament.results_date_suggestion_3')}}</p>
+            <input
+              id="resultsDate"
+              v-model="_resultsDate"
+              type="datetime-local"
+              class="form-control"
+              :disabled="!me.isAdmin()"
+            >
+          </template>
         </template>
       </div>
       <div class="form-group pull-right">
@@ -177,7 +193,7 @@ export default {
       set (val) {
         this.$set(this.editableTournament, 'endDate', moment(val).toISOString())
 
-        this.$set(this.editableTournament, 'resultsDate', moment(val).add(2, 'days').toISOString())
+        this.$set(this.editableTournament, 'resultsDate', moment(val).add(1, 'days').toISOString())
       }
     },
     _resultsDate: {
@@ -212,7 +228,7 @@ export default {
         return
       }
 
-      if(this.editableTournament.waiting) {
+      if (this.editableTournament.reviewResults || this.editableTournament.publishImmediately) {
         delete this.editableTournament.resultsDate
       }
 
@@ -258,5 +274,9 @@ export default {
   color: #7D0101;
   display: inline-block;
   margin-right: 1rem;
+}
+p.small {
+  margin-top: 0;
+  margin-bottom: 5px;
 }
 </style>
