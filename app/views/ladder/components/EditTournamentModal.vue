@@ -86,7 +86,6 @@
               v-model="_resultsDate"
               type="datetime-local"
               class="form-control"
-              :disabled="!me.isAdmin()"
             >
           </template>
         </template>

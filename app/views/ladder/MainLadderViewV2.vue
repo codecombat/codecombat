@@ -231,9 +231,9 @@ export default {
       }
     },
     handleEditTournament (tournament) {
-      /* console.log('handle edit', tournament) */
-      this.editableTournament = Object.assign(tournament, {
-        publishImmediately: !(tournament.reviewResults && tournament.resultsDate),
+      console.log('handle edit', tournament)
+      this.editableTournament = Object.assign({}, tournament, {
+        publishImmediately: !(tournament.reviewResults || tournament.resultsDate),
         editing: 'edit'
       })
       this.showModal = true
