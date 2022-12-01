@@ -313,6 +313,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'libraries': go('core/SingletonAppVueComponentView')
     'library/*path': go('core/SingletonAppVueComponentView')
 
+    'acte': redirect('/home?registering=true&referrerEvent=ACTE#create-account-teacher')
+
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
 
