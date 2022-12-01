@@ -195,7 +195,7 @@ export default Vue.extend({
       if (slug === 'name') {
         return { 'name-col-cell': 1, ai: /(Bronze|Silver|Gold|Platinum|Diamond) AI/.test(item) }
       }
-      if (slug === 'team') {
+      if (slug === 'team' || slug === 'clan') {
         return { capitalize: 1, 'clan-col-cell': 1 }
       }
       if (slug === 'language') {
