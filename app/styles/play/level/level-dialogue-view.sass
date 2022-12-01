@@ -30,6 +30,7 @@
   // Bounce in
   @include transition(1s cubic-bezier(.17,.89,.42,1.36))
   z-index: 3
+  pointer-events: none
 
   &.active
     display: block
@@ -60,6 +61,7 @@
     top: 5%
     left: min(57vw - 40vw, max(150px - 50px, calc(100vh - (1178 / 1848 * 57vw + 50px + 50px) + 5vh - 10vh + 30px)))
     display: none
+    pointer-events: all
 
     .bubble
       position: relative
