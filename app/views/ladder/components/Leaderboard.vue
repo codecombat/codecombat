@@ -280,7 +280,7 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-  .table-responsive(:class="{'col-md-6': scoreType=='arena'}")
+  .table-responsive(:class="{'col-md-7': scoreType=='arena'}")
     div(v-if="scoreType == 'arena'")
       div(:class="{hide: !showContactUs}" id="contact-us-info")
         if dateBeforeSep
