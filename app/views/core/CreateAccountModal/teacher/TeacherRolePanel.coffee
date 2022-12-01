@@ -5,7 +5,7 @@ TeacherRolePanel = Vue.extend
   name: 'teacher-role-panel'
   template: require('app/templates/core/create-account-modal/teacher-role-panel')()
   data: ->
-    formData = _.pick(@$store.state.modal.trialRequestProperties, [
+    formData = _.pick(@$store.state.modalTeacher.trialRequestProperties, [
       'role'
       'numStudents'
       'notes'
@@ -19,7 +19,7 @@ TeacherRolePanel = Vue.extend
 
   computed:
     _.assign({},
-      Vuex.mapGetters(trialReqProps: 'modal/getTrialRequestProperties'),
+      Vuex.mapGetters(trialReqProps: 'modalTeacher/getTrialRequestProperties'),
       askForPhoneNumber: ->
         return me.showChinaRegistration() or this.trialReqProps.country == 'United States'
       phoneNumberRequired: ->
@@ -54,7 +54,7 @@ TeacherRolePanel = Vue.extend
 
     commitValues: ->
       attrs = _.pick(@, 'role', 'numStudents', 'notes', 'referrer', 'phoneNumber')
-      @$store.commit('modal/updateTrialRequestProperties', attrs)
+      @$store.commit('modalTeacher/updateTrialRequestProperties', attrs)
 
   mounted: ->
     @$refs.focus.focus()

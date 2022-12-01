@@ -16,7 +16,7 @@ SchoolInfoPanel =
   data: ->
     # TODO: Store ncesData in just the store?
     ncesData = _.zipObject(['nces_'+key, ''] for key in SCHOOL_NCES_KEYS)
-    formData = _.pick(@$store.state.modal.trialRequestProperties,
+    formData = _.pick(@$store.state.modalTeacher.trialRequestProperties,
       ('nces_'+key for key in SCHOOL_NCES_KEYS).concat [
         'organization'
         'district'
@@ -81,7 +81,7 @@ SchoolInfoPanel =
       for key in SCHOOL_NCES_KEYS
         ncesKey = 'nces_'+key
         attrs[ncesKey] = @[ncesKey].toString()
-      @$store.commit('modal/updateTrialRequestProperties', attrs)
+      @$store.commit('modalTeacher/updateTrialRequestProperties', attrs)
 
     clickContinue: ->
       # Make sure to add conditions if we change this to be used on non-teacher path

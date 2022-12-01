@@ -12,7 +12,7 @@ SetupAccountPanel = Vue.extend
     inEU: ->
       return me.inEU()
   mounted: ->
-    @$store.dispatch('modal/createAccount')
+    @$store.dispatch('modalTeacher/createAccount')
     .catch (e) =>
       if e.i18n
         @error = @$t(e.i18n)
