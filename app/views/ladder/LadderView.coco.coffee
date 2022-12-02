@@ -219,14 +219,25 @@ module.exports = class LadderView extends RootView
     super()
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
+    # tournamentState condition
+    # starting - show leaderboard && mymatches
+    # unset - leaderboard && mymatches
+    # unset and non-ladder - old leadearbod && mymatches
+    #
+    # initializing, ranking, waiting - nothing
+    # waiting for owner - only leaderboard
+    # ended - only leaderboard
     if @tournamentState == 'ended' or (@tournamentState == 'waiting' and me.get('_id') == @league.get('ownerID'))
       @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId, leagueType: 'clan', myTournamentSubmission: @myTournamentSubmission}, @level, @sessions )) # classroom ladder do not have tournament for now
-    else if @tournamentState != 'ranking' # ranking do nothing
+    else if ['initializing', 'ranking', 'waiting'].includes(@tournamentState)
+      null
+    else # starting, or unset
       if @level.isType('ladder')
         @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, leagueType: @leagueType, course: @course, myTournamentSubmission: @myTournamentSubmission}, @level, @sessions, @anonymousPlayerName ))
       else
         @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
       @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league, leagueType: @leagueType, course: @course}, @level, @sessions))
+    @renderSelectors('#ladder-action-columns')
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
@@ -248,7 +259,7 @@ module.exports = class LadderView extends RootView
   refreshViews: =>
     return if @destroyed or application.userIsIdle
     @lastRefreshTime = new Date()
-    @ladderTab.refreshLadder()
+    @ladderTab?.refreshLadder()
     if @myMatchesTab?.refreshMatches?
       @myMatchesTab.refreshMatches @refreshDelay
     @simulateTab?.refresh()

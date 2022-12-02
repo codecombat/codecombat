@@ -4199,7 +4199,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     start_date_description: '(PT) The start time of tournament'
     end_date_description: '(PT) The end time of tournament'
     results_date_description: 'Tournament may need some time to generate final leaderboard'
-    results_date_suggestion_1: 'I.E. 0-50 players: 5 mins'
+    results_date_suggestion_1: 'i.e. 0-50 players: 5 mins'
     results_date_suggestion_2: '     50-100 players: 20 mins'
     results_date_suggestion_3: '     100-500 players: 10 hours'
     select_team_desc: 'select your team to creat/edit your tournaments'
