@@ -204,9 +204,12 @@ module.exports = class HomeView extends RootView
     # scroll to the current hash, once everything in the browser is set up
     f = =>
       return if @destroyed
-      link = $(document.location.hash)
-      if link.length
-        @scrollToLink(document.location.hash, 0)
+      try
+        link = $(document.location.hash)
+        if link.length
+          @scrollToLink(document.location.hash, 0)
+      catch e
+        console.warn e  # Possibly a hash that would not match a valid element
     _.delay(f, 100)
     @loadCurator()
 
