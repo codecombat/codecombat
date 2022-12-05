@@ -15,6 +15,7 @@
           th.number.border {{ $t('library.lines_code') }}
           th.number.border {{ $t('library.programs_written') }}
           th.number.border {{ $t('library.time_spent_min') }}
+          th.number.border Age split
         tr(v-for="(stats, row) in licenseDaysByMonth" :class="{odd: row % 2 == 1, even: row % 2 == 0, sum: stats.month == 'Total'}")
           td.month.border {{stats.month}}
           td.number.border {{stats.licenseDaysUsed.toLocaleString()}}
@@ -23,6 +24,7 @@
           td.number.border {{ stats.progress?.linesOfCode || '-' }}
           td.number.border {{ stats.progress?.programs || '-' }}
           td.number.border {{ parseInt(stats.progress?.playtime / 60) || '-' }}
+          td.border {{ stats.ageStats }}
 
       h2(v-if="licenseDaysByMonthAndTeacher && viewport=='full'") License Days by Month and Teacher/Classroom
       table.table.table-condensed(v-if="licenseDaysByMonthAndTeacher")
@@ -104,7 +106,7 @@ module.exports = Vue.extend({
       const months = _.keys(this.licenseStats.licenseDaysByMonth).sort().reverse()
       for (const month of months) {
         const stat = this.licenseStats.licenseDaysByMonth[month]
-        byMonth.push({ month, licenseDaysUsed: stat.daysUsed, activeLicenses: stat.noOfRedeemers, progress: stat.progress, newSignups: stat.newSignups })
+        byMonth.push({ month, licenseDaysUsed: stat.daysUsed, activeLicenses: stat.noOfRedeemers, progress: stat.progress, newSignups: stat.newSignups, ageStats: stat.ageStats })
         totalUsed += stat.daysUsed
       }
       if (byMonth.length) {
