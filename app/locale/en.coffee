@@ -4198,7 +4198,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     results_date_time: 'Results Time'
     start_date_description: '(PT) The start time of tournament'
     end_date_description: '(PT) The end time of tournament'
-    results_date_description: 'Tournament may need some time to generate final leaderboard'
+    results_date_description: 'Select a time to publish results.'
+    results_date_suggestion_0: 'Note: Tournament may need some time to generate final leaderboard, so you need to allow enough time for the results.'
     results_date_suggestion_1: 'i.e. 0-50 players: 5 mins'
     results_date_suggestion_2: '     50-100 players: 20 mins'
     results_date_suggestion_3: '     100-500 players: 10 hours'
@@ -4211,9 +4212,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     review_results: 'Review Results'
     review_description: 'We will email you the results of tournament and wait for you to publish for participants.'
     publish_immediately: 'Publish Immediately'
-    publish_description: 'Whether the result of tournament will be published immediately once ready, if not, ResultsDate is required.'
+    publish_description: 'The result of tournament will be published immediately once ready.'
     error_end_date_too_early: 'The End Time cannot be earlier than Start Time'
+    error_results_date_too_early: 'The Results Time cannot be earlier than End Time'
     publish_results: 'Publish Results'
+    publish_options: 'Publish Options'
 
   payments:
     student_licenses: 'Student Licenses'
