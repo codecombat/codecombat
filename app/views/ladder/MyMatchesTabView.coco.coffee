@@ -17,7 +17,7 @@ module.exports = class MyMatchesTabView extends CocoView
     'click .load-more-matches': 'onLoadMoreMatches'
     'click .share-ladder-link-button': 'openShareLadderLinkModal'
 
-  initialize: (options, @level, @sessions, @anonymousPlayerName) ->
+  initialize: (options, @level, @sessions) ->
     @nameMap = {}
     @previouslyRankingTeams = {}
     @matchesLimit = 95
@@ -41,7 +41,7 @@ module.exports = class MyMatchesTabView extends CocoView
         @playSound 'chat_received'
       {
         state: state
-        opponentName: if @anonymousPlayerName then utils.anonymizingUser(opponent.userID) else @nameMap[opponent.userID]
+        opponentName: @nameMap[opponent.userID]
         opponentID: opponent.userID
         when: moment(match.date).fromNow()
         sessionID: opponent.sessionID
@@ -99,9 +99,8 @@ module.exports = class MyMatchesTabView extends CocoView
           opponent = match.opponents[0]
           continue if @nameMap[opponent.userID]
           opponentUser = nameMap[opponent.userID]
-          name = opponentUser?.name
-          name ||= opponentUser.firstName + ' ' + opponentUser.lastName if opponentUser?.firstName
-          name ||= "Anonymous #{opponent.userID.substr(18)}" if opponentUser
+          name = opponentUser?.fullName
+          name = name.replace(/^Anonymous/, $.i18n.t('play.anonymous')) if name
           name ||= opponent.name
           name ||= '<bad match data>'
           if name.length > 21
@@ -109,9 +108,12 @@ module.exports = class MyMatchesTabView extends CocoView
           @nameMap[opponent.userID] = name
       @render() if @supermodel.finished() and @renderedOnce
 
+    data =  { ids }
+    if @options.league
+      data.leagueId = @options.league.id
     userNamesRequest = @supermodel.addRequestResource 'user_names', {
-      url: '/db/user/-/names'
-      data: {ids: ids}
+      url: '/db/user/-/getFullNames'
+      data,
       method: 'POST'
       success: success
     }, 0

@@ -12,6 +12,8 @@ block content
           else if me.isTeacher() && new Date() < new Date("2022-10-20T16:30:00.000-05:00")
             span(data-i18n="new_home.top_banner_blurb_demo_day_10_20")
             a(href="https://us06web.zoom.us/webinar/register/WN_NU2XXsQORZ-_lkx7rxUplQ", data-i18n="league.register", data-event-action="Click: Homepage Banner Demo Day")
+          else if me.isTeacher() && new Date() < new Date("2022-12-01T14:30:00.000-05:00")
+            span(data-i18n="[html]new_home.top_banner_blurb_hoc_2022_12_01", data-i18n-options=JSON.stringify(i18nData))
           else
             span(data-i18n="new_home.top_banner_blurb_funding")
             a(href="/funding", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Funding Page")
@@ -144,7 +146,7 @@ block content
         a.btn.btn-primary.btn-large.btn-moon(data-i18n="ozaria_home.core_curriculum_sample_lesson_slides" data-event-action="Click: View Sample Lesson Slides" href="https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing" target="_blank" rel="noopener")
 
     section.section-spacer#global-community
-      h1.smaller-38(data-i18n="ozaria_home.global_community_header") 
+      h1.smaller-38(data-i18n="ozaria_home.global_community_header")
       .row.xs-marg-15
         div(class="tree-art-asset")
           img(src="/images/ozaria/home/tree_art_asset.svg"  style="height: fit-content;" class="img-responsive" alt="Tree Art Asset")

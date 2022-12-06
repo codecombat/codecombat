@@ -41,10 +41,11 @@ module.exports = class LeaderboardView extends CocoView
         {slug: 'creator', col: 0, title: ''},
         {slug: 'language', col: 1, title: ''},
         {slug: 'rank', col: 1, title: ''},
-        {slug: 'name', col: 3, title: $.i18n.t('general.name')},
+        {slug: 'name', col: 2, title: $.i18n.t('general.name')},
         {slug: 'score', col: 2, title: $.i18n.t('general.score')},
+        {slug: 'clan', col: 2, title: $.i18n.t('league.team')},
         {slug: 'age', col: 1, title: $.i18n.t('ladder.age')},
-        {slug: 'when', col: 2, title: $.i18n.t('general.when')}
+        {slug: 'when', col: 1, title: $.i18n.t('general.when')}
         {slug: 'fight', col: 1, title: ''}
       ]
       @propsData.scoreType = 'arena'
@@ -125,6 +126,9 @@ module.exports = class LeaderboardView extends CocoView
       delta = @rankings.length - nearby[0].rank + 1
       return nearby.slice(delta)
 
+  mapFullName: (fullName) ->
+    fullName?.replace(/^Anonymous/, $.i18n.t('general.player'))
+
   mapRankings: (data ) ->
     return _.map data, (model, index) =>
       if model?.type == 'BLANK_ROW'
@@ -150,8 +154,9 @@ module.exports = class LeaderboardView extends CocoView
           model.get('creator'),
           model.get('submittedCodeLanguage'),
           model.rank || index+1,
-          if @anonymousPlayerName and me.get('_id').toString() != model.get('creator') then utils.anonymizingUser(model.get('creator')) else (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
+          (@mapFullName(model.get('fullName')) || model.get('creatorName') || $.i18n.t("play.anonymous")),
           @correctScore(model),
+          @getClanName(model),
           @getAgeBracket(model),
           moment(model.get('submitDate')).fromNow().replace('a few ', ''),
           model.get('_id')

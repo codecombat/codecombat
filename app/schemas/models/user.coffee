@@ -428,9 +428,24 @@ _.extend UserSchema.properties,
 
       prepaid: c.objectId(links: [ {rel: 'db', href: '/db/prepaid/{($)}'} ])  # required for type: “course” for legacy compatibility, optional for other types, consider putting into productOptions
       productOptions:
-        oneOf: [
-          { includedCourseIDs: {type: ['array', 'null']} }, # for course
-          { event: c.objectId(links: [ {rel: 'db', href: '/db/event/{($)}'} ]), count: {type:' number'} } # for online-classes
+        anyOf: [
+          c.object({}, { # course
+            includedCourseIDs: {
+              type: ['array', 'null']
+              }
+          }),
+          c.object({}, { # esports
+            type: { type: 'string', enum: ['basic', 'pro'] },
+            id: { type: 'string' },
+            teams: { type: ['number', 'null'] },
+            tournaments: { type: ['number', 'null'] },
+            createdTournaments: { type: ['number', 'null'] },
+            arenas: { type: ['string', 'null'] }
+          }),
+          c.object({}, { # online-classes
+              event: c.objectId(links: [ {rel: 'db', href: '/db/event/{($)}'} ]),
+              count: {type: 'number'}
+          })
         ]
       startDate: c.date()
       endDate: c.date()  # TODO: optional indication of no end date (lasts forever) - or do we just leave unset?
@@ -462,7 +477,8 @@ _.extend UserSchema.properties,
       }
   }
   library: c.object {}, {
-    profileId: { type: 'string' }
+    profileId: { type: 'string' },
+    name: { type: 'string', description: 'name of library for the user' }
   }
   related: c.array(
     { description: 'related accounts to this user' },

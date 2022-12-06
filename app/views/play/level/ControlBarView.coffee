@@ -111,7 +111,7 @@ module.exports = class ControlBarView extends CocoView
     c.observing = @observing
     @homeViewArgs = [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}]
     gameDevCampaign = application.getHocCampaign()
-    if gameDevCampaign
+    if gameDevCampaign and not @level.isLadder()
       @homeLink = "/play/#{gameDevCampaign}"
       @homeViewClass = 'views/play/CampaignView'
       @homeViewArgs.push gameDevCampaign

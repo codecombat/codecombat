@@ -35,6 +35,7 @@ module.exports = class HomeView extends RootView
       pd: "<a href='/professional-development'>#{$.i18n.t('nav.professional_development')}</a>"
       maintenanceStartTime: "#{context.maintenanceStartTime.calendar()} (#{context.maintenanceStartTime.fromNow()})"
       interpolation: { escapeValue: false }
+      topBannerHereLink: "<a href='https://codecombat.com/teachers/hour-of-code' target='_blank'>#{$.i18n.t('new_home.top_banner_blurb_hoc_2022_12_01_here')}</a>"
     context
 
   getMeta: ->
@@ -125,6 +126,7 @@ module.exports = class HomeView extends RootView
         $buttons = $('.control-buttons > button')
         $buttons.removeClass 'active'
         $('[data-slide-to=\'' + nextActiveSlide + '\']').addClass('active')
+
     super()
 
   afterInsert: ->

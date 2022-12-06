@@ -194,6 +194,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     top_banner_blurb_podcast: "NEW: Explore the world of EdTech with our new podcast EdTech Adventures."
     top_banner_blurb_demo_day: "Please join us for a demo day webinar on Thursday, August 25 at 4:00 pm EDT."
     top_banner_blurb_demo_day_10_20: "Join us for a spooktacular demo of CodeCombat & Ozaria on Thursday, October 20 at 4:00 pm CDT."
+    top_banner_blurb_hoc_2022_12_01: "Join us Dec. 1st for our Hour of Code Walkthrough! Everything you need to implement our all new activities __topBannerHereLink__"
+    top_banner_blurb_hoc_2022_12_01_here: "HERE"
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -3746,6 +3748,17 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     point6: "✓ Full lesson plans"
     title: "HOUR OF CODE"
     acronym: "HOC"
+    play_video: "Play Video"
+    featured_title_1: "CodeCombat: Goblins 'n' Glory"
+    featured_subtitle_1: "Grades 6-8 | JavaScript, Python"
+    featured_blurb_1: "We need your help! Embark on an epic quest where you take control of the game through your powers of programming."
+    featured_title_2: "Esports Bootcamp: AI League"
+    featured_subtitle_2: "Grades 6-8 | JavaScript, Python"
+    featured_blurb_2: "Competitive coding has never been so epic! Learn the skills you need to play like the pros in our Esports Bootcamp. No coding experience needed"
+    featured_title_3: "Ozaria: Your Journey Begins"
+    featured_subtitle_3: "Grades 6-8 | JavaScript, Python"
+    featured_blurb_3: "Enter the world of Ozaria where you must use the power of coding to defeat a darkness that has taken over the world!"
+    page_heading_latest_activities: "Our latest activities are easy to implement and fun to play"
 
   hoc_2018_interstitial:
     welcome: "Welcome to CodeCombat's Hour of Code!"
@@ -4079,6 +4092,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
+    season6_announcement_1: "It’s absolute Molten Mayhem with the launch of the Lava Lake Clash finals! Outlast and outwit the competition in this hot take on classic Snake gameplay."
+    season6_announcement_2: "Note: arena balance adjustments may occur up until December 15th. So be sure to come back often to test your code against the global leaderboard."
     season5_announcement_1: "The Sandstorm Blitz Final is on. In this basketbrawl of an arena, you must summon the right heroes, call the right plays, and outscore your opponent to take the victory!"
     season5_announcement_2: "Note: arena balance adjustments may occur up until September 15th. So be sure to come back often to test your code against the global leaderboard."
     season4_announcement_1: "The Tundra Tower Cup Final is on. In this all new take on the classic tower defense gameplay, you must protect your base from the horde of monsters by building towers and using gravitational anomalies."
@@ -4155,6 +4170,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     more_details: "for more details."
     contact_sales_custom: "Your custom tournament awaits. Choose the arena that you’d like to use for your custom tournament and contact your CodeCombat sales representative to confirm set up and scheduling details."
     create_custom: "Create Custom Tournament"
+    custom_tournament_text: "Custom Tournament"
 
   tournament:
     mini_tournaments: "Mini Tournaments"
@@ -4172,6 +4188,23 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ended: 'Ended'
     view_results: 'View Results'
     estimate_days: 'In __time__ Days'
+    team_name: 'Team: __name__'
+    status: 'Status: __state__'
+    from_start: 'Start __time__'
+    from_end: 'End __time__'
+    start_date_time: 'Start Time'
+    end_date_time: 'End Time'
+    results_date_time: 'Results Time'
+    start_date_description: '(PT) The start time of tournament'
+    end_date_description: '(PT) The end time of tournament'
+    results_date_description: '(PT) Tournament need 2 days to generate final leaderboard'
+    select_team_desc: 'select your team to creat/edit your tournaments'
+    already_create_tournaments_num: 'You already created __num__ tournaments here:'
+    can_create_tournaments_num: 'You can create __num__ more tournament(s) from below:'
+    my_teams: 'My Teams:'
+    team: 'Team'
+    team_description: '(Required) Only the players in the team can join this tournament'
+    error_end_date_too_early: 'The End Time cannot be earlier than Start Time'
 
   payments:
     student_licenses: 'Student Licenses'
@@ -4235,7 +4268,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     available: "available"
     request_quote: "Request a Quote"
     business_partner_licenses: "Business Partner Licenses"
-    bd_subheading: "For Business Partners with at least 15 students, get premium access to CodeCombat’s computer science and coding games:"
+    bd_subheading: "For Business Partners with at least 10 students, get premium access to CodeCombat’s computer science and coding games:"
     bd_info_list_heading: "CodeCombat is the preferred partner for dozens of coding education businesses because:"
     bd_info_list_1: "students love our game-based curriculum based in fantasy and adventure and keep coming back for more sessions"
     bd_info_list_2: "anyone can teach coding with CodeCombat; the game is the primary teacher and we provide extensive support resources"
@@ -4336,6 +4369,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_modal_members: "Members Needing Access"
     license_modal_members_placeholder: "Approximately how many members will need access?"
     license_modal_contact: "Contact Our Team"
+    license_days_used: "License days used"
+    users_active_licenses: "Users with active licenses"
+    lines_code: "Lines of Code"
+    programs_written: "Programs written"
+    time_spent_min: "Time spent (in min)"
+    month: "Month"
+    teacher_classroom_name: "Teacher or classroom name"
+    already_logged_in: "Already logged in, please logout from the top navigation bar to login again."
+    search_box_option: "If search box doesn't load, login by clicking"
+    new_signups: "New Signups"
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."

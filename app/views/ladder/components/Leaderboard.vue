@@ -41,6 +41,9 @@ export default Vue.extend({
       type: String,
       default: ''
     },
+    showContactUs: {
+      type: Boolean
+    },
     tableTitles: {
       type: Array,
       default () {
@@ -192,7 +195,7 @@ export default Vue.extend({
       if (slug === 'name') {
         return { 'name-col-cell': 1, ai: /(Bronze|Silver|Gold|Platinum|Diamond) AI/.test(item) }
       }
-      if (slug === 'team') {
+      if (slug === 'team' || slug === 'clan') {
         return { capitalize: 1, 'clan-col-cell': 1 }
       }
       if (slug === 'language') {
@@ -277,7 +280,7 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-  .table-responsive(:class="{'col-md-6': scoreType=='arena'}")
+  .table-responsive(:class="{'col-md-7': scoreType=='arena'}")
     div(v-if="scoreType == 'arena'")
       div(:class="{hide: !showContactUs}" id="contact-us-info")
         if dateBeforeSep

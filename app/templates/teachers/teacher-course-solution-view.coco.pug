@@ -13,10 +13,12 @@ block page_nav
         a.print-btn.btn.btn-md.btn-navy(href='javascript:window.print()')
           span.glyphicon.glyphicon-print &#160;
           span(data-i18n="teacher.print_guide")
-        if view.courseLessonSlidesURLs[view.courseID]
-          a.lesson-slides-btn.btn.btn-md.btn-navy(href=view.courseLessonSlidesURLs[view.courseID])
-            span.glyphicon.glyphicon-folder-open &#160;
-            span(data-i18n="courses.lesson_slides")
+        - var courseResources = view.courseResources
+        if courseResources && courseResources.length
+          for resource in (courseResources || []).filter(r => /Lesson Slides/.test(r.name))
+            a.lesson-slides-btn.btn.btn-md.btn-navy(href=i18n(resource, 'link'))
+              span.glyphicon.glyphicon-folder-open &#160;
+              span(data-i18n="courses.lesson_slides")
 
 block content
 
@@ -53,12 +55,9 @@ block content
         h3(data-i18n="teacher.level_overview_solutions")
         i #{i18n(level.attributes, 'description')}
         div
-          h4.text-center(data-i18n="common.intro")
           if level.get('intro')
+            h4.text-center(data-i18n="common.intro")
             p!= level.get('intro')
-          else
-            .text-center
-              i(data-i18n="common.coming_soon")
           h4.text-center(data-i18n="common.default_code")
           if level.get('begin')
             pre
@@ -68,12 +67,9 @@ block content
               i(data-i18n="common.coming_soon")
         div.overview
           br
-          h4.text-center(data-i18n="common.overview")
           if level.get('guide')
+            h4.text-center(data-i18n="common.overview")
             p!= level.get('guide')
-          else
-            .text-center
-              i(data-i18n="common.coming_soon")
           h4.text-center
             span= i18n(level.attributes, 'name')
             span.spl(data-i18n="common.solution")

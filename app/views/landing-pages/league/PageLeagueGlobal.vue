@@ -408,7 +408,7 @@ export default {
     },
 
     selectedClanChampionshipRankings () {
-      return this.clanChampionshipRankings(this.clanIdSelected)
+      return this.clanChampionshipRankings(this.clanIdSelected) || []
     },
 
     selectedClanChampionshipLeaderboardPlayerCount () {
@@ -416,7 +416,7 @@ export default {
     },
 
     selectedClanCodePointsRankings () {
-      return this.codePointsRankings(this.clanIdSelected)
+      return this.codePointsRankings(this.clanIdSelected) || []
     },
 
     showJoinTeamBtn () {
@@ -541,7 +541,15 @@ export default {
         <p>{{showJoinTeamBtn ? $t('league.invite_link') : $t('league.public_link') }}</p>
         <input readonly :value="clanInviteLink()" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
-        <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">{{ $t('league.edit_team') }}</a>
+        <template v-else-if="isClanCreator()">
+          <a class="btn btn-large btn-primary btn-moon" @click="openClanCreation">{{ $t('league.edit_team') }}</a>
+          <router-link
+            :to="{ name: 'LaddersList', params: { idOrSlug: currentSelectedClan._id } }"
+            class="btn btn-large btn-primary btn-moon"
+          >
+            {{ $t('league.create_custom') }}
+          </router-link>
+        </template>
         <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">{{ $t('league.leave_team') }}</a>
         <a v-else v-show="showJoinTeamBtn" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">{{ $t('league.join_team') }}</a>
         <!-- if is owner then a.btn.btn-illustrated.btn-lg.text-uppercase#make-tournament(href='/tournaments/clan/#{clan.id}', data-i18n="tournament.make_tournament") TODO -->
@@ -569,11 +577,11 @@ export default {
       </div>
       <div class="col-lg-6 section-space" style="text-align: left;">
         <div>
-          <img class="img-responsive" src="/images/pages/league/sand-storm-blitz.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
-          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 5 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
+          <img class="img-responsive" src="/images/pages/league/lava-lake-clash.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
+          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 6 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
         </div>
-        <p>{{ $t('league.season5_announcement_1') }}</p>
-        <p>{{ $t('league.season5_announcement_2') }}</p>
+        <p>{{ $t('league.season6_announcement_1') }}</p>
+        <p>{{ $t('league.season6_announcement_2') }}</p>
       </div>
     </div>
 
@@ -589,7 +597,7 @@ export default {
       <InputClanSearch v-if="isGlobalPage" :max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" :anonymousPlayerName="anonymousPlayerName" />
+        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;"/>
         <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
         <template
           v-if="showContactUsForTournament() && anonymousPlayerName"

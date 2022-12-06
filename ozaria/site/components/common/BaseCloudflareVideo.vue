@@ -64,6 +64,13 @@
         this.$emit('completed')
       },
 
+      playVideo () {
+        const video = this.$refs['cloudflareVideo']
+        if (video && typeof video.pause === 'function') {
+          video.play()
+        }
+      },
+
       pauseVideo () {
         const video = this.$refs['cloudflareVideo']
         if (video && typeof video.pause === 'function') {

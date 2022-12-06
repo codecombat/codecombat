@@ -11,6 +11,7 @@ utils = require 'core/utils'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
 aetherUtils = require 'lib/aether_utils'
+api = require 'core/api'
 
 module.exports = class TeacherCourseSolutionView extends RootView
   id: 'teacher-course-solution-view'
@@ -62,7 +63,6 @@ module.exports = class TeacherCourseSolutionView extends RootView
       @prepaids = new Prepaids()
       @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @paidTeacher = me.isAdmin() or me.isPaidTeacher()
-    @courseLessonSlidesURLs = utils.courseLessonSlidesURLs
     me.getClientCreatorPermissions()?.then(() => @render?())
     super(options)
 
@@ -85,6 +85,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
     @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
     @listenTo me, 'change:preferredLanguage', @updateLevelData
     @updateLevelData()
+    @fetchResourceHubResources()
 
   updateLevelData: ->
     if utils.isCodeCombat
@@ -150,6 +151,17 @@ module.exports = class TeacherCourseSolutionView extends RootView
       # Filter out non numbered levels.
       @levels.models = @levels.models.filter((l) => l.get('original') of @levelNumberMap)
     @render?()
+
+  fetchResourceHubResources: ->
+    @courseResources = []
+    api.resourceHubResources.getResourceHubResources().then((allResources) =>
+      return if @destroyed
+      for resource in allResources when resource.hidden isnt false and (utils.courseAcronyms[@courseID] in (resource.courses ? []))
+        @courseResources.push resource
+      @courseResources = _.sortBy(@courseResources, 'priority')
+      @render()
+    ).catch (e) =>
+      console.error e
 
   afterRender: ->
     super()
