@@ -249,6 +249,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'privacy': go('PrivacyView')
 
+    'roblox': go('core/SingletonAppVueComponentView')
+
     'schools': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
     'seen': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
     'SEEN': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')

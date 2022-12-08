@@ -1,0 +1,354 @@
+<template>
+  <div id="roblox-page">
+    <div class="container-fluid headline-container">
+      <div class="container">
+        <div class="row headline-row">
+          <video
+              id="myVideo"
+              class="video-background"
+              autoplay
+              muted
+              loop
+          >
+            <source
+                src="/images/pages/roblox/video-background.mp4"
+                type="video/mp4"
+            >
+          </video>
+          <div class="col col-md-7">
+            <img
+                src="/images/pages/roblox/coco-worlds.png"
+                style="height:160px"
+            >
+            <h1 class="text-headline">
+              {{ $t('roblox_landing.headline') }}
+            </h1>
+            <h2 class="text-subhead">
+              {{ $t('roblox_landing.subhead') }}
+            </h2>
+            <button class="orange-button signup-waitlist-button" @click="openModal">
+              {{ $t('signup.sign_up') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="role" class="container container-boxes">
+      <h3>{{$t('roblox_landing.boxes_title')}}</h3>
+      <div
+          v-for="boxType in boxesByRole[role]"
+          class="row"
+      >
+        <div class="col col-md-6 box-content">
+          <img
+              class="box-icon"
+              :src="`/images/pages/roblox/${boxType}-icon.svg`"
+          >
+          <h4 class="box-title">
+            {{ $t(`roblox_landing.box_${boxType}_subhead`) }}
+          </h4>
+          <p>
+            {{ $t(`roblox_landing.box_${boxType}_blurb_${role}`) }}
+          </p>
+        </div>
+        <div class="col col-md-6">
+          <img :src="`/images/pages/roblox/${boxType}.webp`">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-md-12">
+          <p v-if="role==='parent'" v-html="$t('roblox_landing.bottom_blurb_parent', i18nData)"></p>
+          <p v-if="role==='partner'" v-html="$t('roblox_landing.bottom_blurb_partner', i18nData)"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <base-cloudflare-video video-cloudflare-id="a4a795197e1e6b4c75149c7ff297d2fa"/>
+        </div>
+      </div>
+
+      <div class="row row-faq">
+        <div class="col-md-12">
+          <div class="orange-button faq-button">
+            {{ $t('contact.faq') }}
+          </div>
+
+          <div class="item">
+            <p class="question">{{ $t('roblox_landing.question_1') }}</p>
+            <ul>
+              <li>{{ $t('roblox_landing.answer_1') }}</li>
+            </ul>
+          </div>
+
+          <div class="item">
+            <p class="question">{{ $t('roblox_landing.question_2') }}</p>
+            <ul>
+              <li>{{ $t('roblox_landing.answer_2') }}</li>
+            </ul>
+          </div>
+
+          <div class="item">
+            <p class="question">{{ $t('roblox_landing.question_3') }}</p>
+            <ul>
+              <li>{{ $t('roblox_landing.answer_3') }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <modal
+        v-if="modalShown"
+        title="Join the Beta Waitlist"
+        ref="modal"
+        @close="closeModal"
+    >
+      <form @submit.prevent="onFormSubmit" class="schedule-free-class-form">
+        <div class="form-group">
+          <label for="role">{{ $t('roblox_landing.select_role') }}</label>
+          <select class="form-control" v-model="role">
+            <option
+                v-for="value in roles"
+                :key="value"
+                :value="value"
+            >
+              {{ $t(`roblox_landing.role_${value}`) }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group" :class="{ 'has-error': !isValidEmail }">
+          <label for="email">{{ $t('modal_free_class.email') }}</label>
+          <input type="email" id="email" placeholder="Enter email" v-model="email" class="form-control"/>
+        </div>
+        <div class="form-group pull-right">
+        <span
+            v-if="isSuccess"
+            class="success-msg"
+        >
+          Success
+        </span>
+          <button
+              v-if="!isSuccess"
+              class="btn btn-success btn-lg"
+              type="submit"
+              :disabled="inProgress"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </modal>
+  </div>
+</template>
+
+<script>
+
+import BaseCloudflareVideo from 'ozaria/site/components/common/BaseCloudflareVideo'
+import Modal from 'app/components/common/Modal'
+import forms from 'core/forms'
+import { waitlistSignup } from 'core/api/roblox'
+
+export default {
+  components: {
+    BaseCloudflareVideo,
+    Modal
+  },
+
+  data: () => {
+    const i18nData = {
+      'sign-up': `<a href="https://codecombat.com/parents">${$.i18n.t('roblox_landing.bottom_blurb_sign_up')}</a>`,
+      'reach-out': `<a href="https://codecombat.com/partners">${$.i18n.t('roblox_landing.bottom_blurb_reach_out')}</a>`,
+      interpolation: { escapeValue: false }
+    }
+    return {
+      role: null,
+      roles: ['teacher', 'player', 'parent', 'partner'],
+      boxesByRole: {
+        teacher: ['play', 'code', 'create'],
+        player: ['play', 'code', 'create'],
+        parent: ['play', 'code', 'create'],
+        partner: ['play', 'code', 'create']
+      },
+      name: me.get('firstName') || me.get('name') || '',
+      email: me.get('email') || '',
+      isSuccess: false,
+      inProgress: false,
+      isValidEmail: true,
+      modalShown: false,
+      i18nData
+    }
+  },
+
+  methods: {
+    openModal () {
+      this.modalShown = true
+    },
+    closeModal () {
+      this.modalShown = false
+    },
+    validate () {
+      this.isValidEmail = this.email && forms.validateEmail(this.email)
+    },
+    async onFormSubmit () {
+      this.validate()
+      if (!this.isValidEmail) {
+        return
+      }
+
+      this.inProgress = true
+      this.isSuccess = false
+
+      try {
+        await waitlistSignup({ email: this.email, role: this.role })
+        this.isSuccess = true
+      } catch (err) {
+        console.error('roblox waitlist signup error', err)
+        noty({
+          text: 'Failed to contact server, please reach out to support@codecombat.com',
+          type: 'error',
+          timeout: 5000,
+          layout: 'topCenter'
+        })
+      }
+      this.inProgress = false
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import "app/styles/bootstrap/variables";
+
+#roblox-page {
+  background: linear-gradient(45deg, transparent 0%, rgb(12 214 215 / 80%) 100%);
+  background-color: #005759;
+  margin-bottom: -50px;
+
+  h1, h2, h3, h4, p, li {
+    color: white;
+  }
+
+  h1 {
+    font-size: 44px;
+    font-weight: bold;
+    text-shadow: 0em 0.0375em 0.28125em rgb(0 0 0 / 60%)
+  }
+
+  h2 {
+    color: #e1dede;
+    font-size: 29px;
+    text-shadow: 0em 0.0375em 0.28125em rgb(0 0 0 / 60%);
+    line-height: 1.13em;
+    font-weight: 700;
+  }
+
+  > .container > .row {
+    margin-bottom: min(3.33vw, 50px);
+  }
+
+  img {
+    max-width: 100%;
+
+    &.box-icon {
+      max-width: 80px;
+      max-height: 80px;
+    }
+  }
+
+  .box-content {
+    text-align: center;
+  }
+
+  .box-title {
+    font-size: 29px;
+    font-weight: bold;
+  }
+
+  .orange-button {
+    background-color: #ff9406;
+    color: white;
+    font-size: 47px;
+    text-shadow: 0em 0.0375em 0.18em rgb(0 0 0 / 37%);
+    border: 4px solid #b46804;
+    border-radius: 20px;
+    padding: 0.4em 0.6em;
+    margin: 15px 0;
+    font-weight: bold;
+
+    &.faq-button {
+      display: inline-block;
+    }
+  }
+
+  .container-boxes {
+    h3 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    @media (min-width: $screen-md-min) { // reverse the order of image/text in every second box on desktop screens
+      > .row {
+        display: flex;
+
+        &:nth-child(even) {
+          > .col:first-child {
+            order: 1
+          }
+
+          > .col:last-child {
+            order: 0
+          }
+        }
+      }
+    }
+  }
+
+  .row-faq {
+    font-size: 27px;
+    text-align: center;
+
+    .item {
+      text-align: left;
+      margin-bottom: 40px;
+
+      &:not(.item ~ .item) { // first item of class selected
+        margin-top: 30px;
+      }
+    }
+
+    .question {
+      font-weight: bold;
+    }
+  }
+
+  .headline-container {
+    margin-bottom: min(3.33vw, 50px);
+    background: black;
+  }
+
+  .headline-row {
+    position: relative;
+    padding-bottom: 15px;
+
+    .col {
+      padding-top: 40px;
+    }
+
+    .video-background {
+      position: absolute;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .success-msg {
+    font-size: 1.6rem;
+    color: #0B6125;
+    display: inline-block;
+    margin-right: 1rem;
+  }
+}
+</style>

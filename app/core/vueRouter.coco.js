@@ -104,6 +104,10 @@ export default function getVueRouter () {
           props: (route) => ({ ...route.query, ...route.params })
         },
         {
+          path: '/roblox',
+          component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox'),
+        },
+        {
           path: '/teachers/licenses',
           component: () => import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/StudentLicensesMainComponent')
         },
