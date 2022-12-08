@@ -15,7 +15,6 @@
           th.number.border {{ $t('library.lines_code') }}
           th.number.border {{ $t('library.programs_written') }}
           th.number.border {{ $t('library.time_spent_min') }}
-          th.number.border Age split
         tr(v-for="(stats, row) in licenseDaysByMonth" :class="{odd: row % 2 == 1, even: row % 2 == 0, sum: stats.month == 'Total'}")
           td.month.border {{stats.month}}
           td.number.border {{stats.licenseDaysUsed.toLocaleString()}}
@@ -24,7 +23,9 @@
           td.number.border {{ stats.progress?.linesOfCode || '-' }}
           td.number.border {{ stats.progress?.programs || '-' }}
           td.number.border {{ parseInt(stats.progress?.playtime / 60) || '-' }}
-          td.border {{ stats.ageStats }}
+
+      .age-stats(v-if="ageStats.length > 0")
+        d3-bar-chart(:datum="ageStats", :config="this.ageChartConfig()", title="Users Age Split", source="Age ranges")
 
       h2(v-if="licenseDaysByMonthAndTeacher && viewport=='full'") License Days by Month and Teacher/Classroom
       table.table.table-condensed(v-if="licenseDaysByMonthAndTeacher")
@@ -38,6 +39,7 @@
           td.name.border {{stats.teacher}}
           td.number.border {{stats.licenseDaysUsed.toLocaleString()}}
           td.number.border {{stats.activeLicenses.toLocaleString()}}
+
     template(v-else)
       license-data-per-user(:loading="loading" :prepaids="prepaids" :teacherMap="teacherMap")
 
@@ -46,9 +48,11 @@
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
 import LicenseDataPerUser from 'app/components/license/LicenseDataPerUser'
+import { D3BarChart } from 'vue-d3-charts'
 module.exports = Vue.extend({
   components: {
-    LicenseDataPerUser
+    LicenseDataPerUser,
+    D3BarChart
   },
   props: ['viewport'],
   data () {
@@ -136,6 +140,15 @@ module.exports = Vue.extend({
         return null
       }
       return byMonthAndTeacher
+    },
+    ageStats () {
+      const data = []
+      const stats = this.licenseStats?.ageStats
+      const totalUsersWithAge = Object.values(this.licenseStats?.ageStats || {})?.reduce((acc, cnt) => acc + cnt, 0)
+      for (const age in stats) {
+        data.push({ ageRange: age, usersNum: stats[age], '% of users': Math.round((stats[age] / totalUsersWithAge) * 100) })
+      }
+      return data
     }
   },
   methods: {
@@ -145,7 +158,21 @@ module.exports = Vue.extend({
       fetchClientId: 'apiClient/fetchClientId',
       fetchPrepaids: 'prepaids/fetchPrepaidsForAPIClient',
       fetchTeachers: 'apiClient/fetchTeachers'
-    })
+    }),
+    ageChartConfig () {
+      return {
+        key: 'ageRange',
+        values: ['% of users'],
+        axis: {
+          yTicks: 10,
+          yFormat: '.0f',
+          yTitle: 'Percentage of users',
+          xTitle: 'Age Ranges',
+          xFormat: '.0f',
+          xTicks: 0
+        }
+      }
+    }
   },
   watch: {
     clientId: function (id) {
