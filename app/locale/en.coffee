@@ -3835,6 +3835,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     title: 'CodeCombat Events'
     main_title: 'CodeCombat Events'
     main_description: 'The important events of codecombat China'
+    dashboard: 'Events Dashboard'
+    online_classes: 'Online Classes'
+    my_classes: 'My Online Classes'
 
   teacher_dashboard:
     lock: 'Lock'

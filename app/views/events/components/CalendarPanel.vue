@@ -10,6 +10,12 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'CalendarPanel',
+  props: {
+    type: {
+      type: String,
+      default: 'classes'
+    }
+  },
   components: {
     SingleCalendar
   },

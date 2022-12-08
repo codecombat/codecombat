@@ -15,8 +15,10 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "AnnouncementView" */ 'app/views/announcement/AnnouncementView')
         },
         {
-          path: '/event-calendar',
-          component: () => import(/* webpackChunkName: "EventView" */ 'app/views/events/index')
+          path: '/event-calendar/:eventType?',
+          name: 'eventCalendar',
+          component: () => import(/* webpackChunkName: "EventView" */ 'app/views/events/index'),
+          props: true
         },
         {
           path: '/parents',
