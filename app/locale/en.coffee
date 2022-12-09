@@ -4459,6 +4459,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     answer_3: "Yes. Anything you create in this experience, you will be able to import into Roblox Studio and then publish to the platform for anyone to play."
     bottom_blurb_parent: "No need to wait - __sign-up__ for our live online classes to get your child coding today! Get them started with CodeCombat web to be the first to get access to the CodeCombat Worlds Roblox experience."
     bottom_blurb_sign_up: "Sign up"
-    bottom_blurb_partner: "Want to use the new CodeCombat Worlds Roblox experience for your education business, social impact initiative or international distribution opportunity? __reach-out__ to discuss partnering today. "
+    bottom_blurb_partner: "Want to use the new CodeCombat Worlds Roblox experience for your education business, social impact initiative or international distribution opportunity? __reach-out__ to discuss partnering today."
     bottom_blurb_reach_out: "Reach out"
     boxes_title: "Play, Code and Create on Roblox"
