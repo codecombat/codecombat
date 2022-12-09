@@ -4450,7 +4450,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     role_player: "Player"
     role_parent: "Parent"
     role_partner: "Partner"
-    select_role: "Please select you role"
+    select_role: "Please select your role"
     question_1: "Do I need to know Lua or Roblox Studio?"
     answer_1: "No. This experience will allow anyone to play, code and create from the very start of their adventure, without any coding experience."
     question_2: "Can I create my own games?"
