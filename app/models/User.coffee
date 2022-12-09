@@ -450,6 +450,12 @@ module.exports = class User extends CocoModel
       return p.product == type && (new Date(p.endDate) > now || !p.endDate)
     )
 
+  expiredProducts: (type) ->
+    now = new Date()
+    _.filter(@get('products'), (p) ->
+      return p.product == type && new Date(p.endDate) < now
+    )
+
   getProductsByType: (type) ->
     products = @get('products')
     return products unless type
