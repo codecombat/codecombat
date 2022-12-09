@@ -9,6 +9,8 @@
               autoplay
               muted
               loop
+              playsinline
+              src="/images/pages/roblox/video-background.mp4"
           >
             <source
                 src="/images/pages/roblox/video-background.mp4"
@@ -17,8 +19,8 @@
           </video>
           <div class="col col-md-7">
             <img
+                class="coco-worlds-logo"
                 src="/images/pages/roblox/coco-worlds.png"
-                style="height:160px"
             >
             <h1 class="text-headline">
               {{ $t('roblox_landing.headline') }}
@@ -34,7 +36,7 @@
       </div>
     </div>
     <div v-if="role" class="container container-boxes">
-      <h3>{{$t('roblox_landing.boxes_title')}}</h3>
+      <h3>{{ $t('roblox_landing.boxes_title') }}</h3>
       <div
           v-for="boxType in boxesByRole[role]"
           class="row"
@@ -64,9 +66,9 @@
     </div>
 
     <div class="container">
-      <div class="row">
+      <div class="row row-video">
         <div class="col-md-12">
-          <base-cloudflare-video video-cloudflare-id="a4a795197e1e6b4c75149c7ff297d2fa"/>
+          <base-cloudflare-video :video-cloudflare-id="videoId" :thumbnail-url="thumbnailUrl" />
         </div>
       </div>
 
@@ -145,7 +147,7 @@
 
 <script>
 
-import BaseCloudflareVideo from 'ozaria/site/components/common/BaseCloudflareVideo'
+import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo'
 import Modal from 'app/components/common/Modal'
 import forms from 'core/forms'
 import { waitlistSignup } from 'core/api/roblox'
@@ -162,6 +164,9 @@ export default {
       'reach-out': `<a href="https://codecombat.com/partners">${$.i18n.t('roblox_landing.bottom_blurb_reach_out')}</a>`,
       interpolation: { escapeValue: false }
     }
+
+    const videoId = 'a4a795197e1e6b4c75149c7ff297d2fa';
+
     return {
       role: null,
       roles: ['teacher', 'player', 'parent', 'partner'],
@@ -177,7 +182,9 @@ export default {
       inProgress: false,
       isValidEmail: true,
       modalShown: false,
-      i18nData
+      i18nData,
+      videoId,
+      thumbnailUrl: `https://videodelivery.net/${videoId}/thumbnails/thumbnail.jpg?time=1.000s`
     }
   },
 
@@ -232,8 +239,12 @@ export default {
 
   h1 {
     font-size: 44px;
+    line-height: 1.13em;
     font-weight: bold;
-    text-shadow: 0em 0.0375em 0.28125em rgb(0 0 0 / 60%)
+    text-shadow: 0em 0.0375em 0.28125em rgb(0 0 0 / 60%);
+    @media (max-width: $screen-md-min) {
+      font-size: 22px;
+    }
   }
 
   h2 {
@@ -242,10 +253,18 @@ export default {
     text-shadow: 0em 0.0375em 0.28125em rgb(0 0 0 / 60%);
     line-height: 1.13em;
     font-weight: 700;
+    @media (max-width: $screen-md-min) {
+      font-size: 15px;
+    }
   }
 
   > .container > .row {
     margin-bottom: min(3.33vw, 50px);
+    @media (max-width: $screen-md-min) {
+      &:not(:last-child) {
+        margin-bottom: 60px;
+      }
+    }
   }
 
   img {
@@ -264,6 +283,11 @@ export default {
   .box-title {
     font-size: 29px;
     font-weight: bold;
+    margin: 10px auto;
+  }
+
+  .coco-worlds-logo {
+    height: min(20vw, 160px);
   }
 
   .orange-button {
@@ -272,10 +296,14 @@ export default {
     font-size: 47px;
     text-shadow: 0em 0.0375em 0.18em rgb(0 0 0 / 37%);
     border: 4px solid #b46804;
-    border-radius: 20px;
+    border-radius: 0.4em;
     padding: 0.4em 0.6em;
-    margin: 15px 0;
+    margin: 0.3em 0;
     font-weight: bold;
+
+    @media (max-width: $screen-md-min) {
+      font-size: 23px;
+    }
 
     &.faq-button {
       display: inline-block;
@@ -286,6 +314,12 @@ export default {
     h3 {
       text-align: center;
       margin-bottom: 20px;
+      font-size: 33px;
+      line-height: 1.2em;
+      @media (max-width: $screen-md-min) {
+        font-size: 19px;
+      }
+
     }
 
     @media (min-width: $screen-md-min) { // reverse the order of image/text in every second box on desktop screens
@@ -305,23 +339,35 @@ export default {
     }
   }
 
-  .row-faq {
-    font-size: 27px;
-    text-align: center;
+  > .container {
+    > .row-video {
+      margin-bottom: min(3vw, 40px);
+    }
 
-    .item {
-      text-align: left;
-      margin-bottom: 40px;
+    .row-faq {
+      font-size: 27px;
+      text-align: center;
+      line-height: 1.23em;
 
-      &:not(.item ~ .item) { // first item of class selected
-        margin-top: 30px;
+      @media (max-width: $screen-md-min) {
+        font-size: 13px;
+      }
+
+      .item {
+        text-align: left;
+        margin-bottom: min(2vw, 40px);
+
+        &:not(.item ~ .item) { // first item of class selected
+          margin-top: min(1.5vw, 30px);
+        }
+      }
+
+      .question {
+        font-weight: bold;
       }
     }
-
-    .question {
-      font-weight: bold;
-    }
   }
+
 
   .headline-container {
     margin-bottom: min(3.33vw, 50px);
@@ -333,7 +379,7 @@ export default {
     padding-bottom: 15px;
 
     .col {
-      padding-top: 40px;
+      padding-top: min(2.5vw, 40px);
     }
 
     .video-background {
