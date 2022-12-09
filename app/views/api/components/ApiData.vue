@@ -146,7 +146,8 @@ module.exports = Vue.extend({
       const stats = this.licenseStats?.ageStats
       const totalUsersWithAge = Object.values(this.licenseStats?.ageStats || {})?.reduce((acc, cnt) => acc + cnt, 0)
       for (const age in stats) {
-        data.push({ ageRange: age, usersNum: stats[age], '% of users': Math.round((stats[age] / totalUsersWithAge) * 100) })
+        const ageStr = age === '13-15' ? 'Under 15' : age
+        data.push({ ageRange: ageStr, usersNum: stats[age], '% of users': Math.round((stats[age] / totalUsersWithAge) * 100) })
       }
       return data
     }
