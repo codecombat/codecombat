@@ -4438,7 +4438,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     box_code_blurb_teacher: "The experience will be personalized and differentiated, offering structured and unstructured intuitive practice that allows the player to learn as they like, while still aligning with CSTA and ISTE computer science standards."
     box_create_blurb_teacher: "This engaging play experience will provide the foundational instruction needed to take players from zero coding knowledge to publishing full Roblox games. Our Creative Mode lets players build while playing, without requiring switching modes to the full desktop Roblox Studio IDE."
     box_play_blurb_player: "Explore the 3D immersive experience of CodeCombat Worlds. Program your pets and adventure into a universe of creativity and shared experiences with friends."
-    box_code_blurb_player: "Learn real Lua coding, from beginner to advanced. Use code to explore, gather resources, build  and discover your path to glory."
+    box_code_blurb_player: "Learn real Lua coding, from beginner to advanced. Use code to explore, gather resources, build, and discover your path to glory."
     box_create_blurb_player: "No Roblox Studio? No problem. Code in-game in Creative Mode to make full Roblox games to share with your friends."
     box_play_blurb_parent: "Through our proven game-based learning approach, we engage young learners through play, while teaching coding and game development."
     box_code_blurb_parent: "Coding from the very start of their adventure, the experience is personalized and differentiated, offering structured and unstructured intuitive practice that allows your child to learn as they like."
