@@ -251,13 +251,15 @@ block modal-body-content
                 else
                   = product.productOptions.teams
               td
+                - tournaments = product.productOptions.tournaments
+                - tournaments = typeof tournaments === 'undefined' ? (view.ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType]) : tournaments
+                - createdTournaments = product.productOptions.createdTournaments || 0
+                = createdTournaments + ' / '
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
                   - var tournamentsControlId = 'product-tournaments-' + productControlId
-                  - tournaments = product.productOptions.tournaments
-                  - tournaments = typeof tournaments === 'undefined' ? (view.ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType]) : tournaments
                   input(id= tournamentsControlId type="number" name="tournaments" value=tournaments min=view.ESPORTS_PRODUCT_STATS.TOURNAMENTS.MIN step=1)
                 else
-                  = product.productOptions.tournaments
+                  = tournaments
               td
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
                   - var arenasControlId = 'product-arenas-' + productControlId
