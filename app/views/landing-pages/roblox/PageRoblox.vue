@@ -39,9 +39,9 @@
       <h3>{{ $t('roblox_landing.boxes_title') }}</h3>
       <div
           v-for="boxType in boxesByRole[role]"
-          class="row"
+          class="row" :class="`row-type-${boxType}`"
       >
-        <div class="col col-md-6 box-content">
+        <div class="col col-md-6 box-content ">
           <img
               class="box-icon"
               :src="`/images/pages/roblox/${boxType}-icon.svg`"
@@ -68,7 +68,7 @@
     <div class="container">
       <div class="row row-video">
         <div class="col-md-12">
-          <base-cloudflare-video :video-cloudflare-id="videoId" :thumbnail-url="thumbnailUrl" />
+          <base-cloudflare-video :video-cloudflare-id="videoId" :thumbnail-url="thumbnailUrl"/>
         </div>
       </div>
 
@@ -165,7 +165,7 @@ export default {
       interpolation: { escapeValue: false }
     }
 
-    const videoId = 'a4a795197e1e6b4c75149c7ff297d2fa';
+    const videoId = 'a4a795197e1e6b4c75149c7ff297d2fa'
 
     return {
       role: null,
@@ -184,7 +184,7 @@ export default {
       modalShown: false,
       i18nData,
       videoId,
-      thumbnailUrl: `https://videodelivery.net/${videoId}/thumbnails/thumbnail.jpg?time=1.000s`
+      thumbnailUrl: `https://videodelivery.net/${videoId}/thumbnails/thumbnail.jpg?time=3.000s`
     }
   },
 
@@ -227,6 +227,22 @@ export default {
 
 <style lang="scss" scoped>
 @import "app/styles/bootstrap/variables";
+
+$box-content-margin: min(6vw, 90px);
+
+.asset {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 25%;
+  aspect-ratio: 572/370;
+  background-image: url('/images/pages/roblox/play-assets.webp');
+  background-size: contain;
+  z-index: 1;
+  transform: scaleX(-1);
+  top: 75%;
+  left: -12.5%;
+}
 
 #roblox-page {
   background: linear-gradient(45deg, transparent 0%, rgb(12 214 215 / 80%) 100%);
@@ -278,6 +294,27 @@ export default {
 
   .box-content {
     text-align: center;
+    p {
+      margin: 0 $box-content-margin 14px;
+    }
+  }
+
+  .row-type-play, .row-type-create {
+    position: relative;
+
+    &:before {
+      @extend .asset;
+    }
+  }
+
+  .row-type-create {
+    &:before {
+      top: 0%;
+      left: calc(100% - $box-content-margin - 15px);
+      aspect-ratio: 295/288;
+      background-image: url(/images/pages/roblox/create-assets.webp);
+      transform: scaleX(1);
+    }
   }
 
   .box-title {
