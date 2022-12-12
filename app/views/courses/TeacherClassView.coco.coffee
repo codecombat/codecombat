@@ -605,7 +605,7 @@ module.exports = class TeacherClassView extends RootView
       for counts, index in courseCounts
         courseCountsString += "#{counts.levels},"
         if counts.playtime is 0
-          courseCountsString += "0,"
+          courseCountsString += "0,0,"
         else
           courseCountsString += "#{moment.duration(counts.playtime, 'seconds').humanize()},#{counts.playtime},"
       csvContent += "#{student.broadName()},#{student.get('name')},#{student.get('email') or ''},#{levels},#{playtimeString},#{playtime},#{courseCountsString}\"#{conceptsString}\"\n"
