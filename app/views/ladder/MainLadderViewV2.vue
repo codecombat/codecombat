@@ -212,7 +212,7 @@ export default {
       if (!this.tournamentsLeft && !me.isAdmin()) {
         window.open('https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com', '_blank')
       } else {
-        console.log('handle create', arena)
+        /* console.log('handle create', arena) */
         this.editableTournament = {
           name: arena.name,
           levelOriginal: arena.original,
@@ -222,14 +222,18 @@ export default {
           startDate: new Date().toISOString(),
           endDate: moment().add(1, 'day').toISOString(),
           resultsDate: moment().add(3, 'day').toISOString(),
+          reviewResults: false,
+          publishImmediately: false,
+          simulationPriority: 0,
           editing: 'new'
         }
         this.showModal = true
       }
     },
     handleEditTournament (tournament) {
-      /* console.log('handle edit', tournament) */
-      this.editableTournament = Object.assign(tournament, {
+      console.log('handle edit', tournament)
+      this.editableTournament = Object.assign({}, tournament, {
+        publishImmediately: !(tournament.reviewResults || tournament.resultsDate),
         editing: 'edit'
       })
       this.showModal = true

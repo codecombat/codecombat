@@ -2862,10 +2862,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     defeat_the: "Defeat the"
     watch_battle: "Watch the battle"
     tournament_starts: "Tournament starts __timeElapsed__"
-    tournament_started: ", started"
-    tournament_ends: "Tournament ends"
-    tournament_ended: "Tournament ended"
-    tournament_results_published: ", results published"
+    tournament_started: "Tournament started __timeElapsed__"
+    tournament_ends: ", will end __timeLeft__"
+    tournament_ended: "Tournament ended __timeLeft__"
+    tournament_results_published: ", results published __timeLeft__"
+    tournament_results_wait_publish: ", results will be published by owner"
     tournament_rules: "Tournament Rules"
     tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
     tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
@@ -4197,14 +4198,25 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     results_date_time: 'Results Time'
     start_date_description: '(PT) The start time of tournament'
     end_date_description: '(PT) The end time of tournament'
-    results_date_description: '(PT) Tournament need 2 days to generate final leaderboard'
+    results_date_description: 'Select a time to publish results.'
+    results_date_suggestion_0: 'Note: Tournament may need some time to generate final leaderboard, so you need to allow enough time for the results.'
+    results_date_suggestion_1: 'i.e. 0-50 players: 5 mins'
+    results_date_suggestion_2: '     50-100 players: 20 mins'
+    results_date_suggestion_3: '     100-500 players: 10 hours'
     select_team_desc: 'select your team to creat/edit your tournaments'
     already_create_tournaments_num: 'You already created __num__ tournaments here:'
     can_create_tournaments_num: 'You can create __num__ more tournament(s) from below:'
     my_teams: 'My Teams:'
     team: 'Team'
     team_description: '(Required) Only the players in the team can join this tournament'
+    review_results: 'Review Results'
+    review_description: 'We will email you the results of tournament and wait for you to publish for participants.'
+    publish_immediately: 'Publish Immediately'
+    publish_description: 'The result of tournament will be published immediately once ready.'
     error_end_date_too_early: 'The End Time cannot be earlier than Start Time'
+    error_results_date_too_early: 'The Results Time cannot be earlier than End Time'
+    publish_results: 'Publish Results'
+    publish_options: 'Publish Options'
 
   payments:
     student_licenses: 'Student Licenses'

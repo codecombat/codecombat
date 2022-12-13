@@ -107,7 +107,7 @@ export default {
     },
     clan () {
       if (this.tournament) {
-        return this.clanByIdOrSlug(this.tournament.clan)
+        return this.clanByIdOrSlug(this.tournament.clan) || {}
       }
       return {}
     },

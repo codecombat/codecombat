@@ -52,18 +52,54 @@
           class="form-control"
           :disabled="disableEdit"
         >
-        <label for="resultsDate">
-          {{ $t('tournament.results_date_time') }}
-        </label>
-        <span class="small text-navy">{{ $t('tournament.results_date_description') }}</span>
-        <input
-          id="resultsDate"
-          v-model="_resultsDate"
-          type="datetime-local"
-          class="form-control"
-          :disabled="!me.isAdmin()"
+
+        <label
+          for="publish-options"
         >
+          {{ $t('tournament.publish_options') }}
+        </label>
+        <select
+          id="publish-options"
+          v-model="_publishOption"
+          name="publish-options"
+          class="form-control"
+        >
+          <option
+            v-for="op in publishOptions"
+            :key="`option-${op.name}`"
+            :value="op.name"
+          >
+            {{ $t(`tournament.${op.label}`) }}
+          </option>
+        </select>
+        <div
+          class="small text-navy"
+        >
+          {{ $t(`tournament.${_publishOption}_description`) }}
+        </div>
+
+        <template v-if="_publishOption === 'results_date'">
+          <p class="small text-navy">
+            {{ $t('tournament.results_date_suggestion_0') }}
+          </p>
+          <p class="small text-navy">
+            {{ $t('tournament.results_date_suggestion_1') }}
+          </p>
+          <p class="small text-navy">
+            {{ $t('tournament.results_date_suggestion_2') }}
+          </p>
+          <p class="small text-navy">
+            {{ $t('tournament.results_date_suggestion_3') }}
+          </p>
+          <input
+            id="resultsDate"
+            v-model="_resultsDate"
+            type="datetime-local"
+            class="form-control"
+          >
+        </template>
       </div>
+
       <div class="form-group pull-right">
         <span
           v-if="isSuccess"
@@ -126,7 +162,12 @@ export default {
       selectedClanId: 'global',
       isSuccess: false,
       inProgress: false,
-      errorMessage: ''
+      errorMessage: '',
+      publishOptions: [
+        { name: 'review', label: 'review_results', desc: 'review_description' },
+        { name: 'publish', label: 'publish_immediately', desc: 'publish_description' },
+        { name: 'results_date', label: 'results_date_time', desc: 'results_date_description' }
+      ]
     }
   },
   computed: {
@@ -166,7 +207,7 @@ export default {
       set (val) {
         this.$set(this.editableTournament, 'endDate', moment(val).toISOString())
 
-        this.$set(this.editableTournament, 'resultsDate', moment(val).add(2, 'days').toISOString())
+        this.$set(this.editableTournament, 'resultsDate', moment(val).add(1, 'days').toISOString())
       }
     },
     _resultsDate: {
@@ -176,14 +217,42 @@ export default {
       set (val) {
         this.$set(this.editableTournament, 'resultsDate', moment(val).toISOString())
       }
+    },
+    _publishOption: {
+      get () {
+        if (this.editableTournament.reviewResults) {
+          return 'review'
+        } else if (this.editableTournament.publishImmediately) {
+          return 'publish'
+        } else {
+          return 'results_date'
+        }
+      },
+      set (val) {
+        this.changePublishOption(val)
+      }
     }
   },
   mounted () {
     this.selectedClanId = this.tournament.clan
     this.editableTournament = _.clone(this.tournament)
-    console.log(this.editableTournament)
   },
   methods: {
+    changePublishOption (option) {
+      if (option === 'review') {
+        this.$set(this.editableTournament, 'reviewResults', true)
+        this.$set(this.editableTournament, 'publishImmediately', false)
+      } else if (option === 'publish') {
+        this.$set(this.editableTournament, 'reviewResults', false)
+        this.$set(this.editableTournament, 'publishImmediately', true)
+      } else { // results_date
+        this.$set(this.editableTournament, 'reviewResults', false)
+        this.$set(this.editableTournament, 'publishImmediately', false)
+        if (!this.editableTournament.resultsDate) { // set default time
+          this.$set(this.editableTournament, 'resultsDate', moment().toISOString())
+        }
+      }
+    },
     ownedClanById (id) {
       return _.find(this.ownedClans, c => c?._id === id)
     },
@@ -195,10 +264,21 @@ export default {
       this.inProgress = true
       this.isSuccess = false
       const endDate = new Date(this.editableTournament.endDate)
+      const resultsDate = moment(this.editableTournament.resultsDate)
       if (endDate < new Date(this.editableTournament.startDate)) {
         this.errorMessage = this.$t('tournament.error_end_date_too_early')
         this.inProgress = false
         return
+      }
+
+      if (this.editableTournament.resultsDate && resultsDate.isBefore(endDate)) {
+        this.errorMessage = this.$t('tournament.error_results_date_too_early')
+        this.inProgress = false
+        return
+      }
+
+      if (this.editableTournament.reviewResults || this.editableTournament.publishImmediately) {
+        delete this.editableTournament.resultsDate
       }
 
       try {
@@ -243,5 +323,9 @@ export default {
   color: #7D0101;
   display: inline-block;
   margin-right: 1rem;
+}
+p.small {
+  margin-top: 0;
+  margin-bottom: 5px;
 }
 </style>
