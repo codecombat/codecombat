@@ -45,7 +45,7 @@ export default {
     }
   },
 
-  // TODO refactor to use `../../common/BaseCloudflareVideo` component
+  // TODO refactor to use `app/components/common/BaseCloudflareVideo` component
   mounted () {
     const cutscene = this.cutscene
     /**
