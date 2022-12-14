@@ -82,11 +82,11 @@
 
 <script>
 import utils from 'core/utils'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import User from '../../../models/User'
 import { register } from 'core/api/mobile'
 import { debounce } from 'lodash'
-import BaseCloudflareVideo from 'ozaria/site/components/common/BaseCloudflareVideo'
+import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo'
 import FinalFooter from 'app/components/common/FinalFooter'
 
 export default Vue.extend({
@@ -114,7 +114,7 @@ export default Vue.extend({
       isEmailAvailable: false,
       checkingEmail: false,
       checkEmailState: null,
-      activeStep: 2,
+      activeStep: 0,
       STEP_EMAIL: 0,
       STEP_NAME: 1,
       STEP_DONE: 2,
