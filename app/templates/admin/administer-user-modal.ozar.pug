@@ -418,6 +418,18 @@ block modal-body-content
               span Music
       hr
 
+  else if view.user.isStudent() && (me.isAdmin() || me.isOnlineTeacher())
+    h3.m-t-3#stripe Grant Gems
+    .form
+      .form-group
+        label
+          span Gems to add to user
+          =" "
+          input#stripe-add-gems(type="number", name="addGems", value=0)
+          |  (they have #{view.user.gems().toLocaleString()})
+      button#save-changes.btn.btn-primary Save Changes
+    hr
+
   // Not currently used
   //h3#create-payment Create Payment
   //.small Use this to create a payment entry for this user.

@@ -141,9 +141,12 @@ module.exports = class CreateAccountModal extends ModalView
         if @signupState.get('path') is 'student'
           @signupState.set { screen: 'confirmation', accountCreated: true }
         else if @signupState.get('path') is 'teacher'
-          store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
-          store.commit('modal/updateSignupForm', @signupState.get('signupForm'))
-          store.commit('modal/updateTrialRequestProperties', _.pick(@signupState.get('signupForm'), 'firstName', 'lastName'))
+          store.commit('modalTeacher/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
+          store.commit('modalTeacher/updateSignupForm', @signupState.get('signupForm'))
+          trProperties = _.pick(@signupState.get('signupForm'), 'firstName', 'lastName')
+          if (utils.getQueryVariable('referrerEvent'))
+            trProperties.marketingReferrer = utils.getQueryVariable('referrerEvent')
+          store.commit('modalTeacher/updateTrialRequestProperties', trProperties)
           @signupState.set { screen: 'teacher-signup-component' }
         else if @signupState.get('subModalContinue')
           storage.save('sub-modal-continue', @signupState.get('subModalContinue'))
@@ -160,8 +163,8 @@ module.exports = class CreateAccountModal extends ModalView
         if @signupState.get('path') is 'student'
           @signupState.set { screen: 'confirmation', accountCreated: true }
         else if @signupState.get('path') is 'teacher'
-          store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
-          store.commit('modal/updateSignupForm', @signupState.get('signupForm'))
+          store.commit('modalTeacher/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
+          store.commit('modalTeacher/updateSignupForm', @signupState.get('signupForm'))
           @signupState.set { screen: 'teacher-signup-component' }
         else if @signupState.get('subModalContinue')
           storage.save('sub-modal-continue', @signupState.get('subModalContinue'))
@@ -184,8 +187,6 @@ module.exports = class CreateAccountModal extends ModalView
         else if me.isTeacher()
           application.router.navigate('/teachers/classes', {trigger: true})
         window.location.reload()
-
-    store.registerModule('modal', TeacherSignupStoreModule)
 
   navigateToTeacherOnboarding: ->
     if (window.location.pathname == '/sign-up/educator')
@@ -211,8 +212,6 @@ module.exports = class CreateAccountModal extends ModalView
   destroy: ->
     if @teacherSignupComponent
       @teacherSignupComponent.$destroy()
-    try
-      store.unregisterModule('modal')
     super()
 
   onClickLoginLink: ->

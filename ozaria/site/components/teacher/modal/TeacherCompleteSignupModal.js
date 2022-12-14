@@ -6,11 +6,9 @@ import store from 'core/store'
 class TeacherCompleteSignupModal extends ModalComponent {
   // Runs before the constructor is called.
   initialize () {
-    store.registerModule('modal', TeacherSignupStoreModule)
   }
 
   destroy () {
-    store.unregisterModule('modal')
     super.destroy()
   }
 }

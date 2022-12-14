@@ -2862,10 +2862,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     defeat_the: "Defeat the"
     watch_battle: "Watch the battle"
     tournament_starts: "Tournament starts __timeElapsed__"
-    tournament_started: ", started"
-    tournament_ends: "Tournament ends"
-    tournament_ended: "Tournament ended"
-    tournament_results_published: ", results published"
+    tournament_started: "Tournament started __timeElapsed__"
+    tournament_ends: ", will end __timeLeft__"
+    tournament_ended: "Tournament ended __timeLeft__"
+    tournament_results_published: ", results published __timeLeft__"
+    tournament_results_wait_publish: ", results will be published by owner"
     tournament_rules: "Tournament Rules"
     tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
     tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
@@ -4092,7 +4093,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
-    season6_announcement_1: "The Lava Lake Clash Final is on. Guide your lava snail to victory!"
+    season6_announcement_1: "It’s absolute Molten Mayhem with the launch of the Lava Lake Clash finals! Outlast and outwit the competition in this hot take on classic Snake gameplay."
     season6_announcement_2: "Note: arena balance adjustments may occur up until December 15th. So be sure to come back often to test your code against the global leaderboard."
     season5_announcement_1: "The Sandstorm Blitz Final is on. In this basketbrawl of an arena, you must summon the right heroes, call the right plays, and outscore your opponent to take the victory!"
     season5_announcement_2: "Note: arena balance adjustments may occur up until September 15th. So be sure to come back often to test your code against the global leaderboard."
@@ -4197,14 +4198,25 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     results_date_time: 'Results Time'
     start_date_description: '(PT) The start time of tournament'
     end_date_description: '(PT) The end time of tournament'
-    results_date_description: '(PT) Tournament need 2 days to generate final leaderboard'
+    results_date_description: 'Select a time to publish results.'
+    results_date_suggestion_0: 'Note: Tournament may need some time to generate final leaderboard, so you need to allow enough time for the results.'
+    results_date_suggestion_1: 'i.e. 0-50 players: 5 mins'
+    results_date_suggestion_2: '     50-100 players: 20 mins'
+    results_date_suggestion_3: '     100-500 players: 10 hours'
     select_team_desc: 'select your team to creat/edit your tournaments'
     already_create_tournaments_num: 'You already created __num__ tournaments here:'
     can_create_tournaments_num: 'You can create __num__ more tournament(s) from below:'
     my_teams: 'My Teams:'
     team: 'Team'
     team_description: '(Required) Only the players in the team can join this tournament'
+    review_results: 'Review Results'
+    review_description: 'We will email you the results of tournament and wait for you to publish for participants.'
+    publish_immediately: 'Publish Immediately'
+    publish_description: 'The result of tournament will be published immediately once ready.'
     error_end_date_too_early: 'The End Time cannot be earlier than Start Time'
+    error_results_date_too_early: 'The Results Time cannot be earlier than End Time'
+    publish_results: 'Publish Results'
+    publish_options: 'Publish Options'
 
   payments:
     student_licenses: 'Student Licenses'
@@ -4434,3 +4446,40 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     step_name: "STEP 2"
     step_done: "DONE"
     video_title: "GET A SNEAK PEEK HERE"
+
+  roblox_landing:
+    headline: "CodeCombat Worlds is a New Immersive Experience on Roblox"
+    subhead: "Join the beta waitlist to receive early access, development updates and more!"
+    sign_up: "Sign Up"
+    box_play_subhead: "Play"
+    box_code_subhead: "Code"
+    box_create_subhead: "Create"
+    box_headline: "Play, Code and Create on Roblox"
+    box_play_blurb_teacher: "In partnership with Roblox Education, we are combining our proven coding-as-gameplay approach with the creative and social power of the Roblox platform to make a new Roblox experience that teaches coding and game development in-game."
+    box_code_blurb_teacher: "The experience will be personalized and differentiated, offering structured and unstructured intuitive practice that allows the player to learn as they like, while still aligning with CSTA and ISTE computer science standards."
+    box_create_blurb_teacher: "This engaging play experience will provide the foundational instruction needed to take players from zero coding knowledge to publishing full Roblox games. Our Creative Mode lets players build while playing, without requiring switching modes to the full desktop Roblox Studio IDE."
+    box_play_blurb_player: "Explore the 3D immersive experience of CodeCombat Worlds. Program your pets and adventure into a universe of creativity and shared experiences with friends."
+    box_code_blurb_player: "Learn real Lua coding, from beginner to advanced. Use code to explore, gather resources, build, and discover your path to glory."
+    box_create_blurb_player: "No Roblox Studio? No problem. Code in-game in Creative Mode to make full Roblox games to share with your friends."
+    box_play_blurb_parent: "Through our proven game-based learning approach, we engage young learners through play, while teaching coding and game development."
+    box_code_blurb_parent: "Coding from the very start of their adventure, the experience is personalized and differentiated, offering structured and unstructured intuitive practice that allows your child to learn as they like."
+    box_create_blurb_parent: "Many kids want to create games but don’t know where to start. This engaging play experience will provide the foundational instruction needed to take players from zero coding knowledge to publishing full Roblox games."
+    box_play_blurb_partner: "Engage young learners with a next-generation Roblox experience. With support from Roblox Education, we are combining our proven coding-as-gameplay approach with the creative and social power of the Roblox platform to make a new Roblox experience that teaches coding and game development in-game."
+    box_code_blurb_partner: "The experience will be personalized and differentiated, offering structured and unstructured intuitive practice that allows the player to learn as they like. We make it easier than ever to teach real coding to your students in either self-paced or instructor-directed contexts."
+    box_create_blurb_partner: "Instead of building a standalone curriculum tied to Roblox Studio, take advantage of our in-game Creative Mode and its scaffolded instruction to easily ramp your students from no coding experience to publishing full Roblox games."
+    role_teacher: "Teacher"
+    role_player: "Player"
+    role_parent: "Parent"
+    role_partner: "Partner"
+    select_role: "Please select your role"
+    question_1: "Do I need to know Lua or Roblox Studio?"
+    answer_1: "No. This experience will allow anyone to play, code and create from the very start of their adventure, without any coding experience."
+    question_2: "Can I create my own games?"
+    answer_2: "Yes. Game development is at the core of this experience and after completing the core learning levels you will have the opportunity to create your own."
+    question_3: "Will my creations be available on Roblox?"
+    answer_3: "Yes. Anything you create in this experience, you will be able to import into Roblox Studio and then publish to the platform for anyone to play."
+    bottom_blurb_parent: "No need to wait - __sign-up__ for our live online classes to get your child coding today! Get them started with CodeCombat web to be the first to get access to the CodeCombat Worlds Roblox experience."
+    bottom_blurb_sign_up: "Sign up"
+    bottom_blurb_partner: "Want to use the new CodeCombat Worlds Roblox experience for your education business, social impact initiative or international distribution opportunity? __reach-out__ to discuss partnering today."
+    bottom_blurb_reach_out: "Reach out"
+    boxes_title: "Play, Code and Create on Roblox"

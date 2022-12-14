@@ -252,6 +252,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'privacy': go('PrivacyView')
 
+    'roblox': go('core/SingletonAppVueComponentView')
+
     'schools': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
     'seen': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
     'SEEN': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
@@ -315,6 +317,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'libraries': go('core/SingletonAppVueComponentView')
     'library/*path': go('core/SingletonAppVueComponentView')
+
+    'acte': redirect('/home?registering=true&referrerEvent=ACTE#create-account-teacher')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
@@ -445,7 +449,10 @@ module.exports = class CocoRouter extends Backbone.Router
 
   activateTab: ->
     base = _.string.words(document.location.pathname[1..], '/')[0]
-    $("ul.nav li.#{base}").addClass('active')
+    try
+      $("ul.nav li.#{base}").addClass('active')
+    catch e
+      console.warn e  # Possibly a hash that would not match a valid element
 
   _trackPageView: ->
     window.tracker?.trackPageView()

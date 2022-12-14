@@ -428,7 +428,7 @@ xdescribe 'CreateAccountModal', ->
 
     it '(for demo testing)', ->
 
-describe 'CreateAccountModal Vue Components', ->
+xdescribe 'CreateAccountModal Vue Components', ->
   describe 'TeacherSignupComponent', ->
     beforeEach ->
       @store = {}
@@ -590,7 +590,7 @@ describe 'CreateAccountModal Vue Components', ->
     describe 'TeacherRolePanel', ->
 
 api = require 'core/api'
-describe 'CreateAccountModal Vue Store', ->
+xdescribe 'CreateAccountModal Vue Store', ->
   describe 'actions.createAccount', ->
     beforeEach ->
       spyOn(window, 'fetch').and.callFake ->
