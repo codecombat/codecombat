@@ -121,6 +121,7 @@ export default Vue.extend({
         reach_latinx: `<a href='https://www.yahoo.com/now/mexican-superstar-eugenio-derbez-partners-200100110.html' target='_blank'>${$.i18n.t('partners.reach_latinx')}</a>`,
         seeds_of_light: `<a href='https://www.accesswire.com/702186/Seeds-of-Light-and-CodeCombat-Expand-Partnership-with-Launch-of-Glow-Academies-for-Middle-School-Students' target='_blank'>${$.i18n.t('partners.seeds_of_light')}</a>`,
         eugenio_derbez: '<a href=\'https://www.businesswire.com/news/home/20210316006024/en/Mexican-Superstar-Eugenio-Derbez-Partners-with-CodeCombat-to-Get-the-Latinx-Community-Coding\' target=\'_blank\'>Eugenio Derbez</a>',
+        see_how: `<a href='/images/pages/partners/pdf/Flyer_-_Coding_Esports_for_Employers_with_Amdocs_Case_Study.pdf' target='_blank'>${$.i18n.t('partners.see_how')}</a>`,
         interpolation: { escapeValue: false }
       }
     }
