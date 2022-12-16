@@ -3838,6 +3838,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     dashboard: 'Events Dashboard'
     online_classes: 'Online Classes'
     my_classes: 'My Online Classes'
+    name: 'Name',
+    description: 'Description',
+    owner: 'Owner',
+    type: 'Type',
+    members: 'Members',
+    start_date: 'Start Time'
+    end_date: 'End Time'
+    rrule: 'Recurrence Rules'
 
   teacher_dashboard:
     lock: 'Lock'

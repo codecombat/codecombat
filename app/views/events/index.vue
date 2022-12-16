@@ -9,9 +9,9 @@
       :class="{'trans-left': sidePanelOpen}"
     >
       <calendar-panel
-class="calendar"
-                      :type="eventType"
-/>
+        class="calendar"
+        :type="eventType"
+      />
     </div>
     <event-panel />
   </div>

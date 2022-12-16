@@ -6,11 +6,13 @@
     @close-panel="close"
   >
     <template #header>
-      Event Panel
+      {{ title }}
     </template>
 
     <template #body>
-      Body
+      <div class="body">
+        <edit-event v-if="panelType !== 'info'" />
+      </div>
     </template>
   </side-panel>
 </template>
@@ -18,16 +20,26 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 import SidePanel from '../../../components/common/SidePanel'
+import EditEvent from './EditEventComponent'
 
 export default {
   name: 'EventPanel',
   components: {
-    SidePanel
+    SidePanel,
+    EditEvent
   },
   computed: {
     ...mapGetters({
-      isVisible: 'events/eventPanelVisible'
-    })
+      isVisible: 'events/eventPanelVisible',
+      panelType: 'events/eventPanelType'
+    }),
+    title () {
+      return {
+        info: 'Event Info', // maybe we don't need it
+        new: 'Create Event',
+        edit: 'Edit Event'
+      }[this.panelType]
+    }
   },
   methods: {
     ...mapMutations({
@@ -38,4 +50,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.body {
+  padding: 10px;
+}
 </style>

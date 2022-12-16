@@ -47,8 +47,7 @@ export default {
           }
         },
         dateClick (info) {
-          that.openEventPanel()
-          console.log('dateClick', info)
+          that.openEventPanel({ type: 'new' })
         }
       }
     },

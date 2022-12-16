@@ -7,7 +7,9 @@ export default {
     loading: false,
 
     eventPanel: {
-      visible: false
+      visible: false,
+      type: 'info',
+      editableEvent: undefined
     }
   },
   getters: {
@@ -16,14 +18,22 @@ export default {
     },
     eventPanelVisible (state) {
       return state.eventPanel.visible
+    },
+    eventPanelType (state) {
+      return state.eventPanel.type
+    },
+    eventPanelEvent (state) {
+      return state.eventPanel.editableEvent
     }
   },
   mutations: {
     setEvent (state, event) {
       Vue.set(state.events, event._id, event)
     },
-    openEventPanel (state) {
+    openEventPanel (state, { type = 'info', event = undefined } = {}) {
       Vue.set(state.eventPanel, 'visible', true)
+      Vue.set(state.eventPanel, 'type', type)
+      Vue.set(state.eventPanel, 'editableEvent', event)
     },
     closeEventPanel (state) {
       Vue.set(state.eventPanel, 'visible', false)
