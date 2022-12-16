@@ -161,6 +161,10 @@ module.exports = class HomeView extends RootView
         _.defer => @openModalView(new CreateAccountModal({startOnPath: 'student'})) unless @destroyed
       if document.location.hash is '#create-account-teacher'
         _.defer => @openModalView(new CreateAccountModal({startOnPath: 'teacher'})) unless @destroyed
+      if document.location.hash is '#login'
+        AuthModal = require 'app/views/core/AuthModal'
+        url = new URLSearchParams window.location.search
+        _.defer => @openModalView(new AuthModal({initialValues:{email: url.get 'email'}})) unless @destroyed
 
     if utils.getQueryVariable('payment-studentLicenses') in ['success', 'failed'] and not @renderedPaymentNoty
       paymentResult = utils.getQueryVariable('payment-studentLicenses')

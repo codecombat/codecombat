@@ -212,6 +212,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
 
+    'mobile': () ->
+      @routeDirectly('views/landing-pages/mobile/PageMobileView', [], { vueRoute: true, baseTemplate: 'base-empty' })
+
     'outcomes-report(/*subpath)': go('core/SingletonAppVueComponentView')
 
     'paypal/subscribe-callback': go('play/CampaignView')

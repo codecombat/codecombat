@@ -4300,6 +4300,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     requireValidPhone: 'Please enter a valid phone number, including area code.'
 
   partners:
+    for: 'for'
+    business_partners: 'Business Partners'
     headline: 'Join us in our mission to make coding engaging and accessible to all'
     below_headline_blurb: 'At CodeCombat we’ve developed comprehensive tools that make learning to code fun and teaching programming easy. Our turnkey solutions can be leveraged in many executions.'
     coding_title: 'Coding & STEAM Education Businesses:'
@@ -4319,10 +4321,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     seek_relationships_blurb: 'We seek relationships with nonprofits and community-based organizations working with groups underrepresented in computer science and technology careers. Our partnership with __seeds_of_light__ will fund CS educational opportunities for thousands of young learners.'
     seeds_of_light: 'Seeds of Light'
     corporate_team_building_title: 'Corporate Team Building'
-    corporate_team_building_blurb: 'Need to engage your employees with a turnkey activity that will inspire their competitive spirit and challenge them to creatively problem solve? Work with us to build a custom competitive coding tournament that will have your team programming their own strategies while playing a game.'
+    corporate_team_building_blurb: 'Need to engage your employees with a turnkey activity that will inspire their competitive spirit and challenge them to creatively problem solve? Work with us to build a custom competitive coding tournament that will have your team programming their own strategies while playing a game. __see_how__'
     footer_blurb: 'These are just a few of the partnership structures we have successfully supported. If you would like to initiate a discussion with our business development team on any of these models or have a different partnership opportunity, please reach out today.'
     talk_with_us: 'Talk with Us'
     our_partners: 'Our Partners'
+    see_how: 'See How'
 
   podcast:
     learning_adventure: "Where learning is always an adventure."
@@ -4391,6 +4394,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     already_logged_in: "Already logged in, please logout from the top navigation bar to login again."
     search_box_option: "If search box doesn't load, login by clicking"
     new_signups: "New Signups"
+    heading_for: "for"
+    heading_libraries: "Libraries"
+    educational_equity: "Educational Equity"
+    power_of_play: "Power of play"
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."
@@ -4437,6 +4444,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     evening: "Evening (4PM - 8PM)"
     time_zone: "Your Time Zone"
     email: "Email"
+
+  mobile_landing:
+    subtitle: "Get free access to the most engaging way to teach CS"
+    you_re_set: "YOU'RE SET!"
+    done_blurb: "Check your email for instructions on accessing your teacher account. For the best experience, we suggest using a device with an external keyboard and larger screen."
+    step_email: "STEP 1"
+    step_name: "STEP 2"
+    step_done: "DONE"
+    video_title: "GET A SNEAK PEEK HERE"
+    email_confirm: "The email address \"__email__\" is already registered. Would you like to login?"
 
   roblox_landing:
     headline: "CodeCombat Worlds is a New Immersive Experience on Roblox"

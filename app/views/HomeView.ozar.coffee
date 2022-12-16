@@ -119,6 +119,10 @@ module.exports = class HomeView extends RootView
         @openModalView(new CreateAccountModal({startOnPath: 'student'}))
       if document.location.hash is '#create-account-teacher'
         @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+      if document.location.hash is '#login'
+        AuthModal = require 'views/core/AuthModal'
+        url = new URLSearchParams window.location.search
+        _.defer => @openModalView(new AuthModal({initialValues:{email: url.get 'email'}})) unless @destroyed
 
     window.addEventListener 'load', ->
       $('#core-curriculum-carousel').data('bs.carousel')?.$element.on 'slid.bs.carousel', (event) ->
