@@ -342,7 +342,7 @@ $circle-radius: 2.5rem;
     background-position: bottom center, top 29vh right -15rem, top 50vh left -14rem, top 69vh right -10.7rem;
     background-size: contain, 33rem, 42rem, 30rem;
   } @else {
-    background-image: url(/images/pages/mobile/ozaria-background.png);
+    background-image: url(/images/pages/mobile/ozaria-background.jpg);
     background-size: cover;
     background-position-x: center;
     background-repeat: no-repeat;
