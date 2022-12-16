@@ -160,6 +160,7 @@
     "vue": "2.7.10",
     "vue-async-computed": "^3.9.0",
     "vue-codemirror": "^4.0.6",
+    "vue-confirm-dialog": "^1.0.2",
     "vue-meta": "^1.6.0",
     "vue-moment": "^4.0.0",
     "vue-phone-number-input": "^1.12.13",

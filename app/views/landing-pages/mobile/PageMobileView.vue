@@ -77,17 +77,22 @@
       </a>
       <final-footer></final-footer>
     </footer>
+    <vue-confirm-dialog />
   </div>
 </template>
 
 <script>
 import utils from 'core/utils'
+import VueConfirmDialog from 'vue-confirm-dialog'
 import { mapActions, mapGetters } from 'vuex'
 import User from '../../../models/User'
 import { register } from 'core/api/mobile'
 import { debounce } from 'lodash'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo'
 import FinalFooter from 'app/components/common/FinalFooter'
+
+Vue.use(VueConfirmDialog)
+Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
 
 export default Vue.extend({
   name: 'PageMobileView',
@@ -121,6 +126,17 @@ export default Vue.extend({
       registrationInProgress: false,
       isCodeCombat: utils.isCodeCombat,
       isOzaria: utils.isOzaria
+    }
+  },
+
+  watch: {
+    checkEmailState: {
+      immediate: true,
+      handler (val, oldVal) {
+        if (val === 'exists') {
+          this.onEmailExists()
+        }
+      }
     }
   },
 
@@ -271,6 +287,20 @@ export default Vue.extend({
     },
     async lastNameEntered () {
       this.namesEntered()
+    },
+    onEmailExists () {
+      this.$confirm({
+        message: $.i18n.t('mobile_landing.email_confirm', { email: this.email }),
+        button: {
+          no: $.i18n.t('modal.cancel'),
+          yes: $.i18n.t('modal.okay')
+        },
+        callback: confirm => {
+          if (confirm) {
+            application.router.navigate(`/home?email=${encodeURI(this.email)}#login`, { trigger: true })
+          }
+        }
+      })
     }
   }
 })
@@ -806,5 +836,9 @@ $circle-radius: 2.5rem;
       width: 88rem;
     }
   }
+}
+
+::v-deep .vc-btn {
+  font-size: 3rem;
 }
 </style>

@@ -4446,6 +4446,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     step_name: "STEP 2"
     step_done: "DONE"
     video_title: "GET A SNEAK PEEK HERE"
+    email_confirm: "The email address \"__email__\" is already registered. Would you like to login?"
 
   roblox_landing:
     headline: "CodeCombat Worlds is a New Immersive Experience on Roblox"
