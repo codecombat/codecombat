@@ -38,9 +38,39 @@
         >
       </div>
       <div class="form-group">
+        <label for="studentName">Nombre del estuadiante</label>
+        <input type="text" class="form-control" id="studentNameV2"
+               v-model="studentNameV2" required>
+      </div>
+      <div class="form-group">
         <label for="studentName">Matrícula del alumno</label>
         <input type="text" class="form-control" id="studentName"
           v-model="studentName" required>
+      </div>
+      <div class="form-group">
+        <label for="studentNameConfirm">Confirmar Matrícula del alumno</label>
+        <input type="text" class="form-control" id="studentNameConfirm" ondrop="return false;" onpaste="return false;"
+               v-model="studentNameConfirm" required>
+      </div>
+      <div class="form-group">
+        <label for="campusName">Nombre del campus</label>
+        <select
+          class="form-control"
+          id="campusName"
+          @change="updateSelectedCampus"
+        >
+          <option value="" disabled selected>Seleccionar campus</option>
+          <option
+            v-for="name in tecmilenioCampusNames"
+            :value="name"
+            :key="name"
+          >
+            {{ name }}
+          </option>
+        </select>
+      </div>
+      <div class="forn-group">
+        <p class="tecmilenio-pay-warning">Por favor verifica la matrícula del alumno pues con esta información se validará tu pago y se generará tu licencia.</p>
       </div>
     </div>
     <p class="error">{{errMsg}}</p>
@@ -61,6 +91,9 @@
 import { handleCheckoutSession } from '../paymentPriceHelper'
 import IconLoading from 'app/core/components/IconLoading'
 import priceHelperMixin from './price-helper-mixin'
+const TECMILENIO_CAMPUS_NAMES = ['Central', 'Online', 'Las Torres', 'Ferrería', 'Cuautitlán lzcalli', 'Toluca', 'Culiacán Zapopan', 'Guadalajara', 'Querétaro', 'Ciudad Juárez', 'San Luis Potosí',
+  'Villahermosa', 'Cancún', 'Cumbres', 'Hermosillo', 'Cuernavaca', 'Veracruz', 'San Nicolás', 'Chihuahua',
+  'Puebla', 'Reynosa', 'Guadalupe', 'Mazatlán', 'Laguna', 'Mérida', 'Durango', 'Ciudad Obregón', 'Los Mochis', 'Nuevo Laredo']
 export default {
   name: "PaymentStudentLicensePurchaseView",
   components: {
@@ -88,8 +121,12 @@ export default {
       errMsg: '',
       parentEmail: null,
       studentEmail: null,
-      studentName: null,
-      showLoading: false
+      studentName: null, // this is actually id
+      studentNameConfirm: null, // confirm id
+      studentNameV2: null,
+      showLoading: false,
+      tecmilenioCampusNames: TECMILENIO_CAMPUS_NAMES,
+      selectedCampusName: null
     }
   },
   methods: {
@@ -101,6 +138,9 @@ export default {
     },
     updateSelectedPrice(e) {
       this.selectedPrice = e.target.value;
+    },
+    updateSelectedCampus (e) {
+      this.selectedCampusName = e.target.value
     },
     validateLicenseNum () {
       this.errMsg = '';
@@ -142,7 +182,9 @@ export default {
         sessionOptions.email = this.parentEmail
         sessionOptions.details = {
           studentName: this.studentName,
-          studentEmail: this.studentEmail
+          studentEmail: this.studentEmail,
+          campusName: this.selectedCampusName,
+          studentNameV2: this.studentNameV2
         }
       }
       const { errMsg } = await handleCheckoutSession(sessionOptions)
@@ -153,6 +195,22 @@ export default {
       if (this.isTecmilenioPartner) {
         if (!this.studentEmail || !this.studentEmail.includes('@tecmilenio.mx')) {
           this.errMsg = 'inválido Correo institucional del alumno'
+          this.showLoading = false
+          return false
+        }
+        const convertedId = parseInt(this.studentName)?.toString()
+        if (!this.studentName || this.studentName.length !== 8 || isNaN(parseInt(this.studentName)) || convertedId?.length !== 8 || convertedId !== this.studentName) {
+          this.errMsg = 'invalido Matrícula del alumno - ingresa solo 8 digitos'
+          this.showLoading = false
+          return false
+        }
+        if (this.studentName !== this.studentNameConfirm) {
+          this.errMsg = 'Discordancia Matrícula del alumno'
+          this.showLoading = false
+          return false
+        }
+        if (!this.selectedCampusName) {
+          this.errMsg = 'inválido campus'
           this.showLoading = false
           return false
         }
@@ -198,5 +256,12 @@ export default {
 
 .error {
   color: red;
+  font-weight: bold;
+}
+
+.tecmilenio-pay-warning {
+  color: #ff9800;
+  font-size: 14px;
+  line-height: 24px;
 }
 </style>
