@@ -33,6 +33,10 @@ if showGameDevAlert
       #houston-logo-container
         img#houston-logo(src="/images/pages/play/houston-library-logo.png")
 
+    else if view.shouldShow('burnaby-logo')
+      #burnaby-logo-container
+        img#burnaby-logo(src="/images/pages/play/burnaby-library-logo.webp")
+
     if view.shouldShow('back-to-classroom')
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
 
