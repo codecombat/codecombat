@@ -12,14 +12,17 @@
       SecondaryButton
     },
     mixins: [validationMixin],
-    data: () => ({
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      passwordFieldType: 'password',
-      validationMessages: validationMessages,
-    }),
+    data: () => {
+      const url = new URLSearchParams(window.location.search)
+      return {
+        firstName: url.get('firstName') || '',
+        lastName: url.get('lastName') || '',
+        email: url.get('email') || '',
+        password: '',
+        passwordFieldType: 'password',
+        validationMessages: validationMessages
+      }
+    },
 
     validations: basicInfoValidations,
 

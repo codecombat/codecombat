@@ -4445,6 +4445,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     time_zone: "Your Time Zone"
     email: "Email"
 
+  mobile_landing:
+    subtitle: "Get free access to the most engaging way to teach CS"
+    you_re_set: "YOU'RE SET!"
+    done_blurb: "Check your email for instructions on accessing your teacher account. For the best experience, we suggest using a device with an external keyboard and larger screen."
+    step_email: "STEP 1"
+    step_name: "STEP 2"
+    step_done: "DONE"
+    video_title: "GET A SNEAK PEEK HERE"
+    email_confirm: "The email address \"__email__\" is already registered. Would you like to login?"
+
   roblox_landing:
     headline: "CodeCombat Worlds is a New Immersive Experience on Roblox"
     subhead: "Join the beta waitlist to receive early access, development updates and more!"
