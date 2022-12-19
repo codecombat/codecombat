@@ -199,7 +199,11 @@ export default {
           return false
         }
         const convertedId = parseInt(this.studentName)?.toString()
-        if (!this.studentName || this.studentName.length !== 8 || isNaN(parseInt(this.studentName)) || convertedId?.length !== 8 || convertedId !== this.studentName) {
+        const TEC_VALID_ID_LEN = 8
+        const numOfZeros = (TEC_VALID_ID_LEN - convertedId.length) > 0 ? (TEC_VALID_ID_LEN - convertedId.length) : 0
+        const preZeros = [...Array(numOfZeros).keys()].map(n => '0').join('')
+        const convertedIdWithPreZeros = preZeros + convertedId
+        if (!this.studentName || this.studentName.length !== TEC_VALID_ID_LEN || isNaN(parseInt(this.studentName)) || convertedIdWithPreZeros?.length !== TEC_VALID_ID_LEN || convertedIdWithPreZeros !== this.studentName) {
           this.errMsg = 'invalido Matrícula del alumno - ingresa solo 8 digitos'
           this.showLoading = false
           return false
@@ -261,7 +265,8 @@ export default {
 
 .tecmilenio-pay-warning {
   color: #ff9800;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 24px;
+  font-weight: bold;
 }
 </style>
