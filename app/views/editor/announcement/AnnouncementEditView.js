@@ -11,7 +11,7 @@ class AnnouncementEditView extends EditView{
 
   constructor(options = {}, resourceId) {
     super({})
-    this.resource = new Announcement({_id: resourceId })
+    this.resource = new Announcement({ _id: resourceId })
     this.supermodel.loadModel(this.resource)
   }
 }

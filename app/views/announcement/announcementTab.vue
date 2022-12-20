@@ -1,23 +1,24 @@
 <template>
   <div
     class="tab"
-    :class="{read: announcement.read, collapsed: !display, fullscreen: alwaysDisplay}"
+    :class="{read: announcement.read, 'my-collapsed': !display, fullscreen: alwaysDisplay}"
   >
     <div
       class="title"
-      :data-toggle="alwaysDisplay ? '': 'collapse'"
-      :data-target="'#collapse-' + announcement._id"
+      data-toggle="collapse"
+
+      :data-target="`.content${announcement._id}`"
       :class="{clickable: !alwaysDisplay}"
       @click="toggleDisplay"
     >
       {{name}}
     </div>
     <div
-      :id="'collapse-' + announcement._id"
-      class="content collapse"
-    >
-      {{ content }}
-    </div>
+      :class="`content${announcement._id}`"
+      class="collapse content"
+      data-parent=".title"
+      v-html="content"
+    />
   </div>
 </template>
 
@@ -89,7 +90,7 @@ export default {
     }
   }
 
-  &.collapsed{
+  &.my-collapsed{
     &> .title:before {
       content: '+';
     }
