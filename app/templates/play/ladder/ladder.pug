@@ -178,11 +178,11 @@ block content
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href='/play/spectate/' + view.level.get('slug') + '?tournament=' + view.tournamentId + (view.league ? "&league=" + view.league.id : ""))
               span.glyphicon.glyphicon-eye-open
               span.spl(data-i18n="play.spectate")
-        if view.tournamentState === 'waiting' && me.get('_id') === view.league.get('ownerID')
+        if view.tournamentState === 'waiting' && view.league && (me.get('_id') === view.league.get('ownerID') || me.isAdmin())
           div.column.column-2
             a.btn.btn-illustrated.btn-block.btn-lg.btn-success.publish-button
               span(data-i18n="tournament.publish_results")
-        if me.isAdmin() && view.tournamentState == "ranking"
+        if me.isAdmin() && (view.tournamentState == "ranking" || view.tournamentState == "waiting")
           div.column.column-2
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.early-results-button(href='#results')
               span.glyphicon.glyphicon-star

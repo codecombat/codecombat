@@ -227,7 +227,7 @@ module.exports = class LadderView extends RootView
     # initializing, ranking, waiting - nothing
     # waiting for owner - only leaderboard
     # ended - only leaderboard
-    if @tournamentState == 'ended' or (@tournamentState == 'waiting' and me.get('_id') == @league.get('ownerID'))
+    if @tournamentState == 'ended' or (@tournamentState == 'waiting' and me.get('_id') == @league?.get('ownerID'))
       @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId, leagueType: 'clan', myTournamentSubmission: @myTournamentSubmission}, @level, @sessions )) # classroom ladder do not have tournament for now
     else if ['initializing', 'ranking', 'waiting'].includes(@tournamentState)
       null
@@ -271,7 +271,7 @@ module.exports = class LadderView extends RootView
     @showPlayModal($(e.target).closest('.play-button').data('team'))
 
   onClickPublishButton: (e) ->
-    return unless (@tournamentId and @tournamentState == 'waiting' and me.get('_id') == @league.get('ownerID'))
+    return unless (@tournamentId and @tournamentState == 'waiting' and me.get('_id') == @league?.get('ownerID'))
 
     publishTournament({id: @tournamentId}).then((res) =>
         window.location.href = window.location.href
