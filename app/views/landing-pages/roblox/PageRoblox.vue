@@ -17,7 +17,7 @@
                 type="video/mp4"
             >
           </video>
-          <div class="col col-md-7">
+          <div class="col col-md-8">
             <img
                 class="coco-worlds-logo"
                 src="/images/pages/roblox/coco-worlds.png"
@@ -28,9 +28,12 @@
             <h2 class="text-subhead">
               {{ $t('roblox_landing.subhead') }}
             </h2>
-            <button class="orange-button signup-waitlist-button" @click="openModal">
-              {{ $t('signup.sign_up') }}
-            </button>
+
+            <button-main
+                @click="openModal"
+                :buttonText="$t('signup.sign_up')"
+                class="button-main"
+            />
           </div>
         </div>
       </div>
@@ -68,15 +71,20 @@
     <div class="container">
       <div class="row row-video">
         <div class="col-md-12">
-          <base-cloudflare-video :video-cloudflare-id="videoId" :thumbnail-url="thumbnailUrl"/>
+          <div class="video-container">
+            <youtube
+                class="player"
+                ref="player"
+                video-id="ZhfFr0TWqjo"
+                fit-parent="true"
+            />
+          </div>
         </div>
       </div>
 
       <div class="row row-faq">
         <div class="col-md-12">
-          <div class="orange-button faq-button">
-            {{ $t('contact.faq') }}
-          </div>
+          <button-main :href="false" :buttonText="$t('contact.faq')" class="button-main" />
 
           <div class="item">
             <p class="question">{{ $t('roblox_landing.question_1') }}</p>
@@ -151,10 +159,12 @@ import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo'
 import Modal from 'app/components/common/Modal'
 import forms from 'core/forms'
 import { waitlistSignup } from 'core/api/roblox'
+import ButtonMain from '../common/ButtonMain'
 
 export default {
   components: {
     BaseCloudflareVideo,
+    ButtonMain,
     Modal
   },
 
@@ -168,7 +178,7 @@ export default {
     const videoId = 'a4a795197e1e6b4c75149c7ff297d2fa'
 
     return {
-      role: null,
+      role: 'player',
       roles: ['teacher', 'player', 'parent', 'partner'],
       boxesByRole: {
         teacher: ['play', 'code', 'create'],
@@ -228,6 +238,7 @@ export default {
 <style lang="scss" scoped>
 @import "app/styles/bootstrap/variables";
 
+$body-font: "Work Sans", "Open Sans", "sans serif";
 $box-content-margin: min(6vw, 90px);
 
 .asset {
@@ -245,33 +256,36 @@ $box-content-margin: min(6vw, 90px);
 }
 
 #roblox-page {
-  background: linear-gradient(45deg, transparent 0%, rgb(12 214 215 / 80%) 100%);
+  background-image: url(/images/pages/roblox/page-background.png);
+  background-size: cover;
   background-color: #005759;
   margin-bottom: -50px;
 
   h1, h2, h3, h4, p, li {
     color: white;
+    font-family: $body-font;
   }
 
-  h1 {
-    font-size: 44px;
-    line-height: 1.13em;
-    font-weight: bold;
+  h1.text-headline {
+    font-size: 40px;
+    line-height: 1em;
+    font-weight: 600;
     text-shadow: 0em 0.0375em 0.28125em rgb(0 0 0 / 60%);
     @media (max-width: $screen-md-min) {
-      font-size: 22px;
+      font-size: 20px;
     }
   }
 
-  h2 {
+  h2.text-subhead {
     color: #e1dede;
     font-size: 29px;
     text-shadow: 0em 0.0375em 0.28125em rgb(0 0 0 / 60%);
     line-height: 1.13em;
-    font-weight: 700;
+    font-weight: 600;
     @media (max-width: $screen-md-min) {
       font-size: 15px;
     }
+    margin: 5px 0;
   }
 
   > .container > .row {
@@ -294,6 +308,7 @@ $box-content-margin: min(6vw, 90px);
 
   .box-content {
     text-align: center;
+
     p {
       margin: 0 $box-content-margin 14px;
     }
@@ -325,26 +340,6 @@ $box-content-margin: min(6vw, 90px);
 
   .coco-worlds-logo {
     height: min(20vw, 160px);
-  }
-
-  .orange-button {
-    background-color: #ff9406;
-    color: white;
-    font-size: 47px;
-    text-shadow: 0em 0.0375em 0.18em rgb(0 0 0 / 37%);
-    border: 4px solid #b46804;
-    border-radius: 0.4em;
-    padding: 0.4em 0.6em;
-    margin: 0.3em 0;
-    font-weight: bold;
-
-    @media (max-width: $screen-md-min) {
-      font-size: 23px;
-    }
-
-    &.faq-button {
-      display: inline-block;
-    }
   }
 
   .container-boxes {
@@ -379,6 +374,10 @@ $box-content-margin: min(6vw, 90px);
   > .container {
     > .row-video {
       margin-bottom: min(3vw, 40px);
+
+      .video-container {
+        width: 100%;
+      }
     }
 
     .row-faq {
@@ -413,15 +412,15 @@ $box-content-margin: min(6vw, 90px);
 
   .headline-row {
     position: relative;
-    padding-bottom: 15px;
+    padding-bottom: 0px;
 
     .col {
-      padding-top: min(2.5vw, 40px);
+      padding-top: min(1.25vw, 20px);
     }
 
     .video-background {
       position: absolute;
-      object-fit: cover;
+      object-fit: contain;
       width: 100%;
       height: 100%;
     }
@@ -432,6 +431,18 @@ $box-content-margin: min(6vw, 90px);
     color: #0B6125;
     display: inline-block;
     margin-right: 1rem;
+  }
+
+  .button-main {
+    background-color: #FF9406;
+    display: inline-block;
+    min-width: auto;
+    margin: 25px 0;
+    color: white;
+    text-shadow: 0em 0.0375em 0.18em rgb(0 0 0 / 37%);
+    &:hover {
+      background-color: #fcd200;
+    }
   }
 }
 </style>
