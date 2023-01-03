@@ -1,22 +1,22 @@
 <template>
   <div id="roblox-page">
     <div class="container-fluid headline-container">
+      <video
+          id="myVideo"
+          class="video-background"
+          autoplay
+          muted
+          loop
+          playsinline
+          src="/images/pages/roblox/video-background.mp4"
+      >
+        <source
+            src="/images/pages/roblox/video-background.mp4"
+            type="video/mp4"
+        >
+      </video>
       <div class="container">
         <div class="row headline-row">
-          <video
-              id="myVideo"
-              class="video-background"
-              autoplay
-              muted
-              loop
-              playsinline
-              src="/images/pages/roblox/video-background.mp4"
-          >
-            <source
-                src="/images/pages/roblox/video-background.mp4"
-                type="video/mp4"
-            >
-          </video>
           <div class="col col-md-8">
             <img
                 class="coco-worlds-logo"
@@ -72,11 +72,9 @@
       <div class="row row-video">
         <div class="col-md-12">
           <div class="video-container">
-            <youtube
-                class="player"
-                ref="player"
-                video-id="ZhfFr0TWqjo"
-                fit-parent="true"
+            <base-video
+                :youtube-props="{ videoId: youtubeId, fitParent: true }"
+                :cloudflare-props="{ videoCloudflareId: videoId, thumbnailUrl }"
             />
           </div>
         </div>
@@ -84,7 +82,7 @@
 
       <div class="row row-faq">
         <div class="col-md-12">
-          <button-main :href="false" :buttonText="$t('contact.faq')" class="button-main" />
+          <button-main :href="false" :buttonText="$t('contact.faq')" class="button-main"/>
 
           <div class="item">
             <p class="question">{{ $t('roblox_landing.question_1') }}</p>
@@ -155,7 +153,8 @@
 
 <script>
 
-import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo'
+import BaseVideo from 'app/components/common/BaseVideo'
+
 import Modal from 'app/components/common/Modal'
 import forms from 'core/forms'
 import { waitlistSignup } from 'core/api/roblox'
@@ -163,7 +162,7 @@ import ButtonMain from '../common/ButtonMain'
 
 export default {
   components: {
-    BaseCloudflareVideo,
+    BaseVideo,
     ButtonMain,
     Modal
   },
@@ -176,6 +175,7 @@ export default {
     }
 
     const videoId = 'a4a795197e1e6b4c75149c7ff297d2fa'
+    const youtubeId = 'ZhfFr0TWqjo'
 
     return {
       role: 'player',
@@ -194,6 +194,7 @@ export default {
       modalShown: false,
       i18nData,
       videoId,
+      youtubeId,
       thumbnailUrl: `https://videodelivery.net/${videoId}/thumbnails/thumbnail.jpg?time=3.000s`
     }
   },
@@ -256,9 +257,7 @@ $box-content-margin: min(6vw, 90px);
 }
 
 #roblox-page {
-  background-image: url(/images/pages/roblox/page-background.png);
-  background-size: cover;
-  background-color: #005759;
+  background: radial-gradient(ellipse at center, rgba(0, 161, 144, 1) 0%, rgba(0, 177, 156, 1) 54%, rgba(0, 107, 99, 1) 96%, rgba(0, 107, 99, 1) 100%);
   margin-bottom: -50px;
 
   h1, h2, h3, h4, p, li {
@@ -408,6 +407,7 @@ $box-content-margin: min(6vw, 90px);
   .headline-container {
     margin-bottom: min(3.33vw, 50px);
     background: black;
+    position: relative;
   }
 
   .headline-row {
@@ -418,12 +418,13 @@ $box-content-margin: min(6vw, 90px);
       padding-top: min(1.25vw, 20px);
     }
 
-    .video-background {
-      position: absolute;
-      object-fit: contain;
-      width: 100%;
-      height: 100%;
-    }
+  }
+
+  .video-background {
+    position: absolute;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
   }
 
   .success-msg {
@@ -440,6 +441,7 @@ $box-content-margin: min(6vw, 90px);
     margin: 25px 0;
     color: white;
     text-shadow: 0em 0.0375em 0.18em rgb(0 0 0 / 37%);
+
     &:hover {
       background-color: #fcd200;
     }
