@@ -35,16 +35,17 @@ module.exports = class LeaderboardView extends CocoView
       {slug: 'age', col: 1, title: $.i18n.t('ladder.age_bracket')},
       {slug: 'country', col:1, title: '🏴‍☠️'}
     ]
-    @propsData = { @tableTitles, @league, @level, @leagueType, @course, scoreType: 'tournament' }
+    @propsData = { @tableTitles, @league, @level, @leagueType, @course, scoreType: 'tournament', showContactUs: @anonymousPlayerName && me.isTeacher() }
     unless @tournament
       @propsData.tableTitles = [
         {slug: 'creator', col: 0, title: ''},
         {slug: 'language', col: 1, title: ''},
         {slug: 'rank', col: 1, title: ''},
-        {slug: 'name', col: 3, title: $.i18n.t('general.name')},
+        {slug: 'name', col: 2, title: $.i18n.t('general.name')},
         {slug: 'score', col: 2, title: $.i18n.t('general.score')},
+        {slug: 'clan', col: 2, title: $.i18n.t('league.team')},
         {slug: 'age', col: 1, title: $.i18n.t('ladder.age')},
-        {slug: 'when', col: 2, title: $.i18n.t('general.when')}
+        {slug: 'when', col: 1, title: $.i18n.t('general.when')}
         {slug: 'fight', col: 1, title: ''}
       ]
       @propsData.scoreType = 'arena'
@@ -52,7 +53,7 @@ module.exports = class LeaderboardView extends CocoView
     @myRank = -1
     @playerRankings = []
     @session = null
-    @dataObj = { myRank: @myRank, rankings: @rankings, session: @session, playerRankings: @playerRankings, showContactUs: @anonymousPlayerName && me.isTeacher() }
+    @dataObj = { myRank: @myRank, rankings: @rankings, session: @session, playerRankings: @playerRankings }
 
     @refreshLadder()
 
@@ -155,6 +156,7 @@ module.exports = class LeaderboardView extends CocoView
           model.rank || index+1,
           (@mapFullName(model.get('fullName')) || model.get('creatorName') || $.i18n.t("play.anonymous")),
           @correctScore(model),
+          @getClanName(model),
           @getAgeBracket(model),
           moment(model.get('submitDate')).fromNow().replace('a few ', ''),
           model.get('_id')

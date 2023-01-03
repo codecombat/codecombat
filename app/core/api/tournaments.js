@@ -14,10 +14,18 @@ const putTournament = (options) => {
   })
 }
 
+const publishTournament = (options) => {
+  return fetchJson(`/db/tournament/${options.id}/publish`, {
+    method: 'PUT',
+    json: true
+  })
+}
+
 const getTournamentsByMember = memberId => fetchJson(`/db/tournaments?memberId=${memberId}`)
 
 module.exports = {
   postTournament,
   putTournament,
+  publishTournament,
   getTournamentsByMember
 }

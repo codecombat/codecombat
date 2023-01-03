@@ -206,6 +206,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     top_banner_blurb_podcast: "NEW: Explore the world of EdTech with our new podcast EdTech Adventures."
     top_banner_blurb_demo_day: "Please join us for a demo day webinar on Thursday, August 25 at 4:00 pm EDT."
     top_banner_blurb_demo_day_10_20: "Join us for a spooktacular demo of CodeCombat & Ozaria on Thursday, October 20 at 4:00 pm CDT."
+    top_banner_blurb_hoc_2022_12_01: "Join us Dec. 1st for our Hour of Code Walkthrough! Everything you need to implement our all new activities __topBannerHereLink__"
+    top_banner_blurb_hoc_2022_12_01_here: "HERE"
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -2874,10 +2876,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     defeat_the: "Defeat the"
     watch_battle: "Watch the battle"
     tournament_starts: "Tournament starts __timeElapsed__"
-    tournament_started: ", started"
-    tournament_ends: "Tournament ends"
-    tournament_ended: "Tournament ended"
-    tournament_results_published: ", results published"
+    tournament_started: "Tournament started __timeElapsed__"
+    tournament_ends: ", will end __timeLeft__"
+    tournament_ended: "Tournament ended __timeLeft__"
+    tournament_results_published: ", results published __timeLeft__"
+    tournament_results_wait_publish: ", results will be published by owner"
     tournament_rules: "Tournament Rules"
     tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
     tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
@@ -4094,6 +4097,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     lava_lake: "Lava Lake"
     desert_duel: "Desert Duel"
     sandstorm: "Sandstorm"
+    frozen_fortress: "Frozen Fortress"
+    equinox: "Equinox"
+    pool_party_plunder: "Pool Party Plunder"
+    beach_ball: "Beach Ball"
+    storm_siege: "Storm Siege"
+    snowhold: "Snowhold"
     season_label: "Season __seasonNumber__: __seasonName__"
     season_1: "Forged in Flame"
     season_2: "Spells of Fortune"
@@ -4101,10 +4110,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     season_4: "Frosts of War"
     season_5: "Sands of Time"
     season_6: "Molten Mayhem"
+    season_7: "Melting Point"
+    season_8: "Summer Smash"
+    season_9: "Reign of Code"
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
-    season6_announcement_1: "The Lava Lake Clash Final is on. Guide your lava snail to victory!"
+    season6_announcement_1: "It’s absolute Molten Mayhem with the launch of the Lava Lake Clash finals! Outlast and outwit the competition in this hot take on classic Snake gameplay."
     season6_announcement_2: "Note: arena balance adjustments may occur up until December 15th. So be sure to come back often to test your code against the global leaderboard."
     season5_announcement_1: "The Sandstorm Blitz Final is on. In this basketbrawl of an arena, you must summon the right heroes, call the right plays, and outscore your opponent to take the victory!"
     season5_announcement_2: "Note: arena balance adjustments may occur up until September 15th. So be sure to come back often to test your code against the global leaderboard."
@@ -4170,6 +4182,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     coco_reserves: "CodeCombat reserves"
     prize_footer4_2: "the right to determine in its sole discretion if a player qualifies and will receive a prize."
     place: "Place" # as in 1st place
+    arena_under_construction: "Next season's arena is under construction. Check back soon!"
     unlock_ai_league: "Unlock the full potential of the AI League."
     esports_anonymous_changing: "Esports player name visibility changing September 1"
     esports_get_full_access: "Get Full Access"
@@ -4209,14 +4222,25 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     results_date_time: 'Results Time'
     start_date_description: '(PT) The start time of tournament'
     end_date_description: '(PT) The end time of tournament'
-    results_date_description: '(PT) Tournament need 2 days to generate final leaderboard'
+    results_date_description: 'Select a time to publish results.'
+    results_date_suggestion_0: 'Note: Tournament may need some time to generate final leaderboard, so you need to allow enough time for the results.'
+    results_date_suggestion_1: 'i.e. 0-50 players: 5 mins'
+    results_date_suggestion_2: '     50-100 players: 20 mins'
+    results_date_suggestion_3: '     100-500 players: 10 hours'
     select_team_desc: 'select your team to creat/edit your tournaments'
     already_create_tournaments_num: 'You already created __num__ tournaments here:'
     can_create_tournaments_num: 'You can create __num__ more tournament(s) from below:'
     my_teams: 'My Teams:'
     team: 'Team'
     team_description: '(Required) Only the players in the team can join this tournament'
+    review_results: 'Review Results'
+    review_description: 'We will email you the results of tournament and wait for you to publish for participants.'
+    publish_immediately: 'Publish Immediately'
+    publish_description: 'The result of tournament will be published immediately once ready.'
     error_end_date_too_early: 'The End Time cannot be earlier than Start Time'
+    error_results_date_too_early: 'The Results Time cannot be earlier than End Time'
+    publish_results: 'Publish Results'
+    publish_options: 'Publish Options'
 
   payments:
     student_licenses: 'Student Licenses'
@@ -4300,6 +4324,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     requireValidPhone: 'Please enter a valid phone number, including area code.'
 
   partners:
+    for: 'for'
+    business_partners: 'Business Partners'
     headline: 'Join us in our mission to make coding engaging and accessible to all'
     below_headline_blurb: 'At CodeCombat we’ve developed comprehensive tools that make learning to code fun and teaching programming easy. Our turnkey solutions can be leveraged in many executions.'
     coding_title: 'Coding & STEAM Education Businesses:'
@@ -4319,10 +4345,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     seek_relationships_blurb: 'We seek relationships with nonprofits and community-based organizations working with groups underrepresented in computer science and technology careers. Our partnership with __seeds_of_light__ will fund CS educational opportunities for thousands of young learners.'
     seeds_of_light: 'Seeds of Light'
     corporate_team_building_title: 'Corporate Team Building'
-    corporate_team_building_blurb: 'Need to engage your employees with a turnkey activity that will inspire their competitive spirit and challenge them to creatively problem solve? Work with us to build a custom competitive coding tournament that will have your team programming their own strategies while playing a game.'
+    corporate_team_building_blurb: 'Need to engage your employees with a turnkey activity that will inspire their competitive spirit and challenge them to creatively problem solve? Work with us to build a custom competitive coding tournament that will have your team programming their own strategies while playing a game. __see_how__'
     footer_blurb: 'These are just a few of the partnership structures we have successfully supported. If you would like to initiate a discussion with our business development team on any of these models or have a different partnership opportunity, please reach out today.'
     talk_with_us: 'Talk with Us'
     our_partners: 'Our Partners'
+    see_how: 'See How'
 
   podcast:
     learning_adventure: "Where learning is always an adventure."
@@ -4391,6 +4418,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     already_logged_in: "Already logged in, please logout from the top navigation bar to login again."
     search_box_option: "If search box doesn't load, login by clicking"
     new_signups: "New Signups"
+    heading_for: "for"
+    heading_libraries: "Libraries"
+    educational_equity: "Educational Equity"
+    power_of_play: "Power of play"
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."
@@ -4420,6 +4451,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     switch: "Switch"
     title: "Related Accounts"
     bi_directional_help_text: "Allow added user to switch to your account?"
+
   modal_free_class:
     paragraph_1: "Thank you for choosing CodeCombat."
     paragraph_2: "Our team is eager to connect with you to get your child scheduled for a free trial class."
@@ -4436,3 +4468,50 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     evening: "Evening (4PM - 8PM)"
     time_zone: "Your Time Zone"
     email: "Email"
+
+  mobile_landing:
+    subtitle: "Get free access to the most engaging way to teach CS"
+    you_re_set: "YOU'RE SET!"
+    done_blurb: "Check your email for instructions on accessing your teacher account. For the best experience, we suggest using a device with an external keyboard and larger screen."
+    step_email: "STEP 1"
+    step_name: "STEP 2"
+    step_done: "DONE"
+    video_title: "GET A SNEAK PEEK HERE"
+    email_confirm: "The email address \"__email__\" is already registered. Would you like to login?"
+
+  roblox_landing:
+    headline: "CodeCombat Worlds is a New Immersive Experience on Roblox"
+    subhead: "Join the beta waitlist to receive early access, development updates and more!"
+    sign_up: "Sign Up"
+    box_play_subhead: "Play"
+    box_code_subhead: "Code"
+    box_create_subhead: "Create"
+    box_headline: "Play, Code and Create on Roblox"
+    box_play_blurb_teacher: "In partnership with Roblox Education, we are combining our proven coding-as-gameplay approach with the creative and social power of the Roblox platform to make a new Roblox experience that teaches coding and game development in-game."
+    box_code_blurb_teacher: "The experience will be personalized and differentiated, offering structured and unstructured intuitive practice that allows the player to learn as they like, while still aligning with CSTA and ISTE computer science standards."
+    box_create_blurb_teacher: "This engaging play experience will provide the foundational instruction needed to take players from zero coding knowledge to publishing full Roblox games. Our Creative Mode lets players build while playing, without requiring switching modes to the full desktop Roblox Studio IDE."
+    box_play_blurb_player: "Explore the 3D immersive experience of CodeCombat Worlds. Program your pets and adventure into a universe of creativity and shared experiences with friends."
+    box_code_blurb_player: "Learn real Lua coding, from beginner to advanced. Use code to explore, gather resources, build, and discover your path to glory."
+    box_create_blurb_player: "No Roblox Studio? No problem. Code in-game in Creative Mode to make full Roblox games to share with your friends."
+    box_play_blurb_parent: "Through our proven game-based learning approach, we engage young learners through play, while teaching coding and game development."
+    box_code_blurb_parent: "Coding from the very start of their adventure, the experience is personalized and differentiated, offering structured and unstructured intuitive practice that allows your child to learn as they like."
+    box_create_blurb_parent: "Many kids want to create games but don’t know where to start. This engaging play experience will provide the foundational instruction needed to take players from zero coding knowledge to publishing full Roblox games."
+    box_play_blurb_partner: "Engage young learners with a next-generation Roblox experience. With support from Roblox Education, we are combining our proven coding-as-gameplay approach with the creative and social power of the Roblox platform to make a new Roblox experience that teaches coding and game development in-game."
+    box_code_blurb_partner: "The experience will be personalized and differentiated, offering structured and unstructured intuitive practice that allows the player to learn as they like. We make it easier than ever to teach real coding to your students in either self-paced or instructor-directed contexts."
+    box_create_blurb_partner: "Instead of building a standalone curriculum tied to Roblox Studio, take advantage of our in-game Creative Mode and its scaffolded instruction to easily ramp your students from no coding experience to publishing full Roblox games."
+    role_teacher: "Teacher"
+    role_player: "Player"
+    role_parent: "Parent"
+    role_partner: "Partner"
+    select_role: "Please select your role"
+    question_1: "Do I need to know Lua or Roblox Studio?"
+    answer_1: "No. This experience will allow anyone to play, code and create from the very start of their adventure, without any coding experience."
+    question_2: "Can I create my own games?"
+    answer_2: "Yes. Game development is at the core of this experience and after completing the core learning levels you will have the opportunity to create your own."
+    question_3: "Will my creations be available on Roblox?"
+    answer_3: "Yes. Anything you create in this experience, you will be able to import into Roblox Studio and then publish to the platform for anyone to play."
+    bottom_blurb_parent: "No need to wait - __sign-up__ for our live online classes to get your child coding today! Get them started with CodeCombat web to be the first to get access to the CodeCombat Worlds Roblox experience."
+    bottom_blurb_sign_up: "Sign up"
+    bottom_blurb_partner: "Want to use the new CodeCombat Worlds Roblox experience for your education business, social impact initiative or international distribution opportunity? __reach-out__ to discuss partnering today."
+    bottom_blurb_reach_out: "Reach out"
+    boxes_title: "Play, Code and Create on Roblox"

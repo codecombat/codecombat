@@ -10,7 +10,6 @@ GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').def
 paymentUtils = require 'app/lib/paymentUtils'
 fetchJson = require 'core/api/fetch-json'
 DOMPurify = require 'dompurify'
-BannerHoC = require("./courses/BannerHoC").default
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -44,10 +43,11 @@ module.exports = class HomeView extends RootView
     context.i18nData =
       slides: "<a href='https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing' target='_blank'>#{$.i18n.t('new_home.lesson_slides')}</a>"
       clever: "<a href='/teachers/resources/clever-faq'>#{$.i18n.t('new_home_faq.clever_integration_faq')}</a>"
-      contact: "<a class='contact-modal'>#{$.i18n.t('general.contact_us')}</a>"
+      contact: if me.isTeacher() then "<a class='contact-modal'>#{$.i18n.t('general.contact_us')}</a>" else "<a href=\"mailto:support@codecombat.com\">#{$.i18n.t('general.contact_us')}</a>"
       funding: "<a href='https://www.ozaria.com/funding' target='_blank'>#{$.i18n.t('nav.funding_resources_guide')}</a>"
       maintenanceStartTime: "#{context.maintenanceStartTime.calendar()} (#{context.maintenanceStartTime.fromNow()})"
       interpolation: { escapeValue: false }
+      topBannerHereLink: "<a href='/teachers/hour-of-code' target='_blank'>#{$.i18n.t('new_home.top_banner_blurb_hoc_2022_12_01_here')}</a>"
     context
 
   getMeta: ->
@@ -167,6 +167,10 @@ module.exports = class HomeView extends RootView
         _.defer => @openModalView(new CreateAccountModal({startOnPath: 'student'})) unless @destroyed
       if document.location.hash is '#create-account-teacher'
         _.defer => @openModalView(new CreateAccountModal({startOnPath: 'teacher'})) unless @destroyed
+      if document.location.hash is '#login'
+        AuthModal = require 'app/views/core/AuthModal'
+        url = new URLSearchParams window.location.search
+        _.defer => @openModalView(new AuthModal({initialValues:{email: url.get 'email'}})) unless @destroyed
 
     if utils.getQueryVariable('payment-studentLicenses') in ['success', 'failed'] and not @renderedPaymentNoty
       paymentResult = utils.getQueryVariable('payment-studentLicenses')
@@ -193,10 +197,6 @@ module.exports = class HomeView extends RootView
       noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
     _.delay(@activateCarousels, 1000)
-
-    @bannerHoC = new BannerHoC({
-      el: @$('.banner-hoc')[0]
-    })
     super()
 
   trackPurchase: (event) ->
@@ -214,9 +214,12 @@ module.exports = class HomeView extends RootView
     # scroll to the current hash, once everything in the browser is set up
     f = =>
       return if @destroyed
-      link = $(document.location.hash)
-      if link.length
-        @scrollToLink(document.location.hash, 0)
+      try
+        link = $(document.location.hash)
+        if link.length
+          @scrollToLink(document.location.hash, 0)
+      catch e
+        console.warn e  # Possibly a hash that would not match a valid element
     _.delay(f, 100)
     @loadCurator()
 

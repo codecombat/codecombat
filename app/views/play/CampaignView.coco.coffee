@@ -1580,6 +1580,9 @@ module.exports = class CampaignView extends RootView
     if what is 'houston-logo'
       return userUtils.libraryName() is 'houston'
 
+    if what is 'burnaby-logo'
+      return userUtils.libraryName() is 'burnaby'
+
     if what is 'league-arena'
       return false if me.showChinaResourceInfo()
       # Note: Currently the tooltips don't work in the campaignView overworld.

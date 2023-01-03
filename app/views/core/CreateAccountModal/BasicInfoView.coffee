@@ -59,6 +59,12 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
     @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
+
+    # Prefill form by url params
+    url = new URLSearchParams window.location.search
+    ['firstName', 'lastName', 'email'].forEach (param) =>
+      @signupState.get('signupForm')[param]= url.get param
+
     @hideEmail = if isCodeCombat then userUtils.shouldHideEmail() else false
 
   afterRender: ->

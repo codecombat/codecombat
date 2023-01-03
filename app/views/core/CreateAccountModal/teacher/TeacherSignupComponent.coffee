@@ -6,7 +6,6 @@ TeacherSignupStoreModule = require './TeacherSignupStoreModule'
 module.exports = TeacherSignupComponent = Vue.extend
   name: 'teacher-signup-component'
   template: require('app/templates/core/create-account-modal/teacher-signup-component')()
-  storeModule: TeacherSignupStoreModule
 
   created: ->
     @disableKeyboardClose()

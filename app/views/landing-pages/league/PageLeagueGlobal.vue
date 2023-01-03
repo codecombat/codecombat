@@ -55,7 +55,7 @@ export default {
     // TODO: Get these automatically from core/utils/arenas
     previousRegularArenaSlug: previousRegularArena ? previousRegularArena.slug : null,
     previousChampionshipArenaSlug: previousChampionshipArena ? previousChampionshipArena.slug : null,
-    regularArenaSlug: currentRegularArena ? currentRegularArena.slug : 'mages-might',
+    regularArenaSlug: currentRegularArena ? currentRegularArena.slug : null,
     championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
     championshipActive: !!currentChampionshipArena,
     anonymousPlayerName: false,
@@ -428,7 +428,17 @@ export default {
       return !this.currentSelectedClan?.kind
     },
 
-    regularArenaUrl () { return `/play/ladder/${this.regularArenaSlug}` + (this.clanIdSelected ? `/clan/${this.clanIdSelected}` : '') },
+    regularArenaUrl () {
+      let url = `/play/ladder/${this.regularArenaSlug}`
+      let tournament = currentRegularArena.tournament
+      if (this.clanIdSelected) {
+        url += `/clan/${this.clanIdSelected}`
+        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
+        tournament = tournaments[this.regularArenaSlug] || tournament
+      }
+      if (tournament) url += `?tournament=${tournament}`
+      return url
+    },
 
     previousRegularArenaUrl () {
       let url = `/play/ladder/${this.previousRegularArenaSlug}`
@@ -442,7 +452,17 @@ export default {
       return url
     },
 
-    championshipArenaUrl () { return `/play/ladder/${this.championshipArenaSlug}` + (this.clanIdSelected ? `/clan/${this.clanIdSelected}` : '') },
+    championshipArenaUrl () {
+      let url = `/play/ladder/${this.championshipArenaSlug}`
+      let tournament = currentChampionshipArena.tournament
+      if (this.clanIdSelected) {
+        url += `/clan/${this.clanIdSelected}`
+        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
+        tournament = tournaments[this.championshipArenaSlug] || tournament
+      }
+      if (tournament) url += `?tournament=${tournament}`
+      return url
+    },
 
     previousChampionshipArenaUrl () {
       let url = `/play/ladder/${this.previousChampionshipArenaSlug}`
@@ -596,7 +616,7 @@ export default {
       />
       <InputClanSearch v-if="isGlobalPage" :max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
-      <div class="col-lg-6 section-space">
+      <div class="col-lg-6 section-space" v-if="regularArenaSlug">
         <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;"/>
         <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
         <template
@@ -606,6 +626,10 @@ export default {
           <a :href="AILeagueProductCTA" target="_blank" class="btn btn-large btn-primary btn-moon play-btn-cta" v-else> {{ $t("league.unlock_leaderboard") }}</a>
         </template>
         <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta" v-else>{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
+      </div>
+      <div class="col-lg-6 section-space" v-else>
+        <p>{{ $t('league.arena_under_construction') }}</p>
+        <img class="not-found-image" src="/images/pages/not_found/404_1.png" alt="Arena under construction, coming soon" />
       </div>
       <div class="col-lg-6 section-space">
         <leaderboard :title="$t('league.codepoints')" :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"

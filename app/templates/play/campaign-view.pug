@@ -36,6 +36,10 @@ if showGameDevAlert
       #houston-logo-container
         img#houston-logo(src="/images/pages/play/houston-library-logo.png")
 
+    else if view.shouldShow('burnaby-logo')
+      #burnaby-logo-container
+        img#burnaby-logo(src="/images/pages/play/burnaby-library-logo.webp")
+
     if view.shouldShow('back-to-classroom') && view.DEEP_API_LIST.indexOf(me.get('clientCreator')) == -1
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
 
@@ -44,7 +48,6 @@ if showGameDevAlert
 
     if view.shouldShow('league-arena')
       for arena in view.activeArenas()
-        - var codePoints = (me.get('stats') || {}).codePoints
         // TODO: change from play to view standings if new Date() > arena.end
         - var playArenaText = $.t('league.play_arena_short', {arenaName: $.t('league.' + arena.slug.replace(/-/g, '_')), interpolation: {escapeValue: false}})
         - var emphasisClass = me.level() >= 12 ? 'btn-primary' : me.level() >= 6 ? 'btn-danger' : ''

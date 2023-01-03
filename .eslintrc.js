@@ -46,7 +46,8 @@ module.exports = {
     '*.jpg',
     '*.jpeg',
     '*.svg',
-    '*.scss'
+    '*.scss',
+    '*.webp'
   ],
 
   overrides: [

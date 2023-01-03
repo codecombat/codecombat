@@ -9,6 +9,7 @@ CocoCollection = require 'collections/CocoCollection'
 co = require 'co'
 utils = require 'core/utils'
 {joinClan} = require 'core/api/clans'
+{publishTournament} = require 'core/api/tournaments'
 
 LadderTabView = require './LadderTabView'
 MyMatchesTabView = require './MyMatchesTabView'
@@ -55,6 +56,7 @@ module.exports = class LadderView extends RootView
   events:
     'click .play-button': 'onClickPlayButton'
     'click a:not([data-toggle])': 'onClickedLink'
+    'click .publish-button': 'onClickPublishButton'
     'click .spectate-button': 'onClickSpectateButton'
     'click .simulate-all-button': 'onClickSimulateAllButton'
     'click .early-results-button': 'onClickEarlyResultsButton'
@@ -105,9 +107,6 @@ module.exports = class LadderView extends RootView
     if @tournamentId
       @checkTournamentCloseInterval = setInterval @checkTournamentClose.bind(@), 3000
       @checkTournamentClose()
-    if features.china
-      @checkTournamentEndInterval = setInterval @checkTournamentEnd.bind(@), 3000
-      @checkTournamentEnd()
 
   calcTimeOffset: ->
     $.ajax
@@ -119,30 +118,6 @@ module.exports = class LadderView extends RootView
     for session in @sessions.models
       if _.isEmpty(session.get('code'))
         session.set 'code', session.get('submittedCode')
-
-  checkTournamentEnd: ->
-    @checkTournamentClose()
-    return unless @leagueType is 'course'
-    return unless @timeOffset
-    return unless @mandate.loaded
-    return unless @level.loaded
-    return if (@leagueID and not @league.loaded)
-    mandate = @mandate.get('0')
-
-    tournamentState = STOP_CHECK_TOURNAMENT_OPEN
-
-    if mandate
-      tournamentState = @getTournamentState mandate, @courseInstance?.id, @level.get('slug'), @timeOffset
-      if tournamentState in TOURNAMENT_OPEN
-        if @tournamentEnd
-          @tournamentEnd = false
-          @render()
-      else
-        unless @tournamentEnd or me.isAdmin()
-          @tournamentEnd = true
-          @render()
-    if tournamentState in STOP_CHECK_TOURNAMENT
-      clearInterval @checkTournamentEndInterval
 
   getTournamentState: (mandate, courseInstanceID, levelSlug, timeOffset) ->
     tournament = _.find mandate.currentTournament or [], (t) ->
@@ -202,7 +177,7 @@ module.exports = class LadderView extends RootView
         else if @tournament.get('state') is 'starting'
           @tournamentEnd = false
           newInterval = if @tournamentTimeLeft > 10 * 1000 then Math.min(10 * 60 * 1000, @tournamentTimeLeft / 2) else 1000
-        else if @tournament.get('state') is 'ranking'
+        else if ['ranking', 'waiting'].includes(@tournament.get('state'))
           @tournamentEnd = true
           newInterval = if @tournamentResultsTimeLeft > 10 * 1000 then Math.min(10 * 60 * 1000, @tournamentResultsTimeLeft / 2) else 1000
         else if @tournament.get('state') is 'ended'
@@ -251,14 +226,25 @@ module.exports = class LadderView extends RootView
       modal = new AuthModal()
       @openModalView(modal)
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
-    unless @tournamentState in ['ended', 'ranking']
+    # tournamentState condition
+    # starting - show leaderboard && mymatches
+    # unset - leaderboard && mymatches
+    # unset and non-ladder - old leadearbod && mymatches
+    #
+    # initializing, ranking, waiting - nothing
+    # waiting for owner - only leaderboard
+    # ended - only leaderboard
+    if @tournamentState == 'ended' or (@tournamentState == 'waiting' and me.get('_id') == @league?.get('ownerID'))
+      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId, leagueType: 'clan', myTournamentSubmission: @myTournamentSubmission}, @level, @sessions )) # classroom ladder do not have tournament for now
+    else if ['initializing', 'ranking', 'waiting'].includes(@tournamentState)
+      null
+    else # starting, or unset
       if @level.isType('ladder')
         @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, leagueType: @leagueType, course: @course, myTournamentSubmission: @myTournamentSubmission}, @level, @sessions, @anonymousPlayerName ))
       else
         @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
       @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league, leagueType: @leagueType, course: @course}, @level, @sessions))
-    else
-      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId, leagueType: 'clan', myTournamentSubmission: @myTournamentSubmission}, @level, @sessions )) # classroom ladder do not have tournament for now
+    @renderSelectors('#ladder-action-columns')
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
@@ -280,7 +266,7 @@ module.exports = class LadderView extends RootView
   refreshViews: =>
     return if @destroyed or application.userIsIdle
     @lastRefreshTime = new Date()
-    @ladderTab.refreshLadder()
+    @ladderTab?.refreshLadder()
     if @myMatchesTab?.refreshMatches?
       @myMatchesTab.refreshMatches @refreshDelay
     @simulateTab?.refresh()
@@ -290,6 +276,15 @@ module.exports = class LadderView extends RootView
 
   onClickPlayButton: (e) ->
     @showPlayModal($(e.target).closest('.play-button').data('team'))
+
+  onClickPublishButton: (e) ->
+    return unless (@tournamentId and @tournamentState == 'waiting' and me.get('_id') == @league?.get('ownerID'))
+
+    publishTournament({id: @tournamentId}).then((res) =>
+        window.location.href = window.location.href
+    ).catch((err) =>
+      alert('tournament results publish failed')
+    )
 
   onClickSpectateButton: (e) ->
     e.preventDefault()
@@ -377,8 +372,6 @@ module.exports = class LadderView extends RootView
     clearInterval @refreshInterval
     if @tournamentTimeRefreshInterval
       clearInterval @tournamentTimeRefreshInterval
-    if @checkTournamentEndInterval
-      clearInterval @checkTournamentEndInterval
     if @checkTournamentCloseInterval
       clearInterval @checkTournamentCloseInterval
     super()

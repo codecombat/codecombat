@@ -186,7 +186,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       for note in script.noteChain or []
         if note.surface?.focus?
           surfaceModule = _.find note.modules or [], (module) -> module.surfaceCameraNote
-          if surfaceModule or utils.isOzaria
+          if surfaceModule
             cameraNote = surfaceModule.surfaceCameraNote true
             @publishNote cameraNote
             return

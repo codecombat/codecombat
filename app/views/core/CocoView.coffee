@@ -273,17 +273,10 @@ module.exports = class CocoView extends Backbone.View
 
       @openModalView(new DirectContactModal())
 
-    if (me.isTeacher(true) and window?.tracker?.drift?.openChat)
-      if me.showChinaResourceInfo()
-        console.log("drift removed in china")
-      else
-        openDirectContactModal()
+    if (me.isTeacher(true) and zE) or !me.showChinaResourceInfo()
+      openDirectContactModal()
     else
-      # There's an unlikely case where both Drift and Zendesk are unavailable, or Zendesk exists but fails.
-      # Since the modal communicates errors better, and shows the direct support email, we still open it.
-      zendesk.loadZendesk()
-        .then(-> if not zendesk.openZendesk() then openDirectContactModal())
-        .catch(-> openDirectContactModal())
+      location.href = 'mailto:support@codecombat.com'
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise

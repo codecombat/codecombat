@@ -6,6 +6,7 @@
   const SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone'])
   const countryList = require('country-list')()
   const UsaStates = require('usa-states').UsaStates
+  const _ = require('lodash')
 
   export default Vue.extend({
     components: {
@@ -20,7 +21,7 @@
         ncesKeys.push('nces_' + key, '')
       })
       ncesData = _.zipObject(ncesKeys)
-      formData = _.pick(this.$store.state.modal.trialRequestProperties, ncesKeys.concat([ 'organization', 'district', 'city', 'state', 'country', 'role' ]))
+      formData = _.pick(this.$store.state.modalTeacher.trialRequestProperties, ncesKeys.concat(['organization', 'district', 'city', 'state', 'country', 'role']))
 
       return _.assign(ncesData, formData, {
         showRequired: false,
@@ -31,10 +32,10 @@
     },
     methods: {
       ...mapMutations({
-        updateTrialRequestProperties: 'modal/updateTrialRequestProperties'
+        updateTrialRequestProperties: 'modalTeacher/updateTrialRequestProperties'
       }),
       ...mapActions({
-        updateAccount: 'modal/updateAccount',
+        updateAccount: 'modalTeacher/updateAccount',
         saveMe: 'me/save'
       }),
       updateValue (name, value) {

@@ -10,12 +10,15 @@ import {
   getQueryVariable
 } from 'core/utils'
 import { mapActions, mapGetters } from 'vuex'
-import { COCO_CHINA_CONST } from 'core/constants'
+import FinalFooter from './FinalFooter'
 
 /**
  * Unified footer component between CodeCombat and Ozaria.
  */
 export default Vue.extend({
+  components:{
+    FinalFooter
+  },
   computed: {
     isCodeCombat () {
       return isCodeCombat
@@ -100,7 +103,8 @@ export default Vue.extend({
             { url: this.cocoPath('/about'), title: 'nav.about', attrs: { 'data-event-action': 'Click: Footer About' } },
             { url: 'https://codecombat.zendesk.com/hc/en-us', title: 'contact.faq', attrs: { target: '_blank', 'data-event-action': 'Click: Footer FAQ' } },
             { url: this.cocoPath('/about#careers'), title: 'nav.careers' },
-            { title: 'nav.contact', attrs: { class: 'contact-modal', tabindex: -1 } },
+            { title: 'nav.contact', attrs: { class: 'contact-modal', tabindex: -1 }, hide: !me.isTeacher() },
+            { title: 'nav.contact', url: 'mailto:support@codecombat.com', attrs: { tabindex: -1 }, hide: me.isTeacher() },
             { url: this.cocoPath('/parents'), title: 'nav.parent' },
             { url: 'https://blog.codecombat.com/', title: 'nav.blog' }
           ]
@@ -183,7 +187,6 @@ export default Vue.extend({
     // Bind the global values to the vue component.
     this.me = me
     this.document = window.document
-    this.COCO_CHINA_CONST = COCO_CHINA_CONST
   },
   methods: {
     footerEvent (e) {
@@ -292,31 +295,7 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
                     a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
                     a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
 
-  #final-footer(dir="ltr")
-    img(v-if="isOzaria" src="/images/ozaria/home/ozaria-wordmark-500px.png" alt="Ozaria logo")
-    img(v-else src="/images/pages/base/logo.png" alt="CodeCombat logo")
-    .float-right
-      if me.showChinaResourceInfo()
-        span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
-      span {{ $t("nav.copyright_prefix") }}
-      span= ' ©2022 CodeCombat Inc. '
-      span {{ $t("nav.copyright_suffix") }}
-      if me.showChinaResourceInfo()
-        if me.showChinaHomeVersion()
-          a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-20
-        else
-          a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号
-        if !me.showChinaHomeVersion()
-          a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802031936")
-            img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
-            span='京公网安备 11010802031936号'
-        else
-          a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038619")
-            img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
-            span='京公网安备 11010802038619号'
-
-      a.small(href="/legal") {{ $t("nav.term_of_service") }}
-      a.small(href="/privacy") {{ $t("nav.privacy") }}
+  final-footer
 </template>
 
 <style lang="sass" scoped>
