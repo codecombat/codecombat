@@ -53,7 +53,7 @@ export default class FacebookPixelTracker extends BaseTracker {
   async trackPageView () {}
 
   async trackEvent (action, properties = {}) {
-    if (this.disableAllTracking || !window.fbq) {
+    if (this.disableAllTracking || !window.fbq || window.fbq?.doNotTrack) {
       return
     }
 
