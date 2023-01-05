@@ -180,7 +180,7 @@ Application =
       if fbqTrackingScript
         console.log('removing fbq tracking')
         fbqTrackingScript.remove()
-        window.fbq = null
+        window.fbq = { doNotTrack: true }
 
 module.exports = Application
 globalVar.application = Application
