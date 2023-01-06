@@ -1063,7 +1063,6 @@ module.exports = class CampaignView extends RootView
       defaultAccess = ['short', 'china-classroom']
       if me.get('hourOfCode') or @campaign?.get('type') is 'hoc' or @campaign?.get('slug') is 'intro'
         defaultAccess = defaultAccess.concat(['medium', 'long'])
-      debugger
       freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => defaultAccess.includes(faLevel.access)).map((faLevel) => faLevel.slug)
       requiresSubscription = level.requiresSubscription or (not (level.slug in freeAccessLevels))
     else
