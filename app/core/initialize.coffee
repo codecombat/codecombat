@@ -79,6 +79,7 @@ init = ->
   setUpMoment() # Set up i18n for moment
   setUpTv4()
   installVueI18n()
+  setReferrerTracking()
   if utils.isOzaria
     checkAndLogBrowserCrash()
     checkAndRegisterHocModalInterval()
@@ -284,6 +285,25 @@ checkAndLogBrowserCrash = ->
   if window.sessionStorage?.getItem('oz_crashed')
     log('Browser crashed', {}, 'error')
     window.sessionStorage?.removeItem('oz_crashed')
+
+setReferrerTracking = ->
+  queryParams = utils.getQueryVariables()
+  utmSource = queryParams['utm_source']
+  utmMedium = queryParams['utm_medium']
+  utmCampaign = queryParams['utm_campaign']
+  referrerParams = {}
+  if utmSource
+    referrerParams.source = utmSource
+  if utmMedium
+    referrerParams.medium = utmMedium
+  if utmCampaign
+    referrerParams.campaign = utmCampaign
+  if Object.keys(referrerParams).length == 0
+    return
+  value = Object.assign((me.get('referrerTrack') || {}), referrerParams)
+  me.set('referrerTrack', value)
+  console.log('save called me', me, value)
+  me.save()
 
 window.onbeforeunload = (e) ->
   if utils.isOzaria
