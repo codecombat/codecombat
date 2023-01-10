@@ -1,13 +1,13 @@
 module.exports = nativeDescription: "العربية", englishDescription: "Arabic", translation:
 
 #  ozaria_home:
-#    subtitle: "Computer Science that Captivates"
-#    heading_subtitle: "A coding adventure for students and your turnkey solution for teaching Computer Science."
-#    item_list_p: "Try Chapter 1 for Free Today!"
-#    engaging_heading_corner: "A solution to Engage Students and Support Teachers"
-#    engaging_row1_h2: "Easy Implementation"
-#    engaging_row1_p: "Even with no coding experience, you can teach a full Computer Science curriculum with Ozaria. Our ready-to-go lesson plans and intuitive dashboard will provide you with the tools you need to be ready to teach on day one."
-#    engaging_row2_h2: "Immersive Gameplay"
+    subtitle: "علوم الحاسوب بطريقة آسرة"
+    heading_subtitle: "مغامرة برمجية للمتعلمين، و سبيلك الجاهز لتعليم علوم الحاسوب"
+    item_list_p: "!إبدأ الفصل 1 اليوم بالمجان"
+    engaging_heading_corner: "حل تفاعلي لجذب المتعلمين و دعم  المدرسين"
+    engaging_row1_h2: "أجرأة و تطبيق سهل "
+    engaging_row1_p: "حتى بدون خبرة برمجية، بإمكانك تدريس مقرر علوم حاسوب متكامل بمعية أوزاريا. مع مخطط الدروس الجاهز و لوحة الاعدادات الواضحة، بإمكانك امتلاك الأدوات اللازمة للتدريس منذ اليوم الأول"."
+    engaging_row2_h2: "لعبة غامرة  "
 #    engaging_row2_p: "Students are immersed in an adventure game in which their knowledge of Computer Science advances with the storyline. In this engaging learning environment, students build real-world skills through the power of play."
 #    engaging_row3_h2: "Standards-Aligned Curriculum"
 #    engaging_row3_p: "Ozaria meets CSTA and ISTE standards, enabling you to teach with confidence as your students master core Computer Science concepts, develop computational thinking skills, and learn about the relevance of Computer Science to their daily lives."
