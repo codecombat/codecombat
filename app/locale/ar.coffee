@@ -1,16 +1,17 @@
 module.exports = nativeDescription: "العربية", englishDescription: "Arabic", translation:
 
 #  ozaria_home:
-    subtitle: "علوم الحاسوب بطريقة آسرة"
-    heading_subtitle: "مغامرة برمجية للمتعلمين، و سبيلك الجاهز لتعليم علوم الحاسوب"
+    subtitle: "علوم الكمبيوتر بطريقة آسرة"
+    heading_subtitle: "مغامرة برمجية للمتعلمين، و سبيلك الجاهز لتعليم علوم الكمبيوتر"
     item_list_p: "!إبدأ الفصل 1 اليوم بالمجان"
     engaging_heading_corner: "حل تفاعلي لجذب المتعلمين و دعم  المدرسين"
     engaging_row1_h2: "أجرأة و تطبيق سهل "
-    engaging_row1_p: "حتى بدون خبرة برمجية، بإمكانك تدريس مقرر علوم حاسوب متكامل بمعية أوزاريا. مع مخطط الدروس الجاهز و لوحة الاعدادات الواضحة، بإمكانك امتلاك الأدوات اللازمة للتدريس منذ اليوم الأول"."
+    engaging_row1_p: "حتى بدون خبرة برمجية، بإمكانك تدريس مقرر علوم كومبيوتر متكامل بمعية أوزاريا. مع مخطط الدروس الجاهز و لوحة الاعدادات الواضحة، بإمكانك امتلاك الأدوات اللازمة للتدريس منذ اليوم الأول"."
     engaging_row2_h2: "لعبة غامرة  "
-#    engaging_row2_p: "Students are immersed in an adventure game in which their knowledge of Computer Science advances with the storyline. In this engaging learning environment, students build real-world skills through the power of play."
-#    engaging_row3_h2: "Standards-Aligned Curriculum"
-#    engaging_row3_p: "Ozaria meets CSTA and ISTE standards, enabling you to teach with confidence as your students master core Computer Science concepts, develop computational thinking skills, and learn about the relevance of Computer Science to their daily lives."
+    engaging_row2_p: "ينغمس الطلاب في لعبة مغامرات تتقدم فيها معرفتهم بعلوم الكمبيوتر مع أحداث القصة. في بيئة التعلم الجذابة هته ، يبني الطلاب مهارات واقعية من خلال قوة اللعب"
+#    engaging_row3_h2: "المعايير المتوافقة مع المقرر"
+#    engaging_row3_p: "Ozaria meets CSTA and ISTE standards, enabling you to teach with confidence as your students master core Computer Science concepts, develop computational thinking skills, and learn about the relevance of Computer Science to their daily lives.
+    "
 #    pd_blurb: "Learn the skills to effectively teach computer science with our self-directed, CSTA-accredited __pd__ course. Earn up to 40 credit hours any time, from any device."
 #    back_cta_1_a: "Try Chapter 1 for Free"
 #    speech_bubble_testimonial_1_blockquote: "Once again, your team has managed to accomplish the Holy Grail of Edutainment. In my opinion as a 26-year veteran Middle School educator, there is no more engaging resource for teaching coding."
