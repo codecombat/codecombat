@@ -199,7 +199,7 @@ Application =
       referrerParams.campaign = utmCampaign
     if Object.keys(referrerParams).length == 0
       return
-    value = Object.assign((me.get('referrerTrack') || {}), referrerParams)
+    value = Object.assign(referrerParams, (me.get('referrerTrack') || {}))
     me.set('referrerTrack', value)
     me.save()
 
