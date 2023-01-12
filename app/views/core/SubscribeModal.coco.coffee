@@ -23,6 +23,7 @@ module.exports = class SubscribeModal extends ModalView
     'click .stripe-lifetime-button': 'onClickStripeLifetimeButton'
     'click .stripe-annual-button': 'onClickAnnualPurchaseButton'
     'click .back-to-products': 'onClickBackToProducts'
+    'click .go-prepaid': 'onClickGoPrepaid'
 
   constructor: (options={}) ->
     #if document.location.host is 'br.codecombat.com'
@@ -303,6 +304,9 @@ module.exports = class SubscribeModal extends ModalView
       @state = 'unknown_error'
       @stateMessage = $.i18n.t('loading_error.unknown')
     @render()
+
+  onClickGoPrepaid: () ->
+    window.location.href = '/account/prepaid'
 
   onHidden: ->
     super()
