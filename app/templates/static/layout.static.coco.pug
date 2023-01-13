@@ -44,6 +44,7 @@ html(lang='en')
     script(src='/user-data?sha=' + shaTag)
     script.
       window.document.cookie = "shaTagVal=#{shaTag};path=/;"
+    script(src='https://rum-static.pingdom.net/pa-63bf1da99034fb0011001785.js', async='')
     if me.useGoogleAnalytics()
       // Google Analytics
       script.
