@@ -122,6 +122,7 @@ Application =
     @idleTracker.start()
     @trackProductVisit()
     @handleTracking()
+    @setReferrerTracking()
 
   checkForNewAchievement: ->
     utils = require 'core/utils'
@@ -181,6 +182,26 @@ Application =
         console.log('removing fbq tracking')
         fbqTrackingScript.remove()
         window.fbq = { doNotTrack: true }
+
+  setReferrerTracking: ->
+    return if window.serverSession?.amActually
+    utils = require 'core/utils'
+    queryParams = utils.getQueryVariables()
+    utmSource = queryParams['utm_source']
+    utmMedium = queryParams['utm_medium']
+    utmCampaign = queryParams['utm_campaign']
+    referrerParams = {}
+    if utmSource
+      referrerParams.source = utmSource
+    if utmMedium
+      referrerParams.medium = utmMedium
+    if utmCampaign
+      referrerParams.campaign = utmCampaign
+    if Object.keys(referrerParams).length == 0
+      return
+    value = Object.assign(referrerParams, (me.get('referrerTrack') || {}))
+    me.set('referrerTrack', value)
+    me.save()
 
 module.exports = Application
 globalVar.application = Application

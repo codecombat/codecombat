@@ -488,6 +488,11 @@ _.extend UserSchema.properties,
       }
     )
   )
+  referrerTrack: c.object { description: 'utm_source, medium etc - anything to track from where user came to Coco' }, {
+    source: { type: 'string' },
+    medium: { type: 'string' },
+    campaign: { type: 'string' }
+  }
 
 
 c.extendBasicProperties UserSchema, 'user'
