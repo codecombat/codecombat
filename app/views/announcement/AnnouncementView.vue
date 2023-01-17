@@ -17,7 +17,7 @@
             class="expand"
             @click="more"
           >
-            expand>>
+            more notifications...
           </div>
         </div>
       </div>
@@ -95,6 +95,7 @@ export default {
 .body {
   position: relative;
   width: 1024px;
+  width: min(1200px, 80vw);
   margin: 150px;
 
   &:before {

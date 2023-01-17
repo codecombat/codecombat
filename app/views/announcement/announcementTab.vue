@@ -3,28 +3,35 @@
     class="tab"
     :class="{read: announcement.read, 'my-collapsed': !display, fullscreen: alwaysDisplay}"
   >
-    <div
-      class="title"
-      data-toggle="collapse"
-
-      :data-target="`.content${announcement._id}`"
-      :class="{clickable: !alwaysDisplay}"
-      @click="toggleDisplay"
-    >
-      {{name}}
+    <div class="left">
+      <div class="time">
+        {{ time }}
+      </div>
     </div>
-    <div
-      :class="`content${announcement._id}`"
-      class="collapse content"
-      data-parent=".title"
-      v-html="content"
-    />
+    <div class="right">
+      <div class="title">
+        {{ name }}
+      </div>
+      <div
+        :class="`content${announcement._id}`"
+        class="content"
+        data-parent=".title"
+        v-html="content"
+      />
+      <div
+        class="read-more"
+        @click="readfull(announcement._id)"
+>
+        <p>read more</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import DOMPurify from 'dompurify'
 import utils from 'core/utils'
+import moment from 'moment'
 
 export default {
   name: 'AnnouncementTab',
@@ -41,12 +48,18 @@ export default {
     content () {
       const i18nContent = utils.i18n(this.announcement, 'content')
       return DOMPurify.sanitize(window.marked(i18nContent || ''))
+    },
+    time () {
+      return moment(this.announcement.startDate).format('ll')
     }
   },
   mounted () {
     if (this.alwaysDisplay) {
       this.display = true
     }
+    document.querySelectorAll('.content').forEach(el => {
+      el.classList.toggle('truncated', this.isEllipsisActive(el))
+    })
   },
   methods: {
     toggleDisplay () {
@@ -54,6 +67,35 @@ export default {
         return
       }
       this.display = !this.display
+    },
+    readfull (id) {
+      const el = document.querySelector(`.content${id}`)
+      el.classList.add('force-all')
+    },
+    // isEllipsisActive and checkRange coming from
+    // https://stackoverflow.com/a/64747288
+    // which checks if the text truncated by css
+    // so don't need to review logic, it works good!
+    isEllipsisActive (el) {
+      return el.scrollHeight !== el.offsetHeight
+        ? el.scrollHeight > el.offsetHeight
+        : this.checkRanges(el)
+    },
+    checkRanges (el) {
+      const range = new Range()
+      range.selectNodeContents(el)
+      const rangeRect = range.getBoundingClientRect()
+      const elRect = el.getBoundingClientRect()
+      if (rangeRect.bottom > elRect.bottom) {
+        return true
+      }
+      el.classList.add('text-overflow-ellipsis')
+      const rectsEllipsis = range.getClientRects()
+      el.classList.add('text-overflow-clip')
+      const rectsClipped = range.getClientRects()
+      el.classList.remove('text-overflow-ellipsis')
+      el.classList.remove('text-overflow-clip')
+      return rectsClipped.length !== rectsEllipsis.length
     }
   }
 }
@@ -62,76 +104,80 @@ export default {
 <style scoped lang="scss">
 
 .tab {
-  width: 50%;
+  width: 80%;
   min-height: 60px;
-  border: 2px solid #1FBAB4;
-  border-radius: 10px;
-  cursor: pointer;
-  margin: 15px;
-  tansition: height 1s;
+  display: flex;
+  /* border: 2px solid #1FBAB4; */
+  /* border-radius: 10px; */
+  margin: 2em;
+
+  padding-bottom: 4em;
+  border-bottom: 1px solid #1fbab4;
+
+  .left {
+    flex-basis: 20%;
+    flex-shrink: 0;
+  }
+  .right {
+    flex-grow: 0;
+    position: relative;
+  }
 
   &.read {
-    background-color: #ddd;
-    background-blend-mode: multiply;
+    opacity: 50%;
   }
-
-  &.fullscreen {
-    width: 100%;
-    border: none;
-    cursor: none;
-    background: none !important;
-
-    &> .title:before {
-      display: none;
-    }
 
     .title {
-      padding-left: 0em;
-    }
-  }
-
-  &.my-collapsed{
-    &> .title:before {
-      content: '+';
-    }
-  }
-
-  .title {
-    padding-left: 2em;
-    padding-right: 2em;
-    font-size: 24px;
-    line-height: 60px;
-    text-align: center;
-    position: relative;
-
-    &.clickable {
-      cursor: pointer;
+      font-size: 24px;
+      font-weight: bold;
+      position: relative;
     }
 
-    &:before {
-      content: '-';
-      position: absolute;
-      font-weight: 800;
-      border: 2px solid #1fbab4;
-      color: #1fbab4;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      line-height: 26px;
+    .content {
+      margin-top: 15px;
+      /* margin: 15px;
+         padding: 15px; */
+
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &.text-overflow-ellipsis {
+        text-overflow: ellipsis !important;
+      }
+      &.text-overflow-clip{
+        text-overflow: clip !important;
+      }
+
+      &.truncated ~ .read-more{
+        display: block
+      }
+
+      &.force-all {
+        display: block !important;
+      }
+      &.force-all ~ .read-more {
+        display: none !important;
+      }
+    }
+  .read-more {
+    display: none;
+    position: absolute;
+    cursor: pointer;
+    bottom: -4em;
+    width: 100%;
+    z-index: 5;
+    padding-top: 4em;
+    background-image: linear-gradient(to top, #fff 60%, rgba(255, 255, 255, 0.1) 100%);
+
+    p {
+      color: #333;
       text-align: center;
-      left: 10px;
-      top: 15px;
-
+      font-size: 16px;
+      font-weight: 600;
     }
-
-  }
-
-  .content {
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 1px solid #1fbab4;
-    margin: 15px;
-    padding: 15px;
   }
 }
 

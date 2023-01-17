@@ -1279,11 +1279,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tornado_description: "It is good to have a reset button when one's cover is blown."
     wallOfDarkness_name: "Wall of Darkness"
     wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
-    announcement: 'Announcement'
-    xAnnouncements: '__x__ Announcements'
-    xAnnouncementsWithUnread: '__x__ Announcements(__y__ unread)'
-    message: 'Message'
-    see_more: "See __unread__ more unread announcements"
+    announcement: 'Notification'
+    xAnnouncements: '__x__ Notifications'
+    xAnnouncementsWithUnread: '__x__ Notifications(__y__ unread)'
+    message: 'Notification'
+    see_more: "See __unread__ more unread Notifications"
 
   avatar_selection:
     pick_an_avatar: "Pick an avatar that will represent you as a player"
