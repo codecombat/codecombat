@@ -33,6 +33,7 @@ import DOMPurify from 'dompurify'
 import utils from 'core/utils'
 import moment from 'moment'
 
+import { mapActions } from 'vuex'
 export default {
   name: 'AnnouncementTab',
   props: ['announcement', 'scrolledTo'],
@@ -65,9 +66,16 @@ export default {
 
   },
   methods: {
+    ...mapActions('announcements', [
+      'readAnnouncement'
+    ]),
     readfull (id) {
       const el = document.querySelector(`#content${id}`)
       el.classList.add('force-all')
+
+      if (!this.announcement.read) {
+        this.readAnnouncement(id)
+      }
     },
     // isEllipsisActive and checkRange coming from
     // https://stackoverflow.com/a/64747288
