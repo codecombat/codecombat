@@ -122,7 +122,7 @@ block content
         .recurring-monthly-revenue-chart-365.line-chart-container
 
         a(name="revenueSchoolSales")
-        .school-sales
+        .school-sales.hide
           h3 School Sales
           if view.schoolSales
             table.table.table-striped.table-condensed
@@ -170,6 +170,26 @@ block content
               td= Math.round(revenue.yearly / 100)
               td= Math.round(revenue.total / 100)
 
+        a(name="revenueHomeMrrWeekly")
+        h1 Home Revenue - Weekly
+        .small Revenue = lifetime subs + annual subs + monthly subs + terminal subs + gems
+        .small Lifetime sub purchase values not spread across timeframe.
+        .small Terminal sub purchase values not spread across timeframe.
+        table.table.table-striped.table-condensed
+          tr
+            th Week
+            th Gems
+            th Monthly subs
+            th Annual + Lifetime subs
+            th Revenue
+          each revenue, week in view.weekMrrMap
+            tr
+              td= week
+              td= Math.round(revenue.gems / 100)
+              td= Math.round(revenue.monthly / 100)
+              td= Math.round(revenue.yearly / 100)
+              td= Math.round(revenue.total / 100)
+
         a(name="revenueHomeRevenue")
         h1 Home Revenue
         table.table.table-striped.table-condensed
@@ -202,7 +222,7 @@ block content
         h3 Licenses Issued and Redeemed 90 days
         .paid-courses-chart.line-chart-container
 
-        #furthest-course
+        #furthest-course.hide
           h3 Furthest Course in last #{view.furthestCourseDayRangeRecent} days
           .small Restricted to courses instances from last #{view.furthestCourseDayRangeRecent} days
           .small Teacher: owner of a course instance
@@ -272,7 +292,7 @@ block content
             br
             p Loading ...
 
-        .school-sales
+        .school-sales.hide
           h3 School Sales
           if view.schoolSales
             table.table.table-striped.table-condensed
@@ -300,7 +320,7 @@ block content
           else
             p Loading ...
 
-        #school-counts
+        #school-counts.hide
           h3 School Counts
           .small Only including schools with #{view.minSchoolCount}+ counts
           if view.schoolCounts
