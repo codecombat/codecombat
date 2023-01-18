@@ -11,6 +11,7 @@
     getQueryVariable
   } from 'core/utils'
   import AnnouncementModal from '../../views/announcement/announcementModal'
+  import AnnouncementNav from '../../views/announcement/AnnouncementNav'
   import { mapActions, mapGetters } from 'vuex'
 
   /**
@@ -155,7 +156,8 @@
       }
     },
     components: {
-      AnnouncementModal
+      AnnouncementModal,
+      AnnouncementNav
     }
   })
 </script>
@@ -289,9 +291,11 @@
                       a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                    li(v-if="true || unread")
-                      a.account-dropdown-item(@click="readAnnouncement") {{ $t('announcement.message') }}
+                    li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
+                      a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement") {{ $t('announcement.message') }}
                         span.unread {{ unread }}
+                        span.caret
+                      announcement-nav.announcement-nav
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
@@ -456,7 +460,7 @@
 
     .dropdown-menu {
       max-width: 330px;
-      overflow-x: auto;
+      overflow-x: visible;
     }
   }
   .language-dropdown {
@@ -583,6 +587,18 @@
     border-radius: 50%;
     background-color: $yellow;
     box-shadow: 0 0 2px 2px $yellow;
+  }
+
+  .dropleft {
+    .announcement-nav {
+      position: absolute;
+      left: auto;
+      right: 100%;
+      top: 0;
+    }
+    .caret {
+      transform: rotate(-90deg);
+    }
   }
 
   span.unread {

@@ -1,7 +1,7 @@
 <template>
   <div
     class="tab"
-    :class="{read: announcement.read, 'my-collapsed': !display, fullscreen: alwaysDisplay}"
+    :class="{read: announcement.read}"
   >
     <div class="left">
       <div class="time">
@@ -13,7 +13,7 @@
         {{ name }}
       </div>
       <div
-        :class="`content${announcement._id}`"
+        :id="`content${announcement._id}`"
         class="content"
         data-parent=".title"
         v-html="content"
@@ -21,7 +21,7 @@
       <div
         class="read-more"
         @click="readfull(announcement._id)"
->
+      >
         <p>read more</p>
       </div>
     </div>
@@ -35,7 +35,7 @@ import moment from 'moment'
 
 export default {
   name: 'AnnouncementTab',
-  props: ['announcement', 'alwaysDisplay'],
+  props: ['announcement', 'scrolledTo'],
   data () {
     return {
       display: false
@@ -54,22 +54,19 @@ export default {
     }
   },
   mounted () {
-    if (this.alwaysDisplay) {
-      this.display = true
+    const el = document.querySelector(`#content${this.announcement._id}`)
+    el.classList.toggle('truncated', this.isEllipsisActive(el))
+
+    if (this.scrolledTo) {
+      el.classList.add('force-all')
+      // top level component
+      el.parentElement.parentElement.scrollIntoView({ behaviors: 'smooth', block: 'center' })
     }
-    document.querySelectorAll('.content').forEach(el => {
-      el.classList.toggle('truncated', this.isEllipsisActive(el))
-    })
+
   },
   methods: {
-    toggleDisplay () {
-      if (this.alwaysDisplay) {
-        return
-      }
-      this.display = !this.display
-    },
     readfull (id) {
-      const el = document.querySelector(`.content${id}`)
+      const el = document.querySelector(`#content${id}`)
       el.classList.add('force-all')
     },
     // isEllipsisActive and checkRange coming from

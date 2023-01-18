@@ -10,6 +10,7 @@
             v-for="ann in announcements"
             :key="ann._id"
             :announcement="ann"
+            :scrolledTo="query.id === ann._id"
             @click.native="read(ann)"
           />
           <div
@@ -45,10 +46,17 @@ export default {
       } else {
         return $.i18n.t('announcement.xAnnouncements', { x: this.announcements.length })
       }
+    },
+    query () {
+      return this.$route.query
     }
   },
   mounted () {
-    this.getAnnouncements()
+    if (this.query.skip) {
+      this.more()
+    } else if (!this.announcements.length) {
+      this.getAnnouncements()
+    }
   },
   data () {
     return {
