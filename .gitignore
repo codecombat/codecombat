@@ -119,3 +119,5 @@ scripts/analytics/mongodb/.mainAuth.json
 
 # Build info file served by the production server
 .build_info.json
+
+.lighthouseci
