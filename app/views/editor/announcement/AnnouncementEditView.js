@@ -27,7 +27,8 @@ class AnnouncementEditView extends EditView{
 
     this.treemaOptions = {
       nodeClasses: {
-        announcement: AnnouncementNode
+        announcement: AnnouncementNode,
+        'mongo-query-user': QueryNode
       }
 
     }
@@ -77,6 +78,37 @@ class AnnouncementNode extends treemaExt.IDReferenceNode {
     }), { model: Announcement })
     console.log(this.collection)
     this.searchCallback()
+  }
+}
+
+class QueryNode extends window.TreemaObjectNode {
+  valueClass = 'treema-mongo-query'
+  childPropertiesAvailable () {
+    return this.childSource
+  }
+
+  childSource (req, res) {
+    const templates = [
+      { label: 'Pubic', value: {} },
+      { label: 'Registered Users', value: { anonymous: false } },
+      { label: 'Teachers', value: { role: { $in: ['teacher'] } } }, // TODO
+      { label: 'Students', value: { role: 'student' } },
+      { label: 'Home Users', value: { role: { $exits: false } } }
+    ]
+
+    const filtered = templates.filter((t) => {
+      return t.label.toLowerCase().includes(req.term.toLowerCase())
+    })
+    res(filtered)
+  }
+
+  onAutocompleteSelect (e, ui) {
+    this.addObjectNode(ui.item.value)
+  }
+
+  addObjectNode (data) {
+    const newNode = window.TreemaNode.make(null, { schema: AnnouncementSchema.definitions.mongoFindQuery, data }, this)
+    this.replaceNode(newNode)
   }
 }
 

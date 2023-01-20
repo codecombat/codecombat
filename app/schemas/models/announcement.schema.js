@@ -20,6 +20,7 @@ const MongoQueryOperatorSchema = {
 const MongoFindQuerySchema = {
   title: 'Query',
   type: 'object',
+  format: 'mongo-query-user',
   patternProperties: {
     '^[-a-zA-Z0-9._]*$': {
       anyOf: [
