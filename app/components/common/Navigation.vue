@@ -292,7 +292,7 @@
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
                     li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
-                      a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement") {{ $t('announcement.message') }}
+                      a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement") {{ $t('announcement.notifications') }}
                         span.unread {{ unread }}
                         span.caret
                       announcement-nav.announcement-nav

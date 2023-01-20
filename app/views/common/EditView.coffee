@@ -18,6 +18,7 @@ module.exports = class EditView extends RootView
   redirectPathOnSuccess: null # id or slug will be automatically added
   filePath: null
   resourceName: null # used in breadcrumbs
+  treemaOptions: null
 
   events:
     'click #save-button': 'onClickSaveButton'
@@ -40,7 +41,7 @@ module.exports = class EditView extends RootView
   buildTreema: ->
     return if @treema? or (not @resource.loaded)
     data = $.extend(true, {}, @resource.attributes)
-    options =
+    options = Object.assign @treemaOptions,
       data: data
       filePath: "#{@filePath}/#{@resource.get('_id')}"
       schema: @schema
