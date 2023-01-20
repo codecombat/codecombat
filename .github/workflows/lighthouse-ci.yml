@@ -1,5 +1,7 @@
-name: Run Lighthouse CI
-on: [push]
+name: Run Lighthouse CI for desktop and mobile
+on:
+  schedule:
+    - cron: '0 3 * * 3,6'
 jobs:
   lhci:
     name: Lighthouse CI
