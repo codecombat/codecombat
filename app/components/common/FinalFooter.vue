@@ -36,7 +36,7 @@ export default Vue.extend({
       if me.showChinaResourceInfo()
         span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
       span {{ $t("nav.copyright_prefix") }}
-      span= ' ©2022 CodeCombat Inc. '
+      span= ' ©2023 CodeCombat Inc. '
       span {{ $t("nav.copyright_suffix") }}
       if me.showChinaResourceInfo()
         if me.showChinaHomeVersion()
