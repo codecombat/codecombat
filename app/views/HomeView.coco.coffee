@@ -222,6 +222,7 @@ module.exports = class HomeView extends RootView
   shouldShowCurator: ->
     return false unless me.get('preferredLanguage', true).startsWith('en')  # Only English social media anyway
     return false if $(document).width() <= 700  # Curator is hidden in css on mobile anyway
+    return false  # Curator broke signup on 2023-01-20, game over!
     if (value = {true: true, false: false, show: true, hide: false}[utils.getQueryVariable 'curator'])?
       return value
     if (value = me.getExperimentValue('curator', null, 'show'))?
