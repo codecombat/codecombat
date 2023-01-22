@@ -15,7 +15,6 @@
       <div
         :id="`content${announcement._id}`"
         class="content"
-        data-parent=".title"
         v-html="content"
       />
       <div

@@ -70,7 +70,6 @@ export default {
       'readAnnouncement'
     ]),
     read (ann) {
-      this.openAnnouncementModal(ann)
       if(!ann.read)
         this.readAnnouncement(ann._id)
     },

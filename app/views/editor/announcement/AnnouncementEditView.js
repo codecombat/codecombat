@@ -107,7 +107,7 @@ class QueryNode extends window.TreemaObjectNode {
   }
 
   addObjectNode (data) {
-    const newNode = window.TreemaNode.make(null, { schema: AnnouncementSchema.definitions.mongoFindQuery, data }, this)
+    const newNode = window.TreemaNode.make(null, { schema: AnnouncementSchema.definitions.mongoFindQuery, data }, this.parent)
     this.replaceNode(newNode)
   }
 }
