@@ -121,8 +121,9 @@ html(lang='en')
         }(window, document, 'script',
                 'https://connect.facebook.net/en_US/fbevents.js');
 
-        fbq('init', '514962702046652')
-        fbq('track', 'PageView')
+        // Moved to dynamic tracker code to only apply to relevant user types
+        //fbq('init', '514962702046652')
+        //fbq('track', 'PageView')
     else
       // Baidu Analytics
       script.
