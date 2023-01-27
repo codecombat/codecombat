@@ -1280,8 +1280,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     wallOfDarkness_name: "Wall of Darkness"
     wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
     notifications: 'Notifications'
-    xAnnouncements: '__x__ Notifications'
-    xAnnouncementsWithUnread: '__x__ Notifications(__y__ unread)'
+    x_announcement: '__x__ Notification'
+    x_announcements: '__x__ Notifications'
+    x_announcement_with_unread: '__x__ Notification (__y__ unread)'
+    x_announcements_with_unread: '__x__ Notifications (__y__ unread)'
     see_more: "See __unread__ more unread Notifications"
 
   avatar_selection:

@@ -41,10 +41,14 @@ export default {
       'moreAnnouncements'
     ]),
     title () {
-      if (this.unread) {
-        return $.i18n.t('announcement.xAnnouncementsWithUnread', { x: this.announcements.length, y: this.unread })
+      if (this.announcements.length === 1 && this.unread) {
+        return $.i18n.t('announcement.x_announcement_with_unread', { x: this.announcements.length, y: this.unread })
+      } else if (this.unread) {
+        return $.i18n.t('announcement.x_announcements_with_unread', { x: this.announcements.length, y: this.unread })
+      } else if (this.announcements.length === 1) {
+        return $.i18n.t('announcement.x_announcement', { x: this.announcements.length })
       } else {
-        return $.i18n.t('announcement.xAnnouncements', { x: this.announcements.length })
+        return $.i18n.t('announcement.x_announcements', { x: this.announcements.length })
       }
     },
     query () {

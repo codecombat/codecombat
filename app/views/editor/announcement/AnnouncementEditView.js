@@ -89,11 +89,11 @@ class QueryNode extends window.TreemaObjectNode {
 
   childSource (req, res) {
     const templates = [
-      { label: 'Pubic', value: {} },
+      { label: 'Public', value: {} },
       { label: 'Registered Users', value: { anonymous: false } },
-      { label: 'Teachers', value: { role: { $in: ['teacher'] } } }, // TODO
+      { label: 'Teachers', value: { role: { $in: ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent'] } } },
       { label: 'Students', value: { role: 'student' } },
-      { label: 'Home Users', value: { role: { $exits: false } } }
+      { label: 'Home Users', value: { role: { $exists: false } } }
     ]
 
     const filtered = templates.filter((t) => {
