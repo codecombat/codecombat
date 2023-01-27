@@ -440,12 +440,22 @@ p, .text-p {
       }
     }
 
-    &.row-ai-league {
+    &.row-coding {
       .midnight-green-background {
         background: #FCBB00;
 
         &:before {
           background: #FCBB00
+        }
+      }
+    }
+
+    &.row-ai-league {
+      .midnight-green-background {
+        background: rgb(12, 16, 22);
+
+        &:before {
+          background: rgb(12, 16, 22);
         }
       }
 

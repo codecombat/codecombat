@@ -38,11 +38,22 @@ export default class FacebookPixelTracker extends BaseTracker {
     // double enable it for teachers
     const isStudent = this.store.getters['me/isStudent']
     const isChina = (window.features || {}).china
+    const isRegisteredHomeUser = this.store.getters['me/isHomePlayer'] // Includes anonymous: false check
 
-    if (!this.disableAllTracking && !isStudent && !isChina) {
+    if (!this.disableAllTracking && !isStudent && !isChina && !isRegisteredHomeUser && window.fbq && !window.fbq.doNotTrack) {
       this.enabled = true
+      // Moved this from layout.static, since we need to first know if we are using FB for these
+      window.fbq('init', '514962702046652')
+      window.fbq('track', 'PageView')
     } else {
       this.enabled = false
+      const fbqTrackingScript = document.getElementById('analytics-fbq')
+      if (fbqTrackingScript) {
+        fbqTrackingScript.remove()
+        if (window.fbq) {
+          window.fbq.doNotTrack = true
+        }
+      }
     }
 
     this.onInitializeSuccess()
