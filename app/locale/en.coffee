@@ -1235,11 +1235,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     feature_aiyouth: ""
     feature_gems: "Earn __gems__ gems/mo (__gems12__ gems/yr)" # {change}
     month_price: "$__price__/mo"
+    month_price_without_currency: "__price__/mo"
     first_month_price: "Only $__price__ for your first month!"
     lifetime: "Lifetime Access"
     lifetime_price: "$__price__"
     year_subscription: "Annual Subscription"
     year_price: "$__price__/yr"
+    year_price_without_currency: "__price__/yr"
     support_part1: "Need help with payment or prefer PayPal? Email"
     support_part2: "support@codecombat.com"
     go_prepaid: "Click here after scaning the code and purchasing"

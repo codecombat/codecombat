@@ -24,6 +24,7 @@ module.exports = ProductSchema = {
     }
     planID: { type: 'string', description: 'Probably should remove this' }
     payPalBillingPlanID: { type: 'string' }
+    formattedAmount: { type: 'string', description: 'eg: $23, ₹8,352' }
   }
 }
 
