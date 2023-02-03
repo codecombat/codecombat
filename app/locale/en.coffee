@@ -1458,6 +1458,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bill_title: "General Manager, CodeCombat Greater China"
     pvd_title: "Product and Visual Designer"
     spvd_title: "Senior Product and Visual Designer"
+    daniela_title: "Marketing Manager"
     mm_title: "Marketing Manager"
     bobby_title: "Senior Game Designer"
     brian_title: "Senior Game Design Manager"
