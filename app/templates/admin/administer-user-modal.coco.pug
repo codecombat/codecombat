@@ -263,7 +263,7 @@ block modal-body-content
               td
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
                   - var arenasControlId = 'product-arenas-' + productControlId
-                  input(id=areansControlId type="text" name="arenas" value=(product.productOptions.arenas || '') placeholder="amdocs-quickfire-infinite-inferno,codestars-challenge")
+                  input(id=arenasControlId type="text" name="arenas" value=(product.productOptions.arenas || '') placeholder="amdocs-quickfire-infinite-inferno,codestars-challenge")
                 else
                   = product.productOptions.arenas
               td
