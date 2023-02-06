@@ -14,6 +14,9 @@ paymentUtils = require 'lib/paymentUtils'
 
 module.exports = class CocoRouter extends Backbone.Router
 
+  _routeToRegExp: (route) ->
+    new RegExp(super(route), 'i') # make all routes case insensitive
+
   initialize: ->
     # http://nerds.airbnb.com/how-to-add-google-analytics-page-tracking-to-57536
     @bind 'route', @_trackPageView
