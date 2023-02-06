@@ -108,7 +108,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/bulk-level-editor/:campaign': go('artisans/BulkLevelEditView')
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
-    'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
     'cla': go('CLAView')
 
@@ -290,7 +289,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'social-and-emotional-learning': go('core/SingletonAppVueComponentView')
     'schools': go('HomeView')
     'seen': go('HomeView')
-    'SEEN': go('HomeView')
 
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
