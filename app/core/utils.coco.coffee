@@ -1156,6 +1156,17 @@ supportEmail = 'support@codecombat.com'
 
 capitalizeFirstLetter = (str) -> (str[0] or '').toUpperCase() + str.slice(1)
 
+# Note: These need to be double-escaped for insertion into regexes
+commentStarts =
+  javascript: '//'
+  python: '#'
+  coffeescript: '#'
+  lua: '--'
+  java: '//'
+  cpp: '//'
+  html: '<!--'
+  css: '/\\*'
+
 module.exports = {
   activeAndPastArenas
   activeArenas
@@ -1174,6 +1185,7 @@ module.exports = {
   clanHeroes
   clone
   combineAncestralObject
+  commentStarts
   countries
   countryCodeToFlagEmoji
   countryCodeToName

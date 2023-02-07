@@ -51,7 +51,7 @@ module.exports =
 
   'tome:palette-updated': c.object {title: 'Palette Updated', description: 'Published when the spell palette has just been updated.'},
     thangID: {type: 'string'}
-    entryGroups: {type: 'string'}
+    entryGroups: {type: 'object'}
 
   'tome:palette-hovered': c.object {title: 'Palette Hovered', description: 'Published when you hover over a Thang in the spell palette', required: ['thang', 'prop', 'entry']},
     thang: {type: 'object'}
@@ -124,6 +124,9 @@ module.exports =
   'tome:maximize-toggled': c.object {title: 'Maximize Toggled', description: 'Published when the Tome has changed maximize/minimize state.'}
 
   'tome:select-primary-sprite': c.object {title: 'Select Primary Sprite', description: 'Published to get the most important sprite\'s code selected.'}
+
+  'tome:toggle-blocks': c.object {title: 'Toggle Blocks', description: 'Published when we want to toggle the blocks view', required: ['blocks']},
+    blocks: {type: 'boolean', description: 'Whether blocks should be enabled'}
 
   'tome:required-code-fragment-deleted': c.object {title: 'Required Code Fragment Deleted', description: 'Published when a required code fragment is deleted from the sample code.', required: ['codeFragment']},
     codeFragment: {type: 'string'}

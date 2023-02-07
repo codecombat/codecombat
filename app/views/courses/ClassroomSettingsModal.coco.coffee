@@ -33,6 +33,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     @isGoogleClassroom = false
     @enableCpp = me.enableCpp()
     @enableJava = me.enableJava()
+    @enableBlocks = me.isBetaTester() and ((@classroom.get('aceConfig')?.language ? 'python') in ['python', 'javascript', 'lua'])
     @uploadFilePath = "db/classroom/#{@classroom.id}"
     initializeFilePicker()
     if @shouldShowLMSButton()
@@ -77,6 +78,10 @@ module.exports = class ClassroomSettingsModal extends ModalView
     if attrs.liveCompletion
       attrs.aceConfig.liveCompletion = attrs.liveCompletion[0] == 'on'
       delete attrs.liveCompletion
+
+    if attrs.blocks
+      attrs.aceConfig.blocks = attrs.blocks
+      delete attrs.blocks
 
     if !@isGoogleClassroom and !@showLMSDropDown
       delete attrs.googleClassroomId

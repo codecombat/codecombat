@@ -13,12 +13,15 @@ SpellToolbarView = require './SpellToolbarView'
 LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
 aceUtils = require 'core/aceUtils'
+blocklyUtils = require 'core/blocklyUtils'
 CodeLog = require 'models/CodeLog'
 Autocomplete = require './editor/autocomplete'
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
 LZString = require 'lz-string'
 utils = require 'core/utils'
 Aether = require 'lib/aether/aether'
+Blockly = require 'blockly'
+storage = require 'core/storage'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -56,12 +59,14 @@ module.exports = class SpellView extends CocoView
     'tome:insert-snippet': 'onInsertSnippet'
     'tome:spell-beautify': 'onSpellBeautify'
     'tome:maximize-toggled': 'onMaximizeToggled'
+    'tome:toggle-blocks': 'onToggleBlocks'
     'tome:problems-updated': 'onProblemsUpdated'
     'script:state-changed': 'onScriptStateChange'
     'playback:ended-changed': 'onPlaybackEndedChanged'
     'level:contact-button-pressed': 'onContactButtonPressed'
     'level:show-victory': 'onShowVictory'
     'web-dev:error': 'onWebDevError'
+    'tome:palette-updated': 'onPaletteUpdated'
 
   events:
     'mouseout': 'onMouseOut'
@@ -411,209 +416,86 @@ module.exports = class SpellView extends CocoView
     @ace.setValue @spell.source
     @aceSession.setUndoManager(new UndoManager())
     @ace.clearSelection()
-    @addBlockly()
+    @addBlockly() if @options.blocks
 
-  sizeBlocklyDiv: (targetDiv) ->
+  onPaletteUpdated: (e) ->
+    return if @propertyEntryGroups
+    @propertyEntryGroups = e.entryGroups
+    if @awaitingBlockly
+      @addBlockly()
+      @awaitingBlockly = false
 
-    tomeHeight = $('#tome-view').innerHeight()
-    spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
-    spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
-    spellPaletteAllowedHeight = Math.min @spellPaletteHeight, tomeHeight / 3
-    maxHeight = tomeHeight - spellTopBarHeight - spellToolbarHeight - spellPaletteAllowedHeight
+  addBlockly: ->
+    unless @propertyEntryGroups
+      @awaitingBlockly = true
+      return
+    codeLanguage = @spell.language
+    toolbox = blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage, level: @options.level })
+    blocklyUtils.registerBlocklyTheme()
+    targetDiv = @$('#blockly-container')
+    blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox })
+    @blockly = Blockly.inject targetDiv[0], blocklyOptions
+    @blocklyActive = true
+    blocklyUtils.initializeBlocklyTooltips()
 
-    targetDiv.css('height', "#{maxHeight}px")
-    targetDiv.css('margin-left', '-15px')
-    targetDiv.css('margin-right', '15px')
-    targetDiv.css('margin-top', '-15px')
+    lastBlocklyState = if @session.fake then null else storage.load "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}"
+    if lastBlocklyState
+      blocklyUtils.loadBlocklyState lastBlocklyState, @blockly
+      # Rerun the code
+      @blocklyToAce()
+      for block in @blockly.getAllBlocks() when block.type is 'comment'
+        # Make long comments not so long. (The full comments will be visible, wrapped, in text version anyway.)
+        block.setCollapsed true
+      @recompile()
+    #else
+    #  # Initialize Blockly from the text code
+    #  @aceToBlockly true
 
+    @resizeBlockly()
 
-  addBlockly: =>
-    unless currentView.spellPaletteView?
-      return setTimeout @addBlockly, 500
+    if @onCodeChangeMetaHandler
+      @blockly.addChangeListener @blocklyToAce
 
-    currentView.toggleSpellPalette()
-    targetDiv = $('<div id="blocklyDiv"></div>')
-    @$(".ace").hide().after(targetDiv)
-    $("span.programming-language").text("Blockly")
-    $("body").append """
-      <style>
-        .blocklyTreeLabel { font-size: 12px; font-family: Menlo, Monaco, Consolas, "Courier New", monospace }
-        .blocklySvg { background-color: transparent; }
-        .blocklyScrollbarHandle { fill: #555 }
-        .blocklyScrollbarBackground:hover+.blocklyScrollbarHandle, .blocklyScrollbarHandle:hover { fill: #111 }
-        .blocklyZoom>image { opacity: .6; }
-        .blocklyZoom>image:hover { opacity: .9; }
-        .blocklyZoom>image:active { opacity: 1.0; }
+  getBlocklySource: ->
+    blocklyUtils.getBlocklySource @blockly, @spell.language
 
-      </style>
-      """
-    @sizeBlocklyDiv targetDiv
-    Blockly.JavaScript.STATEMENT_PREFIX = '// highlightBlock(%1);\n'
-    Blockly.Python.STATEMENT_PREFIX = '# highlightBlock(%1)\n'
+  blocklyToAce: =>
+    return if @eventsSuppressed
+    return unless @blockly
+    { blocklyState, blocklySource, combined } = @getBlocklySource()
+    aceSource = @getSource()
 
-    extraStuff = []
-    for thing of currentView.spellPaletteView.entryGroups
-      console.log "Adding #{thing}"
-      extraStuff.push "<category name=\"#{thing}\" colour=\"190\" >"
-      for prop in currentView.spellPaletteView.entryGroups[thing]
-        addThing = (thing, doc) ->
-          returnsValue = doc.returns? or doc.userShouldCaptureReturn? or (doc.type isnt "function")
-          name = "#{thing}_#{doc.name}"
+    # For debugging, including Blockly JSON serialization
+    #return if combined is aceSource
+    #console.log 'B2A: Changing ace source from', aceSource, 'to', combined
+    #@updateACEText combined
 
-          Blockly.JavaScript[name] = (block) ->
-            parts = []
-            if doc.name?
-              parts.push "hero.#{doc.name}"
-            else
-              parts.push "#{thing}"
+    # Just the code
+    return if blocklySource is aceSource
+    console.log 'B2A: Changing ace source from', aceSource, 'to', blocklySource, 'with state', blocklyState
+    @updateACEText blocklySource
 
-            if doc.type is "function"
-              parts.push "("
-              for idx, arg of (doc.args or [])
-                parts.push "," if idx > 0
-                code = Blockly.JavaScript.valueToCode(block, arg.name, Blockly.JavaScript.ORDER_NONE)
-                parts.push code or "undefined /* #{arg.name} */"
-              parts.push ")"
-            parts.push ";\n" unless returnsValue
+    unless @session.fake
+      storage.save "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}", blocklyState
 
-            if returnsValue
-              return [parts.join(''), Blockly.JavaScript.ORDER_NONE]
-            else
-              return parts.join('')
-
-          Blockly.Python[name] = (block) ->
-            parts = []
-            if doc.name?
-              parts.push "hero.#{doc.name}"
-            else
-              parts.push "#{thing}"
-
-            if doc.type is "function"
-              parts.push "("
-
-              for idx, arg of (doc.args or [])
-                parts.push "," if idx > 0
-                code = Blockly.Python.valueToCode(block, arg.name, Blockly.Python.ORDER_NONE)
-                parts.push code or "None /* #{arg.name} */"
-
-              parts.push ")"
-            parts.push "\n" unless returnsValue
-
-            if returnsValue
-              return [parts.join(''), Blockly.Python.ORDER_NONE]
-            else
-              return parts.join('')
-
-          setup =
-            "message0": "#{doc.name or thing} " + (doc.args or []).map((a, v) => "#{a.name}: %#{v+1}").join(" ")
-            "args0": (doc.args or []).map (a) ->
-              type: "input_value"
-              name: a.name
-            "colour": if returnsValue then 30 else 240
-            "tooltip": doc.description or ''
-            "helpUrl": ""
-
-          if returnsValue
-            setup.output = null
-          else
-            setup.previousStatement =  null
-            setup.nextStatement = null
-
-          Blockly.Blocks[name] =
-            init: () ->
-              @jsonInit setup
-
-
-
-          extraStuff.push "<block type=\"#{name}\"></block>"
-        addThing thing, prop.doc
-
-
-
-      extraStuff.push "</category>"
-
-    extraStuff.push "<category name=\"Misc\" colour=\"190\" >"
-    addThing 'hero',
-      name: 'say'
-      args: [
-        name: "what"
-      ]
-      type: "function"
-    addThing 'hero', {type: "ref"}
-    addThing 'Esper.str',
-      args: [
-        name: "what"
-      ]
-      type: "function"
-      returns: {}
-
-    extraStuff.push "</category>"
-    toolbox = """
- <xml id="toolbox" style="display: none">
-   #{extraStuff.join('\n')}
-   <category colour="290" name="Logic">
-     <block type="controls_if"></block>
-     <block type="logic_compare"></block>
-     <block type="logic_operation"></block>
-     <block type="logic_negate"></block>
-     <block type="math_arithmetic"></block>
-   </category>
-   <category colour="290" name="Loops">
-     <block type="controls_whileUntil">
-       <field name="MODE">WHILE</field>
-       <value name="BOOL">
-       <block type="logic_boolean">
-       </block>
-       </value>
-     </block>
-     <block type="controls_whileUntil"></block>
-     <block type="controls_repeat_ext"></block>
-     <block type="controls_forEach"></block>
-   </category>
-   <category colour="10" name="Literals">
-     <block type="text"></block>
-     <block type="math_number"></block>
-     <block type="logic_boolean"></block>
-   </category>
-   <category colour="10" name="Lists">
-      <block type="lists_create_empty"></block>
-      <block type="lists_create_with"></block>
-      <block type="lists_repeat">
-        <value name="NUM">
-          <block type="math_number">
-            <field name="NUM">5</field>
-          </block>
-        </value>
-      </block>
-      <block type="lists_length"></block>
-      <block type="lists_isEmpty"></block>
-      <block type="lists_indexOf"></block>
-      <block type="lists_getIndex"></block>
-      <block type="lists_setIndex"></block>
-   </category>
-   <category name="Variables" custom="VARIABLE" colour="50"></category>
-   <category name="User Functions" custom="PROCEDURE" colour="50"></category>
- </xml>
-       """
-    prev = @ace.getValue()
-    @blockly = window.bbt = Blockly.inject targetDiv[0],
-      toolbox: toolbox
-      zoom:
-        controls: true
-        wheel: true
-        startScale: 1.0
-        maxScale: 3
-        minScale: 0.3
-        scaleSpeed: 1.2
-
-    console.log "Consider Loading", prev
-    match = prev.match(/[#\/]+BLOCKLY. ([^\n]*)/)
+  aceToBlockly: (force) =>
+    return if @eventsSuppressed and not force
+    return unless @blockly
+    # TODO: this is currently not doing anything until we update it with code -> blockly generation
+    return
+    aceCombined = @ace.getValue()
+    match = aceCombined.match(/^[#\/\-]+BLOCKLY. ([^\n]*)\n\n(.*)/)  # TODO: check if this can do multiline or use something else
     if match?
-      Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(match[1]), @blockly)
-      @blockly.scrollCenter()
-
-
-    @createOnCodeChangeHandlers()
+      aceState = match[1]
+      aceSource = match[2]
+    { blocklyState, blocklySource, combined } = @getBlocklySource()
+    return if not aceSource? or aceSource is blocklySource
+    console.log 'A2B: Changing blockly source from', blocklySource, 'to', aceSource
+    @eventsSuppressed = true
+    #console.log 'would set to', blocklyState
+    Blockly.serialization.workspaces.load blocklyState, @blockly
+    #@resizeBlockly()  # Needed?
+    @eventsSuppressed = false
 
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?
@@ -840,16 +722,7 @@ module.exports = class SpellView extends CocoView
     @saveSpade()
 
   getSource: ->
-    if @blockly
-      backup = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(@blockly))
-      if @session.get('codeLanguage') is 'javascript'
-        src = "//BLOCKLY| " + backup + "\n\n" + Blockly.JavaScript.workspaceToCode @blockly
-      else
-        src = "#BLOCKLY| " + backup + "\n\n" + Blockly.Python.workspaceToCode @blockly
-      console.log src
-      src
-    else
-      @ace.getValue()
+    @ace.getValue()
 
   setThang: (thang) ->
     @focus()
@@ -1006,6 +879,7 @@ module.exports = class SpellView extends CocoView
       @firepad.setText source
     else
       @ace.setValue source
+      @ace.clearSelection()
       @aceSession.setUndoManager(new UndoManager())
     @eventsSuppressed = false
     try
@@ -1023,6 +897,7 @@ module.exports = class SpellView extends CocoView
       _.throttle @notifySpellChanged, 300
       _.throttle @updateLines, 500
       _.throttle @hideProblemAlert, 500
+      _.throttle @aceToBlockly, 500
     ]
     onSignificantChange.push _.debounce @checkRequiredCode, 750 if @options.level.get 'requiredCode'
     onSignificantChange.push _.debounce @checkSuspectCode, 750 if @options.level.get 'suspectCode'
@@ -1038,13 +913,8 @@ module.exports = class SpellView extends CocoView
           callback() for callback in onAnyChange  # Then these
     @aceDoc.on 'change', @onCodeChangeMetaHandler
 
-    # RTD: Add blockly change listener.
-
     if @blockly
-      @blockly.addChangeListener @onCodeChangeMetaHandler
-      console.log "Added changed listener"
-    else
-      console.log "Missed change listern add"
+      @blockly.addChangeListener @blocklyToAce
 
   onCursorActivity: =>  # Used to refresh autocast delay; doesn't do anything at the moment.
 
@@ -1269,7 +1139,7 @@ module.exports = class SpellView extends CocoView
   # - Go after specified delay if a) and not b) or c)
   guessWhetherFinished: (aether) ->
     valid = not aether.getAllProblems().length
-    return true if @blockly?
+    return true if @blocklyActive
     return unless valid
     cursorPosition = @ace.getCursorPosition()
     currentLine = _.string.rtrim(@aceDoc.$lines[cursorPosition.row].replace(@singleLineCommentRegex(), ''))  # trim // unless inside "
@@ -1291,9 +1161,9 @@ module.exports = class SpellView extends CocoView
       @_singleLineCommentRegex.lastIndex = 0
       return @_singleLineCommentRegex
     if @spell.language is 'html'
-      commentStart = "#{commentStarts.html}|#{commentStarts.css}|#{commentStarts.javascript}"
+      commentStart = "#{utils.commentStarts.html}|#{utils.commentStarts.css}|#{utils.commentStarts.javascript}"
     else
-      commentStart = commentStarts[@spell.language] or '//'
+      commentStart = utils.commentStarts[@spell.language] or '//'
     @_singleLineCommentRegex = new RegExp "[ \t]*(#{commentStart})[^\"'\n]*"
     @_singleLineCommentRegex
 
@@ -1306,7 +1176,7 @@ module.exports = class SpellView extends CocoView
 
   commentOutMyCode: ->
     prefix = if @spell.language in ['javascript', 'java', 'cpp'] then 'return;  ' else 'return  '
-    comment = prefix + commentStarts[@spell.language]
+    comment = prefix + utils.commentStarts[@spell.language]
 
   preload: ->
     # Send this code over to the God for preloading, but don't change the cast state.
@@ -1410,9 +1280,9 @@ module.exports = class SpellView extends CocoView
     return unless @controlsEnabled and @writable and $('.modal:visible, .shepherd-button:visible').length is 0
     return if @ace.isFocused()
     return if me.get('aceConfig')?.screenReaderMode and utils.isOzaria  # Screen reader users get to control their own focus manually
+    return if @blocklyActive
     @ace.focus()
     @ace.clearSelection()
-    # TODO: focus on blockly
 
   onFrameChanged: (e) ->
     return unless @spellThang and e.selectedThang?.id is @spellThang?.thang.id
@@ -1531,7 +1401,7 @@ module.exports = class SpellView extends CocoView
     lines = @aceDoc.$lines
     originalLines = @spell.originalSource.split '\n'
     session = @aceSession
-    commentStart = commentStarts[@spell.language] or '//'
+    commentStart = utils.commentStarts[@spell.language] or '//'
     seenAnEntryPoint = false
     previousLine = null
     previousLineHadComment = false
@@ -1631,24 +1501,42 @@ module.exports = class SpellView extends CocoView
   onMaximizeToggled: (e) ->
     _.delay (=> @resize()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
 
-  onWindowResize: (e) =>
-    if @blockly?
-      @sizeBlocklyDiv @$("#blocklyDiv")
-      Blockly.svgResize @blockly
-      @blockly.scrollCenter()
+  onToggleBlocks: (e) ->
+    return if e.blocks and @blocklyActive
+    return if not e.blocks and not @blocklyActive
+    if e.blocks and @blockly
+      # Show it
+      @blocklyActive = true
+    else if e.blocks
+      # Create it
+      @addBlockly()
+    else if @blockly
+      # Hide it
+      @awaitingBlockly = false
+      @blocklyActive = false
+    @resize()
 
+  onWindowResize: (e) =>
     @spellPaletteHeight = null
     #$('#spell-palette-view').css 'height', 'auto'  # Let it go back to controlling its own height
     _.delay (=> @resize?()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
 
   resize: ->
-    if @blockly?
-      Blockly.svgResize @blockly
-      @blockly.scrollCenter()
-
     @ace?.resize true
     @lastScreenLineCount = null
     @updateLines()
+    @resizeBlockly()
+
+  resizeBlockly: (repeat=true) ->
+    return unless @blocklyActive
+    Blockly.svgResize @blockly
+    if repeat
+      @scrollBlocklyToTopLeft()
+      _.delay (=> @resizeBlockly?(false)), 500 + 100  # Wait $level-resize-transition-time, plus a bit, again!
+
+  scrollBlocklyToTopLeft: ->
+    metrics = @blockly.getMetrics()
+    @blockly.scroll -metrics.contentLeft + 30, -metrics.contentTop + 50
 
   onChangeEditorConfig: (e) ->
     aceConfig = me.get('aceConfig') ? {}
@@ -1719,6 +1607,7 @@ module.exports = class SpellView extends CocoView
     $(@ace?.container).find('.ace_gutter').off 'click mouseenter', '.ace_error, .ace_warning, .ace_info'
     $(@ace?.container).find('.ace_gutter').off()
     @firepad?.dispose()
+    @blockly?.dispose()
     @ace?.commands.removeCommand command for command in @aceCommands
     @ace?.destroy()
     @aceDoc?.off 'change', @onCodeChangeMetaHandler
@@ -1733,14 +1622,3 @@ module.exports = class SpellView extends CocoView
     @saveSpadeTimeout = null
     @autocomplete?.destroy()
     super()
-
-# Note: These need to be double-escaped for insertion into regexes
-commentStarts =
-  javascript: '//'
-  python: '#'
-  coffeescript: '#'
-  lua: '--'
-  java: '//'
-  cpp: '//'
-  html: '<!--'
-  css: '/\\*'

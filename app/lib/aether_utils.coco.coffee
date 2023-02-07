@@ -360,7 +360,7 @@ translateJSWhitespace = (jsCode, language='lua') ->
       s = s.replace newRegex, '$1'
 
   # Rewrite comments
-  commentStart = commentStarts[language] or '#'
+  commentStart = utils.commentStarts[language] or '#'
   commentStartRegex = new RegExp "([ \t]*?)//", 'gm'
   s = s.replace commentStartRegex, "$1#{commentStart}"  # `    // Comment` -> `    # Comment`
 
@@ -488,14 +488,3 @@ module.exports.filterMarkdownCodeLanguages = (text, language) ->
       ```"""
 
   return text
-
-# Note: These need to be double-escaped for insertion into regexes
-commentStarts =
-  javascript: '//'
-  python: '#'
-  coffeescript: '#'
-  lua: '--'
-  java: '//'
-  cpp: '//'
-  html: '<!--'
-  css: '/\\*'

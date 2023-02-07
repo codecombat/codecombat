@@ -29,12 +29,15 @@ module.exports = class SpellTopBarView extends CocoView
     'click .videos-button': 'onClickVideosButton'
     'click #fill-solution': 'onFillSolution'
     'click #switch-team': 'onSwitchTeam'
+    'click .toggle-blocks': 'onToggleBlocks'
 
   constructor: (options) ->
     @hintsState = options.hintsState
     @spell = options.spell
     @courseInstanceID = options.courseInstanceID
     @courseID = options.courseID
+    @blocks = options.blocks
+    @blocksHidden = options.blocksHidden
     super(options)
 
   getRenderData: (context={}) ->
@@ -149,6 +152,10 @@ module.exports = class SpellTopBarView extends CocoView
     else
       query = '?team='
     window.location.href = protocol+host+pathname+query + @otherTeam()
+
+  onToggleBlocks: ->
+    @blocks = not @blocks
+    Backbone.Mediator.publish 'tome:toggle-blocks', { blocks: @blocks }
 
   destroy: ->
     super()

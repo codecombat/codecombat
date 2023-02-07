@@ -2,6 +2,7 @@
 
 ace = require('lib/aceContainer');
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
+{commentStarts} = require 'core/utils'
 
 aceEditModes =
   javascript: 'ace/mode/javascript'
@@ -51,16 +52,6 @@ identifierRegex = (lang, type) ->
   return /./
 
 singleLineCommentRegex = (lang) ->
-  commentStarts =
-    javascript: '//'
-    python: '#'
-    coffeescript: '#'
-    lua: '--'
-    java: '//'
-    cpp: '//'
-    html: '<!--'
-    css: '/\\*'
-
   if lang is 'html'
     commentStart = "#{commentStarts.html}|#{commentStarts.css}|#{commentStarts.javascript}"
   else

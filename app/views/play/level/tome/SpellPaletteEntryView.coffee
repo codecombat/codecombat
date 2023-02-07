@@ -32,6 +32,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
     @docFormatter = new DocFormatter options
     @doc = @docFormatter.doc
     @doc.initialHTML = @docFormatter.formatPopover()
+    @doc.docFormatter = @docFormatter  # For Blockly tooltips to use
     @aceEditors = []
 
   afterRender: ->

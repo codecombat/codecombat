@@ -923,6 +923,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tome_reload_method: "Reload original code to restart the level"
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
+    blocks: "Blocks"
     hints: "Hints"
     videos: "Videos"
     hints_title: "Hint {{number}}"
@@ -1560,6 +1561,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     error_in_importing_students: "Error in importing students"
     classroom_items_description: "Whether students should earn gems and equip items during gameplay."
     classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled."
+    classroom_blocks: "Drag and Drop Blocks (beta)"
+    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code."
+    classroom_blocks_hidden: "Disabled"
+    classroom_blocks_opt_in: "Off by default"
+    classroom_blocks_opt_out: "On by default"
 
   no_licenses_page:
     are_your_students_ready: "Are your students excited and ready to learn more?"

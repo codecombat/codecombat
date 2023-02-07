@@ -1,7 +1,7 @@
 CocoModel = require './CocoModel'
 api = require('core/api')
 LevelConstants = require 'lib/LevelConstants'
-{teamSpells} = require 'core/utils'
+{teamSpells, commentStarts} = require 'core/utils'
 
 module.exports = class LevelSession extends CocoModel
   @className: 'LevelSession'
@@ -158,14 +158,3 @@ module.exports = class LevelSession extends CocoModel
     else
       commentStart = commentStarts[@get('codeLanguage')] or '#'
     new RegExp "^[ \t]*(#{commentStart}).*$", 'gm'
-
-# Note: These need to be double-escaped for insertion into regexes
-commentStarts =
-  javascript: '//'
-  python: '#'
-  coffeescript: '#'
-  lua: '--'
-  java: '//'
-  cpp: '//'
-  html: '<!--'
-  css: '/\\*'

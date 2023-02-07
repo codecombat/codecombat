@@ -87,6 +87,20 @@ block modal-body-content
             input#live-completion(name="liveCompletion" checked=liveCompletion type='checkbox')
           .help-block.small.text-navy(data-i18n="teachers.classroom_live_completion")
 
+        if view.enableBlocks
+          .form-group
+            label
+              span(data-i18n="teachers.classroom_blocks")
+            - var aceConfig = view.classroom.get('aceConfig') || {}
+            - var blocks = aceConfig.blocks
+            if blocks === undefined
+              - blocks = 'hidden'
+            select#blocks-select.form-control(name="blocks" value=blocks)
+              option(value="hidden" data-i18n="teachers.classroom_blocks_hidden")
+              option(value="opt-in" data-i18n="teachers.classroom_blocks_opt_in")
+              option(value="opt-out" data-i18n="teachers.classroom_blocks_opt_out")
+            .help-block.small.text-navy(data-i18n="teachers.classroom_blocks_description")
+
       .col-lg-6.col-md-12
         .form-group
           label

@@ -115,7 +115,7 @@ module.exports = class PollModal extends ModalView
     @$randomNumber = @$el.find('#random-number-comment').empty()
     @$randomGems = @$el.find('#random-gems-comment').hide()
     @$totalGems = @$el.find('#total-gems-comment').hide()
-    commentStart = commentStarts[me.get('aceConfig')?.language ? 'python']
+    commentStart = utils.commentStarts[me.get('aceConfig')?.language ? 'python']
     randomNumber = reward.random
     randomGems = Math.ceil 2 * randomNumber * reward.level
     totalGems = if @previousReward then me.gems() else Math.round me.gems() + randomGems
@@ -156,13 +156,3 @@ module.exports = class PollModal extends ModalView
         me.set 'earned', earned
         me.trigger 'change:earned', me, earned
       ), 1200
-
-
-commentStarts =
-  javascript: '// '
-  python: '# '
-  coffeescript: '# '
-  lua: '-- '
-  java: '// '
-  # next line applied from coco for both
-  cpp: '// '
