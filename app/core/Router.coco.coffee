@@ -14,6 +14,9 @@ paymentUtils = require 'lib/paymentUtils'
 
 module.exports = class CocoRouter extends Backbone.Router
 
+  _routeToRegExp: (route) ->
+    new RegExp(super(route), 'i') # make all routes case insensitive
+
   initialize: ->
     # http://nerds.airbnb.com/how-to-add-google-analytics-page-tracking-to-57536
     @bind 'route', @_trackPageView
@@ -114,7 +117,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/arena-balancer(/:levelSlug)': go('artisans/ArenaBalancerView')
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
-    'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
     'cla': go('CLAView')
 
@@ -246,7 +248,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/:map': go('play/CampaignView')
 
     'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
-    'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
 
     'preview': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
@@ -256,7 +257,6 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'schools': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
     'seen': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
-    'SEEN': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
