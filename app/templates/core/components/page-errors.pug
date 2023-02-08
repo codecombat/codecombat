@@ -57,8 +57,6 @@
           strong {{ $t("common.help") }}
         li
           a(href="/") {{ $t("nav.home") }}
-        li
-          a(v-bind:href="forumLink") {{ $t("nav.forum") }}
         li(v-if="isAnonymous")
           a.contact-modal(tabindex=-1) {{ $t("nav.contact") }}
         li

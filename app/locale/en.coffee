@@ -379,6 +379,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     professional_development: "Professional Development"
     new: "New!"
     admin: "Admin"
+    api: "API"
     api_dashboard: "API Dashboard"
     funding_resources_guide: "Funding Resources Guide"
     partnerships: "Partnerships"

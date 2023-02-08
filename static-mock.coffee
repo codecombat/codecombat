@@ -45,7 +45,6 @@ exports.me =
   useStripe: -> true
 
 exports.view =
-  forumLink: () -> 'http://discourse.codecombat.com/'
   isMobile: () -> false
   isOldBrowser: () -> false
   isChinaOldBrowser: () -> false
