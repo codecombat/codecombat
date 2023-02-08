@@ -1,7 +1,7 @@
 <template>
   <div
     class="tab"
-    :class="{read: announcement.read}"
+    :class="{read: announcement.read, truncated: isEllipsisActive}"
   >
     <div class="left">
       <div class="time">
@@ -15,6 +15,7 @@
       <div
         :id="`content${announcement._id}`"
         class="content"
+        :class="{truncated: isEllipsisActive}"
         v-html="content"
       />
       <div
@@ -44,7 +45,8 @@ export default {
   props: ['announcement', 'scrolledTo'],
   data () {
     return {
-      display: false
+      display: false,
+      isEllipsisActive: false
     }
   },
   computed: {
@@ -61,7 +63,7 @@ export default {
   },
   mounted () {
     const el = document.querySelector(`#content${this.announcement._id}`)
-    el.classList.toggle('truncated', this.isEllipsisActive(el))
+    this.isEllipsisActive = this.checkEllipsisActive(el)
 
     if (this.scrolledTo) {
       el.classList.add('force-all')
@@ -82,13 +84,12 @@ export default {
     readfull (id) {
       const el = document.querySelector(`#content${id}`)
       el.classList.add('force-all')
-      this.read(id)
     },
-    // isEllipsisActive and checkRange coming from
+    // checkEllipsisActive and checkRange coming from
     // https://stackoverflow.com/a/64747288
     // which checks if the text truncated by css
     // so don't need to review logic, it works good!
-    isEllipsisActive (el) {
+    checkEllipsisActive (el) {
       return el.scrollHeight !== el.offsetHeight
         ? el.scrollHeight > el.offsetHeight
         : this.checkRanges(el)
@@ -137,7 +138,7 @@ export default {
     cursor: pointer;
   }
 
-  &:not(.read):hover .readit {
+  &:not(.read, .truncated):hover .readit {
     display: block;
   }
 
