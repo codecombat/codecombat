@@ -222,9 +222,15 @@ export default {
         await waitlistSignup({ email: this.email, role: this.role })
         this.isSuccess = true
       } catch (err) {
+
+        let text = 'Failed to contact server, please reach out to support@codecombat.com'
+        if (err.code === 409) {
+          text = err.message
+        }
+
         console.error('roblox waitlist signup error', err)
         noty({
-          text: 'Failed to contact server, please reach out to support@codecombat.com',
+          text,
           type: 'error',
           timeout: 5000,
           layout: 'topCenter'
