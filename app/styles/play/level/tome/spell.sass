@@ -30,6 +30,8 @@
   span.code-background
     border-width: 115px 76px 64px 40px
     border-image: url(/images/level/code_editor_background_border.png) 124 76 64 40 fill stretch
+    // Increase contrast with code
+    filter: brightness(1.2)
 
   img.code-background
     display: none
@@ -223,12 +225,33 @@
     //.ace_identifier
     //  border-bottom: 1px dotted rgba(0, 51, 255, 0.25)
 
+    // TODO: differentiate variables from objects (possible?)
+    // https://codecombat.slab.com/posts/code-editor-colors-accessibility-t1g8eh7w
+
     .ace_text-layer .ace_comment
+      color: #697688
+
+    .ace_text-layer .ace_function
       color: #1900AD
 
-    .ace_text-layer .ace_variable
-      // https://github.com/codecombat/codecombat/issues/6
-      color: rgb(145, 48, 50)
+    .ace_text-layer .ace_keyword, .ace_text-layer .ace_operator
+      color: #8B572A
+
+    .ace_text-layer .ace_numeric, .ace_text-layer .ace_constant
+      color: #CC0033
+
+    .ace_text-layer .ace_type
+      color: #8B572A
+
+    .ace_text-layer .ace_string
+      color: #B800B8
+
+    .ace_text-layer .ace_support:not(.ace_function)
+      color: #0A7159
+
+    .ace_text-layer .ace_variable, .ace_text-layer .ace_identifier
+      //color: #0165D0  // Oz variable color
+      color: #8200FB  // Oz object name color
 
     .ace_text-layer .ace_invisible_space
       visibility: hidden
@@ -237,7 +260,7 @@
       background-color: rgba(216, 187, 165, 1)
       border: 0
       @include box-shadow(1px 2px 1px #444)
-      
+
       .ace_search_field
         width: 190px
 
