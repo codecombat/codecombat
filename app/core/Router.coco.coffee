@@ -195,6 +195,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'i18n/course/:handle': go('i18n/I18NEditCourseView')
     'i18n/product/:handle': go('i18n/I18NEditProductView')
     'i18n/article/:handle': go('i18n/I18NEditArticleView')
+    'i18n/resource_hub_resource/:handle': go('i18n/I18NEditResourceHubResourceView')
 
     'identify': go('user/IdentifyView')
     'il-signup': go('account/IsraelSignupView')
@@ -335,6 +336,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView
+
     @viewLoad = new ViewLoadTimer() unless options.recursive
     if options.redirectStudents and me.isStudent() and not me.isAdmin()
       return @redirectHome()
