@@ -11,14 +11,13 @@
             :key="ann._id"
             :announcement="ann"
             :scrolledTo="query.id === ann._id"
-            @click.native="read(ann)"
           />
           <div
             v-if="moreAnnouncements"
             class="expand"
             @click="more"
           >
-            more notifications...
+            {{ $t('announcement.more_announcements') }}
           </div>
         </div>
       </div>
@@ -73,9 +72,13 @@ export default {
       'getAnnouncements',
       'readAnnouncement'
     ]),
-    read (ann) {
-      if(!ann.read)
-        this.readAnnouncement(ann._id)
+    readAll () {
+      // todo: do we need this?
+      this.announcements.forEach(a => {
+        if (!a.read) {
+          this.readAnnouncement(a._id)
+        }
+      })
     },
     more () {
       let skip = this.announcements.length
@@ -151,5 +154,8 @@ export default {
 }
 .content {
   width: 100%;
+}
+.expand {
+  cursor: pointer;
 }
 </style>

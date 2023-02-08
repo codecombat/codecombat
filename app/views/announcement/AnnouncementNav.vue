@@ -9,13 +9,15 @@
     >
       {{ naming(a) }}
     </li>
-    <li class="split" />
-    <li
-      class="more"
-      @click="more"
-    >
-      view more
-    </li>
+    <template v-if="moreAnnouncements">
+      <li class="split" />
+      <li
+        class="more"
+        @click="more"
+      >
+        view more
+      </li>
+    </template>
   </ul>
 </template>
 
@@ -28,7 +30,8 @@ export default {
   computed: {
     ...mapGetters('announcements', [
       'announcements',
-      'unread'
+      'unread',
+      'moreAnnouncements'
     ])
   },
   mounted () {

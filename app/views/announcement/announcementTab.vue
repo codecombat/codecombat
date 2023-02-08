@@ -24,6 +24,12 @@
         <p>read more</p>
       </div>
     </div>
+    <div
+      class="readit"
+      @click="read(announcement._id)"
+    >
+      {{ $t('announcement.mark_read') }}
+    </div>
   </div>
 </template>
 
@@ -68,13 +74,15 @@ export default {
     ...mapActions('announcements', [
       'readAnnouncement'
     ]),
-    readfull (id) {
-      const el = document.querySelector(`#content${id}`)
-      el.classList.add('force-all')
-
+    read (id) {
       if (!this.announcement.read) {
         this.readAnnouncement(id)
       }
+    },
+    readfull (id) {
+      const el = document.querySelector(`#content${id}`)
+      el.classList.add('force-all')
+      this.read(id)
     },
     // isEllipsisActive and checkRange coming from
     // https://stackoverflow.com/a/64747288
@@ -111,12 +119,27 @@ export default {
   width: 80%;
   min-height: 60px;
   display: flex;
-  /* border: 2px solid #1FBAB4; */
-  /* border-radius: 10px; */
+  position: relative;
   margin: 2em;
 
   padding-bottom: 4em;
   border-bottom: 1px solid #1fbab4;
+
+  .readit {
+    display: none;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    padding: 5px 15px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  &:not(.read):hover .readit {
+    display: block;
+  }
 
   .left {
     flex-basis: 20%;

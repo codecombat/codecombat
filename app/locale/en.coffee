@@ -1285,6 +1285,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     x_announcement_with_unread: '__x__ Notification (__y__ unread)'
     x_announcements_with_unread: '__x__ Notifications (__y__ unread)'
     see_more: "See __unread__ more unread Notifications"
+    mark_read: "Mark Read"
+    read_all: "Read All"
+    more_announcements: "more notifications..."
 
   avatar_selection:
     pick_an_avatar: "Pick an avatar that will represent you as a player"

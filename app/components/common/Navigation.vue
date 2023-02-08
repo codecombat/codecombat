@@ -292,10 +292,11 @@
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
                     li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
-                      a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement") {{ $t('announcement.notifications') }}
-                        span.unread {{ unread }}
-                        span.caret
-                      announcement-nav.announcement-nav
+                      a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")
+                        span.caret(v-if="this.announcements.length")
+                        span {{ $t('announcement.notifications') }}
+                        span.unread(v-if="unread") {{ unread }}
+                      announcement-nav.announcement-nav(v-if="this.announcements.length")
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
@@ -597,7 +598,7 @@
       top: 0;
     }
     .caret {
-      transform: rotate(-90deg);
+      transform: rotate(90deg);
     }
   }
 
