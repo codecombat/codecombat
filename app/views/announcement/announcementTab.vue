@@ -123,6 +123,7 @@ export default {
     flex-shrink: 0;
   }
   .right {
+    max-width: 80%;
     flex-grow: 0;
     position: relative;
   }
@@ -137,16 +138,15 @@ export default {
       position: relative;
     }
 
-    .content {
+    .content{
       margin-top: 15px;
-      /* margin: 15px;
-         padding: 15px; */
-
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
-      overflow: hidden;
+      overflow-y: hidden;
       text-overflow: ellipsis;
+      overflow-wrap: break-word;
+      max-width: 100%;
 
       &.text-overflow-ellipsis {
         text-overflow: ellipsis !important;

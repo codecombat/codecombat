@@ -37,8 +37,12 @@ class AnnouncementEditView extends EditView{
 
 class AnnouncementNode extends treemaExt.IDReferenceNode {
   valueClass = 'treema-announcement'
-  lastTerm = 'x-x'
+  lastTerm = null
   announcements = {}
+  keyed = false
+  ordered = false
+  collection = false
+  directlyEditable = true
 
   constructor (...args) {
     super(...args)
@@ -46,14 +50,14 @@ class AnnouncementNode extends treemaExt.IDReferenceNode {
     // here i search for all and filter it locally first.
     // TODO: fix the term search
     this.getSearchResultsEl().empty().append('Searching')
-    this.collection = new CocoCollection([], { model: Announcement })
-    this.collection.url = '/db/announcements?project[]=_id&project[]=name'
-    this.collection.fetch()
-    this.collection.once('sync', this.loadAnnouncements, this)
+    this.collections = new CocoCollection([], { model: Announcement })
+    this.collections.url = '/db/announcements?project[]=_id&project[]=name'
+    this.collections.fetch()
+    this.collections.once('sync', this.loadAnnouncements, this)
   }
 
   loadAnnouncements () {
-    this.announcements = this.collection
+    this.announcements = this.collections
     this.searchCallback()
   }
 
@@ -66,6 +70,29 @@ class AnnouncementNode extends treemaExt.IDReferenceNode {
     }
   }
 
+  searchCallback () {
+    const container = this.getSearchResultsEl().detach().empty()
+    let first = true
+    this.collections.models.forEach(model => {
+      const row = $('<div></div>').addClass('treema-search-result-row')
+      const text = this.formatDocument(model)
+      if (!text) {
+        return
+      }
+      if (first) {
+        row.addClass('treema-search-selected')
+      }
+      first = false
+      row.text(text)
+      row.data('value', model)
+      container.append(row)
+    })
+    if (!this.collections.models.length) {
+      container.append($('<div>No results</div>'))
+    }
+    this.getValEl().append(container)
+  }
+
   search () {
     const term = this.getValEl().find('input').val()
     if (term === this.lastTerm) {
@@ -73,10 +100,9 @@ class AnnouncementNode extends treemaExt.IDReferenceNode {
     }
     this.lastTerm = term
     this.getSearchResultsEl().empty().append('Searching')
-    this.collection = new CocoCollection(this.announcements.filter((ann) => {
+    this.collections = new CocoCollection(this.announcements.filter((ann) => {
       return ann.get('name').toLowerCase().includes(term.toLowerCase())
     }), { model: Announcement })
-    console.log(this.collection)
     this.searchCallback()
   }
 }
