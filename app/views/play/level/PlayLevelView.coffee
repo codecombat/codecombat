@@ -423,7 +423,7 @@ module.exports = class PlayLevelView extends RootView
   updateSpellPalette: (thang, spell) ->
     return false unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
     useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
-    @removeSubview @spellPaletteView if @spellPaletteView
+    @removeSubView @spellPaletteView if @spellPaletteView and not @spellPaletteView?.destroyed
     @spellPaletteView = null
     if @getSpellPalettePosition() is 'bot'
       # We'l make it inside Tome instead

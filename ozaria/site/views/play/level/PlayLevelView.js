@@ -591,8 +591,8 @@ class PlayLevelView extends RootView {
     const useHero =
       /hero/.test(spell.getSource()) ||
       !/(self[\.\:]|this\.|\@)/.test(spell.getSource())
-    if (this.spellPaletteView) {
-      this.removeSubview(this.spellPaletteView)
+    if (this.spellPaletteView && !this.spellPaletteView.destroyed) {
+      this.removeSubView(this.spellPaletteView)
     }
     this.spellPaletteView = this.insertSubView(
       new SpellPaletteView({
