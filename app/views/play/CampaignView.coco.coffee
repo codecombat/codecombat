@@ -1497,6 +1497,7 @@ module.exports = class CampaignView extends RootView
         lockedByTeacher = true
       if lockedByTeacher
         level.locked = true
+        level.lockedByTeacher = true
 
       if level.locked
         level.color = 'rgb(193, 193, 193)'

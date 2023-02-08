@@ -460,6 +460,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     confirm: "Confirm"
     owned: "Owned"  # For items you own
     locked: "Locked"
+    locked_by_teacher: "Locked By Teacher"
     available: "Available"
     skills_granted: "Skills Granted"  # Property documentation details
     heroes: "Heroes"  # Tooltip on hero shop button from /play
