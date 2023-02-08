@@ -21,7 +21,6 @@ module.exports =
     options.url = '/contact'
     $.ajax(options)
 
-
   sendParentSignupInstructions: (parentEmail) ->
     jqxhr = $.ajax('/contact/send-parent-signup-instructions', {
       method: 'POST'
@@ -41,4 +40,13 @@ module.exports =
       method: 'POST'
       data: {teacherEmail, sessionId, levelName, codeLanguage: _.string.titleize(codeLanguage).replace('script', 'Script')}
     })
+    return new Promise(jqxhr.then)
+
+  sendSlackMessage: (data) ->
+    try
+      data.name ?= me?.broadName()
+      data.email ?= me?.get('email')
+    catch e
+      data.lookupError = e
+    jqxhr = $.ajax type: 'POST', url: '/contact/slacklog', data: data
     return new Promise(jqxhr.then)
