@@ -68,7 +68,6 @@
 
   .check-mark
     position: absolute
-    left: 3.5%
     width: 20px
 
   .goal-text
