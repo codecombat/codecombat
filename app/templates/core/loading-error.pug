@@ -1,3 +1,4 @@
+// TODO: this is the same as app/templates/core/components/page-errors.pug, but original Backbone version; can we merge them?
 #loading-error.text-center
   if !jqxhr
     h1(data-i18n="loading_error.unknown")
@@ -28,8 +29,6 @@
     h1
       span.spr 404:
       span(data-i18n="loading_error.not_found")
-    - var num = Math.floor(Math.random() * 3) + 1;
-    img#not-found-img(src='/images/pages/not_found/404_' + num + '.png')
     p(data-i18n="loading_error.not_found_desc")
 
   else if !jqxhr.status
@@ -50,46 +49,16 @@
 
     p(data-i18n="loading_error.general_desc")
 
-  #links-row.row
-    .col-sm-3
-      ul.list-unstyled
-        li
-          strong(data-i18n="common.help")
-        li
-          a(href="/", data-i18n="nav.home")
-        if !me.isStudent()
-          li
-            a.contact-modal(tabindex=-1, data-i18n="nav.contact")
-        li
-          a(href='/community', data-i18n="nav.community")
+  p
+    a(href="/" data-i18n="nav.home")
+    span= " | "
+    a(href="/about" data-i18n="nav.about")
+    if !features.china
+      span= " | "
+      a(href="https://codecombat.zendesk.com/hc/en-us" target="_blank" data-i18n="contact.faq")
+    if !me.isStudent()
+      span= " | "
+      a.contact-modal(data-i18n="nav.contact")
 
-    .col-sm-3
-      ul.list-unstyled
-        li
-          strong(data-i18n="courses.students")
-        li
-          a(href="/students", data-i18n="nav.learn_to_code")
-        if me.isAnonymous()
-          li
-            a.login-btn(data-i18n="login.log_in")
-        li
-          a(href="/students", data-i18n="courses.join_class")
-
-    .col-sm-3
-      ul.list-unstyled
-        if me.isAnonymous()
-          li
-            a.login-btn(data-i18n="login.log_in")
-        li
-          a(href="/teachers/classes", data-i18n="nav.create_a_class")
-
-    .col-sm-3
-      ul.list-unstyled
-        li
-          strong(data-i18n="nav.other")
-        li
-          a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
-        li
-          a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
-        li
-          a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
+  - var num = Math.floor(Math.random() * 3) + 1;
+  img#not-found-img(src='/images/pages/not_found/404_' + num + '.png')

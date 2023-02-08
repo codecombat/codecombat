@@ -1,3 +1,4 @@
+// TODO: this is the same as app/templates/core/loading-error.pug, but Vue-ified; can we merge them?
 #loading-error.text-center
   div(v-if="error.stack")
     h1 {{ $t("loading_error.unknown") }}
@@ -27,8 +28,6 @@
     h1
       span.spr 404:
       span {{ $t('loading_error.not_found') }}
-    - var num = Math.floor(Math.random() * 3) + 1;
-    img#not-found-img(src='/images/pages/not_found/404_' + num + '.png')
     p {{ $t("loading_error.not_found_desc") }}
 
   div(v-else-if="!error.code")
@@ -50,44 +49,16 @@
 
     p {{ $t("loading_error.general_desc") }}
 
-  #links-row.row
-    .col-sm-3
-      ul.list-unstyled
-        li
-          strong {{ $t("common.help") }}
-        li
-          a(href="/") {{ $t("nav.home") }}
-        li(v-if="isAnonymous")
-          a.contact-modal(tabindex=-1) {{ $t("nav.contact") }}
-        li
-          a(href='/community') {{ $t("nav.community") }}
+  p
+    a(href="/") {{ $t("nav.home") }}
+    span= " | "
+    a(href="/about") {{ $t("nav.about") }}
+    if !features.china
+      span= " | "
+      a(href="https://codecombat.zendesk.com/hc/en-us" target="_blank") {{ $t("contact.faq") }}
+    if !me.isStudent()
+      span= " | "
+      a.contact-modal {{ $t("nav.contact") }}
 
-    .col-sm-3
-      ul.list-unstyled
-        li
-          strong {{ $t("courses.students") }}
-        li
-          a(href="/students") {{ $t("nav.learn_to_code") }}
-        li(v-if="isAnonymous")
-          a.login-btn {{ $t("login.log_in") }}
-        li
-          a(href="/students") {{ $t("courses.join_class") }}
-
-    .col-sm-3
-      ul.list-unstyled
-        li(v-if="isAnonymous")
-          a.login-btn {{ $t("login.log_in") }}
-        li
-          a(href="/teachers/classes") {{ $t("nav.create_a_class") }}
-
-    .col-sm-3
-      ul.list-unstyled
-        li
-          strong {{ $t("nav.other") }}
-        li
-          a(href="http://blog.codecombat.com/") {{ $t("nav.blog") }}
-        li
-          a(href="https://www.facebook.com/codecombat") {{ $t("nav.facebook") }}
-        li
-          a(href="https://twitter.com/codecombat") {{ $t("nav.twitter") }}
-
+  - var num = Math.floor(Math.random() * 3) + 1;
+  img#not-found-img(src='/images/pages/not_found/404_' + num + '.png')
