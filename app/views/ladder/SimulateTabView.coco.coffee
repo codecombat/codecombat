@@ -59,7 +59,7 @@ module.exports = class SimulateTabView extends CocoView
       fetchAndSimulateTaskOriginal = @simulator.fetchAndSimulateTask
       @simulator.fetchAndSimulateTask = =>
         return if @destroyed
-        if @simulator.simulatedByYou >= 20
+        if @simulator.simulatedByYou >= 100
           console.log '------------------- Destroying  Simulator and making a new one -----------------'
           @simulator.destroy()
           @simulator = null
