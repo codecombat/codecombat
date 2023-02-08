@@ -135,7 +135,7 @@
     <h1 class="capstone-no-students-yet"> {{ $t('teacher.no_student_assigned') }}</h1>
   </div>
   <div v-else>
-    <h1 class="capstone-no-students-yet" > {{ $t('common.loading' }} </h1>
+    <h1 class="capstone-no-students-yet" > {{ $t('common.loading') }} </h1>
   </div>
 </template>
 
