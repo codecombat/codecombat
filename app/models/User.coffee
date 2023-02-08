@@ -792,6 +792,23 @@ module.exports = class User extends CocoModel
     options.data ?= body
     @fetch(options)
 
+  getTestStudentId: ->
+    testStudentRelation = (@get('related') or []).filter((related) => related.relation == 'TestStudent')[0]
+    if testStudentRelation
+      return Promise.resolve testStudentRelation.userId
+    else
+      return @createTestStudentAccount().then (response) =>
+        return response.relatedUserId
+
+  switchToStudentMode: () ->
+    @getTestStudentId().then((testStudentId) => @spy({id: testStudentId}))
+
+  createTestStudentAccount: (body, options = {}) ->
+    options.url = '/db/user/create-test-student-account'
+    options.type = 'PUT'
+    options.data ?= body
+    @fetch(options)
+
   lastClassroomItems: ->
     # We don't always have a classroom at hand, so whenever we do interact with a classroom, we can temporarily store the classroom items setting
     return @lastClassroomItemsCache if @lastClassroomItemsCache?

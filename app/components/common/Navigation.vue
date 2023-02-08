@@ -1,19 +1,18 @@
 <script>
-  import {
-    CODECOMBAT,
-    CODECOMBAT_CHINA,
-    OZARIA,
-    OZARIA_CHINA,
-    isOldBrowser,
-    isChinaOldBrowser,
-    isCodeCombat,
-    isOzaria,
-    getQueryVariable
-  } from 'core/utils'
-  import AnnouncementModal from '../../views/announcement/announcementModal'
-  import { mapActions, mapGetters } from 'vuex'
+import {
+  CODECOMBAT,
+  CODECOMBAT_CHINA,
+  getQueryVariable,
+  isChinaOldBrowser,
+  isCodeCombat,
+  isOzaria,
+  OZARIA,
+  OZARIA_CHINA
+} from 'core/utils'
+import AnnouncementModal from '../../views/announcement/announcementModal'
+import { mapActions, mapGetters } from 'vuex'
 
-  /**
+/**
    * Unified navigation bar component between CodeCombat and Ozaria.
    */
   export default Vue.extend({
@@ -312,6 +311,8 @@
                       a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_spying') }}
                     li(v-else-if="serverSession && serverSession.switchingUserActualId")
                       a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_switching') }}
+                    li(v-else-if="me.isTeacher()")
+                      a.account-dropdown-item#nav-student-mode(href="#") {{ $t('login.test_as_student') }}
                     li
                       a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
 
