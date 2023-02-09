@@ -317,6 +317,12 @@ class PlayLevelView extends RootView {
     // Called when we have enough to build the world, but not everything is loaded
     store.dispatch('game/resetTutorial')
     this.grabLevelLoaderData()
+
+    const levelName = utils.i18n(this.level.attributes, 'displayName') || utils.i18n(this.level.attributes, 'name')
+    this.setMeta({
+      title: $.i18n.t('play.level_title_ozaria', { level: levelName, interpolation: { escapeValue: false } })
+    })
+
     const randomTeam = this.world && this.world.teamForPlayer() // If no team is set, then we will want to equally distribute players to teams
     const team = utils.getQueryVariable('team') || this.session.get('team') || randomTeam || 'humans'
     this.loadOpponentTeam(team)

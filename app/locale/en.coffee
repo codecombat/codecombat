@@ -436,7 +436,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   play:
     title: 'Play CodeCombat Levels - Learn Python, JavaScript, and HTML'
     meta_description: 'Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!'
-    level_title: '__level__ - Learn to Code in Python, JavaScript, HTML'
+    level_title: '__level__ - CodeCombat' # {change}
+    level_title_ozaria: '__level__ - Ozaria'
     video_title: '__video__ | Video Level'
     game_development_title: '__level__ | Game Development'
     web_development_title: '__level__ | Web Development'
