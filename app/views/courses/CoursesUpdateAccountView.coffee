@@ -5,6 +5,7 @@ template = require 'app/templates/courses/courses-update-account-view'
 AuthModal = require 'views/core/AuthModal'
 JoinClassModal = require 'views/courses/JoinClassModal'
 {logoutUser, me} = require('core/auth')
+utils = require 'core/utils'
 
 module.exports = class CoursesUpdateAccountView extends RootView
   id: 'courses-update-account-view'
@@ -22,6 +23,7 @@ module.exports = class CoursesUpdateAccountView extends RootView
     @accountType = switch
       when me.isTeacher() then $.i18n.t('courses.teacher')
       when me.isStudent() then $.i18n.t('courses.student')
+    @isOzaria = utils.isOzaria
 
   onClickLogInButton: ->
     @openModalView(new AuthModal())
