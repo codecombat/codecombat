@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "български език", englishDescri
     managed_by: "Управлявана от"
     will_be_cancelled: "Ще бъде отменена"
     currently_free: "В момента имате безплатен абонамент"
-    currently_free_until: "В момента имате абонамент до"
+    currently_free_until: "В момента имате абонамент до __date__"
 #    free_subscription: "Free subscription"
     was_free_until: "Имали сте безплатен абонамент до"
     managed_subs: "Управлявани Абонаменти"
