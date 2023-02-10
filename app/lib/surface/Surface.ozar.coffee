@@ -197,6 +197,28 @@ module.exports = Surface = class Surface extends CocoClass
     @drawCurrentFrame()
     createjs.Ticker.addEventListener 'tick', @tick
     Backbone.Mediator.publish 'level:started', {}
+    @initFrameRate1()
+
+  initFrameRate1: ->
+    return if @options.frameRate < 30  # Level editor and other places use a lower framerate intentionally
+    # Wait a few seconds before starting to measure frame rate, while UI may be blocking during level load
+    @initFrameRateTimeout = _.delay @initFrameRate2, 3000
+
+  initFrameRate2: =>
+    return if @destroyed
+    utils.getScreenRefreshRate @initFrameRate3, false
+
+  initFrameRate3: (refreshRate, samples) =>
+    return if @destroyed
+    # Now that we have a reasonable point estimate for the display's refresh rate, we can set the CreateJS framerate to match
+    cores = window.navigator.hardwareConcurrency or 4  # Safari may not let us get this; default to assuming we can use higher rate
+    return if cores <= 2
+    refreshRates = [30, 60, 75, 90, 120, 144, 240]
+    # Find the largest rate that is less than the display's refresh rate, with a little wiggle room
+    frameRate = Math.max 30, _.findLast(refreshRates, (rate) -> rate < refreshRate + 4)
+    console.log "Choosing framerate #{frameRate} based on refresh rate #{refreshRate} and #{cores} cores of possible rates #{refreshRates}"
+    @options.frameRate = frameRate
+    createjs.Ticker.framerate = @options.frameRate unless @paused
 
   #- Update loop
 
@@ -864,4 +886,5 @@ module.exports = Surface = class Surface extends CocoClass
     $(window).off('keyup', @onKeyEvent)
     clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
     clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
+    clearTimeout @initFrameRateTimeout if @initFrameRateTimeout
     super()

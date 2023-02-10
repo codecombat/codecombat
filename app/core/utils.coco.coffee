@@ -1156,6 +1156,42 @@ supportEmail = 'support@codecombat.com'
 
 capitalizeFirstLetter = (str) -> (str[0] or '').toUpperCase() + str.slice(1)
 
+###
+# Get the estimated Hz of the primary monitor in the system.
+#
+# @param {Function} callback The function triggered after obtaining the estimated Hz of the monitor.
+# @param {Boolean} runIndefinitely If set to true, the callback will be triggered indefinitely (for live counter).
+###
+# https://ourcodeworld.com/articles/read/1390/how-to-determine-the-screen-refresh-rate-in-hz-of-the-monitor-with-javascript-in-the-browser
+getScreenRefreshRate = (callback, runIndefinitely) ->
+  requestId = null
+  callbackTriggered = false
+  window.requestAnimationFrame ?= window.mozRequestAnimationFrame or window.webkitRequestAnimationFrame
+  DOMHighResTimeStampCollection = []
+
+  triggerAnimation = (DOMHighResTimeStamp) ->
+    DOMHighResTimeStampCollection.unshift DOMHighResTimeStamp
+    if DOMHighResTimeStampCollection.length > 10
+      t0 = DOMHighResTimeStampCollection.pop()
+      fps = Math.floor(1000 * 10 / (DOMHighResTimeStamp - t0))
+      unless callbackTriggered
+        callback.call undefined, fps, DOMHighResTimeStampCollection
+      if runIndefinitely
+        callbackTriggered = false
+      else
+        callbackTriggered = true
+    requestId = window.requestAnimationFrame(triggerAnimation)
+    return
+
+  window.requestAnimationFrame triggerAnimation
+  # Stop after half second if it shouldn't run indefinitely
+  unless runIndefinitely
+    window.setTimeout (->
+      window.cancelAnimationFrame requestId
+      requestId = null
+    ), 500
+  return
+
 module.exports = {
   activeAndPastArenas
   activeArenas
@@ -1204,6 +1240,7 @@ module.exports = {
   getProductName
   getQueryVariable
   getQueryVariables
+  getScreenRefreshRate
   getSponsoredSubsAmount
   getUTCDay
   getAnonymizationStatus
