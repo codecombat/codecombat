@@ -41,7 +41,7 @@ Note: the levels on codecombat.com are [not open source](LICENSE-LEVELS.md).
 
 ### API
 
-We offer a partner API for SSO, user management, progress data, etc., with API docs [here](https://codecombat.com/api-docs). You'll need client credentials, so get in touch with us if you have a use case for that.
+We offer a partner API for SSO, user management, progress data, etc., with API docs [here](https://codecombat.mintlify.app/introduction) (Chinese version [here](https://koudashijie.com/api-docs)) and SDKs [here](https://github.com/codecombat/codecombat-api). You'll need client credentials, so get in touch with us if you have a use case for that.
 
 For the very simplest case that can power some data integrations with your CodeCombat account, you can fetch `https://codecombat.com/db/user/your-user-name-or-id` to get some user progress stats. For example, Beeminder uses this API to help you [commit to learning to code](https://www.beeminder.com/codecombat).
 

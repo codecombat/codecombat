@@ -7,7 +7,6 @@ module.exports = {
     }),
     Vuex.mapGetters('me', [
       'isAnonymous'
-      'forumLink'
     ])
   )
 }

@@ -26,7 +26,8 @@
     },
     computed: {
       ...mapGetters({
-        getTrackCategory: 'teacherDashboard/getTrackCategory'
+        getTrackCategory: 'teacherDashboard/getTrackCategory',
+        loading: 'teacherDashboard/getLoadingState'
       }),
 
       sortedMembers () {
@@ -114,7 +115,7 @@
 </script>
 
 <template>
-  <div>
+  <div v-if="sortedMembers.length">
     <div class="header">
       <progress-labels class="progress-labels" />
     </div>
@@ -129,6 +130,12 @@
       :goals="goalStatus(member)"
       :track-category="getTrackCategory"
     />
+  </div>
+  <div v-else-if="!loading">
+    <h1 class="capstone-no-students-yet"> {{ $t('teacher.no_student_assigned') }}</h1>
+  </div>
+  <div v-else>
+    <h1 class="capstone-no-students-yet" > {{ $t('common.loading') }} </h1>
   </div>
 </template>
 
@@ -147,5 +154,9 @@
 
 .progress-labels {
   flex: none;
+}
+
+.capstone-no-students-yet {
+  margin-top: 50px;
 }
 </style>

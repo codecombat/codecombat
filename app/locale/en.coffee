@@ -379,6 +379,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     professional_development: "Professional Development"
     new: "New!"
     admin: "Admin"
+    api: "API"
     api_dashboard: "API Dashboard"
     funding_resources_guide: "Funding Resources Guide"
     partnerships: "Partnerships"
@@ -435,7 +436,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   play:
     title: 'Play CodeCombat Levels - Learn Python, JavaScript, and HTML'
     meta_description: 'Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!'
-    level_title: '__level__ - Learn to Code in Python, JavaScript, HTML'
+    level_title: '__level__ - CodeCombat' # {change}
+    level_title_ozaria: '__level__ - Ozaria'
     video_title: '__video__ | Video Level'
     game_development_title: '__level__ | Game Development'
     web_development_title: '__level__ | Web Development'
@@ -459,6 +461,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     confirm: "Confirm"
     owned: "Owned"  # For items you own
     locked: "Locked"
+    locked_by_teacher: "Locked By Teacher"
     available: "Available"
     skills_granted: "Skills Granted"  # Property documentation details
     heroes: "Heroes"  # Tooltip on hero shop button from /play
@@ -677,7 +680,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     already_have_account: "Already have a CodeCombat or Ozaria account"
     select_your_role: "Select your role"
     select_your_state: "Select your state"
-    password_requirements: "4 to 64 characters with no repeating"
+    password_requirements: "8 to 64 characters with no repeating"
     invalid: "Invalid"
     invalid_password: "Invalid password"
     with: "with"
