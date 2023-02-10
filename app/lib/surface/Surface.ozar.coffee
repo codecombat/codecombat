@@ -365,7 +365,7 @@ module.exports = Surface = class Surface extends CocoClass
       @surfacePauseTimeout = _.delay performToggle, 2000
       @lankBoss.stop()
       @trailmaster?.stop()
-      @playbackOverScreen?.show()
+      @playbackOverScreen?.show() if @ended
     else
       performToggle()
       @lankBoss.play()
