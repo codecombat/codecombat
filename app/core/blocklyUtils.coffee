@@ -46,6 +46,21 @@ module.exports.createBlocklyToolbox = ({ propertyEntryGroups, generator, codeLan
     text = block.getFieldValue('Comment')
     return "#{commentStart} #{text}\n"
 
+  codeCommentBlock =
+    type: 'code_comment'
+    message0: 'Commented %1'
+    args0: [{ type: 'input_statement',  name: 'CodeComment' }]
+    inputsInline: true
+    previousStatement: null
+    nextStatement: null
+    colour: 180
+    tooltip: 'Commented-out code will have no effect'
+  Blockly.Blocks.code_comment = init: -> @jsonInit codeCommentBlock
+  generator.code_comment = (block) ->
+    text = generator.statementToCode(block, 'CodeComment')
+    return '' unless text
+    return ("#{commentStart}#{line.replace(/^    /g, '')}" for line in text.trim().split('\n')).join('\n') + '\n'
+
   miscBlocks = [
     createBlock
       owner: 'hero'
@@ -110,6 +125,7 @@ module.exports.createBlocklyToolbox = ({ propertyEntryGroups, generator, codeLan
         { kind: 'block', type: 'logic_boolean', include: -> propNames.has('if/else') }  # TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'logic_null', include: -> propNames.has('else') }  # TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'comment', include: -> level.get('slug') not in superBasicLevels }
+        { kind: 'block', type: 'code_comment', include: -> propNames.has('if/else') }  # TODO: introduce this around when we start having commented-out code in sample code
       ]
     }
     {
@@ -246,7 +262,7 @@ customTooltip = (div, element) ->
   if element.docFormatter
     tip = element.docFormatter.formatPopover()
     container.innerHTML = tip
-  else 
+  else
     tip = Blockly.Tooltip.getTooltipOfObject(element)
     container.textContent = tip
   div.appendChild(container)
@@ -292,7 +308,7 @@ module.exports.initializeBlocklyLanguage = ->
       #blocklyLocale = require(localePath)  # doesn't work
       #blocklyLocale = require("blockly/msg/#{languageParts.join('-')}")  # works but throws a ton of errors
       Blockly.setLocale(blocklyLocale)
-      break 
+      break
     catch e
       console.log e
       languageParts.pop()
