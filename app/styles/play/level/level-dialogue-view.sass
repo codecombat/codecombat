@@ -32,12 +32,6 @@
     display: block
     bottom: -150px
 
-  &.debrief
-    bottom: -300px
-
-  &.active.debrief
-    bottom: -65px
-
   &.speaking
     .dialogue-area
       .bubble
@@ -106,39 +100,6 @@
 
       button
         margin-left: 10px
-
-  &.debrief
-    z-index: 11
-    width: 100vw
-    max-width: 1024px
-    position: absolute
-    left: 50vw
-    transform: translateX(-50%)
-    img:not(.embiggen)
-      position: absolute
-      width: 20%
-      bottom: 25%
-      filter: drop-shadow(8px 8px 8px black)
-      left: 2.5%
-    .embiggen
-      position: absolute
-      left: 0
-      width: 25%
-      bottom: 0
-      filter: drop-shadow(8px 8px 8px black)
-    .bubble
-      border: initial
-      width: 75%
-      height: 66.66%
-      right: 16px
-      position: absolute
-      top: 50%
-      transform: translateY(-66.66%)
-      padding: 64px !important
-    @media (max-width: 800px)
-      height: 50%
-      .bubble > p
-        margin-top: -32px
 
 body.ipad #level-dialogue-view
   left: auto
