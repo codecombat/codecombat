@@ -1548,7 +1548,7 @@ module.exports = class CampaignView extends RootView
     if what in ['level', 'xp']
       return me.showGemsAndXpInClassroom() or !isStudentOrTeacher
 
-    if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans']
+    if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heroes', 'achievements', 'clans']
       return !isStudentOrTeacher and not @editorMode
 
     if what in ['back-to-classroom']
