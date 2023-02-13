@@ -368,6 +368,14 @@ $gameControlMargin: 30px
       background: transparent url(/images/pages/play/level-info-background.png) no-repeat center center
       background-size: 100% 100%
 
+      &.has-loading-error
+        .level-error-message
+          display: block
+          margin: 20px
+          font-size: 16px
+        .level-info > *:not(.level-error-message, h3, .level-status)
+          display: none
+
       .level-info
 
         h3

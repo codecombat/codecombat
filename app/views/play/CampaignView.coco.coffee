@@ -1013,6 +1013,7 @@ module.exports = class CampaignView extends RootView
 
     @preloadedSession = new LevelSession().setURL sessionURL
     @listenToOnce @preloadedSession, 'sync', @onSessionPreloaded
+    @listenToOnce @preloadedSession, 'error', @onSessionPreloadError
     @preloadedSession = @supermodel.loadModel(@preloadedSession, {cache: false}).model
     @preloadedSession.levelSlug = levelSlug
 
@@ -1024,6 +1025,14 @@ module.exports = class CampaignView extends RootView
     badge = $("<span class='badge'>#{difficulty}</span>")
     levelElement.find('.start-level .badge').remove()
     levelElement.find('.start-level').append badge
+    levelElement.toggleClass 'has-loading-error', false
+
+  onSessionPreloadError: (session, error) ->
+    return if /requires a subscription to play/.test error?.responseJSON?.message  # We handle this with SubscribeModal separately
+    levelElement = @$el.find('.level-info-container:visible')
+    return unless session.levelSlug is levelElement.data 'level-slug'
+    levelElement.find('.level-error-message').text error.responseJSON?.message or "Cannot load this level--error #{error.statusCode or 500}"
+    levelElement.toggleClass 'has-loading-error', true
 
   onClickMap: (e) ->
     @$levelInfo?.hide()
@@ -1505,6 +1514,7 @@ module.exports = class CampaignView extends RootView
         lockedByTeacher = true
       if lockedByTeacher
         level.locked = true
+        level.lockedByTeacher = true
 
       if level.locked
         level.color = 'rgb(193, 193, 193)'

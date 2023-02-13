@@ -1,6 +1,7 @@
 <script>
   import { mapMutations, mapGetters } from 'vuex'
   import { validationMessages } from './common/signUpValidations'
+  import { logInWithClever } from 'core/social-handlers/CleverHandler'
 
   const User = require('models/User')
 
@@ -100,6 +101,10 @@
         this.errorMessage = ''
         this.resetState()
         this.$emit('startSignup', 'email')
+      },
+
+      clickCleverSignup () {
+        logInWithClever()
       }
     }
   }
@@ -122,6 +127,8 @@
       .social-sign-in(v-if="useSocialSignOn")
         a(@click="clickGoogleSignup" href="#" id="google-login-button-priority")
           img(src="/images/ozaria/common/google_signin_classroom.png")
+        a(@click="clickCleverSignup" href="#" id="clever-login-button-priority")
+          img(src="/images/pages/modal/auth/clever_sso_button@2x.png")
         span.error(v-if="errorMessage") {{ $t(errorMessage) }}
       .email-sign-up
         span {{ $t("general.or") }}!{' '}
@@ -151,6 +158,14 @@
           font-weight: 600
     .social-sign-in
       margin: 5px 0
+      a
+        display: inline-block
+        width: 200px
+        height: 40px
+        float: left
+        img
+          width: 200px
+          height: 40px
     .email-sign-up
       color: #0b63bc
   a

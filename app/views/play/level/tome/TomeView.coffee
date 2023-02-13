@@ -224,7 +224,7 @@ module.exports = class TomeView extends CocoView
     @$('#spell-palette-view-bot').toggleClass 'hidden', paletteManagedInParent
     return if paletteManagedInParent
     useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
-    @removeSubview @spellPaletteView if @spellPaletteView
+    @removeSubView @spellPaletteView if @spellPaletteView and not @spellPaletteView?.destroyed
     @spellPaletteView = @insertSubView new SpellPaletteViewBot { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session, level: @options.level, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID, useHero }
     @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view
 

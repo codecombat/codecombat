@@ -46,7 +46,6 @@ exports.me =
   showChinaHomeVersion: -> false
 
 exports.view =
-  forumLink: () -> 'http://discourse.codecombat.com/'
   isMobile: () -> false
   isOldBrowser: () -> false
   isChinaOldBrowser: () -> false

@@ -25,6 +25,7 @@ module.exports = class AnalyticsView extends RootView
     @activeClassGroups = {}
     @activeUsers = []
     @dayMrrMap = {}
+    @weekMrrMap = {}
     @monthMrrMap = {}
     @revenue = []
     @revenueGroups = {}
@@ -298,33 +299,53 @@ module.exports = class AnalyticsView extends RootView
             else if group is 'DRR Total'
               @monthMrrMap[month].total += revenue.groups[i]
 
+        # Calculate real weekly revenue instead of 30 days estimation
+        @weekMrrMap = {}
+        weekZero = week = '2022-12-30'  # Skip anything this Friday or before
+        # Reverse the revenue list so we can walk forward through time
+        for revenue in _.clone(@revenue).reverse()
+          continue unless revenue.day > weekZero
+          # Assign revenue for the week to the week ending on Friday. Reset on Saturday.
+          if moment(revenue.day).isoWeekday() is 6
+            week = moment(week).add(7, 'days').format('YYYY-MM-DD')
+          @weekMrrMap[week] ?= {gems: 0, yearly: 0, monthly: 0, total: 0}
+          for group, i in @revenueGroups
+            if group is 'DRR gems'
+              @weekMrrMap[week].gems += revenue.groups[i]
+            else if group in ['DRR usa monthly', 'DRR intl monthly']
+              @weekMrrMap[week].monthly += revenue.groups[i]
+            else if group in ['DRR usa lifetime', 'DRR intl lifetime'] or (utils.isCodeCombat and group in ['DRR usa annual', 'DRR intl annual'])
+              @weekMrrMap[week].yearly += revenue.groups[i]
+            else if group is 'DRR Total'
+              @weekMrrMap[week].total += revenue.groups[i]
+
         @updateAllKPIChartData()
         @updateRevenueChartData()
         @render?()
 
     }, 0).load()
 
-    @supermodel.addRequestResource({
-      url: '/db/user/-/school_counts'
-      method: 'POST'
-      data: {minCount: @minSchoolCount}
-      success: (@schoolCounts) =>
-        @schoolCounts?.sort (a, b) ->
-          return -1 if a.count > b.count
-          return 0 if a.count is b.count
-          1
-        @renderSelectors?('#school-counts')
-    }, 0).load()
+    #@supermodel.addRequestResource({
+    #  url: '/db/user/-/school_counts'
+    #  method: 'POST'
+    #  data: {minCount: @minSchoolCount}
+    #  success: (@schoolCounts) =>
+    #    @schoolCounts?.sort (a, b) ->
+    #      return -1 if a.count > b.count
+    #      return 0 if a.count is b.count
+    #      1
+    #    @renderSelectors?('#school-counts')
+    #}, 0).load()
 
-    @supermodel.addRequestResource({
-      url: '/db/payment/-/school_sales'
-      success: (@schoolSales) =>
-        @schoolSales?.sort (a, b) ->
-          return -1 if a.created > b.created
-          return 0 if a.created is b.created
-          1
-        @renderSelectors?('.school-sales')
-    }, 0).load()
+    #@supermodel.addRequestResource({
+    #  url: '/db/payment/-/school_sales'
+    #  success: (@schoolSales) =>
+    #    @schoolSales?.sort (a, b) ->
+    #      return -1 if a.created > b.created
+    #      return 0 if a.created is b.created
+    #      1
+    #    @renderSelectors?('.school-sales')
+    #}, 0).load()
 
     @supermodel.addRequestResource({
       url: '/db/prepaid/-/courses'
@@ -388,6 +409,7 @@ module.exports = class AnalyticsView extends RootView
     @supermodel.loadCollection(@courses)
 
   onCoursesSync: ->
+    return
     @courses.remove(@courses.findWhere({releasePhase: 'beta'}))
     sortedCourses = utils.sortCourses(@courses.models ? [])
     @courseOrderMap = {}

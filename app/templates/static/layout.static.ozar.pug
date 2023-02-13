@@ -42,6 +42,48 @@ html(lang='en')
     script(src='/user-data?sha=' + shaTag)
     script.
       window.document.cookie = "shaTagVal=#{shaTag};path=/;"
+    script(src='https://rum-static.pingdom.net/pa-63c0489a9034fb0011001790.js', async='')
+    // sema text
+    script.
+      (function (e, r, n, t, s) {
+        var a = [];
+        e[s] = function () {
+          a.push(arguments)
+        };
+        e[s].queue = a;
+        var o = [];
+        var i = [];
+        var c = true;
+        var p = void 0;
+        if (window.PerformanceObserver && window.PerformanceObserver.supportedEntryTypes && (PerformanceObserver.supportedEntryTypes.indexOf("longtask") >= 0 || PerformanceObserver.supportedEntryTypes.indexOf("element") >= 0)) {
+          p = new PerformanceObserver(function (e) {
+            e.getEntries().forEach(function (e) {
+              switch (e.entryType) {
+                case"element":
+                  i.push(e);
+                  break;
+                case"longtask":
+                  o.push(e);
+                  break;
+                default:
+                  break
+              }
+            })
+          });
+          p.observe({entryTypes: ["longtask", "element"]})
+        }
+        e[s + "lt"] = {longTasks: o, timingElements: i, inPageLoad: c, observer: p};
+        if (t) {
+          var u = r.createElement(n);
+          u.async = 1;
+          u.src = t;
+          var f = r.getElementsByTagName(n)[0];
+          f.parentNode.insertBefore(u, f)
+        }
+      })
+      (window, document, "script", "//cdn.sematext.com/experience.js", "strum");
+    script.
+      strum('config', { token: '2c9127fa-87fc-4bd7-b735-8b6aaa211c38', 'receiverUrl': 'https://rum-receiver.sematext.com' });
     if me.useGoogleAnalytics()
       // Google Analytics
       script.
@@ -79,8 +121,9 @@ html(lang='en')
         }(window, document, 'script',
                 'https://connect.facebook.net/en_US/fbevents.js');
 
-        fbq('init', '514962702046652')
-        fbq('track', 'PageView')
+        // Moved to dynamic tracker code to only apply to relevant user types
+        //fbq('init', '514962702046652')
+        //fbq('track', 'PageView')
     else
       // Baidu Analytics
       script.

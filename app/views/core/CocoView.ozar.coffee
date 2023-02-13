@@ -353,13 +353,6 @@ module.exports = class CocoView extends Backbone.View
     @_lastLoading.i18n()
     @applyRTLIfNeeded()
 
-  forumLink: ->
-    link = 'http://discourse.codecombat.com/'
-    lang = (me.get('preferredLanguage') or 'en-US').split('-')[0]
-    if lang in ['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt']
-      link += "c/other-languages/#{lang}"
-    link
-
   showReadOnly: ->
     return if me.isAdmin() or me.isArtisan()
     warning = $.i18n.t 'editor.read_only_warning2', defaultValue: 'Note: you can\'t save any edits here, because you\'re not logged in.'

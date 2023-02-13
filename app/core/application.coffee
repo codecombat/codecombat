@@ -122,7 +122,7 @@ Application =
       awayTimeout: 5 * 60 * 1000
     @idleTracker.start()
     @trackProductVisit()
-    @handleTracking()
+    @setReferrerTracking()
 
   checkForNewAchievement: ->
     utils = require 'core/utils'
@@ -175,13 +175,25 @@ Application =
     return if last and moment(last).isAfter(moment().subtract(12, 'hour'))
     me.trackActivity activity
 
-  handleTracking: ->
-    if me.isStudent() || (me.isHomeUser() && !me.isAnonymous())
-      fbqTrackingScript = document.getElementById('analytics-fbq')
-      if fbqTrackingScript
-        console.log('removing fbq tracking')
-        fbqTrackingScript.remove()
-        window.fbq = null
+  setReferrerTracking: ->
+    return if window.serverSession?.amActually
+    utils = require 'core/utils'
+    queryParams = utils.getQueryVariables()
+    utmSource = queryParams['utm_source']
+    utmMedium = queryParams['utm_medium']
+    utmCampaign = queryParams['utm_campaign']
+    referrerParams = {}
+    if utmSource
+      referrerParams.source = utmSource
+    if utmMedium
+      referrerParams.medium = utmMedium
+    if utmCampaign
+      referrerParams.campaign = utmCampaign
+    if Object.keys(referrerParams).length == 0
+      return
+    value = Object.assign(referrerParams, (me.get('referrerTrack') || {}))
+    me.set('referrerTrack', value)
+    me.save()
 
 module.exports = Application
 globalVar.application = Application

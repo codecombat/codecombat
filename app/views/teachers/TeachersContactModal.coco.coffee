@@ -5,6 +5,7 @@ TrialRequests = require 'collections/TrialRequests'
 forms = require 'core/forms'
 contact = require 'core/contact'
 utils = require 'core/utils'
+{sendSlackMessage} = require 'core/contact'
 
 module.exports = class TeachersContactModal extends ModalView
   id: 'teachers-contact-modal'
@@ -116,22 +117,11 @@ module.exports = class TeachersContactModal extends ModalView
       })
 
   logContactFlowToSlack: (data) ->
-    logUrl = '/contact/slacklog'
-    # /teachers/licenses and /teachers/starter-licenses
-    if window?.location?.pathname?.endsWith('licenses')
-      logUrl = '/db/trial.request.slacklog'
-
-    try
-      data.name = me.broadName()
-      data.email = me.get('email')
-    catch e
-      data.lookupError = e
-
-    $.ajax({
-      type: 'POST',
-      url: logUrl,
-      data
-    })
+    data.channel = 'contact-feed'
+    # /teachers/licenses, /teachers/licenses/v0, /teachers/starter-licenses, etc.
+    if /licenses/.test window?.location?.pathname
+      data.channel = 'sales-feed'
+    sendSlackMessage(data)
 
   getDefaultData: (override = {}) ->
     trialRequest = @trialRequests.first()

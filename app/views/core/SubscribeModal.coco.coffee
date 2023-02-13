@@ -66,7 +66,6 @@ module.exports = class SubscribeModal extends ModalView
       @basicCouponAnnual = _.find(@basicProductAnnual.get('coupons'), {code: @couponID})
     @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
     @paymentProcessor = 'stripe' # Always use Stripe
-    console.log('life', @lifetimeProduct, @basicProduct, @basicProductAnnual)
     super()
     @render()
 

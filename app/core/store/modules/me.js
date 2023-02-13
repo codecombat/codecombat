@@ -37,15 +37,6 @@ export default {
       return !(state || {}).role && state.anonymous === false
     },
 
-    forumLink (state) {
-      let link = 'http://discourse.codecombat.com/'
-      const lang = (state.preferredLanguage || 'en-US').split('-')[0]
-      if (['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt'].includes(lang)) {
-        link += `c/other-languages/${lang}`
-      }
-      return link
-    },
-
     isAdmin (state) {
       const permissions = state.permissions || []
       return permissions.indexOf(User.PERMISSIONS.COCO_ADMIN) > -1

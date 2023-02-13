@@ -122,6 +122,9 @@ module.exports = Lank = class Lank extends CocoClass
 
   setSprite: (newSprite) ->
     if @sprite
+      # Store the old sprite's animation state, in case we want to have the new sprite pick it up
+      lastSpriteAnimation = @sprite.currentAnimation
+      lastSpriteFrame = @sprite.currentFrame
       @sprite.off 'animationend', @playNextAction
       @sprite.destroy?()
       if parent = @sprite.parent
@@ -138,7 +141,11 @@ module.exports = Lank = class Lank extends CocoClass
       @thang.stateChanged = true
     @configureMouse()
     @sprite.on 'animationend', @playNextAction
-    @playAction(@currentAction) if @currentAction and not @stillLoading
+    if @currentAction and not @stillLoading
+      @sprite.lastAnimation = lastSpriteAnimation
+      @sprite.lastFrame = lastSpriteFrame
+      @playAction(@currentAction)
+
     @trigger 'new-sprite', @sprite
 
   ##################################################
