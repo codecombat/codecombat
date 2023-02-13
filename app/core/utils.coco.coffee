@@ -146,6 +146,9 @@ countryCodeToName = (code) ->
   return code unless country = _.find countries, countryCode: code.toUpperCase()
   titleize country.country
 
+countryNameToCode = (country) ->
+  _.find(countries, country: country?.toLowerCase())?.countryCode
+
 titleize = (s) ->
   # Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
   _.string.titleize(_.string.humanize(s)).replace(/ (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig, (word) => word.toLowerCase())
@@ -1213,6 +1216,7 @@ module.exports = {
   countries
   countryCodeToFlagEmoji
   countryCodeToName
+  countryNameToCode
   courseAcronyms
   courseIDs
   allCourseIDs
