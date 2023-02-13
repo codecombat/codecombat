@@ -251,6 +251,7 @@ export default Vue.extend({
       }).then(() => {
         this.registrationSucceeded = true
         this.setActiveStep(this.STEP_DONE)
+        window.tracker.trackEvent(`${utils.getProduct()}MobileSignup`, { category: 'Teachers', product: utils.getProduct() })
       }).catch((err) => {
         noty({
           text: 'Failed to contact server: ' + err.message,
