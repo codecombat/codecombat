@@ -24,12 +24,12 @@ module.exports = class Products extends CocoCollection
       countrySpecificProduct = @findWhere { name: 'corrily_basic_subscription' } or @findWhere { name: "corrily_#{user?.get('country')}_basic_subscription" }
     unless countrySpecificProduct
       countrySpecificProduct = @findWhere { name: "#{user?.get('country')}_basic_subscription" }
-    console.log('selected', countrySpecificProduct)
+    console.log 'product selected', countrySpecificProduct
     return countrySpecificProduct or @findWhere({ name: 'basic_subscription' })
 
   getBasicAnnualSubscriptionForUser: () ->
     corrilyAnnual = @findWhere({ name: 'corrily_basic_subscription_annual' })
-    console.log 'annual sel', corrilyAnnual
+    console.log 'product annual sel', corrilyAnnual
     return corrilyAnnual or @findWhere({ name: 'basic_subscription_annual' })
 
   getLifetimeSubscriptionForUser: (user) ->
