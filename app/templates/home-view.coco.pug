@@ -15,9 +15,9 @@ block content
           else if new Date("2023-02-20T06:00:00.000-05:00") < new Date() && !me.isTeacher()
             span(data-i18n="new_home.top_banner_blurb_live_online_classes")
             a(href="/parents", data-i18n="new_home.top_banner_blurb_live_online_classes_cta", data-event-action="Click: Homepage Banner Live Online Classes")
-          else if false && me.isTeacher() && new Date("2023-02-13T06:00:00.000-05:00") < new Date() && new Date() < new Date("2023-02-16T16:30:00.000-05:00")
+          else if me.isTeacher() && new Date("2023-02-13T06:00:00.000-05:00") < new Date() && new Date() < new Date("2023-02-16T14:30:00.000-08:00")
             span(data-i18n="new_home.top_banner_blurb_demo_day_2023_02_16")
-            a(href="zoom link & exact time TBD", data-i18n="league.register", data-event-action="Click: Homepage Banner Demo Day")
+            a(href="https://us06web.zoom.us/webinar/register/WN_Hdt7MY_3TtqR4JB96mM-RQ", data-i18n="league.register", data-event-action="Click: Homepage Banner Demo Day")
           else
             if me.isTeacher()
               span(data-i18n="new_home.top_banner_blurb_roblox_teachers")
