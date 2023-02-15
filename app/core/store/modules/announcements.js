@@ -1,5 +1,6 @@
 const fetchJson = require('../../api/fetch-json')
 import { getNew, getList, read } from '../../api/announcements'
+const { ANNOUNCEMENT_LIMIT } = require('../../constants')
 
 export default {
   namespaced: true,
@@ -85,8 +86,8 @@ export default {
       if(options)
         append = options.append
       getList(options).then((data) => {
-        commit('setAnnouncements', { anns: data.slice(0, 10), append })
-        if (data.length < 11) {
+        commit('setAnnouncements', { anns: data.slice(0, ANNOUNCEMENT_LIMIT - 1), append })
+        if (data.length < ANNOUNCEMENT_LIMIT) {
           commit('setMoreAnnouncement', false)
         }
       })
