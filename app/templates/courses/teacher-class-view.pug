@@ -467,10 +467,12 @@ mixin enrollmentStatusTab
           td.status-col
             if enrolledCourseBits == view.utils.courseNumericalStatus['FULL_ACCESS']
               strong(data-i18n='teacher.full_license')
-            else
+            else if enrolledCourseBits
               - for(var index = 0; index < view.utils.orderedCourseIDs.length; index ++)
                 if (enrolledCourseBits & Math.pow(2, index))
                   .icon=view.utils.courseAcronyms[view.utils.orderedCourseIDs[index]]
+            else
+              strong.text-danger(data-i18n='teacher.status_not_enrolled')
           td.expires-col
             - var licenses = student.activeProducts('course')
             if licenses.length == 1
@@ -484,6 +486,12 @@ mixin enrollmentStatusTab
               .details
                 each license in licenses
                   p= view.utils.formatStudentSingleLicenseStatusDate(license)
+            else
+              - var expired = student.expiredProducts('course')
+              if expired.length
+                - var latest = _.max(expired.map(p => new Date(p.endDate)))
+                - var status = $.t('teacher.status_expired')
+                strong.text-danger= status.replace('{{date}}', moment(latest).format('ll'))
 
           td.enroll-col
             if me.canManageLicensesViaUI() && !state.get('readOnly')

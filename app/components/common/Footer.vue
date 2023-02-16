@@ -10,13 +10,20 @@ import {
   getQueryVariable
 } from 'core/utils'
 import { mapActions, mapGetters } from 'vuex'
-import { COCO_CHINA_CONST } from 'core/constants'
+import FinalFooter from './FinalFooter'
 
 /**
  * Unified footer component between CodeCombat and Ozaria.
  */
 export default Vue.extend({
+  components:{
+    FinalFooter
+  },
   computed: {
+    ...mapGetters({
+      'preferredLocale': 'me/preferredLocale',
+    }),
+
     isCodeCombat () {
       return isCodeCombat
     },
@@ -65,9 +72,18 @@ export default Vue.extend({
 
     forumLink () {
       let link = 'https://discourse.codecombat.com/'
-      const lang = (me.get('preferredLanguage') || 'en-US').split('-')[0]
+      const lang = this.preferredLocale.split('-')[0]
       if (['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt'].includes(lang)) {
         link += `c/other-languages/${lang}`
+      }
+      return link
+    },
+
+    apiLink () {
+      let link = 'https://github.com/codecombat/codecombat-api'
+      const lang = this.preferredLocale.split('-')[0]
+      if (['zh'].includes(lang) || features.china) {
+        link = this.cocoPath('/api-docs')
       }
       return link
     },
@@ -128,7 +144,8 @@ export default Vue.extend({
             { url: this.cocoPath('/community'), title: 'nav.community' },
             { url: this.cocoPath('/contribute'), title: 'nav.contribute' },
             { url: this.cocoPath('/league'), title: 'game_menu.multiplayer_tab' },
-            { url: this.forumLink, title: 'nav.forum', attrs: { target: '_blank' }, hide: me.isStudent() || !me.showForumLink() }
+            { url: this.forumLink, title: 'nav.forum', attrs: { target: '_blank' }, hide: me.isStudent() || !me.showForumLink() },
+            { url: this.apiLink, title: 'nav.api', attrs: { target: '_blank' }, hide: me.isStudent() }
           ]
         }
       ]
@@ -184,7 +201,6 @@ export default Vue.extend({
     // Bind the global values to the vue component.
     this.me = me
     this.document = window.document
-    this.COCO_CHINA_CONST = COCO_CHINA_CONST
   },
   methods: {
     footerEvent (e) {
@@ -293,31 +309,7 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
                     a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
                     a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
 
-  #final-footer(dir="ltr")
-    img(v-if="isOzaria" src="/images/ozaria/home/ozaria-wordmark-500px.png" alt="Ozaria logo")
-    img(v-else src="/images/pages/base/logo.png" alt="CodeCombat logo")
-    .float-right
-      if me.showChinaResourceInfo()
-        span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
-      span {{ $t("nav.copyright_prefix") }}
-      span= ' ©2022 CodeCombat Inc. '
-      span {{ $t("nav.copyright_suffix") }}
-      if me.showChinaResourceInfo()
-        if me.showChinaHomeVersion()
-          a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-20
-        else
-          a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号
-        if !me.showChinaHomeVersion()
-          a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802031936")
-            img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
-            span='京公网安备 11010802031936号'
-        else
-          a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038619")
-            img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
-            span='京公网安备 11010802038619号'
-
-      a.small(href="/legal") {{ $t("nav.term_of_service") }}
-      a.small(href="/privacy") {{ $t("nav.privacy") }}
+  final-footer
 </template>
 
 <style lang="sass" scoped>

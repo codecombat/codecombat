@@ -14,6 +14,9 @@ paymentUtils = require 'lib/paymentUtils'
 
 module.exports = class CocoRouter extends Backbone.Router
 
+  _routeToRegExp: (route) ->
+    new RegExp(super(route), 'i') # make all routes case insensitive
+
   initialize: ->
     # http://nerds.airbnb.com/how-to-add-google-analytics-page-tracking-to-57536
     @bind 'route', @_trackPageView
@@ -115,7 +118,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/arena-balancer(/:levelSlug)': go('artisans/ArenaBalancerView')
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
-    'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
     'cla': go('CLAView')
 
@@ -194,6 +196,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'i18n/course/:handle': go('i18n/I18NEditCourseView')
     'i18n/product/:handle': go('i18n/I18NEditProductView')
     'i18n/article/:handle': go('i18n/I18NEditArticleView')
+    'i18n/resource_hub_resource/:handle': go('i18n/I18NEditResourceHubResourceView')
 
     'identify': go('user/IdentifyView')
     'il-signup': go('account/IsraelSignupView')
@@ -213,6 +216,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'logout': 'logout'
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
+
+    'mobile': () ->
+      @routeDirectly('views/landing-pages/mobile/PageMobileView', [], { vueRoute: true, baseTemplate: 'base-empty' })
 
     'parents': go('core/SingletonAppVueComponentView')
     'live-classes': go('core/SingletonAppVueComponentView')
@@ -244,15 +250,15 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/:map': go('play/CampaignView')
 
     'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
-    'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
 
     'preview': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'privacy': go('PrivacyView')
 
+    'roblox': go('core/SingletonAppVueComponentView')
+
     'schools': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
     'seen': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
-    'SEEN': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
@@ -331,6 +337,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView
+
     @viewLoad = new ViewLoadTimer() unless options.recursive
     if options.redirectStudents and me.isStudent() and not me.isAdmin()
       return @redirectHome()

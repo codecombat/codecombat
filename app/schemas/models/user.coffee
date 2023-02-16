@@ -429,7 +429,7 @@ _.extend UserSchema.properties,
       prepaid: c.objectId(links: [ {rel: 'db', href: '/db/prepaid/{($)}'} ])  # required for type: “course” for legacy compatibility, optional for other types, consider putting into productOptions
       productOptions:
         anyOf: [
-          c.object({}, { # course
+          c.object({additionalProperties: true}, { # course
             includedCourseIDs: {
               type: ['array', 'null']
               }
@@ -492,6 +492,11 @@ _.extend UserSchema.properties,
       }
     )
   )
+  referrerTrack: c.object { description: 'utm_source, medium etc - anything to track from where user came to Coco' }, {
+    source: { type: 'string' },
+    medium: { type: 'string' },
+    campaign: { type: 'string' }
+  }
 
 
 c.extendBasicProperties UserSchema, 'user'

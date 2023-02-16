@@ -126,7 +126,7 @@ block modal-body-content
       #school-admin-result
 
   if view.prepaids.size()
-    h3.m-t-3#prepaids(data-toggle="collapse" data-target="#prepaids-table" aria-expanded="trrue" aria-controls="prepaids-table") Existing Prepaids
+    h3.m-t-3#prepaids(data-toggle="collapse" data-target="#prepaids-table" aria-expanded="true" aria-controls="prepaids-table") Existing Prepaids
       span.small click to toggle collapse
     #prepaids-table.collapse.in.multi-collpase
       table.table.table-condensed
@@ -251,17 +251,19 @@ block modal-body-content
                 else
                   = product.productOptions.teams
               td
+                - tournaments = product.productOptions.tournaments
+                - tournaments = typeof tournaments === 'undefined' ? (view.ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType]) : tournaments
+                - createdTournaments = product.productOptions.createdTournaments || 0
+                = createdTournaments + ' / '
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
                   - var tournamentsControlId = 'product-tournaments-' + productControlId
-                  - tournaments = product.productOptions.tournaments
-                  - tournaments = typeof tournaments === 'undefined' ? (view.ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType]) : tournaments
                   input(id= tournamentsControlId type="number" name="tournaments" value=tournaments min=view.ESPORTS_PRODUCT_STATS.TOURNAMENTS.MIN step=1)
                 else
-                  = product.productOptions.tournaments
+                  = tournaments
               td
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
                   - var arenasControlId = 'product-arenas-' + productControlId
-                  input(id=areansControlId type="text" name="arenas" value=(product.productOptions.arenas || '') placeholder="amdocs-quickfire-infinite-inferno,codestars-challenge")
+                  input(id=arenasControlId type="text" name="arenas" value=(product.productOptions.arenas || '') placeholder="amdocs-quickfire-infinite-inferno,codestars-challenge")
                 else
                   = product.productOptions.arenas
               td
@@ -443,6 +445,18 @@ block modal-body-content
               input#music-checkbox(type='checkbox', checked=view.user.get('music', true))
               span Music
       hr
+
+  else if view.user.isStudent() && (me.isAdmin() || me.isOnlineTeacher())
+    h3.m-t-3#stripe Grant Gems
+    .form
+      .form-group
+        label
+          span Gems to add to user
+          =" "
+          input#stripe-add-gems(type="number", name="addGems", value=0)
+          |  (they have #{view.user.gems().toLocaleString()})
+      button#save-changes.btn.btn-primary Save Changes
+    hr
 
   // Not currently used
   //h3#create-payment Create Payment

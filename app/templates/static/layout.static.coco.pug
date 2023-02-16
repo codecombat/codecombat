@@ -30,6 +30,7 @@ html(lang='en')
     link(rel="shortcut icon" href="/images/favicon/favicon-coco/favicon.ico")
     meta(name="msapplication-TileColor" content="#da532c")
     meta(name="msapplication-config" content="/images/favicon/favicon-coco/browserconfig.xml")
+    meta(name="facebook-domain-verification" content="xbahpe1at906kptbtd1g1w19ktlyru")
     link(rel='manifest', href='/images/favicon/favicon-coco/manifest.json')
     link(rel='stylesheet', href='/' + shaTag + '/stylesheets/app.css')
     if me.useDexecure()
@@ -44,6 +45,48 @@ html(lang='en')
     script(src='/user-data?sha=' + shaTag)
     script.
       window.document.cookie = "shaTagVal=#{shaTag};path=/;"
+    script(src='https://rum-static.pingdom.net/pa-63bf1da99034fb0011001785.js', async='')
+    // sematext trial
+    script.
+      (function (e, r, n, t, s) {
+        var a = [];
+        e[s] = function () {
+          a.push(arguments)
+        };
+        e[s].queue = a;
+        var o = [];
+        var i = [];
+        var c = true;
+        var p = void 0;
+        if (window.PerformanceObserver && window.PerformanceObserver.supportedEntryTypes && (PerformanceObserver.supportedEntryTypes.indexOf("longtask") >= 0 || PerformanceObserver.supportedEntryTypes.indexOf("element") >= 0)) {
+          p = new PerformanceObserver(function (e) {
+            e.getEntries().forEach(function (e) {
+              switch (e.entryType) {
+                case"element":
+                  i.push(e);
+                  break;
+                case"longtask":
+                  o.push(e);
+                  break;
+                default:
+                  break
+              }
+            })
+          });
+          p.observe({entryTypes: ["longtask", "element"]})
+        }
+        e[s + "lt"] = {longTasks: o, timingElements: i, inPageLoad: c, observer: p};
+        if (t) {
+          var u = r.createElement(n);
+          u.async = 1;
+          u.src = t;
+          var f = r.getElementsByTagName(n)[0];
+          f.parentNode.insertBefore(u, f)
+        }
+      })
+      (window, document, "script", "//cdn.sematext.com/experience.js", "strum");
+    script.
+      strum('config', { token: '1edae6bb-d7eb-46b9-a134-ed831c4e3ae3', 'receiverUrl': 'https://rum-receiver.sematext.com' });
     if me.useGoogleAnalytics()
       // Google Analytics
       script.
@@ -81,8 +124,9 @@ html(lang='en')
         }(window, document, 'script',
                 'https://connect.facebook.net/en_US/fbevents.js');
 
-        fbq('init', '514962702046652')
-        fbq('track', 'PageView')
+        // Moved to dynamic tracker code to only apply to relevant user types
+        //fbq('init', '514962702046652')
+        //fbq('track', 'PageView')
     else
       // Baidu Analytics
       script.

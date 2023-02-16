@@ -9,14 +9,28 @@ block content
             span!=view.banner.display
           else if maintenanceStartTime && maintenanceStartTime.isAfter(moment().subtract(3, 'hours'))
             span(data-i18n="new_home.top_banner_blurb_maintenance", data-i18n-options=JSON.stringify(i18nData))
-          else if me.isTeacher() && new Date() < new Date("2022-10-20T16:30:00.000-05:00")
-            span(data-i18n="new_home.top_banner_blurb_demo_day_10_20")
-            a(href="https://us06web.zoom.us/webinar/register/WN_NU2XXsQORZ-_lkx7rxUplQ", data-i18n="league.register", data-event-action="Click: Homepage Banner Demo Day")
-          else if me.isTeacher() && new Date() < new Date("2022-12-01T14:30:00.000-05:00")
-            span(data-i18n="[html]new_home.top_banner_blurb_hoc_2022_12_01", data-i18n-options=JSON.stringify(i18nData))
+          else if me.get('role') == 'parent'
+            span(data-i18n="new_home.top_banner_blurb_live_online_classes_parents")
+            a(href="/parents", data-i18n="signup.sign_up", data-event-action="Click: Homepage Banner Live Online Classes")
+          else if new Date("2023-02-20T06:00:00.000-05:00") < new Date() && !me.isTeacher()
+            span(data-i18n="new_home.top_banner_blurb_live_online_classes")
+            a(href="/parents", data-i18n="new_home.top_banner_blurb_live_online_classes_cta", data-event-action="Click: Homepage Banner Live Online Classes")
+          else if me.isTeacher() && new Date("2023-02-13T06:00:00.000-05:00") < new Date() && new Date() < new Date("2023-02-16T14:30:00.000-08:00")
+            span(data-i18n="new_home.top_banner_blurb_demo_day_2023_02_16")
+            a(href="https://us06web.zoom.us/webinar/register/WN_Hdt7MY_3TtqR4JB96mM-RQ", data-i18n="league.register", data-event-action="Click: Homepage Banner Demo Day")
           else
-            span(data-i18n="new_home.top_banner_blurb_podcast")
-            a(href="/podcast", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Podcast Page")
+            if me.isTeacher()
+              span(data-i18n="new_home.top_banner_blurb_roblox_teachers")
+              a(href="/roblox", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Roblox Page")
+            else if me.isStudent() || (me.isHomeUser() && !me.isAnonymous())
+              span(data-i18n="new_home.top_banner_blurb_roblox_players")
+              a(href="/roblox", data-i18n="new_home.top_banner_blurb_roblox_players_cta", data-event-action="Click: Homepage Banner Roblox Page")
+            else
+              span(data-i18n="new_home.top_banner_blurb_roblox")
+              a(href="/roblox", data-i18n="new_home.check_it_out", data-event-action="Click: Homepage Banner Roblox Page")
+          //else
+          //  span(data-i18n="new_home.top_banner_blurb_podcast")
+          //  a(href="/podcast", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Podcast Page")
 
     .cloud-wrapper
       .row#jumbotron-container-fluid
@@ -280,20 +294,6 @@ block content
           .carousel-dot.active(data-selector="#student-quotes", data-slide-num="0")
           .carousel-dot(data-selector="#student-quotes", data-slide-num="1")
           .carousel-dot(data-selector="#student-quotes", data-slide-num="2")
-
-    .container-graphic-spacer.curator-spacer(style="margin-top: 33px;").hide
-      .container
-        .row
-          .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-7.png" loading="lazy" style="max-width: 321px;" alt="")
-
-    .container.testimonials-container.hide
-      .row.text-center.testimonials-row
-        .col-xs-12
-          h1(data-i18n="new_home.what_our_customers_are_saying")
-
-      .row.curator-row
-        #curator-feed-default-feed-layout.col-xs-12
 
     .container-graphic-spacer
       .container

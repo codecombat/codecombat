@@ -1,9 +1,9 @@
 <script>
-  import Modal from '../../common/Modal'
-  import SecondaryButton from '../common/buttons/SecondaryButton'
-  import BaseCloudflareVideo from '../../common/BaseCloudflareVideo'
+import Modal from '../../common/Modal'
+import SecondaryButton from '../common/buttons/SecondaryButton'
+import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo'
 
-  export default Vue.extend({
+export default Vue.extend({
     components: {
       Modal,
       BaseCloudflareVideo,

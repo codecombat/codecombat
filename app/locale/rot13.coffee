@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     managed_by: "Znantrq ol"
     will_be_cancelled: "Jvyy or pnapryyrq ba"
     currently_free: "Lbh pheeragyl unir n serr fhofpevcgvba"
-    currently_free_until: "Lbh pheeragyl unir n fhofpevcgvba hagvy"
+    currently_free_until: "Lbh pheeragyl unir n fhofpevcgvba hagvy __date__"
     free_subscription: "Serr fhofpevcgvba"
     was_free_until: "Lbh unq n serr fhofpevcgvba hagvy"
     managed_subs: "Znantrq Fhofpevcgvbaf"

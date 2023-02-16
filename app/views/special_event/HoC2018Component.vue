@@ -193,8 +193,7 @@
 
 <script>
 import BannerWebinar from '../courses/BannerWebinar'
-import BaseCloudflareVideo from 'ozaria/site/components/common/BaseCloudflareVideo'
-
+import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo'
 
 module.exports = Vue.extend({
   components: {

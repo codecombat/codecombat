@@ -1,22 +1,35 @@
 <template>
   <div
     class="tab"
-    :class="{read: announcement.read, collapsed: !display, fullscreen: alwaysDisplay}"
+    :class="{read: announcement.read, truncated: isTruncated}"
   >
-    <div
-      class="title"
-      :data-toggle="alwaysDisplay ? '': 'collapse'"
-      :data-target="'#collapse-' + announcement._id"
-      :class="{clickable: !alwaysDisplay}"
-      @click="toggleDisplay"
-    >
-      {{name}}
+    <div class="left">
+      <div class="time">
+        {{ time }}
+      </div>
+    </div>
+    <div class="right">
+      <div class="title">
+        {{ name }}
+      </div>
+      <div
+        :id="`content${announcement._id}`"
+        class="content"
+        :class="{truncated: isEllipsisActive, 'force-all': !isTruncated}"
+        v-html="content"
+      />
+      <div
+        class="read-more"
+        @click="readfull"
+      >
+        <p>read more</p>
+      </div>
     </div>
     <div
-      :id="'collapse-' + announcement._id"
-      class="content collapse"
+      class="readit"
+      @click="read(announcement._id)"
     >
-      {{ content }}
+      {{ $t('announcement.mark_read') }}
     </div>
   </div>
 </template>
@@ -24,13 +37,16 @@
 <script>
 import DOMPurify from 'dompurify'
 import utils from 'core/utils'
+import moment from 'moment'
 
+import { mapActions } from 'vuex'
 export default {
   name: 'AnnouncementTab',
-  props: ['announcement', 'alwaysDisplay'],
+  props: ['announcement', 'scrolledTo'],
   data () {
     return {
-      display: false
+      isTruncated: true,
+      isEllipsisActive: false
     }
   },
   computed: {
@@ -40,19 +56,59 @@ export default {
     content () {
       const i18nContent = utils.i18n(this.announcement, 'content')
       return DOMPurify.sanitize(window.marked(i18nContent || ''))
+    },
+    time () {
+      return moment(this.announcement.startDate).format('ll')
     }
   },
   mounted () {
-    if (this.alwaysDisplay) {
-      this.display = true
+    const el = document.querySelector(`#content${this.announcement._id}`)
+    this.isEllipsisActive = this.checkEllipsisActive(el)
+    this.isTruncated = this.isEllipsisActive
+
+    if (this.scrolledTo) {
+      this.isTruncated = false
+      // top level component
+      el.parentElement.parentElement.scrollIntoView({ behaviors: 'smooth', block: 'center' })
     }
+
   },
   methods: {
-    toggleDisplay () {
-      if (this.alwaysDisplay) {
-        return
+    ...mapActions('announcements', [
+      'readAnnouncement'
+    ]),
+    read (id) {
+      if (!this.announcement.read) {
+        this.readAnnouncement(id)
       }
-      this.display = !this.display
+    },
+    readfull () {
+      this.isTruncated = false
+    },
+    // checkEllipsisActive and checkRange coming from
+    // https://stackoverflow.com/a/64747288
+    // which checks if the text truncated by css
+    // so don't need to review logic, it works good!
+    checkEllipsisActive (el) {
+      return el.scrollHeight !== el.offsetHeight
+           ? el.scrollHeight > el.offsetHeight
+                             : this.checkRanges(el)
+    },
+    checkRanges (el) {
+      const range = new Range()
+      range.selectNodeContents(el)
+      const rangeRect = range.getBoundingClientRect()
+      const elRect = el.getBoundingClientRect()
+      if (rangeRect.bottom > elRect.bottom) {
+        return true
+      }
+      el.classList.add('text-overflow-ellipsis')
+      const rectsEllipsis = range.getClientRects()
+      el.classList.add('text-overflow-clip')
+      const rectsClipped = range.getClientRects()
+      el.classList.remove('text-overflow-ellipsis')
+      el.classList.remove('text-overflow-clip')
+      return rectsClipped.length !== rectsEllipsis.length
     }
   }
 }
@@ -61,76 +117,95 @@ export default {
 <style scoped lang="scss">
 
 .tab {
-  width: 50%;
+  width: 80%;
   min-height: 60px;
-  border: 2px solid #1FBAB4;
-  border-radius: 10px;
-  cursor: pointer;
-  margin: 15px;
-  tansition: height 1s;
+  display: flex;
+  position: relative;
+  margin: 2em;
+
+  padding-bottom: 4em;
+  border-bottom: 1px solid #1fbab4;
+
+  .readit {
+    display: none;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    padding: 5px 15px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  &:not(.read, .truncated):hover .readit {
+    display: block;
+  }
+
+  .left {
+    flex-basis: 20%;
+    flex-shrink: 0;
+  }
+  .right {
+    max-width: 80%;
+    flex-grow: 0;
+    position: relative;
+  }
 
   &.read {
-    background-color: #ddd;
-    background-blend-mode: multiply;
-  }
-
-  &.fullscreen {
-    width: 100%;
-    border: none;
-    cursor: none;
-    background: none !important;
-
-    &> .title:before {
-      display: none;
-    }
-
-    .title {
-      padding-left: 0em;
-    }
-  }
-
-  &.collapsed{
-    &> .title:before {
-      content: '+';
-    }
+    opacity: 50%;
   }
 
   .title {
-    padding-left: 2em;
-    padding-right: 2em;
     font-size: 24px;
-    line-height: 60px;
-    text-align: center;
+    font-weight: bold;
     position: relative;
-
-    &.clickable {
-      cursor: pointer;
-    }
-
-    &:before {
-      content: '-';
-      position: absolute;
-      font-weight: 800;
-      border: 2px solid #1fbab4;
-      color: #1fbab4;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      line-height: 26px;
-      text-align: center;
-      left: 10px;
-      top: 15px;
-
-    }
-
   }
 
-  .content {
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 1px solid #1fbab4;
-    margin: 15px;
-    padding: 15px;
+  .content{
+    margin-top: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+    max-width: 100%;
+
+    &.text-overflow-ellipsis {
+      text-overflow: ellipsis !important;
+    }
+    &.text-overflow-clip{
+      text-overflow: clip !important;
+    }
+
+    &.truncated ~ .read-more{
+      display: block
+    }
+
+    &.force-all {
+      display: block !important;
+    }
+    &.force-all ~ .read-more {
+      display: none !important;
+    }
+  }
+  .read-more {
+    display: none;
+    position: absolute;
+    cursor: pointer;
+    bottom: -4em;
+    width: 100%;
+    z-index: 5;
+    padding-top: 4em;
+    background-image: linear-gradient(to top, #fff 60%, rgba(255, 255, 255, 0.1) 100%);
+
+    p {
+      color: #333;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+    }
   }
 }
 

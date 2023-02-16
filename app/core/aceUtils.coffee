@@ -70,7 +70,7 @@ singleLineCommentRegex = (lang) ->
 parseUserSnippets = (source, lang, session) ->
   replaceParams = (str) ->
     i = 1
-    str = str.replace(/([a-zA-Z-0-9\$\-\u00A2-\uFFFF]+)([^,)]*)/g, "${:$1}")
+    str = str.replace(/(?:[^(,)]+ )?([a-zA-Z-0-9\$\-\u00A2-\uFFFF]+)([^,)]*)/g, "${:$1}") # /(?:[^(,)]+ )?/ part for ignoring the type declaration in cpp/java
     reg = /\$\{:/
     while (reg.test(str))
       str = str.replace(reg, "${#{i}:")

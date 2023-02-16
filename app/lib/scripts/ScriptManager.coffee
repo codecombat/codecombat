@@ -53,7 +53,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
 
   constructor: (options) ->
     super(options)
-    @originalScripts = @filterScripts(options.scripts)
+    @originalScripts = _.clone options.scripts
     @session = options.session
     @levelID = options.levelID
     @debugScripts = application.isIPadApp or utils.getQueryVariable 'dev'
@@ -64,7 +64,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @beginTicking()
 
   setScripts: (newScripts) ->
-    @originalScripts = @filterScripts(newScripts)
+    @originalScripts _.clone newScripts
     @quiet = true
     @initProperties()
     @loadFromSession()
@@ -73,14 +73,6 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @run()
     if utils.isOzaria
       @saveSayEventsToStore()
-
-  filterScripts: (scripts) ->
-    _.filter scripts, (script) ->
-      return true if me.isAdmin()
-      return true unless script.id in ['Intro Dialogue', 'Failure Dialogue',  'Success Dialogue']
-      return false unless serverConfig.enableNarrative?
-      return false if (me.get('testGroupNumber') % 8) < 4 # Groups 0-3 dont see narrative
-      true
 
   initProperties: ->
     @endAll({force:true}) if @scriptInProgress
@@ -186,7 +178,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       for note in script.noteChain or []
         if note.surface?.focus?
           surfaceModule = _.find note.modules or [], (module) -> module.surfaceCameraNote
-          if surfaceModule or utils.isOzaria
+          if surfaceModule
             cameraNote = surfaceModule.surfaceCameraNote true
             @publishNote cameraNote
             return

@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     managed_by: "Gestionat per"
     will_be_cancelled: "Se't cancel·larà"
     currently_free: "Ara tens una subscripció gratuïta"
-    currently_free_until: "Ara tens uns subscripció fins al"
+    currently_free_until: "Ara tens uns subscripció fins al __date__"
     free_subscription: "Subscripció gratuïta"
     was_free_until: "Tens una subscripció gratuïta fins al"
     managed_subs: "Subscripcions gestionades"

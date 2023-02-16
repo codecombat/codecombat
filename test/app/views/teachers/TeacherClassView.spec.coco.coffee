@@ -168,16 +168,16 @@ describe 'TeacherClassView', ->
               expect(lines.length).toBe(@students.length + 1)
               for line in lines
                 simplerLine = line.replace(/"[^"]+"/g, '""')
-                # Name, Username,Email,Total Levels,Total Playtime, [CS1 Levels, CS1 Playtime, ...], Concepts
-                expect(simplerLine.match(/[^,]+/g).length).toBe(5 + @releasedCourses.length * 2 + 1)
+                # Name, Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds), [CS1 Levels, CS1 Playtime, ...], Concepts
+                expect(simplerLine.match(/[^,]+/g).length).toBe(6 + @releasedCourses.length * 3 + 1)
                 if simplerLine.match new RegExp(@finishedStudent.get('email'))
-                  expect(simplerLine).toMatch /3,3 minutes,3,3 minutes,0/
+                  expect(simplerLine).toMatch /3,3 minutes,180,3,3 minutes,180,0/
                 else if simplerLine.match new RegExp(@finishedStudentWithPractice.get('email'))
-                  expect(simplerLine).toMatch /3,3 minutes,3,3 minutes,0/
+                  expect(simplerLine).toMatch /3,3 minutes,180,3,3 minutes,180,0/
                 else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
-                  expect(simplerLine).toMatch /1,a minute,1,a minute,0/
+                  expect(simplerLine).toMatch /1,a minute,60,1,a minute,60,0/
                 else if simplerLine.match /@/
-                  expect(simplerLine).toMatch /0,0,0/
+                  expect(simplerLine).toMatch /0,0,0,0,0/
               done()
             reader.readAsText(blob);
           @view.calculateProgressAndLevelsAux()
@@ -231,14 +231,14 @@ describe 'TeacherClassView', ->
               expect(lines.length).toBe(@students.length + 1)
               for line in lines
                 simplerLine = line.replace(/"[^"]+"/g, '""')
-                # Name, Username,Email,Total Levels,Total Playtime, [CS1 Levels, CS1 Playtime, ...], Concepts
-                expect(simplerLine.match(/[^,]+/g).length).toBe(5 + @releasedCourses.length * 2 + 1)
+                # Name, Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds), [CS1 Levels, CS1 Playtime, ...], Concepts
+                expect(simplerLine.match(/[^,]+/g).length).toBe(6 + @releasedCourses.length * 3 + 1)
                 if simplerLine.match new RegExp(@finishedStudent.get('email'))
-                  expect(simplerLine).toMatch /2,2 minutes,2,2 minutes,0/
+                  expect(simplerLine).toMatch /2,2 minutes,120,2,2 minutes,120,0/
                 else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
-                  expect(simplerLine).toMatch /1,a minute,1,a minute,0/
+                  expect(simplerLine).toMatch /1,a minute,60,1,a minute,60,0/
                 else if simplerLine.match /@/
-                  expect(simplerLine).toMatch /0,0,0/
+                  expect(simplerLine).toMatch /0,0,0,0/
               done()
             reader.readAsText(blob);
           @view.calculateProgressAndLevelsAux()

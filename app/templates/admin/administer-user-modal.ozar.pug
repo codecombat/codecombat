@@ -126,7 +126,7 @@ block modal-body-content
       #school-admin-result
 
   if view.prepaids.size()
-    h3.m-t-3#prepaids(data-toggle="collapse" data-target="#prepaids-table" aria-expanded="trrue" aria-controls="prepaids-table") Existing Prepaids
+    h3.m-t-3#prepaids(data-toggle="collapse" data-target="#prepaids-table" aria-expanded="true" aria-controls="prepaids-table") Existing Prepaids
       span.small click to toggle collapse
     #prepaids-table.collapse.in.multi-collpase
       table.table.table-condensed
@@ -417,6 +417,18 @@ block modal-body-content
               input#music-checkbox(type='checkbox', checked=view.user.get('music', true))
               span Music
       hr
+
+  else if view.user.isStudent() && (me.isAdmin() || me.isOnlineTeacher())
+    h3.m-t-3#stripe Grant Gems
+    .form
+      .form-group
+        label
+          span Gems to add to user
+          =" "
+          input#stripe-add-gems(type="number", name="addGems", value=0)
+          |  (they have #{view.user.gems().toLocaleString()})
+      button#save-changes.btn.btn-primary Save Changes
+    hr
 
   // Not currently used
   //h3#create-payment Create Payment

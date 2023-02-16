@@ -7,5 +7,8 @@ Announcement.className = 'Announcement'
 Announcement.schema = schema
 Announcement.urlRoot = '/db/announcement'
 Announcement.prototype.urlRoot = '/db/announcement'
+Announcement.prototype.defaults = {
+  product: 'codecombat'
+}
 
 module.exports = Announcement
