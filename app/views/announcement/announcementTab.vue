@@ -1,7 +1,7 @@
 <template>
   <div
     class="tab"
-    :class="{read: announcement.read, truncated: isEllipsisActive}"
+    :class="{read: announcement.read, truncated: isTruncated}"
   >
     <div class="left">
       <div class="time">
@@ -15,12 +15,12 @@
       <div
         :id="`content${announcement._id}`"
         class="content"
-        :class="{truncated: isEllipsisActive}"
+        :class="{truncated: isEllipsisActive, 'force-all': !isTruncated}"
         v-html="content"
       />
       <div
         class="read-more"
-        @click="readfull(announcement._id)"
+        @click="readfull"
       >
         <p>read more</p>
       </div>
@@ -45,7 +45,7 @@ export default {
   props: ['announcement', 'scrolledTo'],
   data () {
     return {
-      display: false,
+      isTruncated: true,
       isEllipsisActive: false
     }
   },
@@ -64,9 +64,10 @@ export default {
   mounted () {
     const el = document.querySelector(`#content${this.announcement._id}`)
     this.isEllipsisActive = this.checkEllipsisActive(el)
+    this.isTruncated = this.isEllipsisActive
 
     if (this.scrolledTo) {
-      el.classList.add('force-all')
+      this.isTruncated = false
       // top level component
       el.parentElement.parentElement.scrollIntoView({ behaviors: 'smooth', block: 'center' })
     }
@@ -81,9 +82,8 @@ export default {
         this.readAnnouncement(id)
       }
     },
-    readfull (id) {
-      const el = document.querySelector(`#content${id}`)
-      el.classList.add('force-all')
+    readfull () {
+      this.isTruncated = false
     },
     // checkEllipsisActive and checkRange coming from
     // https://stackoverflow.com/a/64747288
@@ -91,8 +91,8 @@ export default {
     // so don't need to review logic, it works good!
     checkEllipsisActive (el) {
       return el.scrollHeight !== el.offsetHeight
-        ? el.scrollHeight > el.offsetHeight
-        : this.checkRanges(el)
+           ? el.scrollHeight > el.offsetHeight
+                             : this.checkRanges(el)
     },
     checkRanges (el) {
       const range = new Range()
@@ -156,40 +156,40 @@ export default {
     opacity: 50%;
   }
 
-    .title {
-      font-size: 24px;
-      font-weight: bold;
-      position: relative;
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    position: relative;
+  }
+
+  .content{
+    margin-top: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+    max-width: 100%;
+
+    &.text-overflow-ellipsis {
+      text-overflow: ellipsis !important;
+    }
+    &.text-overflow-clip{
+      text-overflow: clip !important;
     }
 
-    .content{
-      margin-top: 15px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow-y: hidden;
-      text-overflow: ellipsis;
-      overflow-wrap: break-word;
-      max-width: 100%;
-
-      &.text-overflow-ellipsis {
-        text-overflow: ellipsis !important;
-      }
-      &.text-overflow-clip{
-        text-overflow: clip !important;
-      }
-
-      &.truncated ~ .read-more{
-        display: block
-      }
-
-      &.force-all {
-        display: block !important;
-      }
-      &.force-all ~ .read-more {
-        display: none !important;
-      }
+    &.truncated ~ .read-more{
+      display: block
     }
+
+    &.force-all {
+      display: block !important;
+    }
+    &.force-all ~ .read-more {
+      display: none !important;
+    }
+  }
   .read-more {
     display: none;
     position: absolute;
