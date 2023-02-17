@@ -206,6 +206,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'partners': () ->
       @routeDirectly('PagePartners', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
 
+    'apcsp-marketing': () ->
+      @routeDirectly('PageAPCSPMarketing', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+
     'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
     'league/kipp': redirect('/league/autoclan-school-network-kipp') # Redirect for KIPP.
     'league(/*subpath)': go('core/SingletonAppVueComponentView')
