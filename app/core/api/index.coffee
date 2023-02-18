@@ -3,6 +3,7 @@ module.exports = {
   apcsp: require('./apcsp')
   analyticsLogEvents: require('./analytics-log-events')
   campaigns: require('./campaigns')
+  chats: require('./chat_message')
   clas: require('./clas')
   classrooms: require('./classrooms')
   contact: require('./contact')

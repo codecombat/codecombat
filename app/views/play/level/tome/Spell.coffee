@@ -248,6 +248,19 @@ module.exports = class Spell
 
     @problemContext
 
+  createChatMessageContext: (chat) ->
+    context = code: {}
+    for codeType in ['start', 'solution', 'current']
+      context.code[codeType] = {}
+      codeLanguages = if chat.example then [@language] else ['javascript', 'python']  # TODO: get all languages
+      for codeLanguage in codeLanguages
+        context.code[codeType][codeLanguage] = "TODO: pull in #{codeLanguage} #{codeType} code"
+    context.code.context = {}  # TODO: pull in context comments, and translations if example
+    if chat.example
+      # TODO: add all the permutations, i18n
+      null
+    context
+
   reloadCode: ->
     # We pressed the reload button. Fetch our original source again in case it changed.
     return unless programmableMethod = @thang?.thang?.programmableMethods?[@name]

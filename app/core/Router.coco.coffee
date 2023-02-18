@@ -172,6 +172,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/archived-elements': go('core/SingletonAppVueComponentView')
     'editor/podcast': go('editor/podcast/PodcastSearchView')
     'editor/podcast/:podcastId': go('editor/podcast/PodcastEditView')
+    'editor/chat': go('editor/chat/ChatSearchView')
+    'editor/chat/:chatID': go('editor/chat/ChatEditView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')

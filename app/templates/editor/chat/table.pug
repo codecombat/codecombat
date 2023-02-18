@@ -1,0 +1,37 @@
+extends /templates/common/table
+
+block tableResultsHeader
+  tr
+    th(colspan=5)
+      span(data-i18n="general.results")
+        | Results
+      span
+        |: #{documents.length}
+
+block tableHeader
+  tr
+    th(data-i18n="general.date")
+    th(data-i18n="editor.level_components_type")
+    th(data-i18n="skill_docs.example")
+    th(data-i18n="play_level.level")
+    th(data-i18n="general.name")
+
+block tableBody
+  for chat in documents
+    tr
+      td(title=chat.get('endDate'))
+        a(href='/editor/' + page + '/' + chat.get('_id'))
+          | #{moment(chat.get('endDate')).format('lll')}
+      td(title=chat.get('kind')) #{chat.get('kind')}
+      td
+        if chat.get('example')
+          span ✅
+      if chat.get('context')
+        td(title=chat.get('context').levelName) #{chat.get('context').levelName}
+        td(title=chat.get('message').sender.name) #{chat.get('message').sender.name}
+      else
+        td(colspan=2)
+    if chat.get('message')
+      tr.message-row
+        td(colspan=5 title=chat.get('message').text) #{chat.get('message').text}
+

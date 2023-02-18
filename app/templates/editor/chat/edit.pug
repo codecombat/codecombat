@@ -1,0 +1,25 @@
+extends /templates/base
+
+block content
+  div
+    ol.breadcrumb
+      li
+        a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
+      li
+        a(href="/editor/chat", data-i18n="editor.chat_title")
+      li.active
+        | #{view.chat.get('_id')}
+
+  - var authorized = !me.get('anonymous');
+  button.chat-tool-button(data-i18n="editor.pop_i18n", disabled=authorized === true ? undefined : "true").btn.btn-primary#i18n-button
+  button.chat-tool-button(data-i18n="common.save", disabled=authorized === true ? undefined : "true").btn.btn-primary#save-button Save
+
+  h3
+    span(data-i18n="editor.chat_edit_title")
+    |: #{view.chat.attributes._id}
+    
+  #chat-treema
+
+  hr
+
+  // TODO: visualize the chat here

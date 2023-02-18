@@ -3,11 +3,14 @@ CocoView = require 'views/core/CocoView'
 template = require 'app/templates/play/level/chat'
 {me} = require 'core/auth'
 LevelBus = require 'lib/LevelBus'
+ChatMessage = require 'models/ChatMessage'
+utils = require 'core/utils'
 
 module.exports = class LevelChatView extends CocoView
   id: 'level-chat-view'
   template: template
   open: false
+  visible: false
 
   events:
     'keypress textarea': 'onChatKeydown'
@@ -19,11 +22,14 @@ module.exports = class LevelChatView extends CocoView
   constructor: (options) ->
     @levelID = options.levelID
     @session = options.session
-    # TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
-    @listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
     @sessionID = options.sessionID
     @bus = LevelBus.get(@levelID, @sessionID)
     super()
+
+    ## TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
+    #@listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
+    @visible = me.isAdmin()
+
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
 
@@ -36,7 +42,8 @@ module.exports = class LevelChatView extends CocoView
 
   afterRender: ->
     @chatTables = $('table', @$el)
-    @updateMultiplayerVisibility()
+    #@updateMultiplayerVisibility()
+    @$el.toggle @visible
 
   regularlyClearOldMessages: ->
     @clearOldMessagesInterval = setInterval(@clearOldMessages, 5000)
@@ -102,12 +109,13 @@ module.exports = class LevelChatView extends CocoView
       row.remove()
 
   onChatKeydown: (e) ->
-    if key.isPressed('enter')
-      message = _.string.strip($(e.target).val())
-      return false unless message
-      @bus.sendMessage(message)
-      $(e.target).val('')
-      return false
+    return unless key.isPressed('enter')  # TODO: handle multiline
+    message = _.string.strip($(e.target).val())
+    return false unless message
+    #@bus.sendMessage(message)  # TODO: bring back bus?
+    @saveChatMessage { sender: me, message: message }
+    $(e.target).val('')
+    return false
 
   onIconClick: ->
     @open = not @open
@@ -124,6 +132,38 @@ module.exports = class LevelChatView extends CocoView
   scrollDown: ->
     openPanel = $('.open-chat-area', @$el)[0]
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
+
+  saveChatMessage: ({ sender, message }) ->
+    chatMessage = new ChatMessage @getChatMessageProps { sender, message }
+    Backbone.Mediator.publish 'level:gather-chat-message-context', { chat: chatMessage.attributes }
+    # This will enrich the message with the props from other parts of the app
+    # TODO: get goal states
+    console.log 'Saving chat message', chatMessage
+    chatMessage.save()
+    # TODO: get the new chat message's id so that we can save it in previous messages array for future messages
+
+  getChatMessageProps: (options) ->
+    # TODO
+    props =
+      product: utils.getProduct()
+      kind: 'level-chat'
+      example: Boolean me.isAdmin()
+      message:
+        text: options.message
+        sender:
+          id: me.get('_id')
+          name: me.broadName()
+          kind: 'player'
+        startDate: new Date()  # TODO: track when they started typing
+        endDate: new Date()
+      context:
+        spokenLanguage: me.get('preferredLanguage', true)
+        player: me.get('_id')
+        playerName: me.broadName()
+        #previousMessages: []  # TODO: get previous messages
+      permissions: [{ target: me.get('_id'), access: 'owner' }]
+    props.releasePhase = 'beta' if props.example
+    props
 
   destroy: ->
     key.deleteScope('level')

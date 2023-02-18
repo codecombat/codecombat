@@ -1,4 +1,5 @@
 c = require 'schemas/schemas'
+ChatMessage = require 'schemas/models/chat_message.schema'
 
 module.exports =
   # TODO There should be a better way to divide these channels into smaller ones
@@ -213,3 +214,6 @@ module.exports =
         type: c.shortString()
         score: {type: 'number'}
         date: c.date()
+
+  'level:gather-chat-message-context': c.object {required: ['chat']},
+    chat: ChatMessage

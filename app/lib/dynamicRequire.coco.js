@@ -84,6 +84,8 @@ module.exports = {
   'views/editor/resource/ResourceEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/resource/ResourceEditView') },
   'views/editor/podcast/PodcastSearchView': function () { return import(/* webpackChunkName: "podcastSearchView" */ 'views/editor/podcast/PodcastSearchView') },
   'views/editor/podcast/PodcastEditView': function () { return import(/* webpackChunkName: "podcastEditView" */ 'views/editor/podcast/PodcastEditView') },
+  'views/editor/chat/ChatSearchView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/chat/ChatSearchView') },
+  'views/editor/chat/ChatEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/chat/ChatEditView') },
   'views/i18n/I18NHomeView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NHomeView') },
   'views/i18n/I18NEditThangTypeView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditThangTypeView') },
   'views/i18n/I18NEditComponentView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditComponentView') },

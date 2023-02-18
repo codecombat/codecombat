@@ -219,6 +219,119 @@ me.codeSnippet = me.object {description: 'A language-specific code snippet'},
   code: {type: 'string', format: 'code', title: 'Snippet', default: '', description: 'Code snippet. Use ${1:defaultValue} syntax to add flexible arguments'}
   tab: {type: 'string', title: 'Tab Trigger', description: 'Tab completion text. Will be expanded to the snippet if typed and hit tab.'}
 
+me.PropertyDocumentationSchema = me.object {
+  title: 'Property Documentation'
+  description: 'Documentation entry for a property this Component will add to its Thang which other Components might want to also use.'
+  default:
+    name: 'foo'
+    type: 'object'
+    description: 'The `foo` property can satisfy all the #{spriteName}\'s foobar needs. Use it wisely.'
+  required: ['name', 'type', 'description']
+},
+  name: {type: 'string', title: 'Name', description: 'Name of the property.'}
+  i18n: { type: 'object', format: 'i18n', props: ['name', 'shortDescription', 'description', 'context'], description: 'Help translate this property'}
+  context: {
+    type: 'object'
+    title: 'Example template context'
+    additionalProperties: { type: 'string' }
+  }
+  codeLanguages: me.array {title: 'Specific Code Languages', description: 'If present, then only the languages specified will show this documentation. Leave unset for language-independent documentation.', format: 'code-languages-array'}, me.shortString(title: 'Code Language', description: 'A specific code language to show this documentation for.', format: 'code-language')
+  # not actual JS types, just whatever they describe...
+  type: me.shortString(title: 'Type', description: 'Intended type of the property.')
+  shortDescription:
+    oneOf: [
+      {title: 'Short Description', type: 'string', description: 'Short Description of the property.', maxLength: 1000, format: 'markdown'}
+      {
+        type: 'object',
+        title: 'Language Descriptions (short)',
+        description: 'Property short-descriptions by code language.',
+        additionalProperties: {type: 'string', description: 'Short Description of the property.', maxLength: 1000, format: 'markdown'}
+        format: 'code-languages-object'
+        default: {javascript: ''}
+      }
+    ]
+  description:
+    oneOf: [
+      {title: 'Description', type: 'string', description: 'Description of the property.', maxLength: 1000, format: 'markdown'}
+      {
+        type: 'object',
+        title: 'Language Descriptions',
+        description: 'Property descriptions by code language.',
+        additionalProperties: {type: 'string', description: 'Description of the property.', maxLength: 1000, format: 'markdown'}
+        format: 'code-languages-object'
+        default: {javascript: ''}
+      }
+    ]
+  args: me.array {title: 'Arguments', description: 'If this property has type "function", then provide documentation for any function arguments.'}, me.FunctionArgumentSchema
+  owner: {title: 'Owner', type: 'string', description: 'Owner of the property, like "this" or "Math".'}
+  example:
+    oneOf: [
+      {
+        type: 'object',
+        title: 'Language Examples',
+        description: 'Examples by code language.',
+        additionalProperties: {type: 'string', description: 'An example code block.', format: 'code'}
+        format: 'code-languages-object'
+        default: {javascript: ''}
+      }
+      {title: 'Example', type: 'string', description: 'An optional example code block.', format: 'javascript'}
+    ]
+  snippets: {type: 'object', title: 'Snippets', description: 'List of snippets for the respective programming languages', additionalProperties: me.codeSnippet, format: 'code-languages-object'}
+  returns: me.object {
+    title: 'Return Value'
+    description: 'Optional documentation of any return value.'
+    required: ['type']
+    default: {type: 'null'}
+  },
+    type: me.shortString(title: 'Type', description: 'Type of the return value')
+    example:
+      oneOf: [
+        {
+          type: 'object',
+          title: 'Language Examples',
+          description: 'Example return values by code language.',
+          additionalProperties: me.shortString(description: 'Example return value.', format: 'code')
+          format: 'code-languages-object'
+          default: {javascript: ''}
+        }
+        me.shortString(title: 'Example', description: 'Example return value')
+      ]
+    description:
+      oneOf: [
+        {
+          type: 'object',
+          title: 'Language Descriptions',
+          description: 'Example return values by code language.',
+          additionalProperties: {type: 'string', description: 'Description of the return value.', maxLength: 1000}
+          format: 'code-languages-object'
+          default: {javascript: ''}
+        }
+        {title: 'Description', type: 'string', description: 'Description of the return value.', maxLength: 1000}
+      ]
+    i18n: { type: 'object', format: 'i18n', props: ['description'], description: 'Help translate this return value'}
+  autoCompletePriority:
+    type: 'number'
+    title: 'Autocomplete Priority'
+    description: 'How important this property is to autocomplete.'
+    minimum: 0
+    default: 1.0
+  userShouldCaptureReturn:
+    type: 'object'
+    title: 'User Should Capture Return'
+    properties:
+      variableName:
+        type: 'string'
+        title: 'Variable Name'
+        description: 'Variable name this property is autocompleted into.'
+        default: 'result'
+      type:
+        type: 'object'
+        title: 'Variable Type'
+        description: 'Variable return types by code language. Can usually leave blank. Fill in if it is a primitive type and not auto in C++.'
+        additionalProperties: {type: 'string', description: 'Description of the return value.', maxLength: 1000}
+        format: 'code-languages-object'
+        default: {cpp: 'auto'}
+
 me.activity = me.object {description: 'Stats on an activity'},
   first: me.date()
   last: me.date()
