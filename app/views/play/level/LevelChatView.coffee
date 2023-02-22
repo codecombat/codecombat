@@ -46,6 +46,7 @@ module.exports = class LevelChatView extends CocoView
     @$el.toggle @visible
 
   regularlyClearOldMessages: ->
+    return  # Leave chatbot messages around, actually
     @clearOldMessagesInterval = setInterval(@clearOldMessages, 5000)
 
   clearOldMessages: =>
@@ -57,7 +58,7 @@ module.exports = class LevelChatView extends CocoView
         row.fadeOut(1000, -> $(this).remove())
 
   onNewMessage: (e) ->
-    @$el.show() unless e.message.system
+    @$el.show() unless e.message?.system
     @addOne(e.message)
     @trimClosedPanel()
     @playNoise() if e.message.authorID isnt me.id
@@ -67,12 +68,12 @@ module.exports = class LevelChatView extends CocoView
 
   messageObjectToJQuery: (message) ->
     td = $('<td></td>')
-    content = message.content
+    content = message.content or message.text
     content = _.string.escapeHTML(content)
-    content = content.replace(/\n/g, '<br/>')
+    content = marked content
     content = content.replace(RegExp('  ', 'g'), '&nbsp; ') # coffeescript can't compile '/  /g'
     if _.string.startsWith(content, '/me')
-      content = message.authorName + content.slice(3)
+      content = (message.authorName or message.sender?.name) + content.slice(3)
 
     if message.system
       td.append($('<span class="system"></span>').html(content))
@@ -81,11 +82,11 @@ module.exports = class LevelChatView extends CocoView
       td.append($('<span class="action"></span>').html(content))
 
     else
-      td.append($('<strong></strong>').text(message.authorName+': '))
+      td.append($('<strong></strong>').text((message.authorName or message.sender?.name) + ': '))
       td.append($('<span></span>').html(content))
 
     tr = $('<tr></tr>')
-    tr.addClass('me') if message.authorID is me.id
+    tr.addClass('me') if message.authorID is me.id or message.sender?.id is me.id
     tr.append(td)
 
   addOne: (message) ->
@@ -113,7 +114,7 @@ module.exports = class LevelChatView extends CocoView
     message = _.string.strip($(e.target).val())
     return false unless message
     #@bus.sendMessage(message)  # TODO: bring back bus?
-    @saveChatMessage { sender: me, message: message }
+    @saveChatMessage { message: message }
     $(e.target).val('')
     return false
 
@@ -133,34 +134,43 @@ module.exports = class LevelChatView extends CocoView
     openPanel = $('.open-chat-area', @$el)[0]
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
 
-  saveChatMessage: ({ sender, message }) ->
-    chatMessage = new ChatMessage @getChatMessageProps { sender, message }
+  saveChatMessage: ({ message }) ->
+    chatMessage = new ChatMessage @getChatMessageProps { message }
+    @chatMessages ?= []
+    @chatMessages.push chatMessage
     Backbone.Mediator.publish 'level:gather-chat-message-context', { chat: chatMessage.attributes }
     # This will enrich the message with the props from other parts of the app
     # TODO: get goal states
     console.log 'Saving chat message', chatMessage
+    @listenToOnce chatMessage, 'sync', @onChatMessageSaved
     chatMessage.save()
-    # TODO: get the new chat message's id so that we can save it in previous messages array for future messages
+    Backbone.Mediator.publish 'bus:new-message', { message: chatMessage.get('message') }
+
+  onChatMessageSaved: (chatMessage) ->
 
   getChatMessageProps: (options) ->
-    # TODO
+    sender =
+      if key.shift
+        name: 'AI'
+        kind: 'bot'
+      else
+        id: me.get('_id')
+        name: me.broadName()
+        kind: 'player'
     props =
       product: utils.getProduct()
       kind: 'level-chat'
       example: Boolean me.isAdmin()
       message:
         text: options.message
-        sender:
-          id: me.get('_id')
-          name: me.broadName()
-          kind: 'player'
+        sender: sender
         startDate: new Date()  # TODO: track when they started typing
         endDate: new Date()
       context:
         spokenLanguage: me.get('preferredLanguage', true)
         player: me.get('_id')
         playerName: me.broadName()
-        #previousMessages: []  # TODO: get previous messages
+        previousMessages: (m.serializeMessage() for m in (@chatMessages ? []))
       permissions: [{ target: me.get('_id'), access: 'owner' }]
     props.releasePhase = 'beta' if props.example
     props

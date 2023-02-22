@@ -39,7 +39,7 @@ const SenderSchema = c.object({ title: 'Sender', description: 'Who/what sent thi
 })
 
 const ResponseSchema = c.object({ title: 'Message', description: 'A message from the player or the bot' }, {
-  text: { type: 'string', title: 'Text' },
+  text: { type: 'string', title: 'Text', format: 'markdown' },
   sender: SenderSchema,
   startDate: c.date({ title: 'Start Date', description: 'The time the message started being sent' }),
   endDate: c.date({ title: 'End Date', description: 'The time the message finished being sent' }),
@@ -58,6 +58,9 @@ const ResponseSchema = c.object({ title: 'Message', description: 'A message from
       line: { type: 'integer', title: 'Line' },
       text: { type: 'string', title: 'Text', format: 'markdown' }
     }),
+    codeIssueExplanation: c.object({ title: 'Code Issue Explanation', description: 'Text explaining the code issue' }, {
+      text: { type: 'string', title: 'Text', format: 'markdown' }
+    }),
     actionButtons: c.array({ title: 'Action Buttons', description: 'Buttons that can be clicked to perform an action' }, {
       type: 'object',
       properties: {
@@ -72,7 +75,7 @@ const ResponseSchema = c.object({ title: 'Message', description: 'A message from
         }
       }
     }),
-    diff: { type: 'string', title: 'Diff', format: 'diff' },
+    diff: { type: 'string', title: 'Diff', format: 'markdown' },
     links: c.array({ title: 'Links', description: 'Links to more information' }, {
       type: 'object',
       properties: {
@@ -194,13 +197,15 @@ _.extend(ChatMessageSchema.properties, {
           format: 'code',
           description: 'Current code for this programming language'
         }
-      },
+      }
+    }),
+    codeComments: c.object({ title: 'Code Comments', description: 'Code comment translation strings' }, {
       context: {
         additionalProperties: {
           type: 'string'
         },
         type: 'object',
-        title: 'Comments'
+        title: 'Code Comments Context'
       },
       i18n: {
         additionalProperties: true,
@@ -237,8 +242,8 @@ _.extend(ChatMessageSchema.properties, {
           additionalProperties: true,
           type: 'object',
           format: 'i18n',
-          props: ['name', 'status'],
-          description: 'Translations for the goal names and statuses'
+          props: ['name'],
+          description: 'Translations for the goal name'
         }
       })
     },

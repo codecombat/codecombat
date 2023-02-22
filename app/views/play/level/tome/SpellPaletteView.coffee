@@ -26,6 +26,7 @@ module.exports = class SpellPaletteView extends CocoView
     'tome:change-language': 'onTomeChangedLanguage'
     'tome:palette-clicked': 'onPaletteClick'
     'surface:stage-mouse-down': 'hide'
+    'level:gather-chat-message-context': 'onGatherChatMessageContext'
 
   events:
     'click .closeBtn': 'onClickClose'
@@ -374,6 +375,19 @@ module.exports = class SpellPaletteView extends CocoView
     content.find('.docs-ace').each ->
       aceEditor = aceUtils.initializeACE @, codeLanguage
       aceEditors.push aceEditor
+
+  onGatherChatMessageContext: (e) ->
+    context = e.chat.context
+    context.apiProperties = []
+    for group, entries of @entryGroups
+      for entry in entries
+        doc = _.omit(entry.doc, 'ownerName', 'shortName', 'shorterName', 'title', 'initialHTML', 'shortDescription', 'autoCompletePriority', 'snippets')
+        doc.owner = 'hero' if doc.owner in ['this', 'more']
+        delete doc.example if not doc.example?
+        # TODO: if it's an example, include i18n, otherwise, process i18n
+        #console.log doc
+        context.apiProperties.push doc
+    null
 
   destroy: ->
     entry.destroy() for entry in @entries

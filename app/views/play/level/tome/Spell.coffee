@@ -91,28 +91,60 @@ module.exports = class Spell
     # Translate comments chosen spoken language.
     return unless @commentContext
     context = $.extend true, {}, @commentContext
-
-    if @language is 'lua'
-      for k,v of context
-        context[k] = v.replace /\b([a-zA-Z]+)\.([a-zA-Z_]+\()/, '$1:$2'
-
-    if @commentI18N
-      spokenLanguage = me.get 'preferredLanguage'
-      while spokenLanguage
-        spokenLanguage = spokenLanguage.substr 0, spokenLanguage.lastIndexOf('-') if fallingBack?
-        if spokenLanguageContext = @commentI18N[spokenLanguage]?.context
-          context = _.merge context, spokenLanguageContext
-          break
-        fallingBack = true
-    try
-      @originalSource = _.template @originalSource, context
-      @wrapperCode = _.template @wrapperCode, context
-    catch e
-      console.error "Couldn't create example code template of", @originalSource, "\nwith context", context, "\nError:", e
+    spokenLanguage = me.get 'preferredLanguage'
+    @originalSource = @translateCommentContext source: @originalSource, commentContext: @commentContext, commentI18N: @commentI18N, spokenLanguage: spokenLanguage, codeLanguage: @language
+    @wrapperCode = @translateCommentContext source: @wrapperCode, commentContext: @commentContext, commentI18N: @commentI18N, spokenLanguage: spokenLanguage, codeLanguage: @language
 
     if /loop/.test(@originalSource) and @level.isType('course', 'course-ladder', 'hero', 'hero-ladder')
       # Temporary hackery to make it look like we meant while True: in our sample code until we can update everything
       @originalSource = replaceSimpleLoops @originalSource, @language
+
+  translateCommentContext: ({ source, commentContext, commentI18N, codeLanguage, spokenLanguage }) ->
+    commentContext = $.extend true, {}, commentContext
+
+    if codeLanguage is 'lua'
+      for k, v of commentContext
+        commentContext[k] = v.replace /\b([a-zA-Z]+)\.([a-zA-Z_]+\()/, '$1:$2'
+
+    if commentI18N
+      while spokenLanguage
+        spokenLanguage = spokenLanguage.substr 0, spokenLanguage.lastIndexOf('-') if fallingBack?
+        if spokenLanguageContext = commentI18N[spokenLanguage]?.context
+          commentContext = _.merge commentContext, spokenLanguageContext
+          break
+        fallingBack = true
+    try
+      translatedSource = _.template source, commentContext
+    catch e
+      console.error "Couldn't create example code template of", source, "\nwith commentContext", commentContext, "\nError:", e
+      translatedSource = source
+    translatedSource
+
+  untranslateCommentContext: ({ source, commentContext, commentI18N, codeLanguage, spokenLanguage }) ->
+    commentContext = $.extend true, {}, commentContext
+
+    if codeLanguage is 'lua'
+      for k, v of commentContext
+        commentContext[k] = v.replace /\b([a-zA-Z]+)\.([a-zA-Z_]+\()/, '$1:$2'
+
+    if commentI18N
+      while spokenLanguage
+        spokenLanguage = spokenLanguage.substr 0, spokenLanguage.lastIndexOf('-') if fallingBack?
+        if spokenLanguageContext = commentI18N[spokenLanguage]?.context
+          commentContext = _.merge commentContext, spokenLanguageContext
+          break
+        fallingBack = true
+    for k, v of commentContext
+      source = source.replace v, "<%= #{k} %>"
+    source
+
+  getSolution: (codeLanguage) ->
+    hero = _.find (@level.get('thangs') ? []), id: 'Hero Placeholder'
+    component = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)
+    plan = component.config?.programmableMethods?.plan
+    solutions = _.filter (plan?.solutions ? []), (s) -> not s.testOnly and s.succeeds
+    rawSource = _.find(solutions, language: codeLanguage)?.source
+    rawSource
 
   constructHTML: (source) ->
     @wrapperCode.replace '☃', source
@@ -250,15 +282,37 @@ module.exports = class Spell
 
   createChatMessageContext: (chat) ->
     context = code: {}
+    if chat.example
+      # Add translation info, for generating permutations
+      context.codeComments = context: @commentContext, i18n: @commentI18N
+
     for codeType in ['start', 'solution', 'current']
       context.code[codeType] = {}
-      codeLanguages = if chat.example then [@language] else ['javascript', 'python']  # TODO: get all languages
+      if chat.example and @language is 'javascript'
+        codeLanguages = ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp']
+      else
+        # TODO: how to handle web dev?
+        codeLanguages = [@language]
       for codeLanguage in codeLanguages
-        context.code[codeType][codeLanguage] = "TODO: pull in #{codeLanguage} #{codeType} code"
-    context.code.context = {}  # TODO: pull in context comments, and translations if example
-    if chat.example
-      # TODO: add all the permutations, i18n
-      null
+        source = switch codeType
+          when 'start' then @languages[codeLanguage]
+          when 'solution' then @getSolution codeLanguage
+          when 'current' then if codeLanguage is @language then @source else ''
+        jsSource = switch codeType
+          when 'start' then @languages.javascript
+          when 'solution' then @getSolution 'javascript'
+          when 'current' then if @language is 'javascript' then @source else ''
+        if jsSource and not source
+          source = translateJS jsSource, codeLanguage
+        continue unless source
+        if chat.example and codeType is 'current'
+          # Try to go backwards from translated string literals to initial comment tags so that we can regenerate those comments in other languages
+          source = @untranslateCommentContext source: source, commentContext: @commentContext, commentI18N: @commentI18N, spokenLanguage: me.get('preferredLanguage'), codeLanguage: codeLanguage
+        if not chat.example
+          # Bake the translation in
+          source = @translateCommentContext source: source, commentContext: @commentContext, commentI18N: @commentI18N, spokenLanguage: me.get('preferredLanguage'), codeLanguage: codeLanguage
+        context.code[codeType][codeLanguage] = source
+
     context
 
   reloadCode: ->
