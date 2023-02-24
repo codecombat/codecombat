@@ -6,7 +6,7 @@
 import Calendar from '@event-calendar/core'
 import DayGrid from '@event-calendar/day-grid'
 import Interaction from '@event-calendar/interaction'
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'SingleCalendar',
@@ -21,19 +21,26 @@ export default {
       ec: null
     }
   },
-  computed: {
-
-  },
   methods: {
     ...mapMutations({
       openEventPanel: 'events/openEventPanel'
     }),
+    mapEventToCalendar (event) {
+      return event.instances.map(instance => {
+        return {
+          id: instance._id?.toString(),
+          start: instance.startDate,
+          end: instance.endDate,
+          title: event.name
+        }
+      })
+    },
     calendarOptions () {
       const that = this
       return {
         view: 'dayGridMonth',
         scrollTime: '09:00:00',
-        events: that.createEvents(),
+        eventSources: [{ events: that.createEvents }],
         pointer: true,
         eventContent: function (info) {
           switch (info.event.display) {
@@ -66,9 +73,15 @@ export default {
       }
 
       return [
-        greyOut
+        greyOut,
+        ...(this.events.map(e => this.mapEventToCalendar(e))).flat()
       ]
     }
+  },
+  watch: {
+    events () {
+      this.ec?.refetchEvents()
+    } 
   },
   mounted () {
     this.ec = new Calendar({

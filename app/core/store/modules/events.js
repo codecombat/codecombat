@@ -13,8 +13,8 @@ export default {
     }
   },
   getters: {
-    myEventInstances (state) {
-      return Object.values(state.events).map(e => e.instances)
+    events(state) {
+      return state.events
     },
     eventPanelVisible (state) {
       return state.eventPanel.visible

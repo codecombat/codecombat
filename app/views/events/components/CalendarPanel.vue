@@ -1,6 +1,6 @@
 <template>
   <div class="calendar-panel">
-    <single-calendar :events="myEvents" />
+    <single-calendar :events="eventsArray" />
   </div>
 </template>
 
@@ -21,11 +21,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      myEvents: 'events/myEventInstances'
-    })
+      events: 'events/events'
+    }),
+    eventsArray () {
+      return Object.values(this.events)
+    }
   },
   mounted () {
-    if (!this.myEvents.length) {
+    if (!this.events.length) {
       this.fetchAllEvents()
     }
   },

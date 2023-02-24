@@ -1,14 +1,16 @@
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import _ from 'lodash'
 import moment from 'moment'
 import { HTML5_FMT_DATETIME_LOCAL } from '../../../core/constants'
 import { RRuleGenerator, rruleGeneratorModule } from 'vue2-rrule-generator'
+import MembersComponent from './MembersComponent'
 
 export default {
   name: 'EditEventComponent',
   components: {
-    'rrule-generator': RRuleGenerator
+    'rrule-generator': RRuleGenerator,
+    members: MembersComponent
   },
   data () {
     return {
@@ -19,6 +21,32 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('events', [
+      'setEvent'
+    ]),
+    previewOnCalendar () {
+      const tempEvent = _.cloneDeep(this.event)
+      tempEvent._id = 'temp-event'
+      this.makeInstances(tempEvent)
+      this.setEvent(tempEvent)
+    },
+    makeInstances (event) {
+      const instance = {
+        _id: 'temp-event-' + Math.random(),
+        title: 'temp-' + event.name,
+        owner: event.owner,
+      }
+      event.instances = this.rrule.all().map(d => {
+        return Object.assign({}, instance, {
+          startDate: d,
+          endDate: new Date((+event.endDate) - (+event.startDate) + (+d))
+        })
+      })
+    },
+    addMember (m) {
+      console.log(this.event, m)
+      this.event.members.add(m)
+    }
   },
   computed: {
     ...mapGetters({
@@ -42,7 +70,7 @@ export default {
       }
     },
     rulePreviewTop6 () {
-      return this.rrule.all().slice(0, 6).map(d => moment(d).format('ll'))
+      return this.rrule.all((date, i) => i < 6).map(d => moment(d).format('ll'))
     }
   },
   created () {
@@ -51,7 +79,15 @@ export default {
     }
   },
   mounted () {
-    this.event = _.clone(this.propsEvent) || {}
+    const addHours = (date, hours) => {
+      date.setHours(date.getHours() + hours)
+      return date
+    }
+    this.event = _.clone(this.propsEvent) || {
+      members: new Set(),
+      startDate: new Date(),
+      endDate: addHours(new Date(), 1)
+    }
   }
 }
 </script>
@@ -107,6 +143,14 @@ export default {
           name="endDate"
         >
       </div>
+      <!-- todo: add member in single panel -->
+      <!-- <div class="form-group">
+           <label for="members">{{ $t('events.members') }}</label>
+           <members
+           :members="event.members"
+           @new-member="addMember"
+           />
+           </div> -->
 
       <rrule-generator
         :start="new Date()"
@@ -136,6 +180,12 @@ export default {
       </div>
     </form>
     <div class="preview">
+      <input
+        class="btn btn-success btn-lg"
+        type="button"
+        value="Preview"
+        @click="previewOnCalendar"
+      >
       <div
         v-for="date in rulePreviewTop6"
         :key="date"
