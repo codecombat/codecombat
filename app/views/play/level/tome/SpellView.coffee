@@ -1456,9 +1456,12 @@ module.exports = class SpellView extends CocoView
     if level = @options.level
       context.levelOriginal = level.get('original')
       context.levelName = level.get('displayName') or level.get('name')
-      if context.example
-        # TODO: fill out i18n
-        null
+      if e.chat.example
+        context.i18n ?= {}
+        for language, translations of level.get('i18n')
+          if levelNameTranslation = translations.name
+            context.i18n[language] ?= {}
+            context.i18n[language].levelName = levelNameTranslation
 
     aether = @displayedAether  # TODO: maybe use @spellThang.aether?
     isCast = @displayedAether is @spellThang.aether or not _.isEmpty(aether.metrics) or _.some aether.getAllProblems(), {type: 'runtime'}

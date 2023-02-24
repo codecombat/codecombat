@@ -49,6 +49,20 @@ combineAncestralObject = (obj, propertyName) ->
       obj = Object.getPrototypeOf(obj)
   combined
 
+# Walk a key chain down to the value. Can optionally set newValue instead.
+# Same as in world_utils, but don't want mutual imports
+downTheChain = (obj, keyChain, newValue=undefined) ->
+  return null unless obj
+  return obj[keyChain] unless _.isArray keyChain
+  value = obj
+  while keyChain.length and value
+    if newValue isnt undefined and keyChain.length is 1
+      value[keyChain[0]] = newValue
+      return newValue
+    value = value[keyChain[0]]
+    keyChain = keyChain[1..]
+  return value
+
 countries = [
   {country: 'united-states', countryCode: 'US', ageOfConsent: 13, addressesIncludeAdministrativeRegion:true}
   {country: 'china', countryCode: 'CN', addressesIncludeAdministrativeRegion:true}
@@ -1197,6 +1211,7 @@ module.exports = {
   CSCourseIDs
   WDCourseIDs
   createLevelNumberMap
+  downTheChain
   extractPlayerCodeTag
   freeAccessLevels
   findNextAssessmentForLevel

@@ -48,9 +48,6 @@ module.exports = class ChatEditView extends RootView
   afterRender: ->
     super()
     return unless @supermodel.finished()
-    @showReadOnly() if me.get('anonymous')
-    @patchesView = @insertSubView(new PatchesView(@chat), @$el.find('.patches-view'))
-    @patchesView.load()
 
   onPopulateI18N: ->
     @chat.populateI18N()

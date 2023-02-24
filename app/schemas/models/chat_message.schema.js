@@ -164,6 +164,13 @@ _.extend(ChatMessageSchema.properties, {
       description: 'The APIs the player has access to in this level',
       items: c.PropertyDocumentationSchema
     },
+    i18n: {
+      additionalProperties: true,
+      type: 'object',
+      format: 'i18n',
+      props: ['levelName'],
+      description: 'Translations for the context fields, like `levelName`'
+    },
     code: c.object({ title: 'Code', description: 'Start, solution, and current code' }, {
       start: {
         format: 'code-languages-object',
