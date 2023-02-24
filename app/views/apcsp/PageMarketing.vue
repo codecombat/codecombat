@@ -95,9 +95,10 @@
         .col-lg-12.col-sm-12
           h3.text-h3 {{ $t('apcsp_marketing.explore_our_curriculum') }}
       .width-container.row-button
-        a.btn.btn-primary.btn-lg.btn-shadow(href="#" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
-        a.btn.btn-primary.btn-lg.btn-shadow(href="/images/pages/apcsp/pdf/CodeCombat_APCSP_Pacing_Guide.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
-        a.btn.btn-primary.btn-lg.btn-shadow(href="/images/pages/apcsp/pdf/CodeCombat_APCSP_Flyer.pdf" target="_blank") {{ $t('apcsp_marketing.flyer') }}
+        a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
+        a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
+        a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide_Full.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
+        a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Flyer.pdf" target="_blank") {{ $t('apcsp_marketing.flyer') }}
 
     #sample-lesson-slides.width-container.border-yellow
       .width-container.row
@@ -183,8 +184,14 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default Vue.extend({
-  mounted () {
+  async created () {
+    this.me = me
+    if (me.isTeacher()) {
+      this.updateLicenseStatus()
+    }
   },
   data () {
     return {
@@ -218,7 +225,10 @@ export default Vue.extend({
           img: '/images/pages/apcsp/small-images/08-chromebook-compatibleB3.png',
           title: $.i18n.t('apcsp_marketing.icons_chromebook_compatible')
         },
-        { img: '/images/pages/apcsp/small-images/08-text-coding.png', title: $.i18n.t('apcsp_marketing.icons_text_coding') },
+        {
+          img: '/images/pages/apcsp/small-images/08-text-coding.png',
+          title: $.i18n.t('apcsp_marketing.icons_text_coding')
+        },
         {
           img: '/images/pages/apcsp/small-images/10-standards-aligned.png',
           title: $.i18n.t('apcsp_marketing.icons_standards_aligned')
@@ -235,6 +245,24 @@ export default Vue.extend({
         outcomes: `<a href='https://apcentral.collegeboard.org/media/pdf/ap-csp-and-stem-cs-pipelines.pdf' target='_blank'>${$.i18n.t('apcsp_marketing.outcomes')}</a>`,
         coco_requirements: `<a href='https://codecombat.zendesk.com/hc/en-us/articles/1500009110462-What-are-the-system-requirements-for-CodeCombat-' target='_blank'>${$.i18n.t('apcsp_marketing.coco_requirements')}</a>`,
         interpolation: { escapeValue: false }
+      },
+      hasLicense: false
+    }
+  },
+  computed: {
+    ...mapGetters({
+      teacherPrepaids: 'prepaids/getPrepaidsByTeacher'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher'
+    }),
+    async updateLicenseStatus () {
+      await this.fetchTeacherPrepaids({ teacherId: me.get('_id') })
+      const prepaids = this.teacherPrepaids(me.get('_id'))
+      if (prepaids.available.length > 0) {
+        this.hasLicense = true
       }
     }
   }
