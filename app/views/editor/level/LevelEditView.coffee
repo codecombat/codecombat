@@ -102,7 +102,12 @@ module.exports = class LevelEditView extends RootView
     @supermodel.loadCollection(@courses, 'courses')
 
   getMeta: ->
-    title: 'Level Editor'
+    title = $.i18n.t('editor.level_title')
+    levelName = utils.i18n (@level?.attributes or {}), 'displayname'
+    levelName ||= utils.i18n (@level?.attributes or {}), 'name'
+    if levelName
+      title = levelName + ' - ' + title
+    title: title
 
   destroy: ->
     # Currently only check presence on the level.
@@ -120,6 +125,7 @@ module.exports = class LevelEditView extends RootView
 
   onLoaded: ->
     _.defer =>
+      @setMeta @getMeta()
       @world = @levelLoader.world
       @render()
       @timerIntervalID = setInterval @incrementBuildTime, 1000

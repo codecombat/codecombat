@@ -15,9 +15,9 @@ block content
           else if new Date("2023-02-20T06:00:00.000-05:00") < new Date() && !me.isTeacher()
             span(data-i18n="new_home.top_banner_blurb_live_online_classes")
             a(href="/parents", data-i18n="new_home.top_banner_blurb_live_online_classes_cta", data-event-action="Click: Homepage Banner Live Online Classes")
-          else if false && me.isTeacher() && new Date("2023-02-13T06:00:00.000-05:00") < new Date() && new Date() < new Date("2023-02-16T16:30:00.000-05:00")
+          else if me.isTeacher() && new Date("2023-02-13T06:00:00.000-05:00") < new Date() && new Date() < new Date("2023-02-16T14:30:00.000-08:00")
             span(data-i18n="new_home.top_banner_blurb_demo_day_2023_02_16")
-            a(href="zoom link & exact time TBD", data-i18n="league.register", data-event-action="Click: Homepage Banner Demo Day")
+            a(href="https://us06web.zoom.us/webinar/register/WN_Hdt7MY_3TtqR4JB96mM-RQ", data-i18n="league.register", data-event-action="Click: Homepage Banner Demo Day")
           else
             if me.isTeacher()
               span(data-i18n="new_home.top_banner_blurb_roblox_teachers")
@@ -186,22 +186,23 @@ block content
           .col-xs-12.text-center
             img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-47%);" alt="")
 
-    .container
-      .row.text-center.for-parents-row
-        .col-xs-12
-          h1(data-i18n="new_home.for_parents")
+    if me.get('country') !== 'hong-kong'
+      .container
+        .row.text-center.for-parents-row
+          .col-xs-12
+            h1(data-i18n="new_home.for_parents")
 
-    section.container
-      .row.product-row
-        .col-md-5
-          .row
-            h4.product-title(data-i18n="new_home.codecombat_live_online_classes")
-            p(data-i18n="new_home.online_classes_blurb")
-            .product-btn
-              a.btn.btn-lg.btn-primary.btn-gold(href="/parents" data-i18n="new_home.explore_online_classes" data-event-action="Homepage Click Online Classes Button CTA")
-        .col-md-6.col-md-offset-1
-          img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher")
-      img#online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" alt="")
+      section.container
+        .row.product-row
+          .col-md-5
+            .row
+              h4.product-title(data-i18n="new_home.codecombat_live_online_classes")
+              p(data-i18n="new_home.online_classes_blurb")
+              .product-btn
+                a.btn.btn-lg.btn-primary.btn-gold(href="/parents" data-i18n="new_home.explore_online_classes" data-event-action="Homepage Click Online Classes Button CTA")
+          .col-md-6.col-md-offset-1
+            img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher")
+        img#online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" alt="")
 
     .container
       .row.text-center.for-everyone-row

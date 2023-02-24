@@ -20,6 +20,7 @@ const MongoQueryOperatorSchema = {
 const MongoFindQuerySchema = {
   title: 'Query',
   type: 'object',
+  format: 'mongo-query-user',
   patternProperties: {
     '^[-a-zA-Z0-9._]*$': {
       anyOf: [
@@ -82,7 +83,7 @@ _.extend(AnnouncementSchema.properties, {
     type: 'string',
     format: 'markdown'
   },
-  startDate: c.stringDate(),
+  startDate: c.stringDate({ title: 'PublishDate', description: 'The publish/start date that user can see this Notification' }),
   endDate: c.stringDate(), // unset for forever
   query: {
     $ref: '#/definitions/mongoFindQuery'
@@ -94,23 +95,16 @@ _.extend(AnnouncementSchema.properties, {
   kind: {
     type: 'string',
     enum: ['normal', 'sequence', 'banner'],
-    description: 'normal: normal announcements; banner: show anyway during live dates on homeview ; sequence: requires step to determine when to show'
+    description: 'normal: normal notifications; banner: show as the banner in the homeview but not in notifications; sequence: show'
   },
   sequence: {
     type: 'object',
-    description: 'properties: step*, prevStep, prevTime',
+    description: 'if kind is sequence but sequence is empty, means it is the first notification in sequence',
     properties: {
-      prevStep: {
-        type: 'number',
-        description: 'requires first reading at least one prev Step announcement'
-      },
+      prevId: { type: 'string', links: [{ rel: 'db', href: '/db/announcement/{{$}}' }], format: 'announcement', description: 'requires reading prev announcement first', title: 'Prev Announcement' },
       prevTime: {
         type: 'number',
         description: 'how many hours required after read prev announcement'
-      },
-      step: {
-        type: 'number',
-        description: 'announcement publish step'
       }
     }
   },

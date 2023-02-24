@@ -203,7 +203,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     top_banner_blurb_demo_day_10_20: "Join us for a spooktacular demo of CodeCombat & Ozaria on Thursday, October 20 at 4:00 pm CDT."
     top_banner_blurb_hoc_2022_12_01: "Join us Dec. 1st for our Hour of Code Walkthrough! Everything you need to implement our all new activities __topBannerHereLink__"
     top_banner_blurb_hoc_2022_12_01_here: "HERE"
-    top_banner_blurb_demo_day_2023_02_16: "LIVE DEMO! See how you can use esports to teach coding. Join us Thursday February 16th at 4:00 pm EDT."
+    top_banner_blurb_demo_day_2023_02_16: "LIVE DEMO! See how you can use esports to teach coding. Join us Thursday February 16th at 2:00 pm PST."
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -436,7 +436,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   play:
     title: 'Play CodeCombat Levels - Learn Python, JavaScript, and HTML'
     meta_description: 'Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!'
-    level_title: '__level__ - Learn to Code in Python, JavaScript, HTML'
+    level_title: '__level__ - CodeCombat' # {change}
+    level_title_ozaria: '__level__ - Ozaria'
     video_title: '__video__ | Video Level'
     game_development_title: '__level__ | Game Development'
     web_development_title: '__level__ | Web Development'
@@ -1237,11 +1238,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     feature_aiyouth: ""
     feature_gems: "Earn __gems__ gems/mo (__gems12__ gems/yr)" # {change}
     month_price: "$__price__/mo"
+    month_price_without_currency: "__price__/mo"
     first_month_price: "Only $__price__ for your first month!"
     lifetime: "Lifetime Access"
     lifetime_price: "$__price__"
     year_subscription: "Annual Subscription"
     year_price: "$__price__/yr"
+    year_price_without_currency: "__price__/yr"
     support_part1: "Need help with payment or prefer PayPal? Email"
     support_part2: "support@codecombat.com"
     go_prepaid: "Click here after scaning the code and purchasing"
@@ -1290,11 +1293,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tornado_description: "It is good to have a reset button when one's cover is blown."
     wallOfDarkness_name: "Wall of Darkness"
     wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
-    announcement: 'Announcement'
-    xAnnouncements: '__x__ Announcements'
-    xAnnouncementsWithUnread: '__x__ Announcements(__y__ unread)'
-    message: 'Message'
-    see_more: "See __unread__ more unread announcements"
+    notifications: 'Notifications'
+    x_announcement: '__x__ Notification'
+    x_announcements: '__x__ Notifications'
+    x_announcement_with_unread: '__x__ Notification (__y__ unread)'
+    x_announcements_with_unread: '__x__ Notifications (__y__ unread)'
+    see_more: "See __unread__ more unread Notifications"
+    mark_read: "Mark Read"
+    read_all: "Read All"
+    more_announcements: "more notifications..."
 
   avatar_selection:
     pick_an_avatar: "Pick an avatar that will represent you as a player"

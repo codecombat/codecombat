@@ -42,11 +42,6 @@ module.exports = class LevelDialogueView extends CocoView
     @$el.addClass 'active speaking'
     $('body').addClass('dialogue-view-active')
     @setMessage e.message, e.mood, e.responses
-    if e.mood is 'debrief'
-      if e.sprite.thangType.get('poseImage')?
-        @$el.find('.dialogue-area').append($('<img/>').addClass('embiggen').attr('src', '/file/' + e.sprite.thangType.get('poseImage')))
-      else
-        @$el.find('.dialogue-area').append($('<img/>').attr('src', e.sprite.thangType.getPortraitURL()))
 
   onDialogueSoundCompleted: ->
     @$el.removeClass 'speaking'
@@ -54,7 +49,6 @@ module.exports = class LevelDialogueView extends CocoView
   onSpriteClearDialogue: ->
     @$el.removeClass 'active speaking'
     $('body').removeClass('dialogue-view-active')
-    @$el.find('img').remove()
     @$el.removeClass(@lastMood) if @lastMood
 
   setMessage: (message, mood, responses) ->
@@ -64,7 +58,6 @@ module.exports = class LevelDialogueView extends CocoView
     clearInterval(@messageInterval) if @messageInterval
     @bubble = $('.dialogue-bubble', @$el)
     @$el.removeClass(@lastMood) if @lastMood
-    @$el.find('img').remove()
     @$el.addClass(mood)
     @lastMood = mood
     @bubble.text('')
