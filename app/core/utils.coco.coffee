@@ -1159,6 +1159,15 @@ supportEmail = 'support@codecombat.com'
 
 capitalizeFirstLetter = (str) -> (str[0] or '').toUpperCase() + str.slice(1)
 
+markdownToPlainText = (text) ->
+  plainTextMarkedRenderer = new marked.Renderer()
+  for element in ['code', 'blockquote', 'html', 'heading', 'hr', 'list', 'listitem', 'paragraph', 'table', 'tablerow', 'tablecell', 'strong', 'em', 'codespan', 'br', 'del', 'text']
+    plainTextMarkedRenderer[element] = (text) -> text
+  for element in ['link', 'image']
+    plainTextMarkedRenderer[element] = (href, title, text) -> text
+  plainText = marked text, renderer: plainTextMarkedRenderer
+  plainText
+
 ###
 # Get the estimated Hz of the primary monitor in the system.
 #
@@ -1264,6 +1273,7 @@ module.exports = {
   isValidEmail
   keepDoingUntil
   kindaEqual
+  markdownToPlainText
   needsPractice
   normalizeFunc
   objectIdToDate
