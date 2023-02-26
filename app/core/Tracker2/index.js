@@ -4,12 +4,12 @@ import InternalTracker from './InternalTracker'
 import BaseTracker from './BaseTracker'
 import GoogleAnalyticsTracker from './GoogleAnalyticsTracker'
 import FullStoryTracker from './FullStoryTracker'
-import GoogleOptimizeTracker from './GoogleOptimizeTracker'
 import FacebookPixelTracker from './FacebookPixelTracker'
 import TwitterPixelTracker from './TwitterPixelTracker'
 import ProfitWellTracker from './ProfitWellTracker'
 import MakelogTracker from './MakelogTracker'
 import ZendeskTracker from './ZendeskTracker'
+import SuperflowTracker from './SuperflowTracker'
 
 const SESSION_STORAGE_IDENTIFIED_AT_SESSION_START_KEY = 'coco.tracker.identifiedAtSessionStart'
 const SESSION_STORAGE_IDENTIFY_ON_NEXT_PAGE_LOAD = 'coco.tracker.identifyOnNextPageLoad'
@@ -35,12 +35,12 @@ export default class Tracker2 extends BaseTracker {
     this.segmentTracker = new SegmentTracker(this.store)
     this.googleAnalyticsTracker = new GoogleAnalyticsTracker(this.store)
     this.fullStoryTracker = new FullStoryTracker(this.store, this)
-    this.googleOptimizeTracker = new GoogleOptimizeTracker(this.store)
     this.facebookPixelTracker = new FacebookPixelTracker(this.store)
     this.profitWellTracker = new ProfitWellTracker(this.store)
     this.makelogTracker = new MakelogTracker(this.store)
     this.twitterPixelTracker = new TwitterPixelTracker(this.store)
     this.zendeskTracker = new ZendeskTracker(this.store)
+    this.superflowTracker = new SuperflowTracker(this.store)
 
     this.trackers = [
       this.internalTracker,
@@ -55,11 +55,11 @@ export default class Tracker2 extends BaseTracker {
         this.segmentTracker,
         this.googleAnalyticsTracker,
         this.fullStoryTracker,
-        this.googleOptimizeTracker,
         this.facebookPixelTracker,
         this.twitterPixelTracker,
         this.profitWellTracker,
-        this.zendeskTracker
+        this.zendeskTracker,
+        this.superflowTracker
       ]
     }
   }
@@ -164,10 +164,6 @@ export default class Tracker2 extends BaseTracker {
     } catch (e) {
       this.log('trackTiming call failed', e)
     }
-  }
-
-  get drift () {
-    return this.driftTracker.drift
   }
 
   identifyAfterNextPageLoad () {
