@@ -20,6 +20,9 @@ async function handleHomeSubscription(product, couponId) {
     totalAmount: paymentGroup.priceInfo.unit_amount,
     homeSubDetails
   }
+  if (product.get('name').includes('corrily')) {
+    options.corrilyPriceKey = product.get('planID')
+  }
   return handleCheckoutSession(options)
 }
 

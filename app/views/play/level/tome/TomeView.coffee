@@ -117,7 +117,10 @@ module.exports = class TomeView extends CocoView
     return teamSpellMap
 
   createSpells: (programmableThangs, world) ->
-    language = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
+    language = @options.session.get('submittedCodeLanguage') if @options.spectateView
+    language ?= @options.session.get('codeLanguage')
+    language ?= me.get('aceConfig')?.language
+    language ?= 'python'
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
     @spells ?= {}
     @thangSpells ?= {}
@@ -142,7 +145,6 @@ module.exports = class TomeView extends CocoView
           worker: @worker
           language: language
           spectateView: @options.spectateView
-          spectateOpponentCodeLanguage: @options.spectateOpponentCodeLanguage
           observing: @options.observing
           levelID: @options.levelID
           level: @options.level

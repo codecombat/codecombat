@@ -146,6 +146,9 @@ countryCodeToName = (code) ->
   return code unless country = _.find countries, countryCode: code.toUpperCase()
   titleize country.country
 
+countryNameToCode = (country) ->
+  _.find(countries, country: country?.toLowerCase())?.countryCode
+
 titleize = (s) ->
   # Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
   _.string.titleize(_.string.humanize(s)).replace(/ (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig, (word) => word.toLowerCase())
@@ -1157,6 +1160,15 @@ supportEmail = 'support@codecombat.com'
 
 capitalizeFirstLetter = (str) -> (str[0] or '').toUpperCase() + str.slice(1)
 
+markdownToPlainText = (text) ->
+  plainTextMarkedRenderer = new marked.Renderer()
+  for element in ['code', 'blockquote', 'html', 'heading', 'hr', 'list', 'listitem', 'paragraph', 'table', 'tablerow', 'tablecell', 'strong', 'em', 'codespan', 'br', 'del', 'text']
+    plainTextMarkedRenderer[element] = (text) -> text
+  for element in ['link', 'image']
+    plainTextMarkedRenderer[element] = (href, title, text) -> text
+  plainText = marked text, renderer: plainTextMarkedRenderer
+  plainText
+
 ###
 # Get the estimated Hz of the primary monitor in the system.
 #
@@ -1214,6 +1226,7 @@ module.exports = {
   countries
   countryCodeToFlagEmoji
   countryCodeToName
+  countryNameToCode
   courseAcronyms
   courseIDs
   allCourseIDs
@@ -1261,6 +1274,7 @@ module.exports = {
   isValidEmail
   keepDoingUntil
   kindaEqual
+  markdownToPlainText
   needsPractice
   normalizeFunc
   objectIdToDate

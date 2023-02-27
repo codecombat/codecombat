@@ -97,7 +97,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'announcements': go('core/SingletonAppVueComponentView')
 
-    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
+#    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
     'api-dashboard': go('core/SingletonAppVueComponentView')
 
@@ -206,6 +206,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'partners': () ->
       @routeDirectly('PagePartners', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+
+    'apcsp': () ->
+      @routeDirectly('PageAPCSPMarketing', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
 
     'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
     'league/kipp': redirect('/league/autoclan-school-network-kipp') # Redirect for KIPP.

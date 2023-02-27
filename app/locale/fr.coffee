@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     managed_by: "Gérer par"
     will_be_cancelled: "Ceci va être annulé"
     currently_free: "Vous avez un abonnement gratuit en ce moment"
-    currently_free_until: "Vous avez un abonnement gratuit jusqu'à"
+    currently_free_until: "Vous avez un abonnement gratuit jusqu'à __date__"
     free_subscription: "Inscirption gratuite"
     was_free_until: "Vous aviez un abonnement gratuit jusqu'à"
     managed_subs: "Gestion des abonnements"

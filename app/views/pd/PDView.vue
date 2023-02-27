@@ -115,7 +115,6 @@ export default {
         const salesBtn = $('#pd-trial-section .sales-btn')
         $('html, body').animate({scrollTop: salesBtn.offset().top - 60 - (window.innerHeight - 60) / 2 + salesBtn.outerHeight() / 2}, 1000)
         me.trackActivity('complete-pd-trial')
-        // TODO: start a Drift chat in 30s if they haven't clicked the sales CTA
       } else {
         // slide-completed, slide-rendered, view, thomas-ready
         console.log('Ignored EdApp iframe action:', action, data)

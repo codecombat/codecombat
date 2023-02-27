@@ -114,6 +114,7 @@ module.exports = {
   'views/PageImpact': function () { return import(/* webpackChunkName: "PageImpact" */ 'views/impact/PageImpact') },
   'views/PageStar': function () { return import(/* webpackChunkName: "PageStar" */ 'views/cocostar/PageStar') },
   'views/PagePartners': function () { return import(/* webpackChunkName: "PagePartners" */ 'views/partners/PagePartners') },
+  'views/PageAPCSPMarketing': function () { return import(/* webpackChunkName: "PagePartners" */ 'views/apcsp/PageMarketing') },
   'views/PremiumFeaturesView': function () { return import(/* webpackChunkName: "PremiumFeaturesView" */ 'views/PremiumFeaturesView') },
   'views/PrivacyView': function () { return import(/* webpackChunkName: "PrivacyView" */ 'views/PrivacyView') },
   'views/courses/CoursesView': function () { return import(/* webpackChunkName: "courses" */ 'views/courses/CoursesView') },

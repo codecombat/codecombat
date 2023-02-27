@@ -62,8 +62,18 @@ module.exports = class BasicInfoView extends CocoView
 
     # Prefill form by url params
     url = new URLSearchParams window.location.search
-    ['firstName', 'lastName', 'email'].forEach (param) =>
-      @signupState.get('signupForm')[param]= url.get param
+
+    if url.get 'prefill'
+      prefillData = JSON.parse(Buffer.from(url.get('prefill'), 'base64').toString('ascii'))
+    else
+      prefillData = ['firstName', 'lastName', 'email'].reduce (data = {}, param) =>
+        value = url.get param
+        if value then data[param] = url.get param
+        data
+      , {}
+
+    Object.entries(prefillData).forEach ([param,value]) =>
+      @signupState.get('signupForm')[param]= value
 
     @hideEmail = if isCodeCombat then userUtils.shouldHideEmail() else false
 

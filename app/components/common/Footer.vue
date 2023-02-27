@@ -143,7 +143,7 @@ export default Vue.extend({
             { url: 'https://github.com/codecombat/codecombat', extra: 'GitHub' },
             { url: this.cocoPath('/community'), title: 'nav.community' },
             { url: this.cocoPath('/contribute'), title: 'nav.contribute' },
-            { url: this.cocoPath('/league'), title: 'game_menu.multiplayer_tab' },
+            { url: this.cocoPath('/league'), title: 'nav.esports' },
             { url: this.forumLink, title: 'nav.forum', attrs: { target: '_blank' }, hide: me.isStudent() || !me.showForumLink() },
             { url: this.apiLink, title: 'nav.api', attrs: { target: '_blank' }, hide: me.isStudent() }
           ]

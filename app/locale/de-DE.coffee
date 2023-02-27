@@ -1192,7 +1192,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     managed_by: "Verwaltet durch"
     will_be_cancelled: "Läuft ab am"
     currently_free: "Du hast aktuell ein kostenloses Abonnement"
-    currently_free_until: "Du hast aktuell ein kostenloses Abonnement bis zum"
+    currently_free_until: "Du hast aktuell ein kostenloses Abonnement bis zum __date__"
     free_subscription: "Kostenloses Abonnement"
     was_free_until: "Du hattest ein kostenloses Abonnement bis zum"
     managed_subs: "Verwaltete Abonnements"
