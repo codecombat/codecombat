@@ -83,8 +83,12 @@ html(lang='en')
         }
       })
       (window, document, "script", "//cdn.sematext.com/experience.js", "strum");
-    script.
-      strum('config', { token: '2c9127fa-87fc-4bd7-b735-8b6aaa211c38', 'receiverUrl': 'https://rum-receiver.sematext.com' });
+    if me.useGoogleAnalytics()
+      script.
+        strum('config', { token: '2c9127fa-87fc-4bd7-b735-8b6aaa211c38', 'receiverUrl': 'https://rum-receiver.sematext.com' });
+    else
+      script.
+        strum('config', { token: 'd3fc1ee5-a2c0-4190-94e0-6033facafe6d', 'receiverUrl': 'https://rum-receiver.sematext.com' });
     if me.useGoogleAnalytics()
       // Google Analytics
       script.
