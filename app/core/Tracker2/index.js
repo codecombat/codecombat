@@ -9,7 +9,7 @@ import TwitterPixelTracker from './TwitterPixelTracker'
 import ProfitWellTracker from './ProfitWellTracker'
 import MakelogTracker from './MakelogTracker'
 import ZendeskTracker from './ZendeskTracker'
-import SuperflowTracker from './SuperflowTracker'
+import SuperflowTracker from './SuperFlowTracker'
 
 const SESSION_STORAGE_IDENTIFIED_AT_SESSION_START_KEY = 'coco.tracker.identifiedAtSessionStart'
 const SESSION_STORAGE_IDENTIFY_ON_NEXT_PAGE_LOAD = 'coco.tracker.identifyOnNextPageLoad'
