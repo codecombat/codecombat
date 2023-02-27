@@ -374,7 +374,7 @@ p, .text-p {
     .header-part-top {
       background-size: cover;
       background-position: center center;
-      background-image: url(/images/pages/apcsp/apcsp-header-image.png);
+      background-image: url(/images/pages/apcsp/apcsp-header-image.jpg);
       height: 600px;
       display: flex;
       align-items: center;
