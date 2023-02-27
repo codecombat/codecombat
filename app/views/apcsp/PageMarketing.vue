@@ -106,13 +106,13 @@
           h2.text-h2.text-center {{ $t('apcsp_marketing.sample_lesson_slides') }}
       .width-container.row
         .col.col-md-6
-          .box
+          a.box(href="https://docs.google.com/presentation/d/1aw95kI5UIBjWIDHYMHANkOzOkgLGW3rJiyze7kW5uIA/edit?usp=share_link" target="_blank")
             img.img-responsive(src="/images/pages/apcsp/syntax.png")
             .bottom-text
               .title {{ $t('apcsp_marketing.introduction_to_cs') }}
               .subtitle {{ $t('apcsp_marketing.introduction_to_cs_description') }}
         .col.col-md-6
-          .box
+          a.box(href="https://docs.google.com/presentation/d/1WyW5mdpwQl9oQsMYkFoMa_MDlBM2GJ_n0RzsdurjV3s/edit?usp=share_link" target="_blank")
             img.img-responsive(src="/images/pages/apcsp/internet1.png")
             .bottom-text
               .title {{ $t('apcsp_marketing.big_ideas') }}
@@ -1057,6 +1057,7 @@ p, .text-p {
     }
 
     .box {
+      display: block;
       padding: 0;
       margin: 20px;
       overflow: hidden;
