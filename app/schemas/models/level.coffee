@@ -331,11 +331,11 @@ LevelSchema = c.object {
 }
 c.extendNamedProperties LevelSchema  # let's have the name be the first property
 _.extend LevelSchema.properties,
-  description: {title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, format: 'markdown'}
-  displayName: c.shortString({title: 'Display Name'})  # Currently just used in Ozaria
-  studentPlayInstructions: {title: 'Student Play Instructions', description: 'Instructions for game dev levels when students play them.', type: 'string', maxLength: 65536, format: 'markdown'}
-  loadingTip: { type: 'string', title: 'Loading Tip', description: 'What to show for this level while it\'s loading.' }
-  documentation: c.object {title: 'Documentation', description: 'Documentation articles relating to this level.', 'default': {specificArticles: [], generalArticles: []}},
+  description: {title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, format: 'markdown', inEditor: true}
+  displayName: c.shortString({title: 'Display Name', inEditor: 'ozaria'})  # Currently just used in Ozaria
+  studentPlayInstructions: {title: 'Student Play Instructions', description: 'Instructions for game dev levels when students play them.', type: 'string', maxLength: 65536, format: 'markdown', inEditor: true}
+  loadingTip: { type: 'string', title: 'Loading Tip', description: 'What to show for this level while it\'s loading.', inEditor: 'codecombat' }
+  documentation: c.object {title: 'Documentation', description: 'Documentation articles relating to this level.', 'default': {specificArticles: [], generalArticles: []}, inEditor: true},
     specificArticles: c.array {title: 'Specific Articles', description: 'Specific documentation articles that live only in this level.', uniqueItems: true }, SpecificArticleSchema
     generalArticles: c.array {title: 'General Articles', description: 'General documentation articles that can be linked from multiple levels.', uniqueItems: true}, GeneralArticleSchema
     hints: c.array {title: 'Hints', description: 'Tips and tricks to help unstick a player for the level.', uniqueItems: true }, {
@@ -353,84 +353,86 @@ _.extend LevelSchema.properties,
       }
     }
   # These next few properties are just for Ozaria
-  screenshot: { type: 'string', format: 'image-file', title: 'Screenshot', description: 'Relevant for teacher dashboard' }
-  exemplarProjectUrl: c.url { title: 'Exemplar Project URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)' }
-  exemplarCodeUrl: c.url { title: 'Exemplar Code URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)' }
-  projectRubricUrl: c.url { title: 'Project Rubric URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)' }
-  totalStages: c.int { title: 'Capstone Total Stages', description: 'Only needed for chapter 1 capstones. Tells the teacher dashboard (track progress table and curriculum guide) where to display this capstone. Required when we want to offset capstone to display after levels that are between the stages.' }
+  screenshot: { type: 'string', format: 'image-file', title: 'Screenshot', description: 'Relevant for teacher dashboard', inEditor: 'ozaria' }
+  exemplarProjectUrl: c.url { title: 'Exemplar Project URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)', inEditor: 'ozaria' }
+  exemplarCodeUrl: c.url { title: 'Exemplar Code URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)', inEditor: 'ozaria' }
+  projectRubricUrl: c.url { title: 'Project Rubric URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)', inEditor: 'ozaria' }
+  totalStages: c.int { title: 'Capstone Total Stages', description: 'Only needed for chapter 1 capstones. Tells the teacher dashboard (track progress table and curriculum guide) where to display this capstone. Required when we want to offset capstone to display after levels that are between the stages.', inEditor: 'ozaria' }
 
   nextLevel: {
     type: 'object',
     links: [{rel: 'extra', href: '/db/level/{($)}'}, {rel: 'db', href: '/db/level/{(original)}/version/{(majorVersion)}'}],
     format: 'latest-version-reference',
     title: 'Next Level',
-    description: 'Reference to the next level players will play after beating this one.'
+    description: 'Reference to the next level players will play after beating this one.',
+    inEditor: 'codecombat'
   }
   scripts: c.array {title: 'Scripts', description: 'An array of scripts that trigger based on what the player does and affect things outside of the core level simulation.'}, ScriptSchema
   thangs: c.array {title: 'Thangs', description: 'An array of Thangs that make up the level.' }, LevelThangSchema
   systems: c.array {title: 'Systems', description: 'Levels are configured by changing the Systems attached to them.', uniqueItems: true }, LevelSystemSchema  # TODO: uniqueness should be based on 'original', not whole thing
-  victory: c.object {title: 'Victory Screen'}, {
+  victory: c.object {title: 'Victory Screen', inEditor: 'codecombat'}, {
     body: {type: 'string', format: 'markdown', title: 'Body Text', description: 'Inserted into the Victory Modal once this level is complete. Tell the player they did a good job and what they accomplished!'},
     i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this victory message'}
   }
-  i18n: {type: 'object', format: 'i18n', props: ['name', 'description', 'loadingTip', 'studentPlayInstructions', 'displayName'], description: 'Help translate this level'}
-  banner: {type: 'string', format: 'image-file', title: 'Banner'}
-  goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
-  type: c.shortString(title: 'Type', description: 'What type of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'intro'])
-  kind: c.shortString(title: 'Kind', description: 'Similar to type, but just for our organization.', enum: ['demo', 'usage', 'mastery', 'advanced', 'practice', 'challenge'])
-  ozariaType: c.shortString(title: 'Ozaria Level Type', description: 'Similar to type, specific to ozaria.', enum: ['practice', 'challenge', 'capstone'])
+  i18n: {type: 'object', format: 'i18n', props: ['name', 'description', 'loadingTip', 'studentPlayInstructions', 'displayName'], description: 'Help translate this level', inEditor: true}
+  banner: {type: 'string', format: 'image-file', title: 'Banner', inEditor: 'codecombat'}
+  goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.', inEditor: true}, GoalSchema
+  type: c.shortString(title: 'Type', description: 'What type of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'intro'], inEditor: true)
+  kind: c.shortString(title: 'Kind', description: 'Similar to type, but just for our organization.', enum: ['demo', 'usage', 'mastery', 'advanced', 'practice', 'challenge'], inEditor: 'codecombat')
+  ozariaType: c.shortString(title: 'Ozaria Level Type', description: 'Similar to type, specific to ozaria.', enum: ['practice', 'challenge', 'capstone'], inEditor: 'ozaria')
   terrain: c.terrainString
-  requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}
+  requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean', inEditor: 'codecombat'}
   tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.'}, c.task
-  helpVideos: c.array {title: 'Help Videos'}, c.object {default: {style: 'eccentric', url: '', free: false}},
+  helpVideos: c.array {title: 'Help Videos', inEditor: 'codecombat'}, c.object {default: {style: 'eccentric', url: '', free: false}},
     style: c.shortString title: 'Style', description: 'Like: original, eccentric, scripted, edited, etc.'
     free: {type: 'boolean', title: 'Free', description: 'Whether this video is freely available to all players without a subscription.'}
     url: c.url {title: 'URL', description: 'Link to the video on Vimeo.'}
-  replayable: {type: 'boolean', title: 'Replayable', description: 'Whether this (hero) level infinitely scales up its difficulty and can be beaten over and over for greater rewards.'}
+  replayable: {type: 'boolean', title: 'Replayable', description: 'Whether this (hero) level infinitely scales up its difficulty and can be beaten over and over for greater rewards.', inEditor: 'codecombat'}
   buildTime: {type: 'number', description: 'How long it has taken to build this level.'}
-  practice: { type: 'boolean' }
-  practiceThresholdMinutes: {type: 'number', description: 'Players with larger playtimes may be directed to a practice level.'}
-  assessment: { type: ['boolean', 'string'], enum: [true, false, 'open-ended', 'cumulative'], description: 'Set to true if this is an assessment level.' }
-  assessmentPlacement: { type: 'string', enum: ['middle', 'end'] }
+  practice: { type: 'boolean', inEditor: 'codecombat' }
+  practiceThresholdMinutes: {type: 'number', description: 'Players with larger playtimes may be directed to a practice level.', inEditor: 'codecombat' }
+  assessment: { type: ['boolean', 'string'], enum: [true, false, 'open-ended', 'cumulative'], description: 'Set to true if this is an assessment level.', inEditor: true } # ozaria has a few, needed?
+  assessmentPlacement: { type: 'string', enum: ['middle', 'end'], inEditor: 'codecombat' }
 
   characterPortrait: c.shortString(
     title: 'Character Portrait'
     description: 'The character portrait to use for the say messages.'
     enum: ['vega', 'blank', 'capella', 'octans', 'wise-capella', 'astra', 'snikrep', 'salazar', 'young-salazar', 'dragon-salazar']
     default: 'vega'
+    inEditor: 'ozaria'
   )
 
-  primerLanguage: { type: 'string', enum: ['javascript', 'python'], description: 'Programming language taught by this level.' }
-  shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable (false), shareable (true), or a sharing-encouraged project level ("project"). Make sure to use "project" for project levels so they show up correctly in the Teacher Dashboard.' }
+  primerLanguage: { type: 'string', enum: ['javascript', 'python'], description: 'Programming language taught by this level.', inEditor: 'codecombat' }
+  shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable (false), shareable (true), or a sharing-encouraged project level ("project"). Make sure to use "project" for project levels so they show up correctly in the Teacher Dashboard.', inEditor: true }
 
   # Admin flags
-  adventurer: { type: 'boolean' }
-  adminOnly: { type: 'boolean' }
-  releasePhase: { enum: ['beta', 'internalRelease', 'released'], title: 'Release status', description: "Release status of the level, determining who sees it.", default: 'internalRelease' }
-  disableSpaces: { type: ['boolean','integer'] }
-  hidesSubmitUntilRun: { type: 'boolean' }
-  hidesPlayButton: { type: 'boolean' }
-  hidesRunShortcut: { type: 'boolean' }
-  hidesHUD: { type: 'boolean' }
-  hidesSay: { type: 'boolean' }
-  hidesCodeToolbar: { type: 'boolean' }
-  hidesRealTimePlayback: { type: 'boolean' }
-  backspaceThrottle: { type: 'boolean' }
-  lockDefaultCode: { type: ['boolean','integer'] }
-  moveRightLoopSnippet: { type: 'boolean' }
-  realTimeSpeedFactor: { type: 'number' }
-  autocompleteFontSizePx: { type: 'number' }
-  requiredCode: c.array {}, {
+  adventurer: { type: 'boolean', inEditor: 'codecombat' }
+  adminOnly: { type: 'boolean', inEditor: 'codecombat' }
+  releasePhase: { enum: ['beta', 'internalRelease', 'released'], title: 'Release status', description: "Release status of the level, determining who sees it.", default: 'internalRelease', inEditor: true }
+  disableSpaces: { type: ['boolean','integer'], inEditor: 'codecombat' }
+  hidesSubmitUntilRun: { type: 'boolean', inEditor: 'codecombat' }
+  hidesPlayButton: { type: 'boolean', inEditor: 'codecombat' }
+  hidesRunShortcut: { type: 'boolean', inEditor: 'codecombat' }
+  hidesHUD: { type: 'boolean', inEditor: 'codecombat' }
+  hidesSay: { type: 'boolean', inEditor: 'codecombat' }
+  hidesCodeToolbar: { type: 'boolean', inEditor: 'codecombat' }
+  hidesRealTimePlayback: { type: 'boolean', inEditor: 'codecombat' }
+  backspaceThrottle: { type: 'boolean', inEditor: 'codecombat' }
+  lockDefaultCode: { type: ['boolean','integer'], inEditor: 'codecombat' }
+  moveRightLoopSnippet: { type: 'boolean', inEditor: 'codecombat' }
+  realTimeSpeedFactor: { type: 'number', inEditor: 'codecombat' }
+  autocompleteFontSizePx: { type: 'number', inEditor: 'codecombat' }
+  requiredCode: c.array { inEditor: true }, {
     type: 'string'
   }
-  suspectCode: c.array {}, {
+  suspectCode: c.array { inEditor: true }, {
     type: 'object'
     properties: {
       name: { type: 'string' }
       pattern: { type: 'string' }
     }
   }
-  autocompleteReplacement: c.array {}, {
+  autocompleteReplacement: c.array { inEditor: true }, {
     type: 'object'
     properties: {
       name: { type: 'string' }
@@ -443,24 +445,31 @@ _.extend LevelSchema.properties,
       }
     }
   }
-  requiredGear: { type: 'object', title: 'Required Gear', description: 'Slots that should require one of a set array of items for that slot', additionalProperties: {
+  requiredGear: { type: 'object', title: 'Required Gear', description: 'Slots that should require one of a set array of items for that slot', inEditor: 'codecombat', additionalProperties: {
     type: 'array'
     items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
   }}
-  restrictedGear: { type: 'object', title: 'Restricted Gear', description: 'Slots that should restrict all of a set array of items for that slot', additionalProperties: {
+  restrictedGear: { type: 'object', title: 'Restricted Gear', description: 'Slots that should restrict all of a set array of items for that slot', inEditor: 'codecombat', additionalProperties: {
     type: 'array'
     items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
   }}
-  requiredProperties: { type: 'array', items: {type: 'string'}, description: 'Names of properties a hero must have equipped to play.', format: 'solution-gear', title: 'Required Properties' }
-  restrictedProperties: { type: 'array', items: {type: 'string'}, description: 'Names of properties a hero must not have equipped to play.', title: 'Restricted Properties' }
-  recommendedHealth: { type: 'number', minimum: 0, exclusiveMinimum: true, description: 'If set, will show the recommended health to be able to beat this level with the intended main solution to the player when choosing equipment.', format: 'solution-stats', title: 'Recommended Health' }
-  maximumHealth: { type: 'number', minimum: 0, exclusiveMinimum: true, description: 'If set, will enforce the maximum health of the hero.', title: 'Maximum Health'}
-  allowedHeroes: { type: 'array', title: 'Allowed Heroes', description: 'Which heroes can play this level. For any hero, leave unset.', items: {
+  requiredProperties: { type: 'array', items: {type: 'string'}, description: 'Names of properties a hero must have equipped to play.', format: 'solution-gear', title: 'Required Properties', inEditor: 'codecombat' }
+  restrictedProperties: { type: 'array', items: {type: 'string'}, description: 'Names of properties a hero must not have equipped to play.', title: 'Restricted Properties', inEditor: 'codecombat' }
+  recommendedHealth: { type: 'number', minimum: 0, exclusiveMinimum: true, description: 'If set, will show the recommended health to be able to beat this level with the intended main solution to the player when choosing equipment.', format: 'solution-stats', title: 'Recommended Health', inEditor: 'codecombat' }
+  maximumHealth: { type: 'number', minimum: 0, exclusiveMinimum: true, description: 'If set, will enforce the maximum health of the hero.', title: 'Maximum Health', inEditor: 'codecombat' }
+  clampedProperties: { type: 'object', title: 'Clamped Properties', description: 'Other non-health properties that should be clamped to a range of values (attackDamage, maxSpeed, etc.). Only applies for classroom players with classroom items enabled.', inEditor: 'codecombat', additionalProperties: {
+    type: 'object'
+    properties: {
+      min: { type: 'number' }
+      max: { type: 'number' }
+    }
+  }}
+  allowedHeroes: { type: 'array', title: 'Allowed Heroes', description: 'Which heroes can play this level. For any hero, leave unset.', inEditor: 'codecombat', items: {
     type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
   }}
-  campaign: c.shortString title: 'Campaign', description: 'Set automatically by the campaign editor. Which campaign this level is part of (like "desert").', format: 'hidden'
+  campaign: c.shortString title: 'Campaign', description: 'Set automatically by the campaign editor. Which campaign this level is part of (like "desert").', format: 'hidden', inEditor: 'ozaria'
   campaignIndex: c.int title: 'Campaign Index', description: 'The 0-based index of this level in its campaign.', format: 'hidden'  # Automatically set by campaign editor.
-  scoreTypes: c.array {title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).'}, {
+  scoreTypes: c.array {title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).'}, inEditor: 'codecombat', {
       anyOf: [
         c.scoreType,
         {
@@ -482,22 +491,23 @@ _.extend LevelSchema.properties,
         }
       ]
     }
-  concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.', uniqueItems: true, format: 'concepts-list'}, c.concept
-  primaryConcepts: c.array {title: 'Primary Concepts', description: 'The main 1-3 concepts this level focuses on.', uniqueItems: true}, c.concept
+  concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.', uniqueItems: true, format: 'concepts-list', inEditor: true}, c.concept
+  primaryConcepts: c.array {title: 'Primary Concepts', description: 'The main 1-3 concepts this level focuses on.', uniqueItems: true, inEditor: true}, c.concept
   picoCTFProblem: { type: 'string', description: 'Associated picoCTF problem ID, if this is a picoCTF level' }
-  password: { type: 'string', description: 'The password required to create a session for this level' }
-  mirrorMatch: { type: 'boolean', description: 'Whether a multiplayer ladder arena is a mirror match' }
+  password: { type: 'string', description: 'The password required to create a session for this level', inEditor: 'codecombat' }
+  mirrorMatch: { type: 'boolean', description: 'Whether a multiplayer ladder arena is a mirror match', inEditor: 'codecombat' }
   codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'CodePoints that can be earned for completing this level'}
-  clans: c.array {description: 'If at least one clan is specified, only allow the users in these clans to access the level', format: 'clans-list'}, c.objectId()
+  clans: c.array {description: 'If at least one clan is specified, only allow the users in these clans to access the level', format: 'clans-list', inEditor: 'codecombat' }, c.objectId()
   # Next few are Ozaria-only
   introContent: { # valid for levels of type 'intro'
     title: 'Intro content',
     description: 'Intro content sequence',
     type: 'array',
-    items: IntroContentObject
+    items: IntroContentObject,
+    inEditor: 'ozaria'
   }
-  creativeMode: { title: 'Creative Mode', type: 'boolean', description: 'Only changes behavior of capstone levels. Treats the last stage of capstones as a creative mode, where goals are turned off. This also saves the students prior code created in prior stages. A teacher is able to see both normal code and creative code. Finally when student restarts level they start from their normal code written before creative mode.'}
-  additionalGoals: c.array { title: 'Additional Goals', description: 'Goals that are added after the first regular goals are completed' }, c.object {
+  creativeMode: { title: 'Creative Mode', type: 'boolean', description: 'Only changes behavior of capstone levels. Treats the last stage of capstones as a creative mode, where goals are turned off. This also saves the students prior code created in prior stages. A teacher is able to see both normal code and creative code. Finally when student restarts level they start from their normal code written before creative mode.', inEditor: 'ozaria' }
+  additionalGoals: c.array { title: 'Additional Goals', description: 'Goals that are added after the first regular goals are completed', inEditor: 'ozaria' }, c.object {
     title: 'Goals',
     description: 'Goals for this stage',
     minItems: 1,
@@ -505,10 +515,10 @@ _.extend LevelSchema.properties,
     properties: {
       stage: { type: 'integer', minimum: 2, title: 'Goal Stage', description: 'Which stage these additional goals are for (2 and onwards)' },
       goals: c.array { title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.' }, GoalSchema
-    }
+    },
   }
-  isPlayedInStages: {type: 'boolean', title: 'Is Played in Stages', description: 'Is this level played in stages and other content(cinematics) is loaded in between stages'}
-  methodsBankList: c.array {title: 'Methods Bank List'}, c.object {
+  isPlayedInStages: {type: 'boolean', title: 'Is Played in Stages', description: 'Is this level played in stages and other content(cinematics) is loaded in between stages', inEditor: 'ozaria'}
+  methodsBankList: c.array {title: 'Methods Bank List', inEditor: 'ozaria'}, c.object {
     properties: {
       name: c.shortString(title: 'Name'),
       section: c.shortString(title: 'Methods Bank Section', pattern: /^\w[\w ]*$/),
@@ -517,7 +527,7 @@ _.extend LevelSchema.properties,
     }
   }
   archived: { type: 'integer', description: 'Marks this level with to be hidden from searches and lookups. Number is milliseconds since 1 January 1970 UTC, when it was marked as hidden.'}
-  difficulty: { type: 'integer', title: 'Difficulty', description: 'Difficulty of this level - used to show difficulty in star-rating of 1 to 5', minimum: 1, maximum: 5 }
+  difficulty: { type: 'integer', title: 'Difficulty', description: 'Difficulty of this level - used to show difficulty in star-rating of 1 to 5', minimum: 1, maximum: 5, inEditor: 'codecombat' }
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema

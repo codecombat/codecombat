@@ -395,54 +395,6 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
         #{$prop}-top:    $length-y !important
         #{$prop}-bottom: $length-y !important
 
-  // base-flat.jade
-
-  #footer
-    background-color: $pitch
-    color: white
-    padding-top: 45px
-    margin-top: 50px
-
-    img
-      &.ozaria-watermark
-        width: 245px
-        padding-bottom: 13px
-        margin: 0 auto
-    h2
-      padding-bottom: 8px
-
-    @media print
-      display: none
-
-
-    li > a
-      @include font-p-2-paragraph-medium-white
-
-      &:hover
-        color: $goldenlight
-
-    .social-buttons > a
-      margin-right: 20px
-
-  #final-footer
-    display: flex
-    align-items: center
-    justify-content: center
-
-    background-color: $pitch
-    padding: 45px 70px
-    color: rgba(255,255,255,0.8)
-    font-size: 14px
-    a
-      color: rgba(255,255,255,0.8)
-      margin-left: 20px
-
-    .spl
-      margin-left: 6px
-
-    .small
-      color: rgba(255,255,255,0.8)
-
   // modal-base-flat.jade
 
   &.modal-content
@@ -454,3 +406,4 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
     position: absolute
     top: 10px
     right: 10px
+

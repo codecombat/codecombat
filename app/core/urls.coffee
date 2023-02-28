@@ -23,8 +23,14 @@ module.exports =
     url += "&codeLanguage=#{level.get('primerLanguage')}" if level.get('primerLanguage')
     url
 
-  courseWorldMap: ({courseId, courseInstanceId, campaignPage, campaignId, codeLanguage}) ->
-    if not campaignId and utils.isOzaria
+  courseWorldMap: (param) ->
+    courseId = param.courseId or param.course?.id or param.course?._id or param.course
+    courseInstanceId = param.courseInstanceId or param.courseInstance?.id or param.courseInstance?._id or param.courseInstance
+    campaignId = param.campaignId or param.course?.attributes?.campaignID or param.course?.campaignID
+    campaignPage = param.campaignPage
+    codeLanguage = param.codeLanguage
+
+    unless campaignId
       console.error('courseWorldMap: campaign id is not defined')
       return ""
     url = "/play/#{encodeURIComponent(campaignId)}"
@@ -33,7 +39,6 @@ module.exports =
     queryParams['course-instance'] = encodeURIComponent(courseInstanceId) if courseInstanceId
     queryParams['campaign-page'] = encodeURIComponent(campaignPage) if campaignPage
     queryParams['codeLanguage'] = encodeURIComponent(codeLanguage) if codeLanguage
-
     queryString = $.param(queryParams)
     if queryString
       url += "?#{queryString}"

@@ -6,7 +6,7 @@ block page_nav
 block content
 
   .container
-    if me.isInHourOfCode() && me.isAnonymous() && (view.name === 'cs1' || view.name === 'hoc-ai-league')
+    if me.isInHourOfCode() && me.isAnonymous() && (view.name === 'cs1' || view.name === 'hoc-ai-league' || view.name === 'hoc-goblins')
       #hour-of-code
         h3
           span(data-i18n="teacher.hoc_welcome")

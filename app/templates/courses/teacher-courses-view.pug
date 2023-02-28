@@ -51,7 +51,7 @@ block content
                       if view.enableCpp
                         option(value="cpp")
                           | C++
-                      if view.enableJava && (view.utils.CSCourseIDs.indexOf(course.id) !== -1) && (view.utils.CSCourseIDs.indexOf(course.id) < 4)
+                      if view.enableJava
                         option(value="java")
                           | Java
 
@@ -90,7 +90,6 @@ block content
 
 mixin course-info(course)
   - var campaign = view.campaigns.get(course.get('campaignID'));
-  - var courseLessonSlidesURL = view.courseLessonSlidesURLs[course.id]
   .course-info
     .text-h4.semibold
       = i18n(course.attributes, 'name')
@@ -124,21 +123,21 @@ mixin course-info(course)
             | Python
           a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
             span JavaScript
-          if view.enableCpp && (view.utils.WDCourseIDs.indexOf(course.id) === -1)
+          if view.enableCpp
             a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/cpp") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide C++" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
               span C++
+          if view.enableJava
+            a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/java") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Java" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+              span Java
 
       - var courseResources = view.resourcesByCourse[view.utils.courseAcronyms[course.get('_id')]]
-      if courseLessonSlidesURL || courseResources
+      if courseResources
         p.semibold
           span(data-i18n="teacher.resources")
           = ": "
-          if courseLessonSlidesURL && !features.china
-            a.guide-btn.btn.btn-primary(disabled=disableButtons href=(courseLessonSlidesURL) data-course-id=course.id data-course-name=course.get('name') data-event-action="Lesson Slides" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled') target="_blank")
-              span(data-i18n="courses.lesson_slides")
           for resource in (courseResources || [])
             a.guide-btn.btn.btn-primary(disabled=disableButtons href=view.utils.i18n(resource, 'link') data-course-id=course.id data-course-name=course.get('name') data-event-action=('Resource: ' + resource.name) class=(me.isTeacher() || me.isAdmin() ? '': 'disabled') target="_blank")
-              span(title=view.utils.i18n(resource, 'description'))= view.utils.i18n(resource, 'name')
+              span(title=view.utils.i18n(resource, 'description'))= view.utils.i18n(resource, 'name').replace(/^(CS|GD|WD)\d ?/, '')
 
     if course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE && Object.keys(view.videoLevels || {}).length > 0
       - var levelNameMap = campaign.getLevelNameMap()

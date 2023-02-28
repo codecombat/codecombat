@@ -50,6 +50,7 @@ block content
       tr
         td
           ul.list-unstyled
+            li To provide authentication and rostering features.
             li To personalize your experience.
             li To improve our website.
             li To respond to your customer service requests.
@@ -58,12 +59,12 @@ block content
             li To assist with district-wide licensing.
         td
           ul.list-unstyled
+            li To provide authentication and rostering features.
             li To personalize your experience.
             li To improve our website.
-            li To respond to your customer service requests.
-            li To send periodic emails about CodeCombat feaures and services (optional).
         td
           ul.list-unstyled
+            li To provide authentication features.
             li To personalize your experience.
             li To improve our website.
             li To respond to your customer service requests.
@@ -195,6 +196,81 @@ block content
 
   p If at any time you would like to unsubscribe from receiving future emails, you can change your email settings in your <a href="/account/settings">account preferences</a>, email us, or follow the instructions at the bottom of each email, and we will promptly remove you from all correspondence.
 
+  p#student-data-processors
+    strong Student Data Processors
+
+  p Personal student data is collected and processed only when necessary to provide the service. These data subprocessors are bound to safeguard student data and assist CodeCombat in providing its services:
+  table.table
+    thead
+      tr
+        th Data Processor
+        th User types
+        th Data
+        th Purpose
+        th Safeguards
+    tbody
+      tr
+        td
+          a(href="https://cloudflare.com") Cloudflare
+        td All users
+        td Cookies, website usage data, and other data as specified in its privacy policy
+        td To optimize, host, and distribute traffic from CodeCombat servers to users
+        td
+          a(href="https://www.cloudflare.com/security-policy/") Privacy Policy
+          span= ' '
+          a(href="https://www.cloudflare.com/cloudflare-customer-scc/") Standard Contractual Clauses
+      tr
+        td
+          a(href="https://aws.amazon.com/") Amazon Web Services
+        td All users
+        td All data provided to CodeCombat is hosted in secure AWS datacenters that AWS employees cannot access
+        td To host the CodeCombat servers
+        td
+          a(href="https://aws.amazon.com/privacy/") Privacy Policy
+          span= ' '
+          a(href="https://aws.amazon.com/compliance/gdpr-center/") Standard Contractual Clauses
+      tr
+        td
+          a(href="https://www.mongodb.com/cloud") MongoDB Atlas
+        td All users
+        td All data provided to CodeCombat is hosted in secure, encrypted MongoDB databases within CodeCombat's AWS virtual private cloud
+        td To host the CodeCombat databases
+        td
+          a(href="https://www.mongodb.com/legal/privacy-policy") Privacy Policy
+          span= ' '
+          a(href="https://www.mongodb.com/cloud/trust/compliance/gdpr") Standard Contractual Clauses
+      tr
+        td
+          a(href="https://google.com") Google
+        td Registered users
+        td Cookies, emails, and website usage data
+        td To store CodeCombat emails, calendar events, and other team data, including support emails from and events with non-student customers; and to use reCaptcha to prevent spam; and to provide Google Fonts; and to provide Google login
+        td
+          a(href="https://www.google.com/intl/policies/privacy/") Privacy Policy
+          span= ' '
+          a(href="https://policies.google.com/privacy/frameworks") Standard Contractual Clauses
+      tr
+        td
+          a(href="https://clever.com/") Clever
+        td Registered student and teacher users, for schools who use Clever
+        td Student enrollment data
+        td For automatic rostering and SSO
+        td
+          a(href="https://www.mongodb.com/legal/privacy-policy") Privacy Policy
+          span= ' '
+          a(href="https://www.mongodb.com/cloud/trust/compliance/gdpr") Standard Contractual Clauses
+      tr
+        td
+          a(href="https://ed.link/") Ed.link
+        td Registered student and teacher users, for districts who use Ed.link-based SSO, LTI, or LMS integration
+        td Student enrollment data
+        td For automatic rostering, SSO, and LTI/LMS integration
+        td
+          a(href="https://ed.link/docs/legal/privacy") Privacy Policy
+          span= ' '
+          a(href="https://ed.link/docs/legal/gdpr") Standard Contractual Clauses
+
+
   p#gdpr
     strong General Data Protection Regulation (GDPR) for EU users
 
@@ -244,44 +320,14 @@ block content
     tbody
       tr
         td
-          a(href="https://mailchimp.com/") MailChimp
-        td Registered users
-        td Name, email address, and email usage data
-        td To send users, if subscribed, announcements about CodeCombat products and services
-        td
-          a(href="https://mailchimp.com/legal/privacy/") Privacy Policy
-          span= ' '
-          a(href="https://mailchimp.com/legal/privacy/") Privacy Shield
-      tr
-        td
           a(href="https://sendgrid.com/") SendGrid
-        td Registered users
+        td Registered users, excluding students
         td Name, email address, and email usage data
         td To send users important emails about their usage of CodeCombat
         td
           a(href="https://sendgrid.com/policies/privacy/") Privacy Policy
           span= ' '
           a(href="https://sendgrid.com/policies/privacy/privacy-shield-certification/") Privacy Shield
-      tr
-        td
-          a(href="https://frontapp.com/") Front
-        td All users
-        td Email address, emails, username, and other data necessary to provide support and respond to sales requests
-        td To help users with sales and support questions via email
-        td
-          a(href="https://frontapp.com/privacy-policy") Privacy Policy
-          span= ' '
-          a(href="https://frontapp.com/privacy-policy") Privacy Shield
-      tr
-        td
-          a(href="https://close.io/") Close.io
-        td Teacher users
-        td Name, username, email address, sales information necessary for providing quotes and paid licenses, and other data as specified in its privacy policy
-        td To help teachers with sales and support questions, provide quotes, fulfill purchases, and organize potential and current customer data
-        td
-          a(href="https://www.iubenda.com/privacy-policy/87166246") Privacy Policy
-          span= ' '
-          a(href="https://close.io/gdpr/") Standard Clauses
       tr
         td
           a(href="https://cloudflare.com") Cloudflare
@@ -291,41 +337,61 @@ block content
         td
           a(href="https://www.cloudflare.com/security-policy/") Privacy Policy
           span= ' '
-          a(href="https://www.cloudflare.com/privacyshield/") Privacy Shield
+          a(href="https://www.cloudflare.com/cloudflare-customer-scc/") Standard Contractual Clauses
       tr
         td
           a(href="https://aws.amazon.com/") Amazon Web Services
         td All users
-        td All data provided to CodeCombat is hosted in secure AWS databases that AWS employees cannot access
+        td All data provided to CodeCombat is hosted in secure AWS datacenters that AWS employees cannot access
         td To host the CodeCombat servers
         td
           a(href="https://aws.amazon.com/privacy/") Privacy Policy
           span= ' '
-          a(href="https://aws.amazon.com/compliance/eu-us-privacy-shield-faq/") Privacy Shield
+          a(href="https://aws.amazon.com/compliance/gdpr-center/") Standard Contractual Clauses
       tr
         td
-          a(href="https://logdna.com/") LogDNA
+          a(href="https://www.mongodb.com/cloud") MongoDB Atlas
         td All users
-        td Website usage data and other online identifiers that are temporarily stored in server logs
-        td To log server usage and ensure ongoing website availability and resilience
+        td All data provided to CodeCombat is hosted in secure, encrypted MongoDB databases within CodeCombat's AWS virtual private cloud
+        td To host the CodeCombat databases
         td
-          a(href="https://logdna.com/privacy") Privacy Policy
+          a(href="https://www.mongodb.com/legal/privacy-policy") Privacy Policy
           span= ' '
-          a(href="https://logdna.com/privacy") Privacy Shield
+          a(href="https://www.mongodb.com/cloud/trust/compliance/gdpr") Standard Contractual Clauses
       tr
         td
           a(href="https://google.com") Google
         td Registered users
         td Cookies, emails, and website usage data
-        td To store CodeCombat emails, calendar events, and other team data, including support emails from and events with customers; and to use reCaptcha to prevent spam; and to provide Google Fonts; and to provide Google login
+        td To store CodeCombat emails, calendar events, and other team data, including support emails from and events with non-student customers; and to use reCaptcha to prevent spam; and to provide Google Fonts; and to provide Google login
         td
           a(href="https://www.google.com/intl/policies/privacy/") Privacy Policy
           span= ' '
-          a(href="https://policies.google.com/privacy/frameworks") Privacy Shield
+          a(href="https://policies.google.com/privacy/frameworks") Standard Contractual Clauses
+      tr
+        td
+          a(href="https://clever.com/") Clever
+        td Registered student and teacher users, for schools who use Clever
+        td Student enrollment data
+        td For automatic rostering and SSO
+        td
+          a(href="https://www.mongodb.com/legal/privacy-policy") Privacy Policy
+          span= ' '
+          a(href="https://www.mongodb.com/cloud/trust/compliance/gdpr") Standard Contractual Clauses
+      tr
+        td
+          a(href="https://ed.link/") Ed.link
+        td Registered student and teacher users, for districts who use Ed.link-based SSO, LTI, or LMS integration
+        td Student enrollment data
+        td For automatic rostering, SSO, and LTI/LMS integration
+        td
+          a(href="https://ed.link/docs/legal/privacy") Privacy Policy
+          span= ' '
+          a(href="https://ed.link/docs/legal/gdpr") Standard Contractual Clauses
       tr
         td
           a(href="https://www.facebook.com/") Facebook
-        td Registered users
+        td Registered users, excluding students
         td Cookies, website usage data for teacher users logged into Facebook, and email address for users using Facebook to authenticate to CodeCombat
         td To provide Facebook login; to understand how teachers coming from a Facebook ad are interested in purchasing CodeCombat
         td
@@ -347,7 +413,7 @@ block content
       tr
         td
           a(href="https://www.fullstory.com/") FullStory
-        td All users
+        td All users, excluding students
         td Cookies and website usage data
         td To understand website usage
         td
@@ -357,7 +423,7 @@ block content
       tr
         td
           a(href="https://segment.com/") Segment
-        td All users
+        td Registered teacher users
         td Cookies, website usage data, personal data for teachers, and other data as specified in its privacy policy
         td To understand website usage and provide data to other processors on this list
         td
@@ -386,14 +452,6 @@ block content
           a(href="https://www.pandadoc.com/gdpr/") Privacy Shield
       tr
         td
-          a(href="https://www.indinero.com/") inDinero
-        td Teacher users
-        td Invoice and payment details and other information necessary to complete school purchases
-        td Fulfilling invoices and payments for CodeCombat classroom licenses
-        td
-          a(href="https://www.indinero.com/privacy-policy") Privacy Policy
-      tr
-        td
           a(href="https://zoom.us/") Zoom
         td Teacher users
         td Name and email address
@@ -402,26 +460,6 @@ block content
           a(href="https://zoom.us/privacy") Privacy Policy
           span= ' '
           a(href="https://zoom.us/gdpr") Privacy Shield
-      tr
-        td
-          a(href="https://calendly.com/") Calendly
-        td Teacher users
-        td Name and email address
-        td To schedule calls and demos with teachers who request them
-        td
-          a(href="https://calendly.com/pages/privacy") Privacy Policy
-          span= ' '
-          span Standard Clauses
-      tr
-        td
-          a(href="https://chargedesk.com/") ChargeDesk
-        td Teacher users
-        td Name and email address
-        td To complete purchases of CodeCombat classroom licenses
-        td
-          a(href="https://chargedesk.com/privacy-policy") Privacy Policy
-          span= ' '
-          a(href="https://chargedesk.com/docs/GDPR/DPA#DPA") Standard Clauses
       tr
         td
           a(href="https://stripe.com/") Stripe

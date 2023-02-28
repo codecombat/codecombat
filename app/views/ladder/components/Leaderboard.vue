@@ -41,6 +41,9 @@ export default Vue.extend({
       type: String,
       default: ''
     },
+    showContactUs: {
+      type: Boolean
+    },
     tableTitles: {
       type: Array,
       default () {
@@ -70,6 +73,10 @@ export default Vue.extend({
     }
   },
   mounted () {
+    if (this.scoreType === 'tournament') {
+      // We don't need to get the histogram when it's a tournament, sicne we won't show it, and those data are slow to fetch.
+      return
+    }
     const histogramWrapper = $('#histogram-display-humans')
     let histogramData = null
     let url = `/db/level/${this.level.get('original')}/rankings-histogram?team=humans&levelSlug=${this.level.get('slug')}`
@@ -192,7 +199,7 @@ export default Vue.extend({
       if (slug === 'name') {
         return { 'name-col-cell': 1, ai: /(Bronze|Silver|Gold|Platinum|Diamond) AI/.test(item) }
       }
-      if (slug === 'team') {
+      if (slug === 'team' || slug === 'clan') {
         return { capitalize: 1, 'clan-col-cell': 1 }
       }
       if (slug === 'language') {
@@ -277,7 +284,7 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-  .table-responsive(:class="{'col-md-6': scoreType=='arena'}")
+  .table-responsive(:class="{'col-md-7': scoreType=='arena'}")
     div(v-if="scoreType == 'arena'")
       div(:class="{hide: !showContactUs}" id="contact-us-info")
         if dateBeforeSep

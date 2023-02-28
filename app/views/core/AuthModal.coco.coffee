@@ -11,12 +11,13 @@ globalVar = require 'core/globalVar'
 module.exports = class AuthModal extends ModalView
   id: 'auth-modal'
   template: template
+  trapsFocus: false  # TODO: re-enable this in a way that doesn't break Google login Noty
 
   events:
     'click #switch-to-signup-btn': 'onSignupInstead'
     'submit form': 'onSubmitForm'
     'keyup #name': 'onNameChange'
-    'click #gplus-login-btn': 'onClickGPlusLoginButton'
+    'click #google-login-button': 'onClickGPlusLoginButton'
     'click #facebook-login-btn': 'onClickFacebookLoginButton'
     'click #clever-signup-btn': 'onClickCleverSignupButton'
     'click #close-modal': 'hide'
@@ -30,7 +31,10 @@ module.exports = class AuthModal extends ModalView
 
     if me.useSocialSignOn()
       # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
-      application.gplusHandler.loadAPI({ success: => _.defer => @$('#gplus-login-btn').attr('disabled', false) })
+      application.gplusHandler.loadAPI({ success: => _.defer =>
+        @$('#google-login-button').attr('disabled', false)
+        @onClickGPlusLoginButton()
+      })
       application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })
     @subModalContinue = options.subModalContinue
 
@@ -89,13 +93,14 @@ module.exports = class AuthModal extends ModalView
   # Google Plus
 
   onClickGPlusLoginButton: ->
-    btn = @$('#gplus-login-btn')
+    btn = @$('#google-login-button')
     application.gplusHandler.connect({
       context: @
-      success: ->
+      success: (resp = {}) ->
         btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
         btn.attr('disabled', true)
         application.gplusHandler.loadPerson({
+          resp: resp
           context: @
           success: (gplusAttrs) ->
             existingUser = new User()
@@ -129,13 +134,17 @@ module.exports = class AuthModal extends ModalView
                   @onGPlusLoginError(res, jqxhr)
             })
         })
+      error: (e) ->
+        @onGPlusLoginError()
+        e.message ||= "Google login failed: #{e.error} - #{e.details}" if e?.error and e?.details
+        noty({text: e?.message or e?.details or e?.toString?() or 'Unknown Google login error', layout: 'topCenter', type: 'error', timeout: 5000, killer: false, dismissQueue: true})
     })
 
   onGPlusLoginError: =>
-    btn = @$('#gplus-login-btn')
+    btn = @$('#google-login-button')
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_gplus'))
     btn.attr('disabled', false)
-    errors.showNotyNetworkError(arguments...)
+    errors.showNotyNetworkError(arguments...) if arguments.length
 
 
   # Facebook

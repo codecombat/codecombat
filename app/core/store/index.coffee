@@ -61,6 +61,8 @@ store = new Vuex.Store({
     trialRequest: require('./modules/trialRequest').default
     classrooms: require('./modules/classrooms').default
     podcasts: require('./modules/podcasts').default
+    announcements: require('./modules/announcements').default
+    modalTeacher: require('../../views/core/CreateAccountModal/teacher/TeacherSignupStoreModule').default # TODO: combine with trial-request module
   }
 })
 

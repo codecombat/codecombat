@@ -251,9 +251,14 @@ module.exports = class CoursesView extends RootView
         window.location.href = '/students?autorefresh=true'
 
     if not @classrooms.models.length
+      me.setLastClassroomItems true  # Default players to being able to see classroom items if they aren't in any classrooms
       @nextLevelInfo = courseAcronym: 'CS1'  # Don't both trying to figure out the next level for edge case of student with no classrooms
       @allCompleted = false
       return
+
+    if @classrooms.models.length is 1
+      # If we're in only one classroom, we can use its classroom item setting
+      me.setLastClassroomItems @classrooms.models[0].get('classroomItems', true)
 
     @allCompleted = not _.some @classrooms.models, ((classroom) ->
       _.some @courseInstances.where({classroomID: classroom.id}), ((courseInstance) ->
@@ -399,8 +404,11 @@ module.exports = class CoursesView extends RootView
   nextLevelUrl: ->
     return null unless @nextLevelInfo
     return '/play/intro' unless @nextLevelInfo.level
-    urlFn = if @nextLevelInfo.level.isLadder() then @urls.courseArenaLadder else @urls.courseLevel
-    urlFn level: @originalLevelMap[@nextLevelInfo.level.get('original')] or @nextLevelInfo.level, courseInstance: @nextLevelInfo.courseInstance
+    urlFn = switch
+      when @nextLevelInfo.level.isLadder() then @urls.courseArenaLadder
+      when me.showHeroAndInventoryModalsToStudents() then @urls.courseWorldMap
+      else @urls.courseLevel
+    urlFn level: @originalLevelMap[@nextLevelInfo.level.get('original')] or @nextLevelInfo.level, courseInstance: @nextLevelInfo.courseInstance, course: @nextLevelInfo.course
 
   onClickPlayNextLevel: (e) ->
     if @nextLevelInfo?.locked

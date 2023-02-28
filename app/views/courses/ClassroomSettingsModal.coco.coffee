@@ -24,6 +24,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     'click .create-manually': 'onClickCreateManually'
     'click .pick-image-button': 'onPickImage'
     'click #link-lms-classroom-btn': 'onClickLinkLMSClassroom'
+    'change #classroom-items': 'onChangeClassroomItems'
 
   initialize: (options={}) ->
     @classroom = options.classroom or new Classroom()
@@ -31,6 +32,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     @lmsClassrooms = []
     @isGoogleClassroom = false
     @enableCpp = me.enableCpp()
+    @enableJava = me.enableJava()
     @uploadFilePath = "db/classroom/#{@classroom.id}"
     initializeFilePicker()
     if @shouldShowLMSButton()
@@ -46,6 +48,10 @@ module.exports = class ClassroomSettingsModal extends ModalView
     super()
     forms.updateSelects(@$('form'))
 
+  onChangeClassroomItems: (e) ->
+    # Unless we manually change this, we're not saving it, so that we can easily change the schema default later
+    @hasChangedClassroomItems = true
+
   onSubmitForm: (e) ->
     @classroom.notyErrors = false
     e.preventDefault()
@@ -58,6 +64,15 @@ module.exports = class ClassroomSettingsModal extends ModalView
     else
       forms.setErrorToProperty(form, 'language', $.i18n.t('common.required_field'))
       return
+
+    if not attrs.type and me.isILK()
+      forms.setErrorToProperty(form, 'type', $.i18n.t('common.required_field'))
+      return
+
+    if attrs.classroomItems and @hasChangedClassroomItems
+      attrs.classroomItems = attrs.classroomItems[0] == 'on'
+    else
+      delete attrs.classroomItems
 
     if attrs.liveCompletion
       attrs.aceConfig.liveCompletion = attrs.liveCompletion[0] == 'on'
@@ -124,14 +139,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     $('#link-google-classroom-btn').attr('disabled', true)
     application.gplusHandler.loadAPI({
       success: =>
-        application.gplusHandler.connect({
-          scope: GoogleClassroomHandler.scopes
-          success: =>
-            @linkGoogleClassroom()
-          error: =>
-            $('#link-google-classroom-btn').text($.i18n.t("courses.link_google_classroom"))
-            $('#link-google-classroom-btn').attr('disabled', false)
-        })
+        @linkGoogleClassroom()
     })
 
   linkGoogleClassroom: ->

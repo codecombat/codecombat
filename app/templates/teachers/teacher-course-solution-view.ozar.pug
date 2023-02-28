@@ -13,7 +13,7 @@ block page_nav
     else
       //- Create space when the backlink is missing.
       div(style="height: 40px;")
-    if view.paidTeacher || view.course.get('free')
+    if view.paidTeacher || (view.course && view.course.get('free') || view.campaign && view.campaign.get('type') == 'hoc')
       .print
         .btn.btn-md.btn-navy
           a.print-btn(href='javascript:window.print()')
@@ -26,14 +26,18 @@ block content
     a(href="/")
       img#nav-logo(src="/images/ozaria/home/ozaria-logo.png", title="Ozaria - Computer Science that Captivates", alt="Ozaria")
     h2.text-center(data-i18n="teacher.teacher_account_required")
-  else if !view.paidTeacher && !view.course.get('free')
+  else if !view.paidTeacher && (view.course && !view.course.get('free') || view.campaign && view.campaign.get('type') != 'hoc')
     h2.text-center(data-i18n="courses.solutions_require_licenses")
   else
     .text-center
-      if view.course.loaded
-        h1 #{i18n(view.course.attributes, 'name')}
+      if (view.course && view.course.loaded || view.campaign && view.campaign.loaded)
+        if view.course
+          h1 #{i18n(view.course.attributes, 'name')}
+        else
+          h1 #{i18n(view.campaign.attributes, 'fullName')}
         h3 #{view.prettyLanguage}
-        i= i18n(view.course.attributes, 'description')
+        if view.course
+          i= i18n(view.course.attributes, 'description')
     br
 
     if view.levels
@@ -49,7 +53,7 @@ block content
         - var levelName = i18n(level.attributes, 'displayName') || level.get('displayName') || i18n(level.attributes, 'name') || level.get('name')
         - var learningGoals = view.getLearningGoalsForLevel(level)
         h2.page-break-before(id=level.get('slug')) #{levelName}
-        a.play-level-button.btn.btn-lg.btn-primary(href="/play/level/#{level.get('slug')}?course=#{view.courseID}&codeLanguage=#{view.language}", disabled=disablePlayButtons)
+        a.play-level-button.btn.btn-lg.btn-primary(href=`/play/level/${level.get('slug')}?course=${view.courseID}&codeLanguage=${view.language}`, disabled=disablePlayButtons)
           span(data-i18n="courses.play_level")
         h4(data-i18n="teacher.level_overview_solutions")
         i #{i18n(level.attributes, 'description')}

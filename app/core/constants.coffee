@@ -7,7 +7,7 @@ STARTER_LICENSE_COURSE_IDS = [
   "5789587aad86a6efb573701f" # Web Development 1
 ]
 
-LICENSE_PRESETS = if !utils.isOzaria then {
+LICENSE_PRESETS = {
   'CS1+CS2+GD1+WD1': STARTER_LICENSE_COURSE_IDS
   'CS1+CS2+CS3+CS4': [
     '560f1a9f22961295f9427742' # Introduction to Computer Science
@@ -37,7 +37,6 @@ LICENSE_PRESETS = if !utils.isOzaria then {
     '5789587aad86a6efb573701e' # Game Development 1
     '57b621e7ad86a6efb5737e64' # GD 2
   ]
-} else {
   'CH1+CH2+CH3+CH4': OZARIA_COURSE_IDS
 }
 
@@ -70,7 +69,31 @@ DEEP_API_LIST = [ # Those apiclient doesn't want back-to-classroom button in cam
 HTTP_STATUS_CODES = {
   PAYMENT_REQUIRED_CODE: 402,
 }
-  
+
+ESPORTS_PRODUCT_STATS = {
+  TOURNAMENTS: {
+    BASIC: 1,
+    PRO: 3,
+    MIN: 0,
+  },
+  TEAMS: {
+    BASIC: 1,
+    PRO: 5,
+    MIN: 0,
+    MAX: 10
+  }
+}
+
+LEADERBOARDNAME = {
+  FULLNAME: 'fullName',
+  ANONYMOUS: 'anonymous',
+  NAME: 'name' # default
+}
+
+HTML5_FMT_DATETIME_LOCAL = 'YYYY-MM-DDTHH:mm' # moment 2.20+ do have this string but we use 2.19 :joy:
+
+ANNOUNCEMENT_LIMIT = 11 # fetch 11 and display 10 only, so that we can check if all announcements loaded
+
 module.exports = {
   STARTER_LICENSE_COURSE_IDS
   FREE_COURSE_IDS
@@ -80,4 +103,8 @@ module.exports = {
   HTTP_STATUS_CODES
   LICENSE_PRESETS
   DEEP_API_LIST
+  ESPORTS_PRODUCT_STATS
+  HTML5_FMT_DATETIME_LOCAL
+  LEADERBOARDNAME,
+  ANNOUNCEMENT_LIMIT
 }

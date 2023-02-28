@@ -17,11 +17,13 @@ LayerAdapter = require 'lib/surface/LayerAdapter'
 Lank = require 'lib/surface/Lank'
 store = require 'core/store'
 createjs = require 'lib/createjs-parts'
+ThangTypeConstants = require 'lib/ThangTypeConstants'
 
 module.exports = class PlayHeroesModal extends ModalView
   className: 'modal fade play-modal'
   template: template
   id: 'play-heroes-modal'
+  trapsFocus: false
 
   events:
     'slide.bs.carousel #hero-carousel': 'onHeroChanged'
@@ -59,7 +61,10 @@ module.exports = class PlayHeroesModal extends ModalView
   onHeroesLoaded: ->
     @heroes.reset(@heroes.filter((hero) => not hero.get('ozaria')))
     @formatHero hero for hero in @heroes.models
-    if me.freeOnly() or application.getHocCampaign()
+    @heroes.reset(@heroes.filter((hero) => not hero.hidden))
+    if me.isStudent() and me.showHeroAndInventoryModalsToStudents()
+      @heroes.reset(@heroes.filter((hero) => hero.get('heroClass') is 'Warrior'))
+    else if me.freeOnly() or application.getHocCampaign()
       @heroes.reset(@heroes.filter((hero) => !hero.locked))
     unless me.isAdmin()
       @heroes.reset(@heroes.filter((hero) => hero.get('releasePhase') isnt 'beta'))
@@ -75,11 +80,16 @@ module.exports = class PlayHeroesModal extends ModalView
     hero.unlockBySubscribing = hero.attributes.slug in ['samurai', 'ninja', 'librarian']
     hero.premium = not hero.free and not hero.unlockBySubscribing
     hero.locked = not me.ownsHero(original) and not (hero.unlockBySubscribing and me.isPremium())
-    hero.purchasable = hero.locked and (me.isPremium() or me.allowStudentHeroPurchase())
+    hero.locked = false if me.isStudent() and me.showHeroAndInventoryModalsToStudents() and hero.get('heroClass') is 'Warrior'
+    hero.purchasable = hero.locked and me.isPremium()
     if @options.level and allowedHeroes = @options.level.get 'allowedHeroes'
       hero.restricted = not (hero.get('original') in allowedHeroes)
     hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()
     hero.stats = hero.getHeroStats()
+    if clanHero = _.find(utils.clanHeroes, thangTypeOriginal: hero.get('original'))
+      hero.hidden = true if clanHero.clanId not in (me.get('clans') ? [])
+    if hero.get('original') is ThangTypeConstants.heroes['code-ninja']
+      hero.hidden = window.location.host isnt 'coco.code.ninja'
 
   currentVisiblePremiumFeature: ->
     isPremium = @visibleHero and not (@visibleHero.class is 'warrior' and @visibleHero.get('tier') is 0)
@@ -149,8 +159,8 @@ module.exports = class PlayHeroesModal extends ModalView
       @codeLanguageList = [
         {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
         {id: 'javascript', name: 'JavaScript'}
-        {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
-        {id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"}
+        {id: 'coffeescript', name: "CoffeeScript"}
+        {id: 'lua', name: "Lua"}
         @subscriberCodeLanguageList...
       ]
 
@@ -283,7 +293,7 @@ module.exports = class PlayHeroesModal extends ModalView
       template: popoverTemplate
     ).popover 'show'
     popover = unlockButton.data('bs.popover')
-    popover?.$tip?.i18n()
+    popover?.$tip?.i18n()  # Doesn't work
     @applyRTLIfNeeded()
 
   onBuyGemsPromptButtonClicked: (e) ->
@@ -301,6 +311,11 @@ module.exports = class PlayHeroesModal extends ModalView
   #- Exiting
 
   saveAndHide: ->
+    if !me.hasSubscription() and @subscriberCodeLanguageList.find((l) => l.id == @codeLanguage) and not me.isStudent()
+      @openModalView new SubscribeModal()
+      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: experimental language'
+      return
+
     hero = @selectedHero?.get('original')
     hero ?= @visibleHero?.get('original') if @visibleHero?.loaded and not @visibleHero.locked
     unless hero

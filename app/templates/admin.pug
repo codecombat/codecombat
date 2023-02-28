@@ -48,6 +48,18 @@ block content
 
   if me.isOnlineTeacher() && !me.isAdmin()
     div.text-center Use the search box above to find and administer student accounts.
+  else if me.isParentAdmin() && !me.isAdmin()
+    p Set if admin is currently online / offline:
+    div.btn-group.btn-group-toggle#toggle-admin-availability(data-toggle="buttons")
+      label.btn.btn-secondary(data-value="on" class=`${parentAdminUpdateInProgress ? 'disabled' : ''} ${parentAdminAvailabilityStatus == 'on' ? 'active' : ''}`)
+        input(type="radio" name="options" autocomplete="off" :)
+        | Online
+      label.btn.btn-secondary(data-value="off" class=`${parentAdminUpdateInProgress ? 'disabled' : ''} ${parentAdminAvailabilityStatus == 'off' ? 'active' : ''}`)
+        input(type="radio" name="options" autocomplete="off")
+        | Offline
+      label.btn.btn-secondary(data-value="by-schedule" class=`${parentAdminUpdateInProgress ? 'disabled' : ''} ${parentAdminAvailabilityStatus == 'by-schedule' ? 'active' : ''}`)
+        input(type="radio" name="options" autocomplete="off")
+        | By Schedule
   else if !me.isAdmin()
     div.text-center You must be logged in as an admin to view this page.
   else
@@ -104,7 +116,7 @@ block content
         a(href="javascript:void(0)" id="maintenance-mode") Maintenance mode
       li
         a(href="javascript:void(0)" id="teacher-license-code") Teacher license code
-        
+
 
     hr
     h3 URL query parameters for *this page*

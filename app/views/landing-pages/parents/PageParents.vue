@@ -10,7 +10,7 @@
     -->
     <modal-timetap-schedule
       v-if="type !== 'parents'"
-      :show="showTimetapModal" 
+      :show="showTimetapModal"
       :class-type="timetapModalClassType"
       @close="showTimetapModal = false"
       @booked="onClassBooked"
@@ -19,6 +19,11 @@
       v-if="type === 'thank-you'"
       :show="showTimetapConfirmationModal"
       @close="showTimetapConfirmationModal = false"
+    />
+    <ModalScheduleFreeClass
+        v-if="showScheduleFreeClassModal"
+        @close="showScheduleFreeClassModal = false"
+        :availabilityPDT="availabilityPDT"
     />
     <!-- END Modals -->
 
@@ -597,19 +602,19 @@ import PageParentsSectionPremium from './PageParentsSectionPremium'
 import PageParentsJumbotron from './PageParentsJumbotron'
 import ModalTimetapSchedule from './ModalTimetapSchedule'
 import ModalTimetapConfirmation from './ModalTimetapConfirmation'
+import ModalScheduleFreeClass from './ModalScheduleFreeClass'
 import ButtonMainCta from './ButtonMainCta'
 import IconGem from './IconGem'
 import ButtonArrow from './ButtonArrow'
 import { mapGetters } from 'vuex'
-import ModalUserDetails from "./ModalUserDetails";
-
-const DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID = 214809
-const DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID = 222065
+import ModalUserDetails from './ModalUserDetails'
+import { getAvailability } from 'core/api/parents'
 
 export default {
   components: {
     ModalUserDetails,
     ModalTimetapSchedule,
+    ModalScheduleFreeClass,
     PageParentsSectionPremium,
     PageParentsJumbotron,
     ModalTimetapConfirmation,
@@ -634,7 +639,9 @@ export default {
     timetapModalClassType: undefined,
     showTimetapModal: false,
     showTimetapConfirmationModal: false,
-    modalClassType: undefined
+    modalClassType: undefined,
+    showScheduleFreeClassModal: false,
+    availabilityPDT: []
   }),
 
   metaInfo () {
@@ -652,10 +659,6 @@ export default {
   },
 
   mounted () {
-    if (window.drift) {
-      window.drift.on('scheduling:meetingBooked', this.onDriftMeetingBooked)
-    }
-
     if (this.type === 'thank-you') {
       this.onClassBooked()
     }
@@ -667,12 +670,6 @@ export default {
         window.me.trackActivity('viewed-parents-pricing')
       }
     })
-  },
-
-  beforeDestroy () {
-    if (window.drift) {
-      window.drift.off('scheduling:meetingBooked', this.onDriftMeetingBooked)
-    }
   },
 
   methods: {
@@ -699,8 +696,19 @@ export default {
       $("#student-outcome-carousel").carousel(frameNum)
     },
 
-    onClickMainCta () {
+    async onClickMainCta () {
       this.trackCtaClicked()
+
+      const { isAvailable, availabilityPDT } = await getAvailability()
+      this.availabilityPDT = availabilityPDT
+
+      if (isAvailable) {
+        if (this.scheduleFreeClassExperiment === 'schedule-free-class') {
+          this.showScheduleFreeClassModal = true
+          return;
+        }
+      }
+
       if (this.brightchampsExperiment === 'brightchamps') {
         const url = 'https://learn.brightchamps.com/book-trial-class/?utm_source=B2B&utm_medium=Codecombat#'
         window.open(url, '_blank')
@@ -735,35 +743,23 @@ export default {
         e.preventDefault()
       }
 
-      if (!window.drift && (this.type === 'parents' || this.type === 'sales' || this.type === 'chat')) {
-        console.log('No Drift, resetting to self-serve')
+      if (this.type === 'parents' || this.type === 'sales' || this.type === 'chat') {
+        // We used to have a chat type, with Drift, but got rid of it
         this.type = 'self-serve'
       }
 
       this.trackCtaClicked()
 
       if (this.type === 'parents' || this.type === 'sales') {
-        window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID })
+        // We used to show Drift chat here
       } else if (this.type === 'chat') {
-        const now = new Date()
-        // Monday to Friday 8am - 4pm EST
-        if (now.getUTCHours() - 5 >= 7 && now.getUTCHours() - 5 <= 15 && now.getDay() > 0 && now.getDay() < 6) {
-          window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID })
-        } else {
-          window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID })
-        }
+        // We used to show another type of Drift chat here, depending on what time it was
       } else if (this.type === 'self-serve' || this.type === 'thank-you') {
         this.showTimetapModal = true
       } else if (this.type === 'call') {
         window.location.href = 'tel:818-873-2633'
       } else {
         console.error('Unknown CTA type on parents page')
-      }
-    },
-
-    onDriftMeetingBooked (e) {
-      if (e.interactionId === DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID || e.interactionId === DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID) {
-        application.tracker.trackEvent('Live classes welcome call scheduled', { parentsPageType: this.type })
       }
     },
 
@@ -791,11 +787,9 @@ export default {
     mainCtaSubtext (buttonNum) {
       if (this.brightchampsExperiment === 'brightchamps') {
         return ''
-      }
-      else if (this.trialClassExperiment === 'trial-class' && buttonNum === 0) {
+      } else if (this.trialClassExperiment === 'trial-class' && buttonNum === 0) {
         return 'Or, <a href="/payments/initial-online-classes-71#">enroll now</a>'
-      }
-      else if (this.trialClassExperiment === 'trial-class') {
+      } else if (this.trialClassExperiment === 'trial-class') {
         return ''
       } else if (!buttonNum) {
         return ''
@@ -844,6 +838,26 @@ export default {
         //me.startExperiment('trial-class', value, 0.5)
         value = 'trial-class'
         me.startExperiment('trial-class', value, 1)  // End experiment in favor of trial-class group; keep measuring
+      }
+      return value
+    },
+
+    scheduleFreeClassExperiment () {
+      let value = {
+        'true': 'schedule-free-class',
+        'false': 'no-schedule-free-class'
+      }[this.$route.query['schedule-free-class']]
+      if (!value) {
+        value = me.getExperimentValue('schedule-free-class', null, 'no-schedule-free-class')
+      }
+      if (!value && new Date(me.get('dateCreated')) < new Date('2022-09-27')) {
+        // Don't include users created before experiment start date
+        value = 'no-schedule-free-class'
+      }
+
+      if (!value) {
+        value = ['schedule-free-class', 'no-schedule-free-class'][Math.floor(me.get('testGroupNumber') / 2) % 2]
+        me.startExperiment('schedule-free-class', value, 0.5)
       }
       return value
     },

@@ -1,4 +1,4 @@
-##### Resource Hub
+##### Teacher Toolkit
 # AP Computer Science Principles
 ------
 

@@ -31,6 +31,7 @@ module.exports = class TeacherCoursesView extends RootView
     application.setHocCampaign('') # teachers playing levels from here return here
     @utils = require 'core/utils'
     @enableCpp = me.enableCpp()
+    @enableJava = me.enableJava()
     @ownedClassrooms = new Classrooms()
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
@@ -48,7 +49,7 @@ module.exports = class TeacherCoursesView extends RootView
     @courseChangeLog = {}
     @videoLevels = utils.videoLevels || {}
     @courseLessonSlidesURLs = utils.courseLessonSlidesURLs
-    window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers'
 
   onLoaded: ->
     @campaigns.models.forEach (campaign) =>

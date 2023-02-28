@@ -31,7 +31,7 @@ window.console ?=
   debug: ->
 console.debug ?= console.log  # Needed for IE10 and earlier
 
-Application = {
+Application =
   initialize: ->
     i18next = require('i18next')
     jqueryI18next = require('jquery-i18next')
@@ -121,6 +121,8 @@ Application = {
       onVisible: onIdleChanged false
       awayTimeout: 5 * 60 * 1000
     @idleTracker.start()
+    @trackProductVisit()
+    @setReferrerTracking()
 
   checkForNewAchievement: ->
     utils = require 'core/utils'
@@ -163,7 +165,35 @@ Application = {
       killer: false
       timeout: 5000
       }), 3600000  # one hour
-}
+
+  trackProductVisit: ->
+    return if window.serverSession?.amActually
+    utils = require 'core/utils'
+    #activity = "visit-#{utils.getProduct()}"
+    activity = "visit-#{if utils.isOzaria then 'ozaria' else 'codecombat'}"
+    last = me.get('activity')?[activity]?.last
+    return if last and moment(last).isAfter(moment().subtract(12, 'hour'))
+    me.trackActivity activity
+
+  setReferrerTracking: ->
+    return if window.serverSession?.amActually
+    utils = require 'core/utils'
+    queryParams = utils.getQueryVariables()
+    utmSource = queryParams['utm_source']
+    utmMedium = queryParams['utm_medium']
+    utmCampaign = queryParams['utm_campaign']
+    referrerParams = {}
+    if utmSource
+      referrerParams.source = utmSource
+    if utmMedium
+      referrerParams.medium = utmMedium
+    if utmCampaign
+      referrerParams.campaign = utmCampaign
+    if Object.keys(referrerParams).length == 0
+      return
+    value = Object.assign(referrerParams, (me.get('referrerTrack') || {}))
+    me.set('referrerTrack', value)
+    me.save()
 
 module.exports = Application
 globalVar.application = Application

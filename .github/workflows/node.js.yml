@@ -6,14 +6,17 @@ name: Node.js CI
 # Triggering workflow on all push
 on: [push]
 
+permissions:
+  contents: read
+
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     strategy:
       matrix:
-        node-version: [14.18.3]
+        node-version: [18.10.0]
 
     steps:
       - uses: actions/checkout@v2

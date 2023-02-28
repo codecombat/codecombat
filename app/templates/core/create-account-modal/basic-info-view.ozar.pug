@@ -4,7 +4,7 @@ form#basic-info-form.modal-body.basic-info
     if me.useSocialSignOn()
       .auth-network-logins
         .gplus-login
-          a#gplus-signup-btn.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
+          a#google-login-button.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
             - var buttonURL = "/images/ozaria/common/log-in-google-sso-generic.svg"
             - if(view.signupState.get('path') == 'teacher')
             -   imgURL = "/images/ozaria/common/log-in-google-sso.svg"

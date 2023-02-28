@@ -114,11 +114,15 @@ export default {
   },
 
   actions: {
-    fetchPrepaidsForTeacher: ({ commit }, { teacherId, sharedClassroomId }) => {
+    fetchPrepaidsForTeacher: ({ commit }, { teacherId, sharedClassroomId, includeShared = true } = {}) => {
       commit('toggleLoadingForTeacher', teacherId)
 
+      const data = { sharedClassroomId }
+      if (includeShared) {
+        data.includeShared = true // so that we can pass correct false to server
+      }
       // Fetch teacher's prepaids and shared prepaids.
-      return prepaidsApi.getByCreator(teacherId, { data: { includeShared: true, sharedClassroomId } })
+      return prepaidsApi.getByCreator(teacherId, { data })
         .then(res => {
           if (res) {
             commit('addPrepaidsForTeacher', {
@@ -132,7 +136,22 @@ export default {
         .catch((e) => noty({ text: 'Fetch prepaids failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
         .finally(() => commit('toggleLoadingForTeacher', teacherId))
     },
-
+    fetchPrepaidsForAPIClient: ({ commit }, { clientId, teacherId }) => {
+      commit('toggleLoadingForTeacher', teacherId)
+      return prepaidsApi.getByClient(clientId)
+        .then(res => {
+          if (res) {
+            commit('addPrepaidsForTeacher', {
+              teacherId,
+              prepaids: res
+            })
+          } else {
+            throw new Error('Unexpected response from fetch classrooms API.')
+          }
+        })
+        .catch((e) => noty({ text: 'Fetch prepaids failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
+        .finally(() => commit('toggleLoadingForTeacher', teacherId))
+    },
     joinPrepaidByCodes: ({ commit }, options) => {
       return prepaidsApi.joinByCodes(options)
     },

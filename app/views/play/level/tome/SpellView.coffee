@@ -558,9 +558,10 @@ module.exports = class SpellView extends CocoView
     @autocomplete?.set 'snippets', @autocompleteOn
 
   reallyAddUserSnippets: (source, lang, session) ->
+    return unless @autocomplete and @autocompleteOn
     newIdentifiers = aceUtils.parseUserSnippets(source, lang, session)
     # console.log 'debug newIdentifiers: ', newIdentifiers
-    @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
+    @autocomplete?.addCustomSnippets Object.values(newIdentifiers), @editorLang if @editorLang?
 
   addAutocompleteSnippets: (e) ->
     # Snippet entry format:
@@ -681,32 +682,44 @@ module.exports = class SpellView extends CocoView
       ++lineCount
       # Force the popup back
       @ace?.completer?.showPopup(@ace)
+
     screenLineCount = @aceSession.getScreenLength()
     if screenLineCount isnt @lastScreenLineCount
       @lastScreenLineCount = screenLineCount
       lineHeight = @ace.renderer.lineHeight or 20
-      tomeHeight = $('#tome-view').innerHeight()
+      spellPaletteView = $('#tome-view #spell-palette-view-bot')
       spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
-      spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
-      @spellPaletteHeight ?= 75
-      spellPaletteAllowedHeight = Math.min @spellPaletteHeight, tomeHeight / 3
-      maxHeight = tomeHeight - spellTopBarHeight - spellToolbarHeight - spellPaletteAllowedHeight
-      minHeight = Math.max 8, (Math.min($("#canvas-wrapper").outerHeight(),$("#level-view").innerHeight() - 175) / lineHeight) - 2
+      spellPaletteHeight = spellPaletteView.outerHeight()
+      windowHeight = $(window).innerHeight()
+      spellPaletteAllowedHeight = Math.min spellPaletteHeight, windowHeight / 2
+      topOffset = @$el.find('.ace').offset().top
+      gameHeight = $('#game-area').innerHeight()
+
+      # If the spell palette is too tall, we'll need to shrink it.
+      maxHeightOffset = 75
+      minHeightOffset = 175
+      maxHeight = Math.min(windowHeight, Math.max(windowHeight, 600)) - topOffset - spellPaletteAllowedHeight - maxHeightOffset
+      minHeight = Math.min maxHeight, Math.min(gameHeight, Math.max(windowHeight, 600)) - spellPaletteHeight - minHeightOffset
+
+      spellPalettePosition = if spellPaletteHeight > 0 then 'bot' else 'mid'
+      minLinesBuffer = if spellPalettePosition is 'bot' then 0 else 2
+      linesAtMinHeight = Math.max(8, Math.floor(minHeight / lineHeight - minLinesBuffer))
       linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
-      lines = Math.max minHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), 8
-      # 2 lines buffer is nice
+      lines = Math.max linesAtMinHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), 8
       lines = 8 if _.isNaN lines
       @ace.setOptions minLines: lines, maxLines: lines
-      # Move spell palette up, slightly overlapping us.
+
+      # If bot: move spell palette up, slightly overlapping us.
       newTop = 185 + lineHeight * lines
-      #spellPaletteView.css('top', newTop)
-      # Expand it to bottom of tome if too short.
-      #newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
-      #spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
+      spellPaletteView.css('top', newTop)
+
+      codeAreaBottom = if spellPaletteHeight then windowHeight - (newTop + spellPaletteHeight + 20) else 0
+      $('#code-area').css('bottom', codeAreaBottom)
+      #console.log { lineHeight, spellTopBarHeight, spellPaletteHeight, spellPaletteAllowedHeight, windowHeight, topOffset, gameHeight, minHeight, maxHeight, linesAtMinHeight, linesAtMaxHeight, lines, newTop, screenLineCount }
+
     if @firstEntryToScrollLine? and @ace?.renderer?.$cursorLayer?.config
       @ace.scrollToLine @firstEntryToScrollLine, true, true
       @firstEntryToScrollLine = undefined
-
 
   hideProblemAlert: ->
     return if @destroyed
@@ -1105,7 +1118,7 @@ module.exports = class SpellView extends CocoView
     @spellHasChanged = true
 
   onAceMouseOut: (e) ->
-    Backbone.Mediator.publish("web-dev:stop-hovering-line")
+    Backbone.Mediator.publish("web-dev:stop-hovering-line", {})
 
   onAceMouseMove: (e) =>
     return if @destroyed
@@ -1308,7 +1321,7 @@ module.exports = class SpellView extends CocoView
       lineHasComment = @singleLineCommentRegex().test line
       lineHasCode = line.trim()[0] and not @singleLineCommentOnlyRegex().test line
       lineIsBlank = /^[ \t]*$/.test line
-      lineHasExplicitMarker = line.indexOf('∆') isnt -1
+      lineHasExplicitMarker = /[Δ∆]/.test(line)  # Two different identical-seeming delta codepoints
 
       originalLine = originalLines[index]
       lineHasChanged = line isnt originalLine
@@ -1394,8 +1407,6 @@ module.exports = class SpellView extends CocoView
     _.delay (=> @resize()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
 
   onWindowResize: (e) =>
-    @spellPaletteHeight = null
-    #$('#spell-palette-view').css 'height', 'auto'  # Let it go back to controlling its own height
     _.delay (=> @resize?()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
 
   resize: ->

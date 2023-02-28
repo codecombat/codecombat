@@ -206,6 +206,9 @@
       closeHocModal () {
         this.openHoC2019Modal = false
         this.registerHocProgressModalCheck()
+        _.defer(() => {
+          $(this.$el).find('img.level-dot-image.next').parent().focus()
+        })
       },
 
       async loadCampaign () {

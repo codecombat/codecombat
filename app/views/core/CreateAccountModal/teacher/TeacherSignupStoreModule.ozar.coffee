@@ -48,7 +48,7 @@ getDefaultState = () =>
     marketingConsent: undefined
   }
 
-module.exports = TeacherSignupStoreModule = {
+export default {
   namespaced: true
   state: getDefaultState()
   getters: {
@@ -116,7 +116,7 @@ module.exports = TeacherSignupStoreModule = {
           return api.users.signupWithPassword(attrs)
 
       .then (user) =>
-        store.dispatch('me/authenticated', user)
+        dispatch('me/authenticated', user, { root: true })
         application.tracker.identifyAfterNextPageLoad()
 
       .then =>
@@ -153,10 +153,6 @@ module.exports = TeacherSignupStoreModule = {
           trackerCalls.push(
             window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
           )
-
-        trackerCalls.push(
-          globalVar.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
-        )
 
         return Promise.all(trackerCalls).catch(->)
 
@@ -201,5 +197,3 @@ module.exports = TeacherSignupStoreModule = {
         )
   }
 }
-
-module.exports = TeacherSignupStoreModule

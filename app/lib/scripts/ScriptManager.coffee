@@ -53,7 +53,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
 
   constructor: (options) ->
     super(options)
-    @originalScripts = @filterScripts(options.scripts)
+    @originalScripts = _.clone options.scripts
     @session = options.session
     @levelID = options.levelID
     @debugScripts = application.isIPadApp or utils.getQueryVariable 'dev'
@@ -64,7 +64,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @beginTicking()
 
   setScripts: (newScripts) ->
-    @originalScripts = @filterScripts(newScripts)
+    @originalScripts _.clone newScripts
     @quiet = true
     @initProperties()
     @loadFromSession()
@@ -73,14 +73,6 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @run()
     if utils.isOzaria
       @saveSayEventsToStore()
-
-  filterScripts: (scripts) ->
-    _.filter scripts, (script) ->
-      return true if me.isAdmin()
-      return true unless script.id in ['Intro Dialogue', 'Failure Dialogue',  'Success Dialogue']
-      return false unless serverConfig.enableNarrative?
-      return false if (me.get('testGroupNumber') % 8) < 4 # Groups 0-3 dont see narrative
-      true
 
   initProperties: ->
     @endAll({force:true}) if @scriptInProgress
@@ -146,7 +138,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     return unless scripts?.currentScript
     script = _.find @scripts, {id: scripts.currentScript}
     return unless script
-    canSkipScript = ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
+    canSkipScript = utils.isCodeCombat or ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
     if canSkipScript
       @triggered.push(script.id)
     noteChain = @processScript(script)
@@ -167,7 +159,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
         console.warn 'Couldn\'t find script for', scriptID, 'from scripts', @scripts, 'when restoring session scripts.'
         continue
       continue if script.repeats # repeating scripts are not 'rerun'
-      canSkipScript = ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
+      canSkipScript = utils.isCodeCombat or ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
       if canSkipScript
         @triggered.push(scriptID)
         @ended.push(scriptID)
@@ -225,11 +217,12 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       @triggered.push(script.id) unless alreadyTriggered
       noteChain = @processScript(script)
 
-      # There may have been new conditions that are met so we are now in a
-      # position to add new say events to the tutorial. Duplicates are ignored.
-      sayEvents = ScriptManager.extractSayEvents(script)
-      if sayEvents.length
-        store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
+      if utils.isOzaria
+        # There may have been new conditions that are met so we are now in a
+        # position to add new say events to the tutorial. Duplicates are ignored.
+        sayEvents = ScriptManager.extractSayEvents(script)
+        if sayEvents.length
+          store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
 
       if not noteChain then return @trackScriptCompletions (script.id)
       @addNoteChain(noteChain)

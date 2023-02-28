@@ -19,22 +19,18 @@
   background: transparent url(/images/level/code_palette_wood_background.png)
   background-size: 100% auto
   position: absolute
-  bottom: -296px + 40px
+  bottom: -296px
   left: 300px
-  left: calc(55% - 417px - #{$api-bar-width})
+  left: calc(#{$game-view-width} - 417px - #{$api-bar-width})
+  .no-api &
+    left: calc(#{$game-view-width-no-api} - 417px - 20px)
   // Bounce in
   @include transition(1s cubic-bezier(.17,.89,.42,1.36))
-  z-index: 1
+  z-index: 4
 
   &.active
     display: block
-    bottom: -20px
-
-  &.debrief
-    bottom: -300px
-
-  &.active.debrief
-    bottom: -65px
+    bottom: -150px
 
   &.speaking
     .dialogue-area
@@ -59,6 +55,10 @@
       border-radius: 10px
       font-size: 18px
       line-height: 20px
+
+      p
+        max-height: 80px
+        overflow: hidden
 
       strong, a
         color: #FFCCAA
@@ -100,39 +100,6 @@
 
       button
         margin-left: 10px
-
-  &.debrief
-    z-index: 11
-    width: 100vw
-    max-width: 1024px
-    position: absolute
-    left: 50vw
-    transform: translateX(-50%)
-    img:not(.embiggen)
-      position: absolute
-      width: 20%
-      bottom: 25%
-      filter: drop-shadow(8px 8px 8px black)
-      left: 2.5%
-    .embiggen
-      position: absolute
-      left: 0
-      width: 25%
-      bottom: 0
-      filter: drop-shadow(8px 8px 8px black)
-    .bubble
-      border: initial
-      width: 75%
-      height: 66.66%
-      right: 16px
-      position: absolute
-      top: 50%
-      transform: translateY(-66.66%)
-      padding: 64px !important
-    @media (max-width: 800px)
-      height: 50%
-      .bubble > p
-        margin-top: -32px
 
 body.ipad #level-dialogue-view
   left: auto

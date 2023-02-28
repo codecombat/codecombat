@@ -9,6 +9,7 @@ TeacherLicenseCodeModal = require 'views/admin/TeacherLicenseCodeModal'
 ModelModal = require 'views/modal/ModelModal'
 forms = require 'core/forms'
 utils = require 'core/utils'
+{ updateAvailabilityStatus, getAvailability } = require 'core/api/parents'
 
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
@@ -45,6 +46,7 @@ module.exports = class MainAdminView extends RootView
     'click .edit-mandate': 'onClickEditMandate'
     'click #maintenance-mode': 'onClickMaintenanceMode'
     'click #teacher-license-code': 'onClickTeacherLicenseCode'
+    'click #toggle-admin-availability': 'onClickToggleAdminAvailability'
 
   getTitle: -> return $.i18n.t('account_settings.admin')
 
@@ -54,8 +56,24 @@ module.exports = class MainAdminView extends RootView
       @amActually.fetch()
       @supermodel.trackModel(@amActually)
     @featureMode = window.serverSession.featureMode
+    if me.isParentAdmin()
+      @checkParentAdminAvailability()
     @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
     super()
+
+  checkParentAdminAvailability: ->
+    @parentAdminUpdateInProgress = true
+    getAvailability()
+    .then ({adminAvailabilityStatus}) =>
+      @parentAdminAvailabilityStatus = adminAvailabilityStatus
+      @parentAdminUpdateInProgress = false
+      @render()
+
+  getRenderData: (context={}) ->
+    context = super context
+    context.parentAdminAvailabilityStatus = @parentAdminAvailabilityStatus or 'on'
+    context.parentAdminUpdateInProgress = @parentAdminUpdateInProgress or false
+    context
 
   afterInsert: ->
     super()
@@ -95,7 +113,7 @@ module.exports = class MainAdminView extends RootView
   onSubmitEspionageForm: (e) ->
     e.preventDefault()
     button = @$('#enter-espionage-mode')
-    userNameOrEmail = @$el.find('#espionage-name-or-email').val().toLowerCase()
+    userNameOrEmail = @$el.find('#espionage-name-or-email').val().toLowerCase().trim()
     forms.disableSubmit(button)
     @clearQueryParams()
     me.spy(userNameOrEmail, {
@@ -127,7 +145,7 @@ module.exports = class MainAdminView extends RootView
 
   onSubmitUserSearchForm: (e) ->
     e.preventDefault()
-    searchValue = @$el.find('#user-search').val()
+    searchValue = @$el.find('#user-search').val().trim()
     return if searchValue is @lastUserSearchValue
     return @onSearchRequestSuccess [] unless @lastUserSearchValue = searchValue.toLowerCase()
     forms.disableSubmit(@$('#user-search-button'))
@@ -205,6 +223,26 @@ module.exports = class MainAdminView extends RootView
     options.error = (model, response, options) =>
       console.error 'Failed to create prepaid', response
     @supermodel.addRequestResource('create_prepaid', options, 0).load()
+
+  onClickToggleAdminAvailability: (e) =>
+    if @parentAdminUpdateInProgress
+      return
+
+    status = $(e.target).data('value')
+    @parentAdminUpdateInProgress = true
+    @parentAdminAvailabilityStatus = status
+    @render?()
+
+    updateAvailabilityStatus(status)
+    .then (response) =>
+      @parentAdminUpdateInProgress = false
+      @parentAdminAvailabilityStatus = response.status
+      noty({ text: "Status successfully updated to \"#{response.status}\"", layout: 'topCenter', type: 'success', timeout: 3000 })
+    .catch (e) =>
+      noty({ text: 'Status save failure: ' + e, layout: 'topCenter', type: 'error', timeout: 3000 })
+      @parentAdminUpdateInProgress = false
+    .finally () =>
+      @render?()
 
   onClickTerminalSubLink: (e) =>
     @freeSubLink = ''

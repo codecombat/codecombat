@@ -5,6 +5,7 @@
       level-goal(
         v-for="goal in levelGoals",
         :goal="goal",
+        :key="goal.name",
         :state="goalStates[goal.id]",
       )
     level-goal(
@@ -16,6 +17,7 @@
       level-goal.concept-goal(
         v-for="goal in conceptGoals",
         :goal="goal",
+        :key="goal.name",
         :state="goalStates[goal.id]",
       )
       

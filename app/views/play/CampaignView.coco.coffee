@@ -114,6 +114,7 @@ module.exports = class CampaignView extends RootView
     'click #videos-button': 'onClickVideosButton'
     'click #esports-arena': 'onClickEsportsButton'
     'click a.start-esports': 'onClickEsportsLink'
+    'click .m7-off': 'onClickM7OffButton'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -157,7 +158,8 @@ module.exports = class CampaignView extends RootView
       pixelCode = switch @terrain
         when 'game-dev-hoc' then 'code_combat_gamedev'
         when 'game-dev-hoc-2' then 'code_combat_build_arcade'
-        when 'ai-league-hoc' then 'cc_ai'
+        when 'ai-league-hoc' then 'codecombat_esports'
+        when 'goblins-hoc' then 'codecombat_goblins'
         else 'code_combat'
       $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
     else if me.isTeacher() and not utils.getQueryVariable('course-instance') and
@@ -225,6 +227,7 @@ module.exports = class CampaignView extends RootView
           @classroom = new Classroom(_id: classroomID)
           @supermodel.trackRequest @classroom.fetch()
           @listenToOnce @classroom, 'sync', =>
+            me.setLastClassroomItems @classroom.get('classroomItems', true)
             @updateClassroomSessions()
             @render()
             @courseInstance.sessions = new CocoCollection([], {
@@ -303,9 +306,12 @@ module.exports = class CampaignView extends RootView
         sessionStorage.setItem(@terrain, "seen-modal")
         clearTimeout(@playMusicTimeout)
         setTimeout(=>
+            activity = 'ai-league'
+            activity = 'teacher-gd' if @terrain is 'hoc-2018'
+            activity = 'goblins' if @terrain is 'goblins-hoc'
             @openModalView new HoCModal({
-              activity: if @terrain is "hoc-2018" then "teacher-gd" else "ai-league"
-              showVideo: @terrain is "hoc-2018",
+              activity: activity
+              showVideo: @terrain is "hoc-2018"
               onDestroy: =>
                 return if @destroyed
                 delayMusicStart()
@@ -420,7 +426,7 @@ module.exports = class CampaignView extends RootView
     levelPlayCountsRequest.load()
 
   onLoaded: ->
-    if @isOldBrowser()
+    if @isChinaOldBrowser()
       unless storage.load('hideBrowserRecommendation')
         BrowserRecommendationModal = require 'views/core/BrowserRecommendationModal'
         @openModalView(new BrowserRecommendationModal())
@@ -1007,6 +1013,7 @@ module.exports = class CampaignView extends RootView
 
     @preloadedSession = new LevelSession().setURL sessionURL
     @listenToOnce @preloadedSession, 'sync', @onSessionPreloaded
+    @listenToOnce @preloadedSession, 'error', @onSessionPreloadError
     @preloadedSession = @supermodel.loadModel(@preloadedSession, {cache: false}).model
     @preloadedSession.levelSlug = levelSlug
 
@@ -1018,6 +1025,14 @@ module.exports = class CampaignView extends RootView
     badge = $("<span class='badge'>#{difficulty}</span>")
     levelElement.find('.start-level .badge').remove()
     levelElement.find('.start-level').append badge
+    levelElement.toggleClass 'has-loading-error', false
+
+  onSessionPreloadError: (session, error) ->
+    return if /requires a subscription to play/.test error?.responseJSON?.message  # We handle this with SubscribeModal separately
+    levelElement = @$el.find('.level-info-container:visible')
+    return unless session.levelSlug is levelElement.data 'level-slug'
+    levelElement.find('.level-error-message').text error.responseJSON?.message or "Cannot load this level--error #{error.statusCode or 500}"
+    levelElement.toggleClass 'has-loading-error', true
 
   onClickMap: (e) ->
     @$levelInfo?.hide()
@@ -1269,7 +1284,6 @@ module.exports = class CampaignView extends RootView
 
   onClickCampaignSwitch: (e) ->
     campaignSlug = $(e.target).data('campaign-slug')
-    console.log campaignSlug, @isPremiumCampaign campaignSlug
     if @isPremiumCampaign(campaignSlug) and not me.isPremium()
       e.preventDefault()
       e.stopImmediatePropagation()
@@ -1344,6 +1358,16 @@ module.exports = class CampaignView extends RootView
   onClickPremiumButton: (e) ->
     @openModalView new SubscribeModal()
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'campaignview premium button'
+
+  onClickM7OffButton: (e) ->
+    noty({ text: $.i18n.t('play.confirm_m7_off'), layout: 'center', type: 'warning', buttons: [
+      { text: 'Yes', onClick: ($noty) =>
+        if me.getM7ExperimentValue() == 'beta'
+          me.updateExperimentValue('m7', 'control')
+          $noty.close()
+          @render()
+      }, { text: 'No', onClick: ($noty) -> $noty.close() }]
+    })
 
   getLoadTrackingTag: () ->
     @campaign?.get?('slug') or 'overworld'
@@ -1487,6 +1511,7 @@ module.exports = class CampaignView extends RootView
         lockedByTeacher = true
       if lockedByTeacher
         level.locked = true
+        level.lockedByTeacher = true
 
       if level.locked
         level.color = 'rgb(193, 193, 193)'
@@ -1520,13 +1545,13 @@ module.exports = class CampaignView extends RootView
       return me.finishedAnyLevels() and not features.noAds and not isStudentOrTeacher and me.get('country') is 'united-states' and me.get('preferredLanguage', true) is 'en-US' and new Date() < new Date(2019, 11, 20)
 
     if what in ['status-line']
-      return (me.showGemsAndXp() or !isStudentOrTeacher) and not @editorMode
+      return (me.showGemsAndXpInClassroom() or !isStudentOrTeacher) and not @editorMode
 
     if what in ['gems']
-      return me.showGemsAndXp() or !isStudentOrTeacher
+      return me.showGemsAndXpInClassroom() or !isStudentOrTeacher
 
     if what in ['level', 'xp']
-      return me.showGemsAndXp() or !isStudentOrTeacher
+      return me.showGemsAndXpInClassroom() or !isStudentOrTeacher
 
     if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans']
       return !isStudentOrTeacher and not @editorMode
@@ -1557,6 +1582,12 @@ module.exports = class CampaignView extends RootView
 
     if what is 'arapahoe-logo'
       return userUtils.libraryName() is 'arapahoe'
+
+    if what is 'houston-logo'
+      return userUtils.libraryName() is 'houston'
+
+    if what is 'burnaby-logo'
+      return userUtils.libraryName() is 'burnaby'
 
     if what is 'league-arena'
       return false if me.showChinaResourceInfo()

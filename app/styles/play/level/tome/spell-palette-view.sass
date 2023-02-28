@@ -2,32 +2,51 @@
 @import "app/styles/bootstrap/variables"
 @import "app/styles/play/variables"
 
-#spell-palette-view
+#spell-palette-view-mid, #spell-palette-view-bot
   position: absolute
-  right: $spell-pallete-right
+  z-index: 7
+  @include transition(top $level-resize-transition-time ease, width $level-resize-transition-time ease)
+  box-shadow: 10px 4px 4px black
+  overflow: hidden
+
+  #spell-palette-api-bar[disabled=disabled]
+    pointer-events: none
+
+    #palette-tab-api-area
+      opacity: 0.6
+
+  #level-view.real-time &, #level-view.cinematic &
+    display: none
+    visibility: hidden
+
+  //Fixes punctuation but puts comment marker on right, which is apparently worse.
+  //body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+  //  .ace_text-layer .ace_comment
+  //    direction: rtl
+  //    unicode-bidi: embed
+
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    .rtl-right-aligned
+      text-align: right
+
+#spell-palette-view-mid
+  right: 43.5%
+  right: $spell-palette-right
   width: $api-bar-width
   bottom: 0px
   top: 0px
   padding: 0 4px 0px 10px
   background: transparent url(/images/level/wood_texture.png)
   background-size: auto 100%
-  z-index: 7
-  @include transition(top 0.25s ease-in-out, width 0.25s ease-in-out)
-  box-shadow: 10px 4px 4px black
-  overflow: hidden
-  #spell-palette-api-bar[disabled=disabled]
-    pointer-events: none
-    #palette-tab-api-area
-      opacity: 0.6
-  #level-view.real-time &, #level-view.cinematic &
-    display: none
-    visibility: hidden
+
   &.open
     width: $api-bar-width + 360px
+
   .container
     width: $api-bar-width + 360px
     height: 100%
     position: relative
+
     .left
       position: absolute
       left: 0
@@ -35,6 +54,7 @@
       bottom: 0px
       height: auto
       width: $api-bar-width - 13
+
       .section-header
         display: block
         color: white
@@ -52,14 +72,17 @@
           height: 72px
           border: 1px solid transparent
           cursor: pointer
+
         &:hover img
           border: 1px solid #f3cd90
+
         &.selected img
           border: 1px solid white
           cursor: auto
 
       .nano-slider
         background-color: rgba(243, 169, 49, 0.5)
+
     .right
       position: absolute
       right: 20px
@@ -69,6 +92,7 @@
       bottom: 0px
       //width: calc(100% - #{$api-bar-width + 50px})
       @include box-shadow(0 0 0 #000)
+
       .scrollArea
         max-height: calc(100% - 20px)
         width: 100%
@@ -190,9 +214,6 @@
       margin-right: 3px
       vertical-align: top
 
-  #spell-palette-help-button
-    margin: 3% 0px 4px
-
   &.hero .properties
     @include flexbox()
     @include flex-wrap()
@@ -243,11 +264,101 @@
   //    direction: rtl
   //    unicode-bidi: embed
 
-  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
-    .rtl-right-aligned
-      text-align: right
+#spell-palette-view-bot
+  left: 10px
+  right: 10px
+  padding: 0 4px 10px 3%
+
+  .code-palette-background
+    width: 100%
+    //height: 100%
+    height: 592px
+    position: absolute
+    left: 0px
+    z-index: -1
+    background: transparent url(/images/level/code_palette_wood_background.png) no-repeat
+    //background-size: 100% 100%
+    background-size: 100% 592px
+    overflow: visible
+
+  &.controls-disabled
+    .code-palette-background
+      @include filter(brightness(75%))
+
+    > :not(.code-palette-background)
+      @include opacity(0.50)
+
+  h4
+    color: white
+    font-size: 16px
+    line-height: 16px
+    margin: 25px 0 5px 2px
+    font-weight: normal
+    text-transform: uppercase
+
+  .code-palette-label
+    position: absolute
+    left: 2.4vw
+    top: 1.9vw
+    z-index: 4
+    font-family: $headings-font-family
+    text-transform: uppercase
+    color: #e7e7e7
+    font-size: 1.5vw
+
+  &.hero .properties
+    @include flexbox()
+    @include flex-wrap()
+    @include flex-column()
+    @include flex-align-content-start()
+
+    .property-entry-item-group
+      display: inline-block
+      min-height: 38px
+      width: 212px
+      @include flexbox()
+      @include flex-wrap()
+      @include flex-center()
+      position: relative
+      background-color: rgb(20, 13, 8)
+      margin: 1px
+      overflow: hidden
+
+      img.item-image
+        width: 38px
+        height: 38px
+        position: absolute
+
+      &:not(:hover) img.item-image
+        -webkit-filter: contrast(50%) sepia(100%) saturate(500%) hue-rotate(7deg)
+        filter: contrast(50%) sepia(100%) saturate(1000%) hue-rotate(7deg)
+
+      .spell-palette-entry-view
+        margin-left: 38px
+        width: 174px
+        width: -webkit-calc(100% - 38px)
+        width: calc(100% - 38px)
+        padding-right: 10px
+        // TODO: width and padding-right aren't working well; sometimes it is truncated too early, sometimes too late
+
+  &.shortenize.hero .properties
+    .property-entry-item-group
+      width: 175px
+
+      .spell-palette-entry-view
+        width: 137px
+        width: -webkit-calc(100% - 38px)
+        width: calc(100% - 38px)
+
+  &.web-dev.hero .properties
+    .property-entry-item-group
+      width: 100px
+
+      .spell-palette-entry-view
+        margin-left: 0
+        width: 100px
 
 @media only screen and (max-width: 1100px)
-  #spell-palette-view
+  #spell-palette-view-mid, #spell-palette-view-bot
     // Make sure we have enough room for at least two columns
     padding-left: 12px

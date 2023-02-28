@@ -368,6 +368,14 @@ $gameControlMargin: 30px
       background: transparent url(/images/pages/play/level-info-background.png) no-repeat center center
       background-size: 100% 100%
 
+      &.has-loading-error
+        .level-error-message
+          display: block
+          margin: 20px
+          font-size: 16px
+        .level-info > *:not(.level-error-message, h3, .level-status)
+          display: none
+
       .level-info
 
         h3
@@ -969,9 +977,14 @@ $gameControlMargin: 30px
     height: 100%
     width: 100%
 
-  #amazon-campaign-logo, #santa-clara-logo, #arapahoe-logo, #garfield-logo
+  #amazon-campaign-logo, #santa-clara-logo, #arapahoe-logo, #garfield-logo, #houston-logo
     cursor: pointer
     width: 200px
+
+  #burnaby-logo
+    cursor: pointer
+    height: 100px
+    border-radius: 10%
 
   #santa-clara-logo
     filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px -1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px 1px 0px #000)
@@ -981,6 +994,14 @@ $gameControlMargin: 30px
     filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px -1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px 1px 0px #000)
 
   #arapahoe-logo
+    filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px -1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px 1px 0px #000)
+    background-color: #fff
+
+  #houston-logo
+    filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px -1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px 1px 0px #000)
+    background-color: #fff
+
+  #burnaby-logo
     filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px -1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px 1px 0px #000)
     background-color: #fff
 
@@ -1007,3 +1028,15 @@ body:not([lang*="-"]) #campaign-view .user-status .user-status-line .language-dr
 body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdown
   width: 112px
 
+.m7-off
+  display: none
+.beta-levels
+  margin-left: 10px
+  font-size: 14px
+  vertical-align: middle
+  color: gray
+  &:hover .m7-off
+    display: inline
+    &:hover
+      cursor: pointer
+      color: white

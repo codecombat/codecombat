@@ -20,6 +20,9 @@ ViewLoadTimer = require 'core/ViewLoadTimer'
 
 module.exports = class CocoRouter extends Backbone.Router
 
+  _routeToRegExp: (route) ->
+    new RegExp(super(route), 'i') # make all routes case insensitive
+
   initialize: ->
     # http://nerds.airbnb.com/how-to-add-google-analytics-page-tracking-to-57536
     @bind 'route', @_trackPageView
@@ -87,6 +90,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
     'admin/outcomes-report': go('admin/OutcomesReportView')
 
+    'announcements': go('core/SingletonAppVueComponentView')
     # Removing route, leaving plumbing.  Unclear how much we'd rewrite this, given a new endorsement.
     # 'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
@@ -104,7 +108,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/bulk-level-editor/:campaign': go('artisans/BulkLevelEditView')
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
-    'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
     'cla': go('CLAView')
 
@@ -144,6 +147,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/article': go('editor/article/ArticleSearchView')
     'editor/article/preview': go('editor/article/ArticlePreviewView')
     'editor/article/:articleID': go('editor/article/ArticleEditView')
+    'editor/announcement': go('editor/announcement/AnnouncementSearchView')
+    'editor/announcement/:announcementId': go('editor/announcement/AnnouncementEditView')
     'editor/cinematic(/*subpath)': go('core/SingletonAppVueComponentView')
     'editor/cutscene(/*subpath)': go('core/SingletonAppVueComponentView')
     'editor/interactive(/*subpath)': go('core/SingletonAppVueComponentView')
@@ -208,6 +213,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'logout': 'logout'
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
+
+    'mobile': () ->
+      @routeDirectly('views/landing-pages/mobile/PageMobileView', [], { vueRoute: true, baseTemplate: 'base-empty' })
 
     'outcomes-report(/*subpath)': go('core/SingletonAppVueComponentView')
 
@@ -281,7 +289,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'social-and-emotional-learning': go('core/SingletonAppVueComponentView')
     'schools': go('HomeView')
     'seen': go('HomeView')
-    'SEEN': go('HomeView')
 
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
@@ -300,6 +307,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/courses': redirect('/teachers') # Redirected 8/20/2019
     'teachers/units': redirect('/teachers') # Redirected 9/10/2020
     'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true })
+    'teachers/campaign-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true, campaignMode: true })
     'teachers/demo': redirect('/teachers/quote')
     'teachers/enrollments': redirect('/teachers/licenses')
     'teachers/hour-of-code': => window.location.href = 'https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'
@@ -337,11 +345,16 @@ module.exports = class CocoRouter extends Backbone.Router
     'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
     'user/:userID/opt-in/:verificationCode': go('user/UserOptInView')
 
+    'users/switch-account': go('core/SingletonAppVueComponentView')
+    'users/switch-account/*path': go('core/SingletonAppVueComponentView')
+
     'podcast': go('core/SingletonAppVueComponentView')
     'podcast/*path': go('core/SingletonAppVueComponentView')
 
     'libraries': go('core/SingletonAppVueComponentView')
     'library/*path': go('core/SingletonAppVueComponentView')
+
+    'api-dashboard': go('core/SingletonAppVueComponentView')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
@@ -353,7 +366,8 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args=[], options={}) ->
-    @vueRouter.push("/#{Backbone.history.getFragment()}")
+    @vueRouter.push("/#{Backbone.history.getFragment()}").catch (e) ->
+      console.error 'vue router push warning:', e
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView
@@ -446,7 +460,6 @@ module.exports = class CocoRouter extends Backbone.Router
     view.afterInsert()
     view.didReappear()
     @path = document.location.pathname + document.location.search
-    console.log "Did-Load-Route"
     @trigger 'did-load-route'
 
   closeCurrentView: ->
@@ -471,7 +484,10 @@ module.exports = class CocoRouter extends Backbone.Router
 
   activateTab: ->
     base = _.string.words(document.location.pathname[1..], '/')[0]
-    $("ul.nav li.#{base}").addClass('active')
+    try
+      $("ul.nav li.#{base}").addClass('active')
+    catch e
+      console.warn e  # Possibly a hash that would not match a valid element
 
   _trackPageView: ->
     window.tracker?.trackPageView()
@@ -501,11 +517,9 @@ module.exports = class CocoRouter extends Backbone.Router
       @viewLoad.setView(e.view)
     @viewLoad.record()
 
-  navigate: (fragment, options, doReload) ->
+  navigate: (fragment, options) ->
     super fragment, options
     Backbone.Mediator.publish 'router:navigated', route: fragment
-    if doReload
-      @reload()
 
   reload: ->
     document.location.reload()

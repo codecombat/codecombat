@@ -116,11 +116,15 @@ block content
             if new Date() < new Date(view.personalSub.free)
               div
                 - date = moment(new Date(view.personalSub.free)).format('l')
-                span.spr(data-i18n="subscribe.currently_free_until", data-i18n-options={date})
+                span.spr(data-i18n="[html]subscribe.currently_free_until", data-i18n-options={date})
             else
               span.spr(data-i18n="subscribe.was_free_until")
               span= moment(new Date(view.personalSub.free)).format('l')
               button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title")
+          else if me.isPremium()
+            //- activation code
+            - date = me.premiumEndDate()
+            span(data-i18n="subscribe.currently_free_until", data-i18n-options={date}, class="status-info")
           else
             button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title")
 

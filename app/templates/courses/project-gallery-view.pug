@@ -18,9 +18,13 @@ flat-layout
         .row
           li.col-xs-8.col-xs-offset-2.project-list-item(v-for="session in levelSessions")
             span.creator-name(v-if="users && creatorOfSession(session)")
-              | {{ creatorOfSession(session).firstName }}
-              | {{ creatorOfSession(session).lastName }}.
-              | ({{ creatorOfSession(session).name }})
+              span(v-if="creatorOfSession(session).firstName")
+                | {{ creatorOfSession(session).firstName }}
+                | {{ creatorOfSession(session).lastName }}
+                span(v-if="creatorOfSession(session).name")
+                  | . ({{ creatorOfSession(session).name }})
+              span(v-else)
+                | {{ creatorOfSession(session).name || 'Anonymous' }}
             .view-edit-buttons
               a.edit-project-link.btn.btn-lg.btn-gold(:data-session-id="session._id", :href="getProjectEditUrl(session)" v-if="isMyProject(session)")
                 | {{ $t('project_gallery.edit_project') }}

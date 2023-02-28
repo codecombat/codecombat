@@ -6,16 +6,13 @@
 body.is-playing
   background-color: black
 
-$level-resize-transition-time: 0.5s
-// TODO: use this for real-time playback but not cinematic playback
-
 #level-view
   margin: 0 auto
   position: absolute
   overflow: hidden
   left: 0
   right: 0
-  bottom: 10px
+  bottom: 0
   top: 0
   @include user-select(none)
 
@@ -27,7 +24,7 @@ $level-resize-transition-time: 0.5s
         width: 80%
 
     #canvas-wrapper
-      width: 100%
+      width: 100% !important
       canvas
         margin: 0 auto
       #normal-surface
@@ -36,7 +33,7 @@ $level-resize-transition-time: 0.5s
         margin-left: auto
         margin-right: auto
     #control-bar-view
-      width: 100%
+      width: 100% !important
       button, h4
         display: none
     #code-area, #thang-hud, #goals-view
@@ -110,6 +107,7 @@ $level-resize-transition-time: 0.5s
 
   #canvas-wrapper
     top: 50px
+    width: calc(57% - 200px)
     width: calc(#{$game-view-width} - #{$api-bar-width})
     position: relative
     overflow: hidden
@@ -153,22 +151,30 @@ $level-resize-transition-time: 0.5s
 
   min-width: 1024px
 
+  &.no-api #code-area
+    width: 43.5%
+    width: $code-area-width-no-api
+
   #code-area
     @include box-sizing(border-box)
     padding: 0px 0.9% 10px 0
     width: 43.5%
+    width: $code-area-width
     background: transparent url(/images/level/wood_texture.png)
     background-size: 100% 100%
     position: absolute
     right: 0
     top: 0px
     bottom: 0
-    //@include transition(width $level-resize-transition-time ease-in-out, right $level-resize-transition-time ease-in-out)
+    @include transition(bottom $level-resize-transition-time ease)
     z-index: 2
+    box-shadow: 10px 4px 4px black
+    margin-bottom: 10px
 
   #game-area
     position: relative
     overflow: hidden
+    box-shadow: 10px 4px 4px black
 
   // Level Docs
   .ui-effects-transfer
@@ -238,9 +244,14 @@ $level-resize-transition-time: 0.5s
     height: 100%
     width: 2%
 
+  &.no-api #play-footer
+    width: 57%
+    width: $game-view-width-no-api
+
   #play-footer
     position: absolute
     bottom: 0px
+    width: calc(57% - 200px)
     width: calc(#{$game-view-width} - #{$api-bar-width})
     text-align: center
     font-family: $headings-font-family
@@ -267,9 +278,11 @@ $level-resize-transition-time: 0.5s
 
   #level-footer-shadow
     position: absolute
+    bottom: 0
     width: 100%
-    height: 30px
-    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)
+    height: 10px
+    background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)
+    pointer-events: none
 
   #fullscreen-editor-background-screen
     background-color: black
@@ -344,10 +357,11 @@ $level-resize-transition-time: 0.5s
 
 
   &.no-api
-    #spell-palette-view
+    #spell-palette-view-mid
       display: none
     #canvas-wrapper
-      width: 60%
+      width: 57%
+      width: $game-view-width-no-api
 
   &.web-dev
     position: absolute
@@ -431,6 +445,6 @@ body.ipad #level-view
   background: linear-gradient( rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75) ), url(/images/level/footer_background.jpg) no-repeat
   bottom: 0
   width: 100%
-  background-size: 100% 400px
-  height: 400px
+  background-size: cover
+  height: Max(400px, calc(100vh - (100vw * 0.57 - 200px - 17px) * 589 / 924 - 50px - 43px - 80px))
   z-index: -9001

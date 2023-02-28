@@ -1,3 +1,4 @@
+/* eslint import/no-absolute-path: 0 */
 import VueRouter from 'vue-router'
 
 let vueRouter
@@ -9,6 +10,10 @@ export default function getVueRouter () {
       mode: 'abstract',
 
       routes: [
+        {
+          path: '/announcements',
+          component: () => import(/* webpackChunkName: "AnnouncementView" */ 'app/views/announcement/AnnouncementView')
+        },
         {
           path: '/diversity-equity-and-inclusion',
           component: () => import(/* webpackChunkName: "dei" */ 'app/views/dei/DEIView.vue')
@@ -63,8 +68,13 @@ export default function getVueRouter () {
             { path: 'teacher/:teacherId/classes/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherClassProgress/index.vue'), props: true },
             { path: 'teacher/:teacherId/classes/:classroomId/projects', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherClassProjects/index.vue'), props: true },
             { path: 'teacher/:teacherId/licenses/', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherLicenses/index.vue'), props: true },
-            { path: 'licenses', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminLicenses/index.vue') }
+            { path: 'licenses', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminLicenses/index.vue') },
+            { path: 'licenses/stats', component: () => import(/* webpackChunkName: 'LicenseStats' */ 'app/views/school-administrator/dashboard/LicenseTableView.vue') }
           ]
+        },
+        {
+          path: '/api-dashboard',
+          component: () => import(/* webpackChunkName: "apiViews" */ 'app/views/api/components/ApiDashboard')
         },
         {
           path: '/outcomes-report/:kind/:country?/:idOrSlug',
@@ -128,6 +138,17 @@ export default function getVueRouter () {
           path: '/podcast/:handle',
           name: 'PodcastSingle',
           component: () => import(/* webpackChunkName: "podcastSingle" */'/app/views/podcast/SinglePodcastView')
+        },
+        {
+          path: '/users/switch-account',
+          name: 'UserSwitchAccount',
+          component: () => import(/* webpackChunkName: "userSwitchAccount" */'/app/views/user/SwitchAccountView')
+        },
+        {
+          path: '/users/switch-account/:confirmingUserId/:requestingConfirmUserId/confirm',
+          name: 'UserSwitchAccountConfirmation',
+          component: () => import(/* webpackChunkName: "userSwitchAccountConfirm" */'/app/views/user/SwitchAccountConfirmationView'),
+          props: (route) => ({ ...route.query, ...route.params })
         }
       ]
     })

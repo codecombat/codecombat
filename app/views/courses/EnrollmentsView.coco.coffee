@@ -11,6 +11,8 @@ HowToEnrollModal = require 'views/teachers/HowToEnrollModal'
 TeachersContactModal = require 'views/teachers/TeachersContactModal'
 utils = require 'core/utils'
 ShareLicensesModal = require 'views/teachers/ShareLicensesModal'
+LicenseStatsModal = require 'views/teachers/LicenseStatsModal'
+{sendSlackMessage} = require 'core/contact'
 
 {
   STARTER_LICENSE_COURSE_IDS
@@ -26,6 +28,7 @@ module.exports = class EnrollmentsView extends RootView
     'click #how-to-enroll-link': 'onClickHowToEnrollLink'
     'click #contact-us-btn': 'onClickContactUsButton'
     'click .share-licenses-link': 'onClickShareLicensesLink'
+    'click .license-stats': 'onClickLicenseStats'
 
   getTitle: -> return $.i18n.t('teacher.enrollments')
 
@@ -234,15 +237,10 @@ module.exports = class EnrollmentsView extends RootView
     @openModalView(new HowToEnrollModal())
 
   onClickContactUsButton: ->
-    $.ajax({
-      type: 'POST',
-      url: '/db/trial.request.slacklog',
-      data: {
-        event: 'EnrollmentsView clicked contact us',
-        name: me?.broadName(),
-        email: me?.get('email')
-      }
-    })
+    slackData =
+      channel: 'sales-feed'
+      event: 'EnrollmentsView clicked contact us',
+    sendSlackMessage slackData
     window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers'
     modal = new TeachersContactModal({
       shouldUpsell: @state.get('shouldUpsell'),
@@ -260,6 +258,11 @@ module.exports = class EnrollmentsView extends RootView
       prepaid = @prepaids.get(prepaidID)
       prepaid.set({ joiners })
     @openModalView(@shareLicensesModal)
+
+  onClickLicenseStats: (e) ->
+    prepaidID = $(e.currentTarget).data('prepaidId')
+    @licenseStatsModal = new LicenseStatsModal({prepaid: @prepaids.get(prepaidID)})
+    @openModalView(@licenseStatsModal)
 
   getEnrollmentExplanation: ->
     t = {}

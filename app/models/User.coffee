@@ -45,7 +45,9 @@ module.exports = class User extends CocoModel
     GOD_MODE: 'godmode',
     LICENSOR: 'licensor',
     API_CLIENT: 'apiclient',
-    ONLINE_TEACHER: 'onlineTeacher'
+    ONLINE_TEACHER: 'onlineTeacher',
+    BETA_TESTER: 'betaTester',
+    PARENT_ADMIN: 'parentAdmin'
   }
 
   get: (attr, withDefault=false) ->
@@ -61,6 +63,8 @@ module.exports = class User extends CocoModel
   isInGodMode: -> @constructor.PERMISSIONS.GOD_MODE in @get('permissions', true) or @constructor.PERMISSIONS.ONLINE_TEACHER in @get('permissions', true)
   isSchoolAdmin: -> @constructor.PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
   isAPIClient: -> @constructor.PERMISSIONS.API_CLIENT in @get('permissions', true)
+  isBetaTester: -> @constructor.PERMISSIONS.BETA_TESTER in @get('permissions', true)
+  isParentAdmin: -> @constructor.PERMISSIONS.PARENT_ADMIN in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
   isIndividualUser: -> not @isStudent() and not User.isTeacher(@attributes)
@@ -411,6 +415,15 @@ module.exports = class User extends CocoModel
     @set 'experiments', experiments
     experiment
 
+  updateExperimentValue: (experimentName, newValue = null) ->
+    experiments = _.sortBy(@get('experiments') ? [], 'startDate').reverse()
+    experiment = _.find(experiments, name: experimentName)
+    return console.error "No experiment found" unless experiment
+    experiment.value = newValue
+    experiment.probability = 1
+    @set({ experiments })
+    @save()
+
   getExperimentValue: (experimentName, defaultValue=null, defaultValueIfAdmin=null) ->
     # Latest experiment to start with this experiment name wins, in the off chance we have multiple duplicate entries
     defaultValue = defaultValueIfAdmin if defaultValueIfAdmin? and @isAdmin()
@@ -437,8 +450,21 @@ module.exports = class User extends CocoModel
       return p.product == type && (new Date(p.endDate) > now || !p.endDate)
     )
 
+  expiredProducts: (type) ->
+    now = new Date()
+    _.filter(@get('products'), (p) ->
+      return p.product == type && new Date(p.endDate) < now
+    )
+
+  getProductsByType: (type) ->
+    products = @get('products')
+    return products unless type
+    _.filter(products, (p) ->
+      return p.product == type
+    )
+
   hasAiLeagueActiveProduct: ->
-    @activeProducts('ai-league').length > 0
+    @activeProducts('esports').length > 0
 
   prepaidNumericalCourses: ->
     courseProducts = @activeProducts('course')
@@ -523,6 +549,7 @@ module.exports = class User extends CocoModel
 
   clearUserSpecificLocalStorage: ->
     storage.remove key for key in ['hoc-campaign']
+    userUtils.removeLibraryKeys()
 
   signupWithPassword: (name, email, password, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-password'
@@ -752,15 +779,62 @@ module.exports = class User extends CocoModel
       me.startExperiment('m7', value, probability)
     value
 
+  getTTSExperimentValue: ->
+    value = {true: 'beta', false: 'control', control: 'control', beta: 'beta'}[utils.getQueryVariable 'tts']
+    value ?= me.getExperimentValue('tts', null, 'beta')
+    if not value? and features?.china
+      # Don't include China players; the TTS service probably wouldn't work anyway
+      value = 'control'
+    if userUtils.isInLibraryNetwork()
+      value = 'control'
+    if not value? and me.get('stats')?.gamesCompleted
+      # Don't include players who have already started playing; just let them use it
+      value = 'beta'
+    if not value? and new Date(me.get('dateCreated')) < new Date('2023-02-09')
+      # Don't include users created before experiment start date; just let them use it
+      value = 'beta'
+    if not value?
+      probability = window.serverConfig?.experimentProbabilities?.tts?.beta ? 0.5
+      if Math.random() < probability
+        value = 'beta'
+        valueProbability = probability
+      else
+        value = 'control'
+        valueProbability = 1 - probability
+      me.startExperiment('tts', value, probability)
+    value
+
+  removeRelatedAccount: (relatedUserId, options={}) ->
+    options.url = '/db/user/related-accounts'
+    options.type = 'DELETE'
+    options.data ?= {}
+    options.data.userId = relatedUserId
+    @fetch(options)
+
+  linkRelatedAccount: (body, options = {}) ->
+    options.url = '/db/user/related-accounts'
+    options.type = 'PUT'
+    options.data ?= body
+    @fetch(options)
+
+  lastClassroomItems: ->
+    # We don't always have a classroom at hand, so whenever we do interact with a classroom, we can temporarily store the classroom items setting
+    return @lastClassroomItemsCache if @lastClassroomItemsCache?
+    @lastClassroomItemsCache = storage.load('last-classroom-items')
+    @lastClassroomItemsCache ? false
+
+  setLastClassroomItems: (enabled) ->
+    @lastClassroomItemsCache = enabled
+    storage.save('last-classroom-items', enabled)
+
   # Feature Flags
   # Abstract raw settings away from specific UX changes
-  allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
   canBuyGems: -> false  # Disabled direct buying of gems around 2021-03-16
-  constrainHeroHealth: -> features?.classroomItems ? false and @isStudent()
+  constrainHeroHealth: -> features?.classroomItems ? @lastClassroomItems() and @isStudent()
   promptForClassroomSignup: -> not ((features?.chinaUx ? false) or (window.serverConfig?.codeNinjas ? false) or (features?.brainPop ? false) or userUtils.isInLibraryNetwork())
-  showGearRestrictionsInClassroom: -> features?.classroomItems ? false and @isStudent()
-  showGemsAndXp: -> features?.classroomItems ? false and @isStudent()
-  showHeroAndInventoryModalsToStudents: -> features?.classroomItems and @isStudent()
+  showGearRestrictionsInClassroom: -> features?.classroomItems ? @lastClassroomItems() and @isStudent()
+  showGemsAndXpInClassroom: -> features?.classroomItems ? @lastClassroomItems() and @isStudent()
+  showHeroAndInventoryModalsToStudents: -> features?.classroomItems ? @lastClassroomItems() and @isStudent()
   skipHeroSelectOnStudentSignUp: -> features?.classroomItems ? false
   useDexecure: -> not (features?.chinaInfra ? false)
   useSocialSignOn: -> not ((features?.chinaUx ? false) or (features?.china ? false))
@@ -786,6 +860,7 @@ module.exports = class User extends CocoModel
   useChinaHomeView: -> features?.china and ! features?.chinaHome ? false
   showChinaRegistration: -> features?.china ? false
   enableCpp: -> utils.isCodeCombat and (@hasSubscription() or @isStudent() or @isTeacher())
+  enableJava: -> utils.isCodeCombat and (@hasSubscription() or @isStudent() or (@isTeacher() and @isBetaTester()))
   useQiyukf: -> false
   useChinaServices: -> features?.china ? false
   useGeneralArticle: -> not (features?.china ? false)

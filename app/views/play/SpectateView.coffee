@@ -106,9 +106,6 @@ module.exports = class SpectateLevelView extends RootView
       spectateMode: true
       team: utils.getQueryVariable('team')
     @god = new God maxAngels: 1, spectate: true
-    utils.getAnonymizationStatus(utils.getQueryVariable('league'), @supermodel).then((anonymous) =>
-      @anonymousPlayerName = anonymous
-    )
 
   getRenderData: ->
     c = super()
@@ -201,20 +198,20 @@ module.exports = class SpectateLevelView extends RootView
     ctx.fillText("Loaded #{@modelsLoaded} thingies",50,50)
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, spectateView: true, spectateOpponentCodeLanguage: @otherSession?.get('submittedCodeLanguage'), level: @level, god: @god
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, spectateView: true, level: @level, god: @god
     @insertSubView new PlaybackView session: @session, level: @level
 
     goldInDuelStatsView = @level.get('slug') in ['wakka-maul', 'cross-bones']
     @insertSubView new GoldView {} unless goldInDuelStatsView
     @insertSubView new HUDView {level: @level}
-    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, anonymous: @anonymousPlayerName, showsGold: goldInDuelStatsView if @level.isLadder()
+    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isLadder()
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, spectateGame: true}
 
   # callbacks
 
   onInfiniteLoop: (e) ->
     return unless e.firstWorld and e.god is @god
-    @openModalView new InfiniteLoopModal()
+    @openModalView new InfiniteLoopModal nonUserCodeProblem: e.nonUserCodeProblem, problem: e.problem, timedOut: e.timedOut
     window.tracker?.trackEvent 'Saw Initial Infinite Loop', level: @world.name, label: @world.name
 
   # initialization
@@ -233,7 +230,7 @@ module.exports = class SpectateLevelView extends RootView
   findPlayerNames: ->
     playerNames = {}
     for session in [@session, @otherSession] when session?.get('team')
-      playerNames[session.get('team')] = utils.getAnonymizedName(@anonymousPlayerName, session)
+      playerNames[session.get('team')] = utils.getCorrectName(session)
     playerNames
 
   initGoalManager: ->
@@ -256,7 +253,8 @@ module.exports = class SpectateLevelView extends RootView
     Backbone.Mediator.publish 'level:set-volume', volume: volume
 
   initSpectateCode: ->
-    return @$el.find('.spectate-code').remove() unless me.isAdmin()
+    hasSubmittedCode = @session.get('submittedCode')? and @otherSession.get('submittedCode')?
+    return @$el.find('.spectate-code').remove() unless me.isAdmin() or (me.activeProducts('esports').length and hasSubmittedCode)
     @editors = {}
     for team in ['humans', 'ogres']
       session = if team is 'humans' then @session else @otherSession

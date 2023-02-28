@@ -167,6 +167,12 @@
       </ul>
     </li>
     <li>
+      <router-link to="/teachers/resources" id="ResourceAnchor" :class="{ 'current-route': resourceHubSelected }" @click.native="trackEvent" data-action="Resource Hub: Nav Clicked">
+        <div id="IconResourceHub" />
+        {{ $t('teacher_dashboard.resource_hub') }}
+      </router-link>
+    </li>
+    <li>
       <router-link to="/teachers/licenses" id="LicensesAnchor" :class="{ 'current-route': licensesSelected } " @click.native="trackEvent" data-action="My Licenses: Nav Clicked">
         <div id="IconLicense" />
         {{ $t('teacher_dashboard.my_licenses') }}
@@ -181,7 +187,7 @@
     <li v-if="!me.showChinaResourceInfo()">
       <router-link to="/teachers/professional-development" id="PDAnchor" :class="{ 'current-route': pdSelected }" @click.native="trackEvent" data-action="PD: Nav Clicked">
         <div id="IconPD" />
-        <div id="IconNew">New!</div>
+        <!-- <div id="IconNew">New!</div> -->
         {{ $t('teacher_dashboard.pd_short') }}
       </router-link>
     </li>
@@ -321,7 +327,8 @@
     }
 
     & > a {
-      padding-top: 3px;
+      white-space: nowrap;
+      padding: 3px 5px 0 5px;
       border-radius: 10px 10px 0 0;
     }
 

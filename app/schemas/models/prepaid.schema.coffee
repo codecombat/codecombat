@@ -12,6 +12,13 @@ PrepaidSchema = c.object({title: 'Prepaid', required: ['type']}, {
         description: 'userID of teacher that applied the license, if not the creator')
       startDate: c.stringDate(description: 'the startDate of teacher-activation code, means when a teacher join this license by this code, so his current License start from this date.')
   maxRedeemers: { type: 'integer' }
+  removedRedeemers: c.array {title: 'Users who once redeemed this code', description: 'only record the last revoke event. if redeem/revoke multiple times, ref the user.products for details'},
+    c.object {required: []},
+      userID: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
+      startDate: c.stringDate(description: 'the last redeemed date of this user')
+      endDate: c.stringDate(description: 'the last end date of this user')
+      teacherID: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ],
+        description: 'userID of teacher that revoke the license, if not the creator')
   code: c.shortString(title: "Unique code to redeem")
   type: { type: 'string' }
   properties: c.object { additionalProperties: true },
@@ -28,6 +35,9 @@ PrepaidSchema = c.object({title: 'Prepaid', required: ['type']}, {
       userID: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
       redeemers: {type: 'integer', description: 'how many students does this joiner already redeem'}
       maxRedeemers: { type: 'integer', description: 'the max number of students that this joiner can redeem from this Prepaid. if unset, then unlimited.'}
+  removedJoiners: c.array {title: 'Teachers this Prepaid was shared with'},
+    c.object {required: ['userID']},
+      userID: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
 })
 
 c.extendBasicProperties(PrepaidSchema, 'prepaid')

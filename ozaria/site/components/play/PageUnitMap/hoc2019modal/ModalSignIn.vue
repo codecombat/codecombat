@@ -37,7 +37,10 @@ export default {
   mounted() {
     if (me.useSocialSignOn()) {
       application.gplusHandler.loadAPI({
-        success: () => { this.gplusLoaded = true }
+        success: () => {
+          this.gplusLoaded = true
+          this.onClickGPlusLoginButton()
+        }
       })
     }
   },
@@ -88,18 +91,23 @@ export default {
         }
       }
     },
-    async onClickGPlusLoginButton () {
-      await new Promise((resolve, reject) =>
-        application.gplusHandler.connect({
-          context: this,
-          success: resolve
-        }))
+    onClickGPlusLoginButton () {
+      application.gplusHandler.connect({
+        context: this,
+        elementId: 'google-login-button-signin',
+        success: (resp = {}) => {
+          this.postGoogleLoginClick({ resp })
+        }
+      })
+    },
+    async postGoogleLoginClick ({ resp = {} }) {
       try {
         const gplusAttrs = await new Promise((resolve, reject) =>
           application.gplusHandler.loadPerson({
             context: this,
             success: resolve,
-            error: reject
+            error: reject,
+            resp
           }))
 
         const existingUser = new User()
@@ -110,20 +118,29 @@ export default {
             error: function (user, jqxhr) {
               if (jqxhr.status === 409 && jqxhr.responseJSON.errorID && jqxhr.responseJSON.errorID === 'account-with-email-exists') {
                 noty({ text: $.i18n.t('login.accounts_merge_confirmation'), layout: 'topCenter', type: 'info', buttons: [
-                  { text: 'Yes', onClick: ($noty) => {
-                      $noty.close()
-                      loginOptions = { merge: true, email: gplusAttrs.email }
-                      resolve()
+                    {
+                      text: 'Yes',
+                      onClick: ($noty) => {
+                        $noty.close()
+                        loginOptions = {
+                          merge: true,
+                          email: gplusAttrs.email
+                        }
+                        resolve()
+                      }
+                    },
+                    {
+                      text: 'No',
+                      onClick: ($noty) => {
+                        $noty.close()
+                        reject(new Error('Clicked No'))
+                      }
                     }
-                  }, { text: 'No', onClick: ($noty) => {
-                      $noty.close()
-                      reject(...arguments)
-                    }
-                  }]
+                  ]
                 })
               } else {
                 errors.showNotyNetworkError(...arguments);
-                reject(...arguments)
+                reject(new Error('Network Error'))
               }
             }
           }))
@@ -147,7 +164,7 @@ export default {
         }
         this.$emit('done')
       } catch (e) {
-        console.log('signup error')
+        console.log('signup error', e)
       }
     },
     // for hoc students, join the classroom or set hoc options to show progress on dashboard
@@ -177,21 +194,17 @@ export default {
 
     .socialSignOn(v-if="useSocialSignOn")
       .auth-network-logins()
-        a#gplus-login-btn(:disabled="!gplusLoaded" @click="onClickGPlusLoginButton")
+        a#google-login-button-signin(:disabled="!gplusLoaded" @click="onClickGPlusLoginButton" href="#")
           img(src="/images/ozaria/common/log-in-google-sso.svg" draggable="false")
           .gplus-login-wrapper
             .gplus-login-button
-        a#clever-login-btn(@click="onClickCleverLoginButton")
+        a#clever-login-btn(@click="onClickCleverLoginButton" href="#")
           img(src="/images/pages/modal/auth/clever_sso_button@2x.png" draggable="false")
       .row.or-row
         .line
         p.or {{ $t("login.or") }}
         .line
     .auth-form-content
-
-      if showRequiredError
-        .alert.alert-success
-          span {{ $t("signup.required") }}
 
       #unknown-error-alert.alert.alert-danger.hide {{ $t("loading_error.unknown") }}
 
@@ -218,6 +231,7 @@ export default {
           #recover-account-wrapper
             a#link-to-recover(
               @click="$emit('clickRecoverModal')"
+              href="#"
             ) {{ $t("login.forgot_password") }}
         input#login-btn.btn.btn-block.btn-success(
           :value="$t('login.sign_in')"
@@ -228,7 +242,7 @@ export default {
         h3 {{ $t("login.logging_in") }}
 
     .extra-pane
-      a#switch-to-signup-btn(@click="$emit('switchToSignup')") {{ $t("login.auth_sign_up") }}
+      a#switch-to-signup-btn(@click="$emit('switchToSignup')" href="#") {{ $t("login.auth_sign_up") }}
       p {{ $t("login.already_have_account1") }}
       p {{ $t("login.already_have_account2") }}
 </template>
@@ -340,7 +354,7 @@ export default {
     }
   }
 
-  #gplus-login-btn > img, #clever-login-btn img {
+  #google-login-button-signin > img, #clever-login-btn img {
     height: 46px;
   }
 }

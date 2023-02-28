@@ -1,0 +1,27 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/utils"
+
+.site-chrome
+  background-color: white
+  &.show-background
+    background: url(/images/pages/base/background.jpg) top center no-repeat
+    background-color: rgb(150,202,68)
+    background-position-y: -130px
+
+    @media screen and ( max-height: 800px )
+      background-position: center -226px
+  padding-top: 65px
+  max-width: 1920px
+  margin: 0 auto
+
+  //- Content
+
+  #site-content-area
+    background: rgb(240,229,199)
+    margin: 0 auto -20px
+    width: 1024px
+    border: 5px solid rgb(110,88,41)
+    padding: 20px 12px
+    min-height: 300px
+

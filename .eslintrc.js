@@ -14,7 +14,8 @@ module.exports = {
     application: 'readonly',
     me: 'readonly',
     noty: 'readonly',
-    features: 'readonly'
+    features: 'readonly',
+    gapi: 'readonly'
   },
 
   env: {
@@ -34,9 +35,7 @@ module.exports = {
       switchCase: 0,
       ignores: []
     }],
-    'vue/comment-directive': ['warn', {
-      reportUnusedDisableDirectives: false
-    }]
+    'vue/comment-directive': 'off'
   },
 
   ignorePatterns: [
@@ -45,7 +44,9 @@ module.exports = {
     '*.pug',
     '*.sass',
     '*.jpg',
-    '*.jpeg'
+    '*.svg',
+    '*.scss',
+    '*.webp'
   ],
 
   overrides: [

@@ -208,9 +208,9 @@ module.exports = class Classroom extends CocoModel
       currentLevel = courseLevels.models[currentIndex]
       currentPlaytime = levelSessionMap[currentLevel.get('original')]?.get('playtime') ? 0
       needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes')) and not currentLevel.get('assessment')
-      unless utils.orderedCourseIDs.includes(courseID)
+      if utils.isCodeCombat || !utils.orderedCourseIDs.includes(courseID)
         nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
-    if utils.orderedCourseIDs.includes(courseID)
+    if utils.isOzaria and utils.orderedCourseIDs.includes(courseID)
       nextLevelOriginal = findNextLevelsBySession(sessions, courseLevels.models)
       nextLevel = new Level(getLevelsDataByOriginals(courseLevels.models, [nextLevelOriginal])[0])
     else
@@ -270,15 +270,6 @@ module.exports = class Classroom extends CocoModel
     options.url = @url() + '/update-courses'
     options.type = 'POST'
     @fetch(options)
-
-  getSetting: (name) =>
-    settings = @get('settings') or {}
-    propInfo = Classroom.schema.properties.settings.properties
-    return settings[name] if name in Object.keys(settings)
-    if name in Object.keys(propInfo)
-      return propInfo[name].default
-
-    return false
 
   hasAssessments: (options={}) ->
     if options.courseId

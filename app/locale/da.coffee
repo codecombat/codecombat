@@ -1192,7 +1192,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     managed_by: "Administreret af"
     will_be_cancelled: "Vil blive annulleret på"
     currently_free: "Du har i øjeblikket et gratis abonnement"
-    currently_free_until: "Du har i øjeblikket et abonnement, indtil"
+    currently_free_until: "Du har i øjeblikket et abonnement, indtil __date__"
 #    free_subscription: "Free subscription"
     was_free_until: "Du havde et gratis abonnement, indtil"
     managed_subs: "Administrerede Abonnementer"

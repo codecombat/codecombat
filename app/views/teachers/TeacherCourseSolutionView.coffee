@@ -2,6 +2,7 @@ require('app/styles/teachers/teacher-course-solution-view.sass')
 utils = require 'core/utils'
 RootView = require 'views/core/RootView'
 Course = require 'models/Course'
+Campaign = require 'models/Campaign'
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
 Prepaids = require 'collections/Prepaids'
@@ -10,6 +11,7 @@ utils = require 'core/utils'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
 aetherUtils = require 'lib/aether_utils'
+api = require 'core/api'
 
 module.exports = class TeacherCourseSolutionView extends RootView
   id: 'teacher-course-solution-view'
@@ -30,7 +32,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
 
   getTitle: ->
     title = $.i18n.t('teacher.course_solution')
-    title += " " + @course.acronym()
+    title += " " + @course.acronym() if @course
     if @language != "html"
       title +=  " " + utils.capitalLanguages[@language]
     title
@@ -46,16 +48,21 @@ module.exports = class TeacherCourseSolutionView extends RootView
     @isWebDev = @courseID in [utils.courseIDs.WEB_DEVELOPMENT_2]
     if me.isTeacher() or me.isAdmin()
       @prettyLanguage = @camelCaseLanguage(@language)
-      @course = new Course(_id: @courseID)
-      @supermodel.trackRequest(@course.fetch())
-      @levels = new Levels([], { url: "/db/course/#{@courseID}/level-solutions"})
+      if options.campaignMode
+        campaignSlug = @courseID
+        @campaign = new Campaign(_id: campaignSlug)
+        @supermodel.trackRequest(@campaign.fetch())
+        @levels = new Levels([], { url: "/db/campaign/#{campaignSlug}/level-solutions"})
+      else
+        @course = new Course(_id: @courseID)
+        @supermodel.trackRequest(@course.fetch())
+        @levels = new Levels([], { url: "/db/course/#{@courseID}/level-solutions"})
       @supermodel.loadCollection(@levels, 'levels', {cache: false})
 
       @levelNumberMap = {}
       @prepaids = new Prepaids()
       @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @paidTeacher = me.isAdmin() or me.isPaidTeacher()
-    @courseLessonSlidesURLs = utils.courseLessonSlidesURLs
     me.getClientCreatorPermissions()?.then(() => @render?())
     super(options)
 
@@ -78,6 +85,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
     @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
     @listenTo me, 'change:preferredLanguage', @updateLevelData
     @updateLevelData()
+    @fetchResourceHubResources()
 
   updateLevelData: ->
     if utils.isCodeCombat
@@ -143,6 +151,17 @@ module.exports = class TeacherCourseSolutionView extends RootView
       # Filter out non numbered levels.
       @levels.models = @levels.models.filter((l) => l.get('original') of @levelNumberMap)
     @render?()
+
+  fetchResourceHubResources: ->
+    @courseResources = []
+    api.resourceHubResources.getResourceHubResources().then((allResources) =>
+      return if @destroyed
+      for resource in allResources when resource.hidden isnt false and (utils.courseAcronyms[@courseID] in (resource.courses ? []))
+        @courseResources.push resource
+      @courseResources = _.sortBy(@courseResources, 'priority')
+      @render()
+    ).catch (e) =>
+      console.error e
 
   afterRender: ->
     super()

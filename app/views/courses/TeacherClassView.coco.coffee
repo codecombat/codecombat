@@ -549,8 +549,8 @@ module.exports = class TeacherClassView extends RootView
     courses = (@courses.get(c._id) for c in @sortedCourses)
     courseLabelsArray = helper.courseLabelsArray(courses)
     for course, index in courses
-      courseLabels += "#{courseLabelsArray[index]} Levels,#{courseLabelsArray[index]} Playtime,"
-    csvContent = "Name,Username,Email,Total Levels,Total Playtime,#{courseLabels}Concepts\n"
+      courseLabels += "#{courseLabelsArray[index]} Levels,#{courseLabelsArray[index]} Playtime(humanize),#{courseLabelsArray[index]} Playtime(seconds),"
+    csvContent = "Name,Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds),#{courseLabels}Concepts\n"
     levelCourseIdMap = {}
     levelPracticeMap = {}
     language = @classroom.get('aceConfig')?.language
@@ -605,10 +605,10 @@ module.exports = class TeacherClassView extends RootView
       for counts, index in courseCounts
         courseCountsString += "#{counts.levels},"
         if counts.playtime is 0
-          courseCountsString += "0,"
+          courseCountsString += "0,0,"
         else
-          courseCountsString += "#{moment.duration(counts.playtime, 'seconds').humanize()},"
-      csvContent += "#{student.broadName()},#{student.get('name')},#{student.get('email') or ''},#{levels},#{playtimeString},#{courseCountsString}\"#{conceptsString}\"\n"
+          courseCountsString += "#{moment.duration(counts.playtime, 'seconds').humanize()},#{counts.playtime},"
+      csvContent += "#{student.broadName()},#{student.get('name')},#{student.get('email') or ''},#{levels},#{playtimeString},#{playtime},#{courseCountsString}\"#{conceptsString}\"\n"
     csvContent = csvContent.substring(0, csvContent.length - 1)
     file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
     window.saveAs(file, 'CodeCombat.csv')
@@ -617,7 +617,7 @@ module.exports = class TeacherClassView extends RootView
     unless @classClan
       console.error "Couldn't find autoclan for classroom #{@classroom.id} out of", @myClans
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: @classroom.id
-    application.router.navigate("/league/#{classClan?._id ? ''}", { trigger: true })
+    application.router.navigate("/league/#{@classClan?._id ? ''}", { trigger: true })
 
   onClickViewAILeagueQuickstartVideo: (e) ->
     clanLevel = $(e.target).data('clan-level')

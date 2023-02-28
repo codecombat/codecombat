@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     managed_by: "Управља"
     will_be_cancelled: "Биће поништено"
     currently_free: "Тренутно имаш бесплатну претплату"
-    currently_free_until: "Тренутно имаш претплату до"
+    currently_free_until: "Тренутно имаш претплату до __date__"
     free_subscription: "Бесплатна претплата"
     was_free_until: "Имао си бесплатну претплату до"
     managed_subs: "Успешне претплате"

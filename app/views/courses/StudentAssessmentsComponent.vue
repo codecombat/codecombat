@@ -9,8 +9,8 @@
         h1(v-if="classroom").text-center
           | {{ classroom.name }}
         select(v-model="selectedCourse")
-          option(v-for="chunk in levelsByCourse", :value="chunk.course._id") {{ $dbt(chunk.course, 'name') }}
-        div.assessments-list.m-t-3(v-for="chunk in levelsByCourse" v-if="chunk.course._id === selectedCourse")
+          option(v-for="chunk in levelsByCourse", :key="chunk.course._id" :value="chunk.course._id") {{ $dbt(chunk.course, 'name') }}
+        div.assessments-list.m-t-3(v-for="chunk in levelsByCourse" v-if="chunk.course._id === selectedCourse" :key="chunk.course._id")
           .row
             .col-xs-5
               span.table-header
@@ -24,6 +24,7 @@
             :assessmentPlacement="level.assessmentPlacement",
             :primaryConcept="level.primaryConcept",
             :name="$dbt(level, 'name')",
+            :key="$dbt(level, 'name')",
             :complete="!!(sessionMap[level.original] && sessionMap[level.original].state.complete)",
             :started="!!sessionMap[level.original]",
             :playUrl="playLevelUrlMap[level.original]",
@@ -65,7 +66,7 @@ module.exports = Vue.extend
     inCourses: {}
     courses: []
     selectedCourse: ''
-    product: utils.isOzaria ? 'ozar' : 'coco'
+    product: if utils.isOzaria then 'ozar' else 'coco'
   computed:
     backToClassroomUrl: -> "/teachers/classes/#{@classroom?._id}"
   created: ->

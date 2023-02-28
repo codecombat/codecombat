@@ -14,6 +14,9 @@ paymentUtils = require 'lib/paymentUtils'
 
 module.exports = class CocoRouter extends Backbone.Router
 
+  _routeToRegExp: (route) ->
+    new RegExp(super(route), 'i') # make all routes case insensitive
+
   initialize: ->
     # http://nerds.airbnb.com/how-to-add-google-analytics-page-tracking-to-57536
     @bind 'route', @_trackPageView
@@ -92,7 +95,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/outcomes-report': go('admin/OutcomesReportView')
     'admin/clan(/:clanID)': go('core/SingletonAppVueComponentView')
 
-    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
+    'announcements': go('core/SingletonAppVueComponentView')
+
+#    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
     'api-dashboard': go('core/SingletonAppVueComponentView')
 
@@ -111,7 +116,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/arena-balancer(/:levelSlug)': go('artisans/ArenaBalancerView')
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
-    'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
     'cla': go('CLAView')
 
@@ -149,6 +153,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/article': go('editor/article/ArticleSearchView')
     'editor/article/preview': go('editor/article/ArticlePreviewView')
     'editor/article/:articleID': go('editor/article/ArticleEditView')
+    'editor/announcement': go('editor/announcement/AnnouncementSearchView')
+    'editor/announcement/:announcementId': go('editor/announcement/AnnouncementEditView')
     'editor/level': go('editor/level/LevelSearchView')
     'editor/level/:levelID': go('editor/level/LevelEditView')
     'editor/thang': go('editor/thang/ThangTypeSearchView')
@@ -188,6 +194,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'i18n/course/:handle': go('i18n/I18NEditCourseView')
     'i18n/product/:handle': go('i18n/I18NEditProductView')
     'i18n/article/:handle': go('i18n/I18NEditArticleView')
+    'i18n/resource_hub_resource/:handle': go('i18n/I18NEditResourceHubResourceView')
 
     'identify': go('user/IdentifyView')
     'il-signup': go('account/IsraelSignupView')
@@ -200,6 +207,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'partners': () ->
       @routeDirectly('PagePartners', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
 
+    'apcsp': () ->
+      @routeDirectly('PageAPCSPMarketing', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+
     'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
     'league/kipp': redirect('/league/autoclan-school-network-kipp') # Redirect for KIPP.
     'league(/*subpath)': go('core/SingletonAppVueComponentView')
@@ -209,6 +219,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'logout': 'logout'
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
+
+    'mobile': () ->
+      @routeDirectly('views/landing-pages/mobile/PageMobileView', [], { vueRoute: true, baseTemplate: 'base-empty' })
 
     'parents': go('core/SingletonAppVueComponentView')
     'live-classes': go('core/SingletonAppVueComponentView')
@@ -240,15 +253,15 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/:map': go('play/CampaignView')
 
     'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
-    'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
 
     'preview': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'privacy': go('PrivacyView')
 
+    'roblox': go('core/SingletonAppVueComponentView')
+
     'schools': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
     'seen': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
-    'SEEN': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
@@ -263,6 +276,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/classes/:classroomID': go('courses/TeacherClassView', { redirectStudents: true, teachersOnly: true })
     'teachers/courses': go('courses/TeacherCoursesView', { redirectStudents: true })
     'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true })
+    'teachers/campaign-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true, campaignMode: true })
     'teachers/demo': redirect('/teachers/quote')
     'teachers/enrollments': redirect('/teachers/licenses')
     'teachers/hour-of-code': go('special_event/HoC2018View')
@@ -295,6 +309,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
     'user/:userID/opt-in/:verificationCode': go('user/UserOptInView')
 
+    'users/switch-account': go('core/SingletonAppVueComponentView')
+    'users/switch-account/*path': go('core/SingletonAppVueComponentView')
+
     'payments/*path': go('core/SingletonAppVueComponentView')
     'ladders/*path': go('core/SingletonAppVueComponentView')
     'ed-link/*path': go('core/SingletonAppVueComponentView')
@@ -305,6 +322,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'libraries': go('core/SingletonAppVueComponentView')
     'library/*path': go('core/SingletonAppVueComponentView')
+
+    'acte': redirect('/home?registering=true&referrerEvent=ACTE#create-account-teacher')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
@@ -321,6 +340,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView
+
     @viewLoad = new ViewLoadTimer() unless options.recursive
     if options.redirectStudents and me.isStudent() and not me.isAdmin()
       return @redirectHome()
@@ -435,7 +455,10 @@ module.exports = class CocoRouter extends Backbone.Router
 
   activateTab: ->
     base = _.string.words(document.location.pathname[1..], '/')[0]
-    $("ul.nav li.#{base}").addClass('active')
+    try
+      $("ul.nav li.#{base}").addClass('active')
+    catch e
+      console.warn e  # Possibly a hash that would not match a valid element
 
   _trackPageView: ->
     window.tracker?.trackPageView()

@@ -122,6 +122,9 @@ module.exports = Lank = class Lank extends CocoClass
 
   setSprite: (newSprite) ->
     if @sprite
+      # Store the old sprite's animation state, in case we want to have the new sprite pick it up
+      lastSpriteAnimation = @sprite.currentAnimation
+      lastSpriteFrame = @sprite.currentFrame
       @sprite.off 'animationend', @playNextAction
       @sprite.destroy?()
       if parent = @sprite.parent
@@ -138,7 +141,11 @@ module.exports = Lank = class Lank extends CocoClass
       @thang.stateChanged = true
     @configureMouse()
     @sprite.on 'animationend', @playNextAction
-    @playAction(@currentAction) if @currentAction and not @stillLoading
+    if @currentAction and not @stillLoading
+      @sprite.lastAnimation = lastSpriteAnimation
+      @sprite.lastFrame = lastSpriteFrame
+      @playAction(@currentAction)
+
     @trigger 'new-sprite', @sprite
 
   ##################################################
@@ -430,7 +437,7 @@ module.exports = Lank = class Lank extends CocoClass
     action ?= 'idle'
     unless @actions[action]?
       @warnedFor ?= {}
-      console.warn 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless @warnedFor[action]
+      console.info 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless @warnedFor[action]
       @warnedFor[action] = true
       return if @action is 'idle' then null else 'idle'
     #action = 'break' if @actions.break? and @thang?.erroredOut  # This makes it looks like it's dead when it's not: bad in Brawlwood.
@@ -761,6 +768,8 @@ module.exports = Lank = class Lank extends CocoClass
     t1 = new Date()
     @previouslySaidMessages[m] = t1
     return true if t1 - t0 < 5 * 1000
+    # Don't pronounce long say messages while scrubbing or doing fast-forward playback
+    return true if m.length > 20 and (@gameUIState.get('scrubbingPlaybackSpeed') > 1.1 or @gameUIState.get('fastForwardingSpeed') > 1.1)
     false
 
   playSounds: (withDelay=true, volume=1.0) ->

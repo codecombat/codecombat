@@ -19,13 +19,13 @@ Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
 Vue.use(VueMoment.default)
 
-if utils.isOzaria
+if utils.isCodeCombat
   Vue.use(VueYoutube.default)
 
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
 
-if utils.isCodeCombat
+if utils.isOzaria
   Vue.use(VueShepherd);
   Vue.use(utils.vueNonReactiveInstall)
   Vue.use(VueAsyncComputed)
@@ -71,8 +71,9 @@ init = ->
   setUpBackboneMediator(app)
   app.initialize()
   loadOfflineFonts() unless app.isProduction()
-  # We always want to load this font.
-  $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/vt323.css">'
+  if utils.isCodeCombat
+    # We always want to load this font.
+    $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/vt323.css">'
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
@@ -81,7 +82,7 @@ init = ->
   if utils.isOzaria
     checkAndLogBrowserCrash()
     checkAndRegisterHocModalInterval()
-  window.globalVar = globalVar if me.isAdmin() or !app.isProduction() or serverSession?.amActually
+  window.globalVar = globalVar if me.isAdmin() or !app.isProduction() or serverSession?.amActually or serverSession?.switchingUserActualId
   parent.globalVar = globalVar if self != parent
 
 module.exports.init = init
@@ -239,8 +240,9 @@ setUpIOSLogging = ->
 loadOfflineFonts = ->
   $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/openSansCondensed.css">'
   $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/openSans.css">'
-  $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/workSans.css">'
-  $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/spaceMono.css">'
+  if utils.isOzaria
+    $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/workSans.css">'
+    $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/spaceMono.css">'
 
 # This is so hacky... hopefully it's restrictive enough to not be slow.
 # We could also keep a list of events we are actually subscribed for and only try to send those over.

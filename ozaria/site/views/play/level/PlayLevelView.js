@@ -59,7 +59,7 @@ const SurfaceContextMenuView = require('./SurfaceContextMenuView')
 const WebSurfaceView = require('./WebSurfaceView')
 const SpellPaletteView = require('./tome/SpellPaletteView')
 const store = require('core/store')
-const GameMenuModal = require('ozaria/site/views/play/menu/GameMenuModal')
+const GameMenuModal = require('views/play/menu/GameMenuModal')
 const TutorialPlayView = require('./TutorialPlayView').default
 const ThangTypeHUDComponent = require('./ThangTypeHUDComponent').default
 const ScreenReaderSurfaceView = require('app/views/play/level/ScreenReaderSurfaceView')
@@ -177,20 +177,21 @@ class PlayLevelView extends RootView {
     if (me.isSessionless()) {
       levelLoaderOptions.fakeSessionConfig = {}
     }
-    console.debug('PlayLevelView: Create LevelLoader')
     this.levelLoader = new LevelLoader(levelLoaderOptions)
     this.listenToOnce(
       this.levelLoader,
       'world-necessities-loaded',
       this.onWorldNecessitiesLoaded
     )
-    if(!this.courseInstanceID) {
-      // playLevelView from teacher account has no courseInstanceID
-      this.classroomAceConfig = {liveCompletion: true}
-    } else {
+    this.classroomAceConfig = {liveCompletion: true} // default (home users, teachers, etc.)
+    if(this.courseInstanceID) {
       let fetchAceConfig = $.get(`/db/course_instance/${this.courseInstanceID}/classroom?project=aceConfig,members`)
       this.supermodel.trackRequest(fetchAceConfig)
-      fetchAceConfig.then(classroom => this.classroomAceConfig = _.assign({liveCompletion: true}, classroom.aceConfig))
+      fetchAceConfig.then(classroom => {
+        if (classroom.aceConfig?.liveCompletion !== null && classroom.aceConfig?.liveCompletion !== undefined) {
+          this.classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion
+        }
+      })
     }
 
     return this.listenTo(
@@ -313,10 +314,15 @@ class PlayLevelView extends RootView {
   // Partially Loaded Setup ####################################################
 
   onWorldNecessitiesLoaded () {
-    console.debug('PlayLevelView: world necessities loaded')
     // Called when we have enough to build the world, but not everything is loaded
     store.dispatch('game/resetTutorial')
     this.grabLevelLoaderData()
+
+    const levelName = utils.i18n(this.level.attributes, 'displayName') || utils.i18n(this.level.attributes, 'name')
+    this.setMeta({
+      title: $.i18n.t('play.level_title_ozaria', { level: levelName, interpolation: { escapeValue: false } })
+    })
+
     const randomTeam = this.world && this.world.teamForPlayer() // If no team is set, then we will want to equally distribute players to teams
     const team = utils.getQueryVariable('team') || this.session.get('team') || randomTeam || 'humans'
     this.loadOpponentTeam(team)
@@ -591,8 +597,8 @@ class PlayLevelView extends RootView {
     const useHero =
       /hero/.test(spell.getSource()) ||
       !/(self[\.\:]|this\.|\@)/.test(spell.getSource())
-    if (this.spellPaletteView) {
-      this.removeSubview(this.spellPaletteView)
+    if (this.spellPaletteView && !this.spellPaletteView.destroyed) {
+      this.removeSubView(this.spellPaletteView)
     }
     this.spellPaletteView = this.insertSubView(
       new SpellPaletteView({
@@ -758,7 +764,6 @@ class PlayLevelView extends RootView {
 
   onSessionLoaded (e) {
     let left1
-    console.log('PlayLevelView: loaded session', e.session)
     store.commit('game/setTimesCodeRun', e.session.get('timesCodeRun') || 0)
     store.commit(
       'game/setTimesAutocompleteUsed',
@@ -916,7 +921,6 @@ class PlayLevelView extends RootView {
     if (this.surface == null && this.webSurface == null) {
       return
     }
-    console.log('PlayLevelView: level started')
     this.loadingView.showReady()
     this.trackLevelLoadEnd()
     if (
@@ -1306,7 +1310,7 @@ class PlayLevelView extends RootView {
       return
     }
     this.openModalView(
-      new InfiniteLoopModal({ nonUserCodeProblem: e.nonUserCodeProblem, isCapstone: this.level.isCapstone() || false })
+      new InfiniteLoopModal({ nonUserCodeProblem: e.nonUserCodeProblem, isCapstone: this.level.isCapstone() || false, problem: e.problem, timedOut: e.timedOut })
     )
     if (!this.observing) {
       trackEvent('Saw Initial Infinite Loop', {
@@ -1734,7 +1738,7 @@ class PlayLevelView extends RootView {
     this.goalManager.destroy()
     this.initGoalManager()
     this.tome.softReloadCapstoneStage(this.capstoneStage)
-    Backbone.Mediator.publish('tome:updateAether')
+    Backbone.Mediator.publish('tome:update-aether', {})
 
     this.loadScriptsForCapstoneStage(this.world.scripts, this.capstoneStage)
     store.dispatch('game/setTutorialActive', true)
@@ -1798,7 +1802,7 @@ PlayLevelView.prototype.subscriptions = {
   'store:item-purchased': 'onItemPurchased',
   'tome:manual-cast': 'onRunCode',
   'tome:spell-changed': 'onSpellChanged',
-  'tome:updateAetherRunning': 'updateAetherRunning',
+  'tome:update-aether-running': 'updateAetherRunning',
   'world:update-key-value-db': 'updateKeyValueDb'
 }
 

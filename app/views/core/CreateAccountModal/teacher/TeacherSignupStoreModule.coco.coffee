@@ -6,7 +6,7 @@ User = require('models/User')
 store = require('core/store')
 globalVar = require 'core/globalVar'
 
-module.exports = TeacherSignupStoreModule = {
+export default {
   namespaced: true
   state: {
     trialRequestProperties: _.assign(ncesData, {
@@ -60,7 +60,6 @@ module.exports = TeacherSignupStoreModule = {
   }
   actions: {
     createAccount: ({state, commit, dispatch, rootState}) ->
-
       return Promise.resolve()
       .then =>
         return dispatch('me/save', {
@@ -95,7 +94,7 @@ module.exports = TeacherSignupStoreModule = {
           return api.users.signupWithPassword(attrs)
 
       .then (user) =>
-        store.dispatch('me/authenticated', user)
+        dispatch('me/authenticated', user, { root: true })
 
       .then =>
         trialRequestIdentifyData = _.pick state.trialRequestProperties, ["siteOrigin", "marketingReferrer", "referrer", "notes", "numStudentsTotal", "numStudents", "purchaserRole", "role", "phoneNumber", "country", "state", "city", "district", "organization", "nces_students", "nces_name", "nces_id", "nces_phone", "nces_district_students", "nces_district_schools", "nces_district_id", "nces_district"]
@@ -126,12 +125,6 @@ module.exports = TeacherSignupStoreModule = {
             window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
           )
 
-        trackerCalls.push(
-          globalVar.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
-        )
-
         return Promise.all(trackerCalls).catch(->)
   }
 }
-
-module.exports = TeacherSignupStoreModule

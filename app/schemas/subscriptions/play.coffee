@@ -112,6 +112,8 @@ module.exports =
   'playback:ended-changed': c.object {required: ['ended']},
     ended: {type: 'boolean'}
 
+  'playback:playback-ended': c.object {description: 'Ozaria uses this; not sure if it needs to be different from surface:playback-ended'}
+
   'level:toggle-playing': c.object {}
 
   'level:toggle-grid': c.object {}

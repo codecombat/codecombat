@@ -12,9 +12,10 @@ const product = process.env.COCO_PRODUCT || 'codecombat'
 const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
 require.extensions[`.${productSuffix}.coffee`] = require.extensions['.coffee']
 const CompileStaticTemplatesPlugin = require('./compile-static-templates')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const { VueLoaderPlugin } = require('vue-loader')
 const PWD = process.env.PWD || __dirname
 const fs = require('fs')
+const { publicFolderName } = require('./development/utils')
 
 console.log(`Starting Webpack for product ${product}`)
 
@@ -79,7 +80,7 @@ module.exports = (env) => {
     output: {
       filename: 'javascripts/[name].js', // TODO: Use chunkhash in layout.static.pug's script tags instead of GIT_SHA
       // chunkFilename is determined by build type
-      path: path.resolve(PWD, 'public'),
+      path: path.resolve(PWD, publicFolderName),
       publicPath: '/' // Base URL path webpack tries to load other bundles from
     },
     module: {
@@ -87,7 +88,6 @@ module.exports = (env) => {
         return _.any([
           /vendor.*coffeescript/,
           /bower_components.*aether/,
-          /bower_components.*jsondiffpatch.*\.js$/,
           /fuzzaldrin/
         ], (regex) => { return regex.test(name) })
       },
@@ -221,7 +221,7 @@ module.exports = (env) => {
         'node_modules' // Or maybe require('foo') for the Node module "foo".
       ],
       extensions: [
-        '.web.coffee', '.web.js', '.coffee', '.js', '.pug', '.sass', '.vue', 
+        '.web.coffee', '.web.js', '.coffee', '.js', '.pug', '.sass', '.vue',
         `.${productSuffix}.coffee`, `.${productSuffix}.js`, `.${productSuffix}.pug`, `.${productSuffix}.sass`, `.${productSuffix}.vue`,  //, `.${productSuffix}.scss` ?
       ],
       alias: { // Replace Backbone's underscore with lodash
@@ -252,18 +252,6 @@ module.exports = (env) => {
       new webpack.IgnorePlugin({ resourceRegExp: /\/fonts\/bootstrap\/.*$/ }), // Ignore Bootstrap's fonts
       new webpack.IgnorePlugin({ resourceRegExp: /^memwatch$/ }), // Just used by the headless client on the server side
       new webpack.IgnorePlugin({ resourceRegExp: /.DS_Store$/ }),
-
-      // Enable IgnorePlugins for development to speed webpack
-      // new webpack.IgnorePlugin(/\!locale/),
-      // new webpack.IgnorePlugin(/\/admin\//),
-      // new webpack.IgnorePlugin(/\/artisan\//),
-      // new webpack.IgnorePlugin(/\/clans\//),
-      // new webpack.IgnorePlugin(/\/contribute\//),
-      // new webpack.IgnorePlugin(/\/courses\//),
-      // new webpack.IgnorePlugin(/\/editor\//),
-      // new webpack.IgnorePlugin(/\/ladder\//),
-      // new webpack.IgnorePlugin(/\/teachers\//),
-      // new webpack.IgnorePlugin(/\/play\//),
 
       new CopyWebpackPlugin({
         patterns: [

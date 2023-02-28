@@ -59,6 +59,8 @@ module.exports = class CocoView extends Backbone.View
     @listenTo(@supermodel, 'failed', @onResourceLoadFailed)
     @warnConnectionError = _.throttle(@warnConnectionError, 3000)
 
+    $('body').addClass 'product-' + utils.getProductName().toLowerCase()
+
     # Warn about easy-to-create race condition that only shows up in production
     listenedSupermodel = @supermodel
     _.defer =>
@@ -76,7 +78,10 @@ module.exports = class CocoView extends Backbone.View
     view.destroy() for id, view of @subviews
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
     @$el.find('.has-tooltip, [data-original-title]').tooltip 'destroy'
-    @$('.nano').nanoScroller destroy: true
+    try
+      @$('.nano').nanoScroller destroy: true
+    catch e
+      console.log('dont know why but ', @$('.nano'), ' failed with ', e)
     @endHighlight()
     @getPointer(false).remove()
     @[key] = undefined for key, value of @
@@ -262,14 +267,10 @@ module.exports = class CocoView extends Backbone.View
       DirectContactModal = require('ozaria/site/views/core/DirectContactModal').default
       @openModalView(new DirectContactModal())
 
-    if (me.isTeacher(true) and window?.tracker?.drift?.openChat) or me.showChinaResourceInfo()
+    if (me.isTeacher(true) and zE) or me.showChinaResourceInfo()
       openDirectContactModal()
     else
-      # There's an unlikely case where both Drift and Zendesk are unavailable, or Zendesk exists but fails.
-      # Since the modal communicates errors better, and shows the direct support email, we still open it.
-      zendesk.loadZendesk()
-        .then(-> if not zendesk.openZendesk() then openDirectContactModal())
-        .catch(-> openDirectContactModal())
+      location.href = 'mailto:support@codecombat.com'
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
@@ -351,13 +352,6 @@ module.exports = class CocoView extends Backbone.View
     @_lastLoading.find('.loading-screen').replaceWith((loadingErrorTemplate(context)))
     @_lastLoading.i18n()
     @applyRTLIfNeeded()
-
-  forumLink: ->
-    link = 'http://discourse.codecombat.com/'
-    lang = (me.get('preferredLanguage') or 'en-US').split('-')[0]
-    if lang in ['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt']
-      link += "c/other-languages/#{lang}"
-    link
 
   showReadOnly: ->
     return if me.isAdmin() or me.isArtisan()

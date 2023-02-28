@@ -344,6 +344,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     toggle_nav: "切换导航栏"
     schools: "学校"
     get_involved: "参与"
+    related_urls: "相关链接"
     open_source: "开放的源码 (GitHub)"
     support: "支持"
     faqs: "常见问题"
@@ -730,6 +731,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     done: "完成"
 #    remove: "Remove"
     locked: "已锁定"
+    empty_results: "未找到结果"
 
   general:
     and: "与"
@@ -1267,6 +1269,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tornado_description: "当一个人的掩护暴露时，有一个重置按钮是好事。"
     wallOfDarkness_name: "暗黑之墙"
     wallOfDarkness_description: "躲在影壁后面，防止偷窥者的目光。"
+    # notifications: "新消息"
+    # see_more: "查看其他 __unread__ 个未读公告"
 
   avatar_selection:
     pick_an_avatar: "选择一个代表你的玩家头像。"
@@ -2494,6 +2498,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    not_write_permission: "You don't have write permission to the class"
 #    not_read_permission: "You don't have read permission to the class"
     owned_license: "已有许可"
+    license_stats: "许可数据"
+    redeemers: "学生（已激活）"
+    removed_redeemers: "学生（曾激活）"
 
   teacher_licenses:
     active_licenses: "可用许可"
@@ -2541,11 +2548,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teachers_using_these: "可以访问这些许可证的教师："
     footer: "许可证分配后不支持撤销。"
     you: "（您）"
-    one_license_used: "（1个许可证被使用）"
-    licenses_used: "（__licensesUsed__个许可证被使用）"
-    licenses_used_no_braces: "__licensesUsed__个许可证被使用"
+    one_license_used: "（1/__all__个许可证被使用）"
+    licenses_used: "（__licensesUsed__/__all__个许可证被使用）"
+    licenses_used_no_braces: "__licensesUsed__/__all__个许可证被使用"
     more_info: "更多信息"
     shared_pool_label: "共享池中的老师列表:"
+    licenses_limit: "限制许可证数量："
 
   sharing:
     game: "游戏"
@@ -2833,11 +2841,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     defeat_the: "击败"
     watch_battle: "观看战役"
     tournament_starts: "比赛将于__timeElapsed__开始"
-    tournament_started: "，锦标赛已开始"
-    tournament_ends: "锦标赛结束"
-    tournament_ended: "锦标赛已结束"
-#    tournament_results_published: ", results published"
-    tournament_rules: "锦标赛规则"
+    tournament_started: "比赛已于__timeElapsed__开始"
+    tournament_ends: "，将于__timeLeft__结束"
+    tournament_ended: "比赛已结束"
+    tournament_results_published: "，结果将于__timeLeft__公布"
+    tournament_results_wait_publish: "，结果将由组织者公布"
+    tournament_rules: "比赛规则"
     tournament_blurb: "写代码，收金币，建军队，碎敌军，赢奖品，以及在我们奖励多达$40,000的Greed tournament里升级您的事业！ 快去查阅详情！"
     tournament_blurb_criss_cross: "赢得竞拍，建造道路，智胜对手，夺取宝石，在纵横交错锦标赛中完成生涯晋级！ 现在就查看详情！"
     tournament_blurb_zero_sum: "在红方法师和蓝方法师的山峰对决中, 同时在收集金币和战术上发挥你的代码创造力。竞赛在3月27日开始, 在4月6日(星期一)的下午5点(PDT 太平洋时区)结束。为乐趣和荣耀竞赛吧！ 浏览了解更多"
@@ -3761,6 +3770,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     totals_explanation_8: "项目创建"
     totals_explanation_9: "统计创建的游戏和网页总数。"
     date_thru_date: "从 __startDateRange__ 到 __endDateRange__"
+    select_time_range: '选择一个时间段：'
+    export: "下载"
+    preview: '以下为前200行的数据预览，点击下载以获得完整数据'
+    empty_results: "未找到结果"
 
   interactives:
     phenomenal_job: "了不起的工作！"

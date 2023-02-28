@@ -12,11 +12,12 @@ Achievement = require 'models/Achievement'
 AchievementPopup = require 'views/core/AchievementPopup'
 errors = require 'core/errors'
 utils = require 'core/utils'
+userUtils = require '../../lib/user-utils'
 
 BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
 Navigation = require('app/components/common/Navigation.vue').default
-
-# TODO remove
+Footer = require('app/components/common/Footer.vue').default
+store = require 'core/store'
 
 filterKeyboardEvents = (allowedEvents, func) ->
   return (splat...) ->
@@ -134,7 +135,7 @@ module.exports = class RootView extends CocoView
     @initializeNavigation()
 
   afterRender: ->
-    if @$el.find('#site-nav').length # hack...
+    if @$el.find('#main-nav.legacy').length # hack...
       @$el.addClass('site-chrome')
       if @showBackground
         @$el.addClass('show-background')
@@ -176,7 +177,7 @@ module.exports = class RootView extends CocoView
     for code, localeInfo of filteredLocale when (not (code in genericCodes) or code is initialVal)
       if $select.is('ul') # base-flat template
         $select.append(
-          $('<li data-code="' + code + '"><a class="language-dropdown-item">' + localeInfo.nativeDescription + '</a></li>'))
+          $('<li data-code="' + code + '"><a class="language-dropdown-item" href="#">' + localeInfo.nativeDescription + '</a></li>'))
         #if code is 'pt-BR'
         #  $select.append($('<li role="separator" class="divider"</li>'))
       else # base template
@@ -254,22 +255,18 @@ module.exports = class RootView extends CocoView
 
   # Attach the navigation Vue component to the page
   initializeNavigation: ->
-    staticNav = document.querySelector('#main-nav')
-
-    if @navigation and staticNav
-      staticNav.replaceWith(@navigation.$el)
-      return
-
-    return unless staticNav
-
-    @navigation = new Navigation({
-      el: staticNav
-    })
-
-    # Hack - It would be better for the Navigation component to manage the language dropdown.
-    setTimeout(() =>
-      @buildLanguages()
-    , 0)
+    if staticNav = document.querySelector('#main-nav')
+      if @navigation
+        staticNav.replaceWith(@navigation.$el)
+      else
+        @navigation = new Navigation { el: staticNav, store }
+        # Hack - It would be better for the Navigation component to manage the language dropdown.
+        _.defer => @buildLanguages?()
+    if staticFooter = document.querySelector('#site-footer')
+      if @footer
+        staticFooter.replaceWith(@footer.$el)
+      else
+        @footer = new Footer { el: staticFooter, store }
 
   # Set the page title when the view is loaded.  This value is merged into the
   # result of getMeta.  It will override any title specified in getMeta.  Kept
@@ -289,4 +286,5 @@ module.exports = class RootView extends CocoView
   destroy: ->
     @metaBinding?.$destroy()
     @navigation?.$destroy()
+    @footer?.$destroy()
     super()

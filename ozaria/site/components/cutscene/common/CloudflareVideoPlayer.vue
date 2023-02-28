@@ -31,7 +31,8 @@ export default {
     cloudflareCaptionUrl: null,
     checkEndedIntervalFailsafe: null,
     currentTimeFrozenCheck: 0,
-    lastCurrentTime: null
+    lastCurrentTime: null,
+    cloudflareCaptionLanguage: 'en'
   }),
 
   watch: {
@@ -44,7 +45,7 @@ export default {
     }
   },
 
-  // TODO refactor to use `../../common/BaseCloudflareVideo` component
+  // TODO refactor to use `app/components/common/BaseCloudflareVideo` component
   mounted () {
     const cutscene = this.cutscene
     /**
@@ -63,10 +64,13 @@ export default {
      * Thus pick out the specific caption file for the user based on preferred language.
      */
     let captionSrc = (cutscene.captions || {}).src
-    const localizedCaption = (((cutscene.i18n || {})[me.get('preferredLanguage')] || {}).captions || {}).src
+    const preferredLanguage = me.get('preferredLanguage')
+    const localizedCaption = (((cutscene.i18n || {})[preferredLanguage] || {}).captions || {}).src
 
     if (localizedCaption) {
       captionSrc = localizedCaption
+      // it seems region subtags are not supported: https://developers.cloudflare.com/stream/edit-videos/adding-captions/#most-common-language-codes
+      this.cloudflareCaptionLanguage = preferredLanguage.split('-')[0]
     }
 
     if (captionSrc) {
@@ -136,8 +140,8 @@ export default {
       :aspect-ratio="16 / 9"
     >
       <div class="cutscene">
-        <stream ref="cloudflareVideo" :src="cloudflareID" controls preload="auto">
-          <track v-if="cloudflareCaptionUrl" kind="captions" :src="cloudflareCaptionUrl" default />
+        <stream ref="cloudflareVideo" :src="cloudflareID" controls preload="auto" :default-text-track="cloudflareCaptionLanguage">
+          <track :srclang="cloudflareCaptionLanguage" v-if="cloudflareCaptionUrl" kind="captions" :src="cloudflareCaptionUrl" default/>
         </stream>
       </div>
     </layout-aspect-ratio-container>

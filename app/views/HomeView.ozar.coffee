@@ -7,6 +7,8 @@ CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
+fetchJson = require 'core/api/fetch-json'
+DOMPurify = require 'dompurify'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -22,6 +24,10 @@ module.exports = class HomeView extends RootView
     'click .contact-us': 'onClickContactModal'
     'click a': 'onClickAnchor'
 
+  initialize: (options) ->
+    super(options)
+    @getBanner()
+
   getRenderData: (context={}) ->
     context = super context
     context.maintenanceStartTime = moment('2022-05-07T16:00:00-07:00')
@@ -29,6 +35,7 @@ module.exports = class HomeView extends RootView
       pd: "<a href='/professional-development'>#{$.i18n.t('nav.professional_development')}</a>"
       maintenanceStartTime: "#{context.maintenanceStartTime.calendar()} (#{context.maintenanceStartTime.fromNow()})"
       interpolation: { escapeValue: false }
+      topBannerHereLink: "<a href='https://codecombat.com/teachers/hour-of-code' target='_blank'>#{$.i18n.t('new_home.top_banner_blurb_hoc_2022_12_01_here')}</a>"
     context
 
   getMeta: ->
@@ -40,6 +47,13 @@ module.exports = class HomeView extends RootView
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
     ]
+
+  getBanner: ->
+    fetchJson('/db/banner').then((data) =>
+      @banner = data
+      content = utils.i18n data, 'content'
+      @banner.display = DOMPurify.sanitize marked(content ? '')
+    )
 
   onClickRequestQuote: (e) ->
     @playSound 'menu-button-click'
@@ -105,13 +119,18 @@ module.exports = class HomeView extends RootView
         @openModalView(new CreateAccountModal({startOnPath: 'student'}))
       if document.location.hash is '#create-account-teacher'
         @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+      if document.location.hash is '#login'
+        AuthModal = require 'views/core/AuthModal'
+        url = new URLSearchParams window.location.search
+        _.defer => @openModalView(new AuthModal({initialValues:{email: url.get 'email'}})) unless @destroyed
 
     window.addEventListener 'load', ->
-      $('#core-curriculum-carousel').data('bs.carousel').$element.on 'slid.bs.carousel', (event) ->
+      $('#core-curriculum-carousel').data('bs.carousel')?.$element.on 'slid.bs.carousel', (event) ->
         nextActiveSlide = $(event.relatedTarget).index()
         $buttons = $('.control-buttons > button')
         $buttons.removeClass 'active'
         $('[data-slide-to=\'' + nextActiveSlide + '\']').addClass('active')
+
     super()
 
   afterInsert: ->

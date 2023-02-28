@@ -1,186 +1,188 @@
 @import "ozaria/site/styles/common/variables";
+@import "app/styles/utils";
 
-
-.ozaria-button {
-  width: auto;
-  height: 45px;
-  box-sizing: border-box;
-}
-
-.ozaria-primary-button, .style-ozaria .ozaria-primary-button {
-  background-color: $teal;
-  padding: 11px 19px;
-  color: #f7f9f9;
-  font-family: $body-font-style;
-  font-size: 18px;
-  font-weight: bold;
-  letter-spacing: 0.71px;
-  line-height: 24px;
-}
-
-.ozaria-secondary-button, .style-ozaria .ozaria-secondary-button {
-  padding: 11px 19px;
-  color: $teal;
-  font-family: $body-font-style;
-  font-size: 18px;
-  font-weight: bold;
-  letter-spacing: 0.71px;
-  line-height: 24px;
-  border: 2px solid $teal;
-}
-
-
-.style-ozaria {
-  h1 {
-    @include font-h-1-title-font-white;
-    
-    &.text-twilight {
-      @include font-h-1-title-font-twilight;
-    }
-
-    &.text-pitch {
-      @include font-h-1-title-font-twilight;
-      color: $pitch;
-    }
+@if $is-ozaria {
+  .ozaria-button {
+    width: auto;
+    height: 45px;
+    box-sizing: border-box;
   }
 
-  h2 {
-    @include font-h-2-subtitle-black;
-
-    &.text-twilight {
-      @include font-h-2-subtitle-twilight;
-    }
-
-    &.subtitile-moon {
-      @include font-h-2-subtitle-moon;
-    }
+  .ozaria-primary-button, .style-ozaria .ozaria-primary-button {
+    background-color: $teal;
+    padding: 11px 19px;
+    color: #f7f9f9;
+    font-family: $body-font-style;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 0.71px;
+    line-height: 24px;
   }
 
-  h3 {
-    @include font-h-3-subtitle-uppercase-twilight;
-    &.text-pitch {
-      color: $pitch;
-    }
+  .ozaria-secondary-button, .style-ozaria .ozaria-secondary-button {
+    padding: 11px 19px;
+    color: $teal;
+    font-family: $body-font-style;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 0.71px;
+    line-height: 24px;
+    border: 2px solid $teal;
   }
 
-  h4 {
-    @include font-h-4-navbar-uppercase-white;
 
-    &.navbar-uppercase-white {
+  .style-ozaria {
+    h1 {
+      @include font-h-1-title-font-white;
+
+      &.text-twilight {
+        @include font-h-1-title-font-twilight;
+      }
+
+      &.text-pitch {
+        @include font-h-1-title-font-twilight;
+        color: $pitch;
+      }
+    }
+
+    h2 {
+      @include font-h-2-subtitle-black;
+
+      &.text-twilight {
+        @include font-h-2-subtitle-twilight;
+      }
+
+      &.subtitile-moon {
+        @include font-h-2-subtitle-moon;
+      }
+    }
+
+    h3 {
+      @include font-h-3-subtitle-uppercase-twilight;
+      &.text-pitch {
+        color: $pitch;
+      }
+    }
+
+    h4 {
       @include font-h-4-navbar-uppercase-white;
-    }
-  }
 
-  p, li {
-    @include font-p-2-paragraph-medium-white;
-
-    &.large-twilight {
-      @include font-p-1-paragraph-large-twilight;
+      &.navbar-uppercase-white {
+        @include font-h-4-navbar-uppercase-white;
+      }
     }
 
-    &.medium-gray {
-      @include font-p-2-paragraph-medium-gray;
+    p, li {
+      @include font-p-2-paragraph-medium-white;
+
+      &.large-twilight {
+        @include font-p-1-paragraph-large-twilight;
+      }
+
+      &.medium-gray {
+        @include font-p-2-paragraph-medium-gray;
+      }
+
+      &.large-gray {
+        @include font-p-1-paragraph-large-gray;
+      }
+
     }
 
-    &.large-gray {
-      @include font-p-1-paragraph-large-gray;
-    }
-
-  }
-
-  .small-details {
-    font-size: 14px;
-    color: $authGray;
-
-    a {
+    .small-details {
+      font-size: 14px;
       color: $authGray;
-      text-decoration: underline;
-    }
-  }
 
-  .model-base-flat {
-    .modal-header {
-      background-color: white;
-    }
-  }
-
-  .row.or-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    margin-bottom: 15px;
-
-    p.or {
-      color: #a4a4a4;
-      margin: 0;
+      a {
+        color: $authGray;
+        text-decoration: underline;
+      }
     }
 
-    .line {
-      height: 2px;
-      width: 120px;
-      background-color: #f0f0f0;
-      margin: 0 32px;
+    .model-base-flat {
+      .modal-header {
+        background-color: white;
+      }
     }
-  }
 
-  &.modal-content {
-    border-radius: 5px;
-  }
+    .row.or-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-  &.educator-sign-up, &.teacher-form {
-    .form-container {
-      .form-control {
-        border-radius: 0px;
-        border: 1px solid #379B8D;
-        background: #FFFFFF;
-        &.placeholder-text {
-          color: #ADADAD
-        }
-        &.disabled-input {
-          background: #F2F2F2;
-          color: #ADADAD;
-        }
+      margin-bottom: 15px;
+
+      p.or {
+        color: #a4a4a4;
+        margin: 0;
       }
 
-      .inline-flex-form-label-div { // to display label and error on same line (eg: teacher onboarding forms)
-        display: inline-flex;
-        justify-content: space-between;
-        width: 100%;
+      .line {
+        height: 2px;
+        width: 120px;
+        background-color: #f0f0f0;
+        margin: 0 32px;
       }
-    
-      .control-label, .control-label-desc {
-        @include font-p-3-small-button-text-black;
-        font-weight: normal;
-      }
-      
-      .control-label-desc {
-        font-size: 12px;
-        line-height: 14px;
-      }
+    }
 
-      .form-group {
-        &.has-error {
-          .form-error {
-            @include font-p-4-paragraph-smallest-gray;
-            display: inline-block;
-            color: #0170E9;
+    &.modal-content {
+      border-radius: 5px;
+    }
+
+    &.educator-sign-up, &.teacher-form {
+      .form-container {
+        .form-control {
+          border-radius: 0px;
+          border: 1px solid #379B8D;
+          background: #FFFFFF;
+          &.placeholder-text {
+            color: #ADADAD
+          }
+          &.disabled-input {
+            background: #F2F2F2;
+            color: #ADADAD;
           }
         }
-      }
 
-      .form-error {
-        display: none;
-      }
+        .inline-flex-form-label-div { // to display label and error on same line (eg: teacher onboarding forms)
+          display: inline-flex;
+          justify-content: space-between;
+          width: 100%;
+        }
 
-      .ozaria-primary-button {
-        color: #000000;
-      }
+        .control-label, .control-label-desc {
+          @include font-p-3-small-button-text-black;
+          font-weight: normal;
+        }
 
-      .form-checkbox-input {
-        @include font-p-4-paragraph-smallest-gray;
-        input {
-          width: 6%
+        .control-label-desc {
+          font-size: 12px;
+          line-height: 14px;
+        }
+
+        .form-group {
+          &.has-error {
+            .form-error {
+              @include font-p-4-paragraph-smallest-gray;
+              display: inline-block;
+              color: #0170E9;
+            }
+          }
+        }
+
+        .form-error {
+          display: none;
+        }
+
+        .ozaria-primary-button {
+          color: #000000;
+        }
+
+        .form-checkbox-input {
+          @include font-p-4-paragraph-smallest-gray;
+          input {
+            width: 6%
+          }
         }
       }
     }

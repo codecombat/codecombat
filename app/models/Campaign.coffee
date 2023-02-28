@@ -13,7 +13,7 @@ module.exports = class Campaign extends CocoModel
   urlRoot: '/db/campaign'
   @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards', 'first', 'nextLevels', 'campaignPage', 'releasePhase', 'moduleNum']))
   @denormalizedCampaignProperties: ['name', 'i18n', 'slug']
-  @nextLevelProperties: ['original', 'name', 'slug', 'type']
+  @nextLevelProperties: ['original', 'name', 'slug', 'type', 'permissions']
 
   initialize: (options = {}) ->
     @forceCourseNumbering = options.forceCourseNumbering
@@ -22,12 +22,13 @@ module.exports = class Campaign extends CocoModel
   @getLevels: (campaign) ->
     levels = campaign.levels
     levels = _.sortBy(levels, 'campaignIndex')
-    if not me.isAdmin() and me.isInternal()
-      # remove beta levels
-      levels = levels.filter((l) => l.releasePhase != 'beta')
-    else if not me.isAdmin() and not me.isInternal() and not utils.internalCampaignIds.includes(campaign._id)
-      # remove beta+internal levels
-      levels = levels.filter((l) => l.releasePhase != 'beta' && l.releasePhase != 'internalRelease')
+    if utils.isOzaria
+      if not me.isAdmin() and me.isInternal()
+        # remove beta levels
+        levels = levels.filter((l) => l.releasePhase != 'beta')
+      else if not me.isAdmin() and not me.isInternal() and not utils.internalCampaignIds.includes(campaign._id)
+        # remove beta+internal levels
+        levels = levels.filter((l) => l.releasePhase != 'beta' && l.releasePhase != 'internalRelease')
     return levels
 
   getLevels: ->

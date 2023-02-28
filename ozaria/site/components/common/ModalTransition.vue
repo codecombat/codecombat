@@ -61,7 +61,6 @@ import * as focusTrap from 'focus-trap'
       showCharCx: false,
       classroom: undefined,
       nextLevelIsLocked: false,
-      doReload: false, // This was used for preventing memory leaks, but should no longer be needed
       focusTrapDeactivated: false,
       focusTrap: null
     }),
@@ -138,7 +137,7 @@ import * as focusTrap from 'focus-trap'
           await this.getNextLevelLink()
         }
         if (this.goToNextDirectly) {
-          return application.router.navigate(this.nextLevelLink, { trigger: true }, this.doReload)
+          return application.router.navigate(this.nextLevelLink, { trigger: true })
         }
       } catch (e) {
         // TODO handle_error_ozaria
@@ -275,7 +274,7 @@ import * as focusTrap from 'focus-trap'
       },
       nextButtonClick () {
         this.deactivateFocusTrap()
-        if (this.supermodel && !this.doReload) {
+        if (this.supermodel) {
           // Hack: save the current supermodel globally so that the next content view can grab it during initialization and doesn't have to reload everything
           window.temporarilyPreservedSupermodel = this.supermodel
           const removeTemporarilyPreservedSupermodel = () => window.temporarilyPreservedSupermodel = undefined
@@ -286,7 +285,7 @@ import * as focusTrap from 'focus-trap'
         } else if (this.charCxModal && this.nextLevelLink) {
           this.showCharCx = true
         } else if (this.nextLevelLink) {
-          return application.router.navigate(this.nextLevelLink, { trigger: true }, this.doReload)
+          return application.router.navigate(this.nextLevelLink, { trigger: true })
         }
       },
       // PlayLevelView is a backbone view, so replay button dismisses modal for that
@@ -307,14 +306,14 @@ import * as focusTrap from 'focus-trap'
           capstoneLinkAppend = `&continueEditing=true`
         }
         capstoneLink += capstoneLinkAppend
-        return application.router.navigate(capstoneLink, { trigger: true }, this.doReload)
+        return application.router.navigate(capstoneLink, { trigger: true })
       },
       copyUrl () {
         this.$refs['share-text-box'].select()
         tryCopy()
       },
       onCharCxSaved () {
-        return application.router.navigate(this.nextLevelLink, { trigger: true }, this.doReload)
+        return application.router.navigate(this.nextLevelLink, { trigger: true })
       }
     }
   })

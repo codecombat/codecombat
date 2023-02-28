@@ -30,8 +30,6 @@ module.exports = class ControlBarView extends CocoView
     'click .levels-link-area': 'onClickHome'
     'click .home a': 'onClickHome'
     'click #control-bar-sign-up-button': 'onClickSignupButton'
-    'click #version-switch-button': 'onClickVersionSwitchButton'
-    'click #version-switch-button .code-language-selector': 'onClickVersionSwitchButton'
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
 
   constructor: (options) ->
@@ -79,6 +77,14 @@ module.exports = class ControlBarView extends CocoView
   onLoaded: ->
     if @classroom
       @levelNumber = @classroom.getLevelNumber(@level.get('original'), @levelNumber)
+      newClassroomItemsSetting = @classroom.get('classroomItems', true)
+      oldClassroomItemsSetting = me.lastClassroomItems()
+      me.setLastClassroomItems @classroom.get('classroomItems', true)
+      if newClassroomItemsSetting isnt oldClassroomItemsSetting and @level.isType('course')
+        # Teacher must have just changed the setting, so we need to reload the page
+        me.setLastClassroomItems newClassroomItemsSetting
+        noty text: 'Classroom items & gems setting changed; reloading', layout: 'topCenter', type: 'success', killer: false, timeout: 2000
+        _.delay (-> document.location.reload()), 2000
     else if @campaign
       @levelNumber = @campaign.getLevelNumber(@level.get('original'), @levelNumber)
     if application.getHocCampaign() or @level.get('assessment')
@@ -105,7 +111,7 @@ module.exports = class ControlBarView extends CocoView
     c.observing = @observing
     @homeViewArgs = [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}]
     gameDevCampaign = application.getHocCampaign()
-    if gameDevCampaign
+    if gameDevCampaign and not @level.isLadder()
       @homeLink = "/play/#{gameDevCampaign}"
       @homeViewClass = 'views/play/CampaignView'
       @homeViewArgs.push gameDevCampaign
@@ -164,14 +170,6 @@ module.exports = class ControlBarView extends CocoView
 
   onClickSignupButton: (e) ->
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Control Bar', level: @levelID
-
-  onClickVersionSwitchButton: (e) ->
-    return if @destroyed
-    otherVersionLink = "/play/level/#{@level.get('slug')}?dev=true"
-    otherVersionLink += '&course=560f1a9f22961295f9427742' if not @course
-    otherVersionLink += "&codeLanguage=#{codeLanguage}" if codeLanguage = $(e.target).data('code-language')
-    #Backbone.Mediator.publish 'router:navigate', route: otherVersionLink, viewClass: 'views/play/level/PlayLevelView', viewArgs: [{supermodel: @supermodel}, @level.get('slug')]  # TODO: why doesn't this work?
-    document.location.href = otherVersionLink  # Loses all loaded resources :(
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true

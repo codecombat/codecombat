@@ -1,22 +1,17 @@
 <template>
   <div>
     <div class="library-login">
-      <div class="arapahoe" v-if="libraryId === 'arapahoe-13579'">
-        <div class="arapahoe__head">
-          <img src="/images/pages/play/arapahoe-logo.png" alt="Arapahoe logo" class="arapahoe__head-logo">
+      <div
+        v-if="isArapahoe"
+        class="arapahoe common"
+      >
+        <div class="common__head">
+          <img src="/images/pages/play/arapahoe-logo.png" alt="Arapahoe logo" class="common__head-logo">
         </div>
-        <div
-          v-if="alreadyInArapahoeLibrary"
-          class="already-library arapahoe__msg"
+        <form
+          v-if="!alreadyLoggedIn"
+          @submit.prevent="() => onLibraryLogin({ libraryName: 'arapahoe' })"
         >
-          <div class="arapahoe__msg-text">
-            {{ $t('library.network_detected') }}
-          </div>
-          <div class="arapahoe__msg-subtext">
-            <a href="/play" class="arapahoe__existing-link">{{ $t('new_home.click_here') }}</a> {{ $t('library.not_redirect_auto') }}
-          </div>
-        </div>
-        <form @submit.prevent="onArapahoeLogin" v-if="!alreadyHaveProfileId && !alreadyInArapahoeLibrary">
           <div class="arapahoe__body">
             <div class="arapahoe__body__library">
               <h2 class="arapahoe__body__library-text">
@@ -31,18 +26,87 @@
                 {{ $t('library.access_coco') }}
               </button>
             </div>
-            <div class="arapahoe__error" v-if="errMsg">
+            <div class="arapahoe__error error" v-if="errMsg">
               {{ errMsg }}
             </div>
           </div>
         </form>
-        <div class="arapahoe__existing arapahoe__msg" v-if="alreadyHaveProfileId">
-          <div class="arapahoe__msg-text">
-            {{ $t('library.already_using_library_id') }} <b>{{ libraryProfileId }}</b>, <a href="/play" class="arapahoe__existing-link">{{ $t('new_home.click_here') }}</a> {{ $t('library.play_coco') }}
+        <div
+          v-else
+          class="common__already"
+        >
+          {{ $t('library.already_logged_in') }}
+        </div>
+      </div>
+      <div
+        v-else-if="isOpenAthens || isHoustonLibrary"
+        class="houston common"
+      >
+        <div
+          v-if="isHoustonLibrary"
+          class="common__head"
+        >
+          <img src="/images/pages/play/houston-library-logo.png" alt="Houston logo" class="common__head-logo">
+        </div>
+        <div
+          v-show="!progressState && !alreadyLoggedIn && showWayFinder"
+          id="wayfinder"
+        >
+          {{ $t('common.loading') }}
+        </div>
+        <div
+          class="houston__login"
+          v-if="!alreadyLoggedIn"
+        >
+          <p
+            v-if="!progressState && showWayFinder"
+            class="houston__login__option"
+          >
+            {{ $t('library.search_box_option') }}
+            <a
+              @click.prevent="redirectToOpenAthens"
+              href="#"
+              class="houston__login__option-link"
+            >
+              {{ $t('general.here') }}
+            </a>
+            {{ $t('code.or') }} <a href="mailto:support@codecombat.com">{{ $t('contact.contact_us') }} </a>
+          </p>
+          <div
+            v-if="!progressState && !showWayFinder && isDeeplink !== 'true'"
+            class="houston__login__btn"
+          >
+            <button
+              @click="redirectToOpenAthens"
+              class="btn btn-primary btn-lg"
+            >
+              Login / Sign Up
+            </button>
           </div>
-          <div class="arapahoe__msg-subtext">
-            {{ $t('library.not_library_id') }}, <a href="#" class="arapahoe__new_link" @click.prevent="loginAgain">{{ $t('new_home.click_here') }}</a> {{ $t('library.access_using_id') }}
+          <div
+            v-else-if="isDeeplink === 'true'"
+            class="houston__login__redirect"
+          >
+            Redirecting..
           </div>
+        </div>
+        <div
+          v-else
+          class="common__already"
+        >
+          {{ $t('library.already_logged_in') }}
+        </div>
+        <div
+          v-if="progressState"
+          class="houston__progress"
+        >
+          {{ progressState }}
+        </div>
+        <div
+          v-else-if="errMsg"
+          class="houston__error error"
+        >
+          {{ errMsg }}
         </div>
       </div>
       <div class="unknown" v-else>
@@ -53,59 +117,130 @@
 </template>
 
 <script>
+import { provisionPremium } from '../../lib/user-utils'
 const usersLib = require('../../core/api/users')
 const globalVar = require('core/globalVar')
-import { libraryName } from '../../lib/user-utils'
 export default {
   name: 'LibraryLoginView',
   data () {
     return {
       libraryProfileId: null,
       errMsg: null,
-      alreadyHaveProfileId: false,
-      alreadyInArapahoeLibrary: false
+      progressState: null,
+      alreadyLoggedIn: false
     }
   },
   props: {
     libraryId: {
       type: String,
       required: true
+    },
+    code: {
+      type: String, // houston library response contains code
+      default: null
+    },
+    libName: {
+      type: String,
+      default: null
+    },
+    isDeeplink: {
+      type: String,
+      default: 'false'
+    },
+    entityID: {
+      type: String,
+      default: null
+    },
+    target: {
+      type: String,
+      default: null
     }
   },
-  created () {
-    if (me.get('library')?.profileId) {
-      this.libraryProfileId = me.get('library').profileId
+  mounted () {
+    this.libraryProfileId = me.get('library')?.profileId
+    this.alreadyLoggedIn = !me.isAnonymous()
+    if (this.isDeeplink === 'true' && !this.alreadyLoggedIn) {
+      // document.cookie = `deeplink=${this.target}; max-age=300; path=/;`
+      this.redirectToOpenAthens()
+      return
     }
-    this.alreadyHaveProfileId = me.get('library')?.profileId
-    this.alreadyInArapahoeLibrary = libraryName() === 'arapahoe'
-    // adding a check after x seconds so that if provision-subscription request is not over by created, we get to check again
-    setTimeout(() => {
-      this.alreadyInArapahoeLibrary = libraryName() === 'arapahoe'
-    }, 10000)
+    if (this.isHoustonLibrary || this.isOpenAthens) {
+      this.handleHoustonLibrary()
+    }
   },
-  watch: {
-    alreadyInArapahoeLibrary (newVal, oldVal) {
-      if (newVal)
-        setTimeout(() => {
-          window.location = '/play'
-        }, 2000)
+  computed: {
+    isHoustonLibrary () {
+      return this.isOpenAthens && this.libName === 'houston'
+    },
+    isOpenAthens () {
+      return this.libraryId === 'open-athens' || this.libraryId === 'open-athens-redirect'
+    },
+    isArapahoe () {
+      return this.libraryId === 'arapahoe-13579'
+    },
+    showWayFinder () {
+      return this.libName === 'way-finder'
     }
   },
   methods: {
-    async onArapahoeLogin () {
+    async onLibraryLogin ({ libraryName }) {
       this.errMsg = null
       try {
-        await usersLib.loginArapahoe({ libraryProfileId: this.libraryProfileId })
-        await me.fetch({ cache: false })
-        window.location = '/play'
+        await usersLib.loginArapahoe({ libraryProfileId: this.libraryProfileId, libraryName })
+        await this.postLogin()
       } catch (err) {
-        console.log('error resp', err)
+        console.error('error resp', err)
         this.errMsg = err.message
+        this.progressState = null
       }
     },
     async loginAgain () {
       globalVar.currentView.logoutRedirectURL = null
       await me.logout()
+    },
+    async postLogin () {
+      provisionPremium()
+      await me.fetch({ cache: false })
+      window.location = '/play'
+    },
+    async handleHoustonLibrary () {
+      if (this.alreadyLoggedIn) {
+        return
+      }
+      this.loadWayFinder()
+      if (this.code) {
+        this.progressState = 'Fetching user info...'
+        this.errMsg = null
+        try {
+          await usersLib.loginHouston({ code: this.code })
+          this.progressState = 'Trying to login...'
+          await this.postLogin()
+        } catch (err) {
+          console.error('handleOA err', err)
+          this.errMsg = err?.message || 'Failed to retrieve user info'
+          this.progressState = null
+        }
+      }
+    },
+    loadWayFinder () {
+      /* eslint-disable */
+      (function(w,a,y,f){
+          w._wayfinder=w._wayfinder||function(){(w._wayfinder.q=w._wayfinder.q||[]).push(arguments)};
+          const p={oaDomain:'codecombat.com',oaAppId:'6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6'};
+          w._wayfinder.settings=p;const h=a.getElementsByTagName('head')[0];const s=a.createElement('script');s.async=1;
+          const q=Object.keys(p).map(function(key){return key+'='+p[key]}).join('&');
+          s.src=y+'v1'+f+"?"+q;h.appendChild(s);}
+      )(window,document,'https://wayfinder.openathens.net/embed/','/loader.js');
+    },
+    redirectToOpenAthens () {
+      const clientId = globalVar.application.isProduction() ? 'codecombat.com.oidc-app-v1.705681f4-8cce-48aa-a022-a7a3c65f23c9' : 'codecombat.com.oidc-app-v1.6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6'
+      const scope = 'openid'
+      const responseType = 'code'
+      const redirectId = this.libraryId.includes('-redirect') ? this.libraryId : `${this.libraryId}-redirect`
+      const redirectUri = encodeURIComponent(`${window.location.origin}/library/${redirectId}/login`)
+      // window.location = `https://connect.openathens.net/codecombat.com/6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6/login?entity=https://idp.bigpharma.com/entity`
+      const entityParam = this.entityID ? `&entityID=${encodeURIComponent(this.entityID)}` : ''
+      window.location = `https://connect.openathens.net/oidc/auth?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}${entityParam}`
     }
   }
 }
@@ -115,9 +250,8 @@ export default {
 .library-login {
   font-size: 62.5%;
 }
-.arapahoe {
+.common {
   text-align: center;
-  background-color: #f4f2f2;
   margin-left: 25%;
   margin-right: 25%;
   padding: 5rem 3rem;
@@ -129,6 +263,13 @@ export default {
       width: 20rem;
     }
   }
+
+  &__already {
+    font-size: 1.5rem;
+  }
+}
+.arapahoe {
+  background-color: #f4f2f2;
 
   &__body {
 
@@ -153,13 +294,6 @@ export default {
     }
   }
 
-  &__error {
-    color: #ff0000;
-    text-align: center;
-    font-size: 2rem;
-    margin-top: 1rem;
-  }
-
   &__msg {
     font-size: 1.8rem;
     padding: 2rem;
@@ -170,8 +304,35 @@ export default {
   }
 }
 
+.houston {
+  background-color: #f4f2f2;
+
+  &__progress {
+    font-size: 1.8rem;
+  }
+
+  &__login {
+    padding-top: 1rem;
+
+    &__option {
+      font-size: 1.5rem;
+    }
+
+    &__redirect {
+      font-size: 1.5rem;
+    }
+  }
+}
+
 .unknown {
   text-align: center;
   font-size: 2rem;
+}
+
+.error {
+  color: #ff0000;
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 1rem;
 }
 </style>

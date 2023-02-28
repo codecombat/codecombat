@@ -31,7 +31,7 @@ module.exports = class LeaderboardView extends CocoView
       {slug: 'wins', col: 1, title: $.i18n.t('ladder.win_num')},
       {slug: 'losses', col: 1, title: $.i18n.t('ladder.loss_num')},
       {slug: 'win-rate', col: 1, title: $.i18n.t('ladder.win_rate')},
-      {slug: 'clan', col: 2, title: $.i18n.t('clans.clan')},
+      {slug: 'clan', col: 2, title: $.i18n.t('league.team')},
       {slug: 'age', col: 1, title: $.i18n.t('ladder.age_bracket')},
       {slug: 'country', col:1, title: '🏴‍☠️'}
     ]
@@ -41,10 +41,11 @@ module.exports = class LeaderboardView extends CocoView
         {slug: 'creator', col: 0, title: ''},
         {slug: 'language', col: 1, title: ''},
         {slug: 'rank', col: 1, title: ''},
-        {slug: 'name', col: 3, title: $.i18n.t('general.name')},
+        {slug: 'name', col: 2, title: $.i18n.t('general.name')},
         {slug: 'score', col: 2, title: $.i18n.t('general.score')},
+        {slug: 'clan', col: 2, title: $.i18n.t('league.team')},
         {slug: 'age', col: 1, title: $.i18n.t('ladder.age')},
-        {slug: 'when', col: 2, title: $.i18n.t('general.when')}
+        {slug: 'when', col: 1, title: $.i18n.t('general.when')}
         {slug: 'fight', col: 1, title: ''}
       ]
       @propsData.scoreType = 'arena'
@@ -125,19 +126,25 @@ module.exports = class LeaderboardView extends CocoView
       delta = @rankings.length - nearby[0].rank + 1
       return nearby.slice(delta)
 
+  mapFullName: (fullName) ->
+    fullName?.replace(/^Anonymous/, $.i18n.t('general.player'))
+
   mapRankings: (data ) ->
     return _.map data, (model, index) =>
       if model?.type == 'BLANK_ROW'
         return model
       if @tournament
+        isMyLevelSession = model.get('creator') is me.id and model.constructor.name is 'LevelSession'
+        wins = model.get('wins') ? (if isMyLevelSession then model.myWins else 0)
+        losses = model.get('losses') ? (if isMyLevelSession then model.myLosses else 0)
         return [
           model.get('creator'),
           model.get('submittedCodeLanguage'),
-          index+1,
+          model.rank ? index+1,
           (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
-          model.get('wins'),
-          model.get('losses'),
-          ((model.get('wins') or 0) / (((model.get('wins') or 0) + (model.get('losses') or 0)) or 1) * 100).toFixed(2) + '%',
+          wins,
+          losses,
+          ((wins or 0) / (((wins or 0) + (losses or 0)) or 1) * 100).toFixed(2) + '%',
           @getClanName(model),
           @getAgeBracket(model),
           model.get('creatorCountryCode')
@@ -147,8 +154,9 @@ module.exports = class LeaderboardView extends CocoView
           model.get('creator'),
           model.get('submittedCodeLanguage'),
           model.rank || index+1,
-          if @anonymousPlayerName and me.get('_id').toString() != model.get('creator') then utils.anonymizingUser(model.get('creator')) else (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
+          (@mapFullName(model.get('fullName')) || model.get('creatorName') || $.i18n.t("play.anonymous")),
           @correctScore(model),
+          @getClanName(model),
           @getAgeBracket(model),
           moment(model.get('submitDate')).fromNow().replace('a few ', ''),
           model.get('_id')
@@ -166,7 +174,7 @@ module.exports = class LeaderboardView extends CocoView
       oldLeaderboard.destroy()
 
     teamSession = _.find @sessions.models, (session) -> session.get('team') is 'humans'
-    @leaderboards = new LeaderboardData(@level, 'humans', teamSession, @ladderLimit, @league, @tournament, @ageBracket)
+    @leaderboards = new LeaderboardData(@level, 'humans', teamSession, @ladderLimit, @league, @tournament, @ageBracket, @options.myTournamentSubmission)
     @leaderboardRes = @supermodel.addModelResource(@leaderboards, 'leaderboard', {cache: false}, 3)
     @leaderboardRes.load()
 

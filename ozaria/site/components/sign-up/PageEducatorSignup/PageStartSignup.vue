@@ -1,6 +1,7 @@
 <script>
   import { mapMutations, mapGetters } from 'vuex'
   import { validationMessages } from './common/signUpValidations'
+  import { logInWithClever } from 'core/social-handlers/CleverHandler'
 
   const User = require('models/User')
 
@@ -22,7 +23,9 @@
         return me.useSocialSignOn()
       }
     },
-
+    created () {
+      this.clickGoogleSignup()
+    },
     methods: {
       ...mapMutations({
         updateSso: 'teacherSignup/updateSso',
@@ -39,7 +42,8 @@
         return false
       },
 
-      async clickGoogleSignup () {
+      async clickGoogleSignup (e) {
+        e?.preventDefault()
         try {
           this.errorMessage = ''
           await new Promise((resolve, reject) =>
@@ -47,50 +51,60 @@
               success: resolve,
               error: reject
             }))
-          await new Promise((resolve, reject) =>
-            application.gplusHandler.connect({
-              context: this,
-              success: resolve
-            }))
-          const gplusAttrs = await new Promise((resolve, reject) =>
-            application.gplusHandler.loadPerson({
-              context: this,
-              success: resolve,
-              error: reject
-            }))
-          const { email, firstName, lastName } = gplusAttrs
-          const emailExists = await this.checkEmail(email)
-          if (emailExists) {
-            this.errorMessage = this.validationMessages.errorEmailExists.i18n
-            return
-          }
-          this.resetState()
-          this.updateSso({
-            ssoUsed: 'gplus',
-            ssoAttrs: gplusAttrs
-          })
-          this.updateSignupForm({
-            firstName: firstName,
-            lastName: lastName,
-            email: email
-          })
-          this.updateTrialRequestProperties({
-            firstName: firstName,
-            lastName: lastName,
-            email: email
+          application.gplusHandler.connect({
+            context: this,
+            elementId: 'google-login-button-priority',
+            success: (resp = {}) => {
+              this.postGoogleLoginClick({ resp })
+            }
           })
         } catch (err) {
           console.error('Error in teacher signup', err)
           this.errorMessage = err.message || 'Error during signup'
+        }
+      },
+
+      async postGoogleLoginClick ({ resp = {} }) {
+        const gplusAttrs = await new Promise((resolve, reject) =>
+          application.gplusHandler.loadPerson({
+            context: this,
+            success: resolve,
+            error: reject,
+            resp
+          }))
+        const { email, firstName, lastName } = gplusAttrs
+        const emailExists = await this.checkEmail(email)
+        if (emailExists) {
+          this.errorMessage = this.validationMessages.errorEmailExists.i18n
           return
         }
+        this.resetState()
+        this.updateSso({
+          ssoUsed: 'gplus',
+          ssoAttrs: gplusAttrs
+        })
+        this.updateSignupForm({
+          firstName: firstName,
+          lastName: lastName,
+          email: email
+        })
+        this.updateTrialRequestProperties({
+          firstName: firstName,
+          lastName: lastName,
+          email: email
+        })
         this.$emit('startSignup', 'gplus')
       },
 
-      clickEmailSignup () {
+      clickEmailSignup (e) {
+        e.preventDefault()
         this.errorMessage = ''
         this.resetState()
         this.$emit('startSignup', 'email')
+      },
+
+      clickCleverSignup () {
+        logInWithClever()
       }
     }
   }
@@ -111,15 +125,17 @@
           span.li-title {{ $t("signup.educator_signup_list_3_title") }}!{' '}
           span.li-desc {{ $t("signup.educator_signup_list_3_desc") }}
       .social-sign-in(v-if="useSocialSignOn")
-        a(@click="clickGoogleSignup")
+        a(@click="clickGoogleSignup" href="#" id="google-login-button-priority")
           img(src="/images/ozaria/common/google_signin_classroom.png")
+        a(@click="clickCleverSignup" href="#" id="clever-login-button-priority")
+          img(src="/images/pages/modal/auth/clever_sso_button@2x.png")
         span.error(v-if="errorMessage") {{ $t(errorMessage) }}
       .email-sign-up
         span {{ $t("general.or") }}!{' '}
-        a(@click="clickEmailSignup") {{ $t("signup.signup_with_email") }}
+        a(@click="clickEmailSignup" href="#") {{ $t("signup.signup_with_email") }}
     .log-in
       span {{ $t("signup.already_have_account") }}!{'? '}
-        a(@click="$emit('signIn')") {{ $t("signup.sign_in") }}
+        a(@click="$emit('signIn')" href="#") {{ $t("signup.sign_in") }}
 </template>
 
 <style lang="sass" scoped>
@@ -130,7 +146,7 @@
   flex-flow: column
   justify-content: center
   .start-signup-content
-    height: 50%
+    height: 55%
     display: flex
     flex-direction: column
     justify-content: flex-start
@@ -141,7 +157,15 @@
         .li-title
           font-weight: 600
     .social-sign-in
-      margin: 15px 0
+      margin: 5px 0
+      a
+        display: inline-block
+        width: 200px
+        height: 40px
+        float: left
+        img
+          width: 200px
+          height: 40px
     .email-sign-up
       color: #0b63bc
   a

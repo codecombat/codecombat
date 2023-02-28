@@ -3,11 +3,13 @@ slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and 
 isCodeCombat = true
 isOzaria = false
 
-getAnonymizedName = (shouldAnonymize, session) ->
-  if shouldAnonymize and me.get('_id').toString() != session.get('creator')
-    anonymizingUser(session.get('creator'))
+getCorrectName = (session) ->
+  if session.fullName # already handle anonymize in server side
+    session.fullName.replace(/^Anonymous/, $.i18n.t('general.player'))
+  else if session.get('fullName')
+    session.get('fullName').replace(/^Anonymous/, $.i18n.t('general.player'))
   else
-    session.get('creatorName') or 'Anonymous'
+    session.creatorName or session.get('creatorName') or $.i18n.t('play.anonymous')
 
 getAnonymizationStatus = (league, supermodel) ->
   unless league and features.enableAnonymization
@@ -144,6 +146,9 @@ countryCodeToName = (code) ->
   return code unless country = _.find countries, countryCode: code.toUpperCase()
   titleize country.country
 
+countryNameToCode = (country) ->
+  _.find(countries, country: country?.toLowerCase())?.countryCode
+
 titleize = (s) ->
   # Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
   _.string.titleize(_.string.humanize(s)).replace(/ (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig, (word) => word.toLowerCase())
@@ -167,6 +172,12 @@ if isCodeCombat
     COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d'
     COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
     COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
+
+  otherCourseIDs =
+    CHAPTER_ONE: '5d41d731a8d1836b5aa3cba1'
+    CHAPTER_TWO: '5d8a57abe8919b28d5113af1'
+    CHAPTER_THREE: '5e27600d1c9d440000ac3ee7'
+    CHAPTER_FOUR: '5f0cb0b7a2492bba0b3520df'
 
   CSCourseIDs = [
     courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
@@ -193,47 +204,15 @@ if isCodeCombat
     courseIDs.COMPUTER_SCIENCE_5
     courseIDs.COMPUTER_SCIENCE_6
   ]
-
-  courseNumericalStatus = {}
-  courseNumericalStatus['NO_ACCESS'] = 0
-  courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 1
-  courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 2
-  courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 4
-  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 8
-  courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 16
-  courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 32
-  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 64
-  courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 128
-  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
-  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
-  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
-  courseNumericalStatus['FULL_ACCESS'] = 2047
-
-  courseAcronyms = {}
-  courseAcronyms[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
-  courseAcronyms[courseIDs.GAME_DEVELOPMENT_1] = 'GD1'
-  courseAcronyms[courseIDs.WEB_DEVELOPMENT_1] = 'WD1'
-  courseAcronyms[courseIDs.COMPUTER_SCIENCE_2] = 'CS2'
-  courseAcronyms[courseIDs.GAME_DEVELOPMENT_2] = 'GD2'
-  courseAcronyms[courseIDs.WEB_DEVELOPMENT_2] = 'WD2'
-  courseAcronyms[courseIDs.COMPUTER_SCIENCE_3] = 'CS3'
-  courseAcronyms[courseIDs.GAME_DEVELOPMENT_3] = 'GD3'
-  courseAcronyms[courseIDs.COMPUTER_SCIENCE_4] = 'CS4'
-  courseAcronyms[courseIDs.COMPUTER_SCIENCE_5] = 'CS5'
-  courseAcronyms[courseIDs.COMPUTER_SCIENCE_6] = 'CS6'
+  otherOrderedCourseIDs = [
+    otherCourseIDs.CHAPTER_ONE
+    otherCourseIDs.CHAPTER_TWO
+    otherCourseIDs.CHAPTER_THREE
+    otherCourseIDs.CHAPTER_FOUR
+  ]
 
   # Ozaria uses this
   courseModules = {}
-
-  courseLessonSlidesURLs = {}
-  unless features?.china
-    courseLessonSlidesURLs[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'https://drive.google.com/drive/folders/1YU7LEZ6TLQzbAsSMw90nNJfvU7gDrcid?usp=sharing'
-    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_2] = 'https://drive.google.com/drive/folders/1x24P6ZY_MBOBoHvlikbDr7jvMPYVRVkJ?usp=sharing'
-    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_3] = 'https://drive.google.com/drive/folders/1hBl-h5Xvo5chYH4q9e6IEo42JozlrTG9?usp=sharing'
-    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_4] = 'https://drive.google.com/drive/folders/1tbuE4Xn0ahJ0xcF1-OaiPs9lHeIs9zqG?usp=sharing'
-    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_5] = 'https://drive.google.com/drive/folders/1ThxWFZjoXzU5INtMzlqKEn8xkgHhVnl4?usp=sharing'
-    courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_1] = 'https://drive.google.com/drive/folders/1YSJ9wcfHRJ2854F-vUdSWqoLBuSJye7V?usp=sharing'
-    courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_2] = 'https://drive.google.com/drive/folders/1Mks2MA-WGMrwNpZj6VtKkL3loPnHp_bs?usp=sharing'
 
   hourOfCodeOptions = {
     campaignId: freeCampaignIds[0],
@@ -251,9 +230,21 @@ else
   courseIDs =
     CHAPTER_ONE: '5d41d731a8d1836b5aa3cba1'
     CHAPTER_TWO: '5d8a57abe8919b28d5113af1'
-    CHAPTER_TWO_PLAYTEST: '5eb34fc8dc0fd35e8eae66b0'
     CHAPTER_THREE: '5e27600d1c9d440000ac3ee7'
     CHAPTER_FOUR: '5f0cb0b7a2492bba0b3520df'
+
+  otherCourseIDs =
+    INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
+    GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
+    WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f'
+    COMPUTER_SCIENCE_2: '5632661322961295f9428638'
+    GAME_DEVELOPMENT_2: '57b621e7ad86a6efb5737e64'
+    WEB_DEVELOPMENT_2: '5789587aad86a6efb5737020'
+    COMPUTER_SCIENCE_3: '56462f935afde0c6fd30fc8c'
+    GAME_DEVELOPMENT_3: '5a0df02b8f2391437740f74f'
+    COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d'
+    COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
+    COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
 
   CSCourseIDs = [
     courseIDs.CHAPTER_ONE
@@ -265,33 +256,22 @@ else
   orderedCourseIDs = [
     courseIDs.CHAPTER_ONE
     courseIDs.CHAPTER_TWO
-    courseIDs.CHAPTER_TWO_PLAYTEST
     courseIDs.CHAPTER_THREE
     courseIDs.CHAPTER_FOUR
   ]
-
-  # TODO: how can we support Ozaria-specific or mixed licenses? Copied these from CodeCombat, but they are not Ozaria courses
-  courseNumericalStatus = {}
-  courseNumericalStatus['NO_ACCESS'] = 0
-  #courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 1
-  #courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 2
-  #courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 4
-  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 8
-  #courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 16
-  #courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 32
-  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 64
-  #courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 128
-  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
-  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
-  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
-  courseNumericalStatus['FULL_ACCESS'] = 2047
-
-  courseAcronyms = {}
-  courseAcronyms[courseIDs.CHAPTER_ONE] = 'CH1'
-  courseAcronyms[courseIDs.CHAPTER_TWO] = 'CH2'
-  courseAcronyms[courseIDs.CHAPTER_TWO_PLAYTEST] = 'CH2P'
-  courseAcronyms[courseIDs.CHAPTER_THREE] = 'CH3'
-  courseAcronyms[courseIDs.CHAPTER_FOUR] = 'CH4'
+  otherOrderedCourseIDs = [
+    otherCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+    otherCourseIDs.GAME_DEVELOPMENT_1
+    otherCourseIDs.WEB_DEVELOPMENT_1
+    otherCourseIDs.COMPUTER_SCIENCE_2
+    otherCourseIDs.GAME_DEVELOPMENT_2
+    otherCourseIDs.WEB_DEVELOPMENT_2
+    otherCourseIDs.COMPUTER_SCIENCE_3
+    otherCourseIDs.GAME_DEVELOPMENT_3
+    otherCourseIDs.COMPUTER_SCIENCE_4
+    otherCourseIDs.COMPUTER_SCIENCE_5
+    otherCourseIDs.COMPUTER_SCIENCE_6
+  ]
 
   # Harcoding module names for simplicity
   # Use db to store these later when we add sophisticated module functionality, right now its only used for UI
@@ -300,14 +280,6 @@ else
     '1': 'Introduction to Coding'
   }
   courseModules[courseIDs.CHAPTER_TWO] = {
-    '1': 'Algorithms and Syntax',
-    '2': 'Debugging',
-    '3': 'Variables',
-    '4': 'Conditionals',
-    '5': 'Capstone Intro',
-    '6': 'Capstone Project'
-  }
-  courseModules[courseIDs.CHAPTER_TWO_PLAYTEST] = {
     '1': 'Algorithms and Syntax',
     '2': 'Debugging',
     '3': 'Variables',
@@ -329,15 +301,40 @@ else
     '4': 'Capstone'
   }
 
-  # CodeCombat uses this, for now
-  courseLessonSlidesURLs = {}
-
   hourOfCodeOptions = {
     campaignId: freeCampaignIds[0],
     courseId: courseIDs.CHAPTER_ONE,
     name: 'Chapter 1: Up The Mountain',
     progressModalAfter: 1500000 #25 mins
   }
+
+allCourseIDs = _.assign(courseIDs, otherCourseIDs)
+
+courseNumericalStatus = {}
+do ->
+  courseNumericalStatus['NO_ACCESS'] = 0
+  index = 1
+  for key in [orderedCourseIDs..., otherOrderedCourseIDs...]
+    courseNumericalStatus[key] = index
+    index *= 2
+  courseNumericalStatus['FULL_ACCESS'] = index - 1
+
+courseAcronyms = {}
+courseAcronyms[allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
+courseAcronyms[allCourseIDs.GAME_DEVELOPMENT_1] = 'GD1'
+courseAcronyms[allCourseIDs.WEB_DEVELOPMENT_1] = 'WD1'
+courseAcronyms[allCourseIDs.COMPUTER_SCIENCE_2] = 'CS2'
+courseAcronyms[allCourseIDs.GAME_DEVELOPMENT_2] = 'GD2'
+courseAcronyms[allCourseIDs.WEB_DEVELOPMENT_2] = 'WD2'
+courseAcronyms[allCourseIDs.COMPUTER_SCIENCE_3] = 'CS3'
+courseAcronyms[allCourseIDs.GAME_DEVELOPMENT_3] = 'GD3'
+courseAcronyms[allCourseIDs.COMPUTER_SCIENCE_4] = 'CS4'
+courseAcronyms[allCourseIDs.COMPUTER_SCIENCE_5] = 'CS5'
+courseAcronyms[allCourseIDs.COMPUTER_SCIENCE_6] = 'CS6'
+courseAcronyms[allCourseIDs.CHAPTER_ONE] = 'CH1'
+courseAcronyms[allCourseIDs.CHAPTER_TWO] = 'CH2'
+courseAcronyms[allCourseIDs.CHAPTER_THREE] = 'CH3'
+courseAcronyms[allCourseIDs.CHAPTER_FOUR] = 'CH4'
 
 registerHocProgressModalCheck = ->
   hocProgressModalCheck = setInterval(() =>
@@ -777,6 +774,14 @@ sortCoursesByAcronyms = (courses) ->
     index = 9001 if index is -1
     index
 
+tournamentSortFn = (ta, tb) ->
+  stateOrder =
+    starting: 0,
+    ended: 1,
+    initializing: 2,
+    disabled: 4
+  (stateOrder[ta.state] - stateOrder[tb.state]) || (new Date(ta.endDate) - new Date(tb.endDate))
+
 usStateCodes =
   # https://github.com/mdzhang/us-state-codes
   # generated by js2coffee 2.2.0
@@ -1037,12 +1042,18 @@ OZARIA = 'ozaria'
 OZARIA_CHINA = 'aojiarui'
 
 isOldBrowser = () ->
-  if features.china and $.browser
+  if $.browser
     return true if not ($.browser.webkit or $.browser.mozilla or $.browser.msedge)
     majorVersion = $.browser.versionNumber
-    return true if $.browser.mozilla && majorVersion < 25
-    return true if $.browser.chrome && majorVersion < 72  # forbid some chinese browser
-    return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
+    # css math function supports
+    return true if $.browser.mozilla && majorVersion < 75
+    return true if $.browser.chrome && majorVersion < 79
+    return true if $.browser.safari && majorVersion < 11.1
+  return false
+
+isChinaOldBrowser = () ->
+  if features.china && isOldBrowser()
+    return true
   return false
 
 # AI League arenas
@@ -1055,10 +1066,16 @@ arenas = [
   {season: 3, slug: 'colossus'         , type: 'championship', start: new Date("2021-11-19T00:00:00.000-08:00"), end: new Date("2021-12-15T00:00:00.000-08:00"), results: new Date("2021-12-21T07:00:00.000-08:00"), levelOriginal: '615ffaf2b20b4900280e0070', tournament: '61983f74fd75db5e28ac127a', image: "/file/db/level/615ffaf2b20b4900280e0070/Colossus-Clash-02.jpg"}
   {season: 4, slug: 'iron-and-ice'     , type: 'regular',      start: new Date("2022-01-01T00:00:00.000-08:00"), end: new Date("2022-05-01T00:00:00.000-07:00"), results: new Date("2022-05-10T07:00:00.000-07:00"), levelOriginal: '618a5a13994545008d2d4990', tournament: '623a648580501d0025d8f4ef', image: "/file/db/level/618a5a13994545008d2d4990/Iron-and-Ice-Arena-Banner-02.jpg"}
   {season: 4, slug: 'tundra-tower'     , type: 'championship', start: new Date("2022-03-11T00:00:00.000-07:00"), end: new Date("2022-05-01T00:00:00.000-07:00"), results: new Date("2022-05-10T07:00:00.000-07:00"), levelOriginal: '620cb80a9bc0f1005e9189d7', tournament: '623a652b53903c1c6c1c6045', image: '/file/db/level/620cb80a9bc0f1005e9189d7/Tundra-Tower-Cup-Arena-Banner-1000px.jpeg'}
-  {season: 5, slug: 'desert-duel'      , type: 'regular',      start: new Date("2022-05-01T00:00:00.000-07:00"), end: new Date("2022-09-01T00:00:00.000-07:00"), results: new Date("2022-09-08T07:00:00.000-07:00"), levelOriginal: '62540bd270cb4400504ad44c', tournament: '626c6017deb6dd43a1937b81', image: '/file/db/level/62540bd270cb4400504ad44c/Basketball-Arena-Banner-01.jpg'}
-  {season: 5, slug: 'sandstorm'        , type: 'championship', start: new Date("2022-08-01T00:00:00.000-07:00"), end: new Date("2022-09-01T00:00:00.000-07:00"), results: new Date("2022-09-08T07:00:00.000-07:00"), levelOriginal: '62d50c5cd722b00025eddac7', tournament: '62e6ff22a6960064d67d87c3', image: '/file/db/level/62d50c5cd722b00025eddac7/Basketball-Arena-Sandstorm-Banner-02.jpg'}
-  {season: 6, slug: 'magma-mountain'   , type: 'regular',      start: new Date("2022-09-01T00:00:00.000-07:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-10T07:00:00.000-08:00"), levelOriginal: ''}
-  {season: 6, slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-10T07:00:00.000-08:00"), levelOriginal: ''}
+  {season: 5, slug: 'desert-duel'      , type: 'regular',      start: new Date("2022-05-01T00:00:00.000-07:00"), end: new Date("2022-09-01T00:00:00.000-07:00"), results: new Date("2022-09-13T07:00:00.000-07:00"), levelOriginal: '62540bd270cb4400504ad44c', tournament: '626c6017deb6dd43a1937b81', image: '/file/db/level/62540bd270cb4400504ad44c/Basketball-Arena-Banner-01.jpg'}
+  {season: 5, slug: 'sandstorm'        , type: 'championship', start: new Date("2022-08-01T00:00:00.000-07:00"), end: new Date("2022-09-01T00:00:00.000-07:00"), results: new Date("2022-09-13T07:00:00.000-07:00"), levelOriginal: '62d50c5cd722b00025eddac7', tournament: '62e6ff22a6960064d67d87c3', image: '/file/db/level/62d50c5cd722b00025eddac7/Basketball-Arena-Sandstorm-Banner-02.jpg'}
+  {season: 6, slug: 'magma-mountain'   , type: 'regular',      start: new Date("2022-09-01T00:00:00.000-07:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-11T07:00:00.000-08:00"), levelOriginal: '62f9f6506428860025b15a8b', tournament: '638557acf7cd36e695a1aad0', image: '/file/db/level/62f9f6506428860025b15a8b/Codecombat-Magma-Mountain-Banner-02b%20(1).jpg'}
+  {season: 6, slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-11T07:00:00.000-08:00"), levelOriginal: '635bceb16dc3150020acb1f8', tournament: '63855798f7cd36e695a1aac5', image: '/file/db/level/635bceb16dc3150020acb1f8/Lava-Lake-Arena-Banner-02.jpg'}
+  {season: 7, slug: 'frozen-fortress'  , type: 'regular',      start: new Date("2023-01-01T00:00:00.000-08:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: '639c9a5fad4eb7001f66c801'}
+  {season: 7, slug: 'equinox'          , type: 'championship', start: new Date("2023-03-01T00:00:00.000-07:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: ''}
+  {season: 8, slug: 'pool-party-plunder',type: 'regular',      start: new Date("2023-05-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-13T07:00:00.000-07:00"), levelOriginal: ''}
+  {season: 8, slug: 'beach-ball'       , type: 'championship', start: new Date("2023-08-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-13T07:00:00.000-07:00"), levelOriginal: ''}
+  {season: 9, slug: 'storm-siege'      , type: 'regular',      start: new Date("2023-09-01T00:00:00.000-07:00"), end: new Date("2024-01-01T00:00:00.000-08:00"), results: new Date("2024-01-10T07:00:00.000-08:00"), levelOriginal: ''}
+  {season: 9, slug: 'snowhold'         , type: 'championship', start: new Date("2023-12-01T00:00:00.000-08:00"), end: new Date("2024-01-01T00:00:00.000-08:00"), results: new Date("2024-01-10T07:00:00.000-08:00"), levelOriginal: ''}
 ]
 
 # AI League seasons
@@ -1067,14 +1084,17 @@ AILeagueSeasons = [
   {number: 2, championshipType: 'blitz', image: '/images/pages/league/logo_blitz.png',       video: '8a347a9c0da34f487ae4fdaa8234000a', videoThumbnailTime: '837s'}
   {number: 3, championshipType: 'clash', image: '/images/pages/league/logo_clash.png',       video: '26bee42b433e19f789271ae400529025', videoThumbnailTime: '1732s'}
   {number: 4, championshipType: 'cup',   image: '/images/pages/league/tundra-tower-cup.png', video: 'bfbf1a5187888d110ee47f97b7491c2a', videoThumbnailTime: '1568s'}
-  {number: 5, championshipType: 'blitz', image: '/images/pages/league/sand-storm-blitz.png', video: '',                                 videoThumbnailTime: ''}
-  {number: 6, championshipType: 'clash', image: '/images/pages/league/lava-lake-clash.png',  video: '',                                 videoThumbnailTime: ''}
+  {number: 5, championshipType: 'blitz', image: '/images/pages/league/sand-storm-blitz.png', video: '4d73a54ff2cdc9b0084a538beb476437', videoThumbnailTime: '1638s'}
+  {number: 6, championshipType: 'clash', image: '/images/pages/league/lava-lake-clash.png',  video: '6650f5c84f65ecd1709cca1210c4e9ab', videoThumbnailTime: '1762s'}
+  {number: 7, championshipType: 'cup',   image: '/images/pages/league/equinox-cup.png',      video: '',                                 videoThumbnailTime: ''}
+  {number: 8, championshipType: 'blitz', image: '/images/pages/league/beach-ball-blitz.png', video: '',                                 videoThumbnailTime: ''}
+  {number: 9, championshipType: 'clash', image: '/images/pages/league/snowhold-clash.png',   video: '',                                 videoThumbnailTime: ''}
 ]
 
 activeArenas = ->
   return [] if features.chinaInfra
   daysActiveAfterEnd = regular: 7, championship: 14
-  (_.clone(a) for a in arenas when a.start <= new Date() < a.end.getTime() + daysActiveAfterEnd[a.type] * 86400 * 1000)
+  (_.clone(a) for a in arenas when (a.start <= new Date() < a.end.getTime() + daysActiveAfterEnd[a.type] * 86400 * 1000) and a.levelOriginal)
 
 activeAndPastArenas = -> (_.clone(a) for a in arenas when a.start <= new Date())
 
@@ -1132,11 +1152,58 @@ orgKindString = (kind, org=null) ->
   }[kind]
   return $.i18n.t(key)
 
-getProductName = ()->
-  product = if isOzaria then OZARIA else CODECOMBAT
-  $.i18n.t("new_home." + product)
+getProduct = -> if isOzaria then OZARIA else CODECOMBAT
+
+getProductName = -> $.i18n.t("new_home." + getProduct())
 
 supportEmail = 'support@codecombat.com'
+
+capitalizeFirstLetter = (str) -> (str[0] or '').toUpperCase() + str.slice(1)
+
+markdownToPlainText = (text) ->
+  plainTextMarkedRenderer = new marked.Renderer()
+  for element in ['code', 'blockquote', 'html', 'heading', 'hr', 'list', 'listitem', 'paragraph', 'table', 'tablerow', 'tablecell', 'strong', 'em', 'codespan', 'br', 'del', 'text']
+    plainTextMarkedRenderer[element] = (text) -> text
+  for element in ['link', 'image']
+    plainTextMarkedRenderer[element] = (href, title, text) -> text
+  plainText = marked text, renderer: plainTextMarkedRenderer
+  plainText
+
+###
+# Get the estimated Hz of the primary monitor in the system.
+#
+# @param {Function} callback The function triggered after obtaining the estimated Hz of the monitor.
+# @param {Boolean} runIndefinitely If set to true, the callback will be triggered indefinitely (for live counter).
+###
+# https://ourcodeworld.com/articles/read/1390/how-to-determine-the-screen-refresh-rate-in-hz-of-the-monitor-with-javascript-in-the-browser
+getScreenRefreshRate = (callback, runIndefinitely) ->
+  requestId = null
+  callbackTriggered = false
+  window.requestAnimationFrame ?= window.mozRequestAnimationFrame or window.webkitRequestAnimationFrame
+  DOMHighResTimeStampCollection = []
+
+  triggerAnimation = (DOMHighResTimeStamp) ->
+    DOMHighResTimeStampCollection.unshift DOMHighResTimeStamp
+    if DOMHighResTimeStampCollection.length > 10
+      t0 = DOMHighResTimeStampCollection.pop()
+      fps = Math.floor(1000 * 10 / (DOMHighResTimeStamp - t0))
+      unless callbackTriggered
+        callback.call undefined, fps, DOMHighResTimeStampCollection
+      if runIndefinitely
+        callbackTriggered = false
+      else
+        callbackTriggered = true
+    requestId = window.requestAnimationFrame(triggerAnimation)
+    return
+
+  window.requestAnimationFrame triggerAnimation
+  # Stop after half second if it shouldn't run indefinitely
+  unless runIndefinitely
+    window.setTimeout (->
+      window.cancelAnimationFrame requestId
+      requestId = null
+    ), 500
+  return
 
 module.exports = {
   activeAndPastArenas
@@ -1151,6 +1218,7 @@ module.exports = {
   arenas
   bracketToAge
   campaignIDs
+  capitalizeFirstLetter
   capitalLanguages
   clanHeroes
   clone
@@ -1158,9 +1226,10 @@ module.exports = {
   countries
   countryCodeToFlagEmoji
   countryCodeToName
+  countryNameToCode
   courseAcronyms
   courseIDs
-  courseLessonSlidesURLs
+  allCourseIDs
   courseModules
   courseNumericalStatus
   CSCourseIDs
@@ -1181,13 +1250,15 @@ module.exports = {
   getCoursePraise
   getDocumentSearchString
   getPrepaidCodeAmount
+  getProduct
   getProductName
   getQueryVariable
   getQueryVariables
+  getScreenRefreshRate
   getSponsoredSubsAmount
   getUTCDay
   getAnonymizationStatus
-  getAnonymizedName
+  getCorrectName
   grayscale
   hexToHSL
   hourOfCodeOptions
@@ -1203,6 +1274,7 @@ module.exports = {
   isValidEmail
   keepDoingUntil
   kindaEqual
+  markdownToPlainText
   needsPractice
   normalizeFunc
   objectIdToDate
@@ -1230,7 +1302,9 @@ module.exports = {
   CODECOMBAT_CHINA
   OZARIA_CHINA
   isOldBrowser
+  isChinaOldBrowser
   isCodeCombat
   isOzaria
   supportEmail
+  tournamentSortFn
 }

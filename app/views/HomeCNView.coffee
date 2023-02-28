@@ -9,6 +9,8 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
+fetchJson = require 'core/api/fetch-json'
+DOMPurify = require 'dompurify'
 
 module.exports = class HomeCNView extends RootView
   id: 'home-cn-view'
@@ -53,6 +55,13 @@ module.exports = class HomeCNView extends RootView
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
 
     ]
+
+  getBanner: ->
+    fetchJson('/db/banner').then((data) =>
+      @banner = data
+      content = utils.i18n data, 'content'
+      @banner.display = DOMPurify.sanitize marked(content ? '')
+    )
 
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()

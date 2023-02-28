@@ -1,3 +1,4 @@
+/* eslint import/no-absolute-path: 0 */
 import VueRouter from 'vue-router'
 
 let vueRouter
@@ -10,6 +11,10 @@ export default function getVueRouter () {
 
       routes: [
         {
+          path: '/announcements',
+          component: () => import(/* webpackChunkName: "AnnouncementView" */ 'app/views/announcement/AnnouncementView')
+        },
+        {
           path: '/parents',
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
           props: (route) => ({ showPremium: true, type: route.query.type })
@@ -21,9 +26,10 @@ export default function getVueRouter () {
             // Stub pages
             { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') },
             {
-              path: 'ladders',
+              path: 'ladders/:idOrSlug?',
               name: 'LaddersList',
               component: () => import(/* webpackChunkName: "mainLadderViewV2" */'app/views/ladder/MainLadderViewV2'),
+              props: (route) => ({ ...route.query, ...route.params }),
               meta: { toTop: true }
             },
             { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') }
@@ -46,7 +52,8 @@ export default function getVueRouter () {
             { path: '', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/teachers/SchoolAdminTeacherListView') },
             { path: 'teacher/:teacherId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/dashboard/SchoolAdminDashboardTeacherView') },
             { path: 'teacher/:teacherId/classroom/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/courses/TeacherClassViewV2.vue') },
-            { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/classes/TeacherStudentView.vue') }
+            { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/classes/TeacherStudentView.vue') },
+            { path: 'licenses/stats', component: () => import(/* webpackChunkName: 'LicenseStats' */ 'app/views/school-administrator/dashboard/LicenseTableView.vue') }
           ]
         },
         {
@@ -97,6 +104,10 @@ export default function getVueRouter () {
           props: (route) => ({ ...route.query, ...route.params })
         },
         {
+          path: '/roblox',
+          component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox'),
+        },
+        {
           path: '/teachers/licenses',
           component: () => import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/StudentLicensesMainComponent')
         },
@@ -130,6 +141,17 @@ export default function getVueRouter () {
           path: '/podcast/:handle',
           name: 'PodcastSingle',
           component: () => import(/* webpackChunkName: "podcastSingle" */'/app/views/podcast/SinglePodcastView')
+        },
+        {
+          path: '/users/switch-account',
+          name: 'UserSwitchAccount',
+          component: () => import(/* webpackChunkName: "userSwitchAccount" */'/app/views/user/SwitchAccountView')
+        },
+        {
+          path: '/users/switch-account/:confirmingUserId/:requestingConfirmUserId/confirm',
+          name: 'UserSwitchAccountConfirmation',
+          component: () => import(/* webpackChunkName: "userSwitchAccountConfirm" */'/app/views/user/SwitchAccountConfirmationView'),
+          props: (route) => ({ ...route.query, ...route.params })
         }
       ],
       scrollBehavior(to) {

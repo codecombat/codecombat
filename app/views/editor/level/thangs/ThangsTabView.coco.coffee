@@ -91,6 +91,7 @@ module.exports = class ThangsTabView extends CocoView
 
     @thangTypes = new Backbone.Collection()
     thangTypeCollection = new ThangTypeSearchCollection([])
+    thangTypeCollection.url += '&archived=false'
     thangTypeCollection.fetch({data: {limit: PAGE_SIZE}})
     thangTypeCollection.skip = 0
     # should load depended-on Components, too
@@ -99,6 +100,7 @@ module.exports = class ThangsTabView extends CocoView
 
     # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
     @componentCollection = new LevelComponents([], {saveBackups: true})
+    @componentCollection.url += '?archived=false'
     @supermodel.trackRequest(@componentCollection.fetch())
     @listenToOnce(@componentCollection, 'sync', ->
       for component in @componentCollection.models
@@ -562,6 +564,7 @@ module.exports = class ThangsTabView extends CocoView
       @thangsTreema.delete(@pathForThang(thang))
       @deleteEmptyTreema(thang)
       Thang.resetThangIDs()  # TODO: find some way to do this when we delete from treema, too
+      Backbone.Mediator.publish 'editor:thang-deleted', {thangID: thang.id}
     @gameUIState.set('selected', [])
 
   deleteEmptyTreema: (thang)->
@@ -627,6 +630,7 @@ module.exports = class ThangsTabView extends CocoView
     delete thang.index for thang in thangs
 
     @level.set 'thangs', thangs
+    Backbone.Mediator.publish 'editor:level-thangs-changed', thangs: thangs
     return if @editThangView
     return if skipSerialization
     serializedLevel = @level.serialize {@supermodel, session: null, otherSession: null, headless: false, sessionless: true, cached: true}
@@ -712,6 +716,8 @@ module.exports = class ThangsTabView extends CocoView
     @updateEditedThang e.thangData, e.oldPath
 
   updateEditedThang: (newThang, oldPath) ->
+    return unless @thangsTreema
+    return if _.isEqual(@thangsTreema.get(oldPath), newThang)
     @hush = true
     @thangsTreema.delete oldPath
     @populateFoldersForThang(newThang)

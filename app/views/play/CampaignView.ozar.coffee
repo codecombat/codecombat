@@ -1120,7 +1120,6 @@ module.exports = class CampaignView extends RootView
 
   onClickCampaignSwitch: (e) ->
     campaignSlug = $(e.target).data('campaign-slug')
-    console.log campaignSlug, @isPremiumCampaign campaignSlug
     if @isPremiumCampaign(campaignSlug) and not me.isPremium()
       e.preventDefault()
       e.stopImmediatePropagation()
@@ -1350,13 +1349,13 @@ module.exports = class CampaignView extends RootView
       return me.finishedAnyLevels() and not features.noAds and not isStudentOrTeacher and me.get('country') is 'united-states' and me.get('preferredLanguage', true) is 'en-US' and new Date() < new Date(2019, 11, 20)
 
     if what in ['status-line']
-      return (me.showGemsAndXp() or !isStudentOrTeacher) and not @editorMode
+      return (me.showGemsAndXpInClassroom() or !isStudentOrTeacher) and not @editorMode
 
     if what in ['gems']
-      return me.showGemsAndXp() or !isStudentOrTeacher
+      return me.showGemsAndXpInClassroom() or !isStudentOrTeacher
 
     if what in ['level', 'xp']
-      return me.showGemsAndXp() or !isStudentOrTeacher
+      return me.showGemsAndXpInClassroom() or !isStudentOrTeacher
 
     if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans']
       return !isStudentOrTeacher and not @editorMode

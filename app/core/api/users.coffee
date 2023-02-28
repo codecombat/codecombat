@@ -108,4 +108,33 @@ module.exports = {
       method: 'POST'
       json: attrs
     }))
+
+  loginHouston: (attrs, options={}) ->
+    fetchJson("/auth/login-houston", _.assign({}, options, {
+      method: 'POST'
+      json: attrs
+    }))
+
+  putUserProducts: (json, options={}) ->
+    fetchJson('/db/user/products', _.assign({}, options, {
+      method: 'PUT',
+      json
+    }))
+
+  getRelatedAccount: ({ userId }) ->
+    fetchJson("/db/user/related-accounts/#{userId}", _.assign({}, {
+      method: 'GET'
+    }))
+
+  verifyRelatedAccount: ({ userAskingToRelateId, body }) ->
+    fetchJson("/db/user/related-accounts/#{userAskingToRelateId}/verify", _.assign({}, {
+      method: 'PUT'
+      json: body
+    }))
+
+  sendVerifyEmail: (body) ->
+    fetchJson("/db/user/related-accounts/confirm-email", _.assign({}, {
+      method: 'POST'
+      json: body
+    }))
 }

@@ -400,7 +400,7 @@ class LevelNode extends TreemaObjectNode
 
     completion = ''
 
-    published = data.permissions.some((permission) ->
+    published = data.permissions?.some((permission) ->
       permission.access == 'read' and permission.target == 'public'
     )
 

@@ -18,7 +18,7 @@ const ResourceHubResourceSchema = schema.object(
     section: schema.shortString({
       title: 'Section',
       description: 'Declares which section the resource will appear in.',
-      enum: ['gettingStarted', 'educatorResources', 'studentResources', 'lessonSlides']
+      enum: ['gettingStarted', 'educatorResources', 'lessonSlides', 'studentResources']
     }),
 
     link: {
@@ -63,7 +63,7 @@ const ResourceHubResourceSchema = schema.object(
       format: 'courses',
       items: schema.shortString({
         format: 'course',
-        enum: Object.values(utils.courseAcronyms)
+        enum: Object.values(utils.courseIDs).map(c => utils.courseAcronyms[c])
       })
     }
   }

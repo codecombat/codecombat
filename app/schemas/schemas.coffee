@@ -19,7 +19,7 @@ me.shortString = (ext) -> combine({type: 'string', maxLength: 100}, ext)
 me.pct = (ext) -> combine({type: 'number', maximum: 1.0, minimum: 0.0}, ext)
 me.passwordString = {
   allOf: [
-    {type: 'string', maxLength: 64, minLength: 4, title: 'Password'},
+    {type: 'string', maxLength: 64, minLength: 8, title: 'Password'},
     { not: { pattern: '([\\s\\S])\\1\\1' } }
   ]
 }
@@ -224,7 +224,7 @@ me.activity = me.object {description: 'Stats on an activity'},
   last: me.date()
   count: {type: 'integer', minimum: 0}
 
-me.terrainString = me.shortString {enum: ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano'], title: 'Terrain', description: 'Which terrain type this is.'}
+me.terrainString = me.shortString {enum: ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano'], title: 'Terrain', description: 'Which terrain type this is.', inEditor: 'codecombat'}
 
 me.HeroConfigSchema = me.object {description: 'Which hero the player is using, equipped with what inventory.'},
   inventory:

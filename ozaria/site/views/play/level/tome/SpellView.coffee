@@ -61,7 +61,7 @@ module.exports = class SpellView extends CocoView
     'level:contact-button-pressed': 'onContactButtonPressed'
     'level:show-victory': 'onShowVictory'
     'web-dev:error': 'onWebDevError'
-    'tome:updateAether': 'onUpdateAether'
+    'tome:update-aether': 'onUpdateAether'
     'tome:scroll-to-top': 'onScrollToTop'
     'tome:remove-all-markers': 'onRemoveAllMarkers'
 
@@ -558,7 +558,7 @@ module.exports = class SpellView extends CocoView
   reallyAddUserSnippets: (source, lang, session) ->
     newIdentifiers = aceUtils.parseUserSnippets(source, lang, session)
     # console.log 'debug newIdentifiers: ', newIdentifiers
-    @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
+    @autocomplete?.addCustomSnippets Object.values(newIdentifiers), @editorLang if @editorLang?
 
   addAutocompleteSnippets: (e) ->
     # Snippet entry format:
@@ -1075,7 +1075,7 @@ module.exports = class SpellView extends CocoView
     @spellHasChanged = true
 
   onAceMouseOut: (e) ->
-    Backbone.Mediator.publish("web-dev:stop-hovering-line")
+    Backbone.Mediator.publish("web-dev:stop-hovering-line", {})
 
   onAceMouseMove: (e) =>
     return if @destroyed
@@ -1141,7 +1141,7 @@ module.exports = class SpellView extends CocoView
   focus: ->
     # TODO: it's a hack checking if a modal is visible; the events should be removed somehow
     # but this view is not part of the normal subview destroying because of how it's swapped
-    return unless @controlsEnabled and @writable and $('.modal:visible, .shepherd-button:visible').length is 0
+    return unless @controlsEnabled and @writable and $('.modal:visible').length is 0
     return if @ace.isFocused()
     return if me.get('aceConfig')?.screenReaderMode and utils.isOzaria  # Screen reader users get to control their own focus manually
     @ace.focus()

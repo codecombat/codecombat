@@ -366,7 +366,12 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
-  constructor: (@level, @team, @session, @limit, @league, @tournamentId, @ageBracket) ->
+  constructor: (@level, @team, @session, @limit, @league, @tournamentId, @ageBracket, @myTournamentSubmission) ->
+    if @myTournamentSubmission
+      @myWins = @myTournamentSubmission.get('wins')
+      @myLosses = @myTournamentSubmission.get('losses')
+      @myTotalScore = @myTournamentSubmission.get('totalScore')
+      @myWinRate = (@myWins or 0) / Math.max((@myWins or 0) + (@myLosses or 0), 1)
     super()
 
   collectionParameters: (parameters) ->
@@ -388,15 +393,17 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     promises.push @topPlayers.fetch cache: false
 
     if @session
-      if @league
+      if @myTotalScore
+        score = @myTotalScore
+      else if @league
         score = _.find(@session.get('leagues'), {leagueID: @league.id})?.stats.totalScore
       else
         score = @session.get('totalScore')
       if score
         if @tournamentId?
-          @playersAbove = new TournamentLeaderboardCollection(@tournamentId, @collectionParameters(order: 1, scoreOffset: score, limit: 4))
+          @playersAbove = new TournamentLeaderboardCollection(@tournamentId, @collectionParameters(order: 1, scoreOffset: score, limit: 4, winRate: @myWinRate))
           promises.push @playersAbove.fetch cache: false
-          @playersBelow = new TournamentLeaderboardCollection(@tournamentId, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
+          @playersBelow = new TournamentLeaderboardCollection(@tournamentId, @collectionParameters(order: -1, scoreOffset: score, limit: 4, winRate: @myWinRate))
           promises.push @playersBelow.fetch cache: false
         else
           @playersAbove = new LeaderboardCollection(@level, @collectionParameters(order: 1, scoreOffset: score, limit: 4))
@@ -407,7 +414,13 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
         loadURL = "/db/level/#{@level.get('original')}/rankings/#{@session.id}?scoreOffset=#{score}&team=#{@team}&levelSlug=#{@level.get('slug')}"
         loadURL += '&leagues.leagueID=' + @league.id if @league
         if @tournamentId?
-          loadURL = "/db/tournament/#{@tournamentId}/rankings?scoreOffset=#{score}&team=#{@team}"
+          success = ({rank, wins, losses, totalScore}) =>
+            @myRank = rank
+            @myWins = wins
+            @myLosses = losses
+            @myTotalScore = totalScore
+            @myWinRate = (@myWins or 0) / Math.max((@myWins or 0) + (@myLosses or 0), 1)
+          loadURL = "/db/tournament/#{@tournamentId}/rankings/#{@session.id}?scoreOffset=#{score}&team=#{@team}"
         promises.push $.ajax(loadURL, cache: false, success: success)
     @promise = $.when(promises...)
     @promise.then @onLoad
@@ -430,7 +443,9 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     return me.id in (session.attributes.creator for session in @topPlayers.models)
 
   nearbySessions: ->
-    if @league
+    if @myTotalScore
+      score = @myTotalScore
+    else if @league
       score = _.find(@session?.get('leagues'), {leagueID: @league.id})?.stats.totalScore
     else
       score = @session?.get('totalScore')
@@ -443,6 +458,10 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
       # add ageBracket for @session
       @session.ageBracket = utils.ageToBracket(@session.get('creatorAge'))
     l.push @session
+    if @myWins
+      @session.myWins = @myWins
+      @session.myLosses = @myLosses
+      @session.myTotalScore = @myTotalScore
     l = l.concat(@playersBelow.models)
     if @myRank is 'unknown'
       session.rank ?= '' for session in l
