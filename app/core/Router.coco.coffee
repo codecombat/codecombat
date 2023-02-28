@@ -98,7 +98,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'announcements': go('core/SingletonAppVueComponentView')
 
-    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
+#    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
     'api-dashboard': go('core/SingletonAppVueComponentView')
 
@@ -195,6 +195,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'i18n/course/:handle': go('i18n/I18NEditCourseView')
     'i18n/product/:handle': go('i18n/I18NEditProductView')
     'i18n/article/:handle': go('i18n/I18NEditArticleView')
+    'i18n/resource_hub_resource/:handle': go('i18n/I18NEditResourceHubResourceView')
 
     'identify': go('user/IdentifyView')
     'il-signup': go('account/IsraelSignupView')
@@ -204,6 +205,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'partners': () ->
       @routeDirectly('PagePartners', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+
+    'apcsp': () ->
+      @routeDirectly('PageAPCSPMarketing', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
 
     'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
     'league/kipp': redirect('/league/autoclan-school-network-kipp') # Redirect for KIPP.
@@ -335,6 +339,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView
+
     @viewLoad = new ViewLoadTimer() unless options.recursive
     if options.redirectStudents and me.isStudent() and not me.isAdmin()
       return @redirectHome()

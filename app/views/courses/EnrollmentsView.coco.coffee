@@ -12,6 +12,7 @@ TeachersContactModal = require 'views/teachers/TeachersContactModal'
 utils = require 'core/utils'
 ShareLicensesModal = require 'views/teachers/ShareLicensesModal'
 LicenseStatsModal = require 'views/teachers/LicenseStatsModal'
+{sendSlackMessage} = require 'core/contact'
 
 {
   STARTER_LICENSE_COURSE_IDS
@@ -235,15 +236,10 @@ module.exports = class EnrollmentsView extends RootView
     @openModalView(new HowToEnrollModal())
 
   onClickContactUsButton: ->
-    $.ajax({
-      type: 'POST',
-      url: '/db/trial.request.slacklog',
-      data: {
-        event: 'EnrollmentsView clicked contact us',
-        name: me?.broadName(),
-        email: me?.get('email')
-      }
-    })
+    slackData =
+      channel: 'sales-feed'
+      event: 'EnrollmentsView clicked contact us',
+    sendSlackMessage slackData
     window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers'
     modal = new TeachersContactModal({
       shouldUpsell: @state.get('shouldUpsell'),

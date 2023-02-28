@@ -610,9 +610,6 @@ import { mapGetters } from 'vuex'
 import ModalUserDetails from './ModalUserDetails'
 import { getAvailability } from 'core/api/parents'
 
-const DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID = 214809
-const DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID = 222065
-
 export default {
   components: {
     ModalUserDetails,
@@ -662,10 +659,6 @@ export default {
   },
 
   mounted () {
-    if (window.drift) {
-      window.drift.on('scheduling:meetingBooked', this.onDriftMeetingBooked)
-    }
-
     if (this.type === 'thank-you') {
       this.onClassBooked()
     }
@@ -677,12 +670,6 @@ export default {
         window.me.trackActivity('viewed-parents-pricing')
       }
     })
-  },
-
-  beforeDestroy () {
-    if (window.drift) {
-      window.drift.off('scheduling:meetingBooked', this.onDriftMeetingBooked)
-    }
   },
 
   methods: {
@@ -756,35 +743,23 @@ export default {
         e.preventDefault()
       }
 
-      if (!window.drift && (this.type === 'parents' || this.type === 'sales' || this.type === 'chat')) {
-        console.log('No Drift, resetting to self-serve')
+      if (this.type === 'parents' || this.type === 'sales' || this.type === 'chat') {
+        // We used to have a chat type, with Drift, but got rid of it
         this.type = 'self-serve'
       }
 
       this.trackCtaClicked()
 
       if (this.type === 'parents' || this.type === 'sales') {
-        window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID })
+        // We used to show Drift chat here
       } else if (this.type === 'chat') {
-        const now = new Date()
-        // Monday to Friday 8am - 4pm EST
-        if (now.getUTCHours() - 5 >= 7 && now.getUTCHours() - 5 <= 15 && now.getDay() > 0 && now.getDay() < 6) {
-          window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID })
-        } else {
-          window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID })
-        }
+        // We used to show another type of Drift chat here, depending on what time it was
       } else if (this.type === 'self-serve' || this.type === 'thank-you') {
         this.showTimetapModal = true
       } else if (this.type === 'call') {
         window.location.href = 'tel:818-873-2633'
       } else {
         console.error('Unknown CTA type on parents page')
-      }
-    },
-
-    onDriftMeetingBooked (e) {
-      if (e.interactionId === DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID || e.interactionId === DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID) {
-        application.tracker.trackEvent('Live classes welcome call scheduled', { parentsPageType: this.type })
       }
     },
 

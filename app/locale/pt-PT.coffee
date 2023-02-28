@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     managed_by: "Gerida por"
     will_be_cancelled: "Será cancelada em"
     currently_free: "Atualmente tens uma subscrição gratuita"
-    currently_free_until: "Atualmente tens uma subscrição até"
+    currently_free_until: "Atualmente tens uma subscrição até __date__"
     free_subscription: "Subscrição gratuita"
     was_free_until: "Tinhas uma subscrição gratuita até"
     managed_subs: "Subscrições Geridas"

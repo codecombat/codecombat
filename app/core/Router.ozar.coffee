@@ -366,7 +366,8 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args=[], options={}) ->
-    @vueRouter.push("/#{Backbone.history.getFragment()}")
+    @vueRouter.push("/#{Backbone.history.getFragment()}").catch (e) ->
+      console.error 'vue router push warning:', e
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView
@@ -483,7 +484,10 @@ module.exports = class CocoRouter extends Backbone.Router
 
   activateTab: ->
     base = _.string.words(document.location.pathname[1..], '/')[0]
-    $("ul.nav li.#{base}").addClass('active')
+    try
+      $("ul.nav li.#{base}").addClass('active')
+    catch e
+      console.warn e  # Possibly a hash that would not match a valid element
 
   _trackPageView: ->
     window.tracker?.trackPageView()
@@ -513,11 +517,9 @@ module.exports = class CocoRouter extends Backbone.Router
       @viewLoad.setView(e.view)
     @viewLoad.record()
 
-  navigate: (fragment, options, doReload) ->
+  navigate: (fragment, options) ->
     super fragment, options
     Backbone.Mediator.publish 'router:navigated', route: fragment
-    if doReload
-      @reload()
 
   reload: ->
     document.location.reload()

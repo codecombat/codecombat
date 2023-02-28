@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     managed_by: "מנוהל על-ידי"
     will_be_cancelled: "יבוטל ב:"
     currently_free: "יש לכם כעת מנוי חינם"
-    currently_free_until: "יש לכם כעת מנוי עד לתאריך"
+    currently_free_until: "יש לכם כעת מנוי עד לתאריך __date__"
     free_subscription: "מנוי חינם"
     was_free_until: "היה לך מנוי חינם עד"
     managed_subs: "מנויים מנוהלים"

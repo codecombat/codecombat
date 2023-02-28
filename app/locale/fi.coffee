@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     managed_by: "Hallinnoija"
     will_be_cancelled: "Peruutus astuu voimaan"
     currently_free: "Sinulla on tällähetkellä ilmainen tilaus"
-    currently_free_until: "Tilauksesi on voimassa"
+    currently_free_until: "Tilauksesi on voimassa __date__"
     free_subscription: "Ilmainen tilaus"
     was_free_until: "Ilmainen tilauksesi päättyi"
     managed_subs: "Hallinnoidut tilaukset"

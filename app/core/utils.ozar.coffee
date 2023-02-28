@@ -146,6 +146,9 @@ countryCodeToName = (code) ->
   return code unless country = _.find countries, countryCode: code.toUpperCase()
   titleize country.country
 
+countryNameToCode = (country) ->
+  _.find(countries, country: country?.toLowerCase())?.countryCode
+
 titleize = (s) ->
   # Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
   _.string.titleize(_.string.humanize(s)).replace(/ (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig, (word) => word.toLowerCase())
@@ -1128,6 +1131,51 @@ supportEmail = 'support@ozaria.com'
 
 capitalizeFirstLetter = (str) -> (str[0] or '').toUpperCase() + str.slice(1)
 
+markdownToPlainText = (text) ->
+  plainTextMarkedRenderer = new marked.Renderer()
+  for element in ['code', 'blockquote', 'html', 'heading', 'hr', 'list', 'listitem', 'paragraph', 'table', 'tablerow', 'tablecell', 'strong', 'em', 'codespan', 'br', 'del', 'text']
+    plainTextMarkedRenderer[element] = (text) -> text
+  for element in ['link', 'image']
+    plainTextMarkedRenderer[element] = (href, title, text) -> text
+  plainText = marked text, renderer: plainTextMarkedRenderer
+  plainText
+
+###
+# Get the estimated Hz of the primary monitor in the system.
+#
+# @param {Function} callback The function triggered after obtaining the estimated Hz of the monitor.
+# @param {Boolean} runIndefinitely If set to true, the callback will be triggered indefinitely (for live counter).
+###
+# https://ourcodeworld.com/articles/read/1390/how-to-determine-the-screen-refresh-rate-in-hz-of-the-monitor-with-javascript-in-the-browser
+getScreenRefreshRate = (callback, runIndefinitely) ->
+  requestId = null
+  callbackTriggered = false
+  window.requestAnimationFrame ?= window.mozRequestAnimationFrame or window.webkitRequestAnimationFrame
+  DOMHighResTimeStampCollection = []
+
+  triggerAnimation = (DOMHighResTimeStamp) ->
+    DOMHighResTimeStampCollection.unshift DOMHighResTimeStamp
+    if DOMHighResTimeStampCollection.length > 10
+      t0 = DOMHighResTimeStampCollection.pop()
+      fps = Math.floor(1000 * 10 / (DOMHighResTimeStamp - t0))
+      unless callbackTriggered
+        callback.call undefined, fps, DOMHighResTimeStampCollection
+      if runIndefinitely
+        callbackTriggered = false
+      else
+        callbackTriggered = true
+    requestId = window.requestAnimationFrame(triggerAnimation)
+    return
+
+  window.requestAnimationFrame triggerAnimation
+  # Stop after half second if it shouldn't run indefinitely
+  unless runIndefinitely
+    window.setTimeout (->
+      window.cancelAnimationFrame requestId
+      requestId = null
+    ), 500
+  return
+
 module.exports = {
   activeAndPastArenas
   activeArenas
@@ -1149,6 +1197,7 @@ module.exports = {
   countries
   countryCodeToFlagEmoji
   countryCodeToName
+  countryNameToCode
   courseAcronyms
   courseIDs
   allCourseIDs
@@ -1176,6 +1225,7 @@ module.exports = {
   getProductName
   getQueryVariable
   getQueryVariables
+  getScreenRefreshRate
   getSponsoredSubsAmount
   getUTCDay
   getAnonymizationStatus
@@ -1194,6 +1244,7 @@ module.exports = {
   isSmokeTestEmail
   isValidEmail
   keepDoingUntil
+  markdownToPlainText
   kindaEqual
   needsPractice
   normalizeFunc
