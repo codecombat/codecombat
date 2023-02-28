@@ -28,9 +28,8 @@ export default class ZendeskTracker extends BaseTracker {
   async _initializeTracker () {
     if (this.isChatEnabled) {
       await this.loadZendesk()
-    } else {
-      this.onInitializeSuccess()
     }
+    this.onInitializeSuccess()
 
     this.watchForDisableAllTrackingChanges(this.store)
   }
