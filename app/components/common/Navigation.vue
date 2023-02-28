@@ -311,6 +311,8 @@
                       a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_spying') }}
                     li(v-else-if="serverSession && serverSession.switchingUserActualId")
                       a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_switching') }}
+                    li(v-else-if="me.isTeacher()")
+                      a.account-dropdown-item#nav-student-mode(href="#") {{ $t('login.test_as_student') }}
                     li
                       a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
 
