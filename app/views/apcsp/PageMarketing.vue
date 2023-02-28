@@ -446,8 +446,7 @@ p, .text-p {
 
   .container-fluid-gradient {
     background: linear-gradient(90deg, $teal-dark 19.5%, $forest 110.94%);
-    border: 1px solid #000000;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
 
     .heading-text {
       font-weight: 700;

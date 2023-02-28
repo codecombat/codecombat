@@ -32,6 +32,7 @@ module.exports = class RootView extends CocoView
   events:
     'click #logout-button': 'logoutAccount'
     'click #nav-stop-spying-button': 'stopSpying'
+    'click #nav-student-mode': 'switchToStudentMode'
     'change .language-dropdown': 'onLanguageChanged'
     'click .language-dropdown li': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
@@ -89,6 +90,13 @@ module.exports = class RootView extends CocoView
       error: ->
         errors.showNotyNetworkError(arguments...)
     })
+
+  switchToStudentMode: ->
+    text = 'Switching to test student account..'
+    noty({ text, type: 'success', timeout: 5000, killer: true })
+    me.switchToStudentMode()
+      .then(() -> window.location.reload())
+      .catch((err) -> errors.showNotyNetworkError(err))
 
   onClickSignupButton: (e) ->
     CreateAccountModal = require 'views/core/CreateAccountModal'
