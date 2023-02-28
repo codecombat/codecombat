@@ -185,8 +185,6 @@
               a.navbar-brand(v-else-if="me.isTecmilenio()" href="/home")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
                 img.tecmilenio-logo(src="/images/pages/payment/tecmilenio-logo-2.png" alt="Tecmilenio logo")
-              a.navbar-brand(v-else-if="me.showChinaResourceInfo()" href="/home")
-                img#logo-img(src="/images/pages/base/logo-en+cn.png" alt="CodeCombat logo")
               a.navbar-brand(v-else :href="hideNav ? '#' : '/home'")
                 img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
 
@@ -199,18 +197,19 @@
               .nav-spacer
               ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
                 template(v-if="me.showChinaResourceInfo() && !me.showChinaHomeVersion()")
-                  li
-                    a.text-p(href="/CoCoStar", data-i18n="nav.star", class='')
-                  li
-                    a.text-p(data-i18n="nav.aiyouth", href="http://aiyouth.koudashijie.com")
+                  template(v-if="isCodeCombat")
+                    li
+                      a.text-p(href="/CoCoStar", data-i18n="nav.star", class='')
+                    li
+                      a.text-p(data-i18n="nav.aiyouth", href="http://aiyouth.koudashijie.com")
                   li
                     a.text-p(data-event-action="Header Request Quote CTA", href="/contact-cn") {{ $t('new_home.request_quote') }}
-                  li
+                  li(v-if="isCodeCombat")
                     a.text-p(href="/events", data-i18n="nav.events", class='')
 
                 li(v-if="me.isAnonymous()")
                   ul.nav.navbar-nav
-                    li.dropdown.dropdown-hover
+                    li.dropdown.dropdown-hover(v-if="!me.showChinaHomeVersion()")
                       a.text-p(:href="isCodeCombat ? '/impact' : '/'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
                         span {{ $t('nav.educators') }}
                         span.caret
@@ -219,16 +218,14 @@
                           a.text-p(:href="ozPath('/')")
                             span(:class="isOzaria && !checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
                         li
-                          a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
+                          a.text-p(:href="cocoPath('/play')" :class="checkLocation('/play', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
+
+                      template(v-if="!me.showChinaResourceInfo()")
+                        li(v-if="!me.isStudent() && !me.isTeacher()")
+                          a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
+
                         li
-                          a.text-p(:href="ozPath('/professional-development')")
-                            span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
-
-                li(v-if="!me.isStudent() && !me.isTeacher() && (me.get('country') !== 'hong-kong')")
-                  a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
-
-                li
-                  a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
+                          a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
 
                 li(v-if="me.isTeacher()")
                   ul.nav.navbar-nav
@@ -242,7 +239,7 @@
                             span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_dashboard') }}
                         li
                           a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t('nav.codecombat_dashboard') }}
-                        li(v-if="isCodeCombat || !checkLocation('/teachers/')")
+                        li(v-if="!me.showChinaResourceInfo() && (isCodeCombat || !checkLocation('/teachers/'))")
                           a.text-p(:href="ozPath('/teachers/professional-development')")
                             span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
 
@@ -304,9 +301,9 @@
                       announcement-nav.announcement-nav(v-if="this.announcements.length")
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
-                    li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
-                      a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
-                    li(v-if="isCodeCombat && (me.isAdmin() || (me.get('emailVerified') && (me.isTeacher() || (!me.get('role') && !me.isAnonymous()))))")
+                    li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()|| (me.showChinaHomeVersion() && me.isHomeUser()))")
+                      a.account-dropdown-item(:href="`/account/${me.showChinaHomeVersion() ? 'prepaid' : 'subscription'}`") {{ $t('account.subscription') }}
+                    li(v-if="me.isAdmin() || (me.get('emailVerified') && (!me.showChinaHomeVersion()) && (me.isTeacher() || (!me.get('role') && !me.isAnonymous())))")
                       a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                     li(v-if="me.isAPIClient()")
                       a.account-dropdown-item(href="/api-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}

@@ -160,14 +160,15 @@ export default Vue.extend({
           title: 'nav.general',
           condition: !this.isChinaHome,
           lists: [
-            { url: this.cocoPath('/events'), title: 'nav.events' },
+            { url: this.cocoPath('/events'), title: 'nav.events', hide: this.isOzaria },
             { url: this.cocoPath('/contact-cn'), title: 'nav.contact', hide: me.isStudent() },
-            { url: this.cocoPath('/CoCoStar'), title: 'nav.star' },
+            { url: this.cocoPath('/CoCoStar'), title: 'nav.star', hide: this.isOzaria },
+            { url: 'https://koudashijie.com', title: 'nav.return_coco', hide: !this.isOzaria }
           ]
         },
         {
           title: 'nav.educators',
-          condition: !me.isStudent() && !this.isChinaHome,
+          condition: !me.isStudent() && !this.isChinaHome && !this.isOzaria,
           lists: [
             { url: '/teachers/resources/faq-zh-HANS.coco', title: 'teacher.educator_faq' },
             { url: '/teachers/resources', title: 'nav.resource_hub' },
@@ -177,7 +178,7 @@ export default Vue.extend({
         },
         {
           title: 'nav.related_urls',
-          condition: true,
+          condition: !this.isOzaria,
           lists: [
             { url: 'https://xuetang.koudashijie.com', extra: '扣哒学堂' },
             { url: 'https://aojiarui.com', extra: '奥佳睿' },

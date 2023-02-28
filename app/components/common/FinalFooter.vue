@@ -41,6 +41,8 @@ export default Vue.extend({
       if me.showChinaResourceInfo()
         if me.showChinaHomeVersion()
           a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-20
+        else if isOzaria
+          a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-7
         else
           a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号
         if !me.showChinaHomeVersion()

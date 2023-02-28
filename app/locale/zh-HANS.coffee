@@ -368,6 +368,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     browser_recommendation: "推荐使用 chrome 浏览器访问获取最佳体验，点击此处前往下载"
     ozaria_classroom: "奥佳睿课程"
     codecombat_classroom: "扣哒世界课程"
+    dashboard: "教育者"
     ozaria_dashboard: "奥佳睿班级"
     codecombat_dashboard: "扣哒世界班级"
 #    professional_development: "Professional Development"
