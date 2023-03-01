@@ -12,6 +12,7 @@ block content
 
   - var authorized = !me.get('anonymous');
   button.chat-tool-button(data-i18n="editor.pop_i18n", disabled=authorized === true ? undefined : "true").btn.btn-primary#i18n-button
+  button.chat-tool-button(data-i18n="common.delete", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#delete-button Delete
   button.chat-tool-button(data-i18n="common.save", disabled=authorized === true ? undefined : "true").btn.btn-primary#save-button Save
 
   h3

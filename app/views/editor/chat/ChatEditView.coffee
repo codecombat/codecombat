@@ -17,6 +17,7 @@ module.exports = class ChatEditView extends RootView
   events:
     'click #save-button': 'onClickSaveButton'
     'click #i18n-button': 'onPopulateI18N'
+    'click #delete-button': 'confirmDeletion'
 
   constructor: (options, @chatID) ->
     super options
@@ -66,3 +67,34 @@ module.exports = class ChatEditView extends RootView
     res.success =>
       url = "/editor/chat/#{@chat.get('slug') or @chat.id}"
       document.location.href = url
+
+  confirmDeletion: ->
+    renderData =
+      title: 'Are you really sure?'
+      body: 'This will completely delete the chat message.'
+      decline: 'Not really'
+      confirm: 'Definitely'
+
+    confirmModal = new ConfirmModal renderData
+    confirmModal.on 'confirm', @deleteChatMessage
+    @openModalView confirmModal
+
+  deleteChatMessage: =>
+    $.ajax
+      type: 'DELETE'
+      success: ->
+        noty
+          timeout: 5000
+          text: 'Aaaand it\'s gone.'
+          type: 'success'
+          layout: 'topCenter'
+        _.delay ->
+          application.router.navigate '/editor/chat', trigger: true
+        , 500
+      error: (jqXHR, status, error) ->
+        console.error jqXHR
+        timeout: 5000
+        text: "Deleting chat message failed with error code #{jqXHR.status}"
+        type: 'error'
+        layout: 'topCenter'
+      url: "/db/chat_message/#{@chat.id}"

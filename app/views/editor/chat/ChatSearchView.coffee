@@ -7,7 +7,7 @@ module.exports = class ChatSearchView extends SearchView
   model: require 'models/ChatMessage'
   modelURL: '/db/chat_message'
   tableTemplate: require 'app/templates/editor/chat/table'
-  projection: ['startDate', 'endDate', 'kind', 'example', 'context.levelName', 'message.sender.name', 'message.text']
+  projection: ['startDate', 'endDate', 'kind', 'example', 'releasePhase', 'context.levelName', 'message.sender.name', 'message.text']
   page: 'chat'
   canMakeNew: false
 

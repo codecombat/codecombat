@@ -163,6 +163,7 @@ module.exports = class LevelChatView extends CocoView
       example: Boolean me.isAdmin()
       message:
         text: options.message
+        textComponents: {}
         sender: sender
         startDate: new Date()  # TODO: track when they started typing
         endDate: new Date()
@@ -173,6 +174,43 @@ module.exports = class LevelChatView extends CocoView
         previousMessages: (m.serializeMessage() for m in (@chatMessages ? []))
       permissions: [{ target: me.get('_id'), access: 'owner' }]
     props.releasePhase = 'beta' if props.example
+
+    structuredMessage = props.message.text
+
+    codeIssueRegex = /^Line (\d+): (.+)$/m
+    codeIssue = structuredMessage.match(codeIssueRegex)
+    if codeIssue
+      props.message.textComponents.codeIssue = line: parseInt(codeIssue[1], 10), text: codeIssue[2]
+      structuredMessage = structuredMessage.replace(codeIssueRegex, '')
+
+    codeIssueExplanationRegex = /^\*(.+)\*$/m
+    codeIssueExplanation = structuredMessage.match(codeIssueExplanationRegex)
+    if codeIssueExplanation
+      props.message.textComponents.codeIssueExplanation = text: codeIssueExplanation[1]
+      structuredMessage = structuredMessage.replace(codeIssueExplanationRegex, '')
+
+    linkRegex = /^<a href='?"?(.+?)'?"?>(.+?)<\/a>$/m
+    while link = structuredMessage.match(linkRegex)
+      props.message.textComponents.links ?= []
+      props.message.textComponents.links.push url: link[1], text: link[2]
+      structuredMessage = structuredMessage.replace(linkRegex, '')
+
+    actionButtonRegex = /^<button( action='?"?(.+?)'?"?)?>(.+?)<\/button>$/m
+    while actionButton = structuredMessage.match(actionButtonRegex)
+      props.message.textComponents.actionButtons ?= []
+      button = text: actionButton[3]
+      if actionButton[2]
+        button.action = actionButton[2]
+      props.message.textComponents.actionButtons.push button
+      structuredMessage = structuredMessage.replace(actionButtonRegex, '')
+
+    diffRegex = /^diff\n(.|\n)+$/m  # Always last, or we could update diff parsing to be smart about when it ends
+    diff = structuredMessage.match(diffRegex)
+    if diff
+      props.message.textComponents.diff = diff[0]
+      structuredMessage = structuredMessage.replace(diffRegex, '')
+
+    props.message.textComponents.freeText = _.string.strip(structuredMessage)
     props
 
   destroy: ->

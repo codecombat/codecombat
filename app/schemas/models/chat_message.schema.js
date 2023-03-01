@@ -65,14 +65,7 @@ const ResponseSchema = c.object({ title: 'Message', description: 'A message from
       type: 'object',
       properties: {
         text: { type: 'string', title: 'Text' },
-        action: { type: 'string', title: 'Action' },
-        i18n: {
-          additionalProperties: true,
-          type: 'object',
-          format: 'i18n',
-          props: ['text'],
-          description: 'Translations for the button text'
-        }
+        action: { type: 'string', title: 'Action' }
       }
     }),
     diff: { type: 'string', title: 'Diff', format: 'markdown' },

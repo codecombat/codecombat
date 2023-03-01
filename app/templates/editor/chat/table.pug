@@ -13,6 +13,7 @@ block tableHeader
     th(data-i18n="general.date")
     th(data-i18n="editor.level_components_type")
     th(data-i18n="skill_docs.example")
+    th Published
     th(data-i18n="play_level.level")
     th(data-i18n="general.name")
 
@@ -26,6 +27,9 @@ block tableBody
       td
         if chat.get('example')
           span ✅
+      td
+        if chat.get('releasePhase') == 'released'
+          span ✅
       if chat.get('context')
         td(title=chat.get('context').levelName) #{chat.get('context').levelName}
         td(title=chat.get('message').sender.name) #{chat.get('message').sender.name}
@@ -33,5 +37,5 @@ block tableBody
         td(colspan=2)
     if chat.get('message')
       tr.message-row
-        td(colspan=5 title=chat.get('message').text) #{chat.get('message').text}
+        td(colspan=6 title=chat.get('message').text) !{marked(chat.get('message').text)}
 

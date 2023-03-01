@@ -1,7 +1,5 @@
 require './aether/aether.coffee'
 
-utils = require 'core/utils'
-
 Aether.addGlobal 'Vector', require './world/vector'
 Aether.addGlobal '_', _
 

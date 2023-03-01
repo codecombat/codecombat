@@ -381,10 +381,17 @@ module.exports = class SpellPaletteView extends CocoView
     context.apiProperties = []
     for group, entries of @entryGroups
       for entry in entries
-        doc = _.omit(entry.doc, 'ownerName', 'shortName', 'shorterName', 'title', 'initialHTML', 'shortDescription', 'autoCompletePriority', 'snippets')
+        if e.chat.example
+          # Using entry.options.doc instead of entry.doc skips a lot of the data processing
+          doc = _.omit(entry.options.doc, 'shortDescription', 'autoCompletePriority', 'snippets', 'userShouldCaptureReturn')
+        else
+          # Bakes in code language selection and translations
+          doc = _.omit(entry.doc, 'ownerName', 'shortName', 'shorterName', 'title', 'initialHTML', 'shortDescription', 'autoCompletePriority', 'snippets', 'i18n', 'userShouldCaptureReturn')
+          # TODO: remove more nested i18n
         doc.owner = 'hero' if doc.owner in ['this', 'more']
-        delete doc.example if not doc.example?
-        # TODO: if it's an example, include i18n, otherwise, process i18n
+        delete doc.example unless doc.example
+        delete doc.returns?.example if doc.returns and not doc.returns.example
+        delete doc.returns?.description if doc.returns and not doc.returns.description
         #console.log doc
         context.apiProperties.push doc
     null
