@@ -309,6 +309,7 @@ _.extend UserSchema.properties,
     subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
     token: { type: 'string' }
     couponID: { type: 'string' }
+    currency: { type: 'string' }
 
     # TODO: move `free` out of stripe, it's independent
     free: { oneOf: [
