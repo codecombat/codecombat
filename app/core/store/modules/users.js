@@ -1,5 +1,6 @@
 import usersApi from 'core/api/users'
 import classroomsApi from 'core/api/classrooms'
+import adminApi from 'core/admin'
 
 export default {
   namespaced: true,
@@ -10,7 +11,8 @@ export default {
     },
 
     users: {
-      byId: {}
+      byId: {},
+      searchedResult: []
     }
   },
 
@@ -32,6 +34,10 @@ export default {
       users.forEach((user) => {
         Vue.set(state.users.byId, user._id, user)
       })
+    },
+
+    setSearchedResult: (stats, users) => {
+      Vue.set(state.users.searchedResult, users)
     }
   },
 
@@ -50,6 +56,9 @@ export default {
     },
     getUserById: (state) => (id) => {
       return state.users.byId[id]
+    },
+    getUserSearchResult: (state) => {
+      return state.users.searchedResult
     }
   },
 
@@ -96,6 +105,16 @@ export default {
           console.error(`Fetch user failure ${e.message}`)
           // HACK: Disabling this user notification whilst keeping it in the console.
           // noty({ text: 'Fetch user failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 })
+        })
+    },
+
+    fetchUsersByNameOrSlug: ({ commit }, q) => {
+      adminApi.searchUser(q)
+        .then(res => {
+          commit('setSearchedResult', res)
+        })
+        .catch((e) => {
+          console.error(`Fetch user failure ${e.message}`)
         })
     }
   }
