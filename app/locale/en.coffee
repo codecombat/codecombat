@@ -579,6 +579,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
     stop_spying: "Stop Spying"
     stop_switching: "Stop Switching"
+    test_as_student: "Test as Student"
 
   signup:
     complete_subscription: "Complete Subscription"
