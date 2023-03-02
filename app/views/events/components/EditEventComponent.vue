@@ -5,12 +5,14 @@ import moment from 'moment'
 import { HTML5_FMT_DATETIME_LOCAL } from '../../../core/constants'
 import { RRuleGenerator, rruleGeneratorModule } from 'vue2-rrule-generator'
 import MembersComponent from './MembersComponent'
+import UserSearchComponent from './UserSearchComponent'
 
 export default {
   name: 'EditEventComponent',
   components: {
     'rrule-generator': RRuleGenerator,
-    members: MembersComponent
+    members: MembersComponent,
+    'user-search': UserSearchComponent
   },
   data () {
     return {
@@ -24,6 +26,9 @@ export default {
     ...mapMutations('events', [
       'setEvent'
     ]),
+    selectOwner (id) {
+      Vue.set(this.event, 'owner', id)
+    },
     previewOnCalendar () {
       const tempEvent = _.cloneDeep(this.event)
       tempEvent._id = 'temp-event'
@@ -118,12 +123,10 @@ export default {
       </div>
       <div class="from-group">
         <label for="owner"> {{ $t('events.owner') }}</label>
-        <input
-          v-model="event.owner"
-          name="owner"
-          class="form-control"
-          type="text"
-        >
+        <user-search
+          :role="'teacher'"
+          @select="selectOwner"
+        />
       </div>
       <div class="from-group">
         <label for="startDate"> {{ $t('events.start_date') }}</label>

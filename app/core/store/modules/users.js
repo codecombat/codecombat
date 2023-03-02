@@ -1,6 +1,6 @@
 import usersApi from 'core/api/users'
 import classroomsApi from 'core/api/classrooms'
-import adminApi from 'core/admin'
+import adminApi from 'core/api/admin'
 
 export default {
   namespaced: true,
@@ -36,8 +36,9 @@ export default {
       })
     },
 
-    setSearchedResult: (stats, users) => {
-      Vue.set(state.users.searchedResult, users)
+    setSearchedResult: (state, users) => {
+      console.log("what? ", users)
+      state.users.searchedResult = users
     }
   },
 
@@ -111,6 +112,7 @@ export default {
     fetchUsersByNameOrSlug: ({ commit }, q) => {
       adminApi.searchUser(q)
         .then(res => {
+          console.log("why not set result?", res)
           commit('setSearchedResult', res)
         })
         .catch((e) => {

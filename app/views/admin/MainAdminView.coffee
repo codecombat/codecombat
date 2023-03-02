@@ -151,7 +151,7 @@ module.exports = class MainAdminView extends RootView
     forms.disableSubmit(@$('#user-search-button'))
     q = @lastUserSearchValue
     role = undefined
-    q = q.replace /role:([^ ]+)/, (dummy, m1) ->
+    q = q.replace /role:([^ ]+) /, (dummy, m1) ->
       role = m1
       return ''
 

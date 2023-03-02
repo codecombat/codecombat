@@ -9,7 +9,7 @@ module.exports = {
 
   searchUser: (q) ->
     role = undefined
-    q = q.replace /role:([^ ]+)/, (dummy, m1) ->
+    q = q.replace /role:([^ ]+) /, (dummy, m1) ->
       role = m1
       return ''
 
