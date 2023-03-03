@@ -78,7 +78,7 @@ module.exports = class PollEditView extends RootView
     for key, value of @treema.data
       @poll.set key, value
     @pollModal?.destroy()
-    @pollModal = new PollModal supermodel: @supermodel, poll: @poll, userPollsRecord: @userPollsRecord
+    @pollModal = new PollModal supermodel: @supermodel, poll: @poll, userPollsRecord: @userPollsRecord, trapsFocus: false
     @pollModal.render()
     $('#poll-view').empty().append @pollModal.el
     #pollModal.afterInsert()  # This blurs the active input; don't do it
