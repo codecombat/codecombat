@@ -18,6 +18,7 @@ module.exports = class CoursesUpdateAccountView extends RootView
     'click .update-teacher-btn': 'onClickUpdateTeacherButton'
     'click .remain-student-btn': 'onClickRemainStudentButton'
     'click .update-student-btn': 'onClickUpdateStudentButton'
+    'click .remain-individual-btn': 'onClickRemainIndividualButton'
 
   initialize: (options) ->
     @accountType = switch
@@ -50,6 +51,9 @@ module.exports = class CoursesUpdateAccountView extends RootView
     @listenTo joinClassModal, 'join:success', => @becomeStudent(e.target, 'Update student')
     # return unless window.confirm($.i18n.t('courses.update_account_confirm_update_student') + '\n\n' + $.i18n.t('courses.update_account_confirm_update_student2'))
     # @becomeStudent(e.target, 'Update student')
+
+  onClickRemainIndividualButton: (e) ->
+    application.router.navigate('/', {trigger: true})
 
   becomeStudent: (targetElem, trackEventMsg) ->
     $(targetElem).prop('disabled', true)
