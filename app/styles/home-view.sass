@@ -511,3 +511,22 @@
     background-size: cover
     height: 170px
     margin-bottom: -50px
+
+  .section-coco-worlds
+    margin-bottom: 50px
+    .coco-worlds-logo
+      width: 170px
+      margin-bottom: 36px
+    .product-row
+      display: flex
+      @media screen and (max-width: $screen-md)
+        flex-direction: column
+        .col
+          &:first-child
+            order: 1
+          &:last-child
+            order: 0
+      @media screen and (min-width: $screen-md)
+        display: flex
+        align-items: center
+        flex-direction: row

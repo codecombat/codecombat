@@ -315,6 +315,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     million: "__num__ Million"
     billion: "__num__ Billion"
     meta_keywords_podcast: "CodeCombat, python, javascript, Coding Games, podcast, edtech"
+    coco_worlds_header: "CodeCombat Worlds"
+    coco_worlds_description: "Embark on a 3D coding adventure in Roblox, where you can program pets, play with friends, and develop games all while playing one. Join the CodeCombat community and unleash your creativity in the metaverse!"
+    coco_worlds_button: "Explore CodeCombat Worlds"
 
   nav:
     aiyouth: "AI Youth"
