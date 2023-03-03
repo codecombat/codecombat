@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     managed_by: "管理"
     will_be_cancelled: "將被取消"
     currently_free: "您目前有一個免費訂閱"
-    currently_free_until: "您目前有一個訂閱，直到"
+    currently_free_until: "您目前有一個訂閱，直到 __date__"
 #    free_subscription: "Free subscription"
     was_free_until: "您有過一個免費訂閱，直到"
     managed_subs: "管理訂閱"

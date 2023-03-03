@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     managed_by: "Керівник - "
     will_be_cancelled: "Буде скасовано"
     currently_free: "Зараз у Вас безкоштовний абонемент"
-    currently_free_until: "Зараз у Вас безкоштовний абонемент до "
+    currently_free_until: "Зараз у Вас безкоштовний абонемент до __date__"
     free_subscription: "Безкоштовна підписка"
     was_free_until: "У Вас був безкоштовний абонемент до "
     managed_subs: "Керовані абонементи"

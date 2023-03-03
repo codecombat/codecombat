@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     managed_by: "Hanteras av"
     will_be_cancelled: "Avslutas den"
     currently_free: "Du har för närvarande en gratis prenumeration"
-    currently_free_until: "Du har för närvarande en prenumeration till"
+    currently_free_until: "Du har för närvarande en prenumeration till __date__"
     free_subscription: "Gratis prenumeration"
     was_free_until: "Du hade en gratis prenumeration fram till"
     managed_subs: "Hanterade prenumerationer"

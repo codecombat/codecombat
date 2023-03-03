@@ -302,9 +302,8 @@ module.exports = class PlayLevelView extends RootView
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
 
-    @setMeta({
-      title: $.i18n.t('play.level_title', { level: @level.get('name') })
-    })
+    levelName = utils.i18n @level.attributes, 'name'
+    @setMeta title: $.i18n.t('play.level_title', { level: levelName, interpolation: { escapeValue: false } })
 
     unless @level.isType 'ladder'
       randomTeam = @world?.teamForPlayer()  # If no team is set, then we will want to equally distribute players to teams

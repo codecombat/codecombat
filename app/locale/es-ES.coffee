@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     managed_by: "Administrado por"
     will_be_cancelled: "Será cancelado el"
     currently_free: "Actualmente tienes una suscripción gratuita"
-    currently_free_until: "Actualmente tienes una suscripción hasta el"
+    currently_free_until: "Actualmente tienes una suscripción hasta el __date__"
     free_subscription: "Suscripción gratuita"
     was_free_until: "Tenías una suscripción gratuita hasta el"
     managed_subs: "Suscripciones administradas"

@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     managed_by: "Quản lý bỏi"
     will_be_cancelled: "Sẽ được huỷ bỏ vào ngày"
     currently_free: "Bạn đang có một gói dịch vụ miễn phí"
-    currently_free_until: "Bạn đang có một gói dịch vụ cho đến"
+    currently_free_until: "Bạn đang có một gói dịch vụ cho đến __date__"
 #    free_subscription: "Free subscription"
     was_free_until: "Bạn đang có một gói dịch vụ miễn phí cho đến"
     managed_subs: "Quản lý các gói dịch vụ"

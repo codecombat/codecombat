@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     managed_by: "Diatur oleh"
     will_be_cancelled: "Akan dibatalkan"
     currently_free: "Kamu memiliki langganan gratis"
-    currently_free_until: "Kamu saat ini memiliki langganan hingga"
+    currently_free_until: "Kamu saat ini memiliki langganan hingga __date__"
     free_subscription: "Berlangganan gratis"
     was_free_until: "Kamu memiliki langganan gratis hingga"
     managed_subs: "Mengatur Langganan"

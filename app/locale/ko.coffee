@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     managed_by: "에 의해 관리됩니다"
     will_be_cancelled: "에 취소됩니다"
     currently_free: "현재 무료 구독입니다"
-    currently_free_until: "현재 가입된 상태입니다"
+    currently_free_until: "현재 가입된 상태입니다 __date__"
     free_subscription: "무료 구독"
     was_free_until: "당신은 다음 기한까지 무료 구독 중입니다."
     managed_subs: "관리 구독"

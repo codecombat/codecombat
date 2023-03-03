@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     managed_by: "Управляется"
     will_be_cancelled: "Будет отменена"
     currently_free: "Сейчас у вас бесплатная подписка"
-    currently_free_until: "Сейчас у вас бесплатная подписка до"
+    currently_free_until: "Сейчас у вас бесплатная подписка до __date__"
     free_subscription: "Бесплатная подписка"
     was_free_until: "У вас была бесплатная подписка до"
     managed_subs: "Управляемые подписки"

@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     managed_by: "Gestito da"
     will_be_cancelled: "Sara' rimosso il"
     currently_free: "Al momento hai un abbonamento gratuito"
-    currently_free_until: "Hai un abbonamento valido fino al"
+    currently_free_until: "Hai un abbonamento valido fino al __date__"
 #    free_subscription: "Free subscription"
     was_free_until: "Hai avuto un abbonamento gratuito fino al "
     managed_subs: "Gestione Abbonamenti"

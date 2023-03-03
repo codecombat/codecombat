@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     managed_by: "Zarządzane przez"
     will_be_cancelled: "Zostanie anulowana"
     currently_free: "Obecnie posiadasz darmową subskrypcję"
-    currently_free_until: "Twoja obecna subskrypcja wygaśnie"
+    currently_free_until: "Twoja obecna subskrypcja wygaśnie __date__"
     free_subscription: "Darmowa subskrypcja"
     was_free_until: "Twoja obecna darmowa subskrypcja wygaśnie"
     managed_subs: "Zarządzane subskrypcje"

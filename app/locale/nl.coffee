@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     managed_by: "beheert door"
     will_be_cancelled: "Wordt gestopt op"
     currently_free: "Je hebt momenteel een gratis account"
-    currently_free_until: "Je inschrijving loopt tot"
+    currently_free_until: "Je inschrijving loopt tot __date__"
     free_subscription: "Gratis inschrijving"
     was_free_until: "Je hebt een gratis inschrijving tot"
     managed_subs: "beheerde inschrijving"

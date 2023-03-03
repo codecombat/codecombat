@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     managed_by: "Gestionat de"
     will_be_cancelled: "Va fi anulat pe"
     currently_free: "În prezent ai un abonament gratuit"
-    currently_free_until: "În prezent ai un abonament până pe"
+    currently_free_until: "În prezent ai un abonament până pe __date__"
     free_subscription: "Abonament gratuit"
     was_free_until: "Ai avut un abonament gratuit până pe"
     managed_subs: "Abonamente Gestionate"

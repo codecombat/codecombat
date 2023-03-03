@@ -1291,11 +1291,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tornado_description: "当一个人的掩护暴露时，有一个重置按钮是好事。"
     wallOfDarkness_name: "暗黑之墙"
     wallOfDarkness_description: "躲在影壁后面，防止偷窥者的目光。"
-    announcement: "公告"
-#    xAnnouncements: "__x__ Announcements"
-#    xAnnouncementsWithUnread: "__x__ Announcements(__y__ unread)"
-    message: "新消息"
+    notifications: "新消息"
+    # x_announcement: '__x__ Notification'
+    # x_announcements: '__x__ Notifications'
+    # x_announcement_with_unread: '__x__ Notification (__y__ unread)'
+    # x_announcements_with_unread: '__x__ Notifications (__y__ unread)'
     see_more: "查看其他 __unread__ 个未读公告"
+    # mark_read: "Mark Read"
+    # read_all: "Read All"
+    # more_announcements: "more notifications..."
 
   avatar_selection:
     pick_an_avatar: "选择一个代表你的玩家头像。"

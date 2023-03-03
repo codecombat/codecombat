@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     managed_by: "Kezelő"
     will_be_cancelled: "Törlés dátuma"
     currently_free: "Jelenleg ingyenes előfizetéssel rendelkezel"
-    currently_free_until: "Jelenlegi előfizetésed lejárati dátuma"
+    currently_free_until: "Jelenlegi előfizetésed lejárati dátuma __date__"
 #    free_subscription: "Free subscription"
     was_free_until: "Ingyenes előfizetésed lejárati dátuma"
     managed_subs: "Kezelt előfizetések"

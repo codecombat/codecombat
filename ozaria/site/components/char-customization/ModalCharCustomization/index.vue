@@ -401,13 +401,13 @@
                   class="hair-color-radio"
                   :id="`hair-color-${i}`"
                   :aria-label="`${tintNames.hair[i]} hair color`"
-                  :key="i"
+                  :key="`hair-color-input-${i}`"
                   @click="() => onClickSwatch('hair', i)"
                 />
                 <label
-                  for="`hair-color-${i}`"
+                  :for="`hair-color-${i}`"
                   :aria-label="`${tintNames.hair[i]} hair color`"
-                  :key="i"
+                  :key="`hair-color-label-${i}`"
                   :class="['swatch', tintIndexSelection.hair === i ? 'selected' : '']"
                   :style="{ backgroundColor: tint }"
                   @click="() => onClickSwatch('hair', i)"
@@ -425,13 +425,13 @@
                   class="skin-color-radio"
                   :id="`skin-color-${i}`"
                   :aria-label="`${tintNames.skin[i]} skin color`"
-                  :key="i"
+                  :key="`skin-color-input-${i}`"
                   @click="() => onClickSwatch('skin', i)"
                 />
                 <label
-                  for="`skin-color-${i}`"
+                  :for="`skin-color-${i}`"
                   :aria-label="`${tintNames.skin[i]} skin color`"
-                  :key="i"
+                  :key="`skin-color-label-${i}`"
                   :class="['swatch', tintIndexSelection.skin === i ? 'selected' : '']"
                   :style="{ backgroundColor: tint }"
                   @click="() => onClickSwatch('skin', i)"

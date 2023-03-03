@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     managed_by: "Geleid door"
     will_be_cancelled: "Wordt geannuleerd op"
 #    currently_free: "You currently have a free subscription"
-    currently_free_until: "Je hebt momenteel een abonnement tot"
+    currently_free_until: "Je hebt momenteel een abonnement tot __date__"
 #    free_subscription: "Free subscription"
     was_free_until: "Je had een gratis abonnement tot"
     managed_subs: "Onderhouden abonnementen"

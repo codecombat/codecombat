@@ -1222,7 +1222,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     managed_by: "Riadené"
     will_be_cancelled: "Končí"
     currently_free: "Nemáš platené predplatné"
-    currently_free_until: "Tvoje predplatné trvá do"
+    currently_free_until: "Tvoje predplatné trvá do __date__"
 #    free_subscription: "Free subscription"
     was_free_until: "Máš predplatné zdarma do"
     managed_subs: "Riadené predplatné"
