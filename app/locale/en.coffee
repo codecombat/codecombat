@@ -3638,7 +3638,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     icons_chromebook_compatible: "Chromebook Compatible"
     icons_standards_aligned: "Standards-Aligned Lessons"
     page_title: "AP Computer Science Principles"
-    page_description: "Our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam."
+    page_description: "Endorsed by the College Board, our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam."
     request_access: "Request Access"
     game_based_learning: "Game-Based Learning"
     game_based_learning_description: "Our innovative game-based learning technology has transformed the way students prepare for the AP CSP exam. Through our browser-based games, students learn about important exam topics while exercising the critical thinking skills that are necessary for success on the exam."
@@ -3673,6 +3673,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     course_overview: "Course Overview"
     outcomes: "outcomes"
     coco_requirements: "CodeCombat’s system requirements"
+    coco_recognized_blurb: "CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum."
 
   hoc_2019:
     heading: "Hour of Code"

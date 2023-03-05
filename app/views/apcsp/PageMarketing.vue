@@ -63,7 +63,11 @@
           .bubble.bubble-7(ref="bubble-7")
           .bubble.bubble-8(ref="bubble-8")
           .bubble.bubble-9(ref="bubble-9")
-          .content {{ $t('apcsp_marketing.college_board') }}
+          .content.row
+            .col-lg-9
+              .content {{ $t('apcsp_marketing.coco_recognized_blurb') }}
+            .col-lg-3
+              img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")
 
       .vector.vector-4
         img(src="/images/pages/apcsp/vector-4.svg")
@@ -636,6 +640,10 @@ p, .text-p {
     border: 5px dashed $teal-dark;
     border-radius: 20px;
     padding: 90px;
+
+    @media (max-width: $screen-sm) {
+      padding: 20px 10px;
+    }
   }
 
   .border-yellow {
@@ -805,8 +813,8 @@ p, .text-p {
       background: white;
       margin: 0 -15px;
       border-radius: 25px;
-      padding: 90px 15px;
-      text-align: center;
+      padding: 35px 35px;
+      text-align: left;
 
       font-family: 'Open Sans';
       font-style: normal;
@@ -814,6 +822,15 @@ p, .text-p {
       font-size: 24px;
       line-height: 30px;
       color: $teal-dark;
+
+      &.row {
+        @media (min-width: $screen-md) {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+        }
+      }
     }
   }
 
@@ -828,6 +845,10 @@ p, .text-p {
       letter-spacing: 2.58px;
       color: $yellow-dark;
       padding: 45px 90px;
+      @media (max-width: $screen-sm) {
+        font-size: 23px;
+        line-height: 30px;
+      }
     }
 
     .row-white {
@@ -981,6 +1002,10 @@ p, .text-p {
           font-size: 24px;
           line-height: 30px;
           color: $teal-dark;
+          @media (max-width: $screen-sm) {
+            font-size: 16px;
+            line-height: 18px;
+          }
         }
 
         &.description {
@@ -990,6 +1015,10 @@ p, .text-p {
           font-size: 24px;
           line-height: 30px;
           color: $teal-dark;
+          @media (max-width: $screen-sm) {
+            font-size: 16px;
+            line-height: 18px;
+          }
         }
       }
     }
@@ -1017,8 +1046,10 @@ p, .text-p {
       font-style: normal;
       font-weight: 700;
       font-size: 33px;
-      line-height: 62px;
-      /* identical to box height, or 188% */
+      line-height: 188%;
+      @media (max-width: $screen-sm) {
+        font-size: 24px;
+      }
 
       text-align: center;
       letter-spacing: 1.96px;
@@ -1035,6 +1066,15 @@ p, .text-p {
       width: 65%;
       @media (max-width: $screen-lg-min) {
         width: 85%;
+      }
+
+      @media (max-width: $screen-sm) {
+        width:100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        .btn {
+          margin-bottom: 15px;
+        }
       }
     }
   }
