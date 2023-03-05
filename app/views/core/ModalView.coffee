@@ -26,6 +26,7 @@ module.exports = class ModalView extends CocoView
     @modalWidthPercent = options.modalWidthPercent if options?.modalWidthPercent
     super arguments...
     @options ?= {}
+    @trapsFocus = options.trapsFocus if options.trapsFocus?
 
   subscriptions:
     {}
