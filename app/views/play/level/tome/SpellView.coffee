@@ -137,6 +137,7 @@ module.exports = class SpellView extends CocoView
     # Create a Spade to 'dig' into Ace.
     @spade = new Spade()
     @spade.track(@ace)
+    @spade.createUIEvent "spade-created"
     # If a user is taking longer than 10 minutes, let's log it.
     saveSpadeDelay = 10 * 60 * 1000
     if @options.level.get('releasePhase') is 'beta'
@@ -727,14 +728,15 @@ module.exports = class SpellView extends CocoView
 
   saveSpade: =>
     return if @destroyed or not @spade
+    @spade.createUIEvent "saving-spade"
     spadeEvents = @spade.compile()
-    # Uncomment the below line for a debug panel to display inside the level
-    #@spade.debugPlay(spadeEvents)
     condensedEvents = @spade.condense(spadeEvents)
+    # Uncomment the below lines for a debug panel to display inside the level
+    # uncondensedEvents = @spade.expand(condensedEvents)
+    # @spade.debugPlay(uncondensedEvents)
 
     return unless condensedEvents.length
     compressedEvents = LZString.compressToUTF16(JSON.stringify(condensedEvents))
-
     codeLog = new CodeLog({
       sessionID: @options.session.id
       level:
@@ -748,6 +750,8 @@ module.exports = class SpellView extends CocoView
     codeLog.save()
 
   onShowVictory: (e) ->
+    if @spade?
+      @spade.createUIEvent "victory-shown"
     if @saveSpadeTimeout?
       window.clearTimeout @saveSpadeTimeout
       @saveSpadeTimeout = null
@@ -757,6 +761,8 @@ module.exports = class SpellView extends CocoView
         @saveSpade()
 
   onManualCast: (e) ->
+    if @spade?
+      @spade.createUIEvent "code-run"
     cast = @$el.parent().length
     @recompile cast, e.realTime, false
     @focus() if cast
@@ -775,6 +781,8 @@ module.exports = class SpellView extends CocoView
     @hasSetInitialCursor = false
     @highlightCurrentLine()
     @updateLines()
+    if @spade?
+      @spade.createUIEvent "code-reset"
 
   recompile: (cast=true, realTime=false, cinematic=false) ->
     @fetchTokenForSource().then (source) =>
@@ -960,6 +968,8 @@ module.exports = class SpellView extends CocoView
 
   # Tell ProblemAlertView to display this problem (only)
   displayProblemBanner: (problem) ->
+    if @spade?
+      @spade.createUIEvent "code-error"
     lineOffsetPx = 0
     if problem.row?
       for i in [0...problem.row]
@@ -1490,6 +1500,9 @@ module.exports = class SpellView extends CocoView
     @toolbarView?.destroy()
     @autocomplete?.addSnippets [], @editorLang if @editorLang?
     $(window).off 'resize', @onWindowResize
+    if @spade?
+      @spade.createUIEvent "destroying-view"
+    @saveSpade()
     window.clearTimeout @saveSpadeTimeout
     @saveSpadeTimeout = null
     @autocomplete?.destroy()
