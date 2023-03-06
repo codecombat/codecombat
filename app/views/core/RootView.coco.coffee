@@ -32,6 +32,7 @@ module.exports = class RootView extends CocoView
   events:
     'click #logout-button': 'logoutAccount'
     'click #nav-stop-spying-button': 'stopSpying'
+    'click #nav-stop-switching-button': 'stopSwitching'
     'click #nav-student-mode': 'switchToStudentMode'
     'change .language-dropdown': 'onLanguageChanged'
     'click .language-dropdown li': 'onLanguageChanged'
@@ -90,6 +91,13 @@ module.exports = class RootView extends CocoView
       error: ->
         errors.showNotyNetworkError(arguments...)
     })
+
+  stopSwitching: ->
+    text = 'Switching to teacher account..'
+    noty({ text, type: 'success', timeout: 5000, killer: true })
+    me.switchToTeacherMode()
+      .then(() -> document.location.reload())
+      .catch((err) -> errors.showNotyNetworkError(err))
 
   switchToStudentMode: ->
     text = 'Switching to test student account..'
