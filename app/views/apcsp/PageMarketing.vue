@@ -63,11 +63,7 @@
           .bubble.bubble-7(ref="bubble-7")
           .bubble.bubble-8(ref="bubble-8")
           .bubble.bubble-9(ref="bubble-9")
-          .content.row
-            .col-lg-9
-              .content {{ $t('apcsp_marketing.coco_recognized_blurb') }}
-            .col-lg-3
-              img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")
+          .content {{ $t('apcsp_marketing.college_board') }}
 
       .vector.vector-4
         img(src="/images/pages/apcsp/vector-4.svg")
