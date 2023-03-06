@@ -204,13 +204,14 @@ module.exports = class LevelChatView extends CocoView
       props.message.textComponents.actionButtons.push button
       structuredMessage = structuredMessage.replace(actionButtonRegex, '')
 
-    diffRegex = /^diff\n(.|\n)+$/m  # Always last, or we could update diff parsing to be smart about when it ends
+    diffRegex = /^diff\n((.|\n)+)$/m  # Always last, or we could update diff parsing to be smart about when it ends
     diff = structuredMessage.match(diffRegex)
     if diff
-      props.message.textComponents.diff = diff[0]
+      props.message.textComponents.diff = diff[1]
       structuredMessage = structuredMessage.replace(diffRegex, '')
 
-    props.message.textComponents.freeText = _.string.strip(structuredMessage)
+    freeText = _.string.strip(structuredMessage)
+    props.message.textComponents.freeText = freeText if freeText.length
     props
 
   destroy: ->
