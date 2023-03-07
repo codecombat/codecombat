@@ -1,4 +1,4 @@
-import { getAllEvents } from '../../api/events'
+import { getAllEvents, postEvent, updateEvent, putEventMember, deleteEventMember } from '../../api/events'
 
 export default {
   namespaced: true,
@@ -45,6 +45,18 @@ export default {
       for (const event of events) {
         commit('setEvent', event)
       }
+    },
+    async saveEvent ({ commit }, event) {
+      await postEvent(event)
+    },
+    async editEvent ({ commit }, event) {
+      await updateEvent(event._id, event)
+    },
+    async addEventMember ({ commit }, event, member) {
+      await putEventMember(event._id, member)
+    },
+    async delEventMember ({ commit }, event, member) {
+      await deleteEventMember(event._id, member)
     }
   }
 }

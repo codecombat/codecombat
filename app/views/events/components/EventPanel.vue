@@ -11,14 +11,14 @@
 
     <template #body>
       <div class="body">
-        <edit-event v-if="panelType !== 'info'" />
+        <edit-event v-if="panelType !== 'info'" @save="onEventSave" />
       </div>
     </template>
   </side-panel>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import SidePanel from '../../../components/common/SidePanel'
 import EditEvent from './EditEventComponent'
 
@@ -44,7 +44,13 @@ export default {
   methods: {
     ...mapMutations({
       close: 'events/closeEventPanel'
-    })
+    }),
+    ...mapActions({
+
+})
+    onEventSave () {
+      this.close()
+    }
   }
 }
 </script>

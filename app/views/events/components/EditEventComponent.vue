@@ -1,5 +1,5 @@
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import _ from 'lodash'
 import moment from 'moment'
 import { HTML5_FMT_DATETIME_LOCAL } from '../../../core/constants'
@@ -26,6 +26,9 @@ export default {
     ...mapMutations('events', [
       'setEvent'
     ]),
+    ...mapActions('events', [
+      'saveEvent'
+    ]),
     selectOwner (id) {
       Vue.set(this.event, 'owner', id)
     },
@@ -51,6 +54,14 @@ export default {
     addMember (m) {
       console.log(this.event, m)
       this.event.members.add(m)
+    },
+    onFormSubmit () {
+      this.event.type = 'online-classes'
+      this.event.rrule = this.rrule.toString()
+      this.saveEvent(this.event).then(res => {
+        console.log('post done')
+        this.$emit('save')
+      })
     }
   },
   computed: {
@@ -63,7 +74,7 @@ export default {
         return moment(this.event.startDate).format(HTML5_FMT_DATETIME_LOCAL)
       },
       set (val) {
-        this.$set(this.event, 'startDate', moment(val).toISOString())
+        this.$set(this.event, 'startDate', moment(val).toDate())
       }
     },
     _endDate: {
@@ -71,8 +82,11 @@ export default {
         return moment(this.event.endDate).format(HTML5_FMT_DATETIME_LOCAL)
       },
       set (val) {
-        this.$set(this.event, 'endDate', moment(val).toISOString())
+        this.$set(this.event, 'endDate', moment(val).toDate())
       }
+    },
+    rruleStart () {
+      return moment(this.event.startDate).toDate()
     },
     rulePreviewTop6 () {
       return this.rrule.all((date, i) => i < 6).map(d => moment(d).format('ll'))
@@ -156,7 +170,7 @@ export default {
            </div> -->
 
       <rrule-generator
-        :start="new Date()"
+        :start="rruleStart"
         :option="{showStart: false}"
       />
 
