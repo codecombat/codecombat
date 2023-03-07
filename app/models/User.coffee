@@ -123,7 +123,7 @@ module.exports = class User extends CocoModel
 
   isStudent: -> @get('role') is 'student'
 
-  isTestStudent: -> @isStudent() and @get('related').some(({relation})=>relation == 'TestStudent')
+  isTestStudent: -> @isStudent() and (@get('related') or []).some(({relation})=>relation == 'TestStudent')
 
   isCreatedByClient: -> @get('clientCreator')?
 
