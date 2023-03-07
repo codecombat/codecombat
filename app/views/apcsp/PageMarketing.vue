@@ -11,7 +11,7 @@
           .width-container.text-center
             .row
               .col-lg-12
-                p.text-p {{ $t('apcsp_marketing.page_description') }}
+                p.text-p {{ $t('apcsp_marketing.page_description_endorsed') }}
             .row.row-request-access
               .col-lg-12
                 a.btn.btn-primary.btn-lg.uppercase(href="https://forms.gle/RAA37R3FJojZ7bfQ7" target="_blank") {{ $t('apcsp_marketing.request_access') }}
@@ -63,7 +63,11 @@
           .bubble.bubble-7(ref="bubble-7")
           .bubble.bubble-8(ref="bubble-8")
           .bubble.bubble-9(ref="bubble-9")
-          .content {{ $t('apcsp_marketing.college_board') }}
+          .content.row
+            .col-lg-9
+              .content {{ $t('apcsp_marketing.coco_recognized_blurb') }}
+            .col-lg-3
+              img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")
 
       .vector.vector-4
         img(src="/images/pages/apcsp/vector-4.svg")
