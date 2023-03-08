@@ -84,6 +84,7 @@ module.exports.replaceSimpleLoops = (source, language) ->
 module.exports.translateJS = (jsCode, language='cpp', fullCode=true) ->
   return translateJSBrackets(jsCode, language, fullCode) if language in ['cpp', 'java']
   return translateJSWhitespace(jsCode, language) if language in ['python', 'lua', 'coffeescript']
+  return jsCode if language is 'javascript'
   console.warn 'Unsupported language translation: from javascript to', language
   return jsCode
 
@@ -155,7 +156,10 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     # Remove all whitespace-only pieces
     jsCodes = _.filter jsCodes, (piece) -> piece.replace(/\s/g, '').length
   len = jsCodes.length
-  lines = jsCodes[len-1].trimStart().split '\n'
+  if len
+    lines = jsCodes[len-1].trimStart().split '\n'
+  else
+    lines = []
   #console.log "Split code segments into", _.cloneDeep(jsCodes)
   if fullCode
     if language is 'cpp'
@@ -185,7 +189,7 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
             }
         }
       """
-  else
+  else if len
     jsCodes[len-1] = (lines.map (line) -> ' ' + line).join('\n')  # Add whitespace at beginning of each line to make regexes easier
 
   functionReturnType = if language is 'cpp' then 'auto' else 'public static var'  # TODO: figure out some auto return types for Java
@@ -237,8 +241,11 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     jsCodes[i] = s
 
   unless fullCode
-    lines = jsCodes[len-1].split '\n'
-    jsCodes[len-1] = (lines.map (line) -> line.slice 1).join('\n')  # Remove leading convenience whitespace that we added
+    if len
+      lines = jsCodes[len-1].split '\n'
+      jsCodes[len-1] = (lines.map (line) -> line.slice 1).join('\n')  # Remove leading convenience whitespace that we added
+    else
+      jsCodes = []
 
   jsCodes.join '\n'
 

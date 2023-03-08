@@ -5,6 +5,7 @@ template = require 'app/templates/play/level/chat'
 LevelBus = require 'lib/LevelBus'
 ChatMessage = require 'models/ChatMessage'
 utils = require 'core/utils'
+fetchJson = require 'core/api/fetch-json'
 
 module.exports = class LevelChatView extends CocoView
   id: 'level-chat-view'
@@ -147,6 +148,13 @@ module.exports = class LevelChatView extends CocoView
     Backbone.Mediator.publish 'bus:new-message', { message: chatMessage.get('message') }
 
   onChatMessageSaved: (chatMessage) ->
+    return unless key.alt and not key.shift  # TODO: captue at moment of sending
+    fetchJson("/db/chat_message/#{chatMessage.id}/ai-response").then @onChatResponse
+
+  onChatResponse: (message) =>
+    return if @destroyed
+    console.log 'got chat response data', message
+    @onNewMessage message: message
 
   getChatMessageProps: (options) ->
     sender =
