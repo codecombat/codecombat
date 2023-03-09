@@ -103,7 +103,7 @@ module.exports = class LevelGoalsView extends CocoView
       context.goalStates[goal.id] = name: goal.name, status: goalState?.status or 'incomplete'
       if e.chat.example
         # Add translation info, for generating permutations
-        context.goalStates[goal.id].i18n = _.cloneDeep goal.i18n
+        context.goalStates[goal.id].i18n = _.cloneDeep(goal.i18n ? {})
       else
         # Bake the translation in
         context.goalStates[goal.id].name = utils.i18n @goal, 'name'

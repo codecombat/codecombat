@@ -284,7 +284,7 @@ module.exports = class Spell
     context = code: {}
     if chat.example
       # Add translation info, for generating permutations
-      context.codeComments = context: @commentContext, i18n: @commentI18N
+      context.codeComments = context: @commentContext || {}, i18n: @commentI18N || {}
 
     for codeType in ['start', 'solution', 'current']
       context.code[codeType] = {}

@@ -129,9 +129,10 @@ module.exports = class ChatEditView extends RootView
         layout: 'topCenter'
     diff = unidiff.diffAsText(a, b, {context: 1})
     diff = diff.replace(/^--- a\n/, '').replace(/^\+\+\+ b\n/, '')  # Remove "filename" part of header
-    diff = diff.replace(/^(@@.*?)\n/m, '$1')  # Remove blank line after rest of diff header
     @treema.set '/message/textComponents/diff', diff
     messageText = @treema.get('/message/text')
-    @treema.set '/message/text', messageText + '\n\ndiff\n' + diff  # TODO: replace existing diff?
+    @treema.set '/message/textComponents/actionButtons', [action: 'fix', text: 'Fix It']
+    button = '<button action="fix">Fix It</button>'
+    @treema.set '/message/text', "#{messageText}\n\n#{button}\n\ndiff\n#{diff}"  # TODO: replace existing diff?
     @treema.childrenTreemas.message?.close()
     @treema.childrenTreemas.message?.open(2)

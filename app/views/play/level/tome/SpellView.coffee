@@ -1472,7 +1472,7 @@ module.exports = class SpellView extends CocoView
       context.error = _.pick
         codeSnippet: ucp.get 'codeSnippet'
         hint: ucp.get 'errHint'
-        id: ucp.get 'errID'
+        id: ucp.get 'errId'
         errorCode: ucp.get 'errCode'
         level: ucp.get 'errLevel'
         message: ucp.get 'errMessage'

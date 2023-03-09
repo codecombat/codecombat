@@ -156,4 +156,6 @@ module.exports =
   'tome:update-aether-running': c.object {}
   'tome:update-aether': c.object {}
   'tome:completer-add-user-snippets': c.object {}
-  'tome:completer-popup-focus-change': c.object {}
+  'tome:completer-popup-focus-change': c.object {},
+    word: {type: 'string'}
+    markerRange: {type: 'object'}

@@ -14,7 +14,8 @@ module.exports = class LevelChatView extends CocoView
   visible: false
 
   events:
-    'keypress textarea': 'onChatKeydown'
+    'keydown textarea': 'onChatKeydown'
+    'keypress textarea': 'onChatKeypress'
     'click i': 'onIconClick'
 
   subscriptions:
@@ -111,7 +112,12 @@ module.exports = class LevelChatView extends CocoView
       row.remove()
 
   onChatKeydown: (e) ->
-    return unless key.isPressed('enter')  # TODO: handle multiline
+    _.defer ->
+      $(e.target).css 'height', 22
+      $(e.target).css 'height', e.target.scrollHeight
+
+  onChatKeypress: (e) ->
+    return unless key.isPressed('enter') and not key.shift
     message = _.string.strip($(e.target).val())
     return false unless message
     #@bus.sendMessage(message)  # TODO: bring back bus?
@@ -148,7 +154,7 @@ module.exports = class LevelChatView extends CocoView
     Backbone.Mediator.publish 'bus:new-message', { message: chatMessage.get('message') }
 
   onChatMessageSaved: (chatMessage) ->
-    return unless key.alt and not key.shift  # TODO: captue at moment of sending
+    return unless key.alt and not key.ctrl  # TODO: captue at moment of sending
     fetchJson("/db/chat_message/#{chatMessage.id}/ai-response").then @onChatResponse
 
   onChatResponse: (message) =>
@@ -158,7 +164,7 @@ module.exports = class LevelChatView extends CocoView
 
   getChatMessageProps: (options) ->
     sender =
-      if key.shift
+      if key.ctrl
         name: if /^Line \d/m.test(options.message) then 'Code AI' else 'Chat AI'
         kind: 'bot'
       else
