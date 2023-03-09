@@ -159,7 +159,7 @@ module.exports = class LevelChatView extends CocoView
   getChatMessageProps: (options) ->
     sender =
       if key.shift
-        name: 'AI'
+        name: if /^Line \d/m.test(options.message) then 'Code AI' else 'Chat AI'
         kind: 'bot'
       else
         id: me.get('_id')

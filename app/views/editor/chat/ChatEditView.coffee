@@ -5,6 +5,7 @@ ChatMessage = require 'models/ChatMessage'
 ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
+unidiff = require 'unidiff'
 
 require 'lib/game-libraries'
 require('lib/setupTreema')
@@ -18,6 +19,8 @@ module.exports = class ChatEditView extends RootView
     'click #save-button': 'onClickSaveButton'
     'click #i18n-button': 'onPopulateI18N'
     'click #delete-button': 'confirmDeletion'
+    'click #fix-button': 'onFix'
+    'click #diff-button': 'onAddDiff'
 
   constructor: (options, @chatID) ->
     super options
@@ -45,6 +48,8 @@ module.exports = class ChatEditView extends RootView
     @treema.build()
     @treema.childrenTreemas.message?.open(2)
     @treema.childrenTreemas.context?.open(2)
+    @treema.childrenTreemas.context?.childrenTreemas.i18n?.close()
+    @treema.childrenTreemas.context?.childrenTreemas.apiProperties?.close()
 
   afterRender: ->
     super()
@@ -98,3 +103,35 @@ module.exports = class ChatEditView extends RootView
         type: 'error'
         layout: 'topCenter'
       url: "/db/chat_message/#{@chat.id}"
+
+  onFix: (e) ->
+    current = @treema.get('/context/code/current/javascript')
+    if not current?
+      return noty
+        timeout: 5000
+        text: 'You need to have current code to fix'
+        type: 'error'
+        layout: 'topCenter'
+    @treema.set '/context/code/fixed', javascript: current
+    @treema.childrenTreemas.context.childrenTreemas.code.open(1)
+    @treema.childrenTreemas.context.childrenTreemas.code.childrenTreemas.fixed.open()
+    @treema.childrenTreemas.context.childrenTreemas.code.childrenTreemas.current.open()
+
+  onAddDiff: (e) ->
+    a = @treema.get('/context/code/current/javascript')
+    b = @treema.get('/context/code/fixed/javascript')
+    b ?= @treema.get('/context/code/solution/javascript')
+    if not a? or not b?
+      return noty
+        timeout: 5000
+        text: 'You need to have both a current and solution context to diff.'
+        type: 'error'
+        layout: 'topCenter'
+    diff = unidiff.diffAsText(a, b, {context: 1})
+    diff = diff.replace(/^--- a\n/, '').replace(/^\+\+\+ b\n/, '')  # Remove "filename" part of header
+    diff = diff.replace(/^(@@.*?)\n/m, '$1')  # Remove blank line after rest of diff header
+    @treema.set '/message/textComponents/diff', diff
+    messageText = @treema.get('/message/text')
+    @treema.set '/message/text', messageText + '\n\ndiff\n' + diff  # TODO: replace existing diff?
+    @treema.childrenTreemas.message?.close()
+    @treema.childrenTreemas.message?.open(2)

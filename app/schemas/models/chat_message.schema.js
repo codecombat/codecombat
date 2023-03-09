@@ -197,6 +197,17 @@ _.extend(ChatMessageSchema.properties, {
           format: 'code',
           description: 'Current code for this programming language'
         }
+      },
+      fixed: {
+        format: 'code-languages-object',
+        type: 'object',
+        title: 'Fixed Code by Language',
+        description: 'The fixed code for the player after the suggested single change, by programming language',
+        additionalProperties: {
+          type: 'string',
+          format: 'code',
+          description: 'Fixed code for this programming language after the suggested single change'
+        }
       }
     }),
     codeComments: c.object({ title: 'Code Comments', description: 'Code comment translation strings' }, {

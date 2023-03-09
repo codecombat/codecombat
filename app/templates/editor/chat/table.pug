@@ -16,10 +16,12 @@ block tableHeader
     th Published
     th(data-i18n="play_level.level")
     th(data-i18n="general.name")
+    if me.isAdmin()
+      th(data-i18n="editor.delete")
 
 block tableBody
   for chat in documents
-    tr
+    tr(data-chat=chat.get('_id'))
       td(title=chat.get('endDate'))
         a(href='/editor/' + page + '/' + chat.get('_id'))
           | #{moment(chat.get('endDate')).format('lll')}
@@ -35,7 +37,11 @@ block tableBody
         td(title=chat.get('message').sender.name) #{chat.get('message').sender.name}
       else
         td(colspan=2)
+      if me.isAdmin() && chat.get('releasePhase') != 'released'
+        td
+          button.chat-tool-buttonb.btn.btn-primary.btn-sm#delete-button(data-i18n="editor.delete")
+
     if chat.get('message')
-      tr.message-row
-        td(colspan=6 title=chat.get('message').text) !{marked(chat.get('message').text)}
+      tr.message-row(data-chat=chat.get('_id'))
+        td(colspan=(me.isAdmin() ? 7 : 6) title=chat.get('message').text) !{marked(chat.get('message').text)}
 

@@ -11,6 +11,9 @@ module.exports = class ChatSearchView extends SearchView
   page: 'chat'
   canMakeNew: false
 
+  events:
+    'click #delete-button': 'deleteChatMessage'
+
   getRenderData: ->
     context = super()
     context.currentEditor = 'editor.chat_title'
@@ -20,3 +23,22 @@ module.exports = class ChatSearchView extends SearchView
     @$el.i18n()
     @applyRTLIfNeeded()
     context
+
+  deleteChatMessage: (e) ->
+    chatId = $(e.target).parents('tr').data('chat')
+    @$el.find("tr[data-chat='#{chatId}']").remove()
+    $.ajax
+      type: 'DELETE'
+      success: ->
+        noty
+          timeout: 2000
+          text: 'Aaaand it\'s gone.'
+          type: 'success'
+          layout: 'topCenter'
+      error: (jqXHR, status, error) ->
+        console.error jqXHR
+        timeout: 5000
+        text: "Deleting chat message failed with error code #{jqXHR.status}"
+        type: 'error'
+        layout: 'topCenter'
+      url: "/db/chat_message/#{chatId}"

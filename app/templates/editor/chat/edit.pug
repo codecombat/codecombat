@@ -11,9 +11,11 @@ block content
         | #{view.chat.get('_id')}
 
   - var authorized = !me.get('anonymous');
-  button.chat-tool-button(data-i18n="editor.pop_i18n", disabled=authorized === true ? undefined : "true").btn.btn-primary#i18n-button
-  button.chat-tool-button(data-i18n="common.delete", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#delete-button Delete
-  button.chat-tool-button(data-i18n="common.save", disabled=authorized === true ? undefined : "true").btn.btn-primary#save-button Save
+  button.chat-tool-button.btn.btn-primary#i18n-button(data-i18n="editor.pop_i18n", disabled=authorized === true ? undefined : "true")
+  button.chat-tool-button.btn.btn-primary#delete-button(data-i18n="editor.delete", disabled=me.isAdmin() === true ? undefined : "true")
+  button.chat-tool-button.btn.btn-primary#save-button(data-i18n="common.save", disabled=authorized === true ? undefined : "true")
+  button.chat-tool-button.btn.btn-primary#diff-button(disabled=authorized === true ? undefined : "true") Add Diff
+  button.chat-tool-button.btn.btn-primary#fix-button(disabled=authorized === true ? undefined : "true") Current -> Fixed
 
   h3
     span(data-i18n="editor.chat_edit_title")
