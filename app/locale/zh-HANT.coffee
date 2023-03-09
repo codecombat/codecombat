@@ -177,7 +177,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    quotes_quote5: "Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills."
 #    quotes_quote5_author: "Latthaphon Pohpon, Parent"
     see_example: "查看範例"
-    slogan: "最迷人的程式設計學習遊戲" 
+    slogan: "最迷人的程式設計學習遊戲"
     slogan_power_of_play: "在強大的遊戲世界中學習程式設計"
     teach_cs1_free: "免費學習CS1內容"
     teachers_love_codecombat_title: "教師們最愛CodeCombat"
@@ -2845,7 +2845,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     bracket_0_11: "國小組(0-11)"#"0-11"
     bracket_11_14: "國中組(11-14)"#"11-14"
     bracket_14_18: "高中組(14-18)"#"14-18"
-    bracket_11_18: "青少年組(11-18)"@"11-18"
+    bracket_11_18: "青少年組(11-18)"#"11-18"
     bracket_open: "公開組(不限年齡)"
 
   user:
