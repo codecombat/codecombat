@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     managed_by: "Διαχείριση από"
     will_be_cancelled: "Θα ακυρωθεί στις"
     currently_free: "Προς το παρόν έχετε δωρεάν συνδρομή"
-    currently_free_until: "Η συνδρομή σας λήγει στις"
+    currently_free_until: "Η συνδρομή σας λήγει στις __date__"
     free_subscription: "Δωρεάν συνδρομή"
     was_free_until: "Είχατε δωρεάν συνδρομή μέχρι τις"
     managed_subs: "Συνδρομές που διαχειρίζεστε"

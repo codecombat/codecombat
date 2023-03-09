@@ -20,6 +20,10 @@ export default Vue.extend({
     FinalFooter
   },
   computed: {
+    ...mapGetters({
+      'preferredLocale': 'me/preferredLocale',
+    }),
+
     isCodeCombat () {
       return isCodeCombat
     },
@@ -68,9 +72,18 @@ export default Vue.extend({
 
     forumLink () {
       let link = 'https://discourse.codecombat.com/'
-      const lang = (me.get('preferredLanguage') || 'en-US').split('-')[0]
+      const lang = this.preferredLocale.split('-')[0]
       if (['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt'].includes(lang)) {
         link += `c/other-languages/${lang}`
+      }
+      return link
+    },
+
+    apiLink () {
+      let link = 'https://github.com/codecombat/codecombat-api'
+      const lang = this.preferredLocale.split('-')[0]
+      if (['zh'].includes(lang) || features.china) {
+        link = this.cocoPath('/api-docs')
       }
       return link
     },
@@ -130,8 +143,9 @@ export default Vue.extend({
             { url: 'https://github.com/codecombat/codecombat', extra: 'GitHub' },
             { url: this.cocoPath('/community'), title: 'nav.community' },
             { url: this.cocoPath('/contribute'), title: 'nav.contribute' },
-            { url: this.cocoPath('/league'), title: 'game_menu.multiplayer_tab' },
-            { url: this.forumLink, title: 'nav.forum', attrs: { target: '_blank' }, hide: me.isStudent() || !me.showForumLink() }
+            { url: this.cocoPath('/league'), title: 'nav.esports' },
+            { url: this.forumLink, title: 'nav.forum', attrs: { target: '_blank' }, hide: me.isStudent() || !me.showForumLink() },
+            { url: this.apiLink, title: 'nav.api', attrs: { target: '_blank' }, hide: me.isStudent() }
           ]
         }
       ]

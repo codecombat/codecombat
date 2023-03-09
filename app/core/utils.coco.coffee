@@ -146,6 +146,9 @@ countryCodeToName = (code) ->
   return code unless country = _.find countries, countryCode: code.toUpperCase()
   titleize country.country
 
+countryNameToCode = (country) ->
+  _.find(countries, country: country?.toLowerCase())?.countryCode
+
 titleize = (s) ->
   # Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
   _.string.titleize(_.string.humanize(s)).replace(/ (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig, (word) => word.toLowerCase())
@@ -1068,7 +1071,7 @@ arenas = [
   {season: 6, slug: 'magma-mountain'   , type: 'regular',      start: new Date("2022-09-01T00:00:00.000-07:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-11T07:00:00.000-08:00"), levelOriginal: '62f9f6506428860025b15a8b', tournament: '638557acf7cd36e695a1aad0', image: '/file/db/level/62f9f6506428860025b15a8b/Codecombat-Magma-Mountain-Banner-02b%20(1).jpg'}
   {season: 6, slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-11T07:00:00.000-08:00"), levelOriginal: '635bceb16dc3150020acb1f8', tournament: '63855798f7cd36e695a1aac5', image: '/file/db/level/635bceb16dc3150020acb1f8/Lava-Lake-Arena-Banner-02.jpg'}
   {season: 7, slug: 'frozen-fortress'  , type: 'regular',      start: new Date("2023-01-01T00:00:00.000-08:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: '639c9a5fad4eb7001f66c801'}
-  {season: 7, slug: 'equinox'          , type: 'championship', start: new Date("2023-03-01T00:00:00.000-07:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: ''}
+  {season: 7, slug: 'equinox'          , type: 'championship', start: new Date("2023-04-01T00:00:00.000-07:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: ''}
   {season: 8, slug: 'pool-party-plunder',type: 'regular',      start: new Date("2023-05-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-13T07:00:00.000-07:00"), levelOriginal: ''}
   {season: 8, slug: 'beach-ball'       , type: 'championship', start: new Date("2023-08-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-13T07:00:00.000-07:00"), levelOriginal: ''}
   {season: 9, slug: 'storm-siege'      , type: 'regular',      start: new Date("2023-09-01T00:00:00.000-07:00"), end: new Date("2024-01-01T00:00:00.000-08:00"), results: new Date("2024-01-10T07:00:00.000-08:00"), levelOriginal: ''}
@@ -1156,6 +1159,51 @@ supportEmail = 'support@codecombat.com'
 
 capitalizeFirstLetter = (str) -> (str[0] or '').toUpperCase() + str.slice(1)
 
+markdownToPlainText = (text) ->
+  plainTextMarkedRenderer = new marked.Renderer()
+  for element in ['code', 'blockquote', 'html', 'heading', 'hr', 'list', 'listitem', 'paragraph', 'table', 'tablerow', 'tablecell', 'strong', 'em', 'codespan', 'br', 'del', 'text']
+    plainTextMarkedRenderer[element] = (text) -> text
+  for element in ['link', 'image']
+    plainTextMarkedRenderer[element] = (href, title, text) -> text
+  plainText = marked text, renderer: plainTextMarkedRenderer
+  plainText
+
+###
+# Get the estimated Hz of the primary monitor in the system.
+#
+# @param {Function} callback The function triggered after obtaining the estimated Hz of the monitor.
+# @param {Boolean} runIndefinitely If set to true, the callback will be triggered indefinitely (for live counter).
+###
+# https://ourcodeworld.com/articles/read/1390/how-to-determine-the-screen-refresh-rate-in-hz-of-the-monitor-with-javascript-in-the-browser
+getScreenRefreshRate = (callback, runIndefinitely) ->
+  requestId = null
+  callbackTriggered = false
+  window.requestAnimationFrame ?= window.mozRequestAnimationFrame or window.webkitRequestAnimationFrame
+  DOMHighResTimeStampCollection = []
+
+  triggerAnimation = (DOMHighResTimeStamp) ->
+    DOMHighResTimeStampCollection.unshift DOMHighResTimeStamp
+    if DOMHighResTimeStampCollection.length > 10
+      t0 = DOMHighResTimeStampCollection.pop()
+      fps = Math.floor(1000 * 10 / (DOMHighResTimeStamp - t0))
+      unless callbackTriggered
+        callback.call undefined, fps, DOMHighResTimeStampCollection
+      if runIndefinitely
+        callbackTriggered = false
+      else
+        callbackTriggered = true
+    requestId = window.requestAnimationFrame(triggerAnimation)
+    return
+
+  window.requestAnimationFrame triggerAnimation
+  # Stop after half second if it shouldn't run indefinitely
+  unless runIndefinitely
+    window.setTimeout (->
+      window.cancelAnimationFrame requestId
+      requestId = null
+    ), 500
+  return
+
 module.exports = {
   activeAndPastArenas
   activeArenas
@@ -1177,6 +1225,7 @@ module.exports = {
   countries
   countryCodeToFlagEmoji
   countryCodeToName
+  countryNameToCode
   courseAcronyms
   courseIDs
   allCourseIDs
@@ -1204,6 +1253,7 @@ module.exports = {
   getProductName
   getQueryVariable
   getQueryVariables
+  getScreenRefreshRate
   getSponsoredSubsAmount
   getUTCDay
   getAnonymizationStatus
@@ -1223,6 +1273,7 @@ module.exports = {
   isValidEmail
   keepDoingUntil
   kindaEqual
+  markdownToPlainText
   needsPractice
   normalizeFunc
   objectIdToDate

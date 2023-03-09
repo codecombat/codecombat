@@ -217,49 +217,9 @@ module.exports = class HomeView extends RootView
       catch e
         console.warn e  # Possibly a hash that would not match a valid element
     _.delay(f, 100)
-    @loadCurator()
-
-  shouldShowCurator: ->
-    return false unless me.get('preferredLanguage', true).startsWith('en')  # Only English social media anyway
-    return false if $(document).width() <= 700  # Curator is hidden in css on mobile anyway
-    if (value = {true: true, false: false, show: true, hide: false}[utils.getQueryVariable 'curator'])?
-      return value
-    if (value = me.getExperimentValue('curator', null, 'show'))?
-      return {show: true, hide: false}[value]
-    if new Date(me.get('dateCreated')) < new Date('2022-03-17')
-      # Don't include users created before experiment start date
-      return true
-    if features?.china
-      # Don't include China users
-      return true
-    # Start a new experiment
-    if me.get('testGroupNumber') % 2
-      value = 'show'
-    else
-      value = 'hide'
-    me.startExperiment('curator', value, 0.5)
-    return {show: true, hide: false}[value]
-
-  loadCurator: ->
-    return if @curatorLoaded
-    return unless @shouldShowCurator()
-    @curatorLoaded = true
-    script = document.createElement 'script'
-    script.async = 1
-    script.src = 'https://cdn.curator.io/published/4b3b9f97-3241-43b3-934e-f5a1eea5ae5e.js'
-    firstScript = document.getElementsByTagName('script')[0]
-    firstScript.parentNode.insertBefore(script, firstScript)
-    @curatorInterval = setInterval @checkIfCuratorLoaded, 1000
-
-  checkIfCuratorLoaded: =>
-    return if @destroyed
-    return unless @$('.crt-feed-spacer').length  # If we didn't find any of these, there's no content (not loaded or Curator error)
-    @$('.testimonials-container, .curator-spacer').removeClass('hide')
-    clearInterval @curatorInterval
 
   destroy: ->
     @cleanupModals()
-    clearInterval @curatorInterval if @curatorInterval
     super()
 
   # 2021-06-08: currently causing issues with i18n interpolation, disabling for now
