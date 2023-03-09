@@ -230,6 +230,7 @@ _.extend(ChatMessageSchema.properties, {
       codeSnippet: { type: 'string', title: 'Code Snippet', description: 'The code snippet that caused the error' },
       hint: { type: 'string', title: 'Error Hint' },
       id: { type: 'string', title: 'Error ID' },
+      errorCode: { type: 'string', title: 'Error Code' },
       level: { type: 'string', title: 'Error Level' },
       message: { type: 'string', title: 'Error Message' },
       messageNoLineInfo: { type: 'string', title: 'Error Message No Line Info' },

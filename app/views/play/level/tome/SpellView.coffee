@@ -1027,6 +1027,7 @@ module.exports = class SpellView extends CocoView
       ucp.set 'codeSnippet', errorLines.join '\n'
     ucp.set 'errHint', aetherProblem.hint if aetherProblem.hint
     ucp.set 'errId', aetherProblem.id if aetherProblem.id
+    ucp.set 'errCode', aetherProblem.errorCode if aetherProblem.errorCode
     ucp.set 'errLevel', aetherProblem.level if aetherProblem.level
     if aetherProblem.message
       ucp.set 'errMessage', aetherProblem.message
@@ -1472,6 +1473,7 @@ module.exports = class SpellView extends CocoView
         codeSnippet: ucp.get 'codeSnippet'
         hint: ucp.get 'errHint'
         id: ucp.get 'errID'
+        errorCode: ucp.get 'errCode'
         level: ucp.get 'errLevel'
         message: ucp.get 'errMessage'
         messageNoLineInfo: ucp.get 'errMessageNoLineInfo'

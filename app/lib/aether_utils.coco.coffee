@@ -494,6 +494,61 @@ module.exports.filterMarkdownCodeLanguages = (text, language) ->
 
   return text
 
+makeErrorMessageTranslationRegex = (englishString) ->
+  escapeRegExp = (str) ->
+    # https://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")
+  new RegExp(escapeRegExp(englishString).replace(/\\\$\d/g, '(.+)').replace(/ +/g, ' +'))
+
+module.exports.translateErrorMessage = ({ message, errorCode, i18nParams, spokenLanguage, staticTranslations, translateFn }) ->
+  # Here we take a string from the locale file, find the placeholders ($1/$2/etc)
+  #   and replace them with capture groups (.+),
+  # returns a regex that will match against the error message
+  #   and capture any dynamic values in the text
+  # staticTranslations is { langCode: translations } for en and target languages
+  # translateFn(i18nKey, i18nParams) is $.i18n.t on the client, i18next.t on the server
+  return message if not message
+  if /\n/.test(message) # Translate each line independently, since regexes act weirdly with newlines
+    return message.split('\n').map((line) => @translate(line)).join('\n')
+
+  if /^i18n::/.test(message) # handle i18n messages from aether_worker
+    messages = message.split('::')
+    return translateFn(messages[1], JSON.parse(messages[2]))
+
+  message = message.replace /([A-Za-z]+Error:) \1/, '$1'
+  return message if spokenLanguage in ['en', 'en-US']
+
+  # Separately handle line number and error type prefixes
+  applyReplacementTranslation = (text, regex, key) =>
+    fullKey = "esper.#{key}"
+    replacementTemplate = translateFn(fullKey)
+    return if replacementTemplate is fullKey
+    # This carries over any capture groups from the regex into $N placeholders in the template string
+    replaced = text.replace regex, replacementTemplate
+    if replaced isnt text
+      return [replaced.replace(/``/g, '`'), true]
+    return [text, false]
+
+  # These need to be applied in this order, before the main text is translated
+  prefixKeys = ['line_no', 'uncaught', 'reference_error', 'argument_error', 'type_error', 'syntax_error', 'error']
+
+  messages = message.split(': ')
+  for i of messages
+    m = messages[i]
+    m += ': ' unless +i == messages.length - 1 # i is string
+    for keySet in [prefixKeys, Object.keys(_.omit(staticTranslations.en.esper), prefixKeys)]
+      for translationKey in keySet
+        englishString = staticTranslations.en.esper[translationKey]
+        regex = makeErrorMessageTranslationRegex englishString
+        [m, didTranslate] = applyReplacementTranslation m, regex, translationKey
+        break if didTranslate and keySet isnt prefixKeys
+    messages[i] = m
+
+  if errorCode
+    messages[messages.length - 1] = translateFn("esper.error_#{(_.string || _.str).underscored(errorCode)}", i18nParams)
+
+  messages.join('')
+
 # Note: These need to be double-escaped for insertion into regexes
 commentStarts =
   javascript: '//'
