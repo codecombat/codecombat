@@ -26,7 +26,9 @@ module.exports = class LevelChatView extends CocoView
     @session = options.session
     @sessionID = options.sessionID
     @bus = LevelBus.get(@levelID, @sessionID)
-    super()
+    super options
+    @onWindowResize = _.debounce @onWindowResize, 50
+    $(window).on 'resize', @onWindowResize
 
     ## TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
     #@listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
@@ -46,6 +48,7 @@ module.exports = class LevelChatView extends CocoView
     @chatTables = $('table', @$el)
     #@updateMultiplayerVisibility()
     @$el.toggle @visible
+    @onWindowResize {}
 
   regularlyClearOldMessages: ->
     return  # Leave chatbot messages around, actually
@@ -72,7 +75,8 @@ module.exports = class LevelChatView extends CocoView
     td = $('<td></td>')
     content = message.content or message.text
     content = _.string.escapeHTML(content)
-    content = marked content
+    content = marked content, gfm: true, breaks: true
+    # TODO: this probably doesn't work with the links and buttons we intend to have, gotta think about sanitization properly
     content = content.replace(RegExp('  ', 'g'), '&nbsp; ') # coffeescript can't compile '/  /g'
     if _.string.startsWith(content, '/me')
       content = (message.authorName or message.sender?.name) + content.slice(3)
@@ -88,16 +92,22 @@ module.exports = class LevelChatView extends CocoView
       td.append($('<span></span>').html(content))
 
     tr = $('<tr></tr>')
-    tr.addClass('me') if message.authorID is me.id or message.sender?.id is me.id
+    if message.authorID is me.id or message.sender?.id is me.id
+      tr.addClass('me')
+      avatarTd = $("<td class='player-avatar-cell avatar-cell'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Baby Griffin AI Chatbot'></td>")
+    else
+      avatarTd = $("<td class='chatbot-avatar-cell avatar-cell'><img class='avatar' src='/images/level/baby-griffin.png' alt='Baby Griffin AI Chatbot'></td>")
+    tr.append(avatarTd)
     tr.append(td)
 
   addOne: (message) ->
     return if message.system and message.authorID is me.id
-    if @open
-      openPanel = $('.open-chat-area', @$el)
-      height = openPanel.outerHeight()
-      distanceFromBottom = openPanel[0].scrollHeight - height - openPanel[0].scrollTop
-      doScroll = distanceFromBottom < 10
+    if not @open
+      @onIconClick {}
+    openPanel = $('.open-chat-area', @$el)
+    height = openPanel.outerHeight()
+    distanceFromBottom = openPanel[0].scrollHeight - height - openPanel[0].scrollTop
+    doScroll = distanceFromBottom < 10
     tr = @messageObjectToJQuery(message)
     tr.data('added', new Date().getTime())
     @chatTables.append(tr)
@@ -105,15 +115,16 @@ module.exports = class LevelChatView extends CocoView
 
   trimClosedPanel: ->
     closedPanel = $('.closed-chat-area', @$el)
-    limit = 5
+    limit = 10
     rows = $('tr', closedPanel)
     for row, i in rows
       break if rows.length - i <= limit
       row.remove()
+    @scrollDown()
 
   onChatKeydown: (e) ->
     _.defer ->
-      $(e.target).css 'height', 22
+      $(e.target).css 'height', 27
       $(e.target).css 'height', e.target.scrollHeight
 
   onChatKeypress: (e) ->
@@ -125,11 +136,11 @@ module.exports = class LevelChatView extends CocoView
     $(e.target).val('')
     return false
 
-  onIconClick: ->
+  onIconClick: (e) ->
     @open = not @open
     openPanel = $('.open-chat-area', @$el).toggle @open
     closedPanel = $('.closed-chat-area', @$el).toggle not @open
-    @scrollDown() if @open
+    @scrollDown()
     if window.getSelection?
       sel = window.getSelection()
       sel.empty?()
@@ -159,7 +170,6 @@ module.exports = class LevelChatView extends CocoView
 
   onChatResponse: (message) =>
     return if @destroyed
-    console.log 'got chat response data', message
     @onNewMessage message: message
 
   getChatMessageProps: (options) ->
@@ -228,7 +238,17 @@ module.exports = class LevelChatView extends CocoView
     props.message.textComponents.freeText = freeText if freeText.length
     props
 
+  onWindowResize: (e) =>
+    # Couldn't figure out the CSS to make this work, so doing it here
+    return if @destroyed
+    maxHeight = $(window).height() - $('#thang-hud').offset().top - $('#thang-hud').height() - 25 - 30
+    if maxHeight < 0
+      # Just have to overlay the level, and have them close when done
+      maxHeight = 0
+    @$el.find('.closed-chat-area').css('max-height', maxHeight)
+
   destroy: ->
     key.deleteScope('level')
     clearInterval @clearOldMessagesInterval if @clearOldMessagesInterval
+    $(window).off 'resize', @onWindowResize
     super()
