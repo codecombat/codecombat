@@ -1,165 +1,164 @@
 <script>
-  import {
-    CODECOMBAT,
-    CODECOMBAT_CHINA,
-    OZARIA,
-    OZARIA_CHINA,
-    isOldBrowser,
-    isChinaOldBrowser,
-    isCodeCombat,
-    isOzaria,
-    getQueryVariable
-  } from 'core/utils'
-  import AnnouncementModal from '../../views/announcement/announcementModal'
-  import AnnouncementNav from '../../views/announcement/AnnouncementNav'
-  import { mapActions, mapGetters } from 'vuex'
+import {
+  CODECOMBAT,
+  CODECOMBAT_CHINA,
+  getQueryVariable,
+  isChinaOldBrowser,
+  isCodeCombat,
+  isOzaria,
+  OZARIA,
+  OZARIA_CHINA
+} from 'core/utils'
+import AnnouncementModal from '../../views/announcement/announcementModal'
+import AnnouncementNav from '../../views/announcement/AnnouncementNav'
+import { mapActions, mapGetters } from 'vuex'
 
-  /**
-   * Unified navigation bar component between CodeCombat and Ozaria.
-   */
-  export default Vue.extend({
-    computed: {
-      ...mapGetters('announcements', [
-        'announcements',
-        'unread',
-        'announcementInterval',
-        'announcementModalOpen',
-        'announcementDisplay',
-      ]),
-      isChinaOldBrowser () {
-        return isChinaOldBrowser()
-      },
+/**
+ * Unified navigation bar component between CodeCombat and Ozaria.
+ */
+export default Vue.extend({
+  computed: {
+    ...mapGetters('announcements', [
+      'announcements',
+      'unread',
+      'announcementInterval',
+      'announcementModalOpen',
+      'announcementDisplay',
+    ]),
+    isChinaOldBrowser () {
+      return isChinaOldBrowser()
+    },
 
-      isCodeCombat () {
-        return isCodeCombat
-      },
+    isCodeCombat () {
+      return isCodeCombat
+    },
 
-      isOzaria () {
-        return isOzaria
-      },
+    isOzaria () {
+      return isOzaria
+    },
 
-      cocoBaseURL () {
-        if (this.isCodeCombat) {
-          return ''
-        }
+    cocoBaseURL () {
+      if (this.isCodeCombat) {
+        return ''
+      }
 
-        if (!application.isProduction()) {
-          return `${document.location.protocol}//codecombat.com`
-        }
+      if (!application.isProduction()) {
+        return `${document.location.protocol}//codecombat.com`
+      }
 
-        // We are on ozaria domain.
-        return `${document.location.protocol}//${document.location.host}`
+      // We are on ozaria domain.
+      return `${document.location.protocol}//${document.location.host}`
           .replace(OZARIA, CODECOMBAT)
           .replace(OZARIA_CHINA, CODECOMBAT_CHINA)
-      },
+    },
 
-      ozBaseURL () {
-        if (this.isOzaria) {
-          return ''
-        }
+    ozBaseURL () {
+      if (this.isOzaria) {
+        return ''
+      }
 
-        if (!application.isProduction()) {
-          return `${document.location.protocol}//ozaria.com`
-        }
+      if (!application.isProduction()) {
+        return `${document.location.protocol}//ozaria.com`
+      }
 
-        // We are on codecombat domain.
-        return `${document.location.protocol}//${document.location.host}`
+      // We are on codecombat domain.
+      return `${document.location.protocol}//${document.location.host}`
           .replace(CODECOMBAT, OZARIA)
           .replace(CODECOMBAT_CHINA, OZARIA_CHINA)
-      },
-
-      hideNav () {
-        return getQueryVariable('landing', false)
-      }
     },
 
-    created () {
-      // Bind the global values to the vue component.
-      this.me = me
-      this.document = window.document
-      this.serverConfig = window.serverConfig
-      this.serverSession = window.serverSession
-      this.CODECOMBAT = CODECOMBAT
-      this.OZARIA = OZARIA
-    },
-    mounted () {
-      this.checkAnnouncements('fromNav')
-      if (!this.announcementInterval) { // todo: using websocket to get new announcements
-        this.startInterval('fromNav')
-      }
-    },
-    beforeUnmounted() {
-      if(this.announcementInterval)
-        clearInterval(this.announcementInterval)
-    },
-    methods: {
-      ...mapActions('announcements', [
-        'closeAnnouncementModal',
-        'checkAnnouncements',
-        'startInterval'
-      ]),
-      navEvent (e) {
-        // Only track if user has clicked a link on the nav bar
-        if (!e || !e.target || e.target.tagName !== 'A') {
-          return
-        }
-
-        if (!window.tracker) {
-          return
-        }
-
-        const clickedAnchorTag = e.target
-        const action = `Link: ${clickedAnchorTag.getAttribute('href') || clickedAnchorTag.getAttribute('data-event-action')}`
-        const properties = {
-          category: 'Nav',
-          // Inspired from the HomeView homePageEvent method
-          user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
-        }
-
-        window.tracker.trackEvent(action, properties)
-      },
-
-      /**
-       * This is used to highlight nav routes we are currently on.
-       * It can optionally also check if the user is on codecombat or ozaria.
-       */
-      checkLocation (route, host = undefined) {
-        let hostCheck = true
-        if (host === CODECOMBAT) {
-          hostCheck = this.isCodeCombat
-        } else if (host === OZARIA) {
-          hostCheck = this.isOzaria
-        }
-        return hostCheck && document.location.href.search(route) >= 0
-      },
-
-      /**
-       * Returns a codecombat url for a relative path.
-       * If the user is already on codecombat, will return a relative URL.
-       * If the user is on ozaria, will return an absolute url to codecombat.com
-       *
-       * Handles subdomains such as staging.ozaria.com, will return absolute path
-       * to staging.codecombat.com
-       *
-       * The domains used in China are also handled, i.e. koudashijie
-       */
-      cocoPath (relativePath) {
-        return `${this.cocoBaseURL}${relativePath}`
-      },
-
-      ozPath (relativePath) {
-        return `${this.ozBaseURL}${relativePath}`
-      },
-
-      readAnnouncement () {
-        return application.router.navigate('/announcements', {trigger: true})
-      }
-    },
-    components: {
-      AnnouncementModal,
-      AnnouncementNav
+    hideNav () {
+      return getQueryVariable('landing', false)
     }
-  })
+  },
+
+  created () {
+    // Bind the global values to the vue component.
+    this.me = me
+    this.document = window.document
+    this.serverConfig = window.serverConfig
+    this.serverSession = window.serverSession
+    this.CODECOMBAT = CODECOMBAT
+    this.OZARIA = OZARIA
+  },
+  mounted () {
+    this.checkAnnouncements('fromNav')
+    if (!this.announcementInterval) { // todo: using websocket to get new announcements
+      this.startInterval('fromNav')
+    }
+  },
+  beforeUnmounted () {
+    if (this.announcementInterval)
+      clearInterval(this.announcementInterval)
+  },
+  methods: {
+    ...mapActions('announcements', [
+      'closeAnnouncementModal',
+      'checkAnnouncements',
+      'startInterval'
+    ]),
+    navEvent (e) {
+      // Only track if user has clicked a link on the nav bar
+      if (!e || !e.target || e.target.tagName !== 'A') {
+        return
+      }
+
+      if (!window.tracker) {
+        return
+      }
+
+      const clickedAnchorTag = e.target
+      const action = `Link: ${clickedAnchorTag.getAttribute('href') || clickedAnchorTag.getAttribute('data-event-action')}`
+      const properties = {
+        category: 'Nav',
+        // Inspired from the HomeView homePageEvent method
+        user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser'
+      }
+
+      window.tracker.trackEvent(action, properties)
+    },
+
+    /**
+     * This is used to highlight nav routes we are currently on.
+     * It can optionally also check if the user is on codecombat or ozaria.
+     */
+    checkLocation (route, host = undefined) {
+      let hostCheck = true
+      if (host === CODECOMBAT) {
+        hostCheck = this.isCodeCombat
+      } else if (host === OZARIA) {
+        hostCheck = this.isOzaria
+      }
+      return hostCheck && document.location.href.search(route) >= 0
+    },
+
+    /**
+     * Returns a codecombat url for a relative path.
+     * If the user is already on codecombat, will return a relative URL.
+     * If the user is on ozaria, will return an absolute url to codecombat.com
+     *
+     * Handles subdomains such as staging.ozaria.com, will return absolute path
+     * to staging.codecombat.com
+     *
+     * The domains used in China are also handled, i.e. koudashijie
+     */
+    cocoPath (relativePath) {
+      return `${this.cocoBaseURL}${relativePath}`
+    },
+
+    ozPath (relativePath) {
+      return `${this.ozBaseURL}${relativePath}`
+    },
+
+    readAnnouncement () {
+      return application.router.navigate('/announcements', { trigger: true })
+    }
+  },
+  components: {
+    AnnouncementModal,
+    AnnouncementNav
+  }
+})
 </script>
 
 <template lang="pug">
@@ -315,11 +314,11 @@
                     li
                       a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
 
-              ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
-                li
-                  button#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
-                li
-                  button#login-link.login-button(data-event-action="Header Login CTA") {{ $t('signup.login') }}
+            ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
+              li
+                button#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
+              li
+                button#login-link.login-button(data-event-action="Header Login CTA") {{ $t('signup.login') }}
 </template>
 
 <style lang="scss" scoped>
@@ -363,6 +362,7 @@
     border: 1px solid $teal;
     border-radius: 4px 0 0 4px;
     width: 131px;
+
     &:hover {
       background-color: #2DCEC8;
       border: 1px solid #2DCEC8;
@@ -374,16 +374,19 @@
     width: 94px;
     border: 1px solid $teal;
     border-radius: 0 4px 4px 0;
-    /*color: $teal;*/ /* too faint for WCAG AAA */
+    /*color: $teal;*/
+    /* too faint for WCAG AAA */
     color: #16837f; /* increased contrast by lowering luminance */
     background: transparent;
+
     &:hover {
       background-color: #1FBAB4;
       color: white;
       transition: color .35s, background-color .35s;
     }
   }
-  .nav-spacer{
+
+  .nav-spacer {
     height: 12px;
   }
 
@@ -395,6 +398,7 @@
       font-size: 16px;
       padding: 10px 15px;
       float: left;
+
       &:hover {
         color: $teal;
         text-decoration: none;
@@ -411,13 +415,16 @@
     @media (max-width: $wider-breakpoint) {
       margin-right: 10px;
     }
+
     & li {
       display: inline-block;
     }
+
     & button {
       line-height: 20px;
     }
   }
+
   a.navbar-brand {
     padding: 14px 0 16px 70px;
     margin: 0px;
@@ -465,6 +472,7 @@
       overflow-x: visible;
     }
   }
+
   .language-dropdown {
     max-height: 60vh;
     overflow-y: auto;
@@ -475,9 +483,10 @@
     max-height: 100vh;
 
     .text-teal {
-      /*color: $teal;*/ /* too faint for WCAG AAA */
+      /*color: $teal;*/
+      /* too faint for WCAG AAA */
       color: #16837f; /* increased contrast by lowering luminance */
-      font-weight: 600;  /* increased contrast by increasing weight */
+      font-weight: 600; /* increased contrast by increasing weight */
     }
   }
 
@@ -493,13 +502,16 @@
     }
 
     color: $navy;
+
     &:hover {
       color: $teal;
     }
   }
+
   // TODO: what is this for?
   .nav > li.disabled > a, .nav > li.disabled > button {
     color: black;
+
     &:hover {
       background: white;
       color: black;
@@ -598,6 +610,7 @@
       right: 100%;
       top: 0;
     }
+
     .caret {
       transform: rotate(90deg);
     }

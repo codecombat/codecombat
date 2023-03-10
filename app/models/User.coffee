@@ -123,6 +123,8 @@ module.exports = class User extends CocoModel
 
   isStudent: -> @get('role') is 'student'
 
+  isTestStudent: -> @isStudent() and (@get('related') or []).some(({relation})=>relation == 'TestStudent')
+
   isCreatedByClient: -> @get('clientCreator')?
 
   isTeacher: (includePossibleTeachers=false) -> User.isTeacher(@attributes, includePossibleTeachers)
@@ -813,6 +815,26 @@ module.exports = class User extends CocoModel
 
   linkRelatedAccount: (body, options = {}) ->
     options.url = '/db/user/related-accounts'
+    options.type = 'PUT'
+    options.data ?= body
+    @fetch(options)
+
+  getTestStudentId: ->
+    testStudentRelation = (@get('related') or []).filter((related) => related.relation == 'TestStudent')[0]
+    if testStudentRelation
+      return Promise.resolve testStudentRelation.userId
+    else
+      return @createTestStudentAccount().then (response) =>
+        return response.relatedUserId
+
+  switchToStudentMode: () ->
+    @getTestStudentId().then((testStudentId) => @spy({id: testStudentId}))
+
+  switchToTeacherMode: () ->
+    @switchToStudentMode()
+
+  createTestStudentAccount: (body, options = {}) ->
+    options.url = '/db/user/create-test-student-account'
     options.type = 'PUT'
     options.data ?= body
     @fetch(options)

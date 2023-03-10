@@ -327,6 +327,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     million: "__num__ Million"
     billion: "__num__ Billion"
     meta_keywords_podcast: "CodeCombat, python, javascript, Coding Games, podcast, edtech"
+    coco_worlds_header: "CodeCombat Worlds"
+    coco_worlds_description: "Embark on a 3D coding adventure in Roblox, where you can program pets, play with friends, and develop games all while playing one. Join the CodeCombat community and unleash your creativity in the metaverse!"
+    coco_worlds_button: "Explore CodeCombat Worlds"
 
   nav:
     aiyouth: "AI Youth"
@@ -592,6 +595,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
     stop_spying: "Stop Spying"
     stop_switching: "Stop Switching"
+    test_as_student: "Test as Student"
 
   signup:
     complete_subscription: "Complete Subscription"
@@ -3650,6 +3654,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     icons_standards_aligned: "Standards-Aligned Lessons"
     page_title: "AP Computer Science Principles"
     page_description: "Our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam."
+    page_description_endorsed: "Endorsed by the College Board, our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam."
     request_access: "Request Access"
     game_based_learning: "Game-Based Learning"
     game_based_learning_description: "Our innovative game-based learning technology has transformed the way students prepare for the AP CSP exam. Through our browser-based games, students learn about important exam topics while exercising the critical thinking skills that are necessary for success on the exam."
@@ -3684,6 +3689,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     course_overview: "Course Overview"
     outcomes: "outcomes"
     coco_requirements: "CodeCombat’s system requirements"
+    coco_recognized_blurb: "CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum."
 
   hoc_2019:
     heading: "Hour of Code"
