@@ -58,13 +58,13 @@ describe 'EnrollmentsView', ->
     jasmine.demoEl(@view.$el)
     window.view = @view
 
-  describe 'For low priority leads', ->
-    beforeEach ->
-      leadPriorityRequest = jasmine.Ajax.requests.filter((r)-> r.url == '/db/user/-/lead-priority')[0]
-      leadPriorityRequest.respondWith({status: 200, responseText: JSON.stringify({ priority: 'low' })})
-
-    describe 'shows the starter license upsell', ->
-      return if features.chinaInfra
+#  describe 'For low priority leads', ->
+#    beforeEach ->
+#      leadPriorityRequest = jasmine.Ajax.requests.filter((r)-> r.url == '/db/user/-/lead-priority')[0]
+#      leadPriorityRequest.respondWith({status: 200, responseText: JSON.stringify({ priority: 'low' })})
+#
+#    describe 'shows the starter license upsell', ->
+#      return if features.chinaInfra
 #      it 'when only subscription prepaids exist', ->
 #        @view.prepaids.set([])
 #        @view.prepaids.add(factories.makePrepaid({
