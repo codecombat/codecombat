@@ -113,7 +113,7 @@ describe 'SubscribeModal', ->
         @subscribeRequest.andReturn({status: 200, responseText: '{}'})
         @openAsync.and.returnValue(tokenSuccess)
 
-      it 'calls hide()', ->
+      it 'calls hide()', wrapJasmine ->
         spyOn(@modal, 'hide')
         yield @modal.onClickPurchaseButton()
         expect(@modal.hide).toHaveBeenCalled()
