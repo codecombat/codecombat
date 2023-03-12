@@ -36,24 +36,21 @@ describe ('VueX Audio module', () => {
     })
   })
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await store.dispatch('audio/stopAll', { unload: true })
-    done()
   })
 
   describe('playing', () => {
-    it('Starts playing a new sound on a track', async (done) => {
+    it('Starts playing a new sound on a track', async () => {
       const id = await store.dispatch('audio/playSound', { track: 'background', ...BASE_SOUND_OPTIONS })
       const sound = store.getters['audio/getSoundById'](id)
 
       expect(sound).toBeDefined()
       expect(store.state.audio.tracks['background'].get(id)).toEqual(sound)
       expect(isPlayingOrQueued(sound)).toEqual(true)
-
-      done()
     })
 
-    it('Plays a new sound muted when audio is muted', async (done) => {
+    it('Plays a new sound muted when audio is muted', async () => {
       await store.dispatch('audio/muteAll')
 
       const id = await store.dispatch('audio/playSound', { track: 'background', ...BASE_SOUND_OPTIONS })
@@ -63,11 +60,9 @@ describe ('VueX Audio module', () => {
       expect(store.state.audio.tracks['background'].get(id)).toEqual(sound)
       expect(isPlayingOrQueued(sound)).toEqual(true)
       expect(sound._muted).toEqual(true)
-
-      done()
     })
 
-    it('Plays a new sound muted when track is muted', async (done) => {
+    it('Plays a new sound muted when track is muted', async () => {
       await store.dispatch('audio/muteTrack', 'background')
 
       const id = await store.dispatch('audio/playSound', { track: 'background', ...BASE_SOUND_OPTIONS })
@@ -77,20 +72,16 @@ describe ('VueX Audio module', () => {
       expect(store.state.audio.tracks['background'].get(id)).toEqual(sound)
       expect(isPlayingOrQueued(sound)).toEqual(true)
       expect(sound._muted).toEqual(true)
-
-      done()
     })
 
-    it('Requires a track to play a sound', async (done) => {
+    it('Requires a track to play a sound', async () => {
       try {
         await store.dispatch('audio/playSound', { ...BASE_SOUND_OPTIONS })
         fail('Expected to throw')
       } catch (e) {}
-
-      done()
     })
 
-    it('Starts playing a track', async (done) => {
+    it('Starts playing a track', async () => {
       const { sound: sound1 } = await playSound(store, 'background')
       const { sound: sound2 } = await playSound(store, 'background')
 
@@ -103,11 +94,9 @@ describe ('VueX Audio module', () => {
       await store.dispatch('audio/playTrack', 'background')
       expect(sound1.play.calls.count()).toEqual(1)
       expect(sound2.play.calls.count()).toEqual(1)
-
-      done()
     })
 
-    it('Starts playing all sounds', async (done) => {
+    it('Starts playing all sounds', async () => {
       const { sound: backgroundSound } = await playSound(store, 'background')
       const { sound: uiSound } = await playSound(store, 'ui')
 
@@ -120,11 +109,9 @@ describe ('VueX Audio module', () => {
       await store.dispatch('audio/playAll', 'background')
       expect(backgroundSound.play.calls.count()).toEqual(1)
       expect(uiSound.play.calls.count()).toEqual(1)
-
-      done()
     })
 
-    it('Starts playing an existing sound', async (done) => {
+    it('Starts playing an existing sound', async () => {
       const { sound, id } = await playSound(store, 'background')
 
       expect(sound).toBeDefined()
@@ -132,20 +119,16 @@ describe ('VueX Audio module', () => {
 
       await store.dispatch('audio/playSound', id)
       expect(sound.play.calls.count()).toEqual(1)
-
-      done()
     })
 
-    it('Updates state when playing a new sound', async  (done) => {
+    it('Updates state when playing a new sound', async  () => {
       const id = await store.dispatch('audio/playSound', { track: 'background', ...BASE_SOUND_OPTIONS })
       const sound = store.getters['audio/getSoundById'](id)
 
       expect(store.state.audio.tracks['background'].get(id)).toEqual(sound)
-
-      done()
     })
 
-    it('Automatically cleans up sound from state when non looping sound stops', async (done) => {
+    it('Automatically cleans up sound from state when non looping sound stops', async () => {
       const { id, sound } = await playSound(store, 'background', { loop: false })
 
       const numPlayingSounds = Array.from(store.state.audio.tracks['background'].values()).length
@@ -157,13 +140,11 @@ describe ('VueX Audio module', () => {
       setTimeout(() => {
         const numPlayingSoundsPostStop = Array.from(store.state.audio.tracks['background'].values()).length
         expect(numPlayingSoundsPostStop).toEqual(0)
-
-        done()
       }, 0)
     })
 
     describe('Deduplication', () => {
-      it('Does not play a sound when a unique key already exists', async (done) => {
+      it('Does not play a sound when a unique key already exists', async () => {
         await playSound(store, 'background', { unique: 'test' })
 
         const numPrePlayingSounds = Array.from(store.state.audio.tracks['background'].values()).length
@@ -173,11 +154,9 @@ describe ('VueX Audio module', () => {
 
         const numPostPlayingSounds = Array.from(store.state.audio.tracks['background'].values()).length
         expect(numPostPlayingSounds).toEqual(numPrePlayingSounds)
-
-        done()
       })
 
-      it('Plays the sound after a unique key has been stopped and unloaded', async (done) => {
+      it('Plays the sound after a unique key has been stopped and unloaded', async () => {
         const { id: origId } = await playSound(store, 'background', { unique: 'test' })
 
         const numPrePlayingSounds = Array.from(store.state.audio.tracks['background'].values()).length
@@ -198,24 +177,20 @@ describe ('VueX Audio module', () => {
 
         const numSecondPlaySounds = Array.from(store.state.audio.tracks['background'].values()).length
         expect(numSecondPlaySounds).toEqual(1)
-
-        done()
       })
     })
   })
 
   describe('pausing', () => {
-    it('Pauses a playing sound', async (done) => {
+    it('Pauses a playing sound', async () => {
       const { sound, id } = await playSound(store, 'background')
 
       spyOn(sound, 'pause')
       await store.dispatch('audio/pauseSound', id)
       expect(sound.pause.calls.count()).toEqual(1)
-
-      done()
     })
 
-    it('Pauses a track', async (done) => {
+    it('Pauses a track', async () => {
       const { sound: sound1 } = await playSound(store, 'background')
       const { sound: sound2 } = await playSound(store, 'background')
 
@@ -228,11 +203,9 @@ describe ('VueX Audio module', () => {
       await store.dispatch('audio/pauseTrack', 'background')
       expect(sound1.pause.calls.count()).toEqual(1)
       expect(sound2.pause.calls.count()).toEqual(1)
-
-      done()
     })
 
-    it('Pauses all sounds', async (done) => {
+    it('Pauses all sounds', async () => {
       const { sound: backgroundSound } = await playSound(store, 'background')
       const { sound: uiSound } = await playSound(store, 'ui')
 
@@ -245,23 +218,19 @@ describe ('VueX Audio module', () => {
       await store.dispatch('audio/pauseAll', 'background')
       expect(backgroundSound.pause.calls.count()).toEqual(1)
       expect(uiSound.pause.calls.count()).toEqual(1)
-
-      done()
     })
   })
 
   describe('stopping', () => {
-    it('Stops a playing sound', async (done) => {
+    it('Stops a playing sound', async () => {
       const { sound, id } = await playSound(store, 'background')
 
       spyOn(sound, 'stop')
       await store.dispatch('audio/stopSound', id)
       expect(sound.stop.calls.count()).toEqual(1)
-
-      done()
     })
 
-    it('Stops a track', async (done) => {
+    it('Stops a track', async () => {
       const { sound: sound1 } = await playSound(store, 'background')
       const { sound: sound2 } = await playSound(store, 'background')
 
@@ -274,11 +243,9 @@ describe ('VueX Audio module', () => {
       await store.dispatch('audio/stopTrack', 'background')
       expect(sound1.stop.calls.count()).toEqual(1)
       expect(sound2.stop.calls.count()).toEqual(1)
-
-      done()
     })
 
-    it('Stops all sounds', async (done) => {
+    it('Stops all sounds', async () => {
       const { sound: backgroundSound } = await playSound(store, 'background')
       const { sound: uiSound } = await playSound(store, 'ui')
 
@@ -291,11 +258,9 @@ describe ('VueX Audio module', () => {
       await store.dispatch('audio/stopAll')
       expect(backgroundSound.stop.calls.count()).toEqual(1)
       expect(uiSound.stop.calls.count()).toEqual(1)
-
-      done()
     })
 
-    it('Stops and unloads a playing sound', async (done) => {
+    it('Stops and unloads a playing sound', async () => {
       const { sound, id } = await playSound(store, 'background')
 
       spyOn(sound, 'stop')
@@ -305,11 +270,9 @@ describe ('VueX Audio module', () => {
 
       expect(sound.stop.calls.count()).toEqual(1)
       expect(sound.unload.calls.count()).toEqual(1)
-
-      done()
     })
 
-    it('Stops and unloads a track', async (done) => {
+    it('Stops and unloads a track', async () => {
       const { sound: sound1 } = await playSound(store, 'background')
       const { sound: sound2 } = await playSound(store, 'background')
 
@@ -328,11 +291,9 @@ describe ('VueX Audio module', () => {
 
       expect(sound1.unload.calls.count()).toEqual(1)
       expect(sound2.unload.calls.count()).toEqual(1)
-
-      done()
     })
 
-    it('Stops and unloads all sounds', async (done) => {
+    it('Stops and unloads all sounds', async () => {
       const { sound: backgroundSound } = await playSound(store, 'background')
       const { sound: uiSound } = await playSound(store, 'ui')
 
@@ -351,45 +312,37 @@ describe ('VueX Audio module', () => {
 
       expect(backgroundSound.unload.calls.count()).toEqual(1)
       expect(uiSound.unload.calls.count()).toEqual(1)
-
-      done()
     })
 
-    it('Updates state when unloading all sounds', async (done) => {
+    it('Updates state when unloading all sounds', async () => {
       const { sound, id } = await playSound(store, 'background')
 
       await store.dispatch('audio/stopSound', { id, unload: true })
       expect(store.state.audio.tracks['background'].has(id)).toBeFalsy()
-
-      done()
     })
 
-    it('Updates state when unloading a track', async (done) => {
+    it('Updates state when unloading a track', async () => {
       const { id: id1 } = await playSound(store, 'background')
       const { id: id2 } = await playSound(store, 'background')
 
       await store.dispatch('audio/stopTrack', { track: 'background', unload: true })
       expect(store.state.audio.tracks['background'].has(id1)).toBeFalsy()
       expect(store.state.audio.tracks['background'].has(id2)).toBeFalsy()
-
-      done()
     })
 
-    it('Updates state when unloading a sound', async (done) => {
+    it('Updates state when unloading a sound', async () => {
       const { id: backgroundId } = await playSound(store, 'background')
       const { id: uiId } = await playSound(store, 'ui')
 
       await store.dispatch('audio/stopAll', { unload: true })
       expect(store.state.audio.tracks['background'].has(backgroundId)).toBeFalsy()
       expect(store.state.audio.tracks['ui'].has(uiId)).toBeFalsy()
-
-      done()
     })
   })
 
   describe('volume', () => {
     describe('general', () => {
-      it('Sets a sound volume', async (done) => {
+      it('Sets a sound volume', async () => {
         const { sound, id } = await playSound(store, 'background')
 
         spyOn(sound, 'volume')
@@ -399,11 +352,9 @@ describe ('VueX Audio module', () => {
 
         expect(sound.volume.calls.count()).toEqual(1)
         expect(sound.volume.calls.first().args[0]).toEqual(vol)
-
-        done()
       })
 
-      it('Sets a track volume', async (done) => {
+      it('Sets a track volume', async () => {
         const { sound: sound1 } = await playSound(store, 'background')
         const { sound: sound2 } = await playSound(store, 'background')
 
@@ -421,11 +372,9 @@ describe ('VueX Audio module', () => {
 
         expect(sound2.volume.calls.count()).toEqual(1)
         expect(sound2.volume.calls.first().args[0]).toEqual(vol)
-
-        done()
       })
 
-      it('Sets all volumes', async (done) => {
+      it('Sets all volumes', async () => {
         const { sound: backgroundSound } = await playSound(store, 'background')
         const { sound: uiSound } = await playSound(store, 'ui')
 
@@ -443,13 +392,11 @@ describe ('VueX Audio module', () => {
 
         expect(uiSound.volume.calls.count()).toEqual(1)
         expect(uiSound.volume.calls.first().args[0]).toEqual(vol)
-
-        done()
       })
     })
 
     describe('mutes', () => {
-      it('Mutes a sound', async (done) => {
+      it('Mutes a sound', async () => {
         const { sound, id } = await playSound(store, 'background')
 
         spyOn(sound, 'mute')
@@ -458,11 +405,9 @@ describe ('VueX Audio module', () => {
 
         expect(sound.mute.calls.count()).toEqual(1)
         expect(sound.mute.calls.first().args[0]).toEqual(true)
-
-        done()
       })
 
-      it('Mutes a track and updates mute state', async (done) => {
+      it('Mutes a track and updates mute state', async () => {
         const { sound: sound1 } = await playSound(store, 'background')
         const { sound: sound2 } = await playSound(store, 'background')
 
@@ -481,11 +426,9 @@ describe ('VueX Audio module', () => {
         expect(sound2.mute.calls.first().args[0]).toEqual(true)
 
         expect(store.state.audio.muted.background).toEqual(true)
-
-        done()
       })
 
-      it('Mutes all sounds and updates state', async (done) => {
+      it('Mutes all sounds and updates state', async () => {
         const { sound: backgroundSound } = await playSound(store, 'background')
         const { sound: uiSound } = await playSound(store, 'ui')
 
@@ -507,13 +450,10 @@ describe ('VueX Audio module', () => {
         expect(store.state.audio.muted.background).toEqual(true)
         expect(store.state.audio.muted.ui).toEqual(true)
         expect(store.state.audio.muted.soundEffects).toEqual(true)
-
-
-        done()
       })
 
 
-      it('Unmutes a sound', async (done) => {
+      it('Unmutes a sound', async () => {
         const { sound, id } = await playSound(store, 'background')
 
         await store.dispatch('audio/muteSound', id)
@@ -524,11 +464,9 @@ describe ('VueX Audio module', () => {
 
         expect(sound.mute.calls.count()).toEqual(1)
         expect(sound.mute.calls.first().args[0]).toEqual(false)
-
-        done()
       })
 
-      it('Unmutes a track and updates mute state', async (done) => {
+      it('Unmutes a track and updates mute state', async () => {
         const { sound: sound1 } = await playSound(store, 'background')
         const { sound: sound2 } = await playSound(store, 'background')
 
@@ -549,11 +487,9 @@ describe ('VueX Audio module', () => {
         expect(sound2.mute.calls.first().args[0]).toEqual(false)
 
         expect(store.state.audio.muted.background).toEqual(false)
-
-        done()
       })
 
-      it('Unmutes all sounds and updates state', async (done) => {
+      it('Unmutes all sounds and updates state', async () => {
         const { sound: backgroundSound } = await playSound(store, 'background')
         const { sound: uiSound } = await playSound(store, 'ui')
 
@@ -577,13 +513,11 @@ describe ('VueX Audio module', () => {
         expect(store.state.audio.muted.background).toEqual(false)
         expect(store.state.audio.muted.ui).toEqual(false)
         expect(store.state.audio.muted.soundEffects).toEqual(false)
-
-        done()
       })
     })
 
     describe('fades', () => {
-      it('Fades a sound and returns promise that resolves when complete', async (done) => {
+      it('Fades a sound and returns promise that resolves when complete', async () => {
         const { sound, id } = await playSound(store, 'background')
 
         spyOn(sound, 'fade')
@@ -596,11 +530,9 @@ describe ('VueX Audio module', () => {
 
         expect(sound.fade.calls.count()).toEqual(1)
         expect(sound.fade.calls.first().args).toEqual([ fadeConfig.from, fadeConfig.to, fadeConfig.duration])
-
-        done()
       })
 
-      it('Fades a sound from current volume when not specified and returns promise that resolves when complete', async (done) => {
+      it('Fades a sound from current volume when not specified and returns promise that resolves when complete', async () => {
         const { sound, id } = await playSound(store, 'background')
 
         const startVol = 0.11
@@ -615,11 +547,9 @@ describe ('VueX Audio module', () => {
 
         expect(sound.fade.calls.count()).toEqual(1)
         expect(sound.fade.calls.first().args).toEqual([ startVol, fadeConfig.to, fadeConfig.duration])
-
-        done()
       })
 
-      it('Fades a track and returns promise that resolves when complete', async (done) => {
+      it('Fades a track and returns promise that resolves when complete', async () => {
         await playSound(store, 'background')
         await playSound(store, 'background')
 
@@ -639,11 +569,9 @@ describe ('VueX Audio module', () => {
         }
 
         await fadePromise
-
-        done()
       })
 
-      it('Only fades and stops songs present when fadeAndStopTrack dispatched', async (done) => {
+      it('Only fades and stops songs present when fadeAndStopTrack dispatched', async () => {
         await playSound(store, 'background')
         await playSound(store, 'background')
 
@@ -668,11 +596,9 @@ describe ('VueX Audio module', () => {
         await fadePromise
 
         expect(lateSound.stop.calls.count()).toEqual(0)
-
-        done()
       })
 
-      it('Fades all sounds and returns promise that resolves when complete', async (done) => {
+      it('Fades all sounds and returns promise that resolves when complete', async () => {
         await playSound(store, 'background')
         await playSound(store, 'ui')
 
@@ -692,13 +618,11 @@ describe ('VueX Audio module', () => {
         }
 
         await fadePromise
-
-        done()
       })
     })
 
     describe('Fade and stop', () => {
-      it('Fades and stops a sound', async (done) => {
+      it('Fades and stops a sound', async () => {
         const { sound, id } = await playSound(store, 'background')
 
         const startVol = 0.11
@@ -717,11 +641,9 @@ describe ('VueX Audio module', () => {
 
         expect(sound.stop.calls.count()).toEqual(1)
         expect(sound.stop.calls.first().args)
-
-        done()
       })
 
-      it('Fades stops and unloads a sound', async (done) => {
+      it('Fades stops and unloads a sound', async () => {
         const { sound, id } = await playSound(store, 'background')
 
         const startVol = 0.11
@@ -744,11 +666,9 @@ describe ('VueX Audio module', () => {
 
         expect(sound.unload.calls.count()).toEqual(1)
         expect(sound.unload.calls.first().args)
-
-        done()
       })
 
-      it('Fades and stops a track', async (done) => {
+      it('Fades and stops a track', async () => {
         const { sound: sound1, id: id1 } = await playSound(store, 'background')
         const { sound: sound2, id: id2 } = await playSound(store, 'background')
 
@@ -774,11 +694,9 @@ describe ('VueX Audio module', () => {
 
         expect(sound1.stop.calls.count()).toEqual(1)
         expect(sound2.stop.calls.count()).toEqual(1)
-
-        done()
       })
 
-      it('Fades stops and unloads a track', async (done) => {
+      it('Fades stops and unloads a track', async () => {
         const wtf = new Vuex.Store({
           strict: false,
 
@@ -816,12 +734,6 @@ describe ('VueX Audio module', () => {
 
         expect(sound2.stop.calls.count()).toEqual(1)
         expect(sound2.unload.calls.count()).toEqual(1)
-
-        done()
-      })
-
-      it('Fades and stops a track', () => {
-
       })
     })
   })
