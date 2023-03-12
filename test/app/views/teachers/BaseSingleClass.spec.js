@@ -120,9 +120,10 @@ const twoStudentsMockData = (overrides) => {
 }
 
 describe('BaseSingleClass', () => {
-  if (!isOzaria) return  // This is specific to the Ozaria teacher dashboard
 
   it('empty module returns empty array default', () => {
+    if (!isOzaria) return  // This is specific to the Ozaria teacher dashboard
+
     // Here we fill in the `this` object in the method.
     const mockedCourse = 'mockCourse'
     const localThis = {
@@ -152,6 +153,7 @@ describe('BaseSingleClass', () => {
 
   describe('student assignment', () => {
     it('will fill in assigned dots', () => {
+      if (!isOzaria) return  // This is specific to the Ozaria teacher dashboard
       const localThis = singleStudentMockData({ levelSessionsMapByUser: {} })
       // Here we fill in the `this` object in the method.
       expect(BaseSingleClass.computed.modules.call(localThis)).toEqual([{
@@ -164,6 +166,8 @@ describe('BaseSingleClass', () => {
     })
 
     it('will fill in unassigned dots if student is not in course instance', () => {
+      if (!isOzaria) return  // This is specific to the Ozaria teacher dashboard
+
       const localThis = singleStudentMockData({ members: [] })
       // Here we fill in the `this` object in the method.
       expect(BaseSingleClass.computed.modules.call(localThis)).toEqual([

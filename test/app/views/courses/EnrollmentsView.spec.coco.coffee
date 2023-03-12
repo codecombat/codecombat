@@ -58,80 +58,26 @@ describe 'EnrollmentsView', ->
     jasmine.demoEl(@view.$el)
     window.view = @view
 
-#  describe 'For low priority leads', ->
-#    beforeEach ->
-#      leadPriorityRequest = jasmine.Ajax.requests.filter((r)-> r.url == '/db/user/-/lead-priority')[0]
-#      leadPriorityRequest.respondWith({status: 200, responseText: JSON.stringify({ priority: 'low' })})
-#
-#    describe 'shows the starter license upsell', ->
-#      return if features.chinaInfra
-#      it 'when only subscription prepaids exist', ->
-#        @view.prepaids.set([])
-#        @view.prepaids.add(factories.makePrepaid({
-#          type: 'subscription'
-#          startDate: moment().subtract(3, 'weeks').toISOString()
-#          endDate: moment().add(2, 'weeks').toISOString()
-#        }))
-#
-#        @view.prepaids.trigger('sync')
-#        @view.render()
-#
-#        expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(1)
-#
-#      it 'when active starter licenses exist', ->
-#        @view.prepaids.set([])
-#        @view.prepaids.add(factories.makePrepaid({
-#          type: 'starter_license'
-#          startDate: moment().subtract(3, 'weeks').toISOString()
-#          endDate: moment().add(2, 'weeks').toISOString()
-#        }))
-#
-#        @view.prepaids.trigger('sync')
-#        @view.render()
-#
-#        expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(1)
-#
-#      it 'when expired starter licenses exist', ->
-#        @view.prepaids.set([])
-#        @view.prepaids.add(factories.makePrepaid({
-#          type: 'starter_license'
-#          startDate: moment().subtract(3, 'week').toISOString()
-#          endDate: moment().subtract(1, 'week').toISOString()
-#        }))
-#
-#        @view.prepaids.trigger('sync')
-#        @view.render()
-#
-#        expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(1)
-#
-#      it 'when no prepaids exist', ->
-#        @view.prepaids.set([])
-#
-#        @view.prepaids.trigger('sync')
-#        @view.render()
-#
-#        expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(1)
+  describe 'does not show the starter license upsell', ->
+    it 'when full licenses have existed', ->
+      @view.prepaids.set([])
+      @view.prepaids.add(factories.makePrepaid({
+        startDate: moment().subtract(2, 'month').toISOString()
+        endDate: moment().subtract(1, 'month').toISOString()
+      }))
 
-    describe 'does not show the starter license upsell', ->
-      it 'when full licenses have existed', ->
-        @view.prepaids.set([])
-        @view.prepaids.add(factories.makePrepaid({
-          startDate: moment().subtract(2, 'month').toISOString()
-          endDate: moment().subtract(1, 'month').toISOString()
-        }))
+      @view.render()
+      expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(0)
 
-        @view.render()
-        expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(0)
+    it 'when full licenses currently exist', ->
+      @view.prepaids.set([])
+      @view.prepaids.add(factories.makePrepaid({
+        startDate: moment().subtract(2, 'month').toISOString()
+        endDate: moment().add(1, 'month').toISOString()
+      }))
 
-      it 'when full licenses currently exist', ->
-        @view.prepaids.set([])
-        @view.prepaids.add(factories.makePrepaid({
-          startDate: moment().subtract(2, 'month').toISOString()
-          endDate: moment().add(1, 'month').toISOString()
-        }))
-
-        @view.render()
-        expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(0)
+      @view.render()
+      expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(0)
 
   describe 'For high priority leads', ->
     beforeEach ->

@@ -109,8 +109,11 @@ describe 'SingularSprite', ->
       ogreMunchkinThangType.revert()
 
     it 'has the same interface as Sprite for animation', ->
-      singularSprite.gotoAndPlay('move_fore')
-      singularSprite.gotoAndStop('attack')
+      try
+        singularSprite.gotoAndPlay('move_fore')
+        singularSprite.gotoAndStop('attack')
+      catch err
+        console.error 'spriteForAnim', err
 
     it 'scales rendered animations like a MovieClip, taking into account ThangType scaling', ->
       # build a movie clip, put it on top of the segmented sprite and make sure

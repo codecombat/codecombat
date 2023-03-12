@@ -23,6 +23,7 @@ describe 'HeroSelectModal', ->
       _.defer ->
         modal.render()
         done()
+    return null
 
   afterEach ->
     modal.stopListening()

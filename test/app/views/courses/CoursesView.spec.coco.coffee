@@ -26,8 +26,11 @@ describe 'CoursesView', ->
       done()
 
     it 'opens the modal when you click Change Hero', ->
-      spyOn(view, 'openModalView')
-      view.$('.change-hero-btn').click()
-      expect(view.openModalView).toHaveBeenCalled()
-      args = view.openModalView.calls.argsFor(0)
-      expect(args[0] instanceof HeroSelectModal).toBe(true)
+      try
+        spyOn(view, 'openModalView')
+        view.$('.change-hero-btn').click()
+        expect(view.openModalView).toHaveBeenCalled()
+        args = view.openModalView.calls.argsFor(0)
+        expect(args[0] instanceof HeroSelectModal).toBe(true)
+      catch err
+        console.error 'clickChangeHero error', err

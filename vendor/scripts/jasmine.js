@@ -1419,7 +1419,7 @@ getJasmineRequireObj().ExceptionFormatter = function() {
   function ExceptionFormatter() {
     this.message = function(error) {
       var message = '';
-
+      console.error('jasmineErr found:', error)
       if (error.name && error.message) {
         message += error.name + ': ' + error.message;
       } else {
