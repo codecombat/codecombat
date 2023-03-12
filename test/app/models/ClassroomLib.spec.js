@@ -2,9 +2,12 @@ import ClassroomLib from '../../../app/models/ClassroomLib'
 import { courseIDs, isOzaria } from 'app/core/utils'
 
 describe('isStudentOnLockedCourse', () => {
-  if (!isOzaria) return  // This is specific to the Ozaria level locking
-
   it('no lock is always false', () => {
+    if (!isOzaria) {
+      expect(true).toBeTruthy()
+      return  // This is specific to the Ozaria level locking
+    }
+
     for (const courseId of Object.values(courseIDs)) {
       expect(ClassroomLib.isStudentOnLockedCourse({
         studentLockMap: undefined
@@ -15,6 +18,11 @@ describe('isStudentOnLockedCourse', () => {
   })
 
   it('student has lock on that course is always locked', () => {
+    if (!isOzaria) {
+      expect(true).toBeTruthy()
+      return  // This is specific to the Ozaria level locking
+    }
+
     const studentId = 'StudentIdExample'
     for (const courseId of Object.values(courseIDs)) {
       expect(ClassroomLib.isStudentOnLockedCourse({
@@ -30,6 +38,11 @@ describe('isStudentOnLockedCourse', () => {
   })
 
   it('course locked before returns locked', () => {
+    if (!isOzaria) {
+      expect(true).toBeTruthy()
+      return  // This is specific to the Ozaria level locking
+    }
+
     const studentId = 'StudentIdExample'
     expect(ClassroomLib.isStudentOnLockedCourse({
       studentLockMap: {
@@ -43,6 +56,11 @@ describe('isStudentOnLockedCourse', () => {
   })
 
   it('later locked course return unlocked', () => {
+    if (!isOzaria) {
+      expect(true).toBeTruthy()
+      return  // This is specific to the Ozaria level locking
+    }
+
     const studentId = 'StudentIdExample'
     expect(ClassroomLib.isStudentOnLockedCourse({
       studentLockMap: {
@@ -57,9 +75,8 @@ describe('isStudentOnLockedCourse', () => {
 })
 
 describe('isStudentOnLockedLevel', () => {
-  if (!isOzaria) return  // This is specific to the Ozaria level locking
-
   it('no lock is always false', () => {
+    if (!isOzaria) return
     for (const courseId of Object.values(courseIDs)) {
       expect(ClassroomLib.isStudentOnLockedLevel({
         studentLockMap: undefined
@@ -71,6 +88,7 @@ describe('isStudentOnLockedLevel', () => {
   })
 
   it('same course and same level original', () => {
+    if (!isOzaria) return
     const studentId = 'StudentIdExample'
     const levelOriginal = 'original2'
 
@@ -97,6 +115,7 @@ describe('isStudentOnLockedLevel', () => {
   })
 
   it('same course and after locked level', () => {
+    if (!isOzaria) return
     const studentId = 'StudentIdExample'
     const levelOriginal = 'original2'
 
@@ -123,6 +142,7 @@ describe('isStudentOnLockedLevel', () => {
   })
 
   it('same course and before locked level', () => {
+    if (!isOzaria) return
     const studentId = 'StudentIdExample'
     const levelOriginal = 'original2'
 
@@ -149,6 +169,7 @@ describe('isStudentOnLockedLevel', () => {
   })
 
   it('same course and corrupt missing level original', () => {
+    if (!isOzaria) return
     const studentId = 'StudentIdExample'
     const levelOriginal = 'original2'
 
@@ -175,6 +196,7 @@ describe('isStudentOnLockedLevel', () => {
   })
 
   it('same course with only course lock is locked', () => {
+    if (!isOzaria) return
     const studentId = 'StudentIdExample'
     const levelOriginal = 'original2'
 
@@ -220,6 +242,7 @@ describe('isStudentOnLockedLevel', () => {
   })
 
   it('level is always unlocked if lock is in an earlier course', () => {
+    if (!isOzaria) return
     const studentId = 'StudentIdExample'
     const levelOriginal = 'original2'
 
@@ -246,6 +269,7 @@ describe('isStudentOnLockedLevel', () => {
   })
 
   it('level is always locked if lock is in an earlier course', () => {
+    if (!isOzaria) return
     const studentId = 'StudentIdExample'
     const levelOriginal = 'original2'
 

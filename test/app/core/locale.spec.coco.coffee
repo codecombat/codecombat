@@ -8,12 +8,13 @@ langs = Object.keys(locale).concat('rot13').map (langKey) ->
 describe 'esper error messages', ->
   langs.forEach (language) =>
     describe "when language is #{language.englishDescription}", ->
-      esper = language.translation.esper or {}
+      esper = language.translation.esper or { test123: 1234 }
       englishEsper = english.translation.esper
-
-      Object.keys(language.translation.esper or {}).forEach (key) ->
+      Object.keys(esper).forEach (key) ->
         describe "when key is #{key}", ->
           it 'should have numbered placeholders $1 through $N', ->
+            if (key is 'test123')
+              return
             placeholders = (esper[key].match(/\$\d/g) or []).sort()
             expectedPlaceholders = ("$#{index+1}" for val, index in placeholders)
             if not _.isEqual(placeholders, expectedPlaceholders)

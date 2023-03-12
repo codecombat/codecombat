@@ -149,9 +149,6 @@ xdescribe 'CreateAccountModal', ->
           it 'navigates to the BasicInfoView', ->
             expect(modal.signupState.get('screen')).toBe('basic-info')
 
-          describe 'on the BasicInfoView for students', ->
-
-
         describe 'when the classroom IS NOT found', ->
           beforeEach (done) ->
             classCodeRequest.respondWith({
@@ -478,10 +475,6 @@ xdescribe 'CreateAccountModal Vue Components', ->
             expect(@schoolInfoPanel.nces_id).toBe('')
             expect(@schoolInfoPanel.nces_phone).toBe('')
             expect(@schoolInfoPanel.nces_district_id).toBe('')
-
-      describe 'clearDistrictNcesValues', ->
-
-      describe 'clearSchoolNcesValues', ->
 
       describe 'applySuggestion', ->
         beforeEach ->
