@@ -20,7 +20,7 @@ describe('markAsImported(gcId)', () => {
     done()
   })
 
-  it('should set importedToCoco=true for gcId in me.googleClassrooms', async function (done) {
+  it('should set importedToCoco=true for gcId in me.googleClassrooms', async function () {
     expect(me.get('googleClassrooms')[0].importedToCoco).toBeUndefined()
     expect(me.get('googleClassrooms')[1].importedToCoco).toBeUndefined()
     try {
@@ -28,24 +28,22 @@ describe('markAsImported(gcId)', () => {
       expect(me.get('googleClassrooms')[0].importedToCoco).toBeDefined()
       expect(me.get('googleClassrooms')[0].importedToCoco).toBe(true)
       expect(me.get('googleClassrooms')[1].importedToCoco).toBeUndefined()
-      done()
     }
     catch (err) {
-      done.fail(new Error("This should not have been called"))
+      expect('error thrown').toBe(null)
     }
   });
 
-  it('should throw error if the google classroom id does not exist in me.googleClassrooms', async function (done) {
+  it('should throw error if the google classroom id does not exist in me.googleClassrooms', async function () {
     expect(me.get('googleClassrooms')[0].importedToCoco).toBeUndefined()
     expect(me.get('googleClassrooms')[1].importedToCoco).toBeUndefined()
     try {
       await GoogleClassroomHandler.markAsImported("new-id")
-      done.fail(new Error("This should not have been called"))
+      expect('This should not have been called').toBeUndefined()
     }
     catch (err) {
       expect(me.get('googleClassrooms')[0].importedToCoco).toBeUndefined()
       expect(me.get('googleClassrooms')[1].importedToCoco).toBeUndefined()
-      done()
     }
   });
 
@@ -67,22 +65,21 @@ describe('importClassrooms()', () => {
     done()
   })
 
-  it('adds googleClassrooms to the `me` object', async function(done) {
+  it('adds googleClassrooms to the `me` object', async function() {
     spyOn(GoogleClassroomHandler.gcApiHandler, 'loadClassroomsFromAPI').and.returnValue(Promise.resolve(gClassrooms))
     expect(me.get('googleClassrooms')).toBeUndefined()
     try {
       await GoogleClassroomHandler.importClassrooms()
       expect(me.get('googleClassrooms')).toBeDefined()
       expect(me.get('googleClassrooms').length).toBe(gClassrooms.length)
-      done()
     }
     catch (err) {
-      done.fail(new Error("This should not have been called"))
+      expect('This should not have been called').toBeUndefined()
     }
   });
 
-  it('updates the linked classrooms in me.googleClassrooms while keeping the importedToCoco value', async function(done) {
-    
+  it('updates the linked classrooms in me.googleClassrooms while keeping the importedToCoco value', async function() {
+
     me.set('googleClassrooms', gClassrooms)
 
     // mark gClassrooms[0] as imported
@@ -118,28 +115,27 @@ describe('importClassrooms()', () => {
       expect(me.get('googleClassrooms').find((gc) => gc.id != importedClassroom.id)).toBeDefined()
       expect(me.get('googleClassrooms').find((gc) => gc.id != importedClassroom.id).name).toBe(newGClassrooms.find((gc) => gc.id!=importedClassroom.id).name)
       expect(me.get('googleClassrooms').find((gc) => gc.id != importedClassroom.id).importedToCoco).toBeUndefined()
-      done()
     }
     catch (err) {
-      done.fail(new Error("This should not have been called"))
+      expect('This should not have been called').toBeUndefined()
     }
   })
 
-  it('does not remove an already imported classroom from me.googleClassrooms if deleted from google classroom, and sets deletedFromGC flag', async function(done) {
+  it('does not remove an already imported classroom from me.googleClassrooms if deleted from google classroom, and sets deletedFromGC flag', async function() {
     // mark gClassrooms[0] as imported
     me.set('googleClassrooms', [gClassrooms[0]])
     let importedClassroom = me.get('googleClassrooms').find((c) => c.id == gClassrooms[0].id)
     importedClassroom.importedToCoco = true
 
     expect(me.get('googleClassrooms').length).toBe(1)
-    
+
     // new classrooms data recieved from google classroom API - does not contain classroom id1
     const newGClassrooms = [{
       id: "id2",
       name: "test class 2"
     }]
     spyOn(GoogleClassroomHandler.gcApiHandler, 'loadClassroomsFromAPI').and.returnValue(Promise.resolve(newGClassrooms))
-  
+
     try {
       await GoogleClassroomHandler.importClassrooms()
       // me.googleClassrooms should contain old imported classroom id1 as well as new classroom id2
@@ -151,10 +147,9 @@ describe('importClassrooms()', () => {
       expect(me.get('googleClassrooms').find((gc) => gc.id != importedClassroom.id).name).toBe(newGClassrooms[0].name)
       expect(me.get('googleClassrooms').find((gc) => gc.id != importedClassroom.id).importedToCoco).toBeUndefined()
       expect(me.get('googleClassrooms').find((gc) => gc.id != importedClassroom.id).deletedFromGC).toBeUndefined()
-      done()
     }
     catch (err) {
-      done.fail(new Error("This should not have been called"))
+      expect('This should not have been called').toBeUndefined()
     }
   })
 
@@ -186,11 +181,11 @@ const gcStudents = [
 describe('importStudentsToClassroom(cocoClassroom)', () => {
   beforeEach((done) => {
     me.set(factories.makeUser({role: 'teacher'}).attributes)
-    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValue(Promise.resolve({students: gcStudents})) 
+    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValue(Promise.resolve({students: gcStudents}))
     done()
   })
 
-  it('signs up the imported students on codecombat with their google id and adds them to the classroom', async function(done) {
+  it('signs up the imported students on codecombat with their google id and adds them to the classroom', async function() {
     const users = gcStudents.map((s) => {
       return factories.makeUser({
         gplusID: s.userId,
@@ -205,8 +200,8 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
     })
 
     const classroomWithNewMembers = factories.makeClassroom({googleClassroomId: "id1", members: users.map((u) => u._id)})
-    spyOn(api.classrooms, 'addMembers').and.returnValue(Promise.resolve(classroomWithNewMembers)) 
-    
+    spyOn(api.classrooms, 'addMembers').and.returnValue(Promise.resolve(classroomWithNewMembers))
+
     try {
       const cocoClassroom = factories.makeClassroom({googleClassroomId: "id1"})
       const classroomNewMembers = await GoogleClassroomHandler.importStudentsToClassroom(cocoClassroom)
@@ -216,15 +211,14 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
       expect(classroomNewMembers.length).toEqual(gcStudents.length)
       expect(classroomNewMembers[0].get('gplusID')).toBe(gcStudents[0].userId)
       expect(classroomNewMembers[1].get('gplusID')).toBe(gcStudents[1].userId)
-      done()
     }
     catch (err) {
-      done.fail(new Error("This should not have been called"))
+      expect('This should not have been called').toBeUndefined()
     }
   });
 
   describe ('if students already exist on codecombat', () => {
-    it('does not add students if already exist in the classroom', async function(done) {
+    it('does not add students if already exist in the classroom', async function() {
       const signUpResult = gcStudents.map((s) => {
         let user = factories.makeUser({
           gplusID: s.userId,
@@ -248,17 +242,16 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
 
       try {
         await GoogleClassroomHandler.importStudentsToClassroom(classroomWithNewMembers)
-        done.fail(new Error("This should not have been called"))
+        expect('This should not have been called').toBeUndefined()
       }
       catch (err) {
         expect(api.users.signupFromGoogleClassroom).toHaveBeenCalled()
         expect(api.users.signupFromGoogleClassroom.calls.count()).toEqual(gcStudents.length)
         expect(api.classrooms.addMembers).not.toHaveBeenCalled()
-        done()
       }
     });
 
-    it('adds students to classroom if do not exist already', async function(done) {
+    it('adds students to classroom if do not exist already', async function() {
       const signUpResult = gcStudents.map((s) => {
         let user = factories.makeUser({
           gplusID: s.userId,
@@ -287,20 +280,19 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
         expect(api.users.signupFromGoogleClassroom.calls.count()).toEqual(gcStudents.length)
         expect(api.classrooms.addMembers).toHaveBeenCalled()
         expect(newMembers.length).toEqual(gcStudents.length)
-        done()
       }
       catch (err) {
-        done.fail(new Error("This should not have been called"))
+        expect('This should not have been called').toBeUndefined()
       }
     })
   })
 })
 
 describe('importStudentsToClassroom(cocoClassroom)', () => {
-  it('calls `loadStudentsFromAPI` multiple times until previous api call returns nextPageToken', async function(done) {
+  it('calls `loadStudentsFromAPI` multiple times until previous api call returns nextPageToken', async function() {
     me.set(factories.makeUser({role: 'teacher'}).attributes)
-    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValues(Promise.resolve({students: gcStudents[0], nextPageToken: 'abcd'}), Promise.resolve({students: gcStudents[1]})) 
-    
+    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValues(Promise.resolve({students: gcStudents[0], nextPageToken: 'abcd'}), Promise.resolve({students: gcStudents[1]}))
+
     const users = gcStudents.map((s) => {
       return factories.makeUser({
         gplusID: s.userId,
@@ -315,17 +307,16 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
     })
 
     const classroomWithNewMembers = factories.makeClassroom({googleClassroomId: "id1", members: users.map((u) => u._id)})
-    spyOn(api.classrooms, 'addMembers').and.returnValue(Promise.resolve(classroomWithNewMembers)) 
-    
+    spyOn(api.classrooms, 'addMembers').and.returnValue(Promise.resolve(classroomWithNewMembers))
+
     try {
       const cocoClassroom = factories.makeClassroom({googleClassroomId: "id1"})
       const classroomNewMembers = await GoogleClassroomHandler.importStudentsToClassroom(cocoClassroom)
       expect(GoogleClassroomHandler.gcApiHandler.loadStudentsFromAPI.calls.count()).toEqual(2)
       expect(classroomNewMembers.length).toEqual(gcStudents.length)
-      done()
     }
     catch (err) {
-      done.fail(new Error("This should not have been called"))
+      expect('This should not have been called').toBeUndefined()
     }
   })
 })

@@ -28,7 +28,7 @@ class SpyCommand extends AbstractCommand {
 }
 
 describe('commandRunner', () => {
-  it('runs all commands provided', utils.wrapJasmine(async () => {
+  it('runs all commands provided', async () => {
     const spy = jasmine.createSpy('commandPromiseSpy')
     const cancelSpy = jasmine.createSpy('cancelSpy')
 
@@ -42,9 +42,9 @@ describe('commandRunner', () => {
 
     expect(spy).toHaveBeenCalledTimes(commandLength)
     expect(cancelSpy).not.toHaveBeenCalled()
-  }))
+  })
 
-  it('cancels commands immediately correctly', utils.wrapJasmine(async () => {
+  it('cancels commands immediately correctly', async () => {
     const spy = jasmine.createSpy('commandPromiseSpy')
     const cancelSpy = jasmine.createSpy('cancelSpy')
 
@@ -59,9 +59,9 @@ describe('commandRunner', () => {
 
     expect(spy).not.toHaveBeenCalled()
     expect(cancelSpy).toHaveBeenCalledTimes(commandLength)
-  }))
+  })
 
-  it('can cancel commands midway', utils.wrapJasmine(async () => {
+  it('can cancel commands midway', async () => {
     const spy = jasmine.createSpy('commandPromiseSpy')
     const cancelSpy = jasmine.createSpy('cancelSpy')
 
@@ -81,9 +81,9 @@ describe('commandRunner', () => {
 
     expect(spy).toHaveBeenCalledTimes(beforeCancel)
     expect(cancelSpy).toHaveBeenCalledTimes(afterCancel)
-  }))
+  })
 
-  it('late cancel doesn\'t disrupt command running', utils.wrapJasmine(async () => {
+  it('late cancel doesn\'t disrupt command running', async () => {
     const spy = jasmine.createSpy('commandPromiseSpy')
     const cancelSpy = jasmine.createSpy('cancelSpy')
 
@@ -101,5 +101,5 @@ describe('commandRunner', () => {
 
     expect(spy).toHaveBeenCalledTimes(beforeCancel)
     expect(cancelSpy).not.toHaveBeenCalled()
-  }))
+  })
 })

@@ -572,16 +572,6 @@ xdescribe 'CreateAccountModal Vue Components', ->
           expect(attrs.nces_district_schools).toBe('some nces_district_schools')
           expect(attrs.nces_district_students).toBe('some nces_district_students')
 
-      describe 'clickContinue', ->
-
-      describe 'clickBack', ->
-
-    describe 'NcesSearchInput', ->
-
-    describe 'SetupAccountPanel', ->
-
-    describe 'TeacherRolePanel', ->
-
 api = require 'core/api'
 xdescribe 'CreateAccountModal Vue Store', ->
   describe 'actions.createAccount', ->
