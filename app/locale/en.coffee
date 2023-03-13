@@ -354,6 +354,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     events: "Events"
     impact: "Impact"
     star: "CoCoStar"
+    coco_oj: "CoCoOJ"
     contact: "Contact"
     press: "Press"
     twitter_follow: "Follow"

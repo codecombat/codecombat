@@ -333,6 +333,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     events: "大事记"
     impact: "影响力"
     star: "扣哒之星"
+    coco_oj: "扣哒信奥"
     contact: "联系我们"
     press: "公司新闻"
     twitter_follow: "关注"

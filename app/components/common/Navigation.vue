@@ -195,6 +195,8 @@ export default Vue.extend({
             #navbar-collapse.collapse.navbar-collapse
               .nav-spacer
               ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
+                li
+                  a.text-p(href="https://oj.koudashijie.com", data-i18n="nav.coco_oj", class='')
                 template(v-if="me.showChinaResourceInfo() && !me.showChinaHomeVersion()")
                   li
                     a.text-p(href="/CoCoStar", data-i18n="nav.star", class='')
@@ -314,11 +316,11 @@ export default Vue.extend({
                     li
                       a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
 
-            ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
-              li
-                button#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
-              li
-                button#login-link.login-button(data-event-action="Header Login CTA") {{ $t('signup.login') }}
+              ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
+                li
+                  button#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
+                li
+                  button#login-link.login-button(data-event-action="Header Login CTA") {{ $t('signup.login') }}
 </template>
 
 <style lang="scss" scoped>
