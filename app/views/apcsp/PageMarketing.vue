@@ -263,6 +263,10 @@ export default Vue.extend({
       fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher'
     }),
     async updateLicenseStatus () {
+      if (me.isPaidTeacher()) {
+        this.hasLicense = true
+        return
+      }
       await this.fetchTeacherPrepaids({ teacherId: me.get('_id') })
       const prepaids = this.teacherPrepaids(me.get('_id'))
       if (prepaids.available.length > 0) {

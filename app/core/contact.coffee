@@ -35,6 +35,13 @@ module.exports =
     })
     return new Promise(jqxhr.then)
 
+  sendAPCSPContactMail: ({email, name, role, message}) ->
+    jqxhr = $.ajax('/contact/apcsp', {
+      method: 'POST'
+      data: {email, name, role, message}
+    })
+    return new Promise(jqxhr.then)
+
   sendTeacherGameDevProjectShare: ({teacherEmail, sessionId, codeLanguage, levelName}) ->
     jqxhr = $.ajax('/contact/send-teacher-game-dev-project-share', {
       method: 'POST'
