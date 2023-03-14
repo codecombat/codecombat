@@ -41,7 +41,7 @@ module.exports = class EditView extends RootView
   buildTreema: ->
     return if @treema? or (not @resource.loaded)
     data = $.extend(true, {}, @resource.attributes)
-    options = Object.assign @treemaOptions,
+    options = Object.assign (@treemaOptions or {}),
       data: data
       filePath: "#{@filePath}/#{@resource.get('_id')}"
       schema: @schema

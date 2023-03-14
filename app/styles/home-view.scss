@@ -290,6 +290,13 @@
       color: #F7D047;
       text-decoration: underline;
     }
+
+    span {
+      p {
+        margin: 0;
+        font-size: unset
+      }
+    }
   }
 
   // Most sections have a max width and are centered.

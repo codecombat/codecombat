@@ -1,7 +1,7 @@
 module.exports = nativeDescription: "español (ES)", englishDescription: "Spanish (Spain)", translation:
 
-#  ozaria_home:
-#    subtitle: "Computer Science that Captivates"
+  ozaria_home:
+    subtitle: "Informática que cautiva"
 #    heading_subtitle: "A coding adventure for students and your turnkey solution for teaching Computer Science."
 #    item_list_p: "Try Chapter 1 for Free Today!"
 #    engaging_heading_corner: "A solution to Engage Students and Support Teachers"

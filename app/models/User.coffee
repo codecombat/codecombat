@@ -123,6 +123,8 @@ module.exports = class User extends CocoModel
 
   isStudent: -> @get('role') is 'student'
 
+  isTestStudent: -> @isStudent() and (@get('related') or []).some(({relation})=>relation == 'TestStudent')
+
   isCreatedByClient: -> @get('clientCreator')?
 
   isTeacher: (includePossibleTeachers=false) -> User.isTeacher(@attributes, includePossibleTeachers)
@@ -779,6 +781,31 @@ module.exports = class User extends CocoModel
       me.startExperiment('m7', value, probability)
     value
 
+  getTTSExperimentValue: ->
+    value = {true: 'beta', false: 'control', control: 'control', beta: 'beta'}[utils.getQueryVariable 'tts']
+    value ?= me.getExperimentValue('tts', null, 'beta')
+    if not value? and features?.china
+      # Don't include China players; the TTS service probably wouldn't work anyway
+      value = 'control'
+    if userUtils.isInLibraryNetwork()
+      value = 'control'
+    if not value? and me.get('stats')?.gamesCompleted
+      # Don't include players who have already started playing; just let them use it
+      value = 'beta'
+    if not value? and new Date(me.get('dateCreated')) < new Date('2023-02-09')
+      # Don't include users created before experiment start date; just let them use it
+      value = 'beta'
+    if not value?
+      probability = window.serverConfig?.experimentProbabilities?.tts?.beta ? 0.5
+      if Math.random() < probability
+        value = 'beta'
+        valueProbability = probability
+      else
+        value = 'control'
+        valueProbability = 1 - probability
+      me.startExperiment('tts', value, probability)
+    value
+
   removeRelatedAccount: (relatedUserId, options={}) ->
     options.url = '/db/user/related-accounts'
     options.type = 'DELETE'
@@ -788,6 +815,26 @@ module.exports = class User extends CocoModel
 
   linkRelatedAccount: (body, options = {}) ->
     options.url = '/db/user/related-accounts'
+    options.type = 'PUT'
+    options.data ?= body
+    @fetch(options)
+
+  getTestStudentId: ->
+    testStudentRelation = (@get('related') or []).filter((related) => related.relation == 'TestStudent')[0]
+    if testStudentRelation
+      return Promise.resolve testStudentRelation.userId
+    else
+      return @createTestStudentAccount().then (response) =>
+        return response.relatedUserId
+
+  switchToStudentMode: () ->
+    @getTestStudentId().then((testStudentId) => @spy({id: testStudentId}))
+
+  switchToTeacherMode: () ->
+    @switchToStudentMode()
+
+  createTestStudentAccount: (body, options = {}) ->
+    options.url = '/db/user/create-test-student-account'
     options.type = 'PUT'
     options.data ?= body
     @fetch(options)

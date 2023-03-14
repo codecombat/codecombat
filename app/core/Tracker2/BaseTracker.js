@@ -99,7 +99,7 @@ export default class BaseTracker {
     this.isInitializing = true
 
     const initTimeout = new Promise((resolve, reject) => {
-      setTimeout(() => reject(new Error('Tracker init timeout')), this.trackerInitTimeout)
+      setTimeout(() => reject(new Error(`${this.constructor.name || 'Tracker'} init timeout`)), this.trackerInitTimeout)
     })
 
     try {
@@ -146,6 +146,9 @@ export default class BaseTracker {
       }
 
       this.onInitializeFail = (e) => {
+        if (!/init timeout/.test(e.message)) {
+          console.error(`${this.constructor.name || 'Tracker'} initialization failed`, e)
+        }
         reject(e)
         finishInitialization(false)
       }

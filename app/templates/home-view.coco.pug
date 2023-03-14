@@ -186,27 +186,40 @@ block content
           .col-xs-12.text-center
             img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-47%);" alt="")
 
-    .container
-      .row.text-center.for-parents-row
-        .col-xs-12
-          h1(data-i18n="new_home.for_parents")
+    if me.get('country') !== 'hong-kong'
+      .container
+        .row.text-center.for-parents-row
+          .col-xs-12
+            h1(data-i18n="new_home.for_parents")
 
-    section.container
-      .row.product-row
-        .col-md-5
-          .row
-            h4.product-title(data-i18n="new_home.codecombat_live_online_classes")
-            p(data-i18n="new_home.online_classes_blurb")
-            .product-btn
-              a.btn.btn-lg.btn-primary.btn-gold(href="/parents" data-i18n="new_home.explore_online_classes" data-event-action="Homepage Click Online Classes Button CTA")
-        .col-md-6.col-md-offset-1
-          img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher")
-      img#online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" alt="")
+      section.container
+        .row.product-row
+          .col-md-5
+            .row
+              h4.product-title(data-i18n="new_home.codecombat_live_online_classes")
+              p(data-i18n="new_home.online_classes_blurb")
+              .product-btn
+                a.btn.btn-lg.btn-primary.btn-gold(href="/parents" data-i18n="new_home.explore_online_classes" data-event-action="Homepage Click Online Classes Button CTA")
+          .col-md-6.col-md-offset-1
+            img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher")
+        img#online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" alt="")
 
     .container
       .row.text-center.for-everyone-row
         .col-xs-12
           h1(data-i18n="new_home.for_everyone")
+
+    section.container.section-coco-worlds
+      .row.product-row
+        .col.col-md-5
+          .row
+            img.coco-worlds-logo(src="/images/pages/home-v2/hp_coco_worlds_full_brand.png" loading="lazy")
+            h4.product-title(data-i18n="new_home.coco_worlds_header")
+            p(data-i18n="new_home.coco_worlds_description")
+            .product-btn
+              a.btn.btn-lg.btn-primary.btn-gold(href="/roblox" data-i18n="new_home.coco_worlds_button" data-event-action="Homepage Click Roblox Button CTA")
+        .col.col-md-7
+          img.img-responsive(src="/images/pages/home-v2/hp_roblox_image.png" loading="lazy")
 
     section.container
       .row.product-row

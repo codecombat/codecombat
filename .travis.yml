@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-  - 14.18.3
+  - 16.19.1
 env:
   - CXX=g++-4.8
 services:
@@ -21,7 +21,7 @@ cache:
     - bower_components
 before_install:
   - export COCO_TRAVIS_TEST=1
-  - npm install -g npm@6.x
+  - npm install -g npm@8.x
 before_script:
   - npm install --ignore-scripts
   - npm install

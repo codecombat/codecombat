@@ -154,7 +154,6 @@ module.exports = class TomeView extends CocoView
           worker: @worker
           language: language
           spectateView: @options.spectateView
-          spectateOpponentCodeLanguage: @options.spectateOpponentCodeLanguage
           observing: @options.observing
           levelID: @options.levelID
           level: @options.level
