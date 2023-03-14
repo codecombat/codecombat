@@ -31,7 +31,8 @@ export default {
           id: instance._id?.toString(),
           start: instance.startDate,
           end: instance.endDate,
-          title: event.name
+          title: event.name,
+          extendedProps: event
         }
       })
     },
@@ -53,8 +54,17 @@ export default {
               '<div class="ec-event-title">' + info.event.title + '</div>'
           }
         },
-        dateClick (info) {
-          that.openEventPanel({ type: 'new' })
+        eventClick (info) {
+          console.log('date info:', info)
+          if (info.event.display === 'pointer') {
+            that.openEventPanel({ type: 'new' })
+          } else {
+            if (me.isAdmin()) {
+              that.openEventPanel({ type: 'edit', event: info.event.extendedProps })
+            } else {
+              that.openEventPanel({ type: 'info', eventId: info.event.eId })
+            }
+          }
         }
       }
     },
@@ -81,7 +91,7 @@ export default {
   watch: {
     events () {
       this.ec?.refetchEvents()
-    } 
+    }
   },
   mounted () {
     this.ec = new Calendar({

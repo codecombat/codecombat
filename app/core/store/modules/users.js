@@ -112,7 +112,6 @@ export default {
     fetchUsersByNameOrSlug: ({ commit }, q) => {
       adminApi.searchUser(q)
         .then(res => {
-          console.log("why not set result?", res)
           commit('setSearchedResult', res)
         })
         .catch((e) => {

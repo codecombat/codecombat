@@ -105,7 +105,8 @@ export default {
     this.event = _.clone(this.propsEvent) || {
       members: new Set(),
       startDate: new Date(),
-      endDate: addHours(new Date(), 1)
+      endDate: addHours(new Date(), 1),
+      instances: []
     }
   }
 }
@@ -139,6 +140,7 @@ export default {
         <label for="owner"> {{ $t('events.owner') }}</label>
         <user-search
           :role="'teacher'"
+          :value="event.owner"
           @select="selectOwner"
         />
       </div>

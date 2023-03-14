@@ -33,6 +33,10 @@ export default {
     role: {
       type: String,
       default: 'student'
+    },
+    value: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -58,6 +62,11 @@ export default {
       } else {
         this.hideResult = false
         this.debouncedSearch()
+      }
+    },
+    value (newValue) {
+      if (newValue) {
+        this.user = newValue
       }
     }
   },

@@ -47,7 +47,7 @@ export default {
     }),
     ...mapActions({
 
-})
+    }),
     onEventSave () {
       this.close()
     }

@@ -1,4 +1,4 @@
-import { getAllEvents, postEvent, updateEvent, putEventMember, deleteEventMember } from '../../api/events'
+import { getAllEvents, postEvent, updateEvent, putEventMember, deleteEventMember, getInstances } from '../../api/events'
 
 export default {
   namespaced: true,
@@ -30,9 +30,12 @@ export default {
     setEvent (state, event) {
       Vue.set(state.events, event._id, event)
     },
-    openEventPanel (state, { type = 'info', event = undefined } = {}) {
+    openEventPanel (state, { type = 'info', eventId = undefined, event = undefined } = {}) {
       Vue.set(state.eventPanel, 'visible', true)
       Vue.set(state.eventPanel, 'type', type)
+      if (eventId) {
+        event = state.events[eventId]
+      }
       Vue.set(state.eventPanel, 'editableEvent', event)
     },
     closeEventPanel (state) {
@@ -42,6 +45,9 @@ export default {
   actions: {
     async fetchAllEvents ({ commit }) {
       const events = await getAllEvents()
+      for (const event of events) {
+        event.instances = await getInstances(event._id)
+      }
       for (const event of events) {
         commit('setEvent', event)
       }
