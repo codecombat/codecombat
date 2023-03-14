@@ -79,6 +79,21 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       s.parentNode.insertBefore po, s
       po.addEventListener('load', window.init)
 
+      window.initGapi = =>
+        window.gapi.load('client', () ->
+          window.gapi.client.init({
+            apiKey: API_KEY
+          })
+        )
+      po1 = document.createElement('script')
+      po1.type = 'text/javascript'
+      po1.async = true
+      po1.defer = true
+      po1.src = 'https://apis.google.com/js/api.js'
+      s1 = document.getElementsByTagName('script')[0]
+      s1.parentNode.insertBefore po1, s1
+      po1.addEventListener('load', window.initGapi)
+
       @startedLoading = true
 
   connect: (options={}) ->
