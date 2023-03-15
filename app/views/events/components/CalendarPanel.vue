@@ -1,11 +1,13 @@
 <template>
   <div class="calendar-panel">
-    <single-calendar :events="eventsArray" />
+    <client-calendar v-if="type==='my-classes'" />
+    <single-calendar v-else :events="eventsArray" />
   </div>
 </template>
 
 <script>
 import SingleCalendar from './SingleCalendar'
+import ClientCalendar from './ClientCalendar'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -17,7 +19,8 @@ export default {
     }
   },
   components: {
-    SingleCalendar
+    SingleCalendar,
+    ClientCalendar
   },
   computed: {
     ...mapGetters({
