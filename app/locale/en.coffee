@@ -3692,6 +3692,19 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     coco_requirements: "CodeCombat’s system requirements"
     coco_recognized_blurb: "CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum."
 
+  apcsp_curriculum:
+    access_syllabus: "Access our __syllabus__"
+    college_board_approved_syllabus: "College Board approved Syllabus"
+    access_pacing_guide: "Review our suggested __pacing_guide__ which is based on five 50 minute class sessions per week"
+    pacing_guide: "Pacing Guide"
+    resources: "Explore each unit and its curriculum resources here:"
+    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__."
+    contact: "Contact __apcsp_email__ to get access."
+    role: "Role"
+    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form"
+    request_license: "Join Pilot Program"
+
+
   hoc_2019:
     heading: "Hour of Code"
     start: "Start Your Journey"
