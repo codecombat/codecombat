@@ -6,6 +6,7 @@
 import Calendar from '@event-calendar/core'
 import DayGrid from '@event-calendar/day-grid'
 import Interaction from '@event-calendar/interaction'
+import randomColor from 'randomcolor'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
@@ -21,18 +22,28 @@ export default {
       ec: null
     }
   },
+  computed: {
+    colorMap () {
+      return randomColor({
+        luminosity: 'dark',
+        alpha: 0.7,
+        count: this.events.length
+      })
+    }
+  },
   methods: {
     ...mapMutations({
       openEventPanel: 'events/openEventPanel'
     }),
-    mapEventToCalendar (event) {
+    mapEventToCalendar (event, index) {
       return event.instances.map(instance => {
         return {
           id: instance._id?.toString(),
           start: instance.startDate,
           end: instance.endDate,
           title: event.name,
-          extendedProps: event
+          extendedProps: event,
+          backgroundColor: this.colorMap[index]
         }
       })
     },
@@ -84,7 +95,7 @@ export default {
 
       return [
         greyOut,
-        ...(this.events.map(e => this.mapEventToCalendar(e))).flat()
+        ...(this.events.map((e, index) => this.mapEventToCalendar(e, index))).flat()
       ]
     }
   },

@@ -174,6 +174,7 @@ export default {
       <rrule-generator
         :start="rruleStart"
         :option="{showStart: false}"
+        :rrule="event.rrule"
       />
 
       <div class="form-group pull-right">
