@@ -34,8 +34,8 @@ if showGameDevAlert
         img#houston-logo(src="/images/pages/play/houston-library-logo.png")
 
     else if view.shouldShow('burnaby-logo')
-      #burnaby-logo-container
-        img#burnaby-logo(src="/images/pages/play/burnaby-library-logo.webp")
+      a#burnaby-logo-container(href='http://bpl.bc.ca/' target='_blank' rel='noopener noreferrer')
+        img#burnaby-logo(src="/images/pages/play/burnaby-library-logo-2.png")
 
     if view.shouldShow('back-to-classroom')
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
