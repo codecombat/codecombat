@@ -47,7 +47,9 @@ module.exports = class SpritesScriptModule extends ScriptModule
     textIsLocalized = text isnt sprite.say.text
     soundIsLocalized = sound isnt sprite.say.sound
     hasSound = sound and (soundIsLocalized or wantsEnglish)
-    if text and not hasSound and me.getTTSExperimentValue() is 'beta'
+    if text and not hasSound and me.getTTSExperimentValue() is 'beta' and utils.isCodeCombat
+      # TODO: get this working for Ozaria once we confirm it's good in CodeCombat.
+      # Issues: it doesn't respect existing VO, and it plays too early.
       plainText = utils.markdownToPlainText text
       textLanguage = if textIsLocalized or lang is 'en-GB' then lang else 'en-US'
       ttsPath = "text-to-speech/#{textLanguage}/#{encodeURIComponent(plainText)}"
