@@ -456,6 +456,10 @@ export default function getVueRouter () {
             },
           ],
         },
+        {
+          path: '/acr',
+          component: () => import(/* webpackChunkName: "acr" */ 'app/views/acr/ACRView.vue'),
+        },
       ],
       scrollBehavior (to) {
         const scroll = {}
