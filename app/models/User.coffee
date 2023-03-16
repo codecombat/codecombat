@@ -123,6 +123,8 @@ module.exports = class User extends CocoModel
 
   isStudent: -> @get('role') is 'student'
 
+  isTestStudent: -> @isStudent() and (@get('related') or []).some(({relation})=>relation == 'TestStudent')
+
   isCreatedByClient: -> @get('clientCreator')?
 
   isTeacher: (includePossibleTeachers=false) -> User.isTeacher(@attributes, includePossibleTeachers)
@@ -827,6 +829,9 @@ module.exports = class User extends CocoModel
 
   switchToStudentMode: () ->
     @getTestStudentId().then((testStudentId) => @spy({id: testStudentId}))
+
+  switchToTeacherMode: () ->
+    @switchToStudentMode()
 
   createTestStudentAccount: (body, options = {}) ->
     options.url = '/db/user/create-test-student-account'

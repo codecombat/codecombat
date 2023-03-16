@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.10.0]
+        node-version: [16.19.1]
 
     steps:
       - uses: actions/checkout@v2
@@ -36,5 +36,5 @@ jobs:
       - run: npm ci
         env:
           SKIP_WEBPACK: true
-      - run: npm run build
+      - run: npm run pre-build
       - run: npm run test-ubuntu
