@@ -23,7 +23,8 @@
       .width-container.row.border-yellow
         .col.col-lg-12
           h2.text-h2(v-html="$t('apcsp_curriculum.access_syllabus', i18nData)")
-          a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
+          a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
+          a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus_FullAccess.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
         .col.col-lg-12
           h2.text-h2(v-html="$t('apcsp_curriculum.access_pacing_guide', i18nData)")
           a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide_Full.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
@@ -395,7 +396,7 @@ export default Vue.extend({
     }),
     i18nData () {
       return {
-        syllabus: `<a href='https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf' target='_blank'>${$.i18n.t('apcsp_curriculum.college_board_approved_syllabus')}</a>`,
+        syllabus: `<a href='https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus${this.hasLicense ? '_FullAccess' : ''}.pdf' target='_blank'>${$.i18n.t('apcsp_curriculum.college_board_approved_syllabus')}</a>`,
         pacing_guide: `<a href='https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide${this.hasLicense ? '_Full' : ''}.pdf' target='_blank'>${$.i18n.t('apcsp_curriculum.pacing_guide')}</a>`,
         edapp: '<a href=\'https://www.edapp.com/\' target=\'_blank\'>edapp.com</a>',
         apcsp_email: '<a href=\'mailto:apcsp@codecombat.com\' target=\'_blank\'>apcsp@codecombat.com</a>',
