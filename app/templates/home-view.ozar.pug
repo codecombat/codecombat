@@ -38,6 +38,12 @@ block content
           a.btn.btn-primary.btn-large.btn-moon(href="/teachers/classes", data-i18n="new_home.go_to_my_classes")
         else if me.isStudent()
           a.btn.btn-primary.btn-large.btn-moon(href="/students", data-i18n="new_home.go_to_my_dashboard")
+        else if me.isHomeUser() && !me.isAnonymous()
+          div.update-account-blurb(data-i18n="ozaria_home.individual_account_warning" data-i18n-options=JSON.stringify({name: me.broadName()}))
+          div
+            a.btn.btn-primary.btn-large.btn-moon(href="/students/update-account", data-i18n="courses.update_account_update_student")
+          div
+            a.btn.btn-primary.btn-large.btn-moon(href="/teachers/update-account", data-i18n="courses.update_account_update_teacher")
         else
           p(data-i18n="ozaria_home.item_list_p")
           div
