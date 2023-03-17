@@ -1,0 +1,20 @@
+extends /templates/common/table
+
+block tableResultsHeader
+  tr
+    th(colspan=4)
+      span(data-i18n="general.results")
+        | Results
+      span
+        |: #{documents.length}
+
+block tableHeader
+  tr
+    th(data-i18n="general.name")
+
+block tableBody
+  for standards in documents
+    tr
+      td(title=standards.get('name')).name-row
+        a(href=`/editor/${page}/${standards.get('slug') || standards.id}`)= standards.get('name')
+
