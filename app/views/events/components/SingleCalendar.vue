@@ -7,6 +7,7 @@ import Calendar from '@event-calendar/core'
 import DayGrid from '@event-calendar/day-grid'
 import Interaction from '@event-calendar/interaction'
 import randomColor from 'randomcolor'
+import moment from 'moment'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
@@ -39,8 +40,8 @@ export default {
       return event.instances.map(instance => {
         return {
           id: instance._id?.toString(),
-          start: instance.startDate,
-          end: instance.endDate,
+          start: moment(instance.startDate).utc().toDate(),
+          end: moment(instance.endDate).utc().toDate(),
           title: event.name,
           extendedProps: event,
           backgroundColor: this.colorMap[index]
@@ -54,6 +55,10 @@ export default {
         scrollTime: '09:00:00',
         eventSources: [{ events: that.createEvents }],
         pointer: true,
+        displayEventEnd: true,
+        /* eventTimeFormat (time) {
+         *   return moment(time).format('HH:mm')
+         * }, */
         eventContent: function (info) {
           switch (info.event.display) {
           case 'background':
@@ -71,7 +76,7 @@ export default {
             that.openEventPanel({ type: 'new' })
           } else {
             if (me.isAdmin()) {
-              that.openEventPanel({ type: 'edit', event: info.event.extendedProps })
+              that.openEventPanel({ type: 'instance', instance: info.event })
             } else {
               that.openEventPanel({ type: 'info', eventId: info.event.eId })
             }

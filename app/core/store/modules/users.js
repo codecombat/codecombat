@@ -37,11 +37,12 @@ export default {
     },
 
     setSearchedResult: (state, users) => {
-      console.log("what? ", users)
       state.users.searchedResult = users
+    },
+    resetSearchedResult: (state) => {
+      state.users.searchedResult = []
     }
   },
-
   getters: {
     // Get user data for classroom members
     getClassroomMembers: (state) => (classroom) => {

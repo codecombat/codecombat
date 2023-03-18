@@ -1,18 +1,31 @@
 <template>
   <div class="flex">
-    <input
-      v-for="m in members"
-      :key="m"
-      name="m"
-      type="text"
-      :value="m"
-    >
-    <div class="new">
+    <div class="title">
+      <div>name</div>
+      <div>startDate</div>
+      <div>count</div>
+    </div>
+    <div class="current" v-for="m in members" :key="m">
       <input
-        v-model="newMember"
-        name=""
+        name="m"
         type="text"
+        disabled="true"
+        :value="memberNameMap[m]"
       >
+      <input name="" type="date" value=""/>
+      <input name="" type="number" value=""/>
+      <div
+        class="remove icon-remove"
+        @click="removeMember(m)"
+      >
+      </div>
+    </div>
+    <div class="new">
+      <user-search
+        :role="'student'"
+        :value="newMember"
+        @select="selectNewMember"
+      />
       <div
         class="plus icon-plus"
         :class="{disabled: !newMember}"
@@ -23,8 +36,12 @@
 </template>
 
 <script>
+import UserSearchComponent from './UserSearchComponent'
 export default {
   name: 'MembersComponent',
+  components: {
+    'user-search': UserSearchComponent
+  },
   props: {
     members: {
       type: Set,
@@ -33,13 +50,21 @@ export default {
   },
   data () {
     return {
-      newMember: ''
+      newMember: '',
+      memberNameMap: {}
     }
   },
   methods: {
+    selectNewMember (u) {
+      this.memberNameMap[u._id] = u.name
+      this.newMember = u._id
+    },
     addMember () {
       this.$emit('new-member', this.newMember)
       this.newMember = ''
+    },
+    removeMember (member) {
+      this.$emit('remove-member', member)
     }
   }
 }

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import _ from 'lodash'
 export default {
   name: 'UserSearchComponent',
@@ -59,20 +59,27 @@ export default {
     user () {
       if (this.setUser) {
         this.setUser = false
+      } else if (!this.user) {
+        this.hideResult = true
       } else {
         this.hideResult = false
         this.debouncedSearch()
       }
     },
     value (newValue) {
-      if (newValue) {
-        this.user = newValue
+      this.user = newValue
+      console.log('new Value', newValue, !newValue)
+      if (!newValue) {
+        this.resetSearchedUser()
       }
     }
   },
   methods: {
     ...mapActions({
       searchUser: 'users/fetchUsersByNameOrSlug'
+    }),
+    ...mapMutations({
+      resetSearchedUser: 'users/resetSearchedResult'
     }),
     search () {
       const searchValue = this.user.trim().toLowerCase()
@@ -86,7 +93,7 @@ export default {
     selectUser (u) {
       this.setUser = true // flag user change by code
       this.user = u.name
-      this.$emit('select', u._id)
+      this.$emit('select', u)
       this.hideResult = true
     }
   }

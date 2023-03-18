@@ -9,7 +9,8 @@ export default {
     eventPanel: {
       visible: false,
       type: 'info',
-      editableEvent: undefined
+      editableEvent: undefined,
+      editableInstance: undefined
     }
   },
   getters: {
@@ -24,19 +25,30 @@ export default {
     },
     eventPanelEvent (state) {
       return state.eventPanel.editableEvent
+    },
+    eventPanelInstance (state) {
+      return state.eventPanel.editableInstance
     }
   },
   mutations: {
     setEvent (state, event) {
       Vue.set(state.events, event._id, event)
     },
-    openEventPanel (state, { type = 'info', eventId = undefined, event = undefined } = {}) {
+    openEventPanel (state, { type = 'info', eventId = undefined, event = undefined, instance = undefined } = {}) {
       Vue.set(state.eventPanel, 'visible', true)
       Vue.set(state.eventPanel, 'type', type)
       if (eventId) {
         event = state.events[eventId]
       }
+      if (instance) {
+        event = instance.extendedProps
+        delete instance.extendedProps
+        Vue.set(state.eventPanel, 'editableInstance', instance)
+      }
       Vue.set(state.eventPanel, 'editableEvent', event)
+    },
+    changeEventPanelTab (state, type = 'edit') {
+      Vue.set(state.eventPanel, 'type', type)
     },
     closeEventPanel (state) {
       Vue.set(state.eventPanel, 'visible', false)
@@ -58,11 +70,11 @@ export default {
     async editEvent ({ commit }, event) {
       await updateEvent(event._id, event)
     },
-    async addEventMember ({ commit }, event, member) {
-      await putEventMember(event._id, member)
+    async addEventMember ({ commit }, {eventId, member} = {}) {
+      await putEventMember(eventId, member)
     },
-    async delEventMember ({ commit }, event, member) {
-      await deleteEventMember(event._id, member)
+    async delEventMember ({ commit }, {eventId, member} = {}) {
+      await deleteEventMember(eventId, member)
     }
   }
 }

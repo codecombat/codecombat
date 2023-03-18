@@ -9,9 +9,14 @@ import UserSearchComponent from './UserSearchComponent'
 
 export default {
   name: 'EditEventComponent',
+  props: {
+    editType: {
+      type: String,
+      default: 'new'
+    }
+  },
   components: {
     'rrule-generator': RRuleGenerator,
-    members: MembersComponent,
     'user-search': UserSearchComponent
   },
   data () {
@@ -29,8 +34,8 @@ export default {
     ...mapActions('events', [
       'saveEvent'
     ]),
-    selectOwner (id) {
-      Vue.set(this.event, 'owner', id)
+    selectOwner (u) {
+      Vue.set(this.event, 'owner', u._id)
     },
     previewOnCalendar () {
       const tempEvent = _.cloneDeep(this.event)
@@ -59,7 +64,6 @@ export default {
       this.event.type = 'online-classes'
       this.event.rrule = this.rrule.toString()
       this.saveEvent(this.event).then(res => {
-        console.log('post done')
         this.$emit('save')
       })
     }
@@ -162,16 +166,8 @@ export default {
           name="endDate"
         >
       </div>
-      <!-- todo: add member in single panel -->
-      <!-- <div class="form-group">
-           <label for="members">{{ $t('events.members') }}</label>
-           <members
-           :members="event.members"
-           @new-member="addMember"
-           />
-           </div> -->
-
       <rrule-generator
+        v-if="editType === 'new' || event.rrule"
         :start="rruleStart"
         :option="{showStart: false}"
         :rrule="event.rrule"
