@@ -1,9 +1,9 @@
 <script>
-  import { getNextLevelLink, internationalizeLevelType } from 'ozaria/site/common/ozariaUtils'
-  import { mapGetters } from 'vuex'
-  import utils from 'core/utils'
+import { getNextLevelLink, internationalizeLevelType } from 'ozaria/site/common/ozariaUtils'
+import { mapGetters } from 'vuex'
+import utils from 'core/utils'
 
-  export default Vue.extend({
+export default Vue.extend({
     props: {
       levelData: {
         type: Object,
@@ -120,7 +120,7 @@
         if (this.levelData.locked) {
           this.levelStatus = 'Locked'
           this.levelStatusText = $.i18n.t('play_level.level_status_locked')
-        } else if (this.levelData.next) {
+        } else if (this.levelData.next || !this.levelData.complete) {
           this.levelStatus = 'In Progress'
           this.levelStatusText = $.i18n.t('play_level.level_status_in_progress')
         } else {

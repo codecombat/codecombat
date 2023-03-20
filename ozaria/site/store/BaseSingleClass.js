@@ -19,7 +19,9 @@ export default {
     // This is either the student id being editted, or null.
     editingStudent: null,
     // Used to group together hover feedback for intro levels.
-    showingTooltipOfThisOriginal: null
+    showingTooltipOfThisOriginal: null,
+
+    selectedOriginals: []
   },
 
   getters: {
@@ -29,6 +31,10 @@ export default {
 
     selectedStudentIds (state) {
       return Object.keys(state.selectedStudents || [])
+    },
+
+    selectedOriginals (state) {
+      return state.selectedOriginals
     },
 
     currentEditingStudent (state) {
@@ -66,6 +72,40 @@ export default {
 
     setShowingTooltipOfThisOriginal (state, normalizedOriginal) {
       Vue.set(state, 'showingTooltipOfThisOriginal', normalizedOriginal)
+    },
+
+    replaceSelectedOriginals (state, list = []) {
+      state.selectedOriginals = list
+      Vue.set(state, 'selectedOriginals', list)
+    },
+
+    updateSelectedOriginals (state, { shiftKey, original, listOfOriginals = [] }) {
+      const indexOfOriginal = listOfOriginals.indexOf(original)
+
+      if (state.selectedOriginals.includes(original)) {
+        state.selectedOriginals = state.selectedOriginals.filter(o => o !== original)
+        if (shiftKey) {
+          // Remove all levels between the last unselectd selected level and the current level
+          const indexOfLastSelected = listOfOriginals.indexOf(state.selectedOriginals[state.selectedOriginals.length - 1])
+          const start = Math.min(indexOfOriginal, indexOfLastSelected)
+          const end = Math.max(indexOfOriginal, indexOfLastSelected)
+          const range = listOfOriginals.slice(start, end + 1)
+          state.selectedOriginals = state.selectedOriginals.filter(o => !range.includes(o))
+        }
+      } else {
+        state.selectedOriginals.push(original)
+        if (shiftKey) {
+          // Select all levels between the last selected level and the current level
+          const indexOfLastSelected = listOfOriginals.indexOf(state.selectedOriginals[state.selectedOriginals.length - 2])
+          const start = Math.min(indexOfOriginal, indexOfLastSelected)
+          const end = Math.max(indexOfOriginal, indexOfLastSelected)
+          const range = listOfOriginals.slice(start, end + 1)
+          state.selectedOriginals = [...state.selectedOriginals, ...range]
+        }
+      }
+
+      const selectedList = [...state.selectedOriginals]
+      Vue.set(state, 'selectedOriginals', selectedList)
     }
   },
 
@@ -154,11 +194,14 @@ export default {
      * Passing in `original` as undefined will lock the entire course.
      * Level originals passed in should be in the cached class level list.
      */
-    async lockSelectedStudents ({ rootGetters, getters, dispatch }, {
+    async updateLevelAccessStatusForSelectedStudents ({ rootGetters, getters, dispatch }, {
       classroom,
       currentCourseId,
       onSuccess,
-      original = undefined
+      modifiers = [],
+      value = true,
+      levels = [],
+      date
     }) {
       const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id))
       if (students.length === 0) {
@@ -174,22 +217,35 @@ export default {
       // Cloning the classroom so we aren't mutating a vue store object.
       const clonedClass = JSON.parse(JSON.stringify(classroom))
 
-      let numberStudentsLockChanged = 0
+      let numberStudentsChanged = 0
 
-      for (const { _id } of students) {
-        // Only lock if this level is unlocked
-        if (
-          (original && !ClassroomLib.isStudentOnLockedLevel(clonedClass, _id, currentCourseId, original)) ||
-          (!original && !ClassroomLib.isStudentOnLockedCourse(clonedClass, _id, currentCourseId))
-        ) {
-          numberStudentsLockChanged += 1
-          ClassroomLib.setStudentLockLevel(clonedClass, _id, currentCourseId, original)
+      for (const modifier of modifiers) {
+        for (const { _id } of students) {
+          // Only lock if this level is unlocked
+
+          const levelsToHandle = levels.filter((level) => {
+            if (value) {
+              return !ClassroomLib.isModifierActiveForStudent(clonedClass, _id, currentCourseId, level, modifier, date)
+            } else {
+              return ClassroomLib.isModifierActiveForStudent(clonedClass, _id, currentCourseId, level, modifier, date)
+            }
+          })
+
+          console.log('modifier', modifier, 'levelsToHandle', levelsToHandle)
+
+          if (
+            levelsToHandle.length > 0 ||
+            ((!levels || levels.length === 0) && !ClassroomLib.isStudentOnLockedCourse(clonedClass, _id, currentCourseId))
+          ) {
+            numberStudentsChanged += 1
+            ClassroomLib.setModifierForStudent(clonedClass, _id, currentCourseId, levelsToHandle, date, modifier, value)
+          }
         }
       }
 
-      if (numberStudentsLockChanged === 0) {
+      if (numberStudentsChanged === 0) {
         noty({
-          text: `Levels already locked for these students`,
+          text: `Levels already modified for these students`,
           layout: 'center',
           type: 'information',
           killer: true,
@@ -207,62 +263,5 @@ export default {
       },
       { root: true })
     },
-
-    // Unlocks locked level original in the currentCourseId.
-    // If called without a currentCourseId and original will entirely unlock student.
-    async unlockSelectedStudents ({ rootGetters, getters, dispatch }, {
-      classroom,
-      currentCourseId,
-      onSuccess,
-      original = undefined
-    }) {
-      const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id))
-      if (students.length === 0) {
-        noty({ text: `You need to select student(s) first before performing that action.`, layout: 'center', type: 'information', killer: true, timeout: 8000 })
-        window.tracker?.trackEvent('Failure to lock', { category: 'Teachers' })
-        return
-      }
-
-      // Cloning the classroom so we aren't mutating a vue store object.
-      const clonedClass = JSON.parse(JSON.stringify(classroom))
-
-      let numberStudentsLockChanged = 0
-
-      for (const { _id } of students) {
-        // Only set the locked level point on a level that is already locked.
-        // This guarantees that unlocking always unlocks more levels. If this
-        // level is unlocked, then we would lock it and cause behavior that looks
-        // like locking instead of unlocking.
-        if (
-          (original && ClassroomLib.isStudentOnLockedLevel(clonedClass, _id, currentCourseId, original)) ||
-          (!original && ClassroomLib.isStudentOnLockedCourse(clonedClass, _id, currentCourseId)) ||
-          (!original && !currentCourseId) // completely unlock student
-        ) {
-          numberStudentsLockChanged += 1
-          ClassroomLib.setStudentLockLevel(clonedClass, _id, currentCourseId, original)
-        }
-      }
-
-      if (numberStudentsLockChanged === 0) {
-        noty({
-          text: `Levels already unlocked for these students`,
-          layout: 'center',
-          type: 'information',
-          killer: true,
-          timeout: 5000
-        })
-        return
-      }
-
-      onSuccess?.()
-
-      dispatch('classrooms/updateClassroom', {
-        classroom,
-        updates: {
-          studentLockMap: clonedClass.studentLockMap
-        }
-      },
-      { root: true })
-    }
   }
 }

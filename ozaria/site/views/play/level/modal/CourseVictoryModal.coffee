@@ -163,7 +163,7 @@ module.exports = class CourseVictoryModal extends ModalView
   getNextLevelOzaria: ->
     if @classroom and @levelSessions # fetch next level based on sessions and classroom levels
       classroomLevels = @classroom.get('courses')?.find((c) => c._id == @courseID)?.levels
-      nextLevelOriginal = findNextLevelsBySession(@levelSessions.models, classroomLevels)
+      nextLevelOriginal = findNextLevelsBySession(@levelSessions.models, classroomLevels, null, @classroom, @courseID)
     else if @campaign # fetch next based on course's campaign levels (for teachers)
       currentLevel = @campaign.levels[@level.get('original')]
       # TODO how to get current level stage for capstone and load capstone from the next stage, if there is no level session

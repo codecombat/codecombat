@@ -1,15 +1,17 @@
 <script>
-  import Dropdown from '../common/Dropdown'
-  import PrimaryButton from '../common/buttons/PrimaryButton'
-  import IconButtonWithText from '../common/buttons/IconButtonWithText'
+import Dropdown from '../common/Dropdown'
+import PrimaryButton from '../common/buttons/PrimaryButton'
+import IconButtonWithText from '../common/buttons/IconButtonWithText'
+import LockOrSkip from './table/LockOrSkip'
 
-  import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
-  export default {
+export default {
     components: {
       'dropdown': Dropdown,
       'primary-button': PrimaryButton,
-      'icon-button-with-text': IconButtonWithText
+      'icon-button-with-text': IconButtonWithText,
+      'lock-or-skip': LockOrSkip
     },
     props: {
       arrowVisible: {
@@ -21,11 +23,18 @@
         default: false
       }
     },
+    computed: {
+      ...mapGetters({
+        selectedStudentIds: 'baseSingleClass/selectedStudentIds',
+        selectedOriginals: 'baseSingleClass/selectedOriginals'
+      })
+    },
     methods: {
       ...mapActions({
         applyLicenses: 'baseSingleClass/applyLicenses',
-        revokeLicenses: 'baseSingleClass/revokeLicenses'
+        revokeLicenses: 'baseSingleClass/revokeLicenses',
       }),
+
 
       clickArrow () {
         if (this.arrowVisible) {
@@ -101,6 +110,29 @@
           :inactive="displayOnly"
           @click="revokeLicenses"
         />
+
+
+        <v-popover
+            popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
+            trigger="click"
+            placement="left"
+
+        >
+          <!-- Triggers the tooltip -->
+          <icon-button-with-text
+              v-if="(selectedOriginals.length>0 || selectedStudentIds.length>0)"
+              class="icon-with-text"
+              icon-name="IconLock"
+              :text="$t('teacher_dashboard.lock_or_skip_levels')"
+          />
+          <!-- The tooltip -->
+          <template slot="popover">
+            <lock-or-skip />
+          </template>
+        </v-popover>
+
+
+
       </div>
     </div>
     <div :class="[arrowVisible ? 'arrow-toggle' : 'arrow-disabled']" @click="clickArrow">

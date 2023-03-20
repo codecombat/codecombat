@@ -1,18 +1,19 @@
 <script>
 
-  import _ from 'lodash'
-  import api from 'core/api'
-  import utils from 'core/utils'
-  import { getLevelStatusMap, findNextLevelsBySession, defaultCodeLanguage } from 'ozaria/site/common/ozariaUtils'
-  import { mapActions, mapGetters, mapMutations } from 'vuex'
-  import LayoutChrome from '../../common/LayoutChrome'
-  import LayoutCenterContent from '../../common/LayoutCenterContent'
-  import LayoutAspectRatioContainer from 'ozaria/site/components/common/LayoutAspectRatioContainer'
-  import UnitMapBackground from './common/UnitMapBackground'
-  import HoC2019Modal from './hoc2019modal/index'
-  import ClassroomLib from '../../../../../app/models/ClassroomLib'
+import _ from 'lodash'
+import api from 'core/api'
+import utils from 'core/utils'
+import { defaultCodeLanguage, findNextLevelsBySession, getLevelStatusMap } from 'ozaria/site/common/ozariaUtils'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import LayoutChrome from '../../common/LayoutChrome'
+import LayoutCenterContent from '../../common/LayoutCenterContent'
+import LayoutAspectRatioContainer from 'ozaria/site/components/common/LayoutAspectRatioContainer'
+import UnitMapBackground from './common/UnitMapBackground'
+import HoC2019Modal from './hoc2019modal/index'
+import ClassroomLib from '../../../../../app/models/ClassroomLib'
+import Classroom from 'models/Classroom'
 
-  export default Vue.extend({
+export default Vue.extend({
     components: {
       'layout-chrome': LayoutChrome,
       'layout-center-content': LayoutCenterContent,
@@ -290,27 +291,56 @@
 
       determineNextLevel () { // set .next and .locked for this.levels
         if (this.computedCourseInstanceId || this.campaignData.type === 'course') {
-          this.nextLevelOriginal = findNextLevelsBySession(this.levelSessions, this.levels, this.levelStatusMap)
-          this.setUnlockedLevels()
+          const classroom = new Classroom(this.classroom)
+          this.nextLevelOriginal = findNextLevelsBySession(this.levelSessions, this.levels, this.levelStatusMap, classroom, this.computedCourseId)
+          this.setCompletedLevels()
           this.setNextLevels()
+          this.setUnlockedLevels()
         }
       },
 
       setUnlockedLevels () {
-        let lockedByTeacher = false
+        let previousLocked = false
+        let previousOptional = false
+
         for (let level in this.levels) {
-          lockedByTeacher = lockedByTeacher || ClassroomLib.isStudentOnLockedLevel(this.classroom, me.get('_id'), this.computedCourseId, level)
+
+          const lockedByTeacher = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.computedCourseId, this.levels[level].original, 'locked')
+          const optional = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.computedCourseId, this.levels[level].original, 'optional')
+
+          let lock = false
+
           if (this.levelStatusMap[level] || this.levels[level].first || this.nextLevelOriginal === level) {
-            this.levels[level].locked = lockedByTeacher || false
+            lock = lockedByTeacher || false
           } else {
-            this.levels[level].locked = lockedByTeacher || true
+            lock = lockedByTeacher || previousLocked || (!previousOptional) || false
           }
+
+          if (this.levels[level].complete === true) {
+            lock = false
+          }
+
+          if ((lock === true || this.levels[level].complete !== true) && !optional) {
+            // Ensure all levels after the first non-optional assigned level will be locked.
+            previousLocked = true
+          }
+          previousOptional = optional
+
+          this.levels[level].locked = lock
         }
       },
 
       setNextLevels () {
         if (this.nextLevelOriginal && this.levels[this.nextLevelOriginal]) {
           this.levels[this.nextLevelOriginal].next = true
+        }
+      },
+
+      setCompletedLevels () {
+        for (let level in this.levelStatusMap) {
+          if (this.levelStatusMap[level] === 'complete' && this.levels[level]) {
+            this.levels[level].complete = true
+          }
         }
       }
     }
