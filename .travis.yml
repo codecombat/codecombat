@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-  - 16.19.1
+  - 18.10.0
 env:
   - CXX=g++-4.8
 services:

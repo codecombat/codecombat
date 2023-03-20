@@ -33,12 +33,12 @@ block content
                   a.logout-btn(data-i18n="login.log_out", href="#")
           br
           .row
-            .col-md-6
-              .well(style='background-color:white;')
+            div(class=me.isHomeUser() ? 'col-md-4' : 'col-md-6')
+              .well
                 .text-center
                   h4
                     strong(data-i18n="courses.update_account_am_teacher")
-                  p(data-i18n="courses.update_account_keep_access")
+                  p(data-i18n="courses.update_account_no_progress")
                 div(style='margin: 0px 20px 0px 20px; font-size: 10pt')
                   div(data-i18n="courses.update_account_teachers_can")
                   ul
@@ -46,7 +46,7 @@ block content
                     li(data-i18n="courses.update_account_teachers_can2")
                     li(data-i18n="courses.update_account_teachers_can3")
                     li(data-i18n="courses.update_account_teachers_can4")
-                  .warning(data-i18n="courses.update_account_teachers_warning")
+                  .warning(data-i18n="courses.update_account_teachers_warning_new")
                   if (me.get('stripe') || {}).planID
                     br
                     .warning(data-i18n="courses.unsubscribe_warning")
@@ -57,12 +57,12 @@ block content
                   else
                     button.update-teacher-btn.btn.btn-forest(data-i18n="courses.update_account_update_teacher")
                 br
-            .col-md-6
-              .well(style='background-color:white;')
+            div(class=me.isHomeUser() ? 'col-md-4' : 'col-md-6')
+              .well
                 .text-center
                   h4
                     strong(data-i18n="courses.update_account_am_student")
-                  p(data-i18n="courses.update_account_remove_access")
+                  p(data-i18n="courses.update_account_no_home")
                 div(style='margin: 0px 20px 0px 20px; font-size: 10pt')
                   div(data-i18n="courses.update_account_students_can")
                   ul
@@ -70,7 +70,7 @@ block content
                     li(data-i18n="courses.update_account_students_can2")
                     li(data-i18n="courses.update_account_students_can3")
                     li(data-i18n="courses.update_account_students_can4")
-                  .warning(data-i18n="courses.update_account_students_warning")
+                  .warning(data-i18n="courses.update_account_students_warning_new")
                   if (me.get('stripe') || {}).planID
                     br
                     .warning(data-i18n="courses.unsubscribe_warning")
@@ -83,6 +83,25 @@ block content
                       span(data-i18n="courses.need_a_class_code")
                       input(name='classCode')
                     button.update-student-btn.btn.btn-forest(data-i18n="courses.update_account_update_student")
+                br
+            div(class=me.isHomeUser() ? 'col-md-4' : 'hidden')
+              .well
+                .text-center
+                  h4
+                    strong(data-i18n="courses.update_account_am_individual")
+                  p(data-i18n="courses.update_account_no_classes")
+                div(style='margin: 0px 20px 0px 20px; font-size: 10pt')
+                  div(data-i18n="courses.update_account_individuals_can")
+                  ul
+                    li(data-i18n="courses.update_account_individuals_can1")
+                    li(data-i18n="courses.update_account_individuals_can2")
+                    li(data-i18n="courses.update_account_individuals_can3")
+                    li(data-i18n="courses.update_account_individuals_can4")
+                  if view.isOzaria
+                    .warning(data-i18n="courses.update_account_individuals_warning_ozaria")
+                br
+                .text-center
+                  button.remain-individual-btn.btn.btn-navy(data-i18n="courses.update_account_remain_individual")
                 br
           br
           .small.text-center.rtl-allowed

@@ -243,7 +243,7 @@
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
-    "node": "16.19.1",
-    "npm": "8.19.3"
+    "node": "18.10.0",
+    "npm": "8.19.2"
   }
 }
