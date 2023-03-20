@@ -1,10 +1,18 @@
 c = require './../schemas'
+str = require 'underscore.string'
+countryList = require 'country-list'
+countryNames = countryList().getNames().map(str.slugify)
 
 PollSchema = c.object {title: 'Poll'}
 c.extendNamedProperties PollSchema  # name first
 
 _.extend PollSchema.properties,
-  hidden: {type: 'boolean', description: 'Prevents poll from being displayed to users. Useful for a multi-poll or stopping a poll from showing up without deleting.'}
+  hidden: {type: 'boolean', description: 'Prevents poll from being displayed to users(globally). Useful for a multi-poll or stopping a poll from showing up without deleting.'}
+  hiddenCountries: c.array {title: 'Hidden Countries', description: 'Prevents poll from being displayed to users in these countries. Set hidden to false if you set this value'}, {
+    type: 'string',
+    description: 'slugify country name (user.country) to hide poll from.'
+    enum: countryNames
+   }
   description: {type: 'string', title: 'Description', description: 'Optional: extra context or explanation', format: 'markdown' }
   answers: c.array {title: 'Answers'},
     c.object {required: ['key', 'text', 'i18n', 'votes']},
