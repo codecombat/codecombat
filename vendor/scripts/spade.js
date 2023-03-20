@@ -13,7 +13,7 @@ Spade.prototype = {
   track: function(elem) {
     this.target = elem;
 
-    keyHook = null;
+    let keyHook = null;
     if(elem.textInput && elem.textInput.getElement) {
       keyHook = elem.textInput.getElement();
     } else {
@@ -222,7 +222,6 @@ Spade.prototype = {
     }
   },
   play: function(stack, elem, timeScale, eventCallback) {
-    console.log(stack);
     if(stack.length === 0) {
       console.warn("SPADE: No events to play.")
       return
@@ -244,6 +243,7 @@ Spade.prototype = {
     this.elapsedTime = elapsedTime;
     let prevTime = (new Date()).getTime();
 
+    let playbackInterval
     this.playback = playbackInterval = setInterval(function() {
       curTime = (new Date()).getTime();
       dTime = curTime - prevTime;
