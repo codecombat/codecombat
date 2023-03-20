@@ -21,6 +21,7 @@ _.extend PollSchema.properties,
       i18n: {type: 'object', title: 'i18n', format: 'i18n', props: ['text']}
       votes: {title: 'Votes', type: 'integer', minimum: 0}
       nextPoll: c.stringID( title: 'Next Poll', description: 'Which poll to show immediately after this one.')
+      nextURL: c.shortString {title: 'Next URL', description: 'URL to redirect to after this poll is answered. Overrides nextPoll.'}
   i18n: {type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'description']}
   created: c.date {title: 'Created', readOnly: true}
   priority: {title: 'Priority', description: 'Lower numbers will show earlier.', type: 'integer'}
