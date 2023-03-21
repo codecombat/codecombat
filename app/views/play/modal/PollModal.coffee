@@ -92,7 +92,7 @@ module.exports = class PollModal extends ModalView
         btn.text(i18n.t('common.next'))
         btn.one('click', () =>
           btn.prop('disabled', true);
-          window.open(answerObj.nextURL, '_blank')
+          window.open(answerObj.nextURL, '_blank', 'noopener,noreferrer')
         )
       else if nextPollId
         btn.text(i18n.t('common.next'))
