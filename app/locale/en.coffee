@@ -2563,6 +2563,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_stats: "License Stats"
     redeemers: "Active Students"
     removed_redeemers: "Inactive Students"
+    latest_podcast_episode: "Latest Podcast Episode"
 
   teacher_licenses:
     active_licenses: "Active Licenses"
