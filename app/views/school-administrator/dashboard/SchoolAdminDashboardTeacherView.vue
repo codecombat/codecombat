@@ -9,7 +9,10 @@
         <div v-if="!loading">
             <breadcrumbs :links="breadcrumbs"></breadcrumbs>
             <!-- TODO apply i18n to possessive -->
-            <h3 class="title">{{ broadName(teacher) }}'s {{ $t('courses.classes') }}</h3>
+            <h3 class="title">
+              {{ broadName(teacher) }}'s {{ $t('courses.classes') }}
+              <a class="pull-right" :href="`/outcomes-report/teacher/${teacherId}`" target="_blank">{{ $t('outcomes.view_outcomes_report') }}</a>
+            </h3>
 
             <div class="teacher-class-list">
                 <teacher-class-list :activeClassrooms="activeClassrooms"></teacher-class-list>
@@ -19,14 +22,14 @@
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
-  import LoadingProgress from 'app/views/core/LoadingProgress'
-  import TeacherClassListView from 'app/views/teachers/classes/TeacherClassListView'
-  import Breadcrumbs from '../../common/BreadcrumbComponent'
-  import User from '../../../models/User'
+import LoadingProgress from 'app/views/core/LoadingProgress'
+import TeacherClassListView from 'app/views/teachers/classes/TeacherClassListView'
+import Breadcrumbs from '../../common/BreadcrumbComponent'
+import User from '../../../models/User'
 
-  export default {
+export default {
     components: {
       'teacher-class-list': TeacherClassListView,
       'loading-progress': LoadingProgress,
@@ -40,7 +43,11 @@
       this.fetchCourseInstancesForTeacher(this.$route.params.teacherId)
     },
 
-    computed: Object.assign({},
+    computed: Object.assign({
+        teacherId() {
+          return this.$route.params.teacherId
+        },
+      },
       mapState('courses', {
         coursesLoaded: 'loaded'
       }),
