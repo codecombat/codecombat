@@ -49,7 +49,7 @@ export const findNextLevelsBySession = (sessions, levels, levelStatusMap, classr
         unlockedLevel = getNextLevelForLevel(level) || {}
       }
 
-      if (unlockedLevel.original && classroom.isStudentOnSkippedLevel(me.get('_id'), courseId, unlockedLevel.original)) {
+      if (unlockedLevel.original && classroom && classroom.isStudentOnSkippedLevel(me.get('_id'), courseId, unlockedLevel.original)) {
         unlockedLevel = {}
       }
 
