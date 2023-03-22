@@ -1,13 +1,13 @@
 <script>
 import {
+  cocoBaseURL,
   CODECOMBAT,
-  CODECOMBAT_CHINA,
   getQueryVariable,
   isChinaOldBrowser,
   isCodeCombat,
   isOzaria,
   OZARIA,
-  OZARIA_CHINA
+  ozBaseURL
 } from 'core/utils'
 import AnnouncementModal from '../../views/announcement/announcementModal'
 import AnnouncementNav from '../../views/announcement/AnnouncementNav'
@@ -38,33 +38,11 @@ export default Vue.extend({
     },
 
     cocoBaseURL () {
-      if (this.isCodeCombat) {
-        return ''
-      }
-
-      if (!application.isProduction()) {
-        return `${document.location.protocol}//codecombat.com`
-      }
-
-      // We are on ozaria domain.
-      return `${document.location.protocol}//${document.location.host}`
-          .replace(OZARIA, CODECOMBAT)
-          .replace(OZARIA_CHINA, CODECOMBAT_CHINA)
+      return cocoBaseURL()
     },
 
     ozBaseURL () {
-      if (this.isOzaria) {
-        return ''
-      }
-
-      if (!application.isProduction()) {
-        return `${document.location.protocol}//ozaria.com`
-      }
-
-      // We are on codecombat domain.
-      return `${document.location.protocol}//${document.location.host}`
-          .replace(CODECOMBAT, OZARIA)
-          .replace(CODECOMBAT_CHINA, OZARIA_CHINA)
+      return ozBaseURL()
     },
 
     hideNav () {
@@ -242,13 +220,6 @@ export default Vue.extend({
                           span(:class="checkLocation('/school-administrator', OZARIA) && 'text-teal'") {{ $t(`nav.ozaria_admin_dashboard`) }}
                       li(v-if="me.isSchoolAdmin()")
                         a.text-p(:class="checkLocation('/school-administrator', CODECOMBAT) && 'text-teal'" :href="cocoPath('/school-administrator')") {{ $t(`nav.codecombat_admin_dashboard`) }}
-
-
-
-
-                      li(v-if="isCodeCombat || !checkLocation('/teachers/')")
-                        a.text-p(:href="ozPath('/teachers/professional-development')")
-                          span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
 
               li(v-else-if="me.isStudent()")
                 ul.nav.navbar-nav

@@ -1129,6 +1129,23 @@ getProductName = -> $.i18n.t("new_home." + getProduct())
 
 supportEmail = 'support@ozaria.com'
 
+cocoBaseURL = ->
+  if isCodeCombat
+    return ''
+  if !application.isProduction()
+    return "#{document.location.protocol}//codecombat.com"
+  # We are on ozaria domain.
+  "#{document.location.protocol}//#{document.location.host}".replace(OZARIA, CODECOMBAT).replace OZARIA_CHINA, CODECOMBAT_CHINA
+
+ozBaseURL = ->
+  if isOzaria
+    return ''
+  if !application.isProduction()
+    return "#{document.location.protocol}//ozaria.com"
+  # We are on codecombat domain.
+  "#{document.location.protocol}//#{document.location.host}".replace(CODECOMBAT, OZARIA).replace CODECOMBAT_CHINA, OZARIA_CHINA
+
+
 capitalizeFirstLetter = (str) -> (str[0] or '').toUpperCase() + str.slice(1)
 
 markdownToPlainText = (text) ->
@@ -1278,4 +1295,6 @@ module.exports = {
   isOzaria
   supportEmail
   tournamentSortFn
+  cocoBaseURL
+  ozBaseURL
 }
