@@ -121,6 +121,8 @@ module.exports = class User extends CocoModel
 
   isHomeUser: -> not @get('role')
 
+  isRegisteredHomeUser: -> @isHomeUser() and !@get('anonymous')
+
   isStudent: -> @get('role') is 'student'
 
   isTestStudent: -> @isStudent() and (@get('related') or []).some(({relation})=>relation == 'TestStudent')

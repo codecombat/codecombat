@@ -122,7 +122,7 @@ export default Vue.extend({
         },
         {
           title: 'nav.educators',
-          condition: !me.isStudent(),
+          condition: !me.isStudent() && !me.isRegisteredHomeUser(),
           lists: [
             { url: '/efficacy', title: 'efficacy.ozaria_efficacy', hide: this.isCodeCombat},
             { url: '/impact', title: 'nav.impact', hide: this.isOzaria },
