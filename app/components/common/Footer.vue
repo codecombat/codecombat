@@ -113,7 +113,7 @@ export default Vue.extend({
           condition: true, // always display
           lists: [
             { url: this.cocoPath('/about'), title: 'nav.about', attrs: { 'data-event-action': 'Click: Footer About' } },
-            { url: 'https://codecombat.zendesk.com/hc/en-us', title: 'contact.faq', attrs: { target: '_blank', 'data-event-action': 'Click: Footer FAQ' } },
+            { url: 'https://codecombat.zendesk.com/hc/en-us', title: 'nav.help_center', attrs: { target: '_blank', 'data-event-action': 'Click: Footer Help Center' } },
             { url: this.cocoPath('/about#careers'), title: 'nav.careers' },
             { title: 'nav.contact', attrs: { class: 'contact-modal', tabindex: -1 }, hide: !me.isTeacher() },
             { title: 'nav.contact', url: 'mailto:support@codecombat.com', attrs: { tabindex: -1 }, hide: me.isTeacher() },
