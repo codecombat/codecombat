@@ -231,8 +231,6 @@ export default {
             }
           })
 
-          console.log('modifier', modifier, 'levelsToHandle', levelsToHandle)
-
           if (
             levelsToHandle.length > 0 ||
             ((!levels || levels.length === 0) && !ClassroomLib.isStudentOnLockedCourse(clonedClass, _id, currentCourseId))
