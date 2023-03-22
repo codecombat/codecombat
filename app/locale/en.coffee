@@ -394,6 +394,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     codecombat_home: "CodeCombat Home"
     libraries: "Libraries"
     codecombat_worlds_on_roblox: "CodeCombat Worlds on Roblox"
+    pricing: "Pricing"
 
   modal:
     close: "Close"

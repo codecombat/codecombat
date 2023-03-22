@@ -128,6 +128,7 @@ export default Vue.extend({
             { url: '/impact', title: 'nav.impact', hide: this.isOzaria },
             { url: '/teachers/resources', title: 'nav.resource_hub' },
             { url: '/teachers/classes', title: 'nav.my_classrooms' },
+            { url: '/pricing', title: 'nav.pricing', hide: true },
             { url: this.ozPath('/'), title: 'new_home.try_ozaria', attrs: { 'data-event-action': 'Click: Footer Try Ozaria' }, hide: this.isOzaria},
             { url: this.cocoPath('/'), title: 'nav.return_coco', attrs: { 'data-event-action': 'Click: Footer Return to CodeCombat' }, hide: this.isCodeCombat},
             { url: this.cocoPath('/podcast'), title: 'nav.podcast' }
