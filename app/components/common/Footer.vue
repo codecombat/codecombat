@@ -285,39 +285,6 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
                   a(href="#changelog")
                     span Changelog
                     mklog-since-last-viewed(v-pre organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W', color="candy")
-          .col.footer-links__col
-            template(v-if="!me.showingStaticPagesWhileLoading() && me.useSocialSignOn()")
-              h3 {{ $t("nav.follow_us") }}
-              div.social-buttons
-                a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA" target="_blank" data-event-action="Click: Footer Youtube")
-                  img(src="/images/pages/base/youtube_symbol_button.png" width="40" alt="YouTube")
-                a(href="https://twitter.com/codecombat" target="_blank" data-event-action="Click: Footer Twitter")
-                  img(src="/images/pages/base/twitter_logo_btn.png" width="40" alt="Twitter")
-                a(href="https://www.facebook.com/codecombat" target="_blank" data-event-action="Click: Footer Facebook")
-                  img(src="/images/pages/base/facebook_logo_btn.png" width="40" alt="Facebook")
-                a(href="https://www.instagram.com/codecombat/" target="_blank" data-event-action="Click: Footer Instagram")
-                  img(src="/images/pages/base/instagram-logo.png" width="40" alt="Instagram")
-            template(v-if="me.showChinaResourceInfo()")
-              h3 {{ $t("nav.follow_us") }}
-              .follow_us
-                .socialicon
-                  .si.si-wechat
-                    .mpqrcode(v-if="isChinaHome")
-                      img.mpqr(src="https://assets.koudashijie.com/images/homeVersion/mpqr.jpeg")
-                    .mpqrcode(v-else)
-                      .span
-                        span='老师请扫'
-                        img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
-                      .span
-                        span='家长请扫'
-                        img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode-xuetang.jpeg")
-                  template(v-if="!isChinaHome")
-                    .si.si-tiktok
-                      .tkqrcode
-                        img.tkqr(src="https://assets.koudashijie.com/images/home/tiktokqr.jpg")
-                    a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
-                    a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
-
   final-footer
 </template>
 
