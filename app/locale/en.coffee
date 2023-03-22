@@ -389,6 +389,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     partnerships: "Partnerships"
     podcast: "Our Podcast"
     dashboard: "Dashboard"
+    products: "Products"
+    live_online_classes: "Live Online Classes"
+    codecombat_home: "CodeCombat Home"
+    libraries: "Libraries"
+    codecombat_worlds_on_roblox: "CodeCombat Worlds on Roblox"
 
   modal:
     close: "Close"
