@@ -124,8 +124,8 @@ export default Vue.extend({
           title: 'nav.educators',
           condition: !me.isStudent() && !me.isRegisteredHomeUser(),
           lists: [
-            { url: '/efficacy', title: 'efficacy.ozaria_efficacy', hide: this.isCodeCombat},
-            { url: '/impact', title: 'nav.impact', hide: this.isOzaria },
+            { url: '/efficacy', title: 'nav.research_efficacy', hide: this.isCodeCombat },
+            { url: '/impact', title: 'nav.research_impact', hide: this.isOzaria },
             { url: '/teachers/resources', title: 'nav.resource_hub' },
             { url: '/teachers/classes', title: 'nav.my_classrooms' },
             { url: '/pricing', title: 'nav.pricing', hide: true },

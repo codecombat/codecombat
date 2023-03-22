@@ -396,6 +396,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     codecombat_worlds_on_roblox: "CodeCombat Worlds on Roblox"
     pricing: "Pricing"
     help_center: "Help Center"
+    research_efficacy: "Research - Efficacy"
+    research_impact: "Research - Impact"
 
   modal:
     close: "Close"
