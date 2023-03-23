@@ -3979,6 +3979,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     start_date: 'Start Time'
     end_date: 'End Time'
     rrule: 'Recurrence Rules'
+    add_member: 'Add Member'
+    class_count: 'Classes Count'
+    done: 'Finished Class'
 
   teacher_dashboard:
     lock: 'Lock'

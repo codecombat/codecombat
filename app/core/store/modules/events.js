@@ -43,7 +43,9 @@ export default {
       if (instance) {
         event = instance.extendedProps
         delete instance.extendedProps
-        Vue.set(state.eventPanel, 'editableInstance', instance)
+        const ins = event.instances.find(ins => ins._id === instance.id)
+        ins.ownerName = event.ownerName
+        Vue.set(state.eventPanel, 'editableInstance', ins)
       }
       Vue.set(state.eventPanel, 'editableEvent', event)
     },

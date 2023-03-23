@@ -15,7 +15,11 @@ const EventSchema = schema.object(
     type: { enum: ['online-classes'], type: 'string' },
     members: schema.array({
       description: 'members in event, i.e. students for online-classes'
-    }, schema.objectId()),
+    }, schema.object({ required: ['userId'] }, {
+      userId: schema.objectId(),
+      startIndex: { type: 'integer', description: 'the index of first instance the user would join' },
+      count: { type: 'integer', description: 'the total count of instances the user would join' }
+    })),
     startDate: schema.stringDate({ description: 'the (first) start time of event' }),
     endDate: schema.stringDate({ description: 'the (first) end time of event' }),
     rrule: { type: 'string', description: 'recurring rule follow the rrule.js' }

@@ -36,6 +36,7 @@ export default {
     ]),
     selectOwner (u) {
       Vue.set(this.event, 'owner', u._id)
+      Vue.set(this.event, 'ownerName', u.name)
     },
     previewOnCalendar () {
       const tempEvent = _.cloneDeep(this.event)
@@ -144,7 +145,7 @@ export default {
         <label for="owner"> {{ $t('events.owner') }}</label>
         <user-search
           :role="'teacher'"
-          :value="event.owner"
+          :value="event.ownerName"
           @select="selectOwner"
         />
       </div>

@@ -67,11 +67,10 @@ export default {
       }
     },
     value (newValue) {
+      if (this.user === newValue) return
+      this.setUser = true
       this.user = newValue
-      console.log('new Value', newValue, !newValue)
-      if (!newValue) {
-        this.resetSearchedUser()
-      }
+      this.resetSearchedUser()
     }
   },
   methods: {

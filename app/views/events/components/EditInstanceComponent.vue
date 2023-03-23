@@ -52,6 +52,7 @@ export default {
   computed: {
     ...mapGetters({
       propsInstance: 'events/eventPanelInstance',
+      propsEvent: 'events/eventPanelEvent'
     }),
     _startDate: {
       get () {
@@ -74,6 +75,9 @@ export default {
   },
   mounted () {
     this.instance = _.clone(this.propsInstance)
+    if (new Date() > new Date(this.instance.endDate)) {
+      this.$set(this.instance, 'done', true)
+    }
   }
 }
 </script>
@@ -85,10 +89,20 @@ export default {
       @submit.prevent="onFormSubmit"
     >
       <div class="from-group">
+        <label for="done"> {{ $t('events.done') }}</label>
+        <input
+          v-model="instance.done"
+          type="checkbox"
+          class="form-control"
+          name="done"
+          :disabled="new Date(instance.endDate) > new Date()"
+        >
+      </div>
+      <div class="from-group">
         <label for="owner"> {{ $t('events.owner') }}</label>
         <user-search
           :role="'teacher'"
-          :value="instance.owner"
+          :value="instance.ownerName"
           @select="selectOwner"
         />
       </div>
@@ -114,7 +128,8 @@ export default {
         <label for="members">{{ $t('events.members') }}</label>
         <!-- TODO: select participants -->
         <members-attendees
-          :members="instance.members"
+          :instance="instance"
+          :members="propsEvent.members"
         />
       </div>
 

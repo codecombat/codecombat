@@ -15,7 +15,7 @@ export default {
       isSuccess: false,
       inProgress: false,
       errorMessage: '',
-      members: new Set(),
+      members: {},
       membersToAdd: new Set(),
       membersToRemove: new Set()
     }
@@ -29,29 +29,36 @@ export default {
       'delEventMember'
     ]),
     addMember (m) {
-      this.members.add(m)
-      this.membersToAdd.add(m)
-      this.membersToRemove.delete(m)
-      this.members = new Set(this.members.values())
+      this.membersToAdd.add(m._id)
+      this.membersToRemove.delete(m._id)
+      this.$set(this.members, m._id, {
+        userId: m._id,
+        name: m.name,
+        count: this.propsEvent.instances.length - this.propsInstance.index,
+        startIndex: this.propsInstance.index,
+        startDate: this.propsInstance.startDate
+      })
     },
-    removeMember (m) {
-      this.members.delete(m)
-      this.membersToRemove.add(m)
-      this.membersToAdd.delete(m)
-      this.members = new Set(this.members.values())
+    removeMember (id) {
+      this.membersToRemove.add(id)
+      this.membersToAdd.delete(id)
+      this.$delete(this.members, id)
+    },
+    updateMember ({ id, key, value }) {
+      this.$set(this.members[id], key, value)
     },
     onFormSubmit () {
       const promises = []
       Array.from(this.membersToRemove).forEach(m => {
         promises.push(this.delEventMember({
           eventId: this.propsEvent._id,
-          member: m
+          member: { userId: m }
         }))
       })
       Array.from(this.membersToAdd).forEach(m => {
         promises.push(this.addEventMember({
           eventId: this.propsEvent._id,
-          member: m
+          member: this.members[m]
         }))
       })
       Promise.all(promises).then(() => {
@@ -63,13 +70,14 @@ export default {
   },
   computed: {
     ...mapGetters({
+      propsInstance: 'events/eventPanelInstance',
       propsEvent: 'events/eventPanelEvent'
     })
   },
   created () {
   },
   mounted () {
-    this.members = new Set(this.propsEvent.members)
+    this.members = _.indexBy(this.propsEvent.members, 'userId')
   }
 }
 </script>
@@ -86,6 +94,7 @@ export default {
           :members="members"
           @new-member="addMember"
           @remove-member="removeMember"
+          @update-member="updateMember"
         />
       </div>
       <div class="form-group pull-right">

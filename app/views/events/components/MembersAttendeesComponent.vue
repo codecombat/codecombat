@@ -1,12 +1,21 @@
 <template>
   <div class="flex">
-    <div class="current" v-for="m in members" :key="m">
-      <input type="checkbox" name="" v-model="memberAttendencee[m]" />
-      <div class="name"></div>
+    <div
+      v-for="m in members"
+      :key="m.userId"
+      class="attendance"
+    >
       <input
+        v-model="memberAttendencee[m]"
+        type="checkbox"
+      >
+      <div class="name">
+        {{ m.name }}
+      </div>
+      <input
+        :value="memberAttendencee[m.userId.toString()]?.description"
         name="m"
         type="text"
-        v-model="memberAttendencee[m].description"
       >
     </div>
   </div>
@@ -18,9 +27,13 @@ export default {
   components: {
   },
   props: {
+    instance: {
+      type: Object,
+      default () { return {} }
+    },
     members: {
-      type: Set,
-      default () { return new Set() }
+      type: Array,
+      default () { return [] }
     }
   },
   data () {
@@ -29,15 +42,17 @@ export default {
       memberAttendencee: {}
     }
   },
-  methods: {
-  },
   mounted () {
     Array.from(this.members).forEach(m => {
-      this.memberAttendencee[m] = {
-        attendence: false,
-        description: ''
+      if (m.startIndex + m.count > this.instance.index) {
+        this.memberAttendencee[m.userId.toString()] = {
+          attendance: false,
+          description: ''
+        }
       }
     })
+  },
+  methods: {
   }
 }
 </script>
