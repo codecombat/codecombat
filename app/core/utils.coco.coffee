@@ -916,6 +916,7 @@ videoLevels = {
     original: "54173c90844506ae0195a0b4",
     thumbnail_locked: "/images/level/videos/basic_syntax_locked.png",
     thumbnail_unlocked: "/images/level/videos/basic_syntax_unlocked.png"
+    captions_available: ['en', 'es-417', 'es']
   },
   # fire dancing
   "55ca293b9bc1892c835b0136": {
@@ -926,6 +927,7 @@ videoLevels = {
     original: "55ca293b9bc1892c835b0136"
     thumbnail_locked: "/images/level/videos/while_loops_locked.png",
     thumbnail_unlocked: "/images/level/videos/while_loops_unlocked.png"
+    captions_available: ['en', 'es-417', 'es']
   }
   # known enemy
   "5452adea57e83800009730ee": {
@@ -936,6 +938,7 @@ videoLevels = {
     original: "5452adea57e83800009730ee"
     thumbnail_locked: "/images/level/videos/variables_locked.png",
     thumbnail_unlocked: "/images/level/videos/variables_unlocked.png"
+    captions_available: ['en', 'es-417', 'es']
   }
 }
 

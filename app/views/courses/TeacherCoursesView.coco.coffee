@@ -124,7 +124,12 @@ module.exports = class TeacherCoursesView extends RootView
     @$('#video-modal').modal('show')
     image_src = e.target.src.slice(e.target.src.search('/images'))
     video = (Object.values(@videoLevels || {}).find((l) => l.thumbnail_unlocked == image_src) || {})
-    @$('.video-player')[0].src = if me.showChinaVideo() then video.cn_url else video.url
+    video_url = if me.showChinaVideo() then video.cn_url else video.url
+    preferred = me.get('preferredLanguage') or 'en'
+    video_language_code = (video.captions_available or [])
+      .find((language_code) => language_code is preferred or language_code is preferred.split('-')[0])
+    video_url = video_url.replace /defaultTextTrack=[\w\d-]+/, 'defaultTextTrack=' + (video_language_code or 'en')
+    @$('.video-player')[0].src = video_url
 
     if !me.showChinaVideo()
       require.ensure(['@vimeo/player'], (require) =>
