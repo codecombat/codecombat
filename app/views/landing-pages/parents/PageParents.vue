@@ -243,7 +243,7 @@
         <div v-if="showPricing" class="value-topper">Best Value</div>
         <!-- First Row -->
         <div class="grid-item"></div>
-        <div class="grid-item">Self-Paced</div>
+        <div class="grid-item"><a href="/premium" target="_blank">Self-Paced</a></div>
         <div class="grid-item">Private</div>
         <div class="grid-item">Private</div>
         <!-- End First Row -->
