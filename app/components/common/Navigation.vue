@@ -218,8 +218,11 @@ export default Vue.extend({
                         a.text-p(:href="ozPath('/professional-development')")
                           span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
 
-              li(v-if="!me.isStudent() && !me.isTeacher() && (me.get('country') !== 'hong-kong')")
+              li(v-if="!me.isStudent() && !me.isTeacher() && (me.get('country') !== 'hong-kong') && !me.isParentHome()")
                 a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
+
+              li(v-if="me.isParentHome()")
+                a.text-p(:class="checkLocation('/parents/dashboard') && 'text-teal'" :href="cocoPath('/parents/dashboard')") {{ $t('nav.dashboard') }}
 
               li
                 a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}

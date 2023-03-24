@@ -119,7 +119,9 @@ module.exports = class User extends CocoModel
 
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
-  isHomeUser: -> not @get('role')
+  isHomeUser: -> (not @get('role')) or @isParentHome()
+
+  isParentHome: -> @get('role') is 'parent-home'
 
   isStudent: -> @get('role') is 'student'
 

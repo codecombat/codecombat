@@ -152,6 +152,11 @@ export default function getVueRouter () {
           name: 'UserSwitchAccountConfirmation',
           component: () => import(/* webpackChunkName: "userSwitchAccountConfirm" */'/app/views/user/SwitchAccountConfirmationView'),
           props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/parents/dashboard',
+          name: 'ParentDashboard',
+          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/DashboardMainView')
         }
       ],
       scrollBehavior(to) {
