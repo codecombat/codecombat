@@ -17,7 +17,8 @@ export default {
       errorMessage: '',
       members: {},
       membersToAdd: new Set(),
-      membersToRemove: new Set()
+      membersToRemove: new Set(),
+      membersToEdit: new Set()
     }
   },
   methods: {
@@ -26,6 +27,7 @@ export default {
     ]),
     ...mapActions('events', [
       'addEventMember',
+      'editEventMember',
       'delEventMember'
     ]),
     addMember (m) {
@@ -46,6 +48,9 @@ export default {
     },
     updateMember ({ id, key, value }) {
       this.$set(this.members[id], key, value)
+      if (!this.membersToAdd.has(id)) {
+        this.membersToEdit.add(id)
+      }
     },
     onFormSubmit () {
       const promises = []
@@ -59,6 +64,12 @@ export default {
         promises.push(this.addEventMember({
           eventId: this.propsEvent._id,
           member: this.members[m]
+        }))
+      })
+      Array.from(this.membersToEdit).forEach(m => {
+        promises.push(this.editEventMember({
+          eventId: this.propsEvent._id,
+          member: { userId: m, count: this.members[m].count }
         }))
       })
       Promise.all(promises).then(() => {
@@ -77,7 +88,7 @@ export default {
   created () {
   },
   mounted () {
-    this.members = _.indexBy(this.propsEvent.members, 'userId')
+    this.members = _.indexBy(_.cloneDeep(this.propsEvent.members), 'userId')
   }
 }
 </script>
@@ -86,7 +97,6 @@ export default {
   <div>
     <form
       class="edit-event-form"
-      @submit.prevent="onFormSubmit"
     >
       <div class="from-group">
         <label for="members"> {{ $t('events.members') }}</label>
@@ -114,6 +124,7 @@ export default {
           class="btn btn-success btn-lg"
           type="submit"
           :disabled="inProgress"
+          @click="onFormSubmit"
         >
           {{ $t('common.submit') }}
         </button>

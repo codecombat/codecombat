@@ -1,19 +1,35 @@
 <template>
   <div class="flex">
+    <div class="attendance-row title">
+      <div class="attendance">
+        {{ $t('events.attendance') }}
+      </div>
+      <div class="name">
+        {{ $t('events.name') }}
+      </div>
+      <div class="description">
+        {{ $t('events.course_description') }}
+      </div>
+    </div>
     <div
       v-for="m in members"
       :key="m.userId"
-      class="attendance"
+      class="attendance-row"
     >
       <input
-        v-model="memberAttendencee[m]"
+        class="attendance"
+        :checked="m.attendance"
+        @input="select(m.userId)"
         type="checkbox"
       >
       <div class="name">
         {{ m.name }}
       </div>
       <input
-        :value="memberAttendencee[m.userId.toString()]?.description"
+        class="description"
+        :disabled="!m.attendance"
+        :value="m.description"
+        @input="debouncedUpdateDescription(m.userId, $event.target.value)"
         name="m"
         type="text"
       >
@@ -22,8 +38,9 @@
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
-  name: 'MembersComponent',
+  name: 'MembersAttendees',
   components: {
   },
   props: {
@@ -32,30 +49,40 @@ export default {
       default () { return {} }
     },
     members: {
-      type: Array,
-      default () { return [] }
+      type: Object,
+      default () { return {} }
     }
   },
-  data () {
-    return {
-      memberNameMap: {},
-      memberAttendencee: {}
+  computed: {
+    debouncedUpdateDescription () {
+      return _.debounce(this.addDescription, 500)
     }
-  },
-  mounted () {
-    Array.from(this.members).forEach(m => {
-      if (m.startIndex + m.count > this.instance.index) {
-        this.memberAttendencee[m.userId.toString()] = {
-          attendance: false,
-          description: ''
-        }
-      }
-    })
   },
   methods: {
+    select (id) {
+      this.$emit('toggle-select', id)
+    },
+    addDescription (id, value) {
+      console.log('add description', id, value)
+      this.$emit('update-description', { id, value })
+    }
   }
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+.attendance-row {
+  display: flex;
+  align-items: center;
+
+  .attendance {
+    flex-basis: 20%;
+  }
+  .name {
+    flex-basis: 30%;
+  }
+  .description {
+    flex-basis: 45%;
+}
+}
 </style>

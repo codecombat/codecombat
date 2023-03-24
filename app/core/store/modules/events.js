@@ -1,4 +1,10 @@
-import { getAllEvents, postEvent, updateEvent, putEventMember, deleteEventMember, getInstances } from '../../api/events'
+import {
+  getAllEvents,
+  postEvent, updateEvent,
+  postEventMember, putEventMember, deleteEventMember,
+  getInstances,
+  putInstance
+} from '../../api/events'
 
 export default {
   namespaced: true,
@@ -72,11 +78,17 @@ export default {
     async editEvent ({ commit }, event) {
       await updateEvent(event._id, event)
     },
-    async addEventMember ({ commit }, {eventId, member} = {}) {
+    async addEventMember ({ commit }, { eventId, member } = {}) {
+      await postEventMember(eventId, member)
+    },
+    async editEventMember ({ commit }, { eventId, member } = {}) {
       await putEventMember(eventId, member)
     },
     async delEventMember ({ commit }, {eventId, member} = {}) {
       await deleteEventMember(eventId, member)
+    },
+    async saveInstance ({ commit }, instance) {
+      await putInstance(instance._id, instance)
     }
   }
 }

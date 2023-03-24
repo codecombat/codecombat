@@ -1,36 +1,36 @@
 <template>
   <div class="flex">
-    <div class="title">
-      <div class="name">
+    <div class="title row">
+      <div class="name col-sm-4">
         {{ $t('general.name') }}
       </div>
-      <div class="startDate">
+      <div class="startDate col-sm-4">
         {{ $t('outcomes.start_date') }}
       </div>
-      <div class="count">
+      <div class="count col-sm-3">
         {{ $t('events.class_count') }}
       </div>
     </div>
     <div
       v-for="(member, id) in members"
       :key="id"
-      class="current"
+      class="current row"
     >
       <input
-        calss="name"
+        class="name col-sm-4"
         name="m"
         type="text"
         disabled="true"
         :value="member.name"
       >
       <input
-        class="startdate"
+        class="startdate col-sm-4"
         type="date"
-        :value="formatDate(member.startDate)"
+        :value="formatDate(member)"
         disabled
       >
       <input
-        class="count"
+        class="count col-sm-3"
         type="number"
         :value="member.count"
         @input="updateMember(id, 'count', $event.target.value)"
@@ -45,12 +45,12 @@
       <user-search
         class="user-search"
         :role="'student'"
-        :value="newMember"
+        :value="newMember.name"
         @select="selectNewMember"
       />
       <button
         class="btn btn-primary btn-add-member"
-        :class="{disabled: !newMember}"
+        :class="{disabled: !newMember._id}"
         @click="addMember"
       >
         {{ $t('events.add_member') }}
@@ -60,7 +60,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import UserSearchComponent from './UserSearchComponent'
+import _ from 'lodash'
 export default {
   name: 'MembersComponent',
   components: {
@@ -71,13 +73,24 @@ export default {
       type: Object
     }
   },
+  computed: {
+    ...mapGetters({
+      propsEvent: 'events/eventPanelEvent'
+    })
+  },
   data () {
     return {
-      newMember: '',
+      newMember: {}
     }
   },
   methods: {
-    formatDate (date) {
+    formatDate (member) {
+      let date
+      if (member.startDate) {
+        date = member.startDate
+      } else {
+        date = _.find(this.propsEvent.instances, { index: member.startIndex }).startDate
+      }
       return date.toString().slice(0, 10)
     },
     selectNewMember (u) {
@@ -85,12 +98,15 @@ export default {
     },
     addMember () {
       this.$emit('new-member', this.newMember)
-      this.newMember = ''
+      this.newMember = {}
     },
     removeMember (member) {
       this.$emit('remove-member', member)
     },
     updateMember (id, key, value) {
+      if (key === 'count') {
+        value = parseInt(value)
+      }
       this.$emit('update-member', {id, key, value})
     }
   }
@@ -99,8 +115,6 @@ export default {
 
 <style lang="scss">
 .title {
-  display: flex;
-  justify-content: space-between;
   font-weight: bold;
   margin-bottom: 10px;
 }

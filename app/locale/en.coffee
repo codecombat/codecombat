@@ -3982,6 +3982,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     add_member: 'Add Member'
     class_count: 'Classes Count'
     done: 'Finished Class'
+    attendance: 'Attendance'
+    course_description: 'Course Description'
 
   teacher_dashboard:
     lock: 'Lock'

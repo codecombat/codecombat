@@ -20,6 +20,12 @@ const EventSchema = schema.object(
       startIndex: { type: 'integer', description: 'the index of first instance the user would join' },
       count: { type: 'integer', description: 'the total count of instances the user would join' }
     })),
+    removedMembers: schema.array({
+      description: 'members be removed, make a record'
+    }, schema.object({ required: ['userId'] }, {
+      userId: schema.objectId(),
+      removedDate: schema.stringDate({ description: 'the date the user be removed' })
+    })),
     startDate: schema.stringDate({ description: 'the (first) start time of event' }),
     endDate: schema.stringDate({ description: 'the (first) end time of event' }),
     rrule: { type: 'string', description: 'recurring rule follow the rrule.js' }

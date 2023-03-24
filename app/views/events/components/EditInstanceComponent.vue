@@ -18,34 +18,29 @@ export default {
       isSuccess: false,
       inProgress: false,
       errorMessage: '',
-      instance: {}
+      instance: {},
+      memberAttendees: {}
     }
   },
   methods: {
-    ...mapMutations('events', [
-      'setEvent'
-    ]),
     ...mapActions('events', [
-      'saveEvent'
+      'saveInstance'
     ]),
     selectOwner (id) {
-      Vue.set(this.event, 'owner', id)
+      Vue.set(this.instance, 'owner', id)
     },
-    previewOnCalendar () {
-      const tempEvent = _.cloneDeep(this.event)
-      tempEvent._id = 'temp-event'
-      this.makeInstances(tempEvent)
-      this.setEvent(tempEvent)
+    toggleMember (m) {
+      const bool = this.memberAttendees[m].attendance
+      this.$set(this.memberAttendees[m], 'attendance', !bool)
     },
-    addMember (m) {
-      console.log(this.event, m)
-      this.event.members.add(m)
+    updateDescription (desc) {
+      console.log('update?', desc.id, desc.value)
+      this.$set(this.memberAttendees[desc.id], 'description', desc.value)
     },
     onFormSubmit () {
-      this.event.type = 'online-classes'
-      this.saveEvent(this.event).then(res => {
-        console.log('post done')
-        this.$emit('save')
+      this.instance.members = Object.values(this.memberAttendees).map(ma => _.pick(ma, ['userId', 'attendance', 'description']))
+      this.saveInstance(this.instance).then(res => {
+        // todo
       })
     }
   },
@@ -71,13 +66,22 @@ export default {
       }
     },
   },
-  created () {
-  },
   mounted () {
     this.instance = _.clone(this.propsInstance)
     if (new Date() > new Date(this.instance.endDate)) {
       this.$set(this.instance, 'done', true)
     }
+    this.propsEvent.members.forEach(m => {
+      if (m.startIndex <= this.instance.index && m.startIndex + m.count > this.instance.index) {
+        const existMember = _.find(this.instance.members, { userId: m.userId })
+        this.$set(this.memberAttendees, m.userId, _.merge({
+          userId: m.userId,
+          name: m.name,
+          attendance: false,
+          description: ''
+        }, existMember))
+      }
+    })
   }
 }
 </script>
@@ -128,8 +132,10 @@ export default {
         <label for="members">{{ $t('events.members') }}</label>
         <!-- TODO: select participants -->
         <members-attendees
-          :instance="instance"
-          :members="propsEvent.members"
+          :instance="propsInstance"
+          :members="memberAttendees"
+          @toggle-select="toggleMember"
+          @update-description="updateDescription"
         />
       </div>
 
