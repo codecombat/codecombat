@@ -40,9 +40,13 @@ export default {
       this.$set(this.memberAttendees[desc.id], 'description', desc.value)
     },
     onFormSubmit () {
+      this.inProgress = true
       this.instance.members = Object.values(this.memberAttendees).map(ma => _.pick(ma, ['userId', 'attendance', 'description']))
       this.saveInstance(this.instance).then(res => {
-        // todo
+        this.$emit('save', this.instance.event)
+        this.inProgress = false
+      }).catch(err => {
+        this.errorMessage = err.message
       })
     }
   },

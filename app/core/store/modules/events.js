@@ -1,5 +1,5 @@
 import {
-  getAllEvents,
+  getAllEvents, getEvent,
   postEvent, updateEvent,
   postEventMember, putEventMember, deleteEventMember,
   getInstances,
@@ -71,6 +71,11 @@ export default {
       for (const event of events) {
         commit('setEvent', event)
       }
+    },
+    async fetchEvent ({ commit }, eventId) {
+      const event = await getEvent(eventId)
+      event.instances = await getInstances(eventId)
+      commit('setEvent', event)
     },
     async saveEvent ({ commit }, event) {
       await postEvent(event)

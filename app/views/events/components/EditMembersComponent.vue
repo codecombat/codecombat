@@ -53,6 +53,7 @@ export default {
       }
     },
     onFormSubmit () {
+      this.inProgress = true
       const promises = []
       Array.from(this.membersToRemove).forEach(m => {
         promises.push(this.delEventMember({
@@ -73,7 +74,8 @@ export default {
         }))
       })
       Promise.all(promises).then(() => {
-        this.$emit('save')
+        this.$emit('save', this.propsEvent._id)
+        this.inprogress = false
       }).catch(err => {
         this.errorMessage = err.message
       })

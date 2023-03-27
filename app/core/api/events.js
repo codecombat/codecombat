@@ -1,6 +1,7 @@
 import fetchJson from './fetch-json'
 import _ from 'lodash'
 
+export const getEvent = (id) => fetchJson(`/db/event/${id}`)
 export const getAllEvents = () => fetchJson('/db/events')
 export const getEventsByUser = uid => fetchJson(`/db/events?userId=${uid}`)
 

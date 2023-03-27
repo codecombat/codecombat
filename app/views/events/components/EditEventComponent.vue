@@ -63,10 +63,14 @@ export default {
       this.event.members.add(m)
     },
     onFormSubmit () {
+      this.inProgress = true
       this.event.type = 'online-classes'
       this.event.rrule = this.rrule.toString()
       this.saveEvent(this.event).then(res => {
-        this.$emit('save')
+        this.$emit('save', this.event._id)
+        this.inProgress = false
+      }).catch(err => {
+        this.errorMessage = err.message
       })
     }
   },

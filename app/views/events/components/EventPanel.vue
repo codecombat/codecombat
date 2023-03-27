@@ -22,8 +22,8 @@
       <div class="body">
         <edit-event v-if="['new', 'edit'].includes(panelType)" :editType="panelType" @save="onEventSave" />
         <!-- <members-component v-if="panelType === 'members'" /> -->
-        <edit-members v-if="panelType === 'members'" />
-        <edit-instance v-if="panelType === 'instance'" />
+        <edit-members v-if="panelType === 'members'" @save="onEventSave" />
+        <edit-instance v-if="panelType === 'instance'" @save="onEventSave" />
       </div>
     </template>
   </side-panel>
@@ -84,14 +84,15 @@ export default {
       changeEventTab: 'events/changeEventPanelTab'
     }),
     ...mapActions({
-
+      refreshEvent: 'events/fetchEvent'
     }),
     changeTab (t) {
-      console.log("cahnge tab", t)
       this.changeEventTab(t)
     },
-    onEventSave () {
-      this.close()
+    onEventSave (id) {
+      this.refreshEvent(id).then(() => {
+        this.close()
+      })
     }
   }
 }
