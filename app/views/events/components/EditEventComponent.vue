@@ -2,8 +2,9 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import _ from 'lodash'
 import moment from 'moment'
-import { HTML5_FMT_DATETIME_LOCAL } from '../../../core/constants'
+import { HTML5_FMT_DATE_LOCAL, HTML5_FMT_TIME_LOCAL } from '../../../core/constants'
 import { RRuleGenerator, rruleGeneratorModule } from 'vue2-rrule-generator'
+import VueTimepicker from 'vue2-timepicker'
 import MembersComponent from './MembersComponent'
 import UserSearchComponent from './UserSearchComponent'
 
@@ -17,7 +18,8 @@ export default {
   },
   components: {
     'rrule-generator': RRuleGenerator,
-    'user-search': UserSearchComponent
+    'user-search': UserSearchComponent,
+    'time-picker': VueTimepicker
   },
   data () {
     return {
@@ -58,7 +60,6 @@ export default {
       })
     },
     addMember (m) {
-      console.log(this.event, m)
       this.event.members.add(m)
     },
     onFormSubmit () {
@@ -76,18 +77,29 @@ export default {
     }),
     _startDate: {
       get () {
-        return moment(this.event.startDate).format(HTML5_FMT_DATETIME_LOCAL)
+        return moment(this.event.startDate).format(HTML5_FMT_DATE_LOCAL)
       },
       set (val) {
-        this.$set(this.event, 'startDate', moment(val).toDate())
+        // update startDate and endDate at the same time
+        this.$set(this.event, 'startDate', moment(`${val} ${this._startTime}`).toDate())
+        this.$set(this.event, 'endDate', moment(`${val} ${this._endTime}`).toDate())
       }
     },
-    _endDate: {
+    _startTime: {
       get () {
-        return moment(this.event.endDate).format(HTML5_FMT_DATETIME_LOCAL)
+        return moment(this.event.startDate).format(HTML5_FMT_TIME_LOCAL)
       },
       set (val) {
-        this.$set(this.event, 'endDate', moment(val).toDate())
+        this.$set(this.event, 'startDate', moment(`${this._startDate} ${val}`).toDate())
+      }
+    },
+    _endTime: {
+      get () {
+        return moment(this.event.endDate).format(HTML5_FMT_TIME_LOCAL)
+      },
+      set (val) {
+        // use _startDate here since startDate and endDate share the date
+        this.$set(this.event, 'endDate', moment(`${this._startDate} ${val}`).toDate())
       }
     },
     rruleStart () {
@@ -103,14 +115,11 @@ export default {
     }
   },
   mounted () {
-    const addHours = (date, hours) => {
-      date.setHours(date.getHours() + hours)
-      return date
-    }
+    const sDate = moment().set('minutes', 0).set('seconds', 0)
     this.event = _.clone(this.propsEvent) || {
       members: new Set(),
-      startDate: new Date(),
-      endDate: addHours(new Date(), 1),
+      startDate: sDate.toDate(),
+      endDate: sDate.clone().add(1, 'hours').toDate(),
       instances: []
     }
   }
@@ -153,19 +162,18 @@ export default {
         <label for="startDate"> {{ $t('events.start_date') }}</label>
         <input
           v-model="_startDate"
-          type="datetime-local"
+          type="date"
           class="form-control"
           name="startDate"
         >
       </div>
       <div class="from-group">
-        <label for="endDate"> {{ $t('events.end_date') }}</label>
-        <input
-          v-model="_endDate"
-          type="datetime-local"
-          class="form-control"
-          name="endDate"
-        >
+        <label for="timeRange"> {{ $t('events.time_range') }}</label>
+        <div>
+          <time-picker format="HH:mm" :minute-interval="10" v-model="_startTime" />
+          <span>-</span>
+          <time-picker format="HH:mm" :minute-interval="10" v-model="_endTime" />
+        </div>
       </div>
       <rrule-generator
         v-if="editType === 'new' || event.rrule"
@@ -215,4 +223,5 @@ export default {
 
 <style lang="scss" scoped>
 @import '~vue2-rrule-generator/dist/vue2-rrule-generator.css';
+@import '~vue2-timepicker/dist/VueTimepicker.css';
 </style>

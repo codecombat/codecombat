@@ -2,7 +2,8 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import _ from 'lodash'
 import moment from 'moment'
-import { HTML5_FMT_DATETIME_LOCAL } from '../../../core/constants'
+import VueTimepicker from 'vue2-timepicker'
+import { HTML5_FMT_DATE_LOCAL, HTML5_FMT_TIME_LOCAL } from '../../../core/constants'
 import UserSearchComponent from './UserSearchComponent'
 import MembersAttendeesComponent from './MembersAttendeesComponent'
 
@@ -11,7 +12,8 @@ export default {
   name: 'EditInstanceComponent',
   components: {
     'user-search': UserSearchComponent,
-    'members-attendees': MembersAttendeesComponent
+    'members-attendees': MembersAttendeesComponent,
+    'time-picker': VueTimepicker
   },
   data () {
     return {
@@ -51,18 +53,28 @@ export default {
     }),
     _startDate: {
       get () {
-        return moment(this.instance.startDate).format(HTML5_FMT_DATETIME_LOCAL)
+        return moment(this.instance.startDate).format(HTML5_FMT_DATE_LOCAL)
       },
       set (val) {
-        this.$set(this.instance, 'startDate', moment(val).toDate())
+        this.$set(this.instance, 'startDate', moment(`${val} ${this._startTime}`).toDate())
+        this.$set(this.instance, 'endDate', moment(`${val} ${this._endTime}`).toDate())
       }
     },
-    _endDate: {
+    _startTime: {
       get () {
-        return moment(this.instance.endDate).format(HTML5_FMT_DATETIME_LOCAL)
+        return moment(this.instance.startDate).format(HTML5_FMT_TIME_LOCAL)
       },
       set (val) {
-        this.$set(this.instance, 'endDate', moment(val).toDate())
+        this.$set(this.instance, 'startDate', moment(`${this._startDate} ${val}`).toDate())
+      }
+    },
+    _endTime: {
+      get () {
+        return moment(this.instance.endDate).format(HTML5_FMT_TIME_LOCAL)
+      },
+      set (val) {
+        // use _startDate here since startDate and endDate share the date
+        this.$set(this.instance, 'endDate', moment(`${this._startDate} ${val}`).toDate())
       }
     },
   },
@@ -114,19 +126,18 @@ export default {
         <label for="startDate"> {{ $t('events.start_date') }}</label>
         <input
           v-model="_startDate"
-          type="datetime-local"
+          type="date"
           class="form-control"
           name="startDate"
         >
       </div>
       <div class="from-group">
-        <label for="endDate"> {{ $t('events.end_date') }}</label>
-        <input
-          v-model="_endDate"
-          type="datetime-local"
-          class="form-control"
-          name="endDate"
-        >
+        <label for="timeRange"> {{ $t('events.time_range') }}</label>
+        <div>
+          <time-picker format="HH:mm" :minute-interval="10" v-model="_startTime" />
+          <span>-</span>
+          <time-picker format="HH:mm" :minute-interval="10" v-model="_endTime" />
+        </div>
       </div>
       <div class="form-group">
         <label for="members">{{ $t('events.members') }}</label>
@@ -166,4 +177,5 @@ export default {
 
 <style lang="scss" scoped>
 @import '~vue2-rrule-generator/dist/vue2-rrule-generator.css';
+@import '~vue2-timepicker/dist/VueTimepicker.css';
 </style>

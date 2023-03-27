@@ -3976,8 +3976,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     owner: 'Owner',
     type: 'Type',
     members: 'Members',
-    start_date: 'Start Time'
+    start_date: 'Start Date'
     end_date: 'End Time'
+    time_range: 'Time Range'
     rrule: 'Recurrence Rules'
     add_member: 'Add Member'
     class_count: 'Classes Count'
