@@ -1,6 +1,6 @@
 <template>
   <div class="calendar-panel">
-    <client-calendar v-if="type==='my-classes'" />
+    <client-calendar v-if="type==='my-classes'" :events="eventsArray" />
     <single-calendar v-else :events="eventsArray" />
   </div>
 </template>
@@ -31,13 +31,18 @@ export default {
     }
   },
   mounted () {
-    if (!this.events.length) {
-      this.fetchAllEvents()
+    if (!this.eventsArray.length) {
+      if (me.isStudent()) {
+        this.fetchUserEvents(me.id)
+      } else {
+        this.fetchAllEvents()
+      }
     }
   },
   methods: {
     ...mapActions({
-      fetchAllEvents: 'events/fetchAllEvents'
+      fetchAllEvents: 'events/fetchAllEvents',
+      fetchUserEvents: 'events/fetchUserEvents'
     })
   }
 }
@@ -45,6 +50,4 @@ export default {
 
 <style lang="scss" scoped>
 @import '~node_modules/@event-calendar/core/index.css';
-#calendar {
-}
 </style>

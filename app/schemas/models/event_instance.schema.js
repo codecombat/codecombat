@@ -19,7 +19,8 @@ const EventInstanceSchema = schema.object(
     startDate: schema.stringDate({ description: 'the start time of event instance' }),
     endDate: schema.stringDate({ description: 'the (first) end time of event' }),
     done: { type: 'boolean' },
-    index: { type: 'number', description: 'the instance index of recurring events' }
+    index: { type: 'number', description: 'the instance index of recurring events' },
+    video: { type: 'string', description: 'the video url of event instance' }
   }
 )
 

@@ -28,8 +28,9 @@ export default {
     ...mapActions('events', [
       'saveInstance'
     ]),
-    selectOwner (id) {
-      Vue.set(this.instance, 'owner', id)
+    selectOwner (u) {
+      Vue.set(this.instance, 'owner', u._id)
+      Vue.set(this.isntance.ownerDetails, 'name', u.name)
     },
     toggleMember (m) {
       const bool = this.memberAttendees[m].attendance
@@ -122,7 +123,7 @@ export default {
         <label for="owner"> {{ $t('events.owner') }}</label>
         <user-search
           :role="'teacher'"
-          :value="instance.ownerName"
+          :value="instance.ownerDetails.name"
           @select="selectOwner"
         />
       </div>
@@ -142,6 +143,15 @@ export default {
           <span>-</span>
           <time-picker format="HH:mm" :minute-interval="10" v-model="_endTime" />
         </div>
+      </div>
+      <div class="form-group">
+        <label for="video"> {{ $t('events.video_recording') }}</label>
+        <input
+          v-model="instance.video"
+          type="text"
+          class="form-control"
+          name="video"
+        >
       </div>
       <div class="form-group">
         <label for="members">{{ $t('events.members') }}</label>

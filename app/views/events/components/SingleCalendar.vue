@@ -8,7 +8,7 @@ import DayGrid from '@event-calendar/day-grid'
 import Interaction from '@event-calendar/interaction'
 import randomColor from 'randomcolor'
 import moment from 'moment'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'SingleCalendar',
@@ -33,7 +33,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations({
+    ...mapActions({
       openEventPanel: 'events/openEventPanel'
     }),
     mapEventToCalendar (event, index) {

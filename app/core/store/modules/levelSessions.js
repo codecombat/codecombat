@@ -27,7 +27,8 @@ export default {
      */
     levelSessionsByClassroom: {},
     // level sessions for a campaign in any language depending on whats fetched from fetchLevelSessionsForCampaign
-    levelSessionsByCampaign: {}
+    levelSessionsByCampaign: {},
+    levelSessionsCountByDate: {}
   },
 
   mutations: {
@@ -78,6 +79,10 @@ export default {
 
     setSessionsForCampaign: (state, { campaign, sessions }) => {
       state.levelSessionsByCampaign[campaign].sessions = sessions
+    },
+
+    setSessionsCountForDate: (state, { date, sessions }) => {
+      state.levelSessionsCountByDate[date] = sessions
     }
   },
   getters: {
@@ -86,6 +91,9 @@ export default {
     },
     getSessionsMapForClassroom: (state) => (classroom) => {
       return (state.levelSessionsByClassroom[classroom] || {}).levelSessionMapByUser
+    },
+    getSessionsCountForDate: (state) => (date) => {
+      return state.levelSessionsCountByDate[date]
     }
   },
   // TODO add a way to clear out old level session data
@@ -189,6 +197,21 @@ export default {
       } catch (e) {
         console.error('Error in fetching campaign sessions', e)
         noty({ text: 'Error in fetching campaign sessions', type: 'error', timeout: 1000 })
+      }
+    },
+
+    async fetchSessionsCountForDate ({ commit, getters }, { date }) {
+      let exists
+      if ((exists = getters.getSessionsCountForDate(date))) {
+        return exists
+      }
+      try {
+        const sessions = await levelSessionsApi.fetchCompletedByDate(date)
+        commit('setSessionsCountForDate', { date, sessions })
+        return sessions
+      } catch (e) {
+        console.error('Error in fetching sessions count for date', e)
+        noty({ text: 'Error in fetching sessions count for date', type: 'error', timeout: 1000 })
       }
     }
   }

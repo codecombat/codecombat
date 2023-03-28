@@ -1,5 +1,5 @@
 import {
-  getAllEvents, getEvent,
+  getAllEvents, getEvent, getEventsByUser,
   postEvent, updateEvent,
   postEventMember, putEventMember, deleteEventMember,
   getInstances,
@@ -40,9 +40,7 @@ export default {
     setEvent (state, event) {
       Vue.set(state.events, event._id, event)
     },
-    openEventPanel (state, { type = 'info', eventId = undefined, event = undefined, instance = undefined } = {}) {
-      Vue.set(state.eventPanel, 'visible', true)
-      Vue.set(state.eventPanel, 'type', type)
+    selectEvent (state, { eventId = undefined, event = undefined, instance = undefined } = {}) {
       if (eventId) {
         event = state.events[eventId]
       }
@@ -50,10 +48,13 @@ export default {
         event = instance.extendedProps
         delete instance.extendedProps
         const ins = event.instances.find(ins => ins._id === instance.id)
-        ins.ownerName = event.ownerName
         Vue.set(state.eventPanel, 'editableInstance', ins)
       }
       Vue.set(state.eventPanel, 'editableEvent', event)
+    },
+    openPanel (state, type = 'info') {
+      Vue.set(state.eventPanel, 'type', type)
+      Vue.set(state.eventPanel, 'visible', true)
     },
     changeEventPanelTab (state, type = 'edit') {
       Vue.set(state.eventPanel, 'type', type)
@@ -63,8 +64,21 @@ export default {
     }
   },
   actions: {
+    openEventPanel ({ commit }, { type = 'info', eventId = undefined, event = undefined, instance = undefined } = {}) {
+      commit('selectEvent', { event, instance })
+      commit('openPanel', type)
+    },
     async fetchAllEvents ({ commit }) {
       const events = await getAllEvents()
+      for (const event of events) {
+        event.instances = await getInstances(event._id)
+      }
+      for (const event of events) {
+        commit('setEvent', event)
+      }
+    },
+    async fetchUserEvents ({ commit }, uId) {
+      const events = await getEventsByUser(uId)
       for (const event of events) {
         event.instances = await getInstances(event._id)
       }
