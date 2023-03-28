@@ -10,12 +10,3 @@ module.exports = class LegalView extends RootView
   initialize: ->
     @products = new Products()
     @supermodel.loadCollection(@products, 'products')
-
-  afterRender: ->
-    super()
-    basicSub = @products.getBasicSubscriptionForUser me
-    return unless basicSub
-    text = $.i18n.t('legal.cost_description')
-    text = text.replace('{{price}}', (basicSub.get('amount') / 100).toFixed(2))
-    text = text.replace('{{gems}}', basicSub.get('gems'))
-    @$('#cost-description').text(text)
