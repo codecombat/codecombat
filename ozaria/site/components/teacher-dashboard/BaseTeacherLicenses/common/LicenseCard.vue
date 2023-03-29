@@ -79,6 +79,9 @@
         } else {
           return 'IconShare_Dusk'
         }
+      },
+      licenseStatsIcon () {
+        return 'IconLicense_Blue'
       }
     }
   }
@@ -128,6 +131,12 @@
         :text="$t('share_licenses.share_licenses')"
         :inactive="shareLicensesDisabled"
         @click="$emit('share')"
+      />
+      <icon-button-with-text
+        class="icn-button"
+        :icon-name="licenseStatsIcon"
+        :text="$t('teacher.license_stats')"
+        @click="$emit('stats')"
       />
     </div>
     <div

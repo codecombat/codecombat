@@ -6,6 +6,7 @@
   import ModalGetLicenses from '../modals/ModalGetLicenses'
   import ModalApplyLicenses from '../modals/ModalApplyLicenses'
   import ModalShareLicenses from '../modals/ModalShareLicenses/index'
+  import ModalLicenseStats from '../modals/ModalLicenseStats'
 
   export default {
     name: COMPONENT_NAMES.MY_LICENSES,
@@ -14,7 +15,8 @@
       'page-licenses': PageLicenses,
       ModalGetLicenses,
       ModalApplyLicenses,
-      ModalShareLicenses
+      ModalShareLicenses,
+      ModalLicenseStats
     },
 
     props: {
@@ -33,7 +35,8 @@
         showModalGetLicenses: false,
         showModalApplyLicenses: false,
         showModalShareLicenses: false,
-        sharePrepaid: '' // for share licenses modal
+        showModalLicenseStats: false,
+        sharePrepaid: '' // for share licenses modal and license stats modal
       }
     },
 
@@ -80,6 +83,11 @@
         window.tracker?.trackEvent('My Licenses: Share Licenses Clicked', { category: 'Teachers' })
         this.showModalShareLicenses = true
         this.sharePrepaid = prepaid
+      },
+      seeLicenseStats (prepaid) {
+        window.tracker?.trackEvent('My Licenses: View License Stats Clicked', { category: 'Teachers' })
+        this.showModalLicenseStats = true
+        this.sharePrepaid = prepaid
       }
     }
   }
@@ -97,6 +105,7 @@
       @getLicenses="getLicenses"
       @apply="applyLicenses"
       @share="shareLicenses"
+      @stats="seeLicenseStats"
     />
     <page-no-licenses
       v-else-if="!loading"
@@ -115,6 +124,11 @@
       v-if="showModalShareLicenses"
       :prepaid="sharePrepaid"
       @close="showModalShareLicenses = false"
+    />
+    <modal-license-stats
+      v-if="showModalLicenseStats"
+      :prepaid="sharePrepaid"
+      @close="showModalLicenseStats = false"
     />
   </div>
 </template>
