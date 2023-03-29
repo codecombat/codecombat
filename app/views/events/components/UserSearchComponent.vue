@@ -5,13 +5,14 @@
       class="form-control"
       name="user"
       type="text"
+      :placeholder="placeholder"
     >
     <div
       v-if="!hideResult"
       class="user-lists"
     >
       <div
-        v-for="u in userList"
+        v-for="u in filteredUserList"
         :key="u._id"
         @click="selectUser(u)"
         class="user-line"
@@ -30,6 +31,10 @@ import _ from 'lodash'
 export default {
   name: 'UserSearchComponent',
   props: {
+    placeholder: {
+      type: String,
+      default: ''
+    },
     role: {
       type: String,
       default: 'student'
@@ -37,6 +42,10 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    userList: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
@@ -49,10 +58,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userList: 'users/getUserSearchResult'
+      userSearchList: 'users/getUserSearchResult'
     }),
     debouncedSearch () {
       return _.debounce(this.search, 1000)
+    },
+    filteredUserList () {
+      if (this.userList.length === 0) return this.userSearchList
+      const commonIds = _.intersection(this.userSearchList.map(u => u._id), this.userList.map(u => u._id))
+      return _.filter(this.userSearchList, u => commonIds.includes(u._id))
     }
   },
   watch: {
@@ -60,6 +74,7 @@ export default {
       if (this.setUser) {
         this.setUser = false
       } else if (!this.user) {
+        this.$emit('clear-search')
         this.hideResult = true
       } else {
         this.hideResult = false

@@ -47,7 +47,7 @@ export default Vue.extend({
             <li
               v-for="u in urls"
               :key="u.url"
-              :class="{active: path().indexOf(u.url) === 0}"
+              :class="{active: path() === u.url}"
             >
               <a
                 class="track-clik-event"

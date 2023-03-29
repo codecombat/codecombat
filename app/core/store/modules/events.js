@@ -6,6 +6,8 @@ import {
   putInstance
 } from '../../api/events'
 
+import { getFullNames } from '../../api/users'
+
 export default {
   namespaced: true,
   state: {
@@ -17,7 +19,9 @@ export default {
       type: 'info',
       editableEvent: undefined,
       editableInstance: undefined
-    }
+    },
+
+    memberNames: {}
   },
   getters: {
     events(state) {
@@ -34,6 +38,14 @@ export default {
     },
     eventPanelInstance (state) {
       return state.eventPanel.editableInstance
+    },
+
+    allMemberIds (state) {
+      const members = Object.values(state.events).map(event => [...(event.members || []), ...(event.removedMembers || [])]).flat()
+      return Array.from(new Set(members.map(m => m.userId)))
+    },
+    memberNames (state) {
+      return state.memberNames
     }
   },
   mutations: {
@@ -61,6 +73,9 @@ export default {
     },
     closeEventPanel (state) {
       Vue.set(state.eventPanel, 'visible', false)
+    },
+    setMemberNames (state, names) {
+      Vue.set(state, 'memberNames', names)
     }
   },
   actions: {
@@ -108,6 +123,11 @@ export default {
     },
     async saveInstance ({ commit }, instance) {
       await putInstance(instance._id, instance)
+    },
+    async fetchMemberNames ({ getters, commit }) {
+      const names = await getFullNames(getters.allMemberIds)
+      commit('setMemberNames', names)
+      return names
     }
   }
 }

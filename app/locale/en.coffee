@@ -3971,6 +3971,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     dashboard: 'Events Dashboard'
     online_classes: 'Online Classes'
     my_classes: 'My Online Classes'
+    classes_stats: 'Online Classes Stats'
     name: 'Name',
     description: 'Description',
     owner: 'Owner',

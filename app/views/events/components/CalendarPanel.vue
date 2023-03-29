@@ -1,26 +1,35 @@
 <template>
   <div class="calendar-panel">
     <client-calendar v-if="type==='my-classes'" :events="eventsArray" />
-    <single-calendar v-else :events="eventsArray" />
+    <classes-stats
+      v-if="type==='classes-stats'"
+      :events="eventsArray"
+    />
+    <single-calendar
+      v-if="type==='classes'"
+      :events="eventsArray"
+    />
   </div>
 </template>
 
 <script>
 import SingleCalendar from './SingleCalendar'
 import ClientCalendar from './ClientCalendar'
+import ClassesStats from './ClassesStats'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'CalendarPanel',
+  components: {
+    SingleCalendar,
+    ClientCalendar,
+    ClassesStats
+  },
   props: {
     type: {
       type: String,
       default: 'classes'
     }
-  },
-  components: {
-    SingleCalendar,
-    ClientCalendar
   },
   computed: {
     ...mapGetters({
