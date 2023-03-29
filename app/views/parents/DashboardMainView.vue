@@ -27,6 +27,9 @@ export default {
   font-family: Work Sans, "Open Sans", sans-serif;
 
   display: grid;
-  grid-template-columns: [sidebar-start] 20rem [sidebar-end main-content-start] repeat(6, [main-start] minmax(10rem, min-content) [main-end]) [main-content-end];
+  grid-template-columns: [sidebar-start] 20rem [sidebar-end main-content-start] repeat(6, [main-start] 1fr [main-end]) [main-content-end];
+  //grid-template-rows: minmax(30rem, min-content);
+  //grid-template-rows: 1fr 3fr;
+  grid-template-rows: repeat(2, minmax(min-content, max-content));
 }
 </style>

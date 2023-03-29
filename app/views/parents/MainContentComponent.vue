@@ -13,5 +13,6 @@ export default {
 <style scoped>
 .content {
   grid-column: main-start / main-end;
+  height: 60vh;
 }
 </style>
