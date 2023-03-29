@@ -87,10 +87,16 @@ export default {
       propsEvent: 'events/eventPanelEvent'
     })
   },
-  created () {
-  },
   mounted () {
     this.members = _.indexBy(_.cloneDeep(this.propsEvent.members), 'userId')
+  },
+  watch: {
+    propsEvent: {
+      handler (val) {
+        this.members = _.indexBy(_.cloneDeep(val.members), 'userId')
+      },
+      deep: true
+    }
   }
 }
 </script>

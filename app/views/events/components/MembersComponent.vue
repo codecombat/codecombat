@@ -48,13 +48,13 @@
         :value="newMember.name"
         @select="selectNewMember"
       />
-      <button
+      <input
+        type="button"
         class="btn btn-primary btn-add-member"
         :class="{disabled: !newMember._id}"
+        :value="$t('events.add_member')"
         @click="addMember"
       >
-        {{ $t('events.add_member') }}
-      </button>
     </div>
   </div>
 </template>

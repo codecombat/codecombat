@@ -49,6 +49,25 @@ export default {
       }).catch(err => {
         this.errorMessage = err.message
       })
+    },
+
+    instanceUpdate () {
+      this.instance = _.cloneDeep(this.propsInstance)
+      if (new Date() > new Date(this.instance.endDate)) {
+        this.$set(this.instance, 'done', true)
+      }
+      this.memberAttendees = {}
+      this.propsEvent.members.forEach(m => {
+        if (m.startIndex <= this.instance.index && m.startIndex + m.count > this.instance.index) {
+          const existMember = _.find(this.instance.members, { userId: m.userId })
+          this.$set(this.memberAttendees, m.userId, _.merge({
+            userId: m.userId,
+            name: m.name,
+            attendance: true,
+            description: ''
+          }, existMember))
+        }
+      })
     }
   },
   computed: {
@@ -83,22 +102,13 @@ export default {
       }
     },
   },
-  mounted () {
-    this.instance = _.clone(this.propsInstance)
-    if (new Date() > new Date(this.instance.endDate)) {
-      this.$set(this.instance, 'done', true)
+  watch: {
+    propsInstance () {
+      this.instanceUpdate()
     }
-    this.propsEvent.members.forEach(m => {
-      if (m.startIndex <= this.instance.index && m.startIndex + m.count > this.instance.index) {
-        const existMember = _.find(this.instance.members, { userId: m.userId })
-        this.$set(this.memberAttendees, m.userId, _.merge({
-          userId: m.userId,
-          name: m.name,
-          attendance: false,
-          description: ''
-        }, existMember))
-      }
-    })
+  },
+  mounted () {
+    this.instanceUpdate()
   }
 }
 </script>
@@ -123,7 +133,7 @@ export default {
         <label for="owner"> {{ $t('events.owner') }}</label>
         <user-search
           :role="'teacher'"
-          :value="instance.ownerDetails.name"
+          :value="instance.ownerDetails?.name"
           @select="selectOwner"
         />
       </div>

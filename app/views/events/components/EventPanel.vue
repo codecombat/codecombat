@@ -21,7 +21,6 @@
     <template #body>
       <div class="body">
         <edit-event v-if="['new', 'edit'].includes(panelType)" :editType="panelType" @save="onEventSave" />
-        <!-- <members-component v-if="panelType === 'members'" /> -->
         <edit-members v-if="panelType === 'members'" @save="onEventSave" />
         <edit-instance v-if="panelType === 'instance'" @save="onEventSave" />
       </div>

@@ -34,7 +34,8 @@ export default {
       'setEvent'
     ]),
     ...mapActions('events', [
-      'saveEvent'
+      'saveEvent',
+      'editEvent'
     ]),
     selectOwner (u) {
       Vue.set(this.event, 'owner', u._id)
@@ -66,12 +67,34 @@ export default {
       this.inProgress = true
       this.event.type = 'online-classes'
       this.event.rrule = this.rrule.toString()
-      this.saveEvent(this.event).then(res => {
-        this.$emit('save', this.event._id)
-        this.inProgress = false
-      }).catch(err => {
-        this.errorMessage = err.message
-      })
+      if (this.editType === 'new') {
+        this.saveEvent(this.event).then(res => {
+          this.$emit('save', this.event._id)
+          this.inProgress = false
+        }).catch(err => {
+          this.errorMessage = err.message
+        })
+      } else {
+        this.editEvent(this.event).then(res => {
+          this.$emit('save', this.event._id)
+          this.inProgress = false
+        }).catch(err => {
+          this.errorMessage = err.message
+        })
+      }
+    },
+    eventUpdate () {
+      const sDate = moment().set('minutes', 0).set('seconds', 0)
+      if (this.editType === 'new') {
+        this.event = {
+          members: new Set(),
+          startDate: sDate.toDate(),
+          endDate: sDate.clone().add(1, 'hours').toDate(),
+          instances: []
+        }
+      } else {
+        this.event = _.cloneDeep(this.propsEvent)
+      }
     }
   },
   computed: {
@@ -119,12 +142,11 @@ export default {
     }
   },
   mounted () {
-    const sDate = moment().set('minutes', 0).set('seconds', 0)
-    this.event = _.clone(this.propsEvent) || {
-      members: new Set(),
-      startDate: sDate.toDate(),
-      endDate: sDate.clone().add(1, 'hours').toDate(),
-      instances: []
+    this.eventUpdate()
+  },
+  watch: {
+    propsEvent () {
+      this.eventUpdate()
     }
   }
 }

@@ -125,7 +125,7 @@ export default {
       await putInstance(instance._id, instance)
     },
     async fetchMemberNames ({ getters, commit }) {
-      const names = await getFullNames(getters.allMemberIds)
+      const names = await getFullNames({ ids: getters.allMemberIds, from: 'online-classes' })
       commit('setMemberNames', names)
       return names
     }

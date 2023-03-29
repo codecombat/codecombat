@@ -53,7 +53,6 @@ export default {
     }
   },
   mounted () {
-    console.log('event type:', this.eventType)
     if (me.isAdmin()) {
       this.nav.urls.push({ url: '/event-calendar/classes-stats', action: 'Event Nav Click Stats', i18n: 'events.classes_stats' })
     }
