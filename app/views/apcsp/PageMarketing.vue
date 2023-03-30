@@ -518,7 +518,8 @@ p, .text-p {
   }
 
   .image-row {
-    margin: 140px auto 10px;
+    margin-top: 140px;
+    margin-bottom: 10px;
 
     .col {
       @media (max-width: $screen-sm) {
