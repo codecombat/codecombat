@@ -132,6 +132,10 @@ block content
       each classroom in archivedClassrooms
         +archivedClassRow(classroom)
 
+  .container.latest-podcast
+    h3.text-h3(data-i18n='teacher.latest_podcast_episode')
+    .podcast-item-container
+
 mixin classRow(classroom)
   .class.row.rtl-allowed(dir="auto")
     .class-details-col.rtl-allowed(dir="auto")

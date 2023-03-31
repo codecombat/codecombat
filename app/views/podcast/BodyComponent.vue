@@ -5,37 +5,9 @@
         class="podcast-item"
         v-for="(podcast, index) in allPodcasts"
       >
-        <div
-          v-if="isPodcastVisible(podcast) && (!showTop3Only || (showTop3Only && index < 3))"
-          class="container"
-        >
-          <div class="row">
-            <router-link :to="{ name: 'PodcastSingle', params: { handle: podcast.slug } }">
-              <div class="col-md-6 podcast-item__info">
-                <div class="podcast-content__date">
-                  {{ getUploadDate(podcast.uploadDate) }}
-                </div>
-                <div class="podcast-content__title">
-                  {{ formatPodcastName(podcast) }}
-                </div>
-                <div class="podcast-content__subtitle" v-if="podcast.shortDescription">
-                  {{ formatShortDescription(podcast) }}
-                </div>
-              </div>
-            </router-link>
-
-            <div class="col-md-6 podcast-item__player">
-              <iframe :src="transistorUrl(podcast)"
-                      width='100%' height='180' frameborder='0' scrolling='no'
-                      seamless='true' style='width:100%; height:180px;' :id="`podcast-${podcast._id}`">
-              </iframe>
-            </div>
-          </div>
-          <audio-player-component
-            :transistor-episode-id="podcast.transistorEpisodeId"
-            v-show="showPlayModal === podcast._id"
-            @close="showPlayModal = null"
-          />
+        <div v-if="isPodcastVisible(podcast) && (!showTop3Only || (showTop3Only && index < 3))"
+          class="container">
+          <podcast-item-component :podcast="podcast"/>
         </div>
       </div>
 
@@ -59,17 +31,15 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import AudioPlayerComponent from './AudioPlayerComponent'
 import { fullFileUrl } from './podcastHelper'
-import uploadDateMixin from './uploadDateMixin'
 import podcastVisibleMixin from './podcastVisibleMixin'
 import trackPlayMixin from './trackPlayMixin'
-import { i18n } from 'app/core/utils'
+import PodcastItemComponent from './PodcastItemComponent'
 
 export default {
   name: 'BodyComponent',
   components: {
-    AudioPlayerComponent
+    PodcastItemComponent
   },
   data () {
     return {
@@ -78,7 +48,7 @@ export default {
       showTop3Only: true
     }
   },
-  mixins: [ uploadDateMixin, podcastVisibleMixin, trackPlayMixin ],
+  mixins: [podcastVisibleMixin, trackPlayMixin ],
   methods: {
     ...mapActions({
       'fetchAllPodcasts': 'podcasts/fetchAll'
@@ -91,15 +61,6 @@ export default {
     },
     onTranscriptClick (podcast) {
       window.open(fullFileUrl(podcast.transcript), '_blank').focus()
-    },
-    transistorUrl (podcast) {
-      return `https://share.transistor.fm/e/${podcast.transistorEpisodeId}/dark`
-    },
-    formatPodcastName (podcast) {
-      return i18n(podcast, 'name')
-    },
-    formatShortDescription (podcast) {
-      return i18n(podcast, 'shortDescription')
     },
     showAllEpisodes () {
       this.showTop3Only = false
@@ -122,26 +83,7 @@ export default {
 @import "app/styles/podcast/common";
 .podcast-content {
 
-  &__title {
-    font-weight: 700;
-    font-size: 3rem;
 
-    color: #000;
-  }
-
-  &__subtitle {
-    font-size: 2rem;
-    color: #000;
-
-    padding-top: 1rem;
-  }
-
-  &__date {
-    font-size: 1.4rem;
-    color: #777777;
-
-    font-weight: 700;
-  }
 
   &__icon {
     border-radius: 2.5rem;
@@ -185,10 +127,6 @@ export default {
     top: 2rem;
 
     cursor: pointer;
-  }
-
-  &__player {
-    padding: 1rem;
   }
 }
 
