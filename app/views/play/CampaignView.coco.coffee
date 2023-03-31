@@ -1444,6 +1444,7 @@ module.exports = class CampaignView extends RootView
     return false if me.isStudent()
     return false if application.getHocCampaign()
     return false if me.isInHourOfCode()
+    return false if userUtils.isInLibraryNetwork() or userUtils.libraryName()
     latest = window.serverConfig.latestAnnouncement
     myLatest = me.get('lastAnnouncementSeen')
     return unless typeof latest is 'number'
