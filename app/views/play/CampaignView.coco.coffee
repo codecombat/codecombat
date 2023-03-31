@@ -502,7 +502,6 @@ module.exports = class CampaignView extends RootView
     return false if storage.load 'roblox-clicked'
     return true if me.isPremium()
     return false if me.get('hourOfCode')
-    return false if me.isAnonymous()
     return true if storage.load 'paywall-reached'
     return false
 
