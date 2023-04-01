@@ -5,10 +5,27 @@
       v-if="type==='classes-stats'"
       :events="eventsArray"
     />
-    <single-calendar
-      v-if="type==='classes'"
-      :events="eventsArray"
-    />
+    <template v-if="type === 'classes'">
+      <single-calendar
+        :events="eventsArray"
+      />
+      <div class="calendar-panel__link-google">
+        <input
+          v-if="shouldShowLinkGoogle"
+          type="button"
+          :value="$t('events.link_google_calendar')"
+          :disabled="linkGoogleDisabled"
+          @click="linkGoogleCalendar"
+        >
+
+        <input
+          v-if="me.useGoogleCalendar()"
+          type="button"
+          :value="$t('events.sync_google_calendar')"
+          @click="syncGoogleCalendar"
+        >
+      </div>
+    </template>
   </div>
 </template>
 
@@ -17,6 +34,7 @@ import SingleCalendar from './SingleCalendar'
 import ClientCalendar from './ClientCalendar'
 import ClassesStats from './ClassesStats'
 import { mapActions, mapGetters } from 'vuex'
+import gcApiHandler from '../../../core/social-handlers/GoogleCalendarHandler'
 
 export default {
   name: 'CalendarPanel',
@@ -37,8 +55,19 @@ export default {
     }),
     eventsArray () {
       return Object.values(this.events)
+    },
+    me () {
+      return me
+    },
+    shouldShowLinkGoogle () {
+      return (me.isAdmin() || me.isOnlineTeacher()) && !me.get('gplusID')
     }
   },
+  data: function () {
+    return {
+      linkGoogleDisabled: true
+    }
+},
   mounted () {
     if (!this.eventsArray.length) {
       if (me.isStudent()) {
@@ -47,12 +76,40 @@ export default {
         this.fetchAllEvents()
       }
     }
+    application.gplusHandler.loadAPI({
+      success: () => (this.linkGoogleDisabled = false)
+    })
   },
   methods: {
     ...mapActions({
       fetchAllEvents: 'events/fetchAllEvents',
       fetchUserEvents: 'events/fetchUserEvents'
-    })
+    }),
+    linkGoogleCalendar () {
+      application.gplusHandler.connect({
+        success: (resp = {}) =>
+          application.gplusHandler.loadPerson({
+            resp,
+            success: (gplusAttrs) =>
+              me.linkGPlusUser(gplusAttrs.gplusID, gplusAttrs.email, {
+                success: () => {
+                  application.tracker.identifyAfterNextPageLoad()
+                  application.tracker.identify().finally(() =>
+                    noty({ text: $.i18n.t('login.gplus_linked'), layout: 'topCenter', type: 'success' })
+                  )
+                  window.location.reload()
+                },
+                error: (res, jqxhr) =>
+                  noty({ text: $.i18n.t('login.gplus_link_error'), layout: 'topCenter', type: 'error' })
+              })
+          })
+      })
+    },
+    syncGoogleCalendar () {
+      gcApiHandler.importEvents().then((res) => {
+        console.log(res)
+      })
+    },
   }
 }
 </script>

@@ -584,6 +584,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     stop_spying: "Stop Spying"
     stop_switching: "Stop Switching"
     test_as_student: "Test as Student"
+    gplus_linked: "Google Account linked successfully"
+    plus_link_error: "Google Account linked failed"
 
   signup:
     complete_subscription: "Complete Subscription"
@@ -3993,6 +3995,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_video_recording: 'No Video Recording Found'
     reply: 'Reply'
     video_recording: 'Video Recording'
+    link_google_calendar: 'Link with Google Calendar'
+    sync_to_google: 'Sync to Google Calendar'
+    synced_to_google: 'Synced to Google Calendar'
 
   teacher_dashboard:
     lock: 'Lock'

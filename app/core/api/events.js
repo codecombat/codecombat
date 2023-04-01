@@ -30,6 +30,11 @@ export const deleteEventMember = (id, options = {}) => fetchJson(`/db/event/${id
   json: options
 }))
 
+export const syncToGoogleFailed = (id, options = {}) => fetchJson(`/db/event/${id}/sync-failed`, _.assign({}, {
+  method: 'PUT',
+  json: options
+}))
+
 // instances
 
 export const getInstances = (id) => fetchJson(`/db/event/${id}/instances`)

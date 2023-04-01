@@ -7,6 +7,7 @@ import { RRuleGenerator, rruleGeneratorModule } from 'vue2-rrule-generator'
 import VueTimepicker from 'vue2-timepicker'
 import MembersComponent from './MembersComponent'
 import UserSearchComponent from './UserSearchComponent'
+import gcApiHandler from '../../../core/social-handlers/GoogleCalendarHandler'
 
 export default {
   name: 'EditEventComponent',
@@ -35,7 +36,8 @@ export default {
     ]),
     ...mapActions('events', [
       'saveEvent',
-      'editEvent'
+      'editEvent',
+      'syncToGoogleFailed'
     ]),
     selectOwner (u) {
       Vue.set(this.event, 'owner', u._id)
@@ -63,12 +65,26 @@ export default {
     addMember (m) {
       this.event.members.add(m)
     },
+    syncToGoogleCalendar () {
+      gcApiHandler.syncEventsToGC(this.event).then(res => {
+        console.log('Synced to GC')
+      }).catch(err => {
+        console.log('Error syncing to GC:', err)
+        this.syncToGoogleFailed(this.event._id).then(res => {
+          console.log('Sync to GC failed')
+        })
+        noty({ text: 'Error syncing to Google Calendar', type: 'error' })
+      })
+    },
     onFormSubmit () {
       this.inProgress = true
       this.event.type = 'online-classes'
       this.event.rrule = this.rrule.toString()
       if (this.editType === 'new') {
         this.saveEvent(this.event).then(res => {
+          if (this.event.syncedToGC && !this.propsEvent?.syncedToGC) {
+            this.syncToGoogleCalendar()
+          }
           this.$emit('save', this.event._id)
           this.inProgress = false
         }).catch(err => {
@@ -76,6 +92,9 @@ export default {
         })
       } else {
         this.editEvent(this.event).then(res => {
+          if (this.event.syncedToGC && !this.propsEvent?.syncedToGC) {
+            this.syncToGoogleCalendar()
+          }
           this.$emit('save', this.event._id)
           this.inProgress = false
         }).catch(err => {
@@ -102,6 +121,9 @@ export default {
       propsEvent: 'events/eventPanelEvent',
       rrule: 'rruleGenerator/rule'
     }),
+    me () {
+      return me
+    },
     _startDate: {
       get () {
         return moment(this.event.startDate).format(HTML5_FMT_DATE_LOCAL)
@@ -201,6 +223,7 @@ export default {
           <time-picker format="HH:mm" :minute-interval="10" v-model="_endTime" />
         </div>
       </div>
+
       <rrule-generator
         v-if="editType === 'new' || event.rrule"
         :start="rruleStart"
@@ -208,6 +231,16 @@ export default {
         :rrule="event.rrule"
       />
 
+      <div class="form-group" v-if="me.useGoogleCalendar()">
+        <label for="importedToGC"> {{ $t(`events.sync${propsEvent?.syncedToGC ? 'ed' : ''}_to_google`) }}</label>
+        <input
+          v-model="event.syncedToGC"
+          type="checkbox"
+          class="form-control"
+          name="sync"
+          :disabled="propsEvent?.syncedToGC"
+        >
+      </div>
       <div class="form-group pull-right">
         <span
           v-if="isSuccess"
@@ -248,6 +281,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import '~vue2-rrule-generator/dist/vue2-rrule-generator.css';
-@import '~vue2-timepicker/dist/VueTimepicker.css';
+/* @import '~vue2-rrule-generator/dist/vue2-rrule-generator.css'; */
+/* @import '~vue2-timepicker/dist/VueTimepicker.css'; */
 </style>

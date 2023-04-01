@@ -2,6 +2,7 @@ import {
   getAllEvents, getEvent, getEventsByUser,
   postEvent, updateEvent,
   postEventMember, putEventMember, deleteEventMember,
+  syncToGoogleFailed,
   getInstances,
   putInstance
 } from '../../api/events'
@@ -120,6 +121,9 @@ export default {
     },
     async delEventMember ({ commit }, {eventId, member} = {}) {
       await deleteEventMember(eventId, member)
+    },
+    async syncToGoogleFailed ({ commit }, eventId) {
+      await syncToGoogleFailed(eventId)
     },
     async saveInstance ({ commit }, instance) {
       await putInstance(instance._id, instance)
