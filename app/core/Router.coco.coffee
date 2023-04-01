@@ -44,7 +44,8 @@ module.exports = class CocoRouter extends Backbone.Router
       delete window.alreadyLoadedView
       if utils.getQueryVariable 'hour_of_code'
         return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
-      unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient() or paymentUtils.hasTemporaryPremiumAccess()
+      unless utils.isOzaria or me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient() or paymentUtils.hasTemporaryPremiumAccess()
+        delete window.alreadyLoadedView
         return @navigate "/premium", {trigger: true, replace: true}
       if me.isAPIClient()
         #return @navigate "/league/#{me.get('clans')?[0] ? ''}apiclient-data", {trigger: true, replace: true}  # Once we make sure all students have been associated with their API creators

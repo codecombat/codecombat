@@ -23,7 +23,8 @@
       .width-container.row.border-yellow
         .col.col-lg-12
           h2.text-h2(v-html="$t('apcsp_curriculum.access_syllabus', i18nData)")
-          a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
+          a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
+          a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus_FullAccess.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
         .col.col-lg-12
           h2.text-h2(v-html="$t('apcsp_curriculum.access_pacing_guide', i18nData)")
           a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide_Full.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
@@ -46,21 +47,21 @@
                 li
                   a(href="https://docs.google.com/presentation/d/1-N9FzM0tvZrAFg8xYqhaKjkA2hZj8NsYMFTIP-VjrNw/edit?usp=sharing" target="_blank") Quest 0: Getting Started
                   span (CRD)
-              li
-                a(href="https://docs.google.com/presentation/d/1aw95kI5UIBjWIDHYMHANkOzOkgLGW3rJiyze7kW5uIA/edit?usp=sharing" target="_blank") Quest 1: Syntax & Sequences
-                span (AAP)
-              li
-                a(href="https://docs.google.com/presentation/d/1BzohUmlboC_yugSpaEcc5-mcz1hKWwUkLGYKD4opo5c/edit?usp=sharing" target="_blank") Quest 2: Arguments & Properties
-                span (AAP)
-              li
-                a(href="https://docs.google.com/presentation/d/1kqvX08F_eoac52B_xYD9Tx15gCJURw6F2SoPR8micak/edit?usp=sharing" target="_blank") Quest 3: While Loops
-                span (AAP)
-              li
-                a(href="https://docs.google.com/presentation/d/1VEkhdZqAdaRfKlP4HQ-a7ugCCjVdez-m35GSUZ-d2HM/edit?usp=sharing" target="_blank") Quest 4: Variables
-                span (AAP)
-              li
-                a(href="https://docs.google.com/presentation/d/1DpWgbbxCJKi7u4ClrPhcoPAhRyJ_WlVdzcUx4IzFT9I/edit?usp=sharing" target="_blank") Quest 5: Capstone Project
-                span (CRD, AAP)
+                li
+                  a(href="https://docs.google.com/presentation/d/1aw95kI5UIBjWIDHYMHANkOzOkgLGW3rJiyze7kW5uIA/edit?usp=sharing" target="_blank") Quest 1: Syntax & Sequences
+                  span (AAP)
+                li
+                  a(href="https://docs.google.com/presentation/d/1BzohUmlboC_yugSpaEcc5-mcz1hKWwUkLGYKD4opo5c/edit?usp=sharing" target="_blank") Quest 2: Arguments & Properties
+                  span (AAP)
+                li
+                  a(href="https://docs.google.com/presentation/d/1kqvX08F_eoac52B_xYD9Tx15gCJURw6F2SoPR8micak/edit?usp=sharing" target="_blank") Quest 3: While Loops
+                  span (AAP)
+                li
+                  a(href="https://docs.google.com/presentation/d/1VEkhdZqAdaRfKlP4HQ-a7ugCCjVdez-m35GSUZ-d2HM/edit?usp=sharing" target="_blank") Quest 4: Variables
+                  span (AAP)
+                li
+                  a(href="https://docs.google.com/presentation/d/1DpWgbbxCJKi7u4ClrPhcoPAhRyJ_WlVdzcUx4IzFT9I/edit?usp=sharing" target="_blank") Quest 5: Capstone Project
+                  span (CRD, AAP)
             .col-lg-3.col-sm-6.col-xs-12
               h4.text-h4 Computer Science 2
               h5.text-h5 (8 Quests, 15 Sessions)
@@ -291,10 +292,10 @@
 
     #the-college-board.width-container.row.image-row
       .col.col-lg-12.text-box
-        .content.row
+        .board-content.row
           .col-lg-9
-            .content {{ $t('apcsp_marketing.coco_recognized_blurb') }}
-          .col-lg-3
+            p.text-p {{ $t('apcsp_marketing.coco_recognized_blurb') }}
+          .col-lg-3.college-board-image-container
             img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")
 
     #professional-development.container-fluid.container-fluid-gradient(v-if="hasLicense")
@@ -395,7 +396,7 @@ export default Vue.extend({
     }),
     i18nData () {
       return {
-        syllabus: `<a href='https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf' target='_blank'>${$.i18n.t('apcsp_curriculum.college_board_approved_syllabus')}</a>`,
+        syllabus: `<a href='https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus${this.hasLicense ? '_FullAccess' : ''}.pdf' target='_blank'>${$.i18n.t('apcsp_curriculum.college_board_approved_syllabus')}</a>`,
         pacing_guide: `<a href='https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide${this.hasLicense ? '_Full' : ''}.pdf' target='_blank'>${$.i18n.t('apcsp_curriculum.pacing_guide')}</a>`,
         edapp: '<a href=\'https://www.edapp.com/\' target=\'_blank\'>edapp.com</a>',
         apcsp_email: '<a href=\'mailto:apcsp@codecombat.com\' target=\'_blank\'>apcsp@codecombat.com</a>',
@@ -440,6 +441,12 @@ $apcsp-marketing-body-font: 'Arvo';
   letter-spacing: 1.96px;
   color: #FCBB00;
   word-break: break-word;
+  @media (max-width: $screen-sm) {
+    font-size: 40px;
+  }
+  @media (max-width: $screen-xs) {
+    font-size: 24px;
+  }
 }
 
 .text-h2 {
@@ -451,6 +458,12 @@ $apcsp-marketing-body-font: 'Arvo';
   text-align: center;
   letter-spacing: 1.96px;
   color: #FFFFFF;
+  @media (max-width: $screen-sm) {
+    font-size: 23px;
+  }
+  @media (max-width: $screen-xs) {
+    font-size: 18px;
+  }
 }
 
 .text-h3 {
@@ -461,6 +474,16 @@ $apcsp-marketing-body-font: 'Arvo';
   line-height: 38px;
   /* identical to box height, or 136% */
   color: $teal-dark;
+  @media (max-width: $screen-xs) {
+    font-size: 18px;
+  }
+}
+
+.text-h4 {
+  font-size: 24px;
+  @media (max-width: $screen-xs) {
+    font-size: 14px;
+  }
 }
 
 
@@ -479,6 +502,10 @@ p, .text-p {
   font-size: 24px;
   line-height: 30px;
   color: $teal-dark;
+  @media (max-width: $screen-xs) {
+    font-size: 14px;
+    line-height: 20px
+  }
 }
 
 .btn-primary {
@@ -520,6 +547,14 @@ p, .text-p {
       max-width: 742px;
     }
 
+    @media (max-width: $screen-sm) {
+      margin: 0 8vw;
+    }
+
+    @media (max-width: $screen-xs) {
+      margin: 0 20px;
+    }
+
     float: unset;
     margin: 0 auto;
   }
@@ -540,6 +575,9 @@ p, .text-p {
         font-weight: 700;
         font-size: 64px;
         line-height: 122%;
+        @media (max-width: $screen-xs) {
+          font-size: 34px;
+        }
 
         display: flex;
         align-items: center;
@@ -573,6 +611,14 @@ p, .text-p {
 
         padding-top: 35px;
         padding-bottom: 12px;
+        @media (max-width: $screen-sm) {
+          font-size: 23px;
+          line-height: 30px;
+        }
+        @media (max-width: $screen-xs) {
+          font-size: 18px;
+          line-height: 24px;
+        }
       }
 
       background: linear-gradient(118.13deg, $teal-dark 0%, $forest 100%);
@@ -647,9 +693,20 @@ p, .text-p {
     overflow: hidden;
 
     .width-container {
-      margin: 90px auto 230px;
+      margin-top: 90px;
+      margin-bottom: 230px;
 
       h2 {
+
+        &.text-h2{
+          @media (max-width: $screen-sm) {
+            font-size: 24px;
+          }
+          @media (max-width: $screen-xs) {
+            font-size: 18px;
+          }
+        }
+
         ::v-deep a {
           color: #FCBB00;
           text-decoration: none;
@@ -671,14 +728,16 @@ p, .text-p {
 
   #nolicense {
     margin: 90px 0;
+
     h2 {
       color: $burgundy;
     }
+
     .btn {
       filter: none;
       display: block;
       margin: 50px auto;
-      max-width: 168px;
+      max-width: 268px;
     }
   }
 
@@ -702,7 +761,6 @@ p, .text-p {
       font-family: $apcsp-marketing-body-font;
       font-style: normal;
       font-weight: 700;
-      font-size: 33px;
       line-height: 188%;
       text-align: center;
       letter-spacing: 1.96px;
@@ -719,7 +777,7 @@ p, .text-p {
       max-width: 724px;
     }
 
-    .content {
+    .board-content {
       background: white;
       margin: 0 -15px;
       border-radius: 25px;
@@ -733,6 +791,8 @@ p, .text-p {
       line-height: 30px;
       color: $teal-dark;
 
+      width: calc(100% + 30px);
+
       &.row {
         @media (min-width: $screen-md) {
           display: flex;
@@ -740,6 +800,10 @@ p, .text-p {
           justify-content: center;
           align-items: center;
         }
+      }
+
+      .college-board-image-container {
+        text-align: center;
       }
     }
   }
@@ -752,7 +816,6 @@ p, .text-p {
       font-family: $apcsp-marketing-body-font;
       font-style: normal;
       font-weight: 700;
-      font-size: 60px;
       line-height: 103%;
       text-align: center;
       letter-spacing: 1.96px;
@@ -765,7 +828,6 @@ p, .text-p {
       font-family: 'Open Sans';
       font-style: normal;
       font-weight: 400;
-      font-size: 24px;
       line-height: 125%;
       color: $teal-dark;
 
@@ -862,8 +924,7 @@ p, .text-p {
         font-family: 'Arvo';
         font-style: normal;
         font-weight: 700;
-        font-size: 26px;
-        line-height: 30px;
+        line-height: 115%;
         /* identical to box height, or 115% */
         color: #0E4C60;
       }
@@ -873,9 +934,13 @@ p, .text-p {
         font-style: normal;
         font-weight: 700;
         font-size: 20px;
-        line-height: 30px;
+        line-height: 150%;
         /* or 150% */
         color: #0E4C60;
+        @media (max-width: $screen-md) {
+          font-size: 18px;
+        }
+
       }
 
       .text-h5 {
@@ -883,8 +948,10 @@ p, .text-p {
         font-style: normal;
         font-weight: 400;
         font-size: 17px;
-        line-height: 30px;
-        /* or 176% */
+        line-height: 176%;
+        @media (max-width: $screen-md) {
+          font-size: 14px;
+        }
         color: #0E4C60;
       }
 
@@ -895,8 +962,10 @@ p, .text-p {
           font-style: normal;
           font-weight: 400;
           font-size: 17px;
-          line-height: 30px;
-          /* or 176% */
+          line-height: 176%;
+          @media (max-width: $screen-md) {
+            font-size: 14px;
+          }
 
           text-decoration-line: underline;
 
@@ -909,8 +978,10 @@ p, .text-p {
           font-style: normal;
           font-weight: 700;
           font-size: 17px;
-          line-height: 30px;
-          /* or 176% */
+          line-height: 176%;
+          @media (max-width: $screen-md) {
+            font-size: 14px;
+          }
           color: #FCBB00;
         }
       }
@@ -931,8 +1002,8 @@ p, .text-p {
       font-family: 'Arvo';
       font-style: normal;
       font-weight: 700;
-      font-size: 33px;
-      line-height: 62px;
+      //font-size: 33px;
+      line-height: 188%;
       /* identical to box height, or 188% */
 
       text-align: center;
@@ -947,7 +1018,10 @@ p, .text-p {
       font-style: normal;
       font-weight: 700;
       font-size: 26px;
-      line-height: 30px;
+      @media (max-width: $screen-md) {
+        font-size: 20px;
+      }
+      line-height: 125%;
       color: #0E4C60;
       margin-bottom: 45px;
 
@@ -955,6 +1029,8 @@ p, .text-p {
         color: #FCBB00;
       }
     }
+
+
   }
 
 }

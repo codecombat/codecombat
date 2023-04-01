@@ -542,6 +542,10 @@ if classroom.loaded
     if classroom.getDisplayPermission()
       | &nbsp;
       span=classroom.getDisplayPermission()
+
+    a.pull-right.view-outcomes-report(href='/outcomes-report/classroom/' + classroom.id target="_blank")
+      span(data-i18n='outcomes.view_outcomes_report')
+
     h4(dir="auto")!= view.markdownIt(classroom.get('description'))
 
     .classroom-info-row.row.m-t-5.rtl-allowed

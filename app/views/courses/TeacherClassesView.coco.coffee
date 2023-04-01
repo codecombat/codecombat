@@ -26,6 +26,8 @@ clansApi = require 'core/api/clans'
 helper = require 'lib/coursesHelper'
 TrialRequest = require 'models/TrialRequest'
 TrialRequests = require 'collections/TrialRequests'
+PodcastItemContainer = require('./PodcastItemContainer').default
+
 
 translateWithMarkdown = (label) ->
   marked.inlineLexer $.i18n.t(label), []
@@ -205,6 +207,10 @@ module.exports = class TeacherClassesView extends RootView
     if not me.showChinaResourceInfo()
       @bannerHoC = new BannerHoC({
         el: @$('.banner-hoc')[0]
+      })
+
+      new PodcastItemContainer({
+        el: @$('.podcast-item-container')[0]
       })
 
     $('.progress-dot').each (i, el) ->
