@@ -4,21 +4,21 @@
       :levels="levels"
     />
     <level-basic-summary />
-    <level-progress-data-component />
+    <level-progress-view />
   </main>
 </template>
 
 <script>
 import LevelListComponent from './main-content/LevelListComponent'
 import LevelBasicSummary from './main-content/LevelBasicSummary'
-import LevelProgressDataComponent from './main-content/LevelProgressDataComponent'
+import LevelProgressView from './main-content/LevelProgressView'
 
 export default {
   name: 'MainContentComponent',
   components: {
     LevelListComponent,
     LevelBasicSummary,
-    LevelProgressDataComponent
+    LevelProgressView
   },
   data () {
     return {

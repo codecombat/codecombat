@@ -42,6 +42,7 @@ export default {
   box-shadow: 0 4px 1rem rgba(0, 0, 0, 0.25);
   padding-top: 1.5rem;
   padding-bottom: 1rem;
+  position: relative;
 }
 
 .levels {

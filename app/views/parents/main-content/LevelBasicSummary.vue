@@ -75,9 +75,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/bootstrap/variables";
+
 .basic {
   display: grid;
   grid-template-columns: 2fr 1fr;
+  background: #F2F2F2;
+
+  @media (max-width: $screen-lg) {
+    grid-template-columns: repeat(2, minmax(min-content, max-content));
+  }
 
   .content {
     display: grid;
@@ -94,12 +101,20 @@ export default {
       flex-direction: column;
       align-items: flex-start;
       justify-content: space-around;
+
+      @media (max-width: $screen-lg) {
+        padding: 1rem;
+      }
     }
 
     &__list {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-column-gap: 2rem;
+      grid-column-gap: 5rem;
+
+      @media (max-width: $screen-lg) {
+        grid-template-columns: minmax(min-content, max-content);
+      }
     }
 
     &__language {
@@ -207,6 +222,7 @@ export default {
       text-transform: uppercase;
 
       margin-bottom: 1rem;
+      text-align: center;
     }
 
     &__subtext {

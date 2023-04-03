@@ -17,6 +17,9 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.level-progress {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
 </style>
