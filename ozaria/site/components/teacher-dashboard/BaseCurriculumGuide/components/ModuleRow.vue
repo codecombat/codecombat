@@ -29,6 +29,11 @@
       isPartOfIntro: {
         type: Boolean,
         default: false
+      },
+
+      showCode: {
+        type: Boolean,
+        default: false
       }
     },
 
@@ -63,7 +68,16 @@
     <div>
       <content-icon class="content-icon" :icon="iconType" />
       <p class="content-heading"><b>{{ getContentTypeHeader }}: {{ displayName }}</b></p>
-      <p>{{ description }}</p>
+      <p class="content-desc">{{ description }}</p>
+      <div
+        v-if="showCode"
+        class="code-view"
+      >
+        <img src="/images/pages/parents/dashboard/show-code-logo.svg" alt="Show Code Logo" class="code-view__icon">
+        <span class="code-view__text">
+          See Code
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -142,5 +156,25 @@
   .content-icon {
     width: 18px;
     height: 18px;
+  }
+
+  .content-desc {
+    margin-right: auto;
+  }
+
+  .code-view {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+    cursor: pointer;
+    &__text {
+      font-weight: 600;
+      font-size: 1.4rem;
+      line-height: 1.6rem;
+      letter-spacing: 0.333333px;
+
+      color: #355EA0;
+      margin-left: .5rem;
+    }
   }
 </style>

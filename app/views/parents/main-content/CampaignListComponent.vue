@@ -1,15 +1,15 @@
 <template>
-  <div class="level-list">
+  <div class="campaign-list">
     <ul
-      class="levels"
+      class="campaigns"
     >
       <li
-        v-for="level in levelsToShow"
-        class="level"
+        v-for="campaign in campaignsToShow"
+        class="campaign"
         :key="level.id"
       >
-        <div class="level__dot"></div>
-        <div class="level__name">{{ level.name }}</div>
+        <div class="campaign__dot"></div>
+        <div class="campaign__name">{{ campaign.name }}</div>
       </li>
     </ul>
   </div>
@@ -17,9 +17,9 @@
 
 <script>
 export default {
-  name: 'LevelListComponent',
+  name: 'CampaignListComponent',
   props: {
-    levels: {
+    campaigns: {
       type: Array
     }
   },
@@ -29,15 +29,15 @@ export default {
     }
   },
   computed: {
-    levelsToShow () {
-      return this.levels.slice(this.currentIndex * 4, (this.currentIndex * 4) + 4)
+    campaignsToShow () {
+      return this.campaigns.slice(this.currentIndex * 4, (this.currentIndex * 4) + 4)
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.level-list {
+.campaign-list {
   background: #F2F2F2;
   box-shadow: 0 4px 1rem rgba(0, 0, 0, 0.25);
   padding-top: 1.5rem;
@@ -45,7 +45,7 @@ export default {
   position: relative;
 }
 
-.levels {
+.campaigns {
   list-style: none;
   display: flex;
   justify-content: space-evenly;
@@ -58,7 +58,7 @@ export default {
   color: #979797;
 }
 
-.level {
+.campaign {
   display: flex;
   flex-direction: column;
   align-items: center;

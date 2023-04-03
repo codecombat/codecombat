@@ -19,16 +19,36 @@
         </div>
       </div>
     </div>
+    <div class="lprogress__content">
+      <div
+        v-for="(level, index) in levels"
+        class="lprogress__level"
+        :key="level.id"
+      >
+        <module-row
+          :display-name="level.name"
+          :icon-type="level.type"
+          :description="level.description"
+          :show-code="index % 2 === 0"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// import ModuleRow from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ModuleRow'
+import ModuleRow from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ModuleRow'
 export default {
-  name: 'LevelprogressDataComponent'
-  // components: {
-  //   ModuleRow
-  // }
+  name: 'LevelProgressDataComponent',
+  props: {
+    levels: {
+      type: Array,
+      required: true
+    }
+  },
+  components: {
+    ModuleRow
+  }
 }
 </script>
 
@@ -72,6 +92,12 @@ export default {
       background: #FFFFFF;
       border-radius: 1rem;
       margin-bottom: .5rem;
+    }
+  }
+
+  &__level {
+    &:nth-child(odd) {
+      background-color: #f2f2f2;
     }
   }
 }
