@@ -1,5 +1,5 @@
 <script>
-import { cocoBaseURL, CODECOMBAT, getQueryVariable, isCodeCombat, isOzaria, OZARIA, ozBaseURL } from 'core/utils'
+import { cocoBaseURL, getQueryVariable, isCodeCombat, isOzaria, ozBaseURL } from 'core/utils'
 import { mapGetters } from 'vuex'
 import FinalFooter from './FinalFooter'
 
@@ -119,10 +119,10 @@ export default Vue.extend({
           condition: true,
           lists: [
             { url: this.ozPath('/'), title: 'nav.ozaria_classroom' },
-            { url: this.cocoPath('/students'), title: 'nav.codecombat_classroom' },
+            { url: this.cocoPath('/impact'), title: 'nav.codecombat_classroom' },
             { url: this.ozPath('/professional-development'), title: 'nav.professional_development' },
             { url: this.cocoPath('/parents'), title: 'nav.live_online_classes' },
-            { url: this.cocoPath('/'), title: 'nav.codecombat_home' },
+            { url: this.cocoPath('/premium'), title: 'nav.codecombat_home' },
             { url: this.cocoPath('/league'), title: 'nav.esports' },
             { url: this.cocoPath('/partners'), title: 'nav.partnerships' },
             { url: this.cocoPath('/libraries'), title: 'nav.libraries' },
