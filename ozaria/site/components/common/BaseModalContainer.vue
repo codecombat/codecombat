@@ -66,6 +66,7 @@ export default {
         background: #FFF;
 
         transition: all .3s ease;
+        white-space: normal;
     }
 
     /*

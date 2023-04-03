@@ -1,13 +1,5 @@
 <script>
-import {
-  CODECOMBAT,
-  CODECOMBAT_CHINA,
-  getQueryVariable,
-  isCodeCombat,
-  isOzaria,
-  OZARIA,
-  OZARIA_CHINA
-} from 'core/utils'
+import { cocoBaseURL, CODECOMBAT, getQueryVariable, isCodeCombat, isOzaria, OZARIA, ozBaseURL } from 'core/utils'
 import { mapGetters } from 'vuex'
 import FinalFooter from './FinalFooter'
 
@@ -36,33 +28,11 @@ export default Vue.extend({
     },
 
     cocoBaseURL () {
-      if (this.isCodeCombat) {
-        return ''
-      }
-
-      if (!application.isProduction()) {
-        return `${document.location.protocol}//codecombat.com`
-      }
-
-      // We are on ozaria domain.
-      return `${document.location.protocol}//${document.location.host}`
-        .replace(OZARIA, CODECOMBAT)
-        .replace(OZARIA_CHINA, CODECOMBAT_CHINA)
+      return cocoBaseURL()
     },
 
     ozBaseURL () {
-      if (this.isOzaria) {
-        return ''
-      }
-
-      if (!application.isProduction()) {
-        return `${document.location.protocol}//ozaria.com`
-      }
-
-      // We are on codecombat domain.
-      return `${document.location.protocol}//${document.location.host}`
-        .replace(CODECOMBAT, OZARIA)
-        .replace(CODECOMBAT_CHINA, OZARIA_CHINA)
+      return ozBaseURL()
     },
 
     hideFooter () {
