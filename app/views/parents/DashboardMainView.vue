@@ -2,21 +2,29 @@
   <div class="parent-container">
     <sidebar-component />
     <header-component />
-    <main-content-component />
+    <student-progress-view
+      v-if="viewName === 'dashboard'"
+    />
   </div>
 </template>
 
 <script>
 import SidebarComponent from './SidebarComponent'
 import HeaderComponent from './HeaderComponent'
-import MainContentComponent from './MainContentComponent'
+import StudentProgressView from './StudentProgressView'
 
 export default {
   name: 'DashboardMainView',
+  props: {
+    viewName: {
+      type: String,
+      default: 'dashboard'
+    }
+  },
   components: {
     SidebarComponent,
     HeaderComponent,
-    MainContentComponent
+    StudentProgressView
   }
 }
 </script>

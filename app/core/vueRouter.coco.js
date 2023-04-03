@@ -154,9 +154,10 @@ export default function getVueRouter () {
           props: (route) => ({ ...route.query, ...route.params })
         },
         {
-          path: '/parents/dashboard',
+          path: '/parents/:viewName',
           name: 'ParentDashboard',
-          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/DashboardMainView')
+          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/DashboardMainView'),
+          props: (route) => ({ ...route.query, ...route.params })
         }
       ],
       scrollBehavior(to) {

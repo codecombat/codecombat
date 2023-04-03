@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import CampaignListComponent from './main-content/CampaignListComponent'
-import CampaignBasicSummary from './main-content/CampaignBasicSummary'
-import CampaignProgressView from './main-content/CampaignProgressView'
+import CampaignListComponent from './student-progress/CampaignListComponent'
+import CampaignBasicSummary from './student-progress/CampaignBasicSummary'
+import CampaignProgressView from './student-progress/CampaignProgressView'
 
 export default {
   name: 'MainContentComponent',
@@ -25,7 +25,9 @@ export default {
   data () {
     return {
       campaigns: [
-        { id: 1, name: 'Kithgard Dungeon',
+        {
+          id: 1,
+          name: 'Kithgard Dungeon',
           levels: [
             {
               id: 1,

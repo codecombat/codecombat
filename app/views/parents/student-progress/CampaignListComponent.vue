@@ -6,7 +6,7 @@
       <li
         v-for="campaign in campaignsToShow"
         class="campaign"
-        :key="level.id"
+        :key="campaign.id"
       >
         <div class="campaign__dot"></div>
         <div class="campaign__name">{{ campaign.name }}</div>
