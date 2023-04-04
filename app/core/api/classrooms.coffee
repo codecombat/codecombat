@@ -105,4 +105,5 @@ module.exports = {
       method: 'GET'
     }))
 
+  getMembersByClassCode: (code) -> fetchJson("/db/classroom/#{code}/members-by-code")
 }

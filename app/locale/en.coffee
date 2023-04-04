@@ -3995,6 +3995,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_video_recording: 'No Video Recording Found'
     reply: 'Reply'
     video_recording: 'Video Recording'
+    import_from_class: 'Import from Class'
     link_google_calendar: 'Link with Google Calendar'
     sync_to_google: 'Sync to Google Calendar'
     synced_to_google: 'Synced to Google Calendar'

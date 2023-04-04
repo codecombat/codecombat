@@ -1,10 +1,10 @@
 /*!
  * jaba
  * 
- * Compiled: Tue Jan 25 2022 16:49:02 GMT-0800 (Pacific Standard Time)
+ * Compiled: Tue Mar 28 2023 16:32:42 GMT+0800 (China Standard Time)
  * Target  : web (umd)
  * Profile : modern
- * Version : cde3bc8
+ * Version : e0a16a1-dirty
  * 
  * 
  * 
@@ -520,12 +520,13 @@ function javaifyEngine(ev) {
 		obj.setImmediate("prototype", ptype);
 		ev.realm.globalScope.add(k, obj);
 	}
+	ev.realm.CPPListProto = new stdlib.p.CPPListProto(ev.realm)
 
 	let amake = ArrayValue.make.bind(ArrayValue);
 	ArrayValue.make = function(vals, realm) {
 		if(realm.options.language == 'cpp') {
 			let av = amake(vals, realm);
-			av.setPrototype(new stdlib.p.CPPListProto(ev.realm));
+			av.setPrototype(ev.realm.CPPListProto);
 
 			let l = vals.length
 			if(l > 0) {av.setImmediate('x', vals[0]); av.properties.x.enumerable = false;}
@@ -537,7 +538,19 @@ function javaifyEngine(ev) {
 			return amake(vals, realm);
 		}
 	}
-	
+
+	ev.addGlobal("tolower", (char) => {
+		if(typeof char !== 'string' || char.length > 1) {
+			throw SyntaxError('arg1 only accept char type.')
+		}
+		return char.toLowerCase()
+	})
+	ev.addGlobal('toupper', (char) => {
+		if(typeof char !== 'string' || char.length > 1) {
+			throw SyntaxError('arg1 only accept char type.')
+		}
+		return char.toUpperCase()
+	})
 }
 
 module.exports = {
@@ -611,6 +624,43 @@ class JavaString extends EasyObjectValue {
 	}
 	static *toString$(thiz, argz, s) { return s.fromNative(thiz.native); }
 
+	static *trim(thiz, argz, s) {
+		return thiz.native.trim();
+	}
+
+	static *replace(thiz, argz, s) {
+		return thiz.native.split(argz[0].toNative()).join(argz[1].toNative())
+	}
+
+	static *split(thiz, argz, s) {
+		let regex = new RegExp(argz[0].toNative(), 'g')
+		let orig = thiz.toNative()
+		if(argz.length > 1) {
+			let limit = argz[1].toNative()
+			if(limit === 0) { return orig.split(regex) }
+			let prev = orig.split(regex, limit - 1)
+			let i = 0;
+			do {
+				i += 1;
+				if(i == limit) {
+					break;
+				}
+			}while(regex.exec(orig) && i < limit);
+			prev.push(orig.slice(regex.lastIndex))
+			return prev
+		} else {
+			return orig.split(regex)
+		}
+	}
+	static *charAt(thiz, argz, s) {
+		return thiz.native[argz[0].toNative()]
+	}
+	static *toLowerCase(thiz, argz, s) {
+		return thiz.native.toLowerCase()
+	}
+	static *toUpperCase(thiz, argz, s) {
+		return thiz.native.toUpperCase()
+	}
 }
 
 class Integer extends EasyObjectValue {

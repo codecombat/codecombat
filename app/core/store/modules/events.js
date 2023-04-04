@@ -8,6 +8,7 @@ import {
 } from '../../api/events'
 
 import { getFullNames } from '../../api/users'
+import { getMembersByClassCode } from '../../api/classrooms'
 
 export default {
   namespaced: true,
@@ -22,6 +23,7 @@ export default {
       editableInstance: undefined
     },
 
+    teacherNames: {},
     memberNames: {}
   },
   getters: {
@@ -39,6 +41,17 @@ export default {
     },
     eventPanelInstance (state) {
       return state.eventPanel.editableInstance
+    },
+
+    // TODO: fetch all online-teachers here
+    allTeacherIds (state) {
+      const teachers = Object.values(state.events).map(event => event.owner)
+      return Array.from(new Set(teachers))
+    },
+    teacherNames (state) {
+      const teachers = {}
+      Object.values(state.events).map(event => (teachers[event.owner] = event.ownerName))
+      return teachers
     },
 
     allMemberIds (state) {
@@ -132,6 +145,12 @@ export default {
       const names = await getFullNames({ ids: getters.allMemberIds, from: 'online-classes' })
       commit('setMemberNames', names)
       return names
-    }
+    },
+
+    async importMembersFromClass ({ commit }, { classCode }) {
+      const members = await getMembersByClassCode(classCode)
+      console.log('mem', members, typeof members)
+      return members
+    },
   }
 }

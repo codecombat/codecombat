@@ -27,7 +27,8 @@ export default {
       isSuccess: false,
       inProgress: false,
       errorMessage: '',
-      event: {}
+      event: {},
+      resetRRule: true // signal
     }
   },
   methods: {
@@ -106,7 +107,7 @@ export default {
       const sDate = moment().set('minutes', 0).set('seconds', 0)
       if (this.editType === 'new') {
         this.event = {
-          members: new Set(),
+          members: [],
           startDate: sDate.toDate(),
           endDate: sDate.clone().add(1, 'hours').toDate(),
           instances: []
@@ -114,6 +115,7 @@ export default {
       } else {
         this.event = _.cloneDeep(this.propsEvent)
       }
+      this.resetRRule = !this.resetRRule
     }
   },
   computed: {
@@ -229,6 +231,7 @@ export default {
         :start="rruleStart"
         :option="{showStart: false}"
         :rrule="event.rrule"
+        :resetRRule="resetRRule"
       />
 
       <div class="form-group" v-if="me.useGoogleCalendar()">

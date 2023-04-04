@@ -18,7 +18,8 @@ export default {
       members: {},
       membersToAdd: new Set(),
       membersToRemove: new Set(),
-      membersToEdit: new Set()
+      membersToEdit: new Set(),
+      classCode: ''
     }
   },
   methods: {
@@ -28,7 +29,8 @@ export default {
     ...mapActions('events', [
       'addEventMember',
       'editEventMember',
-      'delEventMember'
+      'delEventMember',
+      'importMembersFromClass'
     ]),
     addMember (m) {
       this.membersToAdd.add(m._id)
@@ -51,6 +53,17 @@ export default {
       if (!this.membersToAdd.has(id)) {
         this.membersToEdit.add(id)
       }
+    },
+    importClassroom () {
+      this.importMembersFromClass({
+        classCode: this.classCode
+      }).then((members) => {
+        members.forEach(m => {
+          this.addMember(m)
+        })
+      }).catch(err => {
+        this.errorMessage = err.message
+      })
     },
     onFormSubmit () {
       this.inProgress = true
@@ -115,6 +128,25 @@ export default {
           @update-member="updateMember"
         />
       </div>
+
+      <div class="form-group import-from-class">
+        <label for="import"> {{ $t('events.import_from_class') }}</label>
+        <div class="my-input-group">
+        <input
+          type="text"
+          class="form-control"
+          id="import"
+          placeholder="Class Code"
+          v-model="classCode"
+          />
+        <input
+          type="button"
+          class="btn btn-primary"
+          value="Import"
+          @click="importClassroom"
+          />
+        </div>
+      </div>
       <div class="form-group pull-right">
         <span
           v-if="isSuccess"
@@ -142,4 +174,9 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+.import-from-class {
+  .my-input-group{
+    display: flex;
+  }
+}
 </style>

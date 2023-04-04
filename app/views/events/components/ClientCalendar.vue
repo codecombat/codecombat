@@ -157,21 +157,12 @@ export default {
       }
     },
     createEvents () {
-      const _pad = (num) => {
-        const norm = Math.floor(Math.abs(num))
-        return (norm < 10 ? '0' : '') + norm
-      }
-
       const today = new Date()
-      const greyOut = {
-        start: '1970-01-01',
-        end: today.getFullYear() + '-' + _pad(today.getMonth() + 1) + '-' + _pad(today.getDate()),
-        display: 'background',
-        backgroundColor: '#f00'
-      }
-      return [
+
+      const events = [
         ...(this.events.map((e, index) => this.mapEventToCalendar(e, index))).flat()
       ]
+      return events
     },
     selectRecent () {
       const events = Array.from(document.querySelectorAll('.ec-day'))
