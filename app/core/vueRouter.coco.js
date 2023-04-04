@@ -154,6 +154,12 @@ export default function getVueRouter () {
           props: (route) => ({ ...route.query, ...route.params })
         },
         {
+          path: '/parents/signup',
+          name: 'ParentSignup',
+          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/SignupView'),
+          props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
           path: '/parents/:viewName',
           name: 'ParentDashboard',
           component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/DashboardMainView'),

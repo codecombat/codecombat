@@ -1,0 +1,56 @@
+.account {
+  background: #FFFFFF;
+  border: 5px solid #1FBAB4;
+  border-radius: 3rem;
+  padding: 4rem;
+  z-index: 1;
+
+  &__heading {
+    font-family: 'Arvo', sans-serif;
+    font-weight: 700;
+    font-size: 3.3rem;
+    line-height: 4.1rem;
+    color: #232323;
+  }
+
+  &__subheading {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    line-height: 2.5rem;
+    color: #232323;
+    margin-bottom: 2rem;
+  }
+
+  &__form {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.9rem;
+
+    label {
+      font-weight: 400;
+    }
+  }
+
+  &__submit {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    margin-top: 4rem;
+
+    &__btn {
+      background: #1FBAB4;
+      border-radius: 4px;
+
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      line-height: 2.5rem;
+      text-align: center;
+      padding: 1rem 3rem;
+    }
+  }
+
+}
