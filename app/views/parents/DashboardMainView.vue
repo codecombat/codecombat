@@ -5,6 +5,9 @@
     <student-progress-view
       v-if="viewName === 'dashboard'"
     />
+    <student-summary-view
+      v-if="viewName === 'summary'"
+    />
   </div>
 </template>
 
@@ -12,6 +15,7 @@
 import SidebarComponent from './SidebarComponent'
 import HeaderComponent from './HeaderComponent'
 import StudentProgressView from './StudentProgressView'
+import StudentSummaryView from './StudentSummaryView'
 
 export default {
   name: 'DashboardMainView',
@@ -22,6 +26,7 @@ export default {
     }
   },
   components: {
+    StudentSummaryView,
     SidebarComponent,
     HeaderComponent,
     StudentProgressView

@@ -65,10 +65,7 @@ export default {
   border: 1px solid #E6E6E6;
   box-shadow: inset 0px -2px 10px rgba(0, 0, 0, 0.15);
 
-  display: grid;
-  //grid-template-columns: 2fr 3fr;
-  grid-template-columns: repeat(2, minmax(min-content, max-content));
-  grid-column-gap: 4rem;
+  display: flex;
 
   &__products {
     display: flex;
@@ -105,6 +102,8 @@ export default {
       display: flex;
       justify-content: space-between;
       flex-direction: column;
+
+      margin-right: auto;
     }
 
     &--2 {
