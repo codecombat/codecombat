@@ -1,13 +1,13 @@
 <script>
 import {
+  cocoBaseURL,
   CODECOMBAT,
-  CODECOMBAT_CHINA,
   getQueryVariable,
   isChinaOldBrowser,
   isCodeCombat,
   isOzaria,
   OZARIA,
-  OZARIA_CHINA
+  ozBaseURL
 } from 'core/utils'
 import AnnouncementModal from '../../views/announcement/announcementModal'
 import AnnouncementNav from '../../views/announcement/AnnouncementNav'
@@ -38,33 +38,11 @@ export default Vue.extend({
     },
 
     cocoBaseURL () {
-      if (this.isCodeCombat) {
-        return ''
-      }
-
-      if (!application.isProduction()) {
-        return `${document.location.protocol}//codecombat.com`
-      }
-
-      // We are on ozaria domain.
-      return `${document.location.protocol}//${document.location.host}`
-          .replace(OZARIA, CODECOMBAT)
-          .replace(OZARIA_CHINA, CODECOMBAT_CHINA)
+      return cocoBaseURL()
     },
 
     ozBaseURL () {
-      if (this.isOzaria) {
-        return ''
-      }
-
-      if (!application.isProduction()) {
-        return `${document.location.protocol}//ozaria.com`
-      }
-
-      // We are on codecombat domain.
-      return `${document.location.protocol}//${document.location.host}`
-          .replace(CODECOMBAT, OZARIA)
-          .replace(CODECOMBAT_CHINA, OZARIA_CHINA)
+      return ozBaseURL()
     },
 
     hideNav () {
@@ -233,12 +211,15 @@ export default Vue.extend({
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/teachers/classes')")
-                          span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_dashboard') }}
+                          span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t(`nav.ozaria${me.isSchoolAdmin()?'_teacher':''}_dashboard`) }}
                       li
-                        a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t('nav.codecombat_dashboard') }}
-                      li(v-if="isCodeCombat || !checkLocation('/teachers/')")
-                        a.text-p(:href="ozPath('/teachers/professional-development')")
-                          span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
+                        a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t(`nav.codecombat${me.isSchoolAdmin()?'_teacher':''}_dashboard`) }}
+
+                      li(v-if="me.isSchoolAdmin()")
+                        a.text-p(:href="ozPath('/school-administrator')")
+                          span(:class="checkLocation('/school-administrator', OZARIA) && 'text-teal'") {{ $t(`nav.ozaria_admin_dashboard`) }}
+                      li(v-if="me.isSchoolAdmin()")
+                        a.text-p(:class="checkLocation('/school-administrator', CODECOMBAT) && 'text-teal'" :href="cocoPath('/school-administrator')") {{ $t(`nav.codecombat_admin_dashboard`) }}
 
               li(v-else-if="me.isStudent()")
                 ul.nav.navbar-nav
@@ -252,13 +233,6 @@ export default Vue.extend({
                           span(:class="checkLocation('/students', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
                       li
                         a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") {{ $t('nav.codecombat_classroom') }}
-
-              li.dashboard-toggle(v-if="me.isSchoolAdmin()")
-                //- Only show divider if neither side is toggled.
-                .dashboard-button(:class="checkLocation('/school-administrator') ? 'active': !checkLocation('/teachers') && 'show-divider'")
-                  a.school-admin-dashboard-button.dashboard-toggle-link(href="/school-administrator") {{ $t('nav.admin') }}
-                .dashboard-button(:class="checkLocation('/teachers') && 'active'")
-                  a.teacher-dashboard-button.dashboard-toggle-link(href="/teachers") {{ $t('classes.teacher_title') }}
 
               li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
                 a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}
@@ -629,37 +603,6 @@ export default Vue.extend({
     margin-left: 0.5em;
   }
 
-  .dashboard-toggle {
-    border-radius: 8px;
-    margin: 8px 15px;
-    border: 1px solid #131b25;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    .dashboard-button {
-      padding: 6px 15px;
-      margin: 0px;
-
-      a {
-        color: #131b25;
-        text-decoration: none;
-      }
-    }
-
-    .active {
-      border-radius: 8px;
-      background: #f7d047;
-
-      a {
-        color: #131b25;
-      }
-    }
-
-    .show-divider:not(:last-child) {
-      border-right: 1px solid #131b25;
-    }
-  }
 }
 
 nav#main-nav.navbar.dark-mode {
@@ -671,18 +614,6 @@ nav#main-nav.navbar.dark-mode {
     &:hover {
       color: #FF39A6;
     }
-  }
-
-  .dashboard-toggle {
-    border: 1px solid #FCBB00;
-
-    & > .show-divider {
-      border-right: 1px solid #FCBB00 !important;
-    }
-  }
-
-  .dashboard-toggle .dashboard-button a {
-    color: #FCBB00;
   }
 
   .dropdown-menu {

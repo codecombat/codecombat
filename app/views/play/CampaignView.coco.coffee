@@ -500,6 +500,7 @@ module.exports = class CampaignView extends RootView
   userQualifiesForMinecraftModal: ->
     return false if me.freeOnly()
     return false if storage.load 'roblox-clicked'
+    return false if userUtils.isInLibraryNetwork() or userUtils.libraryName()
     return true if me.isPremium()
     return false if me.get('hourOfCode')
     return true if storage.load 'paywall-reached'
@@ -1444,6 +1445,7 @@ module.exports = class CampaignView extends RootView
     return false if me.isStudent()
     return false if application.getHocCampaign()
     return false if me.isInHourOfCode()
+    return false if userUtils.isInLibraryNetwork() or userUtils.libraryName()
     latest = window.serverConfig.latestAnnouncement
     myLatest = me.get('lastAnnouncementSeen')
     return unless typeof latest is 'number'
