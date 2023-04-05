@@ -17,6 +17,7 @@
 }
 
 #home-page {
+  margin-bottom: -50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -289,6 +290,13 @@
       margin-left: 10px;
       color: #F7D047;
       text-decoration: underline;
+    }
+
+    span {
+      p {
+        margin: 0;
+        font-size: unset
+      }
     }
   }
 
@@ -681,6 +689,10 @@
     #core-curriculum-carousel {
       margin: 0 -20px -40px;
     }
+  }
+
+  .update-account-blurb {
+    max-width: 600px;
   }
 }
 

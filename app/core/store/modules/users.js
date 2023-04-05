@@ -11,6 +11,10 @@ export default {
 
     users: {
       byId: {}
+    },
+
+    userNames: {
+      byId: {}
     }
   },
 
@@ -32,6 +36,12 @@ export default {
       users.forEach((user) => {
         Vue.set(state.users.byId, user._id, user)
       })
+    },
+
+    setUserNames: (state, nameMap) => {
+      Object.keys(nameMap).forEach((userId) => {
+        Vue.set(state.userNames.byId, userId, nameMap[userId])
+      })
     }
   },
 
@@ -50,6 +60,21 @@ export default {
     },
     getUserById: (state) => (id) => {
       return state.users.byId[id]
+    },
+    getUserNameById: (state) => (id) => {
+      const user = state.userNames.byId[id]
+      if(!user) return ''
+      let name = ''
+      if (user.firstName) {
+        name = user.name
+      }
+      if (user.lastName) {
+        name += ' ' + user.lastName
+      }
+      if (!name) {
+        name = user.name
+      }
+      return name
     }
   },
 
@@ -96,6 +121,19 @@ export default {
           console.error(`Fetch user failure ${e.message}`)
           // HACK: Disabling this user notification whilst keeping it in the console.
           // noty({ text: 'Fetch user failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 })
+        })
+    },
+
+    fetchUserNamesById: ({ commit }, ids) => {
+      return usersApi
+        .fetchNamesForUser(ids)
+        .then(res => {
+          if (res) {
+            commit('setUserNames', res)
+          }
+        })
+        .catch(e => {
+          console.error(`Fetch user names failure ${e.message}`)
         })
     }
   }

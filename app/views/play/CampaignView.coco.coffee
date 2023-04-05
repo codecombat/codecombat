@@ -23,7 +23,7 @@ PollModal = require 'views/play/modal/PollModal'
 AnnouncementModal = require 'views/play/modal/AnnouncementModal'
 LiveClassroomModal = require 'views/play/modal/LiveClassroomModal'
 Codequest2020Modal = require 'views/play/modal/Codequest2020Modal'
-MineModal = require 'views/core/MineModal' # Minecraft modal
+MineModal = require 'views/core/MineModal' # Roblox modal
 api = require 'core/api'
 Classroom = require 'models/Classroom'
 Course = require 'models/Course'
@@ -460,8 +460,8 @@ module.exports = class CampaignView extends RootView
     else
       @maybeShowPendingAnnouncement()
 
-    # Minecraft Modal:
-    #@maybeShowMinecraftModal() # Disable for now
+    # Roblox Modal:
+    @maybeShowMinecraftModal()
 
 
   updateClassroomSessions: ->
@@ -497,21 +497,20 @@ module.exports = class CampaignView extends RootView
       topScore = _.first(LevelSession.getTopScores({session: session.toJSON(), level}))
       @levelScoreMap[levelOriginal] = topScore
 
-  # Minecraft Modal:
-  maybeShowMinecraftModal: ->
+  userQualifiesForMinecraftModal: ->
     return false if me.freeOnly()
-    userQualifiesForMinecraftModal = (user) ->
-      return true if user.isAdmin()
-      return false if user.isPremium()
-      return false if user.isAnonymous()
-      return user.get('testGroupNumber') % 5 is 1
+    return false if storage.load 'roblox-clicked'
+    return false if userUtils.isInLibraryNetwork() or userUtils.libraryName()
+    return true if me.isPremium()
+    return false if me.get('hourOfCode')
+    return true if storage.load 'paywall-reached'
+    return false
 
-    return unless userQualifiesForMinecraftModal(me)
-    if @campaign and @campaign.get('levels')
-      levels = @campaign.get('levels')
-      level = _.find(levels, {slug: "the-second-kithmaze"})
-      if level and @levelStatusMap['the-second-kithmaze'] is 'complete' and /^en/i.test(me.get('preferredLanguage', true))
-        $(".cube-level").show()
+  # Roblox Modal:
+  maybeShowMinecraftModal: ->
+    if @userQualifiesForMinecraftModal()
+      $(".cube-level").show()
+
 
   # Minecraft Modal:
   onSpinningCubeClick: (e) ->
@@ -716,6 +715,7 @@ module.exports = class CampaignView extends RootView
     @openModalView(new CreateAccountModal(supermodel: @supermodel))
 
   promptForSubscription: (slug, label) ->
+    @paywallReached()
     return console.log('Game dev HoC does not encourage subscribing.') if @campaign?.get('type') is 'hoc'
     return console.log("Students shouldn't be prompted to subscribe") if me.isStudent()
     @endHighlight()
@@ -728,6 +728,10 @@ module.exports = class CampaignView extends RootView
     return unless slug
     return false if 'hoc' in slug
     /campaign-(game|web)-dev-\d/.test slug
+
+  paywallReached: () ->
+    storage.save('paywall-reached', true)
+    @maybeShowMinecraftModal()
 
   annotateLevels: (orderedLevels) ->
     return if @isClassroom()
@@ -1441,6 +1445,7 @@ module.exports = class CampaignView extends RootView
     return false if me.isStudent()
     return false if application.getHocCampaign()
     return false if me.isInHourOfCode()
+    return false if userUtils.isInLibraryNetwork() or userUtils.libraryName()
     latest = window.serverConfig.latestAnnouncement
     myLatest = me.get('lastAnnouncementSeen')
     return unless typeof latest is 'number'
@@ -1584,9 +1589,15 @@ module.exports = class CampaignView extends RootView
     if what is 'burnaby-logo'
       return userUtils.libraryName() is 'burnaby'
 
+    if what is 'liverpool-library-logo'
+      return userUtils.libraryName() is 'liverpool-library'
+
     if what is 'league-arena'
       # Note: Currently the tooltips don't work in the campaignView overworld.
       return not me.isAnonymous() and @campaign?.get('slug') and not @editorMode
+
+    if what is 'roblox-level'
+      return @userQualifiesForMinecraftModal()
 
     return true
 

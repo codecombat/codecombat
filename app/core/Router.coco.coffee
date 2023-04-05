@@ -43,7 +43,7 @@ module.exports = class CocoRouter extends Backbone.Router
       if utils.getQueryVariable 'hour_of_code'
         delete window.alreadyLoadedView
         return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
-      unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient() or paymentUtils.hasTemporaryPremiumAccess()
+      unless utils.isOzaria or me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient() or paymentUtils.hasTemporaryPremiumAccess()
         delete window.alreadyLoadedView
         return @navigate "/premium", {trigger: true, replace: true}
       if me.isAPIClient()
@@ -98,7 +98,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'announcements': go('core/SingletonAppVueComponentView')
 
-    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
+#    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
     'api-dashboard': go('core/SingletonAppVueComponentView')
 
@@ -207,6 +207,15 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'partners': () ->
       @routeDirectly('PagePartners', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+
+    'apcsp': () ->
+      @routeDirectly('PageAPCSPMarketing', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+
+    'apcspportal': () ->
+      @routeDirectly('PageAPCSPCurriculum', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+
+    'apcsportal': () ->
+      @routeDirectly('PageAPCSPCurriculum', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
 
     'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
     'league/kipp': redirect('/league/autoclan-school-network-kipp') # Redirect for KIPP.

@@ -5,6 +5,7 @@
   margin: auto
   background-color: rgba(0,0,0,0.125)
   border-radius: 8px
+  position: relative
   .number, #slider-container
     display: inline-block
   .number
@@ -28,7 +29,7 @@
     min-height: 24px
   .event
     position: absolute
-    background-color: rgba(100, 100, 255, 0.125)
+    background-color: rgba(100, 100, 255, 0.75)
     left: 7px
     top: 0px
     width: 1px
@@ -36,3 +37,20 @@
     pointer-events: none
   .clicked
     background-color: orange
+  #event-container
+    border: 1px black solid
+    background-color: rgba(0,0,0,0.125)
+    border-radius: 8px
+    padding: 8px
+    position: absolute
+    right: -8px
+    top: 0
+    transform: translate(100%, 0)
+    .event-label
+      background-color: rgba(0,0,0,0.125)
+      border: 1px black solid
+      border-radius: 8px
+      text-align: center
+      margin-bottom: 2px
+      padding-left: 8px
+      padding-right: 8px

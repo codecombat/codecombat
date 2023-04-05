@@ -88,7 +88,13 @@ module.exports = class PollModal extends ModalView
       btn = @$el.find('.btn.btn-illustrated.btn-lg.done-button')
       btn.off('click')
 
-      if nextPollId
+      if answerObj.nextURL
+        btn.text(i18n.t('common.next'))
+        btn.one('click', () =>
+          btn.prop('disabled', true);
+          window.open(answerObj.nextURL, '_blank', 'noopener,noreferrer')
+        )
+      else if nextPollId
         btn.text(i18n.t('common.next'))
         btn.one('click', () =>
           btn.prop('disabled', true);

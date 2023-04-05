@@ -32,9 +32,6 @@ block content
       span.spr(data-i18n="legal.email_description_prefix")
       a(href='/account/settings', data-i18n="legal.email_settings_url")
       span.spl(data-i18n="legal.email_description_suffix")
-    if window && window.features && !window.features.chinaUx
-      h4(data-i18n="legal.cost_title")
-      p#cost-description Loading...
 
   h2(data-i18n="legal.copyrights_title")
 
@@ -101,16 +98,6 @@ block content
     span(data-i18n="legal.nutshell_see_also")
     span= ' '
     a(href="https://github.com/codecombat/codecombat/blob/master/LICENSE-LEVELS.md") LICENSE-LEVELS.md
-
-  h3(data-i18n="legal.third_party_title")
-
-  p(data-i18n="legal.third_party_description")
-
-  ul
-
-    a(href="https://www.browserstack.com/", data-i18n="browserstack_url")
-      | BrowserStack
-    span
 
   hr
 

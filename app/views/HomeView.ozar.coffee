@@ -53,6 +53,7 @@ module.exports = class HomeView extends RootView
       @banner = data
       content = utils.i18n data, 'content'
       @banner.display = DOMPurify.sanitize marked(content ? '')
+      @renderSelectors('#top-banner')
     )
 
   onClickRequestQuote: (e) ->

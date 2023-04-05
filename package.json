@@ -37,6 +37,7 @@
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping webpack build --production",
     "postdeploy": "echo Deployed. Unclench.",
     "build": "bower install && npm run build-aether && NODE_OPTIONS='--max-old-space-size=4096' node ./runWebpack.js",
+    "pre-build": "bower install && npm run build-aether",
     "build-aether": "node setup-aether.js",
     "webpack": "NODE_OPTIONS='--max-old-space-size=4096' webpack",
     "bower": "bower",
@@ -74,6 +75,7 @@
   ],
   "dependencies": {
     "@stripe/stripe-js": "^1.32.0",
+    "@usesuperflow/client": "^1.0.1",
     "@vimeo/player": "^2.17.1",
     "ace-diff": "github:smallst/ace-diff",
     "acorn-loose": "^8.0.1",

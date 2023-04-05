@@ -34,20 +34,13 @@
     width: 50%
     height: 100%
 
-    #pickaxe
+    #heroes
       position: absolute
-      top: 33%
-      left: 50%
-      transform: translateX(-50%) translateY(-50%) scale(1.25)
-      filter: drop-shadow(0 0 16px white)
-
-    #hands
-      width: 150%
-      left: 50%
-      transform: translateX(-50%)
-      bottom: -55%
-      position: absolute
-      filter: drop-shadow(0 0 8px black)
+      top: 57%
+      left: 62%
+      transform: translateX(-50%) translateY(-50%)
+      width: 375px
+      z-index: 1
 
   #close-modal
     position: absolute
@@ -65,21 +58,10 @@
     &:hover
       color: yellow
 
-  #info-text, #capacity-text
-    font-size: large
+  #info-text
+    font-size: 17px
     div
       margin: 6px
-
-  #capacity-text
-    display: none
-
-    #notify-me-form
-      position: absolute
-      bottom: 90px
-      width: 100%
-
-      #notify-me-check
-        cursor: pointer
 
 
   #button-container
@@ -89,13 +71,13 @@
     text-align: center
 
     #submit-button
-      display: none
       width: 256px
 
       .no-text-transform
         text-transform: none
 
     #buy-now-button
+      display: none
       width: 256px
 
   .sale-button
@@ -158,11 +140,9 @@
     color: white
 
     #details-header
-      font-size: large
-      font-weight: bold
-      text-transform: uppercase
-      color: white
       text-align: center
+      #heroes
+        z-index: 1
 
   #mine-info
     position: absolute
@@ -182,7 +162,7 @@
     left: 30px
     top: 110px
     overflow: hidden
-    background-image: url('/images/minecraft/bans.jpg')
+    background-image: url('/images/roblox/background.jpg')
     border-radius: 8px
     background-size: cover
     background-position: 50% 75%

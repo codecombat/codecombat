@@ -34,7 +34,7 @@ module.exports = class HomeView extends RootView
   initialize: (options) ->
     super(options)
     @renderedPaymentNoty = false
-    # @getBanner()
+    @getBanner()
 
   getRenderData: (context={}) ->
     context = super context
@@ -63,6 +63,7 @@ module.exports = class HomeView extends RootView
       @banner = data
       content = utils.i18n data, 'content'
       @banner.display = DOMPurify.sanitize marked(content ? '')
+      @renderSelectors('#top-banner')
     )
 
   onClickStudentButton: (e) ->

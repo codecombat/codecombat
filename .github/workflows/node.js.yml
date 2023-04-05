@@ -36,5 +36,5 @@ jobs:
       - run: npm ci
         env:
           SKIP_WEBPACK: true
-      - run: npm run build
+      - run: npm run pre-build
       - run: npm run test-ubuntu

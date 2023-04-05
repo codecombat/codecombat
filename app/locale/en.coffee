@@ -85,6 +85,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     global_subtitle3: "Teachers"
     global_subtitle4: "Countries"
     sign_up: "Sign Up"
+    individual_account_warning: "You are logged in as __name__, which is an individual account. Ozaria is for teacher and student accounts only; do you need to update your account?"
     learner_number: "12 Million"
     code_line_number: "1 Billion"
 
@@ -315,6 +316,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     million: "__num__ Million"
     billion: "__num__ Billion"
     meta_keywords_podcast: "CodeCombat, python, javascript, Coding Games, podcast, edtech"
+    coco_worlds_header: "CodeCombat Worlds"
+    coco_worlds_description: "Embark on a 3D coding adventure in Roblox, where you can program pets, play with friends, and develop games all while playing one. Join the CodeCombat community and unleash your creativity in the metaverse!"
+    coco_worlds_button: "Explore CodeCombat Worlds"
 
   nav:
     aiyouth: "AI Youth"
@@ -363,7 +367,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     copyright_suffix: "All Rights Reserved."
     help_pref: "Need help? Email"
     help_suff: "and we'll get in touch!"
-    resource_hub: "Teacher Toolkit" # {change}
+    resource_hub: "Teacher Toolkit"
     apcsp: "AP CS Principles"
     parent: "Parents"
     faq: "FAQ"
@@ -375,7 +379,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ozaria_classroom: "Ozaria Classroom"
     codecombat_classroom: "CodeCombat Classroom"
     ozaria_dashboard: "Ozaria Dashboard"
+    ozaria_teacher_dashboard: "Ozaria Teacher Dashboard"
+    ozaria_admin_dashboard: "Ozaria Admin Dashboard"
     codecombat_dashboard: "CodeCombat Dashboard"
+    codecombat_teacher_dashboard: "CodeCombat Teacher Dashboard"
+    codecombat_admin_dashboard: "CodeCombat Admin Dashboard"
     professional_development: "Professional Development"
     new: "New!"
     admin: "Admin"
@@ -436,7 +444,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   play:
     title: 'Play CodeCombat Levels - Learn Python, JavaScript, and HTML'
     meta_description: 'Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!'
-    level_title: '__level__ - CodeCombat' # {change}
+    level_title: '__level__ - CodeCombat'
     level_title_ozaria: '__level__ - Ozaria'
     video_title: '__video__ | Video Level'
     game_development_title: '__level__ | Game Development'
@@ -579,6 +587,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
     stop_spying: "Stop Spying"
     stop_switching: "Stop Switching"
+    test_as_student: "Test as Student"
 
   signup:
     complete_subscription: "Complete Subscription"
@@ -657,7 +666,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_list_resource_hub_2_coco: "Course Guides"
     teacher_list_resource_hub_2_ozar: "Unit Guides"
     teacher_list_resource_hub_3: "for solutions to every level, and the"
-    teacher_list_resource_hub_4: "Teacher Toolkit" # {change}
+    teacher_list_resource_hub_4: "Teacher Toolkit"
     teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
     teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
     dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
@@ -1236,7 +1245,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     feature_learn: "Learn to make games and websites"
     feature_languages: "Get all supported languages"
     feature_aiyouth: ""
-    feature_gems: "Earn __gems__ gems/mo (__gems12__ gems/yr)" # {change}
+    feature_gems: "Earn __gems__ gems/mo (__gems12__ gems/yr)"
     month_price: "$__price__/mo"
     month_price_without_currency: "__price__/mo"
     first_month_price: "Only $__price__ for your first month!"
@@ -2028,26 +2037,35 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     update_account_current_type: "Current Account Type:"
     update_account_account_email: "Account Email/Username:"
     update_account_am_teacher: "I am a teacher"
-    update_account_keep_access: "Keep access to classes I've created"
+    update_account_no_progress: "Let me create classes but save no game progress"
     update_account_teachers_can: "Teacher accounts can:"
     update_account_teachers_can1: "Create/manage/add classes"
     update_account_teachers_can2: "Assign/enroll students in courses"
     update_account_teachers_can3: "Unlock all course levels to try out"
     update_account_teachers_can4: "Access new teacher-only features as we release them"
-    update_account_teachers_warning: "Warning: You will be removed from all classes that you have previously joined and will not be able to play as a student."
+    update_account_teachers_warning_new: "Warning: you will not be able to save your progress on any levels; you will need separate student accounts to do that."
     update_account_remain_teacher: "Remain a Teacher"
     update_account_update_teacher: "Update to Teacher"
     update_account_am_student: "I am a student"
-    update_account_remove_access: "Remove access to classes I have created"
+    update_account_no_home: "Let me join classes but not play outside of class"
     update_account_students_can: "Student accounts can:"
     update_account_students_can1: "Join classes"
     update_account_students_can2: "Play through courses as a student and track your own progress"
     update_account_students_can3: "Compete against classmates in arenas"
     update_account_students_can4: "Access new student-only features as we release them"
-    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
+    update_account_students_warning_new: "Warning: you will only be able to play the levels your teacher has assigned."
     unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
     update_account_remain_student: "Remain a Student"
     update_account_update_student: "Update to Student"
+    update_account_am_individual: "I am a individual"
+    update_account_no_classes: "Let me play independently but not join classes"
+    update_account_individuals_can: "Individual accounts can:"
+    update_account_individuals_can1: "Earn gems, experience, items, and heroes"
+    update_account_individuals_can2: "Play through the game as an individual and track your own progress"
+    update_account_individuals_can3: "Compete against the world in arenas"
+    update_account_individuals_can4: "Access new individual-only features as we release them"
+    update_account_individuals_warning_ozaria: "Warning: individual accounts cannot play Ozaria, only CodeCombat."
+    update_account_remain_individual: "Remain an Individual"
     need_a_class_code: "You'll need a Class Code for the class you're joining:"
     update_account_not_sure: "Not sure which one to choose? Email"
     update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
@@ -2149,7 +2167,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     removing_course: "Removing course"
     solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
     solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
-    solution_project_blurb: "Students are encouraged to build a creative project in this level. Please refer to curriculum guides in the Teacher Toolkit for information on how to evaluate these projects." # {change}
+    solution_project_blurb: "Students are encouraged to build a creative project in this level. Please refer to curriculum guides in the Teacher Toolkit for information on how to evaluate these projects."
     feedback_capstone: 'The student will create a base project in Part 1. They will make creative updates based on peer feedback in Part 2. Here is a <a target="_blank" rel="noopener" href="https://docs.google.com/document/d/1itB0vY6WphjINQYJ9NHkILATcLLlYD3GDSg6FJg55OQ">Peer Feedback Template</a> that you can share with your students.'
     students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
     course_solution: "Course Solution"
@@ -2302,7 +2320,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     view_project: "View Project"
     unpublished: "(unpublished)"
     view_arena_ladder: "View Arena Ladder"
-    resource_hub: "Teacher Toolkit" # {change}
+    resource_hub: "Teacher Toolkit"
     pacing_guides: "Classroom-in-a-Box Pacing Guides"
     pacing_guides_desc: "Learn how to incorporate all of CodeCombat's resources to plan your school year!"
     pacing_guides_elem: "Elementary School Pacing Guide"
@@ -2454,7 +2472,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_quest_add_students: "Add Students"
     teacher_quest_teach_methods: "Help your students learn how to `call methods`."
     teacher_quest_teach_methods_step1: "Get 75% of at least one class through the first level, Dungeons of Kithgard"
-    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](https://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Teacher Toolkit." # {change}
+    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](https://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Teacher Toolkit."
     teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
     teacher_quest_teach_strings_step1: "Get 75% of at least one class through True Names"
     teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview True Names."
@@ -2469,7 +2487,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_quest_kithgard_gates_100_step2: "Guide students to think through hard problems using the [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)."
     teacher_quest_wakka_maul_100: "Prepare to duel in Wakka Maul."
     teacher_quest_wakka_maul_100_step1: "Get 75% of at least one class to Wakka Maul."
-    teacher_quest_wakka_maul_100_step2: "See the [Arena Guide](/teachers/resources/arenas) in the [Teacher Toolkit](/teachers/resources) for tips on how to run a successful arena day." # {change}
+    teacher_quest_wakka_maul_100_step2: "See the [Arena Guide](/teachers/resources/arenas) in the [Teacher Toolkit](/teachers/resources) for tips on how to run a successful arena day."
     teacher_quest_reach_gamedev: "Explore new worlds!"
     teacher_quest_reach_gamedev_step1: "[Get licenses](/teachers/licenses) so that your students can explore new worlds, like Game Development and Web Development!"
     teacher_quest_done: "Want your students to learn even more code? Get in touch with our [school specialists](mailto:schools@codecombat.com) today!"
@@ -2491,7 +2509,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
     level_label: "Level:"
     time_played_label: "Time Spent:"
-    back_to_resource_hub: "Back to Teacher Toolkit" # {change}
+    back_to_resource_hub: "Back to Teacher Toolkit"
     back_to_course_guides: "Back to Course Guides"
     print_guide: "Print this guide"
     combo: "Combo"
@@ -2549,6 +2567,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_stats: "License Stats"
     redeemers: "Active Students"
     removed_redeemers: "Inactive Students"
+    latest_podcast_episode: "Latest Podcast Episode"
 
   teacher_licenses:
     active_licenses: "Active Licenses"
@@ -3601,6 +3620,96 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unit_10: "Unit 10: Post-AP"
     unit_10_activity_1: "Unit 10 Activity: Web Quiz"
 
+  apcsp_marketing:
+    course_outline_unit_1: "Unit 1"
+    course_outline_unit_2: "Unit 2"
+    course_outline_unit_3: "Unit 3"
+    course_outline_unit_4: "Unit 4"
+    course_outline_unit_5: "Unit 5"
+    course_outline_unit_6: "Unit 6"
+    course_outline_unit_7: "Unit 7"
+    course_outline_unit_8: "Unit 8"
+    course_outline_unit_9: "Unit 9"
+    course_outline_course_1: "Computer Science 1"
+    course_outline_course_2: "Computer Science 2"
+    course_outline_course_3: "Computer Science 3"
+    course_outline_course_4: "Computer Science 4"
+    course_outline_course_5: "Creative Development"
+    course_outline_course_6: "Data"
+    course_outline_course_7: "Computer Systems and Networks"
+    course_outline_course_8: "Impact of Computing"
+    course_outline_course_9: "Exam Prep"
+    course_outline_description_1: "Students begin the course focusing on creativity, problem solving, and the basic syntax of Python."
+    course_outline_description_2: "Students focus on designing and implementing algorithms using the building blocks of Python."
+    course_outline_description_3: "Students explore the concept of abstraction by developing their own abstractions inside program code."
+    course_outline_description_4: "Students apply their understanding of problem solving, algorithms, and abstractions to design and implement digital games."
+    course_outline_description_5: "Students use all that they have learned about Python to complete and submit their Create Performance Task."
+    course_outline_description_6: "Students learn how computers consume, transform, store, and produce new information in order to solve problems."
+    course_outline_description_7: "Students experience the power of sharing information via computer networks by learning about the Internet."
+    course_outline_description_8: "Students examine how computing has revolutionized our lives and society."
+    course_outline_description_9: "Students prepare to take the multiple choice section of the AP CSP exam."
+    icons_coding_levels: "150+ CodeCombat Coding Levels"
+    icons_lesson_slides: "60+ Turnkey Lesson Slides"
+    icons_kahoot: "400+ Kahoot! Quiz Questions"
+    icons_classroom_instructions: "100+ Hours of Classroom Instruction"
+    icons_weeks_of_curriculum: "26 Weeks of Curriculum"
+    icons_project_activities: "25+ Project-Based Activities"
+    icons_game_learning: "Game-Based Learning"
+    icons_text_coding: "Text-Based Coding"
+    icons_chromebook_compatible: "Chromebook Compatible"
+    icons_standards_aligned: "Standards-Aligned Lessons"
+    page_title: "AP Computer Science Principles"
+    page_description: "Our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam."
+    page_description_endorsed: "Endorsed by the College Board, our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam."
+    request_access: "Request Access"
+    game_based_learning: "Game-Based Learning"
+    game_based_learning_description: "Our innovative game-based learning technology has transformed the way students prepare for the AP CSP exam. Through our browser-based games, students learn about important exam topics while exercising the critical thinking skills that are necessary for success on the exam."
+    fostering_confidence: "Fostering Confidence in the AP Exam"
+    fostering_confidence_description: "With our curriculum, students will practice every stage of the Create Task through scaffolded and approachable capstone projects that can be adapted to a wide variety of student needs. We also provide curriculum and Kahoot! quizzes for students to practice multiple choice exam questions."
+    accessible_real_world: "Accessible & Real-World Connections"
+    accessible_real_world_description: "For Data, Impacts of Computing, and additional Big Ideas, our turnkey lesson slides help students explore these topics through meaningful discussions and collaborative projects. Filled with real-world connections, our curriculum will allow students to fully understand how coding affects their everyday lives."
+    college_board: "The College Board is currently reviewing our curriculum with an expected endorsement in March 2023."
+    our_curriculum_offers: "Our curriculum offers engaging features so that students explore and learn Computer Science through..."
+    course_outline: "Course Outline"
+    course_outline_description: "The following descriptions are an overview of the content explored in the CodeCombat AP CSP course."
+    explore_our_curriculum: "Explore Our Curriculum"
+    syllabus: "Syllabus"
+    pacing_guide: "Pacing Guide"
+    flyer: "Flyer"
+    sample_lesson_slides: "Browse through our sample lesson slides"
+    introduction_to_cs: "Introduction to Computer Science"
+    introduction_to_cs_description: "Syntax and Sequences"
+    big_ideas: "Big Ideas: Computer Systems and Networks"
+    big_ideas_description: "The Internet (Overview)"
+    get_full_course: "Get the full course here"
+    professional_development: "Professional Development"
+    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat learning designers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential."
+    more_information: "For More Information"
+    contact_us: "Contact Us"
+    question_1: "How can I learn more about the AP CSP Course?"
+    answer_1: "You can check out the College Board’s AP Computer Science Principles __course_overview__ and also explore the __outcomes__ for this course."
+    question_2: "What are the technology requirements for CodeCombat’s AP CSP curriculum?"
+    answer_2: "We recommend at least 4GB of RAM and using a modern browser such as Chrome, Safari, Firefox, or Edge. For additional specifics, please visit __coco_requirements__."
+    question_3: "What is the format of our lesson plans and lesson slides?"
+    answer_3: "All of our lesson slides are in the format of Google Slides and our lesson plans are in the format of Google Docs. These formats allow you to make copies of our curriculum so that you can adapt them to the needs of your students. Lesson slides and lesson plans can also be downloaded as Microsoft® PowerPoint and Word files."
+    course_overview: "Course Overview"
+    outcomes: "outcomes"
+    coco_requirements: "CodeCombat’s system requirements"
+    coco_recognized_blurb: "CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum."
+
+  apcsp_curriculum:
+    access_syllabus: "Access our __syllabus__"
+    college_board_approved_syllabus: "College Board approved Syllabus"
+    access_pacing_guide: "Review our suggested __pacing_guide__ which is based on five 50 minute class sessions per week"
+    pacing_guide: "Pacing Guide"
+    resources: "Explore each unit and its curriculum resources here:"
+    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__."
+    contact: "Contact __apcsp_email__ to get access."
+    role: "Role"
+    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form"
+    request_license: "Join Pilot Program"
+
+
   hoc_2019:
     heading: "Hour of Code"
     start: "Start Your Journey"
@@ -3888,7 +3997,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     add_classes: 'Add classes and get students started with the first free chapter!'
     all_classes: 'All Classes'
     my_licenses: 'My Licenses'
-    resource_hub: 'Teacher Toolkit' # {change}
+    resource_hub: 'Teacher Toolkit'
     pd: 'Professional Development'
     pd_short: 'PD'
     curriculum_guide: 'Curriculum Guide'
@@ -4136,6 +4245,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
+    season7_announcement_1: "Witness the dawn of a new challenge in the Equinox Cup! Season 7's tower defense arena offers a unique blend of strategy, monsters, and boss battles for you to conquer."
     season6_announcement_1: "It’s absolute Molten Mayhem with the launch of the Lava Lake Clash finals! Outlast and outwit the competition in this hot take on classic Snake gameplay."
     season6_announcement_2: "Note: arena balance adjustments may occur up until December 15th. So be sure to come back often to test your code against the global leaderboard."
     season5_announcement_1: "The Sandstorm Blitz Final is on. In this basketbrawl of an arena, you must summon the right heroes, call the right plays, and outscore your opponent to take the victory!"
@@ -4271,7 +4381,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     just: 'Just'
     teachers_upto: 'Teacher can purchase upto'
     great_courses: 'Great Courses included for'
-    studentLicense_successful: 'Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Teacher Toolkit to learn how to apply them to your students.' # {change}
+    studentLicense_successful: 'Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Teacher Toolkit to learn how to apply them to your students.'
     onlineClasses_successful: 'Congratulations! Your payment was successful. Our team will reach out to you with the next steps.'
     homeSubscriptions_successful: 'Congratulations! Your payment was successful. Your premium access will be available in few minutes.'
     failed: 'Your payment failed, please try again'

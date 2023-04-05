@@ -114,6 +114,8 @@ module.exports = {
   'views/play/SpectateView': function () { return import(/* webpackChunkName: "play" */ 'views/play/SpectateView') },
   'views/PageImpact': function () { return import(/* webpackChunkName: "PageImpact" */ 'views/impact/PageImpact') },
   'views/PagePartners': function () { return import(/* webpackChunkName: "PagePartners" */ 'views/partners/PagePartners') },
+  'views/PageAPCSPMarketing': function () { return import(/* webpackChunkName: "PageMarketing" */ 'views/apcsp/PageMarketing') },
+  'views/PageAPCSPCurriculum': function () { return import(/* webpackChunkName: "PageCurriculum" */ 'views/apcsp/PageCurriculum') },
   'views/PremiumFeaturesView': function () { return import(/* webpackChunkName: "PremiumFeaturesView" */ 'views/PremiumFeaturesView') },
   'views/PrivacyView': function () { return import(/* webpackChunkName: "PrivacyView" */ 'views/PrivacyView') },
   'views/courses/CoursesView': function () { return import(/* webpackChunkName: "courses" */ 'views/courses/CoursesView') },
