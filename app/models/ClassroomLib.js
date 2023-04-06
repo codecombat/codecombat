@@ -43,7 +43,8 @@ const ClassroomLib = {
     }
   },
 
-  setModifierForStudent: (classroom, studentId, courseId, levels = [], date = null, modifier, value) => {
+  // modifier possible values: 'locked', 'optional'
+  setModifierForStudent: ({ classroom, studentId, courseId, levels = [], date = null, modifier, value }) => {
     ClassroomLib.initializeLevelLockForStudent(classroom, studentId, courseId)
     levels.forEach(levelOriginal => {
       classroom.studentLockMap[studentId][`${modifier}Levels`][levelOriginal] = date || value
@@ -65,7 +66,7 @@ const ClassroomLib = {
     return courseToCheckIdx >= studentCourseIdx
   },
 
-  isModifierActiveForStudent: (classroomAttributes, studentId, courseIdToCheck, level, modifier, date = null) => {
+  isModifierActiveForStudent: (classroomAttributes, studentId, courseIdToCheck, level, modifier, modifierExpiryDate = null) => {
 
     if (!level) {
       return false
@@ -78,8 +79,9 @@ const ClassroomLib = {
       return ClassroomLib.isStudentOnLockedLevel(classroomAttributes, studentId, courseIdToCheck, level)
     }
 
-    if (date) {
-      if (new Date(value).toString() === date.toString()) {
+    // If we have a modifier expiry date, then we check if the modifier will expire at the given date.
+    if (modifierExpiryDate) {
+      if (new Date(value).toString() === modifierExpiryDate.toString()) {
         return true
       }
       return false
@@ -141,11 +143,11 @@ const ClassroomLib = {
     return false
   },
 
-  getStudentLockDate: (classroom, studentId, courseIdToCheck, level, date = null) => {
-    const studentCourseLocked = classroom.studentLockMap?.[studentId]?.lockedLevels?.[level]
+  getStudentLockDate: (classroom, studentId, level) => {
+    const lockedValue = classroom.studentLockMap?.[studentId]?.lockedLevels?.[level]
 
-    if (studentCourseLocked && typeof studentCourseLocked === 'string') {
-      return new Date(studentCourseLocked)
+    if (lockedValue && typeof lockedValue === 'string') {
+      return new Date(lockedValue)
     }
     return null
   }

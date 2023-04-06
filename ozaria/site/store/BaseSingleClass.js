@@ -199,7 +199,7 @@ export default {
       currentCourseId,
       onSuccess,
       modifiers = [],
-      value = true,
+      modifierValue = true, // true, false or Date
       levels = [],
       date
     }) {
@@ -221,10 +221,10 @@ export default {
 
       for (const modifier of modifiers) {
         for (const { _id } of students) {
-          // Only lock if this level is unlocked
 
+          // let's filter out the levels that are already has the same modifier
           const levelsToHandle = levels.filter((level) => {
-            if (value) {
+            if (modifierValue) {
               return !ClassroomLib.isModifierActiveForStudent(clonedClass, _id, currentCourseId, level, modifier, date)
             } else {
               return ClassroomLib.isModifierActiveForStudent(clonedClass, _id, currentCourseId, level, modifier, date)
@@ -236,7 +236,7 @@ export default {
             ((!levels || levels.length === 0) && !ClassroomLib.isStudentOnLockedCourse(clonedClass, _id, currentCourseId))
           ) {
             numberStudentsChanged += 1
-            ClassroomLib.setModifierForStudent(clonedClass, _id, currentCourseId, levelsToHandle, date, modifier, value)
+            ClassroomLib.setModifierForStudent({ classroom: clonedClass, studentId: _id, courseId: currentCourseId, levels: levelsToHandle, date, modifier, value: modifierValue })
           }
         }
       }

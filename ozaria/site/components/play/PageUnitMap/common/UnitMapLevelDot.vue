@@ -120,9 +120,21 @@ export default Vue.extend({
         if (this.levelData.locked) {
           this.levelStatus = 'Locked'
           this.levelStatusText = $.i18n.t('play_level.level_status_locked')
+          if(this.levelData.optional) {
+            this.levelStatusText = $.i18n.t('play_level.level_status_skipped')
+          }
         } else if (this.levelData.next || !this.levelData.complete) {
           this.levelStatus = 'In Progress'
-          this.levelStatusText = $.i18n.t('play_level.level_status_in_progress')
+          if(this.levelData.started) {
+            this.levelStatusText = $.i18n.t('play_level.level_status_in_progress')
+          } else {
+            if (this.levelData.optional) {
+              this.levelStatusText = $.i18n.t('play_level.level_status_optional')
+            } else {
+              this.levelStatusText = $.i18n.t('play_level.level_status_unlocked')
+            }
+          }
+          
         } else {
           this.levelStatus = 'Complete'
           this.levelStatusText = $.i18n.t('play_level.level_status_complete')

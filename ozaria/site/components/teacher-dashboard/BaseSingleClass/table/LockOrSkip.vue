@@ -68,7 +68,7 @@ export default {
             label: `${utils.courseAcronyms?.[this.selectedCourseId]}`
           })
         },
-        value: this.action.value,
+        modifierValue: this.action.value,
         date
       })
     }

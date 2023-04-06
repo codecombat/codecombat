@@ -117,7 +117,7 @@ function getLearningGoalsDocumentation (content) {
               const { original, fromIntroLevelOriginal } = content
               const normalizedOriginal = original || fromIntroLevelOriginal
               const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal,'locked')
-              const lockDate = ClassroomLib.getStudentLockDate(this.classroom, student._id, this.selectedCourseId, normalizedOriginal)
+              const lockDate = ClassroomLib.getStudentLockDate(this.classroom, student._id, normalizedOriginal)
               const isOptional = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal, 'optional')
 
               const isSkipped = isOptional && isLocked

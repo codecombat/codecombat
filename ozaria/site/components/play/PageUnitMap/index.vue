@@ -325,7 +325,7 @@ export default Vue.extend({
             previousLocked = true
           }
           previousOptional = optional
-
+          this.levels[level].optional = optional
           this.levels[level].locked = lock
         }
       },
@@ -338,8 +338,13 @@ export default Vue.extend({
 
       setCompletedLevels () {
         for (let level in this.levelStatusMap) {
-          if (this.levelStatusMap[level] === 'complete' && this.levels[level]) {
+          if(!this.levels[level]){
+            continue
+          }
+          if (this.levelStatusMap[level] === 'complete') {
             this.levels[level].complete = true
+          } else if (this.levelStatusMap[level] === 'started') {
+            this.levels[level].started = true
           }
         }
       }
