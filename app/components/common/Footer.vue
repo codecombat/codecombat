@@ -1,5 +1,5 @@
 <script>
-import { cocoBaseURL, CODECOMBAT, getQueryVariable, isCodeCombat, isOzaria, OZARIA, ozBaseURL } from 'core/utils'
+import { cocoBaseURL, getQueryVariable, isCodeCombat, isOzaria, ozBaseURL } from 'core/utils'
 import { mapGetters } from 'vuex'
 import FinalFooter from './FinalFooter'
 
@@ -83,25 +83,24 @@ export default Vue.extend({
           condition: true, // always display
           lists: [
             { url: this.cocoPath('/about'), title: 'nav.about', attrs: { 'data-event-action': 'Click: Footer About' } },
-            { url: 'https://codecombat.zendesk.com/hc/en-us', title: 'contact.faq', attrs: { target: '_blank', 'data-event-action': 'Click: Footer FAQ' } },
+            { url: 'https://codecombat.zendesk.com/hc/en-us', title: 'nav.help_center', attrs: { target: '_blank', 'data-event-action': 'Click: Footer Help Center' } },
             { url: this.cocoPath('/about#careers'), title: 'nav.careers' },
             { title: 'nav.contact', attrs: { class: 'contact-modal', tabindex: -1 }, hide: !me.isTeacher() },
             { title: 'nav.contact', url: 'mailto:support@codecombat.com', attrs: { tabindex: -1 }, hide: me.isTeacher() },
-            { url: this.cocoPath('/parents'), title: 'nav.parent' },
             { url: 'https://blog.codecombat.com/', title: 'nav.blog' }
           ]
         },
         {
           title: 'nav.educators',
-          condition: !me.isStudent(),
+          condition: !me.isStudent() && !me.isRegisteredHomeUser(),
           lists: [
-            { url: '/efficacy', title: 'efficacy.ozaria_efficacy', hide: this.isCodeCombat},
-            { url: '/impact', title: 'nav.impact', hide: this.isOzaria },
+            { url: '/efficacy', title: 'nav.research_efficacy', hide: this.isCodeCombat },
+            { url: '/impact', title: 'nav.research_impact', hide: this.isOzaria },
             { url: '/teachers/resources', title: 'nav.resource_hub' },
             { url: '/teachers/classes', title: 'nav.my_classrooms' },
+            { url: '/pricing', title: 'nav.pricing', hide: true },
             { url: this.ozPath('/'), title: 'new_home.try_ozaria', attrs: { 'data-event-action': 'Click: Footer Try Ozaria' }, hide: this.isOzaria},
             { url: this.cocoPath('/'), title: 'nav.return_coco', attrs: { 'data-event-action': 'Click: Footer Return to CodeCombat' }, hide: this.isCodeCombat},
-            { url: this.cocoPath('/partners'), title: 'nav.partnerships' },
             { url: this.cocoPath('/podcast'), title: 'nav.podcast' }
           ]
         },
@@ -112,9 +111,22 @@ export default Vue.extend({
             { url: 'https://github.com/codecombat/codecombat', extra: 'GitHub' },
             { url: this.cocoPath('/community'), title: 'nav.community' },
             { url: this.cocoPath('/contribute'), title: 'nav.contribute' },
-            { url: this.cocoPath('/league'), title: 'nav.esports' },
             { url: this.forumLink, title: 'nav.forum', attrs: { target: '_blank' }, hide: me.isStudent() || !me.showForumLink() },
             { url: this.apiLink, title: 'nav.api', attrs: { target: '_blank' }, hide: me.isStudent() }
+          ]
+        },{
+          title: 'nav.products',
+          condition: true,
+          lists: [
+            { url: this.ozPath('/'), title: 'nav.ozaria_classroom' },
+            { url: this.cocoPath('/impact'), title: 'nav.codecombat_classroom' },
+            { url: this.ozPath('/professional-development'), title: 'nav.professional_development' },
+            { url: this.cocoPath('/parents'), title: 'nav.live_online_classes' },
+            { url: this.cocoPath('/premium'), title: 'nav.codecombat_home' },
+            { url: this.cocoPath('/league'), title: 'nav.esports' },
+            { url: this.cocoPath('/partners'), title: 'nav.partnerships' },
+            { url: this.cocoPath('/libraries'), title: 'nav.libraries' },
+            { url: this.cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' },
           ]
         }
       ]
@@ -195,16 +207,12 @@ export default Vue.extend({
 
     /**
      * This is used to highlight footer routes we are currently on.
-     * It can optionally also check if the user is on codecombat or ozaria.
      */
-    checkLocation (route, host = undefined) {
-      let hostCheck = true
-      if (host === CODECOMBAT) {
-        hostCheck = this.isCodeCombat
-      } else if (host === OZARIA) {
-        hostCheck = this.isOzaria
-      }
-      return hostCheck && document.location.href.search(route) >= 0
+    checkLocation (route) {
+      const location = document.location.href
+          .replace(document.location.hash, '')
+          .replace(document.location.search, '')
+      return route === new URL(location).pathname
     },
 
     /**
@@ -232,52 +240,22 @@ export default Vue.extend({
 footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="footerEvent")
   .container(v-if="!hideFooter")
     .row
-      .col-lg-12
-        .row
-          .col-lg-3(v-for="col in footerUrls" v-if="col.condition" :class="!col.lists.length ? 'shrunken-empty-column' : ''")
+      .col-lg-12.footer-links
+        .row.footer-links__row
+          .col.footer-links__col(v-for="col in footerUrls" v-if="col.condition" :class="!col.lists.length ? 'shrunken-empty-column' : ''")
             h3 {{ $t(col.title) }}
             ul.list-unstyled
               li(v-for="l in col.lists" v-if="!l.hide")
-                a(:href="l.url" v-bind="l.attrs") {{ $t(l.title) }}
+                a(v-if="!checkLocation(l.url)" :href="l.url" v-bind="l.attrs") {{ $t(l.title) }}
                   span.spr(v-if="l.extra") {{ l.extra }}
+                span.active(v-if="checkLocation(l.url)") {{ $t(l.title) }}
+                  span.spr(v-if="l.extra") {{ l.extra }}
+
               li(v-if="col.title === 'nav.general'")
                 mklog-ledger(v-pre organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W' kind='popper')
                   a(href="#changelog")
                     span Changelog
                     mklog-since-last-viewed(v-pre organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W', color="candy")
-          .col-lg-3
-            template(v-if="!me.showingStaticPagesWhileLoading() && me.useSocialSignOn()")
-              h3 {{ $t("nav.follow_us") }}
-              div.social-buttons
-                a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA" target="_blank" data-event-action="Click: Footer Youtube")
-                  img(src="/images/pages/base/youtube_symbol_button.png" width="40" alt="YouTube")
-                a(href="https://twitter.com/codecombat" target="_blank" data-event-action="Click: Footer Twitter")
-                  img(src="/images/pages/base/twitter_logo_btn.png" width="40" alt="Twitter")
-                a(href="https://www.facebook.com/codecombat" target="_blank" data-event-action="Click: Footer Facebook")
-                  img(src="/images/pages/base/facebook_logo_btn.png" width="40" alt="Facebook")
-                a(href="https://www.instagram.com/codecombat/" target="_blank" data-event-action="Click: Footer Instagram")
-                  img(src="/images/pages/base/instagram-logo.png" width="40" alt="Instagram")
-            template(v-if="me.showChinaResourceInfo()")
-              h3 {{ $t("nav.follow_us") }}
-              .follow_us
-                .socialicon
-                  .si.si-wechat
-                    .mpqrcode(v-if="isChinaHome")
-                      img.mpqr(src="https://assets.koudashijie.com/images/homeVersion/mpqr.jpeg")
-                    .mpqrcode(v-else)
-                      .span
-                        span='老师请扫'
-                        img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
-                      .span
-                        span='家长请扫'
-                        img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode-xuetang.jpeg")
-                  template(v-if="!isChinaHome")
-                    .si.si-tiktok
-                      .tkqrcode
-                        img.tkqr(src="https://assets.koudashijie.com/images/home/tiktokqr.jpg")
-                    a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
-                    a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
-
   final-footer
 </template>
 
@@ -335,9 +313,11 @@ footer#site-footer
 
   a
     color: white
+  .active
+    color: $teal
 
   .social-buttons > a
-    margin-right: 20px
+    margin-right: 10px
 
   .small
     color: rgba(255,255,255,0.8)
@@ -397,6 +377,24 @@ footer#site-footer
         display: flex
         flex-direction: column
         align-items: center
+
+  .footer-links
+    &__row
+      display: flex
+      flex-wrap: wrap
+      margin-left: -15px
+      margin-right: -15px
+      justify-content: space-between
+    &__col
+      padding-left: 15px
+      padding-right: 15px
+      max-width: 25%
+      @media (max-width: $screen-sm-min)
+        flex: 0 0 50%
+        max-width: 50%
+      @media (max-width: $screen-xs-min)
+        flex: 0 0 100%
+        max-width: 100%
 
   #final-footer
     padding: 20px 70px 14px
