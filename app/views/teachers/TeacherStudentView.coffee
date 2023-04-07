@@ -47,7 +47,7 @@ module.exports = class TeacherStudentView extends RootView
         @aceDiffs?[levelOriginal].editors.left.ace.setValue(code, -1)
       else
         levelOriginal = link.attr('id').split('-')[0].slice(0, -1)
-        solutions = @levelSolutionsMap[levelOriginal]
+        solutions = if @paidTeacher then view.levelSolutionsMap[levelOriginal] else [{source: $.i18n.t('teachers.not_allow_to_solution') }]
         @aceDiffs?[levelOriginal].editors.right.ace.setValue(solutions[solutionIndex].source, -1)
     tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
@@ -66,6 +66,7 @@ module.exports = class TeacherStudentView extends RootView
     @listenToOnce @classroom, 'sync', @onClassroomSync
     @supermodel.trackRequest(@classroom.fetch())
     @isCreativeLevelMap = {}
+    @paidTeacher = me.isAdmin() or me.isPaidTeacher()
 
     if @studentID
       @user = new User({ _id: @studentID })
@@ -157,7 +158,7 @@ module.exports = class TeacherStudentView extends RootView
       @$el.find('div[class*="ace-diff-"]').each ->
         cls = $(@).attr('class')
         levelOriginal = cls.split('-')[2]
-        solutions = view.levelSolutionsMap[levelOriginal]
+        solutions = if @paidTeacher then view.levelSolutionsMap[levelOriginal] else [{source: $.i18n.t('teachers.not_allow_to_solution') }]
         studentCode = view.levelStudentCodeMap[levelOriginal]
         lang = classLang
         if [utils.courseIDs.WEB_DEVELOPMENT_1, utils.courseIDs.WEB_DEVELOPMENT_2].indexOf(view.selectedCourseId) != -1
@@ -166,6 +167,8 @@ module.exports = class TeacherStudentView extends RootView
           element: '.' + cls
           mode: 'ace/mode/' +classLang
           theme: 'ace/theme/textmate'
+          showDiffs: @paidTeacher
+          showConnectors: @paidTeacher
           left: {
             content: view.levels.fingerprint(studentCode?[0]?.plan ? '', lang)
             editable: false

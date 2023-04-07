@@ -1588,6 +1588,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     error_in_importing_students: "Error in importing students"
     classroom_items_description: "Whether students should earn gems and equip items during gameplay."
     classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled."
+    not_allow_to_solution: '# Licenses needed to view solutions'
 
   no_licenses_page:
     are_your_students_ready: "Are your students excited and ready to learn more?"
