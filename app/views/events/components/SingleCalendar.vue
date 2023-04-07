@@ -5,6 +5,8 @@
 <script>
 import Calendar from '@event-calendar/core'
 import DayGrid from '@event-calendar/day-grid'
+import TimeGrid from '@event-calendar/time-grid'
+import List from '@event-calendar/list'
 import Interaction from '@event-calendar/interaction'
 import randomColor from 'randomcolor'
 import moment from 'moment'
@@ -53,7 +55,9 @@ export default {
       return {
         view: 'dayGridMonth',
         scrollTime: '09:00:00',
+        height: '800px',
         eventSources: [{ events: that.createEvents }],
+        headerToolbar: { start: 'today', center: 'title', end: 'dayGridMonth,timeGridWeek,listWeek prev,next' },
         pointer: true,
         displayEventEnd: true,
         /* eventTimeFormat (time) {
@@ -64,16 +68,15 @@ export default {
           case 'background':
             return ''
           case 'pointer':
-            return '<div class="ec-event-empty icon-plus blue" />'
+            return { html: '<div class="ec-event-empty icon-plus blue" />' }
           default:
-            return '<div class="ec-event-time">' + info.timeText + '</div>' +
-              '<div class="ec-event-title">' + info.event.title + '</div>'
+            return { html: '<div class="ec-event-time">' + info.timeText + '</div>' +
+              '<div class="ec-event-title">' + info.event.title + '</div>' }
           }
         },
         eventClick (info) {
-          console.log('date info:', info)
           if (info.event.display === 'pointer') {
-            that.openEventPanel({ type: 'new' })
+            that.openEventPanel({ type: 'new', date: info.event.start })
           } else {
             if (me.isAdmin()) {
               that.openEventPanel({ type: 'instance', instance: info.event })
@@ -113,7 +116,7 @@ export default {
     this.ec = new Calendar({
       target: document.querySelector('#calendar'),
       props: {
-        plugins: [DayGrid, Interaction],
+        plugins: [DayGrid, TimeGrid, List, Interaction],
         options: this.calendarOptions()
       }
     })

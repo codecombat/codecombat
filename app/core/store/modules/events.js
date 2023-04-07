@@ -19,6 +19,7 @@ export default {
     eventPanel: {
       visible: false,
       type: 'info',
+      clickedDate: undefined,
       editableEvent: undefined,
       editableInstance: undefined
     },
@@ -35,6 +36,9 @@ export default {
     },
     eventPanelType (state) {
       return state.eventPanel.type
+    },
+    eventPanelDate (state) {
+      return state.eventPanel.clickedDate
     },
     eventPanelEvent (state) {
       return state.eventPanel.editableEvent
@@ -78,8 +82,9 @@ export default {
       }
       Vue.set(state.eventPanel, 'editableEvent', event)
     },
-    openPanel (state, type = 'info') {
+    openPanel (state, { type = 'info', date = undefined }) {
       Vue.set(state.eventPanel, 'type', type)
+      Vue.set(state.eventPanel, 'clickedDate', date)
       Vue.set(state.eventPanel, 'visible', true)
     },
     changeEventPanelTab (state, type = 'edit') {
@@ -93,9 +98,9 @@ export default {
     }
   },
   actions: {
-    openEventPanel ({ commit }, { type = 'info', eventId = undefined, event = undefined, instance = undefined } = {}) {
+    openEventPanel ({ commit }, { type = 'info', date = undefined, eventId = undefined, event = undefined, instance = undefined } = {}) {
       commit('selectEvent', { event, instance })
-      commit('openPanel', type)
+      commit('openPanel', { type, date })
     },
     async fetchAllEvents ({ commit }) {
       const events = await getAllEvents()
@@ -121,25 +126,25 @@ export default {
       commit('setEvent', event)
     },
     async saveEvent ({ commit }, event) {
-      await postEvent(event)
+      return await postEvent(event)
     },
     async editEvent ({ commit }, event) {
-      await updateEvent(event._id, event)
+      return await updateEvent(event._id, event)
     },
     async addEventMember ({ commit }, { eventId, member } = {}) {
-      await postEventMember(eventId, member)
+      return await postEventMember(eventId, member)
     },
     async editEventMember ({ commit }, { eventId, member } = {}) {
-      await putEventMember(eventId, member)
+      return await putEventMember(eventId, member)
     },
     async delEventMember ({ commit }, {eventId, member} = {}) {
-      await deleteEventMember(eventId, member)
+      return await deleteEventMember(eventId, member)
     },
     async syncToGoogleFailed ({ commit }, eventId) {
-      await syncToGoogleFailed(eventId)
+      return await syncToGoogleFailed(eventId)
     },
     async saveInstance ({ commit }, instance) {
-      await putInstance(instance._id, instance)
+      return await putInstance(instance._id, instance)
     },
     async fetchMemberNames ({ getters, commit }) {
       const names = await getFullNames({ ids: getters.allMemberIds, from: 'online-classes' })
@@ -149,7 +154,6 @@ export default {
 
     async importMembersFromClass ({ commit }, { classCode }) {
       const members = await getMembersByClassCode(classCode)
-      console.log('mem', members, typeof members)
       return members
     },
   }

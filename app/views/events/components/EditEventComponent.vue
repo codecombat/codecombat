@@ -86,7 +86,7 @@ export default {
           if (this.event.syncedToGC && !this.propsEvent?.syncedToGC) {
             this.syncToGoogleCalendar()
           }
-          this.$emit('save', this.event._id)
+          this.$emit('save', res._id)
           this.inProgress = false
         }).catch(err => {
           this.errorMessage = err.message
@@ -104,7 +104,13 @@ export default {
       }
     },
     eventUpdate () {
-      const sDate = moment().set('minutes', 0).set('seconds', 0)
+      const now = new Date()
+      let date;
+      if (this.clickedDate) {
+        date = new Date(this.clickedDate).setHours(now.getHours())
+      }
+      console.log("date?", date, now)
+      const sDate = moment(date || now).set('minutes', 0).set('seconds', 0)
       if (this.editType === 'new') {
         this.event = {
           members: [],
@@ -121,6 +127,7 @@ export default {
   computed: {
     ...mapGetters({
       propsEvent: 'events/eventPanelEvent',
+      clickedDate: 'events/eventPanelDate',
       rrule: 'rruleGenerator/rule'
     }),
     me () {
@@ -151,6 +158,14 @@ export default {
       set (val) {
         // use _startDate here since startDate and endDate share the date
         this.$set(this.event, 'endDate', moment(`${this._startDate} ${val}`).toDate())
+      }
+    },
+    _gcEmails: {
+      get () {
+        return (this.event.gcEmails || []).join('\n')
+      },
+      set (val) {
+        this.$set(this.event, 'gcEmails', val.split(/\n|,/).map(e => e.trim()))
       }
     },
     rruleStart () {
@@ -244,6 +259,16 @@ export default {
           :disabled="propsEvent?.syncedToGC"
         >
       </div>
+      <div class="form-group" v-if="event.syncedToGC">
+        <label for="gcEmails">{{$t('events.google_calendar_attendees')}} </label>
+        <textarea
+          id="gcEmails"
+          v-model="_gcEmails"
+          class="form-control"
+          name="gcEmails"
+          placeholder="List emails here to get notification by google calendar, split by newline or comma"
+        />
+      </div>
       <div class="form-group pull-right">
         <span
           v-if="isSuccess"
@@ -284,6 +309,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-/* @import '~vue2-rrule-generator/dist/vue2-rrule-generator.css'; */
-/* @import '~vue2-timepicker/dist/VueTimepicker.css'; */
+#gcEmails {
+  height: 10em;
+}
 </style>

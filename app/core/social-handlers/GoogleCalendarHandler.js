@@ -31,9 +31,7 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
     })
   }
   syncCalendarsToAPI (event) {
-    console.log("debgu: sync events to google")
     const convertEvent = (e) => {
-      console.log("debug: convert event", e)
       const res = {
         summary: e.name,
         start: {
@@ -47,9 +45,10 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
         recurrence: [
           e.rrule.replace(/DTSTART:.*?\n/, '')
         ],
-        // if any of students also has gmail?
-        // attendees: [
-        // ],
+        // TODO: if any of students also has email?
+        attendees: [
+          ...event.gcEmails
+        ],
         reminders: {
           useDefault: false,
           overrides: [

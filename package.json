@@ -187,6 +187,8 @@
     "@event-calendar/core": "^0.13.4",
     "@event-calendar/day-grid": "^0.13.4",
     "@event-calendar/interaction": "^0.13.4",
+    "@event-calendar/list": "^0.17.0",
+    "@event-calendar/time-grid": "^0.17.0",
     "@vue/test-utils": "^1.0.0-beta.28",
     "babel-loader": "^8.2.5",
     "bower": "~1.8.8",
