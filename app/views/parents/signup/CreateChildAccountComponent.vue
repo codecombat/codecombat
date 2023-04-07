@@ -15,8 +15,8 @@
         <input type="text" id="name" class="form-control" v-model="name" />
       </div>
       <div class="form-group">
-        <label for="name">Username</label>
-        <input type="text" id="name" class="form-control" v-model="name" />
+        <label for="uname">Username</label>
+        <input type="text" id="uname" class="form-control" v-model="name" />
       </div>
       <div class="form-group">
         <label for="email">Email</label>
@@ -24,11 +24,11 @@
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="text" id="password" class="form-control" v-model="password" />
+        <input type="password" id="password" class="form-control" v-model="password" />
       </div>
       <div class="form-group">
-        <label for="name">Birthday</label>
-        <input type="text" id="name" class="form-control" v-model="birthday" />
+        <label for="bday">Birthday</label>
+        <input type="text" id="bday" class="form-control" v-model="birthday" />
       </div>
       <div class="form-group account__submit">
         <button class="btn account__back--btn" @click.prevent="onBackButton">Back</button>
@@ -36,7 +36,6 @@
       </div>
     </form>
   </div>
-
 </template>
 
 <script>

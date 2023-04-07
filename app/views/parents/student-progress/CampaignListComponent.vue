@@ -48,7 +48,7 @@ export default {
 .campaigns {
   list-style: none;
   display: flex;
-  justify-content: space-evenly;
+  //justify-content: space-evenly;
   margin-bottom: 0;
 
   font-size: 1.4rem;
@@ -65,20 +65,42 @@ export default {
 
   cursor: pointer;
 
-  //&::before {
-  //  content: "";
-  //  height: 1px;
-  //  width: 100%;
-  //  display: block;
-  //  background-color: #C8CDCC;
-  //  transform: translateX(100%) translateY(.5rem);
-  //}
-  //
-  //&:last-child {
-  //  &::before {
-  //    width: 0;
-  //  }
-  //}
+  position: relative;
+  flex-grow: 1;
+
+  &::before {
+    content: "";
+    height: 1px;
+    width: 50%;
+    display: block;
+    background-color: #C8CDCC;
+    position: absolute;
+    right: 0;
+    top: 10%;
+  }
+
+  &::after {
+    content: "";
+    height: 1px;
+    width: 50%;
+    display: block;
+    background-color: #C8CDCC;
+    position: absolute;
+    left: 0;
+    top: 10%;
+  }
+
+  &:last-child {
+    &::before {
+      width: 0;
+    }
+  }
+
+  &:first-child {
+    &::after {
+      width: 0;
+    }
+  }
 
   &__dot {
     width: 1rem;
@@ -87,6 +109,7 @@ export default {
     border: 1.5px solid #C8CDCC;
     border-radius: 1rem;
     margin-bottom: 1rem;
+    z-index: 1;
   }
 }
 </style>

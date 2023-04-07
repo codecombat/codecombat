@@ -5,7 +5,8 @@
     </div>
     <create-parent-account-component
       v-if="currentView === 'create-parent-account'"
-      @onParentAccountSuccess="onParentAccountSuccess"
+      @onParentAccountSubmit="onParentAccountSubmit"
+      :initial-data="parentAccountData"
     />
     <create-child-account-component
       v-if="currentView === 'create-child-account'"
@@ -24,7 +25,8 @@ export default {
   name: 'SignupView',
   data () {
     return {
-      currentView: 'create-parent-account'
+      currentView: 'create-parent-account',
+      parentAccountData: null
     }
   },
   components: {
@@ -32,7 +34,24 @@ export default {
     CreateChildAccountComponent
   },
   methods: {
-    onParentAccountSuccess () {
+    async onParentAccountSubmit (data) {
+      console.log('parent account data', data)
+      this.parentAccountData = data
+      try {
+        await me.signupWithPassword(
+          data.name,
+          data.email,
+          data.password,
+          {
+            role: 'parent-home'
+          }
+        )
+      } catch (err) {
+        console.error('failed to create user', err)
+        noty({ text: err?.message || err?.responseJSON?.message || 'Internal error', type: 'error', layout: 'center', timeout: 5000 })
+        return
+      }
+      me.fetch({ cache: false })
       this.currentView = 'create-child-account'
     }
   }

@@ -9,20 +9,20 @@
     <form class="account__form" @submit.prevent="onFormSubmit">
       <div class="form-group">
         <label for="name">Parent's Full Name</label>
-        <input type="text" id="name" class="form-control" v-model="name" />
+        <input type="text" id="name" class="form-control" v-model="name" required />
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" class="form-control" v-model="email" />
+        <input type="email" id="email" class="form-control" v-model="email" required />
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="text" id="password" class="form-control" v-model="password" />
+        <input type="password" id="password" class="form-control" v-model="password" required />
       </div>
-      <div class="form-group">
-        <label for="phone">Phone</label>
-        <input type="text" id="phone" class="form-control" v-model="phone" />
-      </div>
+<!--      <div class="form-group">-->
+<!--        <label for="phone">Phone</label>-->
+<!--        <input type="text" id="phone" class="form-control" v-model="phone" required />-->
+<!--      </div>-->
       <div class="account__empty-line"></div>
       <div class="form-group account__google">
         <span class="account__or">Or:</span>
@@ -41,17 +41,22 @@ export default {
   name: 'CreateParentAccountComponent',
   data () {
     return {
-      name: null,
-      email: null,
+      name: this.$props?.initialData?.name,
+      email: this.$props?.initialData?.email,
       password: null,
-      phone: null,
+      // phone: this.$props?.initialData?.phone,
       gplusBtnDisabled: true
+    }
+  },
+  props: {
+    initialData: {
+      type: Object
     }
   },
   methods: {
     onFormSubmit () {
-      console.log('parent account form submitted')
-      this.$emit('onParentAccountSuccess')
+      console.log('parent account form submitted', this.$data)
+      this.$emit('onParentAccountSubmit', this.$data)
     }
   },
   created () {
