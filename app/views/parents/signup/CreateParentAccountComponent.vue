@@ -1,5 +1,8 @@
 <template>
-  <div class="account">
+  <div
+    v-if="isAnonymousUser"
+    class="account"
+  >
     <div class="account__heading">
       Parent Account Creation
     </div>
@@ -33,6 +36,14 @@
       </div>
     </form>
   </div>
+  <div
+    v-else
+    class="account"
+  >
+    <p class="account__exists">
+      Already logged in!!!
+    </p>
+  </div>
 </template>
 
 <script>
@@ -45,7 +56,8 @@ export default {
       email: this.$props?.initialData?.email,
       password: null,
       // phone: this.$props?.initialData?.phone,
-      gplusBtnDisabled: true
+      gplusBtnDisabled: true,
+      isAnonymousUser: me.isAnonymous()
     }
   },
   props: {
@@ -95,6 +107,11 @@ export default {
 
     margin-top: 2rem;
     margin-bottom: 2rem;
+  }
+
+  &__exists {
+    font-size: 3rem;
+    text-transform: uppercase;
   }
 }
 </style>

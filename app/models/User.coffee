@@ -841,6 +841,12 @@ module.exports = class User extends CocoModel
     options.data ?= body
     @fetch(options)
 
+  createAndAssociateAccount: (body, options = {}) ->
+    options.url = '/db/user/related-accounts/associate-account'
+    options.type = 'PUT'
+    options.data ?= body
+    @fetch(options)
+
   lastClassroomItems: ->
     # We don't always have a classroom at hand, so whenever we do interact with a classroom, we can temporarily store the classroom items setting
     return @lastClassroomItemsCache if @lastClassroomItemsCache?

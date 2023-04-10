@@ -16,7 +16,7 @@
       </div>
       <div class="form-group">
         <label for="uname">Username</label>
-        <input type="text" id="uname" class="form-control" v-model="name" />
+        <input type="text" id="uname" class="form-control" v-model="username" />
       </div>
       <div class="form-group">
         <label for="email">Email</label>
@@ -26,10 +26,10 @@
         <label for="password">Password</label>
         <input type="password" id="password" class="form-control" v-model="password" />
       </div>
-      <div class="form-group">
-        <label for="bday">Birthday</label>
-        <input type="text" id="bday" class="form-control" v-model="birthday" />
-      </div>
+<!--      <div class="form-group">-->
+<!--        <label for="bday">Birthday</label>-->
+<!--        <input type="text" id="bday" class="form-control" v-model="birthday" />-->
+<!--      </div>-->
       <div class="form-group account__submit">
         <button class="btn account__back--btn" @click.prevent="onBackButton">Back</button>
         <button class="btn account__submit__btn" type="submit">Continue</button>
@@ -55,7 +55,8 @@ export default {
       console.log('link account clicked')
     },
     onFormSubmit () {
-      console.log('child account submit')
+      console.log('child account submit', this.$data)
+      this.$emit('onChildAccountSubmit', this.$data)
     },
     onBackButton () {
       this.$emit('backButtonClicked')

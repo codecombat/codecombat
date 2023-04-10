@@ -11,6 +11,7 @@
     <create-child-account-component
       v-if="currentView === 'create-child-account'"
       @backButtonClicked="currentView = 'create-parent-account'"
+      @onChildAccountSubmit="onChildAccountSubmit"
     />
     <div class="signup__image signup__image--2">
       <img src="/images/pages/home-v2/loc-image.png" alt="Girl playing CodeCombat" class="signup__img img-responsive">
@@ -21,12 +22,14 @@
 <script>
 import CreateParentAccountComponent from './signup/CreateParentAccountComponent'
 import CreateChildAccountComponent from './signup/CreateChildAccountComponent'
+
 export default {
   name: 'SignupView',
   data () {
     return {
       currentView: 'create-parent-account',
-      parentAccountData: null
+      parentAccountData: null,
+      childAccountData: null
     }
   },
   components: {
@@ -37,22 +40,41 @@ export default {
     async onParentAccountSubmit (data) {
       console.log('parent account data', data)
       this.parentAccountData = data
+      this.currentView = 'create-child-account'
+    },
+    async onChildAccountSubmit (data) {
+      this.childAccountData = data
+      console.log('childAccountData', data)
+      // create parent account
       try {
-        await me.signupWithPassword(
-          data.name,
-          data.email,
-          data.password,
-          {
-            role: 'parent-home'
-          }
-        )
+        if (me.isAnonymous()) {
+          me.set('role', 'parent-home')
+          await me.save()
+          const parent = this.parentAccountData
+          await me.signupWithPassword(
+            parent.name,
+            parent.email,
+            parent.password
+          )
+        }
       } catch (err) {
-        console.error('failed to create user', err)
-        noty({ text: err?.message || err?.responseJSON?.message || 'Internal error', type: 'error', layout: 'center', timeout: 5000 })
+        console.error('failed to create parent user', err)
+        const msg = err?.message || `Parent user: ${err?.responseJSON?.message}` || 'Internal error'
+        noty({ text: msg, type: 'error', layout: 'center', timeout: 5000 })
         return
       }
-      me.fetch({ cache: false })
-      this.currentView = 'create-child-account'
+
+      try {
+        await me.createAndAssociateAccount({
+          ...this.childAccountData,
+          relation: 'children'
+        })
+      } catch (err) {
+        console.error('failed to create child user', err)
+        const msg = err?.message || `Child user: ${err?.responseJSON?.message}` || 'Internal error'
+        noty({ text: msg, type: 'error', layout: 'center', timeout: 5000 })
+      }
+      window.location = '/parents/dashboard'
     }
   }
 }
