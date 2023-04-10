@@ -821,6 +821,10 @@ module.exports = class User extends CocoModel
     options.data ?= body
     @fetch(options)
 
+  getRelatedAccounts: (body, options = {}) ->
+    options.url = '/db/user/related-accounts/details'
+    @fetch(options)
+
   getTestStudentId: ->
     testStudentRelation = (@get('related') or []).filter((related) => related.relation == 'TestStudent')[0]
     if testStudentRelation

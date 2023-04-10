@@ -1,13 +1,24 @@
 <template>
   <div class="parent-container">
-    <sidebar-component />
+    <sidebar-component
+      :children="children"
+      @onAddAnotherChild="onAddAnotherChildClicked"
+    />
     <header-component />
     <student-progress-view
-      v-if="viewName === 'dashboard'"
+      v-if="selectedView === 'dashboard'"
     />
     <student-summary-view
-      v-if="viewName === 'summary'"
+      v-if="selectedView === 'summary'"
     />
+    <div
+      v-if="selectedView === 'add-another-child'"
+      class="create-child"
+    >
+      <create-child-account-component
+        @onChildAccountSubmit="onChildAccountSubmit"
+      />
+    </div>
   </div>
 </template>
 
@@ -16,6 +27,8 @@ import SidebarComponent from './SidebarComponent'
 import HeaderComponent from './HeaderComponent'
 import StudentProgressView from './StudentProgressView'
 import StudentSummaryView from './StudentSummaryView'
+import CreateChildAccountComponent from './signup/CreateChildAccountComponent'
+import createChildAccountMixin from './mixins/createChildAccountMixin'
 
 export default {
   name: 'DashboardMainView',
@@ -25,11 +38,34 @@ export default {
       default: 'dashboard'
     }
   },
+  data () {
+    return {
+      children: [],
+      selectedView: this.viewName
+    }
+  },
+  mixins: [
+    createChildAccountMixin
+  ],
   components: {
     StudentSummaryView,
     SidebarComponent,
     HeaderComponent,
-    StudentProgressView
+    StudentProgressView,
+    CreateChildAccountComponent
+  },
+  async created () {
+    const resp = await me.getRelatedAccounts()
+    const relatedAccounts = resp.data || []
+    this.children = relatedAccounts.filter(r => r.relation === 'children')
+  },
+  methods: {
+    onAddAnotherChildClicked () {
+      this.selectedView = 'add-another-child'
+    },
+    onChildAccountSubmit (data) {
+      this.onChildAccountSubmitHelper(data)
+    }
   }
 }
 </script>
@@ -44,5 +80,11 @@ export default {
   //grid-template-rows: minmax(30rem, min-content);
   //grid-template-rows: 1fr 3fr;
   grid-template-rows: repeat(2, minmax(min-content, max-content));
+}
+
+.create-child {
+  grid-column: main-start 2 / main-start 6;
+
+  margin: 2rem;
 }
 </style>

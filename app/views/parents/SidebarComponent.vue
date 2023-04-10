@@ -4,8 +4,16 @@
       <div class="sidebar__child">
         <select name="child-select" id="sidebar__child__select-id" class="sidebar__child__select">
           <optgroup>
-            <option value="Saurabh" class="sidebar__child__option" selected>Saurabh</option>
-            <option value="No other children added" class="sidebar__child__option" disabled>No other children added</option>
+            <option
+              v-for="(child, index) in children"
+              :key="index"
+              :value="child.broadName"
+              class="sidebar__child__option"
+              :selected="index === 0">
+              {{ child.broadName }}
+            </option>
+            <option value="No other children added" class="sidebar__child__option" disabled v-if="children.length > 0">No other children added</option>
+            <option value="No children added" class="sidebar__child__option" disabled v-if="children.length === 0" :selected="children.length === 0">No children added</option>
           </optgroup>
         </select>
       </div>
@@ -28,7 +36,12 @@
         </li>
       </ul>
       <div class="sidebar__add-child">
-        <button class="sidebar__add-child__btn">Add another child</button>
+        <button
+          class="sidebar__add-child__btn"
+          @click.prevent="onAddAnotherChild"
+        >
+          Add another child
+        </button>
       </div>
     </div>
     <div class="sidebar__bottom">
@@ -40,7 +53,18 @@
 
 <script>
 export default {
-  name: 'SidebarComponent'
+  name: 'SidebarComponent',
+  props: {
+    children: {
+      type: Array,
+      required: true
+    }
+  },
+  methods: {
+    onAddAnotherChild () {
+      this.$emit('onAddAnotherChild')
+    }
+  }
 }
 </script>
 

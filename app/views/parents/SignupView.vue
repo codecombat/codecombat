@@ -22,6 +22,7 @@
 <script>
 import CreateParentAccountComponent from './signup/CreateParentAccountComponent'
 import CreateChildAccountComponent from './signup/CreateChildAccountComponent'
+import createChildAccountMixin from './mixins/createChildAccountMixin'
 
 export default {
   name: 'SignupView',
@@ -36,6 +37,9 @@ export default {
     CreateParentAccountComponent,
     CreateChildAccountComponent
   },
+  mixins: [
+    createChildAccountMixin
+  ],
   methods: {
     async onParentAccountSubmit (data) {
       console.log('parent account data', data)
@@ -44,37 +48,7 @@ export default {
     },
     async onChildAccountSubmit (data) {
       this.childAccountData = data
-      console.log('childAccountData', data)
-      // create parent account
-      try {
-        if (me.isAnonymous()) {
-          me.set('role', 'parent-home')
-          await me.save()
-          const parent = this.parentAccountData
-          await me.signupWithPassword(
-            parent.name,
-            parent.email,
-            parent.password
-          )
-        }
-      } catch (err) {
-        console.error('failed to create parent user', err)
-        const msg = err?.message || `Parent user: ${err?.responseJSON?.message}` || 'Internal error'
-        noty({ text: msg, type: 'error', layout: 'center', timeout: 5000 })
-        return
-      }
-
-      try {
-        await me.createAndAssociateAccount({
-          ...this.childAccountData,
-          relation: 'children'
-        })
-      } catch (err) {
-        console.error('failed to create child user', err)
-        const msg = err?.message || `Child user: ${err?.responseJSON?.message}` || 'Internal error'
-        noty({ text: msg, type: 'error', layout: 'center', timeout: 5000 })
-      }
-      window.location = '/parents/dashboard'
+      await this.onChildAccountSubmitHelper(data)
     }
   }
 }

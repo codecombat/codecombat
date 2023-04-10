@@ -2,7 +2,7 @@
   <header class="header">
     <div class="header__item header__item--1">
       <div class="header__content">
-        <p class="header__title">Hello, Saurabh Patel</p>
+        <p class="header__title">Hello, {{ name }}</p>
         <p class="header__subtitle">Welcome to your parent dashboard.</p>
       </div>
       <div class="header__products">
@@ -51,7 +51,12 @@
 
 <script>
 export default {
-  name: 'HeaderComponent'
+  name: 'HeaderComponent',
+  data () {
+    return {
+      name: me.broadName()
+    }
+  }
 }
 </script>
 
