@@ -18,19 +18,31 @@
         </select>
       </div>
       <ul class="sidebar__tabs">
-        <li class="sidebar__tabs__item">
-          <img src="/images/pages/parents/dashboard/icon-productivity.svg" alt="Progress" class="sidebar__tabs__img">
+        <li
+          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'progress' }"
+          @click="() => onTabClicked('progress')"
+        >
+          <img src="/images/pages/parents/dashboard/icon-productivity-black.svg" alt="Progress" class="sidebar__tabs__img">
           <span class="sidebar__tabs__name">Progress</span>
         </li>
-        <li class="sidebar__tabs__item">
+        <li
+          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'summary' }"
+          @click="() => onTabClicked('summary')"
+        >
           <img src="/images/pages/parents/dashboard/icon-summary.svg" alt="Summary" class="sidebar__tabs__img">
           <span class="sidebar__tabs__name">Summary</span>
         </li>
-        <li class="sidebar__tabs__item">
+        <li
+          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'online-classes' }"
+          @click="() => onTabClicked('online-classes')"
+        >
           <img src="/images/pages/parents/dashboard/icon-online-classes.svg" alt="Online Classes" class="sidebar__tabs__img">
           <span class="sidebar__tabs__name">Online Classes</span>
         </li>
-        <li class="sidebar__tabs__item">
+        <li
+          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'ai-league' }"
+          @click="() => onTabClicked('ai-league')"
+        >
           <img src="/images/pages/parents/dashboard/icon-ai-league.svg" alt="AI League" class="sidebar__tabs__img">
           <span class="sidebar__tabs__name">AI League</span>
         </li>
@@ -60,9 +72,19 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      selectedTab: 'progress'
+    }
+  },
   methods: {
     onAddAnotherChild () {
+      this.selectedTab = null
       this.$emit('onAddAnotherChild')
+    },
+    onTabClicked (data) {
+      this.selectedTab = data
+      this.$emit('onTabChange', data)
     }
   }
 }
@@ -113,6 +135,12 @@ export default {
       justify-content: flex-start;
 
       padding: 1rem;
+
+      cursor: pointer;
+
+      &__sel {
+        color: #476FB1;
+      }
     }
 
     &__name {

@@ -3,12 +3,13 @@
     <sidebar-component
       :children="children"
       @onAddAnotherChild="onAddAnotherChildClicked"
+      @onTabChange="onTabChange"
     />
     <header-component
       @onSelectedProductChange="onSelectedProductChange"
     />
     <student-progress-view
-      v-if="selectedView === 'dashboard'"
+      v-if="selectedView === 'dashboard' || selectedView === 'progress'"
     />
     <student-summary-view
       v-if="selectedView === 'summary'"
@@ -71,6 +72,9 @@ export default {
     },
     onSelectedProductChange (data) {
       this.selectedProduct = data
+    },
+    onTabChange (data) {
+      this.selectedView = data
     }
   }
 }
