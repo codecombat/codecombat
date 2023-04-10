@@ -6,13 +6,22 @@
         <p class="header__subtitle">Welcome to your parent dashboard.</p>
       </div>
       <div class="header__products">
-        <div class="header__product">
+        <div
+          :class="{ header__product: true, header__product__selected: this.selectedProduct === 'CodeCombat' }"
+          @click.prevent="() => onProductClicked('CodeCombat')"
+        >
           <img src="/images/pages/parents/dashboard/codecombat-logo.svg" alt="CodeCombat logo" class="header__logos">
         </div>
-        <div class="header__product">
+        <div
+          :class="{ header__product: true, header__product__selected: this.selectedProduct === 'Ozaria' }"
+          @click.prevent="() => onProductClicked('Ozaria')"
+        >
           <img src="/images/pages/parents/dashboard/ozaria-logo.svg" alt="Ozaria logo" class="header__logos">
         </div>
-        <div class="header__product">
+        <div
+          :class="{ header__product: true, header__product__selected: this.selectedProduct === 'Roblox' }"
+          @click.prevent="() => onProductClicked('Roblox')"
+        >
           <img src="/images/pages/parents/dashboard/roblox-logo.svg" alt="Roblox logo" class="header__logos">
         </div>
       </div>
@@ -54,7 +63,14 @@ export default {
   name: 'HeaderComponent',
   data () {
     return {
-      name: me.broadName()
+      name: me.broadName(),
+      selectedProduct: 'CodeCombat'
+    }
+  },
+  methods: {
+    onProductClicked (product) {
+      this.selectedProduct = product
+      this.$emit('onSelectedProductChange', product)
     }
   }
 }
@@ -98,6 +114,11 @@ export default {
       @media (max-width: $screen-lg) {
         margin-bottom: 1rem;
       }
+    }
+
+    &__selected {
+      background: #F2F2F2;
+      border: 1px solid #E6E6E6;
     }
   }
 

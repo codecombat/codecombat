@@ -4,7 +4,9 @@
       :children="children"
       @onAddAnotherChild="onAddAnotherChildClicked"
     />
-    <header-component />
+    <header-component
+      @onSelectedProductChange="onSelectedProductChange"
+    />
     <student-progress-view
       v-if="selectedView === 'dashboard'"
     />
@@ -41,7 +43,8 @@ export default {
   data () {
     return {
       children: [],
-      selectedView: this.viewName
+      selectedView: this.viewName,
+      selectedProduct: null
     }
   },
   mixins: [
@@ -65,6 +68,9 @@ export default {
     },
     onChildAccountSubmit (data) {
       this.onChildAccountSubmitHelper(data)
+    },
+    onSelectedProductChange (data) {
+      this.selectedProduct = data
     }
   }
 }
