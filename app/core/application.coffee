@@ -1,5 +1,4 @@
 globalVar = require 'core/globalVar'
-wsBus = require 'lib/wsBus'
 
 # TODO: move this out of here to where it should go
 window.SPRITE_RESOLUTION_FACTOR = 3
@@ -45,6 +44,7 @@ Application =
     api = require 'core/api'
     utils = require 'core/utils'
     userUtils = require '../lib/user-utils' if utils.isCodeCombat
+    wsBus = require 'lib/wsBus'
 
     Router = require('core/Router')
     Vue.config.devtools = not @isProduction()

@@ -131,6 +131,7 @@ module.exports = wsBus = class WsBus extends CocoClass {
     if (me.isAnonymous()) {
       this.wsInfos.inited = true // anonymous user do not have friends feature
     } else {
+      console.log('publish user online', me.id)
       this.ws.publish(this.ws.topicName('user', me.id.toString()), { online: true }) // tell others you're online
       const friends = me.get('friends') || [] // TODO: to setup true friends feature
       const friendTopics = []
@@ -147,6 +148,7 @@ module.exports = wsBus = class WsBus extends CocoClass {
   }
 
   async onMeSynced () {
+    console.log('me synced')
     // this.ws.send('me synced') // ping to make sure server websocket has correct user id
     if (this.connected) {
       await this.resetWSInfos()

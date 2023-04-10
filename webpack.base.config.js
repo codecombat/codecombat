@@ -265,13 +265,13 @@ module.exports = (env) => {
       ],
       alias: { // Replace Backbone's underscore with lodash
         'underscore': 'lodash',
-        'ace-builds': path.resolve(__dirname, 'bower_components/ace-builds')
+        'ace-builds': path.resolve(__dirname, 'bower_components/ace-builds') //y-ace requires
       },
       // https://github.com/facebook/create-react-app/issues/11756#issuecomment-1047253186
       fallback: {
         util: require.resolve('util/'), // because of 'console-browserify' package used by jshint, details: https://github.com/facebook/create-react-app/issues/11756
         assert: require.resolve('assert/'), // because of 'console-browserify'
-        'process/browser': require.resolve('process/browser')
+        'process/browser': require.resolve('process/browser') // because of Yjs
       },
       plugins: [new ProductResolverPlugin()]
     },
