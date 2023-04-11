@@ -1583,6 +1583,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     error_in_importing_students: "导入学生发生错误"
 #    classroom_items_description: "Whether students should earn gems and equip items during gameplay."
     classroom_live_completion: "关闭该项会关闭所有学生的自动补全功能。启用该项则根据学生自己的设置开启自动补全。"
+    not_allow_to_solution: '# 查看解法需要许可'
 
   no_licenses_page:
     are_your_students_ready: "学生有兴趣继续学习更多课程了吗？"
