@@ -261,6 +261,16 @@ module.exports = class CoursesView extends RootView
       @ownerNameMap[ownerID] = NameLoader.getName(ownerID) for ownerID in ownerIDs
       @render?()
     )
+    if utils.useWebsocket
+      wsBus = application.wsBus
+      teacherTopics = ownerIDs.map(teacher =>
+        wsBus.addFriend(teacher, {role: 'teacher'})
+        return "user-#{teacher}"
+      )
+      wsBus.subscribe(teacherTopics)
+      me.fetchOnlineFriends(ownerIDs).then(onlineTeachers =>
+        wsBus.updateOnlineFriends(onlineTeachers)
+      )
 
     if utils.isCodeCombat
       academicaCS1CourseInstance = _.find(@courseInstances.models ? [], (ci) -> ci.get('_id') is '610047c74bc544001e26ea12')
