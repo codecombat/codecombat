@@ -60,6 +60,9 @@ module.exports = class CoursesView extends RootView
     'click .view-announcement-link': 'onClickAnnouncementLink'
     'click .more-tournaments': 'onClickMoreTournaments'
 
+  subscriptions:
+    'websocket:user-online': 'handleUserOnline'
+
   getMeta: ->
     return {
       title: $.i18n.t('courses.students')
@@ -220,6 +223,10 @@ module.exports = class CoursesView extends RootView
       playerCount = @getAILeagueStat('codePoints', clan._id, 'playerCount') ? 0
       -playerCount
 
+  handleUserOnline: ->
+    @renderSelectors('.teacher-icon')
+
+
   shouldEmphasizeAILeague: ->
     return true if _.size @myArenaSessions
     return true if me.isRegisteredForAILeague()
@@ -262,14 +269,17 @@ module.exports = class CoursesView extends RootView
       @render?()
     )
     if utils.useWebsocket
+      @useWebsocket = true
       wsBus = application.wsBus
-      teacherTopics = ownerIDs.map(teacher =>
+      uniqueOwnerIDs = Array.from(new Set(ownerIDs))
+      teacherTopics = uniqueOwnerIDs.map((teacher) =>
         wsBus.addFriend(teacher, {role: 'teacher'})
         return "user-#{teacher}"
       )
-      wsBus.subscribe(teacherTopics)
-      me.fetchOnlineFriends(ownerIDs).then(onlineTeachers =>
+      wsBus.ws.subscribe(teacherTopics)
+      me.fetchOnlineFriends(uniqueOwnerIDs).then((onlineTeachers) =>
         wsBus.updateOnlineFriends(onlineTeachers)
+        @renderSelectors('.teacher-icon')
       )
 
     if utils.isCodeCombat
