@@ -2,14 +2,16 @@
   <div class="sidebar">
     <div class="sidebar__top">
       <div class="sidebar__child">
-        <select name="child-select" id="sidebar__child__select-id" class="sidebar__child__select">
+        <select name="child-select" id="sidebar__child__select-id" class="sidebar__child__select"
+          @change="onChildSelectionChange"
+        >
           <optgroup>
             <option
               v-for="(child, index) in children"
               :key="index"
-              :value="child.broadName"
+              :value="child.userId"
               class="sidebar__child__option"
-              :selected="index === 0">
+            >
               {{ child.broadName }}
             </option>
             <option value="No other children added" class="sidebar__child__option" disabled v-if="children.length > 0">No other children added</option>
@@ -19,7 +21,7 @@
       </div>
       <ul class="sidebar__tabs">
         <li
-          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'progress' }"
+          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'progress' || selectedTab === 'dashboard' }"
           @click="() => onTabClicked('progress')"
         >
           <img src="/images/pages/parents/dashboard/icon-productivity-black.svg" alt="Progress" class="sidebar__tabs__img">
@@ -70,11 +72,15 @@ export default {
     children: {
       type: Array,
       required: true
+    },
+    defaultTab: {
+      type: String
     }
   },
   data () {
     return {
-      selectedTab: 'progress'
+      selectedTab: this.defaultTab || 'progress',
+      selectedChildrenId: this.children.length === 0 ? null : this.children[0].userId
     }
   },
   methods: {
@@ -85,6 +91,10 @@ export default {
     onTabClicked (data) {
       this.selectedTab = data
       this.$emit('onTabChange', data)
+    },
+    onChildSelectionChange (e) {
+      this.selectedChildrenId = e.target.value
+      this.$emit('onSelectedChildrenChange', this.selectedChildrenId)
     }
   }
 }

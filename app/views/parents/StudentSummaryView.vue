@@ -1,11 +1,22 @@
 <template>
-  <div class="summary">
+  <div
+    v-if="child"
+    class="summary"
+  >
     <div class="summary__stats">
       <student-stats-component />
     </div>
     <div class="child-profile">
-      <child-profile-component />
+      <child-profile-component
+        :child="child"
+      />
     </div>
+  </div>
+  <div
+    v-else
+    class="summary"
+  >
+    No child added
   </div>
 </template>
 
@@ -17,6 +28,11 @@ export default {
   components: {
     StudentStatsComponent,
     ChildProfileComponent
+  },
+  props: {
+    child: {
+      type: Object
+    }
   }
 }
 </script>

@@ -2,8 +2,10 @@
   <div class="parent-container">
     <sidebar-component
       :children="children"
+      :default-tab="viewName"
       @onAddAnotherChild="onAddAnotherChildClicked"
       @onTabChange="onTabChange"
+      @onSelectedChildrenChange="onSelectedChildrenChange"
     />
     <header-component
       @onSelectedProductChange="onSelectedProductChange"
@@ -13,6 +15,7 @@
     />
     <student-summary-view
       v-if="selectedView === 'summary'"
+      :child="selectedChildren"
     />
     <div
       v-if="selectedView === 'add-another-child'"
@@ -45,7 +48,8 @@ export default {
     return {
       children: [],
       selectedView: this.viewName,
-      selectedProduct: null
+      selectedProduct: null,
+      selectedChildrenId: null
     }
   },
   mixins: [
@@ -62,6 +66,7 @@ export default {
     const resp = await me.getRelatedAccounts()
     const relatedAccounts = resp.data || []
     this.children = relatedAccounts.filter(r => r.relation === 'children')
+    this.selectedChildrenId = this.children.length > 0 ? this.children[0].userId : null
   },
   methods: {
     onAddAnotherChildClicked () {
@@ -75,6 +80,14 @@ export default {
     },
     onTabChange (data) {
       this.selectedView = data
+    },
+    onSelectedChildrenChange (data) {
+      this.selectedChildrenId = data
+    }
+  },
+  computed: {
+    selectedChildren () {
+      return this.children?.find(c => c.userId === this.selectedChildrenId)
     }
   }
 }

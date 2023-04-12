@@ -1,22 +1,37 @@
 <template>
-  <div class="stats">
+  <div
+    v-if="child?.stats"
+    class="stats"
+  >
     <div class="stats__trophy">
       <img src="/images/pages/parents/dashboard/bronze-trophy.png" alt="Bronze trophy" />
     </div>
-    <div class="stat stats__hours">
-      <div class="stats__number">1</div>
+    <div
+      v-if="child.stats?.hoursPlayed"
+      class="stat stats__hours"
+    >
+      <div class="stats__number">{{ child.stats.hoursPlayed }}</div>
       <div class="stats__text">Hours Played</div>
     </div>
-    <div class="stat stats__levels">
-      <div class="stats__number">1</div>
+    <div
+      v-if="child.stats?.gamesCompleted"
+      class="stat stats__levels"
+    >
+      <div class="stats__number">{{ child.stats.gamesCompleted }}</div>
       <div class="stats__text">Levels Completed</div>
     </div>
-    <div class="stat stats__loc">
-      <div class="stats__number">1</div>
+    <div
+      v-if="child.stats?.codePoints"
+      class="stat stats__loc"
+    >
+      <div class="stats__number">{{ child.stats.codePoints }}</div>
       <div class="stats__text">Lines of Code Written</div>
     </div>
-    <div class="stat stats__concepts">
-      <div class="stats__number">1</div>
+    <div
+      v-if="conceptsMastered"
+      class="stat stats__concepts"
+    >
+      <div class="stats__number">{{ conceptsMastered }}</div>
       <div class="stats__text">Concepts Mastered</div>
     </div>
     <div class="stats__trophy">
@@ -27,7 +42,22 @@
 
 <script>
 export default {
-  name: 'StudentStatsComponent'
+  name: 'StudentStatsComponent',
+  props: {
+    child: {
+      type: Object
+    }
+  },
+  computed: {
+    conceptsMastered () {
+      const concepts = this.child?.stats?.concepts || {}
+      let count = 0
+      for (const concept in concepts) {
+        if (concepts[concept]) count++
+      }
+      return count
+    }
+  }
 }
 </script>
 

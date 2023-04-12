@@ -651,6 +651,14 @@ module.exports = class User extends CocoModel
     options.data.provider = provider
     @fetch(options)
 
+  changePassword: (userId, password, options={}) ->
+    options.url = '/auth/change-password'
+    options.type = 'POST'
+    options.data ?= {}
+    _.extend(options.data, { userId, password })
+    console.log('opt', options.data, userId)
+    @fetch(options)
+
   makeCoursePrepaid: (prepaidId) ->
     courseProduct = _.find @get('products'), (p) => p.product == 'course' && p.prepaid + '' == prepaidId + ''
     return null unless courseProduct

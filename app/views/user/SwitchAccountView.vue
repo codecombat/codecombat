@@ -59,6 +59,7 @@
 <script>
 import AddUserComponent from './switch-account/AddUserComponent'
 import RelatedUserComponent from './switch-account/RelatedUserComponent'
+import switchUserMixin from './switch-account/switchUserMixin'
 const usersLib = require('../../core/api/users')
 export default {
   name: 'SwitchAccountView',
@@ -66,6 +67,9 @@ export default {
     AddUserComponent,
     RelatedUserComponent
   },
+  mixins: [
+    switchUserMixin
+  ],
   data () {
     return {
       loading: true,
@@ -114,15 +118,6 @@ export default {
       } else {
         this.relatedUsersData = []
       }
-    },
-    async onSwitchUser ({ email }) {
-      await me.spy(email)
-      const text = `Switching to ${email} account..`
-      const type = 'success'
-      noty({ text, type, timeout: 5000, killer: true })
-      setTimeout(() => {
-        window.location.reload()
-      }, 3000)
     },
     async onRemoveUser ({ userId }) {
       this.inProgress = $.t('related_accounts.removing')

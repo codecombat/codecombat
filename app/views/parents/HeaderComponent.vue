@@ -7,19 +7,19 @@
       </div>
       <div class="header__products">
         <div
-          :class="{ header__product: true, header__product__selected: this.selectedProduct === 'CodeCombat' }"
+          :class="{ header__product: true, header__product__selected: selectedProduct === 'CodeCombat' }"
           @click.prevent="() => onProductClicked('CodeCombat')"
         >
           <img src="/images/pages/parents/dashboard/codecombat-logo.svg" alt="CodeCombat logo" class="header__logos">
         </div>
         <div
-          :class="{ header__product: true, header__product__selected: this.selectedProduct === 'Ozaria' }"
+          :class="{ header__product: true, header__product__selected: selectedProduct === 'Ozaria' }"
           @click.prevent="() => onProductClicked('Ozaria')"
         >
           <img src="/images/pages/parents/dashboard/ozaria-logo.svg" alt="Ozaria logo" class="header__logos">
         </div>
         <div
-          :class="{ header__product: true, header__product__selected: this.selectedProduct === 'Roblox' }"
+          :class="{ header__product: true, header__product__selected: selectedProduct === 'Roblox' }"
           @click.prevent="() => onProductClicked('Roblox')"
         >
           <img src="/images/pages/parents/dashboard/roblox-logo.svg" alt="Roblox logo" class="header__logos">

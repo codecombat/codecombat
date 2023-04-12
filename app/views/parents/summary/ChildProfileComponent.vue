@@ -11,42 +11,99 @@
         <div class="info__details">
           <div class="detail">
             <div class="detail__title">Child Username:</div>
-            <div class="detail__text detail__username">rorysmith09</div>
+            <div class="detail__text detail__username">{{ child.name }}</div>
           </div>
-          <div class="detail">
+          <div
+            v-if="child.isOnline !== null && child.isOnline !== undefined"
+            class="detail"
+          >
             <div class="detail__title">Online Status:</div>
             <div class="detail__text">Offline</div>
           </div>
           <div class="detail">
             <div class="detail__title">Email:</div>
-            <div class="detail__text">rory.smith@gmail.com</div>
+            <div class="detail__text">{{ child.email }}</div>
           </div>
-          <div class="detail">
+          <div
+            v-if="child.lastVisit"
+            class="detail"
+          >
             <div class="detail__title">Last Active:</div>
-            <div class="detail__text">Tues, Nov 29, 2022</div>
+            <div class="detail__text">{{ new Date(child.lastVisit).toDateString() }}</div>
           </div>
-          <div class="detail">
+          <div
+            v-if="child.learningIn"
+            class="detail"
+          >
             <div class="detail__title">Learning In:</div>
             <div class="detail__text">Python</div>
           </div>
           <div class="detail">
             <div class="detail__title">Subscription Status:</div>
-            <div class="detail__text">Free</div>
+            <div class="detail__text">{{ child.isPremium ? 'Premium' : 'Free' }}</div>
           </div>
         </div>
       </div>
     </div>
     <div class="helpers">
-      <div class="helpers__btn">Login to Child Account</div>
-      <div class="helpers__btn">Change Password</div>
-      <div class="helpers__btn helpers__upgrade">Upgrade Subscription</div>
+      <div
+        @click="onLoginToChildAccount"
+        class="helpers__btn"
+      >
+        Login to Child Account
+      </div>
+      <div
+        @click="onChangePassword"
+        class="helpers__btn"
+      >
+        Change Password
+      </div>
+      <div
+        v-if="!child.isPremium"
+        class="helpers__btn helpers__upgrade"
+      >
+        Upgrade Subscription
+      </div>
     </div>
+    <change-password-modal
+      :user-id-to-change-password="child.userId"
+      v-if="showChangePasswordModal"
+      @close="showChangePasswordModal = false"
+    />
   </div>
 </template>
 
 <script>
+import switchUserMixin from '../../user/switch-account/switchUserMixin'
+import ChangePasswordModal from '../../user/ChangePasswordModal'
+
 export default {
-  name: 'ChildProfileComponent'
+  name: 'ChildProfileComponent',
+  props: {
+    child: {
+      type: Object,
+      required: true
+    }
+  },
+  data () {
+    return {
+      showChangePasswordModal: false
+    }
+  },
+  components: {
+    ChangePasswordModal
+  },
+  mixins: [
+    switchUserMixin
+  ],
+  methods: {
+    onLoginToChildAccount () {
+      this.onSwitchUser({ email: this.child.email, location: '/' })
+    },
+    onChangePassword () {
+      this.showChangePasswordModal = true
+    }
+  }
 }
 </script>
 
@@ -153,6 +210,8 @@ export default {
 
       color: #379B8D;
       padding: .5rem 2rem;
+
+      cursor: pointer;
     }
 
     &__upgrade {
