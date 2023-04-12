@@ -2,8 +2,13 @@
   <main class="content">
     <campaign-list-component
       :campaigns="homeVersionCampaigns"
+      @selectedCampaignUpdated="onSelectedCampaignUpdated"
     />
-    <campaign-basic-summary />
+    <campaign-basic-summary
+      :campaign="selectedCampaign"
+      :selected-language="selectedLanguage"
+      @languageUpdated="onLanguageUpdate"
+    />
     <campaign-progress-view
       :campaign="campaigns[0]"
     />
@@ -17,7 +22,7 @@ import CampaignProgressView from './student-progress/CampaignProgressView'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'MainContentComponent',
+  name: 'StudentProgressView',
   props: {
     product: {
       type: String,
@@ -72,22 +77,33 @@ export default {
         { id: 3, name: 'Web dev 1' },
         { id: 4, name: 'Backwoods forest' },
         { id: 5, name: 'Web dev 2' }
-      ]
+      ],
+      selectedCampaignId: null,
+      selectedLanguage: 'python'
     }
   },
   methods: {
     ...mapActions({
       fetchAllCampaigns: 'campaigns/fetchAll'
-    })
+    }),
+    onSelectedCampaignUpdated (data) {
+      this.selectedCampaignId = data
+    },
+    onLanguageUpdate (data) {
+      this.selectedLanguage = data
+    }
   },
   computed: {
     ...mapGetters({
       homeVersionCampaigns: 'campaigns/getHomeVersionCampaigns'
-    })
+    }),
+    selectedCampaign () {
+      if (!this.selectedCampaignId) return null
+      return this.homeVersionCampaigns?.find(c => c._id === this.selectedCampaignId)
+    }
   },
   async created () {
     await this.fetchAllCampaigns()
-    console.log('home', this.homeVersionCampaigns)
   }
 }
 </script>

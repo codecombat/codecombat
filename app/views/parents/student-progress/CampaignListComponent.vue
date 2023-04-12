@@ -73,11 +73,15 @@ export default {
     },
     updateSelectedCampaign (id) {
       this.selectedCampaignId = id
+      this.$emit('selectedCampaignUpdated', id)
     }
   },
   watch: {
     campaigns: function (newVal, oldVal) {
-      if (newVal && newVal.length) this.selectedCampaignId = newVal[0]._id
+      if (newVal && newVal.length) {
+        this.selectedCampaignId = newVal[0]._id
+        this.$emit('selectedCampaignUpdated', this.selectedCampaignId)
+      }
     }
   }
 }

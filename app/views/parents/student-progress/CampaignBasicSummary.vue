@@ -1,14 +1,20 @@
 <template>
-  <div class="basic">
+  <div
+    v-if="campaign"
+    class="basic"
+  >
     <div class="content">
       <div class="content__img">
         <img src="/images/pages/play/worlds/dungeon_small.png" alt="Level image" class="content__level-img">
       </div>
       <div class="content__info">
         <div class="content__title">
-          chapter 1: sky mountain
+          {{ campaign.fullName || campaign.name }}
         </div>
-        <div class="content__subtitle">
+        <div
+          v-if="campaign?.course?.description"
+          class="content__subtitle"
+        >
           Students enter the epic world of Ozaria to defeat the impending Darkness. Students practice problem solving, sequences, loops, syntax, & debugging.
         </div>
         <div class="content__proficiency">
@@ -28,15 +34,19 @@
             Select Language:
           </p>
           <div class="content__lang-solution">
-            <select name="content__language" id="content__language-id" class="content__language">
-              <option value="python" class="content__language__option">Python</option>
-              <option value="javascript" class="content__language__option">Javascript</option>
+            <select
+              @change="updateLanguage"
+              name="content__language" id="content__language-id" class="content__language"
+            >
+              <option :selected="selectedLang === 'python'" value="python" class="content__language__option">Python</option>
+              <option :selected="selectedLang === 'javascript'" value="javascript" class="content__language__option">Javascript</option>
             </select>
             <div class="content__solution-guide">
-              <img src="/images/ozaria/teachers/dashboard/svg_icons/IconSolution.svg"
-                   alt="Solution Guide Icon"
-                   class="content__solution__icon"
-              >
+              <img
+                src="/images/ozaria/teachers/dashboard/svg_icons/IconSolution.svg"
+                alt="Solution Guide Icon"
+                class="content__solution__icon"
+              />
               <span class="content__solution__text">
                 Solution Guide
               </span>
@@ -60,15 +70,31 @@
 <script>
 export default {
   name: 'LevelBasicSummary',
+  props: {
+    campaign: {
+      type: Object,
+      default: null
+    },
+    selectedLanguage: {
+      type: String,
+      default: 'python'
+    }
+  },
   data () {
     return {
-      levelConcepts: [
-        'Problem solving',
-        'Sequences',
-        'Debugging',
-        'Syntax',
-        'Algorithms'
-      ]
+      selectedLang: this.selectedLanguage
+    }
+  },
+  computed: {
+    levelConcepts () {
+      const capitalize = str => str[0].toUpperCase() + str.substring(1)
+      return this.campaign?.description?.split(',').map(d => d.trim().split(' ').map(capitalize).join(' '))
+    }
+  },
+  methods: {
+    updateLanguage (e) {
+      this.selectedLang = e.target.value
+      this.$emit('languageUpdated', this.selectedLang)
     }
   }
 }
