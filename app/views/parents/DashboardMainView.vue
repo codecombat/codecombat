@@ -12,6 +12,7 @@
     />
     <student-progress-view
       v-if="selectedView === 'dashboard' || selectedView === 'progress'"
+      :product="selectedProduct"
     />
     <student-summary-view
       v-if="selectedView === 'summary'"

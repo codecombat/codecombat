@@ -1,15 +1,37 @@
 <template>
-  <div class="campaign-list">
+  <div
+    v-if="campaigns && campaigns.length > 0"
+    class="campaign-list"
+  >
     <ul
       class="campaigns"
     >
       <li
+        @click="onLeftArrowClick"
+        :class="{ arrow: true, 'left-active': isLeftArrowActive }"
+      >
+        <img v-if="isLeftArrowActive" class="left-rotate" src="/images/pages/parents/dashboard/arrow-blue.png" alt="Move left" />
+        <img v-else src="/images/pages/parents/dashboard/arrow-grey.png" alt="Move left" />
+      </li>
+      <li
         v-for="campaign in campaignsToShow"
         class="campaign"
-        :key="campaign.id"
+        :key="campaign._id"
+        @click="() => updateSelectedCampaign(campaign._id)"
       >
         <div class="campaign__dot"></div>
-        <div class="campaign__name">{{ campaign.name }}</div>
+        <div
+          :class="{ campaign__name: true, campaign__name__sel: campaign._id === selectedCampaignId }"
+        >
+          {{ campaign.fullName || campaign.name }}
+        </div>
+      </li>
+      <li
+        @click="onRightArrowClick"
+        :class="{ arrow: true, 'right-active': isRightArrowActive }"
+      >
+        <img v-if="isRightArrowActive" src="/images/pages/parents/dashboard/arrow-blue.png" alt="Move right" />
+        <img v-else class="right-rotate" src="/images/pages/parents/dashboard/arrow-grey.png" alt="Move right" />
       </li>
     </ul>
   </div>
@@ -25,12 +47,37 @@ export default {
   },
   data () {
     return {
-      currentIndex: 0
+      currentIndex: 0,
+      selectedCampaignId: null
     }
   },
   computed: {
     campaignsToShow () {
-      return this.campaigns.slice(this.currentIndex * 4, (this.currentIndex * 4) + 4)
+      return this.campaigns.slice(this.currentIndex * 6, (this.currentIndex * 6) + 6)
+    },
+    isRightArrowActive () {
+      const lastCampaign = this.campaignsToShow.length > 0 ? this.campaignsToShow[this.campaignsToShow.length - 1] : null
+      if (!lastCampaign) return false
+      return this.campaigns.findIndex(c => c._id === lastCampaign._id) < this.campaigns.length - 1
+    },
+    isLeftArrowActive () {
+      return this.currentIndex > 0 && this.campaignsToShow.length > 0
+    }
+  },
+  methods: {
+    onLeftArrowClick () {
+      this.currentIndex = Math.max(this.currentIndex - 1, 0)
+    },
+    onRightArrowClick () {
+      this.currentIndex = Math.min(this.currentIndex + 1, Math.ceil(this.campaigns.length / 6) - 1)
+    },
+    updateSelectedCampaign (id) {
+      this.selectedCampaignId = id
+    }
+  },
+  watch: {
+    campaigns: function (newVal, oldVal) {
+      if (newVal && newVal.length) this.selectedCampaignId = newVal[0]._id
     }
   }
 }
@@ -56,6 +103,18 @@ export default {
   letter-spacing: 0.4px;
   text-transform: uppercase;
   color: #979797;
+
+  .left-active, .right-active {
+    cursor: pointer;
+  }
+
+  .left-rotate {
+    transform: rotate(180deg);
+  }
+
+  .right-rotate {
+    transform: rotate(180deg);
+  }
 }
 
 .campaign {
@@ -90,13 +149,13 @@ export default {
     top: 10%;
   }
 
-  &:last-child {
+  &:nth-last-child(2) {
     &::before {
       width: 0;
     }
   }
 
-  &:first-child {
+  &:nth-child(2) {
     &::after {
       width: 0;
     }
@@ -110,6 +169,19 @@ export default {
     border-radius: 1rem;
     margin-bottom: 1rem;
     z-index: 1;
+  }
+
+  &__name {
+    font-weight: 600;
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+    text-align: center;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+
+    &__sel {
+      color: #476FB1;
+    }
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <main class="content">
     <campaign-list-component
-      :campaigns="campaigns"
+      :campaigns="homeVersionCampaigns"
     />
     <campaign-basic-summary />
     <campaign-progress-view
@@ -14,9 +14,16 @@
 import CampaignListComponent from './student-progress/CampaignListComponent'
 import CampaignBasicSummary from './student-progress/CampaignBasicSummary'
 import CampaignProgressView from './student-progress/CampaignProgressView'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'MainContentComponent',
+  props: {
+    product: {
+      type: String,
+      default: 'CodeCombat'
+    }
+  },
   components: {
     CampaignListComponent,
     CampaignBasicSummary,
@@ -67,6 +74,20 @@ export default {
         { id: 5, name: 'Web dev 2' }
       ]
     }
+  },
+  methods: {
+    ...mapActions({
+      fetchAllCampaigns: 'campaigns/fetchAll'
+    })
+  },
+  computed: {
+    ...mapGetters({
+      homeVersionCampaigns: 'campaigns/getHomeVersionCampaigns'
+    })
+  },
+  async created () {
+    await this.fetchAllCampaigns()
+    console.log('home', this.homeVersionCampaigns)
   }
 }
 </script>
