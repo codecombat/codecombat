@@ -226,6 +226,8 @@ module.exports = class CoursesView extends RootView
   handleUserOnline: ->
     @renderSelectors('.teacher-icon')
 
+  isTeacherOnline: (id) ->
+    return application?.wsBus?.wsInfos?.friends?[id]?.online
 
   shouldEmphasizeAILeague: ->
     return true if _.size @myArenaSessions

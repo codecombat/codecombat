@@ -125,7 +125,6 @@ module.exports = class SpellTopBarView extends CocoView
     @updateReloadButton()
 
   onUserOnlineChanged: (e) ->
-    console.log('user online changed, ', e.user, @teacherID)
     if e.user.toString() == @teacherID?.toString()
       @renderSelectors('#ask-teacher-for-help')
 
