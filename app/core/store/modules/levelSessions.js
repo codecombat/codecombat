@@ -21,7 +21,7 @@ export default {
      *    levelSessionsMapByUser: {
      *      USER_ID: {
      *        LEVEL_ORIGINAL: {}
-     *       } 
+     *       }
      *     }
      *  }
      */
@@ -78,6 +78,13 @@ export default {
 
     setSessionsForCampaign: (state, { campaign, sessions }) => {
       state.levelSessionsByCampaign[campaign].sessions = sessions
+    },
+    setSessionsForCampaignOfRelatedUser (state, { campaignHandle, sessions, userId }) {
+      Vue.delete(state.levelSessionsByCampaign, campaignHandle)
+      if (!state.levelSessionsByCampaign[campaignHandle]) state.levelSessionsByCampaign[campaignHandle] = {}
+      if (!state.levelSessionsByCampaign[campaignHandle][userId]) state.levelSessionsByCampaign[campaignHandle][userId] = {}
+      state.levelSessionsByCampaign[campaignHandle][userId].sessions = sessions
+      // Vue.set(state.levelSessionsByCampaign[campaignHandle][userId].sessions, sessions)
     }
   },
   getters: {
@@ -86,6 +93,10 @@ export default {
     },
     getSessionsMapForClassroom: (state) => (classroom) => {
       return (state.levelSessionsByClassroom[classroom] || {}).levelSessionMapByUser
+    },
+    getSessionsForCampaignOfRelatedUser: (state) => (userId, campaignHandle) => {
+      console.log('getterr', state.levelSessionsByCampaign)
+      return (state.levelSessionsByCampaign[campaignHandle] || {})[userId]?.sessions
     }
   },
   // TODO add a way to clear out old level session data
@@ -185,6 +196,21 @@ export default {
       try {
         const campaignSessions = await levelSessionsApi.fetchForCampaign(campaignHandle, options)
         commit('setSessionsForCampaign', { campaign: campaignHandle, sessions: campaignSessions })
+        return campaignSessions
+      } catch (e) {
+        console.error('Error in fetching campaign sessions', e)
+        noty({ text: 'Error in fetching campaign sessions', type: 'error', timeout: 1000 })
+      }
+    },
+
+    async fetchLevelSessionsForCampaignOfRelatedUser ({ commit }, { userId, campaignHandle, options = {} }) {
+      commit('initSessionsByCampaignState', campaignHandle)
+
+      try {
+        options.data = { userId, noLanguageFilter: true }
+        const campaignSessions = await levelSessionsApi.fetchForCampaign(campaignHandle, options)
+        console.log('data', campaignSessions, campaignHandle, userId)
+        commit('setSessionsForCampaignOfRelatedUser', { campaignHandle, sessions: campaignSessions, userId })
         return campaignSessions
       } catch (e) {
         console.error('Error in fetching campaign sessions', e)

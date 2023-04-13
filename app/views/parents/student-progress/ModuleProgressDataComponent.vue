@@ -23,13 +23,15 @@
       <div
         v-for="(level, index) in levels"
         class="lprogress__level"
-        :key="level.id"
+        :key="level.original"
       >
         <module-row
           :display-name="level.name"
-          :icon-type="level.type"
+          :icon-type="getIconType(level)"
           :description="level.description"
           :show-code="index % 2 === 0"
+          :show-progress-dot="true"
+          :progress-status="getProgressStatus(level)"
         />
       </div>
     </div>
@@ -39,15 +41,40 @@
 <script>
 import ModuleRow from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ModuleRow'
 export default {
-  name: 'LevelProgressDataComponent',
+  name: 'ModuleProgressDataComponent',
   props: {
     levels: {
       type: Array,
       required: true
+    },
+    levelSessions: {
+      type: Array
     }
   },
   components: {
     ModuleRow
+  },
+  methods: {
+    getIconType (level) {
+      if (level.kind === 'practice') return 'practicelvl'
+      return (['hero', 'hero-ladder', 'game-dev'].includes(level.type) ? 'challengelvl' : (level.type || 'challengelvl'))
+    },
+    getProgressStatus (level) {
+      let status = 'not-started'
+      if (!this.levelSessions) return status
+      const ls = this.levelSessions.filter(ls => ls.levelID === level.slug)
+      if (ls.length) status = 'in-progress'
+      ls.forEach(session => {
+        if (session.state.complete) status = 'complete'
+      })
+      return status
+    }
+  },
+  computed: {
+
+  },
+  created () {
+    console.log('modProg', this.levels)
   }
 }
 </script>

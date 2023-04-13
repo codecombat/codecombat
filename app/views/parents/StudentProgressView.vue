@@ -10,7 +10,8 @@
       @languageUpdated="onLanguageUpdate"
     />
     <campaign-progress-view
-      :campaign="campaigns[0]"
+      :campaign="selectedCampaign"
+      :level-sessions="levelSessionsOfCampaign"
     />
   </main>
 </template>
@@ -27,6 +28,9 @@ export default {
     product: {
       type: String,
       default: 'CodeCombat'
+    },
+    child: {
+      type: Object
     }
   },
   components: {
@@ -84,22 +88,35 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchAllCampaigns: 'campaigns/fetchAll'
+      fetchAllCampaigns: 'campaigns/fetchAll',
+      fetchLevelSessionsForCampaignOfRelatedUser: 'levelSessions/fetchLevelSessionsForCampaignOfRelatedUser'
     }),
     onSelectedCampaignUpdated (data) {
       this.selectedCampaignId = data
+      this.fetchLevelSessions()
     },
     onLanguageUpdate (data) {
       this.selectedLanguage = data
+      this.fetchLevelSessions()
+    },
+    async fetchLevelSessions () {
+      console.log('fetching LS starts', this.child.userId, this.selectedCampaign)
+      await this.fetchLevelSessionsForCampaignOfRelatedUser({ userId: this.child.userId, campaignHandle: this.selectedCampaignId })
     }
   },
   computed: {
     ...mapGetters({
-      homeVersionCampaigns: 'campaigns/getHomeVersionCampaigns'
+      homeVersionCampaigns: 'campaigns/getHomeVersionCampaigns',
+      getSessionsForCampaignOfRelatedUser: 'levelSessions/getSessionsForCampaignOfRelatedUser'
     }),
     selectedCampaign () {
       if (!this.selectedCampaignId) return null
       return this.homeVersionCampaigns?.find(c => c._id === this.selectedCampaignId)
+    },
+    levelSessionsOfCampaign () {
+      if (!this.child || !this.selectedCampaignId) return []
+      console.log('getLSa', this.child, this.selectedCampaignId, this.getSessionsForCampaignOfRelatedUser(this.child.userId, this.selectedCampaignId))
+      return this.getSessionsForCampaignOfRelatedUser(this.child.userId, this.selectedCampaignId)
     }
   },
   async created () {

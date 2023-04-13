@@ -1,7 +1,11 @@
 <template>
-  <div class="campaign-progress">
+  <div
+    v-if="campaign"
+    class="campaign-progress"
+  >
     <module-progress-data-component
-      :levels="campaign.levels"
+      :levels="sortedLevels"
+      :level-sessions="levelSessions"
     />
     <module-resources />
   </div>
@@ -15,11 +19,21 @@ export default {
   props: {
     campaign: {
       type: Object
+    },
+    levelSessions: {
+      type: Array
     }
   },
   components: {
     ModuleProgressDataComponent,
     ModuleResources
+  },
+  computed: {
+    sortedLevels () {
+      const levels = JSON.parse(JSON.stringify(Object.values(this.campaign?.levels || {})))
+      levels.sort((a, b) => a.campaignIndex - b.campaignIndex)
+      return levels
+    }
   }
 }
 </script>

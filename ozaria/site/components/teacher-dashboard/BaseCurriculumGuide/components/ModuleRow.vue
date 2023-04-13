@@ -34,6 +34,14 @@
       showCode: {
         type: Boolean,
         default: false
+      },
+      showProgressDot: {
+        type: Boolean,
+        default: false
+      },
+      progressStatus: {
+        type: String,
+        default: ''
       }
     },
 
@@ -45,7 +53,8 @@
       moduleRowClass () {
         return {
           locked: this.isOnLockedCampaign,
-          'part-of-intro': this.isPartOfIntro
+          'part-of-intro': this.isPartOfIntro,
+          'show-progress-dot': this.showProgressDot
         }
       },
 
@@ -66,6 +75,11 @@
     @click="$emit('click')"
   >
     <div>
+      <div
+        v-if="showProgressDot"
+        :class="{ 'progress-dot': true, 'in-progress': progressStatus === 'in-progress', 'not-started': progressStatus === 'not-started', 'complete': progressStatus === 'complete' }"
+      >
+      </div>
       <content-icon class="content-icon" :icon="iconType" />
       <p class="content-heading"><b>{{ getContentTypeHeader }}: {{ displayName }}</b></p>
       <p class="content-desc">{{ description }}</p>
@@ -176,5 +190,28 @@
       color: #355EA0;
       margin-left: .5rem;
     }
+  }
+
+  .progress-dot {
+    width: 1rem;
+    height: 1rem;
+    background: #FFFFFF;
+    border-radius: 1rem;
+    margin-bottom: .5rem;
+  }
+  .not-started {
+    border: 1.5px solid #C8CDCC;
+  }
+
+  .in-progress {
+    background-color: #1ad0ff;
+  }
+
+  .complete {
+    background-color: #2dcd38;
+  }
+
+  .show-progress-dot {
+    margin-left: 1rem;
   }
 </style>
