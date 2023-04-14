@@ -414,6 +414,15 @@ module.exports = class Autocomplete
     for replacement in autocompleteReplacement
       continue if replacement.name in usedAutocompleteReplacement
       continue if not replacement.snippets
+
+      # in case level.get('autocompeteReplacement') is defined and without full-language snippets
+      if e.language in ['java', 'cpp'] and not replacement?.snippets?[e.language] and replacement?.snippets?.javascript
+        replacement.snippets[e.language] = replacement.snippets.javascript
+
+      if e.language in ['lua', 'coffeescript', 'python'] and not replacement?.snippets?[e.language] and (replacement?.snippets?.python or replacement?.snippets?.javascript)
+        # These are mostly the same, so use the Python or JavaScript ones if language-specific ones aren't available
+        replacememnt.snippets[e.language] = replacement?.snippets?.python or replacement.snippets.javascript
+
       entry =
         content: replacement?.snippets?[e.language]?.code
         meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
