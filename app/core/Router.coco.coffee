@@ -69,6 +69,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'account/invoices': go('account/InvoicesView')
     'account/prepaid': go('account/PrepaidView')
 
+    'ai': go('ai/AIView')
+    'ai/*path': go('ai/AIView')
+
     'licensor': go('LicensorView')
 
     'admin': go('admin/MainAdminView')
