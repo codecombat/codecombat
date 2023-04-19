@@ -22,6 +22,12 @@ export default {
     },
     levelSessions: {
       type: Array
+    },
+    levels: {
+      type: Array
+    },
+    language: {
+      type: String
     }
   },
   components: {
@@ -30,9 +36,17 @@ export default {
   },
   computed: {
     sortedLevels () {
-      const levels = JSON.parse(JSON.stringify(Object.values(this.campaign?.levels || {})))
-      levels.sort((a, b) => a.campaignIndex - b.campaignIndex)
-      return levels
+      const cLevels = JSON.parse(JSON.stringify(Object.values(this.campaign?.levels || {})))
+      cLevels.sort((a, b) => a.campaignIndex - b.campaignIndex)
+      const result = []
+      cLevels.forEach(cLevel => {
+        const detailLevel = this.levels?.find(l => l.original === cLevel.original)
+        const final = { ...cLevel, ...detailLevel }
+        result.push(final)
+        console.log(cLevel, detailLevel, final)
+      })
+      console.log('resLevel', result)
+      return result
     }
   }
 }
@@ -41,6 +55,6 @@ export default {
 <style scoped lang="scss">
 .campaign-progress {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2.5fr 1fr;
 }
 </style>

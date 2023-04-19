@@ -13,7 +13,8 @@ export default {
   } : {
     byId: {},
     bySlug: {},
-    currentCampaignId: null
+    currentCampaignId: null,
+    levelsByCampaignId: {}
   },
 
   mutations: {
@@ -28,7 +29,10 @@ export default {
           Vue.set(state.byId, campaignData._id, campaignData)
           Vue.set(state.bySlug, campaignData.slug, campaignData)
           state.currentCampaignId = campaignData._id
-        }
+        },
+    setCampaignLevels: (state, { campaignId, levels }) => {
+      Vue.set(state.levelsByCampaignId, campaignId, levels)
+    }
   },
 
   getters: {
@@ -49,6 +53,11 @@ export default {
         if (campaign.isInHomeVersion) res.push(campaign)
       }
       return res
+    },
+    getCampaignLevels: (state) => (campaignId) => {
+      // const campaign = state.byId[campaignId]
+      // return campaign.detailedLevels
+      return state.levelsByCampaignId[campaignId]
     }
   },
 
@@ -122,12 +131,18 @@ export default {
     },
 
     fetchAll: async ({ commit }) => {
-      const campaigns = await campaignsApi.getAll({ data: { project: 'slug,adjacentCampaigns,name,fullName,description,i18n,color,levels' } })
+      // thangs,name,slug,campaign,tasks
+      const campaigns = await campaignsApi.fetchOverworld({ data: { project: 'slug,adjacentCampaigns,name,fullName,description,i18n,color,levels' } })
       const homeVersionSlugs = ['dungeon', 'forest', 'desert', 'mountain', 'glacier', 'campaign-web-dev-1', 'campaign-web-dev-2', 'campaign-game-dev-1', 'campaign-game-dev-2', 'campaign-game-dev-3']
       campaigns.forEach(campaign => {
         const isInHomeVersion = homeVersionSlugs.includes(campaign.slug)
         commit('setCampaignData', { ...campaign, isInHomeVersion })
       })
+    },
+    fetchCampaignLevels: async ({ commit }, { campaignHandle }) => {
+      const levels = await campaignsApi.fetchLevels(campaignHandle, { data: { project: 'thangs,name,slug,campaign,tasks,original' } })
+      console.log('levels', levels)
+      commit('setCampaignLevels', { campaignId: campaignHandle, levels })
     }
 
   }

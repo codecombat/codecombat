@@ -1,5 +1,6 @@
 <script>
   const AceDiff = require('ace-diff')
+  const aceUtils = require('../../../../../app/core/aceUtils')
 
   const aceEditModes = {
     javascript: 'ace/mode/javascript',
@@ -53,6 +54,7 @@
 
     methods: {
       createAceDiff (el) {
+        aceUtils.initializeACE(this.$refs.code, this.language)
         const diffView = new AceDiff({
           element: el,
           mode: aceEditModes[this.language],
@@ -90,4 +92,6 @@
 <style lang="sass" scoped>
   .code-area-component
     width: 100%
+  .code-diff-component
+    height: 100% !important
 </style>

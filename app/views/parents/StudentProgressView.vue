@@ -12,6 +12,8 @@
     <campaign-progress-view
       :campaign="selectedCampaign"
       :level-sessions="levelSessionsOfCampaign"
+      :levels="campaignLevels"
+      :language="selectedLanguage"
     />
   </main>
 </template>
@@ -89,10 +91,12 @@ export default {
   methods: {
     ...mapActions({
       fetchAllCampaigns: 'campaigns/fetchAll',
-      fetchLevelSessionsForCampaignOfRelatedUser: 'levelSessions/fetchLevelSessionsForCampaignOfRelatedUser'
+      fetchLevelSessionsForCampaignOfRelatedUser: 'levelSessions/fetchLevelSessionsForCampaignOfRelatedUser',
+      fetchCampaignLevels: 'campaigns/fetchCampaignLevels'
     }),
     onSelectedCampaignUpdated (data) {
       this.selectedCampaignId = data
+      this.fetchCampaignLevels({ campaignHandle: this.selectedCampaignId })
       this.fetchLevelSessions()
     },
     onLanguageUpdate (data) {
@@ -107,7 +111,8 @@ export default {
   computed: {
     ...mapGetters({
       homeVersionCampaigns: 'campaigns/getHomeVersionCampaigns',
-      getSessionsForCampaignOfRelatedUser: 'levelSessions/getSessionsForCampaignOfRelatedUser'
+      getSessionsForCampaignOfRelatedUser: 'levelSessions/getSessionsForCampaignOfRelatedUser',
+      getCampaignLevels: 'campaigns/getCampaignLevels'
     }),
     selectedCampaign () {
       if (!this.selectedCampaignId) return null
@@ -115,8 +120,12 @@ export default {
     },
     levelSessionsOfCampaign () {
       if (!this.child || !this.selectedCampaignId) return []
-      console.log('getLSa', this.child, this.selectedCampaignId, this.getSessionsForCampaignOfRelatedUser(this.child.userId, this.selectedCampaignId))
+      // console.log('getLSa', this.child, this.selectedCampaignId, this.getSessionsForCampaignOfRelatedUser(this.child.userId, this.selectedCampaignId))
       return this.getSessionsForCampaignOfRelatedUser(this.child.userId, this.selectedCampaignId)
+    },
+    campaignLevels () {
+      if (!this.selectedCampaignId) return []
+      return this.getCampaignLevels(this.selectedCampaignId)
     }
   },
   async created () {

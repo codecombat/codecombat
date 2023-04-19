@@ -29,9 +29,17 @@
           :display-name="level.name"
           :icon-type="getIconType(level)"
           :description="level.description"
-          :show-code="index % 2 === 0"
+          :show-code="getProgressStatus(level) !== 'not-started'"
           :show-progress-dot="true"
           :progress-status="getProgressStatus(level)"
+          :identifier="level.slug"
+          @showCodeClicked="onShowCodeClicked"
+        />
+        <code-diff
+          v-if="showCodeModal === level.slug"
+          :language="language"
+          :code-right="solution"
+          :code-left="code"
         />
       </div>
     </div>
@@ -40,6 +48,8 @@
 
 <script>
 import ModuleRow from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ModuleRow'
+import CodeDiff from '../../../../ozaria/site/components/teacher-dashboard/common/CodeDiff'
+const Level = require('../../../models/Level')
 export default {
   name: 'ModuleProgressDataComponent',
   props: {
@@ -49,10 +59,22 @@ export default {
     },
     levelSessions: {
       type: Array
+    },
+    language: {
+      type: String,
+      default: 'javascript'
+    }
+  },
+  data () {
+    return {
+      showCodeModal: false,
+      code: null,
+      solution: null
     }
   },
   components: {
-    ModuleRow
+    ModuleRow,
+    CodeDiff
   },
   methods: {
     getIconType (level) {
@@ -68,12 +90,45 @@ export default {
         if (session.state.complete) status = 'complete'
       })
       return status
+    },
+    getSolutions (level) {
+      const levelModel = new Level(level)
+      // console.log('sol', levelModel.getSolutions())
+      return levelModel.getSolutions()
+    },
+    onShowCodeClicked (levelSlug) {
+      console.log('showCode', levelSlug)
+      const level = this.levels.find(l => l.slug === levelSlug)
+      const ls = this.levelSessions.find(ls => ls.levelID === levelSlug)
+      const studentCode = this.getStudentCode(ls)
+      const solutionCode = this.getSolutionCode(level, { lang: studentCode?.codeLanguage })
+      console.log('showCode LS', level, ls, this.getSolutions(level), studentCode, solutionCode)
+      this.code = studentCode?.code
+      this.solution = solutionCode
+      this.showCodeModal = level.slug
+    },
+    // do we need language filter?
+    getStudentCode (levelSession) {
+      if (levelSession?.code?.['hero-placeholder']?.plan) {
+        return { codeLanguage: levelSession.codeLanguage, code: levelSession?.code?.['hero-placeholder']?.plan }
+      } else if (levelSession?.code?.['hero-placeholder-1']?.plan) {
+        return { codeLanguage: levelSession.codeLanguage, code: levelSession?.code?.['hero-placeholder-1']?.plan }
+      }
+      return null
+    },
+    getSolutionCode (level, { lang = null }) {
+      const solutions = this.getSolutions(level)
+      if (lang) {
+        const sol = solutions.find(s => s.language === lang)
+        if (sol) return sol.source
+      }
+      return solutions.length ? solutions[0].source : null
     }
   },
   computed: {
 
   },
-  created () {
+  updated () {
     console.log('modProg', this.levels)
   }
 }
@@ -120,6 +175,10 @@ export default {
       border-radius: 1rem;
       margin-bottom: .5rem;
     }
+  }
+
+  &__diff {
+    padding: 1rem;
   }
 
   &__level {

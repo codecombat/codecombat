@@ -22,28 +22,50 @@ module.exports = class LevelCollection extends CocoCollection
   getSolutionsMap: (languages) ->
     @models.reduce((map, level) =>
       targetLangs = if level.get('primerLanguage') then [level.get('primerLanguage')] else languages
-      solutions = []
       allSolutions = _.filter level.getSolutions(), (s) -> not s.testOnly
-      for lang in targetLangs
-        if lang is 'html'
-          for s in allSolutions when s.language is 'html'
-            strippedSource = utils.extractPlayerCodeTag(s.source or '')
-            s.source = strippedSource if strippedSource
-            solutions.push s
-        else if lang isnt 'javascript' and not _.find(allSolutions, language: lang)
-          for s in allSolutions when s.language is 'javascript'
-            s.language = lang
-            s.source = aetherUtils.translateJS(s.source, lang)
-            solutions.push s
-        else
-          for s in allSolutions when s.language is lang
-            solutions.push s
+#      solutions = []
+#      for lang in targetLangs
+#        if lang is 'html'
+#          for s in allSolutions when s.language is 'html'
+#            strippedSource = utils.extractPlayerCodeTag(s.source or '')
+#            s.source = strippedSource if strippedSource
+#            solutions.push s
+#        else if lang isnt 'javascript' and not _.find(allSolutions, language: lang)
+#          for s in allSolutions when s.language is 'javascript'
+#            s.language = lang
+#            s.source = aetherUtils.translateJS(s.source, lang)
+#            solutions.push s
+#        else
+#          for s in allSolutions when s.language is lang
+#            solutions.push s
+      solutions = @constructor.getSolutionsHelper({ targetLangs, allSolutions })
       map[level.get('original')] = solutions?.map((s) => {source: @fingerprint(s.source, s.language), description: s.description})
       map
     , {})
 
+  @getSolutionsHelper: ({ targetLangs, allSolutions }) ->
+    solutions = []
+    for lang in targetLangs
+      if lang is 'html'
+        for s in allSolutions when s.language is 'html'
+          strippedSource = utils.extractPlayerCodeTag(s.source or '')
+          s.source = strippedSource if strippedSource
+          solutions.push s
+      else if lang isnt 'javascript' and not _.find(allSolutions, language: lang)
+        for s in allSolutions when s.language is 'javascript'
+          s.language = lang
+          s.source = aetherUtils.translateJS(s.source, lang)
+          solutions.push s
+      else
+        for s in allSolutions when s.language is lang
+          solutions.push s
+    solutions
+
   fingerprint: (code, language) ->
     # Add a zero-width-space at the end of every comment line
+    @constructor.fingerprintHelper(code, language)
+
+  @fingerprintHelper: (code, language) ->
     switch language
       when ['javascript', 'java', 'cpp'] then code.replace /^(\/\/.*)/gm, "$1​"
       when 'lua' then code.replace /^(--.*)/gm, "$1​"

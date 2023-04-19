@@ -42,6 +42,9 @@
       progressStatus: {
         type: String,
         default: ''
+      },
+      identifier: {
+        type: String
       }
     },
 
@@ -86,6 +89,7 @@
       <div
         v-if="showCode"
         class="code-view"
+        @click="$emit('showCodeClicked', identifier)"
       >
         <img src="/images/pages/parents/dashboard/show-code-logo.svg" alt="Show Code Logo" class="code-view__icon">
         <span class="code-view__text">
