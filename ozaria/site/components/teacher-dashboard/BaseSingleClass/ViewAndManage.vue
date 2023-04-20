@@ -23,6 +23,11 @@ export default {
         default: false
       }
     },
+    data(){
+      return {
+        lockOrSkipShown: false,
+      }
+    },
     computed: {
       ...mapGetters({
         selectedStudentIds: 'baseSingleClass/selectedStudentIds',
@@ -116,18 +121,18 @@ export default {
             popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
             trigger="click"
             placement="left"
-
+            @show="lockOrSkipShown=true"
+            @hide="lockOrSkipShown=false"
         >
           <!-- Triggers the tooltip -->
           <icon-button-with-text
-              v-if="(selectedOriginals.length>0 || selectedStudentIds.length>0)"
               class="icon-with-text"
               icon-name="IconLock"
               :text="$t('teacher_dashboard.lock_or_skip_levels')"
           />
           <!-- The tooltip -->
           <template slot="popover">
-            <lock-or-skip />
+            <lock-or-skip  :shown="lockOrSkipShown"/>
           </template>
         </v-popover>
 

@@ -63,7 +63,9 @@ function getLearningGoalsDocumentation (content) {
         getCourseInstancesForClass: 'courseInstances/getCourseInstancesForClass',
         getClassroomById: 'classrooms/getClassroomById',
         getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
-        getActiveClassrooms: 'teacherDashboard/getActiveClassrooms'
+        getActiveClassrooms: 'teacherDashboard/getActiveClassrooms',
+        selectableStudentIds: 'baseSingleClass/selectableStudentIds',
+        getSelectableOriginals: 'baseSingleClass/getSelectableOriginals',
       }),
 
       modules () {
@@ -335,6 +337,15 @@ function getLearningGoalsDocumentation (content) {
       classroomId (newId) {
         this.setClassroomId(newId)
         this.fetchClassroomData(newId)
+      },
+      students(newStudents){
+        this.setSelectableStudentIds((newStudents || []).map(s => s._id))
+      },
+      modules(newModules){
+          const originals = newModules.reduce((acc, module) => {
+            return acc.concat(module.contentList.map(c => c.normalizedOriginal))
+          }, [])
+          this.setSelectableOriginals(originals)
       }
     },
 
@@ -384,7 +395,8 @@ function getLearningGoalsDocumentation (content) {
         setTeacherId: 'teacherDashboard/setTeacherId',
         setClassroomId: 'teacherDashboard/setClassroomId',
         setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom',
-        closePanel: 'teacherDashboardPanel/closePanel'
+        setSelectableStudentIds: 'baseSingleClass/setSelectableStudentIds',
+        setSelectableOriginals: 'baseSingleClass/setSelectableOriginals'
       }),
 
       async fetchClassroomData (classroomId) {

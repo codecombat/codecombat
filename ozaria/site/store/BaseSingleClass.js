@@ -16,11 +16,13 @@ export default {
   namespaced: true,
   state: {
     selectedStudents: {},
+    selectableStudentIds: [],
     // This is either the student id being editted, or null.
     editingStudent: null,
     // Used to group together hover feedback for intro levels.
     showingTooltipOfThisOriginal: null,
 
+    selectableOriginals: [],
     selectedOriginals: []
   },
 
@@ -31,6 +33,14 @@ export default {
 
     selectedStudentIds (state) {
       return Object.keys(state.selectedStudents || [])
+    },
+
+    selectableStudentIds (state) {
+      return state.selectableStudentIds
+    },    
+
+    selectableOriginals (state) {
+      return state.selectableOriginals
     },
 
     selectedOriginals (state) {
@@ -52,6 +62,14 @@ export default {
         return
       }
       Vue.set(state.selectedStudents, studentId, true)
+    },
+
+    setSelectableStudentIds (state, studentIds ) {
+      state.selectableStudentIds = studentIds
+    },
+
+    setSelectableOriginals (state, listOfOriginals) {
+      state.selectableOriginals = listOfOriginals
     },
 
     removeCheckedStudent (state, { studentId }) {

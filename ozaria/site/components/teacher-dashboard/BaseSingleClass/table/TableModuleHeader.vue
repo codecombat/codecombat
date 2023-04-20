@@ -39,6 +39,7 @@ export default {
 
     data () {
       return {
+        lockOrSkipShown: false,
         hoveredOriginal: null,
         userSelectedOriginals: [],
       }
@@ -47,7 +48,6 @@ export default {
     computed: {
       ...mapGetters({
         showingTooltipOfThisOriginal: 'baseSingleClass/getShowingTooltipOfThisOriginal',
-        selectedStudentIds: 'baseSingleClass/selectedStudentIds',
         selectedOriginals: 'baseSingleClass/selectedOriginals'
       }),
 
@@ -127,18 +127,17 @@ export default {
         placement="top"
         popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
         trigger="click"
-        @show="selectAll"
-        @hide="deselectAll"
-
+        @show="lockOrSkipShown=true"
+        @hide="lockOrSkipShown=false"
       >
         <!-- Triggers the tooltip -->
-        <div v-if="!displayOnly && selectedStudentIds.length>0">
+        <div v-if="!displayOnly">
 
           <span class="btn btn-sm btn-default"><img :src="lockIconUrl"></span>
         </div>
         <!-- The tooltip -->
         <template slot="popover">
-          <lock-or-skip/>
+          <lock-or-skip :allOriginals="listOfOriginals" :shown="lockOrSkipShown"/>
         </template>
       </v-popover>
 

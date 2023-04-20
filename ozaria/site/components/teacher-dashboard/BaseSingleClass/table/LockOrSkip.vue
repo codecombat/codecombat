@@ -1,6 +1,6 @@
 <script>
 import Datepicker from 'vuejs-datepicker'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 import utils from 'app/core/utils'
 import LevelAccessStatusButton from '../../common/buttons/LevelAccessStatusButton'
@@ -11,11 +11,21 @@ export default {
     LevelAccessStatusButton
   },
   props: {
+    allOriginals: {
+      type: Array,
+      required: false,
+      default: null,
+    },
     defaultOriginals: {
       type: Array,
       required: false,
       default: () => []
-    }
+    },
+    shown: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
   },
 
   data () {
@@ -23,6 +33,8 @@ export default {
       action: { modifiers: [], value: null },
       selectedDate: new Date(),
       showDatepicker: false,
+      userSelectedOriginals: null,
+      userSelectedStudents: null,
       LOCK: { modifiers: ['locked'], value: true },
       UNLOCK: { modifiers: ['locked'], value: false },
       SKIP: { modifiers: ['locked', 'optional'], value: true },
@@ -37,25 +49,69 @@ export default {
       classroom: 'teacherDashboard/getCurrentClassroom',
       selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
       selectedStudentIds: 'baseSingleClass/selectedStudentIds',
-      selectedOriginals: 'baseSingleClass/selectedOriginals'
+      selectableStudentIds: 'baseSingleClass/selectableStudentIds',
+      selectableOriginals: 'baseSingleClass/selectableOriginals',
+      selectedOriginals: 'baseSingleClass/selectedOriginals',
     }),
 
     originals () {
       return this.defaultOriginals.length ? this.defaultOriginals : this.selectedOriginals
+    },
+  },
+
+  watch:{
+    shown(newValue){
+      if(newValue) {
+        if (this.selectedOriginals.length == 0) {
+          this.userSelectedOriginals = false;
+          this.selectAllOriginals()
+        } else {
+          this.userSelectedOriginals = true;
+        }
+        if(this.selectedStudentIds.length == 0) {
+          this.userSelectedStudents = false;
+          this.selectAllStudentIds()
+        } else {
+          this.userSelectedStudents = true;
+        }
+      } else {
+        if (this.userSelectedOriginals===false) {
+          this.deselectAllOriginals()
+        }
+        if(this.userSelectedStudents===false){
+          this.deselectAllStudentIds()
+        }
+      }
     }
   },
 
   methods: {
     ...mapActions({
       updateLevelAccessStatusForSelectedStudents: 'baseSingleClass/updateLevelAccessStatusForSelectedStudents',
+      addStudentSelectedId: 'baseSingleClass/addStudentSelectedId',
+      removeStudentSelectedId: 'baseSingleClass/removeStudentSelectedId',
     }),
+
+    ...mapMutations({
+      replaceSelectedOriginals: 'baseSingleClass/replaceSelectedOriginals',
+      updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals'      
+    }),
+
+    isActionActive(action) {
+      return action.value == this.action.value && action.modifiers.every(modifier => this.action.modifiers.includes(modifier));
+    },    
 
     toggleDatepicker () {
       this.showDatepicker = !this.showDatepicker
     },
 
-    updateLevelAccessStatus () {
+    submit(){
+      this.updateLevelAccessStatus()
+      this.deselectAllOriginals()
+      this.deselectAllStudentIds()
+    },
 
+    updateLevelAccessStatus () {
       const date = (this.action === this.LOCK && this.showDatepicker && this.selectedDate) || null
       this.updateLevelAccessStatusForSelectedStudents({
         classroom: this.classroom,
@@ -71,6 +127,18 @@ export default {
         modifierValue: this.action.value,
         date
       })
+    },
+    selectAllOriginals () {
+      this.replaceSelectedOriginals(this.allOriginals || this.selectableOriginals)
+    },
+    deselectAllOriginals () {
+      this.replaceSelectedOriginals([])
+    },
+    selectAllStudentIds () {
+      this.selectableStudentIds.forEach(id => this.addStudentSelectedId({studentId: id}))
+    },
+    deselectAllStudentIds () {
+      this.selectableStudentIds.forEach(id => this.removeStudentSelectedId({studentId: id}))
     }
   }
 }
@@ -87,8 +155,8 @@ export default {
     </p>
 
     <div class="buttons">
-      <LevelAccessStatusButton :active="action===LOCK" @click="action=LOCK" :text="$t('teacher_dashboard.lock')" icon-name="IconLock"/>
-      <LevelAccessStatusButton :active="action===UNLOCK" @click="action=UNLOCK" :text="$t('teacher_dashboard.unlock')"/>
+      <LevelAccessStatusButton :active="isActionActive(LOCK)" @click="action=LOCK" :text="$t('teacher_dashboard.lock')" icon-name="IconLock"/>
+      <LevelAccessStatusButton :active="isActionActive(UNLOCK)" @click="action=UNLOCK" :text="$t('teacher_dashboard.unlock')"/>
 
       <div class="datepicker-container" v-if="action===LOCK">
         <div class="btn-group btn-toggle btn-group-xs">
@@ -99,16 +167,20 @@ export default {
         </div>
       </div>
 
-      <LevelAccessStatusButton :active="action===SKIP" @click="action=SKIP" :text="$t('teacher_dashboard.skip')" icon-name="IconSkippedLevel"/>
-      <LevelAccessStatusButton :active="action===UNSKIP" @click="action=UNSKIP" :text="$t('teacher_dashboard.unskip')"/>
-      <LevelAccessStatusButton :active="action===MAKE_OPTIONAL" @click="action=MAKE_OPTIONAL" :text="$t('teacher_dashboard.make_optional')"
+      <LevelAccessStatusButton :active="isActionActive(SKIP)" @click="action=SKIP" :text="$t('teacher_dashboard.skip')" icon-name="IconSkippedLevel"/>
+      <LevelAccessStatusButton :active="isActionActive(UNSKIP)" @click="action=UNSKIP" :text="$t('teacher_dashboard.unskip')"/>
+      <LevelAccessStatusButton :active="isActionActive(MAKE_OPTIONAL)" @click="action=MAKE_OPTIONAL" :text="$t('teacher_dashboard.make_optional')"
                                icon-name="IconOptionalLevel"/>
-      <LevelAccessStatusButton :active="action===REMOVE_OPTIONAL" @click="action=REMOVE_OPTIONAL"
+      <LevelAccessStatusButton :active="isActionActive(REMOVE_OPTIONAL)" @click="action=REMOVE_OPTIONAL"
                                :text="$t('teacher_dashboard.remove_optional')"/>
     </div>
 
     <div class="lock-btn-row">
-      <a @click="updateLevelAccessStatus" href="#">{{ $t('common.submit') }}</a>
+      <a @click="submit" href="#">{{ $t('common.submit') }}</a>
+    </div>
+
+    <div class="level-access-status-blurb">
+        <p>{{ $t('teacher_dashboard.level_access_status_blurb') }}</p>
     </div>
 
   </div>
@@ -171,6 +243,10 @@ export default {
 
   .lock-btn-row {
     text-align: right;
+    padding: 15px;
+  }
+
+  .level-access-status-blurb {
     padding: 15px;
   }
 }
