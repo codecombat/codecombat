@@ -315,7 +315,7 @@ module.exports = class Autocomplete
     autocompleteReplacement = level.get("autocompleteReplacement") ? []
     usedAutocompleteReplacement = []
 
-    fixlanguageSnippets = (doc, lang) ->
+    fixLanguageSnippets = (doc, lang) ->
       usedAutocompleteReplacement = []
 
       if lang in ['java', 'cpp'] and not doc?.snippets?[lang] and doc?.snippets?.javascript
@@ -360,7 +360,7 @@ module.exports = class Autocomplete
             'lua': /self/
           if thisToken[lang] and thisToken[lang].test(content)
             content = content.replace thisToken[lang], 'hero'
-       return [doc, content, name]
+       return {doc, content, name}
 
     for group, props of e.propGroups
       for prop in props
@@ -373,7 +373,7 @@ module.exports = class Autocomplete
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
 
-          [doc, content, name] = fixlanguageSnippets(doc, e.language)
+          {doc, content, name} = fixLanguageSnippets(doc, e.language)
 
           entry =
             content: content
@@ -425,7 +425,7 @@ module.exports = class Autocomplete
       continue if not replacement.snippets
 
       # in case level.get('autocompeteReplacement') is defined and without full-language snippets
-      [doc, content, name] = fixlanguageSnippets(replacement, e.language)
+      {doc, content, name} = fixLanguageSnippets(replacement, e.language)
 
       entry =
         content: content
