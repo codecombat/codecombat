@@ -379,7 +379,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     ozaria_classroom: "Bmnevn Pynffebbz"
     codecombat_classroom: "PbqrPbzong Pynffebbz"
     ozaria_dashboard: "Bmnevn Qnfuobneq"
+    ozaria_teacher_dashboard: "Bmnevn Grnpure Qnfuobneq"
+    ozaria_admin_dashboard: "Bmnevn Nqzva Qnfuobneq"
     codecombat_dashboard: "PbqrPbzong Qnfuobneq"
+    codecombat_teacher_dashboard: "PbqrPbzong Grnpure Qnfuobneq"
+    codecombat_admin_dashboard: "PbqrPbzong Nqzva Qnfuobneq"
     professional_development: "Cebsrffvbany Qrirybczrag"
     new: "Arj!"
     admin: "Nqzva"
@@ -389,6 +393,15 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     partnerships: "Cnegarefuvcf"
     podcast: "Bhe Cbqpnfg"
     dashboard: "Qnfuobneq"
+    products: "Cebqhpgf"
+    live_online_classes: "Yvir Bayvar Pynffrf"
+    codecombat_home: "PbqrPbzong Ubzr"
+    libraries: "Yvoenevrf"
+    codecombat_worlds_on_roblox: "PbqrPbzong Jbeyqf ba Eboybk"
+    pricing: "Cevpvat"
+    help_center: "Uryc Pragre"
+    research_efficacy: "Erfrnepu - Rssvpnpl"
+    research_impact: "Erfrnepu - Vzcnpg"
 
   modal:
     close: "Pybfr"
@@ -440,7 +453,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   play:
     title: 'Cynl PbqrPbzong Yriryf - Yrnea Clguba, WninFpevcg, naq UGZY'
     meta_description: 'Yrnea cebtenzzvat jvgu n pbqvat tnzr sbe ortvaaref. Yrnea Clguba be WninFpevcg nf lbh fbyir znmrf, znxr lbhe bja tnzrf, naq yriry hc. Punyyratr lbhe sevraqf va zhygvcynlre neran yriryf!'
-    level_title: '__yriry__ - PbqrPbzong' # {punatr}
+    level_title: '__yriry__ - PbqrPbzong'
     level_title_ozaria: '__yriry__ - Bmnevn'
     video_title: '__ivqrb__ | Ivqrb Yriry'
     game_development_title: '__yriry__ | Tnzr Qrirybczrag'
@@ -1584,6 +1597,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     error_in_importing_students: "Reebe va vzcbegvat fghqragf"
     classroom_items_description: "Jurgure fghqragf fubhyq rnea trzf naq rdhvc vgrzf qhevat tnzrcynl."
     classroom_live_completion: "Jurgure gb ranoyr pbqvat nhgbpbzcyrgr va guvf pynffebbz. Qvfnoyrq: gheaf nhgbpbzcyrgr bss sbe nyy yriryf. Ranoyrq: nyybjf fghqragf gb pubbfr. Jr erpbzzraq yrnivat guvf ranoyrq."
+    not_allow_to_solution: '# Yvprafrf arrqrq gb ivrj fbyhgvbaf'
 
   no_licenses_page:
     are_your_students_ready: "Ner lbhe fghqragf rkpvgrq naq ernql gb yrnea zber?"
@@ -2563,6 +2577,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     license_stats: "Yvprafr Fgngf"
     redeemers: "Npgvir Fghqragf"
     removed_redeemers: "Vanpgvir Fghqragf"
+    latest_podcast_episode: "Yngrfg Cbqpnfg Rcvfbqr"
 
   teacher_licenses:
     active_licenses: "Npgvir Yvprafrf"
@@ -4217,8 +4232,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     sandstorm: "Fnaqfgbez"
     frozen_fortress: "Sebmra Sbegerff"
     equinox: "Rdhvabk"
-    pool_party_plunder: "Cbby Cnegl Cyhaqre"
-    beach_ball: "Ornpu Onyy"
+    farmers_feud: "Snezre'f Srhq"
+    farmscape: "Snezfpncr"
     storm_siege: "Fgbez Fvrtr"
     snowhold: "Fabjubyq"
     season_label: "Frnfba __frnfbaAhzore__: __frnfbaAnzr__"
@@ -4229,11 +4244,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     season_5: "Fnaqf bs Gvzr"
     season_6: "Zbygra Znlurz"
     season_7: "Zrygvat Cbvag"
-    season_8: "Fhzzre Fznfu"
+    season_8: "Pbqre'f Uneirfg" #{punatr}
     season_9: "Ervta bs Pbqr"
     cup: "Phc"
     blitz: "Oyvgm"
     clash: "Pynfu"
+    season7_announcement_1: "Jvgarff gur qnja bs n arj punyyratr va gur Rdhvabk Phc! Frnfba 7'f gbjre qrsrafr neran bssref n havdhr oyraq bs fgengrtl, zbafgref, naq obff onggyrf sbe lbh gb pbadhre."
     season6_announcement_1: "Vg’f nofbyhgr Zbygra Znlurz jvgu gur ynhapu bs gur Ynin Ynxr Pynfu svanyf! Bhgynfg naq bhgjvg gur pbzcrgvgvba va guvf ubg gnxr ba pynffvp Fanxr tnzrcynl."
     season6_announcement_2: "Abgr: neran onynapr nqwhfgzragf znl bpphe hc hagvy Qrprzore 15gu. Fb or fher gb pbzr onpx bsgra gb grfg lbhe pbqr ntnvafg gur tybony yrnqreobneq."
     season5_announcement_1: "Gur Fnaqfgbez Oyvgm Svany vf ba. Va guvf onfxrgoenjy bs na neran, lbh zhfg fhzzba gur evtug urebrf, pnyy gur evtug cynlf, naq bhgfpber lbhe bccbarag gb gnxr gur ivpgbel!"

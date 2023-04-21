@@ -4244,7 +4244,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     season_5: "Sands of Time"
     season_6: "Molten Mayhem"
     season_7: "Melting Point"
-    season_8: "Coder's Harvest" #{change}
+    season_8: "Coder's Harvest" #
     season_9: "Reign of Code"
     cup: "Cup"
     blitz: "Blitz"
