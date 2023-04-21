@@ -121,3 +121,6 @@ scripts/analytics/mongodb/.mainAuth.json
 .build_info.json
 
 .lighthouseci
+
+# Local VSCode history
+.history
