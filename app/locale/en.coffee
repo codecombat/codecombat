@@ -1777,6 +1777,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     delete_account_tab: "Delete Your Account"
     wrong_email: "Wrong Email or Username"
     wrong_password: "Wrong Password"
+    temp_password_expired: "Your temporary password has been expired."
     delete_this_account: "Delete this account permanently"
     reset_progress_tab: "Reset All Progress"
     reset_your_progress: "Clear all your progress and start over"
