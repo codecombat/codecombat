@@ -7,8 +7,8 @@ let AIView
 require('app/styles/ai/ai.sass')
 const RootView = require('views/core/RootView')
 const template = require('app/templates/ai/ai')
-const ai = require('../../../node_modules/ai/dist/ai')
-require('../../../node_modules/ai/dist/style.css')
+const ai = require('../../../node_modules/ai/dist-embed/ai')
+require('../../../node_modules/ai/dist-embed/style.css')
 
 module.exports = (AIView = (function() {
   AIView = class AIView extends RootView {
@@ -20,7 +20,7 @@ module.exports = (AIView = (function() {
     afterInsert() {
       // Undo our 62.5% default HTML font-size here
       $('html').css('font-size', '16px')
-      ai.AI({ domElement: this.$el.find('#root')[0], baseDirectory: '/ai' })
+      ai.AI({ domElement: this.$el.find('#root')[0] })
       return super.afterInsert()
     }
 

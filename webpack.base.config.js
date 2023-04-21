@@ -278,7 +278,7 @@ module.exports = (env) => {
             to: 'javascripts/app/vendor/aether-cpp.modern.js'
           }, {
             // Standalone ai project expects images and other assets in /ai subfolder; we also add one here
-            context: 'node_modules/ai/dist/ai',
+            context: 'node_modules/ai/dist-embed/ai',
             from: '**/*',
             to: 'ai'
           }
