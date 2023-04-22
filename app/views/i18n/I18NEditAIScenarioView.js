@@ -1,7 +1,7 @@
 const I18NEditModelView = require('./I18NEditModelView')
-const ChatMessage = require('models/ChatMessage')
+const AIScenario = require('models/AIScenario')
 
-class I18NEditChatMessage extends I18NEditModelView {
+class I18NEditAIScenario extends I18NEditModelView {
   buildTranslationList () {
     const lang = this.selectedLanguage
 
@@ -11,7 +11,7 @@ class I18NEditChatMessage extends I18NEditModelView {
       const name = this.model.get('name')
       const description = this.model.get('description')
       if (name) {
-        this.wrapRow('Label / Name', ['name'], name, i18n[lang]?.name, [])
+        this.wrapRow('Scenario Name', ['name'], name, i18n[lang]?.name, [])
       }
 
       if (description) {
@@ -21,7 +21,7 @@ class I18NEditChatMessage extends I18NEditModelView {
   }
 }
 
-I18NEditChatMessage.prototype.id = 'i18n-edit-chat-message-view'
-I18NEditChatMessage.prototype.modelClass = ChatMessage
+I18NEditAIScenario.prototype.id = 'i18n-edit-ai-scenario-view'
+I18NEditAIScenario.prototype.modelClass = AIScenario
 
-module.exports = I18NEditChatMessage
+module.exports = I18NEditAIScenario

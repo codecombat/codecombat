@@ -1,5 +1,7 @@
 module.exports = {
   admin: require('./admin')
+  aiProjects: require('./ai_project')
+  aiScenarios: require('./ai_scenario')
   apcsp: require('./apcsp')
   analyticsLogEvents: require('./analytics-log-events')
   campaigns: require('./campaigns')

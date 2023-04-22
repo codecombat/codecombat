@@ -8,6 +8,8 @@ if utils.isOzaria
   Interactive = require 'ozaria/site/models/Interactive'
   Cutscene = require 'ozaria/site/models/Cutscene'
 ResourceHubResource = require 'models/ResourceHubResource'
+ChatMessage = require 'models/ChatMessage'
+AIScenario = require 'models/AIScenario'
 
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
@@ -56,11 +58,13 @@ module.exports = class I18NHomeView extends RootView
       @interactive = new CocoCollection([], { url: "/db/interactive#{QUERY_PARAMS}", project: project, model: Interactive })
       @cutscene = new CocoCollection([], { url: "/db/cutscene#{QUERY_PARAMS}", project: project, model: Cutscene })
     @resourceHubResource = new CocoCollection([], { url: "/db/resource_hub_resource#{QUERY_PARAMS}", project: project, model: ResourceHubResource })
+    @chatMessage = new CocoCollection([], { url: "/db/chat_message#{QUERY_PARAMS}", project: project, model: ChatMessage })
+    @aiScenario = new CocoCollection([], { url: "/db/ai_scenario#{QUERY_PARAMS}", project: project, model: AIScenario })
 
     if utils.isOzaria
       collections = [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @interactive, @cinematics, @cutscene, @resourceHubResource]
     else
-      collections = [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @resourceHubResource]
+      collections = [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @resourceHubResource, @chatMessage, @aiScenario]
     for c in collections
       c.skip = 0
 
@@ -85,6 +89,8 @@ module.exports = class I18NHomeView extends RootView
         when 'Cinematic' then '/i18n/cinematic/'
         when 'Cutscene' then '/i18n/cutscene/'
         when 'ResourceHubResource' then '/i18n/resource_hub_resource/'
+        when 'ChatMessage' then '/i18n/chat_message/'
+        when 'AIScenario' then '/i18n/ai_scenario/'
     getMore = collection.models.length is PAGE_SIZE
     @aggregateModels.add(collection.models)
     @render()

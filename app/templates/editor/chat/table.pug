@@ -39,7 +39,7 @@ block tableBody
         td(colspan=2)
       if me.isAdmin() && chat.get('releasePhase') != 'released'
         td
-          button.chat-tool-buttonb.btn.btn-primary.btn-sm#delete-button(data-i18n="editor.delete")
+          button.chat-tool-button.btn.btn-primary.btn-sm#delete-button(data-i18n="editor.delete")
 
     if chat.get('message')
       tr.message-row(data-chat=chat.get('_id'))
