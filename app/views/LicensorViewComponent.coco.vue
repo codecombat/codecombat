@@ -409,7 +409,7 @@ module.exports = Vue.extend({
       if data.licenseDaysGranted < 0
         forms.setErrorToProperty(el, 'licenseDaysGranted', 'licenseDaysGranted should be greater than or equal to 0')
         return
-      
+
       try
         attrs = {
           name: data.clientName
@@ -452,7 +452,7 @@ module.exports = Vue.extend({
       catch err
         console.log(err)
         forms.setErrorToProperty(el, 'updateClientFeatures', 'Something went wrong')
-    
+
     onEditApiClient: co.wrap ->
       el = $('#client-form')
       requiredProps = ['clientName', 'licenseDaysGranted', 'minimumLicenseDays', 'manageLicensesViaUI', 'manageLicensesViaAPI', 'revokeLicensesViaUI', 'revokeLicensesViaAPI', 'manageSubscriptionViaAPI', 'revokeSubscriptionViaAPI']
@@ -463,11 +463,11 @@ module.exports = Vue.extend({
       if data.minimumLicenseDays < 1
         forms.setErrorToProperty(el, 'minimumLicenseDays', 'minimumLicenseDays should be greater than 0')
         return
-      
+
       if data.licenseDaysGranted < 0
         forms.setErrorToProperty(el, 'licenseDaysGranted', 'licenseDaysGranted should be greater than or equal to 0')
         return
-      
+
       try
         apiClient = yield api.apiClients.getByName(data.clientName)
         unless apiClient.length>0
@@ -505,7 +505,7 @@ module.exports = Vue.extend({
         this.clients = yield api.apiClients.getByName(data.clientNameShow)
         unless this.clients.length > 0
           forms.setErrorToProperty(el, 'showClient', 'No API Client found')
-          return 
+          return
         for client in this.clients
           stats = yield api.apiClients.getLicenseStats(client._id)
           Vue.set(client, 'licenseDaysUsed', stats.licenseDaysUsed)

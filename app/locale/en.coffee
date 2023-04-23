@@ -407,6 +407,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     podcast: "Our Podcast"
     teacher: 'Teacher'
     dashboard: "Dashboard"
+    products: "Products"
+    live_online_classes: "Live Online Classes"
+    codecombat_home: "CodeCombat Home"
+    libraries: "Libraries"
+    codecombat_worlds_on_roblox: "CodeCombat Worlds on Roblox"
+    pricing: "Pricing"
+    help_center: "Help Center"
+    research_efficacy: "Research - Efficacy"
+    research_impact: "Research - Impact"
 
   modal:
     close: "Close"
@@ -1604,6 +1613,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     error_in_importing_students: "Error in importing students"
     classroom_items_description: "Whether students should earn gems and equip items during gameplay."
     classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled."
+    not_allow_to_solution: '# Licenses needed to view solutions'
 
   no_licenses_page:
     are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -4238,8 +4248,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sandstorm: "Sandstorm"
     frozen_fortress: "Frozen Fortress"
     equinox: "Equinox"
-    pool_party_plunder: "Pool Party Plunder"
-    beach_ball: "Beach Ball"
+    farmers_feud: "Farmer's Feud"
+    farmscape: "Farmscape"
     storm_siege: "Storm Siege"
     snowhold: "Snowhold"
     season_label: "Season __seasonNumber__: __seasonName__"
@@ -4250,7 +4260,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     season_5: "Sands of Time"
     season_6: "Molten Mayhem"
     season_7: "Melting Point"
-    season_8: "Summer Smash"
+    season_8: "Coder's Harvest" #
     season_9: "Reign of Code"
     cup: "Cup"
     blitz: "Blitz"

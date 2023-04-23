@@ -3,15 +3,13 @@
     .container-fluid
       .header
         .container-fluid.header-part-top
-          .width-container.text-center
-            .row
-              .col-lg-12
-                h1.text-h1 {{ $t('apcsp_marketing.page_title') }}
+          .width-container.text-center.row
+            .col-lg-12
+              h1.text-h1 {{ $t('apcsp_marketing.page_title') }}
         .container-fluid.header-part-bottom(ref="header")
-          .width-container.text-center
-            .row
-              .col-lg-12
-                p.text-p {{ $t('apcsp_marketing.page_description_endorsed') }}
+          .width-container.row.text-center
+            .col-lg-12
+              p.text-p {{ $t('apcsp_marketing.page_description_endorsed') }}
 
     #nolicense.container-fluid(v-if="!hasLicense")
       .width-container.row.border-red
@@ -20,283 +18,287 @@
           a.btn.btn-primary.btn-lg.btn-shadow(href="https://forms.gle/RAA37R3FJojZ7bfQ7" target="_blank") {{ $t('apcsp_curriculum.request_license') }}
 
     #greed-banner.container-fluid(v-if="hasLicense")
-      .width-container.row.border-yellow
-        .col.col-lg-12
-          h2.text-h2(v-html="$t('apcsp_curriculum.access_syllabus', i18nData)")
-          a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
-          a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus_FullAccess.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
-        .col.col-lg-12
-          h2.text-h2(v-html="$t('apcsp_curriculum.access_pacing_guide', i18nData)")
-          a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide_Full.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
-
-
-    #resources.width-container(v-if="hasLicense")
       .width-container.row
-        .col-lg-12
-          h2.text-h2 {{ $t('apcsp_curriculum.resources') }}
-      .width-container.row-boxes-container
-        .col-yellow-border.col-yellow-border-double
-          h3.text-h3 Big Idea: Algorithms and Programming
-            span
-              | !{' '}(AAP)
-          .row
-            .col-lg-3.col-sm-6.col-xs-12
-              h4.text-h4 Computer Science 1
-              h5.text-h5 (6 Quests, 10 Sessions)
-              ul
-                li
-                  a(href="https://docs.google.com/presentation/d/1-N9FzM0tvZrAFg8xYqhaKjkA2hZj8NsYMFTIP-VjrNw/edit?usp=sharing" target="_blank") Quest 0: Getting Started
-                  span (CRD)
-                li
-                  a(href="https://docs.google.com/presentation/d/1aw95kI5UIBjWIDHYMHANkOzOkgLGW3rJiyze7kW5uIA/edit?usp=sharing" target="_blank") Quest 1: Syntax & Sequences
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1BzohUmlboC_yugSpaEcc5-mcz1hKWwUkLGYKD4opo5c/edit?usp=sharing" target="_blank") Quest 2: Arguments & Properties
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1kqvX08F_eoac52B_xYD9Tx15gCJURw6F2SoPR8micak/edit?usp=sharing" target="_blank") Quest 3: While Loops
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1VEkhdZqAdaRfKlP4HQ-a7ugCCjVdez-m35GSUZ-d2HM/edit?usp=sharing" target="_blank") Quest 4: Variables
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1DpWgbbxCJKi7u4ClrPhcoPAhRyJ_WlVdzcUx4IzFT9I/edit?usp=sharing" target="_blank") Quest 5: Capstone Project
-                  span (CRD, AAP)
-            .col-lg-3.col-sm-6.col-xs-12
-              h4.text-h4 Computer Science 2
-              h5.text-h5 (8 Quests, 15 Sessions)
-              ul
-                li
-                  a(href="https://docs.google.com/presentation/d/1nHsP3MyLF3Ff44bBixvKtqQhL4NiZ_dbTmBE5xh7NL8/edit?usp=sharing" target="_blank") Quest 1: Coordinate Systems
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1g54vcO_c1exc901HYkZdUgEiBUrhvs7DjzXmg6nwphw/edit?usp=sharing" target="_blank") Quest 2: Conditional Statements (If)
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1eoR5GC-HGISOqvZXUle6PvRtQm5TfXQLR8ExTvfH6nw/edit?usp=sharing" target="_blank") Quest 3: Conditional Statements (Else)
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1ZeDyRszf2ppNAZoBvAmSKCA7xyEBaRVgKOa9T-GWJcE/edit?usp=sharing" target="_blank") Quest 4: Nested Conditionals
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/16Y0MzRtwAFzajfaxs1UZbyQmgAMp6W5XSrjQlfsG1MU/edit?usp=sharing" target="_blank") Quest 5: Functions
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/16JW7XFJC33n6mdbjujl3O89Tbbyrwhs4ai7gxM5AFCs/edit?usp=sharing" target="_blank") Quest 6: Functions with Parameters
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1sRA-UzcFIUqtKghiojvPKiTWXinJZ500KJ-gU9T1Oiw/edit?usp=sharing" target="_blank") Quest 7: Events
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1Z2eV0DBoJsu0Mf85DSdbyzwH5YJyaPT3eEuajfbieTE/edit?usp=sharing" target="_blank") Quest 8: Capstone Project
-                  span (CRD, AAP)
-            .col-lg-3.col-sm-6.col-xs-12
-              h4.text-h4 Computer Science 3
-              h5.text-h5 (10 Quests, 15 Sessions)
-              ul
-                li
-                  a(href="https://docs.google.com/presentation/d/12VQOlwrpxnjx5OP9gnLV3k_dHrCjrrVPCLFXZ1XMrVg/edit?usp=sharing" target="_blank") Quest 1: Concatenation & Arithmetic
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1Pqjo2CIMTY1CaH9PkRP5PRX-qTiXG8pxyZKZB9ewtL8/edit?usp=sharing" target="_blank") Quest 2: Properties Revisited
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1rI4-eAdUojJWIY3LMp9GrGhp4KgzgzSDmVxI2E1h3Y4/edit?usp=sharing" target="_blank") Quest 3: Functions that Return
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1uBcZGlWCRV8sK42iq_XX-Oe6L9gmtTfr0w1A7GFTp1U/edit?usp=sharing" target="_blank") Quest 4: Comparison Operators
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1DCZhZyBR5ulhU4neDy3b9h8Yuo6kuDyg-0mRMTW6eHU/edit?usp=sharing" target="_blank") Quest 5: Logical Operators
-                  span (CRD, AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1CUlJR21NNsJkiEJAYRBGw8j36Wx5jMye2Y7DLbLxsMU/edit?usp=sharing" target="_blank") Quest 6: Relative Movement
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/11eilsfqhH-V-_4bYsLnTMwuSq-z7R3LlcBS4x_j5WUs/edit?usp=sharing" target="_blank") Quest 7: Time & Health
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1rk6XHIQDoBGjhg-TLaoyX5xLwPT82m0ibGKyf2gDurs/edit?usp=sharing" target="_blank") Quest 8: Break & Continue
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/19-iBbPoKKnmgE084O9E34UuVPTc4uPTcdtBp0LYPO3U/edit?usp=sharing" target="_blank") Quest 9: Simulations
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/18am_Yw5y0L4X7rQ5xQaBmG3C3DjDshQkiLcGosMgxWQ/edit?usp=sharing" target="_blank") Quest 10: Capstone Project
-                  span (CRD, AAP)
-            .col-lg-3.col-sm-6.col-xs-12
-              h4.text-h4 Computer Science 4
-              h5.text-h5 (8 Quests, 15 Sessions)
-              ul
-                li
-                  a(href="https://docs.google.com/presentation/d/1BxIXCxk61_fMh-8kAjZz9VZPWUN9tUB-BEY0QGybl60/edit?usp=sharing" target="_blank") Quest 1: While Loop Conditions
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1BFfCt-MyNi-PTkMR6pt5R7AP0BGn0Q6GfPWEWAjgUno/edit?usp=sharing" target="_blank") Quest 2: Lists
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1yr6gxCS-mnAm7d6ul3xzk49WvBROmRwFjcjkdNrsRi4/edit?usp=sharing" target="_blank") Quest 3: Using Lists
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1BwlPl8fHKfn6wUs3pMLNaIxLcTZ-CyYgh2GcRpv6k5g/edit?usp=sharing" target="_blank") Quest 4: Revisiting Movement
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1R-_gHpRChRsW5rZBXG7lKQlxvdoeg8RWPV5gKtesTE0/edit?usp=sharing" target="_blank") Quest 5: For Loops
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1AW9A_0YkPh2FzDxtsoNU-zLAmmHB3atEjyyJtdjtqMY/edit?usp=sharing" target="_blank") Quest 6: Common Algorithms
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1pjCDkfzuwzogcUGGYNN1yAGt7ht2PjxzNEiexrehOSQ/edit?usp=sharing" target="_blank") Quest 7: Undecidable Problems
-                  span (AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1M3SohK7tdXIvnPoxedhOHdZZq3RK5X0vvgWNcLpuKRI/edit?usp=sharing" target="_blank") Quest 8: Capstone Project
-                  span (CRD, AAP)
+        .col.col-lg-12
+          .border-yellow
+            .row
+              .col.col-lg-12
+                h2.text-h2(v-html="$t('apcsp_curriculum.access_syllabus', i18nData)")
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus_FullAccess.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
+              .col.col-lg-12
+                h2.text-h2(v-html="$t('apcsp_curriculum.access_pacing_guide', i18nData)")
+                a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide_Full.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
 
-        .col-yellow-border
-          h3.text-h3 Big Idea: Creative Development
-            span
-              | !{' '}(CRD)
-          .row
-            .col-lg-12
-              h4.text-h4 Creative Development
-              h5.text-h5 (4 Quests, 16 Sessions)
-              ul
-                li
-                  a(href="https://docs.google.com/presentation/d/1SMF6n9TBpRZmUR3VKG6rHFP8_MIa0J2rLq-wtul3y6o" target="_blank") Quest 1: Create Task Overview
-                  span (CRD, AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1lH25awu3jBh0EWKl8mtndwMRpmpfxbHmaQUDZn-La94" target="_blank") Quest 2: Written Response Overview
-                  span (CRD, AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/15xgiGEhmgHXy_SQ70pXJ8Q-Csf_5_m9KQD7PFooQZC0" target="_blank") Quest 3: Pacing the Create Task
-                  span (CRD, AAP)
-                li
-                  a(href="https://docs.google.com/presentation/d/1nBSoYNxz3Yj8VfSFI_r56gYQ1sigSfMSFcBuRW4YFz8" target="_blank") Quest 4: Create Task Submission
-                  span (CRD)
 
-        .col-yellow-border
-          h3.text-h3 Big Idea: Computer Systems & Networks
-            span
-              | !{' '}(CSN)
-          .row
-            .col-lg-12
-              h4.text-h4 Computer Systems & Networks
-              h5.text-h5 (6 Quests, 15 Sessions)
-              ul
-                li
-                  a(href="https://docs.google.com/presentation/d/1WyW5mdpwQl9oQsMYkFoMa_MDlBM2GJ_n0RzsdurjV3s/edit?usp=sharing" target="_blank") Quest 1: The Internet (Overview)
-                  span (CSN)
-                li
-                  a(href="https://docs.google.com/presentation/d/1XG0Yju9mvSusiMNJL-PSJ10JmFG6D6l1OlTvnlDo5hY/edit?usp=sharing" target="_blank") Quest 2: The Internet (Routing)
-                  span (CSN)
-                li
-                  a(href="https://docs.google.com/presentation/d/1ZVU3P5vYVmz37AIbnK1RNHFIeUOONNP5yvIkx73fx-A/edit?usp=sharing" target="_blank") Quest 3: The Internet (Packets)
-                  span (CSN)
-                li
-                  a(href="https://docs.google.com/presentation/d/1VayHcuEmpR2bQXTyNTGvPl_7ictFmE6Mr4nMiY8d6Qc/edit?usp=sharing" target="_blank") Quest 4: World Wide Web vs. The Internet
-                  span (CSN)
-                li
-                  a(href="https://docs.google.com/presentation/d/1vK-ydFZ5V8RdLUUrrMN_qOfGH2wb2sIBAeUyzqZlfzc/edit?usp=sharing" target="_blank") Quest 5: Parallel & Distributed Computing
-                  span (CSN)
-                li
-                  a(href="https://docs.google.com/presentation/d/1Gy6qyJgjnwkKLrySXrI3dAgueCwzPTT4_vECx8qV0WE/edit?usp=sharing" target="_blank") Quest 6: Capstone Project
-                  span (CSN, CRD)
+    #resources.width-container.row(v-if="hasLicense")
+      .col-lg-12
+        h2.text-h2 {{ $t('apcsp_curriculum.resources') }}
+      .col-lg-12    
+        .row-boxes-container
+          .col-yellow-border.col-yellow-border-double
+            h3.text-h3 Big Idea: Algorithms and Programming
+              span
+                | !{' '}(AAP)
+            .row
+              .col-lg-3.col-sm-6.col-xs-12
+                h4.text-h4 Computer Science 1
+                h5.text-h5 (6 Quests, 10 Sessions)
+                ul
+                  li
+                    a(href="https://docs.google.com/presentation/d/1-N9FzM0tvZrAFg8xYqhaKjkA2hZj8NsYMFTIP-VjrNw/edit?usp=sharing" target="_blank") Quest 0: Getting Started
+                    span (CRD)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1aw95kI5UIBjWIDHYMHANkOzOkgLGW3rJiyze7kW5uIA/edit?usp=sharing" target="_blank") Quest 1: Syntax & Sequences
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1BzohUmlboC_yugSpaEcc5-mcz1hKWwUkLGYKD4opo5c/edit?usp=sharing" target="_blank") Quest 2: Arguments & Properties
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1kqvX08F_eoac52B_xYD9Tx15gCJURw6F2SoPR8micak/edit?usp=sharing" target="_blank") Quest 3: While Loops
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1VEkhdZqAdaRfKlP4HQ-a7ugCCjVdez-m35GSUZ-d2HM/edit?usp=sharing" target="_blank") Quest 4: Variables
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1DpWgbbxCJKi7u4ClrPhcoPAhRyJ_WlVdzcUx4IzFT9I/edit?usp=sharing" target="_blank") Quest 5: Capstone Project
+                    span (CRD, AAP)
+              .col-lg-3.col-sm-6.col-xs-12
+                h4.text-h4 Computer Science 2
+                h5.text-h5 (8 Quests, 15 Sessions)
+                ul
+                  li
+                    a(href="https://docs.google.com/presentation/d/1nHsP3MyLF3Ff44bBixvKtqQhL4NiZ_dbTmBE5xh7NL8/edit?usp=sharing" target="_blank") Quest 1: Coordinate Systems
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1g54vcO_c1exc901HYkZdUgEiBUrhvs7DjzXmg6nwphw/edit?usp=sharing" target="_blank") Quest 2: Conditional Statements (If)
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1eoR5GC-HGISOqvZXUle6PvRtQm5TfXQLR8ExTvfH6nw/edit?usp=sharing" target="_blank") Quest 3: Conditional Statements (Else)
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1ZeDyRszf2ppNAZoBvAmSKCA7xyEBaRVgKOa9T-GWJcE/edit?usp=sharing" target="_blank") Quest 4: Nested Conditionals
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/16Y0MzRtwAFzajfaxs1UZbyQmgAMp6W5XSrjQlfsG1MU/edit?usp=sharing" target="_blank") Quest 5: Functions
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/16JW7XFJC33n6mdbjujl3O89Tbbyrwhs4ai7gxM5AFCs/edit?usp=sharing" target="_blank") Quest 6: Functions with Parameters
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1sRA-UzcFIUqtKghiojvPKiTWXinJZ500KJ-gU9T1Oiw/edit?usp=sharing" target="_blank") Quest 7: Events
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1Z2eV0DBoJsu0Mf85DSdbyzwH5YJyaPT3eEuajfbieTE/edit?usp=sharing" target="_blank") Quest 8: Capstone Project
+                    span (CRD, AAP)
+              .col-lg-3.col-sm-6.col-xs-12
+                h4.text-h4 Computer Science 3
+                h5.text-h5 (10 Quests, 15 Sessions)
+                ul
+                  li
+                    a(href="https://docs.google.com/presentation/d/12VQOlwrpxnjx5OP9gnLV3k_dHrCjrrVPCLFXZ1XMrVg/edit?usp=sharing" target="_blank") Quest 1: Concatenation & Arithmetic
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1Pqjo2CIMTY1CaH9PkRP5PRX-qTiXG8pxyZKZB9ewtL8/edit?usp=sharing" target="_blank") Quest 2: Properties Revisited
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1rI4-eAdUojJWIY3LMp9GrGhp4KgzgzSDmVxI2E1h3Y4/edit?usp=sharing" target="_blank") Quest 3: Functions that Return
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1uBcZGlWCRV8sK42iq_XX-Oe6L9gmtTfr0w1A7GFTp1U/edit?usp=sharing" target="_blank") Quest 4: Comparison Operators
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1DCZhZyBR5ulhU4neDy3b9h8Yuo6kuDyg-0mRMTW6eHU/edit?usp=sharing" target="_blank") Quest 5: Logical Operators
+                    span (CRD, AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1CUlJR21NNsJkiEJAYRBGw8j36Wx5jMye2Y7DLbLxsMU/edit?usp=sharing" target="_blank") Quest 6: Relative Movement
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/11eilsfqhH-V-_4bYsLnTMwuSq-z7R3LlcBS4x_j5WUs/edit?usp=sharing" target="_blank") Quest 7: Time & Health
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1rk6XHIQDoBGjhg-TLaoyX5xLwPT82m0ibGKyf2gDurs/edit?usp=sharing" target="_blank") Quest 8: Break & Continue
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/19-iBbPoKKnmgE084O9E34UuVPTc4uPTcdtBp0LYPO3U/edit?usp=sharing" target="_blank") Quest 9: Simulations
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/18am_Yw5y0L4X7rQ5xQaBmG3C3DjDshQkiLcGosMgxWQ/edit?usp=sharing" target="_blank") Quest 10: Capstone Project
+                    span (CRD, AAP)
+              .col-lg-3.col-sm-6.col-xs-12
+                h4.text-h4 Computer Science 4
+                h5.text-h5 (8 Quests, 15 Sessions)
+                ul
+                  li
+                    a(href="https://docs.google.com/presentation/d/1BxIXCxk61_fMh-8kAjZz9VZPWUN9tUB-BEY0QGybl60/edit?usp=sharing" target="_blank") Quest 1: While Loop Conditions
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1BFfCt-MyNi-PTkMR6pt5R7AP0BGn0Q6GfPWEWAjgUno/edit?usp=sharing" target="_blank") Quest 2: Lists
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1yr6gxCS-mnAm7d6ul3xzk49WvBROmRwFjcjkdNrsRi4/edit?usp=sharing" target="_blank") Quest 3: Using Lists
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1BwlPl8fHKfn6wUs3pMLNaIxLcTZ-CyYgh2GcRpv6k5g/edit?usp=sharing" target="_blank") Quest 4: Revisiting Movement
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1R-_gHpRChRsW5rZBXG7lKQlxvdoeg8RWPV5gKtesTE0/edit?usp=sharing" target="_blank") Quest 5: For Loops
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1AW9A_0YkPh2FzDxtsoNU-zLAmmHB3atEjyyJtdjtqMY/edit?usp=sharing" target="_blank") Quest 6: Common Algorithms
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1pjCDkfzuwzogcUGGYNN1yAGt7ht2PjxzNEiexrehOSQ/edit?usp=sharing" target="_blank") Quest 7: Undecidable Problems
+                    span (AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1M3SohK7tdXIvnPoxedhOHdZZq3RK5X0vvgWNcLpuKRI/edit?usp=sharing" target="_blank") Quest 8: Capstone Project
+                    span (CRD, AAP)
 
-        .col-yellow-border
-          h3.text-h3 Big Idea: Data
-            span
-              | !{' '}(DAT)
-          .row
-            .col-lg-12
-              h4.text-h4 Data
-              h5.text-h5 (9 Quests, 16 Sessions)
-              ul
-                li
-                  a(href="https://docs.google.com/presentation/d/1svmcKu3wZp-9SprI8Cr6vvDAWJAVQd8Hq-NAteMZ6Zw/edit?usp=sharing" target="_blank") Quest 1: Digital Information (Text)
-                  span (DAT)
-                li
-                  a(href="https://docs.google.com/presentation/d/1lRAc4tTktQ23tErcJ1I86BbGlPzw5kQT7yMPYrUuD3U/edit?usp=sharing" target="_blank") Quest 2: Digital Information (Images)
-                  span (DAT)
-                li
-                  a(href="https://docs.google.com/presentation/d/1oEy0Yf6lM-jEesFM1KxdNiYvsTnnT06jTgOfV19A3wg/edit?usp=sharing" target="_blank") Quest 3: Digital Information (Sound)
-                  span (DAT)
-                li
-                  a(href="https://docs.google.com/presentation/d/1_lu9brdyeAnikWRFoSY4X2TNVmN6YLb2wQrz38t57eU/edit?usp=sharing" target="_blank") Quest 4: Limitations of Digital Representations
-                  span (DAT)
-                li
-                  a(href="https://docs.google.com/presentation/d/1Hcbyt_ajAFE4OuDtaEMBrm_W5yohxnu_YEVwNN4VAQY/edit?usp=sharing" target="_blank") Quest 5: Data Compression
-                  span (DAT)
-                li
-                  a(href="https://docs.google.com/presentation/d/1TtiUIsaE6CdmIY66ZaomFuy5bsB3RXNKnZBSYTlDzMQ/edit?usp=sharing" target="_blank") Quest 6: Data Analysis (Sourcing Data)
-                  span (DAT)
-                li
-                  a(href="https://docs.google.com/presentation/d/1AtE600bauP9GcX7PzOJEHQHJSSK6YAXL1uq5-xhzQq4/edit?usp=sharing" target="_blank") Quest 7: Data Analysis (Cleaning Data)
-                  span (DAT)
-                li
-                  a(href="https://docs.google.com/presentation/d/1gopS2iWBBGNgAdTfSM7_7jGjKTSkDU3SqR7qaHVl7UA/edit?usp=sharing" target="_blank") Quest 8: Data Analysis (Processing Data)
-                  span (DAT)
-                li
-                  a(href="https://docs.google.com/presentation/d/1oKcDHeZ9uw5D6Pls9Q9F5ZprUAb5RUb_cXA-VK6kVb0/edit?usp=sharing" target="_blank") Quest 9: Capstone Project
-                  span (DAT, CRD)
+          .col-yellow-border
+            h3.text-h3 Big Idea: Creative Development
+              span
+                | !{' '}(CRD)
+            .row
+              .col-lg-12
+                h4.text-h4 Creative Development
+                h5.text-h5 (4 Quests, 16 Sessions)
+                ul
+                  li
+                    a(href="https://docs.google.com/presentation/d/1SMF6n9TBpRZmUR3VKG6rHFP8_MIa0J2rLq-wtul3y6o" target="_blank") Quest 1: Create Task Overview
+                    span (CRD, AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1lH25awu3jBh0EWKl8mtndwMRpmpfxbHmaQUDZn-La94" target="_blank") Quest 2: Written Response Overview
+                    span (CRD, AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/15xgiGEhmgHXy_SQ70pXJ8Q-Csf_5_m9KQD7PFooQZC0" target="_blank") Quest 3: Pacing the Create Task
+                    span (CRD, AAP)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1nBSoYNxz3Yj8VfSFI_r56gYQ1sigSfMSFcBuRW4YFz8" target="_blank") Quest 4: Create Task Submission
+                    span (CRD)
 
-        .col-yellow-border
-          h3.text-h3 Big Idea: Impact of Computing
-            span
-              | !{' '}(IOC)
-          .row
-            .col-lg-12
-              h4.text-h4 Impact of Computing
-              h5.text-h5 (9 Quests, 18 Sessions)
-              ul
-                li
-                  a(href="https://docs.google.com/presentation/d/1XAar0ipd57A-NobEmLQIjPWVzeYAK8g_C7TVwQNCi1c/edit?usp=sharing" target="_blank") Quest 1: Computing Innovations
-                  span (IOC, CRD)
-                li
-                  a(href="https://docs.google.com/presentation/d/1XnVULZHTRjUOACFlhAP7xNECoNGYV3BE7BShpUJXCgk/edit?usp=sharing" target="_blank") Quest 2: Digital Divide
-                  span (IOC)
-                li
-                  a(href="https://docs.google.com/presentation/d/1h7mDmC7c5C2RwFHEcsxO5q4ybCbkSUnMU2i4IbdBw7g/edit?usp=sharing" target="_blank") Quest 3: Bias
-                  span (IOC)
-                li
-                  a(href="https://docs.google.com/presentation/d/1Ht0232EgdfQbkGKUZrkNbUQ8Fw47Pq5qXLwX7A_Pp94/edit?usp=sharing" target="_blank") Quest 4: Citizen Science
-                  span (IOC)
-                li
-                  a(href="https://docs.google.com/presentation/d/1szYpRP4-rkxoC6MJSRO-D-uk_9fQsUCGjvnhhTgXZM8/edit?usp=sharing" target="_blank") Quest 5: Legal & Ethical Concerns
-                  span (IOC)
-                li
-                  a(href="https://docs.google.com/presentation/d/1-G2AL26y0CsAInAsY3CVQaQkFcEhBlSK0Cd7Ry3fU_A/edit?usp=sharing" target="_blank") Quest 6: Personal Identifiable Information
-                  span (IOC)
-                li
-                  a(href="https://docs.google.com/presentation/d/1qgirFVdsLUYYDqYEnkm25jBoP4QS5BF2ggxjyjqa-1c/edit?usp=sharing" target="_blank") Quest 7: Protecting Digital Information
-                  span (IOC)
-                li
-                  a(href="https://docs.google.com/presentation/d/14re2luFv1EMbgszdp2NvH6g2JMpOUxKM95cDz5I2nq4/edit?usp=sharing" target="_blank") Quest 8: Encryption & Decryption
-                  span (IOC)
-                li
-                  a(href="https://docs.google.com/presentation/d/1CUUBkovwJpnNhYcONg8hwM-rfZLShBKvtlxrQ8ftOfU/edit?usp=sharing" target="_blank") Quest 9: Capstone Project
-                  span (IOC, CRD, AAP, DAT)
-        .col-yellow-border.col-yellow-border-double
-          h3.text-h3 Big Idea: Examp Prep
-          .row
-            .col-lg-9
-              h4.text-h4 Examp Prep
-              h5.text-h5 (5 Quests, 10 Sessions)
-              ul
-                li
-                  a(href="https://docs.google.com/presentation/d/1s3exkP4QVT6pq1fIVKFjVrKoGPv_kSOoaZqIfN4jUNA/edit?usp=sharing" target="_blank") Quest 1: Introduction to the AP CSP Exam Multiple Choice Format
-                li
-                  a(href="https://create.kahoot.it/groups/ed7457aa-8b38-4e17-81d9-2305533da20d/join?inviteCode=jfj71f9h3vm6mk6rdthc80922to250g9e2kikghked9v7i12ullnc98nl228jce2lhe8n90vurde" target="_blank") Quests 2 - 5: Kahoot! Quiz Practice
-            .col-lg-3
-              img(src="/images/pages/apcsp/kahoot-logo.png")
+          .col-yellow-border
+            h3.text-h3 Big Idea: Computer Systems & Networks
+              span
+                | !{' '}(CSN)
+            .row
+              .col-lg-12
+                h4.text-h4 Computer Systems & Networks
+                h5.text-h5 (6 Quests, 15 Sessions)
+                ul
+                  li
+                    a(href="https://docs.google.com/presentation/d/1WyW5mdpwQl9oQsMYkFoMa_MDlBM2GJ_n0RzsdurjV3s/edit?usp=sharing" target="_blank") Quest 1: The Internet (Overview)
+                    span (CSN)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1XG0Yju9mvSusiMNJL-PSJ10JmFG6D6l1OlTvnlDo5hY/edit?usp=sharing" target="_blank") Quest 2: The Internet (Routing)
+                    span (CSN)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1ZVU3P5vYVmz37AIbnK1RNHFIeUOONNP5yvIkx73fx-A/edit?usp=sharing" target="_blank") Quest 3: The Internet (Packets)
+                    span (CSN)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1VayHcuEmpR2bQXTyNTGvPl_7ictFmE6Mr4nMiY8d6Qc/edit?usp=sharing" target="_blank") Quest 4: World Wide Web vs. The Internet
+                    span (CSN)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1vK-ydFZ5V8RdLUUrrMN_qOfGH2wb2sIBAeUyzqZlfzc/edit?usp=sharing" target="_blank") Quest 5: Parallel & Distributed Computing
+                    span (CSN)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1Gy6qyJgjnwkKLrySXrI3dAgueCwzPTT4_vECx8qV0WE/edit?usp=sharing" target="_blank") Quest 6: Capstone Project
+                    span (CSN, CRD)
+
+          .col-yellow-border
+            h3.text-h3 Big Idea: Data
+              span
+                | !{' '}(DAT)
+            .row
+              .col-lg-12
+                h4.text-h4 Data
+                h5.text-h5 (9 Quests, 16 Sessions)
+                ul
+                  li
+                    a(href="https://docs.google.com/presentation/d/1svmcKu3wZp-9SprI8Cr6vvDAWJAVQd8Hq-NAteMZ6Zw/edit?usp=sharing" target="_blank") Quest 1: Digital Information (Text)
+                    span (DAT)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1lRAc4tTktQ23tErcJ1I86BbGlPzw5kQT7yMPYrUuD3U/edit?usp=sharing" target="_blank") Quest 2: Digital Information (Images)
+                    span (DAT)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1oEy0Yf6lM-jEesFM1KxdNiYvsTnnT06jTgOfV19A3wg/edit?usp=sharing" target="_blank") Quest 3: Digital Information (Sound)
+                    span (DAT)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1_lu9brdyeAnikWRFoSY4X2TNVmN6YLb2wQrz38t57eU/edit?usp=sharing" target="_blank") Quest 4: Limitations of Digital Representations
+                    span (DAT)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1Hcbyt_ajAFE4OuDtaEMBrm_W5yohxnu_YEVwNN4VAQY/edit?usp=sharing" target="_blank") Quest 5: Data Compression
+                    span (DAT)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1TtiUIsaE6CdmIY66ZaomFuy5bsB3RXNKnZBSYTlDzMQ/edit?usp=sharing" target="_blank") Quest 6: Data Analysis (Sourcing Data)
+                    span (DAT)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1AtE600bauP9GcX7PzOJEHQHJSSK6YAXL1uq5-xhzQq4/edit?usp=sharing" target="_blank") Quest 7: Data Analysis (Cleaning Data)
+                    span (DAT)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1gopS2iWBBGNgAdTfSM7_7jGjKTSkDU3SqR7qaHVl7UA/edit?usp=sharing" target="_blank") Quest 8: Data Analysis (Processing Data)
+                    span (DAT)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1oKcDHeZ9uw5D6Pls9Q9F5ZprUAb5RUb_cXA-VK6kVb0/edit?usp=sharing" target="_blank") Quest 9: Capstone Project
+                    span (DAT, CRD)
+
+          .col-yellow-border
+            h3.text-h3 Big Idea: Impact of Computing
+              span
+                | !{' '}(IOC)
+            .row
+              .col-lg-12
+                h4.text-h4 Impact of Computing
+                h5.text-h5 (9 Quests, 18 Sessions)
+                ul
+                  li
+                    a(href="https://docs.google.com/presentation/d/1XAar0ipd57A-NobEmLQIjPWVzeYAK8g_C7TVwQNCi1c/edit?usp=sharing" target="_blank") Quest 1: Computing Innovations
+                    span (IOC, CRD)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1XnVULZHTRjUOACFlhAP7xNECoNGYV3BE7BShpUJXCgk/edit?usp=sharing" target="_blank") Quest 2: Digital Divide
+                    span (IOC)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1h7mDmC7c5C2RwFHEcsxO5q4ybCbkSUnMU2i4IbdBw7g/edit?usp=sharing" target="_blank") Quest 3: Bias
+                    span (IOC)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1Ht0232EgdfQbkGKUZrkNbUQ8Fw47Pq5qXLwX7A_Pp94/edit?usp=sharing" target="_blank") Quest 4: Citizen Science
+                    span (IOC)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1szYpRP4-rkxoC6MJSRO-D-uk_9fQsUCGjvnhhTgXZM8/edit?usp=sharing" target="_blank") Quest 5: Legal & Ethical Concerns
+                    span (IOC)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1-G2AL26y0CsAInAsY3CVQaQkFcEhBlSK0Cd7Ry3fU_A/edit?usp=sharing" target="_blank") Quest 6: Personal Identifiable Information
+                    span (IOC)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1qgirFVdsLUYYDqYEnkm25jBoP4QS5BF2ggxjyjqa-1c/edit?usp=sharing" target="_blank") Quest 7: Protecting Digital Information
+                    span (IOC)
+                  li
+                    a(href="https://docs.google.com/presentation/d/14re2luFv1EMbgszdp2NvH6g2JMpOUxKM95cDz5I2nq4/edit?usp=sharing" target="_blank") Quest 8: Encryption & Decryption
+                    span (IOC)
+                  li
+                    a(href="https://docs.google.com/presentation/d/1CUUBkovwJpnNhYcONg8hwM-rfZLShBKvtlxrQ8ftOfU/edit?usp=sharing" target="_blank") Quest 9: Capstone Project
+                    span (IOC, CRD, AAP, DAT)
+          .col-yellow-border.col-yellow-border-double
+            h3.text-h3 Big Idea: Examp Prep
+            .row
+              .col-lg-9
+                h4.text-h4 Examp Prep
+                h5.text-h5 (5 Quests, 10 Sessions)
+                ul
+                  li
+                    a(href="https://docs.google.com/presentation/d/1s3exkP4QVT6pq1fIVKFjVrKoGPv_kSOoaZqIfN4jUNA/edit?usp=sharing" target="_blank") Quest 1: Introduction to the AP CSP Exam Multiple Choice Format
+                  li
+                    a(href="https://create.kahoot.it/groups/ed7457aa-8b38-4e17-81d9-2305533da20d/join?inviteCode=jfj71f9h3vm6mk6rdthc80922to250g9e2kikghked9v7i12ullnc98nl228jce2lhe8n90vurde" target="_blank") Quests 2 - 5: Kahoot! Quiz Practice
+              .col-lg-3
+                img(src="/images/pages/apcsp/kahoot-logo.png")
 
     #the-college-board.width-container.row.image-row
       .col.col-lg-12.text-box
-        .board-content.row
-          .col-lg-9
-            p.text-p {{ $t('apcsp_marketing.coco_recognized_blurb') }}
-          .col-lg-3.college-board-image-container
-            img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")
+        .board-content
+          .row
+            .col-lg-9
+              p.text-p {{ $t('apcsp_marketing.coco_recognized_blurb') }}
+            .col-lg-3.college-board-image-container
+              img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")
 
     #professional-development.container-fluid.container-fluid-gradient(v-if="hasLicense")
       .width-container.row
@@ -660,8 +662,10 @@ p, .text-p {
 
   .image-row {
     .text-box {
-      border: 10px solid $teal-dark;
-      border-radius: 25px;
+      .board-content {
+        border: 10px solid $teal-dark;
+        border-radius: 25px;
+      }
     }
   }
 
@@ -679,6 +683,7 @@ p, .text-p {
   .border-yellow {
     @extend .border-blue;
     border-color: $yellow-dark;
+    overflow: hidden;
   }
 
   .border-red {
@@ -779,7 +784,7 @@ p, .text-p {
 
     .board-content {
       background: white;
-      margin: 0 -15px;
+      margin: 0 auto;
       border-radius: 25px;
       padding: 35px 35px;
       text-align: left;
@@ -791,7 +796,7 @@ p, .text-p {
       line-height: 30px;
       color: $teal-dark;
 
-      width: calc(100% + 30px);
+      width: 100%;
 
       &.row {
         @media (min-width: $screen-md) {
@@ -850,6 +855,7 @@ p, .text-p {
 
       img {
         max-width: 100%;
+        margin-bottom: 20px;
       }
     }
   }

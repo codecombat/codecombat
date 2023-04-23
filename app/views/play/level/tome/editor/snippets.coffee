@@ -189,6 +189,8 @@ module.exports = (SnippetManager, autoLineEndings) ->
         caption  = s.name or s.tabTrigger
         continue unless caption
         continue if /^['"]/.test(caption) and emptyBeginning # don't show string completions at the end of line
+        continue unless s.content # some new snippets have no content
+
         [snippet, fuzzScore] = scrubSnippet s.content, caption, line, prefix, pos, lang, autoLineEndings, s.captureReturn
         completions.push
           content: s.content  # Used internally by Snippets, not by ace autocomplete

@@ -210,6 +210,7 @@ export default Vue.extend({
 </template>
 
 <style lang="scss" scoped>
+$form-width: min(600px, 100vw - 60px);
 @import "../../styles/modal";
 
 .teacher-form {
@@ -218,7 +219,7 @@ export default Vue.extend({
   justify-content: center;
   align-items: center;
   margin: 15px 15px 0px 15px;
-  max-width: 600px;
+  max-width: $form-width;
 }
 
 .sub-title {
@@ -229,7 +230,7 @@ export default Vue.extend({
 
 .form-container {
   width: 100%;
-  min-width: 600px;
+  min-width: $form-width;
   margin-top: 10px;
 }
 
