@@ -4,12 +4,13 @@ const storage = require('core/storage')
 const TEMPORARY_PREMIUM_KEY = 'temporary-premium-access'
 const TRACKED_PREMIUM = 'tracked-premium'
 
-async function handleHomeSubscription(product, couponId) {
+async function handleHomeSubscription (product, couponId, { purchasingForId = null } = {}) {
   const productId = product.get('_id')
   const paymentGroupResp = await getPaymentGroupFromProduct(productId, couponId)
   const paymentGroup = paymentGroupResp.data
   const homeSubDetails = {
-    productId
+    productId,
+    purchasingForId
   }
   const options = {
     stripePriceId: paymentGroup.priceInfo.id,

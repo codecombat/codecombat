@@ -60,6 +60,7 @@
       </div>
       <div
         v-if="!child.isPremium"
+        @click="onUpgradeSub"
         class="helpers__btn helpers__upgrade"
       >
         Upgrade Subscription
@@ -70,13 +71,21 @@
       v-if="showChangePasswordModal"
       @close="showChangePasswordModal = false"
     />
+    <backbone-modal-harness
+      :modal-view="SubscribeModal"
+      :open="showSubscribeModal"
+      @close="showSubscribeModal = false"
+      :modal-options="{ forceShowMonthlySub: true, purchasingForId: child.userId }"
+    />
   </div>
 </template>
 
 <script>
 import switchUserMixin from '../../user/switch-account/switchUserMixin'
 import ChangePasswordModal from '../../user/ChangePasswordModal'
-
+import BackboneModalHarness from '../../common/BackboneModalHarness'
+import SubscribeModal from '../../core/SubscribeModal'
+import getPremiumForChildMixin from '../mixins/getPremiumForChildMixin'
 export default {
   name: 'ChildProfileComponent',
   props: {
@@ -87,14 +96,18 @@ export default {
   },
   data () {
     return {
-      showChangePasswordModal: false
+      showChangePasswordModal: false,
+      showSubscribeModal: false,
+      SubscribeModal
     }
   },
   components: {
-    ChangePasswordModal
+    ChangePasswordModal,
+    BackboneModalHarness
   },
   mixins: [
-    switchUserMixin
+    switchUserMixin,
+    getPremiumForChildMixin
   ],
   methods: {
     onLoginToChildAccount () {
@@ -102,6 +115,10 @@ export default {
     },
     onChangePassword () {
       this.showChangePasswordModal = true
+    },
+    onUpgradeSub () {
+      this.onChildPremiumPurchaseClick()
+      this.showSubscribeModal = true
     }
   }
 }
@@ -132,11 +149,6 @@ export default {
       background: #D4B235;
       margin-top: .5rem;
     }
-  }
-
-  &__info {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
   }
 
   .info {

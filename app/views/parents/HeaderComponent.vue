@@ -26,7 +26,10 @@
         </div>
       </div>
     </div>
-    <div class="header__item header__item--2">
+    <div
+      v-if="!child || !child.isPremium"
+      class="header__item header__item--2"
+    >
       <div class="">
         <div class="header__item__img-parent">
           <img src="/images/pages/parents/dashboard/alejandro.png" alt="CodeCombat character" class="header__item__img">
@@ -37,7 +40,12 @@
             <li class="header__sell-item">Unlock 500+ levels</li>
             <li class="header__sell-item">Access to all learning resources</li>
           </ul>
-          <button class="header__premium-btn header__btn">Get Premium</button>
+          <button
+            @click="onGetPremium"
+            class="header__premium-btn header__btn"
+          >
+            Get Premium
+          </button>
         </div>
       </div>
       <div class="header__item--line"></div>
@@ -55,22 +63,48 @@
         </div>
       </div>
     </div>
+    <backbone-modal-harness
+      :modal-view="SubscribeModal"
+      :open="isSubscribeModalOpen"
+      @close="isSubscribeModalOpen = false"
+      :modal-options="{ forceShowMonthlySub: true, purchasingForId: child?.userId }"
+    />
   </header>
 </template>
 
 <script>
+import BackboneModalHarness from '../common/BackboneModalHarness'
+import SubscribeModal from '../core/SubscribeModal'
+import getPremiumForChildMixin from './mixins/getPremiumForChildMixin'
 export default {
   name: 'HeaderComponent',
+  props: {
+    child: {
+      type: Object
+    }
+  },
   data () {
     return {
       name: me.broadName(),
-      selectedProduct: 'CodeCombat'
+      selectedProduct: 'CodeCombat',
+      SubscribeModal,
+      isSubscribeModalOpen: false
     }
   },
+  components: {
+    BackboneModalHarness
+  },
+  mixins: [
+    getPremiumForChildMixin
+  ],
   methods: {
     onProductClicked (product) {
       this.selectedProduct = product
       this.$emit('onSelectedProductChange', product)
+    },
+    onGetPremium () {
+      this.onChildPremiumPurchaseClick()
+      this.isSubscribeModalOpen = true
     }
   }
 }
@@ -90,6 +124,7 @@ export default {
 
   &__products {
     display: flex;
+    padding-top: 1rem;
 
     @media (max-width: $screen-lg) {
       flex-direction: column;

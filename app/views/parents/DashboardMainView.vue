@@ -9,6 +9,7 @@
     />
     <header-component
       @onSelectedProductChange="onSelectedProductChange"
+      :child="selectedChildren"
     />
     <student-progress-view
       v-if="selectedView === 'dashboard' || selectedView === 'progress'"

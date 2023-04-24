@@ -31,6 +31,8 @@ module.exports = class SubscribeModal extends ModalView
     super(options)
     # Path check due to modal refresh when user isn't signed in.
     @hideMonthlySub = options?.hideMonthlySub or window.location.pathname.startsWith('/parents') or me.get('country') is 'japan' or null
+    if options?.forceShowMonthlySub
+      @hideMonthlySub = false
     @state = 'standby'
     @couponID = utils.getQueryVariable('coupon')
     @subModalContinue = options.subModalContinue
@@ -54,6 +56,7 @@ module.exports = class SubscribeModal extends ModalView
       @supermodel.trackRequest @products.fetch {data}
     @trackTimeVisible({ trackViewLifecycle: true })
     payPal.loadPayPal().then => @render()
+    @purchasingForId = options?.purchasingForId
 
   onLoaded: ->
     @basicProduct = @products.getBasicSubscriptionForUser(me)
@@ -158,7 +161,7 @@ module.exports = class SubscribeModal extends ModalView
     Starts a stripe subscription based on the product passed in.
   ###
   startStripeSubscription: (product) ->
-    paymentUtils.handleHomeSubscription(product, @couponID)
+    paymentUtils.handleHomeSubscription(product, @couponID, { purchasingForId: @purchasingForId })
       .catch (err) =>
         console.error 'homeSubscription handle failed by new stripe', err
         @handleStripeSubscriptionByOldFormat(product)
