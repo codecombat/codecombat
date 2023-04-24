@@ -56,7 +56,12 @@
             <li class="header__sell-item">Bonus activities & projects</li>
             <li class="header__sell-item">Monthly progress updates</li>
           </ul>
-          <button class="header__online-class-btn header__btn">Try a Free Online Class</button>
+          <button
+            @click="showTryFreeClassModal = true"
+            class="header__online-class-btn header__btn"
+          >
+            Try a Free Online Class
+          </button>
         </div>
         <div class="header__item__img-parent">
           <img src="/images/pages/parents/dashboard/illia-reading.png" alt="CodeCombat character" class="header__item__img">
@@ -69,12 +74,18 @@
       @close="isSubscribeModalOpen = false"
       :modal-options="{ forceShowMonthlySub: true, purchasingForId: child?.userId }"
     />
+    <modal-timetap-schedule
+      v-if="showTryFreeClassModal"
+      :show="showTryFreeClassModal"
+      @close="showTryFreeClassModal = false"
+    />
   </header>
 </template>
 
 <script>
 import BackboneModalHarness from '../common/BackboneModalHarness'
 import SubscribeModal from '../core/SubscribeModal'
+import ModalTimetapSchedule from '../landing-pages/parents/ModalTimetapSchedule'
 import getPremiumForChildMixin from './mixins/getPremiumForChildMixin'
 export default {
   name: 'HeaderComponent',
@@ -88,11 +99,13 @@ export default {
       name: me.broadName(),
       selectedProduct: 'CodeCombat',
       SubscribeModal,
-      isSubscribeModalOpen: false
+      isSubscribeModalOpen: false,
+      showTryFreeClassModal: false
     }
   },
   components: {
-    BackboneModalHarness
+    BackboneModalHarness,
+    ModalTimetapSchedule
   },
   mixins: [
     getPremiumForChildMixin
