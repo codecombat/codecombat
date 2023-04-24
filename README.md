@@ -9,16 +9,15 @@
 [![Build Status](https://github.com/codecombat/codecombat/actions/workflows/node.js.yml/badge.svg)](https://github.com/codecombat/codecombat/actions)
 [![Coverage Status](https://coveralls.io/repos/github/codecombat/codecombat/badge.svg)](https://coveralls.io/github/codecombat/codecombat)
 
-CodeCombat is a multiplayer programming game for learning how to code.
-**See the [Archmage (coder) developer wiki](../../wiki/Archmage-Home) for a dev
-setup guide, extensive documentation, and much more to get started hacking!**
+CodeCombatは、コードを学ぶためのマルチプレイヤー・プログラミングゲームです。
+**開発者は[Archmage (coder) developer wiki](../../wiki/Archmage-Home)を参照してください。
+セットアップガイド、豊富なドキュメントなど、ハッキングを始めるために必要なものが盛りだくさん！**
 
-It's both a startup and a community project, completely open source under the
-[MIT and Creative Commons licenses](http://codecombat.com/legal). It's the
-largest open source [CoffeeScript](http://coffeescript.org/) project by lines of
-code, and since it's a game (with [really cool tech](../../wiki/Third-party-software-and-services)),
-it's really fun to hack on. Join us in teaching the world to code! Your
-contribution will go on to show millions of players how cool programming can be.
+[MIT and Creative Commons licenses](http://codecombat.com/legal)のもと、完全にオープンソース化されたスタートアップであり、コミュニティプロジェクトでもあります。
+コード行数では最大のオープンソース[CoffeeScript](http://coffeescript.org/)プロジェクトです。
+しかも、([本当にクールな技術](../../wiki/Third-party-software-and-services)を使った)ゲームですから。
+ハックするのが本当に楽しいんです。私たちと一緒に、世界中にコードを教えましょう！
+あなたのコントリビュートは、何百万人ものプレイヤーに、プログラミングがいかにクールなものかを伝えることになるのです。
 
 ### [Getting In Touch](../../wiki/Developer-organization)
 
