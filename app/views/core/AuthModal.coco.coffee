@@ -234,6 +234,8 @@ loginNavigate = (subModalContinue) ->
         application.router.navigate('/teachers/licenses', { trigger: true })
       else
         application.router.navigate('/teachers/classes', { trigger: true })
+    else if me.isParentHome()
+      application.router.navigate('/parents/dashboard', { trigger: true })
   else if subModalContinue
     storage.save('sub-modal-continue', subModalContinue)
 
