@@ -27,7 +27,7 @@ CodeCombatは、コードを学ぶためのマルチプレイヤー・プログ�
 [Slackの開発者向けチャットルーム](https://coco-slack-invite.herokuapp.com/)、もしくは
 [コントリビュートの仕方の詳細](../../wiki/Developer-organization)のドキュメントを参照してください。
 
-![Slackのステータス](https://coco-slack-invite.herokuapp.com/badge.svg)(https://coco-slack-invite.herokuapp.com/)
+[![Slack Status](https://coco-slack-invite.herokuapp.com/badge.svg)](https://coco-slack-invite.herokuapp.com/)
 
 ### [ライセンス](LICENSE)
 
