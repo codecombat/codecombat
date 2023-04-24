@@ -27,7 +27,7 @@ CodeCombatは、コードを学ぶためのマルチプレイヤー・プログ�
 [Slackの開発者向けチャットルーム](https://coco-slack-invite.herokuapp.com/)、もしくは
 [コントリビュートの仕方の詳細](../../wiki/Developer-organization)のドキュメントを参照してください。
 
-[![Slackのステータス](https://coco-slack-invite.herokuapp.com/badge.svg)](https://coco-slack-invite.herokuapp.com/)
+![Slackのステータス](https://coco-slack-invite.herokuapp.com/badge.svg)(https://coco-slack-invite.herokuapp.com/)
 
 ### [ライセンス](LICENSE)
 
@@ -40,8 +40,7 @@ CodeCombatは、コードを学ぶためのマルチプレイヤー・プログ�
 
 ### API
 
-SSO、ユーザー管理、進捗データなどのパートナーAPIを提供しており、APIドキュメントは[こちら]
-(https://codecombat.mintlify.app/introduction)（中国語版は[こちら](https://koudashijie.com/api-docs)）とSDKは[こちら](https://github.com/codecombat/codecombat-api)があります。クライアントの認証情報が必要になりますので、そのようなユースケースがある場合は、ご連絡ください。
+SSO、ユーザー管理、進捗データなどのパートナーAPIを提供しており、[APIドキュメント](https://codecombat.mintlify.app/introduction)（[中国語版](https://koudashijie.com/api-docs)）と[SDK](https://github.com/codecombat/codecombat-api)があります。クライアントの認証情報が必要になりますので、そのようなユースケースがある場合は、ご連絡ください。
 
 CodeCombatアカウントとデータ統合するための最もシンプルなケースでは、`https://codecombat.com/db/user/your-user-name-or-id`をfetchしてユーザーの進捗状況を取得することができます。例えば、BeeminderはこのAPIを使って、あなたが[コードを学ぶことにコミットする](https://www.beeminder.com/codecombat)のを手助けしています。
 
