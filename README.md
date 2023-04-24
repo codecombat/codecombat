@@ -19,32 +19,33 @@ CodeCombatは、コードを学ぶためのマルチプレイヤー・プログ�
 ハックするのが本当に楽しいんです。私たちと一緒に、世界中にコードを教えましょう！
 あなたのコントリビュートは、何百万人ものプレイヤーに、プログラミングがいかにクールなものかを伝えることになるのです。
 
-### [Getting In Touch](../../wiki/Developer-organization)
+### [お問い合わせはこちら](../../wiki/Developer-organization)
 
-Whether you're novice or pro, the CodeCombat team is ready to help you implement
-your ideas. Reach out on our [forum](http://discourse.codecombat.com), our
-[issue tracker](../../issues), or
-[our developer chat room on Slack](https://coco-slack-invite.herokuapp.com/), or
-see the docs for [more on how to contribute](../../wiki/Developer-organization).
+初心者でもプロでも、CodeCombatチームは、あなたの実装をサポートします。
+あなたのアイデアを 私たちの[フォーラム](http://discourse.codecombat.com)で声をかけてください。
+[issueトラッカー](../../issues)、または
+[Slackの開発者向けチャットルーム](https://coco-slack-invite.herokuapp.com/)、もしくは
+[コントリビュートの仕方の詳細](../../wiki/Developer-organization)のドキュメントを参照してください。
 
-[![Slack Status](https://coco-slack-invite.herokuapp.com/badge.svg)](https://coco-slack-invite.herokuapp.com/)
+[![Slackのステータス](https://coco-slack-invite.herokuapp.com/badge.svg)](https://coco-slack-invite.herokuapp.com/)
 
-### [License](LICENSE)
+### [ライセンス](LICENSE)
 
-[MIT](LICENSE) for the code, and [CC-BY](http://codecombat.com/legal) for the
-art and music. Please also
-[sign the CodeCombat contributor license agreement](http://codecombat.com/cla)
-so we can accept your pull requests. It is easy.
+コードは[MIT](LICENSE)で、[CC-BY](http://codecombat.com/legal)で公開します。
+アートや音楽の もお願いします。
+[CodeCombatコントリビューターライセンス契約へのサイン](http://codecombat.com/cla)
+で、あなたのプルリクエストを受け入れることができます。簡単なことです。
 
-Note: the levels on codecombat.com are [not open source](LICENSE-LEVELS.md).
+注意：codecombat.comのレベルは[オープンソースではありません](LICENSE-LEVELS.md)。
 
 ### API
 
-We offer a partner API for SSO, user management, progress data, etc., with API docs [here](https://codecombat.mintlify.app/introduction) (Chinese version [here](https://koudashijie.com/api-docs)) and SDKs [here](https://github.com/codecombat/codecombat-api). You'll need client credentials, so get in touch with us if you have a use case for that.
+SSO、ユーザー管理、進捗データなどのパートナーAPIを提供しており、APIドキュメントは[こちら]
+(https://codecombat.mintlify.app/introduction)（中国語版は[こちら](https://koudashijie.com/api-docs)）とSDKは[こちら](https://github.com/codecombat/codecombat-api)があります。クライアントの認証情報が必要になりますので、そのようなユースケースがある場合は、ご連絡ください。
 
-For the very simplest case that can power some data integrations with your CodeCombat account, you can fetch `https://codecombat.com/db/user/your-user-name-or-id` to get some user progress stats. For example, Beeminder uses this API to help you [commit to learning to code](https://www.beeminder.com/codecombat).
+CodeCombatアカウントとデータ統合するための最もシンプルなケースでは、`https://codecombat.com/db/user/your-user-name-or-id`をfetchしてユーザーの進捗状況を取得することができます。例えば、BeeminderはこのAPIを使って、あなたが[コードを学ぶことにコミットする](https://www.beeminder.com/codecombat)のを手助けしています。
 
-### [Join Us!](http://blog.codecombat.com/why-you-should-open-source-your-startup)
+### [参加するには！](http://blog.codecombat.com/why-you-should-open-source-your-startup)
 
 ![Nick Winter](https://files.codecombat.com/wiki-images/avatars/Nick%20Winter/nick-avatar.png "Nick Winter")
 ![George Saines](https://files.codecombat.com/wiki-images/avatars/George%20Saines/george_small.png "George Saines")
