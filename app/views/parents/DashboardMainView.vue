@@ -28,6 +28,10 @@
         @onChildAccountSubmit="onChildAccountSubmit"
       />
     </div>
+    <toolkit-view
+      v-if="selectedView === 'toolkit'"
+      :product="selectedProduct"
+    />
   </div>
 </template>
 
@@ -37,6 +41,7 @@ import HeaderComponent from './HeaderComponent'
 import StudentProgressView from './StudentProgressView'
 import StudentSummaryView from './StudentSummaryView'
 import CreateChildAccountComponent from './signup/CreateChildAccountComponent'
+import ToolkitView from './ToolkitView'
 import createChildAccountMixin from './mixins/createChildAccountMixin'
 
 export default {
@@ -63,7 +68,8 @@ export default {
     SidebarComponent,
     HeaderComponent,
     StudentProgressView,
-    CreateChildAccountComponent
+    CreateChildAccountComponent,
+    ToolkitView
   },
   async created () {
     const resp = await me.getRelatedAccounts()

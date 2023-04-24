@@ -59,7 +59,11 @@
       </div>
     </div>
     <div class="sidebar__bottom">
-      <div class="sidebar__bottom__item">Parent toolkit</div>
+      <div
+        @click="() => onTabClicked('toolkit')"
+        class="sidebar__bottom__item">
+        Parent toolkit
+      </div>
       <div class="sidebar__bottom__item">Account</div>
     </div>
   </div>
@@ -188,6 +192,7 @@ export default {
     align-items: flex-start;
     flex-direction: column;
     padding-bottom: 5rem;
+    cursor: pointer;
 
     &__item {
       align-self: stretch;
