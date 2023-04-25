@@ -12,6 +12,7 @@
       v-if="currentView === 'create-child-account'"
       @backButtonClicked="currentView = 'create-parent-account'"
       @onChildAccountSubmit="onChildAccountSubmit"
+      @existingAccountLinked="onExistingAccountLink"
     />
     <div class="signup__image signup__image--2">
       <img src="/images/pages/home-v2/loc-image.png" alt="Girl playing CodeCombat" class="signup__img img-responsive">
@@ -49,6 +50,9 @@ export default {
     async onChildAccountSubmit (data) {
       this.childAccountData = data
       await this.onChildAccountSubmitHelper(data)
+    },
+    async onExistingAccountLink (data) {
+      await this.onChildAccountSubmitHelper(null, { existingAccount: data })
     }
   }
 }

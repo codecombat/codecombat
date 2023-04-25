@@ -26,6 +26,7 @@
     >
       <create-child-account-component
         @onChildAccountSubmit="onChildAccountSubmit"
+        @existingAccountLinked="onExistingAccountLink"
       />
     </div>
     <toolkit-view
@@ -92,6 +93,9 @@ export default {
     },
     onSelectedChildrenChange (data) {
       this.selectedChildrenId = data
+    },
+    async onExistingAccountLink (data) {
+      await this.onChildAccountSubmitHelper(null, { existingAccount: data })
     }
   },
   computed: {

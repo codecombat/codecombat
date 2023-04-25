@@ -11,6 +11,7 @@
               :key="index"
               :value="child.userId"
               class="sidebar__child__option"
+              :disabled="!child.verified"
             >
               {{ child.broadName }}
             </option>

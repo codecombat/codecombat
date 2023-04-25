@@ -105,6 +105,7 @@ export default {
     },
     async fetchLevelSessions () {
       console.log('fetching LS starts', this.child.userId, this.selectedCampaign)
+      if (!this.child.verified) return
       await this.fetchLevelSessionsForCampaignOfRelatedUser({ userId: this.child.userId, campaignHandle: this.selectedCampaignId })
     }
   },
