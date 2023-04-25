@@ -48,6 +48,7 @@
 
 <script>
 import GPlusHandler from 'app/core/social-handlers/GPlusHandler'
+const User = require('../../../models/User')
 export default {
   name: 'CreateParentAccountComponent',
   data () {
@@ -57,7 +58,8 @@ export default {
       password: null,
       // phone: this.$props?.initialData?.phone,
       gplusBtnDisabled: true,
-      isAnonymousUser: me.isAnonymous()
+      isAnonymousUser: me.isAnonymous(),
+      gplusData: null
     }
   },
   props: {
@@ -69,20 +71,48 @@ export default {
     onFormSubmit () {
       console.log('parent account form submitted', this.$data)
       this.$emit('onParentAccountSubmit', this.$data)
+    },
+    startGplusSignup () {
+      const gplus = new GPlusHandler()
+      gplus.loadAPI({
+        success: () => {
+          gplus.connect({
+            elementId: 'account__google-login-btn',
+            success: (resp = {}) => {
+              gplus.loadPerson({
+                resp: resp,
+                context: this,
+                success: (gplusAttrs) => {
+                  const existingUser = new User()
+                  existingUser.fetchGPlusUser(gplusAttrs.gplusID, gplusAttrs.email, {
+                    success: (res) => {
+                      const msg = 'Account already exists, please login'
+                      noty({ text: msg, type: 'error', layout: 'center', timeout: 5000 })
+                    },
+                    error: (user, jqxhr) => {
+                      if (jqxhr.status === 404) {
+                        this.gplusData ||= {}
+                        this.gplusData.firstName = gplusAttrs.firstName
+                        this.gplusData.lastName = gplusAttrs.lastName
+                        this.gplusData.gplusID = gplusAttrs.gplusID
+                        this.gplusData.email = gplusAttrs.email
+                        this.$emit('onParentAccountSubmit', this.$data)
+                      } else {
+                        console.log('gplus signup error', jqxhr)
+                        noty({ text: 'Internal error', type: 'error', layout: 'center', timeout: 5000 })
+                      }
+                    }
+                  })
+                }
+              })
+            }
+          })
+        }
+      })
     }
   },
   created () {
-    const gplus = new GPlusHandler()
-    gplus.loadAPI({
-      success: () => {
-        gplus.connect({
-          elementId: 'account__google-login-btn',
-          success: () => {
-
-          }
-        })
-      }
-    })
+    this.startGplusSignup()
   }
 }
 </script>

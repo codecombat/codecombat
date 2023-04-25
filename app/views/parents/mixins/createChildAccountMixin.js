@@ -7,11 +7,25 @@ export default {
           me.set('role', 'parent-home')
           await me.save()
           const parent = this.parentAccountData
-          await me.signupWithPassword(
-            parent.name,
-            parent.email,
-            parent.password
-          )
+          if (parent.gplusData.gplusID) {
+            await me.signupWithGPlus(
+              null,
+              parent.gplusData.email,
+              parent.gplusData.gplusID,
+              {
+                data: parent.gplusData
+              }
+            )
+            me.set('firstName', parent.gplusData.firstName)
+            me.set('lastName', parent.gplusData.lastName)
+            await me.save()
+          } else {
+            await me.signupWithPassword(
+              parent.name,
+              parent.email,
+              parent.password
+            )
+          }
         }
       } catch (err) {
         console.error('failed to create parent user', err)
