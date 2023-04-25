@@ -183,12 +183,14 @@ export default {
     }
   },
   mounted () {
-    this.ec = new Calendar({
-      target: document.querySelector('#calendar'),
-      props: {
-        plugins: [DayGrid, Interaction],
-        options: this.calendarOptions()
-      }
+    this.$nextTick(() => {
+      this.ec = new Calendar({
+        target: document.querySelector('#calendar'),
+        props: {
+          plugins: [DayGrid, Interaction],
+          options: this.calendarOptions()
+        }
+      })
     })
   }
 }

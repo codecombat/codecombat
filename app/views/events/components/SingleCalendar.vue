@@ -70,8 +70,10 @@ export default {
           case 'pointer':
             return { html: '<div class="ec-event-empty icon-plus blue" />' }
           default:
-            return { html: '<div class="ec-event-time">' + info.timeText + '</div>' +
-              '<div class="ec-event-title">' + info.event.title + '</div>' }
+            return {
+              html: '<div class="ec-event-time">' + info.timeText + '</div>' +
+                '<div class="ec-event-title">' + info.event.title + '</div>'
+            }
           }
         },
         eventClick (info) {
@@ -113,11 +115,15 @@ export default {
     }
   },
   mounted () {
-    this.ec = new Calendar({
-      target: document.querySelector('#calendar'),
-      props: {
-        plugins: [DayGrid, TimeGrid, List, Interaction],
-        options: this.calendarOptions()
+    this.$nextTick(() => {
+      if (!this.ec && document.querySelector('#calendar')) {
+        this.ec = new Calendar({
+          target: document.querySelector('#calendar'),
+          props: {
+            plugins: [DayGrid, TimeGrid, List, Interaction],
+            options: this.calendarOptions()
+          }
+        })
       }
     })
   }

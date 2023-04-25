@@ -33,7 +33,7 @@ export default {
   props: {
     eventType: {
       type: String,
-      default: ''
+      default: 'classes'
     }
   },
   computed: {
