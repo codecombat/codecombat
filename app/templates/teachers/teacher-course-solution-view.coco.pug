@@ -22,11 +22,12 @@ block page_nav
 
 block content
 
-  if !me.isTeacher() && !me.isAdmin()
+  if !me.isTeacher() && !me.isAdmin() && !me.isParentHome()
     a(href="/")
       img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
     h2.text-center(data-i18n="teacher.teacher_account_required")
-  else if !view.paidTeacher && (view.course && !view.course.get('free') || view.campaign && view.campaign.get('type') != 'hoc')
+  else if !view.paidTeacher && (view.course && !view.course.get('free') || view.campaign && view.campaign.get('type') != 'hoc') && !me.isParentHome()
+    //  should we make them available for non paid parents?
     h2.text-center(data-i18n="courses.solutions_require_licenses")
   else
     .text-center

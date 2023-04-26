@@ -41,7 +41,11 @@
               <option :selected="selectedLang === 'python'" value="python" class="content__language__option">Python</option>
               <option :selected="selectedLang === 'javascript'" value="javascript" class="content__language__option">Javascript</option>
             </select>
-            <div class="content__solution-guide">
+            <a
+              :href="`/teachers/campaign-solution/${campaign.slug}/${selectedLanguage}`"
+              target="_blank"
+              class="content__solution-guide"
+            >
               <img
                 src="/images/ozaria/teachers/dashboard/svg_icons/IconSolution.svg"
                 alt="Solution Guide Icon"
@@ -50,7 +54,7 @@
               <span class="content__solution__text">
                 Solution Guide
               </span>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -173,6 +177,7 @@ export default {
       justify-content: center;
       align-items: center;
       margin-left: 1rem;
+      text-decoration: none;
     }
 
     &__title {
