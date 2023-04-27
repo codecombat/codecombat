@@ -5,7 +5,11 @@
   >
     <div class="content">
       <div class="content__img">
-        <img src="/images/pages/play/worlds/dungeon_small.png" alt="Level image" class="content__level-img">
+        <img
+          :src="`/images/pages/play/campaign/${getCampaignImage(campaign.slug)}`"
+          alt="Campaign image"
+          class="content__level-img"
+        >
       </div>
       <div class="content__info">
         <div class="content__title">
@@ -15,7 +19,7 @@
           v-if="campaign?.course?.description"
           class="content__subtitle"
         >
-          Students enter the epic world of Ozaria to defeat the impending Darkness. Students practice problem solving, sequences, loops, syntax, & debugging.
+          {{ campaign.course.description }}
         </div>
         <div class="content__proficiency">
           <p class="content__proficiency__text">Concept proficiency</p>
@@ -72,6 +76,18 @@
 </template>
 
 <script>
+const campignSlugImageMap = {
+  dungeon: 'kithgard-dungeon.png',
+  forest: 'backwoods-forest.png',
+  desert: 'desert.png',
+  mountain: 'cloudrip-mountain.png',
+  glacier: 'glacier.png',
+  'campaign-web-dev-1': 'web-dev.png',
+  'campaign-web-dev-2': 'web-dev-2.png',
+  'campaign-game-dev-1': 'game-dev.png',
+  'campaign-game-dev-2': 'game-dev-2.png',
+  'campaign-game-dev-3': 'game-dev-2.png'
+}
 export default {
   name: 'LevelBasicSummary',
   props: {
@@ -99,6 +115,9 @@ export default {
     updateLanguage (e) {
       this.selectedLang = e.target.value
       this.$emit('languageUpdated', this.selectedLang)
+    },
+    getCampaignImage (slug) {
+      return campignSlugImageMap[slug]
     }
   }
 }
@@ -124,6 +143,12 @@ export default {
     &__img {
       display: flex;
       justify-content: center;
+    }
+
+    &__level {
+      &-img {
+        height: 30rem;
+      }
     }
 
     &__info {
