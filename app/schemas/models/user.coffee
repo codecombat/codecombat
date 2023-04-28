@@ -71,6 +71,7 @@ _.extend UserSchema.properties,
   ageRange: {type: 'string'}  # 'enum': ['13-15', '16-17', '18-24', '25-34', '35-44', '45-100']
   password: c.passwordString
   passwordReset: {type: 'string'}
+  passwordResetExpires: c.date()
   photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image to serve as your profile picture.'}
 
   facebookID: c.shortString({title: 'Facebook ID'})
