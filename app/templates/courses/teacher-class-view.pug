@@ -217,7 +217,6 @@ mixin courseOverview(course)
         - var courseInstance = view.getSelectedCourseInstance();
         each level, index in levels
           - if (level.get('assessment')) continue;
-          - if (courseInstance && level.get('slug') === courseInstance.get('startLockedLevel')) lockedFromHere = true;
           - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level })
           - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
           +allStudentsLevelProgressDot(progress, level, levelNumber, lockedFromHere)
@@ -237,12 +236,12 @@ mixin studentLevelsRow(student)
           - var courseInstance = view.getSelectedCourseInstance();
           each level, index in levels
             - if (level.get('assessment')) continue;
-            - if (courseInstance && level.get('slug') === courseInstance.get('startLockedLevel')) lockedFromHere = true;
+            - if (courseInstance && courseInstance.get('lockedLevels') && courseInstance.get('lockedLevels').includes(level.get('slug'))) locked = true;
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
             - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
             - if (!level.get('practice'))
               - courseFinished = progress.completed;
-            +studentLevelProgressDot(progress, level, levelNumber, student, lockedFromHere)
+            +studentLevelProgressDot(progress, level, levelNumber, student, locked)
       div
         if courseFinished
           a.certificate-link.open-certificate-btn(target='_blank', href='/certificates/' + student.id + '?class=' + view.classroom.id + '&course=' + course.id + '&course-instance=' + state.get('selectedCourseInstance').id, data-event-action="Teachers Click Certificates - Progress tab")
