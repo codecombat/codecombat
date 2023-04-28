@@ -259,6 +259,7 @@ module.exports = class AccountSettingsView extends RootView
     @grabOtherData()
 
   grabPasswordData: ->
+    currentPassword = $('#current-password', @$el).val()
     password1 = $('#password', @$el).val()
     password2 = $('#password2', @$el).val()
     bothThere = Boolean(password1) and Boolean(password2)
@@ -269,7 +270,21 @@ module.exports = class AccountSettingsView extends RootView
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
       return
     if bothThere
-      @user.set('password', password1)
+      @user.updatePassword currentPassword, password1, (() =>
+        @trigger 'save-user-success'
+      ), ((res) =>
+        if res.responseJSON?.property
+          errors = res.responseJSON
+          forms.applyErrorsToForm(@$el, errors)
+          $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
+        else
+          noty
+            text: res.responseJSON?.message or res.responseText
+            type: 'error'
+            layout: 'topCenter'
+            timeout: 5000
+        @trigger 'save-user-error'
+      )
     else if password1
       message = $.i18n.t('account_settings.password_repeat', defaultValue: 'Please repeat your password.')
       err = [message: message, property: 'password2', formatted: true]
