@@ -1,5 +1,11 @@
 <template>
-  <div class="toolkit">
+  <div
+    class="toolkit"
+  >
+    <loading-bar
+      :loading="loading"
+    />
+
     <button-resource-icon
       v-for="resourceHubLink in resources"
       :key="resourceHubLink.name"
@@ -19,6 +25,7 @@ import zendeskResourceMixin
   from '../../../ozaria/site/components/teacher-dashboard/BaseResourceHub/mixins/zendeskResourceMixin'
 import ButtonResourceIcon
   from '../../../ozaria/site/components/teacher-dashboard/BaseResourceHub/components/ButtonResourceIcon'
+import LoadingBar from '../../../ozaria/site/components/common/LoadingBar'
 export default {
   name: 'ToolkitView',
   props: {
@@ -31,17 +38,20 @@ export default {
     return {
       resources: [],
       sectionSlug: 'faq',
-      faqResources: []
+      faqResources: [],
+      loading: true
     }
   },
   mixins: [
     zendeskResourceMixin
   ],
   components: {
-    ButtonResourceIcon
+    ButtonResourceIcon,
+    LoadingBar
   },
   async created () {
     await this.fetchResources()
+    this.loading = false
   },
   methods: {
     async fetchResources () {

@@ -12,18 +12,18 @@
         >
           <img src="/images/pages/parents/dashboard/codecombat-logo.svg" alt="CodeCombat logo" class="header__logos">
         </div>
-        <div
-          :class="{ header__product: true, header__product__selected: selectedProduct === 'Ozaria' }"
-          @click.prevent="() => onProductClicked('Ozaria')"
-        >
-          <img src="/images/pages/parents/dashboard/ozaria-logo.svg" alt="Ozaria logo" class="header__logos">
-        </div>
-        <div
-          :class="{ header__product: true, header__product__selected: selectedProduct === 'Roblox' }"
-          @click.prevent="() => onProductClicked('Roblox')"
-        >
-          <img src="/images/pages/parents/dashboard/roblox-logo.svg" alt="Roblox logo" class="header__logos">
-        </div>
+<!--        <div-->
+<!--          :class="{ header__product: true, header__product__selected: selectedProduct === 'Ozaria' }"-->
+<!--          @click.prevent="() => onProductClicked('Ozaria')"-->
+<!--        >-->
+<!--          <img src="/images/pages/parents/dashboard/ozaria-logo.svg" alt="Ozaria logo" class="header__logos">-->
+<!--        </div>-->
+<!--        <div-->
+<!--          :class="{ header__product: true, header__product__selected: selectedProduct === 'Roblox' }"-->
+<!--          @click.prevent="() => onProductClicked('Roblox')"-->
+<!--        >-->
+<!--          <img src="/images/pages/parents/dashboard/roblox-logo.svg" alt="Roblox logo" class="header__logos">-->
+<!--        </div>-->
       </div>
     </div>
     <div

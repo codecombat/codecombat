@@ -35,20 +35,20 @@
           <img src="/images/pages/parents/dashboard/icon-summary.svg" alt="Summary" class="sidebar__tabs__img">
           <span class="sidebar__tabs__name">Summary</span>
         </li>
-        <li
-          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'online-classes' }"
-          @click="() => onTabClicked('online-classes')"
-        >
-          <img src="/images/pages/parents/dashboard/icon-online-classes.svg" alt="Online Classes" class="sidebar__tabs__img">
-          <span class="sidebar__tabs__name">Online Classes</span>
-        </li>
-        <li
-          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'ai-league' }"
-          @click="() => onTabClicked('ai-league')"
-        >
-          <img src="/images/pages/parents/dashboard/icon-ai-league.svg" alt="AI League" class="sidebar__tabs__img">
-          <span class="sidebar__tabs__name">AI League</span>
-        </li>
+<!--        <li-->
+<!--          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'online-classes' }"-->
+<!--          @click="() => onTabClicked('online-classes')"-->
+<!--        >-->
+<!--          <img src="/images/pages/parents/dashboard/icon-online-classes.svg" alt="Online Classes" class="sidebar__tabs__img">-->
+<!--          <span class="sidebar__tabs__name">Online Classes</span>-->
+<!--        </li>-->
+<!--        <li-->
+<!--          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'ai-league' }"-->
+<!--          @click="() => onTabClicked('ai-league')"-->
+<!--        >-->
+<!--          <img src="/images/pages/parents/dashboard/icon-ai-league.svg" alt="AI League" class="sidebar__tabs__img">-->
+<!--          <span class="sidebar__tabs__name">AI League</span>-->
+<!--        </li>-->
       </ul>
       <div class="sidebar__add-child">
         <button
@@ -65,7 +65,7 @@
         class="sidebar__bottom__item">
         Parent toolkit
       </div>
-      <div class="sidebar__bottom__item">Account</div>
+<!--      <div class="sidebar__bottom__item">Account</div>-->
     </div>
   </div>
 </template>

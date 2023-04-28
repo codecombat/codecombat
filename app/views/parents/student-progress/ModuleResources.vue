@@ -6,14 +6,14 @@
         <span class="resource__text">Lesson Slides</span>
         <img src="/images/ozaria/teachers/dashboard/svg_icons/IconComputer.svg" alt="Slides icon" class="resource__icon resource__slides">
       </div>
-      <div class="resource resources__project">
-        <span class="resource__text">Project Rubric</span>
-        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconRubric.svg" alt="Project Rubric icon" class="resource__icon resource__project">
-      </div>
-      <div class="resource resources__exemplar">
-        <span class="resource__text">Exemplar Project</span>
-        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconExemplarProject.svg" alt="Example project icon" class="resource__icon resource__exemplar">
-      </div>
+<!--      <div class="resource resources__project">-->
+<!--        <span class="resource__text">Project Rubric</span>-->
+<!--        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconRubric.svg" alt="Project Rubric icon" class="resource__icon resource__project">-->
+<!--      </div>-->
+<!--      <div class="resource resources__exemplar">-->
+<!--        <span class="resource__text">Exemplar Project</span>-->
+<!--        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconExemplarProject.svg" alt="Example project icon" class="resource__icon resource__exemplar">-->
+<!--      </div>-->
     </div>
   </div>
 </template>
