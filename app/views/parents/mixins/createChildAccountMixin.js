@@ -7,7 +7,7 @@ export default {
           me.set('role', 'parent-home')
           await me.save()
           const parent = this.parentAccountData
-          if (parent.gplusData.gplusID) {
+          if (parent?.gplusData?.gplusID) {
             await me.signupWithGPlus(
               null,
               parent.gplusData.email,
