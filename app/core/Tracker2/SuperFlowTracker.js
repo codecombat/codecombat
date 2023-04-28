@@ -14,7 +14,7 @@ export default class SuperflowTracker extends BaseTracker {
   }
 
   loadSuperflow () {
-    initSuperflow('B57Yo9pQHtSLyn2fhVln')
+    initSuperflow('B57Yo9pQHtSLyn2fhVln', { projectId: 'codecombat' })
   }
 
   async _initializeTracker () {

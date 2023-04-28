@@ -122,5 +122,5 @@ scripts/analytics/mongodb/.mainAuth.json
 
 .lighthouseci
 
-# Local history of VSCode Local History plugin
+# Local VSCode history
 .history
