@@ -12,6 +12,12 @@
       class="user-lists"
     >
       <div
+        v-if="filteredUserList.length === 0"
+        class="no-result"
+      >
+        {{ noResults }}
+      </div>
+      <div
         v-for="u in filteredUserList"
         :key="u._id"
         @click="selectUser(u)"
@@ -38,6 +44,14 @@ export default {
     role: {
       type: String,
       default: 'student'
+    },
+    permissions: {
+      type: String,
+      default: undefined
+    },
+    noResults: {
+      type: String,
+      default: 'No results...'
     },
     value: {
       type: String,
@@ -101,7 +115,7 @@ export default {
         return
       }
       this.lastSearchUser = searchValue
-      this.searchUser(`role:${this.role} ${searchValue}`)
+      this.searchUser({ q: searchValue, role: this.role, permissions: this.permissions })
       this.hideResult = false
     },
     selectUser (u) {
@@ -133,6 +147,10 @@ export default {
       display: flex;
       justify-content: space-between;
     }
+  }
+
+  .no-result {
+    color: #666;
   }
 }
 </style>

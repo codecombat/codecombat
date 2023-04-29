@@ -219,7 +219,9 @@ export default {
         <label for="owner"> {{ $t('events.owner') }}</label>
         <user-search
           :role="'teacher'"
+          :permissions="'onlineTeacher'"
           :value="event.ownerName"
+          :no-results="'No online teachers found'"
           @select="selectOwner"
         />
       </div>
