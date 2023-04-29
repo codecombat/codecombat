@@ -19,7 +19,7 @@
         >
 
         <input
-          v-if="me.useGoogleCalendar()"
+          v-if="false && me.useGoogleCalendar()"
           type="button"
           :value="$t('events.sync_google_calendar')"
           @click="syncGoogleCalendar"
