@@ -1,19 +1,19 @@
 <script>
-  import { mapGetters, mapActions, mapMutations } from 'vuex'
-  import { COMPONENT_NAMES } from '../common/constants.js'
-  import Guidelines from './Guidelines'
-  import ViewAndMange from './ViewAndManage'
-  import TableClassFrame from './table/TableClassFrame'
-  import ModalEditStudent from '../modals/ModalEditStudent'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { COMPONENT_NAMES } from '../common/constants.js'
+import Guidelines from './Guidelines'
+import ViewAndMange from './ViewAndManage'
+import TableClassFrame from './table/TableClassFrame'
+import ModalEditStudent from '../modals/ModalEditStudent'
 
-  import utils from 'app/core/utils'
-  import { getGameContentDisplayNameWithType } from 'ozaria/site/common/ozariaUtils.js'
-  import User from 'models/User'
+import utils from 'app/core/utils'
+import { getGameContentDisplayNameWithType } from 'ozaria/site/common/ozariaUtils.js'
+import User from 'models/User'
 
-  import _ from 'lodash'
-  import ClassroomLib from '../../../../../app/models/ClassroomLib.js'
+import _ from 'lodash'
+import ClassroomLib from '../../../../../app/models/ClassroomLib.js'
 
-  function getLearningGoalsDocumentation (content) {
+function getLearningGoalsDocumentation (content) {
     if (!content.documentation) {
       return ''
     }
@@ -59,10 +59,13 @@
         classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
         gameContent: 'teacherDashboard/getGameContentCurrentClassroom',
         editingStudent: 'baseSingleClass/currentEditingStudent',
+        selectedStudentIds: 'baseSingleClass/selectedStudentIds',
         getCourseInstancesForClass: 'courseInstances/getCourseInstancesForClass',
         getClassroomById: 'classrooms/getClassroomById',
         getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
-        getActiveClassrooms: 'teacherDashboard/getActiveClassrooms'
+        getActiveClassrooms: 'teacherDashboard/getActiveClassrooms',
+        selectableStudentIds: 'baseSingleClass/selectableStudentIds',
+        getSelectableOriginals: 'baseSingleClass/getSelectableOriginals',
       }),
 
       modules () {
@@ -110,14 +113,40 @@
               levelOriginalCompletionMap[session.level.original] = session.state
             }
 
+            let isPlayable = true
+            let lastLockDate = null
             moduleStatsForTable.studentSessions[student._id] = translatedModuleContent.map((content) => {
               const { original, fromIntroLevelOriginal } = content
               const normalizedOriginal = original || fromIntroLevelOriginal
-              const isLocked = ClassroomLib.isStudentOnLockedLevel(this.classroom, student._id, this.selectedCourseId, normalizedOriginal)
+              const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal,'locked')
+              const lockDate = ClassroomLib.getStudentLockDate(this.classroom, student._id, normalizedOriginal)
+              const isOptional = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal, 'optional')
+
+              const isSkipped = isOptional && isLocked
+
+              if (lockDate && lockDate > new Date()) {
+                lastLockDate = lockDate
+                if (!isOptional) {
+                  isPlayable = false
+                }
+              }
+
+              if (isLocked && !isOptional) {
+                isPlayable = false
+              }
+
               const defaultProgressDot = {
                 status: 'assigned',
                 normalizedType: content.type,
-                isLocked
+                isLocked,
+                isSkipped,
+                lockDate,
+                lastLockDate,
+                original,
+                normalizedOriginal,
+                fromIntroLevelOriginal,
+                isOptional,
+                isPlayable
               }
 
               if (content.type === 'game-dev') {
@@ -276,7 +305,10 @@
           students.sort(compareFunc)
           return students
         } else {
-          const originalsInModule = Object.values(modules).flat().map(({ fromIntroLevelOriginal, original }) => fromIntroLevelOriginal || original)
+          const originalsInModule = Object.values(modules).flat().map(({
+            fromIntroLevelOriginal,
+            original
+          }) => fromIntroLevelOriginal || original)
           const studentProgression = new Map(students.map(({ _id }) => ([_id, 0])))
 
           for (const { _id } of students) {
@@ -305,6 +337,15 @@
       classroomId (newId) {
         this.setClassroomId(newId)
         this.fetchClassroomData(newId)
+      },
+      students(newStudents){
+        this.setSelectableStudentIds((newStudents || []).map(s => s._id))
+      },
+      modules(newModules){
+          const originals = newModules.reduce((acc, module) => {
+            return acc.concat(module.contentList.map(c => c.normalizedOriginal))
+          }, [])
+          this.setSelectableOriginals(originals)
       }
     },
 
@@ -345,8 +386,6 @@
         showPanelSessionContent: 'teacherDashboardPanel/showPanelSessionContent',
         clearSelectedStudents: 'baseSingleClass/clearSelectedStudents',
         addStudentSelectedId: 'baseSingleClass/addStudentSelectedId',
-        lockSelectedStudents: 'baseSingleClass/lockSelectedStudents',
-        unlockSelectedStudents: 'baseSingleClass/unlockSelectedStudents',
         fetchClassroomById: 'classrooms/fetchClassroomForId',
         fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher'
       }),
@@ -356,7 +395,8 @@
         setTeacherId: 'teacherDashboard/setTeacherId',
         setClassroomId: 'teacherDashboard/setClassroomId',
         setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom',
-        closePanel: 'teacherDashboardPanel/closePanel'
+        setSelectableStudentIds: 'baseSingleClass/setSelectableStudentIds',
+        setSelectableOriginals: 'baseSingleClass/setSelectableOriginals'
       }),
 
       async fetchClassroomData (classroomId) {
@@ -382,19 +422,6 @@
         } else {
           this.clearSelectedStudents()
         }
-      },
-
-      lockLevelHandler ({ normalizedType, normalizedOriginal, slug }) {
-        window.tracker?.trackEvent(`Lock ${normalizedType}: Click`, { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}-${slug}` })
-        this.lockLevelOriginalForStudents(normalizedOriginal, () => {
-          window.tracker?.trackEvent(`Lock ${normalizedType}: Success`, { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}-${slug}` })
-        })
-      },
-      unlockLevelHandler ({ normalizedType, normalizedOriginal, slug }) {
-        window.tracker?.trackEvent(`Unlock ${normalizedType}: Click`, { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}-${slug}` })
-        this.unlockLevelOriginalForStudents(normalizedOriginal, () => {
-          window.tracker?.trackEvent(`Unlock ${normalizedType}: Success`, { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}-${slug}` })
-        })
       },
 
       // Creates summary stats table for the content. These are the icons along
@@ -441,107 +468,25 @@
               displayName: utils.i18n(content, 'displayName') || utils.i18n(content, 'name'),
               type: normalizedType,
               _id,
-              normalizedOriginal,
               tooltipName: tooltipName,
               description: description || '',
               contentKey: original || fromIntroLevelOriginal, // Currently use the original as the key that groups levels together.
-              submitLock: () => this.lockLevelHandler({ normalizedOriginal, normalizedType, slug: contentLevelSlug }),
-              removeLock: () => this.unlockLevelHandler({ normalizedOriginal, normalizedType, slug: contentLevelSlug })
+              normalizedOriginal,
+              normalizedType,
+              contentLevelSlug
             })
           }),
           studentSessions: {},
           classSummaryProgress: []
         }
       },
-
-      lockLevelOriginalForStudents (normalizedOriginal, onSuccess) {
-        this.lockSelectedStudents({
-          classroom: this.classroom,
-          currentCourseId: this.selectedCourseId,
-          original: normalizedOriginal,
-          onSuccess
-        })
-      },
-
-      lockModuleForStudents ({ moduleNum }) {
-        // Find and lock the first level of the passed in module.
-        const modules = (this.gameContent[this.selectedCourseId] || {}).modules
-
-        // Locking the first level of the module is equivalent to locking
-        // the whole module.
-        const levelOriginalToLock = modules[moduleNum]?.[0]?.fromIntroLevelOriginal || modules[moduleNum]?.[0]?.original
-        if (!levelOriginalToLock) {
-          throw new Error('Could not find an original')
-        }
-
-        window.tracker?.trackEvent('Lock Module: Click', { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}` })
-        this.lockLevelOriginalForStudents(levelOriginalToLock, () => {
-          window.tracker?.trackEvent('Lock Module: Success', { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}` })
-        })
-      },
-
-      unlockLevelOriginalForStudents (normalizedOriginal, onSuccess) {
-        // Unlocks the current level by locking the next level or next course.
-        // Edge case is if you are unlocking the final level of the course.
-        // In this case fetch the next course and lock it without a level set. (This locks the whole next course.)
-        const classLevels = this.classroom.courses.find(({_id}) => _id === this.selectedCourseId)?.levels || []
-
-        const unlockLevelIdx = classLevels.findIndex(({ original }) => original === normalizedOriginal);
-        if (unlockLevelIdx === -1) {
-          throw new Error('Level original not in level when unlocking')
-        }
-
-        const levelToLockIdx = unlockLevelIdx + 1
-        if (levelToLockIdx >= classLevels.length) {
-          const nextCourseIdIdx = utils.orderedCourseIDs.indexOf(this.selectedCourseId) + 1
-          if (utils.orderedCourseIDs[nextCourseIdIdx]) {
-            this.unlockSelectedStudents({
-              classroom: this.classroom,
-              currentCourseId: utils.orderedCourseIDs[nextCourseIdIdx],
-              onSuccess
-            })
-          } else {
-            // Explicitly unsets and unlocks all levels.
-            this.unlockSelectedStudents({
-              classroom: this.classroom,
-              onSuccess,
-              currentCourseId: undefined
-            })
-          }
-        } else {
-          const { original } = classLevels[levelToLockIdx]
-          this.unlockSelectedStudents({
-            classroom: this.classroom,
-            currentCourseId: this.selectedCourseId,
-            onSuccess,
-            original
-          })
-        }
-      },
-
-      unlockModuleForStudents ({ moduleNum }) {
-        // Find and unlock the last level in the module.
-        const modules = (this.gameContent[this.selectedCourseId] || {}).modules
-
-        // Unlocking the last level of a module, is equivalent to unlocking that module.
-        const lastIdx = modules[moduleNum].length - 1
-        const levelOriginalToUnlock = modules[moduleNum]?.[lastIdx]?.fromIntroLevelOriginal || modules[moduleNum]?.[lastIdx]?.original
-        if (!levelOriginalToUnlock) {
-          throw new Error('Could not find an original to unlock')
-        }
-
-        window.tracker?.trackEvent('Unlock Module: Click', { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}` })
-        this.unlockLevelOriginalForStudents(levelOriginalToUnlock, () => {
-          window.tracker?.trackEvent('Unlock Module: Success', { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}` })
-        })
-      }
     }
   }
 </script>
 
 <template>
   <div>
-    <guidelines :visible="isGuidelinesVisible" v-on:click-arrow="clickGuidelineArrow" />
+    <guidelines :visible="isGuidelinesVisible" v-on:click-arrow="clickGuidelineArrow"/>
     <view-and-manage
       :arrow-visible="!isGuidelinesVisible"
       :display-only="displayOnly"
@@ -560,9 +505,7 @@
       :display-only="displayOnly"
 
       @toggle-all-students="toggleAllStudents"
-      @lock="lockModuleForStudents"
-      @unlock="unlockModuleForStudents"
     />
-    <modal-edit-student v-if="editingStudent" :display-only="displayOnly" />
+    <modal-edit-student v-if="editingStudent" :display-only="displayOnly"/>
   </div>
 </template>

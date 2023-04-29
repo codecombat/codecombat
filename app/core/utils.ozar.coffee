@@ -1062,10 +1062,10 @@ arenas = [
   {season: 5, slug: 'sandstorm'        , type: 'championship', start: new Date("2022-08-01T00:00:00.000-07:00"), end: new Date("2022-09-01T00:00:00.000-07:00"), results: new Date("2022-09-13T07:00:00.000-07:00"), levelOriginal: '62d50c5cd722b00025eddac7', tournament: '62e6ff22a6960064d67d87c3', image: '/file/db/level/62d50c5cd722b00025eddac7/Basketball-Arena-Sandstorm-Banner-02.jpg'}
   {season: 6, slug: 'magma-mountain'   , type: 'regular',      start: new Date("2022-09-01T00:00:00.000-07:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-11T07:00:00.000-08:00"), levelOriginal: '62f9f6506428860025b15a8b', tournament: '638557acf7cd36e695a1aad0', image: '/file/db/level/62f9f6506428860025b15a8b/Codecombat-Magma-Mountain-Banner-02b%20(1).jpg'}
   {season: 6, slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-11T07:00:00.000-08:00"), levelOriginal: '635bceb16dc3150020acb1f8', tournament: '63855798f7cd36e695a1aac5', image: '/file/db/level/635bceb16dc3150020acb1f8/Lava-Lake-Arena-Banner-02.jpg'}
-  {season: 7, slug: 'frozen-fortress'  , type: 'regular',      start: new Date("2023-01-01T00:00:00.000-08:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: '639c9a5fad4eb7001f66c801'}
-  {season: 7, slug: 'equinox'          , type: 'championship', start: new Date("2023-03-01T00:00:00.000-07:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: ''}
-  {season: 8, slug: 'pool-party-plunder',type: 'regular',      start: new Date("2023-05-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-13T07:00:00.000-07:00"), levelOriginal: ''}
-  {season: 8, slug: 'beach-ball'       , type: 'championship', start: new Date("2023-08-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-13T07:00:00.000-07:00"), levelOriginal: ''}
+  {season: 7, slug: 'frozen-fortress'  , type: 'regular',      start: new Date("2023-01-01T00:00:00.000-08:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: '639c9a5fad4eb7001f66c801', tournament: '64260960f1c07d0018299145', image: '/file/db/level/639c9a5fad4eb7001f66c801/AILeague-Banner-Frozen-Fortress-01.jpg'}
+  {season: 7, slug: 'equinox'          , type: 'championship', start: new Date("2023-04-01T00:00:00.000-07:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: '6406d8b2da5aca06eb3560d7', tournament: '642609bf54cb921c6d8cf3df'}
+  {season: 8, slug: 'farmers-feud'     , type: 'regular',      start: new Date("2023-05-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-13T07:00:00.000-07:00"), levelOriginal: ''}
+  {season: 8, slug: 'farmscape'        , type: 'championship', start: new Date("2023-08-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-13T07:00:00.000-07:00"), levelOriginal: ''}
   {season: 9, slug: 'storm-siege'      , type: 'regular',      start: new Date("2023-09-01T00:00:00.000-07:00"), end: new Date("2024-01-01T00:00:00.000-08:00"), results: new Date("2024-01-10T07:00:00.000-08:00"), levelOriginal: ''}
   {season: 9, slug: 'snowhold'         , type: 'championship', start: new Date("2023-12-01T00:00:00.000-08:00"), end: new Date("2024-01-01T00:00:00.000-08:00"), results: new Date("2024-01-10T07:00:00.000-08:00"), levelOriginal: ''}
 ]
@@ -1079,7 +1079,7 @@ AILeagueSeasons = [
   {number: 5, championshipType: 'blitz', image: '/images/pages/league/sand-storm-blitz.png', video: '4d73a54ff2cdc9b0084a538beb476437', videoThumbnailTime: '1638s'}
   {number: 6, championshipType: 'clash', image: '/images/pages/league/lava-lake-clash.png',  video: '6650f5c84f65ecd1709cca1210c4e9ab', videoThumbnailTime: '1762s'}
   {number: 7, championshipType: 'cup',   image: '/images/pages/league/equinox-cup.png',      video: '',                                 videoThumbnailTime: ''}
-  {number: 8, championshipType: 'blitz', image: '/images/pages/league/beach-ball-blitz.png', video: '',                                 videoThumbnailTime: ''}
+  {number: 8, championshipType: 'blitz', image: '/images/pages/league/farmscape-blitz.png',  video: '',                                 videoThumbnailTime: ''}
   {number: 9, championshipType: 'clash', image: '/images/pages/league/snowhold-clash.png',   video: '',                                 videoThumbnailTime: ''}
 ]
 
@@ -1128,6 +1128,23 @@ getProduct = -> if isOzaria then OZARIA else CODECOMBAT
 getProductName = -> $.i18n.t("new_home." + getProduct())
 
 supportEmail = 'support@ozaria.com'
+
+cocoBaseURL = ->
+  if isCodeCombat
+    return ''
+  if !application.isProduction()
+    return "#{document.location.protocol}//codecombat.com"
+  # We are on ozaria domain.
+  "#{document.location.protocol}//#{document.location.host}".replace(OZARIA, CODECOMBAT).replace OZARIA_CHINA, CODECOMBAT_CHINA
+
+ozBaseURL = ->
+  if isOzaria
+    return ''
+  if !application.isProduction()
+    return "#{document.location.protocol}//ozaria.com"
+  # We are on codecombat domain.
+  "#{document.location.protocol}//#{document.location.host}".replace(CODECOMBAT, OZARIA).replace CODECOMBAT_CHINA, OZARIA_CHINA
+
 
 capitalizeFirstLetter = (str) -> (str[0] or '').toUpperCase() + str.slice(1)
 
@@ -1278,4 +1295,6 @@ module.exports = {
   isOzaria
   supportEmail
   tournamentSortFn
+  cocoBaseURL
+  ozBaseURL
 }

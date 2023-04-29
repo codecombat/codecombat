@@ -81,6 +81,10 @@ export default {
             forms.setErrorToProperty($('#auth-modal'), 'password', $.i18n.t('account_settings.wrong_password'))
             this.showingError = true
           }
+          if (errorID === 'temp-password-expired') {
+            forms.setErrorToProperty($('#auth-modal'), 'password', $.i18n.t('account_settings.temp_password_expired'))
+            this.showingError = true
+          }
           if (errorID === 'individuals-not-supported') {
             forms.setErrorToProperty($('#auth-modal'), 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
             this.showingError = true

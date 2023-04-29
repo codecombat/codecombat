@@ -215,7 +215,7 @@ module.exports = Surface = class Surface extends CocoClass
     return if cores <= 2
     refreshRates = [30, 60, 75, 90, 120, 144, 240]
     # Find the largest rate that is less than the display's refresh rate, with a little wiggle room
-    frameRate = Math.max 30, _.findLast(refreshRates, (rate) -> rate < refreshRate + 4)
+    frameRate = Math.max 30, (_.findLast(refreshRates, (rate) -> rate < refreshRate + 4)  ? 30)
     console.log "Choosing framerate #{frameRate} based on refresh rate #{refreshRate} and #{cores} cores of possible rates #{refreshRates}"
     @options.frameRate = frameRate
     createjs.Ticker.framerate = @options.frameRate unless @paused

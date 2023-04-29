@@ -13,6 +13,10 @@ export default {
     users: {
       byId: {},
       searchedResult: []
+    },
+
+    userNames: {
+      byId: {}
     }
   },
 
@@ -41,6 +45,12 @@ export default {
     },
     resetSearchedResult: (state) => {
       state.users.searchedResult = []
+    },
+
+    setUserNames: (state, nameMap) => {
+      Object.keys(nameMap).forEach((userId) => {
+        Vue.set(state.userNames.byId, userId, nameMap[userId])
+      })
     }
   },
   getters: {
@@ -61,6 +71,21 @@ export default {
     },
     getUserSearchResult: (state) => {
       return state.users.searchedResult
+    },
+    getUserNameById: (state) => (id) => {
+      const user = state.userNames.byId[id]
+      if(!user) return ''
+      let name = ''
+      if (user.firstName) {
+        name = user.name
+      }
+      if (user.lastName) {
+        name += ' ' + user.lastName
+      }
+      if (!name) {
+        name = user.name
+      }
+      return name
     }
   },
 
@@ -117,6 +142,19 @@ export default {
         })
         .catch((e) => {
           console.error(`Fetch user failure ${e.message}`)
+        })
+    },
+
+    fetchUserNamesById: ({ commit }, ids) => {
+      return usersApi
+        .fetchNamesForUser(ids)
+        .then(res => {
+          if (res) {
+            commit('setUserNames', res)
+          }
+        })
+        .catch(e => {
+          console.error(`Fetch user names failure ${e.message}`)
         })
     }
   }

@@ -52,7 +52,7 @@ definitionSchemas =
 
 init = ->
   return if app
-  if not window.userObject._id
+  if not window.userObject?._id
     options = { cache: false }
     options.data = _.pick(utils.getQueryVariables(), 'preferredLanguage')
     $.ajax('/auth/whoami', options).then (res) ->

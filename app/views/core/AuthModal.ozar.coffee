@@ -73,6 +73,10 @@ module.exports = class AuthModal extends ModalView
           forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.wrong_password'))
           showingError = true
 
+        if errorID is 'temp-password-expired'
+          forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.temp_password_expired'))
+          showingError = true
+
         if errorID is 'individuals-not-supported'
           forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
           showingError = true

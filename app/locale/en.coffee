@@ -379,7 +379,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ozaria_classroom: "Ozaria Classroom"
     codecombat_classroom: "CodeCombat Classroom"
     ozaria_dashboard: "Ozaria Dashboard"
+    ozaria_teacher_dashboard: "Ozaria Teacher Dashboard"
+    ozaria_admin_dashboard: "Ozaria Admin Dashboard"
     codecombat_dashboard: "CodeCombat Dashboard"
+    codecombat_teacher_dashboard: "CodeCombat Teacher Dashboard"
+    codecombat_admin_dashboard: "CodeCombat Admin Dashboard"
     professional_development: "Professional Development"
     new: "New!"
     admin: "Admin"
@@ -389,6 +393,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     partnerships: "Partnerships"
     podcast: "Our Podcast"
     dashboard: "Dashboard"
+    products: "Products"
+    live_online_classes: "Live Online Classes"
+    codecombat_home: "CodeCombat Home"
+    libraries: "Libraries"
+    codecombat_worlds_on_roblox: "CodeCombat Worlds on Roblox"
+    pricing: "Pricing"
+    help_center: "Help Center"
+    research_efficacy: "Research - Efficacy"
+    research_impact: "Research - Impact"
 
   modal:
     close: "Close"
@@ -1053,7 +1066,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_status: "Status"
     level_status_locked: "Locked"
     level_status_in_progress: "In Progress"
+    level_status_skipped: "Skipped"
     level_status_complete: "Complete"
+    level_status_unlocked: "Unlocked"
+    level_status_optional: "Optional"
     level_type_practice: "Practice"
     level_type_challenge: "Challenge"
     level_type_cutscene: "Cutscene"
@@ -1491,6 +1507,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ea_title: "Executive Assistant"
     om_title: "Operations Manager"
     som_title: "Senior Operations Manager"
+    sales_om_title: "Sales Operations Manager"
     pe_title: "Principal Engineer"
     mo_title: "Manager, Operations"
     smo_title: "Senior Manager, Operations"
@@ -1505,7 +1522,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sales_om_title: "Sales Operations Manager"
     bd_pr_title: "Business Development and Partnerships Representative"
     oi_title: "Online Instructor"
-    m_oi_title: "Manager, Online Instructor"
+    m_oi_title: "Manager, Online Instruction"
     aoim_title: "Associate Online Instructor Manager"
     bdm_title: "Business Development Manager"
     community_subtitle: "Over 600 contributors have helped build CodeCombat, with more joining every week!"
@@ -1586,6 +1603,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     error_in_importing_students: "Error in importing students"
     classroom_items_description: "Whether students should earn gems and equip items during gameplay."
     classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled."
+    not_allow_to_solution: '# Licenses needed to view solutions'
 
   no_licenses_page:
     are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -1765,6 +1783,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     delete_account_tab: "Delete Your Account"
     wrong_email: "Wrong Email or Username"
     wrong_password: "Wrong Password"
+    temp_password_expired: "Your temporary password has been expired."
     delete_this_account: "Delete this account permanently"
     reset_progress_tab: "Reset All Progress"
     reset_your_progress: "Clear all your progress and start over"
@@ -2565,6 +2584,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_stats: "License Stats"
     redeemers: "Active Students"
     removed_redeemers: "Inactive Students"
+    latest_podcast_episode: "Latest Podcast Episode"
+    edit_student_access_title: "Edit Student Access to Levels"
+    edit_student_access_subtitle: "You have selected __levels__ levels for __students__ students."
 
   teacher_licenses:
     active_licenses: "Active Licenses"
@@ -4004,7 +4026,20 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   teacher_dashboard:
     lock: 'Lock'
     unlock: 'Unlock'
+    lock_until_date: 'Lock until date'
+    skip: 'Skip'
+    unskip: 'Unskip'
+    make_optional: 'Make optional'
+    remove_optional: 'Remove Optional'
+    until_date: 'until __date__'
     unassign: 'Unassign'
+    locked: 'Locked'
+    locked_by_previous: 'Locked by previous level'
+    locked_with_timeframe: 'Locked'
+    skipped: 'Skipped'
+    optional: 'Optional'
+    assigned: 'Assigned'
+    unlocked: 'Unlocked'
     choose_course: 'Click to Select from Dropdown'
     teacher_locked_message: 'Your teacher has locked the next level'
     plan_your_class_title: 'Plan your first class by'
@@ -4090,6 +4125,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share: 'Share'
     add: 'Add'
     note: 'Note'
+    lock_or_skip_levels: 'Lock or Skip Levels'
+    level_access_status_blurb: "When you choose to skip a level, it will have both the 'locked' and 'optional' status. Unskipping the level will remove both the 'locked' and 'optional' statuses."
 
   outcomes:
     outcomes_report: "Outcomes Report"
@@ -4249,8 +4286,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sandstorm: "Sandstorm"
     frozen_fortress: "Frozen Fortress"
     equinox: "Equinox"
-    pool_party_plunder: "Pool Party Plunder"
-    beach_ball: "Beach Ball"
+    farmers_feud: "Farmer's Feud"
+    farmscape: "Farmscape"
     storm_siege: "Storm Siege"
     snowhold: "Snowhold"
     season_label: "Season __seasonNumber__: __seasonName__"
@@ -4261,11 +4298,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     season_5: "Sands of Time"
     season_6: "Molten Mayhem"
     season_7: "Melting Point"
-    season_8: "Summer Smash"
+    season_8: "Coder's Harvest" #
     season_9: "Reign of Code"
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
+    season7_announcement_1: "Witness the dawn of a new challenge in the Equinox Cup! Season 7's tower defense arena offers a unique blend of strategy, monsters, and boss battles for you to conquer."
     season6_announcement_1: "It’s absolute Molten Mayhem with the launch of the Lava Lake Clash finals! Outlast and outwit the competition in this hot take on classic Snake gameplay."
     season6_announcement_2: "Note: arena balance adjustments may occur up until December 15th. So be sure to come back often to test your code against the global leaderboard."
     season5_announcement_1: "The Sandstorm Blitz Final is on. In this basketbrawl of an arena, you must summon the right heroes, call the right plays, and outscore your opponent to take the victory!"

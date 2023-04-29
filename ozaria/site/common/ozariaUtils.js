@@ -15,14 +15,12 @@ export function getOzariaAssetUrl (assetName) {
  * Calculates all the next levels for a list of levels in a classroom/campaign based on the level sessions.
  * @param {Object[]} sessions - The list of level session objects.
  * @param {Object[]|Object} levels - The list of level objects, or an object with keys as level original id and value as level data.
- * @param {Object} levels.nextLevels - The array of nextLevels for a level.
- * @param {boolean|undefined} levels.isPlayedInStages - True/false/undefined
- * @param {Object} levels.position - The object containing position of a level.
- * @param {boolean} levels.first - Value to determine if a level is the first level of classroom/campaign.
  * @param {Object} levelStatusMap - Optional. Object with key as the level original id, and value as complete/started.
+ * @param {Object} classroom - classroom
+ * @param {string} classroom - course id
  * @returns {string} - Next level's original id.
  */
-export const findNextLevelsBySession = (sessions, levels, levelStatusMap) => {
+export const findNextLevelsBySession = (sessions, levels, levelStatusMap, classroom, courseId) => {
   if (!levelStatusMap) {
     levelStatusMap = getLevelStatusMap(sessions)
   }
@@ -50,6 +48,11 @@ export const findNextLevelsBySession = (sessions, levels, levelStatusMap) => {
       } else {
         unlockedLevel = getNextLevelForLevel(level) || {}
       }
+
+      if (unlockedLevel.original && classroom && classroom.isStudentOnSkippedLevel(me.get('_id'), courseId, unlockedLevel.original)) {
+        unlockedLevel = {}
+      }
+
       const unlockedLevelStatus = levelStatusMap[unlockedLevel.original]
       const unlockedLevelCompleted = (typeof unlockedLevelStatus === 'string' && unlockedLevelStatus === 'complete') ||
         (typeof unlockedLevelStatus === 'number' && unlockedLevelStatus >= unlockedLevel.nextLevelStage)

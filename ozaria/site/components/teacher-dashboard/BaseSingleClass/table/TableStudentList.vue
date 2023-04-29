@@ -1,8 +1,9 @@
 <script>
-  import { mapGetters, mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
-  import CellStudent from './CellStudent'
-  export default {
+import CellStudent from './CellStudent'
+
+export default {
     components: {
       CellStudent
     },
@@ -58,7 +59,6 @@
       :student-sessions="studentCombinedSessions"
 
       :checked="isStudentSelected(_id)"
-
       @change="changeCheckbox(_id)"
     />
   </div>
@@ -76,5 +76,6 @@
   width: $studentNameWidth;
 
   text-align: right;
+  z-index: 1;
 }
 </style>

@@ -75,7 +75,7 @@
   ],
   "dependencies": {
     "@stripe/stripe-js": "^1.32.0",
-    "@usesuperflow/client": "^1.0.1",
+    "@usesuperflow/client": "^1.0.2",
     "@vimeo/player": "^2.17.1",
     "ace-diff": "github:smallst/ace-diff#v1.0",
     "acorn-loose": "^8.0.1",
@@ -175,6 +175,7 @@
     "vue2-rrule-generator": "github:smallst/vue-rrule-generator#vue2-v0.9",
     "vue2-timepicker": "^1.1.6",
     "vuedraggable": "^2.21.0",
+    "vuejs-datepicker": "^1.6.2",
     "vuelidate": "^0.7.5",
     "vuex": "^3.6.2",
     "vuex-router-sync": "^5.0.0"

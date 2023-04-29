@@ -314,6 +314,54 @@ module.exports = class Autocomplete
     haveFindNearest = false
     autocompleteReplacement = level.get("autocompleteReplacement") ? []
     usedAutocompleteReplacement = []
+
+    fixLanguageSnippets = (doc, lang) ->
+      usedAutocompleteReplacement = []
+
+      if lang in ['java', 'cpp'] and not doc?.snippets?[lang] and doc?.snippets?.javascript
+        doc.snippets[lang] = doc.snippets.javascript
+
+      if lang in ['lua', 'coffeescript', 'python'] and not doc?.snippets?[lang] and (doc?.snippets?.python or doc?.snippets?.javascript)
+          # These are mostly the same, so use the Python or JavaScript ones if language-specific ones aren't available
+        doc.snippets[lang] = doc?.snippets?.python or doc.snippets.javascript
+
+      if doc?.snippets?[lang]
+        name = doc.name
+        replacement = _.find(autocompleteReplacement, (el) -> el.name is name)
+        if replacement
+          usedAutocompleteReplacement.push(replacement.name)
+        content = replacement?.snippets?[lang]?.code or doc.snippets[lang].code
+        if /loop/.test(content) and level.get 'moveRightLoopSnippet'
+          # Replace default loop snippet with an embedded moveRight()
+          content = switch lang
+            when 'python' then 'while True:\n    hero.moveRight()\n    ${1:}'
+            when 'javascript', 'java', 'cpp' then 'while (true) {\n    hero.moveRight();\n    ${1:}\n}'
+            else content
+        if /loop/.test(content) and level.isType('course', 'course-ladder')
+          # Temporary hackery to make it look like we meant while True: in our loop snippets until we can update everything
+          content = switch lang
+            when 'python' then content.replace /loop:/, 'while True:'
+            when 'javascript', 'java', 'cpp' then content.replace /loop/, 'while (true)'
+            when 'lua' then content.replace /loop/, 'while true then'
+            when 'coffeescript' then content
+            else content
+          name = switch lang
+            when 'python' then 'while True'
+            when 'coffeescript' then 'loop'
+            else 'while true'
+        # For now, update autocomplete to use hero instead of self/this, if hero is already used in the source.
+        # Later, we should make this happen all the time - or better yet update the snippets.
+        if /hero/.test(source) or not /(self[\.\:]|this\.|\@)/.test(source)
+          thisToken =
+            'python': /self/,
+            'javascript': /this/,
+            'java': /this/,
+            'cpp': /this/,
+            'lua': /self/
+          if thisToken[lang] and thisToken[lang].test(content)
+            content = content.replace thisToken[lang], 'hero'
+      return {doc, content, name}
+
     for group, props of e.propGroups
       for prop in props
         if _.isString prop  # organizePalette
@@ -324,48 +372,10 @@ module.exports = class Autocomplete
         doc = _.find (e.allDocs['__' + prop] ? []), (doc) ->
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
-        if e.language in ['java', 'cpp'] and not doc?.snippets?[e.language] and doc?.snippets?.javascript
-          # These are mostly the same, so use the JavaScript ones if language-specific ones aren't available
-          doc.snippets[e.language] = doc.snippets.javascript
-        if e.language in ['lua', 'coffeescript', 'python'] and not doc?.snippets?[e.language] and (doc?.snippets?.python or doc?.snippets?.javascript)
-          # These are mostly the same, so use the Python or JavaScript ones if language-specific ones aren't available
-          doc.snippets[e.language] = doc?.snippets?.python or doc.snippets.javascript
-        if doc?.snippets?[e.language]
-          name = doc.name
-          replacement = _.find(autocompleteReplacement, (el) -> el.name is name)
-          if replacement
-            usedAutocompleteReplacement.push(replacement.name)
-          content = replacement?.snippets?[e.language]?.code or doc.snippets[e.language].code
-          if /loop/.test(content) and level.get 'moveRightLoopSnippet'
-            # Replace default loop snippet with an embedded moveRight()
-            content = switch e.language
-              when 'python' then 'while True:\n    hero.moveRight()\n    ${1:}'
-              when 'javascript', 'java', 'cpp' then 'while (true) {\n    hero.moveRight();\n    ${1:}\n}'
-              else content
-          if /loop/.test(content) and level.isType('course', 'course-ladder')
-            # Temporary hackery to make it look like we meant while True: in our loop snippets until we can update everything
-            content = switch e.language
-              when 'python' then content.replace /loop:/, 'while True:'
-              when 'javascript', 'java', 'cpp' then content.replace /loop/, 'while (true)'
-              when 'lua' then content.replace /loop/, 'while true then'
-              when 'coffeescript' then content
-              else content
-            name = switch e.language
-              when 'python' then 'while True'
-              when 'coffeescript' then 'loop'
-              else 'while true'
-          # For now, update autocomplete to use hero instead of self/this, if hero is already used in the source.
-          # Later, we should make this happen all the time - or better yet update the snippets.
-          if /hero/.test(source) or not /(self[\.\:]|this\.|\@)/.test(source)
-            thisToken =
-              'python': /self/,
-              'javascript': /this/,
-              'java': /this/,
-              'cpp': /this/,
-              'lua': /self/
-            if thisToken[e.language] and thisToken[e.language].test(content)
-              content = content.replace thisToken[e.language], 'hero'
 
+        {doc, content, name} = fixLanguageSnippets(doc, e.language)
+
+        if doc?.snippets?[e.language]
           entry =
             content: content
             meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
@@ -414,12 +424,16 @@ module.exports = class Autocomplete
     for replacement in autocompleteReplacement
       continue if replacement.name in usedAutocompleteReplacement
       continue if not replacement.snippets
+
+      # in case level.get('autocompeteReplacement') is defined and without full-language snippets
+      {doc, content, name} = fixLanguageSnippets(replacement, e.language)
+
       entry =
-        content: replacement?.snippets?[e.language]?.code
+        content: content
         meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
-        name: replacement.name
-        tabTrigger: replacement.snippets?[e.language]?.tab
-        importance: replacement.autoCompletePriority ? 1.0
+        name: name
+        tabTrigger: doc.snippets?[e.language]?.tab
+        importance: doc.autoCompletePriority ? 1.0
       snippetEntries.push entry
 
     # window.AutocompleteInstance = @Autocomplete  # For debugging. Make sure to not leave active when committing.

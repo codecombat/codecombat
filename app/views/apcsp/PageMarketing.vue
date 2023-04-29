@@ -21,11 +21,11 @@
         img(src="/images/pages/apcsp/vector-0.svg")
 
       .width-container.row.image-row.row-eq-height
-        .col.col-md-5.col-sm-12
+        .col.col-lg-5.col-sm-12
           .bubble-img-container
             img.img-bg(src="/images/pages/apcsp/01game-bg.svg")
             img.img-picture(src="/images/pages/apcsp/01game-img.png")
-        .col.col-md-6.col-sm-12.text-column.col-md-offset-1
+        .col.col-lg-6.col-sm-12.text-column.col-lg-offset-1
           h3.text-h3 {{ $t('apcsp_marketing.game_based_learning') }}
           p.text-p {{ $t('apcsp_marketing.game_based_learning_description') }}
       .vector.vector-1
@@ -33,11 +33,11 @@
         img.vector-hidden-lg(src="/images/pages/apcsp/vector-1-sm.svg")
 
       .width-container.row.image-row.row-eq-height.row-reverse-order
-        .col.col-md-5.col-sm-12.col-md-offset-1.fostering-confidence
+        .col.col-lg-5.col-sm-12.col-lg-offset-1.fostering-confidence
           .bubble-img-container.exam
             img.img-bg(src="/images/pages/apcsp/02exam-bg.svg")
             img.img-picture(src="/images/pages/apcsp/02exam-img.png")
-        .col.col-md-5.col-sm-12.text-column.col-md-offset-1
+        .col.col-lg-5.col-sm-12.text-column.col-lg-offset-1
           h3.text-h3 {{ $t('apcsp_marketing.fostering_confidence') }}
           p.text-p {{ $t('apcsp_marketing.fostering_confidence_description') }}
 
@@ -46,11 +46,11 @@
         img.vector-hidden-lg(src="/images/pages/apcsp/vector-2-sm.svg")
 
       .width-container.row.image-row.row-eq-height.accessible-real-world
-        .col.col-md-5.col-sm-12
+        .col.col-lg-5.col-sm-12
           .bubble-img-container.realworld
             img.img-bg(src="/images/pages/apcsp/03realworld-bg.svg")
             img.img-picture(src="/images/pages/apcsp/03realworld-img.png")
-        .col.col-md-6.col-sm-12.text-column.col-md-offset-1
+        .col.col-lg-6.col-sm-12.text-column.col-lg-offset-1
           h3.text-h3 {{ $t('apcsp_marketing.accessible_real_world') }}
           p.text-p {{ $t('apcsp_marketing.accessible_real_world_description') }}
 
@@ -59,15 +59,18 @@
         img.vector-hidden-lg(src="/images/pages/apcsp/vector-3-sm.svg")
 
       #the-college-board.width-container.row.image-row
-        .col.col-lg-12.text-box
-          .bubble.bubble-7(ref="bubble-7")
-          .bubble.bubble-8(ref="bubble-8")
-          .bubble.bubble-9(ref="bubble-9")
-          .content.row
-            .col-lg-9
-              .content {{ $t('apcsp_marketing.coco_recognized_blurb') }}
-            .col-lg-3
-              img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")
+        .col-lg-12
+          .text-box
+            .row
+              .col.col-lg-12
+                .bubble.bubble-7(ref="bubble-7")
+                .bubble.bubble-8(ref="bubble-8")
+                .bubble.bubble-9(ref="bubble-9")
+                .board-content.row
+                  .col-lg-9
+                    p.text-p {{ $t('apcsp_marketing.coco_recognized_blurb') }}
+                  .col-lg-3.college-board-image-container
+                    img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")
 
       .vector.vector-4
         img(src="/images/pages/apcsp/vector-4.svg")
@@ -76,52 +79,63 @@
       .width-container.row.heading-text
         .col-lg-12
           h2.text-h2 {{ $t('apcsp_marketing.our_curriculum_offers') }}
-      .row.width-container.row-white
-        .col.col-md-12.col-sm-12.icons-container
-          span.icon(v-for="icon in icons")
-            .img-container
-              img(:src="icon.img")
-            .title {{ icon.title }}
-
-    #course-outline.width-container.border-yellow
-      .width-container.row
+      .row.width-container
         .col-lg-12
-          h2.text-h2 {{ $t('apcsp_marketing.course_outline') }}
-          h4.text-h4 {{ $t('apcsp_marketing.course_outline_description') }}
-      .width-container
-        .course-outline-item(v-for="unit in units")
-          .cell.unit {{ unit.title }}
-          .cell.course {{ unit.course }}
-          .cell.description {{ unit.description }}
+          .row-white
+            .row
+              .col.col-md-12.col-sm-12.icons-container
+                span.icon(v-for="icon in icons")
+                  .img-container
+                    img(:src="icon.img")
+                  .title {{ icon.title }}
 
-    #explore-our-curriculum.width-container
-      .width-container.row.text-center
-        .col-lg-12.col-sm-12
-          h3.text-h3 {{ $t('apcsp_marketing.explore_our_curriculum') }}
-      .width-container.row-button
-        a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
-        a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus_FullAccess.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
-        a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
-        a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide_Full.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
-        a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Flyer.pdf" target="_blank") {{ $t('apcsp_marketing.flyer') }}
+    #course-outline.width-container.row 
+      .col-lg-12
+        .border-yellow
+          .row
+            .col-lg-12
+              h2.text-h2 {{ $t('apcsp_marketing.course_outline') }}
+              h4.text-h4 {{ $t('apcsp_marketing.course_outline_description') }}
+          .row
+            .course-outline-item(v-for="unit in units")
+              .cell.unit {{ unit.title }}
+              .cell.course {{ unit.course }}
+              .cell.description {{ unit.description }}
 
-    #sample-lesson-slides.width-container.border-yellow
-      .width-container.row
-        .col.col-lg-12
-          h2.text-h2.text-center {{ $t('apcsp_marketing.sample_lesson_slides') }}
-      .width-container.row
-        .col.col-md-6
-          a.box(href="https://docs.google.com/presentation/d/1aw95kI5UIBjWIDHYMHANkOzOkgLGW3rJiyze7kW5uIA/edit?usp=share_link" target="_blank")
-            img.img-responsive(src="/images/pages/apcsp/syntax.png")
-            .bottom-text
-              .title {{ $t('apcsp_marketing.introduction_to_cs') }}
-              .subtitle {{ $t('apcsp_marketing.introduction_to_cs_description') }}
-        .col.col-md-6
-          a.box(href="https://docs.google.com/presentation/d/1WyW5mdpwQl9oQsMYkFoMa_MDlBM2GJ_n0RzsdurjV3s/edit?usp=share_link" target="_blank")
-            img.img-responsive(src="/images/pages/apcsp/internet1.png")
-            .bottom-text
-              .title {{ $t('apcsp_marketing.big_ideas') }}
-              .subtitle {{ $t('apcsp_marketing.big_ideas_description') }}
+    #explore-our-curriculum.width-container.row
+      .col-lg-12
+        #explore-our-curriculum__content
+          .row.text-center
+            .col-lg-12.col-sm-12
+              h3.text-h3 {{ $t('apcsp_marketing.explore_our_curriculum') }}
+          .row.text-center
+            .col.col-lg-12
+              .row-button
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus_FullAccess.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide_Full.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Flyer.pdf" target="_blank") {{ $t('apcsp_marketing.flyer') }}
+
+    #sample-lesson-slides.width-container.row
+      .col.col-lg-12
+        .border-yellow
+          .row
+            .col.col-lg-12
+              h2.text-h2.text-center {{ $t('apcsp_marketing.sample_lesson_slides') }}
+          .row
+            .col.col-md-6
+              a.box(href="https://docs.google.com/presentation/d/1aw95kI5UIBjWIDHYMHANkOzOkgLGW3rJiyze7kW5uIA/edit?usp=share_link" target="_blank")
+                img.img-responsive(src="/images/pages/apcsp/syntax.png")
+                .bottom-text
+                  .title {{ $t('apcsp_marketing.introduction_to_cs') }}
+                  .subtitle {{ $t('apcsp_marketing.introduction_to_cs_description') }}
+            .col.col-md-6
+              a.box(href="https://docs.google.com/presentation/d/1WyW5mdpwQl9oQsMYkFoMa_MDlBM2GJ_n0RzsdurjV3s/edit?usp=share_link" target="_blank")
+                img.img-responsive(src="/images/pages/apcsp/internet1.png")
+                .bottom-text
+                  .title {{ $t('apcsp_marketing.big_ideas') }}
+                  .subtitle {{ $t('apcsp_marketing.big_ideas_description') }}
 
     #get-full-course.container-fluid
       .width-container.row
@@ -136,32 +150,35 @@
           .row-white
             .row
               .col.col-md-6.col-xs-12
-                p.text-p {{ $t('apcsp_marketing.professional_development_description') }}
-              .col.col-md-6.col-xs-12
                 img.image18(src="/images/pages/apcsp/IMAGE18.png")
+              .col.col-md-6.col-xs-12
+                p.text-p {{ $t('apcsp_marketing.professional_development_description') }}
 
     //- html structure copied and modified from home page
     #teachers-love-codecombat.width-container.row.text-center
-      .col-md-12.border-blue
-        h2.text-h2(data-i18n="new_home.teachers_love_codecombat_title")
+      .col.col-md-12
         .row
-          .col-xs-4
-            .width-320
-              h1.text-h1
-                span 99%
-              h4.text-h4(data-i18n="new_home.teachers_love_codecombat_blurb1")
-          .col-xs-4
-            .width-320
-              h1.text-h1
-                span 95%
-              h4.text-h4(data-i18n="new_home.teachers_love_codecombat_blurb2")
-          .col-xs-4
-            .width-320
-              h1.text-h1
-                span 94%
-              h4.text-h4(data-i18n="new_home.teachers_love_codecombat_blurb3")
-        a.btn.btn-primary.btn-lg(href="/images/pages/impact/pdf/CodeCombat_ImplementationStudy_Summary.pdf" target="_blank") {{ $t('impact.download_study') }}
-        p.mcrel-blurb.text-navy(data-i18n="new_home.teachers_love_codecombat_subblurb")
+          .col.col-md-12
+            .border-blue
+              h2.text-h2(data-i18n="new_home.teachers_love_codecombat_title")
+              .row
+                .col-xs-4
+                  .width-320
+                    h1.text-h1
+                      span 99%
+                    h4.text-h4(data-i18n="new_home.teachers_love_codecombat_blurb1")
+                .col-xs-4
+                  .width-320
+                    h1.text-h1
+                      span 95%
+                    h4.text-h4(data-i18n="new_home.teachers_love_codecombat_blurb2")
+                .col-xs-4
+                  .width-320
+                    h1.text-h1
+                      span 94%
+                    h4.text-h4(data-i18n="new_home.teachers_love_codecombat_blurb3")
+              a.btn.btn-primary.btn-lg(href="/images/pages/impact/pdf/CodeCombat_ImplementationStudy_Summary.pdf" target="_blank") {{ $t('impact.download_study') }}
+              p.mcrel-blurb.text-navy(data-i18n="new_home.teachers_love_codecombat_subblurb")
 
     #more-information.container-fluid
       .width-container.row.text-center
@@ -170,20 +187,22 @@
           a.btn.btn-primary.btn-lg.btn-shadow.uppercase(href="https://forms.gle/RAA37R3FJojZ7bfQ7" target="_blank") {{ $t('apcsp_marketing.contact_us') }}
 
     #faq.container-fluid
-      .width-container.text-center.row
+      .width-container.row
+        .col-lg-12.text-center
+            h3.text-h3
+              span {{ $t('nav.faqs') }}
         .col-lg-12
-          h3.text-h3
-            span {{ $t('nav.faqs') }}
-      .width-container.row.border-blue
-        .col-md-6
-          .question {{ $t('apcsp_marketing.question_1') }}
-          .answer(v-html="$t('apcsp_marketing.answer_1', i18nData)")
+          .border-blue
+            .row
+              .col-md-6
+                .question {{ $t('apcsp_marketing.question_1') }}
+                .answer(v-html="$t('apcsp_marketing.answer_1', i18nData)")
 
-          .question {{ $t('apcsp_marketing.question_2') }}
-          .answer(v-html="$t('apcsp_marketing.answer_2', i18nData)")
-        .col-md-6
-          .question {{ $t('apcsp_marketing.question_3') }}
-          .answer(v-html="$t('apcsp_marketing.answer_3', i18nData)")
+                .question {{ $t('apcsp_marketing.question_2') }}
+                .answer(v-html="$t('apcsp_marketing.answer_2', i18nData)")
+              .col-md-6
+                .question {{ $t('apcsp_marketing.question_3') }}
+                .answer(v-html="$t('apcsp_marketing.answer_3', i18nData)")
 
 
 </template>
@@ -296,6 +315,12 @@ $apcsp-marketing-body-font: 'Arvo';
   letter-spacing: 1.96px;
   color: #FCBB00;
   word-break: break-word;
+  @media (max-width: $screen-sm) {
+    font-size: 40px;
+  }
+  @media (max-width: $screen-xs) {
+    font-size: 24px;
+  }
 }
 
 .text-h2 {
@@ -307,6 +332,13 @@ $apcsp-marketing-body-font: 'Arvo';
   text-align: center;
   letter-spacing: 1.96px;
   color: #FFFFFF;
+  @media (max-width: $screen-sm) {
+    font-size: 23px;
+  }
+  @media (max-width: $screen-xs) {
+    font-size: 18px;
+  }
+
 }
 
 .text-h3 {
@@ -314,9 +346,18 @@ $apcsp-marketing-body-font: 'Arvo';
   font-style: normal;
   font-weight: 700;
   font-size: 28px;
-  line-height: 38px;
-  /* identical to box height, or 136% */
+  line-height: 136%;
   color: $teal-dark;
+  @media (max-width: $screen-xs) {
+    font-size: 18px;
+  }
+}
+
+.text-h4 {
+  font-size: 24px;
+  @media (max-width: $screen-xs) {
+    font-size: 14px;
+  }
 }
 
 
@@ -335,6 +376,10 @@ p, .text-p {
   font-size: 24px;
   line-height: 30px;
   color: $teal-dark;
+  @media (max-width: $screen-xs) {
+    font-size: 14px;
+    line-height: 20px
+  }
 }
 
 .btn-primary {
@@ -375,6 +420,14 @@ p, .text-p {
       max-width: 742px;
     }
 
+    @media (max-width: $screen-sm) {
+      margin: 0 8vw;
+    }
+
+    @media (max-width: $screen-xs) {
+      margin: 0 20px;
+    }
+
     float: unset;
     margin: 0 auto;
   }
@@ -395,6 +448,9 @@ p, .text-p {
         font-weight: 700;
         font-size: 64px;
         line-height: 122%;
+        @media (max-width: $screen-xs) {
+          font-size: 34px;
+        }
 
         display: flex;
         align-items: center;
@@ -428,6 +484,14 @@ p, .text-p {
 
         padding-top: 35px;
         padding-bottom: 12px;
+        @media (max-width: $screen-sm) {
+          font-size: 23px;
+          line-height: 30px;
+        }
+        @media (max-width: $screen-xs) {
+          font-size: 18px;
+          line-height: 24px;
+        }
       }
 
       background: linear-gradient(118.13deg, $teal-dark 0%, $forest 100%);
@@ -473,8 +537,14 @@ p, .text-p {
   }
 
   .image-row {
-    margin: 140px auto 10px;
+    margin-top: 140px;
+    margin-bottom: 10px;
 
+    .col {
+      @media (max-width: $screen-sm) {
+        margin: 0px auto;
+      }
+    }
     .col:first-child {
       z-index: 1;
       position: relative;
@@ -608,7 +678,7 @@ p, .text-p {
     &.row-reverse-order {
       display: flex;
 
-      @media (min-width: $screen-md-min) {
+      @media (min-width: $screen-lg-min) {
         > :first-child {
           order: 1;
         }
@@ -687,7 +757,7 @@ p, .text-p {
       font-style: normal;
       font-weight: 700;
       font-size: 33px;
-      line-height: 62px;
+      line-height: 188%;
       /* identical to box height, or 188% */
 
       text-align: center;
@@ -695,6 +765,12 @@ p, .text-p {
 
       color: $teal-dark;
       margin-bottom: 45px;
+      @media (max-width: $screen-sm) {
+        font-size: 28px;
+      }
+      @media (max-width: $screen-xs) {
+        font-size: 18px;
+      }
     }
 
     .text-h4 {
@@ -703,8 +779,7 @@ p, .text-p {
       font-family: 'Open Sans';
       font-style: normal;
       font-weight: 400;
-      font-size: 24px;
-      line-height: 30px;
+      line-height: 125%;
       /* or 125% */
 
       text-align: center;
@@ -754,7 +829,6 @@ p, .text-p {
       font-family: $apcsp-marketing-body-font;
       font-style: normal;
       font-weight: 700;
-      font-size: 33px;
       line-height: 188%;
       text-align: center;
       letter-spacing: 1.96px;
@@ -770,12 +844,13 @@ p, .text-p {
       font-family: $apcsp-marketing-body-font;
       font-style: normal;
       font-weight: 700;
-      font-size: 60px;
       line-height: 103%;
       text-align: center;
       letter-spacing: 1.96px;
       color: $teal-dark;
       transform: translateY(50%);
+      position: relative;
+      z-index: 1;
 
       span {
         background-color: white;
@@ -792,8 +867,12 @@ p, .text-p {
       font-style: normal;
       font-weight: 700;
       font-size: 28px;
-      line-height: 38px;
+      line-height: 135%;
       color: $teal-dark;
+      @media (max-width: $screen-sm) {
+        font-size: 18px;
+      }
+
     }
 
     .answer {
@@ -801,8 +880,11 @@ p, .text-p {
       font-style: normal;
       font-weight: 400;
       font-size: 24px;
-      line-height: 30px;
+      line-height: 125%;
       color: $teal-dark;
+      @media (max-width: $screen-sm) {
+        font-size: 14px;
+      }
     }
   }
 
@@ -810,13 +892,9 @@ p, .text-p {
     margin-bottom: 200px;
     margin-top: 240px;
 
-    @media (max-width: $screen-lg-min) {
-      max-width: 724px;
-    }
-
-    .content {
+    .board-content {
       background: white;
-      margin: 0 -15px;
+      margin: 0 auto;
       border-radius: 25px;
       padding: 35px 35px;
       text-align: left;
@@ -828,6 +906,8 @@ p, .text-p {
       line-height: 30px;
       color: $teal-dark;
 
+      width: 100%;
+
       &.row {
         @media (min-width: $screen-md) {
           display: flex;
@@ -835,6 +915,10 @@ p, .text-p {
           justify-content: center;
           align-items: center;
         }
+      }
+
+      .college-board-image-container {
+        text-align: center;
       }
     }
   }
@@ -854,11 +938,19 @@ p, .text-p {
         font-size: 23px;
         line-height: 30px;
       }
+      @media (max-width: $screen-xs) {
+        font-size: 18px;
+        line-height: 24px;
+      }
     }
 
     .row-white {
       padding: 90px 40px 0 40px;
       margin-bottom: 110px;
+      @media (max-width: $screen-sm) {
+        margin-right: 15px;
+        margin-left: 15px;
+      }
     }
 
     .icons-container {
@@ -943,19 +1035,15 @@ p, .text-p {
 
     &.border-yellow {
       padding: 60px;
+      @media (max-width: $screen-sm) {
+        padding: 2.5vw;
+      }
+      @media (max-width: $screen-xs) {
+        padding: 0 0 30px 0;
+      }
     }
 
     .text-h2 {
-      font-family: $apcsp-marketing-body-font;
-      font-style: normal;
-      font-weight: 700;
-      font-size: 60px;
-      line-height: 62px;
-      /* identical to box height, or 103% */
-
-      text-align: center;
-      letter-spacing: 1.96px;
-
       color: $teal-dark;
     }
 
@@ -986,7 +1074,11 @@ p, .text-p {
       grid-template-columns: 100px 30% auto;
 
       @media (max-width: $screen-lg-min) {
-        grid-template-columns: 100px 25% auto;
+        grid-template-columns: 100px 28% auto;
+      }
+
+      @media (max-width: $screen-sm) {
+        grid-template-columns: auto;
       }
 
       .cell {
@@ -1011,6 +1103,10 @@ p, .text-p {
             font-size: 16px;
             line-height: 18px;
           }
+          @media (max-width: $screen-xs) {
+            font-size: 14px;
+            line-height: 20px;
+          }
         }
 
         &.description {
@@ -1024,6 +1120,10 @@ p, .text-p {
             font-size: 16px;
             line-height: 18px;
           }
+          @media (max-width: $screen-xs) {
+            font-size: 14px;
+            line-height: 20px;
+          }
         }
       }
     }
@@ -1033,28 +1133,26 @@ p, .text-p {
   #explore-our-curriculum {
     margin-top: 90px;
 
-    background: url('/images/pages/apcsp/greed_banner.png');
-    background-size: cover;
-    background-position: left center;
-    height: 300px;
-    overlfow: hidden;
-    border-radius: 20px;
-    padding-bottom: 50px;
+    &__content {
+      background: url('/images/pages/apcsp/greed_banner.png');
+      background-size: cover;
+      background-position: left center;
+      height: 300px;
+      overflow: hidden;
+      border-radius: 20px;
+      padding-bottom: 50px;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
     .text-h3 {
       font-family: $apcsp-marketing-body-font;
       font-style: normal;
       font-weight: 700;
-      font-size: 33px;
       line-height: 188%;
-      @media (max-width: $screen-sm) {
-        font-size: 24px;
-      }
 
       text-align: center;
       letter-spacing: 1.96px;
@@ -1089,13 +1187,8 @@ p, .text-p {
     padding-top: 0;
 
     .text-h2 {
-      font-family: $apcsp-marketing-body-font;
-      font-style: normal;
-      font-weight: 700;
-      font-size: 33px;
-      line-height: 38px;
+      line-height: 115%;
       text-align: center;
-      letter-spacing: 1.96px;
       color: $teal-dark;
       padding: 50px;
     }
@@ -1161,7 +1254,6 @@ p, .text-p {
       font-family: $apcsp-marketing-body-font;
       font-style: normal;
       font-weight: 700;
-      font-size: 60px;
       line-height: 103%;
       text-align: center;
       letter-spacing: 1.96px;
@@ -1174,7 +1266,6 @@ p, .text-p {
       font-family: 'Open Sans';
       font-style: normal;
       font-weight: 400;
-      font-size: 24px;
       line-height: 125%;
       display: flex;
       align-items: center;
@@ -1195,6 +1286,7 @@ p, .text-p {
 
       img {
         max-width: 100%;
+        margin-bottom: 20px;
       }
     }
   }
@@ -1226,7 +1318,7 @@ p, .text-p {
   }
 
   .fostering-confidence {
-    @media (min-width: $screen-md) {
+    @media (min-width: $screen-lg) {
       transform: translateX(80px);
     }
   }
@@ -1248,7 +1340,7 @@ p, .text-p {
   left: 49%;
   transform: translate(-50%);
 
-  @media (max-width: $screen-md) {
+  @media (max-width: $screen-lg-min) {
     display: none;
   }
 
@@ -1310,15 +1402,15 @@ p, .text-p {
 
 .bubble-img-container {
   position: relative;
-  width: 480px;
+  width: min(60vw, 480px);
 
-  @media (min-width: $screen-md) and (max-width: $screen-lg-min) {
-    width: 335px;
-    margin-left: 130px;
-    margin-top: 30px;
-  }
+  //@media (min-width: $screen-md) and (max-width: $screen-lg-min) {
+  //  width: 335px;
+  //  margin-left: 130px;
+  //  margin-top: 30px;
+  //}
 
-  @media (max-width: $screen-md) {
+  @media (max-width: $screen-lg) {
     margin: 0 auto 90px;
   }
 
@@ -1343,9 +1435,9 @@ p, .text-p {
   }
 
   &.exam {
-    @media (min-width: $screen-md) and (max-width: $screen-lg-min) {
-      margin-left: -106px;
-    }
+    // @media (min-width: $screen-md) and (max-width: $screen-lg-min) {
+    //   margin-left: -106px;
+    // }
 
     .img-bg {
       right: -27.2%;
@@ -1355,10 +1447,10 @@ p, .text-p {
   }
 
   &.realworld {
-    @media (min-width: $screen-md) and (max-width: $screen-lg-min) {
-      margin-left: 122px;
-      margin-top: -5px;
-    }
+    // @media (min-width: $screen-md) and (max-width: $screen-lg-min) {
+    //   margin-left: 122px;
+    //   margin-top: -5px;
+    // }
 
     .img-bg {
       right: -16.2%;

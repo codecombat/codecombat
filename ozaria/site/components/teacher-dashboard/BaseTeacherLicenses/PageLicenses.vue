@@ -100,6 +100,7 @@
           :teacher-id="teacherId"
           @apply="$emit('apply')"
           @share="$emit('share', license)"
+          @stats="$emit('stats', license)"
         />
       </div>
       <div class="expired-licenses row" v-if="expiredLicenses.length > 0">
@@ -116,6 +117,7 @@
           :owner="getUserById(license.creator)"
           :teacher-id="teacherId"
           :expired="true"
+          @stats="$emit('stats', license)"
         />
       </div>
     </div>

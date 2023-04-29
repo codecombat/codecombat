@@ -143,4 +143,10 @@ module.exports = {
       method: 'POST',
       json
     }))
+
+  fetchNamesForUser: (ids) ->
+    fetchJson("/db/user/-/names", {
+      method: 'POST'
+      data: { ids }
+    })
 }
