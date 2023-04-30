@@ -277,8 +277,8 @@ module.exports = (env) => {
             from: 'vendor/esper-plugin-lang-cpp-modern.js',
             to: 'javascripts/app/vendor/aether-cpp.modern.js'
           }, {
-            // Standalone ai project expects images and other assets in /ai subfolder; we also add one here
-            context: 'node_modules/ai/dist-embed/ai',
+            // Standalone ai project expects images and other assets to be in its public folder, so copy them to AI's new root `/ai`
+            context: 'node_modules/ai/dist',
             from: '**/*',
             to: 'ai'
           }
