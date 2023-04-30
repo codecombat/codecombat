@@ -69,7 +69,7 @@ module.exports = (env) => {
       devtool: 'eval', // Recommended choice for development builds with maximum performance.
       plugins: prePlugins.concat(baseConfig.plugins).concat(plugins),
       watchOptions: {
-        ignored: /node_modules(?!\/ai\/dist-embed)|bower_components|\.#|~$/,
+        ignored: /node_modules(?!\/ai\/dist)|bower_components|\.#|~$/,
       },
       mode: 'development'
     })
