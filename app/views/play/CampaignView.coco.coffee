@@ -175,6 +175,9 @@ module.exports = class CampaignView extends RootView
       .catch (err) =>
         console.error(err)
 
+    if userUtils.shouldShowLibraryLoginModal() && me.isAnonymous()
+      @openModalView new CreateAccountModal({ startOnPath: 'individual-basic' })
+
     if window.serverConfig.picoCTF
       @supermodel.addRequestResource(url: '/picoctf/problems', success: (@picoCTFProblems) =>).load()
     else

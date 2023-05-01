@@ -41,6 +41,7 @@ fetchJson = require 'core/api/fetch-json'
 HoCModal = require 'views/special_event/HoC2018InterstitialModal.coffee'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
 globalVar = require 'core/globalVar'
+userUtils = require 'lib/user-utils'
 
 require 'lib/game-libraries'
 
@@ -138,6 +139,9 @@ module.exports = class CampaignView extends RootView
         me.fetch(cache: false, success: => @render?())
       .catch (err) =>
         console.error(err)
+
+    if userUtils.shouldShowLibraryLoginModal() && me.isAnonymous()
+      @openModalView new CreateAccountModal({ startOnPath: 'individual-basic' })
 
     if window.serverConfig.picoCTF
       @supermodel.addRequestResource(url: '/picoctf/problems', success: (@picoCTFProblems) =>).load()
