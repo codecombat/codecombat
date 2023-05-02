@@ -597,6 +597,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     stop_spying: "Stop Spying"
     stop_switching: "Stop Switching"
     test_as_student: "Test as Student"
+    email_or_username_or_library: "Email or Username or Library Card number"
 
   signup:
     complete_subscription: "Complete Subscription"
@@ -4578,6 +4579,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     heading_libraries: "Libraries"
     educational_equity: "Educational Equity"
     power_of_play: "Power of play"
+    library_card: "Library Card Number"
+    library_signup_promotion: "Sign Up to save progress and continue from where you left off on CodeCombat!!"
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."

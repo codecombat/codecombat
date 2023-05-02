@@ -17,7 +17,10 @@
     form.form
       .form-group
         label.control-label(for="username-or-email-input")
-          span(data-i18n="login.email_or_username")
+          if view.showLibraryModal
+            span(data-i18n="login.email_or_username_or_library")
+          else
+            span(data-i18n="login.email_or_username")
           | :
         if me.get("preferredLanguage") === "he" || window.location.host === "il.codecombat.com"
           em.israel-server-hint(dir="rtl")
