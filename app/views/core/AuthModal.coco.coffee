@@ -7,6 +7,7 @@ errors = require 'core/errors'
 RecoverModal = require 'views/core/RecoverModal'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'
+userUtils = require '../../lib/user-utils'
 
 module.exports = class AuthModal extends ModalView
   id: 'auth-modal'
@@ -37,6 +38,7 @@ module.exports = class AuthModal extends ModalView
       })
       application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })
     @subModalContinue = options.subModalContinue
+    @showLibraryModal = userUtils.shouldShowLibraryLoginModal()
 
   afterRender: ->
     super()

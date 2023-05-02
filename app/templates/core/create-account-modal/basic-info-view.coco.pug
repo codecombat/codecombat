@@ -54,11 +54,19 @@ form#basic-info-form.modal-body.basic-info
                 span(data-i18n="signup.email_good")
 
       if view.signupState.get('path') !== 'teacher'
+        if view.showLibraryIdInsteadOfUsername
+          .form-group
+            .row.library-signup-text
+              span(data-i18n="library.library_signup_promotion")
         .form-group
           .row.rtl-allowed
             .col-xs-5.col-xs-offset-3.rtl-allowed
-              label.control-label(for="username-input")
-                span(data-i18n="general.username")
+              if view.showLibraryIdInsteadOfUsername
+                label.control-label(for="username-input")
+                  span(data-i18n="library.library_card")
+              else
+                label.control-label(for="username-input")
+                  span(data-i18n="general.username")
               input.form-control.input-lg#username-input(name="name" value=view.signupState.get('signupForm').name dir="auto")
             .col-xs-4.name-check.fancy-error.rtl-allowed
               - var checkNameState = view.state.get('checkNameState');
