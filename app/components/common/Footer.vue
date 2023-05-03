@@ -39,24 +39,6 @@ export default Vue.extend({
       return getQueryVariable('landing', false)
     },
 
-    forumLink () {
-      let link = 'https://discourse.codecombat.com/'
-      const lang = this.preferredLocale.split('-')[0]
-      if (['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt'].includes(lang)) {
-        link += `c/other-languages/${lang}`
-      }
-      return link
-    },
-
-    apiLink () {
-      let link = 'https://github.com/codecombat/codecombat-api'
-      const lang = this.preferredLocale.split('-')[0]
-      if (['zh'].includes(lang) || features.china) {
-        link = this.cocoPath('/api-docs')
-      }
-      return link
-    },
-
     footerUrls () {
       /* footer url example
          column: {
@@ -105,16 +87,6 @@ export default Vue.extend({
           ]
         },
         {
-          title: 'nav.get_involved',
-          condition: true,
-          lists: [
-            { url: 'https://github.com/codecombat/codecombat', extra: 'GitHub' },
-            { url: this.cocoPath('/community'), title: 'nav.community' },
-            { url: this.cocoPath('/contribute'), title: 'nav.contribute' },
-            { url: this.forumLink, title: 'nav.forum', attrs: { target: '_blank' }, hide: me.isStudent() || !me.showForumLink() },
-            { url: this.apiLink, title: 'nav.api', attrs: { target: '_blank' }, hide: me.isStudent() }
-          ]
-        },{
           title: 'nav.products',
           condition: true,
           lists: [
@@ -144,6 +116,7 @@ export default Vue.extend({
             { url: this.cocoPath('/events'), title: 'nav.events' },
             { url: this.cocoPath('/contact-cn'), title: 'nav.contact', hide: me.isStudent() },
             { url: this.cocoPath('/CoCoStar'), title: 'nav.star' },
+            { url: this.cocoPath('/contribute'), title: 'nav.contribute' },            
           ]
         },
         {

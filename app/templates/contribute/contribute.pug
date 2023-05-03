@@ -84,3 +84,16 @@ block content
           | Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world.
 
   div.clearfix
+
+  div.bottom-links
+    if !me.isStudent()
+      a(href=`${view.apiLink}` data-i18n='nav.api' target='_blank')   
+
+    a(href="https://github.com/codecombat/codecombat" target='_blank') GitHub
+
+    a(href=`${view.communityLink}` data-i18n='nav.community' target='_blank') Community
+
+    if !me.isStudent() || me.showForumLink()
+      a(href=`${view.forumLink}` data-i18n='nav.forum' target='_blank') Forum
+
+  div.clearfix
