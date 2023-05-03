@@ -30,8 +30,8 @@ module.exports = class MainContributeView extends ContributeClassView
 
   getForumLink: ->
     link = 'https://discourse.codecombat.com/'
-    if ['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt'].includes(@getLanguage)
-      link += "c/other-languages/#{lang}"
+    if ['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt'].includes(@getLanguage())
+      link += "c/other-languages/#{@getLanguage()}"
     return link
 
 
