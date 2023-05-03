@@ -33,7 +33,7 @@ block content
           | Build and share levels for you and your friends to play. Become an Artisan to learn the art of teaching others to program.
 
   if window && window.features && !window.features.chinaUx
-    a(href="/contribute/adventurer")
+    a.hidden(href="/contribute/adventurer")
       div.class_tile
         img.tile-img(src="/images/pages/contribute/tile_adventurer.png", alt="")
   
@@ -45,7 +45,7 @@ block content
           p(data-i18n="classes.adventurer_summary")
             | Get our new levels (even our subscriber content) for free one week early and help us work out bugs before our public release.
 
-  a(href="/contribute/scribe")
+  a.hidden(href="/contribute/scribe")
     div.class_tile
       img.tile-img(src="/images/pages/contribute/tile_scribe.png", alt="")
 
@@ -71,7 +71,7 @@ block content
         p(data-i18n="classes.diplomat_summary")
           | CodeCombat is localized in 45+ languages by our Diplomats. Help us out and contribute translations.
 
-  a(href="/contribute/ambassador")
+  a.hidden(href="/contribute/ambassador")
     div.class_tile
       img.tile-img(src="/images/pages/contribute/tile_ambassador.png", alt="")
 
