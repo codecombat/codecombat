@@ -114,7 +114,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'clans': go('clans/ClansView')
     'clans/:clanID': go('clans/ClanDetailsView')
 
-    'community': go('CommunityView')
+    'community': go('contribute/MainContributeView')
 
     'contribute': go('contribute/MainContributeView')
     'contribute/adventurer': go('contribute/AdventurerView')
