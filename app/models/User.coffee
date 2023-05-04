@@ -95,7 +95,8 @@ module.exports = class User extends CocoModel
 
   currentPasswordRequired: ->
     # Return true if current password should be given for password change
-    return !@get('newPasswordRequired') && !@hasNoPasswordLoginMethod()
+    spying = window.serverSession?.amActually
+    return !spying && !@get('newPasswordRequired') && !@hasNoPasswordLoginMethod()
 
   @getUnconflictedName: (name, done) ->
     # deprecate in favor of @checkNameConflicts, which uses Promises and returns the whole response
