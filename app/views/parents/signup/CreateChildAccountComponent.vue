@@ -62,13 +62,18 @@
 import AddUserComponent from '../../user/switch-account/AddUserComponent'
 export default {
   name: 'CreateChildAccountComponent',
+  props: {
+    initialData: {
+      type: Object
+    }
+  },
   data () {
     return {
-      name: null,
-      username: null,
-      email: null,
-      password: null,
-      birthday: null,
+      name: this.initialData?.name,
+      username: this.initialData?.username,
+      email: this.initialData?.email,
+      password: this.initialData?.password,
+      birthday: this.initialData?.birthday,
       showExistingAccountView: false
     }
   },
@@ -85,7 +90,7 @@ export default {
       this.$emit('onChildAccountSubmit', this.$data)
     },
     onBackButton () {
-      this.$emit('backButtonClicked')
+      this.$emit('backButtonClicked', this.$data)
     },
     onExistingAccountLink (data) {
       console.log('existing account submit', data)

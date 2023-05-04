@@ -7,12 +7,14 @@
       v-if="currentView === 'create-parent-account'"
       @onParentAccountSubmit="onParentAccountSubmit"
       :initial-data="parentAccountData"
+      :error-msg="errorMsg"
     />
     <create-child-account-component
       v-if="currentView === 'create-child-account'"
-      @backButtonClicked="currentView = 'create-parent-account'"
+      @backButtonClicked="onBackButtonClicked"
       @onChildAccountSubmit="onChildAccountSubmit"
       @existingAccountLinked="onExistingAccountLink"
+      :initial-data="childAccountData"
     />
     <div class="signup__image signup__image--2">
       <img src="/images/pages/home-v2/loc-image.png" alt="Girl playing CodeCombat" class="signup__img img-responsive">
@@ -24,6 +26,7 @@
 import CreateParentAccountComponent from './signup/CreateParentAccountComponent'
 import CreateChildAccountComponent from './signup/CreateChildAccountComponent'
 import createChildAccountMixin from './mixins/createChildAccountMixin'
+const User = require('../../models/User')
 
 export default {
   name: 'SignupView',
@@ -31,7 +34,8 @@ export default {
     return {
       currentView: 'create-parent-account',
       parentAccountData: null,
-      childAccountData: null
+      childAccountData: null,
+      errorMsg: null
     }
   },
   components: {
@@ -45,6 +49,16 @@ export default {
     async onParentAccountSubmit (data) {
       console.log('parent account data', data)
       this.parentAccountData = data
+      const { exists } = await User.checkEmailExists(data.email)
+      if (exists) {
+        this.errorMsg = 'Account with email already exists'
+        return
+      }
+      // TODO: validate like in BasicInfoView with schema
+      if (!data.password || data.password.length < 8) {
+        this.errorMsg = 'Password should be atleast 8 characters'
+        return
+      }
       this.currentView = 'create-child-account'
     },
     async onChildAccountSubmit (data) {
@@ -53,6 +67,10 @@ export default {
     },
     async onExistingAccountLink (data) {
       await this.onChildAccountSubmitHelper(null, { existingAccount: data })
+    },
+    onBackButtonClicked (data) {
+      this.currentView = 'create-parent-account'
+      this.childAccountData = data
     }
   }
 }
@@ -70,6 +88,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  margin-bottom: -50px;
 }
 
 .signup {

@@ -7,7 +7,7 @@
       Parent Account Creation
     </div>
     <div class="account__subheading">
-      Start your free trial of CodeCombat
+      Check out CodeCombat for free
     </div>
     <form class="account__form" @submit.prevent="onFormSubmit">
       <div class="form-group">
@@ -31,8 +31,14 @@
         <span class="account__or">Or:</span>
         <div id="account__google-login-btn" :disabled="gplusBtnDisabled"></div>
       </div>
+      <div
+        v-if="errorMsg"
+        class="account__error"
+      >
+        {{ errorMsg }}
+      </div>
       <div class="form-group account__submit">
-        <button class="btn account__submit__btn" type="submit">Continue</button>
+        <button class="btn account__submit__btn" type="submit">Continue to Child Account</button>
       </div>
     </form>
   </div>
@@ -53,9 +59,9 @@ export default {
   name: 'CreateParentAccountComponent',
   data () {
     return {
-      name: this.$props?.initialData?.name,
-      email: this.$props?.initialData?.email,
-      password: null,
+      name: this.initialData?.name,
+      email: this.initialData?.email,
+      password: this.initialData?.password,
       // phone: this.$props?.initialData?.phone,
       gplusBtnDisabled: true,
       isAnonymousUser: me.isAnonymous(),
@@ -65,6 +71,10 @@ export default {
   props: {
     initialData: {
       type: Object
+    },
+    errorMsg: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -112,6 +122,13 @@ export default {
     }
   },
   created () {
+    if (!me.isAnonymous()) {
+      if (me.isParentHome()) {
+        window.location.href = '/parents/dashboard'
+        return
+      }
+      window.location.href = '/'
+    }
     this.startGplusSignup()
   }
 }
@@ -142,6 +159,10 @@ export default {
   &__exists {
     font-size: 3rem;
     text-transform: uppercase;
+  }
+
+  &__error {
+    color: red;
   }
 }
 </style>

@@ -21,10 +21,12 @@ export default {
             await me.save()
           } else {
             await me.signupWithPassword(
-              parent.name,
+              null,
               parent.email,
               parent.password
             )
+            me.set('firstName', parent.name)
+            await me.save()
           }
         }
       } catch (err) {
