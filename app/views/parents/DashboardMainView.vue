@@ -4,8 +4,8 @@
       :children="children"
       :default-tab="viewName"
       @onAddAnotherChild="onAddAnotherChildClicked"
-      @onTabChange="onTabChange"
       @onSelectedChildrenChange="onSelectedChildrenChange"
+      :child-id="selectedChildrenId"
     />
     <header-component
       @onSelectedProductChange="onSelectedProductChange"
@@ -51,6 +51,10 @@ export default {
     viewName: {
       type: String,
       default: 'dashboard'
+    },
+    childId: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -59,6 +63,11 @@ export default {
       selectedView: this.viewName,
       selectedProduct: null,
       selectedChildrenId: null
+    }
+  },
+  watch: {
+    viewName: function (newVal, oldVal) {
+      if (newVal !== oldVal) this.selectedView = newVal
     }
   },
   mixins: [
@@ -76,7 +85,14 @@ export default {
     const resp = await me.getRelatedAccounts()
     const relatedAccounts = resp.data || []
     this.children = relatedAccounts.filter(r => r.relation === 'children')
-    this.selectedChildrenId = this.children.length > 0 ? this.children[0].userId : null
+    const firstChild = () => this.children.length > 0 ? this.children[0].userId : null
+    if (this.childId) {
+      const childExists = this.children.find(c => c.userId === this.childId)
+      if (childExists) this.selectedChildrenId = this.childId
+      else this.selectedChildrenId = firstChild()
+    } else {
+      this.selectedChildrenId = firstChild()
+    }
   },
   methods: {
     onAddAnotherChildClicked () {
@@ -88,11 +104,16 @@ export default {
     onSelectedProductChange (data) {
       this.selectedProduct = data
     },
-    onTabChange (data) {
-      this.selectedView = data
-    },
     onSelectedChildrenChange (data) {
-      this.selectedChildrenId = data
+      // this.$router.push({
+      //   name: 'ParentDashboard',
+      //   params: {
+      //     childId: data,
+      //     viewName: this.viewName
+      //   }
+      // })
+      // router.push doesn't seem to trigger route change
+      window.location.href = `/parents/${this.viewName}/${data}`
     },
     async onExistingAccountLink (data) {
       await this.onChildAccountSubmitHelper(null, { existingAccount: data })

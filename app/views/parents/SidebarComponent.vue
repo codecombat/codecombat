@@ -12,6 +12,7 @@
               :value="child.userId"
               class="sidebar__child__option"
               :disabled="!child.verified"
+              :selected="child.userId === selectedChildrenId"
             >
               {{ child.broadName }}
             </option>
@@ -21,52 +22,59 @@
         </select>
       </div>
       <ul class="sidebar__tabs">
-        <li
-          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'progress' || selectedTab === 'dashboard' }"
-          @click="() => onTabClicked('progress')"
-        >
-          <img src="/images/pages/parents/dashboard/icon-productivity-black.svg" alt="Progress" class="sidebar__tabs__img">
-          <span class="sidebar__tabs__name">Progress</span>
-        </li>
-        <li
-          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'summary' }"
-          @click="() => onTabClicked('summary')"
-        >
-          <img src="/images/pages/parents/dashboard/icon-summary.svg" alt="Summary" class="sidebar__tabs__img">
-          <span class="sidebar__tabs__name">Summary</span>
-        </li>
-<!--        <li-->
-<!--          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'online-classes' }"-->
-<!--          @click="() => onTabClicked('online-classes')"-->
-<!--        >-->
-<!--          <img src="/images/pages/parents/dashboard/icon-online-classes.svg" alt="Online Classes" class="sidebar__tabs__img">-->
-<!--          <span class="sidebar__tabs__name">Online Classes</span>-->
-<!--        </li>-->
-<!--        <li-->
-<!--          :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'ai-league' }"-->
-<!--          @click="() => onTabClicked('ai-league')"-->
-<!--        >-->
-<!--          <img src="/images/pages/parents/dashboard/icon-ai-league.svg" alt="AI League" class="sidebar__tabs__img">-->
-<!--          <span class="sidebar__tabs__name">AI League</span>-->
-<!--        </li>-->
+        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'progress', childId: this.selectedChildrenId } }">
+          <li
+            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'progress' || selectedTab === 'dashboard' }"
+
+          >
+            <img src="/images/pages/parents/dashboard/icon-productivity-black.svg" alt="Progress" class="sidebar__tabs__img">
+            <span class="sidebar__tabs__name">Progress</span>
+          </li>
+        </router-link>
+        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'summary', childId: this.selectedChildrenId } }">
+          <li
+            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'summary' }"
+          >
+            <img src="/images/pages/parents/dashboard/icon-summary.svg" alt="Summary" class="sidebar__tabs__img">
+            <span class="sidebar__tabs__name">Summary</span>
+          </li>
+        </router-link>
+        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'online-classes', childId: this.selectedChildrenId } }">
+          <li
+            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'online-classes' }"
+          >
+            <img src="/images/pages/parents/dashboard/icon-online-classes.svg" alt="Online Classes" class="sidebar__tabs__img">
+            <span class="sidebar__tabs__name">Online Classes</span>
+          </li>
+        </router-link>
+        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'ai-league', childId: this.selectedChildrenId } }">
+          <li
+            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'ai-league' }"
+          >
+            <img src="/images/pages/parents/dashboard/icon-ai-league.svg" alt="AI League" class="sidebar__tabs__img">
+            <span class="sidebar__tabs__name">AI League</span>
+          </li>
+        </router-link>
       </ul>
-      <div class="sidebar__add-child">
-        <button
-          class="sidebar__add-child__btn"
-          @click.prevent="onAddAnotherChild"
-        >
-          Add another child
-        </button>
-      </div>
+      <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'add-another-child' } }">
+        <div class="sidebar__add-child">
+          <button
+            class="sidebar__add-child__btn"
+          >
+            Add another child
+          </button>
+        </div>
+      </router-link>
     </div>
-    <div class="sidebar__bottom">
-      <div
-        @click="() => onTabClicked('toolkit')"
-        class="sidebar__bottom__item">
-        Parent toolkit
+    <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'toolkit' } }">
+      <div class="sidebar__bottom">
+        <div
+          class="sidebar__bottom__item">
+          Parent toolkit
+        </div>
+  <!--      <div class="sidebar__bottom__item">Account</div>-->
       </div>
-<!--      <div class="sidebar__bottom__item">Account</div>-->
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -80,23 +88,23 @@ export default {
     },
     defaultTab: {
       type: String
+    },
+    childId: {
+      type: String
     }
   },
   data () {
     return {
       selectedTab: this.defaultTab || 'progress',
-      selectedChildrenId: this.children.length === 0 ? null : this.children[0].userId
+      selectedChildrenId: this.childId ? this.childId : (this.children.length === 0 ? null : this.children[0].userId)
+    }
+  },
+  watch: {
+    childId: function (newVal, oldVal) {
+      if (newVal !== oldVal) this.selectedChildrenId = this.childId
     }
   },
   methods: {
-    onAddAnotherChild () {
-      this.selectedTab = null
-      this.$emit('onAddAnotherChild')
-    },
-    onTabClicked (data) {
-      this.selectedTab = data
-      this.$emit('onTabChange', data)
-    },
     onChildSelectionChange (e) {
       this.selectedChildrenId = e.target.value
       this.$emit('onSelectedChildrenChange', this.selectedChildrenId)
@@ -210,6 +218,10 @@ export default {
       color: #545B64;
       padding: .5rem;
     }
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
   }
 }
 </style>

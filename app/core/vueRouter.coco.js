@@ -160,7 +160,7 @@ export default function getVueRouter () {
           props: (route) => ({ ...route.query, ...route.params })
         },
         {
-          path: '/parents/:viewName',
+          path: '/parents/:viewName/:childId?',
           name: 'ParentDashboard',
           component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/DashboardMainView'),
           props: (route) => ({ ...route.query, ...route.params })
