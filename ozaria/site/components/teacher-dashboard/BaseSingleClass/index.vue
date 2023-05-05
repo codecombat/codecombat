@@ -396,7 +396,8 @@ function getLearningGoalsDocumentation (content) {
         setClassroomId: 'teacherDashboard/setClassroomId',
         setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom',
         setSelectableStudentIds: 'baseSingleClass/setSelectableStudentIds',
-        setSelectableOriginals: 'baseSingleClass/setSelectableOriginals'
+        setSelectableOriginals: 'baseSingleClass/setSelectableOriginals',
+        closePanel: 'teacherDashboardPanel/closePanel'
       }),
 
       async fetchClassroomData (classroomId) {

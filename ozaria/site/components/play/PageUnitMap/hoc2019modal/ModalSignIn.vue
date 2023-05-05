@@ -2,7 +2,6 @@
 import { mapActions } from 'vuex'
 import BaseModalContainer from '../../../common/BaseModalContainer'
 import { logInWithClever } from 'core/social-handlers/CleverHandler'
-
 const forms = require('core/forms')
 const User = require('models/User')
 const errors = require('core/errors')

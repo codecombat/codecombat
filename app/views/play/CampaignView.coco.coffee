@@ -175,6 +175,9 @@ module.exports = class CampaignView extends RootView
       .catch (err) =>
         console.error(err)
 
+    if userUtils.shouldShowLibraryLoginModal() && me.isAnonymous()
+      @openModalView new CreateAccountModal({ startOnPath: 'individual-basic' })
+
     if window.serverConfig.picoCTF
       @supermodel.addRequestResource(url: '/picoctf/problems', success: (@picoCTFProblems) =>).load()
     else
@@ -1507,7 +1510,7 @@ module.exports = class CampaignView extends RootView
 
       level.noFlag = !level.next
 
-      if this.courseInstance.get('lockedLevels')?.includes level.slug
+      if level.slug == @courseInstance.get('startLockedLevel') # lock level begin from startLockedLevel
         lockedByTeacher = true
       if lockedByTeacher
         level.locked = true
@@ -1594,6 +1597,9 @@ module.exports = class CampaignView extends RootView
 
     if what is 'lafourche-library-logo'
       return userUtils.libraryName() is 'lafourche'
+
+    if what is 'vaughan-library-logo'
+      return userUtils.libraryName() is 'vaughan-library'
 
     if what is 'league-arena'
       # Note: Currently the tooltips don't work in the campaignView overworld.
