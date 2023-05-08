@@ -50,7 +50,7 @@ const ResponseSchema = c.object({ title: 'Message', description: 'A message from
     // - line-marked code issue summary (“Line 6: change `hero.moveright[)` to `hero.moveRight()`.“)
     // - simple code issue explanation (“You use parentheses `()` to call methods, not brackets `[]`.“)
     // - action button (<button>Fix It</button>, <button>Reformat</button>)
-    // - diff that goes along with action button (diff-formatted code changes?)
+    // - full code that goes along with the response/action button
     // - links/popovers with more info on specific coding concepts
     // - other stuff I haven’t thought of yet
     freeText: { type: 'string', title: 'Free Text', format: 'markdown' },
@@ -68,7 +68,7 @@ const ResponseSchema = c.object({ title: 'Message', description: 'A message from
         action: { type: 'string', title: 'Action' }
       }
     }),
-    diff: { type: 'string', title: 'Diff', format: 'markdown' },
+    code: { type: 'string', title: 'Code', format: 'code' },
     links: c.array({ title: 'Links', description: 'Links to more information' }, {
       type: 'object',
       properties: {

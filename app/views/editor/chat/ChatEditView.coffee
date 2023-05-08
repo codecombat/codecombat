@@ -5,7 +5,6 @@ ChatMessage = require 'models/ChatMessage'
 ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
-unidiff = require 'unidiff'
 
 require 'lib/game-libraries'
 require('lib/setupTreema')
@@ -20,7 +19,7 @@ module.exports = class ChatEditView extends RootView
     'click #i18n-button': 'onPopulateI18N'
     'click #delete-button': 'confirmDeletion'
     'click #fix-button': 'onFix'
-    'click #diff-button': 'onAddDiff'
+    'click #add-code-button': 'onAddCode'
 
   constructor: (options, @chatID) ->
     super options
@@ -117,22 +116,22 @@ module.exports = class ChatEditView extends RootView
     @treema.childrenTreemas.context.childrenTreemas.code.childrenTreemas.fixed.open()
     @treema.childrenTreemas.context.childrenTreemas.code.childrenTreemas.current.open()
 
-  onAddDiff: (e) ->
+  onAddCode: (e) ->
     a = @treema.get('/context/code/current/javascript')
     b = @treema.get('/context/code/fixed/javascript')
     b ?= @treema.get('/context/code/solution/javascript')
     if not a? or not b?
       return noty
         timeout: 5000
-        text: 'You need to have both a current and solution context to diff.'
+        text: 'You need to have both a current and solution context to add structured code to AI response.'
         type: 'error'
         layout: 'topCenter'
-    diff = unidiff.diffAsText(a, b, {context: 1})
-    diff = diff.replace(/^--- a\n/, '').replace(/^\+\+\+ b\n/, '')  # Remove "filename" part of header
-    @treema.set '/message/textComponents/diff', diff
+    code = b
+    code = code.replace(/\s+$/, '')
+    @treema.set '/message/textComponents/code', code
     messageText = @treema.get('/message/text')
     @treema.set '/message/textComponents/actionButtons', [action: 'fix', text: 'Fix It']
     button = '<button action="fix">Fix It</button>'
-    @treema.set '/message/text', "#{messageText}\n\n#{button}\n\ndiff\n#{diff}"  # TODO: replace existing diff?
+    @treema.set '/message/text', "#{messageText}\n\n#{button}\n\n```\n#{code}\n```"  # TODO: replace existing code?
     @treema.childrenTreemas.message?.close()
     @treema.childrenTreemas.message?.open(2)

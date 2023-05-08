@@ -129,10 +129,10 @@ module.exports = class LevelChatView extends CocoView
 
   onChatKeypress: (e) ->
     return unless key.isPressed('enter') and not key.shift
-    message = _.string.strip($(e.target).val())
-    return false unless message
-    #@bus.sendMessage(message)  # TODO: bring back bus?
-    @saveChatMessage { message: message }
+    text = _.string.strip($(e.target).val())
+    return false unless text
+    #@bus.sendMessage(text)  # TODO: bring back bus?
+    @saveChatMessage { text }
     $(e.target).val('')
     return false
 
@@ -152,13 +152,12 @@ module.exports = class LevelChatView extends CocoView
     openPanel = $('.open-chat-area', @$el)[0]
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
 
-  saveChatMessage: ({ message }) ->
-    chatMessage = new ChatMessage @getChatMessageProps { message }
+  saveChatMessage: ({ text, sender }) ->
+    chatMessage = new ChatMessage @getChatMessageProps { text, sender }
     @chatMessages ?= []
     @chatMessages.push chatMessage
     Backbone.Mediator.publish 'level:gather-chat-message-context', { chat: chatMessage.attributes }
     # This will enrich the message with the props from other parts of the app
-    # TODO: get goal states
     console.log 'Saving chat message', chatMessage
     @listenToOnce chatMessage, 'sync', @onChatMessageSaved
     chatMessage.save()
@@ -166,16 +165,18 @@ module.exports = class LevelChatView extends CocoView
 
   onChatMessageSaved: (chatMessage) ->
     return unless key.alt and not key.ctrl  # TODO: captue at moment of sending
+    return if chatMessage.sender?.kind is 'bot'
     fetchJson("/db/chat_message/#{chatMessage.id}/ai-response").then @onChatResponse
 
   onChatResponse: (message) =>
     return if @destroyed
-    @onNewMessage message: message
+    #@onNewMessage message: message
+    @saveChatMessage text: message.text, sender: message.sender
 
-  getChatMessageProps: (options) ->
+  getChatMessageProps: ({ text, sender }) ->
     sender =
-      if key.ctrl
-        name: if /^Line \d/m.test(options.message) then 'Code AI' else 'Chat AI'
+      if key.ctrl or sender?.kind is 'bot'
+        name: if /(^Line \d|```)/m.test(text) then 'Code AI' else 'Chat AI'
         kind: 'bot'
       else
         id: me.get('_id')
@@ -186,7 +187,7 @@ module.exports = class LevelChatView extends CocoView
       kind: 'level-chat'
       example: Boolean me.isAdmin()
       message:
-        text: options.message
+        text: text
         textComponents: {}
         sender: sender
         startDate: new Date()  # TODO: track when they started typing
@@ -228,11 +229,11 @@ module.exports = class LevelChatView extends CocoView
       props.message.textComponents.actionButtons.push button
       structuredMessage = structuredMessage.replace(actionButtonRegex, '')
 
-    diffRegex = /^diff\n((.|\n)+)$/m  # Always last, or we could update diff parsing to be smart about when it ends
-    diff = structuredMessage.match(diffRegex)
-    if diff
-      props.message.textComponents.diff = diff[1]
-      structuredMessage = structuredMessage.replace(diffRegex, '')
+    codeRegex = /```(python|javascript|lua|coffeescript|c\+\+|cpp|java|html|css)?\n([.\n]+)\n```(?![\s\S]*```)$/m  # Always last, or we could update code parsing to be smart about when it ends
+    code = structuredMessage.match(codeRegex)
+    if code
+      props.message.textComponents.code = code[2]
+      structuredMessage = structuredMessage.replace(codeRegex, '')
 
     freeText = _.string.strip(structuredMessage)
     props.message.textComponents.freeText = freeText if freeText.length

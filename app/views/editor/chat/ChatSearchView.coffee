@@ -10,6 +10,7 @@ module.exports = class ChatSearchView extends SearchView
   projection: ['startDate', 'endDate', 'kind', 'example', 'releasePhase', 'context.levelName', 'message.sender.name', 'message.text']
   page: 'chat'
   canMakeNew: false
+  limit: 1000
 
   events:
     'click #delete-button': 'deleteChatMessage'
