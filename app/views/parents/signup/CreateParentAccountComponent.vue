@@ -11,16 +11,22 @@
     </div>
     <form class="account__form" @submit.prevent="onFormSubmit">
       <div class="form-group">
-        <label for="name">Parent's Full Name</label>
-        <input type="text" id="name" class="form-control" v-model="name" required />
+        <label for="name" class="required">Parent's Full Name</label>
+        <input
+          type="text" id="name" class="form-control" v-model="name" required
+        />
       </div>
       <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" class="form-control" v-model="email" required />
+        <label for="email" class="required">Email</label>
+        <input
+          type="email" id="email" class="form-control" v-model="email" required
+        />
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" class="form-control" v-model="password" required />
+        <label for="password" class="required">Password</label>
+        <input
+          type="password" id="password" class="form-control" v-model="password" required
+        />
       </div>
 <!--      <div class="form-group">-->
 <!--        <label for="phone">Phone</label>-->
@@ -159,10 +165,6 @@ export default {
   &__exists {
     font-size: 3rem;
     text-transform: uppercase;
-  }
-
-  &__error {
-    color: red;
   }
 }
 </style>

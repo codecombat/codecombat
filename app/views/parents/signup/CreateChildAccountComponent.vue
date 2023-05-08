@@ -24,25 +24,31 @@
       class="account__form"
     >
       <div class="form-group">
-        <label for="name">Child's Full Name</label>
-        <input type="text" id="name" class="form-control" v-model="name" />
+        <label for="name" class="required">Child's Full Name</label>
+        <input type="text" id="name" class="form-control" v-model="name" required />
       </div>
       <div class="form-group">
-        <label for="uname">Username</label>
-        <input type="text" id="uname" class="form-control" v-model="username" />
+        <label for="uname" class="required">Username</label>
+        <input type="text" id="uname" class="form-control" v-model="username" required />
       </div>
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" id="email" class="form-control" v-model="email" />
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" class="form-control" v-model="password" />
+        <label for="password" class="required">Password</label>
+        <input type="password" id="password" class="form-control" v-model="password" required />
       </div>
 <!--      <div class="form-group">-->
 <!--        <label for="bday">Birthday</label>-->
 <!--        <input type="text" id="bday" class="form-control" v-model="birthday" />-->
 <!--      </div>-->
+      <div
+        v-if="errMsg"
+        class="form-group account__error"
+      >
+        {{ errMsg }}
+      </div>
       <div class="form-group account__submit">
         <button class="btn account__back--btn" @click.prevent="onBackButton">Back</button>
         <button class="btn account__submit__btn" type="submit">Continue</button>
@@ -74,7 +80,8 @@ export default {
       email: this.initialData?.email,
       password: this.initialData?.password,
       birthday: this.initialData?.birthday,
-      showExistingAccountView: false
+      showExistingAccountView: false,
+      errMsg: null
     }
   },
   components: {
@@ -86,6 +93,11 @@ export default {
       this.showExistingAccountView = true
     },
     onFormSubmit () {
+      this.errMsg = null
+      if (!this.name || !this.username || !this.password) {
+        this.errMsg = 'Required field data missing'
+        return
+      }
       console.log('child account submit', this.$data)
       this.$emit('onChildAccountSubmit', this.$data)
     },

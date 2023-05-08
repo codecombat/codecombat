@@ -53,4 +53,15 @@
     }
   }
 
+  .required {
+    &:after {
+      content: " *";
+      color: #ff0000;
+    }
+  }
+
+  &__error {
+    color: #ff0000;
+  }
+
 }
