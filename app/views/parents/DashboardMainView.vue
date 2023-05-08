@@ -82,6 +82,10 @@ export default {
     ToolkitView
   },
   async created () {
+    if (!me.isParentHome()) {
+      window.location.href = '/'
+      return
+    }
     const resp = await me.getRelatedAccounts()
     const relatedAccounts = resp.data || []
     this.children = relatedAccounts.filter(r => r.relation === 'children' && r.verified)

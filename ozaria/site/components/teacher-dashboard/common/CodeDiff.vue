@@ -45,7 +45,7 @@
     },
 
     mounted () {
-      this.codeDiff = this.createAceDiff('.code-diff-component')
+      this.codeDiff = this.createAceDiff(`.code-diff-component-${this._uid}`)
     },
 
     beforeUnmount () {
@@ -79,7 +79,7 @@
 <template>
   <div
     ref="code"
-    class="code-diff-component"
+    :class="`code-diff-component-${_uid} code-diff-cmpt`"
   >
   </div>
 </template>
@@ -92,6 +92,6 @@
 <style lang="sass" scoped>
   .code-area-component
     width: 100%
-  .code-diff-component
+  .code-diff-cmpt
     height: 100% !important
 </style>

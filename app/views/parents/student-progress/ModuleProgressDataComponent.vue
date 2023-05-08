@@ -28,7 +28,7 @@
         <module-row
           :display-name="level.name"
           :icon-type="getIconType(level)"
-          :description="level.description"
+          :description="formatDescription(level.description)"
           :show-code-btn="getProgressStatus(level) !== 'not-started'"
           :show-progress-dot="true"
           :progress-status="getProgressStatus(level)"
@@ -36,10 +36,10 @@
           @showCodeClicked="onShowCodeClicked"
         />
         <code-diff
-          v-if="showCodeModal === level.slug"
+          v-if="showCodeModal.includes(level.slug)"
           :language="language"
-          :code-right="solution"
-          :code-left="code"
+          :code-right="solution[level.slug]"
+          :code-left="code[level.slug]"
         />
       </div>
     </div>
@@ -67,9 +67,9 @@ export default {
   },
   data () {
     return {
-      showCodeModal: false,
-      code: null,
-      solution: null
+      showCodeModal: [],
+      code: {},
+      solution: {}
     }
   },
   components: {
@@ -98,18 +98,17 @@ export default {
     onShowCodeClicked ({ identifier, hideCode = false }) {
       const levelSlug = identifier
       if (hideCode) {
-        this.code = null
-        this.solution = null
-        this.showCodeModal = null
+        // this.showCodeModal.splice(this.showCodeModal.findIndex(slug => slug === levelSlug), 1)
+        this.showCodeModal = this.showCodeModal.filter(s => s !== levelSlug)
         return
       }
       const level = this.levels.find(l => l.slug === levelSlug)
       const ls = this.levelSessions.find(ls => ls.levelID === levelSlug)
       const studentCode = this.getStudentCode(ls)
       const solutionCode = this.getSolutionCode(level, { lang: studentCode?.codeLanguage })
-      this.code = studentCode?.code
-      this.solution = solutionCode
-      this.showCodeModal = level.slug
+      this.code[levelSlug] = studentCode?.code
+      this.solution[levelSlug] = solutionCode
+      this.showCodeModal.push(level.slug)
     },
     // do we need language filter?
     getStudentCode (levelSession) {
@@ -127,8 +126,18 @@ export default {
         if (sol) return sol.source
       }
       return solutions.length ? solutions[0].source : null
+    },
+    formatDescription (desc) {
+      const d = desc.replace(/!\[.*?\]\(.*?\)\n*/g, '')
+      if (d.length > 60) {
+        return this.truncate(d, 60, '...')
+      }
+      return d
+    },
+    truncate (str, max, suffix) {
+      return str.length < max ? str : `${str.substr(0, str.substr(0, max - suffix.length).lastIndexOf(' '))}${suffix}`
     }
-  },
+},
   computed: {
 
   },
