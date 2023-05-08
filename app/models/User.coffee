@@ -89,6 +89,15 @@ module.exports = class User extends CocoModel
 
   getSlugOrID: -> @get('slug') or @get('_id')
 
+  hasNoPasswordLoginMethod: ->
+    # Return true if user has any login method that doesn't require a password
+    return Boolean(@get('facebookID') || @get('gplusID') || @get('githubID') || @get('cleverID'))
+
+  currentPasswordRequired: ->
+    # Return true if current password should be given for password change
+    spying = window.serverSession?.amActually
+    return !spying && !@get('newPasswordRequired') && !@hasNoPasswordLoginMethod()
+
   @getUnconflictedName: (name, done) ->
     # deprecate in favor of @checkNameConflicts, which uses Promises and returns the whole response
     $.ajax "/auth/name/#{encodeURIComponent(name)}",
@@ -376,6 +385,17 @@ module.exports = class User extends CocoModel
         @trigger 'user-keep-me-updated-success'
       error: =>
         @trigger 'user-keep-me-updated-error'
+    })
+
+  updatePassword: (currentPassword, newPassword, success, error) ->
+    $.ajax({
+      method: 'PUT'
+      url: "/db/user/#{@id}/update-user-password"
+      data: { currentPassword, newPassword }
+      success: (attributes) => 
+        this.set attributes
+        success()
+      error: error
     })
 
   sendNoDeleteEUVerificationCode: (code) ->

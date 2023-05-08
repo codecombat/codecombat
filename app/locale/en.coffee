@@ -1790,6 +1790,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     emails_tab: "Emails"
     admin: "Admin"
     manage_subscription: "Click here to manage your subscription."
+    current_password: "Current Password"
     new_password: "New Password"
     new_password_verify: "Verify"
     type_in_email: "Type in your email or username to confirm account deletion."

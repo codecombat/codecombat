@@ -1510,7 +1510,7 @@ module.exports = class CampaignView extends RootView
 
       level.noFlag = !level.next
 
-      if this.courseInstance.get('lockedLevels')?.includes level.slug
+      if level.slug == @courseInstance.get('startLockedLevel') # lock level begin from startLockedLevel
         lockedByTeacher = true
       if lockedByTeacher
         level.locked = true
@@ -1594,6 +1594,9 @@ module.exports = class CampaignView extends RootView
 
     if what is 'liverpool-library-logo'
       return userUtils.libraryName() is 'liverpool-library'
+
+    if what is 'lafourche-library-logo'
+      return userUtils.libraryName() is 'lafourche'
 
     if what is 'vaughan-library-logo'
       return userUtils.libraryName() is 'vaughan-library'

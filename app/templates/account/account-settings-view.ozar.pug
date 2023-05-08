@@ -82,6 +82,10 @@ block content
                 .panel-title(data-i18n="general.password")
               .panel-body
                 .form
+                  if me.currentPasswordRequired()
+                    .form-group
+                      label.control-label(for="current-password", data-i18n="account_settings.current_password")
+                      input#current-password.form-control(name="current-password", type="password")                
                   .form-group
                     label.control-label(for="password", data-i18n="account_settings.new_password") New Password
                     input#password.form-control(name="password", type="password")
