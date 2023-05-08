@@ -3,7 +3,11 @@
     <div class="header__item header__item--1">
       <div class="header__content">
         <p class="header__title">Hello, {{ name }}</p>
-        <p class="header__subtitle">Welcome to your parent dashboard.</p>
+        <p
+          class="header__subtitle"
+        >
+          Welcome to your parent dashboard{{ child.name ? ` for ${child.name}` : '' }}.
+        </p>
       </div>
       <div class="header__products">
         <div
@@ -91,7 +95,10 @@ export default {
   name: 'HeaderComponent',
   props: {
     child: {
-      type: Object
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   data () {
@@ -134,6 +141,8 @@ export default {
   box-shadow: inset 0px -2px 10px rgba(0, 0, 0, 0.15);
 
   display: flex;
+
+  max-height: 18rem;
 
   &__products {
     display: flex;

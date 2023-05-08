@@ -2,7 +2,7 @@
   <div class="parent-container">
     <sidebar-component
       :children="children"
-      :default-tab="viewName"
+      :default-tab="selectedView"
       @onAddAnotherChild="onAddAnotherChildClicked"
       @onSelectedChildrenChange="onSelectedChildrenChange"
       :child-id="selectedChildrenId"
@@ -50,7 +50,7 @@ export default {
   props: {
     viewName: {
       type: String,
-      default: 'dashboard'
+      default: 'add-another-child'
     },
     childId: {
       type: String,
@@ -84,7 +84,7 @@ export default {
   async created () {
     const resp = await me.getRelatedAccounts()
     const relatedAccounts = resp.data || []
-    this.children = relatedAccounts.filter(r => r.relation === 'children')
+    this.children = relatedAccounts.filter(r => r.relation === 'children' && r.verified)
     const lastChild = () => this.children.length > 0 ? this.children[this.children.length - 1].userId : null
     if (this.childId) {
       const childExists = this.children.find(c => c.userId === this.childId)

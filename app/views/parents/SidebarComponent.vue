@@ -101,6 +101,9 @@ export default {
   watch: {
     childId: function (newVal, oldVal) {
       if (newVal !== oldVal) this.selectedChildrenId = this.childId
+    },
+    defaultTab: function (newVal, oldVal) {
+      if (newVal !== oldVal) this.selectedTab = newVal
     }
   },
   methods: {

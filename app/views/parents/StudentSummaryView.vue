@@ -14,7 +14,7 @@
   </div>
   <div
     v-else
-    class="summary"
+    class="empty-summary"
   >
     No child added
   </div>
@@ -48,5 +48,12 @@ export default {
     padding: 2rem;
     background: #F2F2F2;
   }
+}
+
+.empty-summary {
+  grid-column: main-content-start / main-content-end;
+  text-align: center;
+  font-size: 3rem;
+  padding: 1rem;
 }
 </style>

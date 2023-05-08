@@ -123,6 +123,8 @@ module.exports = class User extends CocoModel
 
   isParentHome: -> @get('role') is 'parent-home'
 
+  hasNoVerifiedChild: -> not (_.find (@get('related') || []), (c) => c.relation == 'children' && c.verified)
+
   isStudent: -> @get('role') is 'student'
 
   isTestStudent: -> @isStudent() and (@get('related') or []).some(({relation})=>relation == 'TestStudent')

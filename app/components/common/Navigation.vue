@@ -222,7 +222,7 @@ export default Vue.extend({
                 a.text-p(:class="checkLocation('/parents') && !checkLocation('/parents/signup') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
 
               li(v-if="me.isParentHome()")
-                a.text-p(:class="checkLocation('/parents/dashboard') && 'text-teal'" :href="cocoPath('/parents/dashboard')") {{ $t('nav.dashboard') }}
+                a.text-p(:class="checkLocation('/parents/dashboard') && 'text-teal'" :href="me.hasNoVerifiedChild() ? cocoPath('/parents/add-another-child') : cocoPath('/parents/dashboard')") {{ $t('nav.dashboard') }}
 
               li
                 a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
