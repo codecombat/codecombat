@@ -31,7 +31,7 @@
         default: false
       },
 
-      showCode: {
+      showCodeBtn: {
         type: Boolean,
         default: false
       },
@@ -45,6 +45,12 @@
       },
       identifier: {
         type: String
+      }
+    },
+
+    data () {
+      return {
+        showCode: false
       }
     },
 
@@ -68,6 +74,12 @@
           return ''
         }
       }
+    },
+    methods: {
+      onShowCodeClicked () {
+        this.showCode = !this.showCode
+        this.$emit('showCodeClicked', { identifier: this.identifier, hideCode: !this.showCode })
+      }
     }
   }
 </script>
@@ -87,13 +99,13 @@
       <p class="content-heading"><b>{{ getContentTypeHeader }}: {{ displayName }}</b></p>
       <p class="content-desc">{{ description }}</p>
       <div
-        v-if="showCode"
+        v-if="showCodeBtn"
         class="code-view"
-        @click="$emit('showCodeClicked', identifier)"
+        @click="onShowCodeClicked"
       >
         <img src="/images/pages/parents/dashboard/show-code-logo.svg" alt="Show Code Logo" class="code-view__icon">
         <span class="code-view__text">
-          See Code
+          {{ showCode ? 'Hide Code' : 'See Code' }}
         </span>
       </div>
     </div>

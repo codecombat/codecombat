@@ -48,9 +48,10 @@ export default {
           if (!existingAccount.verify.relation) existingAccount.verify.relation = 'children'
           await me.linkRelatedAccount(input)
         }
+        noty({ text: 'Account added, reloading...', type: 'error', layout: 'center', timeout: 5000 })
       } catch (err) {
         console.error('failed to create/link child user', err)
-        const msg = err?.message || `Child user: ${err?.responseJSON?.message}` || 'Internal error'
+        const msg = err?.message || err?.responseText || err?.responseJSON?.message || 'Internal error'
         noty({ text: msg, type: 'error', layout: 'center', timeout: 5000 })
         return
       }

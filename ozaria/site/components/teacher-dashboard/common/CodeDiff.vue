@@ -48,7 +48,7 @@
       this.codeDiff = this.createAceDiff('.code-diff-component')
     },
 
-    beforeDestroy () {
+    beforeUnmount () {
       this.codeDiff.destroy()
     },
 

@@ -25,7 +25,6 @@
         <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'progress', childId: this.selectedChildrenId } }">
           <li
             :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'progress' || selectedTab === 'dashboard' }"
-
           >
             <img src="/images/pages/parents/dashboard/icon-productivity-black.svg" alt="Progress" class="sidebar__tabs__img">
             <span class="sidebar__tabs__name">Progress</span>

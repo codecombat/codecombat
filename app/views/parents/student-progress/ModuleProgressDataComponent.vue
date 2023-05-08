@@ -29,7 +29,7 @@
           :display-name="level.name"
           :icon-type="getIconType(level)"
           :description="level.description"
-          :show-code="getProgressStatus(level) !== 'not-started'"
+          :show-code-btn="getProgressStatus(level) !== 'not-started'"
           :show-progress-dot="true"
           :progress-status="getProgressStatus(level)"
           :identifier="level.slug"
@@ -93,16 +93,20 @@ export default {
     },
     getSolutions (level) {
       const levelModel = new Level(level)
-      // console.log('sol', levelModel.getSolutions())
       return levelModel.getSolutions()
     },
-    onShowCodeClicked (levelSlug) {
-      console.log('showCode', levelSlug)
+    onShowCodeClicked ({ identifier, hideCode = false }) {
+      const levelSlug = identifier
+      if (hideCode) {
+        this.code = null
+        this.solution = null
+        this.showCodeModal = null
+        return
+      }
       const level = this.levels.find(l => l.slug === levelSlug)
       const ls = this.levelSessions.find(ls => ls.levelID === levelSlug)
       const studentCode = this.getStudentCode(ls)
       const solutionCode = this.getSolutionCode(level, { lang: studentCode?.codeLanguage })
-      console.log('showCode LS', level, ls, this.getSolutions(level), studentCode, solutionCode)
       this.code = studentCode?.code
       this.solution = solutionCode
       this.showCodeModal = level.slug

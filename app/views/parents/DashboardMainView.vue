@@ -85,13 +85,13 @@ export default {
     const resp = await me.getRelatedAccounts()
     const relatedAccounts = resp.data || []
     this.children = relatedAccounts.filter(r => r.relation === 'children')
-    const firstChild = () => this.children.length > 0 ? this.children[0].userId : null
+    const lastChild = () => this.children.length > 0 ? this.children[this.children.length - 1].userId : null
     if (this.childId) {
       const childExists = this.children.find(c => c.userId === this.childId)
       if (childExists) this.selectedChildrenId = this.childId
-      else this.selectedChildrenId = firstChild()
+      else this.selectedChildrenId = lastChild()
     } else {
-      this.selectedChildrenId = firstChild()
+      this.selectedChildrenId = lastChild()
     }
   },
   methods: {
