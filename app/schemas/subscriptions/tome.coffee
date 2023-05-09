@@ -159,3 +159,9 @@ module.exports =
   'tome:completer-popup-focus-change': c.object {},
     word: {type: 'string'}
     markerRange: {type: 'object'}
+
+  'tome:fix-code': c.object {required: ['code']},
+    code: {type: 'string'}
+  'tome:fix-code-preview-start': c.object {required: ['code']},
+    code: {type: 'string'}
+  'tome:fix-code-preview-end': c.object {}

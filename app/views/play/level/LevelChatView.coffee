@@ -18,6 +18,9 @@ module.exports = class LevelChatView extends CocoView
     'keydown textarea': 'onChatKeydown'
     'keypress textarea': 'onChatKeypress'
     'click i': 'onIconClick'
+    'click .fix-code-button': 'onFixCodeClick'
+    'mouseover .fix-code-button': 'onFixCodeMouseOver'
+    'mouseout .fix-code-button': 'onFixCodeMouseOut'
 
   subscriptions:
     'bus:new-message': 'onNewMessage'
@@ -72,13 +75,40 @@ module.exports = class LevelChatView extends CocoView
   playNoise: ->
     @playSound 'chat_received'
 
-  messageObjectToJQuery: (message) ->
-    td = $('<td></td>')
+  messageObjectToJQuery: (message, existingRow=null) ->
+    td = $('<td class="message-content"></td>')
     content = message.content or message.text
-    content = _.string.escapeHTML(content)
+
+    # Hide incomplete structured chat tags
+    content = content.replace /^\|$/gm, ''
+    content = content.replace /^\|Free\|?:? ?(.*?)$/gm, '$1'
+    content = content.replace /^\|Issue\|?:? ?(.*?)$/gm, '\n$1'
+    content = content.replace /^\|Explanation\|?:? ?(.*?)$/gm, '\n*$1*\n'
+    #content = content.replace /\|Code\|?:? ?`{0,3}\n?((.|\n)*?)`{0,3}\n?$/g, '```$1```'
+    content = content.replace /\|Code\|?:? ?```\n?((.|\n)*?)```\n?$/g, (match, p1) =>
+      @lastFixedCode = p1
+      '[Fix Code]'
+    content = content.replace /\|Code\|?:? ?`{0,3}\n?((.|\n)*?)`{0,3}\n?$/g, ( match, p1) ->
+      numberOfLines = (p1.match(/\n/g) || []).length + 1
+      '\n*Loading code fix' + '.'.repeat(numberOfLines) + '...*'
+    # Close any unclosed backticks delimiters so we get complete <code> tags
+    unclosedBackticks = (content.match(/`/g) || []).length
+    if unclosedBackticks % 2 != 0
+      content += '`'
+
+    content = _.string.escapeHTML(content.trim())
     content = marked content, gfm: true, breaks: true
     # TODO: this probably doesn't work with the links and buttons we intend to have, gotta think about sanitization properly
+
     content = content.replace(RegExp('  ', 'g'), '&nbsp; ') # coffeescript can't compile '/  /g'
+
+    # Replace any <p><code>...</code></p> with <pre><code>...</code></pre>
+    content = content.replace /<p><code>((.|\n)*?)(?:(?!<\/code>)(.|\n))*?<\/code><\/p>/g, (match) ->
+      match.replace(/<p><code>/g, '<pre><code>').replace(/<\/code><\/p>/g, '</code></pre>')
+
+    content = content.replace /\[Fix Code\]/g, '<p><button class="btn btn-illustrated btn-small btn-primary fix-code-button">Fix Code</button></p>'
+    @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
+
     if _.string.startsWith(content, '/me')
       content = (message.authorName or message.sender?.name) + content.slice(3)
 
@@ -92,14 +122,22 @@ module.exports = class LevelChatView extends CocoView
       td.append($('<strong></strong>').text((message.authorName or message.sender?.name) + ': '))
       td.append($('<span></span>').html(content))
 
-    tr = $('<tr></tr>')
-    if message.authorID is me.id or message.sender?.id is me.id
-      tr.addClass('me')
-      avatarTd = $("<td class='player-avatar-cell avatar-cell'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player Chat Avatar'></td>")
+    if existingRow?.length
+      tr = $(existingRow[0])
+      tr.find('td.message-content').replaceWith(td)
+      #tr.find('td.message-content').remove()
+      tr.append(td)
     else
-      avatarTd = $("<td class='chatbot-avatar-cell avatar-cell'><img class='avatar' src='/images/level/baby-griffin.png' alt='Baby Griffin AI Chatbot'></td>")
-    tr.append(avatarTd)
-    tr.append(td)
+      tr = $('<tr></tr>')
+      if message.authorID is me.id or message.sender?.id is me.id
+        tr.addClass('me')
+        avatarTd = $("<td class='player-avatar-cell avatar-cell'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player Chat Avatar'></td>")
+      else
+        avatarTd = $("<td class='chatbot-avatar-cell avatar-cell'><img class='avatar' src='/images/level/baby-griffin.png' alt='Baby Griffin AI Chatbot'></td>")
+      tr.addClass 'streaming' if message.streaming
+      tr.append(avatarTd)
+      tr.append(td)
+    tr
 
   addOne: (message) ->
     return if message.system and message.authorID is me.id
@@ -149,6 +187,16 @@ module.exports = class LevelChatView extends CocoView
     else
       document.selection.empty()
 
+  onFixCodeClick: (e) ->
+    Backbone.Mediator.publish 'tome:fix-code', code: @lastFixedCode
+    @$el.find('.fix-code-button').parent().remove()  # Could keep this around if we could undo it
+
+  onFixCodeMouseOver: (e) ->
+    Backbone.Mediator.publish 'tome:fix-code-preview-start', code: @lastFixedCode
+
+  onFixCodeMouseOut: (e) ->
+    Backbone.Mediator.publish 'tome:fix-code-preview-end', {}
+
   scrollDown: ->
     openPanel = $('.open-chat-area', @$el)[0]
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
@@ -187,21 +235,19 @@ module.exports = class LevelChatView extends CocoView
       @saveChatMessage text: result, sender: sender
 
   startStreamingAIChatMessage: (sender) ->
-    Backbone.Mediator.publish 'bus:new-message', message: { sender: sender, text: '...' }
+    Backbone.Mediator.publish 'bus:new-message', message: { sender: sender, text: '...', streaming: true }
 
   addToStreamingAIChatMessage: ({ sender, chunk, result }) ->
-    # TODO: incrementally update the latest AI streaming chat message instead of totally replacing
-    lastRow = @chatTables.find('tr:last-child')
-    lastRow.remove()
-    tr = @messageObjectToJQuery sender: sender, text: result
+    lastRow = @chatTables.find('tr.streaming:last-child')
+    # TODO: I commented out the .closed-chat-area to make this work, should bring that back and not have two elements in lastRow
+    tr = @messageObjectToJQuery { sender: sender, text: result, streaming: true }, lastRow
     tr.data('added', new Date().getTime())
-    @chatTables.append(tr)
+    if not lastRow?.length
+      @chatTables.append(tr)
     @scrollDown()
-    console.log(chunk)
 
   clearStreamingAIChatMessage: ->
-    lastRow = @chatTables.find('tr:last-child')
-    # TODO: find the right one, not just the last one (user could have put a message)
+    lastRow = @chatTables.find('tr.streaming:last-child')
     lastRow.remove()
 
   onChatResponse: (message) =>
@@ -216,7 +262,7 @@ module.exports = class LevelChatView extends CocoView
         kind: 'bot'
       else
         id: me.get('_id')
-        name: me.broadName()
+        name: me.displayName() or me.broadName()
         kind: 'player'
     props =
       product: utils.getProduct()
@@ -231,7 +277,7 @@ module.exports = class LevelChatView extends CocoView
       context:
         spokenLanguage: me.get('preferredLanguage', true)
         player: me.get('_id')
-        playerName: me.broadName()
+        playerName: me.displayName() or me.broadName()
         previousMessages: (m.serializeMessage() for m in (@chatMessages ? []))
       permissions: [{ target: me.get('_id'), access: 'owner' }]
     props.releasePhase = 'beta' if props.example

@@ -63,6 +63,9 @@ module.exports = class SpellView extends CocoView
     'level:show-victory': 'onShowVictory'
     'web-dev:error': 'onWebDevError'
     'level:gather-chat-message-context': 'onGatherChatMessageContext'
+    'tome:fix-code': 'onFixCode'
+    'tome:fix-code-preview-start': 'onFixCodePreviewStart'
+    'tome:fix-code-preview-end': 'onFixCodePreviewEnd'
 
   events:
     'mouseout': 'onMouseOut'
@@ -1414,6 +1417,21 @@ module.exports = class SpellView extends CocoView
     ugly = @getSource()
     pretty = @spellThang.aether.beautify(ugly.replace /\bloop\b/g, 'while (__COCO_LOOP_CONSTRUCT__)').replace /while \(__COCO_LOOP_CONSTRUCT__\)/g, 'loop'
     @ace.setValue pretty
+
+  onFixCode: (e) ->
+    @ace.setValue e.code
+    @ace.clearSelection()
+    @recompile()
+
+  onFixCodePreviewStart: (e) ->
+    # TODO: show a diff view instead of just setting the code
+    @codeBeforePreview = @getSource()
+    @updateACEText e.code
+    @ace.clearSelection()
+
+  onFixCodePreviewEnd: (e) ->
+    @updateACEText @codeBeforePreview
+    @ace.clearSelection()
 
   onMaximizeToggled: (e) ->
     _.delay (=> @resize()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
