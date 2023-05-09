@@ -300,6 +300,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     learning_technology_blurb: "Our original game teaches real-world skills through the power of play. The scaffolded curriculum systematically builds on student’s experiences and knowledge as they progress."
     learning_technology_blurb_short: "Our innovative game-based learning technology has transformed the way students learn to code."
     online_classes_blurb: "Our online coding classes combine the power of gameplay and personalized instruction for an experience your child will love. With both private or group options available, this is remote learning that works."
+    codecombat_home_blurb: "__codecombatHome__ offers your child a fun and engaging way to advance their coding skills. With access to over 530 levels and exclusive features like pets, premium-only items, and heroes, your child can fully immerse themselves in the world of coding. They can even design games to challenge their friends, build websites and apps to share, and create private teams to compete on a group leaderboard, all in a safe and interactive environment that encourages learning and socialization."
+    codecombat_home: "CodeCombat Home"
     for_educators: "For Educators"
     for_parents: "For Parents"
     for_everyone: "For Everyone"
