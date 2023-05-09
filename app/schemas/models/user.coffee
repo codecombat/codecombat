@@ -72,6 +72,7 @@ _.extend UserSchema.properties,
   password: c.passwordString
   passwordReset: {type: 'string'}
   passwordResetExpires: c.date()
+  newPasswordRequired: { type: 'boolean' } # Whether the user needs to set a new password 
   photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image to serve as your profile picture.'}
 
   facebookID: c.shortString({title: 'Facebook ID'})
