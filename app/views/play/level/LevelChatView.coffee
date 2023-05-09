@@ -6,6 +6,7 @@ LevelBus = require 'lib/LevelBus'
 ChatMessage = require 'models/ChatMessage'
 utils = require 'core/utils'
 fetchJson = require 'core/api/fetch-json'
+co = require 'co'
 
 module.exports = class LevelChatView extends CocoView
   id: 'level-chat-view'
@@ -94,7 +95,7 @@ module.exports = class LevelChatView extends CocoView
     tr = $('<tr></tr>')
     if message.authorID is me.id or message.sender?.id is me.id
       tr.addClass('me')
-      avatarTd = $("<td class='player-avatar-cell avatar-cell'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Baby Griffin AI Chatbot'></td>")
+      avatarTd = $("<td class='player-avatar-cell avatar-cell'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player Chat Avatar'></td>")
     else
       avatarTd = $("<td class='chatbot-avatar-cell avatar-cell'><img class='avatar' src='/images/level/baby-griffin.png' alt='Baby Griffin AI Chatbot'></td>")
     tr.append(avatarTd)
@@ -166,7 +167,42 @@ module.exports = class LevelChatView extends CocoView
   onChatMessageSaved: (chatMessage) ->
     return unless key.alt and not key.ctrl  # TODO: captue at moment of sending
     return if chatMessage.sender?.kind is 'bot'
-    fetchJson("/db/chat_message/#{chatMessage.id}/ai-response").then @onChatResponse
+    #fetchJson("/db/chat_message/#{chatMessage.id}/ai-response").then @onChatResponse
+    @fetchChatMessageStream chatMessage.id
+
+  fetchChatMessageStream: (chatMessageId) ->
+    fetch("/db/chat_message/#{chatMessageId}/ai-response").then co.wrap (response) =>
+      reader = response.body.getReader()
+      decoder = new TextDecoder('utf-8')
+      sender = { kind: 'bot', name: 'Code AI' }  # TODO: handle sender name again
+      @startStreamingAIChatMessage sender
+      result = ''
+      while true
+        { done, value } = yield reader.read()
+        chunk = decoder.decode value
+        result += chunk
+        @addToStreamingAIChatMessage sender: sender, chunk: chunk, result: result
+        break if done
+      @clearStreamingAIChatMessage()
+      @saveChatMessage text: result, sender: sender
+
+  startStreamingAIChatMessage: (sender) ->
+    Backbone.Mediator.publish 'bus:new-message', message: { sender: sender, text: '...' }
+
+  addToStreamingAIChatMessage: ({ sender, chunk, result }) ->
+    # TODO: incrementally update the latest AI streaming chat message instead of totally replacing
+    lastRow = @chatTables.find('tr:last-child')
+    lastRow.remove()
+    tr = @messageObjectToJQuery sender: sender, text: result
+    tr.data('added', new Date().getTime())
+    @chatTables.append(tr)
+    @scrollDown()
+    console.log(chunk)
+
+  clearStreamingAIChatMessage: ->
+    lastRow = @chatTables.find('tr:last-child')
+    # TODO: find the right one, not just the last one (user could have put a message)
+    lastRow.remove()
 
   onChatResponse: (message) =>
     return if @destroyed

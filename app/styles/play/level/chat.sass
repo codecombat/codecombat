@@ -34,7 +34,13 @@
     width: calc(57vw - $api-bar-width - 50px)
     //width: calc(#{$game-view-width} - #{$api-bar-width} - 50px)
     scroll-behavior: smooth
-    overflow: scroll
+    overflow-y: scroll
+    scrollbar-width: none
+    -ms-overflow-style: none
+
+    &::-webkit-scrollbar
+      width: 0
+      height: 0
 
   .no-api &
     .chat-area
