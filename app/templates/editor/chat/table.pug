@@ -43,5 +43,5 @@ block tableBody
 
     if chat.get('message')
       tr.message-row(data-chat=chat.get('_id'))
-        td(colspan=(me.isAdmin() ? 7 : 6) title=chat.get('message').text) !{marked(chat.get('message').text || '')}
+        td(colspan=(me.isAdmin() ? 7 : 6) title=chat.get('message').text) !{view.formatChat(chat)}
 

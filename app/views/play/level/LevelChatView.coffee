@@ -22,9 +22,6 @@ module.exports = class LevelChatView extends CocoView
     'mouseover .fix-code-button': 'onFixCodeMouseOver'
     'mouseout .fix-code-button': 'onFixCodeMouseOut'
 
-  subscriptions:
-    'bus:new-message': 'onNewMessage'
-
   constructor: (options) ->
     @levelID = options.levelID
     @session = options.session
@@ -66,16 +63,16 @@ module.exports = class LevelChatView extends CocoView
       if new Date().getTime() - added > 60 * 1000
         row.fadeOut(1000, -> $(this).remove())
 
-  onNewMessage: (e) ->
-    @$el.show() unless e.message?.system
-    @addOne(e.message)
+  onNewMessage: ({ message, messageId }) ->
+    @$el.show() unless message?.system
+    @addOne { message, messageId }
     @trimClosedPanel()
-    @playNoise() if e.message.authorID isnt me.id
+    @playNoise() if message.authorID isnt me.id
 
   playNoise: ->
     @playSound 'chat_received'
 
-  messageObjectToJQuery: (message, existingRow=null) ->
+  messageObjectToJQuery: ({ message, messageId, existingRow }) ->
     td = $('<td class="message-content"></td>')
     content = message.content or message.text
 
@@ -96,7 +93,8 @@ module.exports = class LevelChatView extends CocoView
     if unclosedBackticks % 2 != 0
       content += '`'
 
-    content = _.string.escapeHTML(content.trim())
+    #content = _.string.escapeHTML(content.trim())  # hmm, what to do with escaping when we often need code?
+    content = content.trim()
     content = marked content, gfm: true, breaks: true
     # TODO: this probably doesn't work with the links and buttons we intend to have, gotta think about sanitization properly
 
@@ -131,15 +129,15 @@ module.exports = class LevelChatView extends CocoView
       tr = $('<tr></tr>')
       if message.authorID is me.id or message.sender?.id is me.id
         tr.addClass('me')
-        avatarTd = $("<td class='player-avatar-cell avatar-cell'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player Chat Avatar'></td>")
+        avatarTd = $("<td class='player-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player'></a></td>")
       else
-        avatarTd = $("<td class='chatbot-avatar-cell avatar-cell'><img class='avatar' src='/images/level/baby-griffin.png' alt='Baby Griffin AI Chatbot'></td>")
+        avatarTd = $("<td class='chatbot-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/images/level/baby-griffin.png' alt='AI'></a></td>")
       tr.addClass 'streaming' if message.streaming
       tr.append(avatarTd)
       tr.append(td)
     tr
 
-  addOne: (message) ->
+  addOne: ({ message, messageId }) ->
     return if message.system and message.authorID is me.id
     if not @open
       @onIconClick {}
@@ -147,7 +145,7 @@ module.exports = class LevelChatView extends CocoView
     height = openPanel.outerHeight()
     distanceFromBottom = openPanel[0].scrollHeight - height - openPanel[0].scrollTop
     doScroll = distanceFromBottom < 10
-    tr = @messageObjectToJQuery(message)
+    tr = @messageObjectToJQuery { message, messageId }
     tr.data('added', new Date().getTime())
     @chatTables.append(tr)
     @scrollDown() if doScroll
@@ -210,11 +208,11 @@ module.exports = class LevelChatView extends CocoView
     console.log 'Saving chat message', chatMessage
     @listenToOnce chatMessage, 'sync', @onChatMessageSaved
     chatMessage.save()
-    Backbone.Mediator.publish 'bus:new-message', { message: chatMessage.get('message') }
+    #@onNewMessage message: chatMessage.get('message'), messageId: chatMessage.get('_id')  # TODO: do this now and add message id link later
 
   onChatMessageSaved: (chatMessage) ->
-    return unless key.alt and not key.ctrl  # TODO: captue at moment of sending
-    return if chatMessage.sender?.kind is 'bot'
+    @onNewMessage message: chatMessage.get('message'), messageId: chatMessage.get('_id')  # TODO: temporarily putting this after save so we have message id link
+    return if chatMessage.get('message')?.sender?.kind is 'bot'
     #fetchJson("/db/chat_message/#{chatMessage.id}/ai-response").then @onChatResponse
     @fetchChatMessageStream chatMessage.id
 
@@ -235,12 +233,12 @@ module.exports = class LevelChatView extends CocoView
       @saveChatMessage text: result, sender: sender
 
   startStreamingAIChatMessage: (sender) ->
-    Backbone.Mediator.publish 'bus:new-message', message: { sender: sender, text: '...', streaming: true }
+    @onNewMessage message: { sender: sender, text: '...', streaming: true }
 
   addToStreamingAIChatMessage: ({ sender, chunk, result }) ->
     lastRow = @chatTables.find('tr.streaming:last-child')
     # TODO: I commented out the .closed-chat-area to make this work, should bring that back and not have two elements in lastRow
-    tr = @messageObjectToJQuery { sender: sender, text: result, streaming: true }, lastRow
+    tr = @messageObjectToJQuery { message: { sender: sender, text: result, streaming: true }, existingRow: lastRow }
     tr.data('added', new Date().getTime())
     if not lastRow?.length
       @chatTables.append(tr)
@@ -257,7 +255,7 @@ module.exports = class LevelChatView extends CocoView
 
   getChatMessageProps: ({ text, sender }) ->
     sender =
-      if key.ctrl or sender?.kind is 'bot'
+      if sender?.kind is 'bot'
         name: if /(^Line \d|```)/m.test(text) then 'Code AI' else 'Chat AI'
         kind: 'bot'
       else
@@ -284,24 +282,31 @@ module.exports = class LevelChatView extends CocoView
 
     structuredMessage = props.message.text
 
-    codeIssueRegex = /^Line (\d+): (.+)$/m
-    codeIssue = structuredMessage.match(codeIssueRegex)
-    if codeIssue
-      props.message.textComponents.codeIssue = line: parseInt(codeIssue[1], 10), text: codeIssue[2]
-      structuredMessage = structuredMessage.replace(codeIssueRegex, '')
+    codeIssueWithLineRegex = /^\|Issue\|: Line (\d+): (.+)$/m
+    codeIssueWithLine = structuredMessage.match(codeIssueWithLineRegex)
+    if codeIssueWithLine
+      props.message.textComponents.codeIssue = line: parseInt(codeIssueWithLine[1], 10), text: codeIssueWithLine[2]
+      structuredMessage = structuredMessage.replace(codeIssueWithLineRegex, '')
+    else
+      codeIssueRegex = /^\|Issue\|: (.+)$/m
+      codeIssue = structuredMessage.match(codeIssueRegex)
+      if codeIssue
+        props.message.textComponents.codeIssue = text: codeIssue[1]
+        structuredMessage = structuredMessage.replace(codeIssueRegex, '')
 
-    codeIssueExplanationRegex = /^\*(.+)\*$/m
+    codeIssueExplanationRegex = /^\|Explanation\|: (.+)$/m
     codeIssueExplanation = structuredMessage.match(codeIssueExplanationRegex)
     if codeIssueExplanation
       props.message.textComponents.codeIssueExplanation = text: codeIssueExplanation[1]
       structuredMessage = structuredMessage.replace(codeIssueExplanationRegex, '')
 
-    linkRegex = /^<a href='?"?(.+?)'?"?>(.+?)<\/a>$/m
+    linkRegex = /^\|Link\|: \[(.+?)\]\((.+?)\)$/m
     while link = structuredMessage.match(linkRegex)
       props.message.textComponents.links ?= []
-      props.message.textComponents.links.push url: link[1], text: link[2]
+      props.message.textComponents.links.push text: link[1], url: link[2]
       structuredMessage = structuredMessage.replace(linkRegex, '')
 
+    # TODO: remove explicit actionButton references,, we'll probably autogenerate action buttons and just always have [Fix It] buttons
     actionButtonRegex = /^<button( action='?"?(.+?)'?"?)?>(.+?)<\/button>$/m
     while actionButton = structuredMessage.match(actionButtonRegex)
       props.message.textComponents.actionButtons ?= []
@@ -311,13 +316,20 @@ module.exports = class LevelChatView extends CocoView
       props.message.textComponents.actionButtons.push button
       structuredMessage = structuredMessage.replace(actionButtonRegex, '')
 
-    codeRegex = /```(python|javascript|lua|coffeescript|c\+\+|cpp|java|html|css)?\n([.\n]+)\n```(?![\s\S]*```)$/m  # Always last, or we could update code parsing to be smart about when it ends
+    codeRegex = /\|Code\|?:? ?```\n?((.|\n)+)```\n?$/
     code = structuredMessage.match(codeRegex)
     if code
-      props.message.textComponents.code = code[2]
+      props.message.textComponents.code = code[1]
       structuredMessage = structuredMessage.replace(codeRegex, '')
 
-    freeText = _.string.strip(structuredMessage)
+    freeTextRegex = /^\|Free\|: (.+)$/m
+    freeTextMatch = _.string.strip(structuredMessage).match(freeTextRegex)
+    if freeTextMatch
+      freeText = freeTextMatch[1]
+      structuredMessage = _.string.strip(structuredMessage).replace(freeTextRegex, '')
+    else
+      freeText = _.string.strip(structuredMessage)
+
     props.message.textComponents.freeText = freeText if freeText.length
     props
 

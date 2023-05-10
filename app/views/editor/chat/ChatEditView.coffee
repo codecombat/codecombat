@@ -20,6 +20,7 @@ module.exports = class ChatEditView extends RootView
     'click #delete-button': 'confirmDeletion'
     'click #fix-button': 'onFix'
     'click #add-code-button': 'onAddCode'
+    'click #regenerate-message-button': 'onRegenerateMessage'
 
   constructor: (options, @chatID) ->
     super options
@@ -133,5 +134,20 @@ module.exports = class ChatEditView extends RootView
     @treema.set '/message/textComponents/actionButtons', [action: 'fix', text: 'Fix It']
     button = '<button action="fix">Fix It</button>'
     @treema.set '/message/text', "#{messageText}\n\n#{button}\n\n```\n#{code}\n```"  # TODO: replace existing code?
+    @treema.childrenTreemas.message?.close()
+    @treema.childrenTreemas.message?.open(2)
+
+  onRegenerateMessage: (e) ->
+    structured = @treema.get('message/textComponents') or {}
+    components = []
+    components.push "|Free|: #{free}" if free = structured.freeText
+    { line, text } = structured.codeIssue or {}
+    components.push "|Issue|: Line #{line}: #{text}" if text and line
+    components.push "|Issue|: #{text}" if text and not line
+    components.push "|Explanation|: #{explanation}" if explanation = structured.codeIssueExplanation?.text
+    for link in structured.links or []
+      components.push "|Link|: [#{link.text}](#{link.url})"
+    components.push "|Code|: ```\n#{code}\n```" if code = structured.code
+    @treema.set('message/text', components.join('\n'))
     @treema.childrenTreemas.message?.close()
     @treema.childrenTreemas.message?.open(2)
