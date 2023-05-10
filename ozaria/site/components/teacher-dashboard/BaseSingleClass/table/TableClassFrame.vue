@@ -35,12 +35,15 @@
 
     data: () => ({
       isTouchingRight: false,
-      isTouchingLeft: false
+      isTouchingLeft: false,
+      selectedLevels: [],
+      hoveredLevel: null
     }),
 
     computed: {
       ...mapGetters({
-        selectedStudentIds: 'baseSingleClass/selectedStudentIds'
+        selectedStudentIds: 'baseSingleClass/selectedStudentIds',
+        selectedOriginals: 'baseSingleClass/selectedOriginals'
       }),
       getStudentSessionsData() {
         return this.modules.map(m => {
@@ -83,12 +86,8 @@
         this.isTouchingLeft = table.scrollLeft() <= 0.1
       },
 
-      lockModule (moduleNum) {
-        this.$emit('lock', { moduleNum })
-      },
-
-      unlockModule (moduleNum) {
-        this.$emit('unlock', { moduleNum })
+      updateHoveredLevel (level) {
+        this.hoveredLevel = level
       }
     }
   }
@@ -126,8 +125,7 @@
             :class-summary-progress="classSummaryProgress"
             :display-only="displayOnly"
 
-            @lock="lockModule(moduleNum)"
-            @unlock="unlockModule(moduleNum)"
+            @updateHoveredLevel="updateHoveredLevel"
           />
         </div>
       </div>
@@ -140,6 +138,7 @@
             v-for="({ studentSessions, displayName }) of modules"
             :key="displayName"
             :student-sessions="studentSessions"
+            :hovered-level="hoveredLevel"
           />
 
           <!-- Fade on the right to signal more -->

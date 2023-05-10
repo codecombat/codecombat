@@ -4,9 +4,10 @@
  * All student solutions get flattened into a list of cells that css grids
  * turns into our table.
  */
-  import ProgressDot from '../../common/progress/progressDot'
-  import { mapGetters } from 'vuex'
-  export default {
+import ProgressDot from '../../common/progress/progressDot'
+import { mapGetters } from 'vuex'
+
+export default {
     components: {
       ProgressDot
     },
@@ -14,12 +15,19 @@
       studentSessions: {
         required: true,
         type: Object
+      },
+      hoveredLevel: {
+        required: false,
+        type: String,
+        default: null
       }
     },
     computed: {
       ...mapGetters({
         selectedProgressKey: 'teacherDashboardPanel/selectedProgressKey',
-        getTrackCategory: 'teacherDashboard/getTrackCategory'
+        getTrackCategory: 'teacherDashboard/getTrackCategory',
+        selectedStudentIds: 'baseSingleClass/selectedStudentIds',
+        selectedOriginals: 'baseSingleClass/selectedOriginals',
       }),
 
       cols () {
@@ -35,7 +43,14 @@
 
       allStudentSessionsLinear () {
         // All student sessions get flattened and then returned as a 1 dimension array.
-        return (Object.values(this.studentSessions) || []).flat()
+        return Object.entries(this.studentSessions).reduce((acc, [studentId, studentSessions]) => {
+          return acc.concat(studentSessions.map(session => {
+            return {
+              ...session,
+              _id: studentId
+            }
+          }))
+        }, [])
       }
     },
     methods: {
@@ -61,7 +76,7 @@
 <template>
   <div class="moduleGrid" :style="cssVariables">
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
-    <div :class="cellClass(index)" v-for="({ status, flag, clickHandler, selectedKey, normalizedType, isLocked }, index) of allStudentSessionsLinear" :key="selectedKey">
+    <div :class="cellClass(index)" v-for="({_id, status, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear" :key="selectedKey">
       <ProgressDot
         :status="status"
         :border="getFlag(flag)"
@@ -69,7 +84,14 @@
         :click-state="selectedProgressKey && selectedProgressKey === selectedKey"
         :content-type="normalizedType"
         :isLocked="isLocked"
+        :isSkipped="isSkipped"
+        :lockDate="lockDate"
+        :isPlayable="isPlayable"
+        :lastLockDate="lastLockDate"
+        :isOptional="isOptional"
         :track-category="getTrackCategory"
+        :selected="selectedOriginals.includes(normalizedOriginal) && selectedStudentIds.includes(_id)"
+        :hovered="hoveredLevel===normalizedOriginal && selectedStudentIds.includes(_id)"
       />
     </div>
   </div>

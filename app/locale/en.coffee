@@ -597,6 +597,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     stop_spying: "Stop Spying"
     stop_switching: "Stop Switching"
     test_as_student: "Test as Student"
+    email_or_username_or_library: "Email or Username or Library Card number"
 
   signup:
     complete_subscription: "Complete Subscription"
@@ -1064,7 +1065,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_status: "Status"
     level_status_locked: "Locked"
     level_status_in_progress: "In Progress"
+    level_status_skipped: "Skipped"
     level_status_complete: "Complete"
+    level_status_unlocked: "Unlocked"
+    level_status_optional: "Optional"
     level_type_practice: "Practice"
     level_type_challenge: "Challenge"
     level_type_cutscene: "Cutscene"
@@ -1502,6 +1506,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ea_title: "Executive Assistant"
     om_title: "Operations Manager"
     som_title: "Senior Operations Manager"
+    sales_om_title: "Sales Operations Manager"
     pe_title: "Principal Engineer"
     mo_title: "Manager, Operations"
     smo_title: "Senior Manager, Operations"
@@ -1516,7 +1521,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sales_om_title: "Sales Operations Manager"
     bd_pr_title: "Business Development and Partnerships Representative"
     oi_title: "Online Instructor"
-    m_oi_title: "Manager, Online Instructor"
+    m_oi_title: "Manager, Online Instruction"
     aoim_title: "Associate Online Instructor Manager"
     bdm_title: "Business Development Manager"
     community_subtitle: "Over 600 contributors have helped build CodeCombat, with more joining every week!"
@@ -1777,6 +1782,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     delete_account_tab: "Delete Your Account"
     wrong_email: "Wrong Email or Username"
     wrong_password: "Wrong Password"
+    temp_password_expired: "Your temporary password has been expired."
     delete_this_account: "Delete this account permanently"
     reset_progress_tab: "Reset All Progress"
     reset_your_progress: "Clear all your progress and start over"
@@ -1784,6 +1790,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     emails_tab: "Emails"
     admin: "Admin"
     manage_subscription: "Click here to manage your subscription."
+    current_password: "Current Password"
     new_password: "New Password"
     new_password_verify: "Verify"
     type_in_email: "Type in your email or username to confirm account deletion."
@@ -2578,6 +2585,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     redeemers: "Active Students"
     removed_redeemers: "Inactive Students"
     latest_podcast_episode: "Latest Podcast Episode"
+    edit_student_access_title: "Edit Student Access to Levels"
+    edit_student_access_subtitle: "You have selected __levels__ levels for __students__ students."
 
   teacher_licenses:
     active_licenses: "Active Licenses"
@@ -4005,7 +4014,20 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   teacher_dashboard:
     lock: 'Lock'
     unlock: 'Unlock'
+    lock_until_date: 'Lock until date'
+    skip: 'Skip'
+    unskip: 'Unskip'
+    make_optional: 'Make optional'
+    remove_optional: 'Remove Optional'
+    until_date: 'until __date__'
     unassign: 'Unassign'
+    locked: 'Locked'
+    locked_by_previous: 'Locked by previous level'
+    locked_with_timeframe: 'Locked'
+    skipped: 'Skipped'
+    optional: 'Optional'
+    assigned: 'Assigned'
+    unlocked: 'Unlocked'
     choose_course: 'Click to Select from Dropdown'
     teacher_locked_message: 'Your teacher has locked the next level'
     plan_your_class_title: 'Plan your first class by'
@@ -4091,6 +4113,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share: 'Share'
     add: 'Add'
     note: 'Note'
+    lock_or_skip_levels: 'Lock or Skip Levels'
+    level_access_status_blurb: "When you choose to skip a level, it will have both the 'locked' and 'optional' status. Unskipping the level will remove both the 'locked' and 'optional' statuses."
 
   outcomes:
     outcomes_report: "Outcomes Report"
@@ -4574,6 +4598,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     heading_libraries: "Libraries"
     educational_equity: "Educational Equity"
     power_of_play: "Power of play"
+    library_card: "Library Card Number"
+    library_signup_promotion: "Sign Up to save progress and continue from where you left off on CodeCombat!!"
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."

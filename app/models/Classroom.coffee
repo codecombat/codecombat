@@ -159,6 +159,10 @@ module.exports = class Classroom extends CocoModel
     levels = new Levels(course.levels)
     return levels.find (l) -> l.isProject()
 
+  findNextLevel: () ->
+    nextLevelOriginal = findNextLevelsBySession(sessions, courseLevels.models)
+    new Level(getLevelsDataByOriginals(courseLevels.models, [nextLevelOriginal])[0])
+
   statsForSessions: (sessions, courseID, levelsCollection=undefined) ->
     return null unless sessions
     sessions = sessions.models or sessions
@@ -211,7 +215,7 @@ module.exports = class Classroom extends CocoModel
       if utils.isCodeCombat || !utils.orderedCourseIDs.includes(courseID)
         nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
     if utils.isOzaria and utils.orderedCourseIDs.includes(courseID)
-      nextLevelOriginal = findNextLevelsBySession(sessions, courseLevels.models)
+      nextLevelOriginal = findNextLevelsBySession(sessions, courseLevels.models, null, @, courseID)
       nextLevel = new Level(getLevelsDataByOriginals(courseLevels.models, [nextLevelOriginal])[0])
     else
       nextLevel = courseLevels.models[nextIndex]
@@ -264,7 +268,15 @@ module.exports = class Classroom extends CocoModel
     Classroom.isStudentOnLockedCourse(@attributes, studentID, courseID)
 
   isStudentOnLockedLevel: (studentID, courseID, levelOriginal) ->
-    Classroom.isStudentOnLockedLevel(@attributes, studentID, courseID, levelOriginal)
+    Classroom.isModifierActiveForStudent(@attributes, studentID, courseID, levelOriginal, 'locked')
+
+  isStudentOnOptionalLevel: (studentID, courseID, levelOriginal) ->
+    Classroom.isModifierActiveForStudent(@attributes, studentID, courseID, levelOriginal, 'optional')
+
+  isStudentOnSkippedLevel: (studentID, courseID, levelOriginal) ->
+    lockedByTeacher = Classroom.isModifierActiveForStudent @attributes, studentID, courseID, levelOriginal, 'locked'
+    optional = Classroom.isModifierActiveForStudent @attributes, studentID, courseID, levelOriginal, 'optional'
+    lockedByTeacher and optional
 
   updateCourses: (options={}) ->
     options.url = @url() + '/update-courses'

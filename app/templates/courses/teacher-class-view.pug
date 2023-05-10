@@ -217,7 +217,7 @@ mixin courseOverview(course)
         - var courseInstance = view.getSelectedCourseInstance();
         each level, index in levels
           - if (level.get('assessment')) continue;
-          - if (courseInstance && level.get('slug') === courseInstance.get('startLockedLevel')) lockedFromHere = true;
+          - if (courseInstance && level.get('slug') === courseInstance.get('startLockedLevel')) lockedFromHere = true;          
           - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level })
           - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
           +allStudentsLevelProgressDot(progress, level, levelNumber, lockedFromHere)

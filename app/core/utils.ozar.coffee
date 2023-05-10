@@ -922,6 +922,7 @@ videoLevels = {
     original: "54173c90844506ae0195a0b4",
     thumbnail_locked: "/images/level/videos/basic_syntax_locked.png",
     thumbnail_unlocked: "/images/level/videos/basic_syntax_unlocked.png"
+    captions_available: ['en', 'es-419', 'es']
   },
   # fire dancing
   "55ca293b9bc1892c835b0136": {
@@ -932,6 +933,7 @@ videoLevels = {
     original: "55ca293b9bc1892c835b0136"
     thumbnail_locked: "/images/level/videos/while_loops_locked.png",
     thumbnail_unlocked: "/images/level/videos/while_loops_unlocked.png"
+    captions_available: ['en', 'es-419', 'es']
   }
   # known enemy
   "5452adea57e83800009730ee": {
@@ -942,6 +944,7 @@ videoLevels = {
     original: "5452adea57e83800009730ee"
     thumbnail_locked: "/images/level/videos/variables_locked.png",
     thumbnail_unlocked: "/images/level/videos/variables_unlocked.png"
+    captions_available: ['en', 'es-419', 'es']
   }
 }
 
@@ -1078,7 +1081,7 @@ arenas = [
   {season: 6, slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-11T07:00:00.000-08:00"), levelOriginal: '635bceb16dc3150020acb1f8', tournament: '63855798f7cd36e695a1aac5', image: '/file/db/level/635bceb16dc3150020acb1f8/Lava-Lake-Arena-Banner-02.jpg'}
   {season: 7, slug: 'frozen-fortress'  , type: 'regular',      start: new Date("2023-01-01T00:00:00.000-08:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: '639c9a5fad4eb7001f66c801', tournament: '64260960f1c07d0018299145', image: '/file/db/level/639c9a5fad4eb7001f66c801/AILeague-Banner-Frozen-Fortress-01.jpg'}
   {season: 7, slug: 'equinox'          , type: 'championship', start: new Date("2023-04-01T00:00:00.000-07:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: '6406d8b2da5aca06eb3560d7', tournament: '642609bf54cb921c6d8cf3df'}
-  {season: 8, slug: 'farmers-feud'     , type: 'regular',      start: new Date("2023-05-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-13T07:00:00.000-07:00"), levelOriginal: ''}
+  {season: 8, slug: 'farmers-feud'     , type: 'regular',      start: new Date("2023-05-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-13T07:00:00.000-07:00"), levelOriginal: '6436ae25bb80330019b127c6'}
   {season: 8, slug: 'farmscape'        , type: 'championship', start: new Date("2023-08-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-13T07:00:00.000-07:00"), levelOriginal: ''}
   {season: 9, slug: 'storm-siege'      , type: 'regular',      start: new Date("2023-09-01T00:00:00.000-07:00"), end: new Date("2024-01-01T00:00:00.000-08:00"), results: new Date("2024-01-10T07:00:00.000-08:00"), levelOriginal: ''}
   {season: 9, slug: 'snowhold'         , type: 'championship', start: new Date("2023-12-01T00:00:00.000-08:00"), end: new Date("2024-01-01T00:00:00.000-08:00"), results: new Date("2024-01-10T07:00:00.000-08:00"), levelOriginal: ''}
@@ -1092,7 +1095,7 @@ AILeagueSeasons = [
   {number: 4, championshipType: 'cup',   image: '/images/pages/league/tundra-tower-cup.png', video: 'bfbf1a5187888d110ee47f97b7491c2a', videoThumbnailTime: '1568s'}
   {number: 5, championshipType: 'blitz', image: '/images/pages/league/sand-storm-blitz.png', video: '4d73a54ff2cdc9b0084a538beb476437', videoThumbnailTime: '1638s'}
   {number: 6, championshipType: 'clash', image: '/images/pages/league/lava-lake-clash.png',  video: '6650f5c84f65ecd1709cca1210c4e9ab', videoThumbnailTime: '1762s'}
-  {number: 7, championshipType: 'cup',   image: '/images/pages/league/equinox-cup.png',      video: '',                                 videoThumbnailTime: ''}
+  {number: 7, championshipType: 'cup',   image: '/images/pages/league/equinox-cup.png',      video: '4832912db10162e24cb2eb86df6c36d7', videoThumbnailTime: '1021s'}
   {number: 8, championshipType: 'blitz', image: '/images/pages/league/farmscape-blitz.png',  video: '',                                 videoThumbnailTime: ''}
   {number: 9, championshipType: 'clash', image: '/images/pages/league/snowhold-clash.png',   video: '',                                 videoThumbnailTime: ''}
 ]
@@ -1276,8 +1279,8 @@ module.exports = {
   isSmokeTestEmail
   isValidEmail
   keepDoingUntil
-  markdownToPlainText
   kindaEqual
+  markdownToPlainText
   needsPractice
   normalizeFunc
   objectIdToDate

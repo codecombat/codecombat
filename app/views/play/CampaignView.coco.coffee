@@ -175,6 +175,9 @@ module.exports = class CampaignView extends RootView
       .catch (err) =>
         console.error(err)
 
+    if userUtils.shouldShowLibraryLoginModal() && me.isAnonymous()
+      @openModalView new CreateAccountModal({ startOnPath: 'individual-basic' })
+
     if window.serverConfig.picoCTF
       @supermodel.addRequestResource(url: '/picoctf/problems', success: (@picoCTFProblems) =>).load()
     else
@@ -1591,6 +1594,12 @@ module.exports = class CampaignView extends RootView
 
     if what is 'liverpool-library-logo'
       return userUtils.libraryName() is 'liverpool-library'
+
+    if what is 'lafourche-library-logo'
+      return userUtils.libraryName() is 'lafourche'
+
+    if what is 'vaughan-library-logo'
+      return userUtils.libraryName() is 'vaughan-library'
 
     if what is 'league-arena'
       # Note: Currently the tooltips don't work in the campaignView overworld.

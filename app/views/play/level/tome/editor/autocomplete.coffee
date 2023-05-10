@@ -360,7 +360,7 @@ module.exports = class Autocomplete
             'lua': /self/
           if thisToken[lang] and thisToken[lang].test(content)
             content = content.replace thisToken[lang], 'hero'
-       return {doc, content, name}
+      return {doc, content, name}
 
     for group, props of e.propGroups
       for prop in props
@@ -373,8 +373,9 @@ module.exports = class Autocomplete
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
 
-          {doc, content, name} = fixLanguageSnippets(doc, e.language)
+        {doc, content, name} = fixLanguageSnippets(doc, e.language)
 
+        if doc?.snippets?[e.language]
           entry =
             content: content
             meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')

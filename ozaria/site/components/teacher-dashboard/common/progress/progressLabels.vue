@@ -1,8 +1,8 @@
 <script>
-  import IconHelp from '../../common/icons/IconHelp'
-  import ProgressDot from '../../common/progress/progressDot'
+import IconHelp from '../../common/icons/IconHelp'
+import ProgressDot from '../../common/progress/progressDot'
 
-  export default {
+export default {
     components: {
       IconHelp,
       ProgressDot
@@ -41,6 +41,15 @@
       <div class="dot-border concept-flag-border"><div class="dot green-dot"></div></div>
       <span>{{ $t('teacher_dashboard.concept_flag') }}</span>
     </div>
+    <div class="img-subtext" v-if="showReviewLabels">
+      <div class="dot-border"><div class="dot"><img src="/images/ozaria/teachers/dashboard/svg_icons/IconSkippedLevel.svg"></div></div>
+      <span>{{ $t('teacher_dashboard.skipped') }}</span>
+    </div>
+    <div class="img-subtext" v-if="showReviewLabels">
+      <div class="dot-border"><div class="dot"><img src="/images/ozaria/teachers/dashboard/svg_icons/IconOptionalLevel.svg"></div></div>
+      <span>{{ $t('teacher_dashboard.optional') }}</span>
+    </div>
+
     <div v-if="showReviewLabels" class="help-container">
       <v-popover
         popover-class="teacher-dashboard-tooltip lighter-p large-width"
