@@ -88,12 +88,24 @@ export default {
     }
     const resp = await me.getRelatedAccounts()
     const relatedAccounts = resp.data || []
-    this.children = relatedAccounts.filter(r => r.relation === 'children' && r.verified)
-    const lastChild = () => this.children.length > 0 ? this.children[this.children.length - 1].userId : null
+    this.children = relatedAccounts.filter(r => r.relation === 'children')
+    const verifiedChildren = this.children.filter(c => c.verified)
+    const lastChild = () => verifiedChildren.length > 0 ? verifiedChildren[verifiedChildren.length - 1].userId : null
     if (this.childId) {
       const childExists = this.children.find(c => c.userId === this.childId)
-      if (childExists) this.selectedChildrenId = this.childId
-      else this.selectedChildrenId = lastChild()
+      if (childExists && childExists.verified) {
+        this.selectedChildrenId = this.childId
+      } else if (childExists) {
+        noty({
+          type: 'error',
+          text: `${childExists.name} children account not verified`,
+          layout: 'center',
+          timeout: 5000
+        })
+        this.selectedChildrenId = lastChild()
+      } else {
+        this.selectedChildrenId = lastChild()
+      }
     } else {
       this.selectedChildrenId = lastChild()
     }
