@@ -14,7 +14,9 @@ export default {
     byId: {},
     bySlug: {},
     currentCampaignId: null,
-    levelsByCampaignId: {}
+    levelsByCampaignId: {},
+    areCocoCampaignsFetched: false,
+    campaignLevelsFetched: {}
   },
 
   mutations: {
@@ -32,6 +34,12 @@ export default {
         },
     setCampaignLevels: (state, { campaignId, levels }) => {
       Vue.set(state.levelsByCampaignId, campaignId, levels)
+    },
+    setCocoCampaignsFetched (state, data) {
+      state.areCocoCampaignsFetched = data
+    },
+    setCampaignLevelsFetched (state, { campaignHandle, flag }) {
+      state.campaignLevelsFetched[campaignHandle] = flag
     }
   },
 
@@ -55,8 +63,6 @@ export default {
       return res
     },
     getCampaignLevels: (state) => (campaignId) => {
-      // const campaign = state.byId[campaignId]
-      // return campaign.detailedLevels
       return state.levelsByCampaignId[campaignId]
     }
   },
@@ -130,19 +136,22 @@ export default {
       }
     },
 
-    fetchAll: async ({ commit }) => {
+    fetchAll: async ({ commit, state }) => {
       // thangs,name,slug,campaign,tasks
+      if (state.areCocoCampaignsFetched) return
       const campaigns = await campaignsApi.fetchOverworld({ data: { project: 'slug,adjacentCampaigns,name,fullName,description,i18n,color,levels' } })
       const homeVersionSlugs = ['dungeon', 'forest', 'desert', 'mountain', 'glacier', 'campaign-web-dev-1', 'campaign-web-dev-2', 'campaign-game-dev-1', 'campaign-game-dev-2', 'campaign-game-dev-3']
       campaigns.forEach(campaign => {
         const isInHomeVersion = homeVersionSlugs.includes(campaign.slug)
         commit('setCampaignData', { ...campaign, isInHomeVersion })
       })
+      commit('setCocoCampaignsFetched', true)
     },
-    fetchCampaignLevels: async ({ commit }, { campaignHandle }) => {
+    fetchCampaignLevels: async ({ commit, state }, { campaignHandle }) => {
+      if (state.campaignLevelsFetched[campaignHandle]) return
       const levels = await campaignsApi.fetchLevels(campaignHandle, { data: { project: 'thangs,name,slug,campaign,tasks,original' } })
-      console.log('levels', levels)
       commit('setCampaignLevels', { campaignId: campaignHandle, levels })
+      commit('setCampaignLevelsFetched', { campaignHandle, flag: true })
     }
 
   }

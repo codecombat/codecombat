@@ -5,6 +5,7 @@
     />
     <campaign-list-component
       :campaigns="homeVersionCampaigns"
+      :initial-campaign-id="selectedCampaignId"
       @selectedCampaignUpdated="onSelectedCampaignUpdated"
     />
     <campaign-basic-summary
@@ -15,8 +16,8 @@
     <campaign-progress-view
       :campaign="selectedCampaign"
       :level-sessions="levelSessionsOfCampaign"
-      :levels="campaignLevels"
       :language="selectedLanguage"
+      :levels="campaignLevels"
     />
   </main>
 </template>
@@ -47,7 +48,6 @@ export default {
   },
   data () {
     return {
-      campaigns: [],
       selectedCampaignId: null,
       selectedLanguage: 'python',
       loading: true
@@ -97,6 +97,10 @@ export default {
   async created () {
     await this.fetchAllCampaigns()
     this.loading = false
+    this.selectedCampaignId = this.homeVersionCampaigns ? this.homeVersionCampaigns[0]._id : null
+    if (this.selectedCampaignId) {
+      this.fetchCampaignLevels({ campaignHandle: this.selectedCampaignId })
+    }
   }
 }
 </script>

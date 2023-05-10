@@ -128,6 +128,7 @@ export default {
       return solutions.length ? solutions[0].source : null
     },
     formatDescription (desc) {
+      if (!desc) return ''
       const d = desc.replace(/!\[.*?\]\(.*?\)\n*/g, '')
       if (d.length > 60) {
         return this.truncate(d, 60, '...')
@@ -137,12 +138,6 @@ export default {
     truncate (str, max, suffix) {
       return str.length < max ? str : `${str.substr(0, str.substr(0, max - suffix.length).lastIndexOf(' '))}${suffix}`
     }
-},
-  computed: {
-
-  },
-  updated () {
-    console.log('modProg', this.levels)
   }
 }
 </script>

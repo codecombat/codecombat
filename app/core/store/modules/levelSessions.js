@@ -27,7 +27,8 @@ export default {
      */
     levelSessionsByClassroom: {},
     // level sessions for a campaign in any language depending on whats fetched from fetchLevelSessionsForCampaign
-    levelSessionsByCampaign: {}
+    levelSessionsByCampaign: {},
+    relatedUserCampaignFetched: {}
   },
 
   mutations: {
@@ -85,6 +86,12 @@ export default {
       if (!state.levelSessionsByCampaign[campaignHandle][userId]) state.levelSessionsByCampaign[campaignHandle][userId] = {}
       state.levelSessionsByCampaign[campaignHandle][userId].sessions = sessions
       // Vue.set(state.levelSessionsByCampaign[campaignHandle][userId].sessions, sessions)
+    },
+    setRelatedUserCampaignFetched (state, { campaignHandle, userId, flag }) {
+      if (!state.relatedUserCampaignFetched[userId]) {
+        state.relatedUserCampaignFetched[userId] = {}
+      }
+      state.relatedUserCampaignFetched[userId][campaignHandle] = flag
     }
   },
   getters: {
@@ -95,7 +102,6 @@ export default {
       return (state.levelSessionsByClassroom[classroom] || {}).levelSessionMapByUser
     },
     getSessionsForCampaignOfRelatedUser: (state) => (userId, campaignHandle) => {
-      console.log('getterr', state.levelSessionsByCampaign)
       return (state.levelSessionsByCampaign[campaignHandle] || {})[userId]?.sessions
     }
   },
@@ -203,14 +209,18 @@ export default {
       }
     },
 
-    async fetchLevelSessionsForCampaignOfRelatedUser ({ commit }, { userId, campaignHandle, options = {} }) {
+    async fetchLevelSessionsForCampaignOfRelatedUser ({ commit, state, getters }, { userId, campaignHandle, options = {} }) {
       commit('initSessionsByCampaignState', campaignHandle)
 
       try {
+        if (state.relatedUserCampaignFetched[userId] && state.relatedUserCampaignFetched[userId][campaignHandle]) {
+          return getters['getSessionsForCampaignOfRelatedUser'](userId, campaignHandle)
+        }
         options.data = { userId, noLanguageFilter: true }
         const campaignSessions = await levelSessionsApi.fetchForCampaign(campaignHandle, options)
         console.log('data', campaignSessions, campaignHandle, userId)
         commit('setSessionsForCampaignOfRelatedUser', { campaignHandle, sessions: campaignSessions, userId })
+        commit('setRelatedUserCampaignFetched', { campaignHandle, userId, flag: true })
         return campaignSessions
       } catch (e) {
         console.error('Error in fetching campaign sessions', e)

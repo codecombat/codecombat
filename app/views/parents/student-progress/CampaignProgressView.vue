@@ -23,11 +23,14 @@ export default {
     levelSessions: {
       type: Array
     },
-    levels: {
-      type: Array
-    },
     language: {
       type: String
+    },
+    levels: {
+      type: Array,
+      default () {
+        return []
+      }
     }
   },
   components: {
@@ -43,7 +46,6 @@ export default {
         const detailLevel = this.levels?.find(l => l.original === cLevel.original)
         const final = { ...cLevel, ...detailLevel }
         result.push(final)
-        console.log(cLevel, detailLevel, final)
       })
       console.log('resLevel', result)
       return result

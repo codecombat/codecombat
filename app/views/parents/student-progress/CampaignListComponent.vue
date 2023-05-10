@@ -43,12 +43,15 @@ export default {
   props: {
     campaigns: {
       type: Array
+    },
+    initialCampaignId: {
+      type: String
     }
   },
   data () {
     return {
       currentIndex: 0,
-      selectedCampaignId: null
+      selectedCampaignId: this.initialCampaignId
     }
   },
   computed: {
@@ -81,6 +84,11 @@ export default {
       if (newVal && newVal.length) {
         this.selectedCampaignId = newVal[0]._id
         this.$emit('selectedCampaignUpdated', this.selectedCampaignId)
+      }
+    },
+    initialCampaignId: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.selectedCampaignId = newVal
       }
     }
   }
