@@ -385,3 +385,63 @@ me.voiceOver = {
 }
 
 me.product = type: 'string', title: 'Product', description: 'Which product this document is for (codecombat, ozaria, or both)', enum: ['codecombat', 'ozaria', 'both'], default: 'both'
+
+me.InlineInteractionSchema = me.object {description: 'An inline interaction', definitions: {}, required: ['type', 'actor'], additionalProperties: true},
+  type: {type: 'string', enum: ['model-response', 'prompt-quiz', 'free-chat', 'chat-message', 'load-document']}
+  actor: {type: 'string', enum: ['user', 'model', 'teacher', 'system'], description: 'Who is performing this interaction'}
+  teacherDialogue: $ref: '#/definitions/teacherDialogue'
+  repeat: {oneOf: [{type: 'boolean'}, {type: 'integer', minimum: 1}]}  # Could also do like script system: enum: [true, false, 'session']
+  condition: {type: 'object', description: 'TODO'}  # TODO: Think about pulling logic from ScriptSchema eventPrereqs, scriptPrereqs, notAfter
+  # delay, duration, etc. could be brought in, too
+
+me.InlineInteractionSchema.definitions.teacherDialogue = me.object {required: ['text']},
+  text: { type: 'string', format: 'markdown' }
+  actions: me.array {},
+    me.shortString {}
+
+ModelResponseInteractionSchema = me.object (title: 'Model Response', required: [], default: {type: 'model-response', actor: 'model'}),
+  type: {type: 'string', const: 'model-response'}
+  actor: {type: 'string', const: 'model'}
+  interaction: me.objectId { links: [{ rel: 'db', href: '/db/ai_interaction/{($)}' }] }
+
+PromptQuizInteractionSchema = me.object {title: 'Prompt Quiz', required: ['content'], default: {type: 'prompt-quiz', actor: 'user', content: {}}},
+  type: {type: 'string', const: 'prompt-quiz'}
+  actor: {type: 'string', const: 'user'}
+  content: me.object {required: ['choices'], default: {choices: []}},
+    choices: me.array {},
+      me.object {required: ['text']},
+        text: { type: 'string' }
+        isCorrect: { type: 'boolean' }
+        teacherDialogue: $ref: '#/definitions/teacherDialogue'
+        resultingInteraction: me.objectId { links: [{ rel: 'db', href: '/db/ai_interaction/{($)}' }] }
+
+FreeChatInteractionSchema = me.object {title: 'Free Chat', default: {type: 'free-chat', actor: 'user', content: {text: ''}}},
+  type: {type: 'string', const: 'free-chat'}
+  actor: {type: 'string', const: 'user'}
+  content: me.object {},
+    text: {type: 'string', format: 'markdown'}
+
+ChatMessageInteractionSchema = me.object {title: 'Chat Message', default: {type: 'chat-message', actor: 'model', content: {text: ''}}},
+  type: {type: 'string', const: 'chat-message'}
+  content: me.object {},
+    text: {type: 'string', format: 'markdown'}
+
+LoadDocumentInteractionSchema = me.object {title: 'Load Document', default: {type: 'load-document', actor: 'user', content: {}}},
+  type: {type: 'string', const: 'load-document'}
+  content: me.object {},
+    document: me.objectId(links: [{rel: 'db', href: '/db/ai_document/{($)}'}])
+
+me.InlineInteractionSchema.oneOf = [
+  ModelResponseInteractionSchema
+  PromptQuizInteractionSchema
+  FreeChatInteractionSchema
+  ChatMessageInteractionSchema
+  LoadDocumentInteractionSchema
+]
+
+# TODO: Treema doesn't really understand this, maybe worth updating Treema, tweaking things until it's less confusing to Treema, or doing in a less `oneOf` way
+
+me.InteractionArraySchema = (description) ->
+  type: 'array'
+  description: description
+  items: me.InlineInteractionSchema

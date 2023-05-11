@@ -45,7 +45,7 @@ module.exports = class AIScenarioEditView extends RootView
       supermodel: @supermodel
     @treema = @$el.find('#ai-scenario-treema').treema(options)
     @treema.build()
-    @treema.open(2)
+    @treema.open(5)
 
   afterRender: ->
     super()
@@ -99,4 +99,3 @@ module.exports = class AIScenarioEditView extends RootView
         type: 'error'
         layout: 'topCenter'
       url: "/db/ai_scenario/#{@scenario.id}"
-

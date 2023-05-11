@@ -11,4 +11,3 @@ export const createNewAIScenario = ({ ...opts }, options = {}) =>
   }))
 
 export const getAIScenarios = () => fetchJson('/db/ai_scenario')
-

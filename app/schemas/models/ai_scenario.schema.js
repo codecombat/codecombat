@@ -7,7 +7,7 @@ const AIScenarioSchema = c.object({
   required: ['releasePhase'],
   default: {
     releasePhase: 'beta',
-    content: []
+    interactions: []
   }
 })
 
@@ -53,17 +53,14 @@ _.extend(AIScenarioSchema.properties, {
     title: 'Release Phase',
     description: 'Scenarios start off in beta, then are released when they are completed'
   },
-  content: {
-    type: 'array',
-    title: 'Content',
-    description: 'The prompts and other content making up this scenario',
-    items: {
-      type: 'object',
-      title: 'Content Item',
-      description: 'TODO: some prompt or something',
-      additionalProperties: true
+  interactions: {
+    title: 'Interactions',
+    type: 'object',
+    description: 'The choices, messages, prompts, teacher responses, and other interactions making up this scenario',
+    properties: {
+      start: { type: 'array', description: 'The main linear interactions triggered at the start of the scenario', items: { $ref: '#/definitions/inlineInteraction' } },
+      dynamic: { type: 'array', description: 'Any dynamic interactions triggered by events during the scenario', items: { $ref: '#/definitions/inlineInteraction' } },
     }
-    // TODO: think of how this should go. Maybe it's a reference to an AIPrompt or ChatMessage or an AILesson or some other interstitial content type? Is it linear (array)?
   },
   i18n: {
     additionalProperties: true,
@@ -73,7 +70,7 @@ _.extend(AIScenarioSchema.properties, {
   }
 })
 
-AIScenarioSchema.definitions = {}
+AIScenarioSchema.definitions = { inlineInteraction: c.InlineInteractionSchema }
 c.extendBasicProperties(AIScenarioSchema, 'ai_scenario')
 c.extendSearchableProperties(AIScenarioSchema)
 c.extendVersionedProperties(AIScenarioSchema, 'ai_scenario')

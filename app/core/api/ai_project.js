@@ -11,4 +11,3 @@ export const createNewAIProject = ({ ...opts }, options = {}) =>
   }))
 
 export const getAIProjects = () => fetchJson('/db/ai_project')
-

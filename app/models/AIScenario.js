@@ -9,7 +9,7 @@ AIScenario.urlRoot = '/db/ai_scenario'
 AIScenario.prototype.urlRoot = '/db/ai_scenario'
 AIScenario.prototype.defaults = {
   releasePhase: 'beta',
-  content: []
+  interactions: []
 }
 
 module.exports = AIScenario

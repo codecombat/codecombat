@@ -1,5 +1,7 @@
 module.exports = {
   admin: require('./admin')
+  aiDocuments: require('./ai_document')
+  aiInteractions: require('./ai_interaction')
   aiProjects: require('./ai_project')
   aiScenarios: require('./ai_scenario')
   apcsp: require('./apcsp')
