@@ -270,6 +270,7 @@ _.extend(ChatMessageSchema.properties, {
 
 ChatMessageSchema.definitions = {}
 c.extendBasicProperties(ChatMessageSchema, 'chat_message')
+c.extendSearchableProperties(ChatMessageSchema)
 c.extendPermissionsProperties(ChatMessageSchema, 'chat_message')
 c.extendTranslationCoverageProperties(ChatMessageSchema)
 
