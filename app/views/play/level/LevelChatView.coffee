@@ -123,8 +123,6 @@ module.exports = class LevelChatView extends CocoView
     if existingRow?.length
       tr = $(existingRow[0])
       tr.find('td.message-content').replaceWith(td)
-      #tr.find('td.message-content').remove()
-      tr.append(td)
     else
       tr = $('<tr></tr>')
       if message.authorID is me.id or message.sender?.id is me.id
@@ -205,7 +203,6 @@ module.exports = class LevelChatView extends CocoView
     @chatMessages.push chatMessage
     Backbone.Mediator.publish 'level:gather-chat-message-context', { chat: chatMessage.attributes }
     # This will enrich the message with the props from other parts of the app
-    console.log 'Saving chat message', chatMessage
     @listenToOnce chatMessage, 'sync', @onChatMessageSaved
     chatMessage.save()
     #@onNewMessage message: chatMessage.get('message'), messageId: chatMessage.get('_id')  # TODO: do this now and add message id link later
@@ -306,7 +303,7 @@ module.exports = class LevelChatView extends CocoView
       props.message.textComponents.links.push text: link[1], url: link[2]
       structuredMessage = structuredMessage.replace(linkRegex, '')
 
-    # TODO: remove explicit actionButton references,, we'll probably autogenerate action buttons and just always have [Fix It] buttons
+    # TODO: remove explicit actionButton references, we'll probably autogenerate action buttons and just always have [Fix It] buttons
     actionButtonRegex = /^<button( action='?"?(.+?)'?"?)?>(.+?)<\/button>$/m
     while actionButton = structuredMessage.match(actionButtonRegex)
       props.message.textComponents.actionButtons ?= []

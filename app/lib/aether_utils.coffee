@@ -509,7 +509,7 @@ module.exports.translateErrorMessage = ({ message, errorCode, i18nParams, spoken
   # translateFn(i18nKey, i18nParams) is $.i18n.t on the client, i18next.t on the server
   return message if not message
   if /\n/.test(message) # Translate each line independently, since regexes act weirdly with newlines
-    return message.split('\n').map((line) => @translate(line)).join('\n')
+    return message.split('\n').map((line) -> module.exports.translateErrorMessage({ message: line.trim(), errorCode, i18nParams, spokenLanguage, staticTranslations, translateFn })).join('\n')
 
   if /^i18n::/.test(message) # handle i18n messages from aether_worker
     messages = message.split('::')
