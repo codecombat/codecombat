@@ -7,8 +7,15 @@ let AIView
 require('app/styles/ai/ai.sass')
 const RootView = require('views/core/RootView')
 const template = require('app/templates/ai/ai')
-const ai = require('../../../node_modules/ai/dist/ai.js')
-require('../../../node_modules/ai/dist/style.css')
+let ai
+try {
+  ai = require('../../../node_modules/ai/dist/ai.js')
+  require('../../../node_modules/ai/dist/style.css')
+} catch (e) {
+  console.warn('AI import unavailable; /ai will not work')
+  console.warn(e)
+  ai = { AI: () => {} }
+}
 
 module.exports = (AIView = (function () {
   AIView = class AIView extends RootView {
