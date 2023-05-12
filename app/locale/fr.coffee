@@ -371,7 +371,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     apcsp: "Principes AP CS"
     parent: "Parents"
 #    faq: "FAQ"
-   return_coco: "Retourner CodeCombat"
+   return_coco: "Retourner à CodeCombat"
    classes: "Classes"
 #    term_of_service: "Terms of Service"
    esports: "Esports"
