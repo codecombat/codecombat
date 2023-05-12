@@ -4,7 +4,6 @@ template = require 'app/templates/play/modal/item-details-view'
 CocoCollection = require 'collections/CocoCollection'
 LevelComponent = require 'models/LevelComponent'
 
-{downTheChain} = require 'lib/world/world_utils'
 utils = require 'core/utils'
 
 module.exports = class ItemDetailsView extends CocoView
@@ -89,7 +88,7 @@ module.exports = class ItemDetailsView extends CocoView
           componentConfigs = @componentConfigs ? []
           description = description.replace /#{([^.]+?)}/g, (match, keyChain) ->
             for componentConfig in componentConfigs
-              if value = downTheChain componentConfig, keyChain
+              if value = utils.downTheChain componentConfig, keyChain
                 return value
             #console.log 'gotta find', keyChain, 'from', match
             match

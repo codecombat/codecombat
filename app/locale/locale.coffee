@@ -170,7 +170,7 @@ Object.defineProperties module.exports,
           for c2 of module.exports when c2 isnt code and c2.split('-').slice(0, parts.length - 1).join('-') is parent and c2 not in fallbacks
             fallbacks.push c2  # Sibling, uncle, or niece
           parts.pop()
-        fallbacks.push 'en' unless _.string.startsWith code, 'en'
+        fallbacks.push 'en' unless (_.string || _.str).startsWith code, 'en'
         fallbacksByCode[code] = fallbacks
       fallbacksByCode['zh-WUU-HANS'] = ['zh-WUU-HANT', 'zh-HANS', 'zh-HANT', 'en']
       fallbacksByCode['zh-WUU-HANT'] = ['zh-WUU-HANS', 'zh-HANT', 'zh-HANS', 'en']
