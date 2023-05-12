@@ -72,7 +72,7 @@ const ClassroomLib = {
       return false
     }
 
-    const value = classroomAttributes.studentLockMap?.[studentId]?.[`${modifier}Levels`]?.[level]
+    const value = classroomAttributes?.studentLockMap?.[studentId]?.[`${modifier}Levels`]?.[level]
 
     if (typeof value === 'undefined' && modifier === 'locked') {
       // Legacy behavior.
@@ -102,7 +102,7 @@ const ClassroomLib = {
   },
 
   isStudentOnLockedLevel: (classroom, studentId, courseIdToCheck, levelOriginal) => {
-    const studentCourseLocked = classroom.studentLockMap?.[studentId]?.courseId
+    const studentCourseLocked = classroom?.studentLockMap?.[studentId]?.courseId
     if (!studentCourseLocked) {
       // If we have not tracked a locked course, then assume unlocked.
       return false
