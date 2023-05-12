@@ -1,5 +1,4 @@
 popoverTemplate = require 'ozaria/site/templates/play/level/tome/spell_palette_entry_popover'
-{downTheChain} = require 'lib/world/world_utils'
 window.Vector = require 'lib/world/vector'  # So we can document it
 utils = require 'core/utils'
 
@@ -190,7 +189,7 @@ module.exports = class DocFormatter
     }
     owner = if @doc.owner is 'this' then @options.thang else window[@doc.owner]
     content = @replaceSpriteName content
-    content = content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
+    content = content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue utils.downTheChain(owner, properties.split('.'))
     content = content.replace /{([a-z]+)}([^]*?){\/\1}/g, (s, language, text) =>
       if language is @options.language then return text
       return ''

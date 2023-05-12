@@ -33,8 +33,8 @@ describe 'Problem', ->
     it 'translates messages with line numbers, error types, and placeholders', ->
       oldLang = $.i18n.language
       $.i18n.changeLanguage 'rot13', ->
-        english = 'Line 12: ReferenceError: somethin is not defined'
-        rot13 = 'Yvar 12: ErsreraprReebe: somethin vf abg qrsvarq'
+        english = 'Line 12: ReferenceError: `somethin` is not defined'
+        rot13 = 'Yvar 12: ErsreraprReebe: `somethin` vf abg qrsvarq'
         expect(Problem.prototype.translate(english)).toEqual(rot13)
         english = "`foo`'s argument `bar` has a problem. Is there an enemy within your line-of-sight yet?"
         rot13 = "`foo`'f nethzrag `bar` unf n ceboyrz. Vf gurer na rarzl jvguva lbhe yvar-bs-fvtug lrg?"

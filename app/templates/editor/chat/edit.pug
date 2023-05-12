@@ -1,0 +1,29 @@
+extends /templates/base
+
+block content
+  div
+    ol.breadcrumb
+      li
+        a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
+      li
+        a(href="/editor/chat", data-i18n="editor.chat_title")
+      li.active
+        | #{view.chat.get('_id')}
+
+  - var authorized = !me.get('anonymous');
+  button.chat-tool-button.btn.btn-primary#i18n-button(data-i18n="editor.pop_i18n", disabled=authorized === true ? undefined : "true")
+  button.chat-tool-button.btn.btn-primary#delete-button(data-i18n="editor.delete", disabled=me.isAdmin() === true ? undefined : "true")
+  button.chat-tool-button.btn.btn-primary#save-button(data-i18n="common.save", disabled=authorized === true ? undefined : "true")
+  button.chat-tool-button.btn.btn-primary#add-code-button(disabled=authorized === true ? undefined : "true") Add Code
+  button.chat-tool-button.btn.btn-primary#fix-button(disabled=authorized === true ? undefined : "true") Current -> Fixed
+  button.chat-tool-button.btn.btn-primary#regenerate-message-button(disabled=authorized === true ? undefined : "true") Regenerate Message
+
+  h3
+    span(data-i18n="editor.chat_edit_title")
+    |: #{view.chat.attributes._id}
+    
+  #chat-treema
+
+  hr
+
+  // TODO: visualize the chat here
