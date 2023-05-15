@@ -2976,6 +2976,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     patches_accepted: "Patches Accepted"
     level_edits: "Level Edits"
     total_translations: "Total Translations"
+    campaign_stats: "Stats"
 
   achievements:
     last_earned: "Last Earned"

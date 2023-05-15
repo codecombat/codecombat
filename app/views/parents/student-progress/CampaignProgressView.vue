@@ -26,7 +26,7 @@ export default {
     language: {
       type: String
     },
-    levels: {
+    sortedLevels: {
       type: Array,
       default () {
         return []
@@ -36,20 +36,6 @@ export default {
   components: {
     ModuleProgressDataComponent,
     ModuleResources
-  },
-  computed: {
-    sortedLevels () {
-      const cLevels = JSON.parse(JSON.stringify(Object.values(this.campaign?.levels || {})))
-      cLevels.sort((a, b) => a.campaignIndex - b.campaignIndex)
-      const result = []
-      cLevels.forEach(cLevel => {
-        const detailLevel = this.levels?.find(l => l.original === cLevel.original)
-        const final = { ...cLevel, ...detailLevel }
-        result.push(final)
-      })
-      console.log('resLevel', result)
-      return result
-    }
   }
 }
 </script>

@@ -64,12 +64,27 @@
       </div>
     </div>
     <div class="certificate">
-      <img src="/images/pages/parents/dashboard/certificate.png" alt="Certificate image" class="certicate__img">
-      <div class="certificate__text">
-        certificate of completion
-      </div>
-      <div class="certificate__subtext">
-        course incomplete
+      <a
+        v-if="isCampaignComplete"
+        :href="`/certificates/${childId}?campaign-id=${campaign._id}`"
+        target="_blank"
+      >
+        <img
+          src="/images/pages/user/certificates/certificate-icon.png"
+          alt="Certificate image"
+          class="certificate__img certificate__img--complete"
+        >
+      </a>
+      <img
+        v-if="!isCampaignComplete"
+        src="/images/pages/parents/dashboard/certificate.png"
+        alt="Certificate image"
+        class="certificate__img"
+      >
+      <div
+        class="certificate__subtext"
+      >
+        {{ isCampaignComplete ? 'course complete' : 'course incomplete' }}
       </div>
     </div>
   </div>
@@ -89,7 +104,7 @@ const campignSlugImageMap = {
   'campaign-game-dev-3': 'game-dev-2.png'
 }
 export default {
-  name: 'LevelBasicSummary',
+  name: 'CampaignBasicSummary',
   props: {
     campaign: {
       type: Object,
@@ -98,6 +113,14 @@ export default {
     selectedLanguage: {
       type: String,
       default: 'python'
+    },
+    childId: {
+      type: String,
+      default: ''
+    },
+    isCampaignComplete: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -285,6 +308,12 @@ export default {
       font-weight: 400;
       font-size: 1.6rem;
       line-height: 2rem;
+    }
+
+    &__img {
+      &--complete {
+        cursor: pointer;
+      }
     }
   }
 }

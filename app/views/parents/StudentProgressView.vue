@@ -11,6 +11,8 @@
     <campaign-basic-summary
       :campaign="selectedCampaign"
       :selected-language="selectedLanguage"
+      :child-id="child?.userId"
+      :is-campaign-complete="hasCompletedCampaign"
       @languageUpdated="onLanguageUpdate"
     />
     <campaign-progress-view
@@ -18,6 +20,7 @@
       :level-sessions="levelSessionsOfCampaign"
       :language="selectedLanguage"
       :levels="campaignLevels"
+      :sorted-levels="sortedLevels"
     />
   </main>
 </template>
@@ -92,6 +95,25 @@ export default {
     campaignLevels () {
       if (!this.selectedCampaignId) return []
       return this.getCampaignLevels(this.selectedCampaignId)
+    },
+    hasCompletedCampaign () {
+      const requiredLevels = this.sortedLevels?.filter(l => !l.practice) || []
+      const requiredLevelSlugs = requiredLevels?.map(l => l.slug) || []
+      const requiredLevelSessions = this.levelSessionsOfCampaign?.filter(ls => requiredLevelSlugs.includes(ls.levelID))
+      const reqCompletedLevelSessions = requiredLevelSessions?.filter(ls => ls.state?.complete) || []
+      return requiredLevelSlugs.length > 0 && reqCompletedLevelSessions.length === requiredLevelSlugs.length
+    },
+    sortedLevels () {
+      const cLevels = JSON.parse(JSON.stringify(Object.values(this.selectedCampaign?.levels || {})))
+      cLevels.sort((a, b) => a.campaignIndex - b.campaignIndex)
+      const result = []
+      cLevels.forEach(cLevel => {
+        const detailLevel = this.campaignLevels?.find(l => l.original === cLevel.original)
+        const final = { ...cLevel, ...detailLevel }
+        result.push(final)
+      })
+      console.log('resLevel', result)
+      return result
     }
   },
   async created () {
