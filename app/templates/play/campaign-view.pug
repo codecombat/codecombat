@@ -41,6 +41,14 @@ if showGameDevAlert
       a#liverpool-logo-container(href='https://lpl.org/' target='_blank' rel='noopener noreferrer')
         img#liverpool-logo(src="/images/pages/play/liverpool-library-logo.jpg")
 
+    else if view.shouldShow('lafourche-library-logo')
+      a#liverpool-logo-container(href='https://www.lafourche.org/' target='_blank' rel='noopener noreferrer')
+        img#liverpool-logo(src="/images/pages/play/lafourche-logo.webp")
+
+    else if view.shouldShow('vaughan-library-logo')
+      a#vaughan-logo-container(href='https://www.vaughanpl.info/' target='_blank' rel='noopener noreferrer')
+        img#vaughan-logo(src="/images/pages/play/vaughan-library-logo.png")
+
     if view.shouldShow('back-to-classroom')
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
 

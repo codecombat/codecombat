@@ -13,6 +13,7 @@ _.extend UserCodeProblemSchema.properties,
   codeSnippet: {type: 'string'}
   errHint: {type: 'string'}
   errId: {type: 'string'}
+  errCode: {type: 'string'}
   errLevel: {type: 'string'}
   errMessage: {type: 'string'}
   errMessageNoLineInfo: {type: 'string'}
