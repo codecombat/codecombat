@@ -85,13 +85,17 @@ else
             .panel-title(data-i18n="general.password")
           .panel-body
             .form
+              if me.currentPasswordRequired()
+                .form-group
+                  label.control-label(for="current-password", data-i18n="account_settings.current_password") 
+                  input#current-password.form-control(name="current-password", type="password")            
               .form-group
                 label.control-label(for="password", data-i18n="account_settings.new_password") New Password
                 input#password.form-control(name="password", type="password")
               .form-group
                 label.control-label(for="password2", data-i18n="account_settings.new_password_verify") Verify
                 input#password2.form-control(name="password2", type="password")
-            button.save-button.passwd-btn.btn.btn-primary.form-control.disabled(data-i18n="delta.no_changes" disabled="true")
+            button.save-password-button.passwd-btn.btn.btn-primary.form-control.disabled(data-i18n="delta.no_changes" disabled="true")
 
       .panel.panel-default.related-account
         .panel-heading

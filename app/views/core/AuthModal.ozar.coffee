@@ -8,6 +8,7 @@ RecoverModal = require 'views/core/RecoverModal'
 storage = require 'core/storage'
 {logInWithClever} = require 'core/social-handlers/CleverHandler'
 globalVar = require 'core/globalVar'
+userUtils = require '../../lib/user-utils'
 
 module.exports = class AuthModal extends ModalView
   id: 'auth-modal'
@@ -38,6 +39,7 @@ module.exports = class AuthModal extends ModalView
       })
       #application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })  # No Facebook login in Ozaria
     @subModalContinue = options.subModalContinue
+    @showLibraryModal = userUtils.shouldShowLibraryLoginModal()
 
   afterRender: ->
     super()
@@ -71,6 +73,10 @@ module.exports = class AuthModal extends ModalView
 
         if errorID is 'wrong-password'
           forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.wrong_password'))
+          showingError = true
+
+        if errorID is 'temp-password-expired'
+          forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.temp_password_expired'))
           showingError = true
 
         if errorID is 'individuals-not-supported'

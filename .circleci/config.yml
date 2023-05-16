@@ -4,7 +4,7 @@ jobs:
   copy-i18n-tags:
     docker:
       # specify the version you desire here
-      - image: jmif/coco-ci-node:latest
+      - image: public.ecr.aws/d6t0l2l9/coco-node-base:18.10.0
 
     working_directory: ~/repo
 

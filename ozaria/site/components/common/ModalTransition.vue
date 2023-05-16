@@ -1,15 +1,22 @@
 <script>
-  import BaseModal from './BaseModal'
-  import { mapActions, mapGetters } from 'vuex'
-  import { internationalizeConfig, getNextLevelForLevel, getNextLevelLink, tryCopy, internationalizeLevelType, internationalizeContentType } from 'ozaria/site/common/ozariaUtils'
-  import utils from 'core/utils'
-  import urls from 'core/urls'
-  import api from 'core/api'
-  import ModalCharCustomization from 'ozaria/site/components/char-customization/ModalCharCustomization'
-  import ClassroomLib from '../../../../app/models/ClassroomLib'
+import BaseModal from './BaseModal'
+import { mapActions, mapGetters } from 'vuex'
+import {
+  getNextLevelForLevel,
+  getNextLevelLink,
+  internationalizeConfig,
+  internationalizeContentType,
+  internationalizeLevelType,
+  tryCopy
+} from 'ozaria/site/common/ozariaUtils'
+import utils from 'core/utils'
+import urls from 'core/urls'
+import api from 'core/api'
+import ModalCharCustomization from 'ozaria/site/components/char-customization/ModalCharCustomization'
+import ClassroomLib from '../../../../app/models/ClassroomLib'
 import * as focusTrap from 'focus-trap'
 
-  export default Vue.extend({
+export default Vue.extend({
     components: {
       BaseModal,
       ModalCharCustomization
@@ -193,26 +200,40 @@ import * as focusTrap from 'focus-trap'
         this.loading = false;
       },
 
-      async getNextLevelLink () {
-        const campaignHandle = this.currentLevel.campaign || this.currentLevel.attributes.campaign
-        await this.fetchRequiredData(campaignHandle)
-        const currentLevelData = this.levelsList[this.currentLevel.original || this.currentLevel.attributes.original]
-        this.isFirstLevel = currentLevelData.first
+      getNextLevel (currentLevelData) {
         let currentLevelStage
         if (currentLevelData.isPlayedInStages && this.capstoneStage) {
           currentLevelStage = parseInt(this.capstoneStage)
         }
         const nextLevel = getNextLevelForLevel(currentLevelData, currentLevelStage) || {}
+        const nextLevelIsLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.courseId, nextLevel.original, 'locked')
+        const nextLevelIsOptional = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.courseId, nextLevel.original, 'optional')
+        if (nextLevelIsLocked && nextLevelIsOptional) {
+          // call getNextLevel recursively if level was skipped
+          return this.getNextLevel(this.levelsList[nextLevel.original || nextLevel.attributes.original])
+        }
+        return nextLevel
+      },
+
+      async getNextLevelLink () {
+        const campaignHandle = this.currentLevel.campaign || this.currentLevel.attributes.campaign
+        await this.fetchRequiredData(campaignHandle)
+        const currentLevelData = this.levelsList[this.currentLevel.original || this.currentLevel.attributes.original]
+        this.isFirstLevel = currentLevelData.first
+
+        const nextLevel = this.getNextLevel(currentLevelData) || {}
         if (this.classroom) {
-          this.nextLevelIsLocked = ClassroomLib.isStudentOnLockedLevel(this.classroom, me.get('_id'), this.courseId, nextLevel.original)
+          this.nextLevelIsLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.courseId, nextLevel.original, 'locked')
         }
 
         if (this.nextLevelIsLocked) {
+          this.deactivateFocusTrap()
           noty({
             layout: 'center',
             type: 'info',
             text: this.$t('teacher_dashboard.teacher_locked_message'),
             buttons: [{
+              addClass: 'btn btn-primary',
               text: this.$t('play.back_to_dashboard'),
               onClick: ($noty) => {
                 $noty.close()

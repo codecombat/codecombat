@@ -1,5 +1,6 @@
 ace = require('lib/aceContainer')
 Range = ace.require('ace/range').Range
+aetherUtils = require('lib/aether_utils')
 
 # This class can either wrap an AetherProblem,
 # or act as a general runtime error container for web-dev iFrame errors.
@@ -118,45 +119,6 @@ module.exports = class Problem
     new RegExp(escapeRegExp(englishString).replace(/\\\$\d/g, '(.+)').replace(/ +/g, ' +'))
 
   translate: (msg, errorCode, i18nParams) ->
-    return msg if not msg
-    if /\n/.test(msg) # Translate each line independently, since regexes act weirdly with newlines
-      return msg.split('\n').map((line) => @translate(line)).join('\n')
-
-    if /^i18n::/.test(msg) # handle i18n msgs from aether_worker
-      msgs = msg.split('::')
-      return $.i18n.t(msgs[1], JSON.parse(msgs[2]))
-
-    msg = msg.replace /([A-Za-z]+Error:) \1/, '$1'
-    return msg if $.i18n.language in ['en', 'en-US']
-
-    # Separately handle line number and error type prefixes
-    en = require('locale/en').translation
-    applyReplacementTranslation = (text, regex, key) =>
-      fullKey = "esper.#{key}"
-      replacementTemplate = $.i18n.t(fullKey)
-      return if replacementTemplate is fullKey
-      # This carries over any capture groups from the regex into $N placeholders in the template string
-      replaced = text.replace regex, replacementTemplate
-      if replaced isnt text
-        return [replaced.replace(/``/g, '`'), true]
-      return [text, false]
-
-    # These need to be applied in this order, before the main text is translated
-    prefixKeys = ['line_no', 'uncaught', 'reference_error', 'argument_error', 'type_error', 'syntax_error', 'error']
-
-    msgs = msg.split(': ')
-    for i of msgs
-      m = msgs[i]
-      m += ': ' unless +i == msgs.length - 1 # i is string
-      for keySet in [prefixKeys, Object.keys(_.omit(en.esper), prefixKeys)]
-        for translationKey in keySet
-          englishString = en.esper[translationKey]
-          regex = @makeTranslationRegex(englishString)
-          [m, didTranslate] = applyReplacementTranslation m, regex, translationKey
-          break if didTranslate and keySet isnt prefixKeys
-      msgs[i] = m
-
-    if errorCode
-      msgs[msgs.length - 1] = $.i18n.t("esper.error_#{_.string.underscored(errorCode)}", i18nParams)
-
-    msgs.join('')
+    staticTranslations = en: require('locale/en').translation
+    translateFn = (i18nKey, i18nParams) -> $.i18n.t(i18nKey, i18nParams)
+    return aetherUtils.translateErrorMessage message: msg, errorCode: errorCode, i18nParams: i18nParams, spokenLanguage: $.i18n.t('language'), staticTranslations: staticTranslations, translateFn: translateFn

@@ -16,6 +16,7 @@ module.exports = class AccountSettingsView extends CocoView
     'change .panel input': 'onChangePanelInput'
     'change #name-input': 'onChangeNameInput'
     'click .save-button': 'savePanel'
+    'click .save-password-button': 'savePasswordPanel'
     'click #toggle-all-btn': 'onClickToggleAllButton'
     'click #delete-account-btn': 'onClickDeleteAccountButton'
     'click #reset-progress-btn': 'onClickResetProgressButton'
@@ -57,7 +58,7 @@ module.exports = class AccountSettingsView extends CocoView
   onChangePanelInput: (e) ->
     return if $(e.target).closest('.form').attr('id') in ['reset-progress-form', 'delete-account-form']
     $(e.target).addClass 'changed'
-    @onButtonActive($(e.target).closest(".form").siblings(".save-button"))
+    @onButtonActive($(e.target).closest(".form").siblings(".save-button,.save-password-button"))
 
   onClickToggleAllButton: ->
     subs = @getSubscriptions()
@@ -203,8 +204,6 @@ module.exports = class AccountSettingsView extends CocoView
     forms.clearFormAlerts(panel)
     if $(e.target).hasClass("me-btn")
       @grabUserData()
-    else if $(e.target).hasClass("passwd-btn")
-      @grabPasswordData()
     else if $(e.target).hasClass("email-btn")
       @grabEmailData()
 
@@ -240,7 +239,9 @@ module.exports = class AccountSettingsView extends CocoView
 
     @onButtonBegan(e.target)
 
-  grabPasswordData: ->
+  savePasswordPanel: (e) -> 
+    panel = $(e.target).closest(".panel")
+    currentPassword = $('#current-password', @$el).val()
     password1 = $('#password', @$el).val()
     password2 = $('#password2', @$el).val()
     bothThere = Boolean(password1) and Boolean(password2)
@@ -251,12 +252,29 @@ module.exports = class AccountSettingsView extends CocoView
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
       return
     if bothThere
-      @user.set('password', password1)
+      @user.updatePassword currentPassword, password1, (() =>
+        panel.find('input').removeClass 'changed'
+        @onButtonSuccess(e.target)
+      ), ((res) =>
+        if res.responseJSON?.property
+          errors = res.responseJSON
+          forms.applyErrorsToForm(@$el, errors)
+          $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
+        else
+          noty
+            text: res.responseJSON?.message or res.responseText
+            type: 'error'
+            layout: 'topCenter'
+            timeout: 5000
+        @onButtonError(e.target)
+      )
     else if password1
       message = $.i18n.t('account_settings.password_repeat', defaultValue: 'Please repeat your password.')
       err = [message: message, property: 'password2', formatted: true]
       forms.applyErrorsToForm(@$el, err)
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
+
+    @onButtonBegan(e.target)  
 
   grabEmailData: ->
     for emailName, enabled of @getSubscriptions()

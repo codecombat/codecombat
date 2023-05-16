@@ -597,6 +597,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     stop_spying: "Fgbc Fclvat"
     stop_switching: "Fgbc Fjvgpuvat"
     test_as_student: "Grfg nf Fghqrag"
+    email_or_username_or_library: "Rznvy be Hfreanzr be Yvoenel Pneq ahzore"
 
   signup:
     complete_subscription: "Pbzcyrgr Fhofpevcgvba"
@@ -1064,7 +1065,10 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     level_status: "Fgnghf"
     level_status_locked: "Ybpxrq"
     level_status_in_progress: "Va Cebterff"
+    level_status_skipped: "Fxvccrq"
     level_status_complete: "Pbzcyrgr"
+    level_status_unlocked: "Haybpxrq"
+    level_status_optional: "Bcgvbany"
     level_type_practice: "Cenpgvpr"
     level_type_challenge: "Punyyratr"
     level_type_cutscene: "Phgfprar"
@@ -1502,6 +1506,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     ea_title: "Rkrphgvir Nffvfgnag"
     om_title: "Bcrengvbaf Znantre"
     som_title: "Fravbe Bcrengvbaf Znantre"
+    sales_om_title: "Fnyrf Bcrengvbaf Znantre"
     pe_title: "Cevapvcny Ratvarre"
     mo_title: "Znantre, Bcrengvbaf"
     smo_title: "Fravbe Znantre, Bcrengvbaf"
@@ -1516,7 +1521,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     sales_om_title: "Fnyrf Bcrengvbaf Znantre"
     bd_pr_title: "Ohfvarff Qrirybczrag naq Cnegarefuvcf Ercerfragngvir"
     oi_title: "Bayvar Vafgehpgbe"
-    m_oi_title: "Znantre, Bayvar Vafgehpgbe"
+    m_oi_title: "Znantre, Bayvar Vafgehpgvba"
     aoim_title: "Nffbpvngr Bayvar Vafgehpgbe Znantre"
     bdm_title: "Ohfvarff Qrirybczrag Znantre"
     community_subtitle: "Bire 600 pbagevohgbef unir urycrq ohvyq PbqrPbzong, jvgu zber wbvavat rirel jrrx!"
@@ -1777,6 +1782,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     delete_account_tab: "Qryrgr Lbhe Nppbhag"
     wrong_email: "Jebat Rznvy be Hfreanzr"
     wrong_password: "Jebat Cnffjbeq"
+    temp_password_expired: "Lbhe grzcbenel cnffjbeq unf orra rkcverq."
     delete_this_account: "Qryrgr guvf nppbhag creznaragyl"
     reset_progress_tab: "Erfrg Nyy Cebterff"
     reset_your_progress: "Pyrne nyy lbhe cebterff naq fgneg bire"
@@ -1784,6 +1790,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     emails_tab: "Rznvyf"
     admin: "Nqzva"
     manage_subscription: "Pyvpx urer gb znantr lbhe fhofpevcgvba."
+    current_password: "Pheerag Cnffjbeq"
     new_password: "Arj Cnffjbeq"
     new_password_verify: "Irevsl"
     type_in_email: "Glcr va lbhe rznvy be hfreanzr gb pbasvez nppbhag qryrgvba."
@@ -2578,6 +2585,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     redeemers: "Npgvir Fghqragf"
     removed_redeemers: "Vanpgvir Fghqragf"
     latest_podcast_episode: "Yngrfg Cbqpnfg Rcvfbqr"
+    edit_student_access_title: "Rqvg Fghqrag Npprff gb Yriryf"
+    edit_student_access_subtitle: "Lbh unir fryrpgrq __yriryf__ yriryf sbe __fghqragf__ fghqragf."
 
   teacher_licenses:
     active_licenses: "Npgvir Yvprafrf"
@@ -2703,6 +2712,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     achievement_title: "Npuvrirzrag Rqvgbe"
     poll_title: "Cbyy Rqvgbe"
     resource_title: "Erfbhepr Rqvgbe"
+    chat_title: "Pung Rqvgbe"
+    ai_scenario_title: "NV Fpranevb Rqvgbe"
+    ai_project_title: "NV Cebwrpg Rqvgbe"
     resource_title_general: "__erfbhepr__ Rqvgbe"
     back: "Onpx"
     revert: "Erireg"
@@ -2756,6 +2768,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     course_edit_title: "Rqvg Pbhefr"
     resource_edit_title: "Rqvg Erfbhepr"
     resource_edit_title_general: "Rqvg __erfbhepr__"
+    chat_edit_title: "Rqvg Pung"
+    chat_edit_title_general: "Rqvg __pung__"
+    ai_scenario_edit_title: "Rqvg Fpranevb"
+    ai_scenario_edit_title_general: "Rqvg __fpranevb__"
+    ai_project_edit_title: "Rqvg Cebwrpg"
+    ai_project_edit_title_general: "Rqvg __cebwrpg__"
     create_system_title: "Perngr Arj Flfgrz"
     new_component_title: "Perngr Arj Pbzcbarag"
     new_component_field_system: "Flfgrz"
@@ -2773,6 +2791,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     new_course_title_login: "Ybt Va gb Perngr n Arj Pbhefr"
     new_resource_title: "Perngr n Arj Erfbhepr"
     new_resource_title_login: "Ybt Va gb Perngr n Arj Erfbhepr"
+    new_chat_title: "Perngr n Arj Pung"
+    new_chat_title_login: "Ybt Va gb Perngr n Arj Pung"
+    new_ai_scenario_title: "Perngr n Arj Fpranevb"
+    new_ai_scenario_title_login: "Ybt Va gb Perngr n Arj Fpranevb"
+    new_ai_project_title: "Perngr n Arj Cebwrpg"
+    new_ai_project_title_login: "Ybt Va gb Perngr n Arj Cebwrpg"
     article_search_title: "Frnepu Negvpyrf Urer"
     thang_search_title: "Frnepu Gunat Glcrf Urer"
     level_search_title: "Frnepu Yriryf Urer"
@@ -2780,6 +2804,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     poll_search_title: "Frnepu Cbyyf"
     course_search_title: "Frnepu Pbhefrf"
     resource_search_title: "Frnepu Erfbheprf"
+    chat_search_title: "Frnepu Pungf"
+    ai_scenario_search_title: "Frnepu Fpranevbf"
+    ai_project_search_title: "Frnepu Cebwrpgf"
     read_only_warning2: "Abgr: lbh pna'g fnir nal rqvgf urer, orpnhfr lbh'er abg ybttrq va."
     no_achievements: "Ab npuvrirzragf unir orra nqqrq sbe guvf yriry lrg."
     achievement_query_misc: "Xrl npuvrirzrag bss bs zvfpryynarn"
@@ -3465,8 +3492,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     type_error: "GlcrReebe: "
     syntax_error: "FlagnkReebe: "
     error: "Reebe: "
-    x_not_a_function: "$1 vf abg n shapgvba"
-    x_not_defined: "$1 vf abg qrsvarq"
+    x_not_a_function: "`$1` vf abg n shapgvba"
+    x_not_defined: "`$1` vf abg qrsvarq"
     spelling_issues: "Ybbx bhg sbe fcryyvat vffhrf: qvq lbh zrna `$1` vafgrnq bs `$2`?"
     capitalization_issues: "Ybbx bhg sbe pncvgnyvmngvba: `$1` fubhyq or `$2`."
     py_empty_block: "Rzcgl $1. Chg 4 fcnprf va sebag bs fgngrzragf vafvqr gur $2 fgngrzrag."
@@ -3478,14 +3505,14 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     argument_type: "`$1`'f nethzrag `$2` fubhyq unir glcr `$3`, ohg tbg `$4`: `$5`."
     argument_type2: "`$1`'f nethzrag `$2` fubhyq unir glcr `$3`, ohg tbg `$4`."
     target_a_unit: "Gnetrg n havg."
-    attack_capitalization: "Nggnpx $1, abg $2. (Pncvgny yrggref ner vzcbegnag.)"
+    attack_capitalization: "Nggnpx `$1`, abg `$2`. (Pncvgny yrggref ner vzcbegnag.)"
     empty_while: "Rzcgl juvyr fgngrzrag. Chg 4 fcnprf va sebag bs fgngrzragf vafvqr gur juvyr fgngrzrag."
     line_of_site: "`$1`'f nethzrag `$2` unf n ceboyrz. Vf gurer na rarzl jvguva lbhe yvar-bs-fvtug lrg?"
     need_a_after_while: "Arrq n `$1` nsgre `$2`."
     too_much_indentation: "Gbb zhpu vaqragngvba ng gur ortvaavat bs guvf yvar."
     missing_hero: "Zvffvat `$1` xrljbeq; fubhyq or `$2`."
     takes_no_arguments: "`$1` gnxrf ab nethzragf."
-    no_one_named: "Gurer'f ab bar anzrq \"$1\" gb gnetrg."
+    no_one_named: "Gurer'f ab bar anzrq `\"$1\"` gb gnetrg."
     separated_by_comma: "Shapgvba pnyyf cnenzngref zhfg or frcrengrq ol `,`f"
     protected_property: "Pna'g ernq cebgrpgrq cebcregl: $1"
     need_parens_to_call: "Vs lbh jnag gb pnyy `$1` nf shapgvba, lbh arrq `()`'f"
@@ -3493,47 +3520,47 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     unexpected_identifier: "Harkcrpgrq vqragvsvre"
     unexpected_end_of: "Harkcrpgrq raq bs vachg"
     unnecessary_semicolon: "Haarprffnel frzvpbyba."
-    unexpected_token_expected: "Harkcrpgrq gbxra: rkcrpgrq $1 ohg sbhaq $2 juvyr cnefvat $3"
+    unexpected_token_expected: "Harkcrpgrq gbxra: rkcrpgrq `$1` ohg sbhaq `$2` juvyr cnefvat `$3`"
     unexpected_token: "Harkcrpgrq gbxra $1"
     unexpected_token2: "Harkcrpgrq gbxra"
     unexpected_number: "Harkcrpgrq ahzore"
     unexpected: "Harkcrpgrq '$1'."
     escape_pressed_code: "Rfpncr cerffrq; pbqr nobegrq."
     target_an_enemy: "Gnetrg na rarzl ol anzr, yvxr `$1`, abg gur fgevat `$2`."
-    target_an_enemy_2: "Gnetrg na rarzl ol anzr, yvxr $1."
-    cannot_read_property: "Pnaabg ernq cebcregl '$1' bs haqrsvarq"
+    target_an_enemy_2: "Gnetrg na rarzl ol anzr, yvxr `$1`."
+    cannot_read_property: "Pnaabg ernq cebcregl `$1` bs `haqrsvarq`"
     attempted_to_assign: "Nggrzcgrq gb nffvta gb ernqbayl cebcregl."
     unexpected_early_end: "Harkcrpgrq rneyl raq bs cebtenz."
-    you_need_a_string: "Lbh arrq n fgevat gb ohvyq; bar bs $1"
+    you_need_a_string: "Lbh arrq n fgevat gb ohvyq; bar bs `$1`"
     unable_to_get_property: "Hanoyr gb trg cebcregl '$1' bs haqrsvarq be ahyy ersrerapr" # GBQB: Qb jr genafyngr haqrsvarq/ahyy?
     code_never_finished_its: "Pbqr arire svavfurq. Vg'f rvgure ernyyl fybj be unf na vasvavgr ybbc."
     unclosed_string: "Hapybfrq fgevat."
-    unmatched: "Hazngpurq '$1'."
-    error_you_said_achoo: "Lbh fnvq: $1, ohg gur cnffjbeq vf: $2. (Pncvgny yrggref ner vzcbegnag.)"
+    unmatched: "Hazngpurq `$1`."
+    error_you_said_achoo: "Lbh fnvq: `$1`, ohg gur cnffjbeq vf: `$2`. (Pncvgny yrggref ner vzcbegnag.)"
     indentation_error_unindent_does: "Vaqragngvba Reebe: havaqrag qbrf abg zngpu nal bhgre vaqragngvba yriry"
     indentation_error: "Vaqragngvba reebe."
     need_a_on_the: "Arrq n `:` ba gur raq bs gur yvar sbyybjvat `$1`."
-    attempt_to_call_undefined: "nggrzcg gb pnyy '$1' (n avy inyhr)"
+    attempt_to_call_undefined: "nggrzcg gb pnyy `$1` (n avy inyhr)"
     unterminated: "Hagrezvangrq `$1`"
-    target_an_enemy_variable: "Gnetrg na $1 inevnoyr, abg gur fgevat $2. (Gel hfvat $3.)"
+    target_an_enemy_variable: "Gnetrg na `$1` inevnoyr, abg gur fgevat `$2`. (Gel hfvat `$3`.)"
     error_use_the_variable: "Hfr gur inevnoyr anzr yvxr `$1` vafgrnq bs n fgevat yvxr `$2`"
     indentation_unindent_does_not: "Vaqragngvba havaqrag qbrf abg zngpu nal bhgre vaqragngvba yriry"
-    unclosed_paren_in_function_arguments: "Hapybfrq $1 va shapgvba nethzragf."
+    unclosed_paren_in_function_arguments: "Hapybfrq `$1` va shapgvba nethzragf."
     unexpected_end_of_input: "Harkcrpgrq raq bs vachg"
     there_is_no_enemy: "Gurer vf ab `$1`. Hfr `$2` svefg." # Uvagf fgneg urer
     try_herofindnearestenemy: "Gel `$1`"
     there_is_no_function: "Gurer vf ab shapgvba `$1`, ohg `$2` unf n zrgubq `$3`."
     attacks_argument_enemy_has: "`$1`'f nethzrag `$2` unf n ceboyrz."
     is_there_an_enemy: "Vf gurer na rarzl jvguva lbhe yvar-bs-fvtug lrg?"
-    target_is_null_is: "Gnetrg vf $1. Vf gurer nyjnlf n gnetrg gb nggnpx? (Hfr $2?)"
+    target_is_null_is: "Gnetrg vf `$1`. Vf gurer nyjnlf n gnetrg gb nggnpx? (Hfr `$2`?)"
     hero_has_no_method: "`$1` unf ab zrgubq `$2`."
     there_is_a_problem: "Gurer vf n ceboyrz jvgu lbhe pbqr."
-    did_you_mean: "Qvq lbh zrna $1? Lbh qb abg unir na vgrz rdhvccrq jvgu gung fxvyy."
+    did_you_mean: "Qvq lbh zrna `$1`? Lbh qb abg unir na vgrz rdhvccrq jvgu gung fxvyy."
     missing_a_quotation_mark: "Zvffvat n dhbgngvba znex. "
     missing_var_use_var: "Zvffvat `$1`. Hfr `$2` gb znxr n arj inevnoyr."
-    you_do_not_have: "Lbh qb abg unir na vgrz rdhvccrq jvgu gur $1 fxvyy."
+    you_do_not_have: "Lbh qb abg unir na vgrz rdhvccrq jvgu gur `$1` fxvyy."
     put_each_command_on: "Chg rnpu pbzznaq ba n frcnengr yvar"
-    are_you_missing_a: "Ner lbh zvffvat n '$1' nsgre '$2'? "
+    are_you_missing_a: "Ner lbh zvffvat n `$1` nsgre `$2`? "
     your_parentheses_must_match: "Lbhe cneragurfrf zhfg zngpu."
     missing_parentheses: "Zvffvat cneragurfrf? Gel `__fhttrfgvba__`"
     do_nothing_without_parentheses: "`__pbqr__` qbrfa'g qb nalguvat jvgubhg `()`"
@@ -3546,13 +3573,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     error_undefined_variable: "`__anzr__` vf abg qrsvarq."
     error_declared_identifier: "Vqragvsvre `__anzr__` unf nyernql orra qrpynerq."
     error_declarations_cant_resolve: "Pbhyqa'g erfbyir qrpynengvbaf pbzcbarag: `__glcr__`."
-    error_strict_no_statement: "Fgevpg zbqr pbqr znl abg vapyhqr n jvgu fgngrzrag."
+    error_strict_no_statement: "Fgevpg zbqr pbqr znl abg vapyhqr n `jvgu` fgngrzrag."
     error_cant_resolve_ref_component: "Pbhyqa'g erfbyir ers pbzcbarag: `__glcr__`."
-    error_cant_convert_null: "Pnaabg pbaireg haqrsvarq be ahyy gb bowrpg."
+    error_cant_convert_null: "Pnaabg pbaireg `haqrsvarq` be `ahyy` gb bowrpg."
     error_need_object: "Arrq na bowrpg."
-    error_illegal_object_prototype: "Bowrpg cebgbglcr znl bayl or na Bowrpg be ahyy."
+    error_illegal_object_prototype: "Bowrpg cebgbglcr znl bayl or na `Bowrpg` be `ahyy`."
     error_no_prototype: "Ab cebgbglcr."
-    error_cant_write_property_to_undefined: "Pna'g jevgr cebcregl bs haqrsvarq: `__vqk__`."
+    error_cant_write_property_to_undefined: "Pna'g jevgr cebcregl bs `haqrsvarq`: `__vqk__`."
     error_cant_write_property_to_non_obj: "Pna'g jevgr cebcregl bs aba-bowrpg glcr: `__vqk__`."
     error_function_isnt_constructor: "shapgvba vf abg n pbafgehpgbe"
     error_write_protected_property: "Pna'g jevgr gb cebgrpgrq cebcregl: `__anzr__`"
@@ -3987,7 +4014,20 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   teacher_dashboard:
     lock: 'Ybpx'
     unlock: 'Haybpx'
+    lock_until_date: 'Ybpx hagvy qngr'
+    skip: 'Fxvc'
+    unskip: 'Hafxvc'
+    make_optional: 'Znxr bcgvbany'
+    remove_optional: 'Erzbir Bcgvbany'
+    until_date: 'hagvy __qngr__'
     unassign: 'Hanffvta'
+    locked: 'Ybpxrq'
+    locked_by_previous: 'Ybpxrq ol cerivbhf yriry'
+    locked_with_timeframe: 'Ybpxrq'
+    skipped: 'Fxvccrq'
+    optional: 'Bcgvbany'
+    assigned: 'Nffvtarq'
+    unlocked: 'Haybpxrq'
     choose_course: 'Pyvpx gb Fryrpg sebz Qebcqbja'
     teacher_locked_message: 'Lbhe grnpure unf ybpxrq gur arkg yriry'
     plan_your_class_title: 'Cyna lbhe svefg pynff ol'
@@ -4073,6 +4113,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     share: 'Funer'
     add: 'Nqq'
     note: 'Abgr'
+    lock_or_skip_levels: 'Ybpx be Fxvc Yriryf'
+    level_access_status_blurb: "Jura lbh pubbfr gb fxvc n yriry, vg jvyy unir obgu gur 'ybpxrq' naq 'bcgvbany' fgnghf. Hafxvccvat gur yriry jvyy erzbir obgu gur 'ybpxrq' naq 'bcgvbany' fgnghfrf."
 
   outcomes:
     outcomes_report: "Bhgpbzrf Ercbeg"
@@ -4244,7 +4286,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     season_5: "Fnaqf bs Gvzr"
     season_6: "Zbygra Znlurz"
     season_7: "Zrygvat Cbvag"
-    season_8: "Pbqre'f Uneirfg" #{punatr}
+    season_8: "Pbqre'f Uneirfg" #
     season_9: "Ervta bs Pbqr"
     cup: "Phc"
     blitz: "Oyvgm"
@@ -4556,6 +4598,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     heading_libraries: "Yvoenevrf"
     educational_equity: "Rqhpngvbany Rdhvgl"
     power_of_play: "Cbjre bs cynl"
+    library_card: "Yvoenel Pneq Ahzore"
+    library_signup_promotion: "Fvta Hc gb fnir cebterff naq pbagvahr sebz jurer lbh yrsg bss ba PbqrPbzong!!"
 
   related_accounts:
     subtitle: "Nqq pbaarpgvbaf orgjrra qvssrerag PbqrPbzong nppbhagf gb or noyr gb dhvpxyl fjvgpu orgjrra gurz. Sbe rknzcyr, nf n cnerag, lbh pbhyq fjvgpu gb ivrjvat PbqrPbzong sebz lbhe xvqf’ nppbhagf. Be, nf n grnpure, lbh pbhyq nqq n grfg fghqrag nppbhag sbe lbhefrys gb frr jung lbhe fghqragf frr."

@@ -76,6 +76,7 @@ module.exports = class BasicInfoView extends CocoView
       @signupState.get('signupForm')[param]= value
 
     @hideEmail = if isCodeCombat then userUtils.shouldHideEmail() else false
+    @showLibraryIdInsteadOfUsername = if isCodeCombat then userUtils.shouldShowLibraryLoginModal() else false
 
   afterRender: ->
     @$el.find('#first-name-input').focus()

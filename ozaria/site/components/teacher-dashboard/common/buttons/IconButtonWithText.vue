@@ -4,7 +4,7 @@
     props: {
       iconName: {
         type: String,
-        required: true,
+        required: false,
         default: ''
       },
       text: {
@@ -34,7 +34,7 @@
     :disabled="inactive"
     @click="onClick"
   >
-    <img :src="'/images/ozaria/teachers/dashboard/svg_icons/'+iconName+'.svg'">
+    <img v-if="iconName" :src="'/images/ozaria/teachers/dashboard/svg_icons/'+iconName+'.svg'">
     <span> {{ text }} </span>
   </div>
 </template>

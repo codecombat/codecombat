@@ -1,10 +1,10 @@
 /*!
  * jaba
  * 
- * Compiled: Tue Jan 25 2022 16:49:02 GMT-0800 (Pacific Standard Time)
+ * Compiled: Mon May 15 2023 19:36:01 GMT+0800 (GMT+08:00)
  * Target  : web (umd)
  * Profile : modern
- * Version : cde3bc8
+ * Version : 7f6792a
  * 
  * 
  * 
@@ -472,30 +472,37 @@ class JavaCast extends esper.ObjectValue {
 }
 
 function javaifyEngine(ev) {
-	let fpn = Value.fromPrimativeNative.bind(Value);
-	Value.fromPrimativeNative = (v) => {
-		let type = typeof(v)
-		let r = new JavaPrimitiveValue(v);
-		if (type == "int") {
-			r.boundType = "int";
-			return r;
-		}
-		if ( type == "double" ) {
-			r.boundType = "double";
-			return r;
-		}
+	// Value.fromPrimativeNative wont refresh when every call of javaifyEngine
+	let rim = ev.realm.import.bind(ev.realm)
+	ev.realm.import = (v, m) => {
+		if ( v instanceof Value ) return v;
+		if ( v === undefined ) return Value.undef;
 
-		if ( type == "string" ) {
-			r.boundType = "string";
-			return r;
-		}
+		if(['cpp', 'java'].indexOf(ev.realm.options.language) != -1) {
+			let type = typeof(v)
+			let r = new JavaPrimitiveValue(v);
+			if (type == "int") {
+				r.boundType = "int";
+				return r;
+			}
+			if ( type == "double" ) {
+				r.boundType = "double";
+				return r;
+			}
 
-		if ( type == "number" ) {
-			r.boundType = "double";
-			return r;
+			if ( type == "string" ) {
+				r.boundType = "string";
+				return r;
+			}
+
+			if ( type == "number" ) {
+				r.boundType = "double";
+				return r;
+			}
 		}
-		return fpn(v)
+		return rim(v, m)
 	}
+	// ev.realm.fromNative refreshed when every call of javaifyEngine
 	let rev = ev.realm.fromNative.bind(ev.realm);
 	ev.realm.fromNative = (v,n) => {
 		if(['cpp', 'java'].indexOf(ev.realm.options.language) != -1) {
@@ -514,7 +521,7 @@ function javaifyEngine(ev) {
 				}
 				return r;
 			}
-		
+
 			if ( type == "int" ) {
 				r.boundType = "int";
 				return r;
@@ -533,7 +540,7 @@ function javaifyEngine(ev) {
 			if ( type == "number" ) {
 				r.boundType = "double";
 				return r;
-			}	
+			}
 		}
 		return rev(v);
 	}
@@ -562,24 +569,41 @@ function javaifyEngine(ev) {
 		obj.setImmediate("prototype", ptype);
 		ev.realm.globalScope.add(k, obj);
 	}
+	ev.realm.CPPListProto = new stdlib.p.CPPListProto(ev.realm)
 
-	let amake = ArrayValue.make.bind(ArrayValue);
-	ArrayValue.make = function(vals, realm) {
-		if(realm.options.language == 'cpp') {
-			let av = amake(vals, realm);
-			av.setPrototype(new stdlib.p.CPPListProto(ev.realm));
+	// ArrayValue.make wont refresh when every call of javaifyEngine
+	if(!ArrayValue.convertedMake) {
+		let amake = ArrayValue.make.bind(ArrayValue);
+		ArrayValue.make = function(vals, realm) {
+			if(realm.options.language == 'cpp') {
+				let av = amake(vals, realm);
+				av.setPrototype(ev.realm.CPPListProto);
 
-			let l = vals.length
-			if(l > 0) {av.setImmediate('x', vals[0]); av.properties.x.enumerable = false;}
-			if(l > 1) {av.setImmediate('y', vals[1]); av.properties.y.enumerable = false;}
-			if(l > 2) {av.setImmediate('z', vals[2]); av.properties.z.enumerable = false;}
-			return av;
+				let l = vals.length
+				if(l > 0) {av.setImmediate('x', vals[0]); av.properties.x.enumerable = false;}
+				if(l > 1) {av.setImmediate('y', vals[1]); av.properties.y.enumerable = false;}
+				if(l > 2) {av.setImmediate('z', vals[2]); av.properties.z.enumerable = false;}
+				return av;
+			}
+			else {
+				return amake(vals, realm);
+			}
 		}
-		else {
-			return amake(vals, realm);
-		}
+		ArrayValue.convertedMake = true;
 	}
-	
+
+	ev.addGlobal("tolower", (char) => {
+		if(typeof char !== 'string' || char.length > 1) {
+			throw SyntaxError('arg1 only accept char type.')
+		}
+		return char.toLowerCase()
+	})
+	ev.addGlobal('toupper', (char) => {
+		if(typeof char !== 'string' || char.length > 1) {
+			throw SyntaxError('arg1 only accept char type.')
+		}
+		return char.toUpperCase()
+	})
 }
 
 module.exports = {
@@ -653,6 +677,43 @@ class JavaString extends EasyObjectValue {
 	}
 	static *toString$(thiz, argz, s) { return s.fromNative(thiz.native); }
 
+	static *trim(thiz, argz, s) {
+		return thiz.native.trim();
+	}
+
+	static *replace(thiz, argz, s) {
+		return thiz.native.split(argz[0].toNative()).join(argz[1].toNative())
+	}
+
+	static *split(thiz, argz, s) {
+		let regex = new RegExp(argz[0].toNative(), 'g')
+		let orig = thiz.toNative()
+		if(argz.length > 1) {
+			let limit = argz[1].toNative()
+			if(limit === 0) { return orig.split(regex) }
+			let prev = orig.split(regex, limit - 1)
+			let i = 0;
+			do {
+				i += 1;
+				if(i == limit) {
+					break;
+				}
+			}while(regex.exec(orig) && i < limit);
+			prev.push(orig.slice(regex.lastIndex))
+			return prev
+		} else {
+			return orig.split(regex)
+		}
+	}
+	static *charAt(thiz, argz, s) {
+		return thiz.native[argz[0].toNative()]
+	}
+	static *toLowerCase(thiz, argz, s) {
+		return thiz.native.toLowerCase()
+	}
+	static *toUpperCase(thiz, argz, s) {
+		return thiz.native.toUpperCase()
+	}
 }
 
 class Integer extends EasyObjectValue {
