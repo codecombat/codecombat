@@ -1,5 +1,10 @@
-import { getResourceHubZendeskResources } from '../../../../../../app/core/api/resource_hub_resource'
+import {
+  getResourceHubResources,
+  getResourceHubZendeskResources
+} from '../../../../../../app/core/api/resource_hub_resource'
+import utils from 'app/core/utils'
 const _ = require('lodash')
+const store = require('core/store')
 const resourceSortFn = (a, b) => {
   if (a.priority > b.priority) return 1 // Resource Hub Resources should usually have priorities
   if (a.priority < b.priority) return -1
@@ -60,6 +65,22 @@ export default {
         result[resource.slug] = Object.freeze(resource)
       }
       return result
+    },
+    async getResourceHubResources () {
+      const resources = await getResourceHubResources()
+
+      for (const resource of resources) {
+        if (resource.hidden === true) {
+          continue
+        }
+        resource.name = utils.i18n(resource, 'name')
+        resource.link = utils.i18n(resource, 'link')
+        if (resource.slug === 'dashboard-tutorial') resource.link = '#'
+        resource.description = utils.i18n(resource, 'description')
+        resource.locked = resource.hidden === 'paid-only' && !store.getters['me/isPaidTeacher']
+        resource.source = 'Resource Hub'
+      }
+      return resources
     }
   }
 }

@@ -6,17 +6,19 @@
       :loading="loading"
     />
 
-    <button-resource-icon
-      v-for="resourceHubLink in resources"
-      :key="resourceHubLink.name"
-      :icon="resourceHubLink.icon"
-      :label="resourceHubLink.name"
-      :link="resourceHubLink.link"
-      :description="resourceHubLink.description"
-      :locked="resourceHubLink.locked"
-      :from="resourceHubLink.source || 'Resource Hub'"
-      :section="sectionSlug"
-    />
+    <div class="resources">
+      <button-resource-icon
+        v-for="resourceHubLink in resources"
+        :key="resourceHubLink.name"
+        :icon="resourceHubLink.icon"
+        :label="resourceHubLink.name"
+        :link="resourceHubLink.link"
+        :description="resourceHubLink.description"
+        :locked="resourceHubLink.locked"
+        :from="resourceHubLink.source || 'Resource Hub'"
+        :section="sectionSlug"
+      />
+    </div>
   </div>
 </template>
 
@@ -57,7 +59,10 @@ export default {
     async fetchResources () {
       const res = await this.getZendeskResourcesMap()
       this.faqResources = this.resourceHubLinksHelper(res)('faq')
-      this.resources = this.faqResources.filter(r => r.name === 'Frequently Asked Questions')
+      const zendeskRes = this.faqResources.filter(r => r.name === 'Frequently Asked Questions')
+      const resourceHubRes = await this.getResourceHubResources()
+      const parentRes = resourceHubRes.filter(r => (r.roles || []).includes('parent-home'))
+      this.resources = [...zendeskRes, ...parentRes]
     }
   },
   watch: {
@@ -87,7 +92,9 @@ export default {
 <style scoped lang="scss">
 .toolkit {
   padding: 5rem;
-  display: flex;
-  flex-wrap: wrap;
+
+  .resources {
+    display: flex;
+  }
 }
 </style>
