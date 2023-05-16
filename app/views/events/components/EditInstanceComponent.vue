@@ -30,7 +30,7 @@ export default {
     ]),
     selectOwner (u) {
       Vue.set(this.instance, 'owner', u._id)
-      Vue.set(this.isntance.ownerDetails, 'name', u.name)
+      Vue.set(this.instance.ownerDetails, 'name', u.name)
     },
     toggleMember (m) {
       const bool = this.memberAttendees[m].attendance

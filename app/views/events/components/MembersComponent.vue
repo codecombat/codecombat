@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex members-component">
     <div class="title row">
       <div class="name col-sm-4">
         {{ $t('general.name') }}
@@ -113,27 +113,29 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.title {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.split {
-  margin: 20px 0;
-  border-bottom: 1px solid #ccc;
-  height: 1px;
-}
-
-.new {
-  display: flex;
-  margin-bottom: 15px;
-
-  .user-search {
-    flex-grow: 1;
+<style lang="scss" scoped>
+.members-component {
+  .title {
+    font-weight: bold;
+    margin-bottom: 10px;
   }
-  .plus {
-    flex-shrink: 1;
+
+  .split {
+    margin: 20px 0;
+    border-bottom: 1px solid #ccc;
+    height: 1px;
+  }
+
+  .new {
+    display: flex;
+    margin-bottom: 15px;
+
+    .user-search {
+      flex-grow: 1;
+    }
+    .plus {
+      flex-shrink: 1;
+    }
   }
 }
 </style>

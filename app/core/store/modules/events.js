@@ -13,7 +13,7 @@ import { getMembersByClassCode } from '../../api/classrooms'
 export default {
   namespaced: true,
   state: {
-    events: {},
+    events: {}, // be an object to avoid same event entries
     loading: false,
 
     eventPanel: {
@@ -70,7 +70,7 @@ export default {
     setEvent (state, event) {
       Vue.set(state.events, event._id, event)
     },
-    selectEvent (state, { eventId = undefined, event = undefined, instance = undefined } = {}) {
+    selectEvent (state, { eventId, event, instance } = {}) {
       if (eventId) {
         event = state.events[eventId]
       }
@@ -98,7 +98,7 @@ export default {
     }
   },
   actions: {
-    openEventPanel ({ commit }, { type = 'info', date = undefined, eventId = undefined, event = undefined, instance = undefined } = {}) {
+    openEventPanel ({ commit }, { type = 'info', date, eventId, event, instance } = {}) {
       commit('selectEvent', { event, instance })
       commit('openPanel', { type, date })
     },

@@ -47,7 +47,7 @@ export default {
     previewOnCalendar () {
       const tempEvent = _.cloneDeep(this.event)
       tempEvent._id = 'temp-event'
-      this.makeInstances(tempEvent)
+      tempEvent.instances = this.makeInstances(tempEvent)
       this.setEvent(tempEvent)
     },
     makeInstances (event) {
@@ -56,7 +56,7 @@ export default {
         title: 'temp-' + event.name,
         owner: event.owner,
       }
-      event.instances = this.rrule.all().map(d => {
+      return this.rrule.all().map(d => {
         return Object.assign({}, instance, {
           startDate: d,
           endDate: new Date((+event.endDate) - (+event.startDate) + (+d))
@@ -77,30 +77,32 @@ export default {
         noty({ text: 'Error syncing to Google Calendar', type: 'error' })
       })
     },
-    onFormSubmit () {
+    async onFormSubmit () {
       this.inProgress = true
       this.event.type = 'online-classes'
       this.event.rrule = this.rrule.toString()
       if (this.editType === 'new') {
-        this.saveEvent(this.event).then(res => {
+        try {
+          await this.saveEvent(this.event)
           if (this.event.syncedToGC && !this.propsEvent?.syncedToGC) {
             this.syncToGoogleCalendar()
           }
           this.$emit('save', res._id)
           this.inProgress = false
-        }).catch(err => {
+        } catch (err) {
           this.errorMessage = err.message
-        })
+        }
       } else {
-        this.editEvent(this.event).then(res => {
+        try {
+          await this.editEvent(this.event)
           if (this.event.syncedToGC && !this.propsEvent?.syncedToGC) {
             this.syncToGoogleCalendar()
           }
           this.$emit('save', this.event._id)
           this.inProgress = false
-        }).catch(err => {
+        } catch (err) {
           this.errorMessage = err.message
-        })
+        }
       }
     },
     eventUpdate () {
@@ -264,9 +266,8 @@ export default {
       <div class="form-group" v-if="event.syncedToGC">
         <label for="gcEmails">{{$t('events.google_calendar_attendees')}} </label>
         <textarea
-          id="gcEmails"
           v-model="_gcEmails"
-          class="form-control"
+          class="form-control gcEmails"
           name="gcEmails"
           placeholder="List emails here to get notification by google calendar, split by newline or comma"
         />
@@ -311,7 +312,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-#gcEmails {
+.gcEmails {
   height: 10em;
 }
 </style>

@@ -871,14 +871,14 @@ module.exports = class User extends CocoModel
   showHeroAndInventoryModalsToStudents: -> features?.classroomItems ? @lastClassroomItems() and @isStudent()
   skipHeroSelectOnStudentSignUp: -> features?.classroomItems ? false
   useDexecure: -> not (features?.chinaInfra ? false)
-  useSocialSignOn: -> true || not ((features?.chinaUx ? false) or (features?.china ? false))
+  useSocialSignOn: -> not ((features?.chinaUx ? false) or (features?.china ? false))
   isTarena: -> features?.Tarena ? false
   useTarenaLogo: -> @isTarena()
   hideTopRightNav: -> @isTarena() or @isILK() or @isICode()
   hideFooter: -> @isTarena() or @isILK() or @isICode()
   hideOtherProductCTAs: -> @isTarena() or @isILK() or @isICode()
   useGoogleClassroom: -> not (features?.chinaUx ? false) and @get('gplusID')?   # if signed in using google SSO
-  useGoogleCalendar: -> true || not (features?.chinaUx ? false) and @get('gplusID')? and @isOnlineTeacher()   # if signed in using google SSO
+  useGoogleCalendar: -> not (features?.chinaUx ? false) and @get('gplusID')? and @isOnlineTeacher()   # if signed in using google SSO
   useGoogleAnalytics: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   isEdLinkAccount: -> not (features?.chinaUx ? false) and @get('edLink')?
   useDataDog: -> not ((features?.china ? false) or (features?.chinaInfra ? false))

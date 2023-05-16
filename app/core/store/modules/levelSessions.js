@@ -201,8 +201,8 @@ export default {
     },
 
     async fetchSessionsCountForDate ({ commit, getters }, { date }) {
-      let exists
-      if ((exists = getters.getSessionsCountForDate(date))) {
+      const exists = getters.getSessionsCountForDate(date)
+      if (exists) {
         return exists
       }
       try {

@@ -6,7 +6,7 @@
     @close-panel="close"
   >
     <template #header>
-      <ul class="tabs nav nav-tabs">
+      <ul class="event-panel-tabs nav nav-tabs">
         <li class="tab"
             :class="{active: panelType === t}"
             v-for="t in possibleTabs"
@@ -19,7 +19,7 @@
     </template>
 
     <template #body>
-      <div class="body">
+      <div class="event-panel-body">
         <edit-event v-if="['new', 'edit'].includes(panelType)" :editType="panelType" @save="onEventSave" />
         <edit-members v-if="panelType === 'members'" @save="onEventSave" />
         <edit-instance v-if="panelType === 'instance'" @save="onEventSave" />
@@ -98,10 +98,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.body {
+.event-panel-body {
   padding: 10px;
 }
-.tabs {
+.event-panel-tabs {
   display: inline-block;
 }
 </style>

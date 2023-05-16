@@ -4022,6 +4022,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sync_to_google: 'Sync to Google Calendar'
     synced_to_google: 'Synced to Google Calendar'
     google_calendar_attendees: 'Google Calendar Attendees'
+    calendar: 'Calendar'
 
   teacher_dashboard:
     lock: 'Lock'

@@ -83,6 +83,6 @@ export default {
   }
   .description {
     flex-basis: 45%;
-}
+  }
 }
 </style>

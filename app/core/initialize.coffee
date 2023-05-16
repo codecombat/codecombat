@@ -14,7 +14,7 @@ VueYoutube = require 'vue-youtube'
 VueShepherd = require 'vue-shepherd'
 { VueMaskDirective } = require 'v-mask'
 VueAsyncComputed = require 'vue-async-computed'
-console.log("wkflksdjflisjef:")
+
 Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
 Vue.use(VueMoment.default)

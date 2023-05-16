@@ -139,7 +139,6 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
         setTimeout () =>
           @accessToken = null
         ,@accessToken.expires_in * 1000
-        console.log('call back here, ', resp)
         if callbackFn
           callbackFn()
     })

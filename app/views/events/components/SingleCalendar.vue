@@ -22,7 +22,7 @@ export default {
   },
   data () {
     return {
-      ec: null
+      eCalendar: null
     }
   },
   computed: {
@@ -111,13 +111,13 @@ export default {
   },
   watch: {
     events () {
-      this.ec?.refetchEvents()
+      this.eCalendar?.refetchEvents()
     }
   },
   mounted () {
     this.$nextTick(() => {
-      if (!this.ec && document.querySelector('#calendar')) {
-        this.ec = new Calendar({
+      if (!this.eCalendar && document.querySelector('#calendar')) {
+        this.eCalendar = new Calendar({
           target: document.querySelector('#calendar'),
           props: {
             plugins: [DayGrid, TimeGrid, List, Interaction],

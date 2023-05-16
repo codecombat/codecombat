@@ -19,7 +19,6 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
             'calendarId': 'primary',
             'timeMin': (new Date()).toISOString(),
          })
-              console.log('r with events.list', r)
               resolve(r.result.items || [])
           } catch(err) {
             console.error('Error in loading calendars from google calendar:', err)
@@ -57,7 +56,6 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
           ]
         }
       }
-      console.log('res:', res)
       return res
     }
 
@@ -69,7 +67,6 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
             calendarId: 'primary',
             resource: convertEvent(event)
           }).execute((event) => {
-            console.log('get results', event)
             console.log('Event created: ' + event.htmlLink)
             resolve(event)
           })
@@ -110,7 +107,6 @@ module.exports = {
   importEvents: async function () {
     try {
       const importedEvents = await this.gcApiHandler.loadCalendarsFromAPI()
-      console.log("imported events:", importedEvents)
       const importedEventsNames = importedEvents.map(c => ({ summary: c.summary }))
       const events = me.get('googleCalendarEvents') || []
       let mergedEvents = []
@@ -136,10 +132,10 @@ module.exports = {
   syncEventsToGC: async function (event) {
     try {
       await this.gcApiHandler.syncCalendarsToAPI(event)
-      return Promise.resolve('success')
+      return 'success'
     } catch (e) {
       console.error('Error in syncing event to google calendar:', e)
-      return Promise.reject('Error in syncing event to google calendar')
+      return 'Error in syncing event to google calendar'
     }
   }
 }

@@ -35,13 +35,6 @@ export default {
       selectedTab: 'students'
     }
   },
-  computed: {
-  },
-  watch: {
-    memberIds () {
-      this.getMemberNames()
-    }
-  },
   mounted () {
     this.getMemberNames()
   },
