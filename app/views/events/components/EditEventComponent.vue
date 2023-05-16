@@ -83,7 +83,7 @@ export default {
       this.event.rrule = this.rrule.toString()
       if (this.editType === 'new') {
         try {
-          await this.saveEvent(this.event)
+          const res = await this.saveEvent(this.event)
           if (this.event.syncedToGC && !this.propsEvent?.syncedToGC) {
             this.syncToGoogleCalendar()
           }
@@ -111,7 +111,6 @@ export default {
       if (this.clickedDate) {
         date = new Date(this.clickedDate).setHours(now.getHours())
       }
-      console.log("date?", date, now)
       const sDate = moment(date || now).set('minutes', 0).set('seconds', 0)
       if (this.editType === 'new') {
         this.event = {
