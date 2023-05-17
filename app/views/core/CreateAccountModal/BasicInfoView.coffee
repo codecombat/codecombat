@@ -206,7 +206,23 @@ module.exports = class BasicInfoView extends CocoView
         message: $.i18n.t('signup.invalid')
       })
 
-    forms.applyErrorsToForm(@$('form'), res.errors) unless res.valid
+    if me.get('library')?.name == 'vaughan-library'
+      name = data.name || ''
+      nameLower = name.toLowerCase()
+      if nameLower.includes('pacreg')
+        if !nameLower.startsWith('pacreg') or nameLower.length != 12 or isNaN(name.slice(6))
+          res.errors.push({
+            dataPath: '/name',
+            message: ' Invalid library id'
+          })
+      else
+        if nameLower.length != 14 or !['23288', '29158'].includes(nameLower.slice(0, 5)) or isNaN(nameLower)
+          res.errors.push({
+            dataPath: '/name',
+            message: ' Invalid library id'
+          })
+
+    forms.applyErrorsToForm(@$('form'), res.errors) if not res.valid or res.errors?.length > 0
     return res.valid
 
   formSchema: ->
