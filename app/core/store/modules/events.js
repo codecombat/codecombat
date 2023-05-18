@@ -70,6 +70,9 @@ export default {
     setEvent (state, event) {
       Vue.set(state.events, event._id, event)
     },
+    cancelPreviewEvent (state, id = 'temp-event') {
+      Vue.delete(state.events, id)
+    },
     selectEvent (state, { eventId, event, instance } = {}) {
       if (eventId) {
         event = state.events[eventId]
@@ -92,6 +95,7 @@ export default {
     },
     closeEventPanel (state) {
       Vue.set(state.eventPanel, 'visible', false)
+      Vue.delete(state.events, 'temp-event') // always remove preview
     },
     setMemberNames (state, names) {
       Vue.set(state, 'memberNames', names)

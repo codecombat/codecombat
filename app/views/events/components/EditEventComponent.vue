@@ -26,6 +26,7 @@ export default {
     return {
       isSuccess: false,
       inProgress: false,
+      previewing: false,
       errorMessage: '',
       event: {},
       resetRRule: true // signal
@@ -33,7 +34,8 @@ export default {
   },
   methods: {
     ...mapMutations('events', [
-      'setEvent'
+      'setEvent',
+      'cancelPreviewEvent'
     ]),
     ...mapActions('events', [
       'saveEvent',
@@ -44,11 +46,21 @@ export default {
       Vue.set(this.event, 'owner', u._id)
       Vue.set(this.event, 'ownerName', u.name)
     },
+    cancelPreviewOnCalendar () {
+      this.cancelPreviewEvent()
+      this.previewing = false
+    },
     previewOnCalendar () {
-      const tempEvent = _.cloneDeep(this.event)
-      tempEvent._id = 'temp-event'
-      tempEvent.instances = this.makeInstances(tempEvent)
-      this.setEvent(tempEvent)
+      if (this.previewing) {
+        this.cancelPreviewOnCalendar()
+      } else {
+        const tempEvent = _.cloneDeep(this.event)
+        tempEvent._id = 'temp-event'
+        tempEvent.name = 'preview-' + tempEvent.name
+        tempEvent.instances = this.makeInstances(tempEvent)
+        this.setEvent(tempEvent)
+        this.previewing = true
+      }
     },
     makeInstances (event) {
       const instance = {
@@ -79,6 +91,7 @@ export default {
     },
     async onFormSubmit () {
       this.inProgress = true
+      this.cancelPreviewOnCalendar()
       this.event.type = 'online-classes'
       this.event.rrule = this.rrule.toString()
       if (this.editType === 'new') {
@@ -304,7 +317,7 @@ export default {
       <input
         class="btn btn-success btn-lg"
         type="button"
-        value="Preview"
+        :value="previewing ? 'Cancel' : 'Preview'"
         @click="previewOnCalendar"
       >
       <div

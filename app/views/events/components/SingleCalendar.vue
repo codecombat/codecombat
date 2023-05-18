@@ -80,6 +80,9 @@ export default {
           if (info.event.display === 'pointer') {
             that.openEventPanel({ type: 'new', date: info.event.start })
           } else {
+            if (info.event.id.startsWith('temp-event')) {
+              return // do nothing on preview
+            }
             if (me.isAdmin()) {
               that.openEventPanel({ type: 'instance', instance: info.event })
             } else {
@@ -115,7 +118,6 @@ export default {
     }
   },
   mounted () {
-    console.log('waht?? mount single calendar', this.eCalendar)
     this.$nextTick(() => {
       if (!this.eCalendar && document.querySelector('#calendar')) {
         this.eCalendar = new Calendar({

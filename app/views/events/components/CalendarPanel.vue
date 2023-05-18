@@ -69,7 +69,6 @@ export default {
     }
 },
   mounted () {
-    console.log('mount calendar panel', this.type)
     if (!this.type) {
       return
     }
