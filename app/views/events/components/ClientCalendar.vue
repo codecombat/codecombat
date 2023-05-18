@@ -8,6 +8,14 @@
       </div>
       <div class="split split-row" />
       <div class="content">
+        <div class="event-title">
+          <div class="title">
+            {{ $t('events.class_name') }} :
+          </div>
+          <div class="value">
+            {{ propsInstance?.name || 'Unknown Class' }}
+          </div>
+        </div>
         <div class="levels-completed">
           <div class="title">
             {{ $t('events.levels_completed') }} :
@@ -418,6 +426,12 @@ export default {
     .split-row{
       width: 90%;
       height: 0;
+    }
+
+    .event-title {
+      .value {
+        min-height: 4em;
+      }
     }
 
     .levels-completed {

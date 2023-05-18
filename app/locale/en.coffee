@@ -4017,6 +4017,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     my_classes: 'My Online Classes'
     classes_stats: 'Online Classes Stats'
     name: 'Name',
+    class_name: 'Class Name'
     description: 'Description',
     owner: 'Owner',
     type: 'Type',
