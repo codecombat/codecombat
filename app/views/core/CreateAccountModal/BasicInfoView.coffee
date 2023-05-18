@@ -223,7 +223,7 @@ module.exports = class BasicInfoView extends CocoView
           })
 
     forms.applyErrorsToForm(@$('form'), res.errors) if not res.valid or res.errors?.length > 0
-    return res.valid
+    return res.valid and res.errors?.length == 0
 
   formSchema: ->
     if isOzaria
