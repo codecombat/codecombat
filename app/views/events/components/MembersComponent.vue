@@ -7,8 +7,10 @@
       <div class="startDate col-sm-4">
         {{ $t('outcomes.start_date') }}
       </div>
-      <div class="count col-sm-3">
+      <div class="count col-sm-4">
         {{ $t('events.class_count') }}
+        <span class="count-tips-trigger">?</span>
+        <span class="count-tips"> {{ $t('events.lessons_count_desc') }}</span>
       </div>
     </div>
     <div
@@ -135,6 +137,33 @@ export default {
     }
     .plus {
       flex-shrink: 1;
+    }
+  }
+
+  .count-tips {
+    box-shadow: 0px 1px 3px 1px #ccc;
+    padding: 2px;
+    display: none;
+    font-size: 14px;
+    position: absolute;
+    z-index: 99;
+    background-color: white;
+    font-weight: normal;
+  }
+
+  .count-tips-trigger {
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    border: 1px solid #999;
+    border-radius: 50%;
+    line-height: 20px;
+    text-align: center;
+    color: #999;
+    cursor: pointer;
+
+    &:hover ~ .count-tips {
+      display: block;
     }
   }
 }

@@ -116,6 +116,9 @@ export default {
 
 <template>
   <div>
+    <div class="tab-label">
+      {{ $t('events.edit_members_tab_desc') }}
+    </div>
     <form
       class="edit-event-form"
     >
@@ -178,5 +181,10 @@ export default {
   .my-input-group{
     display: flex;
   }
+}
+
+.tab-label {
+  font-size: 15px;
+  color: rgba(128, 128, 128, 0.7);
 }
 </style>

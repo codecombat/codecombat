@@ -115,10 +115,33 @@ export default {
 
 <template>
   <div>
+    <div class="tab-label">
+      {{ $t('events.edit_instance_tab_desc') }}
+    </div>
     <form
       class="edit-instance-form"
       @submit.prevent="onFormSubmit"
     >
+      <div class="from-group">
+        <label for="name"> {{ $t('events.name') }}</label>
+        <input
+          :value="propsEvent.name"
+          name="name"
+          class="form-control"
+          type="text"
+          disabled
+        >
+      </div>
+      <div class="from-group">
+        <label for="description"> {{ $t('events.description') }}</label>
+        <input
+          :value="propsEvent.description"
+          name="description"
+          class="form-control"
+          type="text"
+          disabled
+        >
+      </div>
       <div class="from-group">
         <label for="done"> {{ $t('events.done') }}</label>
         <input
@@ -202,4 +225,9 @@ export default {
 <style lang="scss" scoped>
 @import '~vue2-rrule-generator/dist/vue2-rrule-generator.css';
 @import '~vue2-timepicker/dist/VueTimepicker.css';
+
+.tab-label {
+  font-size: 15px;
+  color: rgba(128, 128, 128, 0.7);
+}
 </style>

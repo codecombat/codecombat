@@ -77,6 +77,12 @@ export default {
       }[this.panelType]
     }
   },
+  beforeMount () {
+    window.addEventListener('keyup', this.onEscapeKeyUp)
+  },
+  beforeDestroy () {
+    window.removeEventListener('keyup', this.onEscapeKeyUp)
+  },
   methods: {
     ...mapMutations({
       close: 'events/closeEventPanel',
@@ -92,6 +98,11 @@ export default {
       this.refreshEvent(id).then(() => {
         this.close()
       })
+    },
+    onEscapeKeyUp (event) {
+      if (event.which === 27) {
+        this.close()
+      }
     }
   }
 }

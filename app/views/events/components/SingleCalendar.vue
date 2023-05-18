@@ -115,6 +115,7 @@ export default {
     }
   },
   mounted () {
+    console.log('waht?? mount single calendar', this.eCalendar)
     this.$nextTick(() => {
       if (!this.eCalendar && document.querySelector('#calendar')) {
         this.eCalendar = new Calendar({

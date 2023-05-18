@@ -33,7 +33,7 @@ export default {
   props: {
     eventType: {
       type: String,
-      default: 'classes'
+      default: ''
     }
   },
   computed: {
@@ -46,7 +46,7 @@ export default {
       nav: {
         titleI18n: 'events.dashboard',
         urls: [
-          { url: '/event-calendar/classes', action: 'Event Nav Click Online Classes', i18n: 'events.online_classes' },
+          { url: '/event-calendar/classes', action: 'Event Nav Click Online /classesClasses', i18n: 'events.online_classes' },
           { url: '/event-calendar/my-classes', action: 'Event Nav Click My Classes', i18n: 'events.my_classes' }
         ]
       }
@@ -55,9 +55,6 @@ export default {
   mounted () {
     if (me.isAdmin()) {
       this.nav.urls.push({ url: '/event-calendar/classes-stats', action: 'Event Nav Click Stats', i18n: 'events.classes_stats' })
-    }
-    if (!this.eventType) {
-      application.router.navigate('/event-calendar/classes', { trigger: true })
     }
   }
 }

@@ -46,7 +46,7 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'classes'
+      default: ''
     }
   },
   computed: {
@@ -69,6 +69,10 @@ export default {
     }
 },
   mounted () {
+    console.log('mount calendar panel', this.type)
+    if (!this.type) {
+      return
+    }
     if (!this.eventsArray.length) {
       if (me.isStudent()) {
         this.fetchUserEvents(me.id)
@@ -76,7 +80,7 @@ export default {
         this.fetchAllEvents()
       }
     }
-    application.gplusHandler.loadAPI({
+    application.gplusHandler?.loadAPI({
       success: () => (this.linkGoogleDisabled = false)
     })
   },

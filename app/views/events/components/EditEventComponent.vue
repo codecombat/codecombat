@@ -91,6 +91,9 @@ export default {
           this.inProgress = false
         } catch (err) {
           this.errorMessage = err.message
+          setTimeout(() => {
+            this.inProgress = false
+          }, 3000)
         }
       } else {
         try {
@@ -194,6 +197,9 @@ export default {
 
 <template>
   <div>
+    <div class="tab-label">
+      {{ $t('events.edit_event_tab_desc') }}
+    </div>
     <form
       class="edit-event-form"
       @submit.prevent="onFormSubmit"
@@ -223,6 +229,7 @@ export default {
           :permissions="'onlineTeacher'"
           :value="event.ownerName"
           :no-results="'No online teachers found'"
+          :placeholder="'Search email or username for an online-teacher'"
           @select="selectOwner"
         />
       </div>
@@ -313,5 +320,12 @@ export default {
 <style lang="scss" scoped>
 .gcEmails {
   height: 10em;
+}
+.error-msg {
+  color: red;
+}
+.tab-label {
+  font-size: 15px;
+  color: rgba(128, 128, 128, 0.7);
 }
 </style>
