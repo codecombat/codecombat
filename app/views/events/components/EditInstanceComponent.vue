@@ -170,7 +170,7 @@ export default {
         <label for="owner"> {{ $t('events.owner') }}</label>
         <user-search
           :role="'teacher'"
-          :value="instance.ownerDetails?.name"
+          :value="instance.ownerDetails?.name || instance.ownerDetails?.firstName"
           @select="selectOwner"
         />
       </div>
