@@ -120,7 +120,7 @@ export default {
     },
     selectUser (u) {
       this.setUser = true // flag user change by code
-      this.user = u.name
+      this.user = u.name || u.firstName // sometimes the user has no name
       this.$emit('select', u)
       this.hideResult = true
     }
