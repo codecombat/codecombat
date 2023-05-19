@@ -42,6 +42,13 @@ export default {
     },
     onFormSubmit () {
       this.inProgress = true
+
+      if (this.instance.endDate < this.instance.startDate) {
+        this.errorMessage = 'End date must be after start date'
+        this.inProgress = false
+        return
+      }
+
       this.instance.members = Object.values(this.memberAttendees).map(ma => _.pick(ma, ['userId', 'attendance', 'description']))
       this.saveInstance(this.instance).then(res => {
         this.$emit('save', this.instance.event)
@@ -101,6 +108,13 @@ export default {
         this.$set(this.instance, 'endDate', moment(`${this._startDate} ${val}`).toDate())
       }
     },
+    _endTimeHourRange () {
+      if (this.instance.startDate) {
+        return [[this.instance.startDate.getHours(), 23]]
+      } else {
+        return [[0, 23]]
+      }
+    }
   },
   watch: {
     propsInstance () {
@@ -174,7 +188,12 @@ export default {
         <div>
           <time-picker format="HH:mm" :minute-interval="10" v-model="_startTime" />
           <span>-</span>
-          <time-picker format="HH:mm" :minute-interval="10" v-model="_endTime" />
+          <time-picker
+            v-model="_endTime"
+            format="HH:mm"
+            :minute-interval="10"
+            :hour-range="_endTimeHourRange"
+          />
         </div>
       </div>
       <div class="form-group">

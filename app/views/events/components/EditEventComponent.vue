@@ -94,6 +94,11 @@ export default {
       this.cancelPreviewOnCalendar()
       this.event.type = 'online-classes'
       this.event.rrule = this.rrule.toString()
+      if (this.event.endDate < this.event.startDate) {
+        this.errorMessage = 'End date must be after start date'
+        this.inProgress = false
+        return
+      }
       if (this.editType === 'new') {
         try {
           const res = await this.saveEvent(this.event)
@@ -175,6 +180,13 @@ export default {
       set (val) {
         // use _startDate here since startDate and endDate share the date
         this.$set(this.event, 'endDate', moment(`${this._startDate} ${val}`).toDate())
+      }
+    },
+    _endTimeHourRange () {
+      if (this.event.startDate) {
+        return [[this.event.startDate.getHours(), 23]]
+      } else {
+        return [[0, 23]]
       }
     },
     _gcEmails: {
@@ -260,7 +272,12 @@ export default {
         <div>
           <time-picker format="HH:mm" :minute-interval="10" v-model="_startTime" />
           <span>-</span>
-          <time-picker format="HH:mm" :minute-interval="10" v-model="_endTime" />
+          <time-picker
+            format="HH:mm"
+            :minute-interval="10"
+            :hour-range="_endTimeHourRange"
+            v-model="_endTime"
+          />
         </div>
       </div>
 
