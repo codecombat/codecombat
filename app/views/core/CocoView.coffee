@@ -253,29 +253,40 @@ module.exports = class CocoView extends Backbone.View
     noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
 
   onClickContactModal: (e) ->
-    if !application.isProduction()
-      noty({
-        text: 'Contact options are only available in production',
-        layout: 'center',
-        type: 'error',
-        timeout: 5000
-      })
-      return
+    # if !application.isProduction()
+    #   noty({
+    #     text: 'Contact options are only available in production',
+    #     layout: 'center',
+    #     type: 'error',
+    #     timeout: 5000
+    #   })
+    #   return
 
     # If there is no way to open the chat, there's no point in giving the choice in the modal,
     # so we go directly to zendesk. This could potentially be improved in the future by checking
     # availability of support somehow, and going to zendesk if no one is there to answer drift chat.
+
     openDirectContactModal = =>
       if utils.isCodeCombat
         DirectContactModal = require('app/views/core/DirectContactModal').default
       else
         DirectContactModal = require('ozaria/site/views/core/DirectContactModal').default
 
-      @openModalView(new DirectContactModal())
+      @openModalView(new DirectContactModal())  
+
+    openContactModal = =>
+      if utils.isCodeCombat
+        ContactModal = require('app/views/core/ContactModal')  
+      else
+        ContactModal = require('ozaria/site/views/core/ContactModal')
+
+      @openModalView(new ContactModal())
+
+      
     if (me.isTeacher(true) and zE) or me.showChinaResourceInfo()
       openDirectContactModal()
     else
-      location.href = 'mailto:support@codecombat.com'
+      openContactModal()
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
