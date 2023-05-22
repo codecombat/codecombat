@@ -43,7 +43,7 @@ export default {
     onFormSubmit () {
       this.inProgress = true
 
-      if (this.instance.endDate < this.instance.startDate) {
+      if (this.instance.endDate <= this.instance.startDate) {
         this.errorMessage = 'End date must be after start date'
         this.inProgress = false
         return
@@ -110,7 +110,11 @@ export default {
     },
     _endTimeHourRange () {
       if (this.instance.startDate) {
-        return [[this.instance.startDate.getHours(), 23]]
+        let date = this.instance.startDate
+        if (!(this.instance.startDate instanceof Date)) {
+          date = new Date(this.instance.startDate)
+        }
+        return [[date.getHours(), 23]]
       } else {
         return [[0, 23]]
       }
@@ -169,8 +173,8 @@ export default {
       <div class="from-group">
         <label for="owner"> {{ $t('events.owner') }}</label>
         <user-search
-          :role="'teacher'"
           :value="instance.ownerDetails?.name || instance.ownerDetails?.firstName"
+          :permissions="'onlineTeacher'"
           @select="selectOwner"
         />
       </div>

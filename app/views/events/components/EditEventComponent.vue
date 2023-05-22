@@ -94,7 +94,7 @@ export default {
       this.cancelPreviewOnCalendar()
       this.event.type = 'online-classes'
       this.event.rrule = this.rrule.toString()
-      if (this.event.endDate < this.event.startDate) {
+      if (this.event.endDate <= this.event.startDate) {
         this.errorMessage = 'End date must be after start date'
         this.inProgress = false
         return
@@ -184,7 +184,11 @@ export default {
     },
     _endTimeHourRange () {
       if (this.event.startDate) {
-        return [[this.event.startDate.getHours(), 23]]
+        let date = this.event.startDate
+        if (!(this.event.startDate instanceof Date)) {
+          date = new Date(this.event.startDate)
+        }
+        return [[date.getHours(), 23]]
       } else {
         return [[0, 23]]
       }
@@ -250,7 +254,6 @@ export default {
       <div class="from-group">
         <label for="owner"> {{ $t('events.owner') }}</label>
         <user-search
-          :role="'teacher'"
           :permissions="'onlineTeacher'"
           :value="event.ownerName"
           :no-results="'No online teachers found'"

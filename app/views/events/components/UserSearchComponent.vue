@@ -43,7 +43,7 @@ export default {
     },
     role: {
       type: String,
-      default: 'student'
+      default: ''
     },
     permissions: {
       type: String,
@@ -115,7 +115,15 @@ export default {
         return
       }
       this.lastSearchUser = searchValue
-      this.searchUser({ q: searchValue, role: this.role, permissions: this.permissions })
+      const options = {
+        q: searchValue,
+        role: this.role,
+        permissions: this.permissions
+      }
+      if (!this.role) {
+        delete options.role
+      }
+      this.searchUser(options)
       this.hideResult = false
     },
     selectUser (u) {
