@@ -46,7 +46,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
 
   initialize: (options, @courseID, @language) ->
     @isWebDev = @courseID in [utils.courseIDs.WEB_DEVELOPMENT_2]
-    if me.isTeacher() or me.isAdmin()
+    if me.isTeacher() or me.isAdmin() or me.isParentHome()
       @prettyLanguage = @camelCaseLanguage(@language)
       if options.campaignMode
         campaignSlug = @courseID

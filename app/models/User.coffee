@@ -128,7 +128,11 @@ module.exports = class User extends CocoModel
 
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
-  isHomeUser: -> not @get('role')
+  isHomeUser: -> (not @get('role')) or @isParentHome()
+
+  isParentHome: -> @get('role') is 'parent-home'
+
+  hasNoVerifiedChild: -> not (_.find (@get('related') || []), (c) => c.relation == 'children' && c.verified)
 
   isRegisteredHomeUser: -> @isHomeUser() and !@get('anonymous')
 
@@ -338,6 +342,12 @@ module.exports = class User extends CocoModel
       homeProducts = @activeProducts('basic_subscription')
       maxFree = _.max(homeProducts, (p) => new Date(p.endDate)).endDate
       return true if new Date() < new Date(maxFree)
+    false
+
+  isPaidOnlineClassUser: ->
+    if products = @get('products')
+      onlineClassProducts = @activeProducts('online-classes')
+      return true if onlineClassProducts.length > 0
     false
 
   premiumEndDate: ->
@@ -671,6 +681,13 @@ module.exports = class User extends CocoModel
     options.data.provider = provider
     @fetch(options)
 
+  changePassword: (userId, password, options={}) ->
+    options.url = '/auth/change-password'
+    options.type = 'POST'
+    options.data ?= {}
+    _.extend(options.data, { userId, password })
+    @fetch(options)
+
   makeCoursePrepaid: (prepaidId) ->
     courseProduct = _.find @get('products'), (p) => p.product == 'course' && p.prepaid + '' == prepaidId + ''
     return null unless courseProduct
@@ -841,6 +858,10 @@ module.exports = class User extends CocoModel
     options.data ?= body
     @fetch(options)
 
+  getRelatedAccounts: (body, options = {}) ->
+    options.url = '/db/user/related-accounts/details'
+    @fetch(options)
+
   getTestStudentId: ->
     testStudentRelation = (@get('related') or []).filter((related) => related.relation == 'TestStudent')[0]
     if testStudentRelation
@@ -857,6 +878,12 @@ module.exports = class User extends CocoModel
 
   createTestStudentAccount: (body, options = {}) ->
     options.url = '/db/user/create-test-student-account'
+    options.type = 'PUT'
+    options.data ?= body
+    @fetch(options)
+
+  createAndAssociateAccount: (body, options = {}) ->
+    options.url = '/db/user/related-accounts/associate-account'
     options.type = 'PUT'
     options.data ?= body
     @fetch(options)
