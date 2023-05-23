@@ -77,7 +77,7 @@ module.exports = class HomeView extends RootView
 
   onClickParentButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
-    application.router.navigate '/parents/signup', trigger: true
+    application.router.navigate '/parents', trigger: true
 
   onClickCreateAccountTeacherButton: (e) ->
     @homePageEvent('Started Signup')
