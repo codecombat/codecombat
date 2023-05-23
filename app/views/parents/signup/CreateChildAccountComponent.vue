@@ -89,7 +89,6 @@ export default {
   },
   methods: {
     linkAccountClicked () {
-      console.log('link account clicked')
       this.showExistingAccountView = true
     },
     onFormSubmit () {
@@ -98,14 +97,12 @@ export default {
         this.errMsg = 'Required field data missing'
         return
       }
-      console.log('child account submit', this.$data)
       this.$emit('onChildAccountSubmit', this.$data)
     },
     onBackButton () {
       this.$emit('backButtonClicked', this.$data)
     },
     onExistingAccountLink (data) {
-      console.log('existing account submit', data)
       this.$emit('existingAccountLinked', data)
     },
     createAccountClicked () {

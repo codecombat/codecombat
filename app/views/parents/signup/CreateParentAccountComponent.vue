@@ -85,7 +85,6 @@ export default {
   },
   methods: {
     onFormSubmit () {
-      console.log('parent account form submitted', this.$data)
       this.$emit('onParentAccountSubmit', this.$data)
     },
     startGplusSignup () {
@@ -114,7 +113,7 @@ export default {
                         this.gplusData.email = gplusAttrs.email
                         this.$emit('onParentAccountSubmit', this.$data)
                       } else {
-                        console.log('gplus signup error', jqxhr)
+                        console.error('gplus signup error', jqxhr)
                         noty({ text: 'Internal error', type: 'error', layout: 'center', timeout: 5000 })
                       }
                     }

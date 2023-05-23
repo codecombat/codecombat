@@ -92,7 +92,6 @@ export default {
     },
     levelSessionsOfCampaign () {
       if (!this.child || !this.selectedCampaignId) return []
-      // console.log('getLSa', this.child, this.selectedCampaignId, this.getSessionsForCampaignOfRelatedUser(this.child.userId, this.selectedCampaignId))
       return this.getSessionsForCampaignOfRelatedUser(this.child.userId, this.selectedCampaignId)
     },
     campaignLevels () {
