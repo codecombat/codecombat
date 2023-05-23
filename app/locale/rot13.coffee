@@ -1273,6 +1273,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     forever: "Sberire"
     subscription_status: "Lbhe Fhofpevcgvba Fgnghf"
     currently_not_free: "Lbh qba'g unir n Fhofpevcgvba lrg."
+    online_classes: "Bayvar Pynffrf"
 
   announcement:
     now_available: "Abj ninvynoyr sbe fhofpevoref!"

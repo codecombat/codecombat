@@ -1273,6 +1273,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     forever: "终生"
     subscription_status: "你的订阅状态"
     currently_not_free: "您目前还没有订阅"
+#    online_classes: "Online Classes"
 
   announcement:
     now_available: "现在订阅者可以获得更多内容"

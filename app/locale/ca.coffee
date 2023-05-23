@@ -1273,6 +1273,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    forever: "Forever"
 #    subscription_status: "Your Subscription Status"
 #    currently_not_free: "You don't have a Subscription yet."
+#    online_classes: "Online Classes"
 
   announcement:
     now_available: "Ja disponible pels subscriptors!"
