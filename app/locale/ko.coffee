@@ -1273,6 +1273,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    forever: "Forever"
 #    subscription_status: "Your Subscription Status"
 #    currently_not_free: "You don't have a Subscription yet."
+#    online_classes: "Online Classes"
 
   announcement:
     now_available: "이제 구독자에게 제공됩니다."

@@ -1273,6 +1273,7 @@ module.exports = nativeDescription: "ʻŌlelo Hawaiʻi", englishDescription: "Ha
 #    forever: "Forever"
 #    subscription_status: "Your Subscription Status"
 #    currently_not_free: "You don't have a Subscription yet."
+#    online_classes: "Online Classes"
 
 #  announcement:
 #    now_available: "Now available for subscribers!"

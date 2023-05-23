@@ -1273,6 +1273,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     forever: "Forever"
     subscription_status: "Your Subscription Status"
     currently_not_free: "You don't have a Subscription yet."
+    online_classes: "Online Classes"
 
   announcement:
     now_available: "Now available for subscribers!"
@@ -3018,6 +3019,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     patches_accepted: "Patches Accepted"
     level_edits: "Level Edits"
     total_translations: "Total Translations"
+    campaign_stats: "Stats"
 
   achievements:
     last_earned: "Last Earned"
