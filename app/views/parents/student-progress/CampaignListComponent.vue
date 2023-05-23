@@ -96,8 +96,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../css-mixins/variables";
 .campaign-list {
-  background: #F2F2F2;
+  background: $color-grey-2;
   box-shadow: 0 4px 1rem rgba(0, 0, 0, 0.25);
   padding-top: 1.5rem;
   padding-bottom: 1rem;
@@ -107,7 +108,6 @@ export default {
 .campaigns {
   list-style: none;
   display: flex;
-  //justify-content: space-evenly;
   margin-bottom: 0;
 
   font-size: 1.4rem;
@@ -144,7 +144,7 @@ export default {
     height: 1px;
     width: 50%;
     display: block;
-    background-color: #C8CDCC;
+    background-color: $color-grey-3;
     position: absolute;
     right: 0;
     top: 10%;
@@ -155,7 +155,7 @@ export default {
     height: 1px;
     width: 50%;
     display: block;
-    background-color: #C8CDCC;
+    background-color: $color-grey-3;
     position: absolute;
     left: 0;
     top: 10%;
@@ -177,7 +177,7 @@ export default {
     width: 1rem;
     height: 1rem;
     background: #FFFFFF;
-    border: 1.5px solid #C8CDCC;
+    border: 1.5px solid $color-grey-3;
     border-radius: 1rem;
     margin-bottom: 1rem;
     z-index: 1;
@@ -192,7 +192,7 @@ export default {
     text-transform: uppercase;
 
     &__sel {
-      color: #476FB1;
+      color: $color-twilight;
     }
   }
 }

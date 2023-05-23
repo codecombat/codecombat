@@ -218,7 +218,6 @@ export default {
         }
         options.data = { userId, noLanguageFilter: true }
         const campaignSessions = await levelSessionsApi.fetchForCampaign(campaignHandle, options)
-        console.log('data', campaignSessions, campaignHandle, userId)
         commit('setSessionsForCampaignOfRelatedUser', { campaignHandle, sessions: campaignSessions, userId })
         commit('setRelatedUserCampaignFetched', { campaignHandle, userId, flag: true })
         return campaignSessions

@@ -38,6 +38,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "css-mixins/variables";
 .summary {
   grid-column: main-content-start / main-content-end;
 
@@ -46,7 +47,7 @@ export default {
     grid-template-columns: 2fr 1fr;
 
     padding: 2rem;
-    background: #F2F2F2;
+    background: $color-grey-2;
   }
 }
 

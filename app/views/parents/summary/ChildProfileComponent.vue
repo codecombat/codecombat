@@ -125,9 +125,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../css-mixins/variables";
 .profile {
   background: #FFFFFF;
-  border: 1px solid #D8D8D8;
+  border: 1px solid $color-grey-1;
   box-shadow: 3px 0 8px rgba(0, 0, 0, 0.15), -1px 0px 1px rgba(0, 0, 0, 0.06);
   border-radius: 1.4rem;
   padding: 1rem;
@@ -139,14 +140,14 @@ export default {
 
     letter-spacing: 0.444444px;
     text-transform: uppercase;
-    color: #D4B235;
+    color: $color-yellow-3;
 
     &:after {
       content: "";
       height: 2px;
       display: block;
       width: 90%;
-      background: #D4B235;
+      background: $color-yellow-3;
       margin-top: .5rem;
     }
   }
@@ -162,7 +163,7 @@ export default {
       height: 19rem;
 
       img {
-        border: 6px solid #F7D047;
+        border: 6px solid $color-yellow-1;
         border-radius: 50%;
       }
     }
@@ -180,7 +181,7 @@ export default {
           font-size: 1.4rem;
           line-height: 1.8rem;
           letter-spacing: 0.266667px;
-          color: #545B64;
+          color: $color-grey-dark-1;
 
           margin-bottom: .5rem;
         }
@@ -209,7 +210,7 @@ export default {
 
     &__btn {
       background: #FFFFFF;
-      border: 2px solid #379B8D;
+      border: 2px solid $color-green-2;
       border-radius: 1px;
 
       font-weight: 600;
@@ -220,14 +221,14 @@ export default {
       text-align: center;
       letter-spacing: 0.333333px;
 
-      color: #379B8D;
+      color: $color-green-2;
       padding: .5rem 2rem;
 
       cursor: pointer;
     }
 
     &__upgrade {
-      background: #5DB9AC;
+      background: $color-green-1;
       color: #000000;
     }
   }

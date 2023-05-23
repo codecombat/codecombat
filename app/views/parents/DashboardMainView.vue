@@ -15,6 +15,7 @@
       v-if="selectedView === 'dashboard' || selectedView === 'progress'"
       :product="selectedProduct"
       :child="selectedChildren"
+      :is-paid-user="isPaidOnlineClassUser()"
     />
     <student-summary-view
       v-if="selectedView === 'summary'"
@@ -133,6 +134,9 @@ export default {
     },
     async onExistingAccountLink (data) {
       await this.onChildAccountSubmitHelper(null, { existingAccount: data })
+    },
+    isPaidOnlineClassUser () {
+      return me.isPaidOnlineClassUser()
     }
   },
   computed: {

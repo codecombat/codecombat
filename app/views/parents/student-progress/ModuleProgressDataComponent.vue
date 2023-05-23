@@ -48,7 +48,7 @@
 
 <script>
 import ModuleRow from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ModuleRow'
-import CodeDiff from '../../../../ozaria/site/components/teacher-dashboard/common/CodeDiff'
+import CodeDiff from '../../../components/common/CodeDiff'
 const Level = require('../../../models/Level')
 export default {
   name: 'ModuleProgressDataComponent',
@@ -143,6 +143,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../css-mixins/variables";
 .lprogress {
   padding: 2rem;
   &__intro {
@@ -191,13 +192,13 @@ export default {
 
   &__level {
     &:nth-child(odd) {
-      background-color: #f2f2f2;
+      background-color: $color-grey-2;
     }
   }
 }
 
 .not-started-dot {
-  border: 1.5px solid #C8CDCC;
+  border: 1.5px solid $color-grey-3;
 }
 
 .in-progress-dot {

@@ -47,7 +47,6 @@ export default {
   ],
   methods: {
     async onParentAccountSubmit (data) {
-      console.log('parent account data', data)
       this.parentAccountData = data
       const { exists } = await User.checkEmailExists(data.email)
       if (exists) {

@@ -116,6 +116,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "./css-mixins/variables";
 .sidebar {
   grid-column: sidebar-start / sidebar-end;
   grid-row: 1 / -1;
@@ -164,7 +165,7 @@ export default {
       cursor: pointer;
 
       &__sel {
-        color: #476FB1;
+        color: $color-twilight;
       }
     }
 
@@ -184,7 +185,7 @@ export default {
 
   &__add-child {
     &__btn {
-      background: #F7D047;
+      background: $color-yellow-1;
       border-radius: 1px;
 
       font-weight: 600;
@@ -217,7 +218,7 @@ export default {
       align-items: center;
       letter-spacing: 0.444444px;
       text-transform: uppercase;
-      color: #545B64;
+      color: $color-grey-dark-1;
       padding: .5rem;
     }
   }

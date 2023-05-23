@@ -31,7 +31,7 @@
       </div>
     </div>
     <div
-      v-if="!child || !child.isPremium"
+      v-if="(!child || !child.isPremium) && !isOnlineClassPaidUser"
       class="header__item header__item--2"
     >
       <div class="">
@@ -99,6 +99,10 @@ export default {
       default () {
         return {}
       }
+    },
+    isOnlineClassPaidUser: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -132,11 +136,11 @@ export default {
 
 <style scoped lang="scss">
 @import "app/styles/bootstrap/variables";
-
+@import "./css-mixins/variables";
 .header {
   grid-column: main-content-start / main-content-end;
 
-  background: #355EA0;
+  background: $color-blue-1;
   border: 1px solid #E6E6E6;
   box-shadow: inset 0px -2px 10px rgba(0, 0, 0, 0.15);
 
@@ -154,8 +158,8 @@ export default {
   }
 
   &__product {
-    background: #5DB9AC;
-    border: 1px solid #5DB9AC;
+    background: $color-green-1;
+    border: 1px solid $color-green-1;
     box-shadow: 4px 0 7px rgba(0, 0, 0, 0.2), 0px -2px 5px rgba(0, 0, 0, 0.1);
 
     margin-left: 1rem;
@@ -174,7 +178,7 @@ export default {
     }
 
     &__selected {
-      background: #F2F2F2;
+      background: $color-grey-2;
       border: 1px solid #E6E6E6;
     }
   }
@@ -206,7 +210,7 @@ export default {
         height: 100px;
         width: 1px;
         display: block;
-        background-color: #D8D8D8;
+        background-color: $color-grey-1;
       }
     }
 
@@ -276,16 +280,16 @@ export default {
 
   &__premium-btn {
     @include button-base;
-    background: #F7D047;
+    background: $color-yellow-1;
     color: #131B25;
     border-color: #ffffff;
   }
 
   &__online-class-btn {
     @include button-base;
-    border: 2px solid #F7D047;
-    background: #355EA0;
-    color: #F7D047;
+    border: 2px solid $color-yellow-1;
+    background: $color-blue-1;
+    color: $color-yellow-1;
   }
 }
 </style>

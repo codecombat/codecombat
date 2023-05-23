@@ -62,6 +62,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../css-mixins/variables";
 .stats {
   display: flex;
   align-items: center;
@@ -83,7 +84,7 @@ export default {
     font-weight: 700;
     font-size: 7rem;
     line-height: 10.4rem;
-    color: #355EA0;
+    color: $color-blue-1;
   }
 
   &__text {
@@ -92,7 +93,7 @@ export default {
     line-height: 1.8rem;
     letter-spacing: 0.4px;
     text-transform: uppercase;
-    color: #545B64;
+    color: $color-grey-1;
     text-align: center;
   }
 
@@ -101,7 +102,7 @@ export default {
     height: 5px;
     display: block;
     width: 90%;
-    background: linear-gradient(59.36deg, #D1B147 -5.07%, #D1B147 16.64%, #F7D047 93.04%, #F7D047 103.46%);
+    background: linear-gradient(59.36deg, $color-yellow-2 -5.07%, $color-yellow-2 16.64%, $color-yellow-1 93.04%, $color-yellow-1 103.46%);
     margin-top: 2rem;
   }
 }

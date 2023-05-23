@@ -117,6 +117,7 @@ export default {
 
 <style scoped lang="scss">
 @import "common";
+@import "../css-mixins/variables";
 
 .account {
   &__link-text {
@@ -125,7 +126,7 @@ export default {
     font-size: 1.4rem;
     line-height: 1.7rem;
     letter-spacing: 0.3px;
-    color: #545B64;
+    color: $color-grey-1;
 
     margin-bottom: 2rem;
   }

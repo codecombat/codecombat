@@ -23,9 +23,6 @@ export default {
     levelSessions: {
       type: Array
     },
-    language: {
-      type: String
-    },
     sortedLevels: {
       type: Array,
       default () {

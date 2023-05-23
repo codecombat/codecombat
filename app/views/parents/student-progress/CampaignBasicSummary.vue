@@ -42,11 +42,30 @@
               @change="updateLanguage"
               name="content__language" id="content__language-id" class="content__language"
             >
-              <option :selected="selectedLang === 'python'" value="python" class="content__language__option">Python</option>
-              <option :selected="selectedLang === 'javascript'" value="javascript" class="content__language__option">Javascript</option>
+              <option :selected="selectedCodeLang === 'python'" value="python" class="content__language__option">Python</option>
+              <option :selected="selectedCodeLang === 'javascript'" value="javascript" class="content__language__option">Javascript</option>
             </select>
+            <button
+              v-if="!isPaidUser"
+              class="content__solution__lock"
+            >
+              <img
+                src="/images/ozaria/teachers/dashboard/svg_icons/IconSolution.svg"
+                alt="Solution Guide Icon"
+                class="content__solution__icon"
+              />
+              <span class="content__solution__text">
+                Solution Guide
+              </span>
+              <img
+                src="/images/pages/game-menu/lock.png"
+                alt="Solution Guide Icon"
+                class="content__solution__lock-icon"
+              />
+            </button>
             <a
-              :href="`/teachers/campaign-solution/${campaign.slug}/${selectedLanguage}`"
+              v-else
+              :href="`/teachers/campaign-solution/${campaign.slug}/${selectedCodeLang}`"
               target="_blank"
               class="content__solution-guide"
             >
@@ -110,7 +129,7 @@ export default {
       type: Object,
       default: null
     },
-    selectedLanguage: {
+    selectedCodeLanguage: {
       type: String,
       default: 'python'
     },
@@ -121,11 +140,15 @@ export default {
     isCampaignComplete: {
       type: Boolean,
       default: false
+    },
+    isPaidUser: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
-      selectedLang: this.selectedLanguage
+      selectedCodeLang: this.selectedCodeLanguage
     }
   },
   computed: {
@@ -136,8 +159,8 @@ export default {
   },
   methods: {
     updateLanguage (e) {
-      this.selectedLang = e.target.value
-      this.$emit('languageUpdated', this.selectedLang)
+      this.selectedCodeLang = e.target.value
+      this.$emit('languageUpdated', this.selectedCodeLang)
     },
     getCampaignImage (slug) {
       return campignSlugImageMap[slug]
@@ -148,11 +171,12 @@ export default {
 
 <style scoped lang="scss">
 @import "app/styles/bootstrap/variables";
+@import "../css-mixins/variables";
 
 .basic {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  background: #F2F2F2;
+  background: $color-grey-2;
 
   @media (max-width: $screen-lg) {
     grid-template-columns: repeat(2, minmax(min-content, max-content));
@@ -196,10 +220,10 @@ export default {
     }
 
     &__language {
-      background: #476fb1;
-      border: 1.5px solid #355ea0;
+      background: $color-twilight;
+      border: 1.5px solid $color-blue-1;
       border-radius: 4px;
-      color: #f7d047;
+      color: $color-yellow-1;
       width: 150px;
       padding: 8px 5px;
       font-weight: 600;
@@ -208,7 +232,7 @@ export default {
     }
 
     &__solution-guide {
-      background-color: #5db9ac;
+      background-color: $color-green-1;
       border-radius: 4px;
       border-width: 0;
       text-shadow: unset;
@@ -285,6 +309,13 @@ export default {
     &__solution__text {
       margin-left: .5rem;
     }
+
+    &__solution__lock {
+      margin-left: 2rem;
+      &-icon {
+        width: 2rem;
+      }
+    }
   }
 
   .certificate {
@@ -316,5 +347,27 @@ export default {
       }
     }
   }
+}
+
+.tooltip {
+  display: block !important;
+  z-index: 10000;
+}
+
+.tooltip .tooltip-inner {
+  background: black;
+  color: white;
+  border-radius: 16px;
+  padding: 5px 10px 4px;
+}
+
+.tooltip .tooltip-arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  margin: 5px;
+  border-color: black;
+  z-index: 1;
 }
 </style>

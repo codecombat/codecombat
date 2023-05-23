@@ -10,15 +10,15 @@
     />
     <campaign-basic-summary
       :campaign="selectedCampaign"
-      :selected-language="selectedLanguage"
+      :selected-code-language="selectedCodeLanguage"
       :child-id="child?.userId"
       :is-campaign-complete="hasCompletedCampaign"
-      @languageUpdated="onLanguageUpdate"
+      :is-paid-user="isPaidUser"
+      @languageUpdated="onCodeLanguageUpdate"
     />
     <campaign-progress-view
       :campaign="selectedCampaign"
       :level-sessions="levelSessionsOfCampaign"
-      :language="selectedLanguage"
       :levels="campaignLevels"
       :sorted-levels="sortedLevels"
     />
@@ -41,6 +41,10 @@ export default {
     },
     child: {
       type: Object
+    },
+    isPaidUser: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -52,7 +56,7 @@ export default {
   data () {
     return {
       selectedCampaignId: null,
-      selectedLanguage: 'python',
+      selectedCodeLanguage: 'python',
       loading: true
     }
   },
@@ -67,13 +71,12 @@ export default {
       this.fetchCampaignLevels({ campaignHandle: this.selectedCampaignId })
       this.fetchLevelSessions()
     },
-    onLanguageUpdate (data) {
-      this.selectedLanguage = data
+    onCodeLanguageUpdate (data) {
+      this.selectedCodeLanguage = data
       this.fetchLevelSessions()
     },
     async fetchLevelSessions () {
       if (!this.child || !this.child.verified) return
-      console.log('fetching LS starts', this.child.userId, this.selectedCampaign)
       await this.fetchLevelSessionsForCampaignOfRelatedUser({ userId: this.child.userId, campaignHandle: this.selectedCampaignId })
     }
   },
@@ -110,9 +113,8 @@ export default {
       cLevels.forEach(cLevel => {
         const detailLevel = this.campaignLevels?.find(l => l.original === cLevel.original)
         const final = { ...cLevel, ...detailLevel }
-        result.push(final)
+        if (!final.practice) result.push(final)
       })
-      console.log('resLevel', result)
       return result
     }
   },

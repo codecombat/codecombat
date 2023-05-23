@@ -1,6 +1,6 @@
 <script>
   const AceDiff = require('ace-diff')
-  const aceUtils = require('../../../../../app/core/aceUtils')
+  const aceUtils = require('../../core/aceUtils')
 
   const aceEditModes = {
     javascript: 'ace/mode/javascript',

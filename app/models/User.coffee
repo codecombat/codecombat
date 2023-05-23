@@ -333,6 +333,12 @@ module.exports = class User extends CocoModel
       return true if new Date() < new Date(maxFree)
     false
 
+  isPaidOnlineClassUser: ->
+    if products = @get('products')
+      onlineClassProducts = @activeProducts('online-classes')
+      return true if onlineClassProducts.length > 0
+    false
+
   premiumEndDate: ->
     return null unless @isPremium()
     stripeEnd = undefined
@@ -658,7 +664,6 @@ module.exports = class User extends CocoModel
     options.type = 'POST'
     options.data ?= {}
     _.extend(options.data, { userId, password })
-    console.log('opt', options.data, userId)
     @fetch(options)
 
   makeCoursePrepaid: (prepaidId) ->
