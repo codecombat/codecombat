@@ -48,6 +48,11 @@ export default {
         this.inProgress = false
         return
       }
+      if (!this.instance.owner) {
+        this.errorMessage = 'Must set an Onwer'
+        this.inProgress = false
+        return
+      }
 
       this.instance.members = Object.values(this.memberAttendees).map(ma => _.pick(ma, ['userId', 'attendance', 'description']))
       this.saveInstance(this.instance).then(res => {

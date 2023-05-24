@@ -3,8 +3,17 @@
     <div id="calendar" />
     <div class="split split-column" />
     <div id="event-details">
-      <div class="date title">
-        {{ date }}
+      <div class="title date event-details-title-bar">
+        <div :class="{myHide: eventsInDate.length <= 1 || eventIndexInDate == 0}" @click="nextClass(-1)">
+          {{ "<" }}
+        </div>
+        <div>
+          {{ date }}
+        </div>
+
+        <div :class="{myHide: eventsInDate.length <= 1 || eventIndexInDate == eventsInDate.length - 1}" @click="nextClass(1)">
+          {{ ">" }}
+        </div>
       </div>
       <div class="split split-row" />
       <div class="content">
@@ -87,8 +96,9 @@ export default {
   },
   data () {
     return {
-      ec: null,
-      sessions: []
+      eCalendar: null,
+      sessions: [],
+      eventsInDate: []
     }
   },
   computed: {
@@ -111,6 +121,9 @@ export default {
     },
     videoRecord () {
       return this.propsInstance?.video
+    },
+    eventIndexInDate () {
+      return this.eventsInDate.indexOf(this.propsInstance?._id?.toString())
     }
   },
   methods: {
@@ -134,10 +147,18 @@ export default {
     selectDate (info) {
       document.querySelectorAll('.date-selected').forEach(el => el.classList.remove('date-selected'))
       info.el.classList.add('date-selected')
+      this.eventsInDate = [...info.el.parentNode.querySelectorAll('.ec-event-title')].map((n) => n.dataset.eventId)
       this.fetchSession({ date: info.event.start?.toISOString() }).then(res => {
         this.sessions = res
       })
       this.selectEvent({ instance: info.event })
+    },
+    nextClass (delta) {
+      const event = this.eCalendar.getEventById(this.eventsInDate[this.eventIndexInDate + delta])
+      this.fetchSession({ date: event.start?.toISOString() }).then(res => {
+        this.sessions = res
+      })
+      this.selectEvent({ instance: event })
     },
     mapEventToCalendar (event, index) {
       return event.instances.map(instance => {
@@ -157,9 +178,14 @@ export default {
         eventSources: [{ events: that.createEvents }],
         headerToolbar: { start: 'prev', center: 'title', end: 'next' },
         eventClick (info) {
-          console.log('info', info)
           if (info.event.display !== 'pointer') {
             that.selectDate(info)
+          }
+        },
+        eventContent (info) {
+          return {
+            html: `<div class="ec-event-time">${info.timeText}</div>` +
+                  `<div class="ec-event-title" data-event-id="${info.event.id}">${info.event.title}</div>`
           }
         }
       }
@@ -186,13 +212,13 @@ export default {
   },
   watch: {
     events () {
-      this.ec?.refetchEvents()
+      this.eCalendar?.refetchEvents()
       setTimeout(() => this.selectRecent(), 500)
     }
   },
   mounted () {
     this.$nextTick(() => {
-      this.ec = new Calendar({
+      this.eCalendar = new Calendar({
         target: document.querySelector('#calendar'),
         props: {
           plugins: [DayGrid, Interaction],
@@ -396,6 +422,17 @@ export default {
     align-self: stretch;
     display: flex;
     flex-direction: column;
+
+    .myHide {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .event-details-title-bar {
+      display: flex;
+      width: 90%;
+      justify-content: space-between;
+    }
 
     .content {
       position: relative;

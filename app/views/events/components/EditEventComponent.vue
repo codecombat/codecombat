@@ -94,6 +94,11 @@ export default {
       this.cancelPreviewOnCalendar()
       this.event.type = 'online-classes'
       this.event.rrule = this.rrule.toString()
+      if (!this.event.owner) {
+        this.errorMessage = 'Must set an Onwer'
+        this.inProgress = false
+        return
+      }
       if (this.event.endDate <= this.event.startDate) {
         this.errorMessage = 'End date must be after start date'
         this.inProgress = false
