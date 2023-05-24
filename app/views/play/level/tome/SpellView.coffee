@@ -19,6 +19,8 @@ TokenIterator = ace.require('ace/token_iterator').TokenIterator
 LZString = require 'lz-string'
 utils = require 'core/utils'
 Aether = require 'lib/aether/aether'
+AceDiff = require 'ace-diff'
+require('app/styles/play/level/tome/ace-diff-spell.sass')
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -66,6 +68,7 @@ module.exports = class SpellView extends CocoView
     'tome:fix-code': 'onFixCode'
     'tome:fix-code-preview-start': 'onFixCodePreviewStart'
     'tome:fix-code-preview-end': 'onFixCodePreviewEnd'
+    'level:toggle-solution': 'onToggleSolution'
 
   events:
     'mouseout': 'onMouseOut'
@@ -90,6 +93,7 @@ module.exports = class SpellView extends CocoView
     @createACE()
     @createACEShortcuts()
     @hookACECustomBehavior()
+    @fillACESolution()
     @fillACE()
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
@@ -1432,6 +1436,44 @@ module.exports = class SpellView extends CocoView
   onFixCodePreviewEnd: (e) ->
     @updateACEText @codeBeforePreview
     @ace.clearSelection()
+
+  fillACESolution: ->
+    @aceSolution = ace.edit document.querySelector('.ace-solution')
+    aceSSession = @aceSolution.getSession()
+    aceSSession.setMode aceUtils.aceEditModes[@spell.language]
+    @aceSolution.setTheme 'ace/theme/textmate'
+    # solution = store.getters['game/getSolutionSrc'](@spell.language)
+    @aceSolution.setValue ''
+    @aceSolution.clearSelection()
+
+    @aceDiff = new AceDiff({
+      element: '#solution-view'
+      showDiffs: false,
+      showConnectors: true,
+      mode: aceUtils.aceEditModes[@spell.language],
+      left: {
+        ace: @aceSolution,
+        editable: false,
+        copyLinkEnabled: false
+      },
+      right: {
+        ace: @ace,
+        copyLinkEnabled: false
+      }
+    })
+
+  onToggleSolution: (e)->
+    return unless @aceDiff
+    if e.code
+      @aceSolution.setValue e.code
+      @aceSolution.clearSelection()
+    solution = document.querySelector('#solution-area')
+    if solution.classList.contains('display')
+      solution.classList.remove('display')
+      @aceDiff.setOptions({showDiffs: false})
+    else
+      solution.classList.add('display')
+      @aceDiff.setOptions({showDiffs: true})
 
   onMaximizeToggled: (e) ->
     _.delay (=> @resize()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.

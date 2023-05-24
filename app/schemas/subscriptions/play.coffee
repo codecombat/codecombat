@@ -217,3 +217,6 @@ module.exports =
 
   'level:gather-chat-message-context': c.object {required: ['chat']},
     chat: ChatMessage
+
+  'level:toggle-solution': c.object {},
+    code: {type: 'string'}

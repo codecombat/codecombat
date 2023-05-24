@@ -184,8 +184,9 @@ module.exports = class LevelChatView extends CocoView
       document.selection.empty()
 
   onFixCodeClick: (e) ->
-    Backbone.Mediator.publish 'tome:fix-code', code: @lastFixedCode
-    @$el.find('.fix-code-button').parent().remove()  # Could keep this around if we could undo it
+    Backbone.Mediator.publish 'level:toggle-solution', code: @lastFixedCode
+    # Backbone.Mediator.publish 'tome:fix-code', code: @lastFixedCode
+    # @$el.find('.fix-code-button').parent().remove()  # Could keep this around if we could undo it
 
   onFixCodeMouseOver: (e) ->
     Backbone.Mediator.publish 'tome:fix-code-preview-start', code: @lastFixedCode
