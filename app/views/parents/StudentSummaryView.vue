@@ -3,10 +3,16 @@
     v-if="child"
     class="summary"
   >
-    <div class="summary__stats">
-      <student-stats-component />
+    <div
+      class="summary__stats"
+    >
+      <student-stats-component
+        :child="child"
+      />
     </div>
-    <div class="child-profile">
+    <div
+      class="child-profile"
+    >
       <child-profile-component
         :child="child"
       />

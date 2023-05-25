@@ -38,17 +38,19 @@ export default {
         const url = campaignSlidesMapping[this.campaign.slug]
         if (!url) {
           noty({
-            text: 'Not available for this campaign',
+            text: 'Sorry, lesson not available for this campaign currently',
             type: 'information',
-            timeout: 5000
+            timeout: 5000,
+            layout: 'center'
           })
         }
         window.location = url
       } else {
         noty({
-          text: 'Only available to online classes user',
+          text: 'Only available to users with online classes subscription',
           type: 'information',
-          timeout: 5000
+          timeout: 5000,
+          layout: 'center'
         })
       }
     }

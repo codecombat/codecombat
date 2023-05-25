@@ -28,6 +28,7 @@
       <create-child-account-component
         @onChildAccountSubmit="onChildAccountSubmit"
         @existingAccountLinked="onExistingAccountLink"
+        :hide-back-button="true"
       />
     </div>
     <toolkit-view
