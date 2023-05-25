@@ -7,7 +7,9 @@
       :levels="sortedLevels"
       :level-sessions="levelSessions"
     />
-    <module-resources />
+    <module-resources
+      :campaign="campaign"
+    />
   </div>
 </template>
 

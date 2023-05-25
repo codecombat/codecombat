@@ -15,6 +15,7 @@
     >
       <child-profile-component
         :child="child"
+        :is-paid-online-class-user="isPaidOnlineClassUser"
       />
     </div>
   </div>
@@ -38,6 +39,10 @@ export default {
   props: {
     child: {
       type: Object
+    },
+    isPaidOnlineClassUser: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -50,7 +55,7 @@ export default {
 
   .child-profile {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 4fr 1fr;
 
     padding: 2rem;
     background: $color-grey-2;

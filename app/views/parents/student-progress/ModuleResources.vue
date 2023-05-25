@@ -43,8 +43,9 @@ export default {
             timeout: 5000,
             layout: 'center'
           })
+        } else {
+          window.location = url
         }
-        window.location = url
       } else {
         noty({
           text: 'Only available to users with online classes subscription',

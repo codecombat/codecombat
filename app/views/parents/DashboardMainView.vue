@@ -10,6 +10,7 @@
     <header-component
       @onSelectedProductChange="onSelectedProductChange"
       :child="selectedChildren"
+      :is-online-class-paid-user="isPaidOnlineClassUser()"
     />
     <student-progress-view
       v-if="selectedView === 'dashboard' || selectedView === 'progress'"
@@ -18,11 +19,12 @@
       :is-paid-user="isPaidOnlineClassUser()"
     />
     <student-summary-view
-      v-if="selectedView === 'summary'"
+      v-else-if="selectedView === 'summary'"
       :child="selectedChildren"
+      :is-paid-online-class-user="isPaidOnlineClassUser()"
     />
     <div
-      v-if="selectedView === 'add-another-child'"
+      v-else-if="selectedView === 'add-another-child'"
       class="create-child"
     >
       <create-child-account-component
@@ -32,9 +34,15 @@
       />
     </div>
     <toolkit-view
-      v-if="selectedView === 'toolkit'"
+      v-else-if="selectedView === 'toolkit'"
       :product="selectedProduct"
     />
+    <div
+      v-else
+      class="unknown"
+    >
+      Page Not Found
+    </div>
   </div>
 </template>
 
@@ -164,5 +172,10 @@ export default {
   grid-column: main-start 2 / main-start 6;
 
   margin: 2rem;
+}
+
+.unknown {
+  font-size: 2rem;
+  text-align: center;
 }
 </style>
