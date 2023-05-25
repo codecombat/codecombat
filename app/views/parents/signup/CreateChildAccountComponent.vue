@@ -50,8 +50,19 @@
         {{ errMsg }}
       </div>
       <div class="form-group account__submit">
-        <button class="btn account__back--btn" @click.prevent="onBackButton">Back</button>
-        <button class="btn account__submit__btn" type="submit">Continue</button>
+        <button
+          v-if="!hideBackButton"
+          class="btn account__back--btn"
+          @click.prevent="onBackButton"
+        >
+          Back
+        </button>
+        <button
+          class="btn account__submit__btn"
+          type="submit"
+        >
+          Continue
+        </button>
       </div>
     </form>
     <add-user-component
@@ -71,6 +82,10 @@ export default {
   props: {
     initialData: {
       type: Object
+    },
+    hideBackButton: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -123,7 +138,7 @@ export default {
     font-size: 1.4rem;
     line-height: 1.7rem;
     letter-spacing: 0.3px;
-    color: $color-grey-1;
+    color: $color-grey-dark-1;
 
     margin-bottom: 2rem;
   }

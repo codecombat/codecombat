@@ -48,6 +48,7 @@
             <button
               v-if="!isPaidUser"
               class="content__solution__lock"
+              @click="onLockSolutionGuideClick"
             >
               <img
                 src="/images/ozaria/teachers/dashboard/svg_icons/IconSolution.svg"
@@ -164,6 +165,14 @@ export default {
     },
     getCampaignImage (slug) {
       return campignSlugImageMap[slug]
+    },
+    onLockSolutionGuideClick () {
+      noty({
+        type: 'information',
+        text: 'Only available to paid users',
+        timeout: 5000,
+        layout: 'center'
+      })
     }
   }
 }
