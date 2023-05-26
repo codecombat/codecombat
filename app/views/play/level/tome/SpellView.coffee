@@ -1517,6 +1517,12 @@ module.exports = class SpellView extends CocoView
       solution.classList.remove('display')
       @aceDiff.setOptions({showDiffs: false})
 
+  closeSolution: ->
+    solution = document.querySelector('#solution-area')
+    if solution.classList.contains('display')
+      solution.classList.remove('display')
+      @aceDiff.setOptions({showDiffs: false})
+
   onMaximizeToggled: (e) ->
     _.delay (=> @resize()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
 
