@@ -421,7 +421,16 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
             @myTotalScore = totalScore
             @myWinRate = (@myWins or 0) / Math.max((@myWins or 0) + (@myLosses or 0), 1)
           loadURL = "/db/tournament/#{@tournamentId}/rankings/#{@session.id}?scoreOffset=#{score}&team=#{@team}"
-        promises.push $.ajax(loadURL, cache: false, success: success)
+        loadPromise = $.ajax(loadURL, cache: false, success: success)
+        deferred = $.Deferred()
+        loadPromise.done (data) ->
+          deferred.resolve data
+        loadPromise.fail (jqxhr) =>
+          if jqxhr.status is 404
+            deferred.resolve 'ignored'
+          else
+            deferred.reject jqxhr
+        promises.push deferred.promise()
     @promise = $.when(promises...)
     @promise.then @onLoad
     @promise.fail @onFail
