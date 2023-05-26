@@ -46,7 +46,7 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
         ],
         // TODO: if any of students also has email?
         attendees: [
-          ...event.gcEmails
+          ...(event.gcEmails || [])
         ],
         reminders: {
           useDefault: false,
@@ -61,16 +61,13 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
 
     return new Promise((resolve, reject) => {
       const fun = () => {
-        // gapi.client.load('calendar', 'v3', () => {
-          // console.log('load v3 calendar')
           gapi.client.calendar.events.insert({
             calendarId: 'primary',
             resource: convertEvent(event)
           }).execute((event) => {
-            console.log('Event created: ' + event.htmlLink)
+          console.log('Google Event created: ' + event.htmlLink)
             resolve(event)
           })
-        // })
       }
       this.requestGoogleAccessToken(fun)
     })

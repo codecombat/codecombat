@@ -107,7 +107,7 @@ export default {
       if (this.editType === 'new') {
         try {
           const res = await this.saveEvent(this.event)
-          if (this.event.syncedToGC && !this.propsEvent?.syncedToGC) {
+          if (this.event.syncedToGC) {
             this.syncToGoogleCalendar()
           }
           this.$emit('save', res._id)
