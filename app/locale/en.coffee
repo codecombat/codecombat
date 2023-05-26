@@ -4048,6 +4048,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     edit_event_tab_desc: 'Edit the whole event, for editing single instance of this event, see instance tab'
     edit_members_tab_desc: 'Edit the member of this event, the startDate is depends on the instance date, so select the first instance for the new member'
     lessons_count_desc: 'The total lessons count of this member, normally it is the same as the event instances count, but it can be different if the member is added after the event started or ended before the event ended'
+    sync_to_google_desc: 'Sync this event to YOUR google calendar, instead of the owner\'s calendar. And can only work on CodeCombat gmail'
 
   teacher_dashboard:
     lock: 'Lock'

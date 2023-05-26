@@ -297,8 +297,11 @@ export default {
         :resetRRule="resetRRule"
       />
 
-      <div class="form-group" v-if="me.useGoogleCalendar()">
+      <div class="form-group" v-if="true || me.useGoogleCalendar()">
         <label for="importedToGC"> {{ $t(`events.sync${propsEvent?.syncedToGC ? 'ed' : ''}_to_google`) }}</label>
+        <div class="input-label">
+          {{ $t('events.sync_to_google_desc') }}
+        </div>
         <input
           v-model="event.syncedToGC"
           type="checkbox"
@@ -362,7 +365,7 @@ export default {
 .error-msg {
   color: red;
 }
-.tab-label {
+.tab-label, .input-label {
   font-size: 15px;
   color: rgba(128, 128, 128, 0.7);
 }
