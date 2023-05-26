@@ -66,9 +66,8 @@ module.exports = class SpellView extends CocoView
     'web-dev:error': 'onWebDevError'
     'level:gather-chat-message-context': 'onGatherChatMessageContext'
     'tome:fix-code': 'onFixCode'
-    'tome:fix-code-preview-start': 'onFixCodePreviewStart'
-    'tome:fix-code-preview-end': 'onFixCodePreviewEnd'
     'level:toggle-solution': 'onToggleSolution'
+    'level:close-solution': 'closeSolution'
 
   events:
     'mouseout': 'onMouseOut'
@@ -1462,6 +1461,11 @@ module.exports = class SpellView extends CocoView
       }
     })
 
+    aceSSession.on('changeBackMarker', =>
+      if @aceDiff and @aceDiff.getNumDiffs() == 0
+        @closeSolution()
+    )
+
   onToggleSolution: (e)->
     return unless @aceDiff
     if e.code
@@ -1474,6 +1478,12 @@ module.exports = class SpellView extends CocoView
     else
       solution.classList.add('display')
       @aceDiff.setOptions({showDiffs: true})
+
+  closeSolution: ->
+    solution = document.querySelector('#solution-area')
+    if solution.classList.contains('display')
+      solution.classList.remove('display')
+      @aceDiff.setOptions({showDiffs: false})
 
   onMaximizeToggled: (e) ->
     _.delay (=> @resize()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.

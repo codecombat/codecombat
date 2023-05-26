@@ -104,7 +104,7 @@ module.exports = class LevelChatView extends CocoView
     content = content.replace /<p><code>((.|\n)*?)(?:(?!<\/code>)(.|\n))*?<\/code><\/p>/g, (match) ->
       match.replace(/<p><code>/g, '<pre><code>').replace(/<\/code><\/p>/g, '</code></pre>')
 
-    content = content.replace /\[Fix Code\]/g, '<p><button class="btn btn-illustrated btn-small btn-primary fix-code-button">Fix Code</button></p>'
+    content = content.replace /\[Fix Code\]/g, '<p><button class="btn btn-illustrated btn-small btn-primary fix-code-button">Show me</button></p>'
     @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
 
     if _.string.startsWith(content, '/me')
@@ -185,8 +185,11 @@ module.exports = class LevelChatView extends CocoView
 
   onFixCodeClick: (e) ->
     Backbone.Mediator.publish 'level:toggle-solution', code: @lastFixedCode
-    # Backbone.Mediator.publish 'tome:fix-code', code: @lastFixedCode
-    # @$el.find('.fix-code-button').parent().remove()  # Could keep this around if we could undo it
+    btn = @$el.find('.fix-code-button')
+    if btn.html() == 'Show me'
+      btn.html 'Hide'
+    else
+      btn.html 'Show me'
 
   onFixCodeMouseOver: (e) ->
     Backbone.Mediator.publish 'tome:fix-code-preview-start', code: @lastFixedCode
