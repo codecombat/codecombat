@@ -49,7 +49,7 @@ export default {
         return
       }
       if (!this.instance.owner) {
-        this.errorMessage = 'Must set an Onwer'
+        this.errorMessage = 'Must set an Owner'
         this.inProgress = false
         return
       }

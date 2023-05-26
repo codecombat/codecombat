@@ -95,7 +95,7 @@ export default {
       this.event.type = 'online-classes'
       this.event.rrule = this.rrule.toString()
       if (!this.event.owner) {
-        this.errorMessage = 'Must set an Onwer'
+        this.errorMessage = 'Must set an Owner'
         this.inProgress = false
         return
       }
