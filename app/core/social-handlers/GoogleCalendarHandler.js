@@ -61,6 +61,7 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
 
     return new Promise((resolve, reject) => {
       const fun = () => {
+        gapi.client.load('calendar', 'v3', () => {
           gapi.client.calendar.events.insert({
             calendarId: 'primary',
             resource: convertEvent(event)
@@ -68,6 +69,7 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
           console.log('Google Event created: ' + event.htmlLink)
             resolve(event)
           })
+        })
       }
       this.requestGoogleAccessToken(fun)
     })
