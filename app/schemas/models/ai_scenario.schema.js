@@ -7,7 +7,7 @@ const AIScenarioSchema = c.object({
   required: ['releasePhase'],
   default: {
     releasePhase: 'beta',
-    interactions: []
+    interactions: { start: [] }
   }
 })
 
