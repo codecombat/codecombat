@@ -36,7 +36,9 @@ div.style-flat
 
   div.header
     div
-      img.print-logo(src="/images/pages/base/logo.png")
+      picture
+        source.print-logo(srcset="/images/pages/base/logo.webp" type="image/webp")
+        img.print-logo(src="/images/pages/base/logo.png")
     div
       h4 Outcomes Report
       h5
