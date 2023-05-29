@@ -158,6 +158,18 @@ export default function getVueRouter () {
           name: 'UserSwitchAccountConfirmation',
           component: () => import(/* webpackChunkName: "userSwitchAccountConfirm" */'/app/views/user/SwitchAccountConfirmationView'),
           props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/parents/signup',
+          name: 'ParentSignup',
+          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/SignupView'),
+          props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/parents/:viewName/:childId?',
+          name: 'ParentDashboard',
+          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/DashboardMainView'),
+          props: (route) => ({ ...route.query, ...route.params })
         }
       ],
       scrollBehavior(to) {

@@ -43,7 +43,7 @@ module.exports = class CocoRouter extends Backbone.Router
       if utils.getQueryVariable 'hour_of_code'
         delete window.alreadyLoadedView
         return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
-      unless utils.isOzaria or me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient() or paymentUtils.hasTemporaryPremiumAccess()
+      unless utils.isOzaria or me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient() or paymentUtils.hasTemporaryPremiumAccess() or me.isParentHome()
         delete window.alreadyLoadedView
         return @navigate "/premium", {trigger: true, replace: true}
       if me.isAPIClient()
@@ -127,7 +127,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'clans': go('clans/ClansView', { redirectStudents: true })
     'clans/:clanID': go('clans/ClanDetailsView', { redirectStudents: true })
 
-    'community': go('CommunityView')
+    'community': -> @navigate "/contribute", {trigger: true, replace: true}
 
     'contribute': go('contribute/MainContributeView')
     'contribute/adventurer': go('contribute/AdventurerView')
@@ -239,6 +239,7 @@ module.exports = class CocoRouter extends Backbone.Router
       @routeDirectly('views/landing-pages/mobile/PageMobileView', [], { vueRoute: true, baseTemplate: 'base-empty' })
 
     'parents': go('core/SingletonAppVueComponentView')
+    'parents/*path': go('core/SingletonAppVueComponentView')
     'live-classes': go('core/SingletonAppVueComponentView')
     'live': go('core/SingletonAppVueComponentView')
 

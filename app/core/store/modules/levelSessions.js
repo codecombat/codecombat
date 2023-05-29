@@ -21,14 +21,15 @@ export default {
      *    levelSessionsMapByUser: {
      *      USER_ID: {
      *        LEVEL_ORIGINAL: {}
-     *       } 
+     *       }
      *     }
      *  }
      */
     levelSessionsByClassroom: {},
     // level sessions for a campaign in any language depending on whats fetched from fetchLevelSessionsForCampaign
     levelSessionsByCampaign: {},
-    levelSessionsCountByDate: {}
+    levelSessionsCountByDate: {},
+    relatedUserCampaignFetched: {}
   },
 
   mutations: {
@@ -83,6 +84,19 @@ export default {
 
     setSessionsCountForDate: (state, { date, sessions }) => {
       state.levelSessionsCountByDate[date] = sessions
+    },
+    setSessionsForCampaignOfRelatedUser (state, { campaignHandle, sessions, userId }) {
+      Vue.delete(state.levelSessionsByCampaign, campaignHandle)
+      if (!state.levelSessionsByCampaign[campaignHandle]) state.levelSessionsByCampaign[campaignHandle] = {}
+      if (!state.levelSessionsByCampaign[campaignHandle][userId]) state.levelSessionsByCampaign[campaignHandle][userId] = {}
+      state.levelSessionsByCampaign[campaignHandle][userId].sessions = sessions
+      // Vue.set(state.levelSessionsByCampaign[campaignHandle][userId].sessions, sessions)
+    },
+    setRelatedUserCampaignFetched (state, { campaignHandle, userId, flag }) {
+      if (!state.relatedUserCampaignFetched[userId]) {
+        state.relatedUserCampaignFetched[userId] = {}
+      }
+      state.relatedUserCampaignFetched[userId][campaignHandle] = flag
     }
   },
   getters: {
@@ -94,6 +108,9 @@ export default {
     },
     getSessionsCountForDate: (state) => (date) => {
       return state.levelSessionsCountByDate[date]
+    },
+    getSessionsForCampaignOfRelatedUser: (state) => (userId, campaignHandle) => {
+      return (state.levelSessionsByCampaign[campaignHandle] || {})[userId]?.sessions
     }
   },
   // TODO add a way to clear out old level session data
@@ -212,6 +229,24 @@ export default {
       } catch (e) {
         console.error('Error in fetching sessions count for date', e)
         noty({ text: 'Error in fetching sessions count for date', type: 'error', timeout: 1000 })
+      }
+    },
+
+    async fetchLevelSessionsForCampaignOfRelatedUser ({ commit, state, getters }, { userId, campaignHandle, options = {} }) {
+      commit('initSessionsByCampaignState', campaignHandle)
+
+      try {
+        if (state.relatedUserCampaignFetched[userId] && state.relatedUserCampaignFetched[userId][campaignHandle]) {
+          return getters['getSessionsForCampaignOfRelatedUser'](userId, campaignHandle)
+        }
+        options.data = { userId, noLanguageFilter: true }
+        const campaignSessions = await levelSessionsApi.fetchForCampaign(campaignHandle, options)
+        commit('setSessionsForCampaignOfRelatedUser', { campaignHandle, sessions: campaignSessions, userId })
+        commit('setRelatedUserCampaignFetched', { campaignHandle, userId, flag: true })
+        return campaignSessions
+      } catch (e) {
+        console.error('Error in fetching campaign sessions', e)
+        noty({ text: 'Error in fetching campaign sessions', type: 'error', timeout: 1000 })
       }
     }
   }

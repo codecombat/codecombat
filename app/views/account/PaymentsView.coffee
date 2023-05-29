@@ -15,6 +15,7 @@ module.exports = class PaymentsView extends RootView
     @supermodel.trackRequest @payments.fetchByRecipient(me.id)
     @prepaids = new Prepaids()
     @supermodel.trackRequest @prepaids.fetchByCreator(me.id, {data: {allTypes: true}})
+    @paymentDescription = {}
 
   getMeta: ->
     title: $.i18n.t 'account.payments_title'
@@ -34,5 +35,11 @@ module.exports = class PaymentsView extends RootView
       transactionId = payPalSale?.id
       if transactionId
         console.log('PayPal Subscription Payment', transactionId)
+
+      description = payment.get('description')
+      if payment.get('productID') is 'online-classes'
+        @paymentDescription[payment.id] = description.slice(0, 22)
+      else
+        @paymentDescription[payment.id] = description
 
     super()

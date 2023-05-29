@@ -373,7 +373,7 @@ _.extend UserSchema.properties,
   enrollmentRequestSent: { type: 'boolean', description: 'deprecated' }
 
   schoolName: {type: 'string', description: 'Deprecated string. Use "school" object instead.'}
-  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator", "possible teacher"]}  # unset: home player
+  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator", "possible teacher", "parent-home"]}  # unset: home player
   verifiedTeacher: { type: 'boolean' }
   birthday: ({ type: 'string', title: "Birthday", description: "Just month and year, stored YYYY-MM"})
   lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })

@@ -596,7 +596,7 @@ export default {
 .container-footer-mountains {
   width: 100%;
   background-color: #DCF1F3;
-  background-image: url(/images/pages/parents/parents_footer_mountain.svg);
+  background-image: url(/images/pages/parents/parents_footer_mountain_compressed.svg);
   background-repeat: no-repeat;
   background-position: top;
   background-size: cover;

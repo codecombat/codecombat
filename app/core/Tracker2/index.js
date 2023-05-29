@@ -7,7 +7,6 @@ import FullStoryTracker from './FullStoryTracker'
 import FacebookPixelTracker from './FacebookPixelTracker'
 import TwitterPixelTracker from './TwitterPixelTracker'
 import ProfitWellTracker from './ProfitWellTracker'
-import MakelogTracker from './MakelogTracker'
 import ZendeskTracker from './ZendeskTracker'
 import SuperflowTracker from './SuperFlowTracker'
 
@@ -37,14 +36,12 @@ export default class Tracker2 extends BaseTracker {
     this.fullStoryTracker = new FullStoryTracker(this.store, this)
     this.facebookPixelTracker = new FacebookPixelTracker(this.store)
     this.profitWellTracker = new ProfitWellTracker(this.store)
-    this.makelogTracker = new MakelogTracker(this.store)
     this.twitterPixelTracker = new TwitterPixelTracker(this.store)
     this.zendeskTracker = new ZendeskTracker(this.store)
     this.superflowTracker = new SuperflowTracker(this.store)
 
     this.trackers = [
       this.internalTracker,
-      this.makelogTracker
     ]
 
     const isGlobal = !(window.features || {}).china

@@ -1273,6 +1273,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    forever: "Forever"
 #    subscription_status: "Your Subscription Status"
 #    currently_not_free: "You don't have a Subscription yet."
+#    online_classes: "Online Classes"
 
   announcement:
     now_available: "Dostupné pre predplatiteľov!"
