@@ -1,5 +1,6 @@
 import usersApi from 'core/api/users'
 import classroomsApi from 'core/api/classrooms'
+import adminApi from 'core/api/admin'
 
 export default {
   namespaced: true,
@@ -10,7 +11,8 @@ export default {
     },
 
     users: {
-      byId: {}
+      byId: {},
+      searchedResult: []
     },
 
     userNames: {
@@ -38,13 +40,19 @@ export default {
       })
     },
 
+    setSearchedResult: (state, users) => {
+      state.users.searchedResult = users
+    },
+    resetSearchedResult: (state) => {
+      state.users.searchedResult = []
+    },
+
     setUserNames: (state, nameMap) => {
       Object.keys(nameMap).forEach((userId) => {
         Vue.set(state.userNames.byId, userId, nameMap[userId])
       })
     }
   },
-
   getters: {
     // Get user data for classroom members
     getClassroomMembers: (state) => (classroom) => {
@@ -60,6 +68,9 @@ export default {
     },
     getUserById: (state) => (id) => {
       return state.users.byId[id]
+    },
+    getUserSearchResult: (state) => {
+      return state.users.searchedResult
     },
     getUserNameById: (state) => (id) => {
       const user = state.userNames.byId[id]
@@ -121,6 +132,16 @@ export default {
           console.error(`Fetch user failure ${e.message}`)
           // HACK: Disabling this user notification whilst keeping it in the console.
           // noty({ text: 'Fetch user failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 })
+        })
+    },
+
+    fetchUsersByNameOrSlug: ({ commit }, q) => {
+      adminApi.searchUser(q)
+        .then(res => {
+          commit('setSearchedResult', res)
+        })
+        .catch((e) => {
+          console.error(`Fetch user failure ${e.message}`)
         })
     },
 

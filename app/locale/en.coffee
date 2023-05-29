@@ -597,6 +597,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     stop_spying: "Stop Spying"
     stop_switching: "Stop Switching"
     test_as_student: "Test as Student"
+    gplus_linked: "Google Account linked successfully"
+    plus_link_error: "Google Account linked failed"
     email_or_username_or_library: "Email or Username or Library Card number"
 
   signup:
@@ -4012,6 +4014,44 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     title: 'CodeCombat Events'
     main_title: 'CodeCombat Events'
     main_description: 'The important events of codecombat China'
+    dashboard: 'Events Dashboard'
+    online_classes: 'Online Classes'
+    my_classes: 'My Online Classes'
+    classes_stats: 'Online Classes Stats'
+    name: 'Name',
+    class_name: 'Class Name'
+    description: 'Description',
+    owner: 'Owner',
+    type: 'Type',
+    members: 'Members',
+    start_date: 'Start Date'
+    end_date: 'End Time'
+    time_range: 'Time Range'
+    rrule: 'Recurrence Rules'
+    add_member: 'Add Member'
+    class_count: 'Lessons Count'
+    done: 'Finished Lesson'
+    attendance: 'Attendance'
+    course_description: 'Lesson Description'
+    teacher_notes: 'Teacher Notes'
+    levels_completed: 'Levels Completed'
+    no_levels_completed: 'No Completed Levels Found'
+    no_teacher_notes: 'No Teacher Notes Found'
+    no_video_recording: 'No Video Recording Found'
+    reply: 'Reply'
+    video_recording: 'Video Recording'
+    import_from_class: 'Import from Class'
+    link_google_calendar: 'Link with Google Calendar'
+    sync_to_google: 'Sync to Google Calendar'
+    synced_to_google: 'Synced to Google Calendar'
+    google_calendar_attendees: 'Google Calendar Attendees'
+    calendar: 'Calendar'
+    edit_instance_tab_desc: 'Edit the single instance of this event, for editing whole events, see edit tab'
+    edit_event_tab_desc: 'Edit the whole event, for editing single instance of this event, see instance tab'
+    edit_members_tab_desc: 'Edit the member of this event, the startDate is depends on the instance date, so select the first instance for the new member'
+    lessons_count_desc: 'The total lessons count of this member, normally it is the same as the event instances count, but it can be different if the member is added after the event started or ended before the event ended'
+    sync_to_google_desc: 'Sync this event to YOUR google calendar, instead of the owner\'s calendar. And can only work on CodeCombat gmail'
+    timezone_tips: 'Date/Time is based on YOUR timezone: '
 
   teacher_dashboard:
     lock: 'Lock'

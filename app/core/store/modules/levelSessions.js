@@ -28,6 +28,7 @@ export default {
     levelSessionsByClassroom: {},
     // level sessions for a campaign in any language depending on whats fetched from fetchLevelSessionsForCampaign
     levelSessionsByCampaign: {},
+    levelSessionsCountByDate: {},
     relatedUserCampaignFetched: {}
   },
 
@@ -80,6 +81,10 @@ export default {
     setSessionsForCampaign: (state, { campaign, sessions }) => {
       state.levelSessionsByCampaign[campaign].sessions = sessions
     },
+
+    setSessionsCountForDate: (state, { date, sessions }) => {
+      state.levelSessionsCountByDate[date] = sessions
+    },
     setSessionsForCampaignOfRelatedUser (state, { campaignHandle, sessions, userId }) {
       Vue.delete(state.levelSessionsByCampaign, campaignHandle)
       if (!state.levelSessionsByCampaign[campaignHandle]) state.levelSessionsByCampaign[campaignHandle] = {}
@@ -100,6 +105,9 @@ export default {
     },
     getSessionsMapForClassroom: (state) => (classroom) => {
       return (state.levelSessionsByClassroom[classroom] || {}).levelSessionMapByUser
+    },
+    getSessionsCountForDate: (state) => (date) => {
+      return state.levelSessionsCountByDate[date]
     },
     getSessionsForCampaignOfRelatedUser: (state) => (userId, campaignHandle) => {
       return (state.levelSessionsByCampaign[campaignHandle] || {})[userId]?.sessions
@@ -206,6 +214,21 @@ export default {
       } catch (e) {
         console.error('Error in fetching campaign sessions', e)
         noty({ text: 'Error in fetching campaign sessions', type: 'error', timeout: 1000 })
+      }
+    },
+
+    async fetchSessionsCountForDate ({ commit, getters }, { date }) {
+      const exists = getters.getSessionsCountForDate(date)
+      if (exists) {
+        return exists
+      }
+      try {
+        const sessions = await levelSessionsApi.fetchCompletedByDate(date)
+        commit('setSessionsCountForDate', { date, sessions })
+        return sessions
+      } catch (e) {
+        console.error('Error in fetching sessions count for date', e)
+        noty({ text: 'Error in fetching sessions count for date', type: 'error', timeout: 1000 })
       }
     },
 
