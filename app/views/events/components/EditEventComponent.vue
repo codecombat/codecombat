@@ -160,6 +160,9 @@ export default {
     me () {
       return me
     },
+    myTimeZone () {
+      return moment.tz.guess()
+    },
     _startDate: {
       get () {
         return moment(this.event.startDate).format(HTML5_FMT_DATE_LOCAL)
@@ -268,6 +271,9 @@ export default {
       </div>
       <div class="from-group">
         <label for="startDate"> {{ $t('events.start_date') }}</label>
+        <div class="input-label">
+          {{ $t('events.timezone_tips') + myTimeZone }}
+        </div>
         <input
           v-model="_startDate"
           type="date"
