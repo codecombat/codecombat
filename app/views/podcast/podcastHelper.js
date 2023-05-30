@@ -1,4 +1,4 @@
-const marked = require('marked')
+import marked from 'marked';
 
 function fullFileUrl (relativePath) {
   return `${window.location.protocol}//${window.location.host}/file/${relativePath}`
@@ -16,7 +16,7 @@ function podcastLinkRenderer () {
   return renderer
 }
 
-module.exports = {
+export default {
   fullFileUrl,
   podcastLinkRenderer
-}
+};

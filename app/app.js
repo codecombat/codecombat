@@ -13,7 +13,7 @@ if (window.features && window.features.chinaUx) {
   import(/* webpackChunkName: "UsFont" */ 'app/styles/common/fontUS.sass');
 }
 
-require('app/vendor.js');
+import 'app/vendor.js';
 
 // require.context('app/schemas', true, /.*\.(coffee|jade)/)
 // require.context('app/models', true, /.*\.(coffee|jade)/)
@@ -21,4 +21,4 @@ require('app/vendor.js');
 // require.context('app/core', true, /.*\.(coffee|jade)/)
 // require.context('app/views/core', true, /.*\.(coffee|jade)/)
 
-require('core/initialize');
+import 'core/initialize';

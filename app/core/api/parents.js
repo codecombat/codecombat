@@ -1,6 +1,6 @@
-const fetchJson = require('./fetch-json')
+import fetchJson from './fetch-json';
 
-module.exports = {
+export default {
   sendFormEntry (options) {
     return fetchJson('/parents/schedule-free-class', {
       method: 'POST',
@@ -18,4 +18,4 @@ module.exports = {
       json: { status }
     })
   }
-}
+};

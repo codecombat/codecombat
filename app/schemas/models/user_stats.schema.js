@@ -1,4 +1,4 @@
-const schema = require('./../schemas')
+import schema from './../schemas';
 
 const UserStatsSchema = schema.object({}, {
   userId: schema.objectId({ links: [ { rel: 'extra', href: '/db/user/{($)}' } ] }),
@@ -13,4 +13,4 @@ const UserStatsSchema = schema.object({}, {
 
 schema.extendBasicProperties(UserStatsSchema, 'user.stat')
 
-module.exports = UserStatsSchema
+export default UserStatsSchema;

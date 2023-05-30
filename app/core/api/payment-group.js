@@ -1,4 +1,4 @@
-const fetchJson = require('./fetch-json');
+import fetchJson from './fetch-json';
 
 const getPaymentGroup	= slug => fetchJson(`/db/payments/payment.groups/${slug}`);
 
@@ -10,7 +10,7 @@ const getPaymentGroupFromProduct = (productId, couponId) => {
 	}
 }
 
-module.exports = {
+export default {
 	getPaymentGroup,
 	getPaymentGroupFromProduct
-}
+};

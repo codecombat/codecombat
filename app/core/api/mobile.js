@@ -1,10 +1,10 @@
-const fetchJson = require('./fetch-json')
+import fetchJson from './fetch-json';
 
-module.exports = {
+export default {
   register (options) {
     return fetchJson('/mobile/new-registration', {
       method: 'POST',
       json: options
     })
   }
-}
+};

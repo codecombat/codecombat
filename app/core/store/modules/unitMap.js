@@ -43,7 +43,7 @@ export default {
           const existingCampaignLevels = _.cloneDeep(campaignData.levels)
 
           // classroom snapshot of the levels for the course
-          classroom = classroom || await api.classrooms.get({ classroomID: classroomId })
+          classroom = classroom || (await api.classrooms.get({ classroomID: classroomId }))
           const classroomCourseLevels = _.find(classroom.courses, { _id: courseId }).levels
 
           // get levels data for the levels in the classroom snapshot

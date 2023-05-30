@@ -2,8 +2,9 @@
 // This schema uses features from json schema draft-07
 // Use ajv to validate against this schema instead of legacy tv4 - See Interactive.spec.js
 
-const submissionSchema = require('./common/submissions.schema')
-const schema = require('../../schemas')
+import submissionSchema from './common/submissions.schema';
+
+import schema from '../../schemas';
 
 const interactiveSessionSchema = {
   type: 'object',
@@ -75,4 +76,4 @@ const interactiveSessionSchema = {
 
 schema.extendBasicProperties(interactiveSessionSchema, 'interactive.session')
 
-module.exports = interactiveSessionSchema
+export default interactiveSessionSchema;

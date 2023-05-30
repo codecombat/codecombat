@@ -1,4 +1,4 @@
-const SearchView = require('views/common/SearchView')
+import SearchView from 'views/common/SearchView';
 
 class AnnouncementSearchView extends SearchView{
   id = 'editor-announcement-home-view'
@@ -11,4 +11,4 @@ class AnnouncementSearchView extends SearchView{
   canMakeNew = true
 }
 
-module.exports = AnnouncementSearchView
+export default AnnouncementSearchView;

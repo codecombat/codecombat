@@ -1,9 +1,9 @@
 import prepaidsApi from 'core/api/prepaids'
 import usersApi from 'core/api/users'
 
-const Prepaid = require('models/Prepaid')
-const User = require('models/User')
-const Bluebird = require('bluebird')
+import Prepaid from 'models/Prepaid';
+import User from 'models/User';
+import Bluebird from 'bluebird';
 
 export default {
   namespaced: true,

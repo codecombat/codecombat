@@ -1,4 +1,4 @@
-const schema = require('./../schemas')
+import schema from './../schemas';
 
 const PodcastSchema = schema.object(
   {
@@ -31,4 +31,4 @@ schema.extendNamedProperties(PodcastSchema)
 schema.extendTranslationCoverageProperties(PodcastSchema)
 schema.extendPatchableProperties(PodcastSchema)
 
-module.exports = PodcastSchema
+export default PodcastSchema;

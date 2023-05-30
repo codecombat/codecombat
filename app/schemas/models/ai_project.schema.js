@@ -1,5 +1,5 @@
-const c = require('./../schemas')
-const _ = require('lodash')
+import c from './../schemas';
+import _ from 'lodash';
 
 const AIProjectSchema = c.object({
   title: 'AI Project',
@@ -45,4 +45,4 @@ c.extendBasicProperties(AIProjectSchema, 'ai_project')
 c.extendSearchableProperties(AIProjectSchema)
 c.extendPermissionsProperties(AIProjectSchema, 'ai_project')
 
-module.exports = AIProjectSchema
+export default AIProjectSchema;

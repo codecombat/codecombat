@@ -1,9 +1,9 @@
-const EditView = require('views/common/EditView')
-const CocoCollection = require('collections/CocoCollection')
-const Announcement = require('models/Announcement')
-const AnnouncementSchema = require('schemas/models/announcement.schema')
-const moment = require('moment')
-const treemaExt = require('core/treema-ext')
+import EditView from 'views/common/EditView';
+import CocoCollection from 'collections/CocoCollection';
+import Announcement from 'models/Announcement';
+import AnnouncementSchema from 'schemas/models/announcement.schema';
+import moment from 'moment';
+import treemaExt from 'core/treema-ext';
 
 
 class AnnouncementEditView extends EditView{
@@ -146,4 +146,4 @@ class QueryNode extends window.TreemaObjectNode {
   }
 }
 
-module.exports = AnnouncementEditView
+export default AnnouncementEditView;

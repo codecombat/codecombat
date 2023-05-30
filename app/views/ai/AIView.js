@@ -4,9 +4,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AIView
-require('app/styles/ai/ai.sass')
-const RootView = require('views/core/RootView')
-const template = require('app/templates/ai/ai')
+import 'app/styles/ai/ai.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/ai/ai';
 let ai
 try {
   ai = require('../../../node_modules/ai/dist/ai.js')
@@ -17,7 +17,7 @@ try {
   ai = { AI: () => {} }
 }
 
-module.exports = (AIView = (function () {
+export default AIView = (function () {
   AIView = class AIView extends RootView {
     static initClass() {
       this.prototype.id = 'ai-view'
@@ -39,4 +39,4 @@ module.exports = (AIView = (function () {
   }
   AIView.initClass()
   return AIView
-})())
+})();

@@ -1,5 +1,5 @@
-const c = require('./../schemas')
-const _ = require('lodash')
+import c from './../schemas';
+import _ from 'lodash';
 
 const AIInteractionSchema = c.object({
   title: 'AI Interaction',
@@ -35,7 +35,8 @@ _.extend(AIInteractionSchema.properties, {
 
 AIInteractionSchema.definitions = {}
 c.extendBasicProperties(AIInteractionSchema, 'ai_interaction')
+
 // c.extendSearchableProperties(AIInteractionSchema)
 // c.extendPermissionsProperties(AIInteractionSchema, 'ai_interaction')
 
-module.exports = AIInteractionSchema
+export default AIInteractionSchema;

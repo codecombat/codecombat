@@ -1,4 +1,4 @@
-const fetchJson = require('./fetch-json')
+import fetchJson from './fetch-json';
 
 const postTournament = (options) => {
   return fetchJson('/db/tournament', {
@@ -23,9 +23,9 @@ const publishTournament = (options) => {
 
 const getTournamentsByMember = memberId => fetchJson(`/db/tournaments?memberId=${memberId}`)
 
-module.exports = {
+export default {
   postTournament,
   putTournament,
   publishTournament,
   getTournamentsByMember
-}
+};

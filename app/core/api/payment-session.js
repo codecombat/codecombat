@@ -1,4 +1,4 @@
-const fetchJson = require('./fetch-json');
+import fetchJson from './fetch-json';
 
 const createPaymentSession = (options) => {
 	return fetchJson('/db/payments/payment.sessions', {
@@ -7,6 +7,6 @@ const createPaymentSession = (options) => {
 	})
 }
 
-module.exports = {
+export default {
 	createPaymentSession
 };

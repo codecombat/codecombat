@@ -1,5 +1,5 @@
-const I18NEditModelView = require('./I18NEditModelView')
-const ChatMessage = require('models/ChatMessage')
+import I18NEditModelView from './I18NEditModelView';
+import ChatMessage from 'models/ChatMessage';
 
 class I18NEditChatMessage extends I18NEditModelView {
   buildTranslationList () {
@@ -24,4 +24,4 @@ class I18NEditChatMessage extends I18NEditModelView {
 I18NEditChatMessage.prototype.id = 'i18n-edit-chat-message-view'
 I18NEditChatMessage.prototype.modelClass = ChatMessage
 
-module.exports = I18NEditChatMessage
+export default I18NEditChatMessage;

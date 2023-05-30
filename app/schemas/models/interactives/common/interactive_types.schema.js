@@ -1,7 +1,8 @@
 // Specific schemas for different types of interactives
 
-const solutionSchema = require('./solutions.schema')
-const schema = require('../../../schemas')
+import solutionSchema from './solutions.schema';
+
+import schema from '../../../schemas';
 
 const interactiveDraggableOrderingSchema = {
   type: 'object',
@@ -142,11 +143,11 @@ const interactiveDraggableStatementCompletionSchema = {
   properties: _.extend({}, interactiveDraggableOrderingSchema.properties)
 }
 
-module.exports = {
+export default {
   interactiveDraggableOrderingSchema,
   interactiveInsertCodeSchema,
   interactiveDraggableClassificationSchema,
   interactiveMultipleChoiceSchema,
   interactiveFillInCodeSchema,
   interactiveDraggableStatementCompletionSchema
-}
+};

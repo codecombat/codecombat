@@ -1,6 +1,6 @@
 import { getPaymentGroupFromProduct } from '../core/api/payment-group'
 import { handleCheckoutSession } from '../views/payment/paymentPriceHelper'
-const storage = require('core/storage')
+import storage from 'core/storage';
 const TEMPORARY_PREMIUM_KEY = 'temporary-premium-access'
 const TRACKED_PREMIUM = 'tracked-premium'
 
@@ -68,11 +68,11 @@ function getLtvMultiplier (duration) {
   return 1
 }
 
-module.exports = {
+export default {
   handleHomeSubscription,
   setTemporaryPremiumAccess,
   hasTemporaryPremiumAccess,
   setTrackedPremiumPurchase,
   hasTrackedPremiumAccess,
   getTrackingData
-}
+};

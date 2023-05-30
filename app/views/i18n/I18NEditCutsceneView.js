@@ -1,5 +1,5 @@
-const I18NEditModelView = require('./I18NEditModelView')
-const Cutscene = require('ozaria/site/models/Cutscene')
+import I18NEditModelView from './I18NEditModelView';
+import Cutscene from 'ozaria/site/models/Cutscene';
 
 class I18NEditCutsceneView extends I18NEditModelView {
   buildTranslationList () {
@@ -22,4 +22,4 @@ class I18NEditCutsceneView extends I18NEditModelView {
 I18NEditCutsceneView.prototype.id = 'i18n-edit-cutscene-view'
 I18NEditCutsceneView.prototype.modelClass = Cutscene
 
-module.exports = I18NEditCutsceneView
+export default I18NEditCutsceneView;

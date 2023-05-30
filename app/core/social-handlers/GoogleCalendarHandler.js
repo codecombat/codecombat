@@ -83,7 +83,7 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
   }
 }
 
-module.exports = {
+export default {
   gcApiHandler: new GoogleCalendarAPIHandler(),
 
   scopes: SCOPE,
@@ -137,4 +137,4 @@ module.exports = {
       return 'Error in syncing event to google calendar'
     }
   }
-}
+};

@@ -1,5 +1,5 @@
-const c = require('./../schemas')
-const _ = require('lodash')
+import c from './../schemas';
+import _ from 'lodash';
 
 const AIScenarioSchema = c.object({
   title: 'AI Scenario',
@@ -78,4 +78,4 @@ c.extendPermissionsProperties(AIScenarioSchema, 'ai_scenario')
 c.extendPatchableProperties(AIScenarioSchema)
 c.extendTranslationCoverageProperties(AIScenarioSchema)
 
-module.exports = AIScenarioSchema
+export default AIScenarioSchema;

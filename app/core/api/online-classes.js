@@ -1,4 +1,4 @@
-const fetchJson = require('./fetch-json')
+import fetchJson from './fetch-json';
 
 export function scheduleClassEmail (options) {
   return fetchJson('/contact/send-class-schedule-email', {

@@ -1,5 +1,5 @@
-const c = require('./../schemas')
-const _ = require('lodash')
+import c from './../schemas';
+import _ from 'lodash';
 
 const ChatMessageSchema = c.object({
   title: 'ChatMessage',
@@ -274,4 +274,4 @@ c.extendSearchableProperties(ChatMessageSchema)
 c.extendPermissionsProperties(ChatMessageSchema, 'chat_message')
 c.extendTranslationCoverageProperties(ChatMessageSchema)
 
-module.exports = ChatMessageSchema
+export default ChatMessageSchema;

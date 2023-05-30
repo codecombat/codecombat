@@ -1,4 +1,4 @@
-const storage = require('app/core/storage')
+import storage from 'app/core/storage';
 export default {
   methods: {
     // add id on iframe element like this: :id="`podcast-${podcast._id}`"

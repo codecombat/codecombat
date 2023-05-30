@@ -11,4 +11,4 @@ AIProject.prototype.defaults = {
   visibility: 'public'
 }
 
-module.exports = AIProject
+export default AIProject;

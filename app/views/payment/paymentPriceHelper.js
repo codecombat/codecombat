@@ -31,7 +31,7 @@ async function handleCheckoutSession(options) {
   }
 }
 
-module.exports = {
+export default {
   getDisplayUnitPrice,
   getDisplayCurrency,
   handleCheckoutSession,

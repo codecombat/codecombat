@@ -11,4 +11,4 @@ Announcement.prototype.defaults = {
   product: 'codecombat'
 }
 
-module.exports = Announcement
+export default Announcement;

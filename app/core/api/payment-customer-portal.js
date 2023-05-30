@@ -1,4 +1,4 @@
-const fetchJson = require('./fetch-json');
+import fetchJson from './fetch-json';
 
 const createPaymentCustomerPortal = () => {
   return fetchJson('/db/payments/customer-portal', {
@@ -6,6 +6,6 @@ const createPaymentCustomerPortal = () => {
   });
 }
 
-module.exports = {
+export default {
   createPaymentCustomerPortal
 };

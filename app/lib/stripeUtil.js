@@ -6,6 +6,6 @@ async function getStripeLib() {
   return loadStripe(STRIPE_PUBLISHABLE_KEY);
 }
 
-module.exports = {
+export default {
   getStripeLib
 };

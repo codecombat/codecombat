@@ -1,4 +1,4 @@
-const c = require('./../schemas')
+import c from './../schemas';
 
 const ReadAnnouncementSchema = {
   type: 'object',
@@ -35,4 +35,4 @@ const ReadAnnouncementSchema = {
   }
 }
 
-module.exports = ReadAnnouncementSchema
+export default ReadAnnouncementSchema;

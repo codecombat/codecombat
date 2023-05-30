@@ -2,8 +2,9 @@
 // This schema uses features from json schema draft-07
 // Use ajv to validate against this schema instead of legacy tv4 - See Interactive.spec.js
 
-const interactiveTypeSchema = require('./common/interactive_types.schema')
-const schema = require('../../schemas')
+import interactiveTypeSchema from './common/interactive_types.schema';
+
+import schema from '../../schemas';
 
 // Specific articles schema for documentation (similar to levels)
 const SpecificArticleSchema = schema.object()
@@ -139,4 +140,4 @@ schema.extendNamedProperties(interactiveSchema)
 schema.extendTranslationCoverageProperties(interactiveSchema)
 schema.extendPatchableProperties(interactiveSchema)
 
-module.exports = interactiveSchema
+export default interactiveSchema;

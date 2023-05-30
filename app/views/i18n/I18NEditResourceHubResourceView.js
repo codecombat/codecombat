@@ -1,5 +1,5 @@
-const I18NEditModelView = require('./I18NEditModelView')
-const ResourceHubResource = require('models/ResourceHubResource')
+import I18NEditModelView from './I18NEditModelView';
+import ResourceHubResource from 'models/ResourceHubResource';
 
 class I18NEditResourceHubResource extends I18NEditModelView {
   buildTranslationList () {
@@ -28,4 +28,4 @@ class I18NEditResourceHubResource extends I18NEditModelView {
 I18NEditResourceHubResource.prototype.id = 'i18n-edit-resource_hub_resource-view'
 I18NEditResourceHubResource.prototype.modelClass = ResourceHubResource
 
-module.exports = I18NEditResourceHubResource
+export default I18NEditResourceHubResource;

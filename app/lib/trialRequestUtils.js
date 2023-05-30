@@ -15,9 +15,9 @@ function setAndReturn(obj, key, val) {
   return obj;
 }
 
-module.exports = {
+export default {
   getNcesData,
   getRootLevelData,
   SCHOOL_NCES_KEYS,
   ROOT_LEVEL_KEYS
-}
+};

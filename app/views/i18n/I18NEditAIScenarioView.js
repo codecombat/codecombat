@@ -1,5 +1,5 @@
-const I18NEditModelView = require('./I18NEditModelView')
-const AIScenario = require('models/AIScenario')
+import I18NEditModelView from './I18NEditModelView';
+import AIScenario from 'models/AIScenario';
 
 class I18NEditAIScenario extends I18NEditModelView {
   buildTranslationList () {
@@ -24,4 +24,4 @@ class I18NEditAIScenario extends I18NEditModelView {
 I18NEditAIScenario.prototype.id = 'i18n-edit-ai-scenario-view'
 I18NEditAIScenario.prototype.modelClass = AIScenario
 
-module.exports = I18NEditAIScenario
+export default I18NEditAIScenario;

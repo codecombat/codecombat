@@ -1,5 +1,5 @@
-const I18NEditModelView = require('./I18NEditModelView')
-const Cinematic = require('ozaria/site/models/Cinematic')
+import I18NEditModelView from './I18NEditModelView';
+import Cinematic from 'ozaria/site/models/Cinematic';
 
 class I18NEditCinematicView extends I18NEditModelView {
   buildTranslationList () {
@@ -38,4 +38,4 @@ class I18NEditCinematicView extends I18NEditModelView {
 I18NEditCinematicView.prototype.id = 'i18n-edit-cinematic-view'
 I18NEditCinematicView.prototype.modelClass = Cinematic
 
-module.exports = I18NEditCinematicView
+export default I18NEditCinematicView;

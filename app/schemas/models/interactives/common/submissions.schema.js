@@ -1,7 +1,8 @@
 // Schemas for different types of submissions in various interactive_sessions.
 
-const interactiveTypeSchema = require('./interactive_types.schema')
-const schema = require('../../../schemas')
+import interactiveTypeSchema from './interactive_types.schema';
+
+import schema from '../../../schemas';
 
 const draggableOrderingSubmissionSchema = {
   type: 'object',
@@ -71,11 +72,11 @@ const draggableStatementCompletionSubmissionSchema = {
   }
 }
 
-module.exports = {
+export default {
   draggableOrderingSubmissionSchema,
   insertCodeSubmissionSchema,
   draggableClassificationSubmissionSchema,
   multipleChoiceSubmissionSchema,
   fillInCodeSubmissionSchema,
   draggableStatementCompletionSubmissionSchema
-}
+};

@@ -8,4 +8,4 @@ PodcastResource.schema = schema
 PodcastResource.urlRoot = '/db/podcast'
 PodcastResource.prototype.urlRoot = '/db/podcast'
 
-module.exports = PodcastResource
+export default PodcastResource;

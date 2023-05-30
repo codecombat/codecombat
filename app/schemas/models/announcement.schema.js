@@ -1,5 +1,5 @@
-const c = require('./../schemas')
-const _ = require('lodash')
+import c from './../schemas';
+import _ from 'lodash';
 
 const MongoQueryOperatorSchema = {
   title: 'Query Operator',
@@ -123,4 +123,4 @@ c.extendBasicProperties(AnnouncementSchema, 'announcement')
 c.extendSearchableProperties(AnnouncementSchema)
 c.extendTranslationCoverageProperties(AnnouncementSchema)
 
-module.exports = AnnouncementSchema
+export default AnnouncementSchema;

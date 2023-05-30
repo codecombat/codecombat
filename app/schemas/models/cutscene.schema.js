@@ -1,4 +1,4 @@
-const schema = require('./../schemas')
+import schema from './../schemas';
 
 const CutsceneSchema = schema.object({
   description: 'Data for a cinematic',
@@ -31,4 +31,4 @@ schema.extendTranslationCoverageProperties(CutsceneSchema)
 schema.extendPatchableProperties(CutsceneSchema)
 schema.extendNamedProperties(CutsceneSchema)
 
-module.exports = CutsceneSchema
+export default CutsceneSchema;

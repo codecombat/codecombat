@@ -1,5 +1,5 @@
-const usersApi = require('../core/api').users
-const localStorage = require('../core/storage')
+import { users as usersApi } from '../core/api';
+import localStorage from '../core/storage';
 
 function provisionPremium () {
   usersApi.provisionSubscription({ userId: me.get('_id') })
@@ -59,11 +59,11 @@ function removeLibraryKeys () {
   localStorage.remove(libraryNetworkLSKey())
 }
 
-module.exports = {
+export default {
   provisionPremium,
   isInLibraryNetwork,
   shouldHideEmail,
   libraryName,
   removeLibraryKeys,
   shouldShowLibraryLoginModal
-}
+};

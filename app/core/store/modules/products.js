@@ -1,6 +1,6 @@
 import Products from 'app/collections/Products'
 import _ from 'lodash'
-const utils = require('core/utils')
+import utils from 'core/utils';
 
 /**
  * This module acts as a simple proxy to the Products collection.  Ideally we'd move the products

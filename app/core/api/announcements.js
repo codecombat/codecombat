@@ -1,7 +1,7 @@
-const fetchJson = require('./fetch-json')
+import fetchJson from './fetch-json';
 
 
-module.exports = {
+export default {
   getNew: () => fetchJson('/db/user/announcements/new', {method: 'POST'}),
   getList: (options) => {
     let url = '/db/user/announcements';
@@ -16,4 +16,4 @@ module.exports = {
       json: options
     })
   }
-}
+};

@@ -1,4 +1,4 @@
-module.exports = (moment) => {
+export default (moment) => {
   return {
     changeTimeZone (dateString, format, from, to, toFormat = format) {
       moment.locale('en')
@@ -10,4 +10,4 @@ module.exports = (moment) => {
       return dateInNewTimezone
     }
   }
-}
+};

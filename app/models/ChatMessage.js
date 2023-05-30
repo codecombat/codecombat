@@ -19,4 +19,4 @@ ChatMessage.prototype.defaults = {
   releasePhase: 'beta'
 }
 
-module.exports = ChatMessage
+export default ChatMessage;

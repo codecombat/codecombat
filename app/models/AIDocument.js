@@ -9,4 +9,4 @@ AIDocument.urlRoot = '/db/ai_document'
 AIDocument.prototype.urlRoot = '/db/ai_document'
 AIDocument.prototype.defaults = {}
 
-module.exports = AIDocument
+export default AIDocument;

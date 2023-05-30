@@ -1,10 +1,10 @@
-const fetchJson = require('./fetch-json')
+import fetchJson from './fetch-json';
 
-module.exports = {
+export default {
   waitlistSignup (options) {
     return fetchJson('/roblox/waitlist-signup', {
       method: 'POST',
       json: options
     })
   }
-}
+};

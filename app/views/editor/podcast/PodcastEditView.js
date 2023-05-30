@@ -1,6 +1,6 @@
-const EditView = require('views/common/EditView')
-const Podcast = require('models/Podcast')
-const PodcastSchema = require('schemas/models/podcast.schema')
+import EditView from 'views/common/EditView';
+import Podcast from 'models/Podcast';
+import PodcastSchema from 'schemas/models/podcast.schema';
 
 class PodcastEditView extends EditView {
   resource = null
@@ -16,4 +16,4 @@ class PodcastEditView extends EditView {
   }
 }
 
-module.exports = PodcastEditView
+export default PodcastEditView;

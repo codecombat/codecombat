@@ -1,4 +1,4 @@
-const SearchView = require('views/common/SearchView')
+import SearchView from 'views/common/SearchView';
 
 class PodcastSearchView extends SearchView {
   id = 'editor-podcast-home-view'
@@ -11,4 +11,4 @@ class PodcastSearchView extends SearchView {
   canMakeNew = true
 }
 
-module.exports = PodcastSearchView
+export default PodcastSearchView;

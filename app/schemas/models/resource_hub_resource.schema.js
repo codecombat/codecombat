@@ -1,5 +1,5 @@
-const schema = require('./../schemas')
-const utils = require('../../core/utils')
+import schema from './../schemas';
+import utils from '../../core/utils';
 
 const ResourceHubResourceSchema = schema.object(
   {
@@ -90,4 +90,4 @@ schema.extendTranslationCoverageProperties(ResourceHubResourceSchema)
 schema.extendPatchableProperties(ResourceHubResourceSchema)
 schema.extendSearchableProperties(ResourceHubResourceSchema)
 
-module.exports = ResourceHubResourceSchema
+export default ResourceHubResourceSchema;

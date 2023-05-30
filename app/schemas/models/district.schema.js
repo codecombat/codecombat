@@ -1,4 +1,4 @@
-const schema = require('./../schemas')
+import schema from './../schemas';
 
 const DistrictSchema = schema.object({ required: ['name'] }, {
   name: schema.shortString(),
@@ -27,4 +27,4 @@ const DistrictSchema = schema.object({ required: ['name'] }, {
 
 schema.extendBasicProperties(DistrictSchema, 'district')
 
-module.exports = DistrictSchema
+export default DistrictSchema;

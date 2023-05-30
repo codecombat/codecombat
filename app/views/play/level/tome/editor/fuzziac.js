@@ -494,4 +494,4 @@ fuzziac.prototype = {
 	}
 };
 
-module.exports = fuzziac;
+export default fuzziac;

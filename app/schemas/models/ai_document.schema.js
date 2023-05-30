@@ -1,5 +1,5 @@
-const c = require('./../schemas')
-const _ = require('lodash')
+import c from './../schemas';
+import _ from 'lodash';
 
 const AIDocumentSchema = c.object({
   title: 'AI Document',
@@ -23,7 +23,8 @@ _.extend(AIDocumentSchema.properties, {
 
 AIDocumentSchema.definitions = {}
 c.extendBasicProperties(AIDocumentSchema, 'ai_document')
+
 // c.extendSearchableProperties(AIDocumentSchema)
 // c.extendPermissionsProperties(AIDocumentSchema, 'ai_document')
 
-module.exports = AIDocumentSchema
+export default AIDocumentSchema;

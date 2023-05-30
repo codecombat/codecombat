@@ -1,4 +1,4 @@
-const schema = require('./../schemas')
+import schema from './../schemas';
 
 const EventInstanceSchema = schema.object(
   {
@@ -26,4 +26,4 @@ const EventInstanceSchema = schema.object(
 
 schema.extendBasicProperties(EventInstanceSchema, 'EventInstance')
 
-module.exports = EventInstanceSchema
+export default EventInstanceSchema;

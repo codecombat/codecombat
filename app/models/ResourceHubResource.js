@@ -8,4 +8,4 @@ ResourceHubResource.schema = schema
 ResourceHubResource.urlRoot = '/db/resource_hub_resource'
 ResourceHubResource.prototype.urlRoot = '/db/resource_hub_resource'
 
-module.exports = ResourceHubResource
+export default ResourceHubResource;

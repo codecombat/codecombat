@@ -9,4 +9,4 @@ AIInteraction.urlRoot = '/db/ai_interaction'
 AIInteraction.prototype.urlRoot = '/db/ai_interaction'
 AIInteraction.prototype.defaults = {}
 
-module.exports = AIInteraction
+export default AIInteraction;

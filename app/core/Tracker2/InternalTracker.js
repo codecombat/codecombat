@@ -1,6 +1,6 @@
 import BaseTracker, { extractDefaultUserTraits } from './BaseTracker'
 import { getQueryVariable } from '../utils'
-const api = require('core/api')
+import api from 'core/api';
 
 /**
  * Tracks events to our internal analytics database.

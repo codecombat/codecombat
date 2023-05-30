@@ -1,6 +1,6 @@
 // Schemas for different types of solutions in various interactives
 
-const schema = require('../../../schemas')
+import schema from '../../../schemas';
 
 const elementOrderingSolutionSchema = {
   type: 'array',
@@ -21,8 +21,8 @@ const classificationSolutionSchema = {
   }
 }
 
-module.exports = {
+export default {
   elementOrderingSolutionSchema,
   singleSolutionSchema,
   classificationSolutionSchema
-}
+};

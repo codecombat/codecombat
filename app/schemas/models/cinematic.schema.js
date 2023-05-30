@@ -1,5 +1,5 @@
-const c = require('./../schemas')
-const { LEFT_LANK_KEY, RIGHT_LANK_KEY, HERO_PET, BACKGROUND_OBJECT } = require('./../../../ozaria/engine/cinematic/constants')
+import c from './../schemas';
+import { LEFT_LANK_KEY, RIGHT_LANK_KEY, HERO_PET, BACKGROUND_OBJECT } from './../../../ozaria/engine/cinematic/constants';
 
 const ThangTypeSchema = (title, description) => c.object({
   title,
@@ -238,4 +238,4 @@ c.extendNamedProperties(CinematicSchema)
 c.extendTranslationCoverageProperties(CinematicSchema)
 c.extendPatchableProperties(CinematicSchema)
 
-module.exports = CinematicSchema
+export default CinematicSchema;

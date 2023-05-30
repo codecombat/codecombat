@@ -1,6 +1,6 @@
 import { getPublicClans, getMyClans, getClan, getChildClanDetails, getTournamentsByClan } from '../../api/clans'
 import { getTournamentsByMember } from '../../api/tournaments'
-const _ = require('lodash')
+import _ from 'lodash';
 
 export default {
   namespaced: true,

@@ -16,6 +16,6 @@ function logInWithClever() {
   window.open(url, '_blank')
 }
 
-module.exports = {
+export default {
   logInWithClever
-}
+};

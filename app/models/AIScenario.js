@@ -12,4 +12,4 @@ AIScenario.prototype.defaults = {
   interactions: { start: [] }
 }
 
-module.exports = AIScenario
+export default AIScenario;

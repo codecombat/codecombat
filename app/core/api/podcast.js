@@ -1,4 +1,4 @@
-const fetchJson = require('./fetch-json')
+import fetchJson from './fetch-json';
 
 const getPodcasts = () => fetchJson('/db/podcast')
 
@@ -11,8 +11,8 @@ const podcastContact = (options) => {
   })
 }
 
-module.exports = {
+export default {
   getPodcasts,
   getPodcast,
   podcastContact
-}
+};

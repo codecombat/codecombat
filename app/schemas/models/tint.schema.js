@@ -1,4 +1,4 @@
-const schema = require('./../schemas')
+import schema from './../schemas';
 
 const Tint = schema.object({
   title: 'Group Tint',
@@ -17,4 +17,4 @@ const Tint = schema.object({
 schema.extendBasicProperties(Tint, 'tint')
 schema.extendNamedProperties(Tint)
 
-module.exports = Tint
+export default Tint;

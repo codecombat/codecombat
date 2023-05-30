@@ -1,5 +1,5 @@
-const I18NEditModelView = require('./I18NEditModelView')
-const Interactive = require('ozaria/site/models/Interactive')
+import I18NEditModelView from './I18NEditModelView';
+import Interactive from 'ozaria/site/models/Interactive';
 
 class I18NEditInteractiveView extends I18NEditModelView {
   buildTranslationList () {
@@ -69,4 +69,4 @@ class I18NEditInteractiveView extends I18NEditModelView {
 I18NEditInteractiveView.prototype.id = 'i18n-edit-interactive-view'
 I18NEditInteractiveView.prototype.modelClass = Interactive
 
-module.exports = I18NEditInteractiveView
+export default I18NEditInteractiveView;

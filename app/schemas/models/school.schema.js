@@ -1,4 +1,4 @@
-const schema = require('./../schemas')
+import schema from './../schemas';
 
 const SchoolSchema = schema.object(
   {
@@ -43,4 +43,4 @@ const SchoolSchema = schema.object(
 
 schema.extendBasicProperties(SchoolSchema, 'school')
 
-module.exports = SchoolSchema
+export default SchoolSchema;

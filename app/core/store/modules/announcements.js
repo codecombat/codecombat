@@ -1,6 +1,6 @@
-const fetchJson = require('../../api/fetch-json')
+import fetchJson from '../../api/fetch-json';
 import { getNew, getList, read } from '../../api/announcements'
-const { ANNOUNCEMENT_LIMIT } = require('../../constants')
+import { ANNOUNCEMENT_LIMIT } from '../../constants';
 
 export default {
   namespaced: true,

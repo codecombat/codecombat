@@ -55,7 +55,7 @@ const GoogleClassroomAPIHandler = class GoogleClassroomAPIHandler extends CocoCl
 
 }
 
-module.exports = {
+export default {
   gcApiHandler: new GoogleClassroomAPIHandler(),
 
   scopes: 'https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.rosters.readonly',
@@ -162,4 +162,4 @@ module.exports = {
       return Promise.reject()
     }
   }
-}
+};

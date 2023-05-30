@@ -10,6 +10,6 @@ function parseGoogleJwtResponse (token) {
   }
 }
 
-module.exports = {
+export default {
   parseGoogleJwtResponse
-}
+};

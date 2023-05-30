@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   'views/AboutView': function () { return import(/* webpackChunkName: "AboutView" */ 'views/AboutView') },
   'views/HomeView': function () { return import(/* webpackChunkName: "HomeView" */ 'views/HomeView') },
   'views/HomeCNView': function () { return import(/* webpackChunkName: "HomeCNView" */ 'views/HomeCNView') },
@@ -168,4 +168,4 @@ module.exports = {
   'views/cutscene': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cutscene/PageCutscene') },
   'views/interactive': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/interactive/PageInteractive') },
   'views/introLevel': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageIntroLevel') },
-}
+};
