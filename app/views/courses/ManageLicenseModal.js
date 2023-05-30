@@ -11,19 +11,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ManageLicenseModal;
-require('app/styles/courses/manage-license-modal.sass');
-const ModalView = require('views/core/ModalView');
-const State = require('models/State');
-const template = require('templates/courses/manage-licenses-modal');
-const Prepaids = require('collections/Prepaids');
-const Prepaid = require('models/Prepaid');
-const Classroom = require('models/Classroom');
-const Classrooms = require('collections/Classrooms');
-const User = require('models/User');
-const Users = require('collections/Users');
-const utils = require('core/utils');
+import 'app/styles/courses/manage-license-modal.sass';
+import ModalView from 'views/core/ModalView';
+import State from 'models/State';
+import template from 'templates/courses/manage-licenses-modal';
+import Prepaids from 'collections/Prepaids';
+import Prepaid from 'models/Prepaid';
+import Classroom from 'models/Classroom';
+import Classrooms from 'collections/Classrooms';
+import User from 'models/User';
+import Users from 'collections/Users';
+import utils from 'core/utils';
 
-module.exports = (ManageLicenseModal = (function() {
+export default ManageLicenseModal = (function() {
   ManageLicenseModal = class ManageLicenseModal extends ModalView {
     static initClass() {
       this.prototype.id = 'manage-license-modal';
@@ -356,7 +356,7 @@ module.exports = (ManageLicenseModal = (function() {
   };
   ManageLicenseModal.initClass();
   return ManageLicenseModal;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

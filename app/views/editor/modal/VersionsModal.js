@@ -10,13 +10,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let VersionsModal;
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/modal/versions-modal');
-const DeltaView = require('views/editor/DeltaView');
-const PatchModal = require('views/editor/PatchModal');
-const nameLoader = require('core/NameLoader');
-const CocoCollection = require('collections/CocoCollection');
-const deltasLib = require('core/deltas');
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/modal/versions-modal';
+import DeltaView from 'views/editor/DeltaView';
+import PatchModal from 'views/editor/PatchModal';
+import nameLoader from 'core/NameLoader';
+import CocoCollection from 'collections/CocoCollection';
+import deltasLib from 'core/deltas';
 
 class VersionsViewCollection extends CocoCollection {
   static initClass() {
@@ -34,7 +34,7 @@ class VersionsViewCollection extends CocoCollection {
 }
 VersionsViewCollection.initClass();
 
-module.exports = (VersionsModal = (function() {
+export default VersionsModal = (function() {
   VersionsModal = class VersionsModal extends ModalView {
     static initClass() {
       this.prototype.template = template;
@@ -104,4 +104,4 @@ module.exports = (VersionsModal = (function() {
   };
   VersionsModal.initClass();
   return VersionsModal;
-})());
+})();

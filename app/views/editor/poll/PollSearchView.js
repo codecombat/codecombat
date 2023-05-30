@@ -7,9 +7,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PollSearchView;
-const SearchView = require('views/common/SearchView');
+import SearchView from 'views/common/SearchView';
 
-module.exports = (PollSearchView = (function() {
+export default PollSearchView = (function() {
   PollSearchView = class PollSearchView extends SearchView {
     static initClass() {
       this.prototype.id = 'editor-poll-home-view';
@@ -33,4 +33,4 @@ module.exports = (PollSearchView = (function() {
   };
   PollSearchView.initClass();
   return PollSearchView;
-})());
+})();

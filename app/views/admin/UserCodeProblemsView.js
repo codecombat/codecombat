@@ -8,11 +8,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let UserCodeProblemsView;
-const RootView = require('views/core/RootView');
-const template = require('app/templates/admin/user-code-problems');
-const UserCodeProblem = require('models/UserCodeProblem');
+import RootView from 'views/core/RootView';
+import template from 'app/templates/admin/user-code-problems';
+import UserCodeProblem from 'models/UserCodeProblem';
 
-module.exports = (UserCodeProblemsView = (function() {
+export default UserCodeProblemsView = (function() {
   UserCodeProblemsView = class UserCodeProblemsView extends RootView {
     static initClass() {
       // TODO: Pagination, choosing filters on the page itself.
@@ -70,4 +70,4 @@ module.exports = (UserCodeProblemsView = (function() {
   };
   UserCodeProblemsView.initClass();
   return UserCodeProblemsView;
-})());
+})();

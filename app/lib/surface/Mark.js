@@ -11,13 +11,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Mark;
-const CocoClass = require('core/CocoClass');
-const Camera = require('./Camera');
-const ThangType = require('models/ThangType');
+import CocoClass from 'core/CocoClass';
+import Camera from './Camera';
+import ThangType from 'models/ThangType';
 const markThangTypes = {};
-const createjs = require('lib/createjs-parts');
+import createjs from 'lib/createjs-parts';
 
-module.exports = (Mark = (function() {
+export default Mark = (function() {
   Mark = class Mark extends CocoClass {
     static initClass() {
       this.prototype.subscriptions = {};
@@ -435,7 +435,7 @@ module.exports = (Mark = (function() {
   };
   Mark.initClass();
   return Mark;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

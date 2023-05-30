@@ -15,16 +15,16 @@
  */
 let User;
 const cache = {};
-const CocoModel = require('./CocoModel');
-const ThangTypeConstants = require('lib/ThangTypeConstants');
-const LevelConstants = require('lib/LevelConstants');
-const utils = require('core/utils');
-const api = require('core/api');
-const co = require('co');
-const storage = require('core/storage');
-const globalVar = require('core/globalVar');
-const fetchJson = require('core/api/fetch-json');
-const userUtils = require('lib/user-utils');
+import CocoModel from './CocoModel';
+import ThangTypeConstants from 'lib/ThangTypeConstants';
+import LevelConstants from 'lib/LevelConstants';
+import utils from 'core/utils';
+import api from 'core/api';
+import co from 'co';
+import storage from 'core/storage';
+import globalVar from 'core/globalVar';
+import fetchJson from 'core/api/fetch-json';
+import userUtils from 'lib/user-utils';
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
@@ -56,7 +56,7 @@ const UserLib = {
   }
 };
 
-module.exports = (User = (function() {
+export default User = (function() {
   let a = undefined;
   let b = undefined;
   let c = undefined;
@@ -1261,7 +1261,7 @@ module.exports = (User = (function() {
   };
   User.initClass();
   return User;
-})());
+})();
 
 
 var tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,

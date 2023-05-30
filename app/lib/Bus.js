@@ -9,13 +9,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Bus;
-const CocoClass = require('core/CocoClass');
-
-const {me} = require('core/auth');
+import CocoClass from 'core/CocoClass';
+import { me } from 'core/auth';
 
 const CHAT_SIZE_LIMIT = 500; // no more than 500 messages
 
-module.exports = (Bus = (Bus = (function() {
+export default Bus = (Bus = (function() {
   Bus = class Bus extends CocoClass {
     static initClass() {
       this.prototype.joined = null;
@@ -178,4 +177,4 @@ Init happens when we're connected.\
   };
   Bus.initClass();
   return Bus;
-})()));
+})());

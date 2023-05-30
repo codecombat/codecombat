@@ -7,16 +7,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Problem;
-const ace = require('lib/aceContainer');
+import ace from 'lib/aceContainer';
 const {
   Range
 } = ace.require('ace/range');
-const aetherUtils = require('lib/aether_utils');
+import aetherUtils from 'lib/aether_utils';
 
 // This class can either wrap an AetherProblem,
 // or act as a general runtime error container for web-dev iFrame errors.
 // TODO: Use subclasses? Might need a factory pattern for that (bleh)
-module.exports = (Problem = (function() {
+export default Problem = (function() {
   Problem = class Problem {
     static initClass() {
       this.prototype.annotation = null;
@@ -160,4 +160,4 @@ module.exports = (Problem = (function() {
   };
   Problem.initClass();
   return Problem;
-})());
+})();

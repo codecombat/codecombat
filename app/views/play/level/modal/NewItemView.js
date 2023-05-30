@@ -5,10 +5,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let NewItemView;
-require('app/styles/play/level/modal/new-item-view.sass');
-const CocoView = require('views/core/CocoView');
+import 'app/styles/play/level/modal/new-item-view.sass';
+import CocoView from 'views/core/CocoView';
 
-module.exports = (NewItemView = (function() {
+export default NewItemView = (function() {
   NewItemView = class NewItemView extends CocoView {
     static initClass() {
       this.prototype.id = 'new-item-view';
@@ -35,4 +35,4 @@ module.exports = (NewItemView = (function() {
   };
   NewItemView.initClass();
   return NewItemView;
-})());
+})();

@@ -1,10 +1,9 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
 let EarnedAchievementSchema;
-const c = require('./../schemas');
+import c from './../schemas';
 
-module.exports =
-  (EarnedAchievementSchema = {
+export default EarnedAchievementSchema = {
     type: 'object',
     default: {
       previouslyAchievedAmount: 0
@@ -46,4 +45,4 @@ module.exports =
     },
       archived: c.date({description: 'Marks this record for automatic online archiving to cold storage by our cloud database.'})
     }
-  });
+  };

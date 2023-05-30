@@ -12,12 +12,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AddThangsView;
-require('app/styles/editor/level/add-thangs-view.sass');
-const CocoView = require('views/core/CocoView');
-const add_thangs_template = require('app/templates/editor/level/add-thangs-view');
-const ThangType = require('models/ThangType');
-const CocoCollection = require('collections/CocoCollection');
-const utils = require('core/utils');
+import 'app/styles/editor/level/add-thangs-view.sass';
+import CocoView from 'views/core/CocoView';
+import add_thangs_template from 'app/templates/editor/level/add-thangs-view';
+import ThangType from 'models/ThangType';
+import CocoCollection from 'collections/CocoCollection';
+import utils from 'core/utils';
 
 const PAGE_SIZE = 1000;
 
@@ -33,7 +33,7 @@ class ThangTypeSearchCollection extends CocoCollection {
 }
 ThangTypeSearchCollection.initClass();
 
-module.exports = (AddThangsView = (function() {
+export default AddThangsView = (function() {
   AddThangsView = class AddThangsView extends CocoView {
     static initClass() {
       this.prototype.id = 'add-thangs-view';
@@ -147,4 +147,4 @@ module.exports = (AddThangsView = (function() {
   };
   AddThangsView.initClass();
   return AddThangsView;
-})());
+})();

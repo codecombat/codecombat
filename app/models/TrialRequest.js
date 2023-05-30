@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TrialRequest;
-const CocoModel = require('./CocoModel');
-const schema = require('schemas/models/trial_request.schema');
+import CocoModel from './CocoModel';
+import schema from 'schemas/models/trial_request.schema';
 
-module.exports = (TrialRequest = (function() {
+export default TrialRequest = (function() {
   TrialRequest = class TrialRequest extends CocoModel {
     static initClass() {
       this.className = 'TrialRequest';
@@ -36,4 +36,4 @@ module.exports = (TrialRequest = (function() {
   };
   TrialRequest.initClass();
   return TrialRequest;
-})());
+})();

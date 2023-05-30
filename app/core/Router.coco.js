@@ -12,9 +12,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CocoRouter;
-const dynamicRequire = require('lib/dynamicRequire');
-const locale = require('locale/locale');
-const globalVar = require('core/globalVar');
+import dynamicRequire from 'lib/dynamicRequire';
+import locale from 'locale/locale';
+import globalVar from 'core/globalVar';
 
 const go = (path, options) => (function() { return this.routeDirectly(path, arguments, options); });
 
@@ -23,11 +23,11 @@ const redirect = path => (function() {
   return this.navigate(path + document.location.search, { trigger: true, replace: true });
 });
 
-const utils = require('./utils');
-const ViewLoadTimer = require('core/ViewLoadTimer');
-const paymentUtils = require('lib/paymentUtils');
+import utils from './utils';
+import ViewLoadTimer from 'core/ViewLoadTimer';
+import paymentUtils from 'lib/paymentUtils';
 
-module.exports = (CocoRouter = (function() {
+export default CocoRouter = (function() {
   CocoRouter = class CocoRouter extends Backbone.Router {
     static initClass() {
   
@@ -593,7 +593,7 @@ module.exports = (CocoRouter = (function() {
   };
   CocoRouter.initClass();
   return CocoRouter;
-})());
+})();
 
 function __guardMethod__(obj, methodName, transform) {
   if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {

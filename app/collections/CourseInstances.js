@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CourseInstances;
-const CourseInstance = require('models/CourseInstance');
-const CocoCollection = require('collections/CocoCollection');
+import CourseInstance from 'models/CourseInstance';
+import CocoCollection from 'collections/CocoCollection';
 
-module.exports = (CourseInstances = (function() {
+export default CourseInstances = (function() {
   CourseInstances = class CourseInstances extends CocoCollection {
     static initClass() {
       this.prototype.model = CourseInstance;
@@ -46,4 +46,4 @@ module.exports = (CourseInstances = (function() {
   };
   CourseInstances.initClass();
   return CourseInstances;
-})());
+})();

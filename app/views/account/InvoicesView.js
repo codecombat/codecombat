@@ -8,15 +8,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let InvoicesView;
-require('app/styles/account/invoices-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/account/invoices-view');
-const stripeHandler = require('core/services/stripe');
-const utils = require('core/utils');
+import 'app/styles/account/invoices-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/account/invoices-view';
+import stripeHandler from 'core/services/stripe';
+import utils from 'core/utils';
 
 // Internal amount and query params are in cents, display and web form input amount is in USD
 
-module.exports = (InvoicesView = (function() {
+export default InvoicesView = (function() {
   InvoicesView = class InvoicesView extends RootView {
     static initClass() {
       this.prototype.id = "invoices-view";
@@ -118,4 +118,4 @@ module.exports = (InvoicesView = (function() {
   };
   InvoicesView.initClass();
   return InvoicesView;
-})());
+})();

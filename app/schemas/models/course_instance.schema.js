@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const CourseInstanceSchema = c.object({
   title: 'Course Instance'
@@ -28,4 +28,4 @@ _.extend(CourseInstanceSchema.properties, {
 
 c.extendBasicProperties(CourseInstanceSchema, 'CourseInstance');
 
-module.exports = CourseInstanceSchema;
+export default CourseInstanceSchema;

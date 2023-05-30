@@ -9,10 +9,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ThangNamesCollection;
-const ThangType = require('models/ThangType');
-const CocoCollection = require('collections/CocoCollection');
+import ThangType from 'models/ThangType';
+import CocoCollection from 'collections/CocoCollection';
 
-module.exports = (ThangNamesCollection = (function() {
+export default ThangNamesCollection = (function() {
   ThangNamesCollection = class ThangNamesCollection extends CocoCollection {
     static initClass() {
       this.prototype.url = '/db/thang.type/names';
@@ -34,4 +34,4 @@ module.exports = (ThangNamesCollection = (function() {
   };
   ThangNamesCollection.initClass();
   return ThangNamesCollection;
-})());
+})();

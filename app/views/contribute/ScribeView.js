@@ -7,12 +7,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ScribeView;
-const ContributeClassView = require('./ContributeClassView');
-const template = require('app/templates/contribute/scribe');
-const {me} = require('core/auth');
-const ContactModal = require('views/core/ContactModal');
+import ContributeClassView from './ContributeClassView';
+import template from 'app/templates/contribute/scribe';
+import { me } from 'core/auth';
+import ContactModal from 'views/core/ContactModal';
 
-module.exports = (ScribeView = (function() {
+export default ScribeView = (function() {
   ScribeView = class ScribeView extends ContributeClassView {
     static initClass() {
       this.prototype.id = 'scribe-view';
@@ -43,4 +43,4 @@ module.exports = (ScribeView = (function() {
   };
   ScribeView.initClass();
   return ScribeView;
-})());
+})();

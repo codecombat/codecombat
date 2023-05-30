@@ -7,11 +7,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ArtisanView;
-const ContributeClassView = require('./ContributeClassView');
-const template = require('app/templates/contribute/artisan');
-const {me} = require('core/auth');
+import ContributeClassView from './ContributeClassView';
+import template from 'app/templates/contribute/artisan';
+import { me } from 'core/auth';
 
-module.exports = (ArtisanView = (function() {
+export default ArtisanView = (function() {
   ArtisanView = class ArtisanView extends ContributeClassView {
     static initClass() {
       this.prototype.id = 'artisan-view';
@@ -43,4 +43,4 @@ module.exports = (ArtisanView = (function() {
   };
   ArtisanView.initClass();
   return ArtisanView;
-})());
+})();

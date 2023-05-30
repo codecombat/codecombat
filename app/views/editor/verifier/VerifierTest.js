@@ -10,16 +10,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let VerifierTest;
-const CocoClass = require('core/CocoClass');
-const SuperModel = require('models/SuperModel');
-const {createAetherOptions} = require('lib/aether_utils');
-const God = require('lib/God');
-const GoalManager = require('lib/world/GoalManager');
-const LevelLoader = require('lib/LevelLoader');
-const utils = require('core/utils');
-const aetherUtils = require('lib/aether_utils');
+import CocoClass from 'core/CocoClass';
+import SuperModel from 'models/SuperModel';
+import { createAetherOptions } from 'lib/aether_utils';
+import God from 'lib/God';
+import GoalManager from 'lib/world/GoalManager';
+import LevelLoader from 'lib/LevelLoader';
+import utils from 'core/utils';
+import aetherUtils from 'lib/aether_utils';
 
-module.exports = (VerifierTest = class VerifierTest extends CocoClass {
+export default VerifierTest = class VerifierTest extends CocoClass {
   constructor(levelID, updateCallback, supermodel, language, options) {
     this.onWorldNecessitiesLoaded = this.onWorldNecessitiesLoaded.bind(this);
     this.fetchToken = this.fetchToken.bind(this);
@@ -211,7 +211,7 @@ module.exports = (VerifierTest = class VerifierTest extends CocoClass {
     }
     return this.world = null;
   }
-});
+};
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Branch;
-const CocoModel = require('./CocoModel');
-const schema = require('schemas/models/branch.schema');
-const CocoCollection = require('collections/CocoCollection');
+import CocoModel from './CocoModel';
+import schema from 'schemas/models/branch.schema';
+import CocoCollection from 'collections/CocoCollection';
 
-module.exports = (Branch = (function() {
+export default Branch = (function() {
   Branch = class Branch extends CocoModel {
     static initClass() {
       this.className = 'Branch';
@@ -20,4 +20,4 @@ module.exports = (Branch = (function() {
   };
   Branch.initClass();
   return Branch;
-})());
+})();

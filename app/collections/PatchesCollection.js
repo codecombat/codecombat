@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PatchesCollection;
-const PatchModel = require('models/Patch');
-const CocoCollection = require('collections/CocoCollection');
+import PatchModel from 'models/Patch';
+import CocoCollection from 'collections/CocoCollection';
 
-module.exports = (PatchesCollection = (function() {
+export default PatchesCollection = (function() {
   PatchesCollection = class PatchesCollection extends CocoCollection {
     static initClass() {
       this.prototype.model = PatchModel;
@@ -27,4 +27,4 @@ module.exports = (PatchesCollection = (function() {
   };
   PatchesCollection.initClass();
   return PatchesCollection;
-})());
+})();

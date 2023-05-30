@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelSearchView;
-const SearchView = require('views/common/SearchView');
-const utils = require('core/utils');
+import SearchView from 'views/common/SearchView';
+import utils from 'core/utils';
 
-module.exports = (LevelSearchView = (function() {
+export default LevelSearchView = (function() {
   LevelSearchView = class LevelSearchView extends SearchView {
     static initClass() {
       this.prototype.id = 'editor-level-home-view';
@@ -36,4 +36,4 @@ module.exports = (LevelSearchView = (function() {
   };
   LevelSearchView.initClass();
   return LevelSearchView;
-})());
+})();

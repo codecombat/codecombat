@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let InteractiveSessionCollection;
-const CocoCollection = require('collections/CocoCollection');
-const InteractiveSession = require('models/InteractiveSession');
+import CocoCollection from 'collections/CocoCollection';
+import InteractiveSession from 'models/InteractiveSession';
 
-module.exports = (InteractiveSessionCollection = (function() {
+export default InteractiveSessionCollection = (function() {
   InteractiveSessionCollection = class InteractiveSessionCollection extends CocoCollection {
     static initClass() {
       this.prototype.url = '/db/interactive.session';
@@ -54,4 +54,4 @@ module.exports = (InteractiveSessionCollection = (function() {
   };
   InteractiveSessionCollection.initClass();
   return InteractiveSessionCollection;
-})());
+})();

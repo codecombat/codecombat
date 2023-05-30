@@ -4,7 +4,8 @@
 //Syntax = esprima.Syntax
 
 let execution;
-module.exports = (execution = {
+
+export default execution = {
   // Based on Esprima Harmony's Syntax map for Mozilla's Parser AST
   // https://github.com/ariya/esprima/blob/harmony/esprima.js#L118
   ArrayExpression: 1,
@@ -69,6 +70,6 @@ module.exports = (execution = {
   WhileStatement: 1,
   WithStatement: 1,
   YieldExpression: 1
-});
+};
 
-  // What about custom execution costs for different operators and functions and other things?
+// What about custom execution costs for different operators and functions and other things?

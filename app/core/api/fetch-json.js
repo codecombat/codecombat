@@ -18,7 +18,7 @@
   * if the response is json, it's parsed
   * if the response is an error, an error (plain) object is thrown
 */
-  
+
 const fetchWrapper = function(url, options) {
   if (options == null) { options = {}; }
   options = _.cloneDeep(options);
@@ -49,5 +49,5 @@ const fetchWrapper = function(url, options) {
     if (isJson) { return res.json(); } else { return res.text(); }
   });
 };
-  
-module.exports = fetchWrapper;
+
+export default fetchWrapper;

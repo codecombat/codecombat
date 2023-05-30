@@ -6,16 +6,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SoundScriptModule;
-const ScriptModule = require('./ScriptModule');
-const utils = require('core/utils');
+import ScriptModule from './ScriptModule';
+import utils from 'core/utils';
 
 const currentMusic = null;
 const standingBy = null;
 
-const {me} = require('core/auth');
-const store = require('app/core/store');
+import { me } from 'core/auth';
+import store from 'app/core/store';
 
-module.exports = (SoundScriptModule = class SoundScriptModule extends ScriptModule {
+export default SoundScriptModule = class SoundScriptModule extends ScriptModule {
   static neededFor(noteGroup) {
     return (noteGroup.sound != null);
   }
@@ -105,4 +105,4 @@ module.exports = (SoundScriptModule = class SoundScriptModule extends ScriptModu
 
     return note;
   }
-});
+};

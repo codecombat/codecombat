@@ -1,8 +1,8 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('schemas/schemas');
+import c from 'schemas/schemas';
 
-module.exports = {
+export default {
   'tome:cast-spell': c.object({title: 'Cast Spell', description: 'Published when a spell is cast', required: []}, {
     spell: {type: 'object'},
     thang: {type: 'object'},

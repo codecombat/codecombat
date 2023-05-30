@@ -9,12 +9,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let WebSurfaceView;
-require('app/styles/play/level/web-surface-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/web-surface-view');
-const HtmlExtractor = require('lib/HtmlExtractor');
+import 'app/styles/play/level/web-surface-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/web-surface-view';
+import HtmlExtractor from 'lib/HtmlExtractor';
 
-module.exports = (WebSurfaceView = (function() {
+export default WebSurfaceView = (function() {
   WebSurfaceView = class WebSurfaceView extends CocoView {
     constructor(...args) {
       this.onIframeMessage = this.onIframeMessage.bind(this);
@@ -134,7 +134,7 @@ module.exports = (WebSurfaceView = (function() {
   };
   WebSurfaceView.initClass();
   return WebSurfaceView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

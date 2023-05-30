@@ -9,12 +9,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Prepaids;
-const CocoCollection = require('collections/CocoCollection');
-const Prepaid = require('models/Prepaid');
+import CocoCollection from 'collections/CocoCollection';
+import Prepaid from 'models/Prepaid';
 
 const sum = numbers => _.reduce(numbers, (a, b) => a + b);
 
-module.exports = (Prepaids = (function() {
+export default Prepaids = (function() {
   Prepaids = class Prepaids extends CocoCollection {
     static initClass() {
       this.prototype.model = Prepaid;
@@ -72,4 +72,4 @@ module.exports = (Prepaids = (function() {
   };
   Prepaids.initClass();
   return Prepaids;
-})());
+})();

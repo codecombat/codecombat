@@ -7,9 +7,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ThangTypeVersionsModal;
-const VersionsModal = require('views/editor/modal/VersionsModal');
+import VersionsModal from 'views/editor/modal/VersionsModal';
 
-module.exports = (ThangTypeVersionsModal = (function() {
+export default ThangTypeVersionsModal = (function() {
   ThangTypeVersionsModal = class ThangTypeVersionsModal extends VersionsModal {
     static initClass() {
       this.prototype.id = 'editor-thang-versions-view';
@@ -24,4 +24,4 @@ module.exports = (ThangTypeVersionsModal = (function() {
   };
   ThangTypeVersionsModal.initClass();
   return ThangTypeVersionsModal;
-})());
+})();

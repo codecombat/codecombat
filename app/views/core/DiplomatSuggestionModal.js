@@ -7,12 +7,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let DiplomatSuggestionModal;
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/core/diplomat-suggestion');
-const {me} = require('core/auth');
-const forms = require('core/forms');
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/core/diplomat-suggestion';
+import { me } from 'core/auth';
+import forms from 'core/forms';
 
-module.exports = (DiplomatSuggestionModal = (function() {
+export default DiplomatSuggestionModal = (function() {
   DiplomatSuggestionModal = class DiplomatSuggestionModal extends ModalView {
     static initClass() {
       this.prototype.id = 'diplomat-suggestion-modal';
@@ -39,4 +39,4 @@ module.exports = (DiplomatSuggestionModal = (function() {
   };
   DiplomatSuggestionModal.initClass();
   return DiplomatSuggestionModal;
-})());
+})();

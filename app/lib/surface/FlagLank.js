@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let FlagLank;
-const IndieLank = require('lib/surface/IndieLank');
-const {me} = require('core/auth');
+import IndieLank from 'lib/surface/IndieLank';
+import { me } from 'core/auth';
 
-module.exports = (FlagLank = (function() {
+export default FlagLank = (function() {
   FlagLank = class FlagLank extends IndieLank {
     static initClass() {
       this.prototype.subscriptions =
@@ -53,4 +53,4 @@ module.exports = (FlagLank = (function() {
   };
   FlagLank.initClass();
   return FlagLank;
-})());
+})();

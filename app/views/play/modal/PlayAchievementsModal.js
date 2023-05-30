@@ -10,18 +10,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PlayAchievementsModal;
-require('app/styles/play/modal/play-achievements-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/modal/play-achievements-modal');
-const CocoCollection = require('collections/CocoCollection');
-const Achievement = require('models/Achievement');
-const EarnedAchievement = require('models/EarnedAchievement');
-
-const utils = require('core/utils');
+import 'app/styles/play/modal/play-achievements-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/modal/play-achievements-modal';
+import CocoCollection from 'collections/CocoCollection';
+import Achievement from 'models/Achievement';
+import EarnedAchievement from 'models/EarnedAchievement';
+import utils from 'core/utils';
 
 const PAGE_SIZE = 200;
 
-module.exports = (PlayAchievementsModal = (function() {
+export default PlayAchievementsModal = (function() {
   PlayAchievementsModal = class PlayAchievementsModal extends ModalView {
     static initClass() {
       this.prototype.className = 'modal fade play-modal';
@@ -151,7 +150,7 @@ module.exports = (PlayAchievementsModal = (function() {
   };
   PlayAchievementsModal.initClass();
   return PlayAchievementsModal;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

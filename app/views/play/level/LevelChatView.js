@@ -10,17 +10,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelChatView;
-require('app/styles/play/level/chat.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/chat');
-const {me} = require('core/auth');
-const LevelBus = require('lib/LevelBus');
-const ChatMessage = require('models/ChatMessage');
-const utils = require('core/utils');
-const fetchJson = require('core/api/fetch-json');
-const co = require('co');
+import 'app/styles/play/level/chat.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/chat';
+import { me } from 'core/auth';
+import LevelBus from 'lib/LevelBus';
+import ChatMessage from 'models/ChatMessage';
+import utils from 'core/utils';
+import fetchJson from 'core/api/fetch-json';
+import co from 'co';
 
-module.exports = (LevelChatView = (function() {
+export default LevelChatView = (function() {
   LevelChatView = class LevelChatView extends CocoView {
     static initClass() {
       this.prototype.id = 'level-chat-view';
@@ -438,7 +438,7 @@ module.exports = (LevelChatView = (function() {
   };
   LevelChatView.initClass();
   return LevelChatView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

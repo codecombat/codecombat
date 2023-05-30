@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let BulkLevelEditView;
-const RootComponent = require('views/core/RootComponent');
-const template = require('app/templates/base-flat');
-const BulkLevelEditComponent = require('./BulkLevelEditComponent.vue').default;
+import RootComponent from 'views/core/RootComponent';
+import template from 'app/templates/base-flat';
+import BulkLevelEditComponent from './BulkLevelEditComponent.vue';
 
-module.exports = (BulkLevelEditView = (function() {
+export default BulkLevelEditView = (function() {
   BulkLevelEditView = class BulkLevelEditView extends RootComponent {
     static initClass() {
       this.prototype.id = 'bulk-level-edit-view';
@@ -25,4 +25,4 @@ module.exports = (BulkLevelEditView = (function() {
   };
   BulkLevelEditView.initClass();
   return BulkLevelEditView;
-})());
+})();

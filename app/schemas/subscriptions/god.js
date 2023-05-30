@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('schemas/schemas');
+import c from 'schemas/schemas';
 
 const goalStatesSchema = {
   type: 'object',
@@ -36,7 +36,7 @@ const worldUpdatedEventSchema = c.object({required: ['world', 'firstWorld', 'goa
   keyValueDb: {type: 'object'}
 });
 
-module.exports = {
+export default {
   'god:user-code-problem': c.object({required: ['problem', 'god']}, {
     god: {type: 'object'},
     problem: {type: 'object'}

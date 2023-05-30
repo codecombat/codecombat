@@ -9,7 +9,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const utils = require('core/utils');
+import utils from 'core/utils';
 
 const ThangTypeLib = {
   getPortraitURL(thangTypeObj) {
@@ -82,7 +82,7 @@ const ThangTypeLib = {
   }
 };
 
-module.exports = ThangTypeLib;
+export default ThangTypeLib;
 
 function __guardMethod__(obj, methodName, transform) {
   if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {

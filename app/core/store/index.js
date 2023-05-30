@@ -5,7 +5,7 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const globalVar = require('core/globalVar');
+import globalVar from 'core/globalVar';
 
 const store = new Vuex.Store({
   // Strict in local development preventing accidental store mutations.
@@ -76,4 +76,4 @@ const store = new Vuex.Store({
   }
 });
 
-module.exports = store;
+export default store;

@@ -11,21 +11,21 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Classroom;
-const CocoModel = require('./CocoModel');
-const schema = require('schemas/models/classroom.schema');
-const utils = require('../core/utils');
-const levelUtils = require('../core/levelUtils');
-const { findNextLevelsBySession, getLevelsDataByOriginals } = require('ozaria/site/common/ozariaUtils');
-const coursesHelper = require('../lib/coursesHelper');
-const User = require('models/User');
-const Level = require('models/Level');
-const api = require('core/api');
-const ClassroomLib = require('./ClassroomLib');
-const Users = require('collections/Users');
-const classroomUtils = require('app/lib/classroom-utils');
-const prepaids = require('core/store/modules/prepaids').default;
+import CocoModel from './CocoModel';
+import schema from 'schemas/models/classroom.schema';
+import utils from '../core/utils';
+import levelUtils from '../core/levelUtils';
+import { findNextLevelsBySession, getLevelsDataByOriginals } from 'ozaria/site/common/ozariaUtils';
+import coursesHelper from '../lib/coursesHelper';
+import User from 'models/User';
+import Level from 'models/Level';
+import api from 'core/api';
+import ClassroomLib from './ClassroomLib';
+import Users from 'collections/Users';
+import classroomUtils from 'app/lib/classroom-utils';
+import prepaids from 'core/store/modules/prepaids';
 
-module.exports = (Classroom = (function() {
+export default Classroom = (function() {
   Classroom = class Classroom extends CocoModel {
     static initClass() {
       this.className = 'Classroom';
@@ -477,7 +477,7 @@ module.exports = (Classroom = (function() {
   };
   Classroom.initClass();
   return Classroom;
-})());
+})();
 
 // Make ClassroomLib accessible as static methods.
 _.assign(Classroom, ClassroomLib.default);

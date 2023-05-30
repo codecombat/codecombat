@@ -5,12 +5,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PicoCTFVictoryModal;
-require('app/styles/play/level/modal/course-victory-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/level/modal/picoctf-victory-modal');
-const Level = require('models/Level');
+import 'app/styles/play/level/modal/course-victory-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/level/modal/picoctf-victory-modal';
+import Level from 'models/Level';
 
-module.exports = (PicoCTFVictoryModal = (function() {
+export default PicoCTFVictoryModal = (function() {
   PicoCTFVictoryModal = class PicoCTFVictoryModal extends ModalView {
     static initClass() {
       this.prototype.id = 'picoctf-victory-modal';
@@ -43,4 +43,4 @@ module.exports = (PicoCTFVictoryModal = (function() {
   };
   PicoCTFVictoryModal.initClass();
   return PicoCTFVictoryModal;
-})());
+})();

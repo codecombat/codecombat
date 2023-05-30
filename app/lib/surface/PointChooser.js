@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PointChooser;
-const CocoClass = require('core/CocoClass');
-const createjs = require('lib/createjs-parts');
+import CocoClass from 'core/CocoClass';
+import createjs from 'lib/createjs-parts';
 
-module.exports = (PointChooser = class PointChooser extends CocoClass {
+export default PointChooser = class PointChooser extends CocoClass {
   constructor(options) {
     this.onMouseDown = this.onMouseDown.bind(this);
     this.options = options;
@@ -51,4 +51,4 @@ module.exports = (PointChooser = class PointChooser extends CocoClass {
     this.shape.x = sup.x;
     return this.shape.y = sup.y;
   }
-});
+};

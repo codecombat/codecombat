@@ -13,38 +13,38 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let LadderTabView, LeaderboardData;
-require('app/styles/play/ladder/ladder-tab-view.sass');
-const CocoView = require('views/core/CocoView');
-const CocoClass = require('core/CocoClass');
-const Level = require('models/Level');
-const LevelSession = require('models/LevelSession');
-const CocoCollection = require('collections/CocoCollection');
-const User = require('models/User');
-const LeaderboardCollection  = require('collections/LeaderboardCollection');
-const {teamDataFromLevel, scoreForDisplay} = require('./utils');
-const ModelModal = require('views/modal/ModelModal');
-require('d3/d3.js');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const utils = require('core/utils');
+let LadderTabView;
+import 'app/styles/play/ladder/ladder-tab-view.sass';
+import CocoView from 'views/core/CocoView';
+import CocoClass from 'core/CocoClass';
+import Level from 'models/Level';
+import LevelSession from 'models/LevelSession';
+import CocoCollection from 'collections/CocoCollection';
+import User from 'models/User';
+import LeaderboardCollection from 'collections/LeaderboardCollection';
+import { teamDataFromLevel, scoreForDisplay } from './utils';
+import ModelModal from 'views/modal/ModelModal';
+import 'd3/d3.js';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import utils from 'core/utils';
 
 const HIGHEST_SCORE = 1000000;
 
-module.exports = (LadderTabView = (function() {
+export default LadderTabView = (function() {
   LadderTabView = class LadderTabView extends CocoView {
     constructor(...args) {
+      super(...args);
       this.onFacebookFriendsLoaded = this.onFacebookFriendsLoaded.bind(this);
       this.onFacebookFriendSessionsLoaded = this.onFacebookFriendSessionsLoaded.bind(this);
       this.gplusFriendsLoaded = this.gplusFriendsLoaded.bind(this);
       this.onGPlusFriendSessionsLoaded = this.onGPlusFriendSessionsLoaded.bind(this);
-      super(...args);
     }
 
     static initClass() {
       this.prototype.id = 'ladder-tab-view';
       this.prototype.template = require('app/templates/play/ladder/ladder-tab-view');
       this.prototype.scoreForDisplay = scoreForDisplay;
-  
+
       this.prototype.events = {
         'click .connect-facebook': 'onConnectFacebook',
         'click .connect-google-plus': 'onConnectGPlus',
@@ -402,14 +402,15 @@ module.exports = (LadderTabView = (function() {
   };
   LadderTabView.initClass();
   return LadderTabView;
-})());
+})();
 
-module.exports.LeaderboardData = (LeaderboardData = (LeaderboardData = class LeaderboardData extends CocoClass {
+export const LeaderboardData = (class LeaderboardData extends CocoClass {
   /*
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   */
 
   constructor(level, team, session, limit, league) {
+    super();
     this.onLoad = this.onLoad.bind(this);
     this.onFail = this.onFail.bind(this);
     this.level = level;
@@ -417,7 +418,6 @@ module.exports.LeaderboardData = (LeaderboardData = (LeaderboardData = class Lea
     this.session = session;
     this.limit = limit;
     this.league = league;
-    super();
   }
 
   collectionParameters(parameters) {
@@ -506,7 +506,7 @@ module.exports.LeaderboardData = (LeaderboardData = (LeaderboardData = class Lea
     const resources = [this.topPlayers, this.playersAbove, this.playersBelow];
     return (Array.from(resources).filter((r) => r));
   }
-}));
+});
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -9,19 +9,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let HomeView;
-require('app/styles/home-view.scss');
-const RootView = require('views/core/RootView');
-const template = require('templates/home-view');
-const CocoCollection = require('collections/CocoCollection');
-const CreateAccountModal = require('views/core/CreateAccountModal/CreateAccountModal');
+import 'app/styles/home-view.scss';
+import RootView from 'views/core/RootView';
+import template from 'templates/home-view';
+import CocoCollection from 'collections/CocoCollection';
+import CreateAccountModal from 'views/core/CreateAccountModal/CreateAccountModal';
+import utils from 'core/utils';
+import storage from 'core/storage';
+import { logoutUser, me } from 'core/auth';
+import fetchJson from 'core/api/fetch-json';
+import DOMPurify from 'dompurify';
 
-const utils = require('core/utils');
-const storage = require('core/storage');
-const {logoutUser, me} = require('core/auth');
-const fetchJson = require('core/api/fetch-json');
-const DOMPurify = require('dompurify');
-
-module.exports = (HomeView = (function() {
+export default HomeView = (function() {
   HomeView = class HomeView extends RootView {
     static initClass() {
       this.prototype.id = 'home-view';
@@ -208,7 +207,7 @@ module.exports = (HomeView = (function() {
   };
   HomeView.initClass();
   return HomeView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

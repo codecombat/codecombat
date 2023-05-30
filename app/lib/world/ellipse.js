@@ -8,9 +8,10 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const Vector = require('./vector');
-const LineSegment = require('./line_segment');
-const Rectangle = require('./rectangle');
+import Vector from './vector';
+
+import LineSegment from './line_segment';
+import Rectangle from './rectangle';
 
 class Ellipse {
   static initClass() {
@@ -196,4 +197,4 @@ class Ellipse {
 }
 Ellipse.initClass();
 
-module.exports = Ellipse;
+export default Ellipse;

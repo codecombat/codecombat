@@ -6,9 +6,9 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const fetchJson = require('./fetch-json');
+import fetchJson from './fetch-json';
 
-module.exports = {
+export default {
   url(prepaidID, path) { if (path) { return `/db/prepaid/${prepaidID}/${path}`; } else { return `/db/prepaid/${prepaidID}`; } },
 
   addJoiner({ prepaidID, userID }, options) {

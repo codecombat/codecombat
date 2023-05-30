@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let WorldScriptNote;
-const {clone} = require('./world_utils');
-const {scriptMatchesEventPrereqs} = require('./script_event_prereqs');
+import { clone } from './world_utils';
+import { scriptMatchesEventPrereqs } from './script_event_prereqs';
 
-module.exports = (WorldScriptNote = (function() {
+export default WorldScriptNote = (function() {
   WorldScriptNote = class WorldScriptNote {
     static initClass() {
       this.className = 'WorldScriptNote';
@@ -72,4 +72,4 @@ module.exports = (WorldScriptNote = (function() {
   };
   WorldScriptNote.initClass();
   return WorldScriptNote;
-})());
+})();

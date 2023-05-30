@@ -14,25 +14,19 @@
 // comes into being, as opposed to sub-views which get inserted into other views.
 
 let RootView;
-const {
-  merge
-} = require('lodash');
-
-const CocoView = require('./CocoView');
-
-const {logoutUser, me} = require('core/auth');
-const locale = require('locale/locale');
-
-const Achievement = require('models/Achievement');
-const AchievementPopup = require('views/core/AchievementPopup');
-let errors = require('core/errors');
-const utils = require('core/utils');
-const userUtils = require('../../lib/user-utils');
-
-const BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default;
-const Navigation = require('app/components/common/Navigation.vue').default;
-const Footer = require('app/components/common/Footer.vue').default;
-const store = require('core/store');
+import { merge } from 'lodash';
+import CocoView from './CocoView';
+import { logoutUser, me } from 'core/auth';
+import locale from 'locale/locale';
+import Achievement from 'models/Achievement';
+import AchievementPopup from 'views/core/AchievementPopup';
+import errors from 'core/errors';
+import utils from 'core/utils';
+import userUtils from '../../lib/user-utils';
+import BackboneVueMetaBinding from 'app/core/BackboneVueMetaBinding';
+import Navigation from 'app/components/common/Navigation.vue';
+import Footer from 'app/components/common/Footer.vue';
+import store from 'core/store';
 
 
 const filterKeyboardEvents = (allowedEvents, func) => (function(...splat) {
@@ -41,7 +35,7 @@ const filterKeyboardEvents = (allowedEvents, func) => (function(...splat) {
   return func(...Array.from(splat || []));
 });
 
-module.exports = (RootView = (function() {
+export default RootView = (function() {
   RootView = class RootView extends CocoView {
     static initClass() {
       this.prototype.showBackground = true;
@@ -415,7 +409,7 @@ module.exports = (RootView = (function() {
   };
   RootView.initClass();
   return RootView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

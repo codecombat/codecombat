@@ -12,19 +12,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SubscriptionView;
-require('app/styles/account/subscription-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/account/subscription-view');
-const CocoCollection = require('collections/CocoCollection');
-const Products = require('collections/Products');
-const Product = require('models/Product');
-const payPal = require('core/services/paypal');
-const SubscribeModal = require('views/core/SubscribeModal');
-const Payment = require('models/Payment');
-const stripeHandler = require('core/services/stripe');
-const User = require('models/User');
-const utils = require('core/utils');
-const api = require('core/api');
+import 'app/styles/account/subscription-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/account/subscription-view';
+import CocoCollection from 'collections/CocoCollection';
+import Products from 'collections/Products';
+import Product from 'models/Product';
+import payPal from 'core/services/paypal';
+import SubscribeModal from 'views/core/SubscribeModal';
+import Payment from 'models/Payment';
+import stripeHandler from 'core/services/stripe';
+import User from 'models/User';
+import utils from 'core/utils';
+import api from 'core/api';
 
 // TODO: Link to sponsor id /user/userID instead of plain text name
 // TODO: Link to sponsor email instead of plain text email
@@ -46,7 +46,7 @@ const api = require('core/api');
 const basicPlanPrice = 999;
 const basicPlanID = 'basic';
 
-module.exports = (SubscriptionView = (function() {
+export default SubscriptionView = (function() {
   SubscriptionView = class SubscriptionView extends RootView {
     static initClass() {
       this.prototype.id = "subscription-view";
@@ -189,7 +189,7 @@ module.exports = (SubscriptionView = (function() {
   };
   SubscriptionView.initClass();
   return SubscriptionView;
-})());
+})();
 
 // Helper classes for managing subscription actions and updating UI state
 

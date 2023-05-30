@@ -7,11 +7,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let MainAccountView;
-require('app/styles/account/main-account-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/account/main-account-view');
+import 'app/styles/account/main-account-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/account/main-account-view';
 
-module.exports = (MainAccountView = (function() {
+export default MainAccountView = (function() {
   MainAccountView = class MainAccountView extends RootView {
     static initClass() {
       this.prototype.id = 'main-account-view';
@@ -27,4 +27,4 @@ module.exports = (MainAccountView = (function() {
   };
   MainAccountView.initClass();
   return MainAccountView;
-})());
+})();

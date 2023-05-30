@@ -8,11 +8,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let NewModelModal;
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/modal/new-model-modal');
-const forms = require('core/forms');
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/modal/new-model-modal';
+import forms from 'core/forms';
 
-module.exports = (NewModelModal = (function() {
+export default NewModelModal = (function() {
   NewModelModal = class NewModelModal extends ModalView {
     static initClass() {
       this.prototype.id = 'new-model-modal';
@@ -74,4 +74,4 @@ module.exports = (NewModelModal = (function() {
   };
   NewModelModal.initClass();
   return NewModelModal;
-})());
+})();

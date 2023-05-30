@@ -8,9 +8,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 // http://codingowl.com/readblog.php?blogid=124
-let CollisionCategory;
-module.exports.CollisionCategory = (CollisionCategory = (function() {
-  CollisionCategory = class CollisionCategory {
+export const CollisionCategory = (function() {
+  class CollisionCategory {
     static initClass() {
       this.className = 'CollisionCategory';
     }
@@ -72,4 +71,4 @@ module.exports.CollisionCategory = (CollisionCategory = (function() {
   };
   CollisionCategory.initClass();
   return CollisionCategory;
-})());
+})();

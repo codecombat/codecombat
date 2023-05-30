@@ -7,11 +7,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let RemoveStudentModal;
-require('app/styles/courses/remove-student-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/courses/remove-student-modal');
+import 'app/styles/courses/remove-student-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/courses/remove-student-modal';
 
-module.exports = (RemoveStudentModal = (function() {
+export default RemoveStudentModal = (function() {
   RemoveStudentModal = class RemoveStudentModal extends ModalView {
     static initClass() {
       this.prototype.id = 'remove-student-modal';
@@ -64,4 +64,4 @@ module.exports = (RemoveStudentModal = (function() {
   };
   RemoveStudentModal.initClass();
   return RemoveStudentModal;
-})());
+})();

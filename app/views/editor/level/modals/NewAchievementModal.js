@@ -8,12 +8,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let NewAchievementModal;
-const NewModelModal = require('views/editor/modal/NewModelModal');
-const template = require('app/templates/editor/level/modal/new-achievement');
-const forms = require('core/forms');
-const Achievement = require('models/Achievement');
+import NewModelModal from 'views/editor/modal/NewModelModal';
+import template from 'app/templates/editor/level/modal/new-achievement';
+import forms from 'core/forms';
+import Achievement from 'models/Achievement';
 
-module.exports = (NewAchievementModal = (function() {
+export default NewAchievementModal = (function() {
   NewAchievementModal = class NewAchievementModal extends NewModelModal {
     static initClass() {
       this.prototype.id = 'new-achievement-modal';
@@ -70,4 +70,4 @@ module.exports = (NewAchievementModal = (function() {
   };
   NewAchievementModal.initClass();
   return NewAchievementModal;
-})());
+})();

@@ -8,9 +8,9 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const {hslToHex} = require('core/utils');
+import { hslToHex } from 'core/utils';
 
-module.exports.teamDataFromLevel = function(level) {
+export const teamDataFromLevel = function(level) {
   const alliedSystem = _.find(level.get('systems', true), value => (value.config != null ? value.config.teams : undefined) != null);
   let teamNames = ((() => {
     const result = [];
@@ -59,4 +59,4 @@ module.exports.teamDataFromLevel = function(level) {
   return teams;
 };
 
-module.exports.scoreForDisplay = score => score * 100;
+export const scoreForDisplay = score => score * 100;

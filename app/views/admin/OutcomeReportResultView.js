@@ -9,11 +9,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let OutcomesReportResultView;
-require('app/styles/admin/admin-outcomes-report.sass');
-const utils = require('core/utils');
-const RootView = require('views/core/RootView');
+import 'app/styles/admin/admin-outcomes-report.sass';
+import utils from 'core/utils';
+import RootView from 'views/core/RootView';
 
-module.exports = (OutcomesReportResultView = (function() {
+export default OutcomesReportResultView = (function() {
   OutcomesReportResultView = class OutcomesReportResultView extends RootView {
     static initClass() {
       this.prototype.id = 'admin-outcomes-report-result-view';
@@ -61,7 +61,7 @@ module.exports = (OutcomesReportResultView = (function() {
   };
   OutcomesReportResultView.initClass();
   return OutcomesReportResultView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -121,4 +121,4 @@ class LineSegment {
 }
 LineSegment.initClass();
 
-module.exports = LineSegment;
+export default LineSegment;

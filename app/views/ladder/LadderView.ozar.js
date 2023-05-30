@@ -12,26 +12,26 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LadderView;
-require('app/styles/play/ladder/ladder.sass');
-const RootView = require('views/core/RootView');
-const Level = require('models/Level');
-const LevelSession = require('models/LevelSession');
-const CocoCollection = require('collections/CocoCollection');
-const {teamDataFromLevel} = require('./utils');
-const {me} = require('core/auth');
+import 'app/styles/play/ladder/ladder.sass';
+import RootView from 'views/core/RootView';
+import Level from 'models/Level';
+import LevelSession from 'models/LevelSession';
+import CocoCollection from 'collections/CocoCollection';
+import { teamDataFromLevel } from './utils';
+import { me } from 'core/auth';
+
 // application = require 'core/application'
-const co = require('co');
-const utils = require('core/utils');
+import co from 'co';
 
-const LadderTabView = require('./LadderTabView');
-const MyMatchesTabView = require('./MyMatchesTabView');
-const SimulateTabView = require('./SimulateTabView');
-const LadderPlayModal = require('./LadderPlayModal');
-const CocoClass = require('core/CocoClass');
-
-const Clan = require('models/Clan');
-const CourseInstance = require('models/CourseInstance');
-const Course = require('models/Course');
+import utils from 'core/utils';
+import LadderTabView from './LadderTabView';
+import MyMatchesTabView from './MyMatchesTabView';
+import SimulateTabView from './SimulateTabView';
+import LadderPlayModal from './LadderPlayModal';
+import CocoClass from 'core/CocoClass';
+import Clan from 'models/Clan';
+import CourseInstance from 'models/CourseInstance';
+import Course from 'models/Course';
 
 const HIGHEST_SCORE = 1000000;
 
@@ -48,7 +48,7 @@ class LevelSessionsCollection extends CocoCollection {
 }
 LevelSessionsCollection.initClass();
 
-module.exports = (LadderView = (function() {
+export default LadderView = (function() {
   LadderView = class LadderView extends RootView {
     constructor(...args) {
       this.checkForTournamentEnd = this.checkForTournamentEnd.bind(this);
@@ -252,7 +252,7 @@ module.exports = (LadderView = (function() {
   };
   LadderView.initClass();
   return LadderView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

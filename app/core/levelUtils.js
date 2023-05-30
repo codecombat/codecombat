@@ -6,7 +6,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const Level = require('models/Level');
+import Level from 'models/Level';
 
 // group course/campaign levels by module number
 const buildLevelsListByModule = function(levels, isCh1) {
@@ -42,6 +42,6 @@ const buildLevelsListByModule = function(levels, isCh1) {
   return levelsModuleMap;
 };
 
-module.exports = {
+export default {
   buildLevelsListByModule
 };

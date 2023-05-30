@@ -11,7 +11,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SuperModel;
-module.exports = (SuperModel = class SuperModel extends Backbone.Model {
+
+export default SuperModel = class SuperModel extends Backbone.Model {
   constructor() {
     this.updateProgress = this.updateProgress.bind(this);
     this.num = 0;
@@ -366,7 +367,7 @@ module.exports = (SuperModel = class SuperModel extends Backbone.Model {
       return this.once('loaded-all', () => resolve(this));
     });
   }
-});
+};
 
 class Resource extends Backbone.Model {
   constructor(name, value) {

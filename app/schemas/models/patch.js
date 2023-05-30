@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const patchables = [
   'achievement',
@@ -50,4 +50,4 @@ const PatchSchema = c.object({title: 'Patch', required: ['target', 'delta', 'com
 
 c.extendBasicProperties(PatchSchema, 'patch');
 
-module.exports = PatchSchema;
+export default PatchSchema;

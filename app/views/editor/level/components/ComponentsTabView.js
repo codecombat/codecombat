@@ -13,14 +13,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ComponentsTabView;
-require('app/styles/editor/level/components_tab.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/level/components_tab');
-const ThangType = require('models/ThangType');
-const LevelComponent = require('models/LevelComponent');
-const LevelComponentEditView = require('./LevelComponentEditView');
-const LevelComponentNewView = require('./NewLevelComponentModal');
-require('lib/setupTreema');
+import 'app/styles/editor/level/components_tab.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/level/components_tab';
+import ThangType from 'models/ThangType';
+import LevelComponent from 'models/LevelComponent';
+import LevelComponentEditView from './LevelComponentEditView';
+import LevelComponentNewView from './NewLevelComponentModal';
+import 'lib/setupTreema';
 
 class LevelComponentCollection extends Backbone.Collection {
   static initClass() {
@@ -30,7 +30,7 @@ class LevelComponentCollection extends Backbone.Collection {
 }
 LevelComponentCollection.initClass();
 
-module.exports = (ComponentsTabView = (function() {
+export default ComponentsTabView = (function() {
   ComponentsTabView = class ComponentsTabView extends CocoView {
     constructor(...args) {
       this.onTreemaComponentSelected = this.onTreemaComponentSelected.bind(this);
@@ -171,7 +171,7 @@ module.exports = (ComponentsTabView = (function() {
   };
   ComponentsTabView.initClass();
   return ComponentsTabView;
-})());
+})();
 
 class LevelComponentNode extends TreemaObjectNode {
   static initClass() {

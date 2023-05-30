@@ -5,11 +5,12 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const api = require('core/api');
-const { sortCourses } = require('core/utils');
+import api from 'core/api';
+
+import { sortCourses } from 'core/utils';
 
 // This module should eventually include things such as: session, player code, score, thangs, etc
-module.exports = {
+export default {
   namespaced: true,
 
   state: {

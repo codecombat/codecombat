@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CPP;
-const Language = require('./language');
+import Language from './language';
 const parserHolder = {};
 
-module.exports = (CPP = (function() {
+export default CPP = (function() {
   CPP = class CPP extends Language {
     static initClass() {
       this.prototype.name = 'C++';
@@ -31,4 +31,4 @@ module.exports = (CPP = (function() {
   };
   CPP.initClass();
   return CPP;
-})());
+})();

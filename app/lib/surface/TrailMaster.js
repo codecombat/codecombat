@@ -20,12 +20,12 @@ const TARGET_WIDTH = 10;
 const FUTURE_PATH_INTERVAL_DIVISOR = 4;
 const PAST_PATH_INTERVAL_DIVISOR = 2;
 
-const Camera = require('./Camera');
-const CocoClass = require('core/CocoClass');
-const createjs = require('lib/createjs-parts');
-const utils = require('core/utils');
+import Camera from './Camera';
+import CocoClass from 'core/CocoClass';
+import createjs from 'lib/createjs-parts';
+import utils from 'core/utils';
 
-module.exports = (TrailMaster = (function() {
+export default TrailMaster = (function() {
   TrailMaster = class TrailMaster extends CocoClass {
     static initClass() {
       this.prototype.world = null;
@@ -173,4 +173,4 @@ module.exports = (TrailMaster = (function() {
   };
   TrailMaster.initClass();
   return TrailMaster;
-})());
+})();

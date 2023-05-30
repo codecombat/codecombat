@@ -4,11 +4,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ConditionalMinigameView;
-const RootComponent = require('views/core/RootComponent');
-const template = require('app/templates/base-flat');
-const ConditionalMinigameComponent = require('./ConditionalMinigameComponent.vue').default;
+import RootComponent from 'views/core/RootComponent';
+import template from 'app/templates/base-flat';
+import ConditionalMinigameComponent from './ConditionalMinigameComponent.vue';
 
-module.exports = (ConditionalMinigameView = (function() {
+export default ConditionalMinigameView = (function() {
   ConditionalMinigameView = class ConditionalMinigameView extends RootComponent {
     static initClass() {
       this.prototype.id = 'conditional-minigame-view';
@@ -22,4 +22,4 @@ module.exports = (ConditionalMinigameView = (function() {
   };
   ConditionalMinigameView.initClass();
   return ConditionalMinigameView;
-})());
+})();

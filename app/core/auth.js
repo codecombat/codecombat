@@ -7,19 +7,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let addLoggerGlobalContext;
-const {backboneFailure, genericFailure, parseServerError} = require('core/errors');
-const User = require('models/User');
-const storage = require('core/storage');
+import { backboneFailure, genericFailure, parseServerError } from 'core/errors';
+import User from 'models/User';
+import storage from 'core/storage';
 const BEEN_HERE_BEFORE_KEY = 'beenHereBefore';
-const { getQueryVariable, isOzaria } = require('core/utils');
-const api = require('core/api');
+import { getQueryVariable, isOzaria } from 'core/utils';
+import api from 'core/api';
 
 if (isOzaria) {
   ({ addLoggerGlobalContext } = require('ozaria/site/common/logger'));
 }
 
 const init = function() {
-  module.exports.me = (window.me = new User(window.userObject)); // inserted into main.html
+  export const me = window.me = new User(window.userObject); // inserted into main.html
   module.exports.me.onLoaded();
 
   trackFirstArrival();
@@ -49,13 +49,13 @@ const init = function() {
   return Backbone.listenTo(me, 'sync', () => Backbone.Mediator.publish('auth:me-synced', {me}));
 };
 
-module.exports.logoutUser = function(options) {
+export const logoutUser = function(options) {
   if (options == null) { options = {}; }
   if (options.error == null) { options.error = genericFailure; }
   return me.logout(options);
 };
 
-module.exports.sendRecoveryEmail = function(email, options) {
+export const sendRecoveryEmail = function(email, options) {
   if (options == null) { options = {}; }
   options = _.merge(options,
     {method: 'POST', url: '/auth/reset', data: { email }}

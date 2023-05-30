@@ -7,12 +7,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LegalView;
-require('app/styles/legal.sass');
-const RootView = require('views/core/RootView');
-const template = require('templates/legal');
-const Products = require('collections/Products');
+import 'app/styles/legal.sass';
+import RootView from 'views/core/RootView';
+import template from 'templates/legal';
+import Products from 'collections/Products';
 
-module.exports = (LegalView = (function() {
+export default LegalView = (function() {
   LegalView = class LegalView extends RootView {
     static initClass() {
       this.prototype.id = 'legal-view';
@@ -26,4 +26,4 @@ module.exports = (LegalView = (function() {
   };
   LegalView.initClass();
   return LegalView;
-})());
+})();

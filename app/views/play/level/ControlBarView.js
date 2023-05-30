@@ -10,23 +10,21 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ControlBarView;
-require('app/styles/play/level/control-bar-view.sass');
-const storage = require('core/storage');
+import 'app/styles/play/level/control-bar-view.sass';
+import storage from 'core/storage';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/control-bar-view';
+import { me } from 'core/auth';
+import utils from 'core/utils';
+import Campaign from 'models/Campaign';
+import Classroom from 'models/Classroom';
+import Course from 'models/Course';
+import CourseInstance from 'models/CourseInstance';
+import GameMenuModal from 'views/play/menu/GameMenuModal';
+import LevelSetupManager from 'lib/LevelSetupManager';
+import CreateAccountModal from 'views/core/CreateAccountModal';
 
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/control-bar-view');
-const {me} = require('core/auth');
-const utils = require('core/utils');
-
-const Campaign = require('models/Campaign');
-const Classroom = require('models/Classroom');
-const Course = require('models/Course');
-const CourseInstance = require('models/CourseInstance');
-const GameMenuModal = require('views/play/menu/GameMenuModal');
-const LevelSetupManager = require('lib/LevelSetupManager');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-
-module.exports = (ControlBarView = (function() {
+export default ControlBarView = (function() {
   ControlBarView = class ControlBarView extends CocoView {
     static initClass() {
       this.prototype.id = 'control-bar-view';
@@ -249,7 +247,7 @@ module.exports = (ControlBarView = (function() {
   };
   ControlBarView.initClass();
   return ControlBarView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

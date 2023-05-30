@@ -14,35 +14,35 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TeacherClassesView;
-require('app/styles/courses/teacher-classes-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/courses/teacher-classes-view');
-const Classroom = require('models/Classroom');
-const Classrooms = require('collections/Classrooms');
-const Courses = require('collections/Courses');
-const Campaign = require('models/Campaign');
-const Campaigns = require('collections/Campaigns');
-const LevelSessions = require('collections/LevelSessions');
-const CourseInstance = require('models/CourseInstance');
-const CourseInstances = require('collections/CourseInstances');
-const ClassroomSettingsModal = require('views/courses/ClassroomSettingsModal');
-const ShareWithTeachersModal = require('app/views/core/ShareWithTeachersModal').default;
-const CourseNagSubview = require('views/teachers/CourseNagSubview');
-const Prepaids = require('collections/Prepaids');
-const Users = require('collections/Users');
-const User = require('models/User');
-const utils = require('core/utils');
-const storage = require('core/storage');
-const GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler');
-const co = require('co');
-const OzariaEncouragementModal = require('app/views/teachers/OzariaEncouragementModal').default;
-const PanelTryOzaria = require('app/components/teacher/PanelTryOzaria').default;
-const BannerHoC = require('./BannerHoC').default;
-const clansApi = require('core/api/clans');
-const helper = require('lib/coursesHelper');
-const TrialRequest = require('models/TrialRequest');
-const TrialRequests = require('collections/TrialRequests');
-const PodcastItemContainer = require('./PodcastItemContainer').default;
+import 'app/styles/courses/teacher-classes-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/courses/teacher-classes-view';
+import Classroom from 'models/Classroom';
+import Classrooms from 'collections/Classrooms';
+import Courses from 'collections/Courses';
+import Campaign from 'models/Campaign';
+import Campaigns from 'collections/Campaigns';
+import LevelSessions from 'collections/LevelSessions';
+import CourseInstance from 'models/CourseInstance';
+import CourseInstances from 'collections/CourseInstances';
+import ClassroomSettingsModal from 'views/courses/ClassroomSettingsModal';
+import ShareWithTeachersModal from 'app/views/core/ShareWithTeachersModal';
+import CourseNagSubview from 'views/teachers/CourseNagSubview';
+import Prepaids from 'collections/Prepaids';
+import Users from 'collections/Users';
+import User from 'models/User';
+import utils from 'core/utils';
+import storage from 'core/storage';
+import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler';
+import co from 'co';
+import OzariaEncouragementModal from 'app/views/teachers/OzariaEncouragementModal';
+import PanelTryOzaria from 'app/components/teacher/PanelTryOzaria';
+import BannerHoC from './BannerHoC';
+import clansApi from 'core/api/clans';
+import helper from 'lib/coursesHelper';
+import TrialRequest from 'models/TrialRequest';
+import TrialRequests from 'collections/TrialRequests';
+import PodcastItemContainer from './PodcastItemContainer';
 
 
 const translateWithMarkdown = label => marked.inlineLexer($.i18n.t(label), []);
@@ -58,7 +58,7 @@ const officeHours = [
   {time: moment('2023-02-16 14:00-08').toDate(), link: 'https://us06web.zoom.us/webinar/register/WN_Hdt7MY_3TtqR4JB96mM-RQ', host: 'Ben & Liz', name: 'Using Esports to Teach Coding'}
 ];
 
-module.exports = (TeacherClassesView = (function() {
+export default TeacherClassesView = (function() {
   TeacherClassesView = class TeacherClassesView extends RootView {
     constructor(...args) {
       this.onMyClansLoaded = this.onMyClansLoaded.bind(this);
@@ -649,7 +649,7 @@ module.exports = (TeacherClassesView = (function() {
   };
   TeacherClassesView.initClass();
   return TeacherClassesView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

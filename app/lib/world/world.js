@@ -13,20 +13,20 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let World;
-const _ = require('lodash'); // TODO webpack: Get these two loading from lodash entry, probably
+import _ from 'lodash'; // TODO webpack: Get these two loading from lodash entry, probably
 _.string = require('underscore.string');
-const Vector = require('./vector');
-const Rectangle = require('./rectangle');
-const Ellipse = require('./ellipse');
-const LineSegment = require('./line_segment');
-const WorldFrame = require('./world_frame');
-const Thang = require('./thang');
-const ThangState = require('./thang_state');
-const Rand = require('./rand');
-const WorldScriptNote = require('./world_script_note');
-const {now, consolidateThangs, typedArraySupport} = require('./world_utils');
-const Component = require('lib/world/component');
-const System = require('lib/world/system');
+import Vector from './vector';
+import Rectangle from './rectangle';
+import Ellipse from './ellipse';
+import LineSegment from './line_segment';
+import WorldFrame from './world_frame';
+import Thang from './thang';
+import ThangState from './thang_state';
+import Rand from './rand';
+import WorldScriptNote from './world_script_note';
+import { now, consolidateThangs, typedArraySupport } from './world_utils';
+import Component from 'lib/world/component';
+import System from 'lib/world/system';
 const PROGRESS_UPDATE_INTERVAL = 100;
 const DESERIALIZATION_INTERVAL = 10;
 const REAL_TIME_BUFFER_MIN = 2 * PROGRESS_UPDATE_INTERVAL;
@@ -37,10 +37,10 @@ const ITEM_ORIGINAL = '53e12043b82921000051cdf9';
 const EXISTS_ORIGINAL = '524b4150ff92f1f4f8000024';
 const COUNTDOWN_LEVELS = ['sky-span'];
 window.string_score = require('vendor/scripts/string_score.js'); // Used as a global in DB code
-require('vendor/scripts/coffeescript'); // Install the global CoffeeScript compiler #TODO Performance: Load this only when necessary
-require('lib/worldLoader'); // Install custom hack to dynamically require library files
+import 'vendor/scripts/coffeescript'; // Install the global CoffeeScript compiler #TODO Performance: Load this only when necessary
+import 'lib/worldLoader'; // Install custom hack to dynamically require library files
 
-module.exports = (World = (function() {
+export default World = (function() {
   World = class World {
     static initClass() {
       this.className = 'World';
@@ -989,7 +989,7 @@ module.exports = (World = (function() {
   };
   World.initClass();
   return World;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let DocFormatter;
-const popoverTemplate = require('app/templates/play/level/tome/spell_palette_entry_popover');
+import popoverTemplate from 'app/templates/play/level/tome/spell_palette_entry_popover';
 window.Vector = require('lib/world/vector');  // So we can document it
-const utils = require('core/utils');
-const aetherUtils = require('lib/aether_utils');
+import utils from 'core/utils';
+import aetherUtils from 'lib/aether_utils';
 
 const safeJSONStringify = function(input, maxDepth) {
   let output;
@@ -53,7 +53,7 @@ const safeJSONStringify = function(input, maxDepth) {
   return JSON.stringify(output, null, 1);
 };
 
-module.exports = (DocFormatter = class DocFormatter {
+export default DocFormatter = class DocFormatter {
   constructor(options) {
     this.options = options;
     this.doc = _.cloneDeep(this.options.doc);
@@ -354,7 +354,7 @@ module.exports = (DocFormatter = class DocFormatter {
     }
     return cooldowns;
   }
-});
+};
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -12,13 +12,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Prepaid;
-const CocoModel = require('./CocoModel');
-const schema = require('schemas/models/prepaid.schema');
-const utils = require('../core/utils');
+import CocoModel from './CocoModel';
+import schema from 'schemas/models/prepaid.schema';
+import utils from '../core/utils';
+import { STARTER_LICENSE_COURSE_IDS } from 'core/constants';
 
-const { STARTER_LICENSE_COURSE_IDS } = require('core/constants');
-
-module.exports = (Prepaid = (function() {
+export default Prepaid = (function() {
   Prepaid = class Prepaid extends CocoModel {
     static initClass() {
       this.className = "Prepaid";
@@ -162,7 +161,7 @@ module.exports = (Prepaid = (function() {
   };
   Prepaid.initClass();
   return Prepaid;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

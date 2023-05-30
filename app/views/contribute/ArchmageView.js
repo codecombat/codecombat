@@ -7,11 +7,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ArchmageView;
-const ContributeClassView = require('./ContributeClassView');
-const template = require('app/templates/contribute/archmage');
-const ContactModal = require('views/core/ContactModal');
+import ContributeClassView from './ContributeClassView';
+import template from 'app/templates/contribute/archmage';
+import ContactModal from 'views/core/ContactModal';
 
-module.exports = (ArchmageView = (function() {
+export default ArchmageView = (function() {
   ArchmageView = class ArchmageView extends ContributeClassView {
     static initClass() {
       this.prototype.id = 'archmage-view';
@@ -64,4 +64,4 @@ module.exports = (ArchmageView = (function() {
   };
   ArchmageView.initClass();
   return ArchmageView;
-})());
+})();

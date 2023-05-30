@@ -12,18 +12,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SystemsTabView;
-require('app/styles/editor/level/systems-tab-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/level/systems-tab-view');
-const Level = require('models/Level');
-const LevelSystem = require('models/LevelSystem');
-const LevelSystemEditView = require('./LevelSystemEditView');
-const NewLevelSystemModal = require('./NewLevelSystemModal');
-const AddLevelSystemModal = require('./AddLevelSystemModal');
-const nodes = require('../treema_nodes');
-require('lib/setupTreema');
+import 'app/styles/editor/level/systems-tab-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/level/systems-tab-view';
+import Level from 'models/Level';
+import LevelSystem from 'models/LevelSystem';
+import LevelSystemEditView from './LevelSystemEditView';
+import NewLevelSystemModal from './NewLevelSystemModal';
+import AddLevelSystemModal from './AddLevelSystemModal';
+import nodes from '../treema_nodes';
+import 'lib/setupTreema';
 
-module.exports = (SystemsTabView = (function() {
+export default SystemsTabView = (function() {
   SystemsTabView = class SystemsTabView extends CocoView {
     static initClass() {
       this.prototype.id = 'systems-tab-view';
@@ -234,7 +234,7 @@ module.exports = (SystemsTabView = (function() {
   };
   SystemsTabView.initClass();
   return SystemsTabView;
-})());
+})();
 
 class LevelSystemNode extends TreemaObjectNode {
   static initClass() {

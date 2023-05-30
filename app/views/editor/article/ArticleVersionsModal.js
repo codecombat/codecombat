@@ -7,9 +7,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ArticleVersionsModal;
-const VersionsModal = require('views/editor/modal/VersionsModal');
+import VersionsModal from 'views/editor/modal/VersionsModal';
 
-module.exports = (ArticleVersionsModal = (function() {
+export default ArticleVersionsModal = (function() {
   ArticleVersionsModal = class ArticleVersionsModal extends VersionsModal {
     static initClass() {
       this.prototype.id = 'editor-article-versions-view';
@@ -24,4 +24,4 @@ module.exports = (ArticleVersionsModal = (function() {
   };
   ArticleVersionsModal.initClass();
   return ArticleVersionsModal;
-})());
+})();

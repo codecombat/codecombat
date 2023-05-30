@@ -8,11 +8,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ChangeCourseLanguageModal;
-require('app/styles/courses/change-course-language-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/courses/change-course-language-modal');
+import 'app/styles/courses/change-course-language-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/courses/change-course-language-modal';
 
-module.exports = (ChangeCourseLanguageModal = (function() {
+export default ChangeCourseLanguageModal = (function() {
   ChangeCourseLanguageModal = class ChangeCourseLanguageModal extends ModalView {
     static initClass() {
       this.prototype.id = 'change-course-language-modal';
@@ -47,4 +47,4 @@ module.exports = (ChangeCourseLanguageModal = (function() {
   };
   ChangeCourseLanguageModal.initClass();
   return ChangeCourseLanguageModal;
-})());
+})();

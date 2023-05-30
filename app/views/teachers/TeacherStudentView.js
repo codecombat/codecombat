@@ -11,28 +11,28 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TeacherStudentView;
-require('app/styles/teachers/teacher-student-view.sass');
-const RootView = require('views/core/RootView');
-const Campaigns = require('collections/Campaigns');
-const Classroom = require('models/Classroom');
-const State = require('models/State');
-const Courses = require('collections/Courses');
-const Levels = require('collections/Levels');
-const Prepaids = require('collections/Prepaids');
-const LevelSession = require('models/LevelSession');
-const LevelSessions = require('collections/LevelSessions');
-const User = require('models/User');
-const Users = require('collections/Users');
-const CourseInstances = require('collections/CourseInstances');
-require('d3/d3.js');
-const utils = require('core/utils');
-const aceUtils = require('core/aceUtils');
-const AceDiff = require('ace-diff');
-require('app/styles/common/ace-diff.sass');
-const fullPageTemplate = require('app/templates/teachers/teacher-student-view-full');
-const viewTemplate = require('app/templates/teachers/teacher-student-view');
+import 'app/styles/teachers/teacher-student-view.sass';
+import RootView from 'views/core/RootView';
+import Campaigns from 'collections/Campaigns';
+import Classroom from 'models/Classroom';
+import State from 'models/State';
+import Courses from 'collections/Courses';
+import Levels from 'collections/Levels';
+import Prepaids from 'collections/Prepaids';
+import LevelSession from 'models/LevelSession';
+import LevelSessions from 'collections/LevelSessions';
+import User from 'models/User';
+import Users from 'collections/Users';
+import CourseInstances from 'collections/CourseInstances';
+import 'd3/d3.js';
+import utils from 'core/utils';
+import aceUtils from 'core/aceUtils';
+import AceDiff from 'ace-diff';
+import 'app/styles/common/ace-diff.sass';
+import fullPageTemplate from 'app/templates/teachers/teacher-student-view-full';
+import viewTemplate from 'app/templates/teachers/teacher-student-view';
 
-module.exports = (TeacherStudentView = (function() {
+export default TeacherStudentView = (function() {
   TeacherStudentView = class TeacherStudentView extends RootView {
     static initClass() {
       this.prototype.id = 'teacher-student-view';
@@ -699,42 +699,42 @@ module.exports = (TeacherStudentView = (function() {
   };
   TeacherStudentView.initClass();
   return TeacherStudentView;
-})());
+})();
 
-  // TODO: Hookup enroll/assign functionality
+// TODO: Hookup enroll/assign functionality
 
-  // onClickEnrollStudentButton: (e) ->
-  //   userID = $(e.currentTarget).data('user-id')
-  //   user = @user.get(userID)
-  //   selectedUsers = new Users([user])
-  //   @enrollStudents(selectedUsers)
-  //   window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID
-  //
-  // enrollStudents: (selectedUsers) ->
-  //   modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @user }
-  //   @openModalView(modal)
-  //   modal.once 'redeem-users', (enrolledUsers) =>
-  //     enrolledUsers.each (newUser) =>
-  //       user = @user.get(newUser.id)
-  //       if user
-  //         user.set(newUser.attributes)
-  //     null
+// onClickEnrollStudentButton: (e) ->
+//   userID = $(e.currentTarget).data('user-id')
+//   user = @user.get(userID)
+//   selectedUsers = new Users([user])
+//   @enrollStudents(selectedUsers)
+//   window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID
+//
+// enrollStudents: (selectedUsers) ->
+//   modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @user }
+//   @openModalView(modal)
+//   modal.once 'redeem-users', (enrolledUsers) =>
+//     enrolledUsers.each (newUser) =>
+//       user = @user.get(newUser.id)
+//       if user
+//         user.set(newUser.attributes)
+//     null
 
 
-  // levelPopoverContent: (level, session, i) ->
-  //   return null unless level
-  //   context = {
-  //     moment: moment
-  //     level: level
-  //     session: session
-  //     i: i
-  //     canViewSolution: @teacherMode
-  //   }
-  //   return popoverTemplate(context)
-  //
-  // getLevelURL: (level, course, courseInstance, session) ->
-  //   return null unless @teacherMode and _.all(arguments)
-  //   "/play/level/#{level.get('slug')}?course=#{course.id}&course-instance=#{courseInstance.id}&session=#{session.id}&observing=true"
+// levelPopoverContent: (level, session, i) ->
+//   return null unless level
+//   context = {
+//     moment: moment
+//     level: level
+//     session: session
+//     i: i
+//     canViewSolution: @teacherMode
+//   }
+//   return popoverTemplate(context)
+//
+// getLevelURL: (level, course, courseInstance, session) ->
+//   return null unless @teacherMode and _.all(arguments)
+//   "/play/level/#{level.get('slug')}?course=#{course.id}&course-instance=#{courseInstance.id}&session=#{session.id}&observing=true"
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

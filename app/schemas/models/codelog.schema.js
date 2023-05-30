@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const LevelVersionSchema = c.object({required: ['original', 'majorVersion'], links: [{rel: 'db', href: '/db/level/{(original)}/version/{(majorVersion)}'}]}, {
   original: c.objectId(),
@@ -9,7 +9,7 @@ const LevelVersionSchema = c.object({required: ['original', 'majorVersion'], lin
     minimum: 0
   }
 }
-); 
+);
 
 
 const CodeLogSchema = {
@@ -24,4 +24,4 @@ const CodeLogSchema = {
   }
 };
 
-module.exports = CodeLogSchema;
+export default CodeLogSchema;

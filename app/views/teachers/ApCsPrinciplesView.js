@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ApCsPrinciplesView;
-require('app/styles/teachers/ap-cs-principles.sass');
-const RootView = require('views/core/RootView');
+import 'app/styles/teachers/ap-cs-principles.sass';
+import RootView from 'views/core/RootView';
 
-module.exports = (ApCsPrinciplesView = (function() {
+export default ApCsPrinciplesView = (function() {
   ApCsPrinciplesView = class ApCsPrinciplesView extends RootView {
     static initClass() {
       this.prototype.id = 'ap-cs-principles-view';
@@ -24,7 +24,7 @@ module.exports = (ApCsPrinciplesView = (function() {
   };
   ApCsPrinciplesView.initClass();
   return ApCsPrinciplesView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

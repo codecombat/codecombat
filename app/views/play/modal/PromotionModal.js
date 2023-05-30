@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PromotionModal;
-require('app/styles/play/modal/promotion-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/modal/promotion-modal');
+import 'app/styles/play/modal/promotion-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/modal/promotion-modal';
 
-module.exports = (PromotionModal = (function() {
+export default PromotionModal = (function() {
   PromotionModal = class PromotionModal extends ModalView {
     static initClass() {
       this.prototype.template = template;
@@ -28,4 +28,4 @@ module.exports = (PromotionModal = (function() {
   };
   PromotionModal.initClass();
   return PromotionModal;
-})());
+})();

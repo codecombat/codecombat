@@ -12,41 +12,39 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ThangTypeEditView;
-require('app/styles/editor/thang/thang-type-edit-view.sass');
-const ThangType = require('models/ThangType');
-const SpriteParser = require('lib/sprites/SpriteParser');
-const SpriteBuilder = require('lib/sprites/SpriteBuilder');
-const Lank = require('lib/surface/Lank');
-const LayerAdapter = require('lib/surface/LayerAdapter');
-const Camera = require('lib/surface/Camera');
-const DocumentFiles = require('collections/DocumentFiles');
-require('lib/setupTreema');
-const createjs = require('lib/createjs-parts');
-const LZString = require('lz-string');
-const initSlider = require('lib/initSlider');
-const utils = require('core/utils');
-const replaceRgbaWithCustomizableHex = require('./replaceRgbaWithCustomizableHex.js').default;
-const SpriteOptimizer = require('lib/sprites/SpriteOptimizer');
+import 'app/styles/editor/thang/thang-type-edit-view.sass';
+import ThangType from 'models/ThangType';
+import SpriteParser from 'lib/sprites/SpriteParser';
+import SpriteBuilder from 'lib/sprites/SpriteBuilder';
+import Lank from 'lib/surface/Lank';
+import LayerAdapter from 'lib/surface/LayerAdapter';
+import Camera from 'lib/surface/Camera';
+import DocumentFiles from 'collections/DocumentFiles';
+import 'lib/setupTreema';
+import createjs from 'lib/createjs-parts';
+import LZString from 'lz-string';
+import initSlider from 'lib/initSlider';
+import utils from 'core/utils';
+import replaceRgbaWithCustomizableHex from './replaceRgbaWithCustomizableHex.js';
+import SpriteOptimizer from 'lib/sprites/SpriteOptimizer';
 
 // in the template, but need to require to load them
-require('views/modal/RevertModal');
+import 'views/modal/RevertModal';
 
-const RootView = require('views/core/RootView');
-const ThangComponentsEditView = require('views/editor/component/ThangComponentsEditView');
-const ThangTypeVersionsModal = require('./ThangTypeVersionsModal');
-const ThangTypeColorsTabView = require('./ThangTypeColorsTabView');
-const PatchesView = require('views/editor/PatchesView');
-const ForkModal = require('views/editor/ForkModal');
-const VectorIconSetupModal = require('views/editor/thang/VectorIconSetupModal');
-const SaveVersionModal = require('views/editor/modal/SaveVersionModal');
-const template = require('app/templates/editor/thang/thang-type-edit-view');
-const storage = require('core/storage');
-const ExportThangTypeModal = require('./ExportThangTypeModal');
-const RevertModal = require('views/modal/RevertModal');
-
-require('lib/game-libraries');
-
-const AnimateImporterWorker = require('./animate-import.worker.js');
+import RootView from 'views/core/RootView';
+import ThangComponentsEditView from 'views/editor/component/ThangComponentsEditView';
+import ThangTypeVersionsModal from './ThangTypeVersionsModal';
+import ThangTypeColorsTabView from './ThangTypeColorsTabView';
+import PatchesView from 'views/editor/PatchesView';
+import ForkModal from 'views/editor/ForkModal';
+import VectorIconSetupModal from 'views/editor/thang/VectorIconSetupModal';
+import SaveVersionModal from 'views/editor/modal/SaveVersionModal';
+import template from 'app/templates/editor/thang/thang-type-edit-view';
+import storage from 'core/storage';
+import ExportThangTypeModal from './ExportThangTypeModal';
+import RevertModal from 'views/modal/RevertModal';
+import 'lib/game-libraries';
+import AnimateImporterWorker from './animate-import.worker.js';
 
 const CENTER = {x: 200, y: 400};
 
@@ -154,7 +152,7 @@ const defaultTasks = {
   ]))
 };
 
-module.exports = (ThangTypeEditView = (function() {
+export default ThangTypeEditView = (function() {
   ThangTypeEditView = class ThangTypeEditView extends RootView {
     static initClass() {
       this.prototype.id = 'thang-type-edit-view';
@@ -1003,7 +1001,7 @@ Incorrect settings of custom bounds will cut the artwork.\
   };
   ThangTypeEditView.initClass();
   return ThangTypeEditView;
-})());
+})();
 
 var imageToPortrait = function(img) {
   const canvas = document.createElement('canvas');

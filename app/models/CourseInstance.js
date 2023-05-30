@@ -10,10 +10,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CourseInstance;
-const CocoModel = require('./CocoModel');
-const schema = require('schemas/models/course_instance.schema');
+import CocoModel from './CocoModel';
+import schema from 'schemas/models/course_instance.schema';
 
-module.exports = (CourseInstance = (function() {
+export default CourseInstance = (function() {
   CourseInstance = class CourseInstance extends CocoModel {
     static initClass() {
       this.className = 'CourseInstance';
@@ -94,4 +94,4 @@ module.exports = (CourseInstance = (function() {
   };
   CourseInstance.initClass();
   return CourseInstance;
-})());
+})();

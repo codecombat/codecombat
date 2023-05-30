@@ -5,13 +5,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let EmailVerifiedView;
-require('app/styles/user/email-verified-view.sass');
-const RootView = require('views/core/RootView');
-const State = require('models/State');
-const template = require('app/templates/user/email-verified-view');
-const User = require('models/User');
+import 'app/styles/user/email-verified-view.sass';
+import RootView from 'views/core/RootView';
+import State from 'models/State';
+import template from 'app/templates/user/email-verified-view';
+import User from 'models/User';
 
-module.exports = (EmailVerifiedView = (function() {
+export default EmailVerifiedView = (function() {
   EmailVerifiedView = class EmailVerifiedView extends RootView {
     static initClass() {
       this.prototype.id = 'email-verified-view';
@@ -50,4 +50,4 @@ module.exports = (EmailVerifiedView = (function() {
   };
   EmailVerifiedView.initClass();
   return EmailVerifiedView;
-})());
+})();

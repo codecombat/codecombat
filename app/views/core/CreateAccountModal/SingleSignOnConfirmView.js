@@ -8,14 +8,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SingleSignOnConfirmView;
-require('app/styles/modal/create-account-modal/sso-confirm-view.sass');
-const CocoView = require('views/core/CocoView');
-const BasicInfoView = require('views/core/CreateAccountModal/BasicInfoView');
-const template = require('app/templates/core/create-account-modal/single-sign-on-confirm-view');
-const forms = require('core/forms');
-const User = require('models/User');
+import 'app/styles/modal/create-account-modal/sso-confirm-view.sass';
+import CocoView from 'views/core/CocoView';
+import BasicInfoView from 'views/core/CreateAccountModal/BasicInfoView';
+import template from 'app/templates/core/create-account-modal/single-sign-on-confirm-view';
+import forms from 'core/forms';
+import User from 'models/User';
 
-module.exports = (SingleSignOnConfirmView = (function() {
+export default SingleSignOnConfirmView = (function() {
   SingleSignOnConfirmView = class SingleSignOnConfirmView extends BasicInfoView {
     static initClass() {
       this.prototype.id = 'single-sign-on-confirm-view';
@@ -61,4 +61,4 @@ module.exports = (SingleSignOnConfirmView = (function() {
   };
   SingleSignOnConfirmView.initClass();
   return SingleSignOnConfirmView;
-})());
+})();

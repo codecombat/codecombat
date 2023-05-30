@@ -8,14 +8,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ContactGEEKView;
-require('app/styles/china-bridge.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/china-bridge-view');
-const utils = require('core/utils');
-const storage = require('core/storage');
+import 'app/styles/china-bridge.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/china-bridge-view';
+import utils from 'core/utils';
+import storage from 'core/storage';
 
 
-module.exports = (ContactGEEKView = (function() {
+export default ContactGEEKView = (function() {
   ContactGEEKView = class ContactGEEKView extends RootView {
     constructor(...args) {
       this.goRedirect = this.goRedirect.bind(this);
@@ -64,4 +64,4 @@ module.exports = (ContactGEEKView = (function() {
   };
   ContactGEEKView.initClass();
   return ContactGEEKView;
-})());
+})();

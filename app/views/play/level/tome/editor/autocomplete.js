@@ -11,8 +11,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Autocomplete;
-const aceUtils = require('core/aceUtils');
-const ace = require('lib/aceContainer');
+import aceUtils from 'core/aceUtils';
+import ace from 'lib/aceContainer';
 
 const defaults = {
   autoLineEndings:
@@ -39,7 +39,7 @@ const defaults = {
 
 // TODO: Create list of manual test cases
 
-module.exports = (Autocomplete = (function() {
+export default Autocomplete = (function() {
   let Tokenizer = undefined;
   let BackgroundTokenizer = undefined;
   Autocomplete = class Autocomplete {
@@ -580,7 +580,7 @@ module.exports = (Autocomplete = (function() {
   };
   Autocomplete.initClass();
   return Autocomplete;
-})());
+})();
 
 function __guardMethod__(obj, methodName, transform) {
   if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {

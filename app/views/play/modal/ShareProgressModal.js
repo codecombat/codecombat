@@ -5,12 +5,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ShareProgressModal;
-require('app/styles/play/modal/share-progress-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/modal/share-progress-modal');
-const storage = require('core/storage');
+import 'app/styles/play/modal/share-progress-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/modal/share-progress-modal';
+import storage from 'core/storage';
 
-module.exports = (ShareProgressModal = (function() {
+export default ShareProgressModal = (function() {
   ShareProgressModal = class ShareProgressModal extends ModalView {
     static initClass() {
       this.prototype.id = 'share-progress-modal';
@@ -46,4 +46,4 @@ module.exports = (ShareProgressModal = (function() {
   };
   ShareProgressModal.initClass();
   return ShareProgressModal;
-})());
+})();

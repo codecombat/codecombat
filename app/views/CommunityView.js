@@ -7,11 +7,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CommunityView;
-require('app/styles/community.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/community-view');
+import 'app/styles/community.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/community-view';
 
-module.exports = (CommunityView = (function() {
+export default CommunityView = (function() {
   CommunityView = class CommunityView extends RootView {
     static initClass() {
       this.prototype.id = 'community-view';
@@ -38,4 +38,4 @@ module.exports = (CommunityView = (function() {
   };
   CommunityView.initClass();
   return CommunityView;
-})());
+})();

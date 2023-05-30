@@ -10,22 +10,22 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TeacherCourseSolutionView;
-require('app/styles/teachers/teacher-course-solution-view.sass');
-let utils = require('core/utils');
-const RootView = require('views/core/RootView');
-const Course = require('models/Course');
-const Campaign = require('models/Campaign');
-const Level = require('models/Level');
-const LevelComponent = require('models/LevelComponent');
-const Prepaids = require('collections/Prepaids');
-const Levels = require('collections/Levels');
+import 'app/styles/teachers/teacher-course-solution-view.sass';
+import utils from 'core/utils';
+import RootView from 'views/core/RootView';
+import Course from 'models/Course';
+import Campaign from 'models/Campaign';
+import Level from 'models/Level';
+import LevelComponent from 'models/LevelComponent';
+import Prepaids from 'collections/Prepaids';
+import Levels from 'collections/Levels';
 utils = require('core/utils');
-const ace = require('lib/aceContainer');
-const aceUtils = require('core/aceUtils');
-const aetherUtils = require('lib/aether_utils');
-const api = require('core/api');
+import ace from 'lib/aceContainer';
+import aceUtils from 'core/aceUtils';
+import aetherUtils from 'lib/aether_utils';
+import api from 'core/api';
 
-module.exports = (TeacherCourseSolutionView = (function() {
+export default TeacherCourseSolutionView = (function() {
   TeacherCourseSolutionView = class TeacherCourseSolutionView extends RootView {
     static initClass() {
       this.prototype.id = 'teacher-course-solution-view';
@@ -259,7 +259,7 @@ ${aetherUtils.translateJS(a.slice(13, +(a.length-4) + 1 || undefined), this.lang
   };
   TeacherCourseSolutionView.initClass();
   return TeacherCourseSolutionView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

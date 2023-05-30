@@ -13,22 +13,22 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CourseDetailsView;
-require('app/styles/courses/course-details.sass');
-const Course = require('models/Course');
-const Courses = require('collections/Courses');
-const LevelSessions = require('collections/LevelSessions');
-const CourseInstance = require('models/CourseInstance');
-const CourseInstances = require('collections/CourseInstances');
-const Classroom = require('models/Classroom');
-const Classrooms = require('collections/Classrooms');
-const Levels = require('collections/Levels');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/courses/course-details');
-const User = require('models/User');
-const storage = require('core/storage');
-const utils = require('core/utils');
+import 'app/styles/courses/course-details.sass';
+import Course from 'models/Course';
+import Courses from 'collections/Courses';
+import LevelSessions from 'collections/LevelSessions';
+import CourseInstance from 'models/CourseInstance';
+import CourseInstances from 'collections/CourseInstances';
+import Classroom from 'models/Classroom';
+import Classrooms from 'collections/Classrooms';
+import Levels from 'collections/Levels';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/courses/course-details';
+import User from 'models/User';
+import storage from 'core/storage';
+import utils from 'core/utils';
 
-module.exports = (CourseDetailsView = (function() {
+export default CourseDetailsView = (function() {
   CourseDetailsView = class CourseDetailsView extends RootView {
     static initClass() {
       this.prototype.id = 'course-details-view';
@@ -219,7 +219,7 @@ module.exports = (CourseDetailsView = (function() {
   };
   CourseDetailsView.initClass();
   return CourseDetailsView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

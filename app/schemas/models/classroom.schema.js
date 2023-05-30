@@ -1,8 +1,8 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
-const CampaignSchema = require('./campaign.schema');
+import CampaignSchema from './campaign.schema';
 
 const ClassroomSchema = c.object({
   title: 'Classroom',
@@ -107,4 +107,4 @@ c.extendBasicProperties(ClassroomSchema, 'Classroom');
 
 c.extendPermissionsProperties(ClassroomSchema);
 
-module.exports = ClassroomSchema;
+export default ClassroomSchema;

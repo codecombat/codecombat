@@ -10,16 +10,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpellTopBarView;
-require('app/styles/play/level/tome/spell-top-bar-view.sass');
-const template = require('app/templates/play/level/tome/spell-top-bar-view');
-const ReloadLevelModal = require('views/play/level/modal/ReloadLevelModal');
-const CocoView = require('views/core/CocoView');
-const ImageGalleryModal = require('views/play/level/modal/ImageGalleryModal');
-const utils = require('core/utils');
-const CourseVideosModal = require('views/play/level/modal/CourseVideosModal');
-const store = require('core/store');
+import 'app/styles/play/level/tome/spell-top-bar-view.sass';
+import template from 'app/templates/play/level/tome/spell-top-bar-view';
+import ReloadLevelModal from 'views/play/level/modal/ReloadLevelModal';
+import CocoView from 'views/core/CocoView';
+import ImageGalleryModal from 'views/play/level/modal/ImageGalleryModal';
+import utils from 'core/utils';
+import CourseVideosModal from 'views/play/level/modal/CourseVideosModal';
+import store from 'core/store';
 
-module.exports = (SpellTopBarView = (function() {
+export default SpellTopBarView = (function() {
   SpellTopBarView = class SpellTopBarView extends CocoView {
     static initClass() {
       this.prototype.template = template;
@@ -209,7 +209,7 @@ module.exports = (SpellTopBarView = (function() {
   };
   SpellTopBarView.initClass();
   return SpellTopBarView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

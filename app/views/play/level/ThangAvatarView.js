@@ -9,11 +9,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ThangAvatarView;
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/thang_avatar');
-const ThangType = require('models/ThangType');
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/thang_avatar';
+import ThangType from 'models/ThangType';
 
-module.exports = (ThangAvatarView = (function() {
+export default ThangAvatarView = (function() {
   ThangAvatarView = class ThangAvatarView extends CocoView {
     static initClass() {
       this.prototype.className = 'thang-avatar-view';
@@ -121,4 +121,4 @@ module.exports = (ThangAvatarView = (function() {
   };
   ThangAvatarView.initClass();
   return ThangAvatarView;
-})());
+})();

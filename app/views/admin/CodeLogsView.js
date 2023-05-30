@@ -9,16 +9,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CodeLogsView;
-require('app/styles/admin/codelogs-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/admin/codelogs-view');
-const CodeLogCollection = require('collections/CodeLogs');
-const CodeLog = require('models/CodeLog');
-const utils = require('core/utils');
+import 'app/styles/admin/codelogs-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/admin/codelogs-view';
+import CodeLogCollection from 'collections/CodeLogs';
+import CodeLog from 'models/CodeLog';
+import utils from 'core/utils';
+import CodePlaybackView from './CodePlaybackView';
 
-const CodePlaybackView = require('./CodePlaybackView');
-
-module.exports = (CodeLogsView = (function() {
+export default CodeLogsView = (function() {
   CodeLogsView = class CodeLogsView extends RootView {
     constructor(...args) {
       this.onBlurTooltip = this.onBlurTooltip.bind(this);
@@ -98,4 +97,4 @@ module.exports = (CodeLogsView = (function() {
   };
   CodeLogsView.initClass();
   return CodeLogsView;
-})());
+})();

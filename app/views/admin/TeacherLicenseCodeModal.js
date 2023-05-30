@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TeacherLicenseCodeModal;
-const ModalComponent = require('views/core/ModalComponent');
-const TeacherLicenseCodeComponent = require('./components/license/TeacherLicenseCode.vue').default;
+import ModalComponent from 'views/core/ModalComponent';
+import TeacherLicenseCodeComponent from './components/license/TeacherLicenseCode.vue';
 
-module.exports = (TeacherLicenseCodeModal = (function() {
+export default TeacherLicenseCodeModal = (function() {
   TeacherLicenseCodeModal = class TeacherLicenseCodeModal extends ModalComponent {
     static initClass() {
       this.prototype.id = 'teacher-license-code';
@@ -34,4 +34,4 @@ module.exports = (TeacherLicenseCodeModal = (function() {
   };
   TeacherLicenseCodeModal.initClass();
   return TeacherLicenseCodeModal;
-})());
+})();

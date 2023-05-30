@@ -8,9 +8,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Letterbox;
-const createjs = require('lib/createjs-parts');
+import createjs from 'lib/createjs-parts';
 
-module.exports = (Letterbox = (function() {
+export default Letterbox = (function() {
   Letterbox = class Letterbox extends createjs.Container {
     static initClass() {
       this.prototype.subscriptions =
@@ -64,4 +64,4 @@ module.exports = (Letterbox = (function() {
   };
   Letterbox.initClass();
   return Letterbox;
-})());
+})();

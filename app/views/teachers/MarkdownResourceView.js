@@ -9,15 +9,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let MarkdownResourceView;
-require('app/styles/teachers/markdown-resource-view.sass');
+import 'app/styles/teachers/markdown-resource-view.sass';
+
 // This is the generic view for rendering content from /app/assets/markdown
 
-const RootView = require('views/core/RootView');
-const utils = require('core/utils');
-const ace = require('lib/aceContainer');
-const aceUtils = require('core/aceUtils');
+import RootView from 'views/core/RootView';
 
-module.exports = (MarkdownResourceView = (function() {
+import utils from 'core/utils';
+import ace from 'lib/aceContainer';
+import aceUtils from 'core/aceUtils';
+
+export default MarkdownResourceView = (function() {
   MarkdownResourceView = class MarkdownResourceView extends RootView {
     static initClass() {
       this.prototype.id = 'markdown-resource-view';
@@ -120,7 +122,7 @@ module.exports = (MarkdownResourceView = (function() {
   };
   MarkdownResourceView.initClass();
   return MarkdownResourceView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -4,9 +4,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpellPaletteViewBot;
-const SpellPaletteView = require('./SpellPaletteView');
+import SpellPaletteView from './SpellPaletteView';
 
-module.exports = (SpellPaletteViewBot = (function() {
+export default SpellPaletteViewBot = (function() {
   SpellPaletteViewBot = class SpellPaletteViewBot extends SpellPaletteView {
     static initClass() {
       this.prototype.id = 'spell-palette-view-bot';
@@ -16,4 +16,4 @@ module.exports = (SpellPaletteViewBot = (function() {
   };
   SpellPaletteViewBot.initClass();
   return SpellPaletteViewBot;
-})());
+})();

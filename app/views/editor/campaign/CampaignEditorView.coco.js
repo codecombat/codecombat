@@ -13,34 +13,33 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CampaignEditorView;
-require('app/styles/editor/campaign/campaign-editor-view.sass');
-const RootView = require('views/core/RootView');
-const Campaign = require('models/Campaign');
-const Level = require('models/Level');
-const Achievement = require('models/Achievement');
-const ThangType = require('models/ThangType');
-const CampaignView = require('views/play/CampaignView');
-const CocoCollection = require('collections/CocoCollection');
-require('lib/setupTreema');
-const treemaExt = require('core/treema-ext');
-const utils = require('core/utils');
-const RelatedAchievementsCollection = require('collections/RelatedAchievementsCollection');
-const CampaignAnalyticsModal = require('./CampaignAnalyticsModal');
-const CampaignLevelView = require('./CampaignLevelView');
-const SaveCampaignModal = require('./SaveCampaignModal');
-const PatchesView = require('views/editor/PatchesView');
-const RevertModal = require('views/modal/RevertModal');
-const modelDeltas = require('lib/modelDeltas');
-const globalVar = require('core/globalVar');
-require('vendor/scripts/jquery-ui-1.11.1.custom');
-require('vendor/styles/jquery-ui-1.11.1.custom.css');
-
-require('lib/game-libraries');
+import 'app/styles/editor/campaign/campaign-editor-view.sass';
+import RootView from 'views/core/RootView';
+import Campaign from 'models/Campaign';
+import Level from 'models/Level';
+import Achievement from 'models/Achievement';
+import ThangType from 'models/ThangType';
+import CampaignView from 'views/play/CampaignView';
+import CocoCollection from 'collections/CocoCollection';
+import 'lib/setupTreema';
+import treemaExt from 'core/treema-ext';
+import utils from 'core/utils';
+import RelatedAchievementsCollection from 'collections/RelatedAchievementsCollection';
+import CampaignAnalyticsModal from './CampaignAnalyticsModal';
+import CampaignLevelView from './CampaignLevelView';
+import SaveCampaignModal from './SaveCampaignModal';
+import PatchesView from 'views/editor/PatchesView';
+import RevertModal from 'views/modal/RevertModal';
+import modelDeltas from 'lib/modelDeltas';
+import globalVar from 'core/globalVar';
+import 'vendor/scripts/jquery-ui-1.11.1.custom';
+import 'vendor/styles/jquery-ui-1.11.1.custom.css';
+import 'lib/game-libraries';
 
 const achievementProject = ['related', 'rewards', 'name', 'slug'];
 const thangTypeProject = ['name', 'original'];
 
-module.exports = (CampaignEditorView = (function() {
+export default CampaignEditorView = (function() {
   CampaignEditorView = class CampaignEditorView extends RootView {
     static initClass() {
       this.prototype.id = "campaign-editor-view";
@@ -455,9 +454,10 @@ module.exports = (CampaignEditorView = (function() {
   };
   CampaignEditorView.initClass();
   return CampaignEditorView;
-})());
-    // Do Nothing
-    // This is a override method to RootView, so that only CampaignView is listenting to signup button click
+})();
+
+// Do Nothing
+// This is a override method to RootView, so that only CampaignView is listenting to signup button click
 
 class LevelsNode extends TreemaObjectNode {
   constructor(...args) {

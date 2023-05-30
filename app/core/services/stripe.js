@@ -7,16 +7,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const publishableKey = application.isProduction() ? 'pk_live_27jQZozjDGN1HSUTnSuM578g' : 'pk_test_zG5UwVu6Ww8YhtE9ZYh0JO6a';
-
+let newInstance
 if (me.isAnonymous()) {
-  module.exports = {
+  newInstance = {
     open: _.noop, // for tests to spy on
     openAsync: _.noop // for tests to spy on
   };
-  _.extend(module.exports, Backbone.Events);
-  module.exports.makeNewInstance = _.clone(module.exports);
 } else if ((typeof StripeCheckout === 'undefined' || StripeCheckout === null)) {
-  module.exports = {};
+  newInstance = {};
   console.log("Failure loading StripeCheckout API, returning empty object.");
 } else {
   const makeNewInstance = function() {
@@ -41,6 +39,6 @@ if (me.isAnonymous()) {
     _.extend(handler, Backbone.Events);
     return handler;
   };
-  module.exports = makeNewInstance();
-  module.exports.makeNewInstance = makeNewInstance;
+  newInstance = makeNewInstance();
 }
+export const makeNewInstance = newInstance;

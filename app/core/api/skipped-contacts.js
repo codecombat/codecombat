@@ -6,10 +6,11 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const fetchJson = require('./fetch-json');
-const utils = require('core/utils');
+import fetchJson from './fetch-json';
 
-module.exports = {
+import utils from 'core/utils';
+
+export default {
   getAll(options) {
     return fetchJson('/db/skipped-contact', options).then(function(contacts) {
       contacts.forEach(function(contact) {

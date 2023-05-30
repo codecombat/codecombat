@@ -6,9 +6,9 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const fetchJson = require('./fetch-json');
+import fetchJson from './fetch-json';
 
-module.exports = {
+export default {
   url(userID, path) { if (path) { return `/db/user/${userID}/${path}`; } else { return `/db/user/${userID}`; } },
 
   getByHandle(handle, options) {

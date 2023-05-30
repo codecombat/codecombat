@@ -12,20 +12,20 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let HomeView;
-require('app/styles/home-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('templates/home-view');
-const CocoCollection = require('collections/CocoCollection');
-const utils = require('core/utils');
-const storage = require('core/storage');
-const {logoutUser, me} = require('core/auth');
-const CreateAccountModal = require('views/core/CreateAccountModal/CreateAccountModal');
-const GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').default;
-const paymentUtils = require('app/lib/paymentUtils');
-const fetchJson = require('core/api/fetch-json');
-const DOMPurify = require('dompurify');
+import 'app/styles/home-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'templates/home-view';
+import CocoCollection from 'collections/CocoCollection';
+import utils from 'core/utils';
+import storage from 'core/storage';
+import { logoutUser, me } from 'core/auth';
+import CreateAccountModal from 'views/core/CreateAccountModal/CreateAccountModal';
+import GetStartedSignupModal from 'app/views/teachers/GetStartedSignupModal';
+import paymentUtils from 'app/lib/paymentUtils';
+import fetchJson from 'core/api/fetch-json';
+import DOMPurify from 'dompurify';
 
-module.exports = (HomeView = (function() {
+export default HomeView = (function() {
   HomeView = class HomeView extends RootView {
     constructor(...args) {
       this.onCarouselSlide = this.onCarouselSlide.bind(this);
@@ -301,12 +301,12 @@ module.exports = (HomeView = (function() {
   };
   HomeView.initClass();
   return HomeView;
-})());
+})();
 
-  // 2021-06-08: currently causing issues with i18n interpolation, disabling for now
-  // TODO: understand cause, performance impact
-  //mergeWithPrerendered: (el) ->
-  //  true
+// 2021-06-08: currently causing issues with i18n interpolation, disabling for now
+// TODO: understand cause, performance impact
+//mergeWithPrerendered: (el) ->
+//  true
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

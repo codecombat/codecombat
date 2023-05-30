@@ -7,19 +7,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AnonCertificatesView;
-require('app/styles/user/certificates-view.sass');
-const RootView = require('views/core/RootView');
-const User = require('models/User');
-const LevelSession = require('models/LevelSession');
-const Levels = require('collections/Levels');
-const Level = require('models/Level');
-const utils = require('core/utils');
-const Campaign = require('models/Campaign');
+import 'app/styles/user/certificates-view.sass';
+import RootView from 'views/core/RootView';
+import User from 'models/User';
+import LevelSession from 'models/LevelSession';
+import Levels from 'collections/Levels';
+import Level from 'models/Level';
+import utils from 'core/utils';
+import Campaign from 'models/Campaign';
 
 // This certificate is generated anonymously. This requires the certificate
 // to be generated only from query params.
 // Requires campaign slug query param as well as username param.
-module.exports = (AnonCertificatesView = (function() {
+export default AnonCertificatesView = (function() {
   AnonCertificatesView = class AnonCertificatesView extends RootView {
     static initClass() {
       this.prototype.id = 'certificates-view';
@@ -120,4 +120,4 @@ module.exports = (AnonCertificatesView = (function() {
   };
   AnonCertificatesView.initClass();
   return AnonCertificatesView;
-})());
+})();

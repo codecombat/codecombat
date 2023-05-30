@@ -12,48 +12,48 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpectateLevelView;
-require('app/styles/play/spectate.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/play/spectate');
-const {me} = require('core/auth');
-const ThangType = require('models/ThangType');
-const utils = require('core/utils');
-
-const World = require('lib/world/world');
+import 'app/styles/play/spectate.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/play/spectate';
+import { me } from 'core/auth';
+import ThangType from 'models/ThangType';
+import utils from 'core/utils';
+import World from 'lib/world/world';
 
 // tools
-const Surface = require('lib/surface/Surface');
-const God = require('lib/God'); // 'lib/Buddha'
-const GoalManager = require('lib/world/GoalManager');
-const ScriptManager = require('lib/scripts/ScriptManager');
-const LevelLoader = require('lib/LevelLoader');
-const LevelSession = require('models/LevelSession');
-const Level = require('models/Level');
-const LevelComponent = require('models/LevelComponent');
-const Article = require('models/Article');
-const Camera = require('lib/surface/Camera');
-const AudioPlayer = require('lib/AudioPlayer');
-const createjs = require('lib/createjs-parts');
-const aceUtils = require('core/aceUtils');
+import Surface from 'lib/surface/Surface';
+
+import God from 'lib/God'; // 'lib/Buddha'
+import GoalManager from 'lib/world/GoalManager';
+import ScriptManager from 'lib/scripts/ScriptManager';
+import LevelLoader from 'lib/LevelLoader';
+import LevelSession from 'models/LevelSession';
+import Level from 'models/Level';
+import LevelComponent from 'models/LevelComponent';
+import Article from 'models/Article';
+import Camera from 'lib/surface/Camera';
+import AudioPlayer from 'lib/AudioPlayer';
+import createjs from 'lib/createjs-parts';
+import aceUtils from 'core/aceUtils';
 
 // subviews
-const LoadingView = require('./level/LevelLoadingView');
-const TomeView = require('./level/tome/TomeView');
-const ChatView = require('./level/LevelChatView');
-const HUDView = require('./level/LevelHUDView');
-const ControlBarView = require('./level/ControlBarView');
-const PlaybackView = require('./level/LevelPlaybackView');
-const GoalsView = require('./level/LevelGoalsView');
-const GoldView = require('./level/LevelGoldView');
-const DuelStatsView = require('./level/DuelStatsView');
-const VictoryModal = require('./level/modal/VictoryModal');
-const InfiniteLoopModal = require('./level/modal/InfiniteLoopModal');
+import LoadingView from './level/LevelLoadingView';
 
-require('lib/game-libraries');
+import TomeView from './level/tome/TomeView';
+import ChatView from './level/LevelChatView';
+import HUDView from './level/LevelHUDView';
+import ControlBarView from './level/ControlBarView';
+import PlaybackView from './level/LevelPlaybackView';
+import GoalsView from './level/LevelGoalsView';
+import GoldView from './level/LevelGoldView';
+import DuelStatsView from './level/DuelStatsView';
+import VictoryModal from './level/modal/VictoryModal';
+import InfiniteLoopModal from './level/modal/InfiniteLoopModal';
+import 'lib/game-libraries';
 
 const PROFILE_ME = false;
 
-module.exports = (SpectateLevelView = (function() {
+export default SpectateLevelView = (function() {
   SpectateLevelView = class SpectateLevelView extends RootView {
     static initClass() {
       this.prototype.id = 'spectate-level-view';
@@ -495,7 +495,7 @@ module.exports = (SpectateLevelView = (function() {
   };
   SpectateLevelView.initClass();
   return SpectateLevelView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

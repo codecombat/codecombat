@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const TournamentMatchSchema = c.object({
   title: 'Match',
@@ -36,4 +36,4 @@ _.extend(TournamentMatchSchema.properties, {
 
 
 c.extendBasicProperties(TournamentMatchSchema, 'tournament.match');
-module.exports = TournamentMatchSchema;
+export default TournamentMatchSchema;

@@ -8,15 +8,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CourseNagSubview;
-const CocoView = require('views/core/CocoView');
-const CourseNagModal = require('views/teachers/CourseNagModal');
-const Prepaids = require('collections/Prepaids');
-const utils = require('core/utils');
-
-const template = require('app/templates/teachers/course-nag');
+import CocoView from 'views/core/CocoView';
+import CourseNagModal from 'views/teachers/CourseNagModal';
+import Prepaids from 'collections/Prepaids';
+import utils from 'core/utils';
+import template from 'app/templates/teachers/course-nag';
 
 // Shows up if you have prepaids but haven't enrolled any students
-module.exports = (CourseNagSubview = (function() {
+export default CourseNagSubview = (function() {
   CourseNagSubview = class CourseNagSubview extends CocoView {
     static initClass() {
       this.prototype.id = 'classes-nag-subview';
@@ -62,4 +61,4 @@ module.exports = (CourseNagSubview = (function() {
   };
   CourseNagSubview.initClass();
   return CourseNagSubview;
-})());
+})();

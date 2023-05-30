@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CLAsView;
-const RootComponent = require('views/core/RootComponent');
-const template = require('app/templates/base-flat');
-const CLAsComponent = require('./CLAsComponent.vue').default;
+import RootComponent from 'views/core/RootComponent';
+import template from 'app/templates/base-flat';
+import CLAsComponent from './CLAsComponent.vue';
 
-module.exports = (CLAsView = (function() {
+export default CLAsView = (function() {
   CLAsView = class CLAsView extends RootComponent {
     static initClass() {
       this.prototype.id = 'admin-clas-view';
@@ -20,4 +20,4 @@ module.exports = (CLAsView = (function() {
   };
   CLAsView.initClass();
   return CLAsView;
-})());
+})();

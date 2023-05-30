@@ -7,12 +7,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let RevertModal;
-require('app/styles/modal/revert-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/modal/revert-modal');
-const CocoModel = require('models/CocoModel');
+import 'app/styles/modal/revert-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/modal/revert-modal';
+import CocoModel from 'models/CocoModel';
 
-module.exports = (RevertModal = (function() {
+export default RevertModal = (function() {
   RevertModal = class RevertModal extends ModalView {
     static initClass() {
       this.prototype.id = 'revert-modal';
@@ -50,4 +50,4 @@ module.exports = (RevertModal = (function() {
   };
   RevertModal.initClass();
   return RevertModal;
-})());
+})();

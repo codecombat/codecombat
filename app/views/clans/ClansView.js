@@ -9,19 +9,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ClansView;
-require('app/styles/clans/clans.sass');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/clans/clans');
-const CocoCollection = require('collections/CocoCollection');
-const Clan = require('models/Clan');
-const SubscribeModal = require('views/core/SubscribeModal');
+import 'app/styles/clans/clans.sass';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/clans/clans';
+import CocoCollection from 'collections/CocoCollection';
+import Clan from 'models/Clan';
+import SubscribeModal from 'views/core/SubscribeModal';
 
 // TODO: Waiting for async messages
 // TODO: Invalid clan name message
 // TODO: Refresh data instead of page
 
-module.exports = (ClansView = (function() {
+export default ClansView = (function() {
   ClansView = class ClansView extends RootView {
     static initClass() {
       this.prototype.id = 'clans-view';
@@ -220,4 +220,4 @@ module.exports = (ClansView = (function() {
   };
   ClansView.initClass();
   return ClansView;
-})());
+})();

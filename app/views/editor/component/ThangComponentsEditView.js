@@ -13,22 +13,20 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ThangComponentsEditView;
-require('app/styles/editor/component/thang-components-edit-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/component/thang-components-edit-view');
-
-const Level = require('models/Level');
-const LevelComponent = require('models/LevelComponent');
-const LevelSystem = require('models/LevelSystem');
-const LevelComponents = require('collections/LevelComponents');
-const ThangComponentConfigView = require('./ThangComponentConfigView');
-const AddThangComponentsModal = require('./AddThangComponentsModal');
-const nodes = require('../level/treema_nodes');
-require('lib/setupTreema');
-const utils = require('core/utils');
-
-const ThangType = require('models/ThangType');
-const CocoCollection = require('collections/CocoCollection');
+import 'app/styles/editor/component/thang-components-edit-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/component/thang-components-edit-view';
+import Level from 'models/Level';
+import LevelComponent from 'models/LevelComponent';
+import LevelSystem from 'models/LevelSystem';
+import LevelComponents from 'collections/LevelComponents';
+import ThangComponentConfigView from './ThangComponentConfigView';
+import AddThangComponentsModal from './AddThangComponentsModal';
+import nodes from '../level/treema_nodes';
+import 'lib/setupTreema';
+import utils from 'core/utils';
+import ThangType from 'models/ThangType';
+import CocoCollection from 'collections/CocoCollection';
 
 const LC = (componentName, config) => ({
   original: LevelComponent[componentName + 'ID'],
@@ -59,7 +57,7 @@ const DEFAULT_COMPONENTS = {
   Missile: [LC('Missile')]
 };
 
-module.exports = (ThangComponentsEditView = (function() {
+export default ThangComponentsEditView = (function() {
   ThangComponentsEditView = class ThangComponentsEditView extends CocoView {
     static initClass() {
       this.prototype.id = 'thang-components-edit-view';
@@ -578,7 +576,7 @@ module.exports = (ThangComponentsEditView = (function() {
   };
   ThangComponentsEditView.initClass();
   return ThangComponentsEditView;
-})());
+})();
 
 class ThangComponentsObjectNode extends TreemaObjectNode {
   constructor(...args) {

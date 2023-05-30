@@ -14,36 +14,36 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CoursesView;
-require('app/styles/courses/courses-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/courses/courses-view');
-const AuthModal = require('views/core/AuthModal');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const ChangeCourseLanguageModal = require('views/courses/ChangeCourseLanguageModal');
-const HeroSelectModal = require('views/courses/HeroSelectModal');
-const ChooseLanguageModal = require('views/courses/ChooseLanguageModal');
-const ClassroomAnnouncementModal = require('views/courses/ClassroomAnnouncementModal');
-const TournamentsListModal = require('views/courses/TournamentsListModal');
-const JoinClassModal = require('views/courses/JoinClassModal');
-const CourseInstance = require('models/CourseInstance');
-const CocoCollection = require('collections/CocoCollection');
-const Course = require('models/Course');
-const Level = require('models/Level');
-const Classroom = require('models/Classroom');
-const Tournament = require('models/Tournament');
-const Classrooms = require('collections/Classrooms');
-const Courses = require('collections/Courses');
-const CourseInstances = require('collections/CourseInstances');
-const LevelSession = require('models/LevelSession');
-const LevelSessions = require('collections/LevelSessions');
-const Levels = require('collections/Levels');
-const NameLoader = require('core/NameLoader');
-const Campaign = require('models/Campaign');
-const ThangType = require('models/ThangType');
-const utils = require('core/utils');
-const store = require('core/store');
-const leaderboardApi = require('core/api/leaderboard');
-const clansApi = require('core/api/clans');
+import 'app/styles/courses/courses-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/courses/courses-view';
+import AuthModal from 'views/core/AuthModal';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import ChangeCourseLanguageModal from 'views/courses/ChangeCourseLanguageModal';
+import HeroSelectModal from 'views/courses/HeroSelectModal';
+import ChooseLanguageModal from 'views/courses/ChooseLanguageModal';
+import ClassroomAnnouncementModal from 'views/courses/ClassroomAnnouncementModal';
+import TournamentsListModal from 'views/courses/TournamentsListModal';
+import JoinClassModal from 'views/courses/JoinClassModal';
+import CourseInstance from 'models/CourseInstance';
+import CocoCollection from 'collections/CocoCollection';
+import Course from 'models/Course';
+import Level from 'models/Level';
+import Classroom from 'models/Classroom';
+import Tournament from 'models/Tournament';
+import Classrooms from 'collections/Classrooms';
+import Courses from 'collections/Courses';
+import CourseInstances from 'collections/CourseInstances';
+import LevelSession from 'models/LevelSession';
+import LevelSessions from 'collections/LevelSessions';
+import Levels from 'collections/Levels';
+import NameLoader from 'core/NameLoader';
+import Campaign from 'models/Campaign';
+import ThangType from 'models/ThangType';
+import utils from 'core/utils';
+import store from 'core/store';
+import leaderboardApi from 'core/api/leaderboard';
+import clansApi from 'core/api/clans';
 
 class LadderCollection extends CocoCollection {
   static initClass() {
@@ -58,7 +58,7 @@ class LadderCollection extends CocoCollection {
 }
 LadderCollection.initClass();
 
-module.exports = (CoursesView = (function() {
+export default CoursesView = (function() {
   CoursesView = class CoursesView extends RootView {
     constructor(...args) {
       this.renderStats = this.renderStats.bind(this);
@@ -655,7 +655,7 @@ module.exports = (CoursesView = (function() {
   };
   CoursesView.initClass();
   return CoursesView;
-})());
+})();
 
 var nextLevelBannerImages = {
   'arena-ace-of-coders.png': {heroes: ['goliath'], courses: ['CS5', 'CS6']},

@@ -11,10 +11,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Campaigns;
-const Campaign = require('models/Campaign');
-const CocoCollection = require('collections/CocoCollection');
+import Campaign from 'models/Campaign';
+import CocoCollection from 'collections/CocoCollection';
 
-module.exports = (Campaigns = (function() {
+export default Campaigns = (function() {
   Campaigns = class Campaigns extends CocoCollection {
     static initClass() {
       this.prototype.model = Campaign;
@@ -65,4 +65,4 @@ module.exports = (Campaigns = (function() {
   };
   Campaigns.initClass();
   return Campaigns;
-})());
+})();

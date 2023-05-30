@@ -11,15 +11,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let I18NEditModelView;
-const RootView = require('views/core/RootView');
-const locale = require('locale/locale');
-const Patch = require('models/Patch');
-const Patches = require('collections/Patches');
-const PatchModal = require('views/editor/PatchModal');
-const template = require('app/templates/i18n/i18n-edit-model-view');
-const deltasLib = require('core/deltas');
-const modelDeltas = require('lib/modelDeltas');
-const ace = require('lib/aceContainer');
+import RootView from 'views/core/RootView';
+import locale from 'locale/locale';
+import Patch from 'models/Patch';
+import Patches from 'collections/Patches';
+import PatchModal from 'views/editor/PatchModal';
+import template from 'app/templates/i18n/i18n-edit-model-view';
+import deltasLib from 'core/deltas';
+import modelDeltas from 'lib/modelDeltas';
+import ace from 'lib/aceContainer';
 
 /*
   This view is the superclass for all views which Diplomats use to submit translations
@@ -30,7 +30,7 @@ const ace = require('lib/aceContainer');
 
 const UNSAVED_CHANGES_MESSAGE = 'You have unsaved changes! Really discard them?';
 
-module.exports = (I18NEditModelView = (function() {
+export default I18NEditModelView = (function() {
   I18NEditModelView = class I18NEditModelView extends RootView {
     static initClass() {
       this.prototype.className = 'editor i18n-edit-model-view';
@@ -252,4 +252,4 @@ module.exports = (I18NEditModelView = (function() {
   };
   I18NEditModelView.initClass();
   return I18NEditModelView;
-})());
+})();

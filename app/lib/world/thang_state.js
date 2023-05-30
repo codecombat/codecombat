@@ -10,8 +10,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let bytesPerFloat, FloatArrayType, ThangState;
-const {clone, typedArraySupport} = require('./world_utils');
-const Vector = require('./vector');
+import { clone, typedArraySupport } from './world_utils';
+import Vector from './vector';
 
 if (typedArraySupport) {
   FloatArrayType = Float32Array;  // Better performance than Float64Array
@@ -20,7 +20,7 @@ if (typedArraySupport) {
   bytesPerFloat = 4;
 }
 
-module.exports = (ThangState = (function() {
+export default ThangState = (function() {
   ThangState = class ThangState {
     static initClass() {
       this.className = 'ThangState';
@@ -285,7 +285,7 @@ module.exports = (ThangState = (function() {
   };
   ThangState.initClass();
   return ThangState;
-})());
+})();
 
 if (!typedArraySupport) {
   // Fall back to normal arrays in IE 9

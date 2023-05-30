@@ -6,7 +6,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const utils = require('core/utils');
+import utils from 'core/utils';
 
 const SetupAccountPanel = Vue.extend({
   name: 'setup-account-panel',
@@ -82,4 +82,4 @@ const SetupAccountPanel = Vue.extend({
   }
 });
 
-module.exports = SetupAccountPanel;
+export default SetupAccountPanel;

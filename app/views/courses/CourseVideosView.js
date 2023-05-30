@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CourseVideosView;
-const RootComponent = require('views/core/RootComponent');
-const CourseVideosComponent = require('./CourseVideosComponent').default;
+import RootComponent from 'views/core/RootComponent';
+import CourseVideosComponent from './CourseVideosComponent';
 
-module.exports = (CourseVideosView = (function() {
+export default CourseVideosView = (function() {
   CourseVideosView = class CourseVideosView extends RootComponent {
     static initClass() {
       this.prototype.id = 'course-videos-view';
@@ -26,4 +26,4 @@ module.exports = (CourseVideosView = (function() {
   };
   CourseVideosView.initClass();
   return CourseVideosView;
-})());
+})();

@@ -7,13 +7,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let DesignElementsView;
-require('app/styles/admin/design-elements-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/admin/design-elements-view');
-require('vendor/scripts/jquery-ui-1.11.1.custom');
-require('vendor/styles/jquery-ui-1.11.1.custom.css');
+import 'app/styles/admin/design-elements-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/admin/design-elements-view';
+import 'vendor/scripts/jquery-ui-1.11.1.custom';
+import 'vendor/styles/jquery-ui-1.11.1.custom.css';
 
-module.exports = (DesignElementsView = (function() {
+export default DesignElementsView = (function() {
   DesignElementsView = class DesignElementsView extends RootView {
     static initClass() {
       this.prototype.id = 'design-elements-view';
@@ -62,4 +62,4 @@ module.exports = (DesignElementsView = (function() {
   };
   DesignElementsView.initClass();
   return DesignElementsView;
-})());
+})();

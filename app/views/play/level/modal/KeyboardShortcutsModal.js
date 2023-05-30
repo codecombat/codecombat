@@ -5,11 +5,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let KeyboardShortcutsModal;
-require('app/styles/play/level/modal/keyboard_shortcuts.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/level/modal/keyboard_shortcuts');
+import 'app/styles/play/level/modal/keyboard_shortcuts.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/level/modal/keyboard_shortcuts';
 
-module.exports = (KeyboardShortcutsModal = (function() {
+export default KeyboardShortcutsModal = (function() {
   KeyboardShortcutsModal = class KeyboardShortcutsModal extends ModalView {
     static initClass() {
       this.prototype.id = 'keyboard-shortcuts-modal';
@@ -33,4 +33,4 @@ module.exports = (KeyboardShortcutsModal = (function() {
   };
   KeyboardShortcutsModal.initClass();
   return KeyboardShortcutsModal;
-})());
+})();

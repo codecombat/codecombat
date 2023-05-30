@@ -7,11 +7,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let RegionChooser;
-const CocoClass = require('core/CocoClass');
-const Camera = require('./Camera');
-const createjs = require('lib/createjs-parts');
+import CocoClass from 'core/CocoClass';
+import Camera from './Camera';
+import createjs from 'lib/createjs-parts';
 
-module.exports = (RegionChooser = class RegionChooser extends CocoClass {
+export default RegionChooser = class RegionChooser extends CocoClass {
   constructor(options) {
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
@@ -90,4 +90,4 @@ module.exports = (RegionChooser = class RegionChooser extends CocoClass {
     this.shape.skipScaling = true;
     return this.options.surfaceLayer.addChild(this.shape);
   }
-});
+};

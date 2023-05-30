@@ -11,13 +11,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let UnnamedView;
-require('app/styles/editor/component/add-thang-components-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/component/add-thang-components-modal');
-const CocoCollection = require('collections/CocoCollection');
-const LevelComponent = require('models/LevelComponent');
+import 'app/styles/editor/component/add-thang-components-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/component/add-thang-components-modal';
+import CocoCollection from 'collections/CocoCollection';
+import LevelComponent from 'models/LevelComponent';
 
-module.exports = (UnnamedView = (function() {
+export default UnnamedView = (function() {
   UnnamedView = class UnnamedView extends ModalView {
     static initClass() {
       this.prototype.id = 'add-thang-components-modal';
@@ -75,6 +75,6 @@ module.exports = (UnnamedView = (function() {
   };
   UnnamedView.initClass();
   return UnnamedView;
-})());
+})();
 //    sparseComponents = ({original: c.get('original'), majorVersion: c.get('version').major} for c in components)
 //    return sparseComponents

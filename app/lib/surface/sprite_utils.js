@@ -5,14 +5,13 @@
  * DS101: Remove unnecessary use of Array.from
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let createProgressBar;
-const createjs = require('lib/createjs-parts');
+import createjs from 'lib/createjs-parts';
 
 const WIDTH = 20;
 const HEIGHT = 2;
 const EDGE = 0.3;
 
-module.exports.createProgressBar = (createProgressBar = function(color) {
+export const createProgressBar = function(color) {
   const g = new createjs.Graphics();
   g.setStrokeStyle(1);
   g.beginFill(createjs.Graphics.getRGB(0, 0, 0));
@@ -23,4 +22,4 @@ module.exports.createProgressBar = (createProgressBar = function(color) {
   s.z = 100;
   s.bounds = [0, -HEIGHT/2, WIDTH, HEIGHT];
   return s;
-});
+};

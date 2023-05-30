@@ -13,21 +13,20 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelLoader;
-const Level = require('models/Level');
-const LevelComponent = require('models/LevelComponent');
-const LevelSystem = require('models/LevelSystem');
-const Article = require('models/Article');
-const LevelSession = require('models/LevelSession');
-const {me} = require('core/auth');
-const ThangType = require('models/ThangType');
-const ThangNamesCollection = require('collections/ThangNamesCollection');
-const LZString = require('lz-string');
-
-const CocoClass = require('core/CocoClass');
-const AudioPlayer = require('lib/AudioPlayer');
-const World = require('lib/world/world');
-const utils = require('core/utils');
-const loadAetherLanguage = require('lib/loadAetherLanguage');
+import Level from 'models/Level';
+import LevelComponent from 'models/LevelComponent';
+import LevelSystem from 'models/LevelSystem';
+import Article from 'models/Article';
+import LevelSession from 'models/LevelSession';
+import { me } from 'core/auth';
+import ThangType from 'models/ThangType';
+import ThangNamesCollection from 'collections/ThangNamesCollection';
+import LZString from 'lz-string';
+import CocoClass from 'core/CocoClass';
+import AudioPlayer from 'lib/AudioPlayer';
+import World from 'lib/world/world';
+import utils from 'core/utils';
+import loadAetherLanguage from 'lib/loadAetherLanguage';
 
 const LOG = false;
 
@@ -44,7 +43,7 @@ const LOG = false;
 
 const reportedLoadErrorAlready = false;
 
-module.exports = (LevelLoader = class LevelLoader extends CocoClass {
+export default LevelLoader = class LevelLoader extends CocoClass {
 
   constructor(options) {
     this.preloadTeamForSession = this.preloadTeamForSession.bind(this);
@@ -907,7 +906,7 @@ module.exports = (LevelLoader = class LevelLoader extends CocoClass {
     if (this.buildLoopInterval) { clearInterval(this.buildLoopInterval); }
     return super.destroy();
   }
-});
+};
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

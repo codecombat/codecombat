@@ -10,10 +10,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PlaybackOverScreen;
-const CocoClass = require('core/CocoClass');
-const createjs = require('lib/createjs-parts');
+import CocoClass from 'core/CocoClass';
+import createjs from 'lib/createjs-parts';
 
-module.exports = (PlaybackOverScreen = (function() {
+export default PlaybackOverScreen = (function() {
   PlaybackOverScreen = class PlaybackOverScreen extends CocoClass {
     static initClass() {
       this.prototype.subscriptions =
@@ -146,4 +146,4 @@ module.exports = (PlaybackOverScreen = (function() {
   };
   PlaybackOverScreen.initClass();
   return PlaybackOverScreen;
-})());
+})();

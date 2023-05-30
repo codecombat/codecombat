@@ -9,17 +9,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let GPlusHandler;
-const CocoClass = require('core/CocoClass');
-const {me} = require('core/auth');
-const {backboneFailure} = require('core/errors');
-const storage = require('core/storage');
+import CocoClass from 'core/CocoClass';
+import { me } from 'core/auth';
+import { backboneFailure } from 'core/errors';
+import storage from 'core/storage';
 const GPLUS_TOKEN_KEY = 'gplusToken';
-const authUtils = require('../../lib/auth-util');
+import authUtils from '../../lib/auth-util';
 
 const clientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com';
 const API_KEY = 'AIzaSyDW8CsHHJbAREZw8uXg0Hix8dtlJnuutls';
 
-module.exports = (GPlusHandler = (GPlusHandler = (function() {
+export default GPlusHandler = (GPlusHandler = (function() {
   GPlusHandler = class GPlusHandler extends CocoClass {
     static initClass() {
   
@@ -212,4 +212,4 @@ module.exports = (GPlusHandler = (GPlusHandler = (function() {
   };
   GPlusHandler.initClass();
   return GPlusHandler;
-})()));
+})());

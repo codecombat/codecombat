@@ -10,18 +10,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelLoadingView;
-require('app/styles/play/level/level-loading-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/level-loading-view');
-const ace = require('lib/aceContainer');
-const utils = require('core/utils');
-const aceUtils = require('core/aceUtils');
-const aetherUtils = require('lib/aether_utils');
-const SubscribeModal = require('views/core/SubscribeModal');
-const LevelGoals = require('./LevelGoals').default;
-const store = require('core/store');
+import 'app/styles/play/level/level-loading-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/level-loading-view';
+import ace from 'lib/aceContainer';
+import utils from 'core/utils';
+import aceUtils from 'core/aceUtils';
+import aetherUtils from 'lib/aether_utils';
+import SubscribeModal from 'views/core/SubscribeModal';
+import LevelGoals from './LevelGoals';
+import store from 'core/store';
 
-module.exports = (LevelLoadingView = (function() {
+export default LevelLoadingView = (function() {
   LevelLoadingView = class LevelLoadingView extends CocoView {
     constructor(...args) {
       this.finishShowingReady = this.finishShowingReady.bind(this);
@@ -372,7 +372,7 @@ ${problem.category} - ${problem.score} points\
   };
   LevelLoadingView.initClass();
   return LevelLoadingView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

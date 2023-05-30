@@ -6,13 +6,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ArticlePreviewView;
-require('app/styles/editor/article/preview.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/editor/article/preview');
+import 'app/styles/editor/article/preview.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/editor/article/preview';
+import 'lib/game-libraries';
 
-require('lib/game-libraries');
-
-module.exports = (ArticlePreviewView = (function() {
+export default ArticlePreviewView = (function() {
   ArticlePreviewView = class ArticlePreviewView extends RootView {
     static initClass() {
       this.prototype.id = 'editor-article-preview-view';
@@ -21,4 +20,4 @@ module.exports = (ArticlePreviewView = (function() {
   };
   ArticlePreviewView.initClass();
   return ArticlePreviewView;
-})());
+})();

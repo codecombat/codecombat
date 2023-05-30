@@ -9,21 +9,21 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let HomeCNView;
-require('app/styles/home-cn-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('templates/home-cn-view');
-const CocoCollection = require('collections/CocoCollection');
-const TrialRequest = require('models/TrialRequest');
-const TrialRequests = require('collections/TrialRequests');
-const Courses = require('collections/Courses');
-const utils = require('core/utils');
-const storage = require('core/storage');
-const {logoutUser, me} = require('core/auth');
-const CreateAccountModal = require('views/core/CreateAccountModal/CreateAccountModal');
-const fetchJson = require('core/api/fetch-json');
-const DOMPurify = require('dompurify');
+import 'app/styles/home-cn-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'templates/home-cn-view';
+import CocoCollection from 'collections/CocoCollection';
+import TrialRequest from 'models/TrialRequest';
+import TrialRequests from 'collections/TrialRequests';
+import Courses from 'collections/Courses';
+import utils from 'core/utils';
+import storage from 'core/storage';
+import { logoutUser, me } from 'core/auth';
+import CreateAccountModal from 'views/core/CreateAccountModal/CreateAccountModal';
+import fetchJson from 'core/api/fetch-json';
+import DOMPurify from 'dompurify';
 
-module.exports = (HomeCNView = (function() {
+export default HomeCNView = (function() {
   HomeCNView = class HomeCNView extends RootView {
     static initClass() {
       this.prototype.id = 'home-cn-view';
@@ -204,7 +204,7 @@ module.exports = (HomeCNView = (function() {
   };
   HomeCNView.initClass();
   return HomeCNView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

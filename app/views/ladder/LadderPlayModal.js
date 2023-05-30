@@ -12,16 +12,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LadderPlayModal;
-require('app/styles/play/ladder/play_modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/ladder/play_modal');
-const ThangType = require('models/ThangType');
-const {me} = require('core/auth');
-const LeaderboardCollection = require('collections/LeaderboardCollection');
-const {teamDataFromLevel} = require('./utils');
-const {isCodeCombat} = require('core/utils');
+import 'app/styles/play/ladder/play_modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/ladder/play_modal';
+import ThangType from 'models/ThangType';
+import { me } from 'core/auth';
+import LeaderboardCollection from 'collections/LeaderboardCollection';
+import { teamDataFromLevel } from './utils';
+import { isCodeCombat } from 'core/utils';
 
-module.exports = (LadderPlayModal = (function() {
+export default LadderPlayModal = (function() {
   LadderPlayModal = class LadderPlayModal extends ModalView {
     static initClass() {
       this.prototype.id = 'ladder-play-modal';
@@ -289,7 +289,7 @@ module.exports = (LadderPlayModal = (function() {
   };
   LadderPlayModal.initClass();
   return LadderPlayModal;
-})());
+})();
 
 class ChallengersData {
   constructor(level, team, otherTeam, session, league) {

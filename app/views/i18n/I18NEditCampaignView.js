@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let I18NEditCampaignView;
-const I18NEditModelView = require('./I18NEditModelView');
-const Campaign = require('models/Campaign');
+import I18NEditModelView from './I18NEditModelView';
+import Campaign from 'models/Campaign';
 
-module.exports = (I18NEditCampaignView = (function() {
+export default I18NEditCampaignView = (function() {
   I18NEditCampaignView = class I18NEditCampaignView extends I18NEditModelView {
     static initClass() {
       this.prototype.id = "i18n-edit-campaign-view";
@@ -39,4 +39,4 @@ module.exports = (I18NEditCampaignView = (function() {
   };
   I18NEditCampaignView.initClass();
   return I18NEditCampaignView;
-})());
+})();

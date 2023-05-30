@@ -1,7 +1,8 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
-const metaschema = require('./../metaschema');
+import c from './../schemas';
+
+import metaschema from './../metaschema';
 
 const jitterSystemCode = `\
 class Jitter extends System
@@ -93,4 +94,4 @@ c.extendVersionedProperties(LevelSystemSchema, 'level.system');
 c.extendPermissionsProperties(LevelSystemSchema);
 c.extendPatchableProperties(LevelSystemSchema);
 
-module.exports = LevelSystemSchema;
+export default LevelSystemSchema;

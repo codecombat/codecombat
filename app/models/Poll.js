@@ -9,10 +9,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Poll;
-const CocoModel = require('./CocoModel');
-const schema = require('schemas/models/poll.schema');
+import CocoModel from './CocoModel';
+import schema from 'schemas/models/poll.schema';
 
-module.exports = (Poll = (function() {
+export default Poll = (function() {
   Poll = class Poll extends CocoModel {
     static initClass() {
       this.className = 'Poll';
@@ -83,4 +83,4 @@ module.exports = (Poll = (function() {
   };
   Poll.initClass();
   return Poll;
-})());
+})();

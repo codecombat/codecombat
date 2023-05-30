@@ -8,25 +8,25 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CourseVictoryModal;
-require('app/styles/play/level/modal/course-victory-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/level/modal/course-victory-modal');
-const Level = require('models/Level');
-const Course = require('models/Course');
-const LevelSession = require('models/LevelSession');
-const LevelSessions = require('collections/LevelSessions');
-const ProgressView = require('./ProgressView');
-const Classroom = require('models/Classroom');
-const utils = require('core/utils');
-const api = require('core/api');
-const urls = require('core/urls');
-const store = require('core/store');
-const CourseVictoryComponent = require('./CourseVictoryComponent').default;
-const CourseRewardsView = require('./CourseRewardsView');
-const Achievements = require('collections/Achievements');
-const LocalMongo = require('lib/LocalMongo');
+import 'app/styles/play/level/modal/course-victory-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/level/modal/course-victory-modal';
+import Level from 'models/Level';
+import Course from 'models/Course';
+import LevelSession from 'models/LevelSession';
+import LevelSessions from 'collections/LevelSessions';
+import ProgressView from './ProgressView';
+import Classroom from 'models/Classroom';
+import utils from 'core/utils';
+import api from 'core/api';
+import urls from 'core/urls';
+import store from 'core/store';
+import CourseVictoryComponent from './CourseVictoryComponent';
+import CourseRewardsView from './CourseRewardsView';
+import Achievements from 'collections/Achievements';
+import LocalMongo from 'lib/LocalMongo';
 
-module.exports = (CourseVictoryModal = (function() {
+export default CourseVictoryModal = (function() {
   CourseVictoryModal = class CourseVictoryModal extends ModalView {
     static initClass() {
       this.prototype.id = 'course-victory-modal';
@@ -321,7 +321,7 @@ module.exports = (CourseVictoryModal = (function() {
   };
   CourseVictoryModal.initClass();
   return CourseVictoryModal;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

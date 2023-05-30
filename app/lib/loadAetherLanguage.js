@@ -60,4 +60,4 @@ const loadAetherLanguage = language => new Promise((accept, reject) => loadEsper
   }
 }));
 
-module.exports = loadAetherLanguage;
+export default loadAetherLanguage;

@@ -9,14 +9,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AnnouncementModal;
-require('app/styles/play/modal/announcement-modal.sass');
-const ModalView = require('views/core/ModalView');
-const utils = require('core/utils');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const SubscribeModal = require('views/core/SubscribeModal');
-const Products = require('collections/Products');
+import 'app/styles/play/modal/announcement-modal.sass';
+import ModalView from 'views/core/ModalView';
+import utils from 'core/utils';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import SubscribeModal from 'views/core/SubscribeModal';
+import Products from 'collections/Products';
 
-module.exports = (AnnouncementModal = (function() {
+export default AnnouncementModal = (function() {
   let announcementId = undefined;
   AnnouncementModal = class AnnouncementModal extends ModalView {
     static initClass() {
@@ -170,4 +170,4 @@ module.exports = (AnnouncementModal = (function() {
   };
   AnnouncementModal.initClass();
   return AnnouncementModal;
-})());
+})();

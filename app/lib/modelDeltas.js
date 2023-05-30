@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let modelDeltas;
-const deltasLib = require('core/deltas');
-const jsondiffpatch = require('lib/jsondiffpatch');
+import deltasLib from 'core/deltas';
+import jsondiffpatch from 'lib/jsondiffpatch';
 
-module.exports = (modelDeltas = {
+export default modelDeltas = {
   makePatch(model) {
     const Patch = require('models/Patch');
     const target = {
@@ -66,4 +66,4 @@ module.exports = (modelDeltas = {
     const delta = modelDeltas.getDeltaWith(model, otherModel);
     return deltasLib.expandDelta(delta, model.attributes, model.schema());
   }
-});
+};

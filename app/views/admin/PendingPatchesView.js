@@ -10,10 +10,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PendingPatchesView;
-const RootView = require('views/core/RootView');
-const template = require('app/templates/admin/pending-patches-view');
-const CocoCollection = require('collections/CocoCollection');
-const Patch = require('models/Patch');
+import RootView from 'views/core/RootView';
+import template from 'app/templates/admin/pending-patches-view';
+import CocoCollection from 'collections/CocoCollection';
+import Patch from 'models/Patch';
 
 class PendingPatchesCollection extends CocoCollection {
   static initClass() {
@@ -23,7 +23,7 @@ class PendingPatchesCollection extends CocoCollection {
 }
 PendingPatchesCollection.initClass();
 
-module.exports = (PendingPatchesView = (function() {
+export default PendingPatchesView = (function() {
   PendingPatchesView = class PendingPatchesView extends RootView {
     static initClass() {
       this.prototype.id = 'pending-patches-view';
@@ -188,4 +188,4 @@ module.exports = (PendingPatchesView = (function() {
   };
   PendingPatchesView.initClass();
   return PendingPatchesView;
-})());
+})();

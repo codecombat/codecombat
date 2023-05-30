@@ -11,7 +11,7 @@
  */
 // Caller needs require 'd3/d3.js'
 
-module.exports.createContiguousDays = function(timeframeDays, skipToday, dayOffset) {
+export const createContiguousDays = function(timeframeDays, skipToday, dayOffset) {
   // Return list of last 'timeframeDays' contiguous days in yyyy-mm-dd format
   if (skipToday == null) { skipToday = true; }
   if (dayOffset == null) { dayOffset = 0; }
@@ -28,7 +28,7 @@ module.exports.createContiguousDays = function(timeframeDays, skipToday, dayOffs
   return days;
 };
 
-module.exports.createLineChart = function(containerSelector, chartLines, containerWidth) {
+export const createLineChart = function(containerSelector, chartLines, containerWidth) {
   // Creates a line chart within 'containerSelector' based on chartLines
   let line;
   let i;

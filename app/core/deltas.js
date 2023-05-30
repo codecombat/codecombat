@@ -8,8 +8,8 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let flattenDelta, jsondiffpatch;
-const SystemNameLoader = require('./../core/SystemNameLoader');
+let jsondiffpatch;
+import SystemNameLoader from './../core/SystemNameLoader';
 if (typeof window === 'undefined') {
   // Just load the normal NPM library on the server side
   jsondiffpatch = require('jsondiffpatch');
@@ -26,7 +26,7 @@ if (typeof window === 'undefined') {
       ex: ['scripts', '_0', 'description']
 */
 
-module.exports.expandDelta = function(delta, left, schema) {
+export const expandDelta = function(delta, left, schema) {
   let right;
   if (left != null) {
     right = jsondiffpatch.clone(left);
@@ -37,7 +37,7 @@ module.exports.expandDelta = function(delta, left, schema) {
   return (Array.from(flattenedDeltas).map((fd) => expandFlattenedDelta(fd, left, right, schema)));
 };
 
-module.exports.flattenDelta = (flattenDelta = function(delta, dataPath=null, deltaPath=null) {
+export const flattenDelta = function(delta, dataPath=null, deltaPath=null) {
   // takes a single jsondiffpatch delta and returns an array of objects with
   if (!delta) { return []; }
   if (dataPath == null) { dataPath = []; }
@@ -55,7 +55,7 @@ module.exports.flattenDelta = (flattenDelta = function(delta, dataPath=null, del
     );
   }
   return results;
-});
+};
 
 var expandFlattenedDelta = function(delta, left, right, schema) {
   // takes a single flattened delta and converts into an object that can be
@@ -139,9 +139,9 @@ var expandFlattenedDelta = function(delta, left, right, schema) {
 var objectHash = function(obj) { if (obj != null) { return (obj.name || obj.id || obj._id || JSON.stringify(_.keys(obj).sort())); } else { return 'null'; } };
 
 
-module.exports.makeJSONDiffer = () => jsondiffpatch.create({objectHash});
+export const makeJSONDiffer = () => jsondiffpatch.create({objectHash});
 
-module.exports.getConflicts = function(headDeltas, pendingDeltas) {
+export const getConflicts = function(headDeltas, pendingDeltas) {
   // headDeltas and pendingDeltas should be lists of deltas returned by expandDelta
   // Returns a list of conflict objects with properties:
   //   headDelta
@@ -216,12 +216,12 @@ var groupDeltasByAffectingPaths = function(deltas) {
   return map;
 };
 
-module.exports.pruneConflictsFromDelta = function(delta, conflicts) {
+export const pruneConflictsFromDelta = function(delta, conflicts) {
   const expandedDeltas = (Array.from(conflicts).map((conflict) => conflict.pendingDelta));
-  return module.exports.pruneExpandedDeltasFromDelta(delta, expandedDeltas);
+  return pruneExpandedDeltasFromDelta(delta, expandedDeltas);
 };
 
-module.exports.pruneExpandedDeltasFromDelta = function(delta, expandedDeltas) {
+export const pruneExpandedDeltasFromDelta = function(delta, expandedDeltas) {
   // the jsondiffpatch delta mustn't include any dangling nodes,
   // or else things will get removed which shouldn't be, or errors will occur
   for (var expandedDelta of Array.from(expandedDeltas)) {
@@ -240,7 +240,7 @@ var prunePath = function(delta, path) {
   }
 };
 
-module.exports.DOC_SKIP_PATHS = [
+export const DOC_SKIP_PATHS = [
   '_id','version', 'commitMessage', 'parent', 'created',
   'slug', 'index', '__v', 'patches', 'creator', 'js', 'watchers', 'levelsUpdated', '_algoliaObjectID'
 ];

@@ -16,15 +16,15 @@
 // (More fun than ThreadPool and WorkerAgentManager and such.)
 
 let God;
-const {now} = require('lib/world/world_utils');
-const World = require('lib/world/world');
-const CocoClass = require('core/CocoClass');
-const Angel = require('lib/Angel');
-const GameUIState = require('models/GameUIState');
-const errors = require('core/errors');
-const globalVar = require('core/globalVar');
+import { now } from 'lib/world/world_utils';
+import World from 'lib/world/world';
+import CocoClass from 'core/CocoClass';
+import Angel from 'lib/Angel';
+import GameUIState from 'models/GameUIState';
+import errors from 'core/errors';
+import globalVar from 'core/globalVar';
 
-module.exports = (God = (function() {
+export default God = (function() {
   God = class God extends CocoClass {
     static initClass() {
       this.nicks = ['Athena', 'Baldr', 'Crom', 'Dagr', 'Eris', 'Freyja', 'Great Gish', 'Hades', 'Ishtar', 'Janus', 'Khronos', 'Loki', 'Marduk', 'Negafook', 'Odin', 'Poseidon', 'Quetzalcoatl', 'Ra', 'Shiva', 'Thor', 'Umvelinqangi', 'Týr', 'Vishnu', 'Wepwawet', 'Xipe Totec', 'Yahweh', 'Zeus', '上帝', 'Tiamat', '盘古', 'Phoebe', 'Artemis', 'Osiris', '嫦娥', 'Anhur', 'Teshub', 'Enlil', 'Perkele', 'Chaos', 'Hera', 'Iris', 'Theia', 'Uranus', 'Stribog', 'Sabazios', 'Izanagi', 'Ao', 'Tāwhirimātea', 'Tengri', 'Inmar', 'Torngarsuk', 'Centzonhuitznahua', 'Hunab Ku', 'Apollo', 'Helios', 'Thoth', 'Hyperion', 'Alectrona', 'Eos', 'Mitra', 'Saranyu', 'Freyr', 'Koyash', 'Atropos', 'Clotho', 'Lachesis', 'Tyche', 'Skuld', 'Urðr', 'Verðandi', 'Camaxtli', 'Huhetotl', 'Set', 'Anu', 'Allah', 'Anshar', 'Hermes', 'Lugh', 'Brigit', 'Manannan Mac Lir', 'Persephone', 'Mercury', 'Venus', 'Mars', 'Azrael', 'He-Man', 'Anansi', 'Issek', 'Mog', 'Kos', 'Amaterasu Omikami', 'Raijin', 'Susanowo', 'Blind Io', 'The Lady', 'Offler', 'Ptah', 'Anubis', 'Ereshkigal', 'Nergal', 'Thanatos', 'Macaria', 'Angelos', 'Erebus', 'Hecate', 'Hel', 'Orcus', 'Ishtar-Deela Nakh', 'Prometheus', 'Hephaestos', 'Sekhmet', 'Ares', 'Enyo', 'Otrera', 'Pele', 'Hadúr', 'Hachiman', 'Dayisun Tngri', 'Ullr', 'Lua', 'Minerva'];
@@ -263,7 +263,7 @@ module.exports = (God = (function() {
   };
   God.initClass();
   return God;
-})());
+})();
 
 
 const imitateIE9 = false;  // (and in world_utils.coffee)
@@ -271,7 +271,7 @@ if (imitateIE9) {
   window.Worker = null;
   window.Float32Array = null;
 }
-  // Also uncomment vendor_with_box2d.js in index.html if you want Collision to run and Thangs to move.
+// Also uncomment vendor_with_box2d.js in index.html if you want Collision to run and Thangs to move.
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

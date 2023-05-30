@@ -13,17 +13,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CocoLegacyCampaigns, VerifierView;
-require('app/styles/editor/verifier/verifier-view.sass');
-const async = require('vendor/scripts/async.js');
-const utils = require('core/utils');
-const aetherUtils = require('lib/aether_utils');
-
-const RootView = require('views/core/RootView');
-const template = require('app/templates/editor/verifier/verifier-view');
-const VerifierTest = require('./VerifierTest');
-const SuperModel = require('models/SuperModel');
-const Campaigns = require('collections/Campaigns');
-const Level = require('models/Level');
+import 'app/styles/editor/verifier/verifier-view.sass';
+import async from 'vendor/scripts/async.js';
+import utils from 'core/utils';
+import aetherUtils from 'lib/aether_utils';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/editor/verifier/verifier-view';
+import VerifierTest from './VerifierTest';
+import SuperModel from 'models/SuperModel';
+import Campaigns from 'collections/Campaigns';
+import Level from 'models/Level';
 
 if (utils.isOzaria) {
   CocoLegacyCampaigns = ['intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6', 'course-8',
@@ -33,7 +32,7 @@ if (utils.isOzaria) {
   CocoLegacyCampaigns = [];
 }
 
-module.exports = (VerifierView = (function() {
+export default VerifierView = (function() {
   VerifierView = class VerifierView extends RootView {
     static initClass() {
       this.prototype.className = 'style-flat';
@@ -336,4 +335,4 @@ module.exports = (VerifierView = (function() {
   };
   VerifierView.initClass();
   return VerifierView;
-})());
+})();

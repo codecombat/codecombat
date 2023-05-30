@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let KeyThangTabView;
-const LevelThangEditView = require('views/editor/level/thangs/LevelThangEditView');
-const template = require('app/templates/editor/level/thang/key-thang-tab-view');
+import LevelThangEditView from 'views/editor/level/thangs/LevelThangEditView';
+import template from 'app/templates/editor/level/thang/key-thang-tab-view';
 
-module.exports = (KeyThangTabView = (function() {
+export default KeyThangTabView = (function() {
   KeyThangTabView = class KeyThangTabView extends LevelThangEditView {
     static initClass() {
       this.prototype.id = null;
@@ -31,4 +31,4 @@ module.exports = (KeyThangTabView = (function() {
   };
   KeyThangTabView.initClass();
   return KeyThangTabView;
-})());
+})();

@@ -9,13 +9,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PatchesView;
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/patches');
-const PatchesCollection = require('collections/PatchesCollection');
-const nameLoader = require('core/NameLoader');
-const PatchModal = require('./PatchModal');
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/patches';
+import PatchesCollection from 'collections/PatchesCollection';
+import nameLoader from 'core/NameLoader';
+import PatchModal from './PatchModal';
 
-module.exports = (PatchesView = (function() {
+export default PatchesView = (function() {
   PatchesView = class PatchesView extends CocoView {
     static initClass() {
       this.prototype.template = template;
@@ -91,4 +91,4 @@ module.exports = (PatchesView = (function() {
   };
   PatchesView.initClass();
   return PatchesView;
-})());
+})();

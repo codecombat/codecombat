@@ -124,7 +124,7 @@ class Agent {
   }
 }
 
-module.exports = (PerfTester = (function() {
+export default PerfTester = (function() {
   PerfTester = class PerfTester extends Backbone.View {
     static initClass() {
       this.prototype.events =
@@ -268,5 +268,5 @@ module.exports = (PerfTester = (function() {
   };
   PerfTester.initClass();
   return PerfTester;
-})());
+})();
 

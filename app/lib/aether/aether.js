@@ -15,19 +15,18 @@ if ((typeof window !== 'undefined' && window !== null) && (self == null)) { self
 if ((typeof global !== 'undefined' && global !== null) && (self == null)) { self = global; }
 if (self.self == null) { self.self = self; }
 
-const esprima = require('esprima');  // getting our Esprima Harmony
+import esprima from 'esprima';  // getting our Esprima Harmony
+import defaults from './defaults';
+import problems from './problems';
+import execution from './execution';
+import traversal from './traversal';
+import transforms from './transforms';
+import protectBuiltins from './protectBuiltins';
+import optionsValidator from './validators/options';
+import languages from './languages/languages';
+import interpreter from './interpreter';
 
-const defaults = require('./defaults');
-const problems = require('./problems');
-const execution = require('./execution');
-const traversal = require('./traversal');
-const transforms = require('./transforms');
-const protectBuiltins = require('./protectBuiltins');
-const optionsValidator = require('./validators/options');
-const languages = require('./languages/languages');
-const interpreter = require('./interpreter');
-
-module.exports = (Aether = (function() {
+export default Aether = (function() {
   Aether = class Aether {
     static initClass() {
       this.execution = execution;
@@ -338,7 +337,7 @@ module.exports = (Aether = (function() {
   };
   Aether.initClass();
   return Aether;
-})());
+})();
 
 Aether.getTokenSource = function(raw) {
   if (/^\u56E7[a-zA-Z0-9+/=]+\f$/.test(raw)) {

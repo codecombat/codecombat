@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LicensorView;
-const RootComponent = require('views/core/RootComponent');
-const template = require('app/templates/base-flat');
-const LicensorViewComponent = require('./LicensorViewComponent.vue').default;
+import RootComponent from 'views/core/RootComponent';
+import template from 'app/templates/base-flat';
+import LicensorViewComponent from './LicensorViewComponent.vue';
 
-module.exports = (LicensorView = (function() {
+export default LicensorView = (function() {
   LicensorView = class LicensorView extends RootComponent {
     static initClass() {
       this.prototype.id = 'licensor-view';
@@ -20,4 +20,4 @@ module.exports = (LicensorView = (function() {
   };
   LicensorView.initClass();
   return LicensorView;
-})());
+})();

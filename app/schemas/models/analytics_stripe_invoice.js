@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const AnalyticsStripeInvoiceSchema = c.object({
   title: 'Analytics Stripe Invoice'
@@ -14,4 +14,4 @@ _.extend(AnalyticsStripeInvoiceSchema.properties, {
 
 c.extendBasicProperties(AnalyticsStripeInvoiceSchema, 'analytics.stripe.invoice');
 
-module.exports = AnalyticsStripeInvoiceSchema;
+export default AnalyticsStripeInvoiceSchema;

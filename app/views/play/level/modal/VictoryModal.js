@@ -8,16 +8,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let VictoryModal;
-require('app/styles/play/level/modal/victory.sass');
-const ModalView = require('views/core/ModalView');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const template = require('app/templates/play/level/modal/victory');
-const {me} = require('core/auth');
-const LadderSubmissionView = require('views/play/common/LadderSubmissionView');
-const LevelFeedback = require('models/LevelFeedback');
-const utils = require('core/utils');
+import 'app/styles/play/level/modal/victory.sass';
+import ModalView from 'views/core/ModalView';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import template from 'app/templates/play/level/modal/victory';
+import { me } from 'core/auth';
+import LadderSubmissionView from 'views/play/common/LadderSubmissionView';
+import LevelFeedback from 'models/LevelFeedback';
+import utils from 'core/utils';
 
-module.exports = (VictoryModal = (function() {
+export default VictoryModal = (function() {
   VictoryModal = class VictoryModal extends ModalView {
     static initClass() {
       this.prototype.id = 'level-victory-modal';
@@ -149,7 +149,7 @@ module.exports = (VictoryModal = (function() {
   };
   VictoryModal.initClass();
   return VictoryModal;
-})());
+})();
 
 function __guardMethod__(obj, methodName, transform) {
   if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {

@@ -9,11 +9,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ExportThangTypeModal;
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/thang/export-thang-type-modal');
-const SpriteExporter = require('lib/sprites/SpriteExporter');
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/thang/export-thang-type-modal';
+import SpriteExporter from 'lib/sprites/SpriteExporter';
 
-module.exports = (ExportThangTypeModal = (function() {
+export default ExportThangTypeModal = (function() {
   ExportThangTypeModal = class ExportThangTypeModal extends ModalView {
     constructor(...args) {
       this.onSpriteSheetUploaded = this.onSpriteSheetUploaded.bind(this);
@@ -112,6 +112,6 @@ module.exports = (ExportThangTypeModal = (function() {
   };
   ExportThangTypeModal.initClass();
   return ExportThangTypeModal;
-})());
+})();
 
 window.SomeModal = module.exports;

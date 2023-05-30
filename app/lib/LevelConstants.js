@@ -9,4 +9,4 @@ const LevelConstants = {
   lowerIsBetterScoreTypes: ['time', 'damage-taken', 'code-length']
 };
 
-module.exports = LevelConstants;
+export default LevelConstants;

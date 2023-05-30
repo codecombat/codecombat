@@ -7,9 +7,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AchievementSearchView;
-const SearchView = require('views/common/SearchView');
+import SearchView from 'views/common/SearchView';
 
-module.exports = (AchievementSearchView = (function() {
+export default AchievementSearchView = (function() {
   AchievementSearchView = class AchievementSearchView extends SearchView {
     static initClass() {
       this.prototype.id = 'editor-achievement-home-view';
@@ -33,4 +33,4 @@ module.exports = (AchievementSearchView = (function() {
   };
   AchievementSearchView.initClass();
   return AchievementSearchView;
-})());
+})();

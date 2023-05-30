@@ -7,13 +7,14 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const api = require('core/api');
+import api from 'core/api';
+
 const DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone'];
 const SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students']);
 const ncesData = _.zipObject(Array.from(SCHOOL_NCES_KEYS).map((key) => ['nces_'+key, '']));
-const User = require('models/User');
-const store = require('core/store');
-const globalVar = require('core/globalVar');
+import User from 'models/User';
+import store from 'core/store';
+import globalVar from 'core/globalVar';
 
 export default ({
   namespaced: true,

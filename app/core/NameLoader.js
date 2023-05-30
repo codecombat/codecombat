@@ -8,7 +8,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const CocoClass = require('core/CocoClass');
+import CocoClass from 'core/CocoClass';
 
 const namesCache = {};
 
@@ -43,4 +43,4 @@ class NameLoader extends CocoClass {
   }
 }
 
-module.exports = new NameLoader();
+export default new NameLoader();

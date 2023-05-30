@@ -9,19 +9,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LoadBranchModal;
-require('app/styles/editor/level/modal/load-branch-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/level/modal/load-branch-modal');
-const DeltaView = require('views/editor/DeltaView');
-const deltasLib = require('core/deltas');
-const modelDeltas = require('lib/modelDeltas');
-const Branch = require('models/Branch');
-const Branches = require('collections/Branches');
-const LevelComponents = require('collections/LevelComponents');
-const LevelSystems = require('collections/LevelSystems');
+import 'app/styles/editor/level/modal/load-branch-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/level/modal/load-branch-modal';
+import DeltaView from 'views/editor/DeltaView';
+import deltasLib from 'core/deltas';
+import modelDeltas from 'lib/modelDeltas';
+import Branch from 'models/Branch';
+import Branches from 'collections/Branches';
+import LevelComponents from 'collections/LevelComponents';
+import LevelSystems from 'collections/LevelSystems';
 
 
-module.exports = (LoadBranchModal = (function() {
+export default LoadBranchModal = (function() {
   LoadBranchModal = class LoadBranchModal extends ModalView {
     static initClass() {
       this.prototype.id = 'load-branch-modal';
@@ -214,4 +214,4 @@ module.exports = (LoadBranchModal = (function() {
   };
   LoadBranchModal.initClass();
   return LoadBranchModal;
-})());
+})();

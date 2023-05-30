@@ -7,9 +7,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let GameUIState;
-const CocoModel = require('./CocoModel');
+import CocoModel from './CocoModel';
 
-module.exports = (GameUIState = (function() {
+export default GameUIState = (function() {
   GameUIState = class GameUIState extends CocoModel {
     static initClass() {
       this.className = 'GameUIState';
@@ -55,4 +55,4 @@ module.exports = (GameUIState = (function() {
   };
   GameUIState.initClass();
   return GameUIState;
-})());
+})();

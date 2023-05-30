@@ -6,46 +6,44 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let locsToRange, locToPos, offsetsToRange, offsetToPos, rowColsToRange, rowColToPos, stringifyPos, stringifyRange;
-module.exports.offsetToPos = (offsetToPos = function(offset, source, prefix) {
+export const offsetToPos = function(offset, source, prefix) {
   if (prefix == null) { prefix = ''; }
   const rowOffsets = buildRowOffsets(source, prefix);
   offset -= prefix.length;
   const row = offsetToRow(offset, rowOffsets);
   const col = offset - rowOffsets[row];
   return {ofs: offset, row, col};
-});
+};
 
-module.exports.offsetsToRange = (offsetsToRange = function(start, end, source, prefix) {
+export const offsetsToRange = function(start, end, source, prefix) {
   if (prefix == null) { prefix = ''; }
   return {start: offsetToPos(start, source, prefix), end: offsetToPos(end, source, prefix)};
-});
+};
 
-module.exports.rowColToPos = (rowColToPos = function(row, col, source, prefix) {
+export const rowColToPos = function(row, col, source, prefix) {
   if (prefix == null) { prefix = ''; }
   const rowOffsets = buildRowOffsets(source, prefix);
   const offset = rowOffsets[row] + col;
   return {ofs: offset, row, col};
-});
+};
 
-module.exports.rowColsToRange = (rowColsToRange = function(start, end, source, prefix) {
+export const rowColsToRange = function(start, end, source, prefix) {
   if (prefix == null) { prefix = ''; }
   return {start: rowColToPos(start.row, start.col, source, prefix), end: rowColToPos(end.row, end.col, source, prefix)};
-});
+};
 
-module.exports.locToPos = (locToPos = function(loc, source, prefix) {
+export const locToPos = function(loc, source, prefix) {
   if (prefix == null) { prefix = ''; }
   return rowColToPos(loc.line, loc.column, source, prefix);
-});
+};
 
-module.exports.locsToRange = (locsToRange = function(start, end, source, prefix) {
+export const locsToRange = function(start, end, source, prefix) {
   if (prefix == null) { prefix = ''; }
   return {start: locToPos(start, source, prefix), end: locToPos(end, source, prefix)};
-});
+};
 
-module.exports.stringifyPos = (stringifyPos = pos => `{ofs: ${pos.ofs}, row: ${pos.row}, col: ${pos.col}}`);
-
-module.exports.stringifyRange = (stringifyRange = (start, end) => `[${stringifyPos(start)}, ${stringifyPos(end)}]`);
+export const stringifyPos = pos => `{ofs: ${pos.ofs}, row: ${pos.row}, col: ${pos.col}}`;
+export const stringifyRange = (start, end) => `[${stringifyPos(start)}, ${stringifyPos(end)}]`;
 
 // Since we're probably going to be searching the same source many times in a row,
 // this simple form of caching should get the job done.

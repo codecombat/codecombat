@@ -11,9 +11,7 @@
 // Based on https://github.com/substack/node-falafel
 // A similar approach could be seen in https://github.com/ariya/esmorph
 
-// TODO: see about consolidating
-let morphAST, walkAST, walkASTCorrect;
-module.exports.walkAST = (walkAST = (node, fn) => (() => {
+export const walkAST = (node, fn) => (() => {
   const result = [];
   for (var key in node) {
     var child = node[key];
@@ -27,9 +25,9 @@ module.exports.walkAST = (walkAST = (node, fn) => (() => {
     result.push(fn(child));
   }
   return result;
-})());
+})();
 
-module.exports.walkASTCorrect = (walkASTCorrect = function(node, fn) {
+export const walkASTCorrect = function(node, fn) {
   for (var key in node) {
     var child = node[key];
     if (_.isArray(child)) {
@@ -43,9 +41,9 @@ module.exports.walkASTCorrect = (walkASTCorrect = function(node, fn) {
     }
   }
   return fn(node);
-});
+};
 
-module.exports.morphAST = (morphAST = function(source, transforms, parseFn, aether) {
+export const morphAST = function(source, transforms, parseFn, aether) {
   const chunks = source.split('');
   const ast = parseFn(source, aether);
 
@@ -67,7 +65,7 @@ module.exports.morphAST = (morphAST = function(source, transforms, parseFn, aeth
 
   morphWalk(ast, undefined);
   return chunks.join('');
-});
+};
 
 var insertHelpers = function(node, parent, chunks) {
   if (!node.range) { return; }

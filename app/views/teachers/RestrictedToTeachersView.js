@@ -7,9 +7,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let RestrictedToTeachersView;
-const RootView = require('views/core/RootView');
+import RootView from 'views/core/RootView';
 
-module.exports = (RestrictedToTeachersView = (function() {
+export default RestrictedToTeachersView = (function() {
   RestrictedToTeachersView = class RestrictedToTeachersView extends RootView {
     static initClass() {
       this.prototype.id = 'restricted-to-teachers-view';
@@ -23,7 +23,7 @@ module.exports = (RestrictedToTeachersView = (function() {
   };
   RestrictedToTeachersView.initClass();
   return RestrictedToTeachersView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

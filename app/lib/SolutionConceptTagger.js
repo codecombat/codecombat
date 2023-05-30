@@ -6,9 +6,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TagSolution;
-const concepts = require('schemas/concepts');
+import concepts from 'schemas/concepts';
 
-module.exports = (TagSolution = function({source, ast, language}) {
+export default TagSolution = function({source, ast, language}) {
   const engine = new esper.Engine();
   if (source) {
     engine.load(source);
@@ -31,4 +31,4 @@ module.exports = (TagSolution = function({source, ast, language}) {
     }
   }
   return result;
-});
+};

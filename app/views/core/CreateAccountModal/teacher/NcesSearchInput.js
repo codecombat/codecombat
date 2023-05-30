@@ -5,9 +5,10 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-require('app/styles/modal/create-account-modal/nces-search-input.sass');
-const algolia = require('core/services/algolia');
-const utils = require('core/utils');
+import 'app/styles/modal/create-account-modal/nces-search-input.sass';
+
+import algolia from 'core/services/algolia';
+import utils from 'core/utils';
 const DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students'];
 const SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone']);
 // NOTE: Phone number in algolia search results is for a school, not a district
@@ -106,4 +107,4 @@ const NcesSearchInput = Vue.extend({
   }
 });
 
-module.exports = NcesSearchInput;
+export default NcesSearchInput;

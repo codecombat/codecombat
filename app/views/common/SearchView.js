@@ -10,10 +10,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SearchView;
-const RootView = require('views/core/RootView');
-const NewModelModal = require('views/editor/modal/NewModelModal');
-const template = require('app/templates/common/search-view');
-const CreateAccountModal = require('views/core/CreateAccountModal');
+import RootView from 'views/core/RootView';
+import NewModelModal from 'views/editor/modal/NewModelModal';
+import template from 'app/templates/common/search-view';
+import CreateAccountModal from 'views/core/CreateAccountModal';
 
 class SearchCollection extends Backbone.Collection {
   initialize(modelURL, model, term, projection, limit) {
@@ -42,7 +42,7 @@ class SearchCollection extends Backbone.Collection {
   }
 }
 
-module.exports = (SearchView = (function() {
+export default SearchView = (function() {
   SearchView = class SearchView extends RootView {
     static initClass() {
       this.prototype.template = template;
@@ -149,4 +149,4 @@ module.exports = (SearchView = (function() {
   };
   SearchView.initClass();
   return SearchView;
-})());
+})();

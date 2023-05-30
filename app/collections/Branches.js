@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Branches;
-const CocoCollection = require('collections/CocoCollection');
-const Branch = require('models/Branch');
+import CocoCollection from 'collections/CocoCollection';
+import Branch from 'models/Branch';
 
-module.exports = (Branches = (function() {
+export default Branches = (function() {
   Branches = class Branches extends CocoCollection {
     static initClass() {
       this.prototype.url = '/db/branches';
@@ -26,4 +26,4 @@ module.exports = (Branches = (function() {
   };
   Branches.initClass();
   return Branches;
-})());
+})();

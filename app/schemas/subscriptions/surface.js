@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('schemas/schemas');
+import c from 'schemas/schemas';
 
 const spriteMouseEventSchema = c.object({required: ['sprite', 'thang', 'originalEvent', 'canvas']}, {
   sprite: {type: 'object'},
@@ -9,7 +9,7 @@ const spriteMouseEventSchema = c.object({required: ['sprite', 'thang', 'original
   canvas: {type: 'object'}
 });
 
-module.exports = {  // /app/lib/surface
+export default {  // /app/lib/surface
   'camera:dragged': c.object({}),
 
   'camera:zoom-in': c.object({}),

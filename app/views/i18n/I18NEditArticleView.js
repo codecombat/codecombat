@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let I18NEditArticleView;
-const I18NEditModelView = require('./I18NEditModelView');
-const Article = require('models/Article');
+import I18NEditModelView from './I18NEditModelView';
+import Article from 'models/Article';
 
-module.exports = (I18NEditArticleView = (function() {
+export default I18NEditArticleView = (function() {
   I18NEditArticleView = class I18NEditArticleView extends I18NEditModelView {
     static initClass() {
       this.prototype.id = 'i18n-edit-article-view';
@@ -36,4 +36,4 @@ module.exports = (I18NEditArticleView = (function() {
   };
   I18NEditArticleView.initClass();
   return I18NEditArticleView;
-})());
+})();

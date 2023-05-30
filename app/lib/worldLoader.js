@@ -5,7 +5,7 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-module.exports = (window.libWorldRequire = function(path) {
+export default window.libWorldRequire = function(path) {
   switch (path) {
     case 'lib/world/systems/action': return require('lib/world/systems/action');
     case 'lib/world/systems/collision': return require('lib/world/systems/collision');
@@ -31,4 +31,4 @@ module.exports = (window.libWorldRequire = function(path) {
     case 'lib/world/world_utils': return require('lib/world/world_utils');
     default: throw new Error("Whoops, dunno what you're trying to load but I didn't include it in worldLoader");
   }
-});
+};

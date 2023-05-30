@@ -9,16 +9,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CoursesUpdateAccountView;
-require('app/styles/courses/courses-update-account-view.sass');
-const errors = require('core/errors');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/courses/courses-update-account-view');
-const AuthModal = require('views/core/AuthModal');
-const JoinClassModal = require('views/courses/JoinClassModal');
-const {logoutUser, me} = require('core/auth');
-const utils = require('core/utils');
+import 'app/styles/courses/courses-update-account-view.sass';
+import errors from 'core/errors';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/courses/courses-update-account-view';
+import AuthModal from 'views/core/AuthModal';
+import JoinClassModal from 'views/courses/JoinClassModal';
+import { logoutUser, me } from 'core/auth';
+import utils from 'core/utils';
 
-module.exports = (CoursesUpdateAccountView = (function() {
+export default CoursesUpdateAccountView = (function() {
   CoursesUpdateAccountView = class CoursesUpdateAccountView extends RootView {
     static initClass() {
       this.prototype.id = 'courses-update-account-view';
@@ -116,4 +116,4 @@ module.exports = (CoursesUpdateAccountView = (function() {
   };
   CoursesUpdateAccountView.initClass();
   return CoursesUpdateAccountView;
-})());
+})();

@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LiveClassroomModal;
-require('app/styles/play/modal/live-classroom-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/modal/live-classroom-modal');
+import 'app/styles/play/modal/live-classroom-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/modal/live-classroom-modal';
 
-module.exports = (LiveClassroomModal = (function() {
+export default LiveClassroomModal = (function() {
   LiveClassroomModal = class LiveClassroomModal extends ModalView {
     static initClass() {
       this.prototype.template = template;
@@ -28,4 +28,4 @@ module.exports = (LiveClassroomModal = (function() {
   };
   LiveClassroomModal.initClass();
   return LiveClassroomModal;
-})());
+})();

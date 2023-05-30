@@ -8,9 +8,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CameraBorder;
-const createjs = require('lib/createjs-parts');
+import createjs from 'lib/createjs-parts';
 
-module.exports = (CameraBorder = (function() {
+export default CameraBorder = (function() {
   CameraBorder = class CameraBorder extends createjs.Container {
     static initClass() {
       this.prototype.layerPriority = 100;
@@ -58,4 +58,4 @@ module.exports = (CameraBorder = (function() {
   };
   CameraBorder.initClass();
   return CameraBorder;
-})());
+})();

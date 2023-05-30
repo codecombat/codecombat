@@ -8,18 +8,20 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-require('app/styles/modal/create-account-modal/school-info-panel.sass');
-const NcesSearchInput = require('./NcesSearchInput');
-const algolia = require('core/services/algolia');
-const utils = require('core/utils');
+import 'app/styles/modal/create-account-modal/school-info-panel.sass';
+
+import NcesSearchInput from './NcesSearchInput';
+import algolia from 'core/services/algolia';
+import utils from 'core/utils';
 const DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students'];
 const SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone']);
+
 // NOTE: Phone number in algolia search results is for a school, not a district
-const { countries } = require('core/utils');
-const countryList = require('country-list')();
-const {
-  UsaStates
-} = require('usa-states');
+import { countries } from 'core/utils';
+
+import countryListFactory from 'country-list';
+const countryList = countryListFactory();
+import { UsaStates } from 'usa-states';
 
 const SchoolInfoPanel = {
   name: 'school-info-panel',
@@ -172,4 +174,4 @@ const SchoolInfoPanel = {
 };
 
 
-module.exports = SchoolInfoPanel;
+export default SchoolInfoPanel;

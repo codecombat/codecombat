@@ -11,65 +11,66 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PlayLevelView;
-require('app/styles/play/level/level-loading-view.sass');
-require('app/styles/play/level/tome/spell_palette_entry.sass');
-require('app/styles/play/play-level-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/play/play-level-view');
-const {me} = require('core/auth');
-const ThangType = require('models/ThangType');
-const utils = require('core/utils');
-const storage = require('core/storage');
-const {createAetherOptions} = require('lib/aether_utils');
-const loadAetherLanguage = require('lib/loadAetherLanguage');
+import 'app/styles/play/level/level-loading-view.sass';
+import 'app/styles/play/level/tome/spell_palette_entry.sass';
+import 'app/styles/play/play-level-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/play/play-level-view';
+import { me } from 'core/auth';
+import ThangType from 'models/ThangType';
+import utils from 'core/utils';
+import storage from 'core/storage';
+import { createAetherOptions } from 'lib/aether_utils';
+import loadAetherLanguage from 'lib/loadAetherLanguage';
 
 // tools
-const Surface = require('lib/surface/Surface');
-const God = require('lib/God');
-const GoalManager = require('lib/world/GoalManager');
-const ScriptManager = require('lib/scripts/ScriptManager');
-const LevelBus = require('lib/LevelBus');
-const LevelLoader = require('lib/LevelLoader');
-const LevelSession = require('models/LevelSession');
-const Level = require('models/Level');
-const LevelComponent = require('models/LevelComponent');
-const Article = require('models/Article');
-const Mandate = require('models/Mandate');
-const Camera = require('lib/surface/Camera');
-const AudioPlayer = require('lib/AudioPlayer');
-const Simulator = require('lib/simulator/Simulator');
-const GameUIState = require('models/GameUIState');
-const createjs = require('lib/createjs-parts');
+import Surface from 'lib/surface/Surface';
+
+import God from 'lib/God';
+import GoalManager from 'lib/world/GoalManager';
+import ScriptManager from 'lib/scripts/ScriptManager';
+import LevelBus from 'lib/LevelBus';
+import LevelLoader from 'lib/LevelLoader';
+import LevelSession from 'models/LevelSession';
+import Level from 'models/Level';
+import LevelComponent from 'models/LevelComponent';
+import Article from 'models/Article';
+import Mandate from 'models/Mandate';
+import Camera from 'lib/surface/Camera';
+import AudioPlayer from 'lib/AudioPlayer';
+import Simulator from 'lib/simulator/Simulator';
+import GameUIState from 'models/GameUIState';
+import createjs from 'lib/createjs-parts';
 
 // subviews
-const LevelLoadingView = require('./LevelLoadingView');
-const ProblemAlertView = require('./tome/ProblemAlertView');
-const TomeView = require('./tome/TomeView');
-const ChatView = require('./LevelChatView');
-const HUDView = require('./LevelHUDView');
-const LevelDialogueView = require('./LevelDialogueView');
-const ControlBarView = require('./ControlBarView');
-const LevelPlaybackView = require('./LevelPlaybackView');
-const GoalsView = require('./LevelGoalsView');
-const LevelFlagsView = require('./LevelFlagsView');
-const GoldView = require('./LevelGoldView');
-const GameDevTrackView = require('./GameDevTrackView');
-const DuelStatsView = require('./DuelStatsView');
-const VictoryModal = require('./modal/VictoryModal');
-const HeroVictoryModal = require('./modal/HeroVictoryModal');
-const CourseVictoryModal = require('./modal/CourseVictoryModal');
-const PicoCTFVictoryModal = require('./modal/PicoCTFVictoryModal');
-const InfiniteLoopModal = require('./modal/InfiniteLoopModal');
-const LevelSetupManager = require('lib/LevelSetupManager');
-const ContactModal = require('views/core/ContactModal');
-const HintsView = require('./HintsView');
-const SurfaceContextMenuView = require('./SurfaceContextMenuView');
-const HintsState = require('./HintsState');
-const WebSurfaceView = require('./WebSurfaceView');
-const SpellPaletteViewMid = require('./tome/SpellPaletteViewMid');
-const store = require('core/store');
+import LevelLoadingView from './LevelLoadingView';
 
-require('lib/game-libraries');
+import ProblemAlertView from './tome/ProblemAlertView';
+import TomeView from './tome/TomeView';
+import ChatView from './LevelChatView';
+import HUDView from './LevelHUDView';
+import LevelDialogueView from './LevelDialogueView';
+import ControlBarView from './ControlBarView';
+import LevelPlaybackView from './LevelPlaybackView';
+import GoalsView from './LevelGoalsView';
+import LevelFlagsView from './LevelFlagsView';
+import GoldView from './LevelGoldView';
+import GameDevTrackView from './GameDevTrackView';
+import DuelStatsView from './DuelStatsView';
+import VictoryModal from './modal/VictoryModal';
+import HeroVictoryModal from './modal/HeroVictoryModal';
+import CourseVictoryModal from './modal/CourseVictoryModal';
+import PicoCTFVictoryModal from './modal/PicoCTFVictoryModal';
+import InfiniteLoopModal from './modal/InfiniteLoopModal';
+import LevelSetupManager from 'lib/LevelSetupManager';
+import ContactModal from 'views/core/ContactModal';
+import HintsView from './HintsView';
+import SurfaceContextMenuView from './SurfaceContextMenuView';
+import HintsState from './HintsState';
+import WebSurfaceView from './WebSurfaceView';
+import SpellPaletteViewMid from './tome/SpellPaletteViewMid';
+import store from 'core/store';
+import 'lib/game-libraries';
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3');
 
 const PROFILE_ME = false;
@@ -82,7 +83,7 @@ const KEEP_CHECK_TOURNAMENT_OPEN = 3;  // tournament running
 const TOURNAMENT_OPEN = [2, 3];
 const STOP_CHECK_TOURNAMENT = [0, 2];
 
-module.exports = (PlayLevelView = (function() {
+export default PlayLevelView = (function() {
   PlayLevelView = class PlayLevelView extends RootView {
     static initClass() {
       this.prototype.id = 'level-view';
@@ -1189,7 +1190,7 @@ module.exports = (PlayLevelView = (function() {
   };
   PlayLevelView.initClass();
   return PlayLevelView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

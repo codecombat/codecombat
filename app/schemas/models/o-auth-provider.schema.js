@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const OAuthProviderSchema = {
   description: 'A service which provides OAuth identification, login for our users.',
@@ -40,4 +40,4 @@ A template of the URL for the user resource. Should include "<%= accessToken %>"
 c.extendBasicProperties(OAuthProviderSchema, 'OAuthProvider');
 c.extendNamedProperties(OAuthProviderSchema);
 
-module.exports = OAuthProviderSchema;
+export default OAuthProviderSchema;

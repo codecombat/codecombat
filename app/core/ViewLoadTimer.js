@@ -190,4 +190,4 @@ class ViewLoadTimer {
 }
 ViewLoadTimer.initClass();
 
-module.exports = ViewLoadTimer;
+export default ViewLoadTimer;

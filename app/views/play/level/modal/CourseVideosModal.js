@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CourseVideosModal;
-const ModalComponent = require('views/core/ModalComponent');
-const CourseVideosModalComponent = require('./CourseVideosModalComponent.vue').default;
+import ModalComponent from 'views/core/ModalComponent';
+import CourseVideosModalComponent from './CourseVideosModalComponent.vue';
 
-module.exports = (CourseVideosModal = (function() {
+export default CourseVideosModal = (function() {
   CourseVideosModal = class CourseVideosModal extends ModalComponent {
     static initClass() {
       this.prototype.id = 'course-videos-modal';
@@ -40,4 +40,4 @@ module.exports = (CourseVideosModal = (function() {
   };
   CourseVideosModal.initClass();
   return CourseVideosModal;
-})());
+})();

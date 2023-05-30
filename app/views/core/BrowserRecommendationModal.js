@@ -7,13 +7,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let BrowserRecommendationModal;
-require('app/styles/modal/recommendation-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('templates/core/recommendation-modal.pug');
-const forms = require('core/forms');
-const storage = require('core/storage');
+import 'app/styles/modal/recommendation-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'templates/core/recommendation-modal.pug';
+import forms from 'core/forms';
+import storage from 'core/storage';
 
-module.exports = (BrowserRecommendationModal = (function() {
+export default BrowserRecommendationModal = (function() {
   BrowserRecommendationModal = class BrowserRecommendationModal extends ModalView {
     static initClass() {
       this.prototype.id = 'browser-recommendation-modal';
@@ -37,4 +37,4 @@ module.exports = (BrowserRecommendationModal = (function() {
   };
   BrowserRecommendationModal.initClass();
   return BrowserRecommendationModal;
-})());
+})();

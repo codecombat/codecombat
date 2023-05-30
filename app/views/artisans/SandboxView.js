@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SandboxView;
-const RootComponent = require('views/core/RootComponent');
-const template = require('app/templates/base-flat');
-const SandboxViewComponent = require('./SandboxViewComponent.vue').default;
+import RootComponent from 'views/core/RootComponent';
+import template from 'app/templates/base-flat';
+import SandboxViewComponent from './SandboxViewComponent.vue';
 
-module.exports = (SandboxView = (function() {
+export default SandboxView = (function() {
   SandboxView = class SandboxView extends RootComponent {
     static initClass() {
       this.prototype.id = 'sandbox-view';
@@ -24,4 +24,4 @@ module.exports = (SandboxView = (function() {
   };
   SandboxView.initClass();
   return SandboxView;
-})());
+})();

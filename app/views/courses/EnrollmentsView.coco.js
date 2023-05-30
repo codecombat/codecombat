@@ -13,28 +13,24 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let EnrollmentsView;
-require('app/styles/courses/enrollments-view.sass');
-const RootView = require('views/core/RootView');
-const Classrooms = require('collections/Classrooms');
-const State = require('models/State');
-const User = require('models/User');
-const Prepaids = require('collections/Prepaids');
-const template = require('app/templates/courses/enrollments-view');
-const Users = require('collections/Users');
-const Courses = require('collections/Courses');
-const HowToEnrollModal = require('views/teachers/HowToEnrollModal');
-const TeachersContactModal = require('views/teachers/TeachersContactModal');
-const utils = require('core/utils');
-const ShareLicensesModal = require('views/teachers/ShareLicensesModal');
-const LicenseStatsModal = require('views/teachers/LicenseStatsModal');
-const {sendSlackMessage} = require('core/contact');
+import 'app/styles/courses/enrollments-view.sass';
+import RootView from 'views/core/RootView';
+import Classrooms from 'collections/Classrooms';
+import State from 'models/State';
+import User from 'models/User';
+import Prepaids from 'collections/Prepaids';
+import template from 'app/templates/courses/enrollments-view';
+import Users from 'collections/Users';
+import Courses from 'collections/Courses';
+import HowToEnrollModal from 'views/teachers/HowToEnrollModal';
+import TeachersContactModal from 'views/teachers/TeachersContactModal';
+import utils from 'core/utils';
+import ShareLicensesModal from 'views/teachers/ShareLicensesModal';
+import LicenseStatsModal from 'views/teachers/LicenseStatsModal';
+import { sendSlackMessage } from 'core/contact';
+import { STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS } from 'core/constants';
 
-const {
-  STARTER_LICENSE_COURSE_IDS,
-  FREE_COURSE_IDS
-} = require('core/constants');
-
-module.exports = (EnrollmentsView = (function() {
+export default EnrollmentsView = (function() {
   EnrollmentsView = class EnrollmentsView extends RootView {
     constructor(...args) {
       this.uniqueStudentsPerYear = this.uniqueStudentsPerYear.bind(this);
@@ -339,7 +335,7 @@ module.exports = (EnrollmentsView = (function() {
   };
   EnrollmentsView.initClass();
   return EnrollmentsView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

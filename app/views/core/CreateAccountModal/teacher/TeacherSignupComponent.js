@@ -8,12 +8,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TeacherSignupComponent;
-const SchoolInfoPanel = require('./SchoolInfoPanel');
-const TeacherRolePanel = require('./TeacherRolePanel');
-const SetupAccountPanel = require('./SetupAccountPanel');
-const TeacherSignupStoreModule = require('./TeacherSignupStoreModule');
+import SchoolInfoPanel from './SchoolInfoPanel';
+import TeacherRolePanel from './TeacherRolePanel';
+import SetupAccountPanel from './SetupAccountPanel';
+import TeacherSignupStoreModule from './TeacherSignupStoreModule';
 
-module.exports = (TeacherSignupComponent = Vue.extend({
+export default TeacherSignupComponent = Vue.extend({
   name: 'teacher-signup-component',
   template: require('app/templates/core/create-account-modal/teacher-signup-component')(),
 
@@ -58,9 +58,10 @@ module.exports = (TeacherSignupComponent = Vue.extend({
   },
 
   mounted() {}
-}));
-    // 2020-11-05: Now that we have more Ozaria on the homepage, we don't want to pop it up by default; let them click the banner
-    //window.localStorage.setItem('showOzariaEncouragementModal', true)
+});
+
+// 2020-11-05: Now that we have more Ozaria on the homepage, we don't want to pop it up by default; let them click the banner
+//window.localStorage.setItem('showOzariaEncouragementModal', true)
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

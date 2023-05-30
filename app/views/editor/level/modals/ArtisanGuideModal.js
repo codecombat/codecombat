@@ -8,12 +8,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ArtisanGuideModal;
-require('app/styles/editor/level/modal/artisan-guide-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/level/modal/artisan-guide-modal');
-
-const forms = require('core/forms');
-const {sendContactMessage} = require('core/contact');
+import 'app/styles/editor/level/modal/artisan-guide-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/level/modal/artisan-guide-modal';
+import forms from 'core/forms';
+import { sendContactMessage } from 'core/contact';
 
 const contactSchema = {
   additionalProperties: false,
@@ -34,7 +33,7 @@ const contactSchema = {
   }
 };
 
-module.exports = (ArtisanGuideModal = (function() {
+export default ArtisanGuideModal = (function() {
   ArtisanGuideModal = class ArtisanGuideModal extends ModalView {
     static initClass() {
       this.prototype.id = 'artisan-guide-modal';
@@ -86,4 +85,4 @@ Location: ${results.levelLocation}`};
   };
   ArtisanGuideModal.initClass();
   return ArtisanGuideModal;
-})());
+})();

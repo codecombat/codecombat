@@ -8,7 +8,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const CocoClass = require('core/CocoClass');
+import CocoClass from 'core/CocoClass';
 
 const idleTracker = new Idle({
   onAway() {
@@ -137,4 +137,4 @@ class ViewVisibleTimer extends CocoClass {
 }
 ViewVisibleTimer.initClass();
 
-module.exports = ViewVisibleTimer;
+export default ViewVisibleTimer;

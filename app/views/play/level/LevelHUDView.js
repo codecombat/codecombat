@@ -7,13 +7,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelHUDView;
-require('app/styles/play/level/hud.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/hud');
-const prop_template = require('app/templates/play/level/hud_prop');
-const utils = require('core/utils');
+import 'app/styles/play/level/hud.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/hud';
+import prop_template from 'app/templates/play/level/hud_prop';
+import utils from 'core/utils';
 
-module.exports = (LevelHUDView = (function() {
+export default LevelHUDView = (function() {
   LevelHUDView = class LevelHUDView extends CocoView {
     static initClass() {
       this.prototype.id = 'thang-hud';
@@ -252,4 +252,4 @@ module.exports = (LevelHUDView = (function() {
   };
   LevelHUDView.initClass();
   return LevelHUDView;
-})());
+})();

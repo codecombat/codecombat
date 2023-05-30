@@ -10,12 +10,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelFeedbackView;
-require('app/styles/editor/level/level-feedback-view.sass');
-const CocoView = require('views/core/CocoView');
-const CocoCollection = require('collections/CocoCollection');
-const template = require('app/templates/editor/level/level-feedback-view');
-const Level = require('models/Level');
-const LevelFeedback = require('models/LevelFeedback');
+import 'app/styles/editor/level/level-feedback-view.sass';
+import CocoView from 'views/core/CocoView';
+import CocoCollection from 'collections/CocoCollection';
+import template from 'app/templates/editor/level/level-feedback-view';
+import Level from 'models/Level';
+import LevelFeedback from 'models/LevelFeedback';
 
 class LevelFeedbackCollection extends CocoCollection {
   static initClass() {
@@ -39,7 +39,7 @@ class LevelFeedbackCollection extends CocoCollection {
 }
 LevelFeedbackCollection.initClass();
 
-module.exports = (LevelFeedbackView = (function() {
+export default LevelFeedbackView = (function() {
   LevelFeedbackView = class LevelFeedbackView extends CocoView {
     static initClass() {
       this.prototype.id = 'level-feedback-view';
@@ -95,4 +95,4 @@ module.exports = (LevelFeedbackView = (function() {
   };
   LevelFeedbackView.initClass();
   return LevelFeedbackView;
-})());
+})();

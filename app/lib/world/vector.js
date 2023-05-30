@@ -203,4 +203,4 @@ class Vector {
 }
 Vector.initClass();
 
-module.exports = Vector;
+export default Vector;

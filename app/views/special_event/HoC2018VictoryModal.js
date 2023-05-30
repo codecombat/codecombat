@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let HoC2018VictoryModal;
-const ModalComponent = require('views/core/ModalComponent');
-const HoC2018VictoryComponent = require('./HoC2018VictoryModal.vue').default;
+import ModalComponent from 'views/core/ModalComponent';
+import HoC2018VictoryComponent from './HoC2018VictoryModal.vue';
 
-module.exports = (HoC2018VictoryModal = (function() {
+export default HoC2018VictoryModal = (function() {
   HoC2018VictoryModal = class HoC2018VictoryModal extends ModalComponent {
     static initClass() {
       this.prototype.id = 'hoc-victory-modal';
@@ -48,4 +48,4 @@ module.exports = (HoC2018VictoryModal = (function() {
   };
   HoC2018VictoryModal.initClass();
   return HoC2018VictoryModal;
-})());
+})();

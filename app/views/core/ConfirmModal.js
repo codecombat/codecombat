@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ConfirmModal;
-const ModalView = require('./ModalView');
-const template = require('app/templates/core/confirm-modal');
+import ModalView from './ModalView';
+import template from 'app/templates/core/confirm-modal';
 
-module.exports = (ConfirmModal = (function() {
+export default ConfirmModal = (function() {
   ConfirmModal = class ConfirmModal extends ModalView {
     static initClass() {
       this.prototype.id = 'confirm-modal';
@@ -34,4 +34,4 @@ module.exports = (ConfirmModal = (function() {
   };
   ConfirmModal.initClass();
   return ConfirmModal;
-})());
+})();

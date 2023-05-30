@@ -8,11 +8,10 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let connectionFailure;
-const errorModalTemplate = require('app/templates/core/error');
-const {applyErrorsToForm} = require('core/forms');
+import errorModalTemplate from 'app/templates/core/error';
+import { applyErrorsToForm } from 'core/forms';
 
-module.exports.parseServerError = function(text) {
+export const parseServerError = function(text) {
   let error;
   try {
     error = JSON.parse(text) || {message: 'Unknown error.'};
@@ -23,11 +22,11 @@ module.exports.parseServerError = function(text) {
   return error;
 };
 
-module.exports.genericFailure = function(jqxhr) {
+export const genericFailure = function(jqxhr) {
   Backbone.Mediator.publish('errors:server-error', {response: jqxhr});
   if (!jqxhr.status) { return connectionFailure(); }
 
-  let error = module.exports.parseServerError(jqxhr.responseText);
+  let error = parseServerError(jqxhr.responseText);
   let {
     message
   } = error;
@@ -53,18 +52,18 @@ module.exports.genericFailure = function(jqxhr) {
   }
 };
 
-module.exports.backboneFailure = (model, jqxhr, options) => module.exports.genericFailure(jqxhr);
+export const backboneFailure = (model, jqxhr, options) => genericFailure(jqxhr);
 
-module.exports.connectionFailure = (connectionFailure = function() {
+export const connectionFailure = function() {
   const html = errorModalTemplate({
     status: 0,
     statusText: 'Connection Gone',
     message: 'No response from the CoCo servers, captain.'
   });
   return showErrorModal(html);
-});
+};
 
-module.exports.showNotyNetworkError = function() {
+export const showNotyNetworkError = function() {
   const jqxhr = _.find(arguments, 'promise'); // handles jquery or backbone network error (jqxhr is first or second parameter)
   return noty({
     text: (jqxhr.responseJSON != null ? jqxhr.responseJSON.message : undefined) || (jqxhr.responseJSON != null ? jqxhr.responseJSON.errorName : undefined) || 'Unknown error',
@@ -85,7 +84,7 @@ var showErrorModal = function(html) {
 
 let shownWorkerError = false;
 
-module.exports.onWorkerError = function() {
+export const onWorkerError = function() {
   // TODO: Improve worker error handling in general
   // TODO: Remove this code when IE11 is deprecated OR Aether is removed.
 

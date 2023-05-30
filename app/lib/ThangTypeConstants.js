@@ -51,4 +51,4 @@ const ThangTypeConstants = {
   }
 };
 
-module.exports = ThangTypeConstants;
+export default ThangTypeConstants;

@@ -10,13 +10,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PaymentsView;
-const RootView = require('views/core/RootView');
-const template = require('app/templates/account/payments-view');
-const CocoCollection = require('collections/CocoCollection');
-const Payments = require('collections/Payments');
-const Prepaids = require('collections/Prepaids');
+import RootView from 'views/core/RootView';
+import template from 'app/templates/account/payments-view';
+import CocoCollection from 'collections/CocoCollection';
+import Payments from 'collections/Payments';
+import Prepaids from 'collections/Prepaids';
 
-module.exports = (PaymentsView = (function() {
+export default PaymentsView = (function() {
   PaymentsView = class PaymentsView extends RootView {
     static initClass() {
       this.prototype.id = "payments-view";
@@ -70,7 +70,7 @@ module.exports = (PaymentsView = (function() {
   };
   PaymentsView.initClass();
   return PaymentsView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

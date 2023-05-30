@@ -9,7 +9,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let key;
-const api = require('core/api');
+import api from 'core/api';
 const DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone'];
 const SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students']);
 const ncesData = _.zipObject((() => {
@@ -18,9 +18,9 @@ const ncesData = _.zipObject((() => {
   }
   return result;
 })());
-const User = require('models/User');
-const store = require('core/store');
-const globalVar = require('core/globalVar');
+import User from 'models/User';
+import store from 'core/store';
+import globalVar from 'core/globalVar';
 
 const getDefaultState = () => {
   return {

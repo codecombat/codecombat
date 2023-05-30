@@ -1,7 +1,8 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
-const ThangComponentSchema = require('./thang_component');
+import c from './../schemas';
+
+import ThangComponentSchema from './thang_component';
 
 const ThangTypeSchema = c.object({default: {kind: 'Misc'}});
 c.extendNamedProperties(ThangTypeSchema);  // name first
@@ -281,4 +282,4 @@ c.extendVersionedProperties(ThangTypeSchema, 'thang.type');
 c.extendPatchableProperties(ThangTypeSchema);
 c.extendTranslationCoverageProperties(ThangTypeSchema);
 
-module.exports = ThangTypeSchema;
+export default ThangTypeSchema;

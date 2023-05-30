@@ -7,12 +7,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LadderSubmissionView;
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/common/ladder_submission');
-const {createAetherOptions} = require('lib/aether_utils');
-const LevelSession = require('models/LevelSession');
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/common/ladder_submission';
+import { createAetherOptions } from 'lib/aether_utils';
+import LevelSession from 'models/LevelSession';
 
-module.exports = (LadderSubmissionView = (function() {
+export default LadderSubmissionView = (function() {
   LadderSubmissionView = class LadderSubmissionView extends CocoView {
     static initClass() {
       this.prototype.className = 'ladder-submission-view';
@@ -180,4 +180,4 @@ module.exports = (LadderSubmissionView = (function() {
   };
   LadderSubmissionView.initClass();
   return LadderSubmissionView;
-})());
+})();

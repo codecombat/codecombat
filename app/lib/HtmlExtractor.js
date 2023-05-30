@@ -9,7 +9,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-require('vendor/scripts/htmlparser2');
+import 'vendor/scripts/htmlparser2';
 
 // Convert htmlparser2-formatted DOM structure into Deku format
 var dekuify = function(elem) {
@@ -152,7 +152,7 @@ const extractJQueryLines = dekuScripts => _.flatten(dekuScripts.children.map(fun
 })
 );
 
-module.exports = {
+export default {
   dekuify,
   unwrapDekuNodes,
   parseUserHtml,

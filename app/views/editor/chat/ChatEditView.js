@@ -11,19 +11,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ChatEditView;
-require('app/styles/editor/chat/edit.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/editor/chat/edit');
-const ChatMessage = require('models/ChatMessage');
-const ConfirmModal = require('views/core/ConfirmModal');
-const PatchesView = require('views/editor/PatchesView');
-const errors = require('core/errors');
+import 'app/styles/editor/chat/edit.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/editor/chat/edit';
+import ChatMessage from 'models/ChatMessage';
+import ConfirmModal from 'views/core/ConfirmModal';
+import PatchesView from 'views/editor/PatchesView';
+import errors from 'core/errors';
+import 'lib/game-libraries';
+import 'lib/setupTreema';
+import treemaExt from 'core/treema-ext';
 
-require('lib/game-libraries');
-require('lib/setupTreema');
-const treemaExt = require('core/treema-ext');
-
-module.exports = (ChatEditView = (function() {
+export default ChatEditView = (function() {
   ChatEditView = class ChatEditView extends RootView {
     static initClass() {
       this.prototype.id = 'editor-chat-edit-view';
@@ -210,7 +209,7 @@ module.exports = (ChatEditView = (function() {
   };
   ChatEditView.initClass();
   return ChatEditView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

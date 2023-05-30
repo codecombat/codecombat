@@ -9,15 +9,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SaveVersionModal;
-require('app/styles/modal/save-version-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/modal/save-version-modal');
-const DeltaView = require('views/editor/DeltaView');
-const Patch = require('models/Patch');
-const forms = require('core/forms');
-const modelDeltas = require('lib/modelDeltas');
+import 'app/styles/modal/save-version-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/modal/save-version-modal';
+import DeltaView from 'views/editor/DeltaView';
+import Patch from 'models/Patch';
+import forms from 'core/forms';
+import modelDeltas from 'lib/modelDeltas';
 
-module.exports = (SaveVersionModal = (function() {
+export default SaveVersionModal = (function() {
   SaveVersionModal = class SaveVersionModal extends ModalView {
     static initClass() {
       this.prototype.id = 'save-version-modal';
@@ -130,4 +130,4 @@ module.exports = (SaveVersionModal = (function() {
   };
   SaveVersionModal.initClass();
   return SaveVersionModal;
-})());
+})();

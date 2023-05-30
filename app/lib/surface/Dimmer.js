@@ -11,10 +11,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Dimmer;
-const CocoClass = require('core/CocoClass');
-const createjs = require('lib/createjs-parts');
+import CocoClass from 'core/CocoClass';
+import createjs from 'lib/createjs-parts';
 
-module.exports = (Dimmer = (function() {
+export default Dimmer = (function() {
   Dimmer = class Dimmer extends CocoClass {
     static initClass() {
       this.prototype.subscriptions = {
@@ -112,4 +112,4 @@ module.exports = (Dimmer = (function() {
   };
   Dimmer.initClass();
   return Dimmer;
-})());
+})();

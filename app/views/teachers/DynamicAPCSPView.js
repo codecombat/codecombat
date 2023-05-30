@@ -7,14 +7,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let DynamicAPCSPView;
-require('app/styles/teachers/markdown-resource-view.sass');
-const RootView = require('views/core/RootView');
-const api = require('core/api');
-const ace = require('lib/aceContainer');
-const aceUtils = require('core/aceUtils');
-const APCSPLanding = require('./APCSPLanding').default;
+import 'app/styles/teachers/markdown-resource-view.sass';
+import RootView from 'views/core/RootView';
+import api from 'core/api';
+import ace from 'lib/aceContainer';
+import aceUtils from 'core/aceUtils';
+import APCSPLanding from './APCSPLanding';
 
-module.exports = (DynamicAPCSPView = (function() {
+export default DynamicAPCSPView = (function() {
   DynamicAPCSPView = class DynamicAPCSPView extends RootView {
     static initClass() {
       this.prototype.id = 'dynamic-apcsp-view';
@@ -104,7 +104,7 @@ module.exports = (DynamicAPCSPView = (function() {
   };
   DynamicAPCSPView.initClass();
   return DynamicAPCSPView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

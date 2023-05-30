@@ -11,17 +11,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AnalyticsSubscriptionsView;
-require('app/styles/admin/analytics-subscriptions.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/admin/analytics-subscriptions');
-const ThangType = require('models/ThangType');
-const User = require('models/User');
+import 'app/styles/admin/analytics-subscriptions.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/admin/analytics-subscriptions';
+import ThangType from 'models/ThangType';
+import User from 'models/User';
 
 // TODO: Graphing code copied/mangled from campaign editor level view.  OMG, DRY.
 
-require('d3/d3.js');
+import 'd3/d3.js';
 
-module.exports = (AnalyticsSubscriptionsView = (function() {
+export default AnalyticsSubscriptionsView = (function() {
   AnalyticsSubscriptionsView = class AnalyticsSubscriptionsView extends RootView {
     static initClass() {
       this.prototype.id = 'admin-analytics-subscriptions-view';
@@ -928,7 +928,7 @@ module.exports = (AnalyticsSubscriptionsView = (function() {
   };
   AnalyticsSubscriptionsView.initClass();
   return AnalyticsSubscriptionsView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

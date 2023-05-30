@@ -11,23 +11,22 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let AccelerationNode, ItemThangTypeNode, KilogramsNode, MetersNode, MillisecondsNode, RadiansNode, SecondsNode, SpeedNode, SuperteamNode, TeamNode, ThangNode, ThangTypeNode, WorldBoundsNode, WorldPointNode, WorldViewportNode;
-const WorldSelectModal = require('./modals/WorldSelectModal');
-const ThangType = require('models/ThangType');
-const LevelComponent = require('models/LevelComponent');
-const CocoCollection = require('collections/CocoCollection');
-require('lib/setupTreema');
-require('vendor/scripts/jquery-ui-1.11.1.custom');
-require('vendor/styles/jquery-ui-1.11.1.custom.css');
+import WorldSelectModal from './modals/WorldSelectModal';
+import ThangType from 'models/ThangType';
+import LevelComponent from 'models/LevelComponent';
+import CocoCollection from 'collections/CocoCollection';
+import 'lib/setupTreema';
+import 'vendor/scripts/jquery-ui-1.11.1.custom';
+import 'vendor/styles/jquery-ui-1.11.1.custom.css';
 
 const makeButton = () => $('<a class="btn btn-primary btn-xs treema-map-button"><span class="glyphicon glyphicon-screenshot"></span></a>');
 const shorten = f => parseFloat(f.toFixed(1));
 const WIDTH = 924;
 
-module.exports.WorldPointNode = (WorldPointNode = class WorldPointNode extends TreemaNode.nodeMap.point2d {
+export const WorldPointNode = class WorldPointNode extends TreemaNode.nodeMap.point2d {
   constructor(...args) {
-    this.callback = this.callback.bind(this);
     super(...Array.from(args || []));
+    this.callback = this.callback.bind(this);
     if (this.settings.world == null) { console.error('Point Treema node needs a World included in the settings.'); }
     if (this.settings.view == null) { console.error('Point Treema node needs a RootView included in the settings.'); }
   }
@@ -59,14 +58,14 @@ module.exports.WorldPointNode = (WorldPointNode = class WorldPointNode extends T
     this.data.y = shorten(e.point.y);
     return this.refreshDisplay();
   }
-});
+};
 
 class WorldRegionNode extends TreemaNode.nodeMap.object {
   // this class is not yet used, later will be used to configure the Physical component
 
   constructor(...args) {
-    this.callback = this.callback.bind(this);
     super(...Array.from(args || []));
+    this.callback = this.callback.bind(this);
     if (this.settings.world == null) { console.error('Region Treema node needs a World included in the settings.'); }
     if (this.settings.view == null) { console.error('Region Treema node needs a RootView included in the settings.'); }
   }
@@ -103,13 +102,14 @@ class WorldRegionNode extends TreemaNode.nodeMap.object {
 
   createWorldBounds() {}
 }
-    // not yet written
 
-module.exports.WorldViewportNode = (WorldViewportNode = class WorldViewportNode extends TreemaNode.nodeMap.object {
+// not yet written
+
+export const WorldViewportNode = class WorldViewportNode extends TreemaNode.nodeMap.object {
   // selecting ratio'd dimensions in the world, ie the camera in level scripts
   constructor(...args) {
-    this.callback = this.callback.bind(this);
     super(...Array.from(args || []));
+    this.callback = this.callback.bind(this);
     if (this.settings.world == null) { console.error('Viewport Treema node needs a World included in the settings.'); }
     if (this.settings.view == null) { console.error('Viewport Treema node needs a RootView included in the settings.'); }
   }
@@ -151,18 +151,18 @@ module.exports.WorldViewportNode = (WorldViewportNode = class WorldViewportNode 
     this.set('zoom', shorten(WIDTH / bounds.width));
     return this.refreshDisplay();
   }
-});
+};
 
-module.exports.WorldBoundsNode = (WorldBoundsNode = (function() {
-  WorldBoundsNode = class WorldBoundsNode extends TreemaNode.nodeMap.array {
+export const WorldBoundsNode = (function() {
+  class WorldBoundsNode extends TreemaNode.nodeMap.array {
     static initClass() {
       // selecting camera boundaries for a world
       this.prototype.dataType = 'region';
     }
 
     constructor(...args) {
-      this.callback = this.callback.bind(this);
       super(...Array.from(args || []));
+      this.callback = this.callback.bind(this);
       if (this.settings.world == null) { console.error('Bounds Treema node needs a World included in the settings.'); }
       if (this.settings.view == null) { console.error('Bounds Treema node needs a RootView included in the settings.'); }
     }
@@ -197,84 +197,84 @@ module.exports.WorldBoundsNode = (WorldBoundsNode = (function() {
   };
   WorldBoundsNode.initClass();
   return WorldBoundsNode;
-})());
+})();
 
-module.exports.ThangNode = (ThangNode = class ThangNode extends TreemaNode.nodeMap.string {
+export const ThangNode = class ThangNode extends TreemaNode.nodeMap.string {
   buildValueForDisplay(valEl, data) {
     super.buildValueForDisplay(valEl, data);
     valEl.find('input').autocomplete({source: this.settings.thangIDs, minLength: 0, delay: 0, autoFocus: true});
     return valEl;
   }
-});
+};
 
-module.exports.TeamNode = (TeamNode = class TeamNode extends TreemaNode.nodeMap.string {
+export const TeamNode = class TeamNode extends TreemaNode.nodeMap.string {
   buildValueForDisplay(valEl, data) {
     super.buildValueForDisplay(valEl, data);
     valEl.find('input').autocomplete({source: this.settings.teams, minLength: 0, delay: 0, autoFocus: true});
     return valEl;
   }
-});
+};
 
-module.exports.SuperteamNode = (SuperteamNode = class SuperteamNode extends TreemaNode.nodeMap.string {
+export const SuperteamNode = class SuperteamNode extends TreemaNode.nodeMap.string {
   buildValueForEditing(valEl, data) {
     super.buildValueForEditing(valEl, data);
     valEl.find('input').autocomplete({source: this.settings.superteams, minLength: 0, delay: 0, autoFocus: true});
     return valEl;
   }
-});
+};
 
-module.exports.RadiansNode = (RadiansNode = class RadiansNode extends TreemaNode.nodeMap.number {
+export const RadiansNode = class RadiansNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay(valEl, data) {
     super.buildValueForDisplay(valEl, data);
     const deg = (data / Math.PI) * 180;
     return valEl.text(valEl.text() + `rad (${deg.toFixed(0)}˚)`);
   }
-});
+};
 
-module.exports.MetersNode = (MetersNode = class MetersNode extends TreemaNode.nodeMap.number {
+export const MetersNode = class MetersNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay(valEl, data) {
     super.buildValueForDisplay(valEl, data);
     return valEl.text(valEl.text() + 'm');
   }
-});
+};
 
-module.exports.KilogramsNode = (KilogramsNode = class KilogramsNode extends TreemaNode.nodeMap.number {
+export const KilogramsNode = class KilogramsNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay(valEl, data) {
     super.buildValueForDisplay(valEl, data);
     return valEl.text(valEl.text() + 'kg');
   }
-});
+};
 
-module.exports.SecondsNode = (SecondsNode = class SecondsNode extends TreemaNode.nodeMap.number {
+export const SecondsNode = class SecondsNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay(valEl, data) {
     super.buildValueForDisplay(valEl, data);
     return valEl.text(valEl.text() + 's');
   }
-});
+};
 
-module.exports.MillisecondsNode = (MillisecondsNode = class MillisecondsNode extends TreemaNode.nodeMap.number {
+export const MillisecondsNode = class MillisecondsNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay(valEl, data) {
     super.buildValueForDisplay(valEl, data);
     return valEl.text(valEl.text() + 'ms');
   }
-});
+};
 
-module.exports.SpeedNode = (SpeedNode = class SpeedNode extends TreemaNode.nodeMap.number {
+export const SpeedNode = class SpeedNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay(valEl, data) {
     super.buildValueForDisplay(valEl, data);
     return valEl.text(valEl.text() + 'm/s');
   }
-});
+};
 
-module.exports.AccelerationNode = (AccelerationNode = class AccelerationNode extends TreemaNode.nodeMap.number {
+export const AccelerationNode = class AccelerationNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay(valEl, data) {
     super.buildValueForDisplay(valEl, data);
     return valEl.text(valEl.text() + 'm/s^2');
   }
-});
+};
 
-module.exports.ThangTypeNode = (ThangTypeNode = (function() {
-  ThangTypeNode = class ThangTypeNode extends TreemaNode.nodeMap.string {
+export const ThangTypeNode = (function() {
+  class ThangTypeNode extends TreemaNode.nodeMap.string {
     static initClass() {
       this.prototype.valueClass = 'treema-thang-type';
       this.thangTypes = null;
@@ -311,10 +311,10 @@ module.exports.ThangTypeNode = (ThangTypeNode = (function() {
   };
   ThangTypeNode.initClass();
   return ThangTypeNode;
-})());
+})();
 
-module.exports.ThangTypeNode = (ThangTypeNode = (ThangTypeNode = (function() {
-  ThangTypeNode = class ThangTypeNode extends TreemaNode.nodeMap.string {
+export const ThangTypeNode = ((function() {
+  class ThangTypeNode extends TreemaNode.nodeMap.string {
     static initClass() {
       this.prototype.valueClass = 'treema-thang-type';
       this.thangTypesCollection = null;  // Lives in ThangTypeNode parent class
@@ -326,7 +326,7 @@ module.exports.ThangTypeNode = (ThangTypeNode = (ThangTypeNode = (function() {
       super(...arguments);
       this.getThangTypes();
       if (!ThangTypeNode.thangTypesCollection.loaded) {
-        const f = function() { 
+        const f = function() {
           if (!this.isEditing()) { this.refreshDisplay(); }
           return this.getThangTypes();
         };
@@ -404,10 +404,10 @@ module.exports.ThangTypeNode = (ThangTypeNode = (ThangTypeNode = (function() {
   };
   ThangTypeNode.initClass();
   return ThangTypeNode;
-})()));
+})());
 
-module.exports.ItemThangTypeNode = (ItemThangTypeNode = (ItemThangTypeNode = (function() {
-  ItemThangTypeNode = class ItemThangTypeNode extends ThangTypeNode {
+export const ItemThangTypeNode = ((function() {
+  class ItemThangTypeNode extends ThangTypeNode {
     static initClass() {
       this.prototype.valueClass = 'treema-item-thang-type';
     }
@@ -424,7 +424,7 @@ module.exports.ItemThangTypeNode = (ItemThangTypeNode = (ItemThangTypeNode = (fu
   };
   ItemThangTypeNode.initClass();
   return ItemThangTypeNode;
-})()));
+})());
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

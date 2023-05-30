@@ -8,13 +8,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelDialogueView;
-require('app/styles/play/level/level-dialogue-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/level-dialogue-view');
-const DialogueAnimator = require('./DialogueAnimator');
-const PlayItemsModal = require('views/play/modal/PlayItemsModal');
+import 'app/styles/play/level/level-dialogue-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/level-dialogue-view';
+import DialogueAnimator from './DialogueAnimator';
+import PlayItemsModal from 'views/play/modal/PlayItemsModal';
 
-module.exports = (LevelDialogueView = (function() {
+export default LevelDialogueView = (function() {
   LevelDialogueView = class LevelDialogueView extends CocoView {
     static initClass() {
       this.prototype.id = 'level-dialogue-view';
@@ -163,4 +163,4 @@ module.exports = (LevelDialogueView = (function() {
   };
   LevelDialogueView.initClass();
   return LevelDialogueView;
-})());
+})();

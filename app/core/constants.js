@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const utils = require('./utils');
+import utils from './utils';
 
 const STARTER_LICENSE_COURSE_IDS = [
   "560f1a9f22961295f9427742", // Introduction to Computer Science
@@ -92,7 +92,7 @@ const HTML5_FMT_TIME_LOCAL = 'HH:mm';
 
 const ANNOUNCEMENT_LIMIT = 11; // fetch 11 and display 10 only, so that we can check if all announcements loaded
 
-module.exports = {
+export default {
   STARTER_LICENSE_COURSE_IDS,
   FREE_COURSE_IDS,
   MAX_STARTER_LICENSES,

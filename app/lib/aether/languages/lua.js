@@ -8,11 +8,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Lua;
-const Language = require('./language');
-const ranges = require('../ranges');
+import Language from './language';
+import ranges from '../ranges';
 const parserHolder = {};
 
-module.exports = (Lua = (function() {
+export default Lua = (function() {
   Lua = class Lua extends Language {
     static initClass() {
       this.prototype.name = 'Lua';
@@ -81,5 +81,5 @@ module.exports = (Lua = (function() {
   };
   Lua.initClass();
   return Lua;
-})());
+})();
 

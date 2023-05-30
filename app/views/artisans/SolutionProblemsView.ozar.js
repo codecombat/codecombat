@@ -10,18 +10,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SolutionProblemsView;
-require('app/styles/artisans/solution-problems-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/artisans/solution-problems-view');
+import 'app/styles/artisans/solution-problems-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/artisans/solution-problems-view';
+import Level from 'models/Level';
+import Campaign from 'models/Campaign';
+import CocoCollection from 'collections/CocoCollection';
+import Campaigns from 'collections/Campaigns';
+import Levels from 'collections/Levels';
 
-const Level = require('models/Level');
-const Campaign = require('models/Campaign');
-
-const CocoCollection = require('collections/CocoCollection');
-const Campaigns = require('collections/Campaigns');
-const Levels = require('collections/Levels');
-
-module.exports = (SolutionProblemsView = (function() {
+export default SolutionProblemsView = (function() {
   let excludedCampaigns = undefined;
   let excludedSimulationLevels = undefined;
   let excludedSolutionLevels = undefined;
@@ -254,4 +252,4 @@ module.exports = (SolutionProblemsView = (function() {
   };
   SolutionProblemsView.initClass();
   return SolutionProblemsView;
-})());
+})();

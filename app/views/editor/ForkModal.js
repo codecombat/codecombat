@@ -7,12 +7,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ForkModal;
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/fork-modal');
-const forms = require('core/forms');
-const utils = require('core/utils');
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/fork-modal';
+import forms from 'core/forms';
+import utils from 'core/utils';
 
-module.exports = (ForkModal = (function() {
+export default ForkModal = (function() {
   ForkModal = class ForkModal extends ModalView {
     static initClass() {
       this.prototype.id = 'fork-modal';
@@ -74,4 +74,4 @@ module.exports = (ForkModal = (function() {
   };
   ForkModal.initClass();
   return ForkModal;
-})());
+})();

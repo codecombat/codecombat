@@ -7,13 +7,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let UnsubscribeView;
-require('app/styles/account/unsubscribe-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/account/unsubscribe-view');
-const {me} = require('core/auth');
-const utils = require('core/utils');
+import 'app/styles/account/unsubscribe-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/account/unsubscribe-view';
+import { me } from 'core/auth';
+import utils from 'core/utils';
 
-module.exports = (UnsubscribeView = (function() {
+export default UnsubscribeView = (function() {
   UnsubscribeView = class UnsubscribeView extends RootView {
     static initClass() {
       this.prototype.id = 'unsubscribe-view';
@@ -56,4 +56,4 @@ module.exports = (UnsubscribeView = (function() {
   };
   UnsubscribeView.initClass();
   return UnsubscribeView;
-})());
+})();

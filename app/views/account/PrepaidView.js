@@ -11,18 +11,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PrepaidView;
-require('app/styles/account/account-prepaid-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/account/prepaid-view');
-const {getPrepaidCodeAmount} = require('../../core/utils');
-const SubscribeModal = require('views/core/SubscribeModal');
-const CocoCollection = require('collections/CocoCollection');
-const Prepaid = require('../../models/Prepaid');
-const utils = require('core/utils');
-const Products = require('collections/Products');
-const CreateAccountModal = require('views/core/CreateAccountModal/CreateAccountModal');
+import 'app/styles/account/account-prepaid-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/account/prepaid-view';
+import { getPrepaidCodeAmount } from '../../core/utils';
+import SubscribeModal from 'views/core/SubscribeModal';
+import CocoCollection from 'collections/CocoCollection';
+import Prepaid from '../../models/Prepaid';
+import utils from 'core/utils';
+import Products from 'collections/Products';
+import CreateAccountModal from 'views/core/CreateAccountModal/CreateAccountModal';
 
-module.exports = (PrepaidView = (function() {
+export default PrepaidView = (function() {
   PrepaidView = class PrepaidView extends RootView {
     constructor(...args) {
       this.dashedPPC = this.dashedPPC.bind(this);
@@ -208,7 +208,7 @@ module.exports = (PrepaidView = (function() {
   };
   PrepaidView.initClass();
   return PrepaidView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

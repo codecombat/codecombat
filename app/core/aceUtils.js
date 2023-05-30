@@ -10,7 +10,8 @@
  */
 // These were extracted out of utils.coffee to prevent everything from having Ace as a dependency.
 
-const ace = require('lib/aceContainer');
+import ace from 'lib/aceContainer';
+
 const {
   TokenIterator
 } = ace.require('ace/token_iterator');
@@ -182,9 +183,10 @@ const parseUserSnippets = function(source, lang, session) {
   // console.log 'debug newIdentifiers: ', newIdentifiers
   return newIdentifiers;
 };
-  // @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
 
-module.exports = {
+// @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
+
+export default {
   aceEditModes,
   initializeACE,
   parseUserSnippets

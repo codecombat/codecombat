@@ -13,10 +13,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ScriptManager;
-const CocoClass = require('core/CocoClass');
-const CocoView = require('views/core/CocoView');
-const {scriptMatchesEventPrereqs} = require('./../world/script_event_prereqs');
-const utils = require('core/utils');
+import CocoClass from 'core/CocoClass';
+import CocoView from 'views/core/CocoView';
+import { scriptMatchesEventPrereqs } from './../world/script_event_prereqs';
+import utils from 'core/utils';
 
 const allScriptModules = [];
 allScriptModules.push(require('./SpriteScriptModule'));
@@ -25,12 +25,12 @@ allScriptModules.push(require('./SurfaceScriptModule'));
 allScriptModules.push(require('./PlaybackScriptModule'));
 allScriptModules.push(require('./SoundScriptModule'));
 
-const store = require('app/core/store');
+import store from 'app/core/store';
 
 const DEFAULT_BOT_MOVE_DURATION = 500;
 const DEFAULT_SCRUB_DURATION = 1000;
 
-module.exports = (ScriptManager = (ScriptManager = (function() {
+export default ScriptManager = (ScriptManager = (function() {
   ScriptManager = class ScriptManager extends CocoClass {
     static initClass() {
       this.prototype.scriptInProgress = false;
@@ -545,7 +545,7 @@ module.exports = (ScriptManager = (ScriptManager = (function() {
   };
   ScriptManager.initClass();
   return ScriptManager;
-})()));
+})());
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

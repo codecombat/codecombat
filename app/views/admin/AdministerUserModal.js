@@ -13,28 +13,28 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AdministerUserModal;
-const _ = require('lodash');
-require('app/styles/admin/administer-user-modal.sass');
-const ModelModal = require('views/modal/ModelModal');
-const template = require('app/templates/admin/administer-user-modal');
-const User = require('models/User');
-const Prepaid = require('models/Prepaid');
-const StripeCoupons = require('collections/StripeCoupons');
-const forms = require('core/forms');
-const errors = require('core/errors');
-const Prepaids = require('collections/Prepaids');
-const Classrooms = require('collections/Classrooms');
-const TrialRequests = require('collections/TrialRequests');
-const fetchJson = require('core/api/fetch-json');
-const utils = require('core/utils');
-const api = require('core/api');
-const NameLoader = require('core/NameLoader');
-const { LICENSE_PRESETS, ESPORTS_PRODUCT_STATS } = require('core/constants');
+import _ from 'lodash';
+import 'app/styles/admin/administer-user-modal.sass';
+import ModelModal from 'views/modal/ModelModal';
+import template from 'app/templates/admin/administer-user-modal';
+import User from 'models/User';
+import Prepaid from 'models/Prepaid';
+import StripeCoupons from 'collections/StripeCoupons';
+import forms from 'core/forms';
+import errors from 'core/errors';
+import Prepaids from 'collections/Prepaids';
+import Classrooms from 'collections/Classrooms';
+import TrialRequests from 'collections/TrialRequests';
+import fetchJson from 'core/api/fetch-json';
+import utils from 'core/utils';
+import api from 'core/api';
+import NameLoader from 'core/NameLoader';
+import { LICENSE_PRESETS, ESPORTS_PRODUCT_STATS } from 'core/constants';
 
 // TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
 // TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
 
-module.exports = (AdministerUserModal = (function() {
+export default AdministerUserModal = (function() {
   AdministerUserModal = class AdministerUserModal extends ModelModal {
     constructor(...args) {
       this.onSearchRequestSuccess = this.onSearchRequestSuccess.bind(this);
@@ -795,7 +795,7 @@ ${teachers.join('\n')} \
   };
   AdministerUserModal.initClass();
   return AdministerUserModal;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -10,21 +10,21 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ClassroomSettingsModal;
-require('app/styles/courses/classroom-settings-modal.sass');
-const Classroom = require('models/Classroom');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/courses/classroom-settings-modal');
-const forms = require('core/forms');
-const errors = require('core/errors');
-const GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler');
-const globalVar = require('core/globalVar');
-const classroomsApi = require('core/api/classrooms');
+import 'app/styles/courses/classroom-settings-modal.sass';
+import Classroom from 'models/Classroom';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/courses/classroom-settings-modal';
+import forms from 'core/forms';
+import errors from 'core/errors';
+import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler';
+import globalVar from 'core/globalVar';
+import classroomsApi from 'core/api/classrooms';
 
 const initializeFilePicker = function() {
   if (!globalVar.application.isIPadApp) { return require('core/services/filepicker')(); }
 };
 
-module.exports = (ClassroomSettingsModal = (function() {
+export default ClassroomSettingsModal = (function() {
   ClassroomSettingsModal = class ClassroomSettingsModal extends ModalView {
     constructor(...args) {
       this.onFileChosen = this.onFileChosen.bind(this);
@@ -238,4 +238,4 @@ module.exports = (ClassroomSettingsModal = (function() {
   };
   ClassroomSettingsModal.initClass();
   return ClassroomSettingsModal;
-})());
+})();

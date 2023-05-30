@@ -13,25 +13,25 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ScriptsTabView;
-require('app/styles/editor/level/scripts_tab.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/level/scripts_tab');
-const Level = require('models/Level');
-const Surface = require('lib/surface/Surface');
-const nodes = require('./../treema_nodes');
-const defaultScripts = require('lib/DefaultScripts');
-const utils = require('core/utils');
-require('lib/setupTreema');
-require('vendor/scripts/jquery-ui-1.11.1.custom');
-require('vendor/styles/jquery-ui-1.11.1.custom.css');
+import 'app/styles/editor/level/scripts_tab.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/level/scripts_tab';
+import Level from 'models/Level';
+import Surface from 'lib/surface/Surface';
+import nodes from './../treema_nodes';
+import defaultScripts from 'lib/DefaultScripts';
+import utils from 'core/utils';
+import 'lib/setupTreema';
+import 'vendor/scripts/jquery-ui-1.11.1.custom';
+import 'vendor/styles/jquery-ui-1.11.1.custom.css';
 
-module.exports = (ScriptsTabView = (function() {
+export default ScriptsTabView = (function() {
   ScriptsTabView = class ScriptsTabView extends CocoView {
     static initClass() {
       this.prototype.id = 'editor-level-scripts-tab-view';
       this.prototype.template = template;
       this.prototype.className = 'tab-pane';
-  
+
       this.prototype.subscriptions = {
         'editor:level-loaded': 'onLevelLoaded',
         'editor:thangs-edited': 'onThangsEdited'
@@ -39,13 +39,13 @@ module.exports = (ScriptsTabView = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.onScriptsChanged = this.onScriptsChanged.bind(this);
       this.onScriptSelected = this.onScriptSelected.bind(this);
       this.onNewScriptAdded = this.onNewScriptAdded.bind(this);
       this.onScriptDeleted = this.onScriptDeleted.bind(this);
       this.onScriptChanged = this.onScriptChanged.bind(this);
       this.onWindowResize = this.onWindowResize.bind(this);
-      super(options);
       this.world = options.world;
       this.files = options.files;
       $(window).on('resize', this.onWindowResize);
@@ -194,7 +194,7 @@ module.exports = (ScriptsTabView = (function() {
   };
   ScriptsTabView.initClass();
   return ScriptsTabView;
-})());
+})();
 
 class ScriptsNode extends TreemaArrayNode {
   static initClass() {

@@ -10,8 +10,9 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const Levels = require('collections/Levels');
-const utils = require('core/utils');
+import Levels from 'collections/Levels';
+
+import utils from 'core/utils';
 
 // Returns whether a user has started a course as well as if they've completed
 // all the required levels in the course.
@@ -41,7 +42,7 @@ const hasUserCompletedCourse = function(userLevels, levelsInCourse) {
   return [userStarted, allComplete && (userLevelsSeen === levelsInCourse.size), completed];
 };
 
-module.exports = {
+export default {
   // Result: Each course instance gains a property, numCompleted, that is the
   //   number of students in that course instance who have completed ALL of
   //   the levels in that course

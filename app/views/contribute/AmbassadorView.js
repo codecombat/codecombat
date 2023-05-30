@@ -7,12 +7,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AmbassadorView;
-const ContributeClassView = require('./ContributeClassView');
-const template = require('app/templates/contribute/ambassador');
-const {me} = require('core/auth');
-const ContactModal = require('views/core/ContactModal');
+import ContributeClassView from './ContributeClassView';
+import template from 'app/templates/contribute/ambassador';
+import { me } from 'core/auth';
+import ContactModal from 'views/core/ContactModal';
 
-module.exports = (AmbassadorView = (function() {
+export default AmbassadorView = (function() {
   AmbassadorView = class AmbassadorView extends ContributeClassView {
     static initClass() {
       this.prototype.id = 'ambassador-view';
@@ -33,4 +33,4 @@ module.exports = (AmbassadorView = (function() {
   };
   AmbassadorView.initClass();
   return AmbassadorView;
-})());
+})();

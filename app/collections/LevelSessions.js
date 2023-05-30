@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelSessionCollection;
-const CocoCollection = require('collections/CocoCollection');
-const LevelSession = require('models/LevelSession');
+import CocoCollection from 'collections/CocoCollection';
+import LevelSession from 'models/LevelSession';
 
-module.exports = (LevelSessionCollection = (function() {
+export default LevelSessionCollection = (function() {
   LevelSessionCollection = class LevelSessionCollection extends CocoCollection {
     static initClass() {
       this.prototype.url = '/db/level.session';
@@ -78,4 +78,4 @@ module.exports = (LevelSessionCollection = (function() {
   };
   LevelSessionCollection.initClass();
   return LevelSessionCollection;
-})());
+})();

@@ -8,12 +8,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let DiplomatView;
-const ContributeClassView = require('./ContributeClassView');
-const template = require('app/templates/contribute/diplomat');
-const {me} = require('core/auth');
-const locale = require('locale/locale');
+import ContributeClassView from './ContributeClassView';
+import template from 'app/templates/contribute/diplomat';
+import { me } from 'core/auth';
+import locale from 'locale/locale';
 
-module.exports = (DiplomatView = (function() {
+export default DiplomatView = (function() {
   DiplomatView = class DiplomatView extends ContributeClassView {
     static initClass() {
       this.prototype.id = 'diplomat-view';
@@ -131,4 +131,4 @@ module.exports = (DiplomatView = (function() {
   };
   DiplomatView.initClass();
   return DiplomatView;             // latviešu, Latvian
-})());
+})();

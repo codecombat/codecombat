@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ModelFiles;
-const CocoCollection = require('collections/CocoCollection');
-const File = require('models/File');
+import CocoCollection from 'collections/CocoCollection';
+import File from 'models/File';
 
-module.exports = (ModelFiles = (function() {
+export default ModelFiles = (function() {
   ModelFiles = class ModelFiles extends CocoCollection {
     static initClass() {
       this.prototype.model = File;
@@ -24,4 +24,4 @@ module.exports = (ModelFiles = (function() {
   };
   ModelFiles.initClass();
   return ModelFiles;
-})());
+})();

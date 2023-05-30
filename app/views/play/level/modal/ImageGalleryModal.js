@@ -5,12 +5,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ImageGalleryModal;
-require('app/styles/play/modal/image-gallery-modal.sass');
-const ModalView = require('views/core/ModalView');
-const State = require('models/State');
-const utils = require('core/utils');
+import 'app/styles/play/modal/image-gallery-modal.sass';
+import ModalView from 'views/core/ModalView';
+import State from 'models/State';
+import utils from 'core/utils';
 
-module.exports = (ImageGalleryModal = (function() {
+export default ImageGalleryModal = (function() {
   ImageGalleryModal = class ImageGalleryModal extends ModalView {
     static initClass() {
       this.prototype.id = 'image-gallery-modal';
@@ -931,4 +931,4 @@ module.exports = (ImageGalleryModal = (function() {
   };
   ImageGalleryModal.initClass();
   return ImageGalleryModal;
-})());
+})();

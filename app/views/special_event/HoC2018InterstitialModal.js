@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let HoC2018InterstitialModal;
-const ModalComponent = require('views/core/ModalComponent');
-const HoCInterstitialComponent = require('./HoC2018InterstitialModal.vue').default;
-const utils = require('core/utils');
+import ModalComponent from 'views/core/ModalComponent';
+import HoCInterstitialComponent from './HoC2018InterstitialModal.vue';
+import utils from 'core/utils';
 
-module.exports = (HoC2018InterstitialModal = (function() {
+export default HoC2018InterstitialModal = (function() {
   HoC2018InterstitialModal = class HoC2018InterstitialModal extends ModalComponent {
     static initClass() {
       this.prototype.id = 'hoc-interstitial-modal';
@@ -42,4 +42,4 @@ module.exports = (HoC2018InterstitialModal = (function() {
   };
   HoC2018InterstitialModal.initClass();
   return HoC2018InterstitialModal;
-})());
+})();

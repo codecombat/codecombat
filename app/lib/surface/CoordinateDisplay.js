@@ -9,8 +9,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CoordinateDisplay;
-const createjs = require('lib/createjs-parts');
-const utils = require('core/utils');
+import createjs from 'lib/createjs-parts';
+import utils from 'core/utils';
 
 const DEFAULT_DISPLAY_OPTIONS = {
   fontWeight: 'bold',
@@ -30,7 +30,7 @@ const DEFAULT_DISPLAY_OPTIONS = {
   pointMarkerStroke: 2
 };
 
-module.exports = (CoordinateDisplay = (function() {
+export default CoordinateDisplay = (function() {
   CoordinateDisplay = class CoordinateDisplay extends createjs.Container {
     static initClass() {
       this.prototype.layerPriority = -10;
@@ -256,4 +256,4 @@ module.exports = (CoordinateDisplay = (function() {
   };
   CoordinateDisplay.initClass();
   return CoordinateDisplay;
-})());
+})();

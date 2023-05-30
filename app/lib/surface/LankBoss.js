@@ -12,16 +12,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LankBoss;
-const CocoClass = require('core/CocoClass');
-const {me} = require('core/auth');
-const LayerAdapter = require('./LayerAdapter');
-const FlagLank = require('lib/surface/FlagLank');
-const Lank = require('lib/surface/Lank');
-const Mark = require('./Mark');
-const Grid = require('lib/world/Grid');
-const utils = require('core/utils');
+import CocoClass from 'core/CocoClass';
+import { me } from 'core/auth';
+import LayerAdapter from './LayerAdapter';
+import FlagLank from 'lib/surface/FlagLank';
+import Lank from 'lib/surface/Lank';
+import Mark from './Mark';
+import Grid from 'lib/world/Grid';
+import utils from 'core/utils';
 
-module.exports = (LankBoss = (function() {
+export default LankBoss = (function() {
   LankBoss = class LankBoss extends CocoClass {
     static initClass() {
       this.prototype.subscriptions = {
@@ -603,7 +603,7 @@ module.exports = (LankBoss = (function() {
   };
   LankBoss.initClass();
   return LankBoss;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

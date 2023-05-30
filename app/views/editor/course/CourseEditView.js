@@ -9,17 +9,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CourseEditView;
-require('app/styles/editor/course/edit.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/editor/course/edit');
-const Course = require('models/Course');
-const ConfirmModal = require('views/core/ConfirmModal');
-const PatchesView = require('views/editor/PatchesView');
-const errors = require('core/errors');
+import 'app/styles/editor/course/edit.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/editor/course/edit';
+import Course from 'models/Course';
+import ConfirmModal from 'views/core/ConfirmModal';
+import PatchesView from 'views/editor/PatchesView';
+import errors from 'core/errors';
+import 'lib/game-libraries';
 
-require('lib/game-libraries');
-
-module.exports = (CourseEditView = (function() {
+export default CourseEditView = (function() {
   CourseEditView = class CourseEditView extends RootView {
     static initClass() {
       this.prototype.id = 'editor-course-edit-view';
@@ -97,4 +96,4 @@ module.exports = (CourseEditView = (function() {
   };
   CourseEditView.initClass();
   return CourseEditView;
-})());
+})();

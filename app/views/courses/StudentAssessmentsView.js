@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let StudentAssessmentsView;
-const RootComponent = require('views/core/RootComponent');
-const StudentAssessmentsComponent = require('./StudentAssessmentsComponent').default;
+import RootComponent from 'views/core/RootComponent';
+import StudentAssessmentsComponent from './StudentAssessmentsComponent';
 
-module.exports = (StudentAssessmentsView = (function() {
+export default StudentAssessmentsView = (function() {
   StudentAssessmentsView = class StudentAssessmentsView extends RootComponent {
     static initClass() {
       this.prototype.id = 'student-assessments-view';
@@ -25,4 +25,4 @@ module.exports = (StudentAssessmentsView = (function() {
   };
   StudentAssessmentsView.initClass();
   return StudentAssessmentsView;
-})());
+})();

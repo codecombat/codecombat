@@ -7,14 +7,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let NewLevelSystemModal;
-require('app/styles/editor/level/system/new.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/level/system/new');
-const LevelSystem = require('models/LevelSystem');
-const forms = require('core/forms');
-const {me} = require('core/auth');
+import 'app/styles/editor/level/system/new.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/level/system/new';
+import LevelSystem from 'models/LevelSystem';
+import forms from 'core/forms';
+import { me } from 'core/auth';
 
-module.exports = (NewLevelSystemModal = (function() {
+export default NewLevelSystemModal = (function() {
   NewLevelSystemModal = class NewLevelSystemModal extends ModalView {
     static initClass() {
       this.prototype.id = 'editor-level-system-new-modal';
@@ -54,4 +54,4 @@ module.exports = (NewLevelSystemModal = (function() {
   };
   NewLevelSystemModal.initClass();
   return NewLevelSystemModal;
-})());
+})();

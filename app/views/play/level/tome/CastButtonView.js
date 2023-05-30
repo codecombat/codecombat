@@ -10,15 +10,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CastButtonView;
-require('app/styles/play/level/tome/cast_button.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/tome/cast-button-view');
-const {me} = require('core/auth');
-const LadderSubmissionView = require('views/play/common/LadderSubmissionView');
-const LevelSession = require('models/LevelSession');
-const async = require('vendor/scripts/async.js');
+import 'app/styles/play/level/tome/cast_button.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/tome/cast-button-view';
+import { me } from 'core/auth';
+import LadderSubmissionView from 'views/play/common/LadderSubmissionView';
+import LevelSession from 'models/LevelSession';
+import async from 'vendor/scripts/async.js';
 
-module.exports = (CastButtonView = (function() {
+export default CastButtonView = (function() {
   CastButtonView = class CastButtonView extends CocoView {
     static initClass() {
       this.prototype.id = 'cast-button-view';
@@ -259,7 +259,7 @@ module.exports = (CastButtonView = (function() {
   };
   CastButtonView.initClass();
   return CastButtonView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

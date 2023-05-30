@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AIProjectSearchView;
-require('app/styles/editor/ai-project/table.sass');
-const SearchView = require('views/common/SearchView');
+import 'app/styles/editor/ai-project/table.sass';
+import SearchView from 'views/common/SearchView';
 
-module.exports = (AIProjectSearchView = (function() {
+export default AIProjectSearchView = (function() {
   AIProjectSearchView = class AIProjectSearchView extends SearchView {
     static initClass() {
       this.prototype.id = 'editor-ai-project-home-view';
@@ -70,4 +70,4 @@ module.exports = (AIProjectSearchView = (function() {
   };
   AIProjectSearchView.initClass();
   return AIProjectSearchView;
-})());
+})();

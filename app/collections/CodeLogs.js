@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CodeLogCollection;
-const CocoCollection = require('collections/CocoCollection');
-const CodeLog = require('models/CodeLog');
+import CocoCollection from 'collections/CocoCollection';
+import CodeLog from 'models/CodeLog';
 
-module.exports = (CodeLogCollection = (function() {
+export default CodeLogCollection = (function() {
   CodeLogCollection = class CodeLogCollection extends CocoCollection {
     static initClass() {
       this.prototype.url = '/db/codelogs';
@@ -38,4 +38,4 @@ module.exports = (CodeLogCollection = (function() {
   };
   CodeLogCollection.initClass();
   return CodeLogCollection;
-})());
+})();

@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const BranchSchema = {
   type: 'object',
@@ -21,4 +21,4 @@ const BranchSchema = {
 c.extendBasicProperties(BranchSchema, 'branches');
 c.extendNamedProperties(BranchSchema);
 
-module.exports = BranchSchema;
+export default BranchSchema;

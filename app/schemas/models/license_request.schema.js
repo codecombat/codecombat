@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const LicenseRequestSchema = c.object({
   title: 'License request',
@@ -20,4 +20,4 @@ _.extend(LicenseRequestSchema.properties, {
 
 c.extendBasicProperties(LicenseRequestSchema, 'LicenseRequest');
 
-module.exports = LicenseRequestSchema;
+export default LicenseRequestSchema;

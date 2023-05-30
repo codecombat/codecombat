@@ -7,12 +7,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let MainContributeView;
-require('app/styles/contribute/contribute.sass');
-const ContributeClassView = require('views/contribute/ContributeClassView');
-const template = require('app/templates/contribute/contribute');
-const utils = require('core/utils');
+import 'app/styles/contribute/contribute.sass';
+import ContributeClassView from 'views/contribute/ContributeClassView';
+import template from 'app/templates/contribute/contribute';
+import utils from 'core/utils';
 
-module.exports = (MainContributeView = (function() {
+export default MainContributeView = (function() {
   MainContributeView = class MainContributeView extends ContributeClassView {
     static initClass() {
       this.prototype.id = 'contribute-view';
@@ -55,6 +55,6 @@ module.exports = (MainContributeView = (function() {
   };
   MainContributeView.initClass();
   return MainContributeView;
-})());
+})();
 
 

@@ -11,10 +11,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpriteParser;
-const createjs = require('lib/createjs-parts');
-const esprima = require('esprima');
+import createjs from 'lib/createjs-parts';
+import esprima from 'esprima';
 
-module.exports = (SpriteParser = class SpriteParser {
+export default SpriteParser = class SpriteParser {
   constructor(thangTypeModel) {
     // Create a new ThangType, or work with one we've been building
     this.thangTypeModel = thangTypeModel;
@@ -568,7 +568,8 @@ module.exports = (SpriteParser = class SpriteParser {
     this.walk(block, null, gatherAddChildCalls);
     return localArgs;
   }
-});
+};
+
 /*
 
   this.timeline.addTween(cjs.Tween.get(this.instance).to({scaleX:0.82,scaleY:0.79,rotation:-10.8,x:98.4,y:-86.5},4).to({scaleY:0.7,rotation:9.3,x:95.6,y:-48.8},1).to({scaleX:0.82,scaleY:0.61,rotation:29.4,x:92.8,y:-11},1).to({regX:7.3,scaleX:0.82,scaleY:0.53,rotation:49.7,x:90.1,y:26.6},1).to({regX:7.2,regY:29.8,scaleY:0.66,rotation:19.3,x:101.2,y:-27.8},2).to({regY:29.9,scaleY:0.79,rotation:-10.8,x:98.4,y:-86.5},2).to({scaleX:0.84,scaleY:0.83,rotation:-30.7,x:68.4,y:-110},2).to({regX:7.3,scaleX:0.84,scaleY:0.84,rotation:-33.9,x:63.5,y:-114},1).wait(1));

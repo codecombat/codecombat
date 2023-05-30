@@ -10,17 +10,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelSystemEditView;
-require('app/styles/editor/level/system/level-system-edit-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/level/system/level-system-edit-view');
-const LevelSystem = require('models/LevelSystem');
-const SystemVersionsModal = require('views/editor/level/systems/SystemVersionsModal');
-const PatchesView = require('views/editor/PatchesView');
-const SaveVersionModal = require('views/editor/modal/SaveVersionModal');
-require('lib/setupTreema');
-const ace = require('lib/aceContainer');
+import 'app/styles/editor/level/system/level-system-edit-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/level/system/level-system-edit-view';
+import LevelSystem from 'models/LevelSystem';
+import SystemVersionsModal from 'views/editor/level/systems/SystemVersionsModal';
+import PatchesView from 'views/editor/PatchesView';
+import SaveVersionModal from 'views/editor/modal/SaveVersionModal';
+import 'lib/setupTreema';
+import ace from 'lib/aceContainer';
 
-module.exports = (LevelSystemEditView = (function() {
+export default LevelSystemEditView = (function() {
   LevelSystemEditView = class LevelSystemEditView extends CocoView {
     static initClass() {
       this.prototype.id = 'level-system-edit-view';
@@ -172,4 +172,4 @@ module.exports = (LevelSystemEditView = (function() {
   };
   LevelSystemEditView.initClass();
   return LevelSystemEditView;
-})());
+})();

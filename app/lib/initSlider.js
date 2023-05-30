@@ -13,4 +13,4 @@ const initSlider = function($el, startValue, changeCallback) {
   return slider;
 };
 
-module.exports = initSlider;
+export default initSlider;

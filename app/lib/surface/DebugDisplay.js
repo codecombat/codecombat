@@ -9,9 +9,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let DebugDisplay;
-const createjs = require('lib/createjs-parts');
+import createjs from 'lib/createjs-parts';
 
-module.exports = (DebugDisplay = (function() {
+export default DebugDisplay = (function() {
   DebugDisplay = class DebugDisplay extends createjs.Container {
     static initClass() {
       this.prototype.layerPriority = 20;
@@ -75,4 +75,4 @@ module.exports = (DebugDisplay = (function() {
   };
   DebugDisplay.initClass();
   return DebugDisplay;
-})());
+})();

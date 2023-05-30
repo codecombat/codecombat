@@ -9,12 +9,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AchievementPopup;
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/core/achievement-popup');
-const User = require('../../models/User');
-const Achievement = require('../../models/Achievement');
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/core/achievement-popup';
+import User from '../../models/User';
+import Achievement from '../../models/Achievement';
 
-module.exports = (AchievementPopup = (function() {
+export default AchievementPopup = (function() {
   AchievementPopup = class AchievementPopup extends CocoView {
     static initClass() {
       this.prototype.className = 'achievement-popup';
@@ -118,4 +118,4 @@ module.exports = (AchievementPopup = (function() {
   };
   AchievementPopup.initClass();
   return AchievementPopup;
-})());
+})();

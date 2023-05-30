@@ -1,6 +1,7 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
+
 //This will represent transactional emails which have been sent
 
 const MailSentSchema = c.object({
@@ -16,5 +17,5 @@ _.extend(MailSentSchema.properties, {
 
 c.extendBasicProperties(MailSentSchema, 'mail.sent');
 
-module.exports = MailSentSchema;
+export default MailSentSchema;
   

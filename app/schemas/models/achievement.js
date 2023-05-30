@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 // TODO add these: http://docs.mongodb.org/manual/reference/operator/query/
 const MongoQueryOperatorSchema = {
@@ -122,4 +122,4 @@ AchievementSchema.definitions['mongoFindQuery'] = MongoFindQuerySchema;
 c.extendTranslationCoverageProperties(AchievementSchema);
 c.extendPatchableProperties(AchievementSchema);
 
-module.exports = AchievementSchema;
+export default AchievementSchema;

@@ -11,22 +11,22 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpellPaletteView;
-require('app/styles/play/level/tome/spell-palette-view.sass');
-const CocoView = require('views/core/CocoView');
-const {me} = require('core/auth');
-const filters = require('lib/image_filter');
-const SpellPaletteEntryView = require('./SpellPaletteEntryView');
-const SpellPaletteThangEntryView = require('./SpellPaletteThangEntryView');
-const LevelComponent = require('models/LevelComponent');
-const ThangType = require('models/ThangType');
-const GameMenuModal = require('views/play/menu/GameMenuModal');
-const LevelSetupManager = require('lib/LevelSetupManager');
-const ace = require('lib/aceContainer');
-const aceUtils = require('core/aceUtils');
+import 'app/styles/play/level/tome/spell-palette-view.sass';
+import CocoView from 'views/core/CocoView';
+import { me } from 'core/auth';
+import filters from 'lib/image_filter';
+import SpellPaletteEntryView from './SpellPaletteEntryView';
+import SpellPaletteThangEntryView from './SpellPaletteThangEntryView';
+import LevelComponent from 'models/LevelComponent';
+import ThangType from 'models/ThangType';
+import GameMenuModal from 'views/play/menu/GameMenuModal';
+import LevelSetupManager from 'lib/LevelSetupManager';
+import ace from 'lib/aceContainer';
+import aceUtils from 'core/aceUtils';
 
 const N_ROWS = 4;
 
-module.exports = (SpellPaletteView = (function() {
+export default SpellPaletteView = (function() {
   SpellPaletteView = class SpellPaletteView extends CocoView {
     constructor(...args) {
       this.onResize = this.onResize.bind(this);
@@ -563,7 +563,7 @@ module.exports = (SpellPaletteView = (function() {
   };
   SpellPaletteView.initClass();
   return SpellPaletteView;
-})());
+})();
 
 function __range__(left, right, inclusive) {
   let range = [];

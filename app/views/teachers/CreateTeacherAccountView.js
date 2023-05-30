@@ -8,29 +8,28 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CreateTeacherAccountView;
-require('app/styles/teachers/teacher-trial-requests.sass');
-const RootView = require('views/core/RootView');
-const forms = require('core/forms');
-const TrialRequest = require('models/TrialRequest');
-const TrialRequests = require('collections/TrialRequests');
-const AuthModal = require('views/core/AuthModal');
-const errors = require('core/errors');
-const User = require('models/User');
-const algolia = require('core/services/algolia');
-const State = require('models/State');
-const countryList = require('country-list')();
-const {
-  UsaStates
-} = require('usa-states');
-const globalVar = require('core/globalVar');
-const utils = require('core/utils');
+import 'app/styles/teachers/teacher-trial-requests.sass';
+import RootView from 'views/core/RootView';
+import forms from 'core/forms';
+import TrialRequest from 'models/TrialRequest';
+import TrialRequests from 'collections/TrialRequests';
+import AuthModal from 'views/core/AuthModal';
+import errors from 'core/errors';
+import User from 'models/User';
+import algolia from 'core/services/algolia';
+import State from 'models/State';
+import countryListFactory from 'country-list';
+const countryList = countryListFactory();
+import { UsaStates } from 'usa-states';
+import globalVar from 'core/globalVar';
+import utils from 'core/utils';
 
 
 const SIGNUP_REDIRECT = '/teachers/classes';
 const DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone'];
 const SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students']);
 
-module.exports = (CreateTeacherAccountView = (function() {
+export default CreateTeacherAccountView = (function() {
   CreateTeacherAccountView = class CreateTeacherAccountView extends RootView {
     static initClass() {
       this.prototype.id = 'create-teacher-account-view';
@@ -601,7 +600,7 @@ module.exports = (CreateTeacherAccountView = (function() {
   };
   CreateTeacherAccountView.initClass();
   return CreateTeacherAccountView;
-})());
+})();
 
 
 var formSchema = {

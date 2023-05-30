@@ -11,18 +11,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SaveLevelModal;
-const SaveVersionModal = require('views/editor/modal/SaveVersionModal');
-const template = require('app/templates/editor/level/save-level-modal');
-const forms = require('core/forms');
-const LevelComponent = require('models/LevelComponent');
-const LevelSystem = require('models/LevelSystem');
-const DeltaView = require('views/editor/DeltaView');
-const PatchModal = require('views/editor/PatchModal');
-const deltasLib = require('core/deltas');
-const VerifierTest = require('views/editor/verifier/VerifierTest');
-const SuperModel = require('models/SuperModel');
+import SaveVersionModal from 'views/editor/modal/SaveVersionModal';
+import template from 'app/templates/editor/level/save-level-modal';
+import forms from 'core/forms';
+import LevelComponent from 'models/LevelComponent';
+import LevelSystem from 'models/LevelSystem';
+import DeltaView from 'views/editor/DeltaView';
+import PatchModal from 'views/editor/PatchModal';
+import deltasLib from 'core/deltas';
+import VerifierTest from 'views/editor/verifier/VerifierTest';
+import SuperModel from 'models/SuperModel';
 
-module.exports = (SaveLevelModal = (function() {
+export default SaveLevelModal = (function() {
   SaveLevelModal = class SaveLevelModal extends SaveVersionModal {
     static initClass() {
       this.prototype.template = template;
@@ -226,4 +226,4 @@ module.exports = (SaveLevelModal = (function() {
   };
   SaveLevelModal.initClass();
   return SaveLevelModal;
-})());
+})();

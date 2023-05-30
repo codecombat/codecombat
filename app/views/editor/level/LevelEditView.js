@@ -12,63 +12,60 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelEditView;
-require('app/styles/editor/level/documentation_tab.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/editor/level/level-edit-view');
-const Level = require('models/Level');
-const LevelSystem = require('models/LevelSystem');
-const LevelComponent = require('models/LevelComponent');
-const LevelSystems = require('collections/LevelSystems');
-const LevelComponents = require('collections/LevelComponents');
-const World = require('lib/world/world');
-const DocumentFiles = require('collections/DocumentFiles');
-const LevelLoader = require('lib/LevelLoader');
-
-const Campaigns = require('collections/Campaigns');
-const CocoCollection = require('collections/CocoCollection');
-const Course = require('models/Course');
-
-const RevertModal = require('views/modal/RevertModal');
-const GenerateTerrainModal = require('views/editor/level/modals/GenerateTerrainModal');
-
-const ThangsTabView = require('./thangs/ThangsTabView');
-const SettingsTabView = require('./settings/SettingsTabView');
-const ScriptsTabView = require('./scripts/ScriptsTabView');
-const ComponentsTabView = require('./components/ComponentsTabView');
-const SystemsTabView = require('./systems/SystemsTabView');
-const KeyThangTabView = require('./thangs/KeyThangTabView');
-const TasksTabView = require('./tasks/TasksTabView');
-const SaveLevelModal = require('./modals/SaveLevelModal');
-const ArtisanGuideModal = require('./modals/ArtisanGuideModal');
-const ForkModal = require('views/editor/ForkModal');
-const SaveVersionModal = require('views/editor/modal/SaveVersionModal');
-const SaveBranchModal = require('views/editor/level/modals/SaveBranchModal');
-const LoadBranchModal = require('views/editor/level/modals/LoadBranchModal');
-const PatchesView = require('views/editor/PatchesView');
-const RelatedAchievementsView = require('views/editor/level/RelatedAchievementsView');
-const VersionHistoryView = require('./modals/LevelVersionsModal');
-const ComponentsDocumentationView = require('views/editor/docs/ComponentsDocumentationView');
-const SystemsDocumentationView = require('views/editor/docs/SystemsDocumentationView');
-const LevelFeedbackView = require('views/editor/level/LevelFeedbackView');
-const storage = require('core/storage');
-const utils = require('core/utils');
-const loadAetherLanguage = require('lib/loadAetherLanguage');
+import 'app/styles/editor/level/documentation_tab.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/editor/level/level-edit-view';
+import Level from 'models/Level';
+import LevelSystem from 'models/LevelSystem';
+import LevelComponent from 'models/LevelComponent';
+import LevelSystems from 'collections/LevelSystems';
+import LevelComponents from 'collections/LevelComponents';
+import World from 'lib/world/world';
+import DocumentFiles from 'collections/DocumentFiles';
+import LevelLoader from 'lib/LevelLoader';
+import Campaigns from 'collections/Campaigns';
+import CocoCollection from 'collections/CocoCollection';
+import Course from 'models/Course';
+import RevertModal from 'views/modal/RevertModal';
+import GenerateTerrainModal from 'views/editor/level/modals/GenerateTerrainModal';
+import ThangsTabView from './thangs/ThangsTabView';
+import SettingsTabView from './settings/SettingsTabView';
+import ScriptsTabView from './scripts/ScriptsTabView';
+import ComponentsTabView from './components/ComponentsTabView';
+import SystemsTabView from './systems/SystemsTabView';
+import KeyThangTabView from './thangs/KeyThangTabView';
+import TasksTabView from './tasks/TasksTabView';
+import SaveLevelModal from './modals/SaveLevelModal';
+import ArtisanGuideModal from './modals/ArtisanGuideModal';
+import ForkModal from 'views/editor/ForkModal';
+import SaveVersionModal from 'views/editor/modal/SaveVersionModal';
+import SaveBranchModal from 'views/editor/level/modals/SaveBranchModal';
+import LoadBranchModal from 'views/editor/level/modals/LoadBranchModal';
+import PatchesView from 'views/editor/PatchesView';
+import RelatedAchievementsView from 'views/editor/level/RelatedAchievementsView';
+import VersionHistoryView from './modals/LevelVersionsModal';
+import ComponentsDocumentationView from 'views/editor/docs/ComponentsDocumentationView';
+import SystemsDocumentationView from 'views/editor/docs/SystemsDocumentationView';
+import LevelFeedbackView from 'views/editor/level/LevelFeedbackView';
+import storage from 'core/storage';
+import utils from 'core/utils';
+import loadAetherLanguage from 'lib/loadAetherLanguage';
 const presenceApi = require(utils.isOzaria ? '../../../../ozaria/site/api/presence' : 'core/api/presence');
-const globalVar = require('core/globalVar');
-
-require('vendor/scripts/coffeescript'); // this is tenuous, since the LevelSession and LevelComponent models are what compile the code
-require('lib/setupTreema');
+import globalVar from 'core/globalVar';
+import 'vendor/scripts/coffeescript'; // this is tenuous, since the LevelSession and LevelComponent models are what compile the code
+import 'lib/setupTreema';
 
 // Make sure that all of our languages are loaded, so that if we try to preview the level, it will work.
-require('bower_components/aether/build/html');
+import 'bower_components/aether/build/html';
+
 Promise.all(
   ["javascript", "python", "coffeescript", "lua"].map(
     loadAetherLanguage
   )
 );
-require('lib/game-libraries');
+import 'lib/game-libraries';
 
-module.exports = (LevelEditView = (function() {
+export default LevelEditView = (function() {
   LevelEditView = class LevelEditView extends RootView {
     static initClass() {
       this.prototype.id = 'editor-level-view';
@@ -498,7 +495,7 @@ module.exports = (LevelEditView = (function() {
   };
   LevelEditView.initClass();
   return LevelEditView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

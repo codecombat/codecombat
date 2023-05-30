@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let RecentlyPlayedCollection;
-const CocoCollection = require('./CocoCollection');
-const LevelSession = require('models/LevelSession');
+import CocoCollection from './CocoCollection';
+import LevelSession from 'models/LevelSession';
 
-module.exports = (RecentlyPlayedCollection = (function() {
+export default RecentlyPlayedCollection = (function() {
   RecentlyPlayedCollection = class RecentlyPlayedCollection extends CocoCollection {
     static initClass() {
       this.prototype.model = LevelSession;
@@ -23,4 +23,4 @@ module.exports = (RecentlyPlayedCollection = (function() {
   };
   RecentlyPlayedCollection.initClass();
   return RecentlyPlayedCollection;
-})());
+})();

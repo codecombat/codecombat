@@ -9,19 +9,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AIScenarioEditView;
-require('app/styles/editor/ai-scenario/edit.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/editor/ai-scenario/edit');
-const AIScenario = require('models/AIScenario');
-const ConfirmModal = require('views/core/ConfirmModal');
-const PatchesView = require('views/editor/PatchesView');
-const errors = require('core/errors');
+import 'app/styles/editor/ai-scenario/edit.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/editor/ai-scenario/edit';
+import AIScenario from 'models/AIScenario';
+import ConfirmModal from 'views/core/ConfirmModal';
+import PatchesView from 'views/editor/PatchesView';
+import errors from 'core/errors';
+import 'lib/game-libraries';
+import 'lib/setupTreema';
+import treemaExt from 'core/treema-ext';
 
-require('lib/game-libraries');
-require('lib/setupTreema');
-const treemaExt = require('core/treema-ext');
-
-module.exports = (AIScenarioEditView = (function() {
+export default AIScenarioEditView = (function() {
   AIScenarioEditView = class AIScenarioEditView extends RootView {
     static initClass() {
       this.prototype.id = 'editor-ai-scenario-edit-view';
@@ -139,4 +138,4 @@ module.exports = (AIScenarioEditView = (function() {
   };
   AIScenarioEditView.initClass();
   return AIScenarioEditView;
-})());
+})();

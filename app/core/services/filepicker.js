@@ -6,7 +6,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let initializeFilepicker;
-module.exports = (initializeFilepicker = () => (function(a) {
+
+export default initializeFilepicker = () => (function(a) {
   if (window.filepicker) { return; }
   const b = a.createElement('script');
   b.type = 'text/javascript';
@@ -32,4 +33,4 @@ module.exports = (initializeFilepicker = () => (function(a) {
   }
   d.setKey('AvlkNoldcTOU4PvKi2Xm7z');
   window.filepicker = d;
-})(document));
+})(document);

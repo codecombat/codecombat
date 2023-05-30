@@ -5,7 +5,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ShareLicensesStoreModule;
-const api = require('core/api');
+import api from 'core/api';
 
 const initialState = {
   _prepaid: { joiners: [] },
@@ -24,7 +24,7 @@ const translateError = function(error) {
   }
 };
 
-module.exports = (ShareLicensesStoreModule = {
+export default ShareLicensesStoreModule = {
   namespaced: true,
   state: _.cloneDeep(initialState),
   mutations: {
@@ -114,4 +114,4 @@ module.exports = (ShareLicensesStoreModule = {
     },
     error(state) { return state.error; }
   }
-});
+};

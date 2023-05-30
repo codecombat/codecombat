@@ -10,18 +10,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelComponentEditView;
-require('app/styles/editor/level/component/level-component-edit-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/level/component/level-component-edit-view');
-const LevelComponent = require('models/LevelComponent');
-const ComponentVersionsModal = require('views/editor/component/ComponentVersionsModal');
-const PatchesView = require('views/editor/PatchesView');
-const SaveVersionModal = require('views/editor/modal/SaveVersionModal');
-const ace = require('lib/aceContainer');
+import 'app/styles/editor/level/component/level-component-edit-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/level/component/level-component-edit-view';
+import LevelComponent from 'models/LevelComponent';
+import ComponentVersionsModal from 'views/editor/component/ComponentVersionsModal';
+import PatchesView from 'views/editor/PatchesView';
+import SaveVersionModal from 'views/editor/modal/SaveVersionModal';
+import ace from 'lib/aceContainer';
+import 'lib/setupTreema';
 
-require('lib/setupTreema');
-
-module.exports = (LevelComponentEditView = (function() {
+export default LevelComponentEditView = (function() {
   LevelComponentEditView = class LevelComponentEditView extends CocoView {
     static initClass() {
       this.prototype.id = 'level-component-edit-view';
@@ -203,4 +202,4 @@ module.exports = (LevelComponentEditView = (function() {
   };
   LevelComponentEditView.initClass();
   return LevelComponentEditView;
-})());
+})();

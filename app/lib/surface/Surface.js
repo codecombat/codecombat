@@ -13,34 +13,34 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Surface;
-const CocoClass = require('core/CocoClass');
-const TrailMaster = require('./TrailMaster');
-const Dropper = require('./Dropper');
-const AudioPlayer = require('lib/AudioPlayer');
-const {me} = require('core/auth');
-const Camera = require('./Camera');
-const CameraBorder = require('./CameraBorder');
-const Layer = require('./LayerAdapter');
-const Letterbox = require('./Letterbox');
-const Dimmer = require('./Dimmer');
-const CountdownScreen = require('./CountdownScreen');
-const PlaybackOverScreen = require('./PlaybackOverScreen');
-const DebugDisplay = require('./DebugDisplay');
-const CoordinateDisplay = require('./CoordinateDisplay');
-const CoordinateGrid = require('./CoordinateGrid');
-const LankBoss = require('./LankBoss');
-const PointChooser = require('./PointChooser');
-const RegionChooser = require('./RegionChooser');
-const MusicPlayer = require('./MusicPlayer');
-const GameUIState = require('models/GameUIState');
-const createjs = require('lib/createjs-parts');
-require('jquery-mousewheel');
-const store = require('app/core/store');
-const utils = require('core/utils');
+import CocoClass from 'core/CocoClass';
+import TrailMaster from './TrailMaster';
+import Dropper from './Dropper';
+import AudioPlayer from 'lib/AudioPlayer';
+import { me } from 'core/auth';
+import Camera from './Camera';
+import CameraBorder from './CameraBorder';
+import Layer from './LayerAdapter';
+import Letterbox from './Letterbox';
+import Dimmer from './Dimmer';
+import CountdownScreen from './CountdownScreen';
+import PlaybackOverScreen from './PlaybackOverScreen';
+import DebugDisplay from './DebugDisplay';
+import CoordinateDisplay from './CoordinateDisplay';
+import CoordinateGrid from './CoordinateGrid';
+import LankBoss from './LankBoss';
+import PointChooser from './PointChooser';
+import RegionChooser from './RegionChooser';
+import MusicPlayer from './MusicPlayer';
+import GameUIState from 'models/GameUIState';
+import createjs from 'lib/createjs-parts';
+import 'jquery-mousewheel';
+import store from 'app/core/store';
+import utils from 'core/utils';
 
 const resizeDelay = 1;  // At least as much as $level-resize-transition-time.
 
-module.exports = (Surface = (Surface = (function() {
+export default Surface = (Surface = (function() {
   Surface = class Surface extends CocoClass {
     static initClass() {
       this.prototype.stage = null;
@@ -1095,7 +1095,7 @@ module.exports = (Surface = (Surface = (function() {
   };
   Surface.initClass();
   return Surface;
-})()));
+})());
 
 function __guardMethod__(obj, methodName, transform) {
   if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {

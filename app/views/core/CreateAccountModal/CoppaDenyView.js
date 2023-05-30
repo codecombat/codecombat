@@ -8,14 +8,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CoppaDenyView;
-require('app/styles/modal/create-account-modal/coppa-deny-view.sass');
-const CocoView = require('views/core/CocoView');
-const State = require('models/State');
-const template = require('app/templates/core/create-account-modal/coppa-deny-view');
-const forms = require('core/forms');
-const contact = require('core/contact');
+import 'app/styles/modal/create-account-modal/coppa-deny-view.sass';
+import CocoView from 'views/core/CocoView';
+import State from 'models/State';
+import template from 'app/templates/core/create-account-modal/coppa-deny-view';
+import forms from 'core/forms';
+import contact from 'core/contact';
 
-module.exports = (CoppaDenyView = (function() {
+export default CoppaDenyView = (function() {
   CoppaDenyView = class CoppaDenyView extends CocoView {
     static initClass() {
       this.prototype.id = 'coppa-deny-view';
@@ -71,4 +71,4 @@ module.exports = (CoppaDenyView = (function() {
   };
   CoppaDenyView.initClass();
   return CoppaDenyView;
-})());
+})();

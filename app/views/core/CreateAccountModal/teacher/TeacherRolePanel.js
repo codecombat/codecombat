@@ -6,8 +6,9 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const forms = require('core/forms');
-const utils = require('core/utils');
+import forms from 'core/forms';
+
+import utils from 'core/utils';
 
 const TeacherRolePanel = Vue.extend({
   name: 'teacher-role-panel',
@@ -92,4 +93,4 @@ const TeacherRolePanel = Vue.extend({
   }
 });
 
-module.exports = TeacherRolePanel;
+export default TeacherRolePanel;

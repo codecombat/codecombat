@@ -11,11 +11,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Component;
-const utils = require('core/utils');
+import utils from 'core/utils';
 
 const componentKeywords = ['attach', 'constructor', 'validateArguments', 'toString', 'isComponent'];  // Array is faster than object
 
-module.exports = (Component = (function() {
+export default Component = (function() {
   Component = class Component {
     static initClass() {
       this.className = 'Component';
@@ -74,7 +74,7 @@ module.exports = (Component = (function() {
   };
   Component.initClass();
   return Component;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -10,23 +10,22 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TestView;
-require('app/styles/test-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/test-view');
-const requireUtils = require('lib/requireUtils');
-const storage = require('core/storage');
-const globalVar = require('core/globalVar');
-const utils = require('core/utils');
-const loadAetherLanguage = require("lib/loadAetherLanguage");
-
-require('vendor/styles/jasmine.css');
+import 'app/styles/test-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/test-view';
+import requireUtils from 'lib/requireUtils';
+import storage from 'core/storage';
+import globalVar from 'core/globalVar';
+import utils from 'core/utils';
+import loadAetherLanguage from 'lib/loadAetherLanguage';
+import 'vendor/styles/jasmine.css';
 window.getJasmineRequireObj = require('exports-loader?getJasmineRequireObj!vendor/scripts/jasmine');
 window.jasmineRequire = window.getJasmineRequireObj();
 if (!application.karmaTest) { // Karma doesn't use these two libraries, needs them not to run
   require('imports-loader?jasmineRequire=>window.jasmineRequire!vendor/scripts/jasmine-html');
   require('imports-loader?jasmineRequire=>window.jasmineRequire!vendor/scripts/jasmine-boot');
 }
-require('imports-loader?getJasmineRequireObj=>window.getJasmineRequireObj!vendor/scripts/jasmine-mock-ajax');
+import 'imports-loader?getJasmineRequireObj=>window.getJasmineRequireObj!vendor/scripts/jasmine-mock-ajax';
 
 const requireTests = require.context('test', true, /.*\.(coffee|js)$/);
 
@@ -45,7 +44,7 @@ const customMatchers = {
   }
 };
 
-module.exports = (TestView = (TestView = (function() {
+export default TestView = (TestView = (function() {
   TestView = class TestView extends RootView {
     static initClass() {
       this.prototype.id = 'test-view';
@@ -230,4 +229,4 @@ module.exports = (TestView = (TestView = (function() {
   };
   TestView.initClass();
   return TestView;
-})()));
+})());

@@ -10,17 +10,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelGuidesView;
-require('app/styles/artisans/level-guides-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/artisans/level-guides-view');
+import 'app/styles/artisans/level-guides-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/artisans/level-guides-view';
+import Campaigns from 'collections/Campaigns';
+import Campaign from 'models/Campaign';
+import Levels from 'collections/Levels';
+import Level from 'models/Level';
 
-const Campaigns = require('collections/Campaigns');
-const Campaign = require('models/Campaign');
-
-const Levels = require('collections/Levels');
-const Level = require('models/Level');
-
-module.exports = (LevelGuidesView = (function() {
+export default LevelGuidesView = (function() {
   let excludedCampaigns = undefined;
   let includedCampaigns = undefined;
   LevelGuidesView = class LevelGuidesView extends RootView {
@@ -142,7 +140,7 @@ module.exports = (LevelGuidesView = (function() {
   };
   LevelGuidesView.initClass();
   return LevelGuidesView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -10,13 +10,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelPlaybackView;
-require('app/styles/play/level/level-playback-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/level-playback-view.coco');
-const {me} = require('core/auth');
-const store = require('core/store');
+import 'app/styles/play/level/level-playback-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/level-playback-view.coco';
+import { me } from 'core/auth';
+import store from 'core/store';
 
-module.exports = (LevelPlaybackView = (function() {
+export default LevelPlaybackView = (function() {
   LevelPlaybackView = class LevelPlaybackView extends CocoView {
     static initClass() {
       this.prototype.id = 'playback-view';
@@ -475,7 +475,7 @@ module.exports = (LevelPlaybackView = (function() {
   };
   LevelPlaybackView.initClass();
   return LevelPlaybackView;
-})());
+})();
 
 // popover that shows at the current mouse position on the progressbar, using the bootstrap popover.
 // Could make this into a jQuery plugins itself theoretically.

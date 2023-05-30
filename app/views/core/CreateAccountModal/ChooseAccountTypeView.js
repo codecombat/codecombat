@@ -7,12 +7,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ChooseAccountTypeView;
-require('app/styles/modal/create-account-modal/choose-account-type-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/core/create-account-modal/choose-account-type-view');
-const utils = require('core/utils');
+import 'app/styles/modal/create-account-modal/choose-account-type-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/core/create-account-modal/choose-account-type-view';
+import utils from 'core/utils';
 
-module.exports = (ChooseAccountTypeView = (function() {
+export default ChooseAccountTypeView = (function() {
   ChooseAccountTypeView = class ChooseAccountTypeView extends CocoView {
     static initClass() {
       this.prototype.id = 'choose-account-type-view';
@@ -55,4 +55,4 @@ module.exports = (ChooseAccountTypeView = (function() {
   };
   ChooseAccountTypeView.initClass();
   return ChooseAccountTypeView;
-})());
+})();

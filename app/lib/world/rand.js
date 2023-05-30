@@ -104,4 +104,4 @@ class Rand {
 Rand.initClass();
 
 
-module.exports = Rand;
+export default Rand;

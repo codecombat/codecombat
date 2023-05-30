@@ -31,19 +31,19 @@
 */
 
 let LayerAdapter;
-const SpriteBuilder = require('lib/sprites/SpriteBuilder');
-const CocoClass = require('core/CocoClass');
-const SegmentedSprite = require('./SegmentedSprite');
-const SingularSprite = require('./SingularSprite');
-const RasterAtlasSprite = require('ozaria/engine/surface/RasterAtlasSprite');
-const ThangType = require('models/ThangType');
-const createjs = require('lib/createjs-parts');
-const utils = require('core/utils');
-const { log, startTimer } = require('ozaria/site/common/logger');
+import SpriteBuilder from 'lib/sprites/SpriteBuilder';
+import CocoClass from 'core/CocoClass';
+import SegmentedSprite from './SegmentedSprite';
+import SingularSprite from './SingularSprite';
+import RasterAtlasSprite from 'ozaria/engine/surface/RasterAtlasSprite';
+import ThangType from 'models/ThangType';
+import createjs from 'lib/createjs-parts';
+import utils from 'core/utils';
+import { log, startTimer } from 'ozaria/site/common/logger';
 
 const NEVER_RENDER_ANYTHING = false; // set to true to test placeholders
 
-module.exports = (LayerAdapter = (LayerAdapter = (function() {
+export default LayerAdapter = (LayerAdapter = (function() {
   LayerAdapter = class LayerAdapter extends CocoClass {
     static initClass() {
   
@@ -871,7 +871,7 @@ module.exports = (LayerAdapter = (LayerAdapter = (function() {
   };
   LayerAdapter.initClass();
   return LayerAdapter;
-})()));
+})());
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

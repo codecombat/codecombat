@@ -9,15 +9,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let MineModal;
-require('app/styles/modal/mine-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/core/mine-modal');
-const Products = require('collections/Products');
-const storage = require('core/storage');
+import 'app/styles/modal/mine-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/core/mine-modal';
+import Products from 'collections/Products';
+import storage from 'core/storage';
 
 // define expectations for good rates before releasing
 
-module.exports = (MineModal = (function() {
+export default MineModal = (function() {
   MineModal = class MineModal extends ModalView {
     constructor(...args) {
       this.onBuyNowButtonClick = this.onBuyNowButtonClick.bind(this);
@@ -61,4 +61,4 @@ module.exports = (MineModal = (function() {
   };
   MineModal.initClass();
   return MineModal;
-})());
+})();

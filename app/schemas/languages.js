@@ -9,7 +9,7 @@
  */
 let languageCodeFromAcceptedLanguages, languageCodes, languageCodesLower;
 let code;
-const locale = require('../locale/locale');  // requiring from app; will break if we stop serving from where app lives
+import locale from '../locale/locale';  // requiring from app; will break if we stop serving from where app lives
 
 const languages = [{code: 'rot13', nativeDescription: 'rot13', englishDescription: 'rot13'}];
 for (code in locale) {
@@ -43,7 +43,7 @@ const languageAliases = {
   'zh-hant-mo': 'zh-HANT'
 };
 
-module.exports.languageCodeFromAcceptedLanguages = (languageCodeFromAcceptedLanguages = function(acceptedLanguages) {
+module.exports.languageCodeFromAcceptedLanguages = function(acceptedLanguages) {
   for (var lang of Array.from(acceptedLanguages != null ? acceptedLanguages : [])) {
     code = languageAliases[lang.toLowerCase()];
     if (code) { return code; }
@@ -53,4 +53,4 @@ module.exports.languageCodeFromAcceptedLanguages = (languageCodeFromAcceptedLang
     }
   }
   return 'en-US';
-});
+};

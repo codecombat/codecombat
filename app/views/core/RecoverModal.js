@@ -9,11 +9,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let RecoverModal;
-require('app/styles/modal/recover-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/core/recover-modal');
-const forms = require('core/forms');
-const {genericFailure} = require('core/errors');
+import 'app/styles/modal/recover-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/core/recover-modal';
+import forms from 'core/forms';
+import { genericFailure } from 'core/errors';
 
 const filterKeyboardEvents = (allowedEvents, func) => (function(...splat) {
   const e = splat[0];
@@ -21,7 +21,7 @@ const filterKeyboardEvents = (allowedEvents, func) => (function(...splat) {
   return func(...Array.from(splat || []));
 });
 
-module.exports = (RecoverModal = (function() {
+export default RecoverModal = (function() {
   RecoverModal = class RecoverModal extends ModalView {
     static initClass() {
       this.prototype.id = 'recover-modal';
@@ -67,4 +67,4 @@ module.exports = (RecoverModal = (function() {
   };
   RecoverModal.initClass();
   return RecoverModal;
-})());
+})();

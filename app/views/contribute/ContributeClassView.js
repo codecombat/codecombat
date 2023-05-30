@@ -7,14 +7,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ContributeClassView;
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const RootView = require('views/core/RootView');
-const {me} = require('core/auth');
-const contributorSignupAnonymousTemplate = require('app/templates/contribute/contributor_signup_anonymous');
-const contributorSignupTemplate = require('app/templates/contribute/contributor_signup');
-const contributorListTemplate = require('app/templates/contribute/contributor_list');
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import RootView from 'views/core/RootView';
+import { me } from 'core/auth';
+import contributorSignupAnonymousTemplate from 'app/templates/contribute/contributor_signup_anonymous';
+import contributorSignupTemplate from 'app/templates/contribute/contributor_signup';
+import contributorListTemplate from 'app/templates/contribute/contributor_list';
 
-module.exports = (ContributeClassView = (function() {
+export default ContributeClassView = (function() {
   ContributeClassView = class ContributeClassView extends RootView {
     static initClass() {
   
@@ -51,4 +51,4 @@ module.exports = (ContributeClassView = (function() {
   };
   ContributeClassView.initClass();
   return ContributeClassView;
-})());
+})();

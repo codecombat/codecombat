@@ -7,17 +7,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let BuyGemsModal;
-require('app/styles/play/modal/buy-gems-modal.sass');
-require('app/styles/play/modal/lang-nl/buy-gems-modal-nl.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/modal/buy-gems-modal');
-const stripeHandler = require('core/services/stripe');
-const utils = require('core/utils');
-const SubscribeModal = require('views/core/SubscribeModal');
-const Products = require('collections/Products');
-const CreateAccountModal = require('views/core/CreateAccountModal');
+import 'app/styles/play/modal/buy-gems-modal.sass';
+import 'app/styles/play/modal/lang-nl/buy-gems-modal-nl.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/modal/buy-gems-modal';
+import stripeHandler from 'core/services/stripe';
+import utils from 'core/utils';
+import SubscribeModal from 'views/core/SubscribeModal';
+import Products from 'collections/Products';
+import CreateAccountModal from 'views/core/CreateAccountModal';
 
-module.exports = (BuyGemsModal = (function() {
+export default BuyGemsModal = (function() {
   BuyGemsModal = class BuyGemsModal extends ModalView {
     static initClass() {
       this.prototype.id =
@@ -186,4 +186,4 @@ module.exports = (BuyGemsModal = (function() {
   };
   BuyGemsModal.initClass();
   return BuyGemsModal;
-})());
+})();

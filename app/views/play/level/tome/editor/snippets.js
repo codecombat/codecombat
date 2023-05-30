@@ -18,9 +18,9 @@ const {score} = fuzzaldrin;
 //score = (a, b) -> new Fuzziac(a).score b
 const lineBreak = /\r\n|[\n\r\u2028\u2029]/g;
 const identifierRegex = /[\.a-zA-Z_0-9\$\-\u00A2-\uFFFF]/;
-const Fuzziac = require('./fuzziac'); // https://github.com/stollcri/fuzziac.js
-const ace = require('lib/aceContainer');
-const store = require('core/store');
+import Fuzziac from './fuzziac'; // https://github.com/stollcri/fuzziac.js
+import ace from 'lib/aceContainer';
+import store from 'core/store';
 
 const checkingParentheses = function(line, left) {
   const findRight = left;
@@ -39,7 +39,7 @@ const checkingParentheses = function(line, left) {
   }
 };
 
-module.exports = function(SnippetManager, autoLineEndings) {
+export default function(SnippetManager, autoLineEndings) {
   const {Range} = ace.require('ace/range');
   const util = ace.require('ace/autocomplete/util');
   ({identifierRegexps: [identifierRegex]});
@@ -261,15 +261,15 @@ module.exports = function(SnippetManager, autoLineEndings) {
   };
 };
 
-  // TODO: This shim doesn't work because our version of ace isn't updated to this change:
-  // TODO: https://github.com/ajaxorg/ace/commit/7b01a4273e91985c9177f53d238d6b83fe99dc56
-  // TODO: But, if it was we could use this and pass a 'completer: @' property for each completion
-  // insertMatch: (editor, data) ->
-  //   console.log 'Snippets snippets insertMatch', editor, data
-  //   if data.snippet
-  //     SnippetManager.insertSnippet editor, data.snippet
-  //   else
-  //     editor.execCommand "insertstring", data.value || data
+// TODO: This shim doesn't work because our version of ace isn't updated to this change:
+// TODO: https://github.com/ajaxorg/ace/commit/7b01a4273e91985c9177f53d238d6b83fe99dc56
+// TODO: But, if it was we could use this and pass a 'completer: @' property for each completion
+// insertMatch: (editor, data) ->
+//   console.log 'Snippets snippets insertMatch', editor, data
+//   if data.snippet
+//     SnippetManager.insertSnippet editor, data.snippet
+//   else
+//     editor.execCommand "insertstring", data.value || data
 
 var getCurrentWord = function(doc, pos) {
   const end = pos.column;

@@ -11,32 +11,32 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let InventoryModal;
-require('app/styles/play/menu/inventory-modal.sass');
-require('app/styles/play/modal/play-items-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/menu/inventory-modal');
-const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt');
-const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt');
-const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt');
-const {me} = require('core/auth');
-const ThangType = require('models/ThangType');
-const ThangTypeLib = require('lib/ThangTypeLib');
-const CocoCollection = require('collections/CocoCollection');
-const ItemView = require('./ItemView');
-const SpriteBuilder = require('lib/sprites/SpriteBuilder');
-const ItemDetailsView = require('views/play/modal/ItemDetailsView');
-const Purchase = require('models/Purchase');
-const BuyGemsModal = require('views/play/modal/BuyGemsModal');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const SubscribeModal = require('views/core/SubscribeModal');
-require('vendor/scripts/jquery-ui-1.11.1.custom');
-require('vendor/styles/jquery-ui-1.11.1.custom.css');
-const utils = require('core/utils');
+import 'app/styles/play/menu/inventory-modal.sass';
+import 'app/styles/play/modal/play-items-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/menu/inventory-modal';
+import buyGemsPromptTemplate from 'app/templates/play/modal/buy-gems-prompt';
+import earnGemsPromptTemplate from 'app/templates/play/modal/earn-gems-prompt';
+import subscribeForGemsPrompt from 'app/templates/play/modal/subscribe-for-gems-prompt';
+import { me } from 'core/auth';
+import ThangType from 'models/ThangType';
+import ThangTypeLib from 'lib/ThangTypeLib';
+import CocoCollection from 'collections/CocoCollection';
+import ItemView from './ItemView';
+import SpriteBuilder from 'lib/sprites/SpriteBuilder';
+import ItemDetailsView from 'views/play/modal/ItemDetailsView';
+import Purchase from 'models/Purchase';
+import BuyGemsModal from 'views/play/modal/BuyGemsModal';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import SubscribeModal from 'views/core/SubscribeModal';
+import 'vendor/scripts/jquery-ui-1.11.1.custom';
+import 'vendor/styles/jquery-ui-1.11.1.custom.css';
+import utils from 'core/utils';
 
 let hasGoneFullScreenOnce = false;
 const debugInventory = false;
 
-module.exports = (InventoryModal = (function() {
+export default InventoryModal = (function() {
   InventoryModal = class InventoryModal extends ModalView {
     static initClass() {
       this.prototype.id = 'inventory-modal';
@@ -1032,7 +1032,7 @@ module.exports = (InventoryModal = (function() {
   };
   InventoryModal.initClass();
   return InventoryModal;
-})());
+})();
 
 const gear = {
   'simple-boots': '53e237bf53457600003e3f05',

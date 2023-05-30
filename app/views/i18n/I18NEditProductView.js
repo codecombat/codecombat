@@ -8,16 +8,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let I18NEditProductView;
-const I18NEditModelView = require('./I18NEditModelView');
-const Product = require('models/Product');
-const deltasLib = require('core/deltas');
-const Patch = require('models/Patch');
-const Patches = require('collections/Patches');
-const PatchModal = require('views/editor/PatchModal');
+import I18NEditModelView from './I18NEditModelView';
+import Product from 'models/Product';
+import deltasLib from 'core/deltas';
+import Patch from 'models/Patch';
+import Patches from 'collections/Patches';
+import PatchModal from 'views/editor/PatchModal';
 
 // TODO: Apply these changes to all i18n views if it proves to be more reliable
 
-module.exports = (I18NEditProductView = (function() {
+export default I18NEditProductView = (function() {
   I18NEditProductView = class I18NEditProductView extends I18NEditModelView {
     static initClass() {
       this.prototype.id = "i18n-edit-product-view";
@@ -42,5 +42,5 @@ module.exports = (I18NEditProductView = (function() {
   };
   I18NEditProductView.initClass();
   return I18NEditProductView;
-})());
+})();
 

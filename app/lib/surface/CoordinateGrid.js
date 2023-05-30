@@ -10,10 +10,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CoordinateGrid;
-const CocoClass = require('core/CocoClass');
-const createjs = require('lib/createjs-parts');
+import CocoClass from 'core/CocoClass';
+import createjs from 'lib/createjs-parts';
 
-module.exports = (CoordinateGrid = (function() {
+export default CoordinateGrid = (function() {
   CoordinateGrid = class CoordinateGrid extends CocoClass {
     static initClass() {
       this.prototype.subscriptions =
@@ -124,7 +124,7 @@ module.exports = (CoordinateGrid = (function() {
   };
   CoordinateGrid.initClass();
   return CoordinateGrid;
-})());
+})();
 
 
 function __guardMethod__(obj, methodName, transform) {

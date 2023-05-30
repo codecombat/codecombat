@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const AnalyticsLogEventSchema = c.object({
   title: 'Analytics Log Event',
@@ -15,4 +15,4 @@ _.extend(AnalyticsLogEventSchema.properties, {
 
 c.extendBasicProperties(AnalyticsLogEventSchema, 'analytics.log.event');
 
-module.exports = AnalyticsLogEventSchema;
+export default AnalyticsLogEventSchema;

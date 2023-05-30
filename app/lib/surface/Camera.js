@@ -11,10 +11,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Camera;
-const CocoClass = require('core/CocoClass');
-const GameUIState = require('models/GameUIState');
-const createjs = require('lib/createjs-parts');
-const utils = require('core/utils');
+import CocoClass from 'core/CocoClass';
+import GameUIState from 'models/GameUIState';
+import createjs from 'lib/createjs-parts';
+import utils from 'core/utils';
 
 // If I were the kind of math major who remembered his math, this would all be done with matrix transforms.
 
@@ -31,7 +31,7 @@ const STANDARD_ZOOM_HEIGHT = 589;
 
 // You can't mutate any of the constructor parameters after construction.
 // You can only call zoomTo to change the zoom target and zoom level.
-module.exports = (Camera = (function() {
+export default Camera = (function() {
   Camera = class Camera extends CocoClass {
     static initClass() {
       this.PPM = 10;   // pixels per meter
@@ -436,7 +436,7 @@ module.exports = (Camera = (function() {
   };
   Camera.initClass();
   return Camera;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

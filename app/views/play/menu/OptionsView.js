@@ -9,15 +9,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let OptionsView;
-require('app/styles/play/menu/options-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/menu/options-view');
-const {me} = require('core/auth');
-const ThangType = require('models/ThangType');
-const User = require('models/User');
-const forms = require('core/forms');
+import 'app/styles/play/menu/options-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/menu/options-view';
+import { me } from 'core/auth';
+import ThangType from 'models/ThangType';
+import User from 'models/User';
+import forms from 'core/forms';
 
-module.exports = (OptionsView = (function() {
+export default OptionsView = (function() {
   OptionsView = class OptionsView extends CocoView {
     static initClass() {
       this.prototype.id = 'options-view';
@@ -104,7 +104,7 @@ module.exports = (OptionsView = (function() {
   };
   OptionsView.initClass();
   return OptionsView;
-})());
+})();
 
 function __guardMethod__(obj, methodName, transform) {
   if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {

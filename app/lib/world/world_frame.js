@@ -11,9 +11,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let WorldFrame;
-const ThangState = require('./thang_state');
+import ThangState from './thang_state';
 
-module.exports = (WorldFrame = (function() {
+export default WorldFrame = (function() {
   WorldFrame = class WorldFrame {
     static initClass() {
       this.className = 'WorldFrame';
@@ -160,4 +160,4 @@ module.exports = (WorldFrame = (function() {
   };
   WorldFrame.initClass();
   return WorldFrame;
-})());
+})();

@@ -7,11 +7,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let GameDevTrackView;
-require('app/styles/play/level/game_dev_track_view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/game_dev_track_view');
+import 'app/styles/play/level/game_dev_track_view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/game_dev_track_view';
 
-module.exports = (GameDevTrackView = (function() {
+export default GameDevTrackView = (function() {
   GameDevTrackView = class GameDevTrackView extends CocoView {
     static initClass() {
       this.prototype.id = 'game-dev-track-view';
@@ -113,4 +113,4 @@ module.exports = (GameDevTrackView = (function() {
   };
   GameDevTrackView.initClass();
   return GameDevTrackView;
-})());
+})();

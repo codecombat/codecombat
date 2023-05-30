@@ -6,15 +6,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ShareLicensesModal;
-require('app/styles/teachers/share-licenses-modal.sass');
-const ModalView = require('views/core/ModalView');
-const State = require('models/State');
-const TrialRequests = require('collections/TrialRequests');
-const forms = require('core/forms');
-const store = require('core/store');
-const ShareLicensesStoreModule = require('./ShareLicensesStoreModule');
+import 'app/styles/teachers/share-licenses-modal.sass';
+import ModalView from 'views/core/ModalView';
+import State from 'models/State';
+import TrialRequests from 'collections/TrialRequests';
+import forms from 'core/forms';
+import store from 'core/store';
+import ShareLicensesStoreModule from './ShareLicensesStoreModule';
 
-module.exports = (ShareLicensesModal = (function() {
+export default ShareLicensesModal = (function() {
   ShareLicensesModal = class ShareLicensesModal extends ModalView {
     static initClass() {
       this.prototype.id = 'share-licenses-modal';
@@ -48,7 +48,7 @@ module.exports = (ShareLicensesModal = (function() {
   };
   ShareLicensesModal.initClass();
   return ShareLicensesModal;
-})());
+})();
 
 var ShareLicensesComponent = Vue.extend({
   name: 'share-licenses-component',

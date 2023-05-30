@@ -10,10 +10,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ModalView;
-const CocoView = require('./CocoView');
-const focusTrap = require('focus-trap');
+import CocoView from './CocoView';
+import focusTrap from 'focus-trap';
 
-module.exports = (ModalView = (function() {
+export default ModalView = (function() {
   ModalView = class ModalView extends CocoView {
     static initClass() {
       this.prototype.className = 'modal fade';
@@ -126,7 +126,7 @@ module.exports = (ModalView = (function() {
   };
   ModalView.initClass();
   return ModalView;
-})());
+})();
 
 function __guardMethod__(obj, methodName, transform) {
   if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {

@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 // NOTE:
 // Clan specific code has recently (Dec 2020) had many changes.
@@ -76,4 +76,4 @@ _.extend(ClanSchema.properties, {
 c.extendBasicProperties(ClanSchema, 'Clan');
 c.extendSearchableProperties(ClanSchema);
 
-module.exports = ClanSchema;
+export default ClanSchema;

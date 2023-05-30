@@ -9,14 +9,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Products;
-const CocoCollection = require('./CocoCollection');
-const Product = require('models/Product');
-const utils = require('core/utils');
+import CocoCollection from './CocoCollection';
+import Product from 'models/Product';
+import utils from 'core/utils';
 
 // This collection is also used by the Vuex products module, ideally we would
 // transfer the logic in this collection to the Vuex module but we're not doing
 // active work on this product so leaving as is for now.
-module.exports = (Products = (function() {
+export default Products = (function() {
   Products = class Products extends CocoCollection {
     static initClass() {
       this.prototype.model = Product;
@@ -72,7 +72,7 @@ module.exports = (Products = (function() {
   };
   Products.initClass();
   return Products;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

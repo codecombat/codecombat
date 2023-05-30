@@ -8,15 +8,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let MusicPlayer;
-const CocoClass = require('core/CocoClass');
-const AudioPlayer = require('lib/AudioPlayer');
-const {me} = require('core/auth');
-const createjs = require('lib/createjs-parts');
+import CocoClass from 'core/CocoClass';
+import AudioPlayer from 'lib/AudioPlayer';
+import { me } from 'core/auth';
+import createjs from 'lib/createjs-parts';
 
 const CROSSFADE_LENGTH = 1500;
 const MUSIC_VOLUME = 0.6;
 
-module.exports = (MusicPlayer = (function() {
+export default MusicPlayer = (function() {
   MusicPlayer = class MusicPlayer extends CocoClass {
     static initClass() {
       this.prototype.currentMusic = null;
@@ -151,4 +151,4 @@ module.exports = (MusicPlayer = (function() {
   };
   MusicPlayer.initClass();
   return MusicPlayer;
-})());
+})();

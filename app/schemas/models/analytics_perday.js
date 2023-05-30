@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const AnalyticsPerDaySchema = c.object({
   title: 'Analytics per-day data',
@@ -18,4 +18,4 @@ _.extend(AnalyticsPerDaySchema.properties, {
 
 c.extendBasicProperties(AnalyticsPerDaySchema, 'analytics.perday');
 
-module.exports = AnalyticsPerDaySchema;
+export default AnalyticsPerDaySchema;

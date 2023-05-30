@@ -7,17 +7,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let EditStudentModal;
-require('app/styles/teachers/edit-student-modal.sass');
-const ModalView = require('views/core/ModalView');
-const State = require('models/State');
-const Prepaids = require('collections/Prepaids');
-const template = require('app/templates/teachers/edit-student-modal');
-const ManageLicenseModal = require('views/courses/ManageLicenseModal');
-const Users = require('collections/Users');
-const utils = require('core/utils');
-const auth = require('core/auth');
+import 'app/styles/teachers/edit-student-modal.sass';
+import ModalView from 'views/core/ModalView';
+import State from 'models/State';
+import Prepaids from 'collections/Prepaids';
+import template from 'app/templates/teachers/edit-student-modal';
+import ManageLicenseModal from 'views/courses/ManageLicenseModal';
+import Users from 'collections/Users';
+import utils from 'core/utils';
+import auth from 'core/auth';
 
-module.exports = (EditStudentModal = (function() {
+export default EditStudentModal = (function() {
   EditStudentModal = class EditStudentModal extends ModalView {
     static initClass() {
       this.prototype.id = 'edit-student-modal';
@@ -172,7 +172,7 @@ module.exports = (EditStudentModal = (function() {
   };
   EditStudentModal.initClass();
   return EditStudentModal;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

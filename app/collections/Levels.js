@@ -9,12 +9,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelCollection;
-const CocoCollection = require('collections/CocoCollection');
-const Level = require('models/Level');
-const utils = require('core/utils');
-const aetherUtils = require('lib/aether_utils');
+import CocoCollection from 'collections/CocoCollection';
+import Level from 'models/Level';
+import utils from 'core/utils';
+import aetherUtils from 'lib/aether_utils';
 
-module.exports = (LevelCollection = (function() {
+export default LevelCollection = (function() {
   LevelCollection = class LevelCollection extends CocoCollection {
     static initClass() {
       this.prototype.url = '/db/level';
@@ -97,4 +97,4 @@ module.exports = (LevelCollection = (function() {
   };
   LevelCollection.initClass();
   return LevelCollection;
-})());
+})();

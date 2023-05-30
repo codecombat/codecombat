@@ -8,12 +8,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ContactModal;
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/core/contact');
-const SubscribeModal = require('views/core/SubscribeModal');
-
-const forms = require('core/forms');
-const {sendContactMessage} = require('core/contact');
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/core/contact';
+import SubscribeModal from 'views/core/SubscribeModal';
+import forms from 'core/forms';
+import { sendContactMessage } from 'core/contact';
 
 const contactSchema = {
   additionalProperties: false,
@@ -33,7 +32,7 @@ const contactSchema = {
   }
 };
 
-module.exports = (ContactModal = (function() {
+export default ContactModal = (function() {
   ContactModal = class ContactModal extends ModalView {
     static initClass() {
       this.prototype.id = 'contact-modal';
@@ -84,4 +83,4 @@ module.exports = (ContactModal = (function() {
   };
   ContactModal.initClass();
   return ContactModal;
-})());
+})();

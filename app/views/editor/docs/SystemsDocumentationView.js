@@ -10,11 +10,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SystemsDocumentationView;
-require('app/styles/docs/systems-documentation-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/docs/systems-documentation-view');
-const CocoCollection = require('collections/CocoCollection');
-const LevelSystem = require('models/LevelSystem');
+import 'app/styles/docs/systems-documentation-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/docs/systems-documentation-view';
+import CocoCollection from 'collections/CocoCollection';
+import LevelSystem from 'models/LevelSystem';
 
 class SystemDocsCollection extends CocoCollection {
   static initClass() {
@@ -25,7 +25,7 @@ class SystemDocsCollection extends CocoCollection {
 }
 SystemDocsCollection.initClass();
 
-module.exports = (SystemsDocumentationView = (function() {
+export default SystemsDocumentationView = (function() {
   SystemsDocumentationView = class SystemsDocumentationView extends CocoView {
     static initClass() {
       this.prototype.id = 'systems-documentation-view';
@@ -75,7 +75,7 @@ module.exports = (SystemsDocumentationView = (function() {
   };
   SystemsDocumentationView.initClass();
   return SystemsDocumentationView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

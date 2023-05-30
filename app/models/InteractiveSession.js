@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let InteractiveSession;
-const CocoModel = require('./CocoModel');
-const schema = require('schemas/models/interactives/interactive_session.schema');
+import CocoModel from './CocoModel';
+import schema from 'schemas/models/interactives/interactive_session.schema';
 
-module.exports = (InteractiveSession = (function() {
+export default InteractiveSession = (function() {
   InteractiveSession = class InteractiveSession extends CocoModel {
     static initClass() {
       this.className = 'InteractiveSession';
@@ -19,4 +19,4 @@ module.exports = (InteractiveSession = (function() {
   };
   InteractiveSession.initClass();
   return InteractiveSession;
-})());
+})();

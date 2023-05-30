@@ -11,10 +11,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AdminClassroomsProgressView;
-require('app/styles/admin/admin-classrooms-progress.sass');
-const api = require('core/api');
-const utils = require('core/utils');
-const RootView = require('views/core/RootView');
+import 'app/styles/admin/admin-classrooms-progress.sass';
+import api from 'core/api';
+import utils from 'core/utils';
+import RootView from 'views/core/RootView';
 
 // TODO: adjust opacity of student on level cell based on num users
 // TODO: better variables between current course/levels and classroom versioned ones
@@ -33,7 +33,7 @@ const RootView = require('views/core/RootView');
 // 4. Get classroom activity
 // 5. Build classroom progress
 
-module.exports = (AdminClassroomsProgressView = (function() {
+export default AdminClassroomsProgressView = (function() {
   AdminClassroomsProgressView = class AdminClassroomsProgressView extends RootView {
     static initClass() {
       this.prototype.id = 'admin-classrooms-progress-view';
@@ -612,7 +612,7 @@ module.exports = (AdminClassroomsProgressView = (function() {
   };
   AdminClassroomsProgressView.initClass();
   return AdminClassroomsProgressView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

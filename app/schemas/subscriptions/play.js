@@ -1,9 +1,10 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('schemas/schemas');
-const ChatMessage = require('schemas/models/chat_message.schema');
+import c from 'schemas/schemas';
 
-module.exports = {
+import ChatMessage from 'schemas/models/chat_message.schema';
+
+export default {
   // TODO There should be a better way to divide these channels into smaller ones
 
   'level:session-will-save': c.object({required: ['session']},

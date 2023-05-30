@@ -9,17 +9,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ThangTasksView;
-require('app/styles/artisans/tag-test-view.sass');
-const RootView = require('views/core/RootView');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/artisans/tag-test-view');
-const tagger = require('lib/SolutionConceptTagger');
-const conceptList =require('schemas/concepts');
-
-const ThangType = require('models/ThangType');
-
-const ThangTypes = require('collections/ThangTypes');
-const ace = require('lib/aceContainer');
+import 'app/styles/artisans/tag-test-view.sass';
+import RootView from 'views/core/RootView';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/artisans/tag-test-view';
+import tagger from 'lib/SolutionConceptTagger';
+import conceptList from 'schemas/concepts';
+import ThangType from 'models/ThangType';
+import ThangTypes from 'collections/ThangTypes';
+import ace from 'lib/aceContainer';
 
 class ActualTagView extends CocoView {
   static initClass() {
@@ -29,7 +27,7 @@ class ActualTagView extends CocoView {
 }
 ActualTagView.initClass();
 
-module.exports = (ThangTasksView = (function() {
+export default ThangTasksView = (function() {
   ThangTasksView = class ThangTasksView extends RootView {
     constructor(...args) {
       this.updateTags = this.updateTags.bind(this);
@@ -87,7 +85,7 @@ module.exports = (ThangTasksView = (function() {
   };
   ThangTasksView.initClass();
   return ThangTasksView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

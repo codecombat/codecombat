@@ -4,10 +4,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CourseNagModal;
-require('app/styles/teachers/course-nag-modal.sass');
-const ModalView = require('views/core/ModalView');
+import 'app/styles/teachers/course-nag-modal.sass';
+import ModalView from 'views/core/ModalView';
 
-module.exports = (CourseNagModal = (function() {
+export default CourseNagModal = (function() {
   CourseNagModal = class CourseNagModal extends ModalView {
     static initClass() {
       this.prototype.id = 'course-nag-modal';
@@ -16,5 +16,5 @@ module.exports = (CourseNagModal = (function() {
   };
   CourseNagModal.initClass();
   return CourseNagModal;
-})());
+})();
 

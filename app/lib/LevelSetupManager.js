@@ -10,19 +10,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let left, left1, LevelSetupManager;
-const CocoClass = require('core/CocoClass');
-const PlayHeroesModal = require('views/play/modal/PlayHeroesModal');
-const InventoryModal = require('views/play/menu/InventoryModal');
-const Level = require('models/Level');
-const LevelSession = require('models/LevelSession');
-const SuperModel = require('models/SuperModel');
-const ThangType = require('models/ThangType');
-const utils = require('core/utils');
+import CocoClass from 'core/CocoClass';
+import PlayHeroesModal from 'views/play/modal/PlayHeroesModal';
+import InventoryModal from 'views/play/menu/InventoryModal';
+import Level from 'models/Level';
+import LevelSession from 'models/LevelSession';
+import SuperModel from 'models/SuperModel';
+import ThangType from 'models/ThangType';
+import utils from 'core/utils';
 
 let lastHeroesEarned = (left = __guard__(me.get('earned'), x => x.heroes)) != null ? left : [];
 let lastHeroesPurchased = (left1 = __guard__(me.get('purchased'), x1 => x1.heroes)) != null ? left1 : [];
 
-module.exports = (LevelSetupManager = class LevelSetupManager extends CocoClass {
+export default LevelSetupManager = class LevelSetupManager extends CocoClass {
 
   constructor(options) {
     this.options = options;
@@ -200,7 +200,7 @@ module.exports = (LevelSetupManager = class LevelSetupManager extends CocoClass 
     } }
     return super.destroy();
   }
-});
+};
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -1,9 +1,9 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
 let ProductSchema;
-const c = require('./../schemas');
+import c from './../schemas';
 
-module.exports = (ProductSchema = {
+export default ProductSchema = {
   type: 'object',
   additionalProperties: false,
   properties: {
@@ -29,7 +29,7 @@ module.exports = (ProductSchema = {
     payPalBillingPlanID: { type: 'string' },
     formattedAmount: { type: 'string', description: 'eg: $23, ₹8,352' }
   }
-});
+};
 
 c.extendBasicProperties(ProductSchema, 'Product');
 c.extendTranslationCoverageProperties(ProductSchema);

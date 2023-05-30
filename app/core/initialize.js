@@ -13,20 +13,19 @@
 let serializeForIOS;
 Backbone.Mediator.setValidationEnabled(false);
 let app = null;
-const utils = require('./utils');
-const { installVueI18n } = require('locale/locale');
-const { log } = require('ozaria/site/common/logger');
-const globalVar = require('core/globalVar');
-
-const VueRouter = require('vue-router');
-const Vuex = require('vuex');
-const VTooltip = require('v-tooltip');
-const VueMoment = require('vue-moment');
-const VueMeta = require('vue-meta');
-const VueYoutube = require('vue-youtube');
-const VueShepherd = require('vue-shepherd');
-const { VueMaskDirective } = require('v-mask');
-const VueAsyncComputed = require('vue-async-computed');
+import utils from './utils';
+import { installVueI18n } from 'locale/locale';
+import { log } from 'ozaria/site/common/logger';
+import globalVar from 'core/globalVar';
+import VueRouter from 'vue-router';
+import Vuex from 'vuex';
+import VTooltip from 'v-tooltip';
+import VueMoment from 'vue-moment';
+import VueMeta from 'vue-meta';
+import VueYoutube from 'vue-youtube';
+import VueShepherd from 'vue-shepherd';
+import { VueMaskDirective } from 'v-mask';
+import VueAsyncComputed from 'vue-async-computed';
 
 Vue.use(VueRouter.default);
 Vue.use(Vuex.default);
@@ -46,25 +45,42 @@ if (utils.isOzaria) {
   Vue.directive('mask', VueMaskDirective);
 }
 
+import auth from 'schemas/subscriptions/auth';
+import bus from 'schemas/subscriptions/bus';
+import editor from 'schemas/subscriptions/editor';
+import errors from 'schemas/subscriptions/errors';
+import ipad from 'schemas/subscriptions/ipad';
+import misc from 'schemas/subscriptions/misc';
+import play from 'schemas/subscriptions/play';
+import surface from 'schemas/subscriptions/surface';
+import tome from 'schemas/subscriptions/tome';
+import god from 'schemas/subscriptions/god';
+import scripts from 'schemas/subscriptions/scripts';
+import webdev from 'schemas/subscriptions/web-dev';
+import world from 'schemas/subscriptions/world';
+
 const channelSchemas = {
-  'auth': require('schemas/subscriptions/auth'),
-  'bus': require('schemas/subscriptions/bus'),
-  'editor': require('schemas/subscriptions/editor'),
-  'errors': require('schemas/subscriptions/errors'),
-  'ipad': require('schemas/subscriptions/ipad'),
-  'misc': require('schemas/subscriptions/misc'),
-  'play': require('schemas/subscriptions/play'),
-  'surface': require('schemas/subscriptions/surface'),
-  'tome': require('schemas/subscriptions/tome'),
-  'god': require('schemas/subscriptions/god'),
-  'scripts': require('schemas/subscriptions/scripts'),
-  'web-dev': require('schemas/subscriptions/web-dev'),
-  'world': require('schemas/subscriptions/world')
+  auth,
+  bus,
+  editor,
+  errors,
+  ipad,
+  misc,
+  play,
+  surface,
+  tome,
+  god,
+  scripts,
+  'web-dev': webdev,
+  world
 };
 
+import busDef from 'schemas/definitions/bus';
+import miscDef from 'schemas/definitions/misc';
+
 const definitionSchemas = {
-  'bus': require('schemas/definitions/bus'),
-  'misc': require('schemas/definitions/misc')
+  bus: busDef,
+  misc: miscDefi
 };
 
 var init = function() {

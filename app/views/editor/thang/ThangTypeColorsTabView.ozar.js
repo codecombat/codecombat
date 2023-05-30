@@ -12,22 +12,22 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ThangTypeColorsTabView;
-require('app/styles/editor/thang/colors_tab.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/thang/colors_tab');
-const SpriteBuilder = require('lib/sprites/SpriteBuilder');
-const {hexToHSL, hslToHex} = require('core/utils');
-require('lib/setupTreema');
-const createjs = require('lib/createjs-parts');
-const initSlider = require('lib/initSlider');
-const tintApi = require('../../../../ozaria/site/api/tint');
-const tintSchema = require('app/schemas/models/tint.schema.js');
-const ColorCalculator = require('./hslCalculator.vue').default;
+import 'app/styles/editor/thang/colors_tab.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/thang/colors_tab';
+import SpriteBuilder from 'lib/sprites/SpriteBuilder';
+import { hexToHSL, hslToHex } from 'core/utils';
+import 'lib/setupTreema';
+import createjs from 'lib/createjs-parts';
+import initSlider from 'lib/initSlider';
+import tintApi from '../../../../ozaria/site/api/tint';
+import tintSchema from 'app/schemas/models/tint.schema.js';
+import ColorCalculator from './hslCalculator.vue';
 
 const COLOR_GROUP_TAB = 'COLORGROUPTAB';
 const TINT_TAB = 'TINTTAB';
 
-module.exports = (ThangTypeColorsTabView = (function() {
+export default ThangTypeColorsTabView = (function() {
   ThangTypeColorsTabView = class ThangTypeColorsTabView extends CocoView {
     static initClass() {
       this.prototype.id = 'editor-thang-colors-tab-view';
@@ -424,7 +424,7 @@ module.exports = (ThangTypeColorsTabView = (function() {
   };
   ThangTypeColorsTabView.initClass();
   return ThangTypeColorsTabView;
-})());
+})();
 
 class ColorGroupNode extends TreemaNode.nodeMap.array {
   static initClass() {

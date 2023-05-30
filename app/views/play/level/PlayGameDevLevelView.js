@@ -9,33 +9,31 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PlayGameDevLevelView;
-require('app/styles/play/level/play-game-dev-level-view.sass');
-const RootView = require('views/core/RootView');
-
-const GameUIState = require('models/GameUIState');
-const God = require('lib/God');
-const LevelLoader = require('lib/LevelLoader');
-const GoalManager = require('lib/world/GoalManager');
-const ScriptManager = require('lib/scripts/ScriptManager');
-const Surface = require('lib/surface/Surface');
-const ThangType = require('models/ThangType');
-const Level = require('models/Level');
-const LevelSession = require('models/LevelSession');
-const State = require('models/State');
-const utils = require('core/utils');
-const urls = require('core/urls');
-const Course = require('models/Course');
-const GameDevVictoryModal = require('./modal/GameDevVictoryModal');
-const aetherUtils = require('lib/aether_utils');
-const GameDevTrackView = require('./GameDevTrackView');
-const api = require('core/api');
-
-require('lib/game-libraries');
+import 'app/styles/play/level/play-game-dev-level-view.sass';
+import RootView from 'views/core/RootView';
+import GameUIState from 'models/GameUIState';
+import God from 'lib/God';
+import LevelLoader from 'lib/LevelLoader';
+import GoalManager from 'lib/world/GoalManager';
+import ScriptManager from 'lib/scripts/ScriptManager';
+import Surface from 'lib/surface/Surface';
+import ThangType from 'models/ThangType';
+import Level from 'models/Level';
+import LevelSession from 'models/LevelSession';
+import State from 'models/State';
+import utils from 'core/utils';
+import urls from 'core/urls';
+import Course from 'models/Course';
+import GameDevVictoryModal from './modal/GameDevVictoryModal';
+import aetherUtils from 'lib/aether_utils';
+import GameDevTrackView from './GameDevTrackView';
+import api from 'core/api';
+import 'lib/game-libraries';
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3');
 
 const TEAM = 'humans';
 
-module.exports = (PlayGameDevLevelView = (function() {
+export default PlayGameDevLevelView = (function() {
   PlayGameDevLevelView = class PlayGameDevLevelView extends RootView {
     static initClass() {
       this.prototype.id = 'play-game-dev-level-view';
@@ -361,7 +359,7 @@ module.exports = (PlayGameDevLevelView = (function() {
   };
   PlayGameDevLevelView.initClass();
   return PlayGameDevLevelView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

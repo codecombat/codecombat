@@ -10,9 +10,9 @@
 let CoffeeScript, left, left1;
 const _ = (left = (left1 = (typeof window !== 'undefined' && window !== null ? window._ : undefined) != null ? (typeof window !== 'undefined' && window !== null ? window._ : undefined) : (typeof self !== 'undefined' && self !== null ? self._ : undefined)) != null ? left1 : (typeof global !== 'undefined' && global !== null ? global._ : undefined)) != null ? left : require('lodash');  // rely on lodash existing, since it busts CodeCombat to browserify it--TODO
 
-const Language = require('./language');
+import Language from './language';
 
-module.exports = (CoffeeScript = (function() {
+export default CoffeeScript = (function() {
   CoffeeScript = class CoffeeScript extends Language {
     static initClass() {
       this.prototype.name = 'CoffeeScript';
@@ -32,4 +32,4 @@ module.exports = (CoffeeScript = (function() {
   };
   CoffeeScript.initClass();
   return CoffeeScript;
-})());
+})();

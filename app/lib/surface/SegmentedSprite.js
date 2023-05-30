@@ -13,8 +13,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SegmentedSprite;
-const SpriteBuilder = require('lib/sprites/SpriteBuilder');
-const createjs = require('lib/createjs-parts');
+import SpriteBuilder from 'lib/sprites/SpriteBuilder';
+import createjs from 'lib/createjs-parts';
 
 // Put this on MovieClips
 const specialGoToAndStop = function(frame) {
@@ -26,7 +26,7 @@ const specialGoToAndStop = function(frame) {
   }
 };
 
-module.exports = (SegmentedSprite = (function() {
+export default SegmentedSprite = (function() {
   SegmentedSprite = class SegmentedSprite extends createjs.Container {
     static initClass() {
       this.prototype.childMovieClips = null;
@@ -415,7 +415,7 @@ module.exports = (SegmentedSprite = (function() {
   };
   SegmentedSprite.initClass();
   return SegmentedSprite;
-})());
+})();
 
 
 //  _getBounds: createjs.Container.prototype.getBounds

@@ -5,13 +5,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SaveLoadView;
-require('app/styles/play/menu/save-load-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/menu/save-load-view');
-const {me} = require('core/auth');
-const ThangType = require('models/ThangType');
+import 'app/styles/play/menu/save-load-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/menu/save-load-view';
+import { me } from 'core/auth';
+import ThangType from 'models/ThangType';
 
-module.exports = (SaveLoadView = (function() {
+export default SaveLoadView = (function() {
   SaveLoadView = class SaveLoadView extends CocoView {
     static initClass() {
       this.prototype.id = 'save-load-view';
@@ -35,4 +35,4 @@ module.exports = (SaveLoadView = (function() {
   };
   SaveLoadView.initClass();
   return SaveLoadView;
-})());
+})();

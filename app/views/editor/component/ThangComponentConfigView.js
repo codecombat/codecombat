@@ -11,16 +11,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ThangComponentConfigView;
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/component/thang-component-config-view');
-const utils = require('core/utils');
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/component/thang-component-config-view';
+import utils from 'core/utils';
+import Level from 'models/Level';
+import LevelComponent from 'models/LevelComponent';
+import nodes from '../level/treema_nodes';
+import 'lib/setupTreema';
 
-const Level = require('models/Level');
-const LevelComponent = require('models/LevelComponent');
-const nodes = require('../level/treema_nodes');
-require('lib/setupTreema');
-
-module.exports = (ThangComponentConfigView = (function() {
+export default ThangComponentConfigView = (function() {
   ThangComponentConfigView = class ThangComponentConfigView extends CocoView {
     static initClass() {
       this.prototype.className = 'thang-component-config-view';
@@ -152,7 +151,7 @@ module.exports = (ThangComponentConfigView = (function() {
   };
   ThangComponentConfigView.initClass();
   return ThangComponentConfigView;
-})());
+})();
 
 class ComponentConfigNode extends TreemaObjectNode {
   static initClass() {

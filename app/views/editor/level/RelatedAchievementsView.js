@@ -7,14 +7,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let RelatedAchievementsView;
-require('app/styles/editor/related-achievements.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/level/related-achievements');
-const RelatedAchievementsCollection = require('collections/RelatedAchievementsCollection');
-const Achievement = require('models/Achievement');
-const NewAchievementModal = require('./modals/NewAchievementModal');
+import 'app/styles/editor/related-achievements.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/level/related-achievements';
+import RelatedAchievementsCollection from 'collections/RelatedAchievementsCollection';
+import Achievement from 'models/Achievement';
+import NewAchievementModal from './modals/NewAchievementModal';
 
-module.exports = (RelatedAchievementsView = (function() {
+export default RelatedAchievementsView = (function() {
   RelatedAchievementsView = class RelatedAchievementsView extends CocoView {
     static initClass() {
       this.prototype.id = 'related-achievements-view';
@@ -61,4 +61,4 @@ module.exports = (RelatedAchievementsView = (function() {
   };
   RelatedAchievementsView.initClass();
   return RelatedAchievementsView;
-})());
+})();

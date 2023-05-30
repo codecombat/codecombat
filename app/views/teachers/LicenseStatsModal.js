@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LicenseStatsModal;
-const ModalComponent = require('views/core/ModalComponent');
-const LicenseStatsComponent = require('./components/LicenseStatsModal.vue').default;
+import ModalComponent from 'views/core/ModalComponent';
+import LicenseStatsComponent from './components/LicenseStatsModal.vue';
 
-module.exports = (LicenseStatsModal = (function() {
+export default LicenseStatsModal = (function() {
   LicenseStatsModal = class LicenseStatsModal extends ModalComponent {
     static initClass() {
       this.prototype.id = 'license-stats-modal';
@@ -74,4 +74,4 @@ module.exports = (LicenseStatsModal = (function() {
   };
   LicenseStatsModal.initClass();
   return LicenseStatsModal;
-})());
+})();

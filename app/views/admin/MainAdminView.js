@@ -13,34 +13,33 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let MainAdminView;
-require('app/styles/admin.sass');
-const {backboneFailure, genericFailure} = require('core/errors');
-const errors = require('core/errors');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/admin');
-const AdministerUserModal = require('views/admin/AdministerUserModal');
-const MaintenanceModal = require('views/admin/MaintenanceModal');
-const TeacherLicenseCodeModal = require('views/admin/TeacherLicenseCodeModal');
-const ModelModal = require('views/modal/ModelModal');
-const forms = require('core/forms');
-const utils = require('core/utils');
-const { updateAvailabilityStatus, getAvailability } = require('core/api/parents');
-
-const Campaigns = require('collections/Campaigns');
-const Classroom = require('models/Classroom');
-const CocoCollection = require('collections/CocoCollection');
-const Course = require('models/Course');
-const Courses = require('collections/Courses');
-const LevelSessions = require('collections/LevelSessions');
-const InteractiveSessions = require('collections/InteractiveSessions');
-const Prepaid = require('models/Prepaid');
-const User = require('models/User');
-const Users = require('collections/Users');
-const Mandate = require('models/Mandate');
+import 'app/styles/admin.sass';
+import { backboneFailure, genericFailure } from 'core/errors';
+import errors from 'core/errors';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/admin';
+import AdministerUserModal from 'views/admin/AdministerUserModal';
+import MaintenanceModal from 'views/admin/MaintenanceModal';
+import TeacherLicenseCodeModal from 'views/admin/TeacherLicenseCodeModal';
+import ModelModal from 'views/modal/ModelModal';
+import forms from 'core/forms';
+import utils from 'core/utils';
+import { updateAvailabilityStatus, getAvailability } from 'core/api/parents';
+import Campaigns from 'collections/Campaigns';
+import Classroom from 'models/Classroom';
+import CocoCollection from 'collections/CocoCollection';
+import Course from 'models/Course';
+import Courses from 'collections/Courses';
+import LevelSessions from 'collections/LevelSessions';
+import InteractiveSessions from 'collections/InteractiveSessions';
+import Prepaid from 'models/Prepaid';
+import User from 'models/User';
+import Users from 'collections/Users';
+import Mandate from 'models/Mandate';
 if (window.saveAs == null) { window.saveAs = require('file-saver/FileSaver.js'); } // `window.` is necessary for spec to spy on it
 if (window.saveAs.saveAs) { window.saveAs = window.saveAs.saveAs; }  // Module format changed with webpack?
 
-module.exports = (MainAdminView = (function() {
+export default MainAdminView = (function() {
   MainAdminView = class MainAdminView extends RootView {
     constructor(...args) {
       this.onSearchRequestSuccess = this.onSearchRequestSuccess.bind(this);
@@ -572,7 +571,7 @@ ${new User(user).isTeacher() && !utils.isOzaria ? "<button class='teacher-dashbo
   };
   MainAdminView.initClass();
   return MainAdminView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

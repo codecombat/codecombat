@@ -10,10 +10,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CocoCollection;
-const CocoModel = require('models/CocoModel');
-const globalVar = require('core/globalVar');
+import CocoModel from 'models/CocoModel';
+import globalVar from 'core/globalVar';
 
-module.exports = (CocoCollection = (function() {
+export default CocoCollection = (function() {
   CocoCollection = class CocoCollection extends Backbone.Collection {
     static initClass() {
       this.prototype.loaded = false;
@@ -76,4 +76,4 @@ module.exports = (CocoCollection = (function() {
   };
   CocoCollection.initClass();
   return CocoCollection;
-})());
+})();

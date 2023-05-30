@@ -10,18 +10,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AuthModal;
-require('app/styles/modal/auth-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/core/auth-modal');
-const forms = require('core/forms');
-const User = require('models/User');
-const errors = require('core/errors');
-const RecoverModal = require('views/core/RecoverModal');
-const storage = require('core/storage');
-const globalVar = require('core/globalVar');
-const userUtils = require('../../lib/user-utils');
+import 'app/styles/modal/auth-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/core/auth-modal';
+import forms from 'core/forms';
+import User from 'models/User';
+import errors from 'core/errors';
+import RecoverModal from 'views/core/RecoverModal';
+import storage from 'core/storage';
+import globalVar from 'core/globalVar';
+import userUtils from '../../lib/user-utils';
 
-module.exports = (AuthModal = (function() {
+export default AuthModal = (function() {
   AuthModal = class AuthModal extends ModalView {
     constructor(...args) {
       this.onGPlusLoginError = this.onGPlusLoginError.bind(this);
@@ -276,7 +276,7 @@ module.exports = (AuthModal = (function() {
   };
   AuthModal.initClass();
   return AuthModal;
-})());
+})();
 
 var formSchema = {
   type: 'object',

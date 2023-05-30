@@ -8,14 +8,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let EUConfirmationView;
-require('app/styles/modal/create-account-modal/eu-confirmation-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/core/create-account-modal/eu-confirmation-view');
-const forms = require('core/forms');
-const Classroom = require('models/Classroom');
-const State = require('models/State');
+import 'app/styles/modal/create-account-modal/eu-confirmation-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/core/create-account-modal/eu-confirmation-view';
+import forms from 'core/forms';
+import Classroom from 'models/Classroom';
+import State from 'models/State';
 
-module.exports = (EUConfirmationView = (function() {
+export default EUConfirmationView = (function() {
   EUConfirmationView = class EUConfirmationView extends CocoView {
     static initClass() {
       this.prototype.id = 'eu-confirmation-view';
@@ -42,4 +42,4 @@ module.exports = (EUConfirmationView = (function() {
   };
   EUConfirmationView.initClass();
   return EUConfirmationView;
-})());
+})();

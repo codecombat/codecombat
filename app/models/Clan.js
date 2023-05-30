@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Clan;
-const CocoModel = require('./CocoModel');
-const schema = require('schemas/models/clan.schema');
+import CocoModel from './CocoModel';
+import schema from 'schemas/models/clan.schema';
 
-module.exports = (Clan = (function() {
+export default Clan = (function() {
   Clan = class Clan extends CocoModel {
     static initClass() {
       this.className = 'Clan';
@@ -19,4 +19,4 @@ module.exports = (Clan = (function() {
   };
   Clan.initClass();
   return Clan;
-})());
+})();

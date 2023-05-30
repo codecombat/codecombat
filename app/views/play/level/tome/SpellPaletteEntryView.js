@@ -9,16 +9,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpellPaletteEntryView;
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/tome/spell_palette_entry');
-const {me} = require('core/auth');
-const filters = require('lib/image_filter');
-const DocFormatter = require('./DocFormatter');
-const ace = require('lib/aceContainer');
-const utils = require('core/utils');
-const aceUtils = require('core/aceUtils');
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/tome/spell_palette_entry';
+import { me } from 'core/auth';
+import filters from 'lib/image_filter';
+import DocFormatter from './DocFormatter';
+import ace from 'lib/aceContainer';
+import utils from 'core/utils';
+import aceUtils from 'core/aceUtils';
 
-module.exports = (SpellPaletteEntryView = (function() {
+export default SpellPaletteEntryView = (function() {
   SpellPaletteEntryView = class SpellPaletteEntryView extends CocoView {
     static initClass() {
       this.prototype.tagName = 'div';  // Could also try <code> instead of <div>, but would need to adjust colors
@@ -182,7 +182,7 @@ module.exports = (SpellPaletteEntryView = (function() {
   };
   SpellPaletteEntryView.initClass();
   return SpellPaletteEntryView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -8,31 +8,28 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let RequestQuoteView;
-require('app/styles/teachers/teacher-trial-requests.sass');
-const RootView = require('views/core/RootView');
-const forms = require('core/forms');
-const TrialRequest = require('models/TrialRequest');
-const TrialRequests = require('collections/TrialRequests');
-const AuthModal = require('views/core/AuthModal');
-const errors = require('core/errors');
-const ConfirmModal = require('views/core/ConfirmModal');
-const User = require('models/User');
-const algolia = require('core/services/algolia');
-const State = require('models/State');
-const {
-  parseFullName
-} = require('parse-full-name');
-const countryList = require('country-list')();
-const {
-  UsaStates
-} = require('usa-states');
-const utils = require('core/utils');
+import 'app/styles/teachers/teacher-trial-requests.sass';
+import RootView from 'views/core/RootView';
+import forms from 'core/forms';
+import TrialRequest from 'models/TrialRequest';
+import TrialRequests from 'collections/TrialRequests';
+import AuthModal from 'views/core/AuthModal';
+import errors from 'core/errors';
+import ConfirmModal from 'views/core/ConfirmModal';
+import User from 'models/User';
+import algolia from 'core/services/algolia';
+import State from 'models/State';
+import { parseFullName } from 'parse-full-name';
+import countryListFactory from 'country-list';
+const countryList = countryListFactory();
+import { UsaStates } from 'usa-states';
+import utils from 'core/utils';
 
 const SIGNUP_REDIRECT = '/teachers';
 const DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone'];
 const SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students']);
 
-module.exports = (RequestQuoteView = (function() {
+export default RequestQuoteView = (function() {
   RequestQuoteView = class RequestQuoteView extends RootView {
     static initClass() {
       this.prototype.id = 'request-quote-view';
@@ -546,7 +543,7 @@ module.exports = (RequestQuoteView = (function() {
   };
   RequestQuoteView.initClass();
   return RequestQuoteView;
-})());
+})();
 
 var requestFormSchemaAnonymous = {
   type: 'object',

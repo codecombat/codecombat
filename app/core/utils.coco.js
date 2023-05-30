@@ -684,7 +684,7 @@ const getDocumentSearchString = () => // moved to a separate function so it can 
 document.location.search;
 
 const getQueryVariables = function() {
-  const query = module.exports.getDocumentSearchString().substring(1); // use module.exports so spy is used in testing
+  const query = getDocumentSearchString().substring(1); // use module.exports so spy is used in testing
   const pairs = (Array.from(query.split('&')).map((pair) => pair.split('=')));
   const variables = {};
   for (var [key, value] of Array.from(pairs)) {
@@ -1418,7 +1418,7 @@ const getScreenRefreshRate = function(callback, runIndefinitely) {
   }
 };
 
-module.exports = {
+export default {
   activeAndPastArenas,
   activeArenas,
   addIntroLevelContent,

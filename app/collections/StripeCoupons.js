@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let StripeCoupons;
-const StripeCoupon = require('models/StripeCoupon');
-const CocoCollection = require('collections/CocoCollection');
+import StripeCoupon from 'models/StripeCoupon';
+import CocoCollection from 'collections/CocoCollection';
 
-module.exports = (StripeCoupons = (function() {
+export default StripeCoupons = (function() {
   StripeCoupons = class StripeCoupons extends CocoCollection {
     static initClass() {
       this.prototype.model = StripeCoupon;
@@ -18,5 +18,5 @@ module.exports = (StripeCoupons = (function() {
   };
   StripeCoupons.initClass();
   return StripeCoupons;
-})());
+})();
     

@@ -10,10 +10,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let GenerateTerrainModal;
-require('app/styles/editor/level/modal/generate-terrain-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/level/modal/generate-terrain-modal');
-const CocoModel = require('models/CocoModel');
+import 'app/styles/editor/level/modal/generate-terrain-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/level/modal/generate-terrain-modal';
+import CocoModel from 'models/CocoModel';
 
 const clusters = {
   'hero': {
@@ -348,7 +348,7 @@ const thangSizes = {
   }};
 
 
-module.exports = (GenerateTerrainModal = (function() {
+export default GenerateTerrainModal = (function() {
   GenerateTerrainModal = class GenerateTerrainModal extends ModalView {
     static initClass() {
       this.prototype.id = 'generate-terrain-modal';
@@ -764,4 +764,4 @@ module.exports = (GenerateTerrainModal = (function() {
   };
   GenerateTerrainModal.initClass();
   return GenerateTerrainModal;
-})());
+})();

@@ -6,12 +6,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelFlagsView;
-require('app/styles/play/level/level-flags-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/level-flags-view');
-const {me} = require('core/auth');
+import 'app/styles/play/level/level-flags-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/level-flags-view';
+import { me } from 'core/auth';
 
-module.exports = (LevelFlagsView = (function() {
+export default LevelFlagsView = (function() {
   LevelFlagsView = class LevelFlagsView extends CocoView {
     static initClass() {
       this.prototype.id = 'level-flags-view';
@@ -107,4 +107,4 @@ module.exports = (LevelFlagsView = (function() {
   };
   LevelFlagsView.initClass();
   return LevelFlagsView;
-})());
+})();

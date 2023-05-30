@@ -8,8 +8,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let setErrorToField, setErrorToProperty;
-module.exports.formToObject = function($el, options) {
+export const formToObject = function($el, options) {
   options = _.extend({ trim: true, ignoreEmptyString: true }, options);
   const obj = {};
 
@@ -37,7 +36,7 @@ module.exports.formToObject = function($el, options) {
   return obj;
 };
 
-module.exports.objectToForm = function($el, obj, options) {
+export const objectToForm = function($el, obj, options) {
   if (options == null) { options = {}; }
   options = _.extend({ overwriteExisting: false }, options);
   const inputs = $('input, textarea, select', $el);
@@ -74,7 +73,7 @@ module.exports.objectToForm = function($el, obj, options) {
   })();
 };
 
-module.exports.applyErrorsToForm = function(el, errors, warning) {
+export const applyErrorsToForm = function(el, errors, warning) {
   if (warning == null) { warning = false; }
   if (!$.isArray(errors)) { errors = [errors]; }
   const missingErrors = [];
@@ -116,7 +115,7 @@ module.exports.applyErrorsToForm = function(el, errors, warning) {
 };
 
 // Returns the jQuery form group element in case of success, otherwise undefined
-module.exports.setErrorToField = (setErrorToField = function(el, message, warning) {
+export const setErrorToField = function(el, message, warning) {
   if (warning == null) { warning = false; }
   const formGroup = el.closest('.form-group');
   if (!formGroup.length) {
@@ -132,9 +131,9 @@ module.exports.setErrorToField = (setErrorToField = function(el, message, warnin
   } else {
     return formGroup.append(helpBlock);
   }
-});
+};
 
-module.exports.setErrorToProperty = (setErrorToProperty = function(el, property, message, warning) {
+export const setErrorToProperty = function(el, property, message, warning) {
   if (warning == null) { warning = false; }
   const input = $(`[name='${property}']`, el);
   if (!input.length) {
@@ -142,9 +141,9 @@ module.exports.setErrorToProperty = (setErrorToProperty = function(el, property,
   }
 
   return setErrorToField(input, message, warning);
-});
+};
 
-module.exports.scrollToFirstError = function($el) {
+export const scrollToFirstError = function($el) {
   if ($el == null) { $el = $('body'); }
   const $first = $el.find('.has-error, .alert-danger, .error-help-block, .has-warning, .alert-warning, .warning-help-block').filter(':visible').first();
   if ($first.length) {
@@ -152,7 +151,7 @@ module.exports.scrollToFirstError = function($el) {
   }
 };
 
-module.exports.clearFormAlerts = function(el) {
+export const clearFormAlerts = function(el) {
   $('.has-error', el).removeClass('has-error');
   $('.has-warning', el).removeClass('has-warning');
   $('.alert.alert-danger', el).remove();
@@ -161,30 +160,30 @@ module.exports.clearFormAlerts = function(el) {
   return el.find('.help-block.warning-help-block').remove();
 };
 
-module.exports.updateSelects = el => el.find('select').each(function(i, select) {
+export const updateSelects = el => el.find('select').each(function(i, select) {
   const value = $(select).attr('value');
   return $(select).val(value);
 });
 
-module.exports.validateEmail = function(email) {
+export const validateEmail = function(email) {
   if (!email) { return true; } // allow null
   const filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i;  // https://news.ycombinator.com/item?id=5763990
   return filter.test(email);
 };
 
-module.exports.validatePhoneNumber = function(phoneNumber) {
+export const validatePhoneNumber = function(phoneNumber) {
   const filter = /^\D*(\d\D*){10,}$/i;  // Just make sure there's at least 10 digits
   return filter.test(phoneNumber);
 };
 
-module.exports.disableSubmit = function(el, message) {
+export const disableSubmit = function(el, message) {
   if (message == null) { message = '...'; }
   const $el = $(el);
   $el.data('original-text', $el.text());
   return $el.text(message).attr('disabled', true);
 };
 
-module.exports.enableSubmit = function(el) {
+export const enableSubmit = function(el) {
   const $el = $(el);
   return $el.text($el.data('original-text')).attr('disabled', false);
 };

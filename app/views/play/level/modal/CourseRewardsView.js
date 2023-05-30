@@ -11,18 +11,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CourseRewardsView;
-require('app/styles/play/level/modal/course-rewards-view.sass');
-const CocoView = require('views/core/CocoView');
-const ThangType = require('models/ThangType');
-const EarnedAchievement = require('models/EarnedAchievement');
-const utils = require('core/utils');
-const User = require('models/User');
+import 'app/styles/play/level/modal/course-rewards-view.sass';
+import CocoView from 'views/core/CocoView';
+import ThangType from 'models/ThangType';
+import EarnedAchievement from 'models/EarnedAchievement';
+import utils from 'core/utils';
+import User from 'models/User';
 
 // This view is to show gems/xp/items earned after completing a level in classroom version.
 // It is similar to that on HeroVictoryModal for home version, but excluding some which is not required here.
 // TODO: Move this into a reusable component to be used by both home and classroom versions.
 
-module.exports = (CourseRewardsView = (function() {
+export default CourseRewardsView = (function() {
   CourseRewardsView = class CourseRewardsView extends CocoView {
     constructor(...args) {
       this.tickSequentialAnimation = this.tickSequentialAnimation.bind(this);
@@ -262,7 +262,7 @@ module.exports = (CourseRewardsView = (function() {
   };
   CourseRewardsView.initClass();
   return CourseRewardsView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

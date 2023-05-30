@@ -11,18 +11,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let MyMatchesTabView;
-require('app/styles/play/ladder/my_matches_tab.sass');
-const CocoView = require('views/core/CocoView');
-const Level = require('models/Level');
-const LevelSession = require('models/LevelSession');
-const LeaderboardCollection  = require('collections/LeaderboardCollection');
-const LadderSubmissionView = require('views/play/common/LadderSubmissionView');
-const ShareLadderLinkModal = require('./ShareLadderLinkModal');
-const utils = require('core/utils');
-const {teamDataFromLevel, scoreForDisplay} = require('./utils');
-require('d3/d3.js');
+import 'app/styles/play/ladder/my_matches_tab.sass';
+import CocoView from 'views/core/CocoView';
+import Level from 'models/Level';
+import LevelSession from 'models/LevelSession';
+import LeaderboardCollection from 'collections/LeaderboardCollection';
+import LadderSubmissionView from 'views/play/common/LadderSubmissionView';
+import ShareLadderLinkModal from './ShareLadderLinkModal';
+import utils from 'core/utils';
+import { teamDataFromLevel, scoreForDisplay } from './utils';
+import 'd3/d3.js';
 
-module.exports = (MyMatchesTabView = (function() {
+export default MyMatchesTabView = (function() {
   MyMatchesTabView = class MyMatchesTabView extends CocoView {
     constructor(...args) {
       this.generateScoreLineChart = this.generateScoreLineChart.bind(this);
@@ -330,7 +330,7 @@ module.exports = (MyMatchesTabView = (function() {
   };
   MyMatchesTabView.initClass();
   return MyMatchesTabView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

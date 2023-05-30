@@ -7,13 +7,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SingleSignOnAlreadyExistsView;
-require('app/styles/modal/create-account-modal/sso-already-exists-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/core/create-account-modal/single-sign-on-already-exists-view');
-const forms = require('core/forms');
-const User = require('models/User');
+import 'app/styles/modal/create-account-modal/sso-already-exists-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/core/create-account-modal/single-sign-on-already-exists-view';
+import forms from 'core/forms';
+import User from 'models/User';
 
-module.exports = (SingleSignOnAlreadyExistsView = (function() {
+export default SingleSignOnAlreadyExistsView = (function() {
   SingleSignOnAlreadyExistsView = class SingleSignOnAlreadyExistsView extends CocoView {
     static initClass() {
       this.prototype.id = 'single-sign-on-already-exists-view';
@@ -37,4 +37,4 @@ module.exports = (SingleSignOnAlreadyExistsView = (function() {
   };
   SingleSignOnAlreadyExistsView.initClass();
   return SingleSignOnAlreadyExistsView;
-})());
+})();

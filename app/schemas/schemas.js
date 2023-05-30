@@ -7,8 +7,9 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const Language = require('./languages');
-const concepts = require('./concepts');
+import Language from './languages';
+
+import concepts from './concepts';
 
 // schema helper methods
 
@@ -463,7 +464,7 @@ me.InlineInteractionSchema = me.object({description: 'An inline interaction', de
   repeat: {oneOf: [{type: 'boolean'}, {type: 'integer', minimum: 1}]},  // Could also do like script system: enum: [true, false, 'session']
   condition: {type: 'object', description: 'TODO'}
 });  // TODO: Think about pulling logic from ScriptSchema eventPrereqs, scriptPrereqs, notAfter
-  // delay, duration, etc. could be brought in, too
+// delay, duration, etc. could be brought in, too
 
 me.InlineInteractionSchema.definitions.teacherDialogue = me.object({required: ['text']}, {
   text: { type: 'string', format: 'markdown' },

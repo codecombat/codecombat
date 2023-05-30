@@ -9,8 +9,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ResourceHubView;
-require('app/styles/teachers/resource-hub-view.sass');
-const RootView = require('views/core/RootView');
+import 'app/styles/teachers/resource-hub-view.sass';
+import RootView from 'views/core/RootView';
 
 const resources = {
   'faq': {
@@ -98,7 +98,7 @@ const resources = {
   }
 };
 
-module.exports = (ResourceHubView = (function() {
+export default ResourceHubView = (function() {
   ResourceHubView = class ResourceHubView extends RootView {
     static initClass() {
       this.prototype.id = 'resource-hub-view';
@@ -138,7 +138,7 @@ module.exports = (ResourceHubView = (function() {
   };
   ResourceHubView.initClass();
   return ResourceHubView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

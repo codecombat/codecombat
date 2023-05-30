@@ -8,7 +8,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const loadPayPal = _.once(() => new Promise((accept, reject) => $.getScript('https://www.paypalobjects.com/api/checkout.js', () => accept())));
-      
+
 // https://developer.paypal.com/docs/integration/direct/express-checkout/integration-jsv4/customize-button/#supported-locales
 const acceptableLanguages = [
   "en_US", "en_AU", "en_GB", "fr_CA", "es_ES", "it_IT", "fr_FR", "de_DE", "pt_BR", "zh_CN", "da_DK", "zh_HK", "id_ID", "he_IL", "ja_JP", "nl_NL", "no_NO", "pl_PL", "pt_PT", "ru_RU", "sv_SE", "th_TH", "zh_TW"
@@ -71,7 +71,7 @@ const makeButton = function(options) {
   }, options.payPalOptions), buttonContainerID) : undefined;
 };
 
-module.exports = {
+export default {
   loadPayPal,
   makeButton
 };

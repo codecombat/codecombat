@@ -12,13 +12,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Thang;
-const ThangState = require('./thang_state');
-const {thangNames} = require('./names');
-const {ArgumentError} = require('./errors');
-const Rand = require('./rand');
-const utils = require('core/utils');
+import ThangState from './thang_state';
+import { thangNames } from './names';
+import { ArgumentError } from './errors';
+import Rand from './rand';
+import utils from 'core/utils';
 
-module.exports = (Thang = (function() {
+export default Thang = (function() {
   Thang = class Thang {
     static initClass() {
       this.className = 'Thang';
@@ -314,7 +314,7 @@ module.exports = (Thang = (function() {
   };
   Thang.initClass();
   return Thang;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

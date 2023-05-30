@@ -12,10 +12,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let GoalManager;
-const CocoClass = require('core/CocoClass');
-const utils = require('core/utils');
+import CocoClass from 'core/CocoClass';
+import utils from 'core/utils';
 
-module.exports = (GoalManager = (function() {
+export default GoalManager = (function() {
   GoalManager = class GoalManager extends CocoClass {
     static initClass() {
       // The Goal Manager is created both on the main thread and
@@ -584,4 +584,4 @@ module.exports = (GoalManager = (function() {
   };
   GoalManager.initClass();
   return GoalManager;
-})());
+})();

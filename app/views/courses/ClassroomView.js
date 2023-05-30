@@ -13,28 +13,28 @@
  */
 // NOTE: this view is deprecated
 let ClassroomView;
-require('app/styles/courses/classroom-view.sass');
-const Campaign = require('models/Campaign');
-const CocoCollection = require('collections/CocoCollection');
-const Course = require('models/Course');
-const CourseInstance = require('models/CourseInstance');
-const Classroom = require('models/Classroom');
-const Classrooms = require('collections/Classrooms');
-const LevelSession = require('models/LevelSession');
-const Prepaids = require('collections/Prepaids');
-const Levels = require('collections/Levels');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/courses/classroom-view');
-const User = require('models/User');
-const utils = require('core/utils');
-const Prepaid = require('models/Prepaid');
-const ClassroomSettingsModal = require('views/courses/ClassroomSettingsModal');
-const ActivateLicensesModal = require('views/courses/ActivateLicensesModal');
-const InviteToClassroomModal = require('views/courses/InviteToClassroomModal');
-const RemoveStudentModal = require('views/courses/RemoveStudentModal');
-const popoverTemplate = require('app/templates/courses/classroom-level-popover');
+import 'app/styles/courses/classroom-view.sass';
+import Campaign from 'models/Campaign';
+import CocoCollection from 'collections/CocoCollection';
+import Course from 'models/Course';
+import CourseInstance from 'models/CourseInstance';
+import Classroom from 'models/Classroom';
+import Classrooms from 'collections/Classrooms';
+import LevelSession from 'models/LevelSession';
+import Prepaids from 'collections/Prepaids';
+import Levels from 'collections/Levels';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/courses/classroom-view';
+import User from 'models/User';
+import utils from 'core/utils';
+import Prepaid from 'models/Prepaid';
+import ClassroomSettingsModal from 'views/courses/ClassroomSettingsModal';
+import ActivateLicensesModal from 'views/courses/ActivateLicensesModal';
+import InviteToClassroomModal from 'views/courses/InviteToClassroomModal';
+import RemoveStudentModal from 'views/courses/RemoveStudentModal';
+import popoverTemplate from 'app/templates/courses/classroom-level-popover';
 
-module.exports = (ClassroomView = (function() {
+export default ClassroomView = (function() {
   ClassroomView = class ClassroomView extends RootView {
     static initClass() {
       this.prototype.id = 'classroom-view';
@@ -320,7 +320,7 @@ module.exports = (ClassroomView = (function() {
   };
   ClassroomView.initClass();
   return ClassroomView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

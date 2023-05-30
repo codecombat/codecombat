@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const FeatureSchema = {
   type: 'object',
@@ -35,4 +35,4 @@ const FeatureRecipientSchema = _.merge(_.cloneDeep(FeatureSchema), {
 }
 );
 
-module.exports = {FeatureSchema, FeatureAuthoritySchema, FeatureRecipientSchema};
+export default {FeatureSchema, FeatureAuthoritySchema, FeatureRecipientSchema};

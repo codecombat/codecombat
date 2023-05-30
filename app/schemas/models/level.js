@@ -1,7 +1,8 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
-const ThangComponentSchema = require('./thang_component');
+import c from './../schemas';
+
+import ThangComponentSchema from './thang_component';
 
 const SpecificArticleSchema = c.object();
 c.extendNamedProperties(SpecificArticleSchema);  // name first
@@ -603,7 +604,7 @@ c.extendPermissionsProperties(LevelSchema, 'level');
 c.extendPatchableProperties(LevelSchema);
 c.extendTranslationCoverageProperties(LevelSchema);
 
-module.exports = LevelSchema;
+export default LevelSchema;
 
 // To test:
 // 1: Copy the schema from http://localhost:3000/db/level/schema

@@ -11,17 +11,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelThangEditView;
-require('app/styles/editor/level/thang/level-thang-edit-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/level/thang/level-thang-edit-view');
-const ThangComponentsEditView = require('views/editor/component/ThangComponentsEditView');
-const ThangType = require('models/ThangType');
-const ace = require('lib/aceContainer');
-const utils = require('core/utils');
-require('vendor/scripts/jquery-ui-1.11.1.custom');
-require('vendor/styles/jquery-ui-1.11.1.custom.css');
+import 'app/styles/editor/level/thang/level-thang-edit-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/level/thang/level-thang-edit-view';
+import ThangComponentsEditView from 'views/editor/component/ThangComponentsEditView';
+import ThangType from 'models/ThangType';
+import ace from 'lib/aceContainer';
+import utils from 'core/utils';
+import 'vendor/scripts/jquery-ui-1.11.1.custom';
+import 'vendor/styles/jquery-ui-1.11.1.custom.css';
 
-module.exports = (LevelThangEditView = (function() {
+export default LevelThangEditView = (function() {
   LevelThangEditView = class LevelThangEditView extends CocoView {
     static initClass() {
       /*
@@ -172,4 +172,4 @@ module.exports = (LevelThangEditView = (function() {
   };
   LevelThangEditView.initClass();
   return LevelThangEditView;
-})());
+})();

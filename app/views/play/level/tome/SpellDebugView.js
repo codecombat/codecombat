@@ -10,24 +10,29 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpellDebugView;
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/tome/spell_debug');
-const ace = require('lib/aceContainer');
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/tome/spell_debug';
+import ace from 'lib/aceContainer';
 const {
   Range
 } = ace.require('ace/range');
 const {
   TokenIterator
 } = ace.require('ace/token_iterator');
+import Thang from 'lib/world/thang';
+import Vector from 'lib/world/vector';
+import Rectangle from 'lib/world/rectangle';
+import Ellipse from 'lib/world/ellipse';
+import LineSegment from 'lib/world/line_segment';
 const serializedClasses = {
-  Thang: require('lib/world/thang'),
-  Vector: require('lib/world/vector'),
-  Rectangle: require('lib/world/rectangle'),
-  Ellipse: require('lib/world/ellipse'),
-  LineSegment: require('lib/world/line_segment')
+  Thang,
+  Vector,
+  Rectangle,
+  Ellipse,
+  LineSegment
 };
 
-module.exports = (SpellDebugView = (function() {
+export default SpellDebugView = (function() {
   SpellDebugView = class SpellDebugView extends CocoView {
     static initClass() {
       this.prototype.className = 'spell-debug-view';
@@ -344,7 +349,7 @@ module.exports = (SpellDebugView = (function() {
   };
   SpellDebugView.initClass();
   return SpellDebugView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

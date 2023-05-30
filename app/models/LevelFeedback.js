@@ -6,9 +6,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelFeedback;
-const CocoModel = require('./CocoModel');
+import CocoModel from './CocoModel';
 
-module.exports = (LevelFeedback = (function() {
+export default LevelFeedback = (function() {
   LevelFeedback = class LevelFeedback extends CocoModel {
     static initClass() {
       this.className = 'LevelFeedback';
@@ -18,4 +18,4 @@ module.exports = (LevelFeedback = (function() {
   };
   LevelFeedback.initClass();
   return LevelFeedback;
-})());
+})();

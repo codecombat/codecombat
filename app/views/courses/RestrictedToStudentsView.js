@@ -8,9 +8,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let RestrictedToStudentsView;
-const RootView = require('views/core/RootView');
+import RootView from 'views/core/RootView';
 
-module.exports = (RestrictedToStudentsView = (function() {
+export default RestrictedToStudentsView = (function() {
   RestrictedToStudentsView = class RestrictedToStudentsView extends RootView {
     static initClass() {
       this.prototype.id = 'restricted-to-students-view';
@@ -23,4 +23,4 @@ module.exports = (RestrictedToStudentsView = (function() {
   };
   RestrictedToStudentsView.initClass();
   return RestrictedToStudentsView;
-})());
+})();

@@ -13,18 +13,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Lank;
-const CocoClass = require('core/CocoClass');
-const {createProgressBar} = require('./sprite_utils');
-const Camera = require('./Camera');
-const Mark = require('./Mark');
-const Label = require('./Label');
-const AudioPlayer = require('lib/AudioPlayer');
-const {me} = require('core/auth');
-const ThangType = require('models/ThangType');
-const utils = require('core/utils');
-const createjs = require('lib/createjs-parts');
-
-const store = require('core/store');
+import CocoClass from 'core/CocoClass';
+import { createProgressBar } from './sprite_utils';
+import Camera from './Camera';
+import Mark from './Mark';
+import Label from './Label';
+import AudioPlayer from 'lib/AudioPlayer';
+import { me } from 'core/auth';
+import ThangType from 'models/ThangType';
+import utils from 'core/utils';
+import createjs from 'lib/createjs-parts';
+import store from 'core/store';
 
 // We'll get rid of this once level's teams actually have colors
 const healthColors = {
@@ -34,7 +33,7 @@ const healthColors = {
 };
 
 // Sprite: EaselJS-based view/controller for Thang model
-module.exports = (Lank = (Lank = (function() {
+export default Lank = (Lank = (function() {
   Lank = class Lank extends CocoClass {
     static initClass() {
       this.prototype.thangType = null; // ThangType instance
@@ -1185,7 +1184,7 @@ module.exports = (Lank = (Lank = (function() {
   };
   Lank.initClass();
   return Lank;
-})()));
+})());
 
 function __guardMethod__(obj, methodName, transform) {
   if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {

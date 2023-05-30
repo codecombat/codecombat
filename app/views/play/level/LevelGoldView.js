@@ -5,12 +5,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelGoldView;
-require('app/styles/play/level/gold.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/gold');
-const teamTemplate = require('app/templates/play/level/team_gold');
+import 'app/styles/play/level/gold.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/gold';
+import teamTemplate from 'app/templates/play/level/team_gold';
 
-module.exports = (LevelGoldView = (function() {
+export default LevelGoldView = (function() {
   LevelGoldView = class LevelGoldView extends CocoView {
     static initClass() {
       this.prototype.id = 'gold-view';
@@ -68,4 +68,4 @@ module.exports = (LevelGoldView = (function() {
   };
   LevelGoldView.initClass();
   return LevelGoldView;
-})());
+})();

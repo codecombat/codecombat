@@ -8,15 +8,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SegmentCheckView;
-require('app/styles/modal/create-account-modal/segment-check-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/core/create-account-modal/segment-check-view');
-const forms = require('core/forms');
-const Classroom = require('models/Classroom');
-const State = require('models/State');
-const utils = require('core/utils');
+import 'app/styles/modal/create-account-modal/segment-check-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/core/create-account-modal/segment-check-view';
+import forms from 'core/forms';
+import Classroom from 'models/Classroom';
+import State from 'models/State';
+import utils from 'core/utils';
 
-module.exports = (SegmentCheckView = (function() {
+export default SegmentCheckView = (function() {
   SegmentCheckView = class SegmentCheckView extends CocoView {
     static initClass() {
       this.prototype.id = 'segment-check-view';
@@ -163,4 +163,4 @@ module.exports = (SegmentCheckView = (function() {
   };
   SegmentCheckView.initClass();
   return SegmentCheckView;
-})());
+})();

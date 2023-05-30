@@ -1,9 +1,9 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
 let defaults;
-const execution = require('./execution');
+import execution from './execution';
 
-module.exports = (defaults = {
+export default defaults = {
   thisValue: null,  // TODO: don't use this. Aether doesn't use it at compile time and CodeCombat uses it just at runtime, and it makes cloning original options weird/unintuitive/slow.
   globals: [],
   language: "javascript",
@@ -21,4 +21,4 @@ module.exports = (defaults = {
   protectBuiltins: true,
   protectAPI: false,
   debug: false
-});
+};

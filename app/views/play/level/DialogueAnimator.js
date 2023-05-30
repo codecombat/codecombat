@@ -7,9 +7,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let DialogueAnimator;
-const utils = require('core/utils');
+import utils from 'core/utils';
 
-module.exports = (DialogueAnimator = (function() {
+export default DialogueAnimator = (function() {
   DialogueAnimator = class DialogueAnimator {
     static initClass() {
       this.prototype.jqueryElement = null;
@@ -93,7 +93,7 @@ module.exports = (DialogueAnimator = (function() {
   };
   DialogueAnimator.initClass();
   return DialogueAnimator;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

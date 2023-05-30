@@ -9,14 +9,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let WorldSelectModal;
-require('app/styles/editor/level/modal/world-select-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/level/modal/world-select-modal');
-const Surface = require('lib/surface/Surface');
-const ThangType = require('models/ThangType');
-const globalVar = require('core/globalVar');
+import 'app/styles/editor/level/modal/world-select-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/level/modal/world-select-modal';
+import Surface from 'lib/surface/Surface';
+import ThangType from 'models/ThangType';
+import globalVar from 'core/globalVar';
 
-module.exports = (WorldSelectModal = (function() {
+export default WorldSelectModal = (function() {
   WorldSelectModal = class WorldSelectModal extends ModalView {
     static initClass() {
       this.prototype.id = 'world-select-modal';
@@ -152,4 +152,4 @@ module.exports = (WorldSelectModal = (function() {
   };
   WorldSelectModal.initClass();
   return WorldSelectModal;
-})());
+})();

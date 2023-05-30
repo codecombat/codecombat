@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let UserPollsRecord;
-const CocoModel = require('./CocoModel');
-const schema = require('schemas/models/user-polls-record.schema');
+import CocoModel from './CocoModel';
+import schema from 'schemas/models/user-polls-record.schema';
 
-module.exports = (UserPollsRecord = (function() {
+export default UserPollsRecord = (function() {
   UserPollsRecord = class UserPollsRecord extends CocoModel {
     static initClass() {
       this.className = 'UserPollsRecord';
@@ -19,4 +19,4 @@ module.exports = (UserPollsRecord = (function() {
   };
   UserPollsRecord.initClass();
   return UserPollsRecord;
-})());
+})();

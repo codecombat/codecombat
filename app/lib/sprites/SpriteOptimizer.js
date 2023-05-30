@@ -11,9 +11,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpriteOptimizer;
-const utils = require('core/utils');
+import utils from 'core/utils';
 
-module.exports = (SpriteOptimizer = (function() {
+export default SpriteOptimizer = (function() {
   SpriteOptimizer = class SpriteOptimizer {
     static initClass() {
       this.prototype.debug = false;
@@ -446,7 +446,7 @@ module.exports = (SpriteOptimizer = (function() {
   };
   SpriteOptimizer.initClass();
   return SpriteOptimizer;
-})());
+})();
 
 function __guardMethod__(obj, methodName, transform) {
   if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {

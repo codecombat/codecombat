@@ -9,10 +9,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let IndieLank;
-const Thang = require('lib/world/thang');
-const Lank = require('lib/surface/Lank');
+import Thang from 'lib/world/thang';
+import Lank from 'lib/surface/Lank';
 
-module.exports = (IndieLank = (IndieLank = (function() {
+export default IndieLank = (IndieLank = (function() {
   IndieLank = class IndieLank extends Lank {
     static initClass() {
       this.prototype.notOfThisWorld = true;
@@ -57,4 +57,4 @@ module.exports = (IndieLank = (IndieLank = (function() {
   };
   IndieLank.initClass();
   return IndieLank;
-})()));
+})());

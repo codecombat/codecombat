@@ -8,11 +8,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let OutcomesReportView;
-const RootView = require('views/core/RootView');
-const template = require('app/templates/base-flat');
+import RootView from 'views/core/RootView';
+import template from 'app/templates/base-flat';
 const OutcomesReportComponent = Vue.extend(require('./OutcomesReportComponent.vue')['default']);
 
-module.exports = (OutcomesReportView = (function() {
+export default OutcomesReportView = (function() {
   OutcomesReportView = class OutcomesReportView extends RootView {
     static initClass() {
       this.prototype.id = 'outcomes-report-view';
@@ -33,4 +33,4 @@ module.exports = (OutcomesReportView = (function() {
   };
   OutcomesReportView.initClass();
   return OutcomesReportView;
-})());
+})();

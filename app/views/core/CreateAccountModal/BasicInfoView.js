@@ -14,19 +14,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let BasicInfoView;
-require('app/styles/modal/create-account-modal/basic-info-view.sass');
-const CocoView = require('views/core/CocoView');
-const AuthModal = require('views/core/AuthModal');
-const template = require('app/templates/core/create-account-modal/basic-info-view');
-const forms = require('core/forms');
-const errors = require('core/errors');
-const User = require('models/User');
-const State = require('models/State');
-const store = require('core/store');
-const globalVar = require('core/globalVar');
-const {capitalizeFirstLetter, isCodeCombat, isOzaria} = require('core/utils');
-const _ = require('lodash');
-const userUtils = require('../../../lib/user-utils');
+import 'app/styles/modal/create-account-modal/basic-info-view.sass';
+import CocoView from 'views/core/CocoView';
+import AuthModal from 'views/core/AuthModal';
+import template from 'app/templates/core/create-account-modal/basic-info-view';
+import forms from 'core/forms';
+import errors from 'core/errors';
+import User from 'models/User';
+import State from 'models/State';
+import store from 'core/store';
+import globalVar from 'core/globalVar';
+import { capitalizeFirstLetter, isCodeCombat, isOzaria } from 'core/utils';
+import _ from 'lodash';
+import userUtils from '../../../lib/user-utils';
 
 /*
 This view handles the primary form for user details — name, email, password, etc,
@@ -43,7 +43,7 @@ This view currently uses the old form API instead of stateful render.
 It needs some work to make error UX and rendering better, but is functional.
 */
 
-module.exports = (BasicInfoView = (function() {
+export default BasicInfoView = (function() {
   BasicInfoView = class BasicInfoView extends CocoView {
     static initClass() {
       this.prototype.id = 'basic-info-view';
@@ -576,7 +576,7 @@ module.exports = (BasicInfoView = (function() {
   };
   BasicInfoView.initClass();
   return BasicInfoView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

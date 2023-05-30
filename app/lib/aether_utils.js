@@ -10,12 +10,12 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-require('./aether/aether.coffee');
+import './aether/aether.coffee';
 
 Aether.addGlobal('Vector', require('./world/vector'));
 Aether.addGlobal('_', _);
 
-module.exports.createAetherOptions = function(options) {
+export const createAetherOptions = function(options) {
   if (!options.functionName) { throw new Error('Specify a function name to create an Aether instance'); }
   if (!options.codeLanguage) { throw new Error('Specify a code language to create an Aether instance'); }
 
@@ -77,7 +77,7 @@ var functionParameters = {
   die: []
 };
 
-module.exports.generateSpellsObject = function(options) {
+export const generateSpellsObject = function(options) {
   let left;
   const {level, levelSession, token} = options;
   const {createAetherOptions} = require('lib/aether_utils');
@@ -94,7 +94,7 @@ module.exports.generateSpellsObject = function(options) {
   return spells;
 };
 
-module.exports.replaceSimpleLoops = function(source, language) {
+export const replaceSimpleLoops = function(source, language) {
   switch (language) {
     case 'python': return source.replace(/loop:/, 'while True:');
     case 'javascript': case 'java': case 'cpp': return source.replace(/loop {/, 'while (true) {');
@@ -104,7 +104,7 @@ module.exports.replaceSimpleLoops = function(source, language) {
   }
 };
 
-module.exports.translateJS = function(jsCode, language, fullCode) {
+export const translateJS = function(jsCode, language, fullCode) {
   if (language == null) { language = 'cpp'; }
   if (fullCode == null) { fullCode = true; }
   if (['cpp', 'java'].includes(language)) { return translateJSBrackets(jsCode, language, fullCode); }
@@ -532,7 +532,7 @@ var translateJSWhitespace = function(jsCode, language) {
 
 const startsWithVowel = s => Array.from('aeiouAEIOU').includes(s[0]);
 
-module.exports.filterMarkdownCodeLanguages = function(text, language) {
+export const filterMarkdownCodeLanguages = function(text, language) {
   if (!text) { return ''; }
   const currentLanguage = language || __guard__(me.get('aceConfig'), x => x.language) || 'python';
   let excludeCpp = 'cpp';
@@ -589,7 +589,7 @@ const makeErrorMessageTranslationRegex = function(englishString) {
   return new RegExp(escapeRegExp(englishString).replace(/\\\$\d/g, '(.+)').replace(/ +/g, ' +'));
 };
 
-module.exports.translateErrorMessage = function({ message, errorCode, i18nParams, spokenLanguage, staticTranslations, translateFn }) {
+export const translateErrorMessage = function({ message, errorCode, i18nParams, spokenLanguage, staticTranslations, translateFn }) {
   // Here we take a string from the locale file, find the placeholders ($1/$2/etc)
   //   and replace them with capture groups (.+),
   // returns a regex that will match against the error message
@@ -599,7 +599,9 @@ module.exports.translateErrorMessage = function({ message, errorCode, i18nParams
   let messages;
   if (!message) { return message; }
   if (/\n/.test(message)) { // Translate each line independently, since regexes act weirdly with newlines
-    return message.split('\n').map(line => module.exports.translateErrorMessage({ message: line.trim(), errorCode, i18nParams, spokenLanguage, staticTranslations, translateFn })).join('\n');
+    return message.split('\n').map(line => translateErrorMessage(
+      { message: line.trim(), errorCode, i18nParams, spokenLanguage, staticTranslations, translateFn }
+    )).join('\n');
   }
 
   if (/^i18n::/.test(message)) { // handle i18n messages from aether_worker

@@ -7,9 +7,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let loadSegmentio;
-const utils = require('core/utils');
+import utils from 'core/utils';
 
-module.exports = (loadSegmentio = !me.useSocialSignOn() ? () => Promise.resolve([]) : _.once(() => new Promise(function(accept, reject) {
+export default loadSegmentio = !me.useSocialSignOn() ? () => Promise.resolve([]) : _.once(() => new Promise(function(accept, reject) {
   const analytics = (window.analytics = window.analytics || []);
   analytics.invoked = true;
   analytics.methods = [
@@ -59,5 +59,5 @@ module.exports = (loadSegmentio = !me.useSocialSignOn() ? () => Promise.resolve(
     analytics.SNIPPET_VERSION = '3.1.0';
     return analytics.load('yJpJZWBw68fEj0aPSv8ffMMgof5kFnU9');
   }
-})));
-    //analytics.page()  # Don't track the page view on initial inclusion
+}));
+//analytics.page()  # Don't track the page view on initial inclusion

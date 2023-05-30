@@ -1,7 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-let thangNames;
-module.exports.thangNames = (thangNames = {
+export const thangNames = {
   'Ogre Munchkin F': [
     // Female
     'Alali',
@@ -994,4 +993,4 @@ module.exports.thangNames = (thangNames = {
     // Male
     'Armando Hoyos'
   ]
-});
+};

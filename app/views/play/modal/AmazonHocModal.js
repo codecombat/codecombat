@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AmazonHocModal;
-require('app/styles/play/modal/amazon-hoc-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/modal/amazon-hoc-modal');
+import 'app/styles/play/modal/amazon-hoc-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/modal/amazon-hoc-modal';
 
-module.exports = (AmazonHocModal = (function() {
+export default AmazonHocModal = (function() {
   AmazonHocModal = class AmazonHocModal extends ModalView {
     static initClass() {
       this.prototype.template = template;
@@ -38,4 +38,4 @@ module.exports = (AmazonHocModal = (function() {
   };
   AmazonHocModal.initClass();
   return AmazonHocModal;
-})());
+})();

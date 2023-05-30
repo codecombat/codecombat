@@ -8,11 +8,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ChooseLanguageModal;
-require('app/styles/courses/choose-language-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/courses/choose-language-modal');
+import 'app/styles/courses/choose-language-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/courses/choose-language-modal';
 
-module.exports = (ChooseLanguageModal = (function() {
+export default ChooseLanguageModal = (function() {
   ChooseLanguageModal = class ChooseLanguageModal extends ModalView {
     static initClass() {
       this.prototype.id = 'choose-language-modal';
@@ -77,4 +77,4 @@ module.exports = (ChooseLanguageModal = (function() {
   };
   ChooseLanguageModal.initClass();
   return ChooseLanguageModal;
-})());
+})();

@@ -8,13 +8,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ExtrasView;
-require('app/styles/modal/create-account-modal/extras-view.sass');
-const CocoView = require('views/core/CocoView');
-const HeroSelectView = require('views/core/HeroSelectView');
-const template = require('app/templates/core/create-account-modal/extras-view');
-const State = require('models/State');
+import 'app/styles/modal/create-account-modal/extras-view.sass';
+import CocoView from 'views/core/CocoView';
+import HeroSelectView from 'views/core/HeroSelectView';
+import template from 'app/templates/core/create-account-modal/extras-view';
+import State from 'models/State';
 
-module.exports = (ExtrasView = (function() {
+export default ExtrasView = (function() {
   ExtrasView = class ExtrasView extends CocoView {
     static initClass() {
       this.prototype.id = 'extras-view';
@@ -42,4 +42,4 @@ module.exports = (ExtrasView = (function() {
   };
   ExtrasView.initClass();
   return ExtrasView;
-})());
+})();

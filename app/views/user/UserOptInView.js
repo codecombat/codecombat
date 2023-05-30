@@ -5,14 +5,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let UserOptInView;
-require('app/styles/user/user-opt-in-view.sass');
-const RootView = require('views/core/RootView');
-const State = require('models/State');
-const template = require('app/templates/user/user-opt-in-view');
-const User = require('models/User');
-const utils = require('core/utils');
+import 'app/styles/user/user-opt-in-view.sass';
+import RootView from 'views/core/RootView';
+import State from 'models/State';
+import template from 'app/templates/user/user-opt-in-view';
+import User from 'models/User';
+import utils from 'core/utils';
 
-module.exports = (UserOptInView = (function() {
+export default UserOptInView = (function() {
   UserOptInView = class UserOptInView extends RootView {
     static initClass() {
       this.prototype.id = 'user-opt-in-view';
@@ -71,4 +71,4 @@ module.exports = (UserOptInView = (function() {
   };
   UserOptInView.initClass();
   return UserOptInView;
-})());
+})();

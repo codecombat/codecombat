@@ -1,5 +1,5 @@
 let results;
-module.exports = (results = {greed: {}, 'criss-cross': {}, 'zero-sum': {}, 'ace-of-coders': {}, 'battle-of-red-cliffs': {}});
+export default results = {greed: {}, 'criss-cross': {}, 'zero-sum': {}, 'ace-of-coders': {}, 'battle-of-red-cliffs': {}};
 
 results.greed.humans = [
   {team: 'humans', rank: 1, sessionID: '5381e3537585483905a829c1', name: 'Wizard Dude', playtime: 63184, wins: 363, losses: 0, score: 363},

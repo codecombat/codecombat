@@ -10,13 +10,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let DemoRequestsView;
-require('app/styles/admin/demo-requests.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/admin/demo-requests');
-const CocoCollection = require('collections/CocoCollection');
-const TrialRequest = require('models/TrialRequest');
+import 'app/styles/admin/demo-requests.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/admin/demo-requests';
+import CocoCollection from 'collections/CocoCollection';
+import TrialRequest from 'models/TrialRequest';
 
-module.exports = (DemoRequestsView = (function() {
+export default DemoRequestsView = (function() {
   DemoRequestsView = class DemoRequestsView extends RootView {
     static initClass() {
       this.prototype.id = 'admin-demo-requests-view';
@@ -62,4 +62,4 @@ module.exports = (DemoRequestsView = (function() {
   };
   DemoRequestsView.initClass();
   return DemoRequestsView;
-})());
+})();

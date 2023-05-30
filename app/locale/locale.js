@@ -12,10 +12,10 @@
 // Sort according to language popularity on Internet
 // http://en.wikipedia.org/wiki/Languages_used_on_the_Internet
 
-const utils = require('../core/utils');
+import utils from '../core/utils';
 
 
-module.exports = {
+export default {
   'en': require('./en'), // Include these in the main bundle
   'en-US': require('./en-US'),
   'en-GB': { nativeDescription: 'English (UK)', englishDescription: 'English (UK)' },

@@ -6,9 +6,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let StripeCoupon;
-const CocoModel = require('./CocoModel');
+import CocoModel from './CocoModel';
 
-module.exports = (StripeCoupon = (function() {
+export default StripeCoupon = (function() {
   StripeCoupon = class StripeCoupon extends CocoModel {
     static initClass() {
       this.className = 'StripeCoupon';
@@ -35,4 +35,4 @@ module.exports = (StripeCoupon = (function() {
   };
   StripeCoupon.initClass();
   return StripeCoupon;
-})());
+})();

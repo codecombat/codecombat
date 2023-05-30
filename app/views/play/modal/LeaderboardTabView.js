@@ -9,11 +9,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LeaderboardTabView;
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/modal/leaderboard-tab-view');
-const CocoCollection = require('collections/CocoCollection');
-const LevelSession = require('models/LevelSession');
-const fetchJson = require('core/api/fetch-json');
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/modal/leaderboard-tab-view';
+import CocoCollection from 'collections/CocoCollection';
+import LevelSession from 'models/LevelSession';
+import fetchJson from 'core/api/fetch-json';
 
 class TopScoresCollection extends CocoCollection {
   static initClass() {
@@ -31,7 +31,7 @@ class TopScoresCollection extends CocoCollection {
 }
 TopScoresCollection.initClass();
 
-module.exports = (LeaderboardTabView = (function() {
+export default LeaderboardTabView = (function() {
   LeaderboardTabView = class LeaderboardTabView extends CocoView {
     static initClass() {
       this.prototype.template = template;
@@ -126,7 +126,7 @@ module.exports = (LeaderboardTabView = (function() {
   };
   LeaderboardTabView.initClass();
   return LeaderboardTabView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

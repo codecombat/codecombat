@@ -10,12 +10,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ComponentsDocumentationView;
-require('app/styles/docs/components-documentation-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/docs/components-documentation-view');
-const CocoCollection = require('collections/CocoCollection');
-const LevelComponent = require('models/LevelComponent');
-const utils = require('core/utils');
+import 'app/styles/docs/components-documentation-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/docs/components-documentation-view';
+import CocoCollection from 'collections/CocoCollection';
+import LevelComponent from 'models/LevelComponent';
+import utils from 'core/utils';
 
 class ComponentDocsCollection extends CocoCollection {
   static initClass() {
@@ -26,7 +26,7 @@ class ComponentDocsCollection extends CocoCollection {
 }
 ComponentDocsCollection.initClass();
 
-module.exports = (ComponentsDocumentationView = (function() {
+export default ComponentsDocumentationView = (function() {
   ComponentsDocumentationView = class ComponentsDocumentationView extends CocoView {
     static initClass() {
       this.prototype.id = 'components-documentation-view';
@@ -79,7 +79,7 @@ module.exports = (ComponentsDocumentationView = (function() {
   };
   ComponentsDocumentationView.initClass();
   return ComponentsDocumentationView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

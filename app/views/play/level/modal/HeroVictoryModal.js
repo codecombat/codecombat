@@ -12,30 +12,30 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let HeroVictoryModal;
-require('app/styles/play/level/modal/hero-victory-modal.sass');
-const ModalView = require('views/core/ModalView');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const template = require('app/templates/play/level/modal/hero-victory-modal');
-const Achievement = require('models/Achievement');
-const EarnedAchievement = require('models/EarnedAchievement');
-const CocoCollection = require('collections/CocoCollection');
-const LocalMongo = require('lib/LocalMongo');
-let utils = require('core/utils');
-const ThangType = require('models/ThangType');
-const LadderSubmissionView = require('views/play/common/LadderSubmissionView');
-const AudioPlayer = require('lib/AudioPlayer');
-const User = require('models/User');
+import 'app/styles/play/level/modal/hero-victory-modal.sass';
+import ModalView from 'views/core/ModalView';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import template from 'app/templates/play/level/modal/hero-victory-modal';
+import Achievement from 'models/Achievement';
+import EarnedAchievement from 'models/EarnedAchievement';
+import CocoCollection from 'collections/CocoCollection';
+import LocalMongo from 'lib/LocalMongo';
+import utils from 'core/utils';
+import ThangType from 'models/ThangType';
+import LadderSubmissionView from 'views/play/common/LadderSubmissionView';
+import AudioPlayer from 'lib/AudioPlayer';
+import User from 'models/User';
 utils = require('core/utils');
-const Course = require('models/Course');
-const Level = require('models/Level');
-const LevelFeedback = require('models/LevelFeedback');
-const storage = require('core/storage');
-const SubscribeModal = require('views/core/SubscribeModal');
-const AmazonHocModal = require('views/play/modal/AmazonHocModal');
-const forms = require('core/forms');
-const contact = require('core/contact');
+import Course from 'models/Course';
+import Level from 'models/Level';
+import LevelFeedback from 'models/LevelFeedback';
+import storage from 'core/storage';
+import SubscribeModal from 'views/core/SubscribeModal';
+import AmazonHocModal from 'views/play/modal/AmazonHocModal';
+import forms from 'core/forms';
+import contact from 'core/contact';
 
-module.exports = (HeroVictoryModal = (function() {
+export default HeroVictoryModal = (function() {
   HeroVictoryModal = class HeroVictoryModal extends ModalView {
     static initClass() {
       this.prototype.id = 'hero-victory-modal';
@@ -724,7 +724,7 @@ module.exports = (HeroVictoryModal = (function() {
   };
   HeroVictoryModal.initClass();
   return HeroVictoryModal;
-})());
+})();
 
 
 // Much easier to just keep this updated than to dynamically figure it out.

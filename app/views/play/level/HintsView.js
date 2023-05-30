@@ -10,14 +10,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let HintsView;
-const CocoView = require('views/core/CocoView');
-const State = require('models/State');
-const ace = require('lib/aceContainer');
-const utils = require('core/utils');
-const aceUtils = require('core/aceUtils');
-const aetherUtils = require('lib/aether_utils');
+import CocoView from 'views/core/CocoView';
+import State from 'models/State';
+import ace from 'lib/aceContainer';
+import utils from 'core/utils';
+import aceUtils from 'core/aceUtils';
+import aetherUtils from 'lib/aether_utils';
 
-module.exports = (HintsView = (function() {
+export default HintsView = (function() {
   HintsView = class HintsView extends CocoView {
     constructor(...args) {
       this.incrementHintViewTime = this.incrementHintViewTime.bind(this);
@@ -158,7 +158,7 @@ module.exports = (HintsView = (function() {
   };
   HintsView.initClass();
   return HintsView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

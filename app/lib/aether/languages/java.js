@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Java;
-const Language = require('./language');
+import Language from './language';
 const parserHolder = {};
 
-module.exports = (Java = (function() {
+export default Java = (function() {
   Java = class Java extends Language {
     static initClass() {
       this.prototype.name = 'Java';
@@ -31,5 +31,5 @@ module.exports = (Java = (function() {
   };
   Java.initClass();
   return Java;
-})());
+})();
 

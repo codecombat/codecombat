@@ -13,16 +13,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AccountSettingsView;
-require('app/styles/account/account-settings-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/account/account-settings-view');
-const forms = require('core/forms');
-const User = require('models/User');
-const ConfirmModal = require('views/core/ConfirmModal');
-const {logoutUser, me} = require('core/auth');
-const globalVar = require('core/globalVar');
+import 'app/styles/account/account-settings-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/account/account-settings-view';
+import forms from 'core/forms';
+import User from 'models/User';
+import ConfirmModal from 'views/core/ConfirmModal';
+import { logoutUser, me } from 'core/auth';
+import globalVar from 'core/globalVar';
 
-module.exports = (AccountSettingsView = (function() {
+export default AccountSettingsView = (function() {
   AccountSettingsView = class AccountSettingsView extends CocoView {
     static initClass() {
       this.prototype.id = 'account-settings-view';
@@ -408,7 +408,7 @@ module.exports = (AccountSettingsView = (function() {
   };
   AccountSettingsView.initClass();
   return AccountSettingsView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

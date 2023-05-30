@@ -9,19 +9,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PollEditView;
-require('app/styles/editor/poll/poll-edit-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/editor/poll/poll-edit-view');
-const Poll = require('models/Poll');
-const UserPollsRecord = require('models/UserPollsRecord');
-const PollModal = require('views/play/modal/PollModal');
-const ConfirmModal = require('views/core/ConfirmModal');
-const PatchesView = require('views/editor/PatchesView');
-const errors = require('core/errors');
+import 'app/styles/editor/poll/poll-edit-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/editor/poll/poll-edit-view';
+import Poll from 'models/Poll';
+import UserPollsRecord from 'models/UserPollsRecord';
+import PollModal from 'views/play/modal/PollModal';
+import ConfirmModal from 'views/core/ConfirmModal';
+import PatchesView from 'views/editor/PatchesView';
+import errors from 'core/errors';
+import 'lib/game-libraries';
 
-require('lib/game-libraries');
-
-module.exports = (PollEditView = (function() {
+export default PollEditView = (function() {
   PollEditView = class PollEditView extends RootView {
     static initClass() {
       this.prototype.id = 'editor-poll-edit-view';
@@ -209,4 +208,4 @@ module.exports = (PollEditView = (function() {
   };
   PollEditView.initClass();
   return PollEditView;
-})());
+})();

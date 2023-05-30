@@ -12,12 +12,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ScreenReaderSurfaceView;
-require('app/styles/play/level/screen-reader-surface-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/screen-reader-surface');
-const utils = require('core/utils');
+import 'app/styles/play/level/screen-reader-surface-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/screen-reader-surface';
+import utils from 'core/utils';
 
-module.exports = (ScreenReaderSurfaceView = (function() {
+export default ScreenReaderSurfaceView = (function() {
   ScreenReaderSurfaceView = class ScreenReaderSurfaceView extends CocoView {
     static initClass() {
       this.prototype.id = 'screen-reader-surface-view';
@@ -294,7 +294,7 @@ module.exports = (ScreenReaderSurfaceView = (function() {
   };
   ScreenReaderSurfaceView.initClass();
   return ScreenReaderSurfaceView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

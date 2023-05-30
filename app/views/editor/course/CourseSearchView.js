@@ -7,9 +7,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CourseSearchView;
-const SearchView = require('views/common/SearchView');
+import SearchView from 'views/common/SearchView';
 
-module.exports = (CourseSearchView = (function() {
+export default CourseSearchView = (function() {
   CourseSearchView = class CourseSearchView extends SearchView {
     static initClass() {
       this.prototype.id = 'editor-course-home-view';
@@ -35,4 +35,4 @@ module.exports = (CourseSearchView = (function() {
   };
   CourseSearchView.initClass();
   return CourseSearchView;
-})());
+})();

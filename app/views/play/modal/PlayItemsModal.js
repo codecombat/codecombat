@@ -12,24 +12,22 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PlayItemsModal;
-require('app/styles/play/modal/play-items-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/modal/play-items-modal');
-const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt');
-const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt');
-const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt');
-const ItemDetailsView = require('./ItemDetailsView');
-const BuyGemsModal = require('views/play/modal/BuyGemsModal');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const SubscribeModal = require('views/core/SubscribeModal');
-
-const CocoCollection = require('collections/CocoCollection');
-const ThangType = require('models/ThangType');
-const LevelComponent = require('models/LevelComponent');
-const Level = require('models/Level');
-const Purchase = require('models/Purchase');
-
-const utils = require('core/utils');
+import 'app/styles/play/modal/play-items-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/modal/play-items-modal';
+import buyGemsPromptTemplate from 'app/templates/play/modal/buy-gems-prompt';
+import earnGemsPromptTemplate from 'app/templates/play/modal/earn-gems-prompt';
+import subscribeForGemsPrompt from 'app/templates/play/modal/subscribe-for-gems-prompt';
+import ItemDetailsView from './ItemDetailsView';
+import BuyGemsModal from 'views/play/modal/BuyGemsModal';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import SubscribeModal from 'views/core/SubscribeModal';
+import CocoCollection from 'collections/CocoCollection';
+import ThangType from 'models/ThangType';
+import LevelComponent from 'models/LevelComponent';
+import Level from 'models/Level';
+import Purchase from 'models/Purchase';
+import utils from 'core/utils';
 
 const PAGE_SIZE = 200;
 
@@ -59,7 +57,7 @@ const slotToCategory = {
   'programming-book': 'books'
 };
 
-module.exports = (PlayItemsModal = (function() {
+export default PlayItemsModal = (function() {
   PlayItemsModal = class PlayItemsModal extends ModalView {
     static initClass() {
       this.prototype.className = 'modal fade play-modal';
@@ -354,7 +352,7 @@ module.exports = (PlayItemsModal = (function() {
   };
   PlayItemsModal.initClass();
   return PlayItemsModal;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

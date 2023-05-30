@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const PrepaidSchema = c.object({title: 'Prepaid', required: ['type']}, {
   creator: c.objectId({links: [ {rel: 'extra', href: '/db/user/{($)}'} ]}),
@@ -54,4 +54,4 @@ const PrepaidSchema = c.object({title: 'Prepaid', required: ['type']}, {
 
 c.extendBasicProperties(PrepaidSchema, 'prepaid');
 
-module.exports = PrepaidSchema;
+export default PrepaidSchema;

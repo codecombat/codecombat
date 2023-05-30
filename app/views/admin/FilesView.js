@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let FilesView;
-const RootComponent = require('views/core/RootComponent');
-const template = require('app/templates/base-flat');
-const FilesComponent = require('./FilesComponent.vue').default;
+import RootComponent from 'views/core/RootComponent';
+import template from 'app/templates/base-flat';
+import FilesComponent from './FilesComponent.vue';
 
-module.exports = (FilesView = (function() {
+export default FilesView = (function() {
   FilesView = class FilesView extends RootComponent {
     static initClass() {
       this.prototype.id = 'files-view';
@@ -20,4 +20,4 @@ module.exports = (FilesView = (function() {
   };
   FilesView.initClass();
   return FilesView;
-})());
+})();

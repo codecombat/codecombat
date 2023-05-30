@@ -10,10 +10,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let I18NEditComponentView;
-const I18NEditModelView = require('./I18NEditModelView');
-const LevelComponent = require('models/LevelComponent');
+import I18NEditModelView from './I18NEditModelView';
+import LevelComponent from 'models/LevelComponent';
 
-module.exports = (I18NEditComponentView = (function() {
+export default I18NEditComponentView = (function() {
   I18NEditComponentView = class I18NEditComponentView extends I18NEditModelView {
     static initClass() {
       this.prototype.id = 'i18n-edit-component-view';
@@ -109,7 +109,7 @@ module.exports = (I18NEditComponentView = (function() {
   };
   I18NEditComponentView.initClass();
   return I18NEditComponentView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

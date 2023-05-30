@@ -9,12 +9,11 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let left, left1, makeCheckIncompleteMembers, makeCheckThisKeywords, makeGatherNodeRanges;
+let left, left1;
 const _ = (left = (left1 = (typeof window !== 'undefined' && window !== null ? window._ : undefined) != null ? (typeof window !== 'undefined' && window !== null ? window._ : undefined) : (typeof self !== 'undefined' && self !== null ? self._ : undefined)) != null ? left1 : (typeof global !== 'undefined' && global !== null ? global._ : undefined)) != null ? left : require('lodash');  // rely on lodash existing, since it busts CodeCombat to browserify it--TODO
 
-const S = require('esprima').Syntax;
-
-const ranges = require('./ranges');
+import { Syntax as S } from 'esprima';
+import ranges from './ranges';
 
 const statements = [S.EmptyStatement, S.ExpressionStatement, S.BreakStatement, S.ContinueStatement, S.DebuggerStatement, S.DoWhileStatement, S.ForStatement, S.FunctionDeclaration, S.ClassDeclaration, S.IfStatement, S.ReturnStatement, S.SwitchStatement, S.ThrowStatement, S.TryStatement, S.VariableStatement, S.WhileStatement, S.WithStatement, S.VariableDeclaration];
 
@@ -45,7 +44,7 @@ const getImmediateParentOfType = function(node, type) {
 // 2. When we generate the normalizedCode, we can also create a source map.
 // 3. A postNormalizationTransform can then get the original ranges for each node by going through the source map to our normalized mapping to our original node ranges.
 // 4. Instrumentation can then include the original ranges and node source in the saved flow state.
-module.exports.makeGatherNodeRanges = (makeGatherNodeRanges = (nodeRanges, code, codePrefix) => (function(node) {
+export const makeGatherNodeRanges = (nodeRanges, code, codePrefix) => (function(node) {
   if (!node.range) { return; }
   node.originalRange = ranges.offsetsToRange(node.range[0], node.range[1], code, codePrefix);
 
@@ -54,10 +53,10 @@ module.exports.makeGatherNodeRanges = (makeGatherNodeRanges = (nodeRanges, code,
   }
 
   return nodeRanges.push(node);
-}));
+});
 
 // Making
-module.exports.makeCheckThisKeywords = (makeCheckThisKeywords = (globals, varNames, language, problemContext) => (function(node) {
+export const makeCheckThisKeywords = (globals, varNames, language, problemContext) => (function(node) {
   if (node.type === S.VariableDeclarator) {
     return varNames[node.id.name] = true;
   } else if (node.type === S.AssignmentExpression) {
@@ -99,9 +98,9 @@ module.exports.makeCheckThisKeywords = (makeCheckThisKeywords = (globals, varNam
       return this.addProblem(problem);
     }
   }
-}));
+});
 
-module.exports.makeCheckIncompleteMembers = (makeCheckIncompleteMembers = (language, problemContext) => (function(node) {
+export const makeCheckIncompleteMembers = (language, problemContext) => (function(node) {
   // console.log 'check incomplete members', node, node.source() if node.source().search('this.') isnt -1
   if (node.type === 'ExpressionStatement') {
     const exp = node.expression;
@@ -131,4 +130,4 @@ module.exports.makeCheckIncompleteMembers = (makeCheckIncompleteMembers = (langu
       }
     }
   }
-}));
+});

@@ -12,13 +12,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Simulator;
-const SuperModel = require('models/SuperModel');
-const CocoClass = require('core/CocoClass');
-const LevelLoader = require('lib/LevelLoader');
-const GoalManager = require('lib/world/GoalManager');
-const God = require('lib/God');
-const {createAetherOptions, replaceSimpleLoops} = require('lib/aether_utils');
-const LZString = require('lz-string');
+import SuperModel from 'models/SuperModel';
+import CocoClass from 'core/CocoClass';
+import LevelLoader from 'lib/LevelLoader';
+import GoalManager from 'lib/world/GoalManager';
+import God from 'lib/God';
+import { createAetherOptions, replaceSimpleLoops } from 'lib/aether_utils';
+import LZString from 'lz-string';
 
 const SIMULATOR_VERSION = 4;
 
@@ -30,7 +30,7 @@ if ($.browser) {
   if ($.browser.versionNumber) { simulatorInfo['version'] = $.browser.versionNumber; }
 }
 
-module.exports = (Simulator = class Simulator extends CocoClass {
+export default Simulator = class Simulator extends CocoClass {
   constructor(options) {
     this.fetchAndSimulateOneGame = this.fetchAndSimulateOneGame.bind(this);
     this.fetchAndSimulateTask = this.fetchAndSimulateTask.bind(this);
@@ -599,7 +599,7 @@ module.exports = (Simulator = class Simulator extends CocoClass {
     .then(x => x.json())
     .then(x => ({source: x.token, spell}));
   }
-});
+};
 
 
 class SimulationTask {

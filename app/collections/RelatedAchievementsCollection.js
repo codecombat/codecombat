@@ -6,8 +6,9 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const CocoCollection = require('collections/CocoCollection');
-const Achievement = require('models/Achievement');
+import CocoCollection from 'collections/CocoCollection';
+
+import Achievement from 'models/Achievement';
 
 class RelatedAchievementCollection extends CocoCollection {
   static initClass() {
@@ -20,4 +21,4 @@ class RelatedAchievementCollection extends CocoCollection {
 }
 RelatedAchievementCollection.initClass();
 
-module.exports = RelatedAchievementCollection;
+export default RelatedAchievementCollection;

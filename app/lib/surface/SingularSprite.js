@@ -13,14 +13,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SingularSprite;
-const SpriteBuilder = require('lib/sprites/SpriteBuilder');
-const createjs = require('lib/createjs-parts');
+import SpriteBuilder from 'lib/sprites/SpriteBuilder';
+import createjs from 'lib/createjs-parts';
 
 const floors = ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05', 'Goal Trigger', 'Obstacle', 'Sand 01', 'Sand 02', 'Sand 03', 'Sand 04', 'Sand 05', 'Sand 06', 'Talus 1', 'Talus 2', 'Talus 3', 'Talus 4', 'Talus 5', 'Talus 6', 'Firn 1', 'Firn 2', 'Firn 3', 'Firn 4', 'Firn 5', 'Firn 6', 'Ice Rink 1', 'Ice Rink 2', 'Ice Rink 3', 'Firn Cliff', 'VR Floor', 'Classroom Floor'];
 
 const cliffs = ['Dungeon Pit', 'Grass Cliffs'];
 
-module.exports = (SingularSprite = (function() {
+export default SingularSprite = (function() {
   SingularSprite = class SingularSprite extends createjs.Sprite {
     static initClass() {
       this.prototype.childMovieClips = null;
@@ -129,7 +129,7 @@ module.exports = (SingularSprite = (function() {
   };
   SingularSprite.initClass();
   return SingularSprite;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

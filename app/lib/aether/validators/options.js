@@ -5,11 +5,9 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const {
-  tv4
-} = require('tv4');
+import { tv4 } from 'tv4';
 
-module.exports = options => tv4.validateMultiple(options, {
+export default options => tv4.validateMultiple(options, {
   "type": "object",
   additionalProperties: false,
   properties: {

@@ -10,15 +10,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PatchModal;
-require('app/styles/editor/patch.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/patch_modal');
-const DeltaView = require('views/editor/DeltaView');
-const auth = require('core/auth');
-const deltasLib = require('core/deltas');
-const modelDeltas = require('lib/modelDeltas');
+import 'app/styles/editor/patch.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/patch_modal';
+import DeltaView from 'views/editor/DeltaView';
+import auth from 'core/auth';
+import deltasLib from 'core/deltas';
+import modelDeltas from 'lib/modelDeltas';
 
-module.exports = (PatchModal = (function() {
+export default PatchModal = (function() {
   PatchModal = class PatchModal extends ModalView {
     static initClass() {
       this.prototype.id = 'patch-modal';
@@ -123,7 +123,7 @@ module.exports = (PatchModal = (function() {
   };
   PatchModal.initClass();
   return PatchModal;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

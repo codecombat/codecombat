@@ -7,11 +7,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AdminSubCancellationsView;
-const RootView = require('views/core/RootView');
-const CocoCollection = require('collections/CocoCollection');
-const utils = require('core/utils');
+import RootView from 'views/core/RootView';
+import CocoCollection from 'collections/CocoCollection';
+import utils from 'core/utils';
 
-module.exports = (AdminSubCancellationsView = (function() {
+export default AdminSubCancellationsView = (function() {
   AdminSubCancellationsView = class AdminSubCancellationsView extends RootView {
     static initClass() {
       this.prototype.id = 'admin-sub-cancellations-view';
@@ -33,4 +33,4 @@ module.exports = (AdminSubCancellationsView = (function() {
   };
   AdminSubCancellationsView.initClass();
   return AdminSubCancellationsView;
-})());
+})();

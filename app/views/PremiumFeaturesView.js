@@ -8,15 +8,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PremiumFeaturesView;
-require('app/styles/premium-features-view.sass');
-const RootView = require('views/core/RootView');
-const SubscribeModal = require('views/core/SubscribeModal');
-const template = require('templates/premium-features-view');
-const utils = require('core/utils');
-const storage = require('core/storage');
-const paymentUtils = require('app/lib/paymentUtils');
+import 'app/styles/premium-features-view.sass';
+import RootView from 'views/core/RootView';
+import SubscribeModal from 'views/core/SubscribeModal';
+import template from 'templates/premium-features-view';
+import utils from 'core/utils';
+import storage from 'core/storage';
+import paymentUtils from 'app/lib/paymentUtils';
 
-module.exports = (PremiumFeaturesView = (function() {
+export default PremiumFeaturesView = (function() {
   PremiumFeaturesView = class PremiumFeaturesView extends RootView {
     static initClass() {
       this.prototype.id = 'premium-features-view';
@@ -62,4 +62,4 @@ module.exports = (PremiumFeaturesView = (function() {
   };
   PremiumFeaturesView.initClass();
   return PremiumFeaturesView;
-})());
+})();

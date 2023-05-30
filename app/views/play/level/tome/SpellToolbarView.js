@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpellToolbarView;
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/tome/spell_toolbar');
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/tome/spell_toolbar';
 
-module.exports = (SpellToolbarView = (function() {
+export default SpellToolbarView = (function() {
   SpellToolbarView = class SpellToolbarView extends CocoView {
     static initClass() {
       this.prototype.className = 'spell-toolbar-view';
@@ -183,7 +183,7 @@ module.exports = (SpellToolbarView = (function() {
   };
   SpellToolbarView.initClass();
   return SpellToolbarView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

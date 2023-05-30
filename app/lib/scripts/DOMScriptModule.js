@@ -7,9 +7,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let DOMScriptModule;
-const ScriptModule = require('./ScriptModule');
+import ScriptModule from './ScriptModule';
 
-module.exports = (DOMScriptModule = class DOMScriptModule extends ScriptModule {
+export default DOMScriptModule = class DOMScriptModule extends ScriptModule {
   static neededFor(noteGroup) {
     return (noteGroup.dom != null);
   }
@@ -91,4 +91,4 @@ module.exports = (DOMScriptModule = class DOMScriptModule extends ScriptModule {
   letterboxNote() {
     return {channel: 'level:set-letterbox', event: {on: this.noteGroup.dom.letterbox}};
   }
-});
+};

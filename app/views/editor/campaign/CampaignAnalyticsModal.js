@@ -12,16 +12,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CampaignAnalyticsModal;
-require('app/styles/editor/campaign/campaign-analytics-modal.sass');
-const template = require('app/templates/editor/campaign/campaign-analytics-modal');
-const utils = require('core/utils');
-require('d3/d3.js'); // TODO Webpack: Extract this modal from main chunk
-const ModalView = require('views/core/ModalView');
+import 'app/styles/editor/campaign/campaign-analytics-modal.sass';
+import template from 'app/templates/editor/campaign/campaign-analytics-modal';
+import utils from 'core/utils';
+import 'd3/d3.js'; // TODO Webpack: Extract this modal from main chunk
+import ModalView from 'views/core/ModalView';
 
 // TODO: jquery-ui datepicker doesn't work well in this view
 // TODO: the date format handling is confusing (yyyy-mm-dd <=> yyyymmdd)
 
-module.exports = (CampaignAnalyticsModal = (function() {
+export default CampaignAnalyticsModal = (function() {
   CampaignAnalyticsModal = class CampaignAnalyticsModal extends ModalView {
     static initClass() {
       this.prototype.id = 'campaign-analytics-modal';
@@ -361,4 +361,4 @@ module.exports = (CampaignAnalyticsModal = (function() {
   };
   CampaignAnalyticsModal.initClass();
   return CampaignAnalyticsModal;
-})());
+})();

@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SurfaceContextMenuView;
-require('app/styles/play/level/surface-context-menu');
-const CocoView = require('views/core/CocoView');
+import 'app/styles/play/level/surface-context-menu';
+import CocoView from 'views/core/CocoView';
 
-module.exports = (SurfaceContextMenuView = (function() {
+export default SurfaceContextMenuView = (function() {
   SurfaceContextMenuView = class SurfaceContextMenuView extends CocoView {
     static initClass() {
       this.prototype.id = 'surface-context-menu-view';
@@ -83,4 +83,4 @@ module.exports = (SurfaceContextMenuView = (function() {
   };
   SurfaceContextMenuView.initClass();
   return SurfaceContextMenuView;
-})());
+})();

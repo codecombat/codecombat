@@ -7,16 +7,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let MainLadderView;
-require('app/styles/play/tournament_home.sass');
-const RootView = require('views/core/RootView');
-const template = require('templates/play/tournament_home');
-const LevelSession = require('models/LevelSession');
-const Level = require('models/Level');
-const Clan = require('models/Clan');
-const Tournament = require('models/Tournament');
-const forms = require('core/forms');
-const CocoCollection = require('collections/CocoCollection');
-const { HTML5_FMT_DATETIME_LOCAL } = require('core/constants');
+import 'app/styles/play/tournament_home.sass';
+import RootView from 'views/core/RootView';
+import template from 'templates/play/tournament_home';
+import LevelSession from 'models/LevelSession';
+import Level from 'models/Level';
+import Clan from 'models/Clan';
+import Tournament from 'models/Tournament';
+import forms from 'core/forms';
+import CocoCollection from 'collections/CocoCollection';
+import { HTML5_FMT_DATETIME_LOCAL } from 'core/constants';
 
 class LevelSessionsCollection extends CocoCollection {
   static initClass() {
@@ -45,7 +45,7 @@ class LadderCollection extends CocoCollection {
 LadderCollection.initClass();
 
 
-module.exports = (MainLadderView = (function() {
+export default MainLadderView = (function() {
   MainLadderView = class MainLadderView extends RootView {
     static initClass() {
       this.prototype.id = 'main-ladder-view';
@@ -196,4 +196,4 @@ module.exports = (MainLadderView = (function() {
   };
   MainLadderView.initClass();
   return MainLadderView;
-})());
+})();

@@ -12,17 +12,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SubscribeModal;
-require('app/styles/modal/subscribe-modal.sass');
-const api = require('core/api');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/core/subscribe-modal');
-const stripeHandler = require('core/services/stripe');
-const utils = require('core/utils');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const Products = require('collections/Products');
-const payPal = require('core/services/paypal');
+import 'app/styles/modal/subscribe-modal.sass';
+import api from 'core/api';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/core/subscribe-modal';
+import stripeHandler from 'core/services/stripe';
+import utils from 'core/utils';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import Products from 'collections/Products';
+import payPal from 'core/services/paypal';
 
-module.exports = (SubscribeModal = (function() {
+export default SubscribeModal = (function() {
   SubscribeModal = class SubscribeModal extends ModalView {
     static initClass() {
       this.prototype.id = 'subscribe-modal';
@@ -340,7 +340,7 @@ module.exports = (SubscribeModal = (function() {
   };
   SubscribeModal.initClass();
   return SubscribeModal;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

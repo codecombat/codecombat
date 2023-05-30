@@ -10,10 +10,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let upgradeEvaluator;
-const {
-  addedGlobals
-} = require('./protectBuiltins');
+import { addedGlobals } from './protectBuiltins';
 
 const isStatement = name => ![
   'Literal', 'Identifier', 'ThisExpression', 'BlockStatement', 'MemberExpression',
@@ -57,7 +54,7 @@ const updateState = function(aether, evaluator) {
      for (x of Array.from(astStack)) {       if (isStatement(x.type)) {
         result1.push(x);
       }
-    } 
+    }
     return result1;
   })());
 
@@ -117,7 +114,7 @@ const updateState = function(aether, evaluator) {
   esper.languages.coffeescript.parser("# Rawr", {inFunctionBody: true})
   ```
 */
-module.exports.parse = function(aether, code) {
+export const parse = function(aether, code) {
   let left, left1;
   const esper = (left = (left1 = (typeof window !== 'undefined' && window !== null ? window.esper : undefined) != null ? (typeof window !== 'undefined' && window !== null ? window.esper : undefined) : (typeof self !== 'undefined' && self !== null ? self.esper : undefined)) != null ? left1 : (typeof global !== 'undefined' && global !== null ? global.esper : undefined)) != null ? left : require('esper.js');
   esper.plugin('lang-' + aether.language.id);
@@ -127,13 +124,14 @@ module.exports.parse = function(aether, code) {
   if (['coffeescript'].includes(aether.language.id)) { return realm.parser(code); }
   return realm.parser(code, {inFunctionBody: true});
 };
-  // return esper.languages[aether.language.id].parser(code) if aether.language.id in ["coffeescript"]
-  // return esper.languages[aether.language.id].parser(code, inFunctionBody: true)
+
+// return esper.languages[aether.language.id].parser(code) if aether.language.id in ["coffeescript"]
+// return esper.languages[aether.language.id].parser(code, inFunctionBody: true)
 
 /*
   Creates an instrumented function that we can execute.
 */
-module.exports.createFunction = function(aether) {
+export const createFunction = function(aether) {
   let fx, left, left1;
   const esper = (left = (left1 = (typeof window !== 'undefined' && window !== null ? window.esper : undefined) != null ? (typeof window !== 'undefined' && window !== null ? window.esper : undefined) : (typeof self !== 'undefined' && self !== null ? self.esper : undefined)) != null ? left1 : (typeof global !== 'undefined' && global !== null ? global.esper : undefined)) != null ? left : require('esper.js');
   esper.plugin('lang-' + aether.language.id);
@@ -242,14 +240,14 @@ var makeYieldFilter = aether => (function(engine, evaluator, e) {
   return false;
 });
 
-module.exports.createThread = function(aether, fx) {
+export const createThread = function(aether, fx) {
   const internalFx = esper.Value.getBookmark(fx);
   const engine = aether.esperEngine.fork();
   upgradeEvaluator(aether, engine.evaluator);
   return engine.makeFunctionFromClosure(internalFx, makeYieldFilter(aether));
 };
 
-module.exports.upgradeEvaluator = (upgradeEvaluator = function(aether, evaluator) {
+export const upgradeEvaluator = function(aether, evaluator) {
   let executionCount = 0;
   return evaluator.instrument = function(evalu, evt) {
     debugDumper(evaluator);
@@ -258,7 +256,7 @@ module.exports.upgradeEvaluator = (upgradeEvaluator = function(aether, evaluator
     }
     return updateState(aether, evalu, evt);
   };
-});
+};
 
 
 var emptyAST = {"type":"Program","body":[{"type":"FunctionDeclaration","id":{"type":"Identifier","name":"plan","range":[9,13],"loc":{"start":{"line":1,"column":9},"end":{"line":1,"column":13}},"originalRange":{"start":{"ofs":-8,"row":0,"col":-8},"end":{"ofs":-4,"row":0,"col":-4}}},"params":[],"defaults":[],"body":{"type":"BlockStatement","body":[{"type":"VariableDeclaration","declarations":[{"type":"VariableDeclarator","id":{"type":"Identifier","name":"hero"},"init":{"type":"ThisExpression"}}],"kind":"var","userCode":false}],"range":[16,19],"loc":{"start":{"line":1,"column":16},"end":{"line":2,"column":1}},"originalRange":{"start":{"ofs":-1,"row":0,"col":-1},"end":{"ofs":2,"row":1,"col":1}}},"rest":null,"generator":false,"expression":false,"range":[0,19],"loc":{"start":{"line":1,"column":0},"end":{"line":2,"column":1}},"originalRange":{"start":{"ofs":-17,"row":0,"col":-17},"end":{"ofs":2,"row":1,"col":1}}}],"range":[0,19],"loc":{"start":{"line":1,"column":0},"end":{"line":2,"column":1}},"originalRange":{"start":{"ofs":-17,"row":0,"col":-17},"end":{"ofs":2,"row":1,"col":1}}};

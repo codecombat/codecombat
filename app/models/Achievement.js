@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Achievement;
-const CocoModel = require('./CocoModel');
-const utils = require('../core/utils');
+import CocoModel from './CocoModel';
+import utils from '../core/utils';
 
-module.exports = (Achievement = (function() {
+export default Achievement = (function() {
   Achievement = class Achievement extends CocoModel {
     static initClass() {
       this.className = 'Achievement';
@@ -81,4 +81,4 @@ module.exports = (Achievement = (function() {
   };
   Achievement.initClass();
   return Achievement;
-})());
+})();

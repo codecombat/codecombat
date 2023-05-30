@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let EarnedAchievementCollection;
-const CocoCollection = require('collections/CocoCollection');
-const EarnedAchievement = require('models/EarnedAchievement');
+import CocoCollection from 'collections/CocoCollection';
+import EarnedAchievement from 'models/EarnedAchievement';
 
-module.exports = (EarnedAchievementCollection = (function() {
+export default EarnedAchievementCollection = (function() {
   EarnedAchievementCollection = class EarnedAchievementCollection extends CocoCollection {
     static initClass() {
       this.prototype.model = EarnedAchievement;
@@ -23,4 +23,4 @@ module.exports = (EarnedAchievementCollection = (function() {
   };
   EarnedAchievementCollection.initClass();
   return EarnedAchievementCollection;
-})());
+})();

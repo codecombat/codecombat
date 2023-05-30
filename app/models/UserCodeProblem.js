@@ -6,9 +6,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let UserCodeProblem;
-const CocoModel = require('./CocoModel');
+import CocoModel from './CocoModel';
 
-module.exports = (UserCodeProblem = (function() {
+export default UserCodeProblem = (function() {
   UserCodeProblem = class UserCodeProblem extends CocoModel {
     static initClass() {
       this.className = 'UserCodeProblem';
@@ -18,4 +18,4 @@ module.exports = (UserCodeProblem = (function() {
   };
   UserCodeProblem.initClass();
   return UserCodeProblem;
-})());
+})();

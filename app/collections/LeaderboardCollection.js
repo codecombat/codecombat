@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LeaderboardCollection;
-const CocoCollection = require('collections/CocoCollection');
-const LevelSession = require('models/LevelSession');
+import CocoCollection from 'collections/CocoCollection';
+import LevelSession from 'models/LevelSession';
 
-module.exports = (LeaderboardCollection = (function() {
+export default LeaderboardCollection = (function() {
   LeaderboardCollection = class LeaderboardCollection extends CocoCollection {
     static initClass() {
       this.prototype.url = '';
@@ -25,4 +25,4 @@ module.exports = (LeaderboardCollection = (function() {
   };
   LeaderboardCollection.initClass();
   return LeaderboardCollection;
-})());
+})();

@@ -11,35 +11,34 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Cinematic, Cutscene, I18NHomeView, Interactive;
-const RootView = require('views/core/RootView');
-const template = require('app/templates/i18n/i18n-home-view');
-const CocoCollection = require('collections/CocoCollection');
-const Courses = require('collections/Courses');
-const Article = require('models/Article');
-const utils = require('core/utils');
+import RootView from 'views/core/RootView';
+import template from 'app/templates/i18n/i18n-home-view';
+import CocoCollection from 'collections/CocoCollection';
+import Courses from 'collections/Courses';
+import Article from 'models/Article';
+import utils from 'core/utils';
 if (utils.isOzaria) {
   Interactive = require('ozaria/site/models/Interactive');
   Cutscene = require('ozaria/site/models/Cutscene');
 }
-const ResourceHubResource = require('models/ResourceHubResource');
-const ChatMessage = require('models/ChatMessage');
-const AIScenario = require('models/AIScenario');
-
-const LevelComponent = require('models/LevelComponent');
-const ThangType = require('models/ThangType');
-const Level = require('models/Level');
-const Achievement = require('models/Achievement');
-const Campaign = require('models/Campaign');
+import ResourceHubResource from 'models/ResourceHubResource';
+import ChatMessage from 'models/ChatMessage';
+import AIScenario from 'models/AIScenario';
+import LevelComponent from 'models/LevelComponent';
+import ThangType from 'models/ThangType';
+import Level from 'models/Level';
+import Achievement from 'models/Achievement';
+import Campaign from 'models/Campaign';
 if (utils.isOzaria) {
   Cinematic = require('ozaria/site/models/Cinematic');
 }
-const Poll = require('models/Poll');
+import Poll from 'models/Poll';
 
 const languages = _.keys(require('locale/locale')).sort();
 const PAGE_SIZE = 100;
 const QUERY_PARAMS = '?view=i18n-coverage&archived=false';
 
-module.exports = (I18NHomeView = (function() {
+export default I18NHomeView = (function() {
   I18NHomeView = class I18NHomeView extends RootView {
     static initClass() {
       this.prototype.id = 'i18n-home-view';
@@ -211,4 +210,4 @@ module.exports = (I18NHomeView = (function() {
   };
   I18NHomeView.initClass();
   return I18NHomeView;
-})());
+})();

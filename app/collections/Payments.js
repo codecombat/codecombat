@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Payments;
-const Payment = require('models/Payment');
-const CocoCollection = require('collections/CocoCollection');
+import Payment from 'models/Payment';
+import CocoCollection from 'collections/CocoCollection';
 
-module.exports = (Payments = (function() {
+export default Payments = (function() {
   Payments = class Payments extends CocoCollection {
     static initClass() {
       this.prototype.model = Payment;
@@ -27,4 +27,4 @@ module.exports = (Payments = (function() {
   };
   Payments.initClass();
   return Payments;
-})());
+})();

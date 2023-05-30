@@ -9,10 +9,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let GameMenuModal;
-const utils = require('core/utils');
+import utils from 'core/utils';
 
 const submenuViews = [];
-require('app/styles/play/menu/game-menu-modal.sass');
+import 'app/styles/play/menu/game-menu-modal.sass';
 
 if (utils.isOzaria) {
   submenuViews.push(require('ozaria/site/views/play/menu/OptionsView'));
@@ -20,11 +20,11 @@ if (utils.isOzaria) {
   submenuViews.push(require('views/play/menu/OptionsView'));
 }
 
-const ModalView = require('views/core/ModalView');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const template = require('app/templates/play/menu/game-menu-modal');
+import ModalView from 'views/core/ModalView';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import template from 'app/templates/play/menu/game-menu-modal';
 
-module.exports = (GameMenuModal = (function() {
+export default GameMenuModal = (function() {
   GameMenuModal = class GameMenuModal extends ModalView {
     static initClass() {
       this.prototype.className = 'modal fade play-modal';
@@ -129,4 +129,4 @@ module.exports = (GameMenuModal = (function() {
   };
   GameMenuModal.initClass();
   return GameMenuModal;
-})());
+})();

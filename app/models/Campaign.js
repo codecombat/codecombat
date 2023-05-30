@@ -9,16 +9,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Campaign;
-const CocoModel = require('./CocoModel');
-const schema = require('schemas/models/campaign.schema');
-const Level = require('models/Level');
-const Levels = require('collections/Levels');
-const CocoCollection = require('collections/CocoCollection');
-const utils = require('../core/utils');
-const api = require('core/api');
-const levelUtils = require('../core/levelUtils');
+import CocoModel from './CocoModel';
+import schema from 'schemas/models/campaign.schema';
+import Level from 'models/Level';
+import Levels from 'collections/Levels';
+import CocoCollection from 'collections/CocoCollection';
+import utils from '../core/utils';
+import api from 'core/api';
+import levelUtils from '../core/levelUtils';
 
-module.exports = (Campaign = (function() {
+export default Campaign = (function() {
   Campaign = class Campaign extends CocoModel {
     static initClass() {
       this.className = 'Campaign';
@@ -142,4 +142,4 @@ module.exports = (Campaign = (function() {
   };
   Campaign.initClass();
   return Campaign;
-})());
+})();

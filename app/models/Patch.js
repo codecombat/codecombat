@@ -8,9 +8,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PatchModel;
-const CocoModel = require('./CocoModel');
+import CocoModel from './CocoModel';
 
-module.exports = (PatchModel = (function() {
+export default PatchModel = (function() {
   PatchModel = class PatchModel extends CocoModel {
     static initClass() {
       this.className = 'Patch';
@@ -31,4 +31,4 @@ module.exports = (PatchModel = (function() {
   };
   PatchModel.initClass();
   return PatchModel;
-})());
+})();

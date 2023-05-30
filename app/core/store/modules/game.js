@@ -9,16 +9,17 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const levelSchema = require('schemas/models/level');
-const api = require('core/api');
-const utils = require('core/utils');
-const aetherUtils = require('lib/aether_utils');
+import levelSchema from 'schemas/models/level';
+
+import api from 'core/api';
+import utils from 'core/utils';
+import aetherUtils from 'lib/aether_utils';
 
 // TODO: Be explicit about the properties being stored
 const emptyLevel = _.zipObject((Array.from(_.keys(levelSchema.properties)).map((key) => [key, null])));
 
 // This module should eventually include things such as: session, player code, score, thangs, etc
-module.exports = {
+export default {
   namespaced: true,
   state: {
     level: emptyLevel,

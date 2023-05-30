@@ -8,8 +8,9 @@
 // Box2D is defined in global namespace by box2d_content
 
 // Used to have Box2DJS, but got rid of it.
-if (typeof Box2D !== 'undefined' && Box2D !== null) {  // box2dweb, compiled from Flash port: https://code.google.com/p/box2dweb/
-  module.exports = (window.box2d = {
+if (typeof Box2D !== 'undefined' && Box2D !== null) {
+  // box2dweb, compiled from Flash port: https://code.google.com/p/box2dweb/
+  window.box2d = {
     b2Vec2: Box2D.Common.Math.b2Vec2,
     b2BodyDef: Box2D.Dynamics.b2BodyDef,
     b2Body: Box2D.Dynamics.b2Body,
@@ -21,8 +22,11 @@ if (typeof Box2D !== 'undefined' && Box2D !== null) {  // box2dweb, compiled fro
     b2MassData: Box2D.Collision.Shapes.b2MassData,
     b2PolygonShape: Box2D.Collision.Shapes.b2PolygonShape,
     b2CircleShape: Box2D.Collision.Shapes.b2CircleShape
-  });
+  };
+
   window.BOX2D_ENABLED = true;
-} else {  // no Box2D
-  module.exports = null;
+} else {
+  // no Box2D
+  window.box2d = null;
 }
+export default window.box2d

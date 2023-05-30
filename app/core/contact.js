@@ -6,7 +6,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-module.exports = {
+export default {
   sendContactMessage(contactMessageObject, modal) {
     // deprecated
     if (modal != null) {

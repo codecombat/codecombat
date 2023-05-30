@@ -9,15 +9,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SchoolLicensesView;
-require('app/styles/admin/admin-school-licenses.sass');
-const RootView = require('views/core/RootView');
-const CocoCollection = require('collections/CocoCollection');
-const Prepaid = require('models/Prepaid');
-const TrialRequests = require('collections/TrialRequests');
+import 'app/styles/admin/admin-school-licenses.sass';
+import RootView from 'views/core/RootView';
+import CocoCollection from 'collections/CocoCollection';
+import Prepaid from 'models/Prepaid';
+import TrialRequests from 'collections/TrialRequests';
 
 // TODO: year ranges hard-coded
 
-module.exports = (SchoolLicensesView = (function() {
+export default SchoolLicensesView = (function() {
   SchoolLicensesView = class SchoolLicensesView extends RootView {
     static initClass() {
       this.prototype.id = 'admin-school-licenses-view';
@@ -106,4 +106,4 @@ module.exports = (SchoolLicensesView = (function() {
   };
   SchoolLicensesView.initClass();
   return SchoolLicensesView;
-})());
+})();

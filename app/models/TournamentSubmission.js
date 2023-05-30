@@ -6,9 +6,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TournamentSubmission;
-const CocoModel = require('./CocoModel');
+import CocoModel from './CocoModel';
 
-module.exports = (TournamentSubmission = (function() {
+export default TournamentSubmission = (function() {
   TournamentSubmission = class TournamentSubmission extends CocoModel {
     static initClass() {
       this.className = 'TournamentSubmission';
@@ -18,4 +18,4 @@ module.exports = (TournamentSubmission = (function() {
   };
   TournamentSubmission.initClass();
   return TournamentSubmission;
-})());
+})();

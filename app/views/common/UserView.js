@@ -11,11 +11,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let UserView;
-const RootView = require('views/core/RootView');
-const template = require('app/templates/common/user');
-const User = require('models/User');
+import RootView from 'views/core/RootView';
+import template from 'app/templates/common/user';
+import User from 'models/User';
 
-module.exports = (UserView = (function() {
+export default UserView = (function() {
   UserView = class UserView extends RootView {
     static initClass() {
       this.prototype.template = template;
@@ -56,4 +56,4 @@ module.exports = (UserView = (function() {
   };
   UserView.initClass();
   return UserView;
-})());
+})();

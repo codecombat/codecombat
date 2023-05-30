@@ -7,17 +7,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let HeroSelectModal;
-require('app/styles/courses/hero-select-modal.sass');
-const ModalView = require('views/core/ModalView');
-const HeroSelectView = require('views/core/HeroSelectView');
-const template = require('app/templates/courses/hero-select-modal');
-const Classroom = require('models/Classroom');
-const ThangTypes = require('collections/ThangTypes');
-const State = require('models/State');
-const ThangType = require('models/ThangType');
-const User = require('models/User');
+import 'app/styles/courses/hero-select-modal.sass';
+import ModalView from 'views/core/ModalView';
+import HeroSelectView from 'views/core/HeroSelectView';
+import template from 'app/templates/courses/hero-select-modal';
+import Classroom from 'models/Classroom';
+import ThangTypes from 'collections/ThangTypes';
+import State from 'models/State';
+import ThangType from 'models/ThangType';
+import User from 'models/User';
 
-module.exports = (HeroSelectModal = (function() {
+export default HeroSelectModal = (function() {
   HeroSelectModal = class HeroSelectModal extends ModalView {
     static initClass() {
       this.prototype.id = 'hero-select-modal';
@@ -41,4 +41,4 @@ module.exports = (HeroSelectModal = (function() {
   };
   HeroSelectModal.initClass();
   return HeroSelectModal;
-})());
+})();

@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TrialRequestCollection;
-const CocoCollection = require('collections/CocoCollection');
-const TrialRequest = require('models/TrialRequest');
+import CocoCollection from 'collections/CocoCollection';
+import TrialRequest from 'models/TrialRequest';
 
-module.exports = (TrialRequestCollection = (function() {
+export default TrialRequestCollection = (function() {
   TrialRequestCollection = class TrialRequestCollection extends CocoCollection {
     static initClass() {
       this.prototype.url = '/db/trial.request';
@@ -31,4 +31,4 @@ module.exports = (TrialRequestCollection = (function() {
   };
   TrialRequestCollection.initClass();
   return TrialRequestCollection;
-})());
+})();

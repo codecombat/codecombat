@@ -1,8 +1,8 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('schemas/schemas');
+import c from 'schemas/schemas';
 
-module.exports = {
+export default {
   'web-dev:error': c.object({title: 'Web Dev Error', description: 'Published when an uncaught error occurs in the web-dev iFrame', required: []}, {
     message: { type: 'string' },
     url: { type: 'string', description: 'URL of the host iFrame' },

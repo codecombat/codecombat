@@ -7,11 +7,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AdventurerView;
-const ContributeClassView = require('./ContributeClassView');
-const template = require('app/templates/contribute/adventurer');
-const {me} = require('core/auth');
+import ContributeClassView from './ContributeClassView';
+import template from 'app/templates/contribute/adventurer';
+import { me } from 'core/auth';
 
-module.exports = (AdventurerView = (function() {
+export default AdventurerView = (function() {
   AdventurerView = class AdventurerView extends ContributeClassView {
     static initClass() {
       this.prototype.id = 'adventurer-view';
@@ -24,4 +24,4 @@ module.exports = (AdventurerView = (function() {
   };
   AdventurerView.initClass();
   return AdventurerView;
-})());
+})();

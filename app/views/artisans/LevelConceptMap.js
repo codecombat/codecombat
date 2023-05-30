@@ -11,20 +11,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelConceptMap, parser, realm;
-require('app/styles/artisans/solution-problems-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/artisans/concept-map-view');
-
-const Level = require('models/Level');
-const Campaign = require('models/Campaign');
-
-const CocoCollection = require('collections/CocoCollection');
-const Campaigns = require('collections/Campaigns');
-const Levels = require('collections/Levels');
-const tagger = require('lib/SolutionConceptTagger');
-const conceptList = require('schemas/concepts');
-const loadAetherLanguage = require('lib/loadAetherLanguage');
-const utils = require('core/utils');
+import 'app/styles/artisans/solution-problems-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/artisans/concept-map-view';
+import Level from 'models/Level';
+import Campaign from 'models/Campaign';
+import CocoCollection from 'collections/CocoCollection';
+import Campaigns from 'collections/Campaigns';
+import Levels from 'collections/Levels';
+import tagger from 'lib/SolutionConceptTagger';
+import conceptList from 'schemas/concepts';
+import loadAetherLanguage from 'lib/loadAetherLanguage';
+import utils from 'core/utils';
 
 if (utils.isOzaria) {
   if (typeof esper !== 'undefined') {
@@ -35,7 +33,7 @@ if (utils.isOzaria) {
   }
 }
 
-module.exports = (LevelConceptMap = (function() {
+export default LevelConceptMap = (function() {
   let excludedCampaigns = undefined;
   let includedLanguages = undefined;
   let excludedLevelSnippets = undefined;
@@ -267,7 +265,7 @@ module.exports = (LevelConceptMap = (function() {
   };
   LevelConceptMap.initClass();
   return LevelConceptMap;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

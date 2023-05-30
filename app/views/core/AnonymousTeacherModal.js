@@ -8,17 +8,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AnonymousTeacherModal;
-const ModalView = require('./ModalView');
-const template = require('app/templates/core/anonymous-teacher-modal');
-require('app/styles/modal/anonymous-teacher-modal.sass');
-const CreateAccountModal = require('views/core/CreateAccountModal/CreateAccountModal');
-const forms = require('core/forms');
-const errors = require('core/errors');
-const State = require('models/State');
-const contact = require('core/contact');
-const storage = require('core/storage');
+import ModalView from './ModalView';
+import template from 'app/templates/core/anonymous-teacher-modal';
+import 'app/styles/modal/anonymous-teacher-modal.sass';
+import CreateAccountModal from 'views/core/CreateAccountModal/CreateAccountModal';
+import forms from 'core/forms';
+import errors from 'core/errors';
+import State from 'models/State';
+import contact from 'core/contact';
+import storage from 'core/storage';
 
-module.exports = (AnonymousTeacherModal = (function() {
+export default AnonymousTeacherModal = (function() {
   AnonymousTeacherModal = class AnonymousTeacherModal extends ModalView {
     static initClass() {
       this.prototype.id = 'anonymous-teacher-modal';
@@ -98,4 +98,4 @@ module.exports = (AnonymousTeacherModal = (function() {
   };
   AnonymousTeacherModal.initClass();
   return AnonymousTeacherModal;
-})());
+})();

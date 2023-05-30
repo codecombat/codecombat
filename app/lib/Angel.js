@@ -15,18 +15,18 @@
 // God is the public API; Angels are an implementation detail. Each God can have one or more Angels.
 
 let Angel;
-const {now} = require('lib/world/world_utils');
-const World = require('lib/world/world');
-const CocoClass = require('core/CocoClass');
-const GoalManager = require('lib/world/GoalManager');
-const {sendSlackMessage, sendContactMessage} = require('core/contact');
-const errors = require('core/errors');
-const utils = require('core/utils');
-const store = require('core/store');
+import { now } from 'lib/world/world_utils';
+import World from 'lib/world/world';
+import CocoClass from 'core/CocoClass';
+import GoalManager from 'lib/world/GoalManager';
+import { sendSlackMessage, sendContactMessage } from 'core/contact';
+import errors from 'core/errors';
+import utils from 'core/utils';
+import store from 'core/store';
 
 let reportedLoadErrorAlready = false;
 
-module.exports = (Angel = (function() {
+export default Angel = (function() {
   Angel = class Angel extends CocoClass {
     static initClass() {
       this.nicks = ['Archer', 'Lana', 'Cyril', 'Pam', 'Cheryl', 'Woodhouse', 'Ray', 'Krieger'];
@@ -555,7 +555,7 @@ Browser: ${context.browser || 'Unknown'}\
   };
   Angel.initClass();
   return Angel;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -7,11 +7,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let GitHubHandler;
-const CocoClass = require('core/CocoClass');
-const {me} = require('core/auth');
-const storage = require('core/storage');
+import CocoClass from 'core/CocoClass';
+import { me } from 'core/auth';
+import storage from 'core/storage';
 
-module.exports = (GitHubHandler = (function() {
+export default GitHubHandler = (function() {
   GitHubHandler = class GitHubHandler extends CocoClass {
     static initClass() {
       this.prototype.scopes = 'user:email';
@@ -39,4 +39,4 @@ module.exports = (GitHubHandler = (function() {
   };
   GitHubHandler.initClass();
   return GitHubHandler;
-})());
+})();

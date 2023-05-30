@@ -12,9 +12,9 @@
  */
 // TODO: this thing needs a bit of thinking/testing for grid square alignments, exclusive vs. inclusive mins/maxes, etc.
 let Grid;
-const Rectangle = require('./rectangle');
+import Rectangle from './rectangle';
 
-module.exports = (Grid = class Grid {
+export default Grid = class Grid {
   constructor(thangs, width, height, padding, left, bottom, rogue, resolution) {
     // Round grid size to integer multiple of resolution
     // Ex.: if resolution is 2, then w: 8.1, h: 9.9, l: 1.9, b: -0.1 -> w: 10, h: 10, l: 0, b: -2
@@ -241,7 +241,7 @@ module.exports = (Grid = class Grid {
     }
     return thangs[0].spriteName;
   }
-});
+};
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -10,22 +10,22 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CertificatesView;
-require('app/styles/user/certificates-view.sass');
-const RootView = require('views/core/RootView');
-const User = require('models/User');
-const Classroom = require('models/Classroom');
-const Course = require('models/Course');
-const CourseInstance = require('models/CourseInstance');
-const Campaign = require('models/Campaign');
-const LevelSessions = require('collections/LevelSessions');
-const Levels = require('collections/Levels');
-const ThangTypeConstants = require('lib/ThangTypeConstants');
-const ThangType = require('models/ThangType');
-const utils = require('core/utils');
-const fetchJson = require('core/api/fetch-json');
-const locale = require('locale/locale');
+import 'app/styles/user/certificates-view.sass';
+import RootView from 'views/core/RootView';
+import User from 'models/User';
+import Classroom from 'models/Classroom';
+import Course from 'models/Course';
+import CourseInstance from 'models/CourseInstance';
+import Campaign from 'models/Campaign';
+import LevelSessions from 'collections/LevelSessions';
+import Levels from 'collections/Levels';
+import ThangTypeConstants from 'lib/ThangTypeConstants';
+import ThangType from 'models/ThangType';
+import utils from 'core/utils';
+import fetchJson from 'core/api/fetch-json';
+import locale from 'locale/locale';
 
-module.exports = (CertificatesView = (function() {
+export default CertificatesView = (function() {
   CertificatesView = class CertificatesView extends RootView {
     static initClass() {
       this.prototype.id = 'certificates-view';
@@ -228,7 +228,7 @@ module.exports = (CertificatesView = (function() {
   };
   CertificatesView.initClass();
   return CertificatesView;
-})());
+})();
 
 function __range__(left, right, inclusive) {
   let range = [];

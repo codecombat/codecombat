@@ -14,28 +14,28 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ClanDetailsView;
-require('app/styles/clans/clan-details.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/clans/clan-details');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const CocoCollection = require('collections/CocoCollection');
-const Campaign = require('models/Campaign');
-const Clan = require('models/Clan');
-const EarnedAchievement = require('models/EarnedAchievement');
-const Tournament = require('models/Tournament');
-const Level = require('models/Level');
-const LevelSession = require('models/LevelSession');
-const SubscribeModal = require('views/core/SubscribeModal');
-const ThangType = require('models/ThangType');
-const User = require('models/User');
-const utils = require('core/utils');
+import 'app/styles/clans/clan-details.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/clans/clan-details';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import CocoCollection from 'collections/CocoCollection';
+import Campaign from 'models/Campaign';
+import Clan from 'models/Clan';
+import EarnedAchievement from 'models/EarnedAchievement';
+import Tournament from 'models/Tournament';
+import Level from 'models/Level';
+import LevelSession from 'models/LevelSession';
+import SubscribeModal from 'views/core/SubscribeModal';
+import ThangType from 'models/ThangType';
+import User from 'models/User';
+import utils from 'core/utils';
 
 // TODO: Add message for clan not found
 // TODO: Progress visual for premium levels?
 // TODO: Add expanded level names toggle
 // TODO: Only need campaign data if clan is private
 
-module.exports = (ClanDetailsView = (function() {
+export default ClanDetailsView = (function() {
   ClanDetailsView = class ClanDetailsView extends RootView {
     static initClass() {
       this.prototype.id = 'clan-details-view';
@@ -624,7 +624,7 @@ module.exports = (ClanDetailsView = (function() {
   };
   ClanDetailsView.initClass();
   return ClanDetailsView;
-})());
+})();
 
 class LadderCollection extends CocoCollection {
   static initClass() {

@@ -10,16 +10,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let I18NEditCourseView;
-const I18NEditModelView = require('./I18NEditModelView');
-const Course = require('models/Course');
-const deltasLib = require('core/deltas');
-const Patch = require('models/Patch');
-const Patches = require('collections/Patches');
-const PatchModal = require('views/editor/PatchModal');
+import I18NEditModelView from './I18NEditModelView';
+import Course from 'models/Course';
+import deltasLib from 'core/deltas';
+import Patch from 'models/Patch';
+import Patches from 'collections/Patches';
+import PatchModal from 'views/editor/PatchModal';
 
 // TODO: Apply these changes to all i18n views if it proves to be more reliable
 
-module.exports = (I18NEditCourseView = (function() {
+export default I18NEditCourseView = (function() {
   I18NEditCourseView = class I18NEditCourseView extends I18NEditModelView {
     static initClass() {
       this.prototype.id = "i18n-edit-course-view";
@@ -90,7 +90,7 @@ module.exports = (I18NEditCourseView = (function() {
   };
   I18NEditCourseView.initClass();
   return I18NEditCourseView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

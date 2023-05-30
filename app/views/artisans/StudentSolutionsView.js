@@ -11,22 +11,20 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let parser, realm, StudentSolutionsView;
-require('app/styles/artisans/student-solutions-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/artisans/student-solutions-view');
-const utils = require('core/utils');
-
-const Campaigns = require('collections/Campaigns');
-const Campaign = require('models/Campaign');
-
-const Levels = require('collections/Levels');
-const Level = require('models/Level');
-const LevelSessions = require('collections/LevelSessions');
-const LevelComponent = require('models/LevelComponent');
-const ace = require('lib/aceContainer');
-const aceUtils = require('core/aceUtils');
-const {createAetherOptions} = require('lib/aether_utils');
-const loadAetherLanguage = require('lib/loadAetherLanguage');
+import 'app/styles/artisans/student-solutions-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/artisans/student-solutions-view';
+import utils from 'core/utils';
+import Campaigns from 'collections/Campaigns';
+import Campaign from 'models/Campaign';
+import Levels from 'collections/Levels';
+import Level from 'models/Level';
+import LevelSessions from 'collections/LevelSessions';
+import LevelComponent from 'models/LevelComponent';
+import ace from 'lib/aceContainer';
+import aceUtils from 'core/aceUtils';
+import { createAetherOptions } from 'lib/aether_utils';
+import loadAetherLanguage from 'lib/loadAetherLanguage';
 
 if (utils.isOzaria) {
   if (typeof esper !== 'undefined') {
@@ -37,7 +35,7 @@ if (utils.isOzaria) {
   }
 }
 
-module.exports = (StudentSolutionsView = (function() {
+export default StudentSolutionsView = (function() {
   StudentSolutionsView = class StudentSolutionsView extends RootView {
     constructor(...args) {
       this.parseSource = this.parseSource.bind(this);
@@ -306,7 +304,7 @@ module.exports = (StudentSolutionsView = (function() {
   };
   StudentSolutionsView.initClass();
   return StudentSolutionsView;  // hash * 33 + c
-})());
+})();
 
 function __range__(left, right, inclusive) {
   let range = [];

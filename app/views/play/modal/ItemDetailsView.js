@@ -9,15 +9,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ItemDetailsView;
-require('app/styles/play/modal/item-details-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/modal/item-details-view');
-const CocoCollection = require('collections/CocoCollection');
-const LevelComponent = require('models/LevelComponent');
+import 'app/styles/play/modal/item-details-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/modal/item-details-view';
+import CocoCollection from 'collections/CocoCollection';
+import LevelComponent from 'models/LevelComponent';
+import utils from 'core/utils';
 
-const utils = require('core/utils');
-
-module.exports = (ItemDetailsView = (function() {
+export default ItemDetailsView = (function() {
   ItemDetailsView = class ItemDetailsView extends CocoView {
     static initClass() {
       this.prototype.id = "item-details-view";
@@ -154,4 +153,4 @@ module.exports = (ItemDetailsView = (function() {
   };
   ItemDetailsView.initClass();
   return ItemDetailsView;
-})());
+})();

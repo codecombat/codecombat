@@ -9,26 +9,26 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PreapidActivationCodesModal;
-const _ = require('lodash');
-require('app/styles/admin/administer-user-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('templates/courses/prepaid-activation-codes-modal.pug');
-const User = require('models/User');
-const Prepaid = require('models/Prepaid');
-const StripeCoupons = require('collections/StripeCoupons');
-const forms = require('core/forms');
-const Prepaids = require('collections/Prepaids');
-const Classrooms = require('collections/Classrooms');
-const TrialRequests = require('collections/TrialRequests');
-const fetchJson = require('core/api/fetch-json');
-const utils = require('core/utils');
-const api = require('core/api');
-const { LICENSE_PRESETS } = require('core/constants');
+import _ from 'lodash';
+import 'app/styles/admin/administer-user-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'templates/courses/prepaid-activation-codes-modal.pug';
+import User from 'models/User';
+import Prepaid from 'models/Prepaid';
+import StripeCoupons from 'collections/StripeCoupons';
+import forms from 'core/forms';
+import Prepaids from 'collections/Prepaids';
+import Classrooms from 'collections/Classrooms';
+import TrialRequests from 'collections/TrialRequests';
+import fetchJson from 'core/api/fetch-json';
+import utils from 'core/utils';
+import api from 'core/api';
+import { LICENSE_PRESETS } from 'core/constants';
 
 // TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
 // TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
 
-module.exports = (PreapidActivationCodesModal = (function() {
+export default PreapidActivationCodesModal = (function() {
   PreapidActivationCodesModal = class PreapidActivationCodesModal extends ModalView {
     static initClass() {
       this.prototype.id = 'administer-user-modal';
@@ -167,6 +167,6 @@ module.exports = (PreapidActivationCodesModal = (function() {
   };
   PreapidActivationCodesModal.initClass();
   return PreapidActivationCodesModal;
-})());
+})();
 
  

@@ -7,13 +7,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ProblemAlertView;
-require('app/styles/play/level/tome/problem_alert.sass');
-const CocoView = require('views/core/CocoView');
-const GameMenuModal = require('views/play/menu/GameMenuModal');
-const template = require('app/templates/play/level/tome/problem_alert');
-const {me} = require('core/auth');
+import 'app/styles/play/level/tome/problem_alert.sass';
+import CocoView from 'views/core/CocoView';
+import GameMenuModal from 'views/play/menu/GameMenuModal';
+import template from 'app/templates/play/level/tome/problem_alert';
+import { me } from 'core/auth';
 
-module.exports = (ProblemAlertView = (function() {
+export default ProblemAlertView = (function() {
   ProblemAlertView = class ProblemAlertView extends CocoView {
     static initClass() {
       this.prototype.id = 'problem-alert-view';
@@ -168,4 +168,4 @@ module.exports = (ProblemAlertView = (function() {
   };
   ProblemAlertView.initClass();
   return ProblemAlertView;
-})());
+})();

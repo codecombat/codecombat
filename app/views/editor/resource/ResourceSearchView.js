@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ResourceSearchView;
-require('app/styles/editor/resource/table.sass');
-const SearchView = require('views/common/SearchView');
+import 'app/styles/editor/resource/table.sass';
+import SearchView from 'views/common/SearchView';
 
-module.exports = (ResourceSearchView = (function() {
+export default ResourceSearchView = (function() {
   ResourceSearchView = class ResourceSearchView extends SearchView {
     static initClass() {
       this.prototype.id = 'editor-resource-home-view';
@@ -36,4 +36,4 @@ module.exports = (ResourceSearchView = (function() {
   };
   ResourceSearchView.initClass();
   return ResourceSearchView;
-})());
+})();

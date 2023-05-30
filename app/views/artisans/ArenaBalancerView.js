@@ -13,24 +13,22 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ArenaBalancerView;
-require('app/styles/artisans/arena-balancer-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('templates/artisans/arena-balancer-view');
+import 'app/styles/artisans/arena-balancer-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'templates/artisans/arena-balancer-view';
+import Campaigns from 'collections/Campaigns';
+import Campaign from 'models/Campaign';
+import Levels from 'collections/Levels';
+import Level from 'models/Level';
+import LevelSessions from 'collections/LevelSessions';
+import ace from 'lib/aceContainer';
+import aceUtils from 'core/aceUtils';
+import 'lib/setupTreema';
+import treemaExt from 'core/treema-ext';
+import storage from 'core/storage';
+import ConfirmModal from 'views/core/ConfirmModal';
 
-const Campaigns = require('collections/Campaigns');
-const Campaign = require('models/Campaign');
-
-const Levels = require('collections/Levels');
-const Level = require('models/Level');
-const LevelSessions = require('collections/LevelSessions');
-const ace = require('lib/aceContainer');
-const aceUtils = require('core/aceUtils');
-require('lib/setupTreema');
-const treemaExt = require('core/treema-ext');
-const storage = require('core/storage');
-const ConfirmModal = require('views/core/ConfirmModal');
-
-module.exports = (ArenaBalancerView = (function() {
+export default ArenaBalancerView = (function() {
   ArenaBalancerView = class ArenaBalancerView extends RootView {
     static initClass() {
       this.prototype.template = template;
@@ -223,7 +221,7 @@ module.exports = (ArenaBalancerView = (function() {
   };
   ArenaBalancerView.initClass();
   return ArenaBalancerView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

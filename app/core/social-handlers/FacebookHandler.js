@@ -9,10 +9,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let FacebookHandler;
-const CocoClass = require('core/CocoClass');
-const {me} = require('core/auth');
-const {backboneFailure} = require('core/errors');
-const storage = require('core/storage');
+import CocoClass from 'core/CocoClass';
+import { me } from 'core/auth';
+import { backboneFailure } from 'core/errors';
+import storage from 'core/storage';
 
 // facebook user object props to
 const userPropsToSave = {
@@ -23,7 +23,7 @@ const userPropsToSave = {
   'id': 'facebookID'
 };
 
-module.exports = (FacebookHandler = (FacebookHandler = (function() {
+export default FacebookHandler = (FacebookHandler = (function() {
   FacebookHandler = class FacebookHandler extends CocoClass {
     static initClass() {
   
@@ -147,7 +147,7 @@ module.exports = (FacebookHandler = (FacebookHandler = (function() {
   };
   FacebookHandler.initClass();
   return FacebookHandler;  // Handles FB login and Like
-})()));
+})());
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

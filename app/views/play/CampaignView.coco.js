@@ -12,56 +12,55 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CampaignView;
-require('app/styles/play/campaign-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('templates/play/campaign-view');
-const LevelSession = require('models/LevelSession');
-const EarnedAchievement = require('models/EarnedAchievement');
-const CocoCollection = require('collections/CocoCollection');
-const Achievements = require('collections/Achievements');
-const Campaign = require('models/Campaign');
-const AudioPlayer = require('lib/AudioPlayer');
-const LevelSetupManager = require('lib/LevelSetupManager');
-const ThangType = require('models/ThangType');
-const MusicPlayer = require('lib/surface/MusicPlayer');
-const storage = require('core/storage');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const SubscribeModal = require('views/core/SubscribeModal');
-const LeaderboardModal = require('views/play/modal/LeaderboardModal');
-const Level = require('models/Level');
-const utils = require('core/utils');
-const ShareProgressModal = require('views/play/modal/ShareProgressModal');
-const UserPollsRecord = require('models/UserPollsRecord');
-const Poll = require('models/Poll');
-const PollModal = require('views/play/modal/PollModal');
-const AnnouncementModal = require('views/play/modal/AnnouncementModal');
-const LiveClassroomModal = require('views/play/modal/LiveClassroomModal');
-const Codequest2020Modal = require('views/play/modal/Codequest2020Modal');
-const MineModal = require('views/core/MineModal'); // Roblox modal
-const api = require('core/api');
-const Classroom = require('models/Classroom');
-const Course = require('models/Course');
-const CourseInstance = require('models/CourseInstance');
-const Levels = require('collections/Levels');
-const payPal = require('core/services/paypal');
-const createjs = require('lib/createjs-parts');
-const PlayItemsModal = require('views/play/modal/PlayItemsModal');
-const PlayHeroesModal = require('views/play/modal/PlayHeroesModal');
-const PlayAchievementsModal = require('views/play/modal/PlayAchievementsModal');
-const BuyGemsModal = require('views/play/modal/BuyGemsModal');
-const ContactModal = require('views/core/ContactModal');
-const AnonymousTeacherModal = require('views/core/AnonymousTeacherModal');
-const AmazonHocModal = require('views/play/modal/AmazonHocModal');
-const PromotionModal = require('views/play/modal/PromotionModal');
-require('vendor/scripts/jquery-ui-1.11.1.custom');
-require('vendor/styles/jquery-ui-1.11.1.custom.css');
-const HoCModal = require('views/special_event/HoC2018InterstitialModal.coffee');
-const CourseVideosModal = require('views/play/level/modal/CourseVideosModal');
-const globalVar = require('core/globalVar');
-const paymentUtils = require('app/lib/paymentUtils');
-const userUtils = require('lib/user-utils');
-
-require('lib/game-libraries');
+import 'app/styles/play/campaign-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'templates/play/campaign-view';
+import LevelSession from 'models/LevelSession';
+import EarnedAchievement from 'models/EarnedAchievement';
+import CocoCollection from 'collections/CocoCollection';
+import Achievements from 'collections/Achievements';
+import Campaign from 'models/Campaign';
+import AudioPlayer from 'lib/AudioPlayer';
+import LevelSetupManager from 'lib/LevelSetupManager';
+import ThangType from 'models/ThangType';
+import MusicPlayer from 'lib/surface/MusicPlayer';
+import storage from 'core/storage';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import SubscribeModal from 'views/core/SubscribeModal';
+import LeaderboardModal from 'views/play/modal/LeaderboardModal';
+import Level from 'models/Level';
+import utils from 'core/utils';
+import ShareProgressModal from 'views/play/modal/ShareProgressModal';
+import UserPollsRecord from 'models/UserPollsRecord';
+import Poll from 'models/Poll';
+import PollModal from 'views/play/modal/PollModal';
+import AnnouncementModal from 'views/play/modal/AnnouncementModal';
+import LiveClassroomModal from 'views/play/modal/LiveClassroomModal';
+import Codequest2020Modal from 'views/play/modal/Codequest2020Modal';
+import MineModal from 'views/core/MineModal'; // Roblox modal
+import api from 'core/api';
+import Classroom from 'models/Classroom';
+import Course from 'models/Course';
+import CourseInstance from 'models/CourseInstance';
+import Levels from 'collections/Levels';
+import payPal from 'core/services/paypal';
+import createjs from 'lib/createjs-parts';
+import PlayItemsModal from 'views/play/modal/PlayItemsModal';
+import PlayHeroesModal from 'views/play/modal/PlayHeroesModal';
+import PlayAchievementsModal from 'views/play/modal/PlayAchievementsModal';
+import BuyGemsModal from 'views/play/modal/BuyGemsModal';
+import ContactModal from 'views/core/ContactModal';
+import AnonymousTeacherModal from 'views/core/AnonymousTeacherModal';
+import AmazonHocModal from 'views/play/modal/AmazonHocModal';
+import PromotionModal from 'views/play/modal/PromotionModal';
+import 'vendor/scripts/jquery-ui-1.11.1.custom';
+import 'vendor/styles/jquery-ui-1.11.1.custom.css';
+import HoCModal from 'views/special_event/HoC2018InterstitialModal.coffee';
+import CourseVideosModal from 'views/play/level/modal/CourseVideosModal';
+import globalVar from 'core/globalVar';
+import paymentUtils from 'app/lib/paymentUtils';
+import userUtils from 'lib/user-utils';
+import 'lib/game-libraries';
 
 class LevelSessionsCollection extends CocoCollection {
   static initClass() {
@@ -85,7 +84,7 @@ class CampaignsCollection extends CocoCollection {
 }
 CampaignsCollection.initClass();
 
-module.exports = (CampaignView = (function() {
+export default CampaignView = (function() {
   CampaignView = class CampaignView extends RootView {
     static initClass() {
       this.prototype.id = 'campaign-view';
@@ -2084,7 +2083,7 @@ ${problem.category} - ${problem.score} points\
   };
   CampaignView.initClass();
   return CampaignView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

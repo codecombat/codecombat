@@ -11,18 +11,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CodePlaybackView;
-require('app/styles/admin/codeplayback-view.sass');
-const CocoView = require('views/core/CocoView');
-const LZString = require('lz-string');
-const CodeLog = require('models/CodeLog');
-const aceUtils = require('core/aceUtils');
-const utils = require('core/utils');
-const MusicPlayer = require('lib/surface/MusicPlayer');
+import 'app/styles/admin/codeplayback-view.sass';
+import CocoView from 'views/core/CocoView';
+import LZString from 'lz-string';
+import CodeLog from 'models/CodeLog';
+import aceUtils from 'core/aceUtils';
+import utils from 'core/utils';
+import MusicPlayer from 'lib/surface/MusicPlayer';
+import template from 'app/templates/admin/codeplayback-view';
+import store from 'app/core/store';
 
-const template = require('app/templates/admin/codeplayback-view');
-const store = require('app/core/store');
-
-module.exports = (CodePlaybackView = (function() {
+export default CodePlaybackView = (function() {
   CodePlaybackView = class CodePlaybackView extends CocoView {
     static initClass() {
       this.prototype.id = 'codeplayback-view';
@@ -199,4 +198,4 @@ module.exports = (CodePlaybackView = (function() {
   };
   CodePlaybackView.initClass();
   return CodePlaybackView;
-})());
+})();

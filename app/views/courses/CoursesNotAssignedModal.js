@@ -11,13 +11,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CoursesNotAssignedModal;
-const ModalView = require('views/core/ModalView');
-const State = require('models/State');
-const template = require('app/templates/courses/courses-not-assigned-modal');
+import ModalView from 'views/core/ModalView';
+import State from 'models/State';
+import template from 'app/templates/courses/courses-not-assigned-modal';
+import { STARTER_LICENSE_COURSE_IDS } from 'core/constants';
 
-const { STARTER_LICENSE_COURSE_IDS } = require('core/constants');
-
-module.exports = (CoursesNotAssignedModal = (function() {
+export default CoursesNotAssignedModal = (function() {
   CoursesNotAssignedModal = class CoursesNotAssignedModal extends ModalView {
     static initClass() {
       this.prototype.id = 'courses-not-assigned-modal';
@@ -46,7 +45,7 @@ module.exports = (CoursesNotAssignedModal = (function() {
   };
   CoursesNotAssignedModal.initClass();
   return CoursesNotAssignedModal;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -8,8 +8,9 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const Vector = require('./vector');
-const LineSegment = require('./line_segment');
+import Vector from './vector';
+
+import LineSegment from './line_segment';
 
 class Rectangle {
   static initClass() {
@@ -422,4 +423,4 @@ class Rectangle {
 }
 Rectangle.initClass();
 
-module.exports = Rectangle;
+export default Rectangle;

@@ -11,7 +11,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TomeView;
-require('app/styles/play/level/tome/tome.sass');
+import 'app/styles/play/level/tome/tome.sass';
+
 // There's one TomeView per Level. It has:
 // - a CastButtonView, which has
 //   - a cast button
@@ -32,17 +33,18 @@ require('app/styles/play/level/tome/tome.sass');
 // You can switch a SpellView to showing the runtime state of another Thang sharing that Spell.
 // SpellPaletteViews are destroyed and recreated whenever you switch Thangs.
 
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/tome/tome');
-const {me} = require('core/auth');
-const Spell = require('./Spell');
-const SpellPaletteViewBot = require('./SpellPaletteViewBot');
-const CastButtonView = require('./CastButtonView');
-const utils = require('core/utils');
-const store = require('core/store');
-const globalVar = require('core/globalVar');
+import CocoView from 'views/core/CocoView';
 
-module.exports = (TomeView = (function() {
+import template from 'app/templates/play/level/tome/tome';
+import { me } from 'core/auth';
+import Spell from './Spell';
+import SpellPaletteViewBot from './SpellPaletteViewBot';
+import CastButtonView from './CastButtonView';
+import utils from 'core/utils';
+import store from 'core/store';
+import globalVar from 'core/globalVar';
+
+export default TomeView = (function() {
   TomeView = class TomeView extends CocoView {
     static initClass() {
       this.prototype.id = 'tome-view';
@@ -384,7 +386,7 @@ module.exports = (TomeView = (function() {
   };
   TomeView.initClass();
   return TomeView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

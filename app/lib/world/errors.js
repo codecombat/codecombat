@@ -8,15 +8,15 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let ArgumentError;
-const Vector = require('./vector');
+import Vector from './vector';
 
-module.exports.ArgumentError = (ArgumentError = (function() {
-  ArgumentError = class ArgumentError extends Error {
+export const ArgumentError = (function() {
+  class ArgumentError extends Error {
     static initClass() {
       this.className = 'ArgumentError';
     }
     constructor(message, functionName, argumentName, intendedType, actualValue, numArguments, hint) {
+      super(message);
       this.message = message;
       this.functionName = functionName;
       this.argumentName = argumentName;
@@ -24,7 +24,6 @@ module.exports.ArgumentError = (ArgumentError = (function() {
       this.actualValue = actualValue;
       this.numArguments = numArguments;
       this.hint = hint;
-      super(this.message);
       this.name = 'ArgumentError';
       if (Error.captureStackTrace != null) {
         Error.captureStackTrace(this, this.constructor);
@@ -75,4 +74,4 @@ module.exports.ArgumentError = (ArgumentError = (function() {
   };
   ArgumentError.initClass();
   return ArgumentError;
-})());
+})();

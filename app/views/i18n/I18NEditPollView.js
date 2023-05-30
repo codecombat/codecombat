@@ -10,10 +10,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let I18NEditPollView;
-const I18NEditModelView = require('./I18NEditModelView');
-const Poll = require('models/Poll');
+import I18NEditModelView from './I18NEditModelView';
+import Poll from 'models/Poll';
 
-module.exports = (I18NEditPollView = (function() {
+export default I18NEditPollView = (function() {
   I18NEditPollView = class I18NEditPollView extends I18NEditModelView {
     static initClass() {
       this.prototype.id = "i18n-edit-poll-view";
@@ -54,4 +54,4 @@ module.exports = (I18NEditPollView = (function() {
   };
   I18NEditPollView.initClass();
   return I18NEditPollView;
-})());
+})();

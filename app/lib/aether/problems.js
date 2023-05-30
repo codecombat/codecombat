@@ -9,7 +9,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const ranges = require('./ranges');
+import ranges from './ranges';
 
 /*
   This must be the library instead of our modified vendored version.
@@ -19,7 +19,7 @@ const ranges = require('./ranges');
   E.g the string prototype method `score` is used in the component misc.PropertyErrorHelper
   in the editor.
 */
-const string_score = require('string_score');
+import string_score from 'string_score';
 
 // Problems #################################
 //
@@ -56,7 +56,7 @@ const string_score = require('string_score');
 const scoreFuzziness = 0.8;
 const acceptMatchThreshold = 0.5;
 
-module.exports.createUserCodeProblem = function(options) {
+export const createUserCodeProblem = function(options) {
   if (options == null) { options = {}; }
   if (options.aether == null) { options.aether = this; }  // Can either be called standalone or as an Aether method
   if ((options.type === 'transpile') && options.error) {

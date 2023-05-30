@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const LevelFeedbackLevelSchema = c.object({required: ['original', 'majorVersion']}, {
   original: c.objectId({}),
@@ -27,4 +27,4 @@ _.extend(LevelFeedbackSchema.properties, {
 
 c.extendBasicProperties(LevelFeedbackSchema, 'level.feedback');
 
-module.exports = LevelFeedbackSchema;
+export default LevelFeedbackSchema;

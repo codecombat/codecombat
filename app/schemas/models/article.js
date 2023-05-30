@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const ArticleSchema = c.object();
 c.extendNamedProperties(ArticleSchema);  // name first
@@ -14,4 +14,4 @@ c.extendVersionedProperties(ArticleSchema, 'article');
 c.extendTranslationCoverageProperties(ArticleSchema);
 c.extendPatchableProperties(ArticleSchema);
 
-module.exports = ArticleSchema;
+export default ArticleSchema;

@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ProductModel;
-const CocoModel = require('./CocoModel');
-const utils = require('core/utils');
+import CocoModel from './CocoModel';
+import utils from 'core/utils';
 
-module.exports = (ProductModel = (function() {
+export default ProductModel = (function() {
   ProductModel = class ProductModel extends CocoModel {
     static initClass() {
       this.className = 'Product';
@@ -69,4 +69,4 @@ module.exports = (ProductModel = (function() {
   };
   ProductModel.initClass();
   return ProductModel;
-})());
+})();

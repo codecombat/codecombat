@@ -9,13 +9,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let OAuthAIYouthView;
-require('app/styles/account/oauth-aiyouth-view');
-const RootView = require('views/core/RootView');
-const template = require('templates/account/oauth-aiyouth-view');
-const utils = require('core/utils');
-const User = require('models/User');
+import 'app/styles/account/oauth-aiyouth-view';
+import RootView from 'views/core/RootView';
+import template from 'templates/account/oauth-aiyouth-view';
+import utils from 'core/utils';
+import User from 'models/User';
 
-module.exports = (OAuthAIYouthView = (function() {
+export default OAuthAIYouthView = (function() {
   OAuthAIYouthView = class OAuthAIYouthView extends RootView {
     static initClass() {
       this.prototype.id = 'oauth-aiyouth-view';
@@ -61,4 +61,4 @@ module.exports = (OAuthAIYouthView = (function() {
   };
   OAuthAIYouthView.initClass();
   return OAuthAIYouthView;
-})());
+})();

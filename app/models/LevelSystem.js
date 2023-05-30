@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelSystem;
-const CocoModel = require('./CocoModel');
-const SystemNameLoader = require('core/SystemNameLoader');
+import CocoModel from './CocoModel';
+import SystemNameLoader from 'core/SystemNameLoader';
 
-module.exports = (LevelSystem = (function() {
+export default LevelSystem = (function() {
   LevelSystem = class LevelSystem extends CocoModel {
     static initClass() {
       this.className = 'LevelSystem';
@@ -67,4 +67,4 @@ module.exports = (LevelSystem = (function() {
   };
   LevelSystem.initClass();
   return LevelSystem;
-})());
+})();

@@ -13,32 +13,32 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CoursesView;
-require('app/styles/courses/courses-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/courses/courses-view');
-const AuthModal = require('views/core/AuthModal');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const ChangeCourseLanguageModal = require('views/courses/ChangeCourseLanguageModal');
-const ChooseLanguageModal = require('views/courses/ChooseLanguageModal');
-const JoinClassModal = require('views/courses/JoinClassModal');
-const CourseInstance = require('models/CourseInstance');
-const CocoCollection = require('collections/CocoCollection');
-const Course = require('models/Course');
-const Classroom = require('models/Classroom');
-const Classrooms = require('collections/Classrooms');
-const Courses = require('collections/Courses');
-const CourseInstances = require('collections/CourseInstances');
-const LevelSession = require('models/LevelSession');
-const Levels = require('collections/Levels');
-const NameLoader = require('core/NameLoader');
-const Campaign = require('models/Campaign');
-const ThangType = require('models/ThangType');
-const Mandate = require('models/Mandate');
-const store = require('core/store');
-const utils = require('core/utils');
-const coursesHelper = require('lib/coursesHelper');
+import 'app/styles/courses/courses-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/courses/courses-view';
+import AuthModal from 'views/core/AuthModal';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import ChangeCourseLanguageModal from 'views/courses/ChangeCourseLanguageModal';
+import ChooseLanguageModal from 'views/courses/ChooseLanguageModal';
+import JoinClassModal from 'views/courses/JoinClassModal';
+import CourseInstance from 'models/CourseInstance';
+import CocoCollection from 'collections/CocoCollection';
+import Course from 'models/Course';
+import Classroom from 'models/Classroom';
+import Classrooms from 'collections/Classrooms';
+import Courses from 'collections/Courses';
+import CourseInstances from 'collections/CourseInstances';
+import LevelSession from 'models/LevelSession';
+import Levels from 'collections/Levels';
+import NameLoader from 'core/NameLoader';
+import Campaign from 'models/Campaign';
+import ThangType from 'models/ThangType';
+import Mandate from 'models/Mandate';
+import store from 'core/store';
+import utils from 'core/utils';
+import coursesHelper from 'lib/coursesHelper';
 
-module.exports = (CoursesView = (function() {
+export default CoursesView = (function() {
   CoursesView = class CoursesView extends RootView {
     constructor(...args) {
       this.checkForTournamentStart = this.checkForTournamentStart.bind(this);
@@ -427,7 +427,7 @@ module.exports = (CoursesView = (function() {
   };
   CoursesView.initClass();
   return CoursesView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -12,10 +12,11 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const storage = require('core/storage');
-const locale = require('locale/locale');
-const utils = require('core/utils');
-const globalVar = require('core/globalVar');
+import storage from 'core/storage';
+
+import locale from 'locale/locale';
+import utils from 'core/utils';
+import globalVar from 'core/globalVar';
 
 class CocoModel extends Backbone.Model {
   static initClass() {
@@ -582,7 +583,7 @@ class CocoModel extends Backbone.Model {
 }
 CocoModel.initClass();
 
-module.exports = CocoModel;
+export default CocoModel;
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

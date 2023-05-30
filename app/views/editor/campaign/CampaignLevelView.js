@@ -12,15 +12,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CampaignLevelView;
-require('app/styles/editor/campaign/campaign-level-view.sass');
-const CocoView = require('views/core/CocoView');
-const Level = require('models/Level');
-const LevelSession = require('models/LevelSession');
-const ModelModal = require('views/modal/ModelModal');
-const User = require('models/User');
-const utils = require('core/utils');
+import 'app/styles/editor/campaign/campaign-level-view.sass';
+import CocoView from 'views/core/CocoView';
+import Level from 'models/Level';
+import LevelSession from 'models/LevelSession';
+import ModelModal from 'views/modal/ModelModal';
+import User from 'models/User';
+import utils from 'core/utils';
 
-module.exports = (CampaignLevelView = (function() {
+export default CampaignLevelView = (function() {
   CampaignLevelView = class CampaignLevelView extends CocoView {
     static initClass() {
       this.prototype.id = 'campaign-level-view';
@@ -592,7 +592,7 @@ module.exports = (CampaignLevelView = (function() {
   };
   CampaignLevelView.initClass();
   return CampaignLevelView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

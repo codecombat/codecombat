@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let I18NEditThangTypeView;
-const I18NEditModelView = require('./I18NEditModelView');
-const ThangType = require('models/ThangType');
+import I18NEditModelView from './I18NEditModelView';
+import ThangType from 'models/ThangType';
 
-module.exports = (I18NEditThangTypeView = (function() {
+export default I18NEditThangTypeView = (function() {
   I18NEditThangTypeView = class I18NEditThangTypeView extends I18NEditModelView {
     static initClass() {
       this.prototype.id = 'i18n-thang-type-view';
@@ -41,4 +41,4 @@ module.exports = (I18NEditThangTypeView = (function() {
   };
   I18NEditThangTypeView.initClass();
   return I18NEditThangTypeView;
-})());
+})();

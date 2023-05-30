@@ -11,8 +11,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Label;
-const CocoClass = require('core/CocoClass');
-const createjs = require('lib/createjs-parts');
+import CocoClass from 'core/CocoClass';
+import createjs from 'lib/createjs-parts';
 
 // Default parameters are using short name (char)
 const DEFAULT_STYLE_CHAR = {dialogue: 'D', say: 'S', name: 'N', variable: 'V', text: 'T'};
@@ -37,7 +37,7 @@ const DEFAULT_LABEL_OPTIONS  = {
 };
 
 
-module.exports = (Label = (function() {
+export default Label = (function() {
   Label = class Label extends CocoClass {
     static initClass() {
       this.STYLE_DIALOGUE = 'dialogue';  // A speech bubble from a script
@@ -319,7 +319,7 @@ module.exports = (Label = (function() {
   };
   Label.initClass();
   return Label;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

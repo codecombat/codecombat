@@ -11,13 +11,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let I18nVerifierView;
-require('app/styles/editor/verifier/i18n-verifier-view.sass');
-const RootComponent = require('views/core/RootComponent');
-const Problem = require('views/play/level/tome/Problem');
-const locale = require('locale/locale');
-const api = require('core/api');
-const co = require('co');
-const utils = require('core/utils');
+import 'app/styles/editor/verifier/i18n-verifier-view.sass';
+import RootComponent from 'views/core/RootComponent';
+import Problem from 'views/play/level/tome/Problem';
+import locale from 'locale/locale';
+import api from 'core/api';
+import co from 'co';
+import utils from 'core/utils';
 
 const I18nVerifierComponent = Vue.extend({
   template: require('app/templates/editor/verifier/i18n-verifier-view')(),
@@ -185,7 +185,7 @@ const I18nVerifierComponent = Vue.extend({
   }
 });
 
-module.exports = (I18nVerifierView = (function() {
+export default I18nVerifierView = (function() {
   I18nVerifierView = class I18nVerifierView extends RootComponent {
     static initClass() {
       this.prototype.id = 'i18n-verifier-view';
@@ -204,4 +204,4 @@ module.exports = (I18nVerifierView = (function() {
   };
   I18nVerifierView.initClass();
   return I18nVerifierView;
-})());
+})();

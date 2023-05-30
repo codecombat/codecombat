@@ -6,9 +6,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SurfaceScriptModule;
-const ScriptModule = require('./ScriptModule');
+import ScriptModule from './ScriptModule';
 
-module.exports = (SurfaceScriptModule = class SurfaceScriptModule extends ScriptModule {
+export default SurfaceScriptModule = class SurfaceScriptModule extends ScriptModule {
   static neededFor(noteGroup) {
     return (noteGroup.surface != null);
   }
@@ -69,4 +69,4 @@ module.exports = (SurfaceScriptModule = class SurfaceScriptModule extends Script
   surfaceLockSelectNote() {
     return { channel: 'level:lock-select', event: {lock: this.noteGroup.surface.lockSelect} };
   }
-});
+};

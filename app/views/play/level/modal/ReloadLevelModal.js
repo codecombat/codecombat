@@ -5,10 +5,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ReloadLevelModal;
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/level/modal/reload-level-modal');
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/level/modal/reload-level-modal';
 
-module.exports = (ReloadLevelModal = (function() {
+export default ReloadLevelModal = (function() {
   ReloadLevelModal = class ReloadLevelModal extends ModalView {
     static initClass() {
       this.prototype.id = '#reload-level-modal';
@@ -25,4 +25,4 @@ module.exports = (ReloadLevelModal = (function() {
   };
   ReloadLevelModal.initClass();
   return ReloadLevelModal;
-})());
+})();

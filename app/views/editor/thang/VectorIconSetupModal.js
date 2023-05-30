@@ -11,11 +11,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let VectorIconSetupModal;
-require('app/styles/editor/thang/vector-icon-setup-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/thang/vector-icon-setup-modal');
+import 'app/styles/editor/thang/vector-icon-setup-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/thang/vector-icon-setup-modal';
 
-module.exports = (VectorIconSetupModal = (function() {
+export default VectorIconSetupModal = (function() {
   VectorIconSetupModal = class VectorIconSetupModal extends ModalView {
     static initClass() {
       this.prototype.id = "vector-icon-setup-modal";
@@ -147,7 +147,7 @@ module.exports = (VectorIconSetupModal = (function() {
   };
   VectorIconSetupModal.initClass();
   return VectorIconSetupModal;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

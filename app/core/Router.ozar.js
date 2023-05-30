@@ -12,9 +12,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CocoRouter;
-const dynamicRequire = require('lib/dynamicRequire');
-const locale = require('locale/locale');
-const globalVar = require('core/globalVar');
+import dynamicRequire from 'lib/dynamicRequire';
+import locale from 'locale/locale';
+import globalVar from 'core/globalVar';
 
 const go = (path, options) => (function() { return this.routeDirectly(path, arguments, options); });
 
@@ -24,17 +24,17 @@ const teacherProxyRoute = originalRoute => (function() {
   // if sessionStorage.getItem('newTeacherDashboardActive') == 'active'
   return go('core/SingletonAppVueComponentView').apply(this, arguments);
 });
-  // originalRoute.apply(@, arguments)
+// originalRoute.apply(@, arguments)
 
 const redirect = path => (function() {
   delete window.alreadyLoadedView;
   return this.navigate(path + document.location.search, { trigger: true, replace: true });
 });
 
-const utils = require('./utils');
-const ViewLoadTimer = require('core/ViewLoadTimer');
+import utils from './utils';
+import ViewLoadTimer from 'core/ViewLoadTimer';
 
-module.exports = (CocoRouter = (function() {
+export default CocoRouter = (function() {
   CocoRouter = class CocoRouter extends Backbone.Router {
     static initClass() {
   
@@ -610,7 +610,7 @@ module.exports = (CocoRouter = (function() {
   };
   CocoRouter.initClass();
   return CocoRouter;
-})());
+})();
 
 function __guardMethod__(obj, methodName, transform) {
   if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {

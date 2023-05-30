@@ -12,12 +12,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TasksTabView;
-require('app/styles/editor/level/tasks-tab.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/level/tasks-tab');
-const Level = require('models/Level');
+import 'app/styles/editor/level/tasks-tab.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/level/tasks-tab';
+import Level from 'models/Level';
 
-module.exports = (TasksTabView = (function() {
+export default TasksTabView = (function() {
   TasksTabView = class TasksTabView extends CocoView {
     static initClass() {
       this.prototype.id = 'editor-level-tasks-tab-view';
@@ -182,7 +182,7 @@ module.exports = (TasksTabView = (function() {
   };
   TasksTabView.initClass();
   return TasksTabView;
-})());
+})();
 
 
 const notWebDev = ['hero', 'course', 'hero-ladder', 'course-ladder', 'game-dev'];

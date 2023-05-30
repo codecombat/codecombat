@@ -4,12 +4,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ShareLicensesJoinerRow;
-const store = require('core/store');
-const api = require('core/api');
-const ShareLicensesStoreModule = require('./ShareLicensesStoreModule');
-const User = require('models/User');
+import store from 'core/store';
+import api from 'core/api';
+import ShareLicensesStoreModule from './ShareLicensesStoreModule';
+import User from 'models/User';
 
-module.exports = (ShareLicensesJoinerRow = {
+export default ShareLicensesJoinerRow = {
   name: 'share-licenses-joiner-row',
   template: require('app/templates/teachers/share-licenses-joiner-row')(),
   storeModule: ShareLicensesStoreModule,
@@ -80,4 +80,4 @@ module.exports = (ShareLicensesJoinerRow = {
         }
       }
     }
-});
+};

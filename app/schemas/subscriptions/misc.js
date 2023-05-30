@@ -1,8 +1,8 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('schemas/schemas');
+import c from 'schemas/schemas';
 
-module.exports = {
+export default {
   'application:idle-changed': c.object({}, {
     idle: {type: 'boolean'},
     type: {enum: ['activity', 'visibility']}

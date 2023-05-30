@@ -12,17 +12,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let HeroSelectView;
-require('app/styles/core/hero-select-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/core/hero-select-view');
-const State = require('models/State');
-const ThangTypeConstants = require('lib/ThangTypeConstants');
-const ThangTypeLib = require('lib/ThangTypeLib');
-const User = require('models/User');
-const api = require('core/api');
-const utils = require('core/utils');
+import 'app/styles/core/hero-select-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/core/hero-select-view';
+import State from 'models/State';
+import ThangTypeConstants from 'lib/ThangTypeConstants';
+import ThangTypeLib from 'lib/ThangTypeLib';
+import User from 'models/User';
+import api from 'core/api';
+import utils from 'core/utils';
 
-module.exports = (HeroSelectView = (function() {
+export default HeroSelectView = (function() {
   HeroSelectView = class HeroSelectView extends CocoView {
     static initClass() {
       this.prototype.id = 'hero-select-view';
@@ -117,7 +117,7 @@ module.exports = (HeroSelectView = (function() {
   };
   HeroSelectView.initClass();
   return HeroSelectView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

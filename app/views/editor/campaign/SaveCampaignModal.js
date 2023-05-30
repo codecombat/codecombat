@@ -9,11 +9,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SaveCampaignModal;
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/campaign/save-campaign-modal');
-const DeltaView = require('views/editor/DeltaView');
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/campaign/save-campaign-modal';
+import DeltaView from 'views/editor/DeltaView';
 
-module.exports = (SaveCampaignModal = (function() {
+export default SaveCampaignModal = (function() {
   SaveCampaignModal = class SaveCampaignModal extends ModalView {
     static initClass() {
       this.prototype.id = 'save-campaign-modal';
@@ -47,4 +47,4 @@ module.exports = (SaveCampaignModal = (function() {
   };
   SaveCampaignModal.initClass();
   return SaveCampaignModal;
-})());
+})();

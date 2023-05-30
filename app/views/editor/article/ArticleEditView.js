@@ -9,20 +9,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ArticleEditView;
-require('app/styles/editor/article/edit.sass');
-const RootView = require('views/core/RootView');
-const VersionHistoryView = require('./ArticleVersionsModal');
-const template = require('app/templates/editor/article/edit');
-const Article = require('models/Article');
-const SaveVersionModal = require('views/editor/modal/SaveVersionModal');
-const PatchesView = require('views/editor/PatchesView');
-require('views/modal/RevertModal');
-require('lib/setupTreema');
-const RevertModal = require('views/modal/RevertModal');
+import 'app/styles/editor/article/edit.sass';
+import RootView from 'views/core/RootView';
+import VersionHistoryView from './ArticleVersionsModal';
+import template from 'app/templates/editor/article/edit';
+import Article from 'models/Article';
+import SaveVersionModal from 'views/editor/modal/SaveVersionModal';
+import PatchesView from 'views/editor/PatchesView';
+import 'views/modal/RevertModal';
+import 'lib/setupTreema';
+import RevertModal from 'views/modal/RevertModal';
+import 'lib/game-libraries';
 
-require('lib/game-libraries');
-
-module.exports = (ArticleEditView = (function() {
+export default ArticleEditView = (function() {
   ArticleEditView = class ArticleEditView extends RootView {
     static initClass() {
       this.prototype.id = 'editor-article-edit-view';
@@ -155,4 +154,4 @@ module.exports = (ArticleEditView = (function() {
   };
   ArticleEditView.initClass();
   return ArticleEditView;
-})());
+})();

@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const UserPollsRecordSchema = c.object({title: 'UserPollsRecord'});
 
@@ -24,4 +24,4 @@ _.extend(UserPollsRecordSchema.properties, {
 
 c.extendBasicProperties(UserPollsRecordSchema, 'user-polls-record');
 
-module.exports = UserPollsRecordSchema;
+export default UserPollsRecordSchema;

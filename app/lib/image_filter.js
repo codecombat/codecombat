@@ -9,7 +9,6 @@
  */
 // Based on: http://www.html5rocks.com/en/tutorials/canvas/imagefilters/
 
-let darkenImage, revertImage;
 const Filters = {};
 
 Filters.getPixels = function(img) {
@@ -43,13 +42,13 @@ Filters.brightness = function(pixels, adjustment) {
   return pixels;
 };
 
-module.exports.darkenImage = (darkenImage = function(img, borderImageSelector, pct) {
+export const darkenImage = function(img, borderImageSelector, pct) {
   if (pct == null) { pct = 0.5; }
   const jqimg = $(img);
   const cachedValue = jqimg.data('darkened');
   if (cachedValue) {
     $(borderImageSelector).css('border-image-source', 'url(' + cachedValue + ')');
-    return img.src = cachedValue; 
+    return img.src = cachedValue;
   }
   if (!jqimg.data('original')) { jqimg.data('original', img.src); }
   if (!((img.naturalWidth > 0) && (img.naturalHeight > 0))) {
@@ -63,11 +62,11 @@ module.exports.darkenImage = (darkenImage = function(img, borderImageSelector, p
   img.src = c.toDataURL();
   $(borderImageSelector).css('border-image-source', 'url(' + img.src + ')');
   return jqimg.data('darkened', img.src);
-});
+};
 
-module.exports.revertImage = (revertImage = function(img, borderImageSelector) {
+export const revertImage = function(img, borderImageSelector) {
   const jqimg = $(img);
   if (!jqimg.data('original')) { return; }
   $(borderImageSelector).css('border-image-source', 'url(' + jqimg.data('original') + ')');
   return img.src = jqimg.data('original');
-});
+};

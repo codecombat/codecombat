@@ -8,15 +8,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpellPaletteThangEntryView;
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/tome/spell-palette-thang-entry');
-const popoverTemplate = require('app/templates/play/level/tome/spell_palette_entry_popover');
-const {me} = require('core/auth');
-const filters = require('lib/image_filter');
-const DocFormatter = require('./DocFormatter');
-const utils = require('core/utils');
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/tome/spell-palette-thang-entry';
+import popoverTemplate from 'app/templates/play/level/tome/spell_palette_entry_popover';
+import { me } from 'core/auth';
+import filters from 'lib/image_filter';
+import DocFormatter from './DocFormatter';
+import utils from 'core/utils';
 
-module.exports = (SpellPaletteThangEntryView = (function() {
+export default SpellPaletteThangEntryView = (function() {
   SpellPaletteThangEntryView = class SpellPaletteThangEntryView extends CocoView {
     static initClass() {
       this.prototype.tagName = 'div';  // Could also try <code> instead of <div>, but would need to adjust colors
@@ -125,4 +125,4 @@ module.exports = (SpellPaletteThangEntryView = (function() {
   };
   SpellPaletteThangEntryView.initClass();
   return SpellPaletteThangEntryView;
-})());
+})();

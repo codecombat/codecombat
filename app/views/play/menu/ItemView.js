@@ -5,10 +5,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ItemView;
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/menu/item-view');
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/menu/item-view';
 
-module.exports = (ItemView = (function() {
+export default ItemView = (function() {
   ItemView = class ItemView extends CocoView {
     static initClass() {
       this.prototype.className = 'item-view';
@@ -40,4 +40,4 @@ module.exports = (ItemView = (function() {
   };
   ItemView.initClass();
   return ItemView;
-})());
+})();

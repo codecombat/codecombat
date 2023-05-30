@@ -12,19 +12,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SettingsTabView;
-require('app/styles/editor/level/settings_tab.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/level/settings_tab');
-const Level = require('models/Level');
-const ThangType = require('models/ThangType');
-const Surface = require('lib/surface/Surface');
-const nodes = require('./../treema_nodes');
-const {me} = require('core/auth');
-require('lib/setupTreema');
-const concepts = require('schemas/concepts');
-const utils = require('core/utils');
+import 'app/styles/editor/level/settings_tab.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/level/settings_tab';
+import Level from 'models/Level';
+import ThangType from 'models/ThangType';
+import Surface from 'lib/surface/Surface';
+import nodes from './../treema_nodes';
+import { me } from 'core/auth';
+import 'lib/setupTreema';
+import concepts from 'schemas/concepts';
+import utils from 'core/utils';
 
-module.exports = (SettingsTabView = (function() {
+export default SettingsTabView = (function() {
   SettingsTabView = class SettingsTabView extends CocoView {
     static initClass() {
       this.prototype.id = 'editor-level-settings-tab-view';
@@ -153,7 +153,7 @@ module.exports = (SettingsTabView = (function() {
   };
   SettingsTabView.initClass();
   return SettingsTabView;
-})());
+})();
 
 
 class SettingsNode extends TreemaObjectNode {

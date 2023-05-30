@@ -8,18 +8,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let EditView;
-require('app/styles/editor/common/edit.scss');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/editor/common/edit');
-const ConfirmModal = require('views/core/ConfirmModal');
-const PatchesView = require('views/editor/PatchesView');
-const errors = require('core/errors');
+import 'app/styles/editor/common/edit.scss';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/editor/common/edit';
+import ConfirmModal from 'views/core/ConfirmModal';
+import PatchesView from 'views/editor/PatchesView';
+import errors from 'core/errors';
+import 'lib/game-libraries';
+import 'lib/setupTreema';
+import treemaExt from 'core/treema-ext';
 
-require('lib/game-libraries');
-require('lib/setupTreema');
-const treemaExt = require('core/treema-ext');
-
-module.exports = (EditView = (function() {
+export default EditView = (function() {
   EditView = class EditView extends RootView {
     static initClass() {
       this.prototype.id = 'editor-edit-view';
@@ -105,4 +104,4 @@ module.exports = (EditView = (function() {
   };
   EditView.initClass();
   return EditView;
-})());
+})();

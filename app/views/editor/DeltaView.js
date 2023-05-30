@@ -10,15 +10,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let DeltaView;
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/editor/delta');
-const deltasLib = require('core/deltas');
-const modelDeltas = require('lib/modelDeltas');
-const jsondiffpatch = require('lib/jsondiffpatch');
-const diffview = require('exports-loader?diffview!vendor/scripts/diffview');
-require('vendor/styles/diffview.css');
-const difflib = require('exports-loader?difflib!vendor/scripts/difflib');
-require('lib/setupTreema');
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/editor/delta';
+import deltasLib from 'core/deltas';
+import modelDeltas from 'lib/modelDeltas';
+import jsondiffpatch from 'lib/jsondiffpatch';
+import diffview from 'exports-loader?diffview!vendor/scripts/diffview';
+import 'vendor/styles/diffview.css';
+import difflib from 'exports-loader?difflib!vendor/scripts/difflib';
+import 'lib/setupTreema';
 
 const TEXTDIFF_OPTIONS = {
   baseTextName: "Old",
@@ -27,7 +27,7 @@ const TEXTDIFF_OPTIONS = {
   viewType: 1
 };
 
-module.exports = (DeltaView = (function() {
+export default DeltaView = (function() {
   DeltaView = class DeltaView extends CocoView {
     static initClass() {
   
@@ -201,4 +201,4 @@ module.exports = (DeltaView = (function() {
   };
   DeltaView.initClass();
   return DeltaView;
-})());
+})();

@@ -11,12 +11,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AddLevelSystemModal;
-require('app/styles/editor/level/system/add.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/level/system/add');
-const availableSystemTemplate = require('app/templates/editor/level/system/available_system');
-const LevelSystem = require('models/LevelSystem');
-const CocoCollection = require('collections/CocoCollection');
+import 'app/styles/editor/level/system/add.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/level/system/add';
+import availableSystemTemplate from 'app/templates/editor/level/system/available_system';
+import LevelSystem from 'models/LevelSystem';
+import CocoCollection from 'collections/CocoCollection';
 
 class LevelSystemSearchCollection extends CocoCollection {
   static initClass() {
@@ -26,7 +26,7 @@ class LevelSystemSearchCollection extends CocoCollection {
 }
 LevelSystemSearchCollection.initClass();
 
-module.exports = (AddLevelSystemModal = (function() {
+export default AddLevelSystemModal = (function() {
   AddLevelSystemModal = class AddLevelSystemModal extends ModalView {
     static initClass() {
       this.prototype.id = 'editor-level-system-add-modal';
@@ -90,4 +90,4 @@ module.exports = (AddLevelSystemModal = (function() {
   };
   AddLevelSystemModal.initClass();
   return AddLevelSystemModal;
-})());
+})();

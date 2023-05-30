@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SkippedContacts;
-const SkippedContact = require('models/SkippedContact');
-const CocoCollection = require('collections/CocoCollection');
+import SkippedContact from 'models/SkippedContact';
+import CocoCollection from 'collections/CocoCollection';
 
-module.exports = (SkippedContacts = (function() {
+export default SkippedContacts = (function() {
   SkippedContacts = class SkippedContacts extends CocoCollection {
     static initClass() {
       this.prototype.model = SkippedContact;
@@ -18,4 +18,4 @@ module.exports = (SkippedContacts = (function() {
   };
   SkippedContacts.initClass();
   return SkippedContacts;
-})());
+})();

@@ -6,10 +6,9 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let scriptMatchesEventPrereqs;
-const {downTheChain} = require('./world_utils');
+import { downTheChain } from './world_utils';
 
-module.exports.scriptMatchesEventPrereqs = (scriptMatchesEventPrereqs = function(script, event) {
+export const scriptMatchesEventPrereqs = function(script, event) {
   if (!script.eventPrereqs) { return true; }
   for (var ap of Array.from(script.eventPrereqs)) {
     var v = downTheChain(event, ap.eventProps);
@@ -26,4 +25,4 @@ module.exports.scriptMatchesEventPrereqs = (scriptMatchesEventPrereqs = function
   }
 
   return true;
-});
+};

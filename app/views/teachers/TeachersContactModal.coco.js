@@ -8,16 +8,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TeachersContactModal;
-require('app/styles/teachers/teachers-contact-modal.sass');
-const ModalView = require('views/core/ModalView');
-const State = require('models/State');
-const TrialRequests = require('collections/TrialRequests');
-const forms = require('core/forms');
-const contact = require('core/contact');
-const utils = require('core/utils');
-const {sendSlackMessage} = require('core/contact');
+import 'app/styles/teachers/teachers-contact-modal.sass';
+import ModalView from 'views/core/ModalView';
+import State from 'models/State';
+import TrialRequests from 'collections/TrialRequests';
+import forms from 'core/forms';
+import contact from 'core/contact';
+import utils from 'core/utils';
+import { sendSlackMessage } from 'core/contact';
 
-module.exports = (TeachersContactModal = (function() {
+export default TeachersContactModal = (function() {
   TeachersContactModal = class TeachersContactModal extends ModalView {
     static initClass() {
       this.prototype.id = 'teachers-contact-modal';
@@ -199,7 +199,7 @@ Phone Number: ${props.phoneNumber || ''}\
   };
   TeachersContactModal.initClass();
   return TeachersContactModal;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

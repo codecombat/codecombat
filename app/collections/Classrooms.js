@@ -9,10 +9,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Classrooms;
-const Classroom = require('models/Classroom');
-const CocoCollection = require('collections/CocoCollection');
+import Classroom from 'models/Classroom';
+import CocoCollection from 'collections/CocoCollection';
 
-module.exports = (Classrooms = (function() {
+export default Classrooms = (function() {
   Classrooms = class Classrooms extends CocoCollection {
     static initClass() {
       this.prototype.model = Classroom;
@@ -43,4 +43,4 @@ module.exports = (Classrooms = (function() {
   };
   Classrooms.initClass();
   return Classrooms;
-})());
+})();

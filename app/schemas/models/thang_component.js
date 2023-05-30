@@ -1,9 +1,9 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
 let ThangComponentSchema;
-const c = require('./../schemas');
+import c from './../schemas';
 
-module.exports = (ThangComponentSchema = c.object({
+export default ThangComponentSchema = c.object({
   title: 'Component',
   description: 'Configuration for a Component that this Thang uses.',
   format: 'component-reference',
@@ -24,4 +24,4 @@ module.exports = (ThangComponentSchema = c.object({
     format: 'hidden'
   }
 }
-));
+);

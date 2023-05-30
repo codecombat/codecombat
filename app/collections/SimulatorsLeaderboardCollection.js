@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SimulatorsLeaderboardCollection;
-const CocoCollection = require('collections/CocoCollection');
-const User = require('models/User');
+import CocoCollection from 'collections/CocoCollection';
+import User from 'models/User';
 
-module.exports = (SimulatorsLeaderboardCollection = (function() {
+export default SimulatorsLeaderboardCollection = (function() {
   SimulatorsLeaderboardCollection = class SimulatorsLeaderboardCollection extends CocoCollection {
     static initClass() {
       this.prototype.url = '';
@@ -25,4 +25,4 @@ module.exports = (SimulatorsLeaderboardCollection = (function() {
   };
   SimulatorsLeaderboardCollection.initClass();
   return SimulatorsLeaderboardCollection;
-})());
+})();

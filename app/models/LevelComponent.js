@@ -8,9 +8,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelComponent;
-const CocoModel = require('./CocoModel');
+import CocoModel from './CocoModel';
 
-module.exports = (LevelComponent = (function() {
+export default LevelComponent = (function() {
   LevelComponent = class LevelComponent extends CocoModel {
     static initClass() {
       this.className = 'LevelComponent';
@@ -101,4 +101,4 @@ module.exports = (LevelComponent = (function() {
   };
   LevelComponent.initClass();
   return LevelComponent;
-})());
+})();

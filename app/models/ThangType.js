@@ -13,15 +13,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ThangType;
-const CocoModel = require('./CocoModel');
-const SpriteBuilder = require('lib/sprites/SpriteBuilder');
-const LevelComponent = require('./LevelComponent');
-const CocoCollection = require('collections/CocoCollection');
-const createjs = require('lib/createjs-parts');
-const ThangTypeConstants = require('lib/ThangTypeConstants');
-const ThangTypeLib = require('lib/ThangTypeLib');
-
-const utils = require('core/utils');
+import CocoModel from './CocoModel';
+import SpriteBuilder from 'lib/sprites/SpriteBuilder';
+import LevelComponent from './LevelComponent';
+import CocoCollection from 'collections/CocoCollection';
+import createjs from 'lib/createjs-parts';
+import ThangTypeConstants from 'lib/ThangTypeConstants';
+import ThangTypeLib from 'lib/ThangTypeLib';
+import utils from 'core/utils';
 
 // This method loads a createjs javascript file, and executes this file.
 // @param {string} movieClipUrl - The url of the javascript file.
@@ -56,7 +55,7 @@ const loadCreateJs = movieClipUrl => fetch(movieClipUrl, { method: "GET" })
 
 let buildQueue = [];
 
-module.exports = (ThangType = (function() {
+export default ThangType = (function() {
   ThangType = class ThangType extends CocoModel {
     constructor(...args) {
       this.onFileUploaded = this.onFileUploaded.bind(this);
@@ -912,7 +911,7 @@ module.exports = (ThangType = (function() {
   };
   ThangType.initClass();
   return ThangType;
-})());
+})();
 
 
 class PrerenderedSpriteSheet extends CocoModel {

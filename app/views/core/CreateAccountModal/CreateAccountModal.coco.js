@@ -10,29 +10,29 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CreateAccountModal;
-require('app/styles/modal/create-account-modal/create-account-modal.sass');
-const ModalView = require('views/core/ModalView');
-const AuthModal = require('views/core/AuthModal');
-const ChooseAccountTypeView = require('./ChooseAccountTypeView');
-const SegmentCheckView = require('./SegmentCheckView');
-const CoppaDenyView = require('./CoppaDenyView');
-const EUConfirmationView = require('./EUConfirmationView');
-const OzVsCocoView = require('./OzVsCocoView');
-const BasicInfoView = require('./BasicInfoView');
-const SingleSignOnAlreadyExistsView = require('./SingleSignOnAlreadyExistsView');
-const SingleSignOnConfirmView = require('./SingleSignOnConfirmView');
-const ExtrasView = require('./ExtrasView');
-const ConfirmationView = require('./ConfirmationView');
-const TeacherSignupComponent = require('./teacher/TeacherSignupComponent');
-const TeacherSignupStoreModule = require('./teacher/TeacherSignupStoreModule');
-const State = require('models/State');
-const template = require('app/templates/core/create-account-modal/create-account-modal');
-const forms = require('core/forms');
-const User = require('models/User');
-const errors = require('core/errors');
-const utils = require('core/utils');
-const store = require('core/store');
-const storage = require('core/storage');
+import 'app/styles/modal/create-account-modal/create-account-modal.sass';
+import ModalView from 'views/core/ModalView';
+import AuthModal from 'views/core/AuthModal';
+import ChooseAccountTypeView from './ChooseAccountTypeView';
+import SegmentCheckView from './SegmentCheckView';
+import CoppaDenyView from './CoppaDenyView';
+import EUConfirmationView from './EUConfirmationView';
+import OzVsCocoView from './OzVsCocoView';
+import BasicInfoView from './BasicInfoView';
+import SingleSignOnAlreadyExistsView from './SingleSignOnAlreadyExistsView';
+import SingleSignOnConfirmView from './SingleSignOnConfirmView';
+import ExtrasView from './ExtrasView';
+import ConfirmationView from './ConfirmationView';
+import TeacherSignupComponent from './teacher/TeacherSignupComponent';
+import TeacherSignupStoreModule from './teacher/TeacherSignupStoreModule';
+import State from 'models/State';
+import template from 'app/templates/core/create-account-modal/create-account-modal';
+import forms from 'core/forms';
+import User from 'models/User';
+import errors from 'core/errors';
+import utils from 'core/utils';
+import store from 'core/store';
+import storage from 'core/storage';
 
 /*
 CreateAccountModal is a wizard-style modal with several subviews, one for each
@@ -72,7 +72,7 @@ const startSignupTracking = function() {
     properties) : undefined);
 };
 
-module.exports = (CreateAccountModal = (function() {
+export default CreateAccountModal = (function() {
   CreateAccountModal = class CreateAccountModal extends ModalView {
     static initClass() {
       this.prototype.id = 'create-account-modal';
@@ -321,4 +321,4 @@ module.exports = (CreateAccountModal = (function() {
   };
   CreateAccountModal.initClass();
   return CreateAccountModal;
-})());
+})();

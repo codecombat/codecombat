@@ -12,35 +12,35 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpellView;
-require('app/styles/play/level/tome/spell.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/tome/spell');
-const {me} = require('core/auth');
-const filters = require('lib/image_filter');
-const ace = require('lib/aceContainer');
+import 'app/styles/play/level/tome/spell.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/tome/spell';
+import { me } from 'core/auth';
+import filters from 'lib/image_filter';
+import ace from 'lib/aceContainer';
 let {
   Range
 } = ace.require('ace/range');
 const {
   UndoManager
 } = ace.require('ace/undomanager');
-const Problem = require('./Problem');
-const SpellDebugView = require('./SpellDebugView');
-const SpellTranslationView = require('./SpellTranslationView');
-const SpellToolbarView = require('./SpellToolbarView');
-const LevelComponent = require('models/LevelComponent');
-const UserCodeProblem = require('models/UserCodeProblem');
-const aceUtils = require('core/aceUtils');
-const CodeLog = require('models/CodeLog');
-const Autocomplete = require('./editor/autocomplete');
+import Problem from './Problem';
+import SpellDebugView from './SpellDebugView';
+import SpellTranslationView from './SpellTranslationView';
+import SpellToolbarView from './SpellToolbarView';
+import LevelComponent from 'models/LevelComponent';
+import UserCodeProblem from 'models/UserCodeProblem';
+import aceUtils from 'core/aceUtils';
+import CodeLog from 'models/CodeLog';
+import Autocomplete from './editor/autocomplete';
 const {
   TokenIterator
 } = ace.require('ace/token_iterator');
-const LZString = require('lz-string');
-const utils = require('core/utils');
-const Aether = require('lib/aether/aether');
+import LZString from 'lz-string';
+import utils from 'core/utils';
+import Aether from 'lib/aether/aether';
 
-module.exports = (SpellView = (function() {
+export default SpellView = (function() {
   SpellView = class SpellView extends CocoView {
     static initClass() {
       this.prototype.id = 'spell-view';
@@ -2003,7 +2003,7 @@ border-right: ${bw}px solid rgba(${color.border},1); border-bottom: ${bw}px soli
   };
   SpellView.initClass();
   return SpellView;
-})());
+})();
 
 // Note: These need to be double-escaped for insertion into regexes
 var commentStarts = {

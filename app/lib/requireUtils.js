@@ -7,7 +7,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-module.exports.getParentFolders = function(subPath, urlPrefix) {
+export const getParentFolders = function(subPath, urlPrefix) {
   if (urlPrefix == null) { urlPrefix = '/test/'; }
   if (!subPath) { return []; }
   const paths = [];
@@ -22,7 +22,7 @@ module.exports.getParentFolders = function(subPath, urlPrefix) {
   return paths;
 };
 
-module.exports.parseImmediateChildren = function(allChildren, subPath, baseRequirePath, urlPrefix) {
+export const parseImmediateChildren = function(allChildren, subPath, baseRequirePath, urlPrefix) {
   let name;
   if (baseRequirePath == null) { baseRequirePath = 'test/app/'; }
   if (urlPrefix == null) { urlPrefix = '/test/'; }

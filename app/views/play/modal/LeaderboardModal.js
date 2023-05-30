@@ -9,14 +9,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LeaderboardModal;
-require('app/styles/play/modal/leaderboard-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/modal/leaderboard-modal');
-const LeaderboardTabView = require('views/play/modal/LeaderboardTabView');
-const Level = require('models/Level');
-const utils = require('core/utils');
+import 'app/styles/play/modal/leaderboard-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/modal/leaderboard-modal';
+import LeaderboardTabView from 'views/play/modal/LeaderboardTabView';
+import Level from 'models/Level';
+import utils from 'core/utils';
 
-module.exports = (LeaderboardModal = (function() {
+export default LeaderboardModal = (function() {
   LeaderboardModal = class LeaderboardModal extends ModalView {
     static initClass() {
       this.prototype.id = 'leaderboard-modal';
@@ -109,4 +109,4 @@ module.exports = (LeaderboardModal = (function() {
   };
   LeaderboardModal.initClass();
   return LeaderboardModal;
-})());
+})();

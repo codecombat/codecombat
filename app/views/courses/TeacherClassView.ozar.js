@@ -15,48 +15,44 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TeacherClassView;
-require('app/styles/courses/teacher-class-view.sass');
-const RootView = require('views/core/RootView');
-const State = require('models/State');
-const helper = require('lib/coursesHelper');
-const utils = require('core/utils');
-const ozariaUtils = require('ozaria/site/common/ozariaUtils');
-const ClassroomSettingsModal = require('views/courses/ClassroomSettingsModal');
-const InviteToClassroomModal = require('views/courses/InviteToClassroomModal');
-const ActivateLicensesModal = require('views/courses/ActivateLicensesModal');
-const EditStudentModal = require('views/teachers/EditStudentModal');
-const RemoveStudentModal = require('views/courses/RemoveStudentModal');
-const CoursesNotAssignedModal = require('./CoursesNotAssignedModal');
-const CourseNagSubview = require('views/teachers/CourseNagSubview');
-
-const viewContentTemplate = require('app/templates/courses/teacher-class-view');
-const viewContentTemplateWithLayout = require('app/templates/courses/teacher-class-view-full');
-
-const Campaigns = require('collections/Campaigns');
-const Classroom = require('models/Classroom');
-const Classrooms = require('collections/Classrooms');
-const Levels = require('collections/Levels');
-const LevelSession = require('models/LevelSession');
-const LevelSessions = require('collections/LevelSessions');
-const User = require('models/User');
-const Users = require('collections/Users');
-const Course = require('models/Course');
-const Courses = require('collections/Courses');
-const CourseInstance = require('models/CourseInstance');
-const CourseInstances = require('collections/CourseInstances');
-const Prepaids = require('collections/Prepaids');
+import 'app/styles/courses/teacher-class-view.sass';
+import RootView from 'views/core/RootView';
+import State from 'models/State';
+import helper from 'lib/coursesHelper';
+import utils from 'core/utils';
+import ozariaUtils from 'ozaria/site/common/ozariaUtils';
+import ClassroomSettingsModal from 'views/courses/ClassroomSettingsModal';
+import InviteToClassroomModal from 'views/courses/InviteToClassroomModal';
+import ActivateLicensesModal from 'views/courses/ActivateLicensesModal';
+import EditStudentModal from 'views/teachers/EditStudentModal';
+import RemoveStudentModal from 'views/courses/RemoveStudentModal';
+import CoursesNotAssignedModal from './CoursesNotAssignedModal';
+import CourseNagSubview from 'views/teachers/CourseNagSubview';
+import viewContentTemplate from 'app/templates/courses/teacher-class-view';
+import viewContentTemplateWithLayout from 'app/templates/courses/teacher-class-view-full';
+import Campaigns from 'collections/Campaigns';
+import Classroom from 'models/Classroom';
+import Classrooms from 'collections/Classrooms';
+import Levels from 'collections/Levels';
+import LevelSession from 'models/LevelSession';
+import LevelSessions from 'collections/LevelSessions';
+import User from 'models/User';
+import Users from 'collections/Users';
+import Course from 'models/Course';
+import Courses from 'collections/Courses';
+import CourseInstance from 'models/CourseInstance';
+import CourseInstances from 'collections/CourseInstances';
+import Prepaids from 'collections/Prepaids';
 if (window.saveAs == null) { window.saveAs = require('file-saver/FileSaver.js'); } // `window.` is necessary for spec to spy on it
 if (window.saveAs.saveAs) { window.saveAs = window.saveAs.saveAs; }  // Module format changed with webpack?
-const TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default;
-const PieChart = require('core/components/PieComponent').default;
-const GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler');
-const { fetchInteractiveSessionForAllClassroomMembers } = require('ozaria/site/api/interactive.js');
+import TeacherClassAssessmentsTable from './TeacherClassAssessmentsTable';
+import PieChart from 'core/components/PieComponent';
+import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler';
+import { fetchInteractiveSessionForAllClassroomMembers } from 'ozaria/site/api/interactive.js';
+import DOMPurify from 'dompurify';
+import { STARTER_LICENSE_COURSE_IDS } from 'core/constants';
 
-const DOMPurify = require('dompurify');
-
-const { STARTER_LICENSE_COURSE_IDS } = require('core/constants');
-
-module.exports = (TeacherClassView = (function() {
+export default TeacherClassView = (function() {
   TeacherClassView = class TeacherClassView extends RootView {
     constructor(...args) {
       this.setCourseMembers = this.setCourseMembers.bind(this);
@@ -1204,7 +1200,7 @@ module.exports = (TeacherClassView = (function() {
   };
   TeacherClassView.initClass();
   return TeacherClassView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

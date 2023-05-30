@@ -10,19 +10,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpellTranslationView;
-const CocoView = require('views/core/CocoView');
-const LevelComponent = require('models/LevelComponent');
-const template = require('app/templates/play/level/tome/spell_translation');
-const ace = require('lib/aceContainer');
+import CocoView from 'views/core/CocoView';
+import LevelComponent from 'models/LevelComponent';
+import template from 'app/templates/play/level/tome/spell_translation';
+import ace from 'lib/aceContainer';
 const {
   Range
 } = ace.require('ace/range');
 const {
   TokenIterator
 } = ace.require('ace/token_iterator');
-const utils = require('core/utils');
+import utils from 'core/utils';
 
-module.exports = (SpellTranslationView = (function() {
+export default SpellTranslationView = (function() {
   SpellTranslationView = class SpellTranslationView extends CocoView {
     static initClass() {
       this.prototype.className = 'spell-translation-view';
@@ -145,7 +145,7 @@ module.exports = (SpellTranslationView = (function() {
   };
   SpellTranslationView.initClass();
   return SpellTranslationView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

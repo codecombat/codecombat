@@ -6,9 +6,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PlaybackScriptModule;
-const ScriptModule = require('./ScriptModule');
+import ScriptModule from './ScriptModule';
 
-module.exports = (PlaybackScriptModule = class PlaybackScriptModule extends ScriptModule {
+export default PlaybackScriptModule = class PlaybackScriptModule extends ScriptModule {
   static neededFor(noteGroup) {
     return (noteGroup.playback != null);
   }
@@ -59,4 +59,4 @@ module.exports = (PlaybackScriptModule = class PlaybackScriptModule extends Scri
     if (scrub.toRatio != null) { note.event.ratio = scrub.toRatio; }
     return note;
   }
-});
+};

@@ -60,7 +60,7 @@ const openZendesk = function() {
   return true;
 };
 
-module.exports = {
+export default {
   loadZendesk,
   openZendesk
 };

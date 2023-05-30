@@ -7,13 +7,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AccountSettingsRootView;
-require('app/styles/account/account-settings-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/account/account-settings-root-view');
-const AccountSettingsView = require('./AccountSettingsView');
-const CreateAccountModal = require('views/core/CreateAccountModal');
+import 'app/styles/account/account-settings-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/account/account-settings-root-view';
+import AccountSettingsView from './AccountSettingsView';
+import CreateAccountModal from 'views/core/CreateAccountModal';
 
-module.exports = (AccountSettingsRootView = (function() {
+export default AccountSettingsRootView = (function() {
   AccountSettingsRootView = class AccountSettingsRootView extends RootView {
     static initClass() {
       this.prototype.id = "account-settings-root-view";
@@ -40,4 +40,4 @@ module.exports = (AccountSettingsRootView = (function() {
   };
   AccountSettingsRootView.initClass();
   return AccountSettingsRootView;
-})());
+})();

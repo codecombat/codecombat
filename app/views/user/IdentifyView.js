@@ -5,12 +5,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let IdentifyView;
-const RootView = require('views/core/RootView');
-const {me} = require('core/auth');
-const template = require('app/templates/user/identify-view');
-const utils = require('core/utils');
+import RootView from 'views/core/RootView';
+import { me } from 'core/auth';
+import template from 'app/templates/user/identify-view';
+import utils from 'core/utils';
 
-module.exports = (IdentifyView = (function() {
+export default IdentifyView = (function() {
   IdentifyView = class IdentifyView extends RootView {
     static initClass() {
       this.prototype.id = 'identify-view';
@@ -27,4 +27,4 @@ module.exports = (IdentifyView = (function() {
   };
   IdentifyView.initClass();
   return IdentifyView;
-})());
+})();

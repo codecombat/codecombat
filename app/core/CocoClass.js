@@ -10,12 +10,12 @@
  */
 // Template for classes with common functions, like hooking into the Mediator.
 let CocoClass;
-const utils = require('./../core/utils');
+import utils from './../core/utils';
 let classCount = 0;
 const makeScopeName = () => `class-scope-${classCount++}`;
 const doNothing = function() {};
 
-module.exports = (CocoClass = (function() {
+export default CocoClass = (function() {
   CocoClass = class CocoClass {
     static initClass() {
       this.nicks = [];
@@ -137,4 +137,4 @@ module.exports = (CocoClass = (function() {
   };
   CocoClass.initClass();
   return CocoClass;
-})());
+})();

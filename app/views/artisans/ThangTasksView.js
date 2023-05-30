@@ -8,17 +8,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ThangTasksView;
-require('app/styles/artisans/thang-tasks-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/artisans/thang-tasks-view');
+import 'app/styles/artisans/thang-tasks-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/artisans/thang-tasks-view';
+import ThangType from 'models/ThangType';
+import ThangTypes from 'collections/ThangTypes';
+import 'lib/game-libraries';
 
-const ThangType = require('models/ThangType');
-
-const ThangTypes = require('collections/ThangTypes');
-
-require('lib/game-libraries');
-
-module.exports = (ThangTasksView = (function() {
+export default ThangTasksView = (function() {
   ThangTasksView = class ThangTasksView extends RootView {
     static initClass() {
       this.prototype.template = template;
@@ -69,4 +66,4 @@ module.exports = (ThangTasksView = (function() {
   };
   ThangTasksView.initClass();
   return ThangTasksView;
-})());
+})();

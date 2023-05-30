@@ -10,12 +10,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SkippedContactsView;
-require('app/styles/admin/skipped-contacts-view.sass');
-const RootComponent = require('views/core/RootComponent');
-const template = require('app/templates/base-flat');
-const co = require('co');
-const api = require('core/api');
-const FlatLayout = require('core/components/FlatLayout');
+import 'app/styles/admin/skipped-contacts-view.sass';
+import RootComponent from 'views/core/RootComponent';
+import template from 'app/templates/base-flat';
+import co from 'co';
+import api from 'core/api';
+import FlatLayout from 'core/components/FlatLayout';
 
 const SkippedContactInfo = {
   template: require('app/templates/admin/skipped-contacts/skipped-contact-info')(),
@@ -124,7 +124,7 @@ const SkippedContactInfo = {
     }
   }
 };
-      // @$emit('archiveContact', @skippedContact, archived)
+// @$emit('archiveContact', @skippedContact, archived)
 
 const SkippedContactsComponent = Vue.extend({
   template: require('app/templates/admin/skipped-contacts/skipped-contacts-view')(),
@@ -191,9 +191,9 @@ const SkippedContactsComponent = Vue.extend({
   })
 });
 
-const store = require('core/store');
+import store from 'core/store';
 
-module.exports = (SkippedContactsView = (function() {
+export default SkippedContactsView = (function() {
   SkippedContactsView = class SkippedContactsView extends RootComponent {
     static initClass() {
       this.prototype.id = 'skipped-contacts-view';
@@ -234,7 +234,7 @@ module.exports = (SkippedContactsView = (function() {
   };
   SkippedContactsView.initClass();
   return SkippedContactsView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

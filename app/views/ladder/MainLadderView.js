@@ -9,11 +9,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let MainLadderView;
-require('app/styles/play/ladder_home.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/play/ladder_home');
-const LevelSession = require('models/LevelSession');
-const CocoCollection = require('collections/CocoCollection');
+import 'app/styles/play/ladder_home.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/play/ladder_home';
+import LevelSession from 'models/LevelSession';
+import CocoCollection from 'collections/CocoCollection';
 
 class LevelSessionsCollection extends CocoCollection {
   static initClass() {
@@ -28,7 +28,7 @@ class LevelSessionsCollection extends CocoCollection {
 }
 LevelSessionsCollection.initClass();
 
-module.exports = (MainLadderView = (function() {
+export default MainLadderView = (function() {
   MainLadderView = class MainLadderView extends RootView {
     static initClass() {
       this.prototype.id = 'main-ladder-view';
@@ -87,7 +87,7 @@ module.exports = (MainLadderView = (function() {
   };
   MainLadderView.initClass();
   return MainLadderView;
-})());
+})();
 
 const heroArenas = [
   {

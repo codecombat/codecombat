@@ -6,12 +6,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ProgressView;
-require('app/styles/play/level/modal/progress-view.sass');
-const CocoView = require('views/core/CocoView');
-const utils = require('core/utils');
-const urls = require('core/urls');
+import 'app/styles/play/level/modal/progress-view.sass';
+import CocoView from 'views/core/CocoView';
+import utils from 'core/utils';
+import urls from 'core/urls';
 
-module.exports = (ProgressView = (function() {
+export default ProgressView = (function() {
   ProgressView = class ProgressView extends CocoView {
     static initClass() {
       // TODO: Clean up what was moved to CourseVictoryComponent
@@ -100,4 +100,4 @@ module.exports = (ProgressView = (function() {
   };
   ProgressView.initClass();
   return ProgressView;
-})());
+})();

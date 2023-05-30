@@ -9,13 +9,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ProjectGalleryView;
-require('app/styles/courses/project-gallery.sass');
-const RootComponent = require('views/core/RootComponent');
-const FlatLayout = require('core/components/FlatLayout');
-const api = require('core/api');
-const User = require('models/User');
-const Level = require('models/Level');
-const utils = require('core/utils');
+import 'app/styles/courses/project-gallery.sass';
+import RootComponent from 'views/core/RootComponent';
+import FlatLayout from 'core/components/FlatLayout';
+import api from 'core/api';
+import User from 'models/User';
+import Level from 'models/Level';
+import utils from 'core/utils';
 
 const ProjectGalleryComponent = Vue.extend({
   name: 'project-gallery-component',
@@ -102,7 +102,7 @@ const ProjectGalleryComponent = Vue.extend({
   }
 });
 
-module.exports = (ProjectGalleryView = (function() {
+export default ProjectGalleryView = (function() {
   ProjectGalleryView = class ProjectGalleryView extends RootComponent {
     static initClass() {
       this.prototype.id = 'project-gallery-view';
@@ -117,4 +117,4 @@ module.exports = (ProjectGalleryView = (function() {
   };
   ProjectGalleryView.initClass();
   return ProjectGalleryView;
-})());
+})();

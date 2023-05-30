@@ -6,12 +6,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let GameDevVictoryModal;
-require('app/styles/play/level/modal/game-dev-victory-modal.sass');
-const ModalView = require('views/core/ModalView');
+import 'app/styles/play/level/modal/game-dev-victory-modal.sass';
+import ModalView from 'views/core/ModalView';
 
 const category = 'Play GameDev Level';
 
-module.exports = (GameDevVictoryModal = (function() {
+export default GameDevVictoryModal = (function() {
   GameDevVictoryModal = class GameDevVictoryModal extends ModalView {
     static initClass() {
       this.prototype.id = 'game-dev-victory-modal';
@@ -50,4 +50,4 @@ module.exports = (GameDevVictoryModal = (function() {
   };
   GameDevVictoryModal.initClass();
   return GameDevVictoryModal;
-})());
+})();

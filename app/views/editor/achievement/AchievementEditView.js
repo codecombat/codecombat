@@ -13,20 +13,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AchievementEditView;
-require('app/styles/editor/achievement/edit.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/editor/achievement/edit');
-const Achievement = require('models/Achievement');
-const Level = require('models/Level');
-const AchievementPopup = require('views/core/AchievementPopup');
-const ConfirmModal = require('views/core/ConfirmModal');
-const PatchesView = require('views/editor/PatchesView');
-const errors = require('core/errors');
-const nodes = require('views/editor/level/treema_nodes');
+import 'app/styles/editor/achievement/edit.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/editor/achievement/edit';
+import Achievement from 'models/Achievement';
+import Level from 'models/Level';
+import AchievementPopup from 'views/core/AchievementPopup';
+import ConfirmModal from 'views/core/ConfirmModal';
+import PatchesView from 'views/editor/PatchesView';
+import errors from 'core/errors';
+import nodes from 'views/editor/level/treema_nodes';
+import 'lib/game-libraries';
 
-require('lib/game-libraries');
-
-module.exports = (AchievementEditView = (function() {
+export default AchievementEditView = (function() {
   AchievementEditView = class AchievementEditView extends RootView {
     static initClass() {
       this.prototype.id = 'editor-achievement-edit-view';
@@ -238,7 +237,7 @@ module.exports = (AchievementEditView = (function() {
   };
   AchievementEditView.initClass();
   return AchievementEditView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

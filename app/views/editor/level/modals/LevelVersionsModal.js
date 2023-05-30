@@ -7,9 +7,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelVersionsModal;
-const VersionsModal = require('views/editor/modal/VersionsModal');
+import VersionsModal from 'views/editor/modal/VersionsModal';
 
-module.exports = (LevelVersionsModal = (function() {
+export default LevelVersionsModal = (function() {
   LevelVersionsModal = class LevelVersionsModal extends VersionsModal {
     static initClass() {
       this.prototype.id = 'editor-level-versions-view';
@@ -24,4 +24,4 @@ module.exports = (LevelVersionsModal = (function() {
   };
   LevelVersionsModal.initClass();
   return LevelVersionsModal;
-})());
+})();

@@ -10,9 +10,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Language;
-const ranges = require('../ranges');
+import ranges from '../ranges';
 
-module.exports = (Language = (function() {
+export default Language = (function() {
   Language = class Language {
     static initClass() {
       this.prototype.name = 'Abstract Language';  // Display name of the programming language
@@ -149,4 +149,4 @@ module.exports = (Language = (function() {
   };
   Language.initClass();
   return Language;
-})());
+})();

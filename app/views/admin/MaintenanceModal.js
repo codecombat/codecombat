@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let MaintenanceModal;
-const ModalComponent = require('views/core/ModalComponent');
-const MaintenanceComponent = require('./components/MaintenanceModal.vue').default;
+import ModalComponent from 'views/core/ModalComponent';
+import MaintenanceComponent from './components/MaintenanceModal.vue';
 
-module.exports = (MaintenanceModal = (function() {
+export default MaintenanceModal = (function() {
   MaintenanceModal = class MaintenanceModal extends ModalComponent {
     static initClass() {
       this.prototype.id = 'maintenance-modal';
@@ -34,4 +34,4 @@ module.exports = (MaintenanceModal = (function() {
   };
   MaintenanceModal.initClass();
   return MaintenanceModal;
-})());
+})();

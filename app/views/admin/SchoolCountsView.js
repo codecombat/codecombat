@@ -11,13 +11,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SchoolCountsView;
-const RootView = require('views/core/RootView');
-const CocoCollection = require('collections/CocoCollection');
-const Classroom = require('models/Classroom');
-const CourseInstance = require('models/CourseInstance');
-const TrialRequest = require('models/TrialRequest');
-const User = require('models/User');
-const utils = require('core/utils');
+import RootView from 'views/core/RootView';
+import CocoCollection from 'collections/CocoCollection';
+import Classroom from 'models/Classroom';
+import CourseInstance from 'models/CourseInstance';
+import TrialRequest from 'models/TrialRequest';
+import User from 'models/User';
+import utils from 'core/utils';
 
 // TODO: shouldn't classroom users and user students be mostly the same?
 // TODO: match anonymous trial requests with real users via email
@@ -26,7 +26,7 @@ const utils = require('core/utils');
 // TODO: example untriaged teacher: deleted but owner of a classroom
 // TODO: use student geoip on their teacher
 
-module.exports = (SchoolCountsView = (function() {
+export default SchoolCountsView = (function() {
   SchoolCountsView = class SchoolCountsView extends RootView {
     static initClass() {
       this.prototype.id = 'admin-school-counts-view';
@@ -346,4 +346,4 @@ module.exports = (SchoolCountsView = (function() {
   };
   SchoolCountsView.initClass();
   return SchoolCountsView;
-})());
+})();

@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let I18NEditAchievementView;
-const I18NEditModelView = require('./I18NEditModelView');
-const Achievement = require('models/Achievement');
+import I18NEditModelView from './I18NEditModelView';
+import Achievement from 'models/Achievement';
 
-module.exports = (I18NEditAchievementView = (function() {
+export default I18NEditAchievementView = (function() {
   I18NEditAchievementView = class I18NEditAchievementView extends I18NEditModelView {
     static initClass() {
       this.prototype.id = "i18n-edit-achievement-view";
@@ -36,4 +36,4 @@ module.exports = (I18NEditAchievementView = (function() {
   };
   I18NEditAchievementView.initClass();
   return I18NEditAchievementView;
-})());
+})();

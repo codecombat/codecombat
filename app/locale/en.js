@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-module.exports = { nativeDescription: "English", englishDescription: "English", translation: {
+export default { nativeDescription: "English", englishDescription: "English", translation: {
 
   ozaria_home: {
     subtitle: "Computer Science that Captivates",

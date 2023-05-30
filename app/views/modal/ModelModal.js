@@ -8,12 +8,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ModelModal;
-require('app/styles/modal/model-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/modal/model-modal');
-require('lib/setupTreema');
+import 'app/styles/modal/model-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/modal/model-modal';
+import 'lib/setupTreema';
 
-module.exports = (ModelModal = (function() {
+export default ModelModal = (function() {
   ModelModal = class ModelModal extends ModalView {
     static initClass() {
       this.prototype.id = 'model-modal';
@@ -134,4 +134,4 @@ module.exports = (ModelModal = (function() {
   };
   ModelModal.initClass();
   return ModelModal;
-})());
+})();

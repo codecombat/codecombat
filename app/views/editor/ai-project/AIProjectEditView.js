@@ -9,19 +9,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AIProjectEditView;
-require('app/styles/editor/ai-project/edit.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/editor/ai-project/edit');
-const AIProject = require('models/AIProject');
-const ConfirmModal = require('views/core/ConfirmModal');
-const PatchesView = require('views/editor/PatchesView');
-const errors = require('core/errors');
+import 'app/styles/editor/ai-project/edit.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/editor/ai-project/edit';
+import AIProject from 'models/AIProject';
+import ConfirmModal from 'views/core/ConfirmModal';
+import PatchesView from 'views/editor/PatchesView';
+import errors from 'core/errors';
+import 'lib/game-libraries';
+import 'lib/setupTreema';
+import treemaExt from 'core/treema-ext';
 
-require('lib/game-libraries');
-require('lib/setupTreema');
-const treemaExt = require('core/treema-ext');
-
-module.exports = (AIProjectEditView = (function() {
+export default AIProjectEditView = (function() {
   AIProjectEditView = class AIProjectEditView extends RootView {
     static initClass() {
       this.prototype.id = 'editor-ai-project-edit-view';
@@ -130,4 +129,4 @@ module.exports = (AIProjectEditView = (function() {
   };
   AIProjectEditView.initClass();
   return AIProjectEditView;
-})());
+})();

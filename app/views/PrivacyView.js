@@ -7,11 +7,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PrivacyView;
-require('app/styles/privacy.sass');
-const RootView = require('views/core/RootView');
-const template = require('templates/privacy');
+import 'app/styles/privacy.sass';
+import RootView from 'views/core/RootView';
+import template from 'templates/privacy';
 
-module.exports = (PrivacyView = (function() {
+export default PrivacyView = (function() {
   PrivacyView = class PrivacyView extends RootView {
     static initClass() {
       this.prototype.id = 'privacy-view';
@@ -30,4 +30,4 @@ module.exports = (PrivacyView = (function() {
   };
   PrivacyView.initClass();
   return PrivacyView;
-})());
+})();

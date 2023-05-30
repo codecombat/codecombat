@@ -8,12 +8,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AboutView;
-require('app/styles/about.sass');
-const RootView = require('views/core/RootView');
-const template = require('templates/about');
-const fetchJson = require('core/api/fetch-json');
+import 'app/styles/about.sass';
+import RootView from 'views/core/RootView';
+import template from 'templates/about';
+import fetchJson from 'core/api/fetch-json';
 
-module.exports = (AboutView = (function() {
+export default AboutView = (function() {
   AboutView = class AboutView extends RootView {
     static initClass() {
       this.prototype.id = 'about-view';
@@ -134,7 +134,7 @@ module.exports = (AboutView = (function() {
   };
   AboutView.initClass();
   return AboutView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

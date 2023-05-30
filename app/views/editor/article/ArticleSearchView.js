@@ -7,9 +7,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ArticleSearchView;
-const SearchView = require('views/common/SearchView');
+import SearchView from 'views/common/SearchView';
 
-module.exports = (ArticleSearchView = (function() {
+export default ArticleSearchView = (function() {
   ArticleSearchView = class ArticleSearchView extends SearchView {
     static initClass() {
       this.prototype.id = 'editor-article-home-view';
@@ -34,4 +34,4 @@ module.exports = (ArticleSearchView = (function() {
   };
   ArticleSearchView.initClass();
   return ArticleSearchView;
-})());
+})();

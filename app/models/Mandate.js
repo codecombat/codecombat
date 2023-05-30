@@ -6,9 +6,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let MandateModel;
-const CocoModel = require('./CocoModel');
+import CocoModel from './CocoModel';
 
-module.exports = (MandateModel = (function() {
+export default MandateModel = (function() {
   MandateModel = class MandateModel extends CocoModel {
     static initClass() {
       this.className = 'Mandate';
@@ -18,4 +18,4 @@ module.exports = (MandateModel = (function() {
   };
   MandateModel.initClass();
   return MandateModel;
-})());
+})();

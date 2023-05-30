@@ -9,15 +9,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let MainUserView;
-require('app/styles/user/main-user-view.sass');
-const UserView = require('views/common/UserView');
-const CocoCollection = require('collections/CocoCollection');
-const LevelSession = require('models/LevelSession');
-const template = require('app/templates/user/main-user-view');
-const {me} = require('core/auth');
-const Clan = require('models/Clan');
-const utils = require('core/utils');
-const EarnedAchievementCollection = require('collections/EarnedAchievementCollection');
+import 'app/styles/user/main-user-view.sass';
+import UserView from 'views/common/UserView';
+import CocoCollection from 'collections/CocoCollection';
+import LevelSession from 'models/LevelSession';
+import template from 'app/templates/user/main-user-view';
+import { me } from 'core/auth';
+import Clan from 'models/Clan';
+import utils from 'core/utils';
+import EarnedAchievementCollection from 'collections/EarnedAchievementCollection';
 
 class LevelSessionsCollection extends CocoCollection {
   static initClass() {
@@ -31,7 +31,7 @@ class LevelSessionsCollection extends CocoCollection {
 }
 LevelSessionsCollection.initClass();
 
-module.exports = (MainUserView = (function() {
+export default MainUserView = (function() {
   MainUserView = class MainUserView extends UserView {
     static initClass() {
       this.prototype.id = 'user-home';
@@ -161,4 +161,4 @@ module.exports = (MainUserView = (function() {
   };
   MainUserView.initClass();
   return MainUserView;
-})());
+})();

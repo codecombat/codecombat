@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelSystems;
-const LevelSystem = require('models/LevelSystem');
-const CocoCollection = require('collections/CocoCollection');
+import LevelSystem from 'models/LevelSystem';
+import CocoCollection from 'collections/CocoCollection';
 
-module.exports = (LevelSystems = (function() {
+export default LevelSystems = (function() {
   LevelSystems = class LevelSystems extends CocoCollection {
     static initClass() {
       this.prototype.url = '/db/level.system';
@@ -18,4 +18,4 @@ module.exports = (LevelSystems = (function() {
   };
   LevelSystems.initClass();
   return LevelSystems;
-})());
+})();

@@ -11,25 +11,25 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TeacherCoursesView;
-require('app/styles/courses/teacher-courses-view.sass');
-const CocoCollection = require('collections/CocoCollection');
-const CocoModel = require('models/CocoModel');
-const Courses = require('collections/Courses');
-const Campaigns = require('collections/Campaigns');
-const Campaign = require('models/Campaign');
-const Classroom = require('models/Classroom');
-const Classrooms = require('collections/Classrooms');
-const User = require('models/User');
-const CourseInstance = require('models/CourseInstance');
-const Prepaids = require('collections/Prepaids');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/courses/teacher-courses-view');
-const HeroSelectModal = require('views/courses/HeroSelectModal');
-const utils = require('core/utils');
-const api = require('core/api');
-const ozariaUtils = require('ozaria/site/common/ozariaUtils');
+import 'app/styles/courses/teacher-courses-view.sass';
+import CocoCollection from 'collections/CocoCollection';
+import CocoModel from 'models/CocoModel';
+import Courses from 'collections/Courses';
+import Campaigns from 'collections/Campaigns';
+import Campaign from 'models/Campaign';
+import Classroom from 'models/Classroom';
+import Classrooms from 'collections/Classrooms';
+import User from 'models/User';
+import CourseInstance from 'models/CourseInstance';
+import Prepaids from 'collections/Prepaids';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/courses/teacher-courses-view';
+import HeroSelectModal from 'views/courses/HeroSelectModal';
+import utils from 'core/utils';
+import api from 'core/api';
+import ozariaUtils from 'ozaria/site/common/ozariaUtils';
 
-module.exports = (TeacherCoursesView = (function() {
+export default TeacherCoursesView = (function() {
   TeacherCoursesView = class TeacherCoursesView extends RootView {
     static initClass() {
       this.prototype.id = 'teacher-courses-view';
@@ -153,7 +153,7 @@ module.exports = (TeacherCoursesView = (function() {
   };
   TeacherCoursesView.initClass();
   return TeacherCoursesView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

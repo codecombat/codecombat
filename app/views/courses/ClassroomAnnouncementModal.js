@@ -6,12 +6,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ClassroomAnnouncementModal;
-require('app/styles/courses/classroom-announcement-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('templates/courses/classroom-announcement-modal');
-const DOMPurify = require('dompurify');
+import 'app/styles/courses/classroom-announcement-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'templates/courses/classroom-announcement-modal';
+import DOMPurify from 'dompurify';
 
-module.exports = (ClassroomAnnouncementModal = (function() {
+export default ClassroomAnnouncementModal = (function() {
   ClassroomAnnouncementModal = class ClassroomAnnouncementModal extends ModalView {
     static initClass() {
       this.prototype.id = 'classroom-announcement-modal';
@@ -28,4 +28,4 @@ module.exports = (ClassroomAnnouncementModal = (function() {
   };
   ClassroomAnnouncementModal.initClass();
   return ClassroomAnnouncementModal;
-})());
+})();

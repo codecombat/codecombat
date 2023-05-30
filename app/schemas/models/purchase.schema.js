@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const purchaseables = ['level', 'thang_type'];
 
@@ -21,4 +21,4 @@ const PurchaseSchema = c.object({title: 'Purchase', required: ['purchaser', 'rec
 
 c.extendBasicProperties(PurchaseSchema, 'purchase');
 
-module.exports = PurchaseSchema;
+export default PurchaseSchema;

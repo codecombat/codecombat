@@ -14,22 +14,22 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ThangsTabView;
-require('app/styles/editor/level/thangs-tab-view.sass');
-const CocoView = require('views/core/CocoView');
-const AddThangsView = require('./AddThangsView');
-const thangs_template = require('app/templates/editor/level/thangs-tab-view');
-const Level = require('models/Level');
-const ThangType = require('models/ThangType');
-const LevelComponent = require('models/LevelComponent');
-const CocoCollection = require('collections/CocoCollection');
-const {isObjectID} = require('models/CocoModel');
-const Surface = require('lib/surface/Surface');
-const Thang = require('lib/world/thang');
-const LevelThangEditView = require('./LevelThangEditView');
-const LevelComponents = require('collections/LevelComponents');
-require('lib/setupTreema');
-const GameUIState = require('models/GameUIState');
-const GenerateTerrainModal = require('views/editor/level/modals/GenerateTerrainModal');
+import 'app/styles/editor/level/thangs-tab-view.sass';
+import CocoView from 'views/core/CocoView';
+import AddThangsView from './AddThangsView';
+import thangs_template from 'app/templates/editor/level/thangs-tab-view';
+import Level from 'models/Level';
+import ThangType from 'models/ThangType';
+import LevelComponent from 'models/LevelComponent';
+import CocoCollection from 'collections/CocoCollection';
+import { isObjectID } from 'models/CocoModel';
+import Surface from 'lib/surface/Surface';
+import Thang from 'lib/world/thang';
+import LevelThangEditView from './LevelThangEditView';
+import LevelComponents from 'collections/LevelComponents';
+import 'lib/setupTreema';
+import GameUIState from 'models/GameUIState';
+import GenerateTerrainModal from 'views/editor/level/modals/GenerateTerrainModal';
 
 // Server-side Thangs collection fetch limit
 const PAGE_SIZE = 1000;
@@ -50,7 +50,7 @@ class ThangTypeSearchCollection extends CocoCollection {
 }
 ThangTypeSearchCollection.initClass();
 
-module.exports = (ThangsTabView = (function() {
+export default ThangsTabView = (function() {
   ThangsTabView = class ThangsTabView extends CocoView {
     static initClass() {
       this.prototype.id = 'thangs-tab-view';
@@ -1064,7 +1064,7 @@ module.exports = (ThangsTabView = (function() {
   };
   ThangsTabView.initClass();
   return ThangsTabView;
-})());
+})();
 
 class ThangsFolderNode extends TreemaNode.nodeMap.object {
   static initClass() {

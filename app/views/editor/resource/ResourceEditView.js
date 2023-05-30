@@ -9,19 +9,18 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ResourceEditView;
-require('app/styles/editor/resource/edit.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/editor/resource/edit');
-const ResourceHubResource = require('models/ResourceHubResource');
-const ConfirmModal = require('views/core/ConfirmModal');
-const PatchesView = require('views/editor/PatchesView');
-const errors = require('core/errors');
+import 'app/styles/editor/resource/edit.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/editor/resource/edit';
+import ResourceHubResource from 'models/ResourceHubResource';
+import ConfirmModal from 'views/core/ConfirmModal';
+import PatchesView from 'views/editor/PatchesView';
+import errors from 'core/errors';
+import 'lib/game-libraries';
+import 'lib/setupTreema';
+import treemaExt from 'core/treema-ext';
 
-require('lib/game-libraries');
-require('lib/setupTreema');
-const treemaExt = require('core/treema-ext');
-
-module.exports = (ResourceEditView = (function() {
+export default ResourceEditView = (function() {
   ResourceEditView = class ResourceEditView extends RootView {
     static initClass() {
       this.prototype.id = 'editor-resource-edit-view';
@@ -99,4 +98,4 @@ module.exports = (ResourceEditView = (function() {
   };
   ResourceEditView.initClass();
   return ResourceEditView;
-})());
+})();

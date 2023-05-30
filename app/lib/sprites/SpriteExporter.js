@@ -10,10 +10,11 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const SpriteBuilder = require('./SpriteBuilder');
-const ThangType = require('models/ThangType');
-const CocoClass = require('core/CocoClass');
-const createjs = require('lib/createjs-parts');
+import SpriteBuilder from './SpriteBuilder';
+
+import ThangType from 'models/ThangType';
+import CocoClass from 'core/CocoClass';
+import createjs from 'lib/createjs-parts';
 
 
 class SpriteExporter extends CocoClass {
@@ -154,4 +155,4 @@ SpriteExporter.initClass();
 
 
 
-module.exports = SpriteExporter;
+export default SpriteExporter;

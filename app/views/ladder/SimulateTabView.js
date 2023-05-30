@@ -10,15 +10,15 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SimulateTabView;
-const CocoView = require('views/core/CocoView');
-const CocoClass = require('core/CocoClass');
-const SimulatorsLeaderboardCollection = require('collections/SimulatorsLeaderboardCollection');
-const Simulator = require('lib/simulator/Simulator');
-const {me} = require('core/auth');
-const utils = require('core/utils');
-const loadAetherLanguage = require("lib/loadAetherLanguage");
+import CocoView from 'views/core/CocoView';
+import CocoClass from 'core/CocoClass';
+import SimulatorsLeaderboardCollection from 'collections/SimulatorsLeaderboardCollection';
+import Simulator from 'lib/simulator/Simulator';
+import { me } from 'core/auth';
+import utils from 'core/utils';
+import loadAetherLanguage from 'lib/loadAetherLanguage';
 
-module.exports = (SimulateTabView = (function() {
+export default SimulateTabView = (function() {
   SimulateTabView = class SimulateTabView extends CocoView {
     constructor(...args) {
       this.refreshAndContinueSimulating = this.refreshAndContinueSimulating.bind(this);
@@ -153,7 +153,7 @@ module.exports = (SimulateTabView = (function() {
   };
   SimulateTabView.initClass();
   return SimulateTabView;
-})());
+})();
 
 class SimulatorsLeaderboardData extends CocoClass {
   /*

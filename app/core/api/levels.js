@@ -6,12 +6,13 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const fetchJson = require('./fetch-json');
-const { getInteractive } = require('ozaria/site/api/interactive.js');
-const { getCinematic } = require('ozaria/site/api/cinematic.js');
-const { getCutscene } = require('ozaria/site/api/cutscene.js');
+import fetchJson from './fetch-json';
 
-module.exports = {
+import { getInteractive } from 'ozaria/site/api/interactive.js';
+import { getCinematic } from 'ozaria/site/api/cinematic.js';
+import { getCutscene } from 'ozaria/site/api/cutscene.js';
+
+export default {
   getByOriginal(original, options) {
     if (options == null) { options = {}; }
     return fetchJson(`/db/level/${original}/version`, _.merge({}, options));

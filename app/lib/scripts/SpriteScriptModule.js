@@ -8,11 +8,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpritesScriptModule;
-const ScriptModule = require('./ScriptModule');
-const {me} = require('core/auth');
-const utils = require('core/utils');
+import ScriptModule from './ScriptModule';
+import { me } from 'core/auth';
+import utils from 'core/utils';
 
-module.exports = (SpritesScriptModule = class SpritesScriptModule extends ScriptModule {
+export default SpritesScriptModule = class SpritesScriptModule extends ScriptModule {
   static neededFor(noteGroup) {
     return (noteGroup.sprites != null ? noteGroup.sprites.length : undefined);
   }
@@ -119,4 +119,4 @@ module.exports = (SpritesScriptModule = class SpritesScriptModule extends Script
     }
     return noteArray;
   }
-});
+};

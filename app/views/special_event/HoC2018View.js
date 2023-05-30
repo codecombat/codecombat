@@ -5,13 +5,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let HoC2018View;
-const RootComponent = require('views/core/RootComponent');
-const template = require('app/templates/base-flat');
-const HoC2018 = require('./HoC2018Component.vue').default;
-const CreateAccountModal = require('views/core/CreateAccountModal/CreateAccountModal');
-const utils = require('core/utils');
+import RootComponent from 'views/core/RootComponent';
+import template from 'app/templates/base-flat';
+import HoC2018 from './HoC2018Component.vue';
+import CreateAccountModal from 'views/core/CreateAccountModal/CreateAccountModal';
+import utils from 'core/utils';
 
-module.exports = (HoC2018View = (function() {
+export default HoC2018View = (function() {
   HoC2018View = class HoC2018View extends RootComponent {
     static initClass() {
       this.prototype.id = 'hoc-2018';
@@ -35,4 +35,4 @@ module.exports = (HoC2018View = (function() {
   };
   HoC2018View.initClass();
   return HoC2018View;
-})());
+})();

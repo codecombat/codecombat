@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let OzVsCocoView;
-require('app/styles/modal/create-account-modal/oz-vs-coco-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/core/create-account-modal/oz-vs-coco-view');
+import 'app/styles/modal/create-account-modal/oz-vs-coco-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/core/create-account-modal/oz-vs-coco-view';
 
-module.exports = (OzVsCocoView = (function() {
+export default OzVsCocoView = (function() {
   OzVsCocoView = class OzVsCocoView extends CocoView {
     static initClass() {
       this.prototype.id = 'oz-vs-coco-view';
@@ -24,4 +24,4 @@ module.exports = (OzVsCocoView = (function() {
   };
   OzVsCocoView.initClass();
   return OzVsCocoView;
-})());
+})();

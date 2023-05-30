@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AdminClassroomLevelsView;
-const RootComponent = require('views/core/RootComponent');
-const template = require('app/templates/base-flat');
-const AdminClassroomLevelsComponent = require('./AdminClassroomLevelsComponent.vue').default;
+import RootComponent from 'views/core/RootComponent';
+import template from 'app/templates/base-flat';
+import AdminClassroomLevelsComponent from './AdminClassroomLevelsComponent.vue';
 
-module.exports = (AdminClassroomLevelsView = (function() {
+export default AdminClassroomLevelsView = (function() {
   AdminClassroomLevelsView = class AdminClassroomLevelsView extends RootComponent {
     static initClass() {
       this.prototype.id = 'admin-classroom-levels-view';
@@ -20,4 +20,4 @@ module.exports = (AdminClassroomLevelsView = (function() {
   };
   AdminClassroomLevelsView.initClass();
   return AdminClassroomLevelsView;
-})());
+})();

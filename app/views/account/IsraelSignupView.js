@@ -8,13 +8,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let IsraelSignupView;
-const RootView = require('views/core/RootView');
-const template = require('app/templates/account/israel-signup-view');
-const forms = require('core/forms');
-const errors = require('core/errors');
-const utils = require('core/utils');
-const User = require('models/User');
-const State = require('models/State');
+import RootView from 'views/core/RootView';
+import template from 'app/templates/account/israel-signup-view';
+import forms from 'core/forms';
+import errors from 'core/errors';
+import utils from 'core/utils';
+import User from 'models/User';
+import State from 'models/State';
 
 class AbortError extends Error {}
 
@@ -25,7 +25,7 @@ const formSchema = {
 };
 
 
-module.exports = (IsraelSignupView = (function() {
+export default IsraelSignupView = (function() {
   IsraelSignupView = class IsraelSignupView extends RootView {
     static initClass() {
       this.prototype.id = 'israel-signup-view';
@@ -174,4 +174,4 @@ module.exports = (IsraelSignupView = (function() {
   };
   IsraelSignupView.initClass();
   return IsraelSignupView;
-})());
+})();

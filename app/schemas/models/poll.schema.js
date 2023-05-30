@@ -1,8 +1,9 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
-const str = require('underscore.string');
-const countryList = require('country-list');
+import c from './../schemas';
+
+import str from 'underscore.string';
+import countryList from 'country-list';
 const countryNames = countryList().getNames().map(str.slugify);
 
 const PollSchema = c.object({title: 'Poll'});
@@ -36,4 +37,4 @@ c.extendSearchableProperties(PollSchema);
 c.extendTranslationCoverageProperties(PollSchema);
 c.extendPatchableProperties(PollSchema);
 
-module.exports = PollSchema;
+export default PollSchema;

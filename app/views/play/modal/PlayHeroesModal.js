@@ -11,28 +11,28 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PlayHeroesModal;
-require('app/styles/play/modal/play-heroes-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/modal/play-heroes-modal');
-const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt');
-const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt');
-const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt');
-const CocoCollection = require('collections/CocoCollection');
-const ThangType = require('models/ThangType');
-const SpriteBuilder = require('lib/sprites/SpriteBuilder');
-const AudioPlayer = require('lib/AudioPlayer');
-const utils = require('core/utils');
-const BuyGemsModal = require('views/play/modal/BuyGemsModal');
-const CreateAccountModal = require('views/core/CreateAccountModal');
-const SubscribeModal = require('views/core/SubscribeModal');
-const Purchase = require('models/Purchase');
-const LayerAdapter = require('lib/surface/LayerAdapter');
-const Lank = require('lib/surface/Lank');
-const store = require('core/store');
-const createjs = require('lib/createjs-parts');
-const ThangTypeConstants = require('lib/ThangTypeConstants');
+import 'app/styles/play/modal/play-heroes-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/modal/play-heroes-modal';
+import buyGemsPromptTemplate from 'app/templates/play/modal/buy-gems-prompt';
+import earnGemsPromptTemplate from 'app/templates/play/modal/earn-gems-prompt';
+import subscribeForGemsPrompt from 'app/templates/play/modal/subscribe-for-gems-prompt';
+import CocoCollection from 'collections/CocoCollection';
+import ThangType from 'models/ThangType';
+import SpriteBuilder from 'lib/sprites/SpriteBuilder';
+import AudioPlayer from 'lib/AudioPlayer';
+import utils from 'core/utils';
+import BuyGemsModal from 'views/play/modal/BuyGemsModal';
+import CreateAccountModal from 'views/core/CreateAccountModal';
+import SubscribeModal from 'views/core/SubscribeModal';
+import Purchase from 'models/Purchase';
+import LayerAdapter from 'lib/surface/LayerAdapter';
+import Lank from 'lib/surface/Lank';
+import store from 'core/store';
+import createjs from 'lib/createjs-parts';
+import ThangTypeConstants from 'lib/ThangTypeConstants';
 
-module.exports = (PlayHeroesModal = (function() {
+export default PlayHeroesModal = (function() {
   PlayHeroesModal = class PlayHeroesModal extends ModalView {
     static initClass() {
       this.prototype.className = 'modal fade play-modal';
@@ -462,7 +462,7 @@ module.exports = (PlayHeroesModal = (function() {
   };
   PlayHeroesModal.initClass();
   return PlayHeroesModal;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

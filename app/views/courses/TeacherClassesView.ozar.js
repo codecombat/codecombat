@@ -14,29 +14,28 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TeacherClassesView;
-require('app/styles/courses/teacher-classes-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/courses/teacher-classes-view');
-const Classroom = require('models/Classroom');
-const Classrooms = require('collections/Classrooms');
-const Courses = require('collections/Courses');
-const Campaign = require('models/Campaign');
-const Campaigns = require('collections/Campaigns');
-const LevelSessions = require('collections/LevelSessions');
-const CourseInstance = require('models/CourseInstance');
-const CourseInstances = require('collections/CourseInstances');
-const ClassroomSettingsModal = require('views/courses/ClassroomSettingsModal');
-const CourseNagSubview = require('views/teachers/CourseNagSubview');
-const Prepaids = require('collections/Prepaids');
-const Users = require('collections/Users');
-const User = require('models/User');
-const utils = require('core/utils');
-const storage = require('core/storage');
-const GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler');
-const co = require('co');
-const TeacherCompleteSignupModal = require('ozaria/site/components/teacher/modal/TeacherCompleteSignupModal');
-
-const helper = require('lib/coursesHelper');
+import 'app/styles/courses/teacher-classes-view.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/courses/teacher-classes-view';
+import Classroom from 'models/Classroom';
+import Classrooms from 'collections/Classrooms';
+import Courses from 'collections/Courses';
+import Campaign from 'models/Campaign';
+import Campaigns from 'collections/Campaigns';
+import LevelSessions from 'collections/LevelSessions';
+import CourseInstance from 'models/CourseInstance';
+import CourseInstances from 'collections/CourseInstances';
+import ClassroomSettingsModal from 'views/courses/ClassroomSettingsModal';
+import CourseNagSubview from 'views/teachers/CourseNagSubview';
+import Prepaids from 'collections/Prepaids';
+import Users from 'collections/Users';
+import User from 'models/User';
+import utils from 'core/utils';
+import storage from 'core/storage';
+import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler';
+import co from 'co';
+import TeacherCompleteSignupModal from 'ozaria/site/components/teacher/modal/TeacherCompleteSignupModal';
+import helper from 'lib/coursesHelper';
 
 const translateWithMarkdown = label => marked.inlineLexer($.i18n.t(label), []);
 
@@ -48,7 +47,7 @@ const officeHours = [
   {time: moment('2018-03-21 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/4e7eb093f8689e21c5b9141539e44ee6', host: 'Liz', name: 'CodeCombat for Beginner Teachers'}
 ];
 
-module.exports = (TeacherClassesView = (function() {
+export default TeacherClassesView = (function() {
   TeacherClassesView = class TeacherClassesView extends RootView {
     constructor(...args) {
       this.onClickSeeAllQuests = this.onClickSeeAllQuests.bind(this);
@@ -520,7 +519,7 @@ module.exports = (TeacherClassesView = (function() {
   };
   TeacherClassesView.initClass();
   return TeacherClassesView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

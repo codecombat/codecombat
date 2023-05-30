@@ -7,10 +7,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AIScenarioSearchView;
-require('app/styles/editor/ai-scenario/table.sass');
-const SearchView = require('views/common/SearchView');
+import 'app/styles/editor/ai-scenario/table.sass';
+import SearchView from 'views/common/SearchView';
 
-module.exports = (AIScenarioSearchView = (function() {
+export default AIScenarioSearchView = (function() {
   AIScenarioSearchView = class AIScenarioSearchView extends SearchView {
     static initClass() {
       this.prototype.id = 'editor-ai-scenario-home-view';
@@ -70,4 +70,4 @@ module.exports = (AIScenarioSearchView = (function() {
   };
   AIScenarioSearchView.initClass();
   return AIScenarioSearchView;
-})());
+})();

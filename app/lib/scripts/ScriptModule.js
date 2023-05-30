@@ -12,9 +12,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ScriptModule;
-const CocoClass = require('core/CocoClass');
+import CocoClass from 'core/CocoClass';
 
-module.exports = (ScriptModule = (function() {
+export default ScriptModule = (function() {
   let scrubbingTime = undefined;
   let movementTime = undefined;
   ScriptModule = class ScriptModule extends CocoClass {
@@ -72,7 +72,7 @@ module.exports = (ScriptModule = (function() {
   };
   ScriptModule.initClass();
   return ScriptModule;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

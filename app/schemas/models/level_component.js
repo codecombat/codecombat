@@ -1,7 +1,8 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
-const metaschema = require('./../metaschema');
+import c from './../schemas';
+
+import metaschema from './../metaschema';
 
 const attackSelfCode = `\
 class AttacksSelf extends Component
@@ -111,4 +112,4 @@ c.extendPermissionsProperties(LevelComponentSchema, 'level.component');
 c.extendPatchableProperties(LevelComponentSchema);
 c.extendTranslationCoverageProperties(LevelComponentSchema);
 
-module.exports = LevelComponentSchema;
+export default LevelComponentSchema;

@@ -9,20 +9,20 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SaveBranchModal;
-require('app/styles/editor/level/modal/save-branch-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/editor/level/modal/save-branch-modal');
-const DeltaView = require('views/editor/DeltaView');
-const deltasLib = require('core/deltas');
-let modelDeltas = require('lib/modelDeltas');
-const Branch = require('models/Branch');
-const Branches = require('collections/Branches');
-const LevelComponents = require('collections/LevelComponents');
-const LevelSystems = require('collections/LevelSystems');
+import 'app/styles/editor/level/modal/save-branch-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/editor/level/modal/save-branch-modal';
+import DeltaView from 'views/editor/DeltaView';
+import deltasLib from 'core/deltas';
+import modelDeltas from 'lib/modelDeltas';
+import Branch from 'models/Branch';
+import Branches from 'collections/Branches';
+import LevelComponents from 'collections/LevelComponents';
+import LevelSystems from 'collections/LevelSystems';
 modelDeltas = require('lib/modelDeltas');
 
 
-module.exports = (SaveBranchModal = (function() {
+export default SaveBranchModal = (function() {
   SaveBranchModal = class SaveBranchModal extends ModalView {
     static initClass() {
       this.prototype.id = 'save-branch-modal';
@@ -247,4 +247,4 @@ module.exports = (SaveBranchModal = (function() {
   };
   SaveBranchModal.initClass();
   return SaveBranchModal;
-})());
+})();

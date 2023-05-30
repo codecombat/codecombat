@@ -9,11 +9,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let InviteToClassroomModal;
-require('app/styles/courses/invite-to-classroom-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/courses/invite-to-classroom-modal');
+import 'app/styles/courses/invite-to-classroom-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/courses/invite-to-classroom-modal';
 
-module.exports = (InviteToClassroomModal = (function() {
+export default InviteToClassroomModal = (function() {
   InviteToClassroomModal = class InviteToClassroomModal extends ModalView {
     static initClass() {
       this.prototype.id = 'invite-to-classroom-modal';
@@ -80,4 +80,4 @@ module.exports = (InviteToClassroomModal = (function() {
   };
   InviteToClassroomModal.initClass();
   return InviteToClassroomModal;
-})());
+})();

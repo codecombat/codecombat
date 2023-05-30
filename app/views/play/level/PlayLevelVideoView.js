@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PlayLevelVideoView;
-const RootComponent = require('views/core/RootComponent');
-const PlayLevelVideoComponent = require('./PlayLevelVideoComponent.vue').default;
-const utils = require('core/utils');
+import RootComponent from 'views/core/RootComponent';
+import PlayLevelVideoComponent from './PlayLevelVideoComponent.vue';
+import utils from 'core/utils';
 
-module.exports = (PlayLevelVideoView = (function() {
+export default PlayLevelVideoView = (function() {
   PlayLevelVideoView = class PlayLevelVideoView extends RootComponent {
     static initClass() {
       this.prototype.id = 'play-level-video-view';
@@ -39,4 +39,4 @@ module.exports = (PlayLevelVideoView = (function() {
   };
   PlayLevelVideoView.initClass();
   return PlayLevelVideoView;
-})());
+})();

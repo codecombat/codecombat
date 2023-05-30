@@ -9,10 +9,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpriteBuilder;
-const {hexToHSL, hslToHex} = require('core/utils');
-const createjs = require('lib/createjs-parts');
+import { hexToHSL, hslToHex } from 'core/utils';
+import createjs from 'lib/createjs-parts';
 
-module.exports = (SpriteBuilder = class SpriteBuilder {
+export default SpriteBuilder = class SpriteBuilder {
   constructor(thangType, options) {
     this.thangType = thangType;
     this.options = options;
@@ -336,6 +336,6 @@ module.exports = (SpriteBuilder = class SpriteBuilder {
       return result;
     })();
   }
-});
+};
 
 var sum = nums => _.reduce(nums, (s, num) => s + num);

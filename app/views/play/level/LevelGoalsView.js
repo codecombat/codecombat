@@ -8,19 +8,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelGoalsView;
-require('app/styles/play/level/goals.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/goals');
-const {me} = require('core/auth');
-const utils = require('core/utils');
-const LevelSession = require('models/LevelSession');
-const Level = require('models/Level');
-const LevelConstants = require('lib/LevelConstants');
-const LevelGoals = require('./LevelGoals').default;
-const store = require('core/store');
+import 'app/styles/play/level/goals.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/goals';
+import { me } from 'core/auth';
+import utils from 'core/utils';
+import LevelSession from 'models/LevelSession';
+import Level from 'models/Level';
+import LevelConstants from 'lib/LevelConstants';
+import LevelGoals from './LevelGoals';
+import store from 'core/store';
 
 
-module.exports = (LevelGoalsView = (function() {
+export default LevelGoalsView = (function() {
   LevelGoalsView = class LevelGoalsView extends CocoView {
     static initClass() {
       this.prototype.id = 'goals-view';
@@ -201,4 +201,4 @@ module.exports = (LevelGoalsView = (function() {
   };
   LevelGoalsView.initClass();
   return LevelGoalsView;
-})());
+})();

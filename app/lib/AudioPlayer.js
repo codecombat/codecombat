@@ -11,10 +11,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let s;
-const CocoClass = require('core/CocoClass');
+import CocoClass from 'core/CocoClass';
 const cache = {};
-const {me} = require('core/auth');
-const createjs = require('lib/createjs-parts');
+import { me } from 'core/auth';
+import createjs from 'lib/createjs-parts';
 
 // Top 20 obscene words (plus 'fiddlesticks') will trigger swearing Simlish with *beeps*.
 // Didn't like leaving so much profanity lying around in the source, so rot13'd.
@@ -233,4 +233,4 @@ class AudioPlayer extends CocoClass {
 AudioPlayer.initClass();
 
 
-module.exports = new AudioPlayer();
+export default new AudioPlayer();

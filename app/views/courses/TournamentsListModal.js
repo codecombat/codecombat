@@ -6,12 +6,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let TournamentsListModal;
-require('app/styles/courses/tournaments-list-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('templates/courses/tournaments-list-modal');
-const DOMPurify = require('dompurify');
+import 'app/styles/courses/tournaments-list-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'templates/courses/tournaments-list-modal';
+import DOMPurify from 'dompurify';
 
-module.exports = (TournamentsListModal = (function() {
+export default TournamentsListModal = (function() {
   TournamentsListModal = class TournamentsListModal extends ModalView {
     static initClass() {
       this.prototype.id = 'tournaments-list-modal';
@@ -29,4 +29,4 @@ module.exports = (TournamentsListModal = (function() {
   };
   TournamentsListModal.initClass();
   return TournamentsListModal;
-})());
+})();

@@ -8,11 +8,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ThangTypeSearchView;
-require('app/styles/editor/thang/home.sass');
-const SearchView = require('views/common/SearchView');
-const utils = require('core/utils');
+import 'app/styles/editor/thang/home.sass';
+import SearchView from 'views/common/SearchView';
+import utils from 'core/utils';
 
-module.exports = (ThangTypeSearchView = (function() {
+export default ThangTypeSearchView = (function() {
   ThangTypeSearchView = class ThangTypeSearchView extends SearchView {
     constructor(...args) {
       this.onSearchChange = this.onSearchChange.bind(this);
@@ -49,6 +49,6 @@ module.exports = (ThangTypeSearchView = (function() {
   };
   ThangTypeSearchView.initClass();
   return ThangTypeSearchView;
-})());
+})();
 
-  // TODO: do the new thing on click, not just enter
+// TODO: do the new thing on click, not just enter

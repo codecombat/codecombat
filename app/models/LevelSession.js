@@ -12,12 +12,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelSession;
-const CocoModel = require('./CocoModel');
-const api = require('core/api');
-const LevelConstants = require('lib/LevelConstants');
-const {teamSpells} = require('core/utils');
+import CocoModel from './CocoModel';
+import api from 'core/api';
+import LevelConstants from 'lib/LevelConstants';
+import { teamSpells } from 'core/utils';
 
-module.exports = (LevelSession = (function() {
+export default LevelSession = (function() {
   LevelSession = class LevelSession extends CocoModel {
     static initClass() {
       this.className = 'LevelSession';
@@ -222,7 +222,7 @@ module.exports = (LevelSession = (function() {
   };
   LevelSession.initClass();
   return LevelSession;
-})());
+})();
 
 // Note: These need to be double-escaped for insertion into regexes
 var commentStarts = {

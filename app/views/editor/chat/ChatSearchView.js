@@ -8,10 +8,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ChatSearchView;
-require('app/styles/editor/chat/table.sass');
-const SearchView = require('views/common/SearchView');
+import 'app/styles/editor/chat/table.sass';
+import SearchView from 'views/common/SearchView';
 
-module.exports = (ChatSearchView = (function() {
+export default ChatSearchView = (function() {
   ChatSearchView = class ChatSearchView extends SearchView {
     static initClass() {
       this.prototype.id = 'editor-chat-home-view';
@@ -84,7 +84,7 @@ module.exports = (ChatSearchView = (function() {
   };
   ChatSearchView.initClass();
   return ChatSearchView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

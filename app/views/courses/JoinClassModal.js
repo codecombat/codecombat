@@ -8,12 +8,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let JoinClassModal;
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/courses/join-class-modal');
-const Classroom = require('models/Classroom');
-const User = require('models/User');
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/courses/join-class-modal';
+import Classroom from 'models/Classroom';
+import User from 'models/User';
 
-module.exports = (JoinClassModal = (function() {
+export default JoinClassModal = (function() {
   JoinClassModal = class JoinClassModal extends ModalView {
     static initClass() {
       this.prototype.id = 'join-class-modal';
@@ -54,4 +54,4 @@ module.exports = (JoinClassModal = (function() {
   };
   JoinClassModal.initClass();
   return JoinClassModal;
-})());
+})();

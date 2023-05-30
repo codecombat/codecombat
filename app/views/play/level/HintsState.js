@@ -9,9 +9,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let HintsState;
-const Article = require('models/Article');
+import Article from 'models/Article';
 
-module.exports = (HintsState = class HintsState extends Backbone.Model {
+export default HintsState = class HintsState extends Backbone.Model {
 
   initialize(attributes, options) {
     ({ level: this.level, session: this.session, supermodel: this.supermodel } = options);
@@ -47,7 +47,7 @@ module.exports = (HintsState = class HintsState extends Backbone.Model {
       total
     });
   }
-});
+};
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

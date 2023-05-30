@@ -6,10 +6,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ShareLadderLinkModal;
-require('app/styles/play/ladder/share-ladder-link-modal.sass');
-const ModalView = require('views/core/ModalView');
+import 'app/styles/play/ladder/share-ladder-link-modal.sass';
+import ModalView from 'views/core/ModalView';
 
-module.exports = (ShareLadderLinkModal = (function() {
+export default ShareLadderLinkModal = (function() {
   ShareLadderLinkModal = class ShareLadderLinkModal extends ModalView {
     static initClass() {
       this.prototype.id = 'share-ladder-link-modal';
@@ -33,4 +33,4 @@ module.exports = (ShareLadderLinkModal = (function() {
   };
   ShareLadderLinkModal.initClass();
   return ShareLadderLinkModal;
-})());
+})();

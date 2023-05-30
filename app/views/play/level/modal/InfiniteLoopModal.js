@@ -4,10 +4,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let InfiniteLoopModal;
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/level/modal/infinite_loop');
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/level/modal/infinite_loop';
 
-module.exports = (InfiniteLoopModal = (function() {
+export default InfiniteLoopModal = (function() {
   InfiniteLoopModal = class InfiniteLoopModal extends ModalView {
     static initClass() {
       this.prototype.id = '#infinite-loop-modal';
@@ -22,4 +22,4 @@ module.exports = (InfiniteLoopModal = (function() {
   };
   InfiniteLoopModal.initClass();
   return InfiniteLoopModal;
-})());
+})();

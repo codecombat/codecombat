@@ -7,9 +7,9 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const utils = require('core/utils');
+import utils from 'core/utils';
 
-module.exports = {
+export default {
   projectGallery({ courseInstanceID }) {
     return `/students/project-gallery/${courseInstanceID}`;
   },

@@ -7,11 +7,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ModalComponent;
-const ModalView = require('./ModalView');
-const store = require('core/store');
+import ModalView from './ModalView';
+import store from 'core/store';
 const silentStore = { commit: _.noop, dispatch: _.noop };
 
-module.exports = (ModalComponent = (function() {
+export default ModalComponent = (function() {
   ModalComponent = class ModalComponent extends ModalView {
     static initClass() {
       this.prototype.VueComponent = null; // set this - will overwrite backbone modal
@@ -56,4 +56,4 @@ module.exports = (ModalComponent = (function() {
   };
   ModalComponent.initClass();
   return ModalComponent;
-})());
+})();

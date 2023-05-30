@@ -9,18 +9,18 @@
  */
 // this file is deprecated
 let ActivateLicensesModal;
-require('app/styles/courses/activate-licenses-modal.sass');
-const ModalView = require('views/core/ModalView');
-const State = require('models/State');
-const template = require('app/templates/courses/activate-licenses-modal');
-const CocoCollection = require('collections/CocoCollection');
-const Prepaids = require('collections/Prepaids');
-const Classroom = require('models/Classroom');
-const Classrooms = require('collections/Classrooms');
-const User = require('models/User');
-const Users = require('collections/Users');
+import 'app/styles/courses/activate-licenses-modal.sass';
+import ModalView from 'views/core/ModalView';
+import State from 'models/State';
+import template from 'app/templates/courses/activate-licenses-modal';
+import CocoCollection from 'collections/CocoCollection';
+import Prepaids from 'collections/Prepaids';
+import Classroom from 'models/Classroom';
+import Classrooms from 'collections/Classrooms';
+import User from 'models/User';
+import Users from 'collections/Users';
 
-module.exports = (ActivateLicensesModal = (function() {
+export default ActivateLicensesModal = (function() {
   ActivateLicensesModal = class ActivateLicensesModal extends ModalView {
     static initClass() {
       this.prototype.id = 'activate-licenses-modal';
@@ -223,4 +223,4 @@ module.exports = (ActivateLicensesModal = (function() {
   };
   ActivateLicensesModal.initClass();
   return ActivateLicensesModal; // In case this is opened in /teachers/licenses itself, otherwise the button does nothing
-})());
+})();

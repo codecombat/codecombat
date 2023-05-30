@@ -7,11 +7,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let RootComponent;
-const RootView = require('./RootView');
-const store = require('core/store');
+import RootView from './RootView';
+import store from 'core/store';
 const silentStore = { commit: _.noop, dispatch: _.noop };
 
-module.exports = (RootComponent = (function() {
+export default RootComponent = (function() {
   RootComponent = class RootComponent extends RootView {
     static initClass() {
       this.prototype.VueComponent = null; // set this
@@ -55,4 +55,4 @@ module.exports = (RootComponent = (function() {
   };
   RootComponent.initClass();
   return RootComponent;
-})());
+})();

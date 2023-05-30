@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const UserCodeProblemSchema = c.object({
   title: 'User Code Problem',
@@ -27,4 +27,4 @@ _.extend(UserCodeProblemSchema.properties, {
 
 c.extendBasicProperties(UserCodeProblemSchema, 'user.code.problem');
 
-module.exports = UserCodeProblemSchema;
+export default UserCodeProblemSchema;

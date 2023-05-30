@@ -6,7 +6,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let initializeTwitter;
-module.exports = (initializeTwitter = () => (function(d, s, id) {
+
+export default initializeTwitter = () => (function(d, s, id) {
   let js = undefined;
   const fjs = d.getElementsByTagName(s)[0];
   const p = (/^http:/.test(d.location) ? 'http' : 'https');
@@ -16,4 +17,4 @@ module.exports = (initializeTwitter = () => (function(d, s, id) {
     js.src = p + '://platform.twitter.com/widgets.js';
     fjs.parentNode.insertBefore(js, fjs);
   }
-})(document, 'script', 'twitter-wjs'));
+})(document, 'script', 'twitter-wjs');

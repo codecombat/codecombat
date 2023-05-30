@@ -14,14 +14,14 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let LevelBus;
-const Bus = require('./Bus');
-const {me} = require('core/auth');
-const LevelSession = require('models/LevelSession');
-const utils = require('core/utils');
-const tagger = require('lib/SolutionConceptTagger');
-const store = require('core/store');
+import Bus from './Bus';
+import { me } from 'core/auth';
+import LevelSession from 'models/LevelSession';
+import utils from 'core/utils';
+import tagger from 'lib/SolutionConceptTagger';
+import store from 'core/store';
 
-module.exports = (LevelBus = (function() {
+export default LevelBus = (function() {
   LevelBus = class LevelBus extends Bus {
     static initClass() {
   
@@ -399,7 +399,7 @@ module.exports = (LevelBus = (function() {
   };
   LevelBus.initClass();
   return LevelBus;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

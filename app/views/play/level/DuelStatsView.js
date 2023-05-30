@@ -11,11 +11,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let DuelStatsView;
-require('app/styles/play/level/duel-stats-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/level/duel-stats-view');
-const ThangAvatarView = require('views/play/level/ThangAvatarView');
-const utils = require('core/utils');
+import 'app/styles/play/level/duel-stats-view.sass';
+import CocoView from 'views/core/CocoView';
+import template from 'app/templates/play/level/duel-stats-view';
+import ThangAvatarView from 'views/play/level/ThangAvatarView';
+import utils from 'core/utils';
 
 // TODO:
 // - if a hero is dead, a big indication that they are dead
@@ -24,7 +24,7 @@ const utils = require('core/utils');
 // - indication of which team won (not always hero dead--ties and other victory conditions)
 // - army composition or power or attack/defense (for certain levels): experiment with something simple, not like the previous unit list thing
 
-module.exports = (DuelStatsView = (function() {
+export default DuelStatsView = (function() {
   DuelStatsView = class DuelStatsView extends CocoView {
     static initClass() {
       this.prototype.id = 'duel-stats-view';
@@ -180,7 +180,7 @@ module.exports = (DuelStatsView = (function() {
   };
   DuelStatsView.initClass();
   return DuelStatsView;  // Show it
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

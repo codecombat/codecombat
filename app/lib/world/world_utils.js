@@ -10,14 +10,14 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let ArrayBufferView, clone, consolidateThangs, dissectRectangles, downTheChain, typedArraySupport;
-const Vector = require('./vector');
-const Rectangle = require('./rectangle');
-const Ellipse = require('./ellipse');
-const LineSegment = require('./line_segment');
-const Grid = require('./Grid');
+let ArrayBufferView;
+import Vector from './vector';
+import Rectangle from './rectangle';
+import Ellipse from './ellipse';
+import LineSegment from './line_segment';
+import Grid from './Grid';
 
-module.exports.typedArraySupport = (typedArraySupport = (typeof Float32Array !== 'undefined' && Float32Array !== null));  // Not in IE until IE 10; we'll fall back to normal arrays
+export const typedArraySupport = (typeof Float32Array !== 'undefined' && Float32Array !== null);  // Not in IE until IE 10; we'll fall back to normal arrays
 //module.exports.typedArraySupport = typedArraySupport = false  # imitate IE9 (and in God.coffee)
 
 if (ArrayBufferView == null) {
@@ -38,7 +38,7 @@ if (ArrayBufferView == null) {
   }
 }
 
-module.exports.clone = (clone = function(obj, skipThangs) {
+export const clone = function(obj, skipThangs) {
   // http://coffeescriptcookbook.com/chapters/classes_and_objects/cloning
   if (skipThangs == null) { skipThangs = false; }
   if ((obj == null) || (typeof obj !== 'object')) {
@@ -80,11 +80,11 @@ module.exports.clone = (clone = function(obj, skipThangs) {
   }
 
   return newInstance;
-});
+};
 
 // Walk a key chain down to the value. Can optionally set newValue instead.
 // Same as in core utils, but don't want mutual imports
-module.exports.downTheChain = (downTheChain = function(obj, keyChain, newValue) {
+export const downTheChain = function(obj, keyChain, newValue) {
   if (newValue == null) { newValue = undefined; }
   if (!obj) { return null; }
   if (!_.isArray(keyChain)) { return obj[keyChain]; }
@@ -98,11 +98,11 @@ module.exports.downTheChain = (downTheChain = function(obj, keyChain, newValue) 
     keyChain = keyChain.slice(1);
   }
   return value;
-});
+};
 
-module.exports.now = ((__guard__(typeof window !== 'undefined' && window !== null ? window.performance : undefined, x => x.now) != null) ? (() => window.performance.now()) : (() => new Date()));
+export const now = (__guard__(typeof window !== 'undefined' && window !== null ? window.performance : undefined, x => x.now) != null) ? (() => window.performance.now()) : (() => new Date());
 
-module.exports.consolidateThangs = (consolidateThangs = function(thangs) {
+export const consolidateThangs = function(thangs) {
   // We can gain a performance increase by consolidating all regular walls into a minimal covering, non-intersecting set a la Gridmancer.
   const debug = false;
   const isStructural = t => // Grid doesn't handle negative numbers, so don't coalesce walls below/left of 0, 0.
@@ -150,10 +150,9 @@ module.exports.consolidateThangs = (consolidateThangs = function(thangs) {
   console.log('Turned', structural.length, 'structural Thangs into', dissection.length, 'dissecting Thangs.');
   thangs.push(...Array.from(dissection || []));
   return structural.slice(dissection.length ,  structural.length);
-});
+};
 
-
-module.exports.dissectRectangles = (dissectRectangles = function(grid, rectangleCallback, wantEmpty, debug) {
+export const dissectRectangles = function(grid, rectangleCallback, wantEmpty, debug) {
   // Mark Maxham's fast sweeper approach: https://github.com/codecombat/codecombat/issues/1090
   if (debug) { console.log(grid.toString()); }
   return (() => {
@@ -182,7 +181,7 @@ module.exports.dissectRectangles = (dissectRectangles = function(grid, rectangle
     }
     return result;
   })();
-});
+};
 
 var occ = function(x, y, grid, wantEmpty) {
   if ((y > (grid.bottom + grid.height)) || (x > (grid.left + grid.width))) { return true; }

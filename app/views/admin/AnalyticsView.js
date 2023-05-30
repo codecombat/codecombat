@@ -12,20 +12,20 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AnalyticsView;
-require('app/styles/admin/analytics.sass');
-const CocoCollection = require('collections/CocoCollection');
-const Course = require('models/Course');
-const CourseInstance = require('models/CourseInstance');
-require('d3/d3.js');
-const d3Utils = require('core/d3_utils');
-const Payment = require('models/Payment');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/admin/analytics');
-const utils = require('core/utils');
+import 'app/styles/admin/analytics.sass';
+import CocoCollection from 'collections/CocoCollection';
+import Course from 'models/Course';
+import CourseInstance from 'models/CourseInstance';
+import 'd3/d3.js';
+import d3Utils from 'core/d3_utils';
+import Payment from 'models/Payment';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/admin/analytics';
+import utils from 'core/utils';
 
 // TODO: terminal subscription purchases entered as DRR monthly subs, but should be spread across their timeframe
 
-module.exports = (AnalyticsView = (function() {
+export default AnalyticsView = (function() {
   AnalyticsView = class AnalyticsView extends RootView {
     static initClass() {
       this.prototype.id = 'admin-analytics-view';
@@ -1393,4 +1393,4 @@ module.exports = (AnalyticsView = (function() {
   };
   AnalyticsView.initClass();
   return AnalyticsView;
-})());
+})();

@@ -14,7 +14,8 @@
 // Other Systems might be things like Attraction, EdgeBounce, EdgeWrap, and non-physics ones, too, like Rendering, Animation, ...
 
 let System;
-module.exports = (System = (function() {
+
+export default System = (function() {
   System = class System {
     static initClass() {
       this.className = 'System';
@@ -87,4 +88,4 @@ module.exports = (System = (function() {
   };
   System.initClass();
   return System;
-})());
+})();

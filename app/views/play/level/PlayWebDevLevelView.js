@@ -8,18 +8,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PlayWebDevLevelView;
-require('app/styles/play/level/play-web-dev-level-view.sass');
-const RootView = require('views/core/RootView');
+import 'app/styles/play/level/play-web-dev-level-view.sass';
+import RootView from 'views/core/RootView';
+import Level from 'models/Level';
+import LevelSession from 'models/LevelSession';
+import WebSurfaceView from './WebSurfaceView';
+import api from 'core/api';
+import 'lib/game-libraries';
+import utils from 'core/utils';
 
-const Level = require('models/Level');
-const LevelSession = require('models/LevelSession');
-const WebSurfaceView = require('./WebSurfaceView');
-const api = require('core/api');
-
-require('lib/game-libraries');
-const utils = require('core/utils');
-
-module.exports = (PlayWebDevLevelView = (function() {
+export default PlayWebDevLevelView = (function() {
   PlayWebDevLevelView = class PlayWebDevLevelView extends RootView {
     static initClass() {
       this.prototype.id = 'play-web-dev-level-view';
@@ -99,7 +97,7 @@ module.exports = (PlayWebDevLevelView = (function() {
   };
   PlayWebDevLevelView.initClass();
   return PlayWebDevLevelView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

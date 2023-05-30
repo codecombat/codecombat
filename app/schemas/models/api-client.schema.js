@@ -1,7 +1,8 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
-const {FeatureAuthoritySchema} = require('./feature.schema');
+import c from './../schemas';
+
+import { FeatureAuthoritySchema } from './feature.schema';
 
 const APIClientSchema = {
   description: 'Third parties who can make API calls, usually on behalf of a user.',
@@ -55,4 +56,4 @@ const APIClientSchema = {
 c.extendBasicProperties(APIClientSchema, 'Client');
 c.extendNamedProperties(APIClientSchema);
 
-module.exports = APIClientSchema;
+export default APIClientSchema;

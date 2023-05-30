@@ -13,13 +13,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let Level;
-const CocoModel = require('./CocoModel');
-const LevelComponent = require('./LevelComponent');
-const LevelSystem = require('./LevelSystem');
-const LevelConstants = require('lib/LevelConstants');
-const ThangTypeConstants = require('lib/ThangTypeConstants');
-const utils = require('core/utils');
-const store = require('core/store');
+import CocoModel from './CocoModel';
+import LevelComponent from './LevelComponent';
+import LevelSystem from './LevelSystem';
+import LevelConstants from 'lib/LevelConstants';
+import ThangTypeConstants from 'lib/ThangTypeConstants';
+import utils from 'core/utils';
+import store from 'core/store';
 
 // Pure functions for use in Vue
 // First argument is always a raw Level.attributes
@@ -30,7 +30,7 @@ const LevelLib = {
   }
 };
 
-module.exports = (Level = (function() {
+export default Level = (function() {
   Level = class Level extends CocoModel {
     static initClass() {
       this.className = 'Level';
@@ -529,7 +529,7 @@ module.exports = (Level = (function() {
   };
   Level.initClass();
   return Level;
-})());
+})();
 
 _.assign(Level, LevelLib);
 

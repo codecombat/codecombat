@@ -8,8 +8,9 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const globalVar = require('core/globalVar');
-const { admin } = require('core/api');
+import globalVar from 'core/globalVar';
+
+import { admin } from 'core/api';
 
 // TODO: move this out of here to where it should go
 window.SPRITE_RESOLUTION_FACTOR = 3;
@@ -229,7 +230,7 @@ const Application = {
   }
 };
 
-module.exports = Application;
+export default Application;
 globalVar.application = Application;
 
 function __guard__(value, transform) {

@@ -6,9 +6,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SkippedContact;
-const CocoModel = require('./CocoModel');
+import CocoModel from './CocoModel';
 
-module.exports = (SkippedContact = (function() {
+export default SkippedContact = (function() {
   SkippedContact = class SkippedContact extends CocoModel {
     static initClass() {
       this.className = "SkippedContact";
@@ -17,5 +17,5 @@ module.exports = (SkippedContact = (function() {
   };
   SkippedContact.initClass();
   return SkippedContact;
-})());
-  // @schema: require 'schemas/models/skipped_contact.schema'
+})();
+// @schema: require 'schemas/models/skipped_contact.schema'

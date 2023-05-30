@@ -1,7 +1,8 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
-const {FeatureAuthoritySchema, FeatureRecipientSchema} = require('./feature.schema');
+import c from './../schemas';
+
+import { FeatureAuthoritySchema, FeatureRecipientSchema } from './feature.schema';
 
 const emailSubscriptions = ['announcement', 'tester', 'level_creator', 'developer', 'article_editor', 'translator', 'support', 'notification'];
 
@@ -558,4 +559,4 @@ UserSchema.definitions = {
   })
 };
 
-module.exports = UserSchema;
+export default UserSchema;

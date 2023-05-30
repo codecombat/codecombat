@@ -13,13 +13,12 @@ let JavaScript, left, left1;
 const _ = (left = (left1 = (typeof window !== 'undefined' && window !== null ? window._ : undefined) != null ? (typeof window !== 'undefined' && window !== null ? window._ : undefined) : (typeof self !== 'undefined' && self !== null ? self._ : undefined)) != null ? left1 : (typeof global !== 'undefined' && global !== null ? global._ : undefined)) != null ? left : require('lodash');  // rely on lodash existing, since it busts CodeCombat to browserify it--TODO
 
 const jshintHolder = {};
-const acorn_loose = require('acorn-loose');
-const escodegen = require('escodegen');
+import acorn_loose from 'acorn-loose';
+import escodegen from 'escodegen';
+import Language from './language';
+import traversal from '../traversal';
 
-const Language = require('./language');
-const traversal = require('../traversal');
-
-module.exports = (JavaScript = (function() {
+export default JavaScript = (function() {
   JavaScript = class JavaScript extends Language {
     static initClass() {
       this.prototype.name = 'JavaScript';
@@ -229,4 +228,4 @@ module.exports = (JavaScript = (function() {
   };
   JavaScript.initClass();
   return JavaScript;
-})());
+})();

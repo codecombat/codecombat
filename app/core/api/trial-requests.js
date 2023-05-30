@@ -6,9 +6,9 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const fetchJson = require('./fetch-json');
+import fetchJson from './fetch-json';
 
-module.exports = {
+export default {
   post(trialRequest, options) {
     return fetchJson('/db/trial.request', _.assign({}, options, {
       method: 'POST',

@@ -11,11 +11,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AdminClassroomContentView;
-require('app/styles/admin/admin-classroom-content.sass');
-const utils = require('core/utils');
-const RootView = require('views/core/RootView');
+import 'app/styles/admin/admin-classroom-content.sass';
+import utils from 'core/utils';
+import RootView from 'views/core/RootView';
 
-module.exports = (AdminClassroomContentView = (function() {
+export default AdminClassroomContentView = (function() {
   AdminClassroomContentView = class AdminClassroomContentView extends RootView {
     static initClass() {
       this.prototype.id = 'admin-classroom-content-view';
@@ -187,4 +187,4 @@ module.exports = (AdminClassroomContentView = (function() {
   };
   AdminClassroomContentView.initClass();
   return AdminClassroomContentView;
-})());
+})();

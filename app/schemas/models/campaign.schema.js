@@ -5,8 +5,9 @@
  * DS101: Remove unnecessary use of Array.from
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const c = require('./../schemas');
-const LevelSchema = require('./level');
+import c from './../schemas';
+
+import LevelSchema from './level';
 
 const CampaignSchema = c.object({
   default: {
@@ -183,4 +184,4 @@ c.extendBasicProperties(CampaignSchema, 'campaign');
 c.extendTranslationCoverageProperties(CampaignSchema);
 c.extendPatchableProperties(CampaignSchema);
 
-module.exports = CampaignSchema;
+export default CampaignSchema;

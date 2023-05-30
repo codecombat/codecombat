@@ -8,12 +8,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CLAView;
-require('app/styles/cla.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/cla');
-const {me} = require('core/auth');
+import 'app/styles/cla.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/cla';
+import { me } from 'core/auth';
 
-module.exports = (CLAView = (function() {
+export default CLAView = (function() {
   CLAView = class CLAView extends RootView {
     constructor(...args) {
       this.onAgreeSucceeded = this.onAgreeSucceeded.bind(this);
@@ -50,4 +50,4 @@ module.exports = (CLAView = (function() {
   };
   CLAView.initClass();
   return CLAView;
-})());
+})();

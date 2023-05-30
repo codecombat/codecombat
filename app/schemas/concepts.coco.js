@@ -158,4 +158,4 @@ const concepts = [
   {concept: 'events', name: 'Events', automatic: false}
 ];
 
-module.exports = concepts;
+export default concepts;

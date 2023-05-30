@@ -6,11 +6,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ContactCNView;
-require('app/styles/contact-cn.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/contact-cn-view');
+import 'app/styles/contact-cn.sass';
+import RootView from 'views/core/RootView';
+import template from 'app/templates/contact-cn-view';
 
-module.exports = (ContactCNView = (function() {
+export default ContactCNView = (function() {
   ContactCNView = class ContactCNView extends RootView {
     static initClass() {
       this.prototype.id = 'contact-view';
@@ -19,4 +19,4 @@ module.exports = (ContactCNView = (function() {
   };
   ContactCNView.initClass();
   return ContactCNView;
-})());
+})();

@@ -4,9 +4,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let SpellPaletteViewMid;
-const SpellPaletteView = require('./SpellPaletteView');
+import SpellPaletteView from './SpellPaletteView';
 
-module.exports = (SpellPaletteViewMid = (function() {
+export default SpellPaletteViewMid = (function() {
   SpellPaletteViewMid = class SpellPaletteViewMid extends SpellPaletteView {
     static initClass() {
       this.prototype.id = 'spell-palette-view-mid';
@@ -16,5 +16,5 @@ module.exports = (SpellPaletteViewMid = (function() {
   };
   SpellPaletteViewMid.initClass();
   return SpellPaletteViewMid;
-})());
+})();
 

@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const CLASubmissionSchema = c.object({
   title: 'CLA Submission',
@@ -18,4 +18,4 @@ _.extend(CLASubmissionSchema.properties, {
 
 c.extendBasicProperties(CLASubmissionSchema, 'cla.submission');
 
-module.exports = CLASubmissionSchema;
+export default CLASubmissionSchema;

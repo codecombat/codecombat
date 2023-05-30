@@ -9,13 +9,13 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let PollModal;
-require('app/styles/play/modal/poll-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/play/modal/poll-modal');
-const utils = require('core/utils');
-const UserPollsRecord = require('models/UserPollsRecord');
+import 'app/styles/play/modal/poll-modal.sass';
+import ModalView from 'views/core/ModalView';
+import template from 'app/templates/play/modal/poll-modal';
+import utils from 'core/utils';
+import UserPollsRecord from 'models/UserPollsRecord';
 
-module.exports = (PollModal = (function() {
+export default PollModal = (function() {
   PollModal = class PollModal extends ModalView {
     static initClass() {
       this.prototype.id = 'poll-modal';
@@ -211,7 +211,7 @@ module.exports = (PollModal = (function() {
   };
   PollModal.initClass();
   return PollModal;
-})());
+})();
 
 
 var commentStarts = {

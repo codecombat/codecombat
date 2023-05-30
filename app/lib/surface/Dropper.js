@@ -6,7 +6,7 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const createjs = require('lib/createjs-parts');
+import createjs from 'lib/createjs-parts';
 
 var Dropper = (Dropper = (function() {
   Dropper = class Dropper {
@@ -45,4 +45,4 @@ var Dropper = (Dropper = (function() {
   return Dropper;
 })());
 
-module.exports = new Dropper();
+export default new Dropper();

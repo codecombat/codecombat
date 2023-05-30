@@ -13,16 +13,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AdminLevelHintsView;
-require('app/styles/admin/admin-level-hints.sass');
-const RootView = require('views/core/RootView');
-const CocoCollection = require('collections/CocoCollection');
-const Article = require('models/Article');
-const Level = require('models/Level');
-const Campaign = require('models/Campaign');
-const Course = require('models/Course');
-const utils = require('core/utils');
+import 'app/styles/admin/admin-level-hints.sass';
+import RootView from 'views/core/RootView';
+import CocoCollection from 'collections/CocoCollection';
+import Article from 'models/Article';
+import Level from 'models/Level';
+import Campaign from 'models/Campaign';
+import Course from 'models/Course';
+import utils from 'core/utils';
 
-module.exports = (AdminLevelHintsView = (function() {
+export default AdminLevelHintsView = (function() {
   AdminLevelHintsView = class AdminLevelHintsView extends RootView {
     static initClass() {
       this.prototype.id = 'admin-level-hints-view';
@@ -113,7 +113,7 @@ module.exports = (AdminLevelHintsView = (function() {
   };
   AdminLevelHintsView.initClass();
   return AdminLevelHintsView;
-})());
+})();
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+import c from './../schemas';
 
 const TrialRequestSchema = c.object({
   title: 'Trial request',
@@ -19,4 +19,4 @@ _.extend(TrialRequestSchema.properties, {
 });
 
 c.extendBasicProperties(TrialRequestSchema, 'TrialRequest');
-module.exports = TrialRequestSchema;
+export default TrialRequestSchema;

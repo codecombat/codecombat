@@ -13,16 +13,15 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let IDReferenceNode, LatestVersionOriginalReferenceNode, LatestVersionReferenceNode, LiveEditingMarkup;
-const CocoModel = require('models/CocoModel');
-const CocoCollection = require('collections/CocoCollection');
-const {me} = require('core/auth');
-const locale = require('locale/locale');
-const aceUtils = require('core/aceUtils');
-const globalVar = require('core/globalVar');
-const createjs = require('lib/createjs-parts');
-require('vendor/scripts/jquery-ui-1.11.1.custom');
-require('vendor/styles/jquery-ui-1.11.1.custom.css');
+import CocoModel from 'models/CocoModel';
+import CocoCollection from 'collections/CocoCollection';
+import { me } from 'core/auth';
+import locale from 'locale/locale';
+import aceUtils from 'core/aceUtils';
+import globalVar from 'core/globalVar';
+import createjs from 'lib/createjs-parts';
+import 'vendor/scripts/jquery-ui-1.11.1.custom';
+import 'vendor/styles/jquery-ui-1.11.1.custom.css';
 
 const initializeFilePicker = function() {
   if (!globalVar.application.isIPadApp) { return require('core/services/filepicker')(); }
@@ -68,19 +67,19 @@ class CinematicDialogTreema extends TreemaObjectNode {
   }
 }
 
-module.exports.LiveEditingMarkup = (LiveEditingMarkup = (function() {
-  LiveEditingMarkup = class LiveEditingMarkup extends TreemaNode.nodeMap.ace {
+export const LiveEditingMarkup = (function() {
+  class LiveEditingMarkup extends TreemaNode.nodeMap.ace {
     static initClass() {
       this.prototype.valueClass = 'treema-markdown treema-multiline treema-ace';
-  
+
       this.prototype.showingPreview = false;
     }
 
     constructor() {
+      super(...arguments);
       this.onFileChosen = this.onFileChosen.bind(this);
       this.onFileUploaded = this.onFileUploaded.bind(this);
       this.togglePreview = this.togglePreview.bind(this);
-      super(...arguments);
       this.workingSchema.aceMode = 'ace/mode/markdown';
       this.workingSchema.aceUseWrapMode = true;
       initializeFilePicker();
@@ -152,12 +151,12 @@ module.exports.LiveEditingMarkup = (LiveEditingMarkup = (function() {
   };
   LiveEditingMarkup.initClass();
   return LiveEditingMarkup;
-})());
+})();
 
 class RichTextTreema extends TreemaNode {
   constructor(...args) {
-    this.editContent = this.editContent.bind(this);
     super(...args);
+    this.editContent = this.editContent.bind(this);
   }
 
   initPreview(valEl, data) {
@@ -192,11 +191,11 @@ class SoundFileTreema extends TreemaNode.nodeMap.string {
   }
 
   constructor() {
+    super(...arguments);
     this.playFile = this.playFile.bind(this);
     this.stopFile = this.stopFile.bind(this);
     this.onFileChosen = this.onFileChosen.bind(this);
     this.onFileUploaded = this.onFileUploaded.bind(this);
-    super(...arguments);
     initializeFilePicker();
   }
 
@@ -336,9 +335,9 @@ class GeneralFileTreema extends TreemaNode.nodeMap.string {
   }
 
   constructor() {
+    super(...arguments);
     this.onFileChosen = this.onFileChosen.bind(this);
     this.onFileUploaded = this.onFileUploaded.bind(this);
-    super(...arguments);
     initializeFilePicker();
   }
 
@@ -588,8 +587,8 @@ class InternationalizationNode extends TreemaNode.nodeMap.object {
 
 class LatestVersionCollection extends CocoCollection {}
 
-module.exports.LatestVersionReferenceNode = (LatestVersionReferenceNode = (function() {
-  LatestVersionReferenceNode = class LatestVersionReferenceNode extends TreemaNode {
+export const LatestVersionReferenceNode = (function() {
+  class LatestVersionReferenceNode extends TreemaNode {
     static initClass() {
       this.prototype.searchValueTemplate = '<input placeholder="Search" /><div class="treema-search-results"></div>';
       this.prototype.valueClass = 'treema-latest-version';
@@ -598,8 +597,8 @@ module.exports.LatestVersionReferenceNode = (LatestVersionReferenceNode = (funct
     }
 
     constructor() {
-      this.search = this.search.bind(this);
       super(...arguments);
+      this.search = this.search.bind(this);
 
       // to dynamically build the search url, inspect the links url that should be included
       const links = this.workingSchema.links || [];
@@ -770,9 +769,9 @@ module.exports.LatestVersionReferenceNode = (LatestVersionReferenceNode = (funct
   };
   LatestVersionReferenceNode.initClass();
   return LatestVersionReferenceNode;
-})());
+})();
 
-module.exports.LatestVersionOriginalReferenceNode = (LatestVersionOriginalReferenceNode = class LatestVersionOriginalReferenceNode extends LatestVersionReferenceNode {
+export const LatestVersionOriginalReferenceNode = class LatestVersionOriginalReferenceNode extends LatestVersionReferenceNode {
   // Just for saving the original, not the major version.
   saveChanges() {
     const selected = this.getSelectedResultEl();
@@ -781,9 +780,9 @@ module.exports.LatestVersionOriginalReferenceNode = (LatestVersionOriginalRefere
     this.data = fullValue.attributes.original;
     return this.instance = fullValue;
   }
-});
+};
 
-module.exports.IDReferenceNode = (IDReferenceNode = class IDReferenceNode extends LatestVersionReferenceNode {
+export const IDReferenceNode = class IDReferenceNode extends LatestVersionReferenceNode {
   // Just for saving the _id
   saveChanges() {
     const selected = this.getSelectedResultEl();
@@ -792,7 +791,7 @@ module.exports.IDReferenceNode = (IDReferenceNode = class IDReferenceNode extend
     this.data = fullValue.attributes._id;
     return this.instance = fullValue;
   }
-});
+};
 
 class LevelComponentReferenceNode extends LatestVersionReferenceNode {
   // HACK: this list of properties is needed by the thang components edit view and config views.
@@ -815,9 +814,9 @@ class SlugPropsObject extends TreemaNode.nodeMap.object {
 
 class TaskTreema extends TreemaNode.nodeMap.string {
   constructor(...args) {
+    super(...args);
     this.onTaskChanged = this.onTaskChanged.bind(this);
     this.onEditInputBlur = this.onEditInputBlur.bind(this);
-    super(...args);
   }
 
   buildValueForDisplay(valEl) {
@@ -864,7 +863,7 @@ class TaskTreema extends TreemaNode.nodeMap.string {
 // TODO: try this out
 
 
-module.exports.setup = function() {
+export const setup = function() {
   TreemaNode.setNodeSubclass('date-time', DateTimeTreema);
   TreemaNode.setNodeSubclass('version', VersionTreema);
   TreemaNode.setNodeSubclass('markdown', LiveEditingMarkup);
@@ -887,7 +886,8 @@ module.exports.setup = function() {
   TreemaNode.setNodeSubclass('cinematic-dialog', CinematicDialogTreema);
   return TreemaNode.setNodeSubclass('rich-text', RichTextTreema);
 };
-  //TreemaNode.setNodeSubclass 'checkbox', CheckboxTreema
+
+//TreemaNode.setNodeSubclass 'checkbox', CheckboxTreema
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
