@@ -1,309 +1,420 @@
-# A root view is one that replaces everything else on the screen when it
-# comes into being, as opposed to sub-views which get inserted into other views.
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+// A root view is one that replaces everything else on the screen when it
+// comes into being, as opposed to sub-views which get inserted into other views.
 
-merge = require('lodash').merge
+let RootView;
+const {
+  merge
+} = require('lodash');
 
-CocoView = require './CocoView'
+const CocoView = require('./CocoView');
 
-{logoutUser, me} = require('core/auth')
-locale = require 'locale/locale'
+const {logoutUser, me} = require('core/auth');
+const locale = require('locale/locale');
 
-Achievement = require 'models/Achievement'
-AchievementPopup = require 'views/core/AchievementPopup'
-errors = require 'core/errors'
-utils = require 'core/utils'
-userUtils = require '../../lib/user-utils'
+const Achievement = require('models/Achievement');
+const AchievementPopup = require('views/core/AchievementPopup');
+let errors = require('core/errors');
+const utils = require('core/utils');
+const userUtils = require('../../lib/user-utils');
 
-BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
-Navigation = require('app/components/common/Navigation.vue').default
-Footer = require('app/components/common/Footer.vue').default
-store = require 'core/store'
+const BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default;
+const Navigation = require('app/components/common/Navigation.vue').default;
+const Footer = require('app/components/common/Footer.vue').default;
+const store = require('core/store');
 
 
-filterKeyboardEvents = (allowedEvents, func) ->
-  return (splat...) ->
-    e = splat[0]
-    return unless e.keyCode in allowedEvents or not e.keyCode
-    return func(splat...)
+const filterKeyboardEvents = (allowedEvents, func) => (function(...splat) {
+  const e = splat[0];
+  if (!Array.from(allowedEvents).includes(e.keyCode) && !!e.keyCode) { return; }
+  return func(...Array.from(splat || []));
+});
 
-module.exports = class RootView extends CocoView
-  showBackground: true
+module.exports = (RootView = (function() {
+  RootView = class RootView extends CocoView {
+    static initClass() {
+      this.prototype.showBackground = true;
+  
+      this.prototype.events = {
+        'click #logout-button': 'logoutAccount',
+        'click #nav-stop-spying-button': 'stopSpying',
+        'click #nav-stop-switching-button': 'stopSwitching',
+        'click #nav-student-mode': 'switchToStudentMode',
+        'change .language-dropdown': 'onLanguageChanged',
+        'click .language-dropdown li': 'onLanguageChanged',
+        'click .toggle-fullscreen': 'toggleFullscreen',
+        'click .signup-button': 'onClickSignupButton',
+        'click .login-button': 'onClickLoginButton',
+        'treema-error': 'onTreemaError',
+        'click [data-i18n]': 'onClickTranslatedElement',
+        'click .track-click-event': 'onTrackClickEvent'
+      };
+  
+      this.prototype.subscriptions =
+        {'achievements:new': 'handleNewAchievements'};
+  
+      this.prototype.shortcuts =
+        {'ctrl+shift+a': 'navigateToAdmin'};
+          //console.log 'Saved language:', newLang
+  
+      this.prototype.isOldBrowser = utils.isOldBrowser;
+  
+      this.prototype.isChinaOldBrowser = utils.isChinaOldBrowser;
+  
+      this.prototype.logoutRedirectURL = '/';
+    }
 
-  events:
-    'click #logout-button': 'logoutAccount'
-    'click #nav-stop-spying-button': 'stopSpying'
-    'click #nav-stop-switching-button': 'stopSwitching'
-    'click #nav-student-mode': 'switchToStudentMode'
-    'change .language-dropdown': 'onLanguageChanged'
-    'click .language-dropdown li': 'onLanguageChanged'
-    'click .toggle-fullscreen': 'toggleFullscreen'
-    'click .signup-button': 'onClickSignupButton'
-    'click .login-button': 'onClickLoginButton'
-    'treema-error': 'onTreemaError'
-    'click [data-i18n]': 'onClickTranslatedElement'
-    'click .track-click-event': 'onTrackClickEvent'
+    initialize(options) {
+      super.initialize(options);
 
-  subscriptions:
-    'achievements:new': 'handleNewAchievements'
+      try {
+        return this.initializeMetaBinding();
+      } catch (e) {
+        return console.error('Failed to initialize meta binding', e);
+      }
+    }
 
-  shortcuts:
-    'ctrl+shift+a': 'navigateToAdmin'
+    showNewAchievement(achievement, earnedAchievement) {
+      earnedAchievement.set('notified', true);
+      earnedAchievement.patch();
+      if ((achievement.get('collection') === 'level.sessions') && !__guard__(achievement.get('query'), x => x.team)) { return; }
+      //return if @isIE()  # Some bugs in IE right now, TODO fix soon!  # Maybe working now with not caching achievement fetches in CocoModel?
+      if (window.serverConfig.picoCTF) { return; }
+      if (achievement.get('hidden')) { return; }
+      return new AchievementPopup({achievement, earnedAchievement});
+    }
 
-  initialize: (options) ->
-    super(options)
+    handleNewAchievements(e) {
+      return _.each(e.earnedAchievements.models, earnedAchievement => {
+        const achievement = new Achievement({_id: earnedAchievement.get('achievement')});
+        return achievement.fetch({
+          success: achievement => (typeof this.showNewAchievement === 'function' ? this.showNewAchievement(achievement, earnedAchievement) : undefined),
+          cache: false
+        });
+      });
+    }
 
-    try
-      @initializeMetaBinding()
-    catch e
-      console.error 'Failed to initialize meta binding', e
+    logoutAccount() {
+      if (application.isIPadApp) { __guard__(__guard__(__guard__(typeof window !== 'undefined' && window !== null ? window.webkit : undefined, x2 => x2.messageHandlers), x1 => x1.notification), x => x.postMessage({name: "signOut"})); }
+      Backbone.Mediator.publish("auth:logging-out", {});
+      if (this.id === 'home-view') { if (window.tracker != null) {
+        window.tracker.trackEvent('Log Out', {category: 'Homepage'});
+      } }
+      if (me.isTarena()) {
+        return logoutUser({
+          success() {
+            return window.location = "http://kidtts.tmooc.cn/ttsPage/login.html";
+          }
+        });
+      } else {
+        return logoutUser();
+      }
+    }
 
-  showNewAchievement: (achievement, earnedAchievement) ->
-    earnedAchievement.set('notified', true)
-    earnedAchievement.patch()
-    return if achievement.get('collection') is 'level.sessions' and not achievement.get('query')?.team
-    #return if @isIE()  # Some bugs in IE right now, TODO fix soon!  # Maybe working now with not caching achievement fetches in CocoModel?
-    return if window.serverConfig.picoCTF
-    return if achievement.get('hidden')
-    new AchievementPopup achievement: achievement, earnedAchievement: earnedAchievement
-
-  handleNewAchievements: (e) ->
-    _.each e.earnedAchievements.models, (earnedAchievement) =>
-      achievement = new Achievement(_id: earnedAchievement.get('achievement'))
-      achievement.fetch
-        success: (achievement) => @showNewAchievement?(achievement, earnedAchievement)
-        cache: false
-
-  logoutAccount: ->
-    window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if application.isIPadApp
-    Backbone.Mediator.publish("auth:logging-out", {})
-    window.tracker?.trackEvent 'Log Out', category: 'Homepage' if @id is 'home-view'
-    if me.isTarena()
-      logoutUser({
-        success: ->
-          window.location = "http://kidtts.tmooc.cn/ttsPage/login.html"
-      })
-    else
-      logoutUser()
-
-  stopSpying: ->
-    me.stopSpying({
-      success: -> document.location.reload()
-      error: ->
-        errors.showNotyNetworkError(arguments...)
-    })
-
-  stopSwitching: ->
-    text = 'Switching to teacher account..'
-    noty({ text, type: 'success', timeout: 5000, killer: true })
-    me.switchToTeacherMode()
-      .then(() -> document.location.reload())
-      .catch((err) -> errors.showNotyNetworkError(err))
-
-  switchToStudentMode: ->
-    text = 'Switching to test student account..'
-    noty({ text, type: 'success', timeout: 5000, killer: true })
-    me.switchToStudentMode()
-      .then(() -> window.location.reload())
-      .catch((err) -> errors.showNotyNetworkError(err))
-
-  onClickSignupButton: (e) ->
-    CreateAccountModal = require 'views/core/CreateAccountModal'
-    switch @id
-      when 'home-view'
-        properties = {
-          category: 'Homepage'
+    stopSpying() {
+      return me.stopSpying({
+        success() { return document.location.reload(); },
+        error() {
+          return errors.showNotyNetworkError(...arguments);
         }
-        window.tracker?.trackEvent('Started Signup', properties)
-        eventAction = $(e.target)?.data('event-action')
-        window.tracker?.trackEvent(eventAction, properties) if eventAction
-      when 'world-map-view'
-        # TODO: add campaign data
-        window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
-      else
-        window.tracker?.trackEvent 'Started Signup', label: @id
-    options = {}
-    if userUtils.isInLibraryNetwork()
-      options.startOnPath = 'individual'
-    @openModalView new CreateAccountModal(options)
+      });
+    }
 
-  onClickLoginButton: (e) ->
-    AuthModal = require 'views/core/AuthModal'
-    if @id is 'home-view'
-      properties = { category: 'Homepage' }
-      window.tracker?.trackEvent 'Login', properties
+    stopSwitching() {
+      const text = 'Switching to teacher account..';
+      noty({ text, type: 'success', timeout: 5000, killer: true });
+      return me.switchToTeacherMode()
+        .then(() => document.location.reload())
+        .catch(err => errors.showNotyNetworkError(err));
+    }
 
-      eventAction = $(e.target)?.data('event-action')
-      window.tracker?.trackEvent(eventAction, properties) if eventAction
-    @openModalView new AuthModal()
+    switchToStudentMode() {
+      const text = 'Switching to test student account..';
+      noty({ text, type: 'success', timeout: 5000, killer: true });
+      return me.switchToStudentMode()
+        .then(() => window.location.reload())
+        .catch(err => errors.showNotyNetworkError(err));
+    }
 
-  onTrackClickEvent: (e) ->
-    eventAction = $(e.target)?.closest('a')?.data('event-action')
-    if eventAction
-      window.tracker?.trackEvent eventAction, { category: 'Teachers' }
+    onClickSignupButton(e) {
+      const CreateAccountModal = require('views/core/CreateAccountModal');
+      switch (this.id) {
+        case 'home-view':
+          var properties = {
+            category: 'Homepage'
+          };
+          if (window.tracker != null) {
+            window.tracker.trackEvent('Started Signup', properties);
+          }
+          var eventAction = __guard__($(e.target), x => x.data('event-action'));
+          if (eventAction) { if (window.tracker != null) {
+            window.tracker.trackEvent(eventAction, properties);
+          } }
+          break;
+        case 'world-map-view':
+          // TODO: add campaign data
+          if (window.tracker != null) {
+            window.tracker.trackEvent('Started Signup', {category: 'World Map', label: 'World Map'});
+          }
+          break;
+        default:
+          if (window.tracker != null) {
+            window.tracker.trackEvent('Started Signup', {label: this.id});
+          }
+      }
+      const options = {};
+      if (userUtils.isInLibraryNetwork()) {
+        options.startOnPath = 'individual';
+      }
+      return this.openModalView(new CreateAccountModal(options));
+    }
 
-  showLoading: ($el) ->
-    $el ?= @$el.find('#site-content-area')
-    super($el)
+    onClickLoginButton(e) {
+      const AuthModal = require('views/core/AuthModal');
+      if (this.id === 'home-view') {
+        const properties = { category: 'Homepage' };
+        if (window.tracker != null) {
+          window.tracker.trackEvent('Login', properties);
+        }
 
-  afterInsert: ->
-    # force the browser to scroll to the hash
-    # also messes with the browser history, so perhaps come up with a better solution
-    super()
-    #hash = location.hash
-    #location.hash = ''
-    #location.hash = hash
-    @renderScrollbar()
+        const eventAction = __guard__($(e.target), x => x.data('event-action'));
+        if (eventAction) { if (window.tracker != null) {
+          window.tracker.trackEvent(eventAction, properties);
+        } }
+      }
+      return this.openModalView(new AuthModal());
+    }
 
-    # Ensure navigation displays when visting SingletonAppVueComponentView.
-    @initializeNavigation()
+    onTrackClickEvent(e) {
+      const eventAction = __guard__(__guard__($(e.target), x1 => x1.closest('a')), x => x.data('event-action'));
+      if (eventAction) {
+        return (window.tracker != null ? window.tracker.trackEvent(eventAction, { category: 'Teachers' }) : undefined);
+      }
+    }
 
-  afterRender: ->
-    if @$el.find('#main-nav.legacy').length # hack...
-      @$el.addClass('site-chrome')
-      if @showBackground
-        @$el.addClass('show-background')
+    showLoading($el) {
+      if ($el == null) { $el = this.$el.find('#site-content-area'); }
+      return super.showLoading($el);
+    }
 
-    super(arguments...)
-    @chooseTab(location.hash.replace('#', '')) if location.hash
-    @buildLanguages()
-    $('body').removeClass('is-playing')
-    @initializeNavigation()
+    afterInsert() {
+      // force the browser to scroll to the hash
+      // also messes with the browser history, so perhaps come up with a better solution
+      super.afterInsert();
+      //hash = location.hash
+      //location.hash = ''
+      //location.hash = hash
+      this.renderScrollbar();
 
-  chooseTab: (category) ->
-    $("a[href='##{category}']", @$el).tab('show')
+      // Ensure navigation displays when visting SingletonAppVueComponentView.
+      return this.initializeNavigation();
+    }
 
-  # TODO: automate tabs to put in hashes when they are clicked
-
-  buildLanguages: ->
-    $select = @$el.find('.language-dropdown').empty()
-    preferred = me.get('preferredLanguage', true)
-    @addLanguagesToSelect($select, preferred)
-    $('body').attr('lang', preferred)
-
-  addLanguagesToSelect: ($select, initialVal) ->
-    initialVal ?= me.get('preferredLanguage', true)
-    if $select.is('ul') # base-flat
-      @$el.find('.language-dropdown-current')?.text(locale[initialVal].nativeDescription)
-    codes = _.keys(locale)
-    genericCodes = _.filter codes, (code) ->
-      _.find(codes, (code2) ->
-        code2 isnt code and code2.split('-')[0] is code)
-    for code, localeInfo of locale when (not (code in genericCodes) or code is initialVal)
-      if $select.is('ul') # base-flat template
-        $select.append(
-          $('<li data-code="' + code + '"><a class="language-dropdown-item" href="#">' + localeInfo.nativeDescription + '</a></li>'))
-        if code is 'pt-BR'
-          $select.append($('<li role="separator" class="divider"</li>'))
-      else # base template
-        $select.append($('<option></option>').val(code).text(localeInfo.nativeDescription))
-        if code is 'pt-BR'
-          $select.append(
-            $('<option class="select-dash" disabled="disabled"></option>').text('----------------------------------'))
-        $select.val(initialVal)
-
-  onLanguageChanged: (event)->
-    targetElem = $(event.currentTarget)
-    if targetElem.is('li') # base-flat template
-      newLang = targetElem.data('code')
-      @$el.find('.language-dropdown-current')?.text(locale[newLang].nativeDescription)
-    else # base template
-      newLang = $('.language-dropdown').val()
-    $.i18n.changeLanguage newLang, =>
-      @saveLanguage(newLang)
-      locale.load(me.get('preferredLanguage', true)).then =>
-        @onLanguageLoaded()
-
-  onLanguageLoaded: ->
-    @render()
-    unless me.get('preferredLanguage').split('-')[0] is 'en' or me.hideDiplomatModal()
-      DiplomatModal = require 'views/core/DiplomatSuggestionModal'
-      @openModalView(new DiplomatModal())
-
-  saveLanguage: (newLang) ->
-    me.set('preferredLanguage', newLang)
-    res = me.patch()
-    return unless res
-    res.error ->
-      errors = JSON.parse(res.responseText)
-      console.warn 'Error saving language:', errors
-    res.success (model, response, options) ->
-      #console.log 'Saved language:', newLang
-
-  isOldBrowser: utils.isOldBrowser
-
-  isChinaOldBrowser: utils.isChinaOldBrowser
-
-  logoutRedirectURL: '/'
-
-  navigateToAdmin: ->
-    if window.serverSession.amActually or me.isAdmin()
-      application.router.navigate('/admin', {trigger: true})
-
-  onTreemaError: (e) ->
-    noty text: e.message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true
-
-  # Initialize the binding to vue-meta by initializing a Vue component that sets the head tags
-  # on render.  This binding will be destroyed via the Vue component's $destory method when
-  # this view is destroyed.  Views can specify @skipMetaBinding = true when they want to manage
-  # head tags in their own way.  This is useful for legacy Vue components that eventually inherit
-  # from RootView (ie RootComponent and VueComponentView).  These views can use vue-meta directly
-  # within their Vue components.
-  initializeMetaBinding: ->
-    if @metaBinding
-      return @metaBinding
-
-    # Set a noop meta binding object when the view opts to skip meta binding
-    if @skipMetaBinding
-      return @metaBinding = {
-        $destroy: ->
-        setMeta: ->
+    afterRender() {
+      if (this.$el.find('#main-nav.legacy').length) { // hack...
+        this.$el.addClass('site-chrome');
+        if (this.showBackground) {
+          this.$el.addClass('show-background');
+        }
       }
 
-    legacyTitle = @getTitle()
-    if localStorage?.showViewNames
-      legacyTitle = @constructor.name
+      super.afterRender(...arguments);
+      if (location.hash) { this.chooseTab(location.hash.replace('#', '')); }
+      this.buildLanguages();
+      $('body').removeClass('is-playing');
+      return this.initializeNavigation();
+    }
 
-    # Create an empty, mounted element so that the vue component actually renders and runs vue-meta
-    @metaBinding = new BackboneVueMetaBinding({
-      el: document.createElement('div'),
-      propsData: {
-        baseMeta: @getMeta(),
-        legacyTitle: legacyTitle
+    chooseTab(category) {
+      return $(`a[href='#${category}']`, this.$el).tab('show');
+    }
+
+    // TODO: automate tabs to put in hashes when they are clicked
+
+    buildLanguages() {
+      const $select = this.$el.find('.language-dropdown').empty();
+      const preferred = me.get('preferredLanguage', true);
+      this.addLanguagesToSelect($select, preferred);
+      return $('body').attr('lang', preferred);
+    }
+
+    addLanguagesToSelect($select, initialVal) {
+      if (initialVal == null) { initialVal = me.get('preferredLanguage', true); }
+      if ($select.is('ul')) { // base-flat
+        __guard__(this.$el.find('.language-dropdown-current'), x => x.text(locale[initialVal].nativeDescription));
       }
-    })
+      const codes = _.keys(locale);
+      const genericCodes = _.filter(codes, code => _.find(codes, code2 => (code2 !== code) && (code2.split('-')[0] === code)));
+      return (() => {
+        const result = [];
+        for (var code in locale) {
+          var localeInfo = locale[code];
+          if (!(Array.from(genericCodes).includes(code)) || (code === initialVal)) {
+            if ($select.is('ul')) { // base-flat template
+              $select.append(
+                $('<li data-code="' + code + '"><a class="language-dropdown-item" href="#">' + localeInfo.nativeDescription + '</a></li>'));
+              if (code === 'pt-BR') {
+                result.push($select.append($('<li role="separator" class="divider"</li>')));
+              } else {
+                result.push(undefined);
+              }
+            } else { // base template
+              $select.append($('<option></option>').val(code).text(localeInfo.nativeDescription));
+              if (code === 'pt-BR') {
+                $select.append(
+                  $('<option class="select-dash" disabled="disabled"></option>').text('----------------------------------'));
+              }
+              result.push($select.val(initialVal));
+            }
+          }
+        }
+        return result;
+      })();
+    }
 
-  # Attach the navigation Vue component to the page
-  initializeNavigation: ->
-    if staticNav = document.querySelector('#main-nav')
-      if @navigation
-        staticNav.replaceWith(@navigation.$el)
-      else
-        @navigation = new Navigation { el: staticNav, store }
-        # Hack - It would be better for the Navigation component to manage the language dropdown.
-        _.defer => @buildLanguages?()
-    if staticFooter = document.querySelector('#site-footer')
-      if @footer
-        staticFooter.replaceWith(@footer.$el)
-      else
-        @footer = new Footer { el: staticFooter, store }
+    onLanguageChanged(event){
+      let newLang;
+      const targetElem = $(event.currentTarget);
+      if (targetElem.is('li')) { // base-flat template
+        newLang = targetElem.data('code');
+        __guard__(this.$el.find('.language-dropdown-current'), x => x.text(locale[newLang].nativeDescription));
+      } else { // base template
+        newLang = $('.language-dropdown').val();
+      }
+      return $.i18n.changeLanguage(newLang, () => {
+        this.saveLanguage(newLang);
+        return locale.load(me.get('preferredLanguage', true)).then(() => {
+          return this.onLanguageLoaded();
+        });
+      });
+    }
 
-  # Set the page title when the view is loaded.  This value is merged into the
-  # result of getMeta.  It will override any title specified in getMeta.  Kept
-  # for backwards compatibility
-  getTitle: -> ''
+    onLanguageLoaded() {
+      this.render();
+      if ((me.get('preferredLanguage').split('-')[0] !== 'en') && !me.hideDiplomatModal()) {
+        const DiplomatModal = require('views/core/DiplomatSuggestionModal');
+        return this.openModalView(new DiplomatModal());
+      }
+    }
 
-  # Head tag configuration used to configure vue-meta when the View is loaded.
-  # See https://vue-meta.nuxtjs.org/ for available configuration options.  This
-  # can be later modified by calling setMeta
-  getMeta: -> {}
+    saveLanguage(newLang) {
+      me.set('preferredLanguage', newLang);
+      const res = me.patch();
+      if (!res) { return; }
+      res.error(function() {
+        errors = JSON.parse(res.responseText);
+        return console.warn('Error saving language:', errors);
+      });
+      return res.success(function(model, response, options) {});
+    }
 
-  # Allow async updates of the view's meta configuration.  This can be used in addition to getMeta
-  # to update meta configuration when the meta configuration is computed asynchronously
-  setMeta: (meta) ->
-    @metaBinding.setMeta(meta)
+    navigateToAdmin() {
+      if (window.serverSession.amActually || me.isAdmin()) {
+        return application.router.navigate('/admin', {trigger: true});
+      }
+    }
 
-  destroy: ->
-    @metaBinding?.$destroy()
-    @navigation?.$destroy()
-    @footer?.$destroy()
-    super()
+    onTreemaError(e) {
+      return noty({text: e.message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true});
+    }
+
+    // Initialize the binding to vue-meta by initializing a Vue component that sets the head tags
+    // on render.  This binding will be destroyed via the Vue component's $destory method when
+    // this view is destroyed.  Views can specify @skipMetaBinding = true when they want to manage
+    // head tags in their own way.  This is useful for legacy Vue components that eventually inherit
+    // from RootView (ie RootComponent and VueComponentView).  These views can use vue-meta directly
+    // within their Vue components.
+    initializeMetaBinding() {
+      if (this.metaBinding) {
+        return this.metaBinding;
+      }
+
+      // Set a noop meta binding object when the view opts to skip meta binding
+      if (this.skipMetaBinding) {
+        return this.metaBinding = {
+          $destroy() {},
+          setMeta() {}
+        };
+      }
+
+      let legacyTitle = this.getTitle();
+      if (typeof localStorage !== 'undefined' && localStorage !== null ? localStorage.showViewNames : undefined) {
+        legacyTitle = this.constructor.name;
+      }
+
+      // Create an empty, mounted element so that the vue component actually renders and runs vue-meta
+      return this.metaBinding = new BackboneVueMetaBinding({
+        el: document.createElement('div'),
+        propsData: {
+          baseMeta: this.getMeta(),
+          legacyTitle
+        }
+      });
+    }
+
+    // Attach the navigation Vue component to the page
+    initializeNavigation() {
+      let staticFooter, staticNav;
+      if (staticNav = document.querySelector('#main-nav')) {
+        if (this.navigation) {
+          staticNav.replaceWith(this.navigation.$el);
+        } else {
+          this.navigation = new Navigation({ el: staticNav, store });
+          // Hack - It would be better for the Navigation component to manage the language dropdown.
+          _.defer(() => (typeof this.buildLanguages === 'function' ? this.buildLanguages() : undefined));
+        }
+      }
+      if (staticFooter = document.querySelector('#site-footer')) {
+        if (this.footer) {
+          return staticFooter.replaceWith(this.footer.$el);
+        } else {
+          return this.footer = new Footer({ el: staticFooter, store });
+        }
+      }
+    }
+
+    // Set the page title when the view is loaded.  This value is merged into the
+    // result of getMeta.  It will override any title specified in getMeta.  Kept
+    // for backwards compatibility
+    getTitle() { return ''; }
+
+    // Head tag configuration used to configure vue-meta when the View is loaded.
+    // See https://vue-meta.nuxtjs.org/ for available configuration options.  This
+    // can be later modified by calling setMeta
+    getMeta() { return {}; }
+
+    // Allow async updates of the view's meta configuration.  This can be used in addition to getMeta
+    // to update meta configuration when the meta configuration is computed asynchronously
+    setMeta(meta) {
+      return this.metaBinding.setMeta(meta);
+    }
+
+    destroy() {
+      if (this.metaBinding != null) {
+        this.metaBinding.$destroy();
+      }
+      if (this.navigation != null) {
+        this.navigation.$destroy();
+      }
+      if (this.footer != null) {
+        this.footer.$destroy();
+      }
+      return super.destroy();
+    }
+  };
+  RootView.initClass();
+  return RootView;
+})());
+
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

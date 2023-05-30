@@ -1,56 +1,92 @@
-require('app/styles/artisans/tag-test-view.sass')
-RootView = require 'views/core/RootView'
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/artisans/tag-test-view'
-tagger = require 'lib/SolutionConceptTagger'
-conceptList =require 'schemas/concepts'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ThangTasksView;
+require('app/styles/artisans/tag-test-view.sass');
+const RootView = require('views/core/RootView');
+const CocoView = require('views/core/CocoView');
+const template = require('app/templates/artisans/tag-test-view');
+const tagger = require('lib/SolutionConceptTagger');
+const conceptList =require('schemas/concepts');
 
-ThangType = require 'models/ThangType'
+const ThangType = require('models/ThangType');
 
-ThangTypes = require 'collections/ThangTypes'
-ace = require('lib/aceContainer')
+const ThangTypes = require('collections/ThangTypes');
+const ace = require('lib/aceContainer');
 
-class ActualTagView extends CocoView
-  template: require 'app/templates/artisans/tag-test-tags-view'
-  id: 'tag-test-tags-view'
+class ActualTagView extends CocoView {
+  static initClass() {
+    this.prototype.template = require('app/templates/artisans/tag-test-tags-view');
+    this.prototype.id = 'tag-test-tags-view';
+  }
+}
+ActualTagView.initClass();
 
-module.exports = class ThangTasksView extends RootView
-  template: template
-  id: 'tag-test-view'
-  events:
-    'input input': 'processThangs'
-    'change input': 'processThangs'
+module.exports = (ThangTasksView = (function() {
+  ThangTasksView = class ThangTasksView extends RootView {
+    constructor(...args) {
+      this.updateTags = this.updateTags.bind(this);
+      super(...args);
+    }
 
-  initialize: () ->
-    @tags = []
-    console.log "Hello"
-    @debouncedUpdateTags = _.debounce @updateTags, 1000
+    static initClass() {
+      this.prototype.template = template;
+      this.prototype.id = 'tag-test-view';
+      this.prototype.events = {
+        'input input': 'processThangs',
+        'change input': 'processThangs'
+      };
+    }
 
-  afterRender: () ->
-    @insertSubView @tagView = new ActualTagView()
-    ta = @$el.find('#tag-test-editor')
-    @editor = ace.edit ta[0]
-    @editor.resize()
-    @editor.getSession().setMode("ace/mode/javascript")
-    @editor.getSession().on 'change', () =>
-      @tagView.tags = []
-      @tagView.error = undefined
-      @tagView.render()
-      @debouncedUpdateTags()
+    initialize() {
+      this.tags = [];
+      console.log("Hello");
+      return this.debouncedUpdateTags = _.debounce(this.updateTags, 1000);
+    }
 
-    @editor.setValue(localStorage.code||'')
-    @editor.focus()
-    @updateTags()
+    afterRender() {
+      this.insertSubView(this.tagView = new ActualTagView());
+      const ta = this.$el.find('#tag-test-editor');
+      this.editor = ace.edit(ta[0]);
+      this.editor.resize();
+      this.editor.getSession().setMode("ace/mode/javascript");
+      this.editor.getSession().on('change', () => {
+        this.tagView.tags = [];
+        this.tagView.error = undefined;
+        this.tagView.render();
+        return this.debouncedUpdateTags();
+      });
 
-  updateTags: () =>
-    code = @editor.getValue()
-    @tagView.tags = []
-    @tagView.error = undefined
-    localStorage.code = code
-    try
-      @tagView.tags = _.map tagger(source: code), (t) -> _.find(conceptList, (e) => e.concept is t)?.name
-    catch e
-      @tagView.error = e.stack
+      this.editor.setValue(localStorage.code||'');
+      this.editor.focus();
+      return this.updateTags();
+    }
 
-    @tagView.render()
-    console.log "Update tags"
+    updateTags() {
+      const code = this.editor.getValue();
+      this.tagView.tags = [];
+      this.tagView.error = undefined;
+      localStorage.code = code;
+      try {
+        this.tagView.tags = _.map(tagger({source: code}), t => __guard__(_.find(conceptList, e => e.concept === t), x => x.name));
+      } catch (error) {
+        const e = error;
+        this.tagView.error = e.stack;
+      }
+
+      this.tagView.render();
+      return console.log("Update tags");
+    }
+  };
+  ThangTasksView.initClass();
+  return ThangTasksView;
+})());
+
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

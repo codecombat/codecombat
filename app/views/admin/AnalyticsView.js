@@ -1,1096 +1,1394 @@
-require('app/styles/admin/analytics.sass')
-CocoCollection = require 'collections/CocoCollection'
-Course = require 'models/Course'
-CourseInstance = require 'models/CourseInstance'
-require 'd3/d3.js'
-d3Utils = require 'core/d3_utils'
-Payment = require 'models/Payment'
-RootView = require 'views/core/RootView'
-template = require 'app/templates/admin/analytics'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS104: Avoid inline assignments
+ * DS202: Simplify dynamic range loops
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let AnalyticsView;
+require('app/styles/admin/analytics.sass');
+const CocoCollection = require('collections/CocoCollection');
+const Course = require('models/Course');
+const CourseInstance = require('models/CourseInstance');
+require('d3/d3.js');
+const d3Utils = require('core/d3_utils');
+const Payment = require('models/Payment');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/admin/analytics');
+const utils = require('core/utils');
 
-# TODO: terminal subscription purchases entered as DRR monthly subs, but should be spread across their timeframe
+// TODO: terminal subscription purchases entered as DRR monthly subs, but should be spread across their timeframe
 
-module.exports = class AnalyticsView extends RootView
-  id: 'admin-analytics-view'
-  template: template
-  furthestCourseDayRangeRecent: 60
-  furthestCourseDayRange: 365
-  lineColors: ['red', 'blue', 'green', 'purple', 'goldenrod', 'brown', 'darkcyan']
-  minSchoolCount: 20
-  allTimeStartDate: new Date("2014-11-12")
+module.exports = (AnalyticsView = (function() {
+  AnalyticsView = class AnalyticsView extends RootView {
+    static initClass() {
+      this.prototype.id = 'admin-analytics-view';
+      this.prototype.template = template;
+      this.prototype.furthestCourseDayRangeRecent = 60;
+      this.prototype.furthestCourseDayRange = 365;
+      this.prototype.lineColors = ['red', 'blue', 'green', 'purple', 'goldenrod', 'brown', 'darkcyan'];
+      this.prototype.minSchoolCount = 20;
+      this.prototype.allTimeStartDate = new Date("2014-11-12");
+    }
 
-  initialize: ->
-    @activeClasses = []
-    @activeClassGroups = {}
-    @activeUsers = []
-    @dayMrrMap = {}
-    @weekMrrMap = {}
-    @monthMrrMap = {}
-    @revenue = []
-    @revenueGroups = {}
-    @dayEnrollmentsMap = {}
-    @enrollmentDays = []
-    @loadData()
+    initialize() {
+      this.activeClasses = [];
+      this.activeClassGroups = {};
+      this.activeUsers = [];
+      this.dayMrrMap = {};
+      this.weekMrrMap = {};
+      this.monthMrrMap = {};
+      this.revenue = [];
+      this.revenueGroups = {};
+      this.dayEnrollmentsMap = {};
+      this.enrollmentDays = [];
+      return this.loadData();
+    }
 
-  afterRender: ->
-    super()
-    @createLineCharts()
+    afterRender() {
+      super.afterRender();
+      return this.createLineCharts();
+    }
 
-  loadData: ->
-    @supermodel.addRequestResource({
-      url: '/db/analytics_perday/-/active_classes'
-      method: 'POST'
-      success: (data) =>
-        # Organize data by day, then group
-        groupMap = {}
-        dayGroupMap = {}
-        for activeClass in data
-          dayGroupMap[activeClass.day] ?= {}
-          dayGroupMap[activeClass.day]['Total'] = 0
-          for group, val of activeClass.classes
-            groupMap[group] = true
-            dayGroupMap[activeClass.day][group] = val
-            dayGroupMap[activeClass.day]['Total'] += val
-        @activeClassGroups = Object.keys(groupMap)
-        @activeClassGroups.push 'Total'
-        # Build list of active classes, where each entry is a day of individual group values
-        @activeClasses = []
-        for day of dayGroupMap
-          dashedDay = "#{day.substring(0, 4)}-#{day.substring(4, 6)}-#{day.substring(6, 8)}"
-          data = day: dashedDay, groups: []
-          for group in @activeClassGroups
-            data.groups.push(dayGroupMap[day][group] ? 0)
-          @activeClasses.push data
-        @activeClasses.sort (a, b) -> b.day.localeCompare(a.day)
+    loadData() {
+      this.supermodel.addRequestResource({
+        url: '/db/analytics_perday/-/active_classes',
+        method: 'POST',
+        success: data => {
+          // Organize data by day, then group
+          let day, group;
+          const groupMap = {};
+          const dayGroupMap = {};
+          for (var activeClass of Array.from(data)) {
+            if (dayGroupMap[activeClass.day] == null) { dayGroupMap[activeClass.day] = {}; }
+            dayGroupMap[activeClass.day]['Total'] = 0;
+            for (group in activeClass.classes) {
+              var val = activeClass.classes[group];
+              groupMap[group] = true;
+              dayGroupMap[activeClass.day][group] = val;
+              dayGroupMap[activeClass.day]['Total'] += val;
+            }
+          }
+          this.activeClassGroups = Object.keys(groupMap);
+          this.activeClassGroups.push('Total');
+          // Build list of active classes, where each entry is a day of individual group values
+          this.activeClasses = [];
+          for (day in dayGroupMap) {
+            var dashedDay = `${day.substring(0, 4)}-${day.substring(4, 6)}-${day.substring(6, 8)}`;
+            data = {day: dashedDay, groups: []};
+            for (group of Array.from(this.activeClassGroups)) {
+              data.groups.push(dayGroupMap[day][group] != null ? dayGroupMap[day][group] : 0);
+            }
+            this.activeClasses.push(data);
+          }
+          this.activeClasses.sort((a, b) => b.day.localeCompare(a.day));
 
-        @updateAllKPIChartData()
-        @updateActiveClassesChartData()
-        @render?()
-    }, 0).load()
+          this.updateAllKPIChartData();
+          this.updateActiveClassesChartData();
+          return (typeof this.render === 'function' ? this.render() : undefined);
+        }
+      }, 0).load();
 
-    @supermodel.addRequestResource({
-      url: '/db/analytics_perday/-/active_users'
-      method: 'POST'
-      success: (data) =>
-        @activeUsers = data.map (a) ->
-          a.day = "#{a.day.substring(0, 4)}-#{a.day.substring(4, 6)}-#{a.day.substring(6, 8)}"
-          a
+      this.supermodel.addRequestResource({
+        url: '/db/analytics_perday/-/active_users',
+        method: 'POST',
+        success: data => {
+          let day;
+          this.activeUsers = data.map(function(a) {
+            a.day = `${a.day.substring(0, 4)}-${a.day.substring(4, 6)}-${a.day.substring(6, 8)}`;
+            return a;
+          });
 
-        # Add campaign/classroom DAU 30-day averages and daily totals
-        campaignDauTotals = []
-        classroomDauTotals = []
-        eventMap = {}
-        for entry in @activeUsers
-          day = entry.day
-          campaignDauTotal = 0
-          classroomDauTotal = 0
-          for event, count of entry.events
-            if event.indexOf('DAU campaign') >= 0
-              campaignDauTotal += count
-            else if event.indexOf('DAU classroom') >= 0
-              classroomDauTotal += count
-            eventMap[event] = true
-          entry.events['DAU campaign total'] = campaignDauTotal
-          eventMap['DAU campaign total'] = true
-          campaignDauTotals.unshift(campaignDauTotal)
-          campaignDauTotals.pop() while campaignDauTotals.length > 30
-          if campaignDauTotals.length is 30
-            entry.events['DAU campaign 30-day average'] = Math.round(_.reduce(campaignDauTotals, (a, b) -> a + b) / 30)
-            eventMap['DAU campaign 30-day average'] = true
-          entry.events['DAU classroom total'] = classroomDauTotal
-          eventMap['DAU classroom total'] = true
-          classroomDauTotals.unshift(classroomDauTotal)
-          classroomDauTotals.pop() while classroomDauTotals.length > 30
-          if classroomDauTotals.length is 30
-            entry.events['DAU classroom 30-day average'] = Math.round(_.reduce(classroomDauTotals, (a, b) -> a + b) / 30)
-            eventMap['DAU classroom 30-day average'] = true
+          // Add campaign/classroom DAU 30-day averages and daily totals
+          const campaignDauTotals = [];
+          const classroomDauTotals = [];
+          const eventMap = {};
+          for (var entry of Array.from(this.activeUsers)) {
+            ({
+              day
+            } = entry);
+            var campaignDauTotal = 0;
+            var classroomDauTotal = 0;
+            for (var event in entry.events) {
+              var count = entry.events[event];
+              if (event.indexOf('DAU campaign') >= 0) {
+                campaignDauTotal += count;
+              } else if (event.indexOf('DAU classroom') >= 0) {
+                classroomDauTotal += count;
+              }
+              eventMap[event] = true;
+            }
+            entry.events['DAU campaign total'] = campaignDauTotal;
+            eventMap['DAU campaign total'] = true;
+            campaignDauTotals.unshift(campaignDauTotal);
+            while (campaignDauTotals.length > 30) { campaignDauTotals.pop(); }
+            if (campaignDauTotals.length === 30) {
+              entry.events['DAU campaign 30-day average'] = Math.round(_.reduce(campaignDauTotals, (a, b) => a + b) / 30);
+              eventMap['DAU campaign 30-day average'] = true;
+            }
+            entry.events['DAU classroom total'] = classroomDauTotal;
+            eventMap['DAU classroom total'] = true;
+            classroomDauTotals.unshift(classroomDauTotal);
+            while (classroomDauTotals.length > 30) { classroomDauTotals.pop(); }
+            if (classroomDauTotals.length === 30) {
+              entry.events['DAU classroom 30-day average'] = Math.round(_.reduce(classroomDauTotals, (a, b) => a + b) / 30);
+              eventMap['DAU classroom 30-day average'] = true;
+            }
+          }
 
-        @activeUsers.sort (a, b) -> b.day.localeCompare(a.day)
-        @activeUserEventNames = Object.keys(eventMap)
-        @activeUserEventNames.sort (a, b) ->
-          if a.indexOf('campaign') is b.indexOf('campaign') or a.indexOf('classroom') is b.indexOf('classroom')
-            a.localeCompare(b)
-          else if a.indexOf('campaign') > b.indexOf('campaign')
-            1
-          else
-            -1
+          this.activeUsers.sort((a, b) => b.day.localeCompare(a.day));
+          this.activeUserEventNames = Object.keys(eventMap);
+          this.activeUserEventNames.sort(function(a, b) {
+            if ((a.indexOf('campaign') === b.indexOf('campaign')) || (a.indexOf('classroom') === b.indexOf('classroom'))) {
+              return a.localeCompare(b);
+            } else if (a.indexOf('campaign') > b.indexOf('campaign')) {
+              return 1;
+            } else {
+              return -1;
+            }
+          });
 
-        @updateAllKPIChartData()
-        @updateActiveUsersChartData()
-        @updateCampaignVsClassroomActiveUsersChartData()
-        @render?()
-    }, 0).load()
+          this.updateAllKPIChartData();
+          this.updateActiveUsersChartData();
+          this.updateCampaignVsClassroomActiveUsersChartData();
+          return (typeof this.render === 'function' ? this.render() : undefined);
+        }
+      }, 0).load();
 
-    @supermodel.addRequestResource({
-      url: '/db/payments/-/all?nofree=true&project=created,gems,service,amount,productID,prepaidID'
-      method: 'GET'
-      success: (data) =>
+      this.supermodel.addRequestResource({
+        url: '/db/payments/-/all?nofree=true&project=created,gems,service,amount,productID,prepaidID',
+        method: 'GET',
+        success: data => {
 
-        revenueGroupFromPayment = (payment, price) ->
-          product = payment.productID or payment.service
-          if utils.isCodeCombat
-            lifetimeToAnnualChange = '2020-11-09'
-          if payment.productID is 'lifetime_subscription'
-            product = "usa lifetime"
-          else if /_lifetime_subscription/.test(payment.productID)
-            product = "intl lifetime"
-          else if utils.isCodeCombat and (payment.productID is 'basic_subscription' or not payment.productID) and price is 9900 and payment.created > lifetimeToAnnualChange
-            product = "usa annual"
-          else if payment.productID is 'basic_subscription'
-            product = "usa monthly"
-          else if utils.isCodeCombat and  (/_basic_subscription/.test(payment.productID) or not payment.productID) and (price in [3960, 3999]) and payment.created > lifetimeToAnnualChange
-            product = "intl annual"
-          else if /_basic_subscription/.test(payment.productID)
-            product = "intl monthly"
-          else if /gems/.test(payment.productID)
-            product = "gems"
-          else if payment.prepaidID
-            if price % 9.99 is 0
-              product = "usa monthly"
-            else
-              # NOTE: assumed to be classroom starter licenses
-              product = 'classroom'
-          else if payment.service is 'stripe' && (price is 399 || price is 400)
-            product = "intl monthly"
-          else if payment.service is 'stripe' && (price is 999 || price is 799)
-            product = "usa monthly"
-          else if price is 9900 || price >= 5999 && payment.gems is 42000
-            if utils.isCodeCombat and payment.created > lifetimeToAnnualChange
-              product = "usa annual"
-            else
-              product = "usa lifetime"
-          else if price is 0
-            product = "free"
-          else if payment.service is 'stripe' && price is 599 && payment.gems is 3500
-            product = 'intl monthly'
-          else if payment.service is 'paypal' && payment.gems is 42000 && price < 5999
-            if utils.isCodeCombat and payment.created > lifetimeToAnnualChange
-              product = "intl annual"
-            else
-              product = "intl lifetime"
-          else if payment.service is 'paypal' && payment.gems is 10500 && price is 2997
-            product = "usa monthly"
+          let annualDurationMonths, dailyGroup, day, group, i, lifetimeDurationMonths, monthlyGroup, revenue, week;
+          const revenueGroupFromPayment = function(payment, price) {
+            let lifetimeToAnnualChange;
+            let product = payment.productID || payment.service;
+            if (utils.isCodeCombat) {
+              lifetimeToAnnualChange = '2020-11-09';
+            }
+            if (payment.productID === 'lifetime_subscription') {
+              product = "usa lifetime";
+            } else if (/_lifetime_subscription/.test(payment.productID)) {
+              product = "intl lifetime";
+            } else if (utils.isCodeCombat && ((payment.productID === 'basic_subscription') || !payment.productID) && (price === 9900) && (payment.created > lifetimeToAnnualChange)) {
+              product = "usa annual";
+            } else if (payment.productID === 'basic_subscription') {
+              product = "usa monthly";
+            } else if (utils.isCodeCombat &&  (/_basic_subscription/.test(payment.productID) || !payment.productID) && ([3960, 3999].includes(price)) && (payment.created > lifetimeToAnnualChange)) {
+              product = "intl annual";
+            } else if (/_basic_subscription/.test(payment.productID)) {
+              product = "intl monthly";
+            } else if (/gems/.test(payment.productID)) {
+              product = "gems";
+            } else if (payment.prepaidID) {
+              if ((price % 9.99) === 0) {
+                product = "usa monthly";
+              } else {
+                // NOTE: assumed to be classroom starter licenses
+                product = 'classroom';
+              }
+            } else if ((payment.service === 'stripe') && ((price === 399) || (price === 400))) {
+              product = "intl monthly";
+            } else if ((payment.service === 'stripe') && ((price === 999) || (price === 799))) {
+              product = "usa monthly";
+            } else if ((price === 9900) || ((price >= 5999) && (payment.gems === 42000))) {
+              if (utils.isCodeCombat && (payment.created > lifetimeToAnnualChange)) {
+                product = "usa annual";
+              } else {
+                product = "usa lifetime";
+              }
+            } else if (price === 0) {
+              product = "free";
+            } else if ((payment.service === 'stripe') && (price === 599) && (payment.gems === 3500)) {
+              product = 'intl monthly';
+            } else if ((payment.service === 'paypal') && (payment.gems === 42000) && (price < 5999)) {
+              if (utils.isCodeCombat && (payment.created > lifetimeToAnnualChange)) {
+                product = "intl annual";
+              } else {
+                product = "intl lifetime";
+              }
+            } else if ((payment.service === 'paypal') && (payment.gems === 10500) && (price === 2997)) {
+              product = "usa monthly";
+            }
 
-          product = payment.service if product is 'custom'
-          product ?= "unknown"
+            if (product === 'custom') { product = payment.service; }
+            if (product == null) { product = "unknown"; }
 
-          product = 'gems' if product is 'ios'
-          # product = 'usa lifetime' if product is 'stripe'
-          if utils.isOzaria
-            product = 'unknown' if product in ['external', 'bitcoin', 'iem', 'paypal']
-          else
-            product = 'unknown' if product in ['external', 'bitcoin', 'iem', 'paypal', 'stripe']
+            if (product === 'ios') { product = 'gems'; }
+            // product = 'usa lifetime' if product is 'stripe'
+            if (utils.isOzaria) {
+              if (['external', 'bitcoin', 'iem', 'paypal'].includes(product)) { product = 'unknown'; }
+            } else {
+              if (['external', 'bitcoin', 'iem', 'paypal', 'stripe'].includes(product)) { product = 'unknown'; }
+            }
 
-          return product
+            return product;
+          };
 
-        # Organize data by day, then group
-        groupMap = {}
-        dayGroupCountMap = {}
-        for payment in data
-          continue unless payment.service in ['paypal', 'stripe']
-          if !payment.created
-            day = utils.objectIdToDate(payment._id).toISOString().substring(0, 10)
-          else
-            day = payment.created.substring(0, 10)
-          continue if day is new Date().toISOString().substring(0, 10)
-          price = parseInt(payment.amount)
-          dayGroupCountMap[day] ?= {'DRR Total': 0}
-          dayGroupCountMap[day]['DRR Total'] ?= 0
-          if utils.isOzaria
-            group = revenueGroupFromPayment(payment)
-          else
-            group = revenueGroupFromPayment(payment, price)
-          continue if group in ['free', 'classroom', 'unknown']
-          group = 'DRR ' + group
-          groupMap[group] = true
-          dayGroupCountMap[day][group] ?= 0
-          dayGroupCountMap[day][group] += price
-          dayGroupCountMap[day]['DRR Total'] += price
-        @revenueGroups = Object.keys(groupMap)
-        @revenueGroups.push 'DRR Total'
+          // Organize data by day, then group
+          const groupMap = {};
+          const dayGroupCountMap = {};
+          for (var payment of Array.from(data)) {
+            if (!['paypal', 'stripe'].includes(payment.service)) { continue; }
+            if (!payment.created) {
+              day = utils.objectIdToDate(payment._id).toISOString().substring(0, 10);
+            } else {
+              day = payment.created.substring(0, 10);
+            }
+            if (day === new Date().toISOString().substring(0, 10)) { continue; }
+            var price = parseInt(payment.amount);
+            if (dayGroupCountMap[day] == null) { dayGroupCountMap[day] = {'DRR Total': 0}; }
+            if (dayGroupCountMap[day]['DRR Total'] == null) { dayGroupCountMap[day]['DRR Total'] = 0; }
+            if (utils.isOzaria) {
+              group = revenueGroupFromPayment(payment);
+            } else {
+              group = revenueGroupFromPayment(payment, price);
+            }
+            if (['free', 'classroom', 'unknown'].includes(group)) { continue; }
+            group = 'DRR ' + group;
+            groupMap[group] = true;
+            if (dayGroupCountMap[day][group] == null) { dayGroupCountMap[day][group] = 0; }
+            dayGroupCountMap[day][group] += price;
+            dayGroupCountMap[day]['DRR Total'] += price;
+          }
+          this.revenueGroups = Object.keys(groupMap);
+          this.revenueGroups.push('DRR Total');
 
-        if utils.isOzaria
-          # Split lifetime values across 8 months based on 12% monthly churn
-          lifetimeDurationMonths = 8 # Needs to be an integer
-        else
-          # Used to split lifetime values across 8 months; now 12 for easy comparison to annual, unless we pass ?bookings=true (hack)
-          annualDurationMonths = if utils.getQueryVariable('bookings') then 1 else 12 # Needs to be an integer
-          lifetimeDurationMonths = annualDurationMonths  # Easy comparison
+          if (utils.isOzaria) {
+            // Split lifetime values across 8 months based on 12% monthly churn
+            lifetimeDurationMonths = 8; // Needs to be an integer
+          } else {
+            // Used to split lifetime values across 8 months; now 12 for easy comparison to annual, unless we pass ?bookings=true (hack)
+            annualDurationMonths = utils.getQueryVariable('bookings') ? 1 : 12; // Needs to be an integer
+            lifetimeDurationMonths = annualDurationMonths;  // Easy comparison
+          }
 
-        daysPerMonth = 30 #Close enough (needs to be an integer)
-        lifetimeDaySplit = lifetimeDurationMonths * daysPerMonth
+          const daysPerMonth = 30; //Close enough (needs to be an integer)
+          const lifetimeDaySplit = lifetimeDurationMonths * daysPerMonth;
 
-        # Build list of recurring revenue entries, where each entry is a day of individual group values
-        @revenue = []
-        serviceCarryForwardMap = {}
-        for day of dayGroupCountMap
-          data = {day, groups: []}
-          for group in @revenueGroups
-            if group in ['DRR intl lifetime', 'DRR usa lifetime']
-              serviceCarryForwardMap[group] ?= []
-              if dayGroupCountMap[day][group]
-                serviceCarryForwardMap[group].push({remaining: lifetimeDaySplit, value: (dayGroupCountMap[day][group] ? 0) / lifetimeDurationMonths})
-              data.groups.push(0)
-            else if utils.isCodeCombat and group in ['DRR intl annual', 'DRR usa annual']
-              serviceCarryForwardMap[group] ?= []
-              if dayGroupCountMap[day][group]
-                serviceCarryForwardMap[group].push({remaining: annualDurationMonths * daysPerMonth, value: (dayGroupCountMap[day][group] ? 0) / annualDurationMonths})
-              data.groups.push(0)
-            else if group is 'DRR Total'
-              if utils.isOzaria
-                # Add total, minus deferred lifetime values for this day
-                data.groups.push((dayGroupCountMap[day][group] ? 0) - (dayGroupCountMap[day]['DRR intl lifetime'] ? 0) - (dayGroupCountMap[day]['DRR usa lifetime'] ? 0))
-              else
-                # Add total, minus deferred lifetime/annual values for this day
-                data.groups.push((dayGroupCountMap[day][group] ? 0) - (dayGroupCountMap[day]['DRR intl lifetime'] ? 0) - (dayGroupCountMap[day]['DRR usa lifetime'] ? 0) - (dayGroupCountMap[day]['DRR intl annual'] ? 0) - (dayGroupCountMap[day]['DRR usa annual'] ? 0))
-            else
-              data.groups.push(dayGroupCountMap[day][group] ? 0)
+          // Build list of recurring revenue entries, where each entry is a day of individual group values
+          this.revenue = [];
+          const serviceCarryForwardMap = {};
+          for (day in dayGroupCountMap) {
+            data = {day, groups: []};
+            for (group of Array.from(this.revenueGroups)) {
+              if (['DRR intl lifetime', 'DRR usa lifetime'].includes(group)) {
+                if (serviceCarryForwardMap[group] == null) { serviceCarryForwardMap[group] = []; }
+                if (dayGroupCountMap[day][group]) {
+                  serviceCarryForwardMap[group].push({remaining: lifetimeDaySplit, value: (dayGroupCountMap[day][group] != null ? dayGroupCountMap[day][group] : 0) / lifetimeDurationMonths});
+                }
+                data.groups.push(0);
+              } else if (utils.isCodeCombat && ['DRR intl annual', 'DRR usa annual'].includes(group)) {
+                if (serviceCarryForwardMap[group] == null) { serviceCarryForwardMap[group] = []; }
+                if (dayGroupCountMap[day][group]) {
+                  serviceCarryForwardMap[group].push({remaining: annualDurationMonths * daysPerMonth, value: (dayGroupCountMap[day][group] != null ? dayGroupCountMap[day][group] : 0) / annualDurationMonths});
+                }
+                data.groups.push(0);
+              } else if (group === 'DRR Total') {
+                if (utils.isOzaria) {
+                  // Add total, minus deferred lifetime values for this day
+                  data.groups.push((dayGroupCountMap[day][group] != null ? dayGroupCountMap[day][group] : 0) - (dayGroupCountMap[day]['DRR intl lifetime'] != null ? dayGroupCountMap[day]['DRR intl lifetime'] : 0) - (dayGroupCountMap[day]['DRR usa lifetime'] != null ? dayGroupCountMap[day]['DRR usa lifetime'] : 0));
+                } else {
+                  // Add total, minus deferred lifetime/annual values for this day
+                  data.groups.push((dayGroupCountMap[day][group] != null ? dayGroupCountMap[day][group] : 0) - (dayGroupCountMap[day]['DRR intl lifetime'] != null ? dayGroupCountMap[day]['DRR intl lifetime'] : 0) - (dayGroupCountMap[day]['DRR usa lifetime'] != null ? dayGroupCountMap[day]['DRR usa lifetime'] : 0) - (dayGroupCountMap[day]['DRR intl annual'] != null ? dayGroupCountMap[day]['DRR intl annual'] : 0) - (dayGroupCountMap[day]['DRR usa annual'] != null ? dayGroupCountMap[day]['DRR usa annual'] : 0));
+                }
+              } else {
+                data.groups.push(dayGroupCountMap[day][group] != null ? dayGroupCountMap[day][group] : 0);
+              }
+            }
 
-          # Add previous lifetime sub contributions
-          for group of serviceCarryForwardMap
-            for carryData in serviceCarryForwardMap[group]
-              # Add deferred lifetime value every 30 days
-              # Deferred value = (lifetime purchase value) / lifetimeDurationMonths
-              if carryData.remaining > 0 and carryData.remaining % 30 is 0
-                data.groups[@revenueGroups.indexOf(group)] += carryData.value
-                data.groups[@revenueGroups.indexOf('DRR Total')] += carryData.value
-              if carryData.remaining > 0
-                carryData.remaining--
+            // Add previous lifetime sub contributions
+            for (group in serviceCarryForwardMap) {
+              for (var carryData of Array.from(serviceCarryForwardMap[group])) {
+                // Add deferred lifetime value every 30 days
+                // Deferred value = (lifetime purchase value) / lifetimeDurationMonths
+                if ((carryData.remaining > 0) && ((carryData.remaining % 30) === 0)) {
+                  data.groups[this.revenueGroups.indexOf(group)] += carryData.value;
+                  data.groups[this.revenueGroups.indexOf('DRR Total')] += carryData.value;
+                }
+                if (carryData.remaining > 0) {
+                  carryData.remaining--;
+                }
+              }
+            }
 
-          @revenue.push data
+            this.revenue.push(data);
+          }
 
-        # Order present to past
-        @revenue.sort (a, b) -> b.day.localeCompare(a.day)
+          // Order present to past
+          this.revenue.sort((a, b) => b.day.localeCompare(a.day));
 
-        return unless @revenue.length > 0
+          if (!(this.revenue.length > 0)) { return; }
 
-        # Add monthly recurring revenue values
+          // Add monthly recurring revenue values
 
-        # For each daily group, add up monthly values walking forward through time, and add to revenue groups
-        monthlyDailyGroupMap = {}
-        dailyGroupIndexMap = {}
-        for group, i in @revenueGroups
-          monthlyDailyGroupMap[group.replace('DRR', 'MRR')] = group
-          dailyGroupIndexMap[group] = i
-        for monthlyGroup, dailyGroup of monthlyDailyGroupMap
-          monthlyValues = []
-          for i in [@revenue.length-1..0]
-            dailyTotal = @revenue[i].groups[dailyGroupIndexMap[dailyGroup]]
-            monthlyValues.push(dailyTotal)
-            monthlyValues.shift() while monthlyValues.length > 30
-            if monthlyValues.length is 30
-              @revenue[i].groups.push(_.reduce(monthlyValues, (s, num) -> s + num))
-        for monthlyGroup, dailyGroup of monthlyDailyGroupMap
-          @revenueGroups.push monthlyGroup
+          // For each daily group, add up monthly values walking forward through time, and add to revenue groups
+          const monthlyDailyGroupMap = {};
+          const dailyGroupIndexMap = {};
+          for (i = 0; i < this.revenueGroups.length; i++) {
+            group = this.revenueGroups[i];
+            monthlyDailyGroupMap[group.replace('DRR', 'MRR')] = group;
+            dailyGroupIndexMap[group] = i;
+          }
+          for (monthlyGroup in monthlyDailyGroupMap) {
+            var asc, start;
+            dailyGroup = monthlyDailyGroupMap[monthlyGroup];
+            var monthlyValues = [];
+            for (start = this.revenue.length-1, i = start, asc = start <= 0; asc ? i <= 0 : i >= 0; asc ? i++ : i--) {
+              var dailyTotal = this.revenue[i].groups[dailyGroupIndexMap[dailyGroup]];
+              monthlyValues.push(dailyTotal);
+              while (monthlyValues.length > 30) { monthlyValues.shift(); }
+              if (monthlyValues.length === 30) {
+                this.revenue[i].groups.push(_.reduce(monthlyValues, (s, num) => s + num));
+              }
+            }
+          }
+          for (monthlyGroup in monthlyDailyGroupMap) {
+            dailyGroup = monthlyDailyGroupMap[monthlyGroup];
+            this.revenueGroups.push(monthlyGroup);
+          }
 
-        # Calculate real monthly revenue instead of 30 days estimation
-        @monthMrrMap = {}
-        for revenue in @revenue
-          month = revenue.day.substring(0, 7)
-          @monthMrrMap[month] ?= {gems: 0, yearly: 0, monthly: 0, total: 0}
-          for group, i in @revenueGroups
-            if group is 'DRR gems'
-              @monthMrrMap[month].gems += revenue.groups[i]
-            else if group in ['DRR usa monthly', 'DRR intl monthly']
-              @monthMrrMap[month].monthly += revenue.groups[i]
-            else if group in ['DRR usa lifetime', 'DRR intl lifetime'] or (utils.isCodeCombat and group in ['DRR usa annual', 'DRR intl annual'])
-              @monthMrrMap[month].yearly += revenue.groups[i]
-            else if group is 'DRR Total'
-              @monthMrrMap[month].total += revenue.groups[i]
+          // Calculate real monthly revenue instead of 30 days estimation
+          this.monthMrrMap = {};
+          for (revenue of Array.from(this.revenue)) {
+            var month = revenue.day.substring(0, 7);
+            if (this.monthMrrMap[month] == null) { this.monthMrrMap[month] = {gems: 0, yearly: 0, monthly: 0, total: 0}; }
+            for (i = 0; i < this.revenueGroups.length; i++) {
+              group = this.revenueGroups[i];
+              if (group === 'DRR gems') {
+                this.monthMrrMap[month].gems += revenue.groups[i];
+              } else if (['DRR usa monthly', 'DRR intl monthly'].includes(group)) {
+                this.monthMrrMap[month].monthly += revenue.groups[i];
+              } else if (['DRR usa lifetime', 'DRR intl lifetime'].includes(group) || (utils.isCodeCombat && ['DRR usa annual', 'DRR intl annual'].includes(group))) {
+                this.monthMrrMap[month].yearly += revenue.groups[i];
+              } else if (group === 'DRR Total') {
+                this.monthMrrMap[month].total += revenue.groups[i];
+              }
+            }
+          }
 
-        # Calculate real weekly revenue instead of 30 days estimation
-        @weekMrrMap = {}
-        weekZero = week = '2022-12-30'  # Skip anything this Friday or before
-        # Reverse the revenue list so we can walk forward through time
-        for revenue in _.clone(@revenue).reverse()
-          continue unless revenue.day > weekZero
-          # Assign revenue for the week to the week ending on Friday. Reset on Saturday.
-          if moment(revenue.day).isoWeekday() is 6
-            week = moment(week).add(7, 'days').format('YYYY-MM-DD')
-          @weekMrrMap[week] ?= {gems: 0, yearly: 0, monthly: 0, total: 0}
-          for group, i in @revenueGroups
-            if group is 'DRR gems'
-              @weekMrrMap[week].gems += revenue.groups[i]
-            else if group in ['DRR usa monthly', 'DRR intl monthly']
-              @weekMrrMap[week].monthly += revenue.groups[i]
-            else if group in ['DRR usa lifetime', 'DRR intl lifetime'] or (utils.isCodeCombat and group in ['DRR usa annual', 'DRR intl annual'])
-              @weekMrrMap[week].yearly += revenue.groups[i]
-            else if group is 'DRR Total'
-              @weekMrrMap[week].total += revenue.groups[i]
+          // Calculate real weekly revenue instead of 30 days estimation
+          this.weekMrrMap = {};
+          const weekZero = (week = '2022-12-30');  // Skip anything this Friday or before
+          // Reverse the revenue list so we can walk forward through time
+          for (revenue of Array.from(_.clone(this.revenue).reverse())) {
+            if (!(revenue.day > weekZero)) { continue; }
+            // Assign revenue for the week to the week ending on Friday. Reset on Saturday.
+            if (moment(revenue.day).isoWeekday() === 6) {
+              week = moment(week).add(7, 'days').format('YYYY-MM-DD');
+            }
+            if (this.weekMrrMap[week] == null) { this.weekMrrMap[week] = {gems: 0, yearly: 0, monthly: 0, total: 0}; }
+            for (i = 0; i < this.revenueGroups.length; i++) {
+              group = this.revenueGroups[i];
+              if (group === 'DRR gems') {
+                this.weekMrrMap[week].gems += revenue.groups[i];
+              } else if (['DRR usa monthly', 'DRR intl monthly'].includes(group)) {
+                this.weekMrrMap[week].monthly += revenue.groups[i];
+              } else if (['DRR usa lifetime', 'DRR intl lifetime'].includes(group) || (utils.isCodeCombat && ['DRR usa annual', 'DRR intl annual'].includes(group))) {
+                this.weekMrrMap[week].yearly += revenue.groups[i];
+              } else if (group === 'DRR Total') {
+                this.weekMrrMap[week].total += revenue.groups[i];
+              }
+            }
+          }
 
-        @updateAllKPIChartData()
-        @updateRevenueChartData()
-        @render?()
+          this.updateAllKPIChartData();
+          this.updateRevenueChartData();
+          return (typeof this.render === 'function' ? this.render() : undefined);
+        }
 
-    }, 0).load()
+      }, 0).load();
 
-    #@supermodel.addRequestResource({
-    #  url: '/db/user/-/school_counts'
-    #  method: 'POST'
-    #  data: {minCount: @minSchoolCount}
-    #  success: (@schoolCounts) =>
-    #    @schoolCounts?.sort (a, b) ->
-    #      return -1 if a.count > b.count
-    #      return 0 if a.count is b.count
-    #      1
-    #    @renderSelectors?('#school-counts')
-    #}, 0).load()
+      //@supermodel.addRequestResource({
+      //  url: '/db/user/-/school_counts'
+      //  method: 'POST'
+      //  data: {minCount: @minSchoolCount}
+      //  success: (@schoolCounts) =>
+      //    @schoolCounts?.sort (a, b) ->
+      //      return -1 if a.count > b.count
+      //      return 0 if a.count is b.count
+      //      1
+      //    @renderSelectors?('#school-counts')
+      //}, 0).load()
 
-    #@supermodel.addRequestResource({
-    #  url: '/db/payment/-/school_sales'
-    #  success: (@schoolSales) =>
-    #    @schoolSales?.sort (a, b) ->
-    #      return -1 if a.created > b.created
-    #      return 0 if a.created is b.created
-    #      1
-    #    @renderSelectors?('.school-sales')
-    #}, 0).load()
+      //@supermodel.addRequestResource({
+      //  url: '/db/payment/-/school_sales'
+      //  success: (@schoolSales) =>
+      //    @schoolSales?.sort (a, b) ->
+      //      return -1 if a.created > b.created
+      //      return 0 if a.created is b.created
+      //      1
+      //    @renderSelectors?('.school-sales')
+      //}, 0).load()
 
-    @supermodel.addRequestResource({
-      url: '/db/prepaid/-/courses'
-      method: 'POST'
-      data: {project: {endDate: 1, maxRedeemers: 1, properties: 1, redeemers: 1}}
-      success: (prepaids) =>
-        paidDayMaxMap = {}
-        paidDayRedeemedMap = {}
-        trialDayMaxMap = {}
-        trialDayRedeemedMap = {}
-        for prepaid in prepaids
-          day = utils.objectIdToDate(prepaid._id).toISOString().substring(0, 10)
-          if prepaid.properties?.trialRequestID? or prepaid.properties?.endDate?
-            trialDayMaxMap[day] ?= 0
-            if prepaid.properties?.endDate?
-              trialDayMaxMap[day] += prepaid.redeemers?.length ? 0
-            else
-              trialDayMaxMap[day] += prepaid.maxRedeemers
-            for redeemer in (prepaid.redeemers ? [])
-              redeemDay = redeemer.date.substring(0, 10)
-              trialDayRedeemedMap[redeemDay] ?= 0
-              trialDayRedeemedMap[redeemDay]++
-          else if not prepaid.endDate? or new Date(prepaid.endDate) > new Date()
-            paidDayMaxMap[day] ?= 0
-            paidDayMaxMap[day] += prepaid.maxRedeemers
-            for redeemer in prepaid.redeemers
-              redeemDay = redeemer.date.substring(0, 10)
-              paidDayRedeemedMap[redeemDay] ?= 0
-              paidDayRedeemedMap[redeemDay]++
-        @dayEnrollmentsMap = {}
-        @paidCourseTotalEnrollments = []
-        for day, count of paidDayMaxMap
-          @paidCourseTotalEnrollments.push({day: day, count: count})
-          @dayEnrollmentsMap[day] ?= {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}
-          @dayEnrollmentsMap[day].paidIssued += count
-        @paidCourseTotalEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
-        @paidCourseRedeemedEnrollments = []
-        for day, count of paidDayRedeemedMap
-          @paidCourseRedeemedEnrollments.push({day: day, count: count})
-          @dayEnrollmentsMap[day] ?= {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}
-          @dayEnrollmentsMap[day].paidRedeemed += count
-        @paidCourseRedeemedEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
-        @trialCourseTotalEnrollments = []
-        for day, count of trialDayMaxMap
-          @trialCourseTotalEnrollments.push({day: day, count: count})
-          @dayEnrollmentsMap[day] ?= {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}
-          @dayEnrollmentsMap[day].trialIssued += count
-        @trialCourseTotalEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
-        @trialCourseRedeemedEnrollments = []
-        for day, count of trialDayRedeemedMap
-          @trialCourseRedeemedEnrollments.push({day: day, count: count})
-          @dayEnrollmentsMap[day] ?= {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}
-          @dayEnrollmentsMap[day].trialRedeemed += count
-        @trialCourseRedeemedEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
-        @updateEnrollmentsChartData()
-        @render?()
-    }, 0).load()
+      this.supermodel.addRequestResource({
+        url: '/db/prepaid/-/courses',
+        method: 'POST',
+        data: {project: {endDate: 1, maxRedeemers: 1, properties: 1, redeemers: 1}},
+        success: prepaids => {
+          let count, day;
+          const paidDayMaxMap = {};
+          const paidDayRedeemedMap = {};
+          const trialDayMaxMap = {};
+          const trialDayRedeemedMap = {};
+          for (var prepaid of Array.from(prepaids)) {
+            var redeemDay, redeemer;
+            day = utils.objectIdToDate(prepaid._id).toISOString().substring(0, 10);
+            if (((prepaid.properties != null ? prepaid.properties.trialRequestID : undefined) != null) || ((prepaid.properties != null ? prepaid.properties.endDate : undefined) != null)) {
+              if (trialDayMaxMap[day] == null) { trialDayMaxMap[day] = 0; }
+              if ((prepaid.properties != null ? prepaid.properties.endDate : undefined) != null) {
+                trialDayMaxMap[day] += (prepaid.redeemers != null ? prepaid.redeemers.length : undefined) != null ? (prepaid.redeemers != null ? prepaid.redeemers.length : undefined) : 0;
+              } else {
+                trialDayMaxMap[day] += prepaid.maxRedeemers;
+              }
+              for (redeemer of Array.from((prepaid.redeemers != null ? prepaid.redeemers : []))) {
+                redeemDay = redeemer.date.substring(0, 10);
+                if (trialDayRedeemedMap[redeemDay] == null) { trialDayRedeemedMap[redeemDay] = 0; }
+                trialDayRedeemedMap[redeemDay]++;
+              }
+            } else if ((prepaid.endDate == null) || (new Date(prepaid.endDate) > new Date())) {
+              if (paidDayMaxMap[day] == null) { paidDayMaxMap[day] = 0; }
+              paidDayMaxMap[day] += prepaid.maxRedeemers;
+              for (redeemer of Array.from(prepaid.redeemers)) {
+                redeemDay = redeemer.date.substring(0, 10);
+                if (paidDayRedeemedMap[redeemDay] == null) { paidDayRedeemedMap[redeemDay] = 0; }
+                paidDayRedeemedMap[redeemDay]++;
+              }
+            }
+          }
+          this.dayEnrollmentsMap = {};
+          this.paidCourseTotalEnrollments = [];
+          for (day in paidDayMaxMap) {
+            count = paidDayMaxMap[day];
+            this.paidCourseTotalEnrollments.push({day, count});
+            if (this.dayEnrollmentsMap[day] == null) { this.dayEnrollmentsMap[day] = {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}; }
+            this.dayEnrollmentsMap[day].paidIssued += count;
+          }
+          this.paidCourseTotalEnrollments.sort((a, b) => a.day.localeCompare(b.day));
+          this.paidCourseRedeemedEnrollments = [];
+          for (day in paidDayRedeemedMap) {
+            count = paidDayRedeemedMap[day];
+            this.paidCourseRedeemedEnrollments.push({day, count});
+            if (this.dayEnrollmentsMap[day] == null) { this.dayEnrollmentsMap[day] = {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}; }
+            this.dayEnrollmentsMap[day].paidRedeemed += count;
+          }
+          this.paidCourseRedeemedEnrollments.sort((a, b) => a.day.localeCompare(b.day));
+          this.trialCourseTotalEnrollments = [];
+          for (day in trialDayMaxMap) {
+            count = trialDayMaxMap[day];
+            this.trialCourseTotalEnrollments.push({day, count});
+            if (this.dayEnrollmentsMap[day] == null) { this.dayEnrollmentsMap[day] = {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}; }
+            this.dayEnrollmentsMap[day].trialIssued += count;
+          }
+          this.trialCourseTotalEnrollments.sort((a, b) => a.day.localeCompare(b.day));
+          this.trialCourseRedeemedEnrollments = [];
+          for (day in trialDayRedeemedMap) {
+            count = trialDayRedeemedMap[day];
+            this.trialCourseRedeemedEnrollments.push({day, count});
+            if (this.dayEnrollmentsMap[day] == null) { this.dayEnrollmentsMap[day] = {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}; }
+            this.dayEnrollmentsMap[day].trialRedeemed += count;
+          }
+          this.trialCourseRedeemedEnrollments.sort((a, b) => a.day.localeCompare(b.day));
+          this.updateEnrollmentsChartData();
+          return (typeof this.render === 'function' ? this.render() : undefined);
+        }
+      }, 0).load();
 
-    @courses = new CocoCollection([], { url: "/db/course", model: Course})
-    @listenToOnce @courses, 'sync', @onCoursesSync
-    @supermodel.loadCollection(@courses)
+      this.courses = new CocoCollection([], { url: "/db/course", model: Course});
+      this.listenToOnce(this.courses, 'sync', this.onCoursesSync);
+      return this.supermodel.loadCollection(this.courses);
+    }
 
-  onCoursesSync: ->
-    return
-    @courses.remove(@courses.findWhere({releasePhase: 'beta'}))
-    sortedCourses = utils.sortCourses(@courses.models ? [])
-    @courseOrderMap = {}
-    @courseOrderMap[sortedCourses[i].get('_id')] = i for i in [0...sortedCourses.length]
+    onCoursesSync() {
+      return;
+      this.courses.remove(this.courses.findWhere({releasePhase: 'beta'}));
+      const sortedCourses = utils.sortCourses(this.courses.models != null ? this.courses.models : []);
+      this.courseOrderMap = {};
+      for (let i = 0, end = sortedCourses.length, asc = 0 <= end; asc ? i < end : i > end; asc ? i++ : i--) { this.courseOrderMap[sortedCourses[i].get('_id')] = i; }
 
-    startDay = new Date()
-    startDay.setUTCDate(startDay.getUTCDate() - @furthestCourseDayRange)
-    startDay = startDay.toISOString().substring(0, 10)
-    options =
-      url: '/db/course_instance/-/recent'
-      method: 'POST'
-      data: {startDay: startDay}
-    options.error = (models, response, options) =>
-      return if @destroyed
-      console.error 'Failed to get recent course instances', response
-    options.success = (data) =>
-      @onCourseInstancesSync(data)
-      @renderSelectors?('#furthest-course')
-    @supermodel.addRequestResource(options, 0).load()
+      let startDay = new Date();
+      startDay.setUTCDate(startDay.getUTCDate() - this.furthestCourseDayRange);
+      startDay = startDay.toISOString().substring(0, 10);
+      const options = {
+        url: '/db/course_instance/-/recent',
+        method: 'POST',
+        data: {startDay}
+      };
+      options.error = (models, response, options) => {
+        if (this.destroyed) { return; }
+        return console.error('Failed to get recent course instances', response);
+      };
+      options.success = data => {
+        this.onCourseInstancesSync(data);
+        return (typeof this.renderSelectors === 'function' ? this.renderSelectors('#furthest-course') : undefined);
+      };
+      return this.supermodel.addRequestResource(options, 0).load();
+    }
 
-  onCourseInstancesSync: (data) ->
-    @courseDistributionsRecent = []
-    @courseDistributions = []
-    return unless data.courseInstances and data.students and data.prepaids
+    onCourseInstancesSync(data) {
+      this.courseDistributionsRecent = [];
+      this.courseDistributions = [];
+      if (!data.courseInstances || !data.students || !data.prepaids) { return; }
 
-    createCourseDistributions = (numDays) =>
-      # Find student furthest course
-      startDate = new Date()
-      startDate.setUTCDate(startDate.getUTCDate() - numDays)
-      teacherStudentsMap = {}
-      studentFurthestCourseMap = {}
-      studentPaidStatusMap = {}
-      for courseInstance in data.courseInstances
-        continue if utils.objectIdToDate(courseInstance._id) < startDate
-        courseID = courseInstance.courseID
-        unless @courseOrderMap[courseID]?
-          console.error "ERROR: no course order for courseID=#{courseID}"
-          continue
-        teacherID = courseInstance.ownerID
-        for studentID in courseInstance.members
-          studentPaidStatusMap[studentID] = 'free'
-          if not studentFurthestCourseMap[studentID] or studentFurthestCourseMap[studentID] < @courseOrderMap[courseID]
-            studentFurthestCourseMap[studentID] = @courseOrderMap[courseID]
-          teacherStudentsMap[teacherID] ?= []
-          teacherStudentsMap[teacherID].push(studentID)
+      const createCourseDistributions = numDays => {
+        // Find student furthest course
+        let courseName, user;
+        const startDate = new Date();
+        startDate.setUTCDate(startDate.getUTCDate() - numDays);
+        const teacherStudentsMap = {};
+        const studentFurthestCourseMap = {};
+        const studentPaidStatusMap = {};
+        for (var courseInstance of Array.from(data.courseInstances)) {
+          if (utils.objectIdToDate(courseInstance._id) < startDate) { continue; }
+          var {
+            courseID
+          } = courseInstance;
+          if (this.courseOrderMap[courseID] == null) {
+            console.error(`ERROR: no course order for courseID=${courseID}`);
+            continue;
+          }
+          var teacherID = courseInstance.ownerID;
+          for (var studentID of Array.from(courseInstance.members)) {
+            studentPaidStatusMap[studentID] = 'free';
+            if (!studentFurthestCourseMap[studentID] || (studentFurthestCourseMap[studentID] < this.courseOrderMap[courseID])) {
+              studentFurthestCourseMap[studentID] = this.courseOrderMap[courseID];
+            }
+            if (teacherStudentsMap[teacherID] == null) { teacherStudentsMap[teacherID] = []; }
+            teacherStudentsMap[teacherID].push(studentID);
+          }
+        }
 
-      # Find paid students
-      prepaidUserMap = {}
-      for user in data.students
-        continue unless studentPaidStatusMap[user._id]
-        # since we use user.products in ozar too
-        products = user.products.filter((p) ->
-          return p.product == 'course' && new Date(p.endDate) > now
-        )
-        for product in products
-          studentPaidStatusMap[user._id] = 'paid'
-          prepaidUserMap[product.prepaid] ?= []
-          prepaidUserMap[product.prepaid].push(user._id)
+        // Find paid students
+        const prepaidUserMap = {};
+        for (user of Array.from(data.students)) {
+          if (!studentPaidStatusMap[user._id]) { continue; }
+          // since we use user.products in ozar too
+          var products = user.products.filter(p => (p.product === 'course') && (new Date(p.endDate) > now));
+          for (var product of Array.from(products)) {
+            studentPaidStatusMap[user._id] = 'paid';
+            if (prepaidUserMap[product.prepaid] == null) { prepaidUserMap[product.prepaid] = []; }
+            prepaidUserMap[product.prepaid].push(user._id);
+          }
+        }
 
-      # Find trial students
-      for prepaid in data.prepaids
-        continue unless prepaidUserMap[prepaid._id]
-        if prepaid.properties?.trialRequestID
-          for userID in prepaidUserMap[prepaid._id]
-            studentPaidStatusMap[userID] = 'trial'
+        // Find trial students
+        for (var prepaid of Array.from(data.prepaids)) {
+          if (!prepaidUserMap[prepaid._id]) { continue; }
+          if (prepaid.properties != null ? prepaid.properties.trialRequestID : undefined) {
+            for (var userID of Array.from(prepaidUserMap[prepaid._id])) {
+              studentPaidStatusMap[userID] = 'trial';
+            }
+          }
+        }
 
-      # Find teacher furthest course and paid status based on their students
-      # Paid teacher: at least one paid student
-      # Trial teacher: at least one trial student in course instance, and no paid students
-      # Free teacher: no paid students, no trial students
-      # Teacher furthest course is furthest course of highest paid status student
-      teacherFurthestCourseMap = {}
-      teacherPaidStatusMap = {}
-      for teacher, students of teacherStudentsMap
-        for student in students
-          unless studentFurthestCourseMap[student]?
-            console.error "ERROR: no student furthest map for teacher=#{teacher} student=#{student}"
-            continue
-          if not teacherPaidStatusMap[teacher]
-            teacherPaidStatusMap[teacher] = studentPaidStatusMap[student]
-            teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student]
-          else if teacherPaidStatusMap[teacher] is 'paid'
-            if studentPaidStatusMap[student] is 'paid' and teacherFurthestCourseMap[teacher] < studentFurthestCourseMap[student]
-              teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student]
-          else if teacherPaidStatusMap[teacher] is 'trial'
-            if studentPaidStatusMap[student] is 'paid'
-              teacherPaidStatusMap[teacher] = studentPaidStatusMap[student]
-              teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student]
-            else if studentPaidStatusMap[student] is 'trial' and teacherFurthestCourseMap[teacher] < studentFurthestCourseMap[student]
-              teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student]
-          else # free teacher
-            if studentPaidStatusMap[student] in ['paid', 'trial']
-              teacherPaidStatusMap[teacher] = studentPaidStatusMap[student]
-              teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student]
-            else if studentPaidStatusMap[student] is 'free' and teacherFurthestCourseMap[teacher] < studentFurthestCourseMap[student]
-              teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student]
+        // Find teacher furthest course and paid status based on their students
+        // Paid teacher: at least one paid student
+        // Trial teacher: at least one trial student in course instance, and no paid students
+        // Free teacher: no paid students, no trial students
+        // Teacher furthest course is furthest course of highest paid status student
+        const teacherFurthestCourseMap = {};
+        const teacherPaidStatusMap = {};
+        for (var teacher in teacherStudentsMap) {
+          var students = teacherStudentsMap[teacher];
+          for (var student of Array.from(students)) {
+            if (studentFurthestCourseMap[student] == null) {
+              console.error(`ERROR: no student furthest map for teacher=${teacher} student=${student}`);
+              continue;
+            }
+            if (!teacherPaidStatusMap[teacher]) {
+              teacherPaidStatusMap[teacher] = studentPaidStatusMap[student];
+              teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student];
+            } else if (teacherPaidStatusMap[teacher] === 'paid') {
+              if ((studentPaidStatusMap[student] === 'paid') && (teacherFurthestCourseMap[teacher] < studentFurthestCourseMap[student])) {
+                teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student];
+              }
+            } else if (teacherPaidStatusMap[teacher] === 'trial') {
+              if (studentPaidStatusMap[student] === 'paid') {
+                teacherPaidStatusMap[teacher] = studentPaidStatusMap[student];
+                teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student];
+              } else if ((studentPaidStatusMap[student] === 'trial') && (teacherFurthestCourseMap[teacher] < studentFurthestCourseMap[student])) {
+                teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student];
+              }
+            } else { // free teacher
+              if (['paid', 'trial'].includes(studentPaidStatusMap[student])) {
+                teacherPaidStatusMap[teacher] = studentPaidStatusMap[student];
+                teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student];
+              } else if ((studentPaidStatusMap[student] === 'free') && (teacherFurthestCourseMap[teacher] < studentFurthestCourseMap[student])) {
+                teacherFurthestCourseMap[teacher] = studentFurthestCourseMap[student];
+              }
+            }
+          }
+        }
 
-      # Build table of student/teacher paid/trial/free totals
-      updateCourseTotalsMap = (courseTotalsMap, furthestCourseMap, paidStatusMap, columnSuffix) =>
-        for user, courseIndex of furthestCourseMap
-          courseName = @courses.models[courseIndex].get('name')
-          courseTotalsMap[courseName] ?= {}
-          columnName = switch paidStatusMap[user]
-            when 'paid' then 'Paid ' + columnSuffix
-            when 'trial' then 'Trial ' + columnSuffix
-            when 'free' then 'Free ' + columnSuffix
-          courseTotalsMap[courseName][columnName] ?= 0
-          courseTotalsMap[courseName][columnName]++
-          courseTotalsMap[courseName]['Total ' + columnSuffix] ?= 0
-          courseTotalsMap[courseName]['Total ' + columnSuffix]++
-          courseTotalsMap['All Courses']['Total ' + columnSuffix] ?= 0
-          courseTotalsMap['All Courses']['Total ' + columnSuffix]++
-          courseTotalsMap['All Courses'][columnName] ?= 0
-          courseTotalsMap['All Courses'][columnName]++
-      courseTotalsMap = {'All Courses': {}}
-      updateCourseTotalsMap(courseTotalsMap, teacherFurthestCourseMap, teacherPaidStatusMap, 'Teachers')
-      updateCourseTotalsMap(courseTotalsMap, studentFurthestCourseMap, studentPaidStatusMap, 'Students')
+        // Build table of student/teacher paid/trial/free totals
+        const updateCourseTotalsMap = (courseTotalsMap, furthestCourseMap, paidStatusMap, columnSuffix) => {
+          return (() => {
+            const result = [];
+            for (user in furthestCourseMap) {
+              var name, name1;
+              var courseIndex = furthestCourseMap[user];
+              var courseName = this.courses.models[courseIndex].get('name');
+              if (courseTotalsMap[courseName] == null) { courseTotalsMap[courseName] = {}; }
+              var columnName = (() => { switch (paidStatusMap[user]) {
+                case 'paid': return 'Paid ' + columnSuffix;
+                case 'trial': return 'Trial ' + columnSuffix;
+                case 'free': return 'Free ' + columnSuffix;
+              } })();
+              if (courseTotalsMap[courseName][columnName] == null) { courseTotalsMap[courseName][columnName] = 0; }
+              courseTotalsMap[courseName][columnName]++;
+              if (courseTotalsMap[courseName][name = 'Total ' + columnSuffix] == null) { courseTotalsMap[courseName][name] = 0; }
+              courseTotalsMap[courseName]['Total ' + columnSuffix]++;
+              if (courseTotalsMap['All Courses'][name1 = 'Total ' + columnSuffix] == null) { courseTotalsMap['All Courses'][name1] = 0; }
+              courseTotalsMap['All Courses']['Total ' + columnSuffix]++;
+              if (courseTotalsMap['All Courses'][columnName] == null) { courseTotalsMap['All Courses'][columnName] = 0; }
+              result.push(courseTotalsMap['All Courses'][columnName]++);
+            }
+            return result;
+          })();
+        };
+        const courseTotalsMap = {'All Courses': {}};
+        updateCourseTotalsMap(courseTotalsMap, teacherFurthestCourseMap, teacherPaidStatusMap, 'Teachers');
+        updateCourseTotalsMap(courseTotalsMap, studentFurthestCourseMap, studentPaidStatusMap, 'Students');
 
-      courseDistributions = []
-      for courseName, totals of courseTotalsMap
-        courseDistributions.push({courseName: courseName, totals: totals})
-      courseDistributions.sort (a, b) =>
-        if a.courseName.indexOf('All Courses') >= 0 and b.courseName.indexOf('All Courses') < 0 then return 1
-        else if b.courseName.indexOf('All Courses') >= 0 and a.courseName.indexOf('All Courses') < 0 then return -1
-        aID = @courses.findWhere({name: a.courseName}).id
-        bID = @courses.findWhere({name: b.courseName}).id
-        @courseOrderMap[aID] - @courseOrderMap[bID]
+        const courseDistributions = [];
+        for (courseName in courseTotalsMap) {
+          var totals = courseTotalsMap[courseName];
+          courseDistributions.push({courseName, totals});
+        }
+        courseDistributions.sort((a, b) => {
+          if ((a.courseName.indexOf('All Courses') >= 0) && (b.courseName.indexOf('All Courses') < 0)) { return 1;
+          } else if ((b.courseName.indexOf('All Courses') >= 0) && (a.courseName.indexOf('All Courses') < 0)) { return -1; }
+          const aID = this.courses.findWhere({name: a.courseName}).id;
+          const bID = this.courses.findWhere({name: b.courseName}).id;
+          return this.courseOrderMap[aID] - this.courseOrderMap[bID];
+      });
 
-      courseDistributions
+        return courseDistributions;
+      };
 
-    @courseDistributionsRecent = createCourseDistributions(@furthestCourseDayRangeRecent)
-    @courseDistributions = createCourseDistributions(@furthestCourseDayRange)
+      this.courseDistributionsRecent = createCourseDistributions(this.furthestCourseDayRangeRecent);
+      return this.courseDistributions = createCourseDistributions(this.furthestCourseDayRange);
+    }
 
-  createLineChartPoints: (days, data) ->
-    points = []
-    for entry, i in data
-      points.push
-        day: entry.day
-        y: entry.value
+    createLineChartPoints(days, data) {
+      let i, point;
+      let points = [];
+      for (i = 0; i < data.length; i++) {
+        var entry = data[i];
+        points.push({
+          day: entry.day,
+          y: entry.value
+        });
+      }
 
-    # Trim points preceding days
-    if points.length and days.length and points[0].day.localeCompare(days[0]) < 0
-      if points[points.length - 1].day.localeCompare(days[0]) < 0
-        points = []
-      else
-        for point, i in points
-          if point.day.localeCompare(days[0]) >= 0
-            points.splice(0, i)
-            break
+      // Trim points preceding days
+      if (points.length && days.length && (points[0].day.localeCompare(days[0]) < 0)) {
+        if (points[points.length - 1].day.localeCompare(days[0]) < 0) {
+          points = [];
+        } else {
+          for (i = 0; i < points.length; i++) {
+            point = points[i];
+            if (point.day.localeCompare(days[0]) >= 0) {
+              points.splice(0, i);
+              break;
+            }
+          }
+        }
+      }
 
-    # Trim points following days
-    if points.length and days.length and points[points.length - 1].day.localeCompare(days[days.length - 1]) > 0
-      if points[0].day.localeCompare(days[days.length - 1]) > 0
-        points = []
-      else
-        for i in [points.length - 1..0]
-          point = points[i]
-          if point.day.localeCompare(days[days.length - 1]) <= 0
-            points.splice(i)
-            break
+      // Trim points following days
+      if (points.length && days.length && (points[points.length - 1].day.localeCompare(days[days.length - 1]) > 0)) {
+        if (points[0].day.localeCompare(days[days.length - 1]) > 0) {
+          points = [];
+        } else {
+          let asc, start;
+          for (start = points.length - 1, i = start, asc = start <= 0; asc ? i <= 0 : i >= 0; asc ? i++ : i--) {
+            point = points[i];
+            if (point.day.localeCompare(days[days.length - 1]) <= 0) {
+              points.splice(i);
+              break;
+            }
+          }
+        }
+      }
 
-    # Ensure points for each day
-    for day, i in days
-      if points.length <= i or points[i]?.day isnt day
-        prevY = if i > 0 then points[i - 1].y else 0.0
-        points.splice i, 0,
-          day: day
-          y: prevY
-      points[i].y = 0.0 if isNaN(points[i].y)
-      points[i].x = i
+      // Ensure points for each day
+      for (i = 0; i < days.length; i++) {
+        var day = days[i];
+        if ((points.length <= i) || ((points[i] != null ? points[i].day : undefined) !== day)) {
+          var prevY = i > 0 ? points[i - 1].y : 0.0;
+          points.splice(i, 0, {
+            day,
+            y: prevY
+          }
+          );
+        }
+        if (isNaN(points[i].y)) { points[i].y = 0.0; }
+        points[i].x = i;
+      }
 
-    points.splice(0, points.length - days.length) if points.length > days.length
-    points
+      if (points.length > days.length) { points.splice(0, points.length - days.length); }
+      return points;
+    }
 
-  createLineCharts: ->
-    visibleWidth = $('.kpi-recent-chart').width()
-    d3Utils.createLineChart('.kpi-recent-chart', @kpiRecentChartLines, visibleWidth)
-    d3Utils.createLineChart('.kpi-chart', @kpiChartLines, visibleWidth)
-    d3Utils.createLineChart('.kpi-all-time-chart', @kpiAllTimeChartLines, visibleWidth)
-    d3Utils.createLineChart('.active-classes-chart-90', @activeClassesChartLines90, visibleWidth)
-    d3Utils.createLineChart('.active-classes-chart-365', @activeClassesChartLines365, visibleWidth)
-    d3Utils.createLineChart('.classroom-daily-active-users-chart-90', @classroomDailyActiveUsersChartLines90, visibleWidth)
-    d3Utils.createLineChart('.classroom-monthly-active-users-chart-90', @classroomMonthlyActiveUsersChartLines90, visibleWidth)
-    d3Utils.createLineChart('.classroom-daily-active-users-chart-365', @classroomDailyActiveUsersChartLines365, visibleWidth)
-    d3Utils.createLineChart('.classroom-monthly-active-users-chart-365', @classroomMonthlyActiveUsersChartLines365, visibleWidth)
-    d3Utils.createLineChart('.campaign-daily-active-users-chart-90', @campaignDailyActiveUsersChartLines90, visibleWidth)
-    d3Utils.createLineChart('.campaign-monthly-active-users-chart-90', @campaignMonthlyActiveUsersChartLines90, visibleWidth)
-    d3Utils.createLineChart('.campaign-daily-active-users-chart-365', @campaignDailyActiveUsersChartLines365, visibleWidth)
-    d3Utils.createLineChart('.campaign-monthly-active-users-chart-365', @campaignMonthlyActiveUsersChartLines365, visibleWidth)
-    d3Utils.createLineChart('.campaign-vs-classroom-monthly-active-users-recent-chart.line-chart-container', @campaignVsClassroomMonthlyActiveUsersRecentChartLines, visibleWidth)
-    d3Utils.createLineChart('.campaign-vs-classroom-monthly-active-users-chart.line-chart-container', @campaignVsClassroomMonthlyActiveUsersChartLines, visibleWidth)
-    d3Utils.createLineChart('.paid-courses-chart', @enrollmentsChartLines, visibleWidth)
-    d3Utils.createLineChart('.recurring-daily-revenue-chart-90', @revenueDailyChartLines90Days, visibleWidth)
-    d3Utils.createLineChart('.recurring-monthly-revenue-chart-90', @revenueMonthlyChartLines90Days, visibleWidth)
-    d3Utils.createLineChart('.recurring-daily-revenue-chart-365', @revenueDailyChartLines365Days, visibleWidth)
-    d3Utils.createLineChart('.recurring-monthly-revenue-chart-365', @revenueMonthlyChartLines365Days, visibleWidth)
+    createLineCharts() {
+      const visibleWidth = $('.kpi-recent-chart').width();
+      d3Utils.createLineChart('.kpi-recent-chart', this.kpiRecentChartLines, visibleWidth);
+      d3Utils.createLineChart('.kpi-chart', this.kpiChartLines, visibleWidth);
+      d3Utils.createLineChart('.kpi-all-time-chart', this.kpiAllTimeChartLines, visibleWidth);
+      d3Utils.createLineChart('.active-classes-chart-90', this.activeClassesChartLines90, visibleWidth);
+      d3Utils.createLineChart('.active-classes-chart-365', this.activeClassesChartLines365, visibleWidth);
+      d3Utils.createLineChart('.classroom-daily-active-users-chart-90', this.classroomDailyActiveUsersChartLines90, visibleWidth);
+      d3Utils.createLineChart('.classroom-monthly-active-users-chart-90', this.classroomMonthlyActiveUsersChartLines90, visibleWidth);
+      d3Utils.createLineChart('.classroom-daily-active-users-chart-365', this.classroomDailyActiveUsersChartLines365, visibleWidth);
+      d3Utils.createLineChart('.classroom-monthly-active-users-chart-365', this.classroomMonthlyActiveUsersChartLines365, visibleWidth);
+      d3Utils.createLineChart('.campaign-daily-active-users-chart-90', this.campaignDailyActiveUsersChartLines90, visibleWidth);
+      d3Utils.createLineChart('.campaign-monthly-active-users-chart-90', this.campaignMonthlyActiveUsersChartLines90, visibleWidth);
+      d3Utils.createLineChart('.campaign-daily-active-users-chart-365', this.campaignDailyActiveUsersChartLines365, visibleWidth);
+      d3Utils.createLineChart('.campaign-monthly-active-users-chart-365', this.campaignMonthlyActiveUsersChartLines365, visibleWidth);
+      d3Utils.createLineChart('.campaign-vs-classroom-monthly-active-users-recent-chart.line-chart-container', this.campaignVsClassroomMonthlyActiveUsersRecentChartLines, visibleWidth);
+      d3Utils.createLineChart('.campaign-vs-classroom-monthly-active-users-chart.line-chart-container', this.campaignVsClassroomMonthlyActiveUsersChartLines, visibleWidth);
+      d3Utils.createLineChart('.paid-courses-chart', this.enrollmentsChartLines, visibleWidth);
+      d3Utils.createLineChart('.recurring-daily-revenue-chart-90', this.revenueDailyChartLines90Days, visibleWidth);
+      d3Utils.createLineChart('.recurring-monthly-revenue-chart-90', this.revenueMonthlyChartLines90Days, visibleWidth);
+      d3Utils.createLineChart('.recurring-daily-revenue-chart-365', this.revenueDailyChartLines365Days, visibleWidth);
+      return d3Utils.createLineChart('.recurring-monthly-revenue-chart-365', this.revenueMonthlyChartLines365Days, visibleWidth);
+    }
 
-  updateAllKPIChartData: ->
-    # Calculate daily mrr based on previous 30 days, attribute full year sub purchase to purchase day
-    # Do not include gem purchases
-    @dayMrrMap = {}
-    if @revenue?.length > 0
-      daysInMonth = 30
-      currentMrr = 0
-      currentMonthlyValues = []
-      for i in [@revenue.length - 1..0] when i >= 0
-        total = @revenue[i].groups[@revenueGroups.indexOf('DRR Total')]
-        currentMonthlyValues.push total
-        currentMrr += total
-        currentMrr -= currentMonthlyValues.shift() while currentMonthlyValues.length > daysInMonth
-        @dayMrrMap[@revenue[i].day] = currentMrr if currentMonthlyValues.length is daysInMonth
+    updateAllKPIChartData() {
+      // Calculate daily mrr based on previous 30 days, attribute full year sub purchase to purchase day
+      // Do not include gem purchases
+      this.dayMrrMap = {};
+      if ((this.revenue != null ? this.revenue.length : undefined) > 0) {
+        const daysInMonth = 30;
+        let currentMrr = 0;
+        const currentMonthlyValues = [];
+        for (let start = this.revenue.length - 1, i = start, asc = start <= 0; asc ? i <= 0 : i >= 0; asc ? i++ : i--) {
+          if (i >= 0) {
+            var total = this.revenue[i].groups[this.revenueGroups.indexOf('DRR Total')];
+            currentMonthlyValues.push(total);
+            currentMrr += total;
+            while (currentMonthlyValues.length > daysInMonth) { currentMrr -= currentMonthlyValues.shift(); }
+            if (currentMonthlyValues.length === daysInMonth) { this.dayMrrMap[this.revenue[i].day] = currentMrr; }
+          }
+        }
+      }
 
-    @kpiRecentChartLines = []
-    @kpiChartLines = []
-    @kpiAllTimeChartLines = []
-    @updateKPIChartData(60, @kpiRecentChartLines)
-    @updateKPIChartData(365, @kpiChartLines)
-    @numAllDays = Math.round((new Date() - @allTimeStartDate) / 1000 / 60 / 60 / 24)
-    @updateKPIChartData(@numAllDays, @kpiAllTimeChartLines)
+      this.kpiRecentChartLines = [];
+      this.kpiChartLines = [];
+      this.kpiAllTimeChartLines = [];
+      this.updateKPIChartData(60, this.kpiRecentChartLines);
+      this.updateKPIChartData(365, this.kpiChartLines);
+      this.numAllDays = Math.round((new Date() - this.allTimeStartDate) / 1000 / 60 / 60 / 24);
+      return this.updateKPIChartData(this.numAllDays, this.kpiAllTimeChartLines);
+    }
 
-  updateKPIChartData: (timeframeDays, chartLines) ->
+    updateKPIChartData(timeframeDays, chartLines) {
 
-    if timeframeDays is 365
-      # Add previous year too
-      days = d3Utils.createContiguousDays(timeframeDays, true, 365)
-      pointRadius = 0.5
+      let campaignData, count, data, day, days, entry, event, eventDayDataMap, pointRadius, points, value;
+      if (timeframeDays === 365) {
+        // Add previous year too
+        days = d3Utils.createContiguousDays(timeframeDays, true, 365);
+        pointRadius = 0.5;
 
-      # Build active classes KPI line
-      if @activeClasses?.length > 0
-        data = []
-        for entry in @activeClasses
-          data.push
-            day: entry.day
-            value: entry.groups[entry.groups.length - 1]
-        data.reverse()
-        points = @createLineChartPoints(days, data)
-        chartLines.push
-          points: points
-          description: 'Monthly Active Classes (last year)'
-          lineColor: 'lightskyblue'
-          strokeWidth: 1
-          min: 0
-          max: _.max(points, 'y').y
-          showYScale: false
-          pointRadius: pointRadius
+        // Build active classes KPI line
+        if ((this.activeClasses != null ? this.activeClasses.length : undefined) > 0) {
+          data = [];
+          for (entry of Array.from(this.activeClasses)) {
+            data.push({
+              day: entry.day,
+              value: entry.groups[entry.groups.length - 1]});
+          }
+          data.reverse();
+          points = this.createLineChartPoints(days, data);
+          chartLines.push({
+            points,
+            description: 'Monthly Active Classes (last year)',
+            lineColor: 'lightskyblue',
+            strokeWidth: 1,
+            min: 0,
+            max: _.max(points, 'y').y,
+            showYScale: false,
+            pointRadius
+          });
+        }
 
-      # Build recurring revenue KPI line
-      if @revenue?.length > 0
-        data = []
-        for entry in @revenue
-          value = @dayMrrMap[entry.day]
-          data.push
-            day: entry.day
+        // Build recurring revenue KPI line
+        if ((this.revenue != null ? this.revenue.length : undefined) > 0) {
+          data = [];
+          for (entry of Array.from(this.revenue)) {
+            value = this.dayMrrMap[entry.day];
+            data.push({
+              day: entry.day,
+              value: value / 100 / 1000
+            });
+          }
+          data.reverse();
+          points = this.createLineChartPoints(days, data);
+          chartLines.push({
+            points,
+            description: 'Monthly Recurring Revenue (in thousands) (last year)',
+            lineColor: 'mediumseagreen',
+            strokeWidth: 1,
+            min: 0,
+            max: _.max(points, 'y').y,
+            showYScale: false,
+            pointRadius
+          });
+        }
+
+        // Build campaign MAU KPI line
+        if ((this.activeUsers != null ? this.activeUsers.length : undefined) > 0) {
+          eventDayDataMap = {};
+          for (entry of Array.from(this.activeUsers)) {
+            ({
+              day
+            } = entry);
+            for (event in entry.events) {
+              count = entry.events[event];
+              if (event.indexOf('MAU campaign') >= 0) {
+                if (eventDayDataMap['MAU campaign'] == null) { eventDayDataMap['MAU campaign'] = {}; }
+                if (eventDayDataMap['MAU campaign'][day] == null) { eventDayDataMap['MAU campaign'][day] = 0; }
+                eventDayDataMap['MAU campaign'][day] += count;
+              }
+            }
+          }
+
+          campaignData = [];
+          for (event in eventDayDataMap) {
+            entry = eventDayDataMap[event];
+            for (day in entry) {
+              count = entry[day];
+              campaignData.push({day, value: count / 1000});
+            }
+          }
+          campaignData.reverse();
+
+          points = this.createLineChartPoints(days, campaignData);
+          chartLines.push({
+            points,
+            description: 'Home Monthly Active Users (in thousands) (last year)',
+            lineColor: 'mediumorchid',
+            strokeWidth: 1,
+            min: 0,
+            max: _.max(points, 'y').y,
+            showYScale: false,
+            pointRadius
+          });
+        }
+      }
+
+      days = d3Utils.createContiguousDays(timeframeDays, true);
+
+      pointRadius = timeframeDays > 365 ? 1 : timeframeDays > 90 ? 1.5 : 2;
+
+      // Build active classes KPI line
+      if ((this.activeClasses != null ? this.activeClasses.length : undefined) > 0) {
+        data = [];
+        for (entry of Array.from(this.activeClasses)) {
+          data.push({
+            day: entry.day,
+            value: entry.groups[entry.groups.length - 1]});
+        }
+        data.reverse();
+        points = this.createLineChartPoints(days, data);
+        chartLines.push({
+          points,
+          description: 'Monthly Active Classes',
+          lineColor: 'blue',
+          strokeWidth: 1,
+          min: 0,
+          max: _.max(points, 'y').y,
+          showYScale: true,
+          pointRadius
+        });
+      }
+
+      // Build recurring revenue KPI line
+      if ((this.revenue != null ? this.revenue.length : undefined) > 0) {
+        data = [];
+        for (entry of Array.from(this.revenue)) {
+          value = this.dayMrrMap[entry.day];
+          data.push({
+            day: entry.day,
             value: value / 100 / 1000
-        data.reverse()
-        points = @createLineChartPoints(days, data)
-        chartLines.push
-          points: points
-          description: 'Monthly Recurring Revenue (in thousands) (last year)'
-          lineColor: 'mediumseagreen'
-          strokeWidth: 1
-          min: 0
-          max: _.max(points, 'y').y
-          showYScale: false
-          pointRadius: pointRadius
+          });
+        }
+        data.reverse();
+        points = this.createLineChartPoints(days, data);
+        chartLines.push({
+          points,
+          description: 'Monthly Recurring Revenue (in thousands)',
+          lineColor: 'green',
+          strokeWidth: 1,
+          min: 0,
+          max: _.max(points, 'y').y,
+          showYScale: true,
+          pointRadius
+        });
+      }
 
-      # Build campaign MAU KPI line
-      if @activeUsers?.length > 0
-        eventDayDataMap = {}
-        for entry in @activeUsers
-          day = entry.day
-          for event, count of entry.events
-            if event.indexOf('MAU campaign') >= 0
-              eventDayDataMap['MAU campaign'] ?= {}
-              eventDayDataMap['MAU campaign'][day] ?= 0
-              eventDayDataMap['MAU campaign'][day] += count
+      if ((this.activeUsers != null ? this.activeUsers.length : undefined) > 0) {
+        // Build classroom MAU KPI line
+        eventDayDataMap = {};
+        for (entry of Array.from(this.activeUsers)) {
+          ({
+            day
+          } = entry);
+          for (event in entry.events) {
+            count = entry.events[event];
+            if (event.indexOf('MAU classroom') >= 0) {
+              if (eventDayDataMap['MAU classroom'] == null) { eventDayDataMap['MAU classroom'] = {}; }
+              if (eventDayDataMap['MAU classroom'][day] == null) { eventDayDataMap['MAU classroom'][day] = 0; }
+              eventDayDataMap['MAU classroom'][day] += count;
+            }
+          }
+        }
 
-        campaignData = []
-        for event, entry of eventDayDataMap
-          for day, count of entry
-            campaignData.push day: day, value: count / 1000
-        campaignData.reverse()
+        const classroomData = [];
+        for (event in eventDayDataMap) {
+          entry = eventDayDataMap[event];
+          for (day in entry) {
+            count = entry[day];
+            classroomData.push({day, value: count / 1000});
+          }
+        }
+        classroomData.reverse();
 
-        points = @createLineChartPoints(days, campaignData)
-        chartLines.push
-          points: points
-          description: 'Home Monthly Active Users (in thousands) (last year)'
-          lineColor: 'mediumorchid'
-          strokeWidth: 1
-          min: 0
-          max: _.max(points, 'y').y
-          showYScale: false
-          pointRadius: pointRadius
+        points = this.createLineChartPoints(days, classroomData);
+        chartLines.push({
+          points,
+          description: 'Classroom Monthly Active Users (in thousands)',
+          lineColor: 'red',
+          strokeWidth: 1,
+          min: 0,
+          max: _.max(points, 'y').y,
+          showYScale: true,
+          pointRadius
+        });
 
-    days = d3Utils.createContiguousDays(timeframeDays, true)
+        // Build campaign MAU KPI line
+        eventDayDataMap = {};
+        for (entry of Array.from(this.activeUsers)) {
+          ({
+            day
+          } = entry);
+          for (event in entry.events) {
+            count = entry.events[event];
+            if (event.indexOf('MAU campaign') >= 0) {
+              if (eventDayDataMap['MAU campaign'] == null) { eventDayDataMap['MAU campaign'] = {}; }
+              if (eventDayDataMap['MAU campaign'][day] == null) { eventDayDataMap['MAU campaign'][day] = 0; }
+              eventDayDataMap['MAU campaign'][day] += count;
+            }
+          }
+        }
 
-    pointRadius = if timeframeDays > 365 then 1 else if timeframeDays > 90 then 1.5 else 2
+        campaignData = [];
+        for (event in eventDayDataMap) {
+          entry = eventDayDataMap[event];
+          for (day in entry) {
+            count = entry[day];
+            campaignData.push({day, value: count / 1000});
+          }
+        }
+        campaignData.reverse();
 
-    # Build active classes KPI line
-    if @activeClasses?.length > 0
-      data = []
-      for entry in @activeClasses
-        data.push
-          day: entry.day
-          value: entry.groups[entry.groups.length - 1]
-      data.reverse()
-      points = @createLineChartPoints(days, data)
-      chartLines.push
-        points: points
-        description: 'Monthly Active Classes'
-        lineColor: 'blue'
-        strokeWidth: 1
-        min: 0
-        max: _.max(points, 'y').y
-        showYScale: true
-        pointRadius: pointRadius
+        points = this.createLineChartPoints(days, campaignData);
+        chartLines.push({
+          points,
+          description: 'Home Monthly Active Users (in thousands)',
+          lineColor: 'purple',
+          strokeWidth: 1,
+          min: 0,
+          max: _.max(points, 'y').y,
+          showYScale: true,
+          pointRadius
+        });
 
-    # Build recurring revenue KPI line
-    if @revenue?.length > 0
-      data = []
-      for entry in @revenue
-        value = @dayMrrMap[entry.day]
-        data.push
-          day: entry.day
-          value: value / 100 / 1000
-      data.reverse()
-      points = @createLineChartPoints(days, data)
-      chartLines.push
-        points: points
-        description: 'Monthly Recurring Revenue (in thousands)'
-        lineColor: 'green'
-        strokeWidth: 1
-        min: 0
-        max: _.max(points, 'y').y
-        showYScale: true
-        pointRadius: pointRadius
+        // Use same max for classroom/campaign MAUs
+        chartLines[chartLines.length - 1].max = Math.max(chartLines[chartLines.length - 1].max, chartLines[chartLines.length - 2].max);
+        chartLines[chartLines.length - 2].max = Math.max(chartLines[chartLines.length - 1].max, chartLines[chartLines.length - 2].max);
 
-    if @activeUsers?.length > 0
-      # Build classroom MAU KPI line
-      eventDayDataMap = {}
-      for entry in @activeUsers
-        day = entry.day
-        for event, count of entry.events
-          if event.indexOf('MAU classroom') >= 0
-            eventDayDataMap['MAU classroom'] ?= {}
-            eventDayDataMap['MAU classroom'][day] ?= 0
-            eventDayDataMap['MAU classroom'][day] += count
+        // Update previous year maxes if necessary
+        if (chartLines.length === 7) {
+          chartLines[0].max = chartLines[3].max;
+          chartLines[1].max = chartLines[4].max;
+          chartLines[2].max = chartLines[6].max;
+        }
 
-      classroomData = []
-      for event, entry of eventDayDataMap
-        for day, count of entry
-          classroomData.push day: day, value: count / 1000
-      classroomData.reverse()
+        return chartLines.reverse();  // X-axis is based off first one, first one might be previous year, so cheaply make sure first one is this year
+      }
+    }
 
-      points = @createLineChartPoints(days, classroomData)
-      chartLines.push
-        points: points
-        description: 'Classroom Monthly Active Users (in thousands)'
-        lineColor: 'red'
-        strokeWidth: 1
-        min: 0
-        max: _.max(points, 'y').y
-        showYScale: true
-        pointRadius: pointRadius
+    updateActiveClassesChartData() {
+      let count;
+      this.activeClassesChartLines90 = [];
+      this.activeClassesChartLines365 = [];
+      if (!(this.activeClasses != null ? this.activeClasses.length : undefined)) { return; }
 
-      # Build campaign MAU KPI line
-      eventDayDataMap = {}
-      for entry in @activeUsers
-        day = entry.day
-        for event, count of entry.events
-          if event.indexOf('MAU campaign') >= 0
-            eventDayDataMap['MAU campaign'] ?= {}
-            eventDayDataMap['MAU campaign'][day] ?= 0
-            eventDayDataMap['MAU campaign'][day] += count
+      const groupDayMap = {};
+      for (var entry of Array.from(this.activeClasses)) {
+        for (var i = 0; i < entry.groups.length; i++) {
+          count = entry.groups[i];
+          if (groupDayMap[this.activeClassGroups[i]] == null) { groupDayMap[this.activeClassGroups[i]] = {}; }
+          if (groupDayMap[this.activeClassGroups[i]][entry.day] == null) { groupDayMap[this.activeClassGroups[i]][entry.day] = 0; }
+          groupDayMap[this.activeClassGroups[i]][entry.day] += count;
+        }
+      }
 
-      campaignData = []
-      for event, entry of eventDayDataMap
-        for day, count of entry
-          campaignData.push day: day, value: count / 1000
-      campaignData.reverse()
+      const createActiveClassesChartLines = (lines, numDays) => {
+        const days = d3Utils.createContiguousDays(numDays);
+        let colorIndex = 0;
+        let totalMax = 0;
+        for (var group in groupDayMap) {
+          var entries = groupDayMap[group];
+          var data = [];
+          for (var day in entries) {
+            count = entries[day];
+            data.push({
+              day,
+              value: count
+            });
+          }
+          data.reverse();
+          var points = this.createLineChartPoints(days, data);
+          lines.push({
+            points,
+            description: group.replace('Active classes ', ''),
+            lineColor: this.lineColors[colorIndex++ % this.lineColors.length],
+            strokeWidth: 1,
+            min: 0,
+            showYScale: group === 'Total'
+          });
+          if (group === 'Total') { totalMax = _.max(points, 'y').y; }
+        }
+        return Array.from(lines).map((line) => (line.max = totalMax));
+      };
 
-      points = @createLineChartPoints(days, campaignData)
-      chartLines.push
-        points: points
-        description: 'Home Monthly Active Users (in thousands)'
-        lineColor: 'purple'
-        strokeWidth: 1
-        min: 0
-        max: _.max(points, 'y').y
-        showYScale: true
-        pointRadius: pointRadius
+      createActiveClassesChartLines(this.activeClassesChartLines90, 90);
+      return createActiveClassesChartLines(this.activeClassesChartLines365, 365);
+    }
 
-      # Use same max for classroom/campaign MAUs
-      chartLines[chartLines.length - 1].max = Math.max(chartLines[chartLines.length - 1].max, chartLines[chartLines.length - 2].max)
-      chartLines[chartLines.length - 2].max = Math.max(chartLines[chartLines.length - 1].max, chartLines[chartLines.length - 2].max)
+    updateActiveUsersChartData() {
+      // Create chart lines for the active user events returned by active_users in analytics_perday_handler
+      let event;
+      this.campaignDailyActiveUsersChartLines90 = [];
+      this.campaignMonthlyActiveUsersChartLines90 = [];
+      this.campaignDailyActiveUsersChartLines365 = [];
+      this.campaignMonthlyActiveUsersChartLines365 = [];
+      this.classroomDailyActiveUsersChartLines90 = [];
+      this.classroomMonthlyActiveUsersChartLines90 = [];
+      this.classroomDailyActiveUsersChartLines365 = [];
+      this.classroomMonthlyActiveUsersChartLines365 = [];
+      if (!(this.activeUsers != null ? this.activeUsers.length : undefined)) { return; }
 
-      # Update previous year maxes if necessary
-      if chartLines.length is 7
-        chartLines[0].max = chartLines[3].max
-        chartLines[1].max = chartLines[4].max
-        chartLines[2].max = chartLines[6].max
-
-      chartLines.reverse()  # X-axis is based off first one, first one might be previous year, so cheaply make sure first one is this year
-
-  updateActiveClassesChartData: ->
-    @activeClassesChartLines90 = []
-    @activeClassesChartLines365 = []
-    return unless @activeClasses?.length
-
-    groupDayMap = {}
-    for entry in @activeClasses
-      for count, i in entry.groups
-        groupDayMap[@activeClassGroups[i]] ?= {}
-        groupDayMap[@activeClassGroups[i]][entry.day] ?= 0
-        groupDayMap[@activeClassGroups[i]][entry.day] += count
-
-    createActiveClassesChartLines = (lines, numDays) =>
-      days = d3Utils.createContiguousDays(numDays)
-      colorIndex = 0
-      totalMax = 0
-      for group, entries of groupDayMap
-        data = []
-        for day, count of entries
-          data.push
-            day: day
+      // Separate day/value arrays by event
+      const eventDataMap = {};
+      for (var entry of Array.from(this.activeUsers)) {
+        var {
+          day
+        } = entry;
+        for (event in entry.events) {
+          var count = entry.events[event];
+          if (eventDataMap[event] == null) { eventDataMap[event] = []; }
+          eventDataMap[event].push({
+            day: entry.day,
             value: count
-        data.reverse()
-        points = @createLineChartPoints(days, data)
-        lines.push
-          points: points
-          description: group.replace('Active classes ', '')
-          lineColor: @lineColors[colorIndex++ % @lineColors.length]
-          strokeWidth: 1
-          min: 0
-          showYScale: group is 'Total'
-        totalMax = _.max(points, 'y').y if group is 'Total'
-      line.max = totalMax for line in lines
+          });
+        }
+      }
 
-    createActiveClassesChartLines(@activeClassesChartLines90, 90)
-    createActiveClassesChartLines(@activeClassesChartLines365, 365)
+      const createActiveUsersChartLines = (lines, numDays, eventPrefix) => {
+        const days = d3Utils.createContiguousDays(numDays);
+        let colorIndex = 0;
+        let lineMax = 0;
+        let showYScale = true;
+        for (event in eventDataMap) {
+          var data = eventDataMap[event];
+          if (!(event.indexOf(eventPrefix) >= 0)) { continue; }
+          var points = this.createLineChartPoints(days, _.cloneDeep(data).reverse());
+          lineMax = Math.max(_.max(points, 'y').y, lineMax);
+          lines.push({
+            points,
+            description: event,
+            lineColor: this.lineColors[colorIndex++ % this.lineColors.length],
+            strokeWidth: 1,
+            min: 0,
+            showYScale
+          });
+          showYScale = false;
+        }
+        return (() => {
+          const result = [];
+          for (var line of Array.from(lines)) {
+            line.description = line.description.replace('campaign', 'home');
+            result.push(line.max = lineMax);
+          }
+          return result;
+        })();
+      };
 
-  updateActiveUsersChartData: ->
-    # Create chart lines for the active user events returned by active_users in analytics_perday_handler
-    @campaignDailyActiveUsersChartLines90 = []
-    @campaignMonthlyActiveUsersChartLines90 = []
-    @campaignDailyActiveUsersChartLines365 = []
-    @campaignMonthlyActiveUsersChartLines365 = []
-    @classroomDailyActiveUsersChartLines90 = []
-    @classroomMonthlyActiveUsersChartLines90 = []
-    @classroomDailyActiveUsersChartLines365 = []
-    @classroomMonthlyActiveUsersChartLines365 = []
-    return unless @activeUsers?.length
+      createActiveUsersChartLines(this.campaignDailyActiveUsersChartLines90, 90, 'DAU campaign');
+      createActiveUsersChartLines(this.campaignMonthlyActiveUsersChartLines90, 90, 'MAU campaign');
+      createActiveUsersChartLines(this.classroomDailyActiveUsersChartLines90, 90, 'DAU classroom');
+      createActiveUsersChartLines(this.classroomMonthlyActiveUsersChartLines90, 90, 'MAU classroom');
+      createActiveUsersChartLines(this.campaignDailyActiveUsersChartLines365, 365, 'DAU campaign');
+      createActiveUsersChartLines(this.campaignMonthlyActiveUsersChartLines365, 365, 'MAU campaign');
+      createActiveUsersChartLines(this.classroomDailyActiveUsersChartLines365, 365, 'DAU classroom');
+      return createActiveUsersChartLines(this.classroomMonthlyActiveUsersChartLines365, 365, 'MAU classroom');
+    }
 
-    # Separate day/value arrays by event
-    eventDataMap = {}
-    for entry in @activeUsers
-      day = entry.day
-      for event, count of entry.events
-        eventDataMap[event] ?= []
-        eventDataMap[event].push
-          day: entry.day
-          value: count
+    updateCampaignVsClassroomActiveUsersChartData() {
+      let data, event, line, points;
+      this.campaignVsClassroomMonthlyActiveUsersRecentChartLines = [];
+      this.campaignVsClassroomMonthlyActiveUsersChartLines = [];
+      if (!(this.activeUsers != null ? this.activeUsers.length : undefined)) { return; }
 
-    createActiveUsersChartLines = (lines, numDays, eventPrefix) =>
-      days = d3Utils.createContiguousDays(numDays)
-      colorIndex = 0
-      lineMax = 0
-      showYScale = true
-      for event, data of eventDataMap
-        continue unless event.indexOf(eventPrefix) >= 0
-        points = @createLineChartPoints(days, _.cloneDeep(data).reverse())
-        lineMax = Math.max(_.max(points, 'y').y, lineMax)
-        lines.push
-          points: points
-          description: event
-          lineColor: @lineColors[colorIndex++ % @lineColors.length]
-          strokeWidth: 1
-          min: 0
-          showYScale: showYScale
-        showYScale = false
-      for line in lines
-        line.description = line.description.replace 'campaign', 'home'
-        line.max = lineMax
+      // Separate day/value arrays by event
+      const eventDataMap = {};
+      for (var entry of Array.from(this.activeUsers)) {
+        var {
+          day
+        } = entry;
+        for (event in entry.events) {
+          var count = entry.events[event];
+          if (eventDataMap[event] == null) { eventDataMap[event] = []; }
+          eventDataMap[event].push({
+            day: entry.day,
+            value: count
+          });
+        }
+      }
 
-    createActiveUsersChartLines(@campaignDailyActiveUsersChartLines90, 90, 'DAU campaign')
-    createActiveUsersChartLines(@campaignMonthlyActiveUsersChartLines90, 90, 'MAU campaign')
-    createActiveUsersChartLines(@classroomDailyActiveUsersChartLines90, 90, 'DAU classroom')
-    createActiveUsersChartLines(@classroomMonthlyActiveUsersChartLines90, 90, 'MAU classroom')
-    createActiveUsersChartLines(@campaignDailyActiveUsersChartLines365, 365, 'DAU campaign')
-    createActiveUsersChartLines(@campaignMonthlyActiveUsersChartLines365, 365, 'MAU campaign')
-    createActiveUsersChartLines(@classroomDailyActiveUsersChartLines365, 365, 'DAU classroom')
-    createActiveUsersChartLines(@classroomMonthlyActiveUsersChartLines365, 365, 'MAU classroom')
+      let days = d3Utils.createContiguousDays(90);
+      let colorIndex = 0;
+      let max = 0;
+      for (event in eventDataMap) {
+        data = eventDataMap[event];
+        if (event === 'MAU campaign paid') {
+          points = this.createLineChartPoints(days, _.cloneDeep(data).reverse());
+          max = Math.max(max, _.max(points, 'y').y);
+          this.campaignVsClassroomMonthlyActiveUsersRecentChartLines.push({
+            points,
+            description: event,
+            lineColor: this.lineColors[colorIndex++ % this.lineColors.length],
+            strokeWidth: 1,
+            min: 0,
+            showYScale: true
+          });
+        } else if (event === 'MAU classroom paid') {
+          points = this.createLineChartPoints(days, _.cloneDeep(data).reverse());
+          max = Math.max(max, _.max(points, 'y').y);
+          this.campaignVsClassroomMonthlyActiveUsersRecentChartLines.push({
+            points,
+            description: event,
+            lineColor: this.lineColors[colorIndex++ % this.lineColors.length],
+            strokeWidth: 1,
+            min: 0,
+            showYScale: false
+          });
+        }
+      }
 
-  updateCampaignVsClassroomActiveUsersChartData: ->
-    @campaignVsClassroomMonthlyActiveUsersRecentChartLines = []
-    @campaignVsClassroomMonthlyActiveUsersChartLines = []
-    return unless @activeUsers?.length
+      for (line of Array.from(this.campaignVsClassroomMonthlyActiveUsersRecentChartLines)) {
+        line.max = max;
+        line.description = line.description.replace('campaign', 'home');
+      }
 
-    # Separate day/value arrays by event
-    eventDataMap = {}
-    for entry in @activeUsers
-      day = entry.day
-      for event, count of entry.events
-        eventDataMap[event] ?= []
-        eventDataMap[event].push
-          day: entry.day
-          value: count
+      days = d3Utils.createContiguousDays(365);
+      colorIndex = 0;
+      max = 0;
+      for (event in eventDataMap) {
+        data = eventDataMap[event];
+        if (event === 'MAU campaign paid') {
+          points = this.createLineChartPoints(days, _.cloneDeep(data).reverse());
+          max = Math.max(max, _.max(points, 'y').y);
+          this.campaignVsClassroomMonthlyActiveUsersChartLines.push({
+            points,
+            description: event,
+            lineColor: this.lineColors[colorIndex++ % this.lineColors.length],
+            strokeWidth: 1,
+            min: 0,
+            showYScale: true
+          });
+        } else if (event === 'MAU classroom paid') {
+          points = this.createLineChartPoints(days, _.cloneDeep(data).reverse());
+          max = Math.max(max, _.max(points, 'y').y);
+          this.campaignVsClassroomMonthlyActiveUsersChartLines.push({
+            points,
+            description: event,
+            lineColor: this.lineColors[colorIndex++ % this.lineColors.length],
+            strokeWidth: 1,
+            min: 0,
+            showYScale: false
+          });
+        }
+      }
 
-    days = d3Utils.createContiguousDays(90)
-    colorIndex = 0
-    max = 0
-    for event, data of eventDataMap
-      if event is 'MAU campaign paid'
-        points = @createLineChartPoints(days, _.cloneDeep(data).reverse())
-        max = Math.max(max, _.max(points, 'y').y)
-        @campaignVsClassroomMonthlyActiveUsersRecentChartLines.push
-          points: points
-          description: event
-          lineColor: @lineColors[colorIndex++ % @lineColors.length]
-          strokeWidth: 1
-          min: 0
-          showYScale: true
-      else if event is 'MAU classroom paid'
-        points = @createLineChartPoints(days, _.cloneDeep(data).reverse())
-        max = Math.max(max, _.max(points, 'y').y)
-        @campaignVsClassroomMonthlyActiveUsersRecentChartLines.push
-          points: points
-          description: event
-          lineColor: @lineColors[colorIndex++ % @lineColors.length]
-          strokeWidth: 1
-          min: 0
-          showYScale: false
+      return (() => {
+        const result = [];
+        for (line of Array.from(this.campaignVsClassroomMonthlyActiveUsersChartLines)) {
+          line.max = max;
+          result.push(line.description = line.description.replace('campaign', 'home'));
+        }
+        return result;
+      })();
+    }
 
-    for line in @campaignVsClassroomMonthlyActiveUsersRecentChartLines
-      line.max = max
-      line.description = line.description.replace 'campaign', 'home'
+    updateEnrollmentsChartData() {
+      let entry;
+      this.enrollmentsChartLines = [];
+      if (!(this.paidCourseTotalEnrollments != null ? this.paidCourseTotalEnrollments.length : undefined) || !(this.trialCourseTotalEnrollments != null ? this.trialCourseTotalEnrollments.length : undefined)) { return; }
+      const days = d3Utils.createContiguousDays(90, false);
+      this.enrollmentDays = _.cloneDeep(days);
+      this.enrollmentDays.reverse();
 
-    days = d3Utils.createContiguousDays(365)
-    colorIndex = 0
-    max = 0
-    for event, data of eventDataMap
-      if event is 'MAU campaign paid'
-        points = @createLineChartPoints(days, _.cloneDeep(data).reverse())
-        max = Math.max(max, _.max(points, 'y').y)
-        @campaignVsClassroomMonthlyActiveUsersChartLines.push
-          points: points
-          description: event
-          lineColor: @lineColors[colorIndex++ % @lineColors.length]
-          strokeWidth: 1
-          min: 0
-          showYScale: true
-      else if event is 'MAU classroom paid'
-        points = @createLineChartPoints(days, _.cloneDeep(data).reverse())
-        max = Math.max(max, _.max(points, 'y').y)
-        @campaignVsClassroomMonthlyActiveUsersChartLines.push
-          points: points
-          description: event
-          lineColor: @lineColors[colorIndex++ % @lineColors.length]
-          strokeWidth: 1
-          min: 0
-          showYScale: false
+      let colorIndex = 0;
+      let dailyMax = 0;
 
-    for line in @campaignVsClassroomMonthlyActiveUsersChartLines
-      line.max = max
-      line.description = line.description.replace 'campaign', 'home'
+      let data = [];
+      for (entry of Array.from(this.paidCourseTotalEnrollments)) {
+        data.push({
+          day: entry.day,
+          value: entry.count
+        });
+      }
+      let points = this.createLineChartPoints(days, data);
+      this.enrollmentsChartLines.push({
+        points,
+        description: 'Paid enrollments issued',
+        lineColor: this.lineColors[colorIndex++ % this.lineColors.length],
+        strokeWidth: 1,
+        min: 0,
+        max: _.max(points, 'y').y,
+        showYScale: true
+      });
+      dailyMax = _.max([dailyMax, _.max(points, 'y').y]);
 
-  updateEnrollmentsChartData: ->
-    @enrollmentsChartLines = []
-    return unless @paidCourseTotalEnrollments?.length and @trialCourseTotalEnrollments?.length
-    days = d3Utils.createContiguousDays(90, false)
-    @enrollmentDays = _.cloneDeep(days)
-    @enrollmentDays.reverse()
+      data = [];
+      for (entry of Array.from(this.paidCourseRedeemedEnrollments)) {
+        data.push({
+          day: entry.day,
+          value: entry.count
+        });
+      }
+      points = this.createLineChartPoints(days, data);
+      this.enrollmentsChartLines.push({
+        points,
+        description: 'Paid enrollments redeemed',
+        lineColor: this.lineColors[colorIndex++ % this.lineColors.length],
+        strokeWidth: 1,
+        min: 0,
+        max: _.max(points, 'y').y,
+        showYScale: false
+      });
+      dailyMax = _.max([dailyMax, _.max(points, 'y').y]);
 
-    colorIndex = 0
-    dailyMax = 0
+      data = [];
+      for (entry of Array.from(this.trialCourseTotalEnrollments)) {
+        data.push({
+          day: entry.day,
+          value: entry.count
+        });
+      }
+      points = this.createLineChartPoints(days, data, true);
+      this.enrollmentsChartLines.push({
+        points,
+        description: 'Trial enrollments issued',
+        lineColor: this.lineColors[colorIndex++ % this.lineColors.length],
+        strokeWidth: 1,
+        min: 0,
+        max: _.max(points, 'y').y,
+        showYScale: false
+      });
+      dailyMax = _.max([dailyMax, _.max(points, 'y').y]);
 
-    data = []
-    for entry in @paidCourseTotalEnrollments
-      data.push
-        day: entry.day
-        value: entry.count
-    points = @createLineChartPoints(days, data)
-    @enrollmentsChartLines.push
-      points: points
-      description: 'Paid enrollments issued'
-      lineColor: @lineColors[colorIndex++ % @lineColors.length]
-      strokeWidth: 1
-      min: 0
-      max: _.max(points, 'y').y
-      showYScale: true
-    dailyMax = _.max([dailyMax, _.max(points, 'y').y])
+      data = [];
+      for (entry of Array.from(this.trialCourseRedeemedEnrollments)) {
+        data.push({
+          day: entry.day,
+          value: entry.count
+        });
+      }
+      points = this.createLineChartPoints(days, data);
+      this.enrollmentsChartLines.push({
+        points,
+        description: 'Trial enrollments redeemed',
+        lineColor: this.lineColors[colorIndex++ % this.lineColors.length],
+        strokeWidth: 1,
+        min: 0,
+        max: _.max(points, 'y').y,
+        showYScale: false
+      });
+      dailyMax = _.max([dailyMax, _.max(points, 'y').y]);
 
-    data = []
-    for entry in @paidCourseRedeemedEnrollments
-      data.push
-        day: entry.day
-        value: entry.count
-    points = @createLineChartPoints(days, data)
-    @enrollmentsChartLines.push
-      points: points
-      description: 'Paid enrollments redeemed'
-      lineColor: @lineColors[colorIndex++ % @lineColors.length]
-      strokeWidth: 1
-      min: 0
-      max: _.max(points, 'y').y
-      showYScale: false
-    dailyMax = _.max([dailyMax, _.max(points, 'y').y])
+      return Array.from(this.enrollmentsChartLines).map((line) => (line.max = dailyMax));
+    }
 
-    data = []
-    for entry in @trialCourseTotalEnrollments
-      data.push
-        day: entry.day
-        value: entry.count
-    points = @createLineChartPoints(days, data, true)
-    @enrollmentsChartLines.push
-      points: points
-      description: 'Trial enrollments issued'
-      lineColor: @lineColors[colorIndex++ % @lineColors.length]
-      strokeWidth: 1
-      min: 0
-      max: _.max(points, 'y').y
-      showYScale: false
-    dailyMax = _.max([dailyMax, _.max(points, 'y').y])
+    updateRevenueChartData() {
+      let count;
+      this.revenueDailyChartLines90Days = [];
+      this.revenueMonthlyChartLines90Days = [];
+      this.revenueDailyChartLines365Days = [];
+      this.revenueMonthlyChartLines365Days = [];
+      if (!(this.revenue != null ? this.revenue.length : undefined)) { return; }
 
-    data = []
-    for entry in @trialCourseRedeemedEnrollments
-      data.push
-        day: entry.day
-        value: entry.count
-    points = @createLineChartPoints(days, data)
-    @enrollmentsChartLines.push
-      points: points
-      description: 'Trial enrollments redeemed'
-      lineColor: @lineColors[colorIndex++ % @lineColors.length]
-      strokeWidth: 1
-      min: 0
-      max: _.max(points, 'y').y
-      showYScale: false
-    dailyMax = _.max([dailyMax, _.max(points, 'y').y])
+      const groupDayMap = {};
+      for (var entry of Array.from(this.revenue)) {
+        for (var i = 0; i < entry.groups.length; i++) {
+          count = entry.groups[i];
+          if (groupDayMap[this.revenueGroups[i]] == null) { groupDayMap[this.revenueGroups[i]] = {}; }
+          if (groupDayMap[this.revenueGroups[i]][entry.day] == null) { groupDayMap[this.revenueGroups[i]][entry.day] = 0; }
+          groupDayMap[this.revenueGroups[i]][entry.day] += count;
+        }
+      }
 
-    line.max = dailyMax for line in @enrollmentsChartLines
+      const addRevenueChartLine = (days, eventPrefix, lines) => {
+        let colorIndex = 0;
+        let dailyMax = 0;
+        return (() => {
+          const result = [];
+          for (var group in groupDayMap) {
+            var entries = groupDayMap[group];
+            if (!(group.indexOf(eventPrefix) >= 0)) { continue; }
+            var data = [];
+            for (var day in entries) {
+              count = entries[day];
+              data.push({
+                day,
+                value: count / 100
+              });
+            }
+            data.reverse();
+            var points = this.createLineChartPoints(days, data);
+            lines.push({
+              points,
+              description: group.replace(eventPrefix + ' ', 'Daily '),
+              lineColor: this.lineColors[colorIndex++ % this.lineColors.length],
+              strokeWidth: 1,
+              min: 0,
+              max: _.max(points, 'y').y,
+              showYScale: group === (eventPrefix + ' Total')
+            });
+            if (group === (eventPrefix + ' Total')) { dailyMax = _.max(points, 'y').y; }
+            result.push(Array.from(lines).map((line) =>
+              (line.max = dailyMax)));
+          }
+          return result;
+        })();
+      };
 
-  updateRevenueChartData: ->
-    @revenueDailyChartLines90Days = []
-    @revenueMonthlyChartLines90Days = []
-    @revenueDailyChartLines365Days = []
-    @revenueMonthlyChartLines365Days = []
-    return unless @revenue?.length
-
-    groupDayMap = {}
-    for entry in @revenue
-      for count, i in entry.groups
-        groupDayMap[@revenueGroups[i]] ?= {}
-        groupDayMap[@revenueGroups[i]][entry.day] ?= 0
-        groupDayMap[@revenueGroups[i]][entry.day] += count
-
-    addRevenueChartLine = (days, eventPrefix, lines) =>
-      colorIndex = 0
-      dailyMax = 0
-      for group, entries of groupDayMap
-        continue unless group.indexOf(eventPrefix) >= 0
-        data = []
-        for day, count of entries
-          data.push
-            day: day
-            value: count / 100
-        data.reverse()
-        points = @createLineChartPoints(days, data)
-        lines.push
-          points: points
-          description: group.replace(eventPrefix + ' ', 'Daily ')
-          lineColor: @lineColors[colorIndex++ % @lineColors.length]
-          strokeWidth: 1
-          min: 0
-          max: _.max(points, 'y').y
-          showYScale: group is eventPrefix + ' Total'
-        dailyMax = _.max(points, 'y').y if group is eventPrefix + ' Total'
-        for line in lines
-          line.max = dailyMax
-
-    addRevenueChartLine(d3Utils.createContiguousDays(90), 'DRR', @revenueDailyChartLines90Days)
-    addRevenueChartLine(d3Utils.createContiguousDays(90), 'MRR', @revenueMonthlyChartLines90Days)
-    addRevenueChartLine(d3Utils.createContiguousDays(365), 'DRR', @revenueDailyChartLines365Days)
-    addRevenueChartLine(d3Utils.createContiguousDays(365), 'MRR', @revenueMonthlyChartLines365Days)
+      addRevenueChartLine(d3Utils.createContiguousDays(90), 'DRR', this.revenueDailyChartLines90Days);
+      addRevenueChartLine(d3Utils.createContiguousDays(90), 'MRR', this.revenueMonthlyChartLines90Days);
+      addRevenueChartLine(d3Utils.createContiguousDays(365), 'DRR', this.revenueDailyChartLines365Days);
+      return addRevenueChartLine(d3Utils.createContiguousDays(365), 'MRR', this.revenueMonthlyChartLines365Days);
+    }
+  };
+  AnalyticsView.initClass();
+  return AnalyticsView;
+})());

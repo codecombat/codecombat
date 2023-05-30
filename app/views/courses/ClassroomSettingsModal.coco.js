@@ -1,184 +1,239 @@
-require('app/styles/courses/classroom-settings-modal.sass')
-Classroom = require 'models/Classroom'
-ModalView = require 'views/core/ModalView'
-template = require 'app/templates/courses/classroom-settings-modal'
-forms = require 'core/forms'
-errors = require 'core/errors'
-GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
-globalVar = require 'core/globalVar'
-classroomsApi = require 'core/api/classrooms'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ClassroomSettingsModal;
+require('app/styles/courses/classroom-settings-modal.sass');
+const Classroom = require('models/Classroom');
+const ModalView = require('views/core/ModalView');
+const template = require('app/templates/courses/classroom-settings-modal');
+const forms = require('core/forms');
+const errors = require('core/errors');
+const GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler');
+const globalVar = require('core/globalVar');
+const classroomsApi = require('core/api/classrooms');
 
-initializeFilePicker = ->
-  require('core/services/filepicker')() unless globalVar.application.isIPadApp
+const initializeFilePicker = function() {
+  if (!globalVar.application.isIPadApp) { return require('core/services/filepicker')(); }
+};
 
-module.exports = class ClassroomSettingsModal extends ModalView
-  id: 'classroom-settings-modal'
-  template: template
-  schema: require 'schemas/models/classroom.schema'
+module.exports = (ClassroomSettingsModal = (function() {
+  ClassroomSettingsModal = class ClassroomSettingsModal extends ModalView {
+    constructor(...args) {
+      this.onFileChosen = this.onFileChosen.bind(this);
+      this.onFileUploaded = this.onFileUploaded.bind(this);
+      super(...args);
+    }
 
-  events:
-    'click #save-settings-btn': 'onSubmitForm'
-    'click #update-courses-btn': 'onClickUpdateCoursesButton'
-    'submit form': 'onSubmitForm'
-    'click #link-google-classroom-btn': 'onClickLinkGoogleClassroom'
-    'click .create-manually': 'onClickCreateManually'
-    'click .pick-image-button': 'onPickImage'
-    'click #link-lms-classroom-btn': 'onClickLinkLMSClassroom'
-    'change #classroom-items': 'onChangeClassroomItems'
+    static initClass() {
+      this.prototype.id = 'classroom-settings-modal';
+      this.prototype.template = template;
+      this.prototype.schema = require('schemas/models/classroom.schema');
+  
+      this.prototype.events = {
+        'click #save-settings-btn': 'onSubmitForm',
+        'click #update-courses-btn': 'onClickUpdateCoursesButton',
+        'submit form': 'onSubmitForm',
+        'click #link-google-classroom-btn': 'onClickLinkGoogleClassroom',
+        'click .create-manually': 'onClickCreateManually',
+        'click .pick-image-button': 'onPickImage',
+        'click #link-lms-classroom-btn': 'onClickLinkLMSClassroom',
+        'change #classroom-items': 'onChangeClassroomItems'
+      };
+    }
 
-  initialize: (options={}) ->
-    @classroom = options.classroom or new Classroom()
-    @googleClassrooms = me.get('googleClassrooms') || []
-    @lmsClassrooms = []
-    @isGoogleClassroom = false
-    @enableCpp = me.enableCpp()
-    @enableJava = me.enableJava()
-    @uploadFilePath = "db/classroom/#{@classroom.id}"
-    initializeFilePicker()
-    if @shouldShowLMSButton()
-      classroomsApi.getEdLinkClassrooms().then((resp) =>
-        @lmsClassrooms = resp.data
-        if @showLMSDropDown
-          @render()
-          $('.class-name').hide()
-      )
-    @showLMSDropDown = false
+    initialize(options) {
+      if (options == null) { options = {}; }
+      this.classroom = options.classroom || new Classroom();
+      this.googleClassrooms = me.get('googleClassrooms') || [];
+      this.lmsClassrooms = [];
+      this.isGoogleClassroom = false;
+      this.enableCpp = me.enableCpp();
+      this.enableJava = me.enableJava();
+      this.uploadFilePath = `db/classroom/${this.classroom.id}`;
+      initializeFilePicker();
+      if (this.shouldShowLMSButton()) {
+        classroomsApi.getEdLinkClassrooms().then(resp => {
+          this.lmsClassrooms = resp.data;
+          if (this.showLMSDropDown) {
+            this.render();
+            return $('.class-name').hide();
+          }
+        });
+      }
+      return this.showLMSDropDown = false;
+    }
 
-  afterRender: ->
-    super()
-    forms.updateSelects(@$('form'))
+    afterRender() {
+      super.afterRender();
+      return forms.updateSelects(this.$('form'));
+    }
 
-  onChangeClassroomItems: (e) ->
-    # Unless we manually change this, we're not saving it, so that we can easily change the schema default later
-    @hasChangedClassroomItems = true
+    onChangeClassroomItems(e) {
+      // Unless we manually change this, we're not saving it, so that we can easily change the schema default later
+      return this.hasChangedClassroomItems = true;
+    }
 
-  onSubmitForm: (e) ->
-    @classroom.notyErrors = false
-    e.preventDefault()
-    form = @$('form')
-    forms.clearFormAlerts(form)
-    attrs = forms.formToObject(form, ignoreEmptyString: false)
-    if attrs.language
-      attrs.aceConfig = { language: attrs.language }
-      delete attrs.language
-    else
-      forms.setErrorToProperty(form, 'language', $.i18n.t('common.required_field'))
-      return
+    onSubmitForm(e) {
+      this.classroom.notyErrors = false;
+      e.preventDefault();
+      const form = this.$('form');
+      forms.clearFormAlerts(form);
+      const attrs = forms.formToObject(form, {ignoreEmptyString: false});
+      if (attrs.language) {
+        attrs.aceConfig = { language: attrs.language };
+        delete attrs.language;
+      } else {
+        forms.setErrorToProperty(form, 'language', $.i18n.t('common.required_field'));
+        return;
+      }
 
-    if not attrs.type and me.isILK()
-      forms.setErrorToProperty(form, 'type', $.i18n.t('common.required_field'))
-      return
+      if (!attrs.type && me.isILK()) {
+        forms.setErrorToProperty(form, 'type', $.i18n.t('common.required_field'));
+        return;
+      }
 
-    if attrs.classroomItems and @hasChangedClassroomItems
-      attrs.classroomItems = attrs.classroomItems[0] == 'on'
-    else
-      delete attrs.classroomItems
+      if (attrs.classroomItems && this.hasChangedClassroomItems) {
+        attrs.classroomItems = attrs.classroomItems[0] === 'on';
+      } else {
+        delete attrs.classroomItems;
+      }
 
-    if attrs.liveCompletion
-      attrs.aceConfig.liveCompletion = attrs.liveCompletion[0] == 'on'
-      delete attrs.liveCompletion
+      if (attrs.liveCompletion) {
+        attrs.aceConfig.liveCompletion = attrs.liveCompletion[0] === 'on';
+        delete attrs.liveCompletion;
+      }
 
-    if !@isGoogleClassroom and !@showLMSDropDown
-      delete attrs.googleClassroomId
-      delete attrs.lmsClassroomId
-    else if attrs.googleClassroomId
-      gClass = me.get('googleClassrooms').find((c)=>c.id==attrs.googleClassroomId)
-      attrs.name = gClass.name
-      delete attrs.lmsClassroomId
-    else if attrs.lmsClassroomId
-      attrs.name = @lmsClassrooms.find((c)=>c.id==attrs.lmsClassroomId).name
-      delete attrs.googleClassroomId
-    else
-      forms.setErrorToProperty(form, 'googleClassroomId', $.i18n.t('common.required_field'))
-      return
+      if (!this.isGoogleClassroom && !this.showLMSDropDown) {
+        delete attrs.googleClassroomId;
+        delete attrs.lmsClassroomId;
+      } else if (attrs.googleClassroomId) {
+        const gClass = me.get('googleClassrooms').find(c=> c.id===attrs.googleClassroomId);
+        attrs.name = gClass.name;
+        delete attrs.lmsClassroomId;
+      } else if (attrs.lmsClassroomId) {
+        attrs.name = this.lmsClassrooms.find(c=> c.id===attrs.lmsClassroomId).name;
+        delete attrs.googleClassroomId;
+      } else {
+        forms.setErrorToProperty(form, 'googleClassroomId', $.i18n.t('common.required_field'));
+        return;
+      }
 
-    @classroom.set(attrs)
-    schemaErrors = @classroom.getValidationErrors()
-    if schemaErrors
-      for error in schemaErrors
-        if error.schemaPath is "/properties/name/minLength"
-          error.message = 'Please enter a class name.'
-      forms.applyErrorsToForm(form, schemaErrors)
-      return
+      this.classroom.set(attrs);
+      const schemaErrors = this.classroom.getValidationErrors();
+      if (schemaErrors) {
+        for (var error of Array.from(schemaErrors)) {
+          if (error.schemaPath === "/properties/name/minLength") {
+            error.message = 'Please enter a class name.';
+          }
+        }
+        forms.applyErrorsToForm(form, schemaErrors);
+        return;
+      }
 
-    button = @$('#save-settings-btn')
-    @oldButtonText = button.text()
-    button.text($.i18n.t('common.saving')).attr('disabled', true)
-    @classroom.save()
-    @listenToOnce @classroom, 'error', (model, jqxhr) ->
-      @stopListening @classroom, 'sync', @hide
-      button.text(@oldButtonText).attr('disabled', false)
-      errors.showNotyNetworkError(jqxhr)
-    @listenToOnce @classroom, 'sync', @hide
-    window.tracker?.trackEvent "Teachers Edit Class Saved", category: 'Teachers', classroomID: @classroom.id
+      const button = this.$('#save-settings-btn');
+      this.oldButtonText = button.text();
+      button.text($.i18n.t('common.saving')).attr('disabled', true);
+      this.classroom.save();
+      this.listenToOnce(this.classroom, 'error', function(model, jqxhr) {
+        this.stopListening(this.classroom, 'sync', this.hide);
+        button.text(this.oldButtonText).attr('disabled', false);
+        return errors.showNotyNetworkError(jqxhr);
+      });
+      this.listenToOnce(this.classroom, 'sync', this.hide);
+      return (window.tracker != null ? window.tracker.trackEvent("Teachers Edit Class Saved", {category: 'Teachers', classroomID: this.classroom.id}) : undefined);
+    }
 
-  onClickUpdateCoursesButton: ->
-    @$('#update-courses-btn').attr('disabled', true)
-    Promise.resolve(@classroom.updateCourses())
-    .then =>
-      @$('#update-courses-btn').attr('disabled', false)
-      noty { text: 'Updated', timeout: 2000 }
-    .catch (e) =>
-      console.log 'e', e
-      @$('#update-courses-btn').attr('disabled', false)
-      noty { text: e.responseJSON?.message or e.responseText or 'Error!', type: 'error', timeout: 5000 }
-
-  shouldShowGoogleClassroomButton: ->
-    me.useGoogleClassroom() && @classroom.isNew()
-
-  shouldShowLMSButton: ->
-    me.isEdLinkAccount()
-
-  onClickLinkLMSClassroom: ->
-    @showLMSDropDown = true
-    @render()
-    $('.class-name').hide()
-
-  onClickLinkGoogleClassroom: ->
-    $('#link-google-classroom-btn').text("Linking...")
-    $('#link-google-classroom-btn').attr('disabled', true)
-    application.gplusHandler.loadAPI({
-      success: =>
-        @linkGoogleClassroom()
+    onClickUpdateCoursesButton() {
+      this.$('#update-courses-btn').attr('disabled', true);
+      return Promise.resolve(this.classroom.updateCourses())
+      .then(() => {
+        this.$('#update-courses-btn').attr('disabled', false);
+        return noty({ text: 'Updated', timeout: 2000 });
     })
+      .catch(e => {
+        console.log('e', e);
+        this.$('#update-courses-btn').attr('disabled', false);
+        return noty({ text: (e.responseJSON != null ? e.responseJSON.message : undefined) || e.responseText || 'Error!', type: 'error', timeout: 5000 });
+    });
+    }
 
-  linkGoogleClassroom: ->
-    @isGoogleClassroom = true
-    GoogleClassroomHandler.importClassrooms()
-    .then(() =>
-      @googleClassrooms = me.get('googleClassrooms').filter((c) => !c.importedToCoco && !c.deletedFromGC)
-      @render()
-      $('.google-class-name').show()
-      $('.class-name').hide()
-      $('#link-google-classroom-btn').hide()
-    )
-    .catch((e) =>
-      noty { text: e or "Error in importing classrooms", layout: 'topCenter', type: 'error', timeout: 3000 }
-      @render()
-    )
+    shouldShowGoogleClassroomButton() {
+      return me.useGoogleClassroom() && this.classroom.isNew();
+    }
+
+    shouldShowLMSButton() {
+      return me.isEdLinkAccount();
+    }
+
+    onClickLinkLMSClassroom() {
+      this.showLMSDropDown = true;
+      this.render();
+      return $('.class-name').hide();
+    }
+
+    onClickLinkGoogleClassroom() {
+      $('#link-google-classroom-btn').text("Linking...");
+      $('#link-google-classroom-btn').attr('disabled', true);
+      return application.gplusHandler.loadAPI({
+        success: () => {
+          return this.linkGoogleClassroom();
+        }
+      });
+    }
+
+    linkGoogleClassroom() {
+      this.isGoogleClassroom = true;
+      return GoogleClassroomHandler.importClassrooms()
+      .then(() => {
+        this.googleClassrooms = me.get('googleClassrooms').filter(c => !c.importedToCoco && !c.deletedFromGC);
+        this.render();
+        $('.google-class-name').show();
+        $('.class-name').hide();
+        return $('#link-google-classroom-btn').hide();
+      })
+      .catch(e => {
+        noty({ text: e || "Error in importing classrooms", layout: 'topCenter', type: 'error', timeout: 3000 });
+        return this.render();
+      });
+    }
 
 
-  onClickCreateManually: ->
-    @isGoogleClassroom = false
-    @render()
-    $('.google-class-name').hide()
-    $('.class-name').show()
-    $('#link-google-classroom-btn').show()
+    onClickCreateManually() {
+      this.isGoogleClassroom = false;
+      this.render();
+      $('.google-class-name').hide();
+      $('.class-name').show();
+      return $('#link-google-classroom-btn').show();
+    }
 
-  onPickImage: ->
-    filepicker.pick @onFileChosen
+    onPickImage() {
+      return filepicker.pick(this.onFileChosen);
+    }
 
-  onFileChosen: (inkBlob) =>
-    body =
-      url: inkBlob.url
-      filename: inkBlob.filename
-      mimetype: inkBlob.mimetype
-      path: @uploadFilePath
-      force: true
+    onFileChosen(inkBlob) {
+      const body = {
+        url: inkBlob.url,
+        filename: inkBlob.filename,
+        mimetype: inkBlob.mimetype,
+        path: this.uploadFilePath,
+        force: true
+      };
 
-    @uploadingPath = [@uploadFilePath, inkBlob.filename].join('/')
-    $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
+      this.uploadingPath = [this.uploadFilePath, inkBlob.filename].join('/');
+      return $.ajax('/file', { type: 'POST', data: body, success: this.onFileUploaded });
+    }
 
-  onFileUploaded: (e) =>
-    textarea = $('textarea#classroom-announcement')
-    textarea.append "![#{e.metadata.name}](/file/#{@uploadingPath})"
+    onFileUploaded(e) {
+      const textarea = $('textarea#classroom-announcement');
+      return textarea.append(`![${e.metadata.name}](/file/${this.uploadingPath})`);
+    }
+  };
+  ClassroomSettingsModal.initClass();
+  return ClassroomSettingsModal;
+})());

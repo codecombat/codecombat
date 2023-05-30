@@ -1,34 +1,52 @@
-CreateAccountModal = require 'views/core/CreateAccountModal'
-RootView = require 'views/core/RootView'
-{me} = require 'core/auth'
-contributorSignupAnonymousTemplate = require 'app/templates/contribute/contributor_signup_anonymous'
-contributorSignupTemplate = require 'app/templates/contribute/contributor_signup'
-contributorListTemplate = require 'app/templates/contribute/contributor_list'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ContributeClassView;
+const CreateAccountModal = require('views/core/CreateAccountModal');
+const RootView = require('views/core/RootView');
+const {me} = require('core/auth');
+const contributorSignupAnonymousTemplate = require('app/templates/contribute/contributor_signup_anonymous');
+const contributorSignupTemplate = require('app/templates/contribute/contributor_signup');
+const contributorListTemplate = require('app/templates/contribute/contributor_list');
 
-module.exports = class ContributeClassView extends RootView
+module.exports = (ContributeClassView = (function() {
+  ContributeClassView = class ContributeClassView extends RootView {
+    static initClass() {
+  
+      this.prototype.events =
+        {'change input[type="checkbox"]': 'onCheckboxChanged'};
+    }
 
-  events:
-    'change input[type="checkbox"]': 'onCheckboxChanged'
+    afterRender() {
+      super.afterRender();
+      this.$el.find('.contributor-signup-anonymous').replaceWith(contributorSignupAnonymousTemplate({me}));
+      this.$el.find('.contributor-signup').each(function() {
+        const context = {me, contributorClassName: $(this).data('contributor-class-name')};
+        return $(this).replaceWith(contributorSignupTemplate(context));
+      });
+      this.$el.find('#contributor-list').replaceWith(contributorListTemplate({contributors: this.contributors, contributorClassName: this.contributorClassName}));
 
-  afterRender: ->
-    super()
-    @$el.find('.contributor-signup-anonymous').replaceWith(contributorSignupAnonymousTemplate(me: me))
-    @$el.find('.contributor-signup').each ->
-      context = me: me, contributorClassName: $(@).data('contributor-class-name')
-      $(@).replaceWith(contributorSignupTemplate(context))
-    @$el.find('#contributor-list').replaceWith(contributorListTemplate(contributors: @contributors, contributorClassName: @contributorClassName))
+      const checkboxes = this.$el.find('input[type="checkbox"]').toArray();
+      return _.forEach(checkboxes, function(el) {
+        el = $(el);
+        if (me.isEmailSubscriptionEnabled(el.attr('name')+'News')) { return el.prop('checked', true); }
+      });
+    }
 
-    checkboxes = @$el.find('input[type="checkbox"]').toArray()
-    _.forEach checkboxes, (el) ->
-      el = $(el)
-      el.prop('checked', true) if me.isEmailSubscriptionEnabled(el.attr('name')+'News')
+    onCheckboxChanged(e) {
+      const el = $(e.target);
+      const checked = el.prop('checked');
+      const subscription = el.attr('name');
 
-  onCheckboxChanged: (e) ->
-    el = $(e.target)
-    checked = el.prop('checked')
-    subscription = el.attr('name')
-
-    me.setEmailSubscription subscription+'News', checked
-    me.patch()
-    @openModalView new CreateAccountModal() if me.get 'anonymous'
-    el.parent().find('.saved-notification').finish().show('fast').delay(3000).fadeOut(2000)
+      me.setEmailSubscription(subscription+'News', checked);
+      me.patch();
+      if (me.get('anonymous')) { this.openModalView(new CreateAccountModal()); }
+      return el.parent().find('.saved-notification').finish().show('fast').delay(3000).fadeOut(2000);
+    }
+  };
+  ContributeClassView.initClass();
+  return ContributeClassView;
+})());

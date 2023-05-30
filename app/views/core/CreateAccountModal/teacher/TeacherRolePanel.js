@@ -1,62 +1,93 @@
-forms = require 'core/forms'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const forms = require('core/forms');
+const utils = require('core/utils');
 
-TeacherRolePanel = Vue.extend
-  name: 'teacher-role-panel'
-  template: require('app/templates/core/create-account-modal/teacher-role-panel')()
-  data: ->
-    formData = _.pick(@$store.state.modalTeacher.trialRequestProperties, [
-      'role'
-      'numStudents'
-      'notes'
-      'referrer'
+const TeacherRolePanel = Vue.extend({
+  name: 'teacher-role-panel',
+  template: require('app/templates/core/create-account-modal/teacher-role-panel')(),
+  data() {
+    const formData = _.pick(this.$store.state.modalTeacher.trialRequestProperties, [
+      'role',
+      'numStudents',
+      'notes',
+      'referrer',
       'phoneNumber'
-    ])
+    ]);
     return _.assign(formData, {
       showRequired: false,
       product: utils.getProductName()
-    })
+    });
+  },
 
   computed:
     _.assign({},
-      Vuex.mapGetters(trialReqProps: 'modalTeacher/getTrialRequestProperties'),
-      askForPhoneNumber: ->
-        return me.showChinaRegistration() or this.trialReqProps.country == 'United States'
-      phoneNumberRequired: ->
-        return me.showChinaRegistration()
-      validPhoneNumber: ->
-        return !@phoneNumber or forms.validatePhoneNumber(@phoneNumber)
-    )
+      Vuex.mapGetters({trialReqProps: 'modalTeacher/getTrialRequestProperties'}), {
+      askForPhoneNumber() {
+        return me.showChinaRegistration() || (this.trialReqProps.country === 'United States');
+      },
+      phoneNumberRequired() {
+        return me.showChinaRegistration();
+      },
+      validPhoneNumber() {
+        return !this.phoneNumber || forms.validatePhoneNumber(this.phoneNumber);
+      }
+    }
+    ),
 
-  methods:
-    clickContinue: ->
-      # Make sure to add conditions if we change this to be used on non-teacher path
-      window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Continue Clicked', category: 'Teachers'
-      requiredAttrs = _.pick(@, ['role','numStudents'].concat(if this.phoneNumberRequired then ['phoneNumber'] else []))
-      unless _.all(requiredAttrs) and @validPhoneNumber
-        @showRequired = true
-        return
-      @commitValues()
-      window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Continue Success', category: 'Teachers'
-      # Facebook Pixel tracking for Teacher conversions.
-      if utils.isOzaria
-        window.tracker?.trackEvent 'OzariaUniqueTeacherSignup'
-      else
-        window.tracker?.trackEvent 'UniqueTeacherSignup'
-      # Google AdWord teacher conversion.
-      gtag?('event', 'conversion', {'send_to': 'AW-811324643/8dp2CJK6_5QBEOOp74ID'});
-      @$emit('continue')
+  methods: {
+    clickContinue() {
+      // Make sure to add conditions if we change this to be used on non-teacher path
+      if (window.tracker != null) {
+        window.tracker.trackEvent('CreateAccountModal Teacher TeacherRolePanel Continue Clicked', {category: 'Teachers'});
+      }
+      const requiredAttrs = _.pick(this, ['role','numStudents'].concat(this.phoneNumberRequired ? ['phoneNumber'] : []));
+      if (!_.all(requiredAttrs) || !this.validPhoneNumber) {
+        this.showRequired = true;
+        return;
+      }
+      this.commitValues();
+      if (window.tracker != null) {
+        window.tracker.trackEvent('CreateAccountModal Teacher TeacherRolePanel Continue Success', {category: 'Teachers'});
+      }
+      // Facebook Pixel tracking for Teacher conversions.
+      if (utils.isOzaria) {
+        if (window.tracker != null) {
+          window.tracker.trackEvent('OzariaUniqueTeacherSignup');
+        }
+      } else {
+        if (window.tracker != null) {
+          window.tracker.trackEvent('UniqueTeacherSignup');
+        }
+      }
+      // Google AdWord teacher conversion.
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {'send_to': 'AW-811324643/8dp2CJK6_5QBEOOp74ID'});
+      }
+      return this.$emit('continue');
+    },
 
-    clickBack: ->
-      @commitValues()
-      window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Back Clicked', category: 'Teachers'
-      @$emit('back')
+    clickBack() {
+      this.commitValues();
+      if (window.tracker != null) {
+        window.tracker.trackEvent('CreateAccountModal Teacher TeacherRolePanel Back Clicked', {category: 'Teachers'});
+      }
+      return this.$emit('back');
+    },
 
-    commitValues: ->
-      attrs = _.pick(@, 'role', 'numStudents', 'notes', 'referrer', 'phoneNumber')
-      @$store.commit('modalTeacher/updateTrialRequestProperties', attrs)
+    commitValues() {
+      const attrs = _.pick(this, 'role', 'numStudents', 'notes', 'referrer', 'phoneNumber');
+      return this.$store.commit('modalTeacher/updateTrialRequestProperties', attrs);
+    }
+  },
 
-  mounted: ->
-    @$refs.focus.focus()
+  mounted() {
+    return this.$refs.focus.focus();
+  }
+});
 
-module.exports = TeacherRolePanel
+module.exports = TeacherRolePanel;

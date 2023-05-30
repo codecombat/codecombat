@@ -1,115 +1,158 @@
-require('app/styles/courses/teacher-courses-view.sass')
-CocoCollection = require 'collections/CocoCollection'
-CocoModel = require 'models/CocoModel'
-Courses = require 'collections/Courses'
-Campaigns = require 'collections/Campaigns'
-Campaign = require 'models/Campaign'
-Classroom = require 'models/Classroom'
-Classrooms = require 'collections/Classrooms'
-User = require 'models/User'
-CourseInstance = require 'models/CourseInstance'
-Prepaids = require 'collections/Prepaids'
-RootView = require 'views/core/RootView'
-template = require 'app/templates/courses/teacher-courses-view'
-HeroSelectModal = require 'views/courses/HeroSelectModal'
-utils = require 'core/utils'
-api = require 'core/api'
-ozariaUtils = require 'ozaria/site/common/ozariaUtils'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS204: Change includes calls to have a more natural evaluation order
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let TeacherCoursesView;
+require('app/styles/courses/teacher-courses-view.sass');
+const CocoCollection = require('collections/CocoCollection');
+const CocoModel = require('models/CocoModel');
+const Courses = require('collections/Courses');
+const Campaigns = require('collections/Campaigns');
+const Campaign = require('models/Campaign');
+const Classroom = require('models/Classroom');
+const Classrooms = require('collections/Classrooms');
+const User = require('models/User');
+const CourseInstance = require('models/CourseInstance');
+const Prepaids = require('collections/Prepaids');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/courses/teacher-courses-view');
+const HeroSelectModal = require('views/courses/HeroSelectModal');
+const utils = require('core/utils');
+const api = require('core/api');
+const ozariaUtils = require('ozaria/site/common/ozariaUtils');
 
-module.exports = class TeacherCoursesView extends RootView
-  id: 'teacher-courses-view'
-  template: template
+module.exports = (TeacherCoursesView = (function() {
+  TeacherCoursesView = class TeacherCoursesView extends RootView {
+    static initClass() {
+      this.prototype.id = 'teacher-courses-view';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'click .guide-btn': 'onClickGuideButton',
+        'click .play-level-button': 'onClickPlayLevel',
+        'click .show-change-log': 'onClickShowChange'
+      };
+    }
 
-  events:
-    'click .guide-btn': 'onClickGuideButton'
-    'click .play-level-button': 'onClickPlayLevel'
-    'click .show-change-log': 'onClickShowChange'
+    getMeta() { return { title: `${$.i18n.t('teacher.courses_ozar')} | ${$.i18n.t('common.ozaria')}` }; }
 
-  getMeta: -> { title: "#{$.i18n.t('teacher.courses_ozar')} | #{$.i18n.t('common.ozaria')}" }
+    initialize(options) {
+      super.initialize(options);
+      application.setHocCampaign(''); // teachers playing levels from here return here
+      this.utils = require('core/utils');
+      this.enableCpp = me.enableCpp();
+      this.enableJava = me.enableJava();
+      this.ownedClassrooms = new Classrooms();
+      this.ownedClassrooms.fetchMine({data: {project: '_id'}});
+      this.supermodel.trackCollection(this.ownedClassrooms);
+      this.courses = new Courses();
+      this.prepaids = new Prepaids();
+      this.paidTeacher = me.isAdmin() || me.isPaidTeacher();
+      if (me.isAdmin()) {
+        this.supermodel.trackRequest(this.courses.fetch());
+      } else {
+        this.supermodel.trackRequest(this.courses.fetchReleased());
+        this.supermodel.trackRequest(this.prepaids.fetchMineAndShared());
+      }
+      this.campaigns = new Campaigns([], { forceCourseNumbering: true });
+      this.supermodel.trackRequest(this.campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } }));
+      this.campaignLevelNumberMap = {};
+      this.courseChangeLog = {};
+      this.campaignLevelsModuleMap = {};
+      this.moduleNameMap = utils.courseModules;
+      this.listenTo(this.campaigns, 'sync', function() {
+        this.campaigns.models.map(campaign => Object.assign(this.campaignLevelsModuleMap, campaign.getLevelsByModules()));
+        // since intro content data is only needed for display names in the dropdown
+        // do not add it to supermodel.trackRequest which would increase the load time of the page
+        return Campaign.fetchIntroContentDataForLevels(this.campaignLevelsModuleMap).then(() => (typeof this.render === 'function' ? this.render() : undefined));
+      });
+      if (window.tracker != null) {
+        window.tracker.trackEvent('Classes Guides Loaded', {category: 'Teachers'});
+      }
+      this.getLevelDisplayNameWithLabel = level => ozariaUtils.getLevelDisplayNameWithLabel(level);
+      return this.getIntroContentNameWithLabel = content => ozariaUtils.getIntroContentNameWithLabel(content);
+    }
 
-  initialize: (options) ->
-    super(options)
-    application.setHocCampaign('') # teachers playing levels from here return here
-    @utils = require 'core/utils'
-    @enableCpp = me.enableCpp()
-    @enableJava = me.enableJava()
-    @ownedClassrooms = new Classrooms()
-    @ownedClassrooms.fetchMine({data: {project: '_id'}})
-    @supermodel.trackCollection(@ownedClassrooms)
-    @courses = new Courses()
-    @prepaids = new Prepaids()
-    @paidTeacher = me.isAdmin() or me.isPaidTeacher()
-    if me.isAdmin()
-      @supermodel.trackRequest @courses.fetch()
-    else
-      @supermodel.trackRequest @courses.fetchReleased()
-      @supermodel.trackRequest @prepaids.fetchMineAndShared()
-    @campaigns = new Campaigns([], { forceCourseNumbering: true })
-    @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } })
-    @campaignLevelNumberMap = {}
-    @courseChangeLog = {}
-    @campaignLevelsModuleMap = {}
-    @moduleNameMap = utils.courseModules
-    @listenTo @campaigns, 'sync', ->
-      @campaigns.models.map((campaign) => Object.assign(@campaignLevelsModuleMap, campaign.getLevelsByModules()))
-      # since intro content data is only needed for display names in the dropdown
-      # do not add it to supermodel.trackRequest which would increase the load time of the page
-      Campaign.fetchIntroContentDataForLevels(@campaignLevelsModuleMap).then () => @render?()
-    window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers'
-    @getLevelDisplayNameWithLabel = (level) -> ozariaUtils.getLevelDisplayNameWithLabel(level)
-    @getIntroContentNameWithLabel = (content) -> ozariaUtils.getIntroContentNameWithLabel(content)
+    onLoaded() {
+      let needle;
+      this.campaigns.models.forEach(campaign => {
+        const levels = campaign.getLevels().models.map(level => {
+          let left, left1;
+          return {key: level.get('original'), practice: (left = level.get('practice')) != null ? left : false, assessment: (left1 = level.get('assessment')) != null ? left1 : false};
+        });
+        return this.campaignLevelNumberMap[campaign.id] = utils.createLevelNumberMap(levels);
+      });
+      this.paidTeacher = this.paidTeacher || (this.prepaids.find(p => (needle = p.get('type'), ['course', 'starter_license'].includes(needle)) && (p.get('maxRedeemers') > 0)) != null);
+      this.fetchChangeLog();
+      __guard__(me.getClientCreatorPermissions(), x => x.then(() => (typeof this.render === 'function' ? this.render() : undefined)));
+      return (typeof this.render === 'function' ? this.render() : undefined);
+    }
 
-  onLoaded: ->
-    @campaigns.models.forEach (campaign) =>
-      levels = campaign.getLevels().models.map (level) =>
-        key: level.get('original'), practice: level.get('practice') ? false, assessment: level.get('assessment') ? false
-      @campaignLevelNumberMap[campaign.id] = utils.createLevelNumberMap(levels)
-    @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
-    @fetchChangeLog()
-    me.getClientCreatorPermissions()?.then(() => @render?())
-    @render?()
+    fetchChangeLog() {
+      return api.courses.fetchChangeLog().then(changeLogInfo => {
+        this.courses.models.forEach(course => {
+          let changeLog = _.filter(changeLogInfo, { 'id' : course.get('_id') });
+          changeLog = _.sortBy(changeLog, 'date');
+          return this.courseChangeLog[course.id] = _.mapValues(_.groupBy(changeLog, 'date'));
+        });
+        return (typeof this.render === 'function' ? this.render() : undefined);
+      })
+      .catch(e => {
+        return console.error(e);
+      });
+    }
 
-  fetchChangeLog: ->
-    api.courses.fetchChangeLog().then((changeLogInfo) =>
-      @courses.models.forEach (course) =>
-        changeLog = _.filter(changeLogInfo, { 'id' : course.get('_id') })
-        changeLog = _.sortBy(changeLog, 'date')
-        @courseChangeLog[course.id] = _.mapValues(_.groupBy(changeLog, 'date'))
-      @render?()
-    )
-    .catch((e) =>
-      console.error(e)
-    )
+    onClickGuideButton(e) {
+      const courseID = $(e.currentTarget).data('course-id');
+      const courseName = $(e.currentTarget).data('course-name');
+      const eventAction = $(e.currentTarget).data('event-action');
+      return window.tracker != null ? window.tracker.trackEvent(eventAction, {category: 'Teachers', courseID, courseName}) : undefined;
+    }
 
-  onClickGuideButton: (e) ->
-    courseID = $(e.currentTarget).data('course-id')
-    courseName = $(e.currentTarget).data('course-name')
-    eventAction = $(e.currentTarget).data('event-action')
-    window.tracker?.trackEvent eventAction, category: 'Teachers', courseID: courseID, courseName: courseName
+    onClickPlayLevel(e) {
+      let url;
+      const form = $(e.currentTarget).closest('.play-level-form');
+      const levelSlug = form.find('.selectpicker').val();
+      const introIndex = (form.find('.intro-content:selected').data() || {}).index;
+      const courseID = form.data('course-id');
+      const language = form.find('.language-select').val() || 'javascript';
+      if (window.tracker != null) {
+        window.tracker.trackEvent('Classes Guides Play Level', {category: 'Teachers', courseID, language, levelSlug});
+      }
 
-  onClickPlayLevel: (e) ->
-    form = $(e.currentTarget).closest('.play-level-form')
-    levelSlug = form.find('.selectpicker').val()
-    introIndex = (form.find('.intro-content:selected').data() || {}).index
-    courseID = form.data('course-id')
-    language = form.find('.language-select').val() or 'javascript'
-    window.tracker?.trackEvent 'Classes Guides Play Level', category: 'Teachers', courseID: courseID, language: language, levelSlug: levelSlug
+      // Because we don't know what classroom to match this with, this may have outdated campaign levels caching:
+      const campaignLevels = this.campaigns.get(this.courses.get(courseID).get('campaignID')).getLevels() || [];
+      if (__guard__(campaignLevels.find(l => l.get('slug') === levelSlug), x => x.get('type')) === 'intro') {
+        url = `/play/intro/${levelSlug}?course=${courseID}&codeLanguage=${language}&intro-content=${introIndex}`;
+      } else {
+        url = `/play/level/${levelSlug}?course=${courseID}&codeLanguage=${language}`;
+      }
+      return application.router.navigate(url, { trigger: true });
+    }
 
-    # Because we don't know what classroom to match this with, this may have outdated campaign levels caching:
-    campaignLevels = @campaigns.get(@courses.get(courseID).get('campaignID')).getLevels() || []
-    if campaignLevels.find((l) => l.get('slug') == levelSlug)?.get('type') == 'intro'
-      url = "/play/intro/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}&intro-content=#{introIndex}"
-    else
-      url = "/play/level/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}"
-    application.router.navigate(url, { trigger: true })
+    onClickShowChange(e) {
+      const showChangeLog = $(e.currentTarget);
+      const changeLogDiv = showChangeLog.closest('.course-change-log');
+      const changeLogText = changeLogDiv.find('.change-log');
+      if (changeLogText.hasClass('hidden')) {
+        changeLogText.removeClass('hidden');
+        return showChangeLog.text($.i18n.t('courses.hide_change_log'));
+      } else {
+        changeLogText.addClass('hidden');
+        return showChangeLog.text($.i18n.t('courses.show_change_log'));
+      }
+    }
+  };
+  TeacherCoursesView.initClass();
+  return TeacherCoursesView;
+})());
 
-  onClickShowChange: (e) ->
-    showChangeLog = $(e.currentTarget)
-    changeLogDiv = showChangeLog.closest('.course-change-log')
-    changeLogText = changeLogDiv.find('.change-log')
-    if changeLogText.hasClass('hidden')
-      changeLogText.removeClass('hidden')
-      showChangeLog.text($.i18n.t('courses.hide_change_log'))
-    else
-      changeLogText.addClass('hidden')
-      showChangeLog.text($.i18n.t('courses.show_change_log'))
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

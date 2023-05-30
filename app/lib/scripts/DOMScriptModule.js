@@ -1,66 +1,92 @@
-ScriptModule = require './ScriptModule'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let DOMScriptModule;
+const ScriptModule = require('./ScriptModule');
 
-module.exports = class DOMScriptModule extends ScriptModule
-  @neededFor: (noteGroup) ->
-    return noteGroup.dom?
+module.exports = (DOMScriptModule = class DOMScriptModule extends ScriptModule {
+  static neededFor(noteGroup) {
+    return (noteGroup.dom != null);
+  }
 
-  startNotes: ->
-    notes = []
-    notes.push(@highlightNote()) if @noteGroup.dom.highlight?
-    notes.push(@lockNote()) if @noteGroup.dom.lock?
-    notes.push(@focusNote()) if @noteGroup.dom.focus?
-    notes.push(@showVictoryNote()) if @noteGroup.dom.showVictory
-    notes.push(@letterboxNote()) if @noteGroup.dom.letterbox?
-    return notes
+  startNotes() {
+    const notes = [];
+    if (this.noteGroup.dom.highlight != null) { notes.push(this.highlightNote()); }
+    if (this.noteGroup.dom.lock != null) { notes.push(this.lockNote()); }
+    if (this.noteGroup.dom.focus != null) { notes.push(this.focusNote()); }
+    if (this.noteGroup.dom.showVictory) { notes.push(this.showVictoryNote()); }
+    if (this.noteGroup.dom.letterbox != null) { notes.push(this.letterboxNote()); }
+    return notes;
+  }
 
-  endNotes: ->
-    notes = []
-    notes.push({'channel': 'level:end-highlight-dom'}) if @noteGroup.dom.highlight?
-    notes.push({'channel': 'level:enable-controls'}) if @noteGroup.dom.lock?
-    return notes
+  endNotes() {
+    const notes = [];
+    if (this.noteGroup.dom.highlight != null) { notes.push({'channel': 'level:end-highlight-dom'}); }
+    if (this.noteGroup.dom.lock != null) { notes.push({'channel': 'level:enable-controls'}); }
+    return notes;
+  }
 
-  skipNotes: ->
-    notes = []
-    notes.push(@showVictoryNote(false)) if @noteGroup.dom.showVictory?
-    notes.push(@letterboxNote()) if @noteGroup.dom.letterbox?
-    notes
+  skipNotes() {
+    const notes = [];
+    if (this.noteGroup.dom.showVictory != null) { notes.push(this.showVictoryNote(false)); }
+    if (this.noteGroup.dom.letterbox != null) { notes.push(this.letterboxNote()); }
+    return notes;
+  }
 
-  highlightNote: ->
-    dom = @noteGroup.dom
-    note =
-      channel: 'level:highlight-dom'
-      event:
-        selector: dom.highlight.target
-        delay: dom.highlight.delay
-        sides: dom.highlight.sides
-        offset: dom.highlight.offset
+  highlightNote() {
+    const {
+      dom
+    } = this.noteGroup;
+    const note = {
+      channel: 'level:highlight-dom',
+      event: {
+        selector: dom.highlight.target,
+        delay: dom.highlight.delay,
+        sides: dom.highlight.sides,
+        offset: dom.highlight.offset,
         rotation: dom.highlight.rotation
-    note.event = _.pick note.event, (value) -> not _.isUndefined value
-    @maybeApplyDelayToNote note
-    note
+      }
+    };
+    note.event = _.pick(note.event, value => !_.isUndefined(value));
+    this.maybeApplyDelayToNote(note);
+    return note;
+  }
 
-  focusNote: ->
-    note =
-      channel: 'level:focus-dom'
-      event:
-        selector: @noteGroup.dom.focus
-    note
+  focusNote() {
+    const note = {
+      channel: 'level:focus-dom',
+      event: {
+        selector: this.noteGroup.dom.focus
+      }
+    };
+    return note;
+  }
 
-  showVictoryNote: (showModal) ->
-    e = {}
-    e.showModal = @noteGroup.dom.showVictory in [true, 'Done Button And Modal']
-    e.showModal = showModal if showModal?
-    note =
-      channel: 'level:show-victory'
+  showVictoryNote(showModal) {
+    const e = {};
+    e.showModal = [true, 'Done Button And Modal'].includes(this.noteGroup.dom.showVictory);
+    if (showModal != null) { e.showModal = showModal; }
+    const note = {
+      channel: 'level:show-victory',
       event: e
-    note
+    };
+    return note;
+  }
 
-  lockNote: ->
-    event = {}
-    lock = @noteGroup.dom.lock
-    event.controls = lock if _.isArray lock  # array: subset of controls
-    channel = if lock then 'level:disable-controls' else 'level:enable-controls'
-    return {channel: channel, event: event}
+  lockNote() {
+    const event = {};
+    const {
+      lock
+    } = this.noteGroup.dom;
+    if (_.isArray(lock)) { event.controls = lock; }  // array: subset of controls
+    const channel = lock ? 'level:disable-controls' : 'level:enable-controls';
+    return {channel, event};
+  }
 
-  letterboxNote: ->
-    return {channel: 'level:set-letterbox', event: {on: @noteGroup.dom.letterbox}}
+  letterboxNote() {
+    return {channel: 'level:set-letterbox', event: {on: this.noteGroup.dom.letterbox}};
+  }
+});

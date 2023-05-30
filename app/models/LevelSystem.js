@@ -1,42 +1,68 @@
-CocoModel = require './CocoModel'
-SystemNameLoader = require 'core/SystemNameLoader'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let LevelSystem;
+const CocoModel = require('./CocoModel');
+const SystemNameLoader = require('core/SystemNameLoader');
 
-module.exports = class LevelSystem extends CocoModel
-  @className: 'LevelSystem'
-  @schema: require 'schemas/models/level_system'
-  urlRoot: '/db/level.system'
-  editableByArtisans: true
+module.exports = (LevelSystem = (function() {
+  LevelSystem = class LevelSystem extends CocoModel {
+    static initClass() {
+      this.className = 'LevelSystem';
+      this.schema = require('schemas/models/level_system');
+      this.prototype.urlRoot = '/db/level.system';
+      this.prototype.editableByArtisans = true;
+    }
 
-  set: (key, val, options) ->
-    if _.isObject key
-      [attrs, options] = [key, val]
-    else
-      (attrs = {})[key] = val
-    if 'code' of attrs and not ('js' of attrs)
-      attrs.js = @compile attrs.code
-    super attrs, options
+    set(key, val, options) {
+      let attrs;
+      if (_.isObject(key)) {
+        [attrs, options] = Array.from([key, val]);
+      } else {
+        (attrs = {})[key] = val;
+      }
+      if ('code' in attrs && !('js' in attrs)) {
+        attrs.js = this.compile(attrs.code);
+      }
+      return super.set(attrs, options);
+    }
 
-  onLoaded: ->
-    super()
-    @set 'js', @compile(@get 'code') unless @get 'js'
-    SystemNameLoader.setName @
+    onLoaded() {
+      super.onLoaded();
+      if (!this.get('js')) { this.set('js', this.compile(this.get('code'))); }
+      return SystemNameLoader.setName(this);
+    }
 
-  compile: (code) ->
-    return code if @get('codeLanguage') and @get('codeLanguage') is 'javascript'
-    if @get('codeLanguage') and @get('codeLanguage') isnt 'coffeescript'
-      return console.error('Can\'t compile', @get('codeLanguage'), '-- only CoffeeScript/JavaScript.', @)
-    try
-      js = CoffeeScript.compile(code, bare: true)
-    catch e
-      #console.log 'couldn\'t compile', code, 'for', @get('name'), 'because', e
-      js = @get 'js'
-    js
+    compile(code) {
+      let js;
+      if (this.get('codeLanguage') && (this.get('codeLanguage') === 'javascript')) { return code; }
+      if (this.get('codeLanguage') && (this.get('codeLanguage') !== 'coffeescript')) {
+        return console.error('Can\'t compile', this.get('codeLanguage'), '-- only CoffeeScript/JavaScript.', this);
+      }
+      try {
+        js = CoffeeScript.compile(code, {bare: true});
+      } catch (e) {
+        //console.log 'couldn\'t compile', code, 'for', @get('name'), 'because', e
+        js = this.get('js');
+      }
+      return js;
+    }
 
-  getDependencies: (allSystems) ->
-    results = []
-    for dep in @get('dependencies') or []
-      system = _.find allSystems, (sys) ->
-        sys.get('original') is dep.original and sys.get('version').major is dep.majorVersion
-      for result in system.getDependencies(allSystems).concat [system]
-        results.push result unless result in results
-    results
+    getDependencies(allSystems) {
+      const results = [];
+      for (var dep of Array.from(this.get('dependencies') || [])) {
+        var system = _.find(allSystems, sys => (sys.get('original') === dep.original) && (sys.get('version').major === dep.majorVersion));
+        for (var result of Array.from(system.getDependencies(allSystems).concat([system]))) {
+          if (!Array.from(results).includes(result)) { results.push(result); }
+        }
+      }
+      return results;
+    }
+  };
+  LevelSystem.initClass();
+  return LevelSystem;
+})());

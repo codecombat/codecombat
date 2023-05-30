@@ -1,73 +1,98 @@
-errorModalTemplate = require 'app/templates/core/error'
-{applyErrorsToForm} = require 'core/forms'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let connectionFailure;
+const errorModalTemplate = require('app/templates/core/error');
+const {applyErrorsToForm} = require('core/forms');
 
-module.exports.parseServerError = (text) ->
-  try
-    error = JSON.parse(text) or {message: 'Unknown error.'}
-  catch SyntaxError
-    error = {message: text or 'Unknown error.'}
-  error = error[0] if _.isArray(error)
-  error
+module.exports.parseServerError = function(text) {
+  let error;
+  try {
+    error = JSON.parse(text) || {message: 'Unknown error.'};
+  } catch (SyntaxError) {
+    error = {message: text || 'Unknown error.'};
+  }
+  if (_.isArray(error)) { error = error[0]; }
+  return error;
+};
 
-module.exports.genericFailure = (jqxhr) ->
-  Backbone.Mediator.publish('errors:server-error', {response: jqxhr})
-  return connectionFailure() if not jqxhr.status
+module.exports.genericFailure = function(jqxhr) {
+  Backbone.Mediator.publish('errors:server-error', {response: jqxhr});
+  if (!jqxhr.status) { return connectionFailure(); }
 
-  error = module.exports.parseServerError(jqxhr.responseText)
-  message = error.message
-  message = error.property + ' ' + message if error.property
-  console.warn(jqxhr.status, jqxhr.statusText, error)
-  existingForm = $('.form:visible:first')
-  if existingForm[0]
-    missingErrors = applyErrorsToForm(existingForm, [error])
-    for error in missingErrors
-      existingForm.append($('<div class="alert alert-danger"></div>').text(error.message))
-  else
-    res = errorModalTemplate(
-      status: jqxhr.status
-      statusText: jqxhr.statusText
-      message: message
-    )
-    showErrorModal(res)
+  let error = module.exports.parseServerError(jqxhr.responseText);
+  let {
+    message
+  } = error;
+  if (error.property) { message = error.property + ' ' + message; }
+  console.warn(jqxhr.status, jqxhr.statusText, error);
+  const existingForm = $('.form:visible:first');
+  if (existingForm[0]) {
+    const missingErrors = applyErrorsToForm(existingForm, [error]);
+    return (() => {
+      const result = [];
+      for (error of Array.from(missingErrors)) {
+        result.push(existingForm.append($('<div class="alert alert-danger"></div>').text(error.message)));
+      }
+      return result;
+    })();
+  } else {
+    const res = errorModalTemplate({
+      status: jqxhr.status,
+      statusText: jqxhr.statusText,
+      message
+    });
+    return showErrorModal(res);
+  }
+};
 
-module.exports.backboneFailure = (model, jqxhr, options) ->
-  module.exports.genericFailure(jqxhr)
+module.exports.backboneFailure = (model, jqxhr, options) => module.exports.genericFailure(jqxhr);
 
-module.exports.connectionFailure = connectionFailure = ->
-  html = errorModalTemplate(
-    status: 0
-    statusText: 'Connection Gone'
+module.exports.connectionFailure = (connectionFailure = function() {
+  const html = errorModalTemplate({
+    status: 0,
+    statusText: 'Connection Gone',
     message: 'No response from the CoCo servers, captain.'
-  )
-  showErrorModal(html)
+  });
+  return showErrorModal(html);
+});
 
-module.exports.showNotyNetworkError = ->
-  jqxhr = _.find(arguments, 'promise') # handles jquery or backbone network error (jqxhr is first or second parameter)
-  noty({
-    text: jqxhr.responseJSON?.message or jqxhr.responseJSON?.errorName or 'Unknown error'
-    layout: 'topCenter'
-    type: 'error'
-    timeout: 5000
+module.exports.showNotyNetworkError = function() {
+  const jqxhr = _.find(arguments, 'promise'); // handles jquery or backbone network error (jqxhr is first or second parameter)
+  return noty({
+    text: (jqxhr.responseJSON != null ? jqxhr.responseJSON.message : undefined) || (jqxhr.responseJSON != null ? jqxhr.responseJSON.errorName : undefined) || 'Unknown error',
+    layout: 'topCenter',
+    type: 'error',
+    timeout: 5000,
     killer: false,
     dismissQueue: true
-  })
+  });
+};
 
-showErrorModal = (html) ->
-  # TODO: make a views/modal/error_modal view for this to use so the template can reuse templates/core/modal-base?
-  $('#modal-wrapper').html(html)
-  $('.modal:visible').modal('hide')
-  $('#modal-error').modal('show')
+var showErrorModal = function(html) {
+  // TODO: make a views/modal/error_modal view for this to use so the template can reuse templates/core/modal-base?
+  $('#modal-wrapper').html(html);
+  $('.modal:visible').modal('hide');
+  return $('#modal-error').modal('show');
+};
 
-shownWorkerError = false
+let shownWorkerError = false;
 
-module.exports.onWorkerError = ->
-  # TODO: Improve worker error handling in general
-  # TODO: Remove this code when IE11 is deprecated OR Aether is removed.
+module.exports.onWorkerError = function() {
+  // TODO: Improve worker error handling in general
+  // TODO: Remove this code when IE11 is deprecated OR Aether is removed.
 
-  # Sometimes on IE11, Aether isn't loaded. Handle that error by messaging the user, reloading the page.
-  # Note: Edge is also considered 'msie'.
-  if (not shownWorkerError) and $.browser.msie and $.browser.versionNumber is 11
-    text = 'Explorer failure. Reloading...'
-    shownWorkerError = true
-    setTimeout((-> document.location.reload()), 5000)
-    noty({text, layout: 'topCenter', type: 'error'})
+  // Sometimes on IE11, Aether isn't loaded. Handle that error by messaging the user, reloading the page.
+  // Note: Edge is also considered 'msie'.
+  if ((!shownWorkerError) && $.browser.msie && ($.browser.versionNumber === 11)) {
+    const text = 'Explorer failure. Reloading...';
+    shownWorkerError = true;
+    setTimeout((() => document.location.reload()), 5000);
+    return noty({text, layout: 'topCenter', type: 'error'});
+  }
+};

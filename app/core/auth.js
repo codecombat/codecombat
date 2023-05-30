@@ -1,69 +1,91 @@
-{backboneFailure, genericFailure, parseServerError} = require 'core/errors'
-User = require 'models/User'
-storage = require 'core/storage'
-BEEN_HERE_BEFORE_KEY = 'beenHereBefore'
-{ getQueryVariable, isOzaria } = require('core/utils')
-api = require('core/api')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let addLoggerGlobalContext;
+const {backboneFailure, genericFailure, parseServerError} = require('core/errors');
+const User = require('models/User');
+const storage = require('core/storage');
+const BEEN_HERE_BEFORE_KEY = 'beenHereBefore';
+const { getQueryVariable, isOzaria } = require('core/utils');
+const api = require('core/api');
 
-if isOzaria
-  { addLoggerGlobalContext } = require 'ozaria/site/common/logger'
+if (isOzaria) {
+  ({ addLoggerGlobalContext } = require('ozaria/site/common/logger'));
+}
 
-init = ->
-  module.exports.me = window.me = new User(window.userObject) # inserted into main.html
-  module.exports.me.onLoaded()
+const init = function() {
+  module.exports.me = (window.me = new User(window.userObject)); // inserted into main.html
+  module.exports.me.onLoaded();
 
-  trackFirstArrival()
-  if isOzaria
-    addLoggerGlobalContext('userId', window.me.get('_id'))
+  trackFirstArrival();
+  if (isOzaria) {
+    addLoggerGlobalContext('userId', window.me.get('_id'));
+  }
 
-  # set country and geo fields for returning users if not set during account creation (/server/models/User - makeNew)
-  if not me.get('country')
+  // set country and geo fields for returning users if not set during account creation (/server/models/User - makeNew)
+  if (!me.get('country')) {
     api.users.setCountryGeo()
-    .then (res) ->
-      me.set(res)
-      setTestGroupNumberUS()
-    .catch((e) => console.error("Error in setting country and geo:", e))
-  if me and not me.get('testGroupNumber')?
-    # Assign testGroupNumber to returning visitors; new ones in server/routes/auth
-    me.set 'testGroupNumber', Math.floor(Math.random() * 256)
-    me.patch()
-  setTestGroupNumberUS()
-  preferredLanguage = getQueryVariable('preferredLanguage')
-  if me and preferredLanguage
-    me.set('preferredLanguage', preferredLanguage)
-    me.save()
+    .then(function(res) {
+      me.set(res);
+      return setTestGroupNumberUS();}).catch(e => console.error("Error in setting country and geo:", e));
+  }
+  if (me && (me.get('testGroupNumber') == null)) {
+    // Assign testGroupNumber to returning visitors; new ones in server/routes/auth
+    me.set('testGroupNumber', Math.floor(Math.random() * 256));
+    me.patch();
+  }
+  setTestGroupNumberUS();
+  const preferredLanguage = getQueryVariable('preferredLanguage');
+  if (me && preferredLanguage) {
+    me.set('preferredLanguage', preferredLanguage);
+    me.save();
+  }
 
-  Backbone.listenTo me, 'sync', -> Backbone.Mediator.publish('auth:me-synced', me: me)
+  return Backbone.listenTo(me, 'sync', () => Backbone.Mediator.publish('auth:me-synced', {me}));
+};
 
-module.exports.logoutUser = (options={}) ->
-  options.error ?= genericFailure
-  me.logout(options)
+module.exports.logoutUser = function(options) {
+  if (options == null) { options = {}; }
+  if (options.error == null) { options.error = genericFailure; }
+  return me.logout(options);
+};
 
-module.exports.sendRecoveryEmail = (email, options={}) ->
+module.exports.sendRecoveryEmail = function(email, options) {
+  if (options == null) { options = {}; }
   options = _.merge(options,
     {method: 'POST', url: '/auth/reset', data: { email }}
-  )
-  $.ajax(options)
+  );
+  return $.ajax(options);
+};
 
-onSetVolume = (e) ->
-  return if e.volume is me.get('volume')
-  me.set('volume', e.volume)
-  me.save()
+const onSetVolume = function(e) {
+  if (e.volume === me.get('volume')) { return; }
+  me.set('volume', e.volume);
+  return me.save();
+};
 
-Backbone.Mediator.subscribe('level:set-volume', onSetVolume, module.exports)
+Backbone.Mediator.subscribe('level:set-volume', onSetVolume, module.exports);
 
-trackFirstArrival = ->
-  # will have to filter out users who log in with existing accounts separately
-  # but can at least not track logouts as first arrivals using local storage
-  beenHereBefore = storage.load(BEEN_HERE_BEFORE_KEY)
-  return if beenHereBefore
-  window.tracker?.trackEvent 'First Arrived'
-  storage.save(BEEN_HERE_BEFORE_KEY, true)
+var trackFirstArrival = function() {
+  // will have to filter out users who log in with existing accounts separately
+  // but can at least not track logouts as first arrivals using local storage
+  const beenHereBefore = storage.load(BEEN_HERE_BEFORE_KEY);
+  if (beenHereBefore) { return; }
+  if (window.tracker != null) {
+    window.tracker.trackEvent('First Arrived');
+  }
+  return storage.save(BEEN_HERE_BEFORE_KEY, true);
+};
 
-setTestGroupNumberUS = ->
-  if me and me.get("country") == 'united-states' and not me.get('testGroupNumberUS')?
-    # Assign testGroupNumberUS to returning visitors; new ones in server/models/User
-    me.set 'testGroupNumberUS', Math.floor(Math.random() * 256)
-    me.patch()
+var setTestGroupNumberUS = function() {
+  if (me && (me.get("country") === 'united-states') && (me.get('testGroupNumberUS') == null)) {
+    // Assign testGroupNumberUS to returning visitors; new ones in server/models/User
+    me.set('testGroupNumberUS', Math.floor(Math.random() * 256));
+    return me.patch();
+  }
+};
 
-init()
+init();

@@ -1,50 +1,67 @@
-deltasLib = require('core/deltas')
-jsondiffpatch = require('lib/jsondiffpatch')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let modelDeltas;
+const deltasLib = require('core/deltas');
+const jsondiffpatch = require('lib/jsondiffpatch');
 
-module.exports = modelDeltas = {
-  makePatch: (model) ->
-    Patch = require 'models/Patch'
-    target = {
-      'collection': _.string.underscored model.constructor.className
+module.exports = (modelDeltas = {
+  makePatch(model) {
+    const Patch = require('models/Patch');
+    const target = {
+      'collection': _.string.underscored(model.constructor.className),
       'id': model.id
+    };
+    // if this document is versioned (has original property) then include version info
+    if (model.get('original')) {
+      target.original = model.get('original');
+      target.version = model.get('version');
     }
-    # if this document is versioned (has original property) then include version info
-    if model.get('original')
-      target.original = model.get('original')
-      target.version = model.get('version')
 
     return new Patch({
-      delta: modelDeltas.getDelta(model)
+      delta: modelDeltas.getDelta(model),
       target
-    })
+    });
+  },
 
-  getDelta: (model) ->
-    differ = deltasLib.makeJSONDiffer()
-    differ.diff(_.omit(model._revertAttributes, deltasLib.DOC_SKIP_PATHS), _.omit(model.attributes, deltasLib.DOC_SKIP_PATHS))
+  getDelta(model) {
+    const differ = deltasLib.makeJSONDiffer();
+    return differ.diff(_.omit(model._revertAttributes, deltasLib.DOC_SKIP_PATHS), _.omit(model.attributes, deltasLib.DOC_SKIP_PATHS));
+  },
 
-  getDeltaWith: (model, otherModel) ->
-    differ = deltasLib.makeJSONDiffer()
-    differ.diff model.attributes, otherModel.attributes
+  getDeltaWith(model, otherModel) {
+    const differ = deltasLib.makeJSONDiffer();
+    return differ.diff(model.attributes, otherModel.attributes);
+  },
 
-  applyDelta: (model, delta) ->
-    newAttributes = $.extend(true, {}, model.attributes)
-    try
-      jsondiffpatch.patch newAttributes, delta
-    catch error
-      unless application.testing
-        console.error 'Error applying delta\n', JSON.stringify(delta, null, '\t'), '\n\nto attributes\n\n', newAttributes
-      return false
-    for key, value of newAttributes
-      delete newAttributes[key] if _.isEqual value, model.attributes[key]
+  applyDelta(model, delta) {
+    const newAttributes = $.extend(true, {}, model.attributes);
+    try {
+      jsondiffpatch.patch(newAttributes, delta);
+    } catch (error) {
+      if (!application.testing) {
+        console.error('Error applying delta\n', JSON.stringify(delta, null, '\t'), '\n\nto attributes\n\n', newAttributes);
+      }
+      return false;
+    }
+    for (var key in newAttributes) {
+      var value = newAttributes[key];
+      if (_.isEqual(value, model.attributes[key])) { delete newAttributes[key]; }
+    }
 
-    model.set newAttributes
-    return true
+    model.set(newAttributes);
+    return true;
+  },
 
-  getExpandedDelta: (model) ->
-    delta = modelDeltas.getDelta(model)
-    deltasLib.expandDelta(delta, model._revertAttributes, model.schema())
+  getExpandedDelta(model) {
+    const delta = modelDeltas.getDelta(model);
+    return deltasLib.expandDelta(delta, model._revertAttributes, model.schema());
+  },
 
-  getExpandedDeltaWith: (model, otherModel) ->
-    delta = modelDeltas.getDeltaWith(model, otherModel)
-    deltasLib.expandDelta(delta, model.attributes, model.schema())
-}
+  getExpandedDeltaWith(model, otherModel) {
+    const delta = modelDeltas.getDeltaWith(model, otherModel);
+    return deltasLib.expandDelta(delta, model.attributes, model.schema());
+  }
+});

@@ -1,16 +1,32 @@
-CocoCollection = require 'collections/CocoCollection'
-TrialRequest = require 'models/TrialRequest'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let TrialRequestCollection;
+const CocoCollection = require('collections/CocoCollection');
+const TrialRequest = require('models/TrialRequest');
 
-module.exports = class TrialRequestCollection extends CocoCollection
-  url: '/db/trial.request'
-  model: TrialRequest
+module.exports = (TrialRequestCollection = (function() {
+  TrialRequestCollection = class TrialRequestCollection extends CocoCollection {
+    static initClass() {
+      this.prototype.url = '/db/trial.request';
+      this.prototype.model = TrialRequest;
+    }
 
-  fetchOwn: (options) ->
-    options = _.extend({data: {}}, options)
-    options.data.applicant = me.id
-    @fetch(options)
+    fetchOwn(options) {
+      options = _.extend({data: {}}, options);
+      options.data.applicant = me.id;
+      return this.fetch(options);
+    }
 
-  fetchByApplicant: (applicant) ->
-    @fetch({
-      data: { applicant }
-    })
+    fetchByApplicant(applicant) {
+      return this.fetch({
+        data: { applicant }
+      });
+    }
+  };
+  TrialRequestCollection.initClass();
+  return TrialRequestCollection;
+})());

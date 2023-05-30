@@ -1,17 +1,34 @@
-RootView = require 'views/core/RootView'
-CocoCollection = require 'collections/CocoCollection'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let AdminSubCancellationsView;
+const RootView = require('views/core/RootView');
+const CocoCollection = require('collections/CocoCollection');
+const utils = require('core/utils');
 
-module.exports = class AdminSubCancellationsView extends RootView
-  id: 'admin-sub-cancellations-view'
-  template: require 'app/templates/admin/admin-sub-cancellations'
+module.exports = (AdminSubCancellationsView = (function() {
+  AdminSubCancellationsView = class AdminSubCancellationsView extends RootView {
+    static initClass() {
+      this.prototype.id = 'admin-sub-cancellations-view';
+      this.prototype.template = require('app/templates/admin/admin-sub-cancellations');
+    }
 
-  initialize: ->
-    return super() unless me.isAdmin()
-    @objectIdToDate = utils.objectIdToDate
-    @limit = utils.getQueryVariable('limit', 100)
-    url = '/db/analytics.log.event?filter[event]="Unsubscribe End"&conditions[sort]="-_id"&conditions[limit]=' + @limit
-    Promise.resolve($.get(url))
-    .then (@cancelEvents) =>
-      @render?()
-    super()
+    initialize() {
+      if (!me.isAdmin()) { return super.initialize(); }
+      this.objectIdToDate = utils.objectIdToDate;
+      this.limit = utils.getQueryVariable('limit', 100);
+      const url = '/db/analytics.log.event?filter[event]="Unsubscribe End"&conditions[sort]="-_id"&conditions[limit]=' + this.limit;
+      Promise.resolve($.get(url))
+      .then(cancelEvents => {
+        this.cancelEvents = cancelEvents;
+        return (typeof this.render === 'function' ? this.render() : undefined);
+      });
+      return super.initialize();
+    }
+  };
+  AdminSubCancellationsView.initClass();
+  return AdminSubCancellationsView;
+})());

@@ -1,65 +1,95 @@
-fetchJson = require './fetch-json'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const fetchJson = require('./fetch-json');
 
 module.exports = {
-  createSecret: ({clientID}, options={}) ->
-    fetchJson("/db/api-clients/#{clientID}/new-secret", _.assign {}, {
-      method: 'POST'
+  createSecret({clientID}, options) {
+    if (options == null) { options = {}; }
+    return fetchJson(`/db/api-clients/${clientID}/new-secret`, _.assign({}, {
+      method: 'POST',
       json: options
-    })
+    }));
+  },
 
-  createAutoClanOwner: ({clientID}, options={}) ->
-    fetchJson("/db/api-clients/#{clientID}/create-auto-clan-owner", _.assign {}, {
-      method: 'POST'
+  createAutoClanOwner({clientID}, options) {
+    if (options == null) { options = {}; }
+    return fetchJson(`/db/api-clients/${clientID}/create-auto-clan-owner`, _.assign({}, {
+      method: 'POST',
       json: options
-    })
+    }));
+  },
 
-  getByName: (clientName, options={}) ->
-    options.data ?= {}
-    options.data.name = clientName
-    fetchJson('/db/api-clients/name', options)
+  getByName(clientName, options) {
+    if (options == null) { options = {}; }
+    if (options.data == null) { options.data = {}; }
+    options.data.name = clientName;
+    return fetchJson('/db/api-clients/name', options);
+  },
 
-  getAll: (options={}) ->
-    fetchJson('/db/api-clients', options)
+  getAll(options) {
+    if (options == null) { options = {}; }
+    return fetchJson('/db/api-clients', options);
+  },
 
-  post: (options={}) ->
-    fetchJson('/db/api-clients', _.assign {}, {
-      method: 'POST'
+  post(options) {
+    if (options == null) { options = {}; }
+    return fetchJson('/db/api-clients', _.assign({}, {
+      method: 'POST',
       json: options
-    })
+    }));
+  },
 
-  updateFeature: ({clientID, featureID}, options={}) ->
-    fetchJson("/db/api-clients/#{clientID}/update-feature/#{featureID}", _.assign {}, {
-      method: 'PUT'
+  updateFeature({clientID, featureID}, options) {
+    if (options == null) { options = {}; }
+    return fetchJson(`/db/api-clients/${clientID}/update-feature/${featureID}`, _.assign({}, {
+      method: 'PUT',
       json: options
-    })
+    }));
+  },
 
-  getByHandle: (clientID, options={}) ->
-    fetchJson("/db/api-clients/#{clientID}", options)
+  getByHandle(clientID, options) {
+    if (options == null) { options = {}; }
+    return fetchJson(`/db/api-clients/${clientID}`, options);
+  },
 
-  editClient: (client, options={}) ->
-    fetchJson('/db/api-clients', _.assign({}, options, {
-      method: 'PUT'
+  editClient(client, options) {
+    if (options == null) { options = {}; }
+    return fetchJson('/db/api-clients', _.assign({}, options, {
+      method: 'PUT',
       json: client
-    }))
+    }));
+  },
 
-  getLicenseStats: (clientID, options={}) ->
-    fetchJson("/db/api-clients/#{clientID}/license-stats", options)
+  getLicenseStats(clientID, options) {
+    if (options == null) { options = {}; }
+    return fetchJson(`/db/api-clients/${clientID}/license-stats`, options);
+  },
 
-  getPlayTimeStats: (options={}) ->
-    fetchJson("/api/playtime-stats", options)
+  getPlayTimeStats(options) {
+    if (options == null) { options = {}; }
+    return fetchJson("/api/playtime-stats", options);
+  },
 
-  getApiClientId: () ->
-    fetchJson("/api/get-client-id")
+  getApiClientId() {
+    return fetchJson("/api/get-client-id");
+  },
 
-  getTeacherCount: (clientID, options={}) ->
-    fetchJson("/db/api-clients/#{clientID}/teacher-count")
+  getTeacherCount(clientID, options) {
+    if (options == null) { options = {}; }
+    return fetchJson(`/db/api-clients/${clientID}/teacher-count`);
+  },
 
-  getTeachers: (clientID, { skip, limit }) ->
-    fetchJson("/db/api-clients/#{clientID}/teachers", {
+  getTeachers(clientID, { skip, limit }) {
+    return fetchJson(`/db/api-clients/${clientID}/teachers`, {
       method: 'GET',
       data: {
         skip,
         limit
       }
-    })
-}
+    });
+  }
+};

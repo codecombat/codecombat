@@ -1,87 +1,120 @@
-ScriptModule = require './ScriptModule'
-{me} = require 'core/auth'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SpritesScriptModule;
+const ScriptModule = require('./ScriptModule');
+const {me} = require('core/auth');
+const utils = require('core/utils');
 
-module.exports = class SpritesScriptModule extends ScriptModule
-  @neededFor: (noteGroup) ->
-    return noteGroup.sprites?.length
+module.exports = (SpritesScriptModule = class SpritesScriptModule extends ScriptModule {
+  static neededFor(noteGroup) {
+    return (noteGroup.sprites != null ? noteGroup.sprites.length : undefined);
+  }
 
-  startNotes: ->
-    notes = []
-    @moveSums = {}
-    @speakingSprites = {}
-    for sprite in @noteGroup.sprites or []
-      notes.push(@spriteMoveNote sprite) if sprite.move?
-    for sprite in @noteGroup.sprites or []
-      notes.push(@spriteSayNote(sprite, @noteGroup.script)) if sprite.say?
-      notes.push(@spriteSelectNote sprite) if sprite.select?
-    return (n for n in notes when n)
+  startNotes() {
+    let sprite;
+    const notes = [];
+    this.moveSums = {};
+    this.speakingSprites = {};
+    for (sprite of Array.from(this.noteGroup.sprites || [])) {
+      if (sprite.move != null) { notes.push(this.spriteMoveNote(sprite)); }
+    }
+    for (sprite of Array.from(this.noteGroup.sprites || [])) {
+      if (sprite.say != null) { notes.push(this.spriteSayNote(sprite, this.noteGroup.script)); }
+      if (sprite.select != null) { notes.push(this.spriteSelectNote(sprite)); }
+    }
+    return (Array.from(notes).filter((n) => n));
+  }
 
-  spriteMoveNote: (sprite, instant=false) ->
-    duration = if instant then 0 else sprite.move.duration
-    note =
-      channel: 'sprite:move'
-      event:
-        pos: sprite.move.target
-        duration: duration
+  spriteMoveNote(sprite, instant) {
+    if (instant == null) { instant = false; }
+    const duration = instant ? 0 : sprite.move.duration;
+    const note = {
+      channel: 'sprite:move',
+      event: {
+        pos: sprite.move.target,
+        duration,
         spriteID: sprite.id
-    if duration
-      @moveSums[sprite.id] ?= 0
-      note.delay = @scrubbingTime + @moveSums[sprite.id]
-      @moveSums[sprite.id] += sprite.move.duration
-    return note
+      }
+    };
+    if (duration) {
+      if (this.moveSums[sprite.id] == null) { this.moveSums[sprite.id] = 0; }
+      note.delay = this.scrubbingTime + this.moveSums[sprite.id];
+      this.moveSums[sprite.id] += sprite.move.duration;
+    }
+    return note;
+  }
 
-  spriteSayNote: (sprite, script) ->
-    return if @speakingSprites[sprite.id]
-    responses = sprite.say.responses
-    responses = [] unless script.skippable or responses
-    for response in responses ? []
-      response.text = utils.i18n response, 'text'
-    text = utils.i18n sprite.say, 'text'
-    blurb = utils.i18n sprite.say, 'blurb'
-    sound = utils.i18n sprite.say, 'sound'
+  spriteSayNote(sprite, script) {
+    if (this.speakingSprites[sprite.id]) { return; }
+    let {
+      responses
+    } = sprite.say;
+    if (!script.skippable && !responses) { responses = []; }
+    for (var response of Array.from(responses != null ? responses : [])) {
+      response.text = utils.i18n(response, 'text');
+    }
+    const text = utils.i18n(sprite.say, 'text');
+    const blurb = utils.i18n(sprite.say, 'blurb');
+    let sound = utils.i18n(sprite.say, 'sound');
 
-    # Determine whether to request TTS
-    lang = me.get('preferredLanguage', true)
-    wantsEnglish = lang.split('-')[0] is 'en'
-    textIsLocalized = text isnt sprite.say.text
-    soundIsLocalized = sound isnt sprite.say.sound
-    hasSound = sound and (soundIsLocalized or wantsEnglish)
-    if text and not hasSound and me.getTTSExperimentValue() is 'beta' and utils.isCodeCombat
-      # TODO: get this working for Ozaria once we confirm it's good in CodeCombat.
-      # Issues: it doesn't respect existing VO, and it plays too early.
-      plainText = utils.markdownToPlainText text
-      textLanguage = if textIsLocalized or lang is 'en-GB' then lang else 'en-US'
-      ttsPath = "text-to-speech/#{textLanguage}/#{encodeURIComponent(plainText)}"
-      sound = mp3: ttsPath + '.mp3', ogg: ttsPath + '.ogg'
+    // Determine whether to request TTS
+    const lang = me.get('preferredLanguage', true);
+    const wantsEnglish = lang.split('-')[0] === 'en';
+    const textIsLocalized = text !== sprite.say.text;
+    const soundIsLocalized = sound !== sprite.say.sound;
+    const hasSound = sound && (soundIsLocalized || wantsEnglish);
+    if (text && !hasSound && (me.getTTSExperimentValue() === 'beta') && utils.isCodeCombat) {
+      // TODO: get this working for Ozaria once we confirm it's good in CodeCombat.
+      // Issues: it doesn't respect existing VO, and it plays too early.
+      const plainText = utils.markdownToPlainText(text);
+      const textLanguage = textIsLocalized || (lang === 'en-GB') ? lang : 'en-US';
+      const ttsPath = `text-to-speech/${textLanguage}/${encodeURIComponent(plainText)}`;
+      sound = {mp3: ttsPath + '.mp3', ogg: ttsPath + '.ogg'};
+    }
 
-    note =
-      channel: 'level:sprite-dialogue'
-      event:
-        message: text
-        blurb: blurb
-        mood: sprite.say.mood or 'explain'
-        responses: responses
-        spriteID: sprite.id
-        sound: sound
-    @maybeApplyDelayToNote note
-    return note
+    const note = {
+      channel: 'level:sprite-dialogue',
+      event: {
+        message: text,
+        blurb,
+        mood: sprite.say.mood || 'explain',
+        responses,
+        spriteID: sprite.id,
+        sound
+      }
+    };
+    this.maybeApplyDelayToNote(note);
+    return note;
+  }
 
-  spriteSelectNote: (sprite) ->
-    note =
-      channel: 'level:select-sprite'
-      event:
-        thangID: if sprite.select then sprite.id else null
-    return note
+  spriteSelectNote(sprite) {
+    const note = {
+      channel: 'level:select-sprite',
+      event: {
+        thangID: sprite.select ? sprite.id : null
+      }
+    };
+    return note;
+  }
 
-  endNotes: ->
-    notes = {}
-    for sprite in @noteGroup.sprites or []
-      notes[sprite.id] ?= {}
-      notes[sprite.id]['move'] = (@spriteMoveNote sprite, true) if sprite.move?
-      notes[sprite.id]['say'] = { channel: 'level:sprite-clear-dialogue' } if sprite.say?
-    noteArray = []
-    for spriteID of notes
-      for type of notes[spriteID]
-        noteArray.push(notes[spriteID][type])
-    noteArray
+  endNotes() {
+    const notes = {};
+    for (var sprite of Array.from(this.noteGroup.sprites || [])) {
+      if (notes[sprite.id] == null) { notes[sprite.id] = {}; }
+      if (sprite.move != null) { notes[sprite.id]['move'] = (this.spriteMoveNote(sprite, true)); }
+      if (sprite.say != null) { notes[sprite.id]['say'] = { channel: 'level:sprite-clear-dialogue' }; }
+    }
+    const noteArray = [];
+    for (var spriteID in notes) {
+      for (var type in notes[spriteID]) {
+        noteArray.push(notes[spriteID][type]);
+      }
+    }
+    return noteArray;
+  }
+});

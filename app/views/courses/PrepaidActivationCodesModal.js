@@ -1,132 +1,170 @@
-_ = require 'lodash'
-require('app/styles/admin/administer-user-modal.sass')
-ModalView = require 'views/core/ModalView'
-template = require 'templates/courses/prepaid-activation-codes-modal.pug'
-User = require 'models/User'
-Prepaid = require 'models/Prepaid'
-StripeCoupons = require 'collections/StripeCoupons'
-forms = require 'core/forms'
-Prepaids = require 'collections/Prepaids'
-Classrooms = require 'collections/Classrooms'
-TrialRequests = require 'collections/TrialRequests'
-fetchJson = require('core/api/fetch-json')
-utils = require 'core/utils'
-api = require 'core/api'
-{ LICENSE_PRESETS } = require 'core/constants'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let PreapidActivationCodesModal;
+const _ = require('lodash');
+require('app/styles/admin/administer-user-modal.sass');
+const ModalView = require('views/core/ModalView');
+const template = require('templates/courses/prepaid-activation-codes-modal.pug');
+const User = require('models/User');
+const Prepaid = require('models/Prepaid');
+const StripeCoupons = require('collections/StripeCoupons');
+const forms = require('core/forms');
+const Prepaids = require('collections/Prepaids');
+const Classrooms = require('collections/Classrooms');
+const TrialRequests = require('collections/TrialRequests');
+const fetchJson = require('core/api/fetch-json');
+const utils = require('core/utils');
+const api = require('core/api');
+const { LICENSE_PRESETS } = require('core/constants');
 
-# TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
-# TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
+// TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
+// TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
 
-module.exports = class PreapidActivationCodesModal extends ModalView
-  id: 'administer-user-modal'
-  template: template
+module.exports = (PreapidActivationCodesModal = (function() {
+  PreapidActivationCodesModal = class PreapidActivationCodesModal extends ModalView {
+    static initClass() {
+      this.prototype.id = 'administer-user-modal';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'click .edit-prepaids-info-btn': 'onClickEditPrepaidsInfoButton',
+        'click .cancel-prepaid-info-edit-btn': 'onClickCancelPrepaidInfoEditButton',
+        'click .save-prepaid-info-btn': 'onClickSavePrepaidInfo',
+        'click #license-type-select>.radio': 'onSelectLicenseType',
+        'click #add-seats-btn': 'onClickAddSeatsButton'
+      };
+    }
 
-  events:
-    'click .edit-prepaids-info-btn': 'onClickEditPrepaidsInfoButton'
-    'click .cancel-prepaid-info-edit-btn': 'onClickCancelPrepaidInfoEditButton'
-    'click .save-prepaid-info-btn': 'onClickSavePrepaidInfo'
-    'click #license-type-select>.radio': 'onSelectLicenseType'
-    'click #add-seats-btn': 'onClickAddSeatsButton'
+    initialize(options, classroom) {
+      this.classroom = classroom;
+      this.user = me;
+      this.supermodel.trackRequest(this.user.fetch({cache: false}));
+      this.prepaids = new Prepaids();
+      this.supermodel.trackRequest(this.prepaids.fetchByCreator(me.get('_id'), { data: {includeShared: true, onlyActivationCodes: true} }));
+      this.listenTo(this.prepaids, 'sync', () => {
+        return this.prepaids.forEach(prepaid => {
+          if (prepaid.loaded && !prepaid.creator) {
+            prepaid.creator = new User();
+            return this.supermodel.trackRequest(prepaid.creator.fetchCreatorOfPrepaid(prepaid));
+          }
+        });
+      });
+      this.timeZone = (typeof features !== 'undefined' && features !== null ? features.chinaInfra : undefined) ? 'Asia/Shanghai' : 'America/Los_Angeles';
+      this.licenseType = 'all';
+      this.licensePresets = LICENSE_PRESETS;
+      return this.utils = utils;
+    }
 
-  initialize: (options, @classroom) ->
-    @user = me
-    @supermodel.trackRequest @user.fetch({cache: false})
-    @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchByCreator(me.get('_id'), { data: {includeShared: true, onlyActivationCodes: true} })
-    @listenTo @prepaids, 'sync', =>
-      @prepaids.forEach (prepaid) =>
-        if prepaid.loaded and not prepaid.creator
-          prepaid.creator = new User()
-          @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
-    @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
-    @licenseType = 'all'
-    @licensePresets = LICENSE_PRESETS
-    @utils = utils
+    onLoaded() {
+      // TODO: Figure out a better way to expose this info, perhaps User methods?
+      this.prepaidTableState={};
 
-  onLoaded: ->
-    # TODO: Figure out a better way to expose this info, perhaps User methods?
-    @prepaidTableState={}
+      return super.onLoaded();
+    }
 
-    super()
+    onClickEditPrepaidsInfoButton(e) {
+      const prepaidId=this.$(e.target).data('prepaid-id');
+      this.prepaidTableState[prepaidId] = 'editMode';
+      return this.renderSelectors('#'+prepaidId);
+    }
 
-  onClickEditPrepaidsInfoButton: (e) ->
-    prepaidId=@$(e.target).data('prepaid-id')
-    @prepaidTableState[prepaidId] = 'editMode'
-    @renderSelectors('#'+prepaidId)
+    onClickCancelPrepaidInfoEditButton(e) {
+      this.prepaidTableState[this.$(e.target).data('prepaid-id')] = 'viewMode';
+      return this.renderSelectors('#'+this.$(e.target).data('prepaid-id'));
+    }
 
-  onClickCancelPrepaidInfoEditButton: (e) ->
-    @prepaidTableState[@$(e.target).data('prepaid-id')] = 'viewMode'
-    @renderSelectors('#'+@$(e.target).data('prepaid-id'))
+    onClickSavePrepaidInfo(e) {
+      const prepaidId= this.$(e.target).data('prepaid-id');  
+      const prepaidEndDate= this.$el.find("#endDate-"+prepaidId).val();
+      const prepaidTotalLicenses=this.$el.find("#totalLicenses-"+prepaidId).val();
+      return this.prepaids.each(prepaid => {
+        if (prepaid.get('_id') === prepaidId) { 
+          //validations
+          if (!prepaidStartDate || !prepaidEndDate || !prepaidTotalLicenses) {
+            return; 
+          }
+          if(prepaidStartDate >= prepaidEndDate) {
+            alert('End date cannot be on or before start date');
+            return;
+          }
+          if(prepaidTotalLicenses < (prepaid.get('redeemers') || []).length) {
+            alert('Total number of licenses cannot be less than used licenses');
+            return;
+          }
+          prepaid.set('startDate', moment.timezone.tz(prepaidStartDate, this.timeZone).toISOString());
+          prepaid.set('endDate',  moment.timezone.tz(prepaidEndDate, this.timeZone).toISOString());
+          prepaid.set('maxRedeemers', prepaidTotalLicenses);
+          const options = {};
+          prepaid.patch(options);
+          this.listenTo(prepaid, 'sync', function() { 
+            this.prepaidTableState[prepaidId] = 'viewMode';
+            return this.renderSelectors('#'+prepaidId);
+          });
+          return;
+        }
+      });
+    }
 
-  onClickSavePrepaidInfo: (e) ->
-    prepaidId= @$(e.target).data('prepaid-id')  
-    prepaidEndDate= @$el.find('#'+'endDate-'+prepaidId).val()
-    prepaidTotalLicenses=@$el.find('#'+'totalLicenses-'+prepaidId).val()
-    @prepaids.each (prepaid) =>
-      if (prepaid.get('_id') == prepaidId) 
-        #validations
-        unless prepaidStartDate and prepaidEndDate and prepaidTotalLicenses
-          return 
-        if(prepaidStartDate >= prepaidEndDate)
-          alert('End date cannot be on or before start date')
-          return
-        if(prepaidTotalLicenses < (prepaid.get('redeemers') || []).length)
-          alert('Total number of licenses cannot be less than used licenses')
-          return
-        prepaid.set('startDate', moment.timezone.tz(prepaidStartDate, @timeZone).toISOString())
-        prepaid.set('endDate',  moment.timezone.tz(prepaidEndDate, @timeZone).toISOString())
-        prepaid.set('maxRedeemers', prepaidTotalLicenses)
-        options = {}
-        prepaid.patch(options)
-        @listenTo prepaid, 'sync', -> 
-          @prepaidTableState[prepaidId] = 'viewMode'
-          @renderSelectors('#'+prepaidId)
-        return
+    onSelectLicenseType(e) {
+      this.licenseType = $(e.target).parent().children('input').val();
+      console.log('select liscense', this.licenseType);
+      return this.renderSelectors("#license-type-select");
+    }
 
-  onSelectLicenseType: (e) ->
-    @licenseType = $(e.target).parent().children('input').val()
-    console.log('select liscense', @licenseType)
-    @renderSelectors("#license-type-select")
+    onClickAddSeatsButton() {
+      const attrs = forms.formToObject(this.$('#prepaid-form'));
+      attrs.maxRedeemers = parseInt(attrs.maxRedeemers);
+      if (!_.all(_.values(attrs))) { return; }
+      if (!(attrs.maxRedeemers > 0)) { return; }
+      if (!(attrs.duration > 0)) { return; }
+      if (!attrs.endDate || !moment().isBefore(attrs.endDate)) { return; }
+      attrs.endDate = attrs.endDate + " " + "23:59";   // Otherwise, it ends at 12 am by default which does not include the date indicated
+      attrs.startDate = moment.timezone.tz(this.timeZone ).toISOString();
+      attrs.endDate = moment.timezone.tz(attrs.endDate, this.timeZone).toISOString();
+      const days = attrs.duration;
+      delete attrs.duration;
 
-  onClickAddSeatsButton: ->
-    attrs = forms.formToObject(@$('#prepaid-form'))
-    attrs.maxRedeemers = parseInt(attrs.maxRedeemers)
-    return unless _.all(_.values(attrs))
-    return unless attrs.maxRedeemers > 0
-    return unless attrs.duration > 0
-    return unless attrs.endDate and moment().isBefore(attrs.endDate)
-    attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-    attrs.startDate = moment.timezone.tz(@timeZone ).toISOString()
-    attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
-    days = attrs.duration
-    delete attrs.duration
+      if (attrs.licenseType in this.licensePresets) {
+        attrs.includedCourseIDs = this.licensePresets[attrs.licenseType];
+      }
+      if ((attrs.licenseType !== 'all') && !attrs.includedCourseIDs.length) { return; }
+      delete attrs.licenseType;
 
-    if attrs.licenseType of @licensePresets
-      attrs.includedCourseIDs = @licensePresets[attrs.licenseType]
-    return unless attrs.licenseType == 'all' or attrs.includedCourseIDs.length
-    delete attrs.licenseType
-
-    _.extend(attrs, {
-      type: 'course'
-      creator: @user.id
-      generateActivationCodes: true
-      properties:
-        adminAdded: me.id
-        classroom: @classroom
-        days: days
-    })
-    prepaid = new Prepaid(attrs)
-    prepaid.save()
-    @state = 'creating-prepaid'
-    @renderSelectors('#prepaid-form')
-    @listenTo prepaid, 'sync', ->
-      csvContent = 'Code,Expires\n'
-      ocode = prepaid.get('code').toUpperCase()
-      for code in prepaid.get('redeemers')
-        csvContent += "#{ocode.slice(0, 4)}-#{code.code.toUpperCase()}-#{ocode.slice(4)},#{code.date}\n"
-      file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
-      window.saveAs(file, 'ActivationCodes.csv')
-      @state = 'made-prepaid'
-      @renderSelectors('#prepaid-form')
+      _.extend(attrs, {
+        type: 'course',
+        creator: this.user.id,
+        generateActivationCodes: true,
+        properties: {
+          adminAdded: me.id,
+          classroom: this.classroom,
+          days
+        }
+      });
+      const prepaid = new Prepaid(attrs);
+      prepaid.save();
+      this.state = 'creating-prepaid';
+      this.renderSelectors('#prepaid-form');
+      return this.listenTo(prepaid, 'sync', function() {
+        let csvContent = 'Code,Expires\n';
+        const ocode = prepaid.get('code').toUpperCase();
+        for (var code of Array.from(prepaid.get('redeemers'))) {
+          csvContent += `${ocode.slice(0, 4)}-${code.code.toUpperCase()}-${ocode.slice(4)},${code.date}\n`;
+        }
+        const file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'});
+        window.saveAs(file, 'ActivationCodes.csv');
+        this.state = 'made-prepaid';
+        return this.renderSelectors('#prepaid-form');
+      });
+    }
+  };
+  PreapidActivationCodesModal.initClass();
+  return PreapidActivationCodesModal;
+})());
 
  

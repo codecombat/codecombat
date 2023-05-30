@@ -1,100 +1,147 @@
-CocoClass = require 'core/CocoClass'
-createjs = require 'lib/createjs-parts'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let PlaybackOverScreen;
+const CocoClass = require('core/CocoClass');
+const createjs = require('lib/createjs-parts');
 
-module.exports = class PlaybackOverScreen extends CocoClass
-  subscriptions:
-    'goal-manager:new-goal-states': 'onNewGoalStates'
+module.exports = (PlaybackOverScreen = (function() {
+  PlaybackOverScreen = class PlaybackOverScreen extends CocoClass {
+    static initClass() {
+      this.prototype.subscriptions =
+        {'goal-manager:new-goal-states': 'onNewGoalStates'};
+    }
 
-  constructor: (options) ->
-    super()
-    options ?= {}
-    @camera = options.camera
-    @layer = options.layer
-    @playerNames = options.playerNames
-    console.error @toString(), 'needs a camera.' unless @camera
-    console.error @toString(), 'needs a layer.' unless @layer
-    @build()
+    constructor(options) {
+      super();
+      if (options == null) { options = {}; }
+      this.camera = options.camera;
+      this.layer = options.layer;
+      this.playerNames = options.playerNames;
+      if (!this.camera) { console.error(this.toString(), 'needs a camera.'); }
+      if (!this.layer) { console.error(this.toString(), 'needs a layer.'); }
+      this.build();
+    }
 
-  toString: -> '<PlaybackOverScreen>'
+    toString() { return '<PlaybackOverScreen>'; }
 
-  build: ->
-    @dimLayer = new createjs.Container()
-    @dimLayer.mouseEnabled = @dimLayer.mouseChildren = false
-    @dimLayer.addChild @dimScreen = new createjs.Shape()
-    @dimLayer.alpha = 0
-    @layer.addChild @dimLayer
+    build() {
+      this.dimLayer = new createjs.Container();
+      this.dimLayer.mouseEnabled = (this.dimLayer.mouseChildren = false);
+      this.dimLayer.addChild(this.dimScreen = new createjs.Shape());
+      this.dimLayer.alpha = 0;
+      return this.layer.addChild(this.dimLayer);
+    }
 
-  makeVictoryText: ->
-    s = ''
-    size = Math.ceil @camera.canvasHeight / 6
-    text = new createjs.Text s, "#{size}px Open Sans Condensed", '#F7B42C'
-    text.shadow = new createjs.Shadow '#000', Math.ceil(@camera.canvasHeight / 300), Math.ceil(@camera.canvasHeight / 300), Math.ceil(@camera.canvasHeight / 120)
-    text.textAlign = 'center'
-    text.textBaseline = 'middle'
-    text.x = 0.5 * @camera.canvasWidth
-    text.y = 0.75 * @camera.canvasHeight
-    @dimLayer.addChild text
-    @text = text
+    makeVictoryText() {
+      const s = '';
+      const size = Math.ceil(this.camera.canvasHeight / 6);
+      const text = new createjs.Text(s, `${size}px Open Sans Condensed`, '#F7B42C');
+      text.shadow = new createjs.Shadow('#000', Math.ceil(this.camera.canvasHeight / 300), Math.ceil(this.camera.canvasHeight / 300), Math.ceil(this.camera.canvasHeight / 120));
+      text.textAlign = 'center';
+      text.textBaseline = 'middle';
+      text.x = 0.5 * this.camera.canvasWidth;
+      text.y = 0.75 * this.camera.canvasHeight;
+      this.dimLayer.addChild(text);
+      return this.text = text;
+    }
 
-  show: ->
-    return if @showing
-    @showing = true
-    @updateColor 'rgba(212, 212, 212, 0.4)' unless @color  # If we haven't caught the goal state for the first run, just do something neutral.
-    @dimLayer.alpha = 0
-    createjs.Tween.removeTweens @dimLayer
-    createjs.Tween.get(@dimLayer).to({alpha: 1}, 500)
+    show() {
+      if (this.showing) { return; }
+      this.showing = true;
+      if (!this.color) { this.updateColor('rgba(212, 212, 212, 0.4)'); }  // If we haven't caught the goal state for the first run, just do something neutral.
+      this.dimLayer.alpha = 0;
+      createjs.Tween.removeTweens(this.dimLayer);
+      return createjs.Tween.get(this.dimLayer).to({alpha: 1}, 500);
+    }
 
-  hide: ->
-    return unless @showing
-    @showing = false
-    createjs.Tween.removeTweens @dimLayer
-    createjs.Tween.get(@dimLayer).to({alpha: 0}, 500)
+    hide() {
+      if (!this.showing) { return; }
+      this.showing = false;
+      createjs.Tween.removeTweens(this.dimLayer);
+      return createjs.Tween.get(this.dimLayer).to({alpha: 0}, 500);
+    }
 
-  onNewGoalStates: (e) ->
-    success = e.overallStatus is 'success'
-    failure = e.overallStatus is 'failure'
-    timedOut = e.timedOut
-    incomplete = not success and not failure and not timedOut
-    color = if failure then 'rgba(255, 128, 128, 0.4)' else 'rgba(255, 255, 255, 0.4)'
-    @updateColor color
-    @updateText e
+    onNewGoalStates(e) {
+      const success = e.overallStatus === 'success';
+      const failure = e.overallStatus === 'failure';
+      const {
+        timedOut
+      } = e;
+      const incomplete = !success && !failure && !timedOut;
+      const color = failure ? 'rgba(255, 128, 128, 0.4)' : 'rgba(255, 255, 255, 0.4)';
+      this.updateColor(color);
+      return this.updateText(e);
+    }
 
-  updateColor: (color) ->
-    return if color is @color
-    @dimScreen.graphics.clear().beginFill(color).rect 0, 0, @camera.canvasWidth, @camera.canvasHeight
-    if @color
-      @dimLayer.updateCache()
-    else
-      @dimLayer.cache 0, 0, @camera.canvasWidth, @camera.canvasHeight
-    @color = color
+    updateColor(color) {
+      if (color === this.color) { return; }
+      this.dimScreen.graphics.clear().beginFill(color).rect(0, 0, this.camera.canvasWidth, this.camera.canvasHeight);
+      if (this.color) {
+        this.dimLayer.updateCache();
+      } else {
+        this.dimLayer.cache(0, 0, this.camera.canvasWidth, this.camera.canvasHeight);
+      }
+      return this.color = color;
+    }
 
-  updateText: (goalEvent) ->
-    return unless _.size @playerNames  # Only on multiplayer levels
-    teamOverallStatuses = {}
+    updateText(goalEvent) {
+      let g;
+      if (!_.size(this.playerNames)) { return; }  // Only on multiplayer levels
+      const teamOverallStatuses = {};
 
-    goals = if goalEvent.goalStates then _.values goalEvent.goalStates else []
-    goals = (g for g in goals when not g.optional)
-    for team in ['humans', 'ogres']
-      teamGoals = (g for g in goals when g.team in [undefined, team])
-      statuses = (goal.status for goal in teamGoals)
-      overallStatus = 'success' if statuses.length > 0 and _.every(statuses, (s) -> s is 'success')
-      overallStatus = 'failure' if statuses.length > 0 and 'failure' in statuses
-      teamOverallStatuses[team] = overallStatus
+      let goals = goalEvent.goalStates ? _.values(goalEvent.goalStates) : [];
+      goals = ((() => {
+        const result = [];
+        for (g of Array.from(goals)) {           if (!g.optional) {
+            result.push(g);
+          }
+        }
+        return result;
+      })());
+      for (var team of ['humans', 'ogres']) {
+        var overallStatus;
+        var teamGoals = ((() => {
+          const result1 = [];
+          for (g of Array.from(goals)) {             if ([undefined, team].includes(g.team)) {
+              result1.push(g);
+            }
+          }
+          return result1;
+        })());
+        var statuses = (Array.from(teamGoals).map((goal) => goal.status));
+        if ((statuses.length > 0) && _.every(statuses, s => s === 'success')) { overallStatus = 'success'; }
+        if ((statuses.length > 0) && Array.from(statuses).includes('failure')) { overallStatus = 'failure'; }
+        teamOverallStatuses[team] = overallStatus;
+      }
 
-    @makeVictoryText() unless @text
-    if teamOverallStatuses.humans is 'success'
-      @text.color = '#E62B1E'
-      @text.text = ((@playerNames.humans ? $.i18n.t('ladder.red_ai')) + ' ' + $.i18n.t('ladder.wins')).toLocaleUpperCase()
-    else if teamOverallStatuses.ogres is 'success'
-      @text.color = '#0597FF'
-      @text.text = ((@playerNames.ogres ? $.i18n.t('ladder.blue_ai')) + ' ' + $.i18n.t('ladder.wins')).toLocaleUpperCase()
-    else
-      @text.color = '#F7B42C'
-      if goalEvent.timedOut
-        @text.text = 'TIMED OUT'
-      else
-        @text.text = 'INCOMPLETE'
-    defaultSize = Math.ceil @camera.canvasHeight / 6
-    textScaleFactor = Math.min 1, Math.max(0.5, "PLAYERNAME WINS".length / @text.text.length)
-    @text.scaleX = @text.scaleY = textScaleFactor
-    @dimLayer.updateCache()
+      if (!this.text) { this.makeVictoryText(); }
+      if (teamOverallStatuses.humans === 'success') {
+        this.text.color = '#E62B1E';
+        this.text.text = ((this.playerNames.humans != null ? this.playerNames.humans : $.i18n.t('ladder.red_ai')) + ' ' + $.i18n.t('ladder.wins')).toLocaleUpperCase();
+      } else if (teamOverallStatuses.ogres === 'success') {
+        this.text.color = '#0597FF';
+        this.text.text = ((this.playerNames.ogres != null ? this.playerNames.ogres : $.i18n.t('ladder.blue_ai')) + ' ' + $.i18n.t('ladder.wins')).toLocaleUpperCase();
+      } else {
+        this.text.color = '#F7B42C';
+        if (goalEvent.timedOut) {
+          this.text.text = 'TIMED OUT';
+        } else {
+          this.text.text = 'INCOMPLETE';
+        }
+      }
+      const defaultSize = Math.ceil(this.camera.canvasHeight / 6);
+      const textScaleFactor = Math.min(1, Math.max(0.5, "PLAYERNAME WINS".length / this.text.text.length));
+      this.text.scaleX = (this.text.scaleY = textScaleFactor);
+      return this.dimLayer.updateCache();
+    }
+  };
+  PlaybackOverScreen.initClass();
+  return PlaybackOverScreen;
+})());

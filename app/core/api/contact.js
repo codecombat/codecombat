@@ -1,4 +1,4 @@
-fetchJson = require './fetch-json'
+const fetchJson = require('./fetch-json');
 
 module.exports = {
-}
+};

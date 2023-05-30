@@ -1,22 +1,43 @@
-require('app/styles/modal/create-account-modal/eu-confirmation-view.sass')
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/core/create-account-modal/eu-confirmation-view'
-forms = require 'core/forms'
-Classroom = require 'models/Classroom'
-State = require 'models/State'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let EUConfirmationView;
+require('app/styles/modal/create-account-modal/eu-confirmation-view.sass');
+const CocoView = require('views/core/CocoView');
+const template = require('app/templates/core/create-account-modal/eu-confirmation-view');
+const forms = require('core/forms');
+const Classroom = require('models/Classroom');
+const State = require('models/State');
 
-module.exports = class EUConfirmationView extends CocoView
-  id: 'eu-confirmation-view'
-  template: template
+module.exports = (EUConfirmationView = (function() {
+  EUConfirmationView = class EUConfirmationView extends CocoView {
+    static initClass() {
+      this.prototype.id = 'eu-confirmation-view';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'click .back-button'() { return this.trigger('nav-back'); },
+        'click .forward-button'() { return this.trigger('nav-forward'); },
+        'change #eu-confirmation-checkbox': 'onChangeEUConfirmationCheckbox'
+      };
+    }
 
-  events:
-    'click .back-button': -> @trigger 'nav-back'
-    'click .forward-button': -> @trigger 'nav-forward'
-    'change #eu-confirmation-checkbox': 'onChangeEUConfirmationCheckbox'
+    initialize(param) {
+      if (param == null) { param = {}; }
+      const { signupState } = param;
+      this.signupState = signupState;
+      return this.state = new State();
+    }
 
-  initialize: ({ @signupState } = {}) ->
-    @state = new State()
-
-  onChangeEUConfirmationCheckbox: (e) ->
-    @state.set 'euConfirmationGranted', $(e.target).is ':checked'
-    @$('.forward-button').attr 'disabled', not $(e.target).is ':checked'
+    onChangeEUConfirmationCheckbox(e) {
+      this.state.set('euConfirmationGranted', $(e.target).is(':checked'));
+      return this.$('.forward-button').attr('disabled', !$(e.target).is(':checked'));
+    }
+  };
+  EUConfirmationView.initClass();
+  return EUConfirmationView;
+})());

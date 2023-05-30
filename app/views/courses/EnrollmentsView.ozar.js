@@ -1,180 +1,234 @@
-require('app/styles/courses/enrollments-view.sass')
-RootView = require 'views/core/RootView'
-Classrooms = require 'collections/Classrooms'
-State = require 'models/State'
-User = require 'models/User'
-Prepaids = require 'collections/Prepaids'
-template = require 'app/templates/courses/enrollments-view'
-Users = require 'collections/Users'
-Courses = require 'collections/Courses'
-HowToEnrollModal = require 'views/teachers/HowToEnrollModal'
-TeachersContactModal = require 'views/teachers/TeachersContactModal'
-ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
-utils = require 'core/utils'
-ShareLicensesModal = require 'views/teachers/ShareLicensesModal'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let EnrollmentsView;
+require('app/styles/courses/enrollments-view.sass');
+const RootView = require('views/core/RootView');
+const Classrooms = require('collections/Classrooms');
+const State = require('models/State');
+const User = require('models/User');
+const Prepaids = require('collections/Prepaids');
+const template = require('app/templates/courses/enrollments-view');
+const Users = require('collections/Users');
+const Courses = require('collections/Courses');
+const HowToEnrollModal = require('views/teachers/HowToEnrollModal');
+const TeachersContactModal = require('views/teachers/TeachersContactModal');
+const ActivateLicensesModal = require('views/courses/ActivateLicensesModal');
+const utils = require('core/utils');
+const ShareLicensesModal = require('views/teachers/ShareLicensesModal');
 
-{
-  STARTER_LICENSE_COURSE_IDS
+const {
+  STARTER_LICENSE_COURSE_IDS,
   FREE_COURSE_IDS
-} = require 'core/constants'
+} = require('core/constants');
 
-module.exports = class EnrollmentsView extends RootView
-  id: 'enrollments-view'
-  template: template
-  enrollmentRequestSent: false
+module.exports = (EnrollmentsView = (function() {
+  EnrollmentsView = class EnrollmentsView extends RootView {
+    static initClass() {
+      this.prototype.id = 'enrollments-view';
+      this.prototype.template = template;
+      this.prototype.enrollmentRequestSent = false;
+  
+      this.prototype.events = {
+        'click #enroll-students-btn': 'onClickEnrollStudentsButton',
+        'click #how-to-enroll-link': 'onClickHowToEnrollLink',
+        'click #contact-us-btn': 'onClickContactUsButton',
+        'click .share-licenses-link': 'onClickShareLicensesLink'
+      };
+    }
 
-  events:
-    'click #enroll-students-btn': 'onClickEnrollStudentsButton'
-    'click #how-to-enroll-link': 'onClickHowToEnrollLink'
-    'click #contact-us-btn': 'onClickContactUsButton'
-    'click .share-licenses-link': 'onClickShareLicensesLink'
+    getTitle() { return $.i18n.t('teacher.enrollments'); }
 
-  getTitle: -> return $.i18n.t('teacher.enrollments')
+    i18nData() {
+      return {starterLicenseCourseList: this.state.get('starterLicenseCourseList')};
+    }
 
-  i18nData: ->
-    starterLicenseCourseList: @state.get('starterLicenseCourseList')
-
-  initialize: (options) ->
-    @state = new State({
-      totalEnrolled: 0
-      totalNotEnrolled: 0
-      classroomNotEnrolledMap: {}
-      classroomEnrolledMap: {}
-      numberOfStudents: 15
-      totalCourses: 0
-      prepaidGroups: {
-        'available': []
-        'pending': []
+    initialize(options) {
+      this.state = new State({
+        totalEnrolled: 0,
+        totalNotEnrolled: 0,
+        classroomNotEnrolledMap: {},
+        classroomEnrolledMap: {},
+        numberOfStudents: 15,
+        totalCourses: 0,
+        prepaidGroups: {
+          'available': [],
+          'pending': []
+        },
+        shouldUpsell: false
+      });
+      if (window.tracker != null) {
+        window.tracker.trackEvent('Classes Licenses Loaded', {category: 'Teachers'});
       }
-      shouldUpsell: false
-    })
-    window.tracker?.trackEvent 'Classes Licenses Loaded', category: 'Teachers'
-    super(options)
+      super.initialize(options);
 
-    @courses = new Courses()
-    @supermodel.trackRequest @courses.fetch({data: { project: 'free,i18n,name' }})
-    @listenTo @courses, 'sync', ->
-      @state.set { starterLicenseCourseList: @getStarterLicenseCourseList() }
-    # Listen for language change
-    @listenTo me, 'change:preferredLanguage', ->
-      @state.set { starterLicenseCourseList: @getStarterLicenseCourseList() }
-    @members = new Users()
-    @classrooms = new Classrooms()
-    @classrooms.comparator = '_id'
-    @listenToOnce @classrooms, 'sync', @onceClassroomsSync
-    @supermodel.trackRequest @classrooms.fetchMine()
-    @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchMineAndShared()
-    @listenTo @prepaids, 'sync', @onPrepaidsSync
-    @debouncedRender = _.debounce @render, 0
-    @listenTo @prepaids, 'sync', @updatePrepaidGroups
-    @listenTo(@state, 'all', @debouncedRender)
+      this.courses = new Courses();
+      this.supermodel.trackRequest(this.courses.fetch({data: { project: 'free,i18n,name' }}));
+      this.listenTo(this.courses, 'sync', function() {
+        return this.state.set({ starterLicenseCourseList: this.getStarterLicenseCourseList() });
+    });
+      // Listen for language change
+      this.listenTo(me, 'change:preferredLanguage', function() {
+        return this.state.set({ starterLicenseCourseList: this.getStarterLicenseCourseList() });
+    });
+      this.members = new Users();
+      this.classrooms = new Classrooms();
+      this.classrooms.comparator = '_id';
+      this.listenToOnce(this.classrooms, 'sync', this.onceClassroomsSync);
+      this.supermodel.trackRequest(this.classrooms.fetchMine());
+      this.prepaids = new Prepaids();
+      this.supermodel.trackRequest(this.prepaids.fetchMineAndShared());
+      this.listenTo(this.prepaids, 'sync', this.onPrepaidsSync);
+      this.debouncedRender = _.debounce(this.render, 0);
+      this.listenTo(this.prepaids, 'sync', this.updatePrepaidGroups);
+      this.listenTo(this.state, 'all', this.debouncedRender);
 
-    me.getClientCreatorPermissions()?.then(() => @render?())
+      __guard__(me.getClientCreatorPermissions(), x => x.then(() => (typeof this.render === 'function' ? this.render() : undefined)));
 
-    leadPriorityRequest = me.getLeadPriority()
-    @supermodel.trackRequest leadPriorityRequest
-    leadPriorityRequest.then (r) => @onLeadPriorityResponse(r)
+      const leadPriorityRequest = me.getLeadPriority();
+      this.supermodel.trackRequest(leadPriorityRequest);
+      return leadPriorityRequest.then(r => this.onLeadPriorityResponse(r));
+    }
 
-  getStarterLicenseCourseList: ->
-    return if !@courses.loaded
-    COURSE_IDS = _.difference(STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS)
-    starterLicenseCourseList = _.difference(STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS).map (_id) =>
-      utils.i18n(@courses.findWhere({_id})?.attributes or {}, 'name')
-    starterLicenseCourseList.push($.i18n.t('general.and') + ' ' + starterLicenseCourseList.pop())
-    starterLicenseCourseList.join(', ')
+    getStarterLicenseCourseList() {
+      if (!this.courses.loaded) { return; }
+      const COURSE_IDS = _.difference(STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS);
+      const starterLicenseCourseList = _.difference(STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS).map(_id => {
+        return utils.i18n(__guard__(this.courses.findWhere({_id}), x => x.attributes) || {}, 'name');
+      });
+      starterLicenseCourseList.push($.i18n.t('general.and') + ' ' + starterLicenseCourseList.pop());
+      return starterLicenseCourseList.join(', ');
+    }
 
-  onceClassroomsSync: ->
-    for classroom in @classrooms.models
-      @supermodel.trackRequests @members.fetchForClassroom(classroom, {remove: false, removeDeleted: true})
+    onceClassroomsSync() {
+      return Array.from(this.classrooms.models).map((classroom) =>
+        this.supermodel.trackRequests(this.members.fetchForClassroom(classroom, {remove: false, removeDeleted: true})));
+    }
 
-  onLoaded: ->
-    @calculateEnrollmentStats()
-    @state.set('totalCourses', @courses.size())
-    super()
+    onLoaded() {
+      this.calculateEnrollmentStats();
+      this.state.set('totalCourses', this.courses.size());
+      return super.onLoaded();
+    }
 
-  onPrepaidsSync: ->
-    @prepaids.each (prepaid) =>
-      prepaid.creator = new User()
-      # We never need this information if the user would be `me`
-      if prepaid.get('creator') isnt me.id
-        @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
+    onPrepaidsSync() {
+      this.prepaids.each(prepaid => {
+        prepaid.creator = new User();
+        // We never need this information if the user would be `me`
+        if (prepaid.get('creator') !== me.id) {
+          return this.supermodel.trackRequest(prepaid.creator.fetchCreatorOfPrepaid(prepaid));
+        }
+      });
 
-    @decideUpsell()
+      return this.decideUpsell();
+    }
 
-  onLeadPriorityResponse: ({ priority }) ->
-    @state.set({ leadPriority: priority })
-    @decideUpsell()
+    onLeadPriorityResponse({ priority }) {
+      this.state.set({ leadPriority: priority });
+      return this.decideUpsell();
+    }
 
-  decideUpsell: ->
-    # There are also non classroom prepaids.  We only use the course or starter_license prepaids to determine
-    # if we should skip upsell (we ignore the others).
+    decideUpsell() {
+      // There are also non classroom prepaids.  We only use the course or starter_license prepaids to determine
+      // if we should skip upsell (we ignore the others).
 
-    coursePrepaids = @prepaids.filter((p) => p.get('type') == 'course')
+      const coursePrepaids = this.prepaids.filter(p => p.get('type') === 'course');
 
-    skipUpsellDueToExistingLicenses = coursePrepaids.length > 0
-    shouldUpsell = !skipUpsellDueToExistingLicenses and (@state.get('leadPriority') is 'low') and (me.get('preferredLanguage') isnt 'nl-BE')
+      const skipUpsellDueToExistingLicenses = coursePrepaids.length > 0;
+      const shouldUpsell = !skipUpsellDueToExistingLicenses && (this.state.get('leadPriority') === 'low') && (me.get('preferredLanguage') !== 'nl-BE');
 
-    @state.set({ shouldUpsell })
+      this.state.set({ shouldUpsell });
 
-    if shouldUpsell and not @upsellTracked
-      @upsellTracked = true
-      application.tracker?.trackEvent 'Starter License Upsell: Banner Viewed', {price: @state.get('centsPerStudent'), seats: @state.get('quantityToBuy')}
+      if (shouldUpsell && !this.upsellTracked) {
+        this.upsellTracked = true;
+        return (application.tracker != null ? application.tracker.trackEvent('Starter License Upsell: Banner Viewed', {price: this.state.get('centsPerStudent'), seats: this.state.get('quantityToBuy')}) : undefined);
+      }
+    }
 
-  updatePrepaidGroups: ->
-    @state.set('prepaidGroups', @prepaids.groupBy((p) -> p.status()))
+    updatePrepaidGroups() {
+      return this.state.set('prepaidGroups', this.prepaids.groupBy(p => p.status()));
+    }
 
-  calculateEnrollmentStats: ->
-    @removeDeletedStudents()
+    calculateEnrollmentStats() {
+      this.removeDeletedStudents();
 
-    # sort users into enrolled, not enrolled
-    groups = @members.groupBy (m) -> m.isEnrolled()
-    enrolledUsers = new Users(groups.true)
-    @notEnrolledUsers = new Users(groups.false)
+      // sort users into enrolled, not enrolled
+      const groups = this.members.groupBy(m => m.isEnrolled());
+      const enrolledUsers = new Users(groups.true);
+      this.notEnrolledUsers = new Users(groups.false);
 
-    map = {}
+      const map = {};
 
-    for classroom in @classrooms.models
-      map[classroom.id] = _.countBy(classroom.get('members'), (userID) -> enrolledUsers.get(userID)?).false
+      for (var classroom of Array.from(this.classrooms.models)) {
+        map[classroom.id] = _.countBy(classroom.get('members'), userID => enrolledUsers.get(userID) != null).false;
+      }
 
-    @state.set({
-      totalEnrolled: enrolledUsers.size()
-      totalNotEnrolled: @notEnrolledUsers.size()
-      classroomNotEnrolledMap: map
-    })
+      this.state.set({
+        totalEnrolled: enrolledUsers.size(),
+        totalNotEnrolled: this.notEnrolledUsers.size(),
+        classroomNotEnrolledMap: map
+      });
 
-    true
+      return true;
+    }
 
-  removeDeletedStudents: (e) ->
-    for classroom in @classrooms.models
-      _.remove(classroom.get('members'), (memberID) =>
-        not @members.get(memberID) or @members.get(memberID)?.get('deleted')
-      )
-    true
+    removeDeletedStudents(e) {
+      for (var classroom of Array.from(this.classrooms.models)) {
+        _.remove(classroom.get('members'), memberID => {
+          return !this.members.get(memberID) || __guard__(this.members.get(memberID), x => x.get('deleted'));
+        });
+      }
+      return true;
+    }
 
-  onClickHowToEnrollLink: ->
-    @openModalView(new HowToEnrollModal())
+    onClickHowToEnrollLink() {
+      return this.openModalView(new HowToEnrollModal());
+    }
 
-  onClickContactUsButton: ->
-    window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers'
-    modal = new TeachersContactModal()
-    @openModalView(modal)
-    modal.on 'submit', =>
-      @enrollmentRequestSent = true
-      @debouncedRender()
+    onClickContactUsButton() {
+      if (window.tracker != null) {
+        window.tracker.trackEvent('Classes Licenses Contact Us', {category: 'Teachers'});
+      }
+      const modal = new TeachersContactModal();
+      this.openModalView(modal);
+      return modal.on('submit', () => {
+        this.enrollmentRequestSent = true;
+        return this.debouncedRender();
+      });
+    }
 
-  onClickEnrollStudentsButton: ->
-    window.tracker?.trackEvent 'Classes Licenses Enroll Students', category: 'Teachers'
-    modal = new ActivateLicensesModal({ selectedUsers: @notEnrolledUsers, users: @members })
-    @openModalView(modal)
-    modal.once 'hidden', =>
-      @prepaids.add(modal.prepaids.models, { merge: true })
-      @debouncedRender() # Because one changed model does not a collection update make
+    onClickEnrollStudentsButton() {
+      if (window.tracker != null) {
+        window.tracker.trackEvent('Classes Licenses Enroll Students', {category: 'Teachers'});
+      }
+      const modal = new ActivateLicensesModal({ selectedUsers: this.notEnrolledUsers, users: this.members });
+      this.openModalView(modal);
+      return modal.once('hidden', () => {
+        this.prepaids.add(modal.prepaids.models, { merge: true });
+        return this.debouncedRender();
+      }); // Because one changed model does not a collection update make
+    }
 
-  onClickShareLicensesLink: (e) ->
-    prepaidID = $(e.currentTarget).data('prepaidId')
-    @shareLicensesModal = new ShareLicensesModal({prepaid: @prepaids.get(prepaidID)})
-    @shareLicensesModal.on 'setJoiners', (prepaidID, joiners) =>
-      prepaid = @prepaids.get(prepaidID)
-      prepaid.set({ joiners })
-    @openModalView(@shareLicensesModal)
+    onClickShareLicensesLink(e) {
+      const prepaidID = $(e.currentTarget).data('prepaidId');
+      this.shareLicensesModal = new ShareLicensesModal({prepaid: this.prepaids.get(prepaidID)});
+      this.shareLicensesModal.on('setJoiners', (prepaidID, joiners) => {
+        const prepaid = this.prepaids.get(prepaidID);
+        return prepaid.set({ joiners });
+      });
+      return this.openModalView(this.shareLicensesModal);
+    }
+  };
+  EnrollmentsView.initClass();
+  return EnrollmentsView;
+})());
+
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

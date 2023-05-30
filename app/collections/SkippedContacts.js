@@ -1,6 +1,19 @@
-SkippedContact = require 'models/SkippedContact'
-CocoCollection = require 'collections/CocoCollection'
+/*
+ * decaffeinate suggestions:
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SkippedContacts;
+const SkippedContact = require('models/SkippedContact');
+const CocoCollection = require('collections/CocoCollection');
 
-module.exports = class SkippedContacts extends CocoCollection
-  model: SkippedContact
-  url: '/db/skipped-contact'
+module.exports = (SkippedContacts = (function() {
+  SkippedContacts = class SkippedContacts extends CocoCollection {
+    static initClass() {
+      this.prototype.model = SkippedContact;
+      this.prototype.url = '/db/skipped-contact';
+    }
+  };
+  SkippedContacts.initClass();
+  return SkippedContacts;
+})());

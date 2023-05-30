@@ -1,426 +1,587 @@
-storage = require 'core/storage'
-locale = require 'locale/locale'
-utils = require 'core/utils'
-globalVar = require 'core/globalVar'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS204: Change includes calls to have a more natural evaluation order
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const storage = require('core/storage');
+const locale = require('locale/locale');
+const utils = require('core/utils');
+const globalVar = require('core/globalVar');
 
-class CocoModel extends Backbone.Model
-  idAttribute: '_id'
-  loaded: false
-  loading: false
-  saveBackups: false
-  notyErrors: true
-  @schema: null
+class CocoModel extends Backbone.Model {
+  static initClass() {
+    this.prototype.idAttribute = '_id';
+    this.prototype.loaded = false;
+    this.prototype.loading = false;
+    this.prototype.saveBackups = false;
+    this.prototype.notyErrors = true;
+    this.schema = null;
+  
+    this.prototype.attributesWithDefaults = undefined;
+  
+    this.backedUp = {};
+  
+    CocoModel.pollAchievements = _.debounce(CocoModel.pollAchievements, 3000);
+  }
 
-  initialize: (attributes, options) ->
-    super(arguments...)
-    options ?= {}
-    @setProjection options.project
-    if not @constructor.className
-      console.error("#{@} needs a className set.")
-    @on 'sync', @onLoaded, @
-    @on 'error', @onError, @
-    @on 'add', @onLoaded, @
-    @saveBackup = _.debounce(@saveBackup, 500)
-    @usesVersions = @schema()?.properties?.version?
-    if globalVar.application?.testing
-      @fakeRequests = []
-      @on 'request', -> @fakeRequests.push jasmine.Ajax.requests.mostRecent()
+  initialize(attributes, options) {
+    super.initialize(...arguments);
+    if (options == null) { options = {}; }
+    this.setProjection(options.project);
+    if (!this.constructor.className) {
+      console.error(`${this} needs a className set.`);
+    }
+    this.on('sync', this.onLoaded, this);
+    this.on('error', this.onError, this);
+    this.on('add', this.onLoaded, this);
+    this.saveBackup = _.debounce(this.saveBackup, 500);
+    this.usesVersions = (__guard__(__guard__(this.schema(), x1 => x1.properties), x => x.version) != null);
+    if (globalVar.application != null ? globalVar.application.testing : undefined) {
+      this.fakeRequests = [];
+      return this.on('request', function() { return this.fakeRequests.push(jasmine.Ajax.requests.mostRecent()); });
+    }
+  }
 
-  created: -> new Date(parseInt(@id.substring(0, 8), 16) * 1000)
+  created() { return new Date(parseInt(this.id.substring(0, 8), 16) * 1000); }
 
-  backupKey: ->
-    if @usesVersions then @id else @id  # + ':' + @attributes.__v  # TODO: doesn't work because __v doesn't actually increment. #2061
-    # if fixed, RevertModal will also need the fix
+  backupKey() {
+    if (this.usesVersions) { return this.id; } else { return this.id; }  // + ':' + @attributes.__v  # TODO: doesn't work because __v doesn't actually increment. #2061
+  }
+    // if fixed, RevertModal will also need the fix
 
-  setProjection: (project) ->
-    # TODO: ends up getting done twice, since the URL is modified and the @project is modified. So don't do this, just set project directly... (?)
-    return if project is @project
-    url = @getURL()
-    url += '&project=' unless /project=/.test url
-    url = url.replace '&', '?' unless /\?/.test url
-    url = url.replace /project=[^&]*/, "project=#{project?.join(',') or ''}"
-    url = url.replace /[&?]project=&/, '&' unless project?.length
-    url = url.replace /[&?]project=$/, '' unless project?.length
-    @setURL url
-    @project = project
+  setProjection(project) {
+    // TODO: ends up getting done twice, since the URL is modified and the @project is modified. So don't do this, just set project directly... (?)
+    if (project === this.project) { return; }
+    let url = this.getURL();
+    if (!/project=/.test(url)) { url += '&project='; }
+    if (!/\?/.test(url)) { url = url.replace('&', '?'); }
+    url = url.replace(/project=[^&]*/, `project=${(project != null ? project.join(',') : undefined) || ''}`);
+    if (!(project != null ? project.length : undefined)) { url = url.replace(/[&?]project=&/, '&'); }
+    if (!(project != null ? project.length : undefined)) { url = url.replace(/[&?]project=$/, ''); }
+    this.setURL(url);
+    return this.project = project;
+  }
 
-  type: ->
-    @constructor.className
+  type() {
+    return this.constructor.className;
+  }
 
-  clone: (withChanges=true) ->
-    # Backbone does not support nested documents
-    clone = super()
-    clone.set($.extend(true, {}, if withChanges or not @_revertAttributes then @attributes else @_revertAttributes))
-    if @_revertAttributes and not withChanges
-      # remove any keys that are in the current attributes not in the snapshot
-      for key in _.difference(_.keys(clone.attributes), _.keys(@_revertAttributes))
-        clone.unset(key)
-    clone
+  clone(withChanges) {
+    // Backbone does not support nested documents
+    if (withChanges == null) { withChanges = true; }
+    const clone = super.clone();
+    clone.set($.extend(true, {}, withChanges || !this._revertAttributes ? this.attributes : this._revertAttributes));
+    if (this._revertAttributes && !withChanges) {
+      // remove any keys that are in the current attributes not in the snapshot
+      for (var key of Array.from(_.difference(_.keys(clone.attributes), _.keys(this._revertAttributes)))) {
+        clone.unset(key);
+      }
+    }
+    return clone;
+  }
 
-  onError: (level, jqxhr) ->
-    @loading = false
-    @jqxhr = null
-    if jqxhr.status is 402
-      if _.contains(jqxhr.responseText, 'must be enrolled')
-        Backbone.Mediator.publish 'level:license-required', {}
-      else if _.contains(jqxhr.responseText, 'be in a course')
-        Backbone.Mediator.publish 'level:course-membership-required', {}
-      else
-        Backbone.Mediator.publish 'level:subscription-required', {}
+  onError(level, jqxhr) {
+    this.loading = false;
+    this.jqxhr = null;
+    if (jqxhr.status === 402) {
+      if (_.contains(jqxhr.responseText, 'must be enrolled')) {
+        return Backbone.Mediator.publish('level:license-required', {});
+      } else if (_.contains(jqxhr.responseText, 'be in a course')) {
+        return Backbone.Mediator.publish('level:course-membership-required', {});
+      } else {
+        return Backbone.Mediator.publish('level:subscription-required', {});
+      }
+    }
+  }
 
-  onLoaded: ->
-    @loaded = true
-    @loading = false
-    @jqxhr = null
-    @loadFromBackup()
+  onLoaded() {
+    this.loaded = true;
+    this.loading = false;
+    this.jqxhr = null;
+    return this.loadFromBackup();
+  }
 
-  getCreationDate: -> new Date(parseInt(@id.slice(0,8), 16)*1000)
+  getCreationDate() { return new Date(parseInt(this.id.slice(0,8), 16)*1000); }
 
-  getNormalizedURL: -> "#{@urlRoot}/#{@id}"
+  getNormalizedURL() { return `${this.urlRoot}/${this.id}`; }
 
-  getTranslatedName: ->
-    utils.i18n(@attributes, 'displayName') || utils.i18n(@attributes, 'name')
+  getTranslatedName() {
+    return utils.i18n(this.attributes, 'displayName') || utils.i18n(this.attributes, 'name');
+  }
 
-  attributesWithDefaults: undefined
+  get(attribute, withDefault) {
+    if (withDefault == null) { withDefault = false; }
+    if (withDefault) {
+      if (this.attributesWithDefaults === undefined) { this.buildAttributesWithDefaults(); }
+      return this.attributesWithDefaults[attribute];
+    } else {
+      return super.get(attribute);
+    }
+  }
 
-  get: (attribute, withDefault=false) ->
-    if withDefault
-      if @attributesWithDefaults is undefined then @buildAttributesWithDefaults()
-      return @attributesWithDefaults[attribute]
-    else
-      super(attribute)
+  set(attributes, options) {
+    if (attributes !== 'thangs') { delete this.attributesWithDefaults; }  // unless attributes is 'thangs': performance optimization for Levels keeping their cache.
+    const inFlux = this.loading || !this.loaded;
+    if (!inFlux && !this._revertAttributes && !this.project && !(options != null ? options.fromMerge : undefined)) { this.markToRevert(); }
+    const res = super.set(attributes, options);
+    if (this.saveBackups && (!inFlux)) { this.saveBackup(); }
+    return res;
+  }
 
-  set: (attributes, options) ->
-    delete @attributesWithDefaults unless attributes is 'thangs'  # unless attributes is 'thangs': performance optimization for Levels keeping their cache.
-    inFlux = @loading or not @loaded
-    @markToRevert() unless inFlux or @_revertAttributes or @project or options?.fromMerge
-    res = super attributes, options
-    @saveBackup() if @saveBackups and (not inFlux)
-    res
+  buildAttributesWithDefaults() {
+    const t0 = new Date();
+    const clone = $.extend(true, {}, this.attributes);
+    const thisTV4 = tv4.freshApi();
+    thisTV4.addSchema('#', this.schema());
+    thisTV4.addSchema('metaschema', require('schemas/metaschema'));
+    TreemaUtils.populateDefaults(clone, this.schema(), thisTV4);
+    this.attributesWithDefaults = clone;
+    const duration = new Date() - t0;
+    if (duration > 10) { return console.debug(`Populated defaults for ${this.type()}${this.attributes.name ? ' ' + this.attributes.name : ''} in ${duration}ms`); }
+  }
 
-  buildAttributesWithDefaults: ->
-    t0 = new Date()
-    clone = $.extend true, {}, @attributes
-    thisTV4 = tv4.freshApi()
-    thisTV4.addSchema('#', @schema())
-    thisTV4.addSchema('metaschema', require('schemas/metaschema'))
-    TreemaUtils.populateDefaults(clone, @schema(), thisTV4)
-    @attributesWithDefaults = clone
-    duration = new Date() - t0
-    console.debug "Populated defaults for #{@type()}#{if @attributes.name then ' ' + @attributes.name else ''} in #{duration}ms" if duration > 10
+  loadFromBackup() {
+    if (!this.saveBackups) { return; }
+    const existing = storage.load(this.backupKey());
+    if (existing) {
+      this.set(existing, {silent: true});
+      return CocoModel.backedUp[this.backupKey()] = this;
+    }
+  }
 
-  loadFromBackup: ->
-    return unless @saveBackups
-    existing = storage.load @backupKey()
-    if existing
-      @set(existing, {silent: true})
-      CocoModel.backedUp[@backupKey()] = @
+  saveBackup() { return this.saveBackupNow(); }
 
-  saveBackup: -> @saveBackupNow()
+  saveBackupNow() {
+    storage.save(this.backupKey(), this.attributes);
+    return CocoModel.backedUp[this.backupKey()] = this;
+  }
+  schema() { return this.constructor.schema; }
 
-  saveBackupNow: ->
-    storage.save(@backupKey(), @attributes)
-    CocoModel.backedUp[@backupKey()] = @
+  getValidationErrors() {
+    // Since Backbone unset only sets things to undefined instead of deleting them, we ignore undefined properties.
+    const definedAttributes = _.pick(this.attributes, v => v !== undefined);
+    const {
+      errors
+    } = tv4.validateMultiple(definedAttributes, this.constructor.schema || {});
+    if (errors != null ? errors.length : undefined) { return errors; }
+  }
 
-  @backedUp = {}
-  schema: -> return @constructor.schema
+  validate() {
+    const errors = this.getValidationErrors();
+    if (errors != null ? errors.length : undefined) {
+      if (!(typeof application !== 'undefined' && application !== null ? application.testing : undefined)) {
+        console.debug(`Validation failed for ${this.constructor.className}: '${this.get('name') || this}'.`);
+        for (var error of Array.from(errors)) {
+          console.debug("\t", error.dataPath, ':', error.message);
+        }
+        if (typeof console.trace === 'function') {
+          console.trace();
+        }
+      }
+      return errors;
+    }
+  }
 
-  getValidationErrors: ->
-    # Since Backbone unset only sets things to undefined instead of deleting them, we ignore undefined properties.
-    definedAttributes = _.pick @attributes, (v) -> v isnt undefined
-    errors = tv4.validateMultiple(definedAttributes, @constructor.schema or {}).errors
-    return errors if errors?.length
+  save(attrs, options) {
+    if (options == null) { options = {}; }
+    const originalOptions = _.cloneDeep(options);
+    if (options.headers == null) { options.headers = {}; }
+    options.headers['X-Current-Path'] = (document.location != null ? document.location.pathname : undefined) != null ? (document.location != null ? document.location.pathname : undefined) : 'unknown';
+    const {
+      success
+    } = options;
+    const {
+      error
+    } = options;
+    options.success = (model, res) => {
+      this.retries = 0;
+      this.trigger('save:success', this);
+      if (success) { success(this, res); }
+      if (this._revertAttributes) { this.markToRevert(); }
+      this.clearBackup();
+      CocoModel.pollAchievements();
+      return options.success = (options.error = null);  // So the callbacks can be garbage-collected.
+    };
+    options.error = (model, res) => {
+      let left, notyError;
+      if (res.status === 0) {
+        let msg;
+        if (this.retries == null) { this.retries = 0; }
+        this.retries += 1;
+        if (this.retries > 20) {
+          msg = 'Your computer or our servers appear to be offline. Please try refreshing.';
+          noty({text: msg, layout: 'center', type: 'error', killer: true});
+          return;
+        } else {
+          let f;
+          msg = $.i18n.t('loading_error.connection_failure', {defaultValue: 'Connection failed.'});
+          try {
+            noty({text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000});
+          } catch (error1) {
+            notyError = error1;
+            console.warn("Couldn't even show noty error for", error, "because", notyError);
+          }
+          return _.delay((f = () => this.save(attrs, originalOptions)), 3000);
+        }
+      }
+      if (error) { error(this, res); }
+      if (!this.notyErrors) { return; }
+      const errorMessage = `Error saving ${(left = this.get('name')) != null ? left : this.type()}`;
+      console.log('going to log an error message');
+      console.warn(errorMessage, res.responseJSON);
+      if (!(typeof webkit !== 'undefined' && webkit !== null ? webkit.messageHandlers : undefined)) {  // Don't show these notys on iPad
+        try {
+          noty({text: `${errorMessage}: ${res.status} ${res.statusText}\n${res.responseText}`, layout: 'topCenter', type: 'error', killer: false, timeout: 10000});
+        } catch (error2) {
+          notyError = error2;
+          console.warn("Couldn't even show noty error for", error, "because", notyError);
+        }
+      }
+      return options.success = (options.error = null);  // So the callbacks can be garbage-collected.
+    };
+    this.trigger('save', this);
+    return super.save(attrs, options);
+  }
 
-  validate: ->
-    errors = @getValidationErrors()
-    if errors?.length
-      unless application?.testing
-        console.debug "Validation failed for #{@constructor.className}: '#{@get('name') or @}'."
-        for error in errors
-          console.debug "\t", error.dataPath, ':', error.message
-        console.trace?()
-      return errors
+  patch(options) {
+    if (!this._revertAttributes) { return false; }
+    if (options == null) { options = {}; }
+    options.patch = true;
+    options.type = 'PUT';
 
-  save: (attrs, options) ->
-    options ?= {}
-    originalOptions = _.cloneDeep(options)
-    options.headers ?= {}
-    options.headers['X-Current-Path'] = document.location?.pathname ? 'unknown'
-    success = options.success
-    error = options.error
-    options.success = (model, res) =>
-      @retries = 0
-      @trigger 'save:success', @
-      success(@, res) if success
-      @markToRevert() if @_revertAttributes
-      @clearBackup()
-      CocoModel.pollAchievements()
-      options.success = options.error = null  # So the callbacks can be garbage-collected.
-    options.error = (model, res) =>
-      if res.status is 0
-        @retries ?= 0
-        @retries += 1
-        if @retries > 20
-          msg = 'Your computer or our servers appear to be offline. Please try refreshing.'
-          noty text: msg, layout: 'center', type: 'error', killer: true
-          return
-        else
-          msg = $.i18n.t 'loading_error.connection_failure', defaultValue: 'Connection failed.'
-          try
-            noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-          catch notyError
-            console.warn "Couldn't even show noty error for", error, "because", notyError
-          return _.delay((f = => @save(attrs, originalOptions)), 3000)
-      error(@, res) if error
-      return unless @notyErrors
-      errorMessage = "Error saving #{@get('name') ? @type()}"
-      console.log 'going to log an error message'
-      console.warn errorMessage, res.responseJSON
-      unless webkit?.messageHandlers  # Don't show these notys on iPad
-        try
-          noty text: "#{errorMessage}: #{res.status} #{res.statusText}\n#{res.responseText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
-        catch notyError
-          console.warn "Couldn't even show noty error for", error, "because", notyError
-      options.success = options.error = null  # So the callbacks can be garbage-collected.
-    @trigger 'save', @
-    return super attrs, options
+    const attrs = {_id: this.id};
+    const keys = [];
+    for (var key of Array.from(_.keys(this.attributes))) {
+      if (!_.isEqual(this.attributes[key], this._revertAttributes[key])) {
+        attrs[key] = this.attributes[key];
+        keys.push(key);
+      }
+    }
 
-  patch: (options) ->
-    return false unless @_revertAttributes
-    options ?= {}
-    options.patch = true
-    options.type = 'PUT'
+    if (!keys.length) { return; }
+    return this.save(attrs, options);
+  }
 
-    attrs = {_id: @id}
-    keys = []
-    for key in _.keys @attributes
-      unless _.isEqual @attributes[key], @_revertAttributes[key]
-        attrs[key] = @attributes[key]
-        keys.push key
+  fetch(options) {
+    if (options == null) { options = {}; }
+    if (options.data == null) { options.data = {}; }
+    if (this.project) { options.data.project = this.project.join(','); }
+    //console.error @constructor.className, @, "fetching with cache?", options.cache, "options", options  # Useful for debugging cached IE fetches
+    this.jqxhr = super.fetch(options);
+    this.loading = true;
+    return this.jqxhr;
+  }
 
-    return unless keys.length
-    @save(attrs, options)
+  markToRevert() {
+    if (this.type() === 'ThangType') {
+      // Don't deep clone the raw vector data, but do deep clone everything else.
+      this._revertAttributes = _.clone(this.attributes);
+      return (() => {
+        const result = [];
+        for (var smallProp in this.attributes) {
+          var value = this.attributes[smallProp];
+          if (value && (smallProp !== 'raw')) {
+            result.push(this._revertAttributes[smallProp] = _.cloneDeep(value));
+          }
+        }
+        return result;
+      })();
+    } else {
+      return this._revertAttributes = $.extend(true, {}, this.attributes);
+    }
+  }
 
-  fetch: (options) ->
-    options ?= {}
-    options.data ?= {}
-    options.data.project = @project.join(',') if @project
-    #console.error @constructor.className, @, "fetching with cache?", options.cache, "options", options  # Useful for debugging cached IE fetches
-    @jqxhr = super(options)
-    @loading = true
-    @jqxhr
+  revert() {
+    this.clear({silent: true});
+    if (this._revertAttributes) { this.set(this._revertAttributes, {silent: true}); }
+    return this.clearBackup();
+  }
 
-  markToRevert: ->
-    if @type() is 'ThangType'
-      # Don't deep clone the raw vector data, but do deep clone everything else.
-      @_revertAttributes = _.clone @attributes
-      for smallProp, value of @attributes when value and smallProp isnt 'raw'
-        @_revertAttributes[smallProp] = _.cloneDeep value
-    else
-      @_revertAttributes = $.extend(true, {}, @attributes)
+  clearBackup() {
+    return storage.remove(this.backupKey());
+  }
 
-  revert: ->
-    @clear({silent: true})
-    @set(@_revertAttributes, {silent: true}) if @_revertAttributes
-    @clearBackup()
+  hasLocalChanges() {
+    return this._revertAttributes && !_.isEqual(this.attributes, this._revertAttributes);
+  }
 
-  clearBackup: ->
-    storage.remove @backupKey()
+  cloneNewMinorVersion() {
+    const newData = _.clone(this.attributes);
+    const clone = new this.constructor(newData);
+    return clone;
+  }
 
-  hasLocalChanges: ->
-    @_revertAttributes and not _.isEqual @attributes, @_revertAttributes
+  cloneNewMajorVersion() {
+    const clone = this.cloneNewMinorVersion();
+    clone.unset('version');
+    return clone;
+  }
 
-  cloneNewMinorVersion: ->
-    newData = _.clone @attributes
-    clone = new @constructor(newData)
-    clone
+  isPublished() {
+    let left;
+    for (var permission of Array.from(((left = this.get('permissions', true)) != null ? left : []))) {
+      if ((permission.target === 'public') && (permission.access === 'read')) { return true; }
+    }
+    return false;
+  }
 
-  cloneNewMajorVersion: ->
-    clone = @cloneNewMinorVersion()
-    clone.unset('version')
-    clone
+  publish() {
+    if (this.isPublished()) { throw new Error('Can\'t publish what\'s already-published. Can\'t kill what\'s already dead.'); }
+    return this.set('permissions', this.get('permissions', true).concat({access: 'read', target: 'public'}));
+  }
 
-  isPublished: ->
-    for permission in (@get('permissions', true) ? [])
-      return true if permission.target is 'public' and permission.access is 'read'
-    false
+  static isObjectID(s) {
+    return (s.length === 24) && (__guard__(s.match(/[a-f0-9]/gi), x => x.length) === 24);
+  }
 
-  publish: ->
-    if @isPublished() then throw new Error('Can\'t publish what\'s already-published. Can\'t kill what\'s already dead.')
-    @set 'permissions', @get('permissions', true).concat({access: 'read', target: 'public'})
+  hasReadAccess(actor) {
+    // actor is a User object
+    let left;
+    if (actor == null) { actor = me; }
+    if (actor.isAdmin()) { return true; }
+    if (actor.isArtisan() && this.editableByArtisans) { return true; }
+    for (var permission of Array.from(((left = this.get('permissions', true)) != null ? left : []))) {
+      if ((permission.target === 'public') || (actor.get('_id') === permission.target)) {
+        if (['owner', 'read'].includes(permission.access)) { return true; }
+      }
+    }
 
-  @isObjectID: (s) ->
-    s.length is 24 and s.match(/[a-f0-9]/gi)?.length is 24
+    return false;
+  }
 
-  hasReadAccess: (actor) ->
-    # actor is a User object
-    actor ?= me
-    return true if actor.isAdmin()
-    return true if actor.isArtisan() and @editableByArtisans
-    for permission in (@get('permissions', true) ? [])
-      if permission.target is 'public' or actor.get('_id') is permission.target
-        return true if permission.access in ['owner', 'read']
+  hasWriteAccess(actor) {
+    // actor is a User object
+    let left;
+    if (actor == null) { actor = me; }
+    if (actor.isAdmin()) { return true; }
+    if (actor.isArtisan() && this.editableByArtisans) { return true; }
+    for (var permission of Array.from(((left = this.get('permissions', true)) != null ? left : []))) {
+      if ((permission.target === 'public') || (actor.get('_id') === permission.target)) {
+        if (['owner', 'write'].includes(permission.access)) { return true; }
+      }
+    }
 
-    return false
+    return false;
+  }
 
-  hasWriteAccess: (actor) ->
-    # actor is a User object
-    actor ?= me
-    return true if actor.isAdmin()
-    return true if actor.isArtisan() and @editableByArtisans
-    for permission in (@get('permissions', true) ? [])
-      if permission.target is 'public' or actor.get('_id') is permission.target
-        return true if permission.access in ['owner', 'write']
+  getOwner() {
+    const ownerPermission = _.find(this.get('permissions', true), {access: 'owner'});
+    return (ownerPermission != null ? ownerPermission.target : undefined);
+  }
 
-    return false
+  watch(doWatch) {
+    if (doWatch == null) { doWatch = true; }
+    $.ajax(`${this.urlRoot}/${this.id}/watch`, {type: 'PUT', data: {on: doWatch}});
+    return this.watching = () => doWatch;
+  }
 
-  getOwner: ->
-    ownerPermission = _.find @get('permissions', true), access: 'owner'
-    ownerPermission?.target
+  watching() {
+    let needle;
+    return (needle = me.id, Array.from((this.get('watchers') || [])).includes(needle));
+  }
 
-  watch: (doWatch=true) ->
-    $.ajax("#{@urlRoot}/#{@id}/watch", {type: 'PUT', data: {on: doWatch}})
-    @watching = -> doWatch
+  populateI18N(data, schema, path) {
+    // TODO: Better schema/json walking
+    let value;
+    if (path == null) { path = ''; }
+    let sum = 0;
+    if (data == null) { data = $.extend(true, {}, this.attributes); }
+    if (schema == null) { schema = this.schema() || {}; }
+    if (schema.oneOf) { // get populating the Programmable component config to work
+      schema = _.find(schema.oneOf, {type: 'object'}) || schema;
+    }
+    let addedI18N = false;
+    if ((schema.properties != null ? schema.properties.i18n : undefined) && _.isPlainObject(data) && (data.i18n == null)) {
+      data.i18n = {'-':{'-':'-'}}; // mongoose doesn't work with empty objects
+      sum += 1;
+      addedI18N = true;
+    }
 
-  watching: ->
-    return me.id in (@get('watchers') or [])
+    if (_.isPlainObject(data)) {
+      for (var key in data) {
+        value = data[key];
+        var numChanged = 0;
+        var childSchema = schema.properties != null ? schema.properties[key] : undefined;
+        if (!childSchema && _.isObject(schema.additionalProperties)) {
+          childSchema = schema.additionalProperties;
+        }
+        if (childSchema) {
+          numChanged = this.populateI18N(value, childSchema, path+'/'+key);
+        }
+        if (numChanged && !path) { // should only do this for the root object
+          this.set(key, value);
+        }
+        sum += numChanged;
+      }
+    }
 
-  populateI18N: (data, schema, path='') ->
-    # TODO: Better schema/json walking
-    sum = 0
-    data ?= $.extend true, {}, @attributes
-    schema ?= @schema() or {}
-    if schema.oneOf # get populating the Programmable component config to work
-      schema = _.find(schema.oneOf, {type: 'object'}) or schema
-    addedI18N = false
-    if schema.properties?.i18n and _.isPlainObject(data) and not data.i18n?
-      data.i18n = {'-':{'-':'-'}} # mongoose doesn't work with empty objects
-      sum += 1
-      addedI18N = true
+    if (schema.items && _.isArray(data)) {
+      for (let index = 0; index < data.length; index++) { value = data[index]; sum += this.populateI18N(value, schema.items, path+'/'+index); }
+    }
 
-    if _.isPlainObject data
-      for key, value of data
-        numChanged = 0
-        childSchema = schema.properties?[key]
-        if not childSchema and _.isObject(schema.additionalProperties)
-          childSchema = schema.additionalProperties
-        if childSchema
-          numChanged = @populateI18N(value, childSchema, path+'/'+key)
-        if numChanged and not path # should only do this for the root object
-          @set key, value
-        sum += numChanged
+    if (addedI18N && !path) { this.set('i18n', data.i18n); } // need special case for root i18n
+    if (!path) { this.updateI18NCoverage(); }  // only need to do this at the highest level
+    return sum;
+  }
 
-    if schema.items and _.isArray data
-      sum += @populateI18N(value, schema.items, path+'/'+index) for value, index in data
+  setURL(url) {
+    const makeURLFunc = u => () => u;
+    this.url = makeURLFunc(url);
+    return this;
+  }
 
-    @set('i18n', data.i18n) if addedI18N and not path # need special case for root i18n
-    @updateI18NCoverage() if not path  # only need to do this at the highest level
-    sum
+  getURL() {
+    if (_.isString(this.url)) { return this.url; } else { return this.url(); }
+  }
 
-  setURL: (url) ->
-    makeURLFunc = (u) -> -> u
-    @url = makeURLFunc(url)
-    @
+  static pollAchievements() {
+    if (utils.isOzaria) { return; }  // Not needed until/unlesss we start using achievements in Ozaria
+    if (typeof application !== 'undefined' && application !== null ? application.testing : undefined) { return; }
 
-  getURL: ->
-    return if _.isString @url then @url else @url()
+    const CocoCollection = require('collections/CocoCollection');
+    const EarnedAchievement = require('models/EarnedAchievement');
 
-  @pollAchievements: ->
-    return if utils.isOzaria  # Not needed until/unlesss we start using achievements in Ozaria
-    return if application?.testing
+    class NewAchievementCollection extends CocoCollection {
+      static initClass() {
+        this.prototype.model = EarnedAchievement;
+      }
+      initialize(me) {
+        if (me == null) { ({
+          me
+        } = require('core/auth')); }
+        return this.url = `/db/user/${me.id}/achievements?notified=false`;
+      }
+    }
+    NewAchievementCollection.initClass();
 
-    CocoCollection = require 'collections/CocoCollection'
-    EarnedAchievement = require 'models/EarnedAchievement'
-
-    class NewAchievementCollection extends CocoCollection
-      model: EarnedAchievement
-      initialize: (me = require('core/auth').me) ->
-        @url = "/db/user/#{me.id}/achievements?notified=false"
-
-    achievements = new NewAchievementCollection
-    achievements.fetch
-      success: (collection) ->
-        me.fetch (cache: false, success: -> Backbone.Mediator.publish('achievements:new', earnedAchievements: collection)) unless _.isEmpty(collection.models)
-      error: ->
-        console.error 'Miserably failed to fetch unnotified achievements', arguments
+    const achievements = new NewAchievementCollection;
+    return achievements.fetch({
+      success(collection) {
+        if (!_.isEmpty(collection.models)) { return me.fetch(({cache: false, success() { return Backbone.Mediator.publish('achievements:new', {earnedAchievements: collection}); }})); }
+      },
+      error() {
+        return console.error('Miserably failed to fetch unnotified achievements', arguments);
+      },
       cache: false
+    });
+  }
 
-  CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 3000
 
+  //- Internationalization
 
-  #- Internationalization
+  updateI18NCoverage(attributes) {
+    const langCodeArrays = [];
+    const pathToData = {};
+    if (attributes == null) { ({
+      attributes
+    } = this); }
 
-  updateI18NCoverage: (attributes) ->
-    langCodeArrays = []
-    pathToData = {}
-    attributes ?= @attributes
+    // TODO: Share this code between server and client
+    // NOTE: If you edit this, edit the server side version as well!
+    TreemaUtils.walk(attributes, this.schema(), null, function(path, data, workingSchema) {
+      // Store parent data for the next block...
+      let prop;
+      if (data != null ? data.i18n : undefined) {
+        pathToData[path] = data;
+      }
 
-    # TODO: Share this code between server and client
-    # NOTE: If you edit this, edit the server side version as well!
-    TreemaUtils.walk(attributes, @schema(), null, (path, data, workingSchema) ->
-      # Store parent data for the next block...
-      if data?.i18n
-        pathToData[path] = data
+      if (_.string.endsWith(path, 'i18n')) {
+        const i18n = data;
 
-      if _.string.endsWith path, 'i18n'
-        i18n = data
+        // grab the parent data
+        const parentPath = path.slice(0, -5);
+        const parentData = pathToData[parentPath];
 
-        # grab the parent data
-        parentPath = path[0...-5]
-        parentData = pathToData[parentPath]
+        // use it to determine what properties actually need to be translated
+        let props = workingSchema.props || [];
+        props = ((() => {
+          const result = [];
+          for (prop of Array.from(props)) {             if (parentData[prop] && !['sound', 'soundTriggers'].includes(prop)) {
+              result.push(prop);
+            }
+          }
+          return result;
+        })());
+        if (!props.length) { return; }
+        if ('additionalProperties' in i18n) { return; }  // Workaround for #2630: Programmable is weird
 
-        # use it to determine what properties actually need to be translated
-        props = workingSchema.props or []
-        props = (prop for prop in props when parentData[prop] and prop not in ['sound', 'soundTriggers'])
-        return unless props.length
-        return if 'additionalProperties' of i18n  # Workaround for #2630: Programmable is weird
+        // get a list of lang codes where its object has keys for every prop to be translated
+        const coverage = _.filter(_.keys(i18n), function(langCode) {
+          const translations = i18n[langCode];
+          return translations && _.all(((() => {
+            const result1 = [];
+            for (prop of Array.from(props)) {               result1.push(translations[prop]);
+            }
+            return result1;
+          })()));
+        });
+        //console.log 'got coverage', coverage, 'for', path, props, workingSchema, parentData
+        return langCodeArrays.push(coverage);
+      }
+    });
 
-        # get a list of lang codes where its object has keys for every prop to be translated
-        coverage = _.filter(_.keys(i18n), (langCode) ->
-          translations = i18n[langCode]
-          translations and _.all((translations[prop] for prop in props))
-        )
-        #console.log 'got coverage', coverage, 'for', path, props, workingSchema, parentData
-        langCodeArrays.push coverage
-    )
+    if (!langCodeArrays.length) { return; }
+    // language codes that are covered for every i18n object are fully covered
+    const overallCoverage = _.intersection(...Array.from(langCodeArrays || []));
+    return this.set('i18nCoverage', overallCoverage);
+  }
 
-    return unless langCodeArrays.length
-    # language codes that are covered for every i18n object are fully covered
-    overallCoverage = _.intersection(langCodeArrays...)
-    @set('i18nCoverage', overallCoverage)
+  deleteI18NCoverage(options) {
+    if (options == null) { options = {}; }
+    options.url = this.url() + '/i18n-coverage';
+    options.type = 'DELETE';
+    return $.ajax(options);
+  }
 
-  deleteI18NCoverage: (options={}) ->
-    options.url = @url() + '/i18n-coverage'
-    options.type = 'DELETE'
-    return $.ajax(options)
+  saveNewMinorVersion(attrs, options) {
+    if (options == null) { options = {}; }
+    options.url = this.url() + '/new-version';
+    options.type = 'POST';
+    return this.save(attrs, options);
+  }
 
-  saveNewMinorVersion: (attrs, options={}) ->
-    options.url = @url() + '/new-version'
-    options.type = 'POST'
-    return @save(attrs, options)
+  saveNewMajorVersion(attrs, options) {
+    if (options == null) { options = {}; }
+    attrs = attrs || _.omit(this.attributes, 'version');
+    options.url = this.url() + '/new-version';
+    options.type = 'POST';
+    options.patch = true; // do not let version get sent along
+    return this.save(attrs, options);
+  }
 
-  saveNewMajorVersion: (attrs, options={}) ->
-    attrs = attrs or _.omit(@attributes, 'version')
-    options.url = @url() + '/new-version'
-    options.type = 'POST'
-    options.patch = true # do not let version get sent along
-    return @save(attrs, options)
+  fetchPatchesWithStatus(status, options) {
+    if (status == null) { status = 'pending'; }
+    if (options == null) { options = {}; }
+    const Patches = require('../collections/Patches');
+    const patches = new Patches();
+    if (options.data == null) { options.data = {}; }
+    options.data.status = status;
+    options.url = this.urlRoot + '/' + (this.get('original') || this.id) + '/patches';
+    patches.fetch(options);
+    return patches;
+  }
 
-  fetchPatchesWithStatus: (status='pending', options={}) ->
-    Patches = require '../collections/Patches'
-    patches = new Patches()
-    options.data ?= {}
-    options.data.status = status
-    options.url = @urlRoot + '/' + (@get('original') or @id) + '/patches'
-    patches.fetch(options)
-    return patches
+  stringify() { return JSON.stringify(this.toJSON()); }
 
-  stringify: -> return JSON.stringify(@toJSON())
+  wait(event) { return new Promise(resolve => this.once(event, resolve)); }
 
-  wait: (event) -> new Promise((resolve) => @once(event, resolve))
+  fetchLatestVersion(original, options) {
+    if (options == null) { options = {}; }
+    options.url = _.result(this, 'urlRoot') + '/' + original + '/version';
+    return this.fetch(options);
+  }
+}
+CocoModel.initClass();
 
-  fetchLatestVersion: (original, options={}) ->
-    options.url = _.result(@, 'urlRoot') + '/' + original + '/version'
-    @fetch(options)
+module.exports = CocoModel;
 
-module.exports = CocoModel
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

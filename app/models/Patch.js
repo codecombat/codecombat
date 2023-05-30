@@ -1,14 +1,32 @@
-CocoModel = require './CocoModel'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let PatchModel;
+const CocoModel = require('./CocoModel');
 
-module.exports = class PatchModel extends CocoModel
-  @className: 'Patch'
-  @schema: require 'schemas/models/patch'
-  urlRoot: '/db/patch'
+module.exports = (PatchModel = (function() {
+  PatchModel = class PatchModel extends CocoModel {
+    static initClass() {
+      this.className = 'Patch';
+      this.schema = require('schemas/models/patch');
+      this.prototype.urlRoot = '/db/patch';
+    }
 
-  setStatus: (status, options={}) ->
-    options.url = "/db/patch/#{@id}/status"
-    options.type = 'PUT'
-    @save({status}, options)
+    setStatus(status, options) {
+      if (options == null) { options = {}; }
+      options.url = `/db/patch/${this.id}/status`;
+      options.type = 'PUT';
+      return this.save({status}, options);
+    }
 
-  @setStatus: (id, status) ->
-    $.ajax("/db/patch/#{id}/status", {type: 'PUT', data: {status: status}})
+    static setStatus(id, status) {
+      return $.ajax(`/db/patch/${id}/status`, {type: 'PUT', data: {status}});
+    }
+  };
+  PatchModel.initClass();
+  return PatchModel;
+})());

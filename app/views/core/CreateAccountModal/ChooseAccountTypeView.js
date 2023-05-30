@@ -1,35 +1,56 @@
-require('app/styles/modal/create-account-modal/choose-account-type-view.sass')
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/core/create-account-modal/choose-account-type-view'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ChooseAccountTypeView;
+require('app/styles/modal/create-account-modal/choose-account-type-view.sass');
+const CocoView = require('views/core/CocoView');
+const template = require('app/templates/core/create-account-modal/choose-account-type-view');
+const utils = require('core/utils');
 
-module.exports = class ChooseAccountTypeView extends CocoView
-  id: 'choose-account-type-view'
-  template: template
+module.exports = (ChooseAccountTypeView = (function() {
+  ChooseAccountTypeView = class ChooseAccountTypeView extends CocoView {
+    static initClass() {
+      this.prototype.id = 'choose-account-type-view';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'click .teacher-path-button'() { return this.trigger('choose-path', utils.isOzaria ? 'teacher' : 'oz-vs-coco'); },
+        'click .student-path-button'() { return this.trigger('choose-path', 'student'); },
+        'click .individual-path-button'() { return this.trigger('choose-path', 'individual'); },
+        'input .class-code-input': 'onInputClassCode',
+        'submit form.choose-account-type': 'onSubmitStudent',
+        'click .parent-path-button'() {
+          if (location.pathname === '/parents') {
+            return this.trigger('choose-path', 'individual');
+          } else {
+            return application.router.navigate('/parents', {trigger: true});
+          }
+        }
+      };
+    }
 
-  events:
-    'click .teacher-path-button': -> @trigger 'choose-path', if utils.isOzaria then 'teacher' else 'oz-vs-coco'
-    'click .student-path-button': -> @trigger 'choose-path', 'student'
-    'click .individual-path-button': -> @trigger 'choose-path', 'individual'
-    'input .class-code-input': 'onInputClassCode'
-    'submit form.choose-account-type': 'onSubmitStudent'
-    'click .parent-path-button': ->
-      if location.pathname is '/parents'
-        @trigger 'choose-path', 'individual'
-      else
-        application.router.navigate('/parents', {trigger: true})
+    initialize({ signupState }) {
+      this.signupState = signupState;
+    }
 
-  initialize: ({ @signupState }) ->
+    getClassCode() { return this.$('.class-code-input').val() || this.signupState.get('classCode'); }
 
-  getClassCode: -> @$('.class-code-input').val() or @signupState.get('classCode')
+    onInputClassCode() {
+      const classCode = this.getClassCode();
+      return this.signupState.set({ classCode }, { silent: true });
+    }
 
-  onInputClassCode: ->
-    classCode = @getClassCode()
-    @signupState.set { classCode }, { silent: true }
+    onSubmitStudent(e) {
+      e.preventDefault();
 
-  onSubmitStudent: (e) ->
-    e.preventDefault()
-
-    @onInputClassCode()
-    @trigger 'choose-path', 'student'
-    return false
+      this.onInputClassCode();
+      this.trigger('choose-path', 'student');
+      return false;
+    }
+  };
+  ChooseAccountTypeView.initClass();
+  return ChooseAccountTypeView;
+})());

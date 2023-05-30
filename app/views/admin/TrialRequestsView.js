@@ -1,67 +1,99 @@
-require('app/styles/admin/trial-requests.sass')
-RootView = require 'views/core/RootView'
-template = require 'app/templates/admin/trial-requests'
-CocoCollection = require 'collections/CocoCollection'
-TrialRequest = require 'models/TrialRequest'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let TrialRequestsView;
+require('app/styles/admin/trial-requests.sass');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/admin/trial-requests');
+const CocoCollection = require('collections/CocoCollection');
+const TrialRequest = require('models/TrialRequest');
 
-module.exports = class TrialRequestsView extends RootView
-  id: 'admin-trial-requests-view'
-  template: template
+module.exports = (TrialRequestsView = (function() {
+  TrialRequestsView = class TrialRequestsView extends RootView {
+    static initClass() {
+      this.prototype.id = 'admin-trial-requests-view';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'click .btn-approve': 'onClickApprove',
+        'click .btn-deny': 'onClickDeny'
+      };
+    }
 
-  events:
-    'click .btn-approve': 'onClickApprove'
-    'click .btn-deny': 'onClickDeny'
+    constructor(options) {
+      super(options);
+      if (me.isAdmin()) {
+        const sortRequests = function(a, b) {
+          const statusA = a.get('status');
+          const statusB = b.get('status');
+          if ((statusA === 'submitted') && (statusB === 'submitted')) {
+            if (a.get('created') < b.get('created')) {
+              return -1;
+            } else {
+              return 1;
+            }
+          } else if (statusA === 'submitted') {
+            return -1;
+          } else if (statusB === 'submitted') {
+            return 1;
+          } else if (!b.get('reviewDate') || (a.get('reviewDate') > b.get('reviewDate'))) {
+            return -1;
+          } else {
+            return 1;
+          }
+        };
+        this.trialRequests = new CocoCollection([], { url: '/db/trial.request?conditions[sort]="-created"&conditions[limit]=1000', model: TrialRequest, comparator: sortRequests });
+        this.supermodel.loadCollection(this.trialRequests, 'trial-requests', {cache: false});
+      }
+    }
 
-  constructor: (options) ->
-    super options
-    if me.isAdmin()
-      sortRequests = (a, b) ->
-        statusA = a.get('status')
-        statusB = b.get('status')
-        if statusA is 'submitted' and statusB is 'submitted'
-          if a.get('created') < b.get('created')
-            -1
-          else
-            1
-        else if statusA is 'submitted'
-          -1
-        else if statusB is 'submitted'
-          1
-        else if not b.get('reviewDate') or a.get('reviewDate') > b.get('reviewDate')
-          -1
-        else
-          1
-      @trialRequests = new CocoCollection([], { url: '/db/trial.request?conditions[sort]="-created"&conditions[limit]=1000', model: TrialRequest, comparator: sortRequests })
-      @supermodel.loadCollection(@trialRequests, 'trial-requests', {cache: false})
+    getRenderData() {
+      const context = super.getRenderData();
+      context.trialRequests = (this.trialRequests != null ? this.trialRequests.models : undefined) != null ? (this.trialRequests != null ? this.trialRequests.models : undefined) : [];
+      return context;
+    }
 
-  getRenderData: ->
-    context = super()
-    context.trialRequests = @trialRequests?.models ? []
-    context
+    onClickApprove(e) {
+      const trialRequestID = $(e.target).data('trial-request-id');
+      const trialRequest = _.find(this.trialRequests.models, a => a.id === trialRequestID);
+      if (!trialRequest) {
+        console.error('Could not find trial request model for', trialRequestData);
+        return;
+      }
+      trialRequest.set('status', 'approved');
+      return trialRequest.patch({
+        error: (model, response, options) => {
+          return console.error('Error patching trial request', response);
+        },
+        success: (model, response, options) => {
+          return (typeof this.render === 'function' ? this.render() : undefined);
+        }
+      });
+    }
 
-  onClickApprove: (e) ->
-    trialRequestID = $(e.target).data('trial-request-id')
-    trialRequest = _.find @trialRequests.models, (a) -> a.id is trialRequestID
-    unless trialRequest
-      console.error 'Could not find trial request model for', trialRequestData
-      return
-    trialRequest.set('status', 'approved')
-    trialRequest.patch
-      error: (model, response, options) =>
-        console.error 'Error patching trial request', response
-      success: (model, response, options) =>
-        @render?()
-
-  onClickDeny: (e) ->
-    trialRequestID = $(e.target).data('trial-request-id')
-    trialRequest = _.find @trialRequests.models, (a) -> a.id is trialRequestID
-    unless trialRequest
-      console.error 'Could not find trial request model for', trialRequestData
-      return
-    return unless window.confirm("Deny #{trialRequest.get('properties').email}?")
-    trialRequest.set('status', 'denied')
-    trialRequest.patch
-      error: (model, response, options) =>
-        console.error 'Error patching trial request', response
-      success: (model, response, options) =>
-        @render?()
+    onClickDeny(e) {
+      const trialRequestID = $(e.target).data('trial-request-id');
+      const trialRequest = _.find(this.trialRequests.models, a => a.id === trialRequestID);
+      if (!trialRequest) {
+        console.error('Could not find trial request model for', trialRequestData);
+        return;
+      }
+      if (!window.confirm(`Deny ${trialRequest.get('properties').email}?`)) { return; }
+      trialRequest.set('status', 'denied');
+      return trialRequest.patch({
+        error: (model, response, options) => {
+          return console.error('Error patching trial request', response);
+        },
+        success: (model, response, options) => {
+          return (typeof this.render === 'function' ? this.render() : undefined);
+        }
+      });
+    }
+  };
+  TrialRequestsView.initClass();
+  return TrialRequestsView;
+})());

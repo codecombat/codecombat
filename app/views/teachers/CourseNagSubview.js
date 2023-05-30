@@ -1,41 +1,65 @@
-CocoView = require 'views/core/CocoView'
-CourseNagModal = require 'views/teachers/CourseNagModal'
-Prepaids = require 'collections/Prepaids'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS104: Avoid inline assignments
+ * DS204: Change includes calls to have a more natural evaluation order
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let CourseNagSubview;
+const CocoView = require('views/core/CocoView');
+const CourseNagModal = require('views/teachers/CourseNagModal');
+const Prepaids = require('collections/Prepaids');
+const utils = require('core/utils');
 
-template = require 'app/templates/teachers/course-nag'
+const template = require('app/templates/teachers/course-nag');
 
-# Shows up if you have prepaids but haven't enrolled any students
-module.exports = class CourseNagSubview extends CocoView
-  id: 'classes-nag-subview'
-  template: template
-  events:
-    'click .more-info': 'onClickMoreInfo'
+// Shows up if you have prepaids but haven't enrolled any students
+module.exports = (CourseNagSubview = (function() {
+  CourseNagSubview = class CourseNagSubview extends CocoView {
+    static initClass() {
+      this.prototype.id = 'classes-nag-subview';
+      this.prototype.template = template;
+      this.prototype.events =
+        {'click .more-info': 'onClickMoreInfo'};
+    }
 
-  initialize: (options) ->
-    super(options)
-    @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchMineAndShared()
-    @listenTo @prepaids, 'sync', @gotPrepaids
-    @shown = false
+    initialize(options) {
+      super.initialize(options);
+      this.prepaids = new Prepaids();
+      this.supermodel.trackRequest(this.prepaids.fetchMineAndShared());
+      this.listenTo(this.prepaids, 'sync', this.gotPrepaids);
+      return this.shown = false;
+    }
 
-  afterRender: ->
-    super()
-    if @shown
-      @$el.show()
-    else
-      @$el.hide()
+    afterRender() {
+      super.afterRender();
+      if (this.shown) {
+        return this.$el.show();
+      } else {
+        return this.$el.hide();
+      }
+    }
 
 
-  gotPrepaids: ->
-    # Group prepaids into (I)gnored (U)sed (E)mpty
-    unusedPrepaids = @prepaids.groupBy (p) ->
-      return 'I' if p.status() in ["expired", "pending"]
-      return 'U' if p.hasBeenUsedByTeacher(me.id)
-      return 'E'
+    gotPrepaids() {
+      // Group prepaids into (I)gnored (U)sed (E)mpty
+      const unusedPrepaids = this.prepaids.groupBy(function(p) {
+        let needle;
+        if ((needle = p.status(), ["expired", "pending"].includes(needle))) { return 'I'; }
+        if (p.hasBeenUsedByTeacher(me.id)) { return 'U'; }
+        return 'E';
+      });
 
-    @shown = unusedPrepaids.E? and not unusedPrepaids.U?
-    @render()
+      this.shown = (unusedPrepaids.E != null) && (unusedPrepaids.U == null);
+      return this.render();
+    }
 
-  onClickMoreInfo: ->
-    @openModalView new CourseNagModal()
+    onClickMoreInfo() {
+      return this.openModalView(new CourseNagModal());
+    }
+  };
+  CourseNagSubview.initClass();
+  return CourseNagSubview;
+})());

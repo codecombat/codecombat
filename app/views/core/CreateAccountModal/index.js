@@ -1,1 +1,1 @@
-module.exports = require 'views/core/CreateAccountModal/CreateAccountModal'
+module.exports = require('views/core/CreateAccountModal/CreateAccountModal');

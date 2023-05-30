@@ -1,13 +1,28 @@
-require('app/styles/account/main-account-view.sass')
-RootView = require 'views/core/RootView'
-template = require 'app/templates/account/main-account-view'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let MainAccountView;
+require('app/styles/account/main-account-view.sass');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/account/main-account-view');
 
-module.exports = class MainAccountView extends RootView
-  id: 'main-account-view'
-  template: template
+module.exports = (MainAccountView = (function() {
+  MainAccountView = class MainAccountView extends RootView {
+    static initClass() {
+      this.prototype.id = 'main-account-view';
+      this.prototype.template = template;
+  
+      this.prototype.events =
+        {'click .logout-btn': 'logoutAccount'};
+    }
 
-  events:
-    'click .logout-btn': 'logoutAccount'
-
-  getMeta: ->
-    title: $.i18n.t 'account.title'
+    getMeta() {
+      return {title: $.i18n.t('account.title')};
+    }
+  };
+  MainAccountView.initClass();
+  return MainAccountView;
+})());

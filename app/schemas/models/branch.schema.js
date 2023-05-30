@@ -1,22 +1,22 @@
-c = require './../schemas'
+const c = require('./../schemas');
 
-BranchSchema = {
-  type: 'object'
+const BranchSchema = {
+  type: 'object',
   properties: {
     patches: {
-      type: 'array'
+      type: 'array',
       items: {
         type: 'object'
-        # TODO: Link to Patch schema
+        // TODO: Link to Patch schema
       }
-    }
-    updated: c.stringDate()
-    updatedBy: c.objectId()
+    },
+    updated: c.stringDate(),
+    updatedBy: c.objectId(),
     updatedByName: { type: 'string' }
   }
-}
+};
 
-c.extendBasicProperties(BranchSchema, 'branches')
-c.extendNamedProperties(BranchSchema)
+c.extendBasicProperties(BranchSchema, 'branches');
+c.extendNamedProperties(BranchSchema);
 
-module.exports = BranchSchema
+module.exports = BranchSchema;

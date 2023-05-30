@@ -1,154 +1,216 @@
-require('app/styles/play/level/tome/spell-top-bar-view.sass')
-template = require 'app/templates/play/level/tome/spell-top-bar-view'
-ReloadLevelModal = require 'views/play/level/modal/ReloadLevelModal'
-CocoView = require 'views/core/CocoView'
-ImageGalleryModal = require 'views/play/level/modal/ImageGalleryModal'
-utils = require 'core/utils'
-CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
-store = require 'core/store'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SpellTopBarView;
+require('app/styles/play/level/tome/spell-top-bar-view.sass');
+const template = require('app/templates/play/level/tome/spell-top-bar-view');
+const ReloadLevelModal = require('views/play/level/modal/ReloadLevelModal');
+const CocoView = require('views/core/CocoView');
+const ImageGalleryModal = require('views/play/level/modal/ImageGalleryModal');
+const utils = require('core/utils');
+const CourseVideosModal = require('views/play/level/modal/CourseVideosModal');
+const store = require('core/store');
 
-module.exports = class SpellTopBarView extends CocoView
-  template: template
-  id: 'spell-top-bar-view'
-  controlsEnabled: true
+module.exports = (SpellTopBarView = (function() {
+  SpellTopBarView = class SpellTopBarView extends CocoView {
+    static initClass() {
+      this.prototype.template = template;
+      this.prototype.id = 'spell-top-bar-view';
+      this.prototype.controlsEnabled = true;
+  
+      this.prototype.subscriptions = {
+        'level:disable-controls': 'onDisableControls',
+        'level:enable-controls': 'onEnableControls',
+        'tome:spell-loaded': 'onSpellLoaded',
+        'tome:spell-changed': 'onSpellChanged',
+        'tome:spell-changed-language': 'onSpellChangedLanguage',
+        'tome:toggle-maximize': 'onToggleMaximize'
+      };
+  
+      this.prototype.events = {
+        'click .reload-code': 'onCodeReload',
+        'click .beautify-code': 'onBeautifyClick',
+        'click .fullscreen-code': 'onToggleMaximize',
+        'click .hints-button': 'onClickHintsButton',
+        'click .image-gallery-button': 'onClickImageGalleryButton',
+        'click .videos-button': 'onClickVideosButton',
+        'click #fill-solution': 'onFillSolution',
+        'click #switch-team': 'onSwitchTeam'
+      };
+    }
 
-  subscriptions:
-    'level:disable-controls': 'onDisableControls'
-    'level:enable-controls': 'onEnableControls'
-    'tome:spell-loaded': 'onSpellLoaded'
-    'tome:spell-changed': 'onSpellChanged'
-    'tome:spell-changed-language': 'onSpellChangedLanguage'
-    'tome:toggle-maximize': 'onToggleMaximize'
+    constructor(options) {
+      this.attachTransitionEventListener = this.attachTransitionEventListener.bind(this);
+      this.otherTeam = this.otherTeam.bind(this);
+      this.onSwitchTeam = this.onSwitchTeam.bind(this);
+      this.hintsState = options.hintsState;
+      this.spell = options.spell;
+      this.courseInstanceID = options.courseInstanceID;
+      this.courseID = options.courseID;
+      super(options);
+    }
 
-  events:
-    'click .reload-code': 'onCodeReload'
-    'click .beautify-code': 'onBeautifyClick'
-    'click .fullscreen-code': 'onToggleMaximize'
-    'click .hints-button': 'onClickHintsButton'
-    'click .image-gallery-button': 'onClickImageGalleryButton'
-    'click .videos-button': 'onClickVideosButton'
-    'click #fill-solution': 'onFillSolution'
-    'click #switch-team': 'onSwitchTeam'
+    getRenderData(context) {
+      if (context == null) { context = {}; }
+      context = super.getRenderData(context);
+      const ctrl = this.isMac() ? 'Cmd' : 'Ctrl';
+      const shift = $.i18n.t('keyboard_shortcuts.shift');
+      context.beautifyShortcutVerbose = `${ctrl}+${shift}+B: ${$.i18n.t('keyboard_shortcuts.beautify')}`;
+      context.maximizeShortcutVerbose = `${ctrl}+${shift}+M: ${$.i18n.t('keyboard_shortcuts.maximize_editor')}`;
+      context.codeLanguage = this.options.codeLanguage;
+      context.showAmazonLogo = application.getHocCampaign() === 'game-dev-hoc';
+      return context;
+    }
 
-  constructor: (options) ->
-    @hintsState = options.hintsState
-    @spell = options.spell
-    @courseInstanceID = options.courseInstanceID
-    @courseID = options.courseID
-    super(options)
+    afterRender() {
+      super.afterRender();
+      this.attachTransitionEventListener();
+      return this.$('[data-toggle="popover"]').popover();
+    }
 
-  getRenderData: (context={}) ->
-    context = super context
-    ctrl = if @isMac() then 'Cmd' else 'Ctrl'
-    shift = $.i18n.t 'keyboard_shortcuts.shift'
-    context.beautifyShortcutVerbose = "#{ctrl}+#{shift}+B: #{$.i18n.t 'keyboard_shortcuts.beautify'}"
-    context.maximizeShortcutVerbose = "#{ctrl}+#{shift}+M: #{$.i18n.t 'keyboard_shortcuts.maximize_editor'}"
-    context.codeLanguage = @options.codeLanguage
-    context.showAmazonLogo = application.getHocCampaign() is 'game-dev-hoc'
-    context
+    showVideosButton() {
+      return me.isStudent() && (this.courseID === utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE);
+    }
 
-  afterRender: ->
-    super()
-    @attachTransitionEventListener()
-    @$('[data-toggle="popover"]').popover()
+    onDisableControls(e) { return this.toggleControls(e, false); }
+    onEnableControls(e) { return this.toggleControls(e, true); }
 
-  showVideosButton: () ->
-    me.isStudent() and @courseID == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+    onClickImageGalleryButton(e) {
+      return this.openModalView(new ImageGalleryModal());
+    }
 
-  onDisableControls: (e) -> @toggleControls e, false
-  onEnableControls: (e) -> @toggleControls e, true
+    onClickHintsButton() {
+      let left;
+      if (this.hintsState == null) { return; }
+      Backbone.Mediator.publish('level:hints-button', {state: this.hintsState.get('hidden')});
+      this.hintsState.set('hidden', !this.hintsState.get('hidden'));
+      return (window.tracker != null ? window.tracker.trackEvent('Hints Clicked', {category: 'Students', levelSlug: this.options.level.get('slug'), hintCount: (left = __guard__(this.hintsState.get('hints'), x => x.length)) != null ? left : 0}) : undefined);
+    }
 
-  onClickImageGalleryButton: (e) ->
-    @openModalView new ImageGalleryModal()
+    onClickVideosButton() {
+      return this.openModalView(new CourseVideosModal({courseInstanceID: this.courseInstanceID, courseID: this.courseID}));
+    }
 
-  onClickHintsButton: ->
-    return unless @hintsState?
-    Backbone.Mediator.publish 'level:hints-button', {state: @hintsState.get('hidden')}
-    @hintsState.set('hidden', not @hintsState.get('hidden'))
-    window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0
+    onFillSolution() {
+      if (!me.canAutoFillCode()) { return; }
+      return store.dispatch('game/autoFillSolution', this.options.codeLanguage);
+    }
 
-  onClickVideosButton: ->
-    @openModalView new CourseVideosModal({courseInstanceID: @courseInstanceID, courseID: @courseID})
+    onCodeReload(e) {
+      if (key.shift) {
+        return Backbone.Mediator.publish('level:restart', {});
+      } else {
+        return this.openModalView(new ReloadLevelModal());
+      }
+    }
 
-  onFillSolution: ->
-    return unless me.canAutoFillCode()
-    store.dispatch('game/autoFillSolution', @options.codeLanguage)
+    onBeautifyClick(e) {
+      if (!this.controlsEnabled) { return; }
+      return Backbone.Mediator.publish('tome:spell-beautify', {spell: this.spell});
+    }
 
-  onCodeReload: (e) ->
-    if key.shift
-      Backbone.Mediator.publish 'level:restart', {}
-    else
-      @openModalView new ReloadLevelModal()
+    onToggleMaximize(e) {
+      const $codearea = $('html');
+      if (!$codearea.hasClass('fullscreen-editor')) { $('#code-area').css('z-index', 20); }
+      $('html').toggleClass('fullscreen-editor');
+      $('.fullscreen-code').toggleClass('maximized');
+      return Backbone.Mediator.publish('tome:maximize-toggled', {});
+    }
 
-  onBeautifyClick: (e) ->
-    return unless @controlsEnabled
-    Backbone.Mediator.publish 'tome:spell-beautify', spell: @spell
+    updateReloadButton() {
+      const changed = this.spell.hasChanged(null, this.spell.getSource());
+      return this.$el.find('.reload-code').css('display', changed ? 'inline-block' : 'none');
+    }
 
-  onToggleMaximize: (e) ->
-    $codearea = $('html')
-    $('#code-area').css 'z-index', 20 unless $codearea.hasClass 'fullscreen-editor'
-    $('html').toggleClass 'fullscreen-editor'
-    $('.fullscreen-code').toggleClass 'maximized'
-    Backbone.Mediator.publish 'tome:maximize-toggled', {}
+    onSpellLoaded(e) {
+      if (e.spell !== this.spell) { return; }
+      return this.updateReloadButton();
+    }
 
-  updateReloadButton: ->
-    changed = @spell.hasChanged null, @spell.getSource()
-    @$el.find('.reload-code').css('display', if changed then 'inline-block' else 'none')
+    onSpellChanged(e) {
+      if (e.spell !== this.spell) { return; }
+      return this.updateReloadButton();
+    }
 
-  onSpellLoaded: (e) ->
-    return unless e.spell is @spell
-    @updateReloadButton()
+    onSpellChangedLanguage(e) {
+      if (e.spell !== this.spell) { return; }
+      this.options.codeLanguage = e.language;
+      this.render();
+      return this.updateReloadButton();
+    }
 
-  onSpellChanged: (e) ->
-    return unless e.spell is @spell
-    @updateReloadButton()
+    toggleControls(e, enabled) {
+      if (e.controls && !(Array.from(e.controls).includes('editor'))) { return; }
+      if (enabled === this.controlsEnabled) { return; }
+      this.controlsEnabled = enabled;
+      return this.$el.toggleClass('read-only', !enabled);
+    }
 
-  onSpellChangedLanguage: (e) ->
-    return unless e.spell is @spell
-    @options.codeLanguage = e.language
-    @render()
-    @updateReloadButton()
+    attachTransitionEventListener() {
+      let transitionListener = '';
+      const testEl = document.createElement('fakeelement');
+      const transitions = {
+        'transition':'transitionend',
+        'OTransition':'oTransitionEnd',
+        'MozTransition':'transitionend',
+        'WebkitTransition':'webkitTransitionEnd'
+      };
+      for (var transition in transitions) {
+        var transitionEvent = transitions[transition];
+        if (testEl.style[transition] !== undefined) {
+          transitionListener = transitionEvent;
+          break;
+        }
+      }
+      const $codearea = $('#code-area');
+      return $codearea.on(transitionListener, () => {
+        if (!$('html').hasClass('fullscreen-editor')) { return $codearea.css('z-index', 2); }
+      });
+    }
 
-  toggleControls: (e, enabled) ->
-    return if e.controls and not ('editor' in e.controls)
-    return if enabled is @controlsEnabled
-    @controlsEnabled = enabled
-    @$el.toggleClass 'read-only', not enabled
+    otherTeam() {
+      const teams = _.without(['humans', 'ogres'], this.options.spell.team);
+      return teams[0];
+    }
 
-  attachTransitionEventListener: =>
-    transitionListener = ''
-    testEl = document.createElement 'fakeelement'
-    transitions =
-      'transition':'transitionend'
-      'OTransition':'oTransitionEnd'
-      'MozTransition':'transitionend'
-      'WebkitTransition':'webkitTransitionEnd'
-    for transition, transitionEvent of transitions
-      unless testEl.style[transition] is undefined
-        transitionListener = transitionEvent
-        break
-    $codearea = $('#code-area')
-    $codearea.on transitionListener, =>
-      $codearea.css 'z-index', 2 unless $('html').hasClass 'fullscreen-editor'
+    onSwitchTeam() {
+      const protocol = window.location.protocol + "//";
+      const {
+        host
+      } = window.location;
+      const {
+        pathname
+      } = window.location;
+      let query = window.location.search;
+      query = query.replace(/team=[^&]*&?/, '');
+      if (query) {
+        if (query.endsWith('?') || query.endsWith('&')) {
+          query += 'team=';
+        } else {
+          query += '&team=';
+        }
+      } else {
+        query = '?team=';
+      }
+      return window.location.href = protocol+host+pathname+query + this.otherTeam();
+    }
 
-  otherTeam: =>
-    teams = _.without ['humans', 'ogres'], @options.spell.team
-    teams[0]
+    destroy() {
+      return super.destroy();
+    }
+  };
+  SpellTopBarView.initClass();
+  return SpellTopBarView;
+})());
 
-  onSwitchTeam: =>
-    protocol = window.location.protocol + "//"
-    host = window.location.host
-    pathname = window.location.pathname
-    query = window.location.search
-    query = query.replace(/team=[^&]*&?/, '')
-    if query
-      if query.endsWith('?') or query.endsWith('&')
-        query += 'team='
-      else
-        query += '&team='
-    else
-      query = '?team='
-    window.location.href = protocol+host+pathname+query + @otherTeam()
-
-  destroy: ->
-    super()
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

@@ -1,90 +1,128 @@
-require('app/styles/editor/patch.sass')
-ModalView = require 'views/core/ModalView'
-template = require 'app/templates/editor/patch_modal'
-DeltaView = require 'views/editor/DeltaView'
-auth = require 'core/auth'
-deltasLib = require 'core/deltas'
-modelDeltas = require 'lib/modelDeltas'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let PatchModal;
+require('app/styles/editor/patch.sass');
+const ModalView = require('views/core/ModalView');
+const template = require('app/templates/editor/patch_modal');
+const DeltaView = require('views/editor/DeltaView');
+const auth = require('core/auth');
+const deltasLib = require('core/deltas');
+const modelDeltas = require('lib/modelDeltas');
 
-module.exports = class PatchModal extends ModalView
-  id: 'patch-modal'
-  template: template
-  plain: true
-  modalWidthPercent: 60
-  instant: true
+module.exports = (PatchModal = (function() {
+  PatchModal = class PatchModal extends ModalView {
+    static initClass() {
+      this.prototype.id = 'patch-modal';
+      this.prototype.template = template;
+      this.prototype.plain = true;
+      this.prototype.modalWidthPercent = 60;
+      this.prototype.instant = true;
+  
+      this.prototype.events = {
+        'click #withdraw-button': 'withdrawPatch',
+        'click #reject-button': 'rejectPatch',
+        'click #accept-button': 'onAcceptPatch',
+        'click #accept-save-button': 'onAcceptAndSavePatch'
+      };
+  
+      this.prototype.shortcuts = {
+        'a, shift+a': 'acceptPatch',
+        'r': 'rejectPatch'
+      };
+    }
 
-  events:
-    'click #withdraw-button': 'withdrawPatch'
-    'click #reject-button': 'rejectPatch'
-    'click #accept-button': 'onAcceptPatch'
-    'click #accept-save-button': 'onAcceptAndSavePatch'
+    constructor(patch, targetModel, options) {
+      this.patch = patch;
+      this.targetModel = targetModel;
+      super(options);
+      const targetID = this.patch.get('target').id;
+      if (targetID === this.targetModel.id) {
+        this.originalSource = this.targetModel.clone(false);
+      } else {
+        this.originalSource = new this.targetModel.constructor({_id:targetID});
+        this.supermodel.loadModel(this.originalSource);
+      }
+    }
 
-  shortcuts:
-    'a, shift+a': 'acceptPatch'
-    'r': 'rejectPatch'
+    applyDelta() {
+      this.headModel = null;
+      if (this.targetModel.hasWriteAccess()) {
+        this.headModel = this.originalSource.clone(false);
+        this.headModel.markToRevert(true);
+        this.headModel.set(this.targetModel.attributes);
+        this.headModel.loaded = true;
+      }
 
-  constructor: (@patch, @targetModel, options) ->
-    super(options)
-    targetID = @patch.get('target').id
-    if targetID is @targetModel.id
-      @originalSource = @targetModel.clone(false)
-    else
-      @originalSource = new @targetModel.constructor({_id:targetID})
-      @supermodel.loadModel @originalSource
+      this.pendingModel = this.originalSource.clone(false);
+      this.pendingModel.markToRevert(true);
+      this.deltaWorked = modelDeltas.applyDelta(this.pendingModel, this.patch.get('delta'));
+      return this.pendingModel.loaded = true;
+    }
 
-  applyDelta: ->
-    @headModel = null
-    if @targetModel.hasWriteAccess()
-      @headModel = @originalSource.clone(false)
-      @headModel.markToRevert true
-      @headModel.set(@targetModel.attributes)
-      @headModel.loaded = true
+    render() {
+      if (this.supermodel.finished()) { this.applyDelta(); }
+      return super.render();
+    }
 
-    @pendingModel = @originalSource.clone(false)
-    @pendingModel.markToRevert true
-    @deltaWorked = modelDeltas.applyDelta(@pendingModel, @patch.get('delta'))
-    @pendingModel.loaded = true
+    getRenderData() {
+      const c = super.getRenderData();
+      c.isPatchCreator = this.patch.get('creator') === auth.me.id;
+      c.isPatchRecipient = this.targetModel.hasWriteAccess();
+      c.isLevel = __guard__(this.patch.get("target"), x => x.collection) === "level";
+      c.status = this.patch.get('status');
+      c.patch = this.patch;
+      c.deltaWorked = this.deltaWorked;
+      return c;
+    }
 
-  render: ->
-    @applyDelta() if @supermodel.finished()
-    super()
+    afterRender() {
+      if (!this.supermodel.finished() || !this.deltaWorked) { return super.afterRender(); }
+      this.deltaView = new DeltaView({model:this.pendingModel, headModel:this.headModel, skipPaths: deltasLib.DOC_SKIP_PATHS});
+      const changeEl = this.$el.find('.changes-stub');
+      this.insertSubView(this.deltaView, changeEl);
+      return super.afterRender();
+    }
 
-  getRenderData: ->
-    c = super()
-    c.isPatchCreator = @patch.get('creator') is auth.me.id
-    c.isPatchRecipient = @targetModel.hasWriteAccess()
-    c.isLevel = @patch.get("target")?.collection is "level"
-    c.status = @patch.get 'status'
-    c.patch = @patch
-    c.deltaWorked = @deltaWorked
-    c
+    onAcceptPatch() {
+      return this.acceptPatch(false);
+    }
 
-  afterRender: ->
-    return super() unless @supermodel.finished() and @deltaWorked
-    @deltaView = new DeltaView({model:@pendingModel, headModel:@headModel, skipPaths: deltasLib.DOC_SKIP_PATHS})
-    changeEl = @$el.find('.changes-stub')
-    @insertSubView(@deltaView, changeEl)
-    super()
+    onAcceptAndSavePatch() {
+      const commitMessage = this.patch.get("commitMessage") || "";
+      return this.acceptPatch(true, commitMessage);
+    }
 
-  onAcceptPatch: ->
-    @acceptPatch false
+    acceptPatch(save, commitMessage) {
+      if (save == null) { save = false; }
+      const delta = this.deltaView.getApplicableDelta();
+      modelDeltas.applyDelta(this.targetModel, delta);
+      this.targetModel.saveBackupNow();
+      this.patch.setStatus('accepted');
+      this.trigger('accepted-patch', {save, commitMessage});
+      return this.hide();
+    }
 
-  onAcceptAndSavePatch: ->
-    commitMessage = @patch.get("commitMessage") or ""
-    @acceptPatch true, commitMessage
+    rejectPatch() {
+      this.patch.setStatus('rejected');
+      return this.hide();
+    }
 
-  acceptPatch: (save=false, commitMessage) ->
-    delta = @deltaView.getApplicableDelta()
-    modelDeltas.applyDelta(@targetModel, delta)
-    @targetModel.saveBackupNow()
-    @patch.setStatus('accepted')
-    @trigger 'accepted-patch', {save, commitMessage}
-    @hide()
+    withdrawPatch() {
+      this.patch.setStatus('withdrawn');
+      return this.hide();
+    }
+  };
+  PatchModal.initClass();
+  return PatchModal;
+})());
 
-  rejectPatch: ->
-    @patch.setStatus('rejected')
-    @hide()
-
-  withdrawPatch: ->
-    @patch.setStatus('withdrawn')
-    @hide()
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

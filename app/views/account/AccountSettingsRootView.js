@@ -1,24 +1,41 @@
-require('app/styles/account/account-settings-view.sass')
-RootView = require 'views/core/RootView'
-template = require 'app/templates/account/account-settings-root-view'
-AccountSettingsView = require './AccountSettingsView'
-CreateAccountModal = require 'views/core/CreateAccountModal'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let AccountSettingsRootView;
+require('app/styles/account/account-settings-view.sass');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/account/account-settings-root-view');
+const AccountSettingsView = require('./AccountSettingsView');
+const CreateAccountModal = require('views/core/CreateAccountModal');
 
-module.exports = class AccountSettingsRootView extends RootView
-  id: "account-settings-root-view"
-  template: template
+module.exports = (AccountSettingsRootView = (function() {
+  AccountSettingsRootView = class AccountSettingsRootView extends RootView {
+    static initClass() {
+      this.prototype.id = "account-settings-root-view";
+      this.prototype.template = template;
+  
+      this.prototype.shortcuts =
+        {'enter'() { return this; }};
+    }
 
-  getMeta: ->
-    title: $.i18n.t 'account.settings_title'
+    getMeta() {
+      return {title: $.i18n.t('account.settings_title')};
+    }
 
-  shortcuts:
-    'enter': -> @
+    afterRender() {
+      super.afterRender();
+      this.accountSettingsView = new AccountSettingsView();
+      return this.insertSubView(this.accountSettingsView);
+    }
 
-  afterRender: ->
-    super()
-    @accountSettingsView = new AccountSettingsView()
-    @insertSubView(@accountSettingsView)
-
-  afterInsert: ->
-    super()
-    @openModalView new CreateAccountModal() if me.get('anonymous')
+    afterInsert() {
+      super.afterInsert();
+      if (me.get('anonymous')) { return this.openModalView(new CreateAccountModal()); }
+    }
+  };
+  AccountSettingsRootView.initClass();
+  return AccountSettingsRootView;
+})());

@@ -1,7 +1,20 @@
-require('app/styles/contact-cn.sass')
-RootView = require 'views/core/RootView'
-template = require 'app/templates/contact-cn-view'
+/*
+ * decaffeinate suggestions:
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ContactCNView;
+require('app/styles/contact-cn.sass');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/contact-cn-view');
 
-module.exports = class ContactCNView extends RootView
-  id: 'contact-view'
-  template: template
+module.exports = (ContactCNView = (function() {
+  ContactCNView = class ContactCNView extends RootView {
+    static initClass() {
+      this.prototype.id = 'contact-view';
+      this.prototype.template = template;
+    }
+  };
+  ContactCNView.initClass();
+  return ContactCNView;
+})());

@@ -1,207 +1,285 @@
-require('app/styles/artisans/solution-problems-view.sass')
-RootView = require 'views/core/RootView'
-template = require 'app/templates/artisans/solution-problems-view'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SolutionProblemsView;
+require('app/styles/artisans/solution-problems-view.sass');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/artisans/solution-problems-view');
 
-Level = require 'models/Level'
-Campaign = require 'models/Campaign'
+const Level = require('models/Level');
+const Campaign = require('models/Campaign');
 
-CocoCollection = require 'collections/CocoCollection'
-Campaigns = require 'collections/Campaigns'
-Levels = require 'collections/Levels'
+const CocoCollection = require('collections/CocoCollection');
+const Campaigns = require('collections/Campaigns');
+const Levels = require('collections/Levels');
 
-module.exports = class SolutionProblemsView extends RootView
-  template: template
-  id: 'solution-problems-view'
-  excludedCampaigns = [
-    # Misc. campaigns
-    'picoctf', 'auditions'
+module.exports = (SolutionProblemsView = (function() {
+  let excludedCampaigns = undefined;
+  let excludedSimulationLevels = undefined;
+  let excludedSolutionLevels = undefined;
+  let simulationRequirements = undefined;
+  let includedLanguages = undefined;
+  let excludedLevelSnippets = undefined;
+  SolutionProblemsView = class SolutionProblemsView extends RootView {
+    static initClass() {
+      this.prototype.template = template;
+      this.prototype.id = 'solution-problems-view';
+      excludedCampaigns = [
+        // Misc. campaigns
+        'picoctf', 'auditions',
+  
+        // Campaign-version campaigns
+        //'dungeon', 'forest', 'desert', 'mountain', 'glacier'
+  
+        // Test campaigns
+        'dungeon-branching-test', 'forest-branching-test', 'desert-branching-test'
+  
+        // Course-version campaigns
+        //'intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6'
+      ];
+      excludedSimulationLevels = [
+        // Course Arenas
+        'wakka-maul', 'cross-bones'
+      ];
+      excludedSolutionLevels = [
+        // Multiplayer Levels
+        'cavern-survival',
+        'dueling-grounds', 'multiplayer-treasure-grove',
+        'harrowland',
+        'zero-sum',
+        'ace-of-coders', 'capture-their-flag'
+      ];
+      simulationRequirements = [
+        'seed',
+        'succeeds',
+        'heroConfig',
+        'frameCount',
+        'goals'
+      ];
+      includedLanguages = [
+        'python', 'javascript'
+      ];
+      excludedLevelSnippets = [
+        'treasure', 'brawl', 'siege'
+      ];
+  
+      this.prototype.unloadedCampaigns = 0;
+      this.prototype.campaignLevels = {};
+      this.prototype.loadedLevels = {};
+      this.prototype.parsedLevels = [];
+      this.prototype.problemCount = 0;
+      this.prototype.levelsWithSolutionsCount = 0;
+    }
 
-    # Campaign-version campaigns
-    #'dungeon', 'forest', 'desert', 'mountain', 'glacier'
+    initialize() {
+      this.campaigns = new Campaigns([]);
+      this.listenTo(this.campaigns, 'sync', this.onCampaignsLoaded);
+      return this.supermodel.trackRequest(this.campaigns.fetch({
+        data: {
+          project:'slug'
+        }
+      }));
+    }
 
-    # Test campaigns
-    'dungeon-branching-test', 'forest-branching-test', 'desert-branching-test'
+    onCampaignsLoaded(campCollection) {
+      return (() => {
+        const result = [];
+        for (var campaign of Array.from(campCollection.models)) {
+          var campaignSlug = campaign.get('slug');
+          if (Array.from(excludedCampaigns).includes(campaignSlug)) { continue; }
+          this.unloadedCampaigns++;
 
-    # Course-version campaigns
-    #'intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6'
-  ]
-  excludedSimulationLevels = [
-    # Course Arenas
-    'wakka-maul', 'cross-bones'
-  ]
-  excludedSolutionLevels = [
-    # Multiplayer Levels
-    'cavern-survival'
-    'dueling-grounds', 'multiplayer-treasure-grove'
-    'harrowland'
-    'zero-sum'
-    'ace-of-coders', 'capture-their-flag'
-  ]
-  simulationRequirements = [
-    'seed'
-    'succeeds'
-    'heroConfig'
-    'frameCount'
-    'goals'
-  ]
-  includedLanguages = [
-    'python', 'javascript'
-  ]
-  excludedLevelSnippets = [
-    'treasure', 'brawl', 'siege'
-  ]
+          this.campaignLevels[campaignSlug] = new Levels();
+          this.listenTo(this.campaignLevels[campaignSlug], 'sync', this.onLevelsLoaded);
+          result.push(this.supermodel.trackRequest(this.campaignLevels[campaignSlug].fetchForCampaign(campaignSlug, {
+            data: {
+              project: 'thangs,name,slug,campaign'
+            }
+          }
+          )));
+        }
+        return result;
+      })();
+    }
 
-  unloadedCampaigns: 0
-  campaignLevels: {}
-  loadedLevels: {}
-  parsedLevels: []
-  problemCount: 0
-  levelsWithSolutionsCount: 0
+    onLevelsLoaded(lvlCollection) {
+      for (var level of Array.from(lvlCollection.models)) {
+        this.loadedLevels[level.get('slug')] = level;
+      }
+      if (--this.unloadedCampaigns === 0) {
+        return this.onAllLevelsLoaded();
+      }
+    }
 
-  initialize: ->
-    @campaigns = new Campaigns([])
-    @listenTo(@campaigns, 'sync', @onCampaignsLoaded)
-    @supermodel.trackRequest(@campaigns.fetch(
-      data:
-        project:'slug'
-    ))
+    onAllLevelsLoaded() {
+      for (var levelSlug in this.loadedLevels) {
+        var level = this.loadedLevels[levelSlug];
+        if (level == null) {
+          console.error('Level Slug doesn\'t have associated Level', levelSlug);
+          continue;
+        }
+        if (Array.from(excludedSolutionLevels).includes(levelSlug)) { continue; }
+        var isBad = false;
+        for (var word of Array.from(excludedLevelSnippets)) {
+          if (levelSlug.indexOf(word) !== -1) {
+            isBad = true;
+          }
+        }
+        if (isBad) { continue; }
+        var thangs = level.get('thangs');
+        var component = null;
+        thangs = _.filter(thangs, elem => _.findWhere(elem.components, function(elem2) {
+          if ((elem2.config != null ? elem2.config.programmableMethods : undefined) != null) {
+            component = elem2;
+            return true;
+          }
+        }));
 
-  onCampaignsLoaded: (campCollection) ->
-    for campaign in campCollection.models
-      campaignSlug = campaign.get('slug')
-      continue if campaignSlug in excludedCampaigns
-      @unloadedCampaigns++
+        if (thangs.length > 1) {
+          if (!Array.from(excludedSimulationLevels).includes(levelSlug)) {
+            console.warn('Level has more than 1 programmableMethod Thangs', levelSlug);
+          }
+          continue;
+        }
+        if (component == null) {
+          console.error('Level doesn\'t have programmableMethod Thang', levelSlug);
+          continue;
+        }
 
-      @campaignLevels[campaignSlug] = new Levels()
-      @listenTo(@campaignLevels[campaignSlug], 'sync', @onLevelsLoaded)
-      @supermodel.trackRequest(@campaignLevels[campaignSlug].fetchForCampaign(campaignSlug,
-        data:
-          project: 'thangs,name,slug,campaign'
-      ))
+        var {
+          plan
+        } = component.config.programmableMethods;
+        var solutions = plan.solutions || [];
+        var problems = [];
+        problems = problems.concat(this.findMissingSolutions(solutions));
+        if (!Array.from(excludedSimulationLevels).includes(levelSlug)) {
+          for (var solution of Array.from(solutions)) {
+            problems = problems.concat(this.findSimulationProblems(solution));
+            problems = problems.concat(this.findPass(solution));
+            problems = problems.concat(this.findIdenticalToSource(solution, plan));
+            problems = problems.concat(this.findTemplateProblems(solution, plan));
+            problems = problems.concat(this.findSolutionTemplateProblems(solution, plan));
+          }
+        }
+        this.problemCount += problems.length;
+        if (solutions.length) { this.levelsWithSolutionsCount++; }
+        this.parsedLevels.push({
+          level,
+          problems,
+          solutions
+        });
+      }
 
-  onLevelsLoaded: (lvlCollection) ->
-    for level in lvlCollection.models
-      @loadedLevels[level.get('slug')] = level
-    if --@unloadedCampaigns is 0
-      @onAllLevelsLoaded()
+      return this.renderSelectors('#level-table');
+    }
 
-  onAllLevelsLoaded: ->
-    for levelSlug, level of @loadedLevels
-      unless level?
-        console.error 'Level Slug doesn\'t have associated Level', levelSlug
-        continue
-      continue if levelSlug in excludedSolutionLevels
-      isBad = false
-      for word in excludedLevelSnippets
-        if levelSlug.indexOf(word) isnt -1
-          isBad = true
-      continue if isBad
-      thangs = level.get 'thangs'
-      component = null
-      thangs = _.filter(thangs, (elem) ->
-        return _.findWhere(elem.components, (elem2) ->
-          if elem2.config?.programmableMethods?
-            component = elem2
-            return true
-        )
-      )
+    findMissingSolutions(solutions) {
+      const problems = [];
+      for (var lang of Array.from(includedLanguages)) {
+        if (_.findWhere(solutions, elem => elem.language === lang)) {
+        } else {
+          problems.push({
+            type: 'Missing solution language',
+            value: lang
+          });
+        }
+      }
+      return problems;
+    }
 
-      if thangs.length > 1
-        unless levelSlug in excludedSimulationLevels
-          console.warn 'Level has more than 1 programmableMethod Thangs', levelSlug
-        continue
-      unless component?
-        console.error 'Level doesn\'t have programmableMethod Thang', levelSlug
-        continue
+    findSimulationProblems(solution) {
+      const problems = [];
+      for (var req of Array.from(simulationRequirements)) {
+        if (solution[req] == null) {
+          problems.push({
+            type: 'Solution is not simulatable',
+            value: solution.language
+          });
+          break;
+        }
+      }
+      return problems;
+    }
 
-      plan = component.config.programmableMethods.plan
-      solutions = plan.solutions or []
-      problems = []
-      problems = problems.concat(@findMissingSolutions solutions)
-      unless levelSlug in excludedSimulationLevels
-        for solution in solutions
-          problems = problems.concat(@findSimulationProblems solution)
-          problems = problems.concat(@findPass solution)
-          problems = problems.concat(@findIdenticalToSource solution, plan)
-          problems = problems.concat(@findTemplateProblems solution, plan)
-          problems = problems.concat(@findSolutionTemplateProblems solution, plan)
-      @problemCount += problems.length
-      @levelsWithSolutionsCount++ if solutions.length
-      @parsedLevels.push
-        level: level
-        problems: problems
-        solutions: solutions
-
-    @renderSelectors '#level-table'
-
-  findMissingSolutions: (solutions) ->
-    problems = []
-    for lang in includedLanguages
-      if _.findWhere(solutions, (elem) -> return elem.language is lang)
-      else
-        problems.push
-          type: 'Missing solution language'
-          value: lang
-    problems
-
-  findSimulationProblems: (solution) ->
-    problems = []
-    for req in simulationRequirements
-      unless solution[req]?
-        problems.push
-          type: 'Solution is not simulatable'
+    findPass(solution) {
+      const problems = [];
+      if (solution.source.search(/pass\n/) !== -1) {
+        problems.push({
+          type: 'Solution contains pass',
           value: solution.language
-        break
-    problems
+        });
+      }
+      return problems;
+    }
 
-  findPass: (solution) ->
-    problems = []
-    if solution.source.search(/pass\n/) isnt -1
-      problems.push
-        type: 'Solution contains pass'
-        value: solution.language
-    problems
+    findIdenticalToSource(solution, plan) {
+      const problems = [];
+      if (!plan.languages) {
+        problems.push({
+          type: 'Plan has no languages',
+          value: plan
+        });
+        return problems;
+      }
+      const source = solution.lang === 'javascript' ? plan.source : plan.languages[solution.language];
+      if (solution.source === source) {
+        problems.push({
+          type: 'Solution matches sample code',
+          value: solution.language
+        });
+      }
+      return problems;
+    }
 
-  findIdenticalToSource: (solution, plan) ->
-    problems = []
-    if not plan.languages
-      problems.push
-        type: 'Plan has no languages'
-        value: plan
-      return problems
-    source = if solution.lang is 'javascript' then plan.source else plan.languages[solution.language]
-    if solution.source is source
-      problems.push
-        type: 'Solution matches sample code'
-        value: solution.language
-    problems
+    findTemplateProblems(solution, plan) {
+      const problems = [];
+      if (!plan.languages) {
+        return problems;
+      }
+      const source = solution.lang === 'javascript' ? plan.source : plan.languages[solution.language];
+      const {
+        context
+      } = plan;
+      try {
+        _.template(source)(context);
+      } catch (error) {
+        console.log(source, context, error);
+        problems.push({
+          type: 'Plan template syntax error',
+          value: error.message
+        });
+      }
+      return problems;
+    }
 
-  findTemplateProblems: (solution, plan) ->
-    problems = []
-    if not plan.languages
-      return problems
-    source = if solution.lang is 'javascript' then plan.source else plan.languages[solution.language]
-    context = plan.context
-    try
-      _.template(source)(context)
-    catch error
-      console.log source, context, error
-      problems.push
-        type: 'Plan template syntax error'
-        value: error.message
-    problems
-
-  findSolutionTemplateProblems: (solution, plan) ->
-    problems = []
-    if not plan.languages
-      return problems
-    context = plan.context
-    try
-      renderedSource = _.template(solution.source)(context)
-    catch error
-      console.log source, context, error
-      problems.push
-        type: 'Solution template syntax error'
-        value: error.message
-    solution.renderedSource = renderedSource or solution.source
-    problems
+    findSolutionTemplateProblems(solution, plan) {
+      let renderedSource;
+      const problems = [];
+      if (!plan.languages) {
+        return problems;
+      }
+      const {
+        context
+      } = plan;
+      try {
+        renderedSource = _.template(solution.source)(context);
+      } catch (error) {
+        console.log(source, context, error);
+        problems.push({
+          type: 'Solution template syntax error',
+          value: error.message
+        });
+      }
+      solution.renderedSource = renderedSource || solution.source;
+      return problems;
+    }
+  };
+  SolutionProblemsView.initClass();
+  return SolutionProblemsView;
+})());
