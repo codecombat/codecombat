@@ -273,7 +273,7 @@ export const AccelerationNode = class AccelerationNode extends TreemaNode.nodeMa
   }
 };
 
-export const ThangTypeNode = (function() {
+export const ThangTypeNodeStr = (function() {
   class ThangTypeNode extends TreemaNode.nodeMap.string {
     static initClass() {
       this.prototype.valueClass = 'treema-thang-type';

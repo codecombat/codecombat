@@ -7,19 +7,17 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let languageCodeFromAcceptedLanguages, languageCodes, languageCodesLower;
 let code;
 import locale from '../locale/locale';  // requiring from app; will break if we stop serving from where app lives
 
-const languages = [{code: 'rot13', nativeDescription: 'rot13', englishDescription: 'rot13'}];
+export const languages = [{code: 'rot13', nativeDescription: 'rot13', englishDescription: 'rot13'}];
 for (code in locale) {
   var localeInfo = locale[code];
   languages.push({code, nativeDescription: localeInfo.nativeDescription, englishDescription: localeInfo.englishDescription});
 }
 
-module.exports.languages = languages;
-module.exports.languageCodes = (languageCodes = (Array.from(languages).map((language) => language.code)));
-module.exports.languageCodesLower = (languageCodesLower = ((() => {
+export const languageCodes = ((Array.from(languages).map((language) => language.code)));
+export const languageCodesLower = (((() => {
   const result = [];
   for (code of Array.from(languageCodes)) {     result.push(code.toLowerCase());
   }
@@ -43,7 +41,7 @@ const languageAliases = {
   'zh-hant-mo': 'zh-HANT'
 };
 
-module.exports.languageCodeFromAcceptedLanguages = function(acceptedLanguages) {
+export const languageCodeFromAcceptedLanguages = function(acceptedLanguages) {
   for (var lang of Array.from(acceptedLanguages != null ? acceptedLanguages : [])) {
     code = languageAliases[lang.toLowerCase()];
     if (code) { return code; }

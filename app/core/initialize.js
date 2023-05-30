@@ -80,10 +80,10 @@ import miscDef from 'schemas/definitions/misc';
 
 const definitionSchemas = {
   bus: busDef,
-  misc: miscDefi
+  misc: miscDef
 };
 
-var init = function() {
+export const init = function() {
   if (app) { return; }
   if (!(window.userObject != null ? window.userObject._id : undefined)) {
     const options = { cache: false };
@@ -122,8 +122,6 @@ var init = function() {
   if (me.isAdmin() || !app.isProduction() || (typeof serverSession !== 'undefined' && serverSession !== null ? serverSession.amActually : undefined) || (typeof serverSession !== 'undefined' && serverSession !== null ? serverSession.switchingUserActualId : undefined)) { window.globalVar = globalVar; }
   if (self !== parent) { return parent.globalVar = globalVar; }
 };
-
-module.exports.init = init;
 
 var handleNormalUrls = () => // https://artsy.github.io/blog/2012/06/25/replacing-hashbang-routes-with-pushstate/
 $(document).on('click', "a[href^='/']", function(event) {
