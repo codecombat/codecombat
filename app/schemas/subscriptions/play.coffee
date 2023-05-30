@@ -218,6 +218,12 @@ module.exports =
   'level:gather-chat-message-context': c.object {required: ['chat']},
     chat: ChatMessage
 
+  'level:streaming-solution': c.object {},
+    finish: {type: 'boolean'}
+
+  'level:update-solution': c.object {required: ['code']},
+    code: {type: 'string'}
+
   'level:toggle-solution': c.object {},
     code: {type: 'string'}
 

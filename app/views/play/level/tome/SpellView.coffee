@@ -66,8 +66,10 @@ module.exports = class SpellView extends CocoView
     'web-dev:error': 'onWebDevError'
     'level:gather-chat-message-context': 'onGatherChatMessageContext'
     'tome:fix-code': 'onFixCode'
+    'level:update-solution': 'onUpdateSolution'
     'level:toggle-solution': 'onToggleSolution'
     'level:close-solution': 'closeSolution'
+    'level:streaming-solution': 'onStreamingSolution'
 
   events:
     'mouseout': 'onMouseOut'
@@ -1466,18 +1468,31 @@ module.exports = class SpellView extends CocoView
         @closeSolution()
     )
 
+  onUpdateSolution: (e)->
+    return unless @aceDiff
+    @aceSolution.setValue e.code
+    @aceSolution.clearSelection()
+
+  onStreamingSolution: (e) ->
+    if e.finish
+      @solutionStreaming = false
+    else
+      @solutionStreaming = true
+    solution = document.querySelector('#solution-area')
+    if solution.classList.contains('display')
+      @aceDiff.setOptions({showDiffs: e.finish?})
+
   onToggleSolution: (e)->
     return unless @aceDiff
     if e.code
-      @aceSolution.setValue e.code
-      @aceSolution.clearSelection()
+      @onUpdateSolution(e)
     solution = document.querySelector('#solution-area')
     if solution.classList.contains('display')
       solution.classList.remove('display')
-      @aceDiff.setOptions({showDiffs: false})
     else
       solution.classList.add('display')
-      @aceDiff.setOptions({showDiffs: true})
+    return if @solutionStreaming
+    @aceDiff.setOptions showDiffs: solution.classList.contains('display')
 
   closeSolution: ->
     solution = document.querySelector('#solution-area')
