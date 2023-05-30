@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 let AIR_DENSITY, ICE_FRICTION, STANDARD_FRICTION, SWAMP_DENSITY, VACUUM_DENSITY, WATER_DENSITY;
 module.exports.WATER_DENSITY = (WATER_DENSITY = 1000);  // kg / m^3
 module.exports.AIR_DENSITY = (AIR_DENSITY = 1.225);  // kg / m^3

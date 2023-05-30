@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 // The JSON Schema Core/Validation Meta-Schema, but with titles and descriptions added to make it easier to edit in Treema, and in CoffeeScript
 
 module.exports = {

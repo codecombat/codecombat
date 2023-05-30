@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 module.exports = { nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation: {
 
   ozaria_home: {
