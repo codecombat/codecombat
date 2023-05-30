@@ -1,4 +1,5 @@
 globalVar = require 'core/globalVar'
+{ admin } = require 'core/api'
 
 # TODO: move this out of here to where it should go
 window.SPRITE_RESOLUTION_FACTOR = 3
@@ -41,7 +42,6 @@ Application =
     locale = require 'locale/locale'
     {me} = require 'core/auth'
     Tracker = require('core/Tracker2').default
-    api = require 'core/api'
     utils = require 'core/utils'
     userUtils = require '../lib/user-utils' if utils.isCodeCombat
 
@@ -61,7 +61,6 @@ Application =
       store.dispatch('layoutChrome/syncSoundToAudioSystem')
 
     @store = store
-    @api = api
 
     @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('CodeCombat-iPad') isnt -1
     $('body').addClass 'ipad' if @isIPadApp
@@ -136,10 +135,10 @@ Application =
       me.checkForNewAchievement().then => @checkForNewAchievement()
 
   featureMode: {
-    useChina: -> api.admin.setFeatureMode('china').then(-> document.location.reload())
-    usePicoCtf: -> api.admin.setFeatureMode('pico-ctf').then(-> document.location.reload())
-    useBrainPop: -> api.admin.setFeatureMode('brain-pop').then(-> document.location.reload())
-    clear: -> api.admin.clearFeatureMode().then(-> document.location.reload())
+    useChina: -> admin.setFeatureMode('china').then(-> document.location.reload())
+    usePicoCtf: -> admin.setFeatureMode('pico-ctf').then(-> document.location.reload())
+    useBrainPop: -> admin.setFeatureMode('brain-pop').then(-> document.location.reload())
+    clear: -> admin.clearFeatureMode().then(-> document.location.reload())
   }
 
   isProduction: ->

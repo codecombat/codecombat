@@ -1,3 +1,4 @@
+window.algoliasearch = require('algoliasearch')
 require('bower_components/algolia-autocomplete.js/dist/autocomplete.jquery.js');
 require('bower_components/algolia-autocomplete-no-conflict/no-conflict.js');
 ALGOLIA_APP_ID = "JJM5H2CHJR"

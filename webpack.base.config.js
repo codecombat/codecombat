@@ -117,7 +117,18 @@ module.exports = (env) => {
         { test: /\.js$/,
           exclude: /(node_modules|bower_components|vendor)/,
           use: [{
-            loader: 'babel-loader'
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                ["@babel/preset-env", {
+                  "modules": "commonjs",
+                  "exclude": ["proposal-dynamic-import"]
+                }]
+              ],
+              plugins: [
+                "@babel/plugin-proposal-optional-chaining"
+              ]
+            }
           }]
         },
         { test: /\.coffee$/,
@@ -301,6 +312,7 @@ module.exports = (env) => {
       })
     ].concat(extraIgnorePluginEntries),
     optimization: {},
-    stats: 'minimal'
+    stats: 'minimal',
+    target: ['web', 'es2017']
   }
 }

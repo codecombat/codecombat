@@ -33,8 +33,6 @@ require('imports-loader?this=>window!npm-modernizr');
 window.Vue = require('vue/dist/vue.common.js') // TODO: Update to using just the runtime (need to precompile templates!)
 window.Vuex = require('vuex').default
 
-window.algoliasearch = require('algoliasearch')
-
 // polyfill to support IE11
 if (!String.prototype.includes) {
   String.prototype.includes = function(search, start) {
