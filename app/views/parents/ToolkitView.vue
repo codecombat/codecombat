@@ -91,7 +91,8 @@ export default {
 
 <style scoped lang="scss">
 .toolkit {
-  padding: 5rem;
+  padding: 3rem;
+  grid-column: main-content-start/main-content-end;
 
   .resources {
     display: flex;

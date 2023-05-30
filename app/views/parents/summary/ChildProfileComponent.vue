@@ -59,7 +59,7 @@
         Change Password
       </div>
       <div
-        v-if="!child.isPremium"
+        v-if="!child.isPremium && !isPaidOnlineClassUser"
         @click="onUpgradeSub"
         class="helpers__btn helpers__upgrade"
       >
@@ -92,6 +92,10 @@ export default {
     child: {
       type: Object,
       required: true
+    },
+    isPaidOnlineClassUser: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

@@ -152,18 +152,26 @@ export default Vue.extend({
               span.icon-bar
               span.icon-bar
             a.navbar-brand(v-if="me.useTarenaLogo()" href="http://kidtts.tmooc.cn/ttsPage/login.html")
-              img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+              picture
+                source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
+                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
               img#tarena-logo(src="/images/pages/base/logo-tarena.png" alt="Tarena logo")
             a.navbar-brand(v-else-if="serverConfig.codeNinjas" href="/home")
-              img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+              picture
+                source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
+                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
               img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
             a.navbar-brand(v-else-if="me.isTecmilenio()" href="/home")
-              img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+              picture
+                source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
+                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
               img.tecmilenio-logo(src="/images/pages/payment/tecmilenio-logo-2.png" alt="Tecmilenio logo")
             a.navbar-brand(v-else-if="me.showChinaResourceInfo()" href="/home")
               img#logo-img(src="/images/pages/base/logo-en+cn.png" alt="CodeCombat logo")
             a.navbar-brand(v-else :href="hideNav ? '#' : '/home'")
-              img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+              picture
+                source#logo-img(srcset="/images/pages/base/logo.webp" type="image/webp")
+                img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
 
           .navbar-browser-recommendation.navbar-header(v-if="isChinaOldBrowser")
             .nav-spacer
@@ -283,6 +291,8 @@ export default Vue.extend({
                     a.account-dropdown-item(href="/api-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                   li(v-if="me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin()")
                     a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
+                  li(v-if="me.isAdmin() || me.isOnlineTeacher()")
+                    a.account-dropdown-item(href="/event-calendar/classes") {{ $t('events.calendar') }}
                   li(v-if="serverSession && serverSession.amActually")
                     a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_spying') }}
                   li(v-if="me.isTeacher()")

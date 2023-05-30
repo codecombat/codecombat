@@ -1,0 +1,33 @@
+$side-panel-width: 1116px !default;
+
+.transition-side-panel {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+
+  max-width: $side-panel-width;
+  width: $side-panel-width;
+  height: 100vh;
+  z-index: 1200;
+
+  max-height: 100vh;
+  overflow-y: scroll;
+
+  background-color: white;
+  box-shadow: -8px 4px 20px rgba(0, 0, 0, 0.25);
+
+  &.slide-enter-active, &.slide-leave-active {
+    -webkit-transition: right 0.7s ease;
+    -moz-transition: right 0.7s ease;
+    -o-transition: right 0.7s ease;
+    -ms-transition: right 0.7s ease;
+    transition: right 0.7s ease;
+  }
+  &.slide-enter, &.slide-leave-to {
+    right: calc(0px - #{$side-panel-width});
+  }
+
+  &.slide-enter-to, &.slide-leave {
+    right: 0;
+  }
+}

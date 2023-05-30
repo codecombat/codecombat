@@ -38,22 +38,22 @@
             <span class="sidebar__tabs__name">Summary</span>
           </li>
         </router-link>
-        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'online-classes', childId: this.selectedChildrenId } }">
-          <li
-            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'online-classes' }"
-          >
-            <img src="/images/pages/parents/dashboard/icon-online-classes.svg" alt="Online Classes" class="sidebar__tabs__img">
-            <span class="sidebar__tabs__name">Online Classes</span>
-          </li>
-        </router-link>
-        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'ai-league', childId: this.selectedChildrenId } }">
-          <li
-            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'ai-league' }"
-          >
-            <img src="/images/pages/parents/dashboard/icon-ai-league.svg" alt="AI League" class="sidebar__tabs__img">
-            <span class="sidebar__tabs__name">AI League</span>
-          </li>
-        </router-link>
+<!--        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'online-classes', childId: this.selectedChildrenId } }">-->
+<!--          <li-->
+<!--            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'online-classes' }"-->
+<!--          >-->
+<!--            <img src="/images/pages/parents/dashboard/icon-online-classes.svg" alt="Online Classes" class="sidebar__tabs__img">-->
+<!--            <span class="sidebar__tabs__name">Online Classes</span>-->
+<!--          </li>-->
+<!--        </router-link>-->
+<!--        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'ai-league', childId: this.selectedChildrenId } }">-->
+<!--          <li-->
+<!--            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'ai-league' }"-->
+<!--          >-->
+<!--            <img src="/images/pages/parents/dashboard/icon-ai-league.svg" alt="AI League" class="sidebar__tabs__img">-->
+<!--            <span class="sidebar__tabs__name">AI League</span>-->
+<!--          </li>-->
+<!--        </router-link>-->
       </ul>
       <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'add-another-child' } }">
         <div class="sidebar__add-child">

@@ -31,10 +31,12 @@
       </div>
     </div>
     <div
-      v-if="(!child || !child.isPremium) && !isOnlineClassPaidUser"
+      v-if="!isOnlineClassPaidUser"
       class="header__item header__item--2"
     >
-      <div class="">
+      <div
+        v-if="!child?.isPremium"
+      >
         <div class="header__item__img-parent">
           <img src="/images/pages/parents/dashboard/alejandro.png" alt="CodeCombat character" class="header__item__img">
         </div>
@@ -52,7 +54,11 @@
           </button>
         </div>
       </div>
-      <div class="header__item--line"></div>
+      <div
+        v-if="!child?.isPremium"
+        class="header__item--line"
+      >
+      </div>
       <div class="">
         <div class="header__item__data">
           <ul class="header__sell-info">
