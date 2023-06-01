@@ -1776,6 +1776,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     screenshot_included: "Screenshot included."
     where_reply: "Where should we reply?"
     send: "Send Feedback"
+    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time."
+
 
   account_settings:
     title: "Account Settings"
