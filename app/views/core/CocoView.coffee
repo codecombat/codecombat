@@ -283,7 +283,7 @@ module.exports = class CocoView extends Backbone.View
       @openModalView(new ContactModal())
 
     confirmOOOMessage = (afterConfirm) =>
-      oooStart = new Date('2023-05-05T00:00:00Z')
+      oooStart = new Date('2023-06-05T00:00:00Z')
       oooEnd = new Date('2023-06-09T23:59:59Z')
       
       storageKey = "contact-modal-confirm-seen-#{me.id}-#{oooStart.getTime()}-#{oooEnd.getTime()}"
