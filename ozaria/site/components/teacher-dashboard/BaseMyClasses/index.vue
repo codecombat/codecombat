@@ -234,7 +234,7 @@
     />
 
     <div class="container latest-podcast">
-      <h3 class="text-h3">{{ $t('teacher.latest_podcast_episode') }}</h3>
+      <h5 class="text-h5">{{ $t('teacher.from_the_podcast') }}</h5>
       <podcast-item-container />
     </div>
   </div>
@@ -333,5 +333,10 @@
 
   .latest-podcast {
     margin-top: 60px;
+    .text-h5 {
+      text-align: right;
+      font-family: "Work Sans";
+      color: #777777;
+    }
   }
 </style>
