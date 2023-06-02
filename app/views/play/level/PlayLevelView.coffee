@@ -113,6 +113,7 @@ module.exports = class PlayLevelView extends RootView
     'click .contact-link': 'onContactClicked'
     'contextmenu #webgl-surface': 'onSurfaceContextMenu'
     'click': 'onClick'
+    'click .close-solution-btn': 'onCloseSolution'
 
   onClick: ->
     # workaround to get users out of permanent idle status
@@ -935,6 +936,9 @@ module.exports = class PlayLevelView extends RootView
       @setupManager?.destroy()
       @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, hadEverChosenHero: true})
       @setupManager.open()
+
+  onCloseSolution: ->
+    Backbone.Mediator.publish 'level:close-solution', {}
 
   getLoadTrackingTag: () ->
     @level?.get 'slug'

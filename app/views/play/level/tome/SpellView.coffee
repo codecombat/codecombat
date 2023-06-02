@@ -679,6 +679,43 @@ module.exports = class SpellView extends CocoView
     return if @destroyed or @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
     Backbone.Mediator.publish 'tome:editing-began', {}
 
+  updateAceLines: (screenLineCount, ace=@ace, aceCls='.ace', areaId='#code-area') =>
+    lineHeight = ace.renderer.lineHeight or 20
+    spellPaletteView = $('#tome-view #spell-palette-view-bot')
+    spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
+    if aceCls == '.ace'
+      spellPaletteHeight = spellPaletteView.outerHeight()
+    else
+      spellPaletteHeight = 0
+    windowHeight = $(window).innerHeight()
+    spellPaletteAllowedHeight = Math.min spellPaletteHeight, windowHeight / 2
+    topOffset = $(aceCls).offset().top
+    gameHeight = $('#game-area').innerHeight()
+    heightScale = if aceCls == '.ace' then 1 else 0.5
+
+    # If the spell palette is too tall, we'll need to shrink it.
+    maxHeightOffset = 75
+    minHeightOffset = 175
+    maxHeight = Math.min(windowHeight, Math.max(windowHeight, 600)) - topOffset - spellPaletteAllowedHeight - maxHeightOffset
+    minHeight = Math.min maxHeight * heightScale, Math.min(gameHeight, Math.max(windowHeight, 600)) - spellPaletteHeight - minHeightOffset
+
+    spellPalettePosition = if spellPaletteHeight > 0 then 'bot' else 'mid'
+    minLinesBuffer = if spellPalettePosition is 'bot' then 0 else 2
+    linesAtMinHeight = Math.max(8, Math.floor(minHeight / lineHeight - minLinesBuffer))
+    linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
+    lines = Math.max linesAtMinHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), 8
+    lines = 8 if _.isNaN lines
+
+    ace.setOptions minLines: lines, maxLines: lines
+
+    # If bot: move spell palette up, slightly overlapping us.
+    newTop = 185 + lineHeight * lines
+    spellPaletteView.css('top', newTop)
+
+    codeAreaBottom = if spellPaletteHeight then windowHeight - (newTop + spellPaletteHeight + 20) else 0
+    $(areaId).css('bottom', codeAreaBottom)
+    #console.log { lineHeight, spellTopBarHeight, spellPaletteHeight, spellPaletteAllowedHeight, windowHeight, topOffset, gameHeight, minHeight, maxHeight, linesAtMinHeight, linesAtMaxHeight, lines, newTop, screenLineCount }
+
   updateLines: =>
     # Make sure there are always blank lines for the player to type on, and that the editor resizes to the height of the lines.
     return if @destroyed
@@ -696,36 +733,7 @@ module.exports = class SpellView extends CocoView
     screenLineCount = @aceSession.getScreenLength()
     if screenLineCount isnt @lastScreenLineCount
       @lastScreenLineCount = screenLineCount
-      lineHeight = @ace.renderer.lineHeight or 20
-      spellPaletteView = $('#tome-view #spell-palette-view-bot')
-      spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
-      spellPaletteHeight = spellPaletteView.outerHeight()
-      windowHeight = $(window).innerHeight()
-      spellPaletteAllowedHeight = Math.min spellPaletteHeight, windowHeight / 2
-      topOffset = @$el.find('.ace').offset().top
-      gameHeight = $('#game-area').innerHeight()
-
-      # If the spell palette is too tall, we'll need to shrink it.
-      maxHeightOffset = 75
-      minHeightOffset = 175
-      maxHeight = Math.min(windowHeight, Math.max(windowHeight, 600)) - topOffset - spellPaletteAllowedHeight - maxHeightOffset
-      minHeight = Math.min maxHeight, Math.min(gameHeight, Math.max(windowHeight, 600)) - spellPaletteHeight - minHeightOffset
-
-      spellPalettePosition = if spellPaletteHeight > 0 then 'bot' else 'mid'
-      minLinesBuffer = if spellPalettePosition is 'bot' then 0 else 2
-      linesAtMinHeight = Math.max(8, Math.floor(minHeight / lineHeight - minLinesBuffer))
-      linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
-      lines = Math.max linesAtMinHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), 8
-      lines = 8 if _.isNaN lines
-      @ace.setOptions minLines: lines, maxLines: lines
-
-      # If bot: move spell palette up, slightly overlapping us.
-      newTop = 185 + lineHeight * lines
-      spellPaletteView.css('top', newTop)
-
-      codeAreaBottom = if spellPaletteHeight then windowHeight - (newTop + spellPaletteHeight + 20) else 0
-      $('#code-area').css('bottom', codeAreaBottom)
-      #console.log { lineHeight, spellTopBarHeight, spellPaletteHeight, spellPaletteAllowedHeight, windowHeight, topOffset, gameHeight, minHeight, maxHeight, linesAtMinHeight, linesAtMaxHeight, lines, newTop, screenLineCount }
+      @updateAceLines(screenLineCount)
 
     if @firstEntryToScrollLine? and @ace?.renderer?.$cursorLayer?.config
       @ace.scrollToLine @firstEntryToScrollLine, true, true
@@ -1446,6 +1454,8 @@ module.exports = class SpellView extends CocoView
     # solution = store.getters['game/getSolutionSrc'](@spell.language)
     @aceSolution.setValue ''
     @aceSolution.clearSelection()
+    @aceSolutionLastLineCount = 0
+    @updateSolutionLines = _.throttle @updateAceLines, 1000
 
     @aceDiff = new AceDiff({
       element: '#solution-view'
@@ -1472,6 +1482,11 @@ module.exports = class SpellView extends CocoView
     return unless @aceDiff
     @aceSolution.setValue e.code
     @aceSolution.clearSelection()
+    lineCount = e.code.split('\n').length
+    # if lineCount > @aceSolutionLastLineCount
+      # @aceSolutionLastLineCount = lineCount
+    @updateSolutionLines(lineCount, @aceSolution, '.ace-solution', '#solution-area')
+    @aceSolution.resize(true)
 
   onStreamingSolution: (e) ->
     if e.finish

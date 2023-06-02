@@ -87,7 +87,7 @@ module.exports = class LevelChatView extends CocoView
       numberOfLines = (p1.match(/\n/g) || []).length + 1
       if p1
         Backbone.Mediator.publish 'level:update-solution', code: p1
-      '\n[Fix Code]*Loading code fix' + '.'.repeat(numberOfLines) + '...*'
+      '\n[Fix Code]\n*Loading code fix' + '.'.repeat(numberOfLines) + '...*'
     # Close any unclosed backticks delimiters so we get complete <code> tags
     unclosedBackticks = (content.match(/`/g) || []).length
     if unclosedBackticks % 2 != 0
