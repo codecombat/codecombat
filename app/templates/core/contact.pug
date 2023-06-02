@@ -5,20 +5,14 @@ block modal-header-content
 
 block modal-body-content
   p
-    span(data-i18n="contact.welcome") Good to hear from you! Use this form to send us email.
-    span.spl(data-i18n="contact.forum_prefix") For anything public, please try
-    a(href="http://discourse.codecombat.com/", data-i18n="contact.forum_page") our forum
-    span(data-i18n="contact.forum_suffix")  instead.
-    span.spl.spr(data-i18n="contact.faq_prefix") There's also a
-    a(data-i18n="contact.faq", href="https://discourse.codecombat.com/t/18174") FAQ
+    span(data-i18n="contact.welcome")
+    span.spl(data-i18n="contact.forum_prefix")
+    a(href="https://discourse.codecombat.com/", data-i18n="contact.forum_page")
+    span(data-i18n="contact.forum_suffix")
+    span.spl.spr(data-i18n="contact.faq_prefix")
+    a(data-i18n="contact.faq", href="https://codecombat.zendesk.com/hc/en-us")
+    span(data-i18n="contact.faq_suffix")
     | .
-  if me.isPremium()
-    p(data-i18n="contact.subscriber_support") Since you're a CodeCombat subscriber, your email will get our priority support.
-  else
-    p
-      span.spr(data-i18n="contact.subscribe_prefix") If you need help figuring out a level, please
-      a(data-toggle="coco-modal", data-target="core/SubscribeModal", data-i18n="contact.subscribe") buy a CodeCombat subscription
-      span.spl(data-i18n="contact.subscribe_suffix") and we'll be happy to help you with your code.
   .form
     .form-group
       label.control-label(for="contact-email", data-i18n="general.email") Email
