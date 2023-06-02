@@ -31,7 +31,7 @@ module.exports = class LevelChatView extends CocoView
 
     ## TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
     #@listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
-    @visible = me.isAdmin()
+    @visible = me.isAdmin() or utils.getQueryVariable 'ai'
 
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
@@ -263,7 +263,8 @@ module.exports = class LevelChatView extends CocoView
     props =
       product: utils.getProduct()
       kind: 'level-chat'
-      example: Boolean me.isAdmin()
+      #example: Boolean me.isAdmin() # TODO: implement the non-example version of the chat
+      example: true
       message:
         text: text
         textComponents: {}
