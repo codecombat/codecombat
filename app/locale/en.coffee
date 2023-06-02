@@ -2590,6 +2590,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     redeemers: "Active Students"
     removed_redeemers: "Inactive Students"
     latest_podcast_episode: "Latest Podcast Episode"
+    from_the_podcast: "From the Podcast"
     edit_student_access_title: "Edit Student Access to Levels"
     edit_student_access_subtitle: "You have selected __levels__ levels for __students__ students."
 
