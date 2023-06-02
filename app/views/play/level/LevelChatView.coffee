@@ -19,8 +19,6 @@ module.exports = class LevelChatView extends CocoView
     'keypress textarea': 'onChatKeypress'
     'click i': 'onIconClick'
     'click .fix-code-button': 'onFixCodeClick'
-    'mouseover .fix-code-button': 'onFixCodeMouseOver'
-    'mouseout .fix-code-button': 'onFixCodeMouseOut'
 
   constructor: (options) ->
     @levelID = options.levelID
@@ -87,7 +85,9 @@ module.exports = class LevelChatView extends CocoView
       '[Fix Code]'
     content = content.replace /\|Code\|?:? ?`{0,3}\n?((.|\n)*?)`{0,3}\n?$/g, ( match, p1) ->
       numberOfLines = (p1.match(/\n/g) || []).length + 1
-      '\n*Loading code fix' + '.'.repeat(numberOfLines) + '...*'
+      if p1
+        Backbone.Mediator.publish 'level:update-solution', code: p1
+      '\n[Fix Code]\n*Loading code fix' + '.'.repeat(numberOfLines) + '...*'
     # Close any unclosed backticks delimiters so we get complete <code> tags
     unclosedBackticks = (content.match(/`/g) || []).length
     if unclosedBackticks % 2 != 0
@@ -104,7 +104,7 @@ module.exports = class LevelChatView extends CocoView
     content = content.replace /<p><code>((.|\n)*?)(?:(?!<\/code>)(.|\n))*?<\/code><\/p>/g, (match) ->
       match.replace(/<p><code>/g, '<pre><code>').replace(/<\/code><\/p>/g, '</code></pre>')
 
-    content = content.replace /\[Fix Code\]/g, '<p><button class="btn btn-illustrated btn-small btn-primary fix-code-button">Fix Code</button></p>'
+    content = content.replace /\[Fix Code\]/g, '<p><button class="btn btn-illustrated btn-small btn-primary fix-code-button">Show me</button></p>'
     @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
 
     if _.string.startsWith(content, '/me')
@@ -184,14 +184,12 @@ module.exports = class LevelChatView extends CocoView
       document.selection.empty()
 
   onFixCodeClick: (e) ->
-    Backbone.Mediator.publish 'tome:fix-code', code: @lastFixedCode
-    @$el.find('.fix-code-button').parent().remove()  # Could keep this around if we could undo it
-
-  onFixCodeMouseOver: (e) ->
-    Backbone.Mediator.publish 'tome:fix-code-preview-start', code: @lastFixedCode
-
-  onFixCodeMouseOut: (e) ->
-    Backbone.Mediator.publish 'tome:fix-code-preview-end', {}
+    Backbone.Mediator.publish 'level:toggle-solution', { code: @lastFixedCode ? '' }
+    btn = @$el.find('.fix-code-button')
+    if btn.html() == 'Show me'
+      btn.html 'Hide'
+    else
+      btn.html 'Show me'
 
   scrollDown: ->
     openPanel = $('.open-chat-area', @$el)[0]
@@ -220,12 +218,15 @@ module.exports = class LevelChatView extends CocoView
       sender = { kind: 'bot', name: 'Code AI' }  # TODO: handle sender name again
       @startStreamingAIChatMessage sender
       result = ''
+      Backbone.Mediator.publish 'level:streaming-solution', finish: false
       while true
         { done, value } = yield reader.read()
         chunk = decoder.decode value
         result += chunk
         @addToStreamingAIChatMessage sender: sender, chunk: chunk, result: result
         break if done
+
+      Backbone.Mediator.publish 'level:streaming-solution', finish: true
       @clearStreamingAIChatMessage()
       @saveChatMessage text: result, sender: sender
 

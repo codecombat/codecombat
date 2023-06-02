@@ -11,6 +11,9 @@
 
   import ButtonsSchoolAdmin from './ButtonsSchoolAdmin'
 
+  import PodcastItemContainer from 'app/views/courses/PodcastItemContainer'
+
+
   export default {
     name: COMPONENT_NAMES.MY_CLASSES_ALL,
     components: {
@@ -20,6 +23,7 @@
       BannerHoC,
       ModalAddStudents,
       ModalShareWithTeachers,
+      PodcastItemContainer
     },
 
     props: {
@@ -228,6 +232,11 @@
       :classroom="editClassroomObject"
       @close="showShareClassWithTeacherModal = false"
     />
+
+    <div class="container latest-podcast">
+      <h5 class="text-h5">{{ $t('teacher.from_the_podcast') }}</h5>
+      <podcast-item-container />
+    </div>
   </div>
 </template>
 
@@ -320,5 +329,14 @@
   }
   #shared-classes {
     margin-bottom: 10px;
+  }
+
+  .latest-podcast {
+    margin-top: 60px;
+    .text-h5 {
+      text-align: right;
+      font-family: "Work Sans";
+      color: #777777;
+    }
   }
 </style>

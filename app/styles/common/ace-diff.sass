@@ -8,7 +8,15 @@ $mergeLeftColor: #004ea0
 $charDiffBackground: rgba(0, 92, 175, 0.4)
 $charDiffBackgroundRight: rgba(0, 92, 175, 0.4)
 
+.ace_gutter-cell:not(.acediff__diffGutter) + .acediff__diffGutter
+  border-top: 1px solid $connectorBorder
+  border-bottom: 1px solid transparent
+.acediff__diffGutter.last
+  border-top: 1px solid transparent
+  border-bottom: 1px solid $connectorBorder
+
 .acediff
+
   &__wrap
     display: flex
     flex-direction: row
@@ -39,6 +47,19 @@ $charDiffBackgroundRight: rgba(0, 92, 175, 0.4)
     border-bottom: 1px solid $connectorBorder
     position: absolute
     z-index: 4
+    &.targetOnly
+      height: 0px !important
+      border-top: 1px solid $connectorBorder
+      border-bottom: 0px
+      position: absolute
+    &.right
+      background-color: $connectorBackgroundRight
+
+  &__diffGutter
+    background-color: $connectorBackground
+    position: absolute
+    z-index: 4
+
     &.targetOnly
       height: 0px !important
       border-top: 1px solid $connectorBorder
