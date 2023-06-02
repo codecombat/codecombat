@@ -1763,19 +1763,19 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   contact:
     contact_us: "Contact CodeCombat"
-    welcome: "Good to hear from you! Use this form to send us email. "
-    forum_prefix: "For anything public, please try "
-    forum_page: "our forum"
-    forum_suffix: " instead."
-    faq_prefix: "There's also a"
-    faq: "FAQ"
+    welcome: "Good to hear from you! Let us know how we can help, and we'll get back to you in 1-2 business days."
+    forum_prefix: "You can check out our "
+    forum_page: "public forum here "
+    faq_prefix: "and our "
+    faq: "FAQs here"
+    faq_suffix: " for additional assistance."
     subscribe_prefix: "If you need help figuring out a level, please"
     subscribe: "buy a CodeCombat subscription"
     subscribe_suffix: "and we'll be happy to help you with your code."
     subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support."
     screenshot_included: "Screenshot included."
     where_reply: "Where should we reply?"
-    send: "Send Feedback"
+    send: "Send"
     ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time."
 
 
