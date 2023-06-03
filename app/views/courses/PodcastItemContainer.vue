@@ -12,6 +12,7 @@ import cocoVueRouter from 'app/core/vueRouter'
 import { mapActions, mapGetters } from 'vuex'
 import PodcastItemComponent from 'app/views/podcast/PodcastItemComponent'
 import podcastVisibleMixin from 'app/views/podcast/podcastVisibleMixin'
+import trackPlayMixin from 'app/views/podcast/trackPlayMixin'
 
 export default Vue.extend({
   name: 'PodcastItemContainer',
@@ -25,7 +26,7 @@ export default Vue.extend({
     }
   },
   router: cocoVueRouter(),
-  mixins: [podcastVisibleMixin],
+  mixins: [podcastVisibleMixin, trackPlayMixin],
   methods: {
     ...mapActions({
       fetchAllPodcasts: 'podcasts/fetchAll'
@@ -37,7 +38,7 @@ export default Vue.extend({
     }),
 
     latestPodcast () {
-      return this.podcastsLoaded && this.allPodcasts.find(podcast => this.isPodcastVisible(podcast))
+      return this.podcastsLoaded && this.allPodcasts.find(podcast => this.isPodcastVisible(podcast) && !this.isPlayed(podcast._id))
     }
   },
   async created () {

@@ -282,11 +282,36 @@ module.exports = class CocoView extends Backbone.View
 
       @openModalView(new ContactModal())
 
+    confirmOOOMessage = (afterConfirm) =>
+      oooStart = new Date('2023-06-05T00:00:00Z')
+      oooEnd = new Date('2023-06-09T23:59:59Z')
       
-    if (me.isTeacher(true) and zE) or me.showChinaResourceInfo()
-      openDirectContactModal()
-    else
-      openContactModal()
+      storageKey = "contact-modal-confirm-seen-#{me.id}-#{oooStart.getTime()}-#{oooEnd.getTime()}"
+      seen = storage.load(storageKey)
+
+      isOoo = new Date() > oooStart and new Date() < oooEnd
+
+      if (not isOoo) or seen
+        afterConfirm()
+        return
+      
+      renderData =
+        body: $.i18n.t 'contact.ooo_blurb'
+        decline: $.i18n.t 'modal.cancel'
+        confirm: $.i18n.t 'modal.okay'
+      ConfirmModal = require 'views/core/ConfirmModal'
+      confirmModal = new ConfirmModal renderData
+      confirmModal.on 'confirm', ->
+        storage.save(storageKey, true)
+        afterConfirm()
+        
+      @openModalView confirmModal      
+
+    confirmOOOMessage =>
+      if (me.isTeacher(true) and zE) or me.showChinaResourceInfo()
+        openDirectContactModal()
+      else
+        openContactModal()
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
