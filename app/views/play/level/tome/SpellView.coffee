@@ -94,7 +94,8 @@ module.exports = class SpellView extends CocoView
     @createACE()
     @createACEShortcuts()
     @hookACECustomBehavior()
-    @fillACESolution()
+    if me.isAdmin() or utils.getQueryVariable 'ai'
+      @fillACESolution()
     @fillACE()
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
@@ -712,8 +713,9 @@ module.exports = class SpellView extends CocoView
     newTop = 185 + lineHeight * lines
     spellPaletteView.css('top', newTop)
 
-    codeAreaBottom = if spellPaletteHeight then windowHeight - (newTop + spellPaletteHeight + 20) else 0
-    $(areaId).css('bottom', codeAreaBottom)
+    if aceCls == '.ace'
+      codeAreaBottom = if spellPaletteHeight then windowHeight - (newTop + spellPaletteHeight + 20) else 0
+      $(areaId).css('bottom', codeAreaBottom)
     #console.log { lineHeight, spellTopBarHeight, spellPaletteHeight, spellPaletteAllowedHeight, windowHeight, topOffset, gameHeight, minHeight, maxHeight, linesAtMinHeight, linesAtMaxHeight, lines, newTop, screenLineCount }
 
   updateLines: =>
