@@ -24,12 +24,10 @@
 
     > .profile-info
       background: white
-
       .extra-info
         padding-bottom: 3px
         &:empty
           display: none
-
     .name
       margin: 0px auto
       padding: 10px inherit
@@ -53,26 +51,35 @@
   .panel-footer
     text-align: right
 
+  .bronze
+    border: 4px solid rgb(153, 102, 0)
+  .silver
+    border: 4px solid rgb(179, 179, 179)
+  .gold
+    border: 4px solid rgb(255, 204, 0)
+  .diamond
+    border: 4px solid rgb(102, 204, 255)
+
   .contributor-categories
+
     list-style: none
     padding: 0px
     margin-top: 15px
 
     > .contributor-category
-      outline: 1px solid black
       margin-bottom: 15px
-
       > .contributor-image
         border: none
         width: 100%
-        border-bottom: 1px solid black
-
       > .contributor-title
         text-align: center
         padding: 5px 0px
         margin: 0px
         background: white
   .inventory
+    border-width: 1px
+    border-style: solid
+    border-color: darkgrey
     padding: 0px
     margin-top: 15px
     .inventory-title
