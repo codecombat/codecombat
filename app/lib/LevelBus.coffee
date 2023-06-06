@@ -113,22 +113,20 @@ module.exports = class LevelBus extends Bus
 
     code[parts[0]] ?= {}
     code[parts[0]][parts[1]] = e.spell.getSource()
+
     @changedSessionProperties.code = true
+    @changedSessionProperties.heroCode = undefined
+    if e.spell.level.isType('ladder') and e.spell.team is 'ogres'
+      @changedSessionProperties.heroCode = e.spell.getSource()
     @session.set({'code': code})
     @saveSession()
 
   onSpellCreated: (e) ->
     return unless @onPoint()
-    spellTeam = e.spell.team
-    @teamSpellMap ?= {}
-    @teamSpellMap[spellTeam] ?= []
-
-    unless e.spell.spellKey in @teamSpellMap[spellTeam]
-      @teamSpellMap[spellTeam].push e.spell.spellKey
     @changedSessionProperties.teamSpells = true
-    @session.set({'teamSpells': @teamSpellMap})
+    @session.set({'teamSpells': utils.teamSpells})
     @saveSession()
-    if spellTeam is me.team or (e.spell.otherSession and spellTeam isnt e.spell.otherSession.get('team'))
+    if e.spell.team is me.team or (e.spell.otherSession and e.spell.team isnt e.spell.otherSession.get('team'))
       # https://github.com/codecombat/codecombat/issues/81
       @onSpellChanged e  # Save the new spell to the session, too.
 
@@ -140,7 +138,6 @@ module.exports = class LevelBus extends Bus
 
   onWinnabilityUpdated: (e) ->
     return unless @onPoint() and e.winnable
-    return unless e.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty', 'treasure-games', 'king-of-the-hill']  # Mirror matches don't otherwise show victory, so we win here.  # TODO: remove once these levels are configured as mirror matches
     return unless e.level.get('mirrorMatch')  # Mirror matches don't otherwise show victory, so we win here.
     return if @session.get('state')?.complete
     @onVictory()
@@ -170,7 +167,7 @@ module.exports = class LevelBus extends Bus
   onScriptEnded: (e) ->
     return unless @onPoint()
     state = @session.get('state')
-    scripts = state.scripts
+    return unless scripts = state.scripts
     scripts.ended ?= {}
     return if scripts.ended[e.scriptID]?
     index = _.keys(scripts.ended).length + 1
@@ -200,21 +197,28 @@ module.exports = class LevelBus extends Bus
 
   onVictory: (e) ->
     return unless @onPoint()
-    return if e and e.capstoneInProgress
+    return if utils.isOzaria and e and e.capstoneInProgress
     state = @session.get('state')
-    needsImmediateSave = false
-    if not state.complete
+    if utils.isCodeCombat
+      return if state.complete
       state.complete = true
       @session.set('state', state)
       @changedSessionProperties.state = true
-      needsImmediateSave = true
-    if e.isCapstone and not @session.get 'published'
-      # Publish the capstone level if it is completed
-      @session.set 'published', true
-      @changedSessionProperties.published = true
-      needsImmediateSave = true
-    if needsImmediateSave
       @reallySaveSession()  # Make sure it saves right away; don't debounce it.
+    else
+      needsImmediateSave = false
+      if not state.complete
+        state.complete = true
+        @session.set('state', state)
+        @changedSessionProperties.state = true
+        needsImmediateSave = true
+      if e.isCapstone and not @session.get 'published'
+        # Publish the capstone level if it is completed
+        @session.set 'published', true
+        @changedSessionProperties.published = true
+        needsImmediateSave = true
+      if needsImmediateSave
+        @reallySaveSession()  # Make sure it saves right away; don't debounce it.
 
   onNewGoalStates: (e) ->
     # TODO: this log doesn't capture when null-status goals are being set during world streaming. Where can they be coming from?
@@ -274,9 +278,16 @@ module.exports = class LevelBus extends Bus
     return if @session.fake
     if @changedSessionProperties.code
       @updateSessionConcepts()
+      heroCode = @changedSessionProperties.heroCode
+      delete @changedSessionProperties.heroCode
     Backbone.Mediator.publish 'level:session-will-save', session: @session
     patch = {}
     patch[prop] = @session.get(prop) for prop of @changedSessionProperties
+    if heroCode # let's only update trueSpell of session
+      patch.code ?= {}
+      delete patch.code['hero-placeholder-1']
+      patch.code['hero-placeholder'] = heroCode
+    delete patch.code if _.isEmpty(patch.code) # don't update empty code
     @changedSessionProperties = {}
 
     # since updates are coming fast and loose for session objects
