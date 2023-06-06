@@ -250,6 +250,9 @@ module.exports = (env) => {
       'esper.js': 'esper'
     },
     plugins: [
+      new webpack.DefinePlugin({
+        "COCO_PRODUCT": JSON.stringify(product) // Has to stringify
+      }),
       new webpack.ProgressPlugin({ profile: false }), // Always show build progress
       new MiniCssExtractPlugin({ // Move CSS into external file
         filename: 'stylesheets/[name].css',
