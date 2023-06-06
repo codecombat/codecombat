@@ -94,7 +94,7 @@ module.exports = class SpellView extends CocoView
     @createACE()
     @createACEShortcuts()
     @hookACECustomBehavior()
-    if me.isAdmin() or utils.getQueryVariable 'ai'
+    if (me.isAdmin() or utils.getQueryVariable 'ai') and not @observing
       @fillACESolution()
     @fillACE()
     @createOnCodeChangeHandlers()
@@ -1508,6 +1508,7 @@ module.exports = class SpellView extends CocoView
       solution.classList.remove('display')
     else
       solution.classList.add('display')
+      solution.style.opacity = 1
     return if @solutionStreaming
     @aceDiff.setOptions showDiffs: solution.classList.contains('display')
 
@@ -1516,12 +1517,9 @@ module.exports = class SpellView extends CocoView
     if solution.classList.contains('display')
       solution.classList.remove('display')
       @aceDiff.setOptions({showDiffs: false})
-
-  closeSolution: ->
-    solution = document.querySelector('#solution-area')
-    if solution.classList.contains('display')
-      solution.classList.remove('display')
-      @aceDiff.setOptions({showDiffs: false})
+      setTimeout(() =>
+        solution.style.opacity = 0
+      , 1000)
 
   onMaximizeToggled: (e) ->
     _.delay (=> @resize()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
