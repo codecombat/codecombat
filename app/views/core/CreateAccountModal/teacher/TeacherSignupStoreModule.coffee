@@ -5,9 +5,11 @@ ncesData = _.zipObject(['nces_'+key, ''] for key in SCHOOL_NCES_KEYS)
 User = require('models/User')
 store = require('core/store')
 globalVar = require 'core/globalVar'
+utils = require 'core/utils'
 
-getDefaultState = () =>
-  return {
+export default {
+  namespaced: true
+  state: {
     trialRequestProperties: _.assign(ncesData, {
       organization: ''
       district: ''
@@ -47,10 +49,6 @@ getDefaultState = () =>
     classLanguage: '' # for HoC
     marketingConsent: undefined
   }
-
-export default {
-  namespaced: true
-  state: getDefaultState()
   getters: {
     getTrialRequestProperties: (state) ->
       return state.trialRequestProperties
@@ -76,7 +74,6 @@ export default {
   }
   actions: {
     createAccount: ({state, commit, dispatch, rootState}) ->
-
       return Promise.resolve()
       .then =>
         saveOptions = {
@@ -117,27 +114,42 @@ export default {
 
       .then (user) =>
         dispatch('me/authenticated', user, { root: true })
-        application.tracker.identifyAfterNextPageLoad()
+        if utils.isOzaria
+          application.tracker.identifyAfterNextPageLoad()
 
       .then =>
-        userUpdate = {}
-        if (typeof state.marketingConsent == "boolean")
-          emails = _.assign({}, me.get('emails'))
-          emails.generalNews ?= {}
-          emails.teacherNews ?= {}
-          emails.generalNews.enabled = state.marketingConsent
-          emails.teacherNews.enabled = state.marketingConsent
-          userUpdate.emails = emails
-          if (!state.marketingConsent)
-            userUpdate.unsubscribedFromMarketingEmails = true
-        if (state.trialRequestProperties.firstName)
-          userUpdate.firstName = state.trialRequestProperties.firstName
-        if (state.trialRequestProperties.lastName)
-          userUpdate.lastName = state.trialRequestProperties.lastName
-        if (Object.keys(userUpdate).length > 0)
-          return dispatch('me/save', userUpdate, {
-            root: true
-          })
+        if utils.isCodeCombat
+          trialRequestIdentifyData = _.pick state.trialRequestProperties, ["siteOrigin", "marketingReferrer", "referrer", "notes", "numStudentsTotal", "numStudents", "purchaserRole", "role", "phoneNumber", "country", "state", "city", "district", "organization", "nces_students", "nces_name", "nces_id", "nces_phone", "nces_district_students", "nces_district_schools", "nces_district_id", "nces_district"]
+          trialRequestIdentifyData.educationLevel_elementary = _.contains state.trialRequestProperties.educationLevel, "Elementary"
+          trialRequestIdentifyData.educationLevel_middle = _.contains state.trialRequestProperties.educationLevel, "Middle"
+          trialRequestIdentifyData.educationLevel_high = _.contains state.trialRequestProperties.educationLevel, "High"
+          trialRequestIdentifyData.educationLevel_college = _.contains state.trialRequestProperties.educationLevel, "College+"
+
+          application.tracker.identifyAfterNextPageLoad()
+          unless User.isSmokeTestUser({ email: state.signupForm.email })
+            # Delay auth flow until tracker call resolves so that we ensure any callbacks are fired but swallow errors
+            # so that we prevent the auth redirect from happning (we don't want to block auth because of tracking
+            # failures)
+            return application.tracker.identify(trialRequestIdentifyData).catch(->)
+        else
+          userUpdate = {}
+          if (typeof state.marketingConsent == "boolean")
+            emails = _.assign({}, me.get('emails'))
+            emails.generalNews ?= {}
+            emails.teacherNews ?= {}
+            emails.generalNews.enabled = state.marketingConsent
+            emails.teacherNews.enabled = state.marketingConsent
+            userUpdate.emails = emails
+            if (!state.marketingConsent)
+              userUpdate.unsubscribedFromMarketingEmails = true
+          if (state.trialRequestProperties.firstName)
+            userUpdate.firstName = state.trialRequestProperties.firstName
+          if (state.trialRequestProperties.lastName)
+            userUpdate.lastName = state.trialRequestProperties.lastName
+          if (Object.keys(userUpdate).length > 0)
+            return dispatch('me/save', userUpdate, {
+              root: true
+            })
 
       .then =>
         trackerCalls = []

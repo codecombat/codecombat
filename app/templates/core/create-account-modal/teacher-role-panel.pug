@@ -9,13 +9,19 @@ div.school-info-panel.text-left
           strong(v-if="showRequired && !role") {{ $t("common.required_field") }}
         select.form-control(v-model="role", name="role", ref='focus')
           option(value='') {{ $t("teachers_quote.primary_role_default") }}
-          option(value="Principal") {{ $t("teachers_quote.principal") }}
-          option(value="Parent") {{ $t("teachers_quote.parent") }}
-          option(value="Technology coordinator") {{ $t("teachers_quote.tech_coordinator") }}
-          if !me.showChinaRegistration()
+          template(v-if="!isCodeCombat")
             option(value="Teacher") {{ $t("courses.teacher") }}
+            option(value="Technology coordinator") {{ $t("teachers_quote.tech_coordinator") }}
             option(value="Advisor") {{ $t("teachers_quote.advisor") }}
-            option(value="Superintendent") {{ $t("teachers_quote.superintendent") }}
+          option(value="Principal") {{ $t("teachers_quote.principal") }}
+          option(v-if="!isCodeCombat" value="Superintendent") {{ $t("teachers_quote.superintendent") }}
+          option(value="Parent") {{ $t("teachers_quote.parent") }}
+          template(v-if="isCodeCombat")
+            option(value="Technology coordinator") {{ $t("teachers_quote.tech_coordinator") }}
+            if !me.showChinaRegistration()
+             option(value="Teacher") {{ $t("courses.teacher") }}
+             option(value="Advisor") {{ $t("teachers_quote.advisor") }}
+             option(value="Superintendent") {{ $t("teachers_quote.superintendent") }}
 
       .form-group(v-bind:class="{ 'has-error': showRequired && !numStudents }")
         span.control-label {{ $t("teachers_quote.num_students_help", { product }) }}
@@ -65,5 +71,5 @@ div.school-info-panel.text-left
 
   // In reverse order for tabbing purposes
   .history-nav-buttons
-    button.next-button.btn.btn-lg.btn-navy(v-on:click="clickContinue") {{ $t("login.sign_up") }}
-    button.back-button.btn.btn-lg.btn-navy-alt(type='button', v-on:click="clickBack") {{ $t("common.back") }}
+    button.next-button.btn.btn-lg(v-on:click="clickContinue" :class="isCodeCombat? 'btn-navy' : 'ozaria-primary-button'") {{ $t(isCodeCombat ? "login.sign_up" : "common.next") }}
+    button.back-button.btn.btn-lg(type='button', v-on:click="clickBack" :class="isCodeCombat ? 'btn-navy-alt' : 'ozaria-secondary-button'") {{ $t("common.back") }}

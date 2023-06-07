@@ -1,4 +1,8 @@
-require('app/styles/modal/auth-modal.sass')
+utils = require 'core/utils'
+if utils.isCodeCombat
+  require('app/styles/modal/auth-modal.sass')
+else
+  require('app/styles/modal/auth-modal.scss')
 ModalView = require 'views/core/ModalView'
 template = require 'app/templates/core/auth-modal'
 forms = require 'core/forms'
@@ -6,6 +10,7 @@ User = require 'models/User'
 errors = require 'core/errors'
 RecoverModal = require 'views/core/RecoverModal'
 storage = require 'core/storage'
+{logInWithClever} = require 'core/social-handlers/CleverHandler'
 globalVar = require 'core/globalVar'
 userUtils = require '../../lib/user-utils'
 
@@ -21,6 +26,7 @@ module.exports = class AuthModal extends ModalView
     'click #google-login-button': 'onClickGPlusLoginButton'
     'click #facebook-login-btn': 'onClickFacebookLoginButton'
     'click #clever-signup-btn': 'onClickCleverSignupButton'
+    'click #clever-login-btn': 'onClickCleverLoginButton'
     'click #close-modal': 'hide'
     'click [data-toggle="coco-modal"][data-target="core/RecoverModal"]': 'openRecoverModal'
 
@@ -36,7 +42,9 @@ module.exports = class AuthModal extends ModalView
         @$('#google-login-button').attr('disabled', false)
         @onClickGPlusLoginButton()
       })
-      application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })
+      if utils.isCodeCombat
+        # No Facebook login in Ozaria
+        application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })
     @subModalContinue = options.subModalContinue
     @showLibraryModal = userUtils.shouldShowLibraryLoginModal()
 
@@ -67,7 +75,7 @@ module.exports = class AuthModal extends ModalView
       if jqxhr.status is 401
         errorID = jqxhr.responseJSON.errorID
         if errorID is 'not-found'
-          forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('loading_error.user_not_found'))
+          forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('loading_error.' + if utils.isCodeCombat then 'user_not_found' else 'not_found')) # todo: update i18n
           showingError = true
         if errorID is 'wrong-password'
           forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.wrong_password'))
@@ -75,6 +83,11 @@ module.exports = class AuthModal extends ModalView
         if errorID is 'temp-password-expired'
           forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.temp_password_expired'))
           showingError = true
+
+        if utils.isOzaria and errorID is 'individuals-not-supported'
+          forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
+          showingError = true
+
       else if jqxhr.status is 429
         showingError = true
         forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('loading_error.too_many_login_failures'))
@@ -145,7 +158,12 @@ module.exports = class AuthModal extends ModalView
         noty({text: e?.message or e?.details or e?.toString?() or 'Unknown Google login error', layout: 'topCenter', type: 'error', timeout: 5000, killer: false, dismissQueue: true})
     })
 
-  onGPlusLoginError: =>
+  onGPlusLoginError: (res, jqxhr) ->
+    if jqxhr?.status is 401 and jqxhr.responseJSON.errorID and jqxhr.responseJSON.errorID is 'individuals-not-supported'
+      forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
+    else
+      errors.showNotyNetworkError(arguments...) if arguments.length
+
     btn = @$('#google-login-button')
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_gplus'))
     btn.attr('disabled', false)
@@ -180,12 +198,17 @@ module.exports = class AuthModal extends ModalView
         })
     })
 
-  onFacebookLoginError: =>
+  onFacebookLoginError: (res) ->
+    @$('#unknown-error-alert').addClass('hide')
+    if res.errorID and res.errorID is 'individuals-not-supported'
+      forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
+      showingError = true
+      @$('#unknown-error-alert').removeClass('hide')
+
     btn = @$('#facebook-login-btn')
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_facebook'))
     btn.attr('disabled', false)
     errors.showNotyNetworkError(arguments...)
-
 
   # Clever
 
@@ -201,6 +224,9 @@ module.exports = class AuthModal extends ModalView
     if districtId
       url += '&district_id=' + districtId
     window.open url, '_blank'
+
+  onClickCleverLoginButton: ->
+    logInWithClever()
 
 
   openRecoverModal: (e) ->
@@ -236,7 +262,11 @@ loginNavigate = (subModalContinue) ->
       application.router.navigate('/students', { trigger: true })
     else if me.isTeacher()
       if me.isSchoolAdmin()
-        application.router.navigate('/teachers/licenses', { trigger: true })
+        # todo: unify?
+        if utils.isCodeCombat
+          application.router.navigate('/teachers/licenses', { trigger: true })
+        else
+          application.router.navigate('/school-administrator', { trigger: true })
       else
         application.router.navigate('/teachers/classes', { trigger: true })
     else if me.isParentHome()
