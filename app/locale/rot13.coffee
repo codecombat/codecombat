@@ -597,6 +597,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     stop_spying: "Fgbc Fclvat"
     stop_switching: "Fgbc Fjvgpuvat"
     test_as_student: "Grfg nf Fghqrag"
+    gplus_linked: "Tbbtyr Nppbhag yvaxrq fhpprffshyyl"
+    plus_link_error: "Tbbtyr Nppbhag yvaxrq snvyrq"
     email_or_username_or_library: "Rznvy be Hfreanzr be Yvoenel Pneq ahzore"
 
   signup:
@@ -1761,19 +1763,21 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   contact:
     contact_us: "Pbagnpg PbqrPbzong"
-    welcome: "Tbbq gb urne sebz lbh! Hfr guvf sbez gb fraq hf rznvy. "
-    forum_prefix: "Sbe nalguvat choyvp, cyrnfr gel "
-    forum_page: "bhe sbehz"
-    forum_suffix: " vafgrnq."
-    faq_prefix: "Gurer'f nyfb n"
-    faq: "SND"
+    welcome: "Tbbq gb urne sebz lbh! Yrg hf xabj ubj jr pna uryc, naq jr'yy trg onpx gb lbh va 1-2 ohfvarff qnlf."
+    forum_prefix: "Lbh pna purpx bhg bhe "
+    forum_page: "choyvp sbehz urer "
+    faq_prefix: "naq bhe "
+    faq: "SNDf urer"
+    faq_suffix: " sbe nqqvgvbany nffvfgnapr."
     subscribe_prefix: "Vs lbh arrq uryc svthevat bhg n yriry, cyrnfr"
     subscribe: "ohl n PbqrPbzong fhofpevcgvba"
     subscribe_suffix: "naq jr'yy or unccl gb uryc lbh jvgu lbhe pbqr."
     subscriber_support: "Fvapr lbh'er n PbqrPbzong fhofpevore, lbhe rznvy jvyy trg bhe cevbevgl fhccbeg."
     screenshot_included: "Fperrafubg vapyhqrq."
     where_reply: "Jurer fubhyq jr ercyl?"
-    send: "Fraq Srrqonpx"
+    send: "Fraq"
+    ooo_blurb: "Gur PbqrPbzong grnz jvyy or bhg bs gur bssvpr sebz Whar 5gu gb Whar 9gu, naq qhevat guvf gvzr jvyy unir yvzvgrq npprff gb rznvyf. Jr jvyy erfcbaq gb lbhe vadhvel nf fbba nf cbffvoyr, cyrnfr or njner bs gur nagvpvcngrq jnvg gvzr."
+
 
   account_settings:
     title: "Nppbhag Frggvatf"
@@ -2586,6 +2590,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     redeemers: "Npgvir Fghqragf"
     removed_redeemers: "Vanpgvir Fghqragf"
     latest_podcast_episode: "Yngrfg Cbqpnfg Rcvfbqr"
+    from_the_podcast: "Sebz gur Cbqpnfg"
     edit_student_access_title: "Rqvg Fghqrag Npprff gb Yriryf"
     edit_student_access_subtitle: "Lbh unir fryrpgrq __yriryf__ yriryf sbe __fghqragf__ fghqragf."
 
@@ -3019,6 +3024,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     patches_accepted: "Cngpurf Npprcgrq"
     level_edits: "Yriry Rqvgf"
     total_translations: "Gbgny Genafyngvbaf"
+    campaign_stats: "Fgngf"
 
   achievements:
     last_earned: "Ynfg Rnearq"
@@ -4011,6 +4017,44 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     title: 'PbqrPbzong Riragf'
     main_title: 'PbqrPbzong Riragf'
     main_description: 'Gur vzcbegnag riragf bs pbqrpbzong Puvan'
+    dashboard: 'Riragf Qnfuobneq'
+    online_classes: 'Bayvar Pynffrf'
+    my_classes: 'Zl Bayvar Pynffrf'
+    classes_stats: 'Bayvar Pynffrf Fgngf'
+    name: 'Anzr',
+    class_name: 'Pynff Anzr'
+    description: 'Qrfpevcgvba',
+    owner: 'Bjare',
+    type: 'Glcr',
+    members: 'Zrzoref',
+    start_date: 'Fgneg Qngr'
+    end_date: 'Raq Gvzr'
+    time_range: 'Gvzr Enatr'
+    rrule: 'Erpheerapr Ehyrf'
+    add_member: 'Nqq Zrzore'
+    class_count: 'Yrffbaf Pbhag'
+    done: 'Svavfurq Yrffba'
+    attendance: 'Nggraqnapr'
+    course_description: 'Yrffba Qrfpevcgvba'
+    teacher_notes: 'Grnpure Abgrf'
+    levels_completed: 'Yriryf Pbzcyrgrq'
+    no_levels_completed: 'Ab Pbzcyrgrq Yriryf Sbhaq'
+    no_teacher_notes: 'Ab Grnpure Abgrf Sbhaq'
+    no_video_recording: 'Ab Ivqrb Erpbeqvat Sbhaq'
+    reply: 'Ercyl'
+    video_recording: 'Ivqrb Erpbeqvat'
+    import_from_class: 'Vzcbeg sebz Pynff'
+    link_google_calendar: 'Yvax jvgu Tbbtyr Pnyraqne'
+    sync_to_google: 'Flap gb Tbbtyr Pnyraqne'
+    synced_to_google: 'Flaprq gb Tbbtyr Pnyraqne'
+    google_calendar_attendees: 'Tbbtyr Pnyraqne Nggraqrrf'
+    calendar: 'Pnyraqne'
+    edit_instance_tab_desc: 'Rqvg gur fvatyr vafgnapr bs guvf rirag, sbe rqvgvat jubyr riragf, frr rqvg gno'
+    edit_event_tab_desc: 'Rqvg gur jubyr rirag, sbe rqvgvat fvatyr vafgnapr bs guvf rirag, frr vafgnapr gno'
+    edit_members_tab_desc: 'Rqvg gur zrzore bs guvf rirag, gur fgnegQngr vf qrcraqf ba gur vafgnapr qngr, fb fryrpg gur svefg vafgnapr sbe gur arj zrzore'
+    lessons_count_desc: 'Gur gbgny yrffbaf pbhag bs guvf zrzore, abeznyyl vg vf gur fnzr nf gur rirag vafgnaprf pbhag, ohg vg pna or qvssrerag vs gur zrzore vf nqqrq nsgre gur rirag fgnegrq be raqrq orsber gur rirag raqrq'
+    sync_to_google_desc: 'Flap guvf rirag gb LBHE tbbtyr pnyraqne, vafgrnq bs gur bjare\'f pnyraqne. Naq pna bayl jbex ba PbqrPbzong tznvy'
+    timezone_tips: 'Qngr/Gvzr vf onfrq ba LBHE gvzrmbar: '
 
   teacher_dashboard:
     lock: 'Ybpx'
