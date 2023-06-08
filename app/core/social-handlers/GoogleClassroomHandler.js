@@ -167,6 +167,10 @@ module.exports = {
         noty ( {text: classroomNewMembers.length+' Students imported.', layout: 'topCenter', timeout: 3000, type: 'success' })
         return classroomNewMembers
       }
+      else if (utils.isCodeCombat) {
+        console.error("No new students imported. Error:", signupStudentsResult)
+        return Promise.reject('No new students imported')
+      }
       else if (signupErrors.length > 0) {
         console.error("No new students imported. Error:", signupErrors)
         return Promise.reject('No new students imported')
