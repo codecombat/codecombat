@@ -160,7 +160,7 @@ module.exports = {
 
       if (classroomNewMembers.length > 0){
         if (utils.isCodeCombat) {
-          await api.classrooms.addMembers({ classroomID: cocoClassroom.get("_id"), members: classroomNewMembers })
+          await api.classrooms.addMembers({ classroomID: cocoClassroom._id, members: classroomNewMembers })
         } else {
           await store.dispatch('classrooms/addMembersToClassroom', { classroom: cocoClassroom, members: classroomNewMembers })
         }
