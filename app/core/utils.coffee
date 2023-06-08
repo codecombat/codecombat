@@ -1,4 +1,4 @@
-product = COCO_PRODUCT || 'codecombat'
+product = COCO_PRODUCT ? 'codecombat'
 isCodeCombat = product == 'codecombat'
 isOzaria = !isCodeCombat
 
@@ -7,8 +7,6 @@ if isCodeCombat
   slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
 else
   slugify = require('underscore.string').slugify # TODO: why _.string on client and _.str on server?
-
-console.log('utils:', isCodeCombat)
 
 getCorrectName = (session) ->
   if session.fullName # already handle anonymize in server side
