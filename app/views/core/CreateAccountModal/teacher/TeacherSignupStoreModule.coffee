@@ -7,9 +7,8 @@ store = require('core/store')
 globalVar = require 'core/globalVar'
 utils = require 'core/utils'
 
-export default {
-  namespaced: true
-  state: {
+getDefaultState = () =>
+  return {
     trialRequestProperties: _.assign(ncesData, {
       organization: ''
       district: ''
@@ -49,6 +48,10 @@ export default {
     classLanguage: '' # for HoC
     marketingConsent: undefined
   }
+
+export default {
+  namespaced: true
+  state: getDefaultState()
   getters: {
     getTrialRequestProperties: (state) ->
       return state.trialRequestProperties
