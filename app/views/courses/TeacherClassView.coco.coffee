@@ -283,6 +283,7 @@ module.exports = class TeacherClassView extends RootView
     @latestReleasedCourses = utils.sortCourses(@latestReleasedCourses)
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
+    @paidTeacher = @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0 and (if me.showChinaResourceInfo() then (new Date() < new Date(p.get('endDate'))) else true))?
 
     # render callback setup
     @listenTo @courseInstances, 'sync change update', @debouncedRender

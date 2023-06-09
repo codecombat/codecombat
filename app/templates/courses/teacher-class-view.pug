@@ -380,9 +380,9 @@ mixin bulkAssignControls
           if !view.availableCourseMap[course.id]
             = " " + translate('teacher.paren_new')
     if !state.get('readOnly')
-      button.btn.btn-primary.assign-to-selected-students(disabled=!view.allStatsLoaded())
+      button.btn.btn-primary.assign-to-selected-students(disabled=!(view.allStatsLoaded() && view.paidTeacher))
         span(data-i18n='teacher.assign_course')
-      button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!view.allStatsLoaded())
+      button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!(view.allStatsLoaded() && view.paidTeacher))
         span(data-i18n='teacher.remove_course')
 
 mixin assessmentsTab
