@@ -108,6 +108,10 @@
             li.item
               img(src="/images/pages/partners/galaxy-online-education-logo.png")
 
+    .container-fluid.container-api
+      .width-container.text-center.row.row-button
+        .col-lg-12
+          a.btn.btn-primary.btn-lg.btn-talk(:href="apiLink" target="_blank") {{ $t('nav.api') }}
 </template>
 
 <script>
@@ -123,9 +127,23 @@ export default Vue.extend({
         eugenio_derbez: '<a href=\'https://www.businesswire.com/news/home/20210316006024/en/Mexican-Superstar-Eugenio-Derbez-Partners-with-CodeCombat-to-Get-the-Latinx-Community-Coding\' target=\'_blank\'>Eugenio Derbez</a>',
         see_how: `<a href='/images/pages/partners/pdf/Flyer_-_Coding_Esports_for_Employers_with_Amdocs_Case_Study.pdf' target='_blank'>${$.i18n.t('partners.see_how')}</a>`,
         interpolation: { escapeValue: false }
-      }
+      },
+      apiLink: this.getApiLink()
     }
   },
+
+  methods: {
+
+    getApiLink () {
+      let link = 'https://github.com/codecombat/codecombat-api'
+      const lang = (me.get('preferredLanguage') || 'en').split('-')[0]
+      if (['zh'].includes(lang) || features.china) {
+        link = this.cocoPath('/api-docs')
+      }
+      console.log('LINK', link)
+      return link
+    }
+  }
 
 })
 </script>
@@ -206,6 +224,7 @@ p, .text-p {
 }
 
 #partners-page {
+  margin-bottom: -50px;
   overflow: hidden;
 
   .width-container {
@@ -521,6 +540,11 @@ p, .text-p {
     align-items: stretch;
   }
 
+  .container-api {
+    .width-container {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .teacher-quote {
@@ -587,7 +611,7 @@ img.img-eugenio {
 
 .container-footer-mountains {
   width: 100%;
-  background: url(/images/pages/parents/parents_footer_mountain.svg);
+  background: url(/images/pages/parents/parents_footer_mountain_compressed.svg);
   background-repeat: no-repeat;
   background-position: top;
   background-size: cover;

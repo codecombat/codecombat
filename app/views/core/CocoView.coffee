@@ -253,30 +253,65 @@ module.exports = class CocoView extends Backbone.View
     noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
 
   onClickContactModal: (e) ->
-    if !application.isProduction()
-      noty({
-        text: 'Contact options are only available in production',
-        layout: 'center',
-        type: 'error',
-        timeout: 5000
-      })
-      return
+    # if !application.isProduction()
+    #   noty({
+    #     text: 'Contact options are only available in production',
+    #     layout: 'center',
+    #     type: 'error',
+    #     timeout: 5000
+    #   })
+    #   return
 
     # If there is no way to open the chat, there's no point in giving the choice in the modal,
     # so we go directly to zendesk. This could potentially be improved in the future by checking
     # availability of support somehow, and going to zendesk if no one is there to answer drift chat.
+
     openDirectContactModal = =>
       if utils.isCodeCombat
         DirectContactModal = require('app/views/core/DirectContactModal').default
       else
         DirectContactModal = require('ozaria/site/views/core/DirectContactModal').default
 
-      @openModalView(new DirectContactModal())
+      @openModalView(new DirectContactModal())  
 
-    if (me.isTeacher(true) and zE) or !me.showChinaResourceInfo()
-      openDirectContactModal()
-    else
-      location.href = 'mailto:support@codecombat.com'
+    openContactModal = =>
+      if utils.isCodeCombat
+        ContactModal = require('app/views/core/ContactModal')  
+      else
+        ContactModal = require('ozaria/site/views/core/ContactModal')
+
+      @openModalView(new ContactModal())
+
+    confirmOOOMessage = (afterConfirm) =>
+      oooStart = new Date('2023-06-05T00:00:00Z')
+      oooEnd = new Date('2023-06-09T23:59:59Z')
+      
+      storageKey = "contact-modal-confirm-seen-#{me.id}-#{oooStart.getTime()}-#{oooEnd.getTime()}"
+      seen = storage.load(storageKey)
+
+      isOoo = new Date() > oooStart and new Date() < oooEnd
+
+      if (not isOoo) or seen
+        afterConfirm()
+        return
+      
+      renderData =
+        body: $.i18n.t 'contact.ooo_blurb'
+        decline: $.i18n.t 'modal.cancel'
+        confirm: $.i18n.t 'modal.okay'
+      ConfirmModal = require 'views/core/ConfirmModal'
+      confirmModal = new ConfirmModal renderData
+      confirmModal.on 'confirm', ->
+        storage.save(storageKey, true)
+        afterConfirm()
+        
+      @openModalView confirmModal      
+
+    confirmOOOMessage =>
+      if (me.isTeacher(true) and zE) or !me.showChinaResourceInfo()
+        openDirectContactModal()
+      else
+        openContactModal()
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise

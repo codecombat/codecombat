@@ -129,7 +129,7 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
         continue
       @prevTemplates[filename] = content
       chunkPaths = {}
-      compilation.chunks.map (c) ->
+      Array.from(compilation.chunks).map (c) ->
         if c.name
           chunkPaths[c.name] = compiler.options.output.chunkFilename.replace('[name]',c.name).replace('[chunkhash]',c.renderedHash)
 

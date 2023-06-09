@@ -10,7 +10,7 @@ module.exports = class ChatSearchView extends SearchView
   projection: ['startDate', 'endDate', 'kind', 'example', 'releasePhase', 'context.levelName', 'message.sender.name', 'message.text']
   page: 'chat'
   canMakeNew: false
-  limit: 1000
+  limit: 10000
 
   events:
     'click #delete-button': 'deleteChatMessage'
@@ -49,7 +49,7 @@ module.exports = class ChatSearchView extends SearchView
     content = content.replace /^\|Free\|?:? ?(.*?)$/gm, '$1'
     content = content.replace /^\|Issue\|?:? ?(.*?)$/gm, '\n$1'
     content = content.replace /^\|Explanation\|?:? ?(.*?)$/gm, '\n*$1*\n'
-    content = content.replace /\|Code\|?:? ?```\n?((.|\n)*?)```\n?$/g, (match, p1) =>
+    content = content.replace /\|Code\|?:? ?```\n?((.|\n)*?)```\n?/g, (match, p1) =>
       '[Fix Code]'
     content = content.trim()
     content = marked content, gfm: true, breaks: true

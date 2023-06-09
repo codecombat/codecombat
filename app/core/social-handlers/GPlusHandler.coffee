@@ -82,7 +82,8 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       window.initGapi = =>
         window.gapi.load('client', () ->
           window.gapi.client.init({
-            apiKey: API_KEY
+            apiKey: API_KEY,
+            discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
           })
         )
       po1 = document.createElement('script')

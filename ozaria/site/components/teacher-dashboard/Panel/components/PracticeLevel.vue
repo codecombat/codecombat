@@ -1,6 +1,6 @@
 <script>
   import CodeArea from '../../common/CodeArea'
-  import CodeDiff from '../../common/CodeDiff'
+  import CodeDiff from '../../../../../../app/components/common/CodeDiff'
 
   export default {
     components: {

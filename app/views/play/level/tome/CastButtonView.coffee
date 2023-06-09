@@ -75,6 +75,7 @@ module.exports = class CastButtonView extends CocoView
 
   onCastButtonClick: (e) ->
     Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
+    Backbone.Mediator.publish 'level:close-solution', {}
 
   onCastRealTimeButtonClick: (e) ->
     if @options.level.get('replayable') and (timeUntilResubmit = @options.session.timeUntilResubmit()) > 0

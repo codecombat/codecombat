@@ -140,39 +140,48 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
-      announcement-modal(v-if="announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
-      .container-fluid
-        .row
-          .col-md-12
-            .navbar-header
-              button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
-                span.sr-only {{ $t('nav.toggle_nav') }}
-                span.icon-bar
-                span.icon-bar
-                span.icon-bar
-              a.navbar-brand(v-if="me.useTarenaLogo()" href="http://kidtts.tmooc.cn/ttsPage/login.html")
+  nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
+    announcement-modal(v-if="announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
+    .container-fluid
+      .row
+        .col-md-12
+          .navbar-header
+            button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
+              span.sr-only {{ $t('nav.toggle_nav') }}
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            a.navbar-brand(v-if="me.useTarenaLogo()" href="http://kidtts.tmooc.cn/ttsPage/login.html")
+              picture
+                source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-                img#tarena-logo(src="/images/pages/base/logo-tarena.png" alt="Tarena logo")
-              a.navbar-brand(v-else-if="serverConfig.codeNinjas" href="/home")
+              img#tarena-logo(src="/images/pages/base/logo-tarena.png" alt="Tarena logo")
+            a.navbar-brand(v-else-if="serverConfig.codeNinjas" href="/home")
+              picture
+                source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-                img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
-              a.navbar-brand(v-else-if="me.showChinaResourceInfo()&&!me.showChinaHomeVersion()" href="/home")
-                img#logo-img(src="/images/pages/base/logo-cn.png")
-              a.navbar-brand(v-else-if="me.isTecmilenio()" href="/home")
+              img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
+            a.navbar-brand(v-else-if="me.isTecmilenio()" href="/home")
+              picture
+                source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-                img.tecmilenio-logo(src="/images/pages/payment/tecmilenio-logo-2.png" alt="Tecmilenio logo")
-              a.navbar-brand(v-else :href="hideNav ? '#' : '/home'")
+              img.tecmilenio-logo(src="/images/pages/payment/tecmilenio-logo-2.png" alt="Tecmilenio logo")
+            a.navbar-brand(v-else-if="me.showChinaResourceInfo()&&!me.showChinaHomeVersion()" href="/home")
+              img#logo-img(src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
+            a.navbar-brand(v-else :href="hideNav ? '#' : '/home'")
+              picture
+                source#logo-img(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
 
-            .navbar-browser-recommendation.navbar-header(v-if="isChinaOldBrowser")
-              .nav-spacer
-                .navbar-nav
-                  a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/") {{ $t('nav.browser_recommendation') }}
+          .navbar-browser-recommendation.navbar-header(v-if="isChinaOldBrowser")
+            .nav-spacer
+              .navbar-nav
+                a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/") {{ $t('nav.browser_recommendation') }}
 
-            #navbar-collapse.collapse.navbar-collapse
-              .nav-spacer
-              ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
+          #navbar-collapse.collapse.navbar-collapse
+            .nav-spacer
+            ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
+              template(v-if="me.showChinaResourceInfo()")
                 li
                   a.text-p(href="https://oj.koudashijie.com", data-i18n="nav.coco_oj", class='')
                 template(v-if="me.showChinaResourceInfo() && !me.showChinaHomeVersion()")
@@ -271,12 +280,12 @@ export default Vue.extend({
                       a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                    li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
+                    li.dropdown.dropleft.dropdown-hover(v-if="unread")
                       a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")
-                        span.caret(v-if="this.announcements.length")
+                        span.caret(v-if="announcements.length")
                         span {{ $t('announcement.notifications') }}
                         span.unread(v-if="unread") {{ unread }}
-                      announcement-nav.announcement-nav(v-if="this.announcements.length")
+                      announcement-nav.announcement-nav(v-if="announcements.length")
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()|| (me.showChinaHomeVersion() && me.isHomeUser()))")
@@ -287,6 +296,8 @@ export default Vue.extend({
                       a.account-dropdown-item(href="/api-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                     li(v-if="me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin()")
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
+                    li(v-if="me.isAdmin() || me.isOnlineTeacher()")
+                      a.account-dropdown-item(href="/event-calendar/classes") {{ $t('events.calendar') }}
                     li(v-if="serverSession && serverSession.amActually")
                       a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_spying') }}
                     li(v-else-if="serverSession && serverSession.switchingUserActualId")

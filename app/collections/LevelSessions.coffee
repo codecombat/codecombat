@@ -12,6 +12,12 @@ module.exports = class LevelSessionCollection extends CocoCollection
     }, options)
     @fetch(options)
 
+  fetchForCampaign: (campaignHandle, options) ->
+    options = _.extend({
+      url: "/db/campaign/#{campaignHandle}/sessions"
+    }, options)
+    @fetch(options)
+
   fetchForClassroomMembers: (classroomID, options) ->
     # Params: memberSkip, memberLimit
     options = _.extend({

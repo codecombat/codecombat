@@ -51,7 +51,9 @@ block content
             a.btn.btn-lg.btn-primary.aiyouth-btn(target="_blank", href="https://aishiqingsai.org.cn") 点此报名
 
         .col-xs-12.text-center
-          img.img-responsive(src="/images/pages/home-v2/graphic-8.png" loading="lazy" style="max-width: 416px; transform: translateX(12%); margin-bottom: 40px" alt="")
+          picture
+            source.img-responsive(srcset="/images/pages/home-v2/graphic-8.webp" type="image/webp")
+            img.img-responsive(src="/images/pages/home-v2/graphic-8.png" loading="lazy" style="max-width: 416px; transform: translateX(12%); margin-bottom: 40px" alt="")
 
     .container
       .row.video-row
@@ -67,12 +69,16 @@ block content
       .container
         .row
           .col-xs-offset-3.col-xs-9.text-right
-            img.img-responsive(src="/images/pages/home-v2/graphic-1.png" loading="lazy" style="max-width: 296px;" alt="")
+            picture
+              source.img-responsive(srcset="/images/pages/home-v2/graphic-1.webp" type="image/webp")
+              img.img-responsive(src="/images/pages/home-v2/graphic-1.png" loading="lazy" style="max-width: 296px;" alt="")
 
     section.container
       .row.text-center.subhead-row
-        .col-xs-2.col-xs-offset-1
-          img.img-responsive#tent-img(src="/images/pages/home-v2/tent.png" loading="lazy" style="max-width: 143px;" alt="")
+        .col-xs-1.col-xs-offset-1
+          picture
+            source.img-responsive.tent-img(srcset="/images/pages/home-v2/tent.webp" style="max-width: 143px;" type="image/webp")
+            img.img-responsive.tent-img(src="/images/pages/home-v2/tent.png" loading="lazy" style="max-width: 143px;" alt="")
         .col-xs-9
           h3(data-i18n="new_home.learning_technology_blurb_short")
 
@@ -80,7 +86,9 @@ block content
       .container
         .row
           .col-xs-offset-2.col-xs-4
-            img.img-responsive(src="/images/pages/home-v2/graphic-2.png" loading="lazy" style="max-width: 402px" alt="")
+            picture
+              source.img-responsive(srcset="/images/pages/home-v2/graphic-2.webp" type="image/webp")
+              img.img-responsive(src="/images/pages/home-v2/graphic-2.png" loading="lazy" style="max-width: 402px" alt="")
 
     #game-based-carousel
       .container.carousel-tabs-container
@@ -97,7 +105,9 @@ block content
             .item.active(data-slide=0)
               .row
                 .col-sm-7
-                  img.img-responsive(src="/images/pages/home-v2/carousel-1-1.png" loading="lazy" alt="Game-based learning screenshot")
+                  picture
+                    source.img-responsive(srcset="/images/pages/home-v2/carousel-1-1.webp" type="image/webp")
+                    img.img-responsive(src="/images/pages/home-v2/carousel-1-1.png" loading="lazy" alt="Game-based learning screenshot")
                 .col-sm-5
                   h4(data-i18n="new_home.game_based_learning")
                   p(data-i18n="new_home.unique_approach_blurb")
@@ -111,7 +121,9 @@ block content
             .item(data-slide=2)
               .row
                 .col-sm-7
-                  img.img-responsive(src="/images/pages/home-v2/carousel-1-3.png" loading="lazy" alt="Man high-fiving kid playing CodeCombat")
+                  picture
+                    source.img-responsive(srcset="/images/pages/home-v2/carousel-1-3.webp" type="image/webp")
+                    img.img-responsive(src="/images/pages/home-v2/carousel-1-3.png" loading="lazy" alt="Man high-fiving kid playing CodeCombat")
                 .col-sm-5
                   h4(data-i18n="new_home.student_impact")
                   p(data-i18n="new_home.help_enjoy_learning_blurb")
@@ -133,7 +145,9 @@ block content
       .container
         .row
           .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-3.png" loading="lazy" style="max-width: 640px; margin-left: calc(50% - 640px / 2 - 24px);" alt="")
+            picture
+              source.img-responsive(srcset="/images/pages/home-v2/graphic-3.webp" type="image/webp")
+              img.img-responsive(src="/images/pages/home-v2/graphic-3.png" loading="lazy" style="max-width: 640px; margin-left: calc(50% - 640px / 2 - 24px);" alt="")
 
     .container
       .row.text-center.for-educators-row
@@ -144,22 +158,32 @@ block content
       .row.product-row
         .col-md-5
           .row
-            img.img-responsive.product-logo(src="/images/pages/home-v2/ozaria-logo-bevelled.png" loading="lazy" style="max-width: 100px" alt="Ozaria logo")
+            picture
+              source.img-responsive.product-logo(srcset="/images/pages/home-v2/ozaria-logo-bevelled.webp" type="image/webp")
+              img.img-responsive.product-logo(src="/images/pages/home-v2/ozaria-logo-bevelled.png" loading="lazy" style="max-width: 100px" alt="Ozaria logo")
             h4.product-title(data-i18n="nav.ozaria_classroom")
             p(data-i18n="[html]new_home.new_adventure_game_blurb", data-i18n-options=JSON.stringify(i18nData))
             .product-btn
               a.btn.btn-lg.btn-primary.btn-gold(href="https://www.ozaria.com/" data-i18n="new_home.explore_ozaria" data-event-action="Homepage Click Ozaria Classroom Button CTA")
         .col-md-6.col-md-offset-1
-          img.img-responsive(src="/images/pages/home-v2/oz-class-image.png" loading="lazy" alt="Ozaria classroom scene")
-      img#ozaria-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-4.png" loading="lazy" alt="")
+          picture
+            source.img-responsive(srcset="/images/pages/home-v2/oz-class-image.webp" type="image/webp")
+            img.img-responsive(src="/images/pages/home-v2/oz-class-image.png" loading="lazy" alt="Ozaria classroom scene")
+      picture
+        source.ozaria-spacer-img.img-responsive(srcset="/images/pages/home-v2/graphic-4.webp" type="image/webp")
+        img.ozaria-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-4.png" loading="lazy" alt="")
 
     section.container
       .row.product-row.codecombat-classroom-row
         .col-md-6
-          img.img-responsive(src="/images/pages/home-v2/codecombat-classroom.png" loading="lazy" alt="CodeCombat classroom scene")
+          picture
+            source.img-responsive(srcset="/images/pages/home-v2/codecombat-classroom.webp" type="image/webp")
+            img.img-responsive(src="/images/pages/home-v2/codecombat-classroom.png" loading="lazy" alt="CodeCombat classroom scene")
         .col-md-5.col-md-offset-1
           .row
-            img.img-responsive.product-logo(src="/images/pages/home-v2/coco_square_logo.png" loading="lazy" style="max-width: 80px;" alt="CodeCombat logo")
+            picture
+              source.img-responsive.product-logo(srcset="/images/pages/home-v2/coco_square_logo.webp" type="image/webp")
+              img.img-responsive.product-logo(src="/images/pages/home-v2/coco_square_logo.png" loading="lazy" style="max-width: 80px;" alt="CodeCombat logo")
             h4.product-title(data-i18n="nav.codecombat_classroom")
             p(data-i18n="new_home.learning_technology_blurb")
             .product-btn
@@ -167,8 +191,10 @@ block content
               //a.btn.btn-lg.btn-primary.btn-gold(href="/impact" data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
               // TODO: alternately, finish the GetStartedSignupModal
               //button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
-              a.btn.btn-lg.btn-primary.btn-gold(href="https://koudashijie.com" data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
-      img#codecombat-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-5.png" loading="lazy" alt="")
+              button.btn.btn-lg.btn-primary.btn-gold.create-account-teacher-btn(href="https://koudashijie.com" data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
+      picture
+        source.codecombat-spacer-img.img-responsive(srcset="/images/pages/home-v2/graphic-5.webp" type="image/webp")
+        img.codecombat-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-5.png" loading="lazy" alt="")
 
     if !features.chinaHome
       section.container
@@ -205,8 +231,9 @@ block content
               else
                 a.btn.btn-lg.btn-primary.btn-gold(href="/parents" data-i18n="new_home.explore_online_classes" data-event-action="Homepage Click Online Classes Button CTA")
         .col-md-6.col-md-offset-1
-          img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher")
-      img#online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" alt="")
+          picture
+            source.img-responsive(srcset="/images/pages/home-v2/loc-image.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher" type="image/png")
+            img#online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" alt="")
 
     if !features.chinaHome
       .container
@@ -258,7 +285,9 @@ block content
       .container
         .row
           .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/ice-island.png" loading="lazy" style="max-height: 274px;" alt="")
+            picture
+              source.img-responsive(srcset="/images/pages/home-v2/ice-island.webp" type="image/webp")
+              img.img-responsive(src="/images/pages/home-v2/ice-island.png" loading="lazy" style="max-height: 274px;" alt="")
 
     #student-quotes-carousel
       .container
@@ -275,7 +304,9 @@ block content
                       span= ", "
                       span(data-i18n="impact.partner_school")
                 .col-sm-6.col-sm-offset-1
-                  img.img-responsive(src="/images/pages/home-v2/carousel-2-1.png" loading="lazy" alt="Photo of educator Scott Baily")
+                  picture
+                    source.img-responsive(srcset="/images/pages/home-v2/carousel-2-1.webp" type="image/webp")
+                    img.img-responsive(src="/images/pages/home-v2/carousel-2-1.png" loading="lazy" alt="Photo of educator Scott Baily")
             .item(data-slide=1)
               .row
                 .col-sm-4.col-sm-offset-1
@@ -284,7 +315,9 @@ block content
                   p
                     b(data-i18n="new_home.quotes_quote5_author")
                 .col-sm-6.col-sm-offset-1
-                  img.img-responsive(src="/images/pages/home-v2/carousel-2-2.png" loading="lazy" alt="Photo of kid playing CodeCombat")
+                  picture
+                    source.img-responsive(srcset="/images/pages/home-v2/carousel-2-2.webp" type="image/webp")
+                    img.img-responsive(src="/images/pages/home-v2/carousel-2-2.png" loading="lazy" alt="Photo of kid playing CodeCombat")
             .item(data-slide=2)
               .row
                 .col-sm-4.col-sm-offset-1
@@ -293,7 +326,9 @@ block content
                   p
                     b(data-i18n="new_home.century_skills_quote4_author")
                 .col-sm-6.col-sm-offset-1
-                  img.img-responsive(src="/images/pages/home-v2/carousel-2-3.png" loading="lazy" alt="Photo of 10th grade student Joey")
+                  picture
+                    source.img-responsive(srcset="/images/pages/home-v2/carousel-2-3.webp" type="image/webp")
+                    img.img-responsive(src="/images/pages/home-v2/carousel-2-3.png" loading="lazy" alt="Photo of 10th grade student Joey")
         .col-lg-12.text-center
           //- Reference https://getbootstrap.com/docs/3.4/javascript/
           //- The onclick usage here is a hack. Modeled from PageParents.vue page
@@ -352,7 +387,9 @@ block content
       .container
         .row
           .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-40%); margin-top: 12px;" alt="")
+            picture
+              source.img-responsive(srcset="/images/pages/home-v2/graphic-9.webp" type="image/webp" style="max-height: 236px; transform: translateX(-40%); margin-top: 12px;")
+              img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-40%); margin-top: 12px;" alt="")
 
     //// TODO: finish the GetStartedSignupModal
     //section.container

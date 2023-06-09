@@ -13,6 +13,7 @@ PaymentSchema = c.object({title: 'Payment', required: []}, {
   description: { type: 'string' }
   prepaidID: c.objectId()
   currency: { type: 'string' }
+  endDate: { type: 'string' }
 
   ios: c.object({title: 'iOS IAP Data'}, {
     transactionID: { type: 'string' }
@@ -25,6 +26,7 @@ PaymentSchema = c.object({title: 'Payment', required: []}, {
     chargeID: { type: 'string' }
     customerID: { type: 'string' }
     invoiceID: { type: 'string' }
+    subscriptionID: { type: 'string' }
   })
 
   payPal: {

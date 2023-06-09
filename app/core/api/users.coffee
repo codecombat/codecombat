@@ -144,6 +144,12 @@ module.exports = {
       json: body
     }))
 
+  getFullNames: (json, options) ->
+    fetchJson("/db/user/-/getFullNames", _.assign({}, options, {
+      method: 'POST',
+      json
+    }))
+
   fetchNamesForUser: (ids) ->
     fetchJson("/db/user/-/names", {
       method: 'POST'

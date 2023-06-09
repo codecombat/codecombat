@@ -113,6 +113,7 @@ module.exports = class PlayLevelView extends RootView
     'click .contact-link': 'onContactClicked'
     'contextmenu #webgl-surface': 'onSurfaceContextMenu'
     'click': 'onClick'
+    'click .close-solution-btn': 'onCloseSolution'
 
   onClick: ->
     # workaround to get users out of permanent idle status
@@ -449,8 +450,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
     @insertSubView new HUDView {level: @level} unless @level.isType('web-dev')
     @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
-    if me.isAdmin()
-      @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
+    @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     @insertSubView new SurfaceContextMenuView session: @session, level: @level
     @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isLadder()
@@ -935,6 +935,9 @@ module.exports = class PlayLevelView extends RootView
       @setupManager?.destroy()
       @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, hadEverChosenHero: true})
       @setupManager.open()
+
+  onCloseSolution: ->
+    Backbone.Mediator.publish 'level:close-solution', {}
 
   getLoadTrackingTag: () ->
     @level?.get 'slug'

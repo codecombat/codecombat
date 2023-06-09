@@ -21,7 +21,10 @@
           @blur="validateEmail"
         />
       </div>
-      <div class="form-group row">
+      <div
+        v-if="!hideRelationDropdown"
+        class="form-group row"
+      >
         <label
           for="u-form-relation"
           class="u-form__label"
@@ -43,7 +46,10 @@
           </option>
         </select>
       </div>
-      <div class="form-group row form-check">
+      <div
+        v-if="!hideBidirectionalCheck"
+        class="form-group row form-check"
+      >
         <input
           id="u-form-check"
           v-model="isBidirectional"
@@ -95,7 +101,10 @@
           <div class="auth__exists-text auth__not-exists-text">
             {{ $t('related_accounts.account_not_exist') }}
           </div>
-          <div class="form-group">
+          <div
+            v-if="!hideCreateAccount"
+            class="form-group"
+          >
             <div class="form-group">
               <label
                 for="u-form-relation"
@@ -147,7 +156,7 @@
         <button
           type="submit"
           class="btn btn-lg btn-success"
-          :disabled="accountCheckedEmail !== email"
+          :disabled="accountCheckedEmail !== email || (hideCreateAccount && !accountExists)"
         >
           {{ $t('common.submit') }}
         </button>
@@ -161,6 +170,20 @@ const utils = require('../../../core/utils')
 const User = require('../../../models/User')
 export default {
   name: 'AddUserComponent',
+  props: {
+    hideRelationDropdown: {
+      type: Boolean,
+      default: false
+    },
+    hideBidirectionalCheck: {
+      type: Boolean,
+      default: false
+    },
+    hideCreateAccount: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       showAddForm: true,
@@ -171,7 +194,7 @@ export default {
       ],
       email: '',
       relation: '',
-      isBidirectional: true,
+      isBidirectional: !this.hideBidirectionalCheck,
       accountExists: null,
       accountTypes: [
         'Individual',
@@ -216,7 +239,7 @@ export default {
         this.errMsg = 'Email required'
         return false
       }
-      if (!this.relation) {
+      if (!this.relation && !this.hideRelationDropdown) {
         this.errMsg = 'Relation required'
         return false
       }
@@ -262,7 +285,8 @@ export default {
   margin-top: 2rem;
 
   &__submit {
-    float: right;
+    display: flex;
+    justify-content: flex-end;
   }
 
   &__check {

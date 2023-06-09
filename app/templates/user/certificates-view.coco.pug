@@ -35,8 +35,10 @@ style.
       .toggle-btn.btn.btn-success(data-i18n="courses.certificate_btn_toggle")
 
   .certificate
-    if view.courseStats
+    if view.courseStats && view.course
       img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-" + view.course.acronym().toLowerCase() + ".png")
+    if view.campaign
+      img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-cs1.png")
     div(class="certificate-contents")
       if me.isTecmilenio()
         div(class="tecmilenio")
@@ -53,20 +55,28 @@ style.
           h4.course-name
             span(data-i18n="user.certificate_for")
             span= ' '
-            span= i18n(view.course.attributes, 'name', view.currentLang)
+            if view.course
+              span= i18n(view.course.attributes, 'name', view.currentLang)
+            if view.campaign
+              span= view.campaign.get('fullName')
           .code-results.outcome-section
-            h3.learned-title(data-i18n="user.certificate_stats")
+            if view.campaign
+              h3.learned-title(data-i18n="user.campaign_stats")
+            else
+              h3.learned-title(data-i18n="user.certificate_stats")
             ul.list-unstyled
-              li
-                span= view.courseStats.linesOfCode
-                span= ' '
-                span(data-i18n="user.certificate_lines_of")
-                span= ' '
-                span= view.getCodeLanguageName()
-              li
-                span= view.courseStats.levels.numDone
-                span= ' '
-                span(data-i18n="user.certificate_levels_completed")
+              if view.courseStats.linesOfCode
+                li
+                  span= view.courseStats.linesOfCode
+                  span= ' '
+                  span(data-i18n="user.certificate_lines_of")
+                  span= ' '
+                  span= view.getCodeLanguageName()
+              if view.courseStats.levels && view.courseStats.levels.numDone
+                li
+                  span= view.courseStats.levels.numDone
+                  span= ' '
+                  span(data-i18n="user.certificate_levels_completed")
               if view.projectLink
                 li
                   span(data-i18n="teacher.project")
@@ -75,11 +85,15 @@ style.
           .concepts-learned.outcome-section
             h3.learned-title(data-i18n="courses.concepts")
             ul.list-unstyled
-              for concept in view.course.get('concepts').slice().reverse().slice(0, 7)
-                if concept == 'create_playable_game' || concept == 'create_sharable_web_page' || concept == 'create_sharable_interactive_web_page'
-                  // Too wide, weird "concepts", we'll just skip
-                  - continue;
-                li(data-i18n="concepts." + concept)
+              if view.course
+                for concept in view.course.get('concepts').slice().reverse().slice(0, 7)
+                  if concept == 'create_playable_game' || concept == 'create_sharable_web_page' || concept == 'create_sharable_interactive_web_page'
+                    // Too wide, weird "concepts", we'll just skip
+                    - continue;
+                  li(data-i18n="concepts." + concept)
+              if view.campaignConcepts
+                for concept in view.campaignConcepts
+                  li= concept
           if view.teacherName
             .teacher-info
               span(data-i18n="courses.teacher")
@@ -98,9 +112,13 @@ style.
                 span= i18n(view.thangType.attributes, 'extendedName')
           else
             h4 Loading hero
-          .course-ribbon(class=view.course.acronym().replace(/\d/g, '').toLowerCase() + ' ' + view.course.acronym().toLowerCase())
-            img(src='/images/pages/user/certificates/medallions/medallion-' + view.course.acronym().toLowerCase() + '.png')
-            h3= view.course.acronym()
+          if view.course
+            .course-ribbon(class=view.course.acronym().replace(/\d/g, '').toLowerCase() + ' ' + view.course.acronym().toLowerCase())
+              img(src='/images/pages/user/certificates/medallions/medallion-' + view.course.acronym().toLowerCase() + '.png')
+              h3= view.course.acronym()
+          else if view.campaign
+            .course-ribbon
+              img(src='/images/pages/user/certificates/medallions/medallion-cs1.png')
 
       if view.thangType && view.thangType.loaded
         - var heroSlug = view.thangType.get('slug') || 'captain';

@@ -44,6 +44,8 @@ block content
               td(data-i18n="subscribe.year_subscription")
             else if /basic_subscription$/.test(productID)
               td(data-i18n="subscribe.stripe_description")
+            else if /online-classes$/.test(productID)
+              td(data-i18n="subscribe.online_classes")
             else
               td(data-i18n="account.gems")
           else if me.get('stripe') && me.get('stripe').free != null
@@ -65,4 +67,4 @@ block content
           td= moment(payment.getCreationDate()).format('l')
           td $#{((payment.get('amount') || 0) / 100).toFixed(2)}
           td= payment.get('gems') || 'n/a'
-          td= payment.get('description') || ''
+          td= view.paymentDescription[payment.id] || ''
