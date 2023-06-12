@@ -188,6 +188,9 @@
 
     #jumbotron-container-fluid
       background-image: url(/images/pages/home-v2/hero-image.png)
+      @supports (background-image: url(/images/pages/home-v2/hero-image.webp))
+        background-image: url(/images/pages/home-v2/hero-image.webp)
+
       background-repeat: no-repeat
       background-size: 616px
       background-position: 100% 86px
@@ -246,28 +249,28 @@
     .container-graphic-spacer img
       margin: 0 auto
 
-    #tent-img
+    .tent-img
       position: absolute
       top: -70px
 
       @media screen and (max-width: 1200px)
         display: none
 
-    #ozaria-spacer-img
+    .ozaria-spacer-img
       position: relative
       max-width: 287px
       left: 27%
       top: -85px
       margin-bottom: -160px
 
-    #codecombat-spacer-img
+    .codecombat-spacer-img
       position: relative
       max-width: 262px
       left: 49.8%
       top: -15px
       margin-bottom: 0
 
-    #online-classes-spacer-img
+    .online-classes-spacer-img
       position: relative
       max-width: 289px
       left: 43%
@@ -513,7 +516,7 @@
 
   .container-footer-mountains
     width: 100%
-    background: url(/images/pages/parents/parents_footer_mountain.svg)
+    background: url(/images/pages/parents/parents_footer_mountain_compressed.svg)
     background-repeat: no-repeat
     background-position: top
     background-size: cover

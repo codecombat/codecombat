@@ -2,11 +2,17 @@
 import { cocoBaseURL, getQueryVariable, isCodeCombat, isOzaria, ozBaseURL } from 'core/utils'
 import { mapGetters } from 'vuex'
 import FinalFooter from './FinalFooter'
+import MakelogTracker from '../../core/Tracker2/MakelogTracker'
 
 /**
  * Unified footer component between CodeCombat and Ozaria.
  */
 export default Vue.extend({
+  data () {
+    return {
+      makelogLoaded: false
+    }
+  },
   components:{
     FinalFooter
   },
@@ -39,24 +45,6 @@ export default Vue.extend({
       return getQueryVariable('landing', false)
     },
 
-    forumLink () {
-      let link = 'https://discourse.codecombat.com/'
-      const lang = this.preferredLocale.split('-')[0]
-      if (['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt'].includes(lang)) {
-        link += `c/other-languages/${lang}`
-      }
-      return link
-    },
-
-    apiLink () {
-      let link = 'https://github.com/codecombat/codecombat-api'
-      const lang = this.preferredLocale.split('-')[0]
-      if (['zh'].includes(lang) || features.china) {
-        link = this.cocoPath('/api-docs')
-      }
-      return link
-    },
-
     footerUrls () {
       /* footer url example
          column: {
@@ -85,8 +73,7 @@ export default Vue.extend({
             { url: this.cocoPath('/about'), title: 'nav.about', attrs: { 'data-event-action': 'Click: Footer About' } },
             { url: 'https://codecombat.zendesk.com/hc/en-us', title: 'nav.help_center', attrs: { target: '_blank', 'data-event-action': 'Click: Footer Help Center' } },
             { url: this.cocoPath('/about#careers'), title: 'nav.careers' },
-            { title: 'nav.contact', attrs: { class: 'contact-modal', tabindex: -1 }, hide: !me.isTeacher() },
-            { title: 'nav.contact', url: 'mailto:support@codecombat.com', attrs: { tabindex: -1 }, hide: me.isTeacher() },
+            { title: 'nav.contact', attrs: { class: 'contact-modal', tabindex: -1 } },
             { url: 'https://blog.codecombat.com/', title: 'nav.blog' }
           ]
         },
@@ -105,16 +92,6 @@ export default Vue.extend({
           ]
         },
         {
-          title: 'nav.get_involved',
-          condition: true,
-          lists: [
-            { url: 'https://github.com/codecombat/codecombat', extra: 'GitHub' },
-            { url: this.cocoPath('/community'), title: 'nav.community' },
-            { url: this.cocoPath('/contribute'), title: 'nav.contribute' },
-            { url: this.forumLink, title: 'nav.forum', attrs: { target: '_blank' }, hide: me.isStudent() || !me.showForumLink() },
-            { url: this.apiLink, title: 'nav.api', attrs: { target: '_blank' }, hide: me.isStudent() }
-          ]
-        },{
           title: 'nav.products',
           condition: true,
           lists: [
@@ -144,6 +121,7 @@ export default Vue.extend({
             { url: this.cocoPath('/events'), title: 'nav.events' },
             { url: this.cocoPath('/contact-cn'), title: 'nav.contact', hide: me.isStudent() },
             { url: this.cocoPath('/CoCoStar'), title: 'nav.star' },
+            { url: this.cocoPath('/contribute'), title: 'nav.contribute' }
           ]
         },
         {
@@ -182,6 +160,9 @@ export default Vue.extend({
     // Bind the global values to the vue component.
     this.me = me
     this.document = window.document
+    setTimeout(() => {
+      this.loadMakelog()
+    }, 3000)
   },
   methods: {
     footerEvent (e) {
@@ -232,6 +213,13 @@ export default Vue.extend({
     ozPath (relativePath) {
       return `${this.ozBaseURL}${relativePath}`
     },
+    loadMakelog () {
+      const makelog = new MakelogTracker({})
+      makelog._initializeTracker()
+      setTimeout(() => {
+        this.makelogLoaded = true
+      }, 5000)
+    }
   }
 })
 </script>
@@ -252,7 +240,7 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
                   span.spr(v-if="l.extra") {{ l.extra }}
 
               li(v-if="col.title === 'nav.general'")
-                mklog-ledger(v-pre organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W' kind='popper')
+                mklog-ledger(v-if="makelogLoaded" v-pre organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W' kind='popper')
                   a(href="#changelog")
                     span Changelog
                     mklog-since-last-viewed(v-pre organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W', color="candy")

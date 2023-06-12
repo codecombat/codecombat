@@ -147,7 +147,13 @@ export const getNextLevelForLevel = (level, capstoneStage = 1) => {
   if (capstoneStage && level.isPlayedInStages) {
     nextLevel = Object.values(nextLevels).filter((n) => (n.conditions || {}).afterCapstoneStage === capstoneStage)
   } else {
-    nextLevel = Object.values(nextLevels)
+    // Ensure that the next level is sorted by afterCapstoneStage
+    nextLevel = Object.values(nextLevels).sort((a, b) => {
+      const afterCapstoneStageA = a.conditions?.afterCapstoneStage ?? 0;
+      const afterCapstoneStageB = b.conditions?.afterCapstoneStage ?? 0;
+  
+      return afterCapstoneStageA - afterCapstoneStageB;
+    });
   }
   return nextLevel[0] // assuming there can only be one next level for a given level and/or capstone stage
 }

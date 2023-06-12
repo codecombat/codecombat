@@ -49,6 +49,20 @@ combineAncestralObject = (obj, propertyName) ->
       obj = Object.getPrototypeOf(obj)
   combined
 
+# Walk a key chain down to the value. Can optionally set newValue instead.
+# Same as in world_utils, but don't want mutual imports
+downTheChain = (obj, keyChain, newValue=undefined) ->
+  return null unless obj
+  return obj[keyChain] unless _.isArray keyChain
+  value = obj
+  while keyChain.length and value
+    if newValue isnt undefined and keyChain.length is 1
+      value[keyChain[0]] = newValue
+      return newValue
+    value = value[keyChain[0]]
+    keyChain = keyChain[1..]
+  return value
+
 countries = [
   {country: 'united-states', countryCode: 'US', ageOfConsent: 13, addressesIncludeAdministrativeRegion:true}
   {country: 'china', countryCode: 'CN', addressesIncludeAdministrativeRegion:true}
@@ -908,6 +922,7 @@ videoLevels = {
     original: "54173c90844506ae0195a0b4",
     thumbnail_locked: "/images/level/videos/basic_syntax_locked.png",
     thumbnail_unlocked: "/images/level/videos/basic_syntax_unlocked.png"
+    captions_available: ['en', 'es-419', 'es']
   },
   # fire dancing
   "55ca293b9bc1892c835b0136": {
@@ -918,6 +933,7 @@ videoLevels = {
     original: "55ca293b9bc1892c835b0136"
     thumbnail_locked: "/images/level/videos/while_loops_locked.png",
     thumbnail_unlocked: "/images/level/videos/while_loops_unlocked.png"
+    captions_available: ['en', 'es-419', 'es']
   }
   # known enemy
   "5452adea57e83800009730ee": {
@@ -928,6 +944,7 @@ videoLevels = {
     original: "5452adea57e83800009730ee"
     thumbnail_locked: "/images/level/videos/variables_locked.png",
     thumbnail_unlocked: "/images/level/videos/variables_unlocked.png"
+    captions_available: ['en', 'es-419', 'es']
   }
 }
 
@@ -1078,7 +1095,7 @@ AILeagueSeasons = [
   {number: 4, championshipType: 'cup',   image: '/images/pages/league/tundra-tower-cup.png', video: 'bfbf1a5187888d110ee47f97b7491c2a', videoThumbnailTime: '1568s'}
   {number: 5, championshipType: 'blitz', image: '/images/pages/league/sand-storm-blitz.png', video: '4d73a54ff2cdc9b0084a538beb476437', videoThumbnailTime: '1638s'}
   {number: 6, championshipType: 'clash', image: '/images/pages/league/lava-lake-clash.png',  video: '6650f5c84f65ecd1709cca1210c4e9ab', videoThumbnailTime: '1762s'}
-  {number: 7, championshipType: 'cup',   image: '/images/pages/league/equinox-cup.png',      video: '',                                 videoThumbnailTime: ''}
+  {number: 7, championshipType: 'cup',   image: '/images/pages/league/equinox-cup.png',      video: '4832912db10162e24cb2eb86df6c36d7', videoThumbnailTime: '1021s'}
   {number: 8, championshipType: 'blitz', image: '/images/pages/league/farmscape-blitz.png',  video: '',                                 videoThumbnailTime: ''}
   {number: 9, championshipType: 'clash', image: '/images/pages/league/snowhold-clash.png',   video: '',                                 videoThumbnailTime: ''}
 ]
@@ -1223,6 +1240,7 @@ module.exports = {
   CSCourseIDs
   WDCourseIDs
   createLevelNumberMap
+  downTheChain
   extractPlayerCodeTag
   freeAccessLevels
   findNextAssessmentForLevel
@@ -1261,8 +1279,8 @@ module.exports = {
   isSmokeTestEmail
   isValidEmail
   keepDoingUntil
-  markdownToPlainText
   kindaEqual
+  markdownToPlainText
   needsPractice
   normalizeFunc
   objectIdToDate

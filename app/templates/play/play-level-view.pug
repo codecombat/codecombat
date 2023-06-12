@@ -8,6 +8,13 @@ include game-dev-goals
 
     #fullscreen-editor-background-screen(title="Click to minimize the code editor")
 
+    #solution-area
+      #solution-view
+        .ace-solution
+        span.code-background
+        .solution-label(data-i18n="common.solution")
+        .close-solution-btn ×
+
     #code-area
       #code-area-gradient.gradient
       #tome-view
@@ -31,8 +38,6 @@ include game-dev-goals
       #gold-view
 
       #game-dev-track-view
-
-      #level-chat-view
 
       #multiplayer-status-view
 
@@ -73,6 +78,8 @@ include game-dev-goals
         .panel-body!= view.howToPlayText
 
     .hints-view.hide
+
+    #level-chat-view
 
   #level-footer-shadow
   #level-footer-background

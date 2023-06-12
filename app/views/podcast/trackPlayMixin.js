@@ -7,7 +7,7 @@ export default {
       this.allowIframeTracking()
       if(elemId?.includes('podcast')){
         const podcastId = elemId.split('-').pop()
-        if (storage.load(this.storageKey(podcastId))) {
+        if (this.isPlayed(podcastId)) {
           return
         }
         window.tracker?.trackEvent('Podcast played', { podcastId })
@@ -22,6 +22,9 @@ export default {
     },
     storageKey (podcastId) {
      return `podcast-played-${podcastId}-${me.get('_id')}`
+    },
+    isPlayed (podcastId) {
+      return storage.load(this.storageKey(podcastId))
     }
   },
   mounted () {

@@ -43,7 +43,7 @@ module.exports = class CocoRouter extends Backbone.Router
       if utils.getQueryVariable 'hour_of_code'
         delete window.alreadyLoadedView
         return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
-      unless utils.isOzaria or me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient() or paymentUtils.hasTemporaryPremiumAccess()
+      unless utils.isOzaria or me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient() or paymentUtils.hasTemporaryPremiumAccess() or me.isParentHome()
         delete window.alreadyLoadedView
         return @navigate "/premium", {trigger: true, replace: true}
       if me.isAPIClient()
@@ -68,6 +68,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'account/subscription': go('account/SubscriptionView', { redirectStudents: true, redirectTeachers: true })
     'account/invoices': go('account/InvoicesView')
     'account/prepaid': go('account/PrepaidView')
+
+    'ai': go('ai/AIView')
+    'ai/*path': go('ai/AIView')
 
     'licensor': go('LicensorView')
 
@@ -97,6 +100,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/clan(/:clanID)': go('core/SingletonAppVueComponentView')
 
     'announcements': go('core/SingletonAppVueComponentView')
+    'event-calendar(/*subpath)': go('core/SingletonAppVueComponentView')
 
 #    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
@@ -123,7 +127,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'clans': go('clans/ClansView', { redirectStudents: true })
     'clans/:clanID': go('clans/ClanDetailsView', { redirectStudents: true })
 
-    'community': go('CommunityView')
+    'community': -> @navigate "/contribute", {trigger: true, replace: true}
 
     'contribute': go('contribute/MainContributeView')
     'contribute/adventurer': go('contribute/AdventurerView')
@@ -172,6 +176,12 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/archived-elements': go('core/SingletonAppVueComponentView')
     'editor/podcast': go('editor/podcast/PodcastSearchView')
     'editor/podcast/:podcastId': go('editor/podcast/PodcastEditView')
+    'editor/chat': go('editor/chat/ChatSearchView')
+    'editor/chat/:chatID': go('editor/chat/ChatEditView')
+    'editor/ai-scenario': go('editor/ai-scenario/AIScenarioSearchView')
+    'editor/ai-scenario/:chatID': go('editor/ai-scenario/AIScenarioEditView')
+    'editor/ai-project': go('editor/ai-project/AIProjectSearchView')
+    'editor/ai-project/:chatID': go('editor/ai-project/AIProjectEditView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')
@@ -229,6 +239,7 @@ module.exports = class CocoRouter extends Backbone.Router
       @routeDirectly('views/landing-pages/mobile/PageMobileView', [], { vueRoute: true, baseTemplate: 'base-empty' })
 
     'parents': go('core/SingletonAppVueComponentView')
+    'parents/*path': go('core/SingletonAppVueComponentView')
     'live-classes': go('core/SingletonAppVueComponentView')
     'live': go('core/SingletonAppVueComponentView')
 

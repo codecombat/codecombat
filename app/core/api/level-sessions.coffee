@@ -43,4 +43,7 @@ module.exports = {
 
   fetchForCampaign: (campaignHandle, options) ->
     fetchJson("/db/campaign/#{campaignHandle}/sessions", options)
+
+  fetchCompletedByDate: (date, options={}) ->
+    fetchJson("/db/level.session/#{me.id}/completed/#{date}", options)
 }

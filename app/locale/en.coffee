@@ -607,6 +607,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     stop_spying: "Stop Spying"
     stop_switching: "Stop Switching"
     test_as_student: "Test as Student"
+    gplus_linked: "Google Account linked successfully"
+    plus_link_error: "Google Account linked failed"
     email_or_username_or_library: "Email or Username or Library Card number"
 
   signup:
@@ -1283,6 +1285,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     forever: "Forever"
     subscription_status: "Your Subscription Status"
     currently_not_free: "You don't have a Subscription yet."
+    online_classes: "Online Classes"
 
   announcement:
     now_available: "Now available for subscribers!"
@@ -1770,19 +1773,21 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   contact:
     contact_us: "Contact CodeCombat"
-    welcome: "Good to hear from you! Use this form to send us email. "
-    forum_prefix: "For anything public, please try "
-    forum_page: "our forum"
-    forum_suffix: " instead."
-    faq_prefix: "There's also a"
-    faq: "FAQ"
+    welcome: "Good to hear from you! Let us know how we can help, and we'll get back to you in 1-2 business days."
+    forum_prefix: "You can check out our "
+    forum_page: "public forum here "
+    faq_prefix: "and our "
+    faq: "FAQs here"
+    faq_suffix: " for additional assistance."
     subscribe_prefix: "If you need help figuring out a level, please"
     subscribe: "buy a CodeCombat subscription"
     subscribe_suffix: "and we'll be happy to help you with your code."
     subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support."
     screenshot_included: "Screenshot included."
     where_reply: "Where should we reply?"
-    send: "Send Feedback"
+    send: "Send"
+    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time."
+
 
   account_settings:
     title: "Account Settings"
@@ -2595,6 +2600,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     redeemers: "Active Students"
     removed_redeemers: "Inactive Students"
     latest_podcast_episode: "Latest Podcast Episode"
+    from_the_podcast: "From the Podcast"
     edit_student_access_title: "Edit Student Access to Levels"
     edit_student_access_subtitle: "You have selected __levels__ levels for __students__ students."
 
@@ -2722,6 +2728,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     achievement_title: "Achievement Editor"
     poll_title: "Poll Editor"
     resource_title: "Resource Editor"
+    chat_title: "Chat Editor"
+    ai_scenario_title: "AI Scenario Editor"
+    ai_project_title: "AI Project Editor"
     resource_title_general: "__resource__ Editor"
     back: "Back"
     revert: "Revert"
@@ -2775,6 +2784,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     course_edit_title: "Edit Course"
     resource_edit_title: "Edit Resource"
     resource_edit_title_general: "Edit __resource__"
+    chat_edit_title: "Edit Chat"
+    chat_edit_title_general: "Edit __chat__"
+    ai_scenario_edit_title: "Edit Scenario"
+    ai_scenario_edit_title_general: "Edit __scenario__"
+    ai_project_edit_title: "Edit Project"
+    ai_project_edit_title_general: "Edit __project__"
     create_system_title: "Create New System"
     new_component_title: "Create New Component"
     new_component_field_system: "System"
@@ -2792,6 +2807,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     new_course_title_login: "Log In to Create a New Course"
     new_resource_title: "Create a New Resource"
     new_resource_title_login: "Log In to Create a New Resource"
+    new_chat_title: "Create a New Chat"
+    new_chat_title_login: "Log In to Create a New Chat"
+    new_ai_scenario_title: "Create a New Scenario"
+    new_ai_scenario_title_login: "Log In to Create a New Scenario"
+    new_ai_project_title: "Create a New Project"
+    new_ai_project_title_login: "Log In to Create a New Project"
     article_search_title: "Search Articles Here"
     thang_search_title: "Search Thang Types Here"
     level_search_title: "Search Levels Here"
@@ -2799,6 +2820,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     poll_search_title: "Search Polls"
     course_search_title: "Search Courses"
     resource_search_title: "Search Resources"
+    chat_search_title: "Search Chats"
+    ai_scenario_search_title: "Search Scenarios"
+    ai_project_search_title: "Search Projects"
     read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
     no_achievements: "No achievements have been added for this level yet."
     achievement_query_misc: "Key achievement off of miscellanea"
@@ -3010,6 +3034,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     patches_accepted: "Patches Accepted"
     level_edits: "Level Edits"
     total_translations: "Total Translations"
+    campaign_stats: "Stats"
 
   achievements:
     last_earned: "Last Earned"
@@ -3484,8 +3509,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     type_error: "TypeError: "
     syntax_error: "SyntaxError: "
     error: "Error: "
-    x_not_a_function: "$1 is not a function"
-    x_not_defined: "$1 is not defined"
+    x_not_a_function: "`$1` is not a function"
+    x_not_defined: "`$1` is not defined"
     spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
     capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
     py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2 statement."
@@ -3497,14 +3522,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     argument_type: "`$1`'s argument `$2` should have type `$3`, but got `$4`: `$5`."
     argument_type2: "`$1`'s argument `$2` should have type `$3`, but got `$4`."
     target_a_unit: "Target a unit."
-    attack_capitalization: "Attack $1, not $2. (Capital letters are important.)"
+    attack_capitalization: "Attack `$1`, not `$2`. (Capital letters are important.)"
     empty_while: "Empty while statement. Put 4 spaces in front of statements inside the while statement."
     line_of_site: "`$1`'s argument `$2` has a problem. Is there an enemy within your line-of-sight yet?"
     need_a_after_while: "Need a `$1` after `$2`."
     too_much_indentation: "Too much indentation at the beginning of this line."
     missing_hero: "Missing `$1` keyword; should be `$2`."
     takes_no_arguments: "`$1` takes no arguments."
-    no_one_named: "There's no one named \"$1\" to target."
+    no_one_named: "There's no one named `\"$1\"` to target."
     separated_by_comma: "Function calls paramaters must be seperated by `,`s"
     protected_property: "Can't read protected property: $1"
     need_parens_to_call: "If you want to call `$1` as function, you need `()`'s"
@@ -3512,47 +3537,47 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unexpected_identifier: "Unexpected identifier"
     unexpected_end_of: "Unexpected end of input"
     unnecessary_semicolon: "Unnecessary semicolon."
-    unexpected_token_expected: "Unexpected token: expected $1 but found $2 while parsing $3"
+    unexpected_token_expected: "Unexpected token: expected `$1` but found `$2` while parsing `$3`"
     unexpected_token: "Unexpected token $1"
     unexpected_token2: "Unexpected token"
     unexpected_number: "Unexpected number"
     unexpected: "Unexpected '$1'."
     escape_pressed_code: "Escape pressed; code aborted."
     target_an_enemy: "Target an enemy by name, like `$1`, not the string `$2`."
-    target_an_enemy_2: "Target an enemy by name, like $1."
-    cannot_read_property: "Cannot read property '$1' of undefined"
+    target_an_enemy_2: "Target an enemy by name, like `$1`."
+    cannot_read_property: "Cannot read property `$1` of `undefined`"
     attempted_to_assign: "Attempted to assign to readonly property."
     unexpected_early_end: "Unexpected early end of program."
-    you_need_a_string: "You need a string to build; one of $1"
+    you_need_a_string: "You need a string to build; one of `$1`"
     unable_to_get_property: "Unable to get property '$1' of undefined or null reference" # TODO: Do we translate undefined/null?
     code_never_finished_its: "Code never finished. It's either really slow or has an infinite loop."
     unclosed_string: "Unclosed string."
-    unmatched: "Unmatched '$1'."
-    error_you_said_achoo: "You said: $1, but the password is: $2. (Capital letters are important.)"
+    unmatched: "Unmatched `$1`."
+    error_you_said_achoo: "You said: `$1`, but the password is: `$2`. (Capital letters are important.)"
     indentation_error_unindent_does: "Indentation Error: unindent does not match any outer indentation level"
     indentation_error: "Indentation error."
     need_a_on_the: "Need a `:` on the end of the line following `$1`."
-    attempt_to_call_undefined: "attempt to call '$1' (a nil value)"
+    attempt_to_call_undefined: "attempt to call `$1` (a nil value)"
     unterminated: "Unterminated `$1`"
-    target_an_enemy_variable: "Target an $1 variable, not the string $2. (Try using $3.)"
+    target_an_enemy_variable: "Target an `$1` variable, not the string `$2`. (Try using `$3`.)"
     error_use_the_variable: "Use the variable name like `$1` instead of a string like `$2`"
     indentation_unindent_does_not: "Indentation unindent does not match any outer indentation level"
-    unclosed_paren_in_function_arguments: "Unclosed $1 in function arguments."
+    unclosed_paren_in_function_arguments: "Unclosed `$1` in function arguments."
     unexpected_end_of_input: "Unexpected end of input"
     there_is_no_enemy: "There is no `$1`. Use `$2` first." # Hints start here
     try_herofindnearestenemy: "Try `$1`"
     there_is_no_function: "There is no function `$1`, but `$2` has a method `$3`."
     attacks_argument_enemy_has: "`$1`'s argument `$2` has a problem."
     is_there_an_enemy: "Is there an enemy within your line-of-sight yet?"
-    target_is_null_is: "Target is $1. Is there always a target to attack? (Use $2?)"
+    target_is_null_is: "Target is `$1`. Is there always a target to attack? (Use `$2`?)"
     hero_has_no_method: "`$1` has no method `$2`."
     there_is_a_problem: "There is a problem with your code."
-    did_you_mean: "Did you mean $1? You do not have an item equipped with that skill."
+    did_you_mean: "Did you mean `$1`? You do not have an item equipped with that skill."
     missing_a_quotation_mark: "Missing a quotation mark. "
     missing_var_use_var: "Missing `$1`. Use `$2` to make a new variable."
-    you_do_not_have: "You do not have an item equipped with the $1 skill."
+    you_do_not_have: "You do not have an item equipped with the `$1` skill."
     put_each_command_on: "Put each command on a separate line"
-    are_you_missing_a: "Are you missing a '$1' after '$2'? "
+    are_you_missing_a: "Are you missing a `$1` after `$2`? "
     your_parentheses_must_match: "Your parentheses must match."
     missing_parentheses: "Missing parentheses? Try `__suggestion__`"
     do_nothing_without_parentheses: "`__code__` doesn't do anything without `()`"
@@ -3565,13 +3590,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     error_undefined_variable: "`__name__` is not defined."
     error_declared_identifier: "Identifier `__name__` has already been declared."
     error_declarations_cant_resolve: "Couldn't resolve declarations component: `__type__`."
-    error_strict_no_statement: "Strict mode code may not include a with statement."
+    error_strict_no_statement: "Strict mode code may not include a `with` statement."
     error_cant_resolve_ref_component: "Couldn't resolve ref component: `__type__`."
-    error_cant_convert_null: "Cannot convert undefined or null to object."
+    error_cant_convert_null: "Cannot convert `undefined` or `null` to object."
     error_need_object: "Need an object."
-    error_illegal_object_prototype: "Object prototype may only be an Object or null."
+    error_illegal_object_prototype: "Object prototype may only be an `Object` or `null`."
     error_no_prototype: "No prototype."
-    error_cant_write_property_to_undefined: "Can't write property of undefined: `__idx__`."
+    error_cant_write_property_to_undefined: "Can't write property of `undefined`: `__idx__`."
     error_cant_write_property_to_non_obj: "Can't write property of non-object type: `__idx__`."
     error_function_isnt_constructor: "function is not a constructor"
     error_write_protected_property: "Can't write to protected property: `__name__`"
@@ -4002,6 +4027,44 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     title: 'CodeCombat Events'
     main_title: 'CodeCombat Events'
     main_description: 'The important events of codecombat China'
+    dashboard: 'Events Dashboard'
+    online_classes: 'Online Classes'
+    my_classes: 'My Online Classes'
+    classes_stats: 'Online Classes Stats'
+    name: 'Name',
+    class_name: 'Class Name'
+    description: 'Description',
+    owner: 'Owner',
+    type: 'Type',
+    members: 'Members',
+    start_date: 'Start Date'
+    end_date: 'End Time'
+    time_range: 'Time Range'
+    rrule: 'Recurrence Rules'
+    add_member: 'Add Member'
+    class_count: 'Lessons Count'
+    done: 'Finished Lesson'
+    attendance: 'Attendance'
+    course_description: 'Lesson Description'
+    teacher_notes: 'Teacher Notes'
+    levels_completed: 'Levels Completed'
+    no_levels_completed: 'No Completed Levels Found'
+    no_teacher_notes: 'No Teacher Notes Found'
+    no_video_recording: 'No Video Recording Found'
+    reply: 'Reply'
+    video_recording: 'Video Recording'
+    import_from_class: 'Import from Class'
+    link_google_calendar: 'Link with Google Calendar'
+    sync_to_google: 'Sync to Google Calendar'
+    synced_to_google: 'Synced to Google Calendar'
+    google_calendar_attendees: 'Google Calendar Attendees'
+    calendar: 'Calendar'
+    edit_instance_tab_desc: 'Edit the single instance of this event, for editing whole events, see edit tab'
+    edit_event_tab_desc: 'Edit the whole event, for editing single instance of this event, see instance tab'
+    edit_members_tab_desc: 'Edit the member of this event, the startDate is depends on the instance date, so select the first instance for the new member'
+    lessons_count_desc: 'The total lessons count of this member, normally it is the same as the event instances count, but it can be different if the member is added after the event started or ended before the event ended'
+    sync_to_google_desc: 'Sync this event to YOUR google calendar, instead of the owner\'s calendar. And can only work on CodeCombat gmail'
+    timezone_tips: 'Date/Time is based on YOUR timezone: '
 
   teacher_dashboard:
     lock: 'Lock'

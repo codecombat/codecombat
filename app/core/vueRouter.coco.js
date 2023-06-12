@@ -15,6 +15,12 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "AnnouncementView" */ 'app/views/announcement/AnnouncementView')
         },
         {
+          path: '/event-calendar/:eventType?',
+          name: 'eventCalendar',
+          component: () => import(/* webpackChunkName: "EventView" */ 'app/views/events/index'),
+          props: true
+        },
+        {
           path: '/parents',
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
           props: (route) => ({ showPremium: true, type: route.query.type })
@@ -151,6 +157,18 @@ export default function getVueRouter () {
           path: '/users/switch-account/:confirmingUserId/:requestingConfirmUserId/confirm',
           name: 'UserSwitchAccountConfirmation',
           component: () => import(/* webpackChunkName: "userSwitchAccountConfirm" */'/app/views/user/SwitchAccountConfirmationView'),
+          props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/parents/signup',
+          name: 'ParentSignup',
+          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/SignupView'),
+          props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/parents/:viewName/:childId?',
+          name: 'ParentDashboard',
+          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/DashboardMainView'),
           props: (route) => ({ ...route.query, ...route.params })
         }
       ],

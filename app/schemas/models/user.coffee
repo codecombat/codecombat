@@ -241,6 +241,11 @@ _.extend UserSchema.properties,
       deletedFromGC: { type: 'boolean', default: false, description: 'Set true for classrooms imported to coco/ozaria but deleted from GC' }
 
   importedBy: c.objectId { description: 'User ID of the teacher who imported this user' }
+  googleCalendarEvents: c.array { title: 'Google calendar events for the online teacher'},
+    c.object { required: ['summary'] },
+    summary: {type: 'string'}
+    importedToCoco: { type: 'boolean', default: false }
+    deletedFromGC: { type: 'boolean', default: false, description: 'Set true for events imported to coco but deleted from GC' }
 
   points: {type: 'number'}
   activity: {type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity}
@@ -368,7 +373,7 @@ _.extend UserSchema.properties,
   enrollmentRequestSent: { type: 'boolean', description: 'deprecated' }
 
   schoolName: {type: 'string', description: 'Deprecated string. Use "school" object instead.'}
-  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator", "possible teacher"]}  # unset: home player
+  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator", "possible teacher", "parent-home"]}  # unset: home player
   verifiedTeacher: { type: 'boolean' }
   birthday: ({ type: 'string', title: "Birthday", description: "Just month and year, stored YYYY-MM"})
   lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })
@@ -429,7 +434,7 @@ _.extend UserSchema.properties,
       # ensure we can add additionalProperties
       product: { type: 'string', enum: ['course', 'basic_subscription', 'pd', 'esports', 'online-classes'], decription: 'The "name" field for the product purchased' }  # And/or the ID of the Product in the database, if we make a Product for each thing we can buy?
 
-      prepaid: c.objectId(links: [ {rel: 'db', href: '/db/prepaid/{($)}'} ])  # required for type: “course” for legacy compatibility, optional for other types
+      prepaid: c.objectId(links: [ {rel: 'db', href: '/db/prepaid/{($)}'} ])  # required for type: “course” for legacy compatibility, optional for other types, consider putting into productOptions
       productOptions:
         anyOf: [
           c.object({additionalProperties: true}, { # course
@@ -444,6 +449,10 @@ _.extend UserSchema.properties,
             tournaments: { type: ['number', 'null'] },
             createdTournaments: { type: ['number', 'null'] },
             arenas: { type: ['string', 'null'] }
+          }),
+          c.object({}, { # online-classes
+              event: c.objectId(links: [ {rel: 'db', href: '/db/event/{($)}'} ]),
+              count: {type: 'number'}
           })
         ]
       startDate: c.date()

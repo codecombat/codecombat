@@ -20,13 +20,13 @@ const { publicFolderName } = require('./development/utils')
 console.log(`Starting Webpack for product ${product}`)
 
 class ProductResolverPlugin {
+  // Imports foo.coco.bar, foo.ozar.bar, or foo.bar as appropriate
   apply(resolver) {
     resolver.ensureHook(this.target)
 
     resolver
       .getHook("undescribed-raw-file")
       .tapAsync('ProductResolver', (request, ctx, cb) => {
-        //console.log(request)
 	cb()
       })
 
@@ -42,16 +42,10 @@ class ProductResolverPlugin {
           return
         }
 
-        // TODO: test this regex
         let match = request.path.match(new RegExp(`([a-z]+)\\.${productSuffix}\\.\\1$`))
         if (!match) return
         let fixed = request.path.substr(0, match.index) + productSuffix + '.' + match[1]
-        //console.log("YYY", match[0], request.path, fixed)
         request.path = fixed
-
-        //if (fs.existsSync(fixed)) {
-        //  console.log("X", request.path, request.relativePath)
-        //}
       })
   }
 }
@@ -59,6 +53,24 @@ class ProductResolverPlugin {
 // Main webpack config
 module.exports = (env) => {
   if (!env) env = {}
+
+  // Configure optional node_modules/ai/dist requires
+  const aiDistPath = path.resolve(PWD, 'node_modules/ai/dist')
+  const extraCopyWebpackPluginPatterns = []
+  const extraIgnorePluginEntries = []
+  if (fs.existsSync(aiDistPath)) {
+    extraCopyWebpackPluginPatterns.push({
+      // Standalone ai project expects images and other assets to be in its public folder, so copy them to AI's new root `/ai`
+      context: aiDistPath,
+      from: '**/*',
+      to: 'ai'
+    })
+  } else {
+    extraIgnorePluginEntries.push(new webpack.IgnorePlugin({
+      resourceRegExp: /node_modules\/ai\/dist\/(ai|style)/
+    }))
+  }
+
   return {
     context: path.resolve(PWD),
     entry: {
@@ -277,7 +289,7 @@ module.exports = (env) => {
             from: 'vendor/esper-plugin-lang-cpp-modern.js',
             to: 'javascripts/app/vendor/aether-cpp.modern.js'
           }
-        ]
+        ].concat(extraCopyWebpackPluginPatterns)
       }),
       new CompileStaticTemplatesPlugin({
         locals: { shaTag: process.env.GIT_SHA || 'dev', chinaInfra: process.env.COCO_CHINA_INFRASTRUCTURE || false }
@@ -287,7 +299,7 @@ module.exports = (env) => {
         process: 'process/browser', // because of algoliasearch which needs access to process: https://github.com/algolia/docsearch/issues/980
         Buffer: ['buffer', 'Buffer']
       })
-    ],
+    ].concat(extraIgnorePluginEntries),
     optimization: {},
     stats: 'minimal'
   }

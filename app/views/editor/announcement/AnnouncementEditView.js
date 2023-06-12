@@ -28,10 +28,18 @@ class AnnouncementEditView extends EditView{
     this.treemaOptions = {
       nodeClasses: {
         announcement: AnnouncementNode,
+        markdown: ForceImageMarkUp,
         'mongo-query-user': QueryNode
       }
 
     }
+  }
+}
+
+class ForceImageMarkUp extends treemaExt.LiveEditingMarkup {
+  onFileUploaded (e) {
+    const baseURL = `${document.location.protocol}//${document.location.host}`
+    this.editor.insert(`![${e.metadata.name}](${baseURL}/file/${this.uploadingPath})`)
   }
 }
 

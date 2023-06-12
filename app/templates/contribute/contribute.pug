@@ -33,7 +33,7 @@ block content
           | Build and share levels for you and your friends to play. Become an Artisan to learn the art of teaching others to program.
 
   if window && window.features && !window.features.chinaUx
-    a(href="/contribute/adventurer")
+    a.hidden(href="/contribute/adventurer")
       div.class_tile
         img.tile-img(src="/images/pages/contribute/tile_adventurer.png", alt="")
   
@@ -45,7 +45,7 @@ block content
           p(data-i18n="classes.adventurer_summary")
             | Get our new levels (even our subscriber content) for free one week early and help us work out bugs before our public release.
 
-  a(href="/contribute/scribe")
+  a.hidden(href="/contribute/scribe")
     div.class_tile
       img.tile-img(src="/images/pages/contribute/tile_scribe.png", alt="")
 
@@ -71,7 +71,7 @@ block content
         p(data-i18n="classes.diplomat_summary")
           | CodeCombat is localized in 45+ languages by our Diplomats. Help us out and contribute translations.
 
-  a(href="/contribute/ambassador")
+  a.hidden(href="/contribute/ambassador")
     div.class_tile
       img.tile-img(src="/images/pages/contribute/tile_ambassador.png", alt="")
 
@@ -82,5 +82,41 @@ block content
 
         p(data-i18n="classes.ambassador_summary")
           | Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world.
+
+  div.clearfix
+  div.clearfix
+
+    h2
+      a(href="/editor/level", data-i18n="editor.level_title")
+    p
+      span.spr(data-i18n="community.level_editor_prefix")
+      a(href="/editor/level", data-i18n="editor.level_title")
+      span.spl(data-i18n="community.level_editor_suffix")
+
+
+    h2
+      a(href="https://www.facebook.com/codecombat", data-i18n="community.find_us")
+
+    .logo-row
+
+      a(href="https://github.com/codecombat/codecombat")
+        img(src="/images/pages/community/logo_github.png", data-i18n="[data-content]community.social_github" data-content="Check out all our code on GitHub")
+
+      a(href="http://blog.codecombat.com")
+        img(src="/images/pages/community/logo_sett.png", data-i18n="[data-content]community.social_blog" data-content="Read the CodeCombat blog")
+
+      a(href="http://discourse.codecombat.com")
+        img(src="/images/pages/community/logo_discourse.png", data-i18n="[data-content]community.social_discource" data-content="Join the discussion on our Discourse forum")
+
+      a(href="https://www.facebook.com/codecombat")
+        img(src="/images/pages/community/logo_facebook.png", data-i18n="[data-content]community.social_facebook" data-content="Like CodeCombat on Facebook")
+
+      a(href="https://twitter.com/CodeCombat")
+        img(src="/images/pages/community/logo_twitter.png", data-i18n="[data-content]community.social_twitter" data-content="Follow CodeCombat on Twitter")
+
+
+    if !me.isStudent()
+      h2
+        a(href=`${view.apiLink}` data-i18n='nav.api' target='_blank')
 
   div.clearfix

@@ -29,6 +29,28 @@
       isPartOfIntro: {
         type: Boolean,
         default: false
+      },
+
+      showCodeBtn: {
+        type: Boolean,
+        default: false
+      },
+      showProgressDot: {
+        type: Boolean,
+        default: false
+      },
+      progressStatus: {
+        type: String,
+        default: ''
+      },
+      identifier: {
+        type: String
+      }
+    },
+
+    data () {
+      return {
+        showCode: false
       }
     },
 
@@ -40,7 +62,8 @@
       moduleRowClass () {
         return {
           locked: this.isOnLockedCampaign,
-          'part-of-intro': this.isPartOfIntro
+          'part-of-intro': this.isPartOfIntro,
+          'show-progress-dot': this.showProgressDot
         }
       },
 
@@ -50,6 +73,12 @@
         } else {
           return ''
         }
+      }
+    },
+    methods: {
+      onShowCodeClicked () {
+        this.showCode = !this.showCode
+        this.$emit('showCodeClicked', { identifier: this.identifier, hideCode: !this.showCode })
       }
     }
   }
@@ -61,9 +90,24 @@
     @click="$emit('click')"
   >
     <div>
+      <div
+        v-if="showProgressDot"
+        :class="{ 'progress-dot': true, 'in-progress': progressStatus === 'in-progress', 'not-started': progressStatus === 'not-started', 'complete': progressStatus === 'complete' }"
+      >
+      </div>
       <content-icon class="content-icon" :icon="iconType" />
       <p class="content-heading"><b>{{ getContentTypeHeader }}: {{ displayName }}</b></p>
-      <p>{{ description }}</p>
+      <p class="content-desc">{{ description }}</p>
+      <div
+        v-if="showCodeBtn"
+        class="code-view"
+        @click="onShowCodeClicked"
+      >
+        <img src="/images/pages/parents/dashboard/show-code-logo.svg" alt="Show Code Logo" class="code-view__icon">
+        <span class="code-view__text">
+          {{ showCode ? 'Hide Code' : 'See Code' }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -142,5 +186,48 @@
   .content-icon {
     width: 18px;
     height: 18px;
+  }
+
+  .content-desc {
+    margin-right: auto;
+  }
+
+  .code-view {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+    cursor: pointer;
+    &__text {
+      font-weight: 600;
+      font-size: 1.4rem;
+      line-height: 1.6rem;
+      letter-spacing: 0.333333px;
+
+      color: #355EA0;
+      margin-left: .5rem;
+    }
+  }
+
+  .progress-dot {
+    width: 1rem;
+    height: 1rem;
+    background: #FFFFFF;
+    border-radius: 1rem;
+    margin-bottom: .5rem;
+  }
+  .not-started {
+    border: 1.5px solid #C8CDCC;
+  }
+
+  .in-progress {
+    background-color: #1ad0ff;
+  }
+
+  .complete {
+    background-color: #2dcd38;
+  }
+
+  .show-progress-dot {
+    margin-left: 1rem;
   }
 </style>

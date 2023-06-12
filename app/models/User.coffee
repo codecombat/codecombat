@@ -128,7 +128,11 @@ module.exports = class User extends CocoModel
 
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
-  isHomeUser: -> not @get('role')
+  isHomeUser: -> (not @get('role')) or @isParentHome()
+
+  isParentHome: -> @get('role') is 'parent-home'
+
+  hasNoVerifiedChild: -> not (_.find (@get('related') || []), (c) => c.relation == 'children' && c.verified)
 
   isRegisteredHomeUser: -> @isHomeUser() and !@get('anonymous')
 
@@ -338,6 +342,12 @@ module.exports = class User extends CocoModel
       homeProducts = @activeProducts('basic_subscription')
       maxFree = _.max(homeProducts, (p) => new Date(p.endDate)).endDate
       return true if new Date() < new Date(maxFree)
+    false
+
+  isPaidOnlineClassUser: ->
+    if products = @get('products')
+      onlineClassProducts = @activeProducts('online-classes')
+      return true if onlineClassProducts.length > 0
     false
 
   premiumEndDate: ->
@@ -623,6 +633,16 @@ module.exports = class User extends CocoModel
     options.data.email = email
     @fetch(options)
 
+  linkGPlusUser: (gplusID, email, options={}) ->
+    options.url = "/db/user/#{@id}/link-with-gplus"
+    options.type = 'POST'
+    options.xhrFields = { withCredentials: true }
+    options.data ?= {}
+    options.data.gplusID = gplusID
+    options.data.gplusAccessToken = application.gplusHandler.token()
+    options.data.email = email
+    @fetch(options)
+
   loginGPlusUser: (gplusID, options={}) ->
     options.url = '/auth/login-gplus'
     options.type = 'POST'
@@ -669,6 +689,13 @@ module.exports = class User extends CocoModel
     options.data ?= {}
     options.data.token = token
     options.data.provider = provider
+    @fetch(options)
+
+  changePassword: (userId, password, options={}) ->
+    options.url = '/auth/change-password'
+    options.type = 'POST'
+    options.data ?= {}
+    _.extend(options.data, { userId, password })
     @fetch(options)
 
   makeCoursePrepaid: (prepaidId) ->
@@ -841,6 +868,10 @@ module.exports = class User extends CocoModel
     options.data ?= body
     @fetch(options)
 
+  getRelatedAccounts: (body, options = {}) ->
+    options.url = '/db/user/related-accounts/details'
+    @fetch(options)
+
   getTestStudentId: ->
     testStudentRelation = (@get('related') or []).filter((related) => related.relation == 'TestStudent')[0]
     if testStudentRelation
@@ -857,6 +888,12 @@ module.exports = class User extends CocoModel
 
   createTestStudentAccount: (body, options = {}) ->
     options.url = '/db/user/create-test-student-account'
+    options.type = 'PUT'
+    options.data ?= body
+    @fetch(options)
+
+  createAndAssociateAccount: (body, options = {}) ->
+    options.url = '/db/user/related-accounts/associate-account'
     options.type = 'PUT'
     options.data ?= body
     @fetch(options)
@@ -888,6 +925,7 @@ module.exports = class User extends CocoModel
   hideFooter: -> @isTarena() or @isILK() or @isICode()
   hideOtherProductCTAs: -> @isTarena() or @isILK() or @isICode()
   useGoogleClassroom: -> not (features?.chinaUx ? false) and @get('gplusID')?   # if signed in using google SSO
+  useGoogleCalendar: -> not (features?.chinaUx ? false) and @get('gplusID')? and (@isAdmin() || @isOnlineTeacher())   # if signed in using google SSO
   useGoogleAnalytics: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   isEdLinkAccount: -> not (features?.chinaUx ? false) and @get('edLink')?
   useDataDog: -> not ((features?.china ? false) or (features?.chinaInfra ? false))

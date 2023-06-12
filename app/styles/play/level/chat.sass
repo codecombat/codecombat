@@ -1,52 +1,83 @@
+@use "sass:math"
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
+@import "app/styles/play/variables"
 
 #level-chat-view
 
   box-sizing: border-box
   width: 22% // 40% of the canvas
 
-  position: relative
-  left: 10px
-  bottom: 10px
+  position: absolute
+  left: 30px
+  bottom: 30px
   height: 0
-  font-size: 12px
+  font-size: 16px
   color: white
   text-shadow: 1px 1px 1px black
+  z-index: 5
+
+  code
+    text-shadow: none
   
   .action
     color: #aff
   tr.me .action
     color: #ffa
-  
-  .closed-chat-area
-    margin-left: 20px
+
+  .chat-area
+    margin-left: -22px
     margin-bottom: 25px
     margin-right: 20px
     position: absolute
     bottom: 0px
     left: 0px
-    width: 280px
-    
+    min-width: 530px
+    max-width: 650px
+    width: calc(57vw - $api-bar-width - 50px)
+    //width: calc(#{$game-view-width} - #{$api-bar-width} - 50px)
+    scroll-behavior: smooth
+    overflow-y: scroll
+    scrollbar-width: none
+    -ms-overflow-style: none
+
+    &::-webkit-scrollbar
+      width: 0
+      height: 0
+
+  .no-api &
+    .chat-area
+      //max-height: Max(200px, calc(100vh - calc(#{$game-view-width-no-api} * (589 / 924)) - 50px - 60px - 80px - 30px - 25px))
+      max-height: Max(200px, calc(100vh - (100vw * 0.57 - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
+      width: calc(57vw - 50px)
+
+      &.open-chat-area
+        max-height: Max(600px, calc(100vh - (100vw * 0.57 - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
+
+    input, textarea
+      width: calc(57vw - 50px - 41px)
+
+  .closed-chat-area
+    max-height: 400px
+    //max-height: Max(200px, calc(100vh - calc(#{$game-view-width} - #{$api-bar-width}) * (589 / 924) - 50px - 80px - 60px - 30px - 25px))
+    max-height: Max(200px, calc(100vh - (100vw * 0.57 - 200px - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
+
   .open-chat-area
     background-color: rgba(50,50,50,0.6)
-    padding: 5px 20px 5px 19px
+    padding: 10px 10px 0 0
     border-radius: 5px
-    max-height: 200px
-    overflow-x: scroll
     border: 1px solid #222
-    position: absolute
-    bottom: 30px
-    left: 20px
-    width: 239px
+    max-height: 600px
+    //max-height: Max(600px, calc(100vh - calc(#{$game-view-width} - #{$api-bar-width}) * (589 / 924) - 50px - 80px - 60px - 30px - 25px))
+    max-height: Max(600px, calc(100vh - (100vw * 0.57 - 200px - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
     
   tr
-    line-height: 11px // space between multiple lines within messages
+    line-height: 18px // space between multiple lines within messages
     strong
       color: #aff // other people color
     &.me strong
       color: #ffa // me color
-    height: 16px // space between messages
+    height: 55px // height of messages, including space between messages
 
   i
     position: absolute
@@ -60,13 +91,19 @@
     bottom: 0px
     left: 20px
     right: 0px
-    width: 280px
-    height: 22px
+    min-width: 489px
+    max-width: 609px
+    width: calc(57vw - $api-bar-width - 50px - 41px)
+    height: 27px
+    min-height: 27px
+    max-height: 100px
+    resize: none
+    overflow: hidden
 
     box-sizing: border-box
     //height: 22px
 
-    font-size: 12px
+    font-size: 16px
     color: white
 
     background-color: rgba(50,50,50,0.4)
@@ -78,3 +115,11 @@
     border-radius: 2px
     border-width: 1px
     text-shadow: 1px 1px 1px black
+
+  .player-avatar-cell, .chatbot-avatar-cell
+    vertical-align: top
+
+    img.avatar
+      width: 40px
+      margin-right: 5px
+
