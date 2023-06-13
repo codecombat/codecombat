@@ -187,7 +187,7 @@ module.exports = class SolutionProblemsView extends RootView
 
   findTemplateProblems: (solution, plan) ->
     problems = []
-    if utils.isCodeCombat not plan.languages
+    if utils.isCodeCombat and not plan.languages
       return problems
     source = if solution.lang is 'javascript' then plan.source else plan.languages[solution.language]
     context = plan.context
