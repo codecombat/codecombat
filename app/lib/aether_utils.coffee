@@ -2,6 +2,7 @@ require './aether/aether.coffee'
 
 Aether.addGlobal 'Vector', require './world/vector'
 Aether.addGlobal '_', _
+translateUtils = require './translate-utils'
 
 module.exports.createAetherOptions = (options) ->
   throw new Error 'Specify a function name to create an Aether instance' unless options.functionName
@@ -121,7 +122,7 @@ module.exports.filterMarkdownCodeLanguages = (text, language) ->
     jsRegex = new RegExp "```javascript\n([^`]+)```", 'gm'
     text = text.replace jsRegex, (a, l) =>
       """```cpp
-        #{@translateJS a[13..a.length-4], 'cpp', false}
+        #{translateUtils.translateJS a[13..a.length-4], 'cpp', false}
       ```"""
 
   return text
