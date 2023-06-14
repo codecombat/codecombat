@@ -180,14 +180,3 @@ module.exports.translateErrorMessage = ({ message, errorCode, i18nParams, spoken
     messages[messages.length - 1] = translateFn("esper.error_#{(_.string || _.str).underscored(errorCode)}", i18nParams)
 
   messages.join('')
-
-# Note: These need to be double-escaped for insertion into regexes
-commentStarts =
-  javascript: '//'
-  python: '#'
-  coffeescript: '#'
-  lua: '--'
-  java: '//'
-  cpp: '//'
-  html: '<!--'
-  css: '/\\*'

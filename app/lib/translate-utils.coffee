@@ -365,3 +365,14 @@ translateJSWhitespace = (jsCode, language='lua') ->
   lines = s.split '\n'
   output = (lines.map (line) -> line.slice 1).join('\n')  # Remove leading convenience whitespace that we added
   output
+
+# Note: These need to be double-escaped for insertion into regexes
+commentStarts =
+  javascript: '//'
+  python: '#'
+  coffeescript: '#'
+  lua: '--'
+  java: '//'
+  cpp: '//'
+  html: '<!--'
+  css: '/\\*'
