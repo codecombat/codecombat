@@ -26,7 +26,7 @@ import utils from 'core/utils'
 
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'AnnouncementView',
+  name: 'AnnouncementNav',
   computed: {
     ...mapGetters('announcements', [
       'announcements',

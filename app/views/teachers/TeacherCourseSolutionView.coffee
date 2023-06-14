@@ -10,7 +10,7 @@ Levels = require 'collections/Levels'
 utils = require 'core/utils'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
-aetherUtils = require 'lib/aether_utils'
+translateUtils = require 'lib/translate-utils'
 api = require 'core/api'
 
 module.exports = class TeacherCourseSolutionView extends RootView
@@ -76,7 +76,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
     return '' unless s
     s.replace /```([a-z]+)[^`]+```/gm, (a, l) =>
       return """```#{@language}
-       #{aetherUtils.translateJS(a[13..a.length-4], @language, false)}
+       #{translateUtils.translateJS(a[13..a.length-4], @language, false)}
        ```""" if @language in ['cpp', 'java', 'python', 'lua', 'coffeescript'] and l is 'javascript' and not ///```#{@language}///.test(s)
       return '' if l isnt @language
       a
@@ -125,9 +125,9 @@ module.exports = class TeacherCourseSolutionView extends RootView
           solutionLanguage = 'html' if @isWebDev and not level.get('primerLanguage')
         try
           if utils.isCodeCombat
-            defaultCode = programmableMethod.languages[solutionLanguage] or (@language == 'cpp' and aetherUtils.translateJS(programmableMethod.source, 'cpp')) or programmableMethod.source
+            defaultCode = programmableMethod.languages[solutionLanguage] or (@language == 'cpp' and translateUtils.translateJS(programmableMethod.source, 'cpp')) or programmableMethod.source
           else
-            defaultCode = programmableMethod.languages[level.get('primerLanguage') or @language] or (@language == 'cpp' and aetherUtils.translateJS(programmableMethod.source, 'cpp')) or programmableMethod.source
+            defaultCode = programmableMethod.languages[level.get('primerLanguage') or @language] or (@language == 'cpp' and translateUtils.translateJS(programmableMethod.source, 'cpp')) or programmableMethod.source
           translatedDefaultCode = _.template(defaultCode)(utils.i18n(programmableMethod, 'context'))
         catch e
           console.error('Broken solution for level:', level.get('name'))
