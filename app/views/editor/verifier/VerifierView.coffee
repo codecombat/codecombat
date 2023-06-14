@@ -1,7 +1,7 @@
 require('app/styles/editor/verifier/verifier-view.sass')
 async = require('vendor/scripts/async.js')
 utils = require 'core/utils'
-aetherUtils = require 'lib/aether_utils'
+translateUtils = require 'lib/translate-utils'
 
 RootView = require 'views/core/RootView'
 template = require 'app/templates/editor/verifier/verifier-view'
@@ -123,7 +123,7 @@ module.exports = class VerifierView extends RootView
           transpiledSolutions = _.filter level?.getSolutions() ? [], language: 'javascript'
           for s in transpiledSolutions
             s.language = codeLanguage
-            s.source = aetherUtils.translateJS s.source, codeLanguage
+            s.source = translateUtils.translateJS s.source, codeLanguage
             s.transpiled = true
           solutions = transpiledSolutions
         if solutions.length

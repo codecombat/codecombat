@@ -1,6 +1,6 @@
 ace = require('lib/aceContainer')
 Range = ace.require('ace/range').Range
-aetherUtils = require('lib/aether_utils')
+{ translateErrorMessage } = require('lib/aether_utils')
 
 # This class can either wrap an AetherProblem,
 # or act as a general runtime error container for web-dev iFrame errors.
@@ -121,4 +121,4 @@ module.exports = class Problem
   translate: (msg, errorCode, i18nParams) ->
     staticTranslations = en: require('locale/en').translation
     translateFn = (i18nKey, i18nParams) -> $.i18n.t(i18nKey, i18nParams)
-    return aetherUtils.translateErrorMessage message: msg, errorCode: errorCode, i18nParams: i18nParams, spokenLanguage: $.i18n.t('language'), staticTranslations: staticTranslations, translateFn: translateFn
+    return translateErrorMessage message: msg, errorCode: errorCode, i18nParams: i18nParams, spokenLanguage: $.i18n.t('language'), staticTranslations: staticTranslations, translateFn: translateFn
