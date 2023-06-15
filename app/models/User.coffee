@@ -149,50 +149,6 @@ module.exports = class User extends CocoModel
     return false unless @isTeacher()
     return @isCreatedByClient() or (/@codeninjas.com$/i.test @get('email'))
 
-  isTeacherOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
-    if not @isTeacher()
-      return false
-
-    if classroomId and not classroom
-      Classroom = require 'models/Classroom'
-      classroom = new Classroom({ _id: classroomId })
-      yield classroom.fetch()
-
-    if classroom
-      return true if @get('_id') == classroom.get('ownerID')
-
-    if courseInstanceId and not courseInstance
-      CourseInstance = require 'models/CourseInstance'
-      courseInstance = new CourseInstance({ _id: courseInstanceId })
-      yield courseInstance.fetch()
-
-    if courseInstance
-      return true if @get('id') == courseInstance.get('ownerID')
-
-    return false
-
-  isSchoolAdminOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
-    if not @isSchoolAdmin()
-      return false
-
-    if classroomId and not classroom
-      Classroom = require 'models/Classroom'
-      classroom = new Classroom({ _id: classroomId })
-      yield classroom.fetch()
-
-    if classroom
-      return true if classroom.get('ownerID') in @get('administratedTeachers')
-
-    if courseInstanceId and not courseInstance
-      CourseInstance = require 'models/CourseInstance'
-      courseInstance = new CourseInstance({ _id: courseInstanceId })
-      yield courseInstance.fetch()
-
-    if courseInstance
-      return true if courseInstance.get('ownerID') in @get('administratedTeachers')
-
-    return false
-
   getHocCourseInstanceId: () ->
     courseInstanceIds = me.get('courseInstances') || []
     return if courseInstanceIds.length == 0
@@ -402,7 +358,7 @@ module.exports = class User extends CocoModel
       method: 'PUT'
       url: "/db/user/#{@id}/update-user-password"
       data: { currentPassword, newPassword }
-      success: (attributes) => 
+      success: (attributes) =>
         this.set attributes
         success()
       error: error

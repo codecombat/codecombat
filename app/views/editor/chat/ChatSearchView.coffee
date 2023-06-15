@@ -50,12 +50,12 @@ module.exports = class ChatSearchView extends SearchView
     content = content.replace /^\|Issue\|?:? ?(.*?)$/gm, '\n$1'
     content = content.replace /^\|Explanation\|?:? ?(.*?)$/gm, '\n*$1*\n'
     content = content.replace /\|Code\|?:? ?```\n?((.|\n)*?)```\n?/g, (match, p1) =>
-      '[Fix Code]'
+      '[Show Me]'
     content = content.trim()
     content = marked content, gfm: true, breaks: true
     content = content.replace(RegExp('  ', 'g'), '&nbsp; ') # coffeescript can't compile '/  /g'
     # Replace any <p><code>...</code></p> with <pre><code>...</code></pre>
     content = content.replace /<p><code>((.|\n)*?)(?:(?!<\/code>)(.|\n))*?<\/code><\/p>/g, (match) ->
       match.replace(/<p><code>/g, '<pre><code>').replace(/<\/code><\/p>/g, '</code></pre>')
-    content = content.replace /\[Fix Code\]/g, '<p><button class="btn btn-illustrated btn-small btn-primary fix-code-button">Fix Code</button></p>'
+    content = content.replace /\[Show Me\]/g, '<p><button class="btn btn-illustrated btn-small btn-primary fix-code-button">Show Me</button></p>'
     content
