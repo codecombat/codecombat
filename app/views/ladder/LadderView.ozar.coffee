@@ -18,6 +18,7 @@ CocoClass = require 'core/CocoClass'
 Clan = require 'models/Clan'
 CourseInstance = require 'models/CourseInstance'
 Course = require 'models/Course'
+userClassroomHelper = require '../../lib/user-classroom-helper'
 
 HIGHEST_SCORE = 1000000
 
@@ -106,8 +107,8 @@ module.exports = class LadderView extends RootView
     return if @destroyed
     @classroomID = @courseInstance.get('classroomID')
     @ownerID = @courseInstance.get('ownerID')
-    @isSchoolAdmin = yield me.isSchoolAdminOf({ classroomId: @classroomID })
-    @isTeacher = yield me.isTeacherOf({ classroomId: @classroomID })
+    @isSchoolAdmin = yield userClassroomHelper.isSchoolAdminOf({ user: me, classroomId: @classroomID })
+    @isTeacher = yield userClassroomHelper.isTeacherOf({ user: me, classroomId: @classroomID })
     course = new Course({_id: @courseInstance.get('courseID')})
     @course = @supermodel.loadModel(course).model
     @listenToOnce @course, 'sync', @render

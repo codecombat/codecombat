@@ -41,7 +41,7 @@ mixin breadcrumbs
       = view.user.broadName()
 
 .container
-  if !state.get('renderOnlyContent') && me.isTeacherOf({ classroom: view.classroom })
+  if !state.get('renderOnlyContent') && view.isTeacherOfClass
       +breadcrumbs
   h3.m-t-2
     span(data-i18n="teacher.student_profile")
@@ -153,7 +153,7 @@ mixin breadcrumbs
         - var enrolledCourseBits = view.user.prepaidNumericalCourses()
         #numerical-courses-status
           // index is the index number of power 2
-          // also see core/utils courseNumericalStatus 
+          // also see core/utils courseNumericalStatus
           .status-col.cs
             - let CSIndexes =  [0, 3, 6, 8, 9, 10]
             - for(let index in CSIndexes)

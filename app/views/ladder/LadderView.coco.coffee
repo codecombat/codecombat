@@ -24,6 +24,7 @@ Course = require 'models/Course'
 Mandate = require 'models/Mandate'
 Tournament = require 'models/Tournament'
 TournamentSubmission = require 'models/TournamentSubmission'
+userClassroomHelper = require '../../lib/user-classroom-helper'
 
 HIGHEST_SCORE = 1000000
 
@@ -209,8 +210,8 @@ module.exports = class LadderView extends RootView
     return if @destroyed
     @classroomID = @courseInstance.get('classroomID')
     @ownerID = @courseInstance.get('ownerID')
-    @isSchoolAdmin = yield me.isSchoolAdminOf({ classroomId: @classroomID })
-    @isTeacher = yield me.isTeacherOf({ classroomId: @classroomID })
+    @isSchoolAdmin = yield userClassroomHelper.isSchoolAdminOf({ user: me, classroomId: @classroomID })
+    @isTeacher = yield userClassroomHelper.isTeacherOf({ user: me, classroomId: @classroomID })
     course = new Course({_id: @courseInstance.get('courseID')})
     @course = @supermodel.loadModel(course).model
     @listenToOnce @course, 'sync', @render
