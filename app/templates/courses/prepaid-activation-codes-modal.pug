@@ -34,21 +34,21 @@ block modal-body-content
               else
                 | -
           td= prepaid.get('type')
-          td= moment.timezone(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).tz(view.timeZone).format('l')
+          td= view.momentTimezone(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).tz(view.timeZone).format('l')
           td
             if prepaid.get('startDate')
               if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
                 - var startDateControlId='startDate-'+prepaid.id
-                input(id= startDateControlId type="date" name="startDate" value=moment.timezone(prepaid.get('startDate')).tz(view.timeZone).format('YYYY-MM-DD'))
+                input(id= startDateControlId type="date" name="startDate" value=view.momentTimezone(prepaid.get('startDate')).tz(view.timeZone).format('YYYY-MM-DD'))
               else
-                = moment.timezone(prepaid.get('startDate')).tz(view.timeZone).format('l')
+                = view.momentTimezone(prepaid.get('startDate')).tz(view.timeZone).format('l')
           td
             if prepaid.get('endDate')
               if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
                 - var endDateControlId='endDate-'+prepaid.id
-                input(id= endDateControlId type="date" name="endDate" value=moment.timezone(prepaid.get('endDate')).tz(view.timeZone).format('YYYY-MM-DD'))
+                input(id= endDateControlId type="date" name="endDate" value=view.momentTimezone(prepaid.get('endDate')).tz(view.timeZone).format('YYYY-MM-DD'))
               else
-                = moment.timezone(prepaid.get('endDate')).tz(view.timeZone).format('l')
+                = view.momentTimezone(prepaid.get('endDate')).tz(view.timeZone).format('l')
           td
             if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
               - var totalLicensesControlId='totalLicenses-'+prepaid.id
@@ -83,7 +83,7 @@ block modal-body-content
       +license-form-group('Number of Activation Codes')(id="seats-input", type='number', name='maxRedeemers', min='1')
       +license-type(view.licenseType, view.licensePresets, view.utils)
       +license-form-group('Duration', ' Days')(type="number" name="duration" value=365)
-      +license-form-group('Expiration Date')(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
+      +license-form-group('Expiration Date')(type="date" name="endDate" value=view.momentTimezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
       .form-group
         button#add-seats-btn.btn.btn-primary Add Licenses
     hr
