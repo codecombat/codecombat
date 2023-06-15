@@ -1,31 +1,6 @@
-import { getPaymentGroupFromProduct } from '../core/api/payment-group'
-import { handleCheckoutSession } from '../views/payment/paymentPriceHelper'
 const storage = require('core/storage')
 const TEMPORARY_PREMIUM_KEY = 'temporary-premium-access'
 const TRACKED_PREMIUM = 'tracked-premium'
-
-async function handleHomeSubscription (product, couponId, { purchasingForId = null } = {}) {
-  const productId = product.get('_id')
-  const paymentGroupResp = await getPaymentGroupFromProduct(productId, couponId)
-  const paymentGroup = paymentGroupResp.data
-  const homeSubDetails = {
-    productId,
-    purchasingForId
-  }
-  const options = {
-    stripePriceId: paymentGroup.priceInfo.id,
-    paymentGroupId: paymentGroup._id,
-    numberOfLicenses: 1,
-    email: me.get('email'),
-    userId: me.get('_id'),
-    totalAmount: paymentGroup.priceInfo.unit_amount,
-    homeSubDetails
-  }
-  if (product.get('name').includes('corrily')) {
-    options.corrilyPriceKey = product.get('planID')
-  }
-  return handleCheckoutSession(options)
-}
 
 function setTemporaryPremiumAccess() {
   storage.save(`${TEMPORARY_PREMIUM_KEY}-${me.get('_id')}`, true, 3)
@@ -69,7 +44,6 @@ function getLtvMultiplier (duration) {
 }
 
 module.exports = {
-  handleHomeSubscription,
   setTemporaryPremiumAccess,
   hasTemporaryPremiumAccess,
   setTrackedPremiumPurchase,
