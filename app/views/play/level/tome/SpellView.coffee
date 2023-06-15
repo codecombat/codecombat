@@ -86,6 +86,7 @@ module.exports = class SpellView extends CocoView
     @highlightCurrentLine = _.throttle @highlightCurrentLine, 100
     $(window).on 'resize', @onWindowResize
     @observing = @session.get('creator') isnt me.id
+    @spectateView = options.spectateView
     @loadedToken = {}
     @addUserSnippets = _.debounce @reallyAddUserSnippets, 500, {maxWait: 1500, leading: true, trailing: false}
 
@@ -94,7 +95,7 @@ module.exports = class SpellView extends CocoView
     @createACE()
     @createACEShortcuts()
     @hookACECustomBehavior()
-    if (me.isAdmin() or utils.getQueryVariable 'ai') and not @observing
+    if (me.isAdmin() or utils.getQueryVariable 'ai') and not @spectateView
       @fillACESolution()
     @fillACE()
     @createOnCodeChangeHandlers()
