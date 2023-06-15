@@ -155,21 +155,21 @@ block modal-body-content
                 else
                   | -
             td= prepaid.typeDescription()
-            td= moment.timezone(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).tz(view.timeZone).format('l')
+            td= view.momentTimezone(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).tz(view.timeZone).format('l')
             td
               if prepaid.get('startDate')
                 if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
                   - var startDateControlId='startDate-'+prepaid.id
-                  input(id= startDateControlId type="date" name="startDate" value=moment.timezone(prepaid.get('startDate')).tz(view.timeZone).format('YYYY-MM-DD'))
+                  input(id= startDateControlId type="date" name="startDate" value=view.momentTimezone(prepaid.get('startDate')).tz(view.timeZone).format('YYYY-MM-DD'))
                 else
-                  = moment.timezone(prepaid.get('startDate')).tz(view.timeZone).format('l')
+                  = view.momentTimezone(prepaid.get('startDate')).tz(view.timeZone).format('l')
             td
               if prepaid.get('endDate')
                 if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
                   - var endDateControlId='endDate-'+prepaid.id
-                  input(id= endDateControlId type="date" name="endDate" value=moment.timezone(prepaid.get('endDate')).tz(view.timeZone).format('YYYY-MM-DD'))
+                  input(id= endDateControlId type="date" name="endDate" value=view.momentTimezone(prepaid.get('endDate')).tz(view.timeZone).format('YYYY-MM-DD'))
                 else
-                  = moment.timezone(prepaid.get('endDate')).tz(view.timeZone).format('l')
+                  = view.momentTimezone(prepaid.get('endDate')).tz(view.timeZone).format('l')
             td
               if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
                 - var totalLicensesControlId='totalLicenses-'+prepaid.id
@@ -202,8 +202,8 @@ block modal-body-content
           h4.small(style="max-width: 700px") Licenses start at 12am PT on the start date and end at 11:59pm PT on the end date listed.
         +license-form-group('Number of Licenses')(id="seats-input" type="number", name="maxRedeemers", min="1")
         +license-type(view.licenseType, view.licensePresets, view.utils)
-        +license-form-group('Start Date')(type="date" name="startDate" value=moment.timezone().tz(view.timeZone).format('YYYY-MM-DD'))
-        +license-form-group('End Date')(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
+        +license-form-group('Start Date')(type="date" name="startDate" value=view.momentTimezone().tz(view.timeZone).format('YYYY-MM-DD'))
+        +license-form-group('End Date')(type="date" name="endDate" value=view.momentTimezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
         .form-group
           button#add-seats-btn.btn.btn-primary Add Licenses
       hr
@@ -233,15 +233,15 @@ block modal-body-content
               td
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
                   - var startDateControlId = 'product-startDate-' + productControlId
-                  input(id=startDateControlId type="date" name="startDate" value=moment.timezone(product.startDate).tz(view.timeZone).format('YYYY-MM-DD'))
+                  input(id=startDateControlId type="date" name="startDate" value=view.momentTimezone(product.startDate).tz(view.timeZone).format('YYYY-MM-DD'))
                 else
-                  = moment.timezone(product.startDate).tz(view.timeZone).format('l')
+                  = view.momentTimezone(product.startDate).tz(view.timeZone).format('l')
               td
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
                   - var endDateControlId = 'product-endDate-' + productControlId
-                  input(id= endDateControlId type="date" name="endDate" value=moment.timezone(product.endDate).tz(view.timeZone).format('YYYY-MM-DD'))
+                  input(id= endDateControlId type="date" name="endDate" value=view.momentTimezone(product.endDate).tz(view.timeZone).format('YYYY-MM-DD'))
                 else
-                  = moment.timezone(product.endDate).tz(view.timeZone).format('l')
+                  = view.momentTimezone(product.endDate).tz(view.timeZone).format('l')
               td
                 if view.productTableState && view.productTableState[productControlId] === 'editMode'
                   - var teamsControlId = 'product-teams-' + productControlId
@@ -291,8 +291,8 @@ block modal-body-content
           h4.small(style="max-width: 700px") Product start at 12am CT on the start date and end at 11:59pm CT on the end date listed.
         else
           h4.small(style="max-width: 700px") Product start at 12am PT on the start date and end at 11:59pm PT on the end date listed.
-        +license-form-group('Start Date')(type="date" name="startDate" value=moment.timezone().tz(view.timeZone).format('YYYY-MM-DD'))
-        +license-form-group('End Date')(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'month').format('YYYY-MM-DD'))
+        +license-form-group('Start Date')(type="date" name="startDate" value=view.momentTimezone().tz(view.timeZone).format('YYYY-MM-DD'))
+        +license-form-group('End Date')(type="date" name="endDate" value=view.momentTimezone().tz(view.timeZone).add(1, 'month').format('YYYY-MM-DD'))
         .form-group
           - esportsType = view.esportsType
           label

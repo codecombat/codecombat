@@ -18,6 +18,7 @@ AceDiff = require 'ace-diff'
 require('app/styles/common/ace-diff.sass')
 fullPageTemplate = require 'app/templates/teachers/teacher-student-view-full'
 viewTemplate = require 'app/templates/teachers/teacher-student-view'
+userClassroomHelper = require '../../lib/user-classroom-helper'
 
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
@@ -416,6 +417,7 @@ module.exports = class TeacherStudentView extends RootView
     jqxhrs = @students.fetchForClassroom(@classroom, removeDeleted: true)
     # @listenTo @students, ->
     @supermodel.trackRequests jqxhrs
+    @isTeacherOfClass = userClassroomHelper.isTeacherOf({ user: me, classroom: @classroom })
 
   onSessionsSync: ->
     # Now we have some level sessions, and enough data to calculate last played string
