@@ -1,5 +1,6 @@
 Classroom = require 'models/Classroom'
 CourseInstance = require 'models/CourseInstance'
+co = require 'co'
 
 isTeacherOf = co.wrap ({ user, classroom, classroomId, courseInstance, courseInstanceId }) ->
   if not user.isTeacher()
