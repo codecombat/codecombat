@@ -1,7 +1,8 @@
 SpellView = require './SpellView'
 SpellTopBarView = require './SpellTopBarView'
 {me} = require 'core/auth'
-{createAetherOptions, replaceSimpleLoops, translateJS} = require 'lib/aether_utils'
+{ createAetherOptions, replaceSimpleLoops } = require 'lib/aether_utils'
+{ translateJS } = require 'lib/translate-utils'
 utils = require 'core/utils'
 
 module.exports = class Spell
