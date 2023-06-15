@@ -9,6 +9,7 @@ initSlider = require 'lib/initSlider'
 tintApi = require('../../../../ozaria/site/api/tint')
 tintSchema = require 'app/schemas/models/tint.schema.js'
 ColorCalculator = require('./hslCalculator.vue').default
+utils = require('core/utils')
 
 COLOR_GROUP_TAB = 'COLORGROUPTAB'
 TINT_TAB = 'TINTTAB'
@@ -26,6 +27,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   constructor: (@thangType, options) ->
     super options
+    @utils = utils
     @tab = COLOR_GROUP_TAB
     @supermodel.loadModel @thangType
     @currentColorConfig = { hue: 0, saturation: 0.5, lightness: 0.5 }
@@ -39,7 +41,8 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   destroy: ->
     @colorGroups?.destroy()
-    @tintAssignments?.destroy()
+    if utils.isOzaria
+      @tintAssignments?.destroy()
     @colorCalculator?.$destroy()
     clearInterval @interval
     super()
@@ -48,21 +51,23 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     super()
     return unless @supermodel.finished()
     @createShapeButtons()
-    @createColorGroupTintButtons()
+    if utils.isOzaria
+      @createColorGroupTintButtons()
     @initStage()
     @initSliders()
     @tryToBuild()
 
-    if @tab == COLOR_GROUP_TAB
-      $("#color-tint-treema").hide()
-      $("#color-groups-treema").show()
-      $("#shape-buttons").show()
-      $("#saved-color-tabs").hide()
-    else if @tab == TINT_TAB
-      $("#color-tint-treema").show()
-      $("#color-groups-treema").hide()
-      $("#shape-buttons").hide()
-      $("#saved-color-tabs").show()
+    if utils.isOzaria
+      if @tab == COLOR_GROUP_TAB
+        $("#color-tint-treema").hide()
+        $("#color-groups-treema").show()
+        $("#shape-buttons").show()
+        $("#saved-color-tabs").hide()
+      else if @tab == TINT_TAB
+        $("#color-tint-treema").show()
+        $("#color-groups-treema").hide()
+        $("#shape-buttons").hide()
+        $("#saved-color-tabs").show()
 
     # Attach a stateless color calculator widget
     @colorCalculator = new ColorCalculator({ el: '#color-calculator' })
@@ -82,6 +87,10 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   getColorConfig: ->
     colorConfig = {}
+    if utils.isCodeCombat
+      colorConfig[@currentColorGroupTreema.keyForParent] = @currentColorConfig
+      return colorConfig
+
     if @tab == COLOR_GROUP_TAB
       colorConfig[@currentColorGroupTreema.keyForParent] = @currentColorConfig
       return colorConfig
