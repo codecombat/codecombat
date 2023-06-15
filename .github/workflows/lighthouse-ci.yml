@@ -1,7 +1,7 @@
 name: Run Lighthouse CI for desktop and mobile
 on:
   schedule:
-    - cron: '0 3 * * 3,6'
+    - cron: '0 3 * * 1-5'
 jobs:
   lhci:
     name: Lighthouse CI
