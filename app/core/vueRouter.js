@@ -207,7 +207,7 @@ export default function getVueRouter () {
               }
             },
             {
-              path: '/resources_new',
+              path: 'resources_new',
               component: () => import(/* webpackChunkName: "teachers_new" */ 'app/views/teachers/teacher-dashboard/BaseResourceHub/index.vue')
             },
             {
