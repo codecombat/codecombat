@@ -1,6 +1,7 @@
-product = COCO_PRODUCT ? 'codecombat'
 isCodeCombat = product == 'codecombat'
 isOzaria = !isCodeCombat
+_ = require 'lodash'
+slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
 
 # Yuqiang: i don't know why we use same slugify from different source but let's keep it right now since change it sometimes trigger unbelievable bug
 if isCodeCombat
