@@ -189,7 +189,8 @@ module.exports = (env) => {
               options: {
                 implementation: require("sass"),
                 sassOptions: {
-                  indentedSyntax: true
+                  indentedSyntax: true,
+                  additionalData: `$product: ${product};`,
                 }
               }
             },
@@ -214,6 +215,7 @@ module.exports = (env) => {
               loader: 'sass-loader',
               options: {
                 implementation: require("sass"),
+                additionalData: `$product: ${product};`,
               }
             }
           ]
