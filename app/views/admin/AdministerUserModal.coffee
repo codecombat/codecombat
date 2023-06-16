@@ -14,6 +14,7 @@ fetchJson = require('core/api/fetch-json')
 utils = require 'core/utils'
 api = require 'core/api'
 NameLoader = require 'core/NameLoader'
+momentTimezone = require 'moment-timezone'
 { LICENSE_PRESETS, ESPORTS_PRODUCT_STATS } = require 'core/constants'
 
 # TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
@@ -90,6 +91,7 @@ module.exports = class AdministerUserModal extends ModelModal
     @esportsType = 'basic'
     @utils = utils
     options.models = [@user]  # For ModelModal to generate a Treema of this user
+    @momentTimezone = momentTimezone
     super options
 
   onLoaded: ->
@@ -187,8 +189,8 @@ module.exports = class AdministerUserModal extends ModelModal
     return unless attrs.maxRedeemers > 0
     return unless attrs.endDate and attrs.startDate and attrs.endDate > attrs.startDate
     attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-    attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone).toISOString()
-    attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
+    attrs.startDate = momentTimezone.tz(attrs.startDate, @timeZone).toISOString()
+    attrs.endDate = momentTimezone.tz(attrs.endDate, @timeZone).toISOString()
 
     if attrs.licenseType of @licensePresets
       attrs.includedCourseIDs = @licensePresets[attrs.licenseType]
@@ -223,8 +225,8 @@ module.exports = class AdministerUserModal extends ModelModal
     return unless attrs.endDate and attrs.startDate and attrs.endDate > attrs.startDate
     attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
 
-    attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
-    attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
+    attrs.startDate = momentTimezone.tz(attrs.startDate, @timeZone ).toISOString()
+    attrs.endDate = momentTimezone.tz(attrs.endDate, @timeZone).toISOString()
 
     attrs.productOptions = {type: attrs.esportsType, id: _.uniqueId(), createdTournaments: 0}
     delete attrs.esportsType
@@ -384,8 +386,8 @@ module.exports = class AdministerUserModal extends ModelModal
         if(prepaidTotalLicenses < (prepaid.get('redeemers') || []).length)
           alert('Total number of licenses cannot be less than used licenses')
           return
-        prepaid.set('startDate', moment.timezone.tz(prepaidStartDate, @timeZone).toISOString())
-        prepaid.set('endDate',  moment.timezone.tz(prepaidEndDate, @timeZone).toISOString())
+        prepaid.set('startDate', momentTimezone.tz(prepaidStartDate, @timeZone).toISOString())
+        prepaid.set('endDate',  momentTimezone.tz(prepaidEndDate, @timeZone).toISOString())
         prepaid.set('maxRedeemers', prepaidTotalLicenses)
         options = {}
         prepaid.patch(options)
@@ -420,8 +422,8 @@ module.exports = class AdministerUserModal extends ModelModal
         if(productStartDate >= productEndDate)
           alert('End date cannot be on or before start date')
           return
-        product.startDate = moment.timezone.tz(productStartDate, @timeZone).toISOString()
-        product.endDate = moment.timezone.tz(productEndDate, @timeZone).toISOString()
+        product.startDate = momentTimezone.tz(productStartDate, @timeZone).toISOString()
+        product.endDate = momentTimezone.tz(productEndDate, @timeZone).toISOString()
         product.productOptions.teams = parseInt(teams)
         product.productOptions.tournaments = parseInt(tournaments)
         product.productOptions.arenas = arenas

@@ -145,16 +145,21 @@ module.exports = class CampaignEditorView extends RootView
       delete campaignLevel.requiredGear if not level.attributes.requiredGear
       delete campaignLevel.restrictedGear if not level.attributes.restrictedGear
       campaignLevel.rewards = @formatRewards level
-      # Save campaign to level if its of type 'course' so 'Back to unit map' knows where to return.
+      # Coco: Save campaign to level if it's a main 'hero' campaign so HeroVictoryModal knows where to return.
+      # Ozar: Save campaign to level if its of type 'course' so 'Back to unit map' knows where to return.
       # (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
-      campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is 'course'
+      ctype = if utils.isCodeCombat then 'hero' else 'course'
+      campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is ctype
       campaignLevels[levelOriginal] = campaignLevel
 
     @campaign.set('levels', campaignLevels)
 
     for level in _.values campaignLevels
       continue if /test/.test @campaign.get('slug')  # Don't overwrite level stuff for testing Campaigns
-      model = @supermodel.getModelByOriginal Level, level.original
+      if utils.isCodeCombat
+        model = @levels.findWhere {original: level.original}
+      else
+        model = @supermodel.getModelByOriginal Level, level.original
       # do not propagate campaignIndex for non-course campaigns
       propsToPropagate = Campaign.denormalizedLevelProperties
       if @campaign.get('type') isnt 'course'
@@ -164,11 +169,12 @@ module.exports = class CampaignEditorView extends RootView
       @toSave.add model if model.hasLocalChanges()
 
     # Update name/slug/type properties in the `nextLevels` property of campaign levels
-    for level in _.values campaignLevels
-      for nextLevel in _.values level.nextLevels
-        model = @levels.findWhere {original: nextLevel.original}
-        if model
-          $.extend nextLevel, _.pick(model.attributes, Campaign.nextLevelProperties)
+    if utils.isOzaria
+      for level in _.values campaignLevels
+        for nextLevel in _.values level.nextLevels
+          model = @levels.findWhere {original: nextLevel.original}
+          if model
+            $.extend nextLevel, _.pick(model.attributes, Campaign.nextLevelProperties)
 
   formatRewards: (level) ->
     achievements = @achievements.where related: level.get('original')
@@ -250,10 +256,10 @@ module.exports = class CampaignEditorView extends RootView
         dblclick: @onTreemaDoubleClicked
         achievementUpdated: @onAchievementUpdated
       nodeClasses:
-        levels: LevelsNode
+        levels: if utils.isCodeCombat then CocoLevelsNode else OzarLevelsNode
         level: LevelNode
         nextLevel: NextLevelNode
-        campaigns: CampaignsNode
+        campaigns: if utils.isCodeCombat then CocoCampaignsNode else OzarCampaignsNode
         campaign: CampaignNode
         achievement: AchievementNode
         rewards: RewardsNode
@@ -349,7 +355,38 @@ module.exports = class CampaignEditorView extends RootView
     # Do Nothing
     # This is a override method to RootView, so that only CampaignView is listenting to signup button click
 
-class LevelsNode extends TreemaObjectNode
+# todo: can we use ozar levels node for coco too?
+class CocoLevelsNode extends TreemaObjectNode
+  valueClass: 'treema-levels'
+  @levels: {}
+  ordered: true
+
+  buildValueForDisplay: (valEl, data) ->
+    @buildValueForDisplaySimply valEl, ''+_.size(data)
+
+  childPropertiesAvailable: -> @childSource
+
+  childSource: (req, res) =>
+    s = new Backbone.Collection([], {model:Level})
+    s.url = '/db/level'
+    s.fetch({data: {term:req.term, project: Campaign.denormalizedLevelProperties.join(',')}})
+    s.once 'sync', (collection) =>
+      for level in collection.models
+        LevelsNode.levels[level.get('original')] = level
+        @settings.supermodel.registerModel level
+      mapped = ({label: r.get('name'), value: r.get('original')} for r in collection.models)
+
+      # Sort the results. Prioritize names that start with the search term, then contain the search term.
+      lowerPriority = _.clone(mapped)
+      lowerTerm = req.term.toLowerCase()
+      startsWithTerm = _.filter(lowerPriority, (item) -> _.string.startsWith(item.label.toLowerCase(), lowerTerm))
+      _.pull(lowerPriority, startsWithTerm...)
+      hasTerm = _.filter(lowerPriority, (item) -> _.string.contains(item.label.toLowerCase(), lowerTerm))
+      _.pull(lowerPriority, hasTerm...)
+      sorted = _.flatten([startsWithTerm, hasTerm, lowerPriority])
+      res(sorted)
+
+class OzarLevelsNode extends TreemaObjectNode
   valueClass: 'treema-levels'
   @levels: {}
   @mapped: []
@@ -397,6 +434,9 @@ class LevelNode extends TreemaObjectNode
       el = 'span'
     else if data.adventurer
       status += " (adventurer)"
+    else if utils.isCodeCombat and data.releasePhase is 'beta'
+      status += " (beta)"
+      el = 'span'
 
     completion = ''
 
@@ -420,7 +460,8 @@ class LevelNode extends TreemaObjectNode
     return if @data.name?
     data = _.pick LevelsNode.levels[@keyForParent].attributes, Campaign.denormalizedLevelProperties
     # Mark a level as internally released by default, so that we do not accidentally release a level externally.
-    data.releasePhase = 'internalRelease'
+    if utils.isOzaria
+      data.releasePhase = 'internalRelease'
     _.extend @data, data
 
 class NextLevelNode extends LevelNode
@@ -429,7 +470,25 @@ class NextLevelNode extends LevelNode
     data = _.pick LevelsNode.levels[@keyForParent].attributes, Campaign.nextLevelProperties
     _.extend @data, data
 
-class CampaignsNode extends TreemaObjectNode
+class CocoCampaignsNode extends TreemaObjectNode
+  valueClass: 'treema-campaigns'
+  @campaigns: {}
+
+  buildValueForDisplay: (valEl, data) ->
+    @buildValueForDisplaySimply valEl, ''+_.size(data)
+
+  childPropertiesAvailable: -> @childSource
+
+  childSource: (req, res) =>
+    s = new Backbone.Collection([], {model:Campaign})
+    s.url = '/db/campaign'
+    s.fetch({data: {term:req.term, project: Campaign.denormalizedCampaignProperties}})
+    s.once 'sync', (collection) ->
+      CampaignsNode.campaigns[campaign.id] = campaign for campaign in collection.models
+      mapped = ({label: r.get('name'), value: r.id} for r in collection.models)
+      res(mapped)
+
+class OzarCampaignsNode extends TreemaObjectNode
   valueClass: 'treema-campaigns'
   @campaigns: {}
   @mapped = []

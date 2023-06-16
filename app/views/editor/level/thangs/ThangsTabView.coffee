@@ -14,6 +14,7 @@ LevelComponents = require 'collections/LevelComponents'
 require 'lib/setupTreema'
 GameUIState = require 'models/GameUIState'
 GenerateTerrainModal = require 'views/editor/level/modals/GenerateTerrainModal'
+utils = require('core/utils')
 
 # Server-side Thangs collection fetch limit
 PAGE_SIZE = 1000
@@ -371,10 +372,14 @@ module.exports = class ThangsTabView extends CocoView
 
     for singleSelected in selected
       pos = singleSelected.thang.pos
+
       thang = _.find(@level.get('thangs') ? [], {id: singleSelected.thang.id})
-      positionComponent = _.find(thang.components or [], (c) => c.original in LevelComponent.positionIDs)
-      continue if not positionComponent
-      path = "#{@pathForThang(thang)}/components/original=#{positionComponent.original}"
+      if utils.isCodeCombat
+        path = "#{@pathForThang(thang)}/components/original=#{LevelComponent.PhysicalID}"
+      else
+        positionComponent = _.find(thang.components or [], (c) => c.original in LevelComponent.positionIDs)
+        continue if not positionComponent
+        path = "#{@pathForThang(thang)}/components/original=#{positionComponent.original}"
       physical = @thangsTreema.get path
       continue if not physical or (physical.config.pos.x is pos.x and physical.config.pos.y is pos.y)
       @thangsTreema.set path + '/config/pos', x: pos.x, y: pos.y, z: pos.z
@@ -682,13 +687,19 @@ module.exports = class ThangsTabView extends CocoView
       thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @getThangByID(thangID)
     if @cloneSourceThang
       components = _.cloneDeep @getThangByID(@cloneSourceThang.id).components
+    else if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
+      components = []  # Load them all from default ThangType Components
     else
       components = _.cloneDeep thangType.get('components') ? []
     components = @createEssentialComponents(thangType.get('components')) unless components.length
-    positionComponent = _.find(components or [], (c) => c.original in LevelComponent.positionIDs)
-    if positionComponent
-      positionComponent.config ?= {}
-      positionComponent.config.pos = {x: pos.x, y: pos.y, z: positionComponent.config?.pos?.z || 0}
+    if utils.isCodeCombat
+      physical = _.find components, (c) -> c.config?.pos?
+      physical.config.pos = x: pos.x, y: pos.y, z: physical.config.pos.z if physical
+    else
+      positionComponent = _.find(components or [], (c) => c.original in LevelComponent.positionIDs)
+      if positionComponent
+        positionComponent.config ?= {}
+        positionComponent.config.pos = {x: pos.x, y: pos.y, z: positionComponent.config?.pos?.z || 0}
     thang = thangType: thangType.get('original'), id: thangID, components: components
     if batchInsert
       @thangsBatch.push thang
@@ -775,30 +786,38 @@ module.exports = class ThangsTabView extends CocoView
     delete lank.marks.debug
     lank.setDebug true
 
+  getPID: (selectedThang) ->
+    if utils.isCodeCombat
+      return LevelComponent.PhysicalID
+    else
+      positionComponent = _.find(@getThangByID(selectedThang.id).components or [], (c) => c.original in LevelComponent.positionIDs)
+      return undefined if not positionComponent
+      return positionComponent.original
+
   rotateSelectedThangTo: (radians) ->
     for singleSelected in @gameUIState.get('selected')
       selectedThang = singleSelected.thang
-      positionComponent = _.find(@getThangByID(selectedThang.id).components or [], (c) => c.original in LevelComponent.positionIDs)
-      continue if not positionComponent
-      @modifySelectedThangComponentConfig selectedThang, positionComponent.original, (component) =>
+      pid = @getPID(selectedThang)
+      continue if not pid
+      @modifySelectedThangComponentConfig selectedThang, pid, (component) =>
         component.config.rotation = radians
         selectedThang.rotation = component.config.rotation
 
   rotateSelectedThangBy: (radians) ->
     for singleSelected in @gameUIState.get('selected')
       selectedThang = singleSelected.thang
-      positionComponent = _.find(@getThangByID(selectedThang.id).components or [], (c) => c.original in LevelComponent.positionIDs)
-      continue if not positionComponent
-      @modifySelectedThangComponentConfig selectedThang, positionComponent.original, (component) =>
+      pid = @getPID(selectedThang)
+      continue if not pid
+      @modifySelectedThangComponentConfig selectedThang, pid, (component) =>
         component.config.rotation = ((component.config.rotation ? 0) + radians) % (2 * Math.PI)
         selectedThang.rotation = component.config.rotation
 
   moveSelectedThangBy: (xDir, yDir) ->
     for singleSelected in @gameUIState.get('selected')
       selectedThang = singleSelected.thang
-      positionComponent = _.find(@getThangByID(selectedThang.id).components or [], (c) => c.original in LevelComponent.positionIDs)
-      continue if not positionComponent
-      @modifySelectedThangComponentConfig selectedThang, positionComponent.original, (component) =>
+      pid = @getPID(selectedThang)
+      continue if not pid
+      @modifySelectedThangComponentConfig selectedThang, pid, (component) =>
         component.config.pos.x += 0.5 * xDir
         component.config.pos.y += 0.5 * yDir
         selectedThang.pos.x = component.config.pos.x
@@ -807,9 +826,13 @@ module.exports = class ThangsTabView extends CocoView
   resizeSelectedThangBy: (xDir, yDir) ->
     for singleSelected in @gameUIState.get('selected')
       selectedThang = singleSelected.thang
-      shapeComponent = _.find(@getThangByID(selectedThang.id).components or [], (c) => c.original in LevelComponent.shapeIDs)
-      continue if not shapeComponent
-      @modifySelectedThangComponentConfig selectedThang, shapeComponent.original, (component) =>
+      if utils.isCodeCombat
+        pid = LevelComponent.PhysicalID
+      else
+        shapeComponent = _.find(@getThangByID(selectedThang.id).components or [], (c) => c.original in LevelComponent.shapeIDs)
+        continue if not shapeComponent
+        pid = shapeComponent.original
+      @modifySelectedThangComponentConfig selectedThang, pid, (component) =>
         component.config.width = (component.config.width ? 4) + 0.5 * xDir
         component.config.height = (component.config.height ? 4) + 0.5 * yDir
         selectedThang.width = component.config.width
@@ -818,9 +841,13 @@ module.exports = class ThangsTabView extends CocoView
   toggleSelectedThangCollision: ->
     for singleSelected in @gameUIState.get('selected')
       selectedThang = singleSelected.thang
-      collisionComponent = _.find(@getThangByID(selectedThang.id).components or [], (c) => c.original in LevelComponent.collisionIDs)
-      continue if not collisionComponent
-      @modifySelectedThangComponentConfig selectedThang, collisionComponent.original, (component) =>
+      if utils.isCodeCombat
+        cid = LevelComponent.CollidesID
+      else
+        collisionComponent = _.find(@getThangByID(selectedThang.id).components or [], (c) => c.original in LevelComponent.collisionIDs)
+        continue if not collisionComponent
+        cid = collisionComponent.original
+      @modifySelectedThangComponentConfig selectedThang, cid, (component) =>
         component.config ?= {}
         component.config.collisionCategory = if component.config.collisionCategory is 'none' then 'ground' else 'none'
         selectedThang.collisionCategory = component.config.collisionCategory
