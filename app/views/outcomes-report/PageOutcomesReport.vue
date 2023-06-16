@@ -385,8 +385,6 @@ main#page-outcomes-report
 
 
 <style lang="scss">
-$is-codecombat: $product == 'codecombat';
-
 #page-outcomes-report {
   $twilight: #476fb1;
   @if $is-codecombat {

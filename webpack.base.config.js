@@ -190,7 +190,7 @@ module.exports = (env) => {
                 implementation: require("sass"),
                 sassOptions: {
                   indentedSyntax: true,
-                  additionalData: `$product: ${product};`,
+                  additionalData: `$is-codecombat: ${product == 'codecombat'};`,
                 }
               }
             },
@@ -215,7 +215,7 @@ module.exports = (env) => {
               loader: 'sass-loader',
               options: {
                 implementation: require("sass"),
-                additionalData: `$product: ${product};`,
+                additionalData: `$is-codecombat: ${product == 'codecombat'};`,
               }
             }
           ]
