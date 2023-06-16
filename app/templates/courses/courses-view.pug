@@ -262,7 +262,7 @@ mixin classrooms_content()
                    a.view-levels-btn(data-href=mapUrl, data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
                    if view.courseInstanceHasProject(courseInstance)
                      a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
-                   if view.utils.isCodeCombat and classroom.hasAssessments({courseId: course._id})
+                   if view.utils.isCodeCombat && classroom.hasAssessments({courseId: course._id})
                      =" "
                      a.view-challenges-link(data-classroom-id=classroom.id, data-i18n="courses.view_challenges", data-course-id=course._id)
                    if view.showVideosLinkForCourse(course._id)
@@ -349,10 +349,10 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, 
           button.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.unit_complete")
     else if nextLevel
       - var url = view.urls.courseWorldMap({course: course, courseInstance: courseInstance});
-      if view.utils.isOzaria and isLocked
+      if view.utils.isOzaria && isLocked
         button.play-btn.btn.btn-forest.btn-lg.m-b-1(disabled=isLocked)
           span(data-i18n="common.locked")
-      else if view.utils.isCodeCombat and nextLevel != stats.levels.first
+      else if view.utils.isCodeCombat && nextLevel != stats.levels.first
         a.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=url, data-level-slug=nextLevel.get('slug'), data-event-action="Students Continue Course")
           span(data-i18n="common.continue")
       else
