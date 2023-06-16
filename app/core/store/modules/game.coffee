@@ -1,7 +1,7 @@
 levelSchema = require('schemas/models/level')
 api = require('core/api')
 utils = require 'core/utils'
-aetherUtils = require 'lib/aether_utils'
+translateUtils = require 'lib/translate-utils'
 
 # TODO: Be explicit about the properties being stored
 emptyLevel = _.zipObject(([key, null] for key in _.keys(levelSchema.properties)))
@@ -142,7 +142,7 @@ module.exports = {
         rawSource = _.find(solutions, language: codeLanguage)?.source
         if not rawSource and jsSource = _.find(solutions, language: 'javascript')?.source
           # If there is no target language solution yet, generate one from JavaScript.
-          rawSource = aetherUtils.translateJS(jsSource, codeLanguage)
+          rawSource = translateUtils.translateJS(jsSource, codeLanguage)
 
         unless rawSource
           noSolution()
@@ -170,7 +170,7 @@ module.exports = {
           rawSource = _.find(solutions, language: codeLanguage)?.source
           if not rawSource and jsSource = _.find(solutions, language: 'javascript')?.source
   # If there is no target language solution yet, generate one from JavaScript.
-            rawSource = aetherUtils.translateJS(jsSource, codeLanguage)
+            rawSource = translateUtils.translateJS(jsSource, codeLanguage)
           external_ch1_avatar = rootState.me.ozariaUserOptions?.avatar?.avatarCodeString ? 'crown'
           context = _.merge({ external_ch1_avatar }, utils.i18n(plan, 'context'))
           source = _.template(rawSource)(context)

@@ -1,8 +1,8 @@
 mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = levelProgress == 'complete' ? 'forest' : (levelProgress == 'started' ? 'gold' : '');
-  - levelName = level.get('name')
-  - var context = { assessment: level.get('assessment'), levelName: levelName, levelNumber: levelNumber, moment: moment , started: levelProgress == 'started', completed: levelProgress == 'complete'};
+  - levelName = level.get('displayName') || level.get('name')
+  - var context = { type: level.get('ozariaType'), assessment: level.get('assessment'), levelName: levelName, levelNumber: levelNumber, moment: moment , started: levelProgress == 'started', completed: levelProgress == 'complete'};
   - var link = null;
   - var levelSlugNav = null;
   if view.levelSessionMap && view.levelSessionMap[level.get('original')]
@@ -146,89 +146,34 @@ mixin breadcrumbs
         span= view.lastPlayedString()
 
       .small-details
+        - var status = view.user.prepaidStatus()
         span(data-i18n='view.user.status')
         span.spr
         span(data-i18n="teacher.license_status")
         span.spr :
-        - var enrolledCourseBits = view.user.prepaidNumericalCourses()
-        #numerical-courses-status
-          // index is the index number of power 2
-          // also see core/utils courseNumericalStatus
-          .status-col.cs
-            - let CSIndexes =  [0, 3, 6, 8, 9, 10]
-            - for(let index in CSIndexes)
-              .cell
-                = (+index) + 1
-                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, CSIndexes[index])) ? 'checked': undefined, onclick="return false")
-          .status-col.gd
-            - let GDIndexes =  [1, 4, 7]
-            - for(let index in GDIndexes)
-              .cell
-                = (+index) + 1
-                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, GDIndexes[index])) ? 'checked': undefined, onclick="return false")
-          .status-col.wd
-            - let WDIndexes =  [2, 5]
-            - for(let index in WDIndexes)
-              .cell
-                = (+index) + 1
-                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, WDIndexes[index])) ? 'checked': undefined, onclick="return false")
+        strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString()
 
   .playtime-charts
-    h4(data-i18n="teacher.playtime_detail")
+    | Updated Student Profiles coming soon!
 
-    .graphsSelector
-      span(data-i18n="teacher.select_course_coco")
-      span :
-      span.spr
-      select#course-dropdown.text-navy
-        each versionedCourse in (view.classroom.getSortedCourses() || [])
-          - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
-          if !course
-            // TODO: make sure this doesn't happen when data is loaded.
-            - continue;
-          - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
-          - if (instance && instance.hasMember(view.user))
-            option(value= course.id)= course.getTranslatedName()
-
-      div.legend
-        svg(width=15, height=15, style="margin: 0 5px 0 0")
-          rect(width=15, height=15, fill="rgb(32, 87, 43)")
-        span(data-i18n="teacher.student_completed")
-
-        svg(width=15, height=15, style="margin: 0 5px 0 15px")
-          rect(width=15, height=15, fill="rgb(242, 190, 25)")
-        span(data-i18n="teacher.student_in_progress")
-
-        svg(width=15, height=15, style="margin: 0 5px 0 15px")
-          rect(width=15, height=15, fill="rgb(92, 180, 208)")
-        span(data-i18n="teacher.class_average")
-
-    .graphs
-      each versionedCourse in (view.classroom.getSortedCourses() || [])
-        - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
-        if !course
-          - continue;
-        - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
-        - if ((instance && instance.hasMember(view.user)))
-          svg(id="visualisation-"+versionedCourse._id, width="1142", height="600", class="visualisation")
-
-  .student-progress-section
-    h4(data-i18n="teacher.course_progress")
-    .small(data-i18n="teacher.click_student_code")
-    .student-progress-section-progress
-      each versionedCourse in (view.classroom.getSortedCourses()|| [])
-        - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
-        if !course
-          - continue;
-        - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
-        - if (instance && instance.hasMember(view.user))
-          .course-row.alternating-background
-            .course-info= course.getTranslatedName()
-            - var levels = view.classroom.getLevels({courseID: course.id}).models
-            each level, index in levels
-              - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1);
-              - var levelProgress = view.levelProgressMap[level.get('original')];
-              +studentLevelProgressDot(levelProgress, level, levelNumber, course)
+  //- Hiding student progress section until its updated as per the new design on teacher-class-view
+  //- .student-progress-section
+  //-   h4(data-i18n="teacher.unit_progress")
+  //-   .small(data-i18n="teacher.click_student_code")
+  //-   .student-progress-section-progress
+  //-     each versionedCourse in (view.classroom.getSortedCourses()|| [])
+  //-       - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
+  //-       if !course
+  //-         - continue;
+  //-       - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
+  //-       - if (instance && instance.hasMember(view.user))
+  //-         .course-row.alternating-background
+  //-           .course-info= course.getTranslatedName()
+  //-           - var levels = view.classroom.getLevels({courseID: course.id}).models
+  //-           each level, index in levels
+  //-             - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1);
+  //-             - var levelProgress = view.levelProgressMap[level.get('original')];
+  //-             +studentLevelProgressDot(levelProgress, level, levelNumber, course)
 
   .student-progress-section
     a(name="backtotop")
@@ -237,7 +182,7 @@ mixin breadcrumbs
       span :
     .small(data-i18n="teacher.students_code_blurb")
     .progress-selector
-      span(data-i18n="teacher.select_course_coco")
+      span(data-i18n="teacher.select_course_ozar")
       span :
       span.spr
       select.course-select
@@ -255,10 +200,12 @@ mixin breadcrumbs
         - var courseStarted = false;
         table.table.table-condensed
           each level, index in levels
+            - var solutions = view.levelSolutionsMap[level.get('original')] || [];
             if view.levelProgressMap[level.get('original')] === 'not started'
               - continue;
+            if level.get('ozariaType') === 'intro' || level.get('type') === 'intro'
+              - continue;
             - courseStarted = true;
-            - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1);
             - var langClass = 'lang-python';
             if level.get('primerLanguage')
               - langClass = 'lang-' + level.get('primerLanguage');
@@ -270,14 +217,9 @@ mixin breadcrumbs
               td(colspan=2)
                 a(name=level.get('slug'))
                 if level.get('assessment')
-                  span=levelNumber
-                  =" "
-                  span(data-i18n="play_level.level")
-                  span : #{level.get('name')}
+                  = level.get('displayName') || level.get('name')
                 else
-                  span(data-i18n="play_level.level")
-                  =" "
-                  span #{levelNumber}: #{level.get('name')}
+                  = level.get('displayName') || level.get('name')
                 if level.get('practice')
                   =" ("
                   span(data-i18n="teacher.practice")
@@ -290,21 +232,15 @@ mixin breadcrumbs
                   =" "
                   if view.levelProgressMap[level.get('original')] === 'complete'
                     span (
-                    span(data-i18n="play_level.level_complete_at")
-                    -var completed = view.levelProgressTimeMap[level.get('original')].dateFirstCompleted
-                    span(title=completed.format('lll'))= completed.fromNow()
+                    span(data-i18n="play_level.level_complete")
                     span )
                   else
                     span (
                     span(data-i18n="teacher.level_in_progress")
                     span )
-                  span(style="float:right; margin-right: 40px")
-                    span(data-i18n="play_level.changed")
-                    -var changed = view.levelProgressTimeMap[level.get('original')].changed
-                    span(title=changed.format('lll'))= changed.fromNow()
               td
                 .small
-                  span= level.get('name')
+                  span= level.get('displayName') || level.get('name')
                   =" "
                   span(data-i18n="common.solution")
                   if level.isLadder()
@@ -319,10 +255,7 @@ mixin breadcrumbs
                   if level.get('assessment')
                     =" "
                     span (
-                    if level.get('assessment') === 'cumulative'
-                      span(data-i18n="play_level.combo_challenge")
-                    else
-                      span(data-i18n="play_level.concept_challenge")
+                      span(data-i18n="play_level.challenge")
                     span )
                   if level.isProject()
                     =" "
@@ -331,70 +264,110 @@ mixin breadcrumbs
                     =" "
                     span(data-i18n="play_level.level")
                     span )
-            - var solutions = view.levelSolutionsMap[level.get('original')] || [];
-            if solutions.length > 1 || level.isLadder()
+            if solutions.length > 1
               tr
                 td
-                  if level.isLadder()
-                    - var studentCodeMap = view.levelStudentCodeMap[level.get('original')] || []
-                    div(role='tabpanel')
-                      ul.nav.nav-tabs(role='tablist')
-                        each code, index in studentCodeMap
-                          li.nav-item(class=(index === 0 ? 'active' : ''))
-                            - var target = level.get('original') + '+' + code.team;
-                            a.nav-link(id=`${target}-tab`, class=(index === 0 ? 'active' : ''), href=`#${target}`, role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index, data-team=code.team)
-                              if index === 0
-                                strong.text-center(data-i18n=`ladder.${code.team}`)
-                              else
-                                .text-center
-                                  span(data-i18n=`ladder.${code.team}`)
-                          if index < studentCodeMap.length - 1
-                            .tab-spacer
-                          else
-                            .tab-filler
                 td
-                  if solutions.length > 1
-                    div(role='tabpanel')
-                      ul.nav.nav-tabs(role='tablist')
-                        each solution, index in solutions
-                          li.nav-item(class=(index === 0 ? 'active' : ''))
-                            - var target = level.get('original') + index;
-                            a.nav-link(id=`${target}-tab`, class=(index === 0 ? 'active' : ''), href=`#${target}`, role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
-                              if index === 0
-                                strong.text-center(data-i18n="teacher.complete_solution")
-                              else
-                                .text-center
-                                  span(data-i18n="teacher.partial_solution")
-                                  =" "
-                                  span= index
-                          if index < solutions.length - 1
-                            .tab-spacer
-                          else
-                            .tab-filler
+                  div(role='tabpanel')
+                    ul.nav.nav-tabs(role='tablist')
+                      each solution, index in solutions
+                        li.nav-item(class=(index === 0 ? 'active' : ''))
+                          - var target = level.get('original') + index;
+                          a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
+                            if solution.capstoneStage
+                              .text-center
+                                span(data-i18n="teacher.capstone_solution")
+                                =" "
+                                span= solution.capstoneStage
+                            else if index === 0
+                              strong.text-center(data-i18n="teacher.complete_solution")
+                            else
+                              .text-center
+                                span(data-i18n="teacher.partial_solution")
+                                =" "
+                                span= index
+                        if index < solutions.length - 1
+                          .tab-spacer
+                        else
+                          .tab-filler
             tr
               td(colspan=2)
                 div(role='tabpanel')
                   .tab-content
-                    //- For  project level, there is no correct solution, just show the student's code
-                    if level.isProject() && solutions.length === 0
+                    //- For project level, there is no correct solution, just show the student's code
+                    if level.isProject()
                       - var target = level.get('original');
                       div.tab-pane(id=target, class='active', role=tabpanel, aria-labelledby=`${target}-tab`)
                         table.side-by-side
                           tr
                             td
-                              - var levelOriginal = level.get('original')
-                              unless view.levelStudentCodeMap[levelOriginal].length
-                                i.small(data-i18n="teacher.no_code_yet")
-                              each code in view.levelStudentCodeMap[levelOriginal]
-                                if view.levelProgressMap[levelOriginal] === 'complete'
-                                  pre
-                                    code(class=langClass)= code.plan
+                              if view.levelStudentCodeMap[level.get('original')]
+                                if view.levelProgressMap[level.get('original')] === 'complete'
+                                  if (view.capstoneGuidedCode[level.get('original')])
+                                    pre
+                                      code(class=langClass)= view.capstoneGuidedCode[level.get('original')]
+                                  else
+                                    pre
+                                      code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
                                 else
                                   pre.incomplete-code
-                                    code(class=langClass)= code.plan
+                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                              else
+                                i.small(data-i18n="teacher.no_code_yet")
                             td.project-blurb
-                              i.small(data-i18n="teacher.solution_project_blurb")
-                    div(class="ace-diff-"+level.get('original'), style="position: relative")
-
+                              if isCreativeMode(level.get('original'))
+                                i.small(data-i18n="[html]teacher.feedback_capstone") The student will create a base project in Part 1. They will make creative updates based on peer feedback in Part 2. Here is a Peer Feedback Template that you can share with your students.
+                                if (solutions.length > 0)
+                                  - var solution = solutions[0]
+                                  pre
+                                    code(class=langClass)= solution.source
+                              else
+                                i.small(data-i18n="teacher.solution_project_blurb")
+                    each solution, index in solutions
+                      - var target = level.get('original') + index;
+                      div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby="#{target}-tab")
+                        table.side-by-side
+                          tr
+                            td
+                            td
+                              .small!= marked(solution.description || '')
+                          tr
+                            td
+                              if view.levelStudentCodeMap[level.get('original')]
+                                if view.levelProgressMap[level.get('original')] === 'complete'
+                                  if isCreativeMode(level.get('original'))
+                                    .small
+                                      span= level.get('displayName') || level.get('name')
+                                      =" "
+                                      span (
+                                      span(data-i18n="play_level.feedback") Feedback
+                                      =" "
+                                      span(data-i18n="play_level.level")
+                                      span )
+                                  pre
+                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                                else
+                                  pre.incomplete-code
+                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                              else
+                                i.small(data-i18n="teacher.no_code_yet")
+                            td
+                              if solutions.length === 1
+                                if isCreativeMode(level.get('original'))
+                                  .small
+                                    span= level.get('displayName') || level.get('name')
+                                    =" "
+                                    span (
+                                    span(data-i18n="play_level.feedback") Feedback
+                                    =" "
+                                    span(data-i18n="play_level.level")
+                                    span )
+                                pre
+                                  code(class=langClass)= solution.source
+                              else if solutions.length > 0
+                                  pre
+                                    code(class=langClass)= solution.source
+                              else
+                                i.small(data-i18n="common.coming_soon")
         if !courseStarted
           p(data-i18n="teacher.course_not_started")

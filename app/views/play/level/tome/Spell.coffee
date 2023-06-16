@@ -1,7 +1,8 @@
 SpellView = require './SpellView'
 SpellTopBarView = require './SpellTopBarView'
 {me} = require 'core/auth'
-{createAetherOptions, replaceSimpleLoops, translateJS} = require 'lib/aether_utils'
+{ createAetherOptions, replaceSimpleLoops } = require 'lib/aether_utils'
+{ translateJS } = require 'lib/translate-utils'
 utils = require 'core/utils'
 
 module.exports = class Spell
@@ -22,7 +23,7 @@ module.exports = class Spell
     @level = options.level
     @createFromProgrammableMethod options.programmableMethod, options.language
     if @canRead()  # We can avoid creating these views if we'll never use them.
-      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel, levelID: options.levelID, classroomAceConfig: options.classroomAceConfig}
+      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel, levelID: options.levelID, classroomAceConfig: options.classroomAceConfig, spectateView: @spectateView}
       @view.render()  # Get it ready and code loaded in advance
       @topBarView = new SpellTopBarView
         hintsState: options.hintsState

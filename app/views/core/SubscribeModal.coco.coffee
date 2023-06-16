@@ -7,7 +7,7 @@ utils = require 'core/utils'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 Products = require 'collections/Products'
 payPal = require('core/services/paypal')
-paymentUtils = require '../../lib/paymentUtils'
+{ handleHomeSubscription } = require '../../lib/stripeUtil'
 
 module.exports = class SubscribeModal extends ModalView
   id: 'subscribe-modal'
@@ -161,7 +161,7 @@ module.exports = class SubscribeModal extends ModalView
     Starts a stripe subscription based on the product passed in.
   ###
   startStripeSubscription: (product) ->
-    paymentUtils.handleHomeSubscription(product, @couponID, { purchasingForId: @purchasingForId })
+    handleHomeSubscription(product, @couponID, { purchasingForId: @purchasingForId })
       .catch (err) =>
         console.error 'homeSubscription handle failed by new stripe', err
         @handleStripeSubscriptionByOldFormat(product)
