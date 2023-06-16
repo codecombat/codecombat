@@ -29,6 +29,9 @@ module.exports = class LevelLoadingView extends CocoView
   shortcuts:
     'enter': 'onEnterPressed'
 
+  initialize: (options={}) ->
+    @utils = utils
+
   afterRender: ->
     super()
     unless @level?.get('loadingTip')
@@ -120,7 +123,11 @@ module.exports = class LevelLoadingView extends CocoView
   showReady: ->
     return if @shownReady
     @shownReady = true
-    _.delay @finishShowingReady, 100  # Let any blocking JS hog the main thread before we show that we're done.
+    if utils.isCodeCombat
+      _.delay @finishShowingReady, 100  # Let any blocking JS hog the main thread before we show that we're done.
+    else
+      @unveilPreviewTime = new Date().getTime()
+      _.delay @startUnveiling, 100  # Let any blocking JS hog the main thread before we show that we're done.
 
   finishShowingReady: =>
     return if @destroyed
@@ -139,10 +146,26 @@ module.exports = class LevelLoadingView extends CocoView
       @unveil false
 
   startUnveiling: (e) ->
-    @playSound 'menu-button-click'
-    @unveiling = true
-    Backbone.Mediator.publish 'level:loading-view-unveiling', {}
-    _.delay @onClickStartLevel, 1000  # If they never mouse-up for the click (or a modal shows up and interrupts the click), do it anyway.
+    # todo: this file, coco and ozar do similar things with different steps, should be refactored
+    if utils.isCodeCombat
+      @playSound 'menu-button-click'
+      @unveiling = true
+      Backbone.Mediator.publish 'level:loading-view-unveiling', {}
+      _.delay @onClickStartLevel, 1000  # If they never mouse-up for the click (or a modal shows up and interrupts the click), do it anyway.
+    else
+      levelSlug = @level?.get('slug') or @options?.level?.get('slug')
+      timespent = (new Date().getTime() - @unveilPreviewTime) / 1000
+      window.tracker?.trackEvent 'Finish Viewing Intro', {
+        category: 'Play Level'
+        label: 'level loading'
+        level: levelSlug
+        levelID: levelSlug
+        timespent # This is no longer a very useful metric as it now happens right away.
+      }
+      details = @$('#loading-details')?[0]
+      unless details?.style?.display == 'none'
+        details?.style?.display = "none"
+      Backbone.Mediator.publish 'level:loading-view-unveiled', view: @
 
   onClickStartLevel: (e) =>
     return if @destroyed
