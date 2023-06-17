@@ -190,8 +190,8 @@ module.exports = (env) => {
                 implementation: require("sass"),
                 sassOptions: {
                   indentedSyntax: true,
-                  additionalData: `$is-codecombat: ${product == 'codecombat'};`,
-                }
+                },
+                additionalData: `$is-codecombat: ${product == 'codecombat'};`,
               }
             },
             { loader: 'import-glob-loader' }
