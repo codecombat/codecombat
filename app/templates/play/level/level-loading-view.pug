@@ -4,7 +4,7 @@
 
 - var product = view.utils.isCodeCombat ? 'coco' : 'ozar'
 #loading-details.loading-container
-  if utils.isOzaria
+  if view.utils.isOzaria
     .chrome-border.chrome-off-slice
   .level-loading-goals.secret.rtl-allowed
     .goals-title(data-i18n=view.goalHeaderTransationKey) Goals
@@ -18,7 +18,7 @@
         .intro-doc-content(dir="auto")
 
   .progress-or-start-container
-    if utils.isCodeCombat
+    if view.utils.isCodeCombat
       button.start-level-button.btn.btn-lg.btn-success.btn-illustrated.header-font.needsclick(data-i18n=view.buttonTranslationKey) Start Level
     else
       img(src="/images/ozaria/level/Logo_Bevelled@4x.png")
