@@ -28,21 +28,15 @@ _.extend(AIProjectSchema.properties, {
     title: 'Visibility',
     description: 'Whether this project is private, public but unlisted, or public and published'
   },
-  interactions: c.InteractionArraySchema('The ordered interactions comprising this project'),
-  currentInteractionIndex: { type: 'integer', minimum: 0, title: 'Current Interaction Index', description: 'Pointer to interaction representing latest published version of the document. If not at the end, user has reverted to an earlier version of the project (or maybe not published the later interactions yet?).' },
-  documents: {
-    type: 'object',
-    title: 'Documents',
-    description: 'Document names -> _ids for the documents in the current version of this project',
-    additionalProperties: {
-      type: c.objectId({links: [{rel: 'db', href: '/db/ai_document/{($)}'}]})
-    }
+  actionQueue: {
+    type: 'array',
+    description: 'Actions left to perform in this project'
   }
 })
 
 AIProjectSchema.definitions = {}
 c.extendBasicProperties(AIProjectSchema, 'ai_project')
-c.extendSearchableProperties(AIProjectSchema)
-c.extendPermissionsProperties(AIProjectSchema, 'ai_project')
+// c.extendSearchableProperties(AIProjectSchema)
+// c.extendPermissionsProperties(AIProjectSchema, 'ai_project')
 
 module.exports = AIProjectSchema

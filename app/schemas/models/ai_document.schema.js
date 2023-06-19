@@ -10,15 +10,7 @@ const AIDocumentSchema = c.object({
 
 _.extend(AIDocumentSchema.properties, {
   type: { type: 'string', description: 'The file type (html, py, jpg, etc.)' },
-  owner: c.objectId(),
-  scenario: c.objectId(),
-  project: c.objectId(), // Scenario link, project link, both, neither?
-  created: c.date({ title: 'Created', readOnly: true }),
-  name: { type: 'string' },
-  content: c.object({}, {
-    text: { type: 'string', description: 'Text contents of this document' },
-    url: { type: 'string', format: 'file', description: 'File link to binary contents of this document' }
-  })
+  source: { type: 'string', description: 'The contents of the document' }
 })
 
 AIDocumentSchema.definitions = {}

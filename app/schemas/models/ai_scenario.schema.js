@@ -21,11 +21,6 @@ _.extend(AIScenarioSchema.properties, {
     maxLength: 2000,
     format: 'markdown'
   },
-  persona: {
-    type: 'string',
-    title: 'Persona',
-    description: 'Which persona this scenario is for (kid, teacher, parent, etc.)'
-  },
   mode: {
     type: 'string',
     title: 'Mode',
@@ -53,29 +48,18 @@ _.extend(AIScenarioSchema.properties, {
     title: 'Release Phase',
     description: 'Scenarios start off in beta, then are released when they are completed'
   },
-  interactions: {
-    title: 'Interactions',
-    type: 'object',
-    description: 'The choices, messages, prompts, teacher responses, and other interactions making up this scenario',
-    properties: {
-      start: { type: 'array', description: 'The main linear interactions triggered at the start of the scenario', items: { $ref: '#/definitions/inlineInteraction' } },
-      dynamic: { type: 'array', description: 'Any dynamic interactions triggered by events during the scenario', items: { $ref: '#/definitions/inlineInteraction' } },
-    }
-  },
-  i18n: {
-    additionalProperties: true,
-    type: 'object',
-    format: 'i18n',
-    props: ['name', 'description']
+  initialActionQueue: {
+    type: 'array',
+    description: 'Actions to add to a project when it is created from this scenario'
   }
 })
 
 AIScenarioSchema.definitions = { inlineInteraction: c.InlineInteractionSchema }
 c.extendBasicProperties(AIScenarioSchema, 'ai_scenario')
-c.extendSearchableProperties(AIScenarioSchema)
-c.extendVersionedProperties(AIScenarioSchema, 'ai_scenario')
-c.extendPermissionsProperties(AIScenarioSchema, 'ai_scenario')
-c.extendPatchableProperties(AIScenarioSchema)
-c.extendTranslationCoverageProperties(AIScenarioSchema)
+// c.extendSearchableProperties(AIScenarioSchema)
+// c.extendVersionedProperties(AIScenarioSchema, 'ai_scenario')
+// c.extendPermissionsProperties(AIScenarioSchema, 'ai_scenario')
+// c.extendPatchableProperties(AIScenarioSchema)
+// c.extendTranslationCoverageProperties(AIScenarioSchema)
 
 module.exports = AIScenarioSchema
