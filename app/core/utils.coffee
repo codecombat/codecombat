@@ -1190,7 +1190,7 @@ getProduct = -> if isOzaria then OZARIA else CODECOMBAT
 
 getProductName = -> $.i18n.t("new_home." + getProduct())
 
-supportEmail = "support@${getProduct()}.com"
+supportEmail = "support@#{getProduct()}.com"
 
 cocoBaseURL = ->
   if isCodeCombat
