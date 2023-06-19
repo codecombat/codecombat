@@ -4,23 +4,11 @@ const _ = require('lodash')
 const AIScenarioSchema = c.object({
   title: 'AI Scenario',
   description: 'A generative AI scenario',
-  required: ['releasePhase'],
-  default: {
-    releasePhase: 'beta',
-    interactions: { start: [] }
-  }
 })
 
 c.extendNamedProperties(AIScenarioSchema)
 
 _.extend(AIScenarioSchema.properties, {
-  description: {
-    title: 'Description',
-    description: 'A short explanation of what this scenario is about',
-    type: 'string',
-    maxLength: 2000,
-    format: 'markdown'
-  },
   mode: {
     type: 'string',
     title: 'Mode',
@@ -41,12 +29,6 @@ _.extend(AIScenarioSchema.properties, {
     type: 'string',
     title: 'Doc',
     description: 'Which document type this scenario is for (a webpage, an essay, an image, etc.))'
-  },
-  releasePhase: {
-    type: 'string',
-    enum: ['beta', 'released'],
-    title: 'Release Phase',
-    description: 'Scenarios start off in beta, then are released when they are completed'
   },
   initialActionQueue: {
     type: 'array',
