@@ -1,5 +1,5 @@
 # NOTE: 'automatic' is whether rob's auto-tagger can find it.
-product = COCO_PRODUCT || 'codecombat'
+product = COCO_PRODUCT ? 'codecombat'
 isCodeCombat = product == 'codecombat'
 
 dupList = [
