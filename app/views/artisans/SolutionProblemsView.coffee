@@ -45,7 +45,11 @@ module.exports = class SolutionProblemsView extends RootView
     'goals'
   ]
   includedLanguages = [
-    'python', 'javascript'
+    'python', 'javascript', 'java', 'lua', 'coffeescript'
+  ]
+  # TODO: Phase the following out:
+  excludedLanguages = [
+    'java', 'lua', 'coffeescript'
   ]
   excludedLevelSnippets = [
     'treasure', 'brawl', 'siege'
@@ -124,13 +128,17 @@ module.exports = class SolutionProblemsView extends RootView
           problems = problems.concat(@findPass solution)
           problems = problems.concat(@findIdenticalToSource solution, plan)
           problems = problems.concat(@findTemplateProblems solution, plan)
-          problems = problems.concat(@findSolutionTemplateProblems solution, plan)
+          if utils.isCodeCombat
+            problems = problems.concat(@findSolutionTemplateProblems solution, plan)
       @problemCount += problems.length
-      @levelsWithSolutionsCount++ if solutions.length
-      @parsedLevels.push
+      @levelsWithSolutionsCount++ if utils.isCodeCombat and solutions.length
+      pl = {
         level: level
         problems: problems
-        solutions: solutions
+      }
+      if utils.isCodeCombat
+        pl.solutions = solutions
+      @parsedLevels.push pl
 
     @renderSelectors '#level-table'
 
@@ -138,7 +146,8 @@ module.exports = class SolutionProblemsView extends RootView
     problems = []
     for lang in includedLanguages
       if _.findWhere(solutions, (elem) -> return elem.language is lang)
-      else
+      # TODO: Phase the following out:
+      else if lang not in excludedLanguages
         problems.push
           type: 'Missing solution language'
           value: lang
@@ -164,7 +173,7 @@ module.exports = class SolutionProblemsView extends RootView
 
   findIdenticalToSource: (solution, plan) ->
     problems = []
-    if not plan.languages
+    if utils.isCodeCombat and not plan.languages
       problems.push
         type: 'Plan has no languages'
         value: plan
@@ -178,16 +187,16 @@ module.exports = class SolutionProblemsView extends RootView
 
   findTemplateProblems: (solution, plan) ->
     problems = []
-    if not plan.languages
+    if utils.isCodeCombat and not plan.languages
       return problems
     source = if solution.lang is 'javascript' then plan.source else plan.languages[solution.language]
     context = plan.context
     try
-      _.template(source)(context)
+      _.template(source, context)
     catch error
       console.log source, context, error
       problems.push
-        type: 'Plan template syntax error'
+        type: (if utils.isCodeCombat then 'Plan' else 'Solution') + ' template syntax error'
         value: error.message
     problems
 

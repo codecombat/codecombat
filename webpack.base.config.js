@@ -189,8 +189,9 @@ module.exports = (env) => {
               options: {
                 implementation: require("sass"),
                 sassOptions: {
-                  indentedSyntax: true
-                }
+                  indentedSyntax: true,
+                },
+                additionalData: `$is-codecombat: ${product == 'codecombat'}`,
               }
             },
             { loader: 'import-glob-loader' }
@@ -214,6 +215,7 @@ module.exports = (env) => {
               loader: 'sass-loader',
               options: {
                 implementation: require("sass"),
+                additionalData: `$is-codecombat: ${product == 'codecombat'};`,
               }
             }
           ]
