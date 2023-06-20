@@ -3,6 +3,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'app/templates/play/level/level-playback-view.coco'
 {me} = require 'core/auth'
 store = require 'core/store'
+utils = require 'core/utils'
 
 module.exports = class LevelPlaybackView extends CocoView
   id: 'playback-view'
@@ -49,6 +50,7 @@ module.exports = class LevelPlaybackView extends CocoView
 
   constructor: ->
     super(arguments...)
+    @utils = utils
     me.on('change:music', @updateMusicButton, @)
 
   afterRender: ->
