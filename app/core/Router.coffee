@@ -4,6 +4,13 @@ globalVar = require 'core/globalVar'
 
 go = (path, options) -> -> @routeDirectly path, arguments, options
 
+# This can be wrapped around existing route functions,
+# to restrict the new teacher dashboard only for admins (using flag newTeacherDashboardActive)
+teacherProxyRoute = (originalRoute) -> ->
+  # if sessionStorage.getItem('newTeacherDashboardActive') == 'active'
+  return go('core/SingletonAppVueComponentView').apply(@, arguments)
+  # originalRoute.apply(@, arguments)
+
 redirect = (path) -> ->
   delete window.alreadyLoadedView
   @navigate(path + document.location.search, { trigger: true, replace: true })
@@ -38,21 +45,23 @@ module.exports = class CocoRouter extends Backbone.Router
     '': ->
       if window.serverConfig.picoCTF
         return @routeDirectly 'play/CampaignView', ['picoctf'], {}
-      if utils.getQueryVariable 'payment-homeSubscriptions'
-        return @routeDirectly 'HomeView'
       if utils.getQueryVariable 'hour_of_code'
         delete window.alreadyLoadedView
         return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
-      unless utils.isOzaria or me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient() or paymentUtils.hasTemporaryPremiumAccess() or me.isParentHome()
-        delete window.alreadyLoadedView
-        return @navigate "/premium", {trigger: true, replace: true}
-      if me.isAPIClient()
-        delete window.alreadyLoadedView
-        #return @navigate "/league/#{me.get('clans')?[0] ? ''}apiclient-data", {trigger: true, replace: true}  # Once we make sure all students have been associated with their API creators
-        return @navigate "/api-dashboard", {trigger: true, replace: true}
-      if me.useChinaHomeView()
-        delete window.alreadyLoadedView
-        return @routeDirectly('HomeCNView', [])
+
+      if utils.isCodeCombat
+        if utils.getQueryVariable 'payment-homeSubscriptions'
+          return @routeDirectly 'HomeView'
+        unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient() or paymentUtils.hasTemporaryPremiumAccess() or me.isParentHome()
+          delete window.alreadyLoadedView
+          return @navigate "/premium", {trigger: true, replace: true}
+        if me.isAPIClient()
+          delete window.alreadyLoadedView
+          #return @navigate "/league/#{me.get('clans')?[0] ? ''}apiclient-data", {trigger: true, replace: true}  # Once we make sure all students have been associated with their API creators
+          return @navigate "/api-dashboard", {trigger: true, replace: true}
+        if me.useChinaHomeView()
+          delete window.alreadyLoadedView
+          return @routeDirectly('HomeCNView', [])
       return @routeDirectly('HomeView', [])
 
     'about': go('AboutView')
@@ -78,6 +87,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/clas': go('admin/CLAsView')
     'admin/classroom-content': go('admin/AdminClassroomContentView')
     'admin/classroom-levels': go('admin/AdminClassroomLevelsView')
+    'admin/partial-unit-release': () ->
+      @routeDirectly('views/admin/PartialUnitReleaseView', [], { vueRoute: true, baseTemplate: 'base-empty' })
     'admin/classrooms-progress': go('admin/AdminClassroomsProgressView')
     'admin/design-elements': go('admin/DesignElementsView')
     'admin/files': go('admin/FilesView')
@@ -147,6 +158,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'courses/:classroomID': -> @navigate("/students/#{arguments[0]}", {trigger: true, replace: true}) # Redirected 9/3/16
     'courses/:courseID/:courseInstanceID': -> @navigate("/students/#{arguments[0]}/#{arguments[1]}", {trigger: true, replace: true}) # Redirected 9/3/16
 
+    'dei': go('core/SingletonAppVueComponentView')
+    'diversity-equity-and-inclusion': go('core/SingletonAppVueComponentView')
     'db/*path': 'routeToServer'
     'docs/components': go('editor/docs/ComponentsDocumentationView')
     'docs/systems': go('editor/docs/SystemsDocumentationView')
@@ -160,11 +173,14 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/article/:articleID': go('editor/article/ArticleEditView')
     'editor/announcement': go('editor/announcement/AnnouncementSearchView')
     'editor/announcement/:announcementId': go('editor/announcement/AnnouncementEditView')
+    'editor/cinematic(/*subpath)': go('core/SingletonAppVueComponentView')
+    'editor/cutscene(/*subpath)': go('core/SingletonAppVueComponentView')
+    'editor/interactive(/*subpath)': go('core/SingletonAppVueComponentView')
     'editor/level': go('editor/level/LevelSearchView')
     'editor/level/:levelID': go('editor/level/LevelEditView')
     'editor/thang': go('editor/thang/ThangTypeSearchView')
     'editor/thang/:thangID': go('editor/thang/ThangTypeEditView')
-    'editor/campaign/:campaignID': go('editor/campaign/CampaignEditorView')
+    'editor/campaign/:campaignID(/:campaignPage)': go('editor/campaign/CampaignEditorView')
     'editor/poll': go('editor/poll/PollSearchView')
     'editor/poll/:articleID': go('editor/poll/PollEditView')
     'editor/verifier(/:levelID)': go('editor/verifier/VerifierView')
@@ -189,11 +205,24 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'file/*path': 'routeToServer'
 
+    'funding': go('core/SingletonAppVueComponentView')
+
     'github/*path': 'routeToServer'
 
-    'hoc': -> @navigate "/play/hoc-2018", {trigger: true, replace: true}
+    'hoc': (queryString) ->
+       if utils.isCodeCombat
+         @navigate "/play/hoc-2018", {trigger: true, replace: true}
+       else
+        queryString ?= ''
+        # Load the tracking image without it disrupting the page layout.
+        hocImg = new Image()
+        hocImg.src = 'https://code.org/api/hour/begin_codecombat_ozaria.png'
+        if queryString
+          queryString = '&' + queryString
+        @navigate("/play/chapter-1-sky-mountain?hour_of_code=true#{queryString}", { trigger: true })
+
     'play/hoc-2020': -> @navigate "/play/hoc-2018", {trigger: true, replace: true} # Added to handle HoC PDF
-    'home': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
+    'home': if utils.isCodeCombat and me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'i18n': go('i18n/I18NHomeView')
     'i18n/thang/:handle': go('i18n/I18NEditThangTypeView')
@@ -203,8 +232,11 @@ module.exports = class CocoRouter extends Backbone.Router
     'i18n/campaign/:handle': go('i18n/I18NEditCampaignView')
     'i18n/poll/:handle': go('i18n/I18NEditPollView')
     'i18n/course/:handle': go('i18n/I18NEditCourseView')
+    'i18n/cinematic/:handle': go('i18n/I18NEditCinematicView')
     'i18n/product/:handle': go('i18n/I18NEditProductView')
     'i18n/article/:handle': go('i18n/I18NEditArticleView')
+    'i18n/interactive/:handle': go('i18n/I18NEditInteractiveView')
+    'i18n/cutscene/:handle': go('i18n/I18NEditCutsceneView')
     'i18n/resource_hub_resource/:handle': go('i18n/I18NEditResourceHubResourceView')
 
     'identify': go('user/IdentifyView')
@@ -257,7 +289,20 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
-    'play/level/:levelID': go('play/level/PlayLevelView')
+    'play/level/:levelID': (levelID, options) ->
+      if utils.isCodeCombat
+        @routeDirectly('play/level/PlayLevelView', arguments, options)
+      else
+        props = {
+          levelID: levelID
+        }
+        @routeDirectly('ozaria/site/play/PagePlayLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+    'play/intro/:introLevelIdOrSlug': (introLevelIdOrSlug) ->
+      props = {
+        introLevelIdOrSlug: introLevelIdOrSlug
+      }
+      @routeDirectly('introLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+
     'play/video/level/:levelID': go('play/level/PlayLevelVideoView')
     'play/game-dev-level/:sessionID': go('play/level/PlayGameDevLevelView')
     'play/web-dev-level/:sessionID': go('play/level/PlayWebDevLevelView')
@@ -266,13 +311,49 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/web-dev-level/:levelID/:sessionID': (levelID, sessionID, queryString) ->
       @navigate("play/web-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
     'play/spectate/:levelID': go('play/SpectateView')
-    'play/:map': go('play/CampaignView')
+    'play/:campaign': (campaign) ->
+      if utils.isCodeCombat
+        @routeDirectly('play/CampaignView', [], {map: campaign})
+      else
+       props = {
+         campaign: campaign
+       }
+       @routeDirectly('ozaria/site/play/PageUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+    # These are admin-only routes since they are only used internally for testing -> interactive/, cinematic/, cutscene/, ozaria/avatar-selector
+    'interactive/:interactiveIdOrSlug(?code-language=:codeLanguage)': (interactiveIdOrSlug, codeLanguage) ->
+      props = {
+        interactiveIdOrSlug: interactiveIdOrSlug,
+        codeLanguage: codeLanguage # This will also come from intro level page later
+      }
+      @routeDirectly('interactive', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props}) if me.isAdmin()
+
+    'cinematic/:cinematicIdOrSlug': (cinematicIdOrSlug) ->
+      props = {
+        cinematicIdOrSlug: cinematicIdOrSlug,
+      }
+      @routeDirectly('cinematic', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props}) if me.isAdmin()
+
+    'cutscene/:cutsceneId': (cutsceneId) ->
+      props = {
+        cutsceneId: cutsceneId,
+      }
+      @routeDirectly('cutscene', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props }) if me.isAdmin()
 
     'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
+
+    'ozaria/avatar-selector': () ->
+      @routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' }) if me.isAdmin()
 
     'preview': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'privacy': go('PrivacyView')
+
+    'professional-development': go('core/SingletonAppVueComponentView')
+    'pd': go('core/SingletonAppVueComponentView')
+    'efficacy': go('core/SingletonAppVueComponentView')
+
+    'sel': go('core/SingletonAppVueComponentView')
+    'social-and-emotional-learning': go('core/SingletonAppVueComponentView')
 
     'roblox': go('core/SingletonAppVueComponentView')
 
@@ -284,26 +365,56 @@ module.exports = class CocoRouter extends Backbone.Router
     'students/project-gallery/:courseInstanceID': go('courses/ProjectGalleryView')
     'students/assessments/:classroomID': go('courses/StudentAssessmentsView')
     'students/videos/:courseID/:courseName': go('courses/CourseVideosView')
+    'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true })
     'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true })
 
-    'teachers': redirect('/teachers/classes')
-    'teachers/classes': go('courses/TeacherClassesView', { redirectStudents: true, teachersOnly: true })
+    'teachers': ->
+      if utils.isCodeCombat
+        delete window.alreadyLoadedView
+        @navigate('/teachers/classes' + document.location.search, { trigger: true, replace: true })
+      else
+        @routeDirectly('core/SingletonAppVueComponentView', arguments, {redirectStudents: true, teachersOnly: true})
+    'teachers/classes': ->
+      if utils.isCodeCombat
+        @routeDirectly('courses/TeacherClassesView', [], { redirectStudents: true, teachersOnly: true })
+      else
+        @routeDirectly('core/SingletonAppVueComponentView', arguments, {redirectStudents: true, teachersOnly: true})
+    'teachers/projects/:classroomId': go('core/SingletonAppVueComponentView')
     'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true })
-    'teachers/classes/:classroomID': go('courses/TeacherClassView', { redirectStudents: true, teachersOnly: true })
-    'teachers/courses': go('courses/TeacherCoursesView', { redirectStudents: true })
+    'teachers/classes/:classroomID': ->
+      if utils.isCodeCombat
+        @routeDirectly('courses/TeacherClassView', arguments, { redirectStudents: true, teachersOnly: true })
+      else
+        @routeDirectly('core/SingletonAppVueComponentView', arguments, {redirectStudents: true, teachersOnly: true})
+    'teachers/courses': ->
+      if utils.isCodeCombat
+        @routeDirectly('courses/TeacherCoursesView', arguments, { redirectStudents: true })
+      else
+        delete window.alreadyLoadedView
+        @navigate('/teachers'+document.location.search, { trigger: true, replace: true })
+    'teachers/units': redirect('/teachers') # Redirected 9/10/2020
     'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true })
     'teachers/campaign-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true, campaignMode: true })
     'teachers/demo': redirect('/teachers/quote')
     'teachers/enrollments': redirect('/teachers/licenses')
-    'teachers/hour-of-code': go('special_event/HoC2018View')
+    'teachers/hour-of-code': ->
+      if utils.isCodeCombat
+        @routeDirectly('special_event/HoC2018View', [], {})
+      else
+        window.location.href = 'https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'
+    # Redundant linking in case of external linking to our hoc resources:
+    'teachers/resources/hoc2019':  => window.location.href = 'https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'
+    'teachers/resources/hoc2020':  => window.location.href = 'https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'
     'teachers/licenses/v0': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true })
+
     'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/resources_old': go('teachers/ResourceHubView', { redirectStudents: true })
-    'teachers/resources': if me.useChinaHomeView() then go('teachers/ResourceHubView', { redirectStudents: true }) else go('core/SingletonAppVueComponentView')
+    'teachers/resources': if utils.isCodeCombat and me.useChinaHomeView() then go('teachers/ResourceHubView', { redirectStudents: true }) else go('core/SingletonAppVueComponentView', { redirectStudents: true })
     'teachers/resources_new': go('core/SingletonAppVueComponentView')
     'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
     'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })
+    'teachers/professional-development': teacherProxyRoute(go('pd/PDView', { redirectStudents: true }))
     'teachers/signup': ->
       return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
       return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
@@ -315,6 +426,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'school-administrator(/*subpath)': go('core/SingletonAppVueComponentView')
     'cinematicplaceholder/:levelSlug': go('core/SingletonAppVueComponentView')
+
+    'sign-up/educator': go('core/SingletonAppVueComponentView')
 
     'test(/*subpath)': go('TestView')
 
