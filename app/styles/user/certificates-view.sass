@@ -1,5 +1,3 @@
-@import "app/styles/utils"
-
 #certificates-view
   background-color: white
   text-align: center
@@ -85,20 +83,20 @@
       @if $is-codecombat
         margin-top: 1.3in
         height: 1.1in
-      @if $is-ozaria
+      @else
         margin-top: 1.0in
         height: 1.3in
 
     .tecmilenio
       @if $is-codecombat
         margin-top: 1in
-      @if $is-ozaria
+      @else
         margin-top: .6in
         margin-bottom: -30pt
       .base-logo
         @if $is-codecombat
           height: .7in
-        @if $is-ozaria
+        @if not $is-codecombat
           height: .5in
         display: inline-block
       @if $is-codecombat
@@ -108,7 +106,7 @@
     .certificate-of-completion
       @if $is-codecombat
         margin-top: 20pt
-      @if $is-ozaria
+      @else
         margin-top: 50pt
         line-height: 10pt
       word-spacing: 10pt
@@ -126,7 +124,7 @@
       line-height: $student-name-size
       @if $is-codecombat
         border-bottom: 2pt solid white
-      @if $is-ozaria
+      @else
         border-bottom: 2pt solid rgb(227, 195, 71)
       height: $student-name-size + 2pt
 
@@ -144,13 +142,13 @@
       &.code-results
         @if $is-codecombat
           left: 0.1in
-        @if $is-ozaria
+        @else
           left: 0.0in
 
       &.concepts-learned
         @if $is-codecombat
           left: 4in
-        @if $is-ozaria
+        @else
           left: 3.9in
 
       li
@@ -158,7 +156,7 @@
         font-size: 9pt
         @if $is-codecombat
           line-height: 18pt
-        @if $is-ozaria
+        @else
           line-height: 16pt
 
         a
@@ -214,7 +212,7 @@
       @if $is-codecombat
         width: 3in
         border-top: 2pt solid white
-      @if $is-ozaria
+      @else
         width: 1.8in
         border-top: 2pt solid rgb(227, 195, 71)
 
@@ -224,7 +222,7 @@
           position: absolute
           bottom: 0
           left: -0.2in
-        @if $is-ozaria
+        @else
           height: 0.3in
           position: absolute
           bottom: 0.3in
@@ -235,6 +233,8 @@
         font-size: 9pt
         line-height: 18pt
         text-align: left
+        @if $is-codecombat
+          white-space: nowrap
 
     @if $is-codecombat
       .product-codecombat & .teacher-info
