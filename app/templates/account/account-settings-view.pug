@@ -1,6 +1,6 @@
 if me.get('anonymous')
   .alert.alert-danger(data-i18n="account_settings.not_logged_in") Log in or create an account to change your settings.
-
+  
 else
   .row
     .col-md-6
@@ -60,8 +60,7 @@ else
                 span.spr= '.'
                 // TODO: show better summary states, like active, subscribed, free, and active until.
                 a(href="/account/subscription", data-i18n="account_settings.manage_subscription")
-          button.save-button.me-btn.form-control.btn.btn-primary.disabled(data-i18n="delta.no_changes" disabled="true")
-
+  
       // TODO: allow users to pick their avatars from our preset list now that we killed Gravatar and file uploads
       //.panel.panel-default
       //  .panel-heading
@@ -70,8 +69,8 @@ else
       //    img.profile-photo(src=me.getPhotoURL(230), draggable="false")
       //    .text-center
       //      a(href="https://gravatar.com/", data-i18n="account_settings.use_gravatar")
-
-
+  
+  
       //hide password setting for Tarena users
       if !me.isCreatedByTarena()
         .panel.panel-default
@@ -81,16 +80,15 @@ else
             .form
               if me.currentPasswordRequired()
                 .form-group
-                  label.control-label(for="current-password", data-i18n="account_settings.current_password") 
-                  input#current-password.form-control(name="current-password", type="password")            
+                  label.control-label(for="current-password", data-i18n="account_settings.current_password")
+                  input#current-password.form-control(name="current-password", type="password")                
               .form-group
                 label.control-label(for="password", data-i18n="account_settings.new_password") New Password
                 input#password.form-control(name="password", type="password")
               .form-group
                 label.control-label(for="password2", data-i18n="account_settings.new_password_verify") Verify
                 input#password2.form-control(name="password2", type="password")
-            button.save-password-button.passwd-btn.btn.btn-primary.form-control.disabled(data-i18n="delta.no_changes" disabled="true")
-
+  
       .panel.panel-default.related-account
         .panel-heading
           .panel-title(data-i18n="related_accounts.title")
@@ -113,39 +111,37 @@ else
             button#delete-account-btn.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
 
     .col-md-6
-
+  
       - var subs = view.getEmailSubsDict();
-
+  
       #email-panel.panel.panel-default
         .panel-heading
           .panel-title(data-i18n="account_settings.emails_tab")
         .panel-body
-
+  
           .form
             .form-group.checkbox
               label.control-label(for="email_generalNews", data-i18n="account_settings.email_announcements") Announcements
               input#email_generalNews(name="email_generalNews", type="checkbox", checked=subs.generalNews)
               span.help-block(data-i18n="account_settings.email_announcements_description") Get emails on the latest news and developments at CodeCombat.
-
+  
           hr
           h4(data-i18n="account_settings.email_notifications") Notifications
           span(data-i18n="account_settings.email_notifications_summary") Controls for personalized, automatic email notifications related to your CodeCombat activity.
-
+  
           .form
             .form-group.checkbox
               label.control-label(for="email_anyNotes", data-i18n="account_settings.email_any_notes") Any Notifications
               input#email_anyNotes(name="email_anyNotes", type="checkbox", checked=subs.anyNotes)
               span.help-block(data-i18n="account_settings.email_any_notes_description") Disable to stop all activity notification emails.
-
+  
             fieldset#specific-notification-settings
-
+  
               .form-group.checkbox
                 label.control-label(for="email_recruitNotes", data-i18n="account_settings.email_recruit_notes") Job Opportunities
                 input#email_recruitNotes(name="email_recruitNotes", type="checkbox", checked=subs.recruitNotes)
                 span.help-block(data-i18n="account_settings.email_recruit_notes_description") If you play really well, we may contact you about getting you a (better) job.
-
-          button.save-button.email-btn.form-control.btn.btn-primary.disabled(data-i18n="delta.no_changes" disabled="true")
-
+  
           hr
 
           if me.showOpenResourceLink()
@@ -165,7 +161,7 @@ else
                 input#email_archmageNews(name="email_archmageNews", type="checkbox", checked=subs.archmageNews)
                 span(data-i18n="contribute.archmage_subscribe_desc").help-block Get emails about general news and announcements about CodeCombat.
 
-              .form-group.checkbox.hidden
+              .form-group.checkbox(class=view.utils.isCodeCombat ? "hidden" : "")
                 label.control-label(for="email_artisanNews")
                   span(data-i18n="classes.artisan_title")
                     | Artisan
@@ -175,7 +171,7 @@ else
                 input#email_artisanNews(name="email_artisanNews", type="checkbox", checked=subs.artisanNews)
                 span(data-i18n="contribute.artisan_subscribe_desc").help-block Get emails on level editor updates and announcements.
 
-              .form-group.checkbox
+              .form-group.checkbox(class=view.utils.isOzaria ? "hidden" : "")
                 label.control-label(for="email_adventurerNews")
                   span(data-i18n="classes.adventurer_title")
                     | Adventurer
@@ -222,7 +218,7 @@ else
                 span(data-i18n="contribute.teacher_subscribe_desc").help-block
 
             button#toggle-all-btn.btn.btn-primary.form-control(data-i18n="account_settings.email_toggle") Toggle All
-
+  
       .panel.panel-default
         .panel-heading
           .panel-title#reset-progress-panel-title(data-i18n="account_settings.reset_progress_tab")
@@ -235,7 +231,9 @@ else
               label.control-label(for="password-reset-progress", data-i18n="account_settings.type_in_password")
               input#password-reset-progress.form-control(name="password", type="password")
           button#reset-progress-btn.btn.form-control.btn-primary(data-i18n="account_settings.reset_your_progress")
-
-
-
-.clearfix
+  
+  .clearfix
+  
+if !me.get('anonymous', true)
+  #save-button-container
+    button#save-button.btn-lg.btn.disabled(data-i18n="delta.no_changes" disabled="true") No Changes
