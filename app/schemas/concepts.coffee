@@ -1,6 +1,6 @@
 # NOTE: 'automatic' is whether rob's auto-tagger can find it.
 product = COCO_PRODUCT || 'codecombat'
-isCodeCombat = product === 'codecombat'
+isCodeCombat = product == 'codecombat'
 
 dupList = [
   {concept: 'basic_syntax', name: 'Basic Syntax', description: 'Using programming language rules.', automatic: true, tagger: '*'} #ozaria
