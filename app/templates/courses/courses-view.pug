@@ -251,9 +251,10 @@ mixin classrooms_content()
              - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
              - var nextLevel = stats.levels.next;
              - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)
-             - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
-             - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
-             - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID});
+             if nextLevel
+               - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
+               - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
+               - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID});
 
              if course
                h6
@@ -305,7 +306,7 @@ mixin classrooms_content()
 
 block content
   .container
-    if utils.isCodeCombat
+    if view.utils.isCodeCombat
       +coco_main_content()
     else
       +ozar_main_content()
@@ -332,16 +333,18 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, 
         - var url = view.urls.courseArenaLadder({level: view.originalLevelMap[arenaLevel.get('original')] || arenaLevel, courseInstance: courseInstance});
         if view.utils.isCodeCombat
           a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=arenaLevel.get('slug'), data-event-action="Students Play Arena")
+            span(data-i18n="courses.play_arena")
         else
           button.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=arenaLevel.get('slug'), data-event-action="Students Play Arena" disabled=isLocked)
-          span(data-i18n="courses.play_arena")
+            span(data-i18n="courses.play_arena")
       else if projectLevel
         - var url = view.urls.courseLevel({level: view.originalLevelMap[projectLevel.get('original')] || projectLevel, courseInstance: courseInstance});
         if view.utils.isCodeCombat
           a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=projectLevel.get('slug'), data-event-action="Students Play Project")
+            span(data-i18n="courses.view_project")
         else
           button.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=projectLevel.get('slug'), data-event-action="Students Play Project" disabled=isLocked)
-          span(data-i18n="courses.view_project")
+            span(data-i18n="courses.view_project")
       else
         if view.utils.isCodeCombat
           a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.course_complete")
@@ -358,9 +361,10 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, 
       else
         if view.utils.isCodeCombat
           a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=url, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course")
+            span(data-i18n="courses.start")
         else
           button.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=mapUrl, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course" disabled=isLocked)
-          span(data-i18n="courses.start")
+            span(data-i18n="courses.start")
 
   if stats.courseComplete
     a.certificate-link(target='_blank', href='/certificates/' + me.id + '?class=' + classroom.id + '&course=' + course._id + '&course-instance=' + courseInstance.id)
