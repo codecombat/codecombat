@@ -186,7 +186,12 @@ export default function getVueRouter () {
         },
         {
           path: '/teachers',
-          component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/index.vue'),
+          component: () => {
+            if (utils.isCodeCombat) {
+              return import(/* webpackChunkName: "teachers" */ 'app/components/common/PassThrough')
+            }
+            return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/index.vue')
+          },
           children: [
             { path: '', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseMyClasses/index.vue') },
             { path: 'classes', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseMyClasses/index.vue') },
