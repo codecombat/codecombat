@@ -239,13 +239,19 @@ export default {
       courses: (state) => state.byId
     }),
 
+    isCodeCombat () {
+      return utils.isCodeCombat
+    },
     courseById () {
       return (courseId) => this.$store.state.courses.byId[courseId]
     },
 
     logo () {
-      if (features.chinaInfra)
+      if (utils.isOzaria) {
+        return '/images/ozaria/home/ozaria-wordmark-500px.png'
+      } else if (features.chinaInfra) {
         return '/images/pages/base/logo-cn.png'
+      }
       return '/images/pages/base/logo.png'
     },
 
@@ -298,7 +304,7 @@ export default {
 <template lang="pug">
 main#page-outcomes-report
   #report-container
-    img.header-art(src="/images/pages/admin/outcomes-report/arryn.png")
+    img.header-art(:src="`/images/pages/admin/outcomes-report/${isCodeCombat ? 'arryn' : 'hero-b-and-mouse'}.png`")
 
     .header
       div
@@ -331,11 +337,11 @@ main#page-outcomes-report
       if subOrgs.length > subOrgLimit && !editing
         .block.other-sub-orgs
           h3= '(... '+ $t('outcomes.stats_include', { number: subOrgs.length - subOrgLimit, name: kindString(subOrgs[0]).toLowerCase()}) + (subOrgs.length - subOrgLimit > 1 && !chinaInfra ? 's' : '') + ' ...)'
-      img.anya(src="/images/pages/admin/outcomes-report/anya.png")
+      img.anya(:src="`/images/pages/admin/outcomes-report/${isCodeCombat ? 'anya' : 'vega'}.png`")
       .block.room-for-anya
         h1= $t('outcomes.standards_coverage')
-        p= $t('outcomes.coverage_p1_coco')
-        p= $t('outcomes.coverage_p2_coco')
+        p= $t('outcomes.coverage_p1_' + (isCodeCombat ? 'coco' : 'ozar'))
+        p= $t('outcomes.coverage_p2_' + (isCodeCombat ? 'coco' : 'ozar'))
 
       .bottom
         p= $t('outcomes.questions')
@@ -380,9 +386,15 @@ main#page-outcomes-report
 
 <style lang="scss">
 #page-outcomes-report {
+  $twilight: #476fb1;
+  @if $is-codecombat {
+    $twilight: rgba(14, 76, 96);
+  }
   font-family: 'Open Sans', sans-serif;
   background: transparent url(/images/pages/play/portal-background.png);
-  margin-bottom: -50px;
+  @if $is-codecombat {
+    margin-bottom: -50px;
+  }
   padding: 1px 0 10px 0;
 
   #report-container {
@@ -457,7 +469,11 @@ main#page-outcomes-report
 
   .header-art {
     float: right;
-    width: 2in;
+    @if $is-codecombat {
+      width: 2in;
+    } @else {
+      height: 2.5in;
+    }
     margin-top: 0.35in;
     margin-right: 0.4in;
     transform: scaleX(-1);
@@ -468,13 +484,17 @@ main#page-outcomes-report
     padding-top: 0.1in;
     padding-left: 0.25in;
     padding-right: 0.25in;
-    background-color: rgb(14, 76, 96);
+    background-color: $twilight;
     -webkit-print-color-adjust: exact !important;
-    background: linear-gradient(rgb(14, 76, 96), rgb(14, 76, 96)) !important;
+    background: linear-gradient($twilight, $twilight) !important;
 
     .print-logo {
       margin: 0 0 0 0;
-      width: 3.75in;
+      @if $is-codecombat {
+        width: 3.75in;
+      } @else {
+        height: 0.83333333in;
+      }
     }
 
     h4, h5, p {
@@ -498,6 +518,9 @@ main#page-outcomes-report
       font-weight: 600;
     }
 
+    .edit-label {
+      color: darken(#0b63bc, 25%)
+    }
   }
 
   .loading-indicator {
