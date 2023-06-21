@@ -1,8 +1,5 @@
+require('app/styles/modal/auth-modal.sass')
 utils = require 'core/utils'
-if utils.isCodeCombat
-  require('app/styles/modal/auth-modal.sass')
-else
-  require('app/styles/modal/auth-modal.scss')
 ModalView = require 'views/core/ModalView'
 template = require 'app/templates/core/auth-modal'
 forms = require 'core/forms'
