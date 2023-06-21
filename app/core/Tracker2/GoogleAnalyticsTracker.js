@@ -44,6 +44,9 @@ export default class GoogleAnalyticsTracker extends BaseTracker {
       gaFieldObject.eventValue = properties.value || properties.predictedLtv || properties.purchaseAmount
     }
     ga('send', gaFieldObject)
+    if (window.gtag4Installed) {
+      window.gtag('event', gaFieldObject.eventAction, this.ga4Object(gaFieldObject))
+    }
   }
 
   async trackTiming (duration, category, variable, label) {
@@ -58,5 +61,19 @@ export default class GoogleAnalyticsTracker extends BaseTracker {
     this.log('tracking timing', duration, category, variable, label)
     // https://developers.google.com/analytics/devguides/collection/analyticsjs/user-timings
     ga('send', 'timing', category, variable, duration, label)
+  }
+
+  ga4Object (gaObject) {
+    const obj = {}
+    if (gaObject.eventCategory) {
+      obj.event_category = gaObject.eventCategory
+    }
+    if (gaObject.eventLabel) {
+      obj.event_label = gaObject.eventLabel
+    }
+    if (gaObject.eventValue) {
+      obj.value = gaObject.eventValue
+    }
+    return obj
   }
 }
