@@ -234,9 +234,55 @@ block content
             picture
               source.img-responsive(srcset="/images/pages/home-v2/loc-image.webp" type="image/webp")
               img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher")
+          .col-md-12
+            .row.coco-home-section
+              p(data-i18n="[html]new_home.codecombat_home_blurb",  data-i18n-options=JSON.stringify(i18nData))
+
+        picture
+          source.partners-spacer-img.img-responsive(srcset="/images/pages/home-v2/graphic-79.webp" type="image/webp")
+          img.partners-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-79.png" loading="lazy" alt="")              
+
+    .container
+      .row.text-center.for-partners-row
+        .col-xs-12
+          h1(data-i18n="new_home.for_partners")
+
+    section.container
+      .row.product-row
+        .col-md-5
+          .row
+            h4.product-title(data-i18n="new_home.for_partners_title")
+            p(data-i18n="new_home.for_partners_blurb")
+            .product-btn
+              a.btn.btn-lg.btn-primary.btn-gold(href="/partners" data-i18n="new_home.for_partners_button" data-event-action="Homepage Click Online Classes Button CTA")
+        .col-md-6.col-md-offset-1
+          img.img-responsive(src="/images/pages/home-v2/for_partners.png" loading="lazy")
+
+      picture
+        source.libraries-spacer-img.img-responsive(srcset="/images/pages/home-v2/graphic-80.webp" type="image/webp")
+        img.libraries-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-80.png" loading="lazy" alt="")    
+
+    .container
+      .row.text-center.for-libraries-row
+        .col-xs-12
+          h1(data-i18n="new_home.for_libraries")
+
+    section.container
+      .row.product-row
+        .col-md-6
+          img.img-responsive(src="/images/pages/home-v2/library_user_graphic.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher")
+        .col-md-5.col-md-offset-1
+          .row
+            h4.product-title(data-i18n="new_home.for_libraries_title")
+            p(data-i18n="new_home.for_libraries_blurb")
+            .product-btn
+              a.btn.btn-lg.btn-primary.btn-gold(href="/libraries" data-i18n="new_home.for_libraries_button" data-event-action="Homepage Click Online Classes Button CTA")
+
+
         picture
           source.online-classes-spacer-img.img-responsive(srcset="/images/pages/home-v2/graphic-6.webp" type="image/webp")
           img.online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" alt="")
+                    
 
     .container
       .row.text-center.for-everyone-row

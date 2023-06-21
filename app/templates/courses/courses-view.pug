@@ -1,0 +1,436 @@
+extends /templates/base-flat
+include ./tournament-tile-mixin
+  
+mixin coco_main_content()
+  #main-content(dir="auto")
+    .main-content-preload-backdrop
+    if me.isAnonymous()
+      +anonymous-welcome-message()
+    else
+      .student-profile-area
+        .row
+          .current-hero.col-md-2.text-center
+            h2
+              if view.hero.getHeroShortName()
+                span(data-i18n='resources.hero')
+                span= ': '
+                span= view.hero.getHeroShortName()
+            hr
+
+            .hero-avatar
+              if view.hero.get('poseImage')
+                img(src='/file/' + view.hero.get('poseImage') class='hero-' + view.hero.get('slug'))
+            if view.hero.get('name')
+              h2.current-hero-text
+                span.current-hero-name
+                  if /^en/.test(me.get('preferredLanguage'))
+                    span= 'The '
+                  span= i18n(view.hero.attributes, 'name')
+            .rtl-allowed
+              a.change-hero-btn(data-i18n="play.change_hero")
+
+          div(class='student-stats col-md-5' + (view.shouldEmphasizeAILeague() ? '' : ' deemphasize-ai-league'))
+            h2
+              span(data-i18n='general.player')
+              span= ': '
+              span= me.broadName()
+            hr
+
+            - var nextLevelLocked = view.nextLevelInfo && view.nextLevelInfo.locked
+            a.play-next-level-btn.tile(disabled=!view.nextLevelInfo || nextLevelLocked, data-i18n=nextLevelLocked ? '[title]courses.ask_teacher_to_unlock_instructions' : '[title]courses.play_next_level')
+              - var levelInfo = view.nextLevelInfo || {}
+              - var level = levelInfo.level
+              - var levelName = ''
+              - var levelWithI18n = level ? view.originalLevelMap[level.get('original')] : null
+              - if (levelWithI18n)
+              -    levelName = i18n(levelWithI18n.attributes, 'name')
+              - else if (level)
+              -    levelName = level.get('name')
+              - if (levelInfo.number && levelInfo.number > 0)
+              -   // Prepend level number, like "Level 1: Dungeons of Kithgard"
+              -   levelName = $.i18n.t('play_level.level') + ' ' + levelInfo.number + ': ' + levelName
+              - else if (levelInfo.number)
+              -   // Prepend level type and name, like "Concept Challenge: Long Steps"
+              -   levelName = levelInfo.number + ': ' + levelName
+              - if (levelInfo.courseAcronym)
+              -   // Prepend course acronym, like "CS1 Level 1: Dungeons of Kithgard"
+              -   levelName = levelInfo.courseAcronym + ' ' + levelName
+              - var levelImage = view.nextLevelImage()
+              img(src=levelImage, alt=levelName, class="level-image" + (levelImage ? "" : " placeholder"))
+              h3.dynamic-level-name.overlay-text= levelName + (nextLevelLocked ? " (locked)" : "")
+              .tile-text-backdrop
+              .stats-text-container
+                .overlay-text.stats-text
+                  span(data-i18n='courses.levels_completed', data-i18n-options={count: me.get('stats') ? me.get('stats').gamesCompleted || 0 : 0})
+              .play-text-container
+                .overlay-text.play-text
+                  if nextLevelLocked
+                    span(data-i18n="courses.ask_teacher_to_unlock")
+                  else
+                    span(data-i18n="courses.play_next_level")
+
+            for arena in view.activeArenas || []
+              a.play-arena-btn.tile(href='/play/ladder/' + arena.slug, data-i18n=(arena.type === 'championship' ? '[title]courses.play_tournament' : '[title]courses.play_arena'))
+                - var arenaImage = arena.image || "/images/pages/play/ladder/multiplayer_notext.jpg"
+                - var arenaName = $.i18n.t('league.' + arena.slug.replace(/-/g, '_'))
+                - var stats = view.getAILeagueStat('arenas', arena.levelOriginal, '_global')
+                // TODO: link to team-specific arena by default if there are enough arena players in a team?
+                img(src=arenaImage, alt=arenaName, class="level-image" + (arena.image ? "" : " placeholder"))
+                if !arena.image || !view.shouldEmphasizeAILeague()
+                  h3(class="dynamic-level-name overlay-text" + (arena.image ? " optional" : ""))= arenaName
+                .tile-text-backdrop
+                .stats-text-container
+                  .overlay-text.stats-text
+                    if stats && stats.score
+                      if stats.rank
+                        span(data-i18n='general.rank')
+                        span= ': #'
+                        span= stats.rank.toLocaleString()
+                        if stats.playerCount
+                          span= ' / '
+                          span= stats.playerCount.toLocaleString()
+                    else if view.myArenaSessions
+                      span(data-i18n='teacher.not_started')
+                .play-text-container
+                  .overlay-text.play-text
+                    //.btn.btn-illustrated.btn-success
+                    if arena.ended
+                      //span(data-i18n='courses.view_winners')  // Gonna take us a while to crown winners. Can go back to this if we get it to go faster.
+                      span(data-i18n='courses.view_standings')
+                    else if arena.type == 'championship'
+                      span(data-i18n='courses.play_tournament')
+                    else
+                      span(data-i18n='courses.play_arena')
+
+            a.ai-league-btn.tile(href=(me.isRegisteredForAILeague() ? '/league#standings' : '/league?registering=true'), data-i18n="[title]league.codecombat_ai_league")
+              img.level-image(src='/images/pages/courses/banners/ai-league-banner-' + view.randomAILeagueBannerHero + '.png' data-i18n="[alt]league.codecombat_ai_league")
+              //h3.dynamic-level-name.overlay-text CodeCombat AI League  // Someday: use different background and i18n the name
+              .tile-text-backdrop
+              .stats-text-container
+                .overlay-text.stats-text
+                  if me.isRegisteredForAILeague()
+                    span(data-i18n="ladder.age_bracket")
+                    span= ': '
+                    span= view.ageBracketDisplay
+                  else
+                    span(data-i18n='league.not_registered')
+              .play-text-container
+                .overlay-text.play-text
+                  if me.isRegisteredForAILeague()
+                    span(data-i18n='courses.view_standings')
+                  else
+                    span(data-i18n='league.register')
+            if view.tournaments && view.tournaments.length
+              - tournament = view.tournaments[view.tournaments.length-1]
+              +tournamentTileMixin(tournament)
+
+              if view.tournaments.length > 1
+                a.more-tournaments(data-i18n="general.more")
+
+          .school-stats.col-md-5
+            if view.myClans
+              h2
+                span(data-i18n="courses.ai_league_team_rankings")
+                if me.get('stats') && me.get('stats').codePoints
+                  span= ': ' + me.get('stats').codePoints.toLocaleString() + ' ' + $.i18n.t('league.codepoints')
+              hr
+
+              for clan in ['_global'].concat(view.myClans)
+                - var stats = view.getAILeagueStat('codePoints', clan == '_global' ? clan : clan._id)
+                if stats && stats.playerCount > 1
+                  a.team(href='/league/' + (clan === '_global' ? '' : clan.slug + '#team-info'))
+                    .team-name= clan === '_global' ? $.i18n.t('league.world') : clan.displayName || clan.name
+                    .team-stats
+                      if stats.rank
+                        span #
+                        span= stats.rank.toLocaleString()
+                        span= ' / '
+                      span= stats.playerCount.toLocaleString()
+                      span= ' '
+                      span(data-i18n='play.players')
+      +classrooms_content()
+
+mixin ozar_main_content()
+  .row.m-y-3
+    .col-xs-12
+      #main-content(dir="auto")
+        if me.isAnonymous()
+
+          h1.text-center(data-i18n="courses.welcome_to_courses_ozar")
+
+          .text-center
+            p
+              h2(data-i18n="courses.ready_to_play")
+            p
+              button#start-new-game-btn.btn.btn-navy(data-i18n="courses.start_new_game")
+            p
+              span.spr -
+              span.text-uppercase(data-i18n="general.or")
+              span.spl -
+            p
+              button#log-in-btn.btn.btn-forest(data-i18n="login.log_in")
+
+          h2#play-now-to-learn-header.text-center.text-uppercase(data-i18n="courses.play_now_learn_header")
+          ul#benefits-ul
+            li(data-i18n="courses.play_now_learn_1")
+            li(data-i18n="courses.play_now_learn_2")
+            li(data-i18n="courses.play_now_learn_3")
+            li(data-i18n="courses.play_now_learn_4")
+
+        else
+          .text-center
+            h1(data-i18n="courses.welcome_to_page")
+
+          if view.showHocProgress()
+            div.hoc-progress.rtl-allowed
+              h5(dir="auto")
+                span.spr(data-i18n="hoc_2019.hoc_activity")
+              .course-instance-entry.rtl-allowed
+                - var course = view.hourOfCodeOptions.courseId;
+                - var mapUrl = view.urls.courseWorldMap({courseId: course, campaignId: view.hourOfCodeOptions.campaignId});
+                h6
+                  span.spr= view.hourOfCodeOptions.name
+                  small
+                    a.view-levels-btn(data-href=mapUrl, data-course-id=course, data-i18n="courses.view_map")
+                +hoc-progress-body(view.hocStats, mapUrl)
+                .clearfix
+          +classrooms_content()
+
+mixin classrooms_content()
+ if view.classrooms.size()
+   .classes-area
+     br
+     h3(data-i18n="courses.my_classes")
+
+     if view.allCompleted
+       p.alert.alert-success
+         span(data-i18n="courses.ask_next_course")
+
+     for classroom in view.classrooms.models
+       hr.class-break
+       - var justAdded = classroom.id === view.classroomJustAdded;
+       - var classroomClass = 'classroom' + (justAdded ? ' just-added' : '')
+       div(class=classroomClass).rtl-allowed
+         if justAdded
+           #just-added-text.text-center(data-i18n="courses.class_added")
+         if view.utils.isCodeCombat
+           h5(dir="auto")
+             span.spr= classroom.get('name')
+             - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++', java: 'Java'}
+             span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
+           p
+             span(data-i18n="courses.teacher")
+             span :
+             if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
+               span.spl= view.ownerNameMap[classroom.get('ownerID')]
+  
+             if classroom.get('description')
+               a.view-announcement-link(data-classroom-id=classroom.get('_id'), data-i18n="courses.classroom_announcement")
+         else
+           //- sigh
+           div(class=classroomClass).rtl-allowed
+             h5(dir="auto")
+               span.spr= classroom.get('name')
+               - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++', java: 'Java'}
+               span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
+             p
+               span(data-i18n="courses.teacher")
+               span :
+               if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
+                 span.spl= view.ownerNameMap[classroom.get('ownerID')]
+
+         - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
+         for courseInstance in courseInstances
+
+           .course-instance-entry.rtl-allowed
+             - var courseID = courseInstance.get('courseID')
+             - var course = view.store.state.courses.byId[courseID];
+             // internal play-test course which we removed later
+             if course._id === '5eb34fc8dc0fd35e8eae66b0'
+               - continue
+             - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
+             - var nextLevel = stats.levels.next;
+             - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)
+             if nextLevel
+               - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
+               - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
+               - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID});
+
+             if course
+               h6
+                 span.spr= i18n(course, 'name')
+                 small
+                   a.view-levels-btn(data-href=mapUrl, data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
+                   if view.courseInstanceHasProject(courseInstance)
+                     a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
+                   if view.utils.isCodeCombat && classroom.hasAssessments({courseId: course._id})
+                     =" "
+                     a.view-challenges-link(data-classroom-id=classroom.id, data-i18n="courses.view_challenges", data-course-id=course._id)
+                   if view.showVideosLinkForCourse(course._id)
+                     = " "
+                     a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
+               if view.utils.isCodeCombat
+                 +course-instance-body(courseInstance, classroom)
+               else
+                 +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, course.campaignID, isLocked)
+               .clearfix
+
+ else
+   #announcement
+     h5(data-i18n="learn_without_classroom_title")
+     ul
+       li
+         b(data-i18n="[html]courses.learn_without_classroom_blurb")
+
+ hr.class-break
+ h3(data-i18n="courses.join_class")
+ hr.class-break
+
+ form#join-class-form.form-inline
+   if view.utils.isCodeCombat
+     - product = coco
+   else
+     - product = ozar
+   .help-block
+    em(data-i18n="courses.ask_teacher_for_code_" + product)
+   .form-group
+     input#class-code-input.form-control(data-i18n="[placeholder]courses.enter_c_code_" + product, placeholder="<Enter Class Code>", value=view.classCode)
+   input#join-class-button.btn.btn-navy(type="submit", data-i18n="[value]courses.join", value="Join")
+
+   if view.state === 'enrolling'
+     .progress.progress-striped.active
+       .progress-bar(style="width: 100%", data-i18n="courses.joining") Joining class
+
+   if view.errorMessage
+     .alert.alert-danger= view.errorMessage
+
+block content
+  .container
+    if view.utils.isCodeCombat
+      +coco_main_content()
+    else
+      +ozar_main_content()
+
+mixin course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, campaignId, isLocked)
+  - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
+  - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
+  - var nextLevel = stats.levels.next;
+
+  if stats.courseComplete
+    .text-success
+      span.glyphicon.glyphicon-ok
+      if view.utils.isCodeCombat
+        - i18nContent = "courses.course_complete"
+      else
+        - i18nContent = "courses.unit_complete"
+      span.spl(data-i18n=i18nContent)
+      span !
+  .pull-right
+    if stats.courseComplete
+      - var arenaLevel = stats.levels.arena;
+      - var projectLevel = stats.levels.project;
+      if arenaLevel
+        - var url = view.urls.courseArenaLadder({level: view.originalLevelMap[arenaLevel.get('original')] || arenaLevel, courseInstance: courseInstance});
+        if view.utils.isCodeCombat
+          a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=arenaLevel.get('slug'), data-event-action="Students Play Arena")
+            span(data-i18n="courses.play_arena")
+        else
+          button.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=arenaLevel.get('slug'), data-event-action="Students Play Arena" disabled=isLocked)
+            span(data-i18n="courses.play_arena")
+      else if projectLevel
+        - var url = view.urls.courseLevel({level: view.originalLevelMap[projectLevel.get('original')] || projectLevel, courseInstance: courseInstance});
+        if view.utils.isCodeCombat
+          a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=projectLevel.get('slug'), data-event-action="Students Play Project")
+            span(data-i18n="courses.view_project")
+        else
+          button.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=projectLevel.get('slug'), data-event-action="Students Play Project" disabled=isLocked)
+            span(data-i18n="courses.view_project")
+      else
+        if view.utils.isCodeCombat
+          a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.course_complete")
+        else
+          button.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.unit_complete")
+    else if nextLevel
+      - var url = view.urls.courseWorldMap({course: course, courseInstance: courseInstance});
+      if view.utils.isOzaria && isLocked
+        button.play-btn.btn.btn-forest.btn-lg.m-b-1(disabled=isLocked)
+          span(data-i18n="common.locked")
+      else if view.utils.isCodeCombat && nextLevel != stats.levels.first
+        a.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=url, data-level-slug=nextLevel.get('slug'), data-event-action="Students Continue Course")
+          span(data-i18n="common.continue")
+      else
+        if view.utils.isCodeCombat
+          a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=url, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course")
+            span(data-i18n="courses.start")
+        else
+          button.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=mapUrl, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course" disabled=isLocked)
+            span(data-i18n="courses.start")
+
+  if stats.courseComplete
+    a.certificate-link(target='_blank', href='/certificates/' + me.id + '?class=' + classroom.id + '&course=' + course._id + '&course-instance=' + courseInstance.id)
+      img(src='/images/pages/user/certificates/certificate-icon.png')
+      div(data-i18n='user.certificate_view')
+  else if stats.levels.lastPlayed
+    div
+      span(data-i18n="courses.last_level")
+      span :
+      if stats.levels.lastPlayedNumber
+        span.spl #{stats.levels.lastPlayedNumber}.
+      - var levelNameEnglish = stats.levels.lastPlayed.get('displayName') || stats.levels.lastPlayed.get('name');
+      - var levelWithI18N = view.originalLevelMap[stats.levels.lastPlayed.get('original')];
+      - var levelName = levelWithI18N ? (i18n(levelWithI18N.attributes, 'displayName') || i18n(levelWithI18N.attributes, 'name')) : levelNameEnglish;
+      span.spl= levelName || levelNameEnglish
+
+  .clearfix
+  if stats.courseComplete
+    br
+  else
+    .progress
+      .progress-bar(style="width:"+stats.levels.pctDone)= stats.levels.pctDone
+
+
+mixin anonymous-welcome-message()
+  // This shows when user has no account and arrives via ?_cc=SomeClassCode
+  // Normally it's behind a modal, but they can close the modal and get it back
+
+  .anonymous-welcome-message
+    h1.text-center(data-i18n="courses.welcome_to_courses_coco")
+
+    .text-center
+      p
+        h2(data-i18n="courses.ready_to_play")
+      p
+        button#start-new-game-btn.btn.btn-navy.btn-lg(data-i18n="courses.start_new_game")
+      p
+        span.spr -
+        span.text-uppercase(data-i18n="general.or")
+        span.spl -
+      p
+        button#log-in-btn.btn.btn-forest.btn-lg(data-i18n="login.log_in")
+
+    h2#play-now-to-learn-header.text-center.text-uppercase(data-i18n="courses.play_now_learn_header")
+    ul#benefits-ul
+      li(data-i18n="courses.play_now_learn_1")
+      li(data-i18n="courses.play_now_learn_2")
+      li(data-i18n="courses.play_now_learn_3")
+      li(data-i18n="courses.play_now_learn_4")
+
+mixin hoc-progress-body(hocStats, mapUrl)
+  if hocStats.complete
+    .text-success
+      span.glyphicon.glyphicon-ok
+      span.spl(data-i18n="courses.unit_complete")
+      span !
+  .pull-right
+    if hocStats.complete
+      a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.unit_complete")
+    else
+      a.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=mapUrl, data-event-action="Students Continue Course")
+        span(data-i18n="common.continue")
+
+  .clearfix
+  if hocStats.complete
+    br
+  else
+    .progress
+      .progress-bar(style="width:"+hocStats.pctDone)= hocStats.pctDone

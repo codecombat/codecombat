@@ -12,6 +12,7 @@ TrialRequests = require 'collections/TrialRequests'
 fetchJson = require('core/api/fetch-json')
 utils = require 'core/utils'
 api = require 'core/api'
+momentTimezone = require 'moment-timezone'
 { LICENSE_PRESETS } = require 'core/constants'
 
 # TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
@@ -42,6 +43,7 @@ module.exports = class PreapidActivationCodesModal extends ModalView
     @licenseType = 'all'
     @licensePresets = LICENSE_PRESETS
     @utils = utils
+    @momentTimezone = momentTimezone
 
   onLoaded: ->
     # TODO: Figure out a better way to expose this info, perhaps User methods?
@@ -59,26 +61,27 @@ module.exports = class PreapidActivationCodesModal extends ModalView
     @renderSelectors('#'+@$(e.target).data('prepaid-id'))
 
   onClickSavePrepaidInfo: (e) ->
-    prepaidId= @$(e.target).data('prepaid-id')  
+    prepaidId= @$(e.target).data('prepaid-id')
     prepaidEndDate= @$el.find('#'+'endDate-'+prepaidId).val()
+    prepaidStartDate = @$el.find('#'+'startDate-'+prepaidId).val()
     prepaidTotalLicenses=@$el.find('#'+'totalLicenses-'+prepaidId).val()
     @prepaids.each (prepaid) =>
-      if (prepaid.get('_id') == prepaidId) 
+      if (prepaid.get('_id') == prepaidId)
         #validations
         unless prepaidStartDate and prepaidEndDate and prepaidTotalLicenses
-          return 
+          return
         if(prepaidStartDate >= prepaidEndDate)
           alert('End date cannot be on or before start date')
           return
         if(prepaidTotalLicenses < (prepaid.get('redeemers') || []).length)
           alert('Total number of licenses cannot be less than used licenses')
           return
-        prepaid.set('startDate', moment.timezone.tz(prepaidStartDate, @timeZone).toISOString())
-        prepaid.set('endDate',  moment.timezone.tz(prepaidEndDate, @timeZone).toISOString())
+        prepaid.set('startDate', momentTimezone.tz(prepaidStartDate, @timeZone).toISOString())
+        prepaid.set('endDate',  momentTimezone.tz(prepaidEndDate, @timeZone).toISOString())
         prepaid.set('maxRedeemers', prepaidTotalLicenses)
         options = {}
         prepaid.patch(options)
-        @listenTo prepaid, 'sync', -> 
+        @listenTo prepaid, 'sync', ->
           @prepaidTableState[prepaidId] = 'viewMode'
           @renderSelectors('#'+prepaidId)
         return
@@ -96,8 +99,8 @@ module.exports = class PreapidActivationCodesModal extends ModalView
     return unless attrs.duration > 0
     return unless attrs.endDate and moment().isBefore(attrs.endDate)
     attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-    attrs.startDate = moment.timezone.tz(@timeZone ).toISOString()
-    attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
+    attrs.startDate = momentTimezone.tz(@timeZone ).toISOString()
+    attrs.endDate = momentTimezone.tz(attrs.endDate, @timeZone).toISOString()
     days = attrs.duration
     delete attrs.duration
 
@@ -129,4 +132,3 @@ module.exports = class PreapidActivationCodesModal extends ModalView
       @state = 'made-prepaid'
       @renderSelectors('#prepaid-form')
 
- 

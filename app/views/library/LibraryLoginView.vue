@@ -39,7 +39,47 @@
         </div>
       </div>
       <div
-        v-if="isLafourche"
+        v-else-if="isShreve"
+        class="shreve common"
+      >
+        <div class="shreve__head">
+          <img src="/images/pages/play/shreve-logo.webp" alt="shreve logo" class="common__head-logo">
+        </div>
+        <form
+          v-if="!alreadyLoggedIn"
+          @submit.prevent="() => onLibraryLogin({ libraryName: 'shreve' })"
+        >
+          <div class="shreve__body">
+            <div class="shreve__body__library">
+              <h2 class="shreve__body__library-text">
+                {{ $t('library.enter_library_card') }}
+              </h2>
+              <div class="shreve__body__library-input">
+                <input type="text" class="form-control shreve__body__library-input-box" v-model="libraryProfileId" placeholder="Library Card No.">
+              </div>
+              <div class="shreve__body__password-input">
+                <input type="password" class="form-control shreve__body__library-input-box" v-model="libraryPassword" placeholder="Password">
+              </div>
+            </div>
+            <div class="shreve__body__submit">
+              <button type="submit" class="shreve__body__submit-btn btn btn-primary">
+                {{ $t('library.access_coco') }}
+              </button>
+            </div>
+            <div class="shreve__error error" v-if="errMsg">
+              {{ errMsg }}
+            </div>
+          </div>
+        </form>
+        <div
+          v-else
+          class="common__already"
+        >
+          {{ $t('library.already_logged_in') }}
+        </div>
+      </div>     
+      <div
+        v-else-if="isLafourche"
         class="lafourche common"
       >
         <div class="lafourche__head">
@@ -77,7 +117,7 @@
         >
           {{ $t('library.already_logged_in') }}
         </div>
-      </div>      
+      </div>
       <div
         v-else-if="isOpenAthens || isHoustonLibrary"
         class="houston common"
@@ -222,6 +262,9 @@ export default {
     isLafourche () {
       return this.libraryId === 'lafourche'
     },
+    isShreve () {
+      return this.libraryId === 'shreve'
+    },
     showWayFinder () {
       return this.libName === 'way-finder'
     }
@@ -236,6 +279,9 @@ export default {
         if(this.isLafourche){
           await usersLib.loginLafourche({ libraryProfileId: this.libraryProfileId, libraryPassword: this.libraryPassword, libraryName })
         }
+        if(this.isShreve){
+          await usersLib.loginShreve({ libraryProfileId: this.libraryProfileId, libraryPassword: this.libraryPassword, libraryName })
+        }        
         await this.postLogin()
       } catch (err) {
         console.error('error resp', err)
@@ -317,7 +363,7 @@ export default {
     font-size: 1.5rem;
   }
 }
-.arapahoe, .lafourche {
+.arapahoe, .lafourche, .shreve {
   background-color: #f4f2f2;
 
   &__body {

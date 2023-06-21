@@ -44,6 +44,7 @@ module.exports = class HomeView extends RootView
       clever: "<a href='/teachers/resources/clever-faq'>#{$.i18n.t('new_home_faq.clever_integration_faq')}</a>"
       contact: if me.isTeacher() then "<a class='contact-modal'>#{$.i18n.t('general.contact_us')}</a>" else "<a href=\"mailto:support@codecombat.com\">#{$.i18n.t('general.contact_us')}</a>"
       funding: "<a href='https://www.ozaria.com/funding' target='_blank'>#{$.i18n.t('nav.funding_resources_guide')}</a>"
+      codecombatHome: "<a href='/premium' target='_blank'>#{$.i18n.t('new_home.codecombat_home')}</a>"
       maintenanceStartTime: "#{context.maintenanceStartTime.calendar()} (#{context.maintenanceStartTime.fromNow()})"
       interpolation: { escapeValue: false }
       topBannerHereLink: "<a href='/teachers/hour-of-code' target='_blank'>#{$.i18n.t('new_home.top_banner_blurb_hoc_2022_12_01_here')}</a>"

@@ -1,7 +1,7 @@
 CocoCollection = require 'collections/CocoCollection'
 Level = require 'models/Level'
 utils = require 'core/utils'
-aetherUtils = require 'lib/aether_utils'
+translateUtils = require 'lib/translate-utils'
 
 module.exports = class LevelCollection extends CocoCollection
   url: '/db/level'
@@ -39,7 +39,7 @@ module.exports = class LevelCollection extends CocoCollection
       else if lang isnt 'javascript' and not _.find(allSolutions, language: lang)
         for s in allSolutions when s.language is 'javascript'
           s.language = lang
-          s.source = aetherUtils.translateJS(s.source, lang)
+          s.source = translateUtils.translateJS(s.source, lang)
           solutions.push s
       else
         for s in allSolutions when s.language is lang

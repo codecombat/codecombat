@@ -115,6 +115,12 @@ module.exports = {
       json: attrs
     }))    
 
+  loginShreve: (attrs, options={}) ->
+    fetchJson("/auth/login-shreve", _.assign({}, options, {
+      method: 'POST'
+      json: attrs
+    }))    
+
   loginHouston: (attrs, options={}) ->
     fetchJson("/auth/login-houston", _.assign({}, options, {
       method: 'POST'
