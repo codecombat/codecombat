@@ -1,4 +1,4 @@
-#TeacherClassView = require 'views/courses/TeacherClassView'
+TeacherClassView = require 'views/courses/TeacherClassView'
 storage = require 'core/storage'
 forms = require 'core/forms'
 factories = require 'test/app/factories'
@@ -11,7 +11,7 @@ Prepaids = require 'collections/Prepaids'
 
 describe '/teachers/classes/:handle', ->
 
-xdescribe 'TeacherClassView', ->
+describe 'TeacherClassView', ->
 
   # describe 'when logged out', ->
   #   it 'responds with 401 error'
@@ -26,7 +26,7 @@ xdescribe 'TeacherClassView', ->
       me = factories.makeUser({})
 
       @courses = new Courses([
-        factories.makeCourse({name: 'First Course', _id: '5d8a57abe8919b28d5113af1'}),
+        factories.makeCourse({name: 'First Course', _id: '5632661322961295f9428638'}),
         factories.makeCourse({name: 'Second Course'}),
         factories.makeCourse({name: 'Beta Course', releasePhase: 'beta'}),
       ])
@@ -104,13 +104,13 @@ xdescribe 'TeacherClassView', ->
         # it 'sorts correctly by Name'
         # it 'sorts correctly by Progress'
 
-        # describe 'bulk-assign controls', ->
-        #   it 'shows alert when assigning but no students are selected', (done) ->
-        #     expect(@view.$el.find('.no-students-selected').hasClass('visible')).toBe(false)
-        #     @view.$el.find('.assign-to-selected-students').click()
-        #     _.defer =>
-        #       expect(@view.$el.find('.no-students-selected').hasClass('visible')).toBe(true)
-        #       done()
+        describe 'bulk-assign controls', ->
+          it 'shows alert when assigning but no students are selected', (done) ->
+            expect(@view.$el.find('.no-students-selected').hasClass('visible')).toBe(false)
+            @view.$el.find('.assign-to-selected-students').click()
+            _.defer =>
+              expect(@view.$el.find('.no-students-selected').hasClass('visible')).toBe(true)
+              done()
 
       # describe 'the Course Progress tab', ->
       #   it 'shows the correct Course Overview progress'
@@ -157,7 +157,7 @@ xdescribe 'TeacherClassView', ->
                 fail('Could not find enroll student button for user whose enrollment was revoked')
        ###
 
-      xdescribe 'Export Student Progress (CSV) button', ->
+      describe 'Export Student Progress (CSV) button', ->
         it 'downloads a CSV file', (done) ->
           spyOn(window, 'saveAs').and.callFake (blob, fileName) =>
             reader = new FileReader()
@@ -168,16 +168,16 @@ xdescribe 'TeacherClassView', ->
               expect(lines.length).toBe(@students.length + 1)
               for line in lines
                 simplerLine = line.replace(/"[^"]+"/g, '""')
-                # Name, Username,Email,Total Levels,Total Playtime, [CS1 Levels, CS1 Playtime, ...], Concepts
-                expect(simplerLine.match(/[^,]+/g).length).toBe(5 + @releasedCourses.length * 2 + 1)
+                # Name, Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds), [CS1 Levels, CS1 Playtime, ...], Concepts
+                expect(simplerLine.match(/[^,]+/g).length).toBe(6 + @releasedCourses.length * 3 + 1)
                 if simplerLine.match new RegExp(@finishedStudent.get('email'))
-                  expect(simplerLine).toMatch /3,3 minutes,3,3 minutes,0/
+                  expect(simplerLine).toMatch /3,3 minutes,180,3,3 minutes,180,0/
                 else if simplerLine.match new RegExp(@finishedStudentWithPractice.get('email'))
-                  expect(simplerLine).toMatch /3,3 minutes,3,3 minutes,0/
+                  expect(simplerLine).toMatch /3,3 minutes,180,3,3 minutes,180,0/
                 else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
-                  expect(simplerLine).toMatch /1,a minute,1,a minute,0/
+                  expect(simplerLine).toMatch /1,a minute,60,1,a minute,60,0/
                 else if simplerLine.match /@/
-                  expect(simplerLine).toMatch /0,0,0/
+                  expect(simplerLine).toMatch /0,0,0,0,0/
               done()
             reader.readAsText(blob);
           @view.calculateProgressAndLevelsAux()
@@ -220,7 +220,7 @@ xdescribe 'TeacherClassView', ->
         jasmine.demoEl(@view.$el)
         _.defer done
 
-      xdescribe 'Export Student Progress (CSV) button', ->
+      describe 'Export Student Progress (CSV) button', ->
         it 'downloads a CSV file', (done) ->
           spyOn(window, 'saveAs').and.callFake (blob, fileName) =>
             reader = new FileReader()
@@ -231,14 +231,14 @@ xdescribe 'TeacherClassView', ->
               expect(lines.length).toBe(@students.length + 1)
               for line in lines
                 simplerLine = line.replace(/"[^"]+"/g, '""')
-                # Name, Username,Email,Total Levels,Total Playtime, [CS1 Levels, CS1 Playtime, ...], Concepts
-                expect(simplerLine.match(/[^,]+/g).length).toBe(5 + @releasedCourses.length * 2 + 1)
+                # Name, Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds), [CS1 Levels, CS1 Playtime, ...], Concepts
+                expect(simplerLine.match(/[^,]+/g).length).toBe(6 + @releasedCourses.length * 3 + 1)
                 if simplerLine.match new RegExp(@finishedStudent.get('email'))
-                  expect(simplerLine).toMatch /2,2 minutes,2,2 minutes,0/
+                  expect(simplerLine).toMatch /2,2 minutes,120,2,2 minutes,120,0/
                 else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
-                  expect(simplerLine).toMatch /1,a minute,1,a minute,0/
+                  expect(simplerLine).toMatch /1,a minute,60,1,a minute,60,0/
                 else if simplerLine.match /@/
-                  expect(simplerLine).toMatch /0,0,0/
+                  expect(simplerLine).toMatch /0,0,0,0/
               done()
             reader.readAsText(blob);
           @view.calculateProgressAndLevelsAux()
@@ -286,7 +286,6 @@ xdescribe 'TeacherClassView', ->
             spyOn(@view.prepaids.at(1), 'redeem')
             starterId = @available2.get('_id')
             @starterStudent = @students.find (s) ->
-              console.log('students;::',JSON.stringify(s))
               s.get('products').length && s.get('products')[0].prepaid is starterId
             @view.assignCourse(@courses.at(1).id, [@starterStudent.id])
             @view.wait('begin-redeem-for-assign-course').then(done)
@@ -382,6 +381,7 @@ xdescribe 'TeacherClassView', ->
 
 
       describe 'when there is nothing else to do first', ->
+
         beforeEach (done) ->
           @courseInstance = @view.courseInstances.first()
           @courseInstance.set('members', [])
