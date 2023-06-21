@@ -45,6 +45,10 @@ if showGameDevAlert
       a#liverpool-logo-container(href='https://www.lafourche.org/' target='_blank' rel='noopener noreferrer')
         img#liverpool-logo(src="/images/pages/play/lafourche-logo.webp")
 
+    else if view.shouldShow('shreve-library-logo')
+      a#shreve-logo-container(href='https://shreve-lib.org/' target='_blank' rel='noopener noreferrer')
+        img#shreve-logo(src="/images/pages/play/shreve-logo.webp")        
+
     else if view.shouldShow('vaughan-library-logo')
       a#vaughan-logo-container(href='https://www.vaughanpl.info/' target='_blank' rel='noopener noreferrer')
         img#vaughan-logo(src="/images/pages/play/vaughan-library-logo.png")
