@@ -1,5 +1,6 @@
 /* eslint import/no-absolute-path: 0 */
 import VueRouter from 'vue-router'
+const utils = require('./utils')
 
 let vueRouter
 
@@ -15,6 +16,17 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "AnnouncementView" */ 'app/views/announcement/AnnouncementView')
         },
         {
+          path: '/event-calendar/:eventType?',
+          name: 'eventCalendar',
+          component: () => import(/* webpackChunkName: "EventView" */ 'app/views/events/index'),
+          props: true
+        },
+        {
+          path: '/parents',
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
+          props: (route) => ({ showPremium: true, type: route.query.type })
+        },
+        {
           path: '/diversity-equity-and-inclusion',
           component: () => import(/* webpackChunkName: "dei" */ 'app/views/dei/DEIView.vue')
         },
@@ -22,6 +34,32 @@ export default function getVueRouter () {
         {
           path: '/editor/cinematic',
           component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/cinematic/PageCinematicEditor/BaseCinematicList')
+        },
+        {
+          path: '/league',
+          component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeague'),
+          children: [
+            // Stub pages
+            { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') },
+            {
+              path: 'ladders/:idOrSlug?',
+              name: 'LaddersList',
+              component: () => import(/* webpackChunkName: "mainLadderViewV2" */'app/views/ladder/MainLadderViewV2'),
+              props: (route) => ({ ...route.query, ...route.params }),
+              meta: { toTop: true }
+            },
+            { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') }
+          ]
+        },
+        {
+          path: '/live-classes',
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
+          props: (route) => ({ showPremium: false, type: route.query.type || 'live-classes' })
+        },
+        {
+          path: '/live',
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
+          props: (route) => ({ showPremium: false, type: route.query.type || 'direct-mail' })
         },
         {
           // TODO: The cinematic editor route should use vue guards to check for admin access.
@@ -60,14 +98,41 @@ export default function getVueRouter () {
         },
         {
           path: '/school-administrator',
-          component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminDashboard/index.vue'),
+          component: () => {
+            if (utils.isCodeCombat) {
+              return import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/SchoolAdministratorComponent')
+            } else {
+              return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminDashboard/index.vue')
+            }
+          },
           children: [
-            { path: '', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseMySchools/index.vue') },
-            { path: 'teacher/:teacherId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherAllClasses/index.vue'), props: true },
+            {
+              path: '',
+              component: () => {
+                if (utils.isCodeCombat) {
+                  return import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/teachers/SchoolAdminTeacherListView')
+                } else {
+                  return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseMySchools/index.vue')
+                }
+              }
+            },
+            {
+              path: 'teacher/:teacherId',
+              component: () => {
+                if (utils.isCodeCombat) {
+                  return import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/dashboard/SchoolAdminDashboardTeacherView')
+                } else {
+                  return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherAllClasses/index.vue')
+                }
+              },
+              props: true
+            },
             { path: 'teacher/:teacherId/classes', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherAllClasses/index.vue'), props: true },
             { path: 'teacher/:teacherId/classes/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherClassProgress/index.vue'), props: true },
             { path: 'teacher/:teacherId/classes/:classroomId/projects', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherClassProjects/index.vue'), props: true },
             { path: 'teacher/:teacherId/licenses/', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherLicenses/index.vue'), props: true },
+            { path: 'teacher/:teacherId/classroom/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/courses/TeacherClassViewV2.vue') },
+            { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/classes/TeacherStudentView.vue') },
             { path: 'licenses', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminLicenses/index.vue') },
             { path: 'licenses/stats', component: () => import(/* webpackChunkName: 'LicenseStats' */ 'app/views/school-administrator/dashboard/LicenseTableView.vue') }
           ]
@@ -77,21 +142,95 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "apiViews" */ 'app/views/api/components/ApiDashboard')
         },
         {
+          path: '/admin/clan',
+          component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/PageClanSearch')
+        },
+        {
+          path: '/admin/clan/:clanId',
+          component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/PageClanEdit')
+        },
+        {
           path: '/outcomes-report/:kind/:country?/:idOrSlug',
-          component: () => import(/* webpackChunkName: "outcomesReport" */ 'app/views/outcomes-report/PageOutcomesReport'),
+          component: () => import(/* webpackChunkName: "outcomesReport" */ 'app/views/outcomes-report/PageOutcomesReport')
+        },
+        // Warning: In production debugging of third party iframe!
+        {
+          path: '/temporary-debug-timetap',
+          component: () => import(/* webpackChunkName: "thirdPartyDebugging" */ 'app/components/timetap/TimeTapDebugPage')
+        },
+        {
+          path: '/payments/manage-billing',
+          component: () => import(/* webpackChunkName: "manageBillingComponent"  */'app/views/payment/ManageBillingView')
+        },
+        {
+          path: '/payments/online-classes-success',
+          component: () => import(/* webpackChunkName: "onlineClassesSuccessComponent" */'app/views/payment/online-class/SuccessView')
+        },
+        {
+          path: '/payments/home-subscriptions-success',
+          component: () => import(/* webpackChunkName: "homeSubscriptionSuccessComponent" */'app/views/payment/HomeSubscriptionsSuccessView'),
+          props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/payments/tecmilenio-success',
+          component: () => import(/* webpackChunkName: "tecmilenioSuccessComponent" */'app/views/payment/student-license/TecmilenioSuccessView')
+        },
+        {
+          path: '/payments/:slug',
+          component: () => import(/* webpackChunkName: "paymentComponent" */'app/views/payment/PaymentComponentView')
+        },
+        {
+          path: '/ed-link/login-redirect',
+          component: () => import(/* webpackChunkName: "edLinkRedirectView" */'app/views/user/EdLinkRedirectView'),
+          props: (route) => ({ ...route.query, ...route.params })
         },
         {
           path: '/teachers',
-          component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/index.vue'),
+          component: () => {
+            if (utils.isCodeCombat) {
+              return import(/* webpackChunkName: "teachers" */ 'app/components/common/PassThrough')
+            }
+            return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/index.vue')
+          },
           children: [
             { path: '', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseMyClasses/index.vue') },
             { path: 'classes', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseMyClasses/index.vue') },
             { path: 'classes/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseSingleClass/index.vue'), props: true },
             { path: 'projects/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseStudentProjects/index.vue'), props: true },
-            { path: 'licenses', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherLicenses/index.vue') },
-            { path: 'resources', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue') },
+            {
+              path: 'licenses/join',
+              component: () => import(/* webpackChunkName: "teachers" */'app/views/teachers/JoinLicensesByCode.vue')
+            },
+            {
+              path: 'licenses',
+              component: () => {
+                if (utils.isCodeCombat) {
+                  return import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/StudentLicensesMainComponent')
+                } else {
+                  return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherLicenses/index.vue')
+                }
+              }
+            },
+            {
+              path: 'resources_new',
+              component: () => import(/* webpackChunkName: "teachers_new" */ 'app/views/teachers/teacher-dashboard/BaseResourceHub/index.vue')
+            },
+            {
+              path: 'resources',
+              component: () => {
+                if (utils.isCodeCombat) {
+                  return import(/* webpackChunkName: "teachers" */ 'app/views/teachers/teacher-dashboard/BaseResourceHub/index.vue')
+                } else {
+                  return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue')
+                }
+              }
+            },
             { path: 'professional-development', component: () => import(/* webpackChunkName: "pd" */ '../views/pd/PDView.vue') }
           ]
+        },
+        {
+          path: '/roblox',
+          component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox')
         },
         {
           path: '/cinematicplaceholder/:levelSlug?',
@@ -149,8 +288,26 @@ export default function getVueRouter () {
           name: 'UserSwitchAccountConfirmation',
           component: () => import(/* webpackChunkName: "userSwitchAccountConfirm" */'/app/views/user/SwitchAccountConfirmationView'),
           props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/parents/signup',
+          name: 'ParentSignup',
+          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/SignupView'),
+          props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/parents/:viewName/:childId?',
+          name: 'ParentDashboard',
+          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/DashboardMainView'),
+          props: (route) => ({ ...route.query, ...route.params })
         }
-      ]
+      ],
+      scrollBehavior (to) {
+        const scroll = {}
+        if (to.meta?.toTop) scroll.top = 0
+        return scroll
+      }
+
     })
 
     vueRouter.afterEach((to, from) => {

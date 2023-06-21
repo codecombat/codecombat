@@ -1,7 +1,12 @@
-slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
+product = COCO_PRODUCT ? 'codecombat'
+isCodeCombat = product == 'codecombat'
+isOzaria = !isCodeCombat
 
-isCodeCombat = true
-isOzaria = false
+# Yuqiang: i don't know why we use same slugify from different source but let's keep it right now since change it sometimes trigger unbelievable bug
+if isCodeCombat
+  slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
+else
+  slugify = require('underscore.string').slugify # TODO: why _.string on client and _.str on server?
 
 getCorrectName = (session) ->
   if session.fullName # already handle anonymize in server side
@@ -703,7 +708,10 @@ createLevelNumberMap = (levels) ->
     else if level.assessment
       practiceLevelTotalCount++
       practiceLevelCurrentCount++
-      levelNumber = if level.assessment is 'cumulative' then $.t('play_level.combo_challenge') else $.t('play_level.concept_challenge')
+      if isCodeCombat
+        levelNumber = if level.assessment is 'cumulative' then $.t('play_level.combo_challenge') else $.t('play_level.concept_challenge')
+      else
+        levelNumber = $.i18n.t('play_level.challenge')
     else
       practiceLevelCurrentCount = 0
     levelNumberMap[level.key] = levelNumber
@@ -1151,6 +1159,16 @@ freeAccessLevels = [
   { access: 'china-classroom', slug: 'careful-steps' }
   { access: 'china-classroom', slug: 'long-steps' }
   { access: 'china-classroom', slug: 'favorable-odds' }
+  # Yuqiang: we can directly add ozaria slugs here since all logics are based on slug and won't mess at all
+  { access: 'short', slug: '1fhcutscene1b'}
+  { access: 'short', slug: '1fhm1l1l1b'}
+  { access: 'short', slug: '1fhm1l1l2b'}
+  { access: 'short', slug: '1fhm1l1l3b'}
+  { access: 'short', slug: '1fhm1l1l4b'}
+  { access: 'short', slug: '1fhm1l1l5b'}
+  { access: 'short', slug: '1fhm1l1l6b'}
+  { access: 'short', slug: '1fhm1l1l7b'}
+  { access: 'short', slug: '1fhm1l1l8b'}
 ]
 
 orgKindString = (kind, org=null) ->
@@ -1172,7 +1190,7 @@ getProduct = -> if isOzaria then OZARIA else CODECOMBAT
 
 getProductName = -> $.i18n.t("new_home." + getProduct())
 
-supportEmail = 'support@codecombat.com'
+supportEmail = "support@#{getProduct()}.com"
 
 cocoBaseURL = ->
   if isCodeCombat
