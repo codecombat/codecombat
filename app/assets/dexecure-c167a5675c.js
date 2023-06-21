@@ -1,4 +1,4 @@
-const product = COCO_PRODUCT || 'codecombat'
+const product = new URL(location).searchParams.get('product')
 const isCodeCombat = product === 'codecombat'
 var server = {
 	"server": {
