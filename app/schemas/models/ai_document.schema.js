@@ -5,7 +5,6 @@ const AIDocumentSchema = c.object({
   title: 'AI Document',
   description: 'A generative AI document',
   required: ['type'], // TODO: required properties (name? content? owner?)
-  default: {}
 })
 
 _.extend(AIDocumentSchema.properties, {
@@ -13,7 +12,7 @@ _.extend(AIDocumentSchema.properties, {
   source: { type: 'string', description: 'The contents of the document' }
 })
 
-AIDocumentSchema.definitions = {}
+// AIDocumentSchema.definitions = {}
 c.extendBasicProperties(AIDocumentSchema, 'ai_document')
 // c.extendSearchableProperties(AIDocumentSchema)
 // c.extendPermissionsProperties(AIDocumentSchema, 'ai_document')

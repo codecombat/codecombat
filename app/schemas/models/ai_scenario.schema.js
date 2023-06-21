@@ -36,7 +36,7 @@ _.extend(AIScenarioSchema.properties, {
   }
 })
 
-AIScenarioSchema.definitions = { inlineInteraction: c.InlineInteractionSchema }
+// AIScenarioSchema.definitions = { }
 c.extendBasicProperties(AIScenarioSchema, 'ai_scenario')
 // c.extendSearchableProperties(AIScenarioSchema)
 // c.extendVersionedProperties(AIScenarioSchema, 'ai_scenario')

@@ -4,8 +4,6 @@ const _ = require('lodash')
 const AIChatMessageSchema = c.object({
   title: 'AI Interaction',
   description: 'A generative AI interaction',
-  required: ['actor', 'user', 'project', 'sentAt', 'text'],
-  default: {}
 })
 
 _.extend(AIChatMessageSchema.properties, {
@@ -22,12 +20,12 @@ _.extend(AIChatMessageSchema.properties, {
   preview: {
     type: 'string',
     title: 'Preview',
-    maxLength: 200,
+    maxLength: 300,
     description: 'A preview of the document in the message discussed'
   }
 })
 
-AIChatMessageSchema.definitions = {}
+// AIChatMessageSchema.definitions = {}
 c.extendBasicProperties(AIChatMessageSchema, 'ai_chat_message')
 // c.extendSearchableProperties(AIInteractionSchema)
 // c.extendPermissionsProperties(AIInteractionSchema, 'ai_interaction')
