@@ -8,7 +8,6 @@ const AIChatMessageSchema = c.object({
 
 _.extend(AIChatMessageSchema.properties, {
   actor: { type: 'string', enum: ['model', 'user', 'teacher'] },
-  user: c.objectId(),
   project: c.objectId(),
   sentAt: c.date({ title: 'Sent', description: 'The time the message started being sent' }),
   text: {
