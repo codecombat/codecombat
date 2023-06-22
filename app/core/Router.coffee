@@ -313,7 +313,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:campaign': (campaign) ->
       if utils.isCodeCombat
-        @routeDirectly('play/CampaignView', [], {map: campaign})
+        @routeDirectly('play/CampaignView', arguments)
       else
        props = {
          campaign: campaign
