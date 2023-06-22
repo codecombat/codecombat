@@ -2,64 +2,38 @@ doctype html
 block begin
 html(lang='en')
   head
-    - var product = me.getProduct()
-    - var productShort = product == 'codecombat' ? 'coco' : 'ozar'
-    - var productCap = product == 'codecombat' ? 'CodeCombat' : 'Ozaria'
     meta(charset='utf-8')
     meta(name='viewport', content="width=device-width,initial-scale=1.0", data-vue-meta="true", data-vmid="viewport")
     meta(http-equiv='Accept-CH', content='Viewport-Width')
-    title(data-i18n=`new_home.title_${productShort}`)
-    meta(name="keywords", data-i18n=`[content]new_home.meta_keywords_${productShort}`)
-    meta(name="description", data-i18n=`[content]new_home.meta_description_${productShort}`)
-    if product == 'codecombat'
-      meta(property='og:description', data-i18n="[content]new_home.meta_description_coco")
-      meta(property='og:url', data-i18n="[content]new_home.meta_og_url")
-    else
-      meta(property='og:title', content='Ozaria - Computer science that captivates')
-      meta(property='og:url', content='https://www.ozaria.com')
+    title(data-i18n="new_home.title_ozar")
+    meta(name="keywords", data-i18n="[content]new_home.meta_keywords_ozar")
+    meta(name="description", data-i18n="[content]new_home.meta_description_ozar")
+    meta(property='og:title', content='Ozaria - Computer science that captivates')
+    meta(property='og:url', content='https://www.ozaria.com')
     meta(property='og:type', content='game')
-    if product == 'codecombat'
-      meta(property='og:image', content='https://codecombat.com/images/pages/home/play_img.png')
-      meta(property='og:image:alt', content='CodeCombat')
-    else
-      meta(property='og:image', content='https://www.ozaria.com/images/pages/home/play_img.png')
-    meta(property='og:site_name', content=productCap)
+    meta(property='og:image', content='https://www.ozaria.com/images/pages/home/play_img.png')
+    meta(property='og:site_name', content='Ozaria')
     meta(name='twitter:card', content='summary')
-    if product == 'codecombat'
-      meta(name='twitter:title', content='CodeCombat: Learn to Code by Playing a Game')
-      meta(name='twitter:url', content='https://codecombat.com')
-    else
-      meta(name='twitter:title', content='Ozaria - Computer science that captivates')
-      meta(name='twitter:url', content='https://www.ozaria.com')
-    meta(name='twitter:site', content=productCap)
-    if product == 'codecombat'
-      meta(name='twitter:image:src', content='http://codecombat.com/images/pages/base/logo_square_250.png')
-      meta(name='twitter:description', content='Learn programming with a multiplayer live coding strategy game for beginners. Learn Python or JavaScript as you defeat ogres, solve mazes, and level up. Open source HTML5 game!')
-    else
-      meta(name='twitter:image:src', content='https://www.ozaria.com/images/pages/base/logo_square_250_oz.png')
-      meta(name='twitter:description', content='Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world.')
+    meta(name='twitter:title', content='Ozaria - Computer science that captivates')
+    meta(name='twitter:url', content='https://www.ozaria.com')
+    meta(name='twitter:site', content='Ozaria')
+    meta(name='twitter:image:src', content='https://www.ozaria.com/images/pages/base/logo_square_250_oz.png')
+    meta(name='twitter:description', content='Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world.')
     meta(name="p:domain_verify", content="f5afcb2c36bb8b1cbd70c44b65e5ec75")
-    if product == 'codecombat'
-      meta(name='fb:app_id', content='148832601965463')
-    - var suffix = product == 'codecombat' ? '' : '?v=2020-11-15'
-    link(rel="apple-touch-icon" sizes="180x180" href=`/images/favicon/favicon-${productShort}/apple-touch-icon.png${suffix}`)
-    link(rel="icon" type="image/png" sizes="32x32" href=`/images/favicon/favicon-${productShort}/favicon-32x32.png${suffix}`)
-    link(rel="icon" type="image/png" sizes="16x16" href=`/images/favicon/favicon-${productShort}/favicon-16x16.png${suffix}`)
-    link(rel="mask-icon" href=`/images/favicon/favicon-${productShort}/safari-pinned-tab.svg${suffix}` color="#5bbad5")
-    link(rel="shortcut icon" href=`/images/favicon/favicon-${productShort}/favicon.ico${suffix}`)
-    - var color = product == 'codecombat'? '#da532c' : '#00a300'
-    meta(name="msapplication-TileColor" content=color)
-    meta(name="msapplication-config" content=`/images/favicon/favicon-${productShort}/browserconfig.xml${suffix}`)
+    link(rel="apple-touch-icon" sizes="180x180" href="/images/favicon/favicon-ozar/apple-touch-icon.png?v=2020-11-15")
+    link(rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-ozar/favicon-32x32.png?v=2020-11-15")
+    link(rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-ozar/favicon-16x16.png?v=2020-11-15")
+    link(rel="mask-icon" href="/images/favicon/favicon-ozar/safari-pinned-tab.svg?v=2020-11-15" color="#5bbad5")
+    link(rel="shortcut icon" href="/images/favicon/favicon-ozar/favicon.ico?v=2020-11-15")
+    meta(name="msapplication-TileColor" content="#00a300")
+    meta(name="msapplication-config" content="/images/favicon/favicon-ozar/browserconfig.xml?v=2020-11-15")
     meta(name="facebook-domain-verification" content="xbahpe1at906kptbtd1g1w19ktlyru")
-    if product != 'codecombat'
-      meta(name="theme-color" content="#29575a")
-    link(rel='manifest', href=`/images/favicon/favicon-${productShort}/manifest.json`)
+    meta(name="theme-color" content="#29575a")
+    link(rel='manifest', href='/images/favicon/favicon-ozar/manifest.json')
     link(rel='stylesheet', href='/' + shaTag + '/stylesheets/app.css')
-    script.
-      var product = "#{me.getProduct()}"
     if me.useDexecure()
       script.
-        var DEXECURE_URL = "/dexecure-c167a5675c.js?product=" + product;
+        var DEXECURE_URL = "/dexecure-c167a5675c.js";
         "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
     script.
       window.javascriptsPath = "/#{shaTag}/javascripts/";
@@ -109,8 +83,7 @@ html(lang='en')
       })
       (window, document, "script", "//cdn.sematext.com/experience.js", "strum");
     script.
-      var semaToken = product == 'codecombat' ? '1edae6bb-d7eb-46b9-a134-ed831c4e3ae3' : '2c9127fa-87fc-4bd7-b735-8b6aaa211c38'
-      strum('config', { token: semaToken , 'receiverUrl': 'https://rum-receiver.sematext.com' });
+      strum('config', { token: '2c9127fa-87fc-4bd7-b735-8b6aaa211c38', 'receiverUrl': 'https://rum-receiver.sematext.com' });
     if me.useGoogleAnalytics()
       // Google Analytics
       script.
@@ -118,36 +91,15 @@ html(lang='en')
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        var gaKey = product == 'codecombat' ? 'UA-39724129-1' : 'UA-146501339-1'
-        ga('create', gaKey, 'auto');
+        ga('create', 'UA-146501339-1', 'auto');
 
-      script.
-        if(product == 'codecombat') {
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','GTM-M2SGNTZ');
-        }
-
-      if me.getProduct() == 'codecombat'
-        script(src="https://www.googletagmanager.com/gtag/js?id=G-CLTH4TL5L8" async)
-      else
-        // Global site tag (gtag.js) - Google Ads: 811324643
-        script(src="https://www.googletagmanager.com/gtag/js?id=AW-811324643" async)
+      // Global site tag (gtag.js) - Google Ads: 811324643
+      script(async src="https://www.googletagmanager.com/gtag/js?id=AW-811324643")
       script.
         window.dataLayer = window.dataLayer || [];
-        function gtag() {
-          dataLayer.push(arguments);
-        }
+        function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
-        if(product == 'codecombat') {
-          gtag('config', 'G-CLTH4TL5L8');
-          window.gtag4Installed = true;
-        } else {
-          gtag('config', 'AW-811324643');
-        }
+        gtag('config', 'AW-811324643');
 
       script(id="analytics-fbq").
         !function (f, b, e, v, n, t, s) {
@@ -175,17 +127,17 @@ html(lang='en')
     else
       // Baidu Analytics
       script.
-        var bdKey = product == 'codecombat' ? 'ffc38c02cf8f484ab8f785b58dfa8b6e' : 'fd876f45e00409837a7a2619b2ce1709'
+        console.log('use baidu analytics')
         var _hmt = _hmt || [];
         (function () {
           var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?#{bdKey}";
+          hm.src = "https://hm.baidu.com/hm.js?fd876f45e00409837a7a2619b2ce1709";
           var s = document.getElementsByTagName("script")[0];
           s.parentNode.insertBefore(hm, s);
         })();
 
     // Datadog logging
-    if me.getProduct() != 'codecombat' && me.useDataDog()
+    if me.useDataDog()
       script(src="https://www.datadoghq-browser-agent.com/datadog-logs-us.js")
       script.
         DD_LOGS.init({
