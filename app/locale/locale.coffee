@@ -69,7 +69,7 @@ module.exports =
   'uk': { nativeDescription: 'українська', englishDescription: 'Ukrainian' }
   'ur': { nativeDescription: 'اُردُو', englishDescription: 'Urdu' }
   'vi': { nativeDescription: 'Tiếng Việt', englishDescription: 'Vietnamese' }
-  'zh-WUU-HANS': { nativeDescription: '吴语', englishDescription: 'Wuu (Simplified)' } # can be 3 keys, zh, zh-WUU, zh-WUU-HANS. Need to do it for all keys with -
+  'zh-WUU-HANS': { nativeDescription: '吴语', englishDescription: 'Wuu (Simplified)' }
   'zh-WUU-HANT': { nativeDescription: '吳語', englishDescription: 'Wuu (Traditional)' }
 
 # We often iterate over this module to get languages, so we don't want these helper methods to show up.

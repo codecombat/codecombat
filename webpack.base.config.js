@@ -20,7 +20,23 @@ const PWD = process.env.PWD || __dirname
 const fs = require('fs')
 const { publicFolderName } = require('./development/utils')
 const locale = require('./app/locale/locale')
-const momentCocoLocales = _.intersection(Object.keys(locale), moment.locales())
+const localeKeys = Object.keys(locale)
+const possibleLocaleKeysFn = (keys) => {
+  const current = [...keys]
+  keys.forEach((key) => {
+    if (key.includes('-')) {
+      const possible = key.split('-')
+      const temp = []
+      for (let i = 0; i < possible.length - 1; i++) {
+        temp.push(possible[i])
+        current.push(temp.join('-'))
+      }
+    }
+  })
+  return current
+}
+const possibleLocaleKeys = possibleLocaleKeysFn(localeKeys)
+const momentCocoLocales = _.intersection(possibleLocaleKeys, moment.locales())
 
 console.log(`Starting Webpack for product ${product}`)
 
