@@ -1,0 +1,45 @@
+extends mock.static.pug
+
+block setup
+  script(type="application/ld+json").
+    {
+      "@context": "http://schema.org",
+      "@type": "VideoGame",
+      "name": "CodeCombat",
+      "url": "https://codecombat.com",
+      "image": "https://codecombat.com/images/pages/base/logo.png", 
+      "description": "Learn programming with a multiplayer live coding strategy game for beginners. Learn Python or JavaScript as you defeat ogres, solve mazes, and level up.",
+        "offers":{
+        "@type":"Offer",
+        "price":"1",
+        "priceCurrency":"USD",
+        "availability":"http://schema.org/InStock"
+      },
+      "aggregateRating":{
+        "@type":"AggregateRating",
+        "ratingValue":"4",
+        "ratingCount":"4"
+      },
+      "author":{
+        "@type":"Organization",
+        "name":"CodeCombat",
+            "url":"https://codecombat.com",
+    "sameAs" : [
+            "https://en.wikipedia.org/wiki/CodeCombat", 
+            "https://twitter.com/codecombat?lang=en", 
+            "https://www.facebook.com/codecombat"
+          ]
+    },
+      "publisher":"CodeCombat",
+      "genre":["Coding Games"],
+      "memoryRequirements":"2 Gb",
+      "applicationCategory":"Game"
+    }
+
+block begin
+  - viewName = 'HomeView'
+
+block content
+  #page-container
+    #home-view
+      include /templates/home-view
