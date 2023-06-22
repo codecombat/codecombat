@@ -79,7 +79,7 @@ block content
             source.img-responsive.tent-img(srcset="/images/pages/home-v2/tent.webp" style="max-width: 143px;" type="image/webp")
             img.img-responsive.tent-img(src="/images/pages/home-v2/tent.png" loading="lazy" style="max-width: 143px;" alt="")
         .col-xs-9
-          h3(data-i18n="new_home.learning_technology_blurb_short")
+          h1.text-h3(data-i18n="new_home.learning_technology_blurb_short")
 
     .container-graphic-spacer
       .container
@@ -93,11 +93,11 @@ block content
       .container.carousel-tabs-container
         ul.carousel-tabs.nav.nav-tabs(role="tablist")
           li.carousel-tab.active(data-selector="#game-based", data-slide-num="0")
-            h2(data-i18n="new_home.game_based_learning")
+            h1.text-h2.carousel-heading(data-i18n="new_home.game_based_learning")
           li.carousel-tab(data-selector="#game-based", data-slide-num="1")
-            h2(data-i18n="new_home.text_based_coding")
+            h1.text-h2.carousel-heading(data-i18n="new_home.text_based_coding")
           li.carousel-tab(data-selector="#game-based", data-slide-num="2")
-            h2(data-i18n="new_home.student_impact")
+            h1.text-h2.carousel-heading(data-i18n="new_home.student_impact")
       .container.carousel-container
         #game-based.carousel.slide(data-interval=8000)
           .carousel-inner
@@ -328,22 +328,22 @@ block content
         .col-xs-6.col-md-3.text-center
           .centered-flex(style="height: 100px;")
             img.img-reponsive(src="/images/pages/home-v2/cap.png" loading="lazy" style="max-width: 99px;" alt="Learner icon")
-          h4(data-i18n="new_home.million" data-i18n-options={num: 20})
+          h1.heading.text-h4(data-i18n="new_home.million" data-i18n-options={num: 20})
           p(data-i18n="new_home.global_subtitle1")
         .col-xs-6.col-md-3.text-center
           .centered-flex(style="height: 100px;")
             img.img-reponsive(src="/images/pages/home-v2/monitor.png" loading="lazy" style="max-width: 80px;" alt="Computer icon")
-          h4(data-i18n="new_home.billion" data-i18n-options={num: 1})
+          h1.heading.text-h4(data-i18n="new_home.billion" data-i18n-options={num: 1})
           p(data-i18n="new_home.global_subtitle2")
         .col-xs-6.col-md-3.text-center
           .centered-flex(style="height: 100px;")
             img.img-reponsive(src="/images/pages/home-v2/apple.png" loading="lazy" style="max-width: 82px;" alt="Teacher icon")
-          h4 140,000
+          h1.heading.text-h4 140,000
           p(data-i18n="new_home.global_subtitle3")
         .col-xs-6.col-md-3.text-center
           .centered-flex(style="height: 100px;")
             img.img-reponsive(src="/images/pages/home-v2/worldwide.png" loading="lazy" style="max-width: 82px;" alt="Country icon")
-          h4 190
+          h1.heading.text-h4 190
           p(data-i18n="new_home.global_subtitle4")
 
     .container-graphic-spacer.community-graphics
@@ -470,7 +470,7 @@ block content
             h1.pixelated(data-i18n="nav.faqs")
         .row.row-eq-height
           .col-md-4.col-sm-6.col-xs-12
-            h4(data-i18n="new_home_faq.what_programming_languages")
+            h1.text-h4(data-i18n="new_home_faq.what_programming_languages")
             p(data-i18n="new_home_faq.python_and_javascript")
             p
               b(data-i18n="new_home_faq.why_python")
@@ -483,25 +483,25 @@ block content
             p(data-i18n="new_home_faq.javascript_versus_python")
           .col-md-4.col-sm-6.col-xs-12
             //- Cheating to make tall columns
-            h4(data-i18n="new_home_faq.how_do_i_get_started")
+            h1.text-h4(data-i18n="new_home_faq.how_do_i_get_started")
             ol
               li(data-i18n="new_home_faq.getting_started_1")
               li(data-i18n="new_home_faq.getting_started_2")
               li(data-i18n="new_home_faq.getting_started_3")
               li(data-i18n="new_home_faq.getting_started_4")
-            h4(data-i18n="new_home_faq.main_curriculum")
+            h1.text-h4(data-i18n="new_home_faq.main_curriculum")
             p(data-i18n="new_home_faq.main_curriculum_blurb")
           .col-md-4.col-sm-6.col-xs-12
-            h4(data-i18n="new_home_faq.clever_instant_login")
+            h1.text-h4(data-i18n="new_home_faq.clever_instant_login")
             p(data-i18n="[html]new_home_faq.clever_instant_login_blurb", data-i18n-options=JSON.stringify(i18nData))
-            h4(data-i18n="new_home_faq.google_classroom")
+            h1.text-h4(data-i18n="new_home_faq.google_classroom")
             p(data-i18n="new_home_faq.google_classroom_blurb1")
             p(data-i18n="new_home_faq.google_classroom_blurb2")
           .col-md-4.col-sm-6.col-xs-12
-            h4(data-i18n="new_home_faq.how_much_does_it_cost")
+            h1.text-h4(data-i18n="new_home_faq.how_much_does_it_cost")
             p(data-i18n="[html]new_home_faq.how_much_does_it_cost_blurb", data-i18n-options=JSON.stringify(i18nData))
           .col-md-4.col-sm-6.col-xs-12
-            h4(data-i18n="new_home_faq.recommended_systems")
+            h1.text-h4(data-i18n="new_home_faq.recommended_systems")
             p(data-i18n="new_home_faq.recommended_systems_blurb")
               .text-center
         .row.faq-links-row
