@@ -13,7 +13,7 @@ if (window.features && window.features.chinaUx) {
   import(/* webpackChunkName: "UsFont" */ 'app/styles/common/fontUS.sass');
 }
 
-require('app/vendor.js');
+require('app/vendor.js'); // can be loaded separately and cached for a longer time
 
 // require.context('app/schemas', true, /.*\.(coffee|jade)/)
 // require.context('app/models', true, /.*\.(coffee|jade)/)
