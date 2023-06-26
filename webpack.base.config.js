@@ -3,8 +3,11 @@
 const _ = require('lodash')
 const path = require('path')
 const webpack = require('webpack')
+const moment = require('moment')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
+require('moment/min/locales')
 const glob = require('glob')
 require('coffee-script')
 require('coffee-script/register')
@@ -16,6 +19,24 @@ const { VueLoaderPlugin } = require('vue-loader')
 const PWD = process.env.PWD || __dirname
 const fs = require('fs')
 const { publicFolderName } = require('./development/utils')
+const locale = require('./app/locale/locale')
+const localeKeys = Object.keys(locale)
+const possibleLocaleKeysFn = (keys) => {
+  const current = [...keys]
+  keys.forEach((key) => {
+    if (key.includes('-')) {
+      const possible = key.split('-')
+      const temp = []
+      for (let i = 0; i < possible.length - 1; i++) {
+        temp.push(possible[i])
+        current.push(temp.join('-'))
+      }
+    }
+  })
+  return current
+}
+const possibleLocaleKeys = possibleLocaleKeysFn(localeKeys)
+const momentCocoLocales = _.intersection(possibleLocaleKeys, moment.locales())
 
 console.log(`Starting Webpack for product ${product}`)
 
@@ -303,6 +324,9 @@ module.exports = (env) => {
       new webpack.ProvidePlugin({
         process: 'process/browser', // because of algoliasearch which needs access to process: https://github.com/algolia/docsearch/issues/980
         Buffer: ['buffer', 'Buffer']
+      }),
+      new MomentLocalesPlugin({
+        localesToKeep: momentCocoLocales
       })
     ].concat(extraIgnorePluginEntries),
     optimization: {},

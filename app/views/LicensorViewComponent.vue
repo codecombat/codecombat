@@ -136,7 +136,7 @@ div.licensor.container(v-else)
         .form-group
           button.btn.btn-primary(v-on:click.prevent="onShowApiClient" name="showClient" id="showClient") Show API Client
           button.btn.btn-primary(v-on:click.prevent="onShowAllApiClient" name="showAllClient" id="showAllClient") Show All API Clients
-    table.table.table-condensed(v-if="clients.length == 1")
+    table.table.table-condensed#client-table(v-if="clients.length == 1")
       tr
         th.border ID
         th.border Slug
@@ -145,7 +145,7 @@ div.licensor.container(v-else)
         th.border minimumLicenseDays
         th.border License days used by client
         th.border License days remaining
-        th.border Users with active licenses
+        th.border Users having active licenses
       tr(v-for="client in clients")
         td.border {{client._id}}
         td.border {{client.slug}}
@@ -188,7 +188,7 @@ div.licensor.container(v-else)
       =" "
       h4.small
         | {{client.secret}}
-    table.table.table-condensed(v-if="clients.length > 1")
+    table.table.table-condensed#client-table(v-if="clients.length > 1")
       tr
         th.border ID
         th.border Name
@@ -630,7 +630,7 @@ module.exports = Vue.extend({
 
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .border
   border: thin solid grey
 .form
