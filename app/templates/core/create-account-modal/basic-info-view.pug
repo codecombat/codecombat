@@ -6,10 +6,59 @@ mixin error-area
         .col-xs-7.col-xs-offset-3
       .alert.alert-danger= error
 
+mixin use-social-signon
+  if view.utils.isCodeCombat
+    .hr-text
+      hr
+      span(data-i18n="general.or")
+
+    .auth-network-logins.text-center
+      .gplus-login#google-login-button
+        a.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
+          img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.svg", draggable="false")
+      if !/(teacher|student)/.test(view.signupState.get('path'))
+        .facebook-login
+          a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
+            img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
+      if /(teacher|student)/.test(view.signupState.get('path'))
+        .clever-login
+          a#clever-signup-btn.network-login(data-sso-used="clever")
+            img.clever-logo(src="/images/pages/modal/auth/clever_sso_button@2x.png", draggable="false")
+
+    // TODO: turn on once we can ask about school inside ConfirmationView
+    //if view.signupState.get('path') === 'individual' && (!me.get('country') || me.get('country') == 'united-states')
+    .checkbox#want-in-school
+      label.control-label(for="want-in-school-checkbox")
+        input#want-in-school-checkbox(type="checkbox" value="")
+        span(data-i18n="signup.want_codecombat_in_school")
+  else
+    .auth-network-logins
+      .gplus-login
+        a#google-login-button.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
+          - var buttonURL = "/images/ozaria/common/log-in-google-sso-generic.svg"
+          - if(view.signupState.get('path') == 'teacher')
+          -   imgURL = "/images/ozaria/common/log-in-google-sso.svg"
+          img.gplus-logo(src=buttonURL, draggable="false")
+      //- TODO: Enable once we have Ozaria fb login working.
+      //- .facebook-login
+      //-   a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
+      //-     img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
+
+    // TODO: turn on once we can ask about school inside ConfirmationView
+    //if view.signupState.get('path') === 'individual' && (!me.get('country') || me.get('country') == 'united-states')
+      .checkbox#want-in-school
+        label.control-label(for="want-in-school-checkbox")
+          input#want-in-school-checkbox(type="checkbox" value="")
+          span(data-i18n="signup.want_codecombat_in_school")
+    .row.or-row
+      .line
+      p.or(data-i18n="login.or")
+      .line
+
 form#basic-info-form.modal-body.basic-info
   - var path = view.signupState.get('path')
   .modal-body-content
-    if view.utils.isCodeCombat 
+    if view.utils.isCodeCombat
       if me.get("preferredLanguage") == "he" || window.location.host == "il.codecombat.com"
         .alert.alert-info.text-center(dir="rtl")
           span תלמיד מערכת החינוך?
@@ -128,54 +177,3 @@ form#basic-info-form.modal-body.basic-info
 
     button.back-button.btn.btn-lg(type='button' class=view.utils.isCodeCombat ? "btn-navy-alt" : "ozaria-secondary-button")
       span(data-i18n="common.back")
-
-mixin use-social-signon
-  if view.utils.isCodeCombat
-    .hr-text
-      hr
-      span(data-i18n="general.or")
-
-    .auth-network-logins.text-center
-      .gplus-login#google-login-button
-        a.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
-          img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.svg", draggable="false")
-      if !/(teacher|student)/.test(view.signupState.get('path'))
-        .facebook-login
-          a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
-            img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
-      if /(teacher|student)/.test(view.signupState.get('path'))
-        .clever-login
-          a#clever-signup-btn.network-login(data-sso-used="clever")
-            img.clever-logo(src="/images/pages/modal/auth/clever_sso_button@2x.png", draggable="false")
-
-    // TODO: turn on once we can ask about school inside ConfirmationView
-    //if view.signupState.get('path') === 'individual' && (!me.get('country') || me.get('country') == 'united-states')
-    .checkbox#want-in-school
-      label.control-label(for="want-in-school-checkbox")
-        input#want-in-school-checkbox(type="checkbox" value="")
-        span(data-i18n="signup.want_codecombat_in_school")
-  else
-    .auth-network-logins
-      .gplus-login
-        a#google-login-button.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
-          - var buttonURL = "/images/ozaria/common/log-in-google-sso-generic.svg"
-          - if(view.signupState.get('path') == 'teacher')
-          -   imgURL = "/images/ozaria/common/log-in-google-sso.svg"
-          img.gplus-logo(src=buttonURL, draggable="false")
-      //- TODO: Enable once we have Ozaria fb login working.
-      //- .facebook-login
-      //-   a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
-      //-     img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
-
-    // TODO: turn on once we can ask about school inside ConfirmationView
-    //if view.signupState.get('path') === 'individual' && (!me.get('country') || me.get('country') == 'united-states')
-      .checkbox#want-in-school
-        label.control-label(for="want-in-school-checkbox")
-          input#want-in-school-checkbox(type="checkbox" value="")
-          span(data-i18n="signup.want_codecombat_in_school")
-    .row.or-row
-      .line
-      p.or(data-i18n="login.or")
-      .line
-
-
