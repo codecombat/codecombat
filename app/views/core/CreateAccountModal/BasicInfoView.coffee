@@ -54,6 +54,11 @@ module.exports = class BasicInfoView extends CocoView
       checkNamePromise: null
       error: ''
     }
+    # fake this utils for unique usage in pug
+    @utils = {
+      isCodeCombat
+      isOzaria
+    }
     @listenTo @state, 'change:checkEmailState', -> @renderSelectors('.email-check')
     @listenTo @state, 'change:checkNameState', -> @renderSelectors('.name-check')
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')

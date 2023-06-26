@@ -30,6 +30,7 @@ module.exports = class AuthModal extends ModalView
   # Initialization
 
   initialize: (options={}) ->
+    @utils = utils
     @previousFormInputs = options.initialValues or {}
     @previousFormInputs.emailOrUsername ?= @previousFormInputs.email or @previousFormInputs.username
 

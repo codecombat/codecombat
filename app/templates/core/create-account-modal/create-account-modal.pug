@@ -12,9 +12,9 @@ block modal-header
     This allows for the header color to switch without the subview templates
     needing to contain the header
 
-  if ['oz-vs-coco','choose-account-type'].includes(view.signupState.get('screen'))
+  if view.utils.isCodeCombat && ['oz-vs-coco','choose-account-type'].includes(view.signupState.get('screen'))
     +ozaria-close-button
-  else if view.signupState.get('screen') === 'segment-check' && view.signupState.get('path')==='student'
+  else if view.utils.isCodeCombat && view.signupState.get('screen') === 'segment-check' && view.signupState.get('path')==='student'
     .modal-header.ozaria-modal-header(class=view.signupState.get('path'))
       div
         +modal-header-content
@@ -23,28 +23,43 @@ block modal-header
     .modal-header(class=view.signupState.get('path'))
       span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
       +modal-header-content
-
+ 
 mixin ozaria-close-button
   button.close(data-dismiss="modal", aria-hidden="true")
     img(alt="close icon" src="/images/common/modal/Exit_Dusk.svg")
 
 mixin modal-header-content
-  h3
-    case view.signupState.get('path')
-      when 'student'
-        if view.signupState.get('screen')==='segment-check'
-          span(data-i18n="signup.have_a_classcode")
-        else
+  if view.utils.isCodeCombat
+    h3
+      case view.signupState.get('path')
+        when 'student'
+          if view.signupState.get('screen')==='segment-check'
+            span(data-i18n="signup.have_a_classcode")
+          else
+            span(data-i18n="signup.create_student_header")
+        when 'teacher'
+          span(data-i18n="signup.create_teacher_header")
+        when 'individual'
+          if view.signupState.get('subModalContinue')
+            span(data-i18n="signup.complete_subscription")
+          else
+            span(data-i18n="signup.create_individual_header")
+        default
+          span(data-i18n="login.sign_up")
+  else
+    h2
+      case view.signupState.get('path')
+        when 'student'
           span(data-i18n="signup.create_student_header")
-      when 'teacher'
-        span(data-i18n="signup.create_teacher_header")
-      when 'individual'
-        if view.signupState.get('subModalContinue')
-          span(data-i18n="signup.complete_subscription")
-        else
-          span(data-i18n="signup.create_individual_header")
-      default
-        span(data-i18n="login.sign_up")
+        when 'teacher'
+          span(data-i18n="signup.create_teacher_header")
+        when 'individual'
+          if view.signupState.get('subModalContinue')
+            span(data-i18n="signup.complete_subscription")
+          else
+            span(data-i18n="signup.create_individual_header")
+        default
+          span(data-i18n="login.sign_up")
 
 //-
   This is where the subviews (screens) are hooked up.
@@ -75,13 +90,20 @@ block modal-body
       #teacher-signup-component
 
 block modal-footer
-  .modal-footer(class=`screen-${view.signupState.get('screen')}`)
+  //-
+    This allows for the footer color to switch without the subview templates
+    needing to contain the footer
+  .modal-footer(class=view.utils.isCodeCombat ? `screen-${view.signupState.get('screen')}` : view.signupState.get('path'))
     +modal-footer-content
 
 mixin modal-footer-content
-  if view.signupState.get('screen') !== 'confirmation'
+  if view.signupState.get('screen') !== 'confirmation' && (view.utils.isCodeCombat || view.signupState.get('screen') !== 'teacher-signup-component')
     .modal-footer-content
       .small-details.rtl-allowed
-        span.spr(data-i18n="signup.login_switch")
-        a.login-link(href="#")
-          span(data-i18n="signup.sign_in")
+        if view.utils.isCodeCombat
+          span.spr(data-i18n="signup.login_switch")
+          a.login-link(href="#")
+            span(data-i18n="signup.sign_in")
+        else
+          span.spr(data-i18n="login.already_have_account1")
+          a.login-link(data-i18n="signup.sign_in" href="#")

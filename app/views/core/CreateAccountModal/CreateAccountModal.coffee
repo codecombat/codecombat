@@ -69,6 +69,7 @@ module.exports = class CreateAccountModal extends ModalView
     'click .button.close': 'onClickDismiss'
 
   initialize: (options={}) ->
+    @utils = utils
     classCode = utils.getQueryVariable('_cc', undefined)
     @signupState = new State {
       path: if classCode then 'student' else null

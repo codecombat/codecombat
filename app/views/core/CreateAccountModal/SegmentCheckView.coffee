@@ -19,6 +19,7 @@ module.exports = class SegmentCheckView extends CocoView
     'click .individual-path-button': -> @trigger 'choose-path', 'individual'
 
   initialize: ({ @signupState } = {}) ->
+    @utils = utils
     @checkClassCodeDebounced = _.debounce @checkClassCode, 1000
     @fetchAndApplyClassCodeDebounced = _.debounce @fetchAndApplyClassCode, 1000
     @fetchClassByCode = _.memoize(@fetchClassByCode)
