@@ -15,37 +15,50 @@ module.exports = class SegmentCheckView extends CocoView
     'input .class-code-input': 'onInputClassCode'
     'change .birthday-form-group': 'onInputBirthday'
     'submit form.segment-check': 'onSubmitSegmentCheck'
+    'click button.play-now': 'onPlayClicked'
     'click .individual-path-button': -> @trigger 'choose-path', 'individual'
 
   initialize: ({ @signupState } = {}) ->
+    @utils = utils
+    @checkClassCodeDebounced = _.debounce @checkClassCode, 1000
     @fetchAndApplyClassCodeDebounced = _.debounce @fetchAndApplyClassCode, 1000
     @fetchClassByCode = _.memoize(@fetchClassByCode)
+    @classroom = new Classroom()
     @state = new State()
     if @signupState.get('classCode')
-      @fetchAndApplyClassCode()
+      if utils.isCodeCombat
+        @checkClassCode(@signupState.get('classCode'))
+      else
+        @fetchAndApplyClassCode()
     @listenTo @state, 'all', _.debounce(->
-      @renderSelectors('.render')
+      @renderSelectors('.render, .next-button')
       @trigger 'special-render'
     )
+
+  onPlayClicked: ->
+    application.router.navigate "/play", { trigger: true }
 
   getClassCode: -> @$('.class-code-input').val() or @signupState.get('classCode')
 
   onBackToAccountType: ->
-    @state.set { doneFetching: false }
+    if utils.isOzaria
+      @state.set { doneFetching: false }
     @trigger 'nav-back'
 
   onInputClassCode: ->
-    # TODO: This may do nothing, because the glyph icons we use are not alerts
+    @classroom = new Classroom()
     forms.clearFormAlerts(@$el)
-    # TODO: Ideally, when this is in Vue, we can run the check on each key press
-    # and let them know we are searching for the class code, without having to 
-    # reset focus and mess with the input
-    @signupState.set { classCode: @getClassCode() }, { silent: true }
-    @fetchAndApplyClassCodeDebounced()
+    classCode = @getClassCode()
+    @signupState.set { classCode }, { silent: true }
+    if utils.isCodeCombat
+      @checkClassCodeDebounced()
+    else
+      @fetchAndApplyClassCodeDebounced()
 
   afterRender: () ->
     super()
-    @onInputClassCode()
+    if utils.isOzaria
+      @onInputClassCode()
 
   fetchAndApplyClassCode: ->
     return if @destroyed
@@ -73,6 +86,27 @@ module.exports = class SegmentCheckView extends CocoView
     .catch (error) ->
       throw error
 
+
+  checkClassCode: ->
+    return if @destroyed
+    classCode = @getClassCode()
+
+    @fetchClassByCode(classCode)
+    .then (classroom) =>
+      return if @destroyed or @getClassCode() isnt classCode
+      if classroom
+        @classroom = classroom
+        @state.set { classCodeValid: true, segmentCheckValid: true }
+      else
+        @classroom = new Classroom()
+        @state.set { classCodeValid: false, segmentCheckValid: false }
+    .catch (error) =>
+      if error.code == 403 and error.message == 'Activation code has been used'
+        @state.set { classCodeValid: false, segmentCheckValid: false, codeExpired: true }
+      else
+        throw error
+      console.error(error)
+
   onInputBirthday: ->
     { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))
     birthday = new Date Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay)
@@ -85,6 +119,7 @@ module.exports = class SegmentCheckView extends CocoView
 
     if @signupState.get('path') is 'student'
       @$('.class-code-input').attr('disabled', true)
+      @$('button.next-button').attr('disabled', true)
 
       @fetchClassByCode(@getClassCode())
       .then (classroom) =>
@@ -95,9 +130,12 @@ module.exports = class SegmentCheckView extends CocoView
           @trigger 'nav-forward', screen
         else
           @$('.class-code-input').attr('disabled', false)
+          @$('button.next-button').attr('disabled', false)
           @classroom = new Classroom()
           @state.set { classCodeValid: false, segmentCheckValid: false }
       .catch (error) ->
+        @$('.class-code-input').attr('disabled', false)
+        @$('button.next-button').attr('disabled', false)
         throw error
 
     else if @signupState.get('path') is 'individual'

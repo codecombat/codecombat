@@ -2,8 +2,10 @@
 
 .right-wing
 
+- var product = view.utils.isCodeCombat ? 'coco' : 'ozar'
 #loading-details.loading-container
-
+  if view.utils.isOzaria
+    .chrome-border.chrome-off-slice
   .level-loading-goals.secret.rtl-allowed
     .goals-title(data-i18n=view.goalHeaderTransationKey) Goals
     ul.list-unstyled(dir="auto")
@@ -16,7 +18,11 @@
         .intro-doc-content(dir="auto")
 
   .progress-or-start-container
-    button.start-level-button.btn.btn-lg.btn-success.btn-illustrated.header-font.needsclick(data-i18n=view.buttonTranslationKey) Start Level
+    if view.utils.isCodeCombat
+      button.start-level-button.btn.btn-lg.btn-success.btn-illustrated.header-font.needsclick(data-i18n=view.buttonTranslationKey) Start Level
+    else
+      img(src="/images/ozaria/level/Logo_Bevelled@4x.png")
+      p(data-i18n="common.LOADING")
 
     .load-progress
       .progress
@@ -37,11 +43,11 @@
 
   .course-membership-required
     span(data-i18n="courses.course_membership_required_to_play")
-    a.btn.btn-lg.btn-warning(data-i18n="courses.back_courses_coco", href="/students")
+    a.btn.btn-lg.btn-warning(data-i18n=("courses.back_courses_" + product), href="/students")
     
   .license-required
-    span(data-i18n="courses.license_required_to_play_coco")
-    a.btn.btn-lg.btn-warning(data-i18n="courses.back_courses_coco", href="/students")
+    span(data-i18n=("courses.license_required_to_play_"+product))
+    a.btn.btn-lg.btn-warning(data-i18n=("courses.back_courses_" + product), href="/students")
 
   #tip-wrapper.picoctf-hide
     strong.tip(data-i18n='play_level.tip_toggle_play') Toggle play/paused with Ctrl+P.

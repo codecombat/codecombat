@@ -7,6 +7,7 @@ SetupAccountPanel = Vue.extend
     supportEmail: if utils.isOzaria then "<a href='mailto:support@ozaria.com'>support@ozaria.com</a>" else "<a href='mailto:support@codecombat.com'>support@codecombat.com</a>"
     saving: true
     error: ''
+    isCodeCombat: utils.isCodeCombat
   }
   computed:
     inEU: ->

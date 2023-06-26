@@ -310,8 +310,10 @@ module.exports = class CocoView extends Backbone.View
     confirmOOOMessage =>
       if (me.isTeacher(true) and zE) or me.showChinaResourceInfo()
         openDirectContactModal()
-      else
+      else if utils.isCodeCombat
         openContactModal()
+      else
+        location.href = 'mailto:support@codecombat.com'
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
