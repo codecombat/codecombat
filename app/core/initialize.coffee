@@ -11,7 +11,6 @@ VTooltip = require 'v-tooltip'
 VueMoment = require 'vue-moment'
 VueMeta = require 'vue-meta'
 VueYoutube = require 'vue-youtube'
-VueShepherd = require 'vue-shepherd'
 { VueMaskDirective } = require 'v-mask'
 VueAsyncComputed = require 'vue-async-computed'
 
@@ -26,7 +25,6 @@ Vue.use(VTooltip.default)
 Vue.use(VueMeta)
 
 if utils.isOzaria
-  Vue.use(VueShepherd);
   Vue.use(utils.vueNonReactiveInstall)
   Vue.use(VueAsyncComputed)
   Vue.directive('mask', VueMaskDirective)
