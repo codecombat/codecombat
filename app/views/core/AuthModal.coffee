@@ -1,4 +1,5 @@
-require('app/styles/modal/auth-modal.scss')
+require('app/styles/modal/auth-modal.sass')
+utils = require 'core/utils'
 ModalView = require 'views/core/ModalView'
 template = require 'app/templates/core/auth-modal'
 forms = require 'core/forms'
@@ -21,6 +22,7 @@ module.exports = class AuthModal extends ModalView
     'keyup #name': 'onNameChange'
     'click #google-login-button': 'onClickGPlusLoginButton'
     'click #facebook-login-btn': 'onClickFacebookLoginButton'
+    'click #clever-signup-btn': 'onClickCleverSignupButton'
     'click #clever-login-btn': 'onClickCleverLoginButton'
     'click #close-modal': 'hide'
     'click [data-toggle="coco-modal"][data-target="core/RecoverModal"]': 'openRecoverModal'
@@ -28,6 +30,7 @@ module.exports = class AuthModal extends ModalView
   # Initialization
 
   initialize: (options={}) ->
+    @utils = utils
     @previousFormInputs = options.initialValues or {}
     @previousFormInputs.emailOrUsername ?= @previousFormInputs.email or @previousFormInputs.username
 
@@ -37,7 +40,9 @@ module.exports = class AuthModal extends ModalView
         @$('#google-login-button').attr('disabled', false)
         @onClickGPlusLoginButton()
       })
-      #application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })  # No Facebook login in Ozaria
+      if utils.isCodeCombat
+        # No Facebook login in Ozaria
+        application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })
     @subModalContinue = options.subModalContinue
     @showLibraryModal = userUtils.shouldShowLibraryLoginModal()
 
@@ -68,18 +73,16 @@ module.exports = class AuthModal extends ModalView
       if jqxhr.status is 401
         errorID = jqxhr.responseJSON.errorID
         if errorID is 'not-found'
-          forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('loading_error.not_found'))
+          forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('loading_error.' + if utils.isCodeCombat then 'user_not_found' else 'not_found')) # todo: update i18n
           showingError = true
-
         if errorID is 'wrong-password'
           forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.wrong_password'))
           showingError = true
-
         if errorID is 'temp-password-expired'
           forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.temp_password_expired'))
           showingError = true
 
-        if errorID is 'individuals-not-supported'
+        if utils.isOzaria and errorID is 'individuals-not-supported'
           forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
           showingError = true
 
@@ -162,6 +165,7 @@ module.exports = class AuthModal extends ModalView
     btn = @$('#google-login-button')
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_gplus'))
     btn.attr('disabled', false)
+    errors.showNotyNetworkError(arguments...) if arguments.length
 
 
   # Facebook
@@ -206,6 +210,19 @@ module.exports = class AuthModal extends ModalView
 
   # Clever
 
+  onClickCleverSignupButton: ->
+    if window.location.hostname in ['next.codecombat.com', 'localhost']
+      cleverClientId = '943ece596555cac13fcc'
+      redirectTo = 'https://next.codecombat.com/auth/login-clever'
+      districtId = '5b2ad81a709e300001e2cd7a'  # Clever Library test district
+    else  # prod
+      cleverClientId = 'ffce544a7e02c0daabf2'
+      redirectTo = 'https://codecombat.com/auth/login-clever'
+    url = "https://clever.com/oauth/authorize?response_type=code&redirect_uri=#{encodeURIComponent(redirectTo)}&client_id=#{cleverClientId}"
+    if districtId
+      url += '&district_id=' + districtId
+    window.open url, '_blank'
+
   onClickCleverLoginButton: ->
     logInWithClever()
 
@@ -232,14 +249,27 @@ formSchema = {
 }
 
 loginNavigate = (subModalContinue) ->
+  if window.nextURL
+    window.location.href = window.nextURL
+    return
+
   if not me.isAdmin()
-    if me.isStudent()
+    if me.isAPIClient()
+        application.router.navigate('/api-dashboard', { trigger: true })
+    else if me.isStudent()
       application.router.navigate('/students', { trigger: true })
     else if me.isTeacher()
       if me.isSchoolAdmin()
-        application.router.navigate('/school-administrator', { trigger: true })
+        # todo: unify?
+        if utils.isCodeCombat
+          application.router.navigate('/teachers/licenses', { trigger: true })
+        else
+          application.router.navigate('/school-administrator', { trigger: true })
       else
         application.router.navigate('/teachers/classes', { trigger: true })
+    else if me.isParentHome()
+      routeStr = if me.hasNoVerifiedChild() then '/parents/add-another-child' else '/parents/dashboard'
+      application.router.navigate(routeStr, { trigger: true })
   else if subModalContinue
     storage.save('sub-modal-continue', subModalContinue)
 

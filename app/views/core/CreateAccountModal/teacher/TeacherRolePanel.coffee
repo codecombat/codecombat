@@ -14,7 +14,8 @@ TeacherRolePanel = Vue.extend
     ])
     return _.assign(formData, {
       showRequired: false,
-      product: utils.getProductName()
+      product: utils.getProductName(),
+      isCodeCombat: utils.isCodeCombat
     })
 
   computed:
