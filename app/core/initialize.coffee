@@ -10,16 +10,12 @@ Vuex = require 'vuex'
 VTooltip = require 'v-tooltip'
 VueMoment = require 'vue-moment'
 VueMeta = require 'vue-meta'
-VueYoutube = require 'vue-youtube'
 { VueMaskDirective } = require 'v-mask'
 VueAsyncComputed = require 'vue-async-computed'
 
 Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
 Vue.use(VueMoment.default)
-
-if utils.isCodeCombat
-  Vue.use(VueYoutube.default)
 
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)

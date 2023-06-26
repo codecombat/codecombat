@@ -85,9 +85,6 @@ module.exports = class HomeView extends RootView
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
   cleanupModals: ->
-    if @ozariaEncouragementModal
-      @ozariaEncouragementModal.$destroy()
-      @ozariaEncouragementModalContainer.remove()
     if @getStartedSignupContainer
       @getStartedSignupContainer.$destroy()
       @getStartedSignupModal.remove()
