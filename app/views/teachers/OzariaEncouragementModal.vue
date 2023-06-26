@@ -1,6 +1,6 @@
 <script>
     import BaseModal from 'app/components/common/BaseModal'
-
+    const VueYoutube = require('vue-youtube')
     export default Vue.extend({
       data: () => ({
         show: true,
@@ -55,6 +55,9 @@
 
       mounted () {
         window.tracker.trackEvent('Ozaria Encouragement Modal Displayed', { category: 'Teachers' })
+      },
+      created () {
+        Vue.use(VueYoutube.default)
       }
     })
 </script>

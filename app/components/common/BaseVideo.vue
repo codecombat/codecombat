@@ -1,6 +1,7 @@
 <script>
 
 import BaseCloudflareVideo from './BaseCloudflareVideo'
+const VueYoutube = require('vue-youtube')
 
 const TYPES = {
   YOUTUBE: 'youtube',
@@ -30,6 +31,9 @@ export default {
       activeType: this.defaultType,
       TYPES
     }
+  },
+  created () {
+    Vue.use(VueYoutube.default)
   },
   methods: {
     youtubeError () {
