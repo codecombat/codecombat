@@ -1,8 +1,9 @@
 // this allows the extended templates to add class to .modal-dialog
 - let modalDialogClass = '';
+- let isOzaria = (view.utils && view.utils.isOzaria)
 block vars
 .modal-dialog(class=modalDialogClass)
-  #modal-base-flat.modal-content.style-flat(class=view.utils.isOzaria ? 'style-ozaria' : '')
+  #modal-base-flat.modal-content.style-flat(class=isOzaria ? 'style-ozaria' : '')
     block modal-header
       .modal-header
         if view.closeButton

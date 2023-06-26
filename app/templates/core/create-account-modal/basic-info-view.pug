@@ -1,3 +1,11 @@
+mixin error-area
+  .error-area
+    - var error = view.state.get('error');
+    if error
+      .row
+        .col-xs-7.col-xs-offset-3
+      .alert.alert-danger= error
+
 form#basic-info-form.modal-body.basic-info
   - var path = view.signupState.get('path')
   .modal-body-content
@@ -170,12 +178,4 @@ mixin use-social-signon
       p.or(data-i18n="login.or")
       .line
 
-
-mixin error-area
-  .error-area
-    - var error = view.state.get('error');
-    if error
-      .row
-        .col-xs-7.col-xs-offset-3
-      .alert.alert-danger= error
 
