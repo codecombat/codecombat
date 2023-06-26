@@ -1,6 +1,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import DialogueAnimator from 'ozaria/site/views/play/level/DialogueAnimator'
+  const VueShepherd = require('vue-shepherd')
 
   function buildStepPositionalDetails ({ intro, position, animation, targetElement, targetLine, targetThangs }) {
     if (!intro && !position && !animation && !targetElement && !targetLine) {
@@ -68,6 +69,9 @@
       previousActiveStep: 0,
       previousSteps: []
     }),
+    created () {
+      Vue.use(VueShepherd)
+    },
     mounted () {
       window.addEventListener('resize', this.onResize)
       // This is required for stationary vega to reappear when using touch devices.
