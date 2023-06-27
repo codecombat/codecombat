@@ -29,6 +29,7 @@ module.exports = class CertificatesView extends RootView
     (str.charCodeAt i for i in [0...str.length]).reduce(((hash, char) -> ((hash << 5) + hash) + char), 5381)  # hash * 33 + c
 
   initialize: (options, @userID) ->
+    @utils = utils
     if @userID is me.id
       @user = me
       if utils.isCodeCombat

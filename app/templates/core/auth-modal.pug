@@ -1,0 +1,116 @@
+mixin recover-account
+  #recover-account-wrapper
+    a#link-to-recover(
+      data-toggle="coco-modal"
+      data-target="core/RecoverModal"
+      data-i18n="login.forgot_password"
+      href="#"
+    )
+  
+mixin auth-form-content
+  .auth-form-content
+
+    if showRequiredError
+      .alert.alert-success
+        span(data-i18n="signup.required")
+
+    #unknown-error-alert.alert.alert-danger.hide(data-i18n="loading_error.unknown")
+
+    form.form
+      .form-group
+        label.control-label(for="username-or-email-input")
+          if view.showLibraryModal
+            span(data-i18n="login.email_or_username_or_library")
+          else
+            span(data-i18n="login.email_or_username")
+          | :
+        if me.get("preferredLanguage") === "he" || window.location.host === "il.codecombat.com"
+          em.israel-server-hint(dir="rtl")
+            span תלמיד מערכת החינוך?
+            a(href="https://pub.skillz-edu.org/portal/playground")  התחבר דרך פורטל משרד החינוך
+        .input-border
+          input#username-or-email-input.input-large.form-control(
+            name="emailOrUsername"
+            value=view.previousFormInputs.email
+            dir="auto"
+          )
+      .form-group
+        if view.utils.isCodeCombat
+          +recover-account
+        label.control-label(for=view.utils.isCodeCombat ? "password": "password-input")
+          span(data-i18n="general.password")
+          = view.utils.isCodeCombat ? ':' : ''
+        .input-border
+          input#password-input.input-large.form-control(
+            name="password"
+            type="password"
+            value=view.previousFormInputs.password
+            dir="auto"
+          )
+        if view.utils.isOzaria
+          +recover-account
+
+      input#login-btn.btn.btn-block.btn-success(
+        class=view.utils.isCodeCombat ? "btn-lg btn-illustrated" : ""
+        value=translate(view.utils.isCodeCombat ? "login.log_in" : "login.sign_in")
+        type="submit"
+      )
+
+    .wait.secret
+      h3(data-i18n="login.logging_in")
+
+  if view.utils.isCodeCombat && me.useSocialSignOn()
+    - var showClever = !/^\/play/.test(window.location.pathname);
+    div(class="auth-network-logins" + (showClever ? " three-choices" : " two-choices"))
+      // GitHub login complete, but the button does not fit in with the design yet. Hidden for now
+      //div.network-login
+      //  btn.btn.btn-sm.github-login-button#github-login-button
+      //    img(src="/images/pages/modal/auth/github_icon.png")
+      //    | GitHub
+      a#facebook-login-btn.network-login(disabled=true)
+        img.fb-login-img(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
+      if showClever
+        a#clever-signup-btn.network-login
+          img.clever-login-img(src="/images/pages/modal/auth/clever_sso_button@2x.png", draggable="false")
+      a#google-login-button.network-login(disabled=true)
+        img.google-login-img(src="/images/pages/modal/auth/gplus_sso_button2.svg" draggable="false")
+
+  .extra-pane
+    if view.utils.isCodeCombat
+      .switch-explanation(data-i18n="login.signup_switch")
+      .btn.btn-lg.btn-illustrated.btn-warning#switch-to-signup-btn(data-i18n="login.sign_up")
+    else
+      a#switch-to-signup-btn(data-i18n="login.auth_sign_up", href="#")
+      p(data-i18n="login.already_have_account1")
+      p(data-i18n="login.already_have_account2")
+
+.modal-dialog(class=(view.utils.isOzaria ? "style-ozaria" : ""))
+  .modal-content
+    if view.utils.isCodeCombat
+      img(src="/images/pages/modal/auth/login-background.png", draggable="false").auth-modal-background
+      h1(data-i18n="login.log_in")
+      #close-modal
+        span.glyphicon.glyphicon-remove
+    else
+      h2(data-i18n="login.sign_into_ozaria")
+      if me.useSocialSignOn()
+        .auth-network-logins
+          // GitHub login complete, but the button does not fit in with the design yet. Hidden for now
+          //div.network-login
+          //  btn.btn.btn-sm.github-login-button#github-login-button
+          //    img(src="/images/pages/modal/auth/github_icon.png")
+          //    |  GitHub
+          //- TODO: Disabled until login works on ozaria.
+          //- button#facebook-login-btn.btn.btn-primary.btn-lg(disabled=true)
+          //-   span.sign-in-blurb#facebook-blurb(data-i18n="login.sign_in_with_facebook")
+          a#google-login-button(disabled=true, href="#")
+            img(src="/images/ozaria/common/log-in-google-sso.svg" draggable="false")
+          a#clever-login-btn(href="#")
+            img(src="/images/pages/modal/auth/clever_sso_button@2x.png" draggable="false")
+        .row.or-row
+          .line
+          p.or(data-i18n="login.or")
+          .line
+      +auth-form-content
+  if view.utils.isCodeCombat
+    +auth-form-content

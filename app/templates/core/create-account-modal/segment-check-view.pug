@@ -1,0 +1,127 @@
+mixin coco-student-section
+  .modal-student-contents
+    .class-code-section
+      p(data-i18n="signup.yes_i_have_classcode")
+      label(for='classCode' data-i18n="signup.enter_it_here")
+
+      .class-code-input-group.form-group
+        .input-with-glyph
+          input.class-code-input(name="classCode" value=view.signupState.get('classCode'))
+          .render
+            unless _.isEmpty(view.signupState.get('classCode'))
+              if state.get('classCodeValid')
+                span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
+              else
+                span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
+        button.primary-oz-button.next-button(type="submit" disabled=!state.get('classCodeValid'))
+          span(data-i18n="common.continue")
+
+      div.render
+        if state.get('classCodeValid')
+          span.spr(data-i18n="signup.about_to_join")
+          span.spr= view.classroom.get('name')
+          if view.classroom.owner.get('firstName') || view.classroom.owner.get('name')
+            span.spr(data-i18n="signup.with")
+            if view.classroom.owner.get('firstName')
+              span= view.classroom.owner.get('firstName') + " " + view.classroom.owner.get('lastName')
+            else if view.classroom.owner.get('name')
+              span= view.classroom.owner.get('name')
+        else if !_.isEmpty(view.signupState.get('classCode'))
+          .ask-teacher
+            if state.get('codeExpired')
+              span.spr(data-i18n="signup.activation_code_used")
+            else
+              span.spr(data-i18n="signup.classroom_not_found")
+              span.spr(data-i18n="signup.ask_teacher_2")
+              a.individual-path-button
+                span(data-i18n="signup.ask_teacher_3")
+              span.spl(data-i18n="signup.ask_teacher_4")
+
+    .divider-line
+
+    .play-now-section
+      div
+        p(data-i18n="signup.want_to_play_codecombat")
+      div
+        button.primary-oz-button.play-now
+          span(data-i18n="new_home.play_now")
+
+mixin ozar-student-section
+  span(data-i18n="signup.enter_class_code")
+  .class-code-input-group.form-group
+    input.class-code-input(name="classCode" value=view.signupState.get('classCode') spellcheck="false")
+    .render
+      if state.get('doneFetching')
+        if state.get('classCodeValid')
+          span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
+        else
+          span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
+
+  .render
+    if _.isEmpty(view.signupState.get('classCode'))
+      p.medium-gray
+        span(data-i18n="signup.ask_teacher_1")
+    else if !state.get('doneFetching')
+      p.large-gray.classroom-name(data-i18n="signup.looking_for_classroom")
+    else if state.get('classCodeValid')
+      p.medium-gray
+        p.large-gray.classroom-name= state.get('classroomName')
+        br
+        p.medium-gray.teacher-name= state.get('ownerName')
+    else
+      p.medium-gray(data-i18n="signup.classroom_not_found")
+
+form.modal-body.segment-check
+  .modal-body-content
+    case view.signupState.get('path')
+      when 'student'
+        if view.utils.isCodeCombat
+          +coco-student-section
+        else
+          +ozar-student-section
+
+      when 'teacher'
+        // TODO
+      when 'individual'
+        if view.signupState.get('subModalContinue')
+          span(data-i18n="signup.sign_in_to_continue")
+          br
+        else if view.utils.isCodeCombat && view.signupState.get('accountRequiredMessage')
+          span= view.signupState.get('accountRequiredMessage')
+          br
+        .birthday-form-group.form-group
+          span(data-i18n="signup.enter_birthdate")
+          .input-border
+            select#birthday-month-input.input-large.form-control(name="birthdayMonth", style="width: 106px; float: left")
+              option(value='',data-i18n="calendar.month")
+              for name, index in ['january','february','march','april','may','june','july','august','september','october','november','december']
+                - var month = index + 1
+                option(data-i18n=('calendar.' + name) value=month, selected=(month === view.signupState.get('birthdayMonth')))
+            select#birthday-day-input.input-large.form-control(name="birthdayDay", style="width: 75px; float: left")
+              option(value='',data-i18n="calendar.day")
+              for day in _.range(1,32)
+                option(selected=(day === view.signupState.get('birthdayDay'))) #{day}
+            select#birthday-year-input.input-large.form-control(name="birthdayYear", style="width: 90px; float: left")
+              option(value='',data-i18n="calendar.year")
+              - var thisYear = new Date().getFullYear()
+              for year in _.range(thisYear, thisYear - 100, -1)
+                option(selected=(year === view.signupState.get('birthdayYear'))) #{year}
+        .parent_birthdate(data-i18n="signup.parent_use_birthdate")
+
+      default
+        p(class=view.utils.isOzaria ? "medium-gray" : '')
+          span Sign-up error, please contact
+          =" "
+          a(href="mailto:support@codecombat.com") support@codecombat.com
+          | .
+
+  if view.utils.isOzaria || view.signupState.get('path') != 'student'
+    // In reverse order for tabbing purposes
+    .history-nav-buttons
+      //- disabled=!view.signupState.get('segmentCheckValid')
+      button.next-button.btn.btn-lg(type='submit' class=view.utils.isCodeCombat ? 'btn-navy' : 'ozaria-primary-button')
+        span(data-i18n=view.utils.isCodeCombat ? "common.continue" : "common.next")
+
+      if !view.signupState.get('subModalContinue')
+        button.back-to-account-type.btn.btn-lg(type='button' class=view.utils.isCodeCombat ? 'btn-navy-alt' : 'ozaria-secondary-button')
+          span(data-i18n="common.back")

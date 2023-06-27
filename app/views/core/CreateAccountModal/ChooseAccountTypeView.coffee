@@ -20,6 +20,7 @@ module.exports = class ChooseAccountTypeView extends CocoView
         application.router.navigate('/parents/signup', {trigger: true})
 
   initialize: ({ @signupState }) ->
+    @utils = utils
 
   getClassCode: -> @$('.class-code-input').val() or @signupState.get('classCode')
 
