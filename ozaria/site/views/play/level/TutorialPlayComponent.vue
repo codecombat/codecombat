@@ -69,7 +69,7 @@
       previousActiveStep: 0,
       previousSteps: []
     }),
-    created () {
+    beforeCreate () {
       Vue.use(VueShepherd)
     },
     mounted () {

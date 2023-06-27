@@ -107,9 +107,10 @@
         }
       }
     },
-
-    created () {
+    beforeCreate () {
       Vue.use(VueShepherd)
+    },
+    created () {
       if (!me.isTeacher()) { // TODO Restrict this from Router itself similar to how `RestrictedToTeachersView` works
         this.showRestrictedDiv = true
         this.showOnboardingModal = !me.get('seenNewDashboardModal');
