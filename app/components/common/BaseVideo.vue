@@ -32,7 +32,7 @@ export default {
       TYPES
     }
   },
-  created () {
+  beforeCreate () {
     Vue.use(VueYoutube.default)
   },
   methods: {

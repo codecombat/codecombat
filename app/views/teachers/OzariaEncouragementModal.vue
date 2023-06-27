@@ -56,7 +56,7 @@
       mounted () {
         window.tracker.trackEvent('Ozaria Encouragement Modal Displayed', { category: 'Teachers' })
       },
-      created () {
+      beforeCreate () {
         Vue.use(VueYoutube.default)
       }
     })
