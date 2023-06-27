@@ -10,6 +10,7 @@
 
 <script>
     import { mapGetters, mapActions } from 'vuex'
+    import seasonalLeagueMixin from '../common/seasonalLeagueMixin'
 
     export default {
       metaInfo () {
@@ -24,6 +25,9 @@
       created () {
         this.fetchRequiredInitialData({ optionalIdOrSlug: this.$route.params.idOrSlug })
       },
+      mixins: [
+        seasonalLeagueMixin
+      ],
 
       computed: {
         ...mapGetters({

@@ -133,6 +133,7 @@ import ClanSelector from '../landing-pages/league/components/ClanSelector.vue'
 import LadderPanel from './components/LadderPanel'
 import EditTournamentModal from './components/EditTournamentModal'
 import { ESPORTS_PRODUCT_STATS } from '../../core/constants'
+import seasonalLeagueMixin from '../landing-pages/common/seasonalLeagueMixin'
 
 export default {
   name: 'MainLadderViewV2',
@@ -153,6 +154,9 @@ export default {
       expendRestTournaments: false
     }
   },
+  mixins: [
+    seasonalLeagueMixin
+  ],
   computed: {
     ...mapGetters({
       usableArenas: 'seasonalLeague/usableArenas',

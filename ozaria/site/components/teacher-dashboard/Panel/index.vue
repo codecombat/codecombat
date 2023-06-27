@@ -10,6 +10,7 @@
   import DraggableStatementCompletion from './components/DraggableStatementCompletion'
   import ContentIcon from '../common/icons/ContentIcon'
   import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
+  import teacherDashboardPanelStoreMixin from '../common/mixins/teacherDashboardPanelStoreMixin'
 
   export default {
     components: {
@@ -22,6 +23,10 @@
       InsertCode,
       ContentIcon
     },
+
+    mixins: [
+      teacherDashboardPanelStoreMixin
+    ],
 
     computed: {
       ...mapGetters({

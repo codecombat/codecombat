@@ -15,6 +15,8 @@ import { titleize, arenas, activeArenas } from '../../../core/utils'
 import BackboneModalHarness from '../../common/BackboneModalHarness'
 import CreateAccountModal from '../../core/CreateAccountModal/CreateAccountModal'
 import YearlyArenaInfo from './components/YearlyArenaInfo'
+import seasonalLeagueMixin from '../common/seasonalLeagueMixin'
+
 const marked = require('marked')
 const _ = require('lodash')
 
@@ -61,6 +63,10 @@ export default {
     anonymousPlayerName: false,
     dateBeforeSep: new Date() < new Date('2022-9-1')
   }),
+
+  mixins: [
+    seasonalLeagueMixin
+  ],
 
   beforeRouteUpdate (to, from, next) {
     this.clanIdOrSlug = to.params.idOrSlug || null

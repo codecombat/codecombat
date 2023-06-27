@@ -52,10 +52,8 @@ store = new Vuex.Store({
     # Modules needed for DT as well as DSA:
     baseSingleClass: require('ozaria/site/store/BaseSingleClass').default
     baseCurriculumGuide: require('ozaria/site/store/BaseCurriculumGuide').default
-    teacherDashboardPanel: require('ozaria/site/store/TeacherDashboardPanel').default
     tracker: require('./modules/tracker').default
     products: require('./modules/products').default
-    seasonalLeague: require('./modules/seasonalLeague').default
     paymentGroups: require('./modules/paymentGroups').default
     apiClient: require('./modules/apiClient').default
     trialRequest: require('./modules/trialRequest').default

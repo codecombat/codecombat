@@ -12,6 +12,7 @@ import User from 'models/User'
 
 import _ from 'lodash'
 import ClassroomLib from '../../../../../app/models/ClassroomLib.js'
+import teacherDashboardPanelStoreMixin from '../common/mixins/teacherDashboardPanelStoreMixin'
 
 function getLearningGoalsDocumentation (content) {
     if (!content.documentation) {
@@ -49,6 +50,10 @@ function getLearningGoalsDocumentation (content) {
       isGuidelinesVisible: true,
       sortMethod: 'Last Name'
     }),
+
+    mixins: [
+      teacherDashboardPanelStoreMixin
+    ],
 
     computed: {
       ...mapGetters({
