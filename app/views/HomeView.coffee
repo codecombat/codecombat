@@ -1,6 +1,8 @@
 require('app/styles/home-view.sass')
+require('app/styles/home-view.scss')
 RootView = require 'views/core/RootView'
-template = require 'templates/home-view'
+cocoTemplate = require 'templates/coco-home-view'
+ozarTemplate = require 'templates/ozar-home-view'
 CocoCollection = require 'collections/CocoCollection'
 utils = require 'core/utils'
 storage = require 'core/storage'
@@ -10,10 +12,10 @@ GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').def
 paymentUtils = require 'app/lib/paymentUtils'
 fetchJson = require 'core/api/fetch-json'
 DOMPurify = require 'dompurify'
-
+PRODUCT_SUFFIX = if utils.isCodeCombat then 'coco' else 'ozar'
 module.exports = class HomeView extends RootView
   id: 'home-view'
-  template: template
+  template: if utils.isCodeCombat then cocoTemplate else ozarTemplate
 
   events:
     'click .continue-playing-btn': 'onClickTrackEvent'
@@ -30,6 +32,11 @@ module.exports = class HomeView extends RootView
     'click .create-account-teacher-btn': 'onClickCreateAccountTeacherButton'
     'click .carousel-dot': 'onCarouselDirectMove'
     'click .carousel-tab': 'onCarouselDirectMovev2'
+    'click .request-quote': 'onClickRequestQuote'
+    'click .logout-btn': 'logoutAccount'
+    'click .setup-class-btn': 'onClickSetupClass'
+    'click .try-chapter-1': 'onClickGenericTryChapter1'
+    'click .contact-us': 'onClickContactModal'
 
   initialize: (options) ->
     super(options)
@@ -45,15 +52,17 @@ module.exports = class HomeView extends RootView
       contact: if me.isTeacher() then "<a class='contact-modal'>#{$.i18n.t('general.contact_us')}</a>" else "<a href=\"mailto:support@codecombat.com\">#{$.i18n.t('general.contact_us')}</a>"
       funding: "<a href='https://www.ozaria.com/funding' target='_blank'>#{$.i18n.t('nav.funding_resources_guide')}</a>"
       codecombatHome: "<a href='/premium' target='_blank'>#{$.i18n.t('new_home.codecombat_home')}</a>"
+      pd: "<a href='/professional-development'>#{$.i18n.t('nav.professional_development')}</a>"
       maintenanceStartTime: "#{context.maintenanceStartTime.calendar()} (#{context.maintenanceStartTime.fromNow()})"
       interpolation: { escapeValue: false }
-      topBannerHereLink: "<a href='/teachers/hour-of-code' target='_blank'>#{$.i18n.t('new_home.top_banner_blurb_hoc_2022_12_01_here')}</a>"
+      topBannerHereLink: "<a href='https://codecombat.com/teachers/hour-of-code' target='_blank'>#{$.i18n.t('new_home.top_banner_blurb_hoc_2022_12_01_here')}</a>"
     context
 
   getMeta: ->
-    title: $.i18n.t 'new_home.title_coco'
+    title: $.i18n.t('new_home.title_' + PRODUCT_SUFFIX)
     meta: [
-        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description_coco' }
+        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description_' + PRODUCT_SUFFIX }
+        { vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }
     ],
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
@@ -67,14 +76,36 @@ module.exports = class HomeView extends RootView
       @renderSelectors('#top-banner')
     )
 
+  onClickRequestQuote: (e) ->
+    @playSound 'menu-button-click'
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    @homePageEvent($(e.target).data('event-action'))
+    if me.isTeacher()
+      application.router.navigate '/teachers/update-account', trigger: true
+    else
+      application.router.navigate '/teachers/quote', trigger: true
+
+  onClickSetupClass: (e) ->
+    @homePageEvent($(e.target).data('event-action'))
+    application.router.navigate("/teachers/classes", { trigger: true })
+
+  onClickGenericTryChapter1: (e) ->
+    @homePageEvent($(e.target).data('event-action'))
+    window.open('/hoc', '_blank')
+
   onClickStudentButton: (e) ->
     @homePageEvent('Started Signup')
     @homePageEvent($(e.target).data('event-action'))
     @openModalView(new CreateAccountModal({startOnPath: 'student'}))
 
   onClickTeacherButton: (e) ->
-    @homePageEvent($(e.target).data('event-action'))
-    @openModalView(new CreateAccountModal({startOnPath: 'oz-vs-coco'}))
+    if utils.isCodeCombat
+      @homePageEvent($(e.target).data('event-action'))
+      @openModalView(new CreateAccountModal({startOnPath: 'oz-vs-coco'}))
+    else
+      @homePageEvent('Started Signup')
+      @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
   onClickParentButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
@@ -98,28 +129,46 @@ module.exports = class HomeView extends RootView
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
   homePageEvent: (action, extraProperties={}) ->
+    action = action or 'unknown'
     defaults =
-      category: 'Homepage'
+      category: if utils.isCodeCombat then 'Homepage' else 'Home'
       user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
     properties = _.merge(defaults, extraProperties)
     window.tracker?.trackEvent(action, properties)
 
   onClickAnchor: (e) ->
     return unless anchor = e?.currentTarget
-    # Track an event with action of the English version of the link text
-    translationKey = $(anchor).attr('data-i18n')
-    translationKey ?= $(anchor).children('[data-i18n]').attr('data-i18n')
-    if translationKey
-      anchorText = $.i18n.t(translationKey, {lng: 'en-US'})
-    else
-      anchorText = anchor.text
+    if utils.isCodeCombat
+      # Track an event with action of the English version of the link text
+      translationKey = $(anchor).attr('data-i18n')
+      translationKey ?= $(anchor).children('[data-i18n]').attr('data-i18n')
+      if translationKey
+        anchorText = $.i18n.t(translationKey, {lng: 'en-US'})
+      else
+        anchorText = anchor.text
 
-    properties = {}
-    if anchorText
-      @homePageEvent("Link: #{anchorText}", properties)
+      properties = {}
+      if anchorText
+        @homePageEvent("Link: #{anchorText}", properties)
+      else
+        properties.clicked = e?.currentTarget?.host or "unknown"
+        @homePageEvent("Link:", properties)
     else
-      properties.clicked = e?.currentTarget?.host or "unknown"
-      @homePageEvent("Link:", properties)
+      anchorEventAction = $(anchor).data('event-action')
+      unless anchorEventAction
+        # Track an event with action of the English version of the link text
+        translationKey = $(anchor).data('i18n')
+        translationKey ?= $(anchor).children('[data-i18n]').data('i18n')
+        anchorEventAction = if translationKey then $.i18n.t(translationKey, {lng: 'en-US'}) else anchor.text
+        anchorEventAction = "Click: #{anchorEventAction or 'unknown'}"
+
+      if anchorEventAction
+        @homePageEvent(anchorEventAction)
+      else
+        _.extend(properties || {}, {
+          clicked: e?.currentTarget?.host or "unknown"
+        })
+        @homePageEvent('Click: unknown')
 
   onClickGetStartedButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
@@ -134,9 +183,19 @@ module.exports = class HomeView extends RootView
     @$(selector).carousel(slideNum)
 
   onCarouselDirectMove: (e) ->
-    selector = $(e.target).closest('.carousel-dot').data('selector')
-    slideNum = $(e.target).closest('.carousel-dot').data('slide-num')
-    @$(selector).carousel(slideNum)
+    if utils.isCodeCombat
+      selector = $(e.target).closest('.carousel-dot').data('selector')
+      slideNum = $(e.target).closest('.carousel-dot').data('slide-num')
+      @$(selector).carousel(slideNum)
+    else
+      frameNum = e
+      $("#core-curriculum-carousel").carousel(frameNum)
+
+  onCarouselLeft: ->
+    $("#core-curriculum-carousel").carousel('prev')
+  onCarouselRight: ->
+    $("#core-curriculum-carousel").carousel('next')
+
 
   onCarouselSlide: (e) =>
     $carousel = $(e.currentTarget).closest('.carousel')
@@ -170,31 +229,39 @@ module.exports = class HomeView extends RootView
         url = new URLSearchParams window.location.search
         _.defer => @openModalView(new AuthModal({initialValues:{email: url.get 'email'}})) unless @destroyed
 
-    if utils.getQueryVariable('payment-studentLicenses') in ['success', 'failed'] and not @renderedPaymentNoty
-      paymentResult = utils.getQueryVariable('payment-studentLicenses')
-      if paymentResult is 'success'
-        title = $.i18n.t 'payments.studentLicense_successful'
-        type = 'success'
-        if utils.getQueryVariable 'tecmilenio'
-          title = '¡Felicidades! El alumno recibirá más información de su profesor para acceder a la licencia de CodeCombat.'
-        @trackPurchase("Student license purchase #{type}")
-      else
-        title = $.i18n.t 'payments.failed'
-        type = 'error'
-      noty({ text: title, type: type, timeout: 10000, killer: true })
-      @renderedPaymentNoty = true
-    else if utils.getQueryVariable('payment-homeSubscriptions') in ['success', 'failed'] and not @renderedPaymentNoty
-      paymentResult = utils.getQueryVariable('payment-homeSubscriptions')
-      if paymentResult is 'success'
-        title = $.i18n.t 'payments.homeSubscriptions_successful'
-        type = 'success'
-        @trackPurchase("Home subscription purchase #{type}")
-      else
-        title = $.i18n.t 'payments.failed'
-        type = 'error'
-      noty({ text: title, type: type, timeout: 10000, killer: true })
-      @renderedPaymentNoty = true
-    _.delay(@activateCarousels, 1000)
+    if utils.isCodeCombat
+      if utils.getQueryVariable('payment-studentLicenses') in ['success', 'failed'] and not @renderedPaymentNoty
+        paymentResult = utils.getQueryVariable('payment-studentLicenses')
+        if paymentResult is 'success'
+          title = $.i18n.t 'payments.studentLicense_successful'
+          type = 'success'
+          if utils.getQueryVariable 'tecmilenio'
+            title = '¡Felicidades! El alumno recibirá más información de su profesor para acceder a la licencia de CodeCombat.'
+          @trackPurchase("Student license purchase #{type}")
+        else
+          title = $.i18n.t 'payments.failed'
+          type = 'error'
+        noty({ text: title, type: type, timeout: 10000, killer: true })
+        @renderedPaymentNoty = true
+      else if utils.getQueryVariable('payment-homeSubscriptions') in ['success', 'failed'] and not @renderedPaymentNoty
+        paymentResult = utils.getQueryVariable('payment-homeSubscriptions')
+        if paymentResult is 'success'
+          title = $.i18n.t 'payments.homeSubscriptions_successful'
+          type = 'success'
+          @trackPurchase("Home subscription purchase #{type}")
+        else
+          title = $.i18n.t 'payments.failed'
+          type = 'error'
+        noty({ text: title, type: type, timeout: 10000, killer: true })
+        @renderedPaymentNoty = true
+      _.delay(@activateCarousels, 1000)
+    else
+      window.addEventListener 'load', ->
+        $('#core-curriculum-carousel').data('bs.carousel')?.$element.on 'slid.bs.carousel', (event) ->
+          nextActiveSlide = $(event.relatedTarget).index()
+          $buttons = $('.control-buttons > button')
+          $buttons.removeClass 'active'
+          $('[data-slide-to=\'' + nextActiveSlide + '\']').addClass('active')
     super()
 
   trackPurchase: (event) ->
@@ -219,6 +286,10 @@ module.exports = class HomeView extends RootView
       catch e
         console.warn e  # Possibly a hash that would not match a valid element
     _.delay(f, 100)
+
+  logoutAccount: ->
+    Backbone.Mediator.publish("auth:logging-out", {})
+    logoutUser()
 
   destroy: ->
     @cleanupModals()
