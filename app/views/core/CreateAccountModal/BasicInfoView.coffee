@@ -54,6 +54,11 @@ module.exports = class BasicInfoView extends CocoView
       checkNamePromise: null
       error: ''
     }
+    # fake this utils for unique usage in pug
+    @utils = {
+      isCodeCombat
+      isOzaria
+    }
     @listenTo @state, 'change:checkEmailState', -> @renderSelectors('.email-check')
     @listenTo @state, 'change:checkNameState', -> @renderSelectors('.name-check')
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
@@ -80,10 +85,11 @@ module.exports = class BasicInfoView extends CocoView
 
   afterRender: ->
     @$el.find('#first-name-input').focus()
-    application.gplusHandler.loadAPI({
-      success: =>
-        @handleSSOConnect(application.gplusHandler, 'gplus')
-    })
+    unless me.showChinaRegistration()
+      application.gplusHandler.loadAPI({
+        success: =>
+          @handleSSOConnect(application.gplusHandler, 'gplus')
+      })
     super()
 
   # These values are passed along to AuthModal if the user clicks "Sign In" (handled by CreateAccountModal)
@@ -424,6 +430,7 @@ module.exports = class BasicInfoView extends CocoView
     @handleSSOConnect(handler, ssoUsed)
 
   handleSSOConnect: (handler, ssoUsed) ->
+    return if me.showChinaRegistration()
     handler.connect({
       context: @
       success: (resp = {}) ->

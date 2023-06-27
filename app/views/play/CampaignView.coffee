@@ -1599,7 +1599,7 @@ module.exports = class CampaignView extends RootView
       return userUtils.libraryName() is 'lafourche'
 
     if what is 'shreve-library-logo'
-      return userUtils.libraryName() is 'shreve'      
+      return userUtils.libraryName() is 'shreve'
 
     if what is 'vaughan-library-logo'
       return userUtils.libraryName() is 'vaughan-library'

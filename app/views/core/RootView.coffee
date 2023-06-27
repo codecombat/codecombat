@@ -19,7 +19,6 @@ Navigation = require('app/components/common/Navigation.vue').default
 Footer = require('app/components/common/Footer.vue').default
 store = require 'core/store'
 
-
 filterKeyboardEvents = (allowedEvents, func) ->
   return (splat...) ->
     e = splat[0]
@@ -42,6 +41,7 @@ module.exports = class RootView extends CocoView
     'treema-error': 'onTreemaError'
     'click [data-i18n]': 'onClickTranslatedElement'
     'click .track-click-event': 'onTrackClickEvent'
+    'click .dashboard-toggle-link': 'onClickDashboardToggleLink'
 
   subscriptions:
     'achievements:new': 'handleNewAchievements'
@@ -64,6 +64,8 @@ module.exports = class RootView extends CocoView
     #return if @isIE()  # Some bugs in IE right now, TODO fix soon!  # Maybe working now with not caching achievement fetches in CocoModel?
     return if window.serverConfig.picoCTF
     return if achievement.get('hidden')
+
+    return if utils.isOzaria # Hiding legacy achievement popups in Ozaria
     new AchievementPopup achievement: achievement, earnedAchievement: earnedAchievement
 
   handleNewAchievements: (e) ->
@@ -76,7 +78,8 @@ module.exports = class RootView extends CocoView
   logoutAccount: ->
     window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if application.isIPadApp
     Backbone.Mediator.publish("auth:logging-out", {})
-    window.tracker?.trackEvent 'Log Out', category: 'Homepage' if @id is 'home-view'
+    category = if utils.isCodeCombat then 'Homepage' else 'Home'
+    window.tracker?.trackEvent 'Log Out', category: category if @id is 'home-view'
     if me.isTarena()
       logoutUser({
         success: ->
@@ -111,7 +114,7 @@ module.exports = class RootView extends CocoView
     switch @id
       when 'home-view'
         properties = {
-          category: 'Homepage'
+          category: if utils.isCodeCombat then 'Homepage' else 'Home'
         }
         window.tracker?.trackEvent('Started Signup', properties)
         eventAction = $(e.target)?.data('event-action')
@@ -129,7 +132,7 @@ module.exports = class RootView extends CocoView
   onClickLoginButton: (e) ->
     AuthModal = require 'views/core/AuthModal'
     if @id is 'home-view'
-      properties = { category: 'Homepage' }
+      properties = { category: if utils.isCodeCombat then 'Homepage' else 'Home' }
       window.tracker?.trackEvent 'Login', properties
 
       eventAction = $(e.target)?.data('event-action')
@@ -140,6 +143,10 @@ module.exports = class RootView extends CocoView
     eventAction = $(e.target)?.closest('a')?.data('event-action')
     if eventAction
       window.tracker?.trackEvent eventAction, { category: 'Teachers' }
+
+  onClickDashboardToggleLink: (e) ->
+    $(e.target)?.parent('.dashboard-button')?.addClass('active')
+    $(e.target)?.parent('.dashboard-button')?.siblings('.dashboard-button')?.removeClass('active')
 
   showLoading: ($el) ->
     $el ?= @$el.find('#site-content-area')
@@ -181,22 +188,34 @@ module.exports = class RootView extends CocoView
     $('body').attr('lang', preferred)
 
   addLanguagesToSelect: ($select, initialVal) ->
+    # For now, we only want to support a few languages for Ozaria that we have people working to translate.
+    if utils.isOzaria
+      supportedLanguages = ['en-US', 'es-419', 'zh-HANS', 'zh-HANT', 'ru', 'pt-BR', 'pt-PT', 'ja', 'lt', 'vi']
+      filteredLocale = _.pick(locale, supportedLanguages)
+    else
+      filteredLocale = locale
+    codes = _.keys(filteredLocale)
+
+    # Because we only support a few languages, we force English as the default here:
     initialVal ?= me.get('preferredLanguage', true)
+    if utils.isOzaria and initialVal not in codes
+      initialVal = supportedLanguages[0]
+
     if $select.is('ul') # base-flat
       @$el.find('.language-dropdown-current')?.text(locale[initialVal].nativeDescription)
-    codes = _.keys(locale)
+
     genericCodes = _.filter codes, (code) ->
       _.find(codes, (code2) ->
         code2 isnt code and code2.split('-')[0] is code)
-    for code, localeInfo of locale when (not (code in genericCodes) or code is initialVal)
+    for code, localeInfo of filteredLocale when (not (code in genericCodes) or code is initialVal)
       if $select.is('ul') # base-flat template
         $select.append(
           $('<li data-code="' + code + '"><a class="language-dropdown-item" href="#">' + localeInfo.nativeDescription + '</a></li>'))
-        if code is 'pt-BR'
+        if utils.isCodeCombat and code is 'pt-BR'
           $select.append($('<li role="separator" class="divider"</li>'))
       else # base template
         $select.append($('<option></option>').val(code).text(localeInfo.nativeDescription))
-        if code is 'pt-BR'
+        if utils.isCodeCombat and code is 'pt-BR'
           $select.append(
             $('<option class="select-dash" disabled="disabled"></option>').text('----------------------------------'))
         $select.val(initialVal)
@@ -215,7 +234,7 @@ module.exports = class RootView extends CocoView
 
   onLanguageLoaded: ->
     @render()
-    unless me.get('preferredLanguage').split('-')[0] is 'en' or me.hideDiplomatModal()
+    unless utils.isOzaria or me.get('preferredLanguage').split('-')[0] is 'en' or me.hideDiplomatModal()
       DiplomatModal = require 'views/core/DiplomatSuggestionModal'
       @openModalView(new DiplomatModal())
 

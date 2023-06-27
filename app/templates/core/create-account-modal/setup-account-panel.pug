@@ -1,0 +1,37 @@
+.setup-account-panel.text-left
+  - console.log('setup account panel?')
+  .p-a-3
+    div.text-center(v-if="saving")
+      | {{ $t("common.saving") }}
+    div.text-center(v-else-if="error")
+      | {{ $t("loading_error.error") }}
+      =": "
+      | {{ error }}
+    div(v-else)
+      h3.text-center(:class={"text-pitch": !isCodeCombat}) {{ $t("signup.teacher_ready_to_create_class") }}
+      p.m-t-3(:class={"medium-gray": !isCodeCombat}) {{ $t("signup." + (isCodeCombat ? "teacher_students_can_start_now_coco" : "teacher_students_can_start_now_ozar")) }}
+      ol
+        li(:class={"medium-gray": !isCodeCombat}) {{ $t("signup.teacher_list_create_class") }}
+        li(:class={"medium-gray": !isCodeCombat}) {{ $t("signup.teacher_list_add_students") }}
+        li(:class={"medium-gray": !isCodeCombat})
+          span {{ $t("signup.teacher_list_resource_hub_1") }}
+          =" "
+          a(:href=`/teachers/${isCodeCombat ? 'courses' : "units'"}`) {{ $t("signup.teacher_list_resource_hub_2_" + (isCodeCombat ? 'coco': 'ozar')) }}
+          =" "
+          span {{ $t("signup.teacher_list_resource_hub_3") }}
+          =" "
+          a(href="/teachers/resources") {{ $t("signup.teacher_list_resource_hub_4") }}
+          =" "
+          span {{ $t("signup.teacher_list_resource_hub_5") }}
+      span(v-if="isCodeCombat" v-html="$t('signup.teacher_additional_questions', {supportEmail: supportEmail, interpolation: { escapeValue: false }})")
+      p.medium-gray(v-else v-html="$t('signup.teacher_additional_questions', {supportEmail: supportEmail})")
+
+    br
+    div.text-center
+      input#subscribe-input(type="checkbox" name="subscribe" v-bind:checked="!inEU")
+      span.spl(v-if="isCodeCombat") {{ $t("signup.teacher_email_announcements") }}
+      p.medium-gray.subscribe-text(v-else) {{ $t("signup.teacher_email_announcements") }}
+
+  .history-nav-buttons
+    button.back-button.btn.btn-lg(type='button', v-on:click="clickBack" v-if="error" :class="isCodeCombat ? 'btn-navy-alt' : 'ozaria-secondary-button'") {{ $t("common.back") }}
+    button.next-button.btn.btn-lg(v-on:click="clickFinish" v-else-if="!saving" :class="isCodeCombat ? 'btn-navy' : 'ozaria-primary-button'") {{ $t("signup.finish") }}

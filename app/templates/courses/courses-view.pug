@@ -1,6 +1,6 @@
 extends /templates/base-flat
 include ./tournament-tile-mixin
-  
+
 mixin coco_main_content()
   #main-content(dir="auto")
     .main-content-preload-backdrop
@@ -223,7 +223,7 @@ mixin classrooms_content()
              span :
              if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
                span.spl= view.ownerNameMap[classroom.get('ownerID')]
-  
+
              if classroom.get('description')
                a.view-announcement-link(data-classroom-id=classroom.get('_id'), data-i18n="courses.classroom_announcement")
          else
@@ -246,8 +246,8 @@ mixin classrooms_content()
              - var courseID = courseInstance.get('courseID')
              - var course = view.store.state.courses.byId[courseID];
              // internal play-test course which we removed later
-             if course._id === '5eb34fc8dc0fd35e8eae66b0'
-               - continue
+             if !course || course._id === '5eb34fc8dc0fd35e8eae66b0'
+               - continue;
              - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
              - var nextLevel = stats.levels.next;
              - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)
