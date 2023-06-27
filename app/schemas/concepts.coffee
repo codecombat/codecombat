@@ -1,8 +1,44 @@
 # NOTE: 'automatic' is whether rob's auto-tagger can find it.
+product = COCO_PRODUCT ? 'codecombat'
+isCodeCombat = product == 'codecombat'
 
-concepts = [
+dupList = [
+  {concept: 'basic_syntax', name: 'Basic Syntax', description: 'Using programming language rules.', automatic: true, tagger: '*'} #ozaria
+  {concept: 'variables', name: 'Variables', description: 'Storing and updating data in variables.', automatic: true, tagger: 'VariableDeclaration'}
+  {concept: 'algorithms', name: 'Algorithms', description: 'Writing sequences of code.', automatic: false}
+]
+if isCodeCombat
+  dupList = [
+    {concept: 'algorithms', name: '', description: '', automatic: false, deprecated: true} #coco
+    {concept: 'variables', name: 'Variables', description: 'Storing data in variables.', automatic: true, tagger: 'VariableDeclaration'} #coco
+    {concept: 'basic_syntax', name: 'Basic Syntax', description: 'Writing code of any sort.', automatic: true, tagger: '*'} #coco
+  ]
+
+concepts = dupList.concat [
+  # Ozaria CH1
+  {concept: 'objects', name: 'Objects', description: '', automatic: false}
+  {concept: 'methods', name: 'Methods', description: '', automatic: false}
+  {concept: 'game_design', name: 'Game Design', description: '', automatic: false}
+  {concept: 'problem_solving', name: 'Problem Solving', description: '', automatic: false}
+
+  # Ozaria CH2
+ {concept: 'conditionals', name: 'Conditionals', description: 'Writing programs with branched logic.', automatic: false}
+  {concept: 'debugging', name: 'Debugging', description: 'Finding and fixing code errors.', automatic: false}
+  {concept: 'syntax', name: 'Syntax', description: 'Using programming language rules.', automatic: true, tagger: '*'}
+  {concept: 'sequences_algorithms', name: 'Sequences And Algorithms', description: '', automatic: false}
+
+  # Ozaria CH3
+  {concept: 'iteration', name: 'Iteration', description: '', automatic: false}
+  {concept: 'nesting', name: 'Nesting', description: '', automatic: false}
+  {concept: 'data_types', name: 'Data Types', description: '', automatic: false}
+
+  # Ozaria CH4
+  {concept: 'compound_conditionals', name: 'Compound Conditionals', automatic: false}
+  {concept: 'comparators', name: 'Comparators', automatic: false}
+  {concept: 'data_and_analysis', name: 'Data & Analysis', automatic: false}
+  # above are ozaria
+
   {concept: 'advanced_strings', name: '', description: '', automatic: '??', deprecated: true}
-  {concept: 'algorithms', name: '', description: '', automatic: false, deprecated: true}
   {concept: 'boolean_logic', name: '', description: '', automatic: '', deprecated: true}
   {concept: 'basic_html', name: '', description: '', automatic: '', deprecated: true}
   {concept: 'basic_css', name: '', description: '', automatic: '', deprecated: true}
@@ -40,7 +76,6 @@ concepts = [
   {concept: 'basic_css_selectors', name: 'Basic CSS selectors', description: 'CSS Selectors introduce in WD1.', automatic: true}
   {concept: 'basic_html_attributes', name: 'Basic HTML Attributes', description: 'HTML Attributes introduced in WD1.', automatic: true}
   {concept: 'basic_html_tags', name: 'Basic HTML Tags', description: 'HTML Tags introduced in WD1.', automatic: true}
-  {concept: 'basic_syntax', name: 'Basic Syntax', description: 'Writing code of any sort.', automatic: true, tagger: '*'}
   {concept: 'binary', name: 'Binary', description: 'Implementations of binary, (0b001100, toString(2))', automatic: 'Sometimes', tagger: (ast) ->
       _.some ast.find('CallExpression.callee>MemberExpression.property>Identifier[name="toString"]'), (n) ->
         call = n.parent.parent
@@ -113,7 +148,6 @@ concepts = [
   {concept: 'strings_concatenation', name: 'String Concatenation', description: 'Using the string concatenation operator +.', automatic: false}
   {concept: 'strings_substrings', name: 'Substring', description: 'Using substr or substring.', automatic: true, tagger: 'CallExpression>MemberExpression>Identifier[name="substr"],CallExpression>MemberExpression>Identifier[name="substring"]'}
   {concept: 'trees', name: 'Data Structures - Trees', description: 'Implementations of the tree data structure.', automatic: false}
-  {concept: 'variables', name: 'Variables', description: 'Storing data in variables.', automatic: true, tagger: 'VariableDeclaration'}
   {concept: 'vectors', name: 'Vectors', description: 'Using Vectors, like new Vector() or common Vector methods like rotate, magnitude, dot, heading, normalize, and limit', automatic: true, tagger: 'Identifier[name=Vector]'}
   {concept: 'while_condition_loops', name: 'While Loops with Conditionals', description: 'While loops with a breaking conditional.', automatic: true, tagger: 'WhileStatement.test>*:not(Literal)'}
   {concept: 'while_loops_simple', name: 'While Loops', description: 'Simple while-true loops.', automatic: true, tagger: 'WhileStatement.test>Literal'}

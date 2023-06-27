@@ -1,5 +1,4 @@
 @import "app/styles/bootstrap/variables"
-@import "app/styles/utils"
 // It seems, conditional imports are not allowed, so flag is added to variables.scss
 @import "ozaria/site/styles/common/variables"
 
@@ -22,10 +21,10 @@
       padding: 30px
 
       .concepts
-        @if $is-ozaria
-          font-weight: 600
-        @else
+        @if $is-codecombat
           font-weight: regular
+        @else
+          font-weight: 600
 
       .play-level-form
         font-weight: normal
@@ -70,7 +69,7 @@
       border: 2px solid #14110e
       border-radius: 0px
 
-  @if $is-ozaria
+  @if not $is-codecombat
     .coming-soon-row.row
       background: #F5F5F5
       text-align: center

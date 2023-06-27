@@ -1,8 +1,7 @@
-@import "app/styles/utils";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 @import "app/styles/style-flat-variables.sass";
 
-@if $is-ozaria {
+@if not $is-codecombat {
   $title-font-style: 'Arvo', serif !global;
   $body-font-style: 'Open Sans', sans-serif !global;
   $label-font-style: 'Work Sans', sans-serif !global;

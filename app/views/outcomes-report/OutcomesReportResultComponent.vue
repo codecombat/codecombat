@@ -387,8 +387,6 @@ export default Vue.extend({
 
 
 <style lang="scss">
-@import "app/styles/utils";
-
 #page-outcomes-report .outcomes-report-result-component {
   $eve: #2d585a;
   $dawn: #532e48;
