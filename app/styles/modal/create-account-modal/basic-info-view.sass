@@ -1,15 +1,31 @@
-#basic-info-view
-  .network-login
-    transition: filter 0.1s linear
+@import "app/styles/style-flat-variables"
+@import "ozaria/site/styles/common/variables"
 
-    &:hover
-      filter: brightness(110%)
+#basic-info-view
+  @if $is-codecombat
+    .network-login
+      transition: filter 0.1s linear
+
+      &:hover
+        filter: brightness(110%)
+
+  @else
+    .auth-network-logins
+      display: flex
+      align-items: center
+      justify-content: center
+      flex-direction: row
 
   .gplus-login
-    margin-bottom: 20px
+    @if $is-codecombat
+      margin-bottom: 20px
 
     .gplus-logo
-      width: 254px
+      @if $is-codecombat
+        width: 254px
+      @else
+        height: 50px
+        margin-right: 7px
 
   .facebook-login
 
@@ -19,12 +35,13 @@
       .facebook-logo
         height: 40px
 
-  .clever-login
+  @if $is-codecombat
+    .clever-login
 
-    .clever-logo
-      // Match size of Google button
-      width: 254px
-      height: 52px
+      .clever-logo
+        // Match size of Google button
+        width: 254px
+        height: 52px
 
   // Forms
 
@@ -40,7 +57,12 @@
         text-align: right
 
       input
-        max-height: 5vh
+        @if $is-codecombat
+          max-height: 5vh
+        @else
+          max-height: 6vh
+          border: 1px solid $teal
+          color: $color-tertiary-brand
 
       .help-block
         float: right
@@ -87,6 +109,10 @@
 
     #want-in-school-checkbox
       margin-top: 7px
+
+  @if not $is-codecombat
+    .row.or-row
+      margin-top: 20px
 
   .library-signup-text
     text-align: center

@@ -128,7 +128,7 @@ export default Vue.extend({
           title: 'nav.educators',
           condition: !me.isStudent() && !this.isChinaHome,
           lists: [
-            { url: '/teachers/resources/faq-zh-HANS.coco', title: 'teacher.educator_faq' },
+            { url: '/teachers/resources/faq-zh-HANS', title: 'teacher.educator_faq' },
             { url: '/teachers/resources', title: 'nav.resource_hub' },
             { url: '/teachers/resources', extra: '课程体系' },
             { url: 'teachers/classes', title: 'nav.my_classrooms' }

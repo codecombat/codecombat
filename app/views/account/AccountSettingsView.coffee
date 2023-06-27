@@ -8,6 +8,7 @@ ConfirmModal = require 'views/core/ConfirmModal'
 RootView = require 'views/core/RootView'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 globalVar = require 'core/globalVar'
+utils = require 'core/utils'
 
 module.exports = class AccountSettingsView extends RootView
   id: 'account-settings-view'
@@ -69,6 +70,7 @@ module.exports = class AccountSettingsView extends RootView
     @uploadFilePath = "db/user/#{me.id}"
     @user = new User({_id: me.id})
     @supermodel.trackRequest(@user.fetch()) # use separate, fresh User object instead of `me`
+    @utils = utils
 
   getEmailSubsDict: ->
     subs = {}
@@ -176,6 +178,8 @@ module.exports = class AccountSettingsView extends RootView
         _.delay ->
           window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if globalVar.application.isIPadApp
           Backbone.Mediator.publish("auth:logging-out", {})
+          if utils.isCodeCombat # maybe ozaria also want it?
+            window.tracker?.trackEvent 'Log Out', category:'Homepage' if @id is 'home-view'
           logoutUser()
         , 500
       error: (jqXHR, status, error) ->

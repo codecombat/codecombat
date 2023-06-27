@@ -34,6 +34,7 @@ module.exports = class LevelLoadingView extends CocoView
 
   afterRender: ->
     super()
+    return if utils.isOzaria
     unless @level?.get('loadingTip')
       @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
       tips = @$el.find('.tip').addClass('to-remove')
@@ -58,9 +59,10 @@ module.exports = class LevelLoadingView extends CocoView
   onLevelLoaded: (e) ->
     return if @level
     @level = e.level
-    @prepareGoals e
-    @prepareTip()
-    @prepareIntro()
+    if utils.isCodeCombat
+      @prepareGoals e
+      @prepareTip()
+      @prepareIntro()
 
   onSessionLoaded: (e) ->
     return if @session
@@ -273,6 +275,7 @@ module.exports = class LevelLoadingView extends CocoView
     @resize()
 
   onSubscriptionRequired: (e) ->
+    return if utils.isOzaria
     @$el.find('.level-loading-goals, .tip, .progress-or-start-container').hide()
     @$el.find('.subscription-required').show()
 

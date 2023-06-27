@@ -1,6 +1,9 @@
 .form
 
-  h3(data-i18n="options.general_options") General Options
+  if view.utils.isCodeCombat
+    h3(data-i18n="options.general_options") General Options
+  else
+    h3.options-title(data-i18n="options.editor_config_title_ozar") Level Options:
 
   .form-group.slider-group#volume-group
     span.glyphicon.glyphicon-volume-down
@@ -15,16 +18,16 @@
       span(data-i18n="options.music_label") Music
     span.help-block(data-i18n="options.music_description") Turn background music on/off.
 
-  img.hr(src="/images/pages/play/modal/hr.png", draggable="false")
-
-  h3(data-i18n="options.editor_config_title_coco") Editor Configuration
+  if view.utils.isCodeCombat
+    img.hr(src="/images/pages/play/modal/hr.png", draggable="false")
+    h3(data-i18n="options.editor_config_title_coco") Editor Configuration
 
   .form-group.checkbox
     label(for="option-live-completion")
       input#option-live-completion(name="liveCompletion", type="checkbox", disabled=!view.options.classroomAceConfig.liveCompletion checked=view.options.classroomAceConfig.liveCompletion && aceConfig.liveCompletion)
       span.custom-checkbox
         .glyphicon.glyphicon-ok
-      span(data-i18n="options.editor_config_livecompletion_label") Live Autocompletion
+      span(data-i18n="options.editor_config_livecompletion_label") Enable Autocomplete
     span.help-block(data-i18n="options.editor_config_livecompletion_description") Displays autocomplete suggestions while typing.
     if !view.options.classroomAceConfig.liveCompletion
       span.help-block(data-i18n="options.editor_config_livecompletion_disabled_by_teacher")
@@ -34,5 +37,16 @@
       input#option-behaviors(name="behaviors", type="checkbox", checked=aceConfig.behaviors)
       span.custom-checkbox
         .glyphicon.glyphicon-ok
-      span(data-i18n="options.editor_config_behaviors_label") Smart Behaviors
+      span(data-i18n="options.editor_config_behaviors_label") Enable Smart Behaviors
     span.help-block(data-i18n="options.editor_config_behaviors_description") Autocompletes brackets, braces, and quotes.
+
+  if view.utils.isOzaria
+    .form-group.checkbox
+      label(for="option-screen-reader-mode")
+        input#option-screen-reader-mode(name="screen-reader-mode", type="checkbox", checked=aceConfig.screenReaderMode)
+        span.custom-checkbox
+          .glyphicon.glyphicon-ok
+        span(data-i18n="options.editor_config_screen_reader_mode_label") Enable Screen Reader Mode
+      span.help-block(data-i18n="options.editor_config_screen_reader_mode_description") Display levels in text rather than visually.
+  
+    button.ozaria-button.ozaria-primary-button.done-button(data-i18n="play_level.done") Done
