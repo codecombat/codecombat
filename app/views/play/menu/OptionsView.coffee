@@ -5,6 +5,7 @@ template = require 'app/templates/play/menu/options-view'
 ThangType = require 'models/ThangType'
 User = require 'models/User'
 forms = require 'core/forms'
+utils = require 'core/utils'
 
 module.exports = class OptionsView extends CocoView
   id: 'options-view'
@@ -26,6 +27,7 @@ module.exports = class OptionsView extends CocoView
 
   constructor: (options) ->
     super options
+    @utils = utils
 
   getRenderData: (c={}) ->
     c = super(c)

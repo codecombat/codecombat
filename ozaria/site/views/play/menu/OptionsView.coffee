@@ -6,6 +6,7 @@ ThangType = require 'models/ThangType'
 User = require 'models/User'
 forms = require 'core/forms'
 store = require 'core/store'
+utils = require 'core/utils'
 
 module.exports = class OptionsView extends CocoView
   id: 'options-view'
@@ -25,6 +26,7 @@ module.exports = class OptionsView extends CocoView
 
   constructor: (options) ->
     super options
+    @utils = utils
 
   getRenderData: (c={}) ->
     c = super(c)
