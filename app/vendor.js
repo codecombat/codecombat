@@ -4,19 +4,12 @@ if (!window.Promise) {
   window.Promise = require('promise-polyfill')
 }
 require('bower_components/fetch/fetch.js')
-global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
 window._ = require('lodash');
-window.Backbone = require('backbone');
-window.Backbone.$ = window.jQuery; //wat
-window.tv4 = require('tv4');
-window.lscache = require('lscache');
 window._.string = require('underscore.string');
 require('jquery.browser');
 window.marked = require('marked');
-require('bower_components/validated-backbone-mediator/backbone-mediator.js');
 window.TreemaUtils = require('exports-loader?TreemaUtils!bower_components/treema/treema-utils.js'); // TODO webpack: Try to extract this
 import 'bower_components/treema/treema.css'
-window.moment = require('moment');
 require('vendor/scripts/idle.js').createjs;
 window.key = require('../vendor/scripts/keymaster.js');
 require('vendor/scripts/jquery.noty.packaged.min.js');
@@ -26,11 +19,9 @@ require('imports-loader?this=>window!../vendor/scripts/fancy_select.js');// TODO
 window.Spade = require('exports-loader?Spade!../vendor/scripts/spade.js');// TODO webpack: Try to extract this
 require('vendor/scripts/fuzzaldrin')// TODO webpack: Try to extract this
 require('bower_components/waypoints/lib/jquery.waypoints.min.js')
+window.algoliasearch = require('algoliasearch')
 
 require('imports-loader?this=>window!npm-modernizr');
-
-window.Vue = require('vue/dist/vue.common.js') // TODO: Update to using just the runtime (need to precompile templates!)
-window.Vuex = require('vuex').default
 
 window.algoliasearch = require('algoliasearch')
 

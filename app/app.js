@@ -13,7 +13,7 @@ if (window.features && window.features.chinaUx) {
   import(/* webpackChunkName: "UsFont" */ 'app/styles/common/fontUS.sass');
 }
 
-require('app/vendor.js'); // can be loaded separately and cached for a longer time
+import(/* webpackChunkName: "appVendor" */ 'app/vendor.js');
 
 // require.context('app/schemas', true, /.*\.(coffee|jade)/)
 // require.context('app/models', true, /.*\.(coffee|jade)/)
@@ -21,4 +21,7 @@ require('app/vendor.js'); // can be loaded separately and cached for a longer ti
 // require.context('app/core', true, /.*\.(coffee|jade)/)
 // require.context('app/views/core', true, /.*\.(coffee|jade)/)
 
+require('core/appVendor');
 require('core/initialize');
+
+import(/* webpackChunkName: "momentSetup" */ 'core/momentSetup.js');

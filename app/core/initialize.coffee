@@ -8,14 +8,12 @@ globalVar = require 'core/globalVar'
 VueRouter = require 'vue-router'
 Vuex = require 'vuex'
 VTooltip = require 'v-tooltip'
-VueMoment = require 'vue-moment'
 VueMeta = require 'vue-meta'
 { VueMaskDirective } = require 'v-mask'
 VueAsyncComputed = require 'vue-async-computed'
 
 Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
-Vue.use(VueMoment.default)
 
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
@@ -70,7 +68,6 @@ init = ->
     $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/vt323.css">'
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
-  setUpMoment() # Set up i18n for moment
   setUpTv4()
   installVueI18n()
   if utils.isOzaria
@@ -134,19 +131,6 @@ setUpBackboneMediator = (app) ->
         originalPublish.apply Backbone.Mediator, arguments
     else
       console.log("Not logging Backbone events. Turn on by typing this in your browser console: window.sessionStorage.setItem('COCO_DEBUG_LOGGING', 1)")
-
-setUpMoment = ->
-  {me} = require 'core/auth'
-  setMomentLanguage = (lang) ->
-    lang = {
-      'zh-HANS': 'zh-cn'
-      'zh-HANT': 'zh-tw'
-    }[lang] or lang
-    moment.locale lang.toLowerCase()
-    # TODO: this relies on moment having all languages baked in, which is a performance hit; should switch to loading the language module we need on demand.
-  setMomentLanguage me.get('preferredLanguage', true)
-  me.on 'change:preferredLanguage', (me) ->
-    setMomentLanguage me.get('preferredLanguage', true)
 
 setUpTv4 = ->
   forms = require 'core/forms'
