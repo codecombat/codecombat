@@ -8,6 +8,7 @@ window._ = require('lodash');
 window._.string = require('underscore.string');
 require('jquery.browser');
 window.marked = require('marked');
+window.marked.setOptions({gfm: true, sanitize: true, smartLists: true, breaks: false})
 window.TreemaUtils = require('exports-loader?TreemaUtils!bower_components/treema/treema-utils.js'); // TODO webpack: Try to extract this
 import 'bower_components/treema/treema.css'
 require('vendor/scripts/idle.js').createjs;

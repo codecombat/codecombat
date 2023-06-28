@@ -52,7 +52,6 @@ init = ->
       init()
     return
 
-  marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
   app = require 'core/application'
   setupConsoleLogging()
   watchForErrors()
