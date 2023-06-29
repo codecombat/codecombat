@@ -4,8 +4,6 @@ if (!window.Promise) {
   window.Promise = require('promise-polyfill')
 }
 require('bower_components/fetch/fetch.js')
-window._ = require('lodash');
-window._.string = require('underscore.string');
 require('jquery.browser');
 window.marked = require('marked');
 window.marked.setOptions({gfm: true, sanitize: true, smartLists: true, breaks: false})
