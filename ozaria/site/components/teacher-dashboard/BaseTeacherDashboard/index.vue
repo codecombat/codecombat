@@ -19,6 +19,7 @@
   import { FIRST_CLASS_STEPS, CREATE_CLASS_STEPS } from './teacherDashboardTours'
   import ModalTeacherDetails from "../modals/ModalTeacherDetails";
   import { hasSeenTeacherDetailModalRecently, markTeacherDetailsModalAsSeen } from '../../../common/utils'
+  const VueShepherd = require('vue-shepherd')
 
   const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
   const SEEN_TEACHER_DETAILS_MODAL = 'seen-teacher-details-modal'
@@ -106,7 +107,9 @@
         }
       }
     },
-
+    beforeCreate () {
+      Vue.use(VueShepherd)
+    },
     created () {
       if (!me.isTeacher()) { // TODO Restrict this from Router itself similar to how `RestrictedToTeachersView` works
         this.showRestrictedDiv = true

@@ -1,6 +1,5 @@
 @import "ozaria/site/styles/common/variables";
 
-// do we really need this condition here? it's ozaria only styles
 @if not $is-codecombat {
   .ozaria-button {
     width: auto;

@@ -1,0 +1,377 @@
+@use "sass:math"
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "app/styles/play/variables"
+@import "ozaria/site/styles/common/common"
+
+@mixin wing-background($url: '', $backgroundPosition: left)
+  background: black
+  background-image: url($url)
+  background-repeat: no-repeat
+  background-position: top $backgroundPosition
+  background-size: contain
+
+$UNVEIL_TIME: 1.2s
+
+#level-loading-view
+  @if $is-codecombat
+    position: absolute
+  @else
+    position: fixed
+    background-color: $eve
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  z-index: 20
+
+  @if $is-codecombat
+    &.unveiled
+      pointer-events: none
+
+    &.preview-screen
+      background-color: rgba(0, 0, 0, 0.5)
+
+    .left-wing, .right-wing
+      width: 100%
+      height: 100%
+      position: absolute
+      pointer-events: none
+
+    .left-wing
+      @include wing-background('/images/level/loading_left_wing_1920.jpg', right)
+      @media screen and ( max-width: 1366px )
+        @include wing-background('/images/level/loading_left_wing_1366.jpg', right)
+      left: -50%
+      @include transition(all $UNVEIL_TIME ease)
+
+    .right-wing
+      @include wing-background('/images/level/loading_right_wing_1920.jpg', left)
+      @media screen and ( max-width: 1366px )
+        @include wing-background('/images/level/loading_right_wing_1366.jpg', left)
+      right: -50%
+      @include transition(all $UNVEIL_TIME ease)
+
+  #loading-details
+    z-index: 100
+    color: darkslategray
+    font-size: 15px
+    text-align: center
+    font-family: 'Open Sans Condensed'
+    @if $is-codecombat
+      position: absolute
+      top: 86px
+      right: 50%
+      $WIDTH: 450px
+      width: $WIDTH
+      height: 450px
+      margin-right: math.div(-$WIDTH, 2)
+      background: transparent url(/images/level/code_editor_background.png) no-repeat
+      background-size: 100% 100%
+      padding: 4% 80px 40px 80px
+      // http://matthewlein.com/ceaser/  Bounce down a bit, then snap up.
+      @include transition($UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600))
+      &.preview
+        top: 0
+        right: 0
+        margin-right: 0
+        width: calc(#{$code-area-width} + #{$api-bar-width} - 20px)
+        .no-api &
+          width: calc($code-area-width-no-api - 20px)
+        height: auto
+        pointer-events: all
+        @include transition($UNVEIL_TIME ease-in-out)
+
+        padding: 11vh 70px 40px 50px
+        .progress-or-start-container.intro-footer
+          bottom: 30px
+
+      .level-loading-goals
+        text-align: left
+
+        body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+          text-align: right
+
+          ul
+            padding-right: 0
+
+        .goals-title
+          font-size: 32px
+          color: black
+          font-weight: bold
+
+        li
+          font-size: 20px
+          color: black
+          margin-left: -25px
+
+      .intro-doc
+        text-align: left
+        font-size: 16px
+        //overflow-y: scroll  // using nanoscroller now
+
+        body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+          text-align: right
+
+        img
+          max-width: 100%
+
+        pre
+          box-sizing: content-box
+          border: 5px solid white
+          padding: 0
+          .ace_content
+            .ace_marker-layer
+              .ace_bracket
+                display: none
+            .ace_cursor-layer
+              .ace_cursor
+                display: none
+    @else
+      position: fixed
+
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+
+      padding: $chromeTopPadding $chromeRightPadding $chromeBottomPadding $chromeLeftPadding
+
+      background-color: $eve
+      width: 100%
+      height: 100%
+      display: flex
+      align-items: center
+      justify-content: center
+
+    .progress-or-start-container
+      @if $is-codecombat
+        position: absolute
+        bottom: 95px
+        height: 80px
+        left: 48px
+        right: 77px
+        @include transition(bottom $UNVEIL_TIME ease-out)
+      @else
+        color: white
+        width: 450px
+
+        img
+          width: 144px
+
+        p
+          font-size: 22px
+          margin-top: 10px
+          margin-bottom: 14px
+
+      .load-progress
+        width: 100%
+        @if $is-codecombat
+          height: 45px
+          margin: 20px auto 0 auto
+        @else
+          height: 15px
+
+        .progress
+          height: 100%
+          position: relative
+          background-color: transparent
+          @include box-shadow(none)
+          @if not $is-codecombat
+            border-radius: 0
+
+          .progress-background
+            width: 100%
+            height: 100%
+            @if $is-codecombat
+              background: transparent url(/images/level/loading_bar_back.png) no-repeat
+              background-size: 100% 100%
+            @else
+              background-color: $color-primary-brand-white
+            position: absolute
+            z-index: -1
+
+          .progress-bar-container
+            @if $is-codecombat
+              width: 75%
+              left: 10%
+            @else
+              width: 100%
+            height: 100%
+            position: absolute
+
+            .progress-bar
+              width: 1%
+              height: 100%
+              transition-duration: 0
+              @if $is-codecombat
+                background: transparent url(/images/level/loading_bar_fill.png) no-repeat
+                background-size: 325px 100%
+              @else
+                background-color: $moon
+              @include box-shadow(none)
+
+          &.active .progress-bar
+            transition-duration: 1.2s
+
+          @if $is-codecombat
+            .rim
+              position: absolute
+              left: 0
+              top: 0
+              width: 100%
+              height: 100%
+              background: transparent url(/images/level/loading_bar_rim.png) no-repeat
+              background-size: 100% 100%
+
+      @if $is-codecombat
+        .start-level-button
+          display: none
+          width: 100%
+          height: auto
+          margin: 0px auto
+          font-size: 40px
+          line-height: 45px
+          font-variant: small-caps
+          text-transform: none
+
+    .subscription-required, .course-membership-required, .could-not-load, .license-required, .resource-not-found
+      display: none
+      margin-top: 40px
+      color: black
+      font-size: 24px
+
+      .btn
+        width: 100%
+        margin: 20px auto 0px
+        font-size: 40px
+        font-variant: small-caps
+
+    @if $is-codecombat
+      #tip-wrapper
+        position: absolute
+        z-index: 2
+        bottom: 40px
+        left: 25px
+        width: 401px
+        color: #666
+
+      &.preview #tip-wrapper
+        left: 48px
+        right: 77px
+        width: auto
+    @else
+      // NOTE: copied as-is from LayoutChrome.vue
+      .chrome-border
+        $topOffset: 25px
+        position: absolute
+
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+
+        pointer-events: none
+        z-index: 10
+
+        &.chrome-on-slice
+          border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-on.png)
+
+        &.chrome-off-slice
+          border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-off.png)
+
+        &.chrome-off-slice, &.chrome-on-slice
+          border-image-slice: 182 194 130 118 fill
+          border-image-width: 140px 148px 124px 90px
+          border-image-repeat: round
+
+        .side-center-on
+          background: url(/images/ozaria/layout/chrome/central_on.png)
+
+        .side-center-off
+          background: url(/images/ozaria/layout/chrome/central_off.png)
+
+        .side-center-off, .side-center-on
+          width: 75px
+          height: 100%
+          overflow: hidden
+          position: absolute
+          right: 0
+          top: $topOffset
+          background-position: center
+          background-size: contain
+          background-repeat: no-repeat
+
+        #chrome-menu
+          display: flex
+          flex-direction: column
+          justify-content: space-around
+          width: 58px
+          height: 80vh
+          position: absolute
+          top: calc(10vh + #{$topOffset})
+          right: 0
+          pointer-events: auto
+          .button-flex-item
+            width: 58px
+            height: 58px
+            margin: 3px 0
+            cursor: pointer
+
+          .spacer
+            flex-grow: 1
+            min-height: 224px
+
+          .hideBtn
+            visibility: hidden
+
+          .options-btn
+            background: url(/images/ozaria/layout/chrome/Global_Neutral_LevelOptions.png)
+
+            &:hover
+              background: url(/images/ozaria/layout/chrome/Global_Hover_LevelOptions.png)
+
+          .restart-btn
+            background: url(/images/ozaria/layout/chrome/Global_Neutral_Restart.png)
+
+            &:hover
+              background: url(/images/ozaria/layout/chrome/Global_Hover_Restart.png)
+          .map-btn
+            background: url(/images/ozaria/layout/chrome/Global_Neutral_Map.png)
+
+            &:hover
+              background: url(/images/ozaria/layout/chrome/Global_Hover_Map.png)
+
+          .fullscreen-btn
+            background: url(/images/ozaria/layout/chrome/Global_Neutral_MaxBrowser.png)
+
+            &:hover
+              background: url(/images/ozaria/layout/chrome/Global_Hover_MaxBrowser.png)
+
+          .sound-btn
+            background: url(/images/ozaria/layout/chrome/Global_Neutral_SoundOn.png)
+
+            &:hover
+              background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOn.png)
+
+            &.menuVolumeOff
+              background: url(/images/ozaria/layout/chrome/Global_Neutral_SoundOff.png)
+
+            &.menuVolumeOff:hover
+              background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOff.png)
+
+          .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn
+            &, &:hover
+              background-size: 45px
+              background-position: center
+              background-repeat: no-repeat
+
+@if $is-codecombat
+  #level-view.web-dev
+    #loading-details.preview
+      @media screen and ( min-height: 900px )
+        background: transparent
+        border: 1px solid transparent
+        border-width: 124px 76px 64px 40px
+        border-image: url(/images/level/code_editor_background.png) 124 76 64 40 fill round
+        padding: 0 35px 0 15px
