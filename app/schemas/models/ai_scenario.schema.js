@@ -9,6 +9,11 @@ const AIScenarioSchema = c.object({
 c.extendNamedProperties(AIScenarioSchema)
 
 _.extend(AIScenarioSchema.properties, {
+  name: {
+    type: 'string',
+    title: 'Name',
+    description: 'Which bot/user sent this message'
+  },
   mode: {
     type: 'string',
     title: 'Mode',
