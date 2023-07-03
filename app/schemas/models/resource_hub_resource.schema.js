@@ -71,11 +71,10 @@ const ResourceHubResourceSchema = schema.object(
       title: 'Roles',
       description: 'List of roles that can have access to this resource. If set, then only those roles have access otherwise all do',
       type: 'array',
-      format: 'roles',
-      roles: schema.shortString({
-        format: 'role',
+      items: {
+        type: 'string',
         enum: ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent', 'parent-home', 'possible teacher']
-      })
+      }
     }
   }
 )
