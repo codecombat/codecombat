@@ -16,7 +16,10 @@
         </div>
       </div>
       <div class="split split-row" />
-      <div class="content">
+      <div
+        v-if="propsInstance"
+        class="content"
+      >
         <div class="event-title">
           <div class="title">
             {{ $t('events.class_name') }} :
@@ -72,6 +75,14 @@
           >
             {{ $t('general.contact_us') }}
           </div>
+        </div>
+      </div>
+      <div
+        v-else
+        class="noevent"
+      >
+        <div class="noevent__info">
+          No event selected
         </div>
       </div>
     </div>
@@ -237,6 +248,8 @@ export default {
   padding-left: 20px;
   display: flex;
   align-items: flex-start;
+  font-family: Work Sans, "Open Sans", sans-serif;
+
   .split {
     margin: unset;
     border: 1px solid #D8D8D8;
@@ -393,8 +406,8 @@ export default {
         position: absolute;
 
         &:has(.ec-event) {
-          width: 70px;
-          height: 70px;
+          width: 50px;
+          height: 50px;
           border-radius: 50%;
           margin: 0;
           background: rgba(93, 185, 172, 0.4);
@@ -475,6 +488,23 @@ export default {
       .value {
         min-height: 4em;
       }
+    }
+
+    .title {
+      color: #000;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 24px;
+      text-transform: uppercase;
+    }
+
+    .value {
+      color: #545B64;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 20px;
     }
 
     .notes {
@@ -565,6 +595,17 @@ export default {
           }
         }
       }
+    }
+  }
+
+  .noevent {
+    &__info {
+      color: #000;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 24px;
+      text-transform: uppercase;
     }
   }
 }
