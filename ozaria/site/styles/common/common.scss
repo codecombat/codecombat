@@ -1,7 +1,6 @@
 @import "ozaria/site/styles/common/variables";
-@import "app/styles/utils";
 
-@if $is-ozaria {
+@if not $is-codecombat {
   .ozaria-button {
     width: auto;
     height: 45px;

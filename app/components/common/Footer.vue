@@ -128,7 +128,7 @@ export default Vue.extend({
           title: 'nav.educators',
           condition: !me.isStudent() && !this.isChinaHome,
           lists: [
-            { url: '/teachers/resources/faq-zh-HANS.coco', title: 'teacher.educator_faq' },
+            { url: '/teachers/resources/faq-zh-HANS', title: 'teacher.educator_faq' },
             { url: '/teachers/resources', title: 'nav.resource_hub' },
             { url: '/teachers/resources', extra: '课程体系' },
             { url: 'teachers/classes', title: 'nav.my_classrooms' }
@@ -234,7 +234,9 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
             h3 {{ $t(col.title) }}
             ul.list-unstyled
               li(v-for="l in col.lists" v-if="!l.hide")
-                a(v-if="!checkLocation(l.url)" :href="l.url" v-bind="l.attrs") {{ $t(l.title) }}
+                span.hover-link(v-if="!l.url" v-bind="l.attrs") {{ $t(l.title) }}
+                  span.spr(v-if="l.extra") {{ l.extra }}
+                a(v-else-if="!checkLocation(l.url)" :href="l.url" v-bind="l.attrs") {{ $t(l.title) }}
                   span.spr(v-if="l.extra") {{ l.extra }}
                 span.active(v-if="checkLocation(l.url)") {{ $t(l.title) }}
                   span.spr(v-if="l.extra") {{ l.extra }}
@@ -452,6 +454,9 @@ footer#site-footer
 
     .contact
       margin-right: 20px
+
+  .hover-link
+    cursor: pointer
 
   mklog-ledger
     --mklog-color-brand-background: #0E4C60

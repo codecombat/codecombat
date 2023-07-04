@@ -80,14 +80,14 @@ module.exports = class LevelChatView extends CocoView
     content = content.replace /^\|Issue\|?:? ?(.*?)$/gm, '\n$1'
     content = content.replace /^\|Explanation\|?:? ?(.*?)$/gm, '\n*$1*\n'
     #content = content.replace /\|Code\|?:? ?`{0,3}\n?((.|\n)*?)`{0,3}\n?$/g, '```$1```'
-    content = content.replace /\|Code\|?:? ?```\n?((.|\n)*?)```\n?$/g, (match, p1) =>
+    content = content.replace /\|Code\|?:? ?```.*?\n((.|\n)*?)```\n?/g, (match, p1) =>
       @lastFixedCode = p1
-      '[Fix Code]'
-    content = content.replace /\|Code\|?:? ?`{0,3}\n?((.|\n)*?)`{0,3}\n?$/g, ( match, p1) ->
+      '[Show Me]'
+    content = content.replace /\|Code\|?:? ?`{0,3}.*?\n((.|\n)*?)`{0,3}\n?$/g, ( match, p1) ->
       numberOfLines = (p1.match(/\n/g) || []).length + 1
       if p1
         Backbone.Mediator.publish 'level:update-solution', code: p1
-      '\n[Fix Code]\n*Loading code fix' + '.'.repeat(numberOfLines) + '...*'
+      '\n[Show Me]\n*Loading code fix' + '.'.repeat(numberOfLines) + '...*'
     # Close any unclosed backticks delimiters so we get complete <code> tags
     unclosedBackticks = (content.match(/`/g) || []).length
     if unclosedBackticks % 2 != 0
@@ -104,7 +104,7 @@ module.exports = class LevelChatView extends CocoView
     content = content.replace /<p><code>((.|\n)*?)(?:(?!<\/code>)(.|\n))*?<\/code><\/p>/g, (match) ->
       match.replace(/<p><code>/g, '<pre><code>').replace(/<\/code><\/p>/g, '</code></pre>')
 
-    content = content.replace /\[Fix Code\]/g, '<p><button class="btn btn-illustrated btn-small btn-primary fix-code-button">Show me</button></p>'
+    content = content.replace /\[Show Me\]/g, '<p><button class="btn btn-illustrated btn-small btn-primary fix-code-button">Show me</button></p>'
     @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
 
     if _.string.startsWith(content, '/me')
@@ -212,7 +212,8 @@ module.exports = class LevelChatView extends CocoView
     @fetchChatMessageStream chatMessage.id
 
   fetchChatMessageStream: (chatMessageId) ->
-    fetch("/db/chat_message/#{chatMessageId}/ai-response").then co.wrap (response) =>
+    model = utils.getQueryVariable('model') or 'gpt-4' # or 'chima'
+    fetch("/db/chat_message/#{chatMessageId}/ai-response?model=#{model}").then co.wrap (response) =>
       reader = response.body.getReader()
       decoder = new TextDecoder('utf-8')
       sender = { kind: 'bot', name: 'Code AI' }  # TODO: handle sender name again
@@ -222,6 +223,7 @@ module.exports = class LevelChatView extends CocoView
       while true
         { done, value } = yield reader.read()
         chunk = decoder.decode value
+        chunk = chunk.replace(/(^{"propertyA":\["|"\],"propertyB":\[\]}$)/g, '').replace(/\\n/g, '\n').replace(/\\"/g, '"')
         result += chunk
         @addToStreamingAIChatMessage sender: sender, chunk: chunk, result: result
         break if done
@@ -315,7 +317,7 @@ module.exports = class LevelChatView extends CocoView
       props.message.textComponents.actionButtons.push button
       structuredMessage = structuredMessage.replace(actionButtonRegex, '')
 
-    codeRegex = /\|Code\|?:? ?```\n?((.|\n)+)```\n?$/
+    codeRegex = /\|Code\|?:? ?```\n?((.|\n)+)```\n?/
     code = structuredMessage.match(codeRegex)
     if code
       props.message.textComponents.code = code[1]

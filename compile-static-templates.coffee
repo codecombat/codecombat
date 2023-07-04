@@ -77,6 +77,7 @@ compile = (contents, locals, filename, cb) ->
     locals.me.useQiyukf = -> false  # Netease Qiyu Live Chat Plugin
     locals.me.useDataDog = -> not (locals.chinaInfra ? false)
     locals.me.showChinaVideo = -> locals.chinaInfra ? false
+    locals.me.getProduct = -> product
     str = outFn(locals)
   catch e
     console.log "Compile", filename, basePath

@@ -1,8 +1,18 @@
 <style lang="scss" scoped>
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
-@import "app/styles/utils";
-@if $is-ozaria {
+@if $is-codecombat {
+  * {
+    color: #065e73;
+  }
+  li {
+    display: inline;
+  }
+  li:not(:first-child):before {
+    color: #000;
+    content: " > ";
+  }
+} @else {
   li {
     @include font-p-2-paragraph-medium-gray;
     color: $twilight;
@@ -21,18 +31,7 @@
     color: #6D8392;
   }
 }
-@if $is-codecombat {
-  * {
-    color: #065e73;
-  }
-  li {
-    display: inline;
-  }
-  li:not(:first-child):before {
-    color: #000;
-    content: " > ";
-  }
-}
+
 </style>
 
 <template>

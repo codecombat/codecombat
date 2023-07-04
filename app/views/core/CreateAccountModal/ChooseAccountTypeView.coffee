@@ -15,15 +15,16 @@ module.exports = class ChooseAccountTypeView extends CocoView
     'submit form.choose-account-type': 'onSubmitStudent'
     'click .parent-path-button': ->
       if location.pathname is '/parents'
-        @trigger 'choose-path', 'individual'
+        window.location.href = '/parents/signup'
       else
-        application.router.navigate('/parents', {trigger: true})
+        application.router.navigate('/parents/signup', {trigger: true})
 
   afterRender: ->
     if me.showChinaHomeVersion()
       @trigger 'choose-path', 'individual'
 
   initialize: ({ @signupState }) ->
+    @utils = utils
 
   getClassCode: -> @$('.class-code-input').val() or @signupState.get('classCode')
 
