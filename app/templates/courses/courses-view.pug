@@ -335,7 +335,7 @@ mixin coco_main_content()
                     else
                       span(data-i18n='courses.play_arena')
 
-            if !me.showChinaResourceInf()
+            if !me.showChinaResourceInfo()
               a.ai-league-btn.tile(href=(me.isRegisteredForAILeague() ? '/league#standings' : '/league?registering=true'), data-i18n="[title]league.codecombat_ai_league")
                 img.level-image(src='/images/pages/courses/banners/ai-league-banner-' + view.randomAILeagueBannerHero + '.png' data-i18n="[alt]league.codecombat_ai_league")
                 //h3.dynamic-level-name.overlay-text CodeCombat AI League  // Someday: use different background and i18n the name
@@ -361,7 +361,7 @@ mixin coco_main_content()
               if view.tournaments.length > 1
                 a.more-tournaments(data-i18n="general.more")
 
-          if me.showChinaResourceInf()
+          if me.showChinaResourceInfo()
             .school-stats.col-md-3
               if features.china && (!me.isCreatedByTarena())
                 h2
