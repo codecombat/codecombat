@@ -1,6 +1,9 @@
 <template>
   <div class="online-classes">
-    <header-component />
+    <header-component
+      :events="Object.values(events)"
+      :child="child"
+    />
     <body-component
       v-if="child?._id"
       :child="child"
@@ -11,6 +14,7 @@
 <script>
 import HeaderComponent from './online-classes/HeaderComponent'
 import BodyComponent from './online-classes/BodyComponent'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'OnlineClassesView',
@@ -22,6 +26,11 @@ export default {
   components: {
     BodyComponent,
     HeaderComponent
+  },
+  computed: {
+    ...mapGetters({
+      events: 'events/events'
+    })
   }
 }
 </script>

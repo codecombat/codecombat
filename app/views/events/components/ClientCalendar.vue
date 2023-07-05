@@ -22,26 +22,38 @@
       >
         <div class="event-title">
           <div class="title">
-            {{ $t('events.class_name') }} :
+            {{ $t('events.class_name') }}:
           </div>
           <div class="value">
-            {{ propsInstance?.name || 'Unknown Class' }}
+            {{ propsInstance?.name || $t('events.no_data_display') }}
+          </div>
+        </div>
+        <div class="event-time">
+          <div
+            class="title"
+          >
+            {{ $t('tournament.start_date_time') }}:
+          </div>
+          <div
+            class="value"
+          >
+            {{ instanceStartTime(propsInstance.startDate) }}
           </div>
         </div>
         <div class="levels-completed">
           <div class="title">
-            {{ $t('events.levels_completed') }} :
+            {{ $t('events.levels_completed') }}:
           </div>
           <div class="value">
-            {{ sessionsOfCampaign }}
+            {{ sessionsOfCampaign || $t('events.no_data_display') }}
           </div>
         </div>
         <div class="notes">
           <div class="title">
-            {{ $t('events.teacher_notes') }} :
+            {{ $t('events.teacher_notes') }}:
           </div>
           <div class="value">
-            {{ teacherNotes || $t('events.no_teacher_notes') }}
+            {{ teacherNotes || $t('events.no_data_display') }}
           </div>
           <div
             v-if="teacherNotes"
@@ -219,6 +231,9 @@ export default {
           break
         }
       }
+    },
+    instanceStartTime (startDate) {
+      return moment(startDate).format('MMMM Do YYYY, h:mma (Z)')
     }
   },
   watch: {
@@ -478,13 +493,7 @@ export default {
       height: 0;
     }
 
-    .event-title {
-      .value {
-        min-height: 4em;
-      }
-    }
-
-    .levels-completed {
+    .event-title, .levels-completed, .event-time {
       .value {
         min-height: 4em;
       }
