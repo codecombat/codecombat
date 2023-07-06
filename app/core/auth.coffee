@@ -23,6 +23,12 @@ init = ->
       me.set(res)
       setTestGroupNumberUS()
     .catch((e) => console.error("Error in setting country and geo:", e))
+  if not me.get('geo')?.timeZone
+    api.users.setCountryGeo()
+    .then (res) ->
+      me.set(res)
+      setTestGroupNumberUS()
+    .catch((e) => console.error("Error in setting country and geo:", e))
   if me and not me.get('testGroupNumber')?
     # Assign testGroupNumber to returning visitors; new ones in server/routes/auth
     me.set 'testGroupNumber', Math.floor(Math.random() * 256)
