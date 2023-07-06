@@ -30,6 +30,12 @@ _.extend(AIScenarioSchema.properties, {
     title: 'Doc',
     description: 'Which document type this scenario is for (a webpage, an essay, an image, etc.))'
   },
+  releasePhase: {
+    type: 'string',
+    enum: ['draft', 'beta', 'released'],
+    title: 'Release Phase',
+    description: 'Scenarios start off in beta, then are released when they are completed'
+  },
   initialActionQueue: {
     type: 'array',
     description: 'Actions to add to a project when it is created from this scenario'
