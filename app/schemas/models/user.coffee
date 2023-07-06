@@ -348,6 +348,7 @@ _.extend UserSchema.properties,
     ll: c.array {}, { description: 'Latitude and longitude of the city'}
     metro: { description: 'Metro code'}
     zip: { description: 'Postal code'}
+    timeZone: { description: 'Timezone' }
   }
 
   clans: c.array {}, c.objectId()

@@ -88,6 +88,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     individual_account_warning: "You are logged in as __name__, which is an individual account. Ozaria is for teacher and student accounts only; do you need to update your account?"
     learner_number: "12 Million"
     code_line_number: "1 Billion"
+    dei_initiatives: "What initiatives does Ozaria have to ensure diversity, equity, and inclusion in the game?"
+    dei_initiatives_blurb: "Ozaria is dedicated to promoting diversity, equity, and inclusion (DEI) within the game. Through diverse character representation, equitable opportunities, and an inclusive environment, Ozaria embraces differences and fosters a welcoming experience for players of all backgrounds and abilities. Explore our __deipage__ to learn more about our commitment and initiatives towards DEI in Ozaria."
+    dei_page: "DEI page"
+    ozaria_efficacy: "How does Ozaria measure and demonstrate its effectiveness in improving learning outcomes in the classroom?"
+    ozaria_efficacy_blurb: "We prioritize effectiveness through evidence-based practices and assessment. Our __efficacypage__ offers detailed statistics, real teacher quotes, and compelling case studies demonstrating the transformative impact of Ozaria. By creating meaningful learning experiences and employing evidence-based practices, we design content that delivers the outcomes that matter most to teachers and students."
+    efficacy_page: "efficacy page"
+    social_learning: "Does Ozaria promote social and emotional learning (SEL)?"
+    social_learning_blurb: "Yes! Ozaria actively integrates social and emotional learning (SEL) into its curriculum. Through gamified activities, students develop essential skills such as decision-making, self-awareness, self-management, social awareness, relationship skills, and responsible decision-making. You can learn more about our philosophy on our __selpage__."
+    sel_page: "SEL page"    
 
   new_home:
     title_coco: "CodeCombat - Coding games to learn Python and JavaScript"
