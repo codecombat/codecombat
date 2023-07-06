@@ -190,8 +190,8 @@ module.exports = class RootView extends CocoView
   addLanguagesToSelect: ($select, initialVal) ->
     # For now, we only want to support a few languages for Ozaria that we have people working to translate.
     if utils.isOzaria
-      supportedLanguages = ['en-US', 'es-419', 'zh-HANS', 'zh-HANT', 'ru', 'pt-BR', 'pt-PT', 'ja', 'lt', 'vi']
-      filteredLocale = _.pick(locale, supportedLanguages)
+      # supportedLanguages = ['en-US', 'es-419', 'zh-HANS', 'zh-HANT', 'ru', 'pt-BR', 'pt-PT', 'ja', 'lt', 'vi']
+      filteredLocale = locale #_.pick(locale, supportedLanguages)
     else
       filteredLocale = locale
     codes = _.keys(filteredLocale)
