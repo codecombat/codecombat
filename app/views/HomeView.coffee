@@ -56,6 +56,10 @@ module.exports = class HomeView extends RootView
       maintenanceStartTime: "#{context.maintenanceStartTime.calendar()} (#{context.maintenanceStartTime.fromNow()})"
       interpolation: { escapeValue: false }
       topBannerHereLink: "<a href='https://codecombat.com/teachers/hour-of-code' target='_blank'>#{$.i18n.t('new_home.top_banner_blurb_hoc_2022_12_01_here')}</a>"
+      deiPage: "<a href='/diversity-equity-and-inclusion' target='_blank'>#{$.i18n.t('ozaria_home.dei_page')}</a>"
+      efficacyPage: "<a href='/efficacy' target='_blank'>#{$.i18n.t('ozaria_home.efficacy_page')}</a>"
+      selPage: "<a href='/social-and-emotional-learning' target='_blank'>#{$.i18n.t('ozaria_home.sel_page')}</a>"
+
     context
 
   getMeta: ->
