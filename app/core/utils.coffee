@@ -1,4 +1,4 @@
-product = COCO_PRODUCT ? 'codecombat'
+product = (COCO_PRODUCT ? process?.env?.COCO_PRODUCT) ? 'codecombat'
 isCodeCombat = product == 'codecombat'
 isOzaria = !isCodeCombat
 _ = require 'lodash'
