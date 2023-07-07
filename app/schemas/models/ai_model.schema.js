@@ -11,18 +11,18 @@ c.extendNamedProperties(AIModelSchema)
 _.extend(AIModelSchema.properties, {
   name: {
     type: 'string',
-    title: 'Model Name',
-    description: 'The common name for the model (e.g. "ChatGPT", "Stable Diffusion").'
+    description: 'The exact name of the model as used in API calls.'
+  },
+  family: {
+    type: { type: 'string', enum: ['ChatGPT', 'Stable Diffusion'] },
+    title: 'Family',
+    description: 'The family of models this model belongs to, usually what people know it as.'
   },
   description: {
     type: 'string',
-    title: 'Model Description',
+    title: 'Description',
     description: 'A short description of the model and what it does.'
   },
-  versions: {
-    type: 'array',
-    description: 'The specific versions of the model available'
-  }
 })
 
 // AIModelSchema.definitions = { }
