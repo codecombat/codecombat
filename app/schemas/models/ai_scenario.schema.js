@@ -30,11 +30,6 @@ _.extend(AIScenarioSchema.properties, {
     title: 'Doc',
     description: 'Which document type this scenario is for (a webpage, an essay, an image, etc.)'
   },
-  modelName: {
-    type: 'string',
-    title: 'Model Name',
-    description: 'The exact version/model name for the chosen tool.'
-  },
   releasePhase: {
     type: 'string',
     enum: ['draft', 'beta', 'released'],
