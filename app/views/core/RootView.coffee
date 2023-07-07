@@ -195,7 +195,7 @@ module.exports = class RootView extends CocoView
     # Because we only support a few languages, we force English as the default here:
     initialVal ?= me.get('preferredLanguage', true)
     if utils.isOzaria and initialVal not in codes
-      initialVal = supportedLanguages[0]
+      initialVal = 'en-US'
 
     if $select.is('ul') # base-flat
       @$el.find('.language-dropdown-current')?.text(locale[initialVal].nativeDescription)

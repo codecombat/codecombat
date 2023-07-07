@@ -20,6 +20,10 @@ module.exports = class LevelChatView extends CocoView
     'click i': 'onIconClick'
     'click .fix-code-button': 'onFixCodeClick'
 
+  subscriptions:
+    'level:toggle-solution': 'onToggleSolution'
+    'level:close-solution': 'onCloseSolution'
+
   constructor: (options) ->
     @levelID = options.levelID
     @session = options.session
@@ -185,11 +189,16 @@ module.exports = class LevelChatView extends CocoView
 
   onFixCodeClick: (e) ->
     Backbone.Mediator.publish 'level:toggle-solution', { code: @lastFixedCode ? '' }
+
+  onToggleSolution: ->
     btn = @$el.find('.fix-code-button')
     if btn.html() == 'Show me'
       btn.html 'Hide'
     else
       btn.html 'Show me'
+
+  onCloseSolution: (e) ->
+    @$el.find('.fix-code-button').html 'Show me'
 
   scrollDown: ->
     openPanel = $('.open-chat-area', @$el)[0]
