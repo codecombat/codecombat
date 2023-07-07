@@ -18,7 +18,7 @@ _.extend(AIScenarioSchema.properties, {
   tool: {
     type: 'string',
     title: 'Tool',
-    description: 'Which generative AI tool this scenario is for (ChatGPT 4, ChatGPT 3.5, Stable Diffusion, DALL-E 2, etc.)'
+    description: 'Which generative AI tool this scenario is for (ChatGPT, Stable Diffusion, DALL-E 2, etc.)'
   },
   task: {
     type: 'string',
@@ -28,7 +28,12 @@ _.extend(AIScenarioSchema.properties, {
   doc: {
     type: 'string',
     title: 'Doc',
-    description: 'Which document type this scenario is for (a webpage, an essay, an image, etc.))'
+    description: 'Which document type this scenario is for (a webpage, an essay, an image, etc.)'
+  },
+  modelName: {
+    type: 'string',
+    title: 'Model Name',
+    description: 'The exact version/model name for the chosen tool.'
   },
   releasePhase: {
     type: 'string',
