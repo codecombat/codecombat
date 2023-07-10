@@ -13,7 +13,11 @@ _.extend(AIProjectSchema.properties, {
     type: 'string',
     description: 'The name of the project'
   },
-  user: c.objectId(),
+  user: c.objectId({
+    links: [{ rel: 'db', href: '/db/user/{($)}' }],
+    title: 'User ID',
+    description: 'The user ID of the project owner'
+  }),
   scenario: c.objectId(),
   created: c.date({ title: 'Created', readOnly: true }),
   visibility: {
