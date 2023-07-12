@@ -14,7 +14,7 @@ try {
 } catch (e) {
   console.warn('AI import unavailable; /ai will not work')
   console.warn(e)
-  ai = { AI: () => {} }
+  ai = { AI: () => { } }
 }
 
 module.exports = (AIView = (function () {
@@ -27,7 +27,7 @@ module.exports = (AIView = (function () {
     afterInsert() {
       // Undo our 62.5% default HTML font-size here
       $('html').css('font-size', '16px')
-      ai.AI({ domElement: this.$el.find('#ai-wrapper')[0] })
+      ai.AI({ domElement: this.$el.find('#ai-root')[0] })
       return super.afterInsert()
     }
 
