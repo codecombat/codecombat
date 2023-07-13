@@ -3,7 +3,7 @@ const _ = require('lodash')
 
 const AIDocumentSchema = c.object({
   title: 'AI Document',
-  description: 'A generative AI document'
+  description: 'A generative AI document',
 })
 
 _.extend(AIDocumentSchema.properties, {
