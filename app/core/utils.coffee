@@ -1,11 +1,14 @@
-product = COCO_PRODUCT ? 'codecombat'
+product = (COCO_PRODUCT ? process?.env?.COCO_PRODUCT) ? 'codecombat'
 isCodeCombat = product == 'codecombat'
 isOzaria = !isCodeCombat
 _ = require 'lodash'
 
 # Yuqiang: i don't know why we use same slugify from different source but let's keep it right now since change it sometimes trigger unbelievable bug
 if isCodeCombat
-  slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
+  if global and global._ and global._.str and global._.str.slugify # TODO: why _.string on client and _.str on server?
+    slugify = global._.str.slugify # server
+  else if _ and _.string and _.string.slugify
+    slugify = _.string.slugify # client
 else
   slugify = require('underscore.string').slugify # TODO: why _.string on client and _.str on server?
 

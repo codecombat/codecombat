@@ -189,8 +189,11 @@ module.exports = class AdministerUserModal extends ModelModal
     return unless attrs.maxRedeemers > 0
     return unless attrs.endDate and attrs.startDate and attrs.endDate > attrs.startDate
     attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-    attrs.startDate = momentTimezone.tz(attrs.startDate, @timeZone).toISOString()
-    attrs.endDate = momentTimezone.tz(attrs.endDate, @timeZone).toISOString()
+    timeZone = @timeZone
+    if attrs.userTimeZone?[0] == 'on'
+      timeZone = @getUserTimeZone()
+    attrs.startDate = momentTimezone.tz(attrs.startDate, timeZone).toISOString()
+    attrs.endDate = momentTimezone.tz(attrs.endDate, timeZone).toISOString()
 
     if attrs.licenseType of @licensePresets
       attrs.includedCourseIDs = @licensePresets[attrs.licenseType]
@@ -665,3 +668,10 @@ module.exports = class AdministerUserModal extends ModelModal
     @user.set 'volume', val
     @user.patch()
     @modelTreemas[@user.id].set 'volume', val
+
+  getUserTimeZone: ->
+    geo = @user.get('geo')
+    if geo?.timeZone
+      return geo.timeZone
+    else
+      return @timeZone
