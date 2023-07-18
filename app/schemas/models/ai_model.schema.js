@@ -6,8 +6,6 @@ const AIModelSchema = c.object({
   description: 'A generative AI model'
 })
 
-c.extendNamedProperties(AIModelSchema)
-
 _.extend(AIModelSchema.properties, {
   name: {
     type: 'string',
@@ -25,12 +23,10 @@ _.extend(AIModelSchema.properties, {
   },
 })
 
-// AIModelSchema.definitions = { }
 c.extendBasicProperties(AIModelSchema, 'ai_model')
-// c.extendSearchableProperties(AIModelSchema)
-// c.extendVersionedProperties(AIModelSchema, 'ai_model')
+c.extendVersionedProperties(AIModelSchema, 'ai_model')
+c.extendSearchableProperties(AIModelSchema)
+c.extendPatchableProperties(AIModelSchema)
 // c.extendPermissionsProperties(AIModelSchema, 'ai_model')
-// c.extendPatchableProperties(AIModelSchema)
-// c.extendTranslationCoverageProperties(AIModelSchema)
 
 module.exports = AIModelSchema

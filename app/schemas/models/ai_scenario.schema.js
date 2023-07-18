@@ -6,8 +6,6 @@ const AIScenarioSchema = c.object({
   description: 'A generative AI scenario',
 })
 
-c.extendNamedProperties(AIScenarioSchema)
-
 _.extend(AIScenarioSchema.properties, {
   name: {
     type: 'string',
@@ -47,12 +45,12 @@ _.extend(AIScenarioSchema.properties, {
   }
 })
 
-// AIScenarioSchema.definitions = { }
+c.extendNamedProperties(AIScenarioSchema)
 c.extendBasicProperties(AIScenarioSchema, 'ai_scenario')
-// c.extendSearchableProperties(AIScenarioSchema)
-// c.extendVersionedProperties(AIScenarioSchema, 'ai_scenario')
+c.extendSearchableProperties(AIScenarioSchema)
+c.extendVersionedProperties(AIScenarioSchema, 'ai_scenario')
+c.extendPatchableProperties(AIScenarioSchema)
+c.extendTranslationCoverageProperties(AIScenarioSchema)
 // c.extendPermissionsProperties(AIScenarioSchema, 'ai_scenario')
-// c.extendPatchableProperties(AIScenarioSchema)
-// c.extendTranslationCoverageProperties(AIScenarioSchema)
 
 module.exports = AIScenarioSchema
