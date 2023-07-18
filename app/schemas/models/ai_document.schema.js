@@ -11,9 +11,10 @@ _.extend(AIDocumentSchema.properties, {
   source: { type: 'string', description: 'The contents of the document' }
 })
 
-// AIDocumentSchema.definitions = {}
 c.extendBasicProperties(AIDocumentSchema, 'ai_document')
-// c.extendSearchableProperties(AIDocumentSchema)
-// c.extendPermissionsProperties(AIDocumentSchema, 'ai_document')
+c.extendSearchableProperties(AIDocumentSchema)
+c.extendPatchableProperties(AIDocumentSchema)
+// c.extendPermissionsProperties(AIDocumentSchema, 'ai_scenario')
+// c.extendTranslationCoverageProperties(AIDocumentSchema)
 
 module.exports = AIDocumentSchema

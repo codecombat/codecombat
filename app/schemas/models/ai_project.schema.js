@@ -6,8 +6,6 @@ const AIProjectSchema = c.object({
   description: 'A generative AI project',
 })
 
-c.extendNamedProperties(AIProjectSchema) // TODO: are we doing unique names? or non-unique? slug?
-
 _.extend(AIProjectSchema.properties, {
   name: {
     type: 'string',
@@ -32,9 +30,7 @@ _.extend(AIProjectSchema.properties, {
   }
 })
 
-// AIProjectSchema.definitions = {}
 c.extendBasicProperties(AIProjectSchema, 'ai_project')
-// c.extendSearchableProperties(AIProjectSchema)
 // c.extendPermissionsProperties(AIProjectSchema, 'ai_project')
 
 module.exports = AIProjectSchema
