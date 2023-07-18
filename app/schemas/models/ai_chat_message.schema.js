@@ -24,7 +24,6 @@ _.extend(AIChatMessageSchema.properties, {
   }
 })
 
-// AIChatMessageSchema.definitions = {}
 c.extendBasicProperties(AIChatMessageSchema, 'ai_chat_message')
 c.extendSearchableProperties(AIChatMessageSchema)
 // c.extendPermissionsProperties(AIInteractionSchema, 'ai_interaction')
