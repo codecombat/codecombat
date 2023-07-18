@@ -285,7 +285,7 @@ module.exports = class LevelBus extends Bus
     patch = {}
     patch[prop] = @session.get(prop) for prop of @changedSessionProperties
     if heroCode # let's only update trueSpell of session(hero-placeholder for all ladders)
-      patch.code = { 'hero-placeholder' : { plan: heroCode } }
+      patch.code = { 'hero-placeholder': { plan: heroCode }, 'hero-placeholder-1': { plan: '' } }
     delete patch.code if _.isEmpty(patch.code) # don't update empty code
     @changedSessionProperties = {}
 
