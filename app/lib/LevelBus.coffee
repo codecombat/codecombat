@@ -116,7 +116,8 @@ module.exports = class LevelBus extends Bus
 
     @changedSessionProperties.code = true
     @changedSessionProperties.heroCode = undefined
-    if e.spell.level.isType('ladder') and e.spell.team is 'ogres'
+    if e.spell.level.isType('ladder')
+      # lets always set heroCode for ladder so that we don't save hero-placeholder-1 anyway
       @changedSessionProperties.heroCode = e.spell.getSource()
     @session.set({'code': code})
     @saveSession()
@@ -282,11 +283,12 @@ module.exports = class LevelBus extends Bus
       delete @changedSessionProperties.heroCode
     Backbone.Mediator.publish 'level:session-will-save', session: @session
     patch = {}
-    patch[prop] = @session.get(prop) for prop of @changedSessionProperties
-    if heroCode # let's only update trueSpell of session
+    # clone objects so we won't update session
+    patch[prop] = _.cloneDeep(@session.get(prop)) for prop of @changedSessionProperties
+    if heroCode # let's only update trueSpell of session(hero-placeholder for all ladders)
       patch.code ?= {}
       delete patch.code['hero-placeholder-1']
-      patch.code['hero-placeholder'] = heroCode
+      patch.code['hero-placeholder'] = { plan: heroCode }
     delete patch.code if _.isEmpty(patch.code) # don't update empty code
     @changedSessionProperties = {}
 
