@@ -45,7 +45,6 @@ module.exports = {
   'views/artisans/LevelConceptMap': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelConceptMap') },
   'views/artisans/LevelGuidesView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelGuidesView') },
   'views/artisans/StudentSolutionsView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/StudentSolutionsView') },
-  'views/artisans/TagTestView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/TagTestView') },
   'views/artisans/BulkLevelEditView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/BulkLevelEditView') },
   'views/artisans/SandboxView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/SandboxView') },
   'views/artisans/ThangTasksView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ThangTasksView') },
