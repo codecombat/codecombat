@@ -24,6 +24,7 @@ _.extend(AIChatMessageSchema.properties, {
     maxLength: 300,
     description: 'A preview of the document in the message discussed'
   },
+  created: c.date({ title: 'Created' }),
   actionData: {
     type: 'object',
     title: 'Data',
