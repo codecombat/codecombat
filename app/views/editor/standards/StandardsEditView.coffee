@@ -5,10 +5,15 @@ StandardsCorrelation = require 'models/StandardsCorrelation'
 ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
+nodes = require 'views/editor/level/treema_nodes'
 
 require 'lib/game-libraries'
 require('lib/setupTreema')
 treemaExt = require 'core/treema-ext'
+
+Concepts = require 'collections/Concepts'
+schemas = require 'app/schemas/schemas'
+concepts = [];
 
 module.exports = class StandardsCorrelationEditView extends RootView
   id: 'editor-standards-edit-view'
@@ -26,6 +31,17 @@ module.exports = class StandardsCorrelationEditView extends RootView
 
   onLoaded: ->
     super()
+    @concepts = new Concepts([])
+
+    @listenTo @concepts, 'sync', =>
+      concepts = @concepts.models
+      schemas.concept.enum = _.map concepts, (c) -> c.get('key')
+      @onConceptsLoaded()
+    
+    @concepts.fetch
+      data: { skip: 0, limit: 1000 }
+
+  onConceptsLoaded: () ->
     @buildTreema()
     @listenTo @standards, 'change', =>
       @standards.updateI18NCoverage()
@@ -40,6 +56,9 @@ module.exports = class StandardsCorrelationEditView extends RootView
       schema: StandardsCorrelation.schema
       readOnly: me.get('anonymous')
       supermodel: @supermodel
+      nodeClasses:
+        'concepts-list': nodes.conceptNodes(concepts).ConceptsListNode
+        'concept': nodes.conceptNodes(concepts).ConceptNode
     @treema = @$el.find('#standards-treema').treema(options)
     @treema.build()
     @treema.childrenTreemas.rewards?.open(3)

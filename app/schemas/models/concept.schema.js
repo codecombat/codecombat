@@ -1,14 +1,27 @@
 const schema = require('./../schemas')
 
-const ConceptSchema = schema.object(
-  {
-    description:
-      'A Computer Science Concepts like while loops, or nested if statements.',
-    title: 'Concept',
-    required: ['name']
-  },
-  {
-
+const ConceptSchema = schema.object(  {
+  description:
+    'A Computer Science Concepts like while loops, or nested if statements.',
+  title: 'Concept',
+  required: ['name']
+})
+_.extend(ConceptSchema.properties,{
+    levelsCount: {
+      type: 'integer',
+      title: 'Levels Count',
+      description: 'The number of levels that use this concept',
+    },
+    coursesCount: {
+      type: 'integer',
+      title: 'Courses Count',
+      description: 'The number of courses that use this concept',
+    },  
+    key: {
+      type: 'string',
+      title: 'Key',
+      description: 'The unique key of this concept',
+    },      
     tagger: {
       type: 'string',
       title: 'Tagger',

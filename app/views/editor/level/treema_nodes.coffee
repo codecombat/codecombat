@@ -307,7 +307,6 @@ module.exports.ItemThangTypeNode = ItemThangTypeNode = class ItemThangTypeNode e
     return unless itemComponent = _.find thangType.get('components'), {original: LevelComponent.ItemID}
     @constructor.thangTypes.push name: thangType.get('name'), original: thangType.get('original'), slots: itemComponent.config?.slots ? ['right-hand']
 
-
 module.exports.ChatMessageLinkNode = ChatMessageLinkNode = class ChatMessageLinkNode extends TreemaNode.nodeMap.string
   buildValueForDisplay: (valEl, data) ->
     super valEl, data
@@ -372,3 +371,44 @@ module.exports.AIDocumentLinkNode = AIDocumentLinkNode = class AIDocumentLinkNod
     @$el.find('.ai-document-link').remove()
     @$el.find('.treema-row').prepend $("<span class='ai-document-link'><a href='/editor/ai-document/#{data}' title='Edit' target='_blank'>(e)</a>&nbsp;</span>")
 
+
+module.exports.conceptNodes = (concepts) -> 
+  class ConceptNode extends TreemaNode.nodeMap.string
+    buildValueForDisplay: (valEl, data) ->
+      super valEl, data
+      return unless data
+      conceptList = concepts.map (i) -> i.toJSON()
+      return console.error "Couldn't find concept #{@data}" unless concept = _.find conceptList, key: @data
+      description = "#{concept.name} -- #{concept.description}"
+      description = description + " (Deprecated)" if concept.deprecated
+      description = "AUTO | " + description if concept.automatic
+      @$el.find('.treema-row').css('float', 'left')
+      @$el.addClass('concept-automatic') if concept.automatic
+      @$el.addClass('concept-deprecated') if concept.deprecated
+      @$el.find('.treema-description').remove()
+      @$el.append($("<span class='treema-description'>#{description}</span>").show())
+
+    limitChoices: (options) ->
+      if @parent.keyForParent is 'concepts' and (not this.parent.parent)
+        options = (o for o in options when _.find(concepts, (c) -> c.get('key') is o and not c.get('automatic') and not c.get('deprecated')))  # Allow manual, not automatic
+      else
+        options = (o for o in options when _.find(concepts, (c) -> c.get('key') is o and not c.get('deprecated')))  # Allow both
+      super options
+
+    onClick: (e) ->
+      return if this.parent.keyForParent is 'concepts' and (not this.parent.parent) and @$el.hasClass('concept-automatic')  # Don't allow editing of automatic concepts
+      super e
+
+  class ConceptsListNode extends TreemaNode.nodeMap.array
+    sort: true
+
+    sortFunction: (a, b) ->
+      aAutomatic = _.find concepts, (c) -> c.get('key') is a and c.get('automatic')
+      bAutomatic = _.find concepts, (c) -> c.get('key') is b and c.get('automatic')
+      return 1 if bAutomatic and not aAutomatic  # Auto before manual
+      return -1 if aAutomatic and not bAutomatic  # Auto before manual
+      return 0 if not aAutomatic and not bAutomatic  # No ordering within manual
+      super a, b  # Alpha within auto
+  return 
+    ConceptsListNode: ConceptsListNode
+    ConceptNode: ConceptNode
