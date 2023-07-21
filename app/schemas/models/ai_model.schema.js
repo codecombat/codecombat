@@ -12,7 +12,7 @@ _.extend(AIModelSchema.properties, {
     description: 'The exact name of the model as used in API calls.'
   },
   family: {
-    type: { type: 'string', enum: ['ChatGPT', 'Stable Diffusion'] },
+    type: 'string',
     title: 'Family',
     description: 'The family of models this model belongs to, usually what people know it as.'
   },
@@ -24,9 +24,10 @@ _.extend(AIModelSchema.properties, {
 })
 
 c.extendBasicProperties(AIModelSchema, 'ai_model')
-c.extendVersionedProperties(AIModelSchema, 'ai_model')
+// c.extendVersionedProperties(AIModelSchema, 'ai_model')
 c.extendSearchableProperties(AIModelSchema)
 c.extendPatchableProperties(AIModelSchema)
+c.extendNamedProperties(AIModelSchema)
 // c.extendPermissionsProperties(AIModelSchema, 'ai_model')
 
 module.exports = AIModelSchema

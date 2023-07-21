@@ -38,7 +38,7 @@ module.exports = {
   'views/admin/DesignElementsView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/DesignElementsView') },
   'views/ai/AIView': function () { return import(/* webpackChunkName: "ai" */ 'views/ai/AIView') },
   'views/teachers/DynamicAPCSPView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/DynamicAPCSPView') },
-  'views/minigames/ConditionalMinigameView': function() { return import(/* webpackChunkName: "artisans" */ 'views/minigames/ConditionalMinigameView') },
+  'views/minigames/ConditionalMinigameView': function () { return import(/* webpackChunkName: "artisans" */ 'views/minigames/ConditionalMinigameView') },
   'views/artisans/ArtisansView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ArtisansView') },
   'views/artisans/LevelTasksView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelTasksView') },
   'views/artisans/SolutionProblemsView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/SolutionProblemsView') },
@@ -91,6 +91,8 @@ module.exports = {
   'views/editor/ai-scenario/AIScenarioEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/ai-scenario/AIScenarioEditView') },
   'views/editor/ai-project/AIProjectSearchView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/ai-project/AIProjectSearchView') },
   'views/editor/ai-project/AIProjectEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/ai-project/AIProjectEditView') },
+  'views/editor/ai-model/AIModelSearchView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/ai-model/AIModelSearchView') },
+  'views/editor/ai-model/AIModelEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/ai-model/AIModelEditView') },
   'views/i18n/I18NHomeView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NHomeView') },
   'views/i18n/I18NEditThangTypeView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditThangTypeView') },
   'views/i18n/I18NEditComponentView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditComponentView') },
@@ -136,7 +138,7 @@ module.exports = {
   'views/courses/TeacherCoursesView': function () { return import(/* webpackChunkName: "courses" */ 'views/courses/TeacherCoursesView') },
   'views/teachers/TeacherCourseSolutionView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/TeacherCourseSolutionView') },
   'views/teachers/RequestQuoteView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/RequestQuoteView') },
-  'views/special_event/HoC2018View': function (){ return import(/* webpackChunkName: "HoC2018" */ 'views/special_event/HoC2018View') },
+  'views/special_event/HoC2018View': function () { return import(/* webpackChunkName: "HoC2018" */ 'views/special_event/HoC2018View') },
   'views/courses/EnrollmentsView': function () { return import(/* webpackChunkName: "courses" */ 'views/courses/EnrollmentsView') },
   'views/teachers/ResourceHubView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/ResourceHubView') },
   'views/teachers/ApCsPrinciplesView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/ApCsPrinciplesView') },
@@ -152,7 +154,7 @@ module.exports = {
   'views/courses/RestrictedToStudentsView': function () { return import(/* webpackChunkName: "RestrictedToStudentsView" */ 'views/courses/RestrictedToStudentsView') },
   'views/user/CertificatesView': function () { return import(/* webpackChunkName: "CertificatesView" */ 'views/user/CertificatesView') },
   'views/user/AnonCertificatesView': function () { return import(/* webpackChunkName: "CertificatesView" */ 'views/user/AnonCertificatesView') },
-  'views/LicensorView': function() { return import(/* webpackChunkName: "LicensorView" */ 'views/LicensorView')},
+  'views/LicensorView': function () { return import(/* webpackChunkName: "LicensorView" */ 'views/LicensorView') },
 
   'views/landing-pages/mobile/PageMobileView': function () { return import(/* webpackChunkName: "mobile" */ 'views/landing-pages/mobile/PageMobileView') },
 
@@ -161,11 +163,11 @@ module.exports = {
   'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "vue" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) },
 
   // TODO: Why does chunk name `ozariaPlay` not work sporadically?
-  'views/ozaria/site/play/PageUnitMap': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageUnitMap') },
-  'views/ozaria/site/avatarSelector': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/avatar-selector/PageAvatarSelector') },
+  'views/ozaria/site/play/PageUnitMap': function () { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageUnitMap') },
+  'views/ozaria/site/avatarSelector': function () { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/avatar-selector/PageAvatarSelector') },
   'views/ozaria/site/play/PagePlayLevel': function () { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PagePlayLevel') },
-  'views/cinematic': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cinematic/PageCinematic') },
-  'views/cutscene': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cutscene/PageCutscene') },
-  'views/interactive': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/interactive/PageInteractive') },
-  'views/introLevel': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageIntroLevel') },
+  'views/cinematic': function () { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cinematic/PageCinematic') },
+  'views/cutscene': function () { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cutscene/PageCutscene') },
+  'views/interactive': function () { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/interactive/PageInteractive') },
+  'views/introLevel': function () { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageIntroLevel') },
 }

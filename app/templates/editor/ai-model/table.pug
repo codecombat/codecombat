@@ -1,0 +1,30 @@
+extends /templates/common/table
+
+block tableResultsHeader
+  tr
+    th(colspan=me.isAdmin() ? 7 : 6)
+      span(data-i18n="general.results")
+        | Results
+      span
+        |: #{documents.length}
+
+block tableHeader
+  tr
+    th(data-i18n="general.date")
+    th Owner
+    th Language
+    th Visibility
+    th(data-i18n="general.name")
+    th(data-i18n="general.description")
+    if me.isAdmin()
+      th(data-i18n="editor.delete")
+
+block tableBody
+  for model in documents
+    tr(data-model=model.get('_id') data-name=model.get('name'))
+      td(title=model.get('name'))
+        a(href='/editor/' + page + '/' + model.get('_id'))
+          | #{model.get('name')}
+      td #{model.get('family')}
+      td #{model.get('description')}
+
