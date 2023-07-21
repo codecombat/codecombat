@@ -7,7 +7,7 @@ module.exports = class AIScenarioSearchView extends SearchView
   model: require 'models/AIScenario'
   modelURL: '/db/ai_scenario'
   tableTemplate: require 'app/templates/editor/ai-scenario/table'
-  projection: ['name', 'slug', 'description', 'persona', 'mode', 'tool', 'task','doc', 'releasePhase', 'content', 'i18n']
+  projection: ['name', 'slug', 'description', 'mode', 'tool', 'task','doc', 'releasePhase', 'initialActionQueue', 'i18n']
   page: 'ai-scenario'
   canMakeNew: true
 
