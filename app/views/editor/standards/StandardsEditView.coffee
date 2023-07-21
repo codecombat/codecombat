@@ -13,7 +13,7 @@ treemaExt = require 'core/treema-ext'
 
 Concepts = require 'collections/Concepts'
 schemas = require 'app/schemas/schemas'
-concepts = [];
+concepts = []
 
 module.exports = class StandardsCorrelationEditView extends RootView
   id: 'editor-standards-edit-view'
