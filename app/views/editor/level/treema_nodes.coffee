@@ -9,6 +9,7 @@ entities = require 'entities'
 require 'lib/setupTreema'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
+utils = require('core/utils')
 
 makeButton = -> $('<a class="btn btn-primary btn-xs treema-map-button"><span class="glyphicon glyphicon-screenshot"></span></a>')
 shorten = (f) -> parseFloat(f.toFixed(1))
@@ -371,6 +372,14 @@ module.exports.AIDocumentLinkNode = AIDocumentLinkNode = class AIDocumentLinkNod
     @$el.find('.ai-document-link').remove()
     @$el.find('.treema-row').prepend $("<span class='ai-document-link'><a href='/editor/ai-document/#{data}' title='Edit' target='_blank'>(e)</a>&nbsp;</span>")
 
+module.exports.StateNode = StateNode = class SateNode extends TreemaNode.nodeMap.string
+  buildValueForDisplay: (valEl, data) ->
+    super valEl, data
+    return unless data
+    return console.error "Couldn't find state #{@data}" unless state = utils.usStateCodes.getStateNameByStateCode @data
+
+    stateElement = -> $("<span> - <i>#{state}</i></span>")
+    valEl.find('.treema-shortened').append(stateElement())
 
 module.exports.conceptNodes = (concepts) -> 
   class ConceptNode extends TreemaNode.nodeMap.string

@@ -1,4 +1,5 @@
 const c = require('./../schemas')
+const utils = require('core/utils')
 
 const StandardsCorrelation = c.object(
   {
@@ -18,10 +19,14 @@ const StandardsCorrelation = c.object(
       description: 'The ID of the district that this correlation belongs to'
     }),
     administrativeRegion: c.shortString({
-      title: 'Administrative Region',
+      title: 'State',
+      description: 'Administrative Region',
+      enum: utils.usStateCodes.codes,
+      format: 'us-state-code'
     }),
     country: c.shortString({
       title: 'Country',
+      enum: utils.countries.map(c => c.country),
     }),
     gradeLevels: {
       title: 'Grade Levels',

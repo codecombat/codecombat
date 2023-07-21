@@ -59,6 +59,7 @@ module.exports = class StandardsCorrelationEditView extends RootView
       nodeClasses:
         'concepts-list': nodes.conceptNodes(concepts).ConceptsListNode
         'concept': nodes.conceptNodes(concepts).ConceptNode
+        'us-state-code': nodes.StateNode
     @treema = @$el.find('#standards-treema').treema(options)
     @treema.build()
     @treema.childrenTreemas.rewards?.open(3)
