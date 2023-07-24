@@ -8,7 +8,7 @@ const AIDocumentSchema = c.object({
 
 _.extend(AIDocumentSchema.properties, {
   type: { type: 'string', description: 'The file type (html, py, jpg, etc.)' },
-  source: { type: 'string', description: 'The contents of the document' }
+  source: { type: 'string', description: 'The contents of the document', format: 'document-by-type' }
 })
 
 c.extendBasicProperties(AIDocumentSchema, 'ai_document')

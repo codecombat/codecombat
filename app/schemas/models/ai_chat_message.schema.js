@@ -9,7 +9,7 @@ const AIChatMessageSchema = c.object({
 
 _.extend(AIChatMessageSchema.properties, {
   actor: { type: 'string', title: 'Actor', enum: ['model', 'user', 'teacher'] },
-  parent: c.objectId({ refPath: 'parentKind', title: 'Parent', description: 'The parent chat of this message' }),
+  parent: c.objectId({ refPath: 'parentKind', title: 'Parent', description: 'The parent chat of this message', format: 'chat-message-parent-link'}),
   parentKind: { type: 'string', title: 'Kind', enum: ['scenario', 'project'], description: 'Whether this message is part of a scenario or project chat' },
   sentAt: { type: 'number' },
   text: {
@@ -17,7 +17,7 @@ _.extend(AIChatMessageSchema.properties, {
     title: 'Chat Message Text',
     description: 'The content text of the chat message'
   },
-  document: c.objectId(),
+  document: c.objectId({title:'Document', format:'ai-document-link'}),
   preview: {
     type: 'string',
     title: 'Preview',
