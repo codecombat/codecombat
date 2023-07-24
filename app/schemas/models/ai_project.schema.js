@@ -24,10 +24,10 @@ _.extend(AIProjectSchema.properties, {
     title: 'Visibility',
     description: 'Whether this project is private, public but unlisted, or public and published'
   },
-  actionQueue: {
-    type: 'array',
+  actionQueue: c.array({
+    title: 'Action Queue',
     description: 'Actions left to perform in this project'
-  }
+  }, c.objectId({format: 'chat-message-link'})),
 })
 
 c.extendBasicProperties(AIProjectSchema, 'ai_project')

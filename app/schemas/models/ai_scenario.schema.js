@@ -39,10 +39,10 @@ _.extend(AIScenarioSchema.properties, {
     title: 'Release Phase',
     description: 'Scenarios start off in beta, then are released when they are completed'
   },
-  initialActionQueue: {
-    type: 'array',
+  initialActionQueue: c.array({
+    title: 'Initial Action Queue',
     description: 'Actions to add to a project when it is created from this scenario'
-  }
+  }, c.objectId({format: 'chat-message-link'})),
 })
 
 c.extendNamedProperties(AIScenarioSchema)
