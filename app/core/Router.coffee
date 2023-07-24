@@ -198,6 +198,13 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/ai-scenario/:chatID': go('editor/ai-scenario/AIScenarioEditView')
     'editor/ai-project': go('editor/ai-project/AIProjectSearchView')
     'editor/ai-project/:chatID': go('editor/ai-project/AIProjectEditView')
+    'editor/ai-model': go('editor/ai-model/AIModelSearchView')
+    'editor/ai-model/:modelID': go('editor/ai-model/AIModelEditView')
+    'editor/ai-document': go('editor/ai-document/AIDocumentSearchView')
+    'editor/ai-document/:documentID': go('editor/ai-document/AIDocumentEditView')
+    'editor/ai-chat-message': go('editor/ai-chat-message/AIChatMessageSearchView')
+    'editor/ai-chat-message/:chatMessageID': go('editor/ai-chat-message/AIChatMessageEditView') 
+
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')

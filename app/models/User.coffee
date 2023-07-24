@@ -811,6 +811,44 @@ module.exports = class User extends CocoModel
       me.startExperiment('tts', value, probability)
     value
 
+  getLevelChatExperimentValue: ->
+    value = {true: 'beta', false: 'control', control: 'control', beta: 'beta'}[utils.getQueryVariable 'ai']
+    value ?= me.getExperimentValue('level-chat', null, 'beta')
+    if not value? and utils.isOzaria
+      # Don't include Ozaria for now
+      value = 'control'
+    if not value? and features?.china
+      # Don't include China players for now
+      value = 'control'
+    if userUtils.isInLibraryNetwork()
+      value = 'control'
+    if not value? and me.get('stats')?.gamesCompleted
+      # Don't include players who have already started playing
+      value = 'control'
+    if not value? and new Date(me.get('dateCreated')) < new Date('2023-07-20')
+      # Don't include users created before experiment start date
+      value = 'control'
+    if not value? and not /^en/.test me.get('preferredLanguage', true)
+      # Don't include non-English-speaking users before we fine-tune for other languages
+      value = 'control'
+    if not value? and me.get('hourOfCode')
+      # Don't include users coming in through Hour of Code
+      value = 'control'
+    if not value? and me.get('role')
+      # Don't include users other than home users
+      value = 'control'
+    if not value?
+      probability = window.serverConfig?.experimentProbabilities?['level-chat']?.beta ? 0.02
+      if Math.random() < probability
+        value = 'beta'
+        valueProbability = probability
+      else
+        value = 'control'
+        valueProbability = 1 - probability
+      console.log('starting experiment with value', value, 'prob', probability)
+      me.startExperiment('level-chat', value, probability)
+    value
+
   removeRelatedAccount: (relatedUserId, options={}) ->
     options.url = '/db/user/related-accounts'
     options.type = 'DELETE'
