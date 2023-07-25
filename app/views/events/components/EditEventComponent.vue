@@ -2,6 +2,7 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import _ from 'lodash'
 import moment from 'moment'
+import momentTimezone from 'moment-timezone'
 import { HTML5_FMT_DATE_LOCAL, HTML5_FMT_TIME_LOCAL } from '../../../core/constants'
 import { RRuleGenerator, rruleGeneratorModule } from 'vue2-rrule-generator'
 import VueTimepicker from 'vue2-timepicker'
@@ -161,7 +162,7 @@ export default {
       return me
     },
     myTimeZone () {
-      return moment.tz.guess()
+      return momentTimezone.tz.guess()
     },
     _startDate: {
       get () {
