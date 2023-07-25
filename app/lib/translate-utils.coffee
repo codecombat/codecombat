@@ -9,162 +9,159 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
   # Supports cpp or java
   reorderGlobals = (strs) ->
     # Find all global statement(except global variables) and move into main function
-    reorderGlobals = (strs) ->
-      insertPlace = strs.length-1
-      for i in [strs.length-2..0] by -1
-        continue if /\n?function/.test(strs[i])
-        continue if /^[ \t]+\/\//.test(strs[i])
-        insertPlace -= 1
-        strs.splice(insertPlace, 0, strs.splice(i,1)[0])
+    insertPlace = strs.length-1
+    for i in [strs.length-2..0] by -1
+      continue if /\n?function/.test(strs[i])
+      continue if /^[ \t]+\/\//.test(strs[i])
+      insertPlace -= 1
+      strs.splice(insertPlace, 0, strs.splice(i,1)[0])
 
-      mainLen = strs[strs.length-1].split('\n').length
-      final = strs.splice(insertPlace).join('')
-      finals = final.split('\n')
-      insertPlace = finals.length - mainLen
-      for i in [finals.length-mainLen-1..0] by -1
-        continue unless finals[i]
-        continue if /var /.test(finals[i])
-        insertPlace -= 1
-        finals.splice(insertPlace, 0, finals.splice(i,1)[0])
+    mainLen = strs[strs.length-1].split('\n').length
+    final = strs.splice(insertPlace).join('')
+    finals = final.split('\n')
+    insertPlace = finals.length - mainLen
+    for i in [finals.length-mainLen-1..0] by -1
+      continue unless finals[i]
+      continue if /var /.test(finals[i])
+      insertPlace -= 1
+      finals.splice(insertPlace, 0, finals.splice(i,1)[0])
 
-      return strs.concat([finals.slice(0, insertPlace).join('\n'), finals.slice(insertPlace).join('\n')])
-    matchBrackets = (str, startIndex) ->
-      # Find header comments function definitions in order to hoist them out of the main function
-      matchBrackets = (str, startIndex) ->
-        cc = 0
-        for i in [startIndex...str.length]
-          cc += 1 if str[i] == '{'
-          if str[i] == '}'
-            cc -= 1
-            return i+2 unless cc
-      splitFunctions = (str) ->
-        creg = /\n?[ \t]*[^\/]/
-        startCommentReg = /^\n?(\/\/.*?\n)*\n/
-        comments = startCommentReg.exec(str)
-        if comments
-          startComments = comments[0].slice(0, -1) # left the tailing \n
-          str = str.slice startComments.length
-          unless creg.exec str
-            return [startComments, str]
-        else
-          strComments = ''
+    return strs.concat([finals.slice(0, insertPlace).join('\n'), finals.slice(insertPlace).join('\n')])
+  matchBrackets = (str, startIndex) ->
+    cc = 0
+    for i in [startIndex...str.length]
+      cc += 1 if str[i] == '{'
+      if str[i] == '}'
+        cc -= 1
+        return i+2 unless cc
+  splitFunctions = (str) ->
+    creg = /\n?[ \t]*[^\/]/
+    startCommentReg = /^\n?(\/\/.*?\n)*\n/
+    comments = startCommentReg.exec(str)
+    if comments
+      startComments = comments[0].slice(0, -1) # left the tailing \n
+      str = str.slice startComments.length
+      unless creg.exec str
+        return [startComments, str]
+    else
+      strComments = ''
 
-        indices = []
-        reg = /\n(\/\/.*?\n)*function/gi
-        indices.push 0 if str.startsWith("function ")
-        while (result = reg.exec(str))
-          indices.push result.index+1
-        split = []
-        end = 0
-        # split.push {s: 0, e: indices[0]} if indices.length
-        for i in indices
-          split.push {s: end, e: i} if end != i
-          end = matchBrackets str, i
-          split.push {s: i, e: end}
-        split.push {s: end, e: str.length}
-        header = if startComments then [startComments] else []
-        return header.concat(reorderGlobals(split.map (s) -> str.slice s.s, s.e ))
+    indices = []
+    reg = /\n(\/\/.*?\n)*function/gi
+    indices.push 0 if str.startsWith("function ")
+    while (result = reg.exec(str))
+      indices.push result.index+1
+    split = []
+    end = 0
+    # split.push {s: 0, e: indices[0]} if indices.length
+    for i in indices
+      split.push {s: end, e: i} if end != i
+      end = matchBrackets str, i
+      split.push {s: i, e: end}
+    split.push {s: end, e: str.length}
+    header = if startComments then [startComments] else []
+    return header.concat(reorderGlobals(split.map (s) -> str.slice s.s, s.e ))
 
-      jsCodes = splitFunctions jsCode
-      if fullCode
-        # Remove whitespace-only pieces, except for in the last piece
-        jsCodes = _.filter(jsCodes.slice(0, jsCodes.length - 1), (piece) -> piece.replace(/\s/g, '').length).concat(jsCodes[jsCodes.length - 1])
-      else
-        # Remove all whitespace-only pieces
-        jsCodes = _.filter jsCodes, (piece) -> piece.replace(/\s/g, '').length
+  jsCodes = splitFunctions jsCode
+  if fullCode
+    # Remove whitespace-only pieces, except for in the last piece
+    jsCodes = _.filter(jsCodes.slice(0, jsCodes.length - 1), (piece) -> piece.replace(/\s/g, '').length).concat(jsCodes[jsCodes.length - 1])
+  else
+    # Remove all whitespace-only pieces
+    jsCodes = _.filter jsCodes, (piece) -> piece.replace(/\s/g, '').length
+  len = jsCodes.length
+  if len
+    lines = jsCodes[len-1].trimStart().split '\n'
+  else
+    lines = []
+  #console.log "Split code segments into", _.cloneDeep(jsCodes)
+  if fullCode
+    if language is 'cpp'
+      jsCodes[len-1] = """
+        int main() {
+        #{(lines.map (line) -> '    ' + line).join '\n'}
+            return 0;
+        }
+      """
+    else if language is 'java'
+      if len > 2 and !(/function/.test jsCodes[len-2])
+        jsCodes[len-2] = (jsCodes[len-2].split('\n').map (line) ->
+          if / = /.test line
+            line = 'static ' + line
+          line
+        ).join('\n')
+
+      hasHeader = /^\/\//.test(jsCodes[0])
+      startIndex = if hasHeader then 1 else 0
+      functionLines = jsCodes.splice(startIndex, len - 1 - startIndex).join('\n').trimStart().split('\n')
+      functionLines.shift() while functionLines.length and not functionLines[0]  # Trim starting whitespace lines
       len = jsCodes.length
-      if len
-        lines = jsCodes[len-1].trimStart().split '\n'
-      else
-        lines = []
-      #console.log "Split code segments into", _.cloneDeep(jsCodes)
-      if fullCode
-        if language is 'cpp'
-          jsCodes[len-1] = """
-            int main() {
-            #{(lines.map (line) -> '    ' + line).join '\n'}
-                return 0;
+      jsCodes[len-1] = """
+        public class AI {#{if functionLines.length then '\n' + (functionLines.map (line) -> '    ' + line).join '\n' else ''}
+            public static void main(String[] args) {
+        #{(lines.map (line) -> '        ' + line).join '\n'}
             }
-          """
-        else if language is 'java'
-          if len > 2 and !(/function/.test jsCodes[len-2])
-            jsCodes[len-2] = (jsCodes[len-2].split('\n').map (line) ->
-              if / = /.test line
-                line = 'static ' + line
-              line
-            ).join('\n')
+        }
+      """
+  else if len
+    jsCodes[len-1] = (lines.map (line) -> ' ' + line).join('\n')  # Add whitespace at beginning of each line to make regexes easier
 
-          hasHeader = /^\/\//.test(jsCodes[0])
-          startIndex = if hasHeader then 1 else 0
-          functionLines = jsCodes.splice(startIndex, len - 1 - startIndex).join('\n').trimStart().split('\n')
-          functionLines.shift() while functionLines.length and not functionLines[0]  # Trim starting whitespace lines
-          len = jsCodes.length
-          jsCodes[len-1] = """
-            public class AI {#{if functionLines.length then '\n' + (functionLines.map (line) -> '    ' + line).join '\n' else ''}
-                public static void main(String[] args) {
-            #{(lines.map (line) -> '        ' + line).join '\n'}
-                }
-            }
-          """
-      else if len
-        jsCodes[len-1] = (lines.map (line) -> ' ' + line).join('\n')  # Add whitespace at beginning of each line to make regexes easier
+  functionReturnType = if language is 'cpp' then 'auto' else 'public static var'  # TODO: figure out some auto return types for Java
+  functionParamType = if language is 'cpp' then 'auto' else 'Object'  # TODO: figure out some auto/void param types for Java
+  for i in [0...len]
+    s = jsCodes[i]
+    s = s.replace /function (.+?)\((.*?)\)/g, (match, functionName, functionParams) ->
+      typedParameters = _.filter(functionParams.split(/, ?/)).map((e) -> "#{functionParamType} #{e}").join(', ')
+      "#{functionReturnType} #{functionName}(#{typedParameters})"
+    s = s.replace /var (x|y|z|dist)/g, 'float $1'
+    s = s.replace /var (\w+)Index/g, 'int $1Index'
+    s = s.replace /var (i|j|k)(?![a-zA-Z0-9_])/g, 'int $1'
+    s = s.replace /\ ===\ /g, ' == '
+    s = s.replace /\ !== /g, ' != '
+    s = s.replace /hero\.throw\(/g, 'hero.throwEnemy('
+    s = s.replace /\ = \[([^;]*)\];/g, ' = {$1};'
 
-      functionReturnType = if language is 'cpp' then 'auto' else 'public static var'  # TODO: figure out some auto return types for Java
-      functionParamType = if language is 'cpp' then 'auto' else 'Object'  # TODO: figure out some auto/void param types for Java
-      for i in [0...len]
-        s = jsCodes[i]
-        s = s.replace /function (.+?)\((.*?)\)/g, (match, functionName, functionParams) ->
-          typedParameters = _.filter(functionParams.split(/, ?/)).map((e) -> "#{functionParamType} #{e}").join(', ')
-          "#{functionReturnType} #{functionName}(#{typedParameters})"
-        s = s.replace /var (x|y|z|dist)/g, 'float $1'
-        s = s.replace /var (\w+)Index/g, 'int $1Index'
-        s = s.replace /var (i|j|k)(?![a-zA-Z0-9_])/g, 'int $1'
-        s = s.replace /\ ===\ /g, ' == '
-        s = s.replace /\ !== /g, ' != '
-        s = s.replace /hero\.throw\(/g, 'hero.throwEnemy('
-        s = s.replace /\ = \[([^;]*)\];/g, ' = {$1};'
+    if language is 'cpp'
+      s = s.replace /\.length/g, '.size()'
+      s = s.replace /\.push\(/g, '.push_back('
+      s = s.replace /\.pop\(/g, '.pop_back('
+      s = s.replace /\.shift\(/g, '.pop('
+      s = s.replace /\ var /g, ' auto '
+      s = s.replace /\(var /g, '(auto '
+      s = s.replace /\nvar /g, '\nauto '
+      s = s.replace /\ const /g, ' const auto '
+      s = s.replace /\nconst /g, '\nconst auto '
+      s = s.replace /\ return \[([^;]*)\];/g, ' return {$1};'
 
-        if language is 'cpp'
-          s = s.replace /\.length/g, '.size()'
-          s = s.replace /\.push\(/g, '.push_back('
-          s = s.replace /\.pop\(/g, '.pop_back('
-          s = s.replace /\.shift\(/g, '.pop('
-          s = s.replace /\ var /g, ' auto '
-          s = s.replace /\(var /g, '(auto '
-          s = s.replace /\nvar /g, '\nauto '
-          s = s.replace /\ const /g, ' const auto '
-          s = s.replace /\nconst /g, '\nconst auto '
-          s = s.replace /\ return \[([^;]*)\];/g, ' return {$1};'
+    # TODO: figure out how we are going to call other methods in Java
+    # TODO: figure out how we are going to handle {x: 34, y: 30} object literals in Java
+    # TODO: figure out how we are going to handle array methods in Java
 
-        # TODO: figure out how we are going to call other methods in Java
-        # TODO: figure out how we are going to handle {x: 34, y: 30} object literals in Java
-        # TODO: figure out how we are going to handle array methods in Java
+    # Don't substitute these within comments
+    noComment = '^( *[^/\\r\\n]*?)' # keep leading whitespace
+    if language is 'cpp'
+      newRegex = new RegExp(noComment + '([^*])new ', 'gm')
+      while newRegex.test(s)
+        s = s.replace newRegex, '$1$2*new '
+    quotesReg = new RegExp(noComment + "'(.*?)'", 'gm')
+    while quotesReg.test(s)
+      s = s.replace quotesReg, '$1"$2"'
+    # first replace ' to " then replace object
+    if language is 'cpp'
+      s = s.replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, '{$1, $2}'  # {x:1, y:1} -> {1, 1}
+    else if language is 'java'
+      # Let's use Vectors instead of object literals in this case
+      s = s.replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, 'new Vector($1, $2)'  # {x:1, y:1} -> new Vector(1, 1)
+    jsCodes[i] = s
 
-        # Don't substitute these within comments
-        noComment = '^( *[^/\\r\\n]*?)' # keep leading whitespace
-        if language is 'cpp'
-          newRegex = new RegExp(noComment + '([^*])new ', 'gm')
-          while newRegex.test(s)
-            s = s.replace newRegex, '$1$2*new '
-        quotesReg = new RegExp(noComment + "'(.*?)'", 'gm')
-        while quotesReg.test(s)
-          s = s.replace quotesReg, '$1"$2"'
-        # first replace ' to " then replace object
-        if language is 'cpp'
-          s = s.replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, '{$1, $2}'  # {x:1, y:1} -> {1, 1}
-        else if language is 'java'
-          # Let's use Vectors instead of object literals in this case
-          s = s.replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, 'new Vector($1, $2)'  # {x:1, y:1} -> new Vector(1, 1)
-        jsCodes[i] = s
+  unless fullCode
+    if len
+      lines = jsCodes[len-1].split '\n'
+      jsCodes[len-1] = (lines.map (line) -> line.slice 1).join('\n')  # Remove leading convenience whitespace that we added
+    else
+      jsCodes = []
 
-      unless fullCode
-        if len
-          lines = jsCodes[len-1].split '\n'
-          jsCodes[len-1] = (lines.map (line) -> line.slice 1).join('\n')  # Remove leading convenience whitespace that we added
-        else
-          jsCodes = []
-
-      jsCodes.join '\n'
+  jsCodes.join '\n'
 
 translateJSWhitespace = (jsCode, language='lua') ->
   # Supports python, lua, or coffeescript
