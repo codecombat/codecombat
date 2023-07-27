@@ -21,6 +21,8 @@ class SearchCollection extends Backbone.Collection
     score += 9001900190019001 if b.getOwner() is me.id
     score -= new Date(a.get 'created') if a.get('created')
     score -= -(new Date(b.get 'created')) if b.get('created')
+    score -= new Date(a.get('message').startDate) if a.get('message')?.startDate
+    score -= -(new Date(b.get('message').startDate)) if b.get('message')?.startDate
     if score < 0 then -1 else (if score > 0 then 1 else 0)
 
 module.exports = class SearchView extends RootView

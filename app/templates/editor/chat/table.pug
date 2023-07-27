@@ -22,9 +22,9 @@ block tableHeader
 block tableBody
   for chat in documents
     tr(data-chat=chat.get('_id'))
-      td(title=chat.get('endDate'))
+      td(title=chat.get('message').endDate)
         a(href='/editor/' + page + '/' + chat.get('_id'))
-          | #{moment(chat.get('endDate')).format('lll')}
+          | #{moment(chat.get('message').endDate).format('lll')}
       td(title=chat.get('kind')) #{chat.get('kind')}
       td
         if chat.get('example')
