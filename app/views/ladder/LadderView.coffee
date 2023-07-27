@@ -239,6 +239,9 @@ module.exports = class LadderView extends RootView
       @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId, leagueType: 'clan', myTournamentSubmission: @myTournamentSubmission}, @level, @sessions )) # classroom ladder do not have tournament for now
     else if ['initializing', 'ranking', 'waiting'].includes(@tournamentState)
       null
+
+    else if @level.get('slug') == 'farmers-feud' and not @league
+      null
     else # starting, or unset
       if @level.isType('ladder')
         @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, leagueType: @leagueType, course: @course, myTournamentSubmission: @myTournamentSubmission}, @level, @sessions, @anonymousPlayerName ))
