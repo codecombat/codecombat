@@ -845,8 +845,39 @@ module.exports = class User extends CocoModel
       else
         value = 'control'
         valueProbability = 1 - probability
-      console.log('starting experiment with value', value, 'prob', probability)
       me.startExperiment('level-chat', value, valueProbability)
+    value
+
+  getHackStackExperimentValue: ->
+    value = {true: 'beta', false: 'control', control: 'control', beta: 'beta'}[utils.getQueryVariable 'hackstack']
+    value ?= me.getExperimentValue('hackstack', null, 'beta')
+    if not value? and utils.isOzaria
+      # Don't include Ozaria for now
+      value = 'control'
+    if not value? and features?.china
+      # Don't include China players for now
+      value = 'control'
+    if userUtils.isInLibraryNetwork()
+      value = 'control'
+    if not value? and not /^en/.test me.get('preferredLanguage', true)
+      # Don't include non-English-speaking users before we fine-tune for other languages
+      value = 'control'
+    if not value? and me.get('hourOfCode')
+      # Don't include users coming in through Hour of Code
+      value = 'control'
+    if not value? and me.get('role')
+      # Don't include users other than home users
+      value = 'control'
+    if not value?
+      probability = window.serverConfig?.experimentProbabilities?['hackstack']?.beta ? 0.05
+      if Math.random() < probability
+        value = 'beta'
+        valueProbability = probability
+      else
+        value = 'control'
+        valueProbability = 1 - probability
+      console.log('starting hackstack experiment with value', value, 'prob', valueProbability)
+      me.startExperiment('hackstack', value, valueProbability)
     value
 
   removeRelatedAccount: (relatedUserId, options={}) ->
