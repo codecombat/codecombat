@@ -14,6 +14,7 @@ _.extend(AIDocumentSchema.properties, {
 c.extendBasicProperties(AIDocumentSchema, 'ai_document')
 c.extendSearchableProperties(AIDocumentSchema)
 c.extendPatchableProperties(AIDocumentSchema)
+c.extendVersionedProperties(AIDocumentSchema, 'ai_document')
 // c.extendPermissionsProperties(AIDocumentSchema, 'ai_scenario')
 // c.extendTranslationCoverageProperties(AIDocumentSchema)
 

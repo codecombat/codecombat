@@ -783,7 +783,7 @@ module.exports = class User extends CocoModel
       else
         value = 'control'
         valueProbability = 1 - probability
-      me.startExperiment('m7', value, probability)
+      me.startExperiment('m7', value, valueProbability)
     value
 
   getTTSExperimentValue: ->
@@ -808,7 +808,7 @@ module.exports = class User extends CocoModel
       else
         value = 'control'
         valueProbability = 1 - probability
-      me.startExperiment('tts', value, probability)
+      me.startExperiment('tts', value, valueProbability)
     value
 
   getLevelChatExperimentValue: ->
@@ -846,7 +846,7 @@ module.exports = class User extends CocoModel
         value = 'control'
         valueProbability = 1 - probability
       console.log('starting experiment with value', value, 'prob', probability)
-      me.startExperiment('level-chat', value, probability)
+      me.startExperiment('level-chat', value, valueProbability)
     value
 
   removeRelatedAccount: (relatedUserId, options={}) ->
