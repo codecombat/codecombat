@@ -381,11 +381,11 @@ block modal-body-content
           .radio
             label
               input(type="radio" name="stripe-benefit" value="free" checked=view.free)
-              | Free
+              | Premium
           .radio
             label
               input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
-              span Free Until
+              span Premium Until
               =" "
               input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
           .radio
@@ -417,11 +417,11 @@ block modal-body-content
           .radio
             label
               input(type="radio" name="stripe-benefit" value="free" checked=view.free)
-              | Free (use this for paid students)
+              | Premium (use this for paid students)
           .radio
             label
               input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
-              span Free Until
+              span Premium Until
               =" "
               input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
               |  (use this for trial class students)

@@ -40,6 +40,7 @@ const SenderSchema = c.object({ title: 'Sender', description: 'Who/what sent thi
 
 const ResponseSchema = c.object({ title: 'Message', description: 'A message from the player or the bot' }, {
   text: { type: 'string', title: 'Text', format: 'markdown' },
+  originalText: { type: 'string', title: 'Original Text', format: 'markdown', description: 'The original text of the message, not reflecting any manual edits to tune the response for future training' },
   sender: SenderSchema,
   startDate: c.date({ title: 'Start Date', description: 'The time the message started being sent' }),
   endDate: c.date({ title: 'End Date', description: 'The time the message finished being sent' }),
