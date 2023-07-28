@@ -16,7 +16,11 @@ _.extend(AIProjectSchema.properties, {
     title: 'User ID',
     description: 'The user ID of the project owner'
   }),
-  scenario: c.objectId(),
+  scenario: c.objectId({
+    links: [{ rel: 'db', href: '/db/ai_scenario/{($)}' }],
+    title: 'SCENARIO ID',
+    description: 'The scenario ID of the project'
+  }),
   created: c.date({ title: 'Created', readOnly: true }),
   visibility: {
     type: 'string',
@@ -31,6 +35,6 @@ _.extend(AIProjectSchema.properties, {
 })
 
 c.extendBasicProperties(AIProjectSchema, 'ai_project')
-// c.extendPermissionsProperties(AIProjectSchema, 'ai_project')
+c.extendPermissionsProperties(AIProjectSchema, 'ai_project')
 
 module.exports = AIProjectSchema
