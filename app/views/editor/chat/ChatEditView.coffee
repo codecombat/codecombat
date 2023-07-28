@@ -54,6 +54,7 @@ module.exports = class ChatEditView extends RootView
   afterRender: ->
     super()
     return unless @supermodel.finished()
+    @originalMessageText ?= @chat.get('message')?.originalText ? @chat.get('message')?.text
 
   onPopulateI18N: ->
     @chat.populateI18N()
@@ -62,6 +63,13 @@ module.exports = class ChatEditView extends RootView
     @treema.endExistingEdits()
     for key, value of @treema.data
       @chat.set(key, value)
+
+    # Store chat.message.originalText iff the current text is different than the original
+    message = @chat.get('message')
+    if message.text isnt @originalMessageText and message.originalText isnt @originalMessageText
+      message.originalText  = @originalMessageText
+      @chat.set('message', message)
+
     @chat.updateI18NCoverage()
 
     res = @chat.save()
