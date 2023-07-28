@@ -221,6 +221,9 @@ module.exports =
   'level:streaming-solution': c.object {},
     finish: {type: 'boolean'}
 
+  'level:add-user-chat': c.object {required: ['message']},
+    message: {type: 'string'}
+
   'level:update-solution': c.object {required: ['code']},
     code: {type: 'string'}
 
