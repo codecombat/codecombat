@@ -1,20 +1,50 @@
 <template>
   <div class="header">
-    <span class="header__text">
-      Welcome to Online Classes!
-    </span>
-    <span
-      v-if="nextEventDate && child"
-      class="header__date header__text"
-    >
+    <div class="header__text">
+      <span>
+        Live Online Coding Classes:
+      </span>
+      <span
+        v-if="nextEventDate && child"
+        class="header__date"
+      >
       {{ child.broadName }}'s next class is on {{ nextEventDateFormatted }}.
     </span>
-
+    <span
+      v-else-if="child"
+      class="header__date"
+    >
+      Try a free online class for {{ child.broadName }} today! Cancel anytime.
+    </span>
+    <span
+      v-else
+    >
+      Try a free online class today! Cancel anytime.
+    </span>
+    </div>
+    <div
+      v-if="!nextEventDate"
+      class="header__try"
+    >
+      <!-- maybe we use different scheduler than timetap if we have clild account info already -->
+      <button
+        @click="onTryFreeClassClicked"
+        class="header__try__btn yellow-btn-black-text"
+      >
+        Try a Free Online Class
+      </button>
+      <modal-timetap-schedule
+        v-if="showBookClassModal"
+        :show="showBookClassModal"
+        @close="showBookClassModal = false"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import moment from 'moment'
+import ModalTimetapSchedule from '../../landing-pages/parents/ModalTimetapSchedule'
 export default {
   name: 'HeaderComponent',
   props: {
@@ -27,6 +57,14 @@ export default {
     child: {
       type: Object
     }
+  },
+  data () {
+    return {
+      showBookClassModal: false
+    }
+  },
+  components: {
+    ModalTimetapSchedule
   },
   computed: {
     nextEventDate () {
@@ -51,12 +89,18 @@ export default {
     nextEventDateFormatted () {
       return moment(this.nextEventDate).format('LLL')
     }
+  },
+  methods: {
+    onTryFreeClassClicked () {
+      this.showBookClassModal = true
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
 @import "../css-mixins/variables";
+@import "../css-mixins/common";
 
 .header {
   display: flex;
@@ -77,6 +121,14 @@ export default {
   &__date {
     font-weight: lighter;
     margin-left: 5px;
+  }
+
+  &__try {
+    padding-left: 1rem;
+
+    &__btn {
+      padding: 1rem 2.5rem;
+    }
   }
 }
 </style>
