@@ -157,7 +157,7 @@ export default {
       fetchSession: 'levelSessions/fetchSessionsCountForDate'
     }),
     emailTeacher () {
-      window.location.href = 'malto:' + this.propsInstance.ownerDetails.email
+      window.location.href = 'mailto:' + (this.propsInstance.ownerDetails.email || 'classes@codecombat.com')
     },
     replyNotes () {
       this.emailTeacher()
