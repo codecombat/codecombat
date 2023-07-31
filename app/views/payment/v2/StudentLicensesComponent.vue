@@ -73,7 +73,7 @@ export default {
     await this.fetchTeacherPrepaids({ teacherId: me.get('_id') })
     const prepaids = this.teacherPrepaids(me.get('_id'))
     // not including expired license in count since we don't show them in UI so it will be confusing
-    if ((prepaids && ((prepaids.pending.length + prepaids.empty.length + prepaids.available.length) > 0)) || ['cambodia', 'viet-nam'].includes(me.get('country'))) {
+    if ((prepaids && ((prepaids.pending.length + prepaids.empty.length + prepaids.available.length) > 0)) || ['cambodia', 'viet-nam', 'japan'].includes(me.get('country'))) {
       window.location.href = '/teachers/licenses/v0'
       return
     }
