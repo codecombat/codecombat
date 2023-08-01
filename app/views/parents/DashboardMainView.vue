@@ -11,6 +11,7 @@
       @onSelectedProductChange="onSelectedProductChange"
       :child="selectedChildren"
       :is-online-class-paid-user="isPaidOnlineClassUser()"
+      v-if="selectedView !== 'online-classes'"
     />
     <student-progress-view
       v-if="selectedView === 'dashboard' || selectedView === 'progress'"
@@ -37,6 +38,10 @@
       v-else-if="selectedView === 'toolkit'"
       :product="selectedProduct"
     />
+    <online-classes-view
+      v-else-if="selectedView === 'online-classes'"
+      :child="selectedChildren"
+    />
     <div
       v-else
       class="unknown"
@@ -54,6 +59,7 @@ import StudentSummaryView from './StudentSummaryView'
 import CreateChildAccountComponent from './signup/CreateChildAccountComponent'
 import ToolkitView from './ToolkitView'
 import createChildAccountMixin from './mixins/createChildAccountMixin'
+import OnlineClassesView from './OnlineClassesView'
 
 export default {
   name: 'DashboardMainView',
@@ -84,6 +90,7 @@ export default {
     createChildAccountMixin
   ],
   components: {
+    OnlineClassesView,
     StudentSummaryView,
     SidebarComponent,
     HeaderComponent,
