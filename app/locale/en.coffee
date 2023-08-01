@@ -4094,6 +4094,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     lessons_count_desc: 'The total lessons count of this member, normally it is the same as the event instances count, but it can be different if the member is added after the event started or ended before the event ended'
     sync_to_google_desc: 'Sync this event to YOUR google calendar, instead of the owner\'s calendar. And can only work on CodeCombat gmail'
     timezone_tips: 'Date/Time is based on YOUR timezone: '
+    no_data_display: 'No data to display'
 
   teacher_dashboard:
     lock: 'Lock'
