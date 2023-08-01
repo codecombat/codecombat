@@ -43,6 +43,7 @@ exports.me =
   hideDiplomatModal: -> false
   showOpenResourceLink: -> true
   useStripe: -> true
+  getHackStackExperimentValue: -> false
 
 exports.view =
   isMobile: () -> false
