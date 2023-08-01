@@ -47,6 +47,11 @@ export default {
     type: {
       type: String,
       default: ''
+    },
+    userId: {
+      type: String,
+      default: '',
+      description: 'userId of the person you want to fetch events of'
     }
   },
   computed: {
@@ -73,7 +78,9 @@ export default {
       return
     }
     if (!this.eventsArray.length) {
-      if (me.isStudent()) {
+      if (this.userId) {
+        this.fetchUserEvents(this.userId)
+      } else if (me.isStudent()) {
         this.fetchUserEvents(me.id)
       } else {
         this.fetchAllEvents()

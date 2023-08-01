@@ -6,7 +6,7 @@ import VueTimepicker from 'vue2-timepicker'
 import { HTML5_FMT_DATE_LOCAL, HTML5_FMT_TIME_LOCAL } from '../../../core/constants'
 import UserSearchComponent from './UserSearchComponent'
 import MembersAttendeesComponent from './MembersAttendeesComponent'
-
+import momentTz from 'moment-timezone'
 
 export default {
   name: 'EditInstanceComponent',
@@ -21,7 +21,8 @@ export default {
       inProgress: false,
       errorMessage: '',
       instance: {},
-      memberAttendees: {}
+      memberAttendees: {},
+      myTimeZone: momentTz.tz.guess()
     }
   },
   methods: {

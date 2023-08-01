@@ -76,7 +76,7 @@ $gameControlMargin: 30px
         img
           margin-bottom: 10px
 
-    // Minecraft modal
+    // Roblox modal
     #roblox-level-container
       position: absolute
       left: 18%
@@ -93,7 +93,24 @@ $gameControlMargin: 30px
         left: 50%
         top: -80%
 
-
+    // HackStack modal
+    #hackstack-level-container
+      position: absolute
+      left: 61%
+      top: 66%
+      background-color: rgb(80, 130, 200)
+      a
+        display: inline
+      .hackstack-icon
+        background: url('/images/pages/hackstack/hackstack-logo-square-transparent-256.png')
+        width: 200%
+        aspect-ratio: 1
+        background-size: contain
+        position: relative
+        background-repeat: no-repeat
+        transform: translate(-50%, -50%) scaleY(calc(4/3))
+        left: 50%
+        top: -80%
 
     .map-background
       width: 100%
@@ -510,7 +527,7 @@ $gameControlMargin: 30px
         outline: none
         &:hover
           filter: drop-shadow(0 0 2px #bbf)
-      &.roblox-level-menu-icon
+      &.roblox-menu-icon, &.hackstack-menu-icon
         background: url(/images/roblox/roblox-menu-icon.png) no-repeat
         background-position: 50% 50%
         background-size: 100%
@@ -538,6 +555,13 @@ $gameControlMargin: 30px
 
         &.highlighted
           @include animation(jiggle .3s 20)
+
+      &.hackstack-menu-icon
+        background: url('/images/pages/hackstack/hackstack-logo-square-transparent-256.png') no-repeat
+        background-position: 50% 50%
+        background-size: 100%
+        border-radius: 0
+        transform: scale(1) translateX(-20px) translateY(-3px)
 
     .tooltip
       font-size: 24px

@@ -46,7 +46,6 @@
     <div class="new">
       <user-search
         class="user-search"
-        :role="'student'"
         :value="newMember.name"
         @select="selectNewMember"
       />

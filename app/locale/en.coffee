@@ -4094,6 +4094,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     lessons_count_desc: 'The total lessons count of this member, normally it is the same as the event instances count, but it can be different if the member is added after the event started or ended before the event ended'
     sync_to_google_desc: 'Sync this event to YOUR google calendar, instead of the owner\'s calendar. And can only work on CodeCombat gmail'
     timezone_tips: 'Date/Time is based on YOUR timezone: '
+    no_data_display: 'No data to display'
 
   teacher_dashboard:
     lock: 'Lock'
@@ -4375,6 +4376,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
+    season8_announcement_1: "The Farmscape Blitz has begun! In Season 8, code a way around wild obstacles and thrive with the occasional farm boosts that appear in your fields."
+    season8_announcement_2: "Note: arena balance adjustments may occur up until August 15th. So be sure to come back often to test your code against the global leaderboard."
     season7_announcement_1: "Witness the dawn of a new challenge in the Equinox Cup! Season 7's tower defense arena offers a unique blend of strategy, monsters, and boss battles for you to conquer."
     season6_announcement_1: "It’s absolute Molten Mayhem with the launch of the Lava Lake Clash finals! Outlast and outwit the competition in this hot take on classic Snake gameplay."
     season6_announcement_2: "Note: arena balance adjustments may occur up until December 15th. So be sure to come back often to test your code against the global leaderboard."
