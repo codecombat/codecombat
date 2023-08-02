@@ -127,9 +127,10 @@ module.exports = class LeaderboardView extends CocoView
       return nearby.slice(delta)
 
   mapFullName: (fullName) ->
-    fullName?.replace(/^Anonymous/, $.i18n.t('general.player'))
-    fullName?.replace(/^AIAlgorithm_/, '')
-    fullName?.replace(/^AIYouth_/, '')
+    fullName = fullName?.replace(/^Anonymous/, $.i18n.t('general.player'))
+    fullName = fullName?.replace(/^AIAlgorithm_(.+)_$/, '$1')
+    fullName = fullName?.replace(/^AIYouth_(.+)_$/, '$1')
+    fullName
 
   mapRankings: (data ) ->
     return _.map data, (model, index) =>
