@@ -4,7 +4,7 @@
       :loading="loading"
     />
     <campaign-list-component
-      :campaigns="homeVersionCampaigns"
+      :campaigns="getCampaignListToShow"
       :initial-campaign-id="selectedCampaignId"
       @selectedCampaignUpdated="onSelectedCampaignUpdated"
     />
@@ -64,12 +64,20 @@ export default {
     ...mapActions({
       fetchAllCampaigns: 'campaigns/fetchAll',
       fetchLevelSessionsForCampaignOfRelatedUser: 'levelSessions/fetchLevelSessionsForCampaignOfRelatedUser',
-      fetchCampaignLevels: 'campaigns/fetchCampaignLevels'
+      fetchCampaignLevels: 'campaigns/fetchCampaignLevels',
+      fetchReleasedCourses: 'courses/fetchReleased',
+      fetchCourseContent: 'gameContent/fetchGameContentForCampaign'
     }),
     onSelectedCampaignUpdated (data) {
       this.selectedCampaignId = data
-      this.fetchCampaignLevels({ campaignHandle: this.selectedCampaignId })
-      this.fetchLevelSessions()
+      if (this.product === 'Ozaria') {
+        const course = this.sortedCourses.find(c => c._id === this.selectedCampaignId)
+        console.log('selCid', this.selectedCampaignId, course.campaignID)
+        this.fetchCourseContent({ campaignId: course.campaignID, options: { callOz: this.callOz } })
+      } else {
+        this.fetchCampaignLevels({ campaignHandle: this.selectedCampaignId })
+        this.fetchLevelSessions()
+      }
     },
     onCodeLanguageUpdate (data) {
       this.selectedCodeLanguage = data
@@ -78,13 +86,35 @@ export default {
     async fetchLevelSessions () {
       if (!this.child || !this.child.verified) return
       await this.fetchLevelSessionsForCampaignOfRelatedUser({ userId: this.child.userId, campaignHandle: this.selectedCampaignId })
+    },
+    async handleCocoFetch () {
+      await this.fetchAllCampaigns()
+      this.loading = false
+      this.selectedCampaignId = this.homeVersionCampaigns ? this.homeVersionCampaigns[0]._id : null
+      if (this.selectedCampaignId) {
+        this.fetchCampaignLevels({ campaignHandle: this.selectedCampaignId })
+      }
+    },
+    async handleOzFetch () {
+      await this.fetchReleasedCourses({ callOz: this.callOz })
+      this.loading = false
+      console.log('sCour', this.sortedCourses)
+      this.selectedCampaignId = this.sortedCourses ? this.sortedCourses[0]._id : null
+    },
+    async handleCampaignFetch () {
+      if (this.product === 'CodeCombat' || !this.product) {
+        await this.handleCocoFetch()
+      } else {
+        await this.handleOzFetch()
+      }
     }
   },
   computed: {
     ...mapGetters({
       homeVersionCampaigns: 'campaigns/getHomeVersionCampaigns',
       getSessionsForCampaignOfRelatedUser: 'levelSessions/getSessionsForCampaignOfRelatedUser',
-      getCampaignLevels: 'campaigns/getCampaignLevels'
+      getCampaignLevels: 'campaigns/getCampaignLevels',
+      sortedCourses: 'courses/sorted'
     }),
     selectedCampaign () {
       if (!this.selectedCampaignId) return null
@@ -115,14 +145,26 @@ export default {
         if (!final.practice) result.push(final)
       })
       return result
+    },
+    getCampaignListToShow () {
+      if (!this.product || this.product === 'CodeCombat') {
+        return this.homeVersionCampaigns
+      } else {
+        return this.sortedCourses
+      }
+    },
+    callOz () {
+      return this.product === 'Ozaria'
     }
   },
   async created () {
-    await this.fetchAllCampaigns()
-    this.loading = false
-    this.selectedCampaignId = this.homeVersionCampaigns ? this.homeVersionCampaigns[0]._id : null
-    if (this.selectedCampaignId) {
-      this.fetchCampaignLevels({ campaignHandle: this.selectedCampaignId })
+    await this.handleCampaignFetch()
+  },
+  watch: {
+    product: async function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        await this.handleCampaignFetch()
+      }
     }
   }
 }

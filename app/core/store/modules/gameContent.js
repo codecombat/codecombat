@@ -115,6 +115,7 @@ export default {
       if (state.gameContent.byCampaign[campaignId]) {
         return Promise.resolve()
       }
+      console.log('cid', campaignId)
       commit('toggleLoadingForCampaign', campaignId)
 
       const projectData = {
@@ -124,7 +125,7 @@ export default {
         levels: (options.project || {}).levels || defaultProjections.levels
       }
 
-      return campaignsApi.fetchGameContent(campaignId, { data: { project: projectData } })
+      return campaignsApi.fetchGameContent(campaignId, { data: { project: projectData }, callOz: options.callOz })
         .then(res => {
           if (res) {
             commit('addContentForCampaign', {

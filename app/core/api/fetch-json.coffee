@@ -11,6 +11,22 @@
   * if the response is an error, an error (plain) object is thrown
 ###
 
+getProductUrl = (product, url) ->
+  if product != 'COCO' and product != 'OZ'
+    return url
+  hostVal = window.location.host
+  if product == 'OZ'
+    if hostVal.includes('localhost')
+      hostVal = 'http://localhost:3001'
+    else
+      hostVal = hostVal.replace('codecombat', 'ozaria')
+  else
+    if hostVal.includes('localhost')
+      hostVal = 'http://localhost:3000'
+    else
+      hostVal = hostVal.replace('ozaria', 'codecombat')
+  return "#{hostVal}#{url}"
+
 fetchWrapper = (url, options={}) ->
   options = _.cloneDeep(options)
   unless _.isUndefined(options.json)
@@ -22,6 +38,8 @@ fetchWrapper = (url, options={}) ->
     # shore up fetch API: https://github.com/github/fetch/issues/256
     url = url.split('?')[0] + '?' + $.param(options.data)
     delete options.data
+  if options.callOz
+    url = getProductUrl('OZ', url)
   options.credentials ?= 'same-origin'
 
   return fetch(url, options).then (res) ->
