@@ -45,9 +45,7 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
           e.rrule.replace(/DTSTART:.*?\n/, '')
         ],
         // TODO: if any of students also has email?
-        attendees: [
-          ...(event.gcEmails || [])
-        ],
+        attendees: (event.gcEmails || []).map(e => { return { email: e } }),
         reminders: {
           useDefault: false,
           overrides: [
