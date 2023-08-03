@@ -103,6 +103,8 @@ module.exports = class MyMatchesTabView extends CocoView
           name = name.replace(/^Anonymous/, $.i18n.t('play.anonymous')) if name
           name ||= opponent.name
           name ||= '<bad match data>'
+          name = name.replace(/^AIAlgorithm_(.+)_$/, '$1')
+          name = name.replace(/^AIYouth_(.+)_$/, '$1')
           if name.length > 21
             name = name.substr(0, 18) + '...'
           @nameMap[opponent.userID] = name
