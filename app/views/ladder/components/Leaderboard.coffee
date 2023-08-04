@@ -127,7 +127,10 @@ module.exports = class LeaderboardView extends CocoView
       return nearby.slice(delta)
 
   mapFullName: (fullName) ->
-    fullName?.replace(/^Anonymous/, $.i18n.t('general.player'))
+    fullName = fullName?.replace(/^Anonymous/, $.i18n.t('general.player'))
+    fullName = fullName?.replace(/^AIAlgorithm_(.+)_$/, '$1')
+    fullName = fullName?.replace(/^AIYouth_(.+)_$/, '$1')
+    fullName
 
   mapRankings: (data ) ->
     return _.map data, (model, index) =>
@@ -141,7 +144,7 @@ module.exports = class LeaderboardView extends CocoView
           model.get('creator'),
           model.get('submittedCodeLanguage'),
           model.rank ? index+1,
-          (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
+          @mapFullName(model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
           wins,
           losses,
           ((wins or 0) / (((wins or 0) + (losses or 0)) or 1) * 100).toFixed(2) + '%',
@@ -154,7 +157,7 @@ module.exports = class LeaderboardView extends CocoView
           model.get('creator'),
           model.get('submittedCodeLanguage'),
           model.rank || index+1,
-          (@mapFullName(model.get('fullName')) || model.get('creatorName') || $.i18n.t("play.anonymous")),
+          @mapFullName((model.get('fullName')) || model.get('creatorName') || $.i18n.t("play.anonymous")),
           @correctScore(model),
           @getClanName(model),
           @getAgeBracket(model),
