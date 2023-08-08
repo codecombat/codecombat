@@ -17,7 +17,11 @@ _.extend(AIChatMessageSchema.properties, {
     title: 'Chat Message Text',
     description: 'The content text of the chat message'
   },
-  document: c.objectId({title:'Document', format:'ai-document-link'}),
+  document: c.objectId({
+    title: 'Document',
+    format: 'ai-document-link',
+    links: [{ rel: 'db', href: '/db/ai_document/{($)}' }],
+  }),
   preview: {
     type: 'string',
     title: 'Preview',
