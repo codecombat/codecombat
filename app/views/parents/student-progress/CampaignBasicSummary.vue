@@ -6,7 +6,7 @@
     <div class="content">
       <div class="content__img">
         <img
-          :src="`/images/pages/play/campaign/${getCampaignImage(campaign.slug)}`"
+          :src=getCampaignImage(campaign)
           alt="Campaign image"
           class="content__level-img"
         >
@@ -16,10 +16,10 @@
           {{ campaign.fullName || campaign.name }}
         </div>
         <div
-          v-if="campaign?.course?.description"
+          v-if="campaign?.course?.description || campaign?.description"
           class="content__subtitle"
         >
-          {{ campaign.course.description }}
+          {{ campaign?.course?.description || campaign?.description }}
         </div>
         <div class="content__proficiency">
           <p class="content__proficiency__text">Concept proficiency</p>
@@ -145,6 +145,10 @@ export default {
     isPaidUser: {
       type: Boolean,
       default: false
+    },
+    product: {
+      type: String,
+      default: 'CodeCombat'
     }
   },
   data () {
@@ -155,7 +159,11 @@ export default {
   computed: {
     levelConcepts () {
       const capitalize = str => str[0].toUpperCase() + str.substring(1)
-      return this.campaign?.description?.split(',').map(d => d.trim().split(' ').map(capitalize).join(' '))
+      if (this.product === 'Ozaria') {
+        return this.campaign?.concepts?.map(c => c.split('_').map(capitalize).join(' '))
+      } else {
+        return this.campaign?.description?.split(',').map(d => d.trim().split(' ').map(capitalize).join(' '))
+      }
     }
   },
   methods: {
@@ -163,8 +171,12 @@ export default {
       this.selectedCodeLang = e.target.value
       this.$emit('languageUpdated', this.selectedCodeLang)
     },
-    getCampaignImage (slug) {
-      return campignSlugImageMap[slug]
+    getCampaignImage (campaign) {
+      if (this.product === 'Ozaria') {
+        return `/ozaria/file/${campaign.screenshot}`
+      } else {
+        return `/images/pages/play/campaign/${campignSlugImageMap[campaign.slug]}`
+      }
     },
     onLockSolutionGuideClick () {
       noty({
@@ -194,6 +206,7 @@ export default {
   .content {
     display: grid;
     grid-template-columns: 1fr 3fr;
+    grid-column-gap: 2rem;
     padding: 2rem;
 
     &__img {

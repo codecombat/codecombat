@@ -14,6 +14,7 @@
       :child-id="child?.userId"
       :is-campaign-complete="hasCompletedCampaign"
       :is-paid-user="isPaidUser"
+      :product="product"
       @languageUpdated="onCodeLanguageUpdate"
     />
     <campaign-progress-view
@@ -118,7 +119,11 @@ export default {
     }),
     selectedCampaign () {
       if (!this.selectedCampaignId) return null
-      return this.homeVersionCampaigns?.find(c => c._id === this.selectedCampaignId)
+      if (this.product === 'Ozaria') {
+        return this.sortedCourses?.find(c => c._id === this.selectedCampaignId || c.campaignID === this.selectedCampaignId)
+      } else {
+        return this.homeVersionCampaigns?.find(c => c._id === this.selectedCampaignId)
+      }
     },
     levelSessionsOfCampaign () {
       if (!this.child || !this.selectedCampaignId) return []
