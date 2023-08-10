@@ -20,8 +20,9 @@
     <campaign-progress-view
       :campaign="selectedCampaign"
       :level-sessions="levelSessionsOfCampaign"
-      :levels="campaignLevels"
       :sorted-levels="sortedLevels"
+      :product="product"
+      :oz-course-content="ozCourseContent"
     />
   </main>
 </template>
@@ -67,14 +68,14 @@ export default {
       fetchLevelSessionsForCampaignOfRelatedUser: 'levelSessions/fetchLevelSessionsForCampaignOfRelatedUser',
       fetchCampaignLevels: 'campaigns/fetchCampaignLevels',
       fetchReleasedCourses: 'courses/fetchReleased',
-      fetchCourseContent: 'gameContent/fetchGameContentForCampaign'
+      fetchCourseContent: 'gameContent/fetchGameContentForCampaign',
+      setSelectedCampaignInOz: 'baseCurriculumGuide/setSelectedCampaign'
     }),
     onSelectedCampaignUpdated (data) {
       this.selectedCampaignId = data
       if (this.product === 'Ozaria') {
-        const course = this.sortedCourses.find(c => c._id === this.selectedCampaignId)
-        console.log('selCid', this.selectedCampaignId, course.campaignID)
-        this.fetchCourseContent({ campaignId: course.campaignID, options: { callOz: this.callOz } })
+        this.setSelectedCampaignInOz(this.ozCourseCampaignId)
+        this.fetchCourseContent({ campaignId: this.ozCourseCampaignId, options: { callOz: this.callOz } })
       } else {
         this.fetchCampaignLevels({ campaignHandle: this.selectedCampaignId })
         this.fetchLevelSessions()
@@ -115,7 +116,8 @@ export default {
       homeVersionCampaigns: 'campaigns/getHomeVersionCampaigns',
       getSessionsForCampaignOfRelatedUser: 'levelSessions/getSessionsForCampaignOfRelatedUser',
       getCampaignLevels: 'campaigns/getCampaignLevels',
-      sortedCourses: 'courses/sorted'
+      sortedCourses: 'courses/sorted',
+      getGameContentByCampaign: 'gameContent/getContentForCampaign'
     }),
     selectedCampaign () {
       if (!this.selectedCampaignId) return null
@@ -131,7 +133,12 @@ export default {
     },
     campaignLevels () {
       if (!this.selectedCampaignId) return []
-      return this.getCampaignLevels(this.selectedCampaignId)
+      if (this.product !== 'Ozaria') {
+        return this.getCampaignLevels(this.selectedCampaignId)
+      }
+    },
+    ozCourseContent () {
+      return this.getGameContentByCampaign(this.ozCourseCampaignId)
     },
     hasCompletedCampaign () {
       const requiredLevels = this.sortedLevels?.filter(l => !l.practice) || []
@@ -160,6 +167,10 @@ export default {
     },
     callOz () {
       return this.product === 'Ozaria'
+    },
+    ozCourseCampaignId () {
+      if (this.product !== 'Ozaria') return
+      return this.sortedCourses.find(c => c._id === this.selectedCampaignId)?.campaignID
     }
   },
   async created () {

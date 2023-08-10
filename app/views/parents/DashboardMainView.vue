@@ -10,6 +10,7 @@
     <header-component
       @onSelectedProductChange="onSelectedProductChange"
       :child="selectedChildren"
+      :product="product"
       :is-online-class-paid-user="isPaidOnlineClassUser()"
       v-if="selectedView !== 'online-classes'"
     />
@@ -71,13 +72,17 @@ export default {
     childId: {
       type: String,
       default: ''
+    },
+    product: {
+      type: String,
+      default: 'CodeCombat'
     }
   },
   data () {
     return {
       children: [],
       selectedView: this.viewName,
-      selectedProduct: null,
+      selectedProduct: this.product,
       selectedChildrenId: null
     }
   },

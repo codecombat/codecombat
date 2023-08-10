@@ -109,12 +109,16 @@ export default {
     isOnlineClassPaidUser: {
       type: Boolean,
       default: false
+    },
+    product: {
+      type: String,
+      default: 'CodeCombat'
     }
   },
   data () {
     return {
       name: me.broadName(),
-      selectedProduct: 'CodeCombat',
+      selectedProduct: this.product || 'CodeCombat',
       SubscribeModal,
       isSubscribeModalOpen: false,
       showTryFreeClassModal: false

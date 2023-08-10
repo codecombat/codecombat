@@ -6,6 +6,8 @@
     <module-progress-data-component
       :levels="sortedLevels"
       :level-sessions="levelSessions"
+      :product="product"
+      :oz-course-content="ozCourseContent"
     />
     <module-resources
       :campaign="campaign"
@@ -29,6 +31,16 @@ export default {
       type: Array,
       default () {
         return []
+      }
+    },
+    product: {
+      type: String,
+      default: 'CodeCombat'
+    },
+    ozCourseContent: {
+      type: Object,
+      default () {
+        return {}
       }
     }
   },

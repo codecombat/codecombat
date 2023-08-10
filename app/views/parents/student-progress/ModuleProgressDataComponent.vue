@@ -19,7 +19,10 @@
         </div>
       </div>
     </div>
-    <div class="lprogress__content">
+    <div
+      v-if="product !== 'Ozaria'"
+      class="lprogress__content"
+    >
       <div
         v-for="(level, index) in levels"
         class="lprogress__level"
@@ -43,11 +46,24 @@
         />
       </div>
     </div>
+    <div
+      v-else
+      class="lprogress__content"
+    >
+      <module-content
+        v-for="num in moduleNumbers"
+        :key="num"
+        :module-num="num"
+        :is-capstone="isCapstoneModule(num)"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import ModuleRow from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ModuleRow'
+import ModuleContent
+  from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ModuleContent'
 import CodeDiff from '../../../components/common/CodeDiff'
 const Level = require('../../../models/Level')
 export default {
@@ -63,6 +79,16 @@ export default {
     language: {
       type: String,
       default: 'javascript'
+    },
+    product: {
+      type: String,
+      default: 'CodeCombat'
+    },
+    ozCourseContent: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   data () {
@@ -74,7 +100,8 @@ export default {
   },
   components: {
     ModuleRow,
-    CodeDiff
+    CodeDiff,
+    ModuleContent
   },
   methods: {
     getIconType (level) {
@@ -137,6 +164,14 @@ export default {
     },
     truncate (str, max, suffix) {
       return str.length < max ? str : `${str.substr(0, str.substr(0, max - suffix.length).lastIndexOf(' '))}${suffix}`
+    },
+    isCapstoneModule (moduleNum) {
+      return moduleNum === this.moduleNumbers[this.moduleNumbers.length - 1]
+    }
+  },
+  computed: {
+    moduleNumbers () {
+      return Object.keys(this.ozCourseContent?.modules || {})
     }
   }
 }

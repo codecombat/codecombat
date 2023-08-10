@@ -151,7 +151,7 @@ export const getNextLevelForLevel = (level, capstoneStage = 1) => {
     nextLevel = Object.values(nextLevels).sort((a, b) => {
       const afterCapstoneStageA = a.conditions?.afterCapstoneStage ?? 0;
       const afterCapstoneStageB = b.conditions?.afterCapstoneStage ?? 0;
-  
+
       return afterCapstoneStageA - afterCapstoneStageB;
     });
   }
@@ -309,6 +309,8 @@ export function internationalizeContentType(type){
       return $.i18n.t('play_level.content_type_cinematic')
     case 'interactive':
       return $.i18n.t('play_level.content_type_interactive')
+    case 'intro':
+      return $.i18n.t('play_level.level_type_intro')
     default:
       return this.currentContent.contentType
   }
