@@ -134,7 +134,6 @@ module.exports = class LevelConceptMap extends RootView
     @render()
 
   tagLevel: (src) ->
-    # console.log('iiiii','tagLevel',src)
     return [] if not src?.source?
     try
       ast = @parser(src.source)
