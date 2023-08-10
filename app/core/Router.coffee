@@ -440,6 +440,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'user/:slugOrID': go('user/MainUserView')
     'certificates/:slugOrID': go('user/CertificatesView')
+    'certificates/all-courses/:slugOrID': go('user/AllCoursesCertificatesView')
     'certificates/:id/anon': go('user/AnonCertificatesView')
 
     'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')

@@ -1941,7 +1941,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     average_levels: "Niveles Promedio completados:"
     total_levels: "Total de niveles completados:"
     students: "Estudiantes"
-    concepts: "Con ceptos"
+    concepts: "Conceptos"
     play_time: "Tiempo de Juego:"
     completed: "Completados:"
     enter_emails: "Introducir los emails de los estudiantes a invitar, uno por línea" # {change}
@@ -2161,6 +2161,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     classroom_live_completion: "Autocompletado de código de aula: "
 #    learn_without_classroom_title: "You can still learn and play without a classroom"
 #    learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
+    all_courses_completed: "Todos los cursos completados"
+    all_units_completed: "Todas las unidades completadas"
 
   project_gallery:
     no_projects_published: "¡Sé el primero en publicar un proyecto en este curso!"
@@ -2335,6 +2337,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     status_partly_expires: "Vence en parte el {{date}}"
     select_all: "Seleccionar todo"
     project: "Proyecto"
+    projects: "Proyectos"
     project_gallery: "Galería de proyectos"
     view_project: "Ver proyecto"
     unpublished: "(sin publicar)"
@@ -3010,6 +3013,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     certificate_lines_of: "líneas de"
     certificate_levels_completed: "niveles completados"
     certificate_for: "Por"
+    for_ozaria_chapters_1_4: "Para Ozaria Capítulos 1 - 4"
     certificate_number: "No."
     heroes_unlocked: "Héroes desbloqueados"
     current_items: "Objetos equipados"
