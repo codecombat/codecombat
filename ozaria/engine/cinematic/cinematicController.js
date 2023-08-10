@@ -130,8 +130,9 @@ export class CinematicController {
     const data = await this.systems.loader.loadAssets()
     if (this.destroyed) return
 
+    const speakerToThangTypeSlugMap = {}
     const commands = data.shots
-      .map(shot => parseShot(shot, this.systems, this.userOptions))
+      .map(shot => parseShot(shot, this.systems, this.userOptions, speakerToThangTypeSlugMap))
       .filter(commands => commands.length > 0)
       .reduce((acc, commands) => [...acc, ...commands], [])
 

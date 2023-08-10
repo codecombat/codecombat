@@ -30,11 +30,13 @@ class TutorialPlayView extends RootComponent {
 
     store.dispatch('game/addTutorialStep', {
       message: narrativeText,
+      originalMessage: narrative?.body,
       intro: {
         levelType: internationalizeLevelType(level.get('ozariaType'), true),
         learningGoals: learningGoals ? utils.i18n(learningGoals, 'body') : 'Learning goals'
       },
-      voiceOver: narrative?.voiceOver
+      voiceOver: narrative?.voiceOver,
+      speakerThangType: level.get('characterPortrait') || 'vega'
     })
   }
 }
