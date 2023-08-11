@@ -93,8 +93,8 @@ const parseDialogNode = ({ dialogNode, systems, shot, speakerToThangTypeSlugMap 
  * @param {Object} systems The systems.
  * @returns {AbstractCommand[][]} A 2d array of commands.
  */
-export const parseShot = (shot, systems, { programmingLanguage }, speakerToThangTypeSlugMap) => {
-  const setupCommands = parseSetup(shot, systems, speakerToThangTypeSlugMap) || []
+export const parseShot = (shot, systems, { programmingLanguage }, speakerToThangTypeSlugMap = {}) => {
+  const setupCommands = parseSetup(shot, systems) || []
   for (const speaker of ['left', 'right', 'center']) {
     const newThangType = shot.shotSetup?.[speaker + 'ThangType']?.thangType
     if (newThangType) {
