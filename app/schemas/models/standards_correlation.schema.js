@@ -1,5 +1,5 @@
 const c = require('./../schemas')
-const utils = require('core/utils')
+const utils = require('../../core/utils')
 
 const StandardsCorrelation = c.object(
   {
