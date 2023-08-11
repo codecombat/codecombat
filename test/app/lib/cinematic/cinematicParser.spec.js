@@ -42,7 +42,7 @@ describe('parseShot', () => {
     }
     const results = parseShot(shot, systems, { programmingLanguage: 'python' })
     expect(systems[0].parseDialogNode.calls.all().map(o => o.args))
-      .toEqual([ [ 'DialogNode1', { dialogNodes: [ 'DialogNode1', 'DialogNode2' ] } ], [ 'DialogNode2', { dialogNodes: [ 'DialogNode1', 'DialogNode2' ] } ] ])
+      .toEqual([ [ 'DialogNode1', { dialogNodes: [ 'DialogNode1', 'DialogNode2' ] }, {} ], [ 'DialogNode2', { dialogNodes: [ 'DialogNode1', 'DialogNode2' ] }, {} ] ])
     // I don't like this test but I couldn't figure out another way.
     expect(JSON.stringify(results)).toEqual('[[{"commands":["dialog commands"]}],[{"commands":["dialog commands"]}]]')
   })
@@ -59,7 +59,7 @@ describe('parseShot', () => {
 
     const results = parseShot(shot, systems, { programmingLanguage: 'python' })
     expect(systems[0].parseDialogNode.calls.all().map(o => o.args))
-      .toEqual([ [ 'DialogNode1', { setupShot: 'Example setup shot', dialogNodes: [ 'DialogNode1', 'DialogNode2' ] } ], [ 'DialogNode2', { setupShot: 'Example setup shot', dialogNodes: [ 'DialogNode1', 'DialogNode2' ] } ] ])
+      .toEqual([ [ 'DialogNode1', { setupShot: 'Example setup shot', dialogNodes: [ 'DialogNode1', 'DialogNode2' ] }, {} ], [ 'DialogNode2', { setupShot: 'Example setup shot', dialogNodes: [ 'DialogNode1', 'DialogNode2' ] }, {} ] ])
     expect(systems[0].parseSetupShot).toHaveBeenCalledWith(shot)
     expect(JSON.stringify(results)).toEqual('[["setup commands",{}],[{"commands":["dialog commands"]}],[{"commands":["dialog commands"]}]]')
   })
@@ -81,7 +81,7 @@ describe('parseShot', () => {
     const shot = {
       dialogNodes: ['example setup shot']
     }
-    expect(() => parseShot(shot, systems, { programmingLanguage: 'python' })).toThrow()
+    expect(() => parseShot(shot, systems, { programmingLanguage: 'python' }, {})).toThrow()
   })
 
   describe('dialogNode language filtering', () => {
@@ -98,7 +98,7 @@ describe('parseShot', () => {
       }
       parseShot(shot, systems, { programmingLanguage: 'python' })
       expect(systems[0].parseDialogNode.calls.all().map(o => o.args))
-        .toEqual([ [ { programmingLanguageFilter: 'python' }, shot ] ])
+        .toEqual([ [ { programmingLanguageFilter: 'python' }, shot, {} ] ])
     })
 
     it('works correctly for javascript', () => {
@@ -110,7 +110,7 @@ describe('parseShot', () => {
       }
       parseShot(shot, systems, { programmingLanguage: 'javascript' })
       expect(systems[0].parseDialogNode.calls.all().map(o => o.args))
-        .toEqual([ [ { programmingLanguageFilter: 'javascript' }, shot ] ])
+        .toEqual([ [ { programmingLanguageFilter: 'javascript' }, shot, {} ] ])
     })
   })
 })

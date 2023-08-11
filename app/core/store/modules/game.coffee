@@ -75,12 +75,14 @@ module.exports = {
     addTutorialStep: ({ commit, rootState, dispatch }, step) ->
       # Turns voiceOver property into a function to play voice over if possible.
 
-      if step.voiceOver
-        soundIdPromise = dispatch('voiceOver/preload', step.voiceOver, { root: true })
+      if step.voiceOver or (step.message and /[a-z]/i.test step.message)
+        dialogNode = _.clone(step)
+        if dialogNode.message
+          dialogNode.text = dialogNode.message
+        soundIdPromise = dispatch('voiceOver/preload', { dialogNode, speakerThangType: step.speakerThangType }, { root: true })
         # Lazy function we can call to play the voice over.
         # TODO: Localize by passing in different file path based on i18n.
         step.playVoiceOver = () => dispatch('voiceOver/playVoiceOver', soundIdPromise, { root: true })
-
 
       commit('addTutorialStep', step)
     setTutorialActive: ({ commit, rootState }, tutorialActive) ->
@@ -101,6 +103,7 @@ module.exports = {
 
         dispatch('addTutorialStep', {
           message: utils.i18n(say, 'text')
+          originalMessage: say?.text
           # To stay backwards compatible with old Vega messages,
           # they are turned into stationary Vega messages with no other qualities:
           position: tutorial?.position or 'stationary'
@@ -112,6 +115,7 @@ module.exports = {
           advanceOnTarget: tutorial?.advanceOnTarget
           internalRelease: tutorial?.internalRelease
           voiceOver: say.voiceOver
+          speakerThangType: rootState.game.level?.characterPortrait or 'vega'
         })
       )
     toggleCodeBank: ({ commit, rootState }) ->
