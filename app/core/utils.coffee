@@ -1216,6 +1216,8 @@ ozBaseURL = ->
 capitalizeFirstLetter = (str) -> (str[0] or '').toUpperCase() + str.slice(1)
 
 markdownToPlainText = (text) ->
+  # First, replace HTML tags in text with their plain text contents
+  text = text.replace /<[^>]*>/g, ''
   plainTextMarkedRenderer = new marked.Renderer()
   for element in ['code', 'blockquote', 'html', 'heading', 'hr', 'list', 'listitem', 'paragraph', 'table', 'tablerow', 'tablecell', 'strong', 'em', 'codespan', 'br', 'del', 'text']
     plainTextMarkedRenderer[element] = (text) -> text
