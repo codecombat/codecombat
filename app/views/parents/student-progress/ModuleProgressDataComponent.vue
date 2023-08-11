@@ -55,6 +55,8 @@
         :key="num"
         :module-num="num"
         :is-capstone="isCapstoneModule(num)"
+        :show-progress-dot="true"
+        :level-sessions="levelSessions"
       />
     </div>
   </div>
@@ -65,6 +67,7 @@ import ModuleRow from '../../../../ozaria/site/components/teacher-dashboard/Base
 import ModuleContent
   from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ModuleContent'
 import CodeDiff from '../../../components/common/CodeDiff'
+import { getProgressStatusHelper } from '../helpers/levelCompletionHelper'
 const Level = require('../../../models/Level')
 export default {
   name: 'ModuleProgressDataComponent',
@@ -109,14 +112,7 @@ export default {
       return (['hero', 'hero-ladder', 'game-dev'].includes(level.type) ? 'challengelvl' : (level.type || 'challengelvl'))
     },
     getProgressStatus (level) {
-      let status = 'not-started'
-      if (!this.levelSessions) return status
-      const ls = this.levelSessions.filter(ls => ls.levelID === level.slug)
-      if (ls.length) status = 'in-progress'
-      ls.forEach(session => {
-        if (session.state.complete) status = 'complete'
-      })
-      return status
+      return getProgressStatusHelper(this.levelSessions, level)
     },
     getSolutions (level) {
       const levelModel = new Level(level)

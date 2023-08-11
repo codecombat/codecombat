@@ -76,6 +76,7 @@ export default {
       if (this.product === 'Ozaria') {
         this.setSelectedCampaignInOz(this.ozCourseCampaignId)
         this.fetchCourseContent({ campaignId: this.ozCourseCampaignId, options: { callOz: this.callOz } })
+        this.fetchLevelSessions()
       } else {
         this.fetchCampaignLevels({ campaignHandle: this.selectedCampaignId })
         this.fetchLevelSessions()
@@ -87,7 +88,8 @@ export default {
     },
     async fetchLevelSessions () {
       if (!this.child || !this.child.verified) return
-      await this.fetchLevelSessionsForCampaignOfRelatedUser({ userId: this.child.userId, campaignHandle: this.selectedCampaignId })
+      const campaignId = this.callOz ? this.ozCourseCampaignId : this.selectedCampaignId
+      await this.fetchLevelSessionsForCampaignOfRelatedUser({ userId: this.child.userId, campaignHandle: campaignId, options: { callOz: this.callOz } })
     },
     async handleCocoFetch () {
       await this.fetchAllCampaigns()
@@ -129,7 +131,8 @@ export default {
     },
     levelSessionsOfCampaign () {
       if (!this.child || !this.selectedCampaignId) return []
-      return this.getSessionsForCampaignOfRelatedUser(this.child.userId, this.selectedCampaignId)
+      const campaignId = this.callOz ? this.ozCourseCampaignId : this.selectedCampaignId
+      return this.getSessionsForCampaignOfRelatedUser(this.child.userId, campaignId)
     },
     campaignLevels () {
       if (!this.selectedCampaignId) return []

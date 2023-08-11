@@ -4,6 +4,7 @@
   import IntroModuleRow from './IntroModuleRow'
   import { mapGetters } from 'vuex'
   import utils from 'core/utils'
+  import { getProgressStatusHelper } from '../../../../../../app/views/parents/helpers/levelCompletionHelper'
 
   export default {
     components: {
@@ -20,6 +21,17 @@
       isCapstone: {
         type: Boolean,
         default: false
+      },
+      showProgressDot: {
+        type: Boolean,
+        default: false
+      },
+      levelSessions: {
+        type: Array,
+        default () {
+          return []
+        },
+        required: false
       }
     },
 
@@ -94,10 +106,12 @@
             url,
             // Handle edge case that cutscenes are always in their own one to one intro
             isPartOfIntro: !!introLevelSlug && icon !== 'cutscene',
-            isIntroHeadingRow: false
+            isIntroHeadingRow: false,
+            slug,
+            fromIntroLevelOriginal
           })
         }
-
+        console.log('cur', curriculumGuideContentList)
         return curriculumGuideContentList
       }
     },
@@ -107,6 +121,10 @@
         if (eventName) {
           window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
         }
+      },
+      getProgressStatus ({ slug, fromIntroLevelOriginal }) {
+        if (!this.showProgressDot) return
+        return getProgressStatusHelper(this.levelSessions, { slug, fromIntroLevelOriginal })
       }
     }
   }
@@ -121,7 +139,7 @@
 
     <div v-if="!isOnLockedCampaign" class="content-rows">
       <a
-        v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow } in getContentTypes"
+        v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, slug, fromIntroLevelOriginal } in getContentTypes"
         :key="_id"
         :href="url"
         target="_blank"
@@ -138,6 +156,8 @@
           :display-name="name"
           :description="description"
           :is-part-of-intro="isPartOfIntro"
+          :show-progress-dot="showProgressDot"
+          :progress-status="getProgressStatus({ slug, fromIntroLevelOriginal })"
           @click.native="trackEvent('Curriculum Guide: Individual content row clicked')"
         />
       </a>
@@ -148,7 +168,7 @@
       class="content-rows"
     >
       <template
-        v-for="{ icon, name, _id, description, isPartOfIntro, isIntroHeadingRow } in getContentTypes"
+        v-for="{ icon, name, _id, description, isPartOfIntro, isIntroHeadingRow, slug, fromIntroLevelOriginal } in getContentTypes"
       >
         <intro-module-row
           v-if="isIntroHeadingRow"
@@ -157,12 +177,14 @@
           :display-name="name"
         />
         <module-row
-
+          v-else
           :key="_id"
           :icon-type="icon"
           :display-name="name"
           :description="description"
           :is-part-of-intro="isPartOfIntro"
+          :show-progress-dot="showProgressDot"
+          :progress-status="getProgressStatus({ slug, fromIntroLevelOriginal })"
         />
       </template>
     </div>
