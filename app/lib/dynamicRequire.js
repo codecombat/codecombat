@@ -161,6 +161,7 @@ module.exports = {
   'views/teachers/RestrictedToTeachersView': function () { return import(/* webpackChunkName: "RestrictedToTeachersView" */ 'views/teachers/RestrictedToTeachersView') },
   'views/courses/RestrictedToStudentsView': function () { return import(/* webpackChunkName: "RestrictedToStudentsView" */ 'views/courses/RestrictedToStudentsView') },
   'views/user/CertificatesView': function () { return import(/* webpackChunkName: "CertificatesView" */ 'views/user/CertificatesView') },
+  'views/user/AllCoursesCertificatesView': function () { return import(/* webpackChunkName: "AllCoursesCertificatesView" */ 'views/user/AllCoursesCertificatesView') },
   'views/user/AnonCertificatesView': function () { return import(/* webpackChunkName: "CertificatesView" */ 'views/user/AnonCertificatesView') },
   'views/LicensorView': function() { return import(/* webpackChunkName: "LicensorView" */ 'views/LicensorView')},
 
