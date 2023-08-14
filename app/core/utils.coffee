@@ -905,6 +905,7 @@ usStateCodes =
       getStateNameByStateCode: getStateNameByStateCode
       sanitizeStateName: sanitizeStateName
       getStateCodeByStateName: getStateCodeByStateName
+      codes: Object.keys stateNamesByCode
     }
   )()
 

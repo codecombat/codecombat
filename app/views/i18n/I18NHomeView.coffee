@@ -10,6 +10,8 @@ if utils.isOzaria
 ResourceHubResource = require 'models/ResourceHubResource'
 ChatMessage = require 'models/ChatMessage'
 AIScenario = require 'models/AIScenario'
+Concept = require 'models/Concept'
+StandardsCorrelation = require 'models/StandardsCorrelation'
 
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
@@ -60,11 +62,13 @@ module.exports = class I18NHomeView extends RootView
     @resourceHubResource = new CocoCollection([], { url: "/db/resource_hub_resource#{QUERY_PARAMS}", project: project, model: ResourceHubResource })
     @chatMessage = new CocoCollection([], { url: "/db/chat_message#{QUERY_PARAMS}", project: project, model: ChatMessage })
     @aiScenario = new CocoCollection([], { url: "/db/ai_scenario#{QUERY_PARAMS}", project: project, model: AIScenario })
+    @concepts = new CocoCollection([], { url: "/db/concept#{QUERY_PARAMS}", project: project, model: Concept })
+    @standardsCorrelations = new CocoCollection([], { url: "/db/standards#{QUERY_PARAMS}", project: project, model: StandardsCorrelation })
 
     if utils.isOzaria
-      collections = [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @interactive, @cinematics, @cutscene, @resourceHubResource]
+      collections = [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @interactive, @cinematics, @cutscene, @resourceHubResource, @concepts, @standardsCorrelations]
     else
-      collections = [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @resourceHubResource, @chatMessage, @aiScenario]
+      collections = [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @resourceHubResource, @chatMessage, @aiScenario, @concepts, @standardsCorrelations]
     for c in collections
       c.skip = 0
 
@@ -76,6 +80,8 @@ module.exports = class I18NHomeView extends RootView
   onCollectionSynced: (collection) ->
     for model in collection.models
       model.i18nURLBase = switch model.constructor.className
+        when 'Concept' then '/i18n/concept/'
+        when 'StandardsCorrelation' then '/i18n/standards/'
         when 'ThangType' then '/i18n/thang/'
         when 'LevelComponent' then '/i18n/component/'
         when 'Achievement' then '/i18n/achievement/'
