@@ -2188,6 +2188,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_live_completion: "Classroom Code Autocomplete: "
     learn_without_classroom_title: "You can still learn and play without a classroom"
     learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
+    all_courses_completed: "All Courses Completed!"
+    all_units_completed: "All Units Completed!"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -2362,6 +2364,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     status_partly_expires: "Partly expires on {{date}}"
     select_all: "Select All"
     project: "Project"
+    projects: "Projects"
     project_gallery: "Project Gallery"
     view_project: "View Project"
     unpublished: "(unpublished)"
@@ -3060,6 +3063,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     certificate_lines_of: "lines of"
     certificate_levels_completed: "levels completed"
     certificate_for: "For"
+    for_ozaria_chapters_1_4: "For Ozaria Chapters 1 - 4"
     certificate_number: "No."
     heroes_unlocked: "Heroes Unlocked"
     current_items: "Items Equipped"
