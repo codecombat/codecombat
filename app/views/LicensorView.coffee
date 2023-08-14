@@ -6,3 +6,4 @@ module.exports = class LicensorView extends RootComponent
   id: 'licensor-view'
   template: template
   VueComponent: LicensorViewComponent
+ 

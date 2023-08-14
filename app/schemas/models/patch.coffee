@@ -15,6 +15,8 @@ patchables = [
   'cinematic'
   'cutscene'
   'resource_hub_resource'
+  'concept'
+  'standards'
 ]
 
 PatchSchema = c.object({title: 'Patch', required: ['target', 'delta', 'commitMessage']}, {

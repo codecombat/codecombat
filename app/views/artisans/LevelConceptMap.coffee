@@ -4,12 +4,13 @@ template = require 'app/templates/artisans/concept-map-view'
 
 Level = require 'models/Level'
 Campaign = require 'models/Campaign'
+Concept = require 'models/Concept'
 
 CocoCollection = require 'collections/CocoCollection'
 Campaigns = require 'collections/Campaigns'
 Levels = require 'collections/Levels'
+Concepts = require 'collections/Concepts'
 tagger = require 'lib/SolutionConceptTagger'
-conceptList = require 'schemas/concepts'
 loadAetherLanguage = require 'lib/loadAetherLanguage'
 utils = require 'core/utils'
 
@@ -86,6 +87,11 @@ module.exports = class LevelConceptMap extends RootView
       @onAllLevelsLoaded()
 
   onAllLevelsLoaded: ->
+    @concepts = new Concepts([])
+    @listenTo(@concepts, 'sync', @onConceptsLoaded)
+    @supermodel.trackRequest(@concepts.fetch(data: { skip: 0, limit: 1000 }))
+
+  onConceptsLoaded: (collection, response, options) ->
     for campaignSlug, campaign of @loadedLevels
       for levelSlug, level of campaign
         unless level?
@@ -131,7 +137,7 @@ module.exports = class LevelConceptMap extends RootView
     return [] if not src?.source?
     try
       ast = @parser(src.source)
-      moreTags = tagger(src)
+      moreTags = tagger(src, @concepts)
     catch e
       return ['parse error: ' + e.message]
 
@@ -192,4 +198,5 @@ module.exports = class LevelConceptMap extends RootView
 
 
     Object.keys(tags).concat(moreTags)
-    _.map moreTags, (t) -> _.find(conceptList, (e) => e.concept is t)?.name
+    conceptList = @concepts.models.map (c) -> c.toJSON()
+    _.map moreTags, (t) -> _.find(conceptList, (e) => e.key is t)?.name
