@@ -32,12 +32,16 @@ export default {
       ...mapGetters({
         selectedStudentIds: 'baseSingleClass/selectedStudentIds',
         selectedOriginals: 'baseSingleClass/selectedOriginals'
-      })
+      }),
+      isTecmilenioPartner () {
+        return me.isTecmilenio()
+      }
     },
     methods: {
       ...mapActions({
         applyLicenses: 'baseSingleClass/applyLicenses',
         revokeLicenses: 'baseSingleClass/revokeLicenses',
+        resetProgress: 'baseSingleClass/resetProgress'
       }),
 
 
@@ -114,6 +118,14 @@ export default {
           :text="$t('teacher_dashboard.revoke_licenses')"
           :inactive="displayOnly"
           @click="revokeLicenses"
+        />
+        <icon-button-with-text
+          v-if="isTecmilenioPartner"
+          class="icon-with-text larger-icon"
+          :icon-name="displayOnly ? 'IconRubricLocked' : 'IconRubric'"
+          :text="$t('teacher_dashboard.reset_progress')"
+          :inactive="displayOnly"
+          @click="resetProgress"
         />
 
 
