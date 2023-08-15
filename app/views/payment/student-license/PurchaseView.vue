@@ -91,7 +91,7 @@
 import { handleCheckoutSession } from '../paymentPriceHelper'
 import IconLoading from 'app/core/components/IconLoading'
 import priceHelperMixin from './price-helper-mixin'
-const TECMILENIO_CAMPUS_NAMES = ['Central', 'Online', 'Las Torres', 'Ferrería', 'Cuautitlán lzcalli', 'Toluca', 'Culiacán Zapopan', 'Guadalajara', 'Querétaro', 'Ciudad Juárez', 'San Luis Potosí',
+const TECMILENIO_CAMPUS_NAMES = ['Central', 'Online', 'Las Torres', 'Ferrería', 'Cuautitlán lzcalli', 'Toluca', 'Culiacán', 'Zapopan', 'Guadalajara', 'Querétaro', 'Ciudad Juárez', 'San Luis Potosí',
   'Villahermosa', 'Cancún', 'Cumbres', 'Hermosillo', 'Cuernavaca', 'Veracruz', 'San Nicolás', 'Chihuahua',
   'Puebla', 'Reynosa', 'Guadalupe', 'Mazatlán', 'Laguna', 'Mérida', 'Durango', 'Ciudad Obregón', 'Los Mochis', 'Nuevo Laredo']
 export default {
