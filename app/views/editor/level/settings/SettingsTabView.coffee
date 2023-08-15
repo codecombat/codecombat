@@ -7,8 +7,11 @@ Surface = require 'lib/surface/Surface'
 nodes = require './../treema_nodes'
 {me} = require 'core/auth'
 require 'lib/setupTreema'
-concepts = require 'schemas/concepts'
+Concepts = require 'collections/Concepts'
+schemas = require 'app/schemas/schemas'
+concepts = []
 utils = require 'core/utils'
+
 
 module.exports = class SettingsTabView extends CocoView
   id: 'editor-level-settings-tab-view'
@@ -28,7 +31,19 @@ module.exports = class SettingsTabView extends CocoView
     @editableSettings = @editableSettings.concat _.keys(_.pick(Level.schema.properties, (value, key) => value.inEditor is true or value.inEditor is utils.getProduct()))
 
   onLoaded: ->
+
   onLevelLoaded: (e) ->
+    @concepts = new Concepts([])
+
+    @listenTo @concepts, 'sync', =>
+      concepts = @concepts.models
+      schemas.concept.enum = _.map concepts, (c) -> c.get('key')
+      @onConceptsLoaded(e)
+    
+    @concepts.fetch
+      data: { skip: 0, limit: 1000 }  
+
+  onConceptsLoaded: (e) ->
     @level = e.level
     data = _.pick @level.attributes, (value, key) => key in @editableSettings
     schema = _.cloneDeep Level.schema
@@ -49,8 +64,8 @@ module.exports = class SettingsTabView extends CocoView
         thang: nodes.ThangNode
         'solution-gear': SolutionGearNode
         'solution-stats': SolutionStatsNode
-        concept: ConceptNode
-        'concepts-list': ConceptsListNode
+        concept:  nodes.conceptNodes(concepts).ConceptNode
+        'concepts-list':  nodes.conceptNodes(concepts).ConceptsListNode
         'clans-list': ClansListNode
       solutions: @level.getSolutions()
 
@@ -144,42 +159,6 @@ class SolutionStatsNode extends TreemaNode.nodeMap.number
           @open()
           @select()
       @$el.find('.treema-description').html(description).append(button)
-
-class ConceptNode extends TreemaNode.nodeMap.string
-  buildValueForDisplay: (valEl, data) ->
-    super valEl, data
-    return unless data
-    return console.error "Couldn't find concept #{@data}" unless concept = _.find concepts, concept: @data
-    description = "#{concept.name} -- #{concept.description}"
-    description = description + " (Deprecated)" if concept.deprecated
-    description = "AUTO | " + description if concept.automatic
-    @$el.find('.treema-row').css('float', 'left')
-    @$el.addClass('concept-automatic') if concept.automatic
-    @$el.addClass('concept-deprecated') if concept.deprecated
-    @$el.find('.treema-description').remove()
-    @$el.append($("<span class='treema-description'>#{description}</span>").show())
-
-  limitChoices: (options) ->
-    if @parent.keyForParent is 'concepts' and (not this.parent.parent)
-      options = (o for o in options when _.find(concepts, (c) -> c.concept is o and not c.automatic and not c.deprecated))  # Allow manual, not automatic
-    else
-      options = (o for o in options when _.find(concepts, (c) -> c.concept is o and not c.deprecated))  # Allow both
-    super options
-
-  onClick: (e) ->
-    return if this.parent.keyForParent is 'concepts' and (not this.parent.parent) and @$el.hasClass('concept-automatic')  # Don't allow editing of automatic concepts
-    super e
-
-class ConceptsListNode extends TreemaNode.nodeMap.array
-  sort: true
-
-  sortFunction: (a, b) ->
-    aAutomatic = _.find concepts, (c) -> c.concept is a and c.automatic
-    bAutomatic = _.find concepts, (c) -> c.concept is b and c.automatic
-    return 1 if bAutomatic and not aAutomatic  # Auto before manual
-    return -1 if aAutomatic and not bAutomatic  # Auto before manual
-    return 0 if not aAutomatic and not bAutomatic  # No ordering within manual
-    super a, b  # Alpha within auto
 
 class ClansListNode extends TreemaNode.nodeMap.array
   nodeDescription: 'ClansList'

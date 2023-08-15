@@ -47,6 +47,8 @@ _.extend CourseSchema.properties,
         totalTimeRange: { type: 'string', title: 'Total class time (range)', description: 'Relevant for curriculum guides hover tooltip'}
       }}
       lessonSlidesUrl: c.url { title: 'Lesson Slides URL' }
+      concepts: c.array {title: 'Programming Concepts', uniqueItems: true}, c.concept
+      primaryConcepts: c.array {title: 'Primary Concepts', description: 'The main 1-3 concepts this module focuses on.', uniqueItems: true, inEditor: true}, c.concept
     }} # TODO move module name from utils.coffee to schema
   }
 

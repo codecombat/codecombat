@@ -1,5 +1,4 @@
 Language = require './languages'
-concepts = require './concepts'
 
 # schema helper methods
 
@@ -363,7 +362,7 @@ me.task = me.object {title: 'Task', description: 'A task to be completed', forma
   name: {title: 'Name', description: 'What must be done?', type: 'string'}
   complete: {title: 'Complete', description: 'Whether this task is done.', type: 'boolean', format: 'checkbox'}
 
-me.concept = {type: 'string', enum: (concept.concept for concept in concepts), format: 'concept'}
+me.concept = {type: 'string', format: 'concept'}
 
 me.scoreType = me.shortString(title: 'Score Type', 'enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty', 'code-length', 'survival-time', 'defeated'])  # TODO: total gear value.
 
