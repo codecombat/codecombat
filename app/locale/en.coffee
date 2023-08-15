@@ -4212,6 +4212,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     note: 'Note'
     lock_or_skip_levels: 'Lock or Skip Levels'
     level_access_status_blurb: "When you choose to skip a level, it will have both the 'locked' and 'optional' status. Unskipping the level will remove both the 'locked' and 'optional' statuses."
+    reset_progress: "Reset Progress"
 
   outcomes:
     outcomes_report: "Outcomes Report"
