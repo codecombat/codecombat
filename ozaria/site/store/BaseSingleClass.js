@@ -37,7 +37,7 @@ export default {
 
     selectableStudentIds (state) {
       return state.selectableStudentIds
-    },    
+    },
 
     selectableOriginals (state) {
       return state.selectableOriginals
@@ -279,5 +279,32 @@ export default {
       },
       { root: true })
     },
+
+    resetProgress ({ rootGetters, dispatch, getters }) {
+      const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id))
+      const currentClassroom = rootGetters['teacherDashboard/getCurrentClassroom']
+      const courseInstances = rootGetters['courseInstances/getCourseInstancesOfClass'](currentClassroom._id)
+      const selectedCourseId = rootGetters['teacherDashboard/getSelectedCourseIdCurrentClassroom']
+      const courseInstance = courseInstances.find(ci => ci.courseID === selectedCourseId)
+      const courses = rootGetters['courses/sorted']
+      const selectedCourse = courses.find(c => c._id === selectedCourseId)
+      if (!selectedCourse || students.length === 0 || !courseInstance) {
+        return noty({
+          text: 'No progress to delete',
+          type: 'error',
+          timeout: 2000,
+          layout: 'center'
+        })
+      }
+      if (window.confirm(`Do you want to reset progress of ${students.length} users in ${selectedCourse.name}?`)) {
+        noty({
+          text: 'Deleting progress',
+          timeout: 200,
+          type: 'information',
+          layout: 'center'
+        })
+        dispatch('levelSessions/resetProgressOfUsers', { users: students, courseInstanceId: courseInstance._id, currentClassroom }, { root: true })
+      }
+    }
   }
 }
