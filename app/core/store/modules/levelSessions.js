@@ -54,6 +54,10 @@ export default {
       })
     },
 
+    clearSessionsByClassroom: (state, classroomId) => {
+      Vue.set(state.levelSessionsByClassroom, classroomId, null)
+    },
+
     initSessionsByCampaignState: (state, campaign) => {
       if (state.levelSessionsByCampaign[campaign]) {
         return
@@ -248,6 +252,32 @@ export default {
         console.error('Error in fetching campaign sessions', e)
         noty({ text: 'Error in fetching campaign sessions', type: 'error', timeout: 1000 })
       }
+    },
+
+    async resetProgressOfUsers ({ commit, dispatch }, { users, courseInstanceId, currentClassroom }) {
+      for (let i = 0; i< users.length; i++) {
+        const userId = users[i]._id
+        await levelSessionsApi.resetProgressOfUserInCourseInstance(courseInstanceId, userId)
+        if (i % 3 === 0 || i === users.length - 1) {
+          noty({
+            text: `Progress reset status: ${i + 1} / ${users.length}`,
+            type: 'success',
+            timeout: 2000,
+            layout: 'center'
+          })
+        }
+      }
+      if (currentClassroom) {
+        noty({
+          text: 'Fetching progress after deletion',
+          type: 'information',
+          timeout: 3000,
+          layout: 'center'
+        })
+        commit('clearSessionsByClassroom', currentClassroom._id)
+        await dispatch('fetchForClassroomMembers', { classroom: currentClassroom })
+      }
+
     }
   }
 }

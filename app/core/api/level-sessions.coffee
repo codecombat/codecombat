@@ -37,7 +37,7 @@ module.exports = {
       method: 'PUT'
       json: levelSession
     }))
-  
+
   fetchMySessions: (levelOriginal, options={}) ->
     fetchJson("/db/level/#{levelOriginal}/my_sessions", options)
 
@@ -46,4 +46,9 @@ module.exports = {
 
   fetchCompletedByDate: (date, options={}) ->
     fetchJson("/db/level.session/#{me.id}/completed/#{date}", options)
+
+  resetProgressOfUserInCourseInstance: (courseInstanceId, userId, options = {}) ->
+    fetchJson("/db/course_instances/#{courseInstanceId}/users/#{userId}/reset-progress", _.merge({}, options, {
+      method: 'DELETE'
+    }))
 }
