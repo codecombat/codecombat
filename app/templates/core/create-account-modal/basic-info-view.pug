@@ -26,11 +26,11 @@ mixin use-social-signon
             img.clever-logo(src="/images/pages/modal/auth/clever_sso_button@2x.png", draggable="false")
 
     // TODO: turn on once we can ask about school inside ConfirmationView
-    //if view.signupState.get('path') === 'individual' && (!me.get('country') || me.get('country') == 'united-states')
-    .checkbox#want-in-school
-      label.control-label(for="want-in-school-checkbox")
-        input#want-in-school-checkbox(type="checkbox" value="")
-        span(data-i18n="signup.want_codecombat_in_school")
+    //- if view.signupState.get('path') === 'individual' && (!me.get('country') || me.get('country') == 'united-states')
+    //-   .checkbox#want-in-school
+    //-     label.control-label(for="want-in-school-checkbox")
+    //-       input#want-in-school-checkbox(type="checkbox" value="")
+    //-       span(data-i18n="signup.want_codecombat_in_school")
   else
     .auth-network-logins
       .gplus-login
