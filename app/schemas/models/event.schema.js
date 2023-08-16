@@ -31,6 +31,10 @@ const EventSchema = schema.object(
     rrule: { type: 'string', description: 'recurring rule follow the rrule.js' },
     syncedToGC: { type: 'boolean', description: 'whether the event has been synced to google calendar' },
     gcEmails: { type: 'array', items: { type: 'string' }, description: 'google calendar emails' },
+    meetingLink: {
+      type: 'string',
+      description: 'meeting link of the event, i.e. zoom link'
+    }
   }
 )
 
