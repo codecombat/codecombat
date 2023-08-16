@@ -4107,6 +4107,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sync_to_google_desc: 'Sync this event to YOUR google calendar, instead of the owner\'s calendar. And can only work on CodeCombat gmail'
     timezone_tips: 'Date/Time is based on YOUR timezone: '
     no_data_display: 'No data to display'
+    meetingLink: 'Meeting Link'
 
   teacher_dashboard:
     lock: 'Lock'
