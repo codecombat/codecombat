@@ -57,6 +57,7 @@
         :is-capstone="isCapstoneModule(num)"
         :show-progress-dot="true"
         :level-sessions="levelSessions"
+        :language="language"
       />
     </div>
   </div>
@@ -67,7 +68,7 @@ import ModuleRow from '../../../../ozaria/site/components/teacher-dashboard/Base
 import ModuleContent
   from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ModuleContent'
 import CodeDiff from '../../../components/common/CodeDiff'
-import { getProgressStatusHelper } from '../helpers/levelCompletionHelper'
+import { getProgressStatusHelper, getStudentAndSolutionCode } from '../helpers/levelCompletionHelper'
 const Level = require('../../../models/Level')
 export default {
   name: 'ModuleProgressDataComponent',
@@ -114,10 +115,6 @@ export default {
     getProgressStatus (level) {
       return getProgressStatusHelper(this.levelSessions, level)
     },
-    getSolutions (level) {
-      const levelModel = new Level(level)
-      return levelModel.getSolutions()
-    },
     onShowCodeClicked ({ identifier, hideCode = false }) {
       const levelSlug = identifier
       if (hideCode) {
@@ -126,29 +123,10 @@ export default {
         return
       }
       const level = this.levels.find(l => l.slug === levelSlug)
-      const ls = this.levelSessions.find(ls => ls.levelID === levelSlug)
-      const studentCode = this.getStudentCode(ls)
-      const solutionCode = this.getSolutionCode(level, { lang: studentCode?.codeLanguage })
-      this.code[levelSlug] = studentCode?.code
+      const { studentCode, solutionCode } = getStudentAndSolutionCode(level, this.levelSessions)
+      this.code[levelSlug] = studentCode
       this.solution[levelSlug] = solutionCode
       this.showCodeModal.push(level.slug)
-    },
-    // do we need language filter?
-    getStudentCode (levelSession) {
-      if (levelSession?.code?.['hero-placeholder']?.plan) {
-        return { codeLanguage: levelSession.codeLanguage, code: levelSession?.code?.['hero-placeholder']?.plan }
-      } else if (levelSession?.code?.['hero-placeholder-1']?.plan) {
-        return { codeLanguage: levelSession.codeLanguage, code: levelSession?.code?.['hero-placeholder-1']?.plan }
-      }
-      return null
-    },
-    getSolutionCode (level, { lang = null }) {
-      const solutions = this.getSolutions(level)
-      if (lang) {
-        const sol = solutions.find(s => s.language === lang)
-        if (sol) return sol.source
-      }
-      return solutions.length ? solutions[0].source : null
     },
     formatDescription (desc) {
       if (!desc) return ''
