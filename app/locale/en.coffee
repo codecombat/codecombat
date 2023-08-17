@@ -4761,6 +4761,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     headline: "Empowering every player to become a creator!"
     subhead: "Experience the the easiest and most enjoyable way to code and create your own Roblox games"
     join_the_beta: "Join the Beta"
+    sign_up: "Sign Up"
     box_play_subhead: "Play"
     box_code_subhead: "Code"
     box_create_subhead: "Create"
