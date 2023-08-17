@@ -4758,9 +4758,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     email_confirm: "The email address \"__email__\" is already registered. Would you like to login?"
 
   roblox_landing:
-    headline: "CodeCombat Worlds is a New Immersive Experience on Roblox"
-    subhead: "Join the beta waitlist to receive early access, development updates and more!"
-    sign_up: "Sign Up"
+    headline: "Empowering every player to become a creator!"
+    subhead: "Experience the the easiest and most enjoyable way to code and create your own Roblox games"
+    join_the_beta: "Join the Beta"
     box_play_subhead: "Play"
     box_code_subhead: "Code"
     box_create_subhead: "Create"
