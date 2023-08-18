@@ -87,7 +87,7 @@
         </div>
       </div>
     </div>
-    <modal v-if="modalShown" title="Join the Beta Waitlist" ref="modal" @close="closeModal">
+    <modal v-if="modalShown" :title="`Join the Beta ${isMobile ? 'Waitlist' : 'Now'}`" ref="modal" @close="closeModal">
       <form @submit.prevent="onFormSubmit" class="schedule-free-class-form">
         <div class="form-group">
           <label for="role">{{ $t('roblox_landing.select_role') }}</label>
@@ -103,10 +103,20 @@
         </div>
         <div class="form-group pull-right">
           <span v-if="isSuccess" class="success-msg">
-            Success
+            <span v-if="isMobile">
+              Success
+            </span>
+            <span v-else>
+              You're in! First, <a href="https://www.roblox.com/groups/14987146/CodeCombat#!/about" target="_blank">join the CodeCombat Roblox group</a>, then <a href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds" target="_blank">play CodeCombat Worlds</a>!
+            </span>
           </span>
           <button v-if="!isSuccess" class="btn btn-success btn-lg" type="submit" :disabled="inProgress">
-            Submit
+            <span v-if="isMobile">
+              Submit
+            </span>
+            <span v-else>
+              Join
+            </span>
           </button>
         </div>
       </form>
@@ -161,6 +171,14 @@ export default {
       thumbnailUrl: `https://videodelivery.net/${videoId}/thumbnails/thumbnail.jpg?time=3.000s`
     }
   },
+  computed: {
+    isMobile() {
+      const userAgent = window.navigator.userAgent;
+      const mobileDevices = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+  
+      return mobileDevices.test(userAgent);
+    },
+  },
 
   methods: {
     openModal() {
@@ -182,7 +200,7 @@ export default {
       this.isSuccess = false
 
       try {
-        await waitlistSignup({ email: this.email, role: this.role })
+        await waitlistSignup({ email: this.email, role: this.role, mobile: this.isMobile })
         this.isSuccess = true
       } catch (err) {
 
