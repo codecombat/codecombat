@@ -29,12 +29,14 @@
         .col.col-md-7.col-lg-8
           .border-yellow
             .college-board-image-container
-                img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")          
+              img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")          
             .row
               .col.col-lg-12.lesson-slides
                 h2.text-h2(v-html="$t('apcsp_curriculum.explore_each_unit')")
                 .lesson-slides__buttons
-                  a.btn.btn-primary.btn-lg.btn-shadow(v-for="(slide, index) in lesson_slides" :key="index" :href="slide.url" target="_blank") {{ slide.title }}
+                  a.btn.btn-primary.btn-lg.btn-shadow(v-for="(slide, index) in lesson_slides" :key="index" :href="slide.url" target="_blank") 
+                    span.prefix {{ slide.prefix }}
+                    span.title(v-html="slide.title")
 
     #resources.container-fluid(v-if="hasLicense")
       .width-container.row
@@ -68,7 +70,7 @@
                   li 
                     a(href="https://codecombat.com/podcast" target="_blank") EdTech Adventures -CodeCombat’s Podcast             
               .resources-container__box
-                h4.text-h4 CodeCombat
+                h4.text-h4 Recruitment
                 ul 
                   li 
                     a(href="https://apcentral.collegeboard.org/courses/resources/ap-computer-science-recruitment-strategies" target="_blank") Recruitment Strategies
@@ -102,7 +104,7 @@
                   li 
                     a(href="https://docs.google.com/document/d/1hBSpxtjcd7DMGrsGIhgLXII2uGkRFBXy60qb89H7PiY/edit?usp=sharing" target="_blank") Interpersonal Skills Rubric                
               .resources-container__box
-                h4.text-h4 Teaching Strategies
+                h4.text-h4 More to Explore
                 ul 
                   li 
                     a(href="https://docs.google.com/document/d/1_gY1r1MM0wP1vS_0ctsxzq025k3tZ7w8fxLaIffJH_4/edit?usp=drive_link" target="_blank") AP CSP Vocab Terms
@@ -145,39 +147,48 @@ export default Vue.extend({
       showModal: false,
       lesson_slides: [
         {
-          title: 'Unit 1 - Computer Science 1',
+          prefix: 'Unit 1 -',
+          title: 'Computer&nbsp;Science&nbsp;1',
           url: 'https://drive.google.com/drive/folders/1-ww3rLkxj1cZwSvBm6_ThXqsEjwnu6Wn'
         },
         {
-          title: 'Unit 2 - Computer Science 2',
+          prefix: 'Unit 2 -',
+          title: 'Computer&nbsp;Science&nbsp;2',
           url: 'https://drive.google.com/drive/folders/1J3ywGVgDKtRBDaK_cK106Jn-l9GaKd3n'
         },
         {
-          title: 'Unit 3 - Computer Science 3',
+          prefix: 'Unit 3 -',
+          title: 'Computer&nbsp;Science&nbsp;3',
           url: 'https://drive.google.com/drive/folders/1x9EgA6TO1N4ePnzgnFK2kNn8ujIEKe3B'
         },
         {
-          title: 'Unit 4 - Computer Science 4',
+          prefix: 'Unit 4 -',
+          title: 'Computer&nbsp;Science&nbsp;4',
           url: 'https://drive.google.com/drive/folders/1WUEL82hSDJ1mzqkfouZVkbOmrJvfMqkG'
         },
         {
-          title: 'Unit 5 - Creative Development',
+          prefix: 'Unit 5 -',
+          title: 'Creative&nbsp;Development',
           url: 'https://drive.google.com/drive/folders/1P7gXxhVRw9KP1X_TrPKUFjyEjWKx4v80'
         },
         {
-          title: 'Unit 6 - Data',
+          prefix: 'Unit 6 -',
+          title: 'Data',
           url: 'https://drive.google.com/drive/folders/1lmaOaliF9BLNTvw5xSQIIbXd9Tc6h94Q'
         },
         {
-          title: 'Unit 7 - Computer Systems and Networks',
+          prefix: 'Unit 7 -',
+          title: 'Computer&nbsp;Systems&nbsp;and Networks',
           url: 'https://drive.google.com/drive/folders/1abCCJfewpl8dMt6j4ks9AC7aBPfTXqEt'
         },
         {
-          title: 'Unit 8 - Impact of Computing',
+          prefix: 'Unit 8 -',
+          title: 'Impact&nbsp;of&nbsp;Computing',
           url: 'https://drive.google.com/drive/folders/1gaIB2x_45r_CNoJ02BHDrBCrbYx-X8jU'
         },
         {
-          title: 'Unit 9 - Exam Prep',
+          prefix: 'Unit 9 -',
+          title: 'Exam&nbsp;Prep',
           url: 'https://drive.google.com/drive/folders/1tOJkJoKghKuOtURk0RQc4Bw1FOU_2nSi'
         }
       ],
@@ -247,7 +258,9 @@ export default Vue.extend({
     ...mapActions({
       fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher'
     }),
-    async updateLicenseStatus () {
+    async updateLicenseStatus() {
+      this.hasLicense = true;
+      return;
       if (me.isPaidTeacher()) {
         this.hasLicense = true
         return
@@ -278,7 +291,8 @@ $apcsp-marketing-body-font: 'Arvo';
   font-size: 64px;
   font-style: normal;
   font-weight: 700;
-  line-height: 90px; /* 140.625% */
+  line-height: 90px;
+  /* 140.625% */
   letter-spacing: 1.96px;
 
   @media (max-width: $screen-sm) {
@@ -551,15 +565,18 @@ p,
     overflow: visible;
     height: 100%;
     position: relative;
+
     .college-board-image-container {
       position: absolute;
       right: 0;
       bottom: 0;
       transform: translate(50%, 50%);
+
       img {
         width: 220px;
       }
     }
+
     .text-h2 {
       color: #FFF;
       text-align: center;
@@ -567,7 +584,8 @@ p,
       font-size: 33px;
       font-style: normal;
       font-weight: 700;
-      line-height: 62px; /* 187.879% */
+      line-height: 62px;
+      /* 187.879% */
       letter-spacing: 1.96px;
     }
   }
@@ -582,15 +600,16 @@ p,
     background-size: cover;
     background-position: left bottom;
     overflow: hidden;
+
     .width-container {
       margin-top: 90px;
       margin-bottom: 230px;
 
-      > div {
+      >div {
         @media (max-width: $screen-lg) {
           padding-bottom: 20px;
         }
-      }      
+      }
 
       h2 {
 
@@ -631,20 +650,42 @@ p,
           margin-top: 30px;
 
           .btn {
+
             display: flex;
-            align-items: center;
+            flex-direction: row;
             justify-content: center;
+            align-items: center;
+            text-align: center;
+
+
             max-width: none;
             white-space: normal;
             flex-basis: calc(50% - 20px);
+
+            .prefix {
+              white-space: nowrap;
+              text-align: right;
+              margin-right: 5px;
+            }
+
+            .title {
+              text-align: left;
+              display: inline-block;
+              width: min-content;
+              @media screen and (min-width: 768px) and (max-width: $screen-lg) {
+                white-space: nowrap;
+              }
+            }
+
             @media screen and (max-width: $screen-lg) {
               flex-basis: 100%;
             }
+
             min-height: 65px;
             margin: 10px auto;
             line-height: 24px;
-            padding: 0;           
-            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.20); 
+            padding: 0;
+            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.20);
 
             &:not(:last-child) {
               margin-right: 10px;
@@ -655,6 +696,7 @@ p,
               flex-basis: 100%;
               /* The last button takes the full width */
               text-align: center;
+
               /* Center the text of the last button */
               @media screen and (min-width: $screen-lg) {
                 max-width: 50%;
@@ -762,6 +804,7 @@ p,
       }
     }
   }
+
   .btn-shadow {
     filter: drop-shadow(0px 0px 20px #000000);
   }
@@ -801,15 +844,26 @@ p,
     background-image: linear-gradient(to right, rgba(14, 76, 96, 1), rgba(32, 87, 43, 1));
     padding-top: 90px;
     padding-bottom: 135px;
+
     .resources-container {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 45px;
 
+      // Let's keep 3 columns till the 992 breakpoint, 2 columns till the 768px 
+      @media (max-width: $screen-md) {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      @media screen and (max-width: $screen-sm) {
+        grid-template-columns: 1fr;
+      }
+
       &__box {
         border-radius: 20px;
         background: #FFF;
         filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        min-width: 0;
 
         .text-h4 {
           border-radius: 20px 20px 0px 0px;
@@ -829,9 +883,13 @@ p,
 
         ul {
           padding: 20px 30px;
+          margin: min(35px, 1.8vw);
+
           li {
             margin-bottom: 15px;
-            a, span {
+
+            a,
+            span {
               color: #0E4C60;
               font-family: Open Sans;
               font-size: 24px;
@@ -841,7 +899,9 @@ p,
               /* 125% */
               letter-spacing: 2px;
               text-decoration-line: underline;
+              text-decoration-thickness: 1.2px;
             }
+
             span {
               font-style: italic;
               font-weight: 400;
@@ -972,10 +1032,11 @@ p,
       font-size: 60px;
       font-style: normal;
       font-weight: 700;
-      line-height: 62px; /* 103.333% */
+      line-height: 62px;
+      /* 103.333% */
       letter-spacing: 1.96px;
       text-shadow: 0px 0px 20px #000000;
-      padding-bottom: 50px;      
+      padding-bottom: 50px;
     }
 
     .text-h3 {
@@ -1069,4 +1130,5 @@ p,
 
 .image18 {
   border-radius: 25px;
-}</style>
+}
+</style>

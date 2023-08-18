@@ -3798,7 +3798,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form"
     request_license: "Join Pilot Program"
     page_title: "AP Computer Science Principles Curriculum"
-    explore_each_unit: "Explore each unit, including <strong>lesson plans</strong> and <strong>lesson slides</strong>"
+    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>"
 
 
   hoc_2019:
