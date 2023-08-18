@@ -4086,7 +4086,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     class_count: 'Lessons Count'
     done: 'Finished Lesson'
     attendance: 'Attendance'
-    course_description: 'Lesson Description'
+    course_description: 'Teacher Notes'
     teacher_notes: 'Teacher Notes'
     levels_completed: 'Levels Completed'
     no_levels_completed: 'No Completed Levels Found'
