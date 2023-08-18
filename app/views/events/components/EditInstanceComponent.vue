@@ -38,7 +38,6 @@ export default {
       this.$set(this.memberAttendees[m], 'attendance', !bool)
     },
     updateDescription (desc) {
-      console.log('update?', desc.id, desc.value)
       this.$set(this.memberAttendees[desc.id], 'description', desc.value)
     },
     onFormSubmit () {

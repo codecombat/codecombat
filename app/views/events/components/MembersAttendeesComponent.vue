@@ -25,14 +25,12 @@
       <div class="name">
         {{ m.name }}
       </div>
-      <input
+      <textarea
         class="description"
         :disabled="!m.attendance"
         :value="m.description"
         @input="debouncedUpdateDescription(m.userId, $event.target.value)"
-        name="m"
-        type="text"
-      >
+      />
     </div>
   </div>
 </template>

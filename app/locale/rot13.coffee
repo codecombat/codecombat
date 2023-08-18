@@ -720,7 +720,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     already_have_account: "Nyernql unir n PbqrPbzong be Bmnevn nppbhag"
     select_your_role: "Fryrpg lbhe ebyr"
     select_your_state: "Fryrpg lbhe fgngr"
-    password_requirements: "8 gb 64 punenpgref jvgu ab ercrngvat"
+    password_requirements: "4 gb 64 punenpgref jvgu ab ercrngvat"
     invalid: "Vainyvq"
     invalid_password: "Vainyvq cnffjbeq"
     with: "jvgu"
@@ -2738,6 +2738,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   editor:
     main_title: "PbqrPbzong Rqvgbef"
+    concept_title: "Pbaprcg Rqvgbe"
+    standards_title: "Fgnaqneqf Pbeeryngvba Rqvgbe"
     article_title: "Negvpyr Rqvgbe"
     thang_title: "Gunat Rqvgbe"
     level_title: "Yriry Rqvgbe"
@@ -2798,6 +2800,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     level_systems_btn_add: "Nqq Flfgrz"
     level_components_title: "Onpx gb Nyy Gunatf"
     level_components_type: "Glcr"
+    concept_edit_title: "Rqvg Pbaprcg"
+    standards_edit_title: "Rqvg Fgnaqneqf Pbeeryngvba"
     level_component_edit_title: "Rqvg Pbzcbarag"
     level_component_config_schema: "Pbasvt Fpurzn"
     level_system_edit_title: "Rqvg Flfgrz"
@@ -2814,6 +2818,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     ai_document_edit_title: "Rqvg Qbphzrag"
     ai_chat_message_edit_title: "Rqvg Pung Zrffntr"
     create_system_title: "Perngr Arj Flfgrz"
+    new_concept_title: "Perngr Arj Pbaprcg"
+    new_standards_title: "Perngr Arj Fgnaqneqf Pbeeryngvba"
     new_component_title: "Perngr Arj Pbzcbarag"
     new_component_field_system: "Flfgrz"
     new_article_title: "Perngr n Arj Negvpyr"
@@ -2843,6 +2849,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     new_ai_chat_message_title: "Perngr n Arj Pung Zrffntr"
     new_ai_chat_message_title_login: "Ybt Va gb Perngr n Arj Pung Zrffntr"
     article_search_title: "Frnepu Negvpyrf Urer"
+    concept_search_title: "Frnepu Pbaprcgf Urer"
+    standards_search_title: "Frnepu Fgnaqneqf Pbeeryngvbaf Urer"
     thang_search_title: "Frnepu Gunat Glcrf Urer"
     level_search_title: "Frnepu Yriryf Urer"
     achievement_search_title: "Frnepu Npuvrirzragf"
@@ -4078,7 +4086,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     class_count: 'Yrffbaf Pbhag'
     done: 'Svavfurq Yrffba'
     attendance: 'Nggraqnapr'
-    course_description: 'Yrffba Qrfpevcgvba'
+    course_description: 'Grnpure Abgrf'
     teacher_notes: 'Grnpure Abgrf'
     levels_completed: 'Yriryf Pbzcyrgrq'
     no_levels_completed: 'Ab Pbzcyrgrq Yriryf Sbhaq'
@@ -4204,6 +4212,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     note: 'Abgr'
     lock_or_skip_levels: 'Ybpx be Fxvc Yriryf'
     level_access_status_blurb: "Jura lbh pubbfr gb fxvc n yriry, vg jvyy unir obgu gur 'ybpxrq' naq 'bcgvbany' fgnghf. Hafxvccvat gur yriry jvyy erzbir obgu gur 'ybpxrq' naq 'bcgvbany' fgnghfrf."
+    reset_progress: "Erfrg Cebterff"
 
   outcomes:
     outcomes_report: "Bhgpbzrf Ercbeg"
@@ -4380,7 +4389,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     cup: "Phc"
     blitz: "Oyvgm"
     clash: "Pynfu"
-    season8_announcement_1: "Gur Snezfpncr Oyvgm unf ortha! Va Frnfba 8, pbqr n jnl nebhaq jvyq bofgnpyrf naq guevir jvgu gur bppnfvbany snez obbfgf gung nccrne va lbhe svryqf."
+    season8_announcement_1: "Vg'f uneirfgvat frnfba va Snezfpncr Oyvgm Frnfba 8! Nf gur yrnirf punatr, vg'f gvzr gb pbqr lbhe jnl nebhaq jvyq naq vzcrargenoyr bofgnpyrf ba gur snez. Fgengrtvpnyyl pbyyrpg ivgny obbfgf gb rzcbjre lbhe ebobg jbexre naq hgvyvmr fcrpvny novyvgvrf gb obbfg cebqhpgvivgl naq bhg-snez lbhe bccbaragf!"
     season8_announcement_2: "Abgr: neran onynapr nqwhfgzragf znl bpphe hc hagvy Nhthfg 15gu. Fb or fher gb pbzr onpx bsgra gb grfg lbhe pbqr ntnvafg gur tybony yrnqreobneq."
     season7_announcement_1: "Jvgarff gur qnja bs n arj punyyratr va gur Rdhvabk Phc! Frnfba 7'f gbjre qrsrafr neran bssref n havdhr oyraq bs fgengrtl, zbafgref, naq obff onggyrf sbe lbh gb pbadhre."
     season6_announcement_1: "Vg’f nofbyhgr Zbygra Znlurz jvgu gur ynhapu bs gur Ynin Ynxr Pynfu svanyf! Bhgynfg naq bhgjvg gur pbzcrgvgvba va guvf ubg gnxr ba pynffvp Fanxr tnzrcynl."
