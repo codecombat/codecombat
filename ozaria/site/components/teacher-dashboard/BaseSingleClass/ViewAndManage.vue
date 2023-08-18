@@ -32,10 +32,7 @@ export default {
       ...mapGetters({
         selectedStudentIds: 'baseSingleClass/selectedStudentIds',
         selectedOriginals: 'baseSingleClass/selectedOriginals'
-      }),
-      isTecmilenioPartner () {
-        return me.isTecmilenio()
-      }
+      })
     },
     methods: {
       ...mapActions({
@@ -120,9 +117,8 @@ export default {
           @click="revokeLicenses"
         />
         <icon-button-with-text
-          v-if="isTecmilenioPartner"
           class="icon-with-text larger-icon"
-          :icon-name="displayOnly ? 'IconRubricLocked' : 'IconRubric'"
+          :icon-name="'IconReset'"
           :text="$t('teacher_dashboard.reset_progress')"
           :inactive="displayOnly"
           @click="resetProgress"
@@ -274,7 +270,7 @@ export default {
 
   .icon-with-text {
     width: 96px;
-    margin: 9px;
+    margin: 5px;
   }
 
   .arrow-fade-enter-active {
