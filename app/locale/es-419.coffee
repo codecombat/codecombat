@@ -3060,7 +3060,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     certificate_lines_of: "líneas de"
     certificate_levels_completed: "niveles completados"
     certificate_for: "Por"
-    for_ozaria_chapters_1_4: "Para Ozaria Capítulos 1 - 4"
+    for_ozaria_chapters_1_4: "Certificado Global"
     certificate_number: "No."
     heroes_unlocked: "Héroes desbloqueados"
     current_items: "Objetos equipados"
