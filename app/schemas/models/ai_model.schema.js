@@ -12,7 +12,7 @@ _.extend(AIModelSchema.properties, {
     description: 'The exact name of the model as used in API calls.'
   },
   family: c.shortString({
-    enum: ['ChatGPT', 'Stable Diffusion'],
+    enum: ['ChatGPT', 'Stable Diffusion', 'Claude', 'DALL-E'],
     title: 'Family',
     description: 'The family of models this model belongs to, usually what people know it as.'
   }),
