@@ -209,10 +209,7 @@ export default Vue.extend({
 
               li(v-if="me.isParentHome()")
                 a.text-p(:class="checkLocation('/parents/dashboard') && 'text-teal'" :href="me.hasNoVerifiedChild() ? cocoPath('/parents/add-another-child') : cocoPath('/parents/dashboard')") {{ $t('nav.dashboard') }}
-
-              li
-                a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
-
+  
               li(v-if="me.isTeacher()")
                 ul.nav.navbar-nav
                   li.dropdown.dropdown-hover
