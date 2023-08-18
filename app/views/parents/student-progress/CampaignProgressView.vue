@@ -8,6 +8,7 @@
       :level-sessions="levelSessions"
       :product="product"
       :oz-course-content="ozCourseContent"
+      :campaign="campaign"
     />
     <module-resources
       :campaign="campaign"

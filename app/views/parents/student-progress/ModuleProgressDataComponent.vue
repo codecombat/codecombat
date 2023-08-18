@@ -50,26 +50,80 @@
       v-else
       class="lprogress__content"
     >
-      <module-content
+      <div
         v-for="num in moduleNumbers"
+        class="lprogress__module"
         :key="num"
-        :module-num="num"
-        :is-capstone="isCapstoneModule(num)"
-        :show-progress-dot="true"
-        :level-sessions="levelSessions"
-        :language="language"
-      />
+      >
+        <module-header
+          :module-num="num"
+          :module-name="getModuleName(num)"
+          :is-capstone="false"
+        />
+        <template
+          v-for="{ icon, name, _id, description, isPartOfIntro, isIntroHeadingRow, slug, fromIntroLevelOriginal } in getContentTypes(num)"
+        >
+          <intro-module-row
+            v-if="isIntroHeadingRow"
+            :key="_id"
+            :icon-type="icon"
+            :display-name="name"
+            class="lprogress__level"
+          />
+          <module-row
+            v-else
+            :key="_id"
+            :icon-type="icon"
+            :display-name="name"
+            :description="description"
+            :is-part-of-intro="isPartOfIntro"
+            :show-progress-dot="true"
+            :show-code-btn="getProgressStatus({ slug, fromIntroLevelOriginal }) !== 'not-started' && icon !== 'cutscene'"
+            :progress-status="getProgressStatus({ slug, fromIntroLevelOriginal })"
+            :identifier="slug"
+            @showCodeClicked="onShowCodeClicked"
+            class="lprogress__level"
+          />
+          <code-diff
+            v-if="showCodeModal.includes(slug)"
+            :language="language"
+            :code-right="solution[slug]"
+            :code-left="code[slug]"
+            :key="slug"
+          />
+<!--          <code-diff-->
+<!--            v-if="showCodeLevelSlug === slug"-->
+<!--            :language="language"-->
+<!--            :code-right="solutionCode"-->
+<!--            :code-left="studentCode"-->
+<!--            :key="slug"-->
+<!--          />-->
+        </template>
+      </div>
+<!--      <module-content-->
+<!--        v-for="num in moduleNumbers"-->
+<!--        :key="num"-->
+<!--        :module-num="num"-->
+<!--        :is-capstone="isCapstoneModule(num)"-->
+<!--        :show-progress-dot="true"-->
+<!--        :level-sessions="levelSessions"-->
+<!--        :language="language"-->
+<!--      />-->
     </div>
   </div>
 </template>
 
 <script>
 import ModuleRow from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ModuleRow'
-import ModuleContent
-  from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ModuleContent'
+import ModuleHeader
+  from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ModuleHeader'
+import IntroModuleRow
+  from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/IntroModuleRow'
 import CodeDiff from '../../../components/common/CodeDiff'
 import { getProgressStatusHelper, getStudentAndSolutionCode } from '../helpers/levelCompletionHelper'
+import { getCurriculumGuideContentList } from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper'
 const Level = require('../../../models/Level')
+const ozariaCourseUtils = require('../../../core/ozaria-course-utils')
 export default {
   name: 'ModuleProgressDataComponent',
   props: {
@@ -93,6 +147,9 @@ export default {
       default () {
         return {}
       }
+    },
+    campaign: {
+      type: Object
     }
   },
   data () {
@@ -105,7 +162,8 @@ export default {
   components: {
     ModuleRow,
     CodeDiff,
-    ModuleContent
+    ModuleHeader,
+    IntroModuleRow
   },
   methods: {
     getIconType (level) {
@@ -141,6 +199,18 @@ export default {
     },
     isCapstoneModule (moduleNum) {
       return moduleNum === this.moduleNumbers[this.moduleNumbers.length - 1]
+    },
+    getModuleName (moduleNum) {
+      return ozariaCourseUtils.courseModules[this.campaign._id][moduleNum]
+    },
+    getContentTypes (moduleNum) {
+      return getCurriculumGuideContentList({
+        introLevels: this.ozCourseContent.introLevels,
+        moduleInfo: this.ozCourseContent.modules,
+        moduleNum,
+        currentCourseId: this.campaign._id,
+        codeLanguage: this.language
+      })
     }
   },
   computed: {
@@ -203,6 +273,10 @@ export default {
     &:nth-child(odd) {
       background-color: $color-grey-2;
     }
+  }
+
+  &__module {
+    padding-bottom: 2rem;
   }
 }
 

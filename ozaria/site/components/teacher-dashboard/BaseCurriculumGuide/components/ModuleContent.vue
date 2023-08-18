@@ -3,9 +3,9 @@
   import ModuleRow from './ModuleRow'
   import IntroModuleRow from './IntroModuleRow'
   import { mapGetters } from 'vuex'
-  import utils from 'core/utils'
   import CodeDiff from '../../../../../../app/components/common/CodeDiff'
   import { getProgressStatusHelper, getStudentAndSolutionCode } from '../../../../../../app/views/parents/helpers/levelCompletionHelper'
+  import { getCurriculumGuideContentList } from '../curriculum-guide-helper'
 
   export default {
     data () {
@@ -64,68 +64,13 @@
       },
 
       getContentTypes () {
-        const introLevels = this.getModuleIntroLevels
-        const curriculumGuideContentList = []
-        let lastIntroLevelSlug = null
-        for (const content of this.getModuleInfo?.[this.moduleNum] || []) {
-          const {
-            type,
-            ozariaType,
-            introLevelSlug,
-            fromIntroLevelOriginal,
-            slug,
-            introContent,
-            _id
-          } = content
-
-          // Potentially this intro doesn't have a header in the curriculum guide yet
-          if (introLevelSlug &&
-            type !== 'cutscene' &&
-            lastIntroLevelSlug !== introLevelSlug
-          ) {
-            curriculumGuideContentList.push({
-              isIntroHeadingRow: true,
-              name: utils.i18n(introLevels[fromIntroLevelOriginal], 'displayName'),
-              icon: 'intro'
-            })
-            lastIntroLevelSlug = introLevelSlug
-          }
-
-          let icon, url
-
-          // TODO: Where is the language chosen in the curriculum guide?
-          if (!ozariaType) {
-            icon = type
-            url = `/play/intro/${introLevelSlug}?course=${this.getCurrentCourse._id}&codeLanguage=${this.getSelectedLanguage}&intro-content=${introContent || 0}`
-          } else if (ozariaType) {
-            if (ozariaType === 'practice') {
-              icon = 'practicelvl'
-            } else if (ozariaType === 'capstone') {
-              icon = 'capstone'
-            } else if (ozariaType === 'challenge') {
-              icon = 'challengelvl'
-            }
-            url = `/play/level/${slug}?course=${this.getCurrentCourse._id}&codeLanguage=${this.getSelectedLanguage}`
-          }
-
-          if (!url || !icon) {
-            console.error('missing url or icon in curriculum guide')
-          }
-          curriculumGuideContentList.push({
-            icon,
-            name: utils.i18n(content, 'displayName') || utils.i18n(content, 'name'),
-            _id,
-            description: this.getContentDescription(content),
-            url,
-            // Handle edge case that cutscenes are always in their own one to one intro
-            isPartOfIntro: !!introLevelSlug && icon !== 'cutscene',
-            isIntroHeadingRow: false,
-            slug,
-            fromIntroLevelOriginal
-          })
-        }
-        console.log('cur', curriculumGuideContentList)
-        return curriculumGuideContentList
+        return getCurriculumGuideContentList({
+          introLevels: this.getModuleIntroLevels,
+          moduleInfo: this.getModuleInfo,
+          moduleNum: this.moduleNum,
+          currentCourseId: this.getCurrentCourse._id,
+          codeLanguage: this.getSelectedLanguage
+        })
       }
     },
 

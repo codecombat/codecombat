@@ -25,6 +25,10 @@
       isCapstone: {
         type: Boolean,
         default: false
+      },
+      moduleName: {
+        type: String,
+        default: ''
       }
     },
     computed: {
@@ -85,7 +89,7 @@
 <template>
   <div class="header">
     <div class="module-header">
-      <h3>{{ $t('teacher_dashboard.module') }} {{ moduleNum }} {{ getCurrentModuleNames(moduleNum) }}</h3>
+      <h3>{{ $t('teacher_dashboard.module') }} {{ moduleNum }} {{ moduleName || getCurrentModuleNames(moduleNum) }}</h3>
       <div
         v-if="getModuleTotalTimeInfo !== undefined"
         class="time-row"
