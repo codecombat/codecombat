@@ -1,27 +1,17 @@
 <template>
   <div id="roblox-page">
     <div class="container-fluid headline-container">
-      <video
-          id="myVideo"
-          class="video-background"
-          autoplay
-          muted
-          loop
-          playsinline
-          src="/images/pages/roblox/video-background.mp4"
-      >
-        <source
-            src="/images/pages/roblox/video-background.mp4"
-            type="video/mp4"
-        >
-      </video>
+      <div class="video-background">
+        <iframe
+          src="https://customer-burj9xtby325x4f1.cloudflarestream.com/a4946ec5affa5a4ff315255487379661/iframe?muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fa4946ec5affa5a4ff315255487379661%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+          style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+          allowfullscreen="true"></iframe>
+      </div>
       <div class="container">
         <div class="row headline-row">
           <div class="col col-md-8">
-            <img
-                class="coco-worlds-logo"
-                src="/images/pages/roblox/coco-worlds.png"
-            >
+            <img class="coco-worlds-logo" src="/images/pages/roblox/coco-worlds.png">
             <h1 class="text-headline">
               {{ $t('roblox_landing.headline') }}
             </h1>
@@ -29,121 +19,104 @@
               {{ $t('roblox_landing.subhead') }}
             </h2>
 
-            <button-main
-                @click="openModal"
-                :buttonText="$t('signup.sign_up')"
-                class="button-main"
-            />
+            <button-main @click="openModal" :buttonText="$t('roblox_landing.join_the_beta')" class="button-main" />
           </div>
         </div>
       </div>
     </div>
-    <div v-if="role" class="container container-boxes">
-      <h3>{{ $t('roblox_landing.boxes_title') }}</h3>
-      <div
-          v-for="boxType in boxesByRole[role]"
-          class="row" :class="`row-type-${boxType}`"
-      >
-        <div class="col col-md-6 box-content ">
-          <img
-              class="box-icon"
-              :src="`/images/pages/roblox/${boxType}-icon.svg`"
-          >
-          <h4 class="box-title">
-            {{ $t(`roblox_landing.box_${boxType}_subhead`) }}
-          </h4>
-          <p>
-            {{ $t(`roblox_landing.box_${boxType}_blurb_${role}`) }}
-          </p>
+    <div class="container-fluid container-fluid-boxes">
+      <div v-if="role" class="container container-boxes">
+        <h3>{{ $t('roblox_landing.boxes_title') }}</h3>
+        <div v-for="boxType in boxesByRole[role]" class="row" :class="`row-type-${boxType}`">
+          <div class="col col-md-6 box-content ">
+            <img class="box-icon" :src="`/images/pages/roblox/${boxType}-icon.svg`">
+            <h4 class="box-title">
+              {{ $t(`roblox_landing.box_${boxType}_subhead`) }}
+            </h4>
+            <p>
+              {{ $t(`roblox_landing.box_${boxType}_blurb_${role}`) }}
+            </p>
+          </div>
+          <div class="col col-md-6">
+            <img :src="`/images/pages/roblox/${boxType}.png`">
+          </div>
         </div>
-        <div class="col col-md-6">
-          <img :src="`/images/pages/roblox/${boxType}.webp`">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col col-md-12">
-          <p v-if="role==='parent'" v-html="$t('roblox_landing.bottom_blurb_parent', i18nData)"></p>
-          <p v-if="role==='partner'" v-html="$t('roblox_landing.bottom_blurb_partner', i18nData)"></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row row-video">
-        <div class="col-md-12">
-          <div class="video-container">
-            <base-video
-                :youtube-props="{ videoId: youtubeId, fitParent: true }"
-                :cloudflare-props="{ videoCloudflareId: videoId, thumbnailUrl }"
-            />
+        <div class="row">
+          <div class="col col-md-12">
+            <p v-if="role === 'parent'" v-html="$t('roblox_landing.bottom_blurb_parent', i18nData)"></p>
+            <p v-if="role === 'partner'" v-html="$t('roblox_landing.bottom_blurb_partner', i18nData)"></p>
           </div>
         </div>
       </div>
 
-      <div class="row row-faq">
-        <div class="col-md-12">
-          <button-main :href="false" :buttonText="$t('contact.faq')" class="button-main"/>
-
-          <div class="item">
-            <p class="question">{{ $t('roblox_landing.question_1') }}</p>
-            <ul>
-              <li>{{ $t('roblox_landing.answer_1') }}</li>
-            </ul>
+      <div class="container">
+        <div class="row row-video">
+          <div class="col-md-12">
+            <div class="video-container">
+              <base-video :youtube-props="{ videoId: youtubeId, fitParent: true }"
+                :cloudflare-props="{ videoCloudflareId: videoId, thumbnailUrl }" />
+            </div>
           </div>
+        </div>
 
-          <div class="item">
-            <p class="question">{{ $t('roblox_landing.question_2') }}</p>
-            <ul>
-              <li>{{ $t('roblox_landing.answer_2') }}</li>
-            </ul>
-          </div>
+        <div class="row row-faq">
+          <div class="col-md-12">
+            <button-main :href="false" :buttonText="$t('contact.faq')" class="button-main" />
 
-          <div class="item">
-            <p class="question">{{ $t('roblox_landing.question_3') }}</p>
-            <ul>
-              <li>{{ $t('roblox_landing.answer_3') }}</li>
-            </ul>
+            <div class="item">
+              <p class="question">{{ $t('roblox_landing.question_1') }}</p>
+              <ul>
+                <li>{{ $t('roblox_landing.answer_1') }}</li>
+              </ul>
+            </div>
+
+            <div class="item">
+              <p class="question">{{ $t('roblox_landing.question_2') }}</p>
+              <ul>
+                <li>{{ $t('roblox_landing.answer_2') }}</li>
+              </ul>
+            </div>
+
+            <div class="item">
+              <p class="question">{{ $t('roblox_landing.question_3') }}</p>
+              <ul>
+                <li>{{ $t('roblox_landing.answer_3') }}</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <modal
-        v-if="modalShown"
-        title="Join the Beta Waitlist"
-        ref="modal"
-        @close="closeModal"
-    >
+    <modal v-if="modalShown" :title="`Join the Beta ${isMobile ? 'Waitlist' : 'Now'}`" ref="modal" @close="closeModal">
       <form @submit.prevent="onFormSubmit" class="schedule-free-class-form">
         <div class="form-group">
           <label for="role">{{ $t('roblox_landing.select_role') }}</label>
           <select class="form-control" v-model="role">
-            <option
-                v-for="value in roles"
-                :key="value"
-                :value="value"
-            >
+            <option v-for="value in roles" :key="value" :value="value">
               {{ $t(`roblox_landing.role_${value}`) }}
             </option>
           </select>
         </div>
         <div class="form-group" :class="{ 'has-error': !isValidEmail }">
           <label for="email">{{ $t('modal_free_class.email') }}</label>
-          <input type="email" id="email" placeholder="Enter email" v-model="email" class="form-control"/>
+          <input type="email" id="email" placeholder="Enter email" v-model="email" class="form-control" />
         </div>
         <div class="form-group pull-right">
-        <span
-            v-if="isSuccess"
-            class="success-msg"
-        >
-          Success
-        </span>
-          <button
-              v-if="!isSuccess"
-              class="btn btn-success btn-lg"
-              type="submit"
-              :disabled="inProgress"
-          >
-            Submit
+          <span v-if="isSuccess" class="success-msg">
+            <span v-if="isMobile">
+              Success
+            </span>
+            <span v-else>
+              You're in! First, <a href="https://www.roblox.com/groups/14987146/CodeCombat#!/about" target="_blank">join the CodeCombat Roblox group</a>, then <a href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds" target="_blank">play CodeCombat Worlds</a>!
+            </span>
+          </span>
+          <button v-if="!isSuccess" class="btn btn-success btn-lg" type="submit" :disabled="inProgress">
+            <span v-if="isMobile">
+              Submit
+            </span>
+            <span v-else>
+              Join
+            </span>
           </button>
         </div>
       </form>
@@ -198,18 +171,26 @@ export default {
       thumbnailUrl: `https://videodelivery.net/${videoId}/thumbnails/thumbnail.jpg?time=3.000s`
     }
   },
+  computed: {
+    isMobile() {
+      const userAgent = window.navigator.userAgent;
+      const mobileDevices = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+  
+      return mobileDevices.test(userAgent);
+    },
+  },
 
   methods: {
-    openModal () {
+    openModal() {
       this.modalShown = true
     },
-    closeModal () {
+    closeModal() {
       this.modalShown = false
     },
-    validate () {
+    validate() {
       this.isValidEmail = this.email && forms.validateEmail(this.email)
     },
-    async onFormSubmit () {
+    async onFormSubmit() {
       this.validate()
       if (!this.isValidEmail) {
         return
@@ -219,7 +200,7 @@ export default {
       this.isSuccess = false
 
       try {
-        await waitlistSignup({ email: this.email, role: this.role })
+        await waitlistSignup({ email: this.email, role: this.role, mobile: this.isMobile })
         this.isSuccess = true
       } catch (err) {
 
@@ -252,21 +233,25 @@ $box-content-margin: min(6vw, 90px);
   content: '';
   position: absolute;
   display: block;
-  width: 25%;
-  aspect-ratio: 572/370;
-  background-image: url('/images/pages/roblox/play-assets.webp');
+  width: 55%;
+  aspect-ratio: 16/9;
+  background-image: url('/images/pages/roblox/play-assets.png');
   background-size: contain;
   z-index: 1;
-  transform: scaleX(-1);
-  top: 75%;
-  left: -12.5%;
+  top: 37%;
+  left: -27.5%;
 }
 
 #roblox-page {
   background: radial-gradient(ellipse at center, rgba(0, 161, 144, 1) 0%, rgba(0, 177, 156, 1) 54%, rgba(0, 107, 99, 1) 96%, rgba(0, 107, 99, 1) 100%);
   margin-bottom: -50px;
 
-  h1, h2, h3, h4, p, li {
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  li {
     color: white;
     font-family: $body-font;
   }
@@ -276,6 +261,7 @@ $box-content-margin: min(6vw, 90px);
     line-height: 1em;
     font-weight: 600;
     text-shadow: 0em 0.0375em 0.28125em rgb(0 0 0 / 60%);
+
     @media (max-width: $screen-md-min) {
       font-size: 20px;
     }
@@ -287,14 +273,21 @@ $box-content-margin: min(6vw, 90px);
     text-shadow: 0em 0.0375em 0.28125em rgb(0 0 0 / 60%);
     line-height: 1.13em;
     font-weight: 600;
+
     @media (max-width: $screen-md-min) {
       font-size: 15px;
     }
+
     margin: 5px 0;
   }
 
-  > .container > .row {
-    margin-bottom: min(3.33vw, 50px);
+  >.container>.row, >.container-fluid-boxes>.container>.row {
+    margin-bottom: min(6.66vw, 100px);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
     @media (max-width: $screen-md-min) {
       &:not(:last-child) {
         margin-bottom: 60px;
@@ -319,7 +312,8 @@ $box-content-margin: min(6vw, 90px);
     }
   }
 
-  .row-type-play, .row-type-create {
+  .row-type-play,
+  .row-type-create {
     position: relative;
 
     &:before {
@@ -329,11 +323,10 @@ $box-content-margin: min(6vw, 90px);
 
   .row-type-create {
     &:before {
-      top: 0%;
-      left: calc(100% - $box-content-margin - 15px);
-      aspect-ratio: 295/288;
-      background-image: url(/images/pages/roblox/create-assets.webp);
-      transform: scaleX(1);
+      top: -31%;
+      left: auto;
+      right: -30.7%;
+      background-image: url(/images/pages/roblox/create-assets.png);
     }
   }
 
@@ -347,28 +340,38 @@ $box-content-margin: min(6vw, 90px);
     height: min(20vw, 160px);
   }
 
+  .container-fluid-boxes {
+    background: radial-gradient(1196.37px at 925.287px 1196.37px, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.58) 130%);
+    margin-top: -50px;
+    padding-top: 50px;
+    overflow: hidden;
+  }
+
   .container-boxes {
     h3 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 70px;
       font-size: 33px;
       line-height: 1.2em;
+
       @media (max-width: $screen-md-min) {
         font-size: 19px;
       }
 
     }
 
-    @media (min-width: $screen-md-min) { // reverse the order of image/text in every second box on desktop screens
-      > .row {
+    @media (min-width: $screen-md-min) {
+
+      // reverse the order of image/text in every second box on desktop screens
+      >.row {
         display: flex;
 
         &:nth-child(even) {
-          > .col:first-child {
+          >.col:first-child {
             order: 1
           }
 
-          > .col:last-child {
+          >.col:last-child {
             order: 0
           }
         }
@@ -376,8 +379,8 @@ $box-content-margin: min(6vw, 90px);
     }
   }
 
-  > .container {
-    > .row-video {
+  >.container, >.container-fluid-boxes>.container {
+    >.row-video {
       margin-bottom: min(3vw, 40px);
 
       .video-container {
@@ -398,7 +401,8 @@ $box-content-margin: min(6vw, 90px);
         text-align: left;
         margin-bottom: min(2vw, 40px);
 
-        &:not(.item ~ .item) { // first item of class selected
+        &:not(.item ~ .item) {
+          // first item of class selected
           margin-top: min(1.5vw, 30px);
         }
       }
@@ -414,6 +418,8 @@ $box-content-margin: min(6vw, 90px);
     margin-bottom: min(3.33vw, 50px);
     background: black;
     position: relative;
+    overflow: hidden;
+    position: relative;
   }
 
   .headline-row {
@@ -428,9 +434,12 @@ $box-content-margin: min(6vw, 90px);
 
   .video-background {
     position: absolute;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    aspect-ratio: 4676 / 1772;
   }
 
   .success-msg {
