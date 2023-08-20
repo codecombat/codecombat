@@ -31,6 +31,9 @@ export default {
           // Transform common mispronounced words to make them more phonetic for the TTS engine
           plainText = plainText.replace(/Acodus/g, 'akodus') // This gets this emphasis properly onto the second syllable
 
+          // Remove template interpolation, like "I hate to do this, {%=o.name%}, but the carnival is about to pack up and head east."
+          plainText = plainText.replace(/ ?\{%=.+?\} ?/g, '')
+
           if (speakerThangType === 'hero') {
             speakerThangType = heroGender === 'male' ? 'hero-a' : 'hero-b'
           }
