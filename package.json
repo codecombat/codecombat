@@ -36,7 +36,7 @@
     "test-china": "COCO_CHINA_INFRASTRUCTURE=true npm run test",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping webpack build --production",
     "postdeploy": "echo Deployed. Unclench.",
-    "build": "bower install && npm run build-aether && NODE_OPTIONS='--max-old-space-size=4096' node ./runWebpack.js",
+    "build": "bower install && npm run build-aether && NODE_OPTIONS='--max-old-space-size=5120' node ./runWebpack.js",
     "pre-build": "bower install && npm run build-aether",
     "build-aether": "node setup-aether.js",
     "webpack": "NODE_OPTIONS='--max-old-space-size=4096' webpack",
