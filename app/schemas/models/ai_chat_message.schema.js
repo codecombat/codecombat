@@ -29,11 +29,14 @@ _.extend(AIChatMessageSchema.properties, {
     type: 'object',
     title: 'Data',
     description: 'Data associated with the message action'
-  }
+  },
+  i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this property' }
+  // todo: we need i18n for actionData.choices too but seems actionData has no details in schema yet?
 })
 
 c.extendBasicProperties(AIChatMessageSchema, 'ai_chat_message')
 c.extendSearchableProperties(AIChatMessageSchema)
+c.extendTranslationCoverageProperties(AIChatMessageSchema)
 // c.extendPermissionsProperties(AIInteractionSchema, 'ai_interaction')
 
 module.exports = AIChatMessageSchema
