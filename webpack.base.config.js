@@ -116,6 +116,7 @@ module.exports = (env) => {
       path: path.resolve(PWD, publicFolderName),
       publicPath: '/' // Base URL path webpack tries to load other bundles from
     },
+    devtool: 'eval-cheap-source-map',
     module: {
       noParse: function (name) { // These are already built into commonjs bundles
         return _.any([
