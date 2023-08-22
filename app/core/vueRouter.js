@@ -233,6 +233,10 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox')
         },
         {
+          path: '/grants',
+          component: () => import(/* webpackChunkName: "GrantsView" */ 'app/views/landing-pages/grants/PageGrants')
+        },
+        {
           path: '/cinematicplaceholder/:levelSlug?',
           component: () => import(/* webpackChunkName: "play" */ '../../ozaria/site/components/cinematic/CinematicPlaceholder'),
           props: (route) => {
