@@ -10,14 +10,28 @@ class I18NEditAIScenario extends I18NEditModelView {
       // TODO: there's lot of i18n stuff that needs to be customized here
       const name = this.model.get('name')
       const description = this.model.get('description')
+      const mode = this.model.get('mode')
+      const task = this.model.get('task')
+      const doc = this.model.get('doc')
       if (name) {
         this.wrapRow('Scenario Name', ['name'], name, i18n[lang]?.name, [])
       }
-
       if (description) {
         this.wrapRow('Chat description', ['description'], description, i18n[lang]?.description, [], 'markdown')
       }
+      if (mode) {
+        this.wrapRow('Mode', ['mode'], mode, i18n[lang]?.mode, [])
+      }
+      if (task) {
+        this.wrapRow('Task', ['task'], task, i18n[lang]?.task, [])
+      }
+      if (doc) {
+        this.wrapRow('Documentation', ['doc'], doc, i18n[lang]?.doc, [])
+      }
     }
+
+    // post initalActionQueue url here
+    // for()
   }
 }
 
