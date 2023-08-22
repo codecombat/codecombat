@@ -54,7 +54,6 @@ class I18NEditAIScenario extends I18NEditModelView {
       project: ['actor', 'text'],
       model: AIChatMessage
     })
-    console.log('supermodel', this.supermodel)
     this.supermodel.trackRequest(chatMessageCollection.fetch({ url: `/db/ai_chat_message/${id}` }))
     chatMessageCollection.once('sync', () => {
       const data = chatMessageCollection.models[0].attributes

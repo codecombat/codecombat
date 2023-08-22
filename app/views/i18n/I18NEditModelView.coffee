@@ -120,11 +120,9 @@ module.exports = class I18NEditModelView extends RootView
     #- Navigate down to where the translation will live
     base = @model.attributes
 
-    console.log('base: ', base, rowInfo.path)
     for seg in rowInfo.path
       base = base[seg]
 
-    console.log('base: ', base, base.i18n)
     base = base.i18n
 
     base[@selectedLanguage] ?= {}
