@@ -42,6 +42,13 @@ module.exports =
     })
     return new Promise(jqxhr.then)
 
+  sendGrantsContactMail: ({title, name, fields}) ->
+    jqxhr = $.ajax('/contact/grants', {
+      method: 'POST'
+      data: {title, name, fields}
+    })
+    return new Promise(jqxhr.then)
+
   sendTeacherGameDevProjectShare: ({teacherEmail, sessionId, codeLanguage, levelName}) ->
     jqxhr = $.ajax('/contact/send-teacher-game-dev-project-share', {
       method: 'POST'
