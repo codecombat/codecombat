@@ -366,6 +366,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'social-and-emotional-learning': go('core/SingletonAppVueComponentView')
 
     'roblox': go('core/SingletonAppVueComponentView')
+    'grants': go('core/SingletonAppVueComponentView')
 
     'schools': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
     'seen': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
