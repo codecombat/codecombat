@@ -25,8 +25,8 @@ class I18NEditAIChatMessage extends I18NEditModelView {
         if (choice.i18n) {
           const choiceI18n = choice.i18n
           if (choiceI18n) {
-            this.wrapRow('Choice Text', ['text'], choice.text, choiceI18n[lang]?.text, ['actionData', 'choices', index, 'text'])
-            this.wrapRow('Choice Response Text', ['responseText'], choice.responseText, choiceI18n[lang]?.responseText, ['actionData', 'choices', index, 'responseText'])
+            this.wrapRow('Choice Text', ['text'], choice.text, choiceI18n[lang]?.text, ['actionData', 'choices', index])
+            this.wrapRow('Choice Response Text', ['responseText'], choice.responseText, choiceI18n[lang]?.responseText, ['actionData', 'choices', index])
           }
         }
       }

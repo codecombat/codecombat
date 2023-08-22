@@ -1,7 +1,20 @@
 const I18NEditModelView = require('./I18NEditModelView')
 const AIScenario = require('models/AIScenario')
+const AIChatMessage = require('models/AIChatMessage')
+const CocoCollection = require('collections/CocoCollection')
 
 class I18NEditAIScenario extends I18NEditModelView {
+  constructor (options, modelHandle) {
+    super(options, modelHandle)
+
+    this.actionQueue = []
+    this.listenToOnce(this.model, 'sync', () => {
+      for (const actionId of this.model.get('initialActionQueue') || []) {
+        this.fetchAndwrapInitalActionQueue(actionId)
+      }
+    })
+  }
+
   buildTranslationList () {
     const lang = this.selectedLanguage
 
@@ -30,8 +43,23 @@ class I18NEditAIScenario extends I18NEditModelView {
       }
     }
 
-    // post initalActionQueue url here
-    // for()
+    for (const q of this.actionQueue) {
+      this.translationList.push(q)
+    }
+  }
+
+  fetchAndwrapInitalActionQueue (id) {
+    const chatMessageCollection = new CocoCollection([], {
+      url: '/db/ai_chat_message',
+      project: ['actor', 'text'],
+      model: AIChatMessage
+    })
+    console.log('supermodel', this.supermodel)
+    this.supermodel.trackRequest(chatMessageCollection.fetch({ url: `/db/ai_chat_message/${id}` }))
+    chatMessageCollection.once('sync', () => {
+      const data = chatMessageCollection.models[0].attributes
+      this.actionQueue.push({ title: 'InitialActionQueue', enValue: `${data.actor}: ${data.text}`, format: 'url', link: '/i18n/ai/chat_message/' + id })
+    })
   }
 }
 
