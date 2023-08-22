@@ -25,13 +25,22 @@ _.extend(AIChatMessageSchema.properties, {
     description: 'A preview of the document in the message discussed'
   },
   created: c.date({ title: 'Created' }),
-  actionData: {
-    type: 'object',
+  actionData: c.object({
     title: 'Data',
-    description: 'Data associated with the message action'
-  },
-  i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this property' }
-  // todo: we need i18n for actionData.choices too but seems actionData has no details in schema yet?
+    description: 'Data associated with the message action',
+    additionalProperties: true
+  }, {
+    choices: c.array({ title: 'Choices', description: 'Choices for the user to select from' }, c.object({
+      title: 'Choice',
+      description: 'A choice for the user to select from',
+      additionalProperties: true
+    }, {
+      text: { type: 'string', title: 'Text', description: 'The text of the choice' },
+      responseText: { type: 'string', title: 'Response', description: 'the response of the choice' },
+      i18n: { type: 'object', format: 'i18n', props: ['text', 'responseText'], description: 'Help translate this property' }
+    }))
+  }),
+  i18n: { type: 'object', format: 'i18n', props: ['text', 'preview'], description: 'Help translate this property' }
 })
 
 c.extendBasicProperties(AIChatMessageSchema, 'ai_chat_message')

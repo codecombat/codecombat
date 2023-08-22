@@ -43,7 +43,7 @@ _.extend(AIScenarioSchema.properties, {
     title: 'Initial Action Queue',
     description: 'Actions to add to a project when it is created from this scenario'
   }, c.objectId({format: 'chat-message-link'})),
-  i18n: { type: 'object', format: 'i18n', props: ['mode', 'task', 'doc', 'name'], description: 'Help translate this property' }
+  i18n: { type: 'object', format: 'i18n', props: ['mode', 'task', 'doc', 'name', 'description'], description: 'Help translate this property' }
 })
 
 c.extendNamedProperties(AIScenarioSchema)
