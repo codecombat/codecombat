@@ -128,7 +128,6 @@ module.exports = class AnalyticsView extends RootView
       method: 'GET',
       success: (data) =>
         @exchangeRate = data
-        console.log('xyz', @exchangeRate)
         @handlePayments()
     }, 0).load()
 
@@ -333,7 +332,7 @@ module.exports = class AnalyticsView extends RootView
 
         daysPerMonth = 30 #Close enough (needs to be an integer)
         lifetimeDaySplit = lifetimeDurationMonths * daysPerMonth
-        console.log('rev groups', @revenueGroups)
+
         # Build list of recurring revenue entries, where each entry is a day of individual group values
         @revenue = []
         serviceCarryForwardMap = {}
@@ -375,7 +374,7 @@ module.exports = class AnalyticsView extends RootView
 
         # Order present to past
         @revenue.sort (a, b) -> b.day.localeCompare(a.day)
-        console.log('rev', @revenue)
+
         return unless @revenue.length > 0
 
         # Add monthly recurring revenue values
