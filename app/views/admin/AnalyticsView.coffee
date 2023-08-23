@@ -31,6 +31,7 @@ module.exports = class AnalyticsView extends RootView
     @revenueGroups = {}
     @dayEnrollmentsMap = {}
     @enrollmentDays = []
+    @exchangeRate = {}
     @loadData()
 
   afterRender: ->
@@ -123,7 +124,99 @@ module.exports = class AnalyticsView extends RootView
     }, 0).load()
 
     @supermodel.addRequestResource({
-      url: '/db/payments/-/all?nofree=true&project=created,gems,service,amount,productID,prepaidID'
+      url: '/db/payments/currency/exchange-rates',
+      method: 'GET',
+      success: (data) =>
+        @exchangeRate = data
+        @handlePayments()
+    }, 0).load()
+
+    #@supermodel.addRequestResource({
+    #  url: '/db/user/-/school_counts'
+    #  method: 'POST'
+    #  data: {minCount: @minSchoolCount}
+    #  success: (@schoolCounts) =>
+    #    @schoolCounts?.sort (a, b) ->
+    #      return -1 if a.count > b.count
+    #      return 0 if a.count is b.count
+    #      1
+    #    @renderSelectors?('#school-counts')
+    #}, 0).load()
+
+    #@supermodel.addRequestResource({
+    #  url: '/db/payment/-/school_sales'
+    #  success: (@schoolSales) =>
+    #    @schoolSales?.sort (a, b) ->
+    #      return -1 if a.created > b.created
+    #      return 0 if a.created is b.created
+    #      1
+    #    @renderSelectors?('.school-sales')
+    #}, 0).load()
+
+    @supermodel.addRequestResource({
+      url: '/db/prepaid/-/courses'
+      method: 'POST'
+      data: {project: {endDate: 1, maxRedeemers: 1, properties: 1, redeemers: 1}}
+      success: (prepaids) =>
+        paidDayMaxMap = {}
+        paidDayRedeemedMap = {}
+        trialDayMaxMap = {}
+        trialDayRedeemedMap = {}
+        for prepaid in prepaids
+          day = utils.objectIdToDate(prepaid._id).toISOString().substring(0, 10)
+          if prepaid.properties?.trialRequestID? or prepaid.properties?.endDate?
+            trialDayMaxMap[day] ?= 0
+            if prepaid.properties?.endDate?
+              trialDayMaxMap[day] += prepaid.redeemers?.length ? 0
+            else
+              trialDayMaxMap[day] += prepaid.maxRedeemers
+            for redeemer in (prepaid.redeemers ? [])
+              redeemDay = redeemer.date.substring(0, 10)
+              trialDayRedeemedMap[redeemDay] ?= 0
+              trialDayRedeemedMap[redeemDay]++
+          else if not prepaid.endDate? or new Date(prepaid.endDate) > new Date()
+            paidDayMaxMap[day] ?= 0
+            paidDayMaxMap[day] += prepaid.maxRedeemers
+            for redeemer in prepaid.redeemers
+              redeemDay = redeemer.date.substring(0, 10)
+              paidDayRedeemedMap[redeemDay] ?= 0
+              paidDayRedeemedMap[redeemDay]++
+        @dayEnrollmentsMap = {}
+        @paidCourseTotalEnrollments = []
+        for day, count of paidDayMaxMap
+          @paidCourseTotalEnrollments.push({day: day, count: count})
+          @dayEnrollmentsMap[day] ?= {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}
+          @dayEnrollmentsMap[day].paidIssued += count
+        @paidCourseTotalEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
+        @paidCourseRedeemedEnrollments = []
+        for day, count of paidDayRedeemedMap
+          @paidCourseRedeemedEnrollments.push({day: day, count: count})
+          @dayEnrollmentsMap[day] ?= {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}
+          @dayEnrollmentsMap[day].paidRedeemed += count
+        @paidCourseRedeemedEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
+        @trialCourseTotalEnrollments = []
+        for day, count of trialDayMaxMap
+          @trialCourseTotalEnrollments.push({day: day, count: count})
+          @dayEnrollmentsMap[day] ?= {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}
+          @dayEnrollmentsMap[day].trialIssued += count
+        @trialCourseTotalEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
+        @trialCourseRedeemedEnrollments = []
+        for day, count of trialDayRedeemedMap
+          @trialCourseRedeemedEnrollments.push({day: day, count: count})
+          @dayEnrollmentsMap[day] ?= {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}
+          @dayEnrollmentsMap[day].trialRedeemed += count
+        @trialCourseRedeemedEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
+        @updateEnrollmentsChartData()
+        @render?()
+    }, 0).load()
+
+    @courses = new CocoCollection([], { url: "/db/course", model: Course})
+    @listenToOnce @courses, 'sync', @onCoursesSync
+    @supermodel.loadCollection(@courses)
+
+  handlePayments: ->
+    @supermodel.addRequestResource({
+      url: '/db/payments/-/all?nofree=true&project=created,gems,service,amount,productID,prepaidID,currency'
       method: 'GET'
       success: (data) =>
 
@@ -151,10 +244,23 @@ module.exports = class AnalyticsView extends RootView
             else
               # NOTE: assumed to be classroom starter licenses
               product = 'classroom'
-          else if payment.service is 'stripe' && (price is 399 || price is 400)
-            product = "intl monthly"
-          else if payment.service is 'stripe' && (price is 999 || price is 799)
-            product = "usa monthly"
+          else if payment.service is 'stripe'
+            if payment.currency is 'usd'
+              if payment.gems is 3500
+                product = 'usa monthly'
+              else if payment.gems is 42000
+                product = 'usa annual'
+            else if payment.currency && payment.currency != 'usd'
+              if payment.gems is 1500
+                product = 'intl monthly'
+              else if payment.gems is 42000
+                product = 'intl annual'
+            else if (price is 399 || price is 400) && !payment.currency
+              product = "intl monthly"
+            else if (price is 999 || price is 799) && !payment.currency
+              product = "usa monthly"
+            else if price is 599 && payment.gems is 3500 && !payment.currency
+              product = 'intl monthly'
           else if price is 9900 || price >= 5999 && payment.gems is 42000
             if utils.isCodeCombat and payment.created > lifetimeToAnnualChange
               product = "usa annual"
@@ -162,8 +268,6 @@ module.exports = class AnalyticsView extends RootView
               product = "usa lifetime"
           else if price is 0
             product = "free"
-          else if payment.service is 'stripe' && price is 599 && payment.gems is 3500
-            product = 'intl monthly'
           else if payment.service is 'paypal' && payment.gems is 42000 && price < 5999
             if utils.isCodeCombat and payment.created > lifetimeToAnnualChange
               product = "intl annual"
@@ -184,6 +288,14 @@ module.exports = class AnalyticsView extends RootView
 
           return product
 
+        getPriceInUsd = (price, currency) =>
+          return price unless currency
+          exchangeVal = @exchangeRate[currency]
+          unless exchangeVal
+            console.log('no converter for currency', currency)
+            return price
+          return parseInt(price / exchangeVal, 10)
+
         # Organize data by day, then group
         groupMap = {}
         dayGroupCountMap = {}
@@ -194,7 +306,7 @@ module.exports = class AnalyticsView extends RootView
           else
             day = payment.created.substring(0, 10)
           continue if day is new Date().toISOString().substring(0, 10)
-          price = parseInt(payment.amount)
+          price = getPriceInUsd(payment.amount, payment.currency)
           dayGroupCountMap[day] ?= {'DRR Total': 0}
           dayGroupCountMap[day]['DRR Total'] ?= 0
           if utils.isOzaria
@@ -324,89 +436,6 @@ module.exports = class AnalyticsView extends RootView
         @render?()
 
     }, 0).load()
-
-    #@supermodel.addRequestResource({
-    #  url: '/db/user/-/school_counts'
-    #  method: 'POST'
-    #  data: {minCount: @minSchoolCount}
-    #  success: (@schoolCounts) =>
-    #    @schoolCounts?.sort (a, b) ->
-    #      return -1 if a.count > b.count
-    #      return 0 if a.count is b.count
-    #      1
-    #    @renderSelectors?('#school-counts')
-    #}, 0).load()
-
-    #@supermodel.addRequestResource({
-    #  url: '/db/payment/-/school_sales'
-    #  success: (@schoolSales) =>
-    #    @schoolSales?.sort (a, b) ->
-    #      return -1 if a.created > b.created
-    #      return 0 if a.created is b.created
-    #      1
-    #    @renderSelectors?('.school-sales')
-    #}, 0).load()
-
-    @supermodel.addRequestResource({
-      url: '/db/prepaid/-/courses'
-      method: 'POST'
-      data: {project: {endDate: 1, maxRedeemers: 1, properties: 1, redeemers: 1}}
-      success: (prepaids) =>
-        paidDayMaxMap = {}
-        paidDayRedeemedMap = {}
-        trialDayMaxMap = {}
-        trialDayRedeemedMap = {}
-        for prepaid in prepaids
-          day = utils.objectIdToDate(prepaid._id).toISOString().substring(0, 10)
-          if prepaid.properties?.trialRequestID? or prepaid.properties?.endDate?
-            trialDayMaxMap[day] ?= 0
-            if prepaid.properties?.endDate?
-              trialDayMaxMap[day] += prepaid.redeemers?.length ? 0
-            else
-              trialDayMaxMap[day] += prepaid.maxRedeemers
-            for redeemer in (prepaid.redeemers ? [])
-              redeemDay = redeemer.date.substring(0, 10)
-              trialDayRedeemedMap[redeemDay] ?= 0
-              trialDayRedeemedMap[redeemDay]++
-          else if not prepaid.endDate? or new Date(prepaid.endDate) > new Date()
-            paidDayMaxMap[day] ?= 0
-            paidDayMaxMap[day] += prepaid.maxRedeemers
-            for redeemer in prepaid.redeemers
-              redeemDay = redeemer.date.substring(0, 10)
-              paidDayRedeemedMap[redeemDay] ?= 0
-              paidDayRedeemedMap[redeemDay]++
-        @dayEnrollmentsMap = {}
-        @paidCourseTotalEnrollments = []
-        for day, count of paidDayMaxMap
-          @paidCourseTotalEnrollments.push({day: day, count: count})
-          @dayEnrollmentsMap[day] ?= {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}
-          @dayEnrollmentsMap[day].paidIssued += count
-        @paidCourseTotalEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
-        @paidCourseRedeemedEnrollments = []
-        for day, count of paidDayRedeemedMap
-          @paidCourseRedeemedEnrollments.push({day: day, count: count})
-          @dayEnrollmentsMap[day] ?= {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}
-          @dayEnrollmentsMap[day].paidRedeemed += count
-        @paidCourseRedeemedEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
-        @trialCourseTotalEnrollments = []
-        for day, count of trialDayMaxMap
-          @trialCourseTotalEnrollments.push({day: day, count: count})
-          @dayEnrollmentsMap[day] ?= {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}
-          @dayEnrollmentsMap[day].trialIssued += count
-        @trialCourseTotalEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
-        @trialCourseRedeemedEnrollments = []
-        for day, count of trialDayRedeemedMap
-          @trialCourseRedeemedEnrollments.push({day: day, count: count})
-          @dayEnrollmentsMap[day] ?= {paidIssued: 0, paidRedeemed: 0, trialIssued: 0, trialRedeemed: 0}
-          @dayEnrollmentsMap[day].trialRedeemed += count
-        @trialCourseRedeemedEnrollments.sort (a, b) -> a.day.localeCompare(b.day)
-        @updateEnrollmentsChartData()
-        @render?()
-    }, 0).load()
-
-    @courses = new CocoCollection([], { url: "/db/course", model: Course})
-    @listenToOnce @courses, 'sync', @onCoursesSync
-    @supermodel.loadCollection(@courses)
 
   onCoursesSync: ->
     return
