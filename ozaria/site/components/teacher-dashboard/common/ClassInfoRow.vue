@@ -101,7 +101,7 @@
       transform: translateY(-1px);
     }
 
-    margin: 0 7.5px;
+    margin: 0 5px;
     @include font-p-4-paragraph-smallest-gray;
   }
 </style>
