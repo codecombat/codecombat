@@ -22,6 +22,10 @@ export default function getVueRouter () {
           props: true
         },
         {
+          path: '/meetings',
+          component: () => import(/* webpackChunkName: "MeetingView" */ 'app/views/meetings/index')
+        },
+        {
           path: '/parents',
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
           props: (route) => ({ showPremium: true, type: route.query.type })

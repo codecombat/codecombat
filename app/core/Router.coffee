@@ -112,6 +112,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'announcements': go('core/SingletonAppVueComponentView')
     'event-calendar(/*subpath)': go('core/SingletonAppVueComponentView')
+    'meetings': go('core/SingletonAppVueComponentView')
 
 #    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 

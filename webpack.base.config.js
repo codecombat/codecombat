@@ -249,6 +249,10 @@ module.exports = (env) => {
           test: /\.mjs$/, // https://github.com/formatjs/formatjs/issues/1395#issuecomment-518823361
           include: /node_modules/,
           type: "javascript/auto"
+        },
+        {
+          test: /\.svg$/,
+          type: 'asset/resource'
         }
       ]
     },
