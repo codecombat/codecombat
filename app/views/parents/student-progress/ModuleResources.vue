@@ -30,12 +30,16 @@ export default {
       default () {
         return null
       }
+    },
+    lessonSlidesUrl: {
+      type: String
     }
   },
   methods: {
     onLessonSlidesClicked () {
+      console.log('lessonSlide', this.lessonSlidesUrl)
       if (me.isPaidOnlineClassUser()) {
-        const url = campaignSlidesMapping[this.campaign.slug]
+        const url = campaignSlidesMapping[this.campaign.slug] || this.lessonSlidesUrl
         if (!url) {
           noty({
             text: 'Sorry, lesson not available for this campaign currently',

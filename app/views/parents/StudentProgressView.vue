@@ -157,6 +157,7 @@ export default {
       cLevels.forEach(cLevel => {
         const detailLevel = this.campaignLevels?.find(l => l.original === cLevel.original)
         const final = { ...cLevel, ...detailLevel }
+        // dont include practice levels in list since some users might not have been shown that levels and thus no progress to show for them
         if (!final.practice) result.push(final)
       })
       return result

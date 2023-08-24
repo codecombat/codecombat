@@ -10,9 +10,6 @@
       :oz-course-content="ozCourseContent"
       :campaign="campaign"
     />
-    <module-resources
-      :campaign="campaign"
-    />
   </div>
 </template>
 
@@ -54,7 +51,6 @@ export default {
 
 <style scoped lang="scss">
 .campaign-progress {
-  display: grid;
-  grid-template-columns: 2.5fr 1fr;
+
 }
 </style>

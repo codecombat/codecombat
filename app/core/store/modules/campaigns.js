@@ -149,7 +149,7 @@ export default {
     },
     fetchCampaignLevels: async ({ commit, state }, { campaignHandle, callOz }) => {
       if (state.campaignLevelsFetched[campaignHandle]) return
-      const levels = await campaignsApi.fetchLevels(campaignHandle, { data: { project: 'thangs,name,slug,campaign,tasks,original' }, callOz })
+      const levels = await campaignsApi.fetchLevels(campaignHandle, { data: { project: 'thangs,name,slug,campaign,tasks,original,kind,practice' }, callOz })
       commit('setCampaignLevels', { campaignId: campaignHandle, levels })
       commit('setCampaignLevelsFetched', { campaignHandle, flag: true })
     }
