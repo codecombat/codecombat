@@ -89,20 +89,6 @@ export default {
           {{ $t('teacher_dashboard.assign_content') }}
         </primary-button>
         <icon-button-with-text
-          class="icon-with-text"
-          :icon-name="displayOnly ? 'IconAddStudents_Gray' : 'IconAddStudents'"
-          :text="$t('courses.add_students')"
-          :inactive="displayOnly"
-          @click="$emit('addStudents')"
-        />
-        <icon-button-with-text
-          class="icon-with-text"
-          :icon-name="displayOnly ? 'IconRemoveStudents_Gray' : 'IconRemoveStudents'"
-          :text="$t('teacher_dashboard.remove_students')"
-          :inactive="displayOnly"
-          @click="$emit('removeStudents')"
-        />
-        <icon-button-with-text
           class="icon-with-text larger-icon"
           :icon-name="displayOnly ? 'IconLicenseApply_Gray' : 'IconLicenseApply'"
           :text="$t('teacher.apply_licenses')"
@@ -115,6 +101,13 @@ export default {
           :text="$t('teacher_dashboard.revoke_licenses')"
           :inactive="displayOnly"
           @click="revokeLicenses"
+        />
+        <icon-button-with-text
+          class="icon-with-text"
+          :icon-name="displayOnly ? 'IconRemoveStudents_Gray' : 'IconRemoveStudents'"
+          :text="$t('teacher_dashboard.remove_students')"
+          :inactive="displayOnly"
+          @click="$emit('removeStudents')"
         />
         <icon-button-with-text
           class="icon-with-text larger-icon"

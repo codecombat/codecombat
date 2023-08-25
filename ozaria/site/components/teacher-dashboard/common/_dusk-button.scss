@@ -1,0 +1,21 @@
+.dusk-btn {
+  background-color: $dusk;
+  color: $pitch;
+  border-radius: 4px;
+  border-width: 0;
+  text-shadow: unset;
+  font-weight: bold;
+  @include font-p-3-small-button-text-black;
+  background-image: unset;
+
+  &:hover {
+    background-color: $dusk-dark;
+    transition: background-color .35s;
+  }
+
+  display: flex;
+  height: 33px;
+  padding: 0 17px;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,5 +1,8 @@
 <template>
-  <button @click="$emit('click')">
+  <button
+    class="dusk-btn"
+    @click="$emit('click')"
+  >
     <div id="Curriculum" />
     <span>{{ $t('teacher_dashboard.curriculum_guide') }}</span>
   </button>
@@ -9,6 +12,7 @@
 @import "app/styles/bootstrap/variables";
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "dusk-button";
 
 #Curriculum {
   background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg);
@@ -22,25 +26,4 @@
   margin-right: 5px;
 }
 
-button {
-  background-color: $dusk;
-  color: $pitch;
-  border-radius: 4px;
-  border-width: 0;
-  text-shadow: unset;
-  font-weight: bold;
-  @include font-p-3-small-button-text-black;
-  background-image: unset;
-
-  &:hover {
-    background-color: $dusk-dark;
-    transition: background-color .35s;
-  }
-
-  display: flex;
-  height: 33px;
-  padding: 0 17px;
-  justify-content: center;
-  align-items: center;
-}
 </style>
