@@ -311,6 +311,7 @@
       :all-classes-page="isAllClassesPage"
       @change-course="onChangeCourse"
       @newClass="openNewClassModal"
+      @addStudentsClicked="showAddStudentsModal = true"
     />
     <loading-bar
       :key="loading"
