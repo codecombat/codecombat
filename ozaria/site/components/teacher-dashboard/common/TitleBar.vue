@@ -126,7 +126,10 @@
         :share-permission="sharePermission"
       />
     </div>
-    <div class="add-students">
+    <div
+      v-if="showClassInfo"
+      class="add-students"
+    >
       <button
         class="dusk-btn"
         @click="$emit('addStudentsClicked')"
