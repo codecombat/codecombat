@@ -40,6 +40,13 @@
             {{ instanceStartTime(propsInstance.startDate) }}
           </div>
         </div>
+        <div class="event-link" v-if="propsInstance?.meetingLink">
+          <div class="title">
+            <a href="propsInstance?.meetingLink" target="_blank">
+              {{ $t('events.meetingLink') }}
+            </a>
+          </div>
+        </div>
         <div class="levels-completed">
           <div class="title">
             {{ $t('events.levels_completed') }}:
@@ -495,7 +502,12 @@ export default {
 
     .event-title, .levels-completed, .event-time {
       .value {
-        min-height: 4em;
+        min-height: 3em;
+      }
+    }
+    .event-link {
+      .title {
+        margin-bottom: 20px;
       }
     }
 
