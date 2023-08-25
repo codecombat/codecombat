@@ -281,15 +281,13 @@
     }
 
     #top-banner {
-      background-color: #355EA0;
-      color: #FFFFFF;
+      background-color: $teal-light-2;
       padding: 10px 0;
       text-align: center;
       overflow: hidden;
 
       a {
         margin-left: 10px;
-        color: #F7D047;
         text-decoration: underline;
       }
 
