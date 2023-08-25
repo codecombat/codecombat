@@ -56,7 +56,8 @@ export default {
   },
   methods: {
     // Submit form with prop method defined in App.vue
-    joinWithName () {
+    joinWithName (e) {
+      e.preventDefault()
       this.joinCall(this.name, this.url)
     }
   }

@@ -25,7 +25,7 @@ export default {
     return {
       appState: 'idle',
       name: 'Guest',
-      roomUrl: 'https://codecombat.daily.co/demo'
+      roomUrl: null
     }
   },
   methods: {
@@ -34,6 +34,7 @@ export default {
      */
     joinCall (name, url) {
       this.name = name
+      this.roomUrl = url
       this.appState = 'incall'
     },
     // Reset app state to return to the home screen after leaving call

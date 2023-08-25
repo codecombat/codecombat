@@ -103,17 +103,16 @@ export default {
   },
   mounted () {
     const option = {
-      url: this.roomUrl
+      url: this.roomUrl,
+      userName: this.name
     }
 
     // Create instance of Daily call object
-    const co = daily.createCallObject(option)
-    // Assign in data obj for future reference
+    const co = daily.createCallObject()
+
     this.callObject = co
 
-    // Join the call with the name set in the Home.vue form
-    co.join({ userName: this.name })
-
+    co.join(option)
     // Add call and participant event handler
     // Visit https://docs.daily.co/reference/daily-js/events for more event info
     co.on('joining-meeting', this.handleJoiningMeeting)

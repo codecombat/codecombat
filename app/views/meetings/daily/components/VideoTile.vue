@@ -3,7 +3,7 @@
     <audio
       autoPlay
       playsInline
-      :srcObject="audioSource"
+      :srcObject.prop="audioSource"
     >
       <track kind="captions">
     </audio>
@@ -13,7 +13,7 @@
         autoPlay
         muted
         playsInline
-        :srcObject="videoSource"
+        :srcObject.prop="videoSource"
       />
       <p class="participant-name">
         {{ username }}
