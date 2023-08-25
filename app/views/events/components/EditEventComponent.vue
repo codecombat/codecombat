@@ -304,6 +304,18 @@ export default {
         :resetRRule="resetRRule"
       />
 
+      <div class="form-group">
+        <label for="meetingLink"> {{ $t('events.meetingLink') }}</label>
+        <div>
+          <input
+            v-model="event.meetingLink"
+            type="text"
+            class="form-control"
+            name="meetingLink"
+            placeholder="input your zoom link here"
+          >
+        </div>
+      </div>
       <div class="form-group" v-if="true || me.useGoogleCalendar()">
         <label for="importedToGC"> {{ $t(`events.sync${propsEvent?.syncedToGC ? 'ed' : ''}_to_google`) }}</label>
         <div class="input-label">

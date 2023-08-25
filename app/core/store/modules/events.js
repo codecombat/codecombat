@@ -81,6 +81,7 @@ export default {
         event = instance.extendedProps
         delete instance.extendedProps
         const ins = event.instances.find(ins => ins._id === instance.id)
+        ins.meetingLink = event.meetingLink
         Vue.set(state.eventPanel, 'editableInstance', ins)
       }
       Vue.set(state.eventPanel, 'editableEvent', event)
