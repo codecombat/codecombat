@@ -4,7 +4,7 @@
       autoPlay
       muted
       playsInline
-      :srcObject="videoSource"
+      :srcObject.prop="videoSource"
     />
   </div>
 </template>
