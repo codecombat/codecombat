@@ -42,7 +42,8 @@
 </template>
 
 <script>
-import moment from 'moment';
+import moment from 'moment'
+import momentTimezone from 'moment-timezone'
 let id = 1;
 export default {
   name: "DayTimeInputComponent",
@@ -141,7 +142,7 @@ export default {
       dayWise.Monday = dayWise.Monday.concat(resp.nextDay)
 
       finalData.timezone = {
-        name: moment.tz.guess(),
+        name: momentTimezone.tz.guess(),
         offsetString: moment().parseZone().format('Z'),
         offset: this.getOffsetBasedOfUserTimezone(),
       };

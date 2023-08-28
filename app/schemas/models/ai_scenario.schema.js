@@ -4,27 +4,13 @@ const _ = require('lodash')
 const AIScenarioSchema = c.object({
   title: 'AI Scenario',
   description: 'A generative AI scenario',
-  required: ['releasePhase'],
-  default: {
-    releasePhase: 'beta',
-    interactions: { start: [] }
-  }
 })
 
-c.extendNamedProperties(AIScenarioSchema)
-
 _.extend(AIScenarioSchema.properties, {
-  description: {
-    title: 'Description',
-    description: 'A short explanation of what this scenario is about',
+  name: {
     type: 'string',
-    maxLength: 2000,
-    format: 'markdown'
-  },
-  persona: {
-    type: 'string',
-    title: 'Persona',
-    description: 'Which persona this scenario is for (kid, teacher, parent, etc.)'
+    title: 'Name',
+    description: 'Which bot/user sent this message'
   },
   mode: {
     type: 'string',
@@ -35,7 +21,7 @@ _.extend(AIScenarioSchema.properties, {
   tool: {
     type: 'string',
     title: 'Tool',
-    description: 'Which generative AI tool this scenario is for (ChatGPT 4, ChatGPT 3.5, Stable Diffusion, DALL-E 2, etc.)'
+    description: 'Which generative AI tool this scenario is for (ChatGPT, Stable Diffusion, DALL-E 2, etc.)'
   },
   task: {
     type: 'string',
@@ -45,37 +31,26 @@ _.extend(AIScenarioSchema.properties, {
   doc: {
     type: 'string',
     title: 'Doc',
-    description: 'Which document type this scenario is for (a webpage, an essay, an image, etc.))'
+    description: 'Which document type this scenario is for (a webpage, an essay, an image, etc.)'
   },
   releasePhase: {
     type: 'string',
-    enum: ['beta', 'released'],
+    enum: ['draft', 'beta', 'released'],
     title: 'Release Phase',
     description: 'Scenarios start off in beta, then are released when they are completed'
   },
-  interactions: {
-    title: 'Interactions',
-    type: 'object',
-    description: 'The choices, messages, prompts, teacher responses, and other interactions making up this scenario',
-    properties: {
-      start: { type: 'array', description: 'The main linear interactions triggered at the start of the scenario', items: { $ref: '#/definitions/inlineInteraction' } },
-      dynamic: { type: 'array', description: 'Any dynamic interactions triggered by events during the scenario', items: { $ref: '#/definitions/inlineInteraction' } },
-    }
-  },
-  i18n: {
-    additionalProperties: true,
-    type: 'object',
-    format: 'i18n',
-    props: ['name', 'description']
-  }
+  initialActionQueue: c.array({
+    title: 'Initial Action Queue',
+    description: 'Actions to add to a project when it is created from this scenario'
+  }, c.objectId({format: 'chat-message-link'})),
 })
 
-AIScenarioSchema.definitions = { inlineInteraction: c.InlineInteractionSchema }
+c.extendNamedProperties(AIScenarioSchema)
 c.extendBasicProperties(AIScenarioSchema, 'ai_scenario')
 c.extendSearchableProperties(AIScenarioSchema)
 c.extendVersionedProperties(AIScenarioSchema, 'ai_scenario')
-c.extendPermissionsProperties(AIScenarioSchema, 'ai_scenario')
 c.extendPatchableProperties(AIScenarioSchema)
 c.extendTranslationCoverageProperties(AIScenarioSchema)
+// c.extendPermissionsProperties(AIScenarioSchema, 'ai_scenario')
 
 module.exports = AIScenarioSchema

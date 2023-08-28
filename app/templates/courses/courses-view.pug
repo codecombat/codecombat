@@ -168,17 +168,19 @@ mixin classrooms_content()
                  span.spl= view.ownerNameMap[classroom.get('ownerID')]
 
          - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
+         - var allCoursesComplete = true
+         - var coursesData = courseInstances.map(courseInstance => ({courseId: courseInstance.get('courseID'), courseInstanceId: courseInstance.get('_id')}))
          for courseInstance in courseInstances
-
            .course-instance-entry.rtl-allowed
              - var courseID = courseInstance.get('courseID')
-             - var course = view.store.state.courses.byId[courseID];
+             - var course = view.store.state.courses.byId[courseID]
              // internal play-test course which we removed later
              if !course || course._id === '5eb34fc8dc0fd35e8eae66b0'
                - continue;
              - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
              - var nextLevel = stats.levels.next;
              - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)
+             - allCoursesComplete = allCoursesComplete && stats.courseComplete
              if nextLevel
                - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
                - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
@@ -202,6 +204,21 @@ mixin classrooms_content()
                else
                  +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, course.campaignID, isLocked)
                .clearfix
+         - var classroomCourseIds = classroom.get('courses').map(i=>i._id).sort().join()
+         - var courseInstancesCourseIds = courseInstances.map(i=>i.get('courseID')).sort().join()   
+         - var allCoursesPlayed = classroomCourseIds === courseInstancesCourseIds
+         if allCoursesPlayed && allCoursesComplete && me.isTecmilenio()
+           .text-success
+             span.glyphicon.glyphicon-ok
+             if view.utils.isCodeCombat
+               - i18nContent = "courses.all_courses_completed"
+             else
+               - i18nContent = "courses.all_units_completed"
+             span.spl(data-i18n=i18nContent)
+             span !         
+           a.certificate-link(target='_blank', href='/certificates/all-courses/' + me.id + '?class=' + classroom.id)
+             img(src='/images/pages/user/certificates/certificate-icon.png')
+             div(data-i18n='user.certificate_view')
 
  else
    #announcement

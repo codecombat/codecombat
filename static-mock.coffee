@@ -44,6 +44,7 @@ exports.me =
   showOpenResourceLink: -> true
   useStripe: -> true
   showChinaHomeVersion: -> false
+  getHackStackExperimentValue: -> false
 
 exports.view =
   isMobile: () -> false

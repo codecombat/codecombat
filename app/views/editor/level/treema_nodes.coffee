@@ -1,10 +1,15 @@
 WorldSelectModal = require './modals/WorldSelectModal'
 ThangType = require 'models/ThangType'
+AIChatMessage = require 'models/AIChatMessage'
+AIScenario = require 'models/AIScenario'
+AIProject = require 'models/AIProject'
 LevelComponent = require 'models/LevelComponent'
 CocoCollection = require 'collections/CocoCollection'
+entities = require 'entities'
 require 'lib/setupTreema'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
+utils = require('core/utils')
 
 makeButton = -> $('<a class="btn btn-primary btn-xs treema-map-button"><span class="glyphicon glyphicon-screenshot"></span></a>')
 shorten = (f) -> parseFloat(f.toFixed(1))
@@ -302,3 +307,117 @@ module.exports.ItemThangTypeNode = ItemThangTypeNode = class ItemThangTypeNode e
   processThangType: (thangType) ->
     return unless itemComponent = _.find thangType.get('components'), {original: LevelComponent.ItemID}
     @constructor.thangTypes.push name: thangType.get('name'), original: thangType.get('original'), slots: itemComponent.config?.slots ? ['right-hand']
+
+module.exports.ChatMessageLinkNode = ChatMessageLinkNode = class ChatMessageLinkNode extends TreemaNode.nodeMap.string
+  buildValueForDisplay: (valEl, data) ->
+    super valEl, data
+
+    @$el.find('.ai-chat-message-link').remove()
+    @$el.find('.treema-row').prepend $("<span class='ai-chat-message-link'><a href='/editor/ai-chat-message/#{data}' target='_blank' title='Edit'>(e)</a>&nbsp;</span>")
+
+    chatMessageCollection = new CocoCollection([], {
+      url: '/db/ai_chat_message'
+      project:['actor', 'text']
+      model: AIChatMessage
+    })
+    res = chatMessageCollection.fetch({url: "/db/ai_chat_message/#{data}"})
+    chatMessageCollection.once 'sync', => @processChatMessages(chatMessageCollection)
+
+  processChatMessages: (chatMessageCollection) ->
+    text = chatMessageCollection.models?[0]?.get('text')
+    if text
+      htmlText = entities.decodeHTML(text.substring(0, 60)); 
+      @$el.find('.ai-chat-message-link-text').remove()
+      @$el.find('.treema-row').append $("<span class='ai-chat-message-link-text'></span>").text(htmlText)
+
+    actor = chatMessageCollection.models?[0]?.get('actor')
+    if actor
+      @$el.find('.ai-chat-message-actor').remove()
+      @$el.find('.treema-row').append $("<span class='ai-chat-message-actor'>&nbsp;<sub>actor:</sub> #{actor}&nbsp;</span>")
+      
+module.exports.ChatMessageParentLinkNode = ChatMessageParentLinkNode = class ChatMessageParentLinkNode extends TreemaNode.nodeMap.string
+  buildValueForDisplay: (valEl, data) ->
+    super valEl, data
+    return unless data
+
+    parentKind = @parent.data.parentKind
+
+    return unless parentKind;
+
+    @$el.find('.ai-chat-message-link').remove()
+    @$el.find('.treema-row').prepend $("<span class='ai-chat-message-link'><a href='/editor/ai-#{parentKind}/#{data}' title='Edit' target='_blank'>(e)</a>&nbsp;</span>")
+
+    parentCollection = new CocoCollection([], {
+      url: "/db/ai_#{parentKind}"
+      project:['name']
+      model: if parentKind is 'project' then AIProject else AIScenario
+    })
+    res = parentCollection.fetch({url: "/db/ai_#{parentKind}/#{data}"})
+    parentCollection.once 'sync', => @processParent(parentCollection)
+
+  processParent: (parentCollection) ->
+    text = parentCollection.models?[0]?.get('name')
+    if text
+      htmlText = entities.decodeHTML(text.substring(0, 60)); 
+      @$el.find('.ai-chat-message-parent-name').remove()
+      @$el.find('.treema-row').append $("<span class='ai-chat-message-parent-name'></span>").text(htmlText)
+      
+
+
+module.exports.AIDocumentLinkNode = AIDocumentLinkNode = class AIDocumentLinkNode extends TreemaNode.nodeMap.string
+  buildValueForDisplay: (valEl, data) ->
+    super valEl, data
+    return unless data
+
+    @$el.find('.ai-document-link').remove()
+    @$el.find('.treema-row').prepend $("<span class='ai-document-link'><a href='/editor/ai-document/#{data}' title='Edit' target='_blank'>(e)</a>&nbsp;</span>")
+
+module.exports.StateNode = StateNode = class SateNode extends TreemaNode.nodeMap.string
+  buildValueForDisplay: (valEl, data) ->
+    super valEl, data
+    return unless data
+    return console.error "Couldn't find state #{@data}" unless state = utils.usStateCodes.getStateNameByStateCode @data
+
+    stateElement = -> $("<span> - <i>#{state}</i></span>")
+    valEl.find('.treema-shortened').append(stateElement())
+
+module.exports.conceptNodes = (concepts) -> 
+  class ConceptNode extends TreemaNode.nodeMap.string
+    buildValueForDisplay: (valEl, data) ->
+      super valEl, data
+      return unless data
+      conceptList = concepts.map (i) -> i.toJSON()
+      return console.error "Couldn't find concept #{@data}" unless concept = _.find conceptList, key: @data
+      description = "#{concept.name} -- #{concept.description}"
+      description = description + " (Deprecated)" if concept.deprecated
+      description = "AUTO | " + description if concept.automatic
+      @$el.find('.treema-row').css('float', 'left')
+      @$el.addClass('concept-automatic') if concept.automatic
+      @$el.addClass('concept-deprecated') if concept.deprecated
+      @$el.find('.treema-description').remove()
+      @$el.append($("<span class='treema-description'>#{description}</span>").show())
+
+    limitChoices: (options) ->
+      if @parent.keyForParent is 'concepts' and (not this.parent.parent)
+        options = (o for o in options when _.find(concepts, (c) -> c.get('key') is o and not c.get('automatic') and not c.get('deprecated')))  # Allow manual, not automatic
+      else
+        options = (o for o in options when _.find(concepts, (c) -> c.get('key') is o and not c.get('deprecated')))  # Allow both
+      super options
+
+    onClick: (e) ->
+      return if this.parent.keyForParent is 'concepts' and (not this.parent.parent) and @$el.hasClass('concept-automatic')  # Don't allow editing of automatic concepts
+      super e
+
+  class ConceptsListNode extends TreemaNode.nodeMap.array
+    sort: true
+
+    sortFunction: (a, b) ->
+      aAutomatic = _.find concepts, (c) -> c.get('key') is a and c.get('automatic')
+      bAutomatic = _.find concepts, (c) -> c.get('key') is b and c.get('automatic')
+      return 1 if bAutomatic and not aAutomatic  # Auto before manual
+      return -1 if aAutomatic and not bAutomatic  # Auto before manual
+      return 0 if not aAutomatic and not bAutomatic  # No ordering within manual
+      super a, b  # Alpha within auto
+  return 
+    ConceptsListNode: ConceptsListNode
+    ConceptNode: ConceptNode

@@ -16,29 +16,51 @@
         </div>
       </div>
       <div class="split split-row" />
-      <div class="content">
+      <div
+        v-if="propsInstance"
+        class="content"
+      >
         <div class="event-title">
           <div class="title">
-            {{ $t('events.class_name') }} :
+            {{ $t('events.class_name') }}:
           </div>
           <div class="value">
-            {{ propsInstance?.name || 'Unknown Class' }}
+            {{ propsInstance?.name || $t('events.no_data_display') }}
+          </div>
+        </div>
+        <div class="event-time">
+          <div
+            class="title"
+          >
+            {{ $t('tournament.start_date_time') }}:
+          </div>
+          <div
+            class="value"
+          >
+            {{ instanceStartTime(propsInstance.startDate) }}
+          </div>
+        </div>
+        <div class="event-link" v-if="propsInstance?.meetingLink">
+          <div class="title">
+            <a href="propsInstance?.meetingLink" target="_blank">
+              {{ $t('events.meetingLink') }}
+            </a>
           </div>
         </div>
         <div class="levels-completed">
           <div class="title">
-            {{ $t('events.levels_completed') }} :
+            {{ $t('events.levels_completed') }}:
           </div>
           <div class="value">
-            {{ sessionsOfCampaign }}
+            {{ sessionsOfCampaign || $t('events.no_data_display') }}
           </div>
         </div>
         <div class="notes">
           <div class="title">
-            {{ $t('events.teacher_notes') }} :
+            {{ $t('events.teacher_notes') }}:
           </div>
           <div class="value">
-            {{ teacherNotes || $t('events.no_teacher_notes') }}
+            {{ teacherNotes || $t('events.no_data_display') }}
           </div>
           <div
             v-if="teacherNotes"
@@ -72,6 +94,14 @@
           >
             {{ $t('general.contact_us') }}
           </div>
+        </div>
+      </div>
+      <div
+        v-else
+        class="noevent"
+      >
+        <div class="noevent__info">
+          No event selected
         </div>
       </div>
     </div>
@@ -134,7 +164,7 @@ export default {
       fetchSession: 'levelSessions/fetchSessionsCountForDate'
     }),
     emailTeacher () {
-      window.location.href = 'malto:' + this.propsInstance.ownerDetails.email
+      window.location.href = 'mailto:' + (this.propsInstance.ownerDetails.email || 'classes@codecombat.com')
     },
     replyNotes () {
       this.emailTeacher()
@@ -208,6 +238,9 @@ export default {
           break
         }
       }
+    },
+    instanceStartTime (startDate) {
+      return moment(startDate).format('MMMM Do YYYY, h:mma (Z)')
     }
   },
   watch: {
@@ -237,6 +270,8 @@ export default {
   padding-left: 20px;
   display: flex;
   align-items: flex-start;
+  font-family: Work Sans, "Open Sans", sans-serif;
+
   .split {
     margin: unset;
     border: 1px solid #D8D8D8;
@@ -393,8 +428,8 @@ export default {
         position: absolute;
 
         &:has(.ec-event) {
-          width: 70px;
-          height: 70px;
+          width: 50px;
+          height: 50px;
           border-radius: 50%;
           margin: 0;
           background: rgba(93, 185, 172, 0.4);
@@ -465,16 +500,32 @@ export default {
       height: 0;
     }
 
-    .event-title {
+    .event-title, .levels-completed, .event-time {
       .value {
-        min-height: 4em;
+        min-height: 3em;
+      }
+    }
+    .event-link {
+      .title {
+        margin-bottom: 20px;
       }
     }
 
-    .levels-completed {
-      .value {
-        min-height: 4em;
-      }
+    .title {
+      color: #000;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 24px;
+      text-transform: uppercase;
+    }
+
+    .value {
+      color: #545B64;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 20px;
     }
 
     .notes {
@@ -565,6 +616,17 @@ export default {
           }
         }
       }
+    }
+  }
+
+  .noevent {
+    &__info {
+      color: #000;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 24px;
+      text-transform: uppercase;
     }
   }
 }

@@ -56,9 +56,10 @@
       }
     },
 
-    mounted () {
+    async mounted () {
       this.setTeacherId(me.get('_id'))
       this.setPageTitle(PAGE_TITLES[this.$options.name])
+      await this.fetchTeacherPrepaids({ teacherId: me.get('_id') })
       this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Resource Hub: Loaded' } })
 
       getResourceHubResources().then(allResources => {
@@ -97,7 +98,8 @@
 
     methods: {
       ...mapActions({
-        fetchData: 'teacherDashboard/fetchData'
+        fetchData: 'teacherDashboard/fetchData',
+        'fetchTeacherPrepaids': 'prepaids/fetchPrepaidsForTeacher'
       }),
       ...mapMutations({
         resetLoadingState: 'teacherDashboard/resetLoadingState',

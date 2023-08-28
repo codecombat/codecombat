@@ -1,0 +1,29 @@
+extends /templates/common/table
+
+block tableResultsHeader
+  tr
+    th(colspan=4)
+      span(data-i18n="general.results")
+        | Results
+      span
+        |: #{documents.length}
+
+block tableHeader
+  tr
+    th(data-i18n="general.name")
+    th(data-i18n="general.description") Description
+    th Tagger
+    th Tagger Function
+    th Automatic
+    th Deprecated
+
+block tableBody
+  for concept in documents
+    tr
+      td(title=concept.get('name')).name-row
+        a(href=`/editor/${page}/${concept.get('slug') || concept.id}`)= concept.get('name')
+      td(title=concept.get('description')).product-row= concept.get('description')
+      td(title=concept.get('tagger')).product-row= concept.get('tagger')
+      td(title=concept.get('taggerFunction')).product-row= concept.get('taggerFunction')
+      td(title=concept.get('automatic')).section-row= concept.get('automatic')
+      td(title=concept.get('deprecated')).priority-row= concept.get('deprecated')

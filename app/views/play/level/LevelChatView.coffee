@@ -23,6 +23,7 @@ module.exports = class LevelChatView extends CocoView
   subscriptions:
     'level:toggle-solution': 'onToggleSolution'
     'level:close-solution': 'onCloseSolution'
+    'level:add-user-chat': 'onAddUserChat'
 
   constructor: (options) ->
     @levelID = options.levelID
@@ -35,7 +36,7 @@ module.exports = class LevelChatView extends CocoView
 
     ## TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
     #@listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
-    @visible = me.isAdmin() or utils.getQueryVariable 'ai'
+    @visible = me.getLevelChatExperimentValue() is 'beta'  # not 'control'
 
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
@@ -108,7 +109,7 @@ module.exports = class LevelChatView extends CocoView
     content = content.replace /<p><code>((.|\n)*?)(?:(?!<\/code>)(.|\n))*?<\/code><\/p>/g, (match) ->
       match.replace(/<p><code>/g, '<pre><code>').replace(/<\/code><\/p>/g, '</code></pre>')
 
-    content = content.replace /\[Show Me\]/g, '<p><button class="btn btn-illustrated btn-small btn-primary fix-code-button">Show me</button></p>'
+    content = content.replace /\[Show Me\]/g, "<p><button class='btn btn-illustrated btn-small btn-primary fix-code-button'>#{$.i18n.t('play_level.chat_fix_show')}</button></p>"
     @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
 
     if _.string.startsWith(content, '/me')
@@ -192,13 +193,18 @@ module.exports = class LevelChatView extends CocoView
 
   onToggleSolution: ->
     btn = @$el.find('.fix-code-button')
-    if btn.html() == 'Show me'
-      btn.html 'Hide'
+    show = $.i18n.t('play_level.chat_fix_show')
+    hide = $.i18n.t('play_level.chat_fix_hide')
+    if btn.html() == show
+      btn.html hide
     else
-      btn.html 'Show me'
+      btn.html show
 
   onCloseSolution: (e) ->
-    @$el.find('.fix-code-button').html 'Show me'
+    @$el.find('.fix-code-button').html $.i18n.t('play_level.chat_fix_show')
+
+  onAddUserChat: (e) ->
+    @saveChatMessage { text: e.message }
 
   scrollDown: ->
     openPanel = $('.open-chat-area', @$el)[0]
@@ -212,6 +218,7 @@ module.exports = class LevelChatView extends CocoView
     # This will enrich the message with the props from other parts of the app
     @listenToOnce chatMessage, 'sync', @onChatMessageSaved
     chatMessage.save()
+    @$el.find('textarea').attr('placeholder', '')
     #@onNewMessage message: chatMessage.get('message'), messageId: chatMessage.get('_id')  # TODO: do this now and add message id link later
 
   onChatMessageSaved: (chatMessage) ->

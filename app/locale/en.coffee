@@ -108,7 +108,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     efficacy_page: "efficacy page"
     social_learning: "Does Ozaria promote social and emotional learning (SEL)?"
     social_learning_blurb: "Yes! Ozaria actively integrates social and emotional learning (SEL) into its curriculum. Through gamified activities, students develop essential skills such as decision-making, self-awareness, self-management, social awareness, relationship skills, and responsible decision-making. You can learn more about our philosophy on our __selpage__."
-    sel_page: "SEL page"    
+    sel_page: "SEL page"
 
   new_home:
     title_coco: "CodeCombat - Coding games to learn Python and JavaScript"
@@ -734,7 +734,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     already_have_account: "Already have a CodeCombat or Ozaria account"
     select_your_role: "Select your role"
     select_your_state: "Select your state"
-    password_requirements: "8 to 64 characters with no repeating"
+    password_requirements: "4 to 64 characters with no repeating"
     invalid: "Invalid"
     invalid_password: "Invalid password"
     with: "with"
@@ -984,12 +984,17 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     videos: "Videos"
     hints_title: "Hint {{number}}"
     code_saved: "Code Saved"
+    chat_placeholder: "Need coding help? Chat with the AI. (experimental!)"
+    chat_fix_show: "Show Me"
+    chat_fix_hide: "Hide"
     skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Key Shortcuts"
     loading_start: "Start Level"
     loading_start_combo: "Start Combo Challenge"
     loading_start_concept: "Start Concept Challenge"
     problem_alert_title: "Fix Your Code"
+    problem_alert_need_help: "Need help?"
+    problem_alert_ask_the_ai: "Ask the AI"
     time_current: "Now:"
     time_total: "Max:"
     time_goto: "Go to:"
@@ -2199,6 +2204,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_live_completion: "Classroom Code Autocomplete: "
     learn_without_classroom_title: "You can still learn and play without a classroom"
     learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
+    all_courses_completed: "All Courses Completed!"
+    all_units_completed: "All Units Completed!"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -2373,6 +2380,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     status_partly_expires: "Partly expires on {{date}}"
     select_all: "Select All"
     project: "Project"
+    projects: "Projects"
     project_gallery: "Project Gallery"
     view_project: "View Project"
     unpublished: "(unpublished)"
@@ -2746,6 +2754,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   editor:
     main_title: "CodeCombat Editors"
+    concept_title: "Concept Editor"
+    standards_title: "Standards Correlation Editor"
     article_title: "Article Editor"
     thang_title: "Thang Editor"
     level_title: "Level Editor"
@@ -2756,6 +2766,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     chat_title: "Chat Editor"
     ai_scenario_title: "AI Scenario Editor"
     ai_project_title: "AI Project Editor"
+    ai_model_title: "AI Model Editor"
+    ai_document_title: "AI Document Editor"
+    ai_chat_message_title: "AI Chat Message Editor"
     resource_title_general: "__resource__ Editor"
     back: "Back"
     revert: "Revert"
@@ -2803,6 +2816,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_systems_btn_add: "Add System"
     level_components_title: "Back to All Thangs"
     level_components_type: "Type"
+    concept_edit_title: "Edit Concept"
+    standards_edit_title: "Edit Standards Correlation"
     level_component_edit_title: "Edit Component"
     level_component_config_schema: "Config Schema"
     level_system_edit_title: "Edit System"
@@ -2815,7 +2830,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ai_scenario_edit_title_general: "Edit __scenario__"
     ai_project_edit_title: "Edit Project"
     ai_project_edit_title_general: "Edit __project__"
+    ai_model_edit_title: "Edit Model"
+    ai_document_edit_title: "Edit Document"
+    ai_chat_message_edit_title: "Edit Chat Message"
     create_system_title: "Create New System"
+    new_concept_title: "Create New Concept"
+    new_standards_title: "Create New Standards Correlation"
     new_component_title: "Create New Component"
     new_component_field_system: "System"
     new_article_title: "Create a New Article"
@@ -2838,7 +2858,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     new_ai_scenario_title_login: "Log In to Create a New Scenario"
     new_ai_project_title: "Create a New Project"
     new_ai_project_title_login: "Log In to Create a New Project"
+    new_ai_model_title: "Create a New Model"
+    new_ai_model_title_login: "Log In to Create a New Model"
+    new_ai_document_title: "Create a New Document"
+    new_ai_document_title_login: "Log In to Create a New Document"
+    new_ai_chat_message_title: "Create a New Chat Message"
+    new_ai_chat_message_title_login: "Log In to Create a New Chat Message"
     article_search_title: "Search Articles Here"
+    concept_search_title: "Search Concepts Here"
+    standards_search_title: "Search Standards Correlations Here"
     thang_search_title: "Search Thang Types Here"
     level_search_title: "Search Levels Here"
     achievement_search_title: "Search Achievements"
@@ -2848,6 +2876,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     chat_search_title: "Search Chats"
     ai_scenario_search_title: "Search Scenarios"
     ai_project_search_title: "Search Projects"
+    ai_model_search_title: "Search Models"
+    ai_document_search_title: "Search Documents"
+    ai_chat_message_search_title: "Search Chat Messages"
     read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
     no_achievements: "No achievements have been added for this level yet."
     achievement_query_misc: "Key achievement off of miscellanea"
@@ -3048,6 +3079,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     certificate_lines_of: "lines of"
     certificate_levels_completed: "levels completed"
     certificate_for: "For"
+    for_ozaria_chapters_1_4: "For Ozaria Chapters 1 - 4"
     certificate_number: "No."
     heroes_unlocked: "Heroes Unlocked"
     current_items: "Items Equipped"
@@ -4070,7 +4102,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     class_count: 'Lessons Count'
     done: 'Finished Lesson'
     attendance: 'Attendance'
-    course_description: 'Lesson Description'
+    course_description: 'Teacher Notes'
     teacher_notes: 'Teacher Notes'
     levels_completed: 'Levels Completed'
     no_levels_completed: 'No Completed Levels Found'
@@ -4090,6 +4122,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     lessons_count_desc: 'The total lessons count of this member, normally it is the same as the event instances count, but it can be different if the member is added after the event started or ended before the event ended'
     sync_to_google_desc: 'Sync this event to YOUR google calendar, instead of the owner\'s calendar. And can only work on CodeCombat gmail'
     timezone_tips: 'Date/Time is based on YOUR timezone: '
+    no_data_display: 'No data to display'
+    meetingLink: 'Meeting Link'
 
   teacher_dashboard:
     lock: 'Lock'
@@ -4195,6 +4229,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     note: 'Note'
     lock_or_skip_levels: 'Lock or Skip Levels'
     level_access_status_blurb: "When you choose to skip a level, it will have both the 'locked' and 'optional' status. Unskipping the level will remove both the 'locked' and 'optional' statuses."
+    reset_progress: "Reset Progress"
 
   outcomes:
     outcomes_report: "Outcomes Report"
@@ -4371,6 +4406,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
+    season8_announcement_1: "It's harvesting season in Farmscape Blitz Season 8! As the leaves change, it's time to code your way around wild and impenetrable obstacles on the farm. Strategically collect vital boosts to empower your robot worker and utilize special abilities to boost productivity and out-farm your opponents!"
+    season8_announcement_2: "Note: arena balance adjustments may occur up until August 15th. So be sure to come back often to test your code against the global leaderboard."
     season7_announcement_1: "Witness the dawn of a new challenge in the Equinox Cup! Season 7's tower defense arena offers a unique blend of strategy, monsters, and boss battles for you to conquer."
     season6_announcement_1: "It’s absolute Molten Mayhem with the launch of the Lava Lake Clash finals! Outlast and outwit the competition in this hot take on classic Snake gameplay."
     season6_announcement_2: "Note: arena balance adjustments may occur up until December 15th. So be sure to come back often to test your code against the global leaderboard."
@@ -4738,8 +4775,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     email_confirm: "The email address \"__email__\" is already registered. Would you like to login?"
 
   roblox_landing:
-    headline: "CodeCombat Worlds is a New Immersive Experience on Roblox"
-    subhead: "Join the beta waitlist to receive early access, development updates and more!"
+    headline: "Empowering every player to become a creator!"
+    subhead: "Experience the the easiest and most enjoyable way to code and create your own Roblox games"
+    join_the_beta: "Join the Beta"
     sign_up: "Sign Up"
     box_play_subhead: "Play"
     box_code_subhead: "Code"

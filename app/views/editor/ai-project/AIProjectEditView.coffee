@@ -6,6 +6,8 @@ ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
 
+nodes = require 'views/editor/level/treema_nodes'
+
 require 'lib/game-libraries'
 require('lib/setupTreema')
 treemaExt = require 'core/treema-ext'
@@ -39,6 +41,8 @@ module.exports = class AIProjectEditView extends RootView
       schema: AIProject.schema
       readOnly: me.get('anonymous')
       supermodel: @supermodel
+      nodeClasses:
+        'chat-message-link': nodes.ChatMessageLinkNode
     @treema = @$el.find('#ai-project-treema').treema(options)
     @treema.build()
     @treema.open(2)

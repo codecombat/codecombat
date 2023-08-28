@@ -1,0 +1,36 @@
+extends /templates/common/table
+
+block tableResultsHeader
+  tr
+    th(colspan=me.isAdmin() ? 7 : 6)
+      span(data-i18n="general.results")
+        | Results
+      span
+        |: #{documents.length}
+
+block tableHeader
+  tr
+    th(data-i18n="general.date")
+    th Owner
+    th Language
+    th Visibility
+    th(data-i18n="general.name")
+    th(data-i18n="general.description")
+    if me.isAdmin()
+      th(data-i18n="editor.delete")
+
+block tableBody
+  for model in documents
+    tr(data-model=model.get('_id') data-name=model.get('name'))
+      td(title=model.get('created'))
+        a(href='/editor/' + page + '/' + model.get('_id'))
+          | #{moment(model.get('created')).format('lll')}
+      td #{model.get('owner')}
+      td #{model.get('spokenLanguage')}
+      td #{model.get('visibility')}
+      td #{model.get('name')}
+      td #{model.get('description')}
+      if me.isAdmin() && model.get('visibility') != 'published'
+        td
+          button.ai-model-tool-button.btn.btn-primary.btn-sm#delete-button(data-i18n="editor.delete")
+

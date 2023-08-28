@@ -89,6 +89,7 @@
 import Modal from 'app/components/common/Modal'
 import { sendFormEntry } from 'core/api/parents'
 import moment from 'moment'
+import momentTimezone from 'moment-timezone'
 import forms from 'core/forms'
 import VuePhoneNumberInput from 'vue-phone-number-input' // it's unmaintained, but looks OK, and maz-ui which they recommend instead would require vue v3.x
 import timeZoneUtils from 'core/timeZoneUtils'
@@ -109,7 +110,7 @@ export default {
 
   },
   data () {
-    const timeZone = moment.tz.guess()
+    const timeZone = momentTimezone.tz.guess()
 
     return {
       name: me.get('firstName') || me.get('name') || '',

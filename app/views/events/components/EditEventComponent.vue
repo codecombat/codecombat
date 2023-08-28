@@ -2,6 +2,7 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import _ from 'lodash'
 import moment from 'moment'
+import momentTimezone from 'moment-timezone'
 import { HTML5_FMT_DATE_LOCAL, HTML5_FMT_TIME_LOCAL } from '../../../core/constants'
 import { RRuleGenerator, rruleGeneratorModule } from 'vue2-rrule-generator'
 import VueTimepicker from 'vue2-timepicker'
@@ -161,7 +162,7 @@ export default {
       return me
     },
     myTimeZone () {
-      return moment.tz.guess()
+      return momentTimezone.tz.guess()
     },
     _startDate: {
       get () {
@@ -303,6 +304,18 @@ export default {
         :resetRRule="resetRRule"
       />
 
+      <div class="form-group">
+        <label for="meetingLink"> {{ $t('events.meetingLink') }}</label>
+        <div>
+          <input
+            v-model="event.meetingLink"
+            type="text"
+            class="form-control"
+            name="meetingLink"
+            placeholder="input your zoom link here"
+          >
+        </div>
+      </div>
       <div class="form-group" v-if="true || me.useGoogleCalendar()">
         <label for="importedToGC"> {{ $t(`events.sync${propsEvent?.syncedToGC ? 'ed' : ''}_to_google`) }}</label>
         <div class="input-label">

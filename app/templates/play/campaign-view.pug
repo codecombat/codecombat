@@ -237,11 +237,19 @@ if showGameDevAlert
       for adjacentCampaign in adjacentCampaigns
         a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
           span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id, data-campaign-slug=adjacentCampaign.slug)
+
       // Roblox Modal
-      .level.cube-level.roblox-level#roblox-level-container(style="display: none;")
+      .level.roblox-level#roblox-level-container(style="display: none;" title="CodeCombat Worlds on Roblox")
         .roblox-icon
-      // Roblox Modal
-      .cube-level.roblox-level#roblox-level-shadow(style="left: 18%; top: 27.5%;display: none;",class="level-shadow")
+      .roblox-level#roblox-level-shadow(style="left: 18%; top: 27.5%; display: none;", class="level-shadow")
+
+      // HackStack Modal
+      if view.shouldShow('hackstack') && campaign.get('slug') == 'dungeon'
+        .level.hackstack-level#hackstack-level-container(title="CodeCombat AI HackStack")
+           a(href="/ai/new_project" target="_blank")
+            .hackstack-icon
+        .hackstack-level#hackstack-level-shadow(style="left: 61%; top: 67.5%;", class="level-shadow")
+
   else
     .portal
       .portals
@@ -304,7 +312,9 @@ if showGameDevAlert
 
   .game-controls.header-font.picoctf-hide
     if !(features.picoCtf || features.brainPop)
-      button.btn.cube-level.roblox-level-menu-icon(style="display: none;")
+      if view.shouldShow('hackstack')
+        a.btn.hackstack-menu-icon(href='/ai/new_project' target='_blank' title='CodeCombat AI HackStack')
+      button.btn.roblox-level.roblox-menu-icon(style='display: none;' title='CodeCombat Worlds on Roblox')
       if view.shouldShow('promotion')
         button.btn.promotion-menu-icon(data-toggle='coco-modal', data-target='play/modal/PromotionModal', title='New: Code in Beijing!')
       if view.shouldShow('premium')
