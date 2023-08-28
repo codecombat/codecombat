@@ -93,15 +93,16 @@
             :module-name="getModuleName(num)"
             :is-capstone="false"
           />
-          <template
+          <div
             v-for="{ icon, name, _id, description, isPartOfIntro, isIntroHeadingRow, slug, fromIntroLevelOriginal } in getContentTypes(num)"
+            :key="slug"
+            class="lprogress__level"
           >
             <intro-module-row
               v-if="isIntroHeadingRow"
               :key="_id"
               :icon-type="icon"
               :display-name="name"
-              class="lprogress__level"
             />
             <module-row
               v-else
@@ -115,7 +116,6 @@
               :progress-status="getProgressStatus({ slug, fromIntroLevelOriginal })"
               :identifier="slug"
               @showCodeClicked="onShowCodeClicked"
-              class="lprogress__level"
             />
             <code-diff
               v-if="showCodeModal.includes(slug)"
@@ -124,7 +124,7 @@
               :code-left="code[slug]"
               :key="slug"
             />
-          </template>
+          </div>
         </div>
         <div class="lprogress__resources">
           <module-resources

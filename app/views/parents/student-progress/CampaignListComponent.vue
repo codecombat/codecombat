@@ -80,12 +80,12 @@ export default {
     }
   },
   watch: {
-    campaigns: function (newVal, oldVal) {
-      if (newVal && newVal.length) {
-        this.selectedCampaignId = newVal[0]._id
-        this.$emit('selectedCampaignUpdated', this.selectedCampaignId)
-      }
-    },
+    // campaigns: function (newVal, oldVal) {
+    //   if (newVal && newVal.length) {
+    //     this.selectedCampaignId = newVal[0]._id
+    //     this.$emit('selectedCampaignUpdated', this.selectedCampaignId)
+    //   }
+    // },
     initialCampaignId: function (newVal, oldVal) {
       if (newVal !== oldVal) {
         this.selectedCampaignId = newVal

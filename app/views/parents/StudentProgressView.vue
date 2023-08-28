@@ -24,6 +24,9 @@
       :product="product"
       :oz-course-content="ozCourseContent"
     />
+    <loading-bar
+      :loading="levelsAndLsLoading"
+    />
   </main>
 </template>
 
@@ -59,7 +62,8 @@ export default {
     return {
       selectedCampaignId: null,
       selectedCodeLanguage: 'python',
-      loading: true
+      loading: true,
+      levelsAndLsLoading: false
     }
   },
   methods: {
@@ -71,16 +75,21 @@ export default {
       fetchCourseContent: 'gameContent/fetchGameContentForCampaign',
       setSelectedCampaignInOz: 'baseCurriculumGuide/setSelectedCampaign'
     }),
-    onSelectedCampaignUpdated (data) {
+    async onSelectedCampaignUpdated (data) {
       this.selectedCampaignId = data
+      await this.fetchLevelsAndLS()
+    },
+    async fetchLevelsAndLS () {
+      this.levelsAndLsLoading = true
       if (this.product === 'Ozaria') {
         this.setSelectedCampaignInOz(this.ozCourseCampaignId)
         this.fetchCourseContent({ campaignId: this.ozCourseCampaignId, options: { callOz: this.callOz } })
-        this.fetchLevelSessions()
+        await this.fetchLevelSessions()
       } else {
-        this.fetchCampaignLevels({ campaignHandle: this.selectedCampaignId })
-        this.fetchLevelSessions()
+        await this.fetchCampaignLevels({ campaignHandle: this.selectedCampaignId })
+        await this.fetchLevelSessions()
       }
+      this.levelsAndLsLoading = false
     },
     onCodeLanguageUpdate (data) {
       this.selectedCodeLanguage = data
@@ -95,17 +104,17 @@ export default {
       await this.fetchAllCampaigns()
       this.loading = false
       this.selectedCampaignId = this.homeVersionCampaigns ? this.homeVersionCampaigns[0]._id : null
-      if (this.selectedCampaignId) {
-        this.fetchCampaignLevels({ campaignHandle: this.selectedCampaignId })
-      }
+      await this.fetchLevelsAndLS()
     },
     async handleOzFetch () {
       await this.fetchReleasedCourses({ callOz: this.callOz })
       this.loading = false
       console.log('sCour', this.sortedCourses)
       this.selectedCampaignId = this.sortedCourses ? this.sortedCourses[0]._id : null
+      await this.fetchLevelsAndLS()
     },
     async handleCampaignFetch () {
+      this.loading = true
       if (this.product === 'CodeCombat' || !this.product) {
         await this.handleCocoFetch()
       } else {
