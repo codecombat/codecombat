@@ -205,8 +205,10 @@ export default {
       } catch (err) {
 
         let text = 'Failed to contact server, please reach out to support@codecombat.com'
-        if (err.code === 409) {
-          text = err.message
+        if (err.code === 409) { // already signed up, so we'll just show success
+          this.isSuccess = true
+          this.inProgress = false
+          return
         }
 
         console.error('roblox waitlist signup error', err)
