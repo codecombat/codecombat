@@ -215,8 +215,11 @@ module.exports = class AnalyticsView extends RootView
     @supermodel.loadCollection(@courses)
 
   handlePayments: ->
+    url = '/db/payments/-/all?nofree=true&project=created,gems,service,amount,productID,prepaidID,currency'
+    if utils.getQueryVariable('gtObjectId')
+      url = "#{url}&gtObjectId=#{utils.getQueryVariable('gtObjectId')}"
     @supermodel.addRequestResource({
-      url: '/db/payments/-/all?nofree=true&project=created,gems,service,amount,productID,prepaidID,currency'
+      url: url
       method: 'GET'
       success: (data) =>
 
@@ -322,6 +325,8 @@ module.exports = class AnalyticsView extends RootView
         @revenueGroups = Object.keys(groupMap)
         @revenueGroups.push 'DRR Total'
 
+        console.log 'rG', @revenueGroups
+
         if utils.isOzaria
           # Split lifetime values across 8 months based on 12% monthly churn
           lifetimeDurationMonths = 8 # Needs to be an integer
@@ -374,7 +379,7 @@ module.exports = class AnalyticsView extends RootView
 
         # Order present to past
         @revenue.sort (a, b) -> b.day.localeCompare(a.day)
-
+        console.log 'revenue', @revenue, dayGroupCountMap, serviceCarryForwardMap
         return unless @revenue.length > 0
 
         # Add monthly recurring revenue values
@@ -395,7 +400,7 @@ module.exports = class AnalyticsView extends RootView
               @revenue[i].groups.push(_.reduce(monthlyValues, (s, num) -> s + num))
         for monthlyGroup, dailyGroup of monthlyDailyGroupMap
           @revenueGroups.push monthlyGroup
-
+        console.log 'revenue groups', @revenueGroups
         # Calculate real monthly revenue instead of 30 days estimation
         @monthMrrMap = {}
         for revenue in @revenue
@@ -410,7 +415,7 @@ module.exports = class AnalyticsView extends RootView
               @monthMrrMap[month].yearly += revenue.groups[i]
             else if group is 'DRR Total'
               @monthMrrMap[month].total += revenue.groups[i]
-
+        console.log 'month MRR', @monthMrrMap
         # Calculate real weekly revenue instead of 30 days estimation
         @weekMrrMap = {}
         weekZero = week = '2022-12-30'  # Skip anything this Friday or before
@@ -430,6 +435,7 @@ module.exports = class AnalyticsView extends RootView
               @weekMrrMap[week].yearly += revenue.groups[i]
             else if group is 'DRR Total'
               @weekMrrMap[week].total += revenue.groups[i]
+        console.log 'week MRR', @weekMrrMap
 
         @updateAllKPIChartData()
         @updateRevenueChartData()
