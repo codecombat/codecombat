@@ -91,7 +91,8 @@
           <module-header
             :module-num="num"
             :module-name="getModuleName(num)"
-            :is-capstone="false"
+            :is-capstone="num === moduleNumbers[moduleNumbers.length - 1]"
+            :show-lesson-slides="false"
           />
           <div
             v-for="{ icon, name, _id, description, isPartOfIntro, isIntroHeadingRow, slug, fromIntroLevelOriginal } in getContentTypes(num)"

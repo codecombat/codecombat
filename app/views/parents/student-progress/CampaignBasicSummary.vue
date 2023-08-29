@@ -66,7 +66,7 @@
             </button>
             <a
               v-else
-              :href="`/teachers/campaign-solution/${campaign.slug}/${selectedCodeLang}`"
+              :href="getSolutionGuideLink"
               target="_blank"
               class="content__solution-guide"
             >
@@ -176,6 +176,13 @@ export default {
         return `/ozaria/file/${campaign.screenshot}`
       } else {
         return `/images/pages/play/campaign/${campignSlugImageMap[campaign.slug]}`
+      }
+    },
+    getSolutionGuideLink () {
+      if (this.product === 'Ozaria') {
+        return `/teachers/course-solution/${this.campaign._id}/${this.selectedCodeLang}`
+      } else {
+        return `/teachers/campaign-solution/${this.campaign.slug}/${this.selectedCodeLang}`
       }
     },
     onLockSolutionGuideClick () {

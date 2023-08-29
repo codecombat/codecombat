@@ -29,6 +29,10 @@
       moduleName: {
         type: String,
         default: ''
+      },
+      showLessonSlides: {
+        type: Boolean,
+        default: true
       }
     },
     computed: {
@@ -107,7 +111,7 @@
     <div class="buttons">
       <!-- For this locked tooltip we use a span, as the disabled button doesn't trigger a tooltip. -->
       <template
-        v-if="getModuleInfo.lessonSlidesUrl"
+        v-if="getModuleInfo.lessonSlidesUrl && showLessonSlides"
       >
         <span
           v-if="isOnLockedCampaign"
