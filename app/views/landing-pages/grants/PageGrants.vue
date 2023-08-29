@@ -84,7 +84,7 @@
                 </div>
                 <div class="content-button-template">
                   <a class="btn btn-primary btn-lg"
-                    href="https://docs.google.com/document/d/1Z7x7G8_TBLIMZHceGWBY3rueh63RGOBpblDS5OgSlBE/edit"
+                    href="https://docs.google.com/file/d/14uESEbkV-E3R5KnfwpqHjk6SqsgBFff8/edit?ts=64e50c6d"
                     target="_blank">Download the Template</a>
                 </div>
               </div>
@@ -99,6 +99,7 @@
             <carousel-component :items="carouselItems" :showTabs="true" :showDots="true"></carousel-component>
           </div>
         </div>
+
         <div class="content-layout-need-more-help">
           <div class="content-button-need-help">
             <a class="btn btn-primary btn-lg" @click="openModal(forms.needMoreHelp)">Need more help?</a>
@@ -108,8 +109,6 @@
         <div class="container sec-divider-container">
           <img src="/images/pages/grants/sec-divider.svg" />
         </div>
-
-
         <div>
           <div class="content-grants-list-sec">
             <div class="content-finding-grants-text">
@@ -161,8 +160,8 @@
               </div>
             </div>
           </div>
-        </div>
 
+        </div>
         <div class="container sec-divider-container">
           <img src="/images/pages/grants/sec-divider.svg" />
         </div>
@@ -201,8 +200,8 @@
       </div>
     </div>
 
-    <ModalComponent v-if="activeForm" :title="activeForm.title" :name="activeForm.name" :inputs="activeForm.inputs" :blurb="activeForm.blurb" :buttonLabel="activeForm.buttonLabel"
-      @close="handleClose" />
+    <ModalComponent v-if="activeForm" :title="activeForm.title" :name="activeForm.name" :inputs="activeForm.inputs"
+      :blurb="activeForm.blurb" :buttonLabel="activeForm.buttonLabel" @close="handleClose" />
   </div>
 </template>
 
@@ -258,10 +257,10 @@ export default {
         {
           title: 'Organization',
           image: '/images/pages/grants/organization.webp',
-          text: "Use our template to outline and organize the essential sections of the application. Keeping an organized application helps reviewers focus on your content and enhances the credibility of your proposal. Sections can include an: <i>Introduction, Project Description, Goals, Methodology, Budget, and Evaluation </i>."
+          text: "Use our template to outline and organize the essential sections of the application. Keeping an organized application helps reviewers focus on your content and enhances the credibility of your proposal. Sections can include an: <i>Introduction, Project Description, Goals, Methodology, Budget, and Evaluation</i>."
         },
         {
-          title: 'Time Efficacy',
+          title: 'Time Efficiency',
           image: '/images/pages/grants/time-efficacy.png',
           text: "Crafting a grant application from scratch can be time-consuming and labor-intensive. To save time, use the template’s example responses as a starting point. Then customize and tailor it to your specific project."
         },
@@ -301,7 +300,7 @@ export default {
               name: 'questions',
               type: 'textarea',
               label: 'Do you have any specific questions about how to get started?',
-              validations: { required }
+              validations: {}
             }
           ]
         },
@@ -335,7 +334,7 @@ export default {
             {
               name: 'checkbox-title',
               type: 'label',
-              label: 'I am here because (select all that applies):*',
+              label: 'I am here because (select all that apply):*',
               validations: {}
             },
             {
