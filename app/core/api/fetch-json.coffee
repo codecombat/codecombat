@@ -14,22 +14,10 @@
 getProductUrl = (product, url) ->
   if product != 'COCO' and product != 'OZ'
     return url
-  hostVal = window.location.host
+  hostVal = window.location.origin
   if product == 'OZ'
-    return "http://localhost:3000/ozaria#{url}"
+    return "#{hostVal}/ozaria#{url}"
   return url
-#  if product == 'OZ'
-#    if hostVal.includes('localhost')
-#      hostVal = 'http://localhost:3001'
-#    else
-#      hostVal = hostVal.replace('codecombat', 'ozaria')
-#  else
-#    if hostVal.includes('localhost')
-#      hostVal = 'http://localhost:3000'
-#    else
-#      hostVal = hostVal.replace('ozaria', 'codecombat')
-#  return "#{hostVal}#{url}"
-
 
 fetchWrapper = (url, options={}) ->
   options = _.cloneDeep(options)
