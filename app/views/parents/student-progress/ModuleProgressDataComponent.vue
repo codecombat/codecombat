@@ -5,25 +5,7 @@
       class="lprogress__content"
     >
       <div class="lprogress__header">
-        <div class="lprogress__intro">
-          <div class="lprogress__intro__title">
-            Levels progress
-          </div>
-          <div class="lprogress__intro__options">
-            <div class="lprogress__intro__option">
-              <div class="lprogress__intro__dot not-started-dot"></div>
-              <div class="lprogress__intro__text">Not Started</div>
-            </div>
-            <div class="lprogress__intro__option">
-              <div class="lprogress__intro__dot in-progress-dot"></div>
-              <div class="lprogress__intro__text">In progress</div>
-            </div>
-            <div class="lprogress__intro__option">
-              <div class="lprogress__intro__dot complete-dot"></div>
-              <div class="lprogress__intro__text">Complete</div>
-            </div>
-          </div>
-        </div>
+        <level-progress-info-component />
       </div>
       <div class="lprogress__module">
         <div class="lprogress__info">
@@ -62,25 +44,7 @@
       class="lprogress__content"
     >
       <div class="lprogress__header">
-        <div class="lprogress__intro">
-          <div class="lprogress__intro__title">
-            Levels progress
-          </div>
-          <div class="lprogress__intro__options">
-            <div class="lprogress__intro__option">
-              <div class="lprogress__intro__dot not-started-dot"></div>
-              <div class="lprogress__intro__text">Not Started</div>
-            </div>
-            <div class="lprogress__intro__option">
-              <div class="lprogress__intro__dot in-progress-dot"></div>
-              <div class="lprogress__intro__text">In progress</div>
-            </div>
-            <div class="lprogress__intro__option">
-              <div class="lprogress__intro__dot complete-dot"></div>
-              <div class="lprogress__intro__text">Complete</div>
-            </div>
-          </div>
-        </div>
+        <level-progress-info-component />
       </div>
       <div
         v-for="num in moduleNumbers"
@@ -148,6 +112,7 @@ import CodeDiff from '../../../components/common/CodeDiff'
 import { getProgressStatusHelper, getStudentAndSolutionCode } from '../helpers/levelCompletionHelper'
 import { getCurriculumGuideContentList } from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper'
 import ModuleResources from './ModuleResources'
+import LevelProgressInfoComponent from './LevelProgressInfoComponent'
 const Level = require('../../../models/Level')
 const ozariaCourseUtils = require('../../../core/ozaria-course-utils')
 export default {
@@ -190,7 +155,8 @@ export default {
     CodeDiff,
     ModuleHeader,
     IntroModuleRow,
-    ModuleResources
+    ModuleResources,
+    LevelProgressInfoComponent
   },
   methods: {
     getIconType (level) {
@@ -262,45 +228,6 @@ export default {
 @import "../css-mixins/variables";
 .lprogress {
   padding: 2rem;
-  &__intro {
-    display: flex;
-    align-items: center;
-
-    &__title {
-      font-weight: 500;
-      font-size: 1.6rem;
-      line-height: 2rem;
-      text-transform: uppercase;
-
-      margin-right: auto;
-    }
-
-    &__text {
-      font-weight: 400;
-      font-size: 1rem;
-      line-height: 1.1rem;
-    }
-
-    &__options {
-      display: flex;
-    }
-
-    &__option {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      padding: 1rem;
-    }
-
-    &__dot {
-      width: 1rem;
-      height: 1rem;
-      background: $color-white;
-      border-radius: 1rem;
-      margin-bottom: .5rem;
-    }
-  }
 
   &__diff {
     padding: 1rem;
@@ -326,17 +253,5 @@ export default {
     display: grid;
     grid-template-columns: 2.5fr 1fr;
   }
-}
-
-.not-started-dot {
-  border: 1.5px solid $color-grey-3;
-}
-
-.in-progress-dot {
-  background-color: $color-blue-2;
-}
-
-.complete-dot {
-  background-color: $color-green-3;
 }
 </style>
