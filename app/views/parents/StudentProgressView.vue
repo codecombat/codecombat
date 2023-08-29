@@ -35,6 +35,7 @@ import CampaignListComponent from './student-progress/CampaignListComponent'
 import CampaignBasicSummary from './student-progress/CampaignBasicSummary'
 import CampaignProgressView from './student-progress/CampaignProgressView'
 import LoadingBar from '../../../ozaria/site/components/common/LoadingBar'
+import { getCurriculumGuideContentList } from '../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -140,7 +141,7 @@ export default {
     },
     levelSessionsOfCampaign () {
       if (!this.child || !this.selectedCampaignId) return []
-      const campaignId = this.callOz ? this.ozCourseCampaignId : this.selectedCampaignId
+      const campaignId = this.currentCampaignId
       return this.getSessionsForCampaignOfRelatedUser(this.child.userId, campaignId)
     },
     campaignLevels () {
@@ -152,12 +153,37 @@ export default {
     ozCourseContent () {
       return this.getGameContentByCampaign(this.ozCourseCampaignId)
     },
+    moduleNumbers () {
+      return Object.keys(this.ozCourseContent?.modules || {})
+    },
+    ozCourseLevels () {
+      const levels = []
+      for (const num of this.moduleNumbers) {
+        const content = getCurriculumGuideContentList({
+          introLevels: this.ozCourseContent.introLevels,
+          moduleInfo: this.ozCourseContent.modules,
+          moduleNum: num,
+          currentCourseId: this.currentCampaignId,
+          codeLanguage: this.language
+        })
+        levels.push(...content)
+      }
+      return levels
+    },
     hasCompletedCampaign () {
-      const requiredLevels = this.sortedLevels?.filter(l => !l.practice) || []
-      const requiredLevelSlugs = requiredLevels?.map(l => l.slug) || []
-      const requiredLevelSessions = this.levelSessionsOfCampaign?.filter(ls => requiredLevelSlugs.includes(ls.levelID))
+      let requiredLevels, requiredLevelSlugs, requiredLevelOriginals
+      if (this.product !== 'Ozaria') {
+        requiredLevels = this.sortedLevels?.filter(l => !l.practice) || []
+        requiredLevelSlugs = requiredLevels?.map(l => l.slug) || []
+        requiredLevelOriginals = []
+      } else {
+        requiredLevels = this.ozCourseLevels.filter(l => !l.isIntroHeadingRow)
+        requiredLevelSlugs = requiredLevels.map(l => l.slug)
+        requiredLevelOriginals = requiredLevels.map(l => l.fromIntroLevelOriginal)
+      }
+      const requiredLevelSessions = this.levelSessionsOfCampaign?.filter(ls => requiredLevelSlugs.includes(ls.levelID) || requiredLevelOriginals.includes(ls?.level?.original)) || []
       const reqCompletedLevelSessions = requiredLevelSessions?.filter(ls => ls.state?.complete) || []
-      return requiredLevelSlugs.length > 0 && reqCompletedLevelSessions.length === requiredLevelSlugs.length
+      return requiredLevelSlugs.length > 0 && reqCompletedLevelSessions.length > 0 && (reqCompletedLevelSessions.length === requiredLevelSlugs.length || reqCompletedLevelSessions.length === requiredLevelSessions.length)
     },
     sortedLevels () {
       const cLevels = JSON.parse(JSON.stringify(Object.values(this.selectedCampaign?.levels || {})))
@@ -184,6 +210,9 @@ export default {
     ozCourseCampaignId () {
       if (this.product !== 'Ozaria') return
       return this.sortedCourses.find(c => c._id === this.selectedCampaignId)?.campaignID
+    },
+    currentCampaignId () {
+      return this.callOz ? this.ozCourseCampaignId : this.selectedCampaignId
     }
   },
   async created () {
