@@ -19,7 +19,10 @@
         :key="campaign._id"
         @click="() => updateSelectedCampaign(campaign._id)"
       >
-        <div class="campaign__dot"></div>
+        <div
+          :class="{ campaign__dot: true, 'complete-dot': completionStatusMap[campaign._id] === 'complete', 'in-progress-dot': completionStatusMap[campaign._id] === 'in-progress' }"
+        >
+        </div>
         <div
           :class="{ campaign__name: true, campaign__name__sel: campaign._id === selectedCampaignId }"
         >
@@ -46,6 +49,12 @@ export default {
     },
     initialCampaignId: {
       type: String
+    },
+    completionStatusMap: { // TODO: this should be array of completion status but it is expensive to compute for all so leaving it for now
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   data () {
@@ -181,6 +190,14 @@ export default {
     border-radius: 1rem;
     margin-bottom: 1rem;
     z-index: 1;
+  }
+
+  .in-progress-dot {
+    background-color: $color-blue-2;
+  }
+
+  .complete-dot {
+    background-color: $color-green-3;
   }
 
   &__name {

@@ -43,7 +43,7 @@ export default {
   props: {
     product: {
       type: String,
-      default: 'CodeCombat'
+      default: 'codecombat'
     },
     child: {
       type: Object
@@ -82,7 +82,7 @@ export default {
     },
     async fetchLevelsAndLS () {
       this.levelsAndLsLoading = true
-      if (this.product === 'Ozaria') {
+      if (this.product === 'ozaria') {
         this.setSelectedCampaignInOz(this.ozCourseCampaignId)
         this.fetchCourseContent({ campaignId: this.ozCourseCampaignId, options: { callOz: this.callOz } })
         await this.fetchLevelSessions()
@@ -116,7 +116,7 @@ export default {
     },
     async handleCampaignFetch () {
       this.loading = true
-      if (this.product === 'CodeCombat' || !this.product) {
+      if (this.product === 'codecombat' || !this.product) {
         await this.handleCocoFetch()
       } else {
         await this.handleOzFetch()
@@ -133,7 +133,7 @@ export default {
     }),
     selectedCampaign () {
       if (!this.selectedCampaignId) return null
-      if (this.product === 'Ozaria') {
+      if (this.product === 'ozaria') {
         return this.sortedCourses?.find(c => c._id === this.selectedCampaignId || c.campaignID === this.selectedCampaignId)
       } else {
         return this.homeVersionCampaigns?.find(c => c._id === this.selectedCampaignId)
@@ -146,7 +146,7 @@ export default {
     },
     campaignLevels () {
       if (!this.selectedCampaignId) return []
-      if (this.product !== 'Ozaria') {
+      if (this.product !== 'ozaria') {
         return this.getCampaignLevels(this.selectedCampaignId)
       }
     },
@@ -171,8 +171,11 @@ export default {
       return levels
     },
     hasCompletedCampaign () {
+      return this.completionStatus === 'complete'
+    },
+    completionStatus () {
       let requiredLevels, requiredLevelSlugs, requiredLevelOriginals
-      if (this.product !== 'Ozaria') {
+      if (this.product !== 'ozaria') {
         requiredLevels = this.sortedLevels?.filter(l => !l.practice) || []
         requiredLevelSlugs = requiredLevels?.map(l => l.slug) || []
         requiredLevelOriginals = []
@@ -183,7 +186,12 @@ export default {
       }
       const requiredLevelSessions = this.levelSessionsOfCampaign?.filter(ls => requiredLevelSlugs.includes(ls.levelID) || requiredLevelOriginals.includes(ls?.level?.original)) || []
       const reqCompletedLevelSessions = requiredLevelSessions?.filter(ls => ls.state?.complete) || []
-      return requiredLevelSlugs.length > 0 && reqCompletedLevelSessions.length > 0 && (reqCompletedLevelSessions.length === requiredLevelSlugs.length || reqCompletedLevelSessions.length === requiredLevelSessions.length)
+      let status = 'not-started'
+      if (requiredLevelSessions.length > 0) status = 'in-progress'
+      if (reqCompletedLevelSessions.length > 0 && (reqCompletedLevelSessions.length === requiredLevelSlugs.length || reqCompletedLevelSessions.length === requiredLevelSessions.length)) {
+        status = 'complete'
+      }
+      return status
     },
     sortedLevels () {
       const cLevels = JSON.parse(JSON.stringify(Object.values(this.selectedCampaign?.levels || {})))
@@ -198,17 +206,17 @@ export default {
       return result
     },
     getCampaignListToShow () {
-      if (!this.product || this.product === 'CodeCombat') {
+      if (!this.product || this.product === 'codecombat') {
         return this.homeVersionCampaigns
       } else {
         return this.sortedCourses
       }
     },
     callOz () {
-      return this.product === 'Ozaria'
+      return this.product === 'ozaria'
     },
     ozCourseCampaignId () {
-      if (this.product !== 'Ozaria') return
+      if (this.product !== 'ozaria') return
       return this.sortedCourses.find(c => c._id === this.selectedCampaignId)?.campaignID
     },
     currentCampaignId () {

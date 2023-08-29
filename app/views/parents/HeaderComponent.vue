@@ -11,14 +11,14 @@
       </div>
       <div class="header__products">
         <div
-          :class="{ header__product: true, header__product__selected: selectedProduct === 'CodeCombat' }"
-          @click.prevent="() => onProductClicked('CodeCombat')"
+          :class="{ header__product: true, header__product__selected: selectedProduct === 'codecombat' }"
+          @click.prevent="() => onProductClicked('codecombat')"
         >
           <img src="/images/pages/parents/dashboard/codecombat-logo.svg" alt="CodeCombat logo" class="header__logos">
         </div>
         <div
-          :class="{ header__product: true, header__product__selected: selectedProduct === 'Ozaria' }"
-          @click.prevent="() => onProductClicked('Ozaria')"
+          :class="{ header__product: true, header__product__selected: selectedProduct === 'ozaria' }"
+          @click.prevent="() => onProductClicked('ozaria')"
         >
           <img src="/images/pages/parents/dashboard/ozaria-logo.svg" alt="Ozaria logo" class="header__logos">
         </div>
@@ -112,13 +112,13 @@ export default {
     },
     product: {
       type: String,
-      default: 'CodeCombat'
+      default: 'codecombat'
     }
   },
   data () {
     return {
       name: me.broadName(),
-      selectedProduct: this.product || 'CodeCombat',
+      selectedProduct: this.product || 'codecombat',
       SubscribeModal,
       isSubscribeModalOpen: false,
       showTryFreeClassModal: false

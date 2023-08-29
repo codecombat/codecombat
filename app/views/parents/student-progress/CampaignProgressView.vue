@@ -33,7 +33,7 @@ export default {
     },
     product: {
       type: String,
-      default: 'CodeCombat'
+      default: 'codecombat'
     },
     ozCourseContent: {
       type: Object,

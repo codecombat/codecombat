@@ -3,6 +3,7 @@
     <sidebar-component
       :children="children"
       :default-tab="selectedView"
+      :product="selectedProduct"
       @onAddAnotherChild="onAddAnotherChildClicked"
       @onSelectedChildrenChange="onSelectedChildrenChange"
       :child-id="selectedChildrenId"
@@ -10,7 +11,7 @@
     <header-component
       @onSelectedProductChange="onSelectedProductChange"
       :child="selectedChildren"
-      :product="product"
+      :product="selectedProduct"
       :is-online-class-paid-user="isPaidOnlineClassUser()"
       v-if="selectedView !== 'online-classes'"
     />
@@ -75,7 +76,7 @@ export default {
     },
     product: {
       type: String,
-      default: 'CodeCombat'
+      default: 'codecombat'
     }
   },
   data () {
@@ -140,7 +141,8 @@ export default {
       this.onChildAccountSubmitHelper(data)
     },
     onSelectedProductChange (data) {
-      this.selectedProduct = data
+      // this.selectedProduct = data
+      window.location.href = `/parents/${this.viewName}/${this.selectedChildrenId}/${data}`
     },
     onSelectedChildrenChange (data) {
       // this.$router.push({

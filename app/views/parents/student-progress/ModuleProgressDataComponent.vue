@@ -1,7 +1,7 @@
 <template>
   <div class="lprogress">
     <div
-      v-if="product !== 'Ozaria'"
+      v-if="product !== 'ozaria'"
       class="lprogress__content"
     >
       <div class="lprogress__header">
@@ -166,7 +166,7 @@ export default {
     },
     product: {
       type: String,
-      default: 'CodeCombat'
+      default: 'codecombat'
     },
     ozCourseContent: {
       type: Object,
@@ -208,7 +208,7 @@ export default {
         return
       }
       let level = this.levels.find(l => l.slug === levelSlug)
-      if (this.product === 'Ozaria' && !level) {
+      if (this.product === 'ozaria' && !level) {
         for (const num of this.moduleNumbers) {
           const module = this.ozCourseContent.modules[num]
           level = module.find(l => l.slug === levelSlug)
@@ -296,7 +296,7 @@ export default {
     &__dot {
       width: 1rem;
       height: 1rem;
-      background: #FFFFFF;
+      background: $color-white;
       border-radius: 1rem;
       margin-bottom: .5rem;
     }
@@ -333,10 +333,10 @@ export default {
 }
 
 .in-progress-dot {
-  background-color: #1ad0ff;
+  background-color: $color-blue-2;
 }
 
 .complete-dot {
-  background-color: #2dcd38;
+  background-color: $color-green-3;
 }
 </style>

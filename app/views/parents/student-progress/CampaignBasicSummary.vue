@@ -148,7 +148,7 @@ export default {
     },
     product: {
       type: String,
-      default: 'CodeCombat'
+      default: 'codecombat'
     }
   },
   data () {
@@ -159,7 +159,7 @@ export default {
   computed: {
     levelConcepts () {
       const capitalize = str => str[0].toUpperCase() + str.substring(1)
-      if (this.product === 'Ozaria') {
+      if (this.product === 'ozaria') {
         return this.campaign?.concepts?.map(c => c.split('_').map(capitalize).join(' '))
       } else {
         return this.campaign?.description?.split(',').map(d => d.trim().split(' ').map(capitalize).join(' '))
@@ -172,14 +172,14 @@ export default {
       this.$emit('languageUpdated', this.selectedCodeLang)
     },
     getCampaignImage (campaign) {
-      if (this.product === 'Ozaria') {
+      if (this.product === 'ozaria') {
         return `/ozaria/file/${campaign.screenshot}`
       } else {
         return `/images/pages/play/campaign/${campignSlugImageMap[campaign.slug]}`
       }
     },
     getSolutionGuideLink () {
-      if (this.product === 'Ozaria') {
+      if (this.product === 'ozaria') {
         return `/teachers/course-solution/${this.campaign._id}/${this.selectedCodeLang}`
       } else {
         return `/teachers/campaign-solution/${this.campaign.slug}/${this.selectedCodeLang}`
@@ -203,7 +203,7 @@ export default {
 
 .basic {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2.5fr 1fr;
   background: $color-grey-2;
 
   @media (max-width: $screen-lg) {
@@ -223,7 +223,7 @@ export default {
 
     &__level {
       &-img {
-        height: 30rem;
+        height: 25rem;
       }
     }
 
