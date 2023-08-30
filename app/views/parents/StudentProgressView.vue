@@ -23,6 +23,7 @@
       :sorted-levels="sortedLevels"
       :product="product"
       :oz-course-content="ozCourseContent"
+      :code-language="selectedCodeLanguage"
     />
     <loading-bar
       :loading="levelsAndLsLoading"

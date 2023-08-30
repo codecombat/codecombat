@@ -19,27 +19,19 @@
 </template>
 
 <script>
-const campaignSlidesMapping = {
-
-}
 export default {
   name: 'ModuleResources',
   props: {
-    campaign: {
-      type: Object,
-      default () {
-        return null
-      }
-    },
     lessonSlidesUrl: {
-      type: String
+      type: String,
+      default: ''
     }
   },
   methods: {
     onLessonSlidesClicked () {
       console.log('lessonSlide', this.lessonSlidesUrl)
       if (me.isPaidOnlineClassUser()) {
-        const url = campaignSlidesMapping[this.campaign.slug] || this.lessonSlidesUrl
+        const url = this.lessonSlidesUrl
         if (!url) {
           noty({
             text: 'Sorry, lesson not available for this campaign currently',
