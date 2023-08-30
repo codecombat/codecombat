@@ -4,6 +4,10 @@
 @import "app/styles/play/variables"
 
 #level-chat-view
+  $bgWhite: #f6f6f8
+  $bgOrange: #ff932e
+  $fontPurple: #5b586b
+  $fontWhite: #ffefe0
 
   box-sizing: border-box
   width: 22% // 40% of the canvas
@@ -14,7 +18,6 @@
   height: 0
   font-size: 16px
   color: white
-  text-shadow: 1px 1px 1px black
   z-index: 5
 
   code
@@ -24,6 +27,54 @@
     color: #aff
   tr.me .action
     color: #ffa
+
+  .message-body
+    margin-top: 20px
+    display: flex
+    font-weight: 700
+    align-items: end
+    color: $fontPurple
+
+    p
+      margin: 0
+
+      &:not(:last-child)
+        margin-bottom: 15px
+
+    .message-content
+      min-height: 10px
+      margin-left: 20px
+      padding: 1rem 2rem
+      border-radius: 15px
+      border-bottom-left-radius: 0px
+      position: relative
+      background: $bgWhite
+
+      &:before
+        content: ""
+        width: 20px
+        height: 20px
+        position: absolute
+        left: -20px
+        bottom: 0
+        background: radial-gradient(circle at top left, transparent, transparent 20px, $bgWhite 20px, $bgWhite)
+
+  .me
+    .message-body
+      flex-direction: row-reverse
+      color: $fontWhite
+
+      .message-content
+        background: $bgOrange
+        border-bottom-left-radius: 15px
+        border-bottom-right-radius: 0px
+        margin-left: unset
+        margin-right: 20px
+
+        &:before
+          left: unset
+          right: -20px
+          background: radial-gradient(circle at top right, transparent, transparent 20px, $bgOrange 20px, $bgOrange)
 
   .chat-area
     margin-left: -22px
