@@ -20,7 +20,8 @@ const ThangTypeSchema = (title, description) => c.object({
       }, {
         slug: c.shortString({
           title: 'Slug',
-          description: 'The thangType slug of the asset. Only required if this isn\'t the player hero.'
+          description: 'The thangType slug of the asset. Only required if this isn\'t the player hero.',
+          minLength: 1
         })
       })
     ]

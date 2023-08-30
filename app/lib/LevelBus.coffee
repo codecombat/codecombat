@@ -305,8 +305,8 @@ module.exports = class LevelBus extends Bus
       # Just in case the concept tagger system breaks. Esper needed fixing to handle
       # the Python skulpt AST, the concept tagger is not fully tested, and this is a
       # critical piece of code, so want to make sure this can fail gracefully.
-      console.error('Unable to parse concepts from this AST.')
-      console.error(e)
+      console.warn('Unable to parse concepts from this AST.')
+      console.warn(e)
 
 
   destroy: ->
