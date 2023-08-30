@@ -49,7 +49,7 @@ module.exports = class LevelChatView extends CocoView
       console.error "Couldn't toggle the style on the LevelChatView to #{Boolean @session.get('multiplayer')} because of an error:", e
 
   afterRender: ->
-    @chatTables = $('table', @$el)
+    @chatTables = $('.table', @$el)
     #@updateMultiplayerVisibility()
     @$el.toggle @visible
     @onWindowResize {}
@@ -59,7 +59,7 @@ module.exports = class LevelChatView extends CocoView
     @clearOldMessagesInterval = setInterval(@clearOldMessages, 5000)
 
   clearOldMessages: =>
-    rows = $('.closed-chat-area tr')
+    rows = $('.closed-chat-area.tr')
     for row in rows
       row = $(row)
       added = row.data('added')
@@ -76,7 +76,7 @@ module.exports = class LevelChatView extends CocoView
     @playSound 'chat_received'
 
   messageObjectToJQuery: ({ message, messageId, existingRow }) ->
-    td = $('<td class="message-content"></td>')
+    td = $('<div class="td message-content"></div>')
     content = message.content or message.text
 
     # Hide incomplete structured chat tags
@@ -122,22 +122,24 @@ module.exports = class LevelChatView extends CocoView
       td.append($('<span class="action"></span>').html(content))
 
     else
-      td.append($('<strong></strong>').text((message.authorName or message.sender?.name) + ': '))
+      # td.append($('<strong></strong>').text((message.authorName or message.sender?.name) + ': '))
       td.append($('<span></span>').html(content))
 
     if existingRow?.length
       tr = $(existingRow[0])
-      tr.find('td.message-content').replaceWith(td)
+      tr.find('.td.message-content').replaceWith(td)
     else
-      tr = $('<tr></tr>')
+      tr = $('<div class="tr message-row"></div>')
+      mbody = $('<div class="message-body"></div>')
       if message.authorID is me.id or message.sender?.id is me.id
         tr.addClass('me')
-        avatarTd = $("<td class='player-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player'></a></td>")
+        avatarTd = $("<div class='td player-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player'></a></div>")
       else
-        avatarTd = $("<td class='chatbot-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/images/level/baby-griffin.png' alt='AI'></a></td>")
+        avatarTd = $("<div class='td chatbot-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/images/level/baby-griffin.png' alt='AI'></a></div>")
       tr.addClass 'streaming' if message.streaming
-      tr.append(avatarTd)
-      tr.append(td)
+      mbody.append(avatarTd)
+      mbody.append(td)
+      tr.append(mbody)
     tr
 
   addOne: ({ message, messageId }) ->
@@ -156,7 +158,7 @@ module.exports = class LevelChatView extends CocoView
   trimClosedPanel: ->
     closedPanel = $('.closed-chat-area', @$el)
     limit = 10
-    rows = $('tr', closedPanel)
+    rows = $('.tr', closedPanel)
     for row, i in rows
       break if rows.length - i <= limit
       row.remove()
@@ -252,7 +254,7 @@ module.exports = class LevelChatView extends CocoView
     @onNewMessage message: { sender: sender, text: '...', streaming: true }
 
   addToStreamingAIChatMessage: ({ sender, chunk, result }) ->
-    lastRow = @chatTables.find('tr.streaming:last-child')
+    lastRow = @chatTables.find('.tr.streaming:last-child')
     # TODO: I commented out the .closed-chat-area to make this work, should bring that back and not have two elements in lastRow
     tr = @messageObjectToJQuery { message: { sender: sender, text: result, streaming: true }, existingRow: lastRow }
     tr.data('added', new Date().getTime())
@@ -261,7 +263,7 @@ module.exports = class LevelChatView extends CocoView
     @scrollDown()
 
   clearStreamingAIChatMessage: ->
-    lastRow = @chatTables.find('tr.streaming:last-child')
+    lastRow = @chatTables.find('.tr.streaming:last-child')
     lastRow.remove()
 
   onChatResponse: (message) =>
