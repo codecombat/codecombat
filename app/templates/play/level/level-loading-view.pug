@@ -1,6 +1,6 @@
 if view.utils.isCodeCombat
-  .left-wing
-  .right-wing
+  div(class="left-wing " + view.loadingWingClass)
+  div(class="right-wing " + view.loadingWingClass)
 
 - var product = view.utils.isCodeCombat ? 'coco' : 'ozar'
 #loading-details.loading-container

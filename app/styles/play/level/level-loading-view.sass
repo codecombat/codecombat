@@ -10,6 +10,8 @@
   background-repeat: no-repeat
   background-position: top $backgroundPosition
   background-size: contain
+  @media screen and ( min-aspect-ratio: 145/100 )
+    background-size: 50%
 
 $UNVEIL_TIME: 1.2s
 
@@ -37,20 +39,62 @@ $UNVEIL_TIME: 1.2s
       height: 100%
       position: absolute
       pointer-events: none
+      box-shadow: inset 0 30px 20px -30px black, inset 0 -30px 20px -30px black
+      filter: brightness(0.7)
 
     .left-wing
-      @include wing-background('/images/level/loading_left_wing_1920.jpg', right)
+      @include wing-background('/images/level/loading/loading_alejandro_left_1920.jpg', right)
       @media screen and ( max-width: 1366px )
-        @include wing-background('/images/level/loading_left_wing_1366.jpg', right)
+        @include wing-background('/images/level/loading/loading_alejandro_left_1366.jpg', right)
       left: -50%
       @include transition(all $UNVEIL_TIME ease)
 
+      &.anya
+        @include wing-background('/images/level/loading/loading_anya_left_1920.jpg', right)
+        @media screen and ( max-width: 1366px )
+          @include wing-background('/images/level/loading/loading_anya_left_1366.jpg', right)
+
+      &.chess
+        @include wing-background('/images/level/loading/loading_chess_left_1920.jpg', right)
+        @media screen and ( max-width: 1366px )
+          @include wing-background('/images/level/loading/loading_chess_left_1366.jpg', right)
+
+      &.naria
+        @include wing-background('/images/level/loading/loading_naria_left_1920.jpg', right)
+        @media screen and ( max-width: 1366px )
+          @include wing-background('/images/level/loading/loading_naria_left_1366.jpg', right)
+
+      &.okar
+        @include wing-background('/images/level/loading/loading_okar_left_1920.jpg', right)
+        @media screen and ( max-width: 1366px )
+          @include wing-background('/images/level/loading/loading_okar_left_1366.jpg', right)
+
     .right-wing
-      @include wing-background('/images/level/loading_right_wing_1920.jpg', left)
+      @include wing-background('/images/level/loading/loading_alejandro_right_1920.jpg', left)
       @media screen and ( max-width: 1366px )
-        @include wing-background('/images/level/loading_right_wing_1366.jpg', left)
+        @include wing-background('/images/level/loading/loading_alejandro_right_1366.jpg', left)
       right: -50%
       @include transition(all $UNVEIL_TIME ease)
+
+      &.anya
+        @include wing-background('/images/level/loading/loading_anya_right_1920.jpg', left)
+        @media screen and ( max-width: 1366px )
+          @include wing-background('/images/level/loading/loading_anya_right_1366.jpg', left)
+
+      &.chess
+        @include wing-background('/images/level/loading/loading_chess_right_1920.jpg', left)
+        @media screen and ( max-width: 1366px )
+          @include wing-background('/images/level/loading/loading_chess_right_1366.jpg', left)
+
+      &.naria
+        @include wing-background('/images/level/loading/loading_naria_right_1920.jpg', left)
+        @media screen and ( max-width: 1366px )
+          @include wing-background('/images/level/loading/loading_naria_right_1366.jpg', left)
+
+      &.okar
+        @include wing-background('/images/level/loading/loading_okar_right_1920.jpg', left)
+        @media screen and ( max-width: 1366px )
+          @include wing-background('/images/level/loading/loading_okar_right_1366.jpg', left)
 
   #loading-details
     z-index: 100
