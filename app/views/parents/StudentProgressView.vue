@@ -25,9 +25,12 @@
       :oz-course-content="ozCourseContent"
       :code-language="selectedCodeLanguage"
     />
-    <loading-bar
-      :loading="levelsAndLsLoading"
-    />
+    <div
+      v-if="levelsAndLsLoading"
+      class="loading"
+    >
+      loading......
+    </div>
   </main>
 </template>
 
@@ -111,7 +114,6 @@ export default {
     async handleOzFetch () {
       await this.fetchReleasedCourses({ callOz: this.callOz })
       this.loading = false
-      console.log('sCour', this.sortedCourses)
       this.selectedCampaignId = this.sortedCourses ? this.sortedCourses[0]._id : null
       await this.fetchLevelsAndLS()
     },
@@ -241,5 +243,10 @@ export default {
 .content {
   grid-column: main-content-start / main-content-end;
   /*height: 60vh;*/
+
+  .loading {
+    text-align: center;
+    font-size: 2rem;
+  }
 }
 </style>

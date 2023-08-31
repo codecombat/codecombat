@@ -60,7 +60,6 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       fromIntroLevelOriginal
     })
   }
-  console.log('c', curriculumGuideContentList)
   return curriculumGuideContentList
 }
 

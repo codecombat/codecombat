@@ -120,15 +120,9 @@ export default {
     onShowCodeClicked ({ identifier, hideCode = false }) {
       const levelSlug = identifier
       if (hideCode) {
-        // this.showCodeModal.splice(this.showCodeModal.findIndex(slug => slug === levelSlug), 1)
         this.showCodeModal = this.showCodeModal.filter(s => s !== levelSlug)
         return
       }
-        // for (const num of this.moduleNumbers) {
-        //   const module = this.ozCourseContent.modules[num]
-        //
-        //   if (level) break
-        // }
       const level = this.moduleLevels.find(l => l.slug === levelSlug)
       const { studentCode, solutionCode } = getStudentAndSolutionCode(level, this.levelSessions)
       this.code[levelSlug] = studentCode

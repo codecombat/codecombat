@@ -1,4 +1,4 @@
-# this is a copy of course info from utils.coffee for ozaria since we want to show oz info in ozaria now
+# this is a copy of course info from utils.coffee for ozaria since we want to show oz info in coco now
 campaignIDs =
   CHAPTER_ONE: '5d1a8368abd38e8b5363bad9'
 

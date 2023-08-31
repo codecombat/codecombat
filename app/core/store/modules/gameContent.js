@@ -115,7 +115,6 @@ export default {
       if (state.gameContent.byCampaign[campaignId]) {
         return Promise.resolve()
       }
-      console.log('cid', campaignId)
       commit('toggleLoadingForCampaign', campaignId)
 
       const projectData = {

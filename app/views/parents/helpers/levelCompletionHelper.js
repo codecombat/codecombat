@@ -22,7 +22,6 @@ export function getStudentCode (levelSession) {
 
 export function getSolutionCode (level, { lang = null }) {
   const solutions = getSolutions(level)
-  console.log('sol', level, solutions, lang)
   if (lang) {
     const sol = solutions.find(s => s.language === lang)
     if (sol) return sol.source
