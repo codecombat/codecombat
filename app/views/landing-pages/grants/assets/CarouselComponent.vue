@@ -83,6 +83,14 @@ export default {
 </script>
   
 <style scoped lang="scss">
+%font-18-24 {
+  font-size: 18px;
+  line-height: 24px;
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
 .carousel-tabs>button.active,
 .carousel-dots>button.active {}
 
@@ -102,9 +110,9 @@ export default {
 
 .content-details {
     padding-top: 60px;
+    padding-bottom: 60px;
     padding-right: 70px;
     padding-left: 70px;
-    padding-bottom: 60px;
     justify-content: center;
     align-items: center;
     gap: 70px;
@@ -120,7 +128,20 @@ export default {
     text-align: left;
 
     @media screen and (max-width: 768px) {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    @media screen and (max-width: 768px) {
         flex-direction: column;
+    }
+
+    >* {
+
+        @media screen and (max-width: 768px) {
+            margin-right: 30px;
+            margin-left: 30px;
+        }
     }
 }
 
@@ -128,9 +149,12 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
+
     @media screen and (max-width: 768px) {
-        width: 100%;
+        width: calc(100% - 60px);
     }
+
     .prev-button,
     .next-button {
         outline: none;
@@ -151,35 +175,33 @@ export default {
     width: 175px;
 }
 
-.content-text {
-    align-items: flex-start;
-    flex-direction: column;
-    display: flex;
-    gap: 14px;
-    width: 835px;
-}
 
 .content-title {
+    @extend %font-18-24;
     max-width: 835px;
     width: 100%;
-    font-size: 18px;
     font-weight: 700;
-    line-height: 24px;
 }
 
 .content-text {
+    @extend %font-18-24;
     max-width: 835px;
     width: 100%;
     line-height: 1;
     position: relative;
     font-weight: 400;
-    line-height: 24px;
-    font-size: 18px;
+    align-items: flex-start;
+    flex-direction: column;
+    display: flex;
+
+    @media screen and (max-width: 768px) {
+        gap: 14px;
+        width: auto;
+    }
 
     p {
+        @extend %font-18-24;
         display: inline;
-        line-height: 24px;
-        font-size: 18px;
     }
 }
 
@@ -239,14 +261,13 @@ export default {
             }
 
             .content-text {
+                @extend %font-18-24;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 18px;
                 height: 70px;
                 text-align: center;
                 font-family: Open Sans;
-                font-size: 18px;
                 font-style: normal;
                 font-weight: 700;
                 line-height: normal;
