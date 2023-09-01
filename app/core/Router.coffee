@@ -115,6 +115,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
 #    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
+    'library-dashboard': go('core/SingletonAppVueComponentView')
     'api-dashboard': go('core/SingletonAppVueComponentView')
 
     'artisans': go('artisans/ArtisansView')
@@ -204,7 +205,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/ai-document': go('editor/ai-document/AIDocumentSearchView')
     'editor/ai-document/:documentID': go('editor/ai-document/AIDocumentEditView')
     'editor/ai-chat-message': go('editor/ai-chat-message/AIChatMessageSearchView')
-    'editor/ai-chat-message/:chatMessageID': go('editor/ai-chat-message/AIChatMessageEditView') 
+    'editor/ai-chat-message/:chatMessageID': go('editor/ai-chat-message/AIChatMessageEditView')
 
 
     'etc': redirect('/teachers/demo')
