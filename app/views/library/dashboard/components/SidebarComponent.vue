@@ -59,6 +59,15 @@ export default {
       display: flex;
       justify-content: space-between;
     }
+
+    &::after {
+      content: "";
+      height: 1px;
+      background: $color-yellow-1;
+      display: block;
+      width: 100%;
+      margin-top: 1rem;
+    }
   }
 
   &__text {
@@ -78,6 +87,10 @@ export default {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+  }
+
+  & > div {
+    margin-bottom: 4rem;
   }
 }
 </style>
