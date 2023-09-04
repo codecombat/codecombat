@@ -86,7 +86,7 @@ LEADERBOARDNAME = {
 
 HTML5_FMT_DATETIME_LOCAL = 'YYYY-MM-DDTHH:mm' # moment 2.20+ do have this string but we use 2.19 :joy:
 HTML5_FMT_DATE_LOCAL = 'YYYY-MM-DD'
-HTML5_FMT_TIME_LOCAL = 'HH:mm'
+HTML5_FMT_TIME_LOCAL = 'hh:mm A'
 
 ANNOUNCEMENT_LIMIT = 11 # fetch 11 and display 10 only, so that we can check if all announcements loaded
 
