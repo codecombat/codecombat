@@ -1,8 +1,8 @@
 <template>
   <div class="ldata">
     <filter-component />
-    <graph-component />
     <stats-component />
+    <graph-component />
   </div>
 </template>
 

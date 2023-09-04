@@ -33,7 +33,7 @@ export default {
 
   display: grid;
   grid-template-columns: [sidebar-start] 25rem [sidebar-end main-content-start] repeat(3, [main-start] 1fr [main-end]) [main-content-end];
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 7rem 1fr;
 
   &__name {
     grid-column: sidebar-start / sidebar-end;
