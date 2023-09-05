@@ -11,8 +11,17 @@
       :lines-of-code="linesOfCode"
       :minutes-spent="minutesSpent"
       :programs-written="programsWritten"
+      v-if="!loading"
     />
-    <graph-component />
+    <graph-component
+      v-if="!loading"
+    />
+    <div
+      v-if="loading"
+      class="loading"
+    >
+      loading data from {{ startDate }} to {{ endDate }}.....
+    </div>
   </div>
 </template>
 
@@ -32,6 +41,10 @@ export default {
     },
     stats: {
       type: Object
+    },
+    loading: {
+      type: Boolean,
+      default: true
     }
   },
   components: {
@@ -74,5 +87,11 @@ export default {
 <style scoped lang="scss">
 .ldata {
   grid-column: main-content-start / main-content-end;
+
+  .loading {
+    text-align: center;
+    font-size: 2rem;
+    padding: 1rem;
+  }
 }
 </style>

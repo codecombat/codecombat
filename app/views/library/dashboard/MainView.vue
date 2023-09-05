@@ -11,6 +11,7 @@
       :start-date="startDate"
       :end-date="endDate"
       :stats="licenseStats"
+      :loading="loading"
       @startDateChanged="onStartDateChanged"
       @endDateChanged="onEndDateChanged"
     />
@@ -22,13 +23,15 @@ import SidebarComponent from './components/SidebarComponent'
 import LibraryDataComponent from './components/LibraryDataComponent'
 import moment from 'moment'
 import { mapActions, mapGetters } from 'vuex'
+const _ = require('lodash')
 
 export default {
   name: 'MainView',
   data () {
     return {
       startDate: moment().subtract(3, 'months').format('YYYY-MM-DD'),
-      endDate: moment().format('YYYY-MM-DD')
+      endDate: moment().format('YYYY-MM-DD'),
+      clientId: null
     }
   },
   components: {
@@ -41,21 +44,30 @@ export default {
       fetchLicenseStats: 'apiClient/fetchLicenseStats'
     }),
     onStartDateChanged (val) {
-      console.log('sd', val)
+      this.startDate = val
+      this.debouncedFetchStats()
     },
     onEndDateChanged (val) {
-      console.log('ed', val)
-    }
+      this.endDate = val
+      this.debouncedFetchStats()
+    },
+    fetchStats () {
+      const query = { clientId: this.clientId, startDate: this.startDate, endDate: this.endDate }
+      this.fetchLicenseStats(query)
+    },
+    debouncedFetchStats: _.debounce(function () {
+      this.fetchStats()
+    }, 3000)
   },
   computed: {
     ...mapGetters({
-      licenseStats: 'apiClient/getLicenseStats'
+      licenseStats: 'apiClient/getLicenseStats',
+      loading: 'apiClient/getLoadingByLicenseState'
     })
   },
   async created () {
-    const clientId = await this.fetchClientId()
-    const query = { clientId, startDate: this.startDate, endDate: this.endDate }
-    this.fetchLicenseStats(query)
+    this.clientId = await this.fetchClientId()
+    this.fetchStats()
   }
 }
 </script>

@@ -43,6 +43,9 @@ export default {
     },
     getLicenseStats: (state) => {
       return state.licenseStats
+    },
+    getLoadingByLicenseState: (state) => {
+      return state.loading['byLicense']
     }
   },
   actions: {
