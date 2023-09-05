@@ -7,19 +7,55 @@
       Welcome to your dashboard, <span class="library__desc__name">ARAPAHOE LIBRARIES!</span> Give your members access to the most engaging way to learn coding!
     </div>
     <sidebar-component />
-    <library-data-component />
+    <library-data-component
+      :start-date="startDate"
+      :end-date="endDate"
+      :stats="licenseStats"
+      @startDateChanged="onStartDateChanged"
+      @endDateChanged="onEndDateChanged"
+    />
   </div>
 </template>
 
 <script>
 import SidebarComponent from './components/SidebarComponent'
 import LibraryDataComponent from './components/LibraryDataComponent'
+import moment from 'moment'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'MainView',
+  data () {
+    return {
+      startDate: moment().subtract(3, 'months').format('YYYY-MM-DD'),
+      endDate: moment().format('YYYY-MM-DD')
+    }
+  },
   components: {
     SidebarComponent,
     LibraryDataComponent
+  },
+  methods: {
+    ...mapActions({
+      fetchClientId: 'apiClient/fetchClientId',
+      fetchLicenseStats: 'apiClient/fetchLicenseStats'
+    }),
+    onStartDateChanged (val) {
+      console.log('sd', val)
+    },
+    onEndDateChanged (val) {
+      console.log('ed', val)
+    }
+  },
+  computed: {
+    ...mapGetters({
+      licenseStats: 'apiClient/getLicenseStats'
+    })
+  },
+  async created () {
+    const clientId = await this.fetchClientId()
+    const query = { clientId, startDate: this.startDate, endDate: this.endDate }
+    this.fetchLicenseStats(query)
   }
 }
 </script>

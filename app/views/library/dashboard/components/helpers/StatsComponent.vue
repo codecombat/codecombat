@@ -3,22 +3,22 @@
     <stat-item-component
       img-path="/images/pages/library/icon-users.png"
       name="Total Users"
-      value="149"
+      :value="totalUsers"
     />
     <stat-item-component
       img-path="/images/pages/library/icon-code.png"
       name="Lines of code written"
-      value="167"
+      :value="linesOfCode"
     />
     <stat-item-component
       img-path="/images/pages/library/icon-hours.png"
       name="Hours spent"
-      value="20.5"
+      :value="Math.round(minutesSpent / 60)"
     />
     <stat-item-component
       img-path="/images/pages/library/icon-programs.png"
       name="Programs written"
-      value="124"
+      :value="programsWritten"
     />
   </div>
 </template>
@@ -27,6 +27,20 @@
 import StatItemComponent from './StatItemComponent'
 export default {
   name: 'StatsComponent',
+  props: {
+    totalUsers: {
+      type: Number
+    },
+    linesOfCode: {
+      type: Number
+    },
+    minutesSpent: {
+      type: Number
+    },
+    programsWritten: {
+      type: Number
+    }
+  },
   components: {
     StatItemComponent
   }

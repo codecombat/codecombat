@@ -40,19 +40,21 @@ export default {
   getters: {
     getTeachers: (state) => {
       return state.createdTeachers
+    },
+    getLicenseStats: (state) => {
+      return state.licenseStats
     }
   },
   actions: {
-    fetchClientId: ({ commit }) => {
-      apiclientsApi.getApiClientId().then(res => {
-        commit('setClientId', {id: res})
-      })
+    fetchClientId: async ({ commit }) => {
+      const clientId = await apiclientsApi.getApiClientId()
+      commit('setClientId', { id: clientId })
+      return clientId
     },
-    fetchLicenseStats: ({ commit }, clientId) => {
+    fetchLicenseStats: ({ commit }, { clientId, startDate, endDate }) => {
       commit('toggleLoading', 'byLicense')
-
       return apiclientsApi
-        .getLicenseStats(clientId)
+        .getLicenseStats(clientId, { startDate, endDate })
         .then(res =>  {
           if (res) {
             commit('addLicenseStats', {

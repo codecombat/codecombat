@@ -9,16 +9,51 @@
       User Activities | <span class="filter__subtext">From:</span>
     </div>
     <div class="filter__dates">
-      <input type="date" class="filter__date">
+      <input
+        type="date"
+        class="filter__date"
+        v-model="startDate"
+        :max="endDate"
+      >
       <span class="filter__to">To:</span>
-      <input type="date" class="filter__date">
+      <input
+        type="date"
+        class="filter__date"
+        v-model="endDate"
+        :min="startDate"
+        :max="currentDate"
+      >
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 export default {
-  name: 'FilterComponent'
+  name: 'FilterComponent',
+  props: {
+    initialStartDate: {
+      type: String
+    },
+    initialEndDate: {
+      type: String
+    }
+  },
+  data () {
+    return {
+      startDate: this.initialStartDate,
+      endDate: this.initialEndDate,
+      currentDate: moment().format('YYYY-MM-DD')
+    }
+  },
+  watch: {
+    startDate () {
+      this.$emit('startDateChanged', this.startDate)
+    },
+    endDate () {
+      this.$emit('endDateChanged', this.endDate)
+    }
+  }
 }
 </script>
 
