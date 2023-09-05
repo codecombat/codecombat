@@ -6,12 +6,12 @@
       </div>
       <d3-line-chart
         :config="usersChartConfig"
-        :datum="usersChartData"
+        :datum="numberOfUsersData"
       />
     </div>
     <div class="graphs__item">
       <div class="graphs__heading">
-        Time spent
+        Time spent (in minutes)
       </div>
       <d3-bar-chart
         :config="timeSpentConfig"
@@ -23,11 +23,14 @@
         New users
       </div>
       <d3-line-chart
-        :config="usersChartConfig"
-        :datum="usersChartData"
+        :config="newSignupsChartConfig"
+        :datum="newSignupsData"
       />
     </div>
-    <div class="graphs__item">
+    <div
+      v-if="ageData.length > 0"
+      class="graphs__item"
+    >
       <div class="graphs__heading">
         Age demographics
       </div>
@@ -50,8 +53,8 @@
         Programs written
       </div>
       <d3-bar-chart
-        :config="linesOfCodeConfig"
-        :datum="linesOfCodeData"
+        :config="programsWrittenConfig"
+        :datum="programsWrittenData"
       />
     </div>
   </div>
@@ -61,6 +64,11 @@
 import { D3LineChart, D3BarChart, D3PieChart } from 'vue-d3-charts'
 export default {
   name: 'GraphComponent',
+  props: {
+    stats: {
+      type: Object
+    }
+  },
   components: {
     D3LineChart,
     D3BarChart,
@@ -68,58 +76,108 @@ export default {
   },
   data () {
     return {
-      usersChartData: [
-        { number_of_users: 23, date: '2023-01' },
-        { number_of_users: 123, date: '2023-02' },
-        { number_of_users: 413, date: '2023-03' },
-        { number_of_users: 234, date: '2023-04' },
-        { number_of_users: 523, date: '2023-05' }
-      ],
       usersChartConfig: {
         values: ['number_of_users'],
         date: {
           key: 'date',
           inputFormat: '%Y-%m',
           outputFormat: '%Y-%m'
+        },
+        color: {
+          scheme: ['#1FBAB4']
         }
       },
-      timeSpentData: [
-        { time_spent: 23, date: '2023-01' },
-        { time_spent: 423, date: '2023-02' },
-        { time_spent: 13, date: '2023-03' },
-        { time_spent: 234, date: '2023-04' }
-      ],
+      newSignupsChartConfig: {
+        values: ['new_signups'],
+        date: {
+          key: 'date',
+          inputFormat: '%Y-%m',
+          outputFormat: '%Y-%m'
+        },
+        color: {
+          scheme: ['#20572B']
+        }
+      },
       timeSpentConfig: {
         values: ['time_spent'],
-        key: 'date'
+        key: 'date',
+        color: {
+          keys: {
+            time_spent: '#7D0101'
+          }
+        }
       },
-      ageData: [
-        { name: 'Under 15', count: 12 },
-        { name: '15 < age < 18', count: 25 },
-        { name: 'Greater than 18', count: 35 }
-      ],
       ageConfig: {
         key: 'name',
         value: 'count',
         color: { scheme: 'schemeTableau10' },
         radius: { inner: 80 }
       },
-      linesOfCodeData: [
-        { time_spent: 23, date: '2023-01' },
-        { time_spent: 423, date: '2023-02' },
-        { time_spent: 13, date: '2023-03' },
-        { time_spent: 234, date: '2023-04' }
-      ],
       linesOfCodeConfig: {
-        values: ['time_spent'],
+        values: ['lines_of_code'],
         key: 'date',
         orientation: 'horizontal',
         color: {
           keys: {
-            time_spent: '#0E4C60'
+            lines_of_code: '#0E4C60'
+          }
+        }
+      },
+      programsWrittenConfig: {
+        values: ['programs_written'],
+        key: 'date',
+        orientation: 'horizontal',
+        color: {
+          keys: {
+            programs_written: '#1FBAB4'
           }
         }
       }
+    }
+  },
+  computed: {
+    numberOfUsersData () {
+      const arr = []
+      for (const month in this.stats?.licenseDaysByMonth) {
+        arr.push({ date: month, number_of_users: this.stats?.licenseDaysByMonth[month]?.noOfRedeemers })
+      }
+      return arr
+    },
+    newSignupsData () {
+      const arr = []
+      for (const month in this.stats?.licenseDaysByMonth) {
+        arr.push({ date: month, new_signups: this.stats?.licenseDaysByMonth[month]?.newSignups })
+      }
+      return arr
+    },
+    linesOfCodeData () {
+      const arr = []
+      for (const month in this.stats?.licenseDaysByMonth) {
+        arr.push({ date: month, lines_of_code: this.stats?.licenseDaysByMonth[month]?.progress?.linesOfCode })
+      }
+      return arr
+    },
+    programsWrittenData () {
+      const arr = []
+      for (const month in this.stats?.licenseDaysByMonth) {
+        arr.push({ date: month, programs_written: this.stats?.licenseDaysByMonth[month]?.progress?.programs })
+      }
+      return arr
+    },
+    timeSpentData () {
+      const arr = []
+      for (const month in this.stats?.licenseDaysByMonth) {
+        arr.push({ date: month, time_spent: (this.stats?.licenseDaysByMonth[month]?.progress?.playtime || 0) / 60 })
+      }
+      return arr
+    },
+    ageData () {
+      const arr = []
+      for (const ageRange in this.stats.ageStats) {
+        const val = this.stats.ageStats[ageRange]
+        if (val > 0) arr.push({ name: ageRange, count: val })
+      }
+      return arr
     }
   }
 }
@@ -161,6 +219,7 @@ export default {
       background: $color-yellow-1;
       display: block;
       width: 100%;
+      margin-top: 1rem;
     }
   }
 }

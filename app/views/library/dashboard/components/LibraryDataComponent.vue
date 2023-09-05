@@ -14,6 +14,7 @@
       v-if="!loading"
     />
     <graph-component
+      :stats="stats"
       v-if="!loading"
     />
     <div
