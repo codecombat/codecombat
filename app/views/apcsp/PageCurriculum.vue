@@ -259,8 +259,6 @@ export default Vue.extend({
       fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher'
     }),
     async updateLicenseStatus() {
-      this.hasLicense = true;
-      return;
       if (me.isPaidTeacher()) {
         this.hasLicense = true
         return
@@ -441,7 +439,7 @@ p,
         left: 0;
         bottom: 0;
         width: 100%;
-        background: url(/images/pages/apcsp/curriculum_header_bg.png) no-repeat top center;
+        background: url(/images/pages/apcsp/curriculum_header_bg.webp) no-repeat top center;
         background-size: cover;
       }
 
@@ -873,7 +871,7 @@ p,
           color: #FFF;
           text-align: center;
           font-family: Arvo;
-          font-size: 30px;
+          font-size: max(22px, min(30px, 2.2vw));
           font-style: normal;
           font-weight: 700;
           line-height: 62px;
