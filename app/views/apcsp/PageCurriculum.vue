@@ -5,11 +5,7 @@
         .container-fluid.header-part-top
           .width-container.text-center.row
             .col-lg-12
-              h1.text-h1 {{ $t('apcsp_marketing.page_title') }}
-        .container-fluid.header-part-bottom(ref="header")
-          .width-container.row.text-center
-            .col-lg-12
-              p.text-p {{ $t('apcsp_marketing.page_description_endorsed') }}
+              h1.text-h1 {{ $t('apcsp_curriculum.page_title') }}
 
     #nolicense.container-fluid(v-if="!hasLicense")
       .width-container.row.border-red
@@ -18,8 +14,8 @@
           a.btn.btn-primary.btn-lg.btn-shadow(href="https://forms.gle/RAA37R3FJojZ7bfQ7" target="_blank") {{ $t('apcsp_curriculum.request_license') }}
 
     #greed-banner.container-fluid(v-if="hasLicense")
-      .width-container.row
-        .col.col-lg-12
+      .width-container.row.row-eq-height
+        .col.col-md-5.col-lg-4
           .border-yellow
             .row
               .col.col-lg-12
@@ -29,297 +25,102 @@
               .col.col-lg-12
                 h2.text-h2(v-html="$t('apcsp_curriculum.access_pacing_guide', i18nData)")
                 a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide_Full.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
-
-
-    #resources.width-container.row(v-if="hasLicense")
-      .col-lg-12
-        h2.text-h2 {{ $t('apcsp_curriculum.resources') }}
-      .col-lg-12    
-        .row-boxes-container
-          .col-yellow-border.col-yellow-border-double
-            h3.text-h3 Big Idea: Algorithms and Programming
-              span
-                | !{' '}(AAP)
+                .col.col-lg-12
+        .col.col-md-7.col-lg-8
+          .border-yellow
+            .college-board-image-container
+              img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")          
             .row
-              .col-lg-3.col-sm-6.col-xs-12
-                h4.text-h4 Computer Science 1
-                h5.text-h5 (6 Quests, 10 Sessions)
-                ul
-                  li
-                    a(href="https://docs.google.com/presentation/d/1-N9FzM0tvZrAFg8xYqhaKjkA2hZj8NsYMFTIP-VjrNw/edit?usp=sharing" target="_blank") Quest 0: Getting Started
-                    span (CRD)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1aw95kI5UIBjWIDHYMHANkOzOkgLGW3rJiyze7kW5uIA/edit?usp=sharing" target="_blank") Quest 1: Syntax & Sequences
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1BzohUmlboC_yugSpaEcc5-mcz1hKWwUkLGYKD4opo5c/edit?usp=sharing" target="_blank") Quest 2: Arguments & Properties
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1kqvX08F_eoac52B_xYD9Tx15gCJURw6F2SoPR8micak/edit?usp=sharing" target="_blank") Quest 3: While Loops
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1VEkhdZqAdaRfKlP4HQ-a7ugCCjVdez-m35GSUZ-d2HM/edit?usp=sharing" target="_blank") Quest 4: Variables
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1DpWgbbxCJKi7u4ClrPhcoPAhRyJ_WlVdzcUx4IzFT9I/edit?usp=sharing" target="_blank") Quest 5: Capstone Project
-                    span (CRD, AAP)
-              .col-lg-3.col-sm-6.col-xs-12
-                h4.text-h4 Computer Science 2
-                h5.text-h5 (8 Quests, 15 Sessions)
-                ul
-                  li
-                    a(href="https://docs.google.com/presentation/d/1nHsP3MyLF3Ff44bBixvKtqQhL4NiZ_dbTmBE5xh7NL8/edit?usp=sharing" target="_blank") Quest 1: Coordinate Systems
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1g54vcO_c1exc901HYkZdUgEiBUrhvs7DjzXmg6nwphw/edit?usp=sharing" target="_blank") Quest 2: Conditional Statements (If)
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1eoR5GC-HGISOqvZXUle6PvRtQm5TfXQLR8ExTvfH6nw/edit?usp=sharing" target="_blank") Quest 3: Conditional Statements (Else)
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1ZeDyRszf2ppNAZoBvAmSKCA7xyEBaRVgKOa9T-GWJcE/edit?usp=sharing" target="_blank") Quest 4: Nested Conditionals
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/16Y0MzRtwAFzajfaxs1UZbyQmgAMp6W5XSrjQlfsG1MU/edit?usp=sharing" target="_blank") Quest 5: Functions
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/16JW7XFJC33n6mdbjujl3O89Tbbyrwhs4ai7gxM5AFCs/edit?usp=sharing" target="_blank") Quest 6: Functions with Parameters
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1sRA-UzcFIUqtKghiojvPKiTWXinJZ500KJ-gU9T1Oiw/edit?usp=sharing" target="_blank") Quest 7: Events
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1Z2eV0DBoJsu0Mf85DSdbyzwH5YJyaPT3eEuajfbieTE/edit?usp=sharing" target="_blank") Quest 8: Capstone Project
-                    span (CRD, AAP)
-              .col-lg-3.col-sm-6.col-xs-12
-                h4.text-h4 Computer Science 3
-                h5.text-h5 (10 Quests, 15 Sessions)
-                ul
-                  li
-                    a(href="https://docs.google.com/presentation/d/12VQOlwrpxnjx5OP9gnLV3k_dHrCjrrVPCLFXZ1XMrVg/edit?usp=sharing" target="_blank") Quest 1: Concatenation & Arithmetic
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1Pqjo2CIMTY1CaH9PkRP5PRX-qTiXG8pxyZKZB9ewtL8/edit?usp=sharing" target="_blank") Quest 2: Properties Revisited
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1rI4-eAdUojJWIY3LMp9GrGhp4KgzgzSDmVxI2E1h3Y4/edit?usp=sharing" target="_blank") Quest 3: Functions that Return
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1uBcZGlWCRV8sK42iq_XX-Oe6L9gmtTfr0w1A7GFTp1U/edit?usp=sharing" target="_blank") Quest 4: Comparison Operators
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1DCZhZyBR5ulhU4neDy3b9h8Yuo6kuDyg-0mRMTW6eHU/edit?usp=sharing" target="_blank") Quest 5: Logical Operators
-                    span (CRD, AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1CUlJR21NNsJkiEJAYRBGw8j36Wx5jMye2Y7DLbLxsMU/edit?usp=sharing" target="_blank") Quest 6: Relative Movement
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/11eilsfqhH-V-_4bYsLnTMwuSq-z7R3LlcBS4x_j5WUs/edit?usp=sharing" target="_blank") Quest 7: Time & Health
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1rk6XHIQDoBGjhg-TLaoyX5xLwPT82m0ibGKyf2gDurs/edit?usp=sharing" target="_blank") Quest 8: Break & Continue
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/19-iBbPoKKnmgE084O9E34UuVPTc4uPTcdtBp0LYPO3U/edit?usp=sharing" target="_blank") Quest 9: Simulations
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/18am_Yw5y0L4X7rQ5xQaBmG3C3DjDshQkiLcGosMgxWQ/edit?usp=sharing" target="_blank") Quest 10: Capstone Project
-                    span (CRD, AAP)
-              .col-lg-3.col-sm-6.col-xs-12
-                h4.text-h4 Computer Science 4
-                h5.text-h5 (8 Quests, 15 Sessions)
-                ul
-                  li
-                    a(href="https://docs.google.com/presentation/d/1BxIXCxk61_fMh-8kAjZz9VZPWUN9tUB-BEY0QGybl60/edit?usp=sharing" target="_blank") Quest 1: While Loop Conditions
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1BFfCt-MyNi-PTkMR6pt5R7AP0BGn0Q6GfPWEWAjgUno/edit?usp=sharing" target="_blank") Quest 2: Lists
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1yr6gxCS-mnAm7d6ul3xzk49WvBROmRwFjcjkdNrsRi4/edit?usp=sharing" target="_blank") Quest 3: Using Lists
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1BwlPl8fHKfn6wUs3pMLNaIxLcTZ-CyYgh2GcRpv6k5g/edit?usp=sharing" target="_blank") Quest 4: Revisiting Movement
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1R-_gHpRChRsW5rZBXG7lKQlxvdoeg8RWPV5gKtesTE0/edit?usp=sharing" target="_blank") Quest 5: For Loops
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1AW9A_0YkPh2FzDxtsoNU-zLAmmHB3atEjyyJtdjtqMY/edit?usp=sharing" target="_blank") Quest 6: Common Algorithms
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1pjCDkfzuwzogcUGGYNN1yAGt7ht2PjxzNEiexrehOSQ/edit?usp=sharing" target="_blank") Quest 7: Undecidable Problems
-                    span (AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1M3SohK7tdXIvnPoxedhOHdZZq3RK5X0vvgWNcLpuKRI/edit?usp=sharing" target="_blank") Quest 8: Capstone Project
-                    span (CRD, AAP)
+              .col.col-lg-12.lesson-slides
+                h2.text-h2(v-html="$t('apcsp_curriculum.explore_each_unit')")
+                .lesson-slides__buttons
+                  a.btn.btn-primary.btn-lg.btn-shadow(v-for="(slide, index) in lesson_slides" :key="index" :href="slide.url" target="_blank") 
+                    span.prefix {{ slide.prefix }}
+                    span.title(v-html="slide.title")
 
-          .col-yellow-border
-            h3.text-h3 Big Idea: Creative Development
-              span
-                | !{' '}(CRD)
-            .row
-              .col-lg-12
-                h4.text-h4 Creative Development
-                h5.text-h5 (4 Quests, 16 Sessions)
-                ul
-                  li
-                    a(href="https://docs.google.com/presentation/d/1SMF6n9TBpRZmUR3VKG6rHFP8_MIa0J2rLq-wtul3y6o" target="_blank") Quest 1: Create Task Overview
-                    span (CRD, AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1lH25awu3jBh0EWKl8mtndwMRpmpfxbHmaQUDZn-La94" target="_blank") Quest 2: Written Response Overview
-                    span (CRD, AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/15xgiGEhmgHXy_SQ70pXJ8Q-Csf_5_m9KQD7PFooQZC0" target="_blank") Quest 3: Pacing the Create Task
-                    span (CRD, AAP)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1nBSoYNxz3Yj8VfSFI_r56gYQ1sigSfMSFcBuRW4YFz8" target="_blank") Quest 4: Create Task Submission
-                    span (CRD)
-
-          .col-yellow-border
-            h3.text-h3 Big Idea: Computer Systems & Networks
-              span
-                | !{' '}(CSN)
-            .row
-              .col-lg-12
-                h4.text-h4 Computer Systems & Networks
-                h5.text-h5 (6 Quests, 15 Sessions)
-                ul
-                  li
-                    a(href="https://docs.google.com/presentation/d/1WyW5mdpwQl9oQsMYkFoMa_MDlBM2GJ_n0RzsdurjV3s/edit?usp=sharing" target="_blank") Quest 1: The Internet (Overview)
-                    span (CSN)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1XG0Yju9mvSusiMNJL-PSJ10JmFG6D6l1OlTvnlDo5hY/edit?usp=sharing" target="_blank") Quest 2: The Internet (Routing)
-                    span (CSN)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1ZVU3P5vYVmz37AIbnK1RNHFIeUOONNP5yvIkx73fx-A/edit?usp=sharing" target="_blank") Quest 3: The Internet (Packets)
-                    span (CSN)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1VayHcuEmpR2bQXTyNTGvPl_7ictFmE6Mr4nMiY8d6Qc/edit?usp=sharing" target="_blank") Quest 4: World Wide Web vs. The Internet
-                    span (CSN)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1vK-ydFZ5V8RdLUUrrMN_qOfGH2wb2sIBAeUyzqZlfzc/edit?usp=sharing" target="_blank") Quest 5: Parallel & Distributed Computing
-                    span (CSN)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1Gy6qyJgjnwkKLrySXrI3dAgueCwzPTT4_vECx8qV0WE/edit?usp=sharing" target="_blank") Quest 6: Capstone Project
-                    span (CSN, CRD)
-
-          .col-yellow-border
-            h3.text-h3 Big Idea: Data
-              span
-                | !{' '}(DAT)
-            .row
-              .col-lg-12
-                h4.text-h4 Data
-                h5.text-h5 (9 Quests, 16 Sessions)
-                ul
-                  li
-                    a(href="https://docs.google.com/presentation/d/1svmcKu3wZp-9SprI8Cr6vvDAWJAVQd8Hq-NAteMZ6Zw/edit?usp=sharing" target="_blank") Quest 1: Digital Information (Text)
-                    span (DAT)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1lRAc4tTktQ23tErcJ1I86BbGlPzw5kQT7yMPYrUuD3U/edit?usp=sharing" target="_blank") Quest 2: Digital Information (Images)
-                    span (DAT)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1oEy0Yf6lM-jEesFM1KxdNiYvsTnnT06jTgOfV19A3wg/edit?usp=sharing" target="_blank") Quest 3: Digital Information (Sound)
-                    span (DAT)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1_lu9brdyeAnikWRFoSY4X2TNVmN6YLb2wQrz38t57eU/edit?usp=sharing" target="_blank") Quest 4: Limitations of Digital Representations
-                    span (DAT)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1Hcbyt_ajAFE4OuDtaEMBrm_W5yohxnu_YEVwNN4VAQY/edit?usp=sharing" target="_blank") Quest 5: Data Compression
-                    span (DAT)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1TtiUIsaE6CdmIY66ZaomFuy5bsB3RXNKnZBSYTlDzMQ/edit?usp=sharing" target="_blank") Quest 6: Data Analysis (Sourcing Data)
-                    span (DAT)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1AtE600bauP9GcX7PzOJEHQHJSSK6YAXL1uq5-xhzQq4/edit?usp=sharing" target="_blank") Quest 7: Data Analysis (Cleaning Data)
-                    span (DAT)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1gopS2iWBBGNgAdTfSM7_7jGjKTSkDU3SqR7qaHVl7UA/edit?usp=sharing" target="_blank") Quest 8: Data Analysis (Processing Data)
-                    span (DAT)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1oKcDHeZ9uw5D6Pls9Q9F5ZprUAb5RUb_cXA-VK6kVb0/edit?usp=sharing" target="_blank") Quest 9: Capstone Project
-                    span (DAT, CRD)
-
-          .col-yellow-border
-            h3.text-h3 Big Idea: Impact of Computing
-              span
-                | !{' '}(IOC)
-            .row
-              .col-lg-12
-                h4.text-h4 Impact of Computing
-                h5.text-h5 (9 Quests, 18 Sessions)
-                ul
-                  li
-                    a(href="https://docs.google.com/presentation/d/1XAar0ipd57A-NobEmLQIjPWVzeYAK8g_C7TVwQNCi1c/edit?usp=sharing" target="_blank") Quest 1: Computing Innovations
-                    span (IOC, CRD)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1XnVULZHTRjUOACFlhAP7xNECoNGYV3BE7BShpUJXCgk/edit?usp=sharing" target="_blank") Quest 2: Digital Divide
-                    span (IOC)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1h7mDmC7c5C2RwFHEcsxO5q4ybCbkSUnMU2i4IbdBw7g/edit?usp=sharing" target="_blank") Quest 3: Bias
-                    span (IOC)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1Ht0232EgdfQbkGKUZrkNbUQ8Fw47Pq5qXLwX7A_Pp94/edit?usp=sharing" target="_blank") Quest 4: Citizen Science
-                    span (IOC)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1szYpRP4-rkxoC6MJSRO-D-uk_9fQsUCGjvnhhTgXZM8/edit?usp=sharing" target="_blank") Quest 5: Legal & Ethical Concerns
-                    span (IOC)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1-G2AL26y0CsAInAsY3CVQaQkFcEhBlSK0Cd7Ry3fU_A/edit?usp=sharing" target="_blank") Quest 6: Personal Identifiable Information
-                    span (IOC)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1qgirFVdsLUYYDqYEnkm25jBoP4QS5BF2ggxjyjqa-1c/edit?usp=sharing" target="_blank") Quest 7: Protecting Digital Information
-                    span (IOC)
-                  li
-                    a(href="https://docs.google.com/presentation/d/14re2luFv1EMbgszdp2NvH6g2JMpOUxKM95cDz5I2nq4/edit?usp=sharing" target="_blank") Quest 8: Encryption & Decryption
-                    span (IOC)
-                  li
-                    a(href="https://docs.google.com/presentation/d/1CUUBkovwJpnNhYcONg8hwM-rfZLShBKvtlxrQ8ftOfU/edit?usp=sharing" target="_blank") Quest 9: Capstone Project
-                    span (IOC, CRD, AAP, DAT)
-          .col-yellow-border.col-yellow-border-double
-            h3.text-h3 Big Idea: Examp Prep
-            .row
-              .col-lg-9
-                h4.text-h4 Examp Prep
-                h5.text-h5 (5 Quests, 10 Sessions)
-                ul
-                  li
-                    a(href="https://docs.google.com/presentation/d/1s3exkP4QVT6pq1fIVKFjVrKoGPv_kSOoaZqIfN4jUNA/edit?usp=sharing" target="_blank") Quest 1: Introduction to the AP CSP Exam Multiple Choice Format
-                  li
-                    a(href="https://create.kahoot.it/groups/ed7457aa-8b38-4e17-81d9-2305533da20d/join?inviteCode=jfj71f9h3vm6mk6rdthc80922to250g9e2kikghked9v7i12ullnc98nl228jce2lhe8n90vurde" target="_blank") Quests 2 - 5: Kahoot! Quiz Practice
-              .col-lg-3
-                img(src="/images/pages/apcsp/kahoot-logo.png")
-
-    #the-college-board.width-container.row.image-row
-      .col.col-lg-12.text-box
-        .board-content
-          .row
-            .col-lg-9
-              p.text-p {{ $t('apcsp_marketing.coco_recognized_blurb') }}
-            .col-lg-3.college-board-image-container
-              img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")
-
-    #professional-development.container-fluid.container-fluid-gradient(v-if="hasLicense")
+    #resources.container-fluid(v-if="hasLicense")
       .width-container.row
-        .col.col-lg-12
-          h1.text-h1 {{ $t('apcsp_marketing.professional_development') }}
-      .width-container.row
-        .col.col-lg-12
-          .row-white
-            .row
-              .col.col-md-6.col-xs-12
-                img.image18(src="/images/pages/apcsp/IMAGE18.png")
-              .col.col-md-6.col-xs-12
-                p.text-p(v-html="$t('apcsp_curriculum.professional_development_description', i18nData)")
-                a(href="http://edappl.com" target="_blank")
-                  img(src="/images/pages/apcsp/edapp-logo.png")
-                p.text-p(v-html="$t('apcsp_curriculum.contact', i18nData)")
+        .col-lg-12
+          h2.text-h2 {{ $t('apcsp_curriculum.resources') }}
+        .col-lg-12    
+          .row-boxes-container
+            .resources-container
+              .resources-container__box
+                h4.text-h4 College Board
+                ul 
+                  li 
+                    a(href="https://apcentral.collegeboard.org/media/pdf/ap-computer-science-principles-course-and-exam-description.pdf" target="_blank") Course and Exam Description (CED)
+                  li 
+                    a(href="https://myap.collegeboard.org/" target="_blank") AP Classroom
+                  li 
+                    a(href="https://apcentral.collegeboard.org/courses/ap-course-audit" target="_blank") AP Course Audit
+                  li                  
+                    a(href="https://apcentral.collegeboard.org/" target="_blank") AP Central
+                  li 
+                    a(href="https://apcommunity.collegeboard.org/" target="_blank") Teacher Community
+              .resources-container__box
+                h4.text-h4 CodeCombat
+                ul 
+                  li 
+                    a(href="https://codecombat.com/" target="_blank") CodeCombat Login
+                  li 
+                    a(href="https://edapp.com" target="_blank") EdApp Login
+                  li 
+                    a(href="https://communityinviter.com/apps/codecombat/join-community" target="_blank") CodeCombat Community Slack Channel
+                  li 
+                    a(href="https://codecombat.com/podcast" target="_blank") EdTech Adventures -CodeCombat’s Podcast             
+              .resources-container__box
+                h4.text-h4 Recruitment
+                ul 
+                  li 
+                    a(href="https://apcentral.collegeboard.org/courses/resources/ap-computer-science-recruitment-strategies" target="_blank") Recruitment Strategies
+                  li 
+                    a(href="https://drive.google.com/drive/folders/1Nrd70AtxGSdkwiWM2lsAsNrpstnmFnh3?usp=drive_link" target="_blank") Recruitment Flyers
+                  li 
+                    a(href="https://docs.google.com/document/d/1-LRofVdnEFUFVqzp3tXqFep7YxGCSZd88lsE5-JoA_s/edit?usp=sharing" target="_blank") Recruitment Letter
+                    span (English + Spanish)
+                  li 
+                    a(href="https://docs.google.com/document/d/1GiEz1l7_deD4pdJlZno6s0X8rKNQLXXWVAjREsLNP40/edit?usp=sharing" target="_blank") My Recruitment Plan
+              .resources-container__box
+                h4.text-h4 Create Task
+                ul 
+                  li 
+                    a(href="https://docs.google.com/document/d/1-ar3rSXLXgqgfGmt5-DOTZuciGrgJ2wI1iadsIgyrgg/edit?usp=sharing" target="_blank") Written Response Handout
+                  li 
+                    a(href="https://apcentral.collegeboard.org/courses/ap-computer-science-principles/exam" target="_blank") Example Projects
+                  li 
+                    a(href="https://apcentral.collegeboard.org/media/pdf/ap22-sg-computer-science-principles.pdf" target="_blank") College Board’s Official Scoring Rubric
+                  li 
+                    a(href="https://drive.google.com/file/d/1UCnlnfGiDIT1bmSJUMBowBddG4Tkh64o/view?usp=sharing" target="_blank") College Board’s Student Handout 
+              .resources-container__box
+                h4.text-h4 Teaching Strategies
+                ul 
+                  li 
+                    a(href="https://docs.google.com/document/d/1yEBvUSwyJ5bRPpZUslS-DU8IEmTeR6Bw6rfPDakocYI/edit?usp=sharing" target="_blank") Pair Programming Protocol
+                  li 
+                    a(href="https://docs.google.com/presentation/d/1Qtx_XOlqDLFlBfWVpqDeJU87MFe99Ks5KtEMJeJEnZo/edit?usp=sharing" target="_blank") Vocab Card Template
+                  li 
+                    a(href="https://docs.google.com/document/d/1vo3V4LUbTvBADIIZ9REPUbES5W2mFjORf4ZuZl0XTs4/edit?usp=sharing" target="_blank") Student Grouping Strategies
+                  li 
+                    a(href="https://docs.google.com/document/d/1hBSpxtjcd7DMGrsGIhgLXII2uGkRFBXy60qb89H7PiY/edit?usp=sharing" target="_blank") Interpersonal Skills Rubric                
+              .resources-container__box
+                h4.text-h4 More to Explore
+                ul 
+                  li 
+                    a(href="https://docs.google.com/document/d/1_gY1r1MM0wP1vS_0ctsxzq025k3tZ7w8fxLaIffJH_4/edit?usp=drive_link" target="_blank") AP CSP Vocab Terms
+                  li 
+                    a(href="https://create.kahoot.it/groups/ed7457aa-8b38-4e17-81d9-2305533da20d/join?inviteCode=jfj71f9h3vm6mk6rdthc80922to250g9e2kikghked9v7i12ullnc98nl228jce2lhe8n90vurde" target="_blank") Kahoot! Quizzes
+                  li 
+                    a(href="https://apcentral.collegeboard.org/media/pdf/ap-computer-science-principles-exam-reference-sheet.pdf" target="_blank") Pseudocode Reference Sheet
+                  li 
+                    a(href="https://replit.com" target="_blank") Repl.it
+                  li 
+                    a(href="https://www.screencastify.com/get-started?gad=1&gclid=CjwKCAjwp6CkBhB_EiwAlQVyxRDyiZV_Iga9zBUn06cdmILnQYq8HYRuJRhyzrD9nLiUZZ_5MPzJIRoCXOYQAvD_BwE" target="_blank") Screencastify
 
     #more-information.container-fluid
       .width-container.row.text-center
         .col.col-md-12
-          h3.text-h3 For More Information
+          h3.text-h3 Questions?
           .btn.btn-primary.btn-lg.btn-shadow.uppercase(@click="showModal=true") Get in touch
 
     modal-apcsp-contact(v-if="showModal" @close="showModal = false")
@@ -335,15 +136,62 @@ export default Vue.extend({
     'modal-apcsp-contact': ModalAPCSPContact
   },
 
-  async created () {
+  async created() {
     this.me = me
     if (me.isTeacher()) {
       this.updateLicenseStatus()
     }
   },
-  data () {
+  data() {
     return {
       showModal: false,
+      lesson_slides: [
+        {
+          prefix: 'Unit 1 -',
+          title: 'Computer&nbsp;Science&nbsp;1',
+          url: 'https://drive.google.com/drive/folders/1-ww3rLkxj1cZwSvBm6_ThXqsEjwnu6Wn'
+        },
+        {
+          prefix: 'Unit 2 -',
+          title: 'Computer&nbsp;Science&nbsp;2',
+          url: 'https://drive.google.com/drive/folders/1J3ywGVgDKtRBDaK_cK106Jn-l9GaKd3n'
+        },
+        {
+          prefix: 'Unit 3 -',
+          title: 'Computer&nbsp;Science&nbsp;3',
+          url: 'https://drive.google.com/drive/folders/1x9EgA6TO1N4ePnzgnFK2kNn8ujIEKe3B'
+        },
+        {
+          prefix: 'Unit 4 -',
+          title: 'Computer&nbsp;Science&nbsp;4',
+          url: 'https://drive.google.com/drive/folders/1WUEL82hSDJ1mzqkfouZVkbOmrJvfMqkG'
+        },
+        {
+          prefix: 'Unit 5 -',
+          title: 'Creative&nbsp;Development',
+          url: 'https://drive.google.com/drive/folders/1P7gXxhVRw9KP1X_TrPKUFjyEjWKx4v80'
+        },
+        {
+          prefix: 'Unit 6 -',
+          title: 'Data',
+          url: 'https://drive.google.com/drive/folders/1lmaOaliF9BLNTvw5xSQIIbXd9Tc6h94Q'
+        },
+        {
+          prefix: 'Unit 7 -',
+          title: 'Computer&nbsp;Systems&nbsp;and Networks',
+          url: 'https://drive.google.com/drive/folders/1abCCJfewpl8dMt6j4ks9AC7aBPfTXqEt'
+        },
+        {
+          prefix: 'Unit 8 -',
+          title: 'Impact&nbsp;of&nbsp;Computing',
+          url: 'https://drive.google.com/drive/folders/1gaIB2x_45r_CNoJ02BHDrBCrbYx-X8jU'
+        },
+        {
+          prefix: 'Unit 9 -',
+          title: 'Exam&nbsp;Prep',
+          url: 'https://drive.google.com/drive/folders/1tOJkJoKghKuOtURk0RQc4Bw1FOU_2nSi'
+        }
+      ],
       icons: [
         {
           img: '/images/pages/apcsp/small-images/01-coding-levels.png',
@@ -384,10 +232,10 @@ export default Vue.extend({
         },
       ],
       units: Array.from(Array(9).keys()).map((i) => ({
-            title: $.i18n.t(`apcsp_marketing.course_outline_unit_${i + 1}`),
-            course: $.i18n.t(`apcsp_marketing.course_outline_course_${i + 1}`),
-            description: $.i18n.t(`apcsp_marketing.course_outline_description_${i + 1}`)
-          })
+        title: $.i18n.t(`apcsp_marketing.course_outline_unit_${i + 1}`),
+        course: $.i18n.t(`apcsp_marketing.course_outline_course_${i + 1}`),
+        description: $.i18n.t(`apcsp_marketing.course_outline_description_${i + 1}`)
+      })
       ),
       hasLicense: false
     }
@@ -396,7 +244,7 @@ export default Vue.extend({
     ...mapGetters({
       teacherPrepaids: 'prepaids/getPrepaidsByTeacher'
     }),
-    i18nData () {
+    i18nData() {
       return {
         syllabus: `<a href='https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus${this.hasLicense ? '_FullAccess' : ''}.pdf' target='_blank'>${$.i18n.t('apcsp_curriculum.college_board_approved_syllabus')}</a>`,
         pacing_guide: `<a href='https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide${this.hasLicense ? '_Full' : ''}.pdf' target='_blank'>${$.i18n.t('apcsp_curriculum.pacing_guide')}</a>`,
@@ -410,7 +258,7 @@ export default Vue.extend({
     ...mapActions({
       fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher'
     }),
-    async updateLicenseStatus () {
+    async updateLicenseStatus() {
       if (me.isPaidTeacher()) {
         this.hasLicense = true
         return
@@ -434,18 +282,21 @@ $teal-dark: #0E4C60;
 $apcsp-marketing-body-font: 'Arvo';
 
 .text-h1 {
+  color: #FCBB00;
+  text-align: center;
+  text-shadow: 0px 0px 20px #000;
   font-family: $apcsp-marketing-body-font;
+  font-size: 64px;
   font-style: normal;
   font-weight: 700;
-  font-size: 60px;
-  line-height: 103%;
-  text-align: center;
+  line-height: 90px;
+  /* 140.625% */
   letter-spacing: 1.96px;
-  color: #FCBB00;
-  word-break: break-word;
+
   @media (max-width: $screen-sm) {
     font-size: 40px;
   }
+
   @media (max-width: $screen-xs) {
     font-size: 24px;
   }
@@ -460,9 +311,11 @@ $apcsp-marketing-body-font: 'Arvo';
   text-align: center;
   letter-spacing: 1.96px;
   color: #FFFFFF;
+
   @media (max-width: $screen-sm) {
     font-size: 23px;
   }
+
   @media (max-width: $screen-xs) {
     font-size: 18px;
   }
@@ -476,6 +329,7 @@ $apcsp-marketing-body-font: 'Arvo';
   line-height: 38px;
   /* identical to box height, or 136% */
   color: $teal-dark;
+
   @media (max-width: $screen-xs) {
     font-size: 18px;
   }
@@ -483,6 +337,7 @@ $apcsp-marketing-body-font: 'Arvo';
 
 .text-h4 {
   font-size: 24px;
+
   @media (max-width: $screen-xs) {
     font-size: 14px;
   }
@@ -497,13 +352,15 @@ $apcsp-marketing-body-font: 'Arvo';
   font-weight: normal;
 }
 
-p, .text-p {
+p,
+.text-p {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
   line-height: 30px;
   color: $teal-dark;
+
   @media (max-width: $screen-xs) {
     font-size: 14px;
     line-height: 20px
@@ -518,9 +375,11 @@ p, .text-p {
   font-size: 20px;
   line-height: 16px;
   min-width: 268px;
+
   @media (max-width: $screen-md) {
     min-width: 180px;
   }
+
   min-height: 50px;
   padding: 16px 36px;
 
@@ -541,6 +400,7 @@ p, .text-p {
 
   .width-container {
     max-width: 1360px;
+
     @media (max-width: $screen-lg-min) {
       max-width: 1040px;
     }
@@ -565,11 +425,23 @@ p, .text-p {
     .header-part-top {
       background-size: cover;
       background-position: center center;
-      background-image: url(/images/pages/apcsp/apcsp-header-image.jpg);
+      background-image: linear-gradient(to right, rgba(14, 76, 96, 1), rgba(32, 87, 43, 1));
       height: 600px;
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 60px;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background: url(/images/pages/apcsp/curriculum_header_bg.webp) no-repeat top center;
+        background-size: cover;
+      }
 
       .text-h1 {
         font-family: $apcsp-marketing-body-font;
@@ -577,6 +449,7 @@ p, .text-p {
         font-weight: 700;
         font-size: 64px;
         line-height: 122%;
+
         @media (max-width: $screen-xs) {
           font-size: 34px;
         }
@@ -613,10 +486,12 @@ p, .text-p {
 
         padding-top: 35px;
         padding-bottom: 12px;
+
         @media (max-width: $screen-sm) {
           font-size: 23px;
           line-height: 30px;
         }
+
         @media (max-width: $screen-xs) {
           font-size: 18px;
           line-height: 24px;
@@ -651,7 +526,8 @@ p, .text-p {
       line-height: 125%;
       text-align: center;
 
-      p, ::v-deep a {
+      p,
+      ::v-deep a {
         font-family: $apcsp-marketing-body-font;
         font-style: normal;
         font-weight: 700;
@@ -683,7 +559,33 @@ p, .text-p {
   .border-yellow {
     @extend .border-blue;
     border-color: $yellow-dark;
-    overflow: hidden;
+    padding: 10px;
+    overflow: visible;
+    height: 100%;
+    position: relative;
+
+    .college-board-image-container {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      transform: translate(50%, 50%);
+
+      img {
+        width: 220px;
+      }
+    }
+
+    .text-h2 {
+      color: #FFF;
+      text-align: center;
+      font-family: Arvo;
+      font-size: 33px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 62px;
+      /* 187.879% */
+      letter-spacing: 1.96px;
+    }
   }
 
   .border-red {
@@ -701,12 +603,19 @@ p, .text-p {
       margin-top: 90px;
       margin-bottom: 230px;
 
+      >div {
+        @media (max-width: $screen-lg) {
+          padding-bottom: 20px;
+        }
+      }
+
       h2 {
 
-        &.text-h2{
+        &.text-h2 {
           @media (max-width: $screen-sm) {
             font-size: 24px;
           }
+
           @media (max-width: $screen-xs) {
             font-size: 18px;
           }
@@ -722,13 +631,94 @@ p, .text-p {
         }
       }
 
+      .lesson-slides {
+        padding: 10px 30px;
+
+        .text-h2 {
+          ::v-deep strong {
+            color: #FCBB00;
+          }
+        }
+
+        &__buttons {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 30px;
+
+          .btn {
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+
+
+            max-width: none;
+            white-space: normal;
+            flex-basis: calc(50% - 20px);
+
+            .prefix {
+              white-space: nowrap;
+              text-align: right;
+              margin-right: 5px;
+            }
+
+            .title {
+              text-align: left;
+              display: inline-block;
+              width: min-content;
+              @media screen and (min-width: 768px) and (max-width: $screen-lg) {
+                white-space: nowrap;
+              }
+            }
+
+            @media screen and (max-width: $screen-lg) {
+              flex-basis: 100%;
+            }
+
+            min-height: 65px;
+            margin: 10px auto;
+            line-height: 24px;
+            padding: 0;
+            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.20);
+
+            &:not(:last-child) {
+              margin-right: 10px;
+              /* Space between two buttons in a row */
+            }
+
+            &:last-child {
+              flex-basis: 100%;
+              /* The last button takes the full width */
+              text-align: center;
+
+              /* Center the text of the last button */
+              @media screen and (min-width: $screen-lg) {
+                max-width: 50%;
+              }
+            }
+          }
+        }
+      }
+
       .btn {
         filter: none;
-        display: block;
-        margin: 50px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 30px auto;
         max-width: 168px;
+        min-height: 65px;
       }
     }
+  }
+
+  .row-eq-height {
+    display: flex;
+    flex-wrap: wrap;
   }
 
   #nolicense {
@@ -813,54 +803,6 @@ p, .text-p {
     }
   }
 
-  #professional-development {
-    margin-top: 0;
-    padding-bottom: 90px;
-
-    .text-h1 {
-      font-family: $apcsp-marketing-body-font;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 103%;
-      text-align: center;
-      letter-spacing: 1.96px;
-
-      color: $yellow-dark;
-      margin: 45px auto;
-    }
-
-    .text-p {
-      font-family: 'Open Sans';
-      font-style: normal;
-      font-weight: 400;
-      line-height: 125%;
-      color: $teal-dark;
-
-      + a img {
-        margin: 15px 0;
-      }
-    }
-
-    .row-white {
-      padding: 90px 90px 60px 90px;
-
-      @media (min-width: $screen-md) {
-        .row {
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: flex-start;
-        }
-      }
-
-      img {
-        max-width: 100%;
-        margin-bottom: 20px;
-      }
-    }
-  }
-
-
   .btn-shadow {
     filter: drop-shadow(0px 0px 20px #000000);
   }
@@ -897,7 +839,77 @@ p, .text-p {
   }
 
   #resources {
-    margin-top: 90px;
+    background-image: linear-gradient(to right, rgba(14, 76, 96, 1), rgba(32, 87, 43, 1));
+    padding-top: 90px;
+    padding-bottom: 135px;
+
+    .resources-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 45px;
+
+      // Let's keep 3 columns till the 992 breakpoint, 2 columns till the 768px 
+      @media (max-width: $screen-md) {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      @media screen and (max-width: $screen-sm) {
+        grid-template-columns: 1fr;
+      }
+
+      &__box {
+        border-radius: 20px;
+        background: #FFF;
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        min-width: 0;
+
+        .text-h4 {
+          border-radius: 20px 20px 0px 0px;
+          background: #16837F;
+          box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.20);
+
+          color: #FFF;
+          text-align: center;
+          font-family: Arvo;
+          font-size: max(22px, min(30px, 2.2vw));
+          font-style: normal;
+          font-weight: 700;
+          line-height: 62px;
+          /* 206.667% */
+          letter-spacing: 1.96px;
+        }
+
+        ul {
+          padding: 20px 30px;
+          margin: min(35px, 1.8vw);
+
+          li {
+            margin-bottom: 15px;
+
+            a,
+            span {
+              color: #0E4C60;
+              font-family: Open Sans;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 700;
+              line-height: 30px;
+              /* 125% */
+              letter-spacing: 2px;
+              text-decoration-line: underline;
+              text-decoration-thickness: 1.2px;
+            }
+
+            span {
+              font-style: italic;
+              font-weight: 400;
+              white-space: nowrap;
+              display: block;
+            }
+          }
+        }
+      }
+    }
 
     .row-boxes-container {
       display: flex;
@@ -943,6 +955,7 @@ p, .text-p {
         line-height: 150%;
         /* or 150% */
         color: #0E4C60;
+
         @media (max-width: $screen-md) {
           font-size: 18px;
         }
@@ -955,9 +968,11 @@ p, .text-p {
         font-weight: 400;
         font-size: 17px;
         line-height: 176%;
+
         @media (max-width: $screen-md) {
           font-size: 14px;
         }
+
         color: #0E4C60;
       }
 
@@ -969,6 +984,7 @@ p, .text-p {
           font-weight: 400;
           font-size: 17px;
           line-height: 176%;
+
           @media (max-width: $screen-md) {
             font-size: 14px;
           }
@@ -985,9 +1001,11 @@ p, .text-p {
           font-weight: 700;
           font-size: 17px;
           line-height: 176%;
+
           @media (max-width: $screen-md) {
             font-size: 14px;
           }
+
           color: #FCBB00;
         }
       }
@@ -995,6 +1013,7 @@ p, .text-p {
 
     .col-yellow-border {
       width: calc(50% - 45px / 2);
+
       @media (max-width: $screen-md) {
         width: 100%;
       }
@@ -1005,18 +1024,17 @@ p, .text-p {
     }
 
     .text-h2 {
-      font-family: 'Arvo';
+      color: #FCBB00;
+      text-align: center;
+      font-family: Arvo;
+      font-size: 60px;
       font-style: normal;
       font-weight: 700;
-      //font-size: 33px;
-      line-height: 188%;
-      /* identical to box height, or 188% */
-
-      text-align: center;
-      letter-spacing: 2.58px;
-
-      color: #0E4C60;
-      margin-bottom: 48px;
+      line-height: 62px;
+      /* 103.333% */
+      letter-spacing: 1.96px;
+      text-shadow: 0px 0px 20px #000000;
+      padding-bottom: 50px;
     }
 
     .text-h3 {
@@ -1024,9 +1042,11 @@ p, .text-p {
       font-style: normal;
       font-weight: 700;
       font-size: 26px;
+
       @media (max-width: $screen-md) {
         font-size: 20px;
       }
+
       line-height: 125%;
       color: #0E4C60;
       margin-bottom: 45px;
