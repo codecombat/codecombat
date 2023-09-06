@@ -797,9 +797,6 @@ module.exports = class User extends CocoModel
       value = 'control'
     if userUtils.isInLibraryNetwork()
       value = 'control'
-    if not value? and me.get('stats')?.gamesCompleted
-      # Don't include players who have already started playing
-      value = 'control'
     if not value? and new Date(me.get('dateCreated')) < new Date('2023-07-20')
       # Don't include users created before experiment start date
       value = 'control'
@@ -809,9 +806,9 @@ module.exports = class User extends CocoModel
     if not value? and me.get('hourOfCode')
       # Don't include users coming in through Hour of Code
       value = 'control'
-    if not value? and me.get('role')
-      # Don't include users other than home users
-      value = 'control'
+    if not value? and me.get('role') is 'student'
+      # Don't include student users (do include teachers, parents, home users, and anonymous)
+      value = 'beta'
     if not value?
       probability = window.serverConfig?.experimentProbabilities?['level-chat']?.beta ? 0.02
       if Math.random() < probability
