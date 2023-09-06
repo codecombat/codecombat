@@ -417,6 +417,7 @@ class OzarLevelsNode extends TreemaObjectNode
     _.pull(sorted, startsWithTerm...)
     res(_.flatten([startsWithTerm, sorted]))
 
+LevelsNode = if utils.isCodeCombat then CocoLevelsNode else OzarLevelsNode
 
 class LevelNode extends TreemaObjectNode
   valueClass: 'treema-level'
