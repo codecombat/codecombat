@@ -23,6 +23,9 @@
     >
       loading data from {{ startDate }} to {{ endDate }}.....
     </div>
+    <div class="ldata__old">
+      If you want to access the old dashboard, visit <a href="/api-dashboard" target="_blank" class="ldata__link">here</a>
+    </div>
   </div>
 </template>
 
@@ -86,6 +89,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../css-mixins/variables";
 .ldata {
   grid-column: main-content-start / main-content-end;
 
@@ -93,6 +97,18 @@ export default {
     text-align: center;
     font-size: 2rem;
     padding: 1rem;
+  }
+
+  &__old {
+    background: $color-blue-1;
+    color: $color-yellow-1;
+
+    padding: 5px;
+    font-size: 1.4rem;
+  }
+
+  &__link {
+    color: $color-white;
   }
 }
 </style>
