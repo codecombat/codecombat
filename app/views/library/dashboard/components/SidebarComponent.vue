@@ -2,37 +2,66 @@
   <div class="sidebar">
     <div class="sidebar__img">
       <img
-        src="/images/pages/play/arapahoe-logo.png"
+        v-if="imagePath"
+        :src="`/images${imagePath}`"
         alt="Library logo"
       />
     </div>
-    <div class="sidebar__licenses">
+    <div
+      v-if="totalLicensesUsed"
+      class="sidebar__licenses"
+    >
       <div class="sidebar__licenses__container">
         <div class="sidebar__licenses__text sidebar__text">
-          Licenses Used:
+          Total Licenses Used:
         </div>
-        <div class="sidebar__licenses__tooltip">
-          ?
+        <div
+          class="sidebar__text sidebar__subtext"
+        >
+          *from the date of launch
         </div>
       </div>
       <div class="sidebar__licenses__number sidebar__value">
-        15
+        {{ totalLicensesUsed }}
       </div>
     </div>
-    <div class="sidebar__renewal">
+    <div
+      v-if="renewalDate"
+      class="sidebar__renewal"
+    >
       <div class="sidebar__renewal__text sidebar__text">
         Renewal Date:
       </div>
-      <div class="sidebar__renewal__date sidebar__value">
-        17 Apr'93
+      <div
+        class="sidebar__renewal__date sidebar__value"
+      >
+        {{ renewalDate }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 export default {
-  name: 'SidebarComponent'
+  name: 'SidebarComponent',
+  props: {
+    stats: {
+      type: Object
+    }
+  },
+  computed: {
+    totalLicensesUsed () {
+      return this.stats?.totalLicensesUsed
+    },
+    imagePath () {
+      return this.stats?.info?.imageSlug
+    },
+    renewalDate () {
+      const dt = this.stats?.info?.endDate
+      return dt ? moment(dt).format('LL') : null
+    }
+  }
 }
 </script>
 
@@ -44,22 +73,17 @@ export default {
 
   display: flex;
   flex-direction: column;
-  //align-items: center;
   padding: 2rem;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.20);
 
   &__img {
+    align-self: center;
     img {
       width: 12rem;
     }
   }
 
   &__licenses {
-    &__container {
-      display: flex;
-      justify-content: space-between;
-    }
-
     &::after {
       content: "";
       height: 1px;
@@ -78,6 +102,11 @@ export default {
     line-height: 1.8rem; /* 128.571% */
     letter-spacing: 0.4px;
     text-transform: uppercase;
+  }
+
+  &__subtext {
+    font-size: 1rem;
+    color: $color-dark-grey-1;
   }
 
   &__value {

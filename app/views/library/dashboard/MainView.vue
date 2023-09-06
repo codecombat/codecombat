@@ -1,12 +1,16 @@
 <template>
   <div class="library">
-    <div class="library__name">
-      Arapahoe
+    <div
+      class="library__name"
+    >
+      {{ libraryName || '' }}
     </div>
     <div class="library__desc">
-      Welcome to your dashboard, <span class="library__desc__name">ARAPAHOE LIBRARIES!</span> Give your members access to the most engaging way to learn coding!
+      Welcome to your dashboard, <span v-if="libraryName" class="library__desc__name">{{ libraryName }}!</span> Give your members access to the most engaging way to learn coding!
     </div>
-    <sidebar-component />
+    <sidebar-component
+      :stats="licenseStats"
+    />
     <library-data-component
       :start-date="startDate"
       :end-date="endDate"
@@ -63,7 +67,10 @@ export default {
     ...mapGetters({
       licenseStats: 'apiClient/getLicenseStats',
       loading: 'apiClient/getLoadingByLicenseState'
-    })
+    }),
+    libraryName () {
+      return this.licenseStats?.info?.name
+    }
   },
   async created () {
     this.clientId = await this.fetchClientId()
