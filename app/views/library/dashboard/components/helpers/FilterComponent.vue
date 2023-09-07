@@ -6,7 +6,7 @@
       class="filter__img"
     >
     <div class="filter__text">
-      User Activities | <span class="filter__subtext">From:</span>
+      {{ $t('library.user_activities') }} | <span class="filter__subtext">{{ $t('general.from') }}:</span>
     </div>
     <div class="filter__dates">
       <input

@@ -306,7 +306,7 @@ export default function getVueRouter () {
           props: (route) => ({ ...route.query, ...route.params })
         },
         {
-          path: '/library-dashboard',
+          path: '/:pname(library|partner)-dashboard',
           name: 'LibraryDashboard',
           component: () => import(/* webpackChunkName: "libraryDashboard" */'/app/views/library/dashboard/MainView')
         }

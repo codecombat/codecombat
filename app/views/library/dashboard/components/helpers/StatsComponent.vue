@@ -2,22 +2,22 @@
   <div class="stats">
     <stat-item-component
       img-path="/images/pages/library/icon-users.png"
-      name="Total Users"
+      :name="$t('library.total_users')"
       :value="totalUsers"
     />
     <stat-item-component
       img-path="/images/pages/library/icon-code.png"
-      name="Lines of code written"
+      :name="$t('library.lines_of_code_written')"
       :value="linesOfCode"
     />
     <stat-item-component
       img-path="/images/pages/library/icon-hours.png"
-      name="Hours spent"
+      :name="$t('library.hours_spent')"
       :value="Math.round(minutesSpent / 60)"
     />
     <stat-item-component
       img-path="/images/pages/library/icon-programs.png"
-      name="Programs written"
+      :name="$t('library.programs_written')"
       :value="programsWritten"
     />
   </div>

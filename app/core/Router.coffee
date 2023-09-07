@@ -116,6 +116,7 @@ module.exports = class CocoRouter extends Backbone.Router
 #    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
     'library-dashboard': go('core/SingletonAppVueComponentView')
+    'partner-dashboard': go('core/SingletonAppVueComponentView')
     'api-dashboard': go('core/SingletonAppVueComponentView')
 
     'artisans': go('artisans/ArtisansView')

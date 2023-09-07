@@ -2,7 +2,7 @@
   <div class="graphs">
     <div class="graphs__item">
       <div class="graphs__heading">
-        Number of users
+        {{ $t('library.number_users') }}
       </div>
       <d3-line-chart
         :config="usersChartConfig"
@@ -11,7 +11,7 @@
     </div>
     <div class="graphs__item">
       <div class="graphs__heading">
-        Time spent (in minutes)
+        {{ $t('library.time_spent') }}
       </div>
       <d3-bar-chart
         :config="timeSpentConfig"
@@ -20,7 +20,7 @@
     </div>
     <div class="graphs__item">
       <div class="graphs__heading">
-        New users
+        {{ $t('library.new_users') }}
       </div>
       <d3-line-chart
         :config="newSignupsChartConfig"
@@ -32,7 +32,7 @@
       class="graphs__item"
     >
       <div class="graphs__heading">
-        Age demographics
+        {{ $t('library.age_demographics') }}
       </div>
       <d3-pie-chart
         :datum="ageData"
@@ -41,7 +41,7 @@
     </div>
     <div class="graphs__item">
       <div class="graphs__heading">
-        Lines of Code Written
+        {{ $t('library.lines_of_code_written') }}
       </div>
       <d3-bar-chart
         :config="linesOfCodeConfig"
@@ -50,7 +50,7 @@
     </div>
     <div class="graphs__item">
       <div class="graphs__heading">
-        Programs written
+        {{ $t('library.programs_written') }}
       </div>
       <d3-bar-chart
         :config="programsWrittenConfig"

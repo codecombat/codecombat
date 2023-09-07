@@ -13,12 +13,12 @@
     >
       <div class="sidebar__licenses__container">
         <div class="sidebar__licenses__text sidebar__text">
-          Total Licenses Used:
+          {{ $t('library.total_licenses_used') }}:
         </div>
         <div
           class="sidebar__text sidebar__subtext"
         >
-          *from the date of launch
+          *{{ $t('library.from_launch_date') }}
         </div>
       </div>
       <div class="sidebar__licenses__number sidebar__value">
@@ -30,7 +30,7 @@
       class="sidebar__renewal"
     >
       <div class="sidebar__renewal__text sidebar__text">
-        Renewal Date:
+        {{ $t('library.renewal_date') }}:
       </div>
       <div
         class="sidebar__renewal__date sidebar__value"

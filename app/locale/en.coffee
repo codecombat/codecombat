@@ -863,6 +863,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sales: "Sales"
     support: "Support"
     here: "here"
+    from: "From"
 
   units:
     second: "second"
@@ -4701,6 +4702,21 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     power_of_play: "Power of play"
     library_card: "Library Card Number"
     library_signup_promotion: "Sign Up to save progress and continue from where you left off on CodeCombat!!"
+    welcome_dashboard: "Welcome to your dashboard"
+    total_licenses_used: "Total Licenses Used"
+    from_launch_date: "from the date of launch"
+    renewal_date: "Renewal Date"
+    access_old_dashboard: "If you want to access the old dashboard, visit"
+    loading_from: "loading data from"
+    user_activities: "User Activities"
+    total_users: "Total Users"
+    lines_of_code_written: "Lines of Code Written"
+    hours_spent: "Hours spent"
+    programs_written: "Programs written"
+    number_users: "Number of users"
+    time_spent: "Time spent (in minutes)"
+    new_users: "New Users"
+    age_demographics: "Age demographics"
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."

@@ -6,7 +6,7 @@
       {{ libraryName || '' }}
     </div>
     <div class="library__desc">
-      Welcome to your dashboard, <span v-if="libraryName" class="library__desc__name">{{ libraryName }}!</span> Give your members access to the most engaging way to learn coding!
+      {{ $t('library.welcome_dashboard') }}, <span v-if="libraryName" class="library__desc__name">{{ libraryName }}!</span> {{ $t('library.engage_members') }}
     </div>
     <sidebar-component
       :stats="licenseStats"
