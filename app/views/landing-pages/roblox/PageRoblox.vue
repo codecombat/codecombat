@@ -25,7 +25,8 @@
       </div>
     </div>
     <div class="container-fluid container-fluid-boxes">
-      <div v-if="role" class="container container-boxes">
+      <div v-if="role" class="container container-boxes">  
+        <robloxButton class="roblox-connect"/>
         <h3>{{ $t('roblox_landing.boxes_title') }}</h3>
         <div v-for="boxType in boxesByRole[role]" class="row" :class="`row-type-${boxType}`">
           <div class="col col-md-6 box-content ">
@@ -133,8 +134,11 @@ import forms from 'core/forms'
 import { waitlistSignup } from 'core/api/roblox'
 import ButtonMain from '../common/ButtonMain'
 
+import RobloxButton from 'app/views/account/robloxButton.vue'
+
 export default {
   components: {
+    RobloxButton,
     BaseVideo,
     ButtonMain,
     Modal
@@ -462,6 +466,9 @@ $box-content-margin: min(6vw, 90px);
     &:hover {
       background-color: #fcd200;
     }
+  }
+  .roblox-connect {
+    margin-bottom: 20px;
   }
 }
 </style>
