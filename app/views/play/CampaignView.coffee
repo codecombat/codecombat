@@ -1562,7 +1562,7 @@ module.exports = class CampaignView extends RootView
       return !isStudentOrTeacher and not @editorMode
 
     if what in ['clans']
-      return !isStudentOrTeacher and not @editorMode and !me.get('isCreatedViaLibrary')
+      return !isStudentOrTeacher and not @editorMode and not me.get('isCreatedViaLibrary')
 
     if what in ['back-to-classroom']
       return isStudentOrTeacher and (not application.getHocCampaign() or @terrain is 'intro') and not @editorMode
