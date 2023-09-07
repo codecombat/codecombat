@@ -183,7 +183,7 @@ module.exports = Vue.extend({
       if (id !== '') {
         this.fetchTeachers(id)
         this.fetchPrepaids({ teacherId: this.myId, clientId: id })
-        this.fetchLicenseStats(id)
+        this.fetchLicenseStats({ clientId: id })
       }
     }
   },
