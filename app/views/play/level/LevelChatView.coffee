@@ -85,10 +85,10 @@ module.exports = class LevelChatView extends CocoView
     content = content.replace /^\|Issue\|?:? ?(.*?)$/gm, '\n$1'
     content = content.replace /^\|Explanation\|?:? ?(.*?)$/gm, '\n*$1*\n'
     #content = content.replace /\|Code\|?:? ?`{0,3}\n?((.|\n)*?)`{0,3}\n?$/g, '```$1```'
-    content = content.replace /\|Code\|?:? ?```.*?\n((.|\n)*?)```\n?/g, (match, p1) =>
+    content = content.replace /\|Code\|?:? ?\n?```.*?\n((.|\n)*?)```\n?/g, (match, p1) =>
       @lastFixedCode = p1
       '[Show Me]'
-    content = content.replace /\|Code\|?:? ?`{0,3}.*?\n((.|\n)*?)`{0,3}\n?$/g, ( match, p1) ->
+    content = content.replace /\|Code\|?:? ?\n?`{0,3}.*?\n((.|\n)*?)`{0,3}\n?$/g, ( match, p1) ->
       numberOfLines = (p1.match(/\n/g) || []).length + 1
       if p1
         Backbone.Mediator.publish 'level:update-solution', code: p1
@@ -230,7 +230,7 @@ module.exports = class LevelChatView extends CocoView
     @fetchChatMessageStream chatMessage.id
 
   fetchChatMessageStream: (chatMessageId) ->
-    model = utils.getQueryVariable('model') or 'gpt-4' # or 'chima'
+    model = utils.getQueryVariable('model') or 'chima' # or 'gpt-4'
     fetch("/db/chat_message/#{chatMessageId}/ai-response?model=#{model}").then co.wrap (response) =>
       reader = response.body.getReader()
       decoder = new TextDecoder('utf-8')

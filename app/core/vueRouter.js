@@ -304,6 +304,11 @@ export default function getVueRouter () {
           name: 'ParentDashboard',
           component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/DashboardMainView'),
           props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/:pname(library|partner)-dashboard',
+          name: 'LibraryDashboard',
+          component: () => import(/* webpackChunkName: "libraryDashboard" */'/app/views/library/dashboard/MainView')
         }
       ],
       scrollBehavior (to) {
