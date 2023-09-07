@@ -9,6 +9,11 @@ RootView = require 'views/core/RootView'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 globalVar = require 'core/globalVar'
 utils = require 'core/utils'
+OAuth2Identities = require 'collections/OAuth2Identities'
+
+RobloxButton = require('./robloxButton.vue').default
+# Concepts = require 'collections/Concepts'
+
 
 module.exports = class AccountSettingsView extends RootView
   id: 'account-settings-view'
@@ -37,6 +42,9 @@ module.exports = class AccountSettingsView extends RootView
     @listenTo @, 'save-user-began', @onUserSaveBegan
     @listenTo @, 'save-user-success', @onUserSaveSuccess
     @listenTo @, 'save-user-error', @onUserSaveError
+
+    @robloxButton = new RobloxButton({ el: @$el.find('#roblox-button')[0] })
+    
 
   afterInsert: ->
     @openModalView new CreateAccountModal() if me.get('anonymous')
@@ -120,6 +128,7 @@ module.exports = class AccountSettingsView extends RootView
       confirmModal = new ConfirmModal renderData
       confirmModal.on 'confirm', @resetProgress, @
       @openModalView confirmModal
+ 
 
   onClickResendVerificationEmail: (e) ->
     $.post @user.getRequestVerificationEmailURL(), ->
@@ -314,3 +323,6 @@ module.exports = class AccountSettingsView extends RootView
       if godmodeCheckbox.length
         permissions.push 'godmode' if godmodeCheckbox.prop('checked')
       @user.set('permissions', permissions)
+  destroy: ->
+    @robloxButton.destroy()
+    super()
