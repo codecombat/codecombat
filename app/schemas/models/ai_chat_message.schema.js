@@ -1,7 +1,7 @@
 // WARNING: This file is auto-generated from within AI HackStack. Do not edit directly.
 // Instead, edit the corresponding Zod schema in the HackStack repo and run `npm run build` or `npm run build:schemas
 //
-// Last updated: 2023-09-01T06:15:18.648Z
+// Last updated: 2023-09-08T05:55:38.100Z
 
 const _ = require('lodash')
 const c = require('./../schemas')
@@ -23,29 +23,6 @@ _.extend(AIChatMessageSchema.properties, {
   parentKind: {
     title: 'Parent Kind',
     type: 'string',
-<<<<<<< variant A
-    title: 'Preview',
-    maxLength: 300,
-    description: 'A preview of the document in the message discussed'
-  },
-  created: c.date({ title: 'Created' }),
-  actionData: c.object({
-    title: 'Data',
-    description: 'Data associated with the message action',
-    additionalProperties: true
-  }, {
-    choices: c.array({ title: 'Choices', description: 'Choices for the user to select from' }, c.object({
-      title: 'Choice',
-      description: 'A choice for the user to select from',
-      additionalProperties: true
-    }, {
-      text: { type: 'string', title: 'Text', description: 'The text of the choice' },
-      responseText: { type: 'string', title: 'Response', description: 'the response of the choice' },
-      i18n: { type: 'object', format: 'i18n', props: ['text', 'responseText'], description: 'Help translate this property' }
-    }))
-  }),
-  i18n: { type: 'object', format: 'i18n', props: ['text', 'preview'], description: 'Help translate this property' }
->>>>>>> variant B
     description: 'Whether this message is part of a scenario or project chat',
     enum: ['scenario', 'project'],
   },
@@ -61,33 +38,35 @@ _.extend(AIChatMessageSchema.properties, {
     title: 'Action Data',
     type: 'object',
     description: 'Metadata for rendering this chat message as an action UI element',
+    additionalProperties: true,
+    properties: {
+      choices: {
+        type: 'array',
+        description: 'A choice for the user to select from',
+        items: {
+          type: 'object',
+          additionalProperties: true,
+          properties: {
+            text: { type: 'string', title: 'Text', description: 'Text of the choice' },
+            responseText: { type: 'string', title: 'Response', description: 'the response of the choice' },
+            i18n: {
+              type: 'object',
+              format: 'i18n',
+              props: ['text', 'responseText'],
+              description: 'Help translate this property'
+            }
+          }
+        }
+      }
+    }
   },
-####### Ancestor
-    title: 'Preview',
-    maxLength: 300,
-    description: 'A preview of the document in the message discussed'
-  },
-  created: c.date({ title: 'Created' }),
-  actionData: {
-    type: 'object',
-    title: 'Data',
-    description: 'Data associated with the message action'
-  }
-======= end
+  i18n: { title: 'I18n', type: 'object', description: 'Help translate this property', format: 'i18n', props: ['text'] }
 })
 
 AIChatMessageSchema.required = ['actor', 'parent', 'parentKind', 'sentAt', 'text', 'documents']
 
 c.extendBasicProperties(AIChatMessageSchema, 'ai_chat_message')
-<<<<<<< variant A
-c.extendSearchableProperties(AIChatMessageSchema)
-c.extendTranslationCoverageProperties(AIChatMessageSchema)
-// c.extendPermissionsProperties(AIInteractionSchema, 'ai_interaction')
->>>>>>> variant B
 c.extendSearchableProperties(AIChatMessageSchema, 'ai_chat_message')
-####### Ancestor
-c.extendSearchableProperties(AIChatMessageSchema)
-// c.extendPermissionsProperties(AIInteractionSchema, 'ai_interaction')
-======= end
+c.extendTranslationCoverageProperties(AIChatMessageSchema, 'ai_chat_message')
 
 module.exports = AIChatMessageSchema
