@@ -1,3 +1,4 @@
+
 SpellView = require './SpellView'
 SpellTopBarView = require './SpellTopBarView'
 {me} = require 'core/auth'
@@ -306,6 +307,11 @@ module.exports = class Spell
         if jsSource and not source
           source = translateJS jsSource, codeLanguage
         continue unless source
+        if codeType is 'current' # handle cpp/java source
+          if /^\u56E7[a-zA-Z0-9+/=]+\f$/.test source
+            { Unibabel } = require 'unibabel'  # Cannot be imported in Node.js context
+            token = JSON.parse Unibabel.base64ToUtf8(source.substr(1, source.length-2))
+            source = token.src
         if chat.example and codeType is 'current'
           # Try to go backwards from translated string literals to initial comment tags so that we can regenerate those comments in other languages
           source = @untranslateCommentContext source: source, commentContext: @commentContext, commentI18N: @commentI18N, spokenLanguage: me.get('preferredLanguage'), codeLanguage: codeLanguage
