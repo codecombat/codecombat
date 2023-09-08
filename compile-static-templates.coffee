@@ -8,6 +8,7 @@ _ = require 'lodash'
 fs = require('fs')
 load = require 'pug-load'
 devUtils = require './development/utils'
+minify = require('html-minifier').minify
 
 # TODO: stop webpack build on error (e.g. http://dev.topheman.com/how-to-fail-webpack-build-on-error/)
 
@@ -79,6 +80,11 @@ compile = (contents, locals, filename, cb) ->
     locals.me.showChinaVideo = -> locals.chinaInfra ? false
     locals.me.getProduct = -> product
     str = outFn(locals)
+    str = minify(str, {
+      removeComments: true,
+      removeRedundantAttributes: true,
+      minifyJS: true
+    })
   catch e
     console.log "Compile", filename, basePath
     console.log 'ERROR', e.message
