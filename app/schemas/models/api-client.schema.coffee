@@ -52,7 +52,7 @@ APIClientSchema = {
         name: { type: 'string', description: 'library or client name' }
         startDate: { type: 'date', description: 'startDate of when we started giving out licenses to client/library' }
         endDate: { type: 'date', description: 'renewalDate of client' }
-        imagePath: { type: 'string', description: 'path of library/client logo in /images/${imagePath} location' }
+        imagePath: { type: 'string', description: 'path of library/client logo in /images${imagePath} location' }
       }
     }
   }

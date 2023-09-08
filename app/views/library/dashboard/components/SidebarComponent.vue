@@ -55,7 +55,7 @@ export default {
       return this.stats?.totalLicensesUsed
     },
     imagePath () {
-      return this.stats?.info?.imageSlug
+      return this.stats?.info?.imagePath
     },
     renewalDate () {
       const dt = this.stats?.info?.endDate
