@@ -4108,9 +4108,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     edit_members_tab_desc: 'Edit the member of this event, the startDate is depends on the instance date, so select the first instance for the new member'
     lessons_count_desc: 'The total lessons count of this member, normally it is the same as the event instances count, but it can be different if the member is added after the event started or ended before the event ended'
     sync_to_google_desc: 'Sync this event to YOUR google calendar, instead of the owner\'s calendar. And can only work on CodeCombat gmail'
-    timezone_tips: 'Date/Time is based on YOUR timezone: '
     no_data_display: 'No data to display'
     meetingLink: 'Meeting Link'
+    time_zone: 'Time Zone'
+    timezone_tips: 'Note - Your timezone: '
 
   teacher_dashboard:
     lock: 'Lock'

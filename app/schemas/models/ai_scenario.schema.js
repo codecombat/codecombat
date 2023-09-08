@@ -1,7 +1,7 @@
 // WARNING: This file is auto-generated from within AI HackStack. Do not edit directly.
 // Instead, edit the corresponding Zod schema in the HackStack repo and run `npm run build` or `npm run build:schemas
 //
-// Last updated: 2023-09-01T06:15:18.648Z
+// Last updated: 2023-09-08T05:55:38.100Z
 
 const _ = require('lodash')
 const c = require('./../schemas')
@@ -52,6 +52,13 @@ _.extend(AIScenarioSchema.properties, {
     description: 'Actions to add to a project when it is created from this scenario',
     items: { type: ['object', 'string'], format: 'chat-message-link' },
   },
+  i18n: {
+    title: 'I18n',
+    type: 'object',
+    description: 'Help translate this property',
+    format: 'i18n',
+    props: ['mode', 'task', 'doc', 'name', 'description']
+  }
 })
 
 AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue']

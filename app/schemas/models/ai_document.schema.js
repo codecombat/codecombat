@@ -1,7 +1,7 @@
 // WARNING: This file is auto-generated from within AI HackStack. Do not edit directly.
 // Instead, edit the corresponding Zod schema in the HackStack repo and run `npm run build` or `npm run build:schemas
 //
-// Last updated: 2023-09-01T06:15:18.648Z
+// Last updated: 2023-09-08T05:55:38.100Z
 
 const _ = require('lodash')
 const c = require('./../schemas')
@@ -12,7 +12,20 @@ const AIDocumentSchema = c.object({
 })
 
 _.extend(AIDocumentSchema.properties, {
-  source: { title: 'Source', type: 'object', description: 'The source of the document', format: 'document-source' },
+  source: {
+    title: 'Source',
+    type: 'object',
+    description: 'The source of the document',
+    format: 'document-by-type',
+    additionalProperties: true,
+    properties: {
+      type: { type: 'string', title: 'Type', description: 'The type of document' },
+      text: { type: 'string', title: 'Text', description: 'The document text source' },
+      filePath: { type: 'string', title: 'File Path', description: 'The file path of the document' },
+      blob: { type: 'string', title: 'Blob', description: 'The blob source of the document' },
+      i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this property' }
+    }
+  }
 })
 
 AIDocumentSchema.required = ['source']
@@ -21,5 +34,6 @@ c.extendBasicProperties(AIDocumentSchema, 'ai_document')
 c.extendSearchableProperties(AIDocumentSchema, 'ai_document')
 c.extendPatchableProperties(AIDocumentSchema, 'ai_document')
 c.extendVersionedProperties(AIDocumentSchema, 'ai_document')
+c.extendTranslationCoverageProperties(AIDocumentSchema, 'ai_document')
 
 module.exports = AIDocumentSchema

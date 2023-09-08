@@ -19,6 +19,7 @@ module.exports = class AIChatMessageEditView extends RootView
   events:
     'click #save-button': 'onClickSaveButton'
     'click #delete-button': 'confirmDeletion'
+    'click #i18n-button': 'onPopulateI18N'
 
   constructor: (options, @chatMessageID) ->
     super options
@@ -65,6 +66,9 @@ module.exports = class AIChatMessageEditView extends RootView
     res.success =>
       url = "/editor/ai-chat-message/#{@chatMessage.get('slug') or @chatMessage.id}"
       document.location.href = url
+
+  onPopulateI18N: ->
+    @chatMessage.populateI18N()
 
   confirmDeletion: ->
     renderData =

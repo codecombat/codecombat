@@ -176,7 +176,9 @@ module.exports = class I18NEditModelView extends RootView
 
     delta = modelDeltas.getDeltaWith(@originalModel, @model)
     flattened = deltasLib.flattenDelta(delta)
-    collection = _.string.underscored @model.constructor.className
+    className = @model.constructor.className
+    className = className.replace('AI', 'Ai') if className.startsWith('AI')
+    collection = _.string.underscored className
     patch = new Patch({
       delta
       target: { collection, 'id': @model.id }
