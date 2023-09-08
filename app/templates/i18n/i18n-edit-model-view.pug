@@ -65,6 +65,8 @@ block outer_content
               td.to-value-row
                 if row.format === 'markdown'
                   div(data-index=row.index.toString())= row.toValue
+                else if row.format === 'url'
+                  a(href=row.link, traget="blank") edit
                 else
                   input.input-sm.form-control.translation-input(data-index=row.index.toString(), value=row.toValue)
           
