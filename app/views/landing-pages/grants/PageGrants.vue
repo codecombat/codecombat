@@ -84,7 +84,7 @@
                 </div>
                 <div class="content-button-template">
                   <a class="btn btn-primary btn-lg"
-                    href="https://docs.google.com/file/d/14uESEbkV-E3R5KnfwpqHjk6SqsgBFff8/edit?ts=64e50c6d"
+                    href="/images/pages/grants/GrantApplicationTemplate.pdf"
                     target="_blank">Download the Template</a>
                 </div>
               </div>
