@@ -8,6 +8,7 @@ import { RRuleGenerator, rruleGeneratorModule } from 'vue2-rrule-generator'
 import VueTimepicker from 'vue2-timepicker'
 import MembersComponent from './MembersComponent'
 import UserSearchComponent from './UserSearchComponent'
+import TimeZonePicker from './TimeZonePicker'
 import gcApiHandler from '../../../core/social-handlers/GoogleCalendarHandler'
 
 export default {
@@ -21,7 +22,8 @@ export default {
   components: {
     'rrule-generator': RRuleGenerator,
     'user-search': UserSearchComponent,
-    'time-picker': VueTimepicker
+    'time-picker': VueTimepicker,
+    'timezone-picker': TimeZonePicker
   },
   data () {
     return {
@@ -29,6 +31,8 @@ export default {
       inProgress: false,
       previewing: false,
       errorMessage: '',
+      timeZone: 'America/New_York',
+      tzOffset: momentTimezone.tz('America/New_York').format('Z'),
       event: {},
       resetRRule: true // signal
     }
@@ -43,6 +47,10 @@ export default {
       'editEvent',
       'syncToGoogleFailed'
     ]),
+    selectTimeZone (tz) {
+      this.timeZone = tz
+      this.tzOffset = momentTimezone.tz(this.timeZone).format('Z')
+    },
     selectOwner (u) {
       Vue.set(this.event, 'owner', u._id)
       Vue.set(this.event, 'ownerName', u.name)
@@ -166,38 +174,35 @@ export default {
     },
     _startDate: {
       get () {
-        return moment(this.event.startDate).format(HTML5_FMT_DATE_LOCAL)
+        return momentTimezone(this.event.startDate).tz(this.timeZone).format(HTML5_FMT_DATE_LOCAL)
       },
       set (val) {
         // update startDate and endDate at the same time
-        this.$set(this.event, 'startDate', moment(`${val} ${this._startTime}`).toDate())
-        this.$set(this.event, 'endDate', moment(`${val} ${this._endTime}`).toDate())
+        this.$set(this.event, 'startDate', new Date(`${val} ${this._startTime}${this.tzOffset}`))
+        this.$set(this.event, 'endDate', new Date(`${val} ${this._endTime}${this.tzOffset}`))
       }
     },
     _startTime: {
       get () {
-        return moment(this.event.startDate).format(HTML5_FMT_TIME_LOCAL)
+        return momentTimezone(this.event.startDate).tz(this.timeZone).format(HTML5_FMT_TIME_LOCAL)
       },
       set (val) {
-        this.$set(this.event, 'startDate', moment(`${this._startDate} ${val}`).toDate())
+        this.$set(this.event, 'startDate', new Date(`${this._startDate} ${val}${this.tzOffset}`))
       }
     },
     _endTime: {
       get () {
-        return moment(this.event.endDate).format(HTML5_FMT_TIME_LOCAL)
+        return momentTimezone(this.event.endDate).tz(this.timeZone).format(HTML5_FMT_TIME_LOCAL)
       },
       set (val) {
         // use _startDate here since startDate and endDate share the date
-        this.$set(this.event, 'endDate', moment(`${this._startDate} ${val}`).toDate())
+        this.$set(this.event, 'endDate', new Date(`${this._startDate} ${val}${this.tzOffset}`))
       }
     },
     _endTimeHourRange () {
       if (this.event.startDate) {
         let date = this.event.startDate
-        if (!(this.event.startDate instanceof Date)) {
-          date = new Date(this.event.startDate)
-        }
-        return [[date.getHours(), 23]]
+        return [[momentTimezone(date).tz(this.timeZone).hour(), 23]]
       } else {
         return [[0, 23]]
       }
@@ -211,7 +216,7 @@ export default {
       }
     },
     rruleStart () {
-      return moment(this.event.startDate).toDate()
+      return this.event.startDate
     },
     rulePreviewTop6 () {
       return this.rrule.all((date, i) => i < 6).map(d => moment(d).format('ll'))
@@ -242,7 +247,7 @@ export default {
       class="edit-event-form"
       @submit.prevent="onFormSubmit"
     >
-      <div class="from-group">
+      <div class="form-group">
         <label for="name"> {{ $t('events.name') }}</label>
         <input
           v-model="event.name"
@@ -251,7 +256,7 @@ export default {
           type="text"
         >
       </div>
-      <div class="from-group">
+      <div class="form-group">
         <label for="description"> {{ $t('events.description') }}</label>
         <input
           v-model="event.description"
@@ -260,7 +265,7 @@ export default {
           type="text"
         >
       </div>
-      <div class="from-group">
+      <div class="form-group">
         <label for="owner"> {{ $t('events.owner') }}</label>
         <user-search
           :permissions="'onlineTeacher'"
@@ -270,11 +275,20 @@ export default {
           @select="selectOwner"
         />
       </div>
-      <div class="from-group">
-        <label for="startDate"> {{ $t('events.start_date') }}</label>
-        <div class="input-label">
+
+      <div class="form-group">
+        <label for="timeZone"> {{ $t('events.time_zone') }}</label>
+        <div class="input-lable">
           {{ $t('events.timezone_tips') + myTimeZone }}
         </div>
+        <timezone-picker
+          :tz="timeZone"
+          @select="selectTimeZone"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="startDate"> {{ $t('events.start_date') }}</label>
         <input
           v-model="_startDate"
           type="date"
@@ -282,13 +296,14 @@ export default {
           name="startDate"
         >
       </div>
-      <div class="from-group">
+
+      <div class="form-group">
         <label for="timeRange"> {{ $t('events.time_range') }}</label>
         <div>
-          <time-picker format="HH:mm" :minute-interval="10" v-model="_startTime" />
+          <time-picker format="hh:mm A" :minute-interval="10" v-model="_startTime" />
           <span>-</span>
           <time-picker
-            format="HH:mm"
+            format="hh:mm A"
             :minute-interval="10"
             :hour-range="_endTimeHourRange"
             v-model="_endTime"

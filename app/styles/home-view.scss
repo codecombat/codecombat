@@ -288,7 +288,8 @@
 
       a {
         margin-left: 10px;
-        text-decoration: underline;
+        font-weight: 700;
+        color: #000;
       }
 
       span {
@@ -325,7 +326,13 @@
       position: relative;
       margin-top: 55px;
       padding-bottom: 36px;
-      background: url(/images/ozaria/home/hero_image.png) no-repeat bottom 0 right 33px;
+      background-image: url(/images/ozaria/home/hero_image.png);
+      @supports (background-image: url(/images/ozaria/home/hero_image.webp)) {
+        background-image: url(/images/ozaria/home/hero_image.webp)
+      }
+      background-repeat: no-repeat;
+      background-position: bottom 0 right 33px;
+
       background-size: 65%;
       background-size: unquote('min(558px, 65%)');
       img {
@@ -398,7 +405,13 @@
     }
 
     #back_cta_1, #back_cta_2 {
-      background: url(/images/ozaria/home/background_cta_1.png) no-repeat center;
+      background-image: url(/images/ozaria/home/background_cta_1.png);
+      @supports (background-image: url(/images/ozaria/home/background_cta_1.webp)) {
+        background-image: url(/images/ozaria/home/background_cta_1.webp)
+      }
+      background-repeat: no-repeat;
+      background-position: center;
+
       background-size: cover;
       height: 56.4vw;
 
@@ -408,7 +421,12 @@
     }
 
     #back_cta_2 {
-      background: url(/images/ozaria/home/background_cta_2.png) no-repeat center;
+      background-image: url(/images/ozaria/home/background_cta_2.png);
+      @supports (background-image: url(/images/ozaria/home/background_cta_2.webp)) {
+        background-image: url(/images/ozaria/home/background_cta_2.webp)
+      }
+      background-repeat: no-repeat;
+      background-position: center;
       background-size: cover;
     }
 

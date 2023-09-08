@@ -348,15 +348,16 @@ export default Vue.extend({
   }
 
   #create-account-link {
-    background-color: $teal;
+    background-color: $teal-dark;
     color: white;
-    border: 1px solid $teal;
+    border: 1px solid $teal-dark;
     border-radius: 4px 0 0 4px;
     width: 131px;
 
     &:hover {
       background-color: #2DCEC8;
       border: 1px solid #2DCEC8;
+      color: $teal-dark;
       transition: background-color .35s, border .35s;
     }
   }

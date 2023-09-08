@@ -46,13 +46,13 @@ block content
       h3(data-i18n="common.table_of_contents")
       each level, index in view.levels.models
         .small
-          a(href=`#${level.get('slug')}`) #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
+          a(href=`#${level.get('slug')}`) #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'displayName') || i18n(level.attributes, 'name')}
       br
 
       each level, index in view.levels.models
         - var langClass = 'lang-' + (level.get('primerLanguage') || view.language || 'python');
         - if (!level.get('primerLanguage') && view.isWebDev) langClass = 'lang-html';
-        h2.page-break-before(id=level.get('slug')) ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
+        h2.page-break-before(id=level.get('slug')) ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'displayName') || i18n(level.attributes, 'name')}
         h3(data-i18n="teacher.level_overview_solutions")
         i #{i18n(level.attributes, 'description')}
         div
@@ -72,7 +72,7 @@ block content
             h4.text-center(data-i18n="common.overview")
             p!= level.get('guide')
           h4.text-center
-            span= i18n(level.attributes, 'name')
+            span= i18n(level.attributes, 'displayName') || i18n(level.attributes, 'name')
             span.spl(data-i18n="common.solution")
           if level.get('assessment') === 'open-ended'
             em(data-i18n="teacher.explain_open_ended")

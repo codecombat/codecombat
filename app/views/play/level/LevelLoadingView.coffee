@@ -31,6 +31,7 @@ module.exports = class LevelLoadingView extends CocoView
 
   initialize: (options={}) ->
     @utils = utils
+    @loadingWingClass = _.sample(['alejandro', 'anya', 'chess', 'naria', 'okar'])
 
   afterRender: ->
     super()

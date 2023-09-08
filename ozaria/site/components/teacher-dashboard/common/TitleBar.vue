@@ -125,21 +125,21 @@
         :date-created="classroomCreationDate"
         :share-permission="sharePermission"
       />
-    </div>
-    <div
-      v-if="showClassInfo"
-      class="add-students"
-    >
-      <button
-        class="dusk-btn"
-        @click="$emit('addStudentsClicked')"
+      <div
+        v-if="showClassInfo"
+        class="add-students"
       >
-        <img
-          class="add-students__icon"
-          src="/images/ozaria/teachers/dashboard/svg_icons/IconAddStudents.svg"
+        <button
+          class="dusk-btn"
+          @click="$emit('addStudentsClicked')"
         >
-        <span> {{ $t('courses.add_students') }} </span>
-      </button>
+          <img
+            class="add-students__icon"
+            src="/images/ozaria/teachers/dashboard/svg_icons/IconAddStudents_Black.svg"
+          >
+          <span> {{ $t('courses.add_students') }} </span>
+        </button>
+      </div>
     </div>
     <div class="sub-nav">
       <div

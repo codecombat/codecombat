@@ -106,11 +106,11 @@ block content
     #game-based-carousel
       .container.carousel-tabs-container
         ul.carousel-tabs.nav.nav-tabs(role="tablist")
-          li.carousel-tab.active(data-selector="#game-based", data-slide-num="0")
+          li.carousel-tab.active(data-selector="#game-based", data-slide-num="0" role="tab")
             h1.text-h2.carousel-heading(data-i18n="new_home.game_based_learning")
-          li.carousel-tab(data-selector="#game-based", data-slide-num="1")
+          li.carousel-tab(data-selector="#game-based", data-slide-num="1" role="tab")
             h1.text-h2.carousel-heading(data-i18n="new_home.text_based_coding")
-          li.carousel-tab(data-selector="#game-based", data-slide-num="2")
+          li.carousel-tab(data-selector="#game-based", data-slide-num="2" role="tab")
             h1.text-h2.carousel-heading(data-i18n="new_home.student_impact")
       .container.carousel-container
         #game-based.carousel.slide(data-interval=8000)
@@ -122,14 +122,14 @@ block content
                     source.img-responsive(srcset="/images/pages/home-v2/carousel-1-1.webp" type="image/webp")
                     img.img-responsive(src="/images/pages/home-v2/carousel-1-1.png" loading="lazy" alt="Game-based learning screenshot")
                 .col-sm-5
-                  h4(data-i18n="new_home.game_based_learning")
+                  h1.text-h4(data-i18n="new_home.game_based_learning")
                   p(data-i18n="new_home.unique_approach_blurb")
             .item(data-slide=1)
               .row
                 .col-sm-7
                   img.img-responsive(src="/images/pages/parents/grit_carousel.png" loading="lazy" alt="Text-based coding screenshot")
                 .col-sm-5
-                  h4(data-i18n="new_home.text_based_coding")
+                  h1.text-h4(data-i18n="new_home.text_based_coding")
                   p(data-i18n="new_home.custom_code_engine_blurb")
             .item(data-slide=2)
               .row
@@ -138,7 +138,7 @@ block content
                     source.img-responsive(srcset="/images/pages/home-v2/carousel-1-3.webp" type="image/webp")
                     img.img-responsive(src="/images/pages/home-v2/carousel-1-3.png" loading="lazy" alt="Man high-fiving kid playing CodeCombat")
                 .col-sm-5
-                  h4(data-i18n="new_home.student_impact")
+                  h1.text-h4(data-i18n="new_home.student_impact")
                   p(data-i18n="new_home.help_enjoy_learning_blurb")
         .col-lg-12.text-center
           //- Reference https://getbootstrap.com/docs/3.4/javascript/

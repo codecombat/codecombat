@@ -877,6 +877,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sales: "Sales"
     support: "Support"
     here: "here"
+    from: "From"
 
   units:
     second: "second"
@@ -3803,16 +3804,18 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     coco_recognized_blurb: "CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum."
 
   apcsp_curriculum:
-    access_syllabus: "Access our __syllabus__"
-    college_board_approved_syllabus: "College Board approved Syllabus"
-    access_pacing_guide: "Review our suggested __pacing_guide__ which is based on five 50 minute class sessions per week"
+    access_syllabus: "Access our College Board approved __syllabus__"
+    college_board_approved_syllabus: "Syllabus"
+    access_pacing_guide: "Review our suggested __pacing_guide__"
     pacing_guide: "Pacing Guide"
-    resources: "Explore each unit and its curriculum resources here:"
+    resources: "Professional Development Resources"
     professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__."
     contact: "Contact __apcsp_email__ to get access."
     role: "Role"
     no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form"
     request_license: "Join Pilot Program"
+    page_title: "AP Computer Science Principles Curriculum"
+    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>"
 
 
   hoc_2019:
@@ -4121,9 +4124,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     edit_members_tab_desc: 'Edit the member of this event, the startDate is depends on the instance date, so select the first instance for the new member'
     lessons_count_desc: 'The total lessons count of this member, normally it is the same as the event instances count, but it can be different if the member is added after the event started or ended before the event ended'
     sync_to_google_desc: 'Sync this event to YOUR google calendar, instead of the owner\'s calendar. And can only work on CodeCombat gmail'
-    timezone_tips: 'Date/Time is based on YOUR timezone: '
     no_data_display: 'No data to display'
     meetingLink: 'Meeting Link'
+    time_zone: 'Time Zone'
+    timezone_tips: 'Note - Your timezone: '
 
   teacher_dashboard:
     lock: 'Lock'
@@ -4406,6 +4410,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
+    season9_announcement_1: "An epic battle is being waged atop the wintry peaks of Snowhold Clash for the Season 9 championship arena! Draw your cloak close and your code closer as you wield strategy and algorithms to achieve victory in this land beyond the sky."
     season8_announcement_1: "It's harvesting season in Farmscape Blitz Season 8! As the leaves change, it's time to code your way around wild and impenetrable obstacles on the farm. Strategically collect vital boosts to empower your robot worker and utilize special abilities to boost productivity and out-farm your opponents!"
     season8_announcement_2: "Note: arena balance adjustments may occur up until August 15th. So be sure to come back often to test your code against the global leaderboard."
     season7_announcement_1: "Witness the dawn of a new challenge in the Equinox Cup! Season 7's tower defense arena offers a unique blend of strategy, monsters, and boss battles for you to conquer."
@@ -4717,6 +4722,21 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     power_of_play: "Power of play"
     library_card: "Library Card Number"
     library_signup_promotion: "Sign Up to save progress and continue from where you left off on CodeCombat!!"
+    welcome_dashboard: "Welcome to your dashboard"
+    total_licenses_used: "Total Licenses Used"
+    from_launch_date: "from the date of launch"
+    renewal_date: "Renewal Date"
+    access_old_dashboard: "If you want to access the old dashboard, visit"
+    loading_from: "loading data from"
+    user_activities: "User Activities"
+    total_users: "Total Users"
+    lines_of_code_written: "Lines of Code Written"
+    hours_spent: "Hours spent"
+    programs_written: "Programs written"
+    number_users: "Number of users"
+    time_spent: "Time spent (in minutes)"
+    new_users: "New Users"
+    age_demographics: "Age demographics"
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."
@@ -4776,7 +4796,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   roblox_landing:
     headline: "Empowering every player to become a creator!"
-    subhead: "Experience the the easiest and most enjoyable way to code and create your own Roblox games"
+    subhead: "Experience the easiest and most enjoyable way to code and create your own Roblox games"
     join_the_beta: "Join the Beta"
     sign_up: "Sign Up"
     box_play_subhead: "Play"

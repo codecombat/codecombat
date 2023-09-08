@@ -115,6 +115,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
 #    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
+    'library-dashboard': go('core/SingletonAppVueComponentView')
+    'partner-dashboard': go('core/SingletonAppVueComponentView')
     'api-dashboard': go('core/SingletonAppVueComponentView')
 
     'artisans': go('artisans/ArtisansView')
@@ -204,7 +206,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/ai-document': go('editor/ai-document/AIDocumentSearchView')
     'editor/ai-document/:documentID': go('editor/ai-document/AIDocumentEditView')
     'editor/ai-chat-message': go('editor/ai-chat-message/AIChatMessageSearchView')
-    'editor/ai-chat-message/:chatMessageID': go('editor/ai-chat-message/AIChatMessageEditView') 
+    'editor/ai-chat-message/:chatMessageID': go('editor/ai-chat-message/AIChatMessageEditView')
 
 
     'etc': redirect('/teachers/demo')
@@ -248,6 +250,10 @@ module.exports = class CocoRouter extends Backbone.Router
     'i18n/resource_hub_resource/:handle': go('i18n/I18NEditResourceHubResourceView')
     'i18n/concept/:handle': go('i18n/I18NEditConceptView')
     'i18n/standards/:handle': go('i18n/I18NEditStandardsCorrelationView')
+    'i18n/ai/scenario/:handle': go('i18n/I18NEditAIScenarioView')
+    'i18n/ai/chat_message/:handle': go('i18n/I18NEditAIChatMessageView')
+    'i18n/ai/document/:handle': go('i18n/I18NEditAIDocumentView')
+
 
     'identify': go('user/IdentifyView')
     'il-signup': go('account/IsraelSignupView')
