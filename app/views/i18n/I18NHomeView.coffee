@@ -10,6 +10,8 @@ if utils.isOzaria
 ResourceHubResource = require 'models/ResourceHubResource'
 ChatMessage = require 'models/ChatMessage'
 AIScenario = require 'models/AIScenario'
+AIDocument = require 'models/AIDocument'
+AIChatMessage = require 'models/AIChatMessage'
 Concept = require 'models/Concept'
 StandardsCorrelation = require 'models/StandardsCorrelation'
 
@@ -62,6 +64,8 @@ module.exports = class I18NHomeView extends RootView
     @resourceHubResource = new CocoCollection([], { url: "/db/resource_hub_resource#{QUERY_PARAMS}", project: project, model: ResourceHubResource })
     @chatMessage = new CocoCollection([], { url: "/db/chat_message#{QUERY_PARAMS}", project: project, model: ChatMessage })
     @aiScenario = new CocoCollection([], { url: "/db/ai_scenario#{QUERY_PARAMS}", project: project, model: AIScenario })
+    # @aiChatMessage = new CocoCollection([], { url: "/db/ai_chat_message#{QUERY_PARAMS}", project: project, model: AIChatMessage })
+    # @aiDocument = new CocoCollection([], { url: "/db/ai_document#{QUERY_PARAMS}", project: project, model: AIDocument })
     @concepts = new CocoCollection([], { url: "/db/concept#{QUERY_PARAMS}", project: project, model: Concept })
     @standardsCorrelations = new CocoCollection([], { url: "/db/standards#{QUERY_PARAMS}", project: project, model: StandardsCorrelation })
 
@@ -96,7 +100,9 @@ module.exports = class I18NHomeView extends RootView
         when 'Cutscene' then '/i18n/cutscene/'
         when 'ResourceHubResource' then '/i18n/resource_hub_resource/'
         when 'ChatMessage' then '/i18n/chat_message/'
-        when 'AIScenario' then '/i18n/ai_scenario/'
+        when 'AIScenario' then '/i18n/ai/scenario/'
+        when 'AIChatMessage' then '/i18n/ai/chat_message/'
+        when 'AIDocument' then '/i18n/ai/document/'
     getMore = collection.models.length is PAGE_SIZE
     @aggregateModels.add(collection.models)
     @render()
