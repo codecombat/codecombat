@@ -233,6 +233,10 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox')
         },
         {
+          path: '/grants',
+          component: () => import(/* webpackChunkName: "GrantsView" */ 'app/views/landing-pages/grants/PageGrants')
+        },
+        {
           path: '/cinematicplaceholder/:levelSlug?',
           component: () => import(/* webpackChunkName: "play" */ '../../ozaria/site/components/cinematic/CinematicPlaceholder'),
           props: (route) => {
@@ -300,6 +304,11 @@ export default function getVueRouter () {
           name: 'ParentDashboard',
           component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/DashboardMainView'),
           props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/:pname(library|partner)-dashboard',
+          name: 'LibraryDashboard',
+          component: () => import(/* webpackChunkName: "libraryDashboard" */'/app/views/library/dashboard/MainView')
         }
       ],
       scrollBehavior (to) {

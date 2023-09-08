@@ -42,8 +42,11 @@ module.exports = {
       json: client
     }))
 
-  getLicenseStats: (clientID, options={}) ->
-    fetchJson("/db/api-clients/#{clientID}/license-stats", options)
+  getLicenseStats: (clientID, { startDate, endDate } = {}, options={}) ->
+    url = "/db/api-clients/#{clientID}/license-stats"
+    if startDate and endDate
+      url = "#{url}?start-date=#{startDate}&end-date=#{endDate}"
+    fetchJson(url, options)
 
   getPlayTimeStats: (options={}) ->
     fetchJson("/api/playtime-stats", options)

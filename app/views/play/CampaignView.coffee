@@ -503,7 +503,7 @@ module.exports = class CampaignView extends RootView
   userQualifiesForRobloxModal: ->
     return false if me.freeOnly()
     return false if storage.load 'roblox-clicked'
-    return false if userUtils.isInLibraryNetwork() or userUtils.libraryName()
+    return false if userUtils.isInLibraryNetwork() or userUtils.libraryName() or me.get('isCreatedViaLibrary')
     return true if me.isPremium()
     return false if me.get('hourOfCode')
     return true if storage.load 'paywall-reached'
@@ -1558,8 +1558,11 @@ module.exports = class CampaignView extends RootView
     if what in ['level', 'xp']
       return me.showGemsAndXpInClassroom() or !isStudentOrTeacher
 
-    if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans']
+    if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements']
       return !isStudentOrTeacher and not @editorMode
+
+    if what in ['clans']
+      return !isStudentOrTeacher and not @editorMode and not me.get('isCreatedViaLibrary')
 
     if what in ['back-to-classroom']
       return isStudentOrTeacher and (not application.getHocCampaign() or @terrain is 'intro') and not @editorMode
@@ -1608,13 +1611,13 @@ module.exports = class CampaignView extends RootView
 
     if what is 'league-arena'
       # Note: Currently the tooltips don't work in the campaignView overworld.
-      return not me.isAnonymous() and @campaign?.get('slug') and not @editorMode
+      return not me.isAnonymous() and @campaign?.get('slug') and not @editorMode and not me.get('isCreatedViaLibrary')
 
     if what is 'roblox-level'
       return @userQualifiesForRobloxModal()
 
     if what is 'hackstack'
-      return me.getHackStackExperimentValue?() is 'beta'
+      return me.getHackStackExperimentValue?() is 'beta' and not me.get('isCreatedViaLibrary')
 
     return true
 
