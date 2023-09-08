@@ -137,6 +137,7 @@ export default Vue.extend({
   },
 
   async created() {
+    window.nextURL = window.location.href
     this.me = me
     if (me.isTeacher()) {
       this.updateLicenseStatus()
