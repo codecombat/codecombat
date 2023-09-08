@@ -1587,7 +1587,7 @@ module.exports = class SpellView extends CocoView
 
     aether = @displayedAether  # TODO: maybe use @spellThang.aether?
     isCast = @displayedAether is @spellThang.aether or not _.isEmpty(aether.metrics) or _.some aether.getAllProblems(), {type: 'runtime'}
-    newProblems = @convertAetherProblems(aether, aether.getAllProblems(), isCast)
+    newProblems = @convertAetherProblems(aether, aether.getAllProblems(), false) # do not cast the problem here
     if problem = newProblems[0]
       ucp = @createUserCodeProblem aether, problem.aetherProblem
       context.error = _.pick
