@@ -1,3 +1,4 @@
+require('app/styles/achievements.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'app/templates/core/achievement-popup'
 User = require '../../models/User'
