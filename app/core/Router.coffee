@@ -58,7 +58,7 @@ module.exports = class CocoRouter extends Backbone.Router
         if me.isAPIClient()
           delete window.alreadyLoadedView
           #return @navigate "/league/#{me.get('clans')?[0] ? ''}apiclient-data", {trigger: true, replace: true}  # Once we make sure all students have been associated with their API creators
-          return @navigate "/api-dashboard", {trigger: true, replace: true}
+          return @navigate "/partner-dashboard", {trigger: true, replace: true}
         if me.useChinaHomeView()
           delete window.alreadyLoadedView
           return @routeDirectly('HomeCNView', [])
@@ -552,7 +552,7 @@ module.exports = class CocoRouter extends Backbone.Router
     delete window.alreadyLoadedView
     homeUrl = switch
       #when me.isAPIClient() then "/league/#{me.get('clans')?[0] ? ''}#apiclient-data"  # Once we make sure all students have been associated with their API creators
-      when me.isAPIClient() then "/api-dashboard"
+      when me.isAPIClient() then "/partner-dashboard"
       when me.isStudent() then '/students'
       when me.isTeacher() then '/teachers'
       else '/'
