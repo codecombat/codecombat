@@ -4662,7 +4662,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     access_using_id: "to access using your id!!"
     network_detected: "Library network detected, redirecting you to play CodeCombat"
     not_redirect_auto: "if redirect doesn't happen automatically"
-    engage_members: "Give your members access to the most engaging way to learn coding"
+    engage_members: "Give your members access to the most engaging way to learn coding."
     importance_blurb: "Libraries play an important role in advancing educational equity in their communities. Many young learners do not have access or exposure to computer science, and libraries can provide important resources to these underserved groups. That is why we are partnering with libraries across the country to provide access to our game-based learning tools and educational resources."
     games_teach_blurb: "Our games teach real typed Python, JavaScript and C++ coding languages through the power of play. The gameplay is paired with a scaffolded curriculum to allow self-paced learners the ability to master foundational programming concepts before moving on to the more complex. Each level challenges the player to type the code necessary to advance their hero and achieve the level goal."
     platform_built: "Our platform is built to address the specific needs of libraries and their patrons:"

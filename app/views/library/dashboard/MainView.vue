@@ -55,9 +55,14 @@ export default {
       this.endDate = val
       this.debouncedFetchStats()
     },
-    fetchStats () {
+    fetchStats ({ initialFetch = false } = {}) {
       const query = { clientId: this.clientId, startDate: this.startDate, endDate: this.endDate }
       this.fetchLicenseStats(query)
+      if (!initialFetch) {
+        window.tracker?.trackEvent('Partner board date-filter change', {
+          startDate: this.startDate, endDate: this.endDate, spyId: window.serverSession?.amActually
+        })
+      }
     },
     debouncedFetchStats: _.debounce(function () {
       this.fetchStats()
@@ -74,7 +79,7 @@ export default {
   },
   async created () {
     this.clientId = await this.fetchClientId()
-    this.fetchStats()
+    this.fetchStats({ initialFetch: true })
   }
 }
 </script>
