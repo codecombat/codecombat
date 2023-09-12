@@ -24,7 +24,7 @@
       {{ $t('library.loading_from') }} {{ startDate }} to {{ endDate }}.....
     </div>
     <div class="ldata__old">
-      {{ $t('library.access_old_dashboard') }} <a href="/api-dashboard" target="_blank" class="ldata__link">{{ $t('general.here') }}</a>
+      {{ $t('library.access_old_dashboard') }} <a href="/api-dashboard?fromNew=1" target="_blank" class="ldata__link">{{ $t('general.here') }}</a>
     </div>
   </div>
 </template>

@@ -12,6 +12,11 @@
   import { mapActions, mapState, mapGetters } from 'vuex'
   import ApiData from './ApiData'
   module.exports = Vue.extend({
+    props: {
+      fromNew: {
+        type: String
+      }
+    },
     components: {
       ApiData
     },
@@ -31,6 +36,9 @@
     created() {
       if(!this.isAPIClient) {
         window.location.href = '/'
+      }
+      if (this.fromNew) {
+        window.tracker?.trackEvent('Old API dashboard visited from new', { spyId: window.serverSession?.amActually })
       }
     }
   })

@@ -303,8 +303,6 @@ footer#site-footer
 
   a
     color: white
-  .active
-    color: $teal
 
   .social-buttons > a
     margin-right: 10px
