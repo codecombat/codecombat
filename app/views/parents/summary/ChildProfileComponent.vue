@@ -115,7 +115,7 @@ export default {
   ],
   methods: {
     onLoginToChildAccount () {
-      this.onSwitchUser({ email: this.child.email, location: '/' })
+      this.onSwitchUser({ identifier: this.child.email || this.child.name, location: '/' })
     },
     onChangePassword () {
       this.showChangePasswordModal = true
