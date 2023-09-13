@@ -1,8 +1,9 @@
 export default {
   methods: {
-    async onSwitchUser ({ email, location = null }) {
-      await me.spy(email)
-      const text = `Switching to ${email} account..`
+    // identifier: name or email
+    async onSwitchUser ({ identifier, location = null }) {
+      await me.spy(identifier)
+      const text = `Switching to ${identifier} account..`
       const type = 'success'
       noty({ text, type, timeout: 5000, killer: true })
       setTimeout(() => {

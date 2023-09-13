@@ -278,7 +278,7 @@ module.exports = class LevelChatView extends CocoView
         kind: 'bot'
       else
         id: me.get('_id')
-        name: me.displayName() or me.broadName()
+        name: 'player'
         kind: 'player'
     props =
       product: utils.getProduct()
@@ -294,7 +294,7 @@ module.exports = class LevelChatView extends CocoView
       context:
         spokenLanguage: me.get('preferredLanguage', true)
         player: me.get('_id')
-        playerName: me.displayName() or me.broadName()
+        playerName: 'player'
         previousMessages: (m.serializeMessage() for m in (@chatMessages ? []))
       permissions: [{ target: me.get('_id'), access: 'owner' }]
     props.releasePhase = 'beta' if props.example
