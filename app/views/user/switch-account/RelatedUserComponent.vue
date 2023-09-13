@@ -58,7 +58,7 @@
               <button
                 class="btn btn-success"
                 :disabled="!user.verified || isInSwitchedAccount()"
-                @click="() => onSwitch({ email: user.email })"
+                @click="() => onSwitch({ identifier: user.email || user.name })"
               >
                 {{ $t('related_accounts.switch') }}
               </button>
@@ -94,8 +94,8 @@ export default {
     }
   },
   methods: {
-    onSwitch ({ email }) {
-      this.$emit('switchUser', { email })
+    onSwitch ({ identifier }) {
+      this.$emit('switchUser', { identifier })
     },
     onRemoveUser ({ userId }) {
       this.$emit('removeUser', { userId })
