@@ -231,7 +231,7 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
       .col-lg-12.footer-links
         .row.footer-links__row
           .col.footer-links__col(v-for="col in footerUrls" v-if="col.condition" :class="!col.lists.length ? 'shrunken-empty-column' : ''")
-            h3 {{ $t(col.title) }}
+            h1.text-h3 {{ $t(col.title) }}
             ul.list-unstyled
               li(v-for="l in col.lists" v-if="!l.hide")
                 span.hover-link(v-if="!l.url" v-bind="l.attrs") {{ $t(l.title) }}
@@ -302,7 +302,7 @@ footer#site-footer
     line-height: 19px
     letter-spacing: 0.58px
 
-  h3
+  .text-h3
     color: $teal
     font-family: Arvo
     font-size: 24px
@@ -335,8 +335,6 @@ footer#site-footer
 
   a
     color: white
-  .active
-    color: $teal
 
   .social-buttons > a
     margin-right: 10px

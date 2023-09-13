@@ -139,7 +139,8 @@ export default function getVueRouter () {
         },
         {
           path: '/api-dashboard',
-          component: () => import(/* webpackChunkName: "apiViews" */ 'app/views/api/components/ApiDashboard')
+          component: () => import(/* webpackChunkName: "apiViews" */ 'app/views/api/components/ApiDashboard'),
+          props: (route) => ({ ...route.query, ...route.params })
         },
         {
           path: '/admin/clan',

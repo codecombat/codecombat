@@ -38,7 +38,7 @@ module.exports = (env) => {
   output: _.merge({}, baseConfig.output, {
     chunkFilename: 'javascripts/chunks/[name]-[chunkhash].bundle.js',
   }),
-  devtool: false, // https://webpack.js.org/configuration/devtool/
+  devtool: 'source-map', // https://webpack.js.org/configuration/devtool/
   mode: 'production',
   optimization: {
     // check if we need to manually mention terser or webpack prod mode does it by default

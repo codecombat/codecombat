@@ -255,7 +255,7 @@ loginNavigate = (subModalContinue) ->
 
   if not me.isAdmin()
     if me.isAPIClient()
-        application.router.navigate('/api-dashboard', { trigger: true })
+        application.router.navigate('/partner-dashboard', { trigger: true })
     else if me.isStudent()
       if features.chinaHome
         window.location.href = 'https://koudashijie.com/students'
