@@ -14,33 +14,79 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
     return new Promise((resolve, reject) => {
       const fun = async () => {
         // gapi.client.load('calendar', 'v3', async () => {
-          try {
-         const r = await gapi.client.calendar.events.list({
+        try {
+          const r = await gapi.client.calendar.events.list({
             'calendarId': 'primary',
             'timeMin': (new Date()).toISOString(),
-         })
-              resolve(r.result.items || [])
-          } catch(err) {
-            console.error('Error in loading calendars from google calendar:', err)
-            reject('Error in loading calendars from google calendar')
-          }
+          })
+          resolve(r.result.items || [])
+        } catch (err) {
+          console.error('Error in loading calendars from google calendar:', err)
+          reject(new Error('Error in loading calendars from google calendar'))
+        }
         // })
       }
       this.requestGoogleAccessToken(fun)
     })
   }
-  syncCalendarsToAPI (event) {
+
+  updateCalendarsToAPI (event, timeZone) {
     const convertEvent = (e) => {
       const res = {
         summary: e.name,
         start: {
           dateTime: e.startDate,
-          timeZone: 'America/Los_Angeles'
+          timeZone
         },
-          end: {
-            dateTime: e.endDate,
-            timeZone: 'America/Los_Angeles'
-          },
+        end: {
+          dateTime: e.endDate,
+          timeZone
+        },
+        recurrence: [
+          e.rrule.replace(/DTSTART:.*?\n/, '')
+        ],
+        // TODO: if any of students also has email?
+        attendees: (event.gcEmails || []).map(e => { return { email: e } }),
+        reminders: {
+          useDefault: false,
+          overrides: [
+            { method: 'email', minutes: 24 * 60 },
+            { method: 'popup', minutes: 10 }
+          ]
+        }
+      }
+      return res
+    }
+
+    return new Promise((resolve, reject) => {
+      const fun = () => {
+        gapi.client.load('calendar', 'v3', () => {
+          gapi.client.calendar.events.patch({
+            calendarId: 'primary',
+            eventId: event.googleEventId,
+            resource: convertEvent(event)
+          }).execute((event) => {
+            console.log('Google Event created: ' + event.htmlLink)
+            resolve(event)
+          })
+        })
+      }
+      this.requestGoogleAccessToken(fun)
+    })
+  }
+
+  syncCalendarsToAPI (event, timeZone) {
+    const convertEvent = (e) => {
+      const res = {
+        summary: e.name,
+        start: {
+          dateTime: e.startDate,
+          timeZone
+        },
+        end: {
+          dateTime: e.endDate,
+          timeZone
+        },
         recurrence: [
           e.rrule.replace(/DTSTART:.*?\n/, '')
         ],
@@ -64,7 +110,7 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
             calendarId: 'primary',
             resource: convertEvent(event)
           }).execute((event) => {
-          console.log('Google Event created: ' + event.htmlLink)
+            console.log('Google Event created: ' + event.htmlLink)
             resolve(event)
           })
         })
@@ -126,10 +172,10 @@ module.exports = {
     }
   },
 
-  syncEventsToGC: async function (event) {
+  syncEventsToGC: async function (event, timezone = 'America/New_York', update = false) {
     try {
-      await this.gcApiHandler.syncCalendarsToAPI(event)
-      return 'success'
+      if (update) return await this.gcApiHandler.updateCalendarsToAPI(event, timezone)
+      return await this.gcApiHandler.syncCalendarsToAPI(event, timezone)
     } catch (e) {
       console.error('Error in syncing event to google calendar:', e)
       return 'Error in syncing event to google calendar'

@@ -114,7 +114,7 @@ export default {
     },
     _endTime: {
       get () {
-        return moment(this.instance.endDate).format(HTML5_FMT_TIME_LOCAL)
+        return momentTz(this.instance.endDate).tz(this.timeZone).format(HTML5_FMT_TIME_LOCAL)
       },
       set (val) {
         // use _startDate here since startDate and endDate share the date
