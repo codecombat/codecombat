@@ -806,7 +806,7 @@ module.exports = class User extends CocoModel
       value = 'control'
     if not value? and me.get('role') is 'student'
       # Don't include student users (do include teachers, parents, home users, and anonymous)
-      value = 'beta'
+      value = 'control'
     if not value?
       probability = window.serverConfig?.experimentProbabilities?['level-chat']?.beta ? 0.02
       if Math.random() < probability
