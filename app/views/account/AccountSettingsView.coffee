@@ -44,7 +44,6 @@ module.exports = class AccountSettingsView extends RootView
 
     @robloxButton = new RobloxButton({ el: @$el.find('#roblox-button')[0] })
     
-
   afterInsert: ->
     @openModalView new CreateAccountModal() if me.get('anonymous')
 
