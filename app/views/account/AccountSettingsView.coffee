@@ -9,10 +9,7 @@ RootView = require 'views/core/RootView'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 globalVar = require 'core/globalVar'
 utils = require 'core/utils'
-OAuth2Identities = require 'collections/OAuth2Identities'
-
 RobloxButton = require('./robloxButton.vue').default
-
 
 module.exports = class AccountSettingsView extends RootView
   id: 'account-settings-view'

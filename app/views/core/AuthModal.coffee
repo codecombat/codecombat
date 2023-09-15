@@ -38,6 +38,7 @@ module.exports = class AuthModal extends ModalView
       @loginMessage = options.loginMessage
 
     if options.nextUrl
+      @nextUrl = options.nextUrl
       window.nextURL = options.nextUrl
 
     if me.useSocialSignOn()
@@ -59,6 +60,10 @@ module.exports = class AuthModal extends ModalView
   afterInsert: ->
     super()
     _.delay (=> $('input:visible:first', @$el).focus()), 500
+
+  destroy: ->
+    if(@nextUrl and @nextUrl == window.nextURL) 
+      delete window.nextURL
 
   onSignupInstead: (e) ->
     CreateAccountModal = require('./CreateAccountModal')

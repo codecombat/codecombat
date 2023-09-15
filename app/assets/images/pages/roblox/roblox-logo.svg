@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="198.32878mm"
+   height="198.45787mm"
+   viewBox="0 0 198.32878 198.45787"
+   version="1.1"
+   id="svg409"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="Roblox2022.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview411"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.53858859"
+     inkscape:cx="332.35015"
+     inkscape:cy="378.76777"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs406">
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter4327"
+       x="-0.012142722"
+       y="-0.012162313"
+       width="1.0242854"
+       height="1.0243246">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.61842471"
+         id="feGaussianBlur4329" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1668"
+       id="linearGradient1670"
+       x1="89.740746"
+       y1="155.06825"
+       x2="51.89241"
+       y2="43.88203"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(8.77561,-0.077946)" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient1668">
+      <stop
+         style="stop-color:#9aa9b3;stop-opacity:1;"
+         offset="0"
+         id="stop1664" />
+      <stop
+         style="stop-color:#93a3ae;stop-opacity:1;"
+         offset="0.03041848"
+         id="stop5822" />
+      <stop
+         style="stop-color:#91a1ad;stop-opacity:1;"
+         offset="0.34907225"
+         id="stop2508" />
+      <stop
+         style="stop-color:#fefefe;stop-opacity:1;"
+         offset="0.92352939"
+         id="stop1666" />
+    </linearGradient>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Drop Shadow"
+       id="filter3957"
+       x="-0.026083111"
+       y="-0.026086909"
+       width="1.0605262"
+       height="1.0613711">
+      <feFlood
+         flood-opacity="1"
+         flood-color="rgb(255,255,255)"
+         result="flood"
+         id="feFlood3947" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="out"
+         result="composite1"
+         id="feComposite3949" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="1.3"
+         result="blur"
+         id="feGaussianBlur3951" />
+      <feOffset
+         dx="1"
+         dy="1.1000000000000001"
+         result="offset"
+         id="feOffset3953" />
+      <feComposite
+         in="offset"
+         in2="SourceGraphic"
+         operator="atop"
+         result="composite2"
+         id="feComposite3955" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-5.0461367,-7.7605357)">
+    <g
+       id="g14003">
+      <path
+         id="path4322"
+         style="fill:#000000;fill-opacity:0.53;stroke:none;stroke-width:0.810333;filter:url(#filter4327)"
+         d="M 29.003436,34.91201 3.0275315,131.06927 99.73511,156.94631 125.25872,60.604809 Z m 26.551623,45.352399 26.614821,7.020533 -7.168498,26.850848 -26.616371,-7.02208 z"
+         sodipodi:nodetypes="cccccccccc"
+         transform="matrix(1.5633965,0,0,1.5633965,3.3732973,-42.690407)" />
+      <path
+         id="path937"
+         style="fill:url(#linearGradient1670);fill-opacity:1;stroke-width:0.810333;filter:url(#filter3957)"
+         d="M 29.482863,35.390088 4.1900032,129.53918 98.516356,154.9903 123.80763,60.841219 76.645246,48.114866 Z m 24.87662,43.037911 26.327943,7.24236 -7.047693,26.280461 -26.32952,-7.24394 z"
+         transform="matrix(1.5633965,0,0,1.5633965,3.3732973,-42.690407)" />
+    </g>
+  </g>
+</svg>

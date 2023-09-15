@@ -4822,3 +4822,4 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bottom_blurb_partner: "Want to use the new CodeCombat Worlds Roblox experience for your education business, social impact initiative or international distribution opportunity? __reach-out__ to discuss partnering today."
     bottom_blurb_reach_out: "Reach out"
     boxes_title: "Play, Code and Create on Roblox"
+    login_message: "You need to login before connecting your account to Roblox"

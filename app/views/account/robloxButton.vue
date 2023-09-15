@@ -35,9 +35,7 @@ export default Vue.extend({
     methods: {
         async getRobloxIdentities() {
             const oAuth2Identities = new OAuth2Identities([])
-            await oAuth2Identities.fetch()
-            const robloxIdentities = oAuth2Identities.filter(i => i.get('provider') === 'roblox');
-            return robloxIdentities;
+            return oAuth2Identities.fetchForProvider('roblox')
         },
         async checkRobloxConnectionStatus() {
             this.robloxIdentities = await this.getRobloxIdentities();
@@ -45,6 +43,7 @@ export default Vue.extend({
 
         connectToRoblox() {
             if (me.isAnonymous()) {
+                // login modal will appear because of the login-button class
                 return;
             }
             window.open('/auth/oauth2/roblox', '_blank');
@@ -54,8 +53,8 @@ export default Vue.extend({
             var connectionTrackingKey = 'robloxConnectionTrackingKey';
             window.addEventListener('storage', (event) => {
                 if (event.key === connectionTrackingKey) {
-                    this.checkRobloxConnectionStatus();
-                    localStorage.removeItem(connectionTrackingKey);
+                    this.checkRobloxConnectionStatus()
+                    localStorage.removeItem(connectionTrackingKey)
                 }
             })
         },
@@ -70,7 +69,7 @@ export default Vue.extend({
                 callback: async confirm => {
                     if (confirm) {
                         await identity.destroy()
-                        this.checkRobloxConnectionStatus();
+                        this.checkRobloxConnectionStatus()
                     }
                 }
             })
@@ -81,7 +80,7 @@ export default Vue.extend({
 
 <template>
     <div class="roblox-button">
-        <img class="logo" src="/images/roblox/roblox-icon.png" />
+        <img class="logo" src="/images/pages/roblox/roblox-logo.svg" />
         <div class="content">
             <div v-if="isConnected" class="identities">
                 <div v-for="identity in robloxIdentities" :key="identity.sub" class="identity">
@@ -100,7 +99,7 @@ export default Vue.extend({
             </div>
             <div class="buttons-container">
                 <button v-if="!isConnected" :class="{ 'login-button': isAnonymous }"
-                    data-login-message="You need to login before connecting your account to Roblox" :data-next-url="nextURL"
+                    :data-login-message="$t('roblox_landing.login_message')" :data-next-url="nextURL"
                     @click="connectToRoblox" class="btn form-control btn-primary">
                     {{ $t('account_settings.connect_roblox_button') }}
                 </button>
@@ -110,7 +109,7 @@ export default Vue.extend({
     </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .roblox-button {
     padding: 20px;
     border-radius: 20px;
@@ -122,11 +121,14 @@ export default Vue.extend({
     gap: 20px;
 
     .logo {
-        max-width: 20%;
+        max-width: min(20%, 100px);
     }
 
     .content {
         flex-grow: 1;
+        p {
+            text-align: center;
+        }
     }
 
     .buttons-container {
