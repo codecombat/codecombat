@@ -4,6 +4,7 @@ LevelSession = require 'models/LevelSession'
 utils = require 'core/utils'
 tagger = require 'lib/SolutionConceptTagger'
 store = require('core/store')
+Concepts = require 'collections/Concepts'
 
 module.exports = class LevelBus extends Bus
 
@@ -296,17 +297,23 @@ module.exports = class LevelBus extends Bus
 
   updateSessionConcepts: ->
     return unless @session.get('codeLanguage') in ['javascript', 'python']
-    try
-      tags = tagger({ast: @session.lastAST, language: @session.get('codeLanguage')})
-      tags = _.without(tags, 'basic_syntax')
-      @session.set('codeConcepts', tags)
-      @changedSessionProperties.codeConcepts = true
-    catch e
-      # Just in case the concept tagger system breaks. Esper needed fixing to handle
-      # the Python skulpt AST, the concept tagger is not fully tested, and this is a
-      # critical piece of code, so want to make sure this can fail gracefully.
-      console.warn('Unable to parse concepts from this AST.')
-      console.warn(e)
+    @loadConcepts (concepts) => 
+      try
+        tags = tagger({ast: @session.lastAST, language: @session.get('codeLanguage')}, concepts)
+        tags = _.without(tags, 'basic_syntax')
+        @session.set('codeConcepts', tags)
+        @changedSessionProperties.codeConcepts = true
+      catch e
+        # Just in case the concept tagger system breaks. Esper needed fixing to handle
+        # the Python skulpt AST, the concept tagger is not fully tested, and this is a
+        # critical piece of code, so want to make sure this can fail gracefully.
+        console.warn('Unable to parse concepts from this AST.')
+        console.warn(e)
+
+  loadConcepts: (onConceptsLoaded) ->
+    concepts = new Concepts([])
+    @listenTo(concepts, 'sync', onConceptsLoaded)
+    concepts.fetch(data: { skip: 0, limit: 1000 })
 
 
   destroy: ->

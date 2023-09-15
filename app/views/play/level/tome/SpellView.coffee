@@ -1514,9 +1514,11 @@ module.exports = class SpellView extends CocoView
     solution = document.querySelector('#solution-area')
     if solution.classList.contains('display')
       solution.classList.remove('display')
+      solution.style.opacity = 0
     else
       solution.classList.add('display')
       solution.style.opacity = 1
+      Backbone.Mediator.publish 'tome:hide-problem-alert', {}
     return if @solutionStreaming
     @aceDiff.setOptions showDiffs: solution.classList.contains('display')
 
