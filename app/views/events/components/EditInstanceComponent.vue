@@ -8,6 +8,8 @@ import UserSearchComponent from './UserSearchComponent'
 import TimeZonePicker from './TimeZonePicker'
 import MembersAttendeesComponent from './MembersAttendeesComponent'
 import momentTz from 'moment-timezone'
+import gcApiHandler from '../../../core/social-handlers/GoogleCalendarHandler'
+
 
 export default {
   name: 'EditInstanceComponent',
@@ -33,6 +35,14 @@ export default {
     ...mapActions('events', [
       'saveInstance'
     ]),
+    syncToGoogleCalendar () {
+      gcApiHandler.syncInstanceToGC(this.instance, this.propsEvent.googleEventId, this.timeZone).then(res => {
+        console.log('Synced to GC')
+      }).catch(err => {
+        console.log('Error syncing to GC:', err)
+        noty({ text: 'Error syncing to Google Calendar', type: 'error' })
+      })
+    },
     selectOwner (u) {
       Vue.set(this.instance, 'owner', u._id)
       Vue.set(this.instance.ownerDetails, 'name', u.name)
@@ -48,7 +58,7 @@ export default {
     updateDescription (desc) {
       this.$set(this.memberAttendees[desc.id], 'description', desc.value)
     },
-    onFormSubmit () {
+    async onFormSubmit () {
       this.inProgress = true
 
       if (this.instance.endDate <= this.instance.startDate) {
@@ -63,12 +73,20 @@ export default {
       }
 
       this.instance.members = Object.values(this.memberAttendees).map(ma => _.pick(ma, ['userId', 'attendance', 'description']))
-      this.saveInstance(this.instance).then(res => {
+
+      try {
+        await this.saveInstance(this.instance)
+        if (this.propsEvent.syncedToGC) {
+          this.syncToGoogleCalendar()
+        }
         this.$emit('save', this.instance.event)
         this.inProgress = false
-      }).catch(err => {
+      } catch (err) {
         this.errorMessage = err.message
-      })
+        setTimeout(() => {
+          this.inProgress = false
+        }, 3000)
+      }
     },
 
     instanceUpdate () {

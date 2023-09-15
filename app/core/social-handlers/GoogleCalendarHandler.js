@@ -30,6 +30,44 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
     })
   }
 
+  updateInstanceToAPI (instance, eventId, timeZone) {
+    const convertEvent = (i) => {
+      const res = {
+        start: {
+          dateTime: i.startDate,
+          timeZone
+        },
+        end: {
+          dateTime: i.endDate,
+          timeZone
+        }
+      }
+      return res
+    }
+
+    return new Promise((resolve, reject) => {
+      const fun = () => {
+        gapi.client.load('calendar', 'v3', () => {
+          gapi.client.calendar.events.instances({
+            calendarId: 'primary',
+            eventId
+          }).execute((instances) => {
+            const iid = instances.items[instance.index]?.id
+            gapi.client.calendar.events.patch({
+              calendarId: 'primary',
+              eventId: iid,
+              resource: convertEvent(instance)
+            }).execute((event) => {
+              console.log('Google Event updated: ' + event.htmlLink)
+              resolve(event)
+            })
+          })
+        })
+      }
+      this.requestGoogleAccessToken(fun)
+    })
+  }
+
   updateCalendarsToAPI (event, timeZone) {
     const convertEvent = (e) => {
       const res = {
@@ -179,6 +217,15 @@ module.exports = {
     } catch (e) {
       console.error('Error in syncing event to google calendar:', e)
       return 'Error in syncing event to google calendar'
+    }
+  },
+
+  syncInstanceToGC: async function (instance, eventId, timezone = 'America/New_York') {
+    try {
+      return await this.gcApiHandler.updateInstanceToAPI(instance, eventId, timezone)
+    } catch (e) {
+      console.error('Error in syncing instance to google calendar:', e)
+      return 'Error in syncing instance to google calendar'
     }
   }
 }
