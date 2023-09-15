@@ -28,7 +28,8 @@ export default {
       tzOffset: momentTz.tz('America/New_York').format('Z'),
       instance: {},
       memberAttendees: {},
-      myTimeZone: momentTz.tz.guess()
+      myTimeZone: momentTz.tz.guess(),
+      timeUpdated: false
     }
   },
   methods: {
@@ -76,8 +77,9 @@ export default {
 
       try {
         await this.saveInstance(this.instance)
-        if (this.propsEvent.syncedToGC) {
+        if (this.timeUpdated && this.propsEvent.syncedToGC) {
           this.syncToGoogleCalendar()
+          this.timeUpdated = false
         }
         this.$emit('save', this.instance.event)
         this.inProgress = false
@@ -120,6 +122,7 @@ export default {
       set (val) {
         this.$set(this.instance, 'startDate', new Date(`${val} ${this._startTime}${this.tzOffset}`))
         this.$set(this.instance, 'endDate', new Date(`${val} ${this._endTime}${this.tzOffset}`))
+        this.timeUpdated = true
       }
     },
     _startTime: {
@@ -128,6 +131,7 @@ export default {
       },
       set (val) {
         this.$set(this.instance, 'startDate', new Date(`${this._startDate} ${val}${this.tzOffset}`))
+        this.timeUpdated = true
       }
     },
     _endTime: {
@@ -137,6 +141,7 @@ export default {
       set (val) {
         // use _startDate here since startDate and endDate share the date
         this.$set(this.instance, 'endDate', new Date(`${this._startDate} ${val}${this.tzOffset}`))
+        this.timeUpdated = true
       }
     },
     _endTimeHourRange () {
