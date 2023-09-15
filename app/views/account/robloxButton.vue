@@ -21,7 +21,7 @@ export default Vue.extend({
     computed: {
         isConnected: {
             get() {
-                return this.robloxIdentities.length > 0;
+                return this.robloxIdentities.length > 0
             },
         },
         i18nData() {
