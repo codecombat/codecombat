@@ -12,7 +12,6 @@ utils = require 'core/utils'
 OAuth2Identities = require 'collections/OAuth2Identities'
 
 RobloxButton = require('./robloxButton.vue').default
-# Concepts = require 'collections/Concepts'
 
 
 module.exports = class AccountSettingsView extends RootView
