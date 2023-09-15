@@ -247,7 +247,7 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
                     mklog-since-last-viewed(v-pre organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W', color="candy")
           .col-lg-3
             template(v-if="!me.showingStaticPagesWhileLoading() && me.useSocialSignOn()")
-              h3 {{ $t("nav.follow_us") }}
+              h1.text-h3 {{ $t("nav.follow_us") }}
               div.social-buttons
                 a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA" target="_blank" data-event-action="Click: Footer Youtube")
                   img(src="/images/pages/base/youtube_symbol_button.png" width="40" alt="YouTube")
@@ -258,7 +258,7 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
                 a(href="https://www.instagram.com/codecombat/" target="_blank" data-event-action="Click: Footer Instagram")
                   img(src="/images/pages/base/instagram-logo.png" width="40" alt="Instagram")
             template(v-if="me.showChinaResourceInfo()")
-              h3 {{ $t("nav.follow_us") }}
+              h1.text-h3 {{ $t("nav.follow_us") }}
               .follow_us
                 .socialicon
                   .si.si-wechat
