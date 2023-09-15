@@ -322,6 +322,7 @@ module.exports = class AccountSettingsView extends RootView
       if godmodeCheckbox.length
         permissions.push 'godmode' if godmodeCheckbox.prop('checked')
       @user.set('permissions', permissions)
+
   destroy: ->
     @robloxButton.destroy()
     super()
