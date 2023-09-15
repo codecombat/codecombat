@@ -126,7 +126,6 @@ module.exports = class AccountSettingsView extends RootView
       confirmModal = new ConfirmModal renderData
       confirmModal.on 'confirm', @resetProgress, @
       @openModalView confirmModal
- 
 
   onClickResendVerificationEmail: (e) ->
     $.post @user.getRequestVerificationEmailURL(), ->
