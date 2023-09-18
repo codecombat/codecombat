@@ -24,6 +24,7 @@ module.exports = class LevelChatView extends CocoView
     'level:toggle-solution': 'onToggleSolution'
     'level:close-solution': 'onCloseSolution'
     'level:add-user-chat': 'onAddUserChat'
+    'tome:spell-changed': 'onSpellChanged'
 
   constructor: (options) ->
     @levelID = options.levelID
@@ -212,7 +213,16 @@ module.exports = class LevelChatView extends CocoView
     openPanel = $('.open-chat-area', @$el)[0]
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
 
+  onSpellChanged: ->
+    if @savingChatMessage
+      @reallySaveChatMessage(@savingChatMessage)
+      @savingChatMessage = undefined
+
   saveChatMessage: ({ text, sender }) ->
+    Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
+    @savingChatMessage = { text, sender }
+
+  reallySaveChatMessage: ({ text, sender }) ->
     chatMessage = new ChatMessage @getChatMessageProps { text, sender }
     @chatMessages ?= []
     @chatMessages.push chatMessage
