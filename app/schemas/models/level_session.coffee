@@ -13,7 +13,7 @@ LevelSessionPlayerSchema = c.object
   changes:
     type: 'Number'
 
-LevelSessionLevelSchema = c.object {required: ['original', 'majorVersion'], links: [{rel: 'db', href: '/db/level/{(original)}/version/{(majorVersion)}'}]},
+LevelSessionLevelSchema = c.object {required: ['original'], links: [{rel: 'db', href: '/db/level/{(original)}'}]},
   original: c.objectId({})
   majorVersion:
     type: 'integer'
