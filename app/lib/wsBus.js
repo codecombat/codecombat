@@ -140,8 +140,8 @@ module.exports = wsBus = class WsBus extends CocoClass {
         friendTopics.push(`user-${f.userId.toString()}`)
       })
       this.ws.subscribe(friendTopics)
-      const onlineFriends = await me.fetchOnlineFriends() // fetch online friends
-      this.updateOnlineFriends(onlineFriends)
+      // const onlineFriends = await me.fetchOnlineFriends() // fetch online friends
+      // this.updateOnlineFriends(onlineFriends)
       this.wsInfos.inited = true
     }
     // console.log('wsInfos reset success')

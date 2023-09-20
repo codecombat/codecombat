@@ -279,7 +279,7 @@ module.exports = class CoursesView extends RootView
         return "user-#{teacher}"
       )
       wsBus.ws.subscribe(teacherTopics)
-      me.fetchOnlineFriends(uniqueOwnerIDs).then((onlineTeachers) =>
+      me.fetchOnlineTeachers(uniqueOwnerIDs).then((onlineTeachers) =>
         wsBus.updateOnlineFriends(onlineTeachers)
         @renderSelectors('.teacher-icon')
       )

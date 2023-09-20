@@ -321,7 +321,7 @@ module.exports = class LevelBus extends Bus
     return unless @wsBus
     topic = "user-#{teacherId.toString()}"
     @wsBus.ws.subscribe(topic)
-    me.fetchOnlineFriends([teacherId.toString()]).then((onlineTeacher) =>
+    me.fetchOnlineTeachers([teacherId.toString()]).then((onlineTeacher) =>
       @wsBus.updateOnlineFriends(onlineTeacher)
     )
 

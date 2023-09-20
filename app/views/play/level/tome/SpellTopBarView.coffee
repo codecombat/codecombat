@@ -65,6 +65,7 @@ module.exports = class SpellTopBarView extends CocoView
     me.isStudent() and @courseID == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
 
   teacherOnline: () ->
+    console.log("what online?", @wsBus.wsInfos?.friends?[@teacherID], @teacherID)
     @wsBus?.wsInfos?.friends?[@teacherID]?.online
 
   onDisableControls: (e) -> @toggleControls e, false
@@ -125,6 +126,7 @@ module.exports = class SpellTopBarView extends CocoView
     @updateReloadButton()
 
   onUserOnlineChanged: (e) ->
+    console.log('user online changed', e)
     if e.user.toString() == @teacherID?.toString()
       @renderSelectors('#ask-teacher-for-help')
 

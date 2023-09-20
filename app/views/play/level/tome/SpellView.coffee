@@ -158,7 +158,7 @@ module.exports = class SpellView extends CocoView
       console.log('connect provider:', @urlSession)
       @yjsProvider = aceUtils.setupCRDT("#{@urlSession}", me.broadName(), '', @ace)
       @yjsProvider.connections = 1
-      @yjsProvider.awareness.on('change', () =>
+      @yjsProvider.awareness.on('change', =>
         console.log("provider get connections? ", @yjsProvider.awareness.getStates().size)
         @yjsProvider.connections = @yjsProvider.awareness.getStates().size
       )
@@ -1698,12 +1698,15 @@ module.exports = class SpellView extends CocoView
       msg = e.msg
       msg.info.url += "?course=#{@courseID}&codeLanguage=#{@session.get('codeLanguage')}&session=#{@session.id}&teaching=true"
       fetchJson("/db/level.session/#{@session.id}/permissions/ws/#{msg.to}", { method: 'PUT' }).then(() =>
-        @yjsProvider = aceUtils.setupCRDT("#{@session.id}", me.broadName(), @getSource(), @ace, () => globalVar.application.wsBus.ws.sendJSON(msg))
-        @yjsProvider.connections = 1
-        @yjsProvider.awareness.on('change', () =>
-          @yjsProvider.connections = @yjsProvider.awareness.getStates().size
-          console.log('provider get awareness update:', @yjsProvider.connections)
-        )
+        if @yjsProvider and @yjsProvide.wsconnected
+          globalVar.application.wsBus.ws.sendJSON(msg)
+        else
+          @yjsProvider = aceUtils.setupCRDT("#{@session.id}", me.broadName(), @getSource(), @ace, () => globalVar.application.wsBus.ws.sendJSON(msg))
+          @yjsProvider.connections = 1
+          @yjsProvider.awareness.on('change', () =>
+            @yjsProvider.connections = @yjsProvider.awareness.getStates().size
+            console.log('provider get awareness update:', @yjsProvider.connections)
+          )
       )
 
   destroy: ->
