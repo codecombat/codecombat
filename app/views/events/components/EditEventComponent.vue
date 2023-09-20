@@ -87,7 +87,7 @@ export default {
       this.event.members.add(m)
     },
     syncToGoogleCalendar (update = false) {
-      gcApiHandler.syncEventsToGC(this.event, this.timeZone, update).then(res => {
+      gcApiHandler.syncEventsToGC(this.event, { timeZone: this.timeZone, update }).then(res => {
         if (!update) {
           this.editEvent({ _id: this.event._id, googleEventId: res.id })
         }
@@ -217,7 +217,11 @@ export default {
       }
     },
     rruleStart () {
-      return new Date(this.event.startDate)
+      if (this.event.startDate) {
+        return new Date(this.event.startDate)
+      } else {
+        return new Date()
+      }
     },
     rulePreviewTop6 () {
       return this.rrule.all((date, i) => i < 6).map(d => moment(d).format('ll'))

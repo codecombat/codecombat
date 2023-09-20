@@ -104,7 +104,7 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
             eventId: event.googleEventId,
             resource: convertEvent(event)
           }).execute((event) => {
-            console.log('Google Event created: ' + event.htmlLink)
+            console.log('Google Event updated: ' + event.htmlLink)
             resolve(event)
           })
         })
@@ -210,7 +210,7 @@ module.exports = {
     }
   },
 
-  syncEventsToGC: async function (event, timezone = 'America/New_York', update = false) {
+  syncEventsToGC: async function (event, { timezone = 'America/New_York', update = false } = {}) {
     try {
       if (update) return await this.gcApiHandler.updateCalendarsToAPI(event, timezone)
       return await this.gcApiHandler.syncCalendarsToAPI(event, timezone)
