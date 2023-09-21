@@ -304,6 +304,7 @@ module.exports = class AnalyticsView extends RootView
         dayGroupCountMap = {}
         for payment in data
           continue unless payment.service in ['paypal', 'stripe']
+          continue if payment.productID is 'online-classes'
           if !payment.created
             day = utils.objectIdToDate(payment._id).toISOString().substring(0, 10)
           else
@@ -324,8 +325,6 @@ module.exports = class AnalyticsView extends RootView
           dayGroupCountMap[day]['DRR Total'] += price
         @revenueGroups = Object.keys(groupMap)
         @revenueGroups.push 'DRR Total'
-
-        console.log 'rG', @revenueGroups
 
         if utils.isOzaria
           # Split lifetime values across 8 months based on 12% monthly churn
@@ -379,7 +378,6 @@ module.exports = class AnalyticsView extends RootView
 
         # Order present to past
         @revenue.sort (a, b) -> b.day.localeCompare(a.day)
-        console.log 'revenue', @revenue, dayGroupCountMap, serviceCarryForwardMap
         return unless @revenue.length > 0
 
         # Add monthly recurring revenue values
@@ -400,7 +398,6 @@ module.exports = class AnalyticsView extends RootView
               @revenue[i].groups.push(_.reduce(monthlyValues, (s, num) -> s + num))
         for monthlyGroup, dailyGroup of monthlyDailyGroupMap
           @revenueGroups.push monthlyGroup
-        console.log 'revenue groups', @revenueGroups
         # Calculate real monthly revenue instead of 30 days estimation
         @monthMrrMap = {}
         for revenue in @revenue
@@ -415,7 +412,6 @@ module.exports = class AnalyticsView extends RootView
               @monthMrrMap[month].yearly += revenue.groups[i]
             else if group is 'DRR Total'
               @monthMrrMap[month].total += revenue.groups[i]
-        console.log 'month MRR', @monthMrrMap
         # Calculate real weekly revenue instead of 30 days estimation
         @weekMrrMap = {}
         weekZero = week = '2022-12-30'  # Skip anything this Friday or before
@@ -435,7 +431,6 @@ module.exports = class AnalyticsView extends RootView
               @weekMrrMap[week].yearly += revenue.groups[i]
             else if group is 'DRR Total'
               @weekMrrMap[week].total += revenue.groups[i]
-        console.log 'week MRR', @weekMrrMap
 
         @updateAllKPIChartData()
         @updateRevenueChartData()
