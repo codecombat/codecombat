@@ -230,4 +230,5 @@ module.exports =
   'level:toggle-solution': c.object {},
     code: {type: 'string'}
 
-  'level:close-solution': c.object {}
+  'level:close-solution': c.object {},
+    removeButton: {type: 'boolean'}

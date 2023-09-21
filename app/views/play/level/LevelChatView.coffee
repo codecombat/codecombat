@@ -199,15 +199,17 @@ module.exports = class LevelChatView extends CocoView
     btn = @$el.find('.fix-code-button')
     show = $.i18n.t('play_level.chat_fix_show')
     hide = $.i18n.t('play_level.chat_fix_hide')
+    @diffShown = !@diffShown
     if @diffShown
       btn.html hide
     else
       btn.html show
-    @diffShown = !@diffShown
 
   onCloseSolution: (e) ->
     @diffShown = false
     @$el.find('.fix-code-button').html $.i18n.t('play_level.chat_fix_show')
+    if e.removeButton # when code is fixed, remove the button
+      @$el.find('.fix-code-button').parent().remove()
 
   onAddUserChat: (e) ->
     @saveChatMessage { text: e.message }
