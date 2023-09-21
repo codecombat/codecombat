@@ -447,7 +447,12 @@ function getLearningGoalsDocumentation (content) {
               normalizedType = type
             }
 
-            if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl'].includes(normalizedType)) {
+            
+            if(!normalizedType){ // TODO: show all levels as Challenge Levels for now
+              normalizedType = 'challengelvl'
+            }
+
+            if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].includes(normalizedType)) {
               throw new Error(`Didn't handle normalized content type: '${normalizedType}'`)
             }
 

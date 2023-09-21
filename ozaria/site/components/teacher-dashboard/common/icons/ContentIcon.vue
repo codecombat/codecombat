@@ -22,7 +22,7 @@
       icon: {
         type: String,
         required: true,
-        validator: value => ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro'].indexOf(value) !== -1
+        validator: value => { return ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].indexOf(value) !== -1}
       }
     }
   }
@@ -31,12 +31,13 @@
 <template>
   <div class="flex-content" :class="icon">
     <IconCutscene v-if="icon=='cutscene'" />
-    <IconCinematic v-if="icon=='cinematic'" />
-    <IconCapstone v-if="icon=='capstone'" />
-    <IconInteractive v-if="icon=='interactive'" />
-    <IconPracticeLevel v-if="icon=='practicelvl'" />
-    <IconChallengeLevel v-if="icon=='challengelvl'" />
-    <IconIntro v-if="icon=='intro'" />
+    <IconCinematic v-else-if="icon=='cinematic'" />
+    <IconCapstone v-else-if="icon=='capstone'" />
+    <IconInteractive v-else-if="icon=='interactive'" />
+    <IconPracticeLevel v-else-if="icon=='practicelvl'" />
+    <IconChallengeLevel v-else-if="icon=='challengelvl'" />
+    <IconIntro v-else-if="icon=='intro'" />
+    <IconIntro v-else />
   </div>
 </template>
 
