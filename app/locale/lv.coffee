@@ -422,7 +422,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 
   new_home_faq:
     what_programming_languages: "Kādas ir pieejamās programmēšanas valodas?"
-    python_and_javascript: "Pašlaik mēs atbalstām Python un JavaScript."
+    python_and_javascript: "Pašlaik mēs atbalstām Python, JavaScript, C++, Java, un Lua."
     why_python: "Kāpēc izvēlēties Python?"
 #    why_python_blurb: "Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python."
     why_javascript: "Kāpēc izvēlēties JavaScript?"

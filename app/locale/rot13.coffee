@@ -422,7 +422,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   new_home_faq:
     what_programming_languages: "Jung cebtenzzvat ynathntrf ner ninvynoyr?"
-    python_and_javascript: "Jr pheeragyl fhccbeg Clguba naq WninFpevcg."
+    python_and_javascript: "Jr pheeragyl fhccbeg Clguba, WninFpevcg, P++, Wnin, naq Yhn."
     why_python: "Jul fubhyq lbh pubbfr Clguba?"
     why_python_blurb: "Clguba vf obgu ortvaare-sevraqyl naq pheeragyl hfrq ol znwbe pbecbengvbaf (fhpu nf Tbbtyr). Vs lbh unir lbhatre be svefg-gvzr yrnearef, jr fgebatyl erpbzzraq Clguba."
     why_javascript: "Jul fubhyq lbh pubbfr WninFpevcg?"

@@ -422,7 +422,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 
   new_home_faq:
     what_programming_languages: "Jakie są dostępne języki programowania?"
-    python_and_javascript: "Obecnie wspieramy Pythona i JavaScript."
+    python_and_javascript: "Obecnie wspieramy Pythona, JavaScript, C++, Java, i Lua."
     why_python: "Dlaczego warto wybrać Pythona?"
     why_python_blurb: "Python jest zarówno przyjazny dla początkujących, jak i używany przez duże korporacje (takie jak Google). Jeśli masz młodszych lub uczących się po raz pierwszy, zdecydowanie polecamy Pythona."
     why_javascript: "Dlaczego warto wybrać JavaScript?"

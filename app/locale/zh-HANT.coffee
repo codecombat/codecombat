@@ -422,7 +422,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   new_home_faq:
     what_programming_languages: "目前支援哪些程式語言?"
-    python_and_javascript: "目前支援Python與JavaScript."
+    python_and_javascript: "目前支持 Python、JavaScript、C++、Java 和 Lua"
     why_python: "為什麼選擇Python?"
 #    why_python_blurb: "Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python."
     why_javascript: "為什麼選擇JavaScript?"
