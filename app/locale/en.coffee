@@ -4823,3 +4823,26 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bottom_blurb_reach_out: "Reach out"
     boxes_title: "Play, Code and Create on Roblox"
     login_message: "You need to login before connecting your account to Roblox"
+    connect_button_header: "Account Linking Rewards"
+    connect_button_linker_badge: "Linker Badge"
+    connect_button_accounts_linked: "Accounts Linked"
+    connect_button_pet_chroma: "Pet Chroma"
+    connect_button_exclusive_pet: "Exclusive Pet"
+    connect_button_blurb: "Link your CodeCombat and Roblox accounts for a seamless experience!"
+    connect_button_list_item_1: "Manage subscriptions"
+    connect_button_list_item_2: "Unlock additional content"
+    connect_button_list_item_3: "Track progress"
+    connect_button_list_item_4: "Receive exclusive rewards"
+    connect_button_list_item_5: "Access curricular resources"
+    connect_button_list_item_6: "Parent and teacher dashboard access"
+    connect_button_list_item_7: "Unlock generative AI features"
+    connect_button_list_item_8: "Creative mode publishing and exporting"
+    connect_button_connected_blurb: "Congratulations, you have linked your accounts! Invite your friends to help reach the community linking goals."
+    connect_button_not_connected_blurb: "The more people link their accounts, the more rewards you'll receive!"
+
+
+
+
+
+
+

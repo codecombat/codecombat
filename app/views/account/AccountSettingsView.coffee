@@ -39,7 +39,7 @@ module.exports = class AccountSettingsView extends RootView
     @listenTo @, 'save-user-success', @onUserSaveSuccess
     @listenTo @, 'save-user-error', @onUserSaveError
 
-    @robloxButton = new RobloxButton({ el: @$el.find('#roblox-button')[0] })
+    @robloxButton = new RobloxButton({ propsData: { size: 'small' }, el: @$el.find('#roblox-button')[0] })
 
   afterInsert: ->
     @openModalView new CreateAccountModal() if me.get('anonymous')
