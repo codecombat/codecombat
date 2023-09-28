@@ -9,6 +9,7 @@ RootView = require 'views/core/RootView'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 globalVar = require 'core/globalVar'
 utils = require 'core/utils'
+RobloxButton = require('./robloxButton.vue').default
 
 module.exports = class AccountSettingsView extends RootView
   id: 'account-settings-view'
@@ -38,6 +39,8 @@ module.exports = class AccountSettingsView extends RootView
     @listenTo @, 'save-user-success', @onUserSaveSuccess
     @listenTo @, 'save-user-error', @onUserSaveError
 
+    @robloxButton = new RobloxButton({ el: @$el.find('#roblox-button')[0] })
+    
   afterInsert: ->
     @openModalView new CreateAccountModal() if me.get('anonymous')
 
@@ -314,3 +317,7 @@ module.exports = class AccountSettingsView extends RootView
       if godmodeCheckbox.length
         permissions.push 'godmode' if godmodeCheckbox.prop('checked')
       @user.set('permissions', permissions)
+
+  destroy: ->
+    @robloxButton.destroy()
+    super()

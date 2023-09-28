@@ -1,0 +1,30 @@
+extends /templates/common/table
+
+block tableResultsHeader
+  tr
+    th(colspan=me.isAdmin() ? 4 : 3)
+      span(data-i18n="general.results")
+        | Results
+      span
+        |: #{documents.length}
+
+block tableHeader
+  tr
+    th(data-i18n="general.date")
+    th Type
+    th Source
+    if me.isAdmin()
+      th(data-i18n="editor.delete")
+
+block tableBody
+  for document in documents
+    tr(data-document=document.get('_id') data-name=document.get('name'))
+      td(title=document.get('created'))
+        a(href='/editor/' + page + '/' + document.get('_id'))
+          | #{moment(document.get('created')).format('lll')}
+      td #{document.get('type')}
+      td.source #{document.get('source')}
+      if me.isAdmin() && document.get('visibility') != 'published'
+        td
+          button.ai-document-tool-button.btn.btn-primary.btn-sm#delete-button(data-i18n="editor.delete")
+

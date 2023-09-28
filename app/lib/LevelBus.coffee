@@ -4,6 +4,7 @@ LevelSession = require 'models/LevelSession'
 utils = require 'core/utils'
 tagger = require 'lib/SolutionConceptTagger'
 store = require('core/store')
+Concepts = require 'collections/Concepts'
 
 module.exports = class LevelBus extends Bus
 
@@ -116,7 +117,8 @@ module.exports = class LevelBus extends Bus
 
     @changedSessionProperties.code = true
     @changedSessionProperties.heroCode = undefined
-    if e.spell.level.isType('ladder') and e.spell.team is 'ogres'
+    if e.spell.level.isType('ladder')
+      # lets always set heroCode for ladder so that we don't save hero-placeholder-1 anyway
       @changedSessionProperties.heroCode = e.spell.getSource()
     @session.set({'code': code})
     @saveSession()
@@ -283,10 +285,8 @@ module.exports = class LevelBus extends Bus
     Backbone.Mediator.publish 'level:session-will-save', session: @session
     patch = {}
     patch[prop] = @session.get(prop) for prop of @changedSessionProperties
-    if heroCode # let's only update trueSpell of session
-      patch.code ?= {}
-      delete patch.code['hero-placeholder-1']
-      patch.code['hero-placeholder'] = heroCode
+    if heroCode # let's only update trueSpell of session(hero-placeholder for all ladders)
+      patch.code = { 'hero-placeholder': { plan: heroCode }, 'hero-placeholder-1': { plan: '' } }
     delete patch.code if _.isEmpty(patch.code) # don't update empty code
     @changedSessionProperties = {}
 
@@ -297,17 +297,23 @@ module.exports = class LevelBus extends Bus
 
   updateSessionConcepts: ->
     return unless @session.get('codeLanguage') in ['javascript', 'python']
-    try
-      tags = tagger({ast: @session.lastAST, language: @session.get('codeLanguage')})
-      tags = _.without(tags, 'basic_syntax')
-      @session.set('codeConcepts', tags)
-      @changedSessionProperties.codeConcepts = true
-    catch e
-      # Just in case the concept tagger system breaks. Esper needed fixing to handle
-      # the Python skulpt AST, the concept tagger is not fully tested, and this is a
-      # critical piece of code, so want to make sure this can fail gracefully.
-      console.error('Unable to parse concepts from this AST.')
-      console.error(e)
+    @loadConcepts (concepts) => 
+      try
+        tags = tagger({ast: @session.lastAST, language: @session.get('codeLanguage')}, concepts)
+        tags = _.without(tags, 'basic_syntax')
+        @session.set('codeConcepts', tags)
+        @changedSessionProperties.codeConcepts = true
+      catch e
+        # Just in case the concept tagger system breaks. Esper needed fixing to handle
+        # the Python skulpt AST, the concept tagger is not fully tested, and this is a
+        # critical piece of code, so want to make sure this can fail gracefully.
+        console.warn('Unable to parse concepts from this AST.')
+        console.warn(e)
+
+  loadConcepts: (onConceptsLoaded) ->
+    concepts = new Concepts([])
+    @listenTo(concepts, 'sync', onConceptsLoaded)
+    concepts.fetch(data: { skip: 0, limit: 1000 })
 
 
   destroy: ->

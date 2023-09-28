@@ -130,6 +130,8 @@ module.exports = class RootView extends CocoView
     @openModalView new CreateAccountModal(options)
 
   onClickLoginButton: (e) ->
+    loginMessage = e.target.dataset.loginMessage
+    nextUrl = e.target.dataset.nextUrl
     AuthModal = require 'views/core/AuthModal'
     if @id is 'home-view'
       properties = { category: if utils.isCodeCombat then 'Homepage' else 'Home' }
@@ -137,7 +139,7 @@ module.exports = class RootView extends CocoView
 
       eventAction = $(e.target)?.data('event-action')
       window.tracker?.trackEvent(eventAction, properties) if eventAction
-    @openModalView new AuthModal()
+    @openModalView new AuthModal({loginMessage, nextUrl})
 
   onTrackClickEvent: (e) ->
     eventAction = $(e.target)?.closest('a')?.data('event-action')
@@ -189,17 +191,13 @@ module.exports = class RootView extends CocoView
 
   addLanguagesToSelect: ($select, initialVal) ->
     # For now, we only want to support a few languages for Ozaria that we have people working to translate.
-    if utils.isOzaria
-      supportedLanguages = ['en-US', 'es-419', 'zh-HANS', 'zh-HANT', 'ru', 'pt-BR', 'pt-PT', 'ja', 'lt', 'vi']
-      filteredLocale = _.pick(locale, supportedLanguages)
-    else
-      filteredLocale = locale
+    filteredLocale = locale
     codes = _.keys(filteredLocale)
 
     # Because we only support a few languages, we force English as the default here:
     initialVal ?= me.get('preferredLanguage', true)
     if utils.isOzaria and initialVal not in codes
-      initialVal = supportedLanguages[0]
+      initialVal = 'en-US'
 
     if $select.is('ul') # base-flat
       @$el.find('.language-dropdown-current')?.text(locale[initialVal].nativeDescription)

@@ -24,12 +24,12 @@ block tableBody
       td(title=scenario.get('created'))
         a(href='/editor/' + page + '/' + scenario.get('_id'))
           | #{moment(scenario.get('created')).format('lll')}
-      td #{scenario.get('persona')} - #{scenario.get('mode')} - #{scenario.get('tool')} - #{scenario.get('task')} - #{scenario.get('doc')}
+      td #{scenario.get('mode')} - #{scenario.get('tool')} - #{scenario.get('task')} - #{scenario.get('doc')}
       td
         if scenario.get('releasePhase') == 'released'
           span ✅
       td #{scenario.get('name')}
-      td !{marked(scenario.get('description'))}
+      td !{marked(scenario.get('description') || '')}
       if me.isAdmin() && scenario.get('releasePhase') != 'released'
         td
           button.ai-scenario-tool-button.btn.btn-primary.btn-sm#delete-button(data-i18n="editor.delete")

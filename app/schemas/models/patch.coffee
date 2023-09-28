@@ -15,6 +15,11 @@ patchables = [
   'cinematic'
   'cutscene'
   'resource_hub_resource'
+  'concept'
+  'standards',
+  'ai_scenario',
+  'ai_chat_message',
+  'ai_document'
 ]
 
 PatchSchema = c.object({title: 'Patch', required: ['target', 'delta', 'commitMessage']}, {

@@ -1,81 +1,73 @@
-const c = require('./../schemas')
+// WARNING: This file is auto-generated from within AI HackStack. Do not edit directly.
+// Instead, edit the corresponding Zod schema in the HackStack repo and run `npm run build` or `npm run build:schemas
+//
+// Last updated: 2023-09-08T05:55:38.100Z
+
 const _ = require('lodash')
+const c = require('./../schemas')
 
 const AIScenarioSchema = c.object({
   title: 'AI Scenario',
   description: 'A generative AI scenario',
-  required: ['releasePhase'],
-  default: {
-    releasePhase: 'beta',
-    interactions: { start: [] }
-  }
 })
-
-c.extendNamedProperties(AIScenarioSchema)
 
 _.extend(AIScenarioSchema.properties, {
-  description: {
-    title: 'Description',
-    description: 'A short explanation of what this scenario is about',
-    type: 'string',
-    maxLength: 2000,
-    format: 'markdown'
-  },
   persona: {
-    type: 'string',
     title: 'Persona',
-    description: 'Which persona this scenario is for (kid, teacher, parent, etc.)'
+    type: 'string',
+    description: 'Which persona this scenario is for (kid, teacher, parent, etc.)',
   },
   mode: {
-    type: 'string',
     title: 'Mode',
+    type: 'string',
     description: 'Which mode this scenario is for (learn to use, practice using, etc.)',
-    enum: ['learn to use', 'practice using', 'use', 'teach how to use']
+    enum: ['learn to use', 'practice using', 'use', 'teach how to use'],
   },
   tool: {
-    type: 'string',
     title: 'Tool',
-    description: 'Which generative AI tool this scenario is for (ChatGPT 4, ChatGPT 3.5, Stable Diffusion, DALL-E 2, etc.)'
+    type: 'string',
+    description:
+      'Which generative AI tool this scenario is for (ChatGPT 4, ChatGPT 3.5, Stable Diffusion, DALL-E 2, etc.)',
   },
   task: {
-    type: 'string',
     title: 'Task',
-    description: 'Which task verb this scenario is for (make, edit, explain, etc.)'
+    type: 'string',
+    description: 'Which task verb this scenario is for (make, edit, explain, etc.)',
   },
   doc: {
-    type: 'string',
     title: 'Doc',
-    description: 'Which document type this scenario is for (a webpage, an essay, an image, etc.))'
+    type: 'string',
+    description: 'Which document type this scenario is for (a webpage, an essay, an image, etc.))',
   },
   releasePhase: {
-    type: 'string',
-    enum: ['beta', 'released'],
     title: 'Release Phase',
-    description: 'Scenarios start off in beta, then are released when they are completed'
+    type: 'string',
+    description:
+      'Scenarios are initially created as drafts, start off publicly in beta, then are released when they are completed',
+    enum: ['beta', 'released', 'draft'],
   },
-  interactions: {
-    title: 'Interactions',
-    type: 'object',
-    description: 'The choices, messages, prompts, teacher responses, and other interactions making up this scenario',
-    properties: {
-      start: { type: 'array', description: 'The main linear interactions triggered at the start of the scenario', items: { $ref: '#/definitions/inlineInteraction' } },
-      dynamic: { type: 'array', description: 'Any dynamic interactions triggered by events during the scenario', items: { $ref: '#/definitions/inlineInteraction' } },
-    }
+  initialActionQueue: {
+    title: 'Initial Action Queue',
+    type: 'array',
+    description: 'Actions to add to a project when it is created from this scenario',
+    items: { type: ['object', 'string'], format: 'chat-message-link' },
   },
   i18n: {
-    additionalProperties: true,
+    title: 'I18n',
     type: 'object',
+    description: 'Help translate this property',
     format: 'i18n',
-    props: ['name', 'description']
+    props: ['mode', 'task', 'doc', 'name', 'description']
   }
 })
 
-AIScenarioSchema.definitions = { inlineInteraction: c.InlineInteractionSchema }
+AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue']
+
+c.extendNamedProperties(AIScenarioSchema, 'ai_scenario')
 c.extendBasicProperties(AIScenarioSchema, 'ai_scenario')
-c.extendSearchableProperties(AIScenarioSchema)
+c.extendSearchableProperties(AIScenarioSchema, 'ai_scenario')
 c.extendVersionedProperties(AIScenarioSchema, 'ai_scenario')
-c.extendPermissionsProperties(AIScenarioSchema, 'ai_scenario')
-c.extendPatchableProperties(AIScenarioSchema)
-c.extendTranslationCoverageProperties(AIScenarioSchema)
+c.extendPatchableProperties(AIScenarioSchema, 'ai_scenario')
+c.extendTranslationCoverageProperties(AIScenarioSchema, 'ai_scenario')
 
 module.exports = AIScenarioSchema

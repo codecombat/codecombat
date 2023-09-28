@@ -83,7 +83,8 @@ module.exports = class CampaignView extends RootView
     'click #anon-classroom-signup-close': 'onClickAnonClassroomClose'
     'click #anon-classroom-join-btn': 'onClickAnonClassroomJoin'
     'click #anon-classroom-signup-btn': 'onClickAnonClassroomSignup'
-    'click .cube-level': 'onSpinningCubeClick' # Minecraft Modal
+    'click .roblox-level': 'onRobloxLevelClick'
+    'click .hackstack-level': 'onHackStackLevelClick'
     'click .map-background': 'onClickMap'
     'click .level': 'onClickLevel'
     'dblclick .level': 'onDoubleClickLevel'
@@ -464,8 +465,7 @@ module.exports = class CampaignView extends RootView
       @maybeShowPendingAnnouncement()
 
     # Roblox Modal:
-    @maybeShowMinecraftModal()
-
+    @maybeShowRobloxModal()
 
   updateClassroomSessions: ->
     if @classroom
@@ -500,25 +500,27 @@ module.exports = class CampaignView extends RootView
       topScore = _.first(LevelSession.getTopScores({session: session.toJSON(), level}))
       @levelScoreMap[levelOriginal] = topScore
 
-  userQualifiesForMinecraftModal: ->
+  userQualifiesForRobloxModal: ->
     return false if me.freeOnly()
     return false if storage.load 'roblox-clicked'
-    return false if userUtils.isInLibraryNetwork() or userUtils.libraryName()
+    return false if userUtils.isInLibraryNetwork() or userUtils.libraryName() or me.get('isCreatedViaLibrary')
     return true if me.isPremium()
     return false if me.get('hourOfCode')
     return true if storage.load 'paywall-reached'
     return false
 
-  # Roblox Modal:
-  maybeShowMinecraftModal: ->
-    if @userQualifiesForMinecraftModal()
-      $(".cube-level").show()
+  maybeShowRobloxModal: ->
+    if @userQualifiesForRobloxModal()
+      $(".roblox-level").show()
 
-
-  # Minecraft Modal:
-  onSpinningCubeClick: (e) ->
+  onRobloxLevelClick: (e) ->
     window.tracker?.trackEvent "Mine Explored", engageAction: "campaign_level_click"
     @openModalView new MineModal()
+
+  onHackStackLevelClick: (e) ->
+    window.tracker?.trackEvent "HackStack Explored", engageAction: "campaign_level_click"
+    # Backbone.Mediator.publish 'router:navigate', route: '/ai/new_project'
+    window.open '/ai/new_project', '_blank'
 
   setCampaign: (@campaign) ->
     @render()
@@ -734,7 +736,7 @@ module.exports = class CampaignView extends RootView
 
   paywallReached: () ->
     storage.save('paywall-reached', true)
-    @maybeShowMinecraftModal()
+    @maybeShowRobloxModal()
 
   annotateLevels: (orderedLevels) ->
     return if @isClassroom()
@@ -1050,7 +1052,7 @@ module.exports = class CampaignView extends RootView
     @$levelInfo?.hide()
     levelElement = $(e.target).parents('.level')
     levelSlug = levelElement.data('level-slug')
-    return unless levelSlug # Minecraft Modal
+    return unless levelSlug # Roblox Modal
     levelOriginal = levelElement.data('level-original')
     if @editorMode
       return @trigger 'level-clicked', levelOriginal
@@ -1556,8 +1558,11 @@ module.exports = class CampaignView extends RootView
     if what in ['level', 'xp']
       return me.showGemsAndXpInClassroom() or !isStudentOrTeacher
 
-    if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans']
+    if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements']
       return !isStudentOrTeacher and not @editorMode
+
+    if what in ['clans']
+      return !isStudentOrTeacher and not @editorMode and not me.get('isCreatedViaLibrary')
 
     if what in ['back-to-classroom']
       return isStudentOrTeacher and (not application.getHocCampaign() or @terrain is 'intro') and not @editorMode
@@ -1604,12 +1609,18 @@ module.exports = class CampaignView extends RootView
     if what is 'vaughan-library-logo'
       return userUtils.libraryName() is 'vaughan-library'
 
+    if what is 'surrey-library-logo'
+      return userUtils.libraryName() is 'surrey-library'
+
     if what is 'league-arena'
       # Note: Currently the tooltips don't work in the campaignView overworld.
-      return not me.isAnonymous() and @campaign?.get('slug') and not @editorMode
+      return not me.isAnonymous() and @campaign?.get('slug') and not @editorMode and not me.get('isCreatedViaLibrary')
 
     if what is 'roblox-level'
-      return @userQualifiesForMinecraftModal()
+      return @userQualifiesForRobloxModal()
+
+    if what is 'hackstack'
+      return me.getHackStackExperimentValue?() is 'beta' and not me.get('isCreatedViaLibrary')
 
     return true
 

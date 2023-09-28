@@ -1,11 +1,14 @@
-product = COCO_PRODUCT ? 'codecombat'
+product = (COCO_PRODUCT ? process?.env?.COCO_PRODUCT) ? 'codecombat'
 isCodeCombat = product == 'codecombat'
 isOzaria = !isCodeCombat
 _ = require 'lodash'
 
 # Yuqiang: i don't know why we use same slugify from different source but let's keep it right now since change it sometimes trigger unbelievable bug
 if isCodeCombat
-  slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
+  if global and global._ and global._.str and global._.str.slugify # TODO: why _.string on client and _.str on server?
+    slugify = global._.str.slugify # server
+  else if _ and _.string and _.string.slugify
+    slugify = _.string.slugify # client
 else
   slugify = require('underscore.string').slugify # TODO: why _.string on client and _.str on server?
 
@@ -902,6 +905,7 @@ usStateCodes =
       getStateNameByStateCode: getStateNameByStateCode
       sanitizeStateName: sanitizeStateName
       getStateCodeByStateName: getStateCodeByStateName
+      codes: Object.keys stateNamesByCode
     }
   )()
 
@@ -1097,10 +1101,10 @@ arenas = [
   {season: 6, slug: 'magma-mountain'   , type: 'regular',      start: new Date("2022-09-01T00:00:00.000-07:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-11T07:00:00.000-08:00"), levelOriginal: '62f9f6506428860025b15a8b', tournament: '638557acf7cd36e695a1aad0', image: '/file/db/level/62f9f6506428860025b15a8b/Codecombat-Magma-Mountain-Banner-02b%20(1).jpg'}
   {season: 6, slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-08:00"), results: new Date("2023-01-11T07:00:00.000-08:00"), levelOriginal: '635bceb16dc3150020acb1f8', tournament: '63855798f7cd36e695a1aac5', image: '/file/db/level/635bceb16dc3150020acb1f8/Lava-Lake-Arena-Banner-02.jpg'}
   {season: 7, slug: 'frozen-fortress'  , type: 'regular',      start: new Date("2023-01-01T00:00:00.000-08:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: '639c9a5fad4eb7001f66c801', tournament: '64260960f1c07d0018299145', image: '/file/db/level/639c9a5fad4eb7001f66c801/AILeague-Banner-Frozen-Fortress-01.jpg'}
-  {season: 7, slug: 'equinox'          , type: 'championship', start: new Date("2023-04-01T00:00:00.000-07:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: '6406d8b2da5aca06eb3560d7', tournament: '642609bf54cb921c6d8cf3df'}
-  {season: 8, slug: 'farmers-feud'     , type: 'regular',      start: new Date("2023-05-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-13T07:00:00.000-07:00"), levelOriginal: '6436ae25bb80330019b127c6'}
-  {season: 8, slug: 'farmscape'        , type: 'championship', start: new Date("2023-08-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-13T07:00:00.000-07:00"), levelOriginal: ''}
-  {season: 9, slug: 'storm-siege'      , type: 'regular',      start: new Date("2023-09-01T00:00:00.000-07:00"), end: new Date("2024-01-01T00:00:00.000-08:00"), results: new Date("2024-01-10T07:00:00.000-08:00"), levelOriginal: ''}
+  {season: 7, slug: 'equinox'          , type: 'championship', start: new Date("2023-04-01T00:00:00.000-07:00"), end: new Date("2023-05-01T00:00:00.000-07:00"), results: new Date("2023-05-10T07:00:00.000-07:00"), levelOriginal: '6406d8b2da5aca06eb3560d7', tournament: '642609bf54cb921c6d8cf3df', image: '/file/db/level/6406d8b2da5aca06eb3560d7/AILeague-Banner-Equinox-Cup-01.jpg'}
+  {season: 8, slug: 'farmers-feud'     , type: 'regular',      start: new Date("2023-05-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-14T07:00:00.000-07:00"), levelOriginal: '6436ae25bb80330019b127c6', tournament: '64c836a5d95277dfd69f9ae3', image: '/file/db/level/6436ae25bb80330019b127c6/AILeague-Banner-Farmer\'s-Feud-02.jpg'}
+  {season: 8, slug: 'farmscape'        , type: 'championship', start: new Date("2023-07-01T00:00:00.000-07:00"), end: new Date("2023-09-01T00:00:00.000-07:00"), results: new Date("2023-09-14T07:00:00.000-07:00"), levelOriginal: '649ab0387be08b00fdf31e8a', tournament: '64c836c5d95277dfd69f9af1', image: '/file/db/level/649ab0387be08b00fdf31e8a/AILeague-Banner-Farmer\'s-Feud-03.jpg'}
+  {season: 9, slug: 'storm-siege'      , type: 'regular',      start: new Date("2023-09-01T00:00:00.000-07:00"), end: new Date("2024-01-01T00:00:00.000-08:00"), results: new Date("2024-01-10T07:00:00.000-08:00"), levelOriginal: '64c792d1562b9a008d3e2e1a',                                         image: '/file/db/level/64c792d1562b9a008d3e2e1a/StormSiegeBannerv3.png'}
   {season: 9, slug: 'snowhold'         , type: 'championship', start: new Date("2023-12-01T00:00:00.000-08:00"), end: new Date("2024-01-01T00:00:00.000-08:00"), results: new Date("2024-01-10T07:00:00.000-08:00"), levelOriginal: ''}
 ]
 
@@ -1113,7 +1117,7 @@ AILeagueSeasons = [
   {number: 5, championshipType: 'blitz', image: '/images/pages/league/sand-storm-blitz.png', video: '4d73a54ff2cdc9b0084a538beb476437', videoThumbnailTime: '1638s'}
   {number: 6, championshipType: 'clash', image: '/images/pages/league/lava-lake-clash.png',  video: '6650f5c84f65ecd1709cca1210c4e9ab', videoThumbnailTime: '1762s'}
   {number: 7, championshipType: 'cup',   image: '/images/pages/league/equinox-cup.png',      video: '4832912db10162e24cb2eb86df6c36d7', videoThumbnailTime: '1021s'}
-  {number: 8, championshipType: 'blitz', image: '/images/pages/league/farmscape-blitz.png',  video: '',                                 videoThumbnailTime: ''}
+  {number: 8, championshipType: 'blitz', image: '/images/pages/league/farmscape-blitz.png',  video: 'eae72056cd1e54f77ec35612c2d0c4b5', videoThumbnailTime: '2681s'}
   {number: 9, championshipType: 'clash', image: '/images/pages/league/snowhold-clash.png',   video: '',                                 videoThumbnailTime: ''}
 ]
 
@@ -1213,6 +1217,8 @@ ozBaseURL = ->
 capitalizeFirstLetter = (str) -> (str[0] or '').toUpperCase() + str.slice(1)
 
 markdownToPlainText = (text) ->
+  # First, replace HTML tags in text with their plain text contents
+  text = text.replace /<[^>]*>/g, ''
   plainTextMarkedRenderer = new marked.Renderer()
   for element in ['code', 'blockquote', 'html', 'heading', 'hr', 'list', 'listitem', 'paragraph', 'table', 'tablerow', 'tablecell', 'strong', 'em', 'codespan', 'br', 'del', 'text']
     plainTextMarkedRenderer[element] = (text) -> text

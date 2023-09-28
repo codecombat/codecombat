@@ -1,29 +1,39 @@
-const c = require('./../schemas')
+// WARNING: This file is auto-generated from within AI HackStack. Do not edit directly.
+// Instead, edit the corresponding Zod schema in the HackStack repo and run `npm run build` or `npm run build:schemas
+//
+// Last updated: 2023-09-08T05:55:38.100Z
+
 const _ = require('lodash')
+const c = require('./../schemas')
 
 const AIDocumentSchema = c.object({
   title: 'AI Document',
-  description: 'A generative AI document',
-  required: ['type'], // TODO: required properties (name? content? owner?)
-  default: {}
+  description: 'A code/image/whatever thing that is hacked on inside an AI project',
 })
 
 _.extend(AIDocumentSchema.properties, {
-  type: { type: 'string', description: 'The file type (html, py, jpg, etc.)' },
-  owner: c.objectId(),
-  scenario: c.objectId(),
-  project: c.objectId(), // Scenario link, project link, both, neither?
-  created: c.date({ title: 'Created', readOnly: true }),
-  name: { type: 'string' },
-  content: c.object({}, {
-    text: { type: 'string', description: 'Text contents of this document' },
-    url: { type: 'string', format: 'file', description: 'File link to binary contents of this document' }
-  })
+  source: {
+    title: 'Source',
+    type: 'object',
+    description: 'The source of the document',
+    format: 'document-by-type',
+    additionalProperties: true,
+    properties: {
+      type: { type: 'string', title: 'Type', description: 'The type of document' },
+      text: { type: 'string', title: 'Text', description: 'The document text source' },
+      filePath: { type: 'string', title: 'File Path', description: 'The file path of the document' },
+      blob: { type: 'string', title: 'Blob', description: 'The blob source of the document' },
+      i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this property' }
+    }
+  }
 })
 
-AIDocumentSchema.definitions = {}
+AIDocumentSchema.required = ['source']
+
 c.extendBasicProperties(AIDocumentSchema, 'ai_document')
-// c.extendSearchableProperties(AIDocumentSchema)
-// c.extendPermissionsProperties(AIDocumentSchema, 'ai_document')
+c.extendSearchableProperties(AIDocumentSchema, 'ai_document')
+c.extendPatchableProperties(AIDocumentSchema, 'ai_document')
+c.extendVersionedProperties(AIDocumentSchema, 'ai_document')
+c.extendTranslationCoverageProperties(AIDocumentSchema, 'ai_document')
 
 module.exports = AIDocumentSchema

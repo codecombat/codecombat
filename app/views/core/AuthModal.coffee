@@ -34,6 +34,13 @@ module.exports = class AuthModal extends ModalView
     @previousFormInputs = options.initialValues or {}
     @previousFormInputs.emailOrUsername ?= @previousFormInputs.email or @previousFormInputs.username
 
+    if options.loginMessage 
+      @loginMessage = options.loginMessage
+
+    if options.nextUrl
+      @nextUrl = options.nextUrl
+      window.nextURL = options.nextUrl
+
     if me.useSocialSignOn()
       # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
       application.gplusHandler.loadAPI({ success: => _.defer =>
@@ -53,6 +60,10 @@ module.exports = class AuthModal extends ModalView
   afterInsert: ->
     super()
     _.delay (=> $('input:visible:first', @$el).focus()), 500
+
+  destroy: ->
+    if(@nextUrl and @nextUrl == window.nextURL) 
+      delete window.nextURL
 
   onSignupInstead: (e) ->
     CreateAccountModal = require('./CreateAccountModal')
@@ -255,7 +266,7 @@ loginNavigate = (subModalContinue) ->
 
   if not me.isAdmin()
     if me.isAPIClient()
-        application.router.navigate('/api-dashboard', { trigger: true })
+        application.router.navigate('/partner-dashboard', { trigger: true })
     else if me.isStudent()
       application.router.navigate('/students', { trigger: true })
     else if me.isTeacher()

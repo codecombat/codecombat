@@ -20,6 +20,11 @@ module.exports = class LevelChatView extends CocoView
     'click i': 'onIconClick'
     'click .fix-code-button': 'onFixCodeClick'
 
+  subscriptions:
+    'level:toggle-solution': 'onToggleSolution'
+    'level:close-solution': 'onCloseSolution'
+    'level:add-user-chat': 'onAddUserChat'
+
   constructor: (options) ->
     @levelID = options.levelID
     @session = options.session
@@ -31,10 +36,11 @@ module.exports = class LevelChatView extends CocoView
 
     ## TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
     #@listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
-    @visible = me.isAdmin() or utils.getQueryVariable 'ai'
+    @visible = me.getLevelChatExperimentValue() is 'beta'  # not 'control'
 
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
+    @diffShown = false
 
   updateMultiplayerVisibility: ->
     return unless @$el?
@@ -44,7 +50,7 @@ module.exports = class LevelChatView extends CocoView
       console.error "Couldn't toggle the style on the LevelChatView to #{Boolean @session.get('multiplayer')} because of an error:", e
 
   afterRender: ->
-    @chatTables = $('table', @$el)
+    @chatTables = $('.table', @$el)
     #@updateMultiplayerVisibility()
     @$el.toggle @visible
     @onWindowResize {}
@@ -54,7 +60,7 @@ module.exports = class LevelChatView extends CocoView
     @clearOldMessagesInterval = setInterval(@clearOldMessages, 5000)
 
   clearOldMessages: =>
-    rows = $('.closed-chat-area tr')
+    rows = $('.closed-chat-area.tr')
     for row in rows
       row = $(row)
       added = row.data('added')
@@ -71,7 +77,7 @@ module.exports = class LevelChatView extends CocoView
     @playSound 'chat_received'
 
   messageObjectToJQuery: ({ message, messageId, existingRow }) ->
-    td = $('<td class="message-content"></td>')
+    td = $('<div class="td message-content"></div>')
     content = message.content or message.text
 
     # Hide incomplete structured chat tags
@@ -80,10 +86,10 @@ module.exports = class LevelChatView extends CocoView
     content = content.replace /^\|Issue\|?:? ?(.*?)$/gm, '\n$1'
     content = content.replace /^\|Explanation\|?:? ?(.*?)$/gm, '\n*$1*\n'
     #content = content.replace /\|Code\|?:? ?`{0,3}\n?((.|\n)*?)`{0,3}\n?$/g, '```$1```'
-    content = content.replace /\|Code\|?:? ?```.*?\n((.|\n)*?)```\n?/g, (match, p1) =>
+    content = content.replace /\|Code\|?:? ?\n?```.*?\n((.|\n)*?)```\n?/g, (match, p1) =>
       @lastFixedCode = p1
       '[Show Me]'
-    content = content.replace /\|Code\|?:? ?`{0,3}.*?\n((.|\n)*?)`{0,3}\n?$/g, ( match, p1) ->
+    content = content.replace /\|Code\|?:? ?\n?`{0,3}.*?\n((.|\n)*?)`{0,3}\n?$/g, ( match, p1) ->
       numberOfLines = (p1.match(/\n/g) || []).length + 1
       if p1
         Backbone.Mediator.publish 'level:update-solution', code: p1
@@ -104,7 +110,8 @@ module.exports = class LevelChatView extends CocoView
     content = content.replace /<p><code>((.|\n)*?)(?:(?!<\/code>)(.|\n))*?<\/code><\/p>/g, (match) ->
       match.replace(/<p><code>/g, '<pre><code>').replace(/<\/code><\/p>/g, '</code></pre>')
 
-    content = content.replace /\[Show Me\]/g, '<p><button class="btn btn-illustrated btn-small btn-primary fix-code-button">Show me</button></p>'
+    buttonContent = if @diffShown then 'chat_fix_hide' else 'chat_fix_show'
+    content = content.replace /\[Show Me\]/g, "<p><button class='btn btn-illustrated btn-small btn-primary fix-code-button'>#{$.i18n.t('play_level.' + buttonContent)}</button></p>"
     @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
 
     if _.string.startsWith(content, '/me')
@@ -117,22 +124,24 @@ module.exports = class LevelChatView extends CocoView
       td.append($('<span class="action"></span>').html(content))
 
     else
-      td.append($('<strong></strong>').text((message.authorName or message.sender?.name) + ': '))
+      # td.append($('<strong></strong>').text((message.authorName or message.sender?.name) + ': '))
       td.append($('<span></span>').html(content))
 
     if existingRow?.length
       tr = $(existingRow[0])
-      tr.find('td.message-content').replaceWith(td)
+      tr.find('.td.message-content').replaceWith(td)
     else
-      tr = $('<tr></tr>')
+      tr = $('<div class="tr message-row"></div>')
+      mbody = $('<div class="message-body"></div>')
       if message.authorID is me.id or message.sender?.id is me.id
         tr.addClass('me')
-        avatarTd = $("<td class='player-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player'></a></td>")
+        avatarTd = $("<div class='td player-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player'></a></div>")
       else
-        avatarTd = $("<td class='chatbot-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/images/level/baby-griffin.png' alt='AI'></a></td>")
+        avatarTd = $("<div class='td chatbot-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/images/level/baby-griffin.png' alt='AI'></a></div>")
       tr.addClass 'streaming' if message.streaming
-      tr.append(avatarTd)
-      tr.append(td)
+      mbody.append(avatarTd)
+      mbody.append(td)
+      tr.append(mbody)
     tr
 
   addOne: ({ message, messageId }) ->
@@ -151,7 +160,7 @@ module.exports = class LevelChatView extends CocoView
   trimClosedPanel: ->
     closedPanel = $('.closed-chat-area', @$el)
     limit = 10
-    rows = $('tr', closedPanel)
+    rows = $('.tr', closedPanel)
     for row, i in rows
       break if rows.length - i <= limit
       row.remove()
@@ -185,11 +194,25 @@ module.exports = class LevelChatView extends CocoView
 
   onFixCodeClick: (e) ->
     Backbone.Mediator.publish 'level:toggle-solution', { code: @lastFixedCode ? '' }
+
+  onToggleSolution: ->
     btn = @$el.find('.fix-code-button')
-    if btn.html() == 'Show me'
-      btn.html 'Hide'
+    show = $.i18n.t('play_level.chat_fix_show')
+    hide = $.i18n.t('play_level.chat_fix_hide')
+    @diffShown = !@diffShown
+    if @diffShown
+      btn.html hide
     else
-      btn.html 'Show me'
+      btn.html show
+
+  onCloseSolution: (e) ->
+    @diffShown = false
+    @$el.find('.fix-code-button').html $.i18n.t('play_level.chat_fix_show')
+    if e.removeButton # when code is fixed, remove the button
+      @$el.find('.fix-code-button').parent().remove()
+
+  onAddUserChat: (e) ->
+    @saveChatMessage { text: e.message }
 
   scrollDown: ->
     openPanel = $('.open-chat-area', @$el)[0]
@@ -203,6 +226,7 @@ module.exports = class LevelChatView extends CocoView
     # This will enrich the message with the props from other parts of the app
     @listenToOnce chatMessage, 'sync', @onChatMessageSaved
     chatMessage.save()
+    @$el.find('textarea').attr('placeholder', '')
     #@onNewMessage message: chatMessage.get('message'), messageId: chatMessage.get('_id')  # TODO: do this now and add message id link later
 
   onChatMessageSaved: (chatMessage) ->
@@ -212,7 +236,7 @@ module.exports = class LevelChatView extends CocoView
     @fetchChatMessageStream chatMessage.id
 
   fetchChatMessageStream: (chatMessageId) ->
-    model = utils.getQueryVariable('model') or 'gpt-4' # or 'chima'
+    model = utils.getQueryVariable('model') or 'chima' # or 'gpt-4'
     fetch("/db/chat_message/#{chatMessageId}/ai-response?model=#{model}").then co.wrap (response) =>
       reader = response.body.getReader()
       decoder = new TextDecoder('utf-8')
@@ -236,7 +260,7 @@ module.exports = class LevelChatView extends CocoView
     @onNewMessage message: { sender: sender, text: '...', streaming: true }
 
   addToStreamingAIChatMessage: ({ sender, chunk, result }) ->
-    lastRow = @chatTables.find('tr.streaming:last-child')
+    lastRow = @chatTables.find('.tr.streaming:last-child')
     # TODO: I commented out the .closed-chat-area to make this work, should bring that back and not have two elements in lastRow
     tr = @messageObjectToJQuery { message: { sender: sender, text: result, streaming: true }, existingRow: lastRow }
     tr.data('added', new Date().getTime())
@@ -245,7 +269,7 @@ module.exports = class LevelChatView extends CocoView
     @scrollDown()
 
   clearStreamingAIChatMessage: ->
-    lastRow = @chatTables.find('tr.streaming:last-child')
+    lastRow = @chatTables.find('.tr.streaming:last-child')
     lastRow.remove()
 
   onChatResponse: (message) =>
@@ -260,7 +284,7 @@ module.exports = class LevelChatView extends CocoView
         kind: 'bot'
       else
         id: me.get('_id')
-        name: me.displayName() or me.broadName()
+        name: 'player'
         kind: 'player'
     props =
       product: utils.getProduct()
@@ -276,7 +300,7 @@ module.exports = class LevelChatView extends CocoView
       context:
         spokenLanguage: me.get('preferredLanguage', true)
         player: me.get('_id')
-        playerName: me.displayName() or me.broadName()
+        playerName: 'player'
         previousMessages: (m.serializeMessage() for m in (@chatMessages ? []))
       permissions: [{ target: me.get('_id'), access: 'owner' }]
     props.releasePhase = 'beta' if props.example

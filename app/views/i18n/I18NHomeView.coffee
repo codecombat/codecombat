@@ -10,6 +10,10 @@ if utils.isOzaria
 ResourceHubResource = require 'models/ResourceHubResource'
 ChatMessage = require 'models/ChatMessage'
 AIScenario = require 'models/AIScenario'
+AIDocument = require 'models/AIDocument'
+AIChatMessage = require 'models/AIChatMessage'
+Concept = require 'models/Concept'
+StandardsCorrelation = require 'models/StandardsCorrelation'
 
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
@@ -73,11 +77,18 @@ module.exports = class I18NHomeView extends RootView
       @interactive = new CocoCollection([], { url: "/db/interactive#{QUERY_PARAMS}", project: project, model: Interactive })
       @cinematics = new CocoCollection([], { url: "/db/cinematic#{QUERY_PARAMS}", project: project, model: Cinematic })
       @cutscene = new CocoCollection([], { url: "/db/cutscene#{QUERY_PARAMS}", project: project, model: Cutscene })
-      collections = [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @resourceHubResource, @interactive, @cinematics, @cutscene]
+    @resourceHubResource = new CocoCollection([], { url: "/db/resource_hub_resource#{QUERY_PARAMS}", project: project, model: ResourceHubResource })
+    @chatMessage = new CocoCollection([], { url: "/db/chat_message#{QUERY_PARAMS}", project: project, model: ChatMessage })
+    @aiScenario = new CocoCollection([], { url: "/db/ai_scenario#{QUERY_PARAMS}", project: project, model: AIScenario })
+    # @aiChatMessage = new CocoCollection([], { url: "/db/ai_chat_message#{QUERY_PARAMS}", project: project, model: AIChatMessage })
+    # @aiDocument = new CocoCollection([], { url: "/db/ai_document#{QUERY_PARAMS}", project: project, model: AIDocument })
+    @concepts = new CocoCollection([], { url: "/db/concept#{QUERY_PARAMS}", project: project, model: Concept })
+    @standardsCorrelations = new CocoCollection([], { url: "/db/standards#{QUERY_PARAMS}", project: project, model: StandardsCorrelation })
+
+    if utils.isOzaria
+      collections = [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @interactive, @cinematics, @cutscene, @resourceHubResource, @concepts, @standardsCorrelations]
     else
-      @chatMessage = new CocoCollection([], { url: "/db/chat_message#{QUERY_PARAMS}", project: project, model: ChatMessage })
-      @aiScenario = new CocoCollection([], { url: "/db/ai_scenario#{QUERY_PARAMS}", project: project, model: AIScenario })
-      collections = [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @resourceHubResource, @chatMessage, @aiScenario]
+      collections = [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @resourceHubResource, @chatMessage, @aiScenario, @concepts, @standardsCorrelations]
     for c in collections
       c.skip = 0
 
@@ -89,6 +100,8 @@ module.exports = class I18NHomeView extends RootView
   onCollectionSynced: (collection) ->
     for model in collection.models
       model.i18nURLBase = switch model.constructor.className
+        when 'Concept' then '/i18n/concept/'
+        when 'StandardsCorrelation' then '/i18n/standards/'
         when 'ThangType' then '/i18n/thang/'
         when 'LevelComponent' then '/i18n/component/'
         when 'Achievement' then '/i18n/achievement/'
@@ -103,7 +116,9 @@ module.exports = class I18NHomeView extends RootView
         when 'Cutscene' then '/i18n/cutscene/'
         when 'ResourceHubResource' then '/i18n/resource_hub_resource/'
         when 'ChatMessage' then '/i18n/chat_message/'
-        when 'AIScenario' then '/i18n/ai_scenario/'
+        when 'AIScenario' then '/i18n/ai/scenario/'
+        when 'AIChatMessage' then '/i18n/ai/chat_message/'
+        when 'AIDocument' then '/i18n/ai/document/'
     getMore = collection.models.length is PAGE_SIZE
     @aggregateModels.add(collection.models)
     @filteredModels.add(collection.models)

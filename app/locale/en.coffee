@@ -88,6 +88,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     individual_account_warning: "You are logged in as __name__, which is an individual account. Ozaria is for teacher and student accounts only; do you need to update your account?"
     learner_number: "12 Million"
     code_line_number: "1 Billion"
+    dei_initiatives: "What initiatives does Ozaria have to ensure diversity, equity, and inclusion in the game?"
+    dei_initiatives_blurb: "Ozaria is dedicated to promoting diversity, equity, and inclusion (DEI) within the game. Through diverse character representation, equitable opportunities, and an inclusive environment, Ozaria embraces differences and fosters a welcoming experience for players of all backgrounds and abilities. Explore our __deipage__ to learn more about our commitment and initiatives towards DEI in Ozaria."
+    dei_page: "DEI page"
+    ozaria_efficacy: "How does Ozaria measure and demonstrate its effectiveness in improving learning outcomes in the classroom?"
+    ozaria_efficacy_blurb: "We prioritize effectiveness through evidence-based practices and assessment. Our __efficacypage__ offers detailed statistics, real teacher quotes, and compelling case studies demonstrating the transformative impact of Ozaria. By creating meaningful learning experiences and employing evidence-based practices, we design content that delivers the outcomes that matter most to teachers and students."
+    efficacy_page: "efficacy page"
+    social_learning: "Does Ozaria promote social and emotional learning (SEL)?"
+    social_learning_blurb: "Yes! Ozaria actively integrates social and emotional learning (SEL) into its curriculum. Through gamified activities, students develop essential skills such as decision-making, self-awareness, self-management, social awareness, relationship skills, and responsible decision-making. You can learn more about our philosophy on our __selpage__."
+    sel_page: "SEL page"
 
   new_home:
     title_coco: "CodeCombat - Coding games to learn Python and JavaScript"
@@ -711,7 +720,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     already_have_account: "Already have a CodeCombat or Ozaria account"
     select_your_role: "Select your role"
     select_your_state: "Select your state"
-    password_requirements: "8 to 64 characters with no repeating"
+    password_requirements: "4 to 64 characters with no repeating"
     invalid: "Invalid"
     invalid_password: "Invalid password"
     with: "with"
@@ -854,6 +863,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sales: "Sales"
     support: "Support"
     here: "here"
+    from: "From"
 
   units:
     second: "second"
@@ -961,12 +971,17 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     videos: "Videos"
     hints_title: "Hint {{number}}"
     code_saved: "Code Saved"
+    chat_placeholder: "Need coding help? Chat with the AI. (experimental!)"
+    chat_fix_show: "Show Me"
+    chat_fix_hide: "Hide"
     skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Key Shortcuts"
     loading_start: "Start Level"
     loading_start_combo: "Start Combo Challenge"
     loading_start_concept: "Start Concept Challenge"
     problem_alert_title: "Fix Your Code"
+    problem_alert_need_help: "Need help?"
+    problem_alert_ask_the_ai: "Ask the AI"
     time_current: "Now:"
     time_total: "Max:"
     time_goto: "Go to:"
@@ -1801,6 +1816,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     delete_this_account: "Delete this account permanently"
     reset_progress_tab: "Reset All Progress"
     reset_your_progress: "Clear all your progress and start over"
+    connect_roblox_tab: "Connect Roblox"
+    connect_roblox_button: "Connect"
+    re_connect_roblox_button: "Connect Another Account"
+    disconnect_roblox_button: "Disconnect"
+    roblox_connected: "Your account <strong>__username__</strong> is connected to Roblox."
+    roblox_not_connected: "Connect your CodeCombat and Roblox accounts."
+    roblox_disconnect_confirm: "Are you sure you want to disconnect your Roblox account?"
     god_mode: "God Mode"
     emails_tab: "Emails"
     admin: "Admin"
@@ -2174,6 +2196,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_live_completion: "Classroom Code Autocomplete: "
     learn_without_classroom_title: "You can still learn and play without a classroom"
     learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
+    all_courses_completed: "All Courses Completed!"
+    all_units_completed: "All Units Completed!"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -2348,6 +2372,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     status_partly_expires: "Partly expires on {{date}}"
     select_all: "Select All"
     project: "Project"
+    projects: "Projects"
     project_gallery: "Project Gallery"
     view_project: "View Project"
     unpublished: "(unpublished)"
@@ -2721,6 +2746,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   editor:
     main_title: "CodeCombat Editors"
+    concept_title: "Concept Editor"
+    standards_title: "Standards Correlation Editor"
     article_title: "Article Editor"
     thang_title: "Thang Editor"
     level_title: "Level Editor"
@@ -2731,6 +2758,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     chat_title: "Chat Editor"
     ai_scenario_title: "AI Scenario Editor"
     ai_project_title: "AI Project Editor"
+    ai_model_title: "AI Model Editor"
+    ai_document_title: "AI Document Editor"
+    ai_chat_message_title: "AI Chat Message Editor"
     resource_title_general: "__resource__ Editor"
     back: "Back"
     revert: "Revert"
@@ -2778,6 +2808,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_systems_btn_add: "Add System"
     level_components_title: "Back to All Thangs"
     level_components_type: "Type"
+    concept_edit_title: "Edit Concept"
+    standards_edit_title: "Edit Standards Correlation"
     level_component_edit_title: "Edit Component"
     level_component_config_schema: "Config Schema"
     level_system_edit_title: "Edit System"
@@ -2790,7 +2822,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ai_scenario_edit_title_general: "Edit __scenario__"
     ai_project_edit_title: "Edit Project"
     ai_project_edit_title_general: "Edit __project__"
+    ai_model_edit_title: "Edit Model"
+    ai_document_edit_title: "Edit Document"
+    ai_chat_message_edit_title: "Edit Chat Message"
     create_system_title: "Create New System"
+    new_concept_title: "Create New Concept"
+    new_standards_title: "Create New Standards Correlation"
     new_component_title: "Create New Component"
     new_component_field_system: "System"
     new_article_title: "Create a New Article"
@@ -2813,7 +2850,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     new_ai_scenario_title_login: "Log In to Create a New Scenario"
     new_ai_project_title: "Create a New Project"
     new_ai_project_title_login: "Log In to Create a New Project"
+    new_ai_model_title: "Create a New Model"
+    new_ai_model_title_login: "Log In to Create a New Model"
+    new_ai_document_title: "Create a New Document"
+    new_ai_document_title_login: "Log In to Create a New Document"
+    new_ai_chat_message_title: "Create a New Chat Message"
+    new_ai_chat_message_title_login: "Log In to Create a New Chat Message"
     article_search_title: "Search Articles Here"
+    concept_search_title: "Search Concepts Here"
+    standards_search_title: "Search Standards Correlations Here"
     thang_search_title: "Search Thang Types Here"
     level_search_title: "Search Levels Here"
     achievement_search_title: "Search Achievements"
@@ -2823,6 +2868,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     chat_search_title: "Search Chats"
     ai_scenario_search_title: "Search Scenarios"
     ai_project_search_title: "Search Projects"
+    ai_model_search_title: "Search Models"
+    ai_document_search_title: "Search Documents"
+    ai_chat_message_search_title: "Search Chat Messages"
     read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
     no_achievements: "No achievements have been added for this level yet."
     achievement_query_misc: "Key achievement off of miscellanea"
@@ -3023,6 +3071,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     certificate_lines_of: "lines of"
     certificate_levels_completed: "levels completed"
     certificate_for: "For"
+    for_ozaria_chapters_1_4: "For Ozaria Chapters 1 - 4"
     certificate_number: "No."
     heroes_unlocked: "Heroes Unlocked"
     current_items: "Items Equipped"
@@ -3746,16 +3795,18 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     coco_recognized_blurb: "CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum."
 
   apcsp_curriculum:
-    access_syllabus: "Access our __syllabus__"
-    college_board_approved_syllabus: "College Board approved Syllabus"
-    access_pacing_guide: "Review our suggested __pacing_guide__ which is based on five 50 minute class sessions per week"
+    access_syllabus: "Access our College Board approved __syllabus__"
+    college_board_approved_syllabus: "Syllabus"
+    access_pacing_guide: "Review our suggested __pacing_guide__"
     pacing_guide: "Pacing Guide"
-    resources: "Explore each unit and its curriculum resources here:"
+    resources: "Professional Development Resources"
     professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__."
     contact: "Contact __apcsp_email__ to get access."
     role: "Role"
     no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form"
     request_license: "Join Pilot Program"
+    page_title: "AP Computer Science Principles Curriculum"
+    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>"
 
 
   hoc_2019:
@@ -4045,7 +4096,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     class_count: 'Lessons Count'
     done: 'Finished Lesson'
     attendance: 'Attendance'
-    course_description: 'Lesson Description'
+    course_description: 'Teacher Notes'
     teacher_notes: 'Teacher Notes'
     levels_completed: 'Levels Completed'
     no_levels_completed: 'No Completed Levels Found'
@@ -4064,7 +4115,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     edit_members_tab_desc: 'Edit the member of this event, the startDate is depends on the instance date, so select the first instance for the new member'
     lessons_count_desc: 'The total lessons count of this member, normally it is the same as the event instances count, but it can be different if the member is added after the event started or ended before the event ended'
     sync_to_google_desc: 'Sync this event to YOUR google calendar, instead of the owner\'s calendar. And can only work on CodeCombat gmail'
-    timezone_tips: 'Date/Time is based on YOUR timezone: '
+    no_data_display: 'No data to display'
+    meetingLink: 'Meeting Link'
+    time_zone: 'Time Zone'
+    timezone_tips: 'Note - Your timezone: '
 
   teacher_dashboard:
     lock: 'Lock'
@@ -4170,6 +4224,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     note: 'Note'
     lock_or_skip_levels: 'Lock or Skip Levels'
     level_access_status_blurb: "When you choose to skip a level, it will have both the 'locked' and 'optional' status. Unskipping the level will remove both the 'locked' and 'optional' statuses."
+    reset_progress: "Reset Progress"
 
   outcomes:
     outcomes_report: "Outcomes Report"
@@ -4346,6 +4401,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
+    season9_announcement_1: "An epic battle is being waged atop the wintry peaks of Snowhold Clash for the Season 9 championship arena! Draw your cloak close and your code closer as you wield strategy and algorithms to achieve victory in this land beyond the sky."
+    season8_announcement_1: "It's harvesting season in Farmscape Blitz Season 8! As the leaves change, it's time to code your way around wild and impenetrable obstacles on the farm. Strategically collect vital boosts to empower your robot worker and utilize special abilities to boost productivity and out-farm your opponents!"
+    season8_announcement_2: "Note: arena balance adjustments may occur up until August 15th. So be sure to come back often to test your code against the global leaderboard."
     season7_announcement_1: "Witness the dawn of a new challenge in the Equinox Cup! Season 7's tower defense arena offers a unique blend of strategy, monsters, and boss battles for you to conquer."
     season6_announcement_1: "It’s absolute Molten Mayhem with the launch of the Lava Lake Clash finals! Outlast and outwit the competition in this hot take on classic Snake gameplay."
     season6_announcement_2: "Note: arena balance adjustments may occur up until December 15th. So be sure to come back often to test your code against the global leaderboard."
@@ -4611,7 +4669,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     access_using_id: "to access using your id!!"
     network_detected: "Library network detected, redirecting you to play CodeCombat"
     not_redirect_auto: "if redirect doesn't happen automatically"
-    engage_members: "Give your members access to the most engaging way to learn coding"
+    engage_members: "Give your members access to the most engaging way to learn coding."
     importance_blurb: "Libraries play an important role in advancing educational equity in their communities. Many young learners do not have access or exposure to computer science, and libraries can provide important resources to these underserved groups. That is why we are partnering with libraries across the country to provide access to our game-based learning tools and educational resources."
     games_teach_blurb: "Our games teach real typed Python, JavaScript and C++ coding languages through the power of play. The gameplay is paired with a scaffolded curriculum to allow self-paced learners the ability to master foundational programming concepts before moving on to the more complex. Each level challenges the player to type the code necessary to advance their hero and achieve the level goal."
     platform_built: "Our platform is built to address the specific needs of libraries and their patrons:"
@@ -4655,6 +4713,21 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     power_of_play: "Power of play"
     library_card: "Library Card Number"
     library_signup_promotion: "Sign Up to save progress and continue from where you left off on CodeCombat!!"
+    welcome_dashboard: "Welcome to your dashboard"
+    total_licenses_used: "Total Licenses Used"
+    from_launch_date: "from the date of launch"
+    renewal_date: "Renewal Date"
+    access_old_dashboard: "If you want to access the old dashboard, visit"
+    loading_from: "loading data from"
+    user_activities: "User Activities"
+    total_users: "Total Users"
+    lines_of_code_written: "Lines of Code Written"
+    hours_spent: "Hours spent"
+    programs_written: "Programs written"
+    number_users: "Number of users"
+    time_spent: "Time spent (in minutes)"
+    new_users: "New Users"
+    age_demographics: "Age demographics"
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."
@@ -4713,8 +4786,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     email_confirm: "The email address \"__email__\" is already registered. Would you like to login?"
 
   roblox_landing:
-    headline: "CodeCombat Worlds is a New Immersive Experience on Roblox"
-    subhead: "Join the beta waitlist to receive early access, development updates and more!"
+    headline: "Empowering every player to become a creator!"
+    subhead: "Experience the easiest and most enjoyable way to code and create your own Roblox games"
+    join_the_beta: "Join the Beta"
     sign_up: "Sign Up"
     box_play_subhead: "Play"
     box_code_subhead: "Code"
@@ -4748,3 +4822,4 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bottom_blurb_partner: "Want to use the new CodeCombat Worlds Roblox experience for your education business, social impact initiative or international distribution opportunity? __reach-out__ to discuss partnering today."
     bottom_blurb_reach_out: "Reach out"
     boxes_title: "Play, Code and Create on Roblox"
+    login_message: "You need to login before connecting your account to Roblox"

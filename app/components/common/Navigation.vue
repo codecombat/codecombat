@@ -288,7 +288,7 @@ export default Vue.extend({
                   li(v-if="isCodeCombat && (me.isAdmin() || (me.get('emailVerified') && (me.isTeacher() || (!me.get('role') && !me.isAnonymous()))))")
                     a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li(v-if="me.isAPIClient()")
-                    a.account-dropdown-item(href="/api-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
+                    a.account-dropdown-item(href="/partner-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                   li(v-if="me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin()")
                     a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
                   li(v-if="me.isAdmin() || me.isOnlineTeacher()")
@@ -345,15 +345,16 @@ export default Vue.extend({
   }
 
   #create-account-link {
-    background-color: $teal;
+    background-color: $teal-dark;
     color: white;
-    border: 1px solid $teal;
+    border: 1px solid $teal-dark;
     border-radius: 4px 0 0 4px;
     width: 131px;
 
     &:hover {
       background-color: #2DCEC8;
       border: 1px solid #2DCEC8;
+      color: $teal-dark;
       transition: background-color .35s, border .35s;
     }
   }

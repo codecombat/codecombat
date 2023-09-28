@@ -31,6 +31,7 @@ module.exports = class AnalyticsView extends RootView
     @revenueGroups = {}
     @dayEnrollmentsMap = {}
     @enrollmentDays = []
+    @exchangeRate = {}
     @loadData()
 
   afterRender: ->
@@ -123,206 +124,11 @@ module.exports = class AnalyticsView extends RootView
     }, 0).load()
 
     @supermodel.addRequestResource({
-      url: '/db/payments/-/all?nofree=true&project=created,gems,service,amount,productID,prepaidID'
-      method: 'GET'
+      url: '/db/payments/currency/exchange-rates',
+      method: 'GET',
       success: (data) =>
-
-        revenueGroupFromPayment = (payment, price) ->
-          product = payment.productID or payment.service
-          if utils.isCodeCombat
-            lifetimeToAnnualChange = '2020-11-09'
-          if payment.productID is 'lifetime_subscription'
-            product = "usa lifetime"
-          else if /_lifetime_subscription/.test(payment.productID)
-            product = "intl lifetime"
-          else if utils.isCodeCombat and (payment.productID is 'basic_subscription' or not payment.productID) and price is 9900 and payment.created > lifetimeToAnnualChange
-            product = "usa annual"
-          else if payment.productID is 'basic_subscription'
-            product = "usa monthly"
-          else if utils.isCodeCombat and  (/_basic_subscription/.test(payment.productID) or not payment.productID) and (price in [3960, 3999]) and payment.created > lifetimeToAnnualChange
-            product = "intl annual"
-          else if /_basic_subscription/.test(payment.productID)
-            product = "intl monthly"
-          else if /gems/.test(payment.productID)
-            product = "gems"
-          else if payment.prepaidID
-            if price % 9.99 is 0
-              product = "usa monthly"
-            else
-              # NOTE: assumed to be classroom starter licenses
-              product = 'classroom'
-          else if payment.service is 'stripe' && (price is 399 || price is 400)
-            product = "intl monthly"
-          else if payment.service is 'stripe' && (price is 999 || price is 799)
-            product = "usa monthly"
-          else if price is 9900 || price >= 5999 && payment.gems is 42000
-            if utils.isCodeCombat and payment.created > lifetimeToAnnualChange
-              product = "usa annual"
-            else
-              product = "usa lifetime"
-          else if price is 0
-            product = "free"
-          else if payment.service is 'stripe' && price is 599 && payment.gems is 3500
-            product = 'intl monthly'
-          else if payment.service is 'paypal' && payment.gems is 42000 && price < 5999
-            if utils.isCodeCombat and payment.created > lifetimeToAnnualChange
-              product = "intl annual"
-            else
-              product = "intl lifetime"
-          else if payment.service is 'paypal' && payment.gems is 10500 && price is 2997
-            product = "usa monthly"
-
-          product = payment.service if product is 'custom'
-          product ?= "unknown"
-
-          product = 'gems' if product is 'ios'
-          # product = 'usa lifetime' if product is 'stripe'
-          if utils.isOzaria
-            product = 'unknown' if product in ['external', 'bitcoin', 'iem', 'paypal']
-          else
-            product = 'unknown' if product in ['external', 'bitcoin', 'iem', 'paypal', 'stripe']
-
-          return product
-
-        # Organize data by day, then group
-        groupMap = {}
-        dayGroupCountMap = {}
-        for payment in data
-          continue unless payment.service in ['paypal', 'stripe']
-          if !payment.created
-            day = utils.objectIdToDate(payment._id).toISOString().substring(0, 10)
-          else
-            day = payment.created.substring(0, 10)
-          continue if day is new Date().toISOString().substring(0, 10)
-          price = parseInt(payment.amount)
-          dayGroupCountMap[day] ?= {'DRR Total': 0}
-          dayGroupCountMap[day]['DRR Total'] ?= 0
-          if utils.isOzaria
-            group = revenueGroupFromPayment(payment)
-          else
-            group = revenueGroupFromPayment(payment, price)
-          continue if group in ['free', 'classroom', 'unknown']
-          group = 'DRR ' + group
-          groupMap[group] = true
-          dayGroupCountMap[day][group] ?= 0
-          dayGroupCountMap[day][group] += price
-          dayGroupCountMap[day]['DRR Total'] += price
-        @revenueGroups = Object.keys(groupMap)
-        @revenueGroups.push 'DRR Total'
-
-        if utils.isOzaria
-          # Split lifetime values across 8 months based on 12% monthly churn
-          lifetimeDurationMonths = 8 # Needs to be an integer
-        else
-          # Used to split lifetime values across 8 months; now 12 for easy comparison to annual, unless we pass ?bookings=true (hack)
-          annualDurationMonths = if utils.getQueryVariable('bookings') then 1 else 12 # Needs to be an integer
-          lifetimeDurationMonths = annualDurationMonths  # Easy comparison
-
-        daysPerMonth = 30 #Close enough (needs to be an integer)
-        lifetimeDaySplit = lifetimeDurationMonths * daysPerMonth
-
-        # Build list of recurring revenue entries, where each entry is a day of individual group values
-        @revenue = []
-        serviceCarryForwardMap = {}
-        for day of dayGroupCountMap
-          data = {day, groups: []}
-          for group in @revenueGroups
-            if group in ['DRR intl lifetime', 'DRR usa lifetime']
-              serviceCarryForwardMap[group] ?= []
-              if dayGroupCountMap[day][group]
-                serviceCarryForwardMap[group].push({remaining: lifetimeDaySplit, value: (dayGroupCountMap[day][group] ? 0) / lifetimeDurationMonths})
-              data.groups.push(0)
-            else if utils.isCodeCombat and group in ['DRR intl annual', 'DRR usa annual']
-              serviceCarryForwardMap[group] ?= []
-              if dayGroupCountMap[day][group]
-                serviceCarryForwardMap[group].push({remaining: annualDurationMonths * daysPerMonth, value: (dayGroupCountMap[day][group] ? 0) / annualDurationMonths})
-              data.groups.push(0)
-            else if group is 'DRR Total'
-              if utils.isOzaria
-                # Add total, minus deferred lifetime values for this day
-                data.groups.push((dayGroupCountMap[day][group] ? 0) - (dayGroupCountMap[day]['DRR intl lifetime'] ? 0) - (dayGroupCountMap[day]['DRR usa lifetime'] ? 0))
-              else
-                # Add total, minus deferred lifetime/annual values for this day
-                data.groups.push((dayGroupCountMap[day][group] ? 0) - (dayGroupCountMap[day]['DRR intl lifetime'] ? 0) - (dayGroupCountMap[day]['DRR usa lifetime'] ? 0) - (dayGroupCountMap[day]['DRR intl annual'] ? 0) - (dayGroupCountMap[day]['DRR usa annual'] ? 0))
-            else
-              data.groups.push(dayGroupCountMap[day][group] ? 0)
-
-          # Add previous lifetime sub contributions
-          for group of serviceCarryForwardMap
-            for carryData in serviceCarryForwardMap[group]
-              # Add deferred lifetime value every 30 days
-              # Deferred value = (lifetime purchase value) / lifetimeDurationMonths
-              if carryData.remaining > 0 and carryData.remaining % 30 is 0
-                data.groups[@revenueGroups.indexOf(group)] += carryData.value
-                data.groups[@revenueGroups.indexOf('DRR Total')] += carryData.value
-              if carryData.remaining > 0
-                carryData.remaining--
-
-          @revenue.push data
-
-        # Order present to past
-        @revenue.sort (a, b) -> b.day.localeCompare(a.day)
-
-        return unless @revenue.length > 0
-
-        # Add monthly recurring revenue values
-
-        # For each daily group, add up monthly values walking forward through time, and add to revenue groups
-        monthlyDailyGroupMap = {}
-        dailyGroupIndexMap = {}
-        for group, i in @revenueGroups
-          monthlyDailyGroupMap[group.replace('DRR', 'MRR')] = group
-          dailyGroupIndexMap[group] = i
-        for monthlyGroup, dailyGroup of monthlyDailyGroupMap
-          monthlyValues = []
-          for i in [@revenue.length-1..0]
-            dailyTotal = @revenue[i].groups[dailyGroupIndexMap[dailyGroup]]
-            monthlyValues.push(dailyTotal)
-            monthlyValues.shift() while monthlyValues.length > 30
-            if monthlyValues.length is 30
-              @revenue[i].groups.push(_.reduce(monthlyValues, (s, num) -> s + num))
-        for monthlyGroup, dailyGroup of monthlyDailyGroupMap
-          @revenueGroups.push monthlyGroup
-
-        # Calculate real monthly revenue instead of 30 days estimation
-        @monthMrrMap = {}
-        for revenue in @revenue
-          month = revenue.day.substring(0, 7)
-          @monthMrrMap[month] ?= {gems: 0, yearly: 0, monthly: 0, total: 0}
-          for group, i in @revenueGroups
-            if group is 'DRR gems'
-              @monthMrrMap[month].gems += revenue.groups[i]
-            else if group in ['DRR usa monthly', 'DRR intl monthly']
-              @monthMrrMap[month].monthly += revenue.groups[i]
-            else if group in ['DRR usa lifetime', 'DRR intl lifetime'] or (utils.isCodeCombat and group in ['DRR usa annual', 'DRR intl annual'])
-              @monthMrrMap[month].yearly += revenue.groups[i]
-            else if group is 'DRR Total'
-              @monthMrrMap[month].total += revenue.groups[i]
-
-        # Calculate real weekly revenue instead of 30 days estimation
-        @weekMrrMap = {}
-        weekZero = week = '2022-12-30'  # Skip anything this Friday or before
-        # Reverse the revenue list so we can walk forward through time
-        for revenue in _.clone(@revenue).reverse()
-          continue unless revenue.day > weekZero
-          # Assign revenue for the week to the week ending on Friday. Reset on Saturday.
-          if moment(revenue.day).isoWeekday() is 6
-            week = moment(week).add(7, 'days').format('YYYY-MM-DD')
-          @weekMrrMap[week] ?= {gems: 0, yearly: 0, monthly: 0, total: 0}
-          for group, i in @revenueGroups
-            if group is 'DRR gems'
-              @weekMrrMap[week].gems += revenue.groups[i]
-            else if group in ['DRR usa monthly', 'DRR intl monthly']
-              @weekMrrMap[week].monthly += revenue.groups[i]
-            else if group in ['DRR usa lifetime', 'DRR intl lifetime'] or (utils.isCodeCombat and group in ['DRR usa annual', 'DRR intl annual'])
-              @weekMrrMap[week].yearly += revenue.groups[i]
-            else if group is 'DRR Total'
-              @weekMrrMap[week].total += revenue.groups[i]
-
-        @updateAllKPIChartData()
-        @updateRevenueChartData()
-        @render?()
-
+        @exchangeRate = data
+        @handlePayments()
     }, 0).load()
 
     #@supermodel.addRequestResource({
@@ -407,6 +213,230 @@ module.exports = class AnalyticsView extends RootView
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @listenToOnce @courses, 'sync', @onCoursesSync
     @supermodel.loadCollection(@courses)
+
+  handlePayments: ->
+    url = '/db/payments/-/all?nofree=true&project=created,gems,service,amount,productID,prepaidID,currency'
+    if utils.getQueryVariable('gtObjectId')
+      url = "#{url}&gtObjectId=#{utils.getQueryVariable('gtObjectId')}"
+    @supermodel.addRequestResource({
+      url: url
+      method: 'GET'
+      success: (data) =>
+
+        revenueGroupFromPayment = (payment, price) ->
+          product = payment.productID or payment.service
+          if utils.isCodeCombat
+            lifetimeToAnnualChange = '2020-11-09'
+          if payment.productID is 'lifetime_subscription'
+            product = "usa lifetime"
+          else if /_lifetime_subscription/.test(payment.productID)
+            product = "intl lifetime"
+          else if utils.isCodeCombat and (payment.productID is 'basic_subscription' or not payment.productID) and price is 9900 and payment.created > lifetimeToAnnualChange
+            product = "usa annual"
+          else if payment.productID is 'basic_subscription'
+            product = "usa monthly"
+          else if utils.isCodeCombat and  (/_basic_subscription/.test(payment.productID) or not payment.productID) and (price in [3960, 3999]) and payment.created > lifetimeToAnnualChange
+            product = "intl annual"
+          else if /_basic_subscription/.test(payment.productID)
+            product = "intl monthly"
+          else if /gems/.test(payment.productID)
+            product = "gems"
+          else if payment.prepaidID
+            if price % 9.99 is 0
+              product = "usa monthly"
+            else
+              # NOTE: assumed to be classroom starter licenses
+              product = 'classroom'
+          else if payment.service is 'stripe'
+            if payment.currency is 'usd'
+              if payment.gems is 3500
+                product = 'usa monthly'
+              else if payment.gems is 42000
+                product = 'usa annual'
+            else if payment.currency && payment.currency != 'usd'
+              if payment.gems is 1500
+                product = 'intl monthly'
+              else if payment.gems is 42000
+                product = 'intl annual'
+            else if (price is 399 || price is 400) && !payment.currency
+              product = "intl monthly"
+            else if (price is 999 || price is 799) && !payment.currency
+              product = "usa monthly"
+            else if price is 599 && payment.gems is 3500 && !payment.currency
+              product = 'intl monthly'
+          else if price is 9900 || price >= 5999 && payment.gems is 42000
+            if utils.isCodeCombat and payment.created > lifetimeToAnnualChange
+              product = "usa annual"
+            else
+              product = "usa lifetime"
+          else if price is 0
+            product = "free"
+          else if payment.service is 'paypal' && payment.gems is 42000 && price < 5999
+            if utils.isCodeCombat and payment.created > lifetimeToAnnualChange
+              product = "intl annual"
+            else
+              product = "intl lifetime"
+          else if payment.service is 'paypal' && payment.gems is 10500 && price is 2997
+            product = "usa monthly"
+
+          product = payment.service if product is 'custom'
+          product ?= "unknown"
+
+          product = 'gems' if product is 'ios'
+          # product = 'usa lifetime' if product is 'stripe'
+          if utils.isOzaria
+            product = 'unknown' if product in ['external', 'bitcoin', 'iem', 'paypal']
+          else
+            product = 'unknown' if product in ['external', 'bitcoin', 'iem', 'paypal', 'stripe']
+
+          return product
+
+        getPriceInUsd = (price, currency) =>
+          return price unless currency
+          exchangeVal = @exchangeRate[currency]
+          unless exchangeVal
+            console.log('no converter for currency', currency)
+            return price
+          return parseInt(price / exchangeVal, 10)
+
+        # Organize data by day, then group
+        groupMap = {}
+        dayGroupCountMap = {}
+        for payment in data
+          continue unless payment.service in ['paypal', 'stripe']
+          continue if payment.productID is 'online-classes'
+          if !payment.created
+            day = utils.objectIdToDate(payment._id).toISOString().substring(0, 10)
+          else
+            day = payment.created.substring(0, 10)
+          continue if day is new Date().toISOString().substring(0, 10)
+          price = getPriceInUsd(payment.amount, payment.currency)
+          dayGroupCountMap[day] ?= {'DRR Total': 0}
+          dayGroupCountMap[day]['DRR Total'] ?= 0
+          if utils.isOzaria
+            group = revenueGroupFromPayment(payment)
+          else
+            group = revenueGroupFromPayment(payment, price)
+          continue if group in ['free', 'classroom', 'unknown']
+          group = 'DRR ' + group
+          groupMap[group] = true
+          dayGroupCountMap[day][group] ?= 0
+          dayGroupCountMap[day][group] += price
+          dayGroupCountMap[day]['DRR Total'] += price
+        @revenueGroups = Object.keys(groupMap)
+        @revenueGroups.push 'DRR Total'
+
+        if utils.isOzaria
+          # Split lifetime values across 8 months based on 12% monthly churn
+          lifetimeDurationMonths = 8 # Needs to be an integer
+        else
+          # Used to split lifetime values across 8 months; now 12 for easy comparison to annual, unless we pass ?bookings=true (hack)
+          annualDurationMonths = if utils.getQueryVariable('bookings') then 1 else 12 # Needs to be an integer
+          lifetimeDurationMonths = annualDurationMonths  # Easy comparison
+
+        daysPerMonth = 30 #Close enough (needs to be an integer)
+        lifetimeDaySplit = lifetimeDurationMonths * daysPerMonth
+
+        # Build list of recurring revenue entries, where each entry is a day of individual group values
+        @revenue = []
+        serviceCarryForwardMap = {}
+        for day of dayGroupCountMap
+          data = {day, groups: []}
+          for group in @revenueGroups
+            if group in ['DRR intl lifetime', 'DRR usa lifetime']
+              serviceCarryForwardMap[group] ?= []
+              if dayGroupCountMap[day][group]
+                serviceCarryForwardMap[group].push({remaining: lifetimeDaySplit, value: (dayGroupCountMap[day][group] ? 0) / lifetimeDurationMonths})
+              data.groups.push(0)
+            else if utils.isCodeCombat and group in ['DRR intl annual', 'DRR usa annual']
+              serviceCarryForwardMap[group] ?= []
+              if dayGroupCountMap[day][group]
+                serviceCarryForwardMap[group].push({remaining: annualDurationMonths * daysPerMonth, value: (dayGroupCountMap[day][group] ? 0) / annualDurationMonths})
+              data.groups.push(0)
+            else if group is 'DRR Total'
+              if utils.isOzaria
+                # Add total, minus deferred lifetime values for this day
+                data.groups.push((dayGroupCountMap[day][group] ? 0) - (dayGroupCountMap[day]['DRR intl lifetime'] ? 0) - (dayGroupCountMap[day]['DRR usa lifetime'] ? 0))
+              else
+                # Add total, minus deferred lifetime/annual values for this day
+                data.groups.push((dayGroupCountMap[day][group] ? 0) - (dayGroupCountMap[day]['DRR intl lifetime'] ? 0) - (dayGroupCountMap[day]['DRR usa lifetime'] ? 0) - (dayGroupCountMap[day]['DRR intl annual'] ? 0) - (dayGroupCountMap[day]['DRR usa annual'] ? 0))
+            else
+              data.groups.push(dayGroupCountMap[day][group] ? 0)
+
+          # Add previous lifetime sub contributions
+          for group of serviceCarryForwardMap
+            for carryData in serviceCarryForwardMap[group]
+              # Add deferred lifetime value every 30 days
+              # Deferred value = (lifetime purchase value) / lifetimeDurationMonths
+              if carryData.remaining > 0 and carryData.remaining % 30 is 0
+                data.groups[@revenueGroups.indexOf(group)] += carryData.value
+                data.groups[@revenueGroups.indexOf('DRR Total')] += carryData.value
+              if carryData.remaining > 0
+                carryData.remaining--
+
+          @revenue.push data
+
+        # Order present to past
+        @revenue.sort (a, b) -> b.day.localeCompare(a.day)
+        return unless @revenue.length > 0
+
+        # Add monthly recurring revenue values
+
+        # For each daily group, add up monthly values walking forward through time, and add to revenue groups
+        monthlyDailyGroupMap = {}
+        dailyGroupIndexMap = {}
+        for group, i in @revenueGroups
+          monthlyDailyGroupMap[group.replace('DRR', 'MRR')] = group
+          dailyGroupIndexMap[group] = i
+        for monthlyGroup, dailyGroup of monthlyDailyGroupMap
+          monthlyValues = []
+          for i in [@revenue.length-1..0]
+            dailyTotal = @revenue[i].groups[dailyGroupIndexMap[dailyGroup]]
+            monthlyValues.push(dailyTotal)
+            monthlyValues.shift() while monthlyValues.length > 30
+            if monthlyValues.length is 30
+              @revenue[i].groups.push(_.reduce(monthlyValues, (s, num) -> s + num))
+        for monthlyGroup, dailyGroup of monthlyDailyGroupMap
+          @revenueGroups.push monthlyGroup
+        # Calculate real monthly revenue instead of 30 days estimation
+        @monthMrrMap = {}
+        for revenue in @revenue
+          month = revenue.day.substring(0, 7)
+          @monthMrrMap[month] ?= {gems: 0, yearly: 0, monthly: 0, total: 0}
+          for group, i in @revenueGroups
+            if group is 'DRR gems'
+              @monthMrrMap[month].gems += revenue.groups[i]
+            else if group in ['DRR usa monthly', 'DRR intl monthly']
+              @monthMrrMap[month].monthly += revenue.groups[i]
+            else if group in ['DRR usa lifetime', 'DRR intl lifetime'] or (utils.isCodeCombat and group in ['DRR usa annual', 'DRR intl annual'])
+              @monthMrrMap[month].yearly += revenue.groups[i]
+            else if group is 'DRR Total'
+              @monthMrrMap[month].total += revenue.groups[i]
+        # Calculate real weekly revenue instead of 30 days estimation
+        @weekMrrMap = {}
+        weekZero = week = '2022-12-30'  # Skip anything this Friday or before
+        # Reverse the revenue list so we can walk forward through time
+        for revenue in _.clone(@revenue).reverse()
+          continue unless revenue.day > weekZero
+          # Assign revenue for the week to the week ending on Friday. Reset on Saturday.
+          if moment(revenue.day).isoWeekday() is 6
+            week = moment(week).add(7, 'days').format('YYYY-MM-DD')
+          @weekMrrMap[week] ?= {gems: 0, yearly: 0, monthly: 0, total: 0}
+          for group, i in @revenueGroups
+            if group is 'DRR gems'
+              @weekMrrMap[week].gems += revenue.groups[i]
+            else if group in ['DRR usa monthly', 'DRR intl monthly']
+              @weekMrrMap[week].monthly += revenue.groups[i]
+            else if group in ['DRR usa lifetime', 'DRR intl lifetime'] or (utils.isCodeCombat and group in ['DRR usa annual', 'DRR intl annual'])
+              @weekMrrMap[week].yearly += revenue.groups[i]
+            else if group is 'DRR Total'
+              @weekMrrMap[week].total += revenue.groups[i]
+
+        @updateAllKPIChartData()
+        @updateRevenueChartData()
+        @render?()
+
+    }, 0).load()
 
   onCoursesSync: ->
     return

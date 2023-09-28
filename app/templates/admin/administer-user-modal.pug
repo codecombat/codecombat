@@ -204,6 +204,9 @@ block modal-body-content
         +license-type(view.licenseType, view.licensePresets, view.utils)
         +license-form-group('Start Date')(type="date" name="startDate" value=view.momentTimezone().tz(view.timeZone).format('YYYY-MM-DD'))
         +license-form-group('End Date')(type="date" name="endDate" value=view.momentTimezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
+        - userTimeZone = view.getUserTimeZone()
+        if userTimeZone != view.timeZone
+          +license-form-group('Use User TimeZone? (' + userTimeZone + ')')(type="checkbox" name="userTimeZone" value=false)
         .form-group
           button#add-seats-btn.btn.btn-primary Add Licenses
       hr
@@ -378,11 +381,11 @@ block modal-body-content
           .radio
             label
               input(type="radio" name="stripe-benefit" value="free" checked=view.free)
-              | Free
+              | Premium
           .radio
             label
               input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
-              span Free Until
+              span Premium Until
               =" "
               input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
           .radio
@@ -414,11 +417,11 @@ block modal-body-content
           .radio
             label
               input(type="radio" name="stripe-benefit" value="free" checked=view.free)
-              | Free (use this for paid students)
+              | Premium (use this for paid students)
           .radio
             label
               input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
-              span Free Until
+              span Premium Until
               =" "
               input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
               |  (use this for trial class students)
