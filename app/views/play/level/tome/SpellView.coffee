@@ -20,11 +20,9 @@ LZString = require 'lz-string'
 utils = require 'core/utils'
 Aether = require 'lib/aether/aether'
 AceDiff = require 'ace-diff'
-require('app/styles/play/level/tome/ace-diff-spell.sass')
 globalVar = require 'core/globalVar'
 fetchJson = require 'core/api/fetch-json'
 store = require 'core/store'
-AceDiff = require 'ace-diff'
 require('app/styles/play/level/tome/ace-diff-spell.sass')
 
 module.exports = class SpellView extends CocoView
@@ -76,7 +74,6 @@ module.exports = class SpellView extends CocoView
     'level:close-solution': 'closeSolution'
     'level:streaming-solution': 'onStreamingSolution'
     'websocket:asking-help': 'onAskingHelp'
-    'level:toggle-solution': 'onToggleSolution'
 
   events:
     'mouseout': 'onMouseOut'
@@ -106,6 +103,8 @@ module.exports = class SpellView extends CocoView
     @createACEShortcuts()
     @hookACECustomBehavior()
     if (me.isAdmin() or utils.getQueryVariable 'ai') and not @spectateView
+      @fillACESolution()
+    if @teaching
       @fillACESolution()
     @fillACE()
     @createOnCodeChangeHandlers()
@@ -442,42 +441,6 @@ module.exports = class SpellView extends CocoView
     @ace.setValue @spell.source
     @aceSession.setUndoManager(new UndoManager())
     @ace.clearSelection()
-
-  fillACESolution: ->
-    return unless @teaching
-    aceSolution = ace.edit document.querySelector('.ace-solution')
-    aceSSession = aceSolution.getSession()
-    aceSSession.setMode aceUtils.aceEditModes[@spell.language]
-    aceSolution.setTheme 'ace/theme/textmate'
-    solution = store.getters['game/getSolutionSrc'](@spell.language)
-    aceSolution.setValue solution
-    aceSolution.clearSelection()
-
-    @aceDiff = new AceDiff({
-      element: '#solution-view'
-      showDiffs: false,
-      showConnectors: true,
-      mode: aceUtils.aceEditModes[@spell.language],
-      left: {
-        ace: aceSolution,
-        editable: false,
-        copyLinkEnabled: false
-      },
-      right: {
-        ace: @ace,
-        copyLinkEnabled: false
-      }
-    })
-
-  onToggleSolution: ->
-    return unless @teaching and @aceDiff
-    solution = document.querySelector('#solution-area')
-    if solution.classList.contains('display')
-      solution.classList.remove('display')
-      @aceDiff.setOptions({showDiffs: false})
-    else
-      solution.classList.add('display')
-      @aceDiff.setOptions({showDiffs: true})
 
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?
@@ -1513,8 +1476,11 @@ module.exports = class SpellView extends CocoView
     aceSSession = @aceSolution.getSession()
     aceSSession.setMode aceUtils.aceEditModes[@spell.language]
     @aceSolution.setTheme 'ace/theme/textmate'
-    # solution = store.getters['game/getSolutionSrc'](@spell.language)
-    @aceSolution.setValue ''
+    if @teaching
+      solution = store.getters['game/getSolutionSrc'](@spell.language)
+    else
+      solution = ''
+    @aceSolution.setValue solution
     @aceSolution.clearSelection()
     @aceSolutionLastLineCount = 0
     @updateSolutionLines = _.throttle @updateSolutionLines, 1000
@@ -1560,6 +1526,7 @@ module.exports = class SpellView extends CocoView
       @aceDiff.setOptions({showDiffs: e.finish?})
 
   onToggleSolution: (e)->
+    console.log('on toggle solution', e, @aceDiff)
     return unless @aceDiff
     if e.code
       @onUpdateSolution(e)

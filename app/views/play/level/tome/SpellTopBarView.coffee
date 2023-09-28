@@ -88,6 +88,7 @@ module.exports = class SpellTopBarView extends CocoView
     store.dispatch('game/autoFillSolution', @options.codeLanguage)
 
   onToggleSolution: ->
+    console.log('click toggle solution')
     Backbone.Mediator.publish 'level:toggle-solution', {}
 
   onCodeReload: (e) ->
