@@ -319,5 +319,5 @@ module.exports = class AccountSettingsView extends RootView
       @user.set('permissions', permissions)
 
   destroy: ->
-    #@robloxButton.destroy()  # Doesn't have this method
+    @robloxButton?.$destroy()  # Doesn't have this method
     super()
