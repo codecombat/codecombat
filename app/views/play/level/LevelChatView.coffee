@@ -7,6 +7,7 @@ ChatMessage = require 'models/ChatMessage'
 utils = require 'core/utils'
 fetchJson = require 'core/api/fetch-json'
 co = require 'co'
+userCreditApi = require 'core/api/user-credits'
 
 module.exports = class LevelChatView extends CocoView
   id: 'level-chat-view'
@@ -176,7 +177,7 @@ module.exports = class LevelChatView extends CocoView
     text = _.string.strip($(e.target).val())
     return false unless text
     #@bus.sendMessage(text)  # TODO: bring back bus?
-    @saveChatMessage { text }
+    @checkCreditsAndAddMessage(text)
     $(e.target).val('')
     return false
 
@@ -212,7 +213,20 @@ module.exports = class LevelChatView extends CocoView
       @$el.find('.fix-code-button').parent().remove()
 
   onAddUserChat: (e) ->
-    @saveChatMessage { text: e.message }
+    @checkCreditsAndAddMessage(e.message)
+
+  checkCreditsAndAddMessage: (message) ->
+    userCreditApi.getCredits('AI_CHAT_HELP_BOT')
+      .then (res) =>
+        credits = res.credits
+        console.log('credits', credits)
+        if (credits < 0)
+          console.log('not enough credits', credits)
+          noty({ text: 'Insufficient credits', type: 'warning', layout: 'center', timeout: 3000 })
+          return
+        @saveChatMessage { text:  message }
+      .catch (err) =>
+        console.log('user credit fetch failed', err)
 
   scrollDown: ->
     openPanel = $('.open-chat-area', @$el)[0]
