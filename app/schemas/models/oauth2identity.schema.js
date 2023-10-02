@@ -25,7 +25,5 @@ _.extend(OAuth2IdentitySchema.properties, {
 })
 
 schema.extendBasicProperties(OAuth2IdentitySchema,'oauth2identity',)
-schema.extendPermissionsProperties(OAuth2IdentitySchema, 'oauth2identity')
-
 
 module.exports = OAuth2IdentitySchema
