@@ -171,7 +171,6 @@ export default {
         <!-- The tooltip -->
         <template slot="popover">
           <div class="level-popover-locking">
-            {{normalizedOriginal}}
             <h3
               v-if="type !== 'cutscene'"
               style="margin-bottom: 15px;"
