@@ -8,6 +8,7 @@ utils = require 'core/utils'
 fetchJson = require 'core/api/fetch-json'
 co = require 'co'
 userCreditApi = require 'core/api/user-credits'
+SubscribeModal = require 'views/core/SubscribeModal'
 
 module.exports = class LevelChatView extends CocoView
   id: 'level-chat-view'
@@ -216,17 +217,19 @@ module.exports = class LevelChatView extends CocoView
     @checkCreditsAndAddMessage(e.message)
 
   checkCreditsAndAddMessage: (message) ->
-    userCreditApi.getCredits('AI_CHAT_HELP_BOT')
+    uuid = crypto.randomUUID() || Date.now()
+    userCreditApi.redeemCredits({
+      operation: 'AI_CHAT_HELP_BOT',
+      id: "#{uuid}|#{message.slice(0, 20)}"
+    })
       .then (res) =>
-        credits = res.credits
-        console.log('credits', credits)
-        if (credits < 0)
-          console.log('not enough credits', credits)
-          noty({ text: 'Insufficient credits', type: 'warning', layout: 'center', timeout: 3000 })
-          return
         @saveChatMessage { text:  message }
       .catch (err) =>
         console.log('user credit fetch failed', err)
+        message = err?.message || 'Internal error'
+        noty({ text: message, type: 'error', layout: 'center', timeout: 3000 })
+        if err.code is 402 and not me.hasSubscription()
+          @openModalView new SubscribeModal()
 
   scrollDown: ->
     openPanel = $('.open-chat-area', @$el)[0]
