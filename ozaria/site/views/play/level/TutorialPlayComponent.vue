@@ -825,8 +825,8 @@
   .shepherd-close-button
     top: 12px
     position: absolute
-    height: 22.53px
-    width: 24px
+    height: 21.53px
+    width: 22px
     z-index: 1000
     cursor: pointer
     background-repeat: no-repeat !important
@@ -853,8 +853,8 @@
     left: 3px
 
   .shepherd-button
-    width: 22px
-    height: 22px
+    width: 19px
+    height: 19px
     margin: 0
     padding: 0
     z-index: 1000
