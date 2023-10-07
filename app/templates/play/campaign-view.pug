@@ -41,20 +41,24 @@ if showGameDevAlert
         img#burnaby-logo(src="/images/pages/play/burnaby-library-logo-2.png")
 
     else if view.shouldShow('liverpool-library-logo')
-      a#liverpool-logo-container(href='https://lpl.org/' target='_blank' rel='noopener noreferrer')
+      a#library-logo-container(href='https://lpl.org/' target='_blank' rel='noopener noreferrer')
         img#liverpool-logo(src="/images/pages/play/liverpool-library-logo.jpg")
 
     else if view.shouldShow('lafourche-library-logo')
-      a#liverpool-logo-container(href='https://www.lafourche.org/' target='_blank' rel='noopener noreferrer')
+      a#library-logo-container(href='https://www.lafourche.org/' target='_blank' rel='noopener noreferrer')
         img#liverpool-logo(src="/images/pages/play/lafourche-logo.webp")
 
     else if view.shouldShow('shreve-library-logo')
-      a#shreve-logo-container(href='https://shreve-lib.org/' target='_blank' rel='noopener noreferrer')
-        img#shreve-logo(src="/images/pages/play/shreve-logo.webp")        
+      a#library-logo-container(href='https://shreve-lib.org/' target='_blank' rel='noopener noreferrer')
+        img#shreve-logo(src="/images/pages/play/shreve-logo.webp")
 
     else if view.shouldShow('vaughan-library-logo')
-      a#vaughan-logo-container(href='https://www.vaughanpl.info/' target='_blank' rel='noopener noreferrer')
-        img#vaughan-logo(src="/images/pages/play/vaughan-library-logo.png")
+      a#library-logo-container(href='https://www.vaughanpl.info/' target='_blank' rel='noopener noreferrer')
+        img#library-logo(src="/images/pages/play/vaughan-library-logo.png")
+
+    else if view.shouldShow('surrey-library-logo')
+      a#library-logo-container(href='https://www.surreylibraries.ca/' target='_blank' rel='noopener noreferrer')
+        img#library-logo(src="/images/pages/play/surrey-library-logo.svg")
 
     if view.shouldShow('back-to-classroom') && view.DEEP_API_LIST.indexOf(me.get('clientCreator')) == -1
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")

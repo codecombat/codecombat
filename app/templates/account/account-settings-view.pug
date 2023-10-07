@@ -17,7 +17,7 @@ else
             - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
             .form-group
               label.control-label(for="name", data-i18n="general.username")
-              if (me.isAdmin() || (serverSession && serverSession.amActually))
+              if (!me.isStudent())
                 input#name-input.form-control(name="name", type="text", value=name)
               else
                 span.form-control(readonly)=name
@@ -35,7 +35,7 @@ else
             .row
               .form-group.col-sm-6
                 label.control-label(for="firstName", data-i18n="general.first_name")
-                if (me.isAdmin() || (serverSession && serverSession.amActually))
+                if (!me.isStudent())
                   input#first-name-input.form-control(name="firstName", type="text", value=firstName)
                 else
                   span.form-control(readonly)=firstName

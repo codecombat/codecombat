@@ -1617,6 +1617,9 @@ module.exports = class CampaignView extends RootView
     if what is 'vaughan-library-logo'
       return userUtils.libraryName() is 'vaughan-library'
 
+    if what is 'surrey-library-logo'
+      return userUtils.libraryName() is 'surrey-library'
+
     if what is 'league-arena'
       return false if me.showChinaResourceInfo()
       # Note: Currently the tooltips don't work in the campaignView overworld.

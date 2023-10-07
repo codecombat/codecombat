@@ -130,6 +130,8 @@ module.exports = class RootView extends CocoView
     @openModalView new CreateAccountModal(options)
 
   onClickLoginButton: (e) ->
+    loginMessage = e.target.dataset.loginMessage
+    nextUrl = e.target.dataset.nextUrl
     AuthModal = require 'views/core/AuthModal'
     if @id is 'home-view'
       properties = { category: if utils.isCodeCombat then 'Homepage' else 'Home' }
@@ -137,7 +139,7 @@ module.exports = class RootView extends CocoView
 
       eventAction = $(e.target)?.data('event-action')
       window.tracker?.trackEvent(eventAction, properties) if eventAction
-    @openModalView new AuthModal()
+    @openModalView new AuthModal({loginMessage, nextUrl})
 
   onTrackClickEvent: (e) ->
     eventAction = $(e.target)?.closest('a')?.data('event-action')

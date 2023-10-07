@@ -6,7 +6,7 @@ mixin recover-account
       data-i18n="login.forgot_password"
       href="#"
     )
-  
+
 mixin auth-form-content
   .auth-form-content
 
@@ -16,7 +16,13 @@ mixin auth-form-content
 
     #unknown-error-alert.alert.alert-danger.hide(data-i18n="loading_error.unknown")
 
+
     form.form
+      if view.loginMessage
+        .alert.alert-danger
+          span
+          | #{view.loginMessage}
+
       .form-group
         label.control-label(for="username-or-email-input")
           if view.showLibraryModal
