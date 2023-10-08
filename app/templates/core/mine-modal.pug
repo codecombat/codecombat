@@ -1,11 +1,10 @@
-//- DNT
 .modal-dialog
   .modal-content
     img#modal-background(src="/images/pages/play/modal/announcement_modal_bg.png")
-    h1 CodeCombat Worlds<br> Now Live on Roblox!
+    h1 !{$.i18n.t("roblox_landing.modal_title")}
     #close-modal
       span.glyphicon.glyphicon-remove
     #mine-content
       #text-content
         #button-container
-          a(href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds" target="_blank")#submit-button.btn.btn-lg.btn-illustrated.sale-button PLAY NOW!
+          a(href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds" target="_blank")#submit-button.btn.btn-lg.btn-illustrated.sale-button !{$.i18n.t("roblox_landing.modal_play_now")}

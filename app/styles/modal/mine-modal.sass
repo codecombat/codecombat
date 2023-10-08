@@ -9,6 +9,12 @@
     height: 520px
     background: none
 
+    @media screen and (max-width: 746px)
+      --scale-factor: calc(var(--vw) / 746)
+      transform-origin: left top
+      transform: scale(var(--scale-factor))
+
+
   li
     margin-bottom: 16px
 

@@ -13,10 +13,19 @@ module.exports = class MineModal extends ModalView
     'click #close-modal': 'hide'
     'click #submit-button': 'onSubmitButtonClick'  
 
+  afterRender: ->
+    super()
+    @setCSSVariables()
+    window.addEventListener 'resize', @setCSSVariables
+
   onSubmitButtonClick: (e) ->
     storage.save('roblox-clicked', true)
     window.tracker?.trackEvent "Roblox Explored", engageAction: "submit_button_click"
     @hide()
+
+  setCSSVariables: () ->
+    viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+    document.documentElement.style.setProperty('--vw', "#{viewportWidth}");
 
   hide: ->
     storage.save('roblox-clicked', true)
@@ -24,4 +33,5 @@ module.exports = class MineModal extends ModalView
 
   destroy: ->
     $("#modal-wrapper").off('mousemove')
+    window.removeEventListener('resize', @setCSSVariables)
     super()
