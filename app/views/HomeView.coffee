@@ -234,7 +234,7 @@ module.exports = class HomeView extends RootView
         url = new URLSearchParams window.location.search
         _.defer => @openModalView(new AuthModal({initialValues:{email: url.get 'email'}})) unless @destroyed
 
-    _.defer => @openModalView new MineModal() unless storage.load('roblox-clicked') or @destroyed #if utils.getQueryVariable('roblox-clicked') isnt 'true'        
+    _.defer => @openModalView new MineModal() unless storage.load('roblox-clicked') or @destroyed
 
     if utils.isCodeCombat
       if utils.getQueryVariable('payment-studentLicenses') in ['success', 'failed'] and not @renderedPaymentNoty
