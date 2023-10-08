@@ -1,13 +1,6 @@
 <template>
   <div id="roblox-page">
     <div class="container-fluid headline-container">
-      <div class="video-background">
-        <iframe
-          src="https://customer-burj9xtby325x4f1.cloudflarestream.com/a4946ec5affa5a4ff315255487379661/iframe?muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fa4946ec5affa5a4ff315255487379661%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
-          style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
-          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-          allowfullscreen="true"></iframe>
-      </div>
       <div class="container">
         <div class="row headline-row">
           <div class="col col-md-8">
@@ -19,14 +12,16 @@
               {{ $t('roblox_landing.subhead') }}
             </h2>
 
-            <button-main @click="openModal" :buttonText="$t('roblox_landing.join_the_beta')" class="button-main" />
+            <a href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds" target="_blank">
+              <img src="/images/pages/roblox/play_now.png" class="header-button" />
+            </a>
           </div>
         </div>
       </div>
     </div>
     <div class="container-fluid container-fluid-boxes">
-      <div v-if="role" class="container container-boxes">  
-        <robloxButton class="roblox-connect"/>
+      <div v-if="role" class="container container-boxes">
+        <robloxButton class="roblox-connect" />
         <h3>{{ $t('roblox_landing.boxes_title') }}</h3>
         <div v-for="boxType in boxesByRole[role]" class="row" :class="`row-type-${boxType}`">
           <div class="col col-md-6 box-content ">
@@ -62,7 +57,7 @@
 
         <div class="row row-faq">
           <div class="col-md-12">
-            <button-main :href="false" :buttonText="$t('contact.faq')" class="button-main" />
+            <button-main href="https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-" target="_blank" :buttonText="$t('contact.faq')" class="button-main" />
 
             <div class="item">
               <p class="question">{{ $t('roblox_landing.question_1') }}</p>
@@ -84,6 +79,8 @@
                 <li>{{ $t('roblox_landing.answer_3') }}</li>
               </ul>
             </div>
+
+            <p class="faq-bottom" v-html="$t('roblox_landing.faq_bottom')"></p>
           </div>
         </div>
       </div>
@@ -108,7 +105,9 @@
               Success
             </span>
             <span v-else>
-              You're in! First, <a href="https://www.roblox.com/groups/14987146/CodeCombat#!/about" target="_blank">join the CodeCombat Roblox group</a>, then <a href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds" target="_blank">play CodeCombat Worlds</a>!
+              You're in! First, <a href="https://www.roblox.com/groups/14987146/CodeCombat#!/about" target="_blank">join
+                the CodeCombat Roblox group</a>, then <a href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds"
+                target="_blank">play CodeCombat Worlds</a>!
             </span>
           </span>
           <button v-if="!isSuccess" class="btn btn-success btn-lg" type="submit" :disabled="inProgress">
@@ -176,25 +175,25 @@ export default {
     }
   },
   computed: {
-    isMobile() {
+    isMobile () {
       const userAgent = window.navigator.userAgent;
       const mobileDevices = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-  
+
       return mobileDevices.test(userAgent);
     },
   },
 
   methods: {
-    openModal() {
+    openModal () {
       this.modalShown = true
     },
-    closeModal() {
+    closeModal () {
       this.modalShown = false
     },
-    validate() {
+    validate () {
       this.isValidEmail = this.email && forms.validateEmail(this.email)
     },
-    async onFormSubmit() {
+    async onFormSubmit () {
       this.validate()
       if (!this.isValidEmail) {
         return
@@ -236,16 +235,17 @@ $body-font: "Work Sans", "Open Sans", "sans serif";
 $box-content-margin: min(6vw, 90px);
 
 .asset {
-  content: '';
+  content: "";
   position: absolute;
   display: block;
-  width: 55%;
-  aspect-ratio: 16/9;
-  background-image: url('/images/pages/roblox/play-assets.png');
+  width: 30%;
+  aspect-ratio: 1/1;
+  background-image: url(/images/pages/roblox/play-assets.png);
   background-size: contain;
+  background-repeat: no-repeat;
   z-index: 1;
-  top: 37%;
-  left: -27.5%;
+  top: 27%;
+  left: -18.5%;
 }
 
 #roblox-page {
@@ -263,10 +263,11 @@ $box-content-margin: min(6vw, 90px);
   }
 
   h1.text-headline {
+    color: black;
     font-size: 40px;
     line-height: 1em;
     font-weight: 600;
-    text-shadow: 0em 0.0375em 0.28125em rgb(0 0 0 / 60%);
+    text-shadow: 0em 0.0375em 0.28125em rgb(255 255 255 / 90%);
 
     @media (max-width: $screen-md-min) {
       font-size: 20px;
@@ -274,9 +275,9 @@ $box-content-margin: min(6vw, 90px);
   }
 
   h2.text-subhead {
-    color: #e1dede;
+    color: black;
     font-size: 29px;
-    text-shadow: 0em 0.0375em 0.28125em rgb(0 0 0 / 60%);
+    text-shadow: 0em 0.0375em 0.28125em rgb(255 255 255 / 90%);
     line-height: 1.13em;
     font-weight: 600;
 
@@ -287,7 +288,8 @@ $box-content-margin: min(6vw, 90px);
     margin: 5px 0;
   }
 
-  >.container>.row, >.container-fluid-boxes>.container>.row {
+  >.container>.row,
+  >.container-fluid-boxes>.container>.row {
     margin-bottom: min(6.66vw, 100px);
 
     &:last-child {
@@ -316,6 +318,10 @@ $box-content-margin: min(6vw, 90px);
     p {
       margin: 0 $box-content-margin 14px;
     }
+
+    + div > img {
+      width: 100%;
+    }
   }
 
   .row-type-play,
@@ -329,9 +335,9 @@ $box-content-margin: min(6vw, 90px);
 
   .row-type-create {
     &:before {
-      top: -31%;
+      top: -18%;
       left: auto;
-      right: -30.7%;
+      right: -16.7%;
       background-image: url(/images/pages/roblox/create-assets.png);
     }
   }
@@ -372,7 +378,7 @@ $box-content-margin: min(6vw, 90px);
       >.row {
         display: flex;
 
-        &:nth-child(even) {
+        &:nth-child(odd) {
           >.col:first-child {
             order: 1
           }
@@ -385,7 +391,8 @@ $box-content-margin: min(6vw, 90px);
     }
   }
 
-  >.container, >.container-fluid-boxes>.container {
+  >.container,
+  >.container-fluid-boxes>.container {
     >.row-video {
       margin-bottom: min(3vw, 40px);
 
@@ -401,6 +408,16 @@ $box-content-margin: min(6vw, 90px);
 
       @media (max-width: $screen-md-min) {
         font-size: 13px;
+      }
+
+      .faq-bottom {
+        margin-top: 60px;
+        margin-bottom: 30px;
+        ::v-deep {
+          a {
+            color: #FF9406;
+          }
+        }
       }
 
       .item {
@@ -422,7 +439,9 @@ $box-content-margin: min(6vw, 90px);
 
   .headline-container {
     margin-bottom: min(3.33vw, 50px);
-    background: black;
+    background: url(/images/pages/roblox/Code_Combat_Thumbnail_wide.png);
+    background-size: cover;
+    background-position: right center;
     position: relative;
     overflow: hidden;
     position: relative;
@@ -431,6 +450,26 @@ $box-content-margin: min(6vw, 90px);
   .headline-row {
     position: relative;
     padding-bottom: 0px;
+
+    &:before {
+      content: "";
+      position: absolute;
+      height: 100%;
+      aspect-ratio: 1265/864;
+      background: url(/images/pages/roblox/tree.png);
+      background-size: contain;
+      left: -50%;
+      transform: translateX(22%);
+    }
+
+    .header-button {
+      width: 190px;
+      margin-bottom: 30px;
+
+      &:hover {
+        filter: brightness(1.2);
+      }
+    }
 
     .col {
       padding-top: min(1.25vw, 20px);
@@ -467,8 +506,8 @@ $box-content-margin: min(6vw, 90px);
       background-color: #fcd200;
     }
   }
+
   .roblox-connect {
     margin-bottom: 20px;
   }
-}
-</style>
+}</style>

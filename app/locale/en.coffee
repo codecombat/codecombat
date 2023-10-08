@@ -4789,7 +4789,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     email_confirm: "The email address \"__email__\" is already registered. Would you like to login?"
 
   roblox_landing:
-    headline: "Empowering every player to become a creator!"
+    headline: "Empowering Every Player to Become a Creator!"
     subhead: "Experience the easiest and most enjoyable way to code and create your own Roblox games"
     join_the_beta: "Join the Beta"
     sign_up: "Sign Up"
@@ -4842,3 +4842,4 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     connect_button_list_item_8: "Creative mode publishing and exporting"
     connect_button_connected_blurb: "Congratulations, you have linked your accounts! Invite your friends to help reach the community linking goals."
     connect_button_not_connected_blurb: "The more people link their accounts, the more rewards you'll receive!"
+    faq_bottom: "See more <a href=\"https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-\" target=\"_blank\">frequently asked questions in our help center</a>. <br />If you have any other questions, please <a href=\"mailto:support@codecombat.com\">Contact Us</a>."
