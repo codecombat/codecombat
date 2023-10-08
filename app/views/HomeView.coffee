@@ -12,6 +12,10 @@ GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').def
 paymentUtils = require 'app/lib/paymentUtils'
 fetchJson = require 'core/api/fetch-json'
 DOMPurify = require 'dompurify'
+MineModal = require 'views/core/MineModal' # Roblox modal
+storage = require 'core/storage'
+
+
 PRODUCT_SUFFIX = if utils.isCodeCombat then 'coco' else 'ozar'
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -229,6 +233,8 @@ module.exports = class HomeView extends RootView
         AuthModal = require 'app/views/core/AuthModal'
         url = new URLSearchParams window.location.search
         _.defer => @openModalView(new AuthModal({initialValues:{email: url.get 'email'}})) unless @destroyed
+
+    _.defer => @openModalView new MineModal() unless storage.load('roblox-clicked') or @destroyed #if utils.getQueryVariable('roblox-clicked') isnt 'true'        
 
     if utils.isCodeCombat
       if utils.getQueryVariable('payment-studentLicenses') in ['success', 'failed'] and not @renderedPaymentNoty
