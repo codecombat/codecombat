@@ -104,6 +104,21 @@
     color: darken(white, 5%)
     filter: drop-shadow(4px 4px 8px black)
 
+  .link-button
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    /* Preload hover image */
+    &:after
+      content: ""
+      border-image: url(/images/common/button-background-primary-disabled.png)
+    /* Preload active image*/
+    &:before
+      content: ""
+      border-image: url(/images/common/button-background-primary-pressed.png)  
+    &:hover
+      border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
+    &:active
+      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+
     span
       pointer-events: none
 
