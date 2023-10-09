@@ -57,7 +57,10 @@
             </div>
 
             <a href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds" target="_blank">
-              <img src="/images/pages/roblox/play_now.png" class="header-button" />
+              <picture>
+                <source srcset="/images/pages/roblox/play_now.webp" type="image/webp">
+                <img src="/images/pages/roblox/play_now.png" class="header-button">
+              </picture>
             </a>
           </div>
         </div>
