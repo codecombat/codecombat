@@ -1,16 +1,60 @@
 <template>
   <div id="roblox-page">
     <div class="container-fluid headline-container">
+      <div class="responsive-background">
+        <picture>
+          <source media="(max-width: 600px)" srcset="/images/pages/roblox/header-bg/bg_600.webp" type="image/webp">
+          <source media="(max-width: 600px)" srcset="/images/pages/roblox/header-bg/bg_600.png" type="image/png">
+
+          <source media="(min-width: 601px) and (max-width: 800px)" srcset="/images/pages/roblox/header-bg/bg_800.webp"
+            type="image/webp">
+          <source media="(min-width: 601px) and (max-width: 800px)" srcset="/images/pages/roblox/header-bg/bg_800.png"
+            type="image/png">
+
+          <source media="(min-width: 801px) and (max-width: 991px)" srcset="/images/pages/roblox/header-bg/bg_991.webp"
+            type="image/webp">
+          <source media="(min-width: 801px) and (max-width: 991px)" srcset="/images/pages/roblox/header-bg/bg_991.png"
+            type="image/png">
+
+          <source media="(min-width: 992px) and (max-width: 993px)" srcset="/images/pages/roblox/header-bg/bg_993.webp"
+            type="image/webp">
+          <source media="(min-width: 992px) and (max-width: 993px)" srcset="/images/pages/roblox/header-bg/bg_993.png"
+            type="image/png">
+
+          <source media="(min-width: 994px) and (max-width: 1199px)" srcset="/images/pages/roblox/header-bg/bg_1199.webp"
+            type="image/webp">
+          <source media="(min-width: 994px) and (max-width: 1199px)" srcset="/images/pages/roblox/header-bg/bg_1199.png"
+            type="image/png">
+
+          <source media="(min-width: 1200px) and (max-width: 1300px)" srcset="/images/pages/roblox/header-bg/bg_1300.webp"
+            type="image/webp">
+          <source media="(min-width: 1200px) and (max-width: 1300px)" srcset="/images/pages/roblox/header-bg/bg_1300.png"
+            type="image/png">
+
+          <source media="(min-width: 1301px) and (max-width: 1600px)" srcset="/images/pages/roblox/header-bg/bg_1600.webp"
+            type="image/webp">
+          <source media="(min-width: 1301px) and (max-width: 1600px)" srcset="/images/pages/roblox/header-bg/bg_1600.png"
+            type="image/png">
+
+          <source media="(min-width: 1601px)" srcset="/images/pages/roblox/header-bg/bg_full.webp" type="image/webp">
+          <source media="(min-width: 1601px)" srcset="/images/pages/roblox/header-bg/bg_full.png" type="image/png">
+
+          <!-- Fallback for browsers that don't support the picture element -->
+          <img src="/images/pages/roblox/header-bg/bg_600.png">
+        </picture>
+      </div>
       <div class="container">
         <div class="row headline-row">
-          <div class="col col-md-8">
+          <div class="col col-sm-8">
             <img class="coco-worlds-logo" src="/images/pages/roblox/coco-worlds.png">
-            <h1 class="text-headline">
-              {{ $t('roblox_landing.headline') }}
-            </h1>
-            <h2 class="text-subhead">
-              {{ $t('roblox_landing.subhead') }}
-            </h2>
+            <div class="text-container">
+              <h1 class="text-headline">
+                {{ $t('roblox_landing.headline') }}
+              </h1>
+              <h2 class="text-subhead">
+                {{ $t('roblox_landing.subhead') }}
+              </h2>
+            </div>
 
             <a href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds" target="_blank">
               <img src="/images/pages/roblox/play_now.png" class="header-button" />
@@ -34,7 +78,16 @@
             </p>
           </div>
           <div class="col col-md-6">
-            <img :src="`/images/pages/roblox/${boxType}.png`">
+            <picture>
+              <source media="(max-width: 600px)" :srcset="`/images/pages/roblox/${boxType}_600.webp`" type="image/webp">
+              <source media="(max-width: 600px)" :srcset="`/images/pages/roblox/${boxType}_600.png`" type="image/png">
+
+              <source media="(min-width: 1601px)" :srcset="`/images/pages/roblox/${boxType}.webp`" type="image/webp">
+              <source media="(min-width: 1601px)" :srcset="`/images/pages/roblox/${boxType}.png`" type="image/png">
+
+              <img :src="`/images/pages/roblox/${boxType}_600.png`">
+            </picture>
+
           </div>
         </div>
         <div class="row">
@@ -57,7 +110,9 @@
 
         <div class="row row-faq">
           <div class="col-md-12">
-            <button-main href="https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-" target="_blank" :buttonText="$t('contact.faq')" class="button-main" />
+            <button-main
+              href="https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-"
+              target="_blank" :buttonText="$t('contact.faq')" class="button-main" />
 
             <div class="item">
               <p class="question">{{ $t('roblox_landing.question_1') }}</p>
@@ -246,6 +301,10 @@ $box-content-margin: min(6vw, 90px);
   z-index: 1;
   top: 27%;
   left: -18.5%;
+
+  @media only screen and (max-width: 768px) {
+    display: none;
+  }
 }
 
 #roblox-page {
@@ -319,7 +378,7 @@ $box-content-margin: min(6vw, 90px);
       margin: 0 $box-content-margin 14px;
     }
 
-    + div > img {
+    +div>img {
       width: 100%;
     }
   }
@@ -357,6 +416,7 @@ $box-content-margin: min(6vw, 90px);
     margin-top: -50px;
     padding-top: 50px;
     overflow: hidden;
+    clear: both;
   }
 
   .container-boxes {
@@ -413,6 +473,7 @@ $box-content-margin: min(6vw, 90px);
       .faq-bottom {
         margin-top: 60px;
         margin-bottom: 30px;
+
         ::v-deep {
           a {
             color: #FF9406;
@@ -439,28 +500,88 @@ $box-content-margin: min(6vw, 90px);
 
   .headline-container {
     margin-bottom: min(3.33vw, 50px);
-    background: url(/images/pages/roblox/Code_Combat_Thumbnail_wide.png);
-    background-size: cover;
-    background-position: right center;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     position: relative;
+
+    @media screen and (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      z-index: 2;
+      position: relative;
+
+      @media screen and (max-width: 768px) {
+        margin: 0;
+        padding: 0;
+
+        >* {
+          padding: 0 20px;
+        }
+      }
+    }
+
+
+    .responsive-background {
+      position: absolute;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+
+      @media screen and (max-width: 768px) {
+        position: relative;
+        height: 275px;
+      }
+
+      &:before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        aspect-ratio: 283 / 844;
+        background-image: url(/images/pages/roblox/tree.png);
+
+        @supports (background-image: url('/images/pages/roblox/tree.webp')) {
+          background-image: url('/images/pages/roblox/tree.webp')
+        }
+
+        background-size: contain;
+        left: 0;
+        z-index: 1;
+      }
+
+    }
+
+    .responsive-background img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: right center;
+    }
   }
 
   .headline-row {
     position: relative;
     padding-bottom: 0px;
 
-    &:before {
-      content: "";
-      position: absolute;
-      height: 100%;
-      aspect-ratio: 1265/864;
-      background: url(/images/pages/roblox/tree.png);
-      background-size: contain;
-      left: -50%;
-      transform: translateX(22%);
+    @media screen and (max-width: 768px) {
+      background: white;
     }
+
+
+    .text-container {
+      background: rgb(255 255 255 / 55%);
+      border-radius: 20px;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
 
     .header-button {
       width: 190px;
@@ -473,6 +594,14 @@ $box-content-margin: min(6vw, 90px);
 
     .col {
       padding-top: min(1.25vw, 20px);
+
+      @media screen and (max-width: 768px) {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+      }
     }
 
   }

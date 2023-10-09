@@ -230,6 +230,9 @@ export default Vue.extend({
             align-items: center;
             position: relative;
             margin-bottom: 60px;
+            @media screen and (max-width: 500px) {
+                margin-bottom: 80px;
+            }
 
             .counter-item {
                 display: flex;
@@ -330,6 +333,12 @@ export default Vue.extend({
                     position: absolute;
                     width: min-content;
                     right: calc(50% + 25px);
+                    @media screen and (max-width: 500px) {
+                        position: absolute;
+                        rotate: -90deg;
+                        left: 10px;
+                        bottom: -50px;
+                    }
                     bottom: -35px;
                     line-height: 1.2;
                     text-align: center;
@@ -349,6 +358,9 @@ export default Vue.extend({
 
         .logo {
             max-width: min(20%, 100px);
+            @media only screen and (max-width: 600px) {
+                display: none;
+            }
         }
 
         &__text {
