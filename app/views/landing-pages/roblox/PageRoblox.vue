@@ -298,7 +298,7 @@ $box-content-margin: min(6vw, 90px);
   background-image: url(/images/pages/roblox/play-assets.png);
 
   @supports (background-image: url('/images/pages/roblox/play-assets.webp')) {
-    background-image: url('/images/pages/roblox/play-tree.webp')
+    background-image: url('/images/pages/roblox/play-assets.webp')
   }
 
   background-size: contain;
@@ -405,7 +405,7 @@ $box-content-margin: min(6vw, 90px);
       background-image: url(/images/pages/roblox/create-assets.png);
 
       @supports (background-image: url('/images/pages/roblox/create-assets.webp')) {
-        background-image: url('/images/pages/roblox/create-tree.webp')
+        background-image: url('/images/pages/roblox/create-assets.webp')
       }
     }
   }
