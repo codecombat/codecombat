@@ -296,6 +296,11 @@ $box-content-margin: min(6vw, 90px);
   width: 30%;
   aspect-ratio: 1/1;
   background-image: url(/images/pages/roblox/play-assets.png);
+
+  @supports (background-image: url('/images/pages/roblox/play-assets.webp')) {
+    background-image: url('/images/pages/roblox/play-tree.webp')
+  }
+
   background-size: contain;
   background-repeat: no-repeat;
   z-index: 1;
@@ -398,6 +403,10 @@ $box-content-margin: min(6vw, 90px);
       left: auto;
       right: -16.7%;
       background-image: url(/images/pages/roblox/create-assets.png);
+
+      @supports (background-image: url('/images/pages/roblox/create-assets.webp')) {
+        background-image: url('/images/pages/roblox/create-tree.webp')
+      }
     }
   }
 
@@ -639,4 +648,5 @@ $box-content-margin: min(6vw, 90px);
   .roblox-connect {
     margin-bottom: 20px;
   }
-}</style>
+}
+</style>
