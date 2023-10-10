@@ -6,7 +6,7 @@
       {{ libraryName || '' }}
     </div>
     <div class="library__desc">
-      {{ $t('library.welcome_dashboard') }}, <span v-if="libraryName" class="library__desc__name">{{ libraryName }}!</span> {{ $t('library.engage_members') }}
+      {{ $t('library.welcome_dashboard') }}, <span v-if="libraryName" class="library__desc__name">{{ libraryName }}!</span> {{ $t('library.adjust_dates_explore') }}
     </div>
     <sidebar-component
       :stats="licenseStats"

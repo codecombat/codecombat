@@ -17,7 +17,7 @@
     />
     <stat-item-component
       img-path="/images/pages/library/icon-programs.png"
-      :name="$t('library.programs_written')"
+      :name="$t('library.levels_completed')"
       :value="programsWritten"
     />
   </div>
