@@ -4844,3 +4844,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     connect_button_list_item_8: "Creative mode publishing and exporting"
     connect_button_connected_blurb: "Congratulations, you have linked your accounts! Invite your friends to help reach the community linking goals."
     connect_button_not_connected_blurb: "The more people link their accounts, the more rewards you'll receive!"
+    modal_title: "CodeCombat Worlds<br> Now Live on Roblox!"
+    modal_play_now: "PLAY NOW!"
+    modal_button_link_roblox_account: "Link Roblox Account"
