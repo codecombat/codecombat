@@ -4747,6 +4747,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     time_spent: "Time spent (in minutes)"
     new_users: "New Users"
     age_demographics: "Age demographics"
+    levels_completed: "Levels Completed"
+    adjust_dates_explore: "Adjust the dates below to explore patron usage trends over time."
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."
