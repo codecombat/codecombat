@@ -4731,6 +4731,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     time_spent: "Time spent (in minutes)"
     new_users: "New Users"
     age_demographics: "Age demographics"
+    levels_completed: "Levels Completed"
+    adjust_dates_explore: "Adjust the dates below to explore patron usage trends over time."
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."
@@ -4843,3 +4845,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     connect_button_connected_blurb: "Congratulations, you have linked your accounts! Invite your friends to help reach the community linking goals."
     connect_button_not_connected_blurb: "The more people link their accounts, the more rewards you'll receive!"
     faq_bottom: "See more <a href=\"https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-\" target=\"_blank\">frequently asked questions in our help center</a>. <br />If you have any other questions, please <a href=\"mailto:support@codecombat.com\">Contact Us</a>."
+    modal_title: "CodeCombat Worlds<br> Now Live on Roblox!"
+    modal_play_now: "PLAY NOW!"
+    modal_button_link_roblox_account: "Link Roblox Account"
