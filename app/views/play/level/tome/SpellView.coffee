@@ -1482,7 +1482,7 @@ module.exports = class SpellView extends CocoView
 
     aceSSession.on('changeBackMarker', =>
       if @aceDiff and @aceDiff.getNumDiffs() == 0
-        @closeSolution()
+        Backbone.Mediator.publish 'level:close-solution', { removeButton: true }
     )
 
   onUpdateSolution: (e)->

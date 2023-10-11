@@ -41,6 +41,7 @@ module.exports = class LevelChatView extends CocoView
 
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
+    @diffShown = false
 
   updateMultiplayerVisibility: ->
     return unless @$el?
@@ -110,7 +111,8 @@ module.exports = class LevelChatView extends CocoView
     content = content.replace /<p><code>((.|\n)*?)(?:(?!<\/code>)(.|\n))*?<\/code><\/p>/g, (match) ->
       match.replace(/<p><code>/g, '<pre><code>').replace(/<\/code><\/p>/g, '</code></pre>')
 
-    content = content.replace /\[Show Me\]/g, "<p><button class='btn btn-illustrated btn-small btn-primary fix-code-button'>#{$.i18n.t('play_level.chat_fix_show')}</button></p>"
+    buttonContent = if @diffShown then 'chat_fix_hide' else 'chat_fix_show'
+    content = content.replace /\[Show Me\]/g, "<p><button class='btn btn-illustrated btn-small btn-primary fix-code-button'>#{$.i18n.t('play_level.' + buttonContent)}</button></p>"
     @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
 
     if _.string.startsWith(content, '/me')
@@ -198,13 +200,17 @@ module.exports = class LevelChatView extends CocoView
     btn = @$el.find('.fix-code-button')
     show = $.i18n.t('play_level.chat_fix_show')
     hide = $.i18n.t('play_level.chat_fix_hide')
-    if btn.html() == show
+    @diffShown = !@diffShown
+    if @diffShown
       btn.html hide
     else
       btn.html show
 
   onCloseSolution: (e) ->
+    @diffShown = false
     @$el.find('.fix-code-button').html $.i18n.t('play_level.chat_fix_show')
+    if e.removeButton # when code is fixed, remove the button
+      @$el.find('.fix-code-button').parent().remove()
 
   onAddUserChat: (e) ->
     @saveChatMessage { text: e.message }

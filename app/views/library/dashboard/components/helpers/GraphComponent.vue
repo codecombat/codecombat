@@ -28,7 +28,6 @@
       />
     </div>
     <div
-      v-if="ageData.length > 0"
       class="graphs__item"
     >
       <div class="graphs__heading">
@@ -37,7 +36,14 @@
       <d3-pie-chart
         :datum="ageData"
         :config="ageConfig"
+        v-if="ageData.length > 0"
       />
+      <div
+        v-else
+        class="graphs__age"
+      >
+        No data
+      </div>
     </div>
     <div class="graphs__item">
       <div class="graphs__heading">
@@ -50,7 +56,7 @@
     </div>
     <div class="graphs__item">
       <div class="graphs__heading">
-        {{ $t('library.programs_written') }}
+        {{ $t('library.levels_completed') }}
       </div>
       <d3-bar-chart
         :config="programsWrittenConfig"
@@ -80,8 +86,8 @@ export default {
         values: ['number_of_users'],
         date: {
           key: 'date',
-          inputFormat: '%Y-%m',
-          outputFormat: '%Y-%m'
+          inputFormat: '%B %y',
+          outputFormat: '%b %y'
         },
         color: {
           scheme: ['#1FBAB4']
@@ -91,8 +97,8 @@ export default {
         values: ['new_signups'],
         date: {
           key: 'date',
-          inputFormat: '%Y-%m',
-          outputFormat: '%Y-%m'
+          inputFormat: '%B %y',
+          outputFormat: '%b %y'
         },
         color: {
           scheme: ['#20572B']
@@ -139,35 +145,35 @@ export default {
     numberOfUsersData () {
       const arr = []
       for (const month in this.stats?.licenseDaysByMonth) {
-        arr.push({ date: month, number_of_users: this.stats?.licenseDaysByMonth[month]?.noOfRedeemers })
+        arr.push({ date: this.formatDate(month), number_of_users: this.stats?.licenseDaysByMonth[month]?.noOfRedeemers })
       }
       return arr
     },
     newSignupsData () {
       const arr = []
       for (const month in this.stats?.licenseDaysByMonth) {
-        arr.push({ date: month, new_signups: this.stats?.licenseDaysByMonth[month]?.newSignups })
+        arr.push({ date: this.formatDate(month), new_signups: this.stats?.licenseDaysByMonth[month]?.newSignups })
       }
       return arr
     },
     linesOfCodeData () {
       const arr = []
       for (const month in this.stats?.licenseDaysByMonth) {
-        arr.push({ date: month, lines_of_code: this.stats?.licenseDaysByMonth[month]?.progress?.linesOfCode })
+        arr.push({ date: this.formatDate(month, { shortenMonth: true }), lines_of_code: this.stats?.licenseDaysByMonth[month]?.progress?.linesOfCode })
       }
       return arr
     },
     programsWrittenData () {
       const arr = []
       for (const month in this.stats?.licenseDaysByMonth) {
-        arr.push({ date: month, programs_written: this.stats?.licenseDaysByMonth[month]?.progress?.programs })
+        arr.push({ date: this.formatDate(month, { shortenMonth: true }), programs_written: this.stats?.licenseDaysByMonth[month]?.progress?.programs })
       }
       return arr
     },
     timeSpentData () {
       const arr = []
       for (const month in this.stats?.licenseDaysByMonth) {
-        arr.push({ date: month, time_spent: (this.stats?.licenseDaysByMonth[month]?.progress?.playtime || 0) / 60 })
+        arr.push({ date: this.formatDate(month, { shortenMonth: true }), time_spent: (this.stats?.licenseDaysByMonth[month]?.progress?.playtime || 0) / 60 })
       }
       return arr
     },
@@ -178,6 +184,17 @@ export default {
         if (val > 0) arr.push({ name: ageRange, count: val })
       }
       return arr
+    }
+  },
+  methods: {
+    // example input: 2023-07
+    formatDate (dateStr, { shortenMonth = false } = {}) {
+      const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
+      const split = dateStr.split('-')
+      const month = parseInt(split[1], 10)
+      const monthStr = $.i18n.t(`calendar.${months[month - 1]}`)
+      const monthFinal = shortenMonth ? monthStr.slice(0, 3) : monthStr
+      return `${monthFinal} ${split[0].slice(-2)}`
     }
   }
 }
@@ -221,6 +238,13 @@ export default {
       width: 100%;
       margin-top: 1rem;
     }
+  }
+
+  &__age {
+    position: relative;
+    top: 40%;
+    left: 40%;
+    font-size: 3rem;
   }
 }
 </style>
