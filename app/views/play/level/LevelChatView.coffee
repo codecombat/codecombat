@@ -224,9 +224,19 @@ module.exports = class LevelChatView extends CocoView
       @reallySaveChatMessage(@savingChatMessage)
       @savingChatMessage = undefined
 
+  isSpellChanged: ->
+    aether = @parent.subviews.tome_view.spellView.spellThang.aether
+    return aether.pure != aether.raw
+
   saveChatMessage: ({ text, sender }) ->
-    Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
-    @savingChatMessage = { text, sender }
+    console.log('spell changed?', @isSpellChanged())
+    if @isSpellChanged()
+      console.log('manual cast')
+      Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
+      @savingChatMessage = { text, sender }
+    else
+      @reallySaveChatMessage({ text, sender })
+      @savingChatMessage = undefined
 
   reallySaveChatMessage: ({ text, sender }) ->
     chatMessage = new ChatMessage @getChatMessageProps { text, sender }
