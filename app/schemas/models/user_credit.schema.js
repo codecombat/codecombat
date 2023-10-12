@@ -22,7 +22,8 @@ const UserCreditSchema = c.object({
           title: 'transaction'
         }, {
           action: c.shortString(),
-          transactionDate: c.date()
+          transactionDate: c.date(),
+          uid: c.shortString()
         }
       )
     )

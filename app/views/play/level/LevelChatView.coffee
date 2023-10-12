@@ -219,13 +219,13 @@ module.exports = class LevelChatView extends CocoView
   checkCreditsAndAddMessage: (message) ->
     uuid = crypto.randomUUID() || Date.now()
     userCreditApi.redeemCredits({
-      operation: 'AI_CHAT_HELP_BOT',
+      operation: 'LEVEL_CHAT_BOT',
       id: "#{uuid}|#{message.slice(0, 20)}"
     })
       .then (res) =>
         @saveChatMessage { text:  message }
       .catch (err) =>
-        console.log('user credit fetch failed', err)
+        console.log('user credit redemption error', err)
         message = err?.message || 'Internal error'
         noty({ text: message, type: 'error', layout: 'center', timeout: 3000 })
         if err.code is 402 and not me.hasSubscription()
