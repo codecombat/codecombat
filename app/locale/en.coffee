@@ -1111,6 +1111,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     content_type_cinematic: "Cinematic"
     content_type_interactive: "Concept Check"
     feedback: "Feedback"
+    not_enough_credits_bot: "Opps! Looks like you don’t have enough queries. Subscribe now and get the queries you want for the AI powered support you need!"
 
   apis:
     methods: "Methods"
@@ -1301,6 +1302,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     subscription_status: "Your Subscription Status"
     currently_not_free: "You don't have a Subscription yet."
     online_classes: "Online Classes"
+    feature_ai_level_bot: "Get AI powered debugging support"
 
   announcement:
     now_available: "Now available for subscribers!"
@@ -1379,6 +1381,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     list_items: "Equip Premium-only items like pets"
     list_support: "Get Premium support to help you debug tricky code"
     list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
+    ai_bot_learning: "AI Powered support to accelerate your learning!"
+    ai_bot_description: "Meet DebugBot AI, CodeCombat’s AI powered assistant. This powerful helper can evaluate your code, point out errors, explain how to fix them, and provide all the context you need to understand the “why”. It’s instant support when you need it most."
 
   choose_hero:
     choose_hero: "Choose Your Hero"

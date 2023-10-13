@@ -7,6 +7,8 @@ ChatMessage = require 'models/ChatMessage'
 utils = require 'core/utils'
 fetchJson = require 'core/api/fetch-json'
 co = require 'co'
+userCreditApi = require 'core/api/user-credits'
+SubscribeModal = require 'views/core/SubscribeModal'
 
 module.exports = class LevelChatView extends CocoView
   id: 'level-chat-view'
@@ -176,7 +178,7 @@ module.exports = class LevelChatView extends CocoView
     text = _.string.strip($(e.target).val())
     return false unless text
     #@bus.sendMessage(text)  # TODO: bring back bus?
-    @saveChatMessage { text }
+    @checkCreditsAndAddMessage(text)
     $(e.target).val('')
     return false
 
@@ -212,7 +214,23 @@ module.exports = class LevelChatView extends CocoView
       @$el.find('.fix-code-button').parent().remove()
 
   onAddUserChat: (e) ->
-    @saveChatMessage { text: e.message }
+    @checkCreditsAndAddMessage(e.message)
+
+  checkCreditsAndAddMessage: (message) ->
+    uuid = crypto.randomUUID() || Date.now()
+    userCreditApi.redeemCredits({
+      operation: 'LEVEL_CHAT_BOT',
+      id: "#{uuid}|#{message.slice(0, 20)}"
+    })
+      .then (res) =>
+        @saveChatMessage { text:  message }
+      .catch (err) =>
+        console.log('user credit redemption error', err)
+        message = err?.message || 'Internal error'
+        if err.code is 402 and not me.hasSubscription()
+          message = $.i18n.t('play_level.not_enough_credits_bot')
+          @openModalView new SubscribeModal()
+        noty({ text: message, type: 'error', layout: 'center', timeout: 5000 })
 
   scrollDown: ->
     openPanel = $('.open-chat-area', @$el)[0]
@@ -236,7 +254,7 @@ module.exports = class LevelChatView extends CocoView
     @fetchChatMessageStream chatMessage.id
 
   fetchChatMessageStream: (chatMessageId) ->
-    model = utils.getQueryVariable('model') or 'chima' # or 'gpt-4'
+    model = utils.getQueryVariable('model') or 'gpt-4' # or 'gpt-4'
     fetch("/db/chat_message/#{chatMessageId}/ai-response?model=#{model}").then co.wrap (response) =>
       reader = response.body.getReader()
       decoder = new TextDecoder('utf-8')
