@@ -6,6 +6,5 @@ module.exports = class OAuth2IdentityCollection extends CocoCollection
   model: OAuth2Identity
 
   fetchForProvider: (provider) ->
-    @fetch()
-      .then =>
-        return @.filter((i) => i.get('provider') == provider)
+    @fetch({data:{filter:{provider: provider}}})
+      .then => @models
