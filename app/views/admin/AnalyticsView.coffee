@@ -304,7 +304,7 @@ module.exports = class AnalyticsView extends RootView
         dayGroupCountMap = {}
         for payment in data
           continue unless payment.service in ['paypal', 'stripe']
-          continue if payment.productID is 'online-classes'
+          continue if payment.productID in ['online-classes', 'student-licenses']
           if !payment.created
             day = utils.objectIdToDate(payment._id).toISOString().substring(0, 10)
           else
