@@ -4,7 +4,6 @@ ace = require('lib/aceContainer');
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
 UndoManager = ace.require('ace/undomanager').UndoManager
 Y = require 'yjs'
-{ WebrtcProvider } = require 'y-webrtc'
 { WebsocketProvider } = require 'y-websocket'
 { AceBinding } = require 'y-ace'
 
