@@ -1112,6 +1112,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     content_type_interactive: "Concept Check"
     feedback: "Feedback"
     not_enough_credits_bot: "Opps! Looks like you don’t have enough queries. Subscribe now and get the queries you want for the AI powered support you need!"
+    not_enough_credits_interval: "No credits left for the __interval__. Consumed __amount__ credits."
 
   apis:
     methods: "Methods"
