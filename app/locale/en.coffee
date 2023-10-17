@@ -441,7 +441,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   new_home_faq:
     what_programming_languages: "What programming languages are available?"
-    python_and_javascript: "We currently support Python and JavaScript."
+    python_and_javascript: "We currently support Python, JavaScript, C++, Java, and Lua."
     why_python: "Why should you choose Python?"
     why_python_blurb: "Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python."
     why_javascript: "Why should you choose JavaScript?"
@@ -1112,6 +1112,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     content_type_interactive: "Concept Check"
     feedback: "Feedback"
     not_enough_credits_bot: "Opps! Looks like you don’t have enough queries. Subscribe now and get the queries you want for the AI powered support you need!"
+    not_enough_credits_interval: "No credits left for the __interval__. Consumed __amount__ credits."
 
   apis:
     methods: "Methods"
@@ -4852,3 +4853,18 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     modal_title: "CodeCombat Worlds<br> Now Live on Roblox!"
     modal_play_now: "PLAY NOW!"
     modal_button_link_roblox_account: "Link Roblox Account"
+
+  ai:
+    prompt_level_chat_1: 'What does this error mean?'
+    prompt_level_chat_2: 'Please explain this error.'
+    prompt_level_chat_3: 'What\'s wrong?'
+    prompt_level_chat_4: 'Please help explain this.'
+    prompt_level_chat_5: 'How can I fix it?'
+    prompt_level_chat_6: 'Help, please.'
+    prompt_level_chat_7: 'What do I do?'
+    prompt_level_chat_8: 'What does this mean?'
+    prompt_level_chat_9: 'Please explain.'
+    prompt_level_chat_10: 'What is this error?'
+    prompt_level_chat_11: 'What is the problem?'
+    prompt_level_chat_12: '???'
+    prompt_level_chat_13: 'Dear AI, I beseech you, explain my error, in verse.'

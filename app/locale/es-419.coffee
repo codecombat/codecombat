@@ -441,7 +441,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   new_home_faq:
     what_programming_languages: "¿Qué lenguajes de programación están disponibles?"
-    python_and_javascript: "Actualmente admitimos Python y JavaScript."
+    python_and_javascript: "Actualmente admitimos Python, JavaScript, C++, Java, y Lua."
     why_python: "¿Por qué debería elegir Python?"
     why_python_blurb: "Python es apto para principiantes y actualmente lo utilizan las principales corporaciones (como Google). Si tiene alumnos más jóvenes o principiantes, recomendamos encarecidamente Python."
     why_javascript: "¿Por qué debería elegir JavaScript?"

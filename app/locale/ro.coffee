@@ -441,7 +441,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
 
   new_home_faq:
     what_programming_languages: "Ce limbaje de programare sunt disponibile?"
-    python_and_javascript: "În prezent lucrăm cu Python și JavaScript."
+    python_and_javascript: "În prezent lucrăm cu Python, JavaScript, C++, Java, și Lua."
     why_python: "De ce să alegi Python?"
     why_python_blurb: "Python este atât prietenos pentru începători dar este în prezent utilizat de majoritatea corporațiilor (cum este Google). Dacă aveți cursanți mai tineri sau începători, vă recomandăm cu încredere Python."
     why_javascript: "De ce să alegi JavaScript?"
