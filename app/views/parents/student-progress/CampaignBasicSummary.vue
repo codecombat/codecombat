@@ -46,7 +46,7 @@
               <option :selected="selectedCodeLang === 'javascript'" value="javascript" class="content__language__option">Javascript</option>
             </select>
             <button
-              v-if="!isPaidUser"
+              v-if="!isPaidUser && !isFreeCampaign"
               class="content__solution__lock"
               @click="onLockSolutionGuideClick"
             >
@@ -66,7 +66,7 @@
             </button>
             <a
               v-else
-              :href="getSolutionGuideLink"
+              :href="solutionGuideLink"
               target="_blank"
               class="content__solution-guide"
             >
@@ -164,6 +164,16 @@ export default {
       } else {
         return this.campaign?.description?.split(',').map(d => d.trim().split(' ').map(capitalize).join(' '))
       }
+    },
+    isFreeCampaign () {
+      return this.campaign?.free
+    },
+    solutionGuideLink () {
+      if (this.product === 'ozaria') {
+        return `/teachers/course-solution/${this.campaign._id}/${this.selectedCodeLang}?callOz=true`
+      } else {
+        return `/teachers/campaign-solution/${this.campaign.slug}/${this.selectedCodeLang}`
+      }
     }
   },
   methods: {
@@ -176,13 +186,6 @@ export default {
         return `/ozaria/file/${campaign.screenshot}`
       } else {
         return `/images/pages/play/campaign/${campignSlugImageMap[campaign.slug]}`
-      }
-    },
-    getSolutionGuideLink () {
-      if (this.product === 'ozaria') {
-        return `/teachers/course-solution/${this.campaign._id}/${this.selectedCodeLang}`
-      } else {
-        return `/teachers/campaign-solution/${this.campaign.slug}/${this.selectedCodeLang}`
       }
     },
     onLockSolutionGuideClick () {

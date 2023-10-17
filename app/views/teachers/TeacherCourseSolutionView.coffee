@@ -46,6 +46,8 @@ module.exports = class TeacherCourseSolutionView extends RootView
 
   initialize: (options, @courseID, @language) ->
     @isWebDev = @courseID in [utils.courseIDs.WEB_DEVELOPMENT_2]
+    @callOz = !!utils.getQueryVariable('callOz')
+    console.log 'callOz', @callOz
     if me.isTeacher() or me.isAdmin() or me.isParentHome()
       @prettyLanguage = @camelCaseLanguage(@language)
       if options.campaignMode
@@ -55,8 +57,11 @@ module.exports = class TeacherCourseSolutionView extends RootView
         @levels = new Levels([], { url: "/db/campaign/#{campaignSlug}/level-solutions"})
       else
         @course = new Course(_id: @courseID)
-        @supermodel.trackRequest(@course.fetch())
-        @levels = new Levels([], { url: "/db/course/#{@courseID}/level-solutions"})
+        @supermodel.trackRequest(@course.fetch({ callOz: @callOz }))
+        levelSolutionsUrl = "/db/course/#{@courseID}/level-solutions"
+        if @callOz
+          levelSolutionsUrl = "/ozaria#{levelSolutionsUrl}"
+        @levels = new Levels([], { url: levelSolutionsUrl })
       @supermodel.loadCollection(@levels, 'levels', {cache: false})
 
       @levelNumberMap = {}
