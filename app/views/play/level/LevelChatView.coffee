@@ -262,11 +262,23 @@ module.exports = class LevelChatView extends CocoView
       @reallySaveChatMessage({ text, sender })
       @savingChatMessage = undefined
 
+  cleanUpApiProperties: (chat) ->
+    context = chat.context
+    currentCode = Object.values(context.code.current)[0]
+    solutionCode = Object.values(context.code.solution)[0]
+    allApiProperties = context.apiProperties
+    apiProperties = []
+    for doc in allApiProperties
+      if currentCode.includes(doc.name) or solutionCode.includes(doc.name)
+        apiProperties.push doc
+    context.apiProperties = apiProperties
+
   reallySaveChatMessage: ({ text, sender }) ->
     chatMessage = new ChatMessage @getChatMessageProps { text, sender }
     @chatMessages ?= []
     @chatMessages.push chatMessage
     Backbone.Mediator.publish 'level:gather-chat-message-context', { chat: chatMessage.attributes }
+    @cleanUpApiProperties chatMessage.attributes
     # This will enrich the message with the props from other parts of the app
     @listenToOnce chatMessage, 'sync', @onChatMessageSaved
     chatMessage.save()
