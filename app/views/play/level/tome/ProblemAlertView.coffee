@@ -118,7 +118,6 @@ module.exports = class ProblemAlertView extends CocoView
   onAIHelpClicked: (e) ->
     rand = _.random(1, 13)
     message = $.i18n.t('ai.prompt_level_chat_' + rand)
-    console.log('what?', message, rand)
     Backbone.Mediator.publish 'level:add-user-chat', { message }
 
   onWindowResize: (e) =>
