@@ -2,7 +2,20 @@
   <div class="resources">
     <div class="resources__text">Resources</div>
     <div class="resources__btns">
-      <div @click="onLessonSlidesClicked" class="resource resources__slides">
+      <a
+        v-if="canViewSlides"
+        :href="lessonSlidesUrl"
+        target="_blank"
+        class="resource resources__slides resources__link"
+      >
+        <span class="resource__text">Lesson Slides</span>
+        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconComputer.svg" alt="Slides icon" class="resource__icon resource__slides">
+      </a>
+      <div
+        v-else
+        class="resource resources__slides"
+        @click="onLessonSlidesClicked"
+      >
         <span class="resource__text">Lesson Slides</span>
         <img src="/images/ozaria/teachers/dashboard/svg_icons/IconComputer.svg" alt="Slides icon" class="resource__icon resource__slides">
       </div>
@@ -25,13 +38,21 @@ export default {
     lessonSlidesUrl: {
       type: String,
       default: ''
+    },
+    isFree: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
     onLessonSlidesClicked () {
       console.log('lessonSlide', this.lessonSlidesUrl)
+      const url = this.lessonSlidesUrl
+      if (this.isFree) {
+        window.location = url
+        return
+      }
       if (me.isPaidOnlineClassUser()) {
-        const url = this.lessonSlidesUrl
         if (!url) {
           noty({
             text: 'Sorry, lesson not available for this campaign currently',
@@ -50,6 +71,12 @@ export default {
           layout: 'center'
         })
       }
+    }
+  },
+  computed: {
+    canViewSlides () {
+      if (this.isFree || me.isPaidOnlineClassUser()) return true
+      return false
     }
   }
 }
@@ -85,6 +112,11 @@ export default {
 
   &__slides {
     cursor: pointer;
+  }
+
+  &__link {
+    color: inherit;
+    text-decoration: none;
   }
 }
 

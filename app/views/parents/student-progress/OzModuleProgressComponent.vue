@@ -45,6 +45,7 @@
     <div class="lprogress__resources">
       <module-resources
         :lesson-slides-url="lessonSlidesUrl"
+        :is-free="isFreeCampaign"
       />
     </div>
   </div>
@@ -72,6 +73,10 @@ export default {
     },
     lessonSlidesUrl: {
       type: String
+    },
+    isFreeCampaign: {
+      type: Boolean,
+      default: false
     },
     codeLanguage: {
       type: String

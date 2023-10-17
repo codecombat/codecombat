@@ -29,6 +29,7 @@
         <oz-module-progress-component
           :module-num="num"
           :lesson-slides-url="lessonSlidesUrl(num)"
+          :is-free-campaign="isFreelyAvailable"
           :module-name="moduleName(num)"
           :is-capstone="isCapstone(num)"
           :levels="getContentTypes(num)"
@@ -86,6 +87,9 @@ export default {
   computed: {
     moduleNumbers () {
       return Object.keys(this.ozCourseContent?.modules || {}).map(n => parseInt(n, 10))
+    },
+    isFreelyAvailable () {
+      return this.campaign.free
     }
   },
   methods: {
