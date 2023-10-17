@@ -229,9 +229,7 @@ module.exports = class LevelChatView extends CocoView
     return aether.pure != aether.raw
 
   saveChatMessage: ({ text, sender }) ->
-    console.log('spell changed?', @isSpellChanged())
     if @isSpellChanged()
-      console.log('manual cast')
       Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
       @savingChatMessage = { text, sender }
     else
