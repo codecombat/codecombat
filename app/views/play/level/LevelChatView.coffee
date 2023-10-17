@@ -9,6 +9,7 @@ fetchJson = require 'core/api/fetch-json'
 co = require 'co'
 userCreditApi = require 'core/api/user-credits'
 SubscribeModal = require 'views/core/SubscribeModal'
+_ = require('lodash')
 
 module.exports = class LevelChatView extends CocoView
   id: 'level-chat-view'
@@ -228,9 +229,16 @@ module.exports = class LevelChatView extends CocoView
       .catch (err) =>
         console.log('user credit redemption error', err)
         message = err?.message || 'Internal error'
-        if err.code is 402 and not me.hasSubscription()
-          message = $.i18n.t('play_level.not_enough_credits_bot')
-          @openModalView new SubscribeModal()
+        if err.code is 402
+          if not me.hasSubscription()
+            message = $.i18n.t('play_level.not_enough_credits_bot')
+            @openModalView new SubscribeModal()
+          else
+            creditsLeft = err.creditsLeft
+            creditObj = _.find(creditsLeft, (c) -> c.creditsLeft <= 0)
+            interval = creditObj.durationKey
+            amount = creditObj.durationAmount
+            message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
         noty({ text: message, type: 'error', layout: 'center', timeout: 5000 })
 
   scrollDown: ->
