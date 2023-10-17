@@ -113,26 +113,38 @@ module.exports = class LevelChatView extends CocoView
     content = content.replace /<p><code>((.|\n)*?)(?:(?!<\/code>)(.|\n))*?<\/code><\/p>/g, (match) ->
       match.replace(/<p><code>/g, '<pre><code>').replace(/<\/code><\/p>/g, '</code></pre>')
 
-    buttonContent = if @diffShown then 'chat_fix_hide' else 'chat_fix_show'
-    content = content.replace /\[Show Me\]/g, "<p><button class='btn btn-illustrated btn-small btn-primary fix-code-button'>#{$.i18n.t('play_level.' + buttonContent)}</button></p>"
-    @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
-
     if _.string.startsWith(content, '/me')
       content = (message.authorName or message.sender?.name) + content.slice(3)
 
+    splitContent = content.split('\[Show Me\]')
+    preContent = splitContent[0]
+    if splitContent.length > 1
+      buttonContent = "<p><button class='btn btn-illustrated btn-small btn-primary fix-code-button'>#{$.i18n.t('play_level.chat_fix_' + if @diffShown then 'hide' else 'show')}</button></p>"
+      postContent = splitContent[1]
+    else
+      @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
+      buttonContent = ''
+      postContent = ''
+
+    # [show me] only appears on the ai message
     if message.system
-      td.append($('<span class="system"></span>').html(content))
+      td.append($('<span class="system"></span>').html(preContent))
 
     else if _.string.startsWith(content, '/me')
-      td.append($('<span class="action"></span>').html(content))
+      td.append($('<span class="action"></span>').html(preContent))
 
     else
       # td.append($('<strong></strong>').text((message.authorName or message.sender?.name) + ': '))
-      td.append($('<span></span>').html(content))
+      td.append($('<span class="pre-content"></span>').html(preContent))
+      td.append($('<span class="button-content"></span>').html(buttonContent))
+      td.append($('<span class="post-content"></span>').html(postContent))
 
     if existingRow?.length
       tr = $(existingRow[0])
-      tr.find('.td.message-content').replaceWith(td)
+      if splitContent.length > 1 and @$el.find('.fix-code-button').length # if button should show, only replace the post content
+        tr.find('.post-content').replaceWith(td.find('.post-content'))
+      else
+        tr.find('.td.message-content').replaceWith(td)
     else
       tr = $('<div class="tr message-row"></div>')
       mbody = $('<div class="message-body"></div>')
