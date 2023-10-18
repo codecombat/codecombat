@@ -2,7 +2,9 @@ extends /templates/base-flat
 
 mixin event(e)
   .event.anchor.row(id=e.time)
-    .content=e.content
+    .content
+      each c in e.content.split('\n')
+        span=c
       .time=e.time
     .img
       .img-list
