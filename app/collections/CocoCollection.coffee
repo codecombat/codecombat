@@ -33,6 +33,10 @@ module.exports = class CocoCollection extends Backbone.Collection
     if @project
       options.data ?= {}
       options.data.project = @project.join(',')
+    if options.callOz
+      hostVal = window.location.origin
+      url = options.url || @getURL()
+      options.url = "#{hostVal}/ozaria#{url}"
     @jqxhr = super(options)
     @loading = true
     @jqxhr
@@ -40,5 +44,5 @@ module.exports = class CocoCollection extends Backbone.Collection
   setProjection: (@project) ->
 
   stringify: -> return JSON.stringify(@toJSON())
-  
+
   wait: (event) -> new Promise((resolve) => @once(event, resolve))
