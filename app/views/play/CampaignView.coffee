@@ -1498,8 +1498,8 @@ module.exports = class CampaignView extends RootView
             level.hidden = !prev?.practice
             level.locked = true
           else if prev
-            level.hidden = prev.hidden
-            level.locked = prev.locked
+            level.hidden = prev.hidden            
+            level.locked = prev.locked and not @classroom.isStudentOnOptionalLevel(me.get('_id'), @course.get('_id'), prev.original)
           else
             level.hidden = true
             level.locked = true
@@ -1512,9 +1512,15 @@ module.exports = class CampaignView extends RootView
 
       level.noFlag = !level.next
 
-      if level.slug == @courseInstance.get('startLockedLevel') # lock level begin from startLockedLevel
-        lockedByTeacher = true
-      if lockedByTeacher
+      lockSkippedLevel = false
+      if level.slug == @courseInstance.get('startLockedLevel') or # lock level begin from startLockedLevel
+      @classroom.isStudentOnLockedLevel(me.get('_id'), @course.get('_id'), level.original, @courseInstance.get('startLockedLevel'))
+        if not @classroom.isStudentOnOptionalLevel(me.get('_id'), @course.get('_id'), level.original)
+          lockedByTeacher = true
+        else
+          lockSkippedLevel = true
+
+      if lockedByTeacher or lockSkippedLevel
         level.locked = true
         level.lockedByTeacher = true
 
@@ -1529,7 +1535,7 @@ module.exports = class CampaignView extends RootView
       level.unlocksHero = false
       level.unlocksItem = false
       prev = level
-      if not @campaign.levelIsPractice(level) and not @campaign.levelIsAssessment(level)
+      if not @campaign.levelIsPractice(level) and not @campaign.levelIsAssessment(level) and not @classroom.isStudentOnOptionalLevel(me.get('_id'), @course.get('_id'), level.original)
         lastNormalLevel = level
 
     return true
