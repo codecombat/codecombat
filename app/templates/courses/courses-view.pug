@@ -225,7 +225,10 @@ mixin classrooms_content()
      h5(data-i18n="learn_without_classroom_title")
      ul
        li
-         b(data-i18n="[html]courses.learn_without_classroom_blurb")
+         if view.utils.isCodeCombat
+          b(data-i18n="[html]courses.learn_without_classroom_blurb_coco")
+         else
+          b(data-i18n="[html]courses.learn_without_classroom_blurb")
 
  hr.class-break
  h3(data-i18n="courses.join_class")
