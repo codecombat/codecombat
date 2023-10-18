@@ -1266,7 +1266,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     thank_you: "感谢您支持CodeCombat。"
     sorry_to_see_you_go: "真舍不得亲离开啊！ 请一定要让我们知道哪里做的还不够好。"
     unsubscribe_feedback_placeholder: "噢, 我们做了神马?"
-    stripe_description: "每月订阅"
+    stripe_description: "季度订阅"
     stripe_yearly_description: "年度订阅"
     buy_now: "立即购买"
     subscription_required_to_play: "订阅后才可开始本关"
@@ -1292,6 +1292,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     feature_aiyouth: "AI世青赛参赛机会"
 #    feature_gems: "Earn __gems__ gems/mo (__gems12__ gems/yr)"
     month_price: "__price__元/月" # {change}
+    season_price: "__price__元/季度"
 #    month_price_without_currency: "__price__/mo"
     first_month_price: "第一个月仅需 $__price__！"
     lifetime: "终身订阅"

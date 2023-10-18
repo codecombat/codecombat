@@ -21,7 +21,7 @@ module.exports = class Products extends CocoCollection
     if features.chinaHome
       return new Product({
         name: "basic_subscription"
-        amount: 9900
+        amount: 29900
         gems: 0
         planID: "basic"
         payPalBillingPlanID: "P-9EL85781P1990940Y5PNNCTQ"

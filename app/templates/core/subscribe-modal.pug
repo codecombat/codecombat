@@ -66,14 +66,14 @@ mixin price(name, p, nameWithoutCurrency)
           - var secondRowClass = '.col-xs-5'
           if view.basicProduct && !view.hideMonthlySub
             .col-xs-5.option-col.col-xs-offset-1
-              +price("subscribe.month_price", view.basicProduct, 'subscribe.month_price_without_currency')
+              +price("subscribe.season_price", view.basicProduct, 'subscribe.month_price_without_currency')
               .option-header.price-subtext.text-center(data-i18n="subscribe.stripe_description")
               button.btn.btn-lg.btn-illustrated.purchase-button
                 span.buy-now-text(data-i18n="subscribe.buy_now")
                 span.buy-lock-icon &#x1F512;
                 if features.chinaHome
                    if isProduction
-                     img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/prod_basic_qr.png')
+                     img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/prod_season_qr.png')
                    else
                      img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/staging/basic_month_qr.png')
 
