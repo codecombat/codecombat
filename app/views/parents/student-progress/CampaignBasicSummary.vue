@@ -86,7 +86,7 @@
     <div class="certificate">
       <a
         v-if="isCampaignComplete"
-        :href="`/certificates/${childId}?campaign-id=${campaign._id}`"
+        :href="certificateUrl"
         target="_blank"
       >
         <img
@@ -173,6 +173,13 @@ export default {
         return `/teachers/course-solution/${this.campaign._id}/${this.selectedCodeLang}?callOz=true`
       } else {
         return `/teachers/campaign-solution/${this.campaign.slug}/${this.selectedCodeLang}`
+      }
+    },
+    certificateUrl () {
+      if (this.product === 'ozaria') {
+        return `/certificates/${this.childId}?course=${this.campaign._id}`
+      } else {
+        return `/certificates/${this.childId}?campaign-id=${this.campaign._id}`
       }
     }
   },

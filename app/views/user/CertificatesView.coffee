@@ -30,6 +30,7 @@ module.exports = class CertificatesView extends RootView
 
   initialize: (options, @userID) ->
     @utils = utils
+    @callOz = utils.getQueryVariable('callOz')
     if @userID is me.id
       @user = me
       if utils.isCodeCombat
@@ -50,7 +51,7 @@ module.exports = class CertificatesView extends RootView
       @listenToOnce @classroom, 'sync', @onClassroomLoaded
     if courseID = utils.getQueryVariable 'course'
       @course = new Course _id: courseID
-      @course.fetch()
+      @course.fetch({ callOz: @callOz })
       @supermodel.trackModel @course
     if campaignId = utils.getQueryVariable 'campaign-id'
       @campaign = new Campaign _id: campaignId
