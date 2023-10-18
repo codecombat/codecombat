@@ -67,6 +67,7 @@ function getLearningGoalsDocumentation (content) {
         getActiveClassrooms: 'teacherDashboard/getActiveClassrooms',
         selectableStudentIds: 'baseSingleClass/selectableStudentIds',
         getSelectableOriginals: 'baseSingleClass/getSelectableOriginals',
+        classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom'
       }),
 
       modules () {
@@ -97,8 +98,15 @@ function getLearningGoalsDocumentation (content) {
             }
           })
 
-          // Todo: Ozaria-i18n
-          const moduleDisplayName = `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
+          let moduleDisplayName
+          if (utils.isCodeCombat) { // CodeCombat only has one module per course.
+            const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
+            moduleDisplayName = course.name
+          } else {
+            // Todo: Ozaria-i18n
+            moduleDisplayName = `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
+          }
+
           const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, translatedModuleContent, intros, moduleNum)
 
           // Track summary stats to display in the header of the table
