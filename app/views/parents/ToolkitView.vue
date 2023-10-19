@@ -33,7 +33,7 @@ export default {
   props: {
     product: {
       type: String,
-      default: 'CodeCombat'
+      default: 'codecombat'
     }
   },
   data () {
@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     relevantCategoryIds () {
-      if (this.product === 'Ozaria') {
+      if (this.product === 'ozaria') {
         return {
           360004950774: 'Ozaria for Educators'
         }

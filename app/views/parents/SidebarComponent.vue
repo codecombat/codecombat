@@ -22,7 +22,7 @@
         </select>
       </div>
       <ul class="sidebar__tabs">
-        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'progress', childId: this.selectedChildrenId } }">
+        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'progress', childId: this.selectedChildrenId, product: product } }">
           <li
             :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'progress' || selectedTab === 'dashboard' }"
           >
@@ -89,6 +89,9 @@ export default {
       type: String
     },
     childId: {
+      type: String
+    },
+    product: {
       type: String
     }
   },
