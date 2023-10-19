@@ -31,16 +31,12 @@ module.exports = class CertificatesView extends RootView
   initialize: (options, @userID) ->
     @utils = utils
     @callOz = utils.getQueryVariable('callOz')
-    @relatedUserId = utils.getQueryVariable('relatedUserId')
     if @userID is me.id
       @user = me
       if utils.isCodeCombat
         @setHero()
     else
-      if @relatedUserId
-        @user = new User _id: @relatedUserId
-      else
-        @user = new User _id: @userID
+      @user = new User _id: @userID
       @user.fetch()
       @supermodel.trackModel @user
       if utils.isCodeCombat
@@ -73,8 +69,8 @@ module.exports = class CertificatesView extends RootView
     else if campaignId
       @supermodel.trackRequest @sessions.fetchForCampaign campaignId, data: { userId: @userID, noLanguageFilter: true }
       @listenToOnce @sessions, 'sync', @calculateCampaignStats
-    else if courseID and @relatedUserId
-      @supermodel.trackRequest @sessions.fetchForCourse({ courseId: courseID, userId: @relatedUserId }, { callOz: @callOz })
+    else if courseID and @userID
+      @supermodel.trackRequest @sessions.fetchForCourse({ courseId: courseID, userId: @userID }, { callOz: @callOz })
       @listenToOnce @sessions, 'sync', @calculateCourseStats
 
     @courseLevels = new Levels()

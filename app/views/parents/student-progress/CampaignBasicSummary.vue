@@ -177,7 +177,7 @@ export default {
     },
     certificateUrl () {
       if (this.product === 'ozaria') {
-        return `/certificates/${this.childId}?course=${this.campaign._id}`
+        return `/certificates/${this.childId}?course=${this.campaign._id}&callOz=true`
       } else {
         return `/certificates/${this.childId}?campaign-id=${this.campaign._id}`
       }

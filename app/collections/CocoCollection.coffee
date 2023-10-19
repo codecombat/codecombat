@@ -1,5 +1,6 @@
 CocoModel = require 'models/CocoModel'
 globalVar = require 'core/globalVar'
+utils = require 'core/utils'
 
 module.exports = class CocoCollection extends Backbone.Collection
   loaded: false
@@ -34,9 +35,8 @@ module.exports = class CocoCollection extends Backbone.Collection
       options.data ?= {}
       options.data.project = @project.join(',')
     if options.callOz
-      hostVal = window.location.origin
       url = options.url || @getURL()
-      options.url = "#{hostVal}/ozaria#{url}"
+      options.url = utils.getProductUrl('OZ', url)
     @jqxhr = super(options)
     @loading = true
     @jqxhr

@@ -10,14 +10,7 @@
   * if the response is json, it's parsed
   * if the response is an error, an error (plain) object is thrown
 ###
-
-getProductUrl = (product, url) ->
-  if product != 'COCO' and product != 'OZ'
-    return url
-  hostVal = window.location.origin
-  if product == 'OZ'
-    return "#{hostVal}/ozaria#{url}"
-  return url
+utils = require('core/utils')
 
 fetchWrapper = (url, options={}) ->
   options = _.cloneDeep(options)
@@ -31,7 +24,7 @@ fetchWrapper = (url, options={}) ->
     url = url.split('?')[0] + '?' + $.param(options.data)
     delete options.data
   if options.callOz
-    url = getProductUrl('OZ', url)
+    url = utils.getProductUrl('OZ', url)
   options.credentials ?= 'same-origin'
 
   return fetch(url, options).then (res) ->

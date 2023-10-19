@@ -207,9 +207,8 @@ class CocoModel extends Backbone.Model
     options.data.project = @project.join(',') if @project
     #console.error @constructor.className, @, "fetching with cache?", options.cache, "options", options  # Useful for debugging cached IE fetches
     if options.callOz
-      hostVal = window.location.origin
-      url = @getURL()
-      options.url = "#{hostVal}/ozaria#{url}"
+      url = options.url || @getURL()
+      options.url = utils.getProductUrl('OZ', url)
     @jqxhr = super(options)
     @loading = true
     @jqxhr
