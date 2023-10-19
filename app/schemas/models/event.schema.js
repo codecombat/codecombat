@@ -30,6 +30,7 @@ const EventSchema = schema.object(
     endDate: schema.stringDate({ description: 'the (first) end time of event' }),
     rrule: { type: 'string', description: 'recurring rule follow the rrule.js' },
     syncedToGC: { type: 'boolean', description: 'whether the event has been synced to google calendar' },
+    googleEventId: { type: 'string', description: 'the google calendar event id' },
     gcEmails: { type: 'array', items: { type: 'string' }, description: 'google calendar emails' },
     meetingLink: {
       type: 'string',
