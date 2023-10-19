@@ -227,7 +227,9 @@
     background-color: #2dcd38;
   }
 
-  .show-progress-dot {
-    margin-left: 1rem;
+  .lprogress__level {
+    .show-progress-dot {
+      margin-left: 1rem;
+    }
   }
 </style>
