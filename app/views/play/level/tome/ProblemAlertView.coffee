@@ -116,22 +116,9 @@ module.exports = class ProblemAlertView extends CocoView
     Backbone.Mediator.publish 'tome:focus-editor', {}
 
   onAIHelpClicked: (e) ->
-    messages = [
-      'What does this error mean?'
-      'Please explain this error.'
-      'What\'s wrong?'
-      'Please help explain this.'
-      'How can I fix it?'
-      'Help, please.'
-      'What do I do?'
-      'What does this mean?'
-      'Please explain.'
-      'What is this error?'
-      'What is the problem?'
-      '???'
-      'Dear AI, I beseech you, explain my error, in verse.'
-    ]
-    Backbone.Mediator.publish 'level:add-user-chat', {message: _.sample(messages)}
+    rand = _.random(1, 13)
+    message = $.i18n.t('ai.prompt_level_chat_' + rand)
+    Backbone.Mediator.publish 'level:add-user-chat', { message }
 
   onWindowResize: (e) =>
     # TODO: This all seems a little hacky

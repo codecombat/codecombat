@@ -1264,6 +1264,14 @@ getScreenRefreshRate = (callback, runIndefinitely) ->
     ), 500
   return
 
+getProductUrl = (product, url) ->
+  if product != 'COCO' and product != 'OZ'
+    return url
+  hostVal = window.location.origin
+  if product == 'OZ'
+    return "#{hostVal}/ozaria#{url}"
+  return url
+
 module.exports = {
   activeAndPastArenas
   activeArenas
@@ -1370,4 +1378,5 @@ module.exports = {
   cocoBaseURL
   ozBaseURL
   useWebsocket
+  getProductUrl
 }

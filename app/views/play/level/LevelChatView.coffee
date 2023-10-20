@@ -7,6 +7,9 @@ ChatMessage = require 'models/ChatMessage'
 utils = require 'core/utils'
 fetchJson = require 'core/api/fetch-json'
 co = require 'co'
+userCreditApi = require 'core/api/user-credits'
+SubscribeModal = require 'views/core/SubscribeModal'
+_ = require('lodash')
 
 module.exports = class LevelChatView extends CocoView
   id: 'level-chat-view'
@@ -110,26 +113,38 @@ module.exports = class LevelChatView extends CocoView
     content = content.replace /<p><code>((.|\n)*?)(?:(?!<\/code>)(.|\n))*?<\/code><\/p>/g, (match) ->
       match.replace(/<p><code>/g, '<pre><code>').replace(/<\/code><\/p>/g, '</code></pre>')
 
-    buttonContent = if @diffShown then 'chat_fix_hide' else 'chat_fix_show'
-    content = content.replace /\[Show Me\]/g, "<p><button class='btn btn-illustrated btn-small btn-primary fix-code-button'>#{$.i18n.t('play_level.' + buttonContent)}</button></p>"
-    @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
-
     if _.string.startsWith(content, '/me')
       content = (message.authorName or message.sender?.name) + content.slice(3)
 
+    splitContent = content.split('\[Show Me\]')
+    preContent = splitContent[0]
+    if splitContent.length > 1
+      buttonContent = "<p><button class='btn btn-illustrated btn-small btn-primary fix-code-button'>#{$.i18n.t('play_level.chat_fix_' + if @diffShown then 'hide' else 'show')}</button></p>"
+      postContent = splitContent[1]
+    else
+      @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
+      buttonContent = ''
+      postContent = ''
+
+    # [show me] only appears on the ai message
     if message.system
-      td.append($('<span class="system"></span>').html(content))
+      td.append($('<span class="system"></span>').html(preContent))
 
     else if _.string.startsWith(content, '/me')
-      td.append($('<span class="action"></span>').html(content))
+      td.append($('<span class="action"></span>').html(preContent))
 
     else
       # td.append($('<strong></strong>').text((message.authorName or message.sender?.name) + ': '))
-      td.append($('<span></span>').html(content))
+      td.append($('<span class="pre-content"></span>').html(preContent))
+      td.append($('<span class="button-content"></span>').html(buttonContent))
+      td.append($('<span class="post-content"></span>').html(postContent))
 
     if existingRow?.length
       tr = $(existingRow[0])
-      tr.find('.td.message-content').replaceWith(td)
+      if splitContent.length > 1 and @$el.find('.fix-code-button').length # if button should show, only replace the post content
+        tr.find('.post-content').replaceWith(td.find('.post-content'))
+      else
+        tr.find('.td.message-content').replaceWith(td)
     else
       tr = $('<div class="tr message-row"></div>')
       mbody = $('<div class="message-body"></div>')
@@ -176,7 +191,7 @@ module.exports = class LevelChatView extends CocoView
     text = _.string.strip($(e.target).val())
     return false unless text
     #@bus.sendMessage(text)  # TODO: bring back bus?
-    @saveChatMessage { text }
+    @checkCreditsAndAddMessage(text)
     $(e.target).val('')
     return false
 
@@ -212,7 +227,30 @@ module.exports = class LevelChatView extends CocoView
       @$el.find('.fix-code-button').parent().remove()
 
   onAddUserChat: (e) ->
-    @saveChatMessage { text: e.message }
+    @checkCreditsAndAddMessage(e.message)
+
+  checkCreditsAndAddMessage: (message) ->
+    uuid = crypto.randomUUID() || Date.now()
+    userCreditApi.redeemCredits({
+      operation: 'LEVEL_CHAT_BOT',
+      id: "#{uuid}|#{message.slice(0, 20)}"
+    })
+      .then (res) =>
+        @saveChatMessage { text:  message }
+      .catch (err) =>
+        console.log('user credit redemption error', err)
+        message = err?.message || 'Internal error'
+        if err.code is 402
+          if not me.hasSubscription()
+            message = $.i18n.t('play_level.not_enough_credits_bot')
+            @openModalView new SubscribeModal()
+          else
+            creditsLeft = err.creditsLeft
+            creditObj = _.find(creditsLeft, (c) -> c.creditsLeft <= 0)
+            interval = creditObj.durationKey
+            amount = creditObj.durationAmount
+            message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
+        noty({ text: message, type: 'error', layout: 'center', timeout: 5000 })
 
   scrollDown: ->
     openPanel = $('.open-chat-area', @$el)[0]
@@ -236,7 +274,7 @@ module.exports = class LevelChatView extends CocoView
     @fetchChatMessageStream chatMessage.id
 
   fetchChatMessageStream: (chatMessageId) ->
-    model = utils.getQueryVariable('model') or 'chima' # or 'gpt-4'
+    model = utils.getQueryVariable('model') or 'gpt-4' # or 'gpt-4'
     fetch("/db/chat_message/#{chatMessageId}/ai-response?model=#{model}").then co.wrap (response) =>
       reader = response.body.getReader()
       decoder = new TextDecoder('utf-8')

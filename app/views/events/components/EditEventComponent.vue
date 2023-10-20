@@ -44,8 +44,7 @@ export default {
     ]),
     ...mapActions('events', [
       'saveEvent',
-      'editEvent',
-      'syncToGoogleFailed'
+      'editEvent'
     ]),
     selectTimeZone (tz) {
       this.timeZone = tz
@@ -87,14 +86,15 @@ export default {
     addMember (m) {
       this.event.members.add(m)
     },
-    syncToGoogleCalendar () {
-      gcApiHandler.syncEventsToGC(this.event).then(res => {
+    syncToGoogleCalendar (update = false) {
+      gcApiHandler.syncEventsToGC(this.event, { timeZone: this.timeZone, update }).then(res => {
+        if (!update) {
+          this.editEvent({ _id: this.event._id, googleEventId: res.id })
+        }
         console.log('Synced to GC')
       }).catch(err => {
+        this.editEvent({ _id: this.event._id, syncedToGC: false })
         console.log('Error syncing to GC:', err)
-        this.syncToGoogleFailed(this.event._id).then(res => {
-          console.log('Sync to GC failed')
-        })
         noty({ text: 'Error syncing to Google Calendar', type: 'error' })
       })
     },
@@ -116,6 +116,7 @@ export default {
       if (this.editType === 'new') {
         try {
           const res = await this.saveEvent(this.event)
+          this.event._id = res._id
           if (this.event.syncedToGC) {
             this.syncToGoogleCalendar()
           }
@@ -130,8 +131,8 @@ export default {
       } else {
         try {
           await this.editEvent(this.event)
-          if (this.event.syncedToGC && !this.propsEvent?.syncedToGC) {
-            this.syncToGoogleCalendar()
+          if (this.event.syncedToGC) {
+            this.syncToGoogleCalendar(this.propsEvent?.syncedToGC) // if prev alread syncedToGC then update
           }
           this.$emit('save', this.event._id)
           this.inProgress = false
@@ -216,7 +217,11 @@ export default {
       }
     },
     rruleStart () {
-      return this.event.startDate
+      if (this.event.startDate) {
+        return new Date(this.event.startDate)
+      } else {
+        return new Date()
+      }
     },
     rulePreviewTop6 () {
       return this.rrule.all((date, i) => i < 6).map(d => moment(d).format('ll'))

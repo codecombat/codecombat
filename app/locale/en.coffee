@@ -441,7 +441,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   new_home_faq:
     what_programming_languages: "What programming languages are available?"
-    python_and_javascript: "We currently support Python and JavaScript."
+    python_and_javascript: "We currently support Python, JavaScript, C++, Java, and Lua."
     why_python: "Why should you choose Python?"
     why_python_blurb: "Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python."
     why_javascript: "Why should you choose JavaScript?"
@@ -1114,6 +1114,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     feedback: "Feedback"
     ask_teacher_for_help: "Ask your teacher for help"
     ask_teacher_for_help_offline: "Your Teacher is currently offline"
+    not_enough_credits_bot: "Opps! Looks like you don’t have enough queries. Subscribe now and get the queries you want for the AI powered support you need!"
+    not_enough_credits_interval: "No credits left for the __interval__. Consumed __amount__ credits."
 
   apis:
     methods: "Methods"
@@ -1304,6 +1306,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     subscription_status: "Your Subscription Status"
     currently_not_free: "You don't have a Subscription yet."
     online_classes: "Online Classes"
+    feature_ai_level_bot: "Get AI powered debugging support"
 
   announcement:
     now_available: "Now available for subscribers!"
@@ -1382,6 +1385,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     list_items: "Equip Premium-only items like pets"
     list_support: "Get Premium support to help you debug tricky code"
     list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
+    ai_bot_learning: "AI Powered support to accelerate your learning!"
+    ai_bot_description: "Meet DebugBot AI, CodeCombat’s AI powered assistant. This powerful helper can evaluate your code, point out errors, explain how to fix them, and provide all the context you need to understand the “why”. It’s instant support when you need it most."
 
   choose_hero:
     choose_hero: "Choose Your Hero"
@@ -2202,6 +2207,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_live_completion: "Classroom Code Autocomplete: "
     learn_without_classroom_title: "You can still learn and play without a classroom"
     learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
+    learn_without_classroom_blurb_coco: "Start by playing the free Hour of Code campaign by <a href='/play/intro'>clicking here</a>."
     all_courses_completed: "All Courses Completed!"
     all_units_completed: "All Units Completed!"
 
@@ -4852,3 +4858,18 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     modal_title: "CodeCombat Worlds<br> Now Live on Roblox!"
     modal_play_now: "PLAY NOW!"
     modal_button_link_roblox_account: "Link Roblox Account"
+
+  ai:
+    prompt_level_chat_1: 'What does this error mean?'
+    prompt_level_chat_2: 'Please explain this error.'
+    prompt_level_chat_3: 'What\'s wrong?'
+    prompt_level_chat_4: 'Please help explain this.'
+    prompt_level_chat_5: 'How can I fix it?'
+    prompt_level_chat_6: 'Help, please.'
+    prompt_level_chat_7: 'What do I do?'
+    prompt_level_chat_8: 'What does this mean?'
+    prompt_level_chat_9: 'Please explain.'
+    prompt_level_chat_10: 'What is this error?'
+    prompt_level_chat_11: 'What is the problem?'
+    prompt_level_chat_12: '???'
+    prompt_level_chat_13: 'Dear AI, I beseech you, explain my error, in verse.'
