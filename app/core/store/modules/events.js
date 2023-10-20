@@ -9,6 +9,14 @@ import {
 import { getFullNames } from '../../api/users'
 import { getMembersByClassCode } from '../../api/classrooms'
 
+function fetchInstancesForEvents (events) {
+  const promises = []
+  for (const event of events) {
+    promises.push(getInstances(event._id))
+  }
+  return Promise.all(promises)
+}
+
 export default {
   namespaced: true,
   state: {
@@ -109,21 +117,22 @@ export default {
       commit('selectEvent', { event, instance })
       commit('openPanel', { type, date })
     },
-    async fetchAllEvents ({ commit }) {
+    async fetchAllEvents ({ dispatch }) {
       const events = await getAllEvents()
-      for (const event of events) {
-        event.instances = await getInstances(event._id)
-      }
-      for (const event of events) {
-        commit('setEvent', event)
-      }
+
+      const eventsInstances = await fetchInstancesForEvents(events)
+      dispatch('setEventsInstances', { events, eventsInstances })
     },
-    async fetchUserEvents ({ commit }, uId) {
+    async fetchUserEvents ({ dispatch }, uId) {
       const events = await getEventsByUser(uId)
-      for (const event of events) {
-        event.instances = await getInstances(event._id)
-      }
-      for (const event of events) {
+      const eventsInstances = await fetchInstancesForEvents(events)
+      dispatch('setEventsInstances', { events, eventsInstances })
+    },
+    setEventsInstances ({ commit }, { events, eventsInstances }) {
+      for (let i = 0; i < events.length; i++) {
+        const event = events[i]
+        const instances = eventsInstances[i]
+        event.instances = instances
         commit('setEvent', event)
       }
     },

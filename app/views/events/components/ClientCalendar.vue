@@ -42,7 +42,7 @@
         </div>
         <div class="event-link" v-if="propsInstance?.meetingLink">
           <div class="title">
-            <a href="propsInstance?.meetingLink" target="_blank">
+            <a :href="propsInstance?.meetingLink" target="_blank">
               {{ $t('events.meetingLink') }}
             </a>
           </div>
