@@ -6,6 +6,7 @@ ImageGalleryModal = require 'views/play/level/modal/ImageGalleryModal'
 utils = require 'core/utils'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
 store = require 'core/store'
+globalVar = require 'core/globalVar'
 
 module.exports = class SpellTopBarView extends CocoView
   template: template
@@ -19,6 +20,7 @@ module.exports = class SpellTopBarView extends CocoView
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-changed-language': 'onSpellChangedLanguage'
     'tome:toggle-maximize': 'onToggleMaximize'
+    'websocket:user-online': 'onUserOnlineChanged'
 
   events:
     'click .reload-code': 'onCodeReload'
@@ -28,13 +30,19 @@ module.exports = class SpellTopBarView extends CocoView
     'click .image-gallery-button': 'onClickImageGalleryButton'
     'click .videos-button': 'onClickVideosButton'
     'click #fill-solution': 'onFillSolution'
+    'click #toggle-solution': 'onToggleSolution'
     'click #switch-team': 'onSwitchTeam'
+    'click #ask-teacher-for-help': 'onClickHelpButton'
 
   constructor: (options) ->
     @hintsState = options.hintsState
     @spell = options.spell
     @courseInstanceID = options.courseInstanceID
     @courseID = options.courseID
+    @teacherID = options.teacherID
+    @teaching = utils.getQueryVariable 'teaching'
+
+    @wsBus = globalVar.application.wsBus
     super(options)
 
   getRenderData: (context={}) ->
@@ -45,6 +53,7 @@ module.exports = class SpellTopBarView extends CocoView
     context.maximizeShortcutVerbose = "#{ctrl}+#{shift}+M: #{$.i18n.t 'keyboard_shortcuts.maximize_editor'}"
     context.codeLanguage = @options.codeLanguage
     context.showAmazonLogo = application.getHocCampaign() is 'game-dev-hoc'
+    context.askingTeacher = if me.isStudent() and @teacherOnline() then $.i18n.t('play_level.ask_teacher_for_help') else $.i18n.t('play_level.ask_teacher_for_help_offline')
     context
 
   afterRender: ->
@@ -54,6 +63,10 @@ module.exports = class SpellTopBarView extends CocoView
 
   showVideosButton: () ->
     me.isStudent() and @courseID == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+
+  teacherOnline: () ->
+    console.log("what online?", @wsBus.wsInfos?.friends?[@teacherID], @teacherID)
+    @wsBus?.wsInfos?.friends?[@teacherID]?.online
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
@@ -73,6 +86,10 @@ module.exports = class SpellTopBarView extends CocoView
   onFillSolution: ->
     return unless me.canAutoFillCode()
     store.dispatch('game/autoFillSolution', @options.codeLanguage)
+
+  onToggleSolution: ->
+    console.log('click toggle solution')
+    Backbone.Mediator.publish 'level:toggle-solution', {}
 
   onCodeReload: (e) ->
     if key.shift
@@ -108,6 +125,11 @@ module.exports = class SpellTopBarView extends CocoView
     @options.codeLanguage = e.language
     @render()
     @updateReloadButton()
+
+  onUserOnlineChanged: (e) ->
+    console.log('user online changed', e)
+    if e.user.toString() == @teacherID?.toString()
+      @renderSelectors('#ask-teacher-for-help')
 
   toggleControls: (e, enabled) ->
     return if e.controls and not ('editor' in e.controls)
@@ -149,6 +171,16 @@ module.exports = class SpellTopBarView extends CocoView
     else
       query = '?team='
     window.location.href = protocol+host+pathname+query + @otherTeam()
+
+  onClickHelpButton: ->
+    Backbone.Mediator.publish('websocket:asking-help', {
+      msg:
+        to: @teacherID.toString(),
+        type: 'msg',
+        info:
+          text: $.i18n.t('teacher.student_ask_for_help', {name: me.broadName()})
+          url: window.location.pathname
+    })
 
   destroy: ->
     super()

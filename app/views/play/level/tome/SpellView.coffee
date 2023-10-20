@@ -20,6 +20,9 @@ LZString = require 'lz-string'
 utils = require 'core/utils'
 Aether = require 'lib/aether/aether'
 AceDiff = require 'ace-diff'
+globalVar = require 'core/globalVar'
+fetchJson = require 'core/api/fetch-json'
+store = require 'core/store'
 require('app/styles/play/level/tome/ace-diff-spell.sass')
 
 module.exports = class SpellView extends CocoView
@@ -70,6 +73,7 @@ module.exports = class SpellView extends CocoView
     'level:toggle-solution': 'onToggleSolution'
     'level:close-solution': 'closeSolution'
     'level:streaming-solution': 'onStreamingSolution'
+    'websocket:asking-help': 'onAskingHelp'
 
   events:
     'mouseout': 'onMouseOut'
@@ -80,6 +84,7 @@ module.exports = class SpellView extends CocoView
     @worker = options.worker
     @session = options.session
     @spell = options.spell
+    @courseID = options.courseID
     @problems = []
     @savedProblems = {} # Cache saved user code problems to prevent duplicates
     @writable = false unless me.team in @spell.permissions.readwrite  # TODO: make this do anything
@@ -89,6 +94,8 @@ module.exports = class SpellView extends CocoView
     @spectateView = options.spectateView
     @loadedToken = {}
     @addUserSnippets = _.debounce @reallyAddUserSnippets, 500, {maxWait: 1500, leading: true, trailing: false}
+    @teaching = utils.getQueryVariable('teaching', false)
+    @urlSession = utils.getQueryVariable('session')
 
   afterRender: ->
     super()
@@ -96,6 +103,8 @@ module.exports = class SpellView extends CocoView
     @createACEShortcuts()
     @hookACECustomBehavior()
     if (me.isAdmin() or utils.getQueryVariable 'ai') and not @spectateView
+      @fillACESolution()
+    if @teaching
       @fillACESolution()
     @fillACE()
     @createOnCodeChangeHandlers()
@@ -143,6 +152,15 @@ module.exports = class SpellView extends CocoView
     classroomLiveCompletion = (@options.classroomAceConfig ? {liveCompletion: true}).liveCompletion
     liveCompletion = classroomLiveCompletion && liveCompletion
     @initAutocomplete liveCompletion
+
+    if @teaching
+      console.log('connect provider:', @urlSession)
+      @yjsProvider = aceUtils.setupCRDT("#{@urlSession}", me.broadName(), '', @ace)
+      @yjsProvider.connections = 1
+      @yjsProvider.awareness.on('change', =>
+        console.log("provider get connections? ", @yjsProvider.awareness.getStates().size)
+        @yjsProvider.connections = @yjsProvider.awareness.getStates().size
+      )
 
     return if @session.get('creator') isnt me.id or @session.fake
     # Create a Spade to 'dig' into Ace.
@@ -1458,8 +1476,11 @@ module.exports = class SpellView extends CocoView
     aceSSession = @aceSolution.getSession()
     aceSSession.setMode aceUtils.aceEditModes[@spell.language]
     @aceSolution.setTheme 'ace/theme/textmate'
-    # solution = store.getters['game/getSolutionSrc'](@spell.language)
-    @aceSolution.setValue ''
+    if @teaching
+      solution = store.getters['game/getSolutionSrc'](@spell.language)
+    else
+      solution = ''
+    @aceSolution.setValue solution
     @aceSolution.clearSelection()
     @aceSolutionLastLineCount = 0
     @updateSolutionLines = _.throttle @updateSolutionLines, 1000
@@ -1505,6 +1526,7 @@ module.exports = class SpellView extends CocoView
       @aceDiff.setOptions({showDiffs: e.finish?})
 
   onToggleSolution: (e)->
+    console.log('on toggle solution', e, @aceDiff)
     return unless @aceDiff
     if e.code
       @onUpdateSolution(e)
@@ -1637,6 +1659,22 @@ module.exports = class SpellView extends CocoView
       unless lastDetectedSuspectCodeFragmentName in detectedSuspectCodeFragmentNames
         Backbone.Mediator.publish 'tome:suspect-code-fragment-deleted', codeFragment: lastDetectedSuspectCodeFragmentName, codeLanguage: @spell.language
     @lastDetectedSuspectCodeFragmentNames = detectedSuspectCodeFragmentNames
+
+  onAskingHelp: (e) ->
+    if utils.useWebsocket
+      msg = e.msg
+      msg.info.url += "?course=#{@courseID}&codeLanguage=#{@session.get('codeLanguage')}&session=#{@session.id}&teaching=true"
+      fetchJson("/db/level.session/#{@session.id}/permissions/ws/#{msg.to}", { method: 'PUT' }).then(() =>
+        if @yjsProvider and @yjsProvide.wsconnected
+          globalVar.application.wsBus.ws.sendJSON(msg)
+        else
+          @yjsProvider = aceUtils.setupCRDT("#{@session.id}", me.broadName(), @getSource(), @ace, () => globalVar.application.wsBus.ws.sendJSON(msg))
+          @yjsProvider.connections = 1
+          @yjsProvider.awareness.on('change', () =>
+            @yjsProvider.connections = @yjsProvider.awareness.getStates().size
+            console.log('provider get awareness update:', @yjsProvider.connections)
+          )
+      )
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click mouseenter', '.ace_error, .ace_warning, .ace_info'

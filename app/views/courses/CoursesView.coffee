@@ -29,6 +29,8 @@ store = require 'core/store'
 leaderboardApi = require 'core/api/leaderboard'
 clansApi = require 'core/api/clans'
 coursesHelper = require 'lib/coursesHelper'
+websocket = require 'lib/websocket'
+globalVar = require 'core/globalVar'
 
 class LadderCollection extends CocoCollection
   url: ''
@@ -57,6 +59,9 @@ module.exports = class CoursesView extends RootView
     'click .view-videos-link': 'onClickViewVideosLink'
     'click .view-announcement-link': 'onClickAnnouncementLink'
     'click .more-tournaments': 'onClickMoreTournaments'
+
+  subscriptions:
+    'websocket:user-online': 'handleUserOnline'
 
   getMeta: ->
     return {
@@ -99,6 +104,7 @@ module.exports = class CoursesView extends RootView
     @originalLevelMap = {}
     @urls = require('core/urls')
 
+    @wsBus = globalVar.application.wsBus #shortcut
     if utils.isCodeCombat
       @ladderImageMap = {}
       @ladders = @supermodel.loadCollection(new LadderCollection()).model
@@ -217,6 +223,12 @@ module.exports = class CoursesView extends RootView
       playerCount = @getAILeagueStat('codePoints', clan._id, 'playerCount') ? 0
       -playerCount
 
+  handleUserOnline: ->
+    @renderSelectors('.teacher-icon')
+
+  isTeacherOnline: (id) ->
+    return application?.wsBus?.wsInfos?.friends?[id]?.online
+
   shouldEmphasizeAILeague: ->
     return true if _.size @myArenaSessions
     return true if me.isRegisteredForAILeague()
@@ -258,6 +270,19 @@ module.exports = class CoursesView extends RootView
       @ownerNameMap[ownerID] = NameLoader.getName(ownerID) for ownerID in ownerIDs
       @render?()
     )
+    if utils.useWebsocket
+      @useWebsocket = true
+      wsBus = application.wsBus
+      uniqueOwnerIDs = Array.from(new Set(ownerIDs))
+      teacherTopics = uniqueOwnerIDs.map((teacher) =>
+        wsBus.addFriend(teacher, {role: 'teacher'})
+        return "user-#{teacher}"
+      )
+      wsBus.ws.subscribe(teacherTopics)
+      me.fetchOnlineTeachers(uniqueOwnerIDs).then((onlineTeachers) =>
+        wsBus.updateOnlineFriends(onlineTeachers)
+        @renderSelectors('.teacher-icon')
+      )
 
     if utils.isCodeCombat
       academicaCS1CourseInstance = _.find(@courseInstances.models ? [], (ci) -> ci.get('_id') is '610047c74bc544001e26ea12')
