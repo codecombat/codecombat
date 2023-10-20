@@ -2204,6 +2204,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_live_completion: "Classroom Code Autocomplete: "
     learn_without_classroom_title: "You can still learn and play without a classroom"
     learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
+    learn_without_classroom_blurb_coco: "Start by playing the free Hour of Code campaign by <a href='/play/intro'>clicking here</a>."
     all_courses_completed: "All Courses Completed!"
     all_units_completed: "All Units Completed!"
 
@@ -4853,3 +4854,18 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     modal_title: "CodeCombat Worlds<br> Now Live on Roblox!"
     modal_play_now: "PLAY NOW!"
     modal_button_link_roblox_account: "Link Roblox Account"
+
+  ai:
+    prompt_level_chat_1: 'What does this error mean?'
+    prompt_level_chat_2: 'Please explain this error.'
+    prompt_level_chat_3: 'What\'s wrong?'
+    prompt_level_chat_4: 'Please help explain this.'
+    prompt_level_chat_5: 'How can I fix it?'
+    prompt_level_chat_6: 'Help, please.'
+    prompt_level_chat_7: 'What do I do?'
+    prompt_level_chat_8: 'What does this mean?'
+    prompt_level_chat_9: 'Please explain.'
+    prompt_level_chat_10: 'What is this error?'
+    prompt_level_chat_11: 'What is the problem?'
+    prompt_level_chat_12: '???'
+    prompt_level_chat_13: 'Dear AI, I beseech you, explain my error, in verse.'

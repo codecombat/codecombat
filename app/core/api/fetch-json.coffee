@@ -10,6 +10,7 @@
   * if the response is json, it's parsed
   * if the response is an error, an error (plain) object is thrown
 ###
+utils = require('core/utils')
 
 fetchWrapper = (url, options={}) ->
   options = _.cloneDeep(options)
@@ -22,6 +23,8 @@ fetchWrapper = (url, options={}) ->
     # shore up fetch API: https://github.com/github/fetch/issues/256
     url = url.split('?')[0] + '?' + $.param(options.data)
     delete options.data
+  if options.callOz
+    url = utils.getProductUrl('OZ', url)
   options.credentials ?= 'same-origin'
 
   return fetch(url, options).then (res) ->

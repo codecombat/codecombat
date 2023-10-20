@@ -28,6 +28,8 @@
       loading: async function (newVal, oldVal) {
         if (!newVal) {
           this.endLoading()
+        } else if (newVal !== oldVal) {
+          this.incLoading()
         }
       }
     },

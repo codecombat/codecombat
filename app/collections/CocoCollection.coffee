@@ -1,5 +1,6 @@
 CocoModel = require 'models/CocoModel'
 globalVar = require 'core/globalVar'
+utils = require 'core/utils'
 
 module.exports = class CocoCollection extends Backbone.Collection
   loaded: false
@@ -33,6 +34,9 @@ module.exports = class CocoCollection extends Backbone.Collection
     if @project
       options.data ?= {}
       options.data.project = @project.join(',')
+    if options.callOz
+      url = options.url || @getURL()
+      options.url = utils.getProductUrl('OZ', url)
     @jqxhr = super(options)
     @loading = true
     @jqxhr
@@ -40,5 +44,5 @@ module.exports = class CocoCollection extends Backbone.Collection
   setProjection: (@project) ->
 
   stringify: -> return JSON.stringify(@toJSON())
-  
+
   wait: (event) -> new Promise((resolve) => @once(event, resolve))

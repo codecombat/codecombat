@@ -2,7 +2,6 @@ import {
   getAllEvents, getEvent, getEventsByUser,
   postEvent, updateEvent,
   postEventMember, putEventMember, deleteEventMember,
-  syncToGoogleFailed,
   getInstances,
   putInstance
 } from '../../api/events'
@@ -103,7 +102,10 @@ export default {
     }
   },
   actions: {
-    openEventPanel ({ commit }, { type = 'info', date, eventId, event, instance } = {}) {
+    openEventPanel ({ commit, state }, { type = 'info', date, eventId, event, instance } = {}) {
+      if (eventId) {
+        event = state.events[eventId]
+      }
       commit('selectEvent', { event, instance })
       commit('openPanel', { type, date })
     },
@@ -144,9 +146,6 @@ export default {
     },
     async delEventMember ({ commit }, {eventId, member} = {}) {
       return await deleteEventMember(eventId, member)
-    },
-    async syncToGoogleFailed ({ commit }, eventId) {
-      return await syncToGoogleFailed(eventId)
     },
     async saveInstance ({ commit }, instance) {
       return await putInstance(instance._id, instance)

@@ -36,7 +36,7 @@ style.
 
   .certificate
     if me.isTecmilenio() && view.multipleCoursesStats
-      img.certificate-background(src="/images/pages/user/certificates/backgrounds/tecmilenio-bg.png")  
+      img.certificate-background(src="/images/pages/user/certificates/backgrounds/tecmilenio-bg.png")
     else
       if view.courseStats && view.course
         img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-" + view.course.acronym().toLowerCase() + ".png")
@@ -87,7 +87,7 @@ style.
                   span(data-i18n="teacher.project")
                   span= ': '
                   a(href=view.projectLink)= (view.projectShortLink || view.projectLink).replace(/^https?:\/\//, '')
-              if view.projectLinks    
+              if view.projectLinks
                   li
                     span(data-i18n="teacher.projects")
                     span= ': '
@@ -150,14 +150,14 @@ style.
                   span= i18n(view.thangType.attributes, 'extendedName')
             else
               h4 Loading hero
-            if view.course
+            if view.course && !view.callOz
               .course-ribbon(class=view.course.acronym().replace(/\d/g, '').toLowerCase() + ' ' + view.course.acronym().toLowerCase())
                 img(src='/images/pages/user/certificates/medallions/medallion-' + view.course.acronym().toLowerCase() + '.png')
                 h3= view.course.acronym()
             else if view.campaign
               .course-ribbon
                 img(src='/images/pages/user/certificates/medallions/medallion-cs1.png')
-  
+
       if view.utils.isCodeCombat && view.thangType && view.thangType.loaded
         - var heroSlug = view.thangType.get('slug') || 'captain';
         img(src='/images/pages/user/certificates/poses/pose-' + heroSlug + '.png', class='hero-pose ' + heroSlug)
