@@ -47,6 +47,7 @@ mixin price(name, p, nameWithoutCurrency)
                 li(data-i18n="subscribe.feature_learn")
                 if view.basicProduct
                   li(data-i18n="subscribe.feature_gems", data-i18n-options={gems: view.basicProduct.get('gems').toLocaleString(), gems12: (view.basicProduct.get('gems') * 12).toLocaleString()})
+                li(data-i18n="subscribe.feature_ai_level_bot")
 
         hr
 

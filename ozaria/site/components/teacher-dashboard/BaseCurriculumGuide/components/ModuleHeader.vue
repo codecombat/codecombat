@@ -25,6 +25,14 @@
       isCapstone: {
         type: Boolean,
         default: false
+      },
+      moduleName: {
+        type: String,
+        default: ''
+      },
+      showLessonSlides: {
+        type: Boolean,
+        default: true
       }
     },
     computed: {
@@ -85,7 +93,7 @@
 <template>
   <div class="header">
     <div class="module-header">
-      <h3>{{ $t('teacher_dashboard.module') }} {{ moduleNum }} {{ getCurrentModuleNames(moduleNum) }}</h3>
+      <h3>{{ $t('teacher_dashboard.module') }} {{ moduleNum }} {{ moduleName || getCurrentModuleNames(moduleNum) }}</h3>
       <div
         v-if="getModuleTotalTimeInfo !== undefined"
         class="time-row"
@@ -103,7 +111,7 @@
     <div class="buttons">
       <!-- For this locked tooltip we use a span, as the disabled button doesn't trigger a tooltip. -->
       <template
-        v-if="getModuleInfo.lessonSlidesUrl"
+        v-if="getModuleInfo.lessonSlidesUrl && showLessonSlides"
       >
         <span
           v-if="isOnLockedCampaign"

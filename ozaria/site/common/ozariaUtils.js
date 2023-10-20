@@ -151,7 +151,7 @@ export const getNextLevelForLevel = (level, capstoneStage = 1) => {
     nextLevel = Object.values(nextLevels).sort((a, b) => {
       const afterCapstoneStageA = a.conditions?.afterCapstoneStage ?? 0;
       const afterCapstoneStageB = b.conditions?.afterCapstoneStage ?? 0;
-  
+
       return afterCapstoneStageA - afterCapstoneStageB;
     });
   }

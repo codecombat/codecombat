@@ -10,3 +10,15 @@
   padding: 0.5rem 1.5rem;
   border-color: #ffffff;
 }
+
+.not-started-dot {
+  border: 1.5px solid $color-grey-3;
+}
+
+.in-progress-dot {
+  background-color: $color-blue-2;
+}
+
+.complete-dot {
+  background-color: $color-green-3;
+}

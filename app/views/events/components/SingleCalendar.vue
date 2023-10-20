@@ -83,10 +83,10 @@ export default {
             if (info.event.id.startsWith('temp-event')) {
               return // do nothing on preview
             }
-            if (me.isAdmin()) {
+            if (me.isAdmin() || me.isOnlineTeacher()) {
               that.openEventPanel({ type: 'instance', instance: info.event })
             } else {
-              that.openEventPanel({ type: 'info', eventId: info.event.eId })
+              that.openEventPanel({ type: 'info', eventId: info.event.extendedProps._id })
             }
           }
         }

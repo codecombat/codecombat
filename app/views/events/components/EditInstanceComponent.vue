@@ -8,6 +8,8 @@ import UserSearchComponent from './UserSearchComponent'
 import TimeZonePicker from './TimeZonePicker'
 import MembersAttendeesComponent from './MembersAttendeesComponent'
 import momentTz from 'moment-timezone'
+import gcApiHandler from '../../../core/social-handlers/GoogleCalendarHandler'
+
 
 export default {
   name: 'EditInstanceComponent',
@@ -26,13 +28,22 @@ export default {
       tzOffset: momentTz.tz('America/New_York').format('Z'),
       instance: {},
       memberAttendees: {},
-      myTimeZone: momentTz.tz.guess()
+      myTimeZone: momentTz.tz.guess(),
+      timeUpdated: false
     }
   },
   methods: {
     ...mapActions('events', [
       'saveInstance'
     ]),
+    syncToGoogleCalendar () {
+      gcApiHandler.syncInstanceToGC(this.instance, this.propsEvent.googleEventId, this.timeZone).then(res => {
+        console.log('Synced to GC')
+      }).catch(err => {
+        console.log('Error syncing to GC:', err)
+        noty({ text: 'Error syncing to Google Calendar', type: 'error' })
+      })
+    },
     selectOwner (u) {
       Vue.set(this.instance, 'owner', u._id)
       Vue.set(this.instance.ownerDetails, 'name', u.name)
@@ -48,7 +59,7 @@ export default {
     updateDescription (desc) {
       this.$set(this.memberAttendees[desc.id], 'description', desc.value)
     },
-    onFormSubmit () {
+    async onFormSubmit () {
       this.inProgress = true
 
       if (this.instance.endDate <= this.instance.startDate) {
@@ -63,12 +74,21 @@ export default {
       }
 
       this.instance.members = Object.values(this.memberAttendees).map(ma => _.pick(ma, ['userId', 'attendance', 'description']))
-      this.saveInstance(this.instance).then(res => {
+
+      try {
+        await this.saveInstance(this.instance)
+        if (this.timeUpdated && this.propsEvent.syncedToGC) {
+          this.syncToGoogleCalendar()
+          this.timeUpdated = false
+        }
         this.$emit('save', this.instance.event)
         this.inProgress = false
-      }).catch(err => {
+      } catch (err) {
         this.errorMessage = err.message
-      })
+        setTimeout(() => {
+          this.inProgress = false
+        }, 3000)
+      }
     },
 
     instanceUpdate () {
@@ -102,6 +122,7 @@ export default {
       set (val) {
         this.$set(this.instance, 'startDate', new Date(`${val} ${this._startTime}${this.tzOffset}`))
         this.$set(this.instance, 'endDate', new Date(`${val} ${this._endTime}${this.tzOffset}`))
+        this.timeUpdated = true
       }
     },
     _startTime: {
@@ -110,15 +131,17 @@ export default {
       },
       set (val) {
         this.$set(this.instance, 'startDate', new Date(`${this._startDate} ${val}${this.tzOffset}`))
+        this.timeUpdated = true
       }
     },
     _endTime: {
       get () {
-        return moment(this.instance.endDate).format(HTML5_FMT_TIME_LOCAL)
+        return momentTz(this.instance.endDate).tz(this.timeZone).format(HTML5_FMT_TIME_LOCAL)
       },
       set (val) {
         // use _startDate here since startDate and endDate share the date
         this.$set(this.instance, 'endDate', new Date(`${this._startDate} ${val}${this.tzOffset}`))
+        this.timeUpdated = true
       }
     },
     _endTimeHourRange () {
