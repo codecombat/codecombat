@@ -68,8 +68,9 @@
     <add-user-component
       v-if="showExistingAccountView"
       :hide-bidirectional-check="true"
-      :hide-relation-dropdown="true"
+      :hide-relation-dropdown="false"
       :hide-create-account="true"
+      prefill-relation="Child"
       @onAddSwitchAccount="onExistingAccountLink"
     />
   </div>
