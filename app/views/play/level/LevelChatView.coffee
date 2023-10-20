@@ -226,7 +226,8 @@ module.exports = class LevelChatView extends CocoView
 
   isSpellChanged: ->
     aether = @parent.subviews.tome_view.spellView.spellThang.aether
-    return aether.pure != aether.raw
+    spell = @parent.subviews.tome_view.spellView.spell
+    return spell.source != aether.raw
 
   saveChatMessage: ({ text, sender }) ->
     console.log('spell changed?', @isSpellChanged())
