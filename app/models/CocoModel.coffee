@@ -12,7 +12,7 @@ class CocoModel extends Backbone.Model
   @schema: null
 
   constructor: (attributes, options)  ->
-    if 'undefined' of (attributes or {})
+    if _.isObject(attributes) and ('undefined' of attributes)
       console.error "Unsetting `undefined` property key during construction of #{@constructor.className} model with value #{attributes['undefined']}"
       delete attributes['undefined']
     super(arguments...)
