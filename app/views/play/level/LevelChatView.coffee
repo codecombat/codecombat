@@ -265,7 +265,7 @@ module.exports = class LevelChatView extends CocoView
   cleanUpApiProperties: (chat) ->
     context = chat.context
     currentCode = Object.values(context.code.current)[0]
-    solutionCode = Object.values(context.code.solution)[0]
+    solutionCode = Object.values(context.code.solution)?[0] || '' # let's only keep properties in current code
     allApiProperties = context.apiProperties
     apiProperties = []
     for doc in allApiProperties
