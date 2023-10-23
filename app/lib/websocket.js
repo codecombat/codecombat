@@ -24,16 +24,20 @@ const subOrUnsub = (type, topics, ws) => {
 }
 
 module.exports = {
+  websocketUrl: (path) => {
+    const server = window.location.host
+    let url = `wss://${server}/websocket`
+    if (window.location.protocol !== 'https:') {
+      url = `ws://${server}/websocket`
+    }
+    return url + path
+  },
   setupBaseWS: () => {
     if (!WebWS) {
       console.log('WebSocket not found!')
       return null
     }
-    const server = window.location.host
-    let url = `wss://${server}/websocket/base-info`
-    if (window.location.protocol !== 'https:') {
-      url = `ws://${server}/websocket/base-info`
-    }
+    const url = module.exports.websocketUrl('/base-info')
     const ws = new WebWS(url)
 
     ws.sendJSON = (data) => {
