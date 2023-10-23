@@ -6,6 +6,7 @@ UndoManager = ace.require('ace/undomanager').UndoManager
 Y = require 'yjs'
 { WebsocketProvider } = require 'y-websocket'
 { AceBinding } = require 'y-ace'
+{ websocketUrl } = require 'lib/websocket'
 
 aceEditModes =
   javascript: 'ace/mode/javascript'
@@ -143,8 +144,7 @@ parseUserSnippets = (source, lang, session) ->
 
 setupCRDT = (key, userName, doc, editor, next) =>
   ydoc = new Y.Doc()
-  server = window.location.host
-  url = "ws://#{server}/yjs/websocket/level.session"
+  url = websocketUrl('/level.session')
   provider = new WebsocketProvider(url, key, ydoc)
   yType = ydoc.getText('ace')
   provider.on('connection-close', (event) =>
