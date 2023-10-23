@@ -30,7 +30,11 @@ module.exports = {
       return null
     }
     const server = window.location.host
-    const ws = new WebWS(`ws://${server}/websocket/base-info`)
+    let url = `wss://${server}/websocket/base-info`
+    if (window.location.protocol !== 'https:') {
+      url = `ws://${server}/websocket/base-info`
+    }
+    const ws = new WebWS(url)
 
     ws.sendJSON = (data) => {
       if (typeof data === 'object') {

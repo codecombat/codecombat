@@ -144,7 +144,9 @@ parseUserSnippets = (source, lang, session) ->
 setupCRDT = (key, userName, doc, editor, next) =>
   ydoc = new Y.Doc()
   server = window.location.host
-  url = "ws://#{server}/yjs/websocket/level.session"
+  url = "wss://#{server}/yjs/websocket/level.session"
+  if window.location.protocal != 'https:'
+    url = "ws://#{server}/yjs/websocket/level.session"
   provider = new WebsocketProvider(url, key, ydoc)
   yType = ydoc.getText('ace')
   provider.on('connection-close', (event) =>
