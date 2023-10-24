@@ -5,6 +5,7 @@ utils = require 'core/utils'
 tagger = require 'lib/SolutionConceptTagger'
 store = require('core/store')
 Concepts = require 'collections/Concepts'
+globalVar = require 'core/globalVar'
 
 module.exports = class LevelBus extends Bus
 
