@@ -1,6 +1,10 @@
 <template>
   <div class="calendar-panel">
-    <client-calendar v-if="type==='my-classes'" :events="eventsArray" />
+    <client-calendar
+      v-if="type==='my-classes'"
+      :events="eventsArray"
+      :user-id="userId"
+    />
     <classes-stats
       v-if="type==='classes-stats'"
       :events="eventsArray"

@@ -135,11 +135,12 @@ module.exports = class PlayLevelView extends RootView
     super options
 
     @courseID = options.courseID or utils.getQueryVariable 'course'
-    @courseInstanceID = options.courseInstanceID or utils.getQueryVariable 'course-instance'
+    @courseInstanceID = options.courseInstanceID or utils.getQueryVariable 'course-instance' or utils.getQueryVariable 'instance' # instance to avoid sessionless to be false when teaching
 
     @isEditorPreview = utils.getQueryVariable 'dev'
     @sessionID = (utils.getQueryVariable 'session') || @options.sessionID
     @observing = utils.getQueryVariable 'observing'
+    @teaching = utils.getQueryVariable 'teaching'
 
     @opponentSessionID = utils.getQueryVariable('opponent')
     @opponentSessionID ?= @options.opponent
@@ -187,7 +188,7 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
+    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID, @teaching }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
@@ -196,10 +197,14 @@ module.exports = class PlayLevelView extends RootView
 
     @classroomAceConfig = {liveCompletion: true}  # default (home users, teachers, etc.)
     if @courseInstanceID
-      fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members")
+      fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members,ownerID")
       @supermodel.trackRequest fetchAceConfig
       fetchAceConfig.then (classroom) =>
         @classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion ? true
+        @teacherID = classroom.ownerID
+
+        if @teaching and (not @teacherID.equals(me.id))
+          return _.defer -> application.router.redirectHome()
 
   hasAccessThroughClan: (level) ->
     _.intersection(level.get('clans') ? [], me.get('clans') ? []).length
@@ -308,7 +313,7 @@ module.exports = class PlayLevelView extends RootView
 
     unless @level.isType 'ladder'
       randomTeam = @world?.teamForPlayer()  # If no team is set, then we will want to equally distribute players to teams
-    team = utils.getQueryVariable('team') ? @session.get('team') ? randomTeam ? 'humans'
+    team = utils.getQueryVariable('team') ? @session?.get('team') ? randomTeam ? 'humans'
     @loadOpponentTeam(team)
     @setupGod()
     @setTeam team
@@ -441,7 +446,7 @@ module.exports = class PlayLevelView extends RootView
     @hintsState.on('change:hidden', (hintsState, newHiddenValue) ->
       store.commit('game/setHintsVisible', !newHiddenValue)
     )
-    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState, @classroomAceConfig }
+    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState, @classroomAceConfig, @teacherID}
     @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
     @insertSubView new GoalsView {level: @level, session: @session}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
@@ -473,6 +478,9 @@ module.exports = class PlayLevelView extends RootView
     @bus = LevelBus.get(@levelID, @session.id)
     @bus.setSession(@session)
     @bus.setSpells @tome.spells
+
+    if @teacherID
+      @bus.subscribeTeacher(@teacherID)
     #@bus.connect() if @session.get('multiplayer')  # TODO: session's multiplayer flag removed; connect bus another way if we care about it
 
   # Load Completed Setup ######################################################

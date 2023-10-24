@@ -15,10 +15,11 @@ require 'd3/d3.js'
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
 AceDiff = require 'ace-diff'
-require('app/styles/common/ace-diff.sass')
+require('app/styles/teachers/ace-diff-teacher-student.sass')
 fullPageTemplate = require 'app/templates/teachers/teacher-student-view-full'
 viewTemplate = require 'app/templates/teachers/teacher-student-view'
 userClassroomHelper = require '../../lib/user-classroom-helper'
+globalVar = require 'core/globalVar'
 
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
@@ -547,6 +548,7 @@ module.exports = class TeacherStudentView extends RootView
     utils.formatStudentLicenseStatusDate(status, date)
 
   canViewStudentProfile: () -> @classroom && (@classroom.get('ownerID') == me.id || me.isAdmin())
+
 
   # TODO: Hookup enroll/assign functionality
 

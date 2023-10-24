@@ -27,7 +27,7 @@ helper = require 'lib/coursesHelper'
 TrialRequest = require 'models/TrialRequest'
 TrialRequests = require 'collections/TrialRequests'
 PodcastItemContainer = require('./PodcastItemContainer').default
-
+globalVar = require 'core/globalVar'
 
 translateWithMarkdown = (label) ->
   marked.inlineLexer $.i18n.t(label), []

@@ -68,8 +68,9 @@
     <add-user-component
       v-if="showExistingAccountView"
       :hide-bidirectional-check="true"
-      :hide-relation-dropdown="true"
+      :hide-relation-dropdown="false"
       :hide-create-account="true"
+      prefill-relation="Child"
       @onAddSwitchAccount="onExistingAccountLink"
     />
   </div>
@@ -77,6 +78,7 @@
 
 <script>
 import AddUserComponent from '../../user/switch-account/AddUserComponent'
+const { validateEmail } = require('../../../lib/common-utils')
 export default {
   name: 'CreateChildAccountComponent',
   props: {
@@ -110,6 +112,15 @@ export default {
       this.errMsg = null
       if (!this.name || !this.username || !this.password) {
         this.errMsg = 'Required field data missing'
+        return
+      }
+      if (this.email && !validateEmail(this.email)) {
+        this.errMsg = 'Invalid email'
+        return
+      }
+      const filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i
+      if (filter.test(this.username)) {
+        this.errMsg = 'Username may not be an email'
         return
       }
       this.$emit('onChildAccountSubmit', this.$data)

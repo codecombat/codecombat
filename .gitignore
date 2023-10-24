@@ -20,6 +20,9 @@ Thumbs.db
 .#*
 *#
 
+#Emacs - CTAGS
+TAGS
+
 # Vim
 .*.sw[a-z]
 *.un~i

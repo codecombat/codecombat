@@ -502,6 +502,12 @@ module.exports = class User extends CocoModel
     options.url = "/db/user/#{@id}/name-for-classmate"
     $.ajax options
 
+  fetchOnlineTeachers: co.wrap (users) ->
+    url = "/db/user/teachers/online"
+    if users?
+      url += "?teachers=#{encodeURIComponent(JSON.stringify(users))}"
+    yield fetchJson(url)
+
   # Function meant for "me"
 
   spy: (user, options={}) ->

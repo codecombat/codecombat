@@ -89,9 +89,11 @@ export default {
     syncToGoogleCalendar (update = false) {
       gcApiHandler.syncEventsToGC(this.event, { timeZone: this.timeZone, update }).then(res => {
         if (!update) {
-          this.editEvent({ _id: this.event._id, googleEventId: res.id })
+          const googleEventId = res.id
+          this.event.googleEventId = googleEventId
+          this.editEvent({ _id: this.event._id, googleEventId })
         }
-        console.log('Synced to GC')
+        noty({ text: 'Synced to Google Calendar', type: 'success', layout: 'center', timeout: 3000 })
       }).catch(err => {
         this.editEvent({ _id: this.event._id, syncedToGC: false })
         console.log('Error syncing to GC:', err)

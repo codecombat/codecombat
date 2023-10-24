@@ -116,7 +116,6 @@ export default Vue.extend({
       license-form-group(label='Expiration Date' type="date" name="endDate" :value="moment(endDate).tz(timeZone).format('YYYY-MM-DD')" @input="setDate")
       button.btn.btn-primary(@click="addSeats") Create Licenses
 
-
 </template>
 
 <style scoped lang="scss">
