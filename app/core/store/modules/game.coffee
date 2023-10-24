@@ -2,6 +2,7 @@ levelSchema = require('schemas/models/level')
 api = require('core/api')
 utils = require 'core/utils'
 translateUtils = require 'lib/translate-utils'
+aetherUtils = require 'lib/aether_utils'
 
 # TODO: Be explicit about the properties being stored
 emptyLevel = _.zipObject(([key, null] for key in _.keys(levelSchema.properties)))
