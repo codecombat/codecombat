@@ -13,7 +13,7 @@
       :child="selectedChildren"
       :product="selectedProduct"
       :is-online-class-paid-user="isPaidOnlineClassUser()"
-      v-if="selectedView !== 'online-classes' && selectedView !== 'summary'"
+      v-if="showHeaderComponent"
     />
     <student-progress-view
       v-if="selectedView === 'dashboard' || selectedView === 'progress'"
@@ -165,6 +165,9 @@ export default {
   computed: {
     selectedChildren () {
       return this.children?.find(c => c.userId === this.selectedChildrenId)
+    },
+    showHeaderComponent () {
+      return this.selectedView !== 'online-classes' && this.selectedView !== 'summary' && this.selectedView !== 'toolkit'
     }
   }
 }
