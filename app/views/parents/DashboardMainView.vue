@@ -13,7 +13,7 @@
       :child="selectedChildren"
       :product="selectedProduct"
       :is-online-class-paid-user="isPaidOnlineClassUser()"
-      v-if="selectedView !== 'online-classes'"
+      v-if="selectedView !== 'online-classes' && selectedView !== 'summary'"
     />
     <student-progress-view
       v-if="selectedView === 'dashboard' || selectedView === 'progress'"

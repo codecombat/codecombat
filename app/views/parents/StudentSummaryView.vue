@@ -52,6 +52,8 @@ export default {
 @import "css-mixins/variables";
 .summary {
   grid-column: main-content-start / main-content-end;
+  background: $color-blue-1;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.25);
 
   .child-profile {
     display: grid;
