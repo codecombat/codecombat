@@ -68,7 +68,8 @@
     <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'toolkit' } }">
       <div class="sidebar__bottom">
         <div
-          class="sidebar__bottom__item">
+          :class="{ sidebar__bottom__item: true, sidebar__tabs__item__sel: selectedTab === 'toolkit' }"
+        >
           Parent toolkit
         </div>
   <!--      <div class="sidebar__bottom__item">Account</div>-->
@@ -168,7 +169,7 @@ export default {
       cursor: pointer;
 
       &__sel {
-        color: $color-twilight;
+        color: $color-twilight !important;
       }
     }
 
