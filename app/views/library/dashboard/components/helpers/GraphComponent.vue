@@ -173,7 +173,8 @@ export default {
     timeSpentData () {
       const arr = []
       for (const month in this.stats?.licenseDaysByMonth) {
-        arr.push({ date: this.formatDate(month, { shortenMonth: true }), time_spent: (this.stats?.licenseDaysByMonth[month]?.progress?.playtime || 0) / 60 })
+        const timeSpent = Math.floor((this.stats?.licenseDaysByMonth[month]?.progress?.playtime || 0) / 60)
+        arr.push({ date: this.formatDate(month, { shortenMonth: true }), time_spent: timeSpent })
       }
       return arr
     },
