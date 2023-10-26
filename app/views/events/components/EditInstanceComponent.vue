@@ -3,13 +3,12 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 import _ from 'lodash'
 import moment from 'moment'
 import VueTimepicker from 'vue2-timepicker'
-import { HTML5_FMT_DATE_LOCAL, HTML5_FMT_TIME_LOCAL } from '../../../core/constants'
 import UserSearchComponent from './UserSearchComponent'
 import TimeZonePicker from './TimeZonePicker'
 import MembersAttendeesComponent from './MembersAttendeesComponent'
 import momentTz from 'moment-timezone'
 import gcApiHandler from '../../../core/social-handlers/GoogleCalendarHandler'
-
+import convertDateMixin from '../mixins/convertDateMixin'
 
 export default {
   name: 'EditInstanceComponent',
@@ -26,12 +25,18 @@ export default {
       errorMessage: '',
       timeZone: 'America/New_York',
       tzOffset: momentTz.tz('America/New_York').format('Z'),
-      instance: {},
+      instance: null,
       memberAttendees: {},
       myTimeZone: momentTz.tz.guess(),
-      timeUpdated: false
+      startDate: null,
+      endDate: null,
+      startTime: null,
+      endTime: null
     }
   },
+  mixins: [
+    convertDateMixin
+  ],
   methods: {
     ...mapActions('events', [
       'saveInstance'
@@ -62,7 +67,11 @@ export default {
     async onFormSubmit () {
       this.inProgress = true
 
-      if (this.instance.endDate <= this.instance.startDate) {
+      const endDate = new Date(`${this.endDate} ${this.endTime}${this.tzOffset}`)
+      const startDate = new Date(`${this.startDate} ${this.startTime}${this.tzOffset}`)
+      const iStartDate = new Date(this.propsInstance.startDate)
+      const iEndDate = new Date(this.propsInstance.endDate)
+      if (endDate.getTime() <= startDate.getTime()) {
         this.errorMessage = 'End date must be after start date'
         this.inProgress = false
         return
@@ -72,27 +81,28 @@ export default {
         this.inProgress = false
         return
       }
-
+      let timeUpdated = (startDate.getTime() !== iStartDate.getTime()) || (endDate.getTime() !== iEndDate.getTime())
       this.instance.members = Object.values(this.memberAttendees).map(ma => _.pick(ma, ['userId', 'attendance', 'description']))
 
       try {
-        await this.saveInstance(this.instance)
-        if (this.timeUpdated && this.propsEvent.syncedToGC) {
+        await this.saveInstance({ ...this.instance, startDate, endDate })
+        if (timeUpdated && this.propsEvent.syncedToGC) {
           this.syncToGoogleCalendar()
-          this.timeUpdated = false
+          timeUpdated = false
         }
         this.$emit('save', this.instance.event)
         this.inProgress = false
       } catch (err) {
-        this.errorMessage = err.message
+        this.errorMessage = err?.message
         setTimeout(() => {
           this.inProgress = false
         }, 3000)
       }
     },
-
     instanceUpdate () {
       this.instance = _.cloneDeep(this.propsInstance)
+      this.convertTimesForUI({ startDate: this.instance.startDate, endDate: this.instance.endDate, timeZone: this.timeZone })
+
       if (new Date() > new Date(this.instance.endDate)) {
         this.$set(this.instance, 'done', true)
       }
@@ -115,42 +125,8 @@ export default {
       propsInstance: 'events/eventPanelInstance',
       propsEvent: 'events/eventPanelEvent'
     }),
-    _startDate: {
-      get () {
-        return momentTz(this.instance.startDate).tz(this.timeZone).format(HTML5_FMT_DATE_LOCAL)
-      },
-      set (val) {
-        this.$set(this.instance, 'startDate', new Date(`${val} ${this._startTime}${this.tzOffset}`))
-        this.$set(this.instance, 'endDate', new Date(`${val} ${this._endTime}${this.tzOffset}`))
-        this.timeUpdated = true
-      }
-    },
-    _startTime: {
-      get () {
-        return momentTz(this.instance.startDate).tz(this.timeZone).format(HTML5_FMT_TIME_LOCAL)
-      },
-      set (val) {
-        this.$set(this.instance, 'startDate', new Date(`${this._startDate} ${val}${this.tzOffset}`))
-        this.timeUpdated = true
-      }
-    },
-    _endTime: {
-      get () {
-        return momentTz(this.instance.endDate).tz(this.timeZone).format(HTML5_FMT_TIME_LOCAL)
-      },
-      set (val) {
-        // use _startDate here since startDate and endDate share the date
-        this.$set(this.instance, 'endDate', new Date(`${this._startDate} ${val}${this.tzOffset}`))
-        this.timeUpdated = true
-      }
-    },
     _endTimeHourRange () {
-      if (this.instance.startDate) {
-        let date = this.instance.startDate
-        return [[momentTz(date).tz(this.timeZone).hour(), 23]]
-      } else {
-        return [[0, 23]]
-      }
+      return [[0, 23]]
     }
   },
   watch: {
@@ -172,6 +148,7 @@ export default {
     <form
       class="edit-instance-form"
       @submit.prevent="onFormSubmit"
+      v-if="instance"
     >
       <div class="form-group">
         <label for="name"> {{ $t('events.name') }}</label>
@@ -226,25 +203,37 @@ export default {
       <div class="form-group">
         <label for="startDate"> {{ $t('events.start_date') }}</label>
         <input
-          v-model="_startDate"
+          v-model="startDate"
           type="date"
           class="form-control"
           name="startDate"
+          id="startDate"
         >
       </div>
       <div class="form-group">
         <label for="timeRange"> {{ $t('events.time_range') }}</label>
         <div>
-          <time-picker format="hh:mm A" :minute-interval="10" v-model="_startTime" />
-          <span>-</span>
-          <time-picker
-            format="hh:mm A"
-            :minute-interval="10"
-            :hour-range="_endTimeHourRange"
-            v-model="_endTime"
-          />
+          <time-picker format="hh:mm A" :minute-interval="10" v-model="startTime" />
         </div>
       </div>
+
+      <div class="form-group">
+        <label for="endDate"> {{ $t('events.end_date') }}</label>
+        <input
+          v-model="endDate"
+          type="date"
+          class="form-control"
+          name="endDate"
+          id="endDate"
+        >
+      </div>
+      <div class="form-group">
+        <label for="timeRange"> {{ $t('events.time_range') }}</label>
+        <div>
+          <time-picker format="hh:mm A" :minute-interval="10" v-model="endTime" />
+        </div>
+      </div>
+
       <div class="form-group">
         <label for="video"> {{ $t('events.video_recording') }}</label>
         <input
@@ -297,5 +286,9 @@ export default {
 .tab-label {
   font-size: 15px;
   color: rgba(128, 128, 128, 0.7);
+}
+
+.error-msg {
+  color: red;
 }
 </style>

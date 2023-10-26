@@ -34,7 +34,11 @@ export default {
       timeZone: 'America/New_York',
       tzOffset: momentTimezone.tz('America/New_York').format('Z'),
       event: {},
-      resetRRule: true // signal
+      resetRRule: true, // signal
+      startDate: null,
+      endDate: null,
+      startTime: null,
+      endTime: null
     }
   },
   methods: {
@@ -175,40 +179,8 @@ export default {
     myTimeZone () {
       return momentTimezone.tz.guess()
     },
-    _startDate: {
-      get () {
-        return momentTimezone(this.event.startDate).tz(this.timeZone).format(HTML5_FMT_DATE_LOCAL)
-      },
-      set (val) {
-        // update startDate and endDate at the same time
-        this.$set(this.event, 'startDate', new Date(`${val} ${this._startTime}${this.tzOffset}`))
-        this.$set(this.event, 'endDate', new Date(`${val} ${this._endTime}${this.tzOffset}`))
-      }
-    },
-    _startTime: {
-      get () {
-        return momentTimezone(this.event.startDate).tz(this.timeZone).format(HTML5_FMT_TIME_LOCAL)
-      },
-      set (val) {
-        this.$set(this.event, 'startDate', new Date(`${this._startDate} ${val}${this.tzOffset}`))
-      }
-    },
-    _endTime: {
-      get () {
-        return momentTimezone(this.event.endDate).tz(this.timeZone).format(HTML5_FMT_TIME_LOCAL)
-      },
-      set (val) {
-        // use _startDate here since startDate and endDate share the date
-        this.$set(this.event, 'endDate', new Date(`${this._startDate} ${val}${this.tzOffset}`))
-      }
-    },
     _endTimeHourRange () {
-      if (this.event.startDate) {
-        let date = this.event.startDate
-        return [[momentTimezone(date).tz(this.timeZone).hour(), 23]]
-      } else {
-        return [[0, 23]]
-      }
+      return [[0, 23]]
     },
     _gcEmails: {
       get () {
@@ -301,20 +273,30 @@ export default {
           type="date"
           class="form-control"
           name="startDate"
+          id="startDate"
         >
       </div>
-
       <div class="form-group">
         <label for="timeRange"> {{ $t('events.time_range') }}</label>
         <div>
           <time-picker format="hh:mm A" :minute-interval="10" v-model="_startTime" />
-          <span>-</span>
-          <time-picker
-            format="hh:mm A"
-            :minute-interval="10"
-            :hour-range="_endTimeHourRange"
-            v-model="_endTime"
-          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="endDate"> {{ $t('events.end_date') }}</label>
+        <input
+          v-model="_endDate"
+          type="date"
+          class="form-control"
+          name="endDate"
+          id="endDate"
+        >
+      </div>
+      <div class="form-group">
+        <label for="timeRange"> {{ $t('events.time_range') }}</label>
+        <div>
+          <time-picker format="hh:mm A" :minute-interval="10" v-model="_endTime" />
         </div>
       </div>
 
