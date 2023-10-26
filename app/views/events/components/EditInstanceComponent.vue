@@ -41,13 +41,15 @@ export default {
     ...mapActions('events', [
       'saveInstance'
     ]),
-    syncToGoogleCalendar () {
-      gcApiHandler.syncInstanceToGC(this.instance, this.propsEvent.googleEventId, this.timeZone).then(res => {
-        console.log('Synced to GC')
-      }).catch(err => {
+    async syncToGoogleCalendar () {
+      try {
+        const res = await gcApiHandler.syncInstanceToGC(this.instance, this.propsEvent.googleEventId, this.timeZone)
+        console.log('Synced to GC', res)
+        noty({ text: 'Synced instance to Google Calendar successfully', type: 'success', layout: 'center', timeout: 3000 })
+      } catch (err) {
         console.log('Error syncing to GC:', err)
-        noty({ text: 'Error syncing to Google Calendar', type: 'error' })
-      })
+        noty({ text: 'Error syncing to Google Calendar', type: 'error', timeout: 5000 })
+      }
     },
     selectOwner (u) {
       Vue.set(this.instance, 'owner', u._id)
@@ -67,29 +69,31 @@ export default {
     async onFormSubmit () {
       this.inProgress = true
 
-      const endDate = new Date(`${this.endDate} ${this.endTime}${this.tzOffset}`)
-      const startDate = new Date(`${this.startDate} ${this.startTime}${this.tzOffset}`)
-      const iStartDate = new Date(this.propsInstance.startDate)
-      const iEndDate = new Date(this.propsInstance.endDate)
-      if (endDate.getTime() <= startDate.getTime()) {
-        this.errorMessage = 'End date must be after start date'
+      let { errMsg, timeUpdated, startDate, endDate } = this.validateDates({
+        initialStartDate: this.propsInstance.startDate,
+        initialEndDate: this.propsInstance.endDate
+      })
+      if (errMsg) {
+        this.errorMessage = errMsg
         this.inProgress = false
         return
       }
+      this.instance.startDate = startDate
+      this.instance.endDate = endDate
+
       if (!this.instance.owner) {
         this.errorMessage = 'Must set an Owner'
         this.inProgress = false
         return
       }
-      let timeUpdated = (startDate.getTime() !== iStartDate.getTime()) || (endDate.getTime() !== iEndDate.getTime())
       this.instance.members = Object.values(this.memberAttendees).map(ma => _.pick(ma, ['userId', 'attendance', 'description']))
 
       try {
-        await this.saveInstance({ ...this.instance, startDate, endDate })
         if (timeUpdated && this.propsEvent.syncedToGC) {
-          this.syncToGoogleCalendar()
+          await this.syncToGoogleCalendar()
           timeUpdated = false
         }
+        await this.saveInstance(this.instance)
         this.$emit('save', this.instance.event)
         this.inProgress = false
       } catch (err) {

@@ -15,6 +15,19 @@ export default {
       this.endDate = timeZoneDate(endDate, timeZone)
       this.startTime = timeZoneTime(startDate, timeZone)
       this.endTime = timeZoneTime(endDate, timeZone)
+    },
+    validateDates ({ initialStartDate, initialEndDate }) {
+      const endDate = new Date(`${this.endDate} ${this.endTime}${this.tzOffset}`)
+      const startDate = new Date(`${this.startDate} ${this.startTime}${this.tzOffset}`)
+      const iStartDate = new Date(initialStartDate)
+      const iEndDate = new Date(initialEndDate)
+
+      let errMsg
+      if (endDate.getTime() <= startDate.getTime()) {
+        errMsg = 'End date must be after start date'
+      }
+      const timeUpdated = (startDate.getTime() !== iStartDate.getTime()) || (endDate.getTime() !== iEndDate.getTime())
+      return { errMsg, timeUpdated, startDate, endDate }
     }
   }
 }

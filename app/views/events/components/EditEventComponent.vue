@@ -10,6 +10,7 @@ import MembersComponent from './MembersComponent'
 import UserSearchComponent from './UserSearchComponent'
 import TimeZonePicker from './TimeZonePicker'
 import gcApiHandler from '../../../core/social-handlers/GoogleCalendarHandler'
+import convertDateMixin from '../mixins/convertDateMixin'
 
 export default {
   name: 'EditEventComponent',
@@ -41,6 +42,9 @@ export default {
       endTime: null
     }
   },
+  mixins: [
+    convertDateMixin
+  ],
   methods: {
     ...mapMutations('events', [
       'setEvent',
@@ -90,19 +94,20 @@ export default {
     addMember (m) {
       this.event.members.add(m)
     },
-    syncToGoogleCalendar (update = false) {
-      gcApiHandler.syncEventsToGC(this.event, { timeZone: this.timeZone, update }).then(res => {
-        if (!update) {
+    async syncToGoogleCalendar () {
+      try {
+        const res = await gcApiHandler.syncEventsToGC(this.event, { timeZone: this.timeZone })
+        if (!this.event.googleEventId) {
           const googleEventId = res.id
           this.event.googleEventId = googleEventId
-          this.editEvent({ _id: this.event._id, googleEventId })
+          await this.editEvent({ _id: this.event._id, googleEventId })
         }
         noty({ text: 'Synced to Google Calendar', type: 'success', layout: 'center', timeout: 3000 })
-      }).catch(err => {
+      } catch (err) {
         this.editEvent({ _id: this.event._id, syncedToGC: false })
         console.log('Error syncing to GC:', err)
-        noty({ text: 'Error syncing to Google Calendar', type: 'error' })
-      })
+        noty({ text: 'Error syncing to Google Calendar', type: 'error', timeout: 5000 })
+      }
     },
     async onFormSubmit () {
       this.inProgress = true
@@ -114,17 +119,24 @@ export default {
         this.inProgress = false
         return
       }
-      if (this.event.endDate <= this.event.startDate) {
-        this.errorMessage = 'End date must be after start date'
+      const { errMsg, startDate, endDate } = this.validateDates({
+        initialStartDate: this.event.startDate,
+        initialEndDate: this.event.endDate
+      })
+      if (errMsg) {
+        this.errorMessage = errMsg
         this.inProgress = false
         return
       }
+      this.event.startDate = startDate
+      this.event.endDate = endDate
+
       if (this.editType === 'new') {
         try {
           const res = await this.saveEvent(this.event)
           this.event._id = res._id
           if (this.event.syncedToGC) {
-            this.syncToGoogleCalendar()
+            await this.syncToGoogleCalendar()
           }
           this.$emit('save', res._id)
           this.inProgress = false
@@ -138,7 +150,7 @@ export default {
         try {
           await this.editEvent(this.event)
           if (this.event.syncedToGC) {
-            this.syncToGoogleCalendar(this.propsEvent?.syncedToGC) // if prev alread syncedToGC then update
+            await this.syncToGoogleCalendar()
           }
           this.$emit('save', this.event._id)
           this.inProgress = false
@@ -159,12 +171,14 @@ export default {
           members: [],
           startDate: sDate.toDate(),
           endDate: sDate.clone().add(1, 'hours').toDate(),
-          instances: []
+          instances: [],
+          syncedToGC: true // keeping it true by default so that on first save, we sync to google by default
         }
       } else {
         this.event = _.cloneDeep(this.propsEvent)
       }
       this.resetRRule = !this.resetRRule
+      this.convertTimesForUI({ startDate: this.event.startDate, endDate: this.event.endDate, timeZone: this.timeZone })
     }
   },
   computed: {
@@ -269,7 +283,7 @@ export default {
       <div class="form-group">
         <label for="startDate"> {{ $t('events.start_date') }}</label>
         <input
-          v-model="_startDate"
+          v-model="startDate"
           type="date"
           class="form-control"
           name="startDate"
@@ -279,14 +293,14 @@ export default {
       <div class="form-group">
         <label for="timeRange"> {{ $t('events.time_range') }}</label>
         <div>
-          <time-picker format="hh:mm A" :minute-interval="10" v-model="_startTime" />
+          <time-picker format="hh:mm A" :minute-interval="10" v-model="startTime" />
         </div>
       </div>
 
       <div class="form-group">
         <label for="endDate"> {{ $t('events.end_date') }}</label>
         <input
-          v-model="_endDate"
+          v-model="endDate"
           type="date"
           class="form-control"
           name="endDate"
@@ -296,7 +310,7 @@ export default {
       <div class="form-group">
         <label for="timeRange"> {{ $t('events.time_range') }}</label>
         <div>
-          <time-picker format="hh:mm A" :minute-interval="10" v-model="_endTime" />
+          <time-picker format="hh:mm A" :minute-interval="10" v-model="endTime" />
         </div>
       </div>
 
