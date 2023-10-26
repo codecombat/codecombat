@@ -102,6 +102,12 @@ export default {
       this.resetSearchedUser()
     }
   },
+  mounted () {
+    if (this.user !== this.value) {
+      this.setUser = true
+      this.user = this.value
+    }
+  },
   methods: {
     ...mapActions({
       searchUser: 'users/fetchUsersByNameOrSlug'

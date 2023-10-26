@@ -76,12 +76,18 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
 
     return new Promise((resolve, reject) => {
       const fun = () => {
+        if (!eventId) {
+          return reject(new Error('Event id not present to search on google'))
+        }
         gapi.client.load('calendar', 'v3', () => {
           gapi.client.calendar.events.instances({
             calendarId: 'primary',
             eventId
           }).execute((instances) => {
             const iid = instances.items[instance.index]?.id
+            if (!iid) {
+              return reject(new Error('Instance not found on google'))
+            }
             gapi.client.calendar.events.patch({
               calendarId: 'primary',
               eventId: iid,
@@ -100,6 +106,9 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
   updateCalendarsToAPI (event, timeZone) {
     return new Promise((resolve, reject) => {
       const fun = () => {
+        if (!event.googleEventId) {
+          return reject(new Error('Google event id not present'))
+        }
         gapi.client.load('calendar', 'v3', () => {
           gapi.client.calendar.events.patch({
             calendarId: 'primary',
@@ -185,10 +194,10 @@ module.exports = {
     }
   },
 
-  syncEventsToGC: async function (event, { timezone = 'America/New_York', update = false } = {}) {
+  syncEventsToGC: async function (event, { timezone = 'America/New_York' } = {}) {
     try {
-      if (update) return await this.gcApiHandler.updateCalendarsToAPI(event, timezone)
-      return await this.gcApiHandler.syncCalendarsToAPI(event, timezone)
+      if (event?.googleEventId) return this.gcApiHandler.updateCalendarsToAPI(event, timezone)
+      return this.gcApiHandler.syncCalendarsToAPI(event, timezone)
     } catch (e) {
       console.error('Error in syncing event to google calendar:', e)
       return 'Error in syncing event to google calendar'
@@ -197,7 +206,7 @@ module.exports = {
 
   syncInstanceToGC: async function (instance, eventId, timezone = 'America/New_York') {
     try {
-      return await this.gcApiHandler.updateInstanceToAPI(instance, eventId, timezone)
+      return this.gcApiHandler.updateInstanceToAPI(instance, eventId, timezone)
     } catch (e) {
       console.error('Error in syncing instance to google calendar:', e)
       return 'Error in syncing instance to google calendar'
