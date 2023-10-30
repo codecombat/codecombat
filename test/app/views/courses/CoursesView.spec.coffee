@@ -19,7 +19,6 @@ describe 'CoursesView', ->
       courseInstances = new CourseInstances([factories.makeCourseInstance()])
       courses = new Courses([factories.makeCourse()])
       view.classrooms.fakeRequests[0].respondWith({ status: 200, responseText: classrooms.stringify() })
-      view.ownedClassrooms.fakeRequests[0].respondWith({ status: 200, responseText: classrooms.stringify() })
       view.courseInstances.fakeRequests[0].respondWith({ status: 200, responseText: courseInstances.stringify() })
       view.render()
       jasmine.demoEl(view.$el)
