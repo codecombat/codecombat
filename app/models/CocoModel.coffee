@@ -11,6 +11,12 @@ class CocoModel extends Backbone.Model
   notyErrors: true
   @schema: null
 
+  constructor: (attributes, options)  ->
+    if _.isObject(attributes) and ('undefined' of attributes)
+      console.error "Unsetting `undefined` property key during construction of #{@constructor.className} model with value #{attributes['undefined']}"
+      delete attributes['undefined']
+    super(arguments...)
+
   initialize: (attributes, options) ->
     super(arguments...)
     options ?= {}
@@ -94,6 +100,12 @@ class CocoModel extends Backbone.Model
     delete @attributesWithDefaults unless attributes is 'thangs'  # unless attributes is 'thangs': performance optimization for Levels keeping their cache.
     inFlux = @loading or not @loaded
     @markToRevert() unless inFlux or @_revertAttributes or @project or options?.fromMerge
+    if _.isString(attributes) and (attributes is 'undefined' or attributes is undefined)
+      console.error "Blocking setting of #{attributes} property to #{@constructor.className} model with value #{options}"
+      return
+    else if _.isObject(attributes) and ('undefined' of attributes)
+      console.error "Blocking setting of `undefined` property key to #{@constructor.className} model with value #{attributes['undefined']}"
+      delete attributes['undefined']
     res = super attributes, options
     @saveBackup() if @saveBackups and (not inFlux)
     res
@@ -206,6 +218,9 @@ class CocoModel extends Backbone.Model
     options.data ?= {}
     options.data.project = @project.join(',') if @project
     #console.error @constructor.className, @, "fetching with cache?", options.cache, "options", options  # Useful for debugging cached IE fetches
+    if options.callOz
+      url = options.url || @getURL()
+      options.url = utils.getProductUrl('OZ', url)
     @jqxhr = super(options)
     @loading = true
     @jqxhr

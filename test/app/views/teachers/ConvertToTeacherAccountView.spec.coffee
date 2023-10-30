@@ -97,6 +97,7 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
   describe 'when the user has role "student"', ->
     beforeEach ->
       me.set('role', 'student')
+      # TODO: is this next line right? Seems to try to construct a TrialRequest with `[]` as its attributes (and below as well)
       _.last(view.trialRequests.fakeRequests).respondWith({ status: 200, responseText: JSON.stringify('[]') })
       view.render()
 

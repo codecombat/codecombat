@@ -124,7 +124,7 @@ export default {
         levels: (options.project || {}).levels || defaultProjections.levels
       }
 
-      return campaignsApi.fetchGameContent(campaignId, { data: { project: projectData } })
+      return campaignsApi.fetchGameContent(campaignId, { data: { project: projectData }, callOz: options.callOz })
         .then(res => {
           if (res) {
             commit('addContentForCampaign', {

@@ -34,17 +34,33 @@ module.exports = class I18NHomeView extends RootView
 
   events:
     'change #language-select': 'onLanguageSelectChanged'
+    'change #type-select': 'onTypeSelectChanged'
 
   constructor: (options) ->
     super(options)
     @selectedLanguage = me.get('preferredLanguage') or ''
+    @selectedTypes = ''
 
     #-
-    @aggregateModels = new Backbone.Collection()
-    @aggregateModels.comparator = (m) ->
+    i18nComparator =  (m) ->
       return 2 if m.specificallyCovered
       return 1 if m.generallyCovered
       return 0
+    @aggregateModels = new Backbone.Collection()
+    that = @
+    filterModel = Backbone.Collection.extend({
+      comparator: i18nComparator,
+      filter: (attribute, value) ->
+        @reset(that.aggregateModels.filter((model) ->
+          return true if value is ''
+          if attribute is 'className'
+            return model.constructor.className is value
+          else
+            return model.get(attribute) is value
+        ))
+    })
+    @filteredModels = new filterModel()
+    @aggregateModels.comparator = i18nComparator
 
     project = ['name', 'components.original', 'i18n', 'i18nCoverage', 'slug']
 
@@ -55,11 +71,11 @@ module.exports = class I18NHomeView extends RootView
     @campaigns = new CocoCollection([], { url: "/db/campaign#{QUERY_PARAMS}", project: project, model: Campaign })
     @polls = new CocoCollection([], { url: "/db/poll#{QUERY_PARAMS}", project: project, model: Poll })
     @courses = new Courses()
-    if utils.isOzaria
-      @cinematics = new CocoCollection([], { url: "/db/cinematic#{QUERY_PARAMS}", project: project, model: Cinematic })
     @articles = new CocoCollection([], { url: "/db/article#{QUERY_PARAMS}", project: project, model: Article })
+    @resourceHubResource = new CocoCollection([], { url: "/db/resource_hub_resource#{QUERY_PARAMS}", project: project, model: ResourceHubResource })
     if utils.isOzaria
       @interactive = new CocoCollection([], { url: "/db/interactive#{QUERY_PARAMS}", project: project, model: Interactive })
+      @cinematics = new CocoCollection([], { url: "/db/cinematic#{QUERY_PARAMS}", project: project, model: Cinematic })
       @cutscene = new CocoCollection([], { url: "/db/cutscene#{QUERY_PARAMS}", project: project, model: Cutscene })
     @resourceHubResource = new CocoCollection([], { url: "/db/resource_hub_resource#{QUERY_PARAMS}", project: project, model: ResourceHubResource })
     @chatMessage = new CocoCollection([], { url: "/db/chat_message#{QUERY_PARAMS}", project: project, model: ChatMessage })
@@ -105,6 +121,7 @@ module.exports = class I18NHomeView extends RootView
         when 'AIDocument' then '/i18n/ai/document/'
     getMore = collection.models.length is PAGE_SIZE
     @aggregateModels.add(collection.models)
+    @filteredModels.add(collection.models)
     @render()
 
     if getMore
@@ -116,11 +133,12 @@ module.exports = class I18NHomeView extends RootView
     @updateCoverage()
     c.languages = languages
     c.selectedLanguage = @selectedLanguage
-    c.collection = @aggregateModels
+    c.selectedTypes = @selectedTypes
+    c.collection = @filteredModels
 
-    covered = (m for m in @aggregateModels.models when m.specificallyCovered).length
-    coveredGenerally = (m for m in @aggregateModels.models when m.generallyCovered).length
-    total = @aggregateModels.models.length
+    covered = (m for m in @filteredModels.models when m.specificallyCovered).length
+    coveredGenerally = (m for m in @filteredModels.models when m.generallyCovered).length
+    total = @filteredModels.models.length
     c.progress = if total then parseInt(100 * covered / total) else 100
     c.progressGeneral = if total then parseInt(100 * coveredGenerally / total) else 100
     c.showGeneralCoverage = /-/.test(@selectedLanguage ? 'en')  # Only relevant for languages with more than one family, like zh-HANS
@@ -130,10 +148,10 @@ module.exports = class I18NHomeView extends RootView
   updateCoverage: ->
     selectedBase = @selectedLanguage[..2]
     relatedLanguages = (l for l in languages when _.string.startsWith(l, selectedBase) and l isnt @selectedLanguage)
-    for model in @aggregateModels.models
+    for model in @filteredModels.models
       @updateCoverageForModel(model, relatedLanguages)
       model.generallyCovered = true if _.string.startsWith @selectedLanguage, 'en'
-    @aggregateModels.sort()
+    @filteredModels.sort()
 
   updateCoverageForModel: (model, relatedLanguages) ->
     model.specificallyCovered = true
@@ -151,6 +169,10 @@ module.exports = class I18NHomeView extends RootView
     @addLanguagesToSelect(@$el.find('#language-select'), @selectedLanguage)
     @$el.find('option[value="en-US"]').remove()
     @$el.find('option[value="en-GB"]').remove()
+    if utils.isCodeCombat
+      @addTypesToSelect($('#type-select'), ['ThangType', 'LevelComponent', 'Level', 'Achievement', 'Campaign', 'Poll', 'Course', 'Article', 'ResourceHubResource', 'ChatMessage', 'AIScenario'])
+    else
+      @addTypesToSelect($('#type-select'), ['ThangType', 'LevelComponent', 'Level', 'Achievement', 'Campaign', 'Poll', 'Course', 'Article', 'ResourceHubResource', 'Interactive', 'Cinematic', 'Cutscene'])
 
   onLanguageSelectChanged: (e) ->
     @selectedLanguage = $(e.target).val()
@@ -159,3 +181,16 @@ module.exports = class I18NHomeView extends RootView
       me.set('preferredLanguage', @selectedLanguage)
       me.patch()
     @render()
+
+  addTypesToSelect: (e, types) ->
+    $select = e
+    $select.empty()
+    $select.append($('<option>').attr('value', '').text('Select One...'))
+    for type in types
+      $select.append($('<option>').attr('value', type).text(type))
+
+  onTypeSelectChanged: (e) ->
+    @selectedType = $(e.target).val()
+    @filteredModels.filter('className', @selectedType)
+    @render()
+    $('#type-select').val(@selectedType)

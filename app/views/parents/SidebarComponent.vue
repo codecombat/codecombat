@@ -22,7 +22,7 @@
         </select>
       </div>
       <ul class="sidebar__tabs">
-        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'progress', childId: this.selectedChildrenId } }">
+        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'progress', childId: this.selectedChildrenId, product: product } }">
           <li
             :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'progress' || selectedTab === 'dashboard' }"
           >
@@ -68,7 +68,8 @@
     <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'toolkit' } }">
       <div class="sidebar__bottom">
         <div
-          class="sidebar__bottom__item">
+          :class="{ sidebar__bottom__item: true, sidebar__tabs__item__sel: selectedTab === 'toolkit' }"
+        >
           Parent toolkit
         </div>
   <!--      <div class="sidebar__bottom__item">Account</div>-->
@@ -89,6 +90,9 @@ export default {
       type: String
     },
     childId: {
+      type: String
+    },
+    product: {
       type: String
     }
   },
@@ -165,7 +169,7 @@ export default {
       cursor: pointer;
 
       &__sel {
-        color: $color-twilight;
+        color: $color-twilight !important;
       }
     }
 

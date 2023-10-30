@@ -2,6 +2,7 @@ product = (COCO_PRODUCT ? process?.env?.COCO_PRODUCT) ? 'codecombat'
 isCodeCombat = product == 'codecombat'
 isOzaria = !isCodeCombat
 _ = require 'lodash'
+useWebsocket = true
 
 # Yuqiang: i don't know why we use same slugify from different source but let's keep it right now since change it sometimes trigger unbelievable bug
 if isCodeCombat
@@ -1263,6 +1264,14 @@ getScreenRefreshRate = (callback, runIndefinitely) ->
     ), 500
   return
 
+getProductUrl = (product, url) ->
+  if product != 'COCO' and product != 'OZ'
+    return url
+  hostVal = window.location.origin
+  if product == 'OZ'
+    return "#{hostVal}/ozaria#{url}"
+  return url
+
 module.exports = {
   activeAndPastArenas
   activeArenas
@@ -1368,4 +1377,6 @@ module.exports = {
   tournamentSortFn
   cocoBaseURL
   ozBaseURL
+  useWebsocket
+  getProductUrl
 }

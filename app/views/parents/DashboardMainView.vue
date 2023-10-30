@@ -3,6 +3,7 @@
     <sidebar-component
       :children="children"
       :default-tab="selectedView"
+      :product="selectedProduct"
       @onAddAnotherChild="onAddAnotherChildClicked"
       @onSelectedChildrenChange="onSelectedChildrenChange"
       :child-id="selectedChildrenId"
@@ -10,8 +11,9 @@
     <header-component
       @onSelectedProductChange="onSelectedProductChange"
       :child="selectedChildren"
+      :product="selectedProduct"
       :is-online-class-paid-user="isPaidOnlineClassUser()"
-      v-if="selectedView !== 'online-classes'"
+      v-if="showHeaderComponent"
     />
     <student-progress-view
       v-if="selectedView === 'dashboard' || selectedView === 'progress'"
@@ -71,13 +73,17 @@ export default {
     childId: {
       type: String,
       default: ''
+    },
+    product: {
+      type: String,
+      default: 'codecombat'
     }
   },
   data () {
     return {
       children: [],
       selectedView: this.viewName,
-      selectedProduct: null,
+      selectedProduct: this.product,
       selectedChildrenId: null
     }
   },
@@ -135,7 +141,8 @@ export default {
       this.onChildAccountSubmitHelper(data)
     },
     onSelectedProductChange (data) {
-      this.selectedProduct = data
+      // this.selectedProduct = data
+      window.location.href = `/parents/${this.viewName}/${this.selectedChildrenId}/${data}`
     },
     onSelectedChildrenChange (data) {
       // this.$router.push({
@@ -158,6 +165,9 @@ export default {
   computed: {
     selectedChildren () {
       return this.children?.find(c => c.userId === this.selectedChildrenId)
+    },
+    showHeaderComponent () {
+      return this.selectedView !== 'online-classes' && this.selectedView !== 'summary' && this.selectedView !== 'toolkit'
     }
   }
 }

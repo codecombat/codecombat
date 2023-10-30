@@ -2,6 +2,7 @@ levelSchema = require('schemas/models/level')
 api = require('core/api')
 utils = require 'core/utils'
 translateUtils = require 'lib/translate-utils'
+aetherUtils = require 'lib/aether_utils'
 
 # TODO: Be explicit about the properties being stored
 emptyLevel = _.zipObject(([key, null] for key in _.keys(levelSchema.properties)))
@@ -124,7 +125,7 @@ module.exports = {
       commit('setClickedUpdateCapstoneCode', clicked)
     setHasPlayedGame: ({ commit }, hasPlayed) ->
       commit('setHasPlayedGame', hasPlayed)
-    autoFillSolution: ({ commit, rootState }, codeLanguage) ->
+    autoFillSolution: ({ commit, getters, rootState }, codeLanguage) ->
       if utils.isCodeCombat
         codeLanguage ?= utils.getQueryVariable('codeLanguage') ? 'javascript' # Belongs in Vuex eventually
         noSolution = ->
@@ -132,34 +133,9 @@ module.exports = {
           noty({ text, timeout: 3000 })
           console.error(text)
 
-        unless hero = _.find(rootState.game.level?.thangs ? [], id: 'Hero Placeholder')
-          noSolution()
-          return
+        source = getters['getSolutionSrc'](codeLanguage)
 
-        unless component = _.find(hero.components ? [], (c) -> c?.config?.programmableMethods?.plan)
-          noSolution()
-          return
-
-        plan = component.config.programmableMethods.plan
-
-        solutions = _.filter (plan?.solutions ? []), (s) -> not s.testOnly and s.succeeds
-        rawSource = _.find(solutions, language: codeLanguage)?.source
-        if not rawSource and jsSource = _.find(solutions, language: 'javascript')?.source
-          # If there is no target language solution yet, generate one from JavaScript.
-          rawSource = translateUtils.translateJS(jsSource, codeLanguage)
-
-        unless rawSource
-          noSolution()
-          return
-
-        try
-          source = _.template(rawSource)(utils.i18n(plan, 'context'))
-        catch e
-          console.error("Cannot auto fill solution: #{e.message}")
-
-        if _.isEmpty(source)
-          noSolution()
-          return
+        noSolution() unless source?
 
         commit('setLevelSolution', {
           autoFillCount: rootState.game.levelSolution.autoFillCount + 1,
@@ -199,6 +175,34 @@ module.exports = {
     clickedUpdateCapstoneCode: (state) -> state.clickedUpdateCapstoneCode
     hasPlayedGame: (state) -> state.hasPlayedGame
     levelSolution: (state) -> state.levelSolution
+    getSolutionSrc: (state, getters, rootState) ->
+      (codeLanguage) ->
+        unless hero = _.find(rootState.game.level?.thangs ? [], id: 'Hero Placeholder')
+          return undefined
+
+        unless component = _.find(hero.components ? [], (c) -> c?.config?.programmableMethods?.plan)
+          return undefined
+
+        plan = component.config.programmableMethods.plan
+
+        solutions = _.filter (plan?.solutions ? []), (s) -> not s.testOnly and s.succeeds
+        rawSource = _.find(solutions, language: codeLanguage)?.source
+        if not rawSource and jsSource = _.find(solutions, language: 'javascript')?.source
+          # If there is no target language solution yet, generate one from JavaScript.
+          rawSource = aetherUtils.translateJS(jsSource, codeLanguage)
+
+        unless rawSource
+          return undefined
+
+        try
+          source = _.template(rawSource)(utils.i18n(plan, 'context'))
+        catch e
+          console.error("Cannot auto fill solution: #{e.message}")
+
+        if _.isEmpty(source)
+          return undefined
+
+        return source
   }
 }
 

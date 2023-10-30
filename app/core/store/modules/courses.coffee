@@ -31,10 +31,10 @@ module.exports = {
       return api.courses.getAll().then((courses) ->
         commit('addCourses', courses)
       )
-    
-    fetchReleased: ({commit, state}) ->
+
+    fetchReleased: ({commit, state}, options = {}) ->
       return Promise.resolve() if state.loaded
-      return api.courses.getReleased().then((courses) ->
+      return api.courses.getReleased(options).then((courses) ->
         commit('addCourses', courses)
       )
   }

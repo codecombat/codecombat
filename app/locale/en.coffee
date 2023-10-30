@@ -441,7 +441,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   new_home_faq:
     what_programming_languages: "What programming languages are available?"
-    python_and_javascript: "We currently support Python and JavaScript."
+    python_and_javascript: "We currently support Python, JavaScript, C++, Java, and Lua."
     why_python: "Why should you choose Python?"
     why_python_blurb: "Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python."
     why_javascript: "Why should you choose JavaScript?"
@@ -1080,6 +1080,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     octans_character: "Octans Character"
     click_to_continue: "Click to Continue"
     fill_in_solution: "Fill in solution"
+    toggle_solution: "Toggle solution"
     play_as_humans: "Play As Red"
     play_as_ogres: "Play As Blue"
     changed: "Last edited "
@@ -1111,6 +1112,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     content_type_cinematic: "Cinematic"
     content_type_interactive: "Concept Check"
     feedback: "Feedback"
+    ask_teacher_for_help: "Ask your teacher for help"
+    ask_teacher_for_help_offline: "Your Teacher is currently offline"
+    not_enough_credits_bot: "Opps! Looks like you don’t have enough queries. Subscribe now and get the queries you want for the AI powered support you need!"
+    not_enough_credits_interval: "No credits left for the __interval__. Consumed __amount__ credits."
 
   apis:
     methods: "Methods"
@@ -1301,6 +1306,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     subscription_status: "Your Subscription Status"
     currently_not_free: "You don't have a Subscription yet."
     online_classes: "Online Classes"
+    feature_ai_level_bot: "Get AI powered debugging support"
 
   announcement:
     now_available: "Now available for subscribers!"
@@ -1379,6 +1385,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     list_items: "Equip Premium-only items like pets"
     list_support: "Get Premium support to help you debug tricky code"
     list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
+    ai_bot_learning: "AI Powered support to accelerate your learning!"
+    ai_bot_description: "Meet DebugBot AI, CodeCombat’s AI powered assistant. This powerful helper can evaluate your code, point out errors, explain how to fix them, and provide all the context you need to understand the “why”. It’s instant support when you need it most."
 
   choose_hero:
     choose_hero: "Choose Your Hero"
@@ -1501,7 +1509,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ae_title: "Account Executive"
     sae_title: "Senior Account Executive"
     sgd_title: "Senior Game Developer"
+    gd_title: "Game Developer"
     dois_title: "Director of Inside Sales"
+    ism_title: "Inside Sales Manager"
     sism_title: "Senior Inside Sales Manager"
     shan_title: "Head of Marketing, CodeCombat Greater China"
     run_title: "Head of Operations, CodeCombat Greater China"
@@ -1546,6 +1556,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sem_title: "Senior Education Manager"
     de_title: "Director of Education"
     vpm_title: "VP, Marketing"
+    vps_title: "VP, Sales"
     sales_om_title: "Sales Operations Manager"
     bd_pr_title: "Business Development and Partnerships Representative"
     oi_title: "Online Instructor"
@@ -1816,6 +1827,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     delete_this_account: "Delete this account permanently"
     reset_progress_tab: "Reset All Progress"
     reset_your_progress: "Clear all your progress and start over"
+    connect_roblox_tab: "Connect Roblox"
+    connect_roblox_button: "Connect"
+    re_connect_roblox_button: "Connect Another Account"
+    disconnect_roblox_button: "Disconnect"
+    roblox_connected: "Your account <strong>__username__</strong> is connected to Roblox."
+    roblox_not_connected: "Connect your CodeCombat and Roblox accounts."
+    roblox_disconnect_confirm: "Are you sure you want to disconnect your Roblox account?"
     god_mode: "God Mode"
     emails_tab: "Emails"
     admin: "Admin"
@@ -2189,6 +2207,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_live_completion: "Classroom Code Autocomplete: "
     learn_without_classroom_title: "You can still learn and play without a classroom"
     learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
+    learn_without_classroom_blurb_coco: "Start by playing the free Hour of Code campaign by <a href='/play/intro'>clicking here</a>."
     all_courses_completed: "All Courses Completed!"
     all_units_completed: "All Units Completed!"
 
@@ -2621,6 +2640,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     from_the_podcast: "From the Podcast"
     edit_student_access_title: "Edit Student Access to Levels"
     edit_student_access_subtitle: "You have selected __levels__ levels for __students__ students."
+    student_ask_for_help: "Your studnet __name__ asking for your help."
 
   teacher_licenses:
     active_licenses: "Active Licenses"
@@ -4721,6 +4741,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     time_spent: "Time spent (in minutes)"
     new_users: "New Users"
     age_demographics: "Age demographics"
+    levels_completed: "Levels Completed"
+    adjust_dates_explore: "Adjust the dates below to explore patron usage trends over time."
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."
@@ -4779,7 +4801,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     email_confirm: "The email address \"__email__\" is already registered. Would you like to login?"
 
   roblox_landing:
-    headline: "Empowering every player to become a creator!"
+    headline: "Empowering Every Player to Become a Creator!"
     subhead: "Experience the easiest and most enjoyable way to code and create your own Roblox games"
     join_the_beta: "Join the Beta"
     sign_up: "Sign Up"
@@ -4815,3 +4837,39 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bottom_blurb_partner: "Want to use the new CodeCombat Worlds Roblox experience for your education business, social impact initiative or international distribution opportunity? __reach-out__ to discuss partnering today."
     bottom_blurb_reach_out: "Reach out"
     boxes_title: "Play, Code and Create on Roblox"
+    login_message: "You need to login before connecting your account to Roblox"
+    connect_button_header: "Account Linking Rewards"
+    connect_button_linker_badge: "Linker Badge"
+    connect_button_accounts_linked: "Accounts Linked"
+    connect_button_pet_chroma: "Pet Chroma"
+    connect_button_exclusive_pet: "Exclusive Pet"
+    connect_button_blurb: "Link your CodeCombat and Roblox accounts for a seamless experience!"
+    connect_button_list_item_1: "Manage subscriptions"
+    connect_button_list_item_2: "Unlock additional content"
+    connect_button_list_item_3: "Track progress"
+    connect_button_list_item_4: "Receive exclusive rewards"
+    connect_button_list_item_5: "Access curricular resources"
+    connect_button_list_item_6: "Parent and teacher dashboard access"
+    connect_button_list_item_7: "Unlock generative AI features"
+    connect_button_list_item_8: "Creative mode publishing and exporting"
+    connect_button_connected_blurb: "Congratulations, you have linked your accounts! Invite your friends to help reach the community linking goals."
+    connect_button_not_connected_blurb: "The more people link their accounts, the more rewards you'll receive!"
+    faq_bottom: "See more <a href=\"https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-\" target=\"_blank\">frequently asked questions in our help center</a>. <br />If you have any other questions, please <a href=\"mailto:support@codecombat.com\">Contact Us</a>."
+    modal_title: "CodeCombat Worlds<br> Now Live on Roblox!"
+    modal_play_now: "PLAY NOW!"
+    modal_button_link_roblox_account: "Link Roblox Account"
+
+  ai:
+    prompt_level_chat_1: 'What does this error mean?'
+    prompt_level_chat_2: 'Please explain this error.'
+    prompt_level_chat_3: 'What\'s wrong?'
+    prompt_level_chat_4: 'Please help explain this.'
+    prompt_level_chat_5: 'How can I fix it?'
+    prompt_level_chat_6: 'Help, please.'
+    prompt_level_chat_7: 'What do I do?'
+    prompt_level_chat_8: 'What does this mean?'
+    prompt_level_chat_9: 'Please explain.'
+    prompt_level_chat_10: 'What is this error?'
+    prompt_level_chat_11: 'What is the problem?'
+    prompt_level_chat_12: '???'
+    prompt_level_chat_13: 'Dear AI, I beseech you, explain my error, in verse.'

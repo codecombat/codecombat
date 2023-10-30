@@ -407,7 +407,6 @@ _.extend UserSchema.properties,
       studentsStartedDungeonsOfKithgard: { type: 'integer', description: "The number of a teacher's students who have started Dungeons of Kithgard" }
       studentsStartedTrueNames: { type: 'integer', description: "The number of a teacher's students who have started True Names" }
     }
-
   administratedTeachers: c.array {}, c.objectId()
   administratingTeachers: c.array {}, c.objectId()
 

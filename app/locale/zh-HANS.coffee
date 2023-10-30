@@ -1110,6 +1110,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     content_type_cinematic: "剧情"
     content_type_interactive: "互动"
 #    feedback: "Feedback"
+    ask_teacher_for_help: "向你的老师寻求帮助"
+    ask_teacher_for_help_offline: "你的老师当前不在线"
 
   apis:
     methods: "函数"
@@ -4788,3 +4790,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    bottom_blurb_partner: "Want to use the new CodeCombat Worlds Roblox experience for your education business, social impact initiative or international distribution opportunity? __reach-out__ to discuss partnering today."
 #    bottom_blurb_reach_out: "Reach out"
 #    boxes_title: "Play, Code and Create on Roblox"
+  ai:
+    prompt_level_chat_1: '这个错误是什么意思？'
+    prompt_level_chat_2: '请解释一下这个错误。'
+    prompt_level_chat_3: '出了什么问题？'
+    prompt_level_chat_4: '请帮忙解释一下。'
+    prompt_level_chat_5: '我该如何修复它？'
+    prompt_level_chat_6: '求求你，帮帮忙。'
+    prompt_level_chat_7: '我该怎么办？'
+    prompt_level_chat_8: '这是什么意思？'
+    prompt_level_chat_9: '请解释一下。'
+    prompt_level_chat_10: '这是什么错误？'
+    prompt_level_chat_11: '出了什么问题？'
+    prompt_level_chat_12: '???'
+    prompt_level_chat_13: '你好 AI，请耐心解释一下我的错误'
