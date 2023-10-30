@@ -42,7 +42,10 @@ module.exports = (AIView = (function () {
       return super.destroy()
     }
 
-    handleAICreditLimitReached (code, body, options = {}) {
+    handleAICreditLimitReached (code, body) {
+      if (code !== 402) {
+        return
+      }
       let message = $.i18n.t('play_level.not_enough_credits_bot')
       const creditsLeft = typeof body === 'string' ? JSON.parse(body)?.creditsLeft : body.creditsLeft
       const creditObj = creditsLeft.find((c) => c.creditsLeft <= 0)
