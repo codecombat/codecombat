@@ -16,9 +16,9 @@ try {
   console.warn(e)
   ai = { AI: () => { } }
 }
-const ContactModal = require('app/views/core/ContactModal')
 const SubscribeModal = require('app/views/core/SubscribeModal')
 const CreateAccountModal = require('app/views/core/CreateAccountModal')
+const DirectContactModal = require('app/views/core/DirectContactModal').default
 
 module.exports = (AIView = (function () {
   AIView = class AIView extends RootView {
@@ -52,7 +52,7 @@ module.exports = (AIView = (function () {
       const interval = creditObj.durationKey
       const amount = creditObj.durationAmount
       if (me.isTeacher()) {
-        super.openModalView(new ContactModal())
+        super.openModalView(new DirectContactModal())
       } else if (me.isAnonymous()) {
         super.openModalView(new CreateAccountModal({ mode: 'signup' }))
       } else if (me.isHomeUser()) {
@@ -66,7 +66,7 @@ module.exports = (AIView = (function () {
           message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
         }
       }
-      noty({ text: message, type: 'error', timeout: 5000, layout: 'center' })
+      noty({ text: message, type: 'error', timeout: 10000, layout: 'center' })
     }
   }
   AIView.initClass()
