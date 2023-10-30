@@ -78,6 +78,10 @@ module.exports = class ClassroomSettingsModal extends ModalView
       attrs.aceConfig.liveCompletion = attrs.liveCompletion[0] == 'on'
       delete attrs.liveCompletion
 
+    if attrs.levelChat
+      attrs.aceConfig.levelChat = attrs.levelChat
+      delete attrs.levelChat
+
     if !@isGoogleClassroom and !@showLMSDropDown
       delete attrs.googleClassroomId
       delete attrs.lmsClassroomId
@@ -93,6 +97,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
       return
 
     @classroom.set(attrs)
+    debugger
     schemaErrors = @classroom.getValidationErrors()
     if schemaErrors
       for error in schemaErrors
