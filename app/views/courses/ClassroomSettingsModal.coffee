@@ -97,7 +97,6 @@ module.exports = class ClassroomSettingsModal extends ModalView
       return
 
     @classroom.set(attrs)
-    debugger
     schemaErrors = @classroom.getValidationErrors()
     if schemaErrors
       for error in schemaErrors
