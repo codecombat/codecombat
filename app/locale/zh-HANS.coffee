@@ -863,6 +863,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    sales: "Sales"
 #    support: "Support"
 #    here: "here"
+#    from: "From"
 
   units:
     second: "秒"
@@ -1079,6 +1080,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    octans_character: "Octans Character"
     click_to_continue: "点击继续"
 #    fill_in_solution: "Fill in solution"
+#    toggle_solution: "Toggle solution"
     play_as_humans: "扮演红方"
     play_as_ogres: "扮演蓝方"
     changed: "最后修改于"
@@ -1112,6 +1114,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    feedback: "Feedback"
     ask_teacher_for_help: "向你的老师寻求帮助"
     ask_teacher_for_help_offline: "你的老师当前不在线"
+#    not_enough_credits_bot: "Opps! Looks like you don’t have enough queries. Subscribe now and get the queries you want for the AI powered support you need!"
+#    not_enough_credits_interval: "No credits left for the __interval__. Consumed __amount__ credits."
 
   apis:
     methods: "函数"
@@ -1302,6 +1306,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     subscription_status: "你的订阅状态"
     currently_not_free: "您目前还没有订阅"
 #    online_classes: "Online Classes"
+#    feature_ai_level_bot: "Get AI powered debugging support"
 
   announcement:
     now_available: "现在订阅者可以获得更多内容"
@@ -1380,6 +1385,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     list_items: "配备限量专用物品，如宠物"
     list_support: "获取高级支持，以帮助您调试棘手的代码"
     list_clans: "创建私人部落邀请你的朋友加入,并与其它部落在排行榜上进行竞争"
+#    ai_bot_learning: "AI Powered support to accelerate your learning!"
+#    ai_bot_description: "Meet DebugBot AI, CodeCombat’s AI powered assistant. This powerful helper can evaluate your code, point out errors, explain how to fix them, and provide all the context you need to understand the “why”. It’s instant support when you need it most."
 
   choose_hero:
     choose_hero: "请选择您的英雄"
@@ -1502,7 +1509,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ae_title: "客户经理"
     sae_title: "高级客户经理"
 #    sgd_title: "Senior Game Developer"
+#    gd_title: "Game Developer"
 #    dois_title: "Director of Inside Sales"
+#    ism_title: "Inside Sales Manager"
     sism_title: "高级内部销售经理"
     shan_title: "首席营销官，CodeCombat 大中华区"
     run_title: "首席运营官，CodeCombat 大中华区"
@@ -1547,6 +1556,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    sem_title: "Senior Education Manager"
 #    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
+#    vps_title: "VP, Sales"
 #    oi_title: "Online Instructor"
 #    m_oi_title: "Manager, Online Instruction"
 #    aoim_title: "Associate Online Instructor Manager"
@@ -1814,6 +1824,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     delete_this_account: "永久删除账户"
     reset_progress_tab: "重置所有进度"
     reset_your_progress: "清除记录并重新开始"
+#    connect_roblox_tab: "Connect Roblox"
+#    connect_roblox_button: "Connect"
+#    re_connect_roblox_button: "Connect Another Account"
+#    disconnect_roblox_button: "Disconnect"
+#    roblox_connected: "Your account <strong>__username__</strong> is connected to Roblox."
+#    roblox_not_connected: "Connect your CodeCombat and Roblox accounts."
+#    roblox_disconnect_confirm: "Are you sure you want to disconnect your Roblox account?"
     god_mode: "上帝模式"
     emails_tab: "邮件"
     admin: "管理"
@@ -2187,6 +2204,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     classroom_live_completion: "为学生启用自动补全："
 #    learn_without_classroom_title: "You can still learn and play without a classroom"
 #    learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
+#    learn_without_classroom_blurb_coco: "Start by playing the free Hour of Code campaign by <a href='/play/intro'>clicking here</a>."
 #    all_courses_completed: "All Courses Completed!"
 #    all_units_completed: "All Units Completed!"
 
@@ -2619,6 +2637,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    from_the_podcast: "From the Podcast"
 #    edit_student_access_title: "Edit Student Access to Levels"
 #    edit_student_access_subtitle: "You have selected __levels__ levels for __students__ students."
+#    student_ask_for_help: "Your studnet __name__ asking for your help."
 
   teacher_licenses:
     active_licenses: "可用许可"
@@ -3786,16 +3805,18 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    coco_recognized_blurb: "CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum."
 
 #  apcsp_curriculum:
-#    access_syllabus: "Access our __syllabus__"
-#    college_board_approved_syllabus: "College Board approved Syllabus"
-#    access_pacing_guide: "Review our suggested __pacing_guide__ which is based on five 50 minute class sessions per week"
+#    access_syllabus: "Access our College Board approved __syllabus__"
+#    college_board_approved_syllabus: "Syllabus"
+#    access_pacing_guide: "Review our suggested __pacing_guide__"
 #    pacing_guide: "Pacing Guide"
-#    resources: "Explore each unit and its curriculum resources here:"
+#    resources: "Professional Development Resources"
 #    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__."
 #    contact: "Contact __apcsp_email__ to get access."
 #    role: "Role"
 #    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form"
 #    request_license: "Join Pilot Program"
+#    page_title: "AP Computer Science Principles Curriculum"
+#    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>"
 
 #  hoc_2019:
 #    heading: "Hour of Code"
@@ -4103,8 +4124,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    edit_members_tab_desc: "Edit the member of this event, the startDate is depends on the instance date, so select the first instance for the new member"
 #    lessons_count_desc: "The total lessons count of this member, normally it is the same as the event instances count, but it can be different if the member is added after the event started or ended before the event ended"
 #    sync_to_google_desc: "Sync this event to YOUR google calendar, instead of the owner's calendar. And can only work on CodeCombat gmail"
-#    timezone_tips: "Date/Time is based on YOUR timezone: "
 #    no_data_display: "No data to display"
+#    meetingLink: "Meeting Link"
+#    time_zone: "Time Zone"
+#    timezone_tips: "Note - Your timezone: "
 
   teacher_dashboard:
 #    lock: "Lock"
@@ -4386,6 +4409,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"
+#    season9_announcement_1: "An epic battle is being waged atop the wintry peaks of Snowhold Clash for the Season 9 championship arena! Draw your cloak close and your code closer as you wield strategy and algorithms to achieve victory in this land beyond the sky."
 #    season8_announcement_1: "It's harvesting season in Farmscape Blitz Season 8! As the leaves change, it's time to code your way around wild and impenetrable obstacles on the farm. Strategically collect vital boosts to empower your robot worker and utilize special abilities to boost productivity and out-farm your opponents!"
 #    season8_announcement_2: "Note: arena balance adjustments may occur up until August 15th. So be sure to come back often to test your code against the global leaderboard."
 #    season7_announcement_1: "Witness the dawn of a new challenge in the Equinox Cup! Season 7's tower defense arena offers a unique blend of strategy, monsters, and boss battles for you to conquer."
@@ -4653,7 +4677,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    access_using_id: "to access using your id!!"
 #    network_detected: "Library network detected, redirecting you to play CodeCombat"
 #    not_redirect_auto: "if redirect doesn't happen automatically"
-#    engage_members: "Give your members access to the most engaging way to learn coding"
+#    engage_members: "Give your members access to the most engaging way to learn coding."
 #    importance_blurb: "Libraries play an important role in advancing educational equity in their communities. Many young learners do not have access or exposure to computer science, and libraries can provide important resources to these underserved groups. That is why we are partnering with libraries across the country to provide access to our game-based learning tools and educational resources."
 #    games_teach_blurb: "Our games teach real typed Python, JavaScript and C++ coding languages through the power of play. The gameplay is paired with a scaffolded curriculum to allow self-paced learners the ability to master foundational programming concepts before moving on to the more complex. Each level challenges the player to type the code necessary to advance their hero and achieve the level goal."
 #    platform_built: "Our platform is built to address the specific needs of libraries and their patrons:"
@@ -4697,6 +4721,22 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    power_of_play: "Power of play"
 #    library_card: "Library Card Number"
 #    library_signup_promotion: "Sign Up to save progress and continue from where you left off on CodeCombat!!"
+#    welcome_dashboard: "Welcome to your dashboard"
+#    total_licenses_used: "Total Licenses Used"
+#    from_launch_date: "from the date of launch"
+#    renewal_date: "Renewal Date"
+#    access_old_dashboard: "If you want to access the old dashboard, visit"
+#    loading_from: "loading data from"
+#    user_activities: "User Activities"
+#    total_users: "Total Users"
+#    lines_of_code_written: "Lines of Code Written"
+#    hours_spent: "Hours spent"
+#    number_users: "Number of users"
+#    time_spent: "Time spent (in minutes)"
+#    new_users: "New Users"
+#    age_demographics: "Age demographics"
+#    levels_completed: "Levels Completed"
+#    adjust_dates_explore: "Adjust the dates below to explore patron usage trends over time."
 
 #  related_accounts:
 #    subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."
@@ -4755,8 +4795,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    email_confirm: "The email address \"__email__\" is already registered. Would you like to login?"
 
 #  roblox_landing:
-#    headline: "CodeCombat Worlds is a New Immersive Experience on Roblox"
-#    subhead: "Join the beta waitlist to receive early access, development updates and more!"
+#    headline: "Empowering Every Player to Become a Creator!"
+#    subhead: "Experience the easiest and most enjoyable way to code and create your own Roblox games"
+#    join_the_beta: "Join the Beta"
 #    sign_up: "Sign Up"
 #    box_play_subhead: "Play"
 #    box_code_subhead: "Code"
@@ -4790,17 +4831,39 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    bottom_blurb_partner: "Want to use the new CodeCombat Worlds Roblox experience for your education business, social impact initiative or international distribution opportunity? __reach-out__ to discuss partnering today."
 #    bottom_blurb_reach_out: "Reach out"
 #    boxes_title: "Play, Code and Create on Roblox"
+#    login_message: "You need to login before connecting your account to Roblox"
+#    connect_button_header: "Account Linking Rewards"
+#    connect_button_linker_badge: "Linker Badge"
+#    connect_button_accounts_linked: "Accounts Linked"
+#    connect_button_pet_chroma: "Pet Chroma"
+#    connect_button_exclusive_pet: "Exclusive Pet"
+#    connect_button_blurb: "Link your CodeCombat and Roblox accounts for a seamless experience!"
+#    connect_button_list_item_1: "Manage subscriptions"
+#    connect_button_list_item_2: "Unlock additional content"
+#    connect_button_list_item_3: "Track progress"
+#    connect_button_list_item_4: "Receive exclusive rewards"
+#    connect_button_list_item_5: "Access curricular resources"
+#    connect_button_list_item_6: "Parent and teacher dashboard access"
+#    connect_button_list_item_7: "Unlock generative AI features"
+#    connect_button_list_item_8: "Creative mode publishing and exporting"
+#    connect_button_connected_blurb: "Congratulations, you have linked your accounts! Invite your friends to help reach the community linking goals."
+#    connect_button_not_connected_blurb: "The more people link their accounts, the more rewards you'll receive!"
+#    faq_bottom: "See more <a href=\"https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-\" target=\"_blank\">frequently asked questions in our help center</a>. <br />If you have any other questions, please <a href=\"mailto:support@codecombat.com\">Contact Us</a>."
+#    modal_title: "CodeCombat Worlds<br> Now Live on Roblox!"
+#    modal_play_now: "PLAY NOW!"
+#    modal_button_link_roblox_account: "Link Roblox Account"
+
   ai:
-    prompt_level_chat_1: '这个错误是什么意思？'
-    prompt_level_chat_2: '请解释一下这个错误。'
-    prompt_level_chat_3: '出了什么问题？'
-    prompt_level_chat_4: '请帮忙解释一下。'
-    prompt_level_chat_5: '我该如何修复它？'
-    prompt_level_chat_6: '求求你，帮帮忙。'
-    prompt_level_chat_7: '我该怎么办？'
-    prompt_level_chat_8: '这是什么意思？'
-    prompt_level_chat_9: '请解释一下。'
-    prompt_level_chat_10: '这是什么错误？'
-    prompt_level_chat_11: '出了什么问题？'
-    prompt_level_chat_12: '???'
-    prompt_level_chat_13: '你好 AI，请耐心解释一下我的错误'
+    prompt_level_chat_1: "这个错误是什么意思？"
+    prompt_level_chat_2: "请解释一下这个错误。"
+    prompt_level_chat_3: "出了什么问题？"
+    prompt_level_chat_4: "请帮忙解释一下。"
+    prompt_level_chat_5: "我该如何修复它？"
+    prompt_level_chat_6: "求求你，帮帮忙。"
+    prompt_level_chat_7: "我该怎么办？"
+    prompt_level_chat_8: "这是什么意思？"
+    prompt_level_chat_9: "请解释一下。"
+    prompt_level_chat_10: "这是什么错误？"
+    prompt_level_chat_11: "出了什么问题？"
+    prompt_level_chat_12: "???"
+    prompt_level_chat_13: "你好 AI，请耐心解释一下我的错误"
