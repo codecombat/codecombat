@@ -1080,6 +1080,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     octans_character: "Octans Character"
     click_to_continue: "Click to Continue"
     fill_in_solution: "Fill in solution"
+    toggle_solution: "Toggle solution"
     play_as_humans: "Play As Red"
     play_as_ogres: "Play As Blue"
     changed: "Last edited "
@@ -1111,6 +1112,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     content_type_cinematic: "Cinematic"
     content_type_interactive: "Concept Check"
     feedback: "Feedback"
+    ask_teacher_for_help: "Ask your teacher for help"
+    ask_teacher_for_help_offline: "Your Teacher is currently offline"
     not_enough_credits_bot: "Opps! Looks like you don’t have enough queries. Subscribe now and get the queries you want for the AI powered support you need!"
     not_enough_credits_interval: "No credits left for the __interval__. Consumed __amount__ credits."
 
@@ -2637,6 +2640,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     from_the_podcast: "From the Podcast"
     edit_student_access_title: "Edit Student Access to Levels"
     edit_student_access_subtitle: "You have selected __levels__ levels for __students__ students."
+    student_ask_for_help: "Your studnet __name__ asking for your help."
 
   teacher_licenses:
     active_licenses: "Active Licenses"

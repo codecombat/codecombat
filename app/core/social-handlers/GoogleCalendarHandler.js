@@ -2,6 +2,35 @@ import api from 'core/api'
 import CocoClass from 'core/CocoClass'
 const SCOPE = 'https://www.googleapis.com/auth/calendar'
 
+const convertEvent = (e, timeZone) => {
+  const description = e.meetingLink ? `Join Meeting: ${e.meetingLink}` : ''
+  const res = {
+    summary: e.name,
+    start: {
+      dateTime: e.startDate,
+      timeZone
+    },
+    end: {
+      dateTime: e.endDate,
+      timeZone
+    },
+    recurrence: [
+      e.rrule.replace(/DTSTART:.*?\n/, '')
+    ],
+    // TODO: if any of students also has email?
+    attendees: (e.gcEmails || []).map(e => { return { email: e } }),
+    reminders: {
+      useDefault: false,
+      overrides: [
+        { method: 'email', minutes: 24 * 60 },
+        { method: 'popup', minutes: 10 }
+      ]
+    },
+    description
+  }
+  return res
+}
+
 const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClass {
   constructor () {
     if (me.useGoogleCalendar()) {
@@ -31,7 +60,7 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
   }
 
   updateInstanceToAPI (instance, eventId, timeZone) {
-    const convertEvent = (i) => {
+    const convertEvent = (i, timeZone) => {
       const res = {
         start: {
           dateTime: i.startDate,
@@ -47,16 +76,22 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
 
     return new Promise((resolve, reject) => {
       const fun = () => {
+        if (!eventId) {
+          return reject(new Error('Event id not present to search on google'))
+        }
         gapi.client.load('calendar', 'v3', () => {
           gapi.client.calendar.events.instances({
             calendarId: 'primary',
             eventId
           }).execute((instances) => {
             const iid = instances.items[instance.index]?.id
+            if (!iid) {
+              return reject(new Error('Instance not found on google'))
+            }
             gapi.client.calendar.events.patch({
               calendarId: 'primary',
               eventId: iid,
-              resource: convertEvent(instance)
+              resource: convertEvent(instance, timeZone)
             }).execute((event) => {
               console.log('Google Event updated: ' + event.htmlLink)
               resolve(event)
@@ -69,40 +104,16 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
   }
 
   updateCalendarsToAPI (event, timeZone) {
-    const convertEvent = (e) => {
-      const res = {
-        summary: e.name,
-        start: {
-          dateTime: e.startDate,
-          timeZone
-        },
-        end: {
-          dateTime: e.endDate,
-          timeZone
-        },
-        recurrence: [
-          e.rrule.replace(/DTSTART:.*?\n/, '')
-        ],
-        // TODO: if any of students also has email?
-        attendees: (event.gcEmails || []).map(e => { return { email: e } }),
-        reminders: {
-          useDefault: false,
-          overrides: [
-            { method: 'email', minutes: 24 * 60 },
-            { method: 'popup', minutes: 10 }
-          ]
-        }
-      }
-      return res
-    }
-
     return new Promise((resolve, reject) => {
       const fun = () => {
+        if (!event.googleEventId) {
+          return reject(new Error('Google event id not present'))
+        }
         gapi.client.load('calendar', 'v3', () => {
           gapi.client.calendar.events.patch({
             calendarId: 'primary',
             eventId: event.googleEventId,
-            resource: convertEvent(event)
+            resource: convertEvent(event, timeZone)
           }).execute((event) => {
             console.log('Google Event updated: ' + event.htmlLink)
             resolve(event)
@@ -114,39 +125,12 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
   }
 
   syncCalendarsToAPI (event, timeZone) {
-    const convertEvent = (e) => {
-      const res = {
-        summary: e.name,
-        start: {
-          dateTime: e.startDate,
-          timeZone
-        },
-        end: {
-          dateTime: e.endDate,
-          timeZone
-        },
-        recurrence: [
-          e.rrule.replace(/DTSTART:.*?\n/, '')
-        ],
-        // TODO: if any of students also has email?
-        attendees: (event.gcEmails || []).map(e => { return { email: e } }),
-        reminders: {
-          useDefault: false,
-          overrides: [
-            { method: 'email', minutes: 24 * 60 },
-            { method: 'popup', minutes: 10 }
-          ]
-        }
-      }
-      return res
-    }
-
     return new Promise((resolve, reject) => {
       const fun = () => {
         gapi.client.load('calendar', 'v3', () => {
           gapi.client.calendar.events.insert({
             calendarId: 'primary',
-            resource: convertEvent(event)
+            resource: convertEvent(event, timeZone)
           }).execute((event) => {
             console.log('Google Event created: ' + event.htmlLink)
             resolve(event)
@@ -210,10 +194,10 @@ module.exports = {
     }
   },
 
-  syncEventsToGC: async function (event, { timezone = 'America/New_York', update = false } = {}) {
+  syncEventsToGC: async function (event, { timezone = 'America/New_York' } = {}) {
     try {
-      if (update) return await this.gcApiHandler.updateCalendarsToAPI(event, timezone)
-      return await this.gcApiHandler.syncCalendarsToAPI(event, timezone)
+      if (event?.googleEventId) return this.gcApiHandler.updateCalendarsToAPI(event, timezone)
+      return this.gcApiHandler.syncCalendarsToAPI(event, timezone)
     } catch (e) {
       console.error('Error in syncing event to google calendar:', e)
       return 'Error in syncing event to google calendar'
@@ -222,7 +206,7 @@ module.exports = {
 
   syncInstanceToGC: async function (instance, eventId, timezone = 'America/New_York') {
     try {
-      return await this.gcApiHandler.updateInstanceToAPI(instance, eventId, timezone)
+      return this.gcApiHandler.updateInstanceToAPI(instance, eventId, timezone)
     } catch (e) {
       console.error('Error in syncing instance to google calendar:', e)
       return 'Error in syncing instance to google calendar'

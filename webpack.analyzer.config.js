@@ -4,15 +4,12 @@
 const _ = require('lodash');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const baseConfigFn = require('./webpack.base.config')
+const baseConfigFn = require('./webpack.development.config')
 // Development webpack config
 module.exports = (env) => {
   if (!env) env = {};
   const baseConfig = baseConfigFn(env);
   return _.merge(baseConfig, {
-    output: _.merge({}, baseConfig.output, {
-      chunkFilename: 'javascripts/chunks/[name].bundle.js',
-    }),
     plugins: baseConfig.plugins.concat([
       new BundleAnalyzerPlugin({ generateStatsFile: true })
     ])

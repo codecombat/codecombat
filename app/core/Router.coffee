@@ -521,6 +521,18 @@ module.exports = class CocoRouter extends Backbone.Router
     ]).then ([ViewClass]) =>
       return go('NotFoundView') if not ViewClass
 
+      # send url info to teachers
+      if utils.useWebsocket && me.isStudent()
+        wsBus = globalVar.application.wsBus
+        Object.entries(wsBus.wsInfos?.friends ? {}).forEach(([to, friend]) =>
+          return unless friend.role == 'teacher' and friend.online
+          routeInfo =
+            to: to,
+            type: 'send',
+            infos: { viewName: ViewClass.default.name, url: window.location.href }
+          wsBus.ws.sendJSON(routeInfo)
+        )
+
       SingletonAppVueComponentView = require('views/core/SingletonAppVueComponentView').default
       if ViewClass == SingletonAppVueComponentView && globalVar.currentView instanceof SingletonAppVueComponentView
         # The SingletonAppVueComponentView maintains its own Vue app with its own routing layer.  If it

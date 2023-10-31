@@ -14,7 +14,7 @@
               :disabled="!child.verified"
               :selected="child.userId === selectedChildrenId"
             >
-              {{ child.broadName }}
+              {{ child.broadName }} {{ !child.verified ? '(Not Verified)' : '' }}
             </option>
             <option value="No other children added" class="sidebar__child__option" disabled v-if="children.length > 0">No other children added</option>
             <option value="No children added" class="sidebar__child__option" disabled v-if="children.length === 0" :selected="children.length === 0">No children added</option>
@@ -68,7 +68,8 @@
     <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'toolkit' } }">
       <div class="sidebar__bottom">
         <div
-          class="sidebar__bottom__item">
+          :class="{ sidebar__bottom__item: true, sidebar__tabs__item__sel: selectedTab === 'toolkit' }"
+        >
           Parent toolkit
         </div>
   <!--      <div class="sidebar__bottom__item">Account</div>-->
@@ -168,7 +169,7 @@ export default {
       cursor: pointer;
 
       &__sel {
-        color: $color-twilight;
+        color: $color-twilight !important;
       }
     }
 

@@ -863,6 +863,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     sales: "Fnyrf"
     support: "Fhccbeg"
     here: "urer"
+    from: "Sebz"
 
   units:
     second: "frpbaq"
@@ -1079,6 +1080,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     octans_character: "Bpgnaf Punenpgre"
     click_to_continue: "Pyvpx gb Pbagvahr"
     fill_in_solution: "Svyy va fbyhgvba"
+    toggle_solution: "Gbttyr fbyhgvba"
     play_as_humans: "Cynl Nf Erq"
     play_as_ogres: "Cynl Nf Oyhr"
     changed: "Ynfg rqvgrq "
@@ -1110,6 +1112,10 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     content_type_cinematic: "Pvarzngvp"
     content_type_interactive: "Pbaprcg Purpx"
     feedback: "Srrqonpx"
+    ask_teacher_for_help: "Nfx lbhe grnpure sbe uryc"
+    ask_teacher_for_help_offline: "Lbhe Grnpure vf pheeragyl bssyvar"
+    not_enough_credits_bot: "Bccf! Ybbxf yvxr lbh qba’g unir rabhtu dhrevrf. Fhofpevor abj naq trg gur dhrevrf lbh jnag sbe gur NV cbjrerq fhccbeg lbh arrq!"
+    not_enough_credits_interval: "Ab perqvgf yrsg sbe gur __vagreiny__. Pbafhzrq __nzbhag__ perqvgf."
 
   apis:
     methods: "Zrgubqf"
@@ -1300,6 +1306,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     subscription_status: "Lbhe Fhofpevcgvba Fgnghf"
     currently_not_free: "Lbh qba'g unir n Fhofpevcgvba lrg."
     online_classes: "Bayvar Pynffrf"
+    feature_ai_level_bot: "Trg NV cbjrerq qrohttvat fhccbeg"
 
   announcement:
     now_available: "Abj ninvynoyr sbe fhofpevoref!"
@@ -1378,6 +1385,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     list_items: "Rdhvc Cerzvhz-bayl vgrzf yvxr crgf"
     list_support: "Trg Cerzvhz fhccbeg gb uryc lbh qroht gevpxl pbqr"
     list_clans: "Perngr cevingr pynaf gb vaivgr lbhe sevraqf naq pbzcrgr ba n tebhc yrnqreobneq"
+    ai_bot_learning: "NV Cbjrerq fhccbeg gb nppryrengr lbhe yrneavat!"
+    ai_bot_description: "Zrrg QrohtObg NV, PbqrPbzong’f NV cbjrerq nffvfgnag. Guvf cbjreshy urycre pna rinyhngr lbhe pbqr, cbvag bhg reebef, rkcynva ubj gb svk gurz, naq cebivqr nyy gur pbagrkg lbh arrq gb haqrefgnaq gur “jul”. Vg’f vafgnag fhccbeg jura lbh arrq vg zbfg."
 
   choose_hero:
     choose_hero: "Pubbfr Lbhe Ureb"
@@ -1500,7 +1509,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     ae_title: "Nppbhag Rkrphgvir"
     sae_title: "Fravbe Nppbhag Rkrphgvir"
     sgd_title: "Fravbe Tnzr Qrirybcre"
+    gd_title: "Tnzr Qrirybcre"
     dois_title: "Qverpgbe bs Vafvqr Fnyrf"
+    ism_title: "Vafvqr Fnyrf Znantre"
     sism_title: "Fravbe Vafvqr Fnyrf Znantre"
     shan_title: "Urnq bs Znexrgvat, PbqrPbzong Terngre Puvan"
     run_title: "Urnq bs Bcrengvbaf, PbqrPbzong Terngre Puvan"
@@ -1545,6 +1556,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     sem_title: "Fravbe Rqhpngvba Znantre"
     de_title: "Qverpgbe bs Rqhpngvba"
     vpm_title: "IC, Znexrgvat"
+    vps_title: "IC, Fnyrf"
     sales_om_title: "Fnyrf Bcrengvbaf Znantre"
     bd_pr_title: "Ohfvarff Qrirybczrag naq Cnegarefuvcf Ercerfragngvir"
     oi_title: "Bayvar Vafgehpgbe"
@@ -1815,6 +1827,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     delete_this_account: "Qryrgr guvf nppbhag creznaragyl"
     reset_progress_tab: "Erfrg Nyy Cebterff"
     reset_your_progress: "Pyrne nyy lbhe cebterff naq fgneg bire"
+    connect_roblox_tab: "Pbaarpg Eboybk"
+    connect_roblox_button: "Pbaarpg"
+    re_connect_roblox_button: "Pbaarpg Nabgure Nppbhag"
+    disconnect_roblox_button: "Qvfpbaarpg"
+    roblox_connected: "Lbhe nppbhag <fgebat>__hfreanzr__</fgebat> vf pbaarpgrq gb Eboybk."
+    roblox_not_connected: "Pbaarpg lbhe PbqrPbzong naq Eboybk nppbhagf."
+    roblox_disconnect_confirm: "Ner lbh fher lbh jnag gb qvfpbaarpg lbhe Eboybk nppbhag?"
     god_mode: "Tbq Zbqr"
     emails_tab: "Rznvyf"
     admin: "Nqzva"
@@ -2188,6 +2207,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     classroom_live_completion: "Pynffebbz Pbqr Nhgbpbzcyrgr: "
     learn_without_classroom_title: "Lbh pna fgvyy yrnea naq cynl jvgubhg n pynffebbz"
     learn_without_classroom_blurb: "Fgneg ol cynlvat gur serr Fxl Zbhagnva puncgre ol <n uers='/cynl/puncgre-1-fxl-zbhagnva'>pyvpxvat urer</n>."
+    learn_without_classroom_blurb_coco: "Fgneg ol cynlvat gur serr Ubhe bs Pbqr pnzcnvta ol <n uers='/cynl/vageb'>pyvpxvat urer</n>."
     all_courses_completed: "Nyy Pbhefrf Pbzcyrgrq!"
     all_units_completed: "Nyy Havgf Pbzcyrgrq!"
 
@@ -2620,6 +2640,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     from_the_podcast: "Sebz gur Cbqpnfg"
     edit_student_access_title: "Rqvg Fghqrag Npprff gb Yriryf"
     edit_student_access_subtitle: "Lbh unir fryrpgrq __yriryf__ yriryf sbe __fghqragf__ fghqragf."
+    student_ask_for_help: "Lbhe fghqarg __anzr__ nfxvat sbe lbhe uryc."
 
   teacher_licenses:
     active_licenses: "Npgvir Yvprafrf"
@@ -3787,16 +3808,18 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     coco_recognized_blurb: "PbqrPbzong vf erpbtavmrq ol Pbyyrtr Obneq nf na raqbefrq cebivqre bs pheevphyhz naq cebsrffvbany qrirybczrag sbe NC® Pbzchgre Fpvrapr Cevapvcyrf (NC PFC). Guvf raqbefrzrag nssvezf gung PbqrPbzong’f pheevphyhz vf nyvtarq gb nyy gur NC Pheevphyhz Senzrjbex fgnaqneqf naq gur NC PFC nffrffzrag. Guvf nssbeqf fpubbyf npprff gb erfbheprf vapyhqvat na NC PFC flyynohf cer-nccebirq ol gur Pbyyrtr Obneq’f Pbhefr Nhqvg, naq bssvpvnyyl erpbtavmrq cebsrffvbany qrirybczrag gung cercnerf grnpuref gb grnpu guvf pheevphyhz."
 
   apcsp_curriculum:
-    access_syllabus: "Npprff bhe __flyynohf__"
-    college_board_approved_syllabus: "Pbyyrtr Obneq nccebirq Flyynohf"
-    access_pacing_guide: "Erivrj bhe fhttrfgrq __cnpvat_thvqr__ juvpu vf onfrq ba svir 50 zvahgr pynff frffvbaf cre jrrx"
+    access_syllabus: "Npprff bhe Pbyyrtr Obneq nccebirq __flyynohf__"
+    college_board_approved_syllabus: "Flyynohf"
+    access_pacing_guide: "Erivrj bhe fhttrfgrq __cnpvat_thvqr__"
     pacing_guide: "Cnpvat Thvqr"
-    resources: "Rkcyber rnpu havg naq vgf pheevphyhz erfbheprf urer:"
+    resources: "Cebsrffvbany Qrirybczrag Erfbheprf"
     professional_development_description: "PbqrPbzong bssref na bayvar, frys-cnprq cebsrffvbany qrirybczrag pbhefr sbe rqhpngbef bs nyy yriryf bs NC PFC rkcregvfr. Cnegvpvcnagf jvyy rkcyber gur PbqrPbzong pheevphyhz naq yrnea ubj vg pna or hfrq gb cercner fghqragf gb fhpprrq ba gur NC PFC rknz. Guebhtu nflapuebabhf qvfphffvbaf jvgu sryybj grnpuref naq ivqrb pbasreraprf jvgu PbqrPbzong pheevphyhz qrirybcref, lbh jvyy or rdhvccrq jvgu gur gbbyf naq grpuavdhrf lbh arrq gb fhccbeg nyy bs lbhe fghqragf va NC PFC. Ng gur raq bs gur pbhefr, lbh jvyy rnea n Pregvsvpngr bs Pbzcyrgvba gung pna or hfrq sbe gur erarjny bs lbhe grnpuvat perqragvny. Jr bssre bhe Pheevphyhz ba __rqncc__."
     contact: "Pbagnpg __ncpfc_rznvy__ gb trg npprff."
     role: "Ebyr"
     no_license: "Bhe NC PFC pheevphyhz erdhverf n cnvq yvprafr be cnegvpvcngvba va bhe NC PFC cvybg cebtenz. Vs lbh'er vagrerfgrq va gur cvybg cebtenz, cyrnfr svyy bhg guvf sbez"
     request_license: "Wbva Cvybg Cebtenz"
+    page_title: "NC Pbzchgre Fpvrapr Cevapvcyrf Pheevphyhz"
+    explore_each_unit: "Rkcyber rnpu havg, vapyhqvat <oe> <fgebat>yrffba cynaf</fgebat> naq <fgebat>yrffba fyvqrf</fgebat>"
 
 
   hoc_2019:
@@ -4105,8 +4128,10 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     edit_members_tab_desc: 'Rqvg gur zrzore bs guvf rirag, gur fgnegQngr vf qrcraqf ba gur vafgnapr qngr, fb fryrpg gur svefg vafgnapr sbe gur arj zrzore'
     lessons_count_desc: 'Gur gbgny yrffbaf pbhag bs guvf zrzore, abeznyyl vg vf gur fnzr nf gur rirag vafgnaprf pbhag, ohg vg pna or qvssrerag vs gur zrzore vf nqqrq nsgre gur rirag fgnegrq be raqrq orsber gur rirag raqrq'
     sync_to_google_desc: 'Flap guvf rirag gb LBHE tbbtyr pnyraqne, vafgrnq bs gur bjare\'f pnyraqne. Naq pna bayl jbex ba PbqrPbzong tznvy'
-    timezone_tips: 'Qngr/Gvzr vf onfrq ba LBHE gvzrmbar: '
     no_data_display: 'Ab qngn gb qvfcynl'
+    meetingLink: 'Zrrgvat Yvax'
+    time_zone: 'Gvzr Mbar'
+    timezone_tips: 'Abgr - Lbhe gvzrmbar: '
 
   teacher_dashboard:
     lock: 'Ybpx'
@@ -4389,6 +4414,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     cup: "Phc"
     blitz: "Oyvgm"
     clash: "Pynfu"
+    season9_announcement_1: "Na rcvp onggyr vf orvat jntrq ngbc gur jvagel crnxf bs Fabjubyq Pynfu sbe gur Frnfba 9 punzcvbafuvc neran! Qenj lbhe pybnx pybfr naq lbhe pbqr pybfre nf lbh jvryq fgengrtl naq nytbevguzf gb npuvrir ivpgbel va guvf ynaq orlbaq gur fxl."
     season8_announcement_1: "Vg'f uneirfgvat frnfba va Snezfpncr Oyvgm Frnfba 8! Nf gur yrnirf punatr, vg'f gvzr gb pbqr lbhe jnl nebhaq jvyq naq vzcrargenoyr bofgnpyrf ba gur snez. Fgengrtvpnyyl pbyyrpg ivgny obbfgf gb rzcbjre lbhe ebobg jbexre naq hgvyvmr fcrpvny novyvgvrf gb obbfg cebqhpgvivgl naq bhg-snez lbhe bccbaragf!"
     season8_announcement_2: "Abgr: neran onynapr nqwhfgzragf znl bpphe hc hagvy Nhthfg 15gu. Fb or fher gb pbzr onpx bsgra gb grfg lbhe pbqr ntnvafg gur tybony yrnqreobneq."
     season7_announcement_1: "Jvgarff gur qnja bs n arj punyyratr va gur Rdhvabk Phc! Frnfba 7'f gbjre qrsrafr neran bssref n havdhr oyraq bs fgengrtl, zbafgref, naq obff onggyrf sbe lbh gb pbadhre."
@@ -4656,7 +4682,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     access_using_id: "gb npprff hfvat lbhe vq!!"
     network_detected: "Yvoenel argjbex qrgrpgrq, erqverpgvat lbh gb cynl PbqrPbzong"
     not_redirect_auto: "vs erqverpg qbrfa'g unccra nhgbzngvpnyyl"
-    engage_members: "Tvir lbhe zrzoref npprff gb gur zbfg ratntvat jnl gb yrnea pbqvat"
+    engage_members: "Tvir lbhe zrzoref npprff gb gur zbfg ratntvat jnl gb yrnea pbqvat."
     importance_blurb: "Yvoenevrf cynl na vzcbegnag ebyr va nqinapvat rqhpngvbany rdhvgl va gurve pbzzhavgvrf. Znal lbhat yrnearef qb abg unir npprff be rkcbfher gb pbzchgre fpvrapr, naq yvoenevrf pna cebivqr vzcbegnag erfbheprf gb gurfr haqrefreirq tebhcf. Gung vf jul jr ner cnegarevat jvgu yvoenevrf npebff gur pbhagel gb cebivqr npprff gb bhe tnzr-onfrq yrneavat gbbyf naq rqhpngvbany erfbheprf."
     games_teach_blurb: "Bhe tnzrf grnpu erny glcrq Clguba, WninFpevcg naq P++ pbqvat ynathntrf guebhtu gur cbjre bs cynl. Gur tnzrcynl vf cnverq jvgu n fpnssbyqrq pheevphyhz gb nyybj frys-cnprq yrnearef gur novyvgl gb znfgre sbhaqngvbany cebtenzzvat pbaprcgf orsber zbivat ba gb gur zber pbzcyrk. Rnpu yriry punyyratrf gur cynlre gb glcr gur pbqr arprffnel gb nqinapr gurve ureb naq npuvrir gur yriry tbny."
     platform_built: "Bhe cyngsbez vf ohvyg gb nqqerff gur fcrpvsvp arrqf bs yvoenevrf naq gurve cngebaf:"
@@ -4700,6 +4726,23 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     power_of_play: "Cbjre bs cynl"
     library_card: "Yvoenel Pneq Ahzore"
     library_signup_promotion: "Fvta Hc gb fnir cebterff naq pbagvahr sebz jurer lbh yrsg bss ba PbqrPbzong!!"
+    welcome_dashboard: "Jrypbzr gb lbhe qnfuobneq"
+    total_licenses_used: "Gbgny Yvprafrf Hfrq"
+    from_launch_date: "sebz gur qngr bs ynhapu"
+    renewal_date: "Erarjny Qngr"
+    access_old_dashboard: "Vs lbh jnag gb npprff gur byq qnfuobneq, ivfvg"
+    loading_from: "ybnqvat qngn sebz"
+    user_activities: "Hfre Npgvivgvrf"
+    total_users: "Gbgny Hfref"
+    lines_of_code_written: "Yvarf bs Pbqr Jevggra"
+    hours_spent: "Ubhef fcrag"
+    programs_written: "Cebtenzf jevggra"
+    number_users: "Ahzore bs hfref"
+    time_spent: "Gvzr fcrag (va zvahgrf)"
+    new_users: "Arj Hfref"
+    age_demographics: "Ntr qrzbtencuvpf"
+    levels_completed: "Yriryf Pbzcyrgrq"
+    adjust_dates_explore: "Nqwhfg gur qngrf orybj gb rkcyber cngeba hfntr geraqf bire gvzr."
 
   related_accounts:
     subtitle: "Nqq pbaarpgvbaf orgjrra qvssrerag PbqrPbzong nppbhagf gb or noyr gb dhvpxyl fjvgpu orgjrra gurz. Sbe rknzcyr, nf n cnerag, lbh pbhyq fjvgpu gb ivrjvat PbqrPbzong sebz lbhe xvqf’ nppbhagf. Be, nf n grnpure, lbh pbhyq nqq n grfg fghqrag nppbhag sbe lbhefrys gb frr jung lbhe fghqragf frr."
@@ -4758,8 +4801,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     email_confirm: "Gur rznvy nqqerff \"__rznvy__\" vf nyernql ertvfgrerq. Jbhyq lbh yvxr gb ybtva?"
 
   roblox_landing:
-    headline: "PbqrPbzong Jbeyqf vf n Arj Vzzrefvir Rkcrevrapr ba Eboybk"
-    subhead: "Wbva gur orgn jnvgyvfg gb erprvir rneyl npprff, qrirybczrag hcqngrf naq zber!"
+    headline: "Rzcbjrevat Rirel Cynlre gb Orpbzr n Perngbe!"
+    subhead: "Rkcrevrapr gur rnfvrfg naq zbfg rawblnoyr jnl gb pbqr naq perngr lbhe bja Eboybk tnzrf"
+    join_the_beta: "Wbva gur Orgn"
     sign_up: "Fvta Hc"
     box_play_subhead: "Cynl"
     box_code_subhead: "Pbqr"
@@ -4793,3 +4837,39 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     bottom_blurb_partner: "Jnag gb hfr gur arj PbqrPbzong Jbeyqf Eboybk rkcrevrapr sbe lbhe rqhpngvba ohfvarff, fbpvny vzcnpg vavgvngvir be vagreangvbany qvfgevohgvba bccbeghavgl? __ernpu-bhg__ gb qvfphff cnegarevat gbqnl."
     bottom_blurb_reach_out: "Ernpu bhg"
     boxes_title: "Cynl, Pbqr naq Perngr ba Eboybk"
+    login_message: "Lbh arrq gb ybtva orsber pbaarpgvat lbhe nppbhag gb Eboybk"
+    connect_button_header: "Nppbhag Yvaxvat Erjneqf"
+    connect_button_linker_badge: "Yvaxre Onqtr"
+    connect_button_accounts_linked: "Nppbhagf Yvaxrq"
+    connect_button_pet_chroma: "Crg Puebzn"
+    connect_button_exclusive_pet: "Rkpyhfvir Crg"
+    connect_button_blurb: "Yvax lbhe PbqrPbzong naq Eboybk nppbhagf sbe n frnzyrff rkcrevrapr!"
+    connect_button_list_item_1: "Znantr fhofpevcgvbaf"
+    connect_button_list_item_2: "Haybpx nqqvgvbany pbagrag"
+    connect_button_list_item_3: "Genpx cebterff"
+    connect_button_list_item_4: "Erprvir rkpyhfvir erjneqf"
+    connect_button_list_item_5: "Npprff pheevphyne erfbheprf"
+    connect_button_list_item_6: "Cnerag naq grnpure qnfuobneq npprff"
+    connect_button_list_item_7: "Haybpx trarengvir NV srngherf"
+    connect_button_list_item_8: "Perngvir zbqr choyvfuvat naq rkcbegvat"
+    connect_button_connected_blurb: "Pbatenghyngvbaf, lbh unir yvaxrq lbhe nppbhagf! Vaivgr lbhe sevraqf gb uryc ernpu gur pbzzhavgl yvaxvat tbnyf."
+    connect_button_not_connected_blurb: "Gur zber crbcyr yvax gurve nppbhagf, gur zber erjneqf lbh'yy erprvir!"
+    faq_bottom: "Frr zber <n uers=\"uggcf://pbqrpbzong.mraqrfx.pbz/up/ra-hf/pngrtbevrf/18084251471383-PbqrPbzong-Jbeyqf-Eboybk-\" gnetrg=\"_oynax\">serdhragyl nfxrq dhrfgvbaf va bhe uryc pragre</n>. <oe />Vs lbh unir nal bgure dhrfgvbaf, cyrnfr <n uers=\"znvygb:fhccbeg@pbqrpbzong.pbz\">Pbagnpg Hf</n>."
+    modal_title: "PbqrPbzong Jbeyqf<oe> Abj Yvir ba Eboybk!"
+    modal_play_now: "CYNL ABJ!"
+    modal_button_link_roblox_account: "Yvax Eboybk Nppbhag"
+
+  ai:
+    prompt_level_chat_1: 'Jung qbrf guvf reebe zrna?'
+    prompt_level_chat_2: 'Cyrnfr rkcynva guvf reebe.'
+    prompt_level_chat_3: 'Jung\'f jebat?'
+    prompt_level_chat_4: 'Cyrnfr uryc rkcynva guvf.'
+    prompt_level_chat_5: 'Ubj pna V svk vg?'
+    prompt_level_chat_6: 'Uryc, cyrnfr.'
+    prompt_level_chat_7: 'Jung qb V qb?'
+    prompt_level_chat_8: 'Jung qbrf guvf zrna?'
+    prompt_level_chat_9: 'Cyrnfr rkcynva.'
+    prompt_level_chat_10: 'Jung vf guvf reebe?'
+    prompt_level_chat_11: 'Jung vf gur ceboyrz?'
+    prompt_level_chat_12: '???'
+    prompt_level_chat_13: 'Qrne NV, V orfrrpu lbh, rkcynva zl reebe, va irefr.'

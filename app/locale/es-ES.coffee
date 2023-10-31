@@ -441,7 +441,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
 #  new_home_faq:
 #    what_programming_languages: "What programming languages are available?"
-#    python_and_javascript: "We currently support Python and JavaScript."
+#    python_and_javascript: "We currently support Python, JavaScript, C++, Java, and Lua."
 #    why_python: "Why should you choose Python?"
 #    why_python_blurb: "Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python."
 #    why_javascript: "Why should you choose JavaScript?"
@@ -863,6 +863,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    sales: "Sales"
 #    support: "Support"
 #    here: "here"
+#    from: "From"
 
   units:
     second: "segundo"
@@ -1079,6 +1080,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    octans_character: "Octans Character"
     click_to_continue: "Click para continuar"
 #    fill_in_solution: "Fill in solution"
+#    toggle_solution: "Toggle solution"
 #    play_as_humans: "Play As Red"
 #    play_as_ogres: "Play As Blue"
 #    changed: "Last edited "
@@ -1110,6 +1112,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    content_type_cinematic: "Cinematic"
 #    content_type_interactive: "Concept Check"
 #    feedback: "Feedback"
+#    ask_teacher_for_help: "Ask your teacher for help"
+#    ask_teacher_for_help_offline: "Your Teacher is currently offline"
+#    not_enough_credits_bot: "Opps! Looks like you don’t have enough queries. Subscribe now and get the queries you want for the AI powered support you need!"
+#    not_enough_credits_interval: "No credits left for the __interval__. Consumed __amount__ credits."
 
   apis:
     methods: "Métodos"
@@ -1300,6 +1306,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    subscription_status: "Your Subscription Status"
 #    currently_not_free: "You don't have a Subscription yet."
 #    online_classes: "Online Classes"
+#    feature_ai_level_bot: "Get AI powered debugging support"
 
 #  announcement:
 #    now_available: "Now available for subscribers!"
@@ -1378,6 +1385,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    list_items: "Equip Premium-only items like pets"
 #    list_support: "Get Premium support to help you debug tricky code"
 #    list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
+#    ai_bot_learning: "AI Powered support to accelerate your learning!"
+#    ai_bot_description: "Meet DebugBot AI, CodeCombat’s AI powered assistant. This powerful helper can evaluate your code, point out errors, explain how to fix them, and provide all the context you need to understand the “why”. It’s instant support when you need it most."
 
   choose_hero:
     choose_hero: "Selecciona tu Héroe"
@@ -1500,7 +1509,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    ae_title: "Account Executive"
 #    sae_title: "Senior Account Executive"
 #    sgd_title: "Senior Game Developer"
+#    gd_title: "Game Developer"
 #    dois_title: "Director of Inside Sales"
+#    ism_title: "Inside Sales Manager"
 #    sism_title: "Senior Inside Sales Manager"
 #    shan_title: "Head of Marketing, CodeCombat Greater China"
 #    run_title: "Head of Operations, CodeCombat Greater China"
@@ -1545,6 +1556,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    sem_title: "Senior Education Manager"
 #    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
+#    vps_title: "VP, Sales"
 #    oi_title: "Online Instructor"
 #    m_oi_title: "Manager, Online Instruction"
 #    aoim_title: "Associate Online Instructor Manager"
@@ -1812,6 +1824,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     delete_this_account: "Eliminar esta cuenta de forma permanente"
     reset_progress_tab: "Reestablecer progreso"
     reset_your_progress: "Elimina tu progreso y empieza de nuevo"
+#    connect_roblox_tab: "Connect Roblox"
+#    connect_roblox_button: "Connect"
+#    re_connect_roblox_button: "Connect Another Account"
+#    disconnect_roblox_button: "Disconnect"
+#    roblox_connected: "Your account <strong>__username__</strong> is connected to Roblox."
+#    roblox_not_connected: "Connect your CodeCombat and Roblox accounts."
+#    roblox_disconnect_confirm: "Are you sure you want to disconnect your Roblox account?"
     god_mode: "Modo Dios"
     emails_tab: "Correos electrónicos"
     admin: "Admin"
@@ -2185,6 +2204,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    classroom_live_completion: "Classroom Code Autocomplete: "
 #    learn_without_classroom_title: "You can still learn and play without a classroom"
 #    learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
+#    learn_without_classroom_blurb_coco: "Start by playing the free Hour of Code campaign by <a href='/play/intro'>clicking here</a>."
 #    all_courses_completed: "All Courses Completed!"
 #    all_units_completed: "All Units Completed!"
 
@@ -2617,6 +2637,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    from_the_podcast: "From the Podcast"
 #    edit_student_access_title: "Edit Student Access to Levels"
 #    edit_student_access_subtitle: "You have selected __levels__ levels for __students__ students."
+#    student_ask_for_help: "Your studnet __name__ asking for your help."
 
 #  teacher_licenses:
 #    active_licenses: "Active Licenses"
@@ -2882,7 +2903,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
 #  contribute:
 #    page_title: "Contributing"
-#    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!" # {change}
+#    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
 #    alert_account_message_intro: "Hey there!"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
@@ -2920,7 +2941,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    scribe_introduction_url_mozilla: "Mozilla Developer Network"
 #    scribe_introduction_suf: " has built. If your idea of fun is articulating the concepts of programming in Markdown form, then this class might be for you."
 #    scribe_attribute_1: "Skill in words is pretty much all you need. Not only grammar and spelling, but able to convey complicated ideas to others."
-#    contact_us_url: "Contact Us" # {change}
+#    contact_us_url: "Contact Us"
 #    scribe_join_description: "tell us a little about yourself, your experience with programming and what sort of things you'd like to write about. We'll go from there!"
 #    scribe_subscribe_desc: "Get emails about article writing announcements."
 #    diplomat_introduction_pref: "So, if there's one thing we learned from the "
@@ -2988,13 +3009,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    tutorial_skip: "Skip Tutorial"
 #    tutorial_not_sure: "Not sure what's going on?"
 #    tutorial_play_first: "Play the Tutorial first."
-#    simple_ai: "Simple CPU" # {change}
+#    simple_ai: "Simple CPU"
 #    warmup: "Warmup"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
 #    invite_friends_to_battle: "Invite your friends to join you in battle!"
-#    fight: "Battle!" # {change}
+#    fight: "Battle!"
 #    watch_victory: "Watch your victory"
 #    defeat_the: "Defeat the"
 #    watch_battle: "Watch the battle"
@@ -3014,7 +3035,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    winners: "Winners"
 #    league: "League"
 #    red_ai: "Red CPU" # "Red AI Wins", at end of multiplayer match playback
-#    blue_ai: "Blue CPU" # {change}
+#    blue_ai: "Blue CPU"
 #    wins: "Wins" # At end of multiplayer match playback
 #    losses: "Losses"
 #    win_num: "Wins"
@@ -3231,7 +3252,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    ozaria_impact_learn_more: "Learn more about Ozaria's curriculum efficacy here."
 
 #  loading_error:
-#    could_not_load: "Error loading from server. Try refreshing the page." # {change}
+#    could_not_load: "Error loading from server. Try refreshing the page."
 #    connection_failure: "Connection Failed"
 #    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
 #    login_required: "Login Required"
@@ -3244,11 +3265,11 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    resource_not_found: "404 __resource__ Not Found"
 #    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
 #    not_allowed: "Method not allowed."
-#    timeout: "Server Timeout" # {change}
+#    timeout: "Server Timeout"
 #    conflict: "Resource conflict."
 #    bad_input: "Bad input."
 #    server_error: "Server error."
-#    unknown: "Unknown Error" # {change}
+#    unknown: "Unknown Error"
 #    error: "ERROR"
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
 #    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
@@ -3448,13 +3469,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    email_settings_url: "your email settings"
 #    email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
 #    cost_title: "Cost"
-#    cost_description: "CodeCombat is free to play for its introductory levels, with a ${{price}} USD/mo subscription for access to extra levels and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee." # {change}
+#    cost_description: "CodeCombat is free to play for its introductory levels, with a ${{price}} USD/mo subscription for access to extra levels and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
 #    copyrights_title: "Copyrights and Licenses"
 #    contributor_title: "Contributor License Agreement"
 #    contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"
 #    cla_url: "CLA"
 #    contributor_description_suffix: "to which you should agree before contributing."
-#    code_title: "Client-Side Code - MIT" # {change}
+#    code_title: "Client-Side Code - MIT"
 #    client_code_description_prefix: "All client-side code for codecombat.com in the public GitHub repository and in the codecombat.com database, is licensed under the"
 #    mit_license_url: "MIT license"
 #    code_description_suffix: "This includes all code in Systems and Components that are made available by CodeCombat for the purpose of creating levels."
@@ -3784,16 +3805,18 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    coco_recognized_blurb: "CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum."
 
 #  apcsp_curriculum:
-#    access_syllabus: "Access our __syllabus__"
-#    college_board_approved_syllabus: "College Board approved Syllabus"
-#    access_pacing_guide: "Review our suggested __pacing_guide__ which is based on five 50 minute class sessions per week"
+#    access_syllabus: "Access our College Board approved __syllabus__"
+#    college_board_approved_syllabus: "Syllabus"
+#    access_pacing_guide: "Review our suggested __pacing_guide__"
 #    pacing_guide: "Pacing Guide"
-#    resources: "Explore each unit and its curriculum resources here:"
+#    resources: "Professional Development Resources"
 #    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__."
 #    contact: "Contact __apcsp_email__ to get access."
 #    role: "Role"
 #    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form"
 #    request_license: "Join Pilot Program"
+#    page_title: "AP Computer Science Principles Curriculum"
+#    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>"
 
 #  hoc_2019:
 #    heading: "Hour of Code"
@@ -4101,8 +4124,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    edit_members_tab_desc: "Edit the member of this event, the startDate is depends on the instance date, so select the first instance for the new member"
 #    lessons_count_desc: "The total lessons count of this member, normally it is the same as the event instances count, but it can be different if the member is added after the event started or ended before the event ended"
 #    sync_to_google_desc: "Sync this event to YOUR google calendar, instead of the owner's calendar. And can only work on CodeCombat gmail"
-#    timezone_tips: "Date/Time is based on YOUR timezone: "
 #    no_data_display: "No data to display"
+#    meetingLink: "Meeting Link"
+#    time_zone: "Time Zone"
+#    timezone_tips: "Note - Your timezone: "
 
 #  teacher_dashboard:
 #    lock: "Lock"
@@ -4384,6 +4409,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"
+#    season9_announcement_1: "An epic battle is being waged atop the wintry peaks of Snowhold Clash for the Season 9 championship arena! Draw your cloak close and your code closer as you wield strategy and algorithms to achieve victory in this land beyond the sky."
 #    season8_announcement_1: "It's harvesting season in Farmscape Blitz Season 8! As the leaves change, it's time to code your way around wild and impenetrable obstacles on the farm. Strategically collect vital boosts to empower your robot worker and utilize special abilities to boost productivity and out-farm your opponents!"
 #    season8_announcement_2: "Note: arena balance adjustments may occur up until August 15th. So be sure to come back often to test your code against the global leaderboard."
 #    season7_announcement_1: "Witness the dawn of a new challenge in the Equinox Cup! Season 7's tower defense arena offers a unique blend of strategy, monsters, and boss battles for you to conquer."
@@ -4651,7 +4677,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    access_using_id: "to access using your id!!"
 #    network_detected: "Library network detected, redirecting you to play CodeCombat"
 #    not_redirect_auto: "if redirect doesn't happen automatically"
-#    engage_members: "Give your members access to the most engaging way to learn coding"
+#    engage_members: "Give your members access to the most engaging way to learn coding."
 #    importance_blurb: "Libraries play an important role in advancing educational equity in their communities. Many young learners do not have access or exposure to computer science, and libraries can provide important resources to these underserved groups. That is why we are partnering with libraries across the country to provide access to our game-based learning tools and educational resources."
 #    games_teach_blurb: "Our games teach real typed Python, JavaScript and C++ coding languages through the power of play. The gameplay is paired with a scaffolded curriculum to allow self-paced learners the ability to master foundational programming concepts before moving on to the more complex. Each level challenges the player to type the code necessary to advance their hero and achieve the level goal."
 #    platform_built: "Our platform is built to address the specific needs of libraries and their patrons:"
@@ -4695,6 +4721,22 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    power_of_play: "Power of play"
 #    library_card: "Library Card Number"
 #    library_signup_promotion: "Sign Up to save progress and continue from where you left off on CodeCombat!!"
+#    welcome_dashboard: "Welcome to your dashboard"
+#    total_licenses_used: "Total Licenses Used"
+#    from_launch_date: "from the date of launch"
+#    renewal_date: "Renewal Date"
+#    access_old_dashboard: "If you want to access the old dashboard, visit"
+#    loading_from: "loading data from"
+#    user_activities: "User Activities"
+#    total_users: "Total Users"
+#    lines_of_code_written: "Lines of Code Written"
+#    hours_spent: "Hours spent"
+#    number_users: "Number of users"
+#    time_spent: "Time spent (in minutes)"
+#    new_users: "New Users"
+#    age_demographics: "Age demographics"
+#    levels_completed: "Levels Completed"
+#    adjust_dates_explore: "Adjust the dates below to explore patron usage trends over time."
 
 #  related_accounts:
 #    subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."
@@ -4753,8 +4795,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    email_confirm: "The email address \"__email__\" is already registered. Would you like to login?"
 
 #  roblox_landing:
-#    headline: "CodeCombat Worlds is a New Immersive Experience on Roblox"
-#    subhead: "Join the beta waitlist to receive early access, development updates and more!"
+#    headline: "Empowering Every Player to Become a Creator!"
+#    subhead: "Experience the easiest and most enjoyable way to code and create your own Roblox games"
+#    join_the_beta: "Join the Beta"
 #    sign_up: "Sign Up"
 #    box_play_subhead: "Play"
 #    box_code_subhead: "Code"
@@ -4788,3 +4831,39 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    bottom_blurb_partner: "Want to use the new CodeCombat Worlds Roblox experience for your education business, social impact initiative or international distribution opportunity? __reach-out__ to discuss partnering today."
 #    bottom_blurb_reach_out: "Reach out"
 #    boxes_title: "Play, Code and Create on Roblox"
+#    login_message: "You need to login before connecting your account to Roblox"
+#    connect_button_header: "Account Linking Rewards"
+#    connect_button_linker_badge: "Linker Badge"
+#    connect_button_accounts_linked: "Accounts Linked"
+#    connect_button_pet_chroma: "Pet Chroma"
+#    connect_button_exclusive_pet: "Exclusive Pet"
+#    connect_button_blurb: "Link your CodeCombat and Roblox accounts for a seamless experience!"
+#    connect_button_list_item_1: "Manage subscriptions"
+#    connect_button_list_item_2: "Unlock additional content"
+#    connect_button_list_item_3: "Track progress"
+#    connect_button_list_item_4: "Receive exclusive rewards"
+#    connect_button_list_item_5: "Access curricular resources"
+#    connect_button_list_item_6: "Parent and teacher dashboard access"
+#    connect_button_list_item_7: "Unlock generative AI features"
+#    connect_button_list_item_8: "Creative mode publishing and exporting"
+#    connect_button_connected_blurb: "Congratulations, you have linked your accounts! Invite your friends to help reach the community linking goals."
+#    connect_button_not_connected_blurb: "The more people link their accounts, the more rewards you'll receive!"
+#    faq_bottom: "See more <a href=\"https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-\" target=\"_blank\">frequently asked questions in our help center</a>. <br />If you have any other questions, please <a href=\"mailto:support@codecombat.com\">Contact Us</a>."
+#    modal_title: "CodeCombat Worlds<br> Now Live on Roblox!"
+#    modal_play_now: "PLAY NOW!"
+#    modal_button_link_roblox_account: "Link Roblox Account"
+
+#  ai:
+#    prompt_level_chat_1: "What does this error mean?"
+#    prompt_level_chat_2: "Please explain this error."
+#    prompt_level_chat_3: "What's wrong?"
+#    prompt_level_chat_4: "Please help explain this."
+#    prompt_level_chat_5: "How can I fix it?"
+#    prompt_level_chat_6: "Help, please."
+#    prompt_level_chat_7: "What do I do?"
+#    prompt_level_chat_8: "What does this mean?"
+#    prompt_level_chat_9: "Please explain."
+#    prompt_level_chat_10: "What is this error?"
+#    prompt_level_chat_11: "What is the problem?"
+#    prompt_level_chat_12: "???"
+#    prompt_level_chat_13: "Dear AI, I beseech you, explain my error, in verse."

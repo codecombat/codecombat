@@ -19,6 +19,7 @@
           placeholder="Enter email"
           class="form-control"
           @blur="validateEmail"
+          @input="validateEmail"
         />
       </div>
       <div
@@ -62,6 +63,12 @@
         >
           {{ $t('related_accounts.bi_directional') }} <span class="u-form__bi-dir-help">({{ $t('related_accounts.bi_directional_help_text') }})</span>
         </label>
+      </div>
+      <div
+        v-if="validating"
+        class="validating"
+      >
+        validating {{  validating }} ...
       </div>
       <div class="form-group row auth">
         <div
@@ -182,18 +189,22 @@ export default {
     hideCreateAccount: {
       type: Boolean,
       default: false
+    },
+    prefillRelation: {
+      type: String,
+      default: ''
     }
   },
   data () {
     return {
       showAddForm: true,
       relationOptions: [
-        'Kid',
+        'Child',
         'Student',
         'Other'
       ],
       email: '',
-      relation: '',
+      relation: this.prefillRelation || '',
       isBidirectional: !this.hideBidirectionalCheck,
       accountExists: null,
       accountTypes: [
@@ -205,7 +216,8 @@ export default {
       existsAuthType: '',
       relatedPass: '',
       errMsg: '',
-      accountCheckedEmail: null
+      accountCheckedEmail: null,
+      validating: false
     }
   },
   methods: {
@@ -260,12 +272,17 @@ export default {
       return true
     },
     async validateEmail () {
+      if (this.accountCheckedEmail === this.email) {
+        return
+      }
+      this.validating = this.email
       this.accountExists = null
       if (utils.isValidEmail(this.email)) {
         const resp = await User.checkEmailExists(this.email)
         this.accountExists = resp?.exists
         this.accountCheckedEmail = this.email
       }
+      this.validating = false
     }
   }
 }
@@ -278,6 +295,17 @@ export default {
 
   &__head {
     text-align: center;
+  }
+
+  .error {
+    font-size: 1.5rem;
+    color: #ff0000;
+    padding-right: 3px;
+  }
+
+  .validating {
+    font-size: 1.5rem;
+    color: black;
   }
 }
 
@@ -321,11 +349,5 @@ export default {
   &__additional {
     margin-bottom: 1rem;
   }
-}
-
-.error {
-  font-size: 1.5rem;
-  color: #ff0000;
-  padding-right: 3px;
 }
 </style>

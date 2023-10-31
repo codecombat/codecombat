@@ -13,7 +13,7 @@
       :child="selectedChildren"
       :product="selectedProduct"
       :is-online-class-paid-user="isPaidOnlineClassUser()"
-      v-if="selectedView !== 'online-classes'"
+      v-if="showHeaderComponent"
     />
     <student-progress-view
       v-if="selectedView === 'dashboard' || selectedView === 'progress'"
@@ -111,7 +111,7 @@ export default {
     }
     const resp = await me.getRelatedAccounts()
     const relatedAccounts = resp.data || []
-    this.children = relatedAccounts.filter(r => r.relation === 'children')
+    this.children = relatedAccounts || []
     const verifiedChildren = this.children.filter(c => c.verified)
     const lastChild = () => verifiedChildren.length > 0 ? verifiedChildren[verifiedChildren.length - 1].userId : null
     if (this.childId) {
@@ -165,6 +165,9 @@ export default {
   computed: {
     selectedChildren () {
       return this.children?.find(c => c.userId === this.selectedChildrenId)
+    },
+    showHeaderComponent () {
+      return this.selectedView !== 'online-classes' && this.selectedView !== 'summary' && this.selectedView !== 'toolkit'
     }
   }
 }

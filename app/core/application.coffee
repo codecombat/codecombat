@@ -44,6 +44,7 @@ Application =
     api = require 'core/api'
     utils = require 'core/utils'
     userUtils = require '../lib/user-utils' if utils.isCodeCombat
+    wsBus = require 'lib/wsBus'
 
     Router = require('core/Router')
     Vue.config.devtools = not @isProduction()
@@ -52,6 +53,8 @@ Application =
     # propagate changes from global 'me' User to 'me' vuex module
     store = require('core/store')
 
+    if utils.useWebsocket
+      @wsBus = new wsBus()
     me.on('change', ->
       store.commit('me/updateUser', me.changedAttributes())
     )

@@ -42,7 +42,7 @@
         </div>
         <div class="event-link" v-if="propsInstance?.meetingLink">
           <div class="title">
-            <a href="propsInstance?.meetingLink" target="_blank">
+            <a :href="propsInstance?.meetingLink" target="_blank">
               {{ $t('events.meetingLink') }}
             </a>
           </div>
@@ -62,13 +62,13 @@
           <div class="value">
             {{ teacherNotes || $t('events.no_data_display') }}
           </div>
-          <div
+          <!-- <div
             v-if="teacherNotes"
             class="reply my-btn-light"
             @click="replyNotes"
           >
             {{ $t('events.reply') }}
-          </div>
+          </div> -->
         </div>
 
         <div class="recording">
@@ -82,7 +82,7 @@
                 <div class="triangle play" />
               </div>
             </div>
-            {{ videoRecord? $t('events.video_recording') : $t('events.no_video_recording') }}
+            {{ videoRecord ? $t('events.video_recording') : $t('events.no_video_recording') }}
           </div>
         </div>
 
@@ -122,6 +122,9 @@ export default {
     events: {
       type: Array,
       default: () => []
+    },
+    userId: {
+      type: String
     }
   },
   data () {
@@ -140,7 +143,7 @@ export default {
       return moment(this.propsInstance?.startDate).format('ddd, MMM D')
     },
     teacherNotes () {
-      return _.find(this.propsInstance?.members, m => m.userId === me.id)?.description
+      return _.find(this.propsInstance?.members, m => m.userId === this.userId)?.description
     },
     sessionsOfCampaign () {
       let str = ''
@@ -535,6 +538,10 @@ export default {
         line-height: 16px;
         font-weight: 600;
       }
+
+      .value {
+        white-space: pre-line;
+      }
     }
 
     .support {
@@ -549,7 +556,7 @@ export default {
       }
     }
     .recording {
-      margin-top: 40px;
+      margin-top: 10px;
 
       .video-recording {
         display: flex;
