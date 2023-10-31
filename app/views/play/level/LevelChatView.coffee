@@ -27,6 +27,7 @@ module.exports = class LevelChatView extends CocoView
     'level:toggle-solution': 'onToggleSolution'
     'level:close-solution': 'onCloseSolution'
     'level:add-user-chat': 'onAddUserChat'
+    'tome:spell-changed': 'onSpellChanged'
 
   constructor: (options) ->
     @levelID = options.levelID
@@ -256,6 +257,16 @@ module.exports = class LevelChatView extends CocoView
     openPanel = $('.open-chat-area', @$el)[0]
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
 
+  onSpellChanged: ->
+    if @savingChatMessage
+      @reallySaveChatMessage(@savingChatMessage)
+      @savingChatMessage = undefined
+
+  isSpellChanged: ->
+    aether = @parent.subviews.tome_view.spellView.spellThang.aether
+    spell = @parent.subviews.tome_view.spellView.spell
+    return spell.source != aether.raw
+
   cleanUpApiProperties: (chat) ->
     context = chat.context
     currentCode = Object.values(context.code.current)[0]
@@ -268,6 +279,14 @@ module.exports = class LevelChatView extends CocoView
     context.apiProperties = apiProperties
 
   saveChatMessage: ({ text, sender }) ->
+    if @isSpellChanged()
+      Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
+      @savingChatMessage = { text, sender }
+    else
+      @reallySaveChatMessage({ text, sender })
+      @savingChatMessage = undefined
+
+  reallySaveChatMessage: ({ text, sender }) ->
     chatMessage = new ChatMessage @getChatMessageProps { text, sender }
     @chatMessages ?= []
     @chatMessages.push chatMessage
