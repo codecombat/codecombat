@@ -5,6 +5,7 @@ import Guidelines from './Guidelines'
 import ViewAndMange from './ViewAndManage'
 import TableClassFrame from './table/TableClassFrame'
 import ModalEditStudent from '../modals/ModalEditStudent'
+import Classroom from 'models/Classroom'
 
 import utils from 'app/core/utils'
 import { getGameContentDisplayNameWithType } from 'ozaria/site/common/ozariaUtils.js'
@@ -66,6 +67,7 @@ function getLearningGoalsDocumentation (content) {
         getActiveClassrooms: 'teacherDashboard/getActiveClassrooms',
         selectableStudentIds: 'baseSingleClass/selectableStudentIds',
         getSelectableOriginals: 'baseSingleClass/getSelectableOriginals',
+        classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom'
       }),
 
       modules () {
@@ -96,8 +98,15 @@ function getLearningGoalsDocumentation (content) {
             }
           })
 
-          // Todo: Ozaria-i18n
-          const moduleDisplayName = `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
+          let moduleDisplayName
+          if (utils.isCodeCombat) { // CodeCombat only has one module per course.
+            const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
+            moduleDisplayName = course.name
+          } else {
+            // Todo: Ozaria-i18n
+            moduleDisplayName = `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
+          }
+
           const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, translatedModuleContent, intros, moduleNum)
 
           // Track summary stats to display in the header of the table
@@ -118,7 +127,7 @@ function getLearningGoalsDocumentation (content) {
             moduleStatsForTable.studentSessions[student._id] = translatedModuleContent.map((content) => {
               const { original, fromIntroLevelOriginal } = content
               const normalizedOriginal = original || fromIntroLevelOriginal
-              const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal,'locked')
+              const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal, 'locked')
               const lockDate = ClassroomLib.getStudentLockDate(this.classroom, student._id, normalizedOriginal)
               const isOptional = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal, 'optional')
 
@@ -135,6 +144,8 @@ function getLearningGoalsDocumentation (content) {
                 isPlayable = false
               }
 
+              const isPractice = Boolean(content.practice)
+
               const defaultProgressDot = {
                 status: 'assigned',
                 normalizedType: content.type,
@@ -146,7 +157,8 @@ function getLearningGoalsDocumentation (content) {
                 normalizedOriginal,
                 fromIntroLevelOriginal,
                 isOptional,
-                isPlayable
+                isPlayable,
+                isPractice
               }
 
               if (content.type === 'game-dev') {
@@ -235,10 +247,10 @@ function getLearningGoalsDocumentation (content) {
                 if (['practicelvl', 'capstone', 'interactive'].includes(defaultProgressDot.normalizedType) && defaultProgressDot.status !== 'assigned') {
                   defaultProgressDot.clickHandler = () => {
                     this.showPanelSessionContent({
-                      student: student,
+                      student,
                       classroomId: this.classroomId, // TODO remove and use classroomId from teacherDashboard vuex
                       selectedCourseId: this.selectedCourseId,
-                      moduleNum: moduleNum,
+                      moduleNum,
                       contentId: content._id
                     })
                   }
@@ -338,14 +350,14 @@ function getLearningGoalsDocumentation (content) {
         this.setClassroomId(newId)
         this.fetchClassroomData(newId)
       },
-      students(newStudents){
+      students (newStudents) {
         this.setSelectableStudentIds((newStudents || []).map(s => s._id))
       },
-      modules(newModules){
-          const originals = newModules.reduce((acc, module) => {
-            return acc.concat(module.contentList.map(c => c.normalizedOriginal))
-          }, [])
-          this.setSelectableOriginals(originals)
+      modules (newModules) {
+        const originals = newModules.reduce((acc, module) => {
+          return acc.concat(module.contentList.map(c => c.normalizedOriginal))
+        }, [])
+        this.setSelectableOriginals(originals)
       }
     },
 
@@ -431,7 +443,7 @@ function getLearningGoalsDocumentation (content) {
         return {
           moduleNum,
           displayName: moduleDisplayName,
-          contentList: moduleContent.map((content) => {
+          contentList: moduleContent.map((content, index) => {
             const { type, _id, ozariaType, original, fromIntroLevelOriginal, slug } = content
             const normalizedOriginal = original || fromIntroLevelOriginal
             let normalizedType = type
@@ -447,7 +459,12 @@ function getLearningGoalsDocumentation (content) {
               normalizedType = type
             }
 
-            if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl'].includes(normalizedType)) {
+
+            if (!normalizedType) { // TODO: show all levels as Challenge Levels for now
+              normalizedType = 'challengelvl'
+            }
+
+            if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].includes(normalizedType)) {
               throw new Error(`Didn't handle normalized content type: '${normalizedType}'`)
             }
 
@@ -458,23 +475,37 @@ function getLearningGoalsDocumentation (content) {
               contentLevelSlug = intros[fromIntroLevelOriginal]?.slug
             }
 
-            let tooltipName = getGameContentDisplayNameWithType(content)
+            let tooltipName
+            if (utils.isCodeCombat) {
+              const classroom = new Classroom(this.classroom)
+              const levelNumber = classroom.getLevelNumber(content.original, index + 1)
+              tooltipName = `${levelNumber}: ${utils.i18n(content, 'displayName') || utils.i18n(content, 'name')}`
+            } else {
+              tooltipName = getGameContentDisplayNameWithType(content)
+            }
             if (fromIntroLevelOriginal) {
               const introLevel = intros[fromIntroLevelOriginal] || {}
               description = `<h3>${tooltipName}</h3><p>${utils.i18n(content, 'description') || getLearningGoalsDocumentation(content) || ''}</p>`
               tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${utils.i18n(introLevel, 'displayName') || utils.i18n(introLevel, 'name')}`
             }
 
+            const isPractice = Boolean(content.practice)
+
+            if (utils.isCodeCombat) {
+              normalizedType = isPractice ? 'practicelvl' : 'challengelvl'
+            }
+
             return ({
               displayName: utils.i18n(content, 'displayName') || utils.i18n(content, 'name'),
               type: normalizedType,
               _id,
-              tooltipName: tooltipName,
+              tooltipName,
               description: description || '',
               contentKey: original || fromIntroLevelOriginal, // Currently use the original as the key that groups levels together.
               normalizedOriginal,
               normalizedType,
-              contentLevelSlug
+              contentLevelSlug,
+              isPractice
             })
           }),
           studentSessions: {},
