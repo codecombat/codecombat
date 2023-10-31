@@ -256,11 +256,23 @@ module.exports = class LevelChatView extends CocoView
     openPanel = $('.open-chat-area', @$el)[0]
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
 
+  cleanUpApiProperties: (chat) ->
+    context = chat.context
+    currentCode = Object.values(context.code.current)[0]
+    solutionCode = Object.values(context.code.solution || {})?[0] || '' # let's only keep properties in current code
+    allApiProperties = context.apiProperties
+    apiProperties = []
+    for doc in allApiProperties
+      if currentCode.includes(doc.name) or solutionCode.includes(doc.name)
+        apiProperties.push doc
+    context.apiProperties = apiProperties
+
   saveChatMessage: ({ text, sender }) ->
     chatMessage = new ChatMessage @getChatMessageProps { text, sender }
     @chatMessages ?= []
     @chatMessages.push chatMessage
     Backbone.Mediator.publish 'level:gather-chat-message-context', { chat: chatMessage.attributes }
+    @cleanUpApiProperties chatMessage.attributes
     # This will enrich the message with the props from other parts of the app
     @listenToOnce chatMessage, 'sync', @onChatMessageSaved
     chatMessage.save()

@@ -111,7 +111,7 @@ export default {
     }
     const resp = await me.getRelatedAccounts()
     const relatedAccounts = resp.data || []
-    this.children = relatedAccounts.filter(r => r.relation === 'children')
+    this.children = relatedAccounts || []
     const verifiedChildren = this.children.filter(c => c.verified)
     const lastChild = () => verifiedChildren.length > 0 ? verifiedChildren[verifiedChildren.length - 1].userId : null
     if (this.childId) {

@@ -83,10 +83,7 @@ module.exports = class CoursesView extends RootView
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom})
     @classrooms.comparator = (a, b) -> b.id.localeCompare(a.id)
     @supermodel.loadCollection(@classrooms, { data: {memberID: me.id}, cache: false })
-    @ownedClassrooms = new Classrooms()
-    @ownedClassrooms.fetchMine({data: {project: '_id'}})
-    @supermodel.trackCollection(@ownedClassrooms)
-    @supermodel.addPromiseResource(store.dispatch('courses/fetch'))
+    @supermodel.addPromiseResource(store.dispatch('courses/fetchReleased'))
     @hourOfCodeOptions = utils.hourOfCodeOptions
     @hocCodeLanguage = (me.get('hourOfCodeOptions') || {}).hocCodeLanguage || 'python'
     @hocStats = {}

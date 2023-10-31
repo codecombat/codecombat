@@ -14,7 +14,7 @@
               :disabled="!child.verified"
               :selected="child.userId === selectedChildrenId"
             >
-              {{ child.broadName }}
+              {{ child.broadName }} {{ !child.verified ? '(Not Verified)' : '' }}
             </option>
             <option value="No other children added" class="sidebar__child__option" disabled v-if="children.length > 0">No other children added</option>
             <option value="No children added" class="sidebar__child__option" disabled v-if="children.length === 0" :selected="children.length === 0">No children added</option>
