@@ -430,7 +430,7 @@ describe 'Utility library', ->
 
     describe 'when no practice needed', ->
       needsPractice = false
-      it 'returns correct next levels when rc* p optional locked', ->
+      it 'returns correct next levels when required complete level followed by optional locked practice level', ->
         levels = [
           { practice: false, complete: true }
           { practice: true, complete: false, optional: true, locked: true }
@@ -438,7 +438,7 @@ describe 'Utility library', ->
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(2)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
 
-      it 'returns correct next levels when pc* p r optional locked', ->
+      it 'returns correct next levels when completed practice level followed by optional locked practice level and incomplete level', ->
         levels = [
           { practice: true, complete: true }
           { practice: true, complete: false, optional: true, locked: true }
@@ -447,7 +447,7 @@ describe 'Utility library', ->
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(2)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
 
-      it 'returns correct next levels when pc* p p optional not locked', ->
+      it  'returns correct next levels when completed practice level followed by optional unlocked practice level and incomplete practice level', ->
         levels = [
           { practice: true, complete: true }
           { practice: true, complete: false, optional: true, locked: false }
@@ -456,7 +456,7 @@ describe 'Utility library', ->
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(3)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
 
-      it 'returns correct next levels when rc* p rc optional locked', ->
+      it 'returns correct next levels when required complete level followed by optional locked practice level and required complete level', ->
         levels = [
           { practice: false, complete: true }
           { practice: true, complete: false, optional: true, locked: true }
@@ -465,7 +465,7 @@ describe 'Utility library', ->
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(3)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
 
-      it 'returns correct next levels when rc rc rc* a r optional not locked', ->
+      it 'returns correct next levels when sequence of required complete levels followed by optional unlocked level and assessment level', ->
         levels = [
           { practice: false, complete: true }
           { practice: false, complete: true }
@@ -475,7 +475,7 @@ describe 'Utility library', ->
         ]
         expect(utils.findNextLevel(levels, 2, needsPractice)).toEqual(4)
         expect(utils.findNextAssessmentForLevel(levels, 2, needsPractice)).toEqual(3)    
-      it 'returns correct next levels when not nl nl l nl nl nl', ->
+      it 'returns correct next levels when sequence of normal levels with a locked level in between', ->
         levels = [
           { practice: false, complete: true }
           { practice: false, complete: true }
@@ -486,7 +486,7 @@ describe 'Utility library', ->
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(-1)
         expect(utils.findNextAssessmentForLevel(levels, 2, needsPractice)).toEqual(-1)   
-      it 'returns correct next levels when not nl nl l/o nl nl nl', ->
+      it 'returns correct next levels when sequence of normal levels with an optional locked level in between', ->
         levels = [
           { practice: false, complete: true }
           { practice: false, complete: true }
@@ -497,7 +497,7 @@ describe 'Utility library', ->
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(4)
         expect(utils.findNextAssessmentForLevel(levels, 2, needsPractice)).toEqual(-1)
-      it 'returns correct next levels when not nl/c nl/c l/o nl/c nl/c nl/c', ->
+      it 'returns correct next levels when sequence of normal/complete levels with an optional unlocked level in between', ->
         levels = [
           { practice: false, complete: true }
           { practice: false, complete: true }

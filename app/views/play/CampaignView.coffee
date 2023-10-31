@@ -1498,7 +1498,7 @@ module.exports = class CampaignView extends RootView
             level.hidden = !prev?.practice
             level.locked = true
           else if prev
-            level.hidden = prev.hidden            
+            level.hidden = prev.hidden
             level.locked = prev.locked and not @classroom.isStudentOnOptionalLevel(me.get('_id'), @course.get('_id'), prev.original)
           else
             level.hidden = true
