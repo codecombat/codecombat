@@ -179,9 +179,8 @@
     "vuex": "^3.6.2",
     "vuex-router-sync": "^5.0.0",
     "y-ace": "git+https://github.com/smallst/y-ace.git#dev",
-    "y-webrtc": "^10.2.3",
-    "y-websocket": "^1.4.4",
-    "yjs": "^13.5.41"
+    "y-websocket": "^1.5.0",
+    "yjs": "^13.6.8"
   },
   "devDependencies": {
     "@babel/core": "^7.18.9",
