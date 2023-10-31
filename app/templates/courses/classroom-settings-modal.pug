@@ -91,13 +91,10 @@ block modal-body-content
         .form-group
           label
             span(data-i18n="teachers.classroom_level_chat")
-          - var aceConfig = _.assign({levelChat: 'none'},  view.classroom.get('aceConfig'))
-          - var levelChat = aceConfig.levelChat
-          - var options = view.classroom.schema().properties.aceConfig.levelChat.enum
-          div
-            select.form-control#level-chat(name="levelChat", value=levelChat)
-              each option in options
-                option(value=option, data-i18n=`teachers.classroom_level_chat_option_${option}`)     
+            - var aceConfig = _.assign({levelChat: 'none'},  view.classroom.get('aceConfig'))
+            - var levelChat = aceConfig.levelChat
+            - var levelChatAllowed = levelChat === 'fixed_prompt_only'
+            input#level-chat(name="levelChat" checked=levelChatAllowed value='fixed_prompt_only' type='checkbox')
           .help-block.small.text-navy(data-i18n="teachers.classroom_level_chat_blurb")
 
       .col-lg-6.col-md-12

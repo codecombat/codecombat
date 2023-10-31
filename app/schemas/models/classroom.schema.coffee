@@ -21,7 +21,7 @@ _.extend ClassroomSchema.properties,
   aceConfig:
     language: {type: 'string', 'enum': ['python', 'javascript', 'cpp', 'java']}
     liveCompletion: {type: 'boolean', default: true}
-    levelChat: {type: 'string', enum: ['free_form', 'fixed_prompt_only', 'none']}
+    levelChat: {type: 'string', enum: ['fixed_prompt_only', 'none']}
   averageStudentExp: { type: 'string' }
   ageRangeMin: { type: 'string' }
   ageRangeMax: { type: 'string' }
