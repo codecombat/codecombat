@@ -1087,7 +1087,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    watch_game: "Spectate"
 #    share_your_project: "Share Your Project"
 #    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
-    copy_url: "URL másolása
+    copy_url: "URL másolása"
     level_status: "Állapot"
     level_status_locked: "Zárolva"
     level_status_in_progress: "Folyamatban"
