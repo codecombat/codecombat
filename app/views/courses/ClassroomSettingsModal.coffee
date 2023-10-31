@@ -79,7 +79,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
       delete attrs.liveCompletion
 
     if attrs.levelChat
-      attrs.aceConfig.levelChat = attrs.levelChat
+      attrs.aceConfig.levelChat = attrs.levelChat[0] or 'none'
       delete attrs.levelChat
 
     if !@isGoogleClassroom and !@showLMSDropDown
