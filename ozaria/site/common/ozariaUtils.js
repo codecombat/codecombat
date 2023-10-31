@@ -308,9 +308,9 @@ export function internationalizeContentType(type){
     case 'cinematic':
       return $.i18n.t('play_level.content_type_cinematic')
     case 'interactive':
-      return $.i18n.t('play_level.content_type_interactive')
+      return $.i18n.t('play_level.content_type_interactive')    
     default:
-      return this.currentContent.contentType
+      return $.i18n.t('play_level.level_type_challenge') // show everything else as "challenge" for now
   }
 }
 
@@ -361,6 +361,9 @@ export function getGameContentDisplayNameWithType (contentData, withLevelSuffix 
 // `withLevelSuffix` will append 'Level' to the names for practice/capstone/challenge levels
 // `withProjectSuffix` will append 'Project' to the capstone name
 export function getGameContentDisplayType (contentType, withLevelSuffix = true, withProjectSuffix = false) {
+  if (!contentType) {
+    contentType = 'hero'
+  }
   if (contentType.startsWith('practice')) {
     return internationalizeLevelType('practice', withLevelSuffix, withProjectSuffix)
   } else if (contentType.startsWith('capstone')) {

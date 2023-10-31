@@ -38,3 +38,68 @@ describe 'CampaignView', ->
       it 'points at practice level first', ->
         expect(@levels[2].next).toEqual(true)
         expect(@levels[3].next).not.toBeDefined(true)
+
+    describe 'applyCourseLogicToLevels', ->
+
+      beforeEach ->
+        @campaignView = new CampaignView()
+        @campaignView.courseStats = {
+          levels: { 
+            first: { get: (slug) -> 'levelX' } } 
+        }
+        @campaignView.classroom = jasmine.createSpyObj('classroom', ['isStudentOnLockedLevel', 'isStudentOnOptionalLevel'])
+        @campaignView.classroom.isStudentOnLockedLevel.and.callFake((id, courseId, original) -> original.match /locked/i)
+        @campaignView.classroom.isStudentOnOptionalLevel.and.callFake((id, courseId, original) -> original.match /optional/i)
+        @campaignView.courseInstance = { get: (startLockedLevel) -> undefined }
+        @campaignView.course = { get: (slug) -> 'course1' }
+        @campaignView.campaign = {
+          levelIsPractice: (level) -> Boolean level.practice
+          levelIsAssessment: (level) -> Boolean level.assessment
+        }
+
+      it 'should apply locked flag on locked level', ->
+        orderedLevels = [
+          { slug: 'level1', original: 'level1' },
+          { slug: 'level2', original: 'level2' },
+          { slug: 'level3Locked', original: 'level3Locked' }
+        ]
+
+        @campaignView.applyCourseLogicToLevels(orderedLevels)
+
+        expect(orderedLevels[0].locked).toBe(false)
+        expect(orderedLevels[1].locked).toBe(false)
+        expect(orderedLevels[2].locked).toBe(true)
+
+      it 'should apply locked flag on all levels after a locked one', ->
+        orderedLevels = [
+          { slug: 'level1', original: 'level1' },
+          { slug: 'level2', original: 'level2' },
+          { slug: 'level3Locked', original: 'level3Locked' },
+          { slug: 'level4', original: 'level4' },
+          { slug: 'level5', original: 'level5' }
+        ]
+
+        @campaignView.applyCourseLogicToLevels(orderedLevels)
+
+        expect(orderedLevels[0].locked).toBe(false)
+        expect(orderedLevels[1].locked).toBe(false)
+        expect(orderedLevels[2].locked).toBe(true)        
+        expect(orderedLevels[3].locked).toBe(true)        
+        expect(orderedLevels[4].locked).toBe(true)        
+
+      it 'should not apply locked flag on all levels after a skipped one', ->
+        orderedLevels = [
+          { slug: 'level1', original: 'level1' },
+          { slug: 'level2', original: 'level2' },
+          { slug: 'level3LockedOptional', original: 'level3LockedOptional' },
+          { slug: 'level4', original: 'level4' },
+          { slug: 'level5', original: 'level5' }
+        ]
+
+        @campaignView.applyCourseLogicToLevels(orderedLevels)
+
+        expect(orderedLevels[0].locked).toBe(false)
+        expect(orderedLevels[1].locked).toBe(false)
+        expect(orderedLevels[2].locked).toBe(true)
+        expect(orderedLevels[3].locked).toBe(false)        
+        expect(orderedLevels[4].locked).toBe(false)            

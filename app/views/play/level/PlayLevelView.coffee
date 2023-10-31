@@ -201,6 +201,7 @@ module.exports = class PlayLevelView extends RootView
       @supermodel.trackRequest fetchAceConfig
       fetchAceConfig.then (classroom) =>
         @classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion ? true
+        @classroomAceConfig.levelChat = classroom.aceConfig?.levelChat ? 'none'
         @teacherID = classroom.ownerID
 
         if @teaching and (not @teacherID.equals(me.id))
@@ -455,7 +456,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
     @insertSubView new HUDView {level: @level} unless @level.isType('web-dev')
     @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
-    @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
+    @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session, aceConfig: @classroomAceConfig
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     @insertSubView new SurfaceContextMenuView session: @session, level: @level
     @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isLadder()

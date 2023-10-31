@@ -1642,6 +1642,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_items_description: "Whether students should earn gems and equip items during gameplay."
     classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled."
     not_allow_to_solution: '# Licenses needed to view solutions'
+    classroom_level_chat: 'Level Chat with AI'
+    classroom_level_chat_blurb: 'Control whether students can interact with the AI in level chat.'
+    classroom_level_chat_option_free_form: 'Free form'
+    classroom_level_chat_option_fixed_prompt_only: 'Fixed prompt only'
+    classroom_level_chat_option_none: 'No chat'
+
 
   no_licenses_page:
     are_your_students_ready: "Are your students excited and ready to learn more?"

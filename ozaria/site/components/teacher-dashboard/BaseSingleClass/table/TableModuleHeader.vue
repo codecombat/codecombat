@@ -41,7 +41,7 @@ export default {
       return {
         lockOrSkipShown: false,
         hoveredOriginal: null,
-        userSelectedOriginals: [],
+        userSelectedOriginals: []
       }
     },
 
@@ -116,10 +116,7 @@ export default {
 </script>
 
 <template>
-  <div
-      class="moduleHeading"
-      :style="cssVariables"
-  >
+  <div class="moduleHeading" :style="cssVariables">
     <div class="title">
       <h3>{{ moduleHeading }}</h3>
       <v-popover
@@ -127,8 +124,8 @@ export default {
         placement="top"
         popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
         trigger="click"
-        @show="lockOrSkipShown=true"
-        @hide="lockOrSkipShown=false"
+        @show="lockOrSkipShown = true"
+        @hide="lockOrSkipShown = false"
       >
         <!-- Triggers the tooltip -->
         <div v-if="!displayOnly">
@@ -142,12 +139,8 @@ export default {
       </v-popover>
 
     </div>
-    <div
-      v-for="({ type, tooltipName, description, normalizedOriginal }, idx) of listOfContent"
-      :key="`${idx}-${type}`"
-
-      class="content-icons"
-    >
+    <div v-for="({ type, isPractice, tooltipName, description, normalizedOriginal }, idx) of listOfContent" :key="`${idx}-${type}`"
+      class="content-icons">
       <v-popover
         popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
         trigger="hover"
@@ -163,14 +156,12 @@ export default {
             @mouseleave="setHoveredOriginal(null)"
             :class="classForContentIconHover(normalizedOriginal)"
         >
-          <ContentIcon
-              class="content-icon"
-              :icon="type"
-          />
+          <ContentIcon class="content-icon" :icon="type" />
         </div>
         <!-- The tooltip -->
         <template slot="popover">
           <div class="level-popover-locking">
+            <span v-if="isPractice">{{ $t('play_level.level_type_practice') }}</span>
             <h3
               v-if="type !== 'cutscene'"
               style="margin-bottom: 15px;"
@@ -178,16 +169,13 @@ export default {
             >
               {{ tooltipName }}
             </h3>
-            <p
-              style="margin-bottom: 15px;"
-              v-html="description"
-            />
+            <p style="margin-bottom: 15px;" v-html="description" />
           </div>
         </template>
       </v-popover>
     </div>
     <div class="golden-backer" v-for="({ status, border }, idx) of classSummaryProgress" :key="idx">
-      <ProgressDot :status="status" :border="border"/>
+      <ProgressDot :status="status" :border="border" />
     </div>
   </div>
 </template>

@@ -10,7 +10,7 @@
       iconType: {
         type: String,
         required: true,
-        validator: value => ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro'].indexOf(value) !== -1
+        validator: value => ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].indexOf(value) !== -1
       },
 
       displayName: {

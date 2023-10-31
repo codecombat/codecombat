@@ -722,43 +722,68 @@ createLevelNumberMap = (levels) ->
     levelNumberMap[level.key] = levelNumber
   levelNumberMap
 
+isOptional = (level) -> level?.optional
+isLocked = (level) -> level?.locked and not isOptional(level)
+isCompleteOrAssessmentOrSkipped = (level) -> level?.complete or level?.assessment or isOptional(level)
+isPractice = (level) -> level?.practice
+
+skipNonPracticeLevels = (levels, index) ->
+  while index >= 0 and not isPractice(levels[index])
+    index--
+  return index
+
+skipPracticeLevels = (levels, index) ->
+  while index >= 0 and isPractice(levels[index])
+    index--
+  return index
+
+findFirstIncompleteLevelOfPreviousPracticeChain = (levels, currentIndex) ->
+  index = skipNonPracticeLevels(levels, currentIndex - 1)
+  
+  if index >= 0
+    index = skipPracticeLevels(levels, index)
+    
+    if index >= 0
+      index++
+      
+      # Skip completed practice levels
+      index++ while index < levels.length and isPractice(levels[index]) and levels[index].complete
+      
+      return -1 if isLocked(levels[index])
+      return index if isPractice(levels[index]) and not levels[index].complete
+  
+  return -1
+
+isAnyPrecedingLevelLocked = (levels, currentIndex) ->
+  for i in [0..currentIndex]
+    return true if isLocked(levels[i])
+  return false
+
 findNextLevel = (levels, currentIndex, needsPractice) ->
-  # Find next available incomplete level, depending on whether practice is needed
-  # levels = [{practice: true/false, complete: true/false, assessment: true/false, locked: true/false}]
-  # Skip over assessment levels
-  # return -1 if at or beyond locked level
-  return -1 for i in [0..currentIndex] when levels[i].locked
-  index = currentIndex
-  index++
+  index = currentIndex + 1
+
+  return -1 if isAnyPrecedingLevelLocked(levels, currentIndex)
+
   if needsPractice
-    if levels[currentIndex].practice or index < levels.length and levels[index].practice
-      # Needs practice, current level is practice or next is practice; return the next incomplete practice-or-normal level
-      # May leave earlier practice levels incomplete and reach end of course
-      while index < levels.length and (levels[index].complete or levels[index].assessment)
-        return -1 if levels[index].locked
+    if isPractice(levels[currentIndex]) or (index < levels.length and isPractice(levels[index]))
+      while index < levels.length and (isCompleteOrAssessmentOrSkipped(levels[index]) or isLocked(levels[index]))
+        return -1 if isLocked(levels[index])
         index++
     else
-      # Needs practice, current level is required, next level is required or assessment; return the first incomplete level of previous practice chain
-      index--
-      index-- while index >= 0 and not levels[index].practice
-      if index >= 0
-        index-- while index >= 0 and levels[index].practice
-        if index >= 0
+      index = findFirstIncompleteLevelOfPreviousPracticeChain(levels, currentIndex)
+      
+      if index == -1
+        index = currentIndex + 1
+        while index < levels.length and (isCompleteOrAssessmentOrSkipped(levels[index]) or isLocked(levels[index]))
+          return -1 if isLocked(levels[index])
           index++
-          index++ while index < levels.length and levels[index].practice and levels[index].complete
-          if levels[index].practice and not levels[index].complete
-            return index
-      # Last set of practice levels is complete; return the next incomplete normal level instead.
-      index = currentIndex + 1
-      while index < levels.length and (levels[index].complete or levels[index].assessment)
-        return -1 if levels[index].locked
-        index++
   else
-    # No practice needed; return the next required incomplete level
-    while index < levels.length and (levels[index].practice or levels[index].complete or levels[index].assessment)
-      return -1 if levels[index].locked
+    while index < levels.length and (isPractice(levels[index]) or isCompleteOrAssessmentOrSkipped(levels[index]) or isLocked(levels[index]))
+      return -1 if isLocked(levels[index])
       index++
+
   index
+
 
 findNextAssessmentForLevel = (levels, currentIndex, needsPractice) ->
   # Find assessment level immediately after current level (and its practice levels)
