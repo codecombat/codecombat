@@ -1,6 +1,6 @@
 import moment from 'moment'
 import utils from 'app/core/utils'
-import Level from '../../../app/models/Level.coffee'
+import Level from '../../../app/models/Level'
 import { getGameContentDisplayNameWithType } from 'ozaria/site/common/ozariaUtils.js'
 
 export const PRACTICE_LEVEL = 'PRACTICE_LEVEL'
