@@ -9,7 +9,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-require('./aether/aether.coffee');
+require('./aether/aether')
 
 Aether.addGlobal('Vector', require('./world/vector'));
 Aether.addGlobal('_', _);
