@@ -152,10 +152,10 @@ module.exports = (CampaignView = (function() {
     }
 
     constructor(options, terrain) {
+      super(options);
       this.onMouseMovePortals = this.onMouseMovePortals.bind(this);
       this.onWindowResize = this.onWindowResize.bind(this);
       this.terrain = terrain;
-      super(options);
       if (/^classCode/.test(this.terrain)) {
         this.terrain = '';  // Stop /play?classCode= from making us try to play a classCode campaign
       }

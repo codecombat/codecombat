@@ -25,8 +25,8 @@ let lastHeroesPurchased = (left1 = __guard__(me.get('purchased'), x1 => x1.heroe
 module.exports = (LevelSetupManager = class LevelSetupManager extends CocoClass {
 
   constructor(options) {
-    this.options = options;
     super();
+    this.options = options;
     this.supermodel = this.options.supermodel != null ? this.options.supermodel : new SuperModel();
     this.session = this.options.session;
     if (!(this.level = this.options.level)) {
@@ -96,22 +96,6 @@ module.exports = (LevelSetupManager = class LevelSetupManager extends CocoClass 
   }
 
   loadModals() {
-    // build modals and prevent them from disappearing.
-    if (this.level.usesConfiguredMultiplayerHero()) {
-     this.onInventoryModalPlayClicked();
-     return;
-   }
-
-    if (this.level.isType('course-ladder', 'game-dev', 'web-dev') || (utils.isCodeCombat && this.level.isType('ladder')) || (this.level.isType('course') && (!me.showHeroAndInventoryModalsToStudents() || this.level.isAssessment())) || window.serverConfig.picoCTF) {
-      this.onInventoryModalPlayClicked();
-      return;
-    }
-
-    if (this.level.isSummative()) {
-      this.onInventoryModalPlayClicked();
-      return;
-    }
-
     this.heroesModal = new PlayHeroesModal({supermodel: this.supermodel, session: this.session, confirmButtonI18N: 'play.next', level: this.level, hadEverChosenHero: this.options.hadEverChosenHero});
     this.inventoryModal = new InventoryModal({supermodel: this.supermodel, session: this.session, level: this.level});
     this.heroesModalDestroy = this.heroesModal.destroy;

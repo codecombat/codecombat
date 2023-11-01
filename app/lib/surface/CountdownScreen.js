@@ -22,8 +22,8 @@ module.exports = (CountdownScreen = (function() {
     }
 
     constructor(options) {
-      this.decrementCountdown = this.decrementCountdown.bind(this);
       super();
+      this.decrementCountdown = this.decrementCountdown.bind(this);
       if (options == null) { options = {}; }
       this.camera = options.camera;
       this.layer = options.layer;

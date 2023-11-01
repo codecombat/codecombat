@@ -27,7 +27,7 @@ module.exports = (LevelGoalsView = (function() {
       this.prototype.template = template;
       this.prototype.className = 'secret expanded';
       this.prototype.playbackEnded = false;
-  
+
       this.prototype.subscriptions = {
         'goal-manager:new-goal-states': 'onNewGoalStates',
         'tome:cast-spells': 'onTomeCast',
@@ -37,14 +37,14 @@ module.exports = (LevelGoalsView = (function() {
         'surface:playback-ended': 'onSurfacePlaybackEnded',
         'level:gather-chat-message-context': 'onGatherChatMessageContext'
       };
-  
+
       this.prototype.events = {
         'mouseenter'() {
           if (this.playbackEnded) { return this.onSurfacePlaybackRestarted(); }
           this.mouseEntered = true;
           return this.updatePlacement();
         },
-  
+
         'mouseleave'() {
           this.mouseEntered = false;
           return this.updatePlacement();
@@ -53,8 +53,8 @@ module.exports = (LevelGoalsView = (function() {
     }
 
     constructor(options) {
-      this.playToggleSound = this.playToggleSound.bind(this);
       super(options);
+      this.playToggleSound = this.playToggleSound.bind(this);
       this.level = options.level;
     }
 

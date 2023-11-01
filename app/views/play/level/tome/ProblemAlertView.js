@@ -39,7 +39,7 @@ module.exports = (ProblemAlertView = (function() {
         '/images/pages/play/duck_usara.png',
         '/images/pages/play/duck_zana.png'
       ];
-  
+
       this.prototype.subscriptions = {
         'tome:show-problem-alert': 'onShowProblemAlert',
         'tome:hide-problem-alert': 'onHideProblemAlert',
@@ -47,7 +47,7 @@ module.exports = (ProblemAlertView = (function() {
         'tome:jiggle-problem-alert': 'onJiggleProblemAlert',
         'tome:manual-cast': 'onHideProblemAlert'
       };
-  
+
       this.prototype.events = {
         'click .close': 'onRemoveClicked',
         'click'() { return Backbone.Mediator.publish('tome:focus-editor', {}); },
@@ -56,9 +56,8 @@ module.exports = (ProblemAlertView = (function() {
     }
 
     constructor(options) {
-      this.onWindowResize = this.onWindowResize.bind(this);
-      this.supermodel = options.supermodel; // Has to go before super so events are hooked up
       super(options);
+      this.onWindowResize = this.onWindowResize.bind(this);
       this.level = options.level;
       this.session = options.session;
       if (options.problem != null) {

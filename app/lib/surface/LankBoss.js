@@ -44,9 +44,9 @@ module.exports = (LankBoss = (function() {
     }
 
     constructor(options) {
+      super();
       if (options == null) { options = {}; }
       this.options = options;
-      super();
       this.handleEvents = this.options.handleEvents;
       this.gameUIState = this.options.gameUIState;
       this.dragged = 0;
@@ -287,7 +287,7 @@ module.exports = (LankBoss = (function() {
             result.push(lank.thang);
           }
         }
-      
+
         return result;
       })());  // Ignore off-screen Thangs
       let bounds = this.world.calculateSimpleMovementBounds(thangs);

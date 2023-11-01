@@ -19,14 +19,14 @@ module.exports = (ScriptModule = (function() {
   let movementTime = undefined;
   ScriptModule = class ScriptModule extends CocoClass {
     static initClass() {
-  
+
       scrubbingTime = 0;
       movementTime = 0;
     }
 
     constructor(noteGroup) {
-      this.noteGroup = noteGroup;
       super();
+      this.noteGroup = noteGroup;
       if (!this.noteGroup.prepared) {
         this.analyzeNoteGroup(this.noteGroup);
         if (this.noteGroup.notes == null) { this.noteGroup.notes = []; }

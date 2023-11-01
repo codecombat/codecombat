@@ -44,15 +44,15 @@ module.exports = (Surface = (Surface = (function() {
   Surface = class Surface extends CocoClass {
     static initClass() {
       this.prototype.stage = null;
-  
+
       this.prototype.normalLayers = null;
       this.prototype.surfaceLayer = null;
       this.prototype.surfaceTextLayer = null;
       this.prototype.screenLayer = null;
       this.prototype.gridLayer = null;
-  
+
       this.prototype.lankBoss = null;
-  
+
       this.prototype.debugDisplay = null;
       this.prototype.currentFrame = 0;
       this.prototype.lastFrame = null;
@@ -63,7 +63,7 @@ module.exports = (Surface = (Surface = (function() {
       this.prototype.worldLoaded = false;
       this.prototype.scrubbing = false;
       this.prototype.debug = false;
-  
+
       this.prototype.defaults = {
         paths: true,
         grid: false,
@@ -74,7 +74,7 @@ module.exports = (Surface = (Surface = (function() {
         frameRate: 30,  // Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
         levelType: 'hero'
       };
-  
+
       this.prototype.subscriptions = {
         'level:disable-controls': 'onDisableControls',
         'level:enable-controls': 'onEnableControls',
@@ -99,7 +99,7 @@ module.exports = (Surface = (Surface = (function() {
         'tome:manual-cast': 'onManualCast',
         'playback:stop-real-time-playback': 'onStopRealTimePlayback'
       };
-  
+
       this.prototype.shortcuts = {
         'ctrl+\\, ⌘+\\': 'onToggleDebug',
         'ctrl+o, ⌘+o': 'onTogglePathFinding'
@@ -111,6 +111,7 @@ module.exports = (Surface = (Surface = (function() {
     //- Initialization
 
     constructor(world, normalCanvas, webGLCanvas, givenOptions) {
+      super();
       this.initFrameRate2 = this.initFrameRate2.bind(this);
       this.initFrameRate3 = this.initFrameRate3.bind(this);
       this.tick = this.tick.bind(this);
@@ -126,7 +127,6 @@ module.exports = (Surface = (Surface = (function() {
       this.world = world;
       this.normalCanvas = normalCanvas;
       this.webGLCanvas = webGLCanvas;
-      super();
       $(window).on('keydown', this.onKeyEvent);
       $(window).on('keyup', this.onKeyEvent);
       this.normalLayers = [];

@@ -30,14 +30,14 @@ module.exports = (LevelChatView = (function() {
       this.prototype.template = template;
       this.prototype.open = false;
       this.prototype.visible = false;
-  
+
       this.prototype.events = {
         'keydown textarea': 'onChatKeydown',
         'keypress textarea': 'onChatKeypress',
         'click i': 'onIconClick',
         'click .fix-code-button': 'onFixCodeClick'
       };
-  
+
       this.prototype.subscriptions = {
         'level:toggle-solution': 'onToggleSolution',
         'level:close-solution': 'onCloseSolution',
@@ -47,6 +47,7 @@ module.exports = (LevelChatView = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.clearOldMessages = this.clearOldMessages.bind(this);
       this.onChatResponse = this.onChatResponse.bind(this);
       this.onWindowResize = this.onWindowResize.bind(this);
@@ -55,7 +56,6 @@ module.exports = (LevelChatView = (function() {
       this.sessionID = options.sessionID;
       this.bus = LevelBus.get(this.levelID, this.sessionID);
       this.aceConfig = options.aceConfig;
-      super(options);
       this.onWindowResize = _.debounce(this.onWindowResize, 50);
       $(window).on('resize', this.onWindowResize);
 

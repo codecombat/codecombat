@@ -30,11 +30,11 @@ module.exports = (Angel = (function() {
   Angel = class Angel extends CocoClass {
     static initClass() {
       this.nicks = ['Archer', 'Lana', 'Cyril', 'Pam', 'Cheryl', 'Woodhouse', 'Ray', 'Krieger'];
-  
+
       this.prototype.infiniteLoopIntervalDuration = 10000;  // check this often; must be longer than other two combined
       this.prototype.infiniteLoopTimeoutDuration = 7500;  // wait this long for a response when checking
       this.prototype.abortTimeoutDuration = 500;  // give in-process or dying workers this long to give up
-  
+
       this.prototype.subscriptions = {
         'level:flag-updated': 'onFlagEvent',
         'playback:stop-real-time-playback': 'onStopRealTimePlayback',
@@ -43,13 +43,13 @@ module.exports = (Angel = (function() {
     }
 
     constructor(shared) {
+      super();
       this.testWorker = this.testWorker.bind(this);
       this.onWorkerMessage = this.onWorkerMessage.bind(this);
       this.infinitelyLooped = this.infinitelyLooped.bind(this);
       this.fireWorker = this.fireWorker.bind(this);
       this.simulateSync = this.simulateSync.bind(this);
       this.shared = shared;
-      super();
       this.say('Got my wings.');
       const isIE = window.navigator && ((window.navigator.userAgent.search('MSIE') !== -1) || (window.navigator.appName === 'Microsoft Internet Explorer'));
       const slowerSimulations = isIE;  //or @shared.headless

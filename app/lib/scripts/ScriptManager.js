@@ -39,12 +39,12 @@ module.exports = (ScriptManager = (ScriptManager = (function() {
       this.prototype.worldLoading = true;
       this.prototype.ignoreEvents = false;
       this.prototype.quiet = false;
-  
+
       this.prototype.triggered = [];
       this.prototype.ended = [];
       this.prototype.noteGroupQueue = [];
       this.prototype.originalScripts = []; // use these later when you want to revert to an original state
-  
+
       this.prototype.subscriptions = {
         'script:end-current-script': 'onEndNoteGroup',
         'level:loading-view-unveiling'() { return this.setWorldLoading(false); },
@@ -52,7 +52,7 @@ module.exports = (ScriptManager = (ScriptManager = (function() {
         'level:shift-space-pressed': 'onEndNoteGroup',
         'level:escape-pressed': 'onEndAll'
       };
-  
+
       this.prototype.shortcuts = {
         '⇧+space, space, enter'() { return Backbone.Mediator.publish('level:shift-space-pressed', {}); },
         'escape'() { return Backbone.Mediator.publish('level:escape-pressed', {}); }
@@ -72,8 +72,8 @@ module.exports = (ScriptManager = (ScriptManager = (function() {
     // SETUP / TEARDOWN
 
     constructor(options) {
-      this.tick = this.tick.bind(this);
       super(options);
+      this.tick = this.tick.bind(this);
       this.originalScripts = _.clone(options.scripts);
       this.session = options.session;
       this.levelID = options.levelID;

@@ -29,9 +29,9 @@ const N_ROWS = 4;
 module.exports = (SpellPaletteView = (function() {
   SpellPaletteView = class SpellPaletteView extends CocoView {
     constructor(...args) {
+      super(...args);
       this.onResize = this.onResize.bind(this);
       this.hide = this.hide.bind(this);
-      super(...args);
     }
 
     static initClass() {
@@ -39,7 +39,7 @@ module.exports = (SpellPaletteView = (function() {
       this.prototype.template = require('app/templates/play/level/tome/spell-palette-view-mid');
       this.prototype.controlsEnabled = true;
       this.prototype.position = 'mid';
-  
+
       this.prototype.subscriptions = {
         'level:disable-controls': 'onDisableControls',
         'level:enable-controls': 'onEnableControls',
@@ -49,7 +49,7 @@ module.exports = (SpellPaletteView = (function() {
         'surface:stage-mouse-down': 'hide',
         'level:gather-chat-message-context': 'onGatherChatMessageContext'
       };
-  
+
       this.prototype.events = {
         'click .closeBtn': 'onClickClose',
         'click .section-header': 'onSectionHeaderClick'
@@ -60,7 +60,7 @@ module.exports = (SpellPaletteView = (function() {
       let left;
       ({level: this.level, session: this.session, thang: this.thang, useHero: this.useHero} = options);
       this.aceEditors = [];
-      const docs = (left = this.options.level.get('documentation')) != null ? left : {};
+      const docs = (left = options.level.get('documentation')) != null ? left : {};
       this.createPalette();
       return $(window).on('resize', this.onResize);
     }

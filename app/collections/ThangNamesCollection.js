@@ -21,8 +21,8 @@ module.exports = (ThangNamesCollection = (function() {
     }
 
     constructor(ids) {
-      this.ids = ids;
       super();
+      this.ids = ids;
       this.ids.sort();
     }
 

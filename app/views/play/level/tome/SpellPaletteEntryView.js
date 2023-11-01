@@ -26,7 +26,7 @@ module.exports = (SpellPaletteEntryView = (function() {
       this.prototype.template = template;
       this.prototype.popoverPinned = false;
       this.prototype.overridePopoverTemplate = '<div class="popover spell-palette-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>';
-  
+
       this.prototype.subscriptions = {
         'surface:frame-changed': 'onFrameChanged',
         'tome:palette-hovered': 'onPaletteHovered',
@@ -34,7 +34,7 @@ module.exports = (SpellPaletteEntryView = (function() {
         'tome:palette-pin-toggled': 'onPalettePinToggled',
         'tome:spell-debug-property-hovered': 'onSpellDebugPropertyHovered'
       };
-  
+
       this.prototype.events = {
         'mouseenter': 'onMouseEnter',
         'mouseleave': 'onMouseLeave',
@@ -43,9 +43,9 @@ module.exports = (SpellPaletteEntryView = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.onPaletteClicked = this.onPaletteClicked.bind(this);
       this.onClick = this.onClick.bind(this);
-      super(options);
       this.thang = options.thang;
       this.docFormatter = new DocFormatter(options);
       this.doc = this.docFormatter.doc;

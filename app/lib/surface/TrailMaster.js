@@ -32,9 +32,9 @@ module.exports = (TrailMaster = (function() {
     }
 
     constructor(camera, layerAdapter) {
+      super();
       this.camera = camera;
       this.layerAdapter = layerAdapter;
-      super();
       this.tweenedSprites = [];
       this.tweens = [];
     }

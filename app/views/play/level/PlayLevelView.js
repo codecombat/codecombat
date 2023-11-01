@@ -90,7 +90,7 @@ module.exports = (PlayLevelView = (function() {
       this.prototype.cache = false;
       this.prototype.shortcutsEnabled = true;
       this.prototype.isEditorPreview = false;
-  
+
       this.prototype.subscriptions = {
         'level:set-volume': 'onSetVolume',
         'level:show-victory': 'onShowVictory',
@@ -120,7 +120,7 @@ module.exports = (PlayLevelView = (function() {
         'tome:manual-cast': 'onRunCode',
         'world:update-key-value-db': 'updateKeyValueDb'
       };
-  
+
       this.prototype.events = {
         'click #level-done-button': 'onDonePressed',
         'click #stop-real-time-playback-button'() { return Backbone.Mediator.publish('playback:stop-real-time-playback', {}); },
@@ -131,7 +131,7 @@ module.exports = (PlayLevelView = (function() {
         'click': 'onClick',
         'click .close-solution-btn': 'onCloseSolution'
       };
-  
+
       this.prototype.shortcuts = {
         'ctrl+s': 'onCtrlS',
         'esc': 'onEscapePressed'
@@ -153,13 +153,13 @@ module.exports = (PlayLevelView = (function() {
     // Initial Setup #############################################################
 
     constructor(options, levelID) {
+      super(options);
       this.onWindowResize = this.onWindowResize.bind(this);
       this.onSubmissionComplete = this.onSubmissionComplete.bind(this);
       this.levelID = levelID;
       if (PROFILE_ME) { if (typeof console.profile === 'function') {
         console.profile();
       } }
-      super(options);
 
       this.courseID = options.courseID || utils.getQueryVariable('course');
       this.courseInstanceID = options.courseInstanceID || utils.getQueryVariable('course-instance' || utils.getQueryVariable('instance')); // instance to avoid sessionless to be false when teaching
