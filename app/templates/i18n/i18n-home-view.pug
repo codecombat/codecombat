@@ -24,6 +24,8 @@ block content
 
       th Translated Name
       th Type
+        select#type-select.form-control.input-sm
+          option(value='') Select one...
       th= "Fully Translated (" + progress + "%)"
       if showGeneralCoverage
         th= "... Including Dialects (" + progressGeneral + "%)"

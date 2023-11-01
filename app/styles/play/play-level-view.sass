@@ -2,6 +2,7 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 @import "app/styles/play/variables"
+@import "ace-editor"
 
 body.is-playing
   background-color: black
@@ -24,7 +25,7 @@ body.is-playing
         width: 80%
 
     #canvas-wrapper
-      width: 100% !important
+      width: 100%
       canvas
         margin: 0 auto
       #normal-surface
@@ -151,15 +152,19 @@ body.is-playing
 
   min-width: 1024px
 
-  &.no-api #code-area
-    width: 43.5%
-    width: $code-area-width-no-api
+  &.no-api
+    #code-area
+      width: 43.5%
+      width: $code-area-width-no-api
+    #solution-area
+      right: 43.5%
+      right: $code-area-width-no-api
 
   &.blocks #code-area
     width: 43.5%
     width: $code-area-width-blocks
 
-  #code-area
+  #code-area, #solution-area
     @include box-sizing(border-box)
     padding: 0px 0.9% 10px 0
     width: 43.5%
@@ -174,6 +179,71 @@ body.is-playing
     z-index: 2
     box-shadow: 10px 4px 4px black
     margin-bottom: 10px
+
+  #solution-area
+    right: 43.5%
+    right: $code-area-width
+    width: 30%
+    width: calc(0.75 * $code-area-width)
+    transform: translate(54px, -110%)
+    transition: transform 1s
+    padding-top: 87px
+    z-index: 10
+    bottom: unset
+    min-height: 800px
+    max-height: 100vh
+    box-shadow: none
+    background: transparent
+    opacity: 0
+
+    &.display
+      transform: translate(54px, 0)
+
+    #solution-view
+      margin-top: 10px
+      position: relative
+      padding-top: 20px
+      display: flex
+      z-index: 5
+
+      span.code-background
+        border: 1px solid transparent
+        border-width: 115px 76px 64px 40px
+        border-image: url(/images/level/code_editor_background_border.png) 124 76 64 40 fill stretch
+        filter: brightness(1.2)
+        position: absolute
+        top: -68px
+        left: 0px
+        bottom: -20px
+        right: -10px
+        z-index: -1
+
+      .solution-label
+        position: absolute
+        top: 10px
+        left: 26px
+        z-index: 4
+        font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+        font-size: 14px
+        padding: 0px 10px
+        color: #6E654B
+        font-weight: bold
+        text-transform: uppercase
+
+      .close-solution-btn
+        cursor: pointer
+        position: absolute
+        top: 6px
+        right: 26px
+        z-index: 4
+        font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+        font-size: 24px
+        padding: 0px 10px
+        color: #6E654B
+        font-weight: bold
+        text-transform: uppercase
+
+      @include ace
 
   #game-area
     position: relative
@@ -369,6 +439,10 @@ body.is-playing
     #canvas-wrapper
       width: 57%
       width: $game-view-width-no-api
+
+    &.real-time
+      #canvas-wrapper
+        width: 100%
 
   &.blocks
     #spell-palette-view-mid

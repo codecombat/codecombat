@@ -3,17 +3,17 @@
  * Creates the module heading for the all students table.
  */
 
-  import ContentIcon from '../../common/icons/ContentIcon'
-  import ProgressDot from '../../common/progress/progressDot'
-  import LockButton from '../../common/buttons/LockButton'
+import ContentIcon from '../../common/icons/ContentIcon'
+import ProgressDot from '../../common/progress/progressDot'
+import LockOrSkip from './LockOrSkip'
 
-  import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
-  export default {
+export default {
     components: {
       ContentIcon,
       ProgressDot,
-      LockButton
+      LockOrSkip
     },
     props: {
       moduleHeading: {
@@ -37,10 +37,23 @@
       }
     },
 
+    data () {
+      return {
+        lockOrSkipShown: false,
+        hoveredOriginal: null,
+        userSelectedOriginals: []
+      }
+    },
+
     computed: {
       ...mapGetters({
-        showingTooltipOfThisOriginal: 'baseSingleClass/getShowingTooltipOfThisOriginal'
+        showingTooltipOfThisOriginal: 'baseSingleClass/getShowingTooltipOfThisOriginal',
+        selectedOriginals: 'baseSingleClass/selectedOriginals'
       }),
+
+      listOfOriginals () {
+        return [...new Set(Object.values(this.listOfContent).map(item => item.normalizedOriginal))] // array of unique original ids
+      },
 
       cssVariables () {
         return {
@@ -59,15 +72,22 @@
 
     methods: {
       ...mapMutations({
-        setShowingTooltipOfThisOriginal: 'baseSingleClass/setShowingTooltipOfThisOriginal'
+        setShowingTooltipOfThisOriginal: 'baseSingleClass/setShowingTooltipOfThisOriginal',
+        replaceSelectedOriginals: 'baseSingleClass/replaceSelectedOriginals',
+        updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals'
       }),
 
-      lockModule () {
-        this.$emit('lock')
+      toggleDatepicker () {
+        this.showDatepicker = !this.showDatepicker
       },
 
-      unlockModule () {
-        this.$emit('unlock')
+      setHoveredOriginal (original) {
+        this.hoveredOriginal = original
+        this.$emit('updateHoveredLevel', original)
+      },
+
+      updateList (event, original) {
+        this.updateSelectedOriginals({ shiftKey: event.shiftKey, original, listOfOriginals: this.listOfOriginals })
       },
 
       classContentTooltip (type) {
@@ -79,48 +99,48 @@
       classForContentIconHover (normalizedOriginal) {
         return {
           'hover-trigger-area': true,
-          hoverState: this.showingTooltipOfThisOriginal === normalizedOriginal
+          hoverState: this.hoveredOriginal === normalizedOriginal,
+          'is-selected': this.selectedOriginals.includes(normalizedOriginal)
         }
+      },
+
+      selectAll () {
+        this.userSelectedOriginals = [...this.selectedOriginals]
+        this.replaceSelectedOriginals(this.listOfOriginals)
+      },
+      deselectAll () {
+        this.replaceSelectedOriginals(this.userSelectedOriginals)
       }
     }
   }
 </script>
 
 <template>
-  <div
-    class="moduleHeading"
-    :style="cssVariables"
-  >
+  <div class="moduleHeading" :style="cssVariables">
     <div class="title">
       <h3>{{ moduleHeading }}</h3>
       <v-popover
         v-if="!displayOnly"
         placement="top"
-        trigger="hover"
         popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
+        trigger="click"
+        @show="lockOrSkipShown = true"
+        @hide="lockOrSkipShown = false"
       >
         <!-- Triggers the tooltip -->
-        <img :src="lockIconUrl">
+        <div v-if="!displayOnly">
 
+          <span class="btn btn-sm btn-default"><img :src="lockIconUrl"></span>
+        </div>
         <!-- The tooltip -->
         <template slot="popover">
-          <div class="module-popover-locking">
-            <lock-button @click="lockModule">{{ $t('teacher_dashboard.lock') }}</lock-button>
-            <lock-button @click="unlockModule">{{ $t('teacher_dashboard.unlock') }}</lock-button>
-          </div>
+          <lock-or-skip :allOriginals="listOfOriginals" :shown="lockOrSkipShown"/>
         </template>
       </v-popover>
-      <img
-        v-else
-        :src="lockIconUrl"
-      >
-    </div>
-    <div
-      v-for="({ type, tooltipName, description, submitLock, removeLock, normalizedOriginal }, idx) of listOfContent"
-      :key="`${idx}-${type}`"
 
-      class="content-icons"
-    >
+    </div>
+    <div v-for="({ type, isPractice, tooltipName, description, normalizedOriginal }, idx) of listOfContent" :key="`${idx}-${type}`"
+      class="content-icons">
       <v-popover
         popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
         trigger="hover"
@@ -131,16 +151,17 @@
       >
         <!-- Triggers the tooltip -->
         <div
-          :class="classForContentIconHover(normalizedOriginal)"
+            @click="updateList($event, normalizedOriginal)"
+            @mouseenter="setHoveredOriginal(normalizedOriginal)"
+            @mouseleave="setHoveredOriginal(null)"
+            :class="classForContentIconHover(normalizedOriginal)"
         >
-          <ContentIcon
-            class="content-icon"
-            :icon="type"
-          />
+          <ContentIcon class="content-icon" :icon="type" />
         </div>
         <!-- The tooltip -->
         <template slot="popover">
           <div class="level-popover-locking">
+            <span v-if="isPractice">{{ $t('play_level.level_type_practice') }}</span>
             <h3
               v-if="type !== 'cutscene'"
               style="margin-bottom: 15px;"
@@ -148,21 +169,7 @@
             >
               {{ tooltipName }}
             </h3>
-            <p
-              style="margin-bottom: 15px;"
-              v-html="description"
-            />
-            <div
-              v-if="!displayOnly"
-              class="lock-btn-row"
-            >
-              <lock-button @click="submitLock">
-                {{ $t('teacher_dashboard.lock') }}
-              </lock-button>
-              <lock-button @click="removeLock">
-                {{ $t('teacher_dashboard.unlock') }}
-              </lock-button>
-            </div>
+            <p style="margin-bottom: 15px;" v-html="description" />
           </div>
         </template>
       </v-popover>
@@ -242,6 +249,15 @@
   background-color: #d8d8d8;
   border-top: 1px solid white;
   border-bottom: 1px solid white;
+
+  .level-checkbox {
+    display: none;
+    position: absolute;
+  }
+
+  &:hover .level-checkbox {
+    display: block;
+  }
 }
 
 .content-icon {
@@ -278,9 +294,14 @@ h3 {
 .hover-trigger-area {
   padding: 4px;
   border-radius: 4px;
+  margin-right: 1px;
 
   &.hoverState {
     background-color: #ADADAD;
+  }
+
+  &.is-selected {
+    background: #5DB9AC;
   }
 }
 
@@ -296,6 +317,10 @@ h3 {
   & + * {
     margin-top: -5px;
   }
+}
+
+.popover .btn {
+  width: auto;
 }
 
 </style>

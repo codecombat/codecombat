@@ -41,9 +41,6 @@ export default Vue.extend({
       type: String,
       default: ''
     },
-    showContactUs: {
-      type: Boolean
-    },
     tableTitles: {
       type: Array,
       default () {
@@ -73,6 +70,10 @@ export default Vue.extend({
     }
   },
   mounted () {
+    if (this.scoreType === 'tournament') {
+      // We don't need to get the histogram when it's a tournament, sicne we won't show it, and those data are slow to fetch.
+      return
+    }
     const histogramWrapper = $('#histogram-display-humans')
     let histogramData = null
     let url = `/db/level/${this.level.get('original')}/rankings-histogram?team=humans&levelSlug=${this.level.get('slug')}`

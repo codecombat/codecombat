@@ -1,8 +1,9 @@
 // this allows the extended templates to add class to .modal-dialog
 - let modalDialogClass = '';
+- let isOzaria = (view.utils && view.utils.isOzaria)
 block vars
 .modal-dialog(class=modalDialogClass)
-  #modal-base-flat.modal-content.style-flat
+  #modal-base-flat.modal-content.style-flat(class=isOzaria ? 'style-ozaria' : '')
     block modal-header
       .modal-header
         if view.closeButton
@@ -16,10 +17,12 @@ block vars
         block modal-body-content
           if view.options.bodyContent
             div!= view.options.bodyContent
+          else
+            p Loading
 
       .modal-body.wait.secret
         block modal-body-wait-content
-          h3 Reticulating Splines...
+          h3 Loading...
         .progress.progress-striped.active
           .progress-bar
 

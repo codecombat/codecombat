@@ -1,6 +1,7 @@
 levelSchema = require('schemas/models/level')
 api = require('core/api')
 utils = require 'core/utils'
+translateUtils = require 'lib/translate-utils'
 aetherUtils = require 'lib/aether_utils'
 
 # TODO: Be explicit about the properties being stored
@@ -75,12 +76,14 @@ module.exports = {
     addTutorialStep: ({ commit, rootState, dispatch }, step) ->
       # Turns voiceOver property into a function to play voice over if possible.
 
-      if step.voiceOver
-        soundIdPromise = dispatch('voiceOver/preload', step.voiceOver, { root: true })
+      if step.voiceOver or (step.message and /[a-z]/i.test step.message)
+        dialogNode = _.clone(step)
+        if dialogNode.message
+          dialogNode.text = dialogNode.message
+        soundIdPromise = dispatch('voiceOver/preload', { dialogNode, speakerThangType: step.speakerThangType }, { root: true })
         # Lazy function we can call to play the voice over.
         # TODO: Localize by passing in different file path based on i18n.
         step.playVoiceOver = () => dispatch('voiceOver/playVoiceOver', soundIdPromise, { root: true })
-
 
       commit('addTutorialStep', step)
     setTutorialActive: ({ commit, rootState }, tutorialActive) ->
@@ -101,6 +104,7 @@ module.exports = {
 
         dispatch('addTutorialStep', {
           message: utils.i18n(say, 'text')
+          originalMessage: say?.text
           # To stay backwards compatible with old Vega messages,
           # they are turned into stationary Vega messages with no other qualities:
           position: tutorial?.position or 'stationary'
@@ -112,6 +116,7 @@ module.exports = {
           advanceOnTarget: tutorial?.advanceOnTarget
           internalRelease: tutorial?.internalRelease
           voiceOver: say.voiceOver
+          speakerThangType: rootState.game.level?.characterPortrait or 'vega'
         })
       )
     toggleCodeBank: ({ commit, rootState }) ->
@@ -120,7 +125,7 @@ module.exports = {
       commit('setClickedUpdateCapstoneCode', clicked)
     setHasPlayedGame: ({ commit }, hasPlayed) ->
       commit('setHasPlayedGame', hasPlayed)
-    autoFillSolution: ({ commit, rootState }, codeLanguage) ->
+    autoFillSolution: ({ commit, getters, rootState }, codeLanguage) ->
       if utils.isCodeCombat
         codeLanguage ?= utils.getQueryVariable('codeLanguage') ? 'javascript' # Belongs in Vuex eventually
         noSolution = ->
@@ -128,34 +133,9 @@ module.exports = {
           noty({ text, timeout: 3000 })
           console.error(text)
 
-        unless hero = _.find(rootState.game.level?.thangs ? [], id: 'Hero Placeholder')
-          noSolution()
-          return
+        source = getters['getSolutionSrc'](codeLanguage)
 
-        unless component = _.find(hero.components ? [], (c) -> c?.config?.programmableMethods?.plan)
-          noSolution()
-          return
-
-        plan = component.config.programmableMethods.plan
-
-        solutions = _.filter (plan?.solutions ? []), (s) -> not s.testOnly and s.succeeds
-        rawSource = _.find(solutions, language: codeLanguage)?.source
-        if not rawSource and jsSource = _.find(solutions, language: 'javascript')?.source
-          # If there is no target language solution yet, generate one from JavaScript.
-          rawSource = aetherUtils.translateJS(jsSource, codeLanguage)
-
-        unless rawSource
-          noSolution()
-          return
-
-        try
-          source = _.template(rawSource)(utils.i18n(plan, 'context'))
-        catch e
-          console.error("Cannot auto fill solution: #{e.message}")
-
-        if _.isEmpty(source)
-          noSolution()
-          return
+        noSolution() unless source?
 
         commit('setLevelSolution', {
           autoFillCount: rootState.game.levelSolution.autoFillCount + 1,
@@ -170,7 +150,7 @@ module.exports = {
           rawSource = _.find(solutions, language: codeLanguage)?.source
           if not rawSource and jsSource = _.find(solutions, language: 'javascript')?.source
   # If there is no target language solution yet, generate one from JavaScript.
-            rawSource = aetherUtils.translateJS(jsSource, codeLanguage)
+            rawSource = translateUtils.translateJS(jsSource, codeLanguage)
           external_ch1_avatar = rootState.me.ozariaUserOptions?.avatar?.avatarCodeString ? 'crown'
           context = _.merge({ external_ch1_avatar }, utils.i18n(plan, 'context'))
           source = _.template(rawSource)(context)
@@ -195,6 +175,34 @@ module.exports = {
     clickedUpdateCapstoneCode: (state) -> state.clickedUpdateCapstoneCode
     hasPlayedGame: (state) -> state.hasPlayedGame
     levelSolution: (state) -> state.levelSolution
+    getSolutionSrc: (state, getters, rootState) ->
+      (codeLanguage) ->
+        unless hero = _.find(rootState.game.level?.thangs ? [], id: 'Hero Placeholder')
+          return undefined
+
+        unless component = _.find(hero.components ? [], (c) -> c?.config?.programmableMethods?.plan)
+          return undefined
+
+        plan = component.config.programmableMethods.plan
+
+        solutions = _.filter (plan?.solutions ? []), (s) -> not s.testOnly and s.succeeds
+        rawSource = _.find(solutions, language: codeLanguage)?.source
+        if not rawSource and jsSource = _.find(solutions, language: 'javascript')?.source
+          # If there is no target language solution yet, generate one from JavaScript.
+          rawSource = aetherUtils.translateJS(jsSource, codeLanguage)
+
+        unless rawSource
+          return undefined
+
+        try
+          source = _.template(rawSource)(utils.i18n(plan, 'context'))
+        catch e
+          console.error("Cannot auto fill solution: #{e.message}")
+
+        if _.isEmpty(source)
+          return undefined
+
+        return source
   }
 }
 

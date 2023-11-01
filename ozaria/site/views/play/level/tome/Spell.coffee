@@ -15,7 +15,6 @@ module.exports = class Spell
     @session = options.session
     @otherSession = options.otherSession
     @spectateView = options.spectateView
-    @spectateOpponentCodeLanguage = options.spectateOpponentCodeLanguage
     @observing = options.observing
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI

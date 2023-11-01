@@ -5,7 +5,7 @@
 World = require 'lib/world/world'
 CocoClass = require 'core/CocoClass'
 GoalManager = require 'lib/world/GoalManager'
-{sendContactMessage} = require 'core/contact'
+{sendSlackMessage, sendContactMessage} = require 'core/contact'
 errors = require 'core/errors'
 utils = require 'core/utils'
 store = require 'core/store'
@@ -231,7 +231,16 @@ module.exports = class Angel extends CocoClass
     context.screenSize = "#{screen?.width ? $(window).width()} x #{screen?.height ? $(window).height()}"
     context.subject = "Level Load Error: #{@work?.level?.name or 'Unknown Level'}"
     context.levelSlug = @work?.level?.slug
-    sendContactMessage context
+    context.message = """*#{context.subject}*
+    #{context.message}
+
+    Screen: #{context.screenSize}
+    Browser: #{context.browser or 'Unknown'}
+    """
+    context.event = 'level-load-error'
+    context.channel = 'level-load-errors'
+    #sendContactMessage context  # We didn't really do anything with it in email form
+    sendSlackMessage context
 
   doWork: ->
     return if @aborting

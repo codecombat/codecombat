@@ -145,6 +145,7 @@
   @import "ozaria/site/styles/common/variables.scss";
   @import "app/styles/ozaria/_ozaria-style-params.scss";
 
+/* TODO: use app/styles/common/transition? */
   #curriculum-guide {
     position: fixed;
     right: 0;

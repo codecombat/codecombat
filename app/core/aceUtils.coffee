@@ -3,6 +3,11 @@
 ace = require('lib/aceContainer');
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
 {commentStarts} = require 'core/utils'
+UndoManager = ace.require('ace/undomanager').UndoManager
+Y = require 'yjs'
+{ WebsocketProvider } = require 'y-websocket'
+{ AceBinding } = require 'y-ace'
+{ websocketUrl } = require 'lib/websocket'
 
 aceEditModes =
   javascript: 'ace/mode/javascript'
@@ -61,7 +66,7 @@ singleLineCommentRegex = (lang) ->
 parseUserSnippets = (source, lang, session) ->
   replaceParams = (str) ->
     i = 1
-    str = str.replace(/([a-zA-Z-0-9\$\-\u00A2-\uFFFF]+)([^,)]*)/g, "${:$1}")
+    str = str.replace(/(?:[^(,)]+ )?([a-zA-Z-0-9\$\-\u00A2-\uFFFF]+)([^,)]*)/g, "${:$1}") # /(?:[^(,)]+ )?/ part for ignoring the type declaration in cpp/java
     reg = /\$\{:/
     while (reg.test(str))
       str = str.replace(reg, "${#{i}:")
@@ -127,8 +132,39 @@ parseUserSnippets = (source, lang, session) ->
   newIdentifiers
   # @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
 
+
+setupCRDT = (key, userName, doc, editor, next) =>
+  ydoc = new Y.Doc()
+  url = websocketUrl('/yjs/level.session')
+  provider = new WebsocketProvider(url, key, ydoc)
+  yType = ydoc.getText('ace')
+  provider.on('connection-close', (event) =>
+    console.log("what event.status:", event)
+    if event.code == 1003 and event.reason == 'unauthorized'
+      console.log('disconnect because of unauth')
+      provider.disconnect()
+  )
+  provider.once('synced', () =>
+    console.log("provider synced here, value", yType.toString())
+    if yType.toString() == ''
+      yType.insert(0, doc)
+    new AceBinding(yType, editor, provider.awareness)
+    editor.session.setUndoManager(new UndoManager())
+
+    if next?
+      next() # run callback function when synced
+  )
+  user =
+    name: userName
+    color: '#' + Math.floor(Math.random()*16777215).toString(16)
+  provider.awareness.setLocalStateField('user', user)
+
+  return provider
+
+
 module.exports = {
   aceEditModes
   initializeACE
   parseUserSnippets
+  setupCRDT
 }

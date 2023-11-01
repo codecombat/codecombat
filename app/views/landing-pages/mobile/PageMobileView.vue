@@ -251,6 +251,7 @@ export default Vue.extend({
       }).then(() => {
         this.registrationSucceeded = true
         this.setActiveStep(this.STEP_DONE)
+        window.tracker.trackEvent(`${utils.getProduct()}MobileSignup`, { category: 'Teachers', product: utils.getProduct() })
       }).catch((err) => {
         noty({
           text: 'Failed to contact server: ' + err.message,
@@ -323,15 +324,13 @@ html {
 </style>
 
 <style scoped lang="scss">
-@import "app/styles/utils";
-
 $background-color: #e6fafa;
 $border-width: 1rem;
 $border-color: #ffbf00;
 $border-style: dashed;
 $navy: #2a4e5b;
 
-@if $is-ozaria {
+@if not $is-codecombat {
   $background-color: #ffcf00;
   $border-color: #00e0ff;
   $border-style: dotted;
@@ -393,7 +392,7 @@ $circle-radius: 2.5rem;
     flex: 1 0 auto;
     z-index: 0;
 
-    @if $is-ozaria {
+    @if not $is-codecombat {
       &:before {
         content: '';
         display: block;
@@ -413,7 +412,7 @@ $circle-radius: 2.5rem;
     padding-bottom: 27rem;
 
     &.step-done {
-      @if $is-ozaria {
+      @if not $is-codecombat{
         padding-bottom: 10rem;
       }
     }
@@ -449,7 +448,7 @@ $circle-radius: 2.5rem;
       padding: 0 1rem;
       margin: 1rem 0;
 
-      @if $is-ozaria {
+      @if not $is-codecombat {
         background: rgba(42, 78, 91, 0.9);
       }
 
@@ -495,7 +494,7 @@ $circle-radius: 2.5rem;
     line-height: 6.2rem;
     letter-spacing: 0.2rem;
     color: $navy;
-    @if $is-ozaria {
+    @if not $is-codecombat {
       color: white;
       text-shadow: 0.5px 0.5px rgb(0 0 0 / 70%), -0.5px -0.5px rgb(0 0 0 / 70%);
       background: rgb(42 78 91 / 90%);
@@ -514,7 +513,7 @@ $circle-radius: 2.5rem;
 
     &.step-name {
       padding-top: 5rem;
-      @if $is-ozaria {
+      @if not $is-codecombat {
         padding-top: 11rem;
       }
     }
@@ -533,7 +532,7 @@ $circle-radius: 2.5rem;
       }
     }
 
-    @if $is-ozaria {
+    @if not $is-codecombat {
       &:before {
         @extend .circle;
         right: $circle-radius * -1;
@@ -559,7 +558,7 @@ $circle-radius: 2.5rem;
     overflow: visible;
     position: relative;
     height: 66rem;
-    @if $is-ozaria {
+    @if not $is-codecombat {
       height: 71rem;
     }
 
@@ -587,7 +586,7 @@ $circle-radius: 2.5rem;
 
     &.input-container-lastname {
       top: 31rem;
-      @if $is-ozaria {
+      @if not $is-codecombat {
         top: 37rem;
       }
     }
@@ -600,7 +599,7 @@ $circle-radius: 2.5rem;
     input {
       border: $border-width $border-style $border-color;
       border-radius: 0;
-      @if $is-ozaria {
+      @if not $is-codecombat {
         border: $border-width * 1.5 solid $border-color;
         color: #131b25;
       }
@@ -619,7 +618,7 @@ $circle-radius: 2.5rem;
       display: block;
       z-index: 1;
 
-      @if $is-ozaria {
+      @if not $is-codecombat {
         opacity: 1;
         transform: scale(1);
       }
@@ -653,7 +652,7 @@ $circle-radius: 2.5rem;
         }
       }
 
-      @if $is-ozaria {
+      @if not $is-codecombat {
         overflow: visible;
         &:before {
           @extend .circle;
@@ -687,7 +686,7 @@ $circle-radius: 2.5rem;
     height: 13rem;
     background: #F7D047;
     border: none;
-    @if $is-ozaria {
+    @if not $is-codecombat {
       background: $navy;
       border: $border-width * 1.5 solid $border-color;
     }
@@ -717,7 +716,7 @@ $circle-radius: 2.5rem;
     font-size: 7.3rem;
     line-height: 7.3rem;
     color: $navy;
-    @if $is-ozaria {
+    @if not $is-codecombat {
       color: white;
       margin: -1rem 9rem 0;
       font-size: 6.8rem;
@@ -746,7 +745,7 @@ $circle-radius: 2.5rem;
     margin-top: 9.5rem;
     margin-bottom: 6rem;
 
-    @if $is-ozaria {
+    @if not $is-codecombat {
       margin-top: 5.5rem;
     }
 
@@ -763,7 +762,7 @@ $circle-radius: 2.5rem;
       background: transparent;
       border: none;
       max-width: 10rem;
-      @if $is-ozaria {
+      @if not $is-codecombat {
         max-width: 25rem;
       }
 
@@ -789,7 +788,7 @@ $circle-radius: 2.5rem;
         top: calc(50% - 2px);
         width: calc((100rem - 300%) / 4);
         left: 100%;
-        @if $is-ozaria {
+        @if not $is-codecombat {
           width: calc(100% - 6rem);
           left: calc(50% + 6rem);
         }
@@ -805,7 +804,7 @@ $circle-radius: 2.5rem;
         margin-left: -100%;
         margin-right: -100%;
         text-shadow: 1px 1px rgb(0 0 0 / 10%);
-        @if $is-ozaria {
+        @if not $is-codecombat {
           text-shadow: 1px 1px rgb(0 0 0 / 70%), -1px -1px rgb(0 0 0 / 70%);
           color: white;
         }
@@ -814,7 +813,7 @@ $circle-radius: 2.5rem;
   }
 
   .screenshot-container {
-    @if $is-ozaria {
+    @if not $is-codecombat {
       margin: 9rem 0 0;
     }
 
@@ -824,7 +823,7 @@ $circle-radius: 2.5rem;
       padding-top: 4rem;
       padding-bottom: 1rem;
       color: $navy;
-      @if $is-ozaria {
+      @if not $is-codecombat {
         color: white;
         text-shadow: 0.5px 0.5px rgb(0 0 0 / 70%), -0.5px -0.5px rgb(0 0 0 / 70%);
         background: rgb(42 78 91 / 90%);

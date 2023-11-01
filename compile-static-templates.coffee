@@ -8,6 +8,7 @@ _ = require 'lodash'
 fs = require('fs')
 load = require 'pug-load'
 devUtils = require './development/utils'
+minify = require('html-minifier').minify
 
 # TODO: stop webpack build on error (e.g. http://dev.topheman.com/how-to-fail-webpack-build-on-error/)
 
@@ -77,7 +78,13 @@ compile = (contents, locals, filename, cb) ->
     locals.me.useQiyukf = -> locals.chinaInfra ? false  # Netease Qiyu Live Chat Plugin
     locals.me.useDataDog = -> not (locals.chinaInfra ? false)
     locals.me.showChinaVideo = -> locals.chinaInfra ? false
+    locals.me.getProduct = -> product
     str = outFn(locals)
+    str = minify(str, {
+      removeComments: true,
+      removeRedundantAttributes: true,
+      minifyJS: true
+    })
   catch e
     console.log "Compile", filename, basePath
     console.log 'ERROR', e.message
@@ -129,7 +136,7 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
         continue
       @prevTemplates[filename] = content
       chunkPaths = {}
-      compilation.chunks.map (c) ->
+      Array.from(compilation.chunks).map (c) ->
         if c.name
           chunkPaths[c.name] = compiler.options.output.chunkFilename.replace('[name]',c.name).replace('[chunkhash]',c.renderedHash)
 

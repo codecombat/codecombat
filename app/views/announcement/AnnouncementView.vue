@@ -10,14 +10,14 @@
             v-for="ann in announcements"
             :key="ann._id"
             :announcement="ann"
-            @click.native="read(ann)"
+            :scrolledTo="query.id === ann._id"
           />
           <div
             v-if="moreAnnouncements"
             class="expand"
             @click="more"
           >
-            expand>>
+            {{ $t('announcement.more_announcements') }}
           </div>
         </div>
       </div>
@@ -40,15 +40,26 @@ export default {
       'moreAnnouncements'
     ]),
     title () {
-      if (this.unread) {
-        return $.i18n.t('announcement.xAnnouncementsWithUnread', { x: this.announcements.length, y: this.unread })
+      if (this.announcements.length === 1 && this.unread) {
+        return $.i18n.t('announcement.x_announcement_with_unread', { x: this.announcements.length, y: this.unread })
+      } else if (this.unread) {
+        return $.i18n.t('announcement.x_announcements_with_unread', { x: this.announcements.length, y: this.unread })
+      } else if (this.announcements.length === 1) {
+        return $.i18n.t('announcement.x_announcement', { x: this.announcements.length })
       } else {
-        return $.i18n.t('announcement.xAnnouncements', { x: this.announcements.length })
+        return $.i18n.t('announcement.x_announcements', { x: this.announcements.length })
       }
+    },
+    query () {
+      return this.$route.query
     }
   },
   mounted () {
-    this.getAnnouncements()
+    if (this.query.skip) {
+      this.more()
+    } else if (!this.announcements.length) {
+      this.getAnnouncements()
+    }
   },
   data () {
     return {
@@ -61,10 +72,13 @@ export default {
       'getAnnouncements',
       'readAnnouncement'
     ]),
-    read (ann) {
-      this.openAnnouncementModal(ann)
-      if(!ann.read)
-        this.readAnnouncement(ann._id)
+    readAll () {
+      // todo: do we need this?
+      this.announcements.forEach(a => {
+        if (!a.read) {
+          this.readAnnouncement(a._id)
+        }
+      })
     },
     more () {
       let skip = this.announcements.length
@@ -95,6 +109,7 @@ export default {
 .body {
   position: relative;
   width: 1024px;
+  width: min(1200px, 80vw);
   margin: 150px;
 
   &:before {
@@ -139,5 +154,8 @@ export default {
 }
 .content {
   width: 100%;
+}
+.expand {
+  cursor: pointer;
 }
 </style>

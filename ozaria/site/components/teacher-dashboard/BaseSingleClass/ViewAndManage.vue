@@ -1,15 +1,17 @@
 <script>
-  import Dropdown from '../common/Dropdown'
-  import PrimaryButton from '../common/buttons/PrimaryButton'
-  import IconButtonWithText from '../common/buttons/IconButtonWithText'
+import Dropdown from '../common/Dropdown'
+import PrimaryButton from '../common/buttons/PrimaryButton'
+import IconButtonWithText from '../common/buttons/IconButtonWithText'
+import LockOrSkip from './table/LockOrSkip'
 
-  import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
-  export default {
+export default {
     components: {
       'dropdown': Dropdown,
       'primary-button': PrimaryButton,
-      'icon-button-with-text': IconButtonWithText
+      'icon-button-with-text': IconButtonWithText,
+      'lock-or-skip': LockOrSkip
     },
     props: {
       arrowVisible: {
@@ -21,11 +23,24 @@
         default: false
       }
     },
+    data(){
+      return {
+        lockOrSkipShown: false,
+      }
+    },
+    computed: {
+      ...mapGetters({
+        selectedStudentIds: 'baseSingleClass/selectedStudentIds',
+        selectedOriginals: 'baseSingleClass/selectedOriginals'
+      })
+    },
     methods: {
       ...mapActions({
         applyLicenses: 'baseSingleClass/applyLicenses',
-        revokeLicenses: 'baseSingleClass/revokeLicenses'
+        revokeLicenses: 'baseSingleClass/revokeLicenses',
+        resetProgress: 'baseSingleClass/resetProgress'
       }),
+
 
       clickArrow () {
         if (this.arrowVisible) {
@@ -74,20 +89,6 @@
           {{ $t('teacher_dashboard.assign_content') }}
         </primary-button>
         <icon-button-with-text
-          class="icon-with-text"
-          :icon-name="displayOnly ? 'IconAddStudents_Gray' : 'IconAddStudents'"
-          :text="$t('courses.add_students')"
-          :inactive="displayOnly"
-          @click="$emit('addStudents')"
-        />
-        <icon-button-with-text
-          class="icon-with-text"
-          :icon-name="displayOnly ? 'IconRemoveStudents_Gray' : 'IconRemoveStudents'"
-          :text="$t('teacher_dashboard.remove_students')"
-          :inactive="displayOnly"
-          @click="$emit('removeStudents')"
-        />
-        <icon-button-with-text
           class="icon-with-text larger-icon"
           :icon-name="displayOnly ? 'IconLicenseApply_Gray' : 'IconLicenseApply'"
           :text="$t('teacher.apply_licenses')"
@@ -101,6 +102,43 @@
           :inactive="displayOnly"
           @click="revokeLicenses"
         />
+        <icon-button-with-text
+          class="icon-with-text"
+          :icon-name="displayOnly ? 'IconRemoveStudents_Gray' : 'IconRemoveStudents'"
+          :text="$t('teacher_dashboard.remove_students')"
+          :inactive="displayOnly"
+          @click="$emit('removeStudents')"
+        />
+        <icon-button-with-text
+          class="icon-with-text larger-icon"
+          :icon-name="'IconReset'"
+          :text="$t('teacher_dashboard.reset_progress')"
+          :inactive="displayOnly"
+          @click="resetProgress"
+        />
+
+
+        <v-popover
+            popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
+            trigger="click"
+            placement="left"
+            @show="lockOrSkipShown=true"
+            @hide="lockOrSkipShown=false"
+        >
+          <!-- Triggers the tooltip -->
+          <icon-button-with-text
+              class="icon-with-text"
+              icon-name="IconLock"
+              :text="$t('teacher_dashboard.lock_or_skip_levels')"
+          />
+          <!-- The tooltip -->
+          <template slot="popover">
+            <lock-or-skip  :shown="lockOrSkipShown"/>
+          </template>
+        </v-popover>
+
+
+
       </div>
     </div>
     <div :class="[arrowVisible ? 'arrow-toggle' : 'arrow-disabled']" @click="clickArrow">
@@ -225,7 +263,7 @@
 
   .icon-with-text {
     width: 96px;
-    margin: 9px;
+    margin: 5px;
   }
 
   .arrow-fade-enter-active {

@@ -24,6 +24,16 @@
       }
     },
 
+    watch: {
+      loading: async function (newVal, oldVal) {
+        if (!newVal) {
+          this.endLoading()
+        } else if (newVal !== oldVal) {
+          this.incLoading()
+        }
+      }
+    },
+
     methods: {
       endLoading () {
         NProgress.done()

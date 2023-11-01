@@ -19,9 +19,13 @@
           placeholder="Enter email"
           class="form-control"
           @blur="validateEmail"
+          @input="validateEmail"
         />
       </div>
-      <div class="form-group row">
+      <div
+        v-if="!hideRelationDropdown"
+        class="form-group row"
+      >
         <label
           for="u-form-relation"
           class="u-form__label"
@@ -43,7 +47,10 @@
           </option>
         </select>
       </div>
-      <div class="form-group row form-check">
+      <div
+        v-if="!hideBidirectionalCheck"
+        class="form-group row form-check"
+      >
         <input
           id="u-form-check"
           v-model="isBidirectional"
@@ -56,6 +63,12 @@
         >
           {{ $t('related_accounts.bi_directional') }} <span class="u-form__bi-dir-help">({{ $t('related_accounts.bi_directional_help_text') }})</span>
         </label>
+      </div>
+      <div
+        v-if="validating"
+        class="validating"
+      >
+        validating {{  validating }} ...
       </div>
       <div class="form-group row auth">
         <div
@@ -95,7 +108,10 @@
           <div class="auth__exists-text auth__not-exists-text">
             {{ $t('related_accounts.account_not_exist') }}
           </div>
-          <div class="form-group">
+          <div
+            v-if="!hideCreateAccount"
+            class="form-group"
+          >
             <div class="form-group">
               <label
                 for="u-form-relation"
@@ -147,7 +163,7 @@
         <button
           type="submit"
           class="btn btn-lg btn-success"
-          :disabled="accountCheckedEmail !== email"
+          :disabled="accountCheckedEmail !== email || (hideCreateAccount && !accountExists)"
         >
           {{ $t('common.submit') }}
         </button>
@@ -161,17 +177,35 @@ const utils = require('../../../core/utils')
 const User = require('../../../models/User')
 export default {
   name: 'AddUserComponent',
+  props: {
+    hideRelationDropdown: {
+      type: Boolean,
+      default: false
+    },
+    hideBidirectionalCheck: {
+      type: Boolean,
+      default: false
+    },
+    hideCreateAccount: {
+      type: Boolean,
+      default: false
+    },
+    prefillRelation: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       showAddForm: true,
       relationOptions: [
-        'Kid',
+        'Child',
         'Student',
         'Other'
       ],
       email: '',
-      relation: '',
-      isBidirectional: true,
+      relation: this.prefillRelation || '',
+      isBidirectional: !this.hideBidirectionalCheck,
       accountExists: null,
       accountTypes: [
         'Individual',
@@ -182,7 +216,8 @@ export default {
       existsAuthType: '',
       relatedPass: '',
       errMsg: '',
-      accountCheckedEmail: null
+      accountCheckedEmail: null,
+      validating: false
     }
   },
   methods: {
@@ -216,7 +251,7 @@ export default {
         this.errMsg = 'Email required'
         return false
       }
-      if (!this.relation) {
+      if (!this.relation && !this.hideRelationDropdown) {
         this.errMsg = 'Relation required'
         return false
       }
@@ -237,12 +272,17 @@ export default {
       return true
     },
     async validateEmail () {
+      if (this.accountCheckedEmail === this.email) {
+        return
+      }
+      this.validating = this.email
       this.accountExists = null
       if (utils.isValidEmail(this.email)) {
         const resp = await User.checkEmailExists(this.email)
         this.accountExists = resp?.exists
         this.accountCheckedEmail = this.email
       }
+      this.validating = false
     }
   }
 }
@@ -256,13 +296,25 @@ export default {
   &__head {
     text-align: center;
   }
+
+  .error {
+    font-size: 1.5rem;
+    color: #ff0000;
+    padding-right: 3px;
+  }
+
+  .validating {
+    font-size: 1.5rem;
+    color: black;
+  }
 }
 
 .u-form {
   margin-top: 2rem;
 
   &__submit {
-    float: right;
+    display: flex;
+    justify-content: flex-end;
   }
 
   &__check {
@@ -297,11 +349,5 @@ export default {
   &__additional {
     margin-bottom: 1rem;
   }
-}
-
-.error {
-  font-size: 1.5rem;
-  color: #ff0000;
-  padding-right: 3px;
 }
 </style>

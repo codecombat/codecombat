@@ -32,11 +32,13 @@
         tr(class="odd")
           th.month.border {{ $t('library.month') }}
           th.name.border {{ $t('library.teacher_classroom_name') }}
+          th.name.border(v-if="spiedUser") Classroom ownerId
           th.number.border {{ $t('library.license_days_used') }}
           th.number.border {{ $t('library.users_active_licenses') }}
         tr(v-for="(stats, row) in licenseDaysByMonthAndTeacher" :class="{odd: row % 2 == 1, even: row % 2 == 0, sum: stats.teacher == 'Total'}")
           td.month.border {{stats.month}}
-          td.name.border {{stats.teacher}}
+          td.name.border {{stats.teacher?.split('!!!')[0]}}
+          td.name.border(v-if="spiedUser") {{stats.teacher?.split('!!!').length > 1 ? stats.teacher?.split('!!!')[1] : '-'}}
           td.number.border {{stats.licenseDaysUsed.toLocaleString()}}
           td.number.border {{stats.activeLicenses.toLocaleString()}}
 
@@ -57,7 +59,8 @@ module.exports = Vue.extend({
   props: ['viewport'],
   data () {
     return {
-      tab: 'byMonth'
+      tab: 'byMonth',
+      spiedUser: window.serverSession.amActually
     }
   },
   computed: {
@@ -180,7 +183,7 @@ module.exports = Vue.extend({
       if (id !== '') {
         this.fetchTeachers(id)
         this.fetchPrepaids({ teacherId: this.myId, clientId: id })
-        this.fetchLicenseStats(id)
+        this.fetchLicenseStats({ clientId: id })
       }
     }
   },

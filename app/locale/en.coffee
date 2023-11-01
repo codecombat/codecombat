@@ -85,8 +85,18 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     global_subtitle3: "Teachers"
     global_subtitle4: "Countries"
     sign_up: "Sign Up"
+    individual_account_warning: "You are logged in as __name__, which is an individual account. Ozaria is for teacher and student accounts only; do you need to update your account?"
     learner_number: "12 Million"
     code_line_number: "1 Billion"
+    dei_initiatives: "What initiatives does Ozaria have to ensure diversity, equity, and inclusion in the game?"
+    dei_initiatives_blurb: "Ozaria is dedicated to promoting diversity, equity, and inclusion (DEI) within the game. Through diverse character representation, equitable opportunities, and an inclusive environment, Ozaria embraces differences and fosters a welcoming experience for players of all backgrounds and abilities. Explore our __deipage__ to learn more about our commitment and initiatives towards DEI in Ozaria."
+    dei_page: "DEI page"
+    ozaria_efficacy: "How does Ozaria measure and demonstrate its effectiveness in improving learning outcomes in the classroom?"
+    ozaria_efficacy_blurb: "We prioritize effectiveness through evidence-based practices and assessment. Our __efficacypage__ offers detailed statistics, real teacher quotes, and compelling case studies demonstrating the transformative impact of Ozaria. By creating meaningful learning experiences and employing evidence-based practices, we design content that delivers the outcomes that matter most to teachers and students."
+    efficacy_page: "efficacy page"
+    social_learning: "Does Ozaria promote social and emotional learning (SEL)?"
+    social_learning_blurb: "Yes! Ozaria actively integrates social and emotional learning (SEL) into its curriculum. Through gamified activities, students develop essential skills such as decision-making, self-awareness, self-management, social awareness, relationship skills, and responsible decision-making. You can learn more about our philosophy on our __selpage__."
+    sel_page: "SEL page"
 
   new_home:
     title_coco: "CodeCombat - Coding games to learn Python and JavaScript"
@@ -203,7 +213,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     top_banner_blurb_demo_day_10_20: "Join us for a spooktacular demo of CodeCombat & Ozaria on Thursday, October 20 at 4:00 pm CDT."
     top_banner_blurb_hoc_2022_12_01: "Join us Dec. 1st for our Hour of Code Walkthrough! Everything you need to implement our all new activities __topBannerHereLink__"
     top_banner_blurb_hoc_2022_12_01_here: "HERE"
-    top_banner_blurb_demo_day_2023_02_16: "LIVE DEMO! See how you can use esports to teach coding. Join us Thursday February 16th at 4:00 pm EDT."
+    top_banner_blurb_demo_day_2023_02_16: "LIVE DEMO! See how you can use esports to teach coding. Join us Thursday February 16th at 2:00 pm PST."
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -299,11 +309,21 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     learning_technology_blurb: "Our original game teaches real-world skills through the power of play. The scaffolded curriculum systematically builds on student’s experiences and knowledge as they progress."
     learning_technology_blurb_short: "Our innovative game-based learning technology has transformed the way students learn to code."
     online_classes_blurb: "Our online coding classes combine the power of gameplay and personalized instruction for an experience your child will love. With both private or group options available, this is remote learning that works."
+    codecombat_home_blurb: "__codecombatHome__ offers your child a fun and engaging way to advance their coding skills. With access to over 530 levels and exclusive features like pets, premium-only items, and heroes, your child can fully immerse themselves in the world of coding. They can even design games to challenge their friends, build websites and apps to share, and create private teams to compete on a group leaderboard, all in a safe and interactive environment that encourages learning and socialization."
+    codecombat_home: "CodeCombat Home"
     for_educators: "For Educators"
     for_parents: "For Parents"
     for_everyone: "For Everyone"
     for_students: "For Students"
     for_individuals: "For Individuals"
+    for_libraries: "For Libraries"
+    for_partners: "For Partners"
+    for_partners_title: "Partner With CodeCombat"
+    for_partners_blurb: "Join our mission to make coding accessible and engaging for all by becoming a valued partner with CodeCombat. Our partnership structures include educational businesses, esports sponsors, international distributors, and social impact partners. Partners receive access to our easy-to-use programs, implementation resources, and training options for a successful and enjoyable experience."
+    for_partners_button: "Explore Partnerships"
+    for_libraries_title: "Library Integration"
+    for_libraries_blurb: "As an entirely self-paced and self-directed digital resource, CodeCombat is the best integration for libraries that want to empower their members of all ages to learn how to code. Our platform offers everything learners need to experience a high-level coding education through a uniquely exciting, game-based curriculum. Perfect for learners in third grade all the way up to adults who want to master college-level coding concepts."
+    for_libraries_button: "Explore Libraries"
     what_our_customers_are_saying: "What Our Customers Are Saying"
     game_based_learning: "Game-Based Learning"
     unique_approach_blurb: "With our unique approach, students embrace learning as they play and write code from the very start of their adventure, promoting active learning and a growth mindset."
@@ -315,6 +335,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     million: "__num__ Million"
     billion: "__num__ Billion"
     meta_keywords_podcast: "CodeCombat, python, javascript, Coding Games, podcast, edtech"
+    coco_worlds_header: "CodeCombat Worlds"
+    coco_worlds_description: "Embark on a 3D coding adventure in Roblox, where you can program pets, play with friends, and develop games all while playing one. Join the CodeCombat community and unleash your creativity in the metaverse!"
+    coco_worlds_button: "Explore CodeCombat Worlds"
 
   nav:
     aiyouth: "AI Youth"
@@ -363,7 +386,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     copyright_suffix: "All Rights Reserved."
     help_pref: "Need help? Email"
     help_suff: "and we'll get in touch!"
-    resource_hub: "Teacher Toolkit" # {change}
+    resource_hub: "Teacher Toolkit"
     apcsp: "AP CS Principles"
     parent: "Parents"
     faq: "FAQ"
@@ -375,15 +398,29 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ozaria_classroom: "Ozaria Classroom"
     codecombat_classroom: "CodeCombat Classroom"
     ozaria_dashboard: "Ozaria Dashboard"
+    ozaria_teacher_dashboard: "Ozaria Teacher Dashboard"
+    ozaria_admin_dashboard: "Ozaria Admin Dashboard"
     codecombat_dashboard: "CodeCombat Dashboard"
+    codecombat_teacher_dashboard: "CodeCombat Teacher Dashboard"
+    codecombat_admin_dashboard: "CodeCombat Admin Dashboard"
     professional_development: "Professional Development"
     new: "New!"
     admin: "Admin"
+    api: "API"
     api_dashboard: "API Dashboard"
     funding_resources_guide: "Funding Resources Guide"
     partnerships: "Partnerships"
     podcast: "Our Podcast"
     dashboard: "Dashboard"
+    products: "Products"
+    live_online_classes: "Live Online Classes"
+    codecombat_home: "CodeCombat Home"
+    libraries: "Libraries"
+    codecombat_worlds_on_roblox: "CodeCombat Worlds on Roblox"
+    pricing: "Pricing"
+    help_center: "Help Center"
+    research_efficacy: "Research - Efficacy"
+    research_impact: "Research - Impact"
 
   modal:
     close: "Close"
@@ -404,7 +441,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   new_home_faq:
     what_programming_languages: "What programming languages are available?"
-    python_and_javascript: "We currently support Python and JavaScript."
+    python_and_javascript: "We currently support Python, JavaScript, C++, Java, and Lua."
     why_python: "Why should you choose Python?"
     why_python_blurb: "Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python."
     why_javascript: "Why should you choose JavaScript?"
@@ -435,7 +472,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   play:
     title: 'Play CodeCombat Levels - Learn Python, JavaScript, and HTML'
     meta_description: 'Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!'
-    level_title: '__level__ - Learn to Code in Python, JavaScript, HTML'
+    level_title: '__level__ - CodeCombat'
+    level_title_ozaria: '__level__ - Ozaria'
     video_title: '__video__ | Video Level'
     game_development_title: '__level__ | Game Development'
     web_development_title: '__level__ | Web Development'
@@ -459,6 +497,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     confirm: "Confirm"
     owned: "Owned"  # For items you own
     locked: "Locked"
+    locked_by_teacher: "Locked By Teacher"
     available: "Available"
     skills_granted: "Skills Granted"  # Property documentation details
     heroes: "Heroes"  # Tooltip on hero shop button from /play
@@ -576,6 +615,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
     stop_spying: "Stop Spying"
     stop_switching: "Stop Switching"
+    test_as_student: "Test as Student"
+    gplus_linked: "Google Account linked successfully"
+    plus_link_error: "Google Account linked failed"
+    email_or_username_or_library: "Email or Username or Library Card number"
 
   signup:
     complete_subscription: "Complete Subscription"
@@ -654,7 +697,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_list_resource_hub_2_coco: "Course Guides"
     teacher_list_resource_hub_2_ozar: "Unit Guides"
     teacher_list_resource_hub_3: "for solutions to every level, and the"
-    teacher_list_resource_hub_4: "Teacher Toolkit" # {change}
+    teacher_list_resource_hub_4: "Teacher Toolkit"
     teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
     teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
     dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
@@ -820,6 +863,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sales: "Sales"
     support: "Support"
     here: "here"
+    from: "From"
 
   units:
     second: "second"
@@ -928,12 +972,17 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     videos: "Videos"
     hints_title: "Hint {{number}}"
     code_saved: "Code Saved"
+    chat_placeholder: "Need coding help? Chat with the AI. (experimental!)"
+    chat_fix_show: "Show Me"
+    chat_fix_hide: "Hide"
     skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Key Shortcuts"
     loading_start: "Start Level"
     loading_start_combo: "Start Combo Challenge"
     loading_start_concept: "Start Concept Challenge"
     problem_alert_title: "Fix Your Code"
+    problem_alert_need_help: "Need help?"
+    problem_alert_ask_the_ai: "Ask the AI"
     time_current: "Now:"
     time_total: "Max:"
     time_goto: "Go to:"
@@ -1032,6 +1081,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     octans_character: "Octans Character"
     click_to_continue: "Click to Continue"
     fill_in_solution: "Fill in solution"
+    toggle_solution: "Toggle solution"
     play_as_humans: "Play As Red"
     play_as_ogres: "Play As Blue"
     changed: "Last edited "
@@ -1044,7 +1094,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_status: "Status"
     level_status_locked: "Locked"
     level_status_in_progress: "In Progress"
+    level_status_skipped: "Skipped"
     level_status_complete: "Complete"
+    level_status_unlocked: "Unlocked"
+    level_status_optional: "Optional"
     level_type_practice: "Practice"
     level_type_challenge: "Challenge"
     level_type_cutscene: "Cutscene"
@@ -1060,6 +1113,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     content_type_cinematic: "Cinematic"
     content_type_interactive: "Concept Check"
     feedback: "Feedback"
+    ask_teacher_for_help: "Ask your teacher for help"
+    ask_teacher_for_help_offline: "Your Teacher is currently offline"
+    not_enough_credits_bot: "Opps! Looks like you don’t have enough queries. Subscribe now and get the queries you want for the AI powered support you need!"
+    not_enough_credits_interval: "No credits left for the __interval__. Consumed __amount__ credits."
 
   apis:
     methods: "Methods"
@@ -1234,19 +1291,23 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     feature_learn: "Learn to make games and websites"
     feature_languages: "Get all supported languages"
     feature_aiyouth: ""
-    feature_gems: "Earn __gems__ gems/mo (__gems12__ gems/yr)" # {change}
+    feature_gems: "Earn __gems__ gems/mo (__gems12__ gems/yr)"
     month_price: "$__price__/mo"
+    month_price_without_currency: "__price__/mo"
     first_month_price: "Only $__price__ for your first month!"
     lifetime: "Lifetime Access"
     lifetime_price: "$__price__"
     year_subscription: "Annual Subscription"
     year_price: "$__price__/yr"
+    year_price_without_currency: "__price__/yr"
     support_part1: "Need help with payment or prefer PayPal? Email"
     support_part2: "support@codecombat.com"
     go_prepaid: "Click here after scaning the code and purchasing"
     forever: "Forever"
     subscription_status: "Your Subscription Status"
     currently_not_free: "You don't have a Subscription yet."
+    online_classes: "Online Classes"
+    feature_ai_level_bot: "Get AI powered debugging support"
 
   announcement:
     now_available: "Now available for subscribers!"
@@ -1289,11 +1350,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tornado_description: "It is good to have a reset button when one's cover is blown."
     wallOfDarkness_name: "Wall of Darkness"
     wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
-    announcement: 'Announcement'
-    xAnnouncements: '__x__ Announcements'
-    xAnnouncementsWithUnread: '__x__ Announcements(__y__ unread)'
-    message: 'Message'
-    see_more: "See __unread__ more unread announcements"
+    notifications: 'Notifications'
+    x_announcement: '__x__ Notification'
+    x_announcements: '__x__ Notifications'
+    x_announcement_with_unread: '__x__ Notification (__y__ unread)'
+    x_announcements_with_unread: '__x__ Notifications (__y__ unread)'
+    see_more: "See __unread__ more unread Notifications"
+    mark_read: "Mark Read"
+    read_all: "Read All"
+    more_announcements: "more notifications..."
 
   avatar_selection:
     pick_an_avatar: "Pick an avatar that will represent you as a player"
@@ -1321,6 +1386,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     list_items: "Equip Premium-only items like pets"
     list_support: "Get Premium support to help you debug tricky code"
     list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
+    ai_bot_learning: "AI Powered support to accelerate your learning!"
+    ai_bot_description: "Meet DebugBot AI, CodeCombat’s AI powered assistant. This powerful helper can evaluate your code, point out errors, explain how to fix them, and provide all the context you need to understand the “why”. It’s instant support when you need it most."
 
   choose_hero:
     choose_hero: "Choose Your Hero"
@@ -1443,7 +1510,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ae_title: "Account Executive"
     sae_title: "Senior Account Executive"
     sgd_title: "Senior Game Developer"
+    gd_title: "Game Developer"
     dois_title: "Director of Inside Sales"
+    ism_title: "Inside Sales Manager"
     sism_title: "Senior Inside Sales Manager"
     shan_title: "Head of Marketing, CodeCombat Greater China"
     run_title: "Head of Operations, CodeCombat Greater China"
@@ -1453,34 +1522,46 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     swe_title: "Software Engineer"
     sswe_title: "Senior Software Engineer"
     css_title: "Customer Support Specialist"
+    am_cs_title: "Associate Manager, Customer Success"
     css_qa_title: "Customer Support / QA Specialist"
     maya_title: "Senior Curriculum Developer"
     bill_title: "General Manager, CodeCombat Greater China"
     pvd_title: "Product and Visual Designer"
     spvd_title: "Senior Product and Visual Designer"
     daniela_title: "Marketing Manager"
+    mm_title: "Marketing Manager"
     bobby_title: "Senior Game Designer"
     brian_title: "Senior Game Design Manager"
     stephanie_title: "Customer Support Specialist"
     sdr_title: "Sales Development Representative"
+    bd_pr_title: "Business Development and Partnerships Representative"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     community_title: "...and our open-source community"
     lgd_title: "Lead Game Designer"
     oa_title: "Operations Associate"
     ac_title: "Administrative Coordinator"
+    sac_title: "Senior Administrative Coordinator"
     ea_title: "Executive Assistant"
     om_title: "Operations Manager"
     som_title: "Senior Operations Manager"
+    sales_om_title: "Sales Operations Manager"
     pe_title: "Principal Engineer"
     mo_title: "Manager, Operations"
     smo_title: "Senior Manager, Operations"
     do_title: "Director of Operations"
+    vp_o_title: "VP, Operations"
     scd_title: "Senior Curriculum Developer"
     lcd_title: "Lead Curriculum Developer"
+    cd_title: "Curriculum Developer"
+    sem_title: "Senior Education Manager"
     de_title: "Director of Education"
     vpm_title: "VP, Marketing"
+    vps_title: "VP, Sales"
+    sales_om_title: "Sales Operations Manager"
+    bd_pr_title: "Business Development and Partnerships Representative"
     oi_title: "Online Instructor"
+    m_oi_title: "Manager, Online Instruction"
     aoim_title: "Associate Online Instructor Manager"
     bdm_title: "Business Development Manager"
     community_subtitle: "Over 600 contributors have helped build CodeCombat, with more joining every week!"
@@ -1566,6 +1647,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_blocks_hidden: "Disabled"
     classroom_blocks_opt_in: "Off by default"
     classroom_blocks_opt_out: "On by default"
+    not_allow_to_solution: '# Licenses needed to view solutions'
+    classroom_level_chat: 'Level Chat with AI'
+    classroom_level_chat_blurb: 'Control whether students can interact with the AI in level chat.'
+    classroom_level_chat_option_free_form: 'Free form'
+    classroom_level_chat_option_fixed_prompt_only: 'Fixed prompt only'
+    classroom_level_chat_option_none: 'No chat'
 
   no_licenses_page:
     are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -1723,19 +1810,21 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   contact:
     contact_us: "Contact CodeCombat"
-    welcome: "Good to hear from you! Use this form to send us email. "
-    forum_prefix: "For anything public, please try "
-    forum_page: "our forum"
-    forum_suffix: " instead."
-    faq_prefix: "There's also a"
-    faq: "FAQ"
+    welcome: "Good to hear from you! Let us know how we can help, and we'll get back to you in 1-2 business days."
+    forum_prefix: "You can check out our "
+    forum_page: "public forum here "
+    faq_prefix: "and our "
+    faq: "FAQs here"
+    faq_suffix: " for additional assistance."
     subscribe_prefix: "If you need help figuring out a level, please"
     subscribe: "buy a CodeCombat subscription"
     subscribe_suffix: "and we'll be happy to help you with your code."
     subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support."
     screenshot_included: "Screenshot included."
     where_reply: "Where should we reply?"
-    send: "Send Feedback"
+    send: "Send"
+    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time."
+
 
   account_settings:
     title: "Account Settings"
@@ -1745,13 +1834,22 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     delete_account_tab: "Delete Your Account"
     wrong_email: "Wrong Email or Username"
     wrong_password: "Wrong Password"
+    temp_password_expired: "Your temporary password has been expired."
     delete_this_account: "Delete this account permanently"
     reset_progress_tab: "Reset All Progress"
     reset_your_progress: "Clear all your progress and start over"
+    connect_roblox_tab: "Connect Roblox"
+    connect_roblox_button: "Connect"
+    re_connect_roblox_button: "Connect Another Account"
+    disconnect_roblox_button: "Disconnect"
+    roblox_connected: "Your account <strong>__username__</strong> is connected to Roblox."
+    roblox_not_connected: "Connect your CodeCombat and Roblox accounts."
+    roblox_disconnect_confirm: "Are you sure you want to disconnect your Roblox account?"
     god_mode: "God Mode"
     emails_tab: "Emails"
     admin: "Admin"
     manage_subscription: "Click here to manage your subscription."
+    current_password: "Current Password"
     new_password: "New Password"
     new_password_verify: "Verify"
     type_in_email: "Type in your email or username to confirm account deletion."
@@ -2015,26 +2113,35 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     update_account_current_type: "Current Account Type:"
     update_account_account_email: "Account Email/Username:"
     update_account_am_teacher: "I am a teacher"
-    update_account_keep_access: "Keep access to classes I've created"
+    update_account_no_progress: "Let me create classes but save no game progress"
     update_account_teachers_can: "Teacher accounts can:"
     update_account_teachers_can1: "Create/manage/add classes"
     update_account_teachers_can2: "Assign/enroll students in courses"
     update_account_teachers_can3: "Unlock all course levels to try out"
     update_account_teachers_can4: "Access new teacher-only features as we release them"
-    update_account_teachers_warning: "Warning: You will be removed from all classes that you have previously joined and will not be able to play as a student."
+    update_account_teachers_warning_new: "Warning: you will not be able to save your progress on any levels; you will need separate student accounts to do that."
     update_account_remain_teacher: "Remain a Teacher"
     update_account_update_teacher: "Update to Teacher"
     update_account_am_student: "I am a student"
-    update_account_remove_access: "Remove access to classes I have created"
+    update_account_no_home: "Let me join classes but not play outside of class"
     update_account_students_can: "Student accounts can:"
     update_account_students_can1: "Join classes"
     update_account_students_can2: "Play through courses as a student and track your own progress"
     update_account_students_can3: "Compete against classmates in arenas"
     update_account_students_can4: "Access new student-only features as we release them"
-    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
+    update_account_students_warning_new: "Warning: you will only be able to play the levels your teacher has assigned."
     unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
     update_account_remain_student: "Remain a Student"
     update_account_update_student: "Update to Student"
+    update_account_am_individual: "I am a individual"
+    update_account_no_classes: "Let me play independently but not join classes"
+    update_account_individuals_can: "Individual accounts can:"
+    update_account_individuals_can1: "Earn gems, experience, items, and heroes"
+    update_account_individuals_can2: "Play through the game as an individual and track your own progress"
+    update_account_individuals_can3: "Compete against the world in arenas"
+    update_account_individuals_can4: "Access new individual-only features as we release them"
+    update_account_individuals_warning_ozaria: "Warning: individual accounts cannot play Ozaria, only CodeCombat."
+    update_account_remain_individual: "Remain an Individual"
     need_a_class_code: "You'll need a Class Code for the class you're joining:"
     update_account_not_sure: "Not sure which one to choose? Email"
     update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
@@ -2111,6 +2218,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_live_completion: "Classroom Code Autocomplete: "
     learn_without_classroom_title: "You can still learn and play without a classroom"
     learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
+    learn_without_classroom_blurb_coco: "Start by playing the free Hour of Code campaign by <a href='/play/intro'>clicking here</a>."
+    all_courses_completed: "All Courses Completed!"
+    all_units_completed: "All Units Completed!"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -2136,7 +2246,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     removing_course: "Removing course"
     solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
     solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
-    solution_project_blurb: "Students are encouraged to build a creative project in this level. Please refer to curriculum guides in the Teacher Toolkit for information on how to evaluate these projects." # {change}
+    solution_project_blurb: "Students are encouraged to build a creative project in this level. Please refer to curriculum guides in the Teacher Toolkit for information on how to evaluate these projects."
     feedback_capstone: 'The student will create a base project in Part 1. They will make creative updates based on peer feedback in Part 2. Here is a <a target="_blank" rel="noopener" href="https://docs.google.com/document/d/1itB0vY6WphjINQYJ9NHkILATcLLlYD3GDSg6FJg55OQ">Peer Feedback Template</a> that you can share with your students.'
     students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
     course_solution: "Course Solution"
@@ -2285,11 +2395,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     status_partly_expires: "Partly expires on {{date}}"
     select_all: "Select All"
     project: "Project"
+    projects: "Projects"
     project_gallery: "Project Gallery"
     view_project: "View Project"
     unpublished: "(unpublished)"
     view_arena_ladder: "View Arena Ladder"
-    resource_hub: "Teacher Toolkit" # {change}
+    resource_hub: "Teacher Toolkit"
     pacing_guides: "Classroom-in-a-Box Pacing Guides"
     pacing_guides_desc: "Learn how to incorporate all of CodeCombat's resources to plan your school year!"
     pacing_guides_elem: "Elementary School Pacing Guide"
@@ -2441,7 +2552,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_quest_add_students: "Add Students"
     teacher_quest_teach_methods: "Help your students learn how to `call methods`."
     teacher_quest_teach_methods_step1: "Get 75% of at least one class through the first level, Dungeons of Kithgard"
-    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](https://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Teacher Toolkit." # {change}
+    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](https://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Teacher Toolkit."
     teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
     teacher_quest_teach_strings_step1: "Get 75% of at least one class through True Names"
     teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview True Names."
@@ -2456,7 +2567,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_quest_kithgard_gates_100_step2: "Guide students to think through hard problems using the [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)."
     teacher_quest_wakka_maul_100: "Prepare to duel in Wakka Maul."
     teacher_quest_wakka_maul_100_step1: "Get 75% of at least one class to Wakka Maul."
-    teacher_quest_wakka_maul_100_step2: "See the [Arena Guide](/teachers/resources/arenas) in the [Teacher Toolkit](/teachers/resources) for tips on how to run a successful arena day." # {change}
+    teacher_quest_wakka_maul_100_step2: "See the [Arena Guide](/teachers/resources/arenas) in the [Teacher Toolkit](/teachers/resources) for tips on how to run a successful arena day."
     teacher_quest_reach_gamedev: "Explore new worlds!"
     teacher_quest_reach_gamedev_step1: "[Get licenses](/teachers/licenses) so that your students can explore new worlds, like Game Development and Web Development!"
     teacher_quest_done: "Want your students to learn even more code? Get in touch with our [school specialists](mailto:schools@codecombat.com) today!"
@@ -2478,7 +2589,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
     level_label: "Level:"
     time_played_label: "Time Spent:"
-    back_to_resource_hub: "Back to Teacher Toolkit" # {change}
+    back_to_resource_hub: "Back to Teacher Toolkit"
     back_to_course_guides: "Back to Course Guides"
     print_guide: "Print this guide"
     combo: "Combo"
@@ -2536,6 +2647,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_stats: "License Stats"
     redeemers: "Active Students"
     removed_redeemers: "Inactive Students"
+    latest_podcast_episode: "Latest Podcast Episode"
+    from_the_podcast: "From the Podcast"
+    edit_student_access_title: "Edit Student Access to Levels"
+    edit_student_access_subtitle: "You have selected __levels__ levels for __students__ students."
+    student_ask_for_help: "Your studnet __name__ asking for your help."
 
   teacher_licenses:
     active_licenses: "Active Licenses"
@@ -2654,6 +2770,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   editor:
     main_title: "CodeCombat Editors"
+    concept_title: "Concept Editor"
+    standards_title: "Standards Correlation Editor"
     article_title: "Article Editor"
     thang_title: "Thang Editor"
     level_title: "Level Editor"
@@ -2661,6 +2779,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     achievement_title: "Achievement Editor"
     poll_title: "Poll Editor"
     resource_title: "Resource Editor"
+    chat_title: "Chat Editor"
+    ai_scenario_title: "AI Scenario Editor"
+    ai_project_title: "AI Project Editor"
+    ai_model_title: "AI Model Editor"
+    ai_document_title: "AI Document Editor"
+    ai_chat_message_title: "AI Chat Message Editor"
     resource_title_general: "__resource__ Editor"
     back: "Back"
     revert: "Revert"
@@ -2708,13 +2832,26 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_systems_btn_add: "Add System"
     level_components_title: "Back to All Thangs"
     level_components_type: "Type"
+    concept_edit_title: "Edit Concept"
+    standards_edit_title: "Edit Standards Correlation"
     level_component_edit_title: "Edit Component"
     level_component_config_schema: "Config Schema"
     level_system_edit_title: "Edit System"
     course_edit_title: "Edit Course"
     resource_edit_title: "Edit Resource"
     resource_edit_title_general: "Edit __resource__"
+    chat_edit_title: "Edit Chat"
+    chat_edit_title_general: "Edit __chat__"
+    ai_scenario_edit_title: "Edit Scenario"
+    ai_scenario_edit_title_general: "Edit __scenario__"
+    ai_project_edit_title: "Edit Project"
+    ai_project_edit_title_general: "Edit __project__"
+    ai_model_edit_title: "Edit Model"
+    ai_document_edit_title: "Edit Document"
+    ai_chat_message_edit_title: "Edit Chat Message"
     create_system_title: "Create New System"
+    new_concept_title: "Create New Concept"
+    new_standards_title: "Create New Standards Correlation"
     new_component_title: "Create New Component"
     new_component_field_system: "System"
     new_article_title: "Create a New Article"
@@ -2731,13 +2868,33 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     new_course_title_login: "Log In to Create a New Course"
     new_resource_title: "Create a New Resource"
     new_resource_title_login: "Log In to Create a New Resource"
+    new_chat_title: "Create a New Chat"
+    new_chat_title_login: "Log In to Create a New Chat"
+    new_ai_scenario_title: "Create a New Scenario"
+    new_ai_scenario_title_login: "Log In to Create a New Scenario"
+    new_ai_project_title: "Create a New Project"
+    new_ai_project_title_login: "Log In to Create a New Project"
+    new_ai_model_title: "Create a New Model"
+    new_ai_model_title_login: "Log In to Create a New Model"
+    new_ai_document_title: "Create a New Document"
+    new_ai_document_title_login: "Log In to Create a New Document"
+    new_ai_chat_message_title: "Create a New Chat Message"
+    new_ai_chat_message_title_login: "Log In to Create a New Chat Message"
     article_search_title: "Search Articles Here"
+    concept_search_title: "Search Concepts Here"
+    standards_search_title: "Search Standards Correlations Here"
     thang_search_title: "Search Thang Types Here"
     level_search_title: "Search Levels Here"
     achievement_search_title: "Search Achievements"
     poll_search_title: "Search Polls"
     course_search_title: "Search Courses"
     resource_search_title: "Search Resources"
+    chat_search_title: "Search Chats"
+    ai_scenario_search_title: "Search Scenarios"
+    ai_project_search_title: "Search Projects"
+    ai_model_search_title: "Search Models"
+    ai_document_search_title: "Search Documents"
+    ai_chat_message_search_title: "Search Chat Messages"
     read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
     no_achievements: "No achievements have been added for this level yet."
     achievement_query_misc: "Key achievement off of miscellanea"
@@ -2938,6 +3095,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     certificate_lines_of: "lines of"
     certificate_levels_completed: "levels completed"
     certificate_for: "For"
+    for_ozaria_chapters_1_4: "For Ozaria Chapters 1 - 4"
     certificate_number: "No."
     heroes_unlocked: "Heroes Unlocked"
     current_items: "Items Equipped"
@@ -2949,6 +3107,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     patches_accepted: "Patches Accepted"
     level_edits: "Level Edits"
     total_translations: "Total Translations"
+    campaign_stats: "Stats"
 
   achievements:
     last_earned: "Last Earned"
@@ -3423,8 +3582,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     type_error: "TypeError: "
     syntax_error: "SyntaxError: "
     error: "Error: "
-    x_not_a_function: "$1 is not a function"
-    x_not_defined: "$1 is not defined"
+    x_not_a_function: "`$1` is not a function"
+    x_not_defined: "`$1` is not defined"
     spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
     capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
     py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2 statement."
@@ -3436,14 +3595,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     argument_type: "`$1`'s argument `$2` should have type `$3`, but got `$4`: `$5`."
     argument_type2: "`$1`'s argument `$2` should have type `$3`, but got `$4`."
     target_a_unit: "Target a unit."
-    attack_capitalization: "Attack $1, not $2. (Capital letters are important.)"
+    attack_capitalization: "Attack `$1`, not `$2`. (Capital letters are important.)"
     empty_while: "Empty while statement. Put 4 spaces in front of statements inside the while statement."
     line_of_site: "`$1`'s argument `$2` has a problem. Is there an enemy within your line-of-sight yet?"
     need_a_after_while: "Need a `$1` after `$2`."
     too_much_indentation: "Too much indentation at the beginning of this line."
     missing_hero: "Missing `$1` keyword; should be `$2`."
     takes_no_arguments: "`$1` takes no arguments."
-    no_one_named: "There's no one named \"$1\" to target."
+    no_one_named: "There's no one named `\"$1\"` to target."
     separated_by_comma: "Function calls paramaters must be seperated by `,`s"
     protected_property: "Can't read protected property: $1"
     need_parens_to_call: "If you want to call `$1` as function, you need `()`'s"
@@ -3451,47 +3610,47 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unexpected_identifier: "Unexpected identifier"
     unexpected_end_of: "Unexpected end of input"
     unnecessary_semicolon: "Unnecessary semicolon."
-    unexpected_token_expected: "Unexpected token: expected $1 but found $2 while parsing $3"
+    unexpected_token_expected: "Unexpected token: expected `$1` but found `$2` while parsing `$3`"
     unexpected_token: "Unexpected token $1"
     unexpected_token2: "Unexpected token"
     unexpected_number: "Unexpected number"
     unexpected: "Unexpected '$1'."
     escape_pressed_code: "Escape pressed; code aborted."
     target_an_enemy: "Target an enemy by name, like `$1`, not the string `$2`."
-    target_an_enemy_2: "Target an enemy by name, like $1."
-    cannot_read_property: "Cannot read property '$1' of undefined"
+    target_an_enemy_2: "Target an enemy by name, like `$1`."
+    cannot_read_property: "Cannot read property `$1` of `undefined`"
     attempted_to_assign: "Attempted to assign to readonly property."
     unexpected_early_end: "Unexpected early end of program."
-    you_need_a_string: "You need a string to build; one of $1"
+    you_need_a_string: "You need a string to build; one of `$1`"
     unable_to_get_property: "Unable to get property '$1' of undefined or null reference" # TODO: Do we translate undefined/null?
     code_never_finished_its: "Code never finished. It's either really slow or has an infinite loop."
     unclosed_string: "Unclosed string."
-    unmatched: "Unmatched '$1'."
-    error_you_said_achoo: "You said: $1, but the password is: $2. (Capital letters are important.)"
+    unmatched: "Unmatched `$1`."
+    error_you_said_achoo: "You said: `$1`, but the password is: `$2`. (Capital letters are important.)"
     indentation_error_unindent_does: "Indentation Error: unindent does not match any outer indentation level"
     indentation_error: "Indentation error."
     need_a_on_the: "Need a `:` on the end of the line following `$1`."
-    attempt_to_call_undefined: "attempt to call '$1' (a nil value)"
+    attempt_to_call_undefined: "attempt to call `$1` (a nil value)"
     unterminated: "Unterminated `$1`"
-    target_an_enemy_variable: "Target an $1 variable, not the string $2. (Try using $3.)"
+    target_an_enemy_variable: "Target an `$1` variable, not the string `$2`. (Try using `$3`.)"
     error_use_the_variable: "Use the variable name like `$1` instead of a string like `$2`"
     indentation_unindent_does_not: "Indentation unindent does not match any outer indentation level"
-    unclosed_paren_in_function_arguments: "Unclosed $1 in function arguments."
+    unclosed_paren_in_function_arguments: "Unclosed `$1` in function arguments."
     unexpected_end_of_input: "Unexpected end of input"
     there_is_no_enemy: "There is no `$1`. Use `$2` first." # Hints start here
     try_herofindnearestenemy: "Try `$1`"
     there_is_no_function: "There is no function `$1`, but `$2` has a method `$3`."
     attacks_argument_enemy_has: "`$1`'s argument `$2` has a problem."
     is_there_an_enemy: "Is there an enemy within your line-of-sight yet?"
-    target_is_null_is: "Target is $1. Is there always a target to attack? (Use $2?)"
+    target_is_null_is: "Target is `$1`. Is there always a target to attack? (Use `$2`?)"
     hero_has_no_method: "`$1` has no method `$2`."
     there_is_a_problem: "There is a problem with your code."
-    did_you_mean: "Did you mean $1? You do not have an item equipped with that skill."
+    did_you_mean: "Did you mean `$1`? You do not have an item equipped with that skill."
     missing_a_quotation_mark: "Missing a quotation mark. "
     missing_var_use_var: "Missing `$1`. Use `$2` to make a new variable."
-    you_do_not_have: "You do not have an item equipped with the $1 skill."
+    you_do_not_have: "You do not have an item equipped with the `$1` skill."
     put_each_command_on: "Put each command on a separate line"
-    are_you_missing_a: "Are you missing a '$1' after '$2'? "
+    are_you_missing_a: "Are you missing a `$1` after `$2`? "
     your_parentheses_must_match: "Your parentheses must match."
     missing_parentheses: "Missing parentheses? Try `__suggestion__`"
     do_nothing_without_parentheses: "`__code__` doesn't do anything without `()`"
@@ -3504,13 +3663,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     error_undefined_variable: "`__name__` is not defined."
     error_declared_identifier: "Identifier `__name__` has already been declared."
     error_declarations_cant_resolve: "Couldn't resolve declarations component: `__type__`."
-    error_strict_no_statement: "Strict mode code may not include a with statement."
+    error_strict_no_statement: "Strict mode code may not include a `with` statement."
     error_cant_resolve_ref_component: "Couldn't resolve ref component: `__type__`."
-    error_cant_convert_null: "Cannot convert undefined or null to object."
+    error_cant_convert_null: "Cannot convert `undefined` or `null` to object."
     error_need_object: "Need an object."
-    error_illegal_object_prototype: "Object prototype may only be an Object or null."
+    error_illegal_object_prototype: "Object prototype may only be an `Object` or `null`."
     error_no_prototype: "No prototype."
-    error_cant_write_property_to_undefined: "Can't write property of undefined: `__idx__`."
+    error_cant_write_property_to_undefined: "Can't write property of `undefined`: `__idx__`."
     error_cant_write_property_to_non_obj: "Can't write property of non-object type: `__idx__`."
     error_function_isnt_constructor: "function is not a constructor"
     error_write_protected_property: "Can't write to protected property: `__name__`"
@@ -3581,6 +3740,98 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unit_9: "Unit 9: AP Review"
     unit_10: "Unit 10: Post-AP"
     unit_10_activity_1: "Unit 10 Activity: Web Quiz"
+
+  apcsp_marketing:
+    course_outline_unit_1: "Unit 1"
+    course_outline_unit_2: "Unit 2"
+    course_outline_unit_3: "Unit 3"
+    course_outline_unit_4: "Unit 4"
+    course_outline_unit_5: "Unit 5"
+    course_outline_unit_6: "Unit 6"
+    course_outline_unit_7: "Unit 7"
+    course_outline_unit_8: "Unit 8"
+    course_outline_unit_9: "Unit 9"
+    course_outline_course_1: "Computer Science 1"
+    course_outline_course_2: "Computer Science 2"
+    course_outline_course_3: "Computer Science 3"
+    course_outline_course_4: "Computer Science 4"
+    course_outline_course_5: "Creative Development"
+    course_outline_course_6: "Data"
+    course_outline_course_7: "Computer Systems and Networks"
+    course_outline_course_8: "Impact of Computing"
+    course_outline_course_9: "Exam Prep"
+    course_outline_description_1: "Students begin the course focusing on creativity, problem solving, and the basic syntax of Python."
+    course_outline_description_2: "Students focus on designing and implementing algorithms using the building blocks of Python."
+    course_outline_description_3: "Students explore the concept of abstraction by developing their own abstractions inside program code."
+    course_outline_description_4: "Students apply their understanding of problem solving, algorithms, and abstractions to design and implement digital games."
+    course_outline_description_5: "Students use all that they have learned about Python to complete and submit their Create Performance Task."
+    course_outline_description_6: "Students learn how computers consume, transform, store, and produce new information in order to solve problems."
+    course_outline_description_7: "Students experience the power of sharing information via computer networks by learning about the Internet."
+    course_outline_description_8: "Students examine how computing has revolutionized our lives and society."
+    course_outline_description_9: "Students prepare to take the multiple choice section of the AP CSP exam."
+    icons_coding_levels: "150+ CodeCombat Coding Levels"
+    icons_lesson_slides: "60+ Turnkey Lesson Slides"
+    icons_kahoot: "400+ Kahoot! Quiz Questions"
+    icons_classroom_instructions: "100+ Hours of Classroom Instruction"
+    icons_weeks_of_curriculum: "26 Weeks of Curriculum"
+    icons_project_activities: "25+ Project-Based Activities"
+    icons_game_learning: "Game-Based Learning"
+    icons_text_coding: "Text-Based Coding"
+    icons_chromebook_compatible: "Chromebook Compatible"
+    icons_standards_aligned: "Standards-Aligned Lessons"
+    page_title: "AP Computer Science Principles"
+    page_description: "Our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam."
+    page_description_endorsed: "Endorsed by the College Board, our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam."
+    request_access: "Request Access"
+    game_based_learning: "Game-Based Learning"
+    game_based_learning_description: "Our innovative game-based learning technology has transformed the way students prepare for the AP CSP exam. Through our browser-based games, students learn about important exam topics while exercising the critical thinking skills that are necessary for success on the exam."
+    fostering_confidence: "Fostering Confidence in the AP Exam"
+    fostering_confidence_description: "With our curriculum, students will practice every stage of the Create Task through scaffolded and approachable capstone projects that can be adapted to a wide variety of student needs. We also provide curriculum and Kahoot! quizzes for students to practice multiple choice exam questions."
+    accessible_real_world: "Accessible & Real-World Connections"
+    accessible_real_world_description: "For Data, Impacts of Computing, and additional Big Ideas, our turnkey lesson slides help students explore these topics through meaningful discussions and collaborative projects. Filled with real-world connections, our curriculum will allow students to fully understand how coding affects their everyday lives."
+    college_board: "The College Board is currently reviewing our curriculum with an expected endorsement in March 2023."
+    our_curriculum_offers: "Our curriculum offers engaging features so that students explore and learn Computer Science through..."
+    course_outline: "Course Outline"
+    course_outline_description: "The following descriptions are an overview of the content explored in the CodeCombat AP CSP course."
+    explore_our_curriculum: "Explore Our Curriculum"
+    syllabus: "Syllabus"
+    pacing_guide: "Pacing Guide"
+    flyer: "Flyer"
+    sample_lesson_slides: "Browse through our sample lesson slides"
+    introduction_to_cs: "Introduction to Computer Science"
+    introduction_to_cs_description: "Syntax and Sequences"
+    big_ideas: "Big Ideas: Computer Systems and Networks"
+    big_ideas_description: "The Internet (Overview)"
+    get_full_course: "Get the full course here"
+    professional_development: "Professional Development"
+    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat learning designers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential."
+    more_information: "For More Information"
+    contact_us: "Contact Us"
+    question_1: "How can I learn more about the AP CSP Course?"
+    answer_1: "You can check out the College Board’s AP Computer Science Principles __course_overview__ and also explore the __outcomes__ for this course."
+    question_2: "What are the technology requirements for CodeCombat’s AP CSP curriculum?"
+    answer_2: "We recommend at least 4GB of RAM and using a modern browser such as Chrome, Safari, Firefox, or Edge. For additional specifics, please visit __coco_requirements__."
+    question_3: "What is the format of our lesson plans and lesson slides?"
+    answer_3: "All of our lesson slides are in the format of Google Slides and our lesson plans are in the format of Google Docs. These formats allow you to make copies of our curriculum so that you can adapt them to the needs of your students. Lesson slides and lesson plans can also be downloaded as Microsoft® PowerPoint and Word files."
+    course_overview: "Course Overview"
+    outcomes: "outcomes"
+    coco_requirements: "CodeCombat’s system requirements"
+    coco_recognized_blurb: "CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum."
+
+  apcsp_curriculum:
+    access_syllabus: "Access our College Board approved __syllabus__"
+    college_board_approved_syllabus: "Syllabus"
+    access_pacing_guide: "Review our suggested __pacing_guide__"
+    pacing_guide: "Pacing Guide"
+    resources: "Professional Development Resources"
+    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__."
+    contact: "Contact __apcsp_email__ to get access."
+    role: "Role"
+    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form"
+    request_license: "Join Pilot Program"
+    page_title: "AP Computer Science Principles Curriculum"
+    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>"
+
 
   hoc_2019:
     heading: "Hour of Code"
@@ -3851,11 +4102,65 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     title: 'CodeCombat Events'
     main_title: 'CodeCombat Events'
     main_description: 'The important events of codecombat China'
+    dashboard: 'Events Dashboard'
+    online_classes: 'Online Classes'
+    my_classes: 'My Online Classes'
+    classes_stats: 'Online Classes Stats'
+    name: 'Name',
+    class_name: 'Class Name'
+    description: 'Description',
+    owner: 'Owner',
+    type: 'Type',
+    members: 'Members',
+    start_date: 'Start Date'
+    end_date: 'End Time'
+    time_range: 'Time Range'
+    rrule: 'Recurrence Rules'
+    add_member: 'Add Member'
+    class_count: 'Lessons Count'
+    done: 'Finished Lesson'
+    attendance: 'Attendance'
+    course_description: 'Teacher Notes'
+    teacher_notes: 'Teacher Notes'
+    levels_completed: 'Levels Completed'
+    no_levels_completed: 'No Completed Levels Found'
+    no_teacher_notes: 'No Teacher Notes Found'
+    no_video_recording: 'No Video Recording Found'
+    reply: 'Reply'
+    video_recording: 'Video Recording'
+    import_from_class: 'Import from Class'
+    link_google_calendar: 'Link with Google Calendar'
+    sync_to_google: 'Sync to Google Calendar'
+    synced_to_google: 'Synced to Google Calendar'
+    google_calendar_attendees: 'Google Calendar Attendees'
+    calendar: 'Calendar'
+    edit_instance_tab_desc: 'Edit the single instance of this event, for editing whole events, see edit tab'
+    edit_event_tab_desc: 'Edit the whole event, for editing single instance of this event, see instance tab'
+    edit_members_tab_desc: 'Edit the member of this event, the startDate is depends on the instance date, so select the first instance for the new member'
+    lessons_count_desc: 'The total lessons count of this member, normally it is the same as the event instances count, but it can be different if the member is added after the event started or ended before the event ended'
+    sync_to_google_desc: 'Sync this event to YOUR google calendar, instead of the owner\'s calendar. And can only work on CodeCombat gmail'
+    no_data_display: 'No data to display'
+    meetingLink: 'Meeting Link'
+    time_zone: 'Time Zone'
+    timezone_tips: 'Note - Your timezone: '
 
   teacher_dashboard:
     lock: 'Lock'
     unlock: 'Unlock'
+    lock_until_date: 'Lock until date'
+    skip: 'Skip'
+    unskip: 'Unskip'
+    make_optional: 'Make optional'
+    remove_optional: 'Remove Optional'
+    until_date: 'until __date__'
     unassign: 'Unassign'
+    locked: 'Locked'
+    locked_by_previous: 'Locked by previous level'
+    locked_with_timeframe: 'Locked'
+    skipped: 'Skipped'
+    optional: 'Optional'
+    assigned: 'Assigned'
+    unlocked: 'Unlocked'
     choose_course: 'Click to Select from Dropdown'
     teacher_locked_message: 'Your teacher has locked the next level'
     plan_your_class_title: 'Plan your first class by'
@@ -3869,7 +4174,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     add_classes: 'Add classes and get students started with the first free chapter!'
     all_classes: 'All Classes'
     my_licenses: 'My Licenses'
-    resource_hub: 'Teacher Toolkit' # {change}
+    resource_hub: 'Teacher Toolkit'
     pd: 'Professional Development'
     pd_short: 'PD'
     curriculum_guide: 'Curriculum Guide'
@@ -3941,6 +4246,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share: 'Share'
     add: 'Add'
     note: 'Note'
+    lock_or_skip_levels: 'Lock or Skip Levels'
+    level_access_status_blurb: "When you choose to skip a level, it will have both the 'locked' and 'optional' status. Unskipping the level will remove both the 'locked' and 'optional' statuses."
+    reset_progress: "Reset Progress"
 
   outcomes:
     outcomes_report: "Outcomes Report"
@@ -4100,8 +4408,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sandstorm: "Sandstorm"
     frozen_fortress: "Frozen Fortress"
     equinox: "Equinox"
-    pool_party_plunder: "Pool Party Plunder"
-    beach_ball: "Beach Ball"
+    farmers_feud: "Farmer's Feud"
+    farmscape: "Farmscape"
     storm_siege: "Storm Siege"
     snowhold: "Snowhold"
     season_label: "Season __seasonNumber__: __seasonName__"
@@ -4112,11 +4420,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     season_5: "Sands of Time"
     season_6: "Molten Mayhem"
     season_7: "Melting Point"
-    season_8: "Summer Smash"
+    season_8: "Coder's Harvest" #
     season_9: "Reign of Code"
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
+    season9_announcement_1: "An epic battle is being waged atop the wintry peaks of Snowhold Clash for the Season 9 championship arena! Draw your cloak close and your code closer as you wield strategy and algorithms to achieve victory in this land beyond the sky."
+    season8_announcement_1: "It's harvesting season in Farmscape Blitz Season 8! As the leaves change, it's time to code your way around wild and impenetrable obstacles on the farm. Strategically collect vital boosts to empower your robot worker and utilize special abilities to boost productivity and out-farm your opponents!"
+    season8_announcement_2: "Note: arena balance adjustments may occur up until August 15th. So be sure to come back often to test your code against the global leaderboard."
+    season7_announcement_1: "Witness the dawn of a new challenge in the Equinox Cup! Season 7's tower defense arena offers a unique blend of strategy, monsters, and boss battles for you to conquer."
     season6_announcement_1: "It’s absolute Molten Mayhem with the launch of the Lava Lake Clash finals! Outlast and outwit the competition in this hot take on classic Snake gameplay."
     season6_announcement_2: "Note: arena balance adjustments may occur up until December 15th. So be sure to come back often to test your code against the global leaderboard."
     season5_announcement_1: "The Sandstorm Blitz Final is on. In this basketbrawl of an arena, you must summon the right heroes, call the right plays, and outscore your opponent to take the victory!"
@@ -4252,7 +4564,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     just: 'Just'
     teachers_upto: 'Teacher can purchase upto'
     great_courses: 'Great Courses included for'
-    studentLicense_successful: 'Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Teacher Toolkit to learn how to apply them to your students.' # {change}
+    studentLicense_successful: 'Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Teacher Toolkit to learn how to apply them to your students.'
     onlineClasses_successful: 'Congratulations! Your payment was successful. Our team will reach out to you with the next steps.'
     homeSubscriptions_successful: 'Congratulations! Your payment was successful. Your premium access will be available in few minutes.'
     failed: 'Your payment failed, please try again'
@@ -4381,7 +4693,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     access_using_id: "to access using your id!!"
     network_detected: "Library network detected, redirecting you to play CodeCombat"
     not_redirect_auto: "if redirect doesn't happen automatically"
-    engage_members: "Give your members access to the most engaging way to learn coding"
+    engage_members: "Give your members access to the most engaging way to learn coding."
     importance_blurb: "Libraries play an important role in advancing educational equity in their communities. Many young learners do not have access or exposure to computer science, and libraries can provide important resources to these underserved groups. That is why we are partnering with libraries across the country to provide access to our game-based learning tools and educational resources."
     games_teach_blurb: "Our games teach real typed Python, JavaScript and C++ coding languages through the power of play. The gameplay is paired with a scaffolded curriculum to allow self-paced learners the ability to master foundational programming concepts before moving on to the more complex. Each level challenges the player to type the code necessary to advance their hero and achieve the level goal."
     platform_built: "Our platform is built to address the specific needs of libraries and their patrons:"
@@ -4423,6 +4735,25 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     heading_libraries: "Libraries"
     educational_equity: "Educational Equity"
     power_of_play: "Power of play"
+    library_card: "Library Card Number"
+    library_signup_promotion: "Sign Up to save progress and continue from where you left off on CodeCombat!!"
+    welcome_dashboard: "Welcome to your dashboard"
+    total_licenses_used: "Total Licenses Used"
+    from_launch_date: "from the date of launch"
+    renewal_date: "Renewal Date"
+    access_old_dashboard: "If you want to access the old dashboard, visit"
+    loading_from: "loading data from"
+    user_activities: "User Activities"
+    total_users: "Total Users"
+    lines_of_code_written: "Lines of Code Written"
+    hours_spent: "Hours spent"
+    programs_written: "Programs written"
+    number_users: "Number of users"
+    time_spent: "Time spent (in minutes)"
+    new_users: "New Users"
+    age_demographics: "Age demographics"
+    levels_completed: "Levels Completed"
+    adjust_dates_explore: "Adjust the dates below to explore patron usage trends over time."
 
   related_accounts:
     subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."
@@ -4481,8 +4812,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     email_confirm: "The email address \"__email__\" is already registered. Would you like to login?"
 
   roblox_landing:
-    headline: "CodeCombat Worlds is a New Immersive Experience on Roblox"
-    subhead: "Join the beta waitlist to receive early access, development updates and more!"
+    headline: "Empowering Every Player to Become a Creator!"
+    subhead: "Experience the easiest and most enjoyable way to code and create your own Roblox games"
+    join_the_beta: "Join the Beta"
     sign_up: "Sign Up"
     box_play_subhead: "Play"
     box_code_subhead: "Code"
@@ -4516,3 +4848,39 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bottom_blurb_partner: "Want to use the new CodeCombat Worlds Roblox experience for your education business, social impact initiative or international distribution opportunity? __reach-out__ to discuss partnering today."
     bottom_blurb_reach_out: "Reach out"
     boxes_title: "Play, Code and Create on Roblox"
+    login_message: "You need to login before connecting your account to Roblox"
+    connect_button_header: "Account Linking Rewards"
+    connect_button_linker_badge: "Linker Badge"
+    connect_button_accounts_linked: "Accounts Linked"
+    connect_button_pet_chroma: "Pet Chroma"
+    connect_button_exclusive_pet: "Exclusive Pet"
+    connect_button_blurb: "Link your CodeCombat and Roblox accounts for a seamless experience!"
+    connect_button_list_item_1: "Manage subscriptions"
+    connect_button_list_item_2: "Unlock additional content"
+    connect_button_list_item_3: "Track progress"
+    connect_button_list_item_4: "Receive exclusive rewards"
+    connect_button_list_item_5: "Access curricular resources"
+    connect_button_list_item_6: "Parent and teacher dashboard access"
+    connect_button_list_item_7: "Unlock generative AI features"
+    connect_button_list_item_8: "Creative mode publishing and exporting"
+    connect_button_connected_blurb: "Congratulations, you have linked your accounts! Invite your friends to help reach the community linking goals."
+    connect_button_not_connected_blurb: "The more people link their accounts, the more rewards you'll receive!"
+    faq_bottom: "See more <a href=\"https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-\" target=\"_blank\">frequently asked questions in our help center</a>. <br />If you have any other questions, please <a href=\"mailto:support@codecombat.com\">Contact Us</a>."
+    modal_title: "CodeCombat Worlds<br> Now Live on Roblox!"
+    modal_play_now: "PLAY NOW!"
+    modal_button_link_roblox_account: "Link Roblox Account"
+
+  ai:
+    prompt_level_chat_1: 'What does this error mean?'
+    prompt_level_chat_2: 'Please explain this error.'
+    prompt_level_chat_3: 'What\'s wrong?'
+    prompt_level_chat_4: 'Please help explain this.'
+    prompt_level_chat_5: 'How can I fix it?'
+    prompt_level_chat_6: 'Help, please.'
+    prompt_level_chat_7: 'What do I do?'
+    prompt_level_chat_8: 'What does this mean?'
+    prompt_level_chat_9: 'Please explain.'
+    prompt_level_chat_10: 'What is this error?'
+    prompt_level_chat_11: 'What is the problem?'
+    prompt_level_chat_12: '???'
+    prompt_level_chat_13: 'Dear AI, I beseech you, explain my error, in verse.'

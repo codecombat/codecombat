@@ -1,0 +1,24 @@
+// import variables.scss when you import this file
+.yellow-btn-black-text {
+  background: $color-yellow-1;
+  border-radius: 1px;
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1.7rem;
+  letter-spacing: 0.333333px;
+  color: #131B25;
+  padding: 0.5rem 1.5rem;
+  border-color: #ffffff;
+}
+
+.not-started-dot {
+  border: 1.5px solid $color-grey-3;
+}
+
+.in-progress-dot {
+  background-color: $color-blue-2;
+}
+
+.complete-dot {
+  background-color: $color-green-3;
+}

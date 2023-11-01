@@ -1,16 +1,18 @@
-extends /templates/base
+extends /templates/base-flat
 
 block content
+  .container
 
-  ol.breadcrumb
-    li
-      a(href="/")
-        span.glyphicon.glyphicon-home
-    li
-      a(href="/account", data-i18n="nav.account")
-    li.active(data-i18n="account_settings.title")
+    ol.breadcrumb
+      li
+        a(href="/")
+          span.glyphicon.glyphicon-home
+      li
+        a(href="/account", data-i18n="nav.account")
+      li.active(data-i18n="account_settings.title")
 
-  if !me.get('anonymous', true)
-    #account-settings-view
+    if !me.get('anonymous', true)
+      #account-settings-view
 
-block footer
+  block footer
+    footer#site-footer

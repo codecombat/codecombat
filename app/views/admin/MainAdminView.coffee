@@ -22,6 +22,7 @@ Prepaid = require 'models/Prepaid'
 User = require 'models/User'
 Users = require 'collections/Users'
 Mandate = require 'models/Mandate'
+momentTimezone = require 'moment-timezone'
 window.saveAs ?= require 'file-saver/FileSaver.js' # `window.` is necessary for spec to spy on it
 window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format changed with webpack?
 
@@ -59,6 +60,7 @@ module.exports = class MainAdminView extends RootView
     if me.isParentAdmin()
       @checkParentAdminAvailability()
     @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
+    @prepaidEndDate = momentTimezone().tz(@timeZone).add(1, 'year').format('YYYY-MM-DD')
     super()
 
   checkParentAdminAvailability: ->
@@ -151,7 +153,7 @@ module.exports = class MainAdminView extends RootView
     forms.disableSubmit(@$('#user-search-button'))
     q = @lastUserSearchValue
     role = undefined
-    q = q.replace /role:([^ ]+)/, (dummy, m1) ->
+    q = q.replace /role:([^ ]+) /, (dummy, m1) ->
       role = m1
       return ''
 

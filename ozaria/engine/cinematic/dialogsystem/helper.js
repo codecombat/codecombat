@@ -15,7 +15,11 @@ import tmpl from 'tmpl'
  */
 export function processText (dialogNode, context) {
   let text = utils.i18n(dialogNode, 'text')
-  text = tmpl(text || '', context)
+  try {
+    text = tmpl(text || '', context)
+  } catch (err) {
+    console.warn("Couldn't process text template:", err, { dialogNode, text, context })
+  }
   if (!text) {
     return undefined
   }

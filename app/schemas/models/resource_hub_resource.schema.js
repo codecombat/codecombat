@@ -65,6 +65,16 @@ const ResourceHubResourceSchema = schema.object(
         format: 'course',
         enum: Object.values(utils.courseIDs).map(c => utils.courseAcronyms[c])
       })
+    },
+
+    roles: {
+      title: 'Roles',
+      description: 'List of roles that can have access to this resource. If set, then only those roles have access otherwise all do',
+      type: 'array',
+      items: {
+        type: 'string',
+        enum: ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent', 'parent-home', 'possible teacher']
+      }
     }
   }
 )

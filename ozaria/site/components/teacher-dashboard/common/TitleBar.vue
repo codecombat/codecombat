@@ -125,6 +125,21 @@
         :date-created="classroomCreationDate"
         :share-permission="sharePermission"
       />
+      <div
+        v-if="showClassInfo"
+        class="add-students"
+      >
+        <button
+          class="dusk-btn"
+          @click="$emit('addStudentsClicked')"
+        >
+          <img
+            class="add-students__icon"
+            src="/images/ozaria/teachers/dashboard/svg_icons/IconAddStudents_Black.svg"
+          >
+          <span> {{ $t('courses.add_students') }} </span>
+        </button>
+      </div>
     </div>
     <div class="sub-nav">
       <div
@@ -180,6 +195,7 @@
 @import "app/styles/bootstrap/variables";
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "dusk-button";
 
 .btn-title-padding {
   padding: 8px 22px;
@@ -261,6 +277,14 @@ h1 {
 
 .small-text {
   font-size: small;
+}
+
+.add-students {
+  display: inline-block;
+
+  &__icon {
+    margin-right: 5px;
+  }
 }
 
 </style>

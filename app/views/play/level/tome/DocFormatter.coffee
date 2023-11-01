@@ -1,8 +1,7 @@
 popoverTemplate = require 'app/templates/play/level/tome/spell_palette_entry_popover'
-{downTheChain} = require 'lib/world/world_utils'
 window.Vector = require 'lib/world/vector'  # So we can document it
 utils = require 'core/utils'
-aetherUtils = require 'lib/aether_utils'
+translateUtils = require 'lib/translate-utils'
 
 safeJSONStringify = (input, maxDepth) ->
   recursion = (input, path, depth) ->
@@ -113,7 +112,7 @@ module.exports = class DocFormatter
         # Translate into chosen code language.
         if prop is 'example'
           # Try to autogenerate the language-specific code example
-          obj[prop][@options.language] = aetherUtils.translateJS(obj[prop].javascript, @options.language, false)
+          obj[prop][@options.language] = translateUtils.translateJS(obj[prop].javascript, @options.language, false)
         else
           if @options.language in ['lua', 'coffeescript', 'python']
             # These are mostly the same, so use the Python or JavaScript ones if language-specific ones aren't available
@@ -187,7 +186,7 @@ module.exports = class DocFormatter
     }
     owner = if @doc.owner is 'this' then @options.thang else window[@doc.owner]
     content = @replaceSpriteName content
-    content = content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
+    content = content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue utils.downTheChain(owner, properties.split('.'))
     content = content.replace /{([a-z]+)}([^]*?){\/\1}/g, (s, language, text) =>
       if language is @options.language then return text
       if language is 'javascript' and @options.language in ['java', 'cpp'] then return text

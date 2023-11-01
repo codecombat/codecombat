@@ -1,6 +1,4 @@
-concepts = require 'schemas/concepts'
-
-module.exports = TagSolution = ({source, ast, language}) ->
+module.exports = TagSolution = ({source, ast, language}, concepts) ->
   engine = new esper.Engine()
   if source
     engine.load(source)
@@ -9,13 +7,19 @@ module.exports = TagSolution = ({source, ast, language}) ->
   esperAST = engine.evaluator.ast
   if language is 'python'
     # remove the first variable assignment, which appears to be added by skulpty in the transpilation
-    esperAST.body.shift() 
+    esperAST.body.shift()
   result = []
-  for key of concepts
-    tkn = concepts[key].tagger
-    continue unless tkn
+  concepts.each (concept) ->
+    tagger = concept.get('tagger')
+    taggerFunction = concept.get('taggerFunction')
+    try
+      tkn = if tagger then tagger else if taggerFunction then (new Function("return #{taggerFunction}"))() else null
+    catch e
+      console.error 'Error parsing tagger function for concept', concept.get('key'), e
+    return unless tkn
+    name = concept.get('key')
     if typeof tkn is 'function'
-      result.push concepts[key].concept if tkn(esperAST)
+      result.push name if tkn(esperAST)
     else
-      result.push concepts[key].concept if esperAST.find(tkn).length > 0
+      result.push name if esperAST.find(tkn).length > 0
   result

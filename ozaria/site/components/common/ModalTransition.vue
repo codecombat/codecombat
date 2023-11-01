@@ -1,15 +1,22 @@
 <script>
-  import BaseModal from './BaseModal'
-  import { mapActions, mapGetters } from 'vuex'
-  import { internationalizeConfig, getNextLevelForLevel, getNextLevelLink, tryCopy, internationalizeLevelType, internationalizeContentType } from 'ozaria/site/common/ozariaUtils'
-  import utils from 'core/utils'
-  import urls from 'core/urls'
-  import api from 'core/api'
-  import ModalCharCustomization from 'ozaria/site/components/char-customization/ModalCharCustomization'
-  import ClassroomLib from '../../../../app/models/ClassroomLib'
-  import * as focusTrap from 'focus-trap'
+import BaseModal from './BaseModal'
+import { mapActions, mapGetters } from 'vuex'
+import {
+  getNextLevelForLevel,
+  getNextLevelLink,
+  internationalizeConfig,
+  internationalizeContentType,
+  internationalizeLevelType,
+  tryCopy
+} from 'ozaria/site/common/ozariaUtils'
+import utils from 'core/utils'
+import urls from 'core/urls'
+import api from 'core/api'
+import ModalCharCustomization from 'ozaria/site/components/char-customization/ModalCharCustomization'
+import ClassroomLib from '../../../../app/models/ClassroomLib'
+import * as focusTrap from 'focus-trap'
 
-  export default Vue.extend({
+export default Vue.extend({
     components: {
       BaseModal,
       ModalCharCustomization
@@ -61,7 +68,6 @@
       showCharCx: false,
       classroom: undefined,
       nextLevelIsLocked: false,
-      doReload: false, // This was used for preventing memory leaks, but should no longer be needed
       focusTrapDeactivated: false,
       focusTrap: null
     }),
@@ -138,7 +144,7 @@
           await this.getNextLevelLink()
         }
         if (this.goToNextDirectly) {
-          return application.router.navigate(this.nextLevelLink, { trigger: true }, this.doReload)
+          return application.router.navigate(this.nextLevelLink, { trigger: true })
         }
       } catch (e) {
         // TODO handle_error_ozaria
@@ -194,26 +200,40 @@
         this.loading = false;
       },
 
-      async getNextLevelLink () {
-        const campaignHandle = this.currentLevel.campaign || this.currentLevel.attributes.campaign
-        await this.fetchRequiredData(campaignHandle)
-        const currentLevelData = this.levelsList[this.currentLevel.original || this.currentLevel.attributes.original]
-        this.isFirstLevel = currentLevelData.first
+      getNextLevel (currentLevelData) {
         let currentLevelStage
         if (currentLevelData.isPlayedInStages && this.capstoneStage) {
           currentLevelStage = parseInt(this.capstoneStage)
         }
         const nextLevel = getNextLevelForLevel(currentLevelData, currentLevelStage) || {}
+        const nextLevelIsLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.courseId, nextLevel.original, 'locked')
+        const nextLevelIsOptional = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.courseId, nextLevel.original, 'optional')
+        if (nextLevelIsLocked && nextLevelIsOptional) {
+          // call getNextLevel recursively if level was skipped
+          return this.getNextLevel(this.levelsList[nextLevel.original || nextLevel.attributes.original])
+        }
+        return nextLevel
+      },
+
+      async getNextLevelLink () {
+        const campaignHandle = this.currentLevel.campaign || this.currentLevel.attributes.campaign
+        await this.fetchRequiredData(campaignHandle)
+        const currentLevelData = this.levelsList[this.currentLevel.original || this.currentLevel.attributes.original]
+        this.isFirstLevel = currentLevelData.first
+
+        const nextLevel = this.getNextLevel(currentLevelData) || {}
         if (this.classroom) {
-          this.nextLevelIsLocked = ClassroomLib.isStudentOnLockedLevel(this.classroom, me.get('_id'), this.courseId, nextLevel.original)
+          this.nextLevelIsLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.courseId, nextLevel.original, 'locked')
         }
 
         if (this.nextLevelIsLocked) {
+          this.deactivateFocusTrap()
           noty({
             layout: 'center',
             type: 'info',
             text: this.$t('teacher_dashboard.teacher_locked_message'),
             buttons: [{
+              addClass: 'btn btn-primary',
               text: this.$t('play.back_to_dashboard'),
               onClick: ($noty) => {
                 $noty.close()
@@ -275,7 +295,7 @@
       },
       nextButtonClick () {
         this.deactivateFocusTrap()
-        if (this.supermodel && !this.doReload) {
+        if (this.supermodel) {
           // Hack: save the current supermodel globally so that the next content view can grab it during initialization and doesn't have to reload everything
           window.temporarilyPreservedSupermodel = this.supermodel
           const removeTemporarilyPreservedSupermodel = () => window.temporarilyPreservedSupermodel = undefined
@@ -286,7 +306,7 @@
         } else if (this.charCxModal && this.nextLevelLink) {
           this.showCharCx = true
         } else if (this.nextLevelLink) {
-          return application.router.navigate(this.nextLevelLink, { trigger: true }, this.doReload)
+          return application.router.navigate(this.nextLevelLink, { trigger: true })
         }
       },
       // PlayLevelView is a backbone view, so replay button dismisses modal for that
@@ -307,14 +327,14 @@
           capstoneLinkAppend = `&continueEditing=true`
         }
         capstoneLink += capstoneLinkAppend
-        return application.router.navigate(capstoneLink, { trigger: true }, this.doReload)
+        return application.router.navigate(capstoneLink, { trigger: true })
       },
       copyUrl () {
         this.$refs['share-text-box'].select()
         tryCopy()
       },
       onCharCxSaved () {
-        return application.router.navigate(this.nextLevelLink, { trigger: true }, this.doReload)
+        return application.router.navigate(this.nextLevelLink, { trigger: true })
       }
     }
   })

@@ -135,7 +135,10 @@ module.exports = class TomeView extends CocoView
     return teamSpellMap
 
   createSpells: (programmableThangs, world) ->
-    language = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
+    language = @options.session.get('submittedCodeLanguage') if @options.spectateView
+    language ?= @options.session.get('codeLanguage')
+    language ?= me.get('aceConfig')?.language
+    language ?= 'python'
     @determineBlocksSettings()
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
     @spells ?= {}
@@ -161,7 +164,6 @@ module.exports = class TomeView extends CocoView
           worker: @worker
           language: language
           spectateView: @options.spectateView
-          spectateOpponentCodeLanguage: @options.spectateOpponentCodeLanguage
           observing: @options.observing
           levelID: @options.levelID
           level: @options.level
@@ -171,6 +173,7 @@ module.exports = class TomeView extends CocoView
           classroomAceConfig: @options.classroomAceConfig
           blocks: @blocks
           blocksHidden: @blocksHidden
+          teacherID: @options.teacherID
 
     for thangID, spellKeys of @thangSpells
       thang = @fakeProgrammableThang ? world.getThangByID thangID
@@ -245,7 +248,7 @@ module.exports = class TomeView extends CocoView
     @$('#spell-palette-view-bot').toggleClass 'hidden', paletteManagedInParent
     return if paletteManagedInParent
     useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
-    @removeSubview @spellPaletteView if @spellPaletteView
+    @removeSubView @spellPaletteView if @spellPaletteView and not @spellPaletteView?.destroyed
     @spellPaletteView = @insertSubView new SpellPaletteViewBot { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session, level: @options.level, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID, useHero }
     @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view
 

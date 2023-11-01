@@ -32,7 +32,7 @@ createjs = require 'lib/createjs-parts'
 LevelLoadingView = require './LevelLoadingView'
 ProblemAlertView = require './tome/ProblemAlertView'
 TomeView = require './tome/TomeView'
-ChatView = require './LevelChatView' # TODO: Consider removing.
+ChatView = require './LevelChatView'
 HUDView = require './LevelHUDView'
 LevelDialogueView = require './LevelDialogueView'
 ControlBarView = require './ControlBarView'
@@ -113,6 +113,7 @@ module.exports = class PlayLevelView extends RootView
     'click .contact-link': 'onContactClicked'
     'contextmenu #webgl-surface': 'onSurfaceContextMenu'
     'click': 'onClick'
+    'click .close-solution-btn': 'onCloseSolution'
 
   onClick: ->
     # workaround to get users out of permanent idle status
@@ -134,11 +135,12 @@ module.exports = class PlayLevelView extends RootView
     super options
 
     @courseID = options.courseID or utils.getQueryVariable 'course'
-    @courseInstanceID = options.courseInstanceID or utils.getQueryVariable 'course-instance'
+    @courseInstanceID = options.courseInstanceID or utils.getQueryVariable 'course-instance' or utils.getQueryVariable 'instance' # instance to avoid sessionless to be false when teaching
 
     @isEditorPreview = utils.getQueryVariable 'dev'
     @sessionID = (utils.getQueryVariable 'session') || @options.sessionID
     @observing = utils.getQueryVariable 'observing'
+    @teaching = utils.getQueryVariable 'teaching'
 
     @opponentSessionID = utils.getQueryVariable('opponent')
     @opponentSessionID ?= @options.opponent
@@ -186,7 +188,7 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
+    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID, @teaching }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
@@ -199,12 +201,17 @@ module.exports = class PlayLevelView extends RootView
       blocksDefault = { true: 'opt-out', false: 'hidden' }[blocksOverride] or blocksOverride
     @classroomAceConfig = {liveCompletion: true, blocks: blocksDefault}  # default (home users, teachers, etc.)
     if @courseInstanceID
-      fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members")
+      fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members,ownerID")
       @supermodel.trackRequest fetchAceConfig
       fetchAceConfig.then (classroom) =>
         @classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion ? true
         @classroomAceConfig.blocks = classroom.aceConfig?.blocks ? blocksDefault
         @tome?.determineBlocksSettings()
+        @classroomAceConfig.levelChat = classroom.aceConfig?.levelChat ? 'none'
+        @teacherID = classroom.ownerID
+
+        if @teaching and (not @teacherID.equals(me.id))
+          return _.defer -> application.router.redirectHome()
 
   hasAccessThroughClan: (level) ->
     _.intersection(level.get('clans') ? [], me.get('clans') ? []).length
@@ -308,13 +315,12 @@ module.exports = class PlayLevelView extends RootView
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
 
-    @setMeta({
-      title: $.i18n.t('play.level_title', { level: @level.get('name') })
-    })
+    levelName = utils.i18n @level.attributes, 'name'
+    @setMeta title: $.i18n.t('play.level_title', { level: levelName, interpolation: { escapeValue: false } })
 
     unless @level.isType 'ladder'
       randomTeam = @world?.teamForPlayer()  # If no team is set, then we will want to equally distribute players to teams
-    team = utils.getQueryVariable('team') ? @session.get('team') ? randomTeam ? 'humans'
+    team = utils.getQueryVariable('team') ? @session?.get('team') ? randomTeam ? 'humans'
     @loadOpponentTeam(team)
     @setupGod()
     @setTeam team
@@ -429,7 +435,7 @@ module.exports = class PlayLevelView extends RootView
   updateSpellPalette: (thang, spell) ->
     return false unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
     useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
-    @removeSubview @spellPaletteView if @spellPaletteView
+    @removeSubView @spellPaletteView if @spellPaletteView and not @spellPaletteView?.destroyed
     @spellPaletteView = null
     if @getSpellPalettePosition() is 'bot'
       # We'l make it inside Tome instead
@@ -447,7 +453,7 @@ module.exports = class PlayLevelView extends RootView
     @hintsState.on('change:hidden', (hintsState, newHiddenValue) ->
       store.commit('game/setHintsVisible', !newHiddenValue)
     )
-    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState, @classroomAceConfig }
+    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState, @classroomAceConfig, @teacherID}
     @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
     @insertSubView new GoalsView {level: @level, session: @session}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
@@ -456,7 +462,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
     @insertSubView new HUDView {level: @level} unless @level.isType('web-dev')
     @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
-    @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
+    @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session, aceConfig: @classroomAceConfig
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     @insertSubView new SurfaceContextMenuView session: @session, level: @level
     @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isLadder()
@@ -479,6 +485,9 @@ module.exports = class PlayLevelView extends RootView
     @bus = LevelBus.get(@levelID, @session.id)
     @bus.setSession(@session)
     @bus.setSpells @tome.spells
+
+    if @teacherID
+      @bus.subscribeTeacher(@teacherID)
     #@bus.connect() if @session.get('multiplayer')  # TODO: session's multiplayer flag removed; connect bus another way if we care about it
 
   # Load Completed Setup ######################################################
@@ -941,6 +950,9 @@ module.exports = class PlayLevelView extends RootView
       @setupManager?.destroy()
       @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, hadEverChosenHero: true})
       @setupManager.open()
+
+  onCloseSolution: ->
+    Backbone.Mediator.publish 'level:close-solution', {}
 
   getLoadTrackingTag: () ->
     @level?.get 'slug'

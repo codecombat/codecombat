@@ -34,27 +34,61 @@ module.exports = class CodePlaybackView extends CocoView
     initialSource = @options.events[0].difContent
     codeLanguageGuess = 'python'
     codeLanguageGuess = 'javascript' if /^ *var /m.test(initialSource)
+    codeLanguageGuess = 'javascript' if /^\/\//m.test(initialSource)
     @ace = aceUtils.initializeACE @$('#acearea')[0], codeLanguageGuess
     @ace.$blockScrolling = Infinity
-    @ace.setValue(@options.events[0].difContent)
+    #@ace.setValue(@options.events[0].difContent)
+    @spade.renderToElem(@options.events, @ace)
     @$el.find('#start-time').text('0s')
     @$el.find('#end-time').text((@maxTime / 1000) + 's')
     for ev in @options.events
       div = $('<div></div>')
       div.addClass('event')
-      div.css('left', "calc(#{(ev.timestamp / @maxTime) * 100}% + 7px - #{15 * ev.timestamp / @maxTime}px)")
+      percent = (ev.timestamp / @maxTime) * 100
+      offset = 15 * ev.timestamp / @maxTime
+      if ev.eventName
+        div.css('background-color', 'rgba(255, 100, 100, 0.75)')
+        div.css('z-index', '100')
+      div.css('left', "calc(#{percent}% + 7px - #{offset}px)")
       @$el.find('#slider-container').prepend(div)
 
   updateSlider: =>
-    @$el.find('#slider')[0].value = (@spade.elapsedTime / @maxTime) * 100
+    value = (@spade.elapsedTime / @maxTime) * 100
+    @$el.find('#slider')[0].value = value
+    if value >= 100
+      @$el.find('#play-button').text("Replay")
+    else
+      @$el.find('#play-button').text("Play")
     @$el.find('#start-time').text((@spade.elapsedTime / 1000).toFixed(0) + 's')
     if @spade.elapsedTime >= @maxTime
       @clearPlayback()
       @fun()
+    for child in @$el.find('#event-container').children()
+      child = $(child)
+      timeoutValue = child.data('timeout') or 0
+      continue unless timeoutValue >= 0
+      percentage = timeoutValue / 100
+      child.css('background-color', "rgba(#{Math.round(100 * percentage)}, #{Math.round(255 * percentage)}, #{Math.round(100 * percentage)}, #{0.125 + (0.5 - 0.125) * percentage})")
+      child.data('timeout', timeoutValue - 1)
 
   onPlayClicked: (e) ->
     @clearPlayback()
-    @spade.play(@options.events, @ace, @$el.find('#slider')[0].value / 100)
+    for child in @$el.find('#event-container').children()
+      child = $(child)
+      child.data('timeout', 0)
+    percent = @$el.find('#slider')[0].value / 100
+    if percent is 1
+      @$el.find('#slider')[0].value = 0
+      percent = 0
+    @spade.play(@options.events, @ace, percent, (event) =>
+      name = event.eventName
+      elem = @$el.find(".#{name}")
+      unless elem
+        console.warn "Unknown eventName:", name
+        return
+      elem.css('background-color', 'rgba(100, 255, 100, 0.5)')
+      elem.data('timeout', 100)
+    )
     @interval = setInterval(@updateSlider, 1)
     @fun()
 

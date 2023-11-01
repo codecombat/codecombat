@@ -20,6 +20,9 @@ Thumbs.db
 .#*
 *#
 
+#Emacs - CTAGS
+TAGS
+
 # Vim
 .*.sw[a-z]
 *.un~i
@@ -121,3 +124,6 @@ scripts/analytics/mongodb/.mainAuth.json
 .build_info.json
 
 .lighthouseci
+
+# Local VSCode history
+.history

@@ -36,7 +36,7 @@ class CinematicDialogTreema extends TreemaObjectNode
     # Calling method on parent class: https://stackoverflow.com/a/11520286
     super(valEl, data)
 
-class LiveEditingMarkup extends TreemaNode.nodeMap.ace
+module.exports.LiveEditingMarkup = class LiveEditingMarkup extends TreemaNode.nodeMap.ace
   valueClass: 'treema-markdown treema-multiline treema-ace'
 
   constructor: ->

@@ -54,6 +54,11 @@ module.exports = class BasicInfoView extends CocoView
       checkNamePromise: null
       error: ''
     }
+    # fake this utils for unique usage in pug
+    @utils = {
+      isCodeCombat
+      isOzaria
+    }
     @listenTo @state, 'change:checkEmailState', -> @renderSelectors('.email-check')
     @listenTo @state, 'change:checkNameState', -> @renderSelectors('.name-check')
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
@@ -62,17 +67,29 @@ module.exports = class BasicInfoView extends CocoView
 
     # Prefill form by url params
     url = new URLSearchParams window.location.search
-    ['firstName', 'lastName', 'email'].forEach (param) =>
-      @signupState.get('signupForm')[param]= url.get param
+
+    if url.get 'prefill'
+      prefillData = JSON.parse(Buffer.from(url.get('prefill'), 'base64').toString('ascii'))
+    else
+      prefillData = ['firstName', 'lastName', 'email'].reduce (data = {}, param) =>
+        value = url.get param
+        if value then data[param] = url.get param
+        data
+      , {}
+
+    Object.entries(prefillData).forEach ([param,value]) =>
+      @signupState.get('signupForm')[param]= value
 
     @hideEmail = if isCodeCombat then userUtils.shouldHideEmail() else false
+    @showLibraryIdInsteadOfUsername = if isCodeCombat then userUtils.shouldShowLibraryLoginModal() else false
 
   afterRender: ->
     @$el.find('#first-name-input').focus()
-    application.gplusHandler.loadAPI({
-      success: =>
-        @handleSSOConnect(application.gplusHandler, 'gplus')
-    })
+    unless me.showChinaRegistration()
+      application.gplusHandler.loadAPI({
+        success: =>
+          @handleSSOConnect(application.gplusHandler, 'gplus')
+      })
     super()
 
   # These values are passed along to AuthModal if the user clicks "Sign In" (handled by CreateAccountModal)
@@ -195,8 +212,24 @@ module.exports = class BasicInfoView extends CocoView
         message: $.i18n.t('signup.invalid')
       })
 
-    forms.applyErrorsToForm(@$('form'), res.errors) unless res.valid
-    return res.valid
+    if me.get('library')?.name == 'vaughan-library'
+      name = data.name || ''
+      nameLower = name.toLowerCase()
+      if nameLower.includes('pacreg')
+        if !nameLower.startsWith('pacreg') or nameLower.length != 12 or isNaN(name.slice(6))
+          res.errors.push({
+            dataPath: '/name',
+            message: ' Invalid library id'
+          })
+      else
+        if nameLower.length != 14 or !['23288', '29158'].includes(nameLower.slice(0, 5)) or isNaN(nameLower)
+          res.errors.push({
+            dataPath: '/name',
+            message: ' Invalid library id'
+          })
+
+    forms.applyErrorsToForm(@$('form'), res.errors) if not res.valid or res.errors?.length > 0
+    return res.valid and res.errors?.length == 0
 
   formSchema: ->
     if isOzaria
@@ -397,6 +430,7 @@ module.exports = class BasicInfoView extends CocoView
     @handleSSOConnect(handler, ssoUsed)
 
   handleSSOConnect: (handler, ssoUsed) ->
+    return if me.showChinaRegistration()
     handler.connect({
       context: @
       success: (resp = {}) ->

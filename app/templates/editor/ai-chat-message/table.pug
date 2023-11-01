@@ -1,0 +1,39 @@
+extends /templates/common/table
+
+block tableResultsHeader
+  tr
+    th(colspan=me.isAdmin() ? 7 : 6)
+      span(data-i18n="general.results")
+        | Results
+      span
+        |: #{documents.length}
+
+block tableHeader
+  tr
+    th(data-i18n="general.date")
+    th Document
+    th Actor
+    th Parent
+    th Preview
+    if me.isAdmin()
+      th(data-i18n="editor.delete")
+
+block tableBody
+  for chatMessage in documents
+    tr(data-chat-message=chatMessage.get('_id') data-name=chatMessage.get('name'))
+      td(title=chatMessage.get('created'))
+        a(href='/editor/' + page + '/' + chatMessage.get('_id'))
+          | #{moment(chatMessage.get('created')).format('lll')}
+      td 
+        a(href='/editor/ai-document/' + chatMessage.get('document') target='_blank')
+          | #{chatMessage.get('document')}
+      td #{chatMessage.get('actor')}          
+      td 
+        | #{chatMessage.get('parentKind')} 
+        a(href='/editor/ai-' + chatMessage.get('parentKind') + '/' + chatMessage.get('parent') target='_blank')
+          | #{chatMessage.get('parent')}
+      td #{chatMessage.get('preview')}
+      if me.isAdmin() && chatMessage.get('visibility') != 'published'
+        td
+          button.ai-model-tool-button.btn.btn-primary.btn-sm#delete-button(data-i18n="editor.delete")
+

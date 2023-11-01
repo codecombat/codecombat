@@ -5,6 +5,7 @@ api = require 'core/api'
 User = require 'models/User'
 Level = require 'models/Level'
 utils = require 'core/utils'
+userClassroomHelper = require '../../lib/user-classroom-helper'
 
 ProjectGalleryComponent = Vue.extend
   name: 'project-gallery-component'
@@ -42,8 +43,8 @@ ProjectGalleryComponent = Vue.extend
           api.classrooms.getCourseLevels({ classroomID: @courseInstance.classroomID, courseID: @courseInstance.courseID }).then((@levels) =>)
         ])
     ]).then =>
-      me.isSchoolAdminOf({ classroomId: @courseInstance.classroomID }).then((res) => @amSchoolAdministratorOfGallery = res)
-      me.isTeacherOf({ classroomId: @courseInstance.classroomID }).then((res) => @amTeacherOfGallery = res)
+      userClassroomHelper.isSchoolAdminOf({ user: me , classroomId: @courseInstance.classroomID }).then((res) => @amSchoolAdministratorOfGallery = res)
+      userClassroomHelper.isTeacherOf({ user: me, classroomId: @courseInstance.classroomID }).then((res) => @amTeacherOfGallery = res)
       @level = _.find(@levels, Level.isProject)
       @users.forEach (user) =>
         Vue.set(user, 'broadName', User.broadName(user))

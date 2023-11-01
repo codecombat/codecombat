@@ -5,6 +5,7 @@ template = require 'app/templates/courses/courses-update-account-view'
 AuthModal = require 'views/core/AuthModal'
 JoinClassModal = require 'views/courses/JoinClassModal'
 {logoutUser, me} = require('core/auth')
+utils = require 'core/utils'
 
 module.exports = class CoursesUpdateAccountView extends RootView
   id: 'courses-update-account-view'
@@ -17,11 +18,13 @@ module.exports = class CoursesUpdateAccountView extends RootView
     'click .update-teacher-btn': 'onClickUpdateTeacherButton'
     'click .remain-student-btn': 'onClickRemainStudentButton'
     'click .update-student-btn': 'onClickUpdateStudentButton'
+    'click .remain-individual-btn': 'onClickRemainIndividualButton'
 
   initialize: (options) ->
     @accountType = switch
       when me.isTeacher() then $.i18n.t('courses.teacher')
       when me.isStudent() then $.i18n.t('courses.student')
+    @isOzaria = utils.isOzaria
 
   onClickLogInButton: ->
     @openModalView(new AuthModal())
@@ -48,6 +51,9 @@ module.exports = class CoursesUpdateAccountView extends RootView
     @listenTo joinClassModal, 'join:success', => @becomeStudent(e.target, 'Update student')
     # return unless window.confirm($.i18n.t('courses.update_account_confirm_update_student') + '\n\n' + $.i18n.t('courses.update_account_confirm_update_student2'))
     # @becomeStudent(e.target, 'Update student')
+
+  onClickRemainIndividualButton: (e) ->
+    application.router.navigate('/', {trigger: true})
 
   becomeStudent: (targetElem, trackEventMsg) ->
     $(targetElem).prop('disabled', true)

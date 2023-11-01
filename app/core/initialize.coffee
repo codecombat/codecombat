@@ -10,8 +10,6 @@ Vuex = require 'vuex'
 VTooltip = require 'v-tooltip'
 VueMoment = require 'vue-moment'
 VueMeta = require 'vue-meta'
-VueYoutube = require 'vue-youtube'
-VueShepherd = require 'vue-shepherd'
 { VueMaskDirective } = require 'v-mask'
 VueAsyncComputed = require 'vue-async-computed'
 
@@ -19,14 +17,10 @@ Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
 Vue.use(VueMoment.default)
 
-if utils.isCodeCombat
-  Vue.use(VueYoutube.default)
-
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
 
 if utils.isOzaria
-  Vue.use(VueShepherd);
   Vue.use(utils.vueNonReactiveInstall)
   Vue.use(VueAsyncComputed)
   Vue.directive('mask', VueMaskDirective)
@@ -52,7 +46,7 @@ definitionSchemas =
 
 init = ->
   return if app
-  if not window.userObject._id
+  if not window.userObject?._id
     options = { cache: false }
     options.data = _.pick(utils.getQueryVariables(), 'preferredLanguage')
     $.ajax('/auth/whoami', options).then (res) ->

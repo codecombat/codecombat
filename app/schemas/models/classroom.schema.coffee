@@ -22,6 +22,7 @@ _.extend ClassroomSchema.properties,
     language: {type: 'string', 'enum': ['python', 'javascript', 'cpp', 'java']}
     liveCompletion: {type: 'boolean', default: true}
     blocks: { type: 'string', enum: ['hidden', 'opt-in', 'opt-out'], description: 'Drag-and-drop blocks option for students. Default if unset: hidden.' }
+    levelChat: {type: 'string', enum: ['fixed_prompt_only', 'none']}
   averageStudentExp: { type: 'string' }
   ageRangeMin: { type: 'string' }
   ageRangeMax: { type: 'string' }
@@ -85,7 +86,13 @@ _.extend ClassroomSchema.properties,
     additionalProperties: c.object(
       { title: 'Student Lock Object', description: 'Key value of student id tied to the lock data.' }, {
         courseId: c.objectId(),
-        levelOriginal: c.objectId()
+        levelOriginal: c.objectId(),
+        lockedLevels: c.object({
+          additionalProperties: ['boolean', c.stringDate()]
+        }),
+        optionalLevels: c.object({
+          additionalProperties: ['boolean', c.stringDate()]
+        }),
       })
   }, {}
   stats: c.object { additionalProperties: true }

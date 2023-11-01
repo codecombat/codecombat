@@ -6,6 +6,10 @@ ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
 
+Concepts = require 'collections/Concepts'
+schemas = require 'app/schemas/schemas'
+nodes = require 'views/editor/level/treema_nodes'
+
 require 'lib/game-libraries'
 
 module.exports = class CourseEditView extends RootView
@@ -24,6 +28,16 @@ module.exports = class CourseEditView extends RootView
 
   onLoaded: ->
     super()
+    @concepts = new Concepts([])
+
+    @listenTo @concepts, 'sync', =>
+      schemas.concept.enum = _.map @concepts.models, (c) -> c.get('key')
+      @onConceptsLoaded()
+    
+    @concepts.fetch
+      data: { skip: 0, limit: 1000 }
+
+  onConceptsLoaded: () ->    
     @buildTreema()
     @listenTo @course, 'change', =>
       @course.updateI18NCoverage()
@@ -38,6 +52,9 @@ module.exports = class CourseEditView extends RootView
       schema: Course.schema
       readOnly: me.get('anonymous')
       supermodel: @supermodel
+      nodeClasses:
+        'concepts-list': nodes.conceptNodes(@concepts.models).ConceptsListNode
+        'concept': nodes.conceptNodes(@concepts.models).ConceptNode      
     @treema = @$el.find('#course-treema').treema(options)
     @treema.build()
     @treema.childrenTreemas.rewards?.open(3)

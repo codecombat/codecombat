@@ -1,11 +1,13 @@
-mixin price(name, p)
+mixin price(name, p, nameWithoutCurrency)
   - var origPrice = p.priceStringNoSymbol()
   if origPrice % 1 === 0
     - origPrice = Math.floor(origPrice);
   - var salePrice = p.adjustedPriceStringNoSymbol()
   if salePrice % 1 === 0
     - salePrice = Math.floor(salePrice);
-  if origPrice == salePrice
+  if p.get('formattedAmount')
+    .price(data-i18n=nameWithoutCurrency, data-i18n-options={price: p.get('formattedAmount')})
+  else if origPrice == salePrice
     .price(data-i18n=name, data-i18n-options={price:origPrice})
   else if view.basicCoupon && view.basicCoupon.duration === 'once'
     .price.strike-price(data-i18n=name, data-i18n-options={price:origPrice})
@@ -45,6 +47,7 @@ mixin price(name, p)
                 li(data-i18n="subscribe.feature_learn")
                 if view.basicProduct
                   li(data-i18n="subscribe.feature_gems", data-i18n-options={gems: view.basicProduct.get('gems').toLocaleString(), gems12: (view.basicProduct.get('gems') * 12).toLocaleString()})
+                li(data-i18n="subscribe.feature_ai_level_bot")
 
         hr
 
@@ -61,7 +64,7 @@ mixin price(name, p)
           - var secondRowClass = '.col-xs-5'
           if view.basicProduct && !view.hideMonthlySub
             .col-xs-5.option-col.col-xs-offset-1
-              +price("subscribe.month_price", view.basicProduct)
+              +price("subscribe.month_price", view.basicProduct, 'subscribe.month_price_without_currency')
               .option-header.price-subtext.text-center(data-i18n="subscribe.stripe_description")
               button.btn.btn-lg.btn-illustrated.purchase-button
                 span.buy-now-text(data-i18n="subscribe.buy_now")
@@ -72,7 +75,7 @@ mixin price(name, p)
 
           if view.basicProductAnnual
             .option-col(class=secondRowClass)
-              +price("subscribe.year_price", view.basicProductAnnual)
+              +price("subscribe.year_price", view.basicProductAnnual, 'subscribe.year_price_without_currency')
               .option-header.price-subtext.text-center(data-i18n="subscribe.year_subscription")
               if view.paymentProcessor === 'PayPal'
                 #paypal-button-container
@@ -83,7 +86,7 @@ mixin price(name, p)
 
           else if view.lifetimeProduct
             .option-col(class=secondRowClass)
-              +price("subscribe.lifetime_price", view.lifetimeProduct)
+              +price("subscribe.lifetime_price", view.lifetimeProduct, "subscribe.lifetime_price")
               .option-header.price-subtext.text-center(data-i18n="subscribe.lifetime")
               if view.paymentProcessor === 'PayPal'
                 #paypal-button-container

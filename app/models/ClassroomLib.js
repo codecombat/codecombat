@@ -22,12 +22,34 @@ const ClassroomLib = {
     }
   },
 
-  // Unlocks the student allowing the student total access.
-  clearStudentLock: (classroom, studentId) => {
-    delete classroom.studentLockMap[studentId]
+  initializeLevelLockForStudent: (classroom, studentId, courseId) => {
+    if (!classroom.studentLockMap) {
+      classroom.studentLockMap = {}
+    }
+
+    if (!classroom.studentLockMap[studentId]) {
+      classroom.studentLockMap[studentId] = {
+        courseId,
+        lockedLevels: {}
+      }
+    }
+
+    if (!classroom.studentLockMap[studentId].lockedLevels) {
+      classroom.studentLockMap[studentId].lockedLevels = {}
+    }
+
+    if (!classroom.studentLockMap[studentId].optionalLevels) {
+      classroom.studentLockMap[studentId].optionalLevels = {}
+    }
   },
 
-
+  // modifier possible values: 'locked', 'optional'
+  setModifierForStudent: ({ classroom, studentId, courseId, levels = [], date = null, modifier, value }) => {
+    ClassroomLib.initializeLevelLockForStudent(classroom, studentId, courseId)
+    levels.forEach(levelOriginal => {
+      classroom.studentLockMap[studentId][`${modifier}Levels`][levelOriginal] = date || value
+    })
+  },
 
   // Returns true if student is on a locked course.
   // There may be a level within that course that sets a more granular lock.
@@ -44,8 +66,43 @@ const ClassroomLib = {
     return courseToCheckIdx >= studentCourseIdx
   },
 
+  isModifierActiveForStudent: (classroomAttributes, studentId, courseIdToCheck, level, modifier, modifierExpiryDate = null) => {
+
+    if (!level) {
+      return false
+    }
+
+    const value = classroomAttributes?.studentLockMap?.[studentId]?.[`${modifier}Levels`]?.[level]
+
+    if (typeof value === 'undefined' && modifier === 'locked') {
+      // Legacy behavior.
+      return ClassroomLib.isStudentOnLockedLevel(classroomAttributes, studentId, courseIdToCheck, level)
+    }
+
+    // If we have a modifier expiry date, then we check if the modifier will expire at the given date.
+    if (modifierExpiryDate) {
+      if (new Date(value).toString() === modifierExpiryDate.toString()) {
+        return true
+      }
+      return false
+    }
+
+    if (!value) {
+      // If we have not tracked a locked course, then assume unlocked.
+      return false
+    }
+
+    if (value === true) {
+      return true
+    }
+
+    if (new Date(value) > new Date()) {
+      return true
+    }
+  },
+
   isStudentOnLockedLevel: (classroom, studentId, courseIdToCheck, levelOriginal) => {
-    const studentCourseLocked = classroom.studentLockMap?.[studentId]?.courseId
+    const studentCourseLocked = classroom?.studentLockMap?.[studentId]?.courseId
     if (!studentCourseLocked) {
       // If we have not tracked a locked course, then assume unlocked.
       return false
@@ -68,8 +125,8 @@ const ClassroomLib = {
     }
 
     // Get level order from the classroom.
-    const classroomCachedCourse = classroom.courses.find(({_id}) => _id === courseIdToCheck);
-    const levelOriginals = classroomCachedCourse.levels.map(({original}) => original)
+    const classroomCachedCourse = classroom.courses.find(({ _id }) => _id === courseIdToCheck)
+    const levelOriginals = classroomCachedCourse.levels.map(({ original }) => original)
 
     for (const original of levelOriginals) {
       // If we encounter our level, then the locked level must be later and this is unlocked
@@ -84,6 +141,15 @@ const ClassroomLib = {
 
     // There was an invalid level original. Don't set a lock.
     return false
+  },
+
+  getStudentLockDate: (classroom, studentId, level) => {
+    const lockedValue = classroom.studentLockMap?.[studentId]?.lockedLevels?.[level]
+
+    if (lockedValue && typeof lockedValue === 'string') {
+      return new Date(lockedValue)
+    }
+    return null
   }
 }
 

@@ -89,6 +89,15 @@ module.exports = class User extends CocoModel
 
   getSlugOrID: -> @get('slug') or @get('_id')
 
+  hasNoPasswordLoginMethod: ->
+    # Return true if user has any login method that doesn't require a password
+    return Boolean(@get('facebookID') || @get('gplusID') || @get('githubID') || @get('cleverID'))
+
+  currentPasswordRequired: ->
+    # Return true if current password should be given for password change
+    spying = window.serverSession?.amActually
+    return !spying && !@get('newPasswordRequired') && !@hasNoPasswordLoginMethod()
+
   @getUnconflictedName: (name, done) ->
     # deprecate in favor of @checkNameConflicts, which uses Promises and returns the whole response
     $.ajax "/auth/name/#{encodeURIComponent(name)}",
@@ -119,9 +128,17 @@ module.exports = class User extends CocoModel
 
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
-  isHomeUser: -> not @get('role')
+  isHomeUser: -> (not @get('role')) or @isParentHome()
+
+  isParentHome: -> @get('role') is 'parent-home'
+
+  hasNoVerifiedChild: -> not (_.find (@get('related') || []), (c) => c.relation == 'children' && c.verified)
+
+  isRegisteredHomeUser: -> @isHomeUser() and !@get('anonymous')
 
   isStudent: -> @get('role') is 'student'
+
+  isTestStudent: -> @isStudent() and (@get('related') or []).some(({relation})=>relation == 'TestStudent')
 
   isCreatedByClient: -> @get('clientCreator')?
 
@@ -131,50 +148,6 @@ module.exports = class User extends CocoModel
     # TODO: this doesn't actually check to see if they are paid (having prepaids), confusing
     return false unless @isTeacher()
     return @isCreatedByClient() or (/@codeninjas.com$/i.test @get('email'))
-
-  isTeacherOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
-    if not @isTeacher()
-      return false
-
-    if classroomId and not classroom
-      Classroom = require 'models/Classroom'
-      classroom = new Classroom({ _id: classroomId })
-      yield classroom.fetch()
-
-    if classroom
-      return true if @get('_id') == classroom.get('ownerID')
-
-    if courseInstanceId and not courseInstance
-      CourseInstance = require 'models/CourseInstance'
-      courseInstance = new CourseInstance({ _id: courseInstanceId })
-      yield courseInstance.fetch()
-
-    if courseInstance
-      return true if @get('id') == courseInstance.get('ownerID')
-
-    return false
-
-  isSchoolAdminOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
-    if not @isSchoolAdmin()
-      return false
-
-    if classroomId and not classroom
-      Classroom = require 'models/Classroom'
-      classroom = new Classroom({ _id: classroomId })
-      yield classroom.fetch()
-
-    if classroom
-      return true if classroom.get('ownerID') in @get('administratedTeachers')
-
-    if courseInstanceId and not courseInstance
-      CourseInstance = require 'models/CourseInstance'
-      courseInstance = new CourseInstance({ _id: courseInstanceId })
-      yield courseInstance.fetch()
-
-    if courseInstance
-      return true if courseInstance.get('ownerID') in @get('administratedTeachers')
-
-    return false
 
   getHocCourseInstanceId: () ->
     courseInstanceIds = me.get('courseInstances') || []
@@ -316,8 +289,6 @@ module.exports = class User extends CocoModel
     if payPal = @get('payPal')
       return true if payPal.billingAgreementID
     if stripe = @get('stripe')
-      return true if stripe.sponsorID
-      return true if stripe.subscriptionID
       return true if stripe.free is true
       return true if _.isString(stripe.free) and new Date() < new Date(stripe.free)
     if products = @get('products')
@@ -325,6 +296,12 @@ module.exports = class User extends CocoModel
       homeProducts = @activeProducts('basic_subscription')
       maxFree = _.max(homeProducts, (p) => new Date(p.endDate)).endDate
       return true if new Date() < new Date(maxFree)
+    false
+
+  isPaidOnlineClassUser: ->
+    if products = @get('products')
+      onlineClassProducts = @activeProducts('online-classes')
+      return true if onlineClassProducts.length > 0
     false
 
   premiumEndDate: ->
@@ -372,6 +349,17 @@ module.exports = class User extends CocoModel
         @trigger 'user-keep-me-updated-success'
       error: =>
         @trigger 'user-keep-me-updated-error'
+    })
+
+  updatePassword: (currentPassword, newPassword, success, error) ->
+    $.ajax({
+      method: 'PUT'
+      url: "/db/user/#{@id}/update-user-password"
+      data: { currentPassword, newPassword }
+      success: (attributes) =>
+        this.set attributes
+        success()
+      error: error
     })
 
   sendNoDeleteEUVerificationCode: (code) ->
@@ -514,6 +502,12 @@ module.exports = class User extends CocoModel
     options.url = "/db/user/#{@id}/name-for-classmate"
     $.ajax options
 
+  fetchOnlineTeachers: co.wrap (users) ->
+    url = "/db/user/teachers/online"
+    if users?
+      url += "?teachers=#{encodeURIComponent(JSON.stringify(users))}"
+    yield fetchJson(url)
+
   # Function meant for "me"
 
   spy: (user, options={}) ->
@@ -599,6 +593,16 @@ module.exports = class User extends CocoModel
     options.data.email = email
     @fetch(options)
 
+  linkGPlusUser: (gplusID, email, options={}) ->
+    options.url = "/db/user/#{@id}/link-with-gplus"
+    options.type = 'POST'
+    options.xhrFields = { withCredentials: true }
+    options.data ?= {}
+    options.data.gplusID = gplusID
+    options.data.gplusAccessToken = application.gplusHandler.token()
+    options.data.email = email
+    @fetch(options)
+
   loginGPlusUser: (gplusID, options={}) ->
     options.url = '/auth/login-gplus'
     options.type = 'POST'
@@ -645,6 +649,13 @@ module.exports = class User extends CocoModel
     options.data ?= {}
     options.data.token = token
     options.data.provider = provider
+    @fetch(options)
+
+  changePassword: (userId, password, options={}) ->
+    options.url = '/auth/change-password'
+    options.type = 'POST'
+    options.data ?= {}
+    _.extend(options.data, { userId, password })
     @fetch(options)
 
   makeCoursePrepaid: (prepaidId) ->
@@ -776,7 +787,73 @@ module.exports = class User extends CocoModel
       else
         value = 'control'
         valueProbability = 1 - probability
-      me.startExperiment('m7', value, probability)
+      me.startExperiment('m7', value, valueProbability)
+    value
+
+  getLevelChatExperimentValue: ->
+    value = {true: 'beta', false: 'control', control: 'control', beta: 'beta'}[utils.getQueryVariable 'ai']
+    value ?= me.getExperimentValue('level-chat', null, 'beta')
+    if not value? and utils.isOzaria
+      # Don't include Ozaria for now
+      value = 'control'
+    if not value? and features?.china
+      # Don't include China players for now
+      value = 'control'
+    if userUtils.isInLibraryNetwork()
+      value = 'control'
+    if not value? and new Date(me.get('dateCreated')) < new Date('2023-07-20')
+      # Don't include users created before experiment start date
+      value = 'control'
+    if not value? and not /^en/.test me.get('preferredLanguage', true)
+      # Don't include non-English-speaking users before we fine-tune for other languages
+      value = 'control'
+    if not value? and me.get('hourOfCode')
+      # Don't include users coming in through Hour of Code
+      value = 'control'
+    if not value? and me.get('role') is 'student'
+      # Don't include student users (do include teachers, parents, home users, and anonymous)
+      value = 'control'
+    if not value?
+      probability = window.serverConfig?.experimentProbabilities?['level-chat']?.beta ? 0.02
+      if Math.random() < probability
+        value = 'beta'
+        valueProbability = probability
+      else
+        value = 'control'
+        valueProbability = 1 - probability
+      me.startExperiment('level-chat', value, valueProbability)
+    value
+
+  getHackStackExperimentValue: ->
+    value = {true: 'beta', false: 'control', control: 'control', beta: 'beta'}[utils.getQueryVariable 'hackstack']
+    value ?= me.getExperimentValue('hackstack', null, 'beta')
+    if not value? and utils.isOzaria
+      # Don't include Ozaria for now
+      value = 'control'
+    if not value? and features?.china
+      # Don't include China players for now
+      value = 'control'
+    if userUtils.isInLibraryNetwork()
+      value = 'control'
+    if not value? and not /^en/.test me.get('preferredLanguage', true)
+      # Don't include non-English-speaking users before we fine-tune for other languages
+      value = 'control'
+    if not value? and me.get('hourOfCode')
+      # Don't include users coming in through Hour of Code
+      value = 'control'
+    if not value? and me.get('role')
+      # Don't include users other than home users
+      value = 'control'
+    if not value?
+      probability = window.serverConfig?.experimentProbabilities?['hackstack']?.beta ? 0.05
+      if Math.random() < probability
+        value = 'beta'
+        valueProbability = probability
+      else
+        value = 'control'
+        valueProbability = 1 - probability
+      console.log('starting hackstack experiment with value', value, 'prob', valueProbability)
+      me.startExperiment('hackstack', value, valueProbability)
     value
 
   removeRelatedAccount: (relatedUserId, options={}) ->
@@ -788,6 +865,36 @@ module.exports = class User extends CocoModel
 
   linkRelatedAccount: (body, options = {}) ->
     options.url = '/db/user/related-accounts'
+    options.type = 'PUT'
+    options.data ?= body
+    @fetch(options)
+
+  getRelatedAccounts: (body, options = {}) ->
+    options.url = '/db/user/related-accounts/details'
+    @fetch(options)
+
+  getTestStudentId: ->
+    testStudentRelation = (@get('related') or []).filter((related) => related.relation == 'TestStudent')[0]
+    if testStudentRelation
+      return Promise.resolve testStudentRelation.userId
+    else
+      return @createTestStudentAccount().then (response) =>
+        return response.relatedUserId
+
+  switchToStudentMode: () ->
+    @getTestStudentId().then((testStudentId) => @spy({id: testStudentId}))
+
+  switchToTeacherMode: () ->
+    @switchToStudentMode()
+
+  createTestStudentAccount: (body, options = {}) ->
+    options.url = '/db/user/create-test-student-account'
+    options.type = 'PUT'
+    options.data ?= body
+    @fetch(options)
+
+  createAndAssociateAccount: (body, options = {}) ->
+    options.url = '/db/user/related-accounts/associate-account'
     options.type = 'PUT'
     options.data ?= body
     @fetch(options)
@@ -819,6 +926,7 @@ module.exports = class User extends CocoModel
   hideFooter: -> @isTarena() or @isILK() or @isICode()
   hideOtherProductCTAs: -> @isTarena() or @isILK() or @isICode()
   useGoogleClassroom: -> not (features?.chinaUx ? false) and @get('gplusID')?   # if signed in using google SSO
+  useGoogleCalendar: -> not (features?.chinaUx ? false) and @get('gplusID')? and (@isAdmin() || @isOnlineTeacher())   # if signed in using google SSO
   useGoogleAnalytics: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   isEdLinkAccount: -> not (features?.chinaUx ? false) and @get('edLink')?
   useDataDog: -> not ((features?.china ? false) or (features?.chinaInfra ? false))

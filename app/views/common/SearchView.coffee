@@ -4,22 +4,25 @@ template = require 'app/templates/common/search-view'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 
 class SearchCollection extends Backbone.Collection
-  initialize: (modelURL, @model, @term, @projection) ->
+  initialize: (modelURL, @model, @term, @projection, @limit) ->
     @url = "#{modelURL}?project="
     if @projection?.length
       @url += 'created,permissions'
       @url += ',' + projected for projected in @projection
     else @url += 'true'
     @url += "&term=#{@term}" if @term
+    @url += "&limit=#{@limit}" if @limit isnt 100
 
   comparator: (a, b) ->
     score = 0
     score += 90019001900190019001 * a.get('priority') if a.get('priority')?
     score -= 90019001900190019001 * b.get('priority') if b.get('priority')?
-    score -= 9001900190019001 if a.getOwner() is me.id
-    score += 9001900190019001 if b.getOwner() is me.id
+    score -= 9001900190019001 if a.getOwner() is me.id and not /db\/chat_message/.test(@url)
+    score += 9001900190019001 if b.getOwner() is me.id and not /db\/chat_message/.test(@url)
     score -= new Date(a.get 'created') if a.get('created')
     score -= -(new Date(b.get 'created')) if b.get('created')
+    score -= new Date(a.get('message').startDate) if a.get('message')?.startDate
+    score -= -(new Date(b.get('message').startDate)) if b.get('message')?.startDate
     if score < 0 then -1 else (if score > 0 then 1 else 0)
 
 module.exports = class SearchView extends RootView
@@ -34,6 +37,7 @@ module.exports = class SearchView extends RootView
   projected: null # ['name', 'description', 'version'] or null for default
   canMakeNew: true
   archived: true # Include archived game elements
+  limit: 100
 
   events:
     'change input#search': 'runSearch'
@@ -61,7 +65,7 @@ module.exports = class SearchView extends RootView
     return if @sameSearch(term)
     @removeOldSearch()
 
-    @collection = new SearchCollection(@modelURL, @model, term, @projection)
+    @collection = new SearchCollection(@modelURL, @model, term, @projection, @limit)
     @collection.term = term # needed?
     if not @archived
       @collection.url += '&archived=false'
@@ -84,7 +88,7 @@ module.exports = class SearchView extends RootView
     @hideLoading()
     @collection.sort()
     documents = @collection.models
-    table = $(@tableTemplate(documents: documents, me: me, page: @page, moment: moment))
+    table = $(@tableTemplate(documents: documents, me: me, page: @page, moment: moment, view: @))
     @$el.find('table').replaceWith(table)
     @$el.find('table').i18n()
     @applyRTLIfNeeded()

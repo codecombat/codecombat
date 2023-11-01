@@ -39,6 +39,7 @@ module.exports = class ProblemAlertView extends CocoView
   events:
     'click .close': 'onRemoveClicked'
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
+    'click .ai-help-button': 'onAIHelpClicked'
 
   constructor: (options) ->
     @supermodel = options.supermodel # Has to go before super so events are hooked up
@@ -113,6 +114,11 @@ module.exports = class ProblemAlertView extends CocoView
     @playSound 'menu-button-click'
     @$el.hide()
     Backbone.Mediator.publish 'tome:focus-editor', {}
+
+  onAIHelpClicked: (e) ->
+    rand = _.random(1, 13)
+    message = $.i18n.t('ai.prompt_level_chat_' + rand)
+    Backbone.Mediator.publish 'level:add-user-chat', { message }
 
   onWindowResize: (e) =>
     # TODO: This all seems a little hacky

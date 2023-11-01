@@ -15,14 +15,12 @@ export function getOzariaAssetUrl (assetName) {
  * Calculates all the next levels for a list of levels in a classroom/campaign based on the level sessions.
  * @param {Object[]} sessions - The list of level session objects.
  * @param {Object[]|Object} levels - The list of level objects, or an object with keys as level original id and value as level data.
- * @param {Object} levels.nextLevels - The array of nextLevels for a level.
- * @param {boolean|undefined} levels.isPlayedInStages - True/false/undefined
- * @param {Object} levels.position - The object containing position of a level.
- * @param {boolean} levels.first - Value to determine if a level is the first level of classroom/campaign.
  * @param {Object} levelStatusMap - Optional. Object with key as the level original id, and value as complete/started.
+ * @param {Object} classroom - classroom
+ * @param {string} classroom - course id
  * @returns {string} - Next level's original id.
  */
-export const findNextLevelsBySession = (sessions, levels, levelStatusMap) => {
+export const findNextLevelsBySession = (sessions, levels, levelStatusMap, classroom, courseId) => {
   if (!levelStatusMap) {
     levelStatusMap = getLevelStatusMap(sessions)
   }
@@ -50,6 +48,11 @@ export const findNextLevelsBySession = (sessions, levels, levelStatusMap) => {
       } else {
         unlockedLevel = getNextLevelForLevel(level) || {}
       }
+
+      if (unlockedLevel.original && classroom && classroom.isStudentOnSkippedLevel(me.get('_id'), courseId, unlockedLevel.original)) {
+        unlockedLevel = {}
+      }
+
       const unlockedLevelStatus = levelStatusMap[unlockedLevel.original]
       const unlockedLevelCompleted = (typeof unlockedLevelStatus === 'string' && unlockedLevelStatus === 'complete') ||
         (typeof unlockedLevelStatus === 'number' && unlockedLevelStatus >= unlockedLevel.nextLevelStage)
@@ -144,7 +147,13 @@ export const getNextLevelForLevel = (level, capstoneStage = 1) => {
   if (capstoneStage && level.isPlayedInStages) {
     nextLevel = Object.values(nextLevels).filter((n) => (n.conditions || {}).afterCapstoneStage === capstoneStage)
   } else {
-    nextLevel = Object.values(nextLevels)
+    // Ensure that the next level is sorted by afterCapstoneStage
+    nextLevel = Object.values(nextLevels).sort((a, b) => {
+      const afterCapstoneStageA = a.conditions?.afterCapstoneStage ?? 0;
+      const afterCapstoneStageB = b.conditions?.afterCapstoneStage ?? 0;
+
+      return afterCapstoneStageA - afterCapstoneStageB;
+    });
   }
   return nextLevel[0] // assuming there can only be one next level for a given level and/or capstone stage
 }
@@ -299,9 +308,9 @@ export function internationalizeContentType(type){
     case 'cinematic':
       return $.i18n.t('play_level.content_type_cinematic')
     case 'interactive':
-      return $.i18n.t('play_level.content_type_interactive')
+      return $.i18n.t('play_level.content_type_interactive')    
     default:
-      return this.currentContent.contentType
+      return $.i18n.t('play_level.level_type_challenge') // show everything else as "challenge" for now
   }
 }
 
@@ -352,6 +361,9 @@ export function getGameContentDisplayNameWithType (contentData, withLevelSuffix 
 // `withLevelSuffix` will append 'Level' to the names for practice/capstone/challenge levels
 // `withProjectSuffix` will append 'Project' to the capstone name
 export function getGameContentDisplayType (contentType, withLevelSuffix = true, withProjectSuffix = false) {
+  if (!contentType) {
+    contentType = 'hero'
+  }
   if (contentType.startsWith('practice')) {
     return internationalizeLevelType('practice', withLevelSuffix, withProjectSuffix)
   } else if (contentType.startsWith('capstone')) {

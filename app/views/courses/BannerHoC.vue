@@ -19,9 +19,9 @@ export default Vue.extend({
 
 <template>
   <div
-      id="banner-hoc"
-      v-if="show"
-      class="container"
+    v-if="show"
+    id="banner-hoc"
+    class="container"
   >
     <div class="row">
       <div class="col-xs-12">
@@ -40,19 +40,7 @@ export default Vue.extend({
 </template>
 
 <style lang="scss" scoped>
-@import "app/styles/utils";
-
 #banner-hoc {
-
-@if $is-ozaria {
-  #announcement {
-    background-color: #cff2fc;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px 80px 20px 80px;
-    text-align: center;
-  }
-}
 
   @if $is-codecombat {
 
@@ -71,8 +59,15 @@ export default Vue.extend({
         font-weight: bold;
       }
     }
+  } @else {
+    #announcement {
+      background-color: #cff2fc;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 80px 20px 80px;
+      text-align: center;
+    }
   }
-
   #announcement {
     margin-right: 80px;
     margin-left: 80px;

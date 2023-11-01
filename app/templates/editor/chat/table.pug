@@ -1,0 +1,47 @@
+extends /templates/common/table
+
+block tableResultsHeader
+  tr
+    th(colspan=5)
+      span(data-i18n="general.results")
+        | Results
+      span
+        |: #{documents.length}
+
+block tableHeader
+  tr
+    th(data-i18n="general.date")
+    th(data-i18n="editor.level_components_type")
+    th(data-i18n="skill_docs.example")
+    th Published
+    th(data-i18n="play_level.level")
+    th(data-i18n="general.name")
+    if me.isAdmin()
+      th(data-i18n="editor.delete")
+
+block tableBody
+  for chat in documents
+    tr(data-chat=chat.get('_id'))
+      td(title=chat.get('message').endDate)
+        a(href='/editor/' + page + '/' + chat.get('_id'))
+          | #{moment(chat.get('message').endDate).format('lll')}
+      td(title=chat.get('kind')) #{chat.get('kind')}
+      td
+        if chat.get('example')
+          span ✅
+      td
+        if chat.get('releasePhase') == 'released'
+          span ✅
+      if chat.get('context')
+        td(title=chat.get('context').levelName) #{chat.get('context').levelName}
+        td(title=chat.get('message').sender.name) #{chat.get('message').sender.name}
+      else
+        td(colspan=2)
+      if me.isAdmin() && chat.get('releasePhase') != 'released'
+        td
+          button.chat-tool-button.btn.btn-primary.btn-sm#delete-button(data-i18n="editor.delete")
+
+    if chat.get('message')
+      tr.message-row(data-chat=chat.get('_id'))
+        td(colspan=(me.isAdmin() ? 7 : 6) title=chat.get('message').text) !{view.formatChat(chat)}
+

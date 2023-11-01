@@ -387,7 +387,7 @@ module.exports.loadBlocklyState = (blocklyState, blockly, tries=0) ->
     else
       console.error 'Error loading Blockly state', err
       return false
-    
+
 filterBlocklyState = (blocklyState, blockType) ->
   # Stubs out all blocks of the given type from the blockly state. Useful for not throwing away all code just because a block definition is missing.
   console.log 'Trying to remove', blockType, 'from blockly state', blocklyState, 'with', blocklyState.blocks?.blocks?.length, 'blocks'

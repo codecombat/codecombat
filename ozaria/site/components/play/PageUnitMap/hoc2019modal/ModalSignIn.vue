@@ -2,7 +2,6 @@
 import { mapActions } from 'vuex'
 import BaseModalContainer from '../../../common/BaseModalContainer'
 import { logInWithClever } from 'core/social-handlers/CleverHandler'
-
 const forms = require('core/forms')
 const User = require('models/User')
 const errors = require('core/errors')
@@ -79,6 +78,10 @@ export default {
           }
           if (errorID === 'wrong-password') {
             forms.setErrorToProperty($('#auth-modal'), 'password', $.i18n.t('account_settings.wrong_password'))
+            this.showingError = true
+          }
+          if (errorID === 'temp-password-expired') {
+            forms.setErrorToProperty($('#auth-modal'), 'password', $.i18n.t('account_settings.temp_password_expired'))
             this.showingError = true
           }
           if (errorID === 'individuals-not-supported') {

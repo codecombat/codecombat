@@ -5,6 +5,7 @@ Classroom = require 'models/Classroom'
 State = require 'models/State'
 Courses = require 'collections/Courses'
 Levels = require 'collections/Levels'
+Prepaids = require 'collections/Prepaids'
 LevelSession = require 'models/LevelSession'
 LevelSessions = require 'collections/LevelSessions'
 User = require 'models/User'
@@ -14,9 +15,11 @@ require 'd3/d3.js'
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
 AceDiff = require 'ace-diff'
-require('app/styles/common/ace-diff.sass')
+require('app/styles/teachers/ace-diff-teacher-student.sass')
 fullPageTemplate = require 'app/templates/teachers/teacher-student-view-full'
 viewTemplate = require 'app/templates/teachers/teacher-student-view'
+userClassroomHelper = require '../../lib/user-classroom-helper'
+globalVar = require 'core/globalVar'
 
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
@@ -47,7 +50,7 @@ module.exports = class TeacherStudentView extends RootView
         @aceDiffs?[levelOriginal].editors.left.ace.setValue(code, -1)
       else
         levelOriginal = link.attr('id').split('-')[0].slice(0, -1)
-        solutions = @levelSolutionsMap[levelOriginal]
+        solutions = if @paidTeacher or utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE == @selectedCourseId then @levelSolutionsMap[levelOriginal] else [{source: $.i18n.t('teachers.not_allow_to_solution') }]
         @aceDiffs?[levelOriginal].editors.right.ace.setValue(solutions[solutionIndex].source, -1)
     tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
@@ -66,6 +69,11 @@ module.exports = class TeacherStudentView extends RootView
     @listenToOnce @classroom, 'sync', @onClassroomSync
     @supermodel.trackRequest(@classroom.fetch())
     @isCreativeLevelMap = {}
+
+    @prepaids = new Prepaids()
+    @paidTeacher = me.isAdmin() or me.isPaidTeacher()
+    if !me.isAdmin()
+      @supermodel.trackRequest @prepaids.fetchMineAndShared()
 
     if @studentID
       @user = new User({ _id: @studentID })
@@ -96,6 +104,7 @@ module.exports = class TeacherStudentView extends RootView
 
   onLoaded: ->
     @selectedCourseId = @courses.first().id if @courses.loaded and @courses.length > 0 and not @selectedCourseId
+    @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
     if @students.loaded and not @destroyed
       @user = _.find(@students.models, (s)=> s.id is @studentID)
       if utils.isOzaria
@@ -154,10 +163,11 @@ module.exports = class TeacherStudentView extends RootView
     if utils.isCodeCombat
       view = @
       @aceDiffs = {}
+      showAceDiff = @paidTeacher or utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE == @selectedCourseId
       @$el.find('div[class*="ace-diff-"]').each ->
         cls = $(@).attr('class')
         levelOriginal = cls.split('-')[2]
-        solutions = view.levelSolutionsMap[levelOriginal]
+        solutions = if showAceDiff then view.levelSolutionsMap[levelOriginal] else [{source: $.i18n.t('teachers.not_allow_to_solution') }]
         studentCode = view.levelStudentCodeMap[levelOriginal]
         lang = classLang
         if [utils.courseIDs.WEB_DEVELOPMENT_1, utils.courseIDs.WEB_DEVELOPMENT_2].indexOf(view.selectedCourseId) != -1
@@ -166,6 +176,8 @@ module.exports = class TeacherStudentView extends RootView
           element: '.' + cls
           mode: 'ace/mode/' +classLang
           theme: 'ace/theme/textmate'
+          showDiffs: showAceDiff
+          showConnectors: showAceDiff
           left: {
             content: view.levels.fingerprint(studentCode?[0]?.plan ? '', lang)
             editable: false
@@ -406,6 +418,7 @@ module.exports = class TeacherStudentView extends RootView
     jqxhrs = @students.fetchForClassroom(@classroom, removeDeleted: true)
     # @listenTo @students, ->
     @supermodel.trackRequests jqxhrs
+    @isTeacherOfClass = userClassroomHelper.isTeacherOf({ user: me, classroom: @classroom })
 
   onSessionsSync: ->
     # Now we have some level sessions, and enough data to calculate last played string
@@ -535,6 +548,7 @@ module.exports = class TeacherStudentView extends RootView
     utils.formatStudentLicenseStatusDate(status, date)
 
   canViewStudentProfile: () -> @classroom && (@classroom.get('ownerID') == me.id || me.isAdmin())
+
 
   # TODO: Hookup enroll/assign functionality
 

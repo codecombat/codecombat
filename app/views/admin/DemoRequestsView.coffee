@@ -11,7 +11,7 @@ module.exports = class DemoRequestsView extends RootView
   constructor: (options) ->
     super options
     return unless me.isAdmin()
-    @trialRequests = new CocoCollection([], { url: '/db/trial.request?conditions[sort]="-created"&conditions[limit]=5000', model: TrialRequest })
+    @trialRequests = new CocoCollection([], { url: '/db/trial.request?conditions[sort]="-created"&conditions[limit]=10000', model: TrialRequest })
     @supermodel.loadCollection(@trialRequests, 'trial-requests', {cache: false})
     @dayCounts = []
 
@@ -29,7 +29,7 @@ module.exports = class DemoRequestsView extends RootView
     sevenCounts = []
     for i in [@dayCounts.length - 1..0]
       dayCount = @dayCounts[i]
-      sevenCounts.push(dayCount.count)
+      sevenCounts.push(dayCount.count) if dayCount
       while sevenCounts.length > 7
         sevenCounts.shift()
       if sevenCounts.length is 7

@@ -109,6 +109,18 @@ module.exports = {
       json: attrs
     }))
 
+  loginLafourche: (attrs, options={}) ->
+    fetchJson("/auth/login-lafourche", _.assign({}, options, {
+      method: 'POST'
+      json: attrs
+    }))    
+
+  loginShreve: (attrs, options={}) ->
+    fetchJson("/auth/login-shreve", _.assign({}, options, {
+      method: 'POST'
+      json: attrs
+    }))    
+
   loginHouston: (attrs, options={}) ->
     fetchJson("/auth/login-houston", _.assign({}, options, {
       method: 'POST'
@@ -137,4 +149,16 @@ module.exports = {
       method: 'POST'
       json: body
     }))
+
+  getFullNames: (json, options) ->
+    fetchJson("/db/user/-/getFullNames", _.assign({}, options, {
+      method: 'POST',
+      json
+    }))
+
+  fetchNamesForUser: (ids) ->
+    fetchJson("/db/user/-/names", {
+      method: 'POST'
+      data: { ids }
+    })
 }
