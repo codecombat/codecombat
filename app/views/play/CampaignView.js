@@ -55,7 +55,7 @@ const AmazonHocModal = require('views/play/modal/AmazonHocModal');
 const PromotionModal = require('views/play/modal/PromotionModal');
 require('vendor/scripts/jquery-ui-1.11.1.custom');
 require('vendor/styles/jquery-ui-1.11.1.custom.css');
-const HoCModal = require('views/special_event/HoC2018InterstitialModal.coffee');
+const HoCModal = require('views/special_event/HoC2018InterstitialModal');
 const CourseVideosModal = require('views/play/level/modal/CourseVideosModal');
 const globalVar = require('core/globalVar');
 const paymentUtils = require('app/lib/paymentUtils');
@@ -90,10 +90,10 @@ module.exports = (CampaignView = (function() {
     static initClass() {
       this.prototype.id = 'campaign-view';
       this.prototype.template = template;
-  
+
       this.prototype.subscriptions =
         {'subscribe-modal:subscribed': 'onSubscribed'};
-  
+
       this.prototype.events = {
         'click #amazon-campaign-logo': 'onClickAmazonCampaign',
         'click #anon-classroom-signup-close': 'onClickAnonClassroomClose',
@@ -132,10 +132,10 @@ module.exports = (CampaignView = (function() {
         'click a.start-esports': 'onClickEsportsLink',
         'click .m7-off': 'onClickM7OffButton'
       };
-  
+
       this.prototype.shortcuts =
         {'shift+s': 'onShiftS'};
-  
+
       this.prototype.activeArenas = utils.activeArenas;
     }
 
@@ -233,7 +233,7 @@ module.exports = (CampaignView = (function() {
       if (window.serverConfig.picoCTF) {
         this.supermodel.addRequestResource({url: '/picoctf/problems', success: picoCTFProblems => {
           this.picoCTFProblems = picoCTFProblems;
-          
+
         }}).load();
       } else {
         if (!this.editorMode) {
