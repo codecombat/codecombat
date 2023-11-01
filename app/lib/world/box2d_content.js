@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 // This file is a hack to work around some places that depend on window.box2d and
 //   window.BOX2D_ENABLED to be set in a certain order.
 // Especially: Adding a Thang in the Editor needs BOX2D_ENABLED to be false to
