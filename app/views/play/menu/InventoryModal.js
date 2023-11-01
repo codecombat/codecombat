@@ -1,854 +1,1071 @@
-require('app/styles/play/menu/inventory-modal.sass')
-require('app/styles/play/modal/play-items-modal.sass')
-ModalView = require 'views/core/ModalView'
-template = require 'app/templates/play/menu/inventory-modal'
-buyGemsPromptTemplate = require 'app/templates/play/modal/buy-gems-prompt'
-earnGemsPromptTemplate = require 'app/templates/play/modal/earn-gems-prompt'
-subscribeForGemsPrompt = require 'app/templates/play/modal/subscribe-for-gems-prompt'
-{me} = require 'core/auth'
-ThangType = require 'models/ThangType'
-ThangTypeLib = require 'lib/ThangTypeLib'
-CocoCollection = require 'collections/CocoCollection'
-ItemView = require './ItemView'
-SpriteBuilder = require 'lib/sprites/SpriteBuilder'
-ItemDetailsView = require 'views/play/modal/ItemDetailsView'
-Purchase = require 'models/Purchase'
-BuyGemsModal = require 'views/play/modal/BuyGemsModal'
-CreateAccountModal = require 'views/core/CreateAccountModal'
-SubscribeModal = require 'views/core/SubscribeModal'
-require('vendor/scripts/jquery-ui-1.11.1.custom')
-require('vendor/styles/jquery-ui-1.11.1.custom.css')
-utils = require 'core/utils'
-
-hasGoneFullScreenOnce = false
-debugInventory = false
-
-module.exports = class InventoryModal extends ModalView
-  id: 'inventory-modal'
-  className: 'modal fade play-modal'
-  template: template
-  slots: ['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'programming-book', 'pet', 'minion', 'flag']  #, 'misc-0', 'misc-1']  # TODO: bring in misc slot(s) again when we have space
-  ringSlots: ['left-ring', 'right-ring']
-  closesOnClickOutside: false # because draggable somehow triggers hide when you don't drag onto a draggable
-  trapsFocus: false
-
-  events:
-    'click .item-slot': 'onItemSlotClick'
-    'click #unequipped .item': 'onUnequippedItemClick'
-    'doubletap #unequipped .item': 'onUnequippedItemDoubleClick'
-    'doubletap .item-slot .item': 'onEquippedItemDoubleClick'
-    'click button.equip-item': 'onClickEquipItemButton'
-    'shown.bs.modal': 'onShown'
-    'click #choose-hero-button': 'onClickChooseHero'
-    'click #play-level-button': 'onClickPlayLevel'
-    'click .unlock-button': 'onUnlockButtonClicked'
-    'click #equip-item-viewed': 'onClickEquipItemViewed'
-    'click #unequip-item-viewed': 'onClickUnequipItemViewed'
-    'click #subscriber-item-viewed': 'onClickSubscribeItemViewed'
-    'click #close-modal': 'hide'
-    'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
-    'click .start-subscription-button': 'onSubscribeButtonClicked'
-    'click': 'onClickedSomewhere'
-    'update #unequipped .nano': 'onScrollUnequipped'
-
-  shortcuts:
-    'esc': 'clearSelection'
-    'enter': 'onClickPlayLevel'
-
-
-  #- Setup
-
-  initialize: (options) ->
-    if (application.getHocCampaign() is 'game-dev-hoc-2')
-      if !me.get('earned')
-        me.set('earned', {})
-      if !me.get('earned').items
-        me.attributes.earned.items = []
-      baseItems = [
-        '53e2384453457600003e3f07' # leather boots
-        '53e218d853457600003e3ebe' # simple sword
-        '53e22aa153457600003e3ef5' # wooden shield
-        '5744e3683af6bf590cd27371' # cougar
-      ]
-      for item in baseItems
-        unless item in me.get('earned').items
-          me.get('earned').items.push(item) # Allow HoC players to access the cat
-
-    @onScrollUnequipped = _.throttle(_.bind(@onScrollUnequipped, @), 200)
-    super(arguments...)
-    @items = new CocoCollection([], {model: ThangType})
-    # TODO: switch to item store loading system?
-    @items.url = '/db/thang.type?view=items'
-    @items.setProjection [
-      'name'
-      'slug'
-      'components'
-      'original'
-      'rasterIcon'
-      'dollImages'
-      'gems'
-      'tier'
-      'description'
-      'heroClass'
-      'i18n'
-      'subscriber'
-    ]
-    @supermodel.loadCollection(@items, 'items')
-    @equipment = {}  # Assign for real when we have loaded the session and items.
-
-  onItemsLoaded: ->
-    console.log("Inside onItemsLoaded") if debugInventory
-    for item in @items.models
-      item.notInLevel = true
-      programmableConfig = _.find(item.get('components'), (c) -> c.config?.programmableProperties)?.config
-      item.programmableProperties = (programmableConfig?.programmableProperties or []).concat programmableConfig?.moreProgrammableProperties or []
-    @itemsProgrammablePropertiesConfigured = true
-    if me.isStudent() and not application.getHocCampaign()
-      @equipment = me.get('heroConfig')?.inventory or {}
-    else
-      @equipment = @options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
-    @equipment = $.extend true, {}, @equipment
-    console.log("requireLevelEquipment called from onItemsLoaded") if debugInventory
-    @requireLevelEquipment()
-    @itemGroups = {}
-    @itemGroups.requiredPurchaseItems = new Backbone.Collection()
-    @itemGroups.availableItems = new Backbone.Collection()
-    @itemGroups.restrictedItems = new Backbone.Collection()
-    @itemGroups.lockedItems = new Backbone.Collection()
-    @itemGroups.subscriberItems = new Backbone.Collection()
-    itemGroup.comparator = ((m) -> m.get('tier') ? m.get('gems')) for itemGroup in _.values @itemGroups
-
-    equipped = _.values(@equipment)
-    @sortItem(item, equipped) for item in @items.models
-
-  sortItem: (item, equipped) ->
-    console.log("Inside sortItem") if debugInventory
-    equipped ?= _.values(@equipment)
-
-    # general starting classes
-    item.classes = _.clone(item.getAllowedSlots())
-    for heroClass in item.getAllowedHeroClasses()
-      item.classes.push heroClass
-    item.classes.push 'equipped' if item.get('original') in equipped
-
-    # sort into one of the five groups
-    locked = not me.ownsItem item.get('original')
-
-    subscriber = (not me.isStudent()) and (not me.isPremium()) and item.get('subscriber')
-    restrictedGear = @calculateRestrictedGearPerSlot()
-    allRestrictedGear = _.flatten(_.values(restrictedGear))
-    restricted = item.get('original') in allRestrictedGear
-
-    # TODO: make this re-use result of computation of updateLevelRequiredItems, which we can only do after heroClass is ready...
-    requiredToPurchase = false
-    inCampaignView = $('#campaign-view').length
-    unless gearSlugs[item.get('original')] is 'tarnished-bronze-breastplate' and inCampaignView and @options.level.get('slug') is 'the-raised-sword'
-      requiredGear = @calculateRequiredGearPerSlot()
-      for slot in item.getAllowedSlots()
-        continue unless requiredItems = requiredGear[slot]
-        continue if @equipment[slot] and @equipment[slot] not in allRestrictedGear and slot not in @ringSlots
-        # Point out that they must buy it if they haven't bought any of the required items for that slot, and it's the first one.
-        if item.get('original') is requiredItems[0] and not _.find(requiredItems, (requiredItem) -> me.ownsItem requiredItem)
-          requiredToPurchase = true
-          break
-
-    if requiredToPurchase and locked and not item.get('gems')
-      # Either one of two things has happened:
-      # 1. There's a bug and the player doesn't have a required item they should have.
-      # 2. The player is trying to play a level they haven't unlocked.
-      # We'll just pretend they own it so that they don't get stuck.
-      application.tracker?.trackEvent 'Required Item Locked', level: @options.level.get('slug'), label: @options.level.get('slug'), item: item.get('name'), playerLevel: me.level(), levelUnlocked: me.ownsLevel @options.level.get('original')
-      locked = false
-
-    placeholder = not item.getFrontFacingStats().props.length and not _.size(item.getFrontFacingStats().stats)
-
-    if placeholder and locked  # The item is not complete, so don't put it into a collection.
-      null
-    else if locked and requiredToPurchase
-      item.classes.push 'locked'
-      @itemGroups.requiredPurchaseItems.add item
-    else if locked
-      item.classes.push 'locked'
-      if item.isSilhouettedItem() or not item.get('gems')
-        # Don't even load/show these--don't add to a collection. (Bandwidth optimization.)
-        null
-      else
-        @itemGroups.lockedItems.add(item)
-    else if restricted
-      @itemGroups.restrictedItems.add(item)
-      item.classes.push 'restricted'
-    else if subscriber and not application.getHocCampaign() # allow HoC players to equip pets
-      @itemGroups.subscriberItems.add(item)
-      item.classes.push 'subscriber'
-    else
-      @itemGroups.availableItems.add(item)
-
-    # level to unlock
-    item.level = item.levelRequiredForItem() if item.get('tier')?
-
-  onLoaded: ->
-    console.log("Inside onLoaded") if debugInventory
-    # Both items and session have been loaded.
-    @onItemsLoaded()
-    super()
-
-  getRenderData: (context={}) ->
-    console.log("Inside getRenderData") if debugInventory
-    context = super(context)
-    context.equipped = _.values(@equipment)
-    context.items = @items.models
-    context.itemGroups = @itemGroups
-    context.slots = @slots
-    context.selectedHero = @selectedHero
-    context.selectedHeroClass = @selectedHero?.get('heroClass')
-    context.equipment = _.clone @equipment
-    context.equipment[slot] = @items.findWhere {original: itemOriginal} for slot, itemOriginal of context.equipment
-    context.gems = me.gems()
-    context
-
-  afterRender: ->
-    console.log("Inside afterRender") if debugInventory
-    super()
-    @$el.find('#play-level-button').css('visibility', 'hidden')
-    return unless @supermodel.finished()
-    @$el.find('#play-level-button').css('visibility', 'visible')
-
-    @setUpDraggableEventsForAvailableEquipment()
-    @setUpDraggableEventsForEquippedArea()
-    @delegateEvents()
-    @itemDetailsView = new ItemDetailsView()
-    @insertSubView(@itemDetailsView)
-    console.log("requireLevelEquipment called from afterRender") if debugInventory
-    @requireLevelEquipment()
-    @$el.find('.nano').nanoScroller({alwaysVisible: true})
-    @onSelectionChanged()
-    @onEquipmentChanged()
-
-  afterInsert: ->
-    console.log("Inside afterInsert") if debugInventory
-    super()
-    @canvasWidth = @$el.find('canvas').innerWidth()
-    @canvasHeight = @$el.find('canvas').innerHeight()
-    @inserted = true
-    console.log("requireLevelEquipment called from afterInsert") if debugInventory
-    @requireLevelEquipment()
-
-  #- Draggable logic
-
-  setUpDraggableEventsForAvailableEquipment: ->
-    console.log("Inside setUpDraggableEventForAvailableEquipment") if debugInventory
-    for availableItemEl in @$el.find('#unequipped .item')
-      availableItemEl = $(availableItemEl)
-      continue if availableItemEl.hasClass('locked') or availableItemEl.hasClass('restricted')
-      dragHelper = availableItemEl.clone().addClass('draggable-item')
-      do (dragHelper, availableItemEl) =>
-        availableItemEl.draggable
-          revert: 'invalid'
-          appendTo: @$el
-          cursorAt: {left: 35.5, top: 35.5}
-          helper: -> dragHelper
-          revertDuration: 200
-          distance: 10
-          scroll: false
-          zIndex: 1100
-        availableItemEl.on 'dragstart', => @selectUnequippedItem(availableItemEl)
-
-  setUpDraggableEventsForEquippedArea: ->
-    console.log("Inside setUpDraggableEventsForEquippedArea") if debugInventory
-    for itemSlot in @$el.find '.item-slot'
-      slot = $(itemSlot).data 'slot'
-      do (slot, itemSlot) =>
-        $(itemSlot).droppable
-          drop: (e, ui) => @equipSelectedItem()
-          accept: (el) -> $(el).parent().hasClass slot
-          activeClass: 'droppable'
-          hoverClass: 'droppable-hover'
-          tolerance: 'touch'
-        @makeEquippedSlotDraggable $(itemSlot)
-
-    @$el.find('#equipped').droppable
-      drop: (e, ui) => @equipSelectedItem()
-      accept: (el) -> true
-      activeClass: 'droppable'
-      hoverClass: 'droppable-hover'
-      tolerance: 'pointer'
-
-  makeEquippedSlotDraggable: (slot) ->
-    console.log("Inside makeEquippedSlotDraggable") if debugInventory
-    unequip = =>
-      itemEl = @unequipItemFromSlot slot
-      selectedSlotItemID = itemEl.data('item-id')
-      item = @items.get(selectedSlotItemID)
-      @requireLevelEquipment()
-      @showItemDetails(item, 'equip')
-      @onSelectionChanged()
-      @onEquipmentChanged()
-    shouldStayEquippedWhenDropped = (isValidDrop) ->
-      pos = $(@).position()
-      revert = Math.abs(pos.left) < $(@).outerWidth() and Math.abs(pos.top) < $(@).outerHeight()
-      unequip() if not revert
-      revert
-    # TODO: figure out how to make this actually above the available items list (the .ui-draggable-helper img is still inside .item-view and so underlaps...)
-    $(slot).find('img').draggable
-      revert: shouldStayEquippedWhenDropped
-      appendTo: @$el
-      cursorAt: {left: 35.5, top: 35.5}
-      revertDuration: 200
-      distance: 10
-      scroll: false
-      zIndex: 100
-    slot.on 'dragstart', => @selectItemSlot(slot)
-
-
-  #- Select/equip event handlers
-
-  onItemSlotClick: (e) ->
-    @closePopover()
-    return if @remainingRequiredEquipment?.length  # Don't let them select a slot if we need them to first equip some require gear.
-    #@playSound 'menu-button-click'
-    @selectItemSlot($(e.target).closest('.item-slot'))
-
-  onUnequippedItemClick: (e) ->
-    @closePopover()
-    return if @justDoubleClicked
-    return if @justClickedEquipItemButton
-    itemEl = $(e.target).closest('.item')
-    #@playSound 'menu-button-click'
-    @selectUnequippedItem(itemEl)
-
-  onUnequippedItemDoubleClick: (e) ->
-    itemEl = $(e.target).closest('.item')
-    return if itemEl.hasClass('locked') or itemEl.hasClass('restricted') or itemEl.hasClass('subscriber')
-    @equipSelectedItem()
-    @justDoubleClicked = true
-    _.defer => @justDoubleClicked = false
-
-  onEquippedItemDoubleClick: -> @unequipSelectedItem()
-  onClickEquipItemViewed: -> @equipSelectedItem()
-  onClickUnequipItemViewed: -> @unequipSelectedItem()
-
-  onClickEquipItemButton: (e) ->
-    @playSound 'menu-button-click'
-    itemEl = $(e.target).closest('.item')
-    @selectUnequippedItem(itemEl)
-    @equipSelectedItem()
-    @justClickedEquipItemButton = true
-    _.defer => @justClickedEquipItemButton = false
-
-  onClickSubscribeItemViewed: (e) ->
-    @openModalView new SubscribeModal()
-    itemElem = @$el.find('.item.active')
-    item = @items.get(itemElem?.data('item-id'))
-    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'inventory modal: ' + (item?.get('slug') or 'unknown')
-
-  #- Select/equip higher-level, all encompassing methods the callbacks all use
-
-  selectItemSlot: (slotEl) ->
-    @clearSelection()
-    slotEl.addClass('selected')
-    selectedSlotItemID = slotEl.find('.item').data('item-id')
-    item = @items.get(selectedSlotItemID)
-    if item then @showItemDetails(item, 'unequip')
-    @onSelectionChanged()
-
-  selectUnequippedItem: (itemEl) ->
-    @clearSelection()
-    itemEl.addClass('active')
-    showExtra = if itemEl.hasClass('restricted') then 'restricted' else if itemEl.hasClass('subscriber') then 'subscriber' else if not itemEl.hasClass('locked') then 'equip' else ''
-    @showItemDetails(@items.get(itemEl.data('item-id')), showExtra)
-    @onSelectionChanged()
-
-  equipSelectedItem: ->
-    selectedItemEl = @getSelectedUnequippedItem()
-    selectedItem = @items.get(selectedItemEl.data('item-id'))
-    return unless selectedItem
-    allowedSlots = selectedItem.getAllowedSlots()
-    firstSlot = unequippedSlot = null
-    for allowedSlot in allowedSlots
-      slotEl = @$el.find(".item-slot[data-slot='#{allowedSlot}']")
-      firstSlot ?= slotEl
-      unequippedSlot ?= slotEl unless slotEl.find('img').length
-    slotEl = unequippedSlot ? firstSlot
-    selectedItemEl.effect('transfer', to: slotEl, duration: 500, easing: 'easeOutCubic')
-    unequipped = @unequipItemFromSlot(slotEl)
-    selectedItemEl.addClass('equipped')
-    slotEl.append(selectedItemEl.find('img').clone().addClass('item').data('item-id', selectedItem.id))
-    @clearSelection()
-    @showItemDetails(selectedItem, 'unequip')
-    slotEl.addClass('selected')
-    selectedItem.classes.push 'equipped'
-    @makeEquippedSlotDraggable slotEl
-    @requireLevelEquipment()
-    @onSelectionChanged()
-    @onEquipmentChanged()
-
-  unequipSelectedItem: ->
-    slotEl = @getSelectedSlot()
-    @clearSelection()
-    itemEl = @unequipItemFromSlot(slotEl)
-    return unless itemEl?.length
-    itemEl.addClass('active')
-    slotEl.effect('transfer', to: itemEl, duration: 500, easing: 'easeOutCubic')
-    selectedSlotItemID = itemEl.data('item-id')
-    item = @items.get(selectedSlotItemID)
-    item.classes = _.without item.classes, 'equipped'
-    @showItemDetails(item, 'equip')
-    @requireLevelEquipment()
-    @onSelectionChanged()
-    @onEquipmentChanged()
-
-  #- Select/equip helpers
-
-  clearSelection: ->
-    @deselectAllSlots()
-    @deselectAllUnequippedItems()
-    @hideItemDetails()
-
-  unequipItemFromSlot: (slotEl) ->
-    itemEl = slotEl.find('.item')
-    itemIDToUnequip = itemEl.data('item-id')
-    return unless itemIDToUnequip
-    itemEl.remove()
-    item = @items.get itemIDToUnequip
-    item.classes = _.without item.classes, 'equipped'
-    @$el.find("#unequipped .item[data-item-id=#{itemIDToUnequip}]").removeClass('equipped')
-
-  deselectAllSlots: ->
-    @$el.find('#equipped .item-slot.selected').removeClass('selected')
-
-  deselectAllUnequippedItems: ->
-    @$el.find('#unequipped .item').removeClass('active')
-
-  getSlot: (name) ->
-    @$el.find(".item-slot[data-slot=#{name}]")
-
-  getSelectedSlot: ->
-    @$el.find('#equipped .item-slot.selected')
-
-  getSelectedUnequippedItem: ->
-    @$el.find('#unequipped .item.active')
-
-  onSelectionChanged: ->
-    heroClass = @selectedHero?.get('heroClass')
-    itemsCanBeEquipped = @$el.find('#unequipped .item.available:not(.equipped)').filter('.'+heroClass).length
-    toShow = @$el.find('#double-click-hint, #available-description')
-    if itemsCanBeEquipped then toShow.removeClass('secret') else toShow.addClass('secret')
-    @delegateEvents()
-
-
-  showItemDetails: (item, showExtra) ->
-    @itemDetailsView.setItem(item)
-    @$el.find('#item-details-extra > *').addClass('secret')
-    @$el.find("##{showExtra}-item-viewed").removeClass('secret')
-
-  hideItemDetails: ->
-    @itemDetailsView?.setItem(null)
-    @$el.find('#item-details-extra > *').addClass('secret')
-
-  getCurrentEquipmentConfig: ->
-    config = {}
-    for slot in @$el.find('.item-slot')
-      slotName = $(slot).data('slot')
-      slotItemID = $(slot).find('.item').data('item-id')
-      continue unless slotItemID
-      item = _.find @items.models, {id:slotItemID}
-      config[slotName] = item.get('original')
-    config
-
-  requireLevelEquipment: ->
-    console.log("Inside requireLevelEquipment") if debugInventory
-    console.log(@items) if debugInventory
-    # This is called frequently to make sure the player isn't using any restricted items and knows she must equip any required items.
-    return unless @inserted and @itemsProgrammablePropertiesConfigured
-    equipment = if @supermodel.finished() then @getCurrentEquipmentConfig() else @equipment  # Make sure we're using latest equipment.
-    hadRequired = @remainingRequiredEquipment?.length
-    @remainingRequiredEquipment = []
-    @$el.find('.should-equip').removeClass('should-equip')
-    @unequipClassRestrictedItems equipment
-    @unequipLevelRestrictedItems equipment
-    @updateLevelRequiredItems equipment
-    console.log("@remainingRequiredEquipment.length: " + @remainingRequiredEquipment.length) if debugInventory
-    if hadRequired and not @remainingRequiredEquipment.length
-      @endHighlight()
-      @highlightElement '#play-level-button', duration: 5000
-    $('#play-level-button').prop('disabled', @remainingRequiredEquipment.length > 0)
-
-  unequipClassRestrictedItems: (equipment) ->
-    console.log("Inside unequipClassRestrictedItems") if debugInventory
-    return unless @supermodel.finished() and heroClass = @selectedHero?.get 'heroClass'
-    for slot, item of _.clone equipment
-      itemModel = @items.findWhere original: item
-      unless itemModel and heroClass in itemModel.classes
-        console.log 'Unequipping', itemModel.get('heroClass'), 'item', itemModel.get('name'), 'from slot due to class restrictions.' if debugInventory
-        @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
-        delete equipment[slot]
-
-  calculateRequiredGearPerSlot: ->
-    return {} if me.isStudent() and not application.getHocCampaign() and not me.showGearRestrictionsInClassroom()
-    return @requiredGearPerSlot if @requiredGearPerSlot
-    requiredGear = _.clone(@options.level.get('requiredGear')) ? {}
-    requiredProperties = @options.level.get('requiredProperties') ? []
-    restrictedProperties = @options.level.get('restrictedProperties') ? []
-    requiredPropertiesPerSlot = {}
-    for item in @items.models
-      requiredPropertiesOnThisItem = _.intersection(item.programmableProperties, requiredProperties)
-      restrictedPropertiesOnThisItem = _.intersection(item.programmableProperties, restrictedProperties)
-      continue unless requiredPropertiesOnThisItem.length and not restrictedPropertiesOnThisItem.length
-      for slot in item.getAllowedSlots()
-        requiredPropertiesNotOnThisItem = _.without(requiredPropertiesPerSlot[slot] ? [], item.programmableProperties...)
-        continue if slot isnt 'right-hand' and _.isEqual requiredPropertiesOnThisItem, ['buildXY']  # Don't require things like caltrops belt
-        continue if requiredPropertiesNotOnThisItem.length
-        requiredGear[slot] ?= []
-        requiredGear[slot].push(item.get('original')) unless item.get('original') in requiredGear[slot]
-        requiredPropertiesPerSlot[slot] ?= []
-        requiredPropertiesPerSlot[slot].push(prop) for prop in requiredPropertiesOnThisItem when prop not in requiredPropertiesPerSlot[slot]
-        console.log(slot, 'has required item', item, 'because restrictedPropertiesOnThisItem is', restrictedPropertiesOnThisItem, 'and requiredPropertiesOnThisItem is', requiredPropertiesOnThisItem) if debugInventory
-    @requiredPropertiesPerSlot = requiredPropertiesPerSlot
-    @requiredGearPerSlot = requiredGear
-    @requiredGearPerSlot
-
-  calculateRestrictedGearPerSlot: ->
-    return {} if me.isStudent() and not application.getHocCampaign() and not me.showGearRestrictionsInClassroom()
-    return @restrictedGearPerSlot if @restrictedGearPerSlot
-    @calculateRequiredGearPerSlot() unless @requiredGearPerSlot
-    restrictedGear = _.clone(@options.level.get('restrictedGear')) ? {}
-    restrictedProperties = @options.level.get('restrictedProperties') ? []
-    for item in @items.models
-      restrictedPropertiesOnThisItem = _.intersection(item.programmableProperties, restrictedProperties)
-      for slot in item.getAllowedSlots()
-        requiredPropertiesNotOnThisItem = _.without(@requiredPropertiesPerSlot[slot], item.programmableProperties...)
-        # Let Rangers/Wizards use class specific weapon in 'cleave' levelsm, if it's not restricted
-        continue if 'cleave' in requiredPropertiesNotOnThisItem and 'Warrior' not in item.getAllowedHeroClasses() and not restrictedPropertiesOnThisItem.length
-        if restrictedPropertiesOnThisItem.length or requiredPropertiesNotOnThisItem.length
-          restrictedGear[slot] ?= []
-          restrictedGear[slot].push(item.get('original')) unless item.get('original') in restrictedGear[slot]
-          console.log(slot, 'has restricted item', item, 'because restrictedPropertiesOnThisItem is', restrictedPropertiesOnThisItem, 'and requiredPropertiesNotOnThisItem is', requiredPropertiesNotOnThisItem) if debugInventory
-    @restrictedGearPerSlot = restrictedGear
-    @restrictedGearPerSlot
-
-  unequipLevelRestrictedItems: (equipment) ->
-    console.log("Inside unequipLevelRestrictedItems") if debugInventory
-    restrictedGear = @calculateRestrictedGearPerSlot()
-    for slot, items of restrictedGear
-      for item in items
-        equipped = equipment[slot]
-        if equipped and equipped is item
-          console.log 'Unequipping restricted item', equipped, 'for', slot, 'before level', @options.level.get('slug') if debugInventory
-          @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
-          delete equipment[slot]
-    null
-
-  updateLevelRequiredItems: (equipment) ->
-    console.log("inside updateLevelRequiredItems") if debugInventory
-    return unless heroClass = @selectedHero?.get 'heroClass'
-    requiredGear = @calculateRequiredGearPerSlot()
-    console.log("inside executtion of updateLevelRequiredItems") if debugInventory
-    for slot, items of requiredGear when items.length
-      if slot in @ringSlots
-        validSlots = @ringSlots
-      else
-        validSlots = [slot]
-
-      continue if validSlots.some (slot) ->
-        equipped = equipment[slot]
-        equipped in items
-
-      # Actually, just let them play if they have equipped anything in that slot (and we haven't unequipped it due to restrictions).
-      # Rings often have unique effects, so this rule does not apply to them (they are still required even if there is a non-restricted ring equipped in the slot).
-      continue if equipment[slot] and slot not in @ringSlots
-
-      items = (item for item in items when heroClass in (@items.findWhere(original: item)?.classes ? []))
-      continue unless items.length  # If the required items are for another class, then let's not be finicky.
-
-      # We will point out the last (best) element that they own and can use, otherwise the first (cheapest).
-      items = _.sortBy items, (item) => @items.findWhere(original: item).get('tier') ? 9001
-      bestOwnedItem = _.findLast items, (item) -> me.ownsItem item
-      item = bestOwnedItem ? items[0]
-
-      # For the Tarnished Bronze Breastplate only, don't tell them they need it until they need it in the level, so we can show how to buy it.
-      slug = gearSlugs[item]
-      inCampaignView = $('#campaign-view').length
-      continue if slug is 'tarnished-bronze-breastplate' and inCampaignView and @options.level.get('slug') is 'the-raised-sword'
-
-      # Now we're definitely requiring and pointing out an item.
-      itemModel = @items.findWhere {original: item}
-      availableSlotSelector = "#unequipped .item[data-item-id='#{itemModel.id}']"
-      @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
-      $itemEl = @$el.find(availableSlotSelector).addClass 'should-equip'
-      @$el.find("#equipped div[data-slot='#{slot}']").addClass 'should-equip'
-      if itemOffsetTop = $itemEl[0]?.offsetTop
-        itemOffsetBottom = itemOffsetTop + $itemEl.outerHeight(true)
-        parentHeight = $itemEl.parent().height()
-        if itemOffsetBottom > $itemEl.parent().scrollTop() + parentHeight
-          $itemEl.parent().scrollTop itemOffsetBottom - parentHeight
-        else if itemOffsetTop < $itemEl.parent().scrollTop()
-          $itemEl.parent().scrollTop itemOffsetTop
-      @remainingRequiredEquipment.push slot: slot, item: item
-    null
-
-  setHero: (@selectedHero) ->
-    if @selectedHero.loading
-      @listenToOnce @selectedHero, 'sync', => @setHero? @selectedHero
-      return
-    @$el.removeClass('Warrior Ranger Wizard').addClass(@selectedHero.get('heroClass'))
-    @requireLevelEquipment()
-    @render()
-    @onEquipmentChanged()
-
-  onShown: ->
-    # Called when we switch tabs to this within the modal
-    @requireLevelEquipment()
-
-  onHidden: ->
-    # Called when the modal itself is dismissed
-    @endHighlight()
-    super()
-    @playSound 'game-menu-close'
-
-  onClickChooseHero: ->
-    @playSound 'menu-button-click'
-    @hide()
-    @trigger 'choose-hero-click'
-
-  onClickPlayLevel: (e) ->
-    return if @$el.find('#play-level-button').prop 'disabled'
-    levelSlug = @options.level.get('slug')
-    @playSound 'menu-button-click'
-    @showLoading()
-    ua = navigator.userAgent.toLowerCase()
-    isSafari = /safari/.test(ua) and not /chrome/.test(ua)
-    isTooShort = $(window).height() < 658  # Min vertical resolution needed at 1366px wide
-    if isTooShort and not me.isAdmin() and not hasGoneFullScreenOnce and not isSafari
-      @toggleFullscreen()
-      hasGoneFullScreenOnce = true
-    @updateConfig =>
-      @trigger? 'play-click'
-    window.tracker?.trackEvent 'Inventory Play', category: 'Play Level', level: levelSlug
-
-  updateConfig: (callback, skipSessionSave) ->
-    console.log("Inside updateConfig") if debugInventory
-    sessionHeroConfig = @options.session.get('heroConfig') ? {}
-    lastHeroConfig = me.get('heroConfig') ? {}
-    inventory = @getCurrentEquipmentConfig()
-    patchSession = patchMe = false
-    patchSession ||= not _.isEqual inventory, sessionHeroConfig.inventory
-    sessionHeroConfig.inventory = inventory
-    if hero = @selectedHero?.get('original')
-      patchSession ||= not _.isEqual hero, sessionHeroConfig.thangType
-      sessionHeroConfig.thangType = hero
-    patchMe ||= not _.isEqual inventory, lastHeroConfig.inventory
-    lastHeroConfig.inventory = inventory
-    if patchMe
-      console.log 'Inventory Modal: setting me.heroConfig to', JSON.stringify(lastHeroConfig) if debugInventory
-      me.set 'heroConfig', lastHeroConfig
-      me.patch()
-    if patchSession
-      console.log 'Inventory Modal: setting session.heroConfig to', JSON.stringify(sessionHeroConfig) if debugInventory
-      @options.session.set 'heroConfig', sessionHeroConfig
-      @options.session.patch success: callback unless skipSessionSave
-    else
-      callback?()
-
-  #- TODO: DRY this between PlayItemsModal and InventoryModal and PlayHeroesModal
-
-  onUnlockButtonClicked: (e) ->
-    e.stopPropagation()
-    button = $(e.target).closest('button')
-    item = @items.get(button.data('item-id'))
-    affordable = item.affordable
-    if not affordable
-      @playSound 'menu-button-click'
-      @askToBuyGemsOrSubscribe button unless me.freeOnly() or application.getHocCampaign()
-    else if button.hasClass('confirm')
-      @playSound 'menu-button-unlock-end'
-      purchase = Purchase.makeFor(item)
-      purchase.save()
-
-      #- set local changes to mimic what should happen on the server...
-      purchased = me.get('purchased') ? {}
-      purchased.items ?= []
-      purchased.items.push(item.get('original'))
-
-      me.set('purchased', purchased)
-      me.set('spent', (me.get('spent') ? 0) + item.get('gems'))
-      #- ...then rerender key bits
-      @itemGroups.lockedItems.remove(item)
-      @itemGroups.requiredPurchaseItems.remove(item)
-      # Redo all item sorting to make sure that we don't clobber state changes since last render.
-      equipped = _.values @getCurrentEquipmentConfig()
-      @sortItem(otherItem, equipped) for otherItem in @items.models
-      @renderSelectors('#unequipped', '#gems-count')
-
-      @requireLevelEquipment()
-      @delegateEvents()
-      @setUpDraggableEventsForAvailableEquipment()
-      @itemDetailsView.setItem(item)
-      @onScrollUnequipped true
-      if not me.isStudent()
-        Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
-    else
-      @playSound 'menu-button-unlock-start'
-      button.addClass('confirm').text($.i18n.t('play.confirm'))
-      @$el.one 'click', (e) ->
-        button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
-
-  askToSignUp: ->
-    createAccountModal = new CreateAccountModal supermodel: @supermodel
-    return @openModalView createAccountModal
-
-  askToBuyGemsOrSubscribe: (unlockButton) ->
-    @$el.find('.unlock-button').popover 'destroy'
-    if me.isStudent()
-      popoverTemplate = earnGemsPromptTemplate {}
-    else if me.canBuyGems()
-      popoverTemplate = buyGemsPromptTemplate {}
-    else
-      if not me.hasSubscription() # user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
-        popoverTemplate = subscribeForGemsPrompt {}
-      else # user has subscription and yet not enough gems, just ask him to keep playing for more gems
-        popoverTemplate = earnGemsPromptTemplate {}
-
-    unlockButton.popover(
-      animation: true
-      trigger: 'manual'
-      placement: 'top'
-      content: ' '  # template has it
-      container: @$el
-      template: popoverTemplate
-    ).popover 'show'
-    popover = unlockButton.data('bs.popover')
-    popover?.$tip?.i18n()
-    @applyRTLIfNeeded()
-
-  onBuyGemsPromptButtonClicked: (e) ->
-    @playSound 'menu-button-click'
-    return @askToSignUp() if me.get('anonymous')
-    @openModalView new BuyGemsModal()
-
-  onSubscribeButtonClicked: (e) ->
-    @openModalView new SubscribeModal()
-    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') or 'unknown')
-
-  onClickedSomewhere: (e) ->
-    @closePopover()
-
-  closePopover: ->
-    return if @destroyed
-    @$el.find('.unlock-button').popover 'destroy'
-
-  #- Dynamic portrait loading
-
-  onScrollUnequipped: (forceLoadAll=false) ->
-    # dynamically load visible items when the user scrolls enough to see them
-    return if @destroyed
-    nanoContent = @$el.find('#unequipped .nano-content')
-    items = nanoContent.find('.item:visible:not(.loaded)')
-    threshold = nanoContent.height() + 100
-    for itemEl in items
-      itemEl = $(itemEl)
-      if itemEl.position().top < threshold or forceLoadAll
-        itemEl.addClass('loaded')
-        item = @items.get(itemEl.data('item-id'))
-        itemEl.find('img').attr('src', item.getPortraitURL())
-
-
-  #- Paper doll equipment updating
-  onEquipmentChanged: ->
-    heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
-    if utils.isCodeCombat
-      heroSlug = @selectedHero?.get('slug') ? ''
-    gender = ThangTypeLib.getGender @selectedHero
-    if utils.isCodeCombat
-      @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass} #{heroSlug}"
-    else
-      @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass}"
-    equipment = @getCurrentEquipmentConfig()
-    @onScrollUnequipped()
-    return unless _.size(equipment) and @supermodel.finished()
-    @removeDollImages()
-    slotsWithImages = []
-    for slot, original of equipment
-      item = _.find @items.models, (item) -> item.get('original') is original
-      continue unless dollImages = item?.get('dollImages')
-      didAdd = @addDollImage slot, dollImages, heroClass, gender, item
-      slotsWithImages.push slot if didAdd if item.get('original') isnt '54ea39342b7506e891ca70f2'  # Circlet of the Magi needs hair under it
-    @$el.find('#hero-image-hair').toggle not ('head' in slotsWithImages)
-    @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
-
-    @equipment = @options.equipment = equipment
-    @updateConfig (() -> return), true if me.isStudent() and not application.getHocCampaign()  # Save the player's heroConfig if they're a student, whenever they change gear.
-
-  removeDollImages: ->
-    @$el.find('.doll-image').remove()
-
-  addDollImage: (slot, dollImages, heroClass, gender, item) ->
-    heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
-    if utils.isCodeCombat
-      heroSlug = @selectedHero?.get('slug') ? ''
-    gender = ThangTypeLib.getGender @selectedHero
-    didAdd = false
-    if slot is 'pet'
-      imageKeys = ["pet"]
-    else if slot is 'gloves'
-      if heroClass is 'Ranger'
-        imageKeys = ["#{gender}#{heroClass}", "#{gender}#{heroClass}Thumb"]
-      else
-        imageKeys = ["#{gender}", "#{gender}Thumb"]
-    else if heroClass is 'Wizard' and slot is 'torso'
-      imageKeys = [gender, "#{gender}Back"]
-    else if heroClass is 'Ranger' and slot is 'head' and item.get('original') in ['5441c2be4e9aeb727cc97105', '5441c3144e9aeb727cc97111']
-      # All-class headgear like faux fur hat, viking helmet is abusing ranger glove slot
-      imageKeys = ["#{gender}Ranger"]
-    else
-      imageKeys = [gender]
-    for imageKey in imageKeys
-      imageURL = dollImages[imageKey]
-      if not imageURL
-        console.log "Hmm, should have #{slot} #{imageKey} paper doll image, but don't have it."
-      else
-        if utils.isCodeCombat
-          imageEl = $('<img>').attr('src', "/file/#{imageURL}").addClass("doll-image #{slot} #{heroClass} #{heroSlug} #{gender} #{_.string.underscored(imageKey).replace(/_/g, '-')}").attr('draggable', false)
-        else
-          imageEl = $('<img>').attr('src', "/file/#{imageURL}").addClass("doll-image #{slot} #{heroClass} #{gender} #{_.string.underscored(imageKey).replace(/_/g, '-')}").attr('draggable', false)
-        @$el.find('#equipped').append imageEl
-        didAdd = true
-    didAdd
-
-  destroy: ->
-    @$el.find('.unlock-button').popover 'destroy'
-    @$el.find('.ui-droppable').droppable 'destroy'
-    @$el.find('.ui-draggable').draggable('destroy').off 'dragstart'
-    @$el.find('.item-slot').off 'dragstart'
-    @stage?.removeAllChildren()
-    super()
-
-gear =
-  'simple-boots': '53e237bf53457600003e3f05'
-  'simple-sword': '53e218d853457600003e3ebe'
-  'tarnished-bronze-breastplate': '53e22eac53457600003e3efc'
-  'leather-boots': '53e2384453457600003e3f07'
-  'leather-belt': '5437002a7beba4a82024a97d'
-  'programmaticon-i': '53e4108204c00d4607a89f78'
-  'programmaticon-ii': '546e25d99df4a17d0d449be1'
-  'crude-glasses': '53e238df53457600003e3f0b'
-  'crude-builders-hammer': '53f4e6e3d822c23505b74f42'
-  'long-sword': '544d7d1f8494308424f564a3'
-  'sundial-wristwatch': '53e2396a53457600003e3f0f'
-  'bronze-shield': '544c310ae0017993fce214bf'
-  'wooden-glasses': '53e2167653457600003e3eb3'
-  'basic-flags': '545bacb41e649a4495f887da'
-  'roughedge': '544d7d918494308424f564a7'
-  'sharpened-sword': '544d7deb8494308424f564ab'
-  'crude-crossbow': '544d7ffd8494308424f564c3'
-  'crude-dagger': '544d952b8494308424f56517'
-  'weak-charge': '544d957d8494308424f5651f'
-  'enchanted-stick': '544d87188494308424f564f1'
-  'unholy-tome-i': '546374bc3839c6e02811d308'
-  'book-of-life-i': '546375653839c6e02811d30b'
-  'rough-sense-stone': '54693140a2b1f53ce79443bc'
-  'polished-sense-stone': '53e215a253457600003e3eaf'
-  'quartz-sense-stone': '54693240a2b1f53ce79443c5'
-  'wooden-builders-hammer': '54694ba3a2b1f53ce794444d'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS204: Change includes calls to have a more natural evaluation order
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let InventoryModal;
+require('app/styles/play/menu/inventory-modal.sass');
+require('app/styles/play/modal/play-items-modal.sass');
+const ModalView = require('views/core/ModalView');
+const template = require('app/templates/play/menu/inventory-modal');
+const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt');
+const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt');
+const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt');
+const {me} = require('core/auth');
+const ThangType = require('models/ThangType');
+const ThangTypeLib = require('lib/ThangTypeLib');
+const CocoCollection = require('collections/CocoCollection');
+const ItemView = require('./ItemView');
+const SpriteBuilder = require('lib/sprites/SpriteBuilder');
+const ItemDetailsView = require('views/play/modal/ItemDetailsView');
+const Purchase = require('models/Purchase');
+const BuyGemsModal = require('views/play/modal/BuyGemsModal');
+const CreateAccountModal = require('views/core/CreateAccountModal');
+const SubscribeModal = require('views/core/SubscribeModal');
+require('vendor/scripts/jquery-ui-1.11.1.custom');
+require('vendor/styles/jquery-ui-1.11.1.custom.css');
+const utils = require('core/utils');
+
+let hasGoneFullScreenOnce = false;
+const debugInventory = false;
+
+module.exports = (InventoryModal = (function() {
+  InventoryModal = class InventoryModal extends ModalView {
+    static initClass() {
+      this.prototype.id = 'inventory-modal';
+      this.prototype.className = 'modal fade play-modal';
+      this.prototype.template = template;
+      this.prototype.slots = ['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'programming-book', 'pet', 'minion', 'flag'];  //, 'misc-0', 'misc-1']  # TODO: bring in misc slot(s) again when we have space
+      this.prototype.ringSlots = ['left-ring', 'right-ring'];
+      this.prototype.closesOnClickOutside = false; // because draggable somehow triggers hide when you don't drag onto a draggable
+      this.prototype.trapsFocus = false;
+  
+      this.prototype.events = {
+        'click .item-slot': 'onItemSlotClick',
+        'click #unequipped .item': 'onUnequippedItemClick',
+        'doubletap #unequipped .item': 'onUnequippedItemDoubleClick',
+        'doubletap .item-slot .item': 'onEquippedItemDoubleClick',
+        'click button.equip-item': 'onClickEquipItemButton',
+        'shown.bs.modal': 'onShown',
+        'click #choose-hero-button': 'onClickChooseHero',
+        'click #play-level-button': 'onClickPlayLevel',
+        'click .unlock-button': 'onUnlockButtonClicked',
+        'click #equip-item-viewed': 'onClickEquipItemViewed',
+        'click #unequip-item-viewed': 'onClickUnequipItemViewed',
+        'click #subscriber-item-viewed': 'onClickSubscribeItemViewed',
+        'click #close-modal': 'hide',
+        'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked',
+        'click .start-subscription-button': 'onSubscribeButtonClicked',
+        'click': 'onClickedSomewhere',
+        'update #unequipped .nano': 'onScrollUnequipped'
+      };
+  
+      this.prototype.shortcuts = {
+        'esc': 'clearSelection',
+        'enter': 'onClickPlayLevel'
+      };
+    }
+
+
+    //- Setup
+
+    initialize(options) {
+      if (application.getHocCampaign() === 'game-dev-hoc-2') {
+        if (!me.get('earned')) {
+          me.set('earned', {});
+        }
+        if (!me.get('earned').items) {
+          me.attributes.earned.items = [];
+        }
+        const baseItems = [
+          '53e2384453457600003e3f07', // leather boots
+          '53e218d853457600003e3ebe', // simple sword
+          '53e22aa153457600003e3ef5', // wooden shield
+          '5744e3683af6bf590cd27371' // cougar
+        ];
+        for (var item of Array.from(baseItems)) {
+          var needle;
+          if ((needle = item, !Array.from(me.get('earned').items).includes(needle))) {
+            me.get('earned').items.push(item); // Allow HoC players to access the cat
+          }
+        }
+      }
+
+      this.onScrollUnequipped = _.throttle(_.bind(this.onScrollUnequipped, this), 200);
+      super.initialize(...arguments);
+      this.items = new CocoCollection([], {model: ThangType});
+      // TODO: switch to item store loading system?
+      this.items.url = '/db/thang.type?view=items';
+      this.items.setProjection([
+        'name',
+        'slug',
+        'components',
+        'original',
+        'rasterIcon',
+        'dollImages',
+        'gems',
+        'tier',
+        'description',
+        'heroClass',
+        'i18n',
+        'subscriber'
+      ]);
+      this.supermodel.loadCollection(this.items, 'items');
+      return this.equipment = {};  // Assign for real when we have loaded the session and items.
+    }
+
+    onItemsLoaded() {
+      let item;
+      if (debugInventory) { console.log("Inside onItemsLoaded"); }
+      for (item of Array.from(this.items.models)) {
+        item.notInLevel = true;
+        var programmableConfig = __guard__(_.find(item.get('components'), c => c.config != null ? c.config.programmableProperties : undefined), x => x.config);
+        item.programmableProperties = ((programmableConfig != null ? programmableConfig.programmableProperties : undefined) || []).concat((programmableConfig != null ? programmableConfig.moreProgrammableProperties : undefined) || []);
+      }
+      this.itemsProgrammablePropertiesConfigured = true;
+      if (me.isStudent() && !application.getHocCampaign()) {
+        this.equipment = __guard__(me.get('heroConfig'), x1 => x1.inventory) || {};
+      } else {
+        this.equipment = this.options.equipment || __guard__(this.options.session != null ? this.options.session.get('heroConfig') : undefined, x2 => x2.inventory) || __guard__(me.get('heroConfig'), x3 => x3.inventory) || {};
+      }
+      this.equipment = $.extend(true, {}, this.equipment);
+      if (debugInventory) { console.log("requireLevelEquipment called from onItemsLoaded"); }
+      this.requireLevelEquipment();
+      this.itemGroups = {};
+      this.itemGroups.requiredPurchaseItems = new Backbone.Collection();
+      this.itemGroups.availableItems = new Backbone.Collection();
+      this.itemGroups.restrictedItems = new Backbone.Collection();
+      this.itemGroups.lockedItems = new Backbone.Collection();
+      this.itemGroups.subscriberItems = new Backbone.Collection();
+      for (var itemGroup of Array.from(_.values(this.itemGroups))) { itemGroup.comparator = (function(m) { let left;
+      return (left = m.get('tier')) != null ? left : m.get('gems'); }); }
+
+      const equipped = _.values(this.equipment);
+      return (() => {
+        const result = [];
+        for (item of Array.from(this.items.models)) {           result.push(this.sortItem(item, equipped));
+        }
+        return result;
+      })();
+    }
+
+    sortItem(item, equipped) {
+      let needle, needle1;
+      if (debugInventory) { console.log("Inside sortItem"); }
+      if (equipped == null) { equipped = _.values(this.equipment); }
+
+      // general starting classes
+      item.classes = _.clone(item.getAllowedSlots());
+      for (var heroClass of Array.from(item.getAllowedHeroClasses())) {
+        item.classes.push(heroClass);
+      }
+      if ((needle = item.get('original'), Array.from(equipped).includes(needle))) { item.classes.push('equipped'); }
+
+      // sort into one of the five groups
+      let locked = !me.ownsItem(item.get('original'));
+
+      const subscriber = (!me.isStudent()) && (!me.isPremium()) && item.get('subscriber');
+      const restrictedGear = this.calculateRestrictedGearPerSlot();
+      const allRestrictedGear = _.flatten(_.values(restrictedGear));
+      const restricted = (needle1 = item.get('original'), Array.from(allRestrictedGear).includes(needle1));
+
+      // TODO: make this re-use result of computation of updateLevelRequiredItems, which we can only do after heroClass is ready...
+      let requiredToPurchase = false;
+      const inCampaignView = $('#campaign-view').length;
+      if ((gearSlugs[item.get('original')] !== 'tarnished-bronze-breastplate') || !inCampaignView || (this.options.level.get('slug') !== 'the-raised-sword')) {
+        const requiredGear = this.calculateRequiredGearPerSlot();
+        for (var slot of Array.from(item.getAllowedSlots())) {
+          var requiredItems;
+          if (!(requiredItems = requiredGear[slot])) { continue; }
+          if (this.equipment[slot] && !Array.from(allRestrictedGear).includes(this.equipment[slot]) && !Array.from(this.ringSlots).includes(slot)) { continue; }
+          // Point out that they must buy it if they haven't bought any of the required items for that slot, and it's the first one.
+          if ((item.get('original') === requiredItems[0]) && !_.find(requiredItems, requiredItem => me.ownsItem(requiredItem))) {
+            requiredToPurchase = true;
+            break;
+          }
+        }
+      }
+
+      if (requiredToPurchase && locked && !item.get('gems')) {
+        // Either one of two things has happened:
+        // 1. There's a bug and the player doesn't have a required item they should have.
+        // 2. The player is trying to play a level they haven't unlocked.
+        // We'll just pretend they own it so that they don't get stuck.
+        if (application.tracker != null) {
+          application.tracker.trackEvent('Required Item Locked', {level: this.options.level.get('slug'), label: this.options.level.get('slug'), item: item.get('name'), playerLevel: me.level(), levelUnlocked: me.ownsLevel(this.options.level.get('original'))});
+        }
+        locked = false;
+      }
+
+      const placeholder = !item.getFrontFacingStats().props.length && !_.size(item.getFrontFacingStats().stats);
+
+      if (placeholder && locked) {  // The item is not complete, so don't put it into a collection.
+        null;
+      } else if (locked && requiredToPurchase) {
+        item.classes.push('locked');
+        this.itemGroups.requiredPurchaseItems.add(item);
+      } else if (locked) {
+        item.classes.push('locked');
+        if (item.isSilhouettedItem() || !item.get('gems')) {
+          // Don't even load/show these--don't add to a collection. (Bandwidth optimization.)
+          null;
+        } else {
+          this.itemGroups.lockedItems.add(item);
+        }
+      } else if (restricted) {
+        this.itemGroups.restrictedItems.add(item);
+        item.classes.push('restricted');
+      } else if (subscriber && !application.getHocCampaign()) { // allow HoC players to equip pets
+        this.itemGroups.subscriberItems.add(item);
+        item.classes.push('subscriber');
+      } else {
+        this.itemGroups.availableItems.add(item);
+      }
+
+      // level to unlock
+      if (item.get('tier') != null) { return item.level = item.levelRequiredForItem(); }
+    }
+
+    onLoaded() {
+      if (debugInventory) { console.log("Inside onLoaded"); }
+      // Both items and session have been loaded.
+      this.onItemsLoaded();
+      return super.onLoaded();
+    }
+
+    getRenderData(context) {
+      if (context == null) { context = {}; }
+      if (debugInventory) { console.log("Inside getRenderData"); }
+      context = super.getRenderData(context);
+      context.equipped = _.values(this.equipment);
+      context.items = this.items.models;
+      context.itemGroups = this.itemGroups;
+      context.slots = this.slots;
+      context.selectedHero = this.selectedHero;
+      context.selectedHeroClass = this.selectedHero != null ? this.selectedHero.get('heroClass') : undefined;
+      context.equipment = _.clone(this.equipment);
+      for (var slot in context.equipment) { var itemOriginal = context.equipment[slot]; context.equipment[slot] = this.items.findWhere({original: itemOriginal}); }
+      context.gems = me.gems();
+      return context;
+    }
+
+    afterRender() {
+      if (debugInventory) { console.log("Inside afterRender"); }
+      super.afterRender();
+      this.$el.find('#play-level-button').css('visibility', 'hidden');
+      if (!this.supermodel.finished()) { return; }
+      this.$el.find('#play-level-button').css('visibility', 'visible');
+
+      this.setUpDraggableEventsForAvailableEquipment();
+      this.setUpDraggableEventsForEquippedArea();
+      this.delegateEvents();
+      this.itemDetailsView = new ItemDetailsView();
+      this.insertSubView(this.itemDetailsView);
+      if (debugInventory) { console.log("requireLevelEquipment called from afterRender"); }
+      this.requireLevelEquipment();
+      this.$el.find('.nano').nanoScroller({alwaysVisible: true});
+      this.onSelectionChanged();
+      return this.onEquipmentChanged();
+    }
+
+    afterInsert() {
+      if (debugInventory) { console.log("Inside afterInsert"); }
+      super.afterInsert();
+      this.canvasWidth = this.$el.find('canvas').innerWidth();
+      this.canvasHeight = this.$el.find('canvas').innerHeight();
+      this.inserted = true;
+      if (debugInventory) { console.log("requireLevelEquipment called from afterInsert"); }
+      return this.requireLevelEquipment();
+    }
+
+    //- Draggable logic
+
+    setUpDraggableEventsForAvailableEquipment() {
+      if (debugInventory) { console.log("Inside setUpDraggableEventForAvailableEquipment"); }
+      return (() => {
+        const result = [];
+        for (var availableItemEl of Array.from(this.$el.find('#unequipped .item'))) {
+          availableItemEl = $(availableItemEl);
+          if (availableItemEl.hasClass('locked') || availableItemEl.hasClass('restricted')) { continue; }
+          var dragHelper = availableItemEl.clone().addClass('draggable-item');
+          result.push(((dragHelper, availableItemEl) => {
+            availableItemEl.draggable({
+              revert: 'invalid',
+              appendTo: this.$el,
+              cursorAt: {left: 35.5, top: 35.5},
+              helper() { return dragHelper; },
+              revertDuration: 200,
+              distance: 10,
+              scroll: false,
+              zIndex: 1100
+            });
+            return availableItemEl.on('dragstart', () => this.selectUnequippedItem(availableItemEl));
+          })(dragHelper, availableItemEl));
+        }
+        return result;
+      })();
+    }
+
+    setUpDraggableEventsForEquippedArea() {
+      if (debugInventory) { console.log("Inside setUpDraggableEventsForEquippedArea"); }
+      for (var itemSlot of Array.from(this.$el.find('.item-slot'))) {
+        var slot = $(itemSlot).data('slot');
+        ((slot, itemSlot) => {
+          $(itemSlot).droppable({
+            drop: (e, ui) => this.equipSelectedItem(),
+            accept(el) { return $(el).parent().hasClass(slot); },
+            activeClass: 'droppable',
+            hoverClass: 'droppable-hover',
+            tolerance: 'touch'
+          });
+          return this.makeEquippedSlotDraggable($(itemSlot));
+        })(slot, itemSlot);
+      }
+
+      return this.$el.find('#equipped').droppable({
+        drop: (e, ui) => this.equipSelectedItem(),
+        accept(el) { return true; },
+        activeClass: 'droppable',
+        hoverClass: 'droppable-hover',
+        tolerance: 'pointer'
+      });
+    }
+
+    makeEquippedSlotDraggable(slot) {
+      if (debugInventory) { console.log("Inside makeEquippedSlotDraggable"); }
+      const unequip = () => {
+        const itemEl = this.unequipItemFromSlot(slot);
+        const selectedSlotItemID = itemEl.data('item-id');
+        const item = this.items.get(selectedSlotItemID);
+        this.requireLevelEquipment();
+        this.showItemDetails(item, 'equip');
+        this.onSelectionChanged();
+        return this.onEquipmentChanged();
+      };
+      const shouldStayEquippedWhenDropped = function(isValidDrop) {
+        const pos = $(this).position();
+        const revert = (Math.abs(pos.left) < $(this).outerWidth()) && (Math.abs(pos.top) < $(this).outerHeight());
+        if (!revert) { unequip(); }
+        return revert;
+      };
+      // TODO: figure out how to make this actually above the available items list (the .ui-draggable-helper img is still inside .item-view and so underlaps...)
+      $(slot).find('img').draggable({
+        revert: shouldStayEquippedWhenDropped,
+        appendTo: this.$el,
+        cursorAt: {left: 35.5, top: 35.5},
+        revertDuration: 200,
+        distance: 10,
+        scroll: false,
+        zIndex: 100
+      });
+      return slot.on('dragstart', () => this.selectItemSlot(slot));
+    }
+
+
+    //- Select/equip event handlers
+
+    onItemSlotClick(e) {
+      this.closePopover();
+      if (this.remainingRequiredEquipment != null ? this.remainingRequiredEquipment.length : undefined) { return; }  // Don't let them select a slot if we need them to first equip some require gear.
+      //@playSound 'menu-button-click'
+      return this.selectItemSlot($(e.target).closest('.item-slot'));
+    }
+
+    onUnequippedItemClick(e) {
+      this.closePopover();
+      if (this.justDoubleClicked) { return; }
+      if (this.justClickedEquipItemButton) { return; }
+      const itemEl = $(e.target).closest('.item');
+      //@playSound 'menu-button-click'
+      return this.selectUnequippedItem(itemEl);
+    }
+
+    onUnequippedItemDoubleClick(e) {
+      const itemEl = $(e.target).closest('.item');
+      if (itemEl.hasClass('locked') || itemEl.hasClass('restricted') || itemEl.hasClass('subscriber')) { return; }
+      this.equipSelectedItem();
+      this.justDoubleClicked = true;
+      return _.defer(() => { return this.justDoubleClicked = false; });
+    }
+
+    onEquippedItemDoubleClick() { return this.unequipSelectedItem(); }
+    onClickEquipItemViewed() { return this.equipSelectedItem(); }
+    onClickUnequipItemViewed() { return this.unequipSelectedItem(); }
+
+    onClickEquipItemButton(e) {
+      this.playSound('menu-button-click');
+      const itemEl = $(e.target).closest('.item');
+      this.selectUnequippedItem(itemEl);
+      this.equipSelectedItem();
+      this.justClickedEquipItemButton = true;
+      return _.defer(() => { return this.justClickedEquipItemButton = false; });
+    }
+
+    onClickSubscribeItemViewed(e) {
+      this.openModalView(new SubscribeModal());
+      const itemElem = this.$el.find('.item.active');
+      const item = this.items.get(itemElem != null ? itemElem.data('item-id') : undefined);
+      return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', {category: 'Subscription', label: 'inventory modal: ' + ((item != null ? item.get('slug') : undefined) || 'unknown')}) : undefined);
+    }
+
+    //- Select/equip higher-level, all encompassing methods the callbacks all use
+
+    selectItemSlot(slotEl) {
+      this.clearSelection();
+      slotEl.addClass('selected');
+      const selectedSlotItemID = slotEl.find('.item').data('item-id');
+      const item = this.items.get(selectedSlotItemID);
+      if (item) { this.showItemDetails(item, 'unequip'); }
+      return this.onSelectionChanged();
+    }
+
+    selectUnequippedItem(itemEl) {
+      this.clearSelection();
+      itemEl.addClass('active');
+      const showExtra = itemEl.hasClass('restricted') ? 'restricted' : itemEl.hasClass('subscriber') ? 'subscriber' : !itemEl.hasClass('locked') ? 'equip' : '';
+      this.showItemDetails(this.items.get(itemEl.data('item-id')), showExtra);
+      return this.onSelectionChanged();
+    }
+
+    equipSelectedItem() {
+      let slotEl, unequippedSlot;
+      const selectedItemEl = this.getSelectedUnequippedItem();
+      const selectedItem = this.items.get(selectedItemEl.data('item-id'));
+      if (!selectedItem) { return; }
+      const allowedSlots = selectedItem.getAllowedSlots();
+      let firstSlot = (unequippedSlot = null);
+      for (var allowedSlot of Array.from(allowedSlots)) {
+        slotEl = this.$el.find(`.item-slot[data-slot='${allowedSlot}']`);
+        if (firstSlot == null) { firstSlot = slotEl; }
+        if (!slotEl.find('img').length) { if (unequippedSlot == null) { unequippedSlot = slotEl; } }
+      }
+      slotEl = unequippedSlot != null ? unequippedSlot : firstSlot;
+      selectedItemEl.effect('transfer', {to: slotEl, duration: 500, easing: 'easeOutCubic'});
+      const unequipped = this.unequipItemFromSlot(slotEl);
+      selectedItemEl.addClass('equipped');
+      slotEl.append(selectedItemEl.find('img').clone().addClass('item').data('item-id', selectedItem.id));
+      this.clearSelection();
+      this.showItemDetails(selectedItem, 'unequip');
+      slotEl.addClass('selected');
+      selectedItem.classes.push('equipped');
+      this.makeEquippedSlotDraggable(slotEl);
+      this.requireLevelEquipment();
+      this.onSelectionChanged();
+      return this.onEquipmentChanged();
+    }
+
+    unequipSelectedItem() {
+      const slotEl = this.getSelectedSlot();
+      this.clearSelection();
+      const itemEl = this.unequipItemFromSlot(slotEl);
+      if (!(itemEl != null ? itemEl.length : undefined)) { return; }
+      itemEl.addClass('active');
+      slotEl.effect('transfer', {to: itemEl, duration: 500, easing: 'easeOutCubic'});
+      const selectedSlotItemID = itemEl.data('item-id');
+      const item = this.items.get(selectedSlotItemID);
+      item.classes = _.without(item.classes, 'equipped');
+      this.showItemDetails(item, 'equip');
+      this.requireLevelEquipment();
+      this.onSelectionChanged();
+      return this.onEquipmentChanged();
+    }
+
+    //- Select/equip helpers
+
+    clearSelection() {
+      this.deselectAllSlots();
+      this.deselectAllUnequippedItems();
+      return this.hideItemDetails();
+    }
+
+    unequipItemFromSlot(slotEl) {
+      const itemEl = slotEl.find('.item');
+      const itemIDToUnequip = itemEl.data('item-id');
+      if (!itemIDToUnequip) { return; }
+      itemEl.remove();
+      const item = this.items.get(itemIDToUnequip);
+      item.classes = _.without(item.classes, 'equipped');
+      return this.$el.find(`#unequipped .item[data-item-id=${itemIDToUnequip}]`).removeClass('equipped');
+    }
+
+    deselectAllSlots() {
+      return this.$el.find('#equipped .item-slot.selected').removeClass('selected');
+    }
+
+    deselectAllUnequippedItems() {
+      return this.$el.find('#unequipped .item').removeClass('active');
+    }
+
+    getSlot(name) {
+      return this.$el.find(`.item-slot[data-slot=${name}]`);
+    }
+
+    getSelectedSlot() {
+      return this.$el.find('#equipped .item-slot.selected');
+    }
+
+    getSelectedUnequippedItem() {
+      return this.$el.find('#unequipped .item.active');
+    }
+
+    onSelectionChanged() {
+      const heroClass = this.selectedHero != null ? this.selectedHero.get('heroClass') : undefined;
+      const itemsCanBeEquipped = this.$el.find('#unequipped .item.available:not(.equipped)').filter('.'+heroClass).length;
+      const toShow = this.$el.find('#double-click-hint, #available-description');
+      if (itemsCanBeEquipped) { toShow.removeClass('secret'); } else { toShow.addClass('secret'); }
+      return this.delegateEvents();
+    }
+
+
+    showItemDetails(item, showExtra) {
+      this.itemDetailsView.setItem(item);
+      this.$el.find('#item-details-extra > *').addClass('secret');
+      return this.$el.find(`#${showExtra}-item-viewed`).removeClass('secret');
+    }
+
+    hideItemDetails() {
+      if (this.itemDetailsView != null) {
+        this.itemDetailsView.setItem(null);
+      }
+      return this.$el.find('#item-details-extra > *').addClass('secret');
+    }
+
+    getCurrentEquipmentConfig() {
+      const config = {};
+      for (var slot of Array.from(this.$el.find('.item-slot'))) {
+        var slotName = $(slot).data('slot');
+        var slotItemID = $(slot).find('.item').data('item-id');
+        if (!slotItemID) { continue; }
+        var item = _.find(this.items.models, {id:slotItemID});
+        config[slotName] = item.get('original');
+      }
+      return config;
+    }
+
+    requireLevelEquipment() {
+      if (debugInventory) { console.log("Inside requireLevelEquipment"); }
+      if (debugInventory) { console.log(this.items); }
+      // This is called frequently to make sure the player isn't using any restricted items and knows she must equip any required items.
+      if (!this.inserted || !this.itemsProgrammablePropertiesConfigured) { return; }
+      const equipment = this.supermodel.finished() ? this.getCurrentEquipmentConfig() : this.equipment;  // Make sure we're using latest equipment.
+      const hadRequired = this.remainingRequiredEquipment != null ? this.remainingRequiredEquipment.length : undefined;
+      this.remainingRequiredEquipment = [];
+      this.$el.find('.should-equip').removeClass('should-equip');
+      this.unequipClassRestrictedItems(equipment);
+      this.unequipLevelRestrictedItems(equipment);
+      this.updateLevelRequiredItems(equipment);
+      if (debugInventory) { console.log("@remainingRequiredEquipment.length: " + this.remainingRequiredEquipment.length); }
+      if (hadRequired && !this.remainingRequiredEquipment.length) {
+        this.endHighlight();
+        this.highlightElement('#play-level-button', {duration: 5000});
+      }
+      return $('#play-level-button').prop('disabled', this.remainingRequiredEquipment.length > 0);
+    }
+
+    unequipClassRestrictedItems(equipment) {
+      let heroClass;
+      if (debugInventory) { console.log("Inside unequipClassRestrictedItems"); }
+      if (!this.supermodel.finished() || !(heroClass = this.selectedHero != null ? this.selectedHero.get('heroClass') : undefined)) { return; }
+      return (() => {
+        const result = [];
+        const object = _.clone(equipment);
+        for (var slot in object) {
+          var item = object[slot];
+          var itemModel = this.items.findWhere({original: item});
+          if (!itemModel || !Array.from(itemModel.classes).includes(heroClass)) {
+            if (debugInventory) { console.log('Unequipping', itemModel.get('heroClass'), 'item', itemModel.get('name'), 'from slot due to class restrictions.'); }
+            this.unequipItemFromSlot(this.$el.find(`.item-slot[data-slot='${slot}']`));
+            result.push(delete equipment[slot]);
+          } else {
+            result.push(undefined);
+          }
+        }
+        return result;
+      })();
+    }
+
+    calculateRequiredGearPerSlot() {
+      let left, left1, left2;
+      if (me.isStudent() && !application.getHocCampaign() && !me.showGearRestrictionsInClassroom()) { return {}; }
+      if (this.requiredGearPerSlot) { return this.requiredGearPerSlot; }
+      const requiredGear = (left = _.clone(this.options.level.get('requiredGear'))) != null ? left : {};
+      const requiredProperties = (left1 = this.options.level.get('requiredProperties')) != null ? left1 : [];
+      const restrictedProperties = (left2 = this.options.level.get('restrictedProperties')) != null ? left2 : [];
+      const requiredPropertiesPerSlot = {};
+      for (var item of Array.from(this.items.models)) {
+        var requiredPropertiesOnThisItem = _.intersection(item.programmableProperties, requiredProperties);
+        var restrictedPropertiesOnThisItem = _.intersection(item.programmableProperties, restrictedProperties);
+        if (!requiredPropertiesOnThisItem.length || !!restrictedPropertiesOnThisItem.length) { continue; }
+        for (var slot of Array.from(item.getAllowedSlots())) {
+          var needle;
+          var requiredPropertiesNotOnThisItem = _.without(requiredPropertiesPerSlot[slot] != null ? requiredPropertiesPerSlot[slot] : [], ...Array.from(item.programmableProperties));
+          if ((slot !== 'right-hand') && _.isEqual(requiredPropertiesOnThisItem, ['buildXY'])) { continue; }  // Don't require things like caltrops belt
+          if (requiredPropertiesNotOnThisItem.length) { continue; }
+          if (requiredGear[slot] == null) { requiredGear[slot] = []; }
+          if ((needle = item.get('original'), !Array.from(requiredGear[slot]).includes(needle))) { requiredGear[slot].push(item.get('original')); }
+          if (requiredPropertiesPerSlot[slot] == null) { requiredPropertiesPerSlot[slot] = []; }
+          for (var prop of Array.from(requiredPropertiesOnThisItem)) { if (!Array.from(requiredPropertiesPerSlot[slot]).includes(prop)) { requiredPropertiesPerSlot[slot].push(prop); } }
+          if (debugInventory) { console.log(slot, 'has required item', item, 'because restrictedPropertiesOnThisItem is', restrictedPropertiesOnThisItem, 'and requiredPropertiesOnThisItem is', requiredPropertiesOnThisItem); }
+        }
+      }
+      this.requiredPropertiesPerSlot = requiredPropertiesPerSlot;
+      this.requiredGearPerSlot = requiredGear;
+      return this.requiredGearPerSlot;
+    }
+
+    calculateRestrictedGearPerSlot() {
+      let left, left1;
+      if (me.isStudent() && !application.getHocCampaign() && !me.showGearRestrictionsInClassroom()) { return {}; }
+      if (this.restrictedGearPerSlot) { return this.restrictedGearPerSlot; }
+      if (!this.requiredGearPerSlot) { this.calculateRequiredGearPerSlot(); }
+      const restrictedGear = (left = _.clone(this.options.level.get('restrictedGear'))) != null ? left : {};
+      const restrictedProperties = (left1 = this.options.level.get('restrictedProperties')) != null ? left1 : [];
+      for (var item of Array.from(this.items.models)) {
+        var restrictedPropertiesOnThisItem = _.intersection(item.programmableProperties, restrictedProperties);
+        for (var slot of Array.from(item.getAllowedSlots())) {
+          var needle;
+          var requiredPropertiesNotOnThisItem = _.without(this.requiredPropertiesPerSlot[slot], ...Array.from(item.programmableProperties));
+          // Let Rangers/Wizards use class specific weapon in 'cleave' levelsm, if it's not restricted
+          if (Array.from(requiredPropertiesNotOnThisItem).includes('cleave') && (needle = 'Warrior', !Array.from(item.getAllowedHeroClasses()).includes(needle)) && !restrictedPropertiesOnThisItem.length) { continue; }
+          if (restrictedPropertiesOnThisItem.length || requiredPropertiesNotOnThisItem.length) {
+            var needle1;
+            if (restrictedGear[slot] == null) { restrictedGear[slot] = []; }
+            if ((needle1 = item.get('original'), !Array.from(restrictedGear[slot]).includes(needle1))) { restrictedGear[slot].push(item.get('original')); }
+            if (debugInventory) { console.log(slot, 'has restricted item', item, 'because restrictedPropertiesOnThisItem is', restrictedPropertiesOnThisItem, 'and requiredPropertiesNotOnThisItem is', requiredPropertiesNotOnThisItem); }
+          }
+        }
+      }
+      this.restrictedGearPerSlot = restrictedGear;
+      return this.restrictedGearPerSlot;
+    }
+
+    unequipLevelRestrictedItems(equipment) {
+      if (debugInventory) { console.log("Inside unequipLevelRestrictedItems"); }
+      const restrictedGear = this.calculateRestrictedGearPerSlot();
+      for (var slot in restrictedGear) {
+        var items = restrictedGear[slot];
+        for (var item of Array.from(items)) {
+          var equipped = equipment[slot];
+          if (equipped && (equipped === item)) {
+            if (debugInventory) { console.log('Unequipping restricted item', equipped, 'for', slot, 'before level', this.options.level.get('slug')); }
+            this.unequipItemFromSlot(this.$el.find(`.item-slot[data-slot='${slot}']`));
+            delete equipment[slot];
+          }
+        }
+      }
+      return null;
+    }
+
+    updateLevelRequiredItems(equipment) {
+      let heroClass;
+      let item;
+      if (debugInventory) { console.log("inside updateLevelRequiredItems"); }
+      if (!(heroClass = this.selectedHero != null ? this.selectedHero.get('heroClass') : undefined)) { return; }
+      const requiredGear = this.calculateRequiredGearPerSlot();
+      if (debugInventory) { console.log("inside executtion of updateLevelRequiredItems"); }
+      for (var slot in requiredGear) {
+        var items = requiredGear[slot];
+        if (items.length) {var left1;
+        var itemOffsetTop, validSlots;
+        
+          if (Array.from(this.ringSlots).includes(slot)) {
+            validSlots = this.ringSlots;
+          } else {
+            validSlots = [slot];
+          }
+
+          if (validSlots.some(function(slot) {
+            const equipped = equipment[slot];
+            return Array.from(items).includes(equipped);
+          })) { continue; }
+
+          // Actually, just let them play if they have equipped anything in that slot (and we haven't unequipped it due to restrictions).
+          // Rings often have unique effects, so this rule does not apply to them (they are still required even if there is a non-restricted ring equipped in the slot).
+          if (equipment[slot] && !Array.from(this.ringSlots).includes(slot)) { continue; }
+
+          items = ((() => {
+            const result = [];
+            for (item of Array.from(items)) {               var left, needle;
+            if ((needle = heroClass, Array.from(((left = __guard__(this.items.findWhere({original: item}), x => x.classes)) != null ? left : [])).includes(needle))) {
+                result.push(item);
+              }
+            }
+            return result;
+          })());
+          if (!items.length) { continue; }  // If the required items are for another class, then let's not be finicky.
+
+          // We will point out the last (best) element that they own and can use, otherwise the first (cheapest).
+          items = _.sortBy(items, item => (left1 = this.items.findWhere({original: item}).get('tier')) != null ? left1 : 9001);
+          var bestOwnedItem = _.findLast(items, item => me.ownsItem(item));
+          item = bestOwnedItem != null ? bestOwnedItem : items[0];
+
+          // For the Tarnished Bronze Breastplate only, don't tell them they need it until they need it in the level, so we can show how to buy it.
+          var slug = gearSlugs[item];
+          var inCampaignView = $('#campaign-view').length;
+          if ((slug === 'tarnished-bronze-breastplate') && inCampaignView && (this.options.level.get('slug') === 'the-raised-sword')) { continue; }
+
+          // Now we're definitely requiring and pointing out an item.
+          var itemModel = this.items.findWhere({original: item});
+          var availableSlotSelector = `#unequipped .item[data-item-id='${itemModel.id}']`;
+          this.highlightElement(availableSlotSelector, {delay: 500, sides: ['right'], rotation: Math.PI / 2});
+          var $itemEl = this.$el.find(availableSlotSelector).addClass('should-equip');
+          this.$el.find(`#equipped div[data-slot='${slot}']`).addClass('should-equip');
+          if (itemOffsetTop = $itemEl[0] != null ? $itemEl[0].offsetTop : undefined) {
+            var itemOffsetBottom = itemOffsetTop + $itemEl.outerHeight(true);
+            var parentHeight = $itemEl.parent().height();
+            if (itemOffsetBottom > ($itemEl.parent().scrollTop() + parentHeight)) {
+              $itemEl.parent().scrollTop(itemOffsetBottom - parentHeight);
+            } else if (itemOffsetTop < $itemEl.parent().scrollTop()) {
+              $itemEl.parent().scrollTop(itemOffsetTop);
+            }
+          }
+          this.remainingRequiredEquipment.push({slot, item});
+        }
+      }
+      return null;
+    }
+
+    setHero(selectedHero) {
+      this.selectedHero = selectedHero;
+      if (this.selectedHero.loading) {
+        this.listenToOnce(this.selectedHero, 'sync', () => (typeof this.setHero === 'function' ? this.setHero(this.selectedHero) : undefined));
+        return;
+      }
+      this.$el.removeClass('Warrior Ranger Wizard').addClass(this.selectedHero.get('heroClass'));
+      this.requireLevelEquipment();
+      this.render();
+      return this.onEquipmentChanged();
+    }
+
+    onShown() {
+      // Called when we switch tabs to this within the modal
+      return this.requireLevelEquipment();
+    }
+
+    onHidden() {
+      // Called when the modal itself is dismissed
+      this.endHighlight();
+      super.onHidden();
+      return this.playSound('game-menu-close');
+    }
+
+    onClickChooseHero() {
+      this.playSound('menu-button-click');
+      this.hide();
+      return this.trigger('choose-hero-click');
+    }
+
+    onClickPlayLevel(e) {
+      if (this.$el.find('#play-level-button').prop('disabled')) { return; }
+      const levelSlug = this.options.level.get('slug');
+      this.playSound('menu-button-click');
+      this.showLoading();
+      const ua = navigator.userAgent.toLowerCase();
+      const isSafari = /safari/.test(ua) && !/chrome/.test(ua);
+      const isTooShort = $(window).height() < 658;  // Min vertical resolution needed at 1366px wide
+      if (isTooShort && !me.isAdmin() && !hasGoneFullScreenOnce && !isSafari) {
+        this.toggleFullscreen();
+        hasGoneFullScreenOnce = true;
+      }
+      this.updateConfig(() => {
+        return (typeof this.trigger === 'function' ? this.trigger('play-click') : undefined);
+      });
+      return (window.tracker != null ? window.tracker.trackEvent('Inventory Play', {category: 'Play Level', level: levelSlug}) : undefined);
+    }
+
+    updateConfig(callback, skipSessionSave) {
+      let hero, left, left1, patchMe;
+      if (debugInventory) { console.log("Inside updateConfig"); }
+      const sessionHeroConfig = (left = this.options.session.get('heroConfig')) != null ? left : {};
+      const lastHeroConfig = (left1 = me.get('heroConfig')) != null ? left1 : {};
+      const inventory = this.getCurrentEquipmentConfig();
+      let patchSession = (patchMe = false);
+      if (!patchSession) { patchSession = !_.isEqual(inventory, sessionHeroConfig.inventory); }
+      sessionHeroConfig.inventory = inventory;
+      if (hero = this.selectedHero != null ? this.selectedHero.get('original') : undefined) {
+        if (!patchSession) { patchSession = !_.isEqual(hero, sessionHeroConfig.thangType); }
+        sessionHeroConfig.thangType = hero;
+      }
+      if (!patchMe) { patchMe = !_.isEqual(inventory, lastHeroConfig.inventory); }
+      lastHeroConfig.inventory = inventory;
+      if (patchMe) {
+        if (debugInventory) { console.log('Inventory Modal: setting me.heroConfig to', JSON.stringify(lastHeroConfig)); }
+        me.set('heroConfig', lastHeroConfig);
+        me.patch();
+      }
+      if (patchSession) {
+        if (debugInventory) { console.log('Inventory Modal: setting session.heroConfig to', JSON.stringify(sessionHeroConfig)); }
+        this.options.session.set('heroConfig', sessionHeroConfig);
+        if (!skipSessionSave) { return this.options.session.patch({success: callback}); }
+      } else {
+        return (typeof callback === 'function' ? callback() : undefined);
+      }
+    }
+
+    //- TODO: DRY this between PlayItemsModal and InventoryModal and PlayHeroesModal
+
+    onUnlockButtonClicked(e) {
+      e.stopPropagation();
+      const button = $(e.target).closest('button');
+      const item = this.items.get(button.data('item-id'));
+      const {
+        affordable
+      } = item;
+      if (!affordable) {
+        this.playSound('menu-button-click');
+        if (!me.freeOnly() && !application.getHocCampaign()) { return this.askToBuyGemsOrSubscribe(button); }
+      } else if (button.hasClass('confirm')) {
+        let left, left1;
+        this.playSound('menu-button-unlock-end');
+        const purchase = Purchase.makeFor(item);
+        purchase.save();
+
+        //- set local changes to mimic what should happen on the server...
+        const purchased = (left = me.get('purchased')) != null ? left : {};
+        if (purchased.items == null) { purchased.items = []; }
+        purchased.items.push(item.get('original'));
+
+        me.set('purchased', purchased);
+        me.set('spent', ((left1 = me.get('spent')) != null ? left1 : 0) + item.get('gems'));
+        //- ...then rerender key bits
+        this.itemGroups.lockedItems.remove(item);
+        this.itemGroups.requiredPurchaseItems.remove(item);
+        // Redo all item sorting to make sure that we don't clobber state changes since last render.
+        const equipped = _.values(this.getCurrentEquipmentConfig());
+        for (var otherItem of Array.from(this.items.models)) { this.sortItem(otherItem, equipped); }
+        this.renderSelectors('#unequipped', '#gems-count');
+
+        this.requireLevelEquipment();
+        this.delegateEvents();
+        this.setUpDraggableEventsForAvailableEquipment();
+        this.itemDetailsView.setItem(item);
+        this.onScrollUnequipped(true);
+        if (!me.isStudent()) {
+          return Backbone.Mediator.publish('store:item-purchased', {item, itemSlug: item.get('slug')});
+        }
+      } else {
+        this.playSound('menu-button-unlock-start');
+        button.addClass('confirm').text($.i18n.t('play.confirm'));
+        return this.$el.one('click', function(e) {
+          if (e.target !== button[0]) { return button.removeClass('confirm').text($.i18n.t('play.unlock')); }
+      });
+      }
+    }
+
+    askToSignUp() {
+      const createAccountModal = new CreateAccountModal({supermodel: this.supermodel});
+      return this.openModalView(createAccountModal);
+    }
+
+    askToBuyGemsOrSubscribe(unlockButton) {
+      let popoverTemplate;
+      this.$el.find('.unlock-button').popover('destroy');
+      if (me.isStudent()) {
+        popoverTemplate = earnGemsPromptTemplate({});
+      } else if (me.canBuyGems()) {
+        popoverTemplate = buyGemsPromptTemplate({});
+      } else {
+        if (!me.hasSubscription()) { // user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
+          popoverTemplate = subscribeForGemsPrompt({});
+        } else { // user has subscription and yet not enough gems, just ask him to keep playing for more gems
+          popoverTemplate = earnGemsPromptTemplate({});
+        }
+      }
+
+      unlockButton.popover({
+        animation: true,
+        trigger: 'manual',
+        placement: 'top',
+        content: ' ',  // template has it
+        container: this.$el,
+        template: popoverTemplate
+      }).popover('show');
+      const popover = unlockButton.data('bs.popover');
+      __guard__(popover != null ? popover.$tip : undefined, x => x.i18n());
+      return this.applyRTLIfNeeded();
+    }
+
+    onBuyGemsPromptButtonClicked(e) {
+      this.playSound('menu-button-click');
+      if (me.get('anonymous')) { return this.askToSignUp(); }
+      return this.openModalView(new BuyGemsModal());
+    }
+
+    onSubscribeButtonClicked(e) {
+      this.openModalView(new SubscribeModal());
+      return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', {category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') || 'unknown')}) : undefined);
+    }
+
+    onClickedSomewhere(e) {
+      return this.closePopover();
+    }
+
+    closePopover() {
+      if (this.destroyed) { return; }
+      return this.$el.find('.unlock-button').popover('destroy');
+    }
+
+    //- Dynamic portrait loading
+
+    onScrollUnequipped(forceLoadAll) {
+      // dynamically load visible items when the user scrolls enough to see them
+      if (forceLoadAll == null) { forceLoadAll = false; }
+      if (this.destroyed) { return; }
+      const nanoContent = this.$el.find('#unequipped .nano-content');
+      const items = nanoContent.find('.item:visible:not(.loaded)');
+      const threshold = nanoContent.height() + 100;
+      return (() => {
+        const result = [];
+        for (var itemEl of Array.from(items)) {
+          itemEl = $(itemEl);
+          if ((itemEl.position().top < threshold) || forceLoadAll) {
+            itemEl.addClass('loaded');
+            var item = this.items.get(itemEl.data('item-id'));
+            result.push(itemEl.find('img').attr('src', item.getPortraitURL()));
+          } else {
+            result.push(undefined);
+          }
+        }
+        return result;
+      })();
+    }
+
+
+    //- Paper doll equipment updating
+    onEquipmentChanged() {
+      let heroSlug, left;
+      const heroClass = (left = (this.selectedHero != null ? this.selectedHero.get('heroClass') : undefined)) != null ? left : 'Warrior';
+      if (utils.isCodeCombat) {
+        let left1;
+        heroSlug = (left1 = (this.selectedHero != null ? this.selectedHero.get('slug') : undefined)) != null ? left1 : '';
+      }
+      const gender = ThangTypeLib.getGender(this.selectedHero);
+      if (utils.isCodeCombat) {
+        this.$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass(`${gender} ${heroClass} ${heroSlug}`);
+      } else {
+        this.$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass(`${gender} ${heroClass}`);
+      }
+      const equipment = this.getCurrentEquipmentConfig();
+      this.onScrollUnequipped();
+      if (!_.size(equipment) || !this.supermodel.finished()) { return; }
+      this.removeDollImages();
+      const slotsWithImages = [];
+      for (var slot in equipment) {
+        var dollImages;
+        var original = equipment[slot];
+        var item = _.find(this.items.models, item => item.get('original') === original);
+        if (!(dollImages = item != null ? item.get('dollImages') : undefined)) { continue; }
+        var didAdd = this.addDollImage(slot, dollImages, heroClass, gender, item);
+        if (item.get('original') !== '54ea39342b7506e891ca70f2') { if (didAdd) { slotsWithImages.push(slot); } }
+      }  // Circlet of the Magi needs hair under it
+      this.$el.find('#hero-image-hair').toggle(!(Array.from(slotsWithImages).includes('head')));
+      this.$el.find('#hero-image-thumb').toggle(!(Array.from(slotsWithImages).includes('gloves')));
+
+      this.equipment = (this.options.equipment = equipment);
+      if (me.isStudent() && !application.getHocCampaign()) { return this.updateConfig((function() {  }), true); }  // Save the player's heroConfig if they're a student, whenever they change gear.
+    }
+
+    removeDollImages() {
+      return this.$el.find('.doll-image').remove();
+    }
+
+    addDollImage(slot, dollImages, heroClass, gender, item) {
+      let heroSlug, imageKeys, left, needle;
+      heroClass = (left = (this.selectedHero != null ? this.selectedHero.get('heroClass') : undefined)) != null ? left : 'Warrior';
+      if (utils.isCodeCombat) {
+        let left1;
+        heroSlug = (left1 = (this.selectedHero != null ? this.selectedHero.get('slug') : undefined)) != null ? left1 : '';
+      }
+      gender = ThangTypeLib.getGender(this.selectedHero);
+      let didAdd = false;
+      if (slot === 'pet') {
+        imageKeys = ["pet"];
+      } else if (slot === 'gloves') {
+        if (heroClass === 'Ranger') {
+          imageKeys = [`${gender}${heroClass}`, `${gender}${heroClass}Thumb`];
+        } else {
+          imageKeys = [`${gender}`, `${gender}Thumb`];
+        }
+      } else if ((heroClass === 'Wizard') && (slot === 'torso')) {
+        imageKeys = [gender, `${gender}Back`];
+      } else if ((heroClass === 'Ranger') && (slot === 'head') && (needle = item.get('original'), ['5441c2be4e9aeb727cc97105', '5441c3144e9aeb727cc97111'].includes(needle))) {
+        // All-class headgear like faux fur hat, viking helmet is abusing ranger glove slot
+        imageKeys = [`${gender}Ranger`];
+      } else {
+        imageKeys = [gender];
+      }
+      for (var imageKey of Array.from(imageKeys)) {
+        var imageURL = dollImages[imageKey];
+        if (!imageURL) {
+          console.log(`Hmm, should have ${slot} ${imageKey} paper doll image, but don't have it.`);
+        } else {
+          var imageEl;
+          if (utils.isCodeCombat) {
+            imageEl = $('<img>').attr('src', `/file/${imageURL}`).addClass(`doll-image ${slot} ${heroClass} ${heroSlug} ${gender} ${_.string.underscored(imageKey).replace(/_/g, '-')}`).attr('draggable', false);
+          } else {
+            imageEl = $('<img>').attr('src', `/file/${imageURL}`).addClass(`doll-image ${slot} ${heroClass} ${gender} ${_.string.underscored(imageKey).replace(/_/g, '-')}`).attr('draggable', false);
+          }
+          this.$el.find('#equipped').append(imageEl);
+          didAdd = true;
+        }
+      }
+      return didAdd;
+    }
+
+    destroy() {
+      this.$el.find('.unlock-button').popover('destroy');
+      this.$el.find('.ui-droppable').droppable('destroy');
+      this.$el.find('.ui-draggable').draggable('destroy').off('dragstart');
+      this.$el.find('.item-slot').off('dragstart');
+      if (this.stage != null) {
+        this.stage.removeAllChildren();
+      }
+      return super.destroy();
+    }
+  };
+  InventoryModal.initClass();
+  return InventoryModal;
+})());
+
+const gear = {
+  'simple-boots': '53e237bf53457600003e3f05',
+  'simple-sword': '53e218d853457600003e3ebe',
+  'tarnished-bronze-breastplate': '53e22eac53457600003e3efc',
+  'leather-boots': '53e2384453457600003e3f07',
+  'leather-belt': '5437002a7beba4a82024a97d',
+  'programmaticon-i': '53e4108204c00d4607a89f78',
+  'programmaticon-ii': '546e25d99df4a17d0d449be1',
+  'crude-glasses': '53e238df53457600003e3f0b',
+  'crude-builders-hammer': '53f4e6e3d822c23505b74f42',
+  'long-sword': '544d7d1f8494308424f564a3',
+  'sundial-wristwatch': '53e2396a53457600003e3f0f',
+  'bronze-shield': '544c310ae0017993fce214bf',
+  'wooden-glasses': '53e2167653457600003e3eb3',
+  'basic-flags': '545bacb41e649a4495f887da',
+  'roughedge': '544d7d918494308424f564a7',
+  'sharpened-sword': '544d7deb8494308424f564ab',
+  'crude-crossbow': '544d7ffd8494308424f564c3',
+  'crude-dagger': '544d952b8494308424f56517',
+  'weak-charge': '544d957d8494308424f5651f',
+  'enchanted-stick': '544d87188494308424f564f1',
+  'unholy-tome-i': '546374bc3839c6e02811d308',
+  'book-of-life-i': '546375653839c6e02811d30b',
+  'rough-sense-stone': '54693140a2b1f53ce79443bc',
+  'polished-sense-stone': '53e215a253457600003e3eaf',
+  'quartz-sense-stone': '54693240a2b1f53ce79443c5',
+  'wooden-builders-hammer': '54694ba3a2b1f53ce794444d',
   'simple-wristwatch': '54693797a2b1f53ce79443e9'
+};
 
-gearSlugs = _.invert gear
+var gearSlugs = _.invert(gear);
+
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

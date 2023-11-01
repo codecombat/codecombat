@@ -1,158 +1,224 @@
-require('app/styles/courses/course-details.sass')
-Course = require 'models/Course'
-Courses = require 'collections/Courses'
-LevelSessions = require 'collections/LevelSessions'
-CourseInstance = require 'models/CourseInstance'
-CourseInstances = require 'collections/CourseInstances'
-Classroom = require 'models/Classroom'
-Classrooms = require 'collections/Classrooms'
-Levels = require 'collections/Levels'
-RootView = require 'views/core/RootView'
-template = require 'app/templates/courses/course-details'
-User = require 'models/User'
-storage = require 'core/storage'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let CourseDetailsView;
+require('app/styles/courses/course-details.sass');
+const Course = require('models/Course');
+const Courses = require('collections/Courses');
+const LevelSessions = require('collections/LevelSessions');
+const CourseInstance = require('models/CourseInstance');
+const CourseInstances = require('collections/CourseInstances');
+const Classroom = require('models/Classroom');
+const Classrooms = require('collections/Classrooms');
+const Levels = require('collections/Levels');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/courses/course-details');
+const User = require('models/User');
+const storage = require('core/storage');
+const utils = require('core/utils');
 
-module.exports = class CourseDetailsView extends RootView
-  id: 'course-details-view'
-  template: template
-  memberSort: 'nameAsc'
+module.exports = (CourseDetailsView = (function() {
+  CourseDetailsView = class CourseDetailsView extends RootView {
+    static initClass() {
+      this.prototype.id = 'course-details-view';
+      this.prototype.template = template;
+      this.prototype.memberSort = 'nameAsc';
+  
+      this.prototype.events = {
+        'click .btn-play-level': 'onClickPlayLevel',
+        'click .btn-select-instance': 'onClickSelectInstance',
+        'submit #school-form': 'onSubmitSchoolForm'
+      };
+    }
 
-  events:
-    'click .btn-play-level': 'onClickPlayLevel'
-    'click .btn-select-instance': 'onClickSelectInstance'
-    'submit #school-form': 'onSubmitSchoolForm'
+    constructor(options, courseID, courseInstanceID) {
+      this.courseID = courseID;
+      this.courseInstanceID = courseInstanceID;
+      super(options);
+      this.courses = new Courses();
+      this.course = new Course();
+      this.levelSessions = new LevelSessions();
+      this.courseInstance = new CourseInstance({_id: this.courseInstanceID});
+      this.owner = new User();
+      this.classroom = new Classroom();
+      this.levels = new Levels();
+      this.courseInstances = new CourseInstances();
 
-  constructor: (options, @courseID, @courseInstanceID) ->
-    super options
-    @courses = new Courses()
-    @course = new Course()
-    @levelSessions = new LevelSessions()
-    @courseInstance = new CourseInstance({_id: @courseInstanceID})
-    @owner = new User()
-    @classroom = new Classroom()
-    @levels = new Levels()
-    @courseInstances = new CourseInstances()
+      this.supermodel.trackRequest(this.courses.fetch().then(() => {
+        return this.course = this.courses.get(this.courseID);
+      }));
+      const sessionsLoaded = this.supermodel.trackRequest(this.levelSessions.fetchForCourseInstance(this.courseInstanceID, {cache: false}));
 
-    @supermodel.trackRequest(@courses.fetch().then(=>
-      @course = @courses.get(@courseID)
-    ))
-    sessionsLoaded = @supermodel.trackRequest(@levelSessions.fetchForCourseInstance(@courseInstanceID, {cache: false}))
+      this.supermodel.trackRequest(this.courseInstance.fetch().then(() => {
+        if (this.destroyed) { return; }
+        this.owner = new User({_id: this.courseInstance.get('ownerID')});
+        this.supermodel.trackRequest(this.owner.fetch());
 
-    @supermodel.trackRequest(@courseInstance.fetch().then(=>
-      return if @destroyed
-      @owner = new User({_id: @courseInstance.get('ownerID')})
-      @supermodel.trackRequest(@owner.fetch())
+        const classroomID = this.courseInstance.get('classroomID');
+        this.classroom = new Classroom({ _id: classroomID });
+        this.supermodel.trackRequest(this.classroom.fetch());
 
-      classroomID = @courseInstance.get('classroomID')
-      @classroom = new Classroom({ _id: classroomID })
-      @supermodel.trackRequest(@classroom.fetch())
+        const levelsLoaded = this.supermodel.trackRequest(this.levels.fetchForClassroomAndCourse(classroomID, this.courseID, {
+          data: { project: 'concepts,practice,primerLanguage,type,slug,name,original,description,shareable,i18n' }
+        }));
 
-      levelsLoaded = @supermodel.trackRequest(@levels.fetchForClassroomAndCourse(classroomID, @courseID, {
-        data: { project: 'concepts,practice,primerLanguage,type,slug,name,original,description,shareable,i18n' }
-      }))
+        return this.supermodel.trackRequest($.when(levelsLoaded, sessionsLoaded).then(() => {
+          this.buildSessionStats();
+          if (this.destroyed) { return; }
+          if ((this.memberStats[me.id] != null ? this.memberStats[me.id].totalLevelsCompleted : undefined) >= (this.levels.size() - 1)) {  // Don't need to complete arena
+            // need to figure out the next course instance
+            this.courseComplete = true;
+            this.courseInstances.comparator = 'courseID';
+            // TODO: make this logic use locked course content to figure out the next course, then fetch the
+            // course instance for that
+            this.supermodel.trackRequest(this.courseInstances.fetchForClassroom(classroomID).then(() => {
+              this.nextCourseInstance = _.find(this.courseInstances.models, ci => ci.get('courseID') > this.courseID);
+              if (this.nextCourseInstance) {
+                const nextCourseID = this.nextCourseInstance.get('courseID');
+                return this.nextCourse = this.courses.get(nextCourseID);
+              }
+          }));
+          }
+          return this.promptForSchool = this.courseComplete && !me.isAnonymous() && !me.get('schoolName') && !storage.load('no-school');
+        }));
+      }));
+    }
 
-      @supermodel.trackRequest($.when(levelsLoaded, sessionsLoaded).then(=>
-        @buildSessionStats()
-        return if @destroyed
-        if @memberStats[me.id]?.totalLevelsCompleted >= @levels.size() - 1  # Don't need to complete arena
-          # need to figure out the next course instance
-          @courseComplete = true
-          @courseInstances.comparator = 'courseID'
-          # TODO: make this logic use locked course content to figure out the next course, then fetch the
-          # course instance for that
-          @supermodel.trackRequest(@courseInstances.fetchForClassroom(classroomID).then(=>
-            @nextCourseInstance = _.find @courseInstances.models, (ci) => ci.get('courseID') > @courseID
-            if @nextCourseInstance
-              nextCourseID = @nextCourseInstance.get('courseID')
-              @nextCourse = @courses.get(nextCourseID)
-        ))
-        @promptForSchool = @courseComplete and not me.isAnonymous() and not me.get('schoolName') and not storage.load('no-school')
-      ))
-    ))
+    initialize(options) {
+      if (window.tracker != null) {
+        window.tracker.trackEvent('Students Class Course Loaded', {category: 'Students'});
+      }
+      return super.initialize(options);
+    }
 
-  initialize: (options) ->
-    window.tracker?.trackEvent 'Students Class Course Loaded', category: 'Students'
-    super(options)
+    buildSessionStats() {
+      let concept, state, userID;
+      if (this.destroyed) { return; }
 
-  buildSessionStats: ->
-    return if @destroyed
+      this.levelConceptMap = {};
+      for (var level of Array.from(this.levels.models)) {
+        var name;
+        if (this.levelConceptMap[name = level.get('original')] == null) { this.levelConceptMap[name] = {}; }
+        for (concept of Array.from(level.get('concepts') || [])) {
+          this.levelConceptMap[level.get('original')][concept] = true;
+        }
+        //  I'm not sure about this modification. Aren't the methods below give the same response?
+        if ((utils.isCodeCombat && level.isLadder()) || (utils.isOzaria && level.isType('course-ladder'))) {
+          this.arenaLevel = level;
+        }
+      }
 
-    @levelConceptMap = {}
-    for level in @levels.models
-      @levelConceptMap[level.get('original')] ?= {}
-      for concept in level.get('concepts') or []
-        @levelConceptMap[level.get('original')][concept] = true
-      #  I'm not sure about this modification. Aren't the methods below give the same response?
-      if (utils.isCodeCombat and level.isLadder()) or (utils.isOzaria and level.isType('course-ladder'))
-        @arenaLevel = level
+      // console.log 'onLevelSessionsSync'
+      this.memberStats = {};
+      this.userConceptStateMap = {};
+      this.userLevelStateMap = {};
+      for (var levelSession of Array.from(this.levelSessions.models)) {
+        var left;
+        if (levelSession.skipMe) { continue; }   // Don't track second arena session as another completed level
+        userID = levelSession.get('creator');
+        var levelID = levelSession.get('level').original;
+        state = __guard__(levelSession.get('state'), x => x.complete) ? 'complete' : 'started';
+        var playtime = parseInt((left = levelSession.get('playtime')) != null ? left : 0, 10);
+        ((userID, levelID) => {
+          const secondSessionForLevel = _.find(this.levelSessions.models, (otherSession => (otherSession.get('creator') === userID) && (otherSession.get('level').original === levelID) && (otherSession.id !== levelSession.id)));
+          if (secondSessionForLevel) {
+            let left1;
+            if (__guard__(secondSessionForLevel.get('state'), x1 => x1.complete)) { state = 'complete'; }
+            playtime = playtime + parseInt((left1 = secondSessionForLevel.get('playtime')) != null ? left1 : 0, 10);
+            return secondSessionForLevel.skipMe = true;
+          }
+        })(userID, levelID);
 
-    # console.log 'onLevelSessionsSync'
-    @memberStats = {}
-    @userConceptStateMap = {}
-    @userLevelStateMap = {}
-    for levelSession in @levelSessions.models
-      continue if levelSession.skipMe   # Don't track second arena session as another completed level
-      userID = levelSession.get('creator')
-      levelID = levelSession.get('level').original
-      state = if levelSession.get('state')?.complete then 'complete' else 'started'
-      playtime = parseInt(levelSession.get('playtime') ? 0, 10)
-      do (userID, levelID) =>
-        secondSessionForLevel = _.find(@levelSessions.models, ((otherSession) ->
-          otherSession.get('creator') is userID and otherSession.get('level').original is levelID and otherSession.id isnt levelSession.id
-        ))
-        if secondSessionForLevel
-          state = 'complete' if secondSessionForLevel.get('state')?.complete
-          playtime = playtime + parseInt(secondSessionForLevel.get('playtime') ? 0, 10)
-          secondSessionForLevel.skipMe = true
+        if (this.memberStats[userID] == null) { this.memberStats[userID] = {totalLevelsCompleted: 0, totalPlayTime: 0}; }
+        if (state === 'complete') { this.memberStats[userID].totalLevelsCompleted++; }
+        this.memberStats[userID].totalPlayTime += playtime;
 
-      @memberStats[userID] ?= totalLevelsCompleted: 0, totalPlayTime: 0
-      @memberStats[userID].totalLevelsCompleted++ if state is 'complete'
-      @memberStats[userID].totalPlayTime += playtime
+        if (this.userConceptStateMap[userID] == null) { this.userConceptStateMap[userID] = {}; }
+        for (concept in this.levelConceptMap[levelID]) {
+          this.userConceptStateMap[userID][concept] = state;
+        }
 
-      @userConceptStateMap[userID] ?= {}
-      for concept of @levelConceptMap[levelID]
-        @userConceptStateMap[userID][concept] = state
+        if (this.userLevelStateMap[userID] == null) { this.userLevelStateMap[userID] = {}; }
+        this.userLevelStateMap[userID][levelID] = state;
+      }
 
-      @userLevelStateMap[userID] ?= {}
-      @userLevelStateMap[userID][levelID] = state
+      this.conceptsCompleted = {};
+      return (() => {
+        const result = [];
+        for (userID in this.userConceptStateMap) {
+          var conceptStateMap = this.userConceptStateMap[userID];
+          result.push((() => {
+            const result1 = [];
+            for (concept in conceptStateMap) {
+              state = conceptStateMap[concept];
+              if (this.conceptsCompleted[concept] == null) { this.conceptsCompleted[concept] = 0; }
+              result1.push(this.conceptsCompleted[concept]++);
+            }
+            return result1;
+          })());
+        }
+        return result;
+      })();
+    }
 
-    @conceptsCompleted = {}
-    for userID, conceptStateMap of @userConceptStateMap
-      for concept, state of conceptStateMap
-        @conceptsCompleted[concept] ?= 0
-        @conceptsCompleted[concept]++
+    onClickPlayLevel(e) {
+      let route, viewArgs, viewClass;
+      const levelSlug = $(e.target).closest('.btn-play-level').data('level-slug');
+      const levelID = $(e.target).closest('.btn-play-level').data('level-id');
+      const level = this.levels.findWhere({original: levelID});
+      if (window.tracker != null) {
+        window.tracker.trackEvent('Students Class Course Play Level', {category: 'Students', courseID: this.courseID, courseInstanceID: this.courseInstanceID, levelSlug});
+      }
+      if (level.isLadder()) {
+        viewClass = 'views/ladder/LadderView';
+        viewArgs = [{supermodel: this.supermodel}, levelSlug];
+        route = '/play/ladder/' + levelSlug;
+        route += '/course/' + this.courseInstance.id;
+        viewArgs = viewArgs.concat(['course', this.courseInstance.id]);
+      } else {
+        route = this.getLevelURL(levelSlug);
+        if (level.get('primerLanguage')) { route += "&codeLanguage=" + level.get('primerLanguage'); }
+        viewClass = 'views/play/level/PlayLevelView';
+        viewArgs = [{courseID: this.courseID, courseInstanceID: this.courseInstanceID, supermodel: this.supermodel}, levelSlug];
+      }
+      return Backbone.Mediator.publish('router:navigate', {route, viewClass, viewArgs});
+    }
 
-  onClickPlayLevel: (e) ->
-    levelSlug = $(e.target).closest('.btn-play-level').data('level-slug')
-    levelID = $(e.target).closest('.btn-play-level').data('level-id')
-    level = @levels.findWhere({original: levelID})
-    window.tracker?.trackEvent 'Students Class Course Play Level', category: 'Students', courseID: @courseID, courseInstanceID: @courseInstanceID, levelSlug: levelSlug
-    if level.isLadder()
-      viewClass = 'views/ladder/LadderView'
-      viewArgs = [{supermodel: @supermodel}, levelSlug]
-      route = '/play/ladder/' + levelSlug
-      route += '/course/' + @courseInstance.id
-      viewArgs = viewArgs.concat ['course', @courseInstance.id]
-    else
-      route = @getLevelURL levelSlug
-      route += "&codeLanguage=" + level.get('primerLanguage') if level.get('primerLanguage')
-      viewClass = 'views/play/level/PlayLevelView'
-      viewArgs = [{courseID: @courseID, courseInstanceID: @courseInstanceID, supermodel: @supermodel}, levelSlug]
-    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: viewClass, viewArgs: viewArgs
+    getLevelURL(levelSlug) {
+      return `/play/level/${levelSlug}?course=${this.courseID}&course-instance=${this.courseInstanceID}`;
+    }
 
-  getLevelURL: (levelSlug) ->
-    "/play/level/#{levelSlug}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
+    getOwnerName() {
+      if (this.owner.isNew()) { return; }
+      if (this.owner.get('firstName') && this.owner.get('lastName')) {
+        return `${this.owner.get('firstName')} ${this.owner.get('lastName')}`;
+      }
+      return this.owner.get('name') || this.owner.get('email');
+    }
 
-  getOwnerName: ->
-    return if @owner.isNew()
-    if @owner.get('firstName') and @owner.get('lastName')
-      return "#{@owner.get('firstName')} #{@owner.get('lastName')}"
-    @owner.get('name') or @owner.get('email')
+    getLastLevelCompleted() {
+      let lastLevelCompleted = null;
+      for (var levelID of Array.from(this.levels.pluck('original'))) {
+        if (__guard__(this.userLevelStateMap != null ? this.userLevelStateMap[me.id] : undefined, x => x[levelID]) === 'complete') {
+          lastLevelCompleted = levelID;
+        }
+      }
+      return lastLevelCompleted;
+    }
+  };
+  CourseDetailsView.initClass();
+  return CourseDetailsView;
+})());
 
-  getLastLevelCompleted: ->
-    lastLevelCompleted = null
-    for levelID in @levels.pluck('original')
-      if @userLevelStateMap?[me.id]?[levelID] is 'complete'
-        lastLevelCompleted = levelID
-    return lastLevelCompleted
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

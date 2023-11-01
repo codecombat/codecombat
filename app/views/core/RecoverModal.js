@@ -1,43 +1,68 @@
-require('app/styles/modal/recover-modal.sass')
-ModalView = require 'views/core/ModalView'
-template = require 'app/templates/core/recover-modal'
-forms = require 'core/forms'
-{genericFailure} = require 'core/errors'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let RecoverModal;
+require('app/styles/modal/recover-modal.sass');
+const ModalView = require('views/core/ModalView');
+const template = require('app/templates/core/recover-modal');
+const forms = require('core/forms');
+const {genericFailure} = require('core/errors');
 
-filterKeyboardEvents = (allowedEvents, func) ->
-  return (splat...) ->
-    e = splat[0]
-    return unless e.keyCode in allowedEvents or not e.keyCode
-    return func(splat...)
+const filterKeyboardEvents = (allowedEvents, func) => (function(...splat) {
+  const e = splat[0];
+  if (!Array.from(allowedEvents).includes(e.keyCode) && !!e.keyCode) { return; }
+  return func(...Array.from(splat || []));
+});
 
-module.exports = class RecoverModal extends ModalView
-  id: 'recover-modal'
-  template: template
+module.exports = (RecoverModal = (function() {
+  RecoverModal = class RecoverModal extends ModalView {
+    static initClass() {
+      this.prototype.id = 'recover-modal';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'click #recover-button': 'recoverAccount',
+        'keydown input': 'recoverAccount'
+      };
+  
+      this.prototype.subscriptions =
+        {'errors:server-error': 'onServerError'};
+    }
 
-  events:
-    'click #recover-button': 'recoverAccount'
-    'keydown input': 'recoverAccount'
+    onServerError(e) { // TODO: work error handling into a separate forms system
+      return this.disableModalInProgress(this.$el);
+    }
 
-  subscriptions:
-    'errors:server-error': 'onServerError'
+    constructor(options) {
+      this.recoverAccount = this.recoverAccount.bind(this);
+      this.successfullyRecovered = this.successfullyRecovered.bind(this);
+      this.recoverAccount = filterKeyboardEvents([13], this.recoverAccount); // TODO: part of forms
+      super(options);
+    }
 
-  onServerError: (e) -> # TODO: work error handling into a separate forms system
-    @disableModalInProgress(@$el)
+    recoverAccount(e) {
+      this.playSound('menu-button-click');
+      forms.clearFormAlerts(this.$el);
+      const {
+        email
+      } = forms.formToObject(this.$el);
+      if (!email) { return; }
+      const res = $.post('/auth/reset', {email}, this.successfullyRecovered);
+      res.fail(genericFailure);
+      return this.enableModalInProgress(this.$el);
+    }
 
-  constructor: (options) ->
-    @recoverAccount = filterKeyboardEvents([13], @recoverAccount) # TODO: part of forms
-    super options
-
-  recoverAccount: (e) =>
-    @playSound 'menu-button-click'
-    forms.clearFormAlerts(@$el)
-    email = (forms.formToObject @$el).email
-    return unless email
-    res = $.post '/auth/reset', {email: email}, @successfullyRecovered
-    res.fail(genericFailure)
-    @enableModalInProgress(@$el)
-
-  successfullyRecovered: =>
-    @disableModalInProgress(@$el)
-    @$el.find('.modal-body:visible').text($.i18n.t('recover.recovery_sent'))
-    @$el.find('.modal-footer').remove()
+    successfullyRecovered() {
+      this.disableModalInProgress(this.$el);
+      this.$el.find('.modal-body:visible').text($.i18n.t('recover.recovery_sent'));
+      return this.$el.find('.modal-footer').remove();
+    }
+  };
+  RecoverModal.initClass();
+  return RecoverModal;
+})());

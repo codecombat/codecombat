@@ -1,26 +1,44 @@
-CocoClass = require 'core/CocoClass'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const CocoClass = require('core/CocoClass');
 
-namesCache = {}
+const namesCache = {};
 
-class NameLoader extends CocoClass
-  loadNames: (ids) ->
-    toLoad = _.uniq (id for id in ids when not namesCache[id])
-    return false unless toLoad.length
-    jqxhrOptions = {
+class NameLoader extends CocoClass {
+  constructor(...args) {
+    this.loadedNames = this.loadedNames.bind(this);
+    super(...args);
+  }
+
+  loadNames(ids) {
+    const toLoad = _.uniq((Array.from(ids).filter((id) => !namesCache[id])));
+    if (!toLoad.length) { return false; }
+    const jqxhrOptions = {
       url: '/db/user/x/names',
       type: 'POST',
       data: {ids: toLoad},
-      success: @loadedNames
+      success: this.loadedNames
+    };
+
+    return jqxhrOptions;
+  }
+
+  loadedNames(newNames) {
+    return _.extend(namesCache, newNames);
+  }
+
+  getName(id) {
+    if ((namesCache[id] != null ? namesCache[id].firstName : undefined) && (namesCache[id] != null ? namesCache[id].lastName : undefined)) {
+      return `${(namesCache[id] != null ? namesCache[id].firstName : undefined)} ${(namesCache[id] != null ? namesCache[id].lastName : undefined)}`;
     }
+    return (namesCache[id] != null ? namesCache[id].firstName : undefined) || (namesCache[id] != null ? namesCache[id].name : undefined) || id;
+  }
+}
 
-    return jqxhrOptions
-
-  loadedNames: (newNames) =>
-    _.extend namesCache, newNames
-
-  getName: (id) ->
-    if namesCache[id]?.firstName and namesCache[id]?.lastName
-      return "#{namesCache[id]?.firstName} #{namesCache[id]?.lastName}"
-    namesCache[id]?.firstName or namesCache[id]?.name or id
-
-module.exports = new NameLoader()
+module.exports = new NameLoader();

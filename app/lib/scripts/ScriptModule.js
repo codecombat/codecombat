@@ -1,39 +1,77 @@
-CocoClass = require 'core/CocoClass'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ScriptModule;
+const CocoClass = require('core/CocoClass');
 
-module.exports = class ScriptModule extends CocoClass
+module.exports = (ScriptModule = (function() {
+  let scrubbingTime = undefined;
+  let movementTime = undefined;
+  ScriptModule = class ScriptModule extends CocoClass {
+    static initClass() {
+  
+      scrubbingTime = 0;
+      movementTime = 0;
+    }
 
-  scrubbingTime = 0
-  movementTime = 0
+    constructor(noteGroup) {
+      this.noteGroup = noteGroup;
+      super();
+      if (!this.noteGroup.prepared) {
+        this.analyzeNoteGroup(this.noteGroup);
+        if (this.noteGroup.notes == null) { this.noteGroup.notes = []; }
+        this.noteGroup.prepared = true;
+      }
+    }
 
-  constructor: (@noteGroup) ->
-    super()
-    if not @noteGroup.prepared
-      @analyzeNoteGroup(@noteGroup)
-      @noteGroup.notes ?= []
-      @noteGroup.prepared = true
+    // subclass should overwrite these
 
-  # subclass should overwrite these
+    static neededFor() { return false; }
+    startNotes() { return []; }
+    endNotes() { return []; }
+    skipNotes() { return this.endNotes(); }
 
-  @neededFor: -> false
-  startNotes: -> []
-  endNotes: -> []
-  skipNotes: -> @endNotes()
+    // common logic
 
-  # common logic
+    analyzeNoteGroup() {
+      // some notes need to happen after others. Calculate the delays
+      this.movementTime = this.calculateMovementMax(this.noteGroup);
+      return this.scrubbingTime = __guard__(this.noteGroup.playback != null ? this.noteGroup.playback.scrub : undefined, x => x.duration) || 0;
+    }
 
-  analyzeNoteGroup: ->
-    # some notes need to happen after others. Calculate the delays
-    @movementTime = @calculateMovementMax(@noteGroup)
-    @scrubbingTime = @noteGroup.playback?.scrub?.duration or 0
+    calculateMovementMax() {
+      let sums = {};
+      for (var sprite of Array.from(this.noteGroup.sprites)) {
+        if (sprite.move == null) { continue; }
+        if (sums[sprite.id] == null) { sums[sprite.id] = 0; }
+        sums[sprite.id] += sprite.move.duration;
+      }
+      sums = ((() => {
+        const result = [];
+        for (var k in sums) {
+          result.push(sums[k]);
+        }
+        return result;
+      })());
+      return Math.max(0, ...Array.from(sums));
+    }
 
-  calculateMovementMax: ->
-    sums = {}
-    for sprite in @noteGroup.sprites
-      continue unless sprite.move?
-      sums[sprite.id] ?= 0
-      sums[sprite.id] += sprite.move.duration
-    sums = (sums[k] for k of sums)
-    Math.max(0, sums...)
+    maybeApplyDelayToNote(note) {
+      return note.delay = (this.scrubbingTime + this.movementTime) || 0;
+    }
+  };
+  ScriptModule.initClass();
+  return ScriptModule;
+})());
 
-  maybeApplyDelayToNote: (note) ->
-    note.delay = (@scrubbingTime + @movementTime) or 0
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

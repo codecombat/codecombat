@@ -1,42 +1,72 @@
-SchoolInfoPanel = require './SchoolInfoPanel'
-TeacherRolePanel = require './TeacherRolePanel'
-SetupAccountPanel = require './SetupAccountPanel'
-TeacherSignupStoreModule = require './TeacherSignupStoreModule'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let TeacherSignupComponent;
+const SchoolInfoPanel = require('./SchoolInfoPanel');
+const TeacherRolePanel = require('./TeacherRolePanel');
+const SetupAccountPanel = require('./SetupAccountPanel');
+const TeacherSignupStoreModule = require('./TeacherSignupStoreModule');
 
-module.exports = TeacherSignupComponent = Vue.extend
-  name: 'teacher-signup-component'
-  template: require('app/templates/core/create-account-modal/teacher-signup-component')()
+module.exports = (TeacherSignupComponent = Vue.extend({
+  name: 'teacher-signup-component',
+  template: require('app/templates/core/create-account-modal/teacher-signup-component')(),
 
-  created: ->
-    @disableKeyboardClose()
+  created() {
+    return this.disableKeyboardClose();
+  },
 
-  data: ->
-    panelIndex: 0
-    panels: ['school-info-panel', 'teacher-role-panel', 'setup-account-panel']
-    trialRequestAttributes: {}
+  data() {
+    return {
+      panelIndex: 0,
+      panels: ['school-info-panel', 'teacher-role-panel', 'setup-account-panel'],
+      trialRequestAttributes: {}
+    };
+  },
 
-  computed:
-    panel: -> @panels[@panelIndex]
+  computed: {
+    panel() { return this.panels[this.panelIndex]; }
+  },
 
-  components:
-    'school-info-panel': SchoolInfoPanel
-    'teacher-role-panel': TeacherRolePanel
+  components: {
+    'school-info-panel': SchoolInfoPanel,
+    'teacher-role-panel': TeacherRolePanel,
     'setup-account-panel': SetupAccountPanel
+  },
 
-  methods:
-    onContinue: (attributes) ->
-      @trialRequestAttributes = _.assign({}, @trialRequestAttributes, attributes)
-      @panelIndex += 1
+  methods: {
+    onContinue(attributes) {
+      this.trialRequestAttributes = _.assign({}, this.trialRequestAttributes, attributes);
+      return this.panelIndex += 1;
+    },
 
-    onBack: ->
-      if @panelIndex is 0 then @$emit('back') else @panelIndex -= 1
+    onBack() {
+      if (this.panelIndex === 0) { return this.$emit('back'); } else { return this.panelIndex -= 1; }
+    },
 
-    disableKeyboardClose: ->
-      # NOTE: This uses undocumented API calls and might break in future bootstrap releases
-      modal = $('#create-account-modal').data('bs.modal')
-      modal?.options?.keyboard = false
-      modal?.escape?()
+    disableKeyboardClose() {
+      // NOTE: This uses undocumented API calls and might break in future bootstrap releases
+      const modal = $('#create-account-modal').data('bs.modal');
+      __guard__(modal != null ? modal.options : undefined, x => x.keyboard = false);
+      return __guardMethod__(modal, 'escape', o => o.escape());
+    }
+  },
 
-  mounted: ->
-    # 2020-11-05: Now that we have more Ozaria on the homepage, we don't want to pop it up by default; let them click the banner
-    #window.localStorage.setItem('showOzariaEncouragementModal', true)
+  mounted() {}
+}));
+    // 2020-11-05: Now that we have more Ozaria on the homepage, we don't want to pop it up by default; let them click the banner
+    //window.localStorage.setItem('showOzariaEncouragementModal', true)
+
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}
+function __guardMethod__(obj, methodName, transform) {
+  if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {
+    return transform(obj, methodName);
+  } else {
+    return undefined;
+  }
+}

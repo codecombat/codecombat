@@ -1,52 +1,93 @@
-# Based on https://github.com/substack/node-falafel
-# A similar approach could be seen in https://github.com/ariya/esmorph
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+// Based on https://github.com/substack/node-falafel
+// A similar approach could be seen in https://github.com/ariya/esmorph
 
-# TODO: see about consolidating
-module.exports.walkAST = walkAST = (node, fn) ->
-  for key, child of node
-    if _.isArray child
-      for grandchild in child
-        walkAST grandchild, fn if _.isString grandchild?.type
-    else if _.isString child?.type
-      walkAST child, fn
-    fn child
+// TODO: see about consolidating
+let morphAST, walkAST, walkASTCorrect;
+module.exports.walkAST = (walkAST = (node, fn) => (() => {
+  const result = [];
+  for (var key in node) {
+    var child = node[key];
+    if (_.isArray(child)) {
+      for (var grandchild of Array.from(child)) {
+        if (_.isString(grandchild != null ? grandchild.type : undefined)) { walkAST(grandchild, fn); }
+      }
+    } else if (_.isString(child != null ? child.type : undefined)) {
+      walkAST(child, fn);
+    }
+    result.push(fn(child));
+  }
+  return result;
+})());
 
-module.exports.walkASTCorrect = walkASTCorrect = (node, fn) ->
-  for key, child of node
-    if _.isArray child
-      for grandchild in child
-        if _.isString grandchild?.type
-          walkASTCorrect grandchild, fn
-    else if _.isString child?.type
-      walkASTCorrect child, fn
-  fn node
+module.exports.walkASTCorrect = (walkASTCorrect = function(node, fn) {
+  for (var key in node) {
+    var child = node[key];
+    if (_.isArray(child)) {
+      for (var grandchild of Array.from(child)) {
+        if (_.isString(grandchild != null ? grandchild.type : undefined)) {
+          walkASTCorrect(grandchild, fn);
+        }
+      }
+    } else if (_.isString(child != null ? child.type : undefined)) {
+      walkASTCorrect(child, fn);
+    }
+  }
+  return fn(node);
+});
 
-module.exports.morphAST = morphAST = (source, transforms, parseFn, aether) ->
-  chunks = source.split ''
-  ast = parseFn source, aether
+module.exports.morphAST = (morphAST = function(source, transforms, parseFn, aether) {
+  const chunks = source.split('');
+  const ast = parseFn(source, aether);
 
-  morphWalk = (node, parent) ->
-    insertHelpers node, parent, chunks
-    for key, child of node
-      continue if key is 'parent' or key is 'leadingComments'
-      if _.isArray child
-        for grandchild in child
-          morphWalk grandchild, node if _.isString grandchild?.type
-      else if _.isString child?.type
-        morphWalk child, node
-    transform node, aether for transform in transforms
+  var morphWalk = function(node, parent) {
+    insertHelpers(node, parent, chunks);
+    for (var key in node) {
+      var child = node[key];
+      if ((key === 'parent') || (key === 'leadingComments')) { continue; }
+      if (_.isArray(child)) {
+        for (var grandchild of Array.from(child)) {
+          if (_.isString(grandchild != null ? grandchild.type : undefined)) { morphWalk(grandchild, node); }
+        }
+      } else if (_.isString(child != null ? child.type : undefined)) {
+        morphWalk(child, node);
+      }
+    }
+    return Array.from(transforms).map((transform) => transform(node, aether));
+  };
 
-  morphWalk ast, undefined
-  chunks.join ''
+  morphWalk(ast, undefined);
+  return chunks.join('');
+});
 
-insertHelpers = (node, parent, chunks) ->
-  return unless node.range
-  node.parent = parent
-  node.source = -> chunks.slice(node.range[0], node.range[1]).join ''
-  update = (s) ->
-    chunks[node.range[0]] = s
-    for i in [node.range[0] + 1 ... node.range[1]]
-      chunks[i] = ''
-  if _.isObject node.update
-    _.extend update, node.update
-  node.update = update
+var insertHelpers = function(node, parent, chunks) {
+  if (!node.range) { return; }
+  node.parent = parent;
+  node.source = () => chunks.slice(node.range[0], node.range[1]).join('');
+  const update = function(s) {
+    chunks[node.range[0]] = s;
+    return __range__(node.range[0] + 1, node.range[1], false).map((i) =>
+      (chunks[i] = ''));
+  };
+  if (_.isObject(node.update)) {
+    _.extend(update, node.update);
+  }
+  return node.update = update;
+};
+
+function __range__(left, right, inclusive) {
+  let range = [];
+  let ascending = left < right;
+  let end = !inclusive ? right : ascending ? right + 1 : right - 1;
+  for (let i = left; ascending ? i < end : i > end; ascending ? i++ : i--) {
+    range.push(i);
+  }
+  return range;
+}

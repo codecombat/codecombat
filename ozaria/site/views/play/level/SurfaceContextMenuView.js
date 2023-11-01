@@ -1,59 +1,84 @@
-require('app/styles/play/level/surface-context-menu')
-CocoView = require 'views/core/CocoView'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SurfaceContextMenuView;
+require('app/styles/play/level/surface-context-menu');
+const CocoView = require('views/core/CocoView');
 
-module.exports = class SurfaceContextMenuView extends CocoView
-  id: 'surface-context-menu-view'
-  className: 'surface-context-menu'
-  template: require('templates/play/level/surface-context-menu')
-
-  events:
-    'click #copy': 'onClickCopy'
-
-  subscriptions:
-    'level:surface-context-menu-pressed': 'showView'
-    'level:surface-context-menu-hide': 'hideView'
+module.exports = (SurfaceContextMenuView = (function() {
+  SurfaceContextMenuView = class SurfaceContextMenuView extends CocoView {
+    static initClass() {
+      this.prototype.id = 'surface-context-menu-view';
+      this.prototype.className = 'surface-context-menu';
+      this.prototype.template = require('templates/play/level/surface-context-menu');
+  
+      this.prototype.events =
+        {'click #copy': 'onClickCopy'};
+  
+      this.prototype.subscriptions = {
+        'level:surface-context-menu-pressed': 'showView',
+        'level:surface-context-menu-hide': 'hideView'
+      };
+    }
     
-  constructor: (options) ->
-    @supermodel = options.supermodel # Has to go before super so events are hooked up
-    super options
-    @level = options.level
-    @session = options.session
+    constructor(options) {
+      this.supermodel = options.supermodel; // Has to go before super so events are hooked up
+      super(options);
+      this.level = options.level;
+      this.session = options.session;
+    }
     
 
-  destroy: ->
-    super()
+    destroy() {
+      return super.destroy();
+    }
 
-  afterRender: ->
-    super()
+    afterRender() {
+      return super.afterRender();
+    }
 
-  onClickCopy: (e) ->
-    if navigator.clipboard
-      navigator.clipboard.writeText( @coordinates )
-    else if document.queryCommandSupported('copy')
-      textArea = document.createElement("textarea")
-      textArea.value = @coordinates
-      document.body.appendChild(textArea)
-      textArea.focus()
-      textArea.select()
-      document.execCommand('copy')
-      document.body.removeChild(textArea)
+    onClickCopy(e) {
+      if (navigator.clipboard) {
+        return navigator.clipboard.writeText( this.coordinates );
+      } else if (document.queryCommandSupported('copy')) {
+        const textArea = document.createElement("textarea");
+        textArea.value = this.coordinates;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy');
+        return document.body.removeChild(textArea);
+      }
+    }
 
   
 
-  setPosition: (e) ->
-    @$el.css('left', e.posX)
-    @$el.css('top', e.posY)
+    setPosition(e) {
+      this.$el.css('left', e.posX);
+      return this.$el.css('top', e.posY);
+    }
 
-  setCoordinates: (e) ->
-    @coordinates = "#{e.wopX}, #{e.wopY}"
-    message = "copy #{@coordinates}"
-    @copyMessage = message
+    setCoordinates(e) {
+      this.coordinates = `${e.wopX}, ${e.wopY}`;
+      const message = `copy ${this.coordinates}`;
+      return this.copyMessage = message;
+    }
 
-  hideView: ->
-    @$el.hide()
+    hideView() {
+      return this.$el.hide();
+    }
 
-  showView: (e) ->
-    @$el.show()
-    @setCoordinates(e)
-    @setPosition(e)
-    @render()
+    showView(e) {
+      this.$el.show();
+      this.setCoordinates(e);
+      this.setPosition(e);
+      return this.render();
+    }
+  };
+  SurfaceContextMenuView.initClass();
+  return SurfaceContextMenuView;
+})());

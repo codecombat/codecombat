@@ -1,17 +1,35 @@
-ModalComponent = require 'views/core/ModalComponent'
-MaintenanceComponent = require('./components/MaintenanceModal.vue').default
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let MaintenanceModal;
+const ModalComponent = require('views/core/ModalComponent');
+const MaintenanceComponent = require('./components/MaintenanceModal.vue').default;
 
-module.exports = class MaintenanceModal extends ModalComponent
-  id: 'maintenance-modal'
-  template: require('app/templates/core/modal-base-flat')
-  VueComponent: MaintenanceComponent
-
-  constructor: (options) ->
-    super options
-    @propsData = {
-      hide: () => @hide()
+module.exports = (MaintenanceModal = (function() {
+  MaintenanceModal = class MaintenanceModal extends ModalComponent {
+    static initClass() {
+      this.prototype.id = 'maintenance-modal';
+      this.prototype.template = require('app/templates/core/modal-base-flat');
+      this.prototype.VueComponent = MaintenanceComponent;
     }
 
-  destroy: ->
-    @onDestroy?()
-    super()
+    constructor(options) {
+      super(options);
+      this.propsData = {
+        hide: () => this.hide()
+      };
+    }
+
+    destroy() {
+      if (typeof this.onDestroy === 'function') {
+        this.onDestroy();
+      }
+      return super.destroy();
+    }
+  };
+  MaintenanceModal.initClass();
+  return MaintenanceModal;
+})());

@@ -1,35 +1,52 @@
-CocoClass = require 'core/CocoClass'
-createjs = require 'lib/createjs-parts'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let PointChooser;
+const CocoClass = require('core/CocoClass');
+const createjs = require('lib/createjs-parts');
 
-module.exports = class PointChooser extends CocoClass
-  constructor: (@options) ->
-    super()
-    @buildShape()
-    @options.stage.addEventListener 'stagemousedown', @onMouseDown
-    @options.camera.dragDisabled = true
+module.exports = (PointChooser = class PointChooser extends CocoClass {
+  constructor(options) {
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.options = options;
+    super();
+    this.buildShape();
+    this.options.stage.addEventListener('stagemousedown', this.onMouseDown);
+    this.options.camera.dragDisabled = true;
+  }
 
-  destroy: ->
-    @options.stage.removeEventListener 'stagemousedown', @onMouseDown
-    super()
+  destroy() {
+    this.options.stage.removeEventListener('stagemousedown', this.onMouseDown);
+    return super.destroy();
+  }
 
-  # Called also from WorldSelectModal
-  setPoint: (@point) ->
-    @updateShape()
+  // Called also from WorldSelectModal
+  setPoint(point) {
+    this.point = point;
+    return this.updateShape();
+  }
 
-  buildShape: ->
-    @shape = new createjs.Shape()
-    @shape.alpha = 0.9
-    @shape.mouseEnabled = false
-    @shape.graphics.setStrokeStyle(1, 'round').beginStroke('#000000').beginFill('#fedcba')
-    @shape.graphics.drawCircle(0, 0, 4).endFill()
+  buildShape() {
+    this.shape = new createjs.Shape();
+    this.shape.alpha = 0.9;
+    this.shape.mouseEnabled = false;
+    this.shape.graphics.setStrokeStyle(1, 'round').beginStroke('#000000').beginFill('#fedcba');
+    return this.shape.graphics.drawCircle(0, 0, 4).endFill();
+  }
 
-  onMouseDown: (e) =>
-    return unless key.shift
-    @setPoint @options.camera.screenToWorld {x: e.stageX, y: e.stageY}
-    Backbone.Mediator.publish 'surface:choose-point', point: @point
+  onMouseDown(e) {
+    if (!key.shift) { return; }
+    this.setPoint(this.options.camera.screenToWorld({x: e.stageX, y: e.stageY}));
+    return Backbone.Mediator.publish('surface:choose-point', {point: this.point});
+  }
 
-  updateShape: ->
-    sup = @options.camera.worldToSurface @point
-    @options.surfaceLayer.addChild @shape unless @shape.parent
-    @shape.x = sup.x
-    @shape.y = sup.y
+  updateShape() {
+    const sup = this.options.camera.worldToSurface(this.point);
+    if (!this.shape.parent) { this.options.surfaceLayer.addChild(this.shape); }
+    this.shape.x = sup.x;
+    return this.shape.y = sup.y;
+  }
+});

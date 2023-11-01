@@ -1,13 +1,13 @@
-c = require './../schemas'
+const c = require('./../schemas');
 
-AnalyticsStringSchema = c.object {
-  title: 'Analytics String'
+const AnalyticsStringSchema = c.object({
+  title: 'Analytics String',
   description: 'Maps strings to number IDs for improved performance.'
-}
+});
 
-_.extend AnalyticsStringSchema.properties,
-  v: {type: 'string'} # value
+_.extend(AnalyticsStringSchema.properties,
+  {v: {type: 'string'}}); // value
 
-c.extendBasicProperties AnalyticsStringSchema, 'analytics.string'
+c.extendBasicProperties(AnalyticsStringSchema, 'analytics.string');
 
-module.exports = AnalyticsStringSchema
+module.exports = AnalyticsStringSchema;

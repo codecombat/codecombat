@@ -1,46 +1,62 @@
-c = require './../schemas'
+const c = require('./../schemas');
 
-TournamentSubmissionSchema = c.object
-  title: 'Submission'
-  description: 'A single submission for a given tournament.'
-  default:
-    submittedCodeLanguage: 'python'
+const TournamentSubmissionSchema = c.object({
+  title: 'Submission',
+  description: 'A single submission for a given tournament.',
+  default: {
+    submittedCodeLanguage: 'python',
     totalScore: 10
+  }
+});
 
-_.extend TournamentSubmissionSchema.properties,
-  tournament: c.objectId()
-  levelSession: c.objectId()
-  owner: c.objectId()
-  submittedCode:
-    type: 'object'
-    additionalProperties:
-      type: 'object'
-      additionalProperties:
-        type: 'string'
+_.extend(TournamentSubmissionSchema.properties, {
+  tournament: c.objectId(),
+  levelSession: c.objectId(),
+  owner: c.objectId(),
+  submittedCode: {
+    type: 'object',
+    additionalProperties: {
+      type: 'object',
+      additionalProperties: {
+        type: 'string',
         format: 'code'
-  submittedCodeLanguage:
+      }
+    }
+  },
+  submittedCodeLanguage: {
     type: 'string'
-  wins:
+  },
+  wins: {
     type: 'number'
-  losses:
+  },
+  losses: {
     type: 'number'
-  creatorAge:
-    type: 'number'
+  },
+  creatorAge: {
+    type: 'number',
     minimum: 0
-  totalScore:               # bayesian calculation of strength
+  },
+  totalScore: {               // bayesian calculation of strength
     type: 'number'
-  originalRank:             # for randomsimulation rank
+  },
+  originalRank: {             // for randomsimulation rank
     type: 'number'
-  standardDeviation:
-    type: 'number'
+  },
+  standardDeviation: {
+    type: 'number',
     minimum: 0
-  meanStrength:
+  },
+  meanStrength: {
     type: 'number'
-  created: c.date
-    title: 'Created'
+  },
+  created: c.date({
+    title: 'Created',
     readOnly: true
+  })
+}
+);
 
 
 
-c.extendBasicProperties TournamentSubmissionSchema, 'tournament.submission'
-module.exports = TournamentSubmissionSchema
+c.extendBasicProperties(TournamentSubmissionSchema, 'tournament.submission');
+module.exports = TournamentSubmissionSchema;

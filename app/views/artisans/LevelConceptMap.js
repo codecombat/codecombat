@@ -1,202 +1,280 @@
-require('app/styles/artisans/solution-problems-view.sass')
-RootView = require 'views/core/RootView'
-template = require 'app/templates/artisans/concept-map-view'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let LevelConceptMap, parser, realm;
+require('app/styles/artisans/solution-problems-view.sass');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/artisans/concept-map-view');
 
-Level = require 'models/Level'
-Campaign = require 'models/Campaign'
-Concept = require 'models/Concept'
+const Level = require('models/Level');
+const Campaign = require('models/Campaign');
+const Concept = require('models/Concept');
 
-CocoCollection = require 'collections/CocoCollection'
-Campaigns = require 'collections/Campaigns'
-Levels = require 'collections/Levels'
-Concepts = require 'collections/Concepts'
-tagger = require 'lib/SolutionConceptTagger'
-loadAetherLanguage = require 'lib/loadAetherLanguage'
-utils = require 'core/utils'
+const CocoCollection = require('collections/CocoCollection');
+const Campaigns = require('collections/Campaigns');
+const Levels = require('collections/Levels');
+const Concepts = require('collections/Concepts');
+const tagger = require('lib/SolutionConceptTagger');
+const loadAetherLanguage = require('lib/loadAetherLanguage');
+const utils = require('core/utils');
 
-if utils.isOzaria
-  unless typeof esper is 'undefined'
-    realm = new esper().realm
-    parser = realm.parser.bind(realm)
+if (utils.isOzaria) {
+  if (typeof esper !== 'undefined') {
+    ({
+      realm
+    } = new esper());
+    parser = realm.parser.bind(realm);
+  }
+}
 
-module.exports = class LevelConceptMap extends RootView
-  template: template
-  id: 'solution-problems-view'
-  excludedCampaigns = [
-    # Misc. campaigns
-    'picoctf', 'auditions'
+module.exports = (LevelConceptMap = (function() {
+  let excludedCampaigns = undefined;
+  let includedLanguages = undefined;
+  let excludedLevelSnippets = undefined;
+  LevelConceptMap = class LevelConceptMap extends RootView {
+    static initClass() {
+      this.prototype.template = template;
+      this.prototype.id = 'solution-problems-view';
+      excludedCampaigns = [
+        // Misc. campaigns
+        'picoctf', 'auditions',
+  
+        // Campaign-version campaigns
+        //'dungeon', 'forest', 'desert', 'mountain', 'glacier'
+  
+        // Test campaigns
+        'dungeon-branching-test', 'forest-branching-test', 'desert-branching-test'
+  
+        // Course-version campaigns
+        //'intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6'
+      ];
+  
+      includedLanguages = [
+        'javascript'
+      ];
+  
+      excludedLevelSnippets = [
+        'treasure', 'brawl', 'siege'
+      ];
+  
+      this.prototype.unloadedCampaigns = 0;
+      this.prototype.campaignLevels = {};
+      this.prototype.loadedLevels = {};
+      this.prototype.data = {};
+      this.prototype.problemCount = 0;
+    }
 
-    # Campaign-version campaigns
-    #'dungeon', 'forest', 'desert', 'mountain', 'glacier'
+    initialize() {
+      if (utils.isCodeCombat) {
+        loadAetherLanguage('javascript').then(aetherLang => {
+          if (typeof esper !== 'undefined') {
+            ({
+              realm
+            } = new esper());
+            return this.parser = realm.parser.bind(realm);
+          }
+        });
+      }
+      this.campaigns = new Campaigns([]);
+      this.listenTo(this.campaigns, 'sync', this.onCampaignsLoaded);
+      return this.supermodel.trackRequest(this.campaigns.fetch({
+        data: {
+          project:'slug'
+        }
+      }));
+    }
 
-    # Test campaigns
-    'dungeon-branching-test', 'forest-branching-test', 'desert-branching-test'
+    onCampaignsLoaded(campCollection) {
+      return (() => {
+        const result = [];
+        for (var campaign of Array.from(campCollection.models)) {
+          var campaignSlug = campaign.get('slug');
+          if (Array.from(excludedCampaigns).includes(campaignSlug)) { continue; }
+          this.unloadedCampaigns++;
 
-    # Course-version campaigns
-    #'intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6'
-  ]
+          this.campaignLevels[campaignSlug] = new Levels();
+          this.listenTo(this.campaignLevels[campaignSlug], 'sync', this.onLevelsLoaded.bind(this, campaignSlug));
+          result.push(this.supermodel.trackRequest(this.campaignLevels[campaignSlug].fetchForCampaign(campaignSlug, {
+            data: {
+              project: 'thangs,name,slug,campaign'
+            }
+          }
+          )));
+        }
+        return result;
+      })();
+    }
 
-  includedLanguages = [
-    'javascript'
-  ]
+    onLevelsLoaded(campaignSlug, lvlCollection) {
+      for (let k = 0; k < lvlCollection.models.length; k++) {
+        var level = lvlCollection.models[k];
+        level.campaign = campaignSlug;
+        if (this.loadedLevels[campaignSlug] == null) { this.loadedLevels[campaignSlug] = {}; }
+        if (ll == null) { var ll = {}; }
+        level.seqNo = lvlCollection.models.length - k;
+        this.loadedLevels[campaignSlug][level.get('slug')] = level;
+      }
+      if (--this.unloadedCampaigns === 0) {
+        return this.onAllLevelsLoaded();
+      }
+    }
 
-  excludedLevelSnippets = [
-    'treasure', 'brawl', 'siege'
-  ]
+    onAllLevelsLoaded() {
+      this.concepts = new Concepts([]);
+      this.listenTo(this.concepts, 'sync', this.onConceptsLoaded);
+      return this.supermodel.trackRequest(this.concepts.fetch({data: { skip: 0, limit: 1000 }}));
+    }
 
-  unloadedCampaigns: 0
-  campaignLevels: {}
-  loadedLevels: {}
-  data: {}
-  problemCount: 0
+    onConceptsLoaded(collection, response, options) {
+      for (var campaignSlug in this.loadedLevels) {
+        var campaign = this.loadedLevels[campaignSlug];
+        for (var levelSlug in campaign) {
+          var level = campaign[levelSlug];
+          if (level == null) {
+            console.error('Level Slug doesn\'t have associated Level', levelSlug);
+            continue;
+          }
 
-  initialize: ->
-    if utils.isCodeCombat
-      loadAetherLanguage('javascript').then (aetherLang) =>
-        unless typeof esper is 'undefined'
-          realm = new esper().realm
-          @parser = realm.parser.bind(realm)
-    @campaigns = new Campaigns([])
-    @listenTo(@campaigns, 'sync', @onCampaignsLoaded)
-    @supermodel.trackRequest(@campaigns.fetch(
-      data:
-        project:'slug'
-    ))
+          var isBad = false;
+          for (var word of Array.from(excludedLevelSnippets)) {
+            if (levelSlug.indexOf(word) !== -1) {
+              isBad = true;
+            }
+          }
+          if (isBad) { continue; }
+          var thangs = level.get('thangs');
+          var component = null;
+          thangs = _.filter(thangs, elem => _.findWhere(elem.components, function(elem2) {
+            if ((elem2.config != null ? elem2.config.programmableMethods : undefined) != null) {
+              component = elem2;
+              return true;
+            }
+          }));
 
-  onCampaignsLoaded: (campCollection) ->
-    for campaign in campCollection.models
-      campaignSlug = campaign.get('slug')
-      continue if campaignSlug in excludedCampaigns
-      @unloadedCampaigns++
+          if (utils.isCodeCombat && (thangs.length > 2)) {
+            console.warn('Level has more than 2 programmableMethod Thangs', levelSlug);
+            continue;
+          }
 
-      @campaignLevels[campaignSlug] = new Levels()
-      @listenTo(@campaignLevels[campaignSlug], 'sync', @onLevelsLoaded.bind @, campaignSlug)
-      @supermodel.trackRequest(@campaignLevels[campaignSlug].fetchForCampaign(campaignSlug,
-        data:
-          project: 'thangs,name,slug,campaign'
-      ))
+          if (utils.isOzaria && (thangs.length > 1)) {
+            console.warn('Level has more than 1 programmableMethod Thangs', levelSlug);
+            continue;
+          }
 
-  onLevelsLoaded: (campaignSlug, lvlCollection) ->
-    for level, k in lvlCollection.models
-      level.campaign = campaignSlug
-      @loadedLevels[campaignSlug] = {} unless @loadedLevels[campaignSlug]?
-      ll = {} unless ll?
-      level.seqNo = lvlCollection.models.length - k
-      @loadedLevels[campaignSlug][level.get('slug')] = level
-    if --@unloadedCampaigns is 0
-      @onAllLevelsLoaded()
+          if (component == null) {
+            console.error('Level doesn\'t have programmableMethod Thang', levelSlug);
+            continue;
+          }
 
-  onAllLevelsLoaded: ->
-    @concepts = new Concepts([])
-    @listenTo(@concepts, 'sync', @onConceptsLoaded)
-    @supermodel.trackRequest(@concepts.fetch(data: { skip: 0, limit: 1000 }))
+          var {
+            plan
+          } = component.config.programmableMethods;
+          level.tags = this.tagLevel(_.find(plan.solutions, s => s.language === 'javascript'));
+        }
+        this.data[campaignSlug] = _.sortBy(_.values(this.loadedLevels[campaignSlug]), 'seqNo');
+      }
 
-  onConceptsLoaded: (collection, response, options) ->
-    for campaignSlug, campaign of @loadedLevels
-      for levelSlug, level of campaign
-        unless level?
-          console.error 'Level Slug doesn\'t have associated Level', levelSlug
-          continue
+      if (utils.isOzaria) {
+        console.log(this.render, this.loadedLevels);
+      }
+      return this.render();
+    }
 
-        isBad = false
-        for word in excludedLevelSnippets
-          if levelSlug.indexOf(word) isnt -1
-            isBad = true
-        continue if isBad
-        thangs = level.get 'thangs'
-        component = null
-        thangs = _.filter(thangs, (elem) ->
-          return _.findWhere(elem.components, (elem2) ->
-            if elem2.config?.programmableMethods?
-              component = elem2
-              return true
-          )
-        )
+    tagLevel(src) {
+      let ast, moreTags;
+      if (((src != null ? src.source : undefined) == null)) { return []; }
+      try {
+        ast = this.parser(src.source);
+        moreTags = tagger(src, this.concepts);
+      } catch (error) {
+        const e = error;
+        return ['parse error: ' + e.message];
+      }
 
-        if utils.isCodeCombat and thangs.length > 2
-          console.warn 'Level has more than 2 programmableMethod Thangs', levelSlug
-          continue
-
-        if utils.isOzaria and thangs.length > 1
-          console.warn 'Level has more than 1 programmableMethod Thangs', levelSlug
-          continue
-
-        unless component?
-          console.error 'Level doesn\'t have programmableMethod Thang', levelSlug
-          continue
-
-        plan = component.config.programmableMethods.plan
-        level.tags = @tagLevel _.find plan.solutions, (s) -> s.language is 'javascript'
-      @data[campaignSlug] = _.sortBy _.values(@loadedLevels[campaignSlug]), 'seqNo'
-
-    if utils.isOzaria
-      console.log @render, @loadedLevels
-    @render()
-
-  tagLevel: (src) ->
-    return [] if not src?.source?
-    try
-      ast = @parser(src.source)
-      moreTags = tagger(src, @concepts)
-    catch e
-      return ['parse error: ' + e.message]
-
-    tags = {}
-    process = (n) ->
-      return unless n?
-      switch n.type
-        when "Program", "BlockStatement"
-          process(n) for n in n.body
-        when "FunctionDeclaration"
-          tags['function-def'] = true
-          if n.params > 0
-            tags['function-params:' + n.params.length] = true
-          process(n.body)
-        when "ExpressionStatement"
-          process(n.expression)
-        when "CallExpression"
-          process(n.callee)
-        when "MemberExpression"
-          if n.object?.name is 'hero'
-            tags["hero." + n.property.name] = true
-        when "WhileStatement"
-          if n.test.type is 'Literal' and n.test.value is true
-            tags['while-true'] = true
-          else
-            tags['while'] = true
-            process(n.test)
-          process(n.body)
-        when "ForStatement"
-          tags['for'] = true
-          process(n.init)
-          process(n.test)
-          process(n.update)
-          process(n.body)
-        when "IfStatement"
-          tags['if'] = true
-          process(n.test)
-          process(n.consequent)
-          process(n.alternate)
-        when "Literal"
-          if n.value is true
-            tags['true'] = true
-          else
-            tags['literal:' + typeof n.value] = true
-        when "BinaryExpression","LogicalExpression"
-          process(n.left)
-          process(n.right)
-          tags[n.operator] = true
-        when "AssignmentExpression"
-          tags['assign:' + n.operator] = true
-          process(n.right)
-        else
-          tags[n.type] = true
-
-
-
-    process ast
+      const tags = {};
+      var process = function(n) {
+        if (n == null) { return; }
+        switch (n.type) {
+          case "Program": case "BlockStatement":
+            return (() => {
+              const result = [];
+              for (n of Array.from(n.body)) {                 result.push(process(n));
+              }
+              return result;
+            })();
+          case "FunctionDeclaration":
+            tags['function-def'] = true;
+            if (n.params > 0) {
+              tags['function-params:' + n.params.length] = true;
+            }
+            return process(n.body);
+          case "ExpressionStatement":
+            return process(n.expression);
+          case "CallExpression":
+            return process(n.callee);
+          case "MemberExpression":
+            if ((n.object != null ? n.object.name : undefined) === 'hero') {
+              return tags["hero." + n.property.name] = true;
+            }
+            break;
+          case "WhileStatement":
+            if ((n.test.type === 'Literal') && (n.test.value === true)) {
+              tags['while-true'] = true;
+            } else {
+              tags['while'] = true;
+              process(n.test);
+            }
+            return process(n.body);
+          case "ForStatement":
+            tags['for'] = true;
+            process(n.init);
+            process(n.test);
+            process(n.update);
+            return process(n.body);
+          case "IfStatement":
+            tags['if'] = true;
+            process(n.test);
+            process(n.consequent);
+            return process(n.alternate);
+          case "Literal":
+            if (n.value === true) {
+              return tags['true'] = true;
+            } else {
+              return tags['literal:' + typeof n.value] = true;
+            }
+          case "BinaryExpression":case "LogicalExpression":
+            process(n.left);
+            process(n.right);
+            return tags[n.operator] = true;
+          case "AssignmentExpression":
+            tags['assign:' + n.operator] = true;
+            return process(n.right);
+          default:
+            return tags[n.type] = true;
+        }
+      };
 
 
-    Object.keys(tags).concat(moreTags)
-    conceptList = @concepts.models.map (c) -> c.toJSON()
-    _.map moreTags, (t) -> _.find(conceptList, (e) => e.key is t)?.name
+
+      process(ast);
+
+
+      Object.keys(tags).concat(moreTags);
+      const conceptList = this.concepts.models.map(c => c.toJSON());
+      return _.map(moreTags, t => __guard__(_.find(conceptList, e => e.key === t), x => x.name));
+    }
+  };
+  LevelConceptMap.initClass();
+  return LevelConceptMap;
+})());
+
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

@@ -1,70 +1,105 @@
-ModalView = require 'views/core/ModalView'
-template = require 'app/templates/editor/modal/versions-modal'
-DeltaView = require 'views/editor/DeltaView'
-PatchModal = require 'views/editor/PatchModal'
-nameLoader = require 'core/NameLoader'
-CocoCollection = require 'collections/CocoCollection'
-deltasLib = require 'core/deltas'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let VersionsModal;
+const ModalView = require('views/core/ModalView');
+const template = require('app/templates/editor/modal/versions-modal');
+const DeltaView = require('views/editor/DeltaView');
+const PatchModal = require('views/editor/PatchModal');
+const nameLoader = require('core/NameLoader');
+const CocoCollection = require('collections/CocoCollection');
+const deltasLib = require('core/deltas');
 
-class VersionsViewCollection extends CocoCollection
-  url: ''
-  model: null
+class VersionsViewCollection extends CocoCollection {
+  static initClass() {
+    this.prototype.url = '';
+    this.prototype.model = null;
+  }
 
-  initialize: (@url, @levelID, @model) ->
-    super()
-    @url = @url + @levelID + '/versions'
+  initialize(url, levelID, model) {
+    this.url = url;
+    this.levelID = levelID;
+    this.model = model;
+    super.initialize();
+    return this.url = this.url + this.levelID + '/versions';
+  }
+}
+VersionsViewCollection.initClass();
 
-module.exports = class VersionsModal extends ModalView
-  template: template
-  plain: true
-  modalWidthPercent: 80
+module.exports = (VersionsModal = (function() {
+  VersionsModal = class VersionsModal extends ModalView {
+    static initClass() {
+      this.prototype.template = template;
+      this.prototype.plain = true;
+      this.prototype.modalWidthPercent = 80;
+  
+      // needs to be overwritten by child
+      this.prototype.id = '';
+      this.prototype.url = '';
+      this.prototype.page = '';
+  
+      this.prototype.events =
+        {'change input.select': 'onSelectionChanged'};
+    }
 
-  # needs to be overwritten by child
-  id: ''
-  url: ''
-  page: ''
+    constructor(options, ID, model) {
+      this.ID = ID;
+      this.model = model;
+      super(options);
+      this.original = new this.model({_id: this.ID});
+      this.original = this.supermodel.loadModel(this.original).model;
+      this.listenToOnce(this.original, 'sync', this.onViewSync);
+    }
 
-  events:
-    'change input.select': 'onSelectionChanged'
+    onViewSync() {
+      this.versions = new VersionsViewCollection(this.url, this.original.attributes.original, this.model);
+      this.versions = this.supermodel.loadCollection(this.versions, 'versions').model;
+      return this.listenTo(this.versions, 'sync', this.onVersionsFetched);
+    }
 
-  constructor: (options, @ID, @model) ->
-    super options
-    @original = new @model(_id: @ID)
-    @original = @supermodel.loadModel(@original).model
-    @listenToOnce(@original, 'sync', @onViewSync)
+    onVersionsFetched() {
+      const ids = (Array.from(this.versions.models).map((p) => p.get('creator')));
+      const jqxhrOptions = nameLoader.loadNames(ids);
+      if (jqxhrOptions) { return this.supermodel.addRequestResource('user_names', jqxhrOptions).load(); }
+    }
 
-  onViewSync: ->
-    @versions = new VersionsViewCollection(@url, @original.attributes.original, @model)
-    @versions = @supermodel.loadCollection(@versions, 'versions').model
-    @listenTo(@versions, 'sync', @onVersionsFetched)
+    onSelectionChanged() {
+      const rows = this.$el.find('input.select:checked');
+      const deltaEl = this.$el.find('.delta-view');
+      if (this.deltaView) { this.removeSubView(this.deltaView); }
+      this.deltaView = null;
+      if (rows.length !== 2) { return; }
 
-  onVersionsFetched: ->
-    ids = (p.get('creator') for p in @versions.models)
-    jqxhrOptions = nameLoader.loadNames ids
-    @supermodel.addRequestResource('user_names', jqxhrOptions).load() if jqxhrOptions
+      const laterVersion = new this.model({_id: $(rows[0]).val()});
+      const earlierVersion = new this.model({_id: $(rows[1]).val()});
+      this.deltaView = new DeltaView({
+        model: earlierVersion,
+        comparisonModel: laterVersion,
+        skipPaths: deltasLib.DOC_SKIP_PATHS,
+        loadModels: true
+      });
+      return this.insertSubView(this.deltaView, deltaEl);
+    }
 
-  onSelectionChanged: ->
-    rows = @$el.find 'input.select:checked'
-    deltaEl = @$el.find '.delta-view'
-    @removeSubView(@deltaView) if @deltaView
-    @deltaView = null
-    if rows.length isnt 2 then return
-
-    laterVersion = new @model(_id: $(rows[0]).val())
-    earlierVersion = new @model(_id: $(rows[1]).val())
-    @deltaView = new DeltaView({
-      model: earlierVersion
-      comparisonModel: laterVersion
-      skipPaths: deltasLib.DOC_SKIP_PATHS
-      loadModels: true
-    })
-    @insertSubView(@deltaView, deltaEl)
-
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.page = @page
-    if @versions
-      context.dataList = (m.attributes for m in @versions.models)
-      for version in context.dataList
-        version.creator = nameLoader.getName(version.creator)
-    context
+    getRenderData(context) {
+      if (context == null) { context = {}; }
+      context = super.getRenderData(context);
+      context.page = this.page;
+      if (this.versions) {
+        context.dataList = (Array.from(this.versions.models).map((m) => m.attributes));
+        for (var version of Array.from(context.dataList)) {
+          version.creator = nameLoader.getName(version.creator);
+        }
+      }
+      return context;
+    }
+  };
+  VersionsModal.initClass();
+  return VersionsModal;
+})());

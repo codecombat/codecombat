@@ -1,70 +1,100 @@
-require('app/styles/editor/resource/edit.sass')
-RootView = require 'views/core/RootView'
-template = require 'app/templates/editor/resource/edit'
-ResourceHubResource = require 'models/ResourceHubResource'
-ConfirmModal = require 'views/core/ConfirmModal'
-PatchesView = require 'views/editor/PatchesView'
-errors = require 'core/errors'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ResourceEditView;
+require('app/styles/editor/resource/edit.sass');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/editor/resource/edit');
+const ResourceHubResource = require('models/ResourceHubResource');
+const ConfirmModal = require('views/core/ConfirmModal');
+const PatchesView = require('views/editor/PatchesView');
+const errors = require('core/errors');
 
-require 'lib/game-libraries'
-require('lib/setupTreema')
-treemaExt = require 'core/treema-ext'
+require('lib/game-libraries');
+require('lib/setupTreema');
+const treemaExt = require('core/treema-ext');
 
-module.exports = class ResourceEditView extends RootView
-  id: 'editor-resource-edit-view'
-  template: template
+module.exports = (ResourceEditView = (function() {
+  ResourceEditView = class ResourceEditView extends RootView {
+    static initClass() {
+      this.prototype.id = 'editor-resource-edit-view';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'click #save-button': 'onClickSaveButton',
+        'click #i18n-button': 'onPopulateI18N'
+      };
+    }
 
-  events:
-    'click #save-button': 'onClickSaveButton'
-    'click #i18n-button': 'onPopulateI18N'
+    constructor(options, resourceID) {
+      this.resourceID = resourceID;
+      super(options);
+      this.resource = new ResourceHubResource({_id: this.resourceID});
+      this.resource.saveBackups = true;
+      this.supermodel.loadModel(this.resource);
+    }
 
-  constructor: (options, @resourceID) ->
-    super options
-    @resource = new ResourceHubResource(_id: @resourceID)
-    @resource.saveBackups = true
-    @supermodel.loadModel @resource
+    onLoaded() {
+      super.onLoaded();
+      this.buildTreema();
+      return this.listenTo(this.resource, 'change', () => {
+        this.resource.updateI18NCoverage();
+        return this.treema.set('/', this.resource.attributes);
+      });
+    }
 
-  onLoaded: ->
-    super()
-    @buildTreema()
-    @listenTo @resource, 'change', =>
-      @resource.updateI18NCoverage()
-      @treema.set('/', @resource.attributes)
+    buildTreema() {
+      if ((this.treema != null) || (!this.resource.loaded)) { return; }
+      const data = $.extend(true, {}, this.resource.attributes);
+      const options = {
+        data,
+        filePath: `db/resource_hub_resource/${this.resource.get('_id')}`,
+        schema: ResourceHubResource.schema,
+        readOnly: me.get('anonymous'),
+        supermodel: this.supermodel
+      };
+      this.treema = this.$el.find('#resource-treema').treema(options);
+      this.treema.build();
+      return (this.treema.childrenTreemas.rewards != null ? this.treema.childrenTreemas.rewards.open(3) : undefined);
+    }
 
-  buildTreema: ->
-    return if @treema? or (not @resource.loaded)
-    data = $.extend(true, {}, @resource.attributes)
-    options =
-      data: data
-      filePath: "db/resource_hub_resource/#{@resource.get('_id')}"
-      schema: ResourceHubResource.schema
-      readOnly: me.get('anonymous')
-      supermodel: @supermodel
-    @treema = @$el.find('#resource-treema').treema(options)
-    @treema.build()
-    @treema.childrenTreemas.rewards?.open(3)
+    afterRender() {
+      super.afterRender();
+      if (!this.supermodel.finished()) { return; }
+      if (me.get('anonymous')) { this.showReadOnly(); }
+      this.patchesView = this.insertSubView(new PatchesView(this.resource), this.$el.find('.patches-view'));
+      return this.patchesView.load();
+    }
 
-  afterRender: ->
-    super()
-    return unless @supermodel.finished()
-    @showReadOnly() if me.get('anonymous')
-    @patchesView = @insertSubView(new PatchesView(@resource), @$el.find('.patches-view'))
-    @patchesView.load()
+    onPopulateI18N() {
+      return this.resource.populateI18N();
+    }
 
-  onPopulateI18N: ->
-    @resource.populateI18N()
+    onClickSaveButton(e) {
+      this.treema.endExistingEdits();
+      for (var key in this.treema.data) {
+        var value = this.treema.data[key];
+        this.resource.set(key, value);
+      }
+      this.resource.updateI18NCoverage();
 
-  onClickSaveButton: (e) ->
-    @treema.endExistingEdits()
-    for key, value of @treema.data
-      @resource.set(key, value)
-    @resource.updateI18NCoverage()
+      const res = this.resource.save();
 
-    res = @resource.save()
+      res.error((collection, response, options) => {
+        return console.error(response);
+      });
 
-    res.error (collection, response, options) =>
-      console.error response
-
-    res.success =>
-      url = "/editor/resource/#{@resource.get('slug') or @resource.id}"
-      document.location.href = url
+      return res.success(() => {
+        const url = `/editor/resource/${this.resource.get('slug') || this.resource.id}`;
+        return document.location.href = url;
+      });
+    }
+  };
+  ResourceEditView.initClass();
+  return ResourceEditView;
+})());

@@ -1,36 +1,54 @@
-IndieLank = require 'lib/surface/IndieLank'
-{me} = require 'core/auth'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let FlagLank;
+const IndieLank = require('lib/surface/IndieLank');
+const {me} = require('core/auth');
 
-module.exports = class FlagLank extends IndieLank
-  subscriptions:
-    'surface:mouse-moved': 'onMouseMoved'
+module.exports = (FlagLank = (function() {
+  FlagLank = class FlagLank extends IndieLank {
+    static initClass() {
+      this.prototype.subscriptions =
+        {'surface:mouse-moved': 'onMouseMoved'};
+    }
 
-  #shortcuts:
+    //shortcuts:
 
-  defaultPos: -> x: 20, y: 20, z: 1
+    defaultPos() { return {x: 20, y: 20, z: 1}; }
 
-  constructor: (thangType, options) ->
-    super thangType, options
-    @toggleCursor options.isCursor
+    constructor(thangType, options) {
+      super(thangType, options);
+      this.toggleCursor(options.isCursor);
+    }
 
-  makeIndieThang: (thangType, options) ->
-    thang = super thangType, options
-    thang.width = thang.height = thang.depth = 2
-    thang.pos.z = 1
-    thang.isSelectable = false
-    thang.color = options.color
-    thang.team = options.team
-    thang
+    makeIndieThang(thangType, options) {
+      const thang = super.makeIndieThang(thangType, options);
+      thang.width = (thang.height = (thang.depth = 2));
+      thang.pos.z = 1;
+      thang.isSelectable = false;
+      thang.color = options.color;
+      thang.team = options.team;
+      return thang;
+    }
 
-  onMouseMoved: (e) ->
-    return unless @options.isCursor
-    wop = @options.camera.screenToWorld x: e.x, y: e.y
-    @thang.pos.x = wop.x
-    @thang.pos.y = wop.y
+    onMouseMoved(e) {
+      if (!this.options.isCursor) { return; }
+      const wop = this.options.camera.screenToWorld({x: e.x, y: e.y});
+      this.thang.pos.x = wop.x;
+      return this.thang.pos.y = wop.y;
+    }
 
-  toggleCursor: (to) ->
-    @options.isCursor = to
-    @thang.alpha = if to then 0.33 else 0.67  # 1.0 is for flags that have been placed
-    #@thang.action = if to then 'idle' else 'appear'  # TODO: why doesn't this work? Does it not render the action or something?
-    @thang.action = 'appear'
-    @updateAlpha()
+    toggleCursor(to) {
+      this.options.isCursor = to;
+      this.thang.alpha = to ? 0.33 : 0.67;  // 1.0 is for flags that have been placed
+      //@thang.action = if to then 'idle' else 'appear'  # TODO: why doesn't this work? Does it not render the action or something?
+      this.thang.action = 'appear';
+      return this.updateAlpha();
+    }
+  };
+  FlagLank.initClass();
+  return FlagLank;
+})());

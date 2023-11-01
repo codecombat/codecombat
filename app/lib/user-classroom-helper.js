@@ -1,48 +1,69 @@
-Classroom = require 'models/Classroom'
-CourseInstance = require 'models/CourseInstance'
-co = require 'co'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS104: Avoid inline assignments
+ * DS204: Change includes calls to have a more natural evaluation order
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const Classroom = require('models/Classroom');
+const CourseInstance = require('models/CourseInstance');
+const co = require('co');
 
-isTeacherOf = co.wrap ({ user, classroom, classroomId, courseInstance, courseInstanceId }) ->
-  if not user.isTeacher()
-    return false
+const isTeacherOf = co.wrap(function*({ user, classroom, classroomId, courseInstance, courseInstanceId }) {
+  if (!user.isTeacher()) {
+    return false;
+  }
 
-  if classroomId and not classroom
-    classroom = new Classroom({ _id: classroomId })
-    yield classroom.fetch()
+  if (classroomId && !classroom) {
+    classroom = new Classroom({ _id: classroomId });
+    yield classroom.fetch();
+  }
 
-  if classroom
-    return true if user.get('_id') == classroom.get('ownerID')
+  if (classroom) {
+    if (user.get('_id') === classroom.get('ownerID')) { return true; }
+  }
 
-  if courseInstanceId and not courseInstance
-    courseInstance = new CourseInstance({ _id: courseInstanceId })
-    yield courseInstance.fetch()
+  if (courseInstanceId && !courseInstance) {
+    courseInstance = new CourseInstance({ _id: courseInstanceId });
+    yield courseInstance.fetch();
+  }
 
-  if courseInstance
-    return true if user.get('id') == courseInstance.get('ownerID')
+  if (courseInstance) {
+    if (user.get('id') === courseInstance.get('ownerID')) { return true; }
+  }
 
-  return false
+  return false;
+});
 
-isSchoolAdminOf = co.wrap ({ user, classroom, classroomId, courseInstance, courseInstanceId }) ->
-  if not user.isSchoolAdmin()
-    return false
+const isSchoolAdminOf = co.wrap(function*({ user, classroom, classroomId, courseInstance, courseInstanceId }) {
+  if (!user.isSchoolAdmin()) {
+    return false;
+  }
 
-  if classroomId and not classroom
-    classroom = new Classroom({ _id: classroomId })
-    yield classroom.fetch()
+  if (classroomId && !classroom) {
+    classroom = new Classroom({ _id: classroomId });
+    yield classroom.fetch();
+  }
 
-  if classroom
-    return true if classroom.get('ownerID') in user.get('administratedTeachers')
+  if (classroom) {
+    let needle;
+    if ((needle = classroom.get('ownerID'), Array.from(user.get('administratedTeachers')).includes(needle))) { return true; }
+  }
 
-  if courseInstanceId and not courseInstance
-    courseInstance = new CourseInstance({ _id: courseInstanceId })
-    yield courseInstance.fetch()
+  if (courseInstanceId && !courseInstance) {
+    courseInstance = new CourseInstance({ _id: courseInstanceId });
+    yield courseInstance.fetch();
+  }
 
-  if courseInstance
-    return true if courseInstance.get('ownerID') in user.get('administratedTeachers')
+  if (courseInstance) {
+    let needle1;
+    if ((needle1 = courseInstance.get('ownerID'), Array.from(user.get('administratedTeachers')).includes(needle1))) { return true; }
+  }
 
-  return false
+  return false;
+});
 
 module.exports = {
   isTeacherOf,
   isSchoolAdminOf
-}
+};

@@ -1,121 +1,153 @@
-LevelSessions = require 'collections/LevelSessions';
+const LevelSessions = require('collections/LevelSessions');
 
 module.exports = new LevelSessions(
   [
     {
-      level:
-        original: "level0_0",
+      level: {
+        original: "level0_0"
+      },
       creator: "student0",
-      state:
+      state: {
         "complete": true
+      }
     },
     {
-      level:
-        original: "level0_1",
+      level: {
+        original: "level0_1"
+      },
       creator: "student0",
-      state:
+      state: {
         "complete": true
+      }
     },
     {
-      level:
-        original: "level0_2",
+      level: {
+        original: "level0_2"
+      },
       creator: "student0",
-      state:
+      state: {
         "complete": true
+      }
     },
     {
-      level:
-        original: "level0_3",
+      level: {
+        original: "level0_3"
+      },
       creator: "student0",
-      state:
+      state: {
         "complete": true
+      }
     },
     
     {
-      level:
-        original: "level0_0",
+      level: {
+        original: "level0_0"
+      },
       creator: "student1",
-      state:
+      state: {
         "complete": true
+      }
     },
     {
-      level:
-        original: "level0_1",
+      level: {
+        original: "level0_1"
+      },
       creator: "student1",
-      state:
+      state: {
         "complete": true
+      }
     },
     {
-      level:
-        original: "level0_2",
+      level: {
+        original: "level0_2"
+      },
       creator: "student1",
-      state:
+      state: {
         "complete": true
+      }
     },
     {
-      level:
-        original: "level0_3",
+      level: {
+        original: "level0_3"
+      },
       creator: "student1",
-      state:
+      state: {
         "complete": true
+      }
     },
     
     {
-      level:
-        original: "level0_0",
+      level: {
+        original: "level0_0"
+      },
       creator: "student2",
-      state:
+      state: {
         "complete": true
+      }
     },
     {
-      level:
-        original: "level0_1",
+      level: {
+        original: "level0_1"
+      },
       creator: "student2",
-      state:
+      state: {
         "complete": true
+      }
     },
     {
-      level:
-        original: "level0_2",
+      level: {
+        original: "level0_2"
+      },
       creator: "student2",
-      state:
+      state: {
         "complete": true
+      }
     },
     {
-      level:
-        original: "level0_3",
+      level: {
+        original: "level0_3"
+      },
       creator: "student2",
-      state:
+      state: {
         "complete": true
+      }
     },
     
     {
-      level:
-        original: "level0_0",
+      level: {
+        original: "level0_0"
+      },
       creator: "student3",
-      state:
+      state: {
         "complete": true
+      }
     },
     {
-      level:
-        original: "level0_1",
+      level: {
+        original: "level0_1"
+      },
       creator: "student3",
-      state:
+      state: {
         "complete": true
+      }
     },
     {
-      level:
-        original: "level0_2",
+      level: {
+        original: "level0_2"
+      },
       creator: "student3",
-      state:
+      state: {
         "complete": true
+      }
     },
     {
-      level:
-        original: "level0_3",
+      level: {
+        original: "level0_3"
+      },
       creator: "student3",
-      state:
+      state: {
         "complete": true
+      }
     },
   ]
-)
+);

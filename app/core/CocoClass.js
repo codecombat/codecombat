@@ -1,88 +1,138 @@
-# Template for classes with common functions, like hooking into the Mediator.
-utils = require './../core/utils'
-classCount = 0
-makeScopeName = -> "class-scope-#{classCount++}"
-doNothing = ->
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+// Template for classes with common functions, like hooking into the Mediator.
+let CocoClass;
+const utils = require('./../core/utils');
+let classCount = 0;
+const makeScopeName = () => `class-scope-${classCount++}`;
+const doNothing = function() {};
 
-module.exports = class CocoClass
-  @nicks: []
-  @nicksUsed: {}
-  @remainingNicks: []
-  @nextNick: ->
-    return (@name or 'CocoClass') + ' ' + classCount unless @nicks.length
-    @remainingNicks = if @remainingNicks.length then @remainingNicks else @nicks.slice()
-    baseNick = @remainingNicks.splice(Math.floor(Math.random() * @remainingNicks.length), 1)[0]
-    i = 0
-    while true
-      nick = if i then "#{baseNick} #{i}" else baseNick
-      break unless @nicksUsed[nick]
-      i++
-    @nicksUsed[nick] = true
-    nick
+module.exports = (CocoClass = (function() {
+  CocoClass = class CocoClass {
+    static initClass() {
+      this.nicks = [];
+      this.nicksUsed = {};
+      this.remainingNicks = [];
+  
+      this.prototype.subscriptions = {};
+      this.prototype.shortcuts = {};
+    }
+    static nextNick() {
+      let nick;
+      if (!this.nicks.length) { return (this.name || 'CocoClass') + ' ' + classCount; }
+      this.remainingNicks = this.remainingNicks.length ? this.remainingNicks : this.nicks.slice();
+      const baseNick = this.remainingNicks.splice(Math.floor(Math.random() * this.remainingNicks.length), 1)[0];
+      let i = 0;
+      while (true) {
+        nick = i ? `${baseNick} ${i}` : baseNick;
+        if (!this.nicksUsed[nick]) { break; }
+        i++;
+      }
+      this.nicksUsed[nick] = true;
+      return nick;
+    }
 
-  subscriptions: {}
-  shortcuts: {}
+    // setup/teardown
 
-  # setup/teardown
+    constructor() {
+      this.nick = this.constructor.nextNick();
+      this.subscriptions = utils.combineAncestralObject(this, 'subscriptions');
+      this.shortcuts = utils.combineAncestralObject(this, 'shortcuts');
+      this.listenToSubscriptions();
+      this.scope = makeScopeName();
+      this.listenToShortcuts();
+      if (typeof Backbone !== 'undefined' && Backbone !== null) { _.extend(this, Backbone.Events); }
+    }
 
-  constructor: ->
-    @nick = @constructor.nextNick()
-    @subscriptions = utils.combineAncestralObject(@, 'subscriptions')
-    @shortcuts = utils.combineAncestralObject(@, 'shortcuts')
-    @listenToSubscriptions()
-    @scope = makeScopeName()
-    @listenToShortcuts()
-    _.extend(@, Backbone.Events) if Backbone?
+    destroy() {
+      // teardown subscriptions, prevent new ones
+      if (typeof this.stopListening === 'function') {
+        this.stopListening();
+      }
+      if (typeof this.off === 'function') {
+        this.off();
+      }
+      this.unsubscribeAll();
+      this.stopListeningToShortcuts();
+      this.constructor.nicksUsed[this.nick] = false;
+      for (var key in this) { this[key] = undefined; }
+      this.destroyed = true;
+      this.off = doNothing;
+      return this.destroy = doNothing;
+    }
 
-  destroy: ->
-    # teardown subscriptions, prevent new ones
-    @stopListening?()
-    @off?()
-    @unsubscribeAll()
-    @stopListeningToShortcuts()
-    @constructor.nicksUsed[@nick] = false
-    @[key] = undefined for key of @
-    @destroyed = true
-    @off = doNothing
-    @destroy = doNothing
+    // subscriptions
 
-  # subscriptions
+    listenToSubscriptions() {
+      // for initting subscriptions
+      if ((typeof Backbone !== 'undefined' && Backbone !== null ? Backbone.Mediator : undefined) == null) { return; }
+      return (() => {
+        const result = [];
+        for (var channel in this.subscriptions) {
+          var func = this.subscriptions[channel];
+          func = utils.normalizeFunc(func, this);
+          result.push(Backbone.Mediator.subscribe(channel, func, this));
+        }
+        return result;
+      })();
+    }
 
-  listenToSubscriptions: ->
-    # for initting subscriptions
-    return unless Backbone?.Mediator?
-    for channel, func of @subscriptions
-      func = utils.normalizeFunc(func, @)
-      Backbone.Mediator.subscribe(channel, func, @)
+    addNewSubscription(channel, func) {
+      // this is for adding subscriptions on the fly, rather than at init
+      if ((typeof Backbone !== 'undefined' && Backbone !== null ? Backbone.Mediator : undefined) == null) { return; }
+      if (this.destroyed) { return; }
+      if (this.subscriptions[channel] !== undefined) { return; }
+      func = utils.normalizeFunc(func, this);
+      this.subscriptions[channel] = func;
+      return Backbone.Mediator.subscribe(channel, func, this);
+    }
 
-  addNewSubscription: (channel, func) ->
-    # this is for adding subscriptions on the fly, rather than at init
-    return unless Backbone?.Mediator?
-    return if @destroyed
-    return unless @subscriptions[channel] is undefined
-    func = utils.normalizeFunc(func, @)
-    @subscriptions[channel] = func
-    Backbone.Mediator.subscribe(channel, func, @)
+    unsubscribeAll() {
+      if ((typeof Backbone !== 'undefined' && Backbone !== null ? Backbone.Mediator : undefined) == null) { return; }
+      return (() => {
+        const result = [];
+        for (var channel in this.subscriptions) {
+          var func = this.subscriptions[channel];
+          func = utils.normalizeFunc(func, this);
+          result.push(Backbone.Mediator.unsubscribe(channel, func, this));
+        }
+        return result;
+      })();
+    }
 
-  unsubscribeAll: ->
-    return unless Backbone?.Mediator?
-    for channel, func of @subscriptions
-      func = utils.normalizeFunc(func, @)
-      Backbone.Mediator.unsubscribe(channel, func, @)
+    // keymaster shortcuts
 
-  # keymaster shortcuts
+    listenToShortcuts() {
+      if (typeof key === 'undefined' || key === null) { return; }
+      return (() => {
+        const result = [];
+        for (var shortcut in this.shortcuts) {
+          var func = this.shortcuts[shortcut];
+          func = utils.normalizeFunc(func, this);
+          result.push(key(shortcut, this.scope, _.bind(func, this)));
+        }
+        return result;
+      })();
+    }
 
-  listenToShortcuts: ->
-    return unless key?
-    for shortcut, func of @shortcuts
-      func = utils.normalizeFunc(func, @)
-      key(shortcut, @scope, _.bind(func, @))
+    stopListeningToShortcuts() {
+      if (typeof key === 'undefined' || key === null) { return; }
+      return key.deleteScope(this.scope);
+    }
 
-  stopListeningToShortcuts: ->
-    return unless key?
-    key.deleteScope(@scope)
+    playSound(trigger, volume) {
+      if (volume == null) { volume = 1; }
+      return Backbone.Mediator.publish('audio-player:play-sound', {trigger, volume});
+    }
 
-  playSound: (trigger, volume=1) ->
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: trigger, volume: volume
-
-  wait: (event) -> new Promise((resolve) => @once(event, resolve))
+    wait(event) { return new Promise(resolve => this.once(event, resolve)); }
+  };
+  CocoClass.initClass();
+  return CocoClass;
+})());

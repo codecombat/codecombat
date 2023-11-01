@@ -1,102 +1,157 @@
-require('app/styles/play/modal/item-details-view.sass')
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/play/modal/item-details-view'
-CocoCollection = require 'collections/CocoCollection'
-LevelComponent = require 'models/LevelComponent'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS104: Avoid inline assignments
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ItemDetailsView;
+require('app/styles/play/modal/item-details-view.sass');
+const CocoView = require('views/core/CocoView');
+const template = require('app/templates/play/modal/item-details-view');
+const CocoCollection = require('collections/CocoCollection');
+const LevelComponent = require('models/LevelComponent');
 
-utils = require 'core/utils'
+const utils = require('core/utils');
 
-module.exports = class ItemDetailsView extends CocoView
-  id: "item-details-view"
-  template: template
+module.exports = (ItemDetailsView = (function() {
+  ItemDetailsView = class ItemDetailsView extends CocoView {
+    static initClass() {
+      this.prototype.id = "item-details-view";
+      this.prototype.template = template;
+    }
 
-  constructor: ->
-    super(arguments...)
-    @propDocs = {}
-    @spellDocs = {}
+    constructor() {
+      super(...arguments);
+      this.propDocs = {};
+      this.spellDocs = {};
+    }
 
-  setItem: (@item) ->
-    if @item
-      @spellDocs = {}
-      @item.name = utils.i18n @item.attributes, 'name'
-      @item.description = utils.i18n @item.attributes, 'description'
-      @item.affordable = me.gems() >= @item.get('gems')
-      @item.owned = me.ownsItem @item.get('original')
-      @item.comingSoon = not @item.getFrontFacingStats().props.length and not _.size @item.getFrontFacingStats().stats  # Temp: while there are placeholder items
-      @componentConfigs = (c.config for c in @item.get('components') when c.config)
+    setItem(item) {
+      let c;
+      this.item = item;
+      if (this.item) {
+        this.spellDocs = {};
+        this.item.name = utils.i18n(this.item.attributes, 'name');
+        this.item.description = utils.i18n(this.item.attributes, 'description');
+        this.item.affordable = me.gems() >= this.item.get('gems');
+        this.item.owned = me.ownsItem(this.item.get('original'));
+        this.item.comingSoon = !this.item.getFrontFacingStats().props.length && !_.size(this.item.getFrontFacingStats().stats);  // Temp: while there are placeholder items
+        this.componentConfigs = ((() => {
+          const result = [];
+          for (c of Array.from(this.item.get('components'))) {             if (c.config) {
+              result.push(c.config);
+            }
+          }
+          return result;
+        })());
 
-      stats = @item.getFrontFacingStats()
-      props = (p for p in stats.props when not @propDocs[p])
-      if props.length > 0 or ('cast' in stats.props)
+        const stats = this.item.getFrontFacingStats();
+        const props = (Array.from(stats.props).filter((p) => !this.propDocs[p]));
+        if ((props.length > 0) || (Array.from(stats.props).includes('cast'))) {
 
-        docs = new CocoCollection([], {
-          url: '/db/level.component?view=prop-doc-lookup'
-          model: LevelComponent
-          project: [
-            'name'
-            'propertyDocumentation.name'
-            'propertyDocumentation.description'
-            'propertyDocumentation.i18n'
-          ]
-        })
+          const docs = new CocoCollection([], {
+            url: '/db/level.component?view=prop-doc-lookup',
+            model: LevelComponent,
+            project: [
+              'name',
+              'propertyDocumentation.name',
+              'propertyDocumentation.description',
+              'propertyDocumentation.i18n'
+            ]
+          });
 
-        docs.fetch({ data: {
-          componentOriginals: [c.original for c in @item.get('components')].join(',')
-          propertyNames: props.join(',')
-        }})
-        @listenToOnce docs, 'sync', @onDocsLoaded
-
-    @render()
-
-  onDocsLoaded: (levelComponents) ->
-    for component in levelComponents.models
-      for propDoc in component.get('propertyDocumentation')
-        if /^cast.+/.test propDoc.name
-          @spellDocs[propDoc.name] = propDoc
-        else
-          @propDocs[propDoc.name] = propDoc
-    @render()
-
-  afterRender: ->
-    super()
-    @$el.find('.nano:visible').nanoScroller({alwaysVisible: true})
-
-  getRenderData: ->
-    c = super()
-    c.item = @item
-    if @item
-      stats = @item.getFrontFacingStats()
-      c.stats = _.values(stats.stats)
-      _.last(c.stats).isLast = true if c.stats.length
-      c.props = []
-      stats.props = _.union stats.props, _.keys @spellDocs
-      codeLanguage = (me.get('aceConfig') ? {}).language or 'python'
-      for prop in stats.props
-        doc = @propDocs[prop] ? @spellDocs[prop] ? {}
-        description = utils.i18n doc, 'description'
-
-        if _.isObject description
-          description = description[codeLanguage] or _.values(description)[0]
-        if _.isString description
-          description = description.replace(/#{spriteName}/g, 'hero')
-          if fact = stats.stats.shieldDefenseFactor
-            description = description.replace(/#{shieldDefensePercent}%/g, fact.display)
-          if prop is 'buildTypes'
-            buildsConfig = _.find @componentConfigs, 'buildables'
-            description = description.replace '#{buildTypes}', "`[\"#{_.keys(buildsConfig.buildables).join('\", \"')}\"]`"
-          # We don't have the full components loaded here, so we can't really get most of these values.
-          componentConfigs = @componentConfigs ? []
-          description = description.replace /#{([^.]+?)}/g, (match, keyChain) ->
-            for componentConfig in componentConfigs
-              if value = utils.downTheChain componentConfig, keyChain
-                return value
-            #console.log 'gotta find', keyChain, 'from', match
-            match
-          description = description.replace(/#{(.+?)}/g, '`$1`')
-          description = $(marked(description)).html()
-
-        c.props.push {
-          name: prop
-          description: description or '...'
+          docs.fetch({ data: {
+            componentOriginals: [(() => {
+              const result1 = [];
+              for (c of Array.from(this.item.get('components'))) {                 result1.push(c.original);
+              }
+              return result1;
+            })()].join(','),
+            propertyNames: props.join(',')
+          }});
+          this.listenToOnce(docs, 'sync', this.onDocsLoaded);
         }
-    c
+      }
+
+      return this.render();
+    }
+
+    onDocsLoaded(levelComponents) {
+      for (var component of Array.from(levelComponents.models)) {
+        for (var propDoc of Array.from(component.get('propertyDocumentation'))) {
+          if (/^cast.+/.test(propDoc.name)) {
+            this.spellDocs[propDoc.name] = propDoc;
+          } else {
+            this.propDocs[propDoc.name] = propDoc;
+          }
+        }
+      }
+      return this.render();
+    }
+
+    afterRender() {
+      super.afterRender();
+      return this.$el.find('.nano:visible').nanoScroller({alwaysVisible: true});
+    }
+
+    getRenderData() {
+      const c = super.getRenderData();
+      c.item = this.item;
+      if (this.item) {
+        let left;
+        const stats = this.item.getFrontFacingStats();
+        c.stats = _.values(stats.stats);
+        if (c.stats.length) { _.last(c.stats).isLast = true; }
+        c.props = [];
+        stats.props = _.union(stats.props, _.keys(this.spellDocs));
+        const codeLanguage = ((left = me.get('aceConfig')) != null ? left : {}).language || 'python';
+        for (var prop of Array.from(stats.props)) {
+          var left1;
+          var doc = (left1 = this.propDocs[prop] != null ? this.propDocs[prop] : this.spellDocs[prop]) != null ? left1 : {};
+          var description = utils.i18n(doc, 'description');
+
+          if (_.isObject(description)) {
+            description = description[codeLanguage] || _.values(description)[0];
+          }
+          if (_.isString(description)) {
+            var fact;
+            description = description.replace(/#{spriteName}/g, 'hero');
+            if (fact = stats.stats.shieldDefenseFactor) {
+              description = description.replace(/#{shieldDefensePercent}%/g, fact.display);
+            }
+            if (prop === 'buildTypes') {
+              var buildsConfig = _.find(this.componentConfigs, 'buildables');
+              description = description.replace('#{buildTypes}', `\`[\"${_.keys(buildsConfig.buildables).join('\", \"')}\"]\``);
+            }
+            // We don't have the full components loaded here, so we can't really get most of these values.
+            var componentConfigs = this.componentConfigs != null ? this.componentConfigs : [];
+            description = description.replace(/#{([^.]+?)}/g, function(match, keyChain) {
+              for (var componentConfig of Array.from(componentConfigs)) {
+                var value;
+                if (value = utils.downTheChain(componentConfig, keyChain)) {
+                  return value;
+                }
+              }
+              //console.log 'gotta find', keyChain, 'from', match
+              return match;
+            });
+            description = description.replace(/#{(.+?)}/g, '`$1`');
+            description = $(marked(description)).html();
+          }
+
+          c.props.push({
+            name: prop,
+            description: description || '...'
+          });
+        }
+      }
+      return c;
+    }
+  };
+  ItemDetailsView.initClass();
+  return ItemDetailsView;
+})());

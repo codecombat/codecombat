@@ -1,8 +1,21 @@
-RootComponent = require 'views/core/RootComponent'
-template = require 'app/templates/base-flat'
-CLAsComponent = require('./CLAsComponent.vue').default
+/*
+ * decaffeinate suggestions:
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let CLAsView;
+const RootComponent = require('views/core/RootComponent');
+const template = require('app/templates/base-flat');
+const CLAsComponent = require('./CLAsComponent.vue').default;
 
-module.exports = class CLAsView extends RootComponent
-  id: 'admin-clas-view'
-  template: template
-  VueComponent: CLAsComponent
+module.exports = (CLAsView = (function() {
+  CLAsView = class CLAsView extends RootComponent {
+    static initClass() {
+      this.prototype.id = 'admin-clas-view';
+      this.prototype.template = template;
+      this.prototype.VueComponent = CLAsComponent;
+    }
+  };
+  CLAsView.initClass();
+  return CLAsView;
+})());

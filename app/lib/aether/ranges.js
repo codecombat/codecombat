@@ -1,61 +1,87 @@
-module.exports.offsetToPos = offsetToPos = (offset, source, prefix='') ->
-  rowOffsets = buildRowOffsets source, prefix
-  offset -= prefix.length
-  row = offsetToRow offset, rowOffsets
-  col = offset - rowOffsets[row]
-  {ofs: offset, row: row, col: col}
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let locsToRange, locToPos, offsetsToRange, offsetToPos, rowColsToRange, rowColToPos, stringifyPos, stringifyRange;
+module.exports.offsetToPos = (offsetToPos = function(offset, source, prefix) {
+  if (prefix == null) { prefix = ''; }
+  const rowOffsets = buildRowOffsets(source, prefix);
+  offset -= prefix.length;
+  const row = offsetToRow(offset, rowOffsets);
+  const col = offset - rowOffsets[row];
+  return {ofs: offset, row, col};
+});
 
-module.exports.offsetsToRange = offsetsToRange = (start, end, source, prefix='') ->
-  start: offsetToPos(start, source, prefix), end: offsetToPos(end, source, prefix)
+module.exports.offsetsToRange = (offsetsToRange = function(start, end, source, prefix) {
+  if (prefix == null) { prefix = ''; }
+  return {start: offsetToPos(start, source, prefix), end: offsetToPos(end, source, prefix)};
+});
 
-module.exports.rowColToPos = rowColToPos = (row, col, source, prefix='') ->
-  rowOffsets = buildRowOffsets source, prefix
-  offset = rowOffsets[row] + col
-  {ofs: offset, row: row, col: col}
+module.exports.rowColToPos = (rowColToPos = function(row, col, source, prefix) {
+  if (prefix == null) { prefix = ''; }
+  const rowOffsets = buildRowOffsets(source, prefix);
+  const offset = rowOffsets[row] + col;
+  return {ofs: offset, row, col};
+});
 
-module.exports.rowColsToRange = rowColsToRange = (start, end, source, prefix='') ->
-  start: rowColToPos(start.row, start.col, source, prefix), end: rowColToPos(end.row, end.col, source, prefix)
+module.exports.rowColsToRange = (rowColsToRange = function(start, end, source, prefix) {
+  if (prefix == null) { prefix = ''; }
+  return {start: rowColToPos(start.row, start.col, source, prefix), end: rowColToPos(end.row, end.col, source, prefix)};
+});
 
-module.exports.locToPos = locToPos = (loc, source, prefix='') ->
-  rowColToPos loc.line, loc.column, source, prefix
+module.exports.locToPos = (locToPos = function(loc, source, prefix) {
+  if (prefix == null) { prefix = ''; }
+  return rowColToPos(loc.line, loc.column, source, prefix);
+});
 
-module.exports.locsToRange = locsToRange = (start, end, source, prefix='') ->
-  start: locToPos(start, source, prefix), end: locToPos(end, source, prefix)
+module.exports.locsToRange = (locsToRange = function(start, end, source, prefix) {
+  if (prefix == null) { prefix = ''; }
+  return {start: locToPos(start, source, prefix), end: locToPos(end, source, prefix)};
+});
 
-module.exports.stringifyPos = stringifyPos = (pos) ->
-  "{ofs: #{pos.ofs}, row: #{pos.row}, col: #{pos.col}}"
+module.exports.stringifyPos = (stringifyPos = pos => `{ofs: ${pos.ofs}, row: ${pos.row}, col: ${pos.col}}`);
 
-module.exports.stringifyRange = stringifyRange = (start, end) ->
-  "[#{stringifyPos start}, #{stringifyPos end}]"
+module.exports.stringifyRange = (stringifyRange = (start, end) => `[${stringifyPos(start)}, ${stringifyPos(end)}]`);
 
-# Since we're probably going to be searching the same source many times in a row,
-# this simple form of caching should get the job done.
-lastRowOffsets = null
-lastRowOffsetsSource = null
-lastRowOffsetsPrefix = null
-buildRowOffsets = (source, prefix='') ->
-  return lastRowOffsets if source is lastRowOffsetsSource and prefix is lastRowOffsetsPrefix
-  rowOffsets = [0]
-  for c, offset in source.substr prefix.length
-    if c is '\n'
-      rowOffsets.push offset+1
-  lastRowOffsets = rowOffsets
-  lastRowOffsetsSource = source
-  lastRowOffsetsPrefix = prefix
-  rowOffsets
+// Since we're probably going to be searching the same source many times in a row,
+// this simple form of caching should get the job done.
+let lastRowOffsets = null;
+let lastRowOffsetsSource = null;
+let lastRowOffsetsPrefix = null;
+var buildRowOffsets = function(source, prefix) {
+  if (prefix == null) { prefix = ''; }
+  if ((source === lastRowOffsetsSource) && (prefix === lastRowOffsetsPrefix)) { return lastRowOffsets; }
+  const rowOffsets = [0];
+  const iterable = source.substr(prefix.length);
+  for (let offset = 0; offset < iterable.length; offset++) {
+    var c = iterable[offset];
+    if (c === '\n') {
+      rowOffsets.push(offset+1);
+    }
+  }
+  lastRowOffsets = rowOffsets;
+  lastRowOffsetsSource = source;
+  lastRowOffsetsPrefix = prefix;
+  return rowOffsets;
+};
 
-# Fast version using binary search
-offsetToRow = (offset, rowOffsets) ->
-  alen = rowOffsets.length
-  return 0 if offset <= 0  # First row
-  return alen - 1 if offset >= rowOffsets[alen - 1]  # Last row
-  lo = 0
-  hi = alen - 1
-  while lo < hi
-    mid = ~~((hi + lo) / 2)  # ~~ is a faster, better Math.floor()
-    return mid if offset >= rowOffsets[mid] and offset < rowOffsets[mid + 1]
-    if offset < rowOffsets[mid]
-      hi = mid
-    else
-      lo = mid
-  throw new Error "Bug in offsetToRow()"
+// Fast version using binary search
+var offsetToRow = function(offset, rowOffsets) {
+  const alen = rowOffsets.length;
+  if (offset <= 0) { return 0; }  // First row
+  if (offset >= rowOffsets[alen - 1]) { return alen - 1; }  // Last row
+  let lo = 0;
+  let hi = alen - 1;
+  while (lo < hi) {
+    var mid = ~~((hi + lo) / 2);  // ~~ is a faster, better Math.floor()
+    if ((offset >= rowOffsets[mid]) && (offset < rowOffsets[mid + 1])) { return mid; }
+    if (offset < rowOffsets[mid]) {
+      hi = mid;
+    } else {
+      lo = mid;
+    }
+  }
+  throw new Error("Bug in offsetToRow()");
+};

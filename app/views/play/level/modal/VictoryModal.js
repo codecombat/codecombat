@@ -1,116 +1,160 @@
-require('app/styles/play/level/modal/victory.sass')
-ModalView = require 'views/core/ModalView'
-CreateAccountModal = require 'views/core/CreateAccountModal'
-template = require 'app/templates/play/level/modal/victory'
-{me} = require 'core/auth'
-LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
-LevelFeedback = require 'models/LevelFeedback'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let VictoryModal;
+require('app/styles/play/level/modal/victory.sass');
+const ModalView = require('views/core/ModalView');
+const CreateAccountModal = require('views/core/CreateAccountModal');
+const template = require('app/templates/play/level/modal/victory');
+const {me} = require('core/auth');
+const LadderSubmissionView = require('views/play/common/LadderSubmissionView');
+const LevelFeedback = require('models/LevelFeedback');
+const utils = require('core/utils');
 
-module.exports = class VictoryModal extends ModalView
-  id: 'level-victory-modal'
-  template: template
+module.exports = (VictoryModal = (function() {
+  VictoryModal = class VictoryModal extends ModalView {
+    static initClass() {
+      this.prototype.id = 'level-victory-modal';
+      this.prototype.template = template;
+  
+      this.prototype.subscriptions =
+        {'ladder:game-submitted': 'onGameSubmitted'};
+  
+      this.prototype.events = {
+        'click .sign-up-button': 'onClickSignupButton',
+  
+        // review events
+        'mouseover .rating i'(e) { return this.showStars(this.starNum($(e.target))); },
+        'mouseout .rating i'() { return this.showStars(); },
+        'click .rating i'(e) {
+          this.setStars(this.starNum($(e.target)));
+          return this.$el.find('.review').show();
+        },
+        'keypress .review textarea'() { return this.saveReviewEventually(); }
+      };
+    }
 
-  subscriptions:
-    'ladder:game-submitted': 'onGameSubmitted'
+    constructor(options) {
+      application.router.initializeSocialMediaServices();
+      const victory = options.level.get('victory', true);
+      const body = utils.i18n(victory, 'body') || 'Sorry, this level has no victory message yet.';
+      this.body = marked(body);
+      this.level = options.level;
+      this.session = options.session;
+      this.saveReviewEventually = _.debounce(this.saveReviewEventually, 2000);
+      this.loadExistingFeedback();
+      super(options);
+    }
 
-  events:
-    'click .sign-up-button': 'onClickSignupButton'
+    loadExistingFeedback() {
+      const url = `/db/level/${this.level.id}/feedback`;
+      this.feedback = new LevelFeedback();
+      this.feedback.setURL(url);
+      this.feedback.fetch({cache: false});
+      this.listenToOnce(this.feedback, 'sync', function() { return this.onFeedbackLoaded(); });
+      return this.listenToOnce(this.feedback, 'error', function() { return this.onFeedbackNotFound(); });
+    }
 
-    # review events
-    'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
-    'mouseout .rating i': -> @showStars()
-    'click .rating i': (e) ->
-      @setStars(@starNum($(e.target)))
-      @$el.find('.review').show()
-    'keypress .review textarea': -> @saveReviewEventually()
+    onFeedbackLoaded() {
+      this.feedback.url = function() { return '/db/level.feedback/' + this.id; };
+      this.$el.find('.review textarea').val(this.feedback.get('review'));
+      this.$el.find('.review').show();
+      return this.showStars();
+    }
 
-  constructor: (options) ->
-    application.router.initializeSocialMediaServices()
-    victory = options.level.get('victory', true)
-    body = utils.i18n(victory, 'body') or 'Sorry, this level has no victory message yet.'
-    @body = marked(body)
-    @level = options.level
-    @session = options.session
-    @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
-    @loadExistingFeedback()
-    super options
+    onFeedbackNotFound() {
+      this.feedback = new LevelFeedback();
+      this.feedback.set('levelID', this.level.get('slug') || this.level.id);
+      this.feedback.set('levelName', this.level.get('name') || '');
+      this.feedback.set('level', {majorVersion: this.level.get('version').major, original: this.level.get('original')});
+      return this.showStars();
+    }
 
-  loadExistingFeedback: ->
-    url = "/db/level/#{@level.id}/feedback"
-    @feedback = new LevelFeedback()
-    @feedback.setURL url
-    @feedback.fetch cache: false
-    @listenToOnce(@feedback, 'sync', -> @onFeedbackLoaded())
-    @listenToOnce(@feedback, 'error', -> @onFeedbackNotFound())
+    onClickSignupButton(e) {
+      e.preventDefault();
+      if (window.tracker != null) {
+        window.tracker.trackEvent('Started Signup', {category: 'Play Level', label: 'Victory Modal', level: this.level.get('slug')});
+      }
+      return this.openModalView(new CreateAccountModal());
+    }
 
-  onFeedbackLoaded: ->
-    @feedback.url = -> '/db/level.feedback/' + @id
-    @$el.find('.review textarea').val(@feedback.get('review'))
-    @$el.find('.review').show()
-    @showStars()
+    onGameSubmitted(e) {
+      const ladderURL = `/play/ladder/${this.level.get('slug')}#my-matches`;
+      return Backbone.Mediator.publish('router:navigate', {route: ladderURL});
+    }
 
-  onFeedbackNotFound: ->
-    @feedback = new LevelFeedback()
-    @feedback.set('levelID', @level.get('slug') or @level.id)
-    @feedback.set('levelName', @level.get('name') or '')
-    @feedback.set('level', {majorVersion: @level.get('version').major, original: @level.get('original')})
-    @showStars()
+    getRenderData() {
+      const c = super.getRenderData();
+      c.body = this.body;
+      c.me = me;
+      c.levelName = utils.i18n(this.level.attributes, 'name');
+      c.level = this.level;
+      if (c.level.isType('ladder')) {
+        c.readyToRank = this.session.readyToRank();
+      }
+      return c;
+    }
 
-  onClickSignupButton: (e) ->
-    e.preventDefault()
-    window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Victory Modal', level: @level.get('slug')
-    @openModalView new CreateAccountModal()
+    afterRender() {
+      super.afterRender();
+      this.ladderSubmissionView = new LadderSubmissionView({session: this.session, level: this.level});
+      return this.insertSubView(this.ladderSubmissionView, this.$el.find('.ladder-submission-view'));
+    }
 
-  onGameSubmitted: (e) ->
-    ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
-    Backbone.Mediator.publish 'router:navigate', route: ladderURL
+    afterInsert() {
+      super.afterInsert();
+      this.playSound('victory');
+      __guardMethod__(typeof gapi !== 'undefined' && gapi !== null ? gapi.plusone : undefined, 'go', o => o.go(this.$el[0]));
+      __guardMethod__(typeof FB !== 'undefined' && FB !== null ? FB.XFBML : undefined, 'parse', o1 => o1.parse(this.$el[0]));
+      return __guardMethod__(typeof twttr !== 'undefined' && twttr !== null ? twttr.widgets : undefined, 'load', o2 => o2.load());
+    }
 
-  getRenderData: ->
-    c = super()
-    c.body = @body
-    c.me = me
-    c.levelName = utils.i18n @level.attributes, 'name'
-    c.level = @level
-    if c.level.isType('ladder')
-      c.readyToRank = @session.readyToRank()
-    c
+    destroy() {
+      if (this.$el.find('.review textarea').val()) { this.saveReview(); }
+      this.feedback.off();
+      return super.destroy();
+    }
 
-  afterRender: ->
-    super()
-    @ladderSubmissionView = new LadderSubmissionView session: @session, level: @level
-    @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
+    // rating, review
 
-  afterInsert: ->
-    super()
-    @playSound 'victory'
-    gapi?.plusone?.go? @$el[0]
-    FB?.XFBML?.parse? @$el[0]
-    twttr?.widgets?.load?()
+    starNum(starEl) { return starEl.prevAll('i').length + 1; }
 
-  destroy: ->
-    @saveReview() if @$el.find('.review textarea').val()
-    @feedback.off()
-    super()
+    showStars(num) {
+      this.$el.find('.rating').show();
+      if (num == null) { num = (this.feedback != null ? this.feedback.get('rating') : undefined) || 0; }
+      const stars = this.$el.find('.rating i');
+      stars.removeClass('icon-star').addClass('icon-star-empty');
+      return stars.slice(0, num).removeClass('icon-star-empty').addClass('icon-star');
+    }
 
-  # rating, review
+    setStars(num) {
+      this.feedback.set('rating', num);
+      return this.feedback.save();
+    }
 
-  starNum: (starEl) -> starEl.prevAll('i').length + 1
+    saveReviewEventually() {
+      return this.saveReview();
+    }
 
-  showStars: (num) ->
-    @$el.find('.rating').show()
-    num ?= @feedback?.get('rating') or 0
-    stars = @$el.find('.rating i')
-    stars.removeClass('icon-star').addClass('icon-star-empty')
-    stars.slice(0, num).removeClass('icon-star-empty').addClass('icon-star')
+    saveReview() {
+      this.feedback.set('review', this.$el.find('.review textarea').val());
+      return this.feedback.save();
+    }
+  };
+  VictoryModal.initClass();
+  return VictoryModal;
+})());
 
-  setStars: (num) ->
-    @feedback.set('rating', num)
-    @feedback.save()
-
-  saveReviewEventually: ->
-    @saveReview()
-
-  saveReview: ->
-    @feedback.set('review', @$el.find('.review textarea').val())
-    @feedback.save()
+function __guardMethod__(obj, methodName, transform) {
+  if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {
+    return transform(obj, methodName);
+  } else {
+    return undefined;
+  }
+}

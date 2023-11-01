@@ -1,226 +1,253 @@
-ConvertToTeacherAccountView = require 'views/teachers/ConvertToTeacherAccountView'
-storage = require 'core/storage'
-forms = require 'core/forms'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const ConvertToTeacherAccountView = require('views/teachers/ConvertToTeacherAccountView');
+const storage = require('core/storage');
+const forms = require('core/forms');
 
-describe '/teachers/update-account', ->
-  describe 'when logged out', ->
-    it 'redirects to /teachers/signup', ->
-      spyOn(me, 'isAnonymous').and.returnValue(true)
-      spyOn(application.router, 'navigate')
-      Backbone.history.loadUrl('/teachers/update-account')
-      expect(application.router.navigate.calls.count()).toBe(1)
-      args = application.router.navigate.calls.argsFor(0)
-      expect(args[0]).toBe('/teachers/signup')
+describe('/teachers/update-account', function() {
+  describe('when logged out', () => it('redirects to /teachers/signup', function() {
+    spyOn(me, 'isAnonymous').and.returnValue(true);
+    spyOn(application.router, 'navigate');
+    Backbone.history.loadUrl('/teachers/update-account');
+    expect(application.router.navigate.calls.count()).toBe(1);
+    const args = application.router.navigate.calls.argsFor(0);
+    return expect(args[0]).toBe('/teachers/signup');
+  }));
 
-  describe 'when logged in', ->
-    it 'displays ConvertToTeacherAccountView', ->
-      spyOn(me, 'isAnonymous').and.returnValue(false)
-      spyOn(me, 'isTeacher').and.returnValue(false)
-      spyOn(application.router, 'routeDirectly')
-      Backbone.history.loadUrl('/teachers/update-account')
-      expect(application.router.routeDirectly.calls.count()).toBe(1)
-      args = application.router.routeDirectly.calls.argsFor(0)
-      expect(args[0]).toBe('teachers/ConvertToTeacherAccountView')
+  return describe('when logged in', () => it('displays ConvertToTeacherAccountView', function() {
+    spyOn(me, 'isAnonymous').and.returnValue(false);
+    spyOn(me, 'isTeacher').and.returnValue(false);
+    spyOn(application.router, 'routeDirectly');
+    Backbone.history.loadUrl('/teachers/update-account');
+    expect(application.router.routeDirectly.calls.count()).toBe(1);
+    const args = application.router.routeDirectly.calls.argsFor(0);
+    return expect(args[0]).toBe('teachers/ConvertToTeacherAccountView');
+  }));
+});
 
 
-describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
+describe('ConvertToTeacherAccountView (/teachers/update-account)', function() {
 
-  view = null
+  let view = null;
 
-  successForm = {
-    phoneNumber: '555-555-5555'
-    role: 'Teacher'
-    organization: 'School'
-    district: 'District'
-    city: 'Springfield'
-    state: 'AL'
-    country: 'United States'
-    numStudents: '1-10'
-    educationLevel: ['Middle']
-    firstName: 'Mr'
+  const successForm = {
+    phoneNumber: '555-555-5555',
+    role: 'Teacher',
+    organization: 'School',
+    district: 'District',
+    city: 'Springfield',
+    state: 'AL',
+    country: 'United States',
+    numStudents: '1-10',
+    educationLevel: ['Middle'],
+    firstName: 'Mr',
     lastName: 'Bean'
-  }
+  };
 
-  beforeEach ->
-    spyOn(application.router, 'navigate')
-    me.clear()
+  beforeEach(function() {
+    spyOn(application.router, 'navigate');
+    me.clear();
     me.set({
-      _id: '1234'
-      anonymous: false
-      email: 'some@email.com'
+      _id: '1234',
+      anonymous: false,
+      email: 'some@email.com',
       name: 'Existing User'
-    })
-    me._revertAttributes = {}
-    view = new ConvertToTeacherAccountView()
-    view.render()
-    jasmine.demoEl(view.$el)
+    });
+    me._revertAttributes = {};
+    view = new ConvertToTeacherAccountView();
+    view.render();
+    jasmine.demoEl(view.$el);
 
-    spyOn(storage, 'load').and.returnValue({ lastName: 'Saved Changes' })
+    return spyOn(storage, 'load').and.returnValue({ lastName: 'Saved Changes' });
+  });
     
-  afterEach (done) ->
-    _.defer(done) # let everything finish loading, keep navigate spied on
+  afterEach(done => _.defer(done)); // let everything finish loading, keep navigate spied on
 
-  describe 'when the form is unchanged', ->
-    it 'does not prevent navigating away', ->
-      expect(_.result(view, 'onLeaveMessage')).toBeFalsy()
+  describe('when the form is unchanged', () => it('does not prevent navigating away', () => expect(_.result(view, 'onLeaveMessage')).toBeFalsy()));
 
-  describe 'when the form has changed but is not submitted', ->
-    beforeEach ->
-      view.$el.find('form').trigger('change')
+  describe('when the form has changed but is not submitted', function() {
+    beforeEach(() => view.$el.find('form').trigger('change'));
 
-    it 'prevents navigating away', ->
-      expect(_.result(view, 'onLeaveMessage')).toBeTruthy()
+    return it('prevents navigating away', () => expect(_.result(view, 'onLeaveMessage')).toBeTruthy());
+  });
 
 
-  describe 'when the user already has a TrialRequest and is a teacher', ->
-    beforeEach (done) ->
-      spyOn(me, 'isTeacher').and.returnValue(true)
+  describe('when the user already has a TrialRequest and is a teacher', function() {
+    beforeEach(function(done) {
+      spyOn(me, 'isTeacher').and.returnValue(true);
       _.last(view.trialRequests.fakeRequests).respondWith({
-        status: 200
+        status: 200,
         responseText: JSON.stringify([{
-          _id: '1'
+          _id: '1',
           properties: {
-            firstName: 'First'
+            firstName: 'First',
             lastName: 'Last'
           }
         }])
-      })
-      _.defer done # Let SuperModel finish
+      });
+      return _.defer(done);
+    }); // Let SuperModel finish
 
-    # TODO: re-enable when student and teacher areas are enforced
-    xit 'redirects to /teachers/courses', ->
-      expect(application.router.navigate).toHaveBeenCalled()
-      args = application.router.navigate.calls.argsFor(0)
-      expect(args[0]).toBe('/teachers/courses')
+    // TODO: re-enable when student and teacher areas are enforced
+    return xit('redirects to /teachers/courses', function() {
+      expect(application.router.navigate).toHaveBeenCalled();
+      const args = application.router.navigate.calls.argsFor(0);
+      return expect(args[0]).toBe('/teachers/courses');
+    });
+  });
 
 
-  describe 'when the user has role "student"', ->
-    beforeEach ->
-      me.set('role', 'student')
-      # TODO: is this next line right? Seems to try to construct a TrialRequest with `[]` as its attributes (and below as well)
-      _.last(view.trialRequests.fakeRequests).respondWith({ status: 200, responseText: JSON.stringify('[]') })
-      view.render()
+  describe('when the user has role "student"', function() {
+    beforeEach(function() {
+      me.set('role', 'student');
+      // TODO: is this next line right? Seems to try to construct a TrialRequest with `[]` as its attributes (and below as well)
+      _.last(view.trialRequests.fakeRequests).respondWith({ status: 200, responseText: JSON.stringify('[]') });
+      return view.render();
+    });
 
-    it 'shows a warning that they will convert to a teacher account', ->
-      expect(view.$('#conversion-warning').length).toBe(1)
+    it('shows a warning that they will convert to a teacher account', () => expect(view.$('#conversion-warning').length).toBe(1));
 
-#      TODO: Figure out how to test this
-#    describe 'the warning', ->
-#      it 'includes a learn more link which opens a modal with more info'
+//      TODO: Figure out how to test this
+//    describe 'the warning', ->
+//      it 'includes a learn more link which opens a modal with more info'
 
-    describe 'submitting the form', ->
-      beforeEach ->
-        form = view.$('form')
-        forms.objectToForm(form, successForm, {overwriteExisting: true})
-        spyOn(view, 'openModalView')
-        form.submit()
+    return describe('submitting the form', function() {
+      beforeEach(function() {
+        const form = view.$('form');
+        forms.objectToForm(form, successForm, {overwriteExisting: true});
+        spyOn(view, 'openModalView');
+        return form.submit();
+      });
 
-      it 'requires confirmation', ->
-        expect(view.trialRequest.fakeRequests.length).toBe(0)
-        confirmModal = view.openModalView.calls.argsFor(0)[0]
-        confirmModal.trigger 'confirm'
-        request = _.last(view.trialRequest.fakeRequests)
-        expect(request.url).toBe('/db/trial.request')
-        expect(request.method).toBe('POST')
+      return it('requires confirmation', function() {
+        expect(view.trialRequest.fakeRequests.length).toBe(0);
+        const confirmModal = view.openModalView.calls.argsFor(0)[0];
+        confirmModal.trigger('confirm');
+        const request = _.last(view.trialRequest.fakeRequests);
+        expect(request.url).toBe('/db/trial.request');
+        return expect(request.method).toBe('POST');
+      });
+    });
+  });
 
-  describe '"Log out" link', ->
-    beforeEach ->
-      _.last(view.trialRequests.fakeRequests).respondWith({ status: 200, responseText: JSON.stringify('[]') })
+  describe('"Log out" link', function() {
+    beforeEach(() => _.last(view.trialRequests.fakeRequests).respondWith({ status: 200, responseText: JSON.stringify('[]') }));
 
-    it 'logs out the user and redirects them to /teachers/signup', ->
-      spyOn(me, 'logout')
-      view.$('#logout-link').click()
-      expect(me.logout).toHaveBeenCalled()
+    return it('logs out the user and redirects them to /teachers/signup', function() {
+      spyOn(me, 'logout');
+      view.$('#logout-link').click();
+      return expect(me.logout).toHaveBeenCalled();
+    });
+  });
 
-  describe 'submitting the form', ->
-    beforeEach ->
-      spyOn(me, 'unsubscribe')
-      view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
-      _.last(view.trialRequests.fakeRequests).respondWith({ status: 200, responseText: JSON.stringify('[]') })
-      form = view.$('form')
-      forms.objectToForm(form, successForm, {overwriteExisting: true})
-      form.submit()
+  describe('submitting the form', function() {
+    beforeEach(function() {
+      spyOn(me, 'unsubscribe');
+      view.$el.find('#request-form').trigger('change'); // to confirm navigating away isn't prevented
+      _.last(view.trialRequests.fakeRequests).respondWith({ status: 200, responseText: JSON.stringify('[]') });
+      const form = view.$('form');
+      forms.objectToForm(form, successForm, {overwriteExisting: true});
+      return form.submit();
+    });
 
-    it 'does not prevent navigating away', ->
-      expect(_.result(view, 'onLeaveMessage')).toBeFalsy()
+    it('does not prevent navigating away', () => expect(_.result(view, 'onLeaveMessage')).toBeFalsy());
 
-    it 'creates a new TrialRequest with the information', ->
-      request = _.last(view.trialRequest.fakeRequests)
-      expect(request).toBeTruthy()
-      expect(request.method).toBe('POST')
-      attrs = JSON.parse(request.params)
-      expect(attrs.properties?.firstName).toBe('Mr')
-      expect(attrs.properties?.siteOrigin).toBe('convert teacher')
-      expect(attrs.properties?.email).toBe('some@email.com')
+    it('creates a new TrialRequest with the information', function() {
+      const request = _.last(view.trialRequest.fakeRequests);
+      expect(request).toBeTruthy();
+      expect(request.method).toBe('POST');
+      const attrs = JSON.parse(request.params);
+      expect(attrs.properties != null ? attrs.properties.firstName : undefined).toBe('Mr');
+      expect(attrs.properties != null ? attrs.properties.siteOrigin : undefined).toBe('convert teacher');
+      return expect(attrs.properties != null ? attrs.properties.email : undefined).toBe('some@email.com');
+    });
 
-    it 'redirects to /teachers/classes', ->
-      request = _.last(view.trialRequest.fakeRequests)
+    it('redirects to /teachers/classes', function() {
+      const request = _.last(view.trialRequest.fakeRequests);
       request.respondWith({
-        status: 201
+        status: 201,
         responseText: JSON.stringify(_.extend({_id:'fraghlarghl'}, JSON.parse(request.params)))
-      })
-      expect(application.router.navigate).toHaveBeenCalled()
-      args = application.router.navigate.calls.argsFor(0)
-      expect(args[0]).toBe('/teachers/classes')
+      });
+      expect(application.router.navigate).toHaveBeenCalled();
+      const args = application.router.navigate.calls.argsFor(0);
+      return expect(args[0]).toBe('/teachers/classes');
+    });
 
-    it 'sets a teacher role', ->
-      request = _.last(view.trialRequest.fakeRequests)
+    it('sets a teacher role', function() {
+      const request = _.last(view.trialRequest.fakeRequests);
       request.respondWith({
-        status: 201
+        status: 201,
         responseText: JSON.stringify(_.extend({_id:'fraghlarghl'}, JSON.parse(request.params)))
-      })
-      expect(me.get('role')).toBe(successForm.role.toLowerCase())
+      });
+      return expect(me.get('role')).toBe(successForm.role.toLowerCase());
+    });
 
-    it 'unsubscribes user', ->
-      request = _.last(view.trialRequest.fakeRequests)
+    return it('unsubscribes user', function() {
+      const request = _.last(view.trialRequest.fakeRequests);
       request.respondWith({
-        status: 201
+        status: 201,
         responseText: JSON.stringify(_.extend({_id:'fraghlarghl'}, JSON.parse(request.params)))
-      })
-      expect(me.unsubscribe).toHaveBeenCalled()
+      });
+      return expect(me.unsubscribe).toHaveBeenCalled();
+    });
+  });
 
-  describe 'submitting the form without school', ->
-    beforeEach ->
-      view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
-      form = view.$('form')
-      formData = _.omit(successForm, ['organization'])
-      forms.objectToForm(form, formData)
-      form.submit()
+  describe('submitting the form without school', function() {
+    beforeEach(function() {
+      view.$el.find('#request-form').trigger('change'); // to confirm navigating away isn't prevented
+      const form = view.$('form');
+      const formData = _.omit(successForm, ['organization']);
+      forms.objectToForm(form, formData);
+      return form.submit();
+    });
 
-    it 'submits a trial request, which does not include school setting', ->
-      request = jasmine.Ajax.requests.mostRecent()
-      expect(request.url).toBe('/db/trial.request')
-      expect(request.method).toBe('POST')
-      attrs = JSON.parse(request.params)
-      expect(attrs.properties?.organization).toBeUndefined()
-      expect(attrs.properties?.district).toEqual('District')
+    return it('submits a trial request, which does not include school setting', function() {
+      const request = jasmine.Ajax.requests.mostRecent();
+      expect(request.url).toBe('/db/trial.request');
+      expect(request.method).toBe('POST');
+      const attrs = JSON.parse(request.params);
+      expect(attrs.properties != null ? attrs.properties.organization : undefined).toBeUndefined();
+      return expect(attrs.properties != null ? attrs.properties.district : undefined).toEqual('District');
+    });
+  });
 
-  describe 'submitting the form without district', ->
-    beforeEach ->
-      view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
-      form = view.$('form')
-      formData = _.omit(successForm, ['district'])
-      forms.objectToForm(form, formData)
-      form.submit()
+  describe('submitting the form without district', function() {
+    beforeEach(function() {
+      view.$el.find('#request-form').trigger('change'); // to confirm navigating away isn't prevented
+      const form = view.$('form');
+      const formData = _.omit(successForm, ['district']);
+      forms.objectToForm(form, formData);
+      return form.submit();
+    });
 
-    it 'displays a validation error on district and not school', ->
-      expect(view.$('#organization-control').closest('.form-group').hasClass('has-error')).toEqual(false)
-      expect(view.$('#district-control').closest('.form-group').hasClass('has-error')).toEqual(true)
+    return it('displays a validation error on district and not school', function() {
+      expect(view.$('#organization-control').closest('.form-group').hasClass('has-error')).toEqual(false);
+      return expect(view.$('#district-control').closest('.form-group').hasClass('has-error')).toEqual(true);
+    });
+  });
 
-  describe 'submitting the form district set to n/a', ->
-    beforeEach ->
-      view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
-      form = view.$('form')
-      formData = _.omit(successForm, ['organization'])
-      formData.district = 'N/A'
-      forms.objectToForm(form, formData)
-      form.submit()
+  return describe('submitting the form district set to n/a', function() {
+    beforeEach(function() {
+      view.$el.find('#request-form').trigger('change'); // to confirm navigating away isn't prevented
+      const form = view.$('form');
+      const formData = _.omit(successForm, ['organization']);
+      formData.district = 'N/A';
+      forms.objectToForm(form, formData);
+      return form.submit();
+    });
 
-    it 'submits a trial request, which does not include district setting', ->
-      expect(view.$('#organization-control').closest('.form-group').hasClass('has-error')).toEqual(false)
-      expect(view.$('#district-control').closest('.form-group').hasClass('has-error')).toEqual(false)
-      request = jasmine.Ajax.requests.mostRecent()
-      expect(request.url).toBe('/db/trial.request')
-      expect(request.method).toBe('POST')
-      attrs = JSON.parse(request.params)
-      expect(attrs.properties?.district).toBeUndefined()
+    return it('submits a trial request, which does not include district setting', function() {
+      expect(view.$('#organization-control').closest('.form-group').hasClass('has-error')).toEqual(false);
+      expect(view.$('#district-control').closest('.form-group').hasClass('has-error')).toEqual(false);
+      const request = jasmine.Ajax.requests.mostRecent();
+      expect(request.url).toBe('/db/trial.request');
+      expect(request.method).toBe('POST');
+      const attrs = JSON.parse(request.params);
+      return expect(attrs.properties != null ? attrs.properties.district : undefined).toBeUndefined();
+    });
+  });
+});

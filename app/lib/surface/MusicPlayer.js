@@ -1,115 +1,152 @@
-CocoClass = require 'core/CocoClass'
-AudioPlayer = require 'lib/AudioPlayer'
-{me} = require 'core/auth'
-createjs = require 'lib/createjs-parts'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let MusicPlayer;
+const CocoClass = require('core/CocoClass');
+const AudioPlayer = require('lib/AudioPlayer');
+const {me} = require('core/auth');
+const createjs = require('lib/createjs-parts');
 
-CROSSFADE_LENGTH = 1500
-MUSIC_VOLUME = 0.6
+const CROSSFADE_LENGTH = 1500;
+const MUSIC_VOLUME = 0.6;
 
-module.exports = class MusicPlayer extends CocoClass
-  currentMusic: null
-  standingBy: null
+module.exports = (MusicPlayer = (function() {
+  MusicPlayer = class MusicPlayer extends CocoClass {
+    static initClass() {
+      this.prototype.currentMusic = null;
+      this.prototype.standingBy = null;
+  
+      this.prototype.subscriptions = {
+        'music-player:play-music': 'onPlayMusic',
+        'audio-player:loaded': 'onAudioLoaded',
+        'playback:real-time-playback-started': 'onRealTimePlaybackStarted',
+        'playback:real-time-playback-ended': 'onRealTimePlaybackEnded',
+        'playback:cinematic-playback-started': 'onRealTimePlaybackStarted',  // Handle cinematic the same as real-time
+        'playback:cinematic-playback-ended': 'onRealTimePlaybackEnded',
+        'music-player:enter-menu': 'onEnterMenu',
+        'music-player:exit-menu': 'onExitMenu',
+        'level:set-volume': 'onSetVolume'
+      };
+    }
 
-  subscriptions:
-    'music-player:play-music': 'onPlayMusic'
-    'audio-player:loaded': 'onAudioLoaded'
-    'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
-    'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
-    'playback:cinematic-playback-started': 'onRealTimePlaybackStarted'  # Handle cinematic the same as real-time
-    'playback:cinematic-playback-ended': 'onRealTimePlaybackEnded'
-    'music-player:enter-menu': 'onEnterMenu'
-    'music-player:exit-menu': 'onExitMenu'
-    'level:set-volume': 'onSetVolume'
+    constructor() {
+      super(...arguments);
+      me.on('change:music', this.onMusicSettingChanged, this);
+    }
 
-  constructor: ->
-    super arguments...
-    me.on 'change:music', @onMusicSettingChanged, @
+    onAudioLoaded(e) {
+      if (this.standingBy) { return this.onPlayMusic(this.standingBy); }
+    }
 
-  onAudioLoaded: (e) ->
-    @onPlayMusic(@standingBy) if @standingBy
+    onPlayMusic(e) {
+      if (application.isIPadApp) { return; }  // Hard to measure, but just guessing this will save memory.
+      if (!me.get('volume')) {
+        this.lastMusicEventIgnoredWhileMuted = e;
+        return;
+      }
+      let src = e.file;
+      if (!/^http/.test(src)) { src = `/file${src}${AudioPlayer.ext}`; }
+      if ((!e.file) || (src === (this.currentMusic != null ? this.currentMusic.src : undefined))) {
+        if (e.play) { this.restartCurrentMusic(); } else { this.fadeOutCurrentMusic(); }
+        return;
+      }
 
-  onPlayMusic: (e) ->
-    return if application.isIPadApp  # Hard to measure, but just guessing this will save memory.
-    unless me.get 'volume'
-      @lastMusicEventIgnoredWhileMuted = e
-      return
-    src = e.file
-    src = "/file#{src}#{AudioPlayer.ext}" unless /^http/.test(src)
-    if (not e.file) or src is @currentMusic?.src
-      if e.play then @restartCurrentMusic() else @fadeOutCurrentMusic()
-      return
+      const media = AudioPlayer.getStatus(src);
+      if (!(media != null ? media.loaded : undefined)) {
+        AudioPlayer.preloadSound(src);
+        this.standingBy = e;
+        return;
+      }
 
-    media = AudioPlayer.getStatus(src)
-    if not media?.loaded
-      AudioPlayer.preloadSound(src)
-      @standingBy = e
-      return
+      const delay = e.delay != null ? e.delay : 0;
+      this.standingBy = null;
+      this.fadeOutCurrentMusic();
+      if (e.play) { return this.startNewMusic(src, delay); }
+    }
 
-    delay = e.delay ? 0
-    @standingBy = null
-    @fadeOutCurrentMusic()
-    @startNewMusic(src, delay) if e.play
+    restartCurrentMusic() {
+      if (!this.currentMusic) { return; }
+      this.currentMusic.play({interrupt: 'none', delay: 0, offset: 0, loop: -1, volume: 0.3});
+      return this.updateMusicVolume();
+    }
 
-  restartCurrentMusic: ->
-    return unless @currentMusic
-    @currentMusic.play {interrupt: 'none', delay: 0, offset: 0, loop: -1, volume: 0.3}
-    @updateMusicVolume()
+    fadeOutCurrentMusic() {
+      if (!this.currentMusic) { return; }
+      createjs.Tween.removeTweens(this.currentMusic);
+      const f = function() { return this.stop(); };
+      return createjs.Tween.get(this.currentMusic).to({volume: 0.0}, CROSSFADE_LENGTH).call(f);
+    }
 
-  fadeOutCurrentMusic: ->
-    return unless @currentMusic
-    createjs.Tween.removeTweens(@currentMusic)
-    f = -> @stop()
-    createjs.Tween.get(@currentMusic).to({volume: 0.0}, CROSSFADE_LENGTH).call(f)
+    startNewMusic(src, delay) {
+      if (src) { this.currentMusic = createjs.Sound.play(src, {interrupt: 'none', delay: 0, offset: 0, loop: -1, volume: 0.3}); }
+      if (!this.currentMusic) { return; }
+      this.currentMusic.volume = 0.0;
+      if (me.get('music', true)) {
+        return createjs.Tween.get(this.currentMusic).wait(delay).to({volume: MUSIC_VOLUME}, CROSSFADE_LENGTH);
+      }
+    }
 
-  startNewMusic: (src, delay) ->
-    @currentMusic = createjs.Sound.play(src, {interrupt: 'none', delay: 0, offset: 0, loop: -1, volume: 0.3}) if src
-    return unless @currentMusic
-    @currentMusic.volume = 0.0
-    if me.get('music', true)
-      createjs.Tween.get(@currentMusic).wait(delay).to({volume: MUSIC_VOLUME}, CROSSFADE_LENGTH)
+    onMusicSettingChanged() {
+      return this.updateMusicVolume();
+    }
 
-  onMusicSettingChanged: ->
-    @updateMusicVolume()
+    updateMusicVolume() {
+      if (!this.currentMusic) { return; }
+      createjs.Tween.removeTweens(this.currentMusic);
+      return this.currentMusic.volume = me.get('music', true) ? MUSIC_VOLUME : 0.0;
+    }
 
-  updateMusicVolume: ->
-    return unless @currentMusic
-    createjs.Tween.removeTweens(@currentMusic)
-    @currentMusic.volume = if me.get('music', true) then MUSIC_VOLUME else 0.0
+    onRealTimePlaybackStarted(e) {
+      this.previousMusic = this.currentMusic;
+      const trackNumber = _.random(0, 2);
+      return Backbone.Mediator.publish('music-player:play-music', {file: `/music/music_real_time_${trackNumber}`, play: true});
+    }
 
-  onRealTimePlaybackStarted: (e) ->
-    @previousMusic = @currentMusic
-    trackNumber = _.random 0, 2
-    Backbone.Mediator.publish 'music-player:play-music', file: "/music/music_real_time_#{trackNumber}", play: true
+    onRealTimePlaybackEnded(e) {
+      this.fadeOutCurrentMusic();
+      if (this.previousMusic) {
+        this.currentMusic = this.previousMusic;
+        this.restartCurrentMusic();
+        if (this.currentMusic.volume) {
+          return createjs.Tween.get(this.currentMusic).wait(5000).to({volume: MUSIC_VOLUME}, CROSSFADE_LENGTH);
+        }
+      }
+    }
 
-  onRealTimePlaybackEnded: (e) ->
-    @fadeOutCurrentMusic()
-    if @previousMusic
-      @currentMusic = @previousMusic
-      @restartCurrentMusic()
-      if @currentMusic.volume
-        createjs.Tween.get(@currentMusic).wait(5000).to({volume: MUSIC_VOLUME}, CROSSFADE_LENGTH)
+    onEnterMenu(e) {
+      if (this.inMenu) { return; }
+      this.inMenu = true;
+      this.previousMusic = this.currentMusic;
+      const file = "/music/music-menu";
+      return Backbone.Mediator.publish('music-player:play-music', {file, play: true, delay: 1000});
+    }
 
-  onEnterMenu: (e) ->
-    return if @inMenu
-    @inMenu = true
-    @previousMusic = @currentMusic
-    file = "/music/music-menu"
-    Backbone.Mediator.publish 'music-player:play-music', file: file, play: true, delay: 1000
+    onExitMenu(e) {
+      if (!this.inMenu) { return; }
+      this.inMenu = false;
+      this.fadeOutCurrentMusic();
+      if (this.previousMusic) {
+        this.currentMusic = this.previousMusic;
+        return this.restartCurrentMusic();
+      }
+    }
 
-  onExitMenu: (e) ->
-    return unless @inMenu
-    @inMenu = false
-    @fadeOutCurrentMusic()
-    if @previousMusic
-      @currentMusic = @previousMusic
-      @restartCurrentMusic()
+    onSetVolume(e) {
+      if (!e.volume || !this.lastMusicEventIgnoredWhileMuted) { return; }
+      this.onPlayMusic(this.lastMusicEventIgnoredWhileMuted);
+      return this.lastMusicEventIgnoredWhileMuted = null;
+    }
 
-  onSetVolume: (e) ->
-    return unless e.volume and @lastMusicEventIgnoredWhileMuted
-    @onPlayMusic @lastMusicEventIgnoredWhileMuted
-    @lastMusicEventIgnoredWhileMuted = null
-
-  destroy: ->
-    me.off 'change:music', @onMusicSettingChanged, @
-    @fadeOutCurrentMusic()
-    super()
+    destroy() {
+      me.off('change:music', this.onMusicSettingChanged, this);
+      this.fadeOutCurrentMusic();
+      return super.destroy();
+    }
+  };
+  MusicPlayer.initClass();
+  return MusicPlayer;
+})());

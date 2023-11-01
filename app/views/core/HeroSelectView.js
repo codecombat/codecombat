@@ -1,79 +1,122 @@
-require('app/styles/core/hero-select-view.sass')
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/core/hero-select-view'
-State = require 'models/State'
-ThangTypeConstants = require 'lib/ThangTypeConstants'
-ThangTypeLib = require 'lib/ThangTypeLib'
-User = require 'models/User'
-api = require 'core/api'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS204: Change includes calls to have a more natural evaluation order
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let HeroSelectView;
+require('app/styles/core/hero-select-view.sass');
+const CocoView = require('views/core/CocoView');
+const template = require('app/templates/core/hero-select-view');
+const State = require('models/State');
+const ThangTypeConstants = require('lib/ThangTypeConstants');
+const ThangTypeLib = require('lib/ThangTypeLib');
+const User = require('models/User');
+const api = require('core/api');
+const utils = require('core/utils');
 
-module.exports = class HeroSelectView extends CocoView
-  id: 'hero-select-view'
-  template: template
+module.exports = (HeroSelectView = (function() {
+  HeroSelectView = class HeroSelectView extends CocoView {
+    static initClass() {
+      this.prototype.id = 'hero-select-view';
+      this.prototype.template = template;
+  
+      this.prototype.events =
+        {'click .hero-option': 'onClickHeroOption'};
+    }
 
-  events:
-    'click .hero-option': 'onClickHeroOption'
+    initialize(options) {
+      let currentHeroOriginal, defaultHeroOriginal;
+      if (options == null) { options = {}; }
+      this.options = options;
+      if (utils.isCodeCombat) {
+        defaultHeroOriginal = ThangTypeConstants.heroes.captain;
+        currentHeroOriginal = __guard__(me.get('heroConfig'), x => x.thangType) || defaultHeroOriginal;
+      } else {
+        defaultHeroOriginal = ThangTypeConstants.ozariaHeroes['hero-b'];
+        currentHeroOriginal = __guard__(me.get('ozariaUserOptions'), x1 => x1.isometricThangTypeOriginal) || defaultHeroOriginal;
+      }
 
-  initialize: (@options = {}) ->
-    if utils.isCodeCombat
-      defaultHeroOriginal = ThangTypeConstants.heroes.captain
-      currentHeroOriginal = me.get('heroConfig')?.thangType or defaultHeroOriginal
-    else
-      defaultHeroOriginal = ThangTypeConstants.ozariaHeroes['hero-b']
-      currentHeroOriginal = me.get('ozariaUserOptions')?.isometricThangTypeOriginal or defaultHeroOriginal
+      this.debouncedRender = _.debounce(this.render, 0);
 
-    @debouncedRender = _.debounce @render, 0
+      this.state = new State({
+        currentHeroOriginal,
+        selectedHeroOriginal: currentHeroOriginal
+      });
 
-    @state = new State({
-      currentHeroOriginal
-      selectedHeroOriginal: currentHeroOriginal
-    })
+      if (utils.isCodeCombat) {
+        api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'i18n', 'heroClass', 'slug', 'ozaria', 'poseImage'] }).then(heroes => {
+          if (this.destroyed) { return; }
+          this.heroes = heroes.filter(function(hero) {
+            let clanHero;
+            if (hero.ozaria) { return false; }
+            if (clanHero = _.find(utils.clanHeroes, {thangTypeOriginal: hero.original})) {
+              let left, needle;
+              if ((needle = clanHero.clanId, !Array.from(((left = me.get('clans')) != null ? left : [])).includes(needle))) { return false; }
+            }
+            if (hero.original === ThangTypeConstants.heroes['code-ninja']) {
+              if (window.location.host !== 'coco.code.ninja') { return false; }
+            }
+            return true;
+          });
+          return this.debouncedRender();
+        });
+       } else {
+        // @heroes = new ThangTypes({}, { project: ['original', 'name', 'heroClass, 'slug''] })
+        // @supermodel.trackRequest @heroes.fetchHeroes()
 
-    if utils.isCodeCombat
-      api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'i18n', 'heroClass', 'slug', 'ozaria', 'poseImage'] }).then (heroes) =>
-        return if @destroyed
-        @heroes = heroes.filter (hero) ->
-          return false if hero.ozaria
-          if clanHero = _.find(utils.clanHeroes, thangTypeOriginal: hero.original)
-            return false if clanHero.clanId not in (me.get('clans') ? [])
-          if hero.original is ThangTypeConstants.heroes['code-ninja']
-            return false if window.location.host isnt 'coco.code.ninja'
-          true
-        @debouncedRender()
-     else
-      # @heroes = new ThangTypes({}, { project: ['original', 'name', 'heroClass, 'slug''] })
-      # @supermodel.trackRequest @heroes.fetchHeroes()
+        api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'heroClass', 'slug', 'ozaria'] }).then(heroes => {
+          this.heroes = heroes.filter(h => !h.ozaria);
+          return this.debouncedRender();
+        });
+      }
 
-      api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'heroClass', 'slug', 'ozaria'] }).then (heroes) =>
-        @heroes = heroes.filter((h) => !h.ozaria)
-        @debouncedRender()
+      return this.listenTo(this.state, 'all', function() { return this.debouncedRender(); });
+    }
+      // @listenTo @heroes, 'all', -> @debouncedRender()
 
-    @listenTo @state, 'all', -> @debouncedRender()
-    # @listenTo @heroes, 'all', -> @debouncedRender()
+    onClickHeroOption(e) {
+      const heroOriginal = $(e.currentTarget).data('hero-original');
+      this.state.set({selectedHeroOriginal: heroOriginal});
+      return this.saveHeroSelection(heroOriginal);
+    }
 
-  onClickHeroOption: (e) ->
-    heroOriginal = $(e.currentTarget).data('hero-original')
-    @state.set selectedHeroOriginal: heroOriginal
-    @saveHeroSelection(heroOriginal)
+    getPortraitURL(hero) {
+      return ThangTypeLib.getPortraitURL(hero);
+    }
 
-  getPortraitURL: (hero) ->
-    ThangTypeLib.getPortraitURL(hero)
+    getHeroShortName(hero) {
+      return ThangTypeLib.getHeroShortName(hero);
+    }
 
-  getHeroShortName: (hero) ->
-    ThangTypeLib.getHeroShortName(hero)
+    saveHeroSelection(heroOriginal) {
+      if (!me.get('heroConfig')) { me.set({heroConfig: {}}); }
+      const heroConfig = _.assign({}, me.get('heroConfig'), { thangType: heroOriginal });
+      me.set({ heroConfig });
 
-  saveHeroSelection: (heroOriginal) ->
-    me.set(heroConfig: {}) unless me.get('heroConfig')
-    heroConfig = _.assign {}, me.get('heroConfig'), { thangType: heroOriginal }
-    me.set({ heroConfig })
+      const hero = _.find(this.heroes, { original: heroOriginal });
+      return me.save().then(() => {
+        if (utils.isCodeCmbat && this.destroyed) { return; }
+        let event = 'Hero selected';
+        event += me.isStudent() ? ' student' : ' teacher';
+        if (this.options.createAccount) { event += ' create account'; }
+        const category = me.isStudent() ? 'Students' : 'Teachers';
+        if (window.tracker != null) {
+          window.tracker.trackEvent(event, {category, heroOriginal});
+        }
+        return this.trigger('hero-select:success', {attributes: hero});
+    });
+    }
+  };
+  HeroSelectView.initClass();
+  return HeroSelectView;
+})());
 
-    hero = _.find(@heroes, { original: heroOriginal })
-    me.save().then =>
-      return if utils.isCodeCmbat and @destroyed
-      event = 'Hero selected'
-      event += if me.isStudent() then ' student' else ' teacher'
-      event += ' create account' if @options.createAccount
-      category = if me.isStudent() then 'Students' else 'Teachers'
-      window.tracker?.trackEvent event, {category, heroOriginal}
-      @trigger 'hero-select:success', {attributes: hero}
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

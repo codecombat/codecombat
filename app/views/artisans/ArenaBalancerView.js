@@ -1,156 +1,235 @@
-require('app/styles/artisans/arena-balancer-view.sass')
-RootView = require 'views/core/RootView'
-template = require 'templates/artisans/arena-balancer-view'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ArenaBalancerView;
+require('app/styles/artisans/arena-balancer-view.sass');
+const RootView = require('views/core/RootView');
+const template = require('templates/artisans/arena-balancer-view');
 
-Campaigns = require 'collections/Campaigns'
-Campaign = require 'models/Campaign'
+const Campaigns = require('collections/Campaigns');
+const Campaign = require('models/Campaign');
 
-Levels = require 'collections/Levels'
-Level = require 'models/Level'
-LevelSessions = require 'collections/LevelSessions'
-ace = require 'lib/aceContainer'
-aceUtils = require 'core/aceUtils'
-require 'lib/setupTreema'
-treemaExt = require 'core/treema-ext'
-storage = require 'core/storage'
-ConfirmModal = require 'views/core/ConfirmModal'
+const Levels = require('collections/Levels');
+const Level = require('models/Level');
+const LevelSessions = require('collections/LevelSessions');
+const ace = require('lib/aceContainer');
+const aceUtils = require('core/aceUtils');
+require('lib/setupTreema');
+const treemaExt = require('core/treema-ext');
+const storage = require('core/storage');
+const ConfirmModal = require('views/core/ConfirmModal');
 
-module.exports = class ArenaBalancerView extends RootView
-  template: template
-  id: 'arena-balancer-view'
+module.exports = (ArenaBalancerView = (function() {
+  ArenaBalancerView = class ArenaBalancerView extends RootView {
+    static initClass() {
+      this.prototype.template = template;
+      this.prototype.id = 'arena-balancer-view';
+  
+      this.prototype.events =
+        {'click #go-button': 'onClickGoButton'};
+  
+      this.prototype.levelSlug = 'infinite-inferno';
+    }
 
-  events:
-    'click #go-button': 'onClickGoButton'
+    constructor(options, levelSlug) {
+      this.setUpVariablesTreema = this.setUpVariablesTreema.bind(this);
+      this.onVariablesChanged = this.onVariablesChanged.bind(this);
+      this.submitSessions = this.submitSessions.bind(this);
+      this.levelSlug = levelSlug;
+      super(options);
+      this.getLevelInfo();
+    }
 
-  levelSlug: 'infinite-inferno'
+    afterRender() {
+      super.afterRender();
+      const editorElements = this.$el.find('.ace');
+      return (() => {
+        const result = [];
+        for (var el of Array.from(editorElements)) {
+          var lang = this.$(el).data('language');
+          var editor = ace.edit(el);
+          var aceSession = editor.getSession();
+          var aceDoc = aceSession.getDocument();
+          aceSession.setMode(aceUtils.aceEditModes[lang]);
+          result.push(editor.setTheme('ace/theme/textmate'));
+        }
+        return result;
+      })();
+    }
+        //editor.setReadOnly true
 
-  constructor: (options, @levelSlug) ->
-    super options
-    @getLevelInfo()
+    getLevelInfo() {
+      this.level = this.supermodel.getModel(Level, this.levelSlug) || new Level({_id: this.levelSlug});
+      this.supermodel.trackRequest(this.level.fetch());
+      this.level.on('error', (level, error) => {
+        this.level = level;
+        return this.errorMessage = `Error loading level: ${error.statusText}`;
+      });
+      if (this.level.loaded) {
+        return this.onLevelLoaded(this.level);
+      } else {
+        return this.listenToOnce(this.level, 'sync', this.onLevelLoaded);
+      }
+    }
 
-  afterRender: ->
-    super()
-    editorElements = @$el.find('.ace')
-    for el in editorElements
-      lang = @$(el).data('language')
-      editor = ace.edit el
-      aceSession = editor.getSession()
-      aceDoc = aceSession.getDocument()
-      aceSession.setMode aceUtils.aceEditModes[lang]
-      editor.setTheme 'ace/theme/textmate'
-      #editor.setReadOnly true
+    onLevelLoaded(level) {
+      let left;
+      const solutions = [];
+      const hero = _.find((left = level.get("thangs")) != null ? left : [], {id: 'Hero Placeholder'});
+      const plan = __guard__(_.find((hero != null ? hero.components : undefined) != null ? (hero != null ? hero.components : undefined) : [], x => __guard__(__guard__(x != null ? x.config : undefined, x2 => x2.programmableMethods), x1 => x1.plan)), x => x.config.programmableMethods.plan);
+      if (!(this.solution = _.find((plan != null ? plan.solutions : undefined) != null ? (plan != null ? plan.solutions : undefined) : [], {description: 'arena-balancer'}))) {
+        this.errorMessage = 'Configure a solution with description arena-balancer to use as the default';
+      }
+      this.render();
+      return _.delay(this.setUpVariablesTreema, 100);  // Dunno why we need to delay
+    }
 
-  getLevelInfo: () ->
-    @level = @supermodel.getModel(Level, @levelSlug) or new Level _id: @levelSlug
-    @supermodel.trackRequest @level.fetch()
-    @level.on 'error', (@level, error) =>
-      return @errorMessage = "Error loading level: #{error.statusText}"
-    if @level.loaded
-      @onLevelLoaded @level
-    else
-      @listenToOnce @level, 'sync', @onLevelLoaded
+    setUpVariablesTreema() {
+      let matched;
+      if (this.destroyed) { return; }
+      const variableRegex = /<%= ?(.*?) ?%>/g;
+      const variables = [];
+      while ((matched = variableRegex.exec(this.solution.source))) {
+        variables.push(matched[1]);
+      }
+      const dataStorageKey = ['arena-balancer-data', this.levelSlug].join(':');
+      let data = storage.load(dataStorageKey);
+      if (data == null) { data = {}; }
+      const schema = {type: 'object', additionalProperties: false, properties: {}, required: variables, title: 'Variants', description: 'Combinatoric choice options'};
+      for (var variable of Array.from(variables)) {
+        schema.properties[variable] = { type: 'array', items: {
+          type: 'object',
+          additionalProperties: false,
+          required: ['name', 'code'],
+          default: {name: '', code: ''},
+          properties: {
+            name: {
+              type: 'string',
+              maxLength: 5,
+              description: 'Very short name/code for variant that will appear in usernames'
+            },
+            code: {
+              type: 'string',
+              format: 'code',
+              aceMode: 'ace/mode/javascript',
+              title: 'Variant',
+              description: 'Cartesian products will result'
+            }
+          }
+        }
+      };
+        if (data[variable] == null) { data[variable] = [{name: '', code: ''}]; }
+      }
 
-  onLevelLoaded: (level) ->
-    solutions = []
-    hero = _.find level.get("thangs") ? [], id: 'Hero Placeholder'
-    plan = _.find(hero?.components ? [], (x) -> x?.config?.programmableMethods?.plan)?.config.programmableMethods.plan
-    unless @solution = _.find(plan?.solutions ? [], description: 'arena-balancer')
-      @errorMessage = 'Configure a solution with description arena-balancer to use as the default'
-    @render()
-    _.delay @setUpVariablesTreema, 100  # Dunno why we need to delay
+      const treemaOptions = {
+        schema,
+        data,
+        nodeClasses: {
+          code: treemaExt.JavaScriptTreema
+        },
+        callbacks: {
+          change: this.onVariablesChanged
+        }
+      };
 
-  setUpVariablesTreema: =>
-    return if @destroyed
-    variableRegex = /<%= ?(.*?) ?%>/g
-    variables = []
-    while matched = variableRegex.exec @solution.source
-      variables.push matched[1]
-    dataStorageKey = ['arena-balancer-data', @levelSlug].join(':')
-    data = storage.load dataStorageKey
-    data ?= {}
-    schema = type: 'object', additionalProperties: false, properties: {}, required: variables, title: 'Variants', description: 'Combinatoric choice options'
-    for variable in variables
-      schema.properties[variable] = type: 'array', items:
-        type: 'object'
-        additionalProperties: false
-        required: ['name', 'code']
-        default: {name: '', code: ''}
-        properties:
-          name:
-            type: 'string'
-            maxLength: 5
-            description: 'Very short name/code for variant that will appear in usernames'
-          code:
-            type: 'string'
-            format: 'code'
-            aceMode: 'ace/mode/javascript'
-            title: 'Variant'
-            description: 'Cartesian products will result'
-      data[variable] ?= [name: '', code: '']
+      this.variablesTreema = this.$el.find('#variables-treema').treema(treemaOptions);
+      this.variablesTreema.build();
+      this.variablesTreema.open(3);
+      return this.onVariablesChanged();
+    }
 
-    treemaOptions =
-      schema: schema
-      data: data
-      nodeClasses:
-        code: treemaExt.JavaScriptTreema
-      callbacks:
-        change: @onVariablesChanged
+    onVariablesChanged(e) {
+      const dataStorageKey = ['arena-balancer-data', this.levelSlug].join(':');
+      storage.save(dataStorageKey, this.variablesTreema.data);
+      const cartesian = a => a.reduce((a, b) => a.flatMap(d => b.map(e => [d, e].flat())));
+      const variables = [];
+      for (var variable in this.variablesTreema.data) {
+        var variants = [];
+        for (var variant of Array.from(this.variablesTreema.data[variable])) {
+          variants.push({variable, name: variant.name, code: variant.code});
+        }
+        variables.push(variants);
+      }
+      this.choices = cartesian(variables);
+      return this.$('#go-button').text(`Create/Update All ${this.choices.length} Test Sessions`);
+    }
 
-    @variablesTreema = @$el.find('#variables-treema').treema treemaOptions
-    @variablesTreema.build()
-    @variablesTreema.open(3)
-    @onVariablesChanged()
+    onClickGoButton(event) {
+      const renderData = {
+        title: 'Are you really sure?',
+        body: `This will wipe all arena balancer sessions for ${this.levelSlug} and submit ${this.choices.length} new ones. Are you sure you want to do it? (Probably shouldn't be more than a couple thousand.)`,
+        decline: 'Not really',
+        confirm: 'Definitely'
+      };
+      this.confirmModal = new ConfirmModal(renderData);
+      this.confirmModal.on('confirm', this.submitSessions);
+      return this.openModalView(this.confirmModal);
+    }
 
-  onVariablesChanged: (e) =>
-    dataStorageKey = ['arena-balancer-data', @levelSlug].join(':')
-    storage.save dataStorageKey, @variablesTreema.data
-    cartesian = (a) -> a.reduce((a, b) -> a.flatMap((d) -> b.map((e) -> [d, e].flat())))
-    variables = []
-    for variable of @variablesTreema.data
-      variants = []
-      for variant in @variablesTreema.data[variable]
-        variants.push {variable: variable, name: variant.name, code: variant.code}
-      variables.push variants
-    @choices = cartesian variables
-    @$('#go-button').text "Create/Update All #{@choices.length} Test Sessions"
+    submitSessions(e) {
+      let variant;
+      this.confirmModal.$el.find('#confirm-button').attr('disabled', true).text('Working... (can take a while)');
+      const postData = {submissions: []};
+      for (var choice of Array.from(this.choices)) {
+        var context = {};
+        for (variant of Array.from(choice)) { context[variant.variable] = variant.code; }
+        var code = _.template(this.solution.source, context);
+        var session = {name: ((() => {
+          const result = [];
+          for (variant of Array.from(choice)) {             result.push(variant.name);
+          }
+          return result;
+        })()).join('-'), code};
+        postData.submissions.push(session);
+      }
 
-  onClickGoButton: (event) ->
-    renderData =
-      title: 'Are you really sure?'
-      body: "This will wipe all arena balancer sessions for #{@levelSlug} and submit #{@choices.length} new ones. Are you sure you want to do it? (Probably shouldn't be more than a couple thousand.)"
-      decline: 'Not really'
-      confirm: 'Definitely'
-    @confirmModal = new ConfirmModal renderData
-    @confirmModal.on 'confirm', @submitSessions
-    @openModalView @confirmModal
+      return $.ajax({
+        data: JSON.stringify(postData),
+        success: (data, status, jqXHR) => {
+          noty({
+            timeout: 5000,
+            text: 'Arena balancing submission process started',
+            type: 'success',
+            layout: 'topCenter'
+          });
+          return __guardMethod__(this.confirmModal, 'hide', o => o.hide());
+        },
+        error: (jqXHR, status, error) => {
+          console.error(jqXHR);
+          noty({
+            timeout: 5000,
+            text: `Arena balancing submission process failed with error code ${jqXHR.status}`,
+            type: 'error',
+            layout: 'topCenter'
+          });
+          return __guardMethod__(this.confirmModal, 'hide', o => o.hide());
+        },
+        url: `/db/level/${this.levelSlug}/arena-balancer-sessions`,  // TODO
+        type: 'POST',
+        contentType: 'application/json'
+      });
+    }
+  };
+  ArenaBalancerView.initClass();
+  return ArenaBalancerView;
+})());
 
-  submitSessions: (e) =>
-    @confirmModal.$el.find('#confirm-button').attr('disabled', true).text('Working... (can take a while)')
-    postData = submissions: []
-    for choice in @choices
-      context = {}
-      context[variant.variable] = variant.code for variant in choice
-      code = _.template @solution.source, context
-      session = name: (variant.name for variant in choice).join('-'), code: code
-      postData.submissions.push session
-
-    $.ajax
-      data: JSON.stringify postData
-      success: (data, status, jqXHR) =>
-        noty
-          timeout: 5000
-          text: 'Arena balancing submission process started'
-          type: 'success'
-          layout: 'topCenter'
-        @confirmModal?.hide?()
-      error: (jqXHR, status, error) =>
-        console.error jqXHR
-        noty
-          timeout: 5000
-          text: "Arena balancing submission process failed with error code #{jqXHR.status}"
-          type: 'error'
-          layout: 'topCenter'
-        @confirmModal?.hide?()
-      url: "/db/level/#{@levelSlug}/arena-balancer-sessions"  # TODO
-      type: 'POST'
-      contentType: 'application/json'
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}
+function __guardMethod__(obj, methodName, transform) {
+  if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {
+    return transform(obj, methodName);
+  } else {
+    return undefined;
+  }
+}

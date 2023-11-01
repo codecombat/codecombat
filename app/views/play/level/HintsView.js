@@ -1,108 +1,165 @@
-CocoView = require 'views/core/CocoView'
-State = require 'models/State'
-ace = require('lib/aceContainer')
-utils = require 'core/utils'
-aceUtils = require 'core/aceUtils'
-aetherUtils = require 'lib/aether_utils'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let HintsView;
+const CocoView = require('views/core/CocoView');
+const State = require('models/State');
+const ace = require('lib/aceContainer');
+const utils = require('core/utils');
+const aceUtils = require('core/aceUtils');
+const aetherUtils = require('lib/aether_utils');
 
-module.exports = class HintsView extends CocoView
-  template: require('app/templates/play/level/hints-view')
-  className: 'hints-view'
-  hintUsedThresholdSeconds: 10
+module.exports = (HintsView = (function() {
+  HintsView = class HintsView extends CocoView {
+    constructor(...args) {
+      this.incrementHintViewTime = this.incrementHintViewTime.bind(this);
+      super(...args);
+    }
 
-  events:
-    'click .next-btn': 'onClickNextButton'
-    'click .previous-btn': 'onClickPreviousButton'
-    'click .close-hint-btn': 'hideView'
+    static initClass() {
+      this.prototype.template = require('app/templates/play/level/hints-view');
+      this.prototype.className = 'hints-view';
+      this.prototype.hintUsedThresholdSeconds = 10;
+  
+      this.prototype.events = {
+        'click .next-btn': 'onClickNextButton',
+        'click .previous-btn': 'onClickPreviousButton',
+        'click .close-hint-btn': 'hideView'
+      };
+  
+      this.prototype.subscriptions = {
+        'level:show-victory': 'hideView',
+        'tome:manual-cast': 'hideView'
+      };
+    }
 
-  subscriptions:
-    'level:show-victory': 'hideView'
-    'tome:manual-cast': 'hideView'
+    initialize(options) {
+      ({level: this.level, session: this.session, hintsState: this.hintsState} = options);
+      this.state = new State({
+        hintIndex: 0,
+        hintsViewTime: {},
+        hintsUsed: {}
+      });
+      this.updateHint();
 
-  initialize: (options) ->
-    {@level, @session, @hintsState} = options
-    @state = new State({
-      hintIndex: 0
-      hintsViewTime: {}
-      hintsUsed: {}
-    })
-    @updateHint()
+      const debouncedRender = _.debounce(this.render);
+      this.listenTo(this.state, 'change', debouncedRender);
+      this.listenTo(this.hintsState, 'change', debouncedRender);
+      this.listenTo(this.state, 'change:hintIndex', this.updateHint);
+      return this.listenTo(this.hintsState, 'change:hidden', this.visibilityChanged);
+    }
 
-    debouncedRender = _.debounce(@render)
-    @listenTo(@state, 'change', debouncedRender)
-    @listenTo(@hintsState, 'change', debouncedRender)
-    @listenTo(@state, 'change:hintIndex', @updateHint)
-    @listenTo(@hintsState, 'change:hidden', @visibilityChanged)
+    destroy() {
+      clearInterval(this.timerIntervalID);
+      return super.destroy();
+    }
 
-  destroy: ->
-    clearInterval(@timerIntervalID)
-    super()
+    afterRender() {
+      this.$el.toggleClass('hide', this.hintsState.get('hidden'));
+      super.afterRender();
+      this.playSound('game-menu-open');
+      this.$('a').attr('target', '_blank');
+      const codeLanguage = this.options.session.get('codeLanguage') || __guard__(me.get('aceConfig'), x => x.language) || 'python';
 
-  afterRender: ->
-    @$el.toggleClass('hide', @hintsState.get('hidden'))
-    super()
-    @playSound 'game-menu-open'
-    @$('a').attr 'target', '_blank'
-    codeLanguage = @options.session.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
+      for (var oldEditor of Array.from(this.aceEditors != null ? this.aceEditors : [])) { oldEditor.destroy(); }
+      this.aceEditors = [];
+      const {
+        aceEditors
+      } = this;
+      return this.$el.find('pre:has(code[class*="lang-"])').each(function() {
+        const aceEditor = aceUtils.initializeACE(this, codeLanguage);
+        return aceEditors.push(aceEditor);
+      });
+    }
 
-    oldEditor.destroy() for oldEditor in @aceEditors ? []
-    @aceEditors = []
-    aceEditors = @aceEditors
-    @$el.find('pre:has(code[class*="lang-"])').each ->
-      aceEditor = aceUtils.initializeACE @, codeLanguage
-      aceEditors.push aceEditor
+    getProcessedHint() {
+      const language = this.session.get('codeLanguage');
+      const hint = this.state.get('hint');
+      if (!hint) { return; }
 
-  getProcessedHint: ->
-    language = @session.get('codeLanguage')
-    hint = @state.get('hint')
-    return unless hint
+      // process
+      const translated = utils.i18n(hint, 'body');
+      const filtered = aetherUtils.filterMarkdownCodeLanguages(translated, language);
+      const markedUp = marked(filtered);
 
-    # process
-    translated = utils.i18n(hint, 'body')
-    filtered = aetherUtils.filterMarkdownCodeLanguages(translated, language)
-    markedUp = marked(filtered)
+      return markedUp;
+    }
 
-    return markedUp
+    updateHint() {
+      const index = this.state.get('hintIndex');
+      const hintsTitle = $.i18n.t('play_level.hints_title').replace('{{number}}', index + 1);
+      return this.state.set({ hintsTitle, hint: this.hintsState.getHint(index) });
+    }
 
-  updateHint: ->
-    index = @state.get('hintIndex')
-    hintsTitle = $.i18n.t('play_level.hints_title').replace('{{number}}', index + 1)
-    @state.set({ hintsTitle, hint: @hintsState.getHint(index) })
+    onClickNextButton() {
+      if (window.tracker != null) {
+        let left;
+        window.tracker.trackEvent('Hints Next Clicked', {category: 'Students', levelSlug: this.level.get('slug'), hintCount: (left = __guard__(this.hintsState.get('hints'), x => x.length)) != null ? left : 0, hintCurrent: this.state.get('hintIndex')});
+      }
+      const max = this.hintsState.get('total') - 1;
+      this.state.set('hintIndex', Math.min(this.state.get('hintIndex') + 1, max));
+      this.playSound('menu-button-click');
+      return this.updateHintTimer();
+    }
 
-  onClickNextButton: ->
-    window.tracker?.trackEvent 'Hints Next Clicked', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: @state.get('hintIndex')
-    max = @hintsState.get('total') - 1
-    @state.set('hintIndex', Math.min(@state.get('hintIndex') + 1, max))
-    @playSound 'menu-button-click'
-    @updateHintTimer()
+    onClickPreviousButton() {
+      if (window.tracker != null) {
+        let left;
+        window.tracker.trackEvent('Hints Previous Clicked', {category: 'Students', levelSlug: this.level.get('slug'), hintCount: (left = __guard__(this.hintsState.get('hints'), x => x.length)) != null ? left : 0, hintCurrent: this.state.get('hintIndex')});
+      }
+      this.state.set('hintIndex', Math.max(this.state.get('hintIndex') - 1, 0));
+      this.playSound('menu-button-click');
+      return this.updateHintTimer();
+    }
 
-  onClickPreviousButton: ->
-    window.tracker?.trackEvent 'Hints Previous Clicked', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: @state.get('hintIndex')
-    @state.set('hintIndex', Math.max(@state.get('hintIndex') - 1, 0))
-    @playSound 'menu-button-click'
-    @updateHintTimer()
+    hideView() {
+      if (this.hintsState != null) {
+        this.hintsState.set('hidden', true);
+      }
+      return this.playSound('game-menu-close');
+    }
 
-  hideView: ->
-    @hintsState?.set('hidden', true)
-    @playSound 'game-menu-close'
+    visibilityChanged(e) {
+      return this.updateHintTimer();
+    }
 
-  visibilityChanged: (e) ->
-    @updateHintTimer()
+    updateHintTimer() {
+      clearInterval(this.timerIntervalID);
+      if (!this.hintsState.get('hidden') && !__guard__(this.state.get('hintsUsed'), x => x[this.state.get('hintIndex')])) {
+        return this.timerIntervalID = setInterval(this.incrementHintViewTime, 1000);
+      }
+    }
 
-  updateHintTimer: ->
-    clearInterval(@timerIntervalID)
-    unless @hintsState.get('hidden') or @state.get('hintsUsed')?[@state.get('hintIndex')]
-      @timerIntervalID = setInterval(@incrementHintViewTime, 1000)
+    incrementHintViewTime() {
+      const hintIndex = this.state.get('hintIndex');
+      const hintsViewTime = this.state.get('hintsViewTime');
+      if (hintsViewTime[hintIndex] == null) { hintsViewTime[hintIndex] = 0; }
+      hintsViewTime[hintIndex]++;
+      const hintsUsed = this.state.get('hintsUsed');
+      if ((hintsViewTime[hintIndex] > this.hintUsedThresholdSeconds) && !hintsUsed[hintIndex]) {
+        if (window.tracker != null) {
+          let left;
+          window.tracker.trackEvent('Hint Used', {category: 'Students', levelSlug: this.level.get('slug'), hintCount: (left = __guard__(this.hintsState.get('hints'), x => x.length)) != null ? left : 0, hintCurrent: hintIndex});
+        }
+        hintsUsed[hintIndex] = true;
+        this.state.set('hintsUsed', hintsUsed);
+        clearInterval(this.timerIntervalID);
+      }
+      return this.state.set('hintsViewTime', hintsViewTime);
+    }
+  };
+  HintsView.initClass();
+  return HintsView;
+})());
 
-  incrementHintViewTime: =>
-    hintIndex = @state.get('hintIndex')
-    hintsViewTime = @state.get('hintsViewTime')
-    hintsViewTime[hintIndex] ?= 0
-    hintsViewTime[hintIndex]++
-    hintsUsed = @state.get('hintsUsed')
-    if hintsViewTime[hintIndex] > @hintUsedThresholdSeconds and not hintsUsed[hintIndex]
-      window.tracker?.trackEvent 'Hint Used', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: hintIndex
-      hintsUsed[hintIndex] = true
-      @state.set('hintsUsed', hintsUsed)
-      clearInterval(@timerIntervalID)
-    @state.set('hintsViewTime', hintsViewTime)
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

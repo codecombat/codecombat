@@ -1,129 +1,173 @@
-require('app/styles/editor/level/system/level-system-edit-view.sass')
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/editor/level/system/level-system-edit-view'
-LevelSystem = require 'models/LevelSystem'
-SystemVersionsModal = require 'views/editor/level/systems/SystemVersionsModal'
-PatchesView = require 'views/editor/PatchesView'
-SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
-require 'lib/setupTreema'
-ace = require('lib/aceContainer')
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let LevelSystemEditView;
+require('app/styles/editor/level/system/level-system-edit-view.sass');
+const CocoView = require('views/core/CocoView');
+const template = require('app/templates/editor/level/system/level-system-edit-view');
+const LevelSystem = require('models/LevelSystem');
+const SystemVersionsModal = require('views/editor/level/systems/SystemVersionsModal');
+const PatchesView = require('views/editor/PatchesView');
+const SaveVersionModal = require('views/editor/modal/SaveVersionModal');
+require('lib/setupTreema');
+const ace = require('lib/aceContainer');
 
-module.exports = class LevelSystemEditView extends CocoView
-  id: 'level-system-edit-view'
-  template: template
-  editableSettings: ['name', 'description', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n']
+module.exports = (LevelSystemEditView = (function() {
+  LevelSystemEditView = class LevelSystemEditView extends CocoView {
+    static initClass() {
+      this.prototype.id = 'level-system-edit-view';
+      this.prototype.template = template;
+      this.prototype.editableSettings = ['name', 'description', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n'];
+  
+      this.prototype.events = {
+        'click #done-editing-system-button': 'endEditing',
+        'click .nav a'(e) { return $(e.target).tab('show'); },
+        'click #system-patches-tab'() { return this.patchesView.load(); },
+        'click #system-code-tab': 'buildCodeEditor',
+        'click #system-config-schema-tab': 'buildConfigSchemaTreema',
+        'click #system-settings-tab': 'buildSettingsTreema',
+        'click #system-history-button': 'showVersionHistory',
+        'click #patch-system-button': 'startPatchingSystem',
+        'click #system-watch-button': 'toggleWatchSystem'
+      };
+    }
 
-  events:
-    'click #done-editing-system-button': 'endEditing'
-    'click .nav a': (e) -> $(e.target).tab('show')
-    'click #system-patches-tab': -> @patchesView.load()
-    'click #system-code-tab': 'buildCodeEditor'
-    'click #system-config-schema-tab': 'buildConfigSchemaTreema'
-    'click #system-settings-tab': 'buildSettingsTreema'
-    'click #system-history-button': 'showVersionHistory'
-    'click #patch-system-button': 'startPatchingSystem'
-    'click #system-watch-button': 'toggleWatchSystem'
+    constructor(options) {
+      this.onSystemSettingsEdited = this.onSystemSettingsEdited.bind(this);
+      this.onConfigSchemaEdited = this.onConfigSchemaEdited.bind(this);
+      this.onEditorChange = this.onEditorChange.bind(this);
+      super(options);
+      this.levelSystem = this.supermodel.getModelByOriginalAndMajorVersion(LevelSystem, options.original, options.majorVersion || 0);
+      if (!this.levelSystem) { console.log('Couldn\'t get levelSystem for', options, 'from', this.supermodel.models); }
+    }
 
-  constructor: (options) ->
-    super options
-    @levelSystem = @supermodel.getModelByOriginalAndMajorVersion LevelSystem, options.original, options.majorVersion or 0
-    console.log 'Couldn\'t get levelSystem for', options, 'from', @supermodel.models unless @levelSystem
+    afterRender() {
+      super.afterRender();
+      this.buildSettingsTreema();
+      this.buildConfigSchemaTreema();
+      this.buildCodeEditor();
+      this.patchesView = this.insertSubView(new PatchesView(this.levelSystem), this.$el.find('.patches-view'));
+      return this.updatePatchButton();
+    }
 
-  afterRender: ->
-    super()
-    @buildSettingsTreema()
-    @buildConfigSchemaTreema()
-    @buildCodeEditor()
-    @patchesView = @insertSubView(new PatchesView(@levelSystem), @$el.find('.patches-view'))
-    @updatePatchButton()
+    buildSettingsTreema() {
+      const data = _.pick(this.levelSystem.attributes, (value, key) => Array.from(this.editableSettings).includes(key));
+      const schema = _.cloneDeep(LevelSystem.schema);
+      schema.properties = _.pick(schema.properties, (value, key) => Array.from(this.editableSettings).includes(key));
+      schema.required = _.intersection(schema.required, this.editableSettings);
+      schema.default = _.pick(schema.default, (value, key) => Array.from(this.editableSettings).includes(key));
 
-  buildSettingsTreema: ->
-    data = _.pick @levelSystem.attributes, (value, key) => key in @editableSettings
-    schema = _.cloneDeep LevelSystem.schema
-    schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
-    schema.required = _.intersection schema.required, @editableSettings
-    schema.default = _.pick schema.default, (value, key) => key in @editableSettings
+      const treemaOptions = {
+        filePath: this.options.filePath,
+        supermodel: this.supermodel,
+        schema,
+        data,
+        callbacks: {change: this.onSystemSettingsEdited}
+      };
+      treemaOptions.readOnly = me.get('anonymous');
+      this.systemSettingsTreema = this.$el.find('#edit-system-treema').treema(treemaOptions);
+      this.systemSettingsTreema.build();
+      return this.systemSettingsTreema.open();
+    }
 
-    treemaOptions =
-      filePath: @options.filePath
-      supermodel: @supermodel
-      schema: schema
-      data: data
-      callbacks: {change: @onSystemSettingsEdited}
-    treemaOptions.readOnly = me.get('anonymous')
-    @systemSettingsTreema = @$el.find('#edit-system-treema').treema treemaOptions
-    @systemSettingsTreema.build()
-    @systemSettingsTreema.open()
+    onSystemSettingsEdited() {
+      // Make sure it validates first?
+      for (var key in this.systemSettingsTreema.data) {
+        var value = this.systemSettingsTreema.data[key];
+        if (key !== 'js') { this.levelSystem.set(key, value); }
+      } // will compile code if needed
+      return this.updatePatchButton();
+    }
 
-  onSystemSettingsEdited: =>
-    # Make sure it validates first?
-    for key, value of @systemSettingsTreema.data
-      @levelSystem.set key, value unless key is 'js' # will compile code if needed
-    @updatePatchButton()
+    buildConfigSchemaTreema() {
+      const treemaOptions = {
+        filePath: this.options.filePath,
+        supermodel: this.supermodel,
+        schema: LevelSystem.schema.properties.configSchema,
+        data: $.extend(true, {}, this.levelSystem.get('configSchema')),
+        callbacks: {change: this.onConfigSchemaEdited}
+      };
+      treemaOptions.readOnly = me.get('anonymous');
+      this.configSchemaTreema = this.$el.find('#config-schema-treema').treema(treemaOptions);
+      this.configSchemaTreema.build();
+      this.configSchemaTreema.open();
+      // TODO: schema is not loaded for the first one here?
+      return this.configSchemaTreema.tv4.addSchema('metaschema', LevelSystem.schema.properties.configSchema);
+    }
 
-  buildConfigSchemaTreema: ->
-    treemaOptions =
-      filePath: @options.filePath
-      supermodel: @supermodel
-      schema: LevelSystem.schema.properties.configSchema
-      data: $.extend true, {}, @levelSystem.get 'configSchema'
-      callbacks: {change: @onConfigSchemaEdited}
-    treemaOptions.readOnly = me.get('anonymous')
-    @configSchemaTreema = @$el.find('#config-schema-treema').treema treemaOptions
-    @configSchemaTreema.build()
-    @configSchemaTreema.open()
-    # TODO: schema is not loaded for the first one here?
-    @configSchemaTreema.tv4.addSchema('metaschema', LevelSystem.schema.properties.configSchema)
+    onConfigSchemaEdited() {
+      this.levelSystem.set('configSchema', this.configSchemaTreema.data);
+      return this.updatePatchButton();
+    }
 
-  onConfigSchemaEdited: =>
-    @levelSystem.set 'configSchema', @configSchemaTreema.data
-    @updatePatchButton()
+    buildCodeEditor() {
+      this.destroyAceEditor(this.editor);
+      const editorEl = $('<div></div>').text(this.levelSystem.get('code')).addClass('inner-editor');
+      this.$el.find('#system-code-editor').empty().append(editorEl);
+      this.editor = ace.edit(editorEl[0]);
+      this.editor.setReadOnly(me.get('anonymous'));
+      const session = this.editor.getSession();
+      if (this.levelSystem.get('codeLanguage') === 'javascript') {
+        session.setMode('ace/mode/javascript');
+        session.setTabSize(4);
+      } else {
+        session.setMode('ace/mode/coffee');
+        session.setTabSize(2);
+      }
+      session.setNewLineMode = 'unix';
+      session.setUseSoftTabs(true);
+      return this.editor.on('change', this.onEditorChange);
+    }
 
-  buildCodeEditor: ->
-    @destroyAceEditor(@editor)
-    editorEl = $('<div></div>').text(@levelSystem.get('code')).addClass('inner-editor')
-    @$el.find('#system-code-editor').empty().append(editorEl)
-    @editor = ace.edit(editorEl[0])
-    @editor.setReadOnly(me.get('anonymous'))
-    session = @editor.getSession()
-    if @levelSystem.get('codeLanguage') is 'javascript'
-      session.setMode 'ace/mode/javascript'
-      session.setTabSize 4
-    else
-      session.setMode 'ace/mode/coffee'
-      session.setTabSize 2
-    session.setNewLineMode = 'unix'
-    session.setUseSoftTabs true
-    @editor.on('change', @onEditorChange)
+    onEditorChange() {
+      this.levelSystem.set('code', this.editor.getValue());
+      return this.updatePatchButton();
+    }
 
-  onEditorChange: =>
-    @levelSystem.set 'code', @editor.getValue()
-    @updatePatchButton()
+    updatePatchButton() {
+      return this.$el.find('#patch-system-button').toggle(Boolean(this.levelSystem.hasLocalChanges()));
+    }
 
-  updatePatchButton: ->
-    @$el.find('#patch-system-button').toggle Boolean @levelSystem.hasLocalChanges()
+    endEditing(e) {
+      Backbone.Mediator.publish('editor:level-system-editing-ended', {system: this.levelSystem});
+      return null;
+    }
 
-  endEditing: (e) ->
-    Backbone.Mediator.publish 'editor:level-system-editing-ended', system: @levelSystem
-    null
+    showVersionHistory(e) {
+      const systemVersionsModal = new SystemVersionsModal({}, this.levelSystem.id);
+      this.openModalView(systemVersionsModal);
+      return Backbone.Mediator.publish('editor:view-switched', {});
+    }
 
-  showVersionHistory: (e) ->
-    systemVersionsModal = new SystemVersionsModal {}, @levelSystem.id
-    @openModalView systemVersionsModal
-    Backbone.Mediator.publish 'editor:view-switched', {}
+    startPatchingSystem(e) {
+      this.openModalView(new SaveVersionModal({model: this.levelSystem}));
+      return Backbone.Mediator.publish('editor:view-switched', {});
+    }
 
-  startPatchingSystem: (e) ->
-    @openModalView new SaveVersionModal({model: @levelSystem})
-    Backbone.Mediator.publish 'editor:view-switched', {}
+    toggleWatchSystem() {
+      console.log('toggle watch system?');
+      const button = this.$el.find('#system-watch-button');
+      this.levelSystem.watch(button.find('.watch').is(':visible'));
+      return button.find('> span').toggleClass('secret');
+    }
 
-  toggleWatchSystem: ->
-    console.log 'toggle watch system?'
-    button = @$el.find('#system-watch-button')
-    @levelSystem.watch(button.find('.watch').is(':visible'))
-    button.find('> span').toggleClass('secret')
-
-  destroy: ->
-    @destroyAceEditor(@editor)
-    @systemSettingsTreema?.destroy()
-    @configSchemaTreema?.destroy()
-    super()
+    destroy() {
+      this.destroyAceEditor(this.editor);
+      if (this.systemSettingsTreema != null) {
+        this.systemSettingsTreema.destroy();
+      }
+      if (this.configSchemaTreema != null) {
+        this.configSchemaTreema.destroy();
+      }
+      return super.destroy();
+    }
+  };
+  LevelSystemEditView.initClass();
+  return LevelSystemEditView;
+})());

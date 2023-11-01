@@ -1,12 +1,13 @@
-Classroom = require 'models/Classroom'
+const Classroom = require('models/Classroom');
 
 module.exports = new Classroom(
   {
     _id: "classroom0",
-    name: "Teacher Zero's Other Classroom"
+    name: "Teacher Zero's Other Classroom",
     ownerID: "teacher0",
-    aceConfig:
+    aceConfig: {
       language: 'python'
+    },
     members: []
   }
-)
+);

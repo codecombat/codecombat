@@ -1,4 +1,4 @@
-User = require 'models/User'
+const User = require('models/User');
 
 module.exports = new User(
   {
@@ -39,4 +39,4 @@ module.exports = new User(
     },
     "dateCreated": "2016-02-26T23:49:23.696Z"
   }
-)
+);

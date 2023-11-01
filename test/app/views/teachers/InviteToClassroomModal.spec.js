@@ -1,32 +1,42 @@
-InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
-User = require 'models/User'
-factories = require 'test/app/factories'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const InviteToClassroomModal = require('views/courses/InviteToClassroomModal');
+const User = require('models/User');
+const factories = require('test/app/factories');
 
-describe 'InviteToClassroomModal', ->
+describe('InviteToClassroomModal', function() {
 
-  modal = null
+  let modal = null;
 
-  beforeEach (done) ->
-    window.me = @teacher = factories.makeUser()
-    @classroom = factories.makeClassroom({ code: "wordsouphere", codeCamel: "WordSoupHere", ownerID: @teacher.id })
-    @recaptchaResponseToken = '1234'
-    modal = new InviteToClassroomModal({ @classroom })
-    modal.recaptchaResponseToken = @recaptchaResponseToken
-    jasmine.demoModal(modal)
-    modal.render()
-    _.defer done
+  beforeEach(function(done) {
+    window.me = (this.teacher = factories.makeUser());
+    this.classroom = factories.makeClassroom({ code: "wordsouphere", codeCamel: "WordSoupHere", ownerID: this.teacher.id });
+    this.recaptchaResponseToken = '1234';
+    modal = new InviteToClassroomModal({ classroom: this.classroom });
+    modal.recaptchaResponseToken = this.recaptchaResponseToken;
+    jasmine.demoModal(modal);
+    modal.render();
+    return _.defer(done);
+  });
 
-  describe 'Invite by email', ->
-    beforeEach (done) ->
-      @emails = ['test@example.com', 'test2@example.com']
-      modal.$('#invite-emails-textarea').val(@emails.join('\n'))
-      modal.$('#send-invites-btn').click()
-      _.defer done
+  return describe('Invite by email', function() {
+    beforeEach(function(done) {
+      this.emails = ['test@example.com', 'test2@example.com'];
+      modal.$('#invite-emails-textarea').val(this.emails.join('\n'));
+      modal.$('#send-invites-btn').click();
+      return _.defer(done);
+    });
 
-    it 'sends the request', (done) ->
-      request = jasmine.Ajax.requests.mostRecent()
-      expect(request.url).toBe("/db/classroom/#{@classroom.id}/invite-members")
-      expect(request.method).toBe("POST")
-      expect(request.data()['emails[]']).toEqual(@emails)
-      expect(request.data()['recaptchaResponseToken']).toEqual([@recaptchaResponseToken])
-      _.defer done
+    return it('sends the request', function(done) {
+      const request = jasmine.Ajax.requests.mostRecent();
+      expect(request.url).toBe(`/db/classroom/${this.classroom.id}/invite-members`);
+      expect(request.method).toBe("POST");
+      expect(request.data()['emails[]']).toEqual(this.emails);
+      expect(request.data()['recaptchaResponseToken']).toEqual([this.recaptchaResponseToken]);
+      return _.defer(done);
+    });
+  });
+});

@@ -1,11 +1,26 @@
-CocoCollection = require 'collections/CocoCollection'
-ThangType = require 'models/ThangType'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ThangTypeCollection;
+const CocoCollection = require('collections/CocoCollection');
+const ThangType = require('models/ThangType');
 
-module.exports = class ThangTypeCollection extends CocoCollection
-  url: '/db/thang.type'
-  model: ThangType
-
-  fetchHeroes: ->
-    @fetch {
-      url: '/db/thang.type?view=heroes'
+module.exports = (ThangTypeCollection = (function() {
+  ThangTypeCollection = class ThangTypeCollection extends CocoCollection {
+    static initClass() {
+      this.prototype.url = '/db/thang.type';
+      this.prototype.model = ThangType;
     }
+
+    fetchHeroes() {
+      return this.fetch({
+        url: '/db/thang.type?view=heroes'
+      });
+    }
+  };
+  ThangTypeCollection.initClass();
+  return ThangTypeCollection;
+})());

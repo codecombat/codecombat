@@ -1,420 +1,550 @@
-CocoClass = require 'core/CocoClass'
-CocoView = require 'views/core/CocoView'
-{scriptMatchesEventPrereqs} = require './../world/script_event_prereqs'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ScriptManager;
+const CocoClass = require('core/CocoClass');
+const CocoView = require('views/core/CocoView');
+const {scriptMatchesEventPrereqs} = require('./../world/script_event_prereqs');
+const utils = require('core/utils');
 
-allScriptModules = []
-allScriptModules.push(require './SpriteScriptModule')
-allScriptModules.push(require './DOMScriptModule')
-allScriptModules.push(require './SurfaceScriptModule')
-allScriptModules.push(require './PlaybackScriptModule')
-allScriptModules.push(require './SoundScriptModule')
+const allScriptModules = [];
+allScriptModules.push(require('./SpriteScriptModule'));
+allScriptModules.push(require('./DOMScriptModule'));
+allScriptModules.push(require('./SurfaceScriptModule'));
+allScriptModules.push(require('./PlaybackScriptModule'));
+allScriptModules.push(require('./SoundScriptModule'));
 
-store = require 'app/core/store'
+const store = require('app/core/store');
 
-DEFAULT_BOT_MOVE_DURATION = 500
-DEFAULT_SCRUB_DURATION = 1000
+const DEFAULT_BOT_MOVE_DURATION = 500;
+const DEFAULT_SCRUB_DURATION = 1000;
 
-module.exports = ScriptManager = class ScriptManager extends CocoClass
-  scriptInProgress: false
-  currentNoteGroup: null
-  currentTimeouts: []
-  worldLoading: true
-  ignoreEvents: false
-  quiet: false
+module.exports = (ScriptManager = (ScriptManager = (function() {
+  ScriptManager = class ScriptManager extends CocoClass {
+    static initClass() {
+      this.prototype.scriptInProgress = false;
+      this.prototype.currentNoteGroup = null;
+      this.prototype.currentTimeouts = [];
+      this.prototype.worldLoading = true;
+      this.prototype.ignoreEvents = false;
+      this.prototype.quiet = false;
+  
+      this.prototype.triggered = [];
+      this.prototype.ended = [];
+      this.prototype.noteGroupQueue = [];
+      this.prototype.originalScripts = []; // use these later when you want to revert to an original state
+  
+      this.prototype.subscriptions = {
+        'script:end-current-script': 'onEndNoteGroup',
+        'level:loading-view-unveiling'() { return this.setWorldLoading(false); },
+        'level:restarted': 'onLevelRestarted',
+        'level:shift-space-pressed': 'onEndNoteGroup',
+        'level:escape-pressed': 'onEndAll'
+      };
+  
+      this.prototype.shortcuts = {
+        '⇧+space, space, enter'() { return Backbone.Mediator.publish('level:shift-space-pressed', {}); },
+        'escape'() { return Backbone.Mediator.publish('level:escape-pressed', {}); }
+      };
+    }
 
-  triggered: []
-  ended: []
-  noteGroupQueue: []
-  originalScripts: [] # use these later when you want to revert to an original state
+    static extractSayEvents(script) {
+      const sayEvents = [];
+      __guard__(script != null ? script.noteChain : undefined, x => x.forEach(note => __guard__(note != null ? note.sprites : undefined, x1 => x1.forEach(function(sprites) {
+        if (__guard__(sprites != null ? sprites.say : undefined, x2 => x2.text)) {
+          return sayEvents.push(sprites);
+        }
+      }))));
+      return sayEvents;
+    }
 
-  subscriptions:
-    'script:end-current-script': 'onEndNoteGroup'
-    'level:loading-view-unveiling': -> @setWorldLoading(false)
-    'level:restarted': 'onLevelRestarted'
-    'level:shift-space-pressed': 'onEndNoteGroup'
-    'level:escape-pressed': 'onEndAll'
+    // SETUP / TEARDOWN
 
-  shortcuts:
-    '⇧+space, space, enter': -> Backbone.Mediator.publish 'level:shift-space-pressed', {}
-    'escape': -> Backbone.Mediator.publish 'level:escape-pressed', {}
+    constructor(options) {
+      this.tick = this.tick.bind(this);
+      super(options);
+      this.originalScripts = _.clone(options.scripts);
+      this.session = options.session;
+      this.levelID = options.levelID;
+      this.debugScripts = application.isIPadApp || utils.getQueryVariable('dev');
+      this.initProperties();
+      if (utils.isOzaria) {
+        this.saveSayEventsToStore();
+      }
+      this.addScriptSubscriptions();
+      this.beginTicking();
+    }
 
-  @extractSayEvents: (script) ->
-    sayEvents = []
-    script?.noteChain?.forEach((note) ->
-      note?.sprites?.forEach((sprites) ->
-        if sprites?.say?.text
-          sayEvents.push(sprites)
-      )
-    )
-    return sayEvents
+    setScripts(newScripts) {
+      this.originalScripts(_.clone(newScripts));
+      this.quiet = true;
+      this.initProperties();
+      this.loadFromSession();
+      this.quiet = false;
+      this.addScriptSubscriptions();
+      this.run();
+      if (utils.isOzaria) {
+        return this.saveSayEventsToStore();
+      }
+    }
 
-  # SETUP / TEARDOWN
+    initProperties() {
+      if (this.scriptInProgress) { this.endAll({force:true}); }
+      this.triggered = [];
+      this.ended = [];
+      this.noteGroupQueue = [];
+      return this.scripts = $.extend(true, [], this.originalScripts);
+    }
 
-  constructor: (options) ->
-    super(options)
-    @originalScripts = _.clone options.scripts
-    @session = options.session
-    @levelID = options.levelID
-    @debugScripts = application.isIPadApp or utils.getQueryVariable 'dev'
-    @initProperties()
-    if utils.isOzaria
-      @saveSayEventsToStore()
-    @addScriptSubscriptions()
-    @beginTicking()
+    addScriptSubscriptions() {
+      let idNum = 0;
+      const makeCallback = channel => event => this.onNote(channel, event);
+      return (() => {
+        const result = [];
+        for (var script of Array.from(this.scripts)) {
+          if (!script.id) { script.id = (idNum++).toString(); }
+          var callback = makeCallback(script.channel); // curry in the channel argument
+          result.push(this.addNewSubscription(script.channel, callback));
+        }
+        return result;
+      })();
+    }
 
-  setScripts: (newScripts) ->
-    @originalScripts _.clone newScripts
-    @quiet = true
-    @initProperties()
-    @loadFromSession()
-    @quiet = false
-    @addScriptSubscriptions()
-    @run()
-    if utils.isOzaria
-      @saveSayEventsToStore()
+    // All say events that are valid need to be added to the tutorial as the
+    // script manager starts up. Future say events will be added to the tutorial
+    // as they become valid and are published.
+    saveSayEventsToStore() {
+      let sayEvents = [];
 
-  initProperties: ->
-    @endAll({force:true}) if @scriptInProgress
-    @triggered = []
-    @ended = []
-    @noteGroupQueue = []
-    @scripts = $.extend(true, [], @originalScripts)
+      this.scripts.forEach(script => {
+        if (!this.scriptPrereqsSatisfied(script)) {
+          return;
+        }
+        if (script.eventPrereqs) {
+          return;
+        }
 
-  addScriptSubscriptions: ->
-    idNum = 0
-    makeCallback = (channel) => (event) => @onNote(channel, event)
-    for script in @scripts
-      script.id = (idNum++).toString() unless script.id
-      callback = makeCallback(script.channel) # curry in the channel argument
-      @addNewSubscription(script.channel, callback)
+        return sayEvents = sayEvents.concat(ScriptManager.extractSayEvents(script));
+      });
 
-  # All say events that are valid need to be added to the tutorial as the
-  # script manager starts up. Future say events will be added to the tutorial
-  # as they become valid and are published.
-  saveSayEventsToStore: ->
-    sayEvents = []
+      if (sayEvents.length) {
+        return store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents);
+      }
+    }
 
-    @scripts.forEach((script) =>
-      if not @scriptPrereqsSatisfied(script)
-        return
-      if script.eventPrereqs
-        return
+    beginTicking() {
+      return this.tickInterval = setInterval(this.tick, 5000);
+    }
 
-      sayEvents = sayEvents.concat(ScriptManager.extractSayEvents(script))
-    )
+    tick() {
+      const scriptStates = {};
+      const now = new Date();
+      for (var script of Array.from(this.scripts)) {
+        scriptStates[script.id] = {
+          timeSinceLastEnded: (script.lastEnded ? now - script.lastEnded : 0) / 1000,
+          timeSinceLastTriggered: (script.lastTriggered ? now - script.lastTriggered : 0) / 1000
+        };
+      }
 
-    if sayEvents.length
-      store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
+      const stateEvent = {
+        scriptRunning: (this.currentNoteGroup != null ? this.currentNoteGroup.scriptID : undefined) || '',
+        noteGroupRunning: (this.currentNoteGroup != null ? this.currentNoteGroup.name : undefined) || '',
+        scriptStates,
+        timeSinceLastScriptEnded: (this.lastScriptEnded ? now - this.lastScriptEnded : 0) / 1000
+      };
 
-  beginTicking: ->
-    @tickInterval = setInterval @tick, 5000
+      return Backbone.Mediator.publish('script:tick', stateEvent);  // Used to trigger level scripts.
+    }
 
-  tick: =>
-    scriptStates = {}
-    now = new Date()
-    for script in @scripts
-      scriptStates[script.id] =
-        timeSinceLastEnded: (if script.lastEnded then now - script.lastEnded else 0) / 1000
-        timeSinceLastTriggered: (if script.lastTriggered then now - script.lastTriggered else 0) / 1000
+    loadFromSession() {
+      // load the queue with note groups to skip through
+      this.addEndedScriptsFromSession();
+      this.addPartiallyEndedScriptFromSession();
+      return Array.from(this.noteGroupQueue).map((noteGroup) =>
+        this.processNoteGroup(noteGroup));
+    }
 
-    stateEvent =
-      scriptRunning: @currentNoteGroup?.scriptID or ''
-      noteGroupRunning: @currentNoteGroup?.name or ''
-      scriptStates: scriptStates
-      timeSinceLastScriptEnded: (if @lastScriptEnded then now - @lastScriptEnded else 0) / 1000
+    addPartiallyEndedScriptFromSession() {
+      const {
+        scripts
+      } = this.session.get('state');
+      if (!(scripts != null ? scripts.currentScript : undefined)) { return; }
+      const script = _.find(this.scripts, {id: scripts.currentScript});
+      if (!script) { return; }
+      const canSkipScript = utils.isCodeCombat || (ScriptManager.extractSayEvents(script).length === 0); // say events are reset each new run
+      if (canSkipScript) {
+        this.triggered.push(script.id);
+      }
+      const noteChain = this.processScript(script);
+      if (!noteChain) { return; }
+      if (scripts.currentScriptOffset && canSkipScript) {
+        for (var noteGroup of Array.from(noteChain.slice(0, +(scripts.currentScriptOffset-1) + 1 || undefined))) { noteGroup.skipMe = true; }
+      }
+      return this.addNoteChain(noteChain, false);
+    }
 
-    Backbone.Mediator.publish 'script:tick', stateEvent  # Used to trigger level scripts.
+    addEndedScriptsFromSession() {
+      const {
+        scripts
+      } = this.session.get('state');
+      if (!scripts) { return; }
+      const endedObj = scripts['ended'] || {};
+      const sortedPairs = _.sortBy(_.pairs(endedObj), pair => pair[1]);
+      const scriptsToSkip = (Array.from(sortedPairs).map((p) => p[0]));
+      for (var scriptID of Array.from(scriptsToSkip)) {
+        var script = _.find(this.scripts, {id: scriptID});
+        if (!script) {
+          console.warn('Couldn\'t find script for', scriptID, 'from scripts', this.scripts, 'when restoring session scripts.');
+          continue;
+        }
+        if (script.repeats) { continue; } // repeating scripts are not 'rerun'
+        var canSkipScript = utils.isCodeCombat || (ScriptManager.extractSayEvents(script).length === 0); // say events are reset each new run
+        if (canSkipScript) {
+          this.triggered.push(scriptID);
+          this.ended.push(scriptID);
+        }
+        var noteChain = this.processScript(script);
+        if (!noteChain) { return; }
+        if (canSkipScript) {
+          for (var noteGroup of Array.from(noteChain)) { noteGroup.skipMe = true; }
+        }
+        this.addNoteChain(noteChain, false);
+      }
+    }
 
-  loadFromSession: ->
-    # load the queue with note groups to skip through
-    @addEndedScriptsFromSession()
-    @addPartiallyEndedScriptFromSession()
-    for noteGroup in @noteGroupQueue
-      @processNoteGroup(noteGroup)
+    setWorldLoading(worldLoading) {
+      this.worldLoading = worldLoading;
+      if (!this.worldLoading) { return this.run(); }
+    }
 
-  addPartiallyEndedScriptFromSession: ->
-    scripts = @session.get('state').scripts
-    return unless scripts?.currentScript
-    script = _.find @scripts, {id: scripts.currentScript}
-    return unless script
-    canSkipScript = utils.isCodeCombat or ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
-    if canSkipScript
-      @triggered.push(script.id)
-    noteChain = @processScript(script)
-    return unless noteChain
-    if scripts.currentScriptOffset and canSkipScript
-      noteGroup.skipMe = true for noteGroup in noteChain[..scripts.currentScriptOffset-1]
-    @addNoteChain(noteChain, false)
+    initializeCamera() {
+      // Fire off the first bounds-setting script now, before we're actually running any other ones.
+      for (var script of Array.from(this.scripts)) {
+        for (var note of Array.from(script.noteChain || [])) {
+          if ((note.surface != null ? note.surface.focus : undefined) != null) {
+            var surfaceModule = _.find(note.modules || [], module => module.surfaceCameraNote);
+            if (surfaceModule) {
+              var cameraNote = surfaceModule.surfaceCameraNote(true);
+              this.publishNote(cameraNote);
+              return;
+            }
+          }
+        }
+      }
+    }
 
-  addEndedScriptsFromSession: ->
-    scripts = @session.get('state').scripts
-    return unless scripts
-    endedObj = scripts['ended'] or {}
-    sortedPairs = _.sortBy(_.pairs(endedObj), (pair) -> pair[1])
-    scriptsToSkip = (p[0] for p in sortedPairs)
-    for scriptID in scriptsToSkip
-      script = _.find @scripts, {id: scriptID}
-      unless script
-        console.warn 'Couldn\'t find script for', scriptID, 'from scripts', @scripts, 'when restoring session scripts.'
-        continue
-      continue if script.repeats # repeating scripts are not 'rerun'
-      canSkipScript = utils.isCodeCombat or ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
-      if canSkipScript
-        @triggered.push(scriptID)
-        @ended.push(scriptID)
-      noteChain = @processScript(script)
-      return unless noteChain
-      if canSkipScript
-        noteGroup.skipMe = true for noteGroup in noteChain
-      @addNoteChain(noteChain, false)
+    destroy() {
+      this.onEndAll();
+      clearInterval(this.tickInterval);
+      return super.destroy();
+    }
 
-  setWorldLoading: (@worldLoading) ->
-    @run() unless @worldLoading
+    // TRIGGERERING NOTES
 
-  initializeCamera: ->
-    # Fire off the first bounds-setting script now, before we're actually running any other ones.
-    for script in @scripts
-      for note in script.noteChain or []
-        if note.surface?.focus?
-          surfaceModule = _.find note.modules or [], (module) -> module.surfaceCameraNote
-          if surfaceModule
-            cameraNote = surfaceModule.surfaceCameraNote true
-            @publishNote cameraNote
-            return
+    onNote(channel, event) {
+      if (this.ignoreEvents) { return; }
+      for (var script of Array.from(this.scripts)) {
+        var alreadyTriggered = Array.from(this.triggered).includes(script.id);
+        if (script.channel !== channel) { continue; }
+        if (alreadyTriggered && !script.repeats) { continue; }
+        if ((script.lastTriggered != null) && (script.repeats === 'session')) { continue; }
+        if ((script.lastTriggered != null) && ((new Date().getTime() - script.lastTriggered) < 1)) { continue; }
+        if (script.neverRun) { continue; }
 
-  destroy: ->
-    @onEndAll()
-    clearInterval @tickInterval
-    super()
+        if (script.notAfter) {
+          for (var scriptID of Array.from(script.notAfter)) {
+            if (Array.from(this.triggered).includes(scriptID)) {
+              script.neverRun = true;
+              break;
+            }
+          }
+          if (script.neverRun) { continue; }
+        }
 
-  # TRIGGERERING NOTES
+        if (!this.scriptPrereqsSatisfied(script)) { continue; }
+        // This allows the content team to filter scripts by language.
+        if (event.codeLanguage == null) { var left;
+        event.codeLanguage = (left = this.session.get('codeLanguage')) != null ? left : 'python'; }
+        if (!scriptMatchesEventPrereqs(script, event)) { continue; }
+        // everything passed!
+        if (this.debugScripts) { console.debug(`SCRIPT: Running script '${script.id}'`); }
+        script.lastTriggered = new Date().getTime();
+        if (!alreadyTriggered) { this.triggered.push(script.id); }
+        var noteChain = this.processScript(script);
 
-  onNote: (channel, event) ->
-    return if @ignoreEvents
-    for script in @scripts
-      alreadyTriggered = script.id in @triggered
-      continue unless script.channel is channel
-      continue if alreadyTriggered and not script.repeats
-      continue if script.lastTriggered? and script.repeats is 'session'
-      continue if script.lastTriggered? and new Date().getTime() - script.lastTriggered < 1
-      continue if script.neverRun
+        if (utils.isOzaria) {
+          // There may have been new conditions that are met so we are now in a
+          // position to add new say events to the tutorial. Duplicates are ignored.
+          var sayEvents = ScriptManager.extractSayEvents(script);
+          if (sayEvents.length) {
+            store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents);
+          }
+        }
 
-      if script.notAfter
-        for scriptID in script.notAfter
-          if scriptID in @triggered
-            script.neverRun = true
-            break
-        continue if script.neverRun
+        if (!noteChain) { return this.trackScriptCompletions((script.id)); }
+        this.addNoteChain(noteChain);
+        this.run();
+      }
+    }
 
-      continue unless @scriptPrereqsSatisfied(script)
-      # This allows the content team to filter scripts by language.
-      event.codeLanguage ?= @session.get('codeLanguage') ? 'python'
-      continue unless scriptMatchesEventPrereqs(script, event)
-      # everything passed!
-      console.debug "SCRIPT: Running script '#{script.id}'" if @debugScripts
-      script.lastTriggered = new Date().getTime()
-      @triggered.push(script.id) unless alreadyTriggered
-      noteChain = @processScript(script)
+    scriptPrereqsSatisfied(script) {
+      return _.every(script.scriptPrereqs || [], prereq => Array.from(this.triggered).includes(prereq));
+    }
 
-      if utils.isOzaria
-        # There may have been new conditions that are met so we are now in a
-        # position to add new say events to the tutorial. Duplicates are ignored.
-        sayEvents = ScriptManager.extractSayEvents(script)
-        if sayEvents.length
-          store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
+    processScript(script) {
+      const {
+        noteChain
+      } = script;
+      if (!(noteChain != null ? noteChain.length : undefined)) { return null; }
+      for (var noteGroup of Array.from(noteChain)) { noteGroup.scriptID = script.id; }
+      const lastNoteGroup = noteChain[noteChain.length - 1];
+      lastNoteGroup.isLast = true;
+      return noteChain;
+    }
 
-      if not noteChain then return @trackScriptCompletions (script.id)
-      @addNoteChain(noteChain)
-      @run()
+    addNoteChain(noteChain, clearYields) {
+      let noteGroup;
+      if (clearYields == null) { clearYields = true; }
+      for (noteGroup of Array.from(noteChain)) { this.processNoteGroup(noteGroup); }
+      for (let i = 0; i < noteChain.length; i++) { noteGroup = noteChain[i]; noteGroup.index = i; }
+      if (clearYields) {
+        for (noteGroup of Array.from(this.noteGroupQueue)) { if (noteGroup.script.yields) { noteGroup.skipMe = true; } }
+      }
+      for (noteGroup of Array.from(noteChain)) { this.noteGroupQueue.push(noteGroup); }
+      return this.endYieldingNote();
+    }
 
-  scriptPrereqsSatisfied: (script) ->
-    _.every(script.scriptPrereqs or [], (prereq) => prereq in @triggered)
+    processNoteGroup(noteGroup) {
+      if (noteGroup.modules != null) { return; }
+      if ((noteGroup.playback != null ? noteGroup.playback.scrub : undefined) != null) {
+        if (noteGroup.playback.scrub.duration == null) { noteGroup.playback.scrub.duration = DEFAULT_SCRUB_DURATION; }
+      }
+      if (noteGroup.sprites == null) { noteGroup.sprites = []; }
+      for (var sprite of Array.from(noteGroup.sprites)) {
+        if (sprite.move != null) {
+          if (sprite.move.duration == null) { sprite.move.duration = DEFAULT_BOT_MOVE_DURATION; }
+        }
+        if (sprite.id == null) { sprite.id = 'Hero Placeholder'; }
+      }
+      if (noteGroup.script == null) { noteGroup.script = {}; }
+      if (noteGroup.script.yields == null) { noteGroup.script.yields = true; }
+      if (noteGroup.script.skippable == null) { noteGroup.script.skippable = true; }
+      return noteGroup.modules = ((() => {
+        const result = [];
+        for (var Module of Array.from(allScriptModules)) {           if (Module.neededFor(noteGroup)) {
+            result.push(new Module(noteGroup));
+          }
+        }
+        return result;
+      })());
+    }
 
-  processScript: (script) ->
-    noteChain = script.noteChain
-    return null unless noteChain?.length
-    noteGroup.scriptID = script.id for noteGroup in noteChain
-    lastNoteGroup = noteChain[noteChain.length - 1]
-    lastNoteGroup.isLast = true
-    return noteChain
+    endYieldingNote() {
+      if (this.scriptInProgress && (this.currentNoteGroup != null ? this.currentNoteGroup.script.yields : undefined)) {
+        this.endNoteGroup();
+        return true;
+      }
+    }
 
-  addNoteChain: (noteChain, clearYields=true) ->
-    @processNoteGroup(noteGroup) for noteGroup in noteChain
-    noteGroup.index = i for noteGroup, i in noteChain
-    if clearYields
-      noteGroup.skipMe = true for noteGroup in @noteGroupQueue when noteGroup.script.yields
-    @noteGroupQueue.push noteGroup for noteGroup in noteChain
-    @endYieldingNote()
+    // STARTING NOTES
 
-  processNoteGroup: (noteGroup) ->
-    return if noteGroup.modules?
-    if noteGroup.playback?.scrub?
-      noteGroup.playback.scrub.duration ?= DEFAULT_SCRUB_DURATION
-    noteGroup.sprites ?= []
-    for sprite in noteGroup.sprites
-      if sprite.move?
-        sprite.move.duration ?= DEFAULT_BOT_MOVE_DURATION
-      sprite.id ?= 'Hero Placeholder'
-    noteGroup.script ?= {}
-    noteGroup.script.yields ?= true
-    noteGroup.script.skippable ?= true
-    noteGroup.modules = (new Module(noteGroup) for Module in allScriptModules when Module.neededFor(noteGroup))
+    run() {
+      // catch all for analyzing the current state and doing whatever needs to happen next
+      if (this.scriptInProgress) { return; }
+      this.skipAhead();
+      if (!this.noteGroupQueue.length) { return; }
+      const nextNoteGroup = this.noteGroupQueue[0];
+      if (this.worldLoading && nextNoteGroup.skipMe) { return; }
+      if (this.worldLoading && !(nextNoteGroup.script != null ? nextNoteGroup.script.beforeLoad : undefined)) { return; }
+      this.noteGroupQueue = this.noteGroupQueue.slice(1);
+      this.currentNoteGroup = nextNoteGroup;
+      this.notifyScriptStateChanged();
+      this.scriptInProgress = true;
+      this.currentTimeouts = [];
+      const scriptLabel = `${nextNoteGroup.scriptID} - ${nextNoteGroup.name}`;
+      if (this.debugScripts) { console.debug(`SCRIPT: Starting note group '${nextNoteGroup.name}'`); }
+      for (var module of Array.from(nextNoteGroup.modules)) {
+        for (var note of Array.from(module.startNotes())) { this.processNote(note, nextNoteGroup); }
+      }
+      if (nextNoteGroup.script.duration) {
+        const f = () => (typeof this.onNoteGroupTimeout === 'function' ? this.onNoteGroupTimeout(nextNoteGroup) : undefined);
+        setTimeout(f, nextNoteGroup.script.duration);
+      }
+      return Backbone.Mediator.publish('script:note-group-started', {});
+    }
 
-  endYieldingNote: ->
-    if @scriptInProgress and @currentNoteGroup?.script.yields
-      @endNoteGroup()
-      return true
+    skipAhead() {
+      let i;
+      if (this.worldLoading) { return; }
+      if (!(this.noteGroupQueue[0] != null ? this.noteGroupQueue[0].skipMe : undefined)) { return; }
+      this.ignoreEvents = true;
+      for (i = 0; i < this.noteGroupQueue.length; i++) {
+        var noteGroup = this.noteGroupQueue[i];
+        if (!noteGroup.skipMe) { break; }
+        if (this.debugScripts) { console.debug(`SCRIPT: Skipping note group '${noteGroup.name}'`); }
+        this.processNoteGroup(noteGroup);
+        for (var module of Array.from(noteGroup.modules)) {
+          var notes = module.skipNotes();
+          for (var note of Array.from(notes)) { this.processNote(note, noteGroup); }
+        }
+        this.trackScriptCompletionsFromNoteGroup(noteGroup);
+      }
+      this.noteGroupQueue = this.noteGroupQueue.slice(i);
+      return this.ignoreEvents = false;
+    }
 
-  # STARTING NOTES
+    processNote(note, noteGroup) {
+      if (note.event == null) { note.event = {}; }
+      if (note.delay) {
+        const f = () => this.sendDelayedNote(noteGroup, note);
+        return this.currentTimeouts.push(setTimeout(f, note.delay));
+      } else {
+        return this.publishNote(note);
+      }
+    }
 
-  run: ->
-    # catch all for analyzing the current state and doing whatever needs to happen next
-    return if @scriptInProgress
-    @skipAhead()
-    return unless @noteGroupQueue.length
-    nextNoteGroup = @noteGroupQueue[0]
-    return if @worldLoading and nextNoteGroup.skipMe
-    return if @worldLoading and not nextNoteGroup.script?.beforeLoad
-    @noteGroupQueue = @noteGroupQueue[1..]
-    @currentNoteGroup = nextNoteGroup
-    @notifyScriptStateChanged()
-    @scriptInProgress = true
-    @currentTimeouts = []
-    scriptLabel = "#{nextNoteGroup.scriptID} - #{nextNoteGroup.name}"
-    console.debug "SCRIPT: Starting note group '#{nextNoteGroup.name}'" if @debugScripts
-    for module in nextNoteGroup.modules
-      @processNote(note, nextNoteGroup) for note in module.startNotes()
-    if nextNoteGroup.script.duration
-      f = => @onNoteGroupTimeout? nextNoteGroup
-      setTimeout(f, nextNoteGroup.script.duration)
-    Backbone.Mediator.publish 'script:note-group-started', {}
+    sendDelayedNote(noteGroup, note) {
+      // some events should only happen after the bot has moved into position
+      if (noteGroup !== this.currentNoteGroup) { return; }
+      return this.publishNote(note);
+    }
 
-  skipAhead: ->
-    return if @worldLoading
-    return unless @noteGroupQueue[0]?.skipMe
-    @ignoreEvents = true
-    for noteGroup, i in @noteGroupQueue
-      break unless noteGroup.skipMe
-      console.debug "SCRIPT: Skipping note group '#{noteGroup.name}'" if @debugScripts
-      @processNoteGroup(noteGroup)
-      for module in noteGroup.modules
-        notes = module.skipNotes()
-        @processNote(note, noteGroup) for note in notes
-      @trackScriptCompletionsFromNoteGroup(noteGroup)
-    @noteGroupQueue = @noteGroupQueue[i..]
-    @ignoreEvents = false
+    publishNote(note) {
+      if (note.vuex) {
+        return store.dispatch(
+          note.channel,
+          note.event != null ? note.event : {}
+        );
+      } else {
+        return Backbone.Mediator.publish(note.channel, note.event != null ? note.event : {});
+      }
+    }
 
-  processNote: (note, noteGroup) ->
-    note.event ?= {}
-    if note.delay
-      f = => @sendDelayedNote noteGroup, note
-      @currentTimeouts.push setTimeout(f, note.delay)
-    else
-      @publishNote(note)
+    // ENDING NOTES
 
-  sendDelayedNote: (noteGroup, note) ->
-    # some events should only happen after the bot has moved into position
-    return unless noteGroup is @currentNoteGroup
-    @publishNote(note)
+    onLevelRestarted() {
+      this.quiet = true;
+      this.endAll({force:true});
+      this.initProperties();
+      this.resetThings();
+      Backbone.Mediator.publish('script:reset', {});
+      this.quiet = false;
+      return this.run();
+    }
 
-  publishNote: (note) ->
-    if note.vuex
-      store.dispatch(
-        note.channel,
-        note.event ? {}
-      )
-    else
-      Backbone.Mediator.publish note.channel, note.event ? {}
+    onEndNoteGroup(e) {
+      // press enter
+      if (!(this.currentNoteGroup != null ? this.currentNoteGroup.script.skippable : undefined)) { return; }
+      this.endNoteGroup();
+      return this.run();
+    }
 
-  # ENDING NOTES
+    endNoteGroup() {
+      if (this.ending) { return; } // kill infinite loops right here
+      this.ending = true;
+      if (this.currentNoteGroup == null) { return; }
+      const scriptLabel = `${this.currentNoteGroup.scriptID} - ${this.currentNoteGroup.name}`;
+      if (this.debugScripts) { console.debug(`SCRIPT: Ending note group '${this.currentNoteGroup.name}'`); }
+      for (var timeout of Array.from(this.currentTimeouts)) { clearTimeout(timeout); }
+      for (var module of Array.from(this.currentNoteGroup.modules)) {
+        for (var note of Array.from(module.endNotes())) { this.processNote(note, this.currentNoteGroup); }
+      }
+      if (!this.quiet) { Backbone.Mediator.publish('script:note-group-ended', {}); }
+      this.scriptInProgress = false;
+      this.trackScriptCompletionsFromNoteGroup(this.currentNoteGroup);
+      this.currentNoteGroup = null;
+      if (!this.noteGroupQueue.length) {
+        this.notifyScriptStateChanged();
+        this.resetThings();
+      }
+      return this.ending = false;
+    }
 
-  onLevelRestarted: ->
-    @quiet = true
-    @endAll({force:true})
-    @initProperties()
-    @resetThings()
-    Backbone.Mediator.publish 'script:reset', {}
-    @quiet = false
-    @run()
+    onEndAll(e) {
+      // Escape was pressed.
+      return this.endAll();
+    }
 
-  onEndNoteGroup: (e) ->
-    # press enter
-    return unless @currentNoteGroup?.script.skippable
-    @endNoteGroup()
-    @run()
+    endAll(options) {
+      if (options == null) { options = {}; }
+      if (this.scriptInProgress) {
+        if ((!this.currentNoteGroup.script.skippable) && (!options.force)) { return; }
+        this.endNoteGroup();
+      }
 
-  endNoteGroup: ->
-    return if @ending # kill infinite loops right here
-    @ending = true
-    return unless @currentNoteGroup?
-    scriptLabel = "#{@currentNoteGroup.scriptID} - #{@currentNoteGroup.name}"
-    console.debug "SCRIPT: Ending note group '#{@currentNoteGroup.name}'" if @debugScripts
-    clearTimeout(timeout) for timeout in @currentTimeouts
-    for module in @currentNoteGroup.modules
-      @processNote(note, @currentNoteGroup) for note in module.endNotes()
-    Backbone.Mediator.publish 'script:note-group-ended', {} unless @quiet
-    @scriptInProgress = false
-    @trackScriptCompletionsFromNoteGroup(@currentNoteGroup)
-    @currentNoteGroup = null
-    unless @noteGroupQueue.length
-      @notifyScriptStateChanged()
-      @resetThings()
-    @ending = false
+      for (let i = 0; i < this.noteGroupQueue.length; i++) {
+        var noteGroup = this.noteGroupQueue[i];
+        if (((noteGroup.script != null ? noteGroup.script.skippable : undefined) === false) && !options.force) {
+          this.noteGroupQueue = this.noteGroupQueue.slice(i);
+          this.run();
+          this.notifyScriptStateChanged();
+          return;
+        }
 
-  onEndAll: (e) ->
-    # Escape was pressed.
-    @endAll()
+        this.processNoteGroup(noteGroup);
+        for (var module of Array.from(noteGroup.modules)) {
+          var notes = module.skipNotes();
+          if (!this.quiet) { for (var note of Array.from(notes)) { this.processNote(note, noteGroup); } }
+        }
+        if (!this.quiet) { this.trackScriptCompletionsFromNoteGroup(noteGroup); }
+      }
 
-  endAll: (options) ->
-    options ?= {}
-    if @scriptInProgress
-      return if (not @currentNoteGroup.script.skippable) and (not options.force)
-      @endNoteGroup()
+      this.noteGroupQueue = [];
 
-    for noteGroup, i in @noteGroupQueue
-      if ((noteGroup.script?.skippable) is false) and not options.force
-        @noteGroupQueue = @noteGroupQueue[i..]
-        @run()
-        @notifyScriptStateChanged()
-        return
+      this.resetThings();
+      return this.notifyScriptStateChanged();
+    }
 
-      @processNoteGroup(noteGroup)
-      for module in noteGroup.modules
-        notes = module.skipNotes()
-        @processNote(note, noteGroup) for note in notes unless @quiet
-      @trackScriptCompletionsFromNoteGroup(noteGroup) unless @quiet
+    onNoteGroupTimeout(noteGroup) {
+      if (noteGroup !== this.currentNoteGroup) { return; }
+      this.endNoteGroup();
+      return this.run();
+    }
 
-    @noteGroupQueue = []
+    resetThings() {
+      Backbone.Mediator.publish('level:enable-controls', {});
+      return Backbone.Mediator.publish('level:set-letterbox', { on: false });
+    }
 
-    @resetThings()
-    @notifyScriptStateChanged()
+    trackScriptCompletionsFromNoteGroup(noteGroup) {
+      if (!noteGroup.isLast) { return; }
+      return this.trackScriptCompletions(noteGroup.scriptID);
+    }
 
-  onNoteGroupTimeout: (noteGroup) ->
-    return unless noteGroup is @currentNoteGroup
-    @endNoteGroup()
-    @run()
+    trackScriptCompletions(scriptID) {
+      if (this.quiet) { return; }
+      if (!Array.from(this.ended).includes(scriptID)) { this.ended.push(scriptID); }
+      for (var script of Array.from(this.scripts)) {
+        if (script.id === scriptID) {
+          script.lastEnded = new Date();
+        }
+      }
+      this.lastScriptEnded = new Date();
+      return Backbone.Mediator.publish('script:ended', {scriptID});
+    }
 
-  resetThings: ->
-    Backbone.Mediator.publish 'level:enable-controls', {}
-    Backbone.Mediator.publish 'level:set-letterbox', { on: false }
+    notifyScriptStateChanged() {
+      if (this.quiet) { return; }
+      const event = {
+        currentScript: (this.currentNoteGroup != null ? this.currentNoteGroup.scriptID : undefined) || null,
+        currentScriptOffset: (this.currentNoteGroup != null ? this.currentNoteGroup.index : undefined) || 0
+      };
+      return Backbone.Mediator.publish('script:state-changed', event);
+    }
+  };
+  ScriptManager.initClass();
+  return ScriptManager;
+})()));
 
-  trackScriptCompletionsFromNoteGroup: (noteGroup) ->
-    return unless noteGroup.isLast
-    @trackScriptCompletions(noteGroup.scriptID)
-
-  trackScriptCompletions: (scriptID) ->
-    return if @quiet
-    @ended.push(scriptID) unless scriptID in @ended
-    for script in @scripts
-      if script.id is scriptID
-        script.lastEnded = new Date()
-    @lastScriptEnded = new Date()
-    Backbone.Mediator.publish 'script:ended', {scriptID: scriptID}
-
-  notifyScriptStateChanged: ->
-    return if @quiet
-    event =
-      currentScript: @currentNoteGroup?.scriptID or null
-      currentScriptOffset: @currentNoteGroup?.index or 0
-    Backbone.Mediator.publish 'script:state-changed', event
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

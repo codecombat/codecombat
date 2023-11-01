@@ -1,370 +1,476 @@
-require('app/styles/play/modal/play-heroes-modal.sass')
-ModalView = require 'views/core/ModalView'
-template = require 'app/templates/play/modal/play-heroes-modal'
-buyGemsPromptTemplate = require 'app/templates/play/modal/buy-gems-prompt'
-earnGemsPromptTemplate = require 'app/templates/play/modal/earn-gems-prompt'
-subscribeForGemsPrompt = require 'app/templates/play/modal/subscribe-for-gems-prompt'
-CocoCollection = require 'collections/CocoCollection'
-ThangType = require 'models/ThangType'
-SpriteBuilder = require 'lib/sprites/SpriteBuilder'
-AudioPlayer = require 'lib/AudioPlayer'
-utils = require 'core/utils'
-BuyGemsModal = require 'views/play/modal/BuyGemsModal'
-CreateAccountModal = require 'views/core/CreateAccountModal'
-SubscribeModal = require 'views/core/SubscribeModal'
-Purchase = require 'models/Purchase'
-LayerAdapter = require 'lib/surface/LayerAdapter'
-Lank = require 'lib/surface/Lank'
-store = require 'core/store'
-createjs = require 'lib/createjs-parts'
-ThangTypeConstants = require 'lib/ThangTypeConstants'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS204: Change includes calls to have a more natural evaluation order
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let PlayHeroesModal;
+require('app/styles/play/modal/play-heroes-modal.sass');
+const ModalView = require('views/core/ModalView');
+const template = require('app/templates/play/modal/play-heroes-modal');
+const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt');
+const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt');
+const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt');
+const CocoCollection = require('collections/CocoCollection');
+const ThangType = require('models/ThangType');
+const SpriteBuilder = require('lib/sprites/SpriteBuilder');
+const AudioPlayer = require('lib/AudioPlayer');
+const utils = require('core/utils');
+const BuyGemsModal = require('views/play/modal/BuyGemsModal');
+const CreateAccountModal = require('views/core/CreateAccountModal');
+const SubscribeModal = require('views/core/SubscribeModal');
+const Purchase = require('models/Purchase');
+const LayerAdapter = require('lib/surface/LayerAdapter');
+const Lank = require('lib/surface/Lank');
+const store = require('core/store');
+const createjs = require('lib/createjs-parts');
+const ThangTypeConstants = require('lib/ThangTypeConstants');
 
-module.exports = class PlayHeroesModal extends ModalView
-  className: 'modal fade play-modal'
-  template: template
-  id: 'play-heroes-modal'
-  trapsFocus: false
+module.exports = (PlayHeroesModal = (function() {
+  PlayHeroesModal = class PlayHeroesModal extends ModalView {
+    static initClass() {
+      this.prototype.className = 'modal fade play-modal';
+      this.prototype.template = template;
+      this.prototype.id = 'play-heroes-modal';
+      this.prototype.trapsFocus = false;
+  
+      this.prototype.events = {
+        'slide.bs.carousel #hero-carousel': 'onHeroChanged',
+        'change #option-code-language': 'onCodeLanguageChanged',
+        'click #close-modal': 'hide',
+        'click #confirm-button': 'saveAndHide',
+        'click .unlock-button': 'onUnlockButtonClicked',
+        'click .subscribe-button': 'onSubscribeButtonClicked',
+        'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked',
+        'click .start-subscription-button': 'onSubscribeButtonClicked',
+        'click': 'onClickedSomewhere'
+      };
+  
+      this.prototype.shortcuts = {
+        'left'() { if (this.heroes.models.length && !this.$el.hasClass('secret')) { return this.$el.find('#hero-carousel').carousel('prev'); } },
+        'right'() { if (this.heroes.models.length && !this.$el.hasClass('secret')) { return this.$el.find('#hero-carousel').carousel('next'); } },
+        'enter'() { if (this.visibleHero && !this.visibleHero.locked) { return this.saveAndHide(); } }
+      };
+    }
 
-  events:
-    'slide.bs.carousel #hero-carousel': 'onHeroChanged'
-    'change #option-code-language': 'onCodeLanguageChanged'
-    'click #close-modal': 'hide'
-    'click #confirm-button': 'saveAndHide'
-    'click .unlock-button': 'onUnlockButtonClicked'
-    'click .subscribe-button': 'onSubscribeButtonClicked'
-    'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
-    'click .start-subscription-button': 'onSubscribeButtonClicked'
-    'click': 'onClickedSomewhere'
+    constructor(options) {
+      this.animateHeroes = this.animateHeroes.bind(this);
+      super(options);
+      if (options == null) { options = {}; }
+      this.confirmButtonI18N = options.confirmButtonI18N != null ? options.confirmButtonI18N : "common.save";
+      this.heroes = new CocoCollection([], {model: ThangType});
+      this.heroes.url = '/db/thang.type?view=heroes';
+      this.heroes.setProjection(['original','name','slug','soundTriggers','featureImages','gems','heroClass','description','components','extendedName','shortName','unlockLevelName','i18n','poseImage','tier','releasePhase','ozaria']);
+      this.heroes.comparator = 'gems';
+      this.listenToOnce(this.heroes, 'sync', this.onHeroesLoaded);
+      this.supermodel.loadCollection(this.heroes, 'heroes');
+      this.stages = {};
+      this.layers = [];
+      this.session = options.session;
+      this.initCodeLanguageList(options.hadEverChosenHero);
+      this.heroAnimationInterval = setInterval(this.animateHeroes, 1000);
+      this.trackTimeVisible();
+    }
 
-  shortcuts:
-    'left': -> @$el.find('#hero-carousel').carousel('prev') if @heroes.models.length and not @$el.hasClass 'secret'
-    'right': -> @$el.find('#hero-carousel').carousel('next') if @heroes.models.length and not @$el.hasClass 'secret'
-    'enter': -> @saveAndHide() if @visibleHero and not @visibleHero.locked
-
-  constructor: (options) ->
-    super options
-    options ?= {}
-    @confirmButtonI18N = options.confirmButtonI18N ? "common.save"
-    @heroes = new CocoCollection([], {model: ThangType})
-    @heroes.url = '/db/thang.type?view=heroes'
-    @heroes.setProjection ['original','name','slug','soundTriggers','featureImages','gems','heroClass','description','components','extendedName','shortName','unlockLevelName','i18n','poseImage','tier','releasePhase','ozaria']
-    @heroes.comparator = 'gems'
-    @listenToOnce @heroes, 'sync', @onHeroesLoaded
-    @supermodel.loadCollection(@heroes, 'heroes')
-    @stages = {}
-    @layers = []
-    @session = options.session
-    @initCodeLanguageList options.hadEverChosenHero
-    @heroAnimationInterval = setInterval @animateHeroes, 1000
-    @trackTimeVisible()
-
-  onHeroesLoaded: ->
-    @heroes.reset(@heroes.filter((hero) => not hero.get('ozaria')))
-    @formatHero hero for hero in @heroes.models
-    @heroes.reset(@heroes.filter((hero) => not hero.hidden))
-    if me.isStudent() and me.showHeroAndInventoryModalsToStudents()
-      @heroes.reset(@heroes.filter((hero) => hero.get('heroClass') is 'Warrior'))
-    else if me.freeOnly() or application.getHocCampaign()
-      @heroes.reset(@heroes.filter((hero) => !hero.locked))
-    unless me.isAdmin()
-      @heroes.reset(@heroes.filter((hero) => hero.get('releasePhase') isnt 'beta'))
-
-  formatHero: (hero) ->
-    hero.name = utils.i18n hero.attributes, 'extendedName'
-    hero.name ?= utils.i18n hero.attributes, 'shortName'
-    hero.name ?= utils.i18n hero.attributes, 'name'
-    hero.description = utils.i18n hero.attributes, 'description'
-    hero.unlockLevelName = utils.i18n hero.attributes, 'unlockLevelName'
-    original = hero.get('original')
-    hero.free = hero.attributes.slug in ['captain', 'knight', 'champion', 'duelist']
-    hero.unlockBySubscribing = hero.attributes.slug in ['samurai', 'ninja', 'librarian']
-    hero.premium = not hero.free and not hero.unlockBySubscribing
-    hero.locked = not me.ownsHero(original) and not (hero.unlockBySubscribing and me.isPremium())
-    hero.locked = false if me.isStudent() and me.showHeroAndInventoryModalsToStudents() and hero.get('heroClass') is 'Warrior'
-    hero.purchasable = hero.locked and me.isPremium()
-    if @options.level and allowedHeroes = @options.level.get 'allowedHeroes'
-      hero.restricted = not (hero.get('original') in allowedHeroes)
-    hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()
-    hero.stats = hero.getHeroStats()
-    if clanHero = _.find(utils.clanHeroes, thangTypeOriginal: hero.get('original'))
-      hero.hidden = true if clanHero.clanId not in (me.get('clans') ? [])
-    if hero.get('original') is ThangTypeConstants.heroes['code-ninja']
-      hero.hidden = window.location.host isnt 'coco.code.ninja'
-
-  currentVisiblePremiumFeature: ->
-    isPremium = @visibleHero and not (@visibleHero.class is 'warrior' and @visibleHero.get('tier') is 0)
-    if isPremium
-      return {
-        viewName: @.id
-        featureName: 'view-hero'
-        premiumThang:
-          _id: @visibleHero.id
-          slug: @visibleHero.get('slug')
+    onHeroesLoaded() {
+      this.heroes.reset(this.heroes.filter(hero => !hero.get('ozaria')));
+      for (var hero of Array.from(this.heroes.models)) { this.formatHero(hero); }
+      this.heroes.reset(this.heroes.filter(hero => !hero.hidden));
+      if (me.isStudent() && me.showHeroAndInventoryModalsToStudents()) {
+        this.heroes.reset(this.heroes.filter(hero => hero.get('heroClass') === 'Warrior'));
+      } else if (me.freeOnly() || application.getHocCampaign()) {
+        this.heroes.reset(this.heroes.filter(hero => !hero.locked));
       }
-    else
-      return null
-
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.heroes = @heroes.models
-    context.level = @options.level
-    context.codeLanguages = @codeLanguageList
-    context.codeLanguage = @codeLanguage = @options?.session?.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
-    context.confirmButtonI18N = @confirmButtonI18N
-    context.visibleHero = @visibleHero
-    context.gems = me.gems()
-    context.isIE = @isIE()
-    context
-
-  afterInsert: ->
-    @updateViewVisibleTimer()
-    super()
-
-  afterRender: ->
-    super()
-    return unless @supermodel.finished()
-    @playSound 'game-menu-open'
-    @$el.find('.hero-avatar').addClass 'ie' if @isIE()
-    heroes = @heroes.models
-    @$el.find('.hero-indicator').each ->
-      heroID = $(@).data('hero-id')
-      hero = _.find heroes, (hero) -> hero.get('original') is heroID
-      $(@).find('.hero-avatar').css('background-image', "url(#{hero.getPortraitURL()})").addClass('has-tooltip').tooltip()
-    @canvasWidth = 313  # @$el.find('canvas').width() # unreliable, whatever
-    @canvasHeight = @$el.find('canvas').height()
-    heroConfig = @options?.session?.get('heroConfig') ? me.get('heroConfig') ? {}
-    heroIndex = Math.max 0, _.findIndex(heroes, ((hero) -> hero.get('original') is heroConfig.thangType))
-    @$el.find(".hero-item:nth-child(#{heroIndex + 1}), .hero-indicator:nth-child(#{heroIndex + 1})").addClass('active')
-    @onHeroChanged direction: null, relatedTarget: @$el.find('.hero-item')[heroIndex]
-    @$el.find('.hero-stat').addClass('has-tooltip').tooltip()
-    @buildCodeLanguages()
-
-  rerenderFooter: ->
-    @formatHero @visibleHero
-    @renderSelectors '#hero-footer'
-    @buildCodeLanguages()
-    @$el.find('#gems-count-container').toggle Boolean @visibleHero.purchasable
-
-  initCodeLanguageList: (hadEverChosenHero) ->
-    if application.isIPadApp
-      @codeLanguageList = [
-        {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
-        {id: 'javascript', name: 'JavaScript'}
-      ]
-    else
-      @subscriberCodeLanguageList = [
-        {id: 'cpp', name: "C++"}
-        {id: 'java', name: "Java (#{$.i18n.t('choose_hero.experimental')})"}
-      ]
-      @codeLanguageList = [
-        {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
-        {id: 'javascript', name: 'JavaScript'}
-        {id: 'coffeescript', name: "CoffeeScript"}
-        {id: 'lua', name: "Lua"}
-        @subscriberCodeLanguageList...
-      ]
-
-  onHeroChanged: (e) ->
-    direction = e.direction  # 'left' or 'right'
-    heroItem = $(e.relatedTarget)
-    hero = _.find @heroes.models, (hero) -> hero.get('original') is heroItem.data('hero-id')
-    return console.error "Couldn't find hero from heroItem:", heroItem unless hero
-    heroIndex = heroItem.index()
-    hero = @loadHero hero
-    @preloadHero heroIndex + 1
-    @preloadHero heroIndex - 1
-    @selectedHero = hero unless hero.locked
-    @visibleHero = hero
-    @rerenderFooter()
-    @trigger 'hero-loaded', {hero: hero}
-    @updateViewVisibleTimer()
-
-  getFullHero: (original) ->
-    url = "/db/thang.type/#{original}/version"
-    if fullHero = @supermodel.getModel url
-      return fullHero
-    fullHero = new ThangType()
-    fullHero.setURL url
-    fullHero = (@supermodel.loadModel fullHero).model
-    fullHero
-
-  preloadHero: (heroIndex) ->
-    return unless hero = @heroes.models[heroIndex]
-    @loadHero hero, true
-
-  loadHero: (hero, preloading=false) ->
-    if poseImage = hero.get 'poseImage'
-      $(".hero-item[data-hero-id='#{hero.get('original')}'] canvas").hide()
-      $(".hero-item[data-hero-id='#{hero.get('original')}'] .hero-pose-image").show().find('img').prop('src', '/file/' + poseImage)
-      @playSelectionSound hero unless preloading
-      return hero
-    else
-      throw new Error("Don't have poseImage for #{hero.get('original')}")
-
-  animateHeroes: =>
-    return unless @visibleHero
-    heroIndex = Math.max 0, _.findIndex(@heroes.models, ((hero) => hero.get('original') is @visibleHero.get('original')))
-    animation = _.sample(['attack', 'move_side', 'move_fore'])  # Must be in LayerAdapter default actions.
-    @stages[heroIndex]?.children?[0]?.children?[0]?.gotoAndPlay? animation
-
-  playSelectionSound: (hero) ->
-    return if @$el.hasClass 'secret'
-    @currentSoundInstance?.stop()
-    return unless soundTriggers = utils.i18n hero.attributes, 'soundTriggers'
-    return unless sounds = soundTriggers.selected
-    return unless sound = sounds[Math.floor Math.random() * sounds.length]
-    name = AudioPlayer.nameForSoundReference sound
-    AudioPlayer.preloadSoundReference sound
-    @currentSoundInstance = AudioPlayer.playSound name, 1
-    @currentSoundInstance
-
-  buildCodeLanguages: ->
-    $select = @$el.find('#option-code-language')
-    $select.fancySelect().parent().find('.options li').each ->
-      languageName = $(@).text()
-      languageID = $(@).data('value')
-      blurb = $.i18n.t("choose_hero.#{languageID}_blurb")
-      if languageName.indexOf(blurb) is -1  # Avoid doubling blurb if this is called 2x
-        $(@).text("#{languageName} - #{blurb}")
-
-  onCodeLanguageChanged: (e) ->
-    @codeLanguage = @$el.find('#option-code-language').val()
-    @codeLanguageChanged = true
-    window.tracker?.trackEvent 'Campaign changed code language', category: 'Campaign Hero Select', codeLanguage: @codeLanguage, levelSlug: @options.level?.get('slug')
-
-  #- Purchasing the hero
-
-  onUnlockButtonClicked: (e) ->
-    e.stopPropagation()
-    button = $(e.target).closest('button')
-    affordable = @visibleHero.get('gems') <= me.gems()
-    if not affordable
-      @playSound 'menu-button-click'
-      @askToBuyGemsOrSubscribe button unless me.freeOnly()
-    else if button.hasClass('confirm')
-      @playSound 'menu-button-unlock-end'
-      purchase = Purchase.makeFor(@visibleHero)
-      purchase.save()
-
-      #- set local changes to mimic what should happen on the server...
-      purchased = me.get('purchased') ? {}
-      purchased.heroes ?= []
-      purchased.heroes.push(@visibleHero.get('original'))
-      me.set('purchased', purchased)
-      me.set('spent', (me.get('spent') ? 0) + @visibleHero.get('gems'))
-
-      #- ...then rerender visible hero
-      heroEntry = @$el.find(".hero-item[data-hero-id='#{@visibleHero.get('original')}']")
-      heroEntry.find('.hero-status-value').attr('data-i18n', 'play.available').i18n()
-      @applyRTLIfNeeded()
-      heroEntry.removeClass 'locked purchasable'
-      @selectedHero = @visibleHero
-      @rerenderFooter()
-
-      Backbone.Mediator.publish 'store:hero-purchased', hero: @visibleHero, heroSlug: @visibleHero.get('slug')
-    else
-      @playSound 'menu-button-unlock-start'
-      button.addClass('confirm').text($.i18n.t('play.confirm'))
-      @$el.one 'click', (e) ->
-        button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
-
-  askToSignUp: ->
-    createAccountModal = new CreateAccountModal supermodel: @supermodel
-    return @openModalView createAccountModal
-
-  askToBuyGemsOrSubscribe: (unlockButton) ->
-    @$el.find('.unlock-button').popover 'destroy'
-    if me.isStudent()
-      popoverTemplate = earnGemsPromptTemplate {}
-    else if me.canBuyGems()
-      popoverTemplate = buyGemsPromptTemplate {}
-    else
-      if not me.hasSubscription() # user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
-        popoverTemplate = subscribeForGemsPrompt {}
-      else # user has subscription and yet not enough gems, just ask him to keep playing for more gems
-        popoverTemplate = earnGemsPromptTemplate {}
-
-    unlockButton.popover(
-      animation: true
-      trigger: 'manual'
-      placement: 'left'
-      content: ' '  # template has it
-      container: @$el
-      template: popoverTemplate
-    ).popover 'show'
-    popover = unlockButton.data('bs.popover')
-    popover?.$tip?.i18n()  # Doesn't work
-    @applyRTLIfNeeded()
-
-  onBuyGemsPromptButtonClicked: (e) ->
-    return @askToSignUp() if me.get('anonymous')
-    @openModalView new BuyGemsModal()
-
-  onClickedSomewhere: (e) ->
-    return if @destroyed
-    @$el.find('.unlock-button').popover 'destroy'
-
-  onSubscribeButtonClicked: (e) ->
-    @openModalView new SubscribeModal()
-    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') or 'unknown')
-
-  #- Exiting
-
-  saveAndHide: ->
-    if !me.hasSubscription() and @subscriberCodeLanguageList.find((l) => l.id == @codeLanguage) and not me.isStudent()
-      @openModalView new SubscribeModal()
-      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: experimental language'
-      return
-
-    hero = @selectedHero?.get('original')
-    hero ?= @visibleHero?.get('original') if @visibleHero?.loaded and not @visibleHero.locked
-    unless hero
-      console.error 'Somehow we tried to hide without having a hero selected yet...'
-      noty {
-        text: "Error: hero not loaded. If this keeps happening, please report the bug."
-        layout: 'topCenter'
-        timeout: 10000
-        type: 'error'
+      if (!me.isAdmin()) {
+        return this.heroes.reset(this.heroes.filter(hero => hero.get('releasePhase') !== 'beta'));
       }
-      return
+    }
 
-    if @session
-      changed = @updateHeroConfig(@session, hero)
-      if @session.get('codeLanguage') isnt @codeLanguage
-        @session.set('codeLanguage', @codeLanguage)
-        changed = true
-        #Backbone.Mediator.publish 'tome:change-language', language: @codeLanguage, reload: true  # We'll reload the PlayLevelView instead.
+    formatHero(hero) {
+      let allowedHeroes, clanHero;
+      hero.name = utils.i18n(hero.attributes, 'extendedName');
+      if (hero.name == null) { hero.name = utils.i18n(hero.attributes, 'shortName'); }
+      if (hero.name == null) { hero.name = utils.i18n(hero.attributes, 'name'); }
+      hero.description = utils.i18n(hero.attributes, 'description');
+      hero.unlockLevelName = utils.i18n(hero.attributes, 'unlockLevelName');
+      const original = hero.get('original');
+      hero.free = ['captain', 'knight', 'champion', 'duelist'].includes(hero.attributes.slug);
+      hero.unlockBySubscribing = ['samurai', 'ninja', 'librarian'].includes(hero.attributes.slug);
+      hero.premium = !hero.free && !hero.unlockBySubscribing;
+      hero.locked = !me.ownsHero(original) && !(hero.unlockBySubscribing && me.isPremium());
+      if (me.isStudent() && me.showHeroAndInventoryModalsToStudents() && (hero.get('heroClass') === 'Warrior')) { hero.locked = false; }
+      hero.purchasable = hero.locked && me.isPremium();
+      if (this.options.level && (allowedHeroes = this.options.level.get('allowedHeroes'))) {
+        let needle;
+        hero.restricted = !((needle = hero.get('original'), Array.from(allowedHeroes).includes(needle)));
+      }
+      hero.class = (hero.get('heroClass') || 'warrior').toLowerCase();
+      hero.stats = hero.getHeroStats();
+      if (clanHero = _.find(utils.clanHeroes, {thangTypeOriginal: hero.get('original')})) {
+        let left, needle1;
+        if ((needle1 = clanHero.clanId, !Array.from(((left = me.get('clans')) != null ? left : [])).includes(needle1))) { hero.hidden = true; }
+      }
+      if (hero.get('original') === ThangTypeConstants.heroes['code-ninja']) {
+        return hero.hidden = window.location.host !== 'coco.code.ninja';
+      }
+    }
 
-      @session.patch() if changed
+    currentVisiblePremiumFeature() {
+      const isPremium = this.visibleHero && !((this.visibleHero.class === 'warrior') && (this.visibleHero.get('tier') === 0));
+      if (isPremium) {
+        return {
+          viewName: this.id,
+          featureName: 'view-hero',
+          premiumThang: {
+            _id: this.visibleHero.id,
+            slug: this.visibleHero.get('slug')
+          }
+        };
+      } else {
+        return null;
+      }
+    }
 
-    changed = @updateHeroConfig(me, hero)
-    aceConfig = _.clone(me.get('aceConfig')) or {}
-    if @codeLanguage isnt aceConfig.language
-      aceConfig.language = @codeLanguage
-      me.set 'aceConfig', aceConfig
-      changed = true
+    getRenderData(context) {
+      let left, left1;
+      if (context == null) { context = {}; }
+      context = super.getRenderData(context);
+      context.heroes = this.heroes.models;
+      context.level = this.options.level;
+      context.codeLanguages = this.codeLanguageList;
+      context.codeLanguage = (this.codeLanguage = (left = (left1 = __guard__(this.options != null ? this.options.session : undefined, x => x.get('codeLanguage'))) != null ? left1 : __guard__(me.get('aceConfig'), x1 => x1.language)) != null ? left : 'python');
+      context.confirmButtonI18N = this.confirmButtonI18N;
+      context.visibleHero = this.visibleHero;
+      context.gems = me.gems();
+      context.isIE = this.isIE();
+      return context;
+    }
 
-    me.patch() if changed
+    afterInsert() {
+      this.updateViewVisibleTimer();
+      return super.afterInsert();
+    }
 
-    @hide()
-    @trigger?('confirm-click', hero: @selectedHero)
+    afterRender() {
+      let left, left1;
+      super.afterRender();
+      if (!this.supermodel.finished()) { return; }
+      this.playSound('game-menu-open');
+      if (this.isIE()) { this.$el.find('.hero-avatar').addClass('ie'); }
+      const heroes = this.heroes.models;
+      this.$el.find('.hero-indicator').each(function() {
+        const heroID = $(this).data('hero-id');
+        const hero = _.find(heroes, hero => hero.get('original') === heroID);
+        return $(this).find('.hero-avatar').css('background-image', `url(${hero.getPortraitURL()})`).addClass('has-tooltip').tooltip();
+      });
+      this.canvasWidth = 313;  // @$el.find('canvas').width() # unreliable, whatever
+      this.canvasHeight = this.$el.find('canvas').height();
+      const heroConfig = (left = (left1 = __guard__(this.options != null ? this.options.session : undefined, x => x.get('heroConfig'))) != null ? left1 : me.get('heroConfig')) != null ? left : {};
+      const heroIndex = Math.max(0, _.findIndex(heroes, (hero => hero.get('original') === heroConfig.thangType)));
+      this.$el.find(`.hero-item:nth-child(${heroIndex + 1}), .hero-indicator:nth-child(${heroIndex + 1})`).addClass('active');
+      this.onHeroChanged({direction: null, relatedTarget: this.$el.find('.hero-item')[heroIndex]});
+      this.$el.find('.hero-stat').addClass('has-tooltip').tooltip();
+      return this.buildCodeLanguages();
+    }
 
-  updateHeroConfig: (model, hero) ->
-    return false unless hero
-    heroConfig = _.clone(model.get('heroConfig')) or {}
-    if heroConfig.thangType isnt hero
-      heroConfig.thangType = hero
-      model.set('heroConfig', heroConfig)
-      return true
+    rerenderFooter() {
+      this.formatHero(this.visibleHero);
+      this.renderSelectors('#hero-footer');
+      this.buildCodeLanguages();
+      return this.$el.find('#gems-count-container').toggle(Boolean(this.visibleHero.purchasable));
+    }
 
-  onHidden: ->
-    super()
-    @playSound 'game-menu-close'
+    initCodeLanguageList(hadEverChosenHero) {
+      if (application.isIPadApp) {
+        return this.codeLanguageList = [
+          {id: 'python', name: `Python (${$.i18n.t('choose_hero.default')})`},
+          {id: 'javascript', name: 'JavaScript'}
+        ];
+      } else {
+        this.subscriberCodeLanguageList = [
+          {id: 'cpp', name: "C++"},
+          {id: 'java', name: `Java (${$.i18n.t('choose_hero.experimental')})`}
+        ];
+        return this.codeLanguageList = [
+          {id: 'python', name: `Python (${$.i18n.t('choose_hero.default')})`},
+          {id: 'javascript', name: 'JavaScript'},
+          {id: 'coffeescript', name: "CoffeeScript"},
+          {id: 'lua', name: "Lua"},
+          ...Array.from(this.subscriberCodeLanguageList)
+        ];
+      }
+    }
 
-  destroy: ->
-    clearInterval @heroAnimationInterval
-    for heroIndex, stage of @stages
-      createjs.Ticker.removeEventListener "tick", stage
-      stage.removeAllChildren()
-    layer.destroy() for layer in @layers
-    super()
+    onHeroChanged(e) {
+      const {
+        direction
+      } = e;  // 'left' or 'right'
+      const heroItem = $(e.relatedTarget);
+      let hero = _.find(this.heroes.models, hero => hero.get('original') === heroItem.data('hero-id'));
+      if (!hero) { return console.error("Couldn't find hero from heroItem:", heroItem); }
+      const heroIndex = heroItem.index();
+      hero = this.loadHero(hero);
+      this.preloadHero(heroIndex + 1);
+      this.preloadHero(heroIndex - 1);
+      if (!hero.locked) { this.selectedHero = hero; }
+      this.visibleHero = hero;
+      this.rerenderFooter();
+      this.trigger('hero-loaded', {hero});
+      return this.updateViewVisibleTimer();
+    }
+
+    getFullHero(original) {
+      let fullHero;
+      const url = `/db/thang.type/${original}/version`;
+      if (fullHero = this.supermodel.getModel(url)) {
+        return fullHero;
+      }
+      fullHero = new ThangType();
+      fullHero.setURL(url);
+      fullHero = (this.supermodel.loadModel(fullHero)).model;
+      return fullHero;
+    }
+
+    preloadHero(heroIndex) {
+      let hero;
+      if (!(hero = this.heroes.models[heroIndex])) { return; }
+      return this.loadHero(hero, true);
+    }
+
+    loadHero(hero, preloading) {
+      let poseImage;
+      if (preloading == null) { preloading = false; }
+      if (poseImage = hero.get('poseImage')) {
+        $(`.hero-item[data-hero-id='${hero.get('original')}'] canvas`).hide();
+        $(`.hero-item[data-hero-id='${hero.get('original')}'] .hero-pose-image`).show().find('img').prop('src', '/file/' + poseImage);
+        if (!preloading) { this.playSelectionSound(hero); }
+        return hero;
+      } else {
+        throw new Error(`Don't have poseImage for ${hero.get('original')}`);
+      }
+    }
+
+    animateHeroes() {
+      if (!this.visibleHero) { return; }
+      const heroIndex = Math.max(0, _.findIndex(this.heroes.models, (hero => hero.get('original') === this.visibleHero.get('original'))));
+      const animation = _.sample(['attack', 'move_side', 'move_fore']);  // Must be in LayerAdapter default actions.
+      return __guardMethod__(__guard__(__guard__(__guard__(this.stages[heroIndex] != null ? this.stages[heroIndex].children : undefined, x2 => x2[0]), x1 => x1.children), x => x[0]), 'gotoAndPlay', o => o.gotoAndPlay(animation));
+    }
+
+    playSelectionSound(hero) {
+      let sound, sounds, soundTriggers;
+      if (this.$el.hasClass('secret')) { return; }
+      if (this.currentSoundInstance != null) {
+        this.currentSoundInstance.stop();
+      }
+      if (!(soundTriggers = utils.i18n(hero.attributes, 'soundTriggers'))) { return; }
+      if (!(sounds = soundTriggers.selected)) { return; }
+      if (!(sound = sounds[Math.floor(Math.random() * sounds.length)])) { return; }
+      const name = AudioPlayer.nameForSoundReference(sound);
+      AudioPlayer.preloadSoundReference(sound);
+      this.currentSoundInstance = AudioPlayer.playSound(name, 1);
+      return this.currentSoundInstance;
+    }
+
+    buildCodeLanguages() {
+      const $select = this.$el.find('#option-code-language');
+      return $select.fancySelect().parent().find('.options li').each(function() {
+        const languageName = $(this).text();
+        const languageID = $(this).data('value');
+        const blurb = $.i18n.t(`choose_hero.${languageID}_blurb`);
+        if (languageName.indexOf(blurb) === -1) {  // Avoid doubling blurb if this is called 2x
+          return $(this).text(`${languageName} - ${blurb}`);
+        }
+      });
+    }
+
+    onCodeLanguageChanged(e) {
+      this.codeLanguage = this.$el.find('#option-code-language').val();
+      this.codeLanguageChanged = true;
+      return (window.tracker != null ? window.tracker.trackEvent('Campaign changed code language', {category: 'Campaign Hero Select', codeLanguage: this.codeLanguage, levelSlug: (this.options.level != null ? this.options.level.get('slug') : undefined)}) : undefined);
+    }
+
+    //- Purchasing the hero
+
+    onUnlockButtonClicked(e) {
+      e.stopPropagation();
+      const button = $(e.target).closest('button');
+      const affordable = this.visibleHero.get('gems') <= me.gems();
+      if (!affordable) {
+        this.playSound('menu-button-click');
+        if (!me.freeOnly()) { return this.askToBuyGemsOrSubscribe(button); }
+      } else if (button.hasClass('confirm')) {
+        let left, left1;
+        this.playSound('menu-button-unlock-end');
+        const purchase = Purchase.makeFor(this.visibleHero);
+        purchase.save();
+
+        //- set local changes to mimic what should happen on the server...
+        const purchased = (left = me.get('purchased')) != null ? left : {};
+        if (purchased.heroes == null) { purchased.heroes = []; }
+        purchased.heroes.push(this.visibleHero.get('original'));
+        me.set('purchased', purchased);
+        me.set('spent', ((left1 = me.get('spent')) != null ? left1 : 0) + this.visibleHero.get('gems'));
+
+        //- ...then rerender visible hero
+        const heroEntry = this.$el.find(`.hero-item[data-hero-id='${this.visibleHero.get('original')}']`);
+        heroEntry.find('.hero-status-value').attr('data-i18n', 'play.available').i18n();
+        this.applyRTLIfNeeded();
+        heroEntry.removeClass('locked purchasable');
+        this.selectedHero = this.visibleHero;
+        this.rerenderFooter();
+
+        return Backbone.Mediator.publish('store:hero-purchased', {hero: this.visibleHero, heroSlug: this.visibleHero.get('slug')});
+      } else {
+        this.playSound('menu-button-unlock-start');
+        button.addClass('confirm').text($.i18n.t('play.confirm'));
+        return this.$el.one('click', function(e) {
+          if (e.target !== button[0]) { return button.removeClass('confirm').text($.i18n.t('play.unlock')); }
+      });
+      }
+    }
+
+    askToSignUp() {
+      const createAccountModal = new CreateAccountModal({supermodel: this.supermodel});
+      return this.openModalView(createAccountModal);
+    }
+
+    askToBuyGemsOrSubscribe(unlockButton) {
+      let popoverTemplate;
+      this.$el.find('.unlock-button').popover('destroy');
+      if (me.isStudent()) {
+        popoverTemplate = earnGemsPromptTemplate({});
+      } else if (me.canBuyGems()) {
+        popoverTemplate = buyGemsPromptTemplate({});
+      } else {
+        if (!me.hasSubscription()) { // user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
+          popoverTemplate = subscribeForGemsPrompt({});
+        } else { // user has subscription and yet not enough gems, just ask him to keep playing for more gems
+          popoverTemplate = earnGemsPromptTemplate({});
+        }
+      }
+
+      unlockButton.popover({
+        animation: true,
+        trigger: 'manual',
+        placement: 'left',
+        content: ' ',  // template has it
+        container: this.$el,
+        template: popoverTemplate
+      }).popover('show');
+      const popover = unlockButton.data('bs.popover');
+      __guard__(popover != null ? popover.$tip : undefined, x => x.i18n());  // Doesn't work
+      return this.applyRTLIfNeeded();
+    }
+
+    onBuyGemsPromptButtonClicked(e) {
+      if (me.get('anonymous')) { return this.askToSignUp(); }
+      return this.openModalView(new BuyGemsModal());
+    }
+
+    onClickedSomewhere(e) {
+      if (this.destroyed) { return; }
+      return this.$el.find('.unlock-button').popover('destroy');
+    }
+
+    onSubscribeButtonClicked(e) {
+      this.openModalView(new SubscribeModal());
+      return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', {category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') || 'unknown')}) : undefined);
+    }
+
+    //- Exiting
+
+    saveAndHide() {
+      let changed;
+      if (!me.hasSubscription() && this.subscriberCodeLanguageList.find(l => l.id === this.codeLanguage) && !me.isStudent()) {
+        this.openModalView(new SubscribeModal());
+        if (window.tracker != null) {
+          window.tracker.trackEvent('Show subscription modal', {category: 'Subscription', label: 'hero subscribe modal: experimental language'});
+        }
+        return;
+      }
+
+      let hero = this.selectedHero != null ? this.selectedHero.get('original') : undefined;
+      if ((this.visibleHero != null ? this.visibleHero.loaded : undefined) && !this.visibleHero.locked) { if (hero == null) { hero = this.visibleHero != null ? this.visibleHero.get('original') : undefined; } }
+      if (!hero) {
+        console.error('Somehow we tried to hide without having a hero selected yet...');
+        noty({
+          text: "Error: hero not loaded. If this keeps happening, please report the bug.",
+          layout: 'topCenter',
+          timeout: 10000,
+          type: 'error'
+        });
+        return;
+      }
+
+      if (this.session) {
+        changed = this.updateHeroConfig(this.session, hero);
+        if (this.session.get('codeLanguage') !== this.codeLanguage) {
+          this.session.set('codeLanguage', this.codeLanguage);
+          changed = true;
+        }
+          //Backbone.Mediator.publish 'tome:change-language', language: @codeLanguage, reload: true  # We'll reload the PlayLevelView instead.
+
+        if (changed) { this.session.patch(); }
+      }
+
+      changed = this.updateHeroConfig(me, hero);
+      const aceConfig = _.clone(me.get('aceConfig')) || {};
+      if (this.codeLanguage !== aceConfig.language) {
+        aceConfig.language = this.codeLanguage;
+        me.set('aceConfig', aceConfig);
+        changed = true;
+      }
+
+      if (changed) { me.patch(); }
+
+      this.hide();
+      return (typeof this.trigger === 'function' ? this.trigger('confirm-click', {hero: this.selectedHero}) : undefined);
+    }
+
+    updateHeroConfig(model, hero) {
+      if (!hero) { return false; }
+      const heroConfig = _.clone(model.get('heroConfig')) || {};
+      if (heroConfig.thangType !== hero) {
+        heroConfig.thangType = hero;
+        model.set('heroConfig', heroConfig);
+        return true;
+      }
+    }
+
+    onHidden() {
+      super.onHidden();
+      return this.playSound('game-menu-close');
+    }
+
+    destroy() {
+      clearInterval(this.heroAnimationInterval);
+      for (var heroIndex in this.stages) {
+        var stage = this.stages[heroIndex];
+        createjs.Ticker.removeEventListener("tick", stage);
+        stage.removeAllChildren();
+      }
+      for (var layer of Array.from(this.layers)) { layer.destroy(); }
+      return super.destroy();
+    }
+  };
+  PlayHeroesModal.initClass();
+  return PlayHeroesModal;
+})());
+
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}
+function __guardMethod__(obj, methodName, transform) {
+  if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {
+    return transform(obj, methodName);
+  } else {
+    return undefined;
+  }
+}

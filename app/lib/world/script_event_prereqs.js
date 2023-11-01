@@ -1,18 +1,27 @@
-{downTheChain} = require './world_utils'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let scriptMatchesEventPrereqs;
+const {downTheChain} = require('./world_utils');
 
-module.exports.scriptMatchesEventPrereqs = scriptMatchesEventPrereqs = (script, event) ->
-  return true unless script.eventPrereqs
-  for ap in script.eventPrereqs
-    v = downTheChain(event, ap.eventProps)
-    return false if ap.equalTo? and v isnt ap.equalTo
-    return false if ap.notEqualTo? and v is ap.notEqualTo
-    return false if ap.greaterThan? and not (v > ap.greaterThan)
-    return false if ap.greaterThanOrEqualTo? and not (v >= ap.greaterThanOrEqualTo)
-    return false if ap.lessThan? and not (v < ap.lessThan)
-    return false if ap.lessThanOrEqualTo? and not (v <= ap.lessThanOrEqualTo)
-    return false if ap.containingString? and (not v or v.search(ap.containingString) is -1)
-    return false if ap.notContainingString? and v?.search(ap.notContainingString) isnt -1
-    return false if ap.containingRegexp? and (not v or v.search(new RegExp(ap.containingRegexp)) is -1)
-    return false if ap.notContainingRegexp? and v?.search(new RegExp(ap.notContainingRegexp)) isnt -1
+module.exports.scriptMatchesEventPrereqs = (scriptMatchesEventPrereqs = function(script, event) {
+  if (!script.eventPrereqs) { return true; }
+  for (var ap of Array.from(script.eventPrereqs)) {
+    var v = downTheChain(event, ap.eventProps);
+    if ((ap.equalTo != null) && (v !== ap.equalTo)) { return false; }
+    if ((ap.notEqualTo != null) && (v === ap.notEqualTo)) { return false; }
+    if ((ap.greaterThan != null) && !(v > ap.greaterThan)) { return false; }
+    if ((ap.greaterThanOrEqualTo != null) && !(v >= ap.greaterThanOrEqualTo)) { return false; }
+    if ((ap.lessThan != null) && !(v < ap.lessThan)) { return false; }
+    if ((ap.lessThanOrEqualTo != null) && !(v <= ap.lessThanOrEqualTo)) { return false; }
+    if ((ap.containingString != null) && (!v || (v.search(ap.containingString) === -1))) { return false; }
+    if ((ap.notContainingString != null) && ((v != null ? v.search(ap.notContainingString) : undefined) !== -1)) { return false; }
+    if ((ap.containingRegexp != null) && (!v || (v.search(new RegExp(ap.containingRegexp)) === -1))) { return false; }
+    if ((ap.notContainingRegexp != null) && ((v != null ? v.search(new RegExp(ap.notContainingRegexp)) : undefined) !== -1)) { return false; }
+  }
 
-  return true
+  return true;
+});

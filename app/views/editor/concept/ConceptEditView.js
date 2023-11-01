@@ -1,71 +1,101 @@
-require('app/styles/editor/concept/edit.sass')
-RootView = require 'views/core/RootView'
-template = require 'app/templates/editor/concept/edit'
-Concept = require 'models/Concept'
-ConfirmModal = require 'views/core/ConfirmModal'
-PatchesView = require 'views/editor/PatchesView'
-errors = require 'core/errors'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ConceptEditView;
+require('app/styles/editor/concept/edit.sass');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/editor/concept/edit');
+const Concept = require('models/Concept');
+const ConfirmModal = require('views/core/ConfirmModal');
+const PatchesView = require('views/editor/PatchesView');
+const errors = require('core/errors');
 
-require 'lib/game-libraries'
-require('lib/setupTreema')
-treemaExt = require 'core/treema-ext'
+require('lib/game-libraries');
+require('lib/setupTreema');
+const treemaExt = require('core/treema-ext');
 
-module.exports = class ConceptEditView extends RootView
-  id: 'editor-concept-edit-view'
-  template: template
+module.exports = (ConceptEditView = (function() {
+  ConceptEditView = class ConceptEditView extends RootView {
+    static initClass() {
+      this.prototype.id = 'editor-concept-edit-view';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'click #save-button': 'onClickSaveButton',
+        'click #i18n-button': 'onPopulateI18N'
+      };
+    }
 
-  events:
-    'click #save-button': 'onClickSaveButton'
-    'click #i18n-button': 'onPopulateI18N'
+    constructor(options, conceptID) {
+      this.conceptID = conceptID;
+      super(options);
+      this.concept = new Concept({_id: this.conceptID});
+      this.concept.saveBackups = true;
+      this.supermodel.loadModel(this.concept);
+    }
 
-  constructor: (options, @conceptID) ->
-    super options
-    @concept = new Concept(_id: @conceptID)
-    @concept.saveBackups = true
-    @supermodel.loadModel @concept
+    onLoaded() {
+      super.onLoaded();
+      this.buildTreema();
+      return this.listenTo(this.concept, 'change', () => {
+        this.concept.updateI18NCoverage();
+        return this.treema.set('/', this.concept.attributes);
+      });
+    }
 
-  onLoaded: ->
-    super()
-    @buildTreema()
-    @listenTo @concept, 'change', =>
-      @concept.updateI18NCoverage()
-      @treema.set('/', @concept.attributes)
+    buildTreema() {
+      if ((this.treema != null) || (!this.concept.loaded)) { return; }
+      const data = $.extend(true, {}, this.concept.attributes);
+      const options = {
+        data,
+        filePath: `db/concept/${this.concept.get('_id')}`,
+        schema: Concept.schema,
+        readOnly: me.get('anonymous'),
+        supermodel: this.supermodel,
+        nodeClasses: { code: treemaExt.JavaScriptTreema }
+      };
+      this.treema = this.$el.find('#concept-treema').treema(options);
+      this.treema.build();
+      return (this.treema.childrenTreemas.rewards != null ? this.treema.childrenTreemas.rewards.open(3) : undefined);
+    }
 
-  buildTreema: ->
-    return if @treema? or (not @concept.loaded)
-    data = $.extend(true, {}, @concept.attributes)
-    options =
-      data: data
-      filePath: "db/concept/#{@concept.get('_id')}"
-      schema: Concept.schema
-      readOnly: me.get('anonymous')
-      supermodel: @supermodel
-      nodeClasses: { code: treemaExt.JavaScriptTreema }
-    @treema = @$el.find('#concept-treema').treema(options)
-    @treema.build()
-    @treema.childrenTreemas.rewards?.open(3)
+    afterRender() {
+      super.afterRender();
+      if (!this.supermodel.finished()) { return; }
+      if (me.get('anonymous')) { this.showReadOnly(); }
+      this.patchesView = this.insertSubView(new PatchesView(this.concept), this.$el.find('.patches-view'));
+      return this.patchesView.load();
+    }
 
-  afterRender: ->
-    super()
-    return unless @supermodel.finished()
-    @showReadOnly() if me.get('anonymous')
-    @patchesView = @insertSubView(new PatchesView(@concept), @$el.find('.patches-view'))
-    @patchesView.load()
+    onPopulateI18N() {
+      return this.concept.populateI18N();
+    }
 
-  onPopulateI18N: ->
-    @concept.populateI18N()
+    onClickSaveButton(e) {
+      this.treema.endExistingEdits();
+      for (var key in this.treema.data) {
+        var value = this.treema.data[key];
+        this.concept.set(key, value);
+      }
+      this.concept.updateI18NCoverage();
 
-  onClickSaveButton: (e) ->
-    @treema.endExistingEdits()
-    for key, value of @treema.data
-      @concept.set(key, value)
-    @concept.updateI18NCoverage()
+      const res = this.concept.save();
 
-    res = @concept.save()
+      res.error((collection, response, options) => {
+        return console.error(response);
+      });
 
-    res.error (collection, response, options) =>
-      console.error response
-
-    res.success =>
-      url = "/editor/concept/#{@concept.get('slug') or @concept.id}"
-      document.location.href = url
+      return res.success(() => {
+        const url = `/editor/concept/${this.concept.get('slug') || this.concept.id}`;
+        return document.location.href = url;
+      });
+    }
+  };
+  ConceptEditView.initClass();
+  return ConceptEditView;
+})());
