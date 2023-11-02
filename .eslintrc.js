@@ -16,7 +16,9 @@ module.exports = {
     noty: 'readonly',
     features: 'readonly',
     gapi: 'readonly',
-    FB: 'readonly'
+    FB: 'readonly',
+    jasmine: 'readonly',
+    Backbone: 'readonly'
   },
 
   env: {

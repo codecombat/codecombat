@@ -28,7 +28,7 @@ module.exports = (God = (function() {
   God = class God extends CocoClass {
     static initClass() {
       this.nicks = ['Athena', 'Baldr', 'Crom', 'Dagr', 'Eris', 'Freyja', 'Great Gish', 'Hades', 'Ishtar', 'Janus', 'Khronos', 'Loki', 'Marduk', 'Negafook', 'Odin', 'Poseidon', 'Quetzalcoatl', 'Ra', 'Shiva', 'Thor', 'Umvelinqangi', 'Týr', 'Vishnu', 'Wepwawet', 'Xipe Totec', 'Yahweh', 'Zeus', '上帝', 'Tiamat', '盘古', 'Phoebe', 'Artemis', 'Osiris', '嫦娥', 'Anhur', 'Teshub', 'Enlil', 'Perkele', 'Chaos', 'Hera', 'Iris', 'Theia', 'Uranus', 'Stribog', 'Sabazios', 'Izanagi', 'Ao', 'Tāwhirimātea', 'Tengri', 'Inmar', 'Torngarsuk', 'Centzonhuitznahua', 'Hunab Ku', 'Apollo', 'Helios', 'Thoth', 'Hyperion', 'Alectrona', 'Eos', 'Mitra', 'Saranyu', 'Freyr', 'Koyash', 'Atropos', 'Clotho', 'Lachesis', 'Tyche', 'Skuld', 'Urðr', 'Verðandi', 'Camaxtli', 'Huhetotl', 'Set', 'Anu', 'Allah', 'Anshar', 'Hermes', 'Lugh', 'Brigit', 'Manannan Mac Lir', 'Persephone', 'Mercury', 'Venus', 'Mars', 'Azrael', 'He-Man', 'Anansi', 'Issek', 'Mog', 'Kos', 'Amaterasu Omikami', 'Raijin', 'Susanowo', 'Blind Io', 'The Lady', 'Offler', 'Ptah', 'Anubis', 'Ereshkigal', 'Nergal', 'Thanatos', 'Macaria', 'Angelos', 'Erebus', 'Hecate', 'Hel', 'Orcus', 'Ishtar-Deela Nakh', 'Prometheus', 'Hephaestos', 'Sekhmet', 'Ares', 'Enyo', 'Otrera', 'Pele', 'Hadúr', 'Hachiman', 'Dayisun Tngri', 'Ullr', 'Lua', 'Minerva'];
-  
+
       this.prototype.subscriptions = {
         'tome:cast-spells': 'onTomeCast',
         'tome:spell-debug-value-request': 'retrieveValueFromFrame',
@@ -37,6 +37,7 @@ module.exports = (God = (function() {
     }
 
     constructor(options) {
+      super();
       let angelCount;
       this.retrieveValueFromFrame = this.retrieveValueFromFrame.bind(this);
       this.onDebugWorkerMessage = this.onDebugWorkerMessage.bind(this);
@@ -45,7 +46,6 @@ module.exports = (God = (function() {
       if (this.gameUIState == null) { this.gameUIState = options.gameUIState || new GameUIState(); }
       this.capstoneStage = options.capstoneStage || 1;
       this.indefiniteLength = options.indefiniteLength || false;
-      super();
 
       // Angels are all given access to this.
       this.angelsShare = {

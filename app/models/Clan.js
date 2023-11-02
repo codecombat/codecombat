@@ -5,18 +5,16 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let Clan;
-const CocoModel = require('./CocoModel');
-const schema = require('schemas/models/clan.schema');
+const CocoModel = require('./CocoModel')
+const schema = require('schemas/models/clan.schema')
 
-module.exports = (Clan = (function() {
-  Clan = class Clan extends CocoModel {
-    static initClass() {
-      this.className = 'Clan';
-      this.schema = schema;
-      this.prototype.urlRoot = '/db/clan';
-    }
-  };
-  Clan.initClass();
-  return Clan;
-})());
+class Clan extends CocoModel {
+  constructor () {
+    super()
+    this.className = 'Clan'
+    this.schema = schema
+    this.urlRoot = '/db/clan'
+  }
+}
+
+module.exports = Clan

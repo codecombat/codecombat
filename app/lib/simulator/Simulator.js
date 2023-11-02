@@ -31,7 +31,8 @@ if ($.browser) {
 }
 
 module.exports = (Simulator = class Simulator extends CocoClass {
-  constructor(options) {
+  constructor (options = {}) {
+    super(options)
     this.fetchAndSimulateOneGame = this.fetchAndSimulateOneGame.bind(this);
     this.fetchAndSimulateTask = this.fetchAndSimulateTask.bind(this);
     this.handleFetchTaskError = this.handleFetchTaskError.bind(this);
@@ -42,7 +43,6 @@ module.exports = (Simulator = class Simulator extends CocoClass {
     this.cleanupAndSimulateAnotherTask = this.cleanupAndSimulateAnotherTask.bind(this);
     this.fetchToken = this.fetchToken.bind(this);
     this.options = options;
-    if (this.options == null) { this.options = {}; }
     const simulatorType = this.options.headlessClient ? 'headless' : 'browser';
     this.simulator = {
       type: simulatorType,

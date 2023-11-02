@@ -17,34 +17,27 @@ const storage = require('core/storage');
 const locale = require('locale/locale');
 const utils = require('core/utils');
 const globalVar = require('core/globalVar');
+const _ = require('lodash')
 
 class CocoModel extends Backbone.Model {
-  static initClass() {
-    this.prototype.idAttribute = '_id';
-    this.prototype.loaded = false;
-    this.prototype.loading = false;
-    this.prototype.saveBackups = false;
-    this.prototype.notyErrors = true;
-    this.schema = null;
-  
-    this.prototype.attributesWithDefaults = undefined;
-  
-    this.backedUp = {};
-  
-    CocoModel.pollAchievements = _.debounce(CocoModel.pollAchievements, 3000);
-  }
-
-  constructor(attributes, options)  {
+  constructor (attributes, options) {
     if (_.isObject(attributes) && ('undefined' in attributes)) {
       console.error(`Unsetting \`undefined\` property key during construction of ${this.constructor.className} model with value ${attributes['undefined']}`);
       delete attributes['undefined'];
     }
-    super(...arguments);
+    super(attributes, options)
+    this.idAttribute = '_id'
+    this.loaded = false
+    this.loading = false
+    this.saveBackups = false
+    this.notyErrors = true
+    this.attributesWithDefaults = undefined
+    this.backedUp = {}
+    CocoModel.pollAchievements = _.debounce(CocoModel.pollAchievements, 3000)
   }
 
-  initialize(attributes, options) {
-    super.initialize(...arguments);
-    if (options == null) { options = {}; }
+  initialize (attributes, options = {}) {
+    super.initialize(attributes, options)
     this.setProjection(options.project);
     if (!this.constructor.className) {
       console.error(`${this} needs a className set.`);
@@ -52,11 +45,11 @@ class CocoModel extends Backbone.Model {
     this.on('sync', this.onLoaded, this);
     this.on('error', this.onError, this);
     this.on('add', this.onLoaded, this);
-    this.saveBackup = _.debounce(this.saveBackup, 500);
-    this.usesVersions = (__guard__(__guard__(this.schema(), x1 => x1.properties), x => x.version) != null);
-    if (globalVar.application != null ? globalVar.application.testing : undefined) {
-      this.fakeRequests = [];
-      return this.on('request', function() { return this.fakeRequests.push(jasmine.Ajax.requests.mostRecent()); });
+    this.saveBackup = _.debounce(this.saveBackup, 500)
+    this.usesVersions = (this.schema()?.properties?.version != null)
+    if (globalVar.application?.testing) {
+      this.fakeRequests = []
+      this.on('request', () => this.fakeRequests.push(jasmine.Ajax.requests.mostRecent()))
     }
   }
 
@@ -600,9 +593,7 @@ class CocoModel extends Backbone.Model {
     return this.fetch(options);
   }
 }
-CocoModel.initClass();
-
-module.exports = CocoModel;
+module.exports = CocoModel
 
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;

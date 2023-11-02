@@ -22,7 +22,7 @@ module.exports = (Bus = (Bus = (function() {
       this.prototype.players = null;
       this.activeBuses = {};
       this.fireHost = 'https://codecombat.firebaseio.com';
-  
+
       this.prototype.subscriptions =
         {'auth:me-synced': 'onMeSynced'};
     }
@@ -31,13 +31,13 @@ module.exports = (Bus = (Bus = (function() {
     static getFromCache(docName) { return Bus.activeBuses[docName]; }
 
     constructor(docName) {
+      super();
       this.onFireOpen = this.onFireOpen.bind(this);
       this.onChatAdded = this.onChatAdded.bind(this);
       this.onPlayerJoined = this.onPlayerJoined.bind(this);
       this.onPlayerLeft = this.onPlayerLeft.bind(this);
       this.onPlayerChanged = this.onPlayerChanged.bind(this);
       this.docName = docName;
-      super();
       this.players = {};
       Bus.activeBuses[this.docName] = this;
     }

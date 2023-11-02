@@ -47,7 +47,7 @@ class Manifest {
 
 class Media {
   static initClass() {
-  
+
     this.prototype.loaded = false;
     this.prototype.data = null;
     this.prototype.progress = 0.0;
@@ -65,9 +65,9 @@ class AudioPlayer extends CocoClass {
   }
 
   constructor() {
+    super();
     this.onSoundLoaded = this.onSoundLoaded.bind(this);
     this.onSoundLoadError = this.onSoundLoadError.bind(this);
-    super();
     this.ext = createjs.Sound.capabilities.mp3 ? '.mp3' : '.ogg';
     this.camera = null;
     this.listenToSound();
