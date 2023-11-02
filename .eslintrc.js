@@ -18,7 +18,8 @@ module.exports = {
     gapi: 'readonly',
     FB: 'readonly',
     jasmine: 'readonly',
-    Backbone: 'readonly'
+    Backbone: 'readonly',
+    CoffeeScript: 'readonly'
   },
 
   env: {
