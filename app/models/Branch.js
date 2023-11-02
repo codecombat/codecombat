@@ -11,10 +11,11 @@ const schema = require('schemas/models/branch.schema')
 class Branch extends CocoModel {
   constructor() {
     super()
-    this.className = 'Branch'
-    this.schema = schema
-    this.urlRoot = '/db/branches'
   }
 }
+
+Branch.className = 'Branch'
+Branch.schema = schema
+Branch.prototype.urlRoot = '/db/branches'
 
 module.exports = Branch

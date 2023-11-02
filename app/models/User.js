@@ -62,8 +62,8 @@ module.exports = (User = (function() {
   let c = undefined;
   User = class User extends CocoModel {
     constructor(...args) {
-      this.prepaidType = this.prepaidType.bind(this);
       super(...args);
+      this.prepaidType = this.prepaidType.bind(this);
     }
 
     static initClass() {
@@ -82,18 +82,18 @@ module.exports = (User = (function() {
         BETA_TESTER: 'betaTester',
         PARENT_ADMIN: 'parentAdmin'
       };
-  
+
       a = 5;
       b = 100;
       c = b;
-  
+
       this.prototype.getHeroPoseImage = co.wrap(function*() {
         let left;
         const heroOriginal = (left = __guard__(this.get('heroConfig'), x => x.thangType)) != null ? left : ThangTypeConstants.heroes.captain;
         const heroThangType = yield fetchJson(`/db/thang.type/${heroOriginal}/version?project=poseImage`);
         return '/file/' + heroThangType.poseImage;
       });
-  
+
       this.prototype.fetchOnlineTeachers = co.wrap(function*(users) {
         let url = "/db/user/teachers/online";
         if (users != null) {

@@ -5,43 +5,6 @@ const _ = require('lodash')
 class LevelComponent extends CocoModel {
   constructor () {
     super()
-    this.className = 'LevelComponent'
-    this.schema = schema
-    this.urlRoot = '/db/level.component'
-    this.editableByArtisans = true
-
-    this.EquipsID = '53e217d253457600003e3ebb'
-    this.ItemID = '53e12043b82921000051cdf9'
-    this.AttacksID = '524b7ba57fc0f6d519000016'
-    this.PhysicalID = '524b75ad7fc0f6d519000001'
-    this.ExistsID = '524b4150ff92f1f4f8000024'
-    this.LandID = '524b7aff7fc0f6d519000006'
-    this.CollidesID = '524b7b857fc0f6d519000012'
-    this.PlansID = '524b7b517fc0f6d51900000d'
-    this.ProgrammableID = '524b7b5a7fc0f6d51900000e'
-    this.MovesID = '524b7b8c7fc0f6d519000013'
-    this.MissileID = '524cc2593ea855e0ab000142'
-    this.FindsPathsID = '52872b0ead92b98561000002'
-    this.AttackableID = '524b7bab7fc0f6d519000017'
-    this.RefereeID = '54977ce657e90bd1903dea72'
-
-    this.ProgrammableIDs = [
-      '524b7b5a7fc0f6d51900000e',
-      '5f7d7be6bad19a002837b394'
-    ]
-
-    this.positionIDs = [
-      '524b75ad7fc0f6d519000001',
-      '5f589b061d240e002298f852'
-    ]
-    this.shapeIDs = [
-      '524b75ad7fc0f6d519000001',
-      '5f58cbfe3f40380023b02f3c'
-    ]
-    this.collisionIDs = [
-      '524b7b857fc0f6d519000012',
-      '5f5a19ba36dd000023f89f7b'
-    ]
   }
 
   set (key, val, options) {
@@ -95,5 +58,43 @@ class LevelComponent extends CocoModel {
     return results
   }
 }
+
+LevelComponent.className = 'LevelComponent'
+LevelComponent.schema = schema
+LevelComponent.prototype.urlRoot = '/db/level.component'
+LevelComponent.prototype.editableByArtisans = true
+
+LevelComponent.EquipsID = '53e217d253457600003e3ebb'
+LevelComponent.ItemID = '53e12043b82921000051cdf9'
+LevelComponent.AttacksID = '524b7ba57fc0f6d519000016'
+LevelComponent.PhysicalID = '524b75ad7fc0f6d519000001'
+LevelComponent.ExistsID = '524b4150ff92f1f4f8000024'
+LevelComponent.LandID = '524b7aff7fc0f6d519000006'
+LevelComponent.CollidesID = '524b7b857fc0f6d519000012'
+LevelComponent.PlansID = '524b7b517fc0f6d51900000d'
+LevelComponent.ProgrammableID = '524b7b5a7fc0f6d51900000e'
+LevelComponent.MovesID = '524b7b8c7fc0f6d519000013'
+LevelComponent.MissileID = '524cc2593ea855e0ab000142'
+LevelComponent.FindsPathsID = '52872b0ead92b98561000002'
+LevelComponent.AttackableID = '524b7bab7fc0f6d519000017'
+LevelComponent.RefereeID = '54977ce657e90bd1903dea72'
+
+LevelComponent.ProgrammableIDs = [
+  '524b7b5a7fc0f6d51900000e',
+  '5f7d7be6bad19a002837b394'
+]
+
+LevelComponent.positionIDs = [
+  '524b75ad7fc0f6d519000001',
+  '5f589b061d240e002298f852'
+]
+LevelComponent.shapeIDs = [
+  '524b75ad7fc0f6d519000001',
+  '5f58cbfe3f40380023b02f3c'
+]
+LevelComponent.collisionIDs = [
+  '524b7b857fc0f6d519000012',
+  '5f5a19ba36dd000023f89f7b'
+]
 
 module.exports = LevelComponent

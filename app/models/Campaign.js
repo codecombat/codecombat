@@ -9,12 +9,6 @@ const api = require('core/api')
 class Campaign extends CocoModel {
   constructor (options = {}) {
     super()
-    this.className = 'Campaign'
-    this.schema = schema
-    this.urlRoot = '/db/campaign'
-    this.denormalizedLevelProperties = _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards', 'first', 'nextLevels', 'campaignPage', 'releasePhase', 'moduleNum']))
-    this.denormalizedCampaignProperties = ['name', 'i18n', 'slug']
-    this.nextLevelProperties = ['original', 'name', 'slug', 'type', 'permissions']
     this.forceCourseNumbering = options.forceCourseNumbering
   }
 
@@ -123,5 +117,12 @@ class Campaign extends CocoModel {
     return super.updateI18NCoverage(_.omit(this.attributes, 'levels'))
   }
 }
+
+Campaign.className = 'Campaign'
+Campaign.schema = schema
+Campaign.denormalizedLevelProperties = _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards', 'first', 'nextLevels', 'campaignPage', 'releasePhase', 'moduleNum']))
+Campaign.denormalizedCampaignProperties = ['name', 'i18n', 'slug']
+Campaign.nextLevelProperties = ['original', 'name', 'slug', 'type', 'permissions']
+Campaign.prototype.urlRoot = '/db/campaign'
 
 module.exports = Campaign

@@ -207,4 +207,4 @@ class GPlusHandler extends CocoClass {
   }
 }
 
-export default GPlusHandler
+module.exports = GPlusHandler

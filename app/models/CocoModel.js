@@ -1,11 +1,8 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 /*
  * decaffeinate suggestions:
  * DS002: Fix invalid constructor
  * DS101: Remove unnecessary use of Array.from
  * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
  * DS104: Avoid inline assignments
  * DS204: Change includes calls to have a more natural evaluation order
  * DS205: Consider reworking code to avoid use of IIFEs
@@ -20,36 +17,44 @@ const globalVar = require('core/globalVar');
 const _ = require('lodash')
 
 class CocoModel extends Backbone.Model {
+  static initClass () {
+    this.prototype.idAttribute = '_id'
+    this.prototype.loaded = false
+    this.prototype.loading = false
+    this.prototype.saveBackups = false
+    this.prototype.notyErrors = true
+    this.schema = null
+
+    this.prototype.attributesWithDefaults = undefined
+
+    this.backedUp = {}
+
+    CocoModel.pollAchievements = _.debounce(CocoModel.pollAchievements, 3000)
+  }
+
   constructor (attributes, options) {
+    super(...arguments)
     if (_.isObject(attributes) && ('undefined' in attributes)) {
       console.error(`Unsetting \`undefined\` property key during construction of ${this.constructor.className} model with value ${attributes['undefined']}`);
       delete attributes['undefined'];
     }
-    super(attributes, options)
-    this.idAttribute = '_id'
-    this.loaded = false
-    this.loading = false
-    this.saveBackups = false
-    this.notyErrors = true
-    this.attributesWithDefaults = undefined
-    this.backedUp = {}
-    CocoModel.pollAchievements = _.debounce(CocoModel.pollAchievements, 3000)
   }
 
-  initialize (attributes, options = {}) {
-    super.initialize(attributes, options)
+  initialize (attributes, options) {
+    super.initialize(...arguments)
+    if (!options) { options = {} }
     this.setProjection(options.project);
     if (!this.constructor.className) {
-      console.error(`${this} needs a className set.`);
+      console.error(`${this} needs a className set.`, this.constructor?.className, this.constructor, this.className);
     }
     this.on('sync', this.onLoaded, this);
     this.on('error', this.onError, this);
-    this.on('add', this.onLoaded, this);
+    this.on('add', this.onLoaded, this)
     this.saveBackup = _.debounce(this.saveBackup, 500)
     this.usesVersions = (this.schema()?.properties?.version != null)
     if (globalVar.application?.testing) {
       this.fakeRequests = []
-      this.on('request', () => this.fakeRequests.push(jasmine.Ajax.requests.mostRecent()))
+      return this.on('request', function () { return this.fakeRequests.push(jasmine.Ajax.requests.mostRecent()) })
     }
   }
 
@@ -65,10 +70,10 @@ class CocoModel extends Backbone.Model {
     if (project === this.project) { return; }
     let url = this.getURL();
     if (!/project=/.test(url)) { url += '&project='; }
-    if (!/\?/.test(url)) { url = url.replace('&', '?'); }
-    url = url.replace(/project=[^&]*/, `project=${(project != null ? project.join(',') : undefined) || ''}`);
-    if (!(project != null ? project.length : undefined)) { url = url.replace(/[&?]project=&/, '&'); }
-    if (!(project != null ? project.length : undefined)) { url = url.replace(/[&?]project=$/, ''); }
+    if (!/\?/.test(url)) { url = url.replace('&', '?') }
+    url = url.replace(/project=[^&]*/, `project=${project?.join(',') || ''}`)
+    if (!project?.length) { url = url.replace(/[&?]project=&/, '&') }
+    if (!project?.length) { url = url.replace(/[&?]project=$/, '') }
     this.setURL(url);
     return this.project = project;
   }
@@ -84,7 +89,7 @@ class CocoModel extends Backbone.Model {
     clone.set($.extend(true, {}, withChanges || !this._revertAttributes ? this.attributes : this._revertAttributes));
     if (this._revertAttributes && !withChanges) {
       // remove any keys that are in the current attributes not in the snapshot
-      for (var key of Array.from(_.difference(_.keys(clone.attributes), _.keys(this._revertAttributes)))) {
+      for (const key of Array.from(_.difference(_.keys(clone.attributes), _.keys(this._revertAttributes)))) {
         clone.unset(key);
       }
     }
@@ -132,8 +137,8 @@ class CocoModel extends Backbone.Model {
 
   set(attributes, options) {
     if (attributes !== 'thangs') { delete this.attributesWithDefaults; }  // unless attributes is 'thangs': performance optimization for Levels keeping their cache.
-    const inFlux = this.loading || !this.loaded;
-    if (!inFlux && !this._revertAttributes && !this.project && !(options != null ? options.fromMerge : undefined)) { this.markToRevert(); }
+    const inFlux = this.loading || !this.loaded
+    if (!inFlux && !this._revertAttributes && !this.project && !options?.fromMerge) { this.markToRevert() }
     if (_.isString(attributes) && ((attributes === 'undefined') || (attributes === undefined))) {
       console.error(`Blocking setting of ${attributes} property to ${this.constructor.className} model with value ${options}`);
       return;
@@ -180,21 +185,19 @@ class CocoModel extends Backbone.Model {
     const definedAttributes = _.pick(this.attributes, v => v !== undefined);
     const {
       errors
-    } = tv4.validateMultiple(definedAttributes, this.constructor.schema || {});
-    if (errors != null ? errors.length : undefined) { return errors; }
+    } = tv4.validateMultiple(definedAttributes, this.constructor.schema || {})
+    if (errors?.length) { return errors }
   }
 
   validate() {
-    const errors = this.getValidationErrors();
-    if (errors != null ? errors.length : undefined) {
-      if (!(typeof application !== 'undefined' && application !== null ? application.testing : undefined)) {
-        console.debug(`Validation failed for ${this.constructor.className}: '${this.get('name') || this}'.`);
-        for (var error of Array.from(errors)) {
+    const errors = this.getValidationErrors()
+    if (errors?.length) {
+      if (!application?.testing) {
+        console.debug(`Validation failed for ${this.constructor.className}: '${this.get('name') || this}'.`)
+        for (const error of Array.from(errors)) {
           console.debug("\t", error.dataPath, ':', error.message);
         }
-        if (typeof console.trace === 'function') {
-          console.trace();
-        }
+        console.trace?.()
       }
       return errors;
     }
@@ -203,8 +206,8 @@ class CocoModel extends Backbone.Model {
   save(attrs, options) {
     if (options == null) { options = {}; }
     const originalOptions = _.cloneDeep(options);
-    if (options.headers == null) { options.headers = {}; }
-    options.headers['X-Current-Path'] = (document.location != null ? document.location.pathname : undefined) != null ? (document.location != null ? document.location.pathname : undefined) : 'unknown';
+    if (options.headers == null) { options.headers = {} }
+    options.headers['X-Current-Path'] = document.location?.pathname != null ? document.location?.pathname : 'unknown'
     const {
       success
     } = options;
@@ -246,8 +249,8 @@ class CocoModel extends Backbone.Model {
       if (!this.notyErrors) { return; }
       const errorMessage = `Error saving ${(left = this.get('name')) != null ? left : this.type()}`;
       console.log('going to log an error message');
-      console.warn(errorMessage, res.responseJSON);
-      if (!(typeof webkit !== 'undefined' && webkit !== null ? webkit.messageHandlers : undefined)) {  // Don't show these notys on iPad
+      console.warn(errorMessage, res.responseJSON)
+      if (!webkit?.messageHandlers) { // Don't show these notys on iPad
         try {
           noty({text: `${errorMessage}: ${res.status} ${res.statusText}\n${res.responseText}`, layout: 'topCenter', type: 'error', killer: false, timeout: 10000});
         } catch (error2) {
@@ -268,8 +271,8 @@ class CocoModel extends Backbone.Model {
     options.type = 'PUT';
 
     const attrs = {_id: this.id};
-    const keys = [];
-    for (var key of Array.from(_.keys(this.attributes))) {
+    const keys = []
+    for (const key of Array.from(_.keys(this.attributes))) {
       if (!_.isEqual(this.attributes[key], this._revertAttributes[key])) {
         attrs[key] = this.attributes[key];
         keys.push(key);
@@ -281,7 +284,7 @@ class CocoModel extends Backbone.Model {
   }
 
   fetch(options) {
-    if (options == null) { options = {}; }
+    if (!options) { options = {}; }
     if (options.data == null) { options.data = {}; }
     if (this.project) { options.data.project = this.project.join(','); }
     //console.error @constructor.className, @, "fetching with cache?", options.cache, "options", options  # Useful for debugging cached IE fetches
@@ -299,9 +302,9 @@ class CocoModel extends Backbone.Model {
       // Don't deep clone the raw vector data, but do deep clone everything else.
       this._revertAttributes = _.clone(this.attributes);
       return (() => {
-        const result = [];
-        for (var smallProp in this.attributes) {
-          var value = this.attributes[smallProp];
+        const result = []
+        for (const smallProp in this.attributes) {
+          const value = this.attributes[smallProp]
           if (value && (smallProp !== 'raw')) {
             result.push(this._revertAttributes[smallProp] = _.cloneDeep(value));
           }
@@ -340,8 +343,8 @@ class CocoModel extends Backbone.Model {
   }
 
   isPublished() {
-    let left;
-    for (var permission of Array.from(((left = this.get('permissions', true)) != null ? left : []))) {
+    let left
+    for (const permission of Array.from(((left = this.get('permissions', true)) != null ? left : []))) {
       if ((permission.target === 'public') && (permission.access === 'read')) { return true; }
     }
     return false;
@@ -352,8 +355,8 @@ class CocoModel extends Backbone.Model {
     return this.set('permissions', this.get('permissions', true).concat({access: 'read', target: 'public'}));
   }
 
-  static isObjectID(s) {
-    return (s.length === 24) && (__guard__(s.match(/[a-f0-9]/gi), x => x.length) === 24);
+  static isObjectID (s) {
+    return (s.length === 24) && (s.match(/[a-f0-9]/gi)?.length === 24)
   }
 
   hasReadAccess(actor) {
@@ -361,8 +364,8 @@ class CocoModel extends Backbone.Model {
     let left;
     if (actor == null) { actor = me; }
     if (actor.isAdmin()) { return true; }
-    if (actor.isArtisan() && this.editableByArtisans) { return true; }
-    for (var permission of Array.from(((left = this.get('permissions', true)) != null ? left : []))) {
+    if (actor.isArtisan() && this.editableByArtisans) { return true }
+    for (const permission of Array.from(((left = this.get('permissions', true)) != null ? left : []))) {
       if ((permission.target === 'public') || (actor.get('_id') === permission.target)) {
         if (['owner', 'read'].includes(permission.access)) { return true; }
       }
@@ -376,8 +379,8 @@ class CocoModel extends Backbone.Model {
     let left;
     if (actor == null) { actor = me; }
     if (actor.isAdmin()) { return true; }
-    if (actor.isArtisan() && this.editableByArtisans) { return true; }
-    for (var permission of Array.from(((left = this.get('permissions', true)) != null ? left : []))) {
+    if (actor.isArtisan() && this.editableByArtisans) { return true }
+    for (const permission of Array.from(((left = this.get('permissions', true)) != null ? left : []))) {
       if ((permission.target === 'public') || (actor.get('_id') === permission.target)) {
         if (['owner', 'write'].includes(permission.access)) { return true; }
       }
@@ -387,8 +390,8 @@ class CocoModel extends Backbone.Model {
   }
 
   getOwner() {
-    const ownerPermission = _.find(this.get('permissions', true), {access: 'owner'});
-    return (ownerPermission != null ? ownerPermission.target : undefined);
+    const ownerPermission = _.find(this.get('permissions', true), { access: 'owner' })
+    return ownerPermission?.target
   }
 
   watch(doWatch) {
@@ -412,18 +415,18 @@ class CocoModel extends Backbone.Model {
     if (schema.oneOf) { // get populating the Programmable component config to work
       schema = _.find(schema.oneOf, {type: 'object'}) || schema;
     }
-    let addedI18N = false;
-    if ((schema.properties != null ? schema.properties.i18n : undefined) && _.isPlainObject(data) && (data.i18n == null)) {
+    let addedI18N = false
+    if (schema.properties?.i18n && _.isPlainObject(data) && (data.i18n == null)) {
       data.i18n = {'-':{'-':'-'}}; // mongoose doesn't work with empty objects
       sum += 1;
       addedI18N = true;
     }
 
     if (_.isPlainObject(data)) {
-      for (var key in data) {
-        value = data[key];
-        var numChanged = 0;
-        var childSchema = schema.properties != null ? schema.properties[key] : undefined;
+      for (const key in data) {
+        value = data[key]
+        let numChanged = 0
+        let childSchema = schema.properties?.[key]
         if (!childSchema && _.isObject(schema.additionalProperties)) {
           childSchema = schema.additionalProperties;
         }
@@ -457,8 +460,8 @@ class CocoModel extends Backbone.Model {
   }
 
   static pollAchievements() {
-    if (utils.isOzaria) { return; }  // Not needed until/unlesss we start using achievements in Ozaria
-    if (typeof application !== 'undefined' && application !== null ? application.testing : undefined) { return; }
+    if (utils.isOzaria) { return } // Not needed until/unlesss we start using achievements in Ozaria
+    if (application?.testing) { return }
 
     const CocoCollection = require('collections/CocoCollection');
     const EarnedAchievement = require('models/EarnedAchievement');
@@ -502,8 +505,8 @@ class CocoModel extends Backbone.Model {
     // NOTE: If you edit this, edit the server side version as well!
     TreemaUtils.walk(attributes, this.schema(), null, function(path, data, workingSchema) {
       // Store parent data for the next block...
-      let prop;
-      if (data != null ? data.i18n : undefined) {
+      let prop
+      if (data?.i18n) {
         pathToData[path] = data;
       }
 
@@ -593,8 +596,6 @@ class CocoModel extends Backbone.Model {
     return this.fetch(options);
   }
 }
-module.exports = CocoModel
+CocoModel.initClass()
 
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}
+module.exports = CocoModel

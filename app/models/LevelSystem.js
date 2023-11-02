@@ -15,10 +15,6 @@ const _ = require('lodash')
 class LevelSystem extends CocoModel {
   constructor () {
     super()
-    this.className = 'LevelSystem'
-    this.schema = schema
-    this.urlRoot = '/db/level.system'
-    this.editableByArtisans = true
   }
 
   set (key, val, options) {
@@ -69,5 +65,10 @@ class LevelSystem extends CocoModel {
     return results
   }
 }
+
+LevelSystem.className = 'LevelSystem'
+LevelSystem.schema = schema
+LevelSystem.prototype.urlRoot = '/db/level.system'
+LevelSystem.prototype.editableByArtisans = true
 
 module.exports = LevelSystem

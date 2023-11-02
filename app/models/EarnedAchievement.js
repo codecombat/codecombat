@@ -4,9 +4,6 @@ const schema = require('schemas/models/earned_achievement')
 class EarnedAchievement extends CocoModel {
   constructor () {
     super()
-    this.className = 'EarnedAchievement'
-    this.schema = schema
-    this.urlRoot = '/db/earned_achievement'
   }
 
   save () {
@@ -16,5 +13,9 @@ class EarnedAchievement extends CocoModel {
     return super.save(...arguments)
   }
 }
+
+EarnedAchievement.className = 'EarnedAchievement'
+EarnedAchievement.schema = schema
+EarnedAchievement.prototype.urlRoot = '/db/earned_achievement'
 
 module.exports = EarnedAchievement

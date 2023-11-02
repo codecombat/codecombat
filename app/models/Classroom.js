@@ -28,9 +28,6 @@ const _ = require('lodash')
 class Classroom extends CocoModel {
   constructor () {
     super()
-    this.className = 'Classroom'
-    this.schema = schema
-    this.urlRoot = '/db/classroom'
     this.listenTo(this, 'change:aceConfig', this.capitalizeLanguageName)
   }
 
@@ -472,5 +469,10 @@ class Classroom extends CocoModel {
 function __guard__(value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
 }
+
+Classroom.className = 'Classroom'
+Classroom.schema = schema
+Classroom.prototype.urlRoot = '/db/classroom'
+
 
 module.exports = Classroom

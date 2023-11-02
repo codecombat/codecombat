@@ -5,9 +5,6 @@ const _ = require('lodash')
 class CourseInstance extends CocoModel {
   constructor () {
     super()
-    this.className = 'CourseInstance'
-    this.schema = schema
-    this.urlRoot = '/db/course_instance'
   }
 
   addMember (userID, opts) {
@@ -80,5 +77,9 @@ class CourseInstance extends CocoModel {
     return (this.get('members') || []).includes(userID)
   }
 }
+
+CourseInstance.className = 'CourseInstance'
+CourseInstance.schema = schema
+CourseInstance.prototype.urlRoot = '/db/course_instance'
 
 module.exports = CourseInstance

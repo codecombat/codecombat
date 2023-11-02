@@ -34,15 +34,15 @@ const PRODUCT_SUFFIX = utils.isCodeCombat ? 'coco' : 'ozar';
 module.exports = (HomeView = (function() {
   HomeView = class HomeView extends RootView {
     constructor(...args) {
+      super(...args);
       this.onCarouselSlide = this.onCarouselSlide.bind(this);
       this.activateCarousels = this.activateCarousels.bind(this);
-      super(...args);
     }
 
     static initClass() {
       this.prototype.id = 'home-view';
       this.prototype.template = utils.isCodeCombat ? cocoTemplate : ozarTemplate;
-  
+
       this.prototype.events = {
         'click .continue-playing-btn': 'onClickTrackEvent',
         'click .student-btn': 'onClickStudentButton',

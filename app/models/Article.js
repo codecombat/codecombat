@@ -10,12 +10,13 @@ const CocoModel = require('./CocoModel')
 class Article extends CocoModel {
   constructor() {
     super()
-    this.className = 'Article'
-    this.schema = require('schemas/models/article')
-    this.urlRoot = '/db/article'
-    this.saveBackups = true
-    this.editableByArtisans = true
+
   }
 }
+Article.className = 'Article'
+Article.schema = require('schemas/models/article')
+Article.prototype.urlRoot = '/db/article'
+Article.prototype.saveBackups = true
+Article.prototype.editableByArtisans = true
 
 module.exports = Article

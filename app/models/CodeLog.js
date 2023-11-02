@@ -8,13 +8,9 @@
 const CocoModel = require('./CocoModel')
 const schema = require('schemas/models/codelog.schema')
 
-class CodeLog extends CocoModel {
-  constructor () {
-    super()
-    this.className = 'CodeLog'
-    this.schema = schema
-    this.urlRoot = '/db/codelogs'
-  }
-}
+class CodeLog extends CocoModel {}
+CodeLog.className = 'CodeLog'
+CodeLog.schema = schema
+CodeLog.prototype.urlRoot = '/db/codelogs'
 
 module.exports = CodeLog

@@ -30,7 +30,7 @@ const MyMatchesTabView = require('./MyMatchesTabView');
 const SimulateTabView = require('./SimulateTabView');
 const LadderPlayModal = require('./LadderPlayModal');
 const CocoClass = require('core/CocoClass');
-const TournamentLeaderboard = require('./components/Leaderboard.coffee');
+const TournamentLeaderboard = require('./components/Leaderboard');
 
 const Clan = require('models/Clan');
 const CourseInstance = require('models/CourseInstance');
@@ -75,10 +75,10 @@ module.exports = (LadderView = (function() {
       this.prototype.template = require('app/templates/play/ladder/ladder');
       this.prototype.usesSocialMedia = true;
       this.prototype.showBackground = false;
-  
+
       this.prototype.subscriptions =
         {'application:idle-changed': 'onIdleChanged'};
-  
+
       this.prototype.events = {
         'click .play-button': 'onClickPlayButton',
         'click a:not([data-toggle])': 'onClickedLink',
@@ -88,7 +88,7 @@ module.exports = (LadderView = (function() {
         'click .early-results-button': 'onClickEarlyResultsButton',
         'click .join-clan-button': 'onClickJoinClanButton'
       };
-  
+
       this.prototype.onCourseInstanceLoaded = co.wrap(function*(courseInstance) {
         this.courseInstance = courseInstance;
         if (this.destroyed) { return; }
@@ -100,7 +100,7 @@ module.exports = (LadderView = (function() {
         this.course = this.supermodel.loadModel(course).model;
         return this.listenToOnce(this.course, 'sync', this.render);
       });
-  
+
       this.prototype.teamOffers = [
         {slug: 'hyperx', clanId: '60a4378875b540004c78f121', name: 'Team HyperX', clanSlug: 'hyperx'},
         {slug: 'derbezt', clanId: '601351bb4b79b4013e198fbe', name: 'Team DerBezt', clanSlug: 'team-derbezt'}

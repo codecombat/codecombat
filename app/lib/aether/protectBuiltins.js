@@ -50,7 +50,7 @@ module.exports.addedGlobals = (addedGlobals = {});
 module.exports.addGlobal = (addGlobal = function(name, value) {
   // Ex.: Aether.addGlobal('Vector', require('lib/world/vector')), before the Aether instance is constructed.
   if (addedGlobals[name] != null) { return; }
-  if (value == null) { value = globalScope[name]; }
+  if (value == null && globalScope) { value = globalScope[name]; }
   return addedGlobals[name] = value;
 });
 

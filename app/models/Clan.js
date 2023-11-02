@@ -8,13 +8,10 @@
 const CocoModel = require('./CocoModel')
 const schema = require('schemas/models/clan.schema')
 
-class Clan extends CocoModel {
-  constructor () {
-    super()
-    this.className = 'Clan'
-    this.schema = schema
-    this.urlRoot = '/db/clan'
-  }
-}
+class Clan extends CocoModel {}
+
+Clan.className = 'Clan'
+Clan.schema = schema
+Clan.prototype.urlRoot = '/db/clan'
 
 module.exports = Clan

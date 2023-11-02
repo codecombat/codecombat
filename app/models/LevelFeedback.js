@@ -4,10 +4,11 @@ const schema = require('schemas/models/level_feedback')
 class LevelFeedback extends CocoModel {
   constructor () {
     super()
-    this.className = 'LevelFeedback'
-    this.schema = schema
-    this.urlRoot = '/db/level.feedback'
   }
 }
+
+LevelFeedback.className = 'LevelFeedback'
+LevelFeedback.schema = schema
+LevelFeedback.prototype.urlRoot = '/db/level.feedback'
 
 module.exports = LevelFeedback
