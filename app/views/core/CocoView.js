@@ -37,25 +37,25 @@ module.exports = (CocoView = (function() {
     static initClass() {
       this.prototype.cache = false; // signals to the router to keep this view around
       this.prototype.retainSubviews = false;
-  
+
       this.prototype.events = {
         'click #loading-error .login-btn': 'onClickLoadingErrorLoginButton',
         'click #loading-error #create-account-btn': 'onClickLoadingErrorCreateAccountButton',
         'click #loading-error #logout-btn': 'onClickLoadingErrorLogoutButton',
         'click .contact-modal': 'onClickContactModal'
       };
-  
+
       this.prototype.subscriptions = {};
       this.prototype.shortcuts = {};
-  
+
       // load progress properties
       this.prototype.loadProgress =
         {progress: 0};
-  
+
       // Subscriptions
-  
+
       this.prototype.addNewSubscription = CocoClass.prototype.addNewSubscription;
-  
+
       this.prototype.isIE = utils.isIE;
        // set to true if you don't want subviews to be destroyed whenever the view renders
     }
@@ -64,6 +64,7 @@ module.exports = (CocoView = (function() {
     // Setup, Teardown
 
     constructor(options) {
+      super(...arguments);
       this.modalShown = this.modalShown.bind(this);
       this.modalClosed = this.modalClosed.bind(this);
       this.animatePointer = this.animatePointer.bind(this);
@@ -99,8 +100,6 @@ module.exports = (CocoView = (function() {
           throw new Error(`${(this.constructor != null ? this.constructor.name : undefined) != null ? (this.constructor != null ? this.constructor.name : undefined) : this}: Supermodel listeners not hooked up! Don't reassign @supermodel; CocoView does that for you.`);
         }
       });
-
-      super(...arguments);
     }
 
     destroy() {

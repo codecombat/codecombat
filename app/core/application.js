@@ -47,6 +47,7 @@ if (console.debug == null) { console.debug = console.log; }  // Needed for IE10 
 const Application = {
   initialize() {
     let i18nextInstance, userUtils;
+    const {me} = require('core/auth');
     const i18next = require('i18next');
     const jqueryI18next = require('jquery-i18next');
     const CocoModel = require('models/CocoModel');
@@ -54,7 +55,6 @@ const Application = {
     const GPlusHandler = require('core/social-handlers/GPlusHandler');
     const GitHubHandler = require('core/social-handlers/GitHubHandler');
     const locale = require('locale/locale');
-    const {me} = require('core/auth');
     const Tracker = require('core/Tracker2').default;
     const api = require('core/api');
     const utils = require('core/utils');

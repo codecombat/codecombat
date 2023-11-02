@@ -13,6 +13,7 @@
 let SuperModel;
 module.exports = (SuperModel = class SuperModel extends Backbone.Model {
   constructor() {
+    super()
     this.updateProgress = this.updateProgress.bind(this);
     this.num = 0;
     this.denom = 0;
@@ -45,7 +46,7 @@ module.exports = (SuperModel = class SuperModel extends Backbone.Model {
     }
     return unfinished;
   }
-    
+
   numDuplicates() {
     // For debugging. TODO: Prevent duplicates from happening!
     const ids = (Array.from(_.values(this.models)).map((m) => m.get('_id')));
@@ -58,7 +59,7 @@ module.exports = (SuperModel = class SuperModel extends Backbone.Model {
     if (value == null) { value = 1; }
     if (_.isNumber(fetchOptions)) { value = fetchOptions; }
     if (_.isObject(name)) { fetchOptions = name; }
-      
+
     // hero-ladder levels need remote opponent_session for latest session data (e.g. code)
     // Can't apply to everything since other features rely on cached models being more recent (E.g. level_session)
     // E.g.#2 heroConfig isn't necessarily saved to db in world map inventory modal, so we need to load the cached session on level start
@@ -87,7 +88,7 @@ module.exports = (SuperModel = class SuperModel extends Backbone.Model {
     if (value == null) { value = 1; }
     if (_.isNumber(fetchOptions)) { value = fetchOptions; }
     if (_.isObject(name)) { fetchOptions = name; }
-    
+
     const url = collection.getURL();
     if (cachedCollection = this.collections[url]) {
       console.debug('Collection cache hit', url, 'already loaded', cachedCollection.loaded);
@@ -117,7 +118,7 @@ module.exports = (SuperModel = class SuperModel extends Backbone.Model {
       return res;
     }
   }
-      
+
   // Eventually should use only these functions. Use SuperModel just to track progress.
   trackModel(model, value) {
     const res = this.addModelResource(model, '', {}, value);
@@ -128,7 +129,7 @@ module.exports = (SuperModel = class SuperModel extends Backbone.Model {
     const res = this.addModelResource(collection, '', {}, value);
     return res.listen();
   }
-  
+
   trackPromise(promise, value) {
     if (value == null) { value = 1; }
     const res = new Resource('', value);
@@ -140,7 +141,7 @@ module.exports = (SuperModel = class SuperModel extends Backbone.Model {
     this.storeResource(res, value);
     return promise;
   }
-    
+
   trackRequest(jqxhr, value) {
     if (value == null) { value = 1; }
     const res = new Resource('', value);
@@ -150,7 +151,7 @@ module.exports = (SuperModel = class SuperModel extends Backbone.Model {
     this.storeResource(res, value);
     return jqxhr;
   }
-    
+
   trackRequests(jqxhrs, value) { if (value == null) { value = 1; } return Array.from(jqxhrs).map((jqxhr) => this.trackRequest(jqxhr, value)); }
 
   // replace or overwrite
@@ -248,7 +249,7 @@ module.exports = (SuperModel = class SuperModel extends Backbone.Model {
     if (value == null) { value = 1; }
     if (_.isNumber(fetchOptions)) { value = fetchOptions; }
     if (_.isObject(name)) { fetchOptions = name; }
-    
+
     modelOrCollection.saveBackups = modelOrCollection.saveBackups || this.shouldSaveBackups(modelOrCollection);
     this.checkName(name);
     const res = new ModelResource(modelOrCollection, name, fetchOptions, value);
@@ -265,7 +266,7 @@ module.exports = (SuperModel = class SuperModel extends Backbone.Model {
     if (value == null) { value = 1; }
     if (_.isNumber(jqxhrOptions)) { value = jqxhrOptions; }
     if (_.isObject(name)) { jqxhrOptions = name; }
-    
+
     this.checkName(name);
     const res = new RequestResource(name, jqxhrOptions, value);
     this.storeResource(res, value);
@@ -280,7 +281,7 @@ module.exports = (SuperModel = class SuperModel extends Backbone.Model {
     this.storeResource(res, value);
     return res;
   }
-    
+
   addPromiseResource(promise, value) {
     if (value == null) { value = 1; }
     const somethingResource = this.addSomethingResource('some promise', value);
@@ -352,7 +353,7 @@ module.exports = (SuperModel = class SuperModel extends Backbone.Model {
   getResource(rid) {
     return this.resources[rid];
   }
-    
+
   // Promises
   finishLoading() {
     return new Promise((resolve, reject) => {
@@ -370,6 +371,7 @@ module.exports = (SuperModel = class SuperModel extends Backbone.Model {
 
 class Resource extends Backbone.Model {
   constructor(name, value) {
+    super(...arguments)
     if (value == null) { value = 1; }
     this.name = name;
     this.value = value;

@@ -22,16 +22,16 @@ const API_KEY = 'AIzaSyDW8CsHHJbAREZw8uXg0Hix8dtlJnuutls';
 module.exports = (GPlusHandler = (GPlusHandler = (function() {
   GPlusHandler = class GPlusHandler extends CocoClass {
     static initClass() {
-  
+
       this.prototype.startedLoading = false;
       this.prototype.apiLoaded = false;
       this.prototype.connected = false;
       this.prototype.person = null;
     }
     constructor() {
+      super();
       if (!me.useSocialSignOn()) { throw new Error('Social single sign on not supported'); }
       this.accessToken = storage.load(GPLUS_TOKEN_KEY, true);
-      super();
     }
 
     token() { return (this.accessToken != null ? this.accessToken.access_token : undefined); }

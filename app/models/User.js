@@ -61,9 +61,9 @@ module.exports = (User = (function () {
   let b
   let c
   User = class User extends CocoModel {
-    constructor (...args) {
-      this.prepaidType = this.prepaidType.bind(this)
-      super(...args)
+    constructor(...args) {
+      super(...args);
+      this.prepaidType = this.prepaidType.bind(this);
     }
 
     static initClass () {

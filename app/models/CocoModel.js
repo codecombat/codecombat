@@ -26,20 +26,20 @@ class CocoModel extends Backbone.Model {
     this.prototype.saveBackups = false;
     this.prototype.notyErrors = true;
     this.schema = null;
-  
+
     this.prototype.attributesWithDefaults = undefined;
-  
+
     this.backedUp = {};
-  
+
     CocoModel.pollAchievements = _.debounce(CocoModel.pollAchievements, 3000);
   }
 
   constructor(attributes, options)  {
+    super(...arguments)
     if (_.isObject(attributes) && ('undefined' in attributes)) {
       console.error(`Unsetting \`undefined\` property key during construction of ${this.constructor.className} model with value ${attributes['undefined']}`);
       delete attributes['undefined'];
     }
-    super(...arguments);
   }
 
   initialize(attributes, options) {
@@ -288,7 +288,7 @@ class CocoModel extends Backbone.Model {
   }
 
   fetch(options) {
-    if (options == null) { options = {}; }
+    if (!options) { options = {} }
     if (options.data == null) { options.data = {}; }
     if (this.project) { options.data.project = this.project.join(','); }
     //console.error @constructor.className, @, "fetching with cache?", options.cache, "options", options  # Useful for debugging cached IE fetches
