@@ -2,7 +2,7 @@
 import CommandRunner from '../../../../ozaria/engine/cinematic/commands/CommandRunner'
 import AbstractCommand from '../../../../ozaria/engine/cinematic/commands/AbstractCommand'
 import Promise from 'bluebird'
-const utils = require('../../utils.coffee')
+const utils = require('../../utils')
 
 Promise.config({
   cancellation: true
