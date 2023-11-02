@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 const ThangTypeConstants = {
   heroes: {
     captain: '529ec584c423d4e83b000014',
