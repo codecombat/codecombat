@@ -1,61 +1,74 @@
-HintsView = require 'views/play/level/HintsView'
-factories = require 'test/app/factories'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const HintsView = require('views/play/level/HintsView');
+const factories = require('test/app/factories');
 
-hintWithCode = """
+const hintWithCode = `\
 Hint #2 rosebud
 
-```python
+\`\`\`python
 print('Hello World')
-```
+\`\`\`
 
-```javascript
+\`\`\`javascript
 console.log('Hello World')
-```
-"""
+\`\`\`\
+`;
 
-longHint = _.times(100, -> 'Beuller...').join('\n\n')
+const longHint = _.times(100, () => 'Beuller...').join('\n\n');
 
-xdescribe 'HintsView', ->
-  beforeEach ->
-    level = factories.makeLevel({
+xdescribe('HintsView', function() {
+  beforeEach(function() {
+    const level = factories.makeLevel({
       documentation: {
         hints: [
-          { body: 'Hint #1 xyzzy' }
-          { body: hintWithCode }
+          { body: 'Hint #1 xyzzy' },
+          { body: hintWithCode },
           { body: longHint }
         ]
       }
-    })
-    @session = factories.makeLevelSession({ playtime: 0 })
-    @view = new HintsView({ level, @session })
-    @view.render()
-    jasmine.demoEl(@view.$el)
+    });
+    this.session = factories.makeLevelSession({ playtime: 0 });
+    this.view = new HintsView({ level, session: this.session });
+    this.view.render();
+    return jasmine.demoEl(this.view.$el);
+  });
     
-  describe 'when the first hint is shown', ->
-    
-    it 'does not show the previous button', ->
-      expect(@view.$el.find('.previous-btn').length).toBe(0)
+  describe('when the first hint is shown', () => it('does not show the previous button', function() {
+    return expect(this.view.$el.find('.previous-btn').length).toBe(0);
+  }));
 
-  describe 'when the user has played for a while', ->
+  describe('when the user has played for a while', function() {
 
-    beforeEach ->
-      @view.render()
+    beforeEach(function() {
+      return this.view.render();
+    });
 
-    it 'shows the first hint', ->
-      expect(_.string.contains(@view.$el.text(), 'xyzzy')).toBe(true)
+    it('shows the first hint', function() {
+      return expect(_.string.contains(this.view.$el.text(), 'xyzzy')).toBe(true);
+    });
 
-    it 'shows the next hint button', ->
-      expect(@view.$el.find('.next-btn').length).toBe(1)
+    return it('shows the next hint button', function() {
+      return expect(this.view.$el.find('.next-btn').length).toBe(1);
+    });
+  });
 
-  it 'filters out all code blocks but those of the selected language', ->
-    @session.set({
-      codeLanguage: 'javascript'
+  return it('filters out all code blocks but those of the selected language', function() {
+    this.session.set({
+      codeLanguage: 'javascript',
       playtime: 9001
-    })
-    @view.state.set('hintIndex', 1)
-    @view.render()
+    });
+    this.view.state.set('hintIndex', 1);
+    this.view.render();
     
-    if _.string.contains(@view.$el.text(), 'print')
-      fail('Python code snippet found, should be filtered out')
-    if not _.string.contains(@view.$el.text(), 'console')
-      fail('JavaScript code snippet not found')
+    if (_.string.contains(this.view.$el.text(), 'print')) {
+      fail('Python code snippet found, should be filtered out');
+    }
+    if (!_.string.contains(this.view.$el.text(), 'console')) {
+      return fail('JavaScript code snippet not found');
+    }
+  });
+});

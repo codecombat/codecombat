@@ -1,90 +1,141 @@
-CocoView = require 'views/core/CocoView'
-LevelComponent = require 'models/LevelComponent'
-template = require 'templates/play/level/tome/spell_translation'
-ace = require('lib/aceContainer')
-Range = ace.require('ace/range').Range
-TokenIterator = ace.require('ace/token_iterator').TokenIterator
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SpellTranslationView;
+const CocoView = require('views/core/CocoView');
+const LevelComponent = require('models/LevelComponent');
+const template = require('templates/play/level/tome/spell_translation');
+const ace = require('lib/aceContainer');
+const {
+  Range
+} = ace.require('ace/range');
+const {
+  TokenIterator
+} = ace.require('ace/token_iterator');
+const utils = require('core/utils');
 
-module.exports = class SpellTranslationView extends CocoView
-  className: 'spell-translation-view'
-  template: template
+module.exports = (SpellTranslationView = (function() {
+  SpellTranslationView = class SpellTranslationView extends CocoView {
+    static initClass() {
+      this.prototype.className = 'spell-translation-view';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'mousemove'() {
+          return this.$el.hide();
+        }
+      };
+    }
 
-  events:
-    'mousemove': ->
-      @$el.hide()
+    constructor(options) {
+      this.setTooltipText = this.setTooltipText.bind(this);
+      this.onMouseMove = this.onMouseMove.bind(this);
+      super(options);
+      this.ace = options.ace;
 
-  constructor: (options) ->
-    super options
-    @ace = options.ace
+      const levelComponents = this.supermodel.getModels(LevelComponent);
+      this.componentTranslations = levelComponents.reduce(function(acc, lc) {
+        let left;
+        for (var doc of Array.from(((left = lc.get('propertyDocumentation')) != null ? left : []))) {
+          var translated = utils.i18n(doc, 'name', null, false);
+          if (translated !== doc.name) { acc[doc.name] = translated; }
+        }
+        return acc;
+      }
+      , {});
 
-    levelComponents = @supermodel.getModels LevelComponent
-    @componentTranslations = levelComponents.reduce((acc, lc) ->
-      for doc in (lc.get('propertyDocumentation') ? [])
-        translated = utils.i18n(doc, 'name', null, false)
-        acc[doc.name] = translated if translated isnt doc.name
-      acc
-    , {})
+      this.onMouseMove = _.throttle(this.onMouseMove, 25);
+    }
 
-    @onMouseMove = _.throttle @onMouseMove, 25
+    afterRender() {
+      super.afterRender();
+      return this.ace.on('mousemove', this.onMouseMove);
+    }
 
-  afterRender: ->
-    super()
-    @ace.on 'mousemove', @onMouseMove
+    setTooltipText(text) {
+      this.$el.find('code').text(text);
+      return this.$el.show().css(this.pos);
+    }
 
-  setTooltipText: (text) =>
-    @$el.find('code').text text
-    @$el.show().css(@pos)
+    isIdentifier(t) {
+      return t && (_.any([/identifier/, /keyword/], regex => regex.test(t.type)) || (t.value === 'this'));
+    }
 
-  isIdentifier: (t) ->
-    t and (_.any([/identifier/, /keyword/], (regex) -> regex.test(t.type)) or t.value is 'this')
+    onMouseMove(e) {
+      let start, token;
+      if (this.destroyed) { return; }
+      const pos = e.getDocumentPosition();
+      const it = new TokenIterator(e.editor.session, pos.row, pos.column);
+      const endOfLine = __guard__(it.getCurrentToken(), x => x.index) === (it.$rowTokens.length - 1);
+      while ((it.getCurrentTokenRow() === pos.row) && !this.isIdentifier(token = it.getCurrentToken())) {
+        if (endOfLine || !token) { break; }  // Don't iterate beyond end or beginning of line
+        it.stepBackward();
+      }
+      if (!this.isIdentifier(token)) {
+        this.word = null;
+        this.update();
+        return;
+      }
+      try {
+        // Ace was breaking under some (?) conditions, dependent on mouse location.
+        //   with $rowTokens = [] (but should have things)
+        start = it.getCurrentTokenColumn();
+      } catch (error) {
+        start = 0;
+      }
+      const end = start + token.value.length;
+      if (this.isIdentifier(token)) {
+        this.word = token.value;
+        this.markerRange = new Range(pos.row, start, pos.row, end);
+        this.reposition(e.domEvent);
+      }
+      return this.update();
+    }
 
-  onMouseMove: (e) =>
-    return if @destroyed
-    pos = e.getDocumentPosition()
-    it = new TokenIterator e.editor.session, pos.row, pos.column
-    endOfLine = it.getCurrentToken()?.index is it.$rowTokens.length - 1
-    while it.getCurrentTokenRow() is pos.row and not @isIdentifier(token = it.getCurrentToken())
-      break if endOfLine or not token  # Don't iterate beyond end or beginning of line
-      it.stepBackward()
-    unless @isIdentifier(token)
-      @word = null
-      @update()
-      return
-    try
-      # Ace was breaking under some (?) conditions, dependent on mouse location.
-      #   with $rowTokens = [] (but should have things)
-      start = it.getCurrentTokenColumn()
-    catch error
-      start = 0
-    end = start + token.value.length
-    if @isIdentifier(token)
-      @word = token.value
-      @markerRange = new Range pos.row, start, pos.row, end
-      @reposition(e.domEvent)
-    @update()
+    reposition(e) {
+      let offsetX = e.offsetX != null ? e.offsetX : e.clientX - $(e.target).offset().left;
+      const offsetY = e.offsetY != null ? e.offsetY : e.clientY - $(e.target).offset().top;
+      const w = $(document).width() - 20;
+      if ((e.clientX + this.$el.width()) > w) { offsetX = w - $(e.target).offset().left - this.$el.width(); }
+      this.pos = {left: offsetX + 80, top: offsetY - 20};
+      return this.$el.css(this.pos);
+    }
 
-  reposition: (e) ->
-    offsetX = e.offsetX ? e.clientX - $(e.target).offset().left
-    offsetY = e.offsetY ? e.clientY - $(e.target).offset().top
-    w = $(document).width() - 20
-    offsetX = w - $(e.target).offset().left - @$el.width() if e.clientX + @$el.width() > w
-    @pos = {left: offsetX + 80, top: offsetY - 20}
-    @$el.css(@pos)
+    onMouseOut() {
+      this.word = null;
+      this.markerRange = null;
+      return this.update();
+    }
 
-  onMouseOut: ->
-    @word = null
-    @markerRange = null
-    @update()
+    update() {
+      const i18nKey = 'code.'+this.word;
+      const translation = this.componentTranslations[this.word] || $.i18n.t(i18nKey);
+      if (this.word && translation && ![i18nKey, this.word].includes(translation)) {
+        return this.setTooltipText(translation);
+      } else {
+        return this.$el.hide();
+      }
+    }
 
-  update: ->
-    i18nKey = 'code.'+@word
-    translation = @componentTranslations[@word] or $.i18n.t(i18nKey)
-    if @word and translation and translation not in [i18nKey, @word]
-      @setTooltipText translation
-    else
-      @$el.hide()
+    destroy() {
+      if (this.ace != null) {
+        this.ace.removeEventListener('mousemove', this.onMouseMove);
+      }
+      return super.destroy();
+    }
+  };
+  SpellTranslationView.initClass();
+  return SpellTranslationView;
+})());
 
-  destroy: ->
-    @ace?.removeEventListener 'mousemove', @onMouseMove
-    super()
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

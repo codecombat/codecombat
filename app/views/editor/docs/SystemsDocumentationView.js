@@ -1,49 +1,80 @@
-require('app/styles/docs/systems-documentation-view.sass')
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/editor/docs/systems-documentation-view'
-CocoCollection = require 'collections/CocoCollection'
-LevelSystem = require 'models/LevelSystem'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SystemsDocumentationView;
+require('app/styles/docs/systems-documentation-view.sass');
+const CocoView = require('views/core/CocoView');
+const template = require('app/templates/editor/docs/systems-documentation-view');
+const CocoCollection = require('collections/CocoCollection');
+const LevelSystem = require('models/LevelSystem');
 
-class SystemDocsCollection extends CocoCollection
-  url: '/db/level.system?project=name,description,code'
-  model: LevelSystem
-  comparator: 'name'
+class SystemDocsCollection extends CocoCollection {
+  static initClass() {
+    this.prototype.url = '/db/level.system?project=name,description,code';
+    this.prototype.model = LevelSystem;
+    this.prototype.comparator = 'name';
+  }
+}
+SystemDocsCollection.initClass();
 
-module.exports = class SystemsDocumentationView extends CocoView
-  id: 'systems-documentation-view'
-  template: template
-  className: 'tab-pane'
-  collapsed: true
+module.exports = (SystemsDocumentationView = (function() {
+  SystemsDocumentationView = class SystemsDocumentationView extends CocoView {
+    static initClass() {
+      this.prototype.id = 'systems-documentation-view';
+      this.prototype.template = template;
+      this.prototype.className = 'tab-pane';
+      this.prototype.collapsed = true;
+  
+      this.prototype.events =
+        {'click #toggle-all-system-code': 'onToggleAllCode'};
+  
+      this.prototype.subscriptions =
+        {'editor:view-switched': 'onViewSwitched'};
+    }
 
-  events:
-    'click #toggle-all-system-code': 'onToggleAllCode'
+    constructor(options) {
+      super(options);
+      this.systemDocs = new SystemDocsCollection();
+      if (!options.lazy) { this.loadDocs(); }
+    }
 
-  subscriptions:
-    'editor:view-switched': 'onViewSwitched'
+    loadDocs() {
+      if (this.loadingDocs) { return; }
+      this.supermodel.loadCollection(this.systemDocs, 'systems');
+      this.loadingDocs = true;
+      return this.render();
+    }
 
-  constructor: (options) ->
-    super(options)
-    @systemDocs = new SystemDocsCollection()
-    @loadDocs() unless options.lazy
+    getRenderData() {
+      let left;
+      const c = super.getRenderData();
+      c.systems = this.systemDocs.models;
+      c.marked = marked;
+      c.codeLanguage = (left = __guard__(me.get('aceConfig'), x => x.language)) != null ? left : 'python';
+      return c;
+    }
 
-  loadDocs: ->
-    return if @loadingDocs
-    @supermodel.loadCollection @systemDocs, 'systems'
-    @loadingDocs = true
-    @render()
+    onToggleAllCode(e) {
+      this.collapsed = !this.collapsed;
+      this.$el.find('.collapse').collapse(this.collapsed ? 'hide' : 'show');
+      return this.$el.find('#toggle-all-system-code').toggleClass('active', !this.collapsed);
+    }
 
-  getRenderData: ->
-    c = super()
-    c.systems = @systemDocs.models
-    c.marked = marked
-    c.codeLanguage = me.get('aceConfig')?.language ? 'python'
-    c
+    onViewSwitched(e) {
+      if (e.targetURL !== '#editor-level-documentation') { return; }
+      return this.loadDocs();
+    }
+  };
+  SystemsDocumentationView.initClass();
+  return SystemsDocumentationView;
+})());
 
-  onToggleAllCode: (e) ->
-    @collapsed = not @collapsed
-    @$el.find('.collapse').collapse(if @collapsed then 'hide' else 'show')
-    @$el.find('#toggle-all-system-code').toggleClass 'active', not @collapsed
-
-  onViewSwitched: (e) ->
-    return unless e.targetURL is '#editor-level-documentation'
-    @loadDocs()
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

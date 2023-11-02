@@ -1,276 +1,361 @@
-require('app/styles/courses/manage-license-modal.sass')
-ModalView = require 'views/core/ModalView'
-State = require 'models/State'
-template = require 'templates/courses/manage-licenses-modal'
-Prepaids = require 'collections/Prepaids'
-Prepaid = require 'models/Prepaid'
-Classroom = require 'models/Classroom'
-Classrooms = require 'collections/Classrooms'
-User = require 'models/User'
-Users = require 'collections/Users'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ManageLicenseModal;
+require('app/styles/courses/manage-license-modal.sass');
+const ModalView = require('views/core/ModalView');
+const State = require('models/State');
+const template = require('templates/courses/manage-licenses-modal');
+const Prepaids = require('collections/Prepaids');
+const Prepaid = require('models/Prepaid');
+const Classroom = require('models/Classroom');
+const Classrooms = require('collections/Classrooms');
+const User = require('models/User');
+const Users = require('collections/Users');
+const utils = require('core/utils');
 
-module.exports = class ManageLicenseModal extends ModalView
-  id: 'manage-license-modal'
-  template: template
+module.exports = (ManageLicenseModal = (function() {
+  ManageLicenseModal = class ManageLicenseModal extends ModalView {
+    static initClass() {
+      this.prototype.id = 'manage-license-modal';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'change input[type="checkbox"][name="user"]': 'updateSelectedStudents',
+        'change .select-all-users-checkbox': 'toggleSelectAllStudents',
+        'change .select-all-users-revoke-checkbox': 'toggleSelectAllStudentsRevoke',
+        'change select.classroom-select': 'replaceStudentList',
+        'submit form': 'onSubmitForm',
+        'click #get-more-licenses-btn': 'onClickGetMoreLicensesButton',
+        'click #selectPrepaidType .radio': 'onSelectPrepaidType',
+        'click .change-tab': 'onChangeTab',
+        'click .revoke-student-button': 'onClickRevokeStudentButton'
+      };
+    }
 
-  events:
-    'change input[type="checkbox"][name="user"]': 'updateSelectedStudents'
-    'change .select-all-users-checkbox': 'toggleSelectAllStudents'
-    'change .select-all-users-revoke-checkbox': 'toggleSelectAllStudentsRevoke'
-    'change select.classroom-select': 'replaceStudentList'
-    'submit form': 'onSubmitForm'
-    'click #get-more-licenses-btn': 'onClickGetMoreLicensesButton'
-    'click #selectPrepaidType .radio': 'onSelectPrepaidType'
-    'click .change-tab': 'onChangeTab'
-    'click .revoke-student-button': 'onClickRevokeStudentButton'
-
-  getInitialState: (options) ->
-    selectedUsers = options.selectedUsers or options.users
-    @activeTab = options.tab ? 'apply'
-    if @activeTab == 'apply'
-      selectedUserModels = _.filter(selectedUsers.models, (user) -> not user.isEnrolled())
-    else
-      selectedUserModels = selectedUsers.models
-    {
-      selectedUsers: new Users(selectedUserModels)
-      visibleSelectedUsers: new Users(selectedUserModels)
-      error: null
+    getInitialState(options) {
+      let selectedUserModels;
+      const selectedUsers = options.selectedUsers || options.users;
+      this.activeTab = options.tab != null ? options.tab : 'apply';
+      if (this.activeTab === 'apply') {
+        selectedUserModels = _.filter(selectedUsers.models, user => !user.isEnrolled());
+      } else {
+        selectedUserModels = selectedUsers.models;
+      }
+      return {
+        selectedUsers: new Users(selectedUserModels),
+        visibleSelectedUsers: new Users(selectedUserModels),
+        error: null
+      };
     }
   
-  initialize: (options) ->
-    @state = new State(@getInitialState(options))
-    @classroom = options.classroom
-    @users = options.users.clone()
-    @users.comparator = (user) -> user.broadName().toLowerCase()
-    @prepaids = new Prepaids()
-    @prepaids.comparator = 'endDate' # use prepaids in order of expiration
-    @supermodel.trackRequest @prepaids.fetchForClassroom(@classroom) # do we need this or just passing prepaids from parent view?
-    @classrooms = new Classrooms()
-    @selectedPrepaidType = null
-    @prepaidByGroup = {}
-    @teacherPrepaidIds = []
-    @utils = utils
-    @supermodel.trackRequest @classrooms.fetchMine({
-      data: {archived: false}
-      success: =>
-        @classrooms.each (classroom) =>
-          classroom.users = new Users()
-          jqxhrs = classroom.users.fetchForClassroom(classroom, { removeDeleted: true })
-          @supermodel.trackRequests(jqxhrs)
-      })
+    initialize(options) {
+      this.state = new State(this.getInitialState(options));
+      this.classroom = options.classroom;
+      this.users = options.users.clone();
+      this.users.comparator = user => user.broadName().toLowerCase();
+      this.prepaids = new Prepaids();
+      this.prepaids.comparator = 'endDate'; // use prepaids in order of expiration
+      this.supermodel.trackRequest(this.prepaids.fetchForClassroom(this.classroom)); // do we need this or just passing prepaids from parent view?
+      this.classrooms = new Classrooms();
+      this.selectedPrepaidType = null;
+      this.prepaidByGroup = {};
+      this.teacherPrepaidIds = [];
+      this.utils = utils;
+      this.supermodel.trackRequest(this.classrooms.fetchMine({
+        data: {archived: false},
+        success: () => {
+          return this.classrooms.each(classroom => {
+            classroom.users = new Users();
+            const jqxhrs = classroom.users.fetchForClassroom(classroom, { removeDeleted: true });
+            return this.supermodel.trackRequests(jqxhrs);
+          });
+        }
+        })
+      );
     
-    @listenTo @state, 'change', ->
-      @renderSelectors('#submit-form-area')
-    @listenTo @state.get('selectedUsers'), 'change add remove reset', ->
-      @updateVisibleSelectedUsers()
-      @renderSelectors('#submit-form-area')
-    @listenTo @users, 'change add remove reset', ->
-      @updateVisibleSelectedUsers()
-      @render()
-    @listenTo @prepaids, 'sync add remove reset', ->
-        @prepaidByGroup = {}
-        @prepaids.each (prepaid) => 
-          @teacherPrepaidIds.push prepaid.get('_id')
-          type = prepaid.typeDescriptionWithTime()
-          @prepaidByGroup[type] = @prepaidByGroup?[type] || {num: 0, prepaid}
-          @prepaidByGroup[type].num += (prepaid.get('maxRedeemers') || 0) - (_.size(prepaid.get('redeemers')) || 0)
+      this.listenTo(this.state, 'change', function() {
+        return this.renderSelectors('#submit-form-area');
+      });
+      this.listenTo(this.state.get('selectedUsers'), 'change add remove reset', function() {
+        this.updateVisibleSelectedUsers();
+        return this.renderSelectors('#submit-form-area');
+      });
+      this.listenTo(this.users, 'change add remove reset', function() {
+        this.updateVisibleSelectedUsers();
+        return this.render();
+      });
+      return this.listenTo(this.prepaids, 'sync add remove reset', function() {
+          this.prepaidByGroup = {};
+          return this.prepaids.each(prepaid => { 
+            this.teacherPrepaidIds.push(prepaid.get('_id'));
+            const type = prepaid.typeDescriptionWithTime();
+            this.prepaidByGroup[type] = (this.prepaidByGroup != null ? this.prepaidByGroup[type] : undefined) || {num: 0, prepaid};
+            return this.prepaidByGroup[type].num += (prepaid.get('maxRedeemers') || 0) - (_.size(prepaid.get('redeemers')) || 0);
+          });
+      });
+    }
 
-  onLoaded: ->
-    @prepaids.reset(@prepaids.filter((prepaid) -> prepaid.status() is 'available'))
-    @selectedPrepaidType = Object.keys(@prepaidByGroup)[0]
-    if(@users.length)
-       @selectedUser = @users.models[0].id
-    super()
+    onLoaded() {
+      this.prepaids.reset(this.prepaids.filter(prepaid => prepaid.status() === 'available'));
+      this.selectedPrepaidType = Object.keys(this.prepaidByGroup)[0];
+      if(this.users.length) {
+         this.selectedUser = this.users.models[0].id;
+       }
+      return super.onLoaded();
+    }
   
-  afterRender: ->
-    super()
-    # @updateSelectedStudents() # TODO: refactor to event/state style
-
-  updateSelectedStudents: (e) ->
-    userID = $(e.currentTarget).data('user-id')
-    user = @users.get(userID)
-    if @state.get('selectedUsers').findWhere({ _id: user.id })
-      @state.get('selectedUsers').remove(user.id)
-    else
-      @state.get('selectedUsers').add(user)
-    @$(".select-all-users-checkbox").prop('checked', @areAllSelected())
-    @$(".select-all-users-revoke-checkbox").prop('checked', @areAllSelectedRevoke())
-    # @render() # TODO: Have @state automatically listen to children's change events?
-
-  studentsPrepaidsFromTeacher: () ->
-    allPrepaids = []
-    @users.each (user) =>
-      allPrepaidKeys = allPrepaids.map((p) => p.prepaid)
-      allPrepaids = _.union(allPrepaids, _.uniq user.activeProducts('course').filter((p) =>
-        p.prepaid not in allPrepaidKeys && _.contains @teacherPrepaidIds, p.prepaid
-      ), (p) => p.prepaid)
-    return allPrepaids.map((p) ->
-      product = new Prepaid({
-        includedCourseIDs: p?.productOptions?.includedCourseIDs
-        type: 'course'
-      })
-      return {id: p.prepaid, name: product.typeDescription()}
-    )
-
-  enrolledUsers: ->
-    prepaid = @prepaidByGroup[@selectedPrepaidType]?.prepaid
-    return [] unless prepaid
-    @users.filter((user) ->
-      p = prepaid.numericalCourses()
-      s = p & user.prepaidNumericalCourses()
-      not (p ^ s)
-    )
-
-  unenrolledUsers: ->
-    prepaid = @prepaidByGroup[@selectedPrepaidType]?.prepaid
-    return [] unless prepaid
-    @users.filter((user) ->
-      p = prepaid.numericalCourses()
-      s = p & user.prepaidNumericalCourses()
-      p ^ s
-    )
-
-  allUsers: -> @users.toJSON()
-
-  areAllSelected: ->
-    return _.all(@unenrolledUsers(), (user) => @state.get('selectedUsers').get(user.id))
-
-  areAllSelectedRevoke: ->
-    return _.all(@allUsers(), (user) =>
-      @state.get('selectedUsers').get(user._id)
-    )
-
-  toggleSelectAllStudents: (e) ->
-    if @areAllSelected()
-      @unenrolledUsers().forEach (user, index) =>
-        if @state.get('selectedUsers').findWhere({ _id: user.id })
-          @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', false)
-          @state.get('selectedUsers').remove(user.id)
-    else
-      @unenrolledUsers().forEach (user, index) =>
-        if not @state.get('selectedUsers').findWhere({ _id: user.id })
-          @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', true)
-          @state.get('selectedUsers').add(user)
-
-  toggleSelectAllStudentsRevoke: (e) ->
-    if @areAllSelectedRevoke()
-      @users.forEach (user, index) =>
-        if @state.get('selectedUsers').findWhere({ _id: user.id })
-          @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', false)
-          @state.get('selectedUsers').remove(user.id)
-    else
-      @users.forEach (user, index) =>
-        if not @state.get('selectedUsers').findWhere({ _id: user.id })
-          @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', true)
-          @state.get('selectedUsers').add(user)
-
-  replaceStudentList: (e) ->
-    selectedClassroomID = $(e.currentTarget).val()
-    @classroom = @classrooms.get(selectedClassroomID)
-    if not @classroom
-      users = _.uniq _.flatten @classrooms.map (classroom) -> classroom.users.models
-      @users.reset(users)
-      @users.sort()
-    else
-      @users.reset(@classrooms.get(selectedClassroomID).users.models)
-    @render()
-    null
-
-  onSubmitForm: (e) ->
-    e.preventDefault()
-    @state.set error: null
-    usersToRedeem = @state.get('visibleSelectedUsers')
-    @redeemUsers(usersToRedeem)
-
-  updateVisibleSelectedUsers: ->
-    @state.set { visibleSelectedUsers: new Users(@state.get('selectedUsers').filter (u) => @users.get(u)) }
-
-  redeemUsers: (usersToRedeem) ->
-    if not usersToRedeem.size()
-      @finishRedeemUsers()
-      @hide()
-      return
-
-    user = usersToRedeem.first()
-    prepaid = @prepaids.find((prepaid) => prepaid.status() is 'available' and prepaid.typeDescriptionWithTime() == @selectedPrepaidType)
-    options = {
-      success: (prepaid) =>
-        userProducts = user.get('products') ? []
-        user.set('products', userProducts.concat(prepaid.convertToProduct()))
-        usersToRedeem.remove(user)
-        @state.get('selectedUsers').remove(user)
-        @updateVisibleSelectedUsers()
-        # pct = 100 * (usersToRedeem.originalSize - usersToRedeem.size() / usersToRedeem.originalSize)
-        # @$('#progress-area .progress-bar').css('width', "#{pct.toFixed(1)}%")
-        application.tracker?.trackEvent 'Enroll modal finished enroll student', category: 'Courses', userID: user.id
-        @redeemUsers(usersToRedeem)
-      error: (prepaid, jqxhr) =>
-        @state.set { error: jqxhr.responseJSON.message }
+    afterRender() {
+      return super.afterRender();
     }
-    if !@classroom.isOwner() and @classroom.hasWritePermission()
-      options.data = { sharedClassroomId: @classroom.id }
-    prepaid.redeem(user, options)
-    window.tracker?.trackEvent "Teachers Class Enrollment Enroll Student", category: 'Teachers', classroomID: @classroom.id, userID: user.id
+      // @updateSelectedStudents() # TODO: refactor to event/state style
 
-  finishRedeemUsers: ->
-    @trigger 'redeem-users', @state.get('selectedUsers')
-
-  onSelectPrepaidType: (e) ->
-    @selectedPrepaidType = $(e.target).parent().children('input').val()
-    @state.set {
-      unusedEnrollments: @prepaidByGroup[@selectedPrepaidType]?.num
+    updateSelectedStudents(e) {
+      const userID = $(e.currentTarget).data('user-id');
+      const user = this.users.get(userID);
+      if (this.state.get('selectedUsers').findWhere({ _id: user.id })) {
+        this.state.get('selectedUsers').remove(user.id);
+      } else {
+        this.state.get('selectedUsers').add(user);
+      }
+      this.$(".select-all-users-checkbox").prop('checked', this.areAllSelected());
+      return this.$(".select-all-users-revoke-checkbox").prop('checked', this.areAllSelectedRevoke());
     }
-    @renderSelectors("#apply-page")
+      // @render() # TODO: Have @state automatically listen to children's change events?
 
-  onClickGetMoreLicensesButton: ->
-    @hide?() # In case this is opened in /teachers/licenses itself, otherwise the button does nothing
-
-  onChangeTab: (e) ->
-    @activeTab = $(e.target).data('tab')
-    @renderSelectors('.modal-body-content')
-    @renderSelectors('#tab-nav')
-
-  onClickRevokeStudentButton: (e) ->
-    button = $(e.currentTarget)
-    prepaidId = button.data('prepaid-id')
-
-    usersToRedeem = @state.get('visibleSelectedUsers')
-    return alert($.i18n.t('teacher.revoke_alert_no_student')) unless usersToRedeem.size()
-    s = $.i18n.t('teacher.revoke_selected_confirm')
-    return unless confirm(s)
-    button.text($.i18n.t('teacher.revoking'))
-    @revokeUsers(usersToRedeem, prepaidId)
-
-  revokeUsers: (usersToRedeem, prepaidId) ->
-    if not usersToRedeem.size()
-      @finishRedeemUsers()
-      @hide()
-      return
-
-    user = usersToRedeem.first()
-    prepaid = user.makeCoursePrepaid(prepaidId)
-    unless prepaid # in case teacher select extra students
-      usersToRedeem.remove(user)
-      @state.get('selectedUsers').remove(user)
-      @updateVisibleSelectedUsers()
-      @revokeUsers(usersToRedeem, prepaidId)
-
-    options = {
-      success: =>
-        user.set('products', user.get('products').map((p) ->
-          if p.prepaid == prepaidId
-            p.endDate = new Date().toISOString()
-          return p
-        ))
-        usersToRedeem.remove(user)
-        @state.get('selectedUsers').remove(user)
-        @updateVisibleSelectedUsers()
-        application.tracker?.trackEvent 'Revoke modal finished revoke student', category: 'Courses', userID: user.id
-        @revokeUsers(usersToRedeem, prepaidId)
-      error: (prepaid, jqxhr) =>
-        @state.set { error: jqxhr.responseJSON.message }
+    studentsPrepaidsFromTeacher() {
+      let allPrepaids = [];
+      this.users.each(user => {
+        const allPrepaidKeys = allPrepaids.map(p => p.prepaid);
+        return allPrepaids = _.union(allPrepaids, _.uniq(user.activeProducts('course').filter(p => {
+          return !Array.from(allPrepaidKeys).includes(p.prepaid) && _.contains(this.teacherPrepaidIds, p.prepaid);
+        }), p => p.prepaid));
+      });
+      return allPrepaids.map(function(p) {
+        const product = new Prepaid({
+          includedCourseIDs: __guard__(p != null ? p.productOptions : undefined, x => x.includedCourseIDs),
+          type: 'course'
+        });
+        return {id: p.prepaid, name: product.typeDescription()};
+      });
     }
-    if !@classroom.isOwner() and @classroom.hasWritePermission()
-      options.data = { sharedClassroomId: @classroom.id }
-    prepaid.revoke(user, options)
+
+    enrolledUsers() {
+      const prepaid = this.prepaidByGroup[this.selectedPrepaidType] != null ? this.prepaidByGroup[this.selectedPrepaidType].prepaid : undefined;
+      if (!prepaid) { return []; }
+      return this.users.filter(function(user) {
+        const p = prepaid.numericalCourses();
+        const s = p & user.prepaidNumericalCourses();
+        return !(p ^ s);
+      });
+    }
+
+    unenrolledUsers() {
+      const prepaid = this.prepaidByGroup[this.selectedPrepaidType] != null ? this.prepaidByGroup[this.selectedPrepaidType].prepaid : undefined;
+      if (!prepaid) { return []; }
+      return this.users.filter(function(user) {
+        const p = prepaid.numericalCourses();
+        const s = p & user.prepaidNumericalCourses();
+        return p ^ s;
+      });
+    }
+
+    allUsers() { return this.users.toJSON(); }
+
+    areAllSelected() {
+      return _.all(this.unenrolledUsers(), user => this.state.get('selectedUsers').get(user.id));
+    }
+
+    areAllSelectedRevoke() {
+      return _.all(this.allUsers(), user => {
+        return this.state.get('selectedUsers').get(user._id);
+      });
+    }
+
+    toggleSelectAllStudents(e) {
+      if (this.areAllSelected()) {
+        return this.unenrolledUsers().forEach((user, index) => {
+          if (this.state.get('selectedUsers').findWhere({ _id: user.id })) {
+            this.$(`[type='checkbox'][data-user-id='${user.id}']`).prop('checked', false);
+            return this.state.get('selectedUsers').remove(user.id);
+          }
+        });
+      } else {
+        return this.unenrolledUsers().forEach((user, index) => {
+          if (!this.state.get('selectedUsers').findWhere({ _id: user.id })) {
+            this.$(`[type='checkbox'][data-user-id='${user.id}']`).prop('checked', true);
+            return this.state.get('selectedUsers').add(user);
+          }
+        });
+      }
+    }
+
+    toggleSelectAllStudentsRevoke(e) {
+      if (this.areAllSelectedRevoke()) {
+        return this.users.forEach((user, index) => {
+          if (this.state.get('selectedUsers').findWhere({ _id: user.id })) {
+            this.$(`[type='checkbox'][data-user-id='${user.id}']`).prop('checked', false);
+            return this.state.get('selectedUsers').remove(user.id);
+          }
+        });
+      } else {
+        return this.users.forEach((user, index) => {
+          if (!this.state.get('selectedUsers').findWhere({ _id: user.id })) {
+            this.$(`[type='checkbox'][data-user-id='${user.id}']`).prop('checked', true);
+            return this.state.get('selectedUsers').add(user);
+          }
+        });
+      }
+    }
+
+    replaceStudentList(e) {
+      let users;
+      const selectedClassroomID = $(e.currentTarget).val();
+      this.classroom = this.classrooms.get(selectedClassroomID);
+      if (!this.classroom) {
+        users = _.uniq(_.flatten(this.classrooms.map(classroom => classroom.users.models)));
+        this.users.reset(users);
+        this.users.sort();
+      } else {
+        this.users.reset(this.classrooms.get(selectedClassroomID).users.models);
+      }
+      this.render();
+      return null;
+    }
+
+    onSubmitForm(e) {
+      e.preventDefault();
+      this.state.set({error: null});
+      const usersToRedeem = this.state.get('visibleSelectedUsers');
+      return this.redeemUsers(usersToRedeem);
+    }
+
+    updateVisibleSelectedUsers() {
+      return this.state.set({ visibleSelectedUsers: new Users(this.state.get('selectedUsers').filter(u => this.users.get(u))) });
+    }
+
+    redeemUsers(usersToRedeem) {
+      if (!usersToRedeem.size()) {
+        this.finishRedeemUsers();
+        this.hide();
+        return;
+      }
+
+      const user = usersToRedeem.first();
+      const prepaid = this.prepaids.find(prepaid => (prepaid.status() === 'available') && (prepaid.typeDescriptionWithTime() === this.selectedPrepaidType));
+      const options = {
+        success: prepaid => {
+          let left;
+          const userProducts = (left = user.get('products')) != null ? left : [];
+          user.set('products', userProducts.concat(prepaid.convertToProduct()));
+          usersToRedeem.remove(user);
+          this.state.get('selectedUsers').remove(user);
+          this.updateVisibleSelectedUsers();
+          // pct = 100 * (usersToRedeem.originalSize - usersToRedeem.size() / usersToRedeem.originalSize)
+          // @$('#progress-area .progress-bar').css('width', "#{pct.toFixed(1)}%")
+          if (application.tracker != null) {
+            application.tracker.trackEvent('Enroll modal finished enroll student', {category: 'Courses', userID: user.id});
+          }
+          return this.redeemUsers(usersToRedeem);
+        },
+        error: (prepaid, jqxhr) => {
+          return this.state.set({ error: jqxhr.responseJSON.message });
+        }
+      };
+      if (!this.classroom.isOwner() && this.classroom.hasWritePermission()) {
+        options.data = { sharedClassroomId: this.classroom.id };
+      }
+      prepaid.redeem(user, options);
+      return (window.tracker != null ? window.tracker.trackEvent("Teachers Class Enrollment Enroll Student", {category: 'Teachers', classroomID: this.classroom.id, userID: user.id}) : undefined);
+    }
+
+    finishRedeemUsers() {
+      return this.trigger('redeem-users', this.state.get('selectedUsers'));
+    }
+
+    onSelectPrepaidType(e) {
+      this.selectedPrepaidType = $(e.target).parent().children('input').val();
+      this.state.set({
+        unusedEnrollments: (this.prepaidByGroup[this.selectedPrepaidType] != null ? this.prepaidByGroup[this.selectedPrepaidType].num : undefined)
+      });
+      return this.renderSelectors("#apply-page");
+    }
+
+    onClickGetMoreLicensesButton() {
+      return (typeof this.hide === 'function' ? this.hide() : undefined); // In case this is opened in /teachers/licenses itself, otherwise the button does nothing
+    }
+
+    onChangeTab(e) {
+      this.activeTab = $(e.target).data('tab');
+      this.renderSelectors('.modal-body-content');
+      return this.renderSelectors('#tab-nav');
+    }
+
+    onClickRevokeStudentButton(e) {
+      const button = $(e.currentTarget);
+      const prepaidId = button.data('prepaid-id');
+
+      const usersToRedeem = this.state.get('visibleSelectedUsers');
+      if (!usersToRedeem.size()) { return alert($.i18n.t('teacher.revoke_alert_no_student')); }
+      const s = $.i18n.t('teacher.revoke_selected_confirm');
+      if (!confirm(s)) { return; }
+      button.text($.i18n.t('teacher.revoking'));
+      return this.revokeUsers(usersToRedeem, prepaidId);
+    }
+
+    revokeUsers(usersToRedeem, prepaidId) {
+      if (!usersToRedeem.size()) {
+        this.finishRedeemUsers();
+        this.hide();
+        return;
+      }
+
+      const user = usersToRedeem.first();
+      const prepaid = user.makeCoursePrepaid(prepaidId);
+      if (!prepaid) { // in case teacher select extra students
+        usersToRedeem.remove(user);
+        this.state.get('selectedUsers').remove(user);
+        this.updateVisibleSelectedUsers();
+        this.revokeUsers(usersToRedeem, prepaidId);
+      }
+
+      const options = {
+        success: () => {
+          user.set('products', user.get('products').map(function(p) {
+            if (p.prepaid === prepaidId) {
+              p.endDate = new Date().toISOString();
+            }
+            return p;
+          }));
+          usersToRedeem.remove(user);
+          this.state.get('selectedUsers').remove(user);
+          this.updateVisibleSelectedUsers();
+          if (application.tracker != null) {
+            application.tracker.trackEvent('Revoke modal finished revoke student', {category: 'Courses', userID: user.id});
+          }
+          return this.revokeUsers(usersToRedeem, prepaidId);
+        },
+        error: (prepaid, jqxhr) => {
+          return this.state.set({ error: jqxhr.responseJSON.message });
+        }
+      };
+      if (!this.classroom.isOwner() && this.classroom.hasWritePermission()) {
+        options.data = { sharedClassroomId: this.classroom.id };
+      }
+      return prepaid.revoke(user, options);
+    }
+  };
+  ManageLicenseModal.initClass();
+  return ManageLicenseModal;
+})());
+
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

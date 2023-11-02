@@ -1,41 +1,63 @@
-require('app/styles/premium-features-view.sass')
-RootView = require 'views/core/RootView'
-SubscribeModal = require 'views/core/SubscribeModal'
-template = require 'templates/premium-features-view'
-utils = require 'core/utils'
-storage = require 'core/storage'
-paymentUtils = require 'app/lib/paymentUtils'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let PremiumFeaturesView;
+require('app/styles/premium-features-view.sass');
+const RootView = require('views/core/RootView');
+const SubscribeModal = require('views/core/SubscribeModal');
+const template = require('templates/premium-features-view');
+const utils = require('core/utils');
+const storage = require('core/storage');
+const paymentUtils = require('app/lib/paymentUtils');
 
-module.exports = class PremiumFeaturesView extends RootView
-  id: 'premium-features-view'
-  template: template
+module.exports = (PremiumFeaturesView = (function() {
+  PremiumFeaturesView = class PremiumFeaturesView extends RootView {
+    static initClass() {
+      this.prototype.id = 'premium-features-view';
+      this.prototype.template = template;
+  
+      this.prototype.i18nData = utils.premiumContent;
+  
+      this.prototype.events =
+        {'click .buy': 'onClickBuy'};
+  
+      this.prototype.subscriptions =
+        {'subscribe-modal:subscribed': 'onSubscribed'};
+    }
 
-  i18nData: utils.premiumContent
+    constructor(options) {
+      if (options == null) { options = {}; }
+      super(options);
+      this.hasTemporaryPremiumAccess = paymentUtils.hasTemporaryPremiumAccess();
+    }
 
-  events:
-    'click .buy': 'onClickBuy'
+    afterInsert() {
+      // Automatically open sub modal, unless it will open later via storage sub-modal-continue flag
+      if ((utils.getQueryVariable('pop') != null) && !storage.load('sub-modal-continue')) {
+        this.openSubscriptionModal();
+      }
+      // This super() must follow open sub check above to avoid double sub modal via CocoView.afterInsert()
+      return super.afterInsert();
+    }
 
-  subscriptions:
-    'subscribe-modal:subscribed': 'onSubscribed'
+    openSubscriptionModal() {
+      return this.openModalView(new SubscribeModal());
+    }
 
-  constructor: (options={}) ->
-    super(options)
-    @hasTemporaryPremiumAccess = paymentUtils.hasTemporaryPremiumAccess()
+    onClickBuy(e) {
+      this.openSubscriptionModal();
+      const buttonLocation = $(e.currentTarget).data('button-location');
+      return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', {category: 'Subscription', label: `get premium view ${buttonLocation}`}) : undefined);
+    }
 
-  afterInsert: () ->
-    # Automatically open sub modal, unless it will open later via storage sub-modal-continue flag
-    if utils.getQueryVariable('pop')? and not storage.load('sub-modal-continue')
-      @openSubscriptionModal()
-    # This super() must follow open sub check above to avoid double sub modal via CocoView.afterInsert()
-    super()
-
-  openSubscriptionModal: ->
-    @openModalView new SubscribeModal()
-
-  onClickBuy: (e) ->
-    @openSubscriptionModal()
-    buttonLocation = $(e.currentTarget).data('button-location')
-    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: "get premium view #{buttonLocation}"
-
-  onSubscribed: ->
-    @render()
+    onSubscribed() {
+      return this.render();
+    }
+  };
+  PremiumFeaturesView.initClass();
+  return PremiumFeaturesView;
+})());

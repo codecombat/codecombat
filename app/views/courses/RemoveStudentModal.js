@@ -1,44 +1,65 @@
-require('app/styles/courses/remove-student-modal.sass')
-ModalView = require 'views/core/ModalView'
-template = require 'app/templates/courses/remove-student-modal'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let RemoveStudentModal;
+require('app/styles/courses/remove-student-modal.sass');
+const ModalView = require('views/core/ModalView');
+const template = require('app/templates/courses/remove-student-modal');
 
-module.exports = class RemoveStudentModal extends ModalView
-  id: 'remove-student-modal'
-  template: template
+module.exports = (RemoveStudentModal = (function() {
+  RemoveStudentModal = class RemoveStudentModal extends ModalView {
+    static initClass() {
+      this.prototype.id = 'remove-student-modal';
+      this.prototype.template = template;
+  
+      this.prototype.events =
+        {'click #remove-student-btn': 'onClickRemoveStudentButton'};
+    }
 
-  events:
-    'click #remove-student-btn': 'onClickRemoveStudentButton'
+    initialize(options) {
+      this.classroom = options.classroom;
+      this.user = options.user;
+      this.supermodel.trackRequest(this.user.fetch());
+      this.courseInstances = options.courseInstances;
+      const request = $.ajax(`/db/classroom/${this.classroom.id}/members/${this.user.id}/is-auto-revokable`);
+      this.supermodel.trackRequest(request);
+      return request.then(data => {
+        return this.willRevokeLicense = data.willRevokeLicense;
+      }
+      , function(err) {
+        return console.error(err, arguments);
+      }.bind(this));
+    }
 
-  initialize: (options) ->
-    @classroom = options.classroom
-    @user = options.user
-    @supermodel.trackRequest @user.fetch()
-    @courseInstances = options.courseInstances
-    request = $.ajax("/db/classroom/#{@classroom.id}/members/#{@user.id}/is-auto-revokable")
-    @supermodel.trackRequest request
-    request.then (data) =>
-      @willRevokeLicense = data.willRevokeLicense
-    , (err) =>
-      console.error err, arguments
+    onClickRemoveStudentButton() {
+      this.$('#remove-student-buttons').addClass('hide');
+      this.$('#remove-student-progress').removeClass('hide');
+      const userID = this.user.id;
+      this.toRemove = this.courseInstances.filter(courseInstance => _.contains(courseInstance.get('members'), userID));
+      this.toRemove.push(this.classroom);
+      this.totalJobs = _.size(this.toRemove);
+      return this.removeStudent();
+    }
 
-  onClickRemoveStudentButton: ->
-    @$('#remove-student-buttons').addClass('hide')
-    @$('#remove-student-progress').removeClass('hide')
-    userID = @user.id
-    @toRemove = @courseInstances.filter (courseInstance) -> _.contains(courseInstance.get('members'), userID)
-    @toRemove.push @classroom
-    @totalJobs = _.size(@toRemove)
-    @removeStudent()
+    removeStudent() {
+      const model = this.toRemove.shift();
+      if (!model) {
+        this.trigger('remove-student', { user: this.user });
+        this.hide();
+        return;
+      }
 
-  removeStudent: ->
-    model = @toRemove.shift()
-    if not model
-      @trigger 'remove-student', { user: @user }
-      @hide()
-      return
-
-    model.removeMember(@user.id)
-    pct = (100 * (@totalJobs - @toRemove.length) / @totalJobs).toFixed(1) + '%'
-    @$('#remove-student-progress .progress-bar').css('width', pct)
-    @listenToOnce model, 'sync', ->
-      @removeStudent()
+      model.removeMember(this.user.id);
+      const pct = ((100 * (this.totalJobs - this.toRemove.length)) / this.totalJobs).toFixed(1) + '%';
+      this.$('#remove-student-progress .progress-bar').css('width', pct);
+      return this.listenToOnce(model, 'sync', function() {
+        return this.removeStudent();
+      });
+    }
+  };
+  RemoveStudentModal.initClass();
+  return RemoveStudentModal;
+})());

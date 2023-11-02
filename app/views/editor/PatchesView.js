@@ -1,64 +1,92 @@
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/editor/patches'
-PatchesCollection = require 'collections/PatchesCollection'
-nameLoader = require 'core/NameLoader'
-PatchModal = require './PatchModal'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let PatchesView;
+const CocoView = require('views/core/CocoView');
+const template = require('app/templates/editor/patches');
+const PatchesCollection = require('collections/PatchesCollection');
+const nameLoader = require('core/NameLoader');
+const PatchModal = require('./PatchModal');
 
-module.exports = class PatchesView extends CocoView
-  template: template
-  className: 'patches-view'
-  status: 'pending'
+module.exports = (PatchesView = (function() {
+  PatchesView = class PatchesView extends CocoView {
+    static initClass() {
+      this.prototype.template = template;
+      this.prototype.className = 'patches-view';
+      this.prototype.status = 'pending';
+  
+      this.prototype.events = {
+        'change .status-buttons': 'onStatusButtonsChanged',
+        'click .patch-row': 'openPatchModal'
+      };
+    }
 
-  events:
-    'change .status-buttons': 'onStatusButtonsChanged'
-    'click .patch-row': 'openPatchModal'
+    constructor(model, options) {
+      this.model = model;
+      super(options);
+      this.initPatches();
+    }
 
-  constructor: (@model, options) ->
-    super(options)
-    @initPatches()
+    initPatches() {
+      this.startedLoading = false;
+      return this.patches = this.model.fetchPatchesWithStatus();
+    }
 
-  initPatches: ->
-    @startedLoading = false
-    @patches = @model.fetchPatchesWithStatus()
+    load() {
+      this.initPatches();
+      this.patches = this.model.fetchPatchesWithStatus(this.status, {cache: false});
+      this.supermodel.trackCollection(this.patches);
+      return this.listenTo(this.patches, 'sync', this.onPatchesLoaded);
+    }
 
-  load: ->
-    @initPatches()
-    @patches = @model.fetchPatchesWithStatus(@status, {cache: false})
-    @supermodel.trackCollection(@patches)
-    @listenTo @patches, 'sync', @onPatchesLoaded
+    onPatchesLoaded() {
+      const ids = (Array.from(this.patches.models).map((p) => p.get('creator')));
+      const jqxhrOptions = nameLoader.loadNames(ids);
+      if (jqxhrOptions) { return this.supermodel.addRequestResource('user_names', jqxhrOptions).load(); }
+    }
 
-  onPatchesLoaded: ->
-    ids = (p.get('creator') for p in @patches.models)
-    jqxhrOptions = nameLoader.loadNames ids
-    @supermodel.addRequestResource('user_names', jqxhrOptions).load() if jqxhrOptions
+    getRenderData() {
+      const c = super.getRenderData();
+      for (var patch of Array.from(this.patches.models)) { patch.userName = nameLoader.getName(patch.get('creator')); }
+      c.patches = this.patches.models;
+      c.status;
+      return c;
+    }
 
-  getRenderData: ->
-    c = super()
-    patch.userName = nameLoader.getName(patch.get('creator')) for patch in @patches.models
-    c.patches = @patches.models
-    c.status
-    c
+    afterRender() {
+      this.$el.find(`.${this.status}`).addClass('active');
+      return super.afterRender();
+    }
 
-  afterRender: ->
-    @$el.find(".#{@status}").addClass 'active'
-    super()
+    onStatusButtonsChanged(e) {
+      this.status = $(e.target).val();
+      return this.reloadPatches();
+    }
 
-  onStatusButtonsChanged: (e) ->
-    @status = $(e.target).val()
-    @reloadPatches()
+    reloadPatches() {
+      this.supermodel.resetProgress();
+      this.load();
+      return this.render();
+    }
 
-  reloadPatches: ->
-    @supermodel.resetProgress()
-    @load()
-    @render()
-
-  openPatchModal: (e) ->
-    row = $(e.target).closest '.patch-row'
-    patch = _.find @patches.models, {id: row.data('patch-id')}
-    modal = new PatchModal(patch, @model)
-    @openModalView(modal)
-    @listenTo modal, 'accepted-patch', (attrs) -> @trigger 'accepted-patch', attrs
-    @listenTo modal, 'hide', ->
-      f = => @reloadPatches()
-      setTimeout(f, 400)
-      @stopListening modal
+    openPatchModal(e) {
+      const row = $(e.target).closest('.patch-row');
+      const patch = _.find(this.patches.models, {id: row.data('patch-id')});
+      const modal = new PatchModal(patch, this.model);
+      this.openModalView(modal);
+      this.listenTo(modal, 'accepted-patch', function(attrs) { return this.trigger('accepted-patch', attrs); });
+      return this.listenTo(modal, 'hide', function() {
+        const f = () => this.reloadPatches();
+        setTimeout(f, 400);
+        return this.stopListening(modal);
+      });
+    }
+  };
+  PatchesView.initClass();
+  return PatchesView;
+})());

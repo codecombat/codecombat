@@ -1,14 +1,15 @@
-c = require './../schemas'
+const c = require('./../schemas');
 
-AnalyticsStripeInvoiceSchema = c.object {
+const AnalyticsStripeInvoiceSchema = c.object({
   title: 'Analytics Stripe Invoice'
-}
+});
 
-_.extend AnalyticsStripeInvoiceSchema.properties,
-  _id: {type: 'string'}
-  date: {type: 'integer'}
+_.extend(AnalyticsStripeInvoiceSchema.properties, {
+  _id: {type: 'string'},
+  date: {type: 'integer'},
   properties: {type: 'object'}
+});
 
-c.extendBasicProperties AnalyticsStripeInvoiceSchema, 'analytics.stripe.invoice'
+c.extendBasicProperties(AnalyticsStripeInvoiceSchema, 'analytics.stripe.invoice');
 
-module.exports = AnalyticsStripeInvoiceSchema
+module.exports = AnalyticsStripeInvoiceSchema;

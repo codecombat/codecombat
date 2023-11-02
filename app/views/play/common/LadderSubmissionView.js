@@ -1,126 +1,183 @@
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/play/common/ladder_submission'
-{createAetherOptions} = require 'lib/aether_utils'
-LevelSession = require 'models/LevelSession'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS104: Avoid inline assignments
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let LadderSubmissionView;
+const CocoView = require('views/core/CocoView');
+const template = require('app/templates/play/common/ladder_submission');
+const {createAetherOptions} = require('lib/aether_utils');
+const LevelSession = require('models/LevelSession');
 
-module.exports = class LadderSubmissionView extends CocoView
-  className: 'ladder-submission-view'
-  template: template
+module.exports = (LadderSubmissionView = (function() {
+  LadderSubmissionView = class LadderSubmissionView extends CocoView {
+    static initClass() {
+      this.prototype.className = 'ladder-submission-view';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'click .rank-button': 'rankSession',
+        'click .help-simulate': 'onHelpSimulate'
+      };
+    }
 
-  events:
-    'click .rank-button': 'rankSession'
-    'click .help-simulate': 'onHelpSimulate'
+    constructor(options) {
+      super(options);
+      this.session = options.session;
+      this.mirrorSession = options.mirrorSession;
+      this.level = options.level;
+    }
 
-  constructor: (options) ->
-    super options
-    @session = options.session
-    @mirrorSession = options.mirrorSession
-    @level = options.level
+    getRenderData() {
+      let submitDate;
+      const ctx = super.getRenderData();
+      ctx.readyToRank = this.session != null ? this.session.readyToRank() : undefined;
+      ctx.isRanking = this.session != null ? this.session.get('isRanking') : undefined;
+      ctx.simulateURL = `/play/ladder/${this.level.get('slug')}#simulate`;
+      if (submitDate = this.session != null ? this.session.get('submitDate') : undefined) { ctx.lastSubmitted = moment(submitDate).fromNow(); }
+      return ctx;
+    }
 
-  getRenderData: ->
-    ctx = super()
-    ctx.readyToRank = @session?.readyToRank()
-    ctx.isRanking = @session?.get('isRanking')
-    ctx.simulateURL = "/play/ladder/#{@level.get('slug')}#simulate"
-    ctx.lastSubmitted = moment(submitDate).fromNow() if submitDate = @session?.get('submitDate')
-    ctx
+    afterRender() {
+      super.afterRender();
+      if (!this.supermodel.finished()) { return; }
+      this.rankButton = this.$el.find('.rank-button');
+      return this.updateButton();
+    }
 
-  afterRender: ->
-    super()
-    return unless @supermodel.finished()
-    @rankButton = @$el.find('.rank-button')
-    @updateButton()
+    updateButton() {
+      let rankingState = 'unavailable';
+      if (this.session != null ? this.session.readyToRank() : undefined) {
+        rankingState = 'rank';
+      } else if (this.session != null ? this.session.get('isRanking') : undefined) {
+        rankingState = 'ranking';
+      }
+      return this.setRankingButtonText(rankingState);
+    }
 
-  updateButton: ->
-    rankingState = 'unavailable'
-    if @session?.readyToRank()
-      rankingState = 'rank'
-    else if @session?.get 'isRanking'
-      rankingState = 'ranking'
-    @setRankingButtonText rankingState
+    setRankingButtonText(spanClass) {
+      this.rankButton.find('span').hide();
+      this.rankButton.find(`.${spanClass}`).show();
+      this.rankButton.toggleClass('disabled', spanClass !== 'rank');
+      const helpSimulate = ['submitted', 'ranking'].includes(spanClass);
+      this.$el.find('.help-simulate').toggle(helpSimulate, 'slow');
+      const showLastSubmitted = !(['submitting'].includes(spanClass));
+      return this.$el.find('.last-submitted').toggle(showLastSubmitted);
+    }
 
-  setRankingButtonText: (spanClass) ->
-    @rankButton.find('span').hide()
-    @rankButton.find(".#{spanClass}").show()
-    @rankButton.toggleClass 'disabled', spanClass isnt 'rank'
-    helpSimulate = spanClass in ['submitted', 'ranking']
-    @$el.find('.help-simulate').toggle(helpSimulate, 'slow')
-    showLastSubmitted = not (spanClass in ['submitting'])
-    @$el.find('.last-submitted').toggle(showLastSubmitted)
+    showApologeticSignupModal() {
+      window.nextURL = `/play/ladder/${this.level.get('slug')}?submit=true`;
+      const CreateAccountModal = require('views/core/CreateAccountModal');
+      return this.openModalView(new CreateAccountModal({accountRequiredMessage: $.i18n.t('signup.create_account_to_submit_multiplayer')}));  // Note: may destroy `this` if we were living in another modal
+    }
 
-  showApologeticSignupModal: ->
-    window.nextURL = "/play/ladder/#{@level.get('slug')}?submit=true"
-    CreateAccountModal = require 'views/core/CreateAccountModal'
-    @openModalView new CreateAccountModal accountRequiredMessage: $.i18n.t('signup.create_account_to_submit_multiplayer')  # Note: may destroy `this` if we were living in another modal
+    rankSession(e) {
+      let code, currentAge;
+      if (!this.session.readyToRank()) { return; }
+      if (me.get('anonymous')) { return this.showApologeticSignupModal(); }
+      this.playSound('menu-button-click');
+      this.setRankingButtonText('submitting');
+      if (currentAge = me.age()) {
+        this.session.set('creatorAge', currentAge);
+      }
+      const success = () => {
+        if (!this.destroyed) { this.setRankingButtonText('submitted'); }
+        Backbone.Mediator.publish('ladder:game-submitted', {session: this.session, level: this.level});
+        this.submittingInProgress = false;
+        if (this.destroyed) {
+          return this.session = (this.level = (this.mirrorSession = (this.submittingInProgress = undefined)));
+        }
+      };
+      const failure = (jqxhr, textStatus, errorThrown) => {
+        console.log(jqxhr.responseText);
+        if (!this.destroyed) { this.setRankingButtonText('failed'); }
+        this.submittingInProgress = false;
+        if (this.destroyed) {
+          return this.session = (this.level = (this.mirrorSession = (this.submittingInProgress = undefined)));
+        }
+      };
+      this.submittingInProgress = true;
+      const tempSession = this.session.clone(); // do not modify @session here
+      if (this.level.isType('ladder') && (tempSession.get('team') === 'ogres')) {
+        let left;
+        code = (left = tempSession.get('code')) != null ? left : {'hero-placeholder': {plan:''}, 'hero-placeholder-1': {plan: ''}};
+        tempSession.set('team', 'humans');
+        code['hero-placeholder'] = _.clone(code['hero-placeholder-1']);
+        tempSession.set('code', code);
+      }
+      return tempSession.save(null, { success: () => {
+        const ajaxData = {
+          session: this.session.id,
+          levelID: this.level.id,
+          originalLevelID: this.level.get('original'),
+          levelMajorVersion: this.level.get('version').major
+        };
+        const ajaxOptions = {
+          type: 'POST',
+          data: ajaxData,
+          success,
+          error: failure
+        };
+        if (this.mirrorSession) {
+          // Also submit the mirrorSession after the main session submits successfully.
+          let left1;
+          const mirrorAjaxData = _.clone(ajaxData);
+          mirrorAjaxData.session = this.mirrorSession.id;
+          const mirrorCode = (left1 = this.mirrorSession.get('code')) != null ? left1 : {};
+          if (tempSession.get('team') === 'humans') {
+            mirrorCode['hero-placeholder-1'] = tempSession.get('code')['hero-placeholder'];
+          } else {
+            mirrorCode['hero-placeholder'] = tempSession.get('code')['hero-placeholder-1'];
+          }
+          const mirrorAjaxOptions = _.clone(ajaxOptions);
+          mirrorAjaxOptions.data = mirrorAjaxData;
+          ajaxOptions.success = () => {
+            const patch = {code: mirrorCode, codeLanguage: tempSession.get('codeLanguage')};
+            const tempMirrorSession = new LevelSession({_id: this.mirrorSession.id});
+            return tempMirrorSession.save(patch, { patch: true, type: 'PUT', success() {
+              return $.ajax('/queue/scoring', mirrorAjaxOptions);
+            }
+          }
+            );
+          };
+        }
+        return $.ajax('/queue/scoring', ajaxOptions);
+      }
+    }
+      );
+    }
 
-  rankSession: (e) ->
-    return unless @session.readyToRank()
-    return @showApologeticSignupModal() if me.get('anonymous')
-    @playSound 'menu-button-click'
-    @setRankingButtonText 'submitting'
-    if currentAge = me.age()
-      @session.set 'creatorAge', currentAge
-    success = =>
-      @setRankingButtonText 'submitted' unless @destroyed
-      Backbone.Mediator.publish 'ladder:game-submitted', session: @session, level: @level
-      @submittingInProgress = false
-      if @destroyed
-        @session = @level = @mirrorSession = @submittingInProgress = undefined
-    failure = (jqxhr, textStatus, errorThrown) =>
-      console.log jqxhr.responseText
-      @setRankingButtonText 'failed' unless @destroyed
-      @submittingInProgress = false
-      if @destroyed
-        @session = @level = @mirrorSession = @submittingInProgress = undefined
-    @submittingInProgress = true
-    tempSession = @session.clone() # do not modify @session here
-    if @level.isType('ladder') and tempSession.get('team') is 'ogres'
-      code = tempSession.get('code') ? {'hero-placeholder': {plan:''}, 'hero-placeholder-1': {plan: ''}}
-      tempSession.set('team', 'humans')
-      code['hero-placeholder'] = _.clone code['hero-placeholder-1']
-      tempSession.set('code', code)
-    tempSession.save null, success: =>
-      ajaxData =
-        session: @session.id
-        levelID: @level.id
-        originalLevelID: @level.get('original')
-        levelMajorVersion: @level.get('version').major
-      ajaxOptions =
-        type: 'POST'
-        data: ajaxData
-        success: success
-        error: failure
-      if @mirrorSession
-        # Also submit the mirrorSession after the main session submits successfully.
-        mirrorAjaxData = _.clone ajaxData
-        mirrorAjaxData.session = @mirrorSession.id
-        mirrorCode = @mirrorSession.get('code') ? {}
-        if tempSession.get('team') is 'humans'
-          mirrorCode['hero-placeholder-1'] = tempSession.get('code')['hero-placeholder']
-        else
-          mirrorCode['hero-placeholder'] = tempSession.get('code')['hero-placeholder-1']
-        mirrorAjaxOptions = _.clone ajaxOptions
-        mirrorAjaxOptions.data = mirrorAjaxData
-        ajaxOptions.success = =>
-          patch = code: mirrorCode, codeLanguage: tempSession.get('codeLanguage')
-          tempMirrorSession = new LevelSession _id: @mirrorSession.id
-          tempMirrorSession.save patch, patch: true, type: 'PUT', success: ->
-            $.ajax '/queue/scoring', mirrorAjaxOptions
-      $.ajax '/queue/scoring', ajaxOptions
+    onHelpSimulate() {
+      this.playSound('menu-button-click');
+      return $('a[href="#simulate"]').tab('show');
+    }
 
-  onHelpSimulate: ->
-    @playSound 'menu-button-click'
-    $('a[href="#simulate"]').tab('show')
-
-  destroy: ->
-    # Atypical: if we are destroyed mid-submission, keep a few locals around to be able to finish it
-    if @submittingInProgress
-      session = @session
-      level = @level
-      mirrorSession = @mirrorSession
-    super()
-    if session
-      @session = session
-      @level = level
-      @mirrorSession = @mirrorSession
-      @submittingInProgress = true
+    destroy() {
+      // Atypical: if we are destroyed mid-submission, keep a few locals around to be able to finish it
+      let level, mirrorSession, session;
+      if (this.submittingInProgress) {
+        ({
+          session
+        } = this);
+        ({
+          level
+        } = this);
+        ({
+          mirrorSession
+        } = this);
+      }
+      super.destroy();
+      if (session) {
+        this.session = session;
+        this.level = level;
+        this.mirrorSession = this.mirrorSession;
+        return this.submittingInProgress = true;
+      }
+    }
+  };
+  LadderSubmissionView.initClass();
+  return LadderSubmissionView;
+})());

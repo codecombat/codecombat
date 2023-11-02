@@ -1,40 +1,79 @@
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let Component;
+const utils = require('core/utils');
 
-componentKeywords = ['attach', 'constructor', 'validateArguments', 'toString', 'isComponent']  # Array is faster than object
+const componentKeywords = ['attach', 'constructor', 'validateArguments', 'toString', 'isComponent'];  // Array is faster than object
 
-module.exports = class Component
-  @className: 'Component'
-  isComponent: true
-  constructor: (config) ->
-    for key, value of config
-      @[key] = value  # Hmm, might want to _.cloneDeep here? What if the config has nested object values and the Thang modifies them, then we re-use the config for, say, missile spawning? Well, for now we'll clone in the missile.
+module.exports = (Component = (function() {
+  Component = class Component {
+    static initClass() {
+      this.className = 'Component';
+      this.prototype.isComponent = true;
+  
+      this.prototype.validateArguments =
+        {additionalProperties: false};
+    }
+    constructor(config) {
+      for (var key in config) {
+        var value = config[key];
+        this[key] = value;
+      }  // Hmm, might want to _.cloneDeep here? What if the config has nested object values and the Thang modifies them, then we re-use the config for, say, missile spawning? Well, for now we'll clone in the missile.
+    }
 
-  attach: (thang) ->
-    # Optimize; this is much of the World constructor time
-    keys = (Object.getOwnPropertyNames(@.__proto__) or []).concat(Object.getOwnPropertyNames(@))
-    for key in keys when key not in componentKeywords and key[0] isnt '_'
-      oldValue = thang[key]
-      value = @[key]
-      if typeof oldValue is 'function'
-        thang.appendMethod key, value
-      else
-        thang[key] = value
+    attach(thang) {
+      // Optimize; this is much of the World constructor time
+      const keys = (Object.getOwnPropertyNames(this.__proto__) || []).concat(Object.getOwnPropertyNames(this));
+      return (() => {
+        const result = [];
+        for (var key of Array.from(keys)) {
+          if (!Array.from(componentKeywords).includes(key) && (key[0] !== '_')) {
+            var oldValue = thang[key];
+            var value = this[key];
+            if (typeof oldValue === 'function') {
+              result.push(thang.appendMethod(key, value));
+            } else {
+              result.push(thang[key] = value);
+            }
+          }
+        }
+        return result;
+      })();
+    }
 
-  validateArguments:
-    additionalProperties: false
+    getCodeContext(className) {
+      if (className == null) { ({
+        className
+      } = this.constructor); }
+      if (!__guard__(this.world != null ? this.world.levelComponents : undefined, x => x.length)) { return; }
+      const levelComponent = _.find(this.world.levelComponents, {name: className});
+      if (!levelComponent) { return; }
+      let context = (levelComponent != null ? levelComponent.context : undefined) || {};
+      const language = this.world.language || 'en-US';
 
-  getCodeContext: (className) ->
-    className ?= @constructor.className
-    return unless @world?.levelComponents?.length
-    levelComponent = _.find @world.levelComponents, name: className
-    return unless levelComponent
-    context = levelComponent?.context or {}
-    language = @world.language or 'en-US'
+      const localizedContext = utils.i18n(levelComponent, 'context', language);
+      if (localizedContext) {
+        context = _.merge(context, localizedContext);
+      }
+      return context;
+    }
 
-    localizedContext = utils.i18n(levelComponent, 'context', language)
-    if localizedContext
-      context = _.merge context, localizedContext
-    context
+    toString() {
+      return `<Component: ${this.constructor.className}`;
+    }
+  };
+  Component.initClass();
+  return Component;
+})());
 
-  toString: ->
-    "<Component: #{@constructor.className}"
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

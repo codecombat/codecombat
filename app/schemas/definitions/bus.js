@@ -1,14 +1,19 @@
-module.exports =
-  bus:
-    title: 'Bus'
-    id: 'bus'
-    $schema: 'http://json-schema.org/draft-04/schema#'
-    description: 'Bus' # TODO
-    type: 'object'
-    properties: # TODO
-      joined:
+module.exports = {
+  bus: {
+    title: 'Bus',
+    id: 'bus',
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    description: 'Bus', // TODO
+    type: 'object',
+    properties: { // TODO
+      joined: {
         type: ['boolean', 'null']
-      players:
+      },
+      players: {
         type: 'object'
-    required: ['joined', 'players']
+      }
+    },
+    required: ['joined', 'players'],
     additionalProperties: true
+  }
+};

@@ -1,116 +1,158 @@
-require('app/styles/play/modal/play-achievements-modal.sass')
-ModalView = require 'views/core/ModalView'
-template = require 'app/templates/play/modal/play-achievements-modal'
-CocoCollection = require 'collections/CocoCollection'
-Achievement = require 'models/Achievement'
-EarnedAchievement = require 'models/EarnedAchievement'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let PlayAchievementsModal;
+require('app/styles/play/modal/play-achievements-modal.sass');
+const ModalView = require('views/core/ModalView');
+const template = require('app/templates/play/modal/play-achievements-modal');
+const CocoCollection = require('collections/CocoCollection');
+const Achievement = require('models/Achievement');
+const EarnedAchievement = require('models/EarnedAchievement');
 
-utils = require 'core/utils'
+const utils = require('core/utils');
 
-PAGE_SIZE = 200
+const PAGE_SIZE = 200;
 
-module.exports = class PlayAchievementsModal extends ModalView
-  className: 'modal fade play-modal'
-  template: template
-  id: 'play-achievements-modal'
-  plain: true
+module.exports = (PlayAchievementsModal = (function() {
+  PlayAchievementsModal = class PlayAchievementsModal extends ModalView {
+    static initClass() {
+      this.prototype.className = 'modal fade play-modal';
+      this.prototype.template = template;
+      this.prototype.id = 'play-achievements-modal';
+      this.prototype.plain = true;
+  
+      this.prototype.earnedMap = {};
+    }
 
-  earnedMap: {}
+    constructor(options) {
+      this.onEverythingLoaded = this.onEverythingLoaded.bind(this);
+      super(options);
+      this.achievements = new Backbone.Collection();
+      const earnedMap = {};
 
-  constructor: (options) ->
-    super options
-    @achievements = new Backbone.Collection()
-    earnedMap = {}
+      const achievementsFetcher = new CocoCollection([], {url: '/db/achievement', model: Achievement});
+      achievementsFetcher.setProjection([
+        'name',
+        'description',
+        'icon',
+        'worth',
+        'i18n',
+        'rewards',
+        'collection',
+        'function',
+        'query'
+      ]);
 
-    achievementsFetcher = new CocoCollection([], {url: '/db/achievement', model: Achievement})
-    achievementsFetcher.setProjection([
-      'name'
-      'description'
-      'icon'
-      'worth'
-      'i18n'
-      'rewards'
-      'collection'
-      'function'
-      'query'
-    ])
+      const earnedAchievementsFetcher = new CocoCollection([], {url: '/db/earned_achievement', model: EarnedAchievement});
+      earnedAchievementsFetcher.setProjection(['achievement', 'achievedAmount']);
 
-    earnedAchievementsFetcher = new CocoCollection([], {url: '/db/earned_achievement', model: EarnedAchievement})
-    earnedAchievementsFetcher.setProjection ['achievement', 'achievedAmount']
+      achievementsFetcher.skip = 0;
+      achievementsFetcher.fetch({cache: false, data: {skip: 0, limit: PAGE_SIZE}});
+      earnedAchievementsFetcher.skip = 0;
+      earnedAchievementsFetcher.fetch({cache: false, data: {skip: 0, limit: PAGE_SIZE}});
 
-    achievementsFetcher.skip = 0
-    achievementsFetcher.fetch cache: false, data: {skip: 0, limit: PAGE_SIZE}
-    earnedAchievementsFetcher.skip = 0
-    earnedAchievementsFetcher.fetch cache: false, data: {skip: 0, limit: PAGE_SIZE}
+      this.listenTo(achievementsFetcher, 'sync', this.onAchievementsLoaded);
+      this.listenTo(earnedAchievementsFetcher, 'sync', this.onEarnedAchievementsLoaded);
+      this.stopListening(this.supermodel, 'loaded-all');
 
-    @listenTo achievementsFetcher, 'sync', @onAchievementsLoaded
-    @listenTo earnedAchievementsFetcher, 'sync', @onEarnedAchievementsLoaded
-    @stopListening @supermodel, 'loaded-all'
+      this.supermodel.loadCollection(achievementsFetcher, 'achievement');
+      this.supermodel.loadCollection(earnedAchievementsFetcher, 'achievement');
 
-    @supermodel.loadCollection(achievementsFetcher, 'achievement')
-    @supermodel.loadCollection(earnedAchievementsFetcher, 'achievement')
+      this.onEverythingLoaded = _.after(2, this.onEverythingLoaded);
+    }
 
-    @onEverythingLoaded = _.after(2, @onEverythingLoaded)
+    onAchievementsLoaded(fetcher) {
+      const needMore = fetcher.models.length === PAGE_SIZE;
+      this.achievements.add(fetcher.models);
+      if (needMore) {
+        fetcher.skip += PAGE_SIZE;
+        return fetcher.fetch({cache: false, data: {skip: fetcher.skip, limit: PAGE_SIZE}});
+      } else {
+        this.stopListening(fetcher);
+        return this.onEverythingLoaded();
+      }
+    }
 
-  onAchievementsLoaded: (fetcher) ->
-    needMore = fetcher.models.length is PAGE_SIZE
-    @achievements.add(fetcher.models)
-    if needMore
-      fetcher.skip += PAGE_SIZE
-      fetcher.fetch cache: false, data: {skip: fetcher.skip, limit: PAGE_SIZE}
-    else
-      @stopListening(fetcher)
-      @onEverythingLoaded()
+    onEarnedAchievementsLoaded(fetcher) {
+      const needMore = fetcher.models.length === PAGE_SIZE;
+      for (var earned of Array.from(fetcher.models)) {
+        this.earnedMap[earned.get('achievement')] = earned;
+      }
+      if (needMore) {
+        fetcher.skip += PAGE_SIZE;
+        return fetcher.fetch({cache: false, data: {skip: fetcher.skip, limit: PAGE_SIZE}});
+      } else {
+        this.stopListening(fetcher);
+        return this.onEverythingLoaded();
+      }
+    }
 
-  onEarnedAchievementsLoaded: (fetcher) ->
-    needMore = fetcher.models.length is PAGE_SIZE
-    for earned in fetcher.models
-      @earnedMap[earned.get('achievement')] = earned
-    if needMore
-      fetcher.skip += PAGE_SIZE
-      fetcher.fetch cache: false, data: {skip: fetcher.skip, limit: PAGE_SIZE}
-    else
-      @stopListening(fetcher)
-      @onEverythingLoaded()
+    onEverythingLoaded() {
+      let achievement, earned;
+      this.achievements.set(this.achievements.filter(m => (m.get('collection') !== 'level.sessions') || __guard__(m.get('query'), x => x.team)));
+      const achievementsByDescription = {earned: {}, unearned: {}};
+      for (achievement of Array.from(this.achievements.models)) {
+        if (earned = this.earnedMap[achievement.id]) {
+          achievement.earned = earned;
+          achievement.earnedDate = earned.getCreationDate();
+          var expFunction = achievement.getExpFunction();
+          achievement.earnedGems = Math.round((__guard__(achievement.get('rewards'), x => x.gems) || 0) * expFunction(earned.get('achievedAmount')));
+          achievement.earnedPoints = Math.round((achievement.get('worth', true) || 0) * expFunction(earned.get('achievedAmount')));
+        }
+        if (achievement.earnedDate == null) { achievement.earnedDate = ''; }
+      }
+      for (achievement of Array.from(this.achievements.models)) {
+        var holder, left, shouldKeep;
+        if (achievement.earned) {
+          holder = achievementsByDescription.earned;
+        } else {
+          holder = achievementsByDescription.unearned;
+        }
+        var nextInSet = holder[achievement.get('description')];
+        var [a, b] = Array.from([achievement.get('worth', true), (left = (nextInSet != null ? nextInSet.get('worth', true) : undefined)) != null ? left : 0]);
+        if (achievement.earned) {
+          shouldKeep = !nextInSet || (a > b);
+        } else {
+          shouldKeep = !nextInSet || (a < b);
+        }
+        if (shouldKeep) {
+          holder[achievement.get('description')] = achievement;
+        }
+      }
+      this.achievements.set(_.values(achievementsByDescription.earned).concat(_.values(achievementsByDescription.unearned)));
+      this.achievements.comparator = m => m.earnedDate;
+      this.achievements.sort();
+      this.achievements.set(this.achievements.models.reverse());
+      for (achievement of Array.from(this.achievements.models)) {
+        achievement.name = utils.i18n(achievement.attributes, 'name');
+        achievement.description = utils.i18n(achievement.attributes, 'description');
+      }
+      return this.render();
+    }
 
-  onEverythingLoaded: =>
-    @achievements.set(@achievements.filter((m) -> m.get('collection') isnt 'level.sessions' or m.get('query')?.team))
-    achievementsByDescription = earned: {}, unearned: {}
-    for achievement in @achievements.models
-      if earned = @earnedMap[achievement.id]
-        achievement.earned = earned
-        achievement.earnedDate = earned.getCreationDate()
-        expFunction = achievement.getExpFunction()
-        achievement.earnedGems = Math.round (achievement.get('rewards')?.gems or 0) * expFunction earned.get('achievedAmount')
-        achievement.earnedPoints = Math.round (achievement.get('worth', true) or 0) * expFunction earned.get('achievedAmount')
-      achievement.earnedDate ?= ''
-    for achievement in @achievements.models
-      if achievement.earned
-        holder = achievementsByDescription.earned
-      else
-        holder = achievementsByDescription.unearned
-      nextInSet = holder[achievement.get('description')]
-      [a, b] = [achievement.get('worth', true), nextInSet?.get('worth', true) ? 0]
-      if achievement.earned
-        shouldKeep = not nextInSet or a > b
-      else
-        shouldKeep = not nextInSet or a < b
-      if shouldKeep
-        holder[achievement.get('description')] = achievement
-    @achievements.set _.values(achievementsByDescription.earned).concat(_.values(achievementsByDescription.unearned))
-    @achievements.comparator = (m) -> m.earnedDate
-    @achievements.sort()
-    @achievements.set(@achievements.models.reverse())
-    for achievement in @achievements.models
-      achievement.name = utils.i18n achievement.attributes, 'name'
-      achievement.description = utils.i18n achievement.attributes, 'description'
-    @render()
+    afterRender() {
+      super.afterRender();
+      if (!this.supermodel.finished()) { return; }
+      return this.playSound('game-menu-open');
+    }
 
-  afterRender: ->
-    super()
-    return unless @supermodel.finished()
-    @playSound 'game-menu-open'
+    onHidden() {
+      super.onHidden();
+      return this.playSound('game-menu-close');
+    }
+  };
+  PlayAchievementsModal.initClass();
+  return PlayAchievementsModal;
+})());
 
-  onHidden: ->
-    super()
-    @playSound 'game-menu-close'
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

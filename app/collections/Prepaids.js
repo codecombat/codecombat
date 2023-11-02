@@ -1,49 +1,73 @@
-CocoCollection = require 'collections/CocoCollection'
-Prepaid = require 'models/Prepaid'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let Prepaids;
+const CocoCollection = require('collections/CocoCollection');
+const Prepaid = require('models/Prepaid');
 
-sum = (numbers) -> _.reduce(numbers, (a, b) -> a + b)
+const sum = numbers => _.reduce(numbers, (a, b) => a + b);
 
-module.exports = class Prepaids extends CocoCollection
-  model: Prepaid
+module.exports = (Prepaids = (function() {
+  Prepaids = class Prepaids extends CocoCollection {
+    static initClass() {
+      this.prototype.model = Prepaid;
+  
+      this.prototype.url = "/db/prepaid";
+    }
 
-  url: "/db/prepaid"
+    initialize() {
+      return super.initialize(...arguments);
+    }
 
-  initialize: ->
-    super(arguments...)
+    comparator(prepaid) {
+      return [
+        prepaid.get('type') === 'course' ? 'C' : 'S',
+        prepaid.get('endDate')
+      ].toString();
+    }
 
-  comparator: (prepaid) ->
-    [
-      if prepaid.get('type') is 'course' then 'C' else 'S'
-      prepaid.get('endDate')
-    ].toString()
+    totalMaxRedeemers() {
+      return sum((Array.from(this.models).map((prepaid) => prepaid.get('maxRedeemers')))) || 0;
+    }
 
-  totalMaxRedeemers: ->
-    sum((prepaid.get('maxRedeemers') for prepaid in @models)) or 0
+    totalRedeemers() {
+      return sum((Array.from(this.models).map((prepaid) => _.size(prepaid.get('redeemers'))))) || 0;
+    }
 
-  totalRedeemers: ->
-    sum((_.size(prepaid.get('redeemers')) for prepaid in @models)) or 0
+    totalAvailable() { return Math.max(this.totalMaxRedeemers() - this.totalRedeemers(), 0); }
 
-  totalAvailable: -> Math.max(@totalMaxRedeemers() - @totalRedeemers(), 0)
+    fetchByCreator(creatorID, opts) {
+      if (opts == null) { opts = {}; }
+      if (opts.data == null) { opts.data = {}; }
+      opts.data.creator = creatorID;
+      return this.fetch(opts);
+    }
 
-  fetchByCreator: (creatorID, opts) ->
-    opts ?= {}
-    opts.data ?= {}
-    opts.data.creator = creatorID
-    @fetch opts
+    fetchMineAndShared() {
+      return this.fetchByCreator(me.id, { data: {includeShared: true} });
+    }
 
-  fetchMineAndShared: ->
-    @fetchByCreator(me.id, { data: {includeShared: true} })
-
-  fetchForClassroom: (classroom) ->
-    if classroom.isOwner()
-      return @fetchMineAndShared()
-    else if classroom.hasReadPermission()
-      options = {
-        data: {
-          includeShared: true,
-          sharedClassroomId: classroom.id
-        }
+    fetchForClassroom(classroom) {
+      if (classroom.isOwner()) {
+        return this.fetchMineAndShared();
+      } else if (classroom.hasReadPermission()) {
+        const options = {
+          data: {
+            includeShared: true,
+            sharedClassroomId: classroom.id
+          }
+        };
+        return this.fetchByCreator(classroom.get('ownerID'), options);
+      } else {
+        return this.fetchMineAndShared();
       }
-      return @fetchByCreator(classroom.get('ownerID'), options)
-    else
-      return @fetchMineAndShared()
+    }
+  };
+  Prepaids.initClass();
+  return Prepaids;
+})());

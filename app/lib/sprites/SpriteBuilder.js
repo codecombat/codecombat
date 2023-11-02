@@ -1,224 +1,339 @@
-{hexToHSL, hslToHex} = require 'core/utils'
-createjs = require 'lib/createjs-parts'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SpriteBuilder;
+const {hexToHSL, hslToHex} = require('core/utils');
+const createjs = require('lib/createjs-parts');
 
-module.exports = class SpriteBuilder
-  constructor: (@thangType, @options) ->
-    @options ?= {}
-    raw = @thangType.get('raw') or {}
-    @shapeStore = raw.shapes
-    @containerStore = raw.containers
-    @animationStore = raw.animations
-    @buildColorMaps()
+module.exports = (SpriteBuilder = class SpriteBuilder {
+  constructor(thangType, options) {
+    this.thangType = thangType;
+    this.options = options;
+    if (this.options == null) { this.options = {}; }
+    const raw = this.thangType.get('raw') || {};
+    this.shapeStore = raw.shapes;
+    this.containerStore = raw.containers;
+    this.animationStore = raw.animations;
+    this.buildColorMaps();
+  }
 
-  setOptions: (@options) ->
+  setOptions(options) {
+    this.options = options;
+  }
 
-  buildMovieClip: (animationName, mode, startPosition, loops, labels) ->
-    animData = @animationStore[animationName]
-    unless animData
-      console.error 'couldn\'t find animData from', @animationStore, 'for', animationName
-      return null
-    locals = {}
-    _.extend locals, @buildMovieClipShapes(animData.shapes)
-    _.extend locals, @buildMovieClipContainers(animData.containers)
-    _.extend locals, @buildMovieClipAnimations(animData.animations)
-    _.extend locals, @buildMovieClipGraphics(animData.graphics)
-    anim = new createjs.MovieClip()
-    if not labels
-      labels = {}
-      labels[animationName] = 0
-    anim.initialize(mode ? createjs.MovieClip.INDEPENDENT, startPosition ? 0, loops ? true, labels)
-    for tweenData in animData.tweens
-      tween = createjs.Tween
-      stopped = false
-      for func in tweenData
-        args = _.cloneDeep(func.a)
-        @dereferenceArgs(args, locals)
-        if tween[func.n]
-          tween = tween[func.n](args...)
-        else
-          # If we, say, skipped a shadow get(), then the wait() may not be present
-          stopped = true
-          break
-      anim.timeline.addTween(tween) unless stopped
+  buildMovieClip(animationName, mode, startPosition, loops, labels) {
+    const animData = this.animationStore[animationName];
+    if (!animData) {
+      console.error('couldn\'t find animData from', this.animationStore, 'for', animationName);
+      return null;
+    }
+    const locals = {};
+    _.extend(locals, this.buildMovieClipShapes(animData.shapes));
+    _.extend(locals, this.buildMovieClipContainers(animData.containers));
+    _.extend(locals, this.buildMovieClipAnimations(animData.animations));
+    _.extend(locals, this.buildMovieClipGraphics(animData.graphics));
+    const anim = new createjs.MovieClip();
+    if (!labels) {
+      labels = {};
+      labels[animationName] = 0;
+    }
+    anim.initialize(mode != null ? mode : createjs.MovieClip.INDEPENDENT, startPosition != null ? startPosition : 0, loops != null ? loops : true, labels);
+    for (var tweenData of Array.from(animData.tweens)) {
+      var tween = createjs.Tween;
+      var stopped = false;
+      for (var func of Array.from(tweenData)) {
+        var args = _.cloneDeep(func.a);
+        this.dereferenceArgs(args, locals);
+        if (tween[func.n]) {
+          tween = tween[func.n](...Array.from(args || []));
+        } else {
+          // If we, say, skipped a shadow get(), then the wait() may not be present
+          stopped = true;
+          break;
+        }
+      }
+      if (!stopped) { anim.timeline.addTween(tween); }
+    }
 
-    anim.nominalBounds = new createjs.Rectangle(animData.bounds...)
-    if animData.frameBounds
-      anim.frameBounds = (new createjs.Rectangle(bounds...) for bounds in animData.frameBounds)
-    anim
+    anim.nominalBounds = new createjs.Rectangle(...Array.from(animData.bounds || []));
+    if (animData.frameBounds) {
+      anim.frameBounds = (Array.from(animData.frameBounds).map((bounds) => new createjs.Rectangle(...Array.from(bounds || []))));
+    }
+    return anim;
+  }
 
-  dereferenceArgs: (args, locals) ->
-    for key, val of args
-      if locals[val]
-        args[key] = locals[val]
-      else if val is null
-        args[key] = {}
-      else if _.isString(val) and val.indexOf('createjs.') is 0
-        args[key] = eval(val) # TODO: Security risk
-      else if _.isObject(val) or _.isArray(val)
-        @dereferenceArgs(val, locals)
-    args
+  dereferenceArgs(args, locals) {
+    for (var key in args) {
+      var val = args[key];
+      if (locals[val]) {
+        args[key] = locals[val];
+      } else if (val === null) {
+        args[key] = {};
+      } else if (_.isString(val) && (val.indexOf('createjs.') === 0)) {
+        args[key] = eval(val); // TODO: Security risk
+      } else if (_.isObject(val) || _.isArray(val)) {
+        this.dereferenceArgs(val, locals);
+      }
+    }
+    return args;
+  }
 
-  buildMovieClipShapes: (localShapes) ->
-    map = {}
-    for localShape in localShapes
-      if localShape.im
-        shape = new createjs.Shape()
-        shape._off = true
-      else
-        shape = @buildShapeFromStore(localShape.gn)
-        if localShape.m
-          shape.mask = map[localShape.m]
-      map[localShape.bn] = shape
-    map
+  buildMovieClipShapes(localShapes) {
+    const map = {};
+    for (var localShape of Array.from(localShapes)) {
+      var shape;
+      if (localShape.im) {
+        shape = new createjs.Shape();
+        shape._off = true;
+      } else {
+        shape = this.buildShapeFromStore(localShape.gn);
+        if (localShape.m) {
+          shape.mask = map[localShape.m];
+        }
+      }
+      map[localShape.bn] = shape;
+    }
+    return map;
+  }
 
-  buildMovieClipContainers: (localContainers) ->
-    map = {}
-    for localContainer in localContainers
-      container = @buildContainerFromStore(localContainer.gn)
-      container.setTransform(localContainer.t...)
-      container._off = localContainer.o if localContainer.o?
-      container.alpha = localContainer.al if localContainer.al?
-      map[localContainer.bn] = container
-    map
+  buildMovieClipContainers(localContainers) {
+    const map = {};
+    for (var localContainer of Array.from(localContainers)) {
+      var container = this.buildContainerFromStore(localContainer.gn);
+      container.setTransform(...Array.from(localContainer.t || []));
+      if (localContainer.o != null) { container._off = localContainer.o; }
+      if (localContainer.al != null) { container.alpha = localContainer.al; }
+      map[localContainer.bn] = container;
+    }
+    return map;
+  }
 
-  buildMovieClipAnimations: (localAnimations) ->
-    map = {}
-    for localAnimation in localAnimations
-      animation = @buildMovieClip(localAnimation.gn, localAnimation.a...)
-      animation.setTransform(localAnimation.t...)
-      animation._off = true if localAnimation.off
-      map[localAnimation.bn] = animation
-    map
+  buildMovieClipAnimations(localAnimations) {
+    const map = {};
+    for (var localAnimation of Array.from(localAnimations)) {
+      var animation = this.buildMovieClip(localAnimation.gn, ...Array.from(localAnimation.a));
+      animation.setTransform(...Array.from(localAnimation.t || []));
+      if (localAnimation.off) { animation._off = true; }
+      map[localAnimation.bn] = animation;
+    }
+    return map;
+  }
 
-  buildMovieClipGraphics: (localGraphics) ->
-    map = {}
-    for localGraphic in localGraphics
-      graphic = new createjs.Graphics().p(localGraphic.p)
-      map[localGraphic.bn] = graphic
-    map
+  buildMovieClipGraphics(localGraphics) {
+    const map = {};
+    for (var localGraphic of Array.from(localGraphics)) {
+      var graphic = new createjs.Graphics().p(localGraphic.p);
+      map[localGraphic.bn] = graphic;
+    }
+    return map;
+  }
 
-  buildShapeFromStore: (shapeKey, debug=false) ->
-    shapeData = @shapeStore[shapeKey]
-    shape = new createjs.Shape()
-    if shapeData.lf?
-      shape.graphics.lf shapeData.lf...
-    else if shapeData.fc?
-      shape.graphics.f @colorMap[shapeKey] or shapeData.fc
-    else if shapeData.rf?
-      shape.graphics.rf shapeData.rf...
-    if shapeData.ls?
-      shape.graphics.ls shapeData.ls...
-    else if shapeData.sc?
-      shape.graphics.s shapeData.sc
-    shape.graphics.ss shapeData.ss... if shapeData.ss?
-    shape.graphics.de shapeData.de... if shapeData.de?
-    shape.graphics.p shapeData.p if shapeData.p?
-    shape.setTransform shapeData.t...
-    shape
+  buildShapeFromStore(shapeKey, debug) {
+    if (debug == null) { debug = false; }
+    const shapeData = this.shapeStore[shapeKey];
+    const shape = new createjs.Shape();
+    if (shapeData.lf != null) {
+      shape.graphics.lf(...Array.from(shapeData.lf || []));
+    } else if (shapeData.fc != null) {
+      shape.graphics.f(this.colorMap[shapeKey] || shapeData.fc);
+    } else if (shapeData.rf != null) {
+      shape.graphics.rf(...Array.from(shapeData.rf || []));
+    }
+    if (shapeData.ls != null) {
+      shape.graphics.ls(...Array.from(shapeData.ls || []));
+    } else if (shapeData.sc != null) {
+      shape.graphics.s(shapeData.sc);
+    }
+    if (shapeData.ss != null) { shape.graphics.ss(...Array.from(shapeData.ss || [])); }
+    if (shapeData.de != null) { shape.graphics.de(...Array.from(shapeData.de || [])); }
+    if (shapeData.p != null) { shape.graphics.p(shapeData.p); }
+    shape.setTransform(...Array.from(shapeData.t || []));
+    return shape;
+  }
 
-  buildContainerFromStore: (containerKey) ->
-    console.error 'Yo we don\'t have no containerKey' unless containerKey
-    contData = @containerStore[containerKey]
-    cont = new createjs.Container()
-    cont.initialize()
-    for childData in contData.c
-      if _.isString(childData)
-        child = @buildShapeFromStore(childData)
-      else
-        continue if not childData.gn
-        child = @buildContainerFromStore(childData.gn)
-        child.setTransform(childData.t...)
-      cont.addChild(child)
-    cont.bounds = new createjs.Rectangle(contData.b...)
-    cont
+  buildContainerFromStore(containerKey) {
+    if (!containerKey) { console.error('Yo we don\'t have no containerKey'); }
+    const contData = this.containerStore[containerKey];
+    const cont = new createjs.Container();
+    cont.initialize();
+    for (var childData of Array.from(contData.c)) {
+      var child;
+      if (_.isString(childData)) {
+        child = this.buildShapeFromStore(childData);
+      } else {
+        if (!childData.gn) { continue; }
+        child = this.buildContainerFromStore(childData.gn);
+        child.setTransform(...Array.from(childData.t || []));
+      }
+      cont.addChild(child);
+    }
+    cont.bounds = new createjs.Rectangle(...Array.from(contData.b || []));
+    return cont;
+  }
 
-  # Builds the spritesheet using the texture atlas images for each animation/action and updates its reference in the movieClip file
-  buildSpriteSheetFromTextureAtlas: (actionNames) ->
-    for action in actionNames
-      spriteData = @thangType.getRasterAtlasSpriteData(action)
+  // Builds the spritesheet using the texture atlas images for each animation/action and updates its reference in the movieClip file
+  buildSpriteSheetFromTextureAtlas(actionNames) {
+    return (() => {
+      const result = [];
+      for (var action of Array.from(actionNames)) {
+        var spriteData = this.thangType.getRasterAtlasSpriteData(action);
 
-      unless spriteData and spriteData.ssMetadata and spriteData.ss
-        console.warn "Sprite data for #{action} does not contain the required data to build a spritesheet! ", spriteData
-        continue
+        if (!spriteData || !spriteData.ssMetadata || !spriteData.ss) {
+          console.warn(`Sprite data for ${action} does not contain the required data to build a spritesheet! `, spriteData);
+          continue;
+        }
 
-      try
-        # spriteData holds a reference to the spritesheet in the adobe animate's movieClip file (ss)
-        for metaData in spriteData?.ssMetadata
-          # builds the spritesheets everytime an action is rendered
-          # TODO build new spritesheet only if there are changes in metaData.images / metaData.frames
-          spriteData.ss?[metaData.name] = new createjs.SpriteSheet( { 'images': metaData.images, 'frames': metaData.frames })
-      catch e
-        console.error 'Error in creating spritesheet', e
+        try {
+          // spriteData holds a reference to the spritesheet in the adobe animate's movieClip file (ss)
+          result.push(Array.from((spriteData != null ? spriteData.ssMetadata : undefined)).map((metaData) =>
+            // builds the spritesheets everytime an action is rendered
+            // TODO build new spritesheet only if there are changes in metaData.images / metaData.frames
+            ((spriteData.ss != null ? spriteData.ss[metaData.name] = new createjs.SpriteSheet( { 'images': metaData.images, 'frames': metaData.frames }) : undefined))));
+        } catch (e) {
+          result.push(console.error('Error in creating spritesheet', e));
+        }
+      }
+      return result;
+    })();
+  }
 
-  buildColorMaps: ->
-    @colorMap = {}
-    colorGroups = @thangType.get('colorGroups')
-    return if _.isEmpty colorGroups
-    return unless _.size @shapeStore  # We don't have the shapes loaded because we are doing a prerendered spritesheet approach
-    colorConfig = @options.colorConfig
-    #    colorConfig ?= {team: {hue:0.4, saturation: -0.5, lightness: -0.5}} # test config
-    return if not colorConfig
+  buildColorMaps() {
+    this.colorMap = {};
+    const colorGroups = this.thangType.get('colorGroups');
+    if (_.isEmpty(colorGroups)) { return; }
+    if (!_.size(this.shapeStore)) { return; }  // We don't have the shapes loaded because we are doing a prerendered spritesheet approach
+    const {
+      colorConfig
+    } = this.options;
+    //    colorConfig ?= {team: {hue:0.4, saturation: -0.5, lightness: -0.5}} # test config
+    if (!colorConfig) { return; }
 
-    for group, config of colorConfig
-      continue unless colorGroups[group] # color group not found...
-      if @thangType.get('ozaria')
-        @buildOzariaColorMapForGroup(colorGroups[group], config)
-      else
-        @buildColorMapForGroup(colorGroups[group], config)
+    return (() => {
+      const result = [];
+      for (var group in colorConfig) {
+        var config = colorConfig[group];
+        if (!colorGroups[group]) { continue; } // color group not found...
+        if (this.thangType.get('ozaria')) {
+          result.push(this.buildOzariaColorMapForGroup(colorGroups[group], config));
+        } else {
+          result.push(this.buildColorMapForGroup(colorGroups[group], config));
+        }
+      }
+      return result;
+    })();
+  }
 
-  # Simpler Ozaria color mapper.
-  # Instead of color shifting we apply the color directly.
-  buildOzariaColorMapForGroup: (shapes, config) ->
-    return unless shapes.length
-    for shapeKey in shapes
-      shape = @shapeStore[shapeKey]
-      continue if not shape?.fc?
-      # Store the color we'd like the shape to be rendered with.
-      @colorMap[shapeKey] = hslToHex([config.hue, config.saturation, config.lightness])
+  // Simpler Ozaria color mapper.
+  // Instead of color shifting we apply the color directly.
+  buildOzariaColorMapForGroup(shapes, config) {
+    if (!shapes.length) { return; }
+    return (() => {
+      const result = [];
+      for (var shapeKey of Array.from(shapes)) {
+        var shape = this.shapeStore[shapeKey];
+        if (((shape != null ? shape.fc : undefined) == null)) { continue; }
+        // Store the color we'd like the shape to be rendered with.
+        result.push(this.colorMap[shapeKey] = hslToHex([config.hue, config.saturation, config.lightness]));
+      }
+      return result;
+    })();
+  }
 
-  buildColorMapForGroup: (shapes, config) ->
-    return unless shapes.length
-    colors = @initColorMap(shapes)
-    @adjustHuesForColorMap(colors, config.hue)
-    @adjustValueForColorMap(colors, 1, config.saturation)
-    @adjustValueForColorMap(colors, 2, config.lightness)
-    @applyColorMap(shapes, colors)
+  buildColorMapForGroup(shapes, config) {
+    if (!shapes.length) { return; }
+    const colors = this.initColorMap(shapes);
+    this.adjustHuesForColorMap(colors, config.hue);
+    this.adjustValueForColorMap(colors, 1, config.saturation);
+    this.adjustValueForColorMap(colors, 2, config.lightness);
+    return this.applyColorMap(shapes, colors);
+  }
 
-  initColorMap: (shapes) ->
-    colors = {}
-    for shapeKey in shapes
-      shape = @shapeStore[shapeKey]
-      continue if (not shape?.fc?) or colors[shape.fc]
-      hsl = hexToHSL(shape.fc)
-      colors[shape.fc] = hsl
-    colors
+  initColorMap(shapes) {
+    const colors = {};
+    for (var shapeKey of Array.from(shapes)) {
+      var shape = this.shapeStore[shapeKey];
+      if ((((shape != null ? shape.fc : undefined) == null)) || colors[shape.fc]) { continue; }
+      var hsl = hexToHSL(shape.fc);
+      colors[shape.fc] = hsl;
+    }
+    return colors;
+  }
 
-  adjustHuesForColorMap: (colors, targetHue) ->
-    hues = (hsl[0] for hex, hsl of colors)
+  adjustHuesForColorMap(colors, targetHue) {
+    let hex, hsl, h;
+    let hues = ((() => {
+      const result = [];
+      for (hex in colors) {
+        hsl = colors[hex];
+        result.push(hsl[0]);
+      }
+      return result;
+    })());
 
-    # 'rotate' the hue spectrum so averaging works
-    if Math.max(hues) - Math.min(hues) > 0.5
-      hues = (if h < 0.5 then h + 1.0 else h for h in hues)
-    averageHue = sum(hues) / hues.length
-    averageHue %= 1
-    # end result should be something like a hue array of [0.9, 0.3] gets an average of 0.1
+    // 'rotate' the hue spectrum so averaging works
+    if ((Math.max(hues) - Math.min(hues)) > 0.5) {
+      hues = (h < 0.5 ? h + 1.0 : (() => {
+        const result1 = [];
+        for (h of Array.from(hues)) {           result1.push(h);
+        }
+        return result1;
+      })());
+    }
+    let averageHue = sum(hues) / hues.length;
+    averageHue %= 1;
+    // end result should be something like a hue array of [0.9, 0.3] gets an average of 0.1
 
-    targetHue ?= 0
-    diff = targetHue - averageHue
-    hsl[0] = (hsl[0] + diff + 1) % 1 for hex, hsl of colors
+    if (targetHue == null) { targetHue = 0; }
+    const diff = targetHue - averageHue;
+    return (() => {
+      const result2 = [];
+      for (hex in colors) {
+        hsl = colors[hex];
+        result2.push(hsl[0] = (hsl[0] + diff + 1) % 1);
+      }
+      return result2;
+    })();
+  }
 
-  adjustValueForColorMap: (colors, index, targetValue) ->
-    values = (hsl[index] for hex, hsl of colors)
-    averageValue = sum(values) / values.length
-    targetValue ?= 0.5
-    diff = targetValue - averageValue
-    for hex, hsl of colors
-      hsl[index] = Math.max(0, Math.min(1, hsl[index] + diff))
+  adjustValueForColorMap(colors, index, targetValue) {
+    let hex, hsl;
+    const values = ((() => {
+      const result = [];
+      for (hex in colors) {
+        hsl = colors[hex];
+        result.push(hsl[index]);
+      }
+      return result;
+    })());
+    const averageValue = sum(values) / values.length;
+    if (targetValue == null) { targetValue = 0.5; }
+    const diff = targetValue - averageValue;
+    return (() => {
+      const result1 = [];
+      for (hex in colors) {
+        hsl = colors[hex];
+        result1.push(hsl[index] = Math.max(0, Math.min(1, hsl[index] + diff)));
+      }
+      return result1;
+    })();
+  }
 
-  applyColorMap: (shapes, colors) ->
-    for shapeKey in shapes
-      shape = @shapeStore[shapeKey]
-      continue if (not shape?.fc?) or not(colors[shape.fc])
-      @colorMap[shapeKey] = hslToHex(colors[shape.fc])
+  applyColorMap(shapes, colors) {
+    return (() => {
+      const result = [];
+      for (var shapeKey of Array.from(shapes)) {
+        var shape = this.shapeStore[shapeKey];
+        if ((((shape != null ? shape.fc : undefined) == null)) || !(colors[shape.fc])) { continue; }
+        result.push(this.colorMap[shapeKey] = hslToHex(colors[shape.fc]));
+      }
+      return result;
+    })();
+  }
+});
 
-sum = (nums) -> _.reduce(nums, (s, num) -> s + num)
+var sum = nums => _.reduce(nums, (s, num) => s + num);

@@ -1,212 +1,264 @@
-SubscribeModal = require 'views/core/SubscribeModal'
-Products = require 'collections/Products'
-stripeHandler = require 'core/services/stripe'
-payPal = require 'core/services/paypal'
-{ wrapJasmine } = require('test/app/utils')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const SubscribeModal = require('views/core/SubscribeModal');
+const Products = require('collections/Products');
+const stripeHandler = require('core/services/stripe');
+const payPal = require('core/services/paypal');
+const { wrapJasmine } = require('test/app/utils');
 
-productList = [
+const productList = [
   {
-    _id: '1'
-    name: 'basic_subscription'
-    amount: 100
-    gems: 3500
+    _id: '1',
+    name: 'basic_subscription',
+    amount: 100,
+    gems: 3500,
     planID: 'basic'
-  }
+  },
 
   {
-    _id: '2'
-    name: 'basic_subscription_annual'
-    amount: 9900
-    gems: 3500
+    _id: '2',
+    name: 'basic_subscription_annual',
+    amount: 9900,
+    gems: 3500,
     planID: 'price_123'
-  }
+  },
 
   {
-    _id: '3'
-    name: 'lifetime_subscription'
-    amount: 1000
+    _id: '3',
+    name: 'lifetime_subscription',
+    amount: 1000,
     gems: 42000
   }
-]
+];
 
-productListInternational = _.map(productList, (p) -> _.assign({}, p, {name: 'brazil_' + p.name}))
+const productListInternational = _.map(productList, p => _.assign({}, p, {name: 'brazil_' + p.name}));
 
-# Make a fake button for testing, used by calling ".click()"
-makeFakePayPalButton = (options) ->
-  { buttonContainerID, product, onPaymentStarted, onPaymentComplete, description } = options
-  paymentData = {
-    payment:
+// Make a fake button for testing, used by calling ".click()"
+const makeFakePayPalButton = function(options) {
+  const { buttonContainerID, product, onPaymentStarted, onPaymentComplete, description } = options;
+  const paymentData = {
+    payment: {
       transactions: [
         {
-          amount: { total: product.adjustedPriceStringNoSymbol(), currency: 'USD' }
+          amount: { total: product.adjustedPriceStringNoSymbol(), currency: 'USD' },
           item_list: {
             items: [{
-              name: product.translateName()
-              quantity: 1
-              price: product.adjustedPriceStringNoSymbol()
+              name: product.translateName(),
+              quantity: 1,
+              price: product.adjustedPriceStringNoSymbol(),
               currency: 'USD'
             }]
-          }
-          description: description # Is this what shows up on their credit card, or so? TODO: Translate?
+          },
+          description // Is this what shows up on their credit card, or so? TODO: Translate?
         }
       ]
-  }
+    }
+  };
   return {
-    click: (options) ->
-      return new Promise (accept, reject) ->
-        onPaymentStarted()
-        _.defer ->
-          payment = paymentData.payment
-          # Add (partial) stub info that PayPal would attach to a payment object
+    click(options) {
+      return new Promise(function(accept, reject) {
+        onPaymentStarted();
+        return _.defer(function() {
+          const {
+            payment
+          } = paymentData;
+          // Add (partial) stub info that PayPal would attach to a payment object
           _.merge(payment, {
-            cart: 'fake_cart_id'
-            id: 'fake_payment_id'
-            payer:
-              payer_info:
-                payer_id: 'fake_payer_id'
+            cart: 'fake_cart_id',
+            id: 'fake_payment_id',
+            payer: {
+              payer_info: {
+                payer_id: 'fake_payer_id',
                 email: 'fake_email@example.com'
-              payment_method: 'paypal'
+              },
+              payment_method: 'paypal',
               status: 'VERIFIED'
-            intent: 'sale'
+            },
+            intent: 'sale',
             state: 'approved'
-          }, options)
-          onPaymentComplete(payment).then ->
-            accept()
-  }
+          }, options);
+          return onPaymentComplete(payment).then(() => accept());
+        });
+      });
+    }
+  };
+};
 
 
-describe 'SubscribeModal', ->
+describe('SubscribeModal', function() {
 
-  tokenSuccess = Promise.resolve({token: {id:'1234'}})
-  tokenError = Promise.reject(new Error('Stripe is upset'))
-  tokenError.catch(_.noop) # shush, Chrome
+  const tokenSuccess = Promise.resolve({token: {id:'1234'}});
+  const tokenError = Promise.reject(new Error('Stripe is upset'));
+  tokenError.catch(_.noop); // shush, Chrome
 
-  beforeEach ->
-    @openAsync = jasmine.createSpy()
-    spyOn(stripeHandler, 'makeNewInstance').and.returnValue({ @openAsync })
-    spyOn(payPal, 'loadPayPal').and.returnValue(Promise.resolve())
-    # Make the PayPal button even if we don't click it
-    spyOn(payPal, 'makeButton').and.callFake (options) =>
-      @payPalButton = makeFakePayPalButton(options)
-    @getTrackerEventNames = -> _.without(tracker.trackEvent.calls.all().map((c) -> c.args[0]), 'View Load')
+  beforeEach(function() {
+    this.openAsync = jasmine.createSpy();
+    spyOn(stripeHandler, 'makeNewInstance').and.returnValue({ openAsync: this.openAsync });
+    spyOn(payPal, 'loadPayPal').and.returnValue(Promise.resolve());
+    // Make the PayPal button even if we don't click it
+    spyOn(payPal, 'makeButton').and.callFake(options => {
+      return this.payPalButton = makeFakePayPalButton(options);
+    });
+    return this.getTrackerEventNames = () => _.without(tracker.trackEvent.calls.all().map(c => c.args[0]), 'View Load');
+  });
 
-  afterEach ->
-    if @openAsync.calls?.any()
-      options = @openAsync.calls.argsFor(0)[0]
-      expect(options.alipayReusable).toBeDefined()
-      expect(options.alipay).toBeDefined()
+  afterEach(function() {
+    if (this.openAsync.calls != null ? this.openAsync.calls.any() : undefined) {
+      const options = this.openAsync.calls.argsFor(0)[0];
+      expect(options.alipayReusable).toBeDefined();
+      return expect(options.alipay).toBeDefined();
+    }
+  });
 
-  describe 'onClickPurchaseButton()', ->
-    beforeEach ->
-      me.set({_id: '1234'})
-      @subscribeRequest = jasmine.Ajax.stubRequest('/db/user/1234')
-      @modal = new SubscribeModal({products: new Products(productList)})
-      @modal.render()
-      jasmine.demoModal(@modal)
+  describe('onClickPurchaseButton()', function() {
+    beforeEach(function() {
+      me.set({_id: '1234'});
+      this.subscribeRequest = jasmine.Ajax.stubRequest('/db/user/1234');
+      this.modal = new SubscribeModal({products: new Products(productList)});
+      this.modal.render();
+      return jasmine.demoModal(this.modal);
+    });
 
-    it 'expect yearly subscription button', ->
-      # TODO: update this to handle more complex logic (either annual or lifetime)
-      expect(@modal.$('.stripe-annual-button').length).toBe(1)
+    it('expect yearly subscription button', function() {
+      // TODO: update this to handle more complex logic (either annual or lifetime)
+      return expect(this.modal.$('.stripe-annual-button').length).toBe(1);
+    });
 
-    describe 'when the subscription succeeds', ->
-      beforeEach ->
-        @subscribeRequest.andReturn({status: 200, responseText: '{}'})
-        @openAsync.and.returnValue(tokenSuccess)
+    describe('when the subscription succeeds', function() {
+      beforeEach(function() {
+        this.subscribeRequest.andReturn({status: 200, responseText: '{}'});
+        return this.openAsync.and.returnValue(tokenSuccess);
+      });
 
-      it 'calls hide()', wrapJasmine ->
-        spyOn(@modal, 'hide')
-        yield @modal.onClickPurchaseButton()
-        expect(@modal.hide).toHaveBeenCalled()
-        expect(@getTrackerEventNames()).toDeepEqual(
-          [ "Started subscription purchase", "Finished subscription purchase" ] )
+      return it('calls hide()', wrapJasmine(function*() {
+        spyOn(this.modal, 'hide');
+        yield this.modal.onClickPurchaseButton();
+        expect(this.modal.hide).toHaveBeenCalled();
+        return expect(this.getTrackerEventNames()).toDeepEqual(
+          [ "Started subscription purchase", "Finished subscription purchase" ] );
+      })
+      );
+    });
 
-    describe 'when the subscription response is 402', ->
-      beforeEach ->
-        @subscribeRequest.andReturn({status: 402, responseText: '{}'})
-        @openAsync.and.returnValue(tokenSuccess)
+    describe('when the subscription response is 402', function() {
+      beforeEach(function() {
+        this.subscribeRequest.andReturn({status: 402, responseText: '{}'});
+        return this.openAsync.and.returnValue(tokenSuccess);
+      });
 
-      it 'shows state "declined"', wrapJasmine ->
-        yield @modal.onClickPurchaseButton()
-        expect(@modal.state).toBe('declined')
-        expect(@getTrackerEventNames()).toDeepEqual(
-          ["Started subscription purchase", "Failed to finish subscription purchase"])
+      return it('shows state "declined"', wrapJasmine(function*() {
+        yield this.modal.onClickPurchaseButton();
+        expect(this.modal.state).toBe('declined');
+        return expect(this.getTrackerEventNames()).toDeepEqual(
+          ["Started subscription purchase", "Failed to finish subscription purchase"]);
+      })
+      );
+    });
 
-    describe 'when the subscription response is any other error', ->
-      beforeEach ->
-        @subscribeRequest.andReturn({status: 500, responseText: '{}'})
-        @openAsync.and.returnValue(tokenSuccess)
+    describe('when the subscription response is any other error', function() {
+      beforeEach(function() {
+        this.subscribeRequest.andReturn({status: 500, responseText: '{}'});
+        return this.openAsync.and.returnValue(tokenSuccess);
+      });
 
-      it 'shows state "unknown_error"', wrapJasmine ->
-        yield @modal.onClickPurchaseButton()
-        expect(@modal.state).toBe('unknown_error')
-        expect(@getTrackerEventNames()).toDeepEqual(
-          ["Started subscription purchase", "Failed to finish subscription purchase"])
+      return it('shows state "unknown_error"', wrapJasmine(function*() {
+        yield this.modal.onClickPurchaseButton();
+        expect(this.modal.state).toBe('unknown_error');
+        return expect(this.getTrackerEventNames()).toDeepEqual(
+          ["Started subscription purchase", "Failed to finish subscription purchase"]);
+      })
+      );
+    });
 
-    describe 'when stripe errors out, or some other runtime error happens', ->
-      beforeEach ->
-        @openAsync.and.returnValue(tokenError)
-        spyOn(console, 'error')
+    return describe('when stripe errors out, or some other runtime error happens', function() {
+      beforeEach(function() {
+        this.openAsync.and.returnValue(tokenError);
+        return spyOn(console, 'error');
+      });
 
-      it 'shows state "unknown_error"', wrapJasmine ->
-        yield @modal.onClickPurchaseButton()
-        expect(@modal.state).toBe('unknown_error')
-        expect(@modal.stateMessage).toBe('Unknown Error')
+      return it('shows state "unknown_error"', wrapJasmine(function*() {
+        yield this.modal.onClickPurchaseButton();
+        expect(this.modal.state).toBe('unknown_error');
+        expect(this.modal.stateMessage).toBe('Unknown Error');
 
-        expect(@getTrackerEventNames()).toDeepEqual(
-          ["Started subscription purchase", "Failed to finish subscription purchase"])
-        expect(console.error).toHaveBeenCalled()
+        expect(this.getTrackerEventNames()).toDeepEqual(
+          ["Started subscription purchase", "Failed to finish subscription purchase"]);
+        return expect(console.error).toHaveBeenCalled();
+      })
+      );
+    });
+  });
 
-  # Migrated to using a yearly license instead
-  # TODO: bring this test back and make it better (able to handle lifetime or annual)
-  xdescribe 'onClickStripeLifetimeButton()', ->
-    describe "when user's country does not have regional pricing", ->
-      beforeEach ->
-        me.set({_id: '1234', country: undefined})
-        @purchaseRequest = jasmine.Ajax.stubRequest('/db/products/3/purchase')
-        @modal = new SubscribeModal({products: new Products(productList)})
-        @modal.render()
-        jasmine.demoModal(@modal)
-        @openAsync.and.returnValue(tokenSuccess)
+  // Migrated to using a yearly license instead
+  // TODO: bring this test back and make it better (able to handle lifetime or annual)
+  return xdescribe('onClickStripeLifetimeButton()', function() {
+    describe("when user's country does not have regional pricing", function() {
+      beforeEach(function() {
+        me.set({_id: '1234', country: undefined});
+        this.purchaseRequest = jasmine.Ajax.stubRequest('/db/products/3/purchase');
+        this.modal = new SubscribeModal({products: new Products(productList)});
+        this.modal.render();
+        jasmine.demoModal(this.modal);
+        return this.openAsync.and.returnValue(tokenSuccess);
+      });
 
-      it 'uses Stripe', ->
-        expect(@modal.$('.stripe-lifetime-button').length).toBe(1)
-        expect(@modal.$('#paypal-button-container').length).toBe(0)
-        expect(@payPalButton).toBeUndefined()
+      it('uses Stripe', function() {
+        expect(this.modal.$('.stripe-lifetime-button').length).toBe(1);
+        expect(this.modal.$('#paypal-button-container').length).toBe(0);
+        return expect(this.payPalButton).toBeUndefined();
+      });
 
-      describe 'when the purchase succeeds', ->
-        beforeEach ->
-          @purchaseRequest.andReturn({status: 200, responseText: '{}'})
+      describe('when the purchase succeeds', function() {
+        beforeEach(function() {
+          return this.purchaseRequest.andReturn({status: 200, responseText: '{}'});
+        });
 
-        it 'calls hide()', wrapJasmine ->
-          spyOn(@modal, 'hide')
-          spyOn(me, 'fetch').and.returnValue(Promise.resolve())
-          yield @modal.onClickStripeLifetimeButton()
-          expect(@modal.hide).toHaveBeenCalled()
-          expect(@getTrackerEventNames()).toDeepEqual(
-            [ "Start Lifetime Purchase", "Finish Lifetime Purchase" ])
+        return it('calls hide()', wrapJasmine(function*() {
+          spyOn(this.modal, 'hide');
+          spyOn(me, 'fetch').and.returnValue(Promise.resolve());
+          yield this.modal.onClickStripeLifetimeButton();
+          expect(this.modal.hide).toHaveBeenCalled();
+          return expect(this.getTrackerEventNames()).toDeepEqual(
+            [ "Start Lifetime Purchase", "Finish Lifetime Purchase" ]);
+        })
+        );
+      });
 
-      describe 'when the Stripe purchase response is 402', ->
-        beforeEach ->
-          @purchaseRequest.andReturn({status: 402, responseText: '{}'})
+      return describe('when the Stripe purchase response is 402', function() {
+        beforeEach(function() {
+          return this.purchaseRequest.andReturn({status: 402, responseText: '{}'});
+        });
 
-        it 'shows state "declined"', wrapJasmine ->
-          yield @modal.onClickStripeLifetimeButton()
-          expect(@modal.state).toBe('declined')
-          expect(@getTrackerEventNames()).toDeepEqual(
-            [ "Start Lifetime Purchase", "Fail Lifetime Purchase" ])
+        return it('shows state "declined"', wrapJasmine(function*() {
+          yield this.modal.onClickStripeLifetimeButton();
+          expect(this.modal.state).toBe('declined');
+          return expect(this.getTrackerEventNames()).toDeepEqual(
+            [ "Start Lifetime Purchase", "Fail Lifetime Purchase" ]);
+        })
+        );
+      });
+    });
 
-    describe "when user's country has regional pricing", ->
-      beforeEach ->
-        me.set({_id: '1234', country: 'brazil'})
-        @purchaseRequest = jasmine.Ajax.stubRequest('/db/products/3/purchase')
-        @modal = new SubscribeModal({products: new Products(productListInternational)})
-        @modal.render()
-        jasmine.demoModal(@modal)
-        @openAsync.and.returnValue(tokenSuccess)
-      afterEach ->
-        me.set({country: undefined})
+    return describe("when user's country has regional pricing", function() {
+      beforeEach(function() {
+        me.set({_id: '1234', country: 'brazil'});
+        this.purchaseRequest = jasmine.Ajax.stubRequest('/db/products/3/purchase');
+        this.modal = new SubscribeModal({products: new Products(productListInternational)});
+        this.modal.render();
+        jasmine.demoModal(this.modal);
+        return this.openAsync.and.returnValue(tokenSuccess);
+      });
+      afterEach(() => me.set({country: undefined}));
 
-      it 'uses Stripe', ->
-        expect(@modal.$('.stripe-lifetime-button').length).toBe(1)
-        expect(@modal.$('#paypal-button-container').length).toBe(0)
-        expect(@payPalButton).toBeUndefined()
+      return it('uses Stripe', function() {
+        expect(this.modal.$('.stripe-lifetime-button').length).toBe(1);
+        expect(this.modal.$('#paypal-button-container').length).toBe(0);
+        return expect(this.payPalButton).toBeUndefined();
+      });
+    });
+  });
+});

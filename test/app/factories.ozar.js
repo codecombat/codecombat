@@ -1,178 +1,221 @@
-Level = require 'models/Level'
-Levels = require 'collections/Levels'
-Course = require 'models/Course'
-Courses = require 'collections/Courses'
-Campaign = require 'models/Campaign'
-User = require 'models/User'
-Classroom = require 'models/Classroom'
-LevelSession = require 'models/LevelSession'
-CourseInstance = require 'models/CourseInstance'
-Achievement = require 'models/Achievement'
-EarnedAchievement = require 'models/EarnedAchievement'
-ThangType = require 'models/ThangType'
-Users = require 'collections/Users'
-Prepaid = require 'models/Prepaid'
-LevelComponent = require 'models/LevelComponent'
-LevelSystem = require 'models/LevelSystem'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const Level = require('models/Level');
+const Levels = require('collections/Levels');
+const Course = require('models/Course');
+const Courses = require('collections/Courses');
+const Campaign = require('models/Campaign');
+const User = require('models/User');
+const Classroom = require('models/Classroom');
+const LevelSession = require('models/LevelSession');
+const CourseInstance = require('models/CourseInstance');
+const Achievement = require('models/Achievement');
+const EarnedAchievement = require('models/EarnedAchievement');
+const ThangType = require('models/ThangType');
+const Users = require('collections/Users');
+const Prepaid = require('models/Prepaid');
+const LevelComponent = require('models/LevelComponent');
+const LevelSystem = require('models/LevelSystem');
 
-makeVersion = -> {
-  major: 0
-  minor: 0
-  isLatestMajor: true
+const makeVersion = () => ({
+  major: 0,
+  minor: 0,
+  isLatestMajor: true,
   isLatestMinor: true
-}
+});
 
 module.exports = {
 
-  makeCourse: (attrs, sources={}) ->
-    _id = _.uniqueId('course_')
+  makeCourse(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    const _id = _.uniqueId('course_');
     attrs = _.extend({}, {
-      _id: _id
-      name: _.string.humanize(_id)
-      releasePhase: 'released'
+      _id,
+      name: _.string.humanize(_id),
+      releasePhase: 'released',
       concepts: []
-    }, attrs)
+    }, attrs);
     
-    attrs.campaignID ?= sources.campaign?.id or _.uniqueId('campaign_')
-    return new Course(attrs)
+    if (attrs.campaignID == null) { attrs.campaignID = (sources.campaign != null ? sources.campaign.id : undefined) || _.uniqueId('campaign_'); }
+    return new Course(attrs);
+  },
 
-  makeCourseObject: (attrs, sources={}) ->
-    sources = _.clone(sources)
-    if sources.campaign
-      sources.campaign = new Campaign(sources.campaign)
-    course = @makeCourse(attrs, sources)
-    return course.toJSON()
+  makeCourseObject(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    sources = _.clone(sources);
+    if (sources.campaign) {
+      sources.campaign = new Campaign(sources.campaign);
+    }
+    const course = this.makeCourse(attrs, sources);
+    return course.toJSON();
+  },
 
-  makeCampaign: (attrs, sources={}) ->
-    _id = _.uniqueId('campaign_')
+  makeCampaign(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    const _id = _.uniqueId('campaign_');
     attrs = _.extend({}, {
-      _id
-      name: _.string.humanize(_id)
-      levels: [@makeLevel(), @makeLevel()]
-    }, attrs)
+      _id,
+      name: _.string.humanize(_id),
+      levels: [this.makeLevel(), this.makeLevel()]
+    }, attrs);
 
-    if sources.levels
-      levelsMap = {}
-      sources.levels.each (level) ->
-        levelsMap[level.get('original')] = level.toJSON()
-      attrs.levels = levelsMap
+    if (sources.levels) {
+      const levelsMap = {};
+      sources.levels.each(level => levelsMap[level.get('original')] = level.toJSON());
+      attrs.levels = levelsMap;
+    }
 
-    return new Campaign(attrs)
+    return new Campaign(attrs);
+  },
 
-  makeCampaignObject: (attrs, sources={}) ->
-    sources = _.clone(sources)
-    if sources.levels
-      sources.levels = new Levels(sources.levels)
-    campaign = @makeCampaign(attrs, sources)
-    return campaign.toJSON()
+  makeCampaignObject(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    sources = _.clone(sources);
+    if (sources.levels) {
+      sources.levels = new Levels(sources.levels);
+    }
+    const campaign = this.makeCampaign(attrs, sources);
+    return campaign.toJSON();
+  },
 
-  makeLevel: (attrs) ->
-    _id = _.uniqueId('level_')
+  makeLevel(attrs) {
+    const _id = _.uniqueId('level_');
     attrs = _.extend({}, {
-      _id: _id
-      name: _.string.humanize(_id)
-      slug: _.string.dasherize(_id)
-      original: _id+'_original'
+      _id,
+      name: _.string.humanize(_id),
+      slug: _.string.dasherize(_id),
+      original: _id+'_original',
       version: makeVersion()
-    }, attrs)
-    return new Level(attrs)
+    }, attrs);
+    return new Level(attrs);
+  },
     
-  makeLevelObject: (attrs) ->
-    level = @makeLevel(attrs)
-    return level.toJSON()
+  makeLevelObject(attrs) {
+    const level = this.makeLevel(attrs);
+    return level.toJSON();
+  },
   
-  makeUser: (attrs, sources={}) ->
-    _id = _.uniqueId('user_')
+  makeUser(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    const _id = _.uniqueId('user_');
     attrs = _.extend({
-      _id: _id
-      permissions: []
-      email: _id+'@email.com'
-      anonymous: false
+      _id,
+      permissions: [],
+      email: _id+'@email.com',
+      anonymous: false,
       name: _.string.humanize(_id)
-    }, attrs)
+    }, attrs);
 
-    if sources.prepaid
-      attrs.products = [sources.prepaid.convertToProduct()]
+    if (sources.prepaid) {
+      attrs.products = [sources.prepaid.convertToProduct()];
+    }
 
-    return new User(attrs)
+    return new User(attrs);
+  },
   
-  makeClassroom: (attrs, sources={}) ->
-    levels = sources.levels or [] # array of Levels collections
-    courses = sources.courses or new Courses()
-    members = sources.members or new Users()
+  makeClassroom(attrs, sources) {
+    let courseAttrs;
+    let course;
+    if (sources == null) { sources = {}; }
+    let levels = sources.levels || []; // array of Levels collections
+    let courses = sources.courses || new Courses();
+    let members = sources.members || new Users();
   
-    _id = _.uniqueId('classroom_')
+    const _id = _.uniqueId('classroom_');
     attrs = _.extend({}, {
-      _id: _id,
-      name: _.string.humanize(_id)
+      _id,
+      name: _.string.humanize(_id),
       aceConfig: { language: 'python' }
-    }, attrs)
+    }, attrs);
   
-    # populate courses
-    if not attrs.courses
-      courses = sources.courses or new Courses()
-      attrs.courses = (course.pick('_id') for course in courses.models)
+    // populate courses
+    if (!attrs.courses) {
+      courses = sources.courses || new Courses();
+      attrs.courses = ((() => {
+        const result = [];
+        for (course of Array.from(courses.models)) {           result.push(course.pick('_id'));
+        }
+        return result;
+      })());
+    }
   
-    # populate levels
-    for [courseAttrs, levels] in _.zip(attrs.courses, levels)
-      break if not courseAttrs
-      course ?= @makeCourse()
-      levels ?= new Levels()
-      courseAttrs.levels = (level.pick('_id', 'slug', 'name', 'original', 'primerLanguage', 'type', 'practice') for level in levels.models)
+    // populate levels
+    for ([courseAttrs, levels] of Array.from(_.zip(attrs.courses, levels))) {
+      if (!courseAttrs) { break; }
+      if (course == null) { course = this.makeCourse(); }
+      if (levels == null) { levels = new Levels(); }
+      courseAttrs.levels = (Array.from(levels.models).map((level) => level.pick('_id', 'slug', 'name', 'original', 'primerLanguage', 'type', 'practice')));
+    }
   
-    # populate members
-    if not attrs.members
-      members = members or new Users()
-      attrs.members = (member.id for member in members.models)
+    // populate members
+    if (!attrs.members) {
+      members = members || new Users();
+      attrs.members = (Array.from(members.models).map((member) => member.id));
+    }
   
-    return new Classroom(attrs)
+    return new Classroom(attrs);
+  },
   
-  makeLevelSession: (attrs, sources={}) ->
-    level = sources.level or @makeLevel()
-    creator = sources.creator or @makeUser()
+  makeLevelSession(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    const level = sources.level || this.makeLevel();
+    const creator = sources.creator || this.makeUser();
     attrs = _.extend({}, {
-      level:
+      level: {
         original: level.get('original'),
         majorVersion: 1
+      },
       creator: creator.id,
-    }, attrs)
-    attrs.level.primerLanguage = level.get('primerLanguage') if level.get('primerLanguage')
-    return new LevelSession(attrs)
+    }, attrs);
+    if (level.get('primerLanguage')) { attrs.level.primerLanguage = level.get('primerLanguage'); }
+    return new LevelSession(attrs);
+  },
   
-  makeCourseInstance: (attrs, sources={}) ->
-    _id = _.uniqueId('course_instance_')
-    course = sources.course or @makeCourse()
-    classroom = sources.classroom or @makeClassroom()
-    owner = sources.owner or @makeUser()
-    members = sources.members or new Users()
+  makeCourseInstance(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    const _id = _.uniqueId('course_instance_');
+    const course = sources.course || this.makeCourse();
+    const classroom = sources.classroom || this.makeClassroom();
+    const owner = sources.owner || this.makeUser();
+    const members = sources.members || new Users();
     attrs = _.extend({}, {
-      _id
-      courseID: course.id
-      classroomID: classroom.id
-      ownerID: owner.id
+      _id,
+      courseID: course.id,
+      classroomID: classroom.id,
+      ownerID: owner.id,
       members: members.pluck('_id')
-    }, attrs)
-    return new CourseInstance(attrs)
+    }, attrs);
+    return new CourseInstance(attrs);
+  },
     
-  makeLevelCompleteAchievement: (attrs, sources={}) ->
-    _id = _.uniqueId('achievement_')
-    level = sources.level or @makeLevel()
+  makeLevelCompleteAchievement(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    const _id = _.uniqueId('achievement_');
+    const level = sources.level || this.makeLevel();
     attrs = _.extend({}, {
-      _id
-      name: _.string.humanize(_id)
+      _id,
+      name: _.string.humanize(_id),
       query: {
         'state.complete': true,
         'level.original': level.get('original')
-      }
-      rewards: { gems: 10 }
+      },
+      rewards: { gems: 10 },
       worth: 20
-    }, attrs)
-    return new Achievement(attrs)
+    }, attrs);
+    return new Achievement(attrs);
+  },
     
-  makeEarnedAchievement: (attrs, sources={}) ->
-    _id = _.uniqueId('earned_achievement_')
-    achievement = sources.achievement or @makeLevelCompleteAchievement()
-    user = sources.user or @makeUser()
+  makeEarnedAchievement(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    const _id = _.uniqueId('earned_achievement_');
+    const achievement = sources.achievement || this.makeLevelCompleteAchievement();
+    const user = sources.user || this.makeUser();
     attrs = _.extend({}, {
       _id,
       "achievement": achievement.id,
@@ -181,83 +224,96 @@ module.exports = {
       "earnedPoints": achievement.get('worth'),
       "achievementName": achievement.get('name'),
       "notified": true
-    }, attrs)
-    return new EarnedAchievement(attrs)
+    }, attrs);
+    return new EarnedAchievement(attrs);
+  },
     
-  makeThangType: (attrs) ->
-    _id = _.uniqueId('thang_type_')
+  makeThangType(attrs) {
+    const _id = _.uniqueId('thang_type_');
     attrs = _.extend({}, {
-      _id
-      name: _.string.humanize(_id)
-      version: makeVersion()
+      _id,
+      name: _.string.humanize(_id),
+      version: makeVersion(),
       original: _id
-    }, attrs)
-    return new ThangType(attrs)
+    }, attrs);
+    return new ThangType(attrs);
+  },
     
-  makePayment: (attrs, sources={}) ->
-    _id = _.uniqueId('payment_')
+  makePayment(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    const _id = _.uniqueId('payment_');
     attrs = _.extend({}, {
       _id
-    }, attrs)
-    return new ThangType(attrs)
+    }, attrs);
+    return new ThangType(attrs);
+  },
 
-  makePrepaid: (attrs, sources={}) ->
-    _id = _.uniqueId('prepaid_')
+  makePrepaid(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    const _id = _.uniqueId('prepaid_');
     attrs = _.extend({}, {
-      _id
-      type: 'course'
-      maxRedeemers: 10
-      endDate: moment().add(1, 'month').toISOString()
+      _id,
+      type: 'course',
+      maxRedeemers: 10,
+      endDate: moment().add(1, 'month').toISOString(),
       startDate: moment().subtract(1, 'month').toISOString()
-    }, attrs)
+    }, attrs);
     
-    if not attrs.redeemers
-      redeemers = sources.redeemers or new Users()
-      attrs.redeemers = ({
-        userID: redeemer.id
+    if (!attrs.redeemers) {
+      const redeemers = sources.redeemers || new Users();
+      attrs.redeemers = (Array.from(redeemers.models).map((redeemer) => ({
+        userID: redeemer.id,
         date: moment().subtract(1, 'month').toISOString()
-      } for redeemer in redeemers.models)
+      })));
+    }
     
-    return new Prepaid(attrs)
+    return new Prepaid(attrs);
+  },
     
-  makeTrialRequest: (attrs, sources={}) ->
-    _id = _.uniqueId('trial_request_')
-    attrs = _.extend({}, {
-      _id
+  makeTrialRequest(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    const _id = _.uniqueId('trial_request_');
+    return attrs = _.extend({}, {
+      _id,
       properties: {
-        firstName: 'Mr'
-        lastName: 'Professorson'
-        name: 'Mr Professorson'
-        email: 'an@email.com'
-        phoneNumber: '555-555-5555'
-        organization: 'Greendale'
+        firstName: 'Mr',
+        lastName: 'Professorson',
+        name: 'Mr Professorson',
+        email: 'an@email.com',
+        phoneNumber: '555-555-5555',
+        organization: 'Greendale',
         district: 'Green District'
       }
-    }, attrs)
+    }, attrs);
+  },
     
-  makeLevelComponent: (attrs, sources={}) ->
-    _id = _.uniqueId('level_component_')
+  makeLevelComponent(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    const _id = _.uniqueId('level_component_');
     attrs = _.extend({}, {
-      _id
-      system: 'action'
-      codeLanguage: 'coffeescript'
-      name: _.uniqueId('Level Component ')
-      version: makeVersion()
+      _id,
+      system: 'action',
+      codeLanguage: 'coffeescript',
+      name: _.uniqueId('Level Component '),
+      version: makeVersion(),
       original: _id
-    }, attrs)
-    return new LevelComponent(attrs)
+    }, attrs);
+    return new LevelComponent(attrs);
+  },
 
-  makeLevelSystem: (attrs, sources={}) ->
-    _id = _.uniqueId('level_system_')
+  makeLevelSystem(attrs, sources) {
+    if (sources == null) { sources = {}; }
+    const _id = _.uniqueId('level_system_');
     attrs = _.extend({}, {
-      _id
-      codeLanguage: 'coffeescript'
-      name: _.uniqueId('Level System ')
-      version: makeVersion()
+      _id,
+      codeLanguage: 'coffeescript',
+      name: _.uniqueId('Level System '),
+      version: makeVersion(),
       original: _id
-    }, attrs)
-    return new LevelSystem(attrs)
+    }, attrs);
+    return new LevelSystem(attrs);
+  }
       
     
-}
+};
   

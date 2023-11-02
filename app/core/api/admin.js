@@ -1,26 +1,44 @@
-fetchJson = require './fetch-json'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const fetchJson = require('./fetch-json');
 
 module.exports = {
-  clearFeatureMode: (options) ->
-    fetchJson('/admin/feature-mode', _.assign({}, options, { method: 'DELETE' }))
+  clearFeatureMode(options) {
+    return fetchJson('/admin/feature-mode', _.assign({}, options, { method: 'DELETE' }));
+  },
     
-  setFeatureMode: (featureMode, options) ->
-    fetchJson("/admin/feature-mode/#{featureMode}", _.assign({}, options, { method: 'PUT' }))
+  setFeatureMode(featureMode, options) {
+    return fetchJson(`/admin/feature-mode/${featureMode}`, _.assign({}, options, { method: 'PUT' }));
+  },
 
-  searchUser: (query) ->
-    role = undefined
-    permission = undefined
-    if typeof query is 'object'
-      q = query.q
-      role = query.role
-      permissions = query.permissions
-    else
-      q = query.replace /role:([^ ]+) /, (dummy, m1) ->
-        role = m1
-        return ''
+  searchUser(query) {
+    let permissions, q;
+    let role = undefined;
+    const permission = undefined;
+    if (typeof query === 'object') {
+      ({
+        q
+      } = query);
+      ({
+        role
+      } = query);
+      ({
+        permissions
+      } = query);
+    } else {
+      q = query.replace(/role:([^ ]+) /, function(dummy, m1) {
+        role = m1;
+        return '';
+      });
+    }
 
-    data = {adminSearch: q}
-    data.role = role if role?
-    data.permissions = permissions if permissions?
-    fetchJson("/db/user", { data })
-}
+    const data = {adminSearch: q};
+    if (role != null) { data.role = role; }
+    if (permissions != null) { data.permissions = permissions; }
+    return fetchJson("/db/user", { data });
+  }
+};

@@ -1,197 +1,267 @@
-require('app/styles/play/level/tome/cast_button.sass')
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/play/level/tome/cast-button-view'
-{me} = require 'core/auth'
-LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
-LevelSession = require 'models/LevelSession'
-async = require('vendor/scripts/async.js')
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS204: Change includes calls to have a more natural evaluation order
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let CastButtonView;
+require('app/styles/play/level/tome/cast_button.sass');
+const CocoView = require('views/core/CocoView');
+const template = require('app/templates/play/level/tome/cast-button-view');
+const {me} = require('core/auth');
+const LadderSubmissionView = require('views/play/common/LadderSubmissionView');
+const LevelSession = require('models/LevelSession');
+const async = require('vendor/scripts/async.js');
 
-module.exports = class CastButtonView extends CocoView
-  id: 'cast-button-view'
-  template: template
+module.exports = (CastButtonView = (function() {
+  CastButtonView = class CastButtonView extends CocoView {
+    static initClass() {
+      this.prototype.id = 'cast-button-view';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'click .cast-button': 'onCastButtonClick',
+        'click .submit-button': 'onCastRealTimeButtonClick',
+        'click .done-button': 'onDoneButtonClick',
+        'click .game-dev-play-btn': 'onClickGameDevPlayButton'
+      };
+  
+      this.prototype.subscriptions = {
+        'tome:spell-changed': 'onSpellChanged',
+        'tome:cast-spells': 'onCastSpells',
+        'tome:manual-cast-denied': 'onManualCastDenied',
+        'god:new-world-created': 'onNewWorld',
+        'goal-manager:new-goal-states': 'onNewGoalStates',
+        'god:goals-calculated': 'onGoalsCalculated',
+        'playback:ended-changed': 'onPlaybackEndedChanged'
+      };
+    }
 
-  events:
-    'click .cast-button': 'onCastButtonClick'
-    'click .submit-button': 'onCastRealTimeButtonClick'
-    'click .done-button': 'onDoneButtonClick'
-    'click .game-dev-play-btn': 'onClickGameDevPlayButton'
+    constructor(options) {
+      this.updateReplayability = this.updateReplayability.bind(this);
+      super(options);
+      this.spells = options.spells;
+      this.castShortcut = '⇧↵';
+      this.updateReplayabilityInterval = setInterval(this.updateReplayability, 1000);
+      this.observing = options.session.get('creator') !== me.id;
+      // WARNING: CourseVictoryModal does not handle mirror sessions when submitting to ladder; adjust logic if a
+      // mirror level is added to
+      // Keep server/middleware/levels.coffee mirror list in sync with this one
+      if (this.options.level.get('mirrorMatch')) { this.loadMirrorSession(); }
+      this.mirror = (this.mirrorSession != null);
+      this.autoSubmitsToLadder = this.options.level.isType('course-ladder');  // type 'ladder' will do a lot of work on submit, so don't auto-submit
+      // Show publish CourseVictoryModal if they've already published
+      if (options.session.get('published')) {
+        Backbone.Mediator.publish('level:show-victory', { showModal: true, manual: false });
+      }
+    }
 
-  subscriptions:
-    'tome:spell-changed': 'onSpellChanged'
-    'tome:cast-spells': 'onCastSpells'
-    'tome:manual-cast-denied': 'onManualCastDenied'
-    'god:new-world-created': 'onNewWorld'
-    'goal-manager:new-goal-states': 'onNewGoalStates'
-    'god:goals-calculated': 'onGoalsCalculated'
-    'playback:ended-changed': 'onPlaybackEndedChanged'
+    destroy() {
+      clearInterval(this.updateReplayabilityInterval);
+      return super.destroy();
+    }
 
-  constructor: (options) ->
-    super options
-    @spells = options.spells
-    @castShortcut = '⇧↵'
-    @updateReplayabilityInterval = setInterval @updateReplayability, 1000
-    @observing = options.session.get('creator') isnt me.id
-    # WARNING: CourseVictoryModal does not handle mirror sessions when submitting to ladder; adjust logic if a
-    # mirror level is added to
-    # Keep server/middleware/levels.coffee mirror list in sync with this one
-    @loadMirrorSession() if @options.level.get('mirrorMatch')
-    @mirror = @mirrorSession?
-    @autoSubmitsToLadder = @options.level.isType('course-ladder')  # type 'ladder' will do a lot of work on submit, so don't auto-submit
-    # Show publish CourseVictoryModal if they've already published
-    if options.session.get('published')
-      Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: false }
+    afterRender() {
+      let needle;
+      super.afterRender();
+      this.castButton = $('.cast-button', this.$el);
+      for (var spellKey in this.spells) { var spell = this.spells[spellKey]; if (spell.view != null) {
+        spell.view.createOnCodeChangeHandlers();
+      } }
+      if (this.options.level.get('hidesSubmitUntilRun') || this.options.level.get('hidesRealTimePlayback') || this.options.level.isType('web-dev')) {
+        this.$el.find('.submit-button').hide();  // Hide Submit for the first few until they run it once.
+      }
+      if (__guard__(this.options.session.get('state'), x => x.complete) && (this.options.level.get('hidesRealTimePlayback') || this.options.level.isType('web-dev'))) {
+        this.$el.find('.done-button').show();
+      }
+      if ((needle = this.options.level.get('slug'), ['course-thornbush-farm', 'thornbush-farm'].includes(needle))) {
+        this.$el.find('.submit-button').hide();  // Hide submit until first win so that script can explain it.
+      }
+      this.updateReplayability();
+      return this.updateLadderSubmissionViews();
+    }
 
-  destroy: ->
-    clearInterval @updateReplayabilityInterval
-    super()
+    attachTo(spellView) {
+      return this.$el.detach().prependTo(spellView.toolbarView.$el).show();
+    }
 
-  afterRender: ->
-    super()
-    @castButton = $('.cast-button', @$el)
-    spell.view?.createOnCodeChangeHandlers() for spellKey, spell of @spells
-    if @options.level.get('hidesSubmitUntilRun') or @options.level.get('hidesRealTimePlayback') or @options.level.isType('web-dev')
-      @$el.find('.submit-button').hide()  # Hide Submit for the first few until they run it once.
-    if @options.session.get('state')?.complete and (@options.level.get('hidesRealTimePlayback') or @options.level.isType('web-dev'))
-      @$el.find('.done-button').show()
-    if @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
-      @$el.find('.submit-button').hide()  # Hide submit until first win so that script can explain it.
-    @updateReplayability()
-    @updateLadderSubmissionViews()
+    castShortcutVerbose() {
+      const shift = $.i18n.t('keyboard_shortcuts.shift');
+      const enter = $.i18n.t('keyboard_shortcuts.enter');
+      return `${shift}+${enter}`;
+    }
 
-  attachTo: (spellView) ->
-    @$el.detach().prependTo(spellView.toolbarView.$el).show()
+    castVerbose() {
+      return this.castShortcutVerbose() + ': ' + $.i18n.t('keyboard_shortcuts.run_code');
+    }
 
-  castShortcutVerbose: ->
-    shift = $.i18n.t 'keyboard_shortcuts.shift'
-    enter = $.i18n.t 'keyboard_shortcuts.enter'
-    "#{shift}+#{enter}"
+    castRealTimeVerbose() {
+      const castRealTimeShortcutVerbose = (this.isMac() ? 'Cmd' : 'Ctrl') + '+' + this.castShortcutVerbose();
+      return castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time');
+    }
 
-  castVerbose: ->
-    @castShortcutVerbose() + ': ' + $.i18n.t('keyboard_shortcuts.run_code')
+    onCastButtonClick(e) {
+      Backbone.Mediator.publish('tome:manual-cast', {realTime: false});
+      return Backbone.Mediator.publish('level:close-solution', {});
+    }
 
-  castRealTimeVerbose: ->
-    castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + @castShortcutVerbose()
-    castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
+    onCastRealTimeButtonClick(e) {
+      let timeUntilResubmit;
+      if (this.options.level.get('replayable') && ((timeUntilResubmit = this.options.session.timeUntilResubmit()) > 0)) {
+        Backbone.Mediator.publish('tome:manual-cast-denied', {timeUntilResubmit});
+      } else {
+        Backbone.Mediator.publish('tome:manual-cast', {realTime: true});
+      }
+      return this.updateReplayability();
+    }
 
-  onCastButtonClick: (e) ->
-    Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
-    Backbone.Mediator.publish 'level:close-solution', {}
+    onClickGameDevPlayButton() {
+      return Backbone.Mediator.publish('tome:manual-cast', {realTime: true});
+    }
 
-  onCastRealTimeButtonClick: (e) ->
-    if @options.level.get('replayable') and (timeUntilResubmit = @options.session.timeUntilResubmit()) > 0
-      Backbone.Mediator.publish 'tome:manual-cast-denied', timeUntilResubmit: timeUntilResubmit
-    else
-      Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
-    @updateReplayability()
+    onDoneButtonClick(e) {
+      if (this.options.level.hasLocalChanges()) { return; }  // Don't award achievements when beating level changed in level editor
+      this.options.session.recordScores(this.world != null ? this.world.scores : undefined, this.options.level);
+      return Backbone.Mediator.publish('level:show-victory', { showModal: true, manual: true });
+    }
 
-  onClickGameDevPlayButton: ->
-    Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
+    onSpellChanged(e) {
+      return this.updateCastButton();
+    }
 
-  onDoneButtonClick: (e) ->
-    return if @options.level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
-    @options.session.recordScores @world?.scores, @options.level
-    Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
+    onCastSpells(e) {
+      if (e.preload) { return; }
+      this.casting = true;
+      if (this.hasStartedCastingOnce) {  // Don't play this sound the first time
+        if (!this.options.level.isType('game-dev')) { this.playSound('cast', 0.5); }
+      }
+      this.hasStartedCastingOnce = true;
+      return this.updateCastButton();
+    }
 
-  onSpellChanged: (e) ->
-    @updateCastButton()
+    onManualCastDenied(e) {
+      const wait = moment().add(e.timeUntilResubmit, 'ms').fromNow();
+      //@playSound 'manual-cast-denied', 1.0   # find some sound for this?
+      return noty({text: `You can try again ${wait}.`, layout: 'center', type: 'warning', killer: false, timeout: 6000});
+    }
 
-  onCastSpells: (e) ->
-    return if e.preload
-    @casting = true
-    if @hasStartedCastingOnce  # Don't play this sound the first time
-      @playSound 'cast', 0.5 unless @options.level.isType('game-dev')
-    @hasStartedCastingOnce = true
-    @updateCastButton()
+    onNewWorld(e) {
+      this.casting = false;
+      if (this.hasCastOnce) {  // Don't play this sound the first time
+        if (!this.options.level.isType('game-dev')) { this.playSound('cast-end', 0.5); }
+        // Worked great for live beginner tournaments, but probably annoying for asynchronous tournament mode.
+        const myHeroID = me.team === 'ogres' ? 'Hero Placeholder 1' : 'Hero Placeholder';
+        let shouldAutoSubmit = this.autoSubmitsToLadder || (this.options.level.isType('ladder') && !this.options.session.get('submitDate') && !this.autosubmittedOnce);
+        if (shouldAutoSubmit) { shouldAutoSubmit = !(e.world.thangMap[myHeroID] != null ? e.world.thangMap[myHeroID].errorsOut : undefined) && !me.get('anonymous'); }
+        if (shouldAutoSubmit) {
+          this.autosubmittedOnce = true;
+          if (this.ladderSubmissionView) { _.delay((() => (this.ladderSubmissionView != null ? this.ladderSubmissionView.rankSession() : undefined)), 1000); }
+        }
+      }
+      this.hasCastOnce = true;
+      this.updateCastButton();
+      return this.world = e.world;
+    }
 
-  onManualCastDenied: (e) ->
-    wait = moment().add(e.timeUntilResubmit, 'ms').fromNow()
-    #@playSound 'manual-cast-denied', 1.0   # find some sound for this?
-    noty text: "You can try again #{wait}.", layout: 'center', type: 'warning', killer: false, timeout: 6000
+    onNewGoalStates(e) {
+      let needle, needle1;
+      const winnable = e.overallStatus === 'success';
+      if (this.winnable === winnable) { return; }
+      this.winnable = winnable;
+      this.$el.toggleClass('winnable', this.winnable);
+      Backbone.Mediator.publish('tome:winnability-updated', {winnable: this.winnable, level: this.options.level});
+      if ((needle = this.options.level.get('slug'), ['resource-tycoon'].includes(needle))) {
+        return null;  // No "Done" button for standalone tournament game-dev project levels outside of a campaign
+      } else if (this.options.level.get('hidesRealTimePlayback') || this.options.level.isType('web-dev', 'game-dev')) {
+        return this.$el.find('.done-button').toggle(this.winnable);
+      } else if (this.winnable && (needle1 = this.options.level.get('slug'), ['course-thornbush-farm', 'thornbush-farm'].includes(needle1))) {
+        return this.$el.find('.submit-button').show();  // Hide submit until first win so that script can explain it.
+      }
+    }
 
-  onNewWorld: (e) ->
-    @casting = false
-    if @hasCastOnce  # Don't play this sound the first time
-      @playSound 'cast-end', 0.5 unless @options.level.isType('game-dev')
-      # Worked great for live beginner tournaments, but probably annoying for asynchronous tournament mode.
-      myHeroID = if me.team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
-      shouldAutoSubmit = @autoSubmitsToLadder or (@options.level.isType('ladder') and not @options.session.get('submitDate') and not @autosubmittedOnce)
-      shouldAutoSubmit &&= not e.world.thangMap[myHeroID]?.errorsOut and not me.get('anonymous')
-      if shouldAutoSubmit
-        @autosubmittedOnce = true
-        _.delay (=> @ladderSubmissionView?.rankSession()), 1000 if @ladderSubmissionView
-    @hasCastOnce = true
-    @updateCastButton()
-    @world = e.world
+    onGoalsCalculated(e) {
+      // When preloading, with real-time playback enabled, we highlight the submit button when we think they'll win.
+      let needle;
+      if (e.god !== this.god) { return; }
+      if (!e.preload) { return; }
+      if (this.options.level.get('hidesRealTimePlayback')) { return; }
+      if ((needle = this.options.level.get('slug'), ['course-thornbush-farm', 'thornbush-farm'].includes(needle))) { return; }  // Don't show it until they actually win for this first one.
+      return this.onNewGoalStates(e);
+    }
 
-  onNewGoalStates: (e) ->
-    winnable = e.overallStatus is 'success'
-    return if @winnable is winnable
-    @winnable = winnable
-    @$el.toggleClass 'winnable', @winnable
-    Backbone.Mediator.publish 'tome:winnability-updated', winnable: @winnable, level: @options.level
-    if @options.level.get('slug') in ['resource-tycoon']
-      null  # No "Done" button for standalone tournament game-dev project levels outside of a campaign
-    else if @options.level.get('hidesRealTimePlayback') or @options.level.isType('web-dev', 'game-dev')
-      @$el.find('.done-button').toggle @winnable
-    else if @winnable and @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
-      @$el.find('.submit-button').show()  # Hide submit until first win so that script can explain it.
+    onPlaybackEndedChanged(e) {
+      if (!e.ended || !this.winnable) { return; }
+      return this.$el.toggleClass('has-seen-winning-replay', true);
+    }
 
-  onGoalsCalculated: (e) ->
-    # When preloading, with real-time playback enabled, we highlight the submit button when we think they'll win.
-    return unless e.god is @god
-    return unless e.preload
-    return if @options.level.get 'hidesRealTimePlayback'
-    return if @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']  # Don't show it until they actually win for this first one.
-    @onNewGoalStates e
+    updateCastButton() {
+      if (_.some(this.spells, spell => !spell.loaded)) { return; }
 
-  onPlaybackEndedChanged: (e) ->
-    return unless e.ended and @winnable
-    @$el.toggleClass 'has-seen-winning-replay', true
+      // TODO: performance: Get rid of async since this is basically the ONLY place we use it
+      return async.some(_.values(this.spells), (spell, callback) => {
+        return spell.hasChangedSignificantly(spell.getSource(), null, callback);
+      }
+      , castable => {
+        let castText;
+        Backbone.Mediator.publish('tome:spell-has-changed-significantly-calculation', {hasChangedSignificantly: castable});
+        this.castButton.toggleClass('castable', castable).toggleClass('casting', this.casting);
+        if (this.casting) {
+          castText = $.i18n.t('play_level.tome_cast_button_running');
+        } else if (castable || true) {
+          castText = $.i18n.t('play_level.tome_cast_button_run');
+          if (!this.options.level.get('hidesRunShortcut')) {  // Hide for first few.
+            castText += ' ' + this.castShortcut;
+          }
+        } else {
+          castText = $.i18n.t('play_level.tome_cast_button_ran');
+        }
+        this.castButton.text(castText);
+        //@castButton.prop 'disabled', not castable
+        return (this.ladderSubmissionView != null ? this.ladderSubmissionView.updateButton() : undefined);
+      });
+    }
 
-  updateCastButton: ->
-    return if _.some @spells, (spell) => not spell.loaded
+    updateReplayability() {
+      if (this.destroyed) { return; }
+      if (!this.options.level.get('replayable')) { return; }
+      const timeUntilResubmit = this.options.session.timeUntilResubmit();
+      const disabled = timeUntilResubmit > 0;
+      const submitButton = this.$el.find('.submit-button').toggleClass('disabled', disabled);
+      const submitAgainLabel = submitButton.find('.submit-again-time').toggleClass('secret', !disabled);
+      if (disabled) {
+        const waitTime = moment().add(timeUntilResubmit, 'ms').fromNow();
+        return submitAgainLabel.text(waitTime);
+      }
+    }
 
-    # TODO: performance: Get rid of async since this is basically the ONLY place we use it
-    async.some _.values(@spells), (spell, callback) =>
-      spell.hasChangedSignificantly spell.getSource(), null, callback
-    , (castable) =>
-      Backbone.Mediator.publish 'tome:spell-has-changed-significantly-calculation', hasChangedSignificantly: castable
-      @castButton.toggleClass('castable', castable).toggleClass('casting', @casting)
-      if @casting
-        castText = $.i18n.t('play_level.tome_cast_button_running')
-      else if castable or true
-        castText = $.i18n.t('play_level.tome_cast_button_run')
-        unless @options.level.get 'hidesRunShortcut'  # Hide for first few.
-          castText += ' ' + @castShortcut
-      else
-        castText = $.i18n.t('play_level.tome_cast_button_ran')
-      @castButton.text castText
-      #@castButton.prop 'disabled', not castable
-      @ladderSubmissionView?.updateButton()
+    loadMirrorSession() {
+      // Future work would be to only load this the first time we are going to submit (or auto submit), so that if we write some code but don't submit it, the other session can still initialize itself with it.
+      let url = `/db/level/${this.options.level.get('slug') || this.options.level.id}/session`;
+      url += `?team=${me.team === 'humans' ? 'ogres' : 'humans'}`;
+      const mirrorSession = new LevelSession().setURL(url);
+      this.mirrorSession = this.supermodel.loadModel(mirrorSession, {cache: false}).model;
+      return this.listenToOnce(this.mirrorSession, 'sync', function() {
+        return (this.ladderSubmissionView != null ? this.ladderSubmissionView.mirrorSession = this.mirrorSession : undefined);
+      });
+    }
 
-  updateReplayability: =>
-    return if @destroyed
-    return unless @options.level.get 'replayable'
-    timeUntilResubmit = @options.session.timeUntilResubmit()
-    disabled = timeUntilResubmit > 0
-    submitButton = @$el.find('.submit-button').toggleClass('disabled', disabled)
-    submitAgainLabel = submitButton.find('.submit-again-time').toggleClass('secret', not disabled)
-    if disabled
-      waitTime = moment().add(timeUntilResubmit, 'ms').fromNow()
-      submitAgainLabel.text waitTime
+    updateLadderSubmissionViews() {
+      for (var key in this.subviews) { var subview = this.subviews[key]; if (subview instanceof LadderSubmissionView) { this.removeSubView(subview); } }
+      const placeholder = this.$el.find('.ladder-submission-view');
+      if (!placeholder.length) { return; }
+      this.ladderSubmissionView = new LadderSubmissionView({session: this.options.session, level: this.options.level, mirrorSession: this.mirrorSession});
+      return this.insertSubView(this.ladderSubmissionView, placeholder);
+    }
+  };
+  CastButtonView.initClass();
+  return CastButtonView;
+})());
 
-  loadMirrorSession: ->
-    # Future work would be to only load this the first time we are going to submit (or auto submit), so that if we write some code but don't submit it, the other session can still initialize itself with it.
-    url = "/db/level/#{@options.level.get('slug') or @options.level.id}/session"
-    url += "?team=#{if me.team is 'humans' then 'ogres' else 'humans'}"
-    mirrorSession = new LevelSession().setURL url
-    @mirrorSession = @supermodel.loadModel(mirrorSession, {cache: false}).model
-    @listenToOnce @mirrorSession, 'sync', ->
-      @ladderSubmissionView?.mirrorSession = @mirrorSession
-
-  updateLadderSubmissionViews: ->
-    @removeSubView subview for key, subview of @subviews when subview instanceof LadderSubmissionView
-    placeholder = @$el.find('.ladder-submission-view')
-    return unless placeholder.length
-    @ladderSubmissionView = new LadderSubmissionView session: @options.session, level: @options.level, mirrorSession: @mirrorSession
-    @insertSubView @ladderSubmissionView, placeholder
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

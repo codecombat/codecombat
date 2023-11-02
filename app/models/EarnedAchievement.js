@@ -1,11 +1,26 @@
-CocoModel = require './CocoModel'
-utils = require '../core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let EarnedAchievement;
+const CocoModel = require('./CocoModel');
+const utils = require('../core/utils');
 
-module.exports = class EarnedAchievement extends CocoModel
-  @className: 'EarnedAchievement'
-  @schema: require 'schemas/models/earned_achievement'
-  urlRoot: '/db/earned_achievement'
+module.exports = (EarnedAchievement = (function() {
+  EarnedAchievement = class EarnedAchievement extends CocoModel {
+    static initClass() {
+      this.className = 'EarnedAchievement';
+      this.schema = require('schemas/models/earned_achievement');
+      this.prototype.urlRoot = '/db/earned_achievement';
+    }
   
-  save: ->
-    @unset('earnedRewards') if @get('earnedRewards') is null
-    super(arguments...)
+    save() {
+      if (this.get('earnedRewards') === null) { this.unset('earnedRewards'); }
+      return super.save(...arguments);
+    }
+  };
+  EarnedAchievement.initClass();
+  return EarnedAchievement;
+})());

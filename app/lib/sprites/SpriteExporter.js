@@ -1,100 +1,155 @@
-SpriteBuilder = require('./SpriteBuilder')
-ThangType = require('models/ThangType')
-CocoClass = require('core/CocoClass')
-createjs = require 'lib/createjs-parts'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const SpriteBuilder = require('./SpriteBuilder');
+const ThangType = require('models/ThangType');
+const CocoClass = require('core/CocoClass');
+const createjs = require('lib/createjs-parts');
 
 
-class SpriteExporter extends CocoClass
-  '''
-  To be used by the ThangTypeEditView to export ThangTypes to single sprite sheets which can be uploaded to
-  GridFS and used in gameplay, avoiding rendering vector images.
+class SpriteExporter extends CocoClass {
+  static initClass() {
+    `\
+To be used by the ThangTypeEditView to export ThangTypes to single sprite sheets which can be uploaded to
+GridFS and used in gameplay, avoiding rendering vector images.
+  
+Code has been copied and reworked and simplified from LayerAdapter. Some shared code has been refactored into
+ThangType, but more work could be done to rethink and reorganize Sprite rendering.\
+`;
+  }
 
-  Code has been copied and reworked and simplified from LayerAdapter. Some shared code has been refactored into
-  ThangType, but more work could be done to rethink and reorganize Sprite rendering.
-  '''
+  constructor(thangType, options) {
+    this.thangType = thangType;
+    if (options == null) { options = {}; }
+    this.colorConfig = options.colorConfig || {};
+    this.resolutionFactor = options.resolutionFactor || 1;
+    this.actionNames = options.actionNames || (Array.from(this.thangType.getDefaultActions()).map((action) => action.name));
+    this.spriteType = options.spriteType || this.thangType.get('spriteType') || 'segmented';
+    super();
+  }
 
-  constructor: (thangType, options) ->
-    @thangType = thangType
-    options ?= {}
-    @colorConfig = options.colorConfig or {}
-    @resolutionFactor = options.resolutionFactor or 1
-    @actionNames = options.actionNames or (action.name for action in @thangType.getDefaultActions())
-    @spriteType = options.spriteType or @thangType.get('spriteType') or 'segmented'
-    super()
+  build() {
+    const spriteSheetBuilder = new createjs.SpriteSheetBuilder();
+    if (this.spriteType === 'segmented') {
+      this.renderSegmentedThangType(spriteSheetBuilder);
+    } else {
+      this.renderSingularThangType(spriteSheetBuilder);
+    }
+    try {
+      spriteSheetBuilder.buildAsync();
+    } catch (e) {
+      this.resolutionFactor *= 0.9;
+      return this.build();
+    }
+    spriteSheetBuilder.on('complete', this.onBuildSpriteSheetComplete, this, true, spriteSheetBuilder);
+    return this.asyncBuilder = spriteSheetBuilder;
+  }
 
-  build: ->
-    spriteSheetBuilder = new createjs.SpriteSheetBuilder()
-    if @spriteType is 'segmented'
-      @renderSegmentedThangType(spriteSheetBuilder)
-    else
-      @renderSingularThangType(spriteSheetBuilder)
-    try
-      spriteSheetBuilder.buildAsync()
-    catch e
-      @resolutionFactor *= 0.9
-      return @build()
-    spriteSheetBuilder.on 'complete', @onBuildSpriteSheetComplete, @, true, spriteSheetBuilder
-    @asyncBuilder = spriteSheetBuilder
+  renderSegmentedThangType(spriteSheetBuilder) {
+    const containersToRender = this.thangType.getContainersForActions(this.actionNames);
+    const spriteBuilder = new SpriteBuilder(this.thangType, {colorConfig: this.colorConfig});
+    return (() => {
+      const result = [];
+      for (var containerGlobalName of Array.from(containersToRender)) {
+        var container = spriteBuilder.buildContainerFromStore(containerGlobalName);
+        var frame = spriteSheetBuilder.addFrame(container, null, this.resolutionFactor * (this.thangType.get('scale') || 1));
+        result.push(spriteSheetBuilder.addAnimation(containerGlobalName, [frame], false));
+      }
+      return result;
+    })();
+  }
 
-  renderSegmentedThangType: (spriteSheetBuilder) ->
-    containersToRender = @thangType.getContainersForActions(@actionNames)
-    spriteBuilder = new SpriteBuilder(@thangType, {colorConfig: @colorConfig})
-    for containerGlobalName in containersToRender
-      container = spriteBuilder.buildContainerFromStore(containerGlobalName)
-      frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor * (@thangType.get('scale') or 1))
-      spriteSheetBuilder.addAnimation(containerGlobalName, [frame], false)
+  renderSingularThangType(spriteSheetBuilder) {
+    let a, action, actions, scale;
+    let frame;
+    const actionObjects = _.values(this.thangType.getActions());
+    const animationActions = [];
+    for (a of Array.from(actionObjects)) {
+      if (!a.animation) { continue; }
+      if (!Array.from(this.actionNames).includes(a.name)) { continue; }
+      animationActions.push(a);
+    }
 
-  renderSingularThangType: (spriteSheetBuilder) ->
-    actionObjects = _.values(@thangType.getActions())
-    animationActions = []
-    for a in actionObjects
-      continue unless a.animation
-      continue unless a.name in @actionNames
-      animationActions.push(a)
+    const spriteBuilder = new SpriteBuilder(this.thangType, {colorConfig: this.colorConfig});
 
-    spriteBuilder = new SpriteBuilder(@thangType, {colorConfig: @colorConfig})
+    const animationGroups = _.groupBy(animationActions, action => action.animation);
+    for (var animationName in animationGroups) {
+      actions = animationGroups[animationName];
+      scale = actions[0].scale || this.thangType.get('scale') || 1;
+      var mc = spriteBuilder.buildMovieClip(animationName, null, null, null, {'temp':0});
+      spriteSheetBuilder.addMovieClip(mc, null, scale * this.resolutionFactor);
+      var {
+        frames
+      } = spriteSheetBuilder._animations['temp'];
+      var framesMap = _.zipObject(_.range(frames.length), frames);
+      for (action of Array.from(actions)) {
+        if (action.frames) {
+          frames = ((() => {
+            const result = [];
+            for (frame of Array.from(action.frames.split(','))) {               result.push(framesMap[parseInt(frame)]);
+            }
+            return result;
+          })());
+        } else {
+          frames = _.sortBy(_.values(framesMap));
+        }
+        var next = this.thangType.nextForAction(action);
+        spriteSheetBuilder.addAnimation(action.name, frames, next);
+      }
+    }
 
-    animationGroups = _.groupBy animationActions, (action) -> action.animation
-    for animationName, actions of animationGroups
-      scale = actions[0].scale or @thangType.get('scale') or 1
-      mc = spriteBuilder.buildMovieClip(animationName, null, null, null, {'temp':0})
-      spriteSheetBuilder.addMovieClip(mc, null, scale * @resolutionFactor)
-      frames = spriteSheetBuilder._animations['temp'].frames
-      framesMap = _.zipObject _.range(frames.length), frames
-      for action in actions
-        if action.frames
-          frames = (framesMap[parseInt(frame)] for frame in action.frames.split(','))
-        else
-          frames = _.sortBy(_.values(framesMap))
-        next = @thangType.nextForAction(action)
-        spriteSheetBuilder.addAnimation(action.name, frames, next)
+    const containerActions = [];
+    for (a of Array.from(actionObjects)) {
+      if (!a.container) { continue; }
+      if (!Array.from(this.actionNames).includes(a.name)) { continue; }
+      containerActions.push(a);
+    }
 
-    containerActions = []
-    for a in actionObjects
-      continue unless a.container
-      continue unless a.name in @actionNames
-      containerActions.push(a)
+    const containerGroups = _.groupBy(containerActions, action => action.container);
+    return (() => {
+      const result1 = [];
+      for (var containerName in containerGroups) {
+        actions = containerGroups[containerName];
+        var container = spriteBuilder.buildContainerFromStore(containerName);
+        scale = actions[0].scale || this.thangType.get('scale') || 1;
+        frame = spriteSheetBuilder.addFrame(container, null, scale * this.resolutionFactor);
+        result1.push((() => {
+          const result2 = [];
+          for (action of Array.from(actions)) {
+            result2.push(spriteSheetBuilder.addAnimation(action.name, [frame], false));
+          }
+          return result2;
+        })());
+      }
+      return result1;
+    })();
+  }
 
-    containerGroups = _.groupBy containerActions, (action) -> action.container
-    for containerName, actions of containerGroups
-      container = spriteBuilder.buildContainerFromStore(containerName)
-      scale = actions[0].scale or @thangType.get('scale') or 1
-      frame = spriteSheetBuilder.addFrame(container, null, scale * @resolutionFactor)
-      for action in actions
-        spriteSheetBuilder.addAnimation(action.name, [frame], false)
+  onBuildSpriteSheetComplete(e, builder) {
+    if (builder.spriteSheet._images.length > 1) {
+      let total = 0;
+      // get a rough estimate of how much smaller the spritesheet needs to be
+      for (let index = 0; index < builder.spriteSheet._images.length; index++) {
+        var image = builder.spriteSheet._images[index];
+        total += image.height / builder.maxHeight;
+      }
+      this.resolutionFactor /= (Math.max(1.1, Math.sqrt(total)));
+      this._renderNewSpriteSheet(e.async);
+      return;
+    }
 
-  onBuildSpriteSheetComplete: (e, builder) ->
-    if builder.spriteSheet._images.length > 1
-      total = 0
-      # get a rough estimate of how much smaller the spritesheet needs to be
-      for image, index in builder.spriteSheet._images
-        total += image.height / builder.maxHeight
-      @resolutionFactor /= (Math.max(1.1, Math.sqrt(total)))
-      @_renderNewSpriteSheet(e.async)
-      return
-
-    @trigger 'build', { spriteSheet: builder.spriteSheet }
+    return this.trigger('build', { spriteSheet: builder.spriteSheet });
+  }
+}
+SpriteExporter.initClass();
 
 
 
-module.exports = SpriteExporter
+module.exports = SpriteExporter;

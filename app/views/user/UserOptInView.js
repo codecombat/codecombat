@@ -1,50 +1,74 @@
-require('app/styles/user/user-opt-in-view.sass')
-RootView = require 'views/core/RootView'
-State = require 'models/State'
-template = require 'app/templates/user/user-opt-in-view'
-User = require 'models/User'
-utils = require('core/utils')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let UserOptInView;
+require('app/styles/user/user-opt-in-view.sass');
+const RootView = require('views/core/RootView');
+const State = require('models/State');
+const template = require('app/templates/user/user-opt-in-view');
+const User = require('models/User');
+const utils = require('core/utils');
 
-module.exports = class UserOptInView extends RootView
-  id: 'user-opt-in-view'
-  template: template
+module.exports = (UserOptInView = (function() {
+  UserOptInView = class UserOptInView extends RootView {
+    static initClass() {
+      this.prototype.id = 'user-opt-in-view';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'click .keep-me-updated-btn': 'onClickKeepMeUpdated',
+        'click .login-button': 'onClickLoginButton'
+      };
+    }
 
-  events:
-    'click .keep-me-updated-btn': 'onClickKeepMeUpdated'
-    'click .login-button': 'onClickLoginButton'
+    initialize(options, userID, verificationCode) {
+      this.userID = userID;
+      this.verificationCode = verificationCode;
+      super.initialize(options);
+      this.noDeleteInactiveEU = utils.getQueryVariable('no_delete_inactive_eu', false);
+      this.keepMeUpdated = utils.getQueryVariable('keep_me_updated', false);
+      this.promptKeepMeUpdated = utils.getQueryVariable('prompt_keep_me_updated', false);
 
-  initialize: (options, @userID, @verificationCode) ->
-    super(options)
-    @noDeleteInactiveEU = utils.getQueryVariable('no_delete_inactive_eu', false)
-    @keepMeUpdated = utils.getQueryVariable('keep_me_updated', false)
-    @promptKeepMeUpdated = utils.getQueryVariable('prompt_keep_me_updated', false)
+      this.state = new State({status: 'loading'});
+      this.user = new User({ _id: this.userID });
 
-    @state = new State({status: 'loading'})
-    @user = new User({ _id: @userID })
+      if (this.noDeleteInactiveEU) { this.user.sendNoDeleteEUVerificationCode(this.verificationCode); }
+      if (this.keepMeUpdated) { this.user.sendKeepMeUpdatedVerificationCode(this.verificationCode); }
+      if (!this.keepMeUpdated && !this.noDeleteInactiveEU) { this.state.set({status: 'done loading'}); }
 
-    @user.sendNoDeleteEUVerificationCode(@verificationCode) if @noDeleteInactiveEU
-    @user.sendKeepMeUpdatedVerificationCode(@verificationCode) if @keepMeUpdated
-    @state.set({status: 'done loading'}) unless @keepMeUpdated or @noDeleteInactiveEU
+      this.listenTo(this.state, 'change', this.render);
+      this.listenTo(this.user, 'user-keep-me-updated-success', () => {
+        this.state.set({keepMeUpdatedSuccess: true});
+        this.state.set({status: 'done loading'});
+        return me.fetch();
+      });
+      this.listenTo(this.user, 'user-keep-me-updated-error', () => {
+        this.state.set({keepMeUpdatedError: true});
+        return this.state.set({status: 'done loading'});
+      });
+      this.listenTo(this.user, 'user-no-delete-eu-success', () => {
+        this.state.set({noDeleteEUSuccess: true});
+        this.state.set({status: 'done loading'});
+        return me.fetch();
+      });
+      return this.listenTo(this.user, 'user-no-delete-eu-error', () => {
+        this.state.set({status: 'done loading'});
+        return this.state.set({noDeleteEUError: true});
+      });
+    }
 
-    @listenTo @state, 'change', @render
-    @listenTo @user, 'user-keep-me-updated-success', =>
-      @state.set({keepMeUpdatedSuccess: true})
-      @state.set({status: 'done loading'})
-      me.fetch()
-    @listenTo @user, 'user-keep-me-updated-error', =>
-      @state.set({keepMeUpdatedError: true})
-      @state.set({status: 'done loading'})
-    @listenTo @user, 'user-no-delete-eu-success', =>
-      @state.set({noDeleteEUSuccess: true})
-      @state.set({status: 'done loading'})
-      me.fetch()
-    @listenTo @user, 'user-no-delete-eu-error', =>
-      @state.set({status: 'done loading'})
-      @state.set({noDeleteEUError: true})
+    onClickKeepMeUpdated(e) {
+      return this.user.sendKeepMeUpdatedVerificationCode(this.verificationCode);
+    }
 
-  onClickKeepMeUpdated: (e) ->
-    @user.sendKeepMeUpdatedVerificationCode(@verificationCode)
-
-  onClickLoginButton: (e) ->
-    AuthModal = require 'views/core/AuthModal'
-    @openModalView(new AuthModal())
+    onClickLoginButton(e) {
+      const AuthModal = require('views/core/AuthModal');
+      return this.openModalView(new AuthModal());
+    }
+  };
+  UserOptInView.initClass();
+  return UserOptInView;
+})());

@@ -1,130 +1,179 @@
-CocoClass = require 'core/CocoClass'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let Bus;
+const CocoClass = require('core/CocoClass');
 
-{me} = require 'core/auth'
+const {me} = require('core/auth');
 
-CHAT_SIZE_LIMIT = 500 # no more than 500 messages
+const CHAT_SIZE_LIMIT = 500; // no more than 500 messages
 
-module.exports = Bus = class Bus extends CocoClass
-  joined: null
-  players: null
+module.exports = (Bus = (Bus = (function() {
+  Bus = class Bus extends CocoClass {
+    static initClass() {
+      this.prototype.joined = null;
+      this.prototype.players = null;
+      this.activeBuses = {};
+      this.fireHost = 'https://codecombat.firebaseio.com';
+  
+      this.prototype.subscriptions =
+        {'auth:me-synced': 'onMeSynced'};
+    }
 
-  @get: (docName) -> return @getFromCache or new Bus docName
-  @getFromCache: (docName) -> return Bus.activeBuses[docName]
-  @activeBuses: {}
-  @fireHost: 'https://codecombat.firebaseio.com'
+    static get(docName) { return this.getFromCache || new Bus(docName); }
+    static getFromCache(docName) { return Bus.activeBuses[docName]; }
 
-  constructor: (@docName) ->
-    super()
-    @players = {}
-    Bus.activeBuses[@docName] = @
+    constructor(docName) {
+      this.onFireOpen = this.onFireOpen.bind(this);
+      this.onChatAdded = this.onChatAdded.bind(this);
+      this.onPlayerJoined = this.onPlayerJoined.bind(this);
+      this.onPlayerLeft = this.onPlayerLeft.bind(this);
+      this.onPlayerChanged = this.onPlayerChanged.bind(this);
+      this.docName = docName;
+      super();
+      this.players = {};
+      Bus.activeBuses[this.docName] = this;
+    }
 
-  subscriptions:
-    'auth:me-synced': 'onMeSynced'
+    connect() {
+      // Put Firebase back in bower if you want to use this
+      Backbone.Mediator.publish('bus:connecting', {bus: this});
+      Firebase.goOnline();
+      this.fireRef = new Firebase(Bus.fireHost + '/' + this.docName);
+      return this.fireRef.once('value', this.onFireOpen);
+    }
 
-  connect: ->
-    # Put Firebase back in bower if you want to use this
-    Backbone.Mediator.publish 'bus:connecting', {bus: @}
-    Firebase.goOnline()
-    @fireRef = new Firebase(Bus.fireHost + '/' + @docName)
-    @fireRef.once 'value', @onFireOpen
+    onFireOpen(snapshot) {
+      if (this.destroyed) {
+        console.log(`Leaving '${this.docName}' because class has been destroyed.`);
+        return;
+      }
+      this.init();
+      return Backbone.Mediator.publish('bus:connected', {bus: this});
+    }
 
-  onFireOpen: (snapshot) =>
-    if @destroyed
-      console.log("Leaving '#{@docName}' because class has been destroyed.")
-      return
-    @init()
-    Backbone.Mediator.publish 'bus:connected', {bus: @}
+    disconnect() {
+      if (this.fireRef != null) {
+        this.fireRef.off();
+      }
+      this.fireRef = null;
+      if (this.fireChatRef != null) {
+        this.fireChatRef.off();
+      }
+      this.fireChatRef = null;
+      if (this.firePlayersRef != null) {
+        this.firePlayersRef.off();
+      }
+      this.firePlayersRef = null;
+      if (this.myConnection != null) {
+        this.myConnection.off();
+      }
+      this.myConnection = null;
+      this.joined = false;
+      return Backbone.Mediator.publish('bus:disconnected', {bus: this});
+    }
 
-  disconnect: ->
-    @fireRef?.off()
-    @fireRef = null
-    @fireChatRef?.off()
-    @fireChatRef = null
-    @firePlayersRef?.off()
-    @firePlayersRef = null
-    @myConnection?.off()
-    @myConnection = null
-    @joined = false
-    Backbone.Mediator.publish 'bus:disconnected', {bus: @}
+    init() {
+      `\
+Init happens when we're connected.\
+`;
+      this.fireChatRef = this.fireRef.child('chat');
+      this.firePlayersRef = this.fireRef.child('players');
+      this.join();
+      this.listenForChanges();
+      return this.sendMessage('/me joined.', true);
+    }
 
-  init: ->
-    """
-    Init happens when we're connected.
-    """
-    @fireChatRef = @fireRef.child('chat')
-    @firePlayersRef = @fireRef.child('players')
-    @join()
-    @listenForChanges()
-    @sendMessage('/me joined.', true)
+    join() {
+      this.joined = true;
+      this.myConnection = this.firePlayersRef.child(me.id);
+      this.myConnection.set({id: me.id, name: me.get('name'), connected: true});
+      this.onDisconnect = this.myConnection.child('connected').onDisconnect();
+      return this.onDisconnect.set(false);
+    }
 
-  join: ->
-    @joined = true
-    @myConnection = @firePlayersRef.child(me.id)
-    @myConnection.set({id: me.id, name: me.get('name'), connected: true})
-    @onDisconnect = @myConnection.child('connected').onDisconnect()
-    @onDisconnect.set(false)
+    listenForChanges() {
+      this.fireChatRef.limit(CHAT_SIZE_LIMIT).on('child_added', this.onChatAdded);
+      this.firePlayersRef.on('child_added', this.onPlayerJoined);
+      this.firePlayersRef.on('child_removed', this.onPlayerLeft);
+      return this.firePlayersRef.on('child_changed', this.onPlayerChanged);
+    }
 
-  listenForChanges: ->
-    @fireChatRef.limit(CHAT_SIZE_LIMIT).on 'child_added', @onChatAdded
-    @firePlayersRef.on 'child_added', @onPlayerJoined
-    @firePlayersRef.on 'child_removed', @onPlayerLeft
-    @firePlayersRef.on 'child_changed', @onPlayerChanged
+    onChatAdded(snapshot) {
+      return Backbone.Mediator.publish('bus:new-message', {message: snapshot.val(), bus: this});
+    }
 
-  onChatAdded: (snapshot) =>
-    Backbone.Mediator.publish('bus:new-message', {message: snapshot.val(), bus: @})
+    onPlayerJoined(snapshot) {
+      const player = snapshot.val();
+      if (!player.connected) { return; }
+      this.players[player.id] = player;
+      return Backbone.Mediator.publish('bus:player-joined', {player, bus: this});
+    }
 
-  onPlayerJoined: (snapshot) =>
-    player = snapshot.val()
-    return unless player.connected
-    @players[player.id] = player
-    Backbone.Mediator.publish('bus:player-joined', {player: player, bus: @})
+    onPlayerLeft(snapshot) {
+      const val = snapshot.val();
+      if (!val) { return; }
+      const player = this.players[val.id];
+      if (!player) { return; }
+      delete this.players[player.id];
+      return Backbone.Mediator.publish('bus:player-left', {player, bus: this});
+    }
 
-  onPlayerLeft: (snapshot) =>
-    val = snapshot.val()
-    return unless val
-    player = @players[val.id]
-    return unless player
-    delete @players[player.id]
-    Backbone.Mediator.publish('bus:player-left', {player: player, bus: @})
+    onPlayerChanged(snapshot) {
+      const player = snapshot.val();
+      const wasConnected = this.players[player.id] != null ? this.players[player.id].connected : undefined;
+      this.players[player.id] = player;
+      if (wasConnected && !player.connected) { this.onPlayerLeft(snapshot); }
+      if (player.connected && !wasConnected) { this.onPlayerJoined(snapshot); }
+      return Backbone.Mediator.publish('bus:player-states-changed', {states: this.players, bus: this});
+    }
 
-  onPlayerChanged: (snapshot) =>
-    player = snapshot.val()
-    wasConnected = @players[player.id]?.connected
-    @players[player.id] = player
-    @onPlayerLeft(snapshot) if wasConnected and not player.connected
-    @onPlayerJoined(snapshot) if player.connected and not wasConnected
-    Backbone.Mediator.publish('bus:player-states-changed', {states: @players, bus: @})
+    onMeSynced() {
+      return (this.myConnection != null ? this.myConnection.child('name').set(me.get('name')) : undefined);
+    }
 
-  onMeSynced: ->
-    @myConnection?.child('name').set(me.get('name'))
+    countPlayers() { return _.size(this.players); }
 
-  countPlayers: -> _.size(@players)
+    onPoint() {
+      // simple way to elect somone to do jobs that don't need to be done by each player
+      const ids = _.keys(this.players);
+      ids.sort();
+      return ids[0] === me.id;
+    }
 
-  onPoint: ->
-    # simple way to elect somone to do jobs that don't need to be done by each player
-    ids = _.keys(@players)
-    ids.sort()
-    return ids[0] is me.id
+    // MESSAGING
 
-  # MESSAGING
+    sendSystemMessage(content) {
+      return this.sendMessage(content, true);
+    }
 
-  sendSystemMessage: (content) ->
-    @sendMessage(content, true)
+    sendMessage(content, system) {
+      if (system == null) { system = false; }
+      const MAX_MESSAGE_LENGTH = 400;
+      const message = {
+        content: content.slice(0,  MAX_MESSAGE_LENGTH),
+        authorName: me.displayName(),
+        authorID: me.id,
+        dateMade: new Date()
+      };
+      if (system) { message.system = system; }
+      return this.fireChatRef.push(message);
+    }
 
-  sendMessage: (content, system=false) ->
-    MAX_MESSAGE_LENGTH = 400
-    message =
-      content: content[... MAX_MESSAGE_LENGTH]
-      authorName: me.displayName()
-      authorID: me.id
-      dateMade: new Date()
-    message.system = system if system
-    @fireChatRef.push(message)
+    // TEARDOWN
 
-  # TEARDOWN
-
-  destroy: ->
-    @sendMessage('/me left.', true) if @joined
-    delete Bus.activeBuses[@docName] if @docName of Bus.activeBuses
-    @disconnect()
-    super()
+    destroy() {
+      if (this.joined) { this.sendMessage('/me left.', true); }
+      if (this.docName in Bus.activeBuses) { delete Bus.activeBuses[this.docName]; }
+      this.disconnect();
+      return super.destroy();
+    }
+  };
+  Bus.initClass();
+  return Bus;
+})()));

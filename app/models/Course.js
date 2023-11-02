@@ -1,21 +1,38 @@
-CocoModel = require './CocoModel'
-schema = require 'schemas/models/course.schema'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let Course;
+const CocoModel = require('./CocoModel');
+const schema = require('schemas/models/course.schema');
+const utils = require('core/utils');
 
-module.exports = class Course extends CocoModel
-  @className: 'Course'
-  @schema: schema
-  urlRoot: '/db/course'
-
-  fetchForCourseInstance: (courseInstanceID, opts) ->
-    options = {
-      url: "/db/course_instance/#{courseInstanceID}/course"
+module.exports = (Course = (function() {
+  Course = class Course extends CocoModel {
+    static initClass() {
+      this.className = 'Course';
+      this.schema = schema;
+      this.prototype.urlRoot = '/db/course';
     }
-    _.extend options, opts
-    @fetch options
 
-  acronym: ->
-    utils.courseAcronyms[@get('_id')]
+    fetchForCourseInstance(courseInstanceID, opts) {
+      const options = {
+        url: `/db/course_instance/${courseInstanceID}/course`
+      };
+      _.extend(options, opts);
+      return this.fetch(options);
+    }
 
-  isCh1Course: () ->
-    @get('_id') == utils.courseIDs.CHAPTER_ONE
+    acronym() {
+      return utils.courseAcronyms[this.get('_id')];
+    }
+
+    isCh1Course() {
+      return this.get('_id') === utils.courseIDs.CHAPTER_ONE;
+    }
+  };
+  Course.initClass();
+  return Course;
+})());

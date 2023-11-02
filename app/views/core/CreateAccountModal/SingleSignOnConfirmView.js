@@ -1,36 +1,62 @@
-require('app/styles/modal/create-account-modal/sso-confirm-view.sass')
-CocoView = require 'views/core/CocoView'
-BasicInfoView = require 'views/core/CreateAccountModal/BasicInfoView'
-template = require 'app/templates/core/create-account-modal/single-sign-on-confirm-view'
-forms = require 'core/forms'
-User = require 'models/User'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SingleSignOnConfirmView;
+require('app/styles/modal/create-account-modal/sso-confirm-view.sass');
+const CocoView = require('views/core/CocoView');
+const BasicInfoView = require('views/core/CreateAccountModal/BasicInfoView');
+const template = require('app/templates/core/create-account-modal/single-sign-on-confirm-view');
+const forms = require('core/forms');
+const User = require('models/User');
 
-module.exports = class SingleSignOnConfirmView extends BasicInfoView
-  id: 'single-sign-on-confirm-view'
-  template: template
-
-  events: _.extend {}, BasicInfoView.prototype.events, {
-    'click .back-button': 'onClickBackButton'
-  }
-
-  initialize: ({ @signupState } = {}) ->
-    super(arguments...)
-
-  afterRender: ->
-    super()
-    if @signupState.get('path') is 'teacher'
-      @$('form').submit()
-
-  onClickBackButton: ->
-    @signupState.set {
-      ssoUsed: undefined
-      ssoAttrs: undefined
+module.exports = (SingleSignOnConfirmView = (function() {
+  SingleSignOnConfirmView = class SingleSignOnConfirmView extends BasicInfoView {
+    static initClass() {
+      this.prototype.id = 'single-sign-on-confirm-view';
+      this.prototype.template = template;
+  
+      this.prototype.events = _.extend({}, BasicInfoView.prototype.events, {
+        'click .back-button': 'onClickBackButton'
+      });
     }
-    @trigger 'nav-back'
+
+    initialize(param) {
+      if (param == null) { param = {}; }
+      const { signupState } = param;
+      this.signupState = signupState;
+      return super.initialize(...arguments);
+    }
+
+    afterRender() {
+      super.afterRender();
+      if (this.signupState.get('path') === 'teacher') {
+        return this.$('form').submit();
+      }
+    }
+
+    onClickBackButton() {
+      this.signupState.set({
+        ssoUsed: undefined,
+        ssoAttrs: undefined
+      });
+      return this.trigger('nav-back');
+    }
 
 
-  formSchema: ->
-    type: 'object'
-    properties:
-      name: User.schema.properties.name
-    required: []
+    formSchema() {
+      return {
+        type: 'object',
+        properties: {
+          name: User.schema.properties.name
+        },
+        required: []
+      };
+    }
+  };
+  SingleSignOnConfirmView.initClass();
+  return SingleSignOnConfirmView;
+})());

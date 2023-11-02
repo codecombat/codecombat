@@ -1,159 +1,227 @@
-SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
-template = require 'app/templates/editor/level/save-level-modal'
-forms = require 'core/forms'
-LevelComponent = require 'models/LevelComponent'
-LevelSystem = require 'models/LevelSystem'
-DeltaView = require 'views/editor/DeltaView'
-PatchModal = require 'views/editor/PatchModal'
-deltasLib = require 'core/deltas'
-VerifierTest = require 'views/editor/verifier/VerifierTest'
-SuperModel = require 'models/SuperModel'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SaveLevelModal;
+const SaveVersionModal = require('views/editor/modal/SaveVersionModal');
+const template = require('app/templates/editor/level/save-level-modal');
+const forms = require('core/forms');
+const LevelComponent = require('models/LevelComponent');
+const LevelSystem = require('models/LevelSystem');
+const DeltaView = require('views/editor/DeltaView');
+const PatchModal = require('views/editor/PatchModal');
+const deltasLib = require('core/deltas');
+const VerifierTest = require('views/editor/verifier/VerifierTest');
+const SuperModel = require('models/SuperModel');
 
-module.exports = class SaveLevelModal extends SaveVersionModal
-  template: template
-  instant: false
-  modalWidthPercent: 60
-  plain: true
+module.exports = (SaveLevelModal = (function() {
+  SaveLevelModal = class SaveLevelModal extends SaveVersionModal {
+    static initClass() {
+      this.prototype.template = template;
+      this.prototype.instant = false;
+      this.prototype.modalWidthPercent = 60;
+      this.prototype.plain = true;
+  
+      this.prototype.events = {
+        'click #save-version-button': 'commitLevel',
+        'submit form': 'commitLevel'
+      };
+    }
 
-  events:
-    'click #save-version-button': 'commitLevel'
-    'submit form': 'commitLevel'
+    constructor(options) {
+      this.onVerifierTestUpate = this.onVerifierTestUpate.bind(this);
+      super(options);
+      this.level = options.level;
+      this.buildTime = options.buildTime;
+      this.commitMessage = options.commitMessage != null ? options.commitMessage : "";
+      this.listenToOnce(this.level, 'remote-changes-checked', this.onRemoteChangesChecked);
+      this.level.checkRemoteChanges();
+    }
 
-  constructor: (options) ->
-    super options
-    @level = options.level
-    @buildTime = options.buildTime
-    @commitMessage = options.commitMessage ? ""
-    @listenToOnce @level, 'remote-changes-checked', @onRemoteChangesChecked
-    @level.checkRemoteChanges()
+    getRenderData(context) {
+      if (context == null) { context = {}; }
+      context = super.getRenderData(context);
+      context.level = this.level;
+      context.levelNeedsSave = this.level.hasLocalChanges();
+      context.modifiedComponents = _.filter(this.supermodel.getModels(LevelComponent), this.shouldSaveEntity);
+      context.modifiedSystems = _.filter(this.supermodel.getModels(LevelSystem), this.shouldSaveEntity);
+      context.commitMessage = this.commitMessage;
+      this.hasChanges = (context.levelNeedsSave || context.modifiedComponents.length || context.modifiedSystems.length);
+      this.lastContext = context;
+      context.showChangesWarning = this.showChangesWarning;
+      return context;
+    }
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.level = @level
-    context.levelNeedsSave = @level.hasLocalChanges()
-    context.modifiedComponents = _.filter @supermodel.getModels(LevelComponent), @shouldSaveEntity
-    context.modifiedSystems = _.filter @supermodel.getModels(LevelSystem), @shouldSaveEntity
-    context.commitMessage = @commitMessage
-    @hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
-    @lastContext = context
-    context.showChangesWarning = @showChangesWarning
-    context
+    onRemoteChangesChecked(data) {
+      this.showChangesWarning = data.hasChanges;
+      return this.render();
+    }
 
-  onRemoteChangesChecked: (data) ->
-    @showChangesWarning = data.hasChanges
-    this.render();
+    afterRender() {
+      super.afterRender(false);
+      const changeEls = this.$el.find('.changes-stub');
+      let models = this.lastContext.levelNeedsSave ? [this.level] : [];
+      models = models.concat(this.lastContext.modifiedComponents);
+      models = models.concat(this.lastContext.modifiedSystems);
+      models = ((() => {
+        const result = [];
+        for (var m of Array.from(models)) {           if (m.hasWriteAccess()) {
+            result.push(m);
+          }
+        }
+        return result;
+      })());
+      for (let i = 0; i < changeEls.length; i++) {
+        var changeEl = changeEls[i];
+        var model = models[i];
+        try {
+          var deltaView = new DeltaView({model, skipPaths: deltasLib.DOC_SKIP_PATHS});
+          this.insertSubView(deltaView, $(changeEl));
+        } catch (e) {
+          console.error('Couldn\'t create delta view:', e);
+        }
+      }
+      if (me.isAdmin()) { return this.verify(); }
+    }
 
-  afterRender: ->
-    super(false)
-    changeEls = @$el.find('.changes-stub')
-    models = if @lastContext.levelNeedsSave then [@level] else []
-    models = models.concat @lastContext.modifiedComponents
-    models = models.concat @lastContext.modifiedSystems
-    models = (m for m in models when m.hasWriteAccess())
-    for changeEl, i in changeEls
-      model = models[i]
-      try
-        deltaView = new DeltaView({model: model, skipPaths: deltasLib.DOC_SKIP_PATHS})
-        @insertSubView(deltaView, $(changeEl))
-      catch e
-        console.error 'Couldn\'t create delta view:', e
-    @verify() if me.isAdmin()
+    shouldSaveEntity(m) {
+      if (!m.hasWriteAccess()) { return false; }
+      if ((m.get('system') === 'ai') && (m.get('name') === 'Jitters') && (m.type() === 'LevelComponent')) {
+        // Trying to debug the occasional phantom all-Components-must-be-saved bug
+        console.log("Should we save", m.get('system'), m.get('name'), m, "? localChanges:", m.hasLocalChanges(), "version:", m.get('version'), 'isPublished:', m.isPublished(), 'collection:', m.collection);
+        return false;
+      }
+      if (m.hasLocalChanges()) { return true; }
+      if (!m.get('version')) { console.error(`Trying to check major version of ${m.type()} ${m.get('name')}, but it doesn't have a version:`, m); }
+      if (((m.get('version').major === 0) && (m.get('version').minor === 0)) || (!m.isPublished() && !m.collection)) { return true; }
+      // Sometimes we have two versions: one in a search collection and one with a URL. We only save changes to the latter.
+      return false;
+    }
 
-  shouldSaveEntity: (m) ->
-    return false unless m.hasWriteAccess()
-    if m.get('system') is 'ai' and m.get('name') is 'Jitters' and m.type() is 'LevelComponent'
-      # Trying to debug the occasional phantom all-Components-must-be-saved bug
-      console.log "Should we save", m.get('system'), m.get('name'), m, "? localChanges:", m.hasLocalChanges(), "version:", m.get('version'), 'isPublished:', m.isPublished(), 'collection:', m.collection
-      return false
-    return true if m.hasLocalChanges()
-    console.error "Trying to check major version of #{m.type()} #{m.get('name')}, but it doesn't have a version:", m unless m.get('version')
-    return true if (m.get('version').major is 0 and m.get('version').minor is 0) or not m.isPublished() and not m.collection
-    # Sometimes we have two versions: one in a search collection and one with a URL. We only save changes to the latter.
-    false
+    commitLevel(e) {
+      let form, model, newModel;
+      e.preventDefault();
+      this.level.set('buildTime', this.buildTime);
+      let modelsToSave = [];
+      const formsToSave = [];
+      for (form of Array.from(this.$el.find('form'))) {
+        // Level form is first, then LevelComponents' forms, then LevelSystems' forms
+        var fields = {};
+        for (var field of Array.from($(form).serializeArray())) {
+          fields[field.name] = field.value === 'on' ? true : field.value;
+        }
+        var isLevelForm = $(form).attr('id') === 'save-level-form';
+        if (isLevelForm) {
+          model = this.level;
+        } else {
+          var [kind, klass] = Array.from($(form).hasClass('component-form') ? ['component', LevelComponent] : ['system', LevelSystem]);
+          model = this.supermodel.getModelByOriginalAndMajorVersion(klass, fields[`${kind}-original`], parseInt(fields[`${kind}-parent-major-version`], 10));
+          if (!model) { console.log('Couldn\'t find model for', kind, fields, 'from', this.supermodel.models); }
+        }
+        newModel = fields.major ? model.cloneNewMajorVersion() : model.cloneNewMinorVersion();
+        newModel.set('commitMessage', fields['commit-message']);
+        modelsToSave.push(newModel);
+        if (isLevelForm) {
+          this.level = newModel;
+          if (fields['publish'] && !this.level.isPublished()) {
+            this.level.publish();
+          }
+        } else if (this.level.isPublished() && !newModel.isPublished()) {
+          newModel.publish();  // Publish any LevelComponents that weren't published yet
+        }
+        formsToSave.push(form);
+      }
 
-  commitLevel: (e) ->
-    e.preventDefault()
-    @level.set 'buildTime', @buildTime
-    modelsToSave = []
-    formsToSave = []
-    for form in @$el.find('form')
-      # Level form is first, then LevelComponents' forms, then LevelSystems' forms
-      fields = {}
-      for field in $(form).serializeArray()
-        fields[field.name] = if field.value is 'on' then true else field.value
-      isLevelForm = $(form).attr('id') is 'save-level-form'
-      if isLevelForm
-        model = @level
-      else
-        [kind, klass] = if $(form).hasClass 'component-form' then ['component', LevelComponent] else ['system', LevelSystem]
-        model = @supermodel.getModelByOriginalAndMajorVersion klass, fields["#{kind}-original"], parseInt(fields["#{kind}-parent-major-version"], 10)
-        console.log 'Couldn\'t find model for', kind, fields, 'from', @supermodel.models unless model
-      newModel = if fields.major then model.cloneNewMajorVersion() else model.cloneNewMinorVersion()
-      newModel.set 'commitMessage', fields['commit-message']
-      modelsToSave.push newModel
-      if isLevelForm
-        @level = newModel
-        if fields['publish'] and not @level.isPublished()
-          @level.publish()
-      else if @level.isPublished() and not newModel.isPublished()
-        newModel.publish()  # Publish any LevelComponents that weren't published yet
-      formsToSave.push form
+      for (model of Array.from(modelsToSave)) {
+        var errors;
+        if (errors = model.getValidationErrors()) {
+          var messages = (Array.from(errors).map((error) => `\t ${error.dataPath}: ${error.message}`));
+          messages = messages.join('<br />');
+          this.$el.find('#errors-wrapper .errors').html(messages);
+          this.$el.find('#errors-wrapper').removeClass('hide');
+          return;
+        }
+      }
 
-    for model in modelsToSave
-      if errors = model.getValidationErrors()
-        messages = ("\t #{error.dataPath}: #{error.message}" for error in errors)
-        messages = messages.join('<br />')
-        @$el.find('#errors-wrapper .errors').html(messages)
-        @$el.find('#errors-wrapper').removeClass('hide')
-        return
+      this.showLoading();
+      const tuples = _.zip(modelsToSave, formsToSave);
+      return (() => {
+        const result = [];
+        for ([newModel, form] of Array.from(tuples)) {
+          if (newModel.get('i18nCoverage')) { newModel.updateI18NCoverage(); }
+          var res = newModel.save(null, {type: 'POST'});  // Override PUT so we can trigger postNewVersion logic
+          result.push(((newModel, form) => {
+            res.error(() => {
+              this.hideLoading();
+              console.log('Got errors:', JSON.parse(res.responseText));
+              return forms.applyErrorsToForm($(form), JSON.parse(res.responseText));
+            });
+            return res.success(() => {
+              modelsToSave = _.without(modelsToSave, newModel);
+              const oldModel = _.find(this.supermodel.models, m => m.get('original') === newModel.get('original'));
+              oldModel.clearBackup();  // Otherwise looking at old versions is confusing.
+              if (!modelsToSave.length) {
+                const url = `/editor/level/${this.level.get('slug') || this.level.id}`;
+                document.location.href = url;
+                return this.hide();
+              }
+            });  // This will destroy everything, so do it last
+          })(newModel, form));
+        }
+        return result;
+      })();
+    }
 
-    @showLoading()
-    tuples = _.zip(modelsToSave, formsToSave)
-    for [newModel, form] in tuples
-      newModel.updateI18NCoverage() if newModel.get('i18nCoverage')
-      res = newModel.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
-      do (newModel, form) =>
-        res.error =>
-          @hideLoading()
-          console.log 'Got errors:', JSON.parse(res.responseText)
-          forms.applyErrorsToForm($(form), JSON.parse(res.responseText))
-        res.success =>
-          modelsToSave = _.without modelsToSave, newModel
-          oldModel = _.find @supermodel.models, (m) -> m.get('original') is newModel.get('original')
-          oldModel.clearBackup()  # Otherwise looking at old versions is confusing.
-          unless modelsToSave.length
-            url = "/editor/level/#{@level.get('slug') or @level.id}"
-            document.location.href = url
-            @hide()  # This will destroy everything, so do it last
+    verify() {
+      let solutions;
+      if ((!(solutions = this.level.getSolutions())) || !solutions.length) { return this.$('#verifier-stub').hide(); }
+      this.running = (this.problems = (this.failed = (this.passedExceptFrames = (this.passed = 0))));
+      this.waiting = solutions.length;
+      this.renderSelectors('#verifier-tests');
+      return (() => {
+        const result = [];
+        for (var solution of Array.from(solutions)) {
+          var test;
+          var childSupermodel = new SuperModel();
+          childSupermodel.models = _.clone(this.supermodel.models);
+          childSupermodel.collections = _.clone(this.supermodel.collections);
+          result.push(test = new VerifierTest(this.level.get('slug'), this.onVerifierTestUpate, childSupermodel, solution.language, {devMode: true, solution}));
+        }
+        return result;
+      })();
+    }
 
-  verify: ->
-    return @$('#verifier-stub').hide() unless (solutions = @level.getSolutions()) and solutions.length
-    @running = @problems = @failed = @passedExceptFrames = @passed = 0
-    @waiting = solutions.length
-    @renderSelectors '#verifier-tests'
-    for solution in solutions
-      childSupermodel = new SuperModel()
-      childSupermodel.models = _.clone @supermodel.models
-      childSupermodel.collections = _.clone @supermodel.collections
-      test = new VerifierTest @level.get('slug'), @onVerifierTestUpate, childSupermodel, solution.language, {devMode: true, solution}
-
-  onVerifierTestUpate: (e) =>
-    return if @destroyed
-    if e.state is 'running'
-      --@waiting
-      ++@running
-    else if e.state in ['complete', 'error', 'no-solution']
-      --@running
-      if e.state is 'complete'
-        if e.test.isSuccessful true
-          ++@passed
-        else if e.test.isSuccessful false
-          ++@passedExceptFrames
-        else
-          ++@failed
-      else if e.state is 'no-solution'
-        console.warn 'Solution problem for', e.test.language
-        ++@problems
-      else
-        ++@problems
-    @renderSelectors '#verifier-tests'
+    onVerifierTestUpate(e) {
+      if (this.destroyed) { return; }
+      if (e.state === 'running') {
+        --this.waiting;
+        ++this.running;
+      } else if (['complete', 'error', 'no-solution'].includes(e.state)) {
+        --this.running;
+        if (e.state === 'complete') {
+          if (e.test.isSuccessful(true)) {
+            ++this.passed;
+          } else if (e.test.isSuccessful(false)) {
+            ++this.passedExceptFrames;
+          } else {
+            ++this.failed;
+          }
+        } else if (e.state === 'no-solution') {
+          console.warn('Solution problem for', e.test.language);
+          ++this.problems;
+        } else {
+          ++this.problems;
+        }
+      }
+      return this.renderSelectors('#verifier-tests');
+    }
+  };
+  SaveLevelModal.initClass();
+  return SaveLevelModal;
+})());

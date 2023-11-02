@@ -1,495 +1,653 @@
-SuperModel = require 'models/SuperModel'
-CocoClass = require 'core/CocoClass'
-LevelLoader = require 'lib/LevelLoader'
-GoalManager = require 'lib/world/GoalManager'
-God = require 'lib/God'
-{createAetherOptions, replaceSimpleLoops} = require 'lib/aether_utils'
-LZString = require 'lz-string'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let Simulator;
+const SuperModel = require('models/SuperModel');
+const CocoClass = require('core/CocoClass');
+const LevelLoader = require('lib/LevelLoader');
+const GoalManager = require('lib/world/GoalManager');
+const God = require('lib/God');
+const {createAetherOptions, replaceSimpleLoops} = require('lib/aether_utils');
+const LZString = require('lz-string');
 
-SIMULATOR_VERSION = 4
+const SIMULATOR_VERSION = 4;
 
-simulatorInfo = {}
-if $.browser
-  simulatorInfo['desktop'] = $.browser.desktop if $.browser.desktop
-  simulatorInfo['name'] = $.browser.name if $.browser.name
-  simulatorInfo['platform'] = $.browser.platform if $.browser.platform
-  simulatorInfo['version'] = $.browser.versionNumber if $.browser.versionNumber
+const simulatorInfo = {};
+if ($.browser) {
+  if ($.browser.desktop) { simulatorInfo['desktop'] = $.browser.desktop; }
+  if ($.browser.name) { simulatorInfo['name'] = $.browser.name; }
+  if ($.browser.platform) { simulatorInfo['platform'] = $.browser.platform; }
+  if ($.browser.versionNumber) { simulatorInfo['version'] = $.browser.versionNumber; }
+}
 
-module.exports = class Simulator extends CocoClass
-  constructor: (@options) ->
-    @options ?= {}
-    simulatorType = if @options.headlessClient then 'headless' else 'browser'
-    @simulator =
-      type: simulatorType
-      version: SIMULATOR_VERSION
+module.exports = (Simulator = class Simulator extends CocoClass {
+  constructor(options) {
+    this.fetchAndSimulateOneGame = this.fetchAndSimulateOneGame.bind(this);
+    this.fetchAndSimulateTask = this.fetchAndSimulateTask.bind(this);
+    this.handleFetchTaskError = this.handleFetchTaskError.bind(this);
+    this.simulateAnotherTaskAfterDelay = this.simulateAnotherTaskAfterDelay.bind(this);
+    this.setupSimulationAndLoadLevel = this.setupSimulationAndLoadLevel.bind(this);
+    this.handleTaskResultsTransferSuccess = this.handleTaskResultsTransferSuccess.bind(this);
+    this.handleTaskResultsTransferError = this.handleTaskResultsTransferError.bind(this);
+    this.cleanupAndSimulateAnotherTask = this.cleanupAndSimulateAnotherTask.bind(this);
+    this.fetchToken = this.fetchToken.bind(this);
+    this.options = options;
+    if (this.options == null) { this.options = {}; }
+    const simulatorType = this.options.headlessClient ? 'headless' : 'browser';
+    this.simulator = {
+      type: simulatorType,
+      version: SIMULATOR_VERSION,
       info: simulatorInfo
-    _.extend @, Backbone.Events
-    @trigger 'statusUpdate', 'Starting simulation!'
-    @retryDelayInSeconds = 2
-    @taskURL = '/queue/scoring'
-    @simulatedByYou = 0
-    @god = new God maxAngels: 1, workerCode: @options.workerCode, headless: true  # Start loading worker.
+    };
+    _.extend(this, Backbone.Events);
+    this.trigger('statusUpdate', 'Starting simulation!');
+    this.retryDelayInSeconds = 2;
+    this.taskURL = '/queue/scoring';
+    this.simulatedByYou = 0;
+    this.god = new God({maxAngels: 1, workerCode: this.options.workerCode, headless: true});  // Start loading worker.
+  }
 
-  destroy: ->
-    @off()
-    @cleanupSimulation()
-    @god?.destroy()
-    super()
+  destroy() {
+    this.off();
+    this.cleanupSimulation();
+    if (this.god != null) {
+      this.god.destroy();
+    }
+    return super.destroy();
+  }
 
-  fetchAndSimulateOneGame: (humanGameID, ogresGameID) =>
-    return if @destroyed
-    url = '/queue/scoring/getTwoGames'
-    if @options.singleLadder
-      url = "/db/level/#{@options.levelOriginal}/next-match"
+  fetchAndSimulateOneGame(humanGameID, ogresGameID) {
+    if (this.destroyed) { return; }
+    let url = '/queue/scoring/getTwoGames';
+    if (this.options.singleLadder) {
+      url = `/db/level/${this.options.levelOriginal}/next-match`;
+    }
 
-    $.ajax
-      url: url
-      type: 'POST'
-      parse: true
-      data:
-        humansGameID: humanGameID
-        ogresGameID: ogresGameID
-        simulator: @simulator
-        background: Boolean(@options.background)
-        levelID: @options.levelID
-        leagueID: @options.leagueID
-      error: (errorData) =>
-        return if @destroyed
-        console.warn "There was an error fetching two games! #{JSON.stringify errorData}"
-        if errorData?.responseText?.indexOf("Old simulator") isnt -1
-          noty {
-            text: errorData.responseText or "Error fetching games to simulate"
-            layout: 'center'
-            type: 'error'
+    return $.ajax({
+      url,
+      type: 'POST',
+      parse: true,
+      data: {
+        humansGameID: humanGameID,
+        ogresGameID,
+        simulator: this.simulator,
+        background: Boolean(this.options.background),
+        levelID: this.options.levelID,
+        leagueID: this.options.leagueID
+      },
+      error: errorData => {
+        if (this.destroyed) { return; }
+        console.warn(`There was an error fetching two games! ${JSON.stringify(errorData)}`);
+        if (__guard__(errorData != null ? errorData.responseText : undefined, x => x.indexOf("Old simulator")) !== -1) {
+          noty({
+            text: errorData.responseText || "Error fetching games to simulate",
+            layout: 'center',
+            type: 'error',
             timeout: 5000
+          });
+          return this.simulateAnotherTaskAfterDelay();
+        }
+      },
+      success: (taskData, textStatus, xhr) => {
+        let levelID;
+        if (this.destroyed) { return; }
+        if (!taskData) {
+          this.retryDelayInSeconds = 5;
+          this.trigger('statusUpdate', `Waiting ${this.retryDelayInSeconds} seconds before next game.`);
+          this.simulateAnotherTaskAfterDelay();
+          return;
+        }
+        this.simulatingPlayerStrings = {};
+        if (taskData.sessions[0].realTeam === taskData.sessions[1].realTeam) { // only random for ladder
+          const newTeam = _.shuffle(['humans', 'ogres']);
+          taskData.sessions[0].team = newTeam[0];
+          taskData.sessions[1].team = newTeam[1];
+        }
+        for (var team of ['humans', 'ogres']) {
+          var session = _.find(taskData.sessions, {team});
+          var teamName = $.i18n.t('ladder.' + team);
+          if (!session) {
+            this.trigger('statusUpdate', `Error simulating game: didn't find both teams' sessions. Trying another game in ${this.retryDelayInSeconds} seconds.`);
+            this.simulateAnotherTaskAfterDelay();
+            return;
           }
-          @simulateAnotherTaskAfterDelay()
-      success: (taskData, textStatus, xhr) =>
-        return if @destroyed
-        unless taskData
-          @retryDelayInSeconds = 5
-          @trigger 'statusUpdate', "Waiting #{@retryDelayInSeconds} seconds before next game."
-          @simulateAnotherTaskAfterDelay()
-          return
-        @simulatingPlayerStrings = {}
-        if taskData.sessions[0].realTeam == taskData.sessions[1].realTeam # only random for ladder
-          newTeam = _.shuffle ['humans', 'ogres']
-          taskData.sessions[0].team = newTeam[0]
-          taskData.sessions[1].team = newTeam[1]
-        for team in ['humans', 'ogres']
-          session = _.find(taskData.sessions, {team: team})
-          teamName = $.i18n.t 'ladder.' + team
-          unless session
-            @trigger 'statusUpdate', "Error simulating game: didn't find both teams' sessions. Trying another game in #{@retryDelayInSeconds} seconds."
-            @simulateAnotherTaskAfterDelay()
-            return
-          @simulatingPlayerStrings[team] = "#{session.creatorName or session.creator} #{teamName}"
-        @trigger 'statusUpdate', "Setting up #{taskData.sessions[0].levelID} simulation between #{@simulatingPlayerStrings.humans} and #{@simulatingPlayerStrings.ogres}"
-        #refactor this
-        @task = new SimulationTask(taskData)
-        try
-          levelID = @task.getLevelName()
-        catch err
-          console.error err
-          @trigger 'statusUpdate', "Error simulating game: #{err}. Trying another game in #{@retryDelayInSeconds} seconds."
-          @simulateAnotherTaskAfterDelay()
-          return
+          this.simulatingPlayerStrings[team] = `${session.creatorName || session.creator} ${teamName}`;
+        }
+        this.trigger('statusUpdate', `Setting up ${taskData.sessions[0].levelID} simulation between ${this.simulatingPlayerStrings.humans} and ${this.simulatingPlayerStrings.ogres}`);
+        //refactor this
+        this.task = new SimulationTask(taskData);
+        try {
+          levelID = this.task.getLevelName();
+        } catch (err) {
+          console.error(err);
+          this.trigger('statusUpdate', `Error simulating game: ${err}. Trying another game in ${this.retryDelayInSeconds} seconds.`);
+          this.simulateAnotherTaskAfterDelay();
+          return;
+        }
 
-        @supermodel ?= new SuperModel()
-        @supermodel.resetProgress()
-        @stopListening @supermodel, 'loaded-all'
-        @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getHumanSessionID(), opponentSessionID: @task.getOgresSessionID(), headless: true
+        if (this.supermodel == null) { this.supermodel = new SuperModel(); }
+        this.supermodel.resetProgress();
+        this.stopListening(this.supermodel, 'loaded-all');
+        this.levelLoader = new LevelLoader({supermodel: this.supermodel, levelID, sessionID: this.task.getHumanSessionID(), opponentSessionID: this.task.getOgresSessionID(), headless: true});
 
-        if @supermodel.finished()
-          @simulateSingleGame()
-        else
-          @listenToOnce @supermodel, 'loaded-all', @simulateSingleGame
+        if (this.supermodel.finished()) {
+          return this.simulateSingleGame();
+        } else {
+          return this.listenToOnce(this.supermodel, 'loaded-all', this.simulateSingleGame);
+        }
+      }
+    });
+  }
 
-  simulateSingleGame: ->
-    return if @destroyed
-    @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
-    @trigger 'statusUpdate', "Simulating match between #{@simulatingPlayerStrings.humans} and #{@simulatingPlayerStrings.ogres}"
-    @setupGod()
-    try
-      @commenceSingleSimulation()
-    catch error
-      @handleSingleSimulationError error
+  simulateSingleGame() {
+    if (this.destroyed) { return; }
+    this.assignWorldAndLevelFromLevelLoaderAndDestroyIt();
+    this.trigger('statusUpdate', `Simulating match between ${this.simulatingPlayerStrings.humans} and ${this.simulatingPlayerStrings.ogres}`);
+    this.setupGod();
+    try {
+      return this.commenceSingleSimulation();
+    } catch (error) {
+      return this.handleSingleSimulationError(error);
+    }
+  }
 
-  commenceSingleSimulation: ->
-    @listenToOnce @god, 'infinite-loop', @handleSingleSimulationInfiniteLoop
-    @listenToOnce @god, 'goals-calculated', @processSingleGameResults
-    @generateSpellsObject()
-        .then (spell) => @god.createWorld {spells: spell}
+  commenceSingleSimulation() {
+    this.listenToOnce(this.god, 'infinite-loop', this.handleSingleSimulationInfiniteLoop);
+    this.listenToOnce(this.god, 'goals-calculated', this.processSingleGameResults);
+    return this.generateSpellsObject()
+        .then(spell => this.god.createWorld({spells: spell}));
+  }
 
-  handleSingleSimulationError: (error) ->
-    console.error 'There was an error simulating a single game!', error
-    return if @destroyed
-    if @options.headlessClient and @options.simulateOnlyOneGame
-      console.log 'GAMERESULT:tie'
-      process.exit(0)
-    @cleanupAndSimulateAnotherTask()
+  handleSingleSimulationError(error) {
+    console.error('There was an error simulating a single game!', error);
+    if (this.destroyed) { return; }
+    if (this.options.headlessClient && this.options.simulateOnlyOneGame) {
+      console.log('GAMERESULT:tie');
+      process.exit(0);
+    }
+    return this.cleanupAndSimulateAnotherTask();
+  }
 
-  handleSingleSimulationInfiniteLoop: (e) ->
-    console.log 'There was an infinite loop in the single game!'
-    return if @destroyed
-    if @options.headlessClient and @options.simulateOnlyOneGame
-      console.log 'GAMERESULT:tie'
-      process.exit(0)
-    @cleanupAndSimulateAnotherTask()
+  handleSingleSimulationInfiniteLoop(e) {
+    console.log('There was an infinite loop in the single game!');
+    if (this.destroyed) { return; }
+    if (this.options.headlessClient && this.options.simulateOnlyOneGame) {
+      console.log('GAMERESULT:tie');
+      process.exit(0);
+    }
+    return this.cleanupAndSimulateAnotherTask();
+  }
 
-  processSingleGameResults: (simulationResults) ->
-    try
-      taskResults = @formTaskResultsObject simulationResults
-    catch error
-      console.log "Failed to form task results:", error
-      return @cleanupAndSimulateAnotherTask()
-    humanSessionRank = taskResults.sessions[0].metrics.rank
-    ogreSessionRank = taskResults.sessions[1].metrics.rank
-    if @options.headlessClient and @options.simulateOnlyOneGame
-      if humanSessionRank is ogreSessionRank
-        console.log 'GAMERESULT:tie'
-      else if humanSessionRank < ogreSessionRank
-        console.log 'GAMERESULT:humans'
-      else if ogreSessionRank < humanSessionRank
-        console.log 'GAMERESULT:ogres'
-      process.exit(0)
-    else
-      @sendSingleGameBackToServer(taskResults)
+  processSingleGameResults(simulationResults) {
+    let taskResults;
+    try {
+      taskResults = this.formTaskResultsObject(simulationResults);
+    } catch (error) {
+      console.log("Failed to form task results:", error);
+      return this.cleanupAndSimulateAnotherTask();
+    }
+    const humanSessionRank = taskResults.sessions[0].metrics.rank;
+    const ogreSessionRank = taskResults.sessions[1].metrics.rank;
+    if (this.options.headlessClient && this.options.simulateOnlyOneGame) {
+      if (humanSessionRank === ogreSessionRank) {
+        console.log('GAMERESULT:tie');
+      } else if (humanSessionRank < ogreSessionRank) {
+        console.log('GAMERESULT:humans');
+      } else if (ogreSessionRank < humanSessionRank) {
+        console.log('GAMERESULT:ogres');
+      }
+      return process.exit(0);
+    } else {
+      return this.sendSingleGameBackToServer(taskResults);
+    }
+  }
 
-  sendSingleGameBackToServer: (results) ->
-    status = 'Recording:'
-    for session in results.sessions
-      states = ['wins', if _.find(results.sessions, (s) -> s.metrics.rank is 0) then 'loses' else 'draws']
-      status += " #{session.name} #{states[session.metrics.rank]}"
-    console.log status
-    @trigger 'statusUpdate', status
+  sendSingleGameBackToServer(results) {
+    let url;
+    let status = 'Recording:';
+    for (var session of Array.from(results.sessions)) {
+      var states = ['wins', _.find(results.sessions, s => s.metrics.rank === 0) ? 'loses' : 'draws'];
+      status += ` ${session.name} ${states[session.metrics.rank]}`;
+    }
+    console.log(status);
+    this.trigger('statusUpdate', status);
 
-    if results.tournament?
-      url = '/db/tournament.match/record'
-      results.matchType = results.tournamentType
-    else
-      url = '/queue/scoring/recordTwoGames'
-    $.ajax
-      url: url
-      data: results
-      type: 'PUT'
-      parse: true
-      success: @handleTaskResultsTransferSuccess
-      error: @handleTaskResultsTransferError
-      complete: @cleanupAndSimulateAnotherTask
+    if (results.tournament != null) {
+      url = '/db/tournament.match/record';
+      results.matchType = results.tournamentType;
+    } else {
+      url = '/queue/scoring/recordTwoGames';
+    }
+    return $.ajax({
+      url,
+      data: results,
+      type: 'PUT',
+      parse: true,
+      success: this.handleTaskResultsTransferSuccess,
+      error: this.handleTaskResultsTransferError,
+      complete: this.cleanupAndSimulateAnotherTask
+    });
+  }
 
-  fetchAndSimulateTask: =>
-    return if @destroyed
-    # Because there's some bug where the chained rankings don't work, let's just do getTwoGames until we fix it.
-    return @fetchAndSimulateOneGame()
+  fetchAndSimulateTask() {
+    if (this.destroyed) { return; }
+    // Because there's some bug where the chained rankings don't work, let's just do getTwoGames until we fix it.
+    return this.fetchAndSimulateOneGame();
 
-    if @options.headlessClient
-      if @dumpThisTime # The first heapdump would be useless to find leaks.
-        console.log 'Writing snapshot.'
-        @options.heapdump.writeSnapshot()
-      @dumpThisTime = true if @options.heapdump
+    if (this.options.headlessClient) {
+      if (this.dumpThisTime) { // The first heapdump would be useless to find leaks.
+        console.log('Writing snapshot.');
+        this.options.heapdump.writeSnapshot();
+      }
+      if (this.options.heapdump) { this.dumpThisTime = true; }
 
-      if @options.testing
-        _.delay @setupSimulationAndLoadLevel, 0, @options.testFile, 'Testing...', status: 400
-        return
+      if (this.options.testing) {
+        _.delay(this.setupSimulationAndLoadLevel, 0, this.options.testFile, 'Testing...', {status: 400});
+        return;
+      }
+    }
 
-    @trigger 'statusUpdate', 'Fetching simulation data!'
-    $.ajax
-      url: @taskURL
-      type: 'GET'
-      parse: true
-      error: @handleFetchTaskError
-      success: @setupSimulationAndLoadLevel
+    this.trigger('statusUpdate', 'Fetching simulation data!');
+    return $.ajax({
+      url: this.taskURL,
+      type: 'GET',
+      parse: true,
+      error: this.handleFetchTaskError,
+      success: this.setupSimulationAndLoadLevel,
       cache: false
+    });
+  }
 
-  handleFetchTaskError: (errorData) =>
-    console.error "There was a horrible Error: #{JSON.stringify errorData}"
-    @trigger 'statusUpdate', 'There was an error fetching games to simulate. Retrying in 10 seconds.'
-    @simulateAnotherTaskAfterDelay()
+  handleFetchTaskError(errorData) {
+    console.error(`There was a horrible Error: ${JSON.stringify(errorData)}`);
+    this.trigger('statusUpdate', 'There was an error fetching games to simulate. Retrying in 10 seconds.');
+    return this.simulateAnotherTaskAfterDelay();
+  }
 
-  handleNoGamesResponse: ->
-    @noTasks = true
-    info = 'Finding game to simulate...'
-    console.log info
-    @trigger 'statusUpdate', info
-    @fetchAndSimulateOneGame()
+  handleNoGamesResponse() {
+    this.noTasks = true;
+    const info = 'Finding game to simulate...';
+    console.log(info);
+    this.trigger('statusUpdate', info);
+    return this.fetchAndSimulateOneGame();
+  }
 
-  simulateAnotherTaskAfterDelay: =>
-    console.log "Retrying in #{@retryDelayInSeconds}"
-    retryDelayInMilliseconds = @retryDelayInSeconds * 1000
-    _.delay @fetchAndSimulateTask, retryDelayInMilliseconds
+  simulateAnotherTaskAfterDelay() {
+    console.log(`Retrying in ${this.retryDelayInSeconds}`);
+    const retryDelayInMilliseconds = this.retryDelayInSeconds * 1000;
+    return _.delay(this.fetchAndSimulateTask, retryDelayInMilliseconds);
+  }
 
-  setupSimulationAndLoadLevel: (taskData, textStatus, jqXHR) =>
-    return @handleNoGamesResponse() if jqXHR.status is 204
-    @trigger 'statusUpdate', 'Setting up simulation!'
-    @task = new SimulationTask(taskData)
-    try
-      levelID = @task.getLevelName()
-    catch err
-      console.error err
-      @trigger 'statusUpdate', "Error simulating game: #{err}. Trying another game in #{@retryDelayInSeconds} seconds."
-      @simulateAnotherTaskAfterDelay()
-      return
+  setupSimulationAndLoadLevel(taskData, textStatus, jqXHR) {
+    let levelID;
+    if (jqXHR.status === 204) { return this.handleNoGamesResponse(); }
+    this.trigger('statusUpdate', 'Setting up simulation!');
+    this.task = new SimulationTask(taskData);
+    try {
+      levelID = this.task.getLevelName();
+    } catch (err) {
+      console.error(err);
+      this.trigger('statusUpdate', `Error simulating game: ${err}. Trying another game in ${this.retryDelayInSeconds} seconds.`);
+      this.simulateAnotherTaskAfterDelay();
+      return;
+    }
 
-    @supermodel ?= new SuperModel()
-    @supermodel.resetProgress()
-    @stopListening @supermodel, 'loaded-all'
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getHumanSessionID(), opponentSessionID: @task.getOgresSessionID(), headless: true
-    if @supermodel.finished()
-      @simulateGame()
-    else
-      @listenToOnce @supermodel, 'loaded-all', @simulateGame
+    if (this.supermodel == null) { this.supermodel = new SuperModel(); }
+    this.supermodel.resetProgress();
+    this.stopListening(this.supermodel, 'loaded-all');
+    this.levelLoader = new LevelLoader({supermodel: this.supermodel, levelID, sessionID: this.task.getHumanSessionID(), opponentSessionID: this.task.getOgresSessionID(), headless: true});
+    if (this.supermodel.finished()) {
+      return this.simulateGame();
+    } else {
+      return this.listenToOnce(this.supermodel, 'loaded-all', this.simulateGame);
+    }
+  }
 
-  simulateGame: ->
-    return if @destroyed
-    info = 'All resources loaded, simulating!'
-    console.log info
-    @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
-    @trigger 'statusUpdate', info, @task.getSessions()
-    @setupGod()
+  simulateGame() {
+    if (this.destroyed) { return; }
+    const info = 'All resources loaded, simulating!';
+    console.log(info);
+    this.assignWorldAndLevelFromLevelLoaderAndDestroyIt();
+    this.trigger('statusUpdate', info, this.task.getSessions());
+    this.setupGod();
 
-    try
-      @commenceSimulationAndSetupCallback()
-    catch err
-      console.error 'There was an error in simulation:', err, err.stack, "-- trying again in #{@retryDelayInSeconds} seconds"
-      @simulateAnotherTaskAfterDelay()
+    try {
+      return this.commenceSimulationAndSetupCallback();
+    } catch (err) {
+      console.error('There was an error in simulation:', err, err.stack, `-- trying again in ${this.retryDelayInSeconds} seconds`);
+      return this.simulateAnotherTaskAfterDelay();
+    }
+  }
 
-  assignWorldAndLevelFromLevelLoaderAndDestroyIt: ->
-    @world = @levelLoader.world
-    @task.setWorld(@world)
-    @level = @levelLoader.level
-    @session = @levelLoader.session
-    @otherSession = @levelLoader.opponentSession
-    @levelLoader.destroy()
-    @levelLoader = null
+  assignWorldAndLevelFromLevelLoaderAndDestroyIt() {
+    this.world = this.levelLoader.world;
+    this.task.setWorld(this.world);
+    this.level = this.levelLoader.level;
+    this.session = this.levelLoader.session;
+    this.otherSession = this.levelLoader.opponentSession;
+    this.levelLoader.destroy();
+    return this.levelLoader = null;
+  }
 
-  setupGod: ->
-    @god.setLevel @level.serialize {@supermodel, @session, @otherSession, headless: true, sessionless: false}
-    @god.setLevelSessionIDs (session.sessionID for session in @task.getSessions())
-    @god.setWorldClassMap @world.classMap
-    @god.setGoalManager new GoalManager @world, @level.get('goals'), null, {headless: true}
-    humanFlagHistory = _.filter @session.get('state')?.flagHistory ? [], (event) => event.source isnt 'code' and event.team is (@session.get('team') ? 'humans')
-    ogreFlagHistory = _.filter @otherSession.get('state')?.flagHistory ? [], (event) => event.source isnt 'code' and event.team is (@otherSession.get('team') ? 'ogres')
-    @god.lastFlagHistory = humanFlagHistory.concat ogreFlagHistory
-    #console.log 'got flag history', @god.lastFlagHistory, 'from', humanFlagHistory, ogreFlagHistory, @session.get('state'), @otherSession.get('state')
-    @god.lastSubmissionCount = 0  # TODO: figure out how to combine submissionCounts from both players so we can use submissionCount random seeds again.
-    @god.lastDifficulty = 0
+  setupGod() {
+    var left1;
+    let left2;
+    var left, left1;
+    this.god.setLevel(this.level.serialize({supermodel: this.supermodel, session: this.session, otherSession: this.otherSession, headless: true, sessionless: false}));
+    this.god.setLevelSessionIDs((Array.from(this.task.getSessions()).map((session) => session.sessionID)));
+    this.god.setWorldClassMap(this.world.classMap);
+    this.god.setGoalManager(new GoalManager(this.world, this.level.get('goals'), null, {headless: true}));
+    const humanFlagHistory = _.filter((left = __guard__(this.session.get('state'), x => x.flagHistory)) != null ? left : [], event => (event.source !== 'code') && (event.team === ((left1 = this.session.get('team')) != null ? left1 : 'humans')));
+    const ogreFlagHistory = _.filter((left1 = __guard__(this.otherSession.get('state'), x1 => x1.flagHistory)) != null ? left1 : [], event => (event.source !== 'code') && (event.team === ((left2 = this.otherSession.get('team')) != null ? left2 : 'ogres')));
+    this.god.lastFlagHistory = humanFlagHistory.concat(ogreFlagHistory);
+    //console.log 'got flag history', @god.lastFlagHistory, 'from', humanFlagHistory, ogreFlagHistory, @session.get('state'), @otherSession.get('state')
+    this.god.lastSubmissionCount = 0;  // TODO: figure out how to combine submissionCounts from both players so we can use submissionCount random seeds again.
+    return this.god.lastDifficulty = 0;
+  }
 
-  commenceSimulationAndSetupCallback: ->
-    @listenToOnce @god, 'infinite-loop', @onInfiniteLoop
-    @listenToOnce @god, 'goals-calculated', @processResults
-    @generateSpellsObject()
-        .then (spell) => @god.createWorld {spells: spell}
+  commenceSimulationAndSetupCallback() {
+    this.listenToOnce(this.god, 'infinite-loop', this.onInfiniteLoop);
+    this.listenToOnce(this.god, 'goals-calculated', this.processResults);
+    this.generateSpellsObject()
+        .then(spell => this.god.createWorld({spells: spell}));
 
-    # Search for leaks, headless-client only.
-    # NOTE: Memwatch currently being ignored by Webpack, because it's only used by the server.
-    if @options.headlessClient and @options.leakTest and not @memwatch?
-      leakcount = 0
-      maxleakcount = 0
-      console.log 'Setting leak callbacks.'
-      @memwatch = require 'memwatch'
+    // Search for leaks, headless-client only.
+    // NOTE: Memwatch currently being ignored by Webpack, because it's only used by the server.
+    if (this.options.headlessClient && this.options.leakTest && (this.memwatch == null)) {
+      let leakcount = 0;
+      const maxleakcount = 0;
+      console.log('Setting leak callbacks.');
+      this.memwatch = require('memwatch');
 
-      @memwatch.on 'leak', (info) =>
-        console.warn "LEAK!!\n" + JSON.stringify(info)
+      return this.memwatch.on('leak', info => {
+        console.warn("LEAK!!\n" + JSON.stringify(info));
 
-        unless @hd?
-          if (leakcount++ is maxleakcount)
-            @hd = new @memwatch.HeapDiff()
+        if (this.hd == null) {
+          if (leakcount++ === maxleakcount) {
+            this.hd = new this.memwatch.HeapDiff();
 
-            @memwatch.on 'stats', (stats) =>
-              console.warn 'stats callback: ' + stats
-              diff = @hd.end()
-              console.warn "HeapDiff:\n" + JSON.stringify(diff)
+            return this.memwatch.on('stats', stats => {
+              console.warn('stats callback: ' + stats);
+              const diff = this.hd.end();
+              console.warn("HeapDiff:\n" + JSON.stringify(diff));
 
-              if @options.exitOnLeak
-                console.warn 'Exiting because of Leak.'
-                process.exit()
-              @hd = new @memwatch.HeapDiff()
+              if (this.options.exitOnLeak) {
+                console.warn('Exiting because of Leak.');
+                process.exit();
+              }
+              return this.hd = new this.memwatch.HeapDiff();
+            });
+          }
+        }
+      });
+    }
+  }
 
-  onInfiniteLoop: (e) ->
-    return if @destroyed
-    console.warn 'Skipping infinitely looping game.'
-    @trigger 'statusUpdate', "Infinite loop detected; grabbing a new game in #{@retryDelayInSeconds} seconds."
-    _.delay @cleanupAndSimulateAnotherTask, @retryDelayInSeconds * 1000
+  onInfiniteLoop(e) {
+    if (this.destroyed) { return; }
+    console.warn('Skipping infinitely looping game.');
+    this.trigger('statusUpdate', `Infinite loop detected; grabbing a new game in ${this.retryDelayInSeconds} seconds.`);
+    return _.delay(this.cleanupAndSimulateAnotherTask, this.retryDelayInSeconds * 1000);
+  }
 
-  processResults: (simulationResults) ->
-    try
-      taskResults = @formTaskResultsObject simulationResults
-    catch error
-      console.log "Failed to form task results:", error
-      return @cleanupAndSimulateAnotherTask()
-    unless taskResults.taskID
-      console.error "*** Error: taskResults has no taskID ***\ntaskResults:", taskResults
-      @cleanupAndSimulateAnotherTask()
-    else
-      @sendResultsBackToServer taskResults
+  processResults(simulationResults) {
+    let taskResults;
+    try {
+      taskResults = this.formTaskResultsObject(simulationResults);
+    } catch (error) {
+      console.log("Failed to form task results:", error);
+      return this.cleanupAndSimulateAnotherTask();
+    }
+    if (!taskResults.taskID) {
+      console.error("*** Error: taskResults has no taskID ***\ntaskResults:", taskResults);
+      return this.cleanupAndSimulateAnotherTask();
+    } else {
+      return this.sendResultsBackToServer(taskResults);
+    }
+  }
 
-  sendResultsBackToServer: (results) ->
-    status = 'Recording:'
-    for session in results.sessions
-      states = ['wins', if _.find(results.sessions, (s) -> s.metrics.rank is 0) then 'loses' else 'draws']
-      status += " #{session.name} #{states[session.metrics.rank]}"
-    @trigger 'statusUpdate', status
-    console.log 'Sending result back to server:'
-    console.log JSON.stringify results
+  sendResultsBackToServer(results) {
+    let status = 'Recording:';
+    for (var session of Array.from(results.sessions)) {
+      var states = ['wins', _.find(results.sessions, s => s.metrics.rank === 0) ? 'loses' : 'draws'];
+      status += ` ${session.name} ${states[session.metrics.rank]}`;
+    }
+    this.trigger('statusUpdate', status);
+    console.log('Sending result back to server:');
+    console.log(JSON.stringify(results));
 
-    if @options.headlessClient and @options.testing
-      return @fetchAndSimulateTask()
+    if (this.options.headlessClient && this.options.testing) {
+      return this.fetchAndSimulateTask();
+    }
 
-    $.ajax
-      url: '/queue/scoring'
-      data: results
-      type: 'PUT'
-      parse: true
-      success: @handleTaskResultsTransferSuccess
-      error: @handleTaskResultsTransferError
-      complete: @cleanupAndSimulateAnotherTask
+    return $.ajax({
+      url: '/queue/scoring',
+      data: results,
+      type: 'PUT',
+      parse: true,
+      success: this.handleTaskResultsTransferSuccess,
+      error: this.handleTaskResultsTransferError,
+      complete: this.cleanupAndSimulateAnotherTask
+    });
+  }
 
-  handleTaskResultsTransferSuccess: (result) =>
-    return if @destroyed
-    #console.log "Task registration result: #{JSON.stringify result}"
-    @trigger 'statusUpdate', 'Results were successfully sent back to server!'
-    @simulatedByYou++
+  handleTaskResultsTransferSuccess(result) {
+    if (this.destroyed) { return; }
+    //console.log "Task registration result: #{JSON.stringify result}"
+    this.trigger('statusUpdate', 'Results were successfully sent back to server!');
+    return this.simulatedByYou++;
+  }
 
-  handleTaskResultsTransferError: (error) =>
-    return if @destroyed
-    @trigger 'statusUpdate', 'There was an error sending the results back to the server.'
-    console.log "Task registration error: #{JSON.stringify error}"
+  handleTaskResultsTransferError(error) {
+    if (this.destroyed) { return; }
+    this.trigger('statusUpdate', 'There was an error sending the results back to the server.');
+    return console.log(`Task registration error: ${JSON.stringify(error)}`);
+  }
 
-  cleanupAndSimulateAnotherTask: =>
-    return if @destroyed
-    @cleanupSimulation()
-    if @options.background or @noTasks
-      @fetchAndSimulateOneGame()
-    else
-      @fetchAndSimulateTask()
+  cleanupAndSimulateAnotherTask() {
+    if (this.destroyed) { return; }
+    this.cleanupSimulation();
+    if (this.options.background || this.noTasks) {
+      return this.fetchAndSimulateOneGame();
+    } else {
+      return this.fetchAndSimulateTask();
+    }
+  }
 
-  cleanupSimulation: ->
-    @stopListening @god
-    @world = null
-    @level = null
+  cleanupSimulation() {
+    this.stopListening(this.god);
+    this.world = null;
+    return this.level = null;
+  }
 
-  formTaskResultsObject: (simulationResults) ->
-    taskResults =
-      taskID: @task.getTaskID()
-      tournament: @task.getTournamentId()
-      tournamentType: @task.getTournamentType()
-      receiptHandle: @task.getReceiptHandle()
-      originalSessionID: @task.getFirstSessionID()
-      originalSessionRank: -1
-      sessions: []
-      simulator: @simulator
-      randomSeed: @task.world.randomSeed
+  formTaskResultsObject(simulationResults) {
+    const taskResults = {
+      taskID: this.task.getTaskID(),
+      tournament: this.task.getTournamentId(),
+      tournamentType: this.task.getTournamentType(),
+      receiptHandle: this.task.getReceiptHandle(),
+      originalSessionID: this.task.getFirstSessionID(),
+      originalSessionRank: -1,
+      sessions: [],
+      simulator: this.simulator,
+      randomSeed: this.task.world.randomSeed
+    };
 
-    for session in @task.getSessions()
-      sessionResult =
-        sessionID: session.sessionID
-        submitDate: session.submitDate
-        creator: session.creator
-        name: session.creatorName
-        totalScore: session.totalScore
-        metrics:
-          rank: @calculateSessionRank session.sessionID, simulationResults.goalStates, @task.generateTeamToSessionMap()
+    for (var session of Array.from(this.task.getSessions())) {
+      var sessionResult = {
+        sessionID: session.sessionID,
+        submitDate: session.submitDate,
+        creator: session.creator,
+        name: session.creatorName,
+        totalScore: session.totalScore,
+        metrics: {
+          rank: this.calculateSessionRank(session.sessionID, simulationResults.goalStates, this.task.generateTeamToSessionMap())
+        },
         shouldUpdateLastOpponentSubmitDateForLeague: session.shouldUpdateLastOpponentSubmitDateForLeague
-      if @task.getTournamentId()?
-        sessionResult.submissionId = session.submissionID
-      if session.sessionID is taskResults.originalSessionID
-        taskResults.originalSessionRank = sessionResult.metrics.rank
-        taskResults.originalSessionTeam = session.team
-      taskResults.sessions.push sessionResult
+      };
+      if (this.task.getTournamentId() != null) {
+        sessionResult.submissionId = session.submissionID;
+      }
+      if (session.sessionID === taskResults.originalSessionID) {
+        taskResults.originalSessionRank = sessionResult.metrics.rank;
+        taskResults.originalSessionTeam = session.team;
+      }
+      taskResults.sessions.push(sessionResult);
+    }
 
-    return taskResults
+    return taskResults;
+  }
 
-  calculateSessionRank: (sessionID, goalStates, teamSessionMap) ->
-    ogreGoals = (goalState for key, goalState of goalStates when goalState.team is 'ogres')
-    humanGoals = (goalState for key, goalState of goalStates when goalState.team is 'humans')
-    ogresWon = _.all ogreGoals, {status: 'success'}
-    humansWon = _.all humanGoals, {status: 'success'}
-    if ogresWon is humansWon
-      return 0
-    else if ogresWon and teamSessionMap['ogres'] is sessionID
-      return 0
-    else if ogresWon and teamSessionMap['ogres'] isnt sessionID
-      return 1
-    else if humansWon and teamSessionMap['humans'] is sessionID
-      return 0
-    else
-      return 1
+  calculateSessionRank(sessionID, goalStates, teamSessionMap) {
+    let key, goalState;
+    const ogreGoals = ((() => {
+      const result = [];
+      for (key in goalStates) {
+        goalState = goalStates[key];
+        if (goalState.team === 'ogres') {
+          result.push(goalState);
+        }
+      }
+      return result;
+    })());
+    const humanGoals = ((() => {
+      const result1 = [];
+      for (key in goalStates) {
+        goalState = goalStates[key];
+        if (goalState.team === 'humans') {
+          result1.push(goalState);
+        }
+      }
+      return result1;
+    })());
+    const ogresWon = _.all(ogreGoals, {status: 'success'});
+    const humansWon = _.all(humanGoals, {status: 'success'});
+    if (ogresWon === humansWon) {
+      return 0;
+    } else if (ogresWon && (teamSessionMap['ogres'] === sessionID)) {
+      return 0;
+    } else if (ogresWon && (teamSessionMap['ogres'] !== sessionID)) {
+      return 1;
+    } else if (humansWon && (teamSessionMap['humans'] === sessionID)) {
+      return 0;
+    } else {
+      return 1;
+    }
+  }
 
-  generateSpellsObject: ->
-    spells = {}
-    promises = []
-    for {hero, team} in [{hero: 'Hero Placeholder', team: 'humans'}, {hero: 'Hero Placeholder 1', team: 'ogres'}]
-      sessionInfo = _.filter(@task.getSessions(), {team: team})[0]
-      fullSpellName = _.string.slugify(hero) + '/plan'
-      submittedCodeLanguage = sessionInfo?.submittedCodeLanguage ? 'javascript'
-      submittedCodeLanguage = 'javascript' if submittedCodeLanguage in ['clojure', 'io']  # No longer supported
-      submittedCode = LZString.decompressFromUTF16 sessionInfo?.submittedCode?[_.string.slugify(hero)]?.plan ? ''
-      submittedCode = replaceSimpleLoops submittedCode, submittedCodeLanguage
-      aether = new Aether createAetherOptions functionName: 'plan', codeLanguage: submittedCodeLanguage, skipProtectAPI: false
-      spl = name: 'plan', team: team, thang: {thang: {id: hero}, aether: aether}, fullSpellName: fullSpellName
-      promises.push(@fetchToken(submittedCode, submittedCodeLanguage, spl))
-    Promise.all(promises)
-      .then((values) =>
-           for res in values
-             spl = res.spell
-             source = res.source
-             fullSpellName = spl.fullSpellName
-             try
-               spl.thang.aether.transpile source
-             catch e
-               console.log "Couldn't transpile #{fullSpellName}:\n#{source}\n", e
-             delete spl.fullSpellName
-             spells[fullSpellName] = spl)
-      .then(() => spells)
+  generateSpellsObject() {
+    let aether, fullSpellName, spl;
+    const spells = {};
+    const promises = [];
+    for (var {hero, team} of [{hero: 'Hero Placeholder', team: 'humans'}, {hero: 'Hero Placeholder 1', team: 'ogres'}]) {
+      var left;
+      var sessionInfo = _.filter(this.task.getSessions(), {team})[0];
+      fullSpellName = _.string.slugify(hero) + '/plan';
+      var submittedCodeLanguage = (sessionInfo != null ? sessionInfo.submittedCodeLanguage : undefined) != null ? (sessionInfo != null ? sessionInfo.submittedCodeLanguage : undefined) : 'javascript';
+      if (['clojure', 'io'].includes(submittedCodeLanguage)) { submittedCodeLanguage = 'javascript'; }  // No longer supported
+      var submittedCode = LZString.decompressFromUTF16((left = __guard__(__guard__(sessionInfo != null ? sessionInfo.submittedCode : undefined, x1 => x1[_.string.slugify(hero)]), x => x.plan)) != null ? left : '');
+      submittedCode = replaceSimpleLoops(submittedCode, submittedCodeLanguage);
+      aether = new Aether(createAetherOptions({functionName: 'plan', codeLanguage: submittedCodeLanguage, skipProtectAPI: false}));
+      spl = {name: 'plan', team, thang: {thang: {id: hero}, aether}, fullSpellName};
+      promises.push(this.fetchToken(submittedCode, submittedCodeLanguage, spl));
+    }
+    return Promise.all(promises)
+      .then(values => {
+           return (() => {
+             const result = [];
+             for (var res of Array.from(values)) {
+               spl = res.spell;
+               var {
+                 source
+               } = res;
+               ({
+                 fullSpellName
+               } = spl);
+               try {
+                 spl.thang.aether.transpile(source);
+               } catch (e) {
+                 console.log(`Couldn't transpile ${fullSpellName}:\n${source}\n`, e);
+               }
+               delete spl.fullSpellName;
+               result.push(spells[fullSpellName] = spl);
+             }
+             return result;
+           })();
+    })
+      .then(() => spells);
+  }
 
-  fetchToken: (source, language, spell) =>
-    if language not in ['java', 'cpp'] or /^\u56E7[a-zA-Z0-9+/=]+\f$/.test source
-      return Promise.resolve({source: source, spell: spell})
+  fetchToken(source, language, spell) {
+    if (!['java', 'cpp'].includes(language) || /^\u56E7[a-zA-Z0-9+/=]+\f$/.test(source)) {
+      return Promise.resolve({source, spell});
+    }
 
-    headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-    m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
-    service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
-    fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
-    .then (x) => x.json()
-    .then (x) => {source: x.token, spell: spell}
+    const headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' };
+    const m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/);
+    const service = __guard__(typeof window !== 'undefined' && window !== null ? window.localStorage : undefined, x => x.kodeKeeperService) || "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper";
+    return fetch(service, {method: 'POST', mode:'cors', headers, body:JSON.stringify({code: source, language})})
+    .then(x => x.json())
+    .then(x => ({source: x.token, spell}));
+  }
+});
 
 
-class SimulationTask
-  constructor: (@rawData) ->
+class SimulationTask {
+  constructor(rawData) {
+    this.rawData = rawData;
+  }
 
-  getLevelName: ->
-    levelName = @rawData.sessions?[0]?.levelID or @rawData.sessions?[1]?.levelID
-    return levelName if levelName?
-    @throwMalformedTaskError 'The level name couldn\'t be deduced from the task.'
+  getLevelName() {
+    const levelName = __guard__(this.rawData.sessions != null ? this.rawData.sessions[0] : undefined, x => x.levelID) || __guard__(this.rawData.sessions != null ? this.rawData.sessions[1] : undefined, x1 => x1.levelID);
+    if (levelName != null) { return levelName; }
+    return this.throwMalformedTaskError('The level name couldn\'t be deduced from the task.');
+  }
 
-  generateTeamToSessionMap: ->
-    teamSessionMap = {}
-    for session in @rawData.sessions
-      @throwMalformedTaskError 'Two players share the same team' if teamSessionMap[session.team]?
-      teamSessionMap[session.team] = session.sessionID
+  generateTeamToSessionMap() {
+    const teamSessionMap = {};
+    for (var session of Array.from(this.rawData.sessions)) {
+      if (teamSessionMap[session.team] != null) { this.throwMalformedTaskError('Two players share the same team'); }
+      teamSessionMap[session.team] = session.sessionID;
+    }
 
-    teamSessionMap
+    return teamSessionMap;
+  }
 
-  throwMalformedTaskError: (errorString) ->
-    throw new Error "The task was malformed, reason: #{errorString}"
+  throwMalformedTaskError(errorString) {
+    throw new Error(`The task was malformed, reason: ${errorString}`);
+  }
 
-  getFirstSessionID: -> @rawData.sessions[0].sessionID
+  getFirstSessionID() { return this.rawData.sessions[0].sessionID; }
 
-  getSecondSessionID: -> @rawData.sessions[1].sessionID
+  getSecondSessionID() { return this.rawData.sessions[1].sessionID; }
 
-  getHumanSessionID: -> _.find(@rawData.sessions, {team: 'humans'}).sessionID
+  getHumanSessionID() { return _.find(this.rawData.sessions, {team: 'humans'}).sessionID; }
 
-  getOgresSessionID: -> _.find(@rawData.sessions, {team: 'ogres'}).sessionID
+  getOgresSessionID() { return _.find(this.rawData.sessions, {team: 'ogres'}).sessionID; }
 
-  getTaskID: -> @rawData.taskID
+  getTaskID() { return this.rawData.taskID; }
 
-  getTournamentId: -> @rawData.tournamentId
+  getTournamentId() { return this.rawData.tournamentId; }
 
-  getTournamentType: -> @rawData.tournamentType
+  getTournamentType() { return this.rawData.tournamentType; }
 
-  getReceiptHandle: -> @rawData.receiptHandle
+  getReceiptHandle() { return this.rawData.receiptHandle; }
 
-  getSessions: -> @rawData.sessions
+  getSessions() { return this.rawData.sessions; }
 
-  setWorld: (@world) ->
+  setWorld(world) {
+    this.world = world;
+  }
+}
+
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

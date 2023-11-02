@@ -1,212 +1,271 @@
-levelSchema = require('schemas/models/level')
-api = require('core/api')
-utils = require 'core/utils'
-translateUtils = require 'lib/translate-utils'
-aetherUtils = require 'lib/aether_utils'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const levelSchema = require('schemas/models/level');
+const api = require('core/api');
+const utils = require('core/utils');
+const translateUtils = require('lib/translate-utils');
+const aetherUtils = require('lib/aether_utils');
 
-# TODO: Be explicit about the properties being stored
-emptyLevel = _.zipObject(([key, null] for key in _.keys(levelSchema.properties)))
+// TODO: Be explicit about the properties being stored
+const emptyLevel = _.zipObject((Array.from(_.keys(levelSchema.properties)).map((key) => [key, null])));
 
-# This module should eventually include things such as: session, player code, score, thangs, etc
+// This module should eventually include things such as: session, player code, score, thangs, etc
 module.exports = {
-  namespaced: true
+  namespaced: true,
   state: {
-    level: emptyLevel
-    hintsVisible: false
-    timesCodeRun: 0
-    timesAutocompleteUsed: 0
-    playing: false
-    tutorial: []
-    tutorialActive: false
-    codeBankOpen: false
-    clickedUpdateCapstoneCode: false
-    hasPlayedGame: false
-    # Source for solving the level, and number of times it has been used:
+    level: emptyLevel,
+    hintsVisible: false,
+    timesCodeRun: 0,
+    timesAutocompleteUsed: 0,
+    playing: false,
+    tutorial: [],
+    tutorialActive: false,
+    codeBankOpen: false,
+    clickedUpdateCapstoneCode: false,
+    hasPlayedGame: false,
+    // Source for solving the level, and number of times it has been used:
     levelSolution: {
-      # Number of times state.levelSolution has been auto filled into the code editor.
+      // Number of times state.levelSolution has been auto filled into the code editor.
       autoFillCount: 0,
       source: ''
     }
-  }
+  },
   mutations: {
-    setPlaying: (state, playing) ->
-      state.playing = playing
-    setLevel: (state, updates) ->
-      state.level = $.extend(true, {}, updates)
-    setLevelSolution: (state, solution) ->
-      state.levelSolution = solution
-    setHintsVisible: (state, visible) ->
-      state.hintsVisible = visible
-    incrementTimesCodeRun: (state) ->
-      state.timesCodeRun += 1
-    setTimesCodeRun: (state, times) ->
-      state.timesCodeRun = times
-    incrementTimesAutocompleteUsed: (state) ->
-      state.timesAutocompleteUsed += 1
-    setTimesAutocompleteUsed: (state, times) ->
-      state.timesAutocompleteUsed = times
-    addTutorialStep: (state, step) ->
-      if state.tutorial.find((s) ->
-        # There is a function property that needs to be omitted because they don't compare
-        return _.isEqual(_.omit(step, _.functions(step)), _.omit(s, _.functions(s)))
-      )
-        return
+    setPlaying(state, playing) {
+      return state.playing = playing;
+    },
+    setLevel(state, updates) {
+      return state.level = $.extend(true, {}, updates);
+    },
+    setLevelSolution(state, solution) {
+      return state.levelSolution = solution;
+    },
+    setHintsVisible(state, visible) {
+      return state.hintsVisible = visible;
+    },
+    incrementTimesCodeRun(state) {
+      return state.timesCodeRun += 1;
+    },
+    setTimesCodeRun(state, times) {
+      return state.timesCodeRun = times;
+    },
+    incrementTimesAutocompleteUsed(state) {
+      return state.timesAutocompleteUsed += 1;
+    },
+    setTimesAutocompleteUsed(state, times) {
+      return state.timesAutocompleteUsed = times;
+    },
+    addTutorialStep(state, step) {
+      if (state.tutorial.find(s => // There is a function property that needs to be omitted because they don't compare
+      _.isEqual(_.omit(step, _.functions(step)), _.omit(s, _.functions(s))))) {
+        return;
+      }
 
-      if step.intro
-        state.tutorial = [step, state.tutorial...]
-      else
-        state.tutorial.push(step)
-    resetTutorial: (state, options = {}) ->
-      state.tutorialActive = false
-      if options.keepIntro && state.tutorial[0]?.intro
-        state.tutorial = [state.tutorial[0]]
-      else
-        state.tutorial = []
-    setTutorialActive: (state, tutorialActive) ->
-      state.tutorialActive = tutorialActive
-    setCodeBankOpen: (state, open) ->
-      state.codeBankOpen = open
-    setClickedUpdateCapstoneCode: (state, clicked) ->
-      state.clickedUpdateCapstoneCode = clicked
-    setHasPlayedGame: (state, hasPlayed) ->
-      state.hasPlayedGame = hasPlayed
-  }
+      if (step.intro) {
+        return state.tutorial = [step, ...Array.from(state.tutorial)];
+      } else {
+        return state.tutorial.push(step);
+      }
+    },
+    resetTutorial(state, options) {
+      if (options == null) { options = {}; }
+      state.tutorialActive = false;
+      if (options.keepIntro && (state.tutorial[0] != null ? state.tutorial[0].intro : undefined)) {
+        return state.tutorial = [state.tutorial[0]];
+      } else {
+        return state.tutorial = [];
+      }
+    },
+    setTutorialActive(state, tutorialActive) {
+      return state.tutorialActive = tutorialActive;
+    },
+    setCodeBankOpen(state, open) {
+      return state.codeBankOpen = open;
+    },
+    setClickedUpdateCapstoneCode(state, clicked) {
+      return state.clickedUpdateCapstoneCode = clicked;
+    },
+    setHasPlayedGame(state, hasPlayed) {
+      return state.hasPlayedGame = hasPlayed;
+    }
+  },
   actions: {
-    # Idempotent, will not add the same step twice
-    addTutorialStep: ({ commit, rootState, dispatch }, step) ->
-      # Turns voiceOver property into a function to play voice over if possible.
+    // Idempotent, will not add the same step twice
+    addTutorialStep({ commit, rootState, dispatch }, step) {
+      // Turns voiceOver property into a function to play voice over if possible.
 
-      if step.voiceOver or (step.message and /[a-z]/i.test step.message)
-        dialogNode = _.clone(step)
-        if dialogNode.message
-          dialogNode.text = dialogNode.message
-        soundIdPromise = dispatch('voiceOver/preload', { dialogNode, speakerThangType: step.speakerThangType }, { root: true })
-        # Lazy function we can call to play the voice over.
-        # TODO: Localize by passing in different file path based on i18n.
-        step.playVoiceOver = () => dispatch('voiceOver/playVoiceOver', soundIdPromise, { root: true })
+      if (step.voiceOver || (step.message && /[a-z]/i.test(step.message))) {
+        const dialogNode = _.clone(step);
+        if (dialogNode.message) {
+          dialogNode.text = dialogNode.message;
+        }
+        const soundIdPromise = dispatch('voiceOver/preload', { dialogNode, speakerThangType: step.speakerThangType }, { root: true });
+        // Lazy function we can call to play the voice over.
+        // TODO: Localize by passing in different file path based on i18n.
+        step.playVoiceOver = () => dispatch('voiceOver/playVoiceOver', soundIdPromise, { root: true });
+      }
 
-      commit('addTutorialStep', step)
-    setTutorialActive: ({ commit, rootState }, tutorialActive) ->
-      commit('setTutorialActive', tutorialActive)
-    restartTutorial: ({ commit }) ->
-      commit('setTutorialActive', false)
-      # Give it a moment to react first...
-      setTimeout(() ->
-        commit('setTutorialActive', true)
-      , 500)
-    resetTutorial: ({ commit }, options) ->
-      commit('resetTutorial', options)
-    # Idempotent, will not add the same step twice
-    # Appends steps to the tutorial, extracting information from each say event in sayEvents
-    addTutorialStepsFromSayEvents: ({ commit, rootState, dispatch }, sayEvents) ->
-      sayEvents.forEach((sayEvent) ->
-        { say, tutorial } = sayEvent
+      return commit('addTutorialStep', step);
+    },
+    setTutorialActive({ commit, rootState }, tutorialActive) {
+      return commit('setTutorialActive', tutorialActive);
+    },
+    restartTutorial({ commit }) {
+      commit('setTutorialActive', false);
+      // Give it a moment to react first...
+      return setTimeout(() => commit('setTutorialActive', true)
+      , 500);
+    },
+    resetTutorial({ commit }, options) {
+      return commit('resetTutorial', options);
+    },
+    // Idempotent, will not add the same step twice
+    // Appends steps to the tutorial, extracting information from each say event in sayEvents
+    addTutorialStepsFromSayEvents({ commit, rootState, dispatch }, sayEvents) {
+      return sayEvents.forEach(function(sayEvent) {
+        const { say, tutorial } = sayEvent;
 
-        dispatch('addTutorialStep', {
-          message: utils.i18n(say, 'text')
-          originalMessage: say?.text
-          # To stay backwards compatible with old Vega messages,
-          # they are turned into stationary Vega messages with no other qualities:
-          position: tutorial?.position or 'stationary'
-          targetElement: tutorial?.targetElement
-          animation: tutorial?.animation
-          targetLine: tutorial?.targetLine
-          targetThangs: tutorial?.targetThangs
-          grayOverlay: tutorial?.grayOverlay
-          advanceOnTarget: tutorial?.advanceOnTarget
-          internalRelease: tutorial?.internalRelease
-          voiceOver: say.voiceOver
-          speakerThangType: rootState.game.level?.characterPortrait or 'vega'
-        })
-      )
-    toggleCodeBank: ({ commit, rootState }) ->
-      commit('setCodeBankOpen', !rootState.game.codeBankOpen)
-    setClickedUpdateCapstoneCode: ({ commit }, clicked) ->
-      commit('setClickedUpdateCapstoneCode', clicked)
-    setHasPlayedGame: ({ commit }, hasPlayed) ->
-      commit('setHasPlayedGame', hasPlayed)
-    autoFillSolution: ({ commit, getters, rootState }, codeLanguage) ->
-      if utils.isCodeCombat
-        codeLanguage ?= utils.getQueryVariable('codeLanguage') ? 'javascript' # Belongs in Vuex eventually
-        noSolution = ->
-          text = "No #{codeLanguage} solution available for #{rootState.game.level.name}."
-          noty({ text, timeout: 3000 })
-          console.error(text)
+        return dispatch('addTutorialStep', {
+          message: utils.i18n(say, 'text'),
+          originalMessage: (say != null ? say.text : undefined),
+          // To stay backwards compatible with old Vega messages,
+          // they are turned into stationary Vega messages with no other qualities:
+          position: (tutorial != null ? tutorial.position : undefined) || 'stationary',
+          targetElement: (tutorial != null ? tutorial.targetElement : undefined),
+          animation: (tutorial != null ? tutorial.animation : undefined),
+          targetLine: (tutorial != null ? tutorial.targetLine : undefined),
+          targetThangs: (tutorial != null ? tutorial.targetThangs : undefined),
+          grayOverlay: (tutorial != null ? tutorial.grayOverlay : undefined),
+          advanceOnTarget: (tutorial != null ? tutorial.advanceOnTarget : undefined),
+          internalRelease: (tutorial != null ? tutorial.internalRelease : undefined),
+          voiceOver: say.voiceOver,
+          speakerThangType: (rootState.game.level != null ? rootState.game.level.characterPortrait : undefined) || 'vega'
+        });
+      });
+    },
+    toggleCodeBank({ commit, rootState }) {
+      return commit('setCodeBankOpen', !rootState.game.codeBankOpen);
+    },
+    setClickedUpdateCapstoneCode({ commit }, clicked) {
+      return commit('setClickedUpdateCapstoneCode', clicked);
+    },
+    setHasPlayedGame({ commit }, hasPlayed) {
+      return commit('setHasPlayedGame', hasPlayed);
+    },
+    autoFillSolution({ commit, getters, rootState }, codeLanguage) {
+      let source;
+      if (utils.isCodeCombat) {
+        if (codeLanguage == null) { let left;
+        codeLanguage = (left = utils.getQueryVariable('codeLanguage')) != null ? left : 'javascript'; } // Belongs in Vuex eventually
+        const noSolution = function() {
+          const text = `No ${codeLanguage} solution available for ${rootState.game.level.name}.`;
+          noty({ text, timeout: 3000 });
+          return console.error(text);
+        };
 
-        source = getters['getSolutionSrc'](codeLanguage)
+        source = getters['getSolutionSrc'](codeLanguage);
 
-        noSolution() unless source?
+        if (source == null) { noSolution(); }
 
-        commit('setLevelSolution', {
+        return commit('setLevelSolution', {
           autoFillCount: rootState.game.levelSolution.autoFillCount + 1,
           source
-        })
-      else # Ozaria
-        try
-          hero = _.find (rootState.game.level?.thangs ? []), id: 'Hero Placeholder'
-          component = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)
-          plan = component.config?.programmableMethods?.plan
-          solutions = _.filter (plan?.solutions ? []), (s) -> not s.testOnly and s.succeeds
-          rawSource = _.find(solutions, language: codeLanguage)?.source
-          if not rawSource and jsSource = _.find(solutions, language: 'javascript')?.source
-  # If there is no target language solution yet, generate one from JavaScript.
-            rawSource = translateUtils.translateJS(jsSource, codeLanguage)
-          external_ch1_avatar = rootState.me.ozariaUserOptions?.avatar?.avatarCodeString ? 'crown'
-          context = _.merge({ external_ch1_avatar }, utils.i18n(plan, 'context'))
-          source = _.template(rawSource)(context)
+        });
+      } else { // Ozaria
+        try {
+          let jsSource;
+          const hero = _.find(((rootState.game.level != null ? rootState.game.level.thangs : undefined) != null ? (rootState.game.level != null ? rootState.game.level.thangs : undefined) : []), {id: 'Hero Placeholder'});
+          const component = _.find(hero.components != null ? hero.components : [], x => __guard__(__guard__(x != null ? x.config : undefined, x2 => x2.programmableMethods), x1 => x1.plan));
+          const plan = __guard__(component.config != null ? component.config.programmableMethods : undefined, x => x.plan);
+          const solutions = _.filter(((plan != null ? plan.solutions : undefined) != null ? (plan != null ? plan.solutions : undefined) : []), s => !s.testOnly && s.succeeds);
+          let rawSource = __guard__(_.find(solutions, {language: codeLanguage}), x1 => x1.source);
+          if (!rawSource && (jsSource = __guard__(_.find(solutions, {language: 'javascript'}), x2 => x2.source))) {
+  // If there is no target language solution yet, generate one from JavaScript.
+            rawSource = translateUtils.translateJS(jsSource, codeLanguage);
+          }
+          const external_ch1_avatar = __guard__(rootState.me.ozariaUserOptions != null ? rootState.me.ozariaUserOptions.avatar : undefined, x3 => x3.avatarCodeString) != null ? __guard__(rootState.me.ozariaUserOptions != null ? rootState.me.ozariaUserOptions.avatar : undefined, x3 => x3.avatarCodeString) : 'crown';
+          const context = _.merge({ external_ch1_avatar }, utils.i18n(plan, 'context'));
+          source = _.template(rawSource)(context);
 
-          unless _.isEmpty(source)
-            commit('setLevelSolution', {
+          if (!_.isEmpty(source)) {
+            return commit('setLevelSolution', {
               autoFillCount: rootState.game.levelSolution.autoFillCount + 1,
               source
-            })
-          else
-            noty({ text: "No solution available.", timeout: 3000 })
-            console.error("Could not find solution for #{rootState.game.level.name}")
-        catch e
-          text = "Cannot auto fill solution: #{e.message}"
-          console.error(text)
-          noty({ type: 'error', text })
-  }
+            });
+          } else {
+            noty({ text: "No solution available.", timeout: 3000 });
+            return console.error(`Could not find solution for ${rootState.game.level.name}`);
+          }
+        } catch (e) {
+          const text = `Cannot auto fill solution: ${e.message}`;
+          console.error(text);
+          return noty({ type: 'error', text });
+        }
+      }
+    }
+  },
   getters: {
-    codeBankOpen: (state) -> state.codeBankOpen
-    tutorialSteps: (state) -> state.tutorial
-    tutorialActive: (state) -> state.tutorialActive
-    clickedUpdateCapstoneCode: (state) -> state.clickedUpdateCapstoneCode
-    hasPlayedGame: (state) -> state.hasPlayedGame
-    levelSolution: (state) -> state.levelSolution
-    getSolutionSrc: (state, getters, rootState) ->
-      (codeLanguage) ->
-        unless hero = _.find(rootState.game.level?.thangs ? [], id: 'Hero Placeholder')
-          return undefined
+    codeBankOpen(state) { return state.codeBankOpen; },
+    tutorialSteps(state) { return state.tutorial; },
+    tutorialActive(state) { return state.tutorialActive; },
+    clickedUpdateCapstoneCode(state) { return state.clickedUpdateCapstoneCode; },
+    hasPlayedGame(state) { return state.hasPlayedGame; },
+    levelSolution(state) { return state.levelSolution; },
+    getSolutionSrc(state, getters, rootState) {
+      return function(codeLanguage) {
+        let component, hero, jsSource, source;
+        if (!(hero = _.find((rootState.game.level != null ? rootState.game.level.thangs : undefined) != null ? (rootState.game.level != null ? rootState.game.level.thangs : undefined) : [], {id: 'Hero Placeholder'}))) {
+          return undefined;
+        }
 
-        unless component = _.find(hero.components ? [], (c) -> c?.config?.programmableMethods?.plan)
-          return undefined
+        if (!(component = _.find(hero.components != null ? hero.components : [], c => __guard__(__guard__(c != null ? c.config : undefined, x1 => x1.programmableMethods), x => x.plan)))) {
+          return undefined;
+        }
 
-        plan = component.config.programmableMethods.plan
+        const {
+          plan
+        } = component.config.programmableMethods;
 
-        solutions = _.filter (plan?.solutions ? []), (s) -> not s.testOnly and s.succeeds
-        rawSource = _.find(solutions, language: codeLanguage)?.source
-        if not rawSource and jsSource = _.find(solutions, language: 'javascript')?.source
-          # If there is no target language solution yet, generate one from JavaScript.
-          rawSource = aetherUtils.translateJS(jsSource, codeLanguage)
+        const solutions = _.filter(((plan != null ? plan.solutions : undefined) != null ? (plan != null ? plan.solutions : undefined) : []), s => !s.testOnly && s.succeeds);
+        let rawSource = __guard__(_.find(solutions, {language: codeLanguage}), x => x.source);
+        if (!rawSource && (jsSource = __guard__(_.find(solutions, {language: 'javascript'}), x1 => x1.source))) {
+          // If there is no target language solution yet, generate one from JavaScript.
+          rawSource = aetherUtils.translateJS(jsSource, codeLanguage);
+        }
 
-        unless rawSource
-          return undefined
+        if (!rawSource) {
+          return undefined;
+        }
 
-        try
-          source = _.template(rawSource)(utils.i18n(plan, 'context'))
-        catch e
-          console.error("Cannot auto fill solution: #{e.message}")
+        try {
+          source = _.template(rawSource)(utils.i18n(plan, 'context'));
+        } catch (e) {
+          console.error(`Cannot auto fill solution: ${e.message}`);
+        }
 
-        if _.isEmpty(source)
-          return undefined
+        if (_.isEmpty(source)) {
+          return undefined;
+        }
 
-        return source
+        return source;
+      };
+    }
   }
-}
+};
 
-Backbone.Mediator.subscribe('level:set-playing', (e) ->
-  playing = (e ? {}).playing ? true
-  application.store.commit('game/setPlaying', playing)
-)
+Backbone.Mediator.subscribe('level:set-playing', function(e) {
+  let left;
+  const playing = (left = (e != null ? e : {}).playing) != null ? left : true;
+  return application.store.commit('game/setPlaying', playing);
+});
+
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

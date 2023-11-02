@@ -1,112 +1,157 @@
-RootView = require 'views/core/RootView'
-NewModelModal = require 'views/editor/modal/NewModelModal'
-template = require 'app/templates/common/search-view'
-CreateAccountModal = require 'views/core/CreateAccountModal'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SearchView;
+const RootView = require('views/core/RootView');
+const NewModelModal = require('views/editor/modal/NewModelModal');
+const template = require('app/templates/common/search-view');
+const CreateAccountModal = require('views/core/CreateAccountModal');
 
-class SearchCollection extends Backbone.Collection
-  initialize: (modelURL, @model, @term, @projection, @limit) ->
-    @url = "#{modelURL}?project="
-    if @projection?.length
-      @url += 'created,permissions'
-      @url += ',' + projected for projected in @projection
-    else @url += 'true'
-    @url += "&term=#{@term}" if @term
-    @url += "&limit=#{@limit}" if @limit isnt 100
+class SearchCollection extends Backbone.Collection {
+  initialize(modelURL, model, term, projection, limit) {
+    this.model = model;
+    this.term = term;
+    this.projection = projection;
+    this.limit = limit;
+    this.url = `${modelURL}?project=`;
+    if (this.projection != null ? this.projection.length : undefined) {
+      this.url += 'created,permissions';
+      for (var projected of Array.from(this.projection)) { this.url += ',' + projected; }
+    } else { this.url += 'true'; }
+    if (this.term) { this.url += `&term=${this.term}`; }
+    if (this.limit !== 100) { return this.url += `&limit=${this.limit}`; }
+  }
 
-  comparator: (a, b) ->
-    score = 0
-    score += 90019001900190019001 * a.get('priority') if a.get('priority')?
-    score -= 90019001900190019001 * b.get('priority') if b.get('priority')?
-    score -= 9001900190019001 if a.getOwner() is me.id and not /db\/chat_message/.test(@url)
-    score += 9001900190019001 if b.getOwner() is me.id and not /db\/chat_message/.test(@url)
-    score -= new Date(a.get 'created') if a.get('created')
-    score -= -(new Date(b.get 'created')) if b.get('created')
-    score -= new Date(a.get('message').startDate) if a.get('message')?.startDate
-    score -= -(new Date(b.get('message').startDate)) if b.get('message')?.startDate
-    if score < 0 then -1 else (if score > 0 then 1 else 0)
+  comparator(a, b) {
+    let score = 0;
+    if (a.get('priority') != null) { score += 90019001900190019001 * a.get('priority'); }
+    if (b.get('priority') != null) { score -= 90019001900190019001 * b.get('priority'); }
+    if ((a.getOwner() === me.id) && !/db\/chat_message/.test(this.url)) { score -= 9001900190019001; }
+    if ((b.getOwner() === me.id) && !/db\/chat_message/.test(this.url)) { score += 9001900190019001; }
+    if (a.get('created')) { score -= new Date(a.get('created')); }
+    if (b.get('created')) { score -= -(new Date(b.get('created'))); }
+    if (__guard__(a.get('message'), x => x.startDate)) { score -= new Date(a.get('message').startDate); }
+    if (__guard__(b.get('message'), x1 => x1.startDate)) { score -= -(new Date(b.get('message').startDate)); }
+    if (score < 0) { return -1; } else { if (score > 0) { return 1; } else { return 0; } }
+  }
+}
 
-module.exports = class SearchView extends RootView
-  template: template
-  className: 'search-view'
+module.exports = (SearchView = (function() {
+  SearchView = class SearchView extends RootView {
+    static initClass() {
+      this.prototype.template = template;
+      this.prototype.className = 'search-view';
+  
+      // to overwrite in subclasses
+      this.prototype.modelLabel = ''; // 'Article'
+      this.prototype.model = null; // Article
+      this.prototype.modelURL = null; // '/db/article'
+      this.prototype.tableTemplate = null; // require 'templates/editor/article/table'
+      this.prototype.projected = null; // ['name', 'description', 'version'] or null for default
+      this.prototype.canMakeNew = true;
+      this.prototype.archived = true; // Include archived game elements
+      this.prototype.limit = 100;
+  
+      this.prototype.events = {
+        'change input#search': 'runSearch',
+        'keydown input#search': 'runSearch',
+        'click #new-model-button': 'newModel',
+        'hidden.bs.modal #new-model-modal': 'onModalHidden',
+        'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
+      };
+    }
 
-  # to overwrite in subclasses
-  modelLabel: '' # 'Article'
-  model: null # Article
-  modelURL: null # '/db/article'
-  tableTemplate: null # require 'templates/editor/article/table'
-  projected: null # ['name', 'description', 'version'] or null for default
-  canMakeNew: true
-  archived: true # Include archived game elements
-  limit: 100
+    constructor(options) {
+      this.runSearch = this.runSearch.bind(this);
+      this.runSearch = _.debounce(this.runSearch, 500);
+      super(options);
+    }
 
-  events:
-    'change input#search': 'runSearch'
-    'keydown input#search': 'runSearch'
-    'click #new-model-button': 'newModel'
-    'hidden.bs.modal #new-model-modal': 'onModalHidden'
-    'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
+    afterRender() {
+      super.afterRender();
+      const hash = document.location.hash.slice(1);
+      const searchInput = this.$el.find('#search');
+      if (hash != null) { searchInput.val(hash); }
+      if (this.collection != null) {
+        delete this.collection.term;
+      }
+      searchInput.trigger('change');
+      return searchInput.focus();
+    }
 
-  constructor: (options) ->
-    @runSearch = _.debounce(@runSearch, 500)
-    super options
+    runSearch() {
+      if (this.destroyed) { return; }
+      const term = this.$el.find('input#search').val();
+      if (this.sameSearch(term)) { return; }
+      this.removeOldSearch();
 
-  afterRender: ->
-    super()
-    hash = document.location.hash[1..]
-    searchInput = @$el.find('#search')
-    searchInput.val(hash) if hash?
-    delete @collection?.term
-    searchInput.trigger('change')
-    searchInput.focus()
+      this.collection = new SearchCollection(this.modelURL, this.model, term, this.projection, this.limit);
+      this.collection.term = term; // needed?
+      if (!this.archived) {
+        this.collection.url += '&archived=false';
+      }
+      this.listenTo(this.collection, 'sync', this.onSearchChange);
+      this.showLoading(this.$el.find('.results'));
 
-  runSearch: =>
-    return if @destroyed
-    term = @$el.find('input#search').val()
-    return if @sameSearch(term)
-    @removeOldSearch()
+      this.updateHash(term);
+      return this.collection.fetch();
+    }
 
-    @collection = new SearchCollection(@modelURL, @model, term, @projection, @limit)
-    @collection.term = term # needed?
-    if not @archived
-      @collection.url += '&archived=false'
-    @listenTo(@collection, 'sync', @onSearchChange)
-    @showLoading(@$el.find('.results'))
+    updateHash(term) {
+      const newPath = document.location.pathname + (term ? '#' + term : '');
+      const currentPath = document.location.pathname + document.location.hash;
+      if (newPath !== currentPath) { return application.router.navigate(newPath); }
+    }
 
-    @updateHash(term)
-    @collection.fetch()
+    sameSearch(term) {
+      if (!this.collection) { return false; }
+      return term === this.collection.term;
+    }
 
-  updateHash: (term) ->
-    newPath = document.location.pathname + (if term then '#' + term else '')
-    currentPath = document.location.pathname + document.location.hash
-    application.router.navigate(newPath) if newPath isnt currentPath
+    onSearchChange() {
+      this.hideLoading();
+      this.collection.sort();
+      const documents = this.collection.models;
+      const table = $(this.tableTemplate({documents, me, page: this.page, moment, view: this}));
+      this.$el.find('table').replaceWith(table);
+      this.$el.find('table').i18n();
+      return this.applyRTLIfNeeded();
+    }
 
-  sameSearch: (term) ->
-    return false unless @collection
-    return term is @collection.term
+    removeOldSearch() {
+      if (this.collection == null) { return; }
+      this.collection.off();
+      return this.collection = null;
+    }
 
-  onSearchChange: ->
-    @hideLoading()
-    @collection.sort()
-    documents = @collection.models
-    table = $(@tableTemplate(documents: documents, me: me, page: @page, moment: moment, view: @))
-    @$el.find('table').replaceWith(table)
-    @$el.find('table').i18n()
-    @applyRTLIfNeeded()
+    onNewModelSaved(model) {
+      this.model = model;
+      const base = document.location.pathname.slice(1) + '/';
+      return application.router.navigate(base + (this.model.get('slug') || this.model.id), {trigger: true});
+    }
 
-  removeOldSearch: ->
-    return unless @collection?
-    @collection.off()
-    @collection = null
+    newModel(e) {
+      const modal = new NewModelModal({model: this.model, modelLabel: this.modelLabel});
+      modal.once('model-created', this.onNewModelSaved);
+      return this.openModalView(modal);
+    }
 
-  onNewModelSaved: (@model) ->
-    base = document.location.pathname[1..] + '/'
-    application.router.navigate(base + (@model.get('slug') or @model.id), {trigger: true})
+    openCreateAccountModal(e) {
+      e.stopPropagation();
+      return this.openModalView(new CreateAccountModal());
+    }
+  };
+  SearchView.initClass();
+  return SearchView;
+})());
 
-  newModel: (e) ->
-    modal = new NewModelModal model: @model, modelLabel: @modelLabel
-    modal.once 'model-created', @onNewModelSaved
-    @openModalView modal
-
-  openCreateAccountModal: (e) ->
-    e.stopPropagation()
-    @openModalView new CreateAccountModal()
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

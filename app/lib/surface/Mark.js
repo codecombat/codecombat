@@ -1,360 +1,440 @@
-CocoClass = require 'core/CocoClass'
-Camera = require './Camera'
-ThangType = require 'models/ThangType'
-markThangTypes = {}
-createjs = require 'lib/createjs-parts'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let Mark;
+const CocoClass = require('core/CocoClass');
+const Camera = require('./Camera');
+const ThangType = require('models/ThangType');
+const markThangTypes = {};
+const createjs = require('lib/createjs-parts');
 
-module.exports = class Mark extends CocoClass
-  subscriptions: {}
-  alpha: 1
+module.exports = (Mark = (function() {
+  Mark = class Mark extends CocoClass {
+    static initClass() {
+      this.prototype.subscriptions = {};
+      this.prototype.alpha = 1;
+    }
 
-  constructor: (options) ->
-    super()
-    options ?= {}
-    @name = options.name
-    @lank = options.lank
-    @camera = options.camera
-    @layer = options.layer
-    @thangType = options.thangType
-    @listenTo @layer, 'new-spritesheet', @onLayerMadeSpriteSheet
-    console.error @toString(), 'needs a name.' unless @name
-    console.error @toString(), 'needs a camera.' unless @camera
-    console.error @toString(), 'needs a layer.' unless @layer
-    @build()
+    constructor(options) {
+      super();
+      if (options == null) { options = {}; }
+      this.name = options.name;
+      this.lank = options.lank;
+      this.camera = options.camera;
+      this.layer = options.layer;
+      this.thangType = options.thangType;
+      this.listenTo(this.layer, 'new-spritesheet', this.onLayerMadeSpriteSheet);
+      if (!this.name) { console.error(this.toString(), 'needs a name.'); }
+      if (!this.camera) { console.error(this.toString(), 'needs a camera.'); }
+      if (!this.layer) { console.error(this.toString(), 'needs a layer.'); }
+      this.build();
+    }
 
-  destroy: ->
-    createjs.Tween.removeTweens @sprite if @sprite
-    @sprite?.parent?.removeChild @sprite
-    if @markLank
-      @layer.removeLank(@markLank)
-      @markLank.destroy()
-    @lank = null
-    super()
+    destroy() {
+      if (this.sprite) { createjs.Tween.removeTweens(this.sprite); }
+      __guard__(this.sprite != null ? this.sprite.parent : undefined, x => x.removeChild(this.sprite));
+      if (this.markLank) {
+        this.layer.removeLank(this.markLank);
+        this.markLank.destroy();
+      }
+      this.lank = null;
+      return super.destroy();
+    }
 
-  toString: -> "<Mark #{@name}: Sprite #{@lank?.thang?.id ? 'None'}>"
+    toString() { return `<Mark ${this.name}: Sprite ${__guard__(this.lank != null ? this.lank.thang : undefined, x => x.id) != null ? __guard__(this.lank != null ? this.lank.thang : undefined, x => x.id) : 'None'}>`; }
 
-  onLayerMadeSpriteSheet: ->
-    return unless @sprite
-    return @update() if @markLank
-    # rebuild sprite for new sprite sheet
-    @layer.removeChild @sprite
-    @sprite = null
-    @build()
-    @layer.addChild @sprite
-    @layer.updateLayerOrder()
-#    @updatePosition()
-    @update()
+    onLayerMadeSpriteSheet() {
+      if (!this.sprite) { return; }
+      if (this.markLank) { return this.update(); }
+      // rebuild sprite for new sprite sheet
+      this.layer.removeChild(this.sprite);
+      this.sprite = null;
+      this.build();
+      this.layer.addChild(this.sprite);
+      this.layer.updateLayerOrder();
+  //    @updatePosition()
+      return this.update();
+    }
 
-  toggle: (to) ->
-    to = !!to
-    return @ if to is @on
-    return @toggleTo = to unless @sprite
-    @on = to
-    delete @toggleTo
-    if @on
-      if @markLank
-        @layer.addLank(@markLank)
-      else
-        @layer.addChild @sprite
-        @layer.updateLayerOrder()
-    else
-      if @markLank
-        @layer.removeLank(@markLank)
-      else
-        @layer.removeChild @sprite
-      if @highlightTween
-        @highlightDelay = @highlightTween = null
-        createjs.Tween.removeTweens @sprite
-        @sprite.visible = true
-    @
+    toggle(to) {
+      to = !!to;
+      if (to === this.on) { return this; }
+      if (!this.sprite) { return this.toggleTo = to; }
+      this.on = to;
+      delete this.toggleTo;
+      if (this.on) {
+        if (this.markLank) {
+          this.layer.addLank(this.markLank);
+        } else {
+          this.layer.addChild(this.sprite);
+          this.layer.updateLayerOrder();
+        }
+      } else {
+        if (this.markLank) {
+          this.layer.removeLank(this.markLank);
+        } else {
+          this.layer.removeChild(this.sprite);
+        }
+        if (this.highlightTween) {
+          this.highlightDelay = (this.highlightTween = null);
+          createjs.Tween.removeTweens(this.sprite);
+          this.sprite.visible = true;
+        }
+      }
+      return this;
+    }
 
-  setLayer: (layer) ->
-    return if layer is @layer
-    wasOn = @on
-    @toggle false
-    @layer = layer
-    @toggle true if wasOn
+    setLayer(layer) {
+      if (layer === this.layer) { return; }
+      const wasOn = this.on;
+      this.toggle(false);
+      this.layer = layer;
+      if (wasOn) { return this.toggle(true); }
+    }
 
-  setLank: (lank) ->
-    return if lank is @lank
-    @lank = lank
-    @build()
-    @
+    setLank(lank) {
+      if (lank === this.lank) { return; }
+      this.lank = lank;
+      this.build();
+      return this;
+    }
 
-  build: ->
-    unless @sprite
-      if @name is 'bounds' then @buildBounds()
-      else if @name is 'shadow' then @buildShadow()
-      else if @name is 'debug' then @buildDebug()
-      else if @name.match(/.+(Range|Distance|Radius)$/) then @buildRadius(@name)
-      else if @thangType then @buildSprite()
-      else console.error 'Don\'t know how to build mark for', @name
-      @sprite?.mouseEnabled = false
-    @
+    build() {
+      if (!this.sprite) {
+        if (this.name === 'bounds') { this.buildBounds();
+        } else if (this.name === 'shadow') { this.buildShadow();
+        } else if (this.name === 'debug') { this.buildDebug();
+        } else if (this.name.match(/.+(Range|Distance|Radius)$/)) { this.buildRadius(this.name);
+        } else if (this.thangType) { this.buildSprite();
+        } else { console.error('Don\'t know how to build mark for', this.name); }
+        if (this.sprite != null) {
+          this.sprite.mouseEnabled = false;
+        }
+      }
+      return this;
+    }
 
-  buildBounds: ->
-    @sprite = new createjs.Container()
-    @sprite.mouseChildren = false
-    style = @lank.thang.drawsBoundsStyle
-    @drawsBoundsIndex = @lank.thang.drawsBoundsIndex
-    return if style is 'corner-text' and @lank.thang.world.age is 0
+    buildBounds() {
+      let text;
+      this.sprite = new createjs.Container();
+      this.sprite.mouseChildren = false;
+      const style = this.lank.thang.drawsBoundsStyle;
+      this.drawsBoundsIndex = this.lank.thang.drawsBoundsIndex;
+      if ((style === 'corner-text') && (this.lank.thang.world.age === 0)) { return; }
 
-    # Confusingly make some semi-random colors that'll be consistent based on the drawsBoundsIndex
-    colors = (128 + Math.floor(('0.'+Math.sin(3 * @drawsBoundsIndex + i).toString().substr(6)) * 128) for i in [1 ... 4])
-    color = "rgba(#{colors[0]}, #{colors[1]}, #{colors[2]}, 0.5)"
-    [w, h] = [@lank.thang.width * Camera.PPM, @lank.thang.height * Camera.PPM * @camera.y2x]
+      // Confusingly make some semi-random colors that'll be consistent based on the drawsBoundsIndex
+      const colors = ([1, 2, 3].map((i) => 128 + Math.floor(('0.'+Math.sin((3 * this.drawsBoundsIndex) + i).toString().substr(6)) * 128)));
+      const color = `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 0.5)`;
+      const [w, h] = Array.from([this.lank.thang.width * Camera.PPM, this.lank.thang.height * Camera.PPM * this.camera.y2x]);
 
-    if style in ['border-text', 'corner-text']
-      @drawsBoundsBorderShape = shape = new createjs.Shape()
-      shape.graphics.setStrokeStyle 5
-      shape.graphics.beginStroke color
-      if style is 'border-text'
-        shape.graphics.beginFill color.replace('0.5', '0.25')
-      else
-        shape.graphics.beginFill color
-      if @lank.thang.shape in ['ellipsoid', 'disc']
-        shape.drawEllipse 0, 0, w, h
-      else
-        shape.graphics.drawRect -w / 2, -h / 2, w, h
-      shape.graphics.endStroke()
-      shape.graphics.endFill()
-      @sprite.addChild shape
+      if (['border-text', 'corner-text'].includes(style)) {
+        let shape;
+        this.drawsBoundsBorderShape = (shape = new createjs.Shape());
+        shape.graphics.setStrokeStyle(5);
+        shape.graphics.beginStroke(color);
+        if (style === 'border-text') {
+          shape.graphics.beginFill(color.replace('0.5', '0.25'));
+        } else {
+          shape.graphics.beginFill(color);
+        }
+        if (['ellipsoid', 'disc'].includes(this.lank.thang.shape)) {
+          shape.drawEllipse(0, 0, w, h);
+        } else {
+          shape.graphics.drawRect(-w / 2, -h / 2, w, h);
+        }
+        shape.graphics.endStroke();
+        shape.graphics.endFill();
+        this.sprite.addChild(shape);
+      }
 
-    if style is 'border-text'
-      text = new createjs.Text '' + @drawsBoundsIndex, '20px Arial', color.replace('0.5', '1')
-      text.regX = text.getMeasuredWidth() / 2
-      text.regY = text.getMeasuredHeight() / 2
-      text.shadow = new createjs.Shadow('#000000', 1, 1, 0)
-      @sprite.addChild text
-    else if style is 'corner-text'
-      return if @lank.thang.world.age is 0
-      letter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[@drawsBoundsIndex % 26]
-      text = new createjs.Text letter, '14px Arial', '#333333'   # color.replace('0.5', '1')
-      text.x = -w / 2 + 2
-      text.y = -h / 2 + 2
-      @sprite.addChild text
-    else
-      console.warn @lank.thang.id, 'didn\'t know how to draw bounds style:', style
+      if (style === 'border-text') {
+        text = new createjs.Text('' + this.drawsBoundsIndex, '20px Arial', color.replace('0.5', '1'));
+        text.regX = text.getMeasuredWidth() / 2;
+        text.regY = text.getMeasuredHeight() / 2;
+        text.shadow = new createjs.Shadow('#000000', 1, 1, 0);
+        this.sprite.addChild(text);
+      } else if (style === 'corner-text') {
+        if (this.lank.thang.world.age === 0) { return; }
+        const letter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[this.drawsBoundsIndex % 26];
+        text = new createjs.Text(letter, '14px Arial', '#333333');   // color.replace('0.5', '1')
+        text.x = (-w / 2) + 2;
+        text.y = (-h / 2) + 2;
+        this.sprite.addChild(text);
+      } else {
+        console.warn(this.lank.thang.id, 'didn\'t know how to draw bounds style:', style);
+      }
 
-    if w > 0 and h > 0 and style is 'border-text'
-      @sprite.cache -w / 2, -h / 2, w, h, 2
-    @lastWidth = @lank.thang.width
-    @lastHeight = @lank.thang.height
+      if ((w > 0) && (h > 0) && (style === 'border-text')) {
+        this.sprite.cache(-w / 2, -h / 2, w, h, 2);
+      }
+      this.lastWidth = this.lank.thang.width;
+      return this.lastHeight = this.lank.thang.height;
+    }
 
-  buildShadow: ->
-    shapeName = if @lank.thang.shape in ['ellipsoid', 'disc'] then 'ellipse' else 'rect'
-    key = "#{shapeName}-shadow"
-    SHADOW_SIZE = 10
-    unless key in @layer.spriteSheet.animations
-      shape = new createjs.Shape()
-      shape.graphics.beginFill "rgba(0,0,0)"
-      bounds = [-SHADOW_SIZE/2, - SHADOW_SIZE/2, SHADOW_SIZE, SHADOW_SIZE]
-      if shapeName is 'ellipse'
-        shape.graphics.drawEllipse bounds...
-      else
-        shape.graphics.drawRect bounds...
-      shape.graphics.endFill()
-      @layer.addCustomGraphic(key, shape, bounds)
-    alpha = @lank.thang?.alpha ? 1
-    width = (@lank.thang?.width ? 0) + 0.5
-    height = (@lank.thang?.height ? 0) + 0.5
-    longest = Math.max width, height
-    actualLongest = @lank.thangType.get('shadow') ? longest
-    width = width * actualLongest / longest
-    height = height * actualLongest / longest
-    width *= Camera.PPM
-    height *= Camera.PPM * @camera.y2x  # TODO: doesn't work with rotation
-    @sprite = new createjs.Sprite(@layer.spriteSheet)
-    @sprite.gotoAndStop(key)
-    @sprite.mouseEnabled = false
-    @sprite.alpha = alpha
-    @baseScaleX = @sprite.scaleX = width / (@layer.resolutionFactor * SHADOW_SIZE)
-    @baseScaleY = @sprite.scaleY = height / (@layer.resolutionFactor * SHADOW_SIZE)
+    buildShadow() {
+      let left;
+      const shapeName = ['ellipsoid', 'disc'].includes(this.lank.thang.shape) ? 'ellipse' : 'rect';
+      const key = `${shapeName}-shadow`;
+      const SHADOW_SIZE = 10;
+      if (!Array.from(this.layer.spriteSheet.animations).includes(key)) {
+        const shape = new createjs.Shape();
+        shape.graphics.beginFill("rgba(0,0,0)");
+        const bounds = [-SHADOW_SIZE/2, - SHADOW_SIZE/2, SHADOW_SIZE, SHADOW_SIZE];
+        if (shapeName === 'ellipse') {
+          shape.graphics.drawEllipse(...Array.from(bounds || []));
+        } else {
+          shape.graphics.drawRect(...Array.from(bounds || []));
+        }
+        shape.graphics.endFill();
+        this.layer.addCustomGraphic(key, shape, bounds);
+      }
+      const alpha = (this.lank.thang != null ? this.lank.thang.alpha : undefined) != null ? (this.lank.thang != null ? this.lank.thang.alpha : undefined) : 1;
+      let width = ((this.lank.thang != null ? this.lank.thang.width : undefined) != null ? (this.lank.thang != null ? this.lank.thang.width : undefined) : 0) + 0.5;
+      let height = ((this.lank.thang != null ? this.lank.thang.height : undefined) != null ? (this.lank.thang != null ? this.lank.thang.height : undefined) : 0) + 0.5;
+      const longest = Math.max(width, height);
+      const actualLongest = (left = this.lank.thangType.get('shadow')) != null ? left : longest;
+      width = (width * actualLongest) / longest;
+      height = (height * actualLongest) / longest;
+      width *= Camera.PPM;
+      height *= Camera.PPM * this.camera.y2x;  // TODO: doesn't work with rotation
+      this.sprite = new createjs.Sprite(this.layer.spriteSheet);
+      this.sprite.gotoAndStop(key);
+      this.sprite.mouseEnabled = false;
+      this.sprite.alpha = alpha;
+      this.baseScaleX = (this.sprite.scaleX = width / (this.layer.resolutionFactor * SHADOW_SIZE));
+      return this.baseScaleY = (this.sprite.scaleY = height / (this.layer.resolutionFactor * SHADOW_SIZE));
+    }
 
-  buildRadius: (range) ->
-    alpha = 0.15
-    colors =
-      voiceRange: "rgba(0,145,0,#{alpha})"
-      visualRange: "rgba(0,0,145,#{alpha})"
-      attackRange: "rgba(145,0,0,#{alpha})"
+    buildRadius(range) {
+      const alpha = 0.15;
+      const colors = {
+        voiceRange: `rgba(0,145,0,${alpha})`,
+        visualRange: `rgba(0,0,145,${alpha})`,
+        attackRange: `rgba(145,0,0,${alpha})`
+      };
 
-    # Fallback colors which work on both dungeon and grass tiles
-    extraColors = [
-      "rgba(145,0,145,#{alpha})"
-      "rgba(0,145,145,#{alpha})"
-      "rgba(145,105,0,#{alpha})"
-      "rgba(225,125,0,#{alpha})"
-    ]
+      // Fallback colors which work on both dungeon and grass tiles
+      const extraColors = [
+        `rgba(145,0,145,${alpha})`,
+        `rgba(0,145,145,${alpha})`,
+        `rgba(145,105,0,${alpha})`,
+        `rgba(225,125,0,${alpha})`
+      ];
 
-    # Find the index of this range, to find the next-smallest radius
-    rangeNames = @lank.ranges.map((range, index) ->
-      range['name']
-    )
-    i = rangeNames.indexOf(range)
+      // Find the index of this range, to find the next-smallest radius
+      const rangeNames = this.lank.ranges.map((range, index) => range['name']);
+      const i = rangeNames.indexOf(range);
 
-    @sprite = new createjs.Shape()
+      this.sprite = new createjs.Shape();
 
-    fillColor = colors[range] ? extraColors[i]
-    @sprite.graphics.beginFill fillColor
+      const fillColor = colors[range] != null ? colors[range] : extraColors[i];
+      this.sprite.graphics.beginFill(fillColor);
 
-    # Draw the outer circle
-    @sprite.graphics.drawCircle 0, 0, @lank.thang[range] * Camera.PPM
+      // Draw the outer circle
+      this.sprite.graphics.drawCircle(0, 0, this.lank.thang[range] * Camera.PPM);
 
-    # Cut out the hollow part if necessary
-    if i+1 < @lank.ranges.length
-      @sprite.graphics.arc 0, 0, @lank.ranges[i+1]['radius'], Math.PI*2, 0, true
+      // Cut out the hollow part if necessary
+      if ((i+1) < this.lank.ranges.length) {
+        this.sprite.graphics.arc(0, 0, this.lank.ranges[i+1]['radius'], Math.PI*2, 0, true);
+      }
 
-    @sprite.graphics.endFill()
+      this.sprite.graphics.endFill();
 
-    strokeColor = fillColor.replace '' + alpha, '0.75'
-    @sprite.graphics.setStrokeStyle 2
-    @sprite.graphics.beginStroke strokeColor
-    @sprite.graphics.arc 0, 0, @lank.thang[range] * Camera.PPM, Math.PI*2, 0, true
-    @sprite.graphics.endStroke()
+      const strokeColor = fillColor.replace('' + alpha, '0.75');
+      this.sprite.graphics.setStrokeStyle(2);
+      this.sprite.graphics.beginStroke(strokeColor);
+      this.sprite.graphics.arc(0, 0, this.lank.thang[range] * Camera.PPM, Math.PI*2, 0, true);
+      this.sprite.graphics.endStroke();
 
-    # Add perspective
-    @sprite.scaleY *= @camera.y2x
+      // Add perspective
+      return this.sprite.scaleY *= this.camera.y2x;
+    }
 
-  buildDebug: ->
-    shapeName = if @lank.thang.shape in ['ellipsoid', 'disc'] then 'ellipse' else 'rect'
-    key = "#{shapeName}-debug-#{@lank.thang.collisionCategory}"
-    DEBUG_SIZE = 10
-    unless key in @layer.spriteSheet.animations
-      shape = new createjs.Shape()
-      debugColor = {
-        none: 'rgba(224,255,239,0.25)'
-        ground: 'rgba(239,171,205,0.5)'
-        air: 'rgba(131,205,255,0.5)'
-        ground_and_air: 'rgba(2391,140,239,0.5)'
-        obstacles: 'rgba(88,88,88,0.5)'
-        dead: 'rgba(89,171,100,0.25)'
-      }[@lank.thang.collisionCategory] or 'rgba(171,205,239,0.5)'
-      shape.graphics.beginFill debugColor
-      bounds = [-DEBUG_SIZE / 2, -DEBUG_SIZE / 2, DEBUG_SIZE, DEBUG_SIZE]
-      if shapeName is 'ellipse'
-        shape.graphics.drawEllipse bounds...
-      else
-        shape.graphics.drawRect bounds...
-      shape.graphics.endFill()
-      @layer.addCustomGraphic(key, shape, bounds)
+    buildDebug() {
+      const shapeName = ['ellipsoid', 'disc'].includes(this.lank.thang.shape) ? 'ellipse' : 'rect';
+      const key = `${shapeName}-debug-${this.lank.thang.collisionCategory}`;
+      const DEBUG_SIZE = 10;
+      if (!Array.from(this.layer.spriteSheet.animations).includes(key)) {
+        const shape = new createjs.Shape();
+        const debugColor = {
+          none: 'rgba(224,255,239,0.25)',
+          ground: 'rgba(239,171,205,0.5)',
+          air: 'rgba(131,205,255,0.5)',
+          ground_and_air: 'rgba(2391,140,239,0.5)',
+          obstacles: 'rgba(88,88,88,0.5)',
+          dead: 'rgba(89,171,100,0.25)'
+        }[this.lank.thang.collisionCategory] || 'rgba(171,205,239,0.5)';
+        shape.graphics.beginFill(debugColor);
+        const bounds = [-DEBUG_SIZE / 2, -DEBUG_SIZE / 2, DEBUG_SIZE, DEBUG_SIZE];
+        if (shapeName === 'ellipse') {
+          shape.graphics.drawEllipse(...Array.from(bounds || []));
+        } else {
+          shape.graphics.drawRect(...Array.from(bounds || []));
+        }
+        shape.graphics.endFill();
+        this.layer.addCustomGraphic(key, shape, bounds);
+      }
 
-    @sprite = new createjs.Sprite(@layer.spriteSheet)
-    @sprite.gotoAndStop(key)
-    PX = 3
-    w = Math.max(PX, @lank.thang.width  * Camera.PPM) * (@camera.y2x + (1 - @camera.y2x) * Math.abs Math.cos @lank.thang.rotation)
-    h = Math.max(PX, @lank.thang.height * Camera.PPM) * (@camera.y2x + (1 - @camera.y2x) * Math.abs Math.sin @lank.thang.rotation)
-    @sprite.scaleX = w / (@layer.resolutionFactor * DEBUG_SIZE)
-    @sprite.scaleY = h / (@layer.resolutionFactor * DEBUG_SIZE)
-    @sprite.rotation = -@lank.thang.rotation * 180 / Math.PI
+      this.sprite = new createjs.Sprite(this.layer.spriteSheet);
+      this.sprite.gotoAndStop(key);
+      const PX = 3;
+      const w = Math.max(PX, this.lank.thang.width  * Camera.PPM) * (this.camera.y2x + ((1 - this.camera.y2x) * Math.abs(Math.cos(this.lank.thang.rotation))));
+      const h = Math.max(PX, this.lank.thang.height * Camera.PPM) * (this.camera.y2x + ((1 - this.camera.y2x) * Math.abs(Math.sin(this.lank.thang.rotation))));
+      this.sprite.scaleX = w / (this.layer.resolutionFactor * DEBUG_SIZE);
+      this.sprite.scaleY = h / (this.layer.resolutionFactor * DEBUG_SIZE);
+      return this.sprite.rotation = (-this.lank.thang.rotation * 180) / Math.PI;
+    }
 
-  buildSprite: ->
-    if _.isString @thangType
-      thangType = markThangTypes[@thangType]
-      return @loadThangType() if not thangType
-      @thangType = thangType
+    buildSprite() {
+      let thangType;
+      if (_.isString(this.thangType)) {
+        thangType = markThangTypes[this.thangType];
+        if (!thangType) { return this.loadThangType(); }
+        this.thangType = thangType;
+      }
 
-    return @listenToOnce(@thangType, 'sync', @onLoadedThangType) if not @thangType.loaded
-    Lank = require './Lank'
-    # don't bother with making these render async for now, but maybe later for fun and more complexity of code
-    markLank = new Lank @thangType
-    markLank.queueAction 'idle'
-    @sprite = markLank.sprite
-    @markLank = markLank
-    @listenTo @markLank, 'new-sprite', (@sprite) ->
+      if (!this.thangType.loaded) { return this.listenToOnce(this.thangType, 'sync', this.onLoadedThangType); }
+      const Lank = require('./Lank');
+      // don't bother with making these render async for now, but maybe later for fun and more complexity of code
+      const markLank = new Lank(this.thangType);
+      markLank.queueAction('idle');
+      this.sprite = markLank.sprite;
+      this.markLank = markLank;
+      return this.listenTo(this.markLank, 'new-sprite', function(sprite) {
+        this.sprite = sprite;
+        
+    });
+    }
 
-  loadThangType: ->
-    name = @thangType
-    @thangType = new ThangType()
-    @thangType.url = -> "/db/thang.type/#{name}"
-    @listenToOnce(@thangType, 'sync', @onLoadedThangType)
-    @thangType.fetch()
-    markThangTypes[name] = @thangType
+    loadThangType() {
+      const name = this.thangType;
+      this.thangType = new ThangType();
+      this.thangType.url = () => `/db/thang.type/${name}`;
+      this.listenToOnce(this.thangType, 'sync', this.onLoadedThangType);
+      this.thangType.fetch();
+      return markThangTypes[name] = this.thangType;
+    }
 
-  onLoadedThangType: ->
-    @build()
-    @update() if @markLank
-    @toggle(@toggleTo) if @toggleTo?
-    Backbone.Mediator.publish 'sprite:loaded', {sprite: @}
+    onLoadedThangType() {
+      this.build();
+      if (this.markLank) { this.update(); }
+      if (this.toggleTo != null) { this.toggle(this.toggleTo); }
+      return Backbone.Mediator.publish('sprite:loaded', {sprite: this});
+    }
 
-  update: (pos=null) ->
-    return false unless @on and @sprite
-    return false if @lank? and not @lank.thangType.isFullyLoaded()
-    @sprite.visible = not @hidden
-    @updatePosition pos
-    @updateRotation()
-    @updateScale()
-    if @name is 'highlight' and @highlightDelay and not @highlightTween
-      @sprite.visible = false
-      @highlightTween = createjs.Tween.get(@sprite).to({}, @highlightDelay).call =>
-        return if @destroyed
-        @sprite.visible = true
-        @highlightDelay = @highlightTween = null
-    @updateAlpha @alpha if @name in ['shadow', 'bounds']
-    true
+    update(pos=null) {
+      if (!this.on || !this.sprite) { return false; }
+      if ((this.lank != null) && !this.lank.thangType.isFullyLoaded()) { return false; }
+      this.sprite.visible = !this.hidden;
+      this.updatePosition(pos);
+      this.updateRotation();
+      this.updateScale();
+      if ((this.name === 'highlight') && this.highlightDelay && !this.highlightTween) {
+        this.sprite.visible = false;
+        this.highlightTween = createjs.Tween.get(this.sprite).to({}, this.highlightDelay).call(() => {
+          if (this.destroyed) { return; }
+          this.sprite.visible = true;
+          return this.highlightDelay = (this.highlightTween = null);
+        });
+      }
+      if (['shadow', 'bounds'].includes(this.name)) { this.updateAlpha(this.alpha); }
+      return true;
+    }
 
-  updatePosition: (pos) ->
-    if @lank?.thang and @name in ['shadow', 'debug', 'target', 'selection', 'repair']
-      pos = @camera.worldToSurface x: @lank.thang.pos.x, y: @lank.thang.pos.y
-    else
-      pos ?= @lank?.sprite
-    return unless pos
-    @sprite.x = pos.x
-    @sprite.y = pos.y
-    if @statusEffect or @name is 'highlight'
-      offset = @lank.getOffset 'aboveHead'
-      @sprite.x += offset.x
-      @sprite.y += offset.y
-      @sprite.y -= 3 if @statusEffect
+    updatePosition(pos) {
+      if ((this.lank != null ? this.lank.thang : undefined) && ['shadow', 'debug', 'target', 'selection', 'repair'].includes(this.name)) {
+        pos = this.camera.worldToSurface({x: this.lank.thang.pos.x, y: this.lank.thang.pos.y});
+      } else {
+        if (pos == null) { pos = this.lank != null ? this.lank.sprite : undefined; }
+      }
+      if (!pos) { return; }
+      this.sprite.x = pos.x;
+      this.sprite.y = pos.y;
+      if (this.statusEffect || (this.name === 'highlight')) {
+        const offset = this.lank.getOffset('aboveHead');
+        this.sprite.x += offset.x;
+        this.sprite.y += offset.y;
+        if (this.statusEffect) { return this.sprite.y -= 3; }
+      }
+    }
 
-  updateAlpha: (@alpha) ->
-    return if not @sprite or @name is 'debug'
-    if @name is 'shadow'
-      worldZ = @lank.thang.pos.z - @lank.thang.depth / 2 + @lank.getBobOffset()
-      @sprite.alpha = @alpha * 0.451 / Math.sqrt(worldZ / 2 + 1)
-    else if @name is 'bounds'
-      @drawsBoundsBorderShape?.alpha = Math.floor @lank.thang.alpha  # Stop drawing bounds as soon as alpha is reduced at all
-    else
-      @sprite.alpha = @alpha
+    updateAlpha(alpha) {
+      this.alpha = alpha;
+      if (!this.sprite || (this.name === 'debug')) { return; }
+      if (this.name === 'shadow') {
+        const worldZ = (this.lank.thang.pos.z - (this.lank.thang.depth / 2)) + this.lank.getBobOffset();
+        return this.sprite.alpha = (this.alpha * 0.451) / Math.sqrt((worldZ / 2) + 1);
+      } else if (this.name === 'bounds') {
+        return (this.drawsBoundsBorderShape != null ? this.drawsBoundsBorderShape.alpha = Math.floor(this.lank.thang.alpha) : undefined);  // Stop drawing bounds as soon as alpha is reduced at all
+      } else {
+        return this.sprite.alpha = this.alpha;
+      }
+    }
 
-  updateRotation: ->
-    if @name is 'debug' or (@name is 'shadow' and @lank.thang?.shape in ['rectangle', 'box'])
-      @sprite.rotation = -@lank.thang.rotation * 180 / Math.PI
+    updateRotation() {
+      if ((this.name === 'debug') || ((this.name === 'shadow') && ['rectangle', 'box'].includes(this.lank.thang != null ? this.lank.thang.shape : undefined))) {
+        return this.sprite.rotation = (-this.lank.thang.rotation * 180) / Math.PI;
+      }
+    }
 
-  updateScale: ->
-    if @name is 'bounds' and ((@lank.thang.width isnt @lastWidth or @lank.thang.height isnt @lastHeight) or (@lank.thang.drawsBoundsIndex isnt @drawsBoundsIndex))
-      oldMark = @sprite
-      @buildBounds()
-      oldMark.parent.addChild @sprite
-      oldMark.parent.swapChildren oldMark, @sprite
-      oldMark.parent.removeChild oldMark
+    updateScale() {
+      let thang;
+      if ((this.name === 'bounds') && (((this.lank.thang.width !== this.lastWidth) || (this.lank.thang.height !== this.lastHeight)) || (this.lank.thang.drawsBoundsIndex !== this.drawsBoundsIndex))) {
+        const oldMark = this.sprite;
+        this.buildBounds();
+        oldMark.parent.addChild(this.sprite);
+        oldMark.parent.swapChildren(oldMark, this.sprite);
+        oldMark.parent.removeChild(oldMark);
+      }
 
-    if @markLank?
-      @markLank.scaleFactor = 1.2
-      @markLank.updateScale()
+      if (this.markLank != null) {
+        this.markLank.scaleFactor = 1.2;
+        this.markLank.updateScale();
+      }
 
-    if @name is 'shadow' and thang = @lank.thang
-      @sprite.scaleX = @baseScaleX * (thang.scaleFactor ? thang.scaleFactorX ? 1)
-      @sprite.scaleY = @baseScaleY * (thang.scaleFactor ? thang.scaleFactorY ? 1)
+      if ((this.name === 'shadow') && (thang = this.lank.thang)) {
+        let left, left1;
+        this.sprite.scaleX = this.baseScaleX * ((left = thang.scaleFactor != null ? thang.scaleFactor : thang.scaleFactorX) != null ? left : 1);
+        this.sprite.scaleY = this.baseScaleY * ((left1 = thang.scaleFactor != null ? thang.scaleFactor : thang.scaleFactorY) != null ? left1 : 1);
+      }
 
-    return unless @name in ['selection', 'target', 'repair', 'highlight']
+      if (!['selection', 'target', 'repair', 'highlight'].includes(this.name)) { return; }
 
-    # scale these marks to 10m (100px). Adjust based on lank size.
-    factor = 0.3 # default size: 3m width, most commonly for target when pointing to a location
+      // scale these marks to 10m (100px). Adjust based on lank size.
+      let factor = 0.3; // default size: 3m width, most commonly for target when pointing to a location
 
-    if @lank?.sprite
-      width = @lank.sprite.getBounds()?.width or 0
-      width /= @lank.options.resolutionFactor
-      # all targets should be set to have a width of 100px, and then be scaled accordingly
-      factor = width / 100 # normalize
-      factor *= 1.1 # add margin
-      factor = Math.max(factor, 0.3) # lower bound
-    @sprite.scaleX *= factor
-    @sprite.scaleY *= factor
+      if (this.lank != null ? this.lank.sprite : undefined) {
+        let width = __guard__(this.lank.sprite.getBounds(), x => x.width) || 0;
+        width /= this.lank.options.resolutionFactor;
+        // all targets should be set to have a width of 100px, and then be scaled accordingly
+        factor = width / 100; // normalize
+        factor *= 1.1; // add margin
+        factor = Math.max(factor, 0.3); // lower bound
+      }
+      this.sprite.scaleX *= factor;
+      this.sprite.scaleY *= factor;
 
-    if @name in ['selection', 'target', 'repair']
-      @sprite.scaleY *= @camera.y2x  # code applies perspective
+      if (['selection', 'target', 'repair'].includes(this.name)) {
+        return this.sprite.scaleY *= this.camera.y2x;  // code applies perspective
+      }
+    }
 
-  stop: -> @markLank?.stop()
-  play: -> @markLank?.play()
-  hide: -> @hidden = true
-  show: -> @hidden = false
+    stop() { return (this.markLank != null ? this.markLank.stop() : undefined); }
+    play() { return (this.markLank != null ? this.markLank.play() : undefined); }
+    hide() { return this.hidden = true; }
+    show() { return this.hidden = false; }
+  };
+  Mark.initClass();
+  return Mark;
+})());
+
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

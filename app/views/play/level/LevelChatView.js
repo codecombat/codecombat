@@ -1,445 +1,563 @@
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let LevelChatView
 require('app/styles/play/level/chat.sass')
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/play/level/chat'
-{me} = require 'core/auth'
-LevelBus = require 'lib/LevelBus'
-ChatMessage = require 'models/ChatMessage'
-utils = require 'core/utils'
-fetchJson = require 'core/api/fetch-json'
-co = require 'co'
-userCreditApi = require 'core/api/user-credits'
-SubscribeModal = require 'views/core/SubscribeModal'
-_ = require('lodash')
+const CocoView = require('views/core/CocoView')
+const template = require('app/templates/play/level/chat')
+const { me } = require('core/auth')
+const LevelBus = require('lib/LevelBus')
+const ChatMessage = require('models/ChatMessage')
+const utils = require('core/utils')
+const co = require('co')
+const userCreditApi = require('core/api/user-credits')
+const SubscribeModal = require('views/core/SubscribeModal')
+const _ = require('lodash')
 
-module.exports = class LevelChatView extends CocoView
-  id: 'level-chat-view'
-  template: template
-  open: false
-  visible: false
+module.exports = (LevelChatView = (function () {
+  LevelChatView = class LevelChatView extends CocoView {
+    static initClass () {
+      this.prototype.id = 'level-chat-view'
+      this.prototype.template = template
+      this.prototype.open = false
+      this.prototype.visible = false
 
-  events:
-    'keydown textarea': 'onChatKeydown'
-    'keypress textarea': 'onChatKeypress'
-    'click i': 'onIconClick'
-    'click .fix-code-button': 'onFixCodeClick'
+      this.prototype.events = {
+        'keydown textarea': 'onChatKeydown',
+        'keypress textarea': 'onChatKeypress',
+        'click i': 'onIconClick',
+        'click .fix-code-button': 'onFixCodeClick'
+      }
 
-  subscriptions:
-    'level:toggle-solution': 'onToggleSolution'
-    'level:close-solution': 'onCloseSolution'
-    'level:add-user-chat': 'onAddUserChat'
-    'tome:spell-changed': 'onSpellChanged'
+      this.prototype.subscriptions = {
+        'level:toggle-solution': 'onToggleSolution',
+        'level:close-solution': 'onCloseSolution',
+        'level:add-user-chat': 'onAddUserChat',
+        'tome:spell-changed': 'onSpellChanged'
+      }
+    }
 
-  constructor: (options) ->
-    @levelID = options.levelID
-    @session = options.session
-    @sessionID = options.sessionID
-    @bus = LevelBus.get(@levelID, @sessionID)
-    @aceConfig = options.aceConfig
-    super options
-    @onWindowResize = _.debounce @onWindowResize, 50
-    $(window).on 'resize', @onWindowResize
+    constructor (options) {
+      super(options)
+      this.clearOldMessages = this.clearOldMessages.bind(this)
+      this.onChatResponse = this.onChatResponse.bind(this)
+      this.onWindowResize = this.onWindowResize.bind(this)
+      this.levelID = options.levelID
+      this.session = options.session
+      this.sessionID = options.sessionID
+      this.bus = LevelBus.get(this.levelID, this.sessionID)
+      this.aceConfig = options.aceConfig
+      this.onWindowResize = _.debounce(this.onWindowResize, 50)
+      $(window).on('resize', this.onWindowResize)
 
-    ## TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
-    #@listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
-    #@visible = @aceConfig.levelChat isnt 'none'
-    @visible = false  # Only show once AI starts chatting; don't let players do free-form chat
+      // # TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
+      // @listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
+      // @visible = @aceConfig.levelChat isnt 'none'
+      this.visible = false // Only show once AI starts chatting; don't let players do free-form chat
 
-    @regularlyClearOldMessages()
-    @playNoise = _.debounce(@playNoise, 100)
-    @diffShown = false
+      this.regularlyClearOldMessages()
+      this.playNoise = _.debounce(this.playNoise, 100)
+      this.diffShown = false
+    }
 
-  updateMultiplayerVisibility: ->
-    return unless @$el?
-    try
-      @$el.toggle Boolean @session.get('multiplayer')
-    catch e
-      console.error "Couldn't toggle the style on the LevelChatView to #{Boolean @session.get('multiplayer')} because of an error:", e
+    updateMultiplayerVisibility () {
+      if (this.$el == null) { return }
+      try {
+        return this.$el.toggle(Boolean(this.session.get('multiplayer')))
+      } catch (e) {
+        return console.error(`Couldn't toggle the style on the LevelChatView to ${Boolean(this.session.get('multiplayer'))} because of an error:`, e)
+      }
+    }
 
-  afterRender: ->
-    @chatTables = $('.table', @$el)
-    #@updateMultiplayerVisibility()
-    @$el.toggle @visible
-    @onWindowResize {}
+    afterRender () {
+      this.chatTables = $('.table', this.$el)
+      // @updateMultiplayerVisibility()
+      this.$el.toggle(this.visible)
+      return this.onWindowResize({})
+    }
 
-  regularlyClearOldMessages: ->
-    return  # Leave chatbot messages around, actually
-    @clearOldMessagesInterval = setInterval(@clearOldMessages, 5000)
+    regularlyClearOldMessages () {
+      return // Leave chatbot messages around, actually
+      // return this.clearOldMessagesInterval = setInterval(this.clearOldMessages, 5000)
+    }
 
-  clearOldMessages: =>
-    rows = $('.closed-chat-area.tr')
-    for row in rows
-      row = $(row)
-      added = row.data('added')
-      if new Date().getTime() - added > 60 * 1000
-        row.fadeOut(1000, -> $(this).remove())
+    clearOldMessages () {
+      const rows = $('.closed-chat-area.tr')
+      return (() => {
+        const result = []
+        for (let row of rows) {
+          row = $(row)
+          const added = row.data('added')
+          if ((new Date().getTime() - added) > (60 * 1000)) {
+            result.push(row.fadeOut(1000, function () { return $(this).remove() }))
+          } else {
+            result.push(undefined)
+          }
+        }
+        return result
+      })()
+    }
 
-  onNewMessage: ({ message, messageId }) ->
-    @$el.show() unless message?.system
-    @addOne { message, messageId }
-    @trimClosedPanel()
-    @playNoise() if message.authorID isnt me.id
+    onNewMessage ({ message, messageId }) {
+      if (!message?.system) { this.$el.show() }
+      this.addOne({ message, messageId })
+      this.trimClosedPanel()
+      if (message.authorID !== me.id) { return this.playNoise() }
+    }
 
-  playNoise: ->
-    @playSound 'chat_received'
+    playNoise () {
+      return this.playSound('chat_received')
+    }
 
-  messageObjectToJQuery: ({ message, messageId, existingRow }) ->
-    td = $('<div class="td message-content"></div>')
-    content = message.content or message.text
+    messageObjectToJQuery ({ message, messageId, existingRow }) {
+      let buttonContent, postContent, tr
+      const td = $('<div class="td message-content"></div>')
+      let content = message.content || message.text
 
-    # Hide incomplete structured chat tags
-    content = content.replace /^\|$/gm, ''
-    content = content.replace /^\|Free\|?:? ?(.*?)$/gm, '$1'
-    content = content.replace /^\|Issue\|?:? ?(.*?)$/gm, '\n$1'
-    content = content.replace /^\|Explanation\|?:? ?(.*?)$/gm, '\n*$1*\n'
-    #content = content.replace /\|Code\|?:? ?`{0,3}\n?((.|\n)*?)`{0,3}\n?$/g, '```$1```'
-    content = content.replace /\|Code\|?:? ?\n?```.*?\n((.|\n)*?)```\n?/g, (match, p1) =>
-      @lastFixedCode = p1
-      '[Show Me]'
-    content = content.replace /\|Code\|?:? ?\n?`{0,3}.*?\n((.|\n)*?)`{0,3}\n?$/g, ( match, p1) ->
-      numberOfLines = (p1.match(/\n/g) || []).length + 1
-      if p1
-        Backbone.Mediator.publish 'level:update-solution', code: p1
-      '\n[Show Me]\n*Loading code fix' + '.'.repeat(numberOfLines) + '...*'
-    # Close any unclosed backticks delimiters so we get complete <code> tags
-    unclosedBackticks = (content.match(/`/g) || []).length
-    if unclosedBackticks % 2 != 0
-      content += '`'
+      // Hide incomplete structured chat tags
+      content = content.replace(/^\|$/gm, '')
+      content = content.replace(/^\|Free\|?:? ?(.*?)$/gm, '$1')
+      content = content.replace(/^\|Issue\|?:? ?(.*?)$/gm, '\n$1')
+      content = content.replace(/^\|Explanation\|?:? ?(.*?)$/gm, '\n*$1*\n')
+      // content = content.replace /\|Code\|?:? ?`{0,3}\n?((.|\n)*?)`{0,3}\n?$/g, '```$1```'
+      content = content.replace(/\|Code\|?:? ?\n?```.*?\n((.|\n)*?)```\n?/g, (match, p1) => {
+        this.lastFixedCode = p1
+        return '[Show Me]'
+      })
+      content = content.replace(/\|Code\|?:? ?\n?`{0,3}.*?\n((.|\n)*?)`{0,3}\n?$/g, function (match, p1) {
+        const numberOfLines = (p1.match(/\n/g) || []).length + 1
+        if (p1) {
+          Backbone.Mediator.publish('level:update-solution', { code: p1 })
+        }
+        return '\n[Show Me]\n*Loading code fix' + '.'.repeat(numberOfLines) + '...*'
+      })
+      // Close any unclosed backticks delimiters so we get complete <code> tags
+      const unclosedBackticks = (content.match(/`/g) || []).length
+      if ((unclosedBackticks % 2) !== 0) {
+        content += '`'
+      }
 
-    #content = _.string.escapeHTML(content.trim())  # hmm, what to do with escaping when we often need code?
-    content = content.trim()
-    content = marked content, gfm: true, breaks: true
-    # TODO: this probably doesn't work with the links and buttons we intend to have, gotta think about sanitization properly
+      // content = _.string.escapeHTML(content.trim())  # hmm, what to do with escaping when we often need code?
+      content = content.trim()
+      content = marked(content, { gfm: true, breaks: true })
+      // TODO: this probably doesn't work with the links and buttons we intend to have, gotta think about sanitization properly
 
-    content = content.replace(RegExp('  ', 'g'), '&nbsp; ') # coffeescript can't compile '/  /g'
+      content = content.replace(RegExp(' {2}', 'g'), '&nbsp; ') // coffeescript can't compile '/  /g'
 
-    # Replace any <p><code>...</code></p> with <pre><code>...</code></pre>
-    content = content.replace /<p><code>((.|\n)*?)(?:(?!<\/code>)(.|\n))*?<\/code><\/p>/g, (match) ->
-      match.replace(/<p><code>/g, '<pre><code>').replace(/<\/code><\/p>/g, '</code></pre>')
+      // Replace any <p><code>...</code></p> with <pre><code>...</code></pre>
+      content = content.replace(/<p><code>((.|\n)*?)(?:(?!<\/code>)(.|\n))*?<\/code><\/p>/g, match => match.replace(/<p><code>/g, '<pre><code>').replace(/<\/code><\/p>/g, '</code></pre>'))
 
-    if _.string.startsWith(content, '/me')
-      content = (message.authorName or message.sender?.name) + content.slice(3)
+      if (_.string.startsWith(content, '/me')) {
+        content = (message.authorName || message.sender?.name) + content.slice(3)
+      }
 
-    splitContent = content.split('\[Show Me\]')
-    preContent = splitContent[0]
-    if splitContent.length > 1
-      buttonContent = "<p><button class='btn btn-illustrated btn-small btn-primary fix-code-button'>#{$.i18n.t('play_level.chat_fix_' + if @diffShown then 'hide' else 'show')}</button></p>"
-      postContent = splitContent[1]
-    else
-      @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
-      buttonContent = ''
-      postContent = ''
+      const splitContent = content.split('\[Show Me\]')
+      const preContent = splitContent[0]
+      if (splitContent.length > 1) {
+        buttonContent = `<p><button class='btn btn-illustrated btn-small btn-primary fix-code-button'>${$.i18n.t('play_level.chat_fix_' + (this.diffShown ? 'hide' : 'show'))}</button></p>`
+        postContent = splitContent[1]
+      } else {
+        this.$el.find('.fix-code-button').parent().remove() // We only keep track of the latest one to fix, so get rid of old ones
+        buttonContent = ''
+        postContent = ''
+      }
 
-    # [show me] only appears on the ai message
-    if message.system
-      td.append($('<span class="system"></span>').html(preContent))
+      // [show me] only appears on the ai message
+      if (message.system) {
+        td.append($('<span class="system"></span>').html(preContent))
+      } else if (_.string.startsWith(content, '/me')) {
+        td.append($('<span class="action"></span>').html(preContent))
+      } else {
+        // td.append($('<strong></strong>').text((message.authorName or message.sender?.name) + ': '))
+        td.append($('<span class="pre-content"></span>').html(preContent))
+        td.append($('<span class="button-content"></span>').html(buttonContent))
+        td.append($('<span class="post-content"></span>').html(postContent))
+      }
 
-    else if _.string.startsWith(content, '/me')
-      td.append($('<span class="action"></span>').html(preContent))
+      if (existingRow?.length) {
+        tr = $(existingRow[0])
+        if ((splitContent.length > 1) && this.$el.find('.fix-code-button').length) { // if button should show, only replace the post content
+          tr.find('.post-content').replaceWith(td.find('.post-content'))
+        } else {
+          tr.find('.td.message-content').replaceWith(td)
+        }
+      } else {
+        let avatarTd
+        tr = $('<div class="tr message-row"></div>')
+        const mbody = $('<div class="message-body"></div>')
+        if ((message.authorID === me.id) || (message.sender?.id === me.id)) {
+          tr.addClass('me')
+          avatarTd = $(`<div class='td player-avatar-cell avatar-cell'><a href='/editor/chat/${messageId || ''}' target='_blank'><img class='avatar' src='/db/user/${me.id}/avatar?s=80' alt='Player'></a></div>`)
+        } else {
+          avatarTd = $(`<div class='td chatbot-avatar-cell avatar-cell'><a href='/editor/chat/${messageId || ''}' target='_blank'><img class='avatar' src='/images/level/baby-griffin.png' alt='AI'></a></div>`)
+        }
+        if (message.streaming) { tr.addClass('streaming') }
+        mbody.append(avatarTd)
+        mbody.append(td)
+        tr.append(mbody)
+      }
+      return tr
+    }
 
-    else
-      # td.append($('<strong></strong>').text((message.authorName or message.sender?.name) + ': '))
-      td.append($('<span class="pre-content"></span>').html(preContent))
-      td.append($('<span class="button-content"></span>').html(buttonContent))
-      td.append($('<span class="post-content"></span>').html(postContent))
+    addOne ({ message, messageId }) {
+      if (message.system && (message.authorID === me.id)) { return }
+      if (!this.open) {
+        this.onIconClick({})
+      }
+      const openPanel = $('.open-chat-area', this.$el)
+      const height = openPanel.outerHeight()
+      const distanceFromBottom = openPanel[0].scrollHeight - height - openPanel[0].scrollTop
+      const doScroll = distanceFromBottom < 10
+      const tr = this.messageObjectToJQuery({ message, messageId })
+      tr.data('added', new Date().getTime())
+      this.chatTables.append(tr)
+      if (doScroll) { return this.scrollDown() }
+    }
 
-    if existingRow?.length
-      tr = $(existingRow[0])
-      if splitContent.length > 1 and @$el.find('.fix-code-button').length # if button should show, only replace the post content
-        tr.find('.post-content').replaceWith(td.find('.post-content'))
-      else
-        tr.find('.td.message-content').replaceWith(td)
-    else
-      tr = $('<div class="tr message-row"></div>')
-      mbody = $('<div class="message-body"></div>')
-      if message.authorID is me.id or message.sender?.id is me.id
-        tr.addClass('me')
-        avatarTd = $("<div class='td player-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player'></a></div>")
-      else
-        avatarTd = $("<div class='td chatbot-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/images/level/baby-griffin.png' alt='AI'></a></div>")
-      tr.addClass 'streaming' if message.streaming
-      mbody.append(avatarTd)
-      mbody.append(td)
-      tr.append(mbody)
-    tr
+    trimClosedPanel () {
+      const closedPanel = $('.closed-chat-area', this.$el)
+      const limit = 10
+      const rows = $('.tr', closedPanel)
+      for (let i = 0; i < rows.length; i++) {
+        const row = rows[i]
+        if ((rows.length - i) <= limit) { break }
+        row.remove()
+      }
+      return this.scrollDown()
+    }
 
-  addOne: ({ message, messageId }) ->
-    return if message.system and message.authorID is me.id
-    if not @open
-      @onIconClick {}
-    openPanel = $('.open-chat-area', @$el)
-    height = openPanel.outerHeight()
-    distanceFromBottom = openPanel[0].scrollHeight - height - openPanel[0].scrollTop
-    doScroll = distanceFromBottom < 10
-    tr = @messageObjectToJQuery { message, messageId }
-    tr.data('added', new Date().getTime())
-    @chatTables.append(tr)
-    @scrollDown() if doScroll
+    onChatKeydown (e) {
+      return _.defer(function () {
+        $(e.target).css('height', 27)
+        return $(e.target).css('height', e.target.scrollHeight)
+      })
+    }
 
-  trimClosedPanel: ->
-    closedPanel = $('.closed-chat-area', @$el)
-    limit = 10
-    rows = $('.tr', closedPanel)
-    for row, i in rows
-      break if rows.length - i <= limit
-      row.remove()
-    @scrollDown()
+    onChatKeypress (e) {
+      if (!key.isPressed('enter') || !!key.shift) { return }
+      const text = _.string.strip($(e.target).val())
+      if (!text) { return false }
+      // @bus.sendMessage(text)  # TODO: bring back bus?
+      this.checkCreditsAndAddMessage(text)
+      $(e.target).val('')
+      return false
+    }
 
-  onChatKeydown: (e) ->
-    _.defer ->
-      $(e.target).css 'height', 27
-      $(e.target).css 'height', e.target.scrollHeight
+    onIconClick (e) {
+      this.open = !this.open
+      const openPanel = $('.open-chat-area', this.$el).toggle(this.open)
+      const closedPanel = $('.closed-chat-area', this.$el).toggle(!this.open)
+      this.scrollDown()
+      if (window.getSelection != null) {
+        const sel = window.getSelection()
+        sel.empty?.()
+        return sel.removeAllRanges?.()
+      } else {
+        return document.selection.empty()
+      }
+    }
 
-  onChatKeypress: (e) ->
-    return unless key.isPressed('enter') and not key.shift
-    text = _.string.strip($(e.target).val())
-    return false unless text
-    #@bus.sendMessage(text)  # TODO: bring back bus?
-    @checkCreditsAndAddMessage(text)
-    $(e.target).val('')
-    return false
+    onFixCodeClick (e) {
+      return Backbone.Mediator.publish('level:toggle-solution', { code: this.lastFixedCode != null ? this.lastFixedCode : '' })
+    }
 
-  onIconClick: (e) ->
-    @open = not @open
-    openPanel = $('.open-chat-area', @$el).toggle @open
-    closedPanel = $('.closed-chat-area', @$el).toggle not @open
-    @scrollDown()
-    if window.getSelection?
-      sel = window.getSelection()
-      sel.empty?()
-      sel.removeAllRanges?()
-    else
-      document.selection.empty()
+    onToggleSolution () {
+      const btn = this.$el.find('.fix-code-button')
+      const show = $.i18n.t('play_level.chat_fix_show')
+      const hide = $.i18n.t('play_level.chat_fix_hide')
+      this.diffShown = !this.diffShown
+      if (this.diffShown) {
+        return btn.html(hide)
+      } else {
+        return btn.html(show)
+      }
+    }
 
-  onFixCodeClick: (e) ->
-    Backbone.Mediator.publish 'level:toggle-solution', { code: @lastFixedCode ? '' }
+    onCloseSolution (e) {
+      this.diffShown = false
+      this.$el.find('.fix-code-button').html($.i18n.t('play_level.chat_fix_show'))
+      if (e.removeButton) { // when code is fixed, remove the button
+        return this.$el.find('.fix-code-button').parent().remove()
+      }
+    }
 
-  onToggleSolution: ->
-    btn = @$el.find('.fix-code-button')
-    show = $.i18n.t('play_level.chat_fix_show')
-    hide = $.i18n.t('play_level.chat_fix_hide')
-    @diffShown = !@diffShown
-    if @diffShown
-      btn.html hide
-    else
-      btn.html show
+    onAddUserChat (e) {
+      return this.checkCreditsAndAddMessage(e.message)
+    }
 
-  onCloseSolution: (e) ->
-    @diffShown = false
-    @$el.find('.fix-code-button').html $.i18n.t('play_level.chat_fix_show')
-    if e.removeButton # when code is fixed, remove the button
-      @$el.find('.fix-code-button').parent().remove()
+    checkCreditsAndAddMessage (message) {
+      const uuid = crypto.randomUUID() || Date.now()
+      return userCreditApi.redeemCredits({
+        operation: 'LEVEL_CHAT_BOT',
+        id: `${uuid}|${message.slice(0, 20)}`
+      })
+        .then(res => {
+          return this.saveChatMessage({ text: message })
+        })
+        .catch(err => {
+          console.log('user credit redemption error', err)
+          message = err?.message || 'Internal error'
+          if (err.code === 402) {
+            if (!me.hasSubscription()) {
+              message = $.i18n.t('play_level.not_enough_credits_bot')
+              this.openModalView(new SubscribeModal())
+            } else {
+              const {
+                creditsLeft
+              } = err
+              const creditObj = _.find(creditsLeft, c => c.creditsLeft <= 0)
+              const interval = creditObj.durationKey
+              const amount = creditObj.durationAmount
+              message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
+            }
+          }
+          return noty({ text: message, type: 'error', layout: 'center', timeout: 5000 })
+        })
+    }
 
-  onAddUserChat: (e) ->
-    @checkCreditsAndAddMessage(e.message)
+    scrollDown () {
+      const openPanel = $('.open-chat-area', this.$el)[0]
+      return openPanel.scrollTop = openPanel.scrollHeight || 1000000
+    }
 
-  checkCreditsAndAddMessage: (message) ->
-    uuid = crypto.randomUUID() || Date.now()
-    userCreditApi.redeemCredits({
-      operation: 'LEVEL_CHAT_BOT',
-      id: "#{uuid}|#{message.slice(0, 20)}"
-    })
-      .then (res) =>
-        @saveChatMessage { text:  message }
-      .catch (err) =>
-        console.log('user credit redemption error', err)
-        message = err?.message || 'Internal error'
-        if err.code is 402
-          if not me.hasSubscription()
-            message = $.i18n.t('play_level.not_enough_credits_bot')
-            @openModalView new SubscribeModal()
-          else
-            creditsLeft = err.creditsLeft
-            creditObj = _.find(creditsLeft, (c) -> c.creditsLeft <= 0)
-            interval = creditObj.durationKey
-            amount = creditObj.durationAmount
-            message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
-        noty({ text: message, type: 'error', layout: 'center', timeout: 5000 })
+    onSpellChanged () {
+      if (this.savingChatMessage) {
+        this.reallySaveChatMessage(this.savingChatMessage)
+        return this.savingChatMessage = undefined
+      }
+    }
 
-  scrollDown: ->
-    openPanel = $('.open-chat-area', @$el)[0]
-    openPanel.scrollTop = openPanel.scrollHeight or 1000000
+    isSpellChanged () {
+      const {
+        aether
+      } = this.parent.subviews.tome_view.spellView.spellThang
+      const {
+        spell
+      } = this.parent.subviews.tome_view.spellView
+      return spell.source !== aether.raw
+    }
 
-  onSpellChanged: ->
-    if @savingChatMessage
-      @reallySaveChatMessage(@savingChatMessage)
-      @savingChatMessage = undefined
+    cleanUpApiProperties (chat) {
+      const {
+        context
+      } = chat
+      const currentCode = Object.values(context.code.current)[0]
+      const solutionCode = Object.values(context.code.solution || {})?.[0] || '' // let's only keep properties in current code
+      const allApiProperties = context.apiProperties
+      const apiProperties = []
+      for (const doc of allApiProperties) {
+        if (currentCode.includes(doc.name) || solutionCode.includes(doc.name)) {
+          apiProperties.push(doc)
+        }
+      }
+      context.apiProperties = apiProperties
+      return apiProperties
+    }
 
-  isSpellChanged: ->
-    aether = @parent.subviews.tome_view.spellView.spellThang.aether
-    spell = @parent.subviews.tome_view.spellView.spell
-    return spell.source != aether.raw
+    saveChatMessage ({ text, sender }) {
+      if (this.isSpellChanged()) {
+        Backbone.Mediator.publish('tome:manual-cast', { realTime: false })
+        this.savingChatMessage = { text, sender }
+      } else {
+        this.reallySaveChatMessage({ text, sender })
+        this.savingChatMessage = undefined
+      }
+    }
 
-  cleanUpApiProperties: (chat) ->
-    context = chat.context
-    currentCode = Object.values(context.code.current)[0]
-    solutionCode = Object.values(context.code.solution || {})?[0] || '' # let's only keep properties in current code
-    allApiProperties = context.apiProperties
-    apiProperties = []
-    for doc in allApiProperties
-      if currentCode.includes(doc.name) or solutionCode.includes(doc.name)
-        apiProperties.push doc
-    context.apiProperties = apiProperties
+    reallySaveChatMessage ({ text, sender }) {
+      const chatMessage = new ChatMessage(this.getChatMessageProps({ text, sender }))
+      if (this.chatMessages == null) { this.chatMessages = [] }
+      this.chatMessages.push(chatMessage)
+      Backbone.Mediator.publish('level:gather-chat-message-context', { chat: chatMessage.attributes })
+      this.cleanUpApiProperties(chatMessage.attributes)
+      // This will enrich the message with the props from other parts of the app
+      this.listenToOnce(chatMessage, 'sync', this.onChatMessageSaved)
+      chatMessage.save()
+      return this.$el.find('textarea').attr('placeholder', '')
+    }
+    // @onNewMessage message: chatMessage.get('message'), messageId: chatMessage.get('_id')  # TODO: do this now and add message id link later
 
-  saveChatMessage: ({ text, sender }) ->
-    if @isSpellChanged()
-      Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
-      @savingChatMessage = { text, sender }
-    else
-      @reallySaveChatMessage({ text, sender })
-      @savingChatMessage = undefined
+    onChatMessageSaved (chatMessage) {
+      this.onNewMessage({ message: chatMessage.get('message'), messageId: chatMessage.get('_id') }) // TODO: temporarily putting this after save so we have message id link
+      if (chatMessage.get('message')?.sender?.kind === 'bot') { return }
+      // fetchJson("/db/chat_message/#{chatMessage.id}/ai-response").then @onChatResponse
+      return this.fetchChatMessageStream(chatMessage.id)
+    }
 
-  reallySaveChatMessage: ({ text, sender }) ->
-    chatMessage = new ChatMessage @getChatMessageProps { text, sender }
-    @chatMessages ?= []
-    @chatMessages.push chatMessage
-    Backbone.Mediator.publish 'level:gather-chat-message-context', { chat: chatMessage.attributes }
-    @cleanUpApiProperties chatMessage.attributes
-    # This will enrich the message with the props from other parts of the app
-    @listenToOnce chatMessage, 'sync', @onChatMessageSaved
-    chatMessage.save()
-    @$el.find('textarea').attr('placeholder', '')
-    #@onNewMessage message: chatMessage.get('message'), messageId: chatMessage.get('_id')  # TODO: do this now and add message id link later
+    fetchChatMessageStream (chatMessageId) {
+      const model = utils.getQueryVariable('model') || 'gpt-4-1106-preview' // or 'gpt-4'
+      return fetch(`/db/chat_message/${chatMessageId}/ai-response?model=${model}`).then(co.wrap(function * (response) {
+        const reader = response.body.getReader()
+        const decoder = new TextDecoder('utf-8')
+        const sender = { kind: 'bot', name: 'Code AI' } // TODO: handle sender name again
+        this.startStreamingAIChatMessage(sender)
+        let result = ''
+        Backbone.Mediator.publish('level:streaming-solution', { finish: false })
+        while (true) {
+          const { done, value } = yield reader.read()
+          let chunk = decoder.decode(value)
+          chunk = chunk.replace(/(^{"propertyA":\["|"\],"propertyB":\[\]}$)/g, '').replace(/\\n/g, '\n').replace(/\\"/g, '"')
+          result += chunk
+          this.addToStreamingAIChatMessage({ sender, chunk, result })
+          if (done) { break }
+        }
 
-  onChatMessageSaved: (chatMessage) ->
-    @onNewMessage message: chatMessage.get('message'), messageId: chatMessage.get('_id')  # TODO: temporarily putting this after save so we have message id link
-    return if chatMessage.get('message')?.sender?.kind is 'bot'
-    #fetchJson("/db/chat_message/#{chatMessage.id}/ai-response").then @onChatResponse
-    @fetchChatMessageStream chatMessage.id
+        Backbone.Mediator.publish('level:streaming-solution', { finish: true })
+        this.clearStreamingAIChatMessage()
+        return this.saveChatMessage({ text: result, sender })
+      }.bind(this))
+      )
+    }
 
-  fetchChatMessageStream: (chatMessageId) ->
-    model = utils.getQueryVariable('model') or 'gpt-4-1106-preview' # or 'gpt-4'
-    fetch("/db/chat_message/#{chatMessageId}/ai-response?model=#{model}").then co.wrap (response) =>
-      reader = response.body.getReader()
-      decoder = new TextDecoder('utf-8')
-      sender = { kind: 'bot', name: 'Code AI' }  # TODO: handle sender name again
-      @startStreamingAIChatMessage sender
-      result = ''
-      Backbone.Mediator.publish 'level:streaming-solution', finish: false
-      while true
-        { done, value } = yield reader.read()
-        chunk = decoder.decode value
-        chunk = chunk.replace(/(^{"propertyA":\["|"\],"propertyB":\[\]}$)/g, '').replace(/\\n/g, '\n').replace(/\\"/g, '"')
-        result += chunk
-        @addToStreamingAIChatMessage sender: sender, chunk: chunk, result: result
-        break if done
+    startStreamingAIChatMessage (sender) {
+      return this.onNewMessage({ message: { sender, text: '...', streaming: true } })
+    }
 
-      Backbone.Mediator.publish 'level:streaming-solution', finish: true
-      @clearStreamingAIChatMessage()
-      @saveChatMessage text: result, sender: sender
+    addToStreamingAIChatMessage ({ sender, chunk, result }) {
+      const lastRow = this.chatTables.find('.tr.streaming:last-child')
+      // TODO: I commented out the .closed-chat-area to make this work, should bring that back and not have two elements in lastRow
+      const tr = this.messageObjectToJQuery({ message: { sender, text: result, streaming: true }, existingRow: lastRow })
+      tr.data('added', new Date().getTime())
+      if (!lastRow?.length) {
+        this.chatTables.append(tr)
+      }
+      return this.scrollDown()
+    }
 
-  startStreamingAIChatMessage: (sender) ->
-    @onNewMessage message: { sender: sender, text: '...', streaming: true }
+    clearStreamingAIChatMessage () {
+      const lastRow = this.chatTables.find('.tr.streaming:last-child')
+      return lastRow.remove()
+    }
 
-  addToStreamingAIChatMessage: ({ sender, chunk, result }) ->
-    lastRow = @chatTables.find('.tr.streaming:last-child')
-    # TODO: I commented out the .closed-chat-area to make this work, should bring that back and not have two elements in lastRow
-    tr = @messageObjectToJQuery { message: { sender: sender, text: result, streaming: true }, existingRow: lastRow }
-    tr.data('added', new Date().getTime())
-    if not lastRow?.length
-      @chatTables.append(tr)
-    @scrollDown()
+    onChatResponse (message) {
+      if (this.destroyed) { return }
+      // @onNewMessage message: message
+      return this.saveChatMessage({ text: message.text, sender: message.sender })
+    }
 
-  clearStreamingAIChatMessage: ->
-    lastRow = @chatTables.find('.tr.streaming:last-child')
-    lastRow.remove()
+    getChatMessageProps ({ text, sender }) {
+      let link
+      let actionButton
+      let freeText
+      sender =
+        sender?.kind === 'bot'
+          ? {
+              name: /(^Line \d|```)/m.test(text) ? 'Code AI' : 'Chat AI',
+              kind: 'bot'
+            }
+          : {
+              id: me.get('_id'),
+              name: 'player',
+              kind: 'player'
+            }
+      const props = {
+        product: utils.getProduct(),
+        kind: 'level-chat',
+        // example: Boolean me.isAdmin() # TODO: implement the non-example version of the chat
+        example: true,
+        message: {
+          text,
+          textComponents: {},
+          sender,
+          startDate: new Date(), // TODO: track when they started typing
+          endDate: new Date()
+        },
+        context: {
+          spokenLanguage: me.get('preferredLanguage', true),
+          player: me.get('_id'),
+          playerName: 'player',
+          previousMessages: (((this.chatMessages != null ? this.chatMessages : []).map((m) => m.serializeMessage())))
+        },
+        permissions: [{ target: me.get('_id'), access: 'owner' }]
+      }
+      if (props.example) { props.releasePhase = 'beta' }
 
-  onChatResponse: (message) =>
-    return if @destroyed
-    #@onNewMessage message: message
-    @saveChatMessage text: message.text, sender: message.sender
+      let structuredMessage = props.message.text;
 
-  getChatMessageProps: ({ text, sender }) ->
-    sender =
-      if sender?.kind is 'bot'
-        name: if /(^Line \d|```)/m.test(text) then 'Code AI' else 'Chat AI'
-        kind: 'bot'
-      else
-        id: me.get('_id')
-        name: 'player'
-        kind: 'player'
-    props =
-      product: utils.getProduct()
-      kind: 'level-chat'
-      #example: Boolean me.isAdmin() # TODO: implement the non-example version of the chat
-      example: true
-      message:
-        text: text
-        textComponents: {}
-        sender: sender
-        startDate: new Date()  # TODO: track when they started typing
-        endDate: new Date()
-      context:
-        spokenLanguage: me.get('preferredLanguage', true)
-        player: me.get('_id')
-        playerName: 'player'
-        previousMessages: (m.serializeMessage() for m in (@chatMessages ? []))
-      permissions: [{ target: me.get('_id'), access: 'owner' }]
-    props.releasePhase = 'beta' if props.example
+      const codeIssueWithLineRegex = /^\|Issue\|: Line (\d+): (.+)$/m
+      const codeIssueWithLine = structuredMessage.match(codeIssueWithLineRegex)
+      if (codeIssueWithLine) {
+        props.message.textComponents.codeIssue = { line: parseInt(codeIssueWithLine[1], 10), text: codeIssueWithLine[2] }
+        structuredMessage = structuredMessage.replace(codeIssueWithLineRegex, '')
+      } else {
+        const codeIssueRegex = /^\|Issue\|: (.+)$/m
+        const codeIssue = structuredMessage.match(codeIssueRegex)
+        if (codeIssue) {
+          props.message.textComponents.codeIssue = { text: codeIssue[1] }
+          structuredMessage = structuredMessage.replace(codeIssueRegex, '')
+        }
+      }
 
-    structuredMessage = props.message.text
+      const codeIssueExplanationRegex = /^\|Explanation\|: (.+)$/m
+      const codeIssueExplanation = structuredMessage.match(codeIssueExplanationRegex)
+      if (codeIssueExplanation) {
+        props.message.textComponents.codeIssueExplanation = { text: codeIssueExplanation[1] }
+        structuredMessage = structuredMessage.replace(codeIssueExplanationRegex, '')
+      }
 
-    codeIssueWithLineRegex = /^\|Issue\|: Line (\d+): (.+)$/m
-    codeIssueWithLine = structuredMessage.match(codeIssueWithLineRegex)
-    if codeIssueWithLine
-      props.message.textComponents.codeIssue = line: parseInt(codeIssueWithLine[1], 10), text: codeIssueWithLine[2]
-      structuredMessage = structuredMessage.replace(codeIssueWithLineRegex, '')
-    else
-      codeIssueRegex = /^\|Issue\|: (.+)$/m
-      codeIssue = structuredMessage.match(codeIssueRegex)
-      if codeIssue
-        props.message.textComponents.codeIssue = text: codeIssue[1]
-        structuredMessage = structuredMessage.replace(codeIssueRegex, '')
+      const linkRegex = /^\|Link\|: \[(.+?)\]\((.+?)\)$/m
+      while ((link = structuredMessage.match(linkRegex))) {
+        if (props.message.textComponents.links == null) { props.message.textComponents.links = [] }
+        props.message.textComponents.links.push({ text: link[1], url: link[2] })
+        structuredMessage = structuredMessage.replace(linkRegex, '')
+      }
 
-    codeIssueExplanationRegex = /^\|Explanation\|: (.+)$/m
-    codeIssueExplanation = structuredMessage.match(codeIssueExplanationRegex)
-    if codeIssueExplanation
-      props.message.textComponents.codeIssueExplanation = text: codeIssueExplanation[1]
-      structuredMessage = structuredMessage.replace(codeIssueExplanationRegex, '')
+      // TODO: remove explicit actionButton references, we'll probably autogenerate action buttons and just always have [Fix It] buttons
+      const actionButtonRegex = /^<button( action='?"?(.+?)'?"?)?>(.+?)<\/button>$/m
+      while ((actionButton = structuredMessage.match(actionButtonRegex))) {
+        if (props.message.textComponents.actionButtons == null) { props.message.textComponents.actionButtons = [] }
+        const button = { text: actionButton[3] }
+        if (actionButton[2]) {
+          button.action = actionButton[2]
+        }
+        props.message.textComponents.actionButtons.push(button)
+        structuredMessage = structuredMessage.replace(actionButtonRegex, '')
+      }
 
-    linkRegex = /^\|Link\|: \[(.+?)\]\((.+?)\)$/m
-    while link = structuredMessage.match(linkRegex)
-      props.message.textComponents.links ?= []
-      props.message.textComponents.links.push text: link[1], url: link[2]
-      structuredMessage = structuredMessage.replace(linkRegex, '')
+      const codeRegex = /\|Code\|?:? ?```\n?((.|\n)+)```\n?/
+      const code = structuredMessage.match(codeRegex)
+      if (code) {
+        props.message.textComponents.code = code[1]
+        structuredMessage = structuredMessage.replace(codeRegex, '')
+      }
 
-    # TODO: remove explicit actionButton references, we'll probably autogenerate action buttons and just always have [Fix It] buttons
-    actionButtonRegex = /^<button( action='?"?(.+?)'?"?)?>(.+?)<\/button>$/m
-    while actionButton = structuredMessage.match(actionButtonRegex)
-      props.message.textComponents.actionButtons ?= []
-      button = text: actionButton[3]
-      if actionButton[2]
-        button.action = actionButton[2]
-      props.message.textComponents.actionButtons.push button
-      structuredMessage = structuredMessage.replace(actionButtonRegex, '')
+      const freeTextRegex = /^\|Free\|: (.+)$/m
+      const freeTextMatch = _.string.strip(structuredMessage).match(freeTextRegex)
+      if (freeTextMatch) {
+        freeText = freeTextMatch[1]
+        structuredMessage = _.string.strip(structuredMessage).replace(freeTextRegex, '')
+      } else {
+        freeText = _.string.strip(structuredMessage)
+      }
 
-    codeRegex = /\|Code\|?:? ?```\n?((.|\n)+)```\n?/
-    code = structuredMessage.match(codeRegex)
-    if code
-      props.message.textComponents.code = code[1]
-      structuredMessage = structuredMessage.replace(codeRegex, '')
+      if (freeText.length) { props.message.textComponents.freeText = freeText }
+      return props
+    }
 
-    freeTextRegex = /^\|Free\|: (.+)$/m
-    freeTextMatch = _.string.strip(structuredMessage).match(freeTextRegex)
-    if freeTextMatch
-      freeText = freeTextMatch[1]
-      structuredMessage = _.string.strip(structuredMessage).replace(freeTextRegex, '')
-    else
-      freeText = _.string.strip(structuredMessage)
+    onWindowResize (e) {
+      // Couldn't figure out the CSS to make this work, so doing it here
+      if (this.destroyed) { return }
+      let maxHeight = $(window).height() - $('#thang-hud').offset().top - $('#thang-hud').height() - 25 - 30
+      if (maxHeight < 0) {
+        // Just have to overlay the level, and have them close when done
+        maxHeight = 0
+      }
+      return this.$el.find('.closed-chat-area').css('max-height', maxHeight)
+    }
 
-    props.message.textComponents.freeText = freeText if freeText.length
-    props
-
-  onWindowResize: (e) =>
-    # Couldn't figure out the CSS to make this work, so doing it here
-    return if @destroyed
-    maxHeight = $(window).height() - $('#thang-hud').offset().top - $('#thang-hud').height() - 25 - 30
-    if maxHeight < 0
-      # Just have to overlay the level, and have them close when done
-      maxHeight = 0
-    @$el.find('.closed-chat-area').css('max-height', maxHeight)
-
-  destroy: ->
-    key.deleteScope('level')
-    clearInterval @clearOldMessagesInterval if @clearOldMessagesInterval
-    $(window).off 'resize', @onWindowResize
-    super()
+    destroy () {
+      key.deleteScope('level')
+      if (this.clearOldMessagesInterval) { clearInterval(this.clearOldMessagesInterval) }
+      $(window).off('resize', this.onWindowResize)
+      return super.destroy()
+    }
+  }
+  LevelChatView.initClass()
+  return LevelChatView
+})())

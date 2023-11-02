@@ -1,4 +1,4 @@
-Courses = require 'collections/Courses'
+const Courses = require('collections/Courses');
 
 module.exports = new Courses(
   [
@@ -13,4 +13,4 @@ module.exports = new Courses(
       campaignID: "campaign1",
     },
   ]
-)
+);

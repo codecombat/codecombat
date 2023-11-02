@@ -1,44 +1,69 @@
-User = require 'models/User'
-CocoCollection = require 'collections/CocoCollection'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS104: Avoid inline assignments
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let Users;
+const User = require('models/User');
+const CocoCollection = require('collections/CocoCollection');
 
-module.exports = class Users extends CocoCollection
-  model: User
-  url: '/db/user'
+module.exports = (Users = (function() {
+  Users = class Users extends CocoCollection {
+    static initClass() {
+      this.prototype.model = User;
+      this.prototype.url = '/db/user';
+    }
 
-  fetchForClassroom: (classroom, options={}) ->
-    if options.removeDeleted
-      delete options.removeDeleted
-      @listenTo @, 'sync', @removeDeletedUsers
-    classroomID = classroom.id or classroom
-    limit = 10
-    skip = 0
-    size = _.size(classroom.get('members'))
-    options.url = "/db/classroom/#{classroomID}/members"
-    options.data ?= {}
-    options.data.memberLimit = limit
-    options.remove = false
-    jqxhrs = []
-    while skip < size
-      options = _.cloneDeep(options)
-      options.data.memberSkip = skip
-      jqxhrs.push(@fetch(options))
-      skip += limit
-    return jqxhrs
-
-  removeDeletedUsers: ->
-    @remove @filter (user) ->
-      user.get('deleted')
-    true
-
-  search: (term) ->
-    return @slice() unless term
-    term = term.toLowerCase()
-    return @filter (user) ->
-      user.broadName().toLowerCase().indexOf(term) > -1 or (user.get('email') ? '').indexOf(term) > -1
-
-  fetchByIds: (ids) ->
-    return @fetch({
-      data: {
-        fetchByIds: ids || []
+    fetchForClassroom(classroom, options) {
+      if (options == null) { options = {}; }
+      if (options.removeDeleted) {
+        delete options.removeDeleted;
+        this.listenTo(this, 'sync', this.removeDeletedUsers);
       }
-    })
+      const classroomID = classroom.id || classroom;
+      const limit = 10;
+      let skip = 0;
+      const size = _.size(classroom.get('members'));
+      options.url = `/db/classroom/${classroomID}/members`;
+      if (options.data == null) { options.data = {}; }
+      options.data.memberLimit = limit;
+      options.remove = false;
+      const jqxhrs = [];
+      while (skip < size) {
+        options = _.cloneDeep(options);
+        options.data.memberSkip = skip;
+        jqxhrs.push(this.fetch(options));
+        skip += limit;
+      }
+      return jqxhrs;
+    }
+
+    removeDeletedUsers() {
+      this.remove(this.filter(user => user.get('deleted'))
+      );
+      return true;
+    }
+
+    search(term) {
+      if (!term) { return this.slice(); }
+      term = term.toLowerCase();
+      return this.filter(function(user) {
+        let left;
+        return (user.broadName().toLowerCase().indexOf(term) > -1) || (((left = user.get('email')) != null ? left : '').indexOf(term) > -1);
+      });
+    }
+
+    fetchByIds(ids) {
+      return this.fetch({
+        data: {
+          fetchByIds: ids || []
+        }
+      });
+    }
+  };
+  Users.initClass();
+  return Users;
+})());

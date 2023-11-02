@@ -1,28 +1,38 @@
-require('app/styles/modal/create-account-modal/create-account-modal.sass')
-ModalView = require 'views/core/ModalView'
-AuthModal = require 'views/core/AuthModal'
-ChooseAccountTypeView = require './ChooseAccountTypeView'
-SegmentCheckView = require './SegmentCheckView'
-CoppaDenyView = require './CoppaDenyView'
-EUConfirmationView = require './EUConfirmationView'
-OzVsCocoView = require './OzVsCocoView'
-BasicInfoView = require './BasicInfoView'
-SingleSignOnAlreadyExistsView = require './SingleSignOnAlreadyExistsView'
-SingleSignOnConfirmView = require './SingleSignOnConfirmView'
-ExtrasView = require './ExtrasView'
-ConfirmationView = require './ConfirmationView'
-TeacherSignupComponent = require './teacher/TeacherSignupComponent'
-TeacherSignupStoreModule = require './teacher/TeacherSignupStoreModule'
-State = require 'models/State'
-template = require 'app/templates/core/create-account-modal/create-account-modal'
-forms = require 'core/forms'
-User = require 'models/User'
-errors = require 'core/errors'
-utils = require 'core/utils'
-store = require('core/store')
-storage = require 'core/storage'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS104: Avoid inline assignments
+ * DS204: Change includes calls to have a more natural evaluation order
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let CreateAccountModal;
+require('app/styles/modal/create-account-modal/create-account-modal.sass');
+const ModalView = require('views/core/ModalView');
+const AuthModal = require('views/core/AuthModal');
+const ChooseAccountTypeView = require('./ChooseAccountTypeView');
+const SegmentCheckView = require('./SegmentCheckView');
+const CoppaDenyView = require('./CoppaDenyView');
+const EUConfirmationView = require('./EUConfirmationView');
+const OzVsCocoView = require('./OzVsCocoView');
+const BasicInfoView = require('./BasicInfoView');
+const SingleSignOnAlreadyExistsView = require('./SingleSignOnAlreadyExistsView');
+const SingleSignOnConfirmView = require('./SingleSignOnConfirmView');
+const ExtrasView = require('./ExtrasView');
+const ConfirmationView = require('./ConfirmationView');
+const TeacherSignupComponent = require('./teacher/TeacherSignupComponent');
+const TeacherSignupStoreModule = require('./teacher/TeacherSignupStoreModule');
+const State = require('models/State');
+const template = require('app/templates/core/create-account-modal/create-account-modal');
+const forms = require('core/forms');
+const User = require('models/User');
+const errors = require('core/errors');
+const utils = require('core/utils');
+const store = require('core/store');
+const storage = require('core/storage');
 
-###
+/*
 CreateAccountModal is a wizard-style modal with several subviews, one for each
 `screen` that the user navigates forward and back through.
 
@@ -47,225 +57,291 @@ They `screen`s are:
 
 NOTE: BasicInfoView's two children (SingleSignOn...View) inherit from it.
 This allows them to have the same form-handling logic, but different templates.
-###
+*/
 
-# "Teacher signup started" event for reaching the Create Teacher form.
-startSignupTracking = ->
-  properties =
-    category: if utils.isCodeCombat then 'Homepage' else 'Home'
+// "Teacher signup started" event for reaching the Create Teacher form.
+const startSignupTracking = function() {
+  const properties = {
+    category: utils.isCodeCombat ? 'Homepage' : 'Home',
     user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
-  window.tracker?.trackEvent(
+  };
+  return (window.tracker != null ? window.tracker.trackEvent(
     'Teacher signup started',
-    properties)
+    properties) : undefined);
+};
 
-module.exports = class CreateAccountModal extends ModalView
-  id: 'create-account-modal'
-  template: template
-  closesOnClickOutside: false
-  retainSubviews: true
-
-  events:
-    'click .login-link': 'onClickLoginLink'
-    'click .button.close': 'onClickDismiss'
-
-  initialize: (options={}) ->
-    @utils = utils
-    classCode = utils.getQueryVariable('_cc', undefined)
-    @signupState = new State {
-      path: if classCode then 'student' else null
-      screen: if classCode then 'segment-check' else 'choose-account-type'
-      ssoUsed: null # or 'facebook', 'gplus'
-      classroom: null # or Classroom instance
-      facebookEnabled: application.facebookHandler?.apiLoaded
-      gplusEnabled: application.gplusHandler?.apiLoaded
-      classCode
-      birthday: new Date('') # so that birthday.getTime() is NaN
-      authModalInitialValues: {}
-      accountCreated: false
-      signupForm: {
-        subscribe: ['on'] # checked by default
-        email: options.email ? ''
-      }
-      subModalContinue: options.subModalContinue
-      accountRequiredMessage: options.accountRequiredMessage
-      wantInSchool: false
+module.exports = (CreateAccountModal = (function() {
+  CreateAccountModal = class CreateAccountModal extends ModalView {
+    static initClass() {
+      this.prototype.id = 'create-account-modal';
+      this.prototype.template = template;
+      this.prototype.closesOnClickOutside = false;
+      this.prototype.retainSubviews = true;
+  
+      this.prototype.events = {
+        'click .login-link': 'onClickLoginLink',
+        'click .button.close': 'onClickDismiss'
+      };
     }
 
-    { startOnPath } = options
-    switch startOnPath
-      when 'student' then @signupState.set({ path: 'student', screen: 'segment-check' })
-      when 'oz-vs-coco' then @signupState.set({ path: 'oz-vs-coco', screen: 'oz-vs-coco' })
-      when 'individual' then @signupState.set({ path: 'individual', screen: 'segment-check' })
-      when 'individual-basic' then @signupState.set({ path: 'individual', screen: 'basic-info' })
-      when 'teacher'
-        startSignupTracking()
-        if utils.isCodeCombat
-          @signupState.set({ path: 'teacher', screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' })
-        else
-          @navigateToTeacherOnboarding()
-      else
-        if utils.isCodeCombat and /^\/play/.test(location.pathname) and me.showIndividualRegister()
-          @signupState.set({ path: 'individual', screen: 'segment-check' })
-    if @signupState.get('screen') is 'segment-check' and not @signupState.get('path') is 'student' and not @segmentCheckRequiredInCountry()
-      @signupState.set screen: 'basic-info'
+    initialize(options) {
+      if (options == null) { options = {}; }
+      this.utils = utils;
+      const classCode = utils.getQueryVariable('_cc', undefined);
+      this.signupState = new State({
+        path: classCode ? 'student' : null,
+        screen: classCode ? 'segment-check' : 'choose-account-type',
+        ssoUsed: null, // or 'facebook', 'gplus'
+        classroom: null, // or Classroom instance
+        facebookEnabled: (application.facebookHandler != null ? application.facebookHandler.apiLoaded : undefined),
+        gplusEnabled: (application.gplusHandler != null ? application.gplusHandler.apiLoaded : undefined),
+        classCode,
+        birthday: new Date(''), // so that birthday.getTime() is NaN
+        authModalInitialValues: {},
+        accountCreated: false,
+        signupForm: {
+          subscribe: ['on'], // checked by default
+          email: options.email != null ? options.email : ''
+        },
+        subModalContinue: options.subModalContinue,
+        accountRequiredMessage: options.accountRequiredMessage,
+        wantInSchool: false
+      });
 
-    @listenTo @signupState, 'all', _.debounce @render
+      const { startOnPath } = options;
+      switch (startOnPath) {
+        case 'student': this.signupState.set({ path: 'student', screen: 'segment-check' }); break;
+        case 'oz-vs-coco': this.signupState.set({ path: 'oz-vs-coco', screen: 'oz-vs-coco' }); break;
+        case 'individual': this.signupState.set({ path: 'individual', screen: 'segment-check' }); break;
+        case 'individual-basic': this.signupState.set({ path: 'individual', screen: 'basic-info' }); break;
+        case 'teacher':
+          startSignupTracking();
+          if (utils.isCodeCombat) {
+            this.signupState.set({ path: 'teacher', screen: this.euConfirmationRequiredInCountry() ? 'eu-confirmation' : 'basic-info' });
+          } else {
+            this.navigateToTeacherOnboarding();
+          }
+          break;
+        default:
+          if (utils.isCodeCombat && /^\/play/.test(location.pathname) && me.showIndividualRegister()) {
+            this.signupState.set({ path: 'individual', screen: 'segment-check' });
+          }
+      }
+      if ((this.signupState.get('screen') === 'segment-check') && (!this.signupState.get('path') === 'student') && !this.segmentCheckRequiredInCountry()) {
+        this.signupState.set({screen: 'basic-info'});
+      }
 
-    @listenTo @insertSubView(new ChooseAccountTypeView({ @signupState })),
-      'choose-path': (path) ->
-        if path is 'teacher'
-          startSignupTracking()
-          if utils.isCodeCombat
-            window.tracker?.trackEvent 'Teachers Create Account Loaded', category: 'Teachers' # This is a legacy event name
-            @signupState.set { path, screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' }
-          else
-            @navigateToTeacherOnboarding()
-        else if path is 'oz-vs-coco'
-          @signupState.set { path, screen: 'oz-vs-coco' }
-        else
-          if path is 'student'
-            window.tracker?.trackEvent 'CreateAccountModal Student Path Clicked', category: 'Students'
-          if path is 'individual'
-            window.tracker?.trackEvent 'CreateAccountModal Individual Path Clicked', category: 'Individuals'
-          @signupState.set { path, screen: 'segment-check' }
+      this.listenTo(this.signupState, 'all', _.debounce(this.render));
 
-    @listenTo @insertSubView(new SegmentCheckView({ @signupState })),
-      'choose-path': (path) -> @signupState.set { path, screen: 'segment-check' }
-      'nav-back': -> @signupState.set { path: null, screen: 'choose-account-type' }
-      'nav-forward': (screen) -> @signupState.set { screen: screen or 'basic-info' }
+      this.listenTo(this.insertSubView(new ChooseAccountTypeView({ signupState: this.signupState })), {
+        'choose-path'(path) {
+          if (path === 'teacher') {
+            startSignupTracking();
+            if (utils.isCodeCombat) {
+              if (window.tracker != null) {
+                window.tracker.trackEvent('Teachers Create Account Loaded', {category: 'Teachers'});
+              } // This is a legacy event name
+              return this.signupState.set({ path, screen: this.euConfirmationRequiredInCountry() ? 'eu-confirmation' : 'basic-info' });
+            } else {
+              return this.navigateToTeacherOnboarding();
+            }
+          } else if (path === 'oz-vs-coco') {
+            return this.signupState.set({ path, screen: 'oz-vs-coco' });
+          } else {
+            if (path === 'student') {
+              if (window.tracker != null) {
+                window.tracker.trackEvent('CreateAccountModal Student Path Clicked', {category: 'Students'});
+              }
+            }
+            if (path === 'individual') {
+              if (window.tracker != null) {
+                window.tracker.trackEvent('CreateAccountModal Individual Path Clicked', {category: 'Individuals'});
+              }
+            }
+            return this.signupState.set({ path, screen: 'segment-check' });
+          }
+        }
+      });
 
-    @listenTo @insertSubView(new CoppaDenyView({ @signupState })),
-      'nav-back': -> @signupState.set { screen: 'segment-check' }
+      this.listenTo(this.insertSubView(new SegmentCheckView({ signupState: this.signupState })), {
+        'choose-path'(path) { return this.signupState.set({ path, screen: 'segment-check' }); },
+        'nav-back'() { return this.signupState.set({ path: null, screen: 'choose-account-type' }); },
+        'nav-forward'(screen) { return this.signupState.set({ screen: screen || 'basic-info' }); }
+      });
 
-    @listenTo @insertSubView(new EUConfirmationView({ @signupState })),
-      'nav-back': ->
-        if @signupState.get('path') is 'teacher'
-          @signupState.set { path: null, screen: 'choose-account-type' }
-        else
-          @signupState.set { screen: 'segment-check' }
-      'nav-forward': (screen) -> @signupState.set { screen: screen or 'basic-info' }
+      this.listenTo(this.insertSubView(new CoppaDenyView({ signupState: this.signupState })),
+        {'nav-back'() { return this.signupState.set({ screen: 'segment-check' }); }});
 
-    @listenTo @insertSubView(new OzVsCocoView({ @signupState })),
-      'nav-forward': (path) -> @signupState.set { path: 'teacher', screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' }
-      'nav-back': (path) -> @signupState.set { path: null, screen: 'choose-account-type' }
+      this.listenTo(this.insertSubView(new EUConfirmationView({ signupState: this.signupState })), {
+        'nav-back'() {
+          if (this.signupState.get('path') === 'teacher') {
+            return this.signupState.set({ path: null, screen: 'choose-account-type' });
+          } else {
+            return this.signupState.set({ screen: 'segment-check' });
+          }
+        },
+        'nav-forward'(screen) { return this.signupState.set({ screen: screen || 'basic-info' }); }
+      });
 
-    @listenTo @insertSubView(new BasicInfoView({ @signupState })),
-      'sso-connect:already-in-use': -> @signupState.set { screen: 'sso-already-exists' }
-      'sso-connect:new-user': -> @signupState.set {screen: 'sso-confirm'}
-      'nav-back': ->
-        if @euConfirmationRequiredInCountry()
-          @signupState.set { screen: 'eu-confirmation' }
-        else if @signupState.get('path') is 'teacher'
-          @signupState.set { screen: 'choose-account-type' }
-        else
-          @signupState.set { screen: 'segment-check' }
-      'signup': ->
-        if @signupState.get('path') is 'student'
-          if utils.isOzaria or me.skipHeroSelectOnStudentSignUp()
-            @signupState.set { screen: 'confirmation', accountCreated: true }
-          else
-            @signupState.set { screen: 'extras', accountCreated: true }
-        else if @signupState.get('path') is 'teacher'
-          store.commit('modalTeacher/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
-          store.commit('modalTeacher/updateSignupForm', @signupState.get('signupForm'))
-          trProperties = _.pick(@signupState.get('signupForm'), 'firstName', 'lastName')
-          if (utils.getQueryVariable('referrerEvent'))
-            trProperties.marketingReferrer = utils.getQueryVariable('referrerEvent')
-          store.commit('modalTeacher/updateTrialRequestProperties', trProperties)
-          @signupState.set { screen: 'teacher-signup-component' }
-        else if @signupState.get('subModalContinue')
-          storage.save('sub-modal-continue', @signupState.get('subModalContinue'))
-          window.location.reload()
-        else
-          @signupState.set { screen: 'confirmation', accountCreated: true }
+      this.listenTo(this.insertSubView(new OzVsCocoView({ signupState: this.signupState })), {
+        'nav-forward'(path) { return this.signupState.set({ path: 'teacher', screen: this.euConfirmationRequiredInCountry() ? 'eu-confirmation' : 'basic-info' }); },
+        'nav-back'(path) { return this.signupState.set({ path: null, screen: 'choose-account-type' }); }
+      });
 
-    @listenTo @insertSubView(new SingleSignOnAlreadyExistsView({ @signupState })),
-      'nav-back': -> @signupState.set { screen: 'basic-info' }
+      this.listenTo(this.insertSubView(new BasicInfoView({ signupState: this.signupState })), {
+        'sso-connect:already-in-use'() { return this.signupState.set({ screen: 'sso-already-exists' }); },
+        'sso-connect:new-user'() { return this.signupState.set({screen: 'sso-confirm'}); },
+        'nav-back'() {
+          if (this.euConfirmationRequiredInCountry()) {
+            return this.signupState.set({ screen: 'eu-confirmation' });
+          } else if (this.signupState.get('path') === 'teacher') {
+            return this.signupState.set({ screen: 'choose-account-type' });
+          } else {
+            return this.signupState.set({ screen: 'segment-check' });
+          }
+        },
+        'signup'() {
+          if (this.signupState.get('path') === 'student') {
+            if (utils.isOzaria || me.skipHeroSelectOnStudentSignUp()) {
+              return this.signupState.set({ screen: 'confirmation', accountCreated: true });
+            } else {
+              return this.signupState.set({ screen: 'extras', accountCreated: true });
+            }
+          } else if (this.signupState.get('path') === 'teacher') {
+            store.commit('modalTeacher/updateSso', _.pick(this.signupState.attributes, 'ssoUsed', 'ssoAttrs'));
+            store.commit('modalTeacher/updateSignupForm', this.signupState.get('signupForm'));
+            const trProperties = _.pick(this.signupState.get('signupForm'), 'firstName', 'lastName');
+            if (utils.getQueryVariable('referrerEvent')) {
+              trProperties.marketingReferrer = utils.getQueryVariable('referrerEvent');
+            }
+            store.commit('modalTeacher/updateTrialRequestProperties', trProperties);
+            return this.signupState.set({ screen: 'teacher-signup-component' });
+          } else if (this.signupState.get('subModalContinue')) {
+            storage.save('sub-modal-continue', this.signupState.get('subModalContinue'));
+            return window.location.reload();
+          } else {
+            return this.signupState.set({ screen: 'confirmation', accountCreated: true });
+          }
+        }
+      });
 
-    @listenTo @insertSubView(new SingleSignOnConfirmView({ @signupState })),
-      'nav-back': -> @signupState.set { screen: 'basic-info' }
-      'signup': ->
-        if @signupState.get('path') is 'student'
-          if utils.isOzaria or me.skipHeroSelectOnStudentSignUp()
-            @signupState.set { screen: 'confirmation', accountCreated: true }
-          else
-            @signupState.set { screen: 'extras', accountCreated: true }
-        else if @signupState.get('path') is 'teacher'
-          store.commit('modalTeacher/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
-          store.commit('modalTeacher/updateSignupForm', @signupState.get('signupForm'))
-          @signupState.set { screen: 'teacher-signup-component' }
-        else if @signupState.get('subModalContinue')
-          storage.save('sub-modal-continue', @signupState.get('subModalContinue'))
-          window.location.reload()
-        else
-          @signupState.set { screen: 'confirmation', accountCreated: true }
+      this.listenTo(this.insertSubView(new SingleSignOnAlreadyExistsView({ signupState: this.signupState })),
+        {'nav-back'() { return this.signupState.set({ screen: 'basic-info' }); }});
 
-    @listenTo @insertSubView(new ExtrasView({ @signupState })),
-      'nav-forward': -> @signupState.set { screen: 'confirmation' }
+      this.listenTo(this.insertSubView(new SingleSignOnConfirmView({ signupState: this.signupState })), {
+        'nav-back'() { return this.signupState.set({ screen: 'basic-info' }); },
+        'signup'() {
+          if (this.signupState.get('path') === 'student') {
+            if (utils.isOzaria || me.skipHeroSelectOnStudentSignUp()) {
+              return this.signupState.set({ screen: 'confirmation', accountCreated: true });
+            } else {
+              return this.signupState.set({ screen: 'extras', accountCreated: true });
+            }
+          } else if (this.signupState.get('path') === 'teacher') {
+            store.commit('modalTeacher/updateSso', _.pick(this.signupState.attributes, 'ssoUsed', 'ssoAttrs'));
+            store.commit('modalTeacher/updateSignupForm', this.signupState.get('signupForm'));
+            return this.signupState.set({ screen: 'teacher-signup-component' });
+          } else if (this.signupState.get('subModalContinue')) {
+            storage.save('sub-modal-continue', this.signupState.get('subModalContinue'));
+            return window.location.reload();
+          } else {
+            return this.signupState.set({ screen: 'confirmation', accountCreated: true });
+          }
+        }
+      });
 
-    @insertSubView(new ConfirmationView({ @signupState }))
+      this.listenTo(this.insertSubView(new ExtrasView({ signupState: this.signupState })),
+        {'nav-forward'() { return this.signupState.set({ screen: 'confirmation' }); }});
 
-    if me.useSocialSignOn()
-      # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
-      application.facebookHandler.loadAPI({ success: => @signupState.set { facebookEnabled: true } unless @destroyed })
-      application.gplusHandler.loadAPI({ success: => @signupState.set { gplusEnabled: true } unless @destroyed })
+      this.insertSubView(new ConfirmationView({ signupState: this.signupState }));
 
-    @once 'hidden', ->
-      if @signupState.get('accountCreated') and not application.testing
-        # ensure logged in state propagates through the entire app
-        if window.nextURL
-          window.location.href = window.nextURL
-          return
+      if (me.useSocialSignOn()) {
+        // TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
+        application.facebookHandler.loadAPI({ success: () => { if (!this.destroyed) { return this.signupState.set({ facebookEnabled: true }); } } });
+        application.gplusHandler.loadAPI({ success: () => { if (!this.destroyed) { return this.signupState.set({ gplusEnabled: true }); } } });
+      }
 
-        if me.isStudent()
-          application.router.navigate('/students', {trigger: true})
-        else if me.isTeacher()
-          application.router.navigate('/teachers/classes', {trigger: true})
-        window.location.reload()
+      return this.once('hidden', function() {
+        if (this.signupState.get('accountCreated') && !application.testing) {
+          // ensure logged in state propagates through the entire app
+          if (window.nextURL) {
+            window.location.href = window.nextURL;
+            return;
+          }
 
-  navigateToTeacherOnboarding: ->
-    if (window.location.pathname == '/sign-up/educator')
-      @hide()
-    else
-      application.router.navigate('/sign-up/educator', {trigger: true})
+          if (me.isStudent()) {
+            application.router.navigate('/students', {trigger: true});
+          } else if (me.isTeacher()) {
+            application.router.navigate('/teachers/classes', {trigger: true});
+          }
+          return window.location.reload();
+        }
+      });
+    }
 
-  afterRender: ->
-    super()
-    target = @$el.find('#teacher-signup-component')
-    return unless target[0]
-    if @teacherSignupComponent
-      target.replaceWith(@teacherSignupComponent.$el)
-    else
-      @teacherSignupComponent = new TeacherSignupComponent({
-        el: target[0]
-        store
-      })
-      @teacherSignupComponent.$on 'back', =>
-        if @signupState.get('ssoUsed')
-          @signupState.set {ssoUsed: undefined, ssoAttrs: undefined}
-        @signupState.set('screen', 'basic-info')
+    navigateToTeacherOnboarding() {
+      if (window.location.pathname === '/sign-up/educator') {
+        return this.hide();
+      } else {
+        return application.router.navigate('/sign-up/educator', {trigger: true});
+      }
+    }
 
-  destroy: ->
-    if @teacherSignupComponent
-      @teacherSignupComponent.$destroy()
-    super()
+    afterRender() {
+      super.afterRender();
+      const target = this.$el.find('#teacher-signup-component');
+      if (!target[0]) { return; }
+      if (this.teacherSignupComponent) {
+        return target.replaceWith(this.teacherSignupComponent.$el);
+      } else {
+        this.teacherSignupComponent = new TeacherSignupComponent({
+          el: target[0],
+          store
+        });
+        return this.teacherSignupComponent.$on('back', () => {
+          if (this.signupState.get('ssoUsed')) {
+            this.signupState.set({ssoUsed: undefined, ssoAttrs: undefined});
+          }
+          return this.signupState.set('screen', 'basic-info');
+        });
+      }
+    }
 
-  onClickLoginLink: ->
-    properties =
-      category: if utils.isCodeComba then 'Homepage' else 'Home'
-      subview: @signupState.get('path') || "choosetype"
-    window.tracker?.trackEvent('Log in from CreateAccount', properties)
-    @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues'), subModalContinue: @signupState.get('subModalContinue') }))
+    destroy() {
+      if (this.teacherSignupComponent) {
+        this.teacherSignupComponent.$destroy();
+      }
+      return super.destroy();
+    }
 
-  onClickDismiss: ->
-    # Force back to root (in case url changed) or reload to avoid issues with sign up state and CTA's for signing up on the home page:
-    application.router.navigate('/', {trigger: true})
-    window.location.reload()
+    onClickLoginLink() {
+      const properties = {
+        category: utils.isCodeComba ? 'Homepage' : 'Home',
+        subview: this.signupState.get('path') || "choosetype"
+      };
+      if (window.tracker != null) {
+        window.tracker.trackEvent('Log in from CreateAccount', properties);
+      }
+      return this.openModalView(new AuthModal({ initialValues: this.signupState.get('authModalInitialValues'), subModalContinue: this.signupState.get('subModalContinue') }));
+    }
 
-  segmentCheckRequiredInCountry: ->
-    return true unless me.get('country')
-    return true if me.inEU() or me.get('country') in ['united-states', 'israel']
-    return false
+    onClickDismiss() {
+      // Force back to root (in case url changed) or reload to avoid issues with sign up state and CTA's for signing up on the home page:
+      application.router.navigate('/', {trigger: true});
+      return window.location.reload();
+    }
 
-  euConfirmationRequiredInCountry: ->
-    return me.get('country') and me.inEU()
+    segmentCheckRequiredInCountry() {
+      let needle;
+      if (!me.get('country')) { return true; }
+      if (me.inEU() || (needle = me.get('country'), ['united-states', 'israel'].includes(needle))) { return true; }
+      return false;
+    }
+
+    euConfirmationRequiredInCountry() {
+      return me.get('country') && me.inEU();
+    }
+  };
+  CreateAccountModal.initClass();
+  return CreateAccountModal;
+})());

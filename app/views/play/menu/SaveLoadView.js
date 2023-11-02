@@ -1,22 +1,38 @@
-require('app/styles/play/menu/save-load-view.sass')
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/play/menu/save-load-view'
-{me} = require 'core/auth'
-ThangType = require 'models/ThangType'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SaveLoadView;
+require('app/styles/play/menu/save-load-view.sass');
+const CocoView = require('views/core/CocoView');
+const template = require('app/templates/play/menu/save-load-view');
+const {me} = require('core/auth');
+const ThangType = require('models/ThangType');
 
-module.exports = class SaveLoadView extends CocoView
-  id: 'save-load-view'
-  className: 'tab-pane'
-  template: template
+module.exports = (SaveLoadView = (function() {
+  SaveLoadView = class SaveLoadView extends CocoView {
+    static initClass() {
+      this.prototype.id = 'save-load-view';
+      this.prototype.className = 'tab-pane';
+      this.prototype.template = template;
+  
+      this.prototype.events =
+        {'change #save-granularity-toggle input': 'onSaveGranularityChanged'};
+    }
 
-  events:
-    'change #save-granularity-toggle input': 'onSaveGranularityChanged'
+    afterRender() {
+      return super.afterRender();
+    }
 
-  afterRender: ->
-    super()
-
-  onSaveGranularityChanged: (e) ->
-    @playSound 'menu-button-click'
-    toShow = $(e.target).val()
-    @$el.find('.save-list, .save-pane').hide()
-    @$el.find('.save-list.' + toShow + ', .save-pane.' + toShow).show()
+    onSaveGranularityChanged(e) {
+      this.playSound('menu-button-click');
+      const toShow = $(e.target).val();
+      this.$el.find('.save-list, .save-pane').hide();
+      return this.$el.find('.save-list.' + toShow + ', .save-pane.' + toShow).show();
+    }
+  };
+  SaveLoadView.initClass();
+  return SaveLoadView;
+})());

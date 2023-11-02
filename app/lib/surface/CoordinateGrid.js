@@ -1,95 +1,134 @@
-CocoClass = require 'core/CocoClass'
-createjs = require 'lib/createjs-parts'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let CoordinateGrid;
+const CocoClass = require('core/CocoClass');
+const createjs = require('lib/createjs-parts');
 
-module.exports = class CoordinateGrid extends CocoClass
-  subscriptions:
-    'level:toggle-grid': 'onToggleGrid'
+module.exports = (CoordinateGrid = (function() {
+  CoordinateGrid = class CoordinateGrid extends CocoClass {
+    static initClass() {
+      this.prototype.subscriptions =
+        {'level:toggle-grid': 'onToggleGrid'};
+  
+      this.prototype.shortcuts =
+        {'ctrl+g, ⌘+g': 'onToggleGrid'};
+    }
 
-  shortcuts:
-    'ctrl+g, ⌘+g': 'onToggleGrid'
+    constructor(options, worldSize) {
+      super();
+      if (options == null) { options = {}; }
+      this.camera = options.camera;
+      this.layer = options.layer;
+      this.textLayer = options.textLayer;
+      if (!this.camera) { console.error(this.toString(), 'needs a camera.'); }
+      if (!this.layer) { console.error(this.toString(), 'needs a layer.'); }
+      if (!this.textLayer) { console.error(this.toString(), 'needs a textLayer.'); }
+      this.build(worldSize);
+    }
 
-  constructor: (options, worldSize) ->
-    super()
-    options ?= {}
-    @camera = options.camera
-    @layer = options.layer
-    @textLayer = options.textLayer
-    console.error @toString(), 'needs a camera.' unless @camera
-    console.error @toString(), 'needs a layer.' unless @layer
-    console.error @toString(), 'needs a textLayer.' unless @textLayer
-    @build worldSize
+    destroy() {
+      return super.destroy();
+    }
 
-  destroy: ->
-    super()
+    toString() { return '<CoordinateGrid>'; }
 
-  toString: -> '<CoordinateGrid>'
+    build(worldSize) {
+      let sup, t;
+      const worldWidth = worldSize[0] || 80;
+      const worldHeight = worldSize[1] || 68;
+      this.gridContainer = new createjs.Container();
+      this.gridShape = new createjs.Shape();
+      this.gridContainer.addChild(this.gridShape);
+      this.gridContainer.mouseEnabled = false;
+      this.gridShape.alpha = 0.125;
+      this.gridShape.graphics.setStrokeStyle(1);
+      this.gridShape.graphics.beginStroke('blue');
+      const gridSize = Math.round(worldWidth / 20);
+      const wopStart = {x: 0, y: 0};
+      const wopEnd = {x: worldWidth, y: worldHeight};
+      const supStart = this.camera.worldToSurface(wopStart);
+      const supEnd = this.camera.worldToSurface(wopEnd);
+      const wop = {x: wopStart.x, y: wopStart.y};
+      this.labels = [];
+      let linesDrawn = 0;
+      while (wop.x <= wopEnd.x) {
+        sup = this.camera.worldToSurface(wop);
+        this.gridShape.graphics.mt(sup.x, supStart.y).lt(sup.x, supEnd.y);
+        if (++linesDrawn % 2) {
+          t = new createjs.Text(wop.x.toFixed(0), '16px Arial', 'blue');
+          t.textAlign = 'center';
+          t.textBaseline = 'bottom';
+          t.x = sup.x;
+          t.y = supStart.y;
+          t.alpha = 0.75;
+          this.labels.push(t);
+        }
+        wop.x += gridSize;
+        if (wopEnd.x < wop.x && wop.x <= wopEnd.x - (gridSize / 2)) {
+          wop.x = wopEnd.x;
+        }
+      }
+      linesDrawn = 0;
+      while (wop.y <= wopEnd.y) {
+        sup = this.camera.worldToSurface(wop);
+        this.gridShape.graphics.mt(supStart.x, sup.y).lt(supEnd.x, sup.y);
+        if (++linesDrawn % 2) {
+          t = new createjs.Text(wop.y.toFixed(0), '16px Arial', 'blue');
+          t.textAlign = 'left';
+          t.textBaseline = 'middle';
+          t.x = 0;
+          t.y = sup.y;
+          t.alpha = 0.75;
+          this.labels.push(t);
+        }
+        wop.y += gridSize;
+        if (wopEnd.y < wop.y && wop.y <= wopEnd.y - (gridSize / 2)) {
+          wop.y = wopEnd.y;
+        }
+      }
+      this.gridShape.graphics.endStroke();
+      const bounds = {x: supStart.x, y: supEnd.y, width: supEnd.x - supStart.x, height: supStart.y - supEnd.y};
+      if (!(bounds != null ? bounds.width : undefined) || !bounds.height) { return; }
+      return this.gridContainer.cache(bounds.x, bounds.y, bounds.width, bounds.height);
+    }
 
-  build: (worldSize) ->
-    worldWidth = worldSize[0] or 80
-    worldHeight = worldSize[1] or 68
-    @gridContainer = new createjs.Container()
-    @gridShape = new createjs.Shape()
-    @gridContainer.addChild @gridShape
-    @gridContainer.mouseEnabled = false
-    @gridShape.alpha = 0.125
-    @gridShape.graphics.setStrokeStyle 1
-    @gridShape.graphics.beginStroke 'blue'
-    gridSize = Math.round(worldWidth / 20)
-    wopStart = x: 0, y: 0
-    wopEnd = x: worldWidth, y: worldHeight
-    supStart = @camera.worldToSurface wopStart
-    supEnd = @camera.worldToSurface wopEnd
-    wop = x: wopStart.x, y: wopStart.y
-    @labels = []
-    linesDrawn = 0
-    while wop.x <= wopEnd.x
-      sup = @camera.worldToSurface wop
-      @gridShape.graphics.mt(sup.x, supStart.y).lt(sup.x, supEnd.y)
-      if ++linesDrawn % 2
-        t = new createjs.Text(wop.x.toFixed(0), '16px Arial', 'blue')
-        t.textAlign = 'center'
-        t.textBaseline = 'bottom'
-        t.x = sup.x
-        t.y = supStart.y
-        t.alpha = 0.75
-        @labels.push t
-      wop.x += gridSize
-      if wopEnd.x < wop.x <= wopEnd.x - gridSize / 2
-        wop.x = wopEnd.x
-    linesDrawn = 0
-    while wop.y <= wopEnd.y
-      sup = @camera.worldToSurface wop
-      @gridShape.graphics.mt(supStart.x, sup.y).lt(supEnd.x, sup.y)
-      if ++linesDrawn % 2
-        t = new createjs.Text(wop.y.toFixed(0), '16px Arial', 'blue')
-        t.textAlign = 'left'
-        t.textBaseline = 'middle'
-        t.x = 0
-        t.y = sup.y
-        t.alpha = 0.75
-        @labels.push t
-      wop.y += gridSize
-      if wopEnd.y < wop.y <= wopEnd.y - gridSize / 2
-        wop.y = wopEnd.y
-    @gridShape.graphics.endStroke()
-    bounds = x: supStart.x, y: supEnd.y, width: supEnd.x - supStart.x, height: supStart.y - supEnd.y
-    return unless bounds?.width and bounds.height
-    @gridContainer.cache bounds.x, bounds.y, bounds.width, bounds.height
+    showGrid() {
+      if (this.gridShowing()) { return; }
+      this.layer.addChild(this.gridContainer);
+      return Array.from(this.labels).map((label) => this.textLayer.addChild(label));
+    }
 
-  showGrid: ->
-    return if @gridShowing()
-    @layer.addChild @gridContainer
-    @textLayer.addChild label for label in @labels
+    hideGrid() {
+      if (!this.gridShowing()) { return; }
+      this.layer.removeChild(this.gridContainer);
+      return Array.from(this.labels).map((label) => this.textLayer.removeChild(label));
+    }
 
-  hideGrid: ->
-    return unless @gridShowing()
-    @layer.removeChild @gridContainer
-    @textLayer.removeChild label for label in @labels
+    gridShowing() {
+      return ((this.gridContainer != null ? this.gridContainer.parent : undefined) != null);
+    }
 
-  gridShowing: ->
-    @gridContainer?.parent?
+    onToggleGrid(e) {
+      __guardMethod__(e, 'preventDefault', o => o.preventDefault());
+      if (this.gridShowing()) { return this.hideGrid(); } else { return this.showGrid(); }
+    }
+  };
+  CoordinateGrid.initClass();
+  return CoordinateGrid;
+})());
 
-  onToggleGrid: (e) ->
-    e?.preventDefault?()
-    if @gridShowing() then @hideGrid() else @showGrid()
 
+function __guardMethod__(obj, methodName, transform) {
+  if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {
+    return transform(obj, methodName);
+  } else {
+    return undefined;
+  }
+}

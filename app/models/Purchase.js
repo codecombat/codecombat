@@ -1,16 +1,32 @@
-CocoModel = require('./CocoModel')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let Purchase;
+const CocoModel = require('./CocoModel');
 
-module.exports = class Purchase extends CocoModel
-  @className: "Purchase"
-  urlRoot: "/db/purchase"
-  @schema: require 'schemas/models/purchase.schema'
+module.exports = (Purchase = (function() {
+  Purchase = class Purchase extends CocoModel {
+    static initClass() {
+      this.className = "Purchase";
+      this.prototype.urlRoot = "/db/purchase";
+      this.schema = require('schemas/models/purchase.schema');
+    }
   
-  @makeFor: (toPurchase) ->
-    purchase = new Purchase({
-      recipient: me.id
-      purchaser: me.id
-      purchased: {
-        original: toPurchase.get('original')
-        collection: _.string.underscored toPurchase.constructor.className
-      }
-    })
+    static makeFor(toPurchase) {
+      let purchase;
+      return purchase = new Purchase({
+        recipient: me.id,
+        purchaser: me.id,
+        purchased: {
+          original: toPurchase.get('original'),
+          collection: _.string.underscored(toPurchase.constructor.className)
+        }
+      });
+    }
+  };
+  Purchase.initClass();
+  return Purchase;
+})());

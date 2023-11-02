@@ -1,38 +1,57 @@
-require('app/styles/account/unsubscribe-view.sass')
-RootView = require 'views/core/RootView'
-template = require 'app/templates/account/unsubscribe-view'
-{me} = require 'core/auth'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let UnsubscribeView;
+require('app/styles/account/unsubscribe-view.sass');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/account/unsubscribe-view');
+const {me} = require('core/auth');
+const utils = require('core/utils');
 
-module.exports = class UnsubscribeView extends RootView
-  id: 'unsubscribe-view'
-  template: template
+module.exports = (UnsubscribeView = (function() {
+  UnsubscribeView = class UnsubscribeView extends RootView {
+    static initClass() {
+      this.prototype.id = 'unsubscribe-view';
+      this.prototype.template = template;
+  
+      this.prototype.events =
+        {'click #unsubscribe-button': 'onUnsubscribeButtonClicked'};
+    }
 
-  initialize: ->
-    @email = utils.getQueryVariable 'email'
+    initialize() {
+      return this.email = utils.getQueryVariable('email');
+    }
 
-  events:
-    'click #unsubscribe-button': 'onUnsubscribeButtonClicked'
+    getMeta() {
+      return {title: $.i18n.t('account.unsubscribe_title')};
+    }
 
-  getMeta: ->
-    title: $.i18n.t 'account.unsubscribe_title'
+    onUnsubscribeButtonClicked() {
+      this.$el.find('#unsubscribe-button').hide();
+      this.$el.find('.progress').show();
+      this.$el.find('.alert').hide();
 
-  onUnsubscribeButtonClicked: ->
-    @$el.find('#unsubscribe-button').hide()
-    @$el.find('.progress').show()
-    @$el.find('.alert').hide()
+      const email = utils.getQueryVariable('email');
+      const url = `/auth/unsubscribe?email=${encodeURIComponent(email)}`;
 
-    email = utils.getQueryVariable 'email'
-    url = "/auth/unsubscribe?email=#{encodeURIComponent(email)}"
+      const success = () => {
+        this.$el.find('.progress').hide();
+        this.$el.find('#success-alert').show();
+        return me.fetch({cache: false});
+      };
 
-    success = =>
-      @$el.find('.progress').hide()
-      @$el.find('#success-alert').show()
-      me.fetch cache: false
+      const error = () => {
+        this.$el.find('.progress').hide();
+        this.$el.find('#fail-alert').show();
+        return this.$el.find('#unsubscribe-button').show();
+      };
 
-    error = =>
-      @$el.find('.progress').hide()
-      @$el.find('#fail-alert').show()
-      @$el.find('#unsubscribe-button').show()
-
-    $.ajax { url: url, success: success, error: error, cache: false }
+      return $.ajax({ url, success, error, cache: false });
+    }
+  };
+  UnsubscribeView.initClass();
+  return UnsubscribeView;
+})());

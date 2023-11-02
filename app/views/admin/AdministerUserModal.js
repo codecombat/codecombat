@@ -1,677 +1,816 @@
-_ = require 'lodash'
-require('app/styles/admin/administer-user-modal.sass')
-ModelModal = require 'views/modal/ModelModal'
-template = require 'app/templates/admin/administer-user-modal'
-User = require 'models/User'
-Prepaid = require 'models/Prepaid'
-StripeCoupons = require 'collections/StripeCoupons'
-forms = require 'core/forms'
-errors = require 'core/errors'
-Prepaids = require 'collections/Prepaids'
-Classrooms = require 'collections/Classrooms'
-TrialRequests = require 'collections/TrialRequests'
-fetchJson = require('core/api/fetch-json')
-utils = require 'core/utils'
-api = require 'core/api'
-NameLoader = require 'core/NameLoader'
-momentTimezone = require 'moment-timezone'
-{ LICENSE_PRESETS, ESPORTS_PRODUCT_STATS } = require 'core/constants'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let AdministerUserModal;
+const _ = require('lodash');
+require('app/styles/admin/administer-user-modal.sass');
+const ModelModal = require('views/modal/ModelModal');
+const template = require('app/templates/admin/administer-user-modal');
+const User = require('models/User');
+const Prepaid = require('models/Prepaid');
+const StripeCoupons = require('collections/StripeCoupons');
+const forms = require('core/forms');
+const errors = require('core/errors');
+const Prepaids = require('collections/Prepaids');
+const Classrooms = require('collections/Classrooms');
+const TrialRequests = require('collections/TrialRequests');
+const fetchJson = require('core/api/fetch-json');
+const utils = require('core/utils');
+const api = require('core/api');
+const NameLoader = require('core/NameLoader');
+const momentTimezone = require('moment-timezone');
+const { LICENSE_PRESETS, ESPORTS_PRODUCT_STATS } = require('core/constants');
 
-# TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
-# TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
+// TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
+// TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
 
-module.exports = class AdministerUserModal extends ModelModal
-  id: 'administer-user-modal'
-  template: template
-
-  events:
-    'click #save-changes': 'onClickSaveChanges'
-    'click #create-payment-btn': 'onClickCreatePayment'
-    'click #add-seats-btn': 'onClickAddSeatsButton'
-    'click #add-esports-product-btn': 'onClickAddEsportsProductButton'
-    'click #user-spy-btn': 'onClickUserSpyButton'
-    'click #destudent-btn': 'onClickDestudentButton'
-    'click #deteacher-btn': 'onClickDeteacherButton'
-    'click #reset-progress-btn': 'onClickResetProgressButton'
-    'click .update-classroom-btn': 'onClickUpdateClassroomButton'
-    'click .add-new-courses-btn': 'onClickAddNewCoursesButton'
-    'click .user-link': 'onClickUserLink'
-    'click #verified-teacher-checkbox': 'onClickVerifiedTeacherCheckbox'
-    'click .edit-prepaids-info-btn': 'onClickEditPrepaidsInfoButton'
-    'click .cancel-prepaid-info-edit-btn': 'onClickCancelPrepaidInfoEditButton'
-    'click .save-prepaid-info-btn': 'onClickSavePrepaidInfo'
-    'click .edit-product-info-btn': 'onClickEditProductInfoButton'
-    'click .cancel-product-info-edit-btn': 'onClickCancelProductInfoEditButton'
-    'click .save-product-info-btn': 'onClickSaveProductInfo'
-    'click #school-admin-checkbox': 'onClickSchoolAdminCheckbox'
-    'click #online-teacher-checkbox': 'onClickOnlineTeacherCheckbox'
-    'click #beta-tester-checkbox': 'onClickBetaTesterCheckbox'
-    'click #edit-school-admins-link': 'onClickEditSchoolAdmins'
-    'submit #teacher-search-form': 'onSubmitTeacherSearchForm'
-    'click .add-administer-teacher': 'onClickAddAdministeredTeacher'
-    'click #clear-teacher-search-button': 'onClearTeacherSearchResults'
-    'click #teacher-search-button': 'onSubmitTeacherSearchForm'
-    'click .remove-teacher-button': 'onClickRemoveAdministeredTeacher'
-    'click #license-type-select>.radio': 'onSelectLicenseType'
-    'click #esports-type-select>.radio': 'onSelectEsportsType'
-    'click #esports-product-addon': 'onSelectEsportsAddon'
-    'click .other-user-link': 'onClickOtherUserLink'
-    'click .modal-nav-link': 'onClickModalNavLink'
-    'click #volume-checkbox': 'onClickVolumeCheckbox'
-    'click #music-checkbox': 'onClickMusicCheckbox'
-
-  initialize: (options, @userHandle) ->
-    @ESPORTS_PRODUCT_STATS = ESPORTS_PRODUCT_STATS
-    @user = new User({_id: @userHandle})
-    @classrooms = new Classrooms()
-    @listenTo @user, 'sync', =>
-      if @user.isStudent()
-        @supermodel.loadCollection @classrooms, { data: {memberID: @user.id}, cache: false }
-        @listenTo @classrooms, 'sync', @loadClassroomTeacherNames
-      else if @user.isTeacher()
-        @supermodel.trackRequest @classrooms.fetchByOwner(@userHandle)
-      @esportsProducts = @user.getProductsByType('esports')
-      @renderSelectors('#esports-products')
-    @supermodel.trackRequest @user.fetch({cache: false})
-    @coupons = new StripeCoupons()
-    @supermodel.trackRequest @coupons.fetch({cache: false}) if me.isAdmin()
-    @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchByCreator(@userHandle, { data: {includeShared: true} }) if me.isAdmin()
-    @listenTo @prepaids, 'sync', =>
-      @prepaids.each (prepaid) =>
-        if prepaid.loaded and not prepaid.creator
-          prepaid.creator = new User()
-          @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
-    @esportsProducts = @user.getProductsByType('esports')
-    @trialRequests = new TrialRequests()
-    @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle) if me.isAdmin()
-    @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
-    @licenseType = 'all'
-    @licensePresets = LICENSE_PRESETS
-    @esportsType = 'basic'
-    @utils = utils
-    options.models = [@user]  # For ModelModal to generate a Treema of this user
-    @momentTimezone = momentTimezone
-    super options
-
-  onLoaded: ->
-    @updateStripeStatus()
-    @trialRequest = @trialRequests.first()
-    @models.push @trialRequest if @trialRequest
-    @prepaidTableState={}
-    @productTableState={}
-    @foundTeachers = []
-    @administratedTeachers = []
-    @trialRequests = new TrialRequests()
-    @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle) if me.isAdmin()
-
-    super()
-
-  afterInsert: ->
-    if window.location.pathname is '/admin' and window.location.search isnt '?user=' + @user.id
-      window.history.pushState {}, '', '/admin?user=' + @user.id
-    super()
-
-  willDisappear: ->
-    if window.location.pathname is '/admin' and window.location.search is '?user=' + @user.id
-      window.history.pushState {}, '', '/admin'  # Remove ?user=id query parameter
-    super()
-
-  updateStripeStatus: ->
-    stripe = @user.get('stripe') or {}
-    @free = stripe.free is true
-    @freeUntil = _.isString(stripe.free)
-    @freeUntilDate = switch
-      when @freeUntil then stripe.free
-      when me.isOnlineTeacher() then moment().add(1, "day").toISOString()[...10]  # Default to tomorrow
-      else new Date().toISOString()[...10]
-    @currentCouponID = stripe.couponID
-    @none = not (@free or @freeUntil or @coupon)
-
-  onClickCreatePayment: ->
-    service = @$('#payment-service').val()
-    amount = parseInt(@$('#payment-amount').val())
-    amount = 0 if isNaN(amount)
-    gems = parseInt(@$('#payment-gems').val())
-    gems = 0 if isNaN(gems)
-    if _.isEmpty(service)
-      alert('Service cannot be empty')
-      return
-    else if amount < 0
-      alert('Payment cannot be negative')
-      return
-    else if gems < 0
-      alert('Gems cannot be negative')
-      return
-
-    data = {
-      purchaser: @user.get('_id')
-      recipient: @user.get('_id')
-      service: service
-      created: new Date().toISOString()
-      gems: gems
-      amount: amount
-      description: @$('#payment-description').val()
+module.exports = (AdministerUserModal = (function() {
+  AdministerUserModal = class AdministerUserModal extends ModelModal {
+    constructor(...args) {
+      this.onSearchRequestSuccess = this.onSearchRequestSuccess.bind(this);
+      this.onSearchRequestFailure = this.onSearchRequestFailure.bind(this);
+      super(...args);
     }
-    $.post('/db/payment/admin', data, => @hide())
 
-  onClickSaveChanges: ->
-    stripe = _.clone(@user.get('stripe') or {})
-    delete stripe.free
-    delete stripe.couponID
-    selection = @$el.find('input[name="stripe-benefit"]:checked').val()
-    dateVal = @$el.find('#free-until-date').val()
-    couponVal = @$el.find('#coupon-select').val()
-    switch selection
-      when 'free' then stripe.free = true
-      when 'free-until' then stripe.free = dateVal
-      when 'coupon' then stripe.couponID = couponVal
-    @user.set('stripe', stripe)
+    static initClass() {
+      this.prototype.id = 'administer-user-modal';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'click #save-changes': 'onClickSaveChanges',
+        'click #create-payment-btn': 'onClickCreatePayment',
+        'click #add-seats-btn': 'onClickAddSeatsButton',
+        'click #add-esports-product-btn': 'onClickAddEsportsProductButton',
+        'click #user-spy-btn': 'onClickUserSpyButton',
+        'click #destudent-btn': 'onClickDestudentButton',
+        'click #deteacher-btn': 'onClickDeteacherButton',
+        'click #reset-progress-btn': 'onClickResetProgressButton',
+        'click .update-classroom-btn': 'onClickUpdateClassroomButton',
+        'click .add-new-courses-btn': 'onClickAddNewCoursesButton',
+        'click .user-link': 'onClickUserLink',
+        'click #verified-teacher-checkbox': 'onClickVerifiedTeacherCheckbox',
+        'click .edit-prepaids-info-btn': 'onClickEditPrepaidsInfoButton',
+        'click .cancel-prepaid-info-edit-btn': 'onClickCancelPrepaidInfoEditButton',
+        'click .save-prepaid-info-btn': 'onClickSavePrepaidInfo',
+        'click .edit-product-info-btn': 'onClickEditProductInfoButton',
+        'click .cancel-product-info-edit-btn': 'onClickCancelProductInfoEditButton',
+        'click .save-product-info-btn': 'onClickSaveProductInfo',
+        'click #school-admin-checkbox': 'onClickSchoolAdminCheckbox',
+        'click #online-teacher-checkbox': 'onClickOnlineTeacherCheckbox',
+        'click #beta-tester-checkbox': 'onClickBetaTesterCheckbox',
+        'click #edit-school-admins-link': 'onClickEditSchoolAdmins',
+        'submit #teacher-search-form': 'onSubmitTeacherSearchForm',
+        'click .add-administer-teacher': 'onClickAddAdministeredTeacher',
+        'click #clear-teacher-search-button': 'onClearTeacherSearchResults',
+        'click #teacher-search-button': 'onSubmitTeacherSearchForm',
+        'click .remove-teacher-button': 'onClickRemoveAdministeredTeacher',
+        'click #license-type-select>.radio': 'onSelectLicenseType',
+        'click #esports-type-select>.radio': 'onSelectEsportsType',
+        'click #esports-product-addon': 'onSelectEsportsAddon',
+        'click .other-user-link': 'onClickOtherUserLink',
+        'click .modal-nav-link': 'onClickModalNavLink',
+        'click #volume-checkbox': 'onClickVolumeCheckbox',
+        'click #music-checkbox': 'onClickMusicCheckbox'
+      };
+    }
 
-    newGems = parseInt(@$('#stripe-add-gems').val())
-    newGems = 0 if isNaN(newGems)
-    if newGems > 0
-      purchased = _.clone(@user.get('purchased') ? {})
-      purchased.gems ?= 0
-      purchased.gems += newGems
-      @user.set('purchased', purchased)
+    initialize(options, userHandle) {
+      this.userHandle = userHandle;
+      this.ESPORTS_PRODUCT_STATS = ESPORTS_PRODUCT_STATS;
+      this.user = new User({_id: this.userHandle});
+      this.classrooms = new Classrooms();
+      this.listenTo(this.user, 'sync', () => {
+        if (this.user.isStudent()) {
+          this.supermodel.loadCollection(this.classrooms, { data: {memberID: this.user.id}, cache: false });
+          this.listenTo(this.classrooms, 'sync', this.loadClassroomTeacherNames);
+        } else if (this.user.isTeacher()) {
+          this.supermodel.trackRequest(this.classrooms.fetchByOwner(this.userHandle));
+        }
+        this.esportsProducts = this.user.getProductsByType('esports');
+        return this.renderSelectors('#esports-products');
+      });
+      this.supermodel.trackRequest(this.user.fetch({cache: false}));
+      this.coupons = new StripeCoupons();
+      if (me.isAdmin()) { this.supermodel.trackRequest(this.coupons.fetch({cache: false})); }
+      this.prepaids = new Prepaids();
+      if (me.isAdmin()) { this.supermodel.trackRequest(this.prepaids.fetchByCreator(this.userHandle, { data: {includeShared: true} })); }
+      this.listenTo(this.prepaids, 'sync', () => {
+        return this.prepaids.each(prepaid => {
+          if (prepaid.loaded && !prepaid.creator) {
+            prepaid.creator = new User();
+            return this.supermodel.trackRequest(prepaid.creator.fetchCreatorOfPrepaid(prepaid));
+          }
+        });
+      });
+      this.esportsProducts = this.user.getProductsByType('esports');
+      this.trialRequests = new TrialRequests();
+      if (me.isAdmin()) { this.supermodel.trackRequest(this.trialRequests.fetchByApplicant(this.userHandle)); }
+      this.timeZone = (typeof features !== 'undefined' && features !== null ? features.chinaInfra : undefined) ? 'Asia/Shanghai' : 'America/Los_Angeles';
+      this.licenseType = 'all';
+      this.licensePresets = LICENSE_PRESETS;
+      this.esportsType = 'basic';
+      this.utils = utils;
+      options.models = [this.user];  // For ModelModal to generate a Treema of this user
+      this.momentTimezone = momentTimezone;
+      return super.initialize(options);
+    }
 
-    options = {}
-    options.success = =>
-      @updateStripeStatus?()
-      @render?()
-    @user.patch(options)
+    onLoaded() {
+      this.updateStripeStatus();
+      this.trialRequest = this.trialRequests.first();
+      if (this.trialRequest) { this.models.push(this.trialRequest); }
+      this.prepaidTableState={};
+      this.productTableState={};
+      this.foundTeachers = [];
+      this.administratedTeachers = [];
+      this.trialRequests = new TrialRequests();
+      if (me.isAdmin()) { this.supermodel.trackRequest(this.trialRequests.fetchByApplicant(this.userHandle)); }
 
-  onClickAddSeatsButton: ->
-    attrs = forms.formToObject(@$('#prepaid-form'))
-    attrs.maxRedeemers = parseInt(attrs.maxRedeemers)
-    return unless _.all(_.values(attrs))
-    return unless attrs.maxRedeemers > 0
-    return unless attrs.endDate and attrs.startDate and attrs.endDate > attrs.startDate
-    attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-    timeZone = @timeZone
-    if attrs.userTimeZone?[0] == 'on'
-      timeZone = @getUserTimeZone()
-    attrs.startDate = momentTimezone.tz(attrs.startDate, timeZone).toISOString()
-    attrs.endDate = momentTimezone.tz(attrs.endDate, timeZone).toISOString()
+      return super.onLoaded();
+    }
 
-    if attrs.licenseType of @licensePresets
-      attrs.includedCourseIDs = @licensePresets[attrs.licenseType]
-    return unless attrs.licenseType == 'all' or attrs.includedCourseIDs.length
-    delete attrs.licenseType
-
-    _.extend(attrs, {
-      type: 'course'
-      creator: @user.id
-      properties:
-        adminAdded: me.id
-    })
-    prepaid = new Prepaid(attrs)
-    prepaid.save()
-    @state = 'creating-prepaid'
-    @renderSelectors('#prepaid-form')
-    @listenTo prepaid, 'sync', ->
-      @state = 'made-prepaid'
-      @renderSelectors('#prepaid-form')
-      @prepaids.push(prepaid)
-      @renderSelectors('#prepaids-table')
-      $('#prepaids-table').addClass('in')
-      setTimeout(() =>
-        @state = ''
-        @renderSelectors('#prepaid-form')
-      , 1000)
-
-  onClickAddEsportsProductButton: ->
-    attrs = forms.formToObject(@$('#esports-product-form'))
-
-    return unless _.all(_.values(attrs))
-    return unless attrs.endDate and attrs.startDate and attrs.endDate > attrs.startDate
-    attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-
-    attrs.startDate = momentTimezone.tz(attrs.startDate, @timeZone ).toISOString()
-    attrs.endDate = momentTimezone.tz(attrs.endDate, @timeZone).toISOString()
-
-    attrs.productOptions = {type: attrs.esportsType, id: _.uniqueId(), createdTournaments: 0}
-    delete attrs.esportsType
-
-    if attrs.addon.length
-      attrs.productOptions.teams = parseInt(attrs.teams)
-      attrs.productOptions.tournaments = parseInt(attrs.tournaments)
-      attrs.productOptions.arenas = attrs.arenas if attrs.arenas
-    else
-      upperType = attrs.productOptions.type.toUpperCase()
-      attrs.productOptions.teams = ESPORTS_PRODUCT_STATS.TEAMS[upperType]
-      attrs.productOptions.tournaments = ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType]
-
-    delete attrs.teams
-    delete attrs.tournaments
-    delete attrs.arenas
-    delete attrs.addon
-
-    _.extend(attrs, {
-      product: 'esports'
-      purchaser: @user.id
-      recipient: @user.id
-      paymentService: 'external'
-      paymentDetails:
-        adminAdded: me.id
-    })
-    @state = 'creating-esports-product'
-    @renderSelectors('#esports-product-form')
-    $('#esports-product-form').addClass('in')
-    api.users.putUserProducts({
-      user: @user.id,
-      product: attrs,
-      kind: 'new'
-    }).then (res) =>
-      @state = 'made-esports-product'
-      @renderSelectors('#esports-product-form')
-      $('#esports-product-form').addClass('in')
-      @esportsProducts.push(attrs)
-      @renderSelectors('#esports-product-table')
-      $('#esports-product-table').addClass('in')
-      setTimeout(() =>
-        @state = ''
-        @renderSelectors('#esports-product-form')
-        $('#esports-product-form').addClass('in')
-      , 1000)
-
-  onClickUserSpyButton: (e) ->
-    e.stopPropagation()
-    button = $(e.currentTarget)
-    forms.disableSubmit(button)
-    me.spy @user.id,
-      success: -> window.location.reload()
-      error: ->
-        forms.enableSubmit(button)
-        errors.showNotyNetworkError(arguments...)
-
-  onClickDestudentButton: (e) ->
-    button = @$(e.currentTarget)
-    button.attr('disabled', true).text('...')
-    Promise.resolve(@user.destudent())
-    .then =>
-      button.remove()
-    .catch (e) =>
-      button.attr('disabled', false).text('Destudent')
-      noty {
-        text: e.message or e.responseJSON?.message or e.responseText or 'Unknown Error'
-        type: 'error'
+    afterInsert() {
+      if ((window.location.pathname === '/admin') && (window.location.search !== ('?user=' + this.user.id))) {
+        window.history.pushState({}, '', '/admin?user=' + this.user.id);
       }
-      if e.stack
-        throw e
+      return super.afterInsert();
+    }
 
-  onClickDeteacherButton: (e) ->
-    button = @$(e.currentTarget)
-    button.attr('disabled', true).text('...')
-    Promise.resolve(@user.deteacher())
-    .then =>
-      button.remove()
-    .catch (e) =>
-      button.attr('disabled', false).text('Destudent')
-      noty {
-        text: e.message or e.responseJSON?.message or e.responseText or 'Unknown Error'
-        type: 'error'
+    willDisappear() {
+      if ((window.location.pathname === '/admin') && (window.location.search === ('?user=' + this.user.id))) {
+        window.history.pushState({}, '', '/admin');  // Remove ?user=id query parameter
       }
-      if e.stack
-        throw e
+      return super.willDisappear();
+    }
 
-  onClickResetProgressButton: ->
-    if confirm("Really RESET this person's progress?")
-      api.users.resetProgress({ userID: @user.id})
+    updateStripeStatus() {
+      const stripe = this.user.get('stripe') || {};
+      this.free = stripe.free === true;
+      this.freeUntil = _.isString(stripe.free);
+      this.freeUntilDate = (() => { switch (false) {
+        case !this.freeUntil: return stripe.free;
+        case !me.isOnlineTeacher(): return moment().add(1, "day").toISOString().slice(0, 10);  // Default to tomorrow
+        default: return new (Date().toISOString().slice(0, 10));
+      } })();
+      this.currentCouponID = stripe.couponID;
+      return this.none = !(this.free || this.freeUntil || this.coupon);
+    }
 
-  onClickUpdateClassroomButton: (e) ->
-    classroom = @classrooms.get(@$(e.currentTarget).data('classroom-id'))
-    if confirm("Really update #{classroom.get('name')}?")
-      Promise.resolve(classroom.updateCourses())
-      .then =>
-        noty({text: 'Updated classroom courses.'})
-        @renderSelectors('#classroom-table')
-      .catch ->
-        noty({text: 'Failed to update classroom courses.', type: 'error'})
-
-  onClickAddNewCoursesButton: (e) ->
-    classroom = @classrooms.get(@$(e.currentTarget).data('classroom-id'))
-    if confirm("Really update #{classroom.get('name')}?")
-      Promise.resolve(classroom.updateCourses({data: {addNewCoursesOnly: true}}))
-      .then =>
-        noty({text: 'Updated classroom courses.'})
-        @renderSelectors('#classroom-table')
-      .catch ->
-        noty({text: 'Failed to update classroom courses.', type: 'error'})
-
-  onClickUserLink: (e) ->
-    userID = @$(e.target).data('user-id')
-    @openModalView new AdministerUserModal({}, userID) if userID
-
-  userIsVerifiedTeacher: () ->
-    @user.get('verifiedTeacher')
-
-  onClickVerifiedTeacherCheckbox: (e) ->
-    checked = @$(e.target).prop('checked')
-    @userSaveState = 'saving'
-    @render()
-    fetchJson("/db/user/#{@user.id}/verifiedTeacher", {
-      method: 'PUT',
-      json: checked
-    }).then (res) =>
-      @userSaveState = 'saved'
-      @user.set('verifiedTeacher', res.verifiedTeacher)
-      @render()
-      setTimeout((()=>
-        @userSaveState = null
-        @render()
-      ), 2000)
-    null
-
-  onClickEditPrepaidsInfoButton: (e) ->
-    prepaidId=@$(e.target).data('prepaid-id')
-    @prepaidTableState[prepaidId] = 'editMode'
-    @renderSelectors('#'+prepaidId)
-
-  onClickCancelPrepaidInfoEditButton: (e) ->
-    @prepaidTableState[@$(e.target).data('prepaid-id')] = 'viewMode'
-    @renderSelectors('#'+@$(e.target).data('prepaid-id'))
-
-  onClickSavePrepaidInfo: (e) ->
-    prepaidId= @$(e.target).data('prepaid-id')
-    prepaidStartDate= @$el.find('#'+'startDate-'+prepaidId).val()
-    prepaidEndDate= @$el.find('#'+'endDate-'+prepaidId).val()
-    prepaidTotalLicenses=@$el.find('#'+'totalLicenses-'+prepaidId).val()
-    @prepaids.each (prepaid) =>
-      if (prepaid.get('_id') == prepaidId)
-        #validations
-        unless prepaidStartDate and prepaidEndDate and prepaidTotalLicenses
-          return
-        if(prepaidStartDate >= prepaidEndDate)
-          alert('End date cannot be on or before start date')
-          return
-        if(prepaidTotalLicenses < (prepaid.get('redeemers') || []).length)
-          alert('Total number of licenses cannot be less than used licenses')
-          return
-        prepaid.set('startDate', momentTimezone.tz(prepaidStartDate, @timeZone).toISOString())
-        prepaid.set('endDate',  momentTimezone.tz(prepaidEndDate, @timeZone).toISOString())
-        prepaid.set('maxRedeemers', prepaidTotalLicenses)
-        options = {}
-        prepaid.patch(options)
-        @listenTo prepaid, 'sync', ->
-          @prepaidTableState[prepaidId] = 'viewMode'
-          @renderSelectors('#'+prepaidId)
-        return
-
-  onClickEditProductInfoButton: (e) ->
-    productId=@$(e.target).data('product-id')
-    @productTableState[productId] = 'editMode'
-    @renderSelectors('#product-'+productId)
-
-  onClickCancelProductInfoEditButton: (e) ->
-    productId=@$(e.target).data('product-id')
-    @productTableState[productId] = 'viewMode'
-    @renderSelectors('#product-'+productId)
-
-  onClickSaveProductInfo: (e) ->
-    productId = '' + @$(e.target).data('product-id') # make sure it is string
-    productStartDate = @$el.find('#product-startDate-' + productId).val()
-    productEndDate = @$el.find('#product-endDate-' + productId).val()
-    tournaments = @$el.find('#product-tournaments-' + productId).val()
-    teams = @$el.find('#product-teams-' + productId).val()
-    arenas = @$el.find('#product-arenas-' + productId).val()
-
-    @esportsProducts.forEach (product, i) =>
-      if product.productOptions.id == productId
-        #validations
-        unless productStartDate and productEndDate
-          return
-        if(productStartDate >= productEndDate)
-          alert('End date cannot be on or before start date')
-          return
-        product.startDate = momentTimezone.tz(productStartDate, @timeZone).toISOString()
-        product.endDate = momentTimezone.tz(productEndDate, @timeZone).toISOString()
-        product.productOptions.teams = parseInt(teams)
-        product.productOptions.tournaments = parseInt(tournaments)
-        product.productOptions.arenas = arenas
-        api.users.putUserProducts({
-          user: @user.id,
-          product,
-          kind: 'edit'
-        }).then (res) =>
-          @productTableState[productId] = 'viewMode'
-          @esportsProducts[i] = product
-          @renderSelectors('#product-' + productId)
-
-  userIsSchoolAdmin: -> @user.isSchoolAdmin()
-
-  userIsOnlineTeacher: -> @user.isOnlineTeacher()
-
-  userIsBetaTester: -> @user.isBetaTester()
-
-  onClickOnlineTeacherCheckbox: (e) ->
-    checked = @$(e.target).prop('checked')
-    unless @updateUserPermission User.PERMISSIONS.ONLINE_TEACHER, checked
-      e.preventDefault()
-
-  onClickSchoolAdminCheckbox: (e) ->
-    checked = @$(e.target).prop('checked')
-    unless @updateUserPermission User.PERMISSIONS.SCHOOL_ADMINISTRATOR, checked
-      e.preventDefault()
-
-  onClickBetaTesterCheckbox: (e) ->
-    checked = @$(e.target).prop('checked')
-    unless @updateUserPermission User.PERMISSIONS.BETA_TESTER, checked
-      e.preventDefault()
-
-  updateUserPermission: (permission, enabled) ->
-    cancelled = false
-    if enabled
-      unless window.confirm("ENABLE #{permission} for #{@user.get('email') || @user.broadName()}?")
-        cancelled = true
-    else
-      unless window.confirm("DISABLE #{permission} for #{@user.get('email') || @user.broadName()}?")
-        cancelled = true
-    if cancelled
-      @userSaveState = null
-      @render()
-      return false
-
-    @userSaveState = 'saving'
-    @render()
-    fetchJson("/db/user/#{@user.id}/#{permission}", {
-      method: 'PUT',
-      json: {
-        enabled: enabled
+    onClickCreatePayment() {
+      const service = this.$('#payment-service').val();
+      let amount = parseInt(this.$('#payment-amount').val());
+      if (isNaN(amount)) { amount = 0; }
+      let gems = parseInt(this.$('#payment-gems').val());
+      if (isNaN(gems)) { gems = 0; }
+      if (_.isEmpty(service)) {
+        alert('Service cannot be empty');
+        return;
+      } else if (amount < 0) {
+        alert('Payment cannot be negative');
+        return;
+      } else if (gems < 0) {
+        alert('Gems cannot be negative');
+        return;
       }
-    }).then (res) =>
-      @userSaveState = 'saved'
-      @user.fetch({cache: false}).then => @render()
-    true
 
-  onClickEditSchoolAdmins: (e) ->
-    if typeof @editingSchoolAdmins is 'undefined'
-      administrated = @user.get('administratedTeachers')
+      const data = {
+        purchaser: this.user.get('_id'),
+        recipient: this.user.get('_id'),
+        service,
+        created: new Date().toISOString(),
+        gems,
+        amount,
+        description: this.$('#payment-description').val()
+      };
+      return $.post('/db/payment/admin', data, () => this.hide());
+    }
 
-      if administrated?.length
-        api.users.fetchByIds({
-          fetchByIds: administrated
-          teachersOnly: true
-          includeTrialRequests: true
-        }).then (teachers) =>
-          @administratedTeachers = teachers or []
-          @updateAdministratedTeachers()
-        .catch (jqxhr) =>
-          errorString = "There was an error getting existing administratedTeachers, see the console"
-          @userSaveState = errorString
-          @render()
-          console.error errorString, jqxhr
-
-    @editingSchoolAdmins = !@editingSchoolAdmins
-    @render()
-
-  onClickAddAdministeredTeacher: (e) ->
-    teacher = _.find @foundTeachers, (t) -> t._id is $(e.target).closest('tr').data('user-id')
-    @foundTeachers = _.filter @foundTeachers, (t) -> t._id isnt teacher._id
-    @render()
-
-    fetchJson("/db/user/#{@user.id}/schoolAdministrator/administratedTeacher", {
-      method: 'POST',
-      json: {
-        administratedTeacherId: teacher._id
+    onClickSaveChanges() {
+      const stripe = _.clone(this.user.get('stripe') || {});
+      delete stripe.free;
+      delete stripe.couponID;
+      const selection = this.$el.find('input[name="stripe-benefit"]:checked').val();
+      const dateVal = this.$el.find('#free-until-date').val();
+      const couponVal = this.$el.find('#coupon-select').val();
+      switch (selection) {
+        case 'free': stripe.free = true; break;
+        case 'free-until': stripe.free = dateVal; break;
+        case 'coupon': stripe.couponID = couponVal; break;
       }
-    }).then (res) =>
-      @administratedTeachers.push(teacher)
-    .catch (jqxhr) =>
-      errorString = "There was an error adding teacher, see the console"
-      @userSaveState = errorString
-      console.error errorString, jqxhr
-      @render()
-    .finally =>
-      @updateAdministratedTeachers()
-    null
+      this.user.set('stripe', stripe);
 
-  onClickRemoveAdministeredTeacher: (e) ->
-    teacher = $(e.target).closest('tr').data('user-id')
-    @render()
-
-    fetchJson("/db/user/#{@user.id}/schoolAdministrator/administratedTeacher/#{teacher}", {
-      method: 'DELETE'
-    }).then (res) =>
-      @administratedTeachers = @administratedTeachers.filter (t) -> t._id isnt teacher
-      @updateAdministratedTeachers()
-    null
-
-  onSearchRequestSuccess: (teachers) =>
-    forms.enableSubmit(@$('#teacher-search-button'))
-
-    # Filter out the existing administrated teachers and themselves:
-    existingTeachers = _.pluck(@administratedTeachers, '_id')
-    existingTeachers.push(@user.id)
-    @foundTeachers = _.filter(teachers, (teacher) -> teacher._id not in existingTeachers)
-
-    result = _.map(@foundTeachers, (teacher) ->
-      "
-        <tr data-user-id='#{teacher._id}'>
-          <td>
-            <button class='add-administer-teacher'>Add</button>
-          </td>
-          <td><code>#{teacher._id}</code></td>
-          <td>#{_.escape(teacher.name or 'Anonymous')}</td>
-          <td>#{_.escape(teacher.email)}</td>
-          <td>#{teacher.firstName or 'No first name'}</td>
-          <td>#{teacher.lastName or 'No last name'}</td>
-          <td>#{teacher.schoolName or 'Other'}</td>
-          <td>Verified teacher: #{teacher.verifiedTeacher or 'false'}</td>
-        </tr>
-      "
-    )
-
-    result = "<table class=\"table\">#{result.join('\n')}</table>"
-    @$el.find('#teacher-search-result').html(result)
-
-  onSearchRequestFailure: (jqxhr, status, error) =>
-    return if @destroyed
-    forms.enableSubmit(@$('#teacher-search-button'))
-    console.warn "There was an error looking up #{@lastTeacherSearchValue}:", error
-
-  onClearTeacherSearchResults: (e) ->
-    @$el.find('#teacher-search-result').html('')
-
-  onSubmitTeacherSearchForm: (e) ->
-    @userSaveState = null
-    e.preventDefault()
-    forms.disableSubmit(@$('#teacher-search-button'))
-
-    $.ajax
-      type: 'GET',
-      url: '/db/user'
-      data: {
-        adminSearch: @$el.find('#teacher-search').val()
+      let newGems = parseInt(this.$('#stripe-add-gems').val());
+      if (isNaN(newGems)) { newGems = 0; }
+      if (newGems > 0) {
+        let left;
+        const purchased = _.clone((left = this.user.get('purchased')) != null ? left : {});
+        if (purchased.gems == null) { purchased.gems = 0; }
+        purchased.gems += newGems;
+        this.user.set('purchased', purchased);
       }
-      success: @onSearchRequestSuccess
-      error: @onSearchRequestFailure
 
-  updateAdministratedTeachers: () ->
-    schools = @administratedSchools(@administratedTeachers)
-    schoolNames = Object.keys(schools)
+      const options = {};
+      options.success = () => {
+        if (typeof this.updateStripeStatus === 'function') {
+          this.updateStripeStatus();
+        }
+        return (typeof this.render === 'function' ? this.render() : undefined);
+      };
+      return this.user.patch(options);
+    }
 
-    result = _.map(schoolNames, (schoolName) ->
-      teachers = _.map(schools[schoolName], (teacher) ->
-        return "
-          <tr data-user-id='#{teacher._id}'>
-            <td>#{teacher.firstName} #{teacher.lastName}</td>
-            <td>#{teacher.role}</td>
-            <td>#{teacher.email}</td>
-            <td><button class='btn btn-primary btn-large remove-teacher-button'>Remove</button></td>
-          </tr>
-        "
-      )
+    onClickAddSeatsButton() {
+      const attrs = forms.formToObject(this.$('#prepaid-form'));
+      attrs.maxRedeemers = parseInt(attrs.maxRedeemers);
+      if (!_.all(_.values(attrs))) { return; }
+      if (!(attrs.maxRedeemers > 0)) { return; }
+      if (!attrs.endDate || !attrs.startDate || !(attrs.endDate > attrs.startDate)) { return; }
+      attrs.endDate = attrs.endDate + " " + "23:59";   // Otherwise, it ends at 12 am by default which does not include the date indicated
+      let {
+        timeZone
+      } = this;
+      if ((attrs.userTimeZone != null ? attrs.userTimeZone[0] : undefined) === 'on') {
+        timeZone = this.getUserTimeZone();
+      }
+      attrs.startDate = momentTimezone.tz(attrs.startDate, timeZone).toISOString();
+      attrs.endDate = momentTimezone.tz(attrs.endDate, timeZone).toISOString();
 
-      return "
-        <tr>
-          <th>#{schoolName}</th>
-          #{teachers.join('\n')}
-        </tr>
-      "
-    )
+      if (attrs.licenseType in this.licensePresets) {
+        attrs.includedCourseIDs = this.licensePresets[attrs.licenseType];
+      }
+      if ((attrs.licenseType !== 'all') && !attrs.includedCourseIDs.length) { return; }
+      delete attrs.licenseType;
 
-    result = "<table class=\"table\">#{result.join('\n')}</table>"
-    @$el.find('#school-admin-result').html(result)
+      _.extend(attrs, {
+        type: 'course',
+        creator: this.user.id,
+        properties: {
+          adminAdded: me.id
+        }
+      });
+      const prepaid = new Prepaid(attrs);
+      prepaid.save();
+      this.state = 'creating-prepaid';
+      this.renderSelectors('#prepaid-form');
+      return this.listenTo(prepaid, 'sync', function() {
+        this.state = 'made-prepaid';
+        this.renderSelectors('#prepaid-form');
+        this.prepaids.push(prepaid);
+        this.renderSelectors('#prepaids-table');
+        $('#prepaids-table').addClass('in');
+        return setTimeout(() => {
+          this.state = '';
+          return this.renderSelectors('#prepaid-form');
+        }
+        , 1000);
+      });
+    }
 
-  onSelectLicenseType: (e) ->
-    @licenseType = $(e.target).parent().children('input').val()
-    @renderSelectors("#license-type-select")
+    onClickAddEsportsProductButton() {
+      const attrs = forms.formToObject(this.$('#esports-product-form'));
 
-  onSelectEsportsType: (e) ->
-    @esportsType = $(e.target).parent().children('input').val()
-    @renderSelectors("#esports-type-select")
-    @renderSelectors("#esports-product-addon-items")
+      if (!_.all(_.values(attrs))) { return; }
+      if (!attrs.endDate || !attrs.startDate || !(attrs.endDate > attrs.startDate)) { return; }
+      attrs.endDate = attrs.endDate + " " + "23:59";   // Otherwise, it ends at 12 am by default which does not include the date indicated
 
-  onSelectEsportsAddon: (e) ->
-    @esportsAddon = $(e.target).parent().children('input').is(':checked')
-    @renderSelectors('#esports-product-addon-items')
+      attrs.startDate = momentTimezone.tz(attrs.startDate, this.timeZone ).toISOString();
+      attrs.endDate = momentTimezone.tz(attrs.endDate, this.timeZone).toISOString();
 
-  administratedSchools: (teachers) ->
-    schools = {}
-    _.forEach teachers, (teacher) =>
-      school = teacher?._trialRequest?.organization or "Other"
-      if not schools[school]
-        schools[school] = [teacher]
-      else
-        schools[school].push(teacher)
+      attrs.productOptions = {type: attrs.esportsType, id: _.uniqueId(), createdTournaments: 0};
+      delete attrs.esportsType;
 
-    schools
+      if (attrs.addon.length) {
+        attrs.productOptions.teams = parseInt(attrs.teams);
+        attrs.productOptions.tournaments = parseInt(attrs.tournaments);
+        if (attrs.arenas) { attrs.productOptions.arenas = attrs.arenas; }
+      } else {
+        const upperType = attrs.productOptions.type.toUpperCase();
+        attrs.productOptions.teams = ESPORTS_PRODUCT_STATS.TEAMS[upperType];
+        attrs.productOptions.tournaments = ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType];
+      }
 
-  loadClassroomTeacherNames: ->
-    ownerIDs = _.map(@classrooms.models, (c) -> c.get('ownerID')) ? []
-    Promise.resolve($.ajax(NameLoader.loadNames(ownerIDs)))
-    .then(=>
-      @ownerNameMap = {}
-      @ownerNameMap[ownerID] = NameLoader.getName(ownerID) for ownerID in ownerIDs
-      @render?()
-    )
+      delete attrs.teams;
+      delete attrs.tournaments;
+      delete attrs.arenas;
+      delete attrs.addon;
 
-  onClickOtherUserLink: (e) ->
-    e.preventDefault()
-    userID = $(e.target).closest('a').data('user-id')
-    @openModalView new AdministerUserModal({}, userID)
+      _.extend(attrs, {
+        product: 'esports',
+        purchaser: this.user.id,
+        recipient: this.user.id,
+        paymentService: 'external',
+        paymentDetails: {
+          adminAdded: me.id
+        }
+      });
+      this.state = 'creating-esports-product';
+      this.renderSelectors('#esports-product-form');
+      $('#esports-product-form').addClass('in');
+      return api.users.putUserProducts({
+        user: this.user.id,
+        product: attrs,
+        kind: 'new'
+      }).then(res => {
+        this.state = 'made-esports-product';
+        this.renderSelectors('#esports-product-form');
+        $('#esports-product-form').addClass('in');
+        this.esportsProducts.push(attrs);
+        this.renderSelectors('#esports-product-table');
+        $('#esports-product-table').addClass('in');
+        return setTimeout(() => {
+          this.state = '';
+          this.renderSelectors('#esports-product-form');
+          return $('#esports-product-form').addClass('in');
+        }
+        , 1000);
+      });
+    }
 
-  onClickModalNavLink: (e) ->
-    e.preventDefault()
-    @$el.animate({scrollTop: $($(e.target).attr('href')).offset().top}, 0)
+    onClickUserSpyButton(e) {
+      e.stopPropagation();
+      const button = $(e.currentTarget);
+      forms.disableSubmit(button);
+      return me.spy(this.user.id, {
+        success() { return window.location.reload(); },
+        error() {
+          forms.enableSubmit(button);
+          return errors.showNotyNetworkError(...arguments);
+        }
+      }
+      );
+    }
 
-  onClickMusicCheckbox: (e) ->
-    val = @$(e.target).prop('checked')
-    @user.set 'music', val
-    @user.patch()
-    @modelTreemas[@user.id].set 'music', val
+    onClickDestudentButton(e) {
+      const button = this.$(e.currentTarget);
+      button.attr('disabled', true).text('...');
+      return Promise.resolve(this.user.destudent())
+      .then(() => {
+        return button.remove();
+    }).catch(e => {
+        button.attr('disabled', false).text('Destudent');
+        noty({
+          text: e.message || (e.responseJSON != null ? e.responseJSON.message : undefined) || e.responseText || 'Unknown Error',
+          type: 'error'
+        });
+        if (e.stack) {
+          throw e;
+        }
+      });
+    }
 
-  onClickVolumeCheckbox: (e) ->
-    val = if checked = @$(e.target).prop('checked') then 1.0 else 0.0
-    @user.set 'volume', val
-    @user.patch()
-    @modelTreemas[@user.id].set 'volume', val
+    onClickDeteacherButton(e) {
+      const button = this.$(e.currentTarget);
+      button.attr('disabled', true).text('...');
+      return Promise.resolve(this.user.deteacher())
+      .then(() => {
+        return button.remove();
+    }).catch(e => {
+        button.attr('disabled', false).text('Destudent');
+        noty({
+          text: e.message || (e.responseJSON != null ? e.responseJSON.message : undefined) || e.responseText || 'Unknown Error',
+          type: 'error'
+        });
+        if (e.stack) {
+          throw e;
+        }
+      });
+    }
 
-  getUserTimeZone: ->
-    geo = @user.get('geo')
-    if geo?.timeZone
-      return geo.timeZone
-    else
-      return @timeZone
+    onClickResetProgressButton() {
+      if (confirm("Really RESET this person's progress?")) {
+        return api.users.resetProgress({ userID: this.user.id});
+      }
+    }
+
+    onClickUpdateClassroomButton(e) {
+      const classroom = this.classrooms.get(this.$(e.currentTarget).data('classroom-id'));
+      if (confirm(`Really update ${classroom.get('name')}?`)) {
+        return Promise.resolve(classroom.updateCourses())
+        .then(() => {
+          noty({text: 'Updated classroom courses.'});
+          return this.renderSelectors('#classroom-table');
+      }).catch(() => noty({text: 'Failed to update classroom courses.', type: 'error'}));
+      }
+    }
+
+    onClickAddNewCoursesButton(e) {
+      const classroom = this.classrooms.get(this.$(e.currentTarget).data('classroom-id'));
+      if (confirm(`Really update ${classroom.get('name')}?`)) {
+        return Promise.resolve(classroom.updateCourses({data: {addNewCoursesOnly: true}}))
+        .then(() => {
+          noty({text: 'Updated classroom courses.'});
+          return this.renderSelectors('#classroom-table');
+      }).catch(() => noty({text: 'Failed to update classroom courses.', type: 'error'}));
+      }
+    }
+
+    onClickUserLink(e) {
+      const userID = this.$(e.target).data('user-id');
+      if (userID) { return this.openModalView(new AdministerUserModal({}, userID)); }
+    }
+
+    userIsVerifiedTeacher() {
+      return this.user.get('verifiedTeacher');
+    }
+
+    onClickVerifiedTeacherCheckbox(e) {
+      const checked = this.$(e.target).prop('checked');
+      this.userSaveState = 'saving';
+      this.render();
+      fetchJson(`/db/user/${this.user.id}/verifiedTeacher`, {
+        method: 'PUT',
+        json: checked
+      }).then(res => {
+        this.userSaveState = 'saved';
+        this.user.set('verifiedTeacher', res.verifiedTeacher);
+        this.render();
+        return setTimeout((()=> {
+          this.userSaveState = null;
+          return this.render();
+        }
+        ), 2000);
+      });
+      return null;
+    }
+
+    onClickEditPrepaidsInfoButton(e) {
+      const prepaidId=this.$(e.target).data('prepaid-id');
+      this.prepaidTableState[prepaidId] = 'editMode';
+      return this.renderSelectors('#'+prepaidId);
+    }
+
+    onClickCancelPrepaidInfoEditButton(e) {
+      this.prepaidTableState[this.$(e.target).data('prepaid-id')] = 'viewMode';
+      return this.renderSelectors('#'+this.$(e.target).data('prepaid-id'));
+    }
+
+    onClickSavePrepaidInfo(e) {
+      const prepaidId= this.$(e.target).data('prepaid-id');
+      const prepaidStartDate= this.$el.find("#startDate-"+prepaidId).val();
+      const prepaidEndDate= this.$el.find("#endDate-"+prepaidId).val();
+      const prepaidTotalLicenses=this.$el.find("#totalLicenses-"+prepaidId).val();
+      return this.prepaids.each(prepaid => {
+        if (prepaid.get('_id') === prepaidId) {
+          //validations
+          if (!prepaidStartDate || !prepaidEndDate || !prepaidTotalLicenses) {
+            return;
+          }
+          if(prepaidStartDate >= prepaidEndDate) {
+            alert('End date cannot be on or before start date');
+            return;
+          }
+          if(prepaidTotalLicenses < (prepaid.get('redeemers') || []).length) {
+            alert('Total number of licenses cannot be less than used licenses');
+            return;
+          }
+          prepaid.set('startDate', momentTimezone.tz(prepaidStartDate, this.timeZone).toISOString());
+          prepaid.set('endDate',  momentTimezone.tz(prepaidEndDate, this.timeZone).toISOString());
+          prepaid.set('maxRedeemers', prepaidTotalLicenses);
+          const options = {};
+          prepaid.patch(options);
+          this.listenTo(prepaid, 'sync', function() {
+            this.prepaidTableState[prepaidId] = 'viewMode';
+            return this.renderSelectors('#'+prepaidId);
+          });
+          return;
+        }
+      });
+    }
+
+    onClickEditProductInfoButton(e) {
+      const productId=this.$(e.target).data('product-id');
+      this.productTableState[productId] = 'editMode';
+      return this.renderSelectors('#product-'+productId);
+    }
+
+    onClickCancelProductInfoEditButton(e) {
+      const productId=this.$(e.target).data('product-id');
+      this.productTableState[productId] = 'viewMode';
+      return this.renderSelectors('#product-'+productId);
+    }
+
+    onClickSaveProductInfo(e) {
+      const productId = '' + this.$(e.target).data('product-id'); // make sure it is string
+      const productStartDate = this.$el.find('#product-startDate-' + productId).val();
+      const productEndDate = this.$el.find('#product-endDate-' + productId).val();
+      const tournaments = this.$el.find('#product-tournaments-' + productId).val();
+      const teams = this.$el.find('#product-teams-' + productId).val();
+      const arenas = this.$el.find('#product-arenas-' + productId).val();
+
+      return this.esportsProducts.forEach((product, i) => {
+        if (product.productOptions.id === productId) {
+          //validations
+          if (!productStartDate || !productEndDate) {
+            return;
+          }
+          if(productStartDate >= productEndDate) {
+            alert('End date cannot be on or before start date');
+            return;
+          }
+          product.startDate = momentTimezone.tz(productStartDate, this.timeZone).toISOString();
+          product.endDate = momentTimezone.tz(productEndDate, this.timeZone).toISOString();
+          product.productOptions.teams = parseInt(teams);
+          product.productOptions.tournaments = parseInt(tournaments);
+          product.productOptions.arenas = arenas;
+          return api.users.putUserProducts({
+            user: this.user.id,
+            product,
+            kind: 'edit'
+          }).then(res => {
+            this.productTableState[productId] = 'viewMode';
+            this.esportsProducts[i] = product;
+            return this.renderSelectors('#product-' + productId);
+          });
+        }
+      });
+    }
+
+    userIsSchoolAdmin() { return this.user.isSchoolAdmin(); }
+
+    userIsOnlineTeacher() { return this.user.isOnlineTeacher(); }
+
+    userIsBetaTester() { return this.user.isBetaTester(); }
+
+    onClickOnlineTeacherCheckbox(e) {
+      const checked = this.$(e.target).prop('checked');
+      if (!this.updateUserPermission(User.PERMISSIONS.ONLINE_TEACHER, checked)) {
+        return e.preventDefault();
+      }
+    }
+
+    onClickSchoolAdminCheckbox(e) {
+      const checked = this.$(e.target).prop('checked');
+      if (!this.updateUserPermission(User.PERMISSIONS.SCHOOL_ADMINISTRATOR, checked)) {
+        return e.preventDefault();
+      }
+    }
+
+    onClickBetaTesterCheckbox(e) {
+      const checked = this.$(e.target).prop('checked');
+      if (!this.updateUserPermission(User.PERMISSIONS.BETA_TESTER, checked)) {
+        return e.preventDefault();
+      }
+    }
+
+    updateUserPermission(permission, enabled) {
+      let cancelled = false;
+      if (enabled) {
+        if (!window.confirm(`ENABLE ${permission} for ${this.user.get('email') || this.user.broadName()}?`)) {
+          cancelled = true;
+        }
+      } else {
+        if (!window.confirm(`DISABLE ${permission} for ${this.user.get('email') || this.user.broadName()}?`)) {
+          cancelled = true;
+        }
+      }
+      if (cancelled) {
+        this.userSaveState = null;
+        this.render();
+        return false;
+      }
+
+      this.userSaveState = 'saving';
+      this.render();
+      fetchJson(`/db/user/${this.user.id}/${permission}`, {
+        method: 'PUT',
+        json: {
+          enabled
+        }
+      }).then(res => {
+        this.userSaveState = 'saved';
+        return this.user.fetch({cache: false}).then(() => this.render());
+      });
+      return true;
+    }
+
+    onClickEditSchoolAdmins(e) {
+      if (typeof this.editingSchoolAdmins === 'undefined') {
+        const administrated = this.user.get('administratedTeachers');
+
+        if (administrated != null ? administrated.length : undefined) {
+          api.users.fetchByIds({
+            fetchByIds: administrated,
+            teachersOnly: true,
+            includeTrialRequests: true
+          }).then(teachers => {
+            this.administratedTeachers = teachers || [];
+            return this.updateAdministratedTeachers();
+        }).catch(jqxhr => {
+            const errorString = "There was an error getting existing administratedTeachers, see the console";
+            this.userSaveState = errorString;
+            this.render();
+            return console.error(errorString, jqxhr);
+          });
+        }
+      }
+
+      this.editingSchoolAdmins = !this.editingSchoolAdmins;
+      return this.render();
+    }
+
+    onClickAddAdministeredTeacher(e) {
+      const teacher = _.find(this.foundTeachers, t => t._id === $(e.target).closest('tr').data('user-id'));
+      this.foundTeachers = _.filter(this.foundTeachers, t => t._id !== teacher._id);
+      this.render();
+
+      fetchJson(`/db/user/${this.user.id}/schoolAdministrator/administratedTeacher`, {
+        method: 'POST',
+        json: {
+          administratedTeacherId: teacher._id
+        }
+      }).then(res => {
+        return this.administratedTeachers.push(teacher);
+    }).catch(jqxhr => {
+        const errorString = "There was an error adding teacher, see the console";
+        this.userSaveState = errorString;
+        console.error(errorString, jqxhr);
+        return this.render();
+      }).finally(() => {
+        return this.updateAdministratedTeachers();
+      });
+      return null;
+    }
+
+    onClickRemoveAdministeredTeacher(e) {
+      const teacher = $(e.target).closest('tr').data('user-id');
+      this.render();
+
+      fetchJson(`/db/user/${this.user.id}/schoolAdministrator/administratedTeacher/${teacher}`, {
+        method: 'DELETE'
+      }).then(res => {
+        this.administratedTeachers = this.administratedTeachers.filter(t => t._id !== teacher);
+        return this.updateAdministratedTeachers();
+      });
+      return null;
+    }
+
+    onSearchRequestSuccess(teachers) {
+      forms.enableSubmit(this.$('#teacher-search-button'));
+
+      // Filter out the existing administrated teachers and themselves:
+      const existingTeachers = _.pluck(this.administratedTeachers, '_id');
+      existingTeachers.push(this.user.id);
+      this.foundTeachers = _.filter(teachers, teacher => !Array.from(existingTeachers).includes(teacher._id));
+
+      let result = _.map(this.foundTeachers, teacher => `\
+<tr data-user-id='${teacher._id}'> \
+<td> \
+<button class='add-administer-teacher'>Add</button> \
+</td> \
+<td><code>${teacher._id}</code></td> \
+<td>${_.escape(teacher.name || 'Anonymous')}</td> \
+<td>${_.escape(teacher.email)}</td> \
+<td>${teacher.firstName || 'No first name'}</td> \
+<td>${teacher.lastName || 'No last name'}</td> \
+<td>${teacher.schoolName || 'Other'}</td> \
+<td>Verified teacher: ${teacher.verifiedTeacher || 'false'}</td> \
+</tr>\
+`);
+
+      result = `<table class=\"table\">${result.join('\n')}</table>`;
+      return this.$el.find('#teacher-search-result').html(result);
+    }
+
+    onSearchRequestFailure(jqxhr, status, error) {
+      if (this.destroyed) { return; }
+      forms.enableSubmit(this.$('#teacher-search-button'));
+      return console.warn(`There was an error looking up ${this.lastTeacherSearchValue}:`, error);
+    }
+
+    onClearTeacherSearchResults(e) {
+      return this.$el.find('#teacher-search-result').html('');
+    }
+
+    onSubmitTeacherSearchForm(e) {
+      this.userSaveState = null;
+      e.preventDefault();
+      forms.disableSubmit(this.$('#teacher-search-button'));
+
+      return $.ajax({
+        type: 'GET',
+        url: '/db/user',
+        data: {
+          adminSearch: this.$el.find('#teacher-search').val()
+        },
+        success: this.onSearchRequestSuccess,
+        error: this.onSearchRequestFailure
+      });
+    }
+
+    updateAdministratedTeachers() {
+      const schools = this.administratedSchools(this.administratedTeachers);
+      const schoolNames = Object.keys(schools);
+
+      let result = _.map(schoolNames, function(schoolName) {
+        const teachers = _.map(schools[schoolName], teacher => `\
+<tr data-user-id='${teacher._id}'> \
+<td>${teacher.firstName} ${teacher.lastName}</td> \
+<td>${teacher.role}</td> \
+<td>${teacher.email}</td> \
+<td><button class='btn btn-primary btn-large remove-teacher-button'>Remove</button></td> \
+</tr>\
+`);
+
+        return `\
+<tr> \
+<th>${schoolName}</th> \
+${teachers.join('\n')} \
+</tr>\
+`;
+      });
+
+      result = `<table class=\"table\">${result.join('\n')}</table>`;
+      return this.$el.find('#school-admin-result').html(result);
+    }
+
+    onSelectLicenseType(e) {
+      this.licenseType = $(e.target).parent().children('input').val();
+      return this.renderSelectors("#license-type-select");
+    }
+
+    onSelectEsportsType(e) {
+      this.esportsType = $(e.target).parent().children('input').val();
+      this.renderSelectors("#esports-type-select");
+      return this.renderSelectors("#esports-product-addon-items");
+    }
+
+    onSelectEsportsAddon(e) {
+      this.esportsAddon = $(e.target).parent().children('input').is(':checked');
+      return this.renderSelectors('#esports-product-addon-items');
+    }
+
+    administratedSchools(teachers) {
+      const schools = {};
+      _.forEach(teachers, teacher => {
+        const school = __guard__(teacher != null ? teacher._trialRequest : undefined, x => x.organization) || "Other";
+        if (!schools[school]) {
+          return schools[school] = [teacher];
+        } else {
+          return schools[school].push(teacher);
+        }
+      });
+
+      return schools;
+    }
+
+    loadClassroomTeacherNames() {
+      let left;
+      const ownerIDs = (left = _.map(this.classrooms.models, c => c.get('ownerID'))) != null ? left : [];
+      return Promise.resolve($.ajax(NameLoader.loadNames(ownerIDs)))
+      .then(() => {
+        this.ownerNameMap = {};
+        for (var ownerID of Array.from(ownerIDs)) { this.ownerNameMap[ownerID] = NameLoader.getName(ownerID); }
+        return (typeof this.render === 'function' ? this.render() : undefined);
+      });
+    }
+
+    onClickOtherUserLink(e) {
+      e.preventDefault();
+      const userID = $(e.target).closest('a').data('user-id');
+      return this.openModalView(new AdministerUserModal({}, userID));
+    }
+
+    onClickModalNavLink(e) {
+      e.preventDefault();
+      return this.$el.animate({scrollTop: $($(e.target).attr('href')).offset().top}, 0);
+    }
+
+    onClickMusicCheckbox(e) {
+      const val = this.$(e.target).prop('checked');
+      this.user.set('music', val);
+      this.user.patch();
+      return this.modelTreemas[this.user.id].set('music', val);
+    }
+
+    onClickVolumeCheckbox(e) {
+      let checked;
+      const val = (checked = this.$(e.target).prop('checked')) ? 1.0 : 0.0;
+      this.user.set('volume', val);
+      this.user.patch();
+      return this.modelTreemas[this.user.id].set('volume', val);
+    }
+
+    getUserTimeZone() {
+      const geo = this.user.get('geo');
+      if (geo != null ? geo.timeZone : undefined) {
+        return geo.timeZone;
+      } else {
+        return this.timeZone;
+      }
+    }
+  };
+  AdministerUserModal.initClass();
+  return AdministerUserModal;
+})());
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

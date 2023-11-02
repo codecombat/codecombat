@@ -1,15 +1,24 @@
-createjs = require 'lib/createjs-parts'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let CoordinateDisplay;
+const createjs = require('lib/createjs-parts');
+const utils = require('core/utils');
 
-DEFAULT_DISPLAY_OPTIONS = {
+const DEFAULT_DISPLAY_OPTIONS = {
   fontWeight: 'bold',
   fontSize: '16px',
   fontFamily: 'Arial',
   fontColor: '#FFFFFF',
   templateString: {
-    ozaria: '<%= x %>, <%= y %>'
+    ozaria: '<%= x %>, <%= y %>',
     codecombat: '{x: <%= x %>, y: <%= y %>}'
-  }[if utils.isOzaria then 'ozaria' else 'codecombat'],  # utils.getProduct()
+  }[utils.isOzaria ? 'ozaria' : 'codecombat'],  // utils.getProduct()
   backgroundFillColor: 'rgba(0,0,0,0.4)',
   backgroundStrokeColor: 'rgba(0,0,0,0.6)',
   backgroundStroke: 1,
@@ -17,191 +26,232 @@ DEFAULT_DISPLAY_OPTIONS = {
   pointMarkerColor: 'rgb(255, 255, 255)',
   pointMarkerLength: 8,
   pointMarkerStroke: 2
-}
+};
 
-module.exports = class CoordinateDisplay extends createjs.Container
-  layerPriority: -10
-  subscriptions:
-    'surface:mouse-moved': 'onMouseMove'
-    'surface:mouse-out': 'onMouseOut'
-    'surface:mouse-over': 'onMouseOver'
-    'surface:stage-mouse-down': 'onMouseDown'
-    'camera:zoom-updated': 'onZoomUpdated'
-    'level:flag-color-selected': 'onFlagColorSelected'
-    'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
-    'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+module.exports = (CoordinateDisplay = (function() {
+  CoordinateDisplay = class CoordinateDisplay extends createjs.Container {
+    static initClass() {
+      this.prototype.layerPriority = -10;
+      this.prototype.subscriptions = {
+        'surface:mouse-moved': 'onMouseMove',
+        'surface:mouse-out': 'onMouseOut',
+        'surface:mouse-over': 'onMouseOver',
+        'surface:stage-mouse-down': 'onMouseDown',
+        'camera:zoom-updated': 'onZoomUpdated',
+        'level:flag-color-selected': 'onFlagColorSelected',
+        'playback:real-time-playback-started': 'onRealTimePlaybackStarted',
+        'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+      };
+    }
 
-  constructor: (options) ->
-    super()
-    @initialize()
-    @camera = options.camera
-    @layer = options.layer
-    @displayOptions = _.merge({}, DEFAULT_DISPLAY_OPTIONS, options.displayOptions or {})
-    console.error @toString(), 'needs a camera.' unless @camera
-    console.error @toString(), 'needs a layer.' unless @layer
-    @build()
-    @disabled = false
-    @performShow = @show
-    @show = _.debounce @show, 125
-    Backbone.Mediator.subscribe(channel, @[func], @) for channel, func of @subscriptions
+    constructor(options) {
+      this.show = this.show.bind(this);
+      super();
+      this.initialize();
+      this.camera = options.camera;
+      this.layer = options.layer;
+      this.displayOptions = _.merge({}, DEFAULT_DISPLAY_OPTIONS, options.displayOptions || {});
+      if (!this.camera) { console.error(this.toString(), 'needs a camera.'); }
+      if (!this.layer) { console.error(this.toString(), 'needs a layer.'); }
+      this.build();
+      this.disabled = false;
+      this.performShow = this.show;
+      this.show = _.debounce(this.show, 125);
+      for (var channel in this.subscriptions) { var func = this.subscriptions[channel]; Backbone.Mediator.subscribe(channel, this[func], this); }
+    }
 
-  destroy: ->
-    Backbone.Mediator.unsubscribe(channel, @[func], @) for channel, func of @subscriptions
-    @show = null
-    @destroyed = true
+    destroy() {
+      for (var channel in this.subscriptions) { var func = this.subscriptions[channel]; Backbone.Mediator.unsubscribe(channel, this[func], this); }
+      this.show = null;
+      return this.destroyed = true;
+    }
 
-  toString: -> '<CoordinateDisplay>'
+    toString() { return '<CoordinateDisplay>'; }
 
-  build: ->
-    @mouseEnabled = @mouseChildren = false
-    @addChild @background = new createjs.Shape()
-    @addChild @label = new createjs.Text('', "#{@displayOptions.fontWeight} #{@displayOptions.fontSize} #{@displayOptions.fontFamily}", @displayOptions.fontColor)
-    @addChild @pointMarker = new createjs.Shape()
-    @label.name = 'Coordinate Display Text'
-    @label.shadow = new createjs.Shadow('#000000', 1, 1, 0)
-    @background.name = 'Coordinate Display Background'
-    @pointMarker.name = 'Point Marker'
-    @layer.addChild @
+    build() {
+      this.mouseEnabled = (this.mouseChildren = false);
+      this.addChild(this.background = new createjs.Shape());
+      this.addChild(this.label = new createjs.Text('', `${this.displayOptions.fontWeight} ${this.displayOptions.fontSize} ${this.displayOptions.fontFamily}`, this.displayOptions.fontColor));
+      this.addChild(this.pointMarker = new createjs.Shape());
+      this.label.name = 'Coordinate Display Text';
+      this.label.shadow = new createjs.Shadow('#000000', 1, 1, 0);
+      this.background.name = 'Coordinate Display Background';
+      this.pointMarker.name = 'Point Marker';
+      return this.layer.addChild(this);
+    }
 
-  onMouseOver: (e) -> @mouseInBounds = true
-  onMouseOut: (e) -> @mouseInBounds = false
+    onMouseOver(e) { return this.mouseInBounds = true; }
+    onMouseOut(e) { return this.mouseInBounds = false; }
 
-  onMouseMove: (e) ->
-    return if @disabled
-    wop = @camera.screenToWorld x: e.x, y: e.y
-    if key.alt
-      wop.x = Math.round(wop.x * 1000) / 1000
-      wop.y = Math.round(wop.y * 1000) / 1000
-    else
-      wop.x = Math.round(wop.x)
-      wop.y = Math.round(wop.y)
-    return if wop.x is @lastPos?.x and wop.y is @lastPos?.y
-    @lastPos = wop
-    @lastSurfacePos = @camera.worldToSurface(@lastPos)
-    @lastScreenPos = x: e.x, y: e.y
-    if key.alt
-      @performShow()
-    else
-      @hide()
-      @show()  # debounced
+    onMouseMove(e) {
+      if (this.disabled) { return; }
+      const wop = this.camera.screenToWorld({x: e.x, y: e.y});
+      if (key.alt) {
+        wop.x = Math.round(wop.x * 1000) / 1000;
+        wop.y = Math.round(wop.y * 1000) / 1000;
+      } else {
+        wop.x = Math.round(wop.x);
+        wop.y = Math.round(wop.y);
+      }
+      if ((wop.x === (this.lastPos != null ? this.lastPos.x : undefined)) && (wop.y === (this.lastPos != null ? this.lastPos.y : undefined))) { return; }
+      this.lastPos = wop;
+      this.lastSurfacePos = this.camera.worldToSurface(this.lastPos);
+      this.lastScreenPos = {x: e.x, y: e.y};
+      if (key.alt) {
+        return this.performShow();
+      } else {
+        this.hide();
+        return this.show();  // debounced
+      }
+    }
 
-  onMouseDown: (e) ->
-    return unless key.shift
-    wop = @camera.screenToWorld x: e.x, y: e.y
-    wop.x = Math.round wop.x
-    wop.y = Math.round wop.y
-    Backbone.Mediator.publish 'tome:focus-editor', {}
-    Backbone.Mediator.publish 'surface:coordinate-selected', wop
+    onMouseDown(e) {
+      if (!key.shift) { return; }
+      const wop = this.camera.screenToWorld({x: e.x, y: e.y});
+      wop.x = Math.round(wop.x);
+      wop.y = Math.round(wop.y);
+      Backbone.Mediator.publish('tome:focus-editor', {});
+      return Backbone.Mediator.publish('surface:coordinate-selected', wop);
+    }
 
-  onZoomUpdated: (e) ->
-    return unless @lastPos
-    wop = @camera.screenToWorld @lastScreenPos
-    @lastPos.x = Math.round wop.x
-    @lastPos.y = Math.round wop.y
-    @performShow() if @label.parent
+    onZoomUpdated(e) {
+      if (!this.lastPos) { return; }
+      const wop = this.camera.screenToWorld(this.lastScreenPos);
+      this.lastPos.x = Math.round(wop.x);
+      this.lastPos.y = Math.round(wop.y);
+      if (this.label.parent) { return this.performShow(); }
+    }
 
-  onFlagColorSelected: (e) ->
-    @placingFlag = Boolean e.color
+    onFlagColorSelected(e) {
+      return this.placingFlag = Boolean(e.color);
+    }
 
-  onRealTimePlaybackStarted: (e) ->
-    return if @disabled
-    @disabled = true
-    @hide()
+    onRealTimePlaybackStarted(e) {
+      if (this.disabled) { return; }
+      this.disabled = true;
+      return this.hide();
+    }
 
-  onRealTimePlaybackEnded: (e) ->
-    @disabled = false
+    onRealTimePlaybackEnded(e) {
+      return this.disabled = false;
+    }
 
-  hide: ->
-    return unless @label.parent
-    @removeChild @label
-    @removeChild @background
-    @removeChild @pointMarker
-    @uncache()
+    hide() {
+      if (!this.label.parent) { return; }
+      this.removeChild(this.label);
+      this.removeChild(this.background);
+      this.removeChild(this.pointMarker);
+      return this.uncache();
+    }
 
-  updateSize: ->
-    margin = @displayOptions.backgroundMargin
-    contentWidth = @label.getMeasuredWidth() + (2 * margin)
-    contentHeight = @label.getMeasuredHeight() + (2 * margin)
+    updateSize() {
+      let horizontalEdge, verticalEdge;
+      const margin = this.displayOptions.backgroundMargin;
+      const contentWidth = this.label.getMeasuredWidth() + (2 * margin);
+      const contentHeight = this.label.getMeasuredHeight() + (2 * margin);
 
-    # Shift pointmarker up so it centers at pointer (affects container cache position)
-    @pointMarker.regY = contentHeight
+      // Shift pointmarker up so it centers at pointer (affects container cache position)
+      this.pointMarker.regY = contentHeight;
 
-    pointMarkerStroke = @displayOptions.pointMarkerStroke
-    pointMarkerLength = @displayOptions.pointMarkerLength
-    fullPointMarkerLength = pointMarkerLength + (pointMarkerStroke / 2)
-    contributionsToTotalSize = []
-    contributionsToTotalSize = contributionsToTotalSize.concat @updateCoordinates contentWidth, contentHeight, fullPointMarkerLength
-    contributionsToTotalSize = contributionsToTotalSize.concat @updatePointMarker 0, contentHeight, pointMarkerLength, pointMarkerStroke
+      const {
+        pointMarkerStroke
+      } = this.displayOptions;
+      const {
+        pointMarkerLength
+      } = this.displayOptions;
+      const fullPointMarkerLength = pointMarkerLength + (pointMarkerStroke / 2);
+      let contributionsToTotalSize = [];
+      contributionsToTotalSize = contributionsToTotalSize.concat(this.updateCoordinates(contentWidth, contentHeight, fullPointMarkerLength));
+      contributionsToTotalSize = contributionsToTotalSize.concat(this.updatePointMarker(0, contentHeight, pointMarkerLength, pointMarkerStroke));
 
-    totalWidth = contentWidth + contributionsToTotalSize.reduce (a, b) -> a + b
-    totalHeight = contentHeight + contributionsToTotalSize.reduce (a, b) -> a + b
+      const totalWidth = contentWidth + contributionsToTotalSize.reduce((a, b) => a + b);
+      const totalHeight = contentHeight + contributionsToTotalSize.reduce((a, b) => a + b);
 
-    if @isNearTopEdge(totalHeight)
-      verticalEdge =
-        startPos: -fullPointMarkerLength
-        posShift: -2 * fullPointMarkerLength
-    else
-      verticalEdge =
-        startPos: -totalHeight + fullPointMarkerLength
-        posShift: contentHeight
+      if (this.isNearTopEdge(totalHeight)) {
+        verticalEdge = {
+          startPos: -fullPointMarkerLength,
+          posShift: -2 * fullPointMarkerLength
+        };
+      } else {
+        verticalEdge = {
+          startPos: -totalHeight + fullPointMarkerLength,
+          posShift: contentHeight
+        };
+      }
 
-    if @isNearRightEdge(totalWidth)
-      horizontalEdge =
-        startPos: -totalWidth + fullPointMarkerLength
-        posShift: totalWidth
-    else
-      horizontalEdge =
-        startPos: -fullPointMarkerLength
-        posShift: 0
+      if (this.isNearRightEdge(totalWidth)) {
+        horizontalEdge = {
+          startPos: -totalWidth + fullPointMarkerLength,
+          posShift: totalWidth
+        };
+      } else {
+        horizontalEdge = {
+          startPos: -fullPointMarkerLength,
+          posShift: 0
+        };
+      }
 
-    @orient verticalEdge, horizontalEdge, totalHeight, totalWidth
+      return this.orient(verticalEdge, horizontalEdge, totalHeight, totalWidth);
+    }
 
-  isNearTopEdge: (height) ->
-    height - @lastSurfacePos.y > @camera.surfaceViewport.height
+    isNearTopEdge(height) {
+      return (height - this.lastSurfacePos.y) > this.camera.surfaceViewport.height;
+    }
 
-  isNearRightEdge: (width) ->
-    @lastSurfacePos.x + width > @camera.surfaceViewport.width
+    isNearRightEdge(width) {
+      return (this.lastSurfacePos.x + width) > this.camera.surfaceViewport.width;
+    }
 
-  orient: (verticalEdge, horizontalEdge, totalHeight, totalWidth) ->
-    @label.regY = @background.regY = verticalEdge.posShift
-    @label.regX = @background.regX = horizontalEdge.posShift
-    @cache horizontalEdge.startPos, verticalEdge.startPos, totalWidth, totalHeight
+    orient(verticalEdge, horizontalEdge, totalHeight, totalWidth) {
+      this.label.regY = (this.background.regY = verticalEdge.posShift);
+      this.label.regX = (this.background.regX = horizontalEdge.posShift);
+      return this.cache(horizontalEdge.startPos, verticalEdge.startPos, totalWidth, totalHeight);
+    }
 
-  updateCoordinates: (contentWidth, contentHeight, offset) ->
-    # Center label horizontally and vertically
-    @label.x = contentWidth / 2 - (@label.getMeasuredWidth() / 2) + offset
-    @label.y = contentHeight / 2 - (@label.getMeasuredHeight() / 2) - offset
+    updateCoordinates(contentWidth, contentHeight, offset) {
+      // Center label horizontally and vertically
+      let backgroundStroke, contributionsToTotalSize, radius;
+      this.label.x = ((contentWidth / 2) - (this.label.getMeasuredWidth() / 2)) + offset;
+      this.label.y = (contentHeight / 2) - (this.label.getMeasuredHeight() / 2) - offset;
 
-    @background.graphics
-      .clear()
-      .beginFill(@displayOptions.backgroundFillColor)
-      .beginStroke(@displayOptions.backgroundStrokeColor)
-      .setStrokeStyle(backgroundStroke = @displayOptions.backgroundStroke)
-      .drawRoundRect(offset, -offset, contentWidth, contentHeight, radius = 2.5)
-      .endFill()
-      .endStroke()
-    contributionsToTotalSize = [offset, backgroundStroke]
+      this.background.graphics
+        .clear()
+        .beginFill(this.displayOptions.backgroundFillColor)
+        .beginStroke(this.displayOptions.backgroundStrokeColor)
+        .setStrokeStyle(backgroundStroke = this.displayOptions.backgroundStroke)
+        .drawRoundRect(offset, -offset, contentWidth, contentHeight, (radius = 2.5))
+        .endFill()
+        .endStroke();
+      return contributionsToTotalSize = [offset, backgroundStroke];
+    }
 
-  updatePointMarker: (centerX, centerY, length, strokeSize) ->
-    strokeStyle = 'square'
-    @pointMarker.graphics
-      .beginStroke(@displayOptions.pointMarkerColor)
-      .setStrokeStyle(strokeSize, strokeStyle)
-      .moveTo(centerX, centerY - length)
-      .lineTo(centerX, centerY + length)
-      .moveTo(centerX - length, centerY)
-      .lineTo(centerX + length, centerY)
-      .endStroke()
-    contributionsToTotalSize = [strokeSize, length]
+    updatePointMarker(centerX, centerY, length, strokeSize) {
+      let contributionsToTotalSize;
+      const strokeStyle = 'square';
+      this.pointMarker.graphics
+        .beginStroke(this.displayOptions.pointMarkerColor)
+        .setStrokeStyle(strokeSize, strokeStyle)
+        .moveTo(centerX, centerY - length)
+        .lineTo(centerX, centerY + length)
+        .moveTo(centerX - length, centerY)
+        .lineTo(centerX + length, centerY)
+        .endStroke();
+      return contributionsToTotalSize = [strokeSize, length];
+    }
 
-  show: =>
-    return unless @mouseInBounds and @lastPos and not @destroyed
-    @label.text = _.template(@displayOptions.templateString, {x: @lastPos.x, y: @lastPos.y})
-    @updateSize()
-    @x = @lastSurfacePos.x
-    @y = @lastSurfacePos.y
-    @addChild @background
-    @addChild @label
-    @addChild @pointMarker unless @placingFlag
-    @updateCache()
-    Backbone.Mediator.publish 'surface:coordinates-shown', {}
+    show() {
+      if (!this.mouseInBounds || !this.lastPos || !!this.destroyed) { return; }
+      this.label.text = _.template(this.displayOptions.templateString, {x: this.lastPos.x, y: this.lastPos.y});
+      this.updateSize();
+      this.x = this.lastSurfacePos.x;
+      this.y = this.lastSurfacePos.y;
+      this.addChild(this.background);
+      this.addChild(this.label);
+      if (!this.placingFlag) { this.addChild(this.pointMarker); }
+      this.updateCache();
+      return Backbone.Mediator.publish('surface:coordinates-shown', {});
+    }
+  };
+  CoordinateDisplay.initClass();
+  return CoordinateDisplay;
+})());

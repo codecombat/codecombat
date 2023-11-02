@@ -1,21 +1,37 @@
-CocoModel = require './CocoModel'
-schema = require 'schemas/models/trial_request.schema'
+/*
+ * decaffeinate suggestions:
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let TrialRequest;
+const CocoModel = require('./CocoModel');
+const schema = require('schemas/models/trial_request.schema');
 
-module.exports = class TrialRequest extends CocoModel
-  @className: 'TrialRequest'
-  @schema: schema
-  urlRoot: '/db/trial.request'
+module.exports = (TrialRequest = (function() {
+  TrialRequest = class TrialRequest extends CocoModel {
+    static initClass() {
+      this.className = 'TrialRequest';
+      this.schema = schema;
+      this.prototype.urlRoot = '/db/trial.request';
+    }
 
-  nameString: ->
-    props = @get('properties')
-    values = _.filter(_.at(props, 'name', 'email'))
-    return values.join(' / ')
+    nameString() {
+      const props = this.get('properties');
+      const values = _.filter(_.at(props, 'name', 'email'));
+      return values.join(' / ');
+    }
   
-  locationString: ->
-    props = @get('properties')
-    values = _.filter(_.at(props, 'city', 'state', 'country'))
-    return values.join(' ')
+    locationString() {
+      const props = this.get('properties');
+      const values = _.filter(_.at(props, 'city', 'state', 'country'));
+      return values.join(' ');
+    }
     
-  educationLevelString: ->
-    levels = @get('properties').educationLevel or []
-    return levels.join(', ')
+    educationLevelString() {
+      const levels = this.get('properties').educationLevel || [];
+      return levels.join(', ');
+    }
+  };
+  TrialRequest.initClass();
+  return TrialRequest;
+})());

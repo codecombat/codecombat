@@ -1,60 +1,82 @@
-CocoModel = require './CocoModel'
-utils = require '../core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let Achievement;
+const CocoModel = require('./CocoModel');
+const utils = require('../core/utils');
 
-module.exports = class Achievement extends CocoModel
-  @className: 'Achievement'
-  @schema: require 'schemas/models/achievement'
-  urlRoot: '/db/achievement'
-  editableByArtisans: true
+module.exports = (Achievement = (function() {
+  Achievement = class Achievement extends CocoModel {
+    static initClass() {
+      this.className = 'Achievement';
+      this.schema = require('schemas/models/achievement');
+      this.prototype.urlRoot = '/db/achievement';
+      this.prototype.editableByArtisans = true;
+  
+      this.styleMapping = {
+        1: 'achievement-wood',
+        2: 'achievement-stone',
+        3: 'achievement-silver',
+        4: 'achievement-gold',
+        5: 'achievement-diamond'
+      };
+  
+      this.defaultImageURL = '/images/achievements/default.png';
+    }
 
-  isRepeatable: ->
-    @get('proportionalTo')?
+    isRepeatable() {
+      return (this.get('proportionalTo') != null);
+    }
 
-  getExpFunction: ->
-    func = @get('function', true)
-    return utils.functionCreators[func.kind](func.parameters) if func.kind of utils.functionCreators
+    getExpFunction() {
+      const func = this.get('function', true);
+      if (func.kind in utils.functionCreators) { return utils.functionCreators[func.kind](func.parameters); }
+    }
 
-  save: ->
-    @populateI18N()
-    super(arguments...)
+    save() {
+      this.populateI18N();
+      return super.save(...arguments);
+    }
 
-  @styleMapping:
-    1: 'achievement-wood'
-    2: 'achievement-stone'
-    3: 'achievement-silver'
-    4: 'achievement-gold'
-    5: 'achievement-diamond'
+    getStyle() { return Achievement.styleMapping[this.get('difficulty', true)]; }
 
-  getStyle: -> Achievement.styleMapping[@get 'difficulty', true]
+    getImageURL() {
+      if (this.get('icon')) { return '/file/' + this.get('icon'); } else { return Achievement.defaultImageURL; }
+    }
 
-  @defaultImageURL: '/images/achievements/default.png'
+    hasImage() { return (this.get('icon') != null); }
 
-  getImageURL: ->
-    if @get 'icon' then '/file/' + @get('icon') else Achievement.defaultImageURL
+    // TODO Could cache the default icon separately
+    cacheLockedImage() {
+      if (this.lockedImageURL) { return this.lockedImageURL; }
+      const canvas = document.createElement('canvas');
+      const image = new Image;
+      image.src = this.getImageURL();
+      const defer = $.Deferred();
+      image.onload = () => {
+        canvas.width = image.width;
+        canvas.height = image.height;
+        const context = canvas.getContext('2d');
+        context.drawImage(image, 0, 0);
+        let imgData = context.getImageData(0, 0, canvas.width, canvas.height);
+        imgData = utils.grayscale(imgData);
+        context.putImageData(imgData, 0, 0);
+        this.lockedImageURL = canvas.toDataURL();
+        return defer.resolve(this.lockedImageURL);
+      };
+      return defer;
+    }
 
-  hasImage: -> @get('icon')?
+    getLockedImageURL() { return this.lockedImageURL; }
 
-  # TODO Could cache the default icon separately
-  cacheLockedImage: ->
-    return @lockedImageURL if @lockedImageURL
-    canvas = document.createElement 'canvas'
-    image = new Image
-    image.src = @getImageURL()
-    defer = $.Deferred()
-    image.onload = =>
-      canvas.width = image.width
-      canvas.height = image.height
-      context = canvas.getContext '2d'
-      context.drawImage image, 0, 0
-      imgData = context.getImageData 0, 0, canvas.width, canvas.height
-      imgData = utils.grayscale imgData
-      context.putImageData imgData, 0, 0
-      @lockedImageURL = canvas.toDataURL()
-      defer.resolve @lockedImageURL
-    defer
+    i18nName() { return utils.i18n(this.attributes, 'name'); }
 
-  getLockedImageURL: -> @lockedImageURL
-
-  i18nName: -> utils.i18n @attributes, 'name'
-
-  i18nDescription: -> utils.i18n @attributes, 'description'
+    i18nDescription() { return utils.i18n(this.attributes, 'description'); }
+  };
+  Achievement.initClass();
+  return Achievement;
+})());

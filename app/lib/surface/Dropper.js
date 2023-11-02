@@ -1,29 +1,46 @@
-createjs = require 'lib/createjs-parts'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const createjs = require('lib/createjs-parts');
 
-Dropper = class Dropper
-  lostFrames: 0.0
-  dropCounter: 0
+var Dropper = (Dropper = (function() {
+  Dropper = class Dropper {
+    static initClass() {
+      this.prototype.lostFrames = 0.0;
+      this.prototype.dropCounter = 0;
+    }
 
-  constructor: ->
-    @listener = (e) => @tick(e)
+    constructor() {
+      this.listener = e => this.tick(e);
+    }
 
-  tick: ->
-    unless @tickedOnce
-      @tickedOnce = true  # Can't get measured FPS on the 0th frame.
-      return
+    tick() {
+      if (!this.tickedOnce) {
+        this.tickedOnce = true;  // Can't get measured FPS on the 0th frame.
+        return;
+      }
 
-    --@dropCounter if @dropCounter > 0
+      if (this.dropCounter > 0) { --this.dropCounter; }
 
-    # Track number of frames we've lost since the last tick.
-    fps = createjs.Ticker.framerate
-    actual = createjs.Ticker.getMeasuredFPS(1)
-    @lostFrames += (fps - actual) / fps
+      // Track number of frames we've lost since the last tick.
+      const fps = createjs.Ticker.framerate;
+      const actual = createjs.Ticker.getMeasuredFPS(1);
+      this.lostFrames += (fps - actual) / fps;
 
-    # If lostFrames > 1, drop that number for the next tick.
-    @dropCounter += parseInt @lostFrames
-    @lostFrames = @lostFrames % 1
+      // If lostFrames > 1, drop that number for the next tick.
+      this.dropCounter += parseInt(this.lostFrames);
+      return this.lostFrames = this.lostFrames % 1;
+    }
 
-  drop: ->
-    return @dropCounter > 0
+    drop() {
+      return this.dropCounter > 0;
+    }
+  };
+  Dropper.initClass();
+  return Dropper;
+})());
 
-module.exports = new Dropper()
+module.exports = new Dropper();

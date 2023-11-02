@@ -1,420 +1,642 @@
-require('app/styles/clans/clan-details.sass')
-RootView = require 'views/core/RootView'
-template = require 'app/templates/clans/clan-details'
-CreateAccountModal = require 'views/core/CreateAccountModal'
-CocoCollection = require 'collections/CocoCollection'
-Campaign = require 'models/Campaign'
-Clan = require 'models/Clan'
-EarnedAchievement = require 'models/EarnedAchievement'
-Tournament = require 'models/Tournament'
-Level = require 'models/Level'
-LevelSession = require 'models/LevelSession'
-SubscribeModal = require 'views/core/SubscribeModal'
-ThangType = require 'models/ThangType'
-User = require 'models/User'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS204: Change includes calls to have a more natural evaluation order
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ClanDetailsView;
+require('app/styles/clans/clan-details.sass');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/clans/clan-details');
+const CreateAccountModal = require('views/core/CreateAccountModal');
+const CocoCollection = require('collections/CocoCollection');
+const Campaign = require('models/Campaign');
+const Clan = require('models/Clan');
+const EarnedAchievement = require('models/EarnedAchievement');
+const Tournament = require('models/Tournament');
+const Level = require('models/Level');
+const LevelSession = require('models/LevelSession');
+const SubscribeModal = require('views/core/SubscribeModal');
+const ThangType = require('models/ThangType');
+const User = require('models/User');
+const utils = require('core/utils');
 
-# TODO: Add message for clan not found
-# TODO: Progress visual for premium levels?
-# TODO: Add expanded level names toggle
-# TODO: Only need campaign data if clan is private
+// TODO: Add message for clan not found
+// TODO: Progress visual for premium levels?
+// TODO: Add expanded level names toggle
+// TODO: Only need campaign data if clan is private
 
-module.exports = class ClanDetailsView extends RootView
-  id: 'clan-details-view'
-  template: template
+module.exports = (ClanDetailsView = (function() {
+  ClanDetailsView = class ClanDetailsView extends RootView {
+    static initClass() {
+      this.prototype.id = 'clan-details-view';
+      this.prototype.template = template;
+  
+      this.prototype.events = {
+        'change .expand-progress-checkbox': 'onExpandedProgressCheckbox',
+        'click .delete-clan-btn': 'onDeleteClan',
+        'click .edit-description-save-btn': 'onEditDescriptionSave',
+        'click .edit-name-save-btn': 'onEditNameSave',
+        'click .join-clan-btn': 'onJoinClan',
+        'click .leave-clan-btn': 'onLeaveClan',
+        'click .member-header': 'onClickMemberHeader',
+        'click .progress-header': 'onClickProgressHeader',
+        'click .progress-level-cell': 'onClickLevel',
+        'click .remove-member-btn': 'onRemoveMember',
+        'mouseenter .progress-level-cell': 'onMouseEnterPoint',
+        'mouseleave .progress-level-cell': 'onMouseLeavePoint'
+      };
+    }
 
-  getMeta: ->
-    title: $.i18n.t 'clans.title'
-    meta: [
-      { vmid: 'meta-description', name: 'description', content: $.i18n.t 'clans.meta_description' }
-    ]
+    getMeta() {
+      return {
+        title: $.i18n.t('clans.title'),
+        meta: [
+          { vmid: 'meta-description', name: 'description', content: $.i18n.t('clans.meta_description') }
+        ]
+      };
+    }
 
-  events:
-    'change .expand-progress-checkbox': 'onExpandedProgressCheckbox'
-    'click .delete-clan-btn': 'onDeleteClan'
-    'click .edit-description-save-btn': 'onEditDescriptionSave'
-    'click .edit-name-save-btn': 'onEditNameSave'
-    'click .join-clan-btn': 'onJoinClan'
-    'click .leave-clan-btn': 'onLeaveClan'
-    'click .member-header': 'onClickMemberHeader'
-    'click .progress-header': 'onClickProgressHeader'
-    'click .progress-level-cell': 'onClickLevel'
-    'click .remove-member-btn': 'onRemoveMember'
-    'mouseenter .progress-level-cell': 'onMouseEnterPoint'
-    'mouseleave .progress-level-cell': 'onMouseLeavePoint'
+    constructor(options, clanID) {
+      this.clanID = clanID;
+      super(options);
+      this.initData();
+    }
 
-  constructor: (options, @clanID) ->
-    super options
-    @initData()
+    destroy() {
+      if (typeof this.stopListening === 'function') {
+        this.stopListening();
+      }
+      return super.destroy();
+    }
 
-  destroy: ->
-    @stopListening?()
-    super()
+    initData() {
+      this.showExpandedProgress = false;
+      this.memberSort = 'nameAsc';
+      this.stats = {};
+      this.ladderLevels = [];
+      this.ladderImageMap = {};
 
-  initData: ->
-    @showExpandedProgress = false
-    @memberSort = 'nameAsc'
-    @stats = {}
-    @ladderLevels = []
-    @ladderImageMap = {}
+      this.clan = new Clan({_id: this.clanID});
+      if (/^[a-f0-9]{24}$/.test(this.clanID)) {
+        // We have the clan's actual ID
+        this.listenTo(this.clan, 'sync', this.onClanSync);
+        this.loadPostClanData();
+      } else {
+        // We have slug, need to get the actual ID before we load the rest
+        this.listenTo(this.clan, 'sync', () => {
+          this.clanID = this.clan.id;
+          this.loadPostClanData();
+          return this.onClanSync();
+        });
+      }
+      return this.supermodel.loadModel(this.clan, {cache: false});
+    }
 
-    @clan = new Clan _id: @clanID
-    if /^[a-f0-9]{24}$/.test @clanID
-      # We have the clan's actual ID
-      @listenTo @clan, 'sync', @onClanSync
-      @loadPostClanData()
-    else
-      # We have slug, need to get the actual ID before we load the rest
-      @listenTo @clan, 'sync', =>
-        @clanID = @clan.id
-        @loadPostClanData()
-        @onClanSync()
-    @supermodel.loadModel @clan, cache: false
+    loadPostClanData() {
+      this.campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign, comparator:'_id' });
+      this.members = new CocoCollection([], { url: `/db/clan/${this.clanID}/members`, model: User, comparator: 'nameLower' });
+      this.memberAchievements = new CocoCollection([], { url: `/db/clan/${this.clanID}/member_achievements`, model: EarnedAchievement, comparator:'_id' });
+      this.memberSessions = new CocoCollection([], { url: `/db/clan/${this.clanID}/member_sessions`, model: LevelSession, comparator:'_id' });
+      this.tournaments = new CocoCollection([], {url: `/db/tournaments?clanId=${this.clanID}`, model: Tournament});
+      this.ladders = new LadderCollection([]);
 
-  loadPostClanData: ->
-    @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign, comparator:'_id' })
-    @members = new CocoCollection([], { url: "/db/clan/#{@clanID}/members", model: User, comparator: 'nameLower' })
-    @memberAchievements = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_achievements", model: EarnedAchievement, comparator:'_id' })
-    @memberSessions = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_sessions", model: LevelSession, comparator:'_id' })
-    @tournaments = new CocoCollection([], {url: "/db/tournaments?clanId=#{@clanID}", model: Tournament})
-    @ladders = new LadderCollection([])
+      this.listenTo(me, 'sync', () => (typeof this.render === 'function' ? this.render() : undefined));
+      this.listenTo(this.campaigns, 'sync', this.onCampaignSync);
+      this.listenTo(this.members, 'sync', this.onMembersSync);
+      this.listenTo(this.memberAchievements, 'sync', this.onMemberAchievementsSync);
+      this.listenTo(this.memberSessions, 'sync', this.onMemberSessionsSync);
+      this.listenTo(this.tournaments, 'sync', this.onTournamentsSync);
+      this.listenTo(this.ladders, 'sync', this.onLaddersSync);
 
-    @listenTo me, 'sync', => @render?()
-    @listenTo @campaigns, 'sync', @onCampaignSync
-    @listenTo @members, 'sync', @onMembersSync
-    @listenTo @memberAchievements, 'sync', @onMemberAchievementsSync
-    @listenTo @memberSessions, 'sync', @onMemberSessionsSync
-    @listenTo @tournaments, 'sync', @onTournamentsSync
-    @listenTo @ladders, 'sync', @onLaddersSync
+      this.supermodel.loadModel(this.campaigns);
+      this.supermodel.loadCollection(this.members, 'members', {cache: false});
+      this.supermodel.loadCollection(this.memberAchievements, 'member_achievements', {cache: false});
+      this.supermodel.loadCollection(this.tournaments, 'tournaments', {cache: false});
+      return this.supermodel.loadCollection(this.ladders, 'ladders');
+    }
 
-    @supermodel.loadModel @campaigns
-    @supermodel.loadCollection(@members, 'members', {cache: false})
-    @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
-    @supermodel.loadCollection(@tournaments, 'tournaments', {cache: false})
-    @supermodel.loadCollection(@ladders, 'ladders')
+    getRenderData() {
+      let left, needle;
+      const context = super.getRenderData();
+      context.campaignLevelProgressions = this.campaignLevelProgressions != null ? this.campaignLevelProgressions : [];
+      context.clan = this.clan;
+      context.conceptsProgression = this.conceptsProgression != null ? this.conceptsProgression : [];
+      if (application.isProduction()) {
+        context.joinClanLink = `https://codecombat.com/clans/${this.clanID}`;
+      } else {
+        context.joinClanLink = `http://localhost:3000/clans/${this.clanID}`;
+      }
+      context.owner = this.owner;
+      context.memberAchievementsMap = this.memberAchievementsMap;
+      context.memberLanguageMap = this.memberLanguageMap;
+      context.memberLevelStateMap = this.memberLevelMap != null ? this.memberLevelMap : {};
+      context.memberMaxLevelCount = this.memberMaxLevelCount;
+      context.memberSort = this.memberSort;
+      context.isOwner = this.clan.get('ownerID') === me.id;
+      context.isMember = (needle = this.clanID, Array.from(((left = me.get('clans')) != null ? left : [])).includes(needle));
+      context.stats = this.stats;
 
-  getRenderData: ->
-    context = super()
-    context.campaignLevelProgressions = @campaignLevelProgressions ? []
-    context.clan = @clan
-    context.conceptsProgression = @conceptsProgression ? []
-    if application.isProduction()
-      context.joinClanLink = "https://codecombat.com/clans/#{@clanID}"
-    else
-      context.joinClanLink = "http://localhost:3000/clans/#{@clanID}"
-    context.owner = @owner
-    context.memberAchievementsMap = @memberAchievementsMap
-    context.memberLanguageMap = @memberLanguageMap
-    context.memberLevelStateMap = @memberLevelMap ? {}
-    context.memberMaxLevelCount = @memberMaxLevelCount
-    context.memberSort = @memberSort
-    context.isOwner = @clan.get('ownerID') is me.id
-    context.isMember = @clanID in (me.get('clans') ? [])
-    context.stats = @stats
+      // Find last campaign level for each user
+      // TODO: why do we do this for every render?
+      const highestUserLevelCountMap = {};
+      const lastUserCampaignLevelMap = {};
+      let maxLastUserCampaignLevel = 0;
+      const userConceptsMap = {};
+      if (this.campaigns != null ? this.campaigns.loaded : undefined) {
+        let levelCount = 0;
+        for (var campaign of Array.from(this.campaigns.models)) {
+          if (campaign.get('type') === 'hero') {
+            var campaignID = campaign.id;
+            var lastLevelIndex = 0;
+            var object = campaign.get('levels');
+            for (var levelID in object) {
+              var level = object[levelID];
+              var levelSlug = level.slug;
+              for (var member of Array.from((this.members != null ? this.members.models : undefined) != null ? (this.members != null ? this.members.models : undefined) : [])) {
+                if (context.memberLevelStateMap[member.id] != null ? context.memberLevelStateMap[member.id][levelSlug] : undefined) {
+                  if (lastUserCampaignLevelMap[member.id] == null) { lastUserCampaignLevelMap[member.id] = {}; }
+                  if (lastUserCampaignLevelMap[member.id][campaignID] == null) { lastUserCampaignLevelMap[member.id][campaignID] = {}; }
+                  lastUserCampaignLevelMap[member.id][campaignID] = {
+                    levelSlug,
+                    index: lastLevelIndex
+                  };
+                  if (lastLevelIndex > maxLastUserCampaignLevel) { maxLastUserCampaignLevel = lastLevelIndex; }
+                  if (level.concepts != null) {
+                    if (userConceptsMap[member.id] == null) { userConceptsMap[member.id] = {}; }
+                    for (var concept of Array.from(level.concepts)) {
+                      if (userConceptsMap[member.id][concept] === 'complete') { continue; }
+                      userConceptsMap[member.id][concept] = context.memberLevelStateMap[member.id][levelSlug].state;
+                    }
+                  }
+                  highestUserLevelCountMap[member.id] = levelCount;
+                }
+              }
+              lastLevelIndex++;
+              levelCount++;
+            }
+          }
+        }
+      }
 
-    # Find last campaign level for each user
-    # TODO: why do we do this for every render?
-    highestUserLevelCountMap = {}
-    lastUserCampaignLevelMap = {}
-    maxLastUserCampaignLevel = 0
-    userConceptsMap = {}
-    if @campaigns?.loaded
-      levelCount = 0
-      for campaign in @campaigns.models when campaign.get('type') is 'hero'
-        campaignID = campaign.id
-        lastLevelIndex = 0
-        for levelID, level of campaign.get('levels')
-          levelSlug = level.slug
-          for member in @members?.models ? []
-            if context.memberLevelStateMap[member.id]?[levelSlug]
-              lastUserCampaignLevelMap[member.id] ?= {}
-              lastUserCampaignLevelMap[member.id][campaignID] ?= {}
-              lastUserCampaignLevelMap[member.id][campaignID] =
-                levelSlug: levelSlug
-                index: lastLevelIndex
-              maxLastUserCampaignLevel = lastLevelIndex if lastLevelIndex > maxLastUserCampaignLevel
-              if level.concepts?
-                userConceptsMap[member.id] ?= {}
-                for concept in level.concepts
-                  continue if userConceptsMap[member.id][concept] is 'complete'
-                  userConceptsMap[member.id][concept] = context.memberLevelStateMap[member.id][levelSlug].state
-              highestUserLevelCountMap[member.id] = levelCount
-          lastLevelIndex++
-          levelCount++
+      this.sortMembers(highestUserLevelCountMap, userConceptsMap);// if @clan.get('dashboardType') is 'premium'
+      context.members = (this.members != null ? this.members.models : undefined) != null ? (this.members != null ? this.members.models : undefined) : [];
+      context.lastUserCampaignLevelMap = lastUserCampaignLevelMap;
+      context.showExpandedProgress = (maxLastUserCampaignLevel <= 30) || this.showExpandedProgress;
+      context.userConceptsMap = userConceptsMap;
+      context.arenas = this.arenas;
+      context.i18n = utils.i18n;
+      return context;
+    }
 
-    @sortMembers(highestUserLevelCountMap, userConceptsMap)# if @clan.get('dashboardType') is 'premium'
-    context.members = @members?.models ? []
-    context.lastUserCampaignLevelMap = lastUserCampaignLevelMap
-    context.showExpandedProgress = maxLastUserCampaignLevel <= 30 or @showExpandedProgress
-    context.userConceptsMap = userConceptsMap
-    context.arenas = @arenas
-    context.i18n = utils.i18n
-    context
+    afterRender() {
+      super.afterRender();
+      return this.updateHeroIcons();
+    }
 
-  afterRender: ->
-    super()
-    @updateHeroIcons()
+    refreshData() {
+      me.fetch({cache: false});
+      this.members.fetch({cache: false});
+      this.memberAchievements.fetch({cache: false});
+      return this.memberSessions.fetch({cache: false});
+    }
 
-  refreshData: ->
-    me.fetch cache: false
-    @members.fetch cache: false
-    @memberAchievements.fetch cache: false
-    @memberSessions.fetch cache: false
+    sortMembers(highestUserLevelCountMap, userConceptsMap) {
+      // Progress sort precedence: most completed concepts, most started concepts, most levels, name sort
+      if ((this.members == null) || (this.memberSort == null)) { return; }
+      switch (this.memberSort) {
+        case "nameDesc":
+          this.members.comparator = (a, b) => (b.get('name') || 'Anonymous').localeCompare(a.get('name') || 'Anonymous');
+          break;
+        case "progressAsc":
+          this.members.comparator = function(a, b) {
+            let concept, state;
+            const aComplete = ((() => {
+              const result = [];
+              for (concept in userConceptsMap[a.id]) {
+                state = userConceptsMap[a.id][concept];
+                if (state === 'complete') {
+                  result.push(concept);
+                }
+              }
+              return result;
+            })());
+            const bComplete = ((() => {
+              const result1 = [];
+              for (concept in userConceptsMap[b.id]) {
+                state = userConceptsMap[b.id][concept];
+                if (state === 'complete') {
+                  result1.push(concept);
+                }
+              }
+              return result1;
+            })());
+            const aStarted = ((() => {
+              const result2 = [];
+              for (concept in userConceptsMap[a.id]) {
+                state = userConceptsMap[a.id][concept];
+                if (state === 'started') {
+                  result2.push(concept);
+                }
+              }
+              return result2;
+            })());
+            const bStarted = ((() => {
+              const result3 = [];
+              for (concept in userConceptsMap[b.id]) {
+                state = userConceptsMap[b.id][concept];
+                if (state === 'started') {
+                  result3.push(concept);
+                }
+              }
+              return result3;
+            })());
+            if (aComplete < bComplete) { return -1;
+            } else if (aComplete > bComplete) { return 1;
+            } else if (aStarted < bStarted) { return -1;
+            } else if (aStarted > bStarted) { return 1; }
+            if (highestUserLevelCountMap[a.id] < highestUserLevelCountMap[b.id]) { return -1;
+            } else if (highestUserLevelCountMap[a.id] > highestUserLevelCountMap[b.id]) { return 1; }
+            return (a.get('name') || 'Anonymous').localeCompare(b.get('name') || 'Anonymous');
+          };
+          break;
+        case "progressDesc":
+          this.members.comparator = function(a, b) {
+            let concept, state;
+            const aComplete = ((() => {
+              const result = [];
+              for (concept in userConceptsMap[a.id]) {
+                state = userConceptsMap[a.id][concept];
+                if (state === 'complete') {
+                  result.push(concept);
+                }
+              }
+              return result;
+            })());
+            const bComplete = ((() => {
+              const result1 = [];
+              for (concept in userConceptsMap[b.id]) {
+                state = userConceptsMap[b.id][concept];
+                if (state === 'complete') {
+                  result1.push(concept);
+                }
+              }
+              return result1;
+            })());
+            const aStarted = ((() => {
+              const result2 = [];
+              for (concept in userConceptsMap[a.id]) {
+                state = userConceptsMap[a.id][concept];
+                if (state === 'started') {
+                  result2.push(concept);
+                }
+              }
+              return result2;
+            })());
+            const bStarted = ((() => {
+              const result3 = [];
+              for (concept in userConceptsMap[b.id]) {
+                state = userConceptsMap[b.id][concept];
+                if (state === 'started') {
+                  result3.push(concept);
+                }
+              }
+              return result3;
+            })());
+            if (aComplete > bComplete) { return -1;
+            } else if (aComplete < bComplete) { return 1;
+            } else if (aStarted > bStarted) { return -1;
+            } else if (aStarted < bStarted) { return 1; }
+            if (highestUserLevelCountMap[a.id] > highestUserLevelCountMap[b.id]) { return -1;
+            } else if (highestUserLevelCountMap[a.id] < highestUserLevelCountMap[b.id]) { return 1; }
+            return (b.get('name') || 'Anonymous').localeCompare(a.get('name') || 'Anonymous');
+          };
+          break;
+        default:
+          this.members.comparator = (a, b) => (a.get('name') || 'Anonymous').localeCompare(b.get('name') || 'Anonymous');
+      }
+      return this.members.sort();
+    }
 
-  sortMembers: (highestUserLevelCountMap, userConceptsMap) ->
-    # Progress sort precedence: most completed concepts, most started concepts, most levels, name sort
-    return unless @members? and @memberSort?
-    switch @memberSort
-      when "nameDesc"
-        @members.comparator = (a, b) -> return (b.get('name') or 'Anonymous').localeCompare(a.get('name') or 'Anonymous')
-      when "progressAsc"
-        @members.comparator = (a, b) ->
-          aComplete = (concept for concept, state of userConceptsMap[a.id] when state is 'complete')
-          bComplete = (concept for concept, state of userConceptsMap[b.id] when state is 'complete')
-          aStarted = (concept for concept, state of userConceptsMap[a.id] when state is 'started')
-          bStarted = (concept for concept, state of userConceptsMap[b.id] when state is 'started')
-          if aComplete < bComplete then return -1
-          else if aComplete > bComplete then return 1
-          else if aStarted < bStarted then return -1
-          else if aStarted > bStarted then return 1
-          if highestUserLevelCountMap[a.id] < highestUserLevelCountMap[b.id] then return -1
-          else if highestUserLevelCountMap[a.id] > highestUserLevelCountMap[b.id] then return 1
-          (a.get('name') or 'Anonymous').localeCompare(b.get('name') or 'Anonymous')
-      when "progressDesc"
-        @members.comparator = (a, b) ->
-          aComplete = (concept for concept, state of userConceptsMap[a.id] when state is 'complete')
-          bComplete = (concept for concept, state of userConceptsMap[b.id] when state is 'complete')
-          aStarted = (concept for concept, state of userConceptsMap[a.id] when state is 'started')
-          bStarted = (concept for concept, state of userConceptsMap[b.id] when state is 'started')
-          if aComplete > bComplete then return -1
-          else if aComplete < bComplete then return 1
-          else if aStarted > bStarted then return -1
-          else if aStarted < bStarted then return 1
-          if highestUserLevelCountMap[a.id] > highestUserLevelCountMap[b.id] then return -1
-          else if highestUserLevelCountMap[a.id] < highestUserLevelCountMap[b.id] then return 1
-          (b.get('name') or 'Anonymous').localeCompare(a.get('name') or 'Anonymous')
-      else
-        @members.comparator = (a, b) -> return (a.get('name') or 'Anonymous').localeCompare(b.get('name') or 'Anonymous')
-    @members.sort()
+    updateHeroIcons() {
+      if ((this.members != null ? this.members.models : undefined) == null) { return; }
+      return (() => {
+        const result = [];
+        for (var member of Array.from(this.members.models)) {
+          var hero;
+          if (!(hero = __guard__(member.get('heroConfig'), x => x.thangType))) { continue; }
+          result.push((() => {
+            const result1 = [];
+            for (var slug in ThangType.heroes) {
+              var original = ThangType.heroes[slug];
+              if (original === hero) {
+                result1.push(this.$el.find(`.player-hero-icon[data-memberID=${member.id}]`).removeClass('.player-hero-icon').addClass('player-hero-icon ' + slug));
+              }
+            }
+            return result1;
+          })());
+        }
+        return result;
+      })();
+    }
 
-  updateHeroIcons: ->
-    return unless @members?.models?
-    for member in @members.models
-      continue unless hero = member.get('heroConfig')?.thangType
-      for slug, original of ThangType.heroes when original is hero
-        @$el.find(".player-hero-icon[data-memberID=#{member.id}]").removeClass('.player-hero-icon').addClass('player-hero-icon ' + slug)
+    onCampaignSync() {
+      if (!this.campaigns.loaded) { return; }
+      this.campaignLevelProgressions = [];
+      this.conceptsProgression = [];
+      this.arenas = [];
+      for (var campaign of Array.from(this.campaigns.models)) {
+        if (campaign.get('type') === 'hero') {
+          var campaignLevelProgression = {
+            ID: campaign.id,
+            slug: campaign.get('slug'),
+            name: utils.i18n(campaign.attributes, 'fullName') || utils.i18n(campaign.attributes, 'name'),
+            levels: []
+          };
+          var object = campaign.get('levels');
+          for (var levelID in object) {
+            var level = object[levelID];
+            campaignLevelProgression.levels.push({
+              ID: levelID,
+              slug: level.slug,
+              name: utils.i18n(level, 'name')
+            });
+            if (level.concepts != null) {
+              for (var concept of Array.from(level.concepts)) {
+                if (!Array.from(this.conceptsProgression).includes(concept)) { this.conceptsProgression.push(concept); }
+              }
+            }
+            if (['hero-ladder', 'ladder'].includes(level.type) && !['capture-their-flag'].includes(level.slug)) {  // Would use isType, but it's not a Level model
+              this.arenas.push(level);
+            }
+          }
+          this.campaignLevelProgressions.push(campaignLevelProgression);
+        }
+      }
+      return (typeof this.render === 'function' ? this.render() : undefined);
+    }
 
-  onCampaignSync: ->
-    return unless @campaigns.loaded
-    @campaignLevelProgressions = []
-    @conceptsProgression = []
-    @arenas = []
-    for campaign in @campaigns.models when campaign.get('type') is 'hero'
-      campaignLevelProgression =
-        ID: campaign.id
-        slug: campaign.get('slug')
-        name: utils.i18n(campaign.attributes, 'fullName') or utils.i18n(campaign.attributes, 'name')
-        levels: []
-      for levelID, level of campaign.get('levels')
-        campaignLevelProgression.levels.push
-          ID: levelID
-          slug: level.slug
-          name: utils.i18n level, 'name'
-        if level.concepts?
-          for concept in level.concepts
-            @conceptsProgression.push concept unless concept in @conceptsProgression
-        if level.type in ['hero-ladder', 'ladder'] and level.slug not in ['capture-their-flag']  # Would use isType, but it's not a Level model
-          @arenas.push level
-      @campaignLevelProgressions.push campaignLevelProgression
-    @render?()
+    onClanSync() {
+      this.setMeta({
+        title: $.i18n.t('clans.clan_title', { clan: this.clan.get('name') })
+      });
 
-  onClanSync: ->
-    @setMeta({
-      title: $.i18n.t('clans.clan_title', { clan: @clan.get('name') })
-    })
+      if (this.clan.get('ownerID') && (this.owner == null)) {
+        this.owner = new User({_id: this.clan.get('ownerID')});
+        this.listenTo(this.owner, 'sync', () => (typeof this.render === 'function' ? this.render() : undefined));
+        this.supermodel.loadModel(this.owner, {cache: false});
+      }
+      if (this.clan.get("dashboardType") === "premium") {
+        this.supermodel.loadCollection(this.memberSessions, 'member_sessions', {cache: false});
+      }
+      return (typeof this.render === 'function' ? this.render() : undefined);
+    }
 
-    if @clan.get('ownerID') and not @owner?
-      @owner = new User _id: @clan.get('ownerID')
-      @listenTo @owner, 'sync', => @render?()
-      @supermodel.loadModel @owner, cache: false
-    if @clan.get("dashboardType") is "premium"
-      @supermodel.loadCollection(@memberSessions, 'member_sessions', {cache: false})
-    @render?()
+    onMembersSync() {
+      this.stats.averageLevel = Math.round(this.members.reduce(((sum, member) => sum + member.level()), 0) / this.members.length);
+      return (typeof this.render === 'function' ? this.render() : undefined);
+    }
 
-  onMembersSync: ->
-    @stats.averageLevel = Math.round(@members.reduce(((sum, member) -> sum + member.level()), 0) / @members.length)
-    @render?()
+    onMemberAchievementsSync() {
+      let user;
+      this.memberAchievementsMap = {};
+      for (var achievement of Array.from(this.memberAchievements.models)) {
+        user = achievement.get('user');
+        if (this.memberAchievementsMap[user] == null) { this.memberAchievementsMap[user] = []; }
+        this.memberAchievementsMap[user].push(achievement);
+      }
+      for (user in this.memberAchievementsMap) {
+        this.memberAchievementsMap[user].sort((a, b) => b.id.localeCompare(a.id));
+      }
+      this.stats.averageAchievements = Math.round(this.memberAchievements.models.length / Object.keys(this.memberAchievementsMap).length);
+      return (typeof this.render === 'function' ? this.render() : undefined);
+    }
 
-  onMemberAchievementsSync: ->
-    @memberAchievementsMap = {}
-    for achievement in @memberAchievements.models
-      user = achievement.get('user')
-      @memberAchievementsMap[user] ?= []
-      @memberAchievementsMap[user].push achievement
-    for user of @memberAchievementsMap
-      @memberAchievementsMap[user].sort (a, b) -> b.id.localeCompare(a.id)
-    @stats.averageAchievements = Math.round(@memberAchievements.models.length / Object.keys(@memberAchievementsMap).length)
-    @render?()
+    onMemberSessionsSync() {
+      let levelSession, user;
+      this.memberLevelMap = {};
+      const memberSessions = {};
+      for (levelSession of Array.from(this.memberSessions.models)) {
+        if (levelSession.isMultiplayer()) { continue; }
+        user = levelSession.get('creator');
+        var levelSlug = levelSession.get('levelID');
+        if (this.memberLevelMap[user] == null) { this.memberLevelMap[user] = {}; }
+        if (this.memberLevelMap[user][levelSlug] == null) { this.memberLevelMap[user][levelSlug] = {}; }
+        var levelInfo = {
+          level: levelSession.get('levelName'),
+          levelID: levelSession.get('levelID'),
+          changed: new Date(levelSession.get('changed')).toLocaleString(),
+          playtime: levelSession.get('playtime'),
+          sessionID: levelSession.id
+        };
+        this.memberLevelMap[user][levelSlug].levelInfo = levelInfo;
+        if (__guard__(levelSession.get('state'), x => x.complete) === true) {
+          this.memberLevelMap[user][levelSlug].state = 'complete';
+          if (memberSessions[user] == null) { memberSessions[user] = []; }
+          memberSessions[user].push(levelSession);
+        } else {
+          this.memberLevelMap[user][levelSlug].state = 'started';
+        }
+      }
+      this.memberMaxLevelCount = 0;
+      this.memberLanguageMap = {};
+      for (user in memberSessions) {
+        var language;
+        var languageCounts = {};
+        for (levelSession of Array.from(memberSessions[user])) {
+          language = levelSession.get('codeLanguage') || levelSession.get('submittedCodeLanguage');
+          if (language) { languageCounts[language] = (languageCounts[language] || 0) + 1; }
+        }
+        if (this.memberMaxLevelCount < memberSessions[user].length) { this.memberMaxLevelCount = memberSessions[user].length; }
+        var mostUsedCount = 0;
+        for (language in languageCounts) {
+          var count = languageCounts[language];
+          if (count > mostUsedCount) {
+            mostUsedCount = count;
+            this.memberLanguageMap[user] = language;
+          }
+        }
+      }
+      return (typeof this.render === 'function' ? this.render() : undefined);
+    }
 
-  onMemberSessionsSync: ->
-    @memberLevelMap = {}
-    memberSessions = {}
-    for levelSession in @memberSessions.models
-      continue if levelSession.isMultiplayer()
-      user = levelSession.get('creator')
-      levelSlug = levelSession.get('levelID')
-      @memberLevelMap[user] ?= {}
-      @memberLevelMap[user][levelSlug] ?= {}
-      levelInfo =
-        level: levelSession.get('levelName')
-        levelID: levelSession.get('levelID')
-        changed: new Date(levelSession.get('changed')).toLocaleString()
-        playtime: levelSession.get('playtime')
-        sessionID: levelSession.id
-      @memberLevelMap[user][levelSlug].levelInfo = levelInfo
-      if levelSession.get('state')?.complete is true
-        @memberLevelMap[user][levelSlug].state = 'complete'
-        memberSessions[user] ?= []
-        memberSessions[user].push levelSession
-      else
-        @memberLevelMap[user][levelSlug].state = 'started'
-    @memberMaxLevelCount = 0
-    @memberLanguageMap = {}
-    for user of memberSessions
-      languageCounts = {}
-      for levelSession in memberSessions[user]
-        language = levelSession.get('codeLanguage') or levelSession.get('submittedCodeLanguage')
-        languageCounts[language] = (languageCounts[language] or 0) + 1 if language
-      @memberMaxLevelCount = memberSessions[user].length if @memberMaxLevelCount < memberSessions[user].length
-      mostUsedCount = 0
-      for language, count of languageCounts
-        if count > mostUsedCount
-          mostUsedCount = count
-          @memberLanguageMap[user] = language
-    @render?()
+    onTournamentsSync(e) {
+      this.tournamentModels = Object.values((Array.from(this.tournaments.models).map((t) => t.toJSON()))[0])[0];
+      return (typeof this.render === 'function' ? this.render() : undefined);
+    }
 
-  onTournamentsSync: (e) ->
-    @tournamentModels = Object.values((t.toJSON() for t in @tournaments.models)[0])[0]
-    @render?()
+    onLaddersSync(e) {
+      const levels = [];
+      for (var ladder of Array.from(this.ladders.models)) {
+        levels.push({
+          name: ladder.get('name'),
+          id: ladder.get('slug'),
+          image: ladder.get('image'),
+          original: ladder.get('original')
+        });
+        this.ladderImageMap[ladder.get('original')] = ladder.get('image');
+      }
+      this.ladderLevels = levels;
+      return (typeof this.render === 'function' ? this.render() : undefined);
+    }
 
-  onLaddersSync: (e) ->
-    levels = []
-    for ladder in @ladders.models
-      levels.push({
-        name: ladder.get('name'),
-        id: ladder.get('slug'),
-        image: ladder.get('image'),
-        original: ladder.get('original')
-      })
-      @ladderImageMap[ladder.get('original')] = ladder.get('image')
-    @ladderLevels = levels
-    @render?()
+    onMouseEnterPoint(e) {
+      const container = $(e.target).find('.level-popup-container').show();
+      const margin = 20;
+      const offset = $(e.target).offset();
+      const scrollTop = $(e.target).offsetParent().scrollTop();
+      const height = container.outerHeight();
+      container.css('left', offset.left + e.offsetX);
+      container.css('top', (offset.top + scrollTop) - height - margin);
+      if (this.lastPopup) {
+        this.lastPopup.hide();
+      }
+      return this.lastPopup = container;
+    }
 
-  onMouseEnterPoint: (e) ->
-    container = $(e.target).find('.level-popup-container').show()
-    margin = 20
-    offset = $(e.target).offset()
-    scrollTop = $(e.target).offsetParent().scrollTop()
-    height = container.outerHeight()
-    container.css('left', offset.left + e.offsetX)
-    container.css('top', offset.top + scrollTop - height - margin)
-    if @lastPopup
-      @lastPopup.hide()
-    @lastPopup = container
+    onMouseLeavePoint(e) {
+      $(e.target).find('.level-popup-container').hide();
+      if (this.lastPopup) {
+        this.lastPopup.hide();
+        return this.lastPopup = null;
+      }
+    }
 
-  onMouseLeavePoint: (e) ->
-    $(e.target).find('.level-popup-container').hide()
-    if @lastPopup
-      @lastPopup.hide()
-      @lastPopup = null
+    onClickLevel(e) {
+      if (this.clan.get('ownerID') !== me.id) { return; }
+      const levelInfo = $(e.target).data('level-info');
+      if (((levelInfo != null ? levelInfo.levelID : undefined) == null) || ((levelInfo != null ? levelInfo.sessionID : undefined) == null)) { return; }
+      const url = `/play/level/${levelInfo.levelID}?session=${levelInfo.sessionID}&observing=true`;
+      return window.open(url, '_blank');
+    }
 
-  onClickLevel: (e) ->
-    return unless @clan.get('ownerID') is me.id
-    levelInfo = $(e.target).data 'level-info'
-    return unless levelInfo?.levelID? and levelInfo?.sessionID?
-    url = "/play/level/#{levelInfo.levelID}?session=#{levelInfo.sessionID}&observing=true"
-    window.open url, '_blank'
+    onDeleteClan(e) {
+      if (me.isAnonymous()) { return this.openModalView(new CreateAccountModal()); }
+      if (!window.confirm("Delete Clan?")) { return; }
+      const options = {
+        url: `/db/clan/${this.clanID}`,
+        method: 'DELETE',
+        error: (model, response, options) => {
+          return console.error('Error joining clan', response);
+        },
+        success: (model, response, options) => {
+          application.router.navigate("/clans");
+          return window.location.reload();
+        }
+      };
+      return this.supermodel.addRequestResource( 'delete_clan', options).load();
+    }
 
-  onDeleteClan: (e) ->
-    return @openModalView(new CreateAccountModal()) if me.isAnonymous()
-    return unless window.confirm("Delete Clan?")
-    options =
-      url: "/db/clan/#{@clanID}"
-      method: 'DELETE'
-      error: (model, response, options) =>
-        console.error 'Error joining clan', response
-      success: (model, response, options) =>
-        application.router.navigate "/clans"
-        window.location.reload()
-    @supermodel.addRequestResource( 'delete_clan', options).load()
+    onEditDescriptionSave(e) {
+      const description = $('.edit-description-input').val();
+      this.clan.set('description', description);
+      this.clan.patch();
+      return $('#editDescriptionModal').modal('hide');
+    }
 
-  onEditDescriptionSave: (e) ->
-    description = $('.edit-description-input').val()
-    @clan.set 'description', description
-    @clan.patch()
-    $('#editDescriptionModal').modal('hide')
+    onEditNameSave(e) {
+      let name;
+      if (name = $('.edit-name-input').val()) {
+        this.clan.set('name', name);
+        this.clan.patch();
+      }
+      return $('#editNameModal').modal('hide');
+    }
 
-  onEditNameSave: (e) ->
-    if name = $('.edit-name-input').val()
-      @clan.set 'name', name
-      @clan.patch()
-    $('#editNameModal').modal('hide')
+    onExpandedProgressCheckbox(e) {
+      this.showExpandedProgress = $('.expand-progress-checkbox').prop('checked');
+      // TODO: why does render reset the checkbox to be unchecked?
+      if (typeof this.render === 'function') {
+        this.render();
+      }
+      return $('.expand-progress-checkbox').attr('checked', this.showExpandedProgress);
+    }
 
-  onExpandedProgressCheckbox: (e) ->
-    @showExpandedProgress = $('.expand-progress-checkbox').prop('checked')
-    # TODO: why does render reset the checkbox to be unchecked?
-    @render?()
-    $('.expand-progress-checkbox').attr('checked', @showExpandedProgress)
+    onJoinClan(e) {
+      if (me.isAnonymous()) { return this.openModalView(new CreateAccountModal()); }
+      if (!this.clan.loaded) { return; }
+      if ((this.clan.get('type') === 'private') && !me.isPremium()) {
+        this.openModalView(new SubscribeModal());
+        if (window.tracker != null) {
+          window.tracker.trackEvent('Show subscription modal', {category: 'Subscription', label: 'join clan'});
+        }
+        return;
+      }
+      const options = {
+        url: `/db/clan/${this.clanID}/join`,
+        method: 'PUT',
+        error: (model, response, options) => {
+          return console.error('Error joining clan', response);
+        },
+        success: (model, response, options) => this.refreshData()
+      };
+      return this.supermodel.addRequestResource( 'join_clan', options).load();
+    }
 
-  onJoinClan: (e) ->
-    return @openModalView(new CreateAccountModal()) if me.isAnonymous()
-    return unless @clan.loaded
-    if @clan.get('type') is 'private' and not me.isPremium()
-      @openModalView new SubscribeModal()
-      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'join clan'
-      return
-    options =
-      url: "/db/clan/#{@clanID}/join"
-      method: 'PUT'
-      error: (model, response, options) =>
-        console.error 'Error joining clan', response
-      success: (model, response, options) => @refreshData()
-    @supermodel.addRequestResource( 'join_clan', options).load()
+    onLeaveClan(e) {
+      const options = {
+        url: `/db/clan/${this.clanID}/leave`,
+        method: 'PUT',
+        error: (model, response, options) => {
+          return console.error('Error leaving clan', response);
+        },
+        success: (model, response, options) => this.refreshData()
+      };
+      return this.supermodel.addRequestResource( 'leave_clan', options).load();
+    }
 
-  onLeaveClan: (e) ->
-    options =
-      url: "/db/clan/#{@clanID}/leave"
-      method: 'PUT'
-      error: (model, response, options) =>
-        console.error 'Error leaving clan', response
-      success: (model, response, options) => @refreshData()
-    @supermodel.addRequestResource( 'leave_clan', options).load()
+    onClickMemberHeader(e) {
+      this.memberSort = this.memberSort === 'nameAsc' ? 'nameDesc' : 'nameAsc';
+      return (typeof this.render === 'function' ? this.render() : undefined);
+    }
 
-  onClickMemberHeader: (e) ->
-    @memberSort = if @memberSort is 'nameAsc' then 'nameDesc' else 'nameAsc'
-    @render?()
+    onClickProgressHeader(e) {
+      this.memberSort = this.memberSort === 'progressAsc' ? 'progressDesc' : 'progressAsc';
+      return (typeof this.render === 'function' ? this.render() : undefined);
+    }
 
-  onClickProgressHeader: (e) ->
-    @memberSort = if @memberSort is 'progressAsc' then 'progressDesc' else 'progressAsc'
-    @render?()
+    onRemoveMember(e) {
+      let memberID;
+      if (!window.confirm("Remove Hero?")) { return; }
+      if (memberID = $(e.target).data('id')) {
+        const options = {
+          url: `/db/clan/${this.clanID}/remove/${memberID}`,
+          method: 'PUT',
+          error: (model, response, options) => {
+            return console.error('Error removing clan member', response);
+          },
+          success: (model, response, options) => this.refreshData()
+        };
+        return this.supermodel.addRequestResource( 'remove_member', options).load();
+      } else {
+        return console.error("No member ID attached to remove button.");
+      }
+    }
+  };
+  ClanDetailsView.initClass();
+  return ClanDetailsView;
+})());
 
-  onRemoveMember: (e) ->
-    return unless window.confirm("Remove Hero?")
-    if memberID = $(e.target).data('id')
-      options =
-        url: "/db/clan/#{@clanID}/remove/#{memberID}"
-        method: 'PUT'
-        error: (model, response, options) =>
-          console.error 'Error removing clan member', response
-        success: (model, response, options) => @refreshData()
-      @supermodel.addRequestResource( 'remove_member', options).load()
-    else
-      console.error "No member ID attached to remove button."
+class LadderCollection extends CocoCollection {
+  static initClass() {
+    this.prototype.url = '';
+    this.prototype.model = Level;
+  }
 
-class LadderCollection extends CocoCollection
-  url: ''
-  model: Level
+  constructor(model) {
+    super();
+    this.url = "/db/level/-/arenas";
+  }
+}
+LadderCollection.initClass();
 
-  constructor: (model) ->
-    super()
-    @url = "/db/level/-/arenas"
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}
