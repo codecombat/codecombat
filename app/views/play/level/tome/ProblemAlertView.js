@@ -1,134 +1,178 @@
-require('app/styles/play/level/tome/problem_alert.sass')
-CocoView = require 'views/core/CocoView'
-GameMenuModal = require 'views/play/menu/GameMenuModal'
-template = require 'app/templates/play/level/tome/problem_alert'
-{me} = require 'core/auth'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ProblemAlertView;
+require('app/styles/play/level/tome/problem_alert.sass');
+const CocoView = require('views/core/CocoView');
+const GameMenuModal = require('views/play/menu/GameMenuModal');
+const template = require('app/templates/play/level/tome/problem_alert');
+const {me} = require('core/auth');
 
-module.exports = class ProblemAlertView extends CocoView
-  id: 'problem-alert-view'
-  className: 'problem-alert'
-  template: template
-  duckImages: [
-    '/images/pages/play/duck_alejandro.png'
-    '/images/pages/play/duck_anya2.png'
-    '/images/pages/play/duck_ida.png'
-    '/images/pages/play/duck_okar.png'
-    '/images/pages/play/duck_tharin2.png'
-    '/images/pages/play/duck_amara.png'
-    '/images/pages/play/duck_arryn.png'
-    '/images/pages/play/duck_hattori.png'
-    '/images/pages/play/duck_hushbaum.png'
-    '/images/pages/play/duck_illia.png'
-    '/images/pages/play/duck_nalfar.png'
-    '/images/pages/play/duck_naria.png'
-    '/images/pages/play/duck_omarn.png'
-    '/images/pages/play/duck_pender.png'
-    '/images/pages/play/duck_ritic.png'
-    '/images/pages/play/duck_senick.png'
-    '/images/pages/play/duck_usara.png'
-    '/images/pages/play/duck_zana.png'
-  ]
+module.exports = (ProblemAlertView = (function() {
+  ProblemAlertView = class ProblemAlertView extends CocoView {
+    static initClass() {
+      this.prototype.id = 'problem-alert-view';
+      this.prototype.className = 'problem-alert';
+      this.prototype.template = template;
+      this.prototype.duckImages = [
+        '/images/pages/play/duck_alejandro.png',
+        '/images/pages/play/duck_anya2.png',
+        '/images/pages/play/duck_ida.png',
+        '/images/pages/play/duck_okar.png',
+        '/images/pages/play/duck_tharin2.png',
+        '/images/pages/play/duck_amara.png',
+        '/images/pages/play/duck_arryn.png',
+        '/images/pages/play/duck_hattori.png',
+        '/images/pages/play/duck_hushbaum.png',
+        '/images/pages/play/duck_illia.png',
+        '/images/pages/play/duck_nalfar.png',
+        '/images/pages/play/duck_naria.png',
+        '/images/pages/play/duck_omarn.png',
+        '/images/pages/play/duck_pender.png',
+        '/images/pages/play/duck_ritic.png',
+        '/images/pages/play/duck_senick.png',
+        '/images/pages/play/duck_usara.png',
+        '/images/pages/play/duck_zana.png'
+      ];
+  
+      this.prototype.subscriptions = {
+        'tome:show-problem-alert': 'onShowProblemAlert',
+        'tome:hide-problem-alert': 'onHideProblemAlert',
+        'level:restart': 'onHideProblemAlert',
+        'tome:jiggle-problem-alert': 'onJiggleProblemAlert',
+        'tome:manual-cast': 'onHideProblemAlert'
+      };
+  
+      this.prototype.events = {
+        'click .close': 'onRemoveClicked',
+        'click'() { return Backbone.Mediator.publish('tome:focus-editor', {}); },
+        'click .ai-help-button': 'onAIHelpClicked'
+      };
+    }
 
-  subscriptions:
-    'tome:show-problem-alert': 'onShowProblemAlert'
-    'tome:hide-problem-alert': 'onHideProblemAlert'
-    'level:restart': 'onHideProblemAlert'
-    'tome:jiggle-problem-alert': 'onJiggleProblemAlert'
-    'tome:manual-cast': 'onHideProblemAlert'
+    constructor(options) {
+      this.onWindowResize = this.onWindowResize.bind(this);
+      this.supermodel = options.supermodel; // Has to go before super so events are hooked up
+      super(options);
+      this.level = options.level;
+      this.session = options.session;
+      if (options.problem != null) {
+        this.problem = options.problem;
+        this.onWindowResize();
+      } else {
+        this.$el.hide();
+      }
+      this.duckImg = _.sample(this.duckImages);
+      $(window).on('resize', this.onWindowResize);
+    }
 
-  events:
-    'click .close': 'onRemoveClicked'
-    'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
-    'click .ai-help-button': 'onAIHelpClicked'
+    destroy() {
+      $(window).off('resize', this.onWindowResize);
+      return super.destroy();
+    }
 
-  constructor: (options) ->
-    @supermodel = options.supermodel # Has to go before super so events are hooked up
-    super options
-    @level = options.level
-    @session = options.session
-    if options.problem?
-      @problem = options.problem
-      @onWindowResize()
-    else
-      @$el.hide()
-    @duckImg = _.sample(@duckImages)
-    $(window).on 'resize', @onWindowResize
+    afterRender() {
+      super.afterRender();
+      if (this.problem != null) {
+        this.$el.addClass('alert').addClass(`alert-${this.problem.level}`).hide().fadeIn('slow');
+        if (!this.problem.hint) { this.$el.addClass('no-hint'); }
+        return this.playSound('error_appear');
+      }
+    }
 
-  destroy: ->
-    $(window).off 'resize', @onWindowResize
-    super()
+    setProblemMessage() {
+      if (this.problem != null) {
+        const format = function(s) { if (s != null) { return marked(s); } };
+        let {
+          message
+        } = this.problem;
+        // Add time to problem message if hint is for a missing null check
+        // NOTE: This may need to be updated with Aether error hint changes
+        if ((this.problem.hint != null) && /(?:null|undefined)/.test(this.problem.hint)) {
+          const age = this.problem.userInfo != null ? this.problem.userInfo.age : undefined;
+          if (age != null) {
+            if (/^Line \d+:/.test(message)) {
+              message = message.replace(/^(Line \d+)/, `$1, time ${age.toFixed(1)}`);
+            } else {
+              message = `Time ${age.toFixed(1)}: ${message}`;
+            }
+          }
+        }
+        this.message = format(message);
+        return this.hint = format(this.problem.hint);
+      }
+    }
 
-  afterRender: ->
-    super()
-    if @problem?
-      @$el.addClass('alert').addClass("alert-#{@problem.level}").hide().fadeIn('slow')
-      @$el.addClass('no-hint') unless @problem.hint
-      @playSound 'error_appear'
+    onShowProblemAlert(data) {
+      if (!$('#code-area').is(":visible") && !this.level.isType('game-dev')) { return; }
+      if (this.problem != null) {
+        if (this.$el.hasClass(`alert-${this.problem.level}`)) {
+          this.$el.removeClass(`alert-${this.problem.level}`);
+        }
+        if (this.$el.hasClass("no-hint")) {
+          this.$el.removeClass("no-hint");
+        }
+      }
+      this.problem = data.problem;
+      this.lineOffsetPx = data.lineOffsetPx || 0;
+      this.$el.show();
+      this.onWindowResize();
+      this.setProblemMessage();
+      this.render();
+      this.onJiggleProblemAlert();
+      return (application.tracker != null ? application.tracker.trackEvent('Show problem alert', {levelID: this.level.get('slug'), ls: (this.session != null ? this.session.get('_id') : undefined)}) : undefined);
+    }
 
-  setProblemMessage: ->
-    if @problem?
-      format = (s) -> marked(s) if s?
-      message = @problem.message
-      # Add time to problem message if hint is for a missing null check
-      # NOTE: This may need to be updated with Aether error hint changes
-      if @problem.hint? and /(?:null|undefined)/.test @problem.hint
-        age = @problem.userInfo?.age
-        if age?
-          if /^Line \d+:/.test message
-            message = message.replace /^(Line \d+)/, "$1, time #{age.toFixed(1)}"
-          else
-            message = "Time #{age.toFixed(1)}: #{message}"
-      @message = format message
-      @hint = format @problem.hint
+    onJiggleProblemAlert() {
+      if (this.problem == null) { return; }
+      if (!this.$el.is(":visible")) { this.$el.show(); }
+      this.$el.addClass('jiggling');
+      this.playSound('error_appear');
+      const pauseJiggle = () => {
+        return (this.$el != null ? this.$el.removeClass('jiggling') : undefined);
+      };
+      return _.delay(pauseJiggle, 1000);
+    }
 
-  onShowProblemAlert: (data) ->
-    return unless $('#code-area').is(":visible") or @level.isType('game-dev')
-    if @problem?
-      if @$el.hasClass "alert-#{@problem.level}"
-        @$el.removeClass "alert-#{@problem.level}"
-      if @$el.hasClass "no-hint"
-        @$el.removeClass "no-hint"
-    @problem = data.problem
-    @lineOffsetPx = data.lineOffsetPx or 0
-    @$el.show()
-    @onWindowResize()
-    @setProblemMessage()
-    @render()
-    @onJiggleProblemAlert()
-    application.tracker?.trackEvent 'Show problem alert', {levelID: @level.get('slug'), ls: @session?.get('_id')}
+    onHideProblemAlert() {
+      if (!this.$el.is(':visible')) { return; }
+      return this.onRemoveClicked();
+    }
 
-  onJiggleProblemAlert: ->
-    return unless @problem?
-    @$el.show() unless @$el.is(":visible")
-    @$el.addClass 'jiggling'
-    @playSound 'error_appear'
-    pauseJiggle = =>
-      @$el?.removeClass 'jiggling'
-    _.delay pauseJiggle, 1000
+    onRemoveClicked() {
+      this.playSound('menu-button-click');
+      this.$el.hide();
+      return Backbone.Mediator.publish('tome:focus-editor', {});
+    }
 
-  onHideProblemAlert: ->
-    return unless @$el.is(':visible')
-    @onRemoveClicked()
+    onAIHelpClicked(e) {
+      const rand = _.random(1, 13);
+      const message = $.i18n.t('ai.prompt_level_chat_' + rand);
+      return Backbone.Mediator.publish('level:add-user-chat', { message });
+    }
 
-  onRemoveClicked: ->
-    @playSound 'menu-button-click'
-    @$el.hide()
-    Backbone.Mediator.publish 'tome:focus-editor', {}
+    onWindowResize(e) {
+      // TODO: This all seems a little hacky
+      if (this.problem != null) {
+        const levelContentWidth = $('.level-content').outerWidth(true);
+        const goalsViewWidth = $('#goals-view').outerWidth(true);
+        const codeAreaWidth = $('#code-area').outerWidth(true);
+        // problem alert view has 20px padding
+        this.$el.css('max-width', (levelContentWidth - codeAreaWidth - goalsViewWidth) + 40 + 'px');
+        this.$el.css('right', codeAreaWidth + 'px');
 
-  onAIHelpClicked: (e) ->
-    rand = _.random(1, 13)
-    message = $.i18n.t('ai.prompt_level_chat_' + rand)
-    Backbone.Mediator.publish 'level:add-user-chat', { message }
-
-  onWindowResize: (e) =>
-    # TODO: This all seems a little hacky
-    if @problem?
-      levelContentWidth = $('.level-content').outerWidth(true)
-      goalsViewWidth = $('#goals-view').outerWidth(true)
-      codeAreaWidth = $('#code-area').outerWidth(true)
-      # problem alert view has 20px padding
-      @$el.css('max-width', levelContentWidth - codeAreaWidth - goalsViewWidth + 40 + 'px')
-      @$el.css('right', codeAreaWidth + 'px')
-
-      top = $('#code-area .ace').offset().top
-      @$el.css('top', (top + @lineOffsetPx - @$el.height() / 2) + 'px')
+        const {
+          top
+        } = $('#code-area .ace').offset();
+        return this.$el.css('top', ((top + this.lineOffsetPx) - (this.$el.height() / 2)) + 'px');
+      }
+    }
+  };
+  ProblemAlertView.initClass();
+  return ProblemAlertView;
+})());

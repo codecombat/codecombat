@@ -1,42 +1,73 @@
-{clone} = require './world_utils'
-{scriptMatchesEventPrereqs} = require './script_event_prereqs'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let WorldScriptNote;
+const {clone} = require('./world_utils');
+const {scriptMatchesEventPrereqs} = require('./script_event_prereqs');
 
-module.exports = class WorldScriptNote
-  @className: 'WorldScriptNote'
-  constructor: (script, @event, world) ->
-    return unless script?
-    @invalid = true
-    return unless scriptMatchesEventPrereqs(script, @event)
-    # Could add the scriptPrereqsSatisfied or seen/repeats stuff if needed
-    @invalid = false
-    @channel = script.channel
-    @event ?= {}
-    @event.replacedNoteChain = script.noteChain if script.noteChain
+module.exports = (WorldScriptNote = (function() {
+  WorldScriptNote = class WorldScriptNote {
+    static initClass() {
+      this.className = 'WorldScriptNote';
+    }
+    constructor(script, event, world) {
+      this.event = event;
+      if (script == null) { return; }
+      this.invalid = true;
+      if (!scriptMatchesEventPrereqs(script, this.event)) { return; }
+      // Could add the scriptPrereqsSatisfied or seen/repeats stuff if needed
+      this.invalid = false;
+      this.channel = script.channel;
+      if (this.event == null) { this.event = {}; }
+      if (script.noteChain) { this.event.replacedNoteChain = script.noteChain; }
+    }
 
-  serialize: ->
-    o = {channel: @channel, event: {}}
-    for key, value of @event
-      if value?.isThang
-        value = {isThang: true, id: value.id}
-      else if _.isArray value
-        for subval, i in value
-          if subval?.isThang
-            value[i] = {isThang: true, id: subval.id}
-      o.event[key] = value
-    o
+    serialize() {
+      const o = {channel: this.channel, event: {}};
+      for (var key in this.event) {
+        var value = this.event[key];
+        if (value != null ? value.isThang : undefined) {
+          value = {isThang: true, id: value.id};
+        } else if (_.isArray(value)) {
+          for (var i = 0; i < value.length; i++) {
+            var subval = value[i];
+            if (subval != null ? subval.isThang : undefined) {
+              value[i] = {isThang: true, id: subval.id};
+            }
+          }
+        }
+        o.event[key] = value;
+      }
+      return o;
+    }
 
-  @deserialize: (o, world, classMap) ->
-    scriptNote = new WorldScriptNote
-    scriptNote.channel = o.channel
-    scriptNote.event = {}
-    for key, value of o.event
-      if value? and typeof value is 'object' and value.isThang
-        value = world.getThangByID value.id
-      else if _.isArray value
-        for subval, i in value
-          if subval? and typeof subval is 'object' and subval.isThang
-            value[i] = world.getThangByID subval.id
-      else if value? and typeof value is 'object' and value.CN
-        value = classMap[value.CN].deserialize value, world, classMap
-      scriptNote.event[key] = value
-    scriptNote
+    static deserialize(o, world, classMap) {
+      const scriptNote = new WorldScriptNote;
+      scriptNote.channel = o.channel;
+      scriptNote.event = {};
+      for (var key in o.event) {
+        var value = o.event[key];
+        if ((value != null) && (typeof value === 'object') && value.isThang) {
+          value = world.getThangByID(value.id);
+        } else if (_.isArray(value)) {
+          for (var i = 0; i < value.length; i++) {
+            var subval = value[i];
+            if ((subval != null) && (typeof subval === 'object') && subval.isThang) {
+              value[i] = world.getThangByID(subval.id);
+            }
+          }
+        } else if ((value != null) && (typeof value === 'object') && value.CN) {
+          value = classMap[value.CN].deserialize(value, world, classMap);
+        }
+        scriptNote.event[key] = value;
+      }
+      return scriptNote;
+    }
+  };
+  WorldScriptNote.initClass();
+  return WorldScriptNote;
+})());

@@ -1,63 +1,99 @@
-require('app/styles/admin/codelogs-view.sass')
-RootView = require 'views/core/RootView'
-template = require 'app/templates/admin/codelogs-view'
-CodeLogCollection = require 'collections/CodeLogs'
-CodeLog = require 'models/CodeLog'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let CodeLogsView;
+require('app/styles/admin/codelogs-view.sass');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/admin/codelogs-view');
+const CodeLogCollection = require('collections/CodeLogs');
+const CodeLog = require('models/CodeLog');
+const utils = require('core/utils');
 
-CodePlaybackView = require './CodePlaybackView'
+const CodePlaybackView = require('./CodePlaybackView');
 
-module.exports = class CodeLogsView extends RootView
-  template: template
-  id: 'codelogs-view'
-  tooltip: null
-  events:
-    'click .playback': 'onClickPlayback'
-    'input #userid-search': 'onUserIDInput'
-    'input #levelslug-search': 'onLevelSlugInput'
+module.exports = (CodeLogsView = (function() {
+  CodeLogsView = class CodeLogsView extends RootView {
+    constructor(...args) {
+      this.onBlurTooltip = this.onBlurTooltip.bind(this);
+      super(...args);
+    }
 
-  initialize: ->
-    #@spade = new Spade()
-    @codelogs = new CodeLogCollection()
-    @supermodel.trackRequest(@codelogs.fetchLatest())
-    @onUserIDInput = _.debounce(@onUserIDInput, 300)
-    @onLevelSlugInput = _.debounce(@onLevelSlugInput, 300)
-    #@supermodel.trackRequest(@codelogs.fetch())
+    static initClass() {
+      this.prototype.template = template;
+      this.prototype.id = 'codelogs-view';
+      this.prototype.tooltip = null;
+      this.prototype.events = {
+        'click .playback': 'onClickPlayback',
+        'input #userid-search': 'onUserIDInput',
+        'input #levelslug-search': 'onLevelSlugInput'
+      };
+    }
 
-  onUserIDInput: (e) ->
-    userID = $('#userid-search')[0].value
-    unless userID is ''
-      Promise.resolve(@codelogs.fetchByUserID(userID))
-      .then (e) =>
-        @renderSelectors '#codelogtable'
-    else
-      Promise.resolve(@codelogs.fetchLatest())
-      .then (e) =>
-        @renderSelectors '#codelogtable'
+    initialize() {
+      //@spade = new Spade()
+      this.codelogs = new CodeLogCollection();
+      this.supermodel.trackRequest(this.codelogs.fetchLatest());
+      this.onUserIDInput = _.debounce(this.onUserIDInput, 300);
+      return this.onLevelSlugInput = _.debounce(this.onLevelSlugInput, 300);
+    }
+      //@supermodel.trackRequest(@codelogs.fetch())
 
-  onLevelSlugInput: (e) ->
-    slug = $('#levelslug-search')[0].value
-    unless slug is ''
-      Promise.resolve(@codelogs.fetchBySlug(slug))
-      .then (e) =>
-        @renderSelectors '#codelogtable'
-    else
-      Promise.resolve(@codelogs.fetchLatest())
-      .then (e) =>
-        @renderSelectors '#codelogtable'
+    onUserIDInput(e) {
+      const userID = $('#userid-search')[0].value;
+      if (userID !== '') {
+        return Promise.resolve(this.codelogs.fetchByUserID(userID))
+        .then(e => {
+          return this.renderSelectors('#codelogtable');
+        });
+      } else {
+        return Promise.resolve(this.codelogs.fetchLatest())
+        .then(e => {
+          return this.renderSelectors('#codelogtable');
+        });
+      }
+    }
 
-  onClickPlayback: (e) ->
-    @insertSubView @codePlaybackView = new CodePlaybackView rawLog:$(e.target).data('codelog')
+    onLevelSlugInput(e) {
+      const slug = $('#levelslug-search')[0].value;
+      if (slug !== '') {
+        return Promise.resolve(this.codelogs.fetchBySlug(slug))
+        .then(e => {
+          return this.renderSelectors('#codelogtable');
+        });
+      } else {
+        return Promise.resolve(this.codelogs.fetchLatest())
+        .then(e => {
+          return this.renderSelectors('#codelogtable');
+        });
+      }
+    }
 
-  deleteTooltip: ->
-    if @tooltip?
-      @tooltip.off 'blur'
-      @tooltip.remove()
-      @tooltip = null
+    onClickPlayback(e) {
+      return this.insertSubView(this.codePlaybackView = new CodePlaybackView({rawLog:$(e.target).data('codelog')}));
+    }
 
-  onBlurTooltip: (e) =>
-    @deleteTooltip()
+    deleteTooltip() {
+      if (this.tooltip != null) {
+        this.tooltip.off('blur');
+        this.tooltip.remove();
+        return this.tooltip = null;
+      }
+    }
 
-  destroy: ->
-    @deleteTooltip()
-    super()
+    onBlurTooltip(e) {
+      return this.deleteTooltip();
+    }
+
+    destroy() {
+      this.deleteTooltip();
+      return super.destroy();
+    }
+  };
+  CodeLogsView.initClass();
+  return CodeLogsView;
+})());

@@ -1,94 +1,123 @@
-require('app/styles/user/certificates-view.sass')
-RootView = require 'views/core/RootView'
-User = require 'models/User'
-LevelSession = require 'models/LevelSession'
-Levels = require 'collections/Levels'
-Level = require 'models/Level'
-utils = require 'core/utils'
-Campaign = require 'models/Campaign'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS201: Simplify complex destructure assignments
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let AnonCertificatesView;
+require('app/styles/user/certificates-view.sass');
+const RootView = require('views/core/RootView');
+const User = require('models/User');
+const LevelSession = require('models/LevelSession');
+const Levels = require('collections/Levels');
+const Level = require('models/Level');
+const utils = require('core/utils');
+const Campaign = require('models/Campaign');
 
-# This certificate is generated anonymously. This requires the certificate
-# to be generated only from query params.
-# Requires campaign slug query param as well as username param.
-module.exports = class AnonCertificatesView extends RootView
-  id: 'certificates-view'
-  template: require 'templates/user/certificates-anon-view.pug'
-
-  events:
-    'click .print-btn': 'onClickPrintButton'
-
-  initialize: (options, userId) ->
-    @loading = true
-    user = new User _id:userId
-    userPromise = user.fetch()
-    campaignSlug = utils.getQueryVariable 'campaign'
-    @name = utils.getQueryVariable 'username'
-    levelsPromise = (new Levels()).fetchForCampaign(campaignSlug, {})
-    sessionsPromise = levelsPromise
-      .then((l)=>
-        return Promise.all(
-          l.map((x)=>x._id)
-            .map(@fetchLevelSession)
-        )
-    )
-
-    # Initial data.
-    @courseStats = {
-      levels: {
-        numDone: 0
-      },
-      linesOfCode: 0,
-      courseComplete: true
+// This certificate is generated anonymously. This requires the certificate
+// to be generated only from query params.
+// Requires campaign slug query param as well as username param.
+module.exports = (AnonCertificatesView = (function() {
+  AnonCertificatesView = class AnonCertificatesView extends RootView {
+    static initClass() {
+      this.prototype.id = 'certificates-view';
+      this.prototype.template = require('templates/user/certificates-anon-view.pug');
+  
+      this.prototype.events =
+        {'click .print-btn': 'onClickPrintButton'};
     }
 
-    Promise.all([userPromise, levelsPromise, sessionsPromise])
-      .then(([u, l, ls]) =>
-        ls = ls.map((data)=> new LevelSession(data))
-        l = l.map((data)=> new Level(data))
-        @concepts = @loadConcepts(l)
-        @courseStats = @reduceSessionStats(ls, l)
-        @loading = false
-        @render()
-    )
+    initialize(options, userId) {
+      this.loading = true;
+      const user = new User({_id:userId});
+      const userPromise = user.fetch();
+      const campaignSlug = utils.getQueryVariable('campaign');
+      this.name = utils.getQueryVariable('username');
+      const levelsPromise = (new Levels()).fetchForCampaign(campaignSlug, {});
+      const sessionsPromise = levelsPromise
+        .then(l=> {
+          return Promise.all(
+            l.map(x=> x._id)
+              .map(this.fetchLevelSession)
+          );
+      });
 
-  backgroundImage: ->
-    "/images/pages/user/certificates/backgrounds/background-" + "hoc" + ".png"
+      // Initial data.
+      this.courseStats = {
+        levels: {
+          numDone: 0
+        },
+        linesOfCode: 0,
+        courseComplete: true
+      };
 
-  getMedallion: ->
-    '/images/pages/user/certificates/medallions/medallion-' + 'gd3' + '.png'
+      return Promise.all([userPromise, levelsPromise, sessionsPromise])
+        .then((...args) => {
+          let [u, l, ls] = Array.from(args[0]);
+          ls = ls.map(data=> new LevelSession(data));
+          l = l.map(data=> new Level(data));
+          this.concepts = this.loadConcepts(l);
+          this.courseStats = this.reduceSessionStats(ls, l);
+          this.loading = false;
+          return this.render();
+      });
+    }
 
-  onClickPrintButton: ->
-    window.print()
+    backgroundImage() {
+      return "/images/pages/user/certificates/backgrounds/background-hoc.png";
+    }
 
-  userName: ->
-    @name || "Lorem Ipsum Name"
+    getMedallion() {
+      return "/images/pages/user/certificates/medallions/medallion-gd3.png";
+    }
 
-  getCodeLanguageName: ->
-    "Python"
+    onClickPrintButton() {
+      return window.print();
+    }
 
-  loadConcepts:(levels) ->
-    allConcepts = levels
-      .map((l)=>l.get("concepts"))
-      .reduce((m, c) =>
-        return m.concat(c)
-      , [])
+    userName() {
+      return this.name || "Lorem Ipsum Name";
+    }
 
-    concepts = []
-    (new Set(allConcepts))
-      .forEach((v) => concepts.push(v))
-    return concepts
+    getCodeLanguageName() {
+      return "Python";
+    }
 
-  getConcepts:->
-    @concepts
+    loadConcepts(levels) {
+      const allConcepts = levels
+        .map(l=> l.get("concepts"))
+        .reduce((m, c) => {
+          return m.concat(c);
+        }
+        , []);
 
-  fetchLevelSession:(levelID) ->
-    url = "/db/level/#{levelID}/session"
-    session = new LevelSession()
-    return session.fetch({url: url})
+      const concepts = [];
+      (new Set(allConcepts))
+        .forEach(v => concepts.push(v));
+      return concepts;
+    }
 
-  reduceSessionStats: (sessions, levels) ->
-    return sessions.reduce((stats, ls, i) =>
-      stats.levels.numDone += 1
-      stats.linesOfCode += ls.countOriginalLinesOfCode(levels[i])
-      return stats
-    , @courseStats)
+    getConcepts() {
+      return this.concepts;
+    }
+
+    fetchLevelSession(levelID) {
+      const url = `/db/level/${levelID}/session`;
+      const session = new LevelSession();
+      return session.fetch({url});
+    }
+
+    reduceSessionStats(sessions, levels) {
+      return sessions.reduce((stats, ls, i) => {
+        stats.levels.numDone += 1;
+        stats.linesOfCode += ls.countOriginalLinesOfCode(levels[i]);
+        return stats;
+      }
+      , this.courseStats);
+    }
+  };
+  AnonCertificatesView.initClass();
+  return AnonCertificatesView;
+})());

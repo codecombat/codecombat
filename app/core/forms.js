@@ -1,127 +1,188 @@
-module.exports.formToObject = ($el, options) ->
-  options = _.extend({ trim: true, ignoreEmptyString: true }, options)
-  obj = {}
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let setErrorToField, setErrorToProperty;
+module.exports.formToObject = function($el, options) {
+  options = _.extend({ trim: true, ignoreEmptyString: true }, options);
+  const obj = {};
 
-  inputs = $('input, textarea, select', $el)
-  for input in inputs
-    input = $(input)
-    continue unless name = input.attr('name')
-    if input.attr('type') is 'checkbox'
-      obj[name] ?= []
-      if input.is(':checked')
-        obj[name].push(input.val())
-    else if input.attr('type') is 'radio'
-      continue unless input.is(':checked')
-      obj[name] = input.val()
-    else
-      value = input.val() or ''
-      value = _.string.trim(value) if options.trim
-      if value or (not options.ignoreEmptyString)
-        obj[name] = value
-  obj
+  const inputs = $('input, textarea, select', $el);
+  for (var input of Array.from(inputs)) {
+    var name;
+    input = $(input);
+    if (!(name = input.attr('name'))) { continue; }
+    if (input.attr('type') === 'checkbox') {
+      if (obj[name] == null) { obj[name] = []; }
+      if (input.is(':checked')) {
+        obj[name].push(input.val());
+      }
+    } else if (input.attr('type') === 'radio') {
+      if (!input.is(':checked')) { continue; }
+      obj[name] = input.val();
+    } else {
+      var value = input.val() || '';
+      if (options.trim) { value = _.string.trim(value); }
+      if (value || (!options.ignoreEmptyString)) {
+        obj[name] = value;
+      }
+    }
+  }
+  return obj;
+};
 
-module.exports.objectToForm = ($el, obj, options={}) ->
-  options = _.extend({ overwriteExisting: false }, options)
-  inputs = $('input, textarea, select', $el)
-  for input in inputs
-    input = $(input)
-    continue unless name = input.attr('name')
-    continue unless obj[name]?
-    if input.attr('type') is 'checkbox'
-      value = input.val()
-      if _.contains(obj[name], value)
-        input.attr('checked', true)
-    else if input.attr('type') is 'radio'
-      value = input.val()
-      if obj[name] is value
-        input.attr('checked', true)
-    else
-      if options.overwriteExisting or (not input.val())
-        input.val(obj[name])
+module.exports.objectToForm = function($el, obj, options) {
+  if (options == null) { options = {}; }
+  options = _.extend({ overwriteExisting: false }, options);
+  const inputs = $('input, textarea, select', $el);
+  return (() => {
+    const result = [];
+    for (var input of Array.from(inputs)) {
+      var name, value;
+      input = $(input);
+      if (!(name = input.attr('name'))) { continue; }
+      if (obj[name] == null) { continue; }
+      if (input.attr('type') === 'checkbox') {
+        value = input.val();
+        if (_.contains(obj[name], value)) {
+          result.push(input.attr('checked', true));
+        } else {
+          result.push(undefined);
+        }
+      } else if (input.attr('type') === 'radio') {
+        value = input.val();
+        if (obj[name] === value) {
+          result.push(input.attr('checked', true));
+        } else {
+          result.push(undefined);
+        }
+      } else {
+        if (options.overwriteExisting || (!input.val())) {
+          result.push(input.val(obj[name]));
+        } else {
+          result.push(undefined);
+        }
+      }
+    }
+    return result;
+  })();
+};
 
-module.exports.applyErrorsToForm = (el, errors, warning=false) ->
-  errors = [errors] if not $.isArray(errors)
-  missingErrors = []
-  for error in errors
-    if error.code is tv4.errorCodes.OBJECT_REQUIRED
-      prop = _.last(_.string.words(error.message)) # hack
-      message = $.i18n.t('common.required_field')
+module.exports.applyErrorsToForm = function(el, errors, warning) {
+  if (warning == null) { warning = false; }
+  if (!$.isArray(errors)) { errors = [errors]; }
+  const missingErrors = [];
+  for (var error of Array.from(errors)) {
+    var message, prop;
+    if (error.code === tv4.errorCodes.OBJECT_REQUIRED) {
+      prop = _.last(_.string.words(error.message)); // hack
+      message = $.i18n.t('common.required_field');
 
-    else if error.dataPath
-      prop = error.dataPath[1..]
-      message = error.message
+    } else if (error.dataPath) {
+      prop = error.dataPath.slice(1);
+      ({
+        message
+      } = error);
 
-    else
-      message = "#{error.property} #{error.message}."
-      message = message[0].toUpperCase() + message[1..]
-      message = error.message if error.formatted
-      prop = error.property
+    } else {
+      message = `${error.property} ${error.message}.`;
+      message = message[0].toUpperCase() + message.slice(1);
+      if (error.formatted) { ({
+        message
+      } = error); }
+      prop = error.property;
+    }
 
-    if error.code is tv4.errorCodes.FORMAT_CUSTOM
-      originalMessage = /Format validation failed \(([^\(\)]+)\)/.exec(message)[1]
-      unless _.isEmpty(originalMessage)
-        message = originalMessage
+    if (error.code === tv4.errorCodes.FORMAT_CUSTOM) {
+      var originalMessage = /Format validation failed \(([^\(\)]+)\)/.exec(message)[1];
+      if (!_.isEmpty(originalMessage)) {
+        message = originalMessage;
+      }
+    }
 
-    if error.code is 409 and error.property is 'email'
-      message += ' <a class="login-link">Log in?</a>'
+    if ((error.code === 409) && (error.property === 'email')) {
+      message += ' <a class="login-link">Log in?</a>';
+    }
 
-    missingErrors.push error unless setErrorToProperty el, prop, message, warning
-  missingErrors
+    if (!setErrorToProperty(el, prop, message, warning)) { missingErrors.push(error); }
+  }
+  return missingErrors;
+};
 
-# Returns the jQuery form group element in case of success, otherwise undefined
-module.exports.setErrorToField = setErrorToField = (el, message, warning=false) ->
-  formGroup = el.closest('.form-group')
-  unless formGroup.length
-    return console.error el, " did not contain a form group, so couldn't show message:", message
+// Returns the jQuery form group element in case of success, otherwise undefined
+module.exports.setErrorToField = (setErrorToField = function(el, message, warning) {
+  if (warning == null) { warning = false; }
+  const formGroup = el.closest('.form-group');
+  if (!formGroup.length) {
+    return console.error(el, " did not contain a form group, so couldn't show message:", message);
+  }
 
-  kind = if warning then 'warning' else 'error'
-  afterEl = $(formGroup.find('.help-block, .form-control, input, select, textarea, .control-label')[0])
-  formGroup.addClass "has-#{kind}"
-  helpBlock = $("<span class='help-block #{kind}-help-block'>#{message}</span>")
-  if afterEl.length
-    afterEl.before helpBlock
-  else
-    formGroup.append helpBlock
+  const kind = warning ? 'warning' : 'error';
+  const afterEl = $(formGroup.find('.help-block, .form-control, input, select, textarea, .control-label')[0]);
+  formGroup.addClass(`has-${kind}`);
+  const helpBlock = $(`<span class='help-block ${kind}-help-block'>${message}</span>`);
+  if (afterEl.length) {
+    return afterEl.before(helpBlock);
+  } else {
+    return formGroup.append(helpBlock);
+  }
+});
 
-module.exports.setErrorToProperty = setErrorToProperty = (el, property, message, warning=false) ->
-  input = $("[name='#{property}']", el)
-  unless input.length
-    return console.error "#{property} not found in", el, "so couldn't show message:", message
+module.exports.setErrorToProperty = (setErrorToProperty = function(el, property, message, warning) {
+  if (warning == null) { warning = false; }
+  const input = $(`[name='${property}']`, el);
+  if (!input.length) {
+    return console.error(`${property} not found in`, el, "so couldn't show message:", message);
+  }
 
-  setErrorToField input, message, warning
+  return setErrorToField(input, message, warning);
+});
 
-module.exports.scrollToFirstError = ($el=$('body')) ->
-  $first = $el.find('.has-error, .alert-danger, .error-help-block, .has-warning, .alert-warning, .warning-help-block').filter(':visible').first()
-  if $first.length
-    $('html, body').animate({ scrollTop: $first.offset().top - 20 }, 300)
+module.exports.scrollToFirstError = function($el) {
+  if ($el == null) { $el = $('body'); }
+  const $first = $el.find('.has-error, .alert-danger, .error-help-block, .has-warning, .alert-warning, .warning-help-block').filter(':visible').first();
+  if ($first.length) {
+    return $('html, body').animate({ scrollTop: $first.offset().top - 20 }, 300);
+  }
+};
 
-module.exports.clearFormAlerts = (el) ->
-  $('.has-error', el).removeClass('has-error')
-  $('.has-warning', el).removeClass('has-warning')
-  $('.alert.alert-danger', el).remove()
-  $('.alert.alert-warning', el).remove()
-  el.find('.help-block.error-help-block').remove()
-  el.find('.help-block.warning-help-block').remove()
+module.exports.clearFormAlerts = function(el) {
+  $('.has-error', el).removeClass('has-error');
+  $('.has-warning', el).removeClass('has-warning');
+  $('.alert.alert-danger', el).remove();
+  $('.alert.alert-warning', el).remove();
+  el.find('.help-block.error-help-block').remove();
+  return el.find('.help-block.warning-help-block').remove();
+};
 
-module.exports.updateSelects = (el) ->
-  el.find('select').each (i, select) ->
-    value = $(select).attr('value')
-    $(select).val(value)
+module.exports.updateSelects = el => el.find('select').each(function(i, select) {
+  const value = $(select).attr('value');
+  return $(select).val(value);
+});
 
-module.exports.validateEmail = (email) ->
-  return true unless email # allow null
-  filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
-  return filter.test(email)
+module.exports.validateEmail = function(email) {
+  if (!email) { return true; } // allow null
+  const filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i;  // https://news.ycombinator.com/item?id=5763990
+  return filter.test(email);
+};
 
-module.exports.validatePhoneNumber = (phoneNumber) ->
-  filter = /^\D*(\d\D*){10,}$/i  # Just make sure there's at least 10 digits
-  return filter.test(phoneNumber)
+module.exports.validatePhoneNumber = function(phoneNumber) {
+  const filter = /^\D*(\d\D*){10,}$/i;  // Just make sure there's at least 10 digits
+  return filter.test(phoneNumber);
+};
 
-module.exports.disableSubmit = (el, message='...') ->
-  $el = $(el)
-  $el.data('original-text', $el.text())
-  $el.text(message).attr('disabled', true)
+module.exports.disableSubmit = function(el, message) {
+  if (message == null) { message = '...'; }
+  const $el = $(el);
+  $el.data('original-text', $el.text());
+  return $el.text(message).attr('disabled', true);
+};
 
-module.exports.enableSubmit = (el) ->
-  $el = $(el)
-  $el.text($el.data('original-text')).attr('disabled', false)
+module.exports.enableSubmit = function(el) {
+  const $el = $(el);
+  return $el.text($el.data('original-text')).attr('disabled', false);
+};

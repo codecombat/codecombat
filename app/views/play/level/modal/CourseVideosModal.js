@@ -1,23 +1,43 @@
-ModalComponent = require 'views/core/ModalComponent'
-CourseVideosModalComponent = require('./CourseVideosModalComponent.vue').default
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let CourseVideosModal;
+const ModalComponent = require('views/core/ModalComponent');
+const CourseVideosModalComponent = require('./CourseVideosModalComponent.vue').default;
 
-module.exports = class CourseVideosModal extends ModalComponent
-  id: 'course-videos-modal'
-  template: require 'app/templates/core/modal-base-flat'
-  VueComponent: CourseVideosModalComponent
-  propsData: null
-
-  # Runs before the constructor is called.
-  initialize: ->
-    @propsData = {
-      courseInstanceID: null
-      courseID: null
+module.exports = (CourseVideosModal = (function() {
+  CourseVideosModal = class CourseVideosModal extends ModalComponent {
+    static initClass() {
+      this.prototype.id = 'course-videos-modal';
+      this.prototype.template = require('app/templates/core/modal-base-flat');
+      this.prototype.VueComponent = CourseVideosModalComponent;
+      this.prototype.propsData = null;
     }
-  constructor: (options) ->
-    super(options)
-    @propsData.courseInstanceID = options?.courseInstanceID or null
-    @propsData.courseID = options?.courseID or null
 
-  destroy: ->
-    @onDestroy?()
-    super()
+    // Runs before the constructor is called.
+    initialize() {
+      return this.propsData = {
+        courseInstanceID: null,
+        courseID: null
+      };
+    }
+    constructor(options) {
+      super(options);
+      this.propsData.courseInstanceID = (options != null ? options.courseInstanceID : undefined) || null;
+      this.propsData.courseID = (options != null ? options.courseID : undefined) || null;
+    }
+
+    destroy() {
+      if (typeof this.onDestroy === 'function') {
+        this.onDestroy();
+      }
+      return super.destroy();
+    }
+  };
+  CourseVideosModal.initClass();
+  return CourseVideosModal;
+})());

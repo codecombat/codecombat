@@ -1,46 +1,76 @@
-Vector = require './vector'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ArgumentError;
+const Vector = require('./vector');
 
-module.exports.ArgumentError = class ArgumentError extends Error
-  @className: 'ArgumentError'
-  constructor: (@message, @functionName, @argumentName, @intendedType, @actualValue, @numArguments, @hint) ->
-    super @message
-    @name = 'ArgumentError'
-    if Error.captureStackTrace?
-      Error.captureStackTrace @, @constructor
+module.exports.ArgumentError = (ArgumentError = (function() {
+  ArgumentError = class ArgumentError extends Error {
+    static initClass() {
+      this.className = 'ArgumentError';
+    }
+    constructor(message, functionName, argumentName, intendedType, actualValue, numArguments, hint) {
+      this.message = message;
+      this.functionName = functionName;
+      this.argumentName = argumentName;
+      this.intendedType = intendedType;
+      this.actualValue = actualValue;
+      this.numArguments = numArguments;
+      this.hint = hint;
+      super(this.message);
+      this.name = 'ArgumentError';
+      if (Error.captureStackTrace != null) {
+        Error.captureStackTrace(this, this.constructor);
+      }
+    }
 
-  toString: ->
-    s = "`#{@functionName}`"
-    if @argumentName is 'return'
-      s += "'s return value"
-    else if @argumentName is '_excess'
-      s += " takes only #{@numArguments} argument#{if @numArguments > 1 then 's' else ''}."
-    else if @argumentName
-      s += "'s argument `#{@argumentName}`"
-    else
-      s += ' takes no arguments.'
+    toString() {
+      let s = `\`${this.functionName}\``;
+      if (this.argumentName === 'return') {
+        s += "'s return value";
+      } else if (this.argumentName === '_excess') {
+        s += ` takes only ${this.numArguments} argument${this.numArguments > 1 ? 's' : ''}.`;
+      } else if (this.argumentName) {
+        s += `'s argument \`${this.argumentName}\``;
+      } else {
+        s += ' takes no arguments.';
+      }
 
-    actualType = typeof @actualValue
-    if not @actualValue?
-      actualType = 'null'
-    else if _.isArray @actualValue
-      actualType = 'array'
-    typeMismatch = @intendedType and not @intendedType.match actualType
-    if typeMismatch
-      v = ''
-      if actualType is 'string'
-        v = "\"#{@actualValue}\""
-      else if actualType is 'number'
-        if Math.round(@actualValue) is @actualValue then @actualValue else @actualValue.toFixed(2)
-      else if actualType is 'boolean'
-        v = "#{@actualValue}"
-      else if (@actualValue? and @actualValue.id and @actualValue.trackedPropertiesKeys)
-        # (Don't import Thang, but determine whether it is Thang.)
-        v = @actualValue.toString()
-      else if @actualValue instanceof Vector
-        v = @actualValue.toString()
-      showValue = showValue or @actualValue instanceof Vector
-      s += " should have type `#{@intendedType}`, but got `#{actualType}`#{if v then ": `#{v}`" else ''}."
-    else if @argumentName and @argumentName isnt '_excess'
-      s += ' has a problem.'
-    s += '\n' + @message if @message
-    s
+      let actualType = typeof this.actualValue;
+      if ((this.actualValue == null)) {
+        actualType = 'null';
+      } else if (_.isArray(this.actualValue)) {
+        actualType = 'array';
+      }
+      const typeMismatch = this.intendedType && !this.intendedType.match(actualType);
+      if (typeMismatch) {
+        let v = '';
+        if (actualType === 'string') {
+          v = `\"${this.actualValue}\"`;
+        } else if (actualType === 'number') {
+          if (Math.round(this.actualValue) === this.actualValue) { this.actualValue; } else { this.actualValue.toFixed(2); }
+        } else if (actualType === 'boolean') {
+          v = `${this.actualValue}`;
+        } else if ((this.actualValue != null) && this.actualValue.id && this.actualValue.trackedPropertiesKeys) {
+          // (Don't import Thang, but determine whether it is Thang.)
+          v = this.actualValue.toString();
+        } else if (this.actualValue instanceof Vector) {
+          v = this.actualValue.toString();
+        }
+        var showValue = showValue || this.actualValue instanceof Vector;
+        s += ` should have type \`${this.intendedType}\`, but got \`${actualType}\`${v ? `: \`${v}\`` : ''}.`;
+      } else if (this.argumentName && (this.argumentName !== '_excess')) {
+        s += ' has a problem.';
+      }
+      if (this.message) { s += '\n' + this.message; }
+      return s;
+    }
+  };
+  ArgumentError.initClass();
+  return ArgumentError;
+})());

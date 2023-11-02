@@ -1,28 +1,44 @@
-ContributeClassView = require './ContributeClassView'
-template = require 'app/templates/contribute/scribe'
-{me} = require 'core/auth'
-ContactModal = require 'views/core/ContactModal'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ScribeView;
+const ContributeClassView = require('./ContributeClassView');
+const template = require('app/templates/contribute/scribe');
+const {me} = require('core/auth');
+const ContactModal = require('views/core/ContactModal');
 
-module.exports = class ScribeView extends ContributeClassView
-  id: 'scribe-view'
-  template: template
+module.exports = (ScribeView = (function() {
+  ScribeView = class ScribeView extends ContributeClassView {
+    static initClass() {
+      this.prototype.id = 'scribe-view';
+      this.prototype.template = template;
+  
+      this.prototype.events =
+        {'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal'};
+  
+      this.prototype.contributors = [
+        {name: 'Ryan Faidley'},
+        {name: 'Mischa Lewis-Norelle', github: 'mlewisno'},
+        {name: 'Tavio'},
+        {name: 'Ronnie Cheng', github: 'rhc2104'},
+        {name: 'engstrom'},
+        {name: 'Dman19993'},
+        {name: 'mattinsler'}
+      ];
+    }
 
-  events:
-    'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal'
+    initialize() {
+      return this.contributorClassName = 'scribe';
+    }
 
-  initialize: ->
-    @contributorClassName = 'scribe'
-
-  openContactModal: (e) ->
-    e.stopPropagation()
-    @openModalView new ContactModal()
-
-  contributors: [
-    {name: 'Ryan Faidley'}
-    {name: 'Mischa Lewis-Norelle', github: 'mlewisno'}
-    {name: 'Tavio'}
-    {name: 'Ronnie Cheng', github: 'rhc2104'}
-    {name: 'engstrom'}
-    {name: 'Dman19993'}
-    {name: 'mattinsler'}
-  ]
+    openContactModal(e) {
+      e.stopPropagation();
+      return this.openModalView(new ContactModal());
+    }
+  };
+  ScribeView.initClass();
+  return ScribeView;
+})());

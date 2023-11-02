@@ -1,9 +1,22 @@
-RootComponent = require 'views/core/RootComponent'
-template = require 'app/templates/base-flat'
-LicensorViewComponent = require('./LicensorViewComponent.vue').default
+/*
+ * decaffeinate suggestions:
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let LicensorView;
+const RootComponent = require('views/core/RootComponent');
+const template = require('app/templates/base-flat');
+const LicensorViewComponent = require('./LicensorViewComponent.vue').default;
 
-module.exports = class LicensorView extends RootComponent
-  id: 'licensor-view'
-  template: template
-  VueComponent: LicensorViewComponent
+module.exports = (LicensorView = (function() {
+  LicensorView = class LicensorView extends RootComponent {
+    static initClass() {
+      this.prototype.id = 'licensor-view';
+      this.prototype.template = template;
+      this.prototype.VueComponent = LicensorViewComponent;
+    }
+  };
+  LicensorView.initClass();
+  return LicensorView;
+})());
  

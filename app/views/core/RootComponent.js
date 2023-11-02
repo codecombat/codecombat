@@ -1,36 +1,56 @@
-RootView = require('./RootView')
-store = require('core/store')
-silentStore = { commit: _.noop, dispatch: _.noop }
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let RootComponent;
+const RootView = require('./RootView');
+const store = require('core/store');
+const silentStore = { commit: _.noop, dispatch: _.noop };
 
-module.exports = class RootComponent extends RootView
-  VueComponent: null # set this
-  vuexModule: null
-  propsData: null
+module.exports = (RootComponent = (function() {
+  RootComponent = class RootComponent extends RootView {
+    static initClass() {
+      this.prototype.VueComponent = null; // set this
+      this.prototype.vuexModule = null;
+      this.prototype.propsData = null;
+    }
 
-  afterRender: ->
-    if @vueComponent
-      @$el.find('#site-content-area').replaceWith(@vueComponent.$el)
-    else
-      if @vuexModule
-        unless _.isFunction(@vuexModule)
-          throw new Error('@vuexModule should be a function')
-        store.registerModule('page', @vuexModule())
+    afterRender() {
+      if (this.vueComponent) {
+        this.$el.find('#site-content-area').replaceWith(this.vueComponent.$el);
+      } else {
+        if (this.vuexModule) {
+          if (!_.isFunction(this.vuexModule)) {
+            throw new Error('@vuexModule should be a function');
+          }
+          store.registerModule('page', this.vuexModule());
+        }
 
-      @vueComponent = new @VueComponent({
-        el: @$el.find('#site-content-area')[0]
-        propsData: @propsData
-        store
-      })
+        this.vueComponent = new this.VueComponent({
+          el: this.$el.find('#site-content-area')[0],
+          propsData: this.propsData,
+          store
+        });
 
-      window.rootComponent = @vueComponent # Don't use this in code! Just for ease of development
+        window.rootComponent = this.vueComponent; // Don't use this in code! Just for ease of development
+      }
 
-    super(arguments...)
+      return super.afterRender(...arguments);
+    }
 
-  destroy: ->
-    if @vuexModule
-      store.unregisterModule('page')
-    @vueComponent.$destroy()
-    @vueComponent.$store = silentStore
-    # ignore all further changes to the store, since the module has been unregistered.
-    # may later want to just ignore mutations and actions to the page module.
-    super()
+    destroy() {
+      if (this.vuexModule) {
+        store.unregisterModule('page');
+      }
+      this.vueComponent.$destroy();
+      this.vueComponent.$store = silentStore;
+      // ignore all further changes to the store, since the module has been unregistered.
+      // may later want to just ignore mutations and actions to the page module.
+      return super.destroy();
+    }
+  };
+  RootComponent.initClass();
+  return RootComponent;
+})());

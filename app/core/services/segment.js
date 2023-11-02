@@ -1,52 +1,61 @@
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let loadSegmentio;
+const utils = require('core/utils');
 
-module.exports = loadSegmentio = if not me.useSocialSignOn() then -> Promise.resolve([]) else _.once ->
-  return new Promise (accept, reject) ->
-    analytics = window.analytics = window.analytics or []
-    analytics.invoked = true
-    analytics.methods = [
-      'trackSubmit'
-      'trackClick'
-      'trackLink'
-      'trackForm'
-      'pageview'
-      'identify'
-      'reset'
-      'group'
-      'track'
-      'ready'
-      'alias'
-      'page'
-      'once'
-      'off'
-      'on'
-    ]
+module.exports = (loadSegmentio = !me.useSocialSignOn() ? () => Promise.resolve([]) : _.once(() => new Promise(function(accept, reject) {
+  const analytics = (window.analytics = window.analytics || []);
+  analytics.invoked = true;
+  analytics.methods = [
+    'trackSubmit',
+    'trackClick',
+    'trackLink',
+    'trackForm',
+    'pageview',
+    'identify',
+    'reset',
+    'group',
+    'track',
+    'ready',
+    'alias',
+    'page',
+    'once',
+    'off',
+    'on'
+  ];
 
-    analytics.factory = (t) ->
-      ->
-        e = Array::slice.call(arguments)
-        e.unshift t
-        analytics.push e
-        analytics
+  analytics.factory = t => (function() {
+    const e = Array.prototype.slice.call(arguments);
+    e.unshift(t);
+    analytics.push(e);
+    return analytics;
+  });
 
-    for method in analytics.methods
-      analytics[method] = analytics.factory method
+  for (var method of Array.from(analytics.methods)) {
+    analytics[method] = analytics.factory(method);
+  }
 
-    analytics.load = (t) ->
-      e = document.createElement 'script'
-      e.type = 'text/javascript'
-      e.async = true
-      e.src = (if document.location.protocol is 'https:' then 'https://' else 'http://') + 'cdn.segment.com/analytics.js/v1/' + t + '/analytics.min.js'
-      n = document.getElementsByTagName('script')[0]
-      n.parentNode.insertBefore e, n
-      # Backbone.Mediator.publish 'application:service-loaded', service: 'segment'
-      accept(analytics)
-      return
+  analytics.load = function(t) {
+    const e = document.createElement('script');
+    e.type = 'text/javascript';
+    e.async = true;
+    e.src = (document.location.protocol === 'https:' ? 'https://' : 'http://') + 'cdn.segment.com/analytics.js/v1/' + t + '/analytics.min.js';
+    const n = document.getElementsByTagName('script')[0];
+    n.parentNode.insertBefore(e, n);
+    // Backbone.Mediator.publish 'application:service-loaded', service: 'segment'
+    accept(analytics);
+  };
 
-    if utils.isOzaria
-      analytics.SNIPPET_VERSION = '4.1.0'
-      analytics.load 'ZIGwW67jO16hiTOq2S40Th3i9EKGaWH9'
-    else
-      analytics.SNIPPET_VERSION = '3.1.0'
-      analytics.load 'yJpJZWBw68fEj0aPSv8ffMMgof5kFnU9'
-    #analytics.page()  # Don't track the page view on initial inclusion
+  if (utils.isOzaria) {
+    analytics.SNIPPET_VERSION = '4.1.0';
+    return analytics.load('ZIGwW67jO16hiTOq2S40Th3i9EKGaWH9');
+  } else {
+    analytics.SNIPPET_VERSION = '3.1.0';
+    return analytics.load('yJpJZWBw68fEj0aPSv8ffMMgof5kFnU9');
+  }
+})));
+    //analytics.page()  # Don't track the page view on initial inclusion

@@ -1,269 +1,347 @@
-RootView = require 'views/core/RootView'
-CocoCollection = require 'collections/CocoCollection'
-Classroom = require 'models/Classroom'
-CourseInstance = require 'models/CourseInstance'
-TrialRequest = require 'models/TrialRequest'
-User = require 'models/User'
-utils = require 'core/utils'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS104: Avoid inline assignments
+ * DS201: Simplify complex destructure assignments
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SchoolCountsView;
+const RootView = require('views/core/RootView');
+const CocoCollection = require('collections/CocoCollection');
+const Classroom = require('models/Classroom');
+const CourseInstance = require('models/CourseInstance');
+const TrialRequest = require('models/TrialRequest');
+const User = require('models/User');
+const utils = require('core/utils');
 
-# TODO: shouldn't classroom users and user students be mostly the same?
-# TODO: match anonymous trial requests with real users via email
-# TODO: sanitize and use student.schoolName, can't use it directly
-# TODO: example untriaged student: no geo IP, not attached to teacher with school
-# TODO: example untriaged teacher: deleted but owner of a classroom
-# TODO: use student geoip on their teacher
+// TODO: shouldn't classroom users and user students be mostly the same?
+// TODO: match anonymous trial requests with real users via email
+// TODO: sanitize and use student.schoolName, can't use it directly
+// TODO: example untriaged student: no geo IP, not attached to teacher with school
+// TODO: example untriaged teacher: deleted but owner of a classroom
+// TODO: use student geoip on their teacher
 
-module.exports = class SchoolCountsView extends RootView
-  id: 'admin-school-counts-view'
-  template: require 'app/templates/admin/school-counts'
-  state: ''
+module.exports = (SchoolCountsView = (function() {
+  SchoolCountsView = class SchoolCountsView extends RootView {
+    static initClass() {
+      this.prototype.id = 'admin-school-counts-view';
+      this.prototype.template = require('app/templates/admin/school-counts');
+      this.prototype.state = '';
+    }
 
-  initialize: ->
-    return super() unless me.isAdmin()
-    @batchSize = utils.getQueryVariable('batchsize', 20000)
-    @loadData()
-    super()
+    initialize() {
+      if (!me.isAdmin()) { return super.initialize(); }
+      this.batchSize = utils.getQueryVariable('batchsize', 20000);
+      this.loadData();
+      return super.initialize();
+    }
 
-  updateLoadingState: (update) ->
-    console.log(new Date().toISOString(), update)
-    @state = "#{@state}<div>#{update}</div>"
-    @render?()
+    updateLoadingState(update) {
+      console.log(new Date().toISOString(), update);
+      this.state = `${this.state}<div>${update}</div>`;
+      return (typeof this.render === 'function' ? this.render() : undefined);
+    }
 
-  loadData: ->
-    fetchBatch = (baseUrl, results, beforeId) =>
-      url = "#{baseUrl}?options[limit]=#{@batchSize}"
-      url += "&options[beforeId]=#{beforeId}" if beforeId
-      new Promise((resolve) -> setTimeout(resolve.bind(null, Promise.resolve($.get(url))), 200))
-      .then (batchResults) =>
-        return Promise.resolve([]) if @destroyed
-        results = results.concat(batchResults)
-        if batchResults.length < @batchSize
-          @updateLoadingState("Received #{results.length} from #{baseUrl} TOTAL")
-          Promise.resolve(results)
-        else
-          @updateLoadingState("Received #{results.length} from #{baseUrl} so far")
-          fetchBatch(baseUrl, results, batchResults[batchResults.length - 1]._id)
-      .catch (error) =>
-        console.log(new Date().toISOString(), "ERROR! Trying #{baseUrl} #{beforeId} again", error.status, error.statusText)
-        fetchBatch(baseUrl, results, beforeId)
+    loadData() {
+      var fetchBatch = (baseUrl, results, beforeId) => {
+        let url = `${baseUrl}?options[limit]=${this.batchSize}`;
+        if (beforeId) { url += `&options[beforeId]=${beforeId}`; }
+        return new Promise(resolve => setTimeout(resolve.bind(null, Promise.resolve($.get(url))), 200))
+        .then(batchResults => {
+          if (this.destroyed) { return Promise.resolve([]); }
+          results = results.concat(batchResults);
+          if (batchResults.length < this.batchSize) {
+            this.updateLoadingState(`Received ${results.length} from ${baseUrl} TOTAL`);
+            return Promise.resolve(results);
+          } else {
+            this.updateLoadingState(`Received ${results.length} from ${baseUrl} so far`);
+            return fetchBatch(baseUrl, results, batchResults[batchResults.length - 1]._id);
+          }
+      }).catch(error => {
+          console.log(new Date().toISOString(), `ERROR! Trying ${baseUrl} ${beforeId} again`, error.status, error.statusText);
+          return fetchBatch(baseUrl, results, beforeId);
+        });
+      };
 
-    Promise.all([
-      fetchBatch("/db/classroom/-/users", [])
-      fetchBatch("/db/course_instance/-/non-hoc", [])
-      fetchBatch("/db/user/-/students", [])
-      fetchBatch("/db/user/-/teachers", [])
-      fetchBatch("/db/trial.request/-/users", [])
-    ])
-    .then ([classrooms, courseInstances, students, teachers, trialRequests]) =>
-      teacherMap = {} # Used to make sure teachers and students only counted once
-      studentMap = {} # Used to make sure teachers and students only counted once
-      studentNonHocMap = {} # Used to exclude HoC users
-      teacherStudentMap = {} # Used to link students to their teacher locations
-      unknownSchoolCount = 1 # Used to separate unique but unknown schools
+      return Promise.all([
+        fetchBatch("/db/classroom/-/users", []),
+        fetchBatch("/db/course_instance/-/non-hoc", []),
+        fetchBatch("/db/user/-/students", []),
+        fetchBatch("/db/user/-/teachers", []),
+        fetchBatch("/db/trial.request/-/users", [])
+      ])
+      .then((...args) => {
+        let country, district, school, state, studentID, teacherID, val;
+        const [classrooms, courseInstances, students, teachers, trialRequests] = Array.from(args[0]);
+        const teacherMap = {}; // Used to make sure teachers and students only counted once
+        const studentMap = {}; // Used to make sure teachers and students only counted once
+        const studentNonHocMap = {}; // Used to exclude HoC users
+        const teacherStudentMap = {}; // Used to link students to their teacher locations
+        let unknownSchoolCount = 1; // Used to separate unique but unknown schools
 
-      @updateLoadingState("Processing #{courseInstances.length} course instances...")
-      for courseInstance in courseInstances
-        studentNonHocMap[courseInstance.ownerID] = true
-        studentNonHocMap[studentID] = true for studentID in courseInstance.members ? []
+        this.updateLoadingState(`Processing ${courseInstances.length} course instances...`);
+        for (var courseInstance of Array.from(courseInstances)) {
+          studentNonHocMap[courseInstance.ownerID] = true;
+          for (studentID of Array.from(courseInstance.members != null ? courseInstance.members : [])) { studentNonHocMap[studentID] = true; }
+        }
 
-      console.log(new Date().toISOString(), "Processing #{teachers.length} teachers...")
-      @state = "Processing #{courseInstances.length} course instances..."
-      for teacher in teachers
-        teacherMap[teacher._id] = teacher.geo ? {}
+        console.log(new Date().toISOString(), `Processing ${teachers.length} teachers...`);
+        this.state = `Processing ${courseInstances.length} course instances...`;
+        for (var teacher of Array.from(teachers)) {
+          teacherMap[teacher._id] = teacher.geo != null ? teacher.geo : {};
+        }
 
-      @updateLoadingState("Processing #{classrooms.length} classrooms...")
-      for classroom in classrooms
-        teacherID = classroom.ownerID
-        teacherMap[teacherID] ?= {}
-        teacherStudentMap[teacherID] ?= {}
-        for studentID in classroom.members
-          continue if teacherMap[studentID]
-          continue unless studentNonHocMap[studentID]
-          studentMap[studentID] = {}
-          teacherStudentMap[teacherID][studentID] = true
+        this.updateLoadingState(`Processing ${classrooms.length} classrooms...`);
+        for (var classroom of Array.from(classrooms)) {
+          teacherID = classroom.ownerID;
+          if (teacherMap[teacherID] == null) { teacherMap[teacherID] = {}; }
+          if (teacherStudentMap[teacherID] == null) { teacherStudentMap[teacherID] = {}; }
+          for (studentID of Array.from(classroom.members)) {
+            if (teacherMap[studentID]) { continue; }
+            if (!studentNonHocMap[studentID]) { continue; }
+            studentMap[studentID] = {};
+            teacherStudentMap[teacherID][studentID] = true;
+          }
+        }
 
-      @updateLoadingState("Processing #{students.length} students...")
-      for student in students
-        continue unless studentNonHocMap[student._id]
-        continue if teacherMap[student._id]
-        studentMap[student._id] = {geo: student.geo}
+        this.updateLoadingState(`Processing ${students.length} students...`);
+        for (var student of Array.from(students)) {
+          if (!studentNonHocMap[student._id]) { continue; }
+          if (teacherMap[student._id]) { continue; }
+          studentMap[student._id] = {geo: student.geo};
+        }
 
-      delete studentNonHocMap[studentId] for studentId in studentNonHocMap # Don't need these anymore
+        for (var studentId of Array.from(studentNonHocMap)) { delete studentNonHocMap[studentId]; } // Don't need these anymore
 
-      @updateLoadingState("Cloning #{Object.keys(teacherMap).length} teacherMap...")
-      orphanTeacherMap = {}
-      orphanTeacherMap[teacherID] = true for teacherID of teacherMap
-      @updateLoadingState("Cloning #{Object.keys(studentMap).length} studentMap...")
-      orphanStudentMap = {}
-      orphanStudentMap[studentID] = true for studentID of studentMap
+        this.updateLoadingState(`Cloning ${Object.keys(teacherMap).length} teacherMap...`);
+        const orphanTeacherMap = {};
+        for (teacherID in teacherMap) { orphanTeacherMap[teacherID] = true; }
+        this.updateLoadingState(`Cloning ${Object.keys(studentMap).length} studentMap...`);
+        const orphanStudentMap = {};
+        for (studentID in studentMap) { orphanStudentMap[studentID] = true; }
 
-      @updateLoadingState("Processing #{trialRequests.length} trial requests...")
-      countryStateDistrictSchoolCountsMap = {}
-      for trialRequest in trialRequests
-        teacherID = trialRequest.applicant
-        unless teacherMap[teacherID]
-          # E.g. parents
-          # console.log("Skipping non-teacher #{teacherID} trial request #{trialRequest._id}")
-          continue
-        props = trialRequest.properties
-        if props.nces_id and props.country and props.state
-          country = props.country
-          state = props.state
-          district = props.nces_district
-          school = props.nces_name
-          countryStateDistrictSchoolCountsMap[country] ?= {}
-          countryStateDistrictSchoolCountsMap[country][state] ?= {}
-          countryStateDistrictSchoolCountsMap[country][state][district] ?= {}
-          countryStateDistrictSchoolCountsMap[country][state][district][school] ?= {students: {}, teachers: {}}
-          countryStateDistrictSchoolCountsMap[country][state][district][school].teachers[teacherID] = true
-          for studentID, val of teacherStudentMap[teacherID] when orphanStudentMap[studentID]
-            countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true
-            delete orphanStudentMap[studentID]
-          delete orphanTeacherMap[teacherID]
-        else if not _.isEmpty(props.country)
-          country = props.country?.trim()
-          if _.isEmpty(country)
-            country = 'unknown'
-          else
-            country = country[0].toUpperCase() + country.substring(1).toLowerCase()
-            country = 'Taiwan' if /台灣/ig.test(country)
-            country = 'UK' if /^uk$|united kingdom|england/ig.test(country)
-            country = 'USA' if /^u\.s\.?(\.a)?\.?$|^us$|america|united states|usa/ig.test(country)
-          state = props.state ? 'unknown'
-          if country is 'USA'
-            stateName = utils.usStateCodes.sanitizeStateName(state)
-            state = utils.usStateCodes.getStateCodeByStateName(stateName) if stateName
-            state = utils.usStateCodes.sanitizeStateCode(state) ? state
-          district = 'unknown'
-          school = props.organiziation ? 'unknown'
-          countryStateDistrictSchoolCountsMap[country] ?= {}
-          countryStateDistrictSchoolCountsMap[country][state] ?= {}
-          countryStateDistrictSchoolCountsMap[country][state][district] ?= {}
-          countryStateDistrictSchoolCountsMap[country][state][district][school] ?= {students: {}, teachers: {}}
-          countryStateDistrictSchoolCountsMap[country][state][district][school].teachers[teacherID] = true
-          for studentID, val of teacherStudentMap[teacherID] when orphanStudentMap[studentID]
-            countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true
-            delete orphanStudentMap[studentID]
-          delete orphanTeacherMap[teacherID]
+        this.updateLoadingState(`Processing ${trialRequests.length} trial requests...`);
+        const countryStateDistrictSchoolCountsMap = {};
+        for (var trialRequest of Array.from(trialRequests)) {
+          teacherID = trialRequest.applicant;
+          if (!teacherMap[teacherID]) {
+            // E.g. parents
+            // console.log("Skipping non-teacher #{teacherID} trial request #{trialRequest._id}")
+            continue;
+          }
+          var props = trialRequest.properties;
+          if (props.nces_id && props.country && props.state) {
+            ({
+              country
+            } = props);
+            ({
+              state
+            } = props);
+            district = props.nces_district;
+            school = props.nces_name;
+            if (countryStateDistrictSchoolCountsMap[country] == null) { countryStateDistrictSchoolCountsMap[country] = {}; }
+            if (countryStateDistrictSchoolCountsMap[country][state] == null) { countryStateDistrictSchoolCountsMap[country][state] = {}; }
+            if (countryStateDistrictSchoolCountsMap[country][state][district] == null) { countryStateDistrictSchoolCountsMap[country][state][district] = {}; }
+            if (countryStateDistrictSchoolCountsMap[country][state][district][school] == null) { countryStateDistrictSchoolCountsMap[country][state][district][school] = {students: {}, teachers: {}}; }
+            countryStateDistrictSchoolCountsMap[country][state][district][school].teachers[teacherID] = true;
+            for (studentID in teacherStudentMap[teacherID]) {
+              val = teacherStudentMap[teacherID][studentID];
+              if (orphanStudentMap[studentID]) {
+                countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true;
+                delete orphanStudentMap[studentID];
+              }
+            }
+            delete orphanTeacherMap[teacherID];
+          } else if (!_.isEmpty(props.country)) {
+            country = props.country != null ? props.country.trim() : undefined;
+            if (_.isEmpty(country)) {
+              country = 'unknown';
+            } else {
+              country = country[0].toUpperCase() + country.substring(1).toLowerCase();
+              if (/台灣/ig.test(country)) { country = 'Taiwan'; }
+              if (/^uk$|united kingdom|england/ig.test(country)) { country = 'UK'; }
+              if (/^u\.s\.?(\.a)?\.?$|^us$|america|united states|usa/ig.test(country)) { country = 'USA'; }
+            }
+            state = props.state != null ? props.state : 'unknown';
+            if (country === 'USA') {
+              var left;
+              var stateName = utils.usStateCodes.sanitizeStateName(state);
+              if (stateName) { state = utils.usStateCodes.getStateCodeByStateName(stateName); }
+              state = (left = utils.usStateCodes.sanitizeStateCode(state)) != null ? left : state;
+            }
+            district = 'unknown';
+            school = props.organiziation != null ? props.organiziation : 'unknown';
+            if (countryStateDistrictSchoolCountsMap[country] == null) { countryStateDistrictSchoolCountsMap[country] = {}; }
+            if (countryStateDistrictSchoolCountsMap[country][state] == null) { countryStateDistrictSchoolCountsMap[country][state] = {}; }
+            if (countryStateDistrictSchoolCountsMap[country][state][district] == null) { countryStateDistrictSchoolCountsMap[country][state][district] = {}; }
+            if (countryStateDistrictSchoolCountsMap[country][state][district][school] == null) { countryStateDistrictSchoolCountsMap[country][state][district][school] = {students: {}, teachers: {}}; }
+            countryStateDistrictSchoolCountsMap[country][state][district][school].teachers[teacherID] = true;
+            for (studentID in teacherStudentMap[teacherID]) {
+              val = teacherStudentMap[teacherID][studentID];
+              if (orphanStudentMap[studentID]) {
+                countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true;
+                delete orphanStudentMap[studentID];
+              }
+            }
+            delete orphanTeacherMap[teacherID];
+          }
+        }
 
-      @updateLoadingState("Processing #{Object.keys(orphanTeacherMap).length} orphaned teachers with geo IPs...")
-      for teacherID, val of orphanTeacherMap
-        continue unless teacherMap[teacherID].country
-        country = teacherMap[teacherID].countryName or teacherMap[teacherID].country
-        country = 'UK' if country is 'GB' or country is 'United Kingdom'
-        country = 'USA' if country is 'US' or country is 'United States'
-        state = teacherMap[teacherID].region or 'unknown'
-        district = 'unknown'
-        school = 'unknown'
-        if teacherStudentMap[teacherID] and Object.keys(teacherStudentMap[teacherID]).length >= 10
-          school += unknownSchoolCount++
-        countryStateDistrictSchoolCountsMap[country] ?= {}
-        countryStateDistrictSchoolCountsMap[country][state] ?= {}
-        countryStateDistrictSchoolCountsMap[country][state][district] ?= {}
-        countryStateDistrictSchoolCountsMap[country][state][district][school] ?= {students: {}, teachers: {}}
-        countryStateDistrictSchoolCountsMap[country][state][district][school].teachers[teacherID] = true
-        if teacherStudentMap[teacherID] and Object.keys(teacherStudentMap[teacherID]).length >= 10
-          for studentID, val of teacherStudentMap[teacherID] when orphanStudentMap[studentID]
-            countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true
-            delete orphanStudentMap[studentID]
-        delete orphanTeacherMap[teacherID]
+        this.updateLoadingState(`Processing ${Object.keys(orphanTeacherMap).length} orphaned teachers with geo IPs...`);
+        for (teacherID in orphanTeacherMap) {
+          val = orphanTeacherMap[teacherID];
+          if (!teacherMap[teacherID].country) { continue; }
+          country = teacherMap[teacherID].countryName || teacherMap[teacherID].country;
+          if ((country === 'GB') || (country === 'United Kingdom')) { country = 'UK'; }
+          if ((country === 'US') || (country === 'United States')) { country = 'USA'; }
+          state = teacherMap[teacherID].region || 'unknown';
+          district = 'unknown';
+          school = 'unknown';
+          if (teacherStudentMap[teacherID] && (Object.keys(teacherStudentMap[teacherID]).length >= 10)) {
+            school += unknownSchoolCount++;
+          }
+          if (countryStateDistrictSchoolCountsMap[country] == null) { countryStateDistrictSchoolCountsMap[country] = {}; }
+          if (countryStateDistrictSchoolCountsMap[country][state] == null) { countryStateDistrictSchoolCountsMap[country][state] = {}; }
+          if (countryStateDistrictSchoolCountsMap[country][state][district] == null) { countryStateDistrictSchoolCountsMap[country][state][district] = {}; }
+          if (countryStateDistrictSchoolCountsMap[country][state][district][school] == null) { countryStateDistrictSchoolCountsMap[country][state][district][school] = {students: {}, teachers: {}}; }
+          countryStateDistrictSchoolCountsMap[country][state][district][school].teachers[teacherID] = true;
+          if (teacherStudentMap[teacherID] && (Object.keys(teacherStudentMap[teacherID]).length >= 10)) {
+            for (studentID in teacherStudentMap[teacherID]) {
+              val = teacherStudentMap[teacherID][studentID];
+              if (orphanStudentMap[studentID]) {
+                countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true;
+                delete orphanStudentMap[studentID];
+              }
+            }
+          }
+          delete orphanTeacherMap[teacherID];
+        }
 
-      @updateLoadingState("Processing #{Object.keys(orphanTeacherMap).length} orphaned teachers with 10+ students...")
-      for teacherID, val of orphanTeacherMap
-        continue unless teacherStudentMap[teacherID] and Object.keys(teacherStudentMap[teacherID]).length >= 10
-        country = 'unknown'
-        state = 'unknown'
-        district = 'unknown'
-        school = "unknown#{unknownSchoolCount++}"
-        countryStateDistrictSchoolCountsMap[country] ?= {}
-        countryStateDistrictSchoolCountsMap[country][state] ?= {}
-        countryStateDistrictSchoolCountsMap[country][state][district] ?= {}
-        countryStateDistrictSchoolCountsMap[country][state][district][school] ?= {students: {}, teachers: {}}
-        countryStateDistrictSchoolCountsMap[country][state][district][school].teachers[teacherID] = true
-        for studentID, val of teacherStudentMap[teacherID] when orphanStudentMap[studentID]
-          countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true
-          delete orphanStudentMap[studentID]
-        delete orphanTeacherMap[teacherID]
+        this.updateLoadingState(`Processing ${Object.keys(orphanTeacherMap).length} orphaned teachers with 10+ students...`);
+        for (teacherID in orphanTeacherMap) {
+          val = orphanTeacherMap[teacherID];
+          if (!teacherStudentMap[teacherID] || !(Object.keys(teacherStudentMap[teacherID]).length >= 10)) { continue; }
+          country = 'unknown';
+          state = 'unknown';
+          district = 'unknown';
+          school = `unknown${unknownSchoolCount++}`;
+          if (countryStateDistrictSchoolCountsMap[country] == null) { countryStateDistrictSchoolCountsMap[country] = {}; }
+          if (countryStateDistrictSchoolCountsMap[country][state] == null) { countryStateDistrictSchoolCountsMap[country][state] = {}; }
+          if (countryStateDistrictSchoolCountsMap[country][state][district] == null) { countryStateDistrictSchoolCountsMap[country][state][district] = {}; }
+          if (countryStateDistrictSchoolCountsMap[country][state][district][school] == null) { countryStateDistrictSchoolCountsMap[country][state][district][school] = {students: {}, teachers: {}}; }
+          countryStateDistrictSchoolCountsMap[country][state][district][school].teachers[teacherID] = true;
+          for (studentID in teacherStudentMap[teacherID]) {
+            val = teacherStudentMap[teacherID][studentID];
+            if (orphanStudentMap[studentID]) {
+              countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true;
+              delete orphanStudentMap[studentID];
+            }
+          }
+          delete orphanTeacherMap[teacherID];
+        }
 
-      @updateLoadingState("Processing #{Object.keys(orphanStudentMap).length} orphaned students with geo IPs...")
-      for studentID of orphanStudentMap
-        continue unless studentMap[studentID].geo?.country
-        country = studentMap[studentID].geo.countryName or studentMap[studentID].geo.country
-        country = 'UK' if country is 'GB' or country is 'United Kingdom'
-        country = 'USA' if country is 'US' or country is 'United States'
-        state = studentMap[studentID].geo.region or 'unknown'
-        district = 'unknown'
-        school = 'unknown'
-        countryStateDistrictSchoolCountsMap[country] ?= {}
-        countryStateDistrictSchoolCountsMap[country][state] ?= {}
-        countryStateDistrictSchoolCountsMap[country][state][district] ?= {}
-        countryStateDistrictSchoolCountsMap[country][state][district][school] ?= {students: {}, teachers: {}}
-        countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true
-        delete orphanStudentMap[studentID]
+        this.updateLoadingState(`Processing ${Object.keys(orphanStudentMap).length} orphaned students with geo IPs...`);
+        for (studentID in orphanStudentMap) {
+          if (!(studentMap[studentID].geo != null ? studentMap[studentID].geo.country : undefined)) { continue; }
+          country = studentMap[studentID].geo.countryName || studentMap[studentID].geo.country;
+          if ((country === 'GB') || (country === 'United Kingdom')) { country = 'UK'; }
+          if ((country === 'US') || (country === 'United States')) { country = 'USA'; }
+          state = studentMap[studentID].geo.region || 'unknown';
+          district = 'unknown';
+          school = 'unknown';
+          if (countryStateDistrictSchoolCountsMap[country] == null) { countryStateDistrictSchoolCountsMap[country] = {}; }
+          if (countryStateDistrictSchoolCountsMap[country][state] == null) { countryStateDistrictSchoolCountsMap[country][state] = {}; }
+          if (countryStateDistrictSchoolCountsMap[country][state][district] == null) { countryStateDistrictSchoolCountsMap[country][state][district] = {}; }
+          if (countryStateDistrictSchoolCountsMap[country][state][district][school] == null) { countryStateDistrictSchoolCountsMap[country][state][district][school] = {students: {}, teachers: {}}; }
+          countryStateDistrictSchoolCountsMap[country][state][district][school].students[studentID] = true;
+          delete orphanStudentMap[studentID];
+        }
 
-      @updateLoadingState('Building country graphs...')
-      @countryGraphs = {}
-      @countryCounts = []
-      totalStudents = 0
-      totalTeachers = 0
-      for country, stateDistrictSchoolCountsMap of countryStateDistrictSchoolCountsMap
-        @countryGraphs[country] =
-          districtCounts: []
-          stateCounts: []
-          stateCountsMap: {}
-          totalSchools: 0
-          totalStates: 0
-          totalStudents: 0
-          totalTeachers: 0
-        for state, districtSchoolCountsMap of stateDistrictSchoolCountsMap
-          if utils.usStateCodes.sanitizeStateCode(state)? or ['GU', 'PR'].indexOf(state) >= 0
-            @countryGraphs[country].totalStates++
-          stateData = {state: state, districts: 0, schools: 0, students: 0, teachers: 0}
-          for district, schoolCountsMap of districtSchoolCountsMap
-            stateData.districts++
-            districtData = {state: state, district: district, schools: 0, students: 0, teachers: 0}
-            for school, counts of schoolCountsMap
-              studentCount = Object.keys(counts.students).length
-              teacherCount = Object.keys(counts.teachers).length
-              @countryGraphs[country].totalSchools++
-              @countryGraphs[country].totalStudents += studentCount
-              @countryGraphs[country].totalTeachers += teacherCount
-              stateData.schools++
-              stateData.students += studentCount
-              stateData.teachers += teacherCount
-              districtData.schools++
-              districtData.students += studentCount
-              districtData.teachers += teacherCount
-            @countryGraphs[country].districtCounts.push(districtData)
-          @countryGraphs[country].stateCounts.push(stateData)
-          @countryGraphs[country].stateCountsMap[state] = stateData
-        @countryCounts.push
-          country: country
-          schools: @countryGraphs[country].totalSchools
-          students: @countryGraphs[country].totalStudents
-          teachers: @countryGraphs[country].totalTeachers
-        totalStudents += @countryGraphs[country].totalStudents
-        totalTeachers += @countryGraphs[country].totalTeachers
+        this.updateLoadingState('Building country graphs...');
+        this.countryGraphs = {};
+        this.countryCounts = [];
+        let totalStudents = 0;
+        let totalTeachers = 0;
+        for (country in countryStateDistrictSchoolCountsMap) {
+          var stateDistrictSchoolCountsMap = countryStateDistrictSchoolCountsMap[country];
+          this.countryGraphs[country] = {
+            districtCounts: [],
+            stateCounts: [],
+            stateCountsMap: {},
+            totalSchools: 0,
+            totalStates: 0,
+            totalStudents: 0,
+            totalTeachers: 0
+          };
+          for (state in stateDistrictSchoolCountsMap) {
+            var districtSchoolCountsMap = stateDistrictSchoolCountsMap[state];
+            if ((utils.usStateCodes.sanitizeStateCode(state) != null) || (['GU', 'PR'].indexOf(state) >= 0)) {
+              this.countryGraphs[country].totalStates++;
+            }
+            var stateData = {state, districts: 0, schools: 0, students: 0, teachers: 0};
+            for (district in districtSchoolCountsMap) {
+              var schoolCountsMap = districtSchoolCountsMap[district];
+              stateData.districts++;
+              var districtData = {state, district, schools: 0, students: 0, teachers: 0};
+              for (school in schoolCountsMap) {
+                var counts = schoolCountsMap[school];
+                var studentCount = Object.keys(counts.students).length;
+                var teacherCount = Object.keys(counts.teachers).length;
+                this.countryGraphs[country].totalSchools++;
+                this.countryGraphs[country].totalStudents += studentCount;
+                this.countryGraphs[country].totalTeachers += teacherCount;
+                stateData.schools++;
+                stateData.students += studentCount;
+                stateData.teachers += teacherCount;
+                districtData.schools++;
+                districtData.students += studentCount;
+                districtData.teachers += teacherCount;
+              }
+              this.countryGraphs[country].districtCounts.push(districtData);
+            }
+            this.countryGraphs[country].stateCounts.push(stateData);
+            this.countryGraphs[country].stateCountsMap[state] = stateData;
+          }
+          this.countryCounts.push({
+            country,
+            schools: this.countryGraphs[country].totalSchools,
+            students: this.countryGraphs[country].totalStudents,
+            teachers: this.countryGraphs[country].totalTeachers
+          });
+          totalStudents += this.countryGraphs[country].totalStudents;
+          totalTeachers += this.countryGraphs[country].totalTeachers;
+        }
 
-      # Compare against orphanStudentMap and orphanTeacherMap to catch bugs
-      @untriagedStudents = Object.keys(studentMap).length - totalStudents
-      @untriagedTeachers = Object.keys(teacherMap).length - totalTeachers
+        // Compare against orphanStudentMap and orphanTeacherMap to catch bugs
+        this.untriagedStudents = Object.keys(studentMap).length - totalStudents;
+        this.untriagedTeachers = Object.keys(teacherMap).length - totalTeachers;
 
-      @updateLoadingState("teacherMap #{Object.keys(teacherMap).length} totalTeachers #{totalTeachers} orphanTeacherMap #{Object.keys(orphanTeacherMap).length}  @untriagedTeachers #{@untriagedTeachers}")
-      @updateLoadingState("studentMap #{Object.keys(studentMap).length} totalStudents #{totalStudents} orphanStudentMap #{Object.keys(orphanStudentMap).length}  @untriagedStudents #{@untriagedStudents}")
+        this.updateLoadingState(`teacherMap ${Object.keys(teacherMap).length} totalTeachers ${totalTeachers} orphanTeacherMap ${Object.keys(orphanTeacherMap).length}  @untriagedTeachers ${this.untriagedTeachers}`);
+        this.updateLoadingState(`studentMap ${Object.keys(studentMap).length} totalStudents ${totalStudents} orphanStudentMap ${Object.keys(orphanStudentMap).length}  @untriagedStudents ${this.untriagedStudents}`);
 
-      for country, graph of @countryGraphs
-        graph.stateCounts.sort (a, b) ->
-          b.students - a.students or b.teachers - a.teachers or b.schools - a.schools or b.districts - a.districts or b.state.localeCompare(a.state)
-        graph.districtCounts.sort (a, b) ->
-          if a.state isnt b.state
-            stateCountsA = graph.stateCountsMap[a.state]
-            stateCountsB = graph.stateCountsMap[b.state]
-            stateCountsB.students - stateCountsA.students or stateCountsB.teachers - stateCountsA.teachers or stateCountsB.schools - stateCountsA.schools or stateCountsB.districts - stateCountsA.districts or a.state.localeCompare(b.state)
-          else
-            b.students - a.students or b.teachers - a.teachers or b.schools - a.schools or b.district.localeCompare(a.district)
-      @countryCounts.sort (a, b) ->
-        b.students - a.students or b.teachers - a.teachers or b.schools - a.schools or b.country.localeCompare(a.country)
+        for (country in this.countryGraphs) {
+          var graph = this.countryGraphs[country];
+          graph.stateCounts.sort((a, b) => (b.students - a.students) || (b.teachers - a.teachers) || (b.schools - a.schools) || (b.districts - a.districts) || b.state.localeCompare(a.state));
+          graph.districtCounts.sort(function(a, b) {
+            if (a.state !== b.state) {
+              const stateCountsA = graph.stateCountsMap[a.state];
+              const stateCountsB = graph.stateCountsMap[b.state];
+              return (stateCountsB.students - stateCountsA.students) || (stateCountsB.teachers - stateCountsA.teachers) || (stateCountsB.schools - stateCountsA.schools) || (stateCountsB.districts - stateCountsA.districts) || a.state.localeCompare(b.state);
+            } else {
+              return (b.students - a.students) || (b.teachers - a.teachers) || (b.schools - a.schools) || b.district.localeCompare(a.district);
+            }
+          });
+        }
+        this.countryCounts.sort((a, b) => (b.students - a.students) || (b.teachers - a.teachers) || (b.schools - a.schools) || b.country.localeCompare(a.country));
 
-      @updateLoadingState('Done...')
-      @render?()
+        this.updateLoadingState('Done...');
+        return (typeof this.render === 'function' ? this.render() : undefined);
+      });
+    }
+  };
+  SchoolCountsView.initClass();
+  return SchoolCountsView;
+})());

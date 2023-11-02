@@ -1,111 +1,152 @@
-require('app/styles/editor/thang/vector-icon-setup-modal.sass')
-ModalView = require 'views/core/ModalView'
-template = require 'app/templates/editor/thang/vector-icon-setup-modal'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let VectorIconSetupModal;
+require('app/styles/editor/thang/vector-icon-setup-modal.sass');
+const ModalView = require('views/core/ModalView');
+const template = require('app/templates/editor/thang/vector-icon-setup-modal');
 
-module.exports = class VectorIconSetupModal extends ModalView
-  id: "vector-icon-setup-modal"
-  template: template
-  demoSize: 400
-  plain: true
+module.exports = (VectorIconSetupModal = (function() {
+  VectorIconSetupModal = class VectorIconSetupModal extends ModalView {
+    static initClass() {
+      this.prototype.id = "vector-icon-setup-modal";
+      this.prototype.template = template;
+      this.prototype.demoSize = 400;
+      this.prototype.plain = true;
+  
+      this.prototype.events = {
+        'change #container-select': 'onChangeContainer',
+        'click #center': 'onClickCenter',
+        'click #zero-bounds': 'onClickZeroBounds',
+        'click #done-button': 'onClickDone'
+      };
+  
+      this.prototype.shortcuts = {
+        'shift+-'() { return this.incrScale(-0.02); },
+        'shift+='() { return this.incrScale(0.02); },
+        'up'() { return this.incrRegY(1); },
+        'down'() { return this.incrRegY(-1); },
+        'left'() { return this.incrRegX(1); },
+        'right'() { return this.incrRegX(-1); }
+      };
+    }
 
-  events:
-    'change #container-select': 'onChangeContainer'
-    'click #center': 'onClickCenter'
-    'click #zero-bounds': 'onClickZeroBounds'
-    'click #done-button': 'onClickDone'
+    constructor(options, thangType) {
+      this.thangType = thangType;
+      const portrait = __guard__(this.thangType.get('actions'), x => x.portrait);
+      this.containers = _.keys(__guard__(this.thangType.get('raw'), x1 => x1.containers) || {});
+      this.container = (portrait != null ? portrait.container : undefined) || _.last(this.containers);
+      this.scale = (portrait != null ? portrait.scale : undefined) || 1;
+      this.regX = __guard__(__guard__(portrait != null ? portrait.positions : undefined, x3 => x3.registration), x2 => x2.x) || 0;
+      this.regY = __guard__(__guard__(portrait != null ? portrait.positions : undefined, x5 => x5.registration), x4 => x4.y) || 0;
+      this.saveChanges();
+      super(options);
+    }
 
-  shortcuts:
-    'shift+-': -> @incrScale(-0.02)
-    'shift+=': -> @incrScale(0.02)
-    'up': -> @incrRegY(1)
-    'down': -> @incrRegY(-1)
-    'left': -> @incrRegX(1)
-    'right': -> @incrRegX(-1)
+    saveChanges() {
+      let left;
+      const actions = _.cloneDeep(((left = this.thangType.get('actions')) != null ? left : {}));
+      if (actions.portrait == null) { actions.portrait = {}; }
+      actions.portrait.scale = this.scale;
+      if (actions.portrait.positions == null) { actions.portrait.positions = {}; }
+      actions.portrait.positions.registration = { x: this.regX, y: this.regY };
+      actions.portrait.container = this.container;
+      this.thangType.set('actions', actions);
+      return this.thangType.buildActions();
+    }
 
-  constructor: (options, @thangType) ->
-    portrait = @thangType.get('actions')?.portrait
-    @containers = _.keys(@thangType.get('raw')?.containers or {})
-    @container = portrait?.container or _.last @containers
-    @scale = portrait?.scale or 1
-    @regX = portrait?.positions?.registration?.x or 0
-    @regY = portrait?.positions?.registration?.y or 0
-    @saveChanges()
-    super(options)
+    afterRender() {
+      this.initStage();
+      return super.afterRender();
+    }
 
-  saveChanges: ->
-    actions = _.cloneDeep (@thangType.get('actions') ? {})
-    actions.portrait ?= {}
-    actions.portrait.scale = @scale
-    actions.portrait.positions ?= {}
-    actions.portrait.positions.registration = { x: @regX, y: @regY }
-    actions.portrait.container = @container
-    @thangType.set('actions', actions)
-    @thangType.buildActions()
+    initStage() {
+      if (!this.containers || !this.container) { return; }
+      this.stage = this.thangType.getVectorPortraitStage(this.demoSize);
+      this.sprite = this.stage.children[0];
+      const canvas = $(this.stage.canvas);
+      canvas.attr('id', 'resulting-icon');
+      this.$el.find('#resulting-icon').replaceWith(canvas);
+      return this.updateSpriteProperties();
+    }
 
-  afterRender: ->
-    @initStage()
-    super()
+    onChangeContainer(e) {
+      this.container = $(e.target).val();
+      this.saveChanges();
+      return this.initStage();
+    }
 
-  initStage: ->
-    return unless @containers and @container
-    @stage = @thangType.getVectorPortraitStage(@demoSize)
-    @sprite = @stage.children[0]
-    canvas = $(@stage.canvas)
-    canvas.attr('id', 'resulting-icon')
-    @$el.find('#resulting-icon').replaceWith(canvas)
-    @updateSpriteProperties()
+    refreshSprite() {
+      if (!this.stage) { return; }
+      const stage = this.thangType.getVectorPortraitStage(this.demoSize);
+      this.stage.removeAllChildren();
+      this.stage.addChild(this.sprite = stage.children[0]);
+      this.updateSpriteProperties();
+      return this.stage.update();
+    }
 
-  onChangeContainer: (e) ->
-    @container = $(e.target).val()
-    @saveChanges()
-    @initStage()
+    updateSpriteProperties() {
+      this.sprite.scaleX = (this.sprite.scaleY = (this.scale * this.demoSize) / 100);
+      this.sprite.regX = this.regX / this.scale;
+      this.sprite.regY = this.regY / this.scale;
+      return console.log('set to', this.scale, this.regX, this.regY);
+    }
 
-  refreshSprite: ->
-    return unless @stage
-    stage = @thangType.getVectorPortraitStage(@demoSize)
-    @stage.removeAllChildren()
-    @stage.addChild(@sprite = stage.children[0])
-    @updateSpriteProperties()
-    @stage.update()
+    onClickCenter() {
+      const containerInfo = this.thangType.get('raw').containers[this.container];
+      const {
+        b
+      } = containerInfo;
+      this.regX = b[0];
+      this.regY = b[1];
+      const maxDimension = Math.max(b[2], b[3]);
+      this.scale = 100 / maxDimension;
+      if (b[2] > b[3]) {
+        this.regY += (b[3] - b[2]) / 2;
+      } else {
+        this.regX += (b[2] - b[3]) / 2;
+      }
+      this.regX *= this.scale;
+      this.regY *= this.scale;
+      this.updateSpriteProperties();
+      return this.stage.update();
+    }
 
-  updateSpriteProperties: ->
-    @sprite.scaleX = @sprite.scaleY = @scale * @demoSize / 100
-    @sprite.regX = @regX / @scale
-    @sprite.regY = @regY / @scale
-    console.log 'set to', @scale, @regX, @regY
+    incrScale(amount) {
+      this.scale += amount;
+      this.updateSpriteProperties();
+      return this.stage.update();
+    }
 
-  onClickCenter: ->
-    containerInfo = @thangType.get('raw').containers[@container]
-    b = containerInfo.b
-    @regX = b[0]
-    @regY = b[1]
-    maxDimension = Math.max(b[2], b[3])
-    @scale = 100 / maxDimension
-    if b[2] > b[3]
-      @regY += (b[3] - b[2]) / 2
-    else
-      @regX += (b[2] - b[3]) / 2
-    @regX *= @scale
-    @regY *= @scale
-    @updateSpriteProperties()
-    @stage.update()
+    incrRegX(amount) {
+      this.regX += amount;
+      this.updateSpriteProperties();
+      return this.stage.update();
+    }
 
-  incrScale: (amount) ->
-    @scale += amount
-    @updateSpriteProperties()
-    @stage.update()
+    incrRegY(amount) {
+      this.regY += amount;
+      this.updateSpriteProperties();
+      return this.stage.update();
+    }
 
-  incrRegX: (amount) ->
-    @regX += amount
-    @updateSpriteProperties()
-    @stage.update()
+    onClickDone() {
+      this.saveChanges();
+      this.trigger('done');
+      return this.hide();
+    }
+  };
+  VectorIconSetupModal.initClass();
+  return VectorIconSetupModal;
+})());
 
-  incrRegY: (amount) ->
-    @regY += amount
-    @updateSpriteProperties()
-    @stage.update()
-
-  onClickDone: ->
-    @saveChanges()
-    @trigger 'done'
-    @hide()
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

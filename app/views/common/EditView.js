@@ -1,76 +1,106 @@
-require('app/styles/editor/common/edit.scss')
-RootView = require 'views/core/RootView'
-template = require 'app/templates/editor/common/edit'
-ConfirmModal = require 'views/core/ConfirmModal'
-PatchesView = require 'views/editor/PatchesView'
-errors = require 'core/errors'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let EditView;
+require('app/styles/editor/common/edit.scss');
+const RootView = require('views/core/RootView');
+const template = require('app/templates/editor/common/edit');
+const ConfirmModal = require('views/core/ConfirmModal');
+const PatchesView = require('views/editor/PatchesView');
+const errors = require('core/errors');
 
-require 'lib/game-libraries'
-require('lib/setupTreema')
-treemaExt = require 'core/treema-ext'
+require('lib/game-libraries');
+require('lib/setupTreema');
+const treemaExt = require('core/treema-ext');
 
-module.exports = class EditView extends RootView
-  id: 'editor-edit-view'
-  template: template
+module.exports = (EditView = (function() {
+  EditView = class EditView extends RootView {
+    static initClass() {
+      this.prototype.id = 'editor-edit-view';
+      this.prototype.template = template;
+  
+      this.prototype.resource = null;
+      this.prototype.schema = null;
+      this.prototype.redirectPathOnSuccess = null; // id or slug will be automatically added
+      this.prototype.filePath = null;
+      this.prototype.resourceName = null; // used in breadcrumbs
+      this.prototype.treemaOptions = null;
+  
+      this.prototype.events = {
+        'click #save-button': 'onClickSaveButton',
+        'click #i18n-button': 'onPopulateI18N'
+      };
+    }
 
-  resource: null
-  schema: null
-  redirectPathOnSuccess: null # id or slug will be automatically added
-  filePath: null
-  resourceName: null # used in breadcrumbs
-  treemaOptions: null
+    constructor(options) {
+      super(options);
+    }
 
-  events:
-    'click #save-button': 'onClickSaveButton'
-    'click #i18n-button': 'onPopulateI18N'
+    onLoaded() {
+      super.onLoaded();
+      this.buildTreema();
+      this.listenTo(this.resource, 'change', () => {
+        this.resource.updateI18NCoverage();
+        return this.treema.set('/', this.resource.attributes);
+      });
 
-  constructor: (options) ->
-    super options
+      if (!this.filePath || !this.redirectPathOnSuccess || !this.resourceName) {
+        console.error('EditView: required field not set', this.filePath, this.redirectPathOnSuccess, this.resourceName);
+        return noty({ text: 'EditView: required field not set', layout: 'center', type: 'error', timeout: 10000 });
+      }
+    }
 
-  onLoaded: ->
-    super()
-    @buildTreema()
-    @listenTo @resource, 'change', =>
-      @resource.updateI18NCoverage()
-      @treema.set('/', @resource.attributes)
+    buildTreema() {
+      if ((this.treema != null) || (!this.resource.loaded)) { return; }
+      const data = $.extend(true, {}, this.resource.attributes);
+      const options = Object.assign((this.treemaOptions || {}), {
+        data,
+        filePath: `${this.filePath}/${this.resource.get('_id')}`,
+        schema: this.schema,
+        readOnly: me.get('anonymous'),
+        supermodel: this.supermodel
+      }
+      );
+      this.treema = this.$el.find('#resource-treema').treema(options);
+      this.treema.build();
+      return (this.treema.childrenTreemas.rewards != null ? this.treema.childrenTreemas.rewards.open(3) : undefined);
+    }
 
-    if !@filePath or !@redirectPathOnSuccess or !@resourceName
-      console.error 'EditView: required field not set', @filePath, @redirectPathOnSuccess, @resourceName
-      noty({ text: 'EditView: required field not set', layout: 'center', type: 'error', timeout: 10000 })
+    afterRender() {
+      super.afterRender();
+      if (!this.supermodel.finished()) { return; }
+      if (me.get('anonymous')) { this.showReadOnly(); }
+      this.patchesView = this.insertSubView(new PatchesView(this.resource), this.$el.find('.patches-view'));
+      return this.patchesView.load();
+    }
 
-  buildTreema: ->
-    return if @treema? or (not @resource.loaded)
-    data = $.extend(true, {}, @resource.attributes)
-    options = Object.assign (@treemaOptions or {}),
-      data: data
-      filePath: "#{@filePath}/#{@resource.get('_id')}"
-      schema: @schema
-      readOnly: me.get('anonymous')
-      supermodel: @supermodel
-    @treema = @$el.find('#resource-treema').treema(options)
-    @treema.build()
-    @treema.childrenTreemas.rewards?.open(3)
+    onPopulateI18N() {
+      return this.resource.populateI18N();
+    }
 
-  afterRender: ->
-    super()
-    return unless @supermodel.finished()
-    @showReadOnly() if me.get('anonymous')
-    @patchesView = @insertSubView(new PatchesView(@resource), @$el.find('.patches-view'))
-    @patchesView.load()
+    onClickSaveButton(e) {
+      this.treema.endExistingEdits();
+      for (var key in this.treema.data) {
+        var value = this.treema.data[key];
+        this.resource.set(key, value);
+      }
+      this.resource.updateI18NCoverage();
+      const res = this.resource.save();
 
-  onPopulateI18N: ->
-    @resource.populateI18N()
+      res.error((collection, response, options) => {
+        return console.error(response);
+      });
 
-  onClickSaveButton: (e) ->
-    @treema.endExistingEdits()
-    for key, value of @treema.data
-      @resource.set(key, value)
-    @resource.updateI18NCoverage()
-    res = @resource.save()
-
-    res.error (collection, response, options) =>
-      console.error response
-
-    res.success =>
-      url = "#{@redirectPathOnSuccess}/#{@resource.get('slug') or @resource.id}"
-      document.location.href = url
+      return res.success(() => {
+        const url = `${this.redirectPathOnSuccess}/${this.resource.get('slug') || this.resource.id}`;
+        return document.location.href = url;
+      });
+    }
+  };
+  EditView.initClass();
+  return EditView;
+})());

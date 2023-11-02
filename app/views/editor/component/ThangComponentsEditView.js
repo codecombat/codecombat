@@ -1,413 +1,608 @@
-require('app/styles/editor/component/thang-components-edit-view.sass')
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/editor/component/thang-components-edit-view'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS104: Avoid inline assignments
+ * DS204: Change includes calls to have a more natural evaluation order
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ThangComponentsEditView;
+require('app/styles/editor/component/thang-components-edit-view.sass');
+const CocoView = require('views/core/CocoView');
+const template = require('app/templates/editor/component/thang-components-edit-view');
 
-Level = require 'models/Level'
-LevelComponent = require 'models/LevelComponent'
-LevelSystem = require 'models/LevelSystem'
-LevelComponents = require 'collections/LevelComponents'
-ThangComponentConfigView = require './ThangComponentConfigView'
-AddThangComponentsModal = require './AddThangComponentsModal'
-nodes = require '../level/treema_nodes'
-require 'lib/setupTreema'
-utils = require 'core/utils'
+const Level = require('models/Level');
+const LevelComponent = require('models/LevelComponent');
+const LevelSystem = require('models/LevelSystem');
+const LevelComponents = require('collections/LevelComponents');
+const ThangComponentConfigView = require('./ThangComponentConfigView');
+const AddThangComponentsModal = require('./AddThangComponentsModal');
+const nodes = require('../level/treema_nodes');
+require('lib/setupTreema');
+const utils = require('core/utils');
 
-ThangType = require 'models/ThangType'
-CocoCollection = require 'collections/CocoCollection'
+const ThangType = require('models/ThangType');
+const CocoCollection = require('collections/CocoCollection');
 
-LC = (componentName, config) -> original: LevelComponent[componentName + 'ID'], majorVersion: 0, config: config
-DEFAULT_COMPONENTS =
-  Unit: [LC('Equips'), LC('FindsPaths')]
-  Hero: [LC('Equips'), LC('FindsPaths')]
+const LC = (componentName, config) => ({
+  original: LevelComponent[componentName + 'ID'],
+  majorVersion: 0,
+  config
+});
+const DEFAULT_COMPONENTS = {
+  Unit: [LC('Equips'), LC('FindsPaths')],
+  Hero: [LC('Equips'), LC('FindsPaths')],
   Floor: [
-    LC('Exists', stateless: true)
-    LC('Physical', width: 20, height: 17, depth: 2, shape: 'sheet', pos: {x: 10, y: 8.5, z: 1})
+    LC('Exists', {stateless: true}),
+    LC('Physical', {width: 20, height: 17, depth: 2, shape: 'sheet', pos: {x: 10, y: 8.5, z: 1}}),
     LC('Land')
-  ]
+  ],
   Wall: [
-    LC('Exists', stateless: true)
-    LC('Physical', width: 4, height: 4, depth: 12, shape: 'box', pos: {x: 2, y: 2, z: 6})
-    LC('Collides', collisionType: 'static', collisionCategory: 'obstacles', mass: 1000, fixedRotation: true, restitution: 1)
-  ]
+    LC('Exists', {stateless: true}),
+    LC('Physical', {width: 4, height: 4, depth: 12, shape: 'box', pos: {x: 2, y: 2, z: 6}}),
+    LC('Collides', {collisionType: 'static', collisionCategory: 'obstacles', mass: 1000, fixedRotation: true, restitution: 1})
+  ],
   Doodad: [
-    LC('Exists', stateless: true)
-    LC('Physical')
-    LC('Collides', collisionType: 'static', fixedRotation: true)
-  ]
-  Misc: [LC('Exists'), LC('Physical')]
-  Mark: []
-  Item: [LC('Item')]
+    LC('Exists', {stateless: true}),
+    LC('Physical'),
+    LC('Collides', {collisionType: 'static', fixedRotation: true})
+  ],
+  Misc: [LC('Exists'), LC('Physical')],
+  Mark: [],
+  Item: [LC('Item')],
   Missile: [LC('Missile')]
+};
 
-module.exports = class ThangComponentsEditView extends CocoView
-  id: 'thang-components-edit-view'
-  template: template
+module.exports = (ThangComponentsEditView = (function() {
+  ThangComponentsEditView = class ThangComponentsEditView extends CocoView {
+    static initClass() {
+      this.prototype.id = 'thang-components-edit-view';
+      this.prototype.template = template;
+  
+      this.prototype.subscriptions =
+        {'editor:thang-type-kind-changed': 'onThangTypeKindChanged'};
+  
+      this.prototype.events =
+        {'click #add-components-button': 'onAddComponentsButtonClicked'};
+    }
 
-  subscriptions:
-    'editor:thang-type-kind-changed': 'onThangTypeKindChanged'
+    constructor(options) {
+      this.onComponentsTreemaChanged = this.onComponentsTreemaChanged.bind(this);
+      this.onComponentsChanged = this.onComponentsChanged.bind(this);
+      this.onSelectComponent = this.onSelectComponent.bind(this);
+      this.onChangeExtantComponents = this.onChangeExtantComponents.bind(this);
+      super(options);
+      this.originalsLoaded = {};
+      this.components = options.components || [];
+      this.components = $.extend(true, [], this.components); // just to be sure
+      this.setThangType(options.thangType);
+      this.lastComponentLength = this.components.length;
+      this.world = options.world;
+      this.level = options.level;
+      this.loadComponents(this.components);
+    }
 
-  events:
-    'click #add-components-button': 'onAddComponentsButtonClicked'
+    setThangType(thangType) {
+      let componentRefs;
+      this.thangType = thangType;
+      if (!(componentRefs = this.thangType != null ? this.thangType.get('components') : undefined)) { return; }
+      return this.loadComponents(componentRefs);
+    }
 
-  constructor: (options) ->
-    super options
-    @originalsLoaded = {}
-    @components = options.components or []
-    @components = $.extend true, [], @components # just to be sure
-    @setThangType options.thangType
-    @lastComponentLength = @components.length
-    @world = options.world
-    @level = options.level
-    @loadComponents(@components)
+    loadComponents(components) {
+      return (() => {
+        const result = [];
+        for (var componentRef of Array.from(components)) {
+        // just to handle if ever somehow the same component is loaded twice, through bad data and alike
+          if (this.originalsLoaded[componentRef.original]) { continue; }
+          this.originalsLoaded[componentRef.original] = componentRef.original;
 
-  setThangType: (@thangType) ->
-    return unless componentRefs = @thangType?.get('components')
-    @loadComponents(componentRefs)
+          var levelComponent = new LevelComponent(componentRef);
+          var url = `/db/level.component/${componentRef.original}/version/${componentRef.majorVersion}`;
+          levelComponent.setURL(url);
+          var resource = this.supermodel.loadModel(levelComponent);
+          if (!resource.isLoading) { continue; }
+          result.push(this.listenToOnce(resource, 'loaded', function() {
+            if (this.handlingChange) { return; }
+            this.handlingChange = true;
+            this.onComponentsAdded();
+            return this.handlingChange = false;
+          }));
+        }
+        return result;
+      })();
+    }
 
-  loadComponents: (components) ->
-    for componentRef in components
-      # just to handle if ever somehow the same component is loaded twice, through bad data and alike
-      continue if @originalsLoaded[componentRef.original]
-      @originalsLoaded[componentRef.original] = componentRef.original
+    afterRender() {
+      super.afterRender();
+      if (!this.supermodel.finished()) { return; }
+      this.buildComponentsTreema();
+      this.addThangComponentConfigViews();
+      return this.selectKeyComponent();
+    }
 
-      levelComponent = new LevelComponent(componentRef)
-      url = "/db/level.component/#{componentRef.original}/version/#{componentRef.majorVersion}"
-      levelComponent.setURL(url)
-      resource = @supermodel.loadModel levelComponent
-      continue unless resource.isLoading
-      @listenToOnce resource, 'loaded', ->
-        return if @handlingChange
-        @handlingChange = true
-        @onComponentsAdded()
-        @handlingChange = false
+    buildComponentsTreema() {
+      let thangTypeComponents;
+      let c;
+      const components = _.zipObject(((() => {
+        const result = [];
+        for (c of Array.from(this.components)) {           result.push(c.original);
+        }
+        return result;
+      })()), this.components);
+      let defaultValue = undefined;
+      if (thangTypeComponents = this.thangType != null ? this.thangType.get('components', true) : undefined) {
+        defaultValue = _.zipObject(((() => {
+          const result1 = [];
+          for (c of Array.from(thangTypeComponents)) {             result1.push(c.original);
+          }
+          return result1;
+        })()), thangTypeComponents);
+      }
 
-  afterRender: ->
-    super()
-    return unless @supermodel.finished()
-    @buildComponentsTreema()
-    @addThangComponentConfigViews()
-    @selectKeyComponent()
+      const treemaOptions = {
+        supermodel: this.supermodel,
+        schema: {
+          type: 'object',
+          default: defaultValue,
+          additionalProperties: Level.schema.properties.thangs.items.properties.components.items
+        },
+        data: $.extend(true, {}, components),
+        callbacks: {select: this.onSelectComponent, change: this.onComponentsTreemaChanged},
+        nodeClasses: {
+          'object': ThangComponentsObjectNode
+        }
+      };
 
-  buildComponentsTreema: ->
-    components = _.zipObject((c.original for c in @components), @components)
-    defaultValue = undefined
-    if thangTypeComponents = @thangType?.get('components', true)
-      defaultValue = _.zipObject((c.original for c in thangTypeComponents), thangTypeComponents)
+      this.componentsTreema = this.$el.find('#thang-components-column .treema').treema(treemaOptions);
+      return this.componentsTreema.build();
+    }
 
-    treemaOptions =
-      supermodel: @supermodel
-      schema: {
-        type: 'object'
-        default: defaultValue
-        additionalProperties: Level.schema.properties.thangs.items.properties.components.items
-      },
-      data: $.extend true, {}, components
-      callbacks: {select: @onSelectComponent, change: @onComponentsTreemaChanged}
-      nodeClasses:
-        'object': ThangComponentsObjectNode
+    onComponentsTreemaChanged() {
+      let component;
+      if (this.handlingChange) { return; }
+      this.handlingChange = true;
+      const componentMap = {};
+      for (component of Array.from(this.components)) {
+        componentMap[component.original] = component;
+      }
 
-    @componentsTreema = @$el.find('#thang-components-column .treema').treema treemaOptions
-    @componentsTreema.build()
+      const newComponentsList = [];
+      for (component of Array.from(_.values(this.componentsTreema.data))) {
+        newComponentsList.push(componentMap[component.original] || component);
+      }
+      this.components = newComponentsList;
 
-  onComponentsTreemaChanged: =>
-    return if @handlingChange
-    @handlingChange = true
-    componentMap = {}
-    for component in @components
-      componentMap[component.original] = component
+      // update the components list here
+      this.onComponentsChanged();
+      return this.handlingChange = false;
+    }
 
-    newComponentsList = []
-    for component in _.values(@componentsTreema.data)
-      newComponentsList.push(componentMap[component.original] or component)
-    @components = newComponentsList
+    onComponentsChanged() {
+      // happens whenever the list of components changed, one way or another
+      // * if the treema gets changed
+      // * if components are added externally, like by a modal
+      // * if a dependency loads and is added to the list
 
-    # update the components list here
-    @onComponentsChanged()
-    @handlingChange = false
+      if (this.components.length < this.lastComponentLength) {
+        this.onComponentsRemoved();
+      }
+      return this.onComponentsAdded();
+    }
 
-  onComponentsChanged: =>
-    # happens whenever the list of components changed, one way or another
-    # * if the treema gets changed
-    # * if components are added externally, like by a modal
-    # * if a dependency loads and is added to the list
+    onComponentsRemoved() {
+      let component, thangTypeComponents;
+      const componentMap = {};
+      for (component of Array.from(this.components)) {
+        componentMap[component.original] = component;
+      }
 
-    if @components.length < @lastComponentLength
-      @onComponentsRemoved()
-    @onComponentsAdded()
+      const thangComponentMap = {};
+      if (thangTypeComponents = this.thangType != null ? this.thangType.get('components') : undefined) {
+        for (var thangTypeComponent of Array.from(thangTypeComponents)) {
+          thangComponentMap[thangTypeComponent.original] = thangTypeComponent;
+        }
+      }
 
-  onComponentsRemoved: ->
-    componentMap = {}
-    for component in @components
-      componentMap[component.original] = component
-
-    thangComponentMap = {}
-    if thangTypeComponents = @thangType?.get('components')
-      for thangTypeComponent in thangTypeComponents
-        thangComponentMap[thangTypeComponent.original] = thangTypeComponent
-
-    # Deleting components missing dependencies.
-    while true
-      removedSomething = false
-      for componentRef in _.values(componentMap)
-        componentModel = @supermodel.getModelByOriginalAndMajorVersion(
-          LevelComponent, componentRef.original, componentRef.majorVersion)
-        for dependency in componentModel.get('dependencies') or []
-          unless (componentMap[dependency.original] or thangComponentMap[dependency.original])
-            delete componentMap[componentRef.original]
-            component = @supermodel.getModelByOriginal(
-              LevelComponent, componentRef.original)
-            noty {
-              text: "Removed dependent component: #{component.get('name')}"
-              layout: 'topCenter'
-              timeout: 5000
-              type: 'information'
-            }
-            removedSomething = true
-        break if removedSomething
-      break unless removedSomething
-
-    @components = _.values(componentMap)
-
-    # Delete individual component config views that are no longer included.
-    for subview in _.values(@subviews)
-      continue unless subview instanceof ThangComponentConfigView
-      unless (componentMap[subview.component.get('original')] or thangComponentMap[subview.component.get('original')])
-        @removeSubView(subview)
-
-    @updateComponentsList()
-    @reportChanges()
-
-  updateComponentsList: ->
-    # Before I was setting the data to the existing treema but then we had some
-    # nasty sorting/callback bugs. This is less efficient, but it's also less bug prone.
-    @buildComponentsTreema()
-
-  onComponentsAdded: ->
-    return unless @componentsTreema
-    componentMap = {}
-    for component in @components
-      componentMap[component.original] = component
-
-    if thangTypeComponents = @thangType?.get('components')
-      for thangTypeComponent in thangTypeComponents
-        componentMap[thangTypeComponent.original] = thangTypeComponent
-
-    # Go through the map, adding missing dependencies.
-    while true
-      addedSomething = false
-      for componentRef in _.values(componentMap)
-        componentModel = @supermodel.getModelByOriginalAndMajorVersion(
-          LevelComponent, componentRef.original, componentRef.majorVersion)
-        if not componentModel?.loaded
-          @loadComponents([componentRef])
-          continue
-        for dependency in componentModel?.get('dependencies') or []
-          if not componentMap[dependency.original]
-            component = @supermodel.getModelByOriginalAndMajorVersion(
-              LevelComponent, dependency.original, dependency.majorVersion)
-            if not component?.loaded
-              @loadComponents([dependency])
-              # will run onComponentsAdded once more when the model loads
-            else
-              addedSomething = true
-              noty {
-                text: "Added dependency: #{component.get('name')}"
-                layout: 'topCenter'
-                timeout: 5000
+      // Deleting components missing dependencies.
+      while (true) {
+        var removedSomething = false;
+        for (var componentRef of Array.from(_.values(componentMap))) {
+          var componentModel = this.supermodel.getModelByOriginalAndMajorVersion(
+            LevelComponent, componentRef.original, componentRef.majorVersion);
+          for (var dependency of Array.from(componentModel.get('dependencies') || [])) {
+            if (!componentMap[dependency.original] && !thangComponentMap[dependency.original]) {
+              delete componentMap[componentRef.original];
+              component = this.supermodel.getModelByOriginal(
+                LevelComponent, componentRef.original);
+              noty({
+                text: `Removed dependent component: ${component.get('name')}`,
+                layout: 'topCenter',
+                timeout: 5000,
                 type: 'information'
+              });
+              removedSomething = true;
+            }
+          }
+          if (removedSomething) { break; }
+        }
+        if (!removedSomething) { break; }
+      }
+
+      this.components = _.values(componentMap);
+
+      // Delete individual component config views that are no longer included.
+      for (var subview of Array.from(_.values(this.subviews))) {
+        if (!(subview instanceof ThangComponentConfigView)) { continue; }
+        if (!componentMap[subview.component.get('original')] && !thangComponentMap[subview.component.get('original')]) {
+          this.removeSubView(subview);
+        }
+      }
+
+      this.updateComponentsList();
+      return this.reportChanges();
+    }
+
+    updateComponentsList() {
+      // Before I was setting the data to the existing treema but then we had some
+      // nasty sorting/callback bugs. This is less efficient, but it's also less bug prone.
+      return this.buildComponentsTreema();
+    }
+
+    onComponentsAdded() {
+      let component, thangTypeComponents;
+      if (!this.componentsTreema) { return; }
+      const componentMap = {};
+      for (component of Array.from(this.components)) {
+        componentMap[component.original] = component;
+      }
+
+      if (thangTypeComponents = this.thangType != null ? this.thangType.get('components') : undefined) {
+        for (var thangTypeComponent of Array.from(thangTypeComponents)) {
+          componentMap[thangTypeComponent.original] = thangTypeComponent;
+        }
+      }
+
+      // Go through the map, adding missing dependencies.
+      while (true) {
+        var addedSomething = false;
+        for (var componentRef of Array.from(_.values(componentMap))) {
+          var componentModel = this.supermodel.getModelByOriginalAndMajorVersion(
+            LevelComponent, componentRef.original, componentRef.majorVersion);
+          if (!(componentModel != null ? componentModel.loaded : undefined)) {
+            this.loadComponents([componentRef]);
+            continue;
+          }
+          for (var dependency of Array.from((componentModel != null ? componentModel.get('dependencies') : undefined) || [])) {
+            if (!componentMap[dependency.original]) {
+              component = this.supermodel.getModelByOriginalAndMajorVersion(
+                LevelComponent, dependency.original, dependency.majorVersion);
+              if (!(component != null ? component.loaded : undefined)) {
+                this.loadComponents([dependency]);
+                // will run onComponentsAdded once more when the model loads
+              } else {
+                addedSomething = true;
+                noty({
+                  text: `Added dependency: ${component.get('name')}`,
+                  layout: 'topCenter',
+                  timeout: 5000,
+                  type: 'information'
+                });
+                componentMap[dependency.original] = dependency;
+                this.components.push(dependency);
               }
-              componentMap[dependency.original] = dependency
-              @components.push dependency
-      break unless addedSomething
+            }
+          }
+        }
+        if (!addedSomething) { break; }
+      }
 
 
-    # Sort the component list, reorder the component config views
-    @updateComponentsList()
-    @addThangComponentConfigViews()
-    @checkForMissingSystems()
-    @reportChanges()
+      // Sort the component list, reorder the component config views
+      this.updateComponentsList();
+      this.addThangComponentConfigViews();
+      this.checkForMissingSystems();
+      return this.reportChanges();
+    }
 
-  addThangComponentConfigViews: ->
-    # Detach all component config views temporarily.
-    componentConfigViews = {}
-    for subview in _.values(@subviews)
-      continue unless subview instanceof ThangComponentConfigView
-      componentConfigViews[subview.component.get('original')] = subview
-      subview.$el.detach()
+    addThangComponentConfigViews() {
+      // Detach all component config views temporarily.
+      let componentRef, subview, thangTypeComponents;
+      const componentConfigViews = {};
+      for (subview of Array.from(_.values(this.subviews))) {
+        if (!(subview instanceof ThangComponentConfigView)) { continue; }
+        componentConfigViews[subview.component.get('original')] = subview;
+        subview.$el.detach();
+      }
 
-    # Put back config views into the DOM based on the component list ordering,
-    # adding and registering new ones as needed.
-    configsEl = @$el.find('#thang-component-configs')
+      // Put back config views into the DOM based on the component list ordering,
+      // adding and registering new ones as needed.
+      const configsEl = this.$el.find('#thang-component-configs');
 
-    componentRefs = _.merge {}, @componentsTreema.data
-    if thangTypeComponents = @thangType?.get('components')
-      thangComponentRefs = _.zipObject((c.original for c in thangTypeComponents), thangTypeComponents)
-      for thangTypeComponent in thangTypeComponents
-        if componentRef = componentRefs[thangTypeComponent.original]
-          componentRef.additionalDefaults = thangTypeComponent.config
-        else
-          modifiedRef = _.merge {}, thangTypeComponent
-          modifiedRef.additionalDefaults = modifiedRef.config
-          delete modifiedRef.config
-          componentRefs[thangTypeComponent.original] = modifiedRef
+      const componentRefs = _.merge({}, this.componentsTreema.data);
+      if (thangTypeComponents = this.thangType != null ? this.thangType.get('components') : undefined) {
+        const thangComponentRefs = _.zipObject((Array.from(thangTypeComponents).map((c) => c.original)), thangTypeComponents);
+        for (var thangTypeComponent of Array.from(thangTypeComponents)) {
+          if (componentRef = componentRefs[thangTypeComponent.original]) {
+            componentRef.additionalDefaults = thangTypeComponent.config;
+          } else {
+            var modifiedRef = _.merge({}, thangTypeComponent);
+            modifiedRef.additionalDefaults = modifiedRef.config;
+            delete modifiedRef.config;
+            componentRefs[thangTypeComponent.original] = modifiedRef;
+          }
+        }
+      }
 
-    for componentRef in _.values(componentRefs)
-      subview = componentConfigViews[componentRef.original]
-      if not subview
-        subview = @makeThangComponentConfigView(componentRef)
-        continue unless subview
-        @registerSubView(subview)
-      else unless _.isEqual componentRef.config, subview.config
-        subview.setConfig componentRef.config ? {}
-      subview.setIsDefaultComponent(not @componentsTreema.data[componentRef.original])
-      configsEl.append(subview.$el)
+      return (() => {
+        const result = [];
+        for (componentRef of Array.from(_.values(componentRefs))) {
+          subview = componentConfigViews[componentRef.original];
+          if (!subview) {
+            subview = this.makeThangComponentConfigView(componentRef);
+            if (!subview) { continue; }
+            this.registerSubView(subview);
+          } else if (!_.isEqual(componentRef.config, subview.config)) {
+            subview.setConfig(componentRef.config != null ? componentRef.config : {});
+          }
+          subview.setIsDefaultComponent(!this.componentsTreema.data[componentRef.original]);
+          result.push(configsEl.append(subview.$el));
+        }
+        return result;
+      })();
+    }
 
-  makeThangComponentConfigView: (thangComponent) ->
-    component = @supermodel.getModelByOriginal(LevelComponent, thangComponent.original)
-    return unless component?.loaded
-    config = thangComponent.config ? {}
-    configView = new ThangComponentConfigView({
-      supermodel: @supermodel
-      level: @level
-      world: @world
-      config: config
-      component: component
-      additionalDefaults: thangComponent.additionalDefaults
-    })
-    configView.render()
-    @listenTo configView, 'changed', @onConfigChanged
-    configView
+    makeThangComponentConfigView(thangComponent) {
+      const component = this.supermodel.getModelByOriginal(LevelComponent, thangComponent.original);
+      if (!(component != null ? component.loaded : undefined)) { return; }
+      const config = thangComponent.config != null ? thangComponent.config : {};
+      const configView = new ThangComponentConfigView({
+        supermodel: this.supermodel,
+        level: this.level,
+        world: this.world,
+        config,
+        component,
+        additionalDefaults: thangComponent.additionalDefaults
+      });
+      configView.render();
+      this.listenTo(configView, 'changed', this.onConfigChanged);
+      return configView;
+    }
 
-  onConfigChanged: (e) ->
-    foundComponent = false
-    for thangComponent in @components
-      if thangComponent.original is e.component.get('original')
-        thangComponent.config = e.config
-        foundComponent = true
-        break
+    onConfigChanged(e) {
+      let foundComponent = false;
+      for (var thangComponent of Array.from(this.components)) {
+        if (thangComponent.original === e.component.get('original')) {
+          thangComponent.config = e.config;
+          foundComponent = true;
+          break;
+        }
+      }
 
-    if not foundComponent
-      @components.push({
-        original: e.component.get('original')
-        majorVersion: e.component.get('version').major
-        config: e.config
-      })
+      if (!foundComponent) {
+        this.components.push({
+          original: e.component.get('original'),
+          majorVersion: e.component.get('version').major,
+          config: e.config
+        });
 
-      for subview in _.values(@subviews)
-        continue unless subview instanceof ThangComponentConfigView
-        if subview.component.get('original') is e.component.get('original')
-          _.defer -> subview.setIsDefaultComponent(false)
-          break
+        for (var subview of Array.from(_.values(this.subviews))) {
+          if (!(subview instanceof ThangComponentConfigView)) { continue; }
+          if (subview.component.get('original') === e.component.get('original')) {
+            _.defer(() => subview.setIsDefaultComponent(false));
+            break;
+          }
+        }
+      }
 
-    @updateComponentsList()
-    @reportChanges()
+      this.updateComponentsList();
+      return this.reportChanges();
+    }
 
-  selectKeyComponent: ->
-    for child in _.values(@componentsTreema.childrenTreemas)
-      if child.keyForParent in [LevelComponent.RefereeID].concat(LevelComponent.ProgrammableIDs)
-        @onSelectComponent null, [child]
-        break
+    selectKeyComponent() {
+      return (() => {
+        const result = [];
+        for (var child of Array.from(_.values(this.componentsTreema.childrenTreemas))) {
+          var needle;
+          if ((needle = child.keyForParent, Array.from([LevelComponent.RefereeID].concat(LevelComponent.ProgrammableIDs)).includes(needle))) {
+            this.onSelectComponent(null, [child]);
+            break;
+          } else {
+            result.push(undefined);
+          }
+        }
+        return result;
+      })();
+    }
 
-  onSelectComponent: (e, nodes) =>
-    @componentsTreema.$el.find('.dependent').removeClass('dependent')
-    @$el.find('.selected-component').removeClass('selected-component')
-    return unless nodes.length is 1
+    onSelectComponent(e, nodes) {
+      this.componentsTreema.$el.find('.dependent').removeClass('dependent');
+      this.$el.find('.selected-component').removeClass('selected-component');
+      if (nodes.length !== 1) { return; }
 
-    # find dependent components
-    dependents = {}
-    dependents[nodes[0].getData().original] = true
-    componentsToCheck = [nodes[0].getData().original]
-    while componentsToCheck.length
-      componentOriginal = componentsToCheck.pop()
-      for otherComponentRef in @components
-        continue if otherComponentRef.original is componentOriginal
-        continue if dependents[otherComponentRef.original]
-        otherComponent = @supermodel.getModelByOriginal(LevelComponent, otherComponentRef.original)
-        for dependency in otherComponent.get('dependencies', true)
-          if dependents[dependency.original]
-            dependents[otherComponentRef.original] = true
-            componentsToCheck.push otherComponentRef.original
+      // find dependent components
+      const dependents = {};
+      dependents[nodes[0].getData().original] = true;
+      const componentsToCheck = [nodes[0].getData().original];
+      while (componentsToCheck.length) {
+        var componentOriginal = componentsToCheck.pop();
+        for (var otherComponentRef of Array.from(this.components)) {
+          if (otherComponentRef.original === componentOriginal) { continue; }
+          if (dependents[otherComponentRef.original]) { continue; }
+          var otherComponent = this.supermodel.getModelByOriginal(LevelComponent, otherComponentRef.original);
+          for (var dependency of Array.from(otherComponent.get('dependencies', true))) {
+            if (dependents[dependency.original]) {
+              dependents[otherComponentRef.original] = true;
+              componentsToCheck.push(otherComponentRef.original);
+            }
+          }
+        }
+      }
 
-    # highlight them
-    for child in _.values(@componentsTreema.childrenTreemas)
-      if dependents[child.getData().original]
-        child.$el.addClass('dependent')
+      // highlight them
+      for (var child of Array.from(_.values(this.componentsTreema.childrenTreemas))) {
+        if (dependents[child.getData().original]) {
+          child.$el.addClass('dependent');
+        }
+      }
 
-    # scroll to the config
-    for subview in _.values(@subviews)
-      continue unless subview instanceof ThangComponentConfigView
-      if subview.component.get('original') is nodes[0].getData().original
-        subview.$el[0].scrollIntoView()
-        subview.$el.addClass('selected-component')
-        break
+      // scroll to the config
+      return (() => {
+        const result = [];
+        for (var subview of Array.from(_.values(this.subviews))) {
+          if (!(subview instanceof ThangComponentConfigView)) { continue; }
+          if (subview.component.get('original') === nodes[0].getData().original) {
+            subview.$el[0].scrollIntoView();
+            subview.$el.addClass('selected-component');
+            break;
+          } else {
+            result.push(undefined);
+          }
+        }
+        return result;
+      })();
+    }
 
-  onChangeExtantComponents: =>
-    @buildAddComponentTreema()
-    @reportChanges()
+    onChangeExtantComponents() {
+      this.buildAddComponentTreema();
+      return this.reportChanges();
+    }
 
-  checkForMissingSystems: ->
-    return unless @level
-    return if utils.isOzaria  # Ozaria has different systems and doesn't track relationships between Components and Systems there
-    extantSystems =
-      (@supermodel.getModelByOriginalAndMajorVersion LevelSystem, sn.original, sn.majorVersion).attributes.name.toLowerCase() for idx, sn of @level.get('systems')
+    checkForMissingSystems() {
+      let c;
+      if (!this.level) { return; }
+      if (utils.isOzaria) { return; }  // Ozaria has different systems and doesn't track relationships between Components and Systems there
+      const extantSystems =
+        (() => {
+        const result = [];
+        const object = this.level.get('systems');
+        for (var idx in object) {
+          var sn = object[idx];
+          result.push((this.supermodel.getModelByOriginalAndMajorVersion(LevelSystem, sn.original, sn.majorVersion)).attributes.name.toLowerCase());
+        }
+        return result;
+      })();
 
-    componentModels = (@supermodel.getModelByOriginal(LevelComponent, c.original) for c in @components)
-    componentSystems = (c.get('system') for c in componentModels when c)
+      const componentModels = ((() => {
+        const result1 = [];
+        for (c of Array.from(this.components)) {           result1.push(this.supermodel.getModelByOriginal(LevelComponent, c.original));
+        }
+        return result1;
+      })());
+      const componentSystems = ((() => {
+        const result2 = [];
+        for (c of Array.from(componentModels)) {           if (c) {
+            result2.push(c.get('system'));
+          }
+        }
+        return result2;
+      })());
 
-    for system in componentSystems
-      if system isnt 'misc' and system not in extantSystems
-        s = "Component requires system <strong>#{system}</strong> which is currently not included in this level."
-        noty({
-          text: s,
-          layout: 'bottomLeft',
-          type: 'warning'
-        })
+      return (() => {
+        const result3 = [];
+        for (var system of Array.from(componentSystems)) {
+          if ((system !== 'misc') && !Array.from(extantSystems).includes(system)) {
+            var s = `Component requires system <strong>${system}</strong> which is currently not included in this level.`;
+            result3.push(noty({
+              text: s,
+              layout: 'bottomLeft',
+              type: 'warning'
+            }));
+          } else {
+            result3.push(undefined);
+          }
+        }
+        return result3;
+      })();
+    }
 
-  reportChanges: ->
-    @lastComponentLength = @components.length
-    @trigger 'components-changed', $.extend(true, [], @components)
+    reportChanges() {
+      this.lastComponentLength = this.components.length;
+      return this.trigger('components-changed', $.extend(true, [], this.components));
+    }
 
-  undo: -> @componentsTreema.undo()
+    undo() { return this.componentsTreema.undo(); }
 
-  redo: -> @componentsTreema.redo()
+    redo() { return this.componentsTreema.redo(); }
 
-  onAddComponentsButtonClicked: ->
-    modal = new AddThangComponentsModal({skipOriginals: (c.original for c in @components)})
-    @openModalView modal
-    @listenToOnce modal, 'hidden', ->
-      componentsToAdd = modal.getSelectedComponents()
-      sparseComponents = ({original: c.get('original'), majorVersion: c.get('version').major} for c in componentsToAdd)
-      @loadComponents(sparseComponents)
-      @components = @components.concat(sparseComponents)
-      @onComponentsChanged()
+    onAddComponentsButtonClicked() {
+      let c;
+      const modal = new AddThangComponentsModal({skipOriginals: ((() => {
+        const result = [];
+        for (c of Array.from(this.components)) {           result.push(c.original);
+        }
+        return result;
+      })())});
+      this.openModalView(modal);
+      return this.listenToOnce(modal, 'hidden', function() {
+        const componentsToAdd = modal.getSelectedComponents();
+        const sparseComponents = ((() => {
+          const result1 = [];
+          for (c of Array.from(componentsToAdd)) {             result1.push({original: c.get('original'), majorVersion: c.get('version').major});
+          }
+          return result1;
+        })());
+        this.loadComponents(sparseComponents);
+        this.components = this.components.concat(sparseComponents);
+        return this.onComponentsChanged();
+      });
+    }
 
-  onThangTypeKindChanged: (e) ->
-    return unless defaultComponents = DEFAULT_COMPONENTS[e.kind]
-    for component in defaultComponents when not _.find(@components, original: component.original)
-      @components.push component
-      @onComponentsAdded()
+    onThangTypeKindChanged(e) {
+      let defaultComponents;
+      if (!(defaultComponents = DEFAULT_COMPONENTS[e.kind])) { return; }
+      return (() => {
+        const result = [];
+        for (var component of Array.from(defaultComponents)) {
+          if (!_.find(this.components, {original: component.original})) {
+            this.components.push(component);
+            result.push(this.onComponentsAdded());
+          }
+        }
+        return result;
+      })();
+    }
 
-  destroy: ->
-    @componentsTreema?.destroy()
-    super()
+    destroy() {
+      if (this.componentsTreema != null) {
+        this.componentsTreema.destroy();
+      }
+      return super.destroy();
+    }
+  };
+  ThangComponentsEditView.initClass();
+  return ThangComponentsEditView;
+})());
 
-class ThangComponentsObjectNode extends TreemaObjectNode
-  addNewChild: -> @addNewChildForKey('') # HACK to get the object adding to act more like adding to an array
+class ThangComponentsObjectNode extends TreemaObjectNode {
+  constructor(...args) {
+    this.sortFunction = this.sortFunction.bind(this);
+    super(...args);
+  }
 
-  getChildren: ->
-    children = super(arguments...)
-    children.sort(@sortFunction)
+  addNewChild() { return this.addNewChildForKey(''); } // HACK to get the object adding to act more like adding to an array
 
-  sortFunction: (a, b) =>
-    a = a.value ? a.defaultData
-    b = b.value ? b.defaultData
-    a = @settings.supermodel.getModelByOriginalAndMajorVersion(LevelComponent, a.original, a.majorVersion)
-    b = @settings.supermodel.getModelByOriginalAndMajorVersion(LevelComponent, b.original, b.majorVersion)
-    return 0 if not (a or b)
-    return 1 if not b
-    return -1 if not a
-    return 1 if a.get('system') > b.get('system')
-    return -1 if a.get('system') < b.get('system')
-    return 1 if a.get('name') > b.get('name')
-    return -1 if a.get('name') < b.get('name')
-    return 0
+  getChildren() {
+    const children = super.getChildren(...arguments);
+    return children.sort(this.sortFunction);
+  }
+
+  sortFunction(a, b) {
+    a = a.value != null ? a.value : a.defaultData;
+    b = b.value != null ? b.value : b.defaultData;
+    a = this.settings.supermodel.getModelByOriginalAndMajorVersion(LevelComponent, a.original, a.majorVersion);
+    b = this.settings.supermodel.getModelByOriginalAndMajorVersion(LevelComponent, b.original, b.majorVersion);
+    if (!(a || b)) { return 0; }
+    if (!b) { return 1; }
+    if (!a) { return -1; }
+    if (a.get('system') > b.get('system')) { return 1; }
+    if (a.get('system') < b.get('system')) { return -1; }
+    if (a.get('name') > b.get('name')) { return 1; }
+    if (a.get('name') < b.get('name')) { return -1; }
+    return 0;
+  }
+}

@@ -1,9 +1,9 @@
-#this file will hold the experimental JSON schema for i18n
-c = require './schemas'
+//this file will hold the experimental JSON schema for i18n
+const c = require('./schemas');
 
-languageCodeArrayRegex = c.generateLanguageCodeArrayRegex()
+const languageCodeArrayRegex = c.generateLanguageCodeArrayRegex();
 
-ExampleSchema = {
+const ExampleSchema = {
   title: 'Example Schema',
   description: 'An example schema',
   type: 'object',
@@ -25,12 +25,12 @@ ExampleSchema = {
         languageCodeArrayRegex: {
           additionalProperties: false,
           properties: {
-          #put the translatable properties here
-          #if it is possible to not include i18n with a reference
-          # to #/properties, you could just do
+          //put the translatable properties here
+          //if it is possible to not include i18n with a reference
+          // to #/properties, you could just do
           properties: {'$ref': '#/properties'}
-           # text: {'$ref': '#/properties/text'}
-          }
+           // text: {'$ref': '#/properties/text'}
+          },
           default: {
             title: 'LanguageCode',
             description: 'LanguageDescription'
@@ -39,7 +39,7 @@ ExampleSchema = {
       }
     }
   }
-}
+};
 
-#define a i18n object type for each schema, then have the i18n have it's oneOf check against
-#translatable schemas of that object
+//define a i18n object type for each schema, then have the i18n have it's oneOf check against
+//translatable schemas of that object

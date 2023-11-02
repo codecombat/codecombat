@@ -1,663 +1,762 @@
-CreateAccountModal = require 'views/core/CreateAccountModal'
-Classroom = require 'models/Classroom'
-#COPPADenyModal = require 'views/core/COPPADenyModal'
-forms = require 'core/forms'
-factories = require 'test/app/factories'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const CreateAccountModal = require('views/core/CreateAccountModal');
+const Classroom = require('models/Classroom');
+//COPPADenyModal = require 'views/core/COPPADenyModal'
+const forms = require('core/forms');
+const factories = require('test/app/factories');
 
-SchoolInfoPanel = Vue.extend(require 'views/core/CreateAccountModal/teacher/SchoolInfoPanel')
-TeacherSignupStoreModule = require 'views/core/CreateAccountModal/teacher/TeacherSignupStoreModule'
+const SchoolInfoPanel = Vue.extend(require('views/core/CreateAccountModal/teacher/SchoolInfoPanel'));
+const TeacherSignupStoreModule = require('views/core/CreateAccountModal/teacher/TeacherSignupStoreModule');
 
-# TODO: Figure out why these tests break Travis. Suspect it has to do with the
-# asynchronous, Promise system. On the browser, these work, but in Travis, they
-# sometimes fail, so it's some sort of race condition.
+// TODO: Figure out why these tests break Travis. Suspect it has to do with the
+// asynchronous, Promise system. On the browser, these work, but in Travis, they
+// sometimes fail, so it's some sort of race condition.
 
-responses = {
+const responses = {
   signupSuccess: { status: 200, responseText: JSON.stringify({ email: 'some@email.com' })}
-}
+};
 
 
-xdescribe 'CreateAccountModal', ->
+xdescribe('CreateAccountModal', function() {
 
-  modal = null
+  let modal = null;
 
-#  initModal = (options) -> ->
-#    application.facebookHandler.fakeAPI()
-#    application.gplusHandler.fakeAPI()
-#    modal = new CreateAccountModal(options)
-#    jasmine.demoModal(modal)
+//  initModal = (options) -> ->
+//    application.facebookHandler.fakeAPI()
+//    application.gplusHandler.fakeAPI()
+//    modal = new CreateAccountModal(options)
+//    jasmine.demoModal(modal)
 
-  describe 'click SIGN IN button', ->
-    it 'switches to AuthModal', ->
-      modal = new CreateAccountModal()
-      modal.render()
-      jasmine.demoModal(modal)
-      spyOn(modal, 'openModalView')
-      modal.$('.login-link').click()
-      expect(modal.openModalView).toHaveBeenCalled()
+  describe('click SIGN IN button', () => it('switches to AuthModal', function() {
+    modal = new CreateAccountModal();
+    modal.render();
+    jasmine.demoModal(modal);
+    spyOn(modal, 'openModalView');
+    modal.$('.login-link').click();
+    return expect(modal.openModalView).toHaveBeenCalled();
+  }));
 
-  describe 'ChooseAccountTypeView', ->
-    beforeEach ->
-      modal = new CreateAccountModal()
-      modal.render()
-      jasmine.demoModal(modal)
+  describe('ChooseAccountTypeView', function() {
+    beforeEach(function() {
+      modal = new CreateAccountModal();
+      modal.render();
+      return jasmine.demoModal(modal);
+    });
 
-    describe 'click sign up as TEACHER button', ->
-      beforeEach ->
-        spyOn application.router, 'navigate'
-        modal.$('.teacher-path-button').click()
+    describe('click sign up as TEACHER button', function() {
+      beforeEach(function() {
+        spyOn(application.router, 'navigate');
+        return modal.$('.teacher-path-button').click();
+      });
 
-      it 'switches to BasicInfoView and sets "path" to "teacher"', ->
-        expect(modal.signupState.get('path')).toBe('teacher')
-        expect(modal.signupState.get('screen')).toBe('basic-info')
+      return it('switches to BasicInfoView and sets "path" to "teacher"', function() {
+        expect(modal.signupState.get('path')).toBe('teacher');
+        return expect(modal.signupState.get('screen')).toBe('basic-info');
+      });
+    });
 
-    describe 'click sign up as STUDENT button', ->
-      beforeEach ->
-        modal.$('.student-path-button').click()
+    describe('click sign up as STUDENT button', function() {
+      beforeEach(() => modal.$('.student-path-button').click());
 
-      it 'switches to SegmentCheckView and sets "path" to "student"', ->
-        expect(modal.signupState.get('path')).toBe('student')
-        expect(modal.signupState.get('screen')).toBe('segment-check')
+      return it('switches to SegmentCheckView and sets "path" to "student"', function() {
+        expect(modal.signupState.get('path')).toBe('student');
+        return expect(modal.signupState.get('screen')).toBe('segment-check');
+      });
+    });
 
-    describe 'click sign up as INDIVIDUAL button', ->
-      beforeEach ->
-        modal.$('.individual-path-button').click()
+    return describe('click sign up as INDIVIDUAL button', function() {
+      beforeEach(() => modal.$('.individual-path-button').click());
 
-      it 'switches to SegmentCheckView and sets "path" to "individual"', ->
-        expect(modal.signupState.get('path')).toBe('individual')
-        expect(modal.signupState.get('screen')).toBe('segment-check')
+      return it('switches to SegmentCheckView and sets "path" to "individual"', function() {
+        expect(modal.signupState.get('path')).toBe('individual');
+        return expect(modal.signupState.get('screen')).toBe('segment-check');
+      });
+    });
+  });
 
-  describe 'SegmentCheckView', ->
+  describe('SegmentCheckView', function() {
 
-    segmentCheckView = null
+    let segmentCheckView = null;
 
-    describe 'INDIVIDUAL path', ->
-      beforeEach (done) ->
-        modal = new CreateAccountModal()
-        modal.render()
-        jasmine.demoModal(modal)
-        modal.$('.individual-path-button').click()
-        segmentCheckView = modal.subviews.segment_check_view
-        _.defer done
+    describe('INDIVIDUAL path', function() {
+      beforeEach(function(done) {
+        modal = new CreateAccountModal();
+        modal.render();
+        jasmine.demoModal(modal);
+        modal.$('.individual-path-button').click();
+        segmentCheckView = modal.subviews.segment_check_view;
+        return _.defer(done);
+      });
 
-      it 'has a birthdate form', ->
-        expect(modal.$('.birthday-form-group').length).toBe(1)
+      return it('has a birthdate form', () => expect(modal.$('.birthday-form-group').length).toBe(1));
+    });
 
-    describe 'STUDENT path', ->
-      beforeEach (done) ->
-        modal = new CreateAccountModal()
-        modal.render()
-        jasmine.demoModal(modal)
-        modal.$('.student-path-button').click()
-        segmentCheckView = modal.subviews.segment_check_view
-        spyOn(segmentCheckView, 'checkClassCodeDebounced')
-        _.defer done
+    return describe('STUDENT path', function() {
+      beforeEach(function(done) {
+        modal = new CreateAccountModal();
+        modal.render();
+        jasmine.demoModal(modal);
+        modal.$('.student-path-button').click();
+        segmentCheckView = modal.subviews.segment_check_view;
+        spyOn(segmentCheckView, 'checkClassCodeDebounced');
+        return _.defer(done);
+      });
 
-      it 'has a classCode input', ->
-        expect(modal.$('.class-code-input').length).toBe(1)
+      it('has a classCode input', () => expect(modal.$('.class-code-input').length).toBe(1));
 
-      it 'checks the class code when the input changes', ->
-        modal.$('.class-code-input').val('test').trigger('input')
-        expect(segmentCheckView.checkClassCodeDebounced).toHaveBeenCalled()
+      it('checks the class code when the input changes', function() {
+        modal.$('.class-code-input').val('test').trigger('input');
+        return expect(segmentCheckView.checkClassCodeDebounced).toHaveBeenCalled();
+      });
 
-      describe 'fetchClassByCode()', ->
-        it 'is memoized', ->
-          promise1 = segmentCheckView.fetchClassByCode('testA')
-          promise2 = segmentCheckView.fetchClassByCode('testA')
-          promise3 = segmentCheckView.fetchClassByCode('testB')
-          expect(promise1).toBe(promise2)
-          expect(promise1).not.toBe(promise3)
+      describe('fetchClassByCode()', () => it('is memoized', function() {
+        const promise1 = segmentCheckView.fetchClassByCode('testA');
+        const promise2 = segmentCheckView.fetchClassByCode('testA');
+        const promise3 = segmentCheckView.fetchClassByCode('testB');
+        expect(promise1).toBe(promise2);
+        return expect(promise1).not.toBe(promise3);
+      }));
 
-      describe 'checkClassCode()', ->
-        it 'shows a success message if the classCode is found', ->
-          request = jasmine.Ajax.requests.mostRecent()
-          expect(_.string.startsWith(request.url, '/db/classroom')).toBe(false)
-          modal.$('.class-code-input').val('test').trigger('input')
-          segmentCheckView.checkClassCode()
-          request = jasmine.Ajax.requests.mostRecent()
-          expect(_.string.startsWith(request.url, '/db/classroom')).toBe(true)
-          request.respondWith({
-            status: 200
-            responseText: JSON.stringify({
-              data: factories.makeClassroom({name: 'Some Classroom'}).toJSON()
-              owner: factories.makeUser({name: 'Some Teacher'}).toJSON()
-            })
+      describe('checkClassCode()', () => it('shows a success message if the classCode is found', function() {
+        let request = jasmine.Ajax.requests.mostRecent();
+        expect(_.string.startsWith(request.url, '/db/classroom')).toBe(false);
+        modal.$('.class-code-input').val('test').trigger('input');
+        segmentCheckView.checkClassCode();
+        request = jasmine.Ajax.requests.mostRecent();
+        expect(_.string.startsWith(request.url, '/db/classroom')).toBe(true);
+        return request.respondWith({
+          status: 200,
+          responseText: JSON.stringify({
+            data: factories.makeClassroom({name: 'Some Classroom'}).toJSON(),
+            owner: factories.makeUser({name: 'Some Teacher'}).toJSON()
           })
+        });
+      }));
 
-      describe 'on submit with class code', ->
+      return describe('on submit with class code', function() {
 
-        classCodeRequest = null
+        let classCodeRequest = null;
 
-        beforeEach ->
-          request = jasmine.Ajax.requests.mostRecent()
-          expect(_.string.startsWith(request.url, '/db/classroom')).toBe(false)
-          modal.$('.class-code-input').val('test').trigger('input')
-          modal.$('form.segment-check').submit()
-          classCodeRequest = jasmine.Ajax.requests.mostRecent()
-          expect(_.string.startsWith(classCodeRequest.url, '/db/classroom')).toBe(true)
+        beforeEach(function() {
+          const request = jasmine.Ajax.requests.mostRecent();
+          expect(_.string.startsWith(request.url, '/db/classroom')).toBe(false);
+          modal.$('.class-code-input').val('test').trigger('input');
+          modal.$('form.segment-check').submit();
+          classCodeRequest = jasmine.Ajax.requests.mostRecent();
+          return expect(_.string.startsWith(classCodeRequest.url, '/db/classroom')).toBe(true);
+        });
 
-        describe 'when the classroom IS found', ->
-          beforeEach (done) ->
+        describe('when the classroom IS found', function() {
+          beforeEach(function(done) {
             classCodeRequest.respondWith({
-              status: 200
+              status: 200,
               responseText: JSON.stringify({
-                data: factories.makeClassroom({name: 'Some Classroom'}).toJSON()
+                data: factories.makeClassroom({name: 'Some Classroom'}).toJSON(),
                 owner: factories.makeUser({name: 'Some Teacher'}).toJSON()
               })
-            })
-            _.defer done
+            });
+            return _.defer(done);
+          });
 
-          it 'navigates to the BasicInfoView', ->
-            expect(modal.signupState.get('screen')).toBe('basic-info')
+          it('navigates to the BasicInfoView', () => expect(modal.signupState.get('screen')).toBe('basic-info'));
 
-          describe 'on the BasicInfoView for students', ->
+          return describe('on the BasicInfoView for students', function() {});
+        });
 
 
-        describe 'when the classroom IS NOT found', ->
-          beforeEach (done) ->
+        return describe('when the classroom IS NOT found', function() {
+          beforeEach(function(done) {
             classCodeRequest.respondWith({
-              status: 404
+              status: 404,
               responseText: '{}'
-            })
-            segmentCheckView.once 'special-render', done
+            });
+            return segmentCheckView.once('special-render', done);
+          });
 
-          it 'shows an error', ->
-            expect(modal.$('[data-i18n="signup.classroom_not_found"]').length).toBe(1)
+          return it('shows an error', () => expect(modal.$('[data-i18n="signup.classroom_not_found"]').length).toBe(1));
+        });
+      });
+    });
+  });
 
-  describe 'CoppaDenyView', ->
+  describe('CoppaDenyView', function() {
 
-    coppaDenyView = null
+    let coppaDenyView = null;
 
-    beforeEach ->
-      modal = new CreateAccountModal()
+    beforeEach(function() {
+      modal = new CreateAccountModal();
       modal.signupState.set({
-        path: 'individual'
+        path: 'individual',
         screen: 'coppa-deny'
-      })
-      modal.render()
-      jasmine.demoModal(modal)
-      coppaDenyView = modal.subviews.coppa_deny_view
+      });
+      modal.render();
+      jasmine.demoModal(modal);
+      return coppaDenyView = modal.subviews.coppa_deny_view;
+    });
 
-    it 'shows an input for a parent\'s email address to sign up their child', ->
-      expect(modal.$('#parent-email-input').length).toBe(1)
+    return it('shows an input for a parent\'s email address to sign up their child', () => expect(modal.$('#parent-email-input').length).toBe(1));
+  });
 
 
-  describe 'BasicInfoView', ->
+  describe('BasicInfoView', function() {
 
-    basicInfoView = null
+    let basicInfoView = null;
 
-    beforeEach ->
-      modal = new CreateAccountModal()
+    beforeEach(function() {
+      modal = new CreateAccountModal();
       modal.signupState.set({
-        path: 'student'
+        path: 'student',
         screen: 'basic-info'
-      })
-      modal.render()
-      jasmine.demoModal(modal)
-      basicInfoView = modal.subviews.basic_info_view
+      });
+      modal.render();
+      jasmine.demoModal(modal);
+      return basicInfoView = modal.subviews.basic_info_view;
+    });
 
-    it 'checks for name conflicts when the name input changes', ->
-      spyOn(basicInfoView, 'checkName')
-      basicInfoView.$('#username-input').val('test').trigger('change')
-      expect(basicInfoView.checkName).toHaveBeenCalled()
+    it('checks for name conflicts when the name input changes', function() {
+      spyOn(basicInfoView, 'checkName');
+      basicInfoView.$('#username-input').val('test').trigger('change');
+      return expect(basicInfoView.checkName).toHaveBeenCalled();
+    });
 
-    describe 'checkEmail()', ->
-      beforeEach ->
-        basicInfoView.$('input[name="email"]').val('some@email.com')
-        basicInfoView.checkEmail()
+    describe('checkEmail()', function() {
+      beforeEach(function() {
+        basicInfoView.$('input[name="email"]').val('some@email.com');
+        return basicInfoView.checkEmail();
+      });
 
-      it 'shows checking', ->
-        expect(basicInfoView.$('[data-i18n="signup.checking"]').length).toBe(1)
+      it('shows checking', () => expect(basicInfoView.$('[data-i18n="signup.checking"]').length).toBe(1));
 
-      describe 'if email DOES exist', ->
-        beforeEach (done) ->
+      describe('if email DOES exist', function() {
+        beforeEach(function(done) {
           jasmine.Ajax.requests.mostRecent().respondWith({
-            status: 200
+            status: 200,
             responseText: JSON.stringify({exists: true})
-          })
-          _.defer done
+          });
+          return _.defer(done);
+        });
 
-        it 'says an account already exists and encourages to sign in', ->
-          expect(basicInfoView.$('[data-i18n="signup.account_exists"]').length).toBe(1)
-          expect(basicInfoView.$('.login-link[data-i18n="signup.sign_in"]').length).toBe(1)
+        return it('says an account already exists and encourages to sign in', function() {
+          expect(basicInfoView.$('[data-i18n="signup.account_exists"]').length).toBe(1);
+          return expect(basicInfoView.$('.login-link[data-i18n="signup.sign_in"]').length).toBe(1);
+        });
+      });
 
-      describe 'if email DOES NOT exist', ->
-        beforeEach (done) ->
+      return describe('if email DOES NOT exist', function() {
+        beforeEach(function(done) {
           jasmine.Ajax.requests.mostRecent().respondWith({
-            status: 200
+            status: 200,
             responseText: JSON.stringify({exists: false})
-          })
-          _.defer done
+          });
+          return _.defer(done);
+        });
 
-        it 'says email looks good', ->
-          expect(basicInfoView.$('[data-i18n="signup.email_good"]').length).toBe(1)
+        return it('says email looks good', () => expect(basicInfoView.$('[data-i18n="signup.email_good"]').length).toBe(1));
+      });
+    });
 
-    describe 'checkName()', ->
-      beforeEach ->
-        basicInfoView.$('input[name="name"]').val('Some Name').trigger('change')
-        basicInfoView.checkName()
+    describe('checkName()', function() {
+      beforeEach(function() {
+        basicInfoView.$('input[name="name"]').val('Some Name').trigger('change');
+        return basicInfoView.checkName();
+      });
 
-      it 'shows checking', ->
-        expect(basicInfoView.$('[data-i18n="signup.checking"]').length).toBe(1)
+      it('shows checking', () => expect(basicInfoView.$('[data-i18n="signup.checking"]').length).toBe(1));
 
-      # does not work in travis since en.coffee is not included. TODO: Figure out workaround
-#      describe 'if name DOES exist', ->
-#        beforeEach (done) ->
-#          jasmine.Ajax.requests.mostRecent().respondWith({
-#            status: 200
-#            responseText: JSON.stringify({conflicts: true, suggestedName: 'test123'})
-#          })
-#          _.defer done
-#
-#        it 'says name is taken and suggests a different one', ->
-#          expect(basicInfoView.$el.text().indexOf('test123') > -1).toBe(true)
+      // does not work in travis since en.coffee is not included. TODO: Figure out workaround
+//      describe 'if name DOES exist', ->
+//        beforeEach (done) ->
+//          jasmine.Ajax.requests.mostRecent().respondWith({
+//            status: 200
+//            responseText: JSON.stringify({conflicts: true, suggestedName: 'test123'})
+//          })
+//          _.defer done
+//
+//        it 'says name is taken and suggests a different one', ->
+//          expect(basicInfoView.$el.text().indexOf('test123') > -1).toBe(true)
 
-      describe 'if email DOES NOT exist', ->
-        beforeEach (done) ->
+      return describe('if email DOES NOT exist', function() {
+        beforeEach(function(done) {
           jasmine.Ajax.requests.mostRecent().respondWith({
-            status: 200
+            status: 200,
             responseText: JSON.stringify({conflicts: false})
-          })
-          _.defer done
+          });
+          return _.defer(done);
+        });
 
-        it 'says name looks good', ->
-          expect(basicInfoView.$('[data-i18n="signup.name_available"]').length).toBe(1)
+        return it('says name looks good', () => expect(basicInfoView.$('[data-i18n="signup.name_available"]').length).toBe(1));
+      });
+    });
 
-    describe 'onSubmitForm()', ->
-      it 'shows required errors for empty fields when on INDIVIDUAL path', ->
-        modal.signupState.set('path', 'individual')
-        basicInfoView.$('input').val('')
-        basicInfoView.$('#basic-info-form').submit()
-        expect(basicInfoView.$('.form-group.has-error').length).toBe(3)
+    return describe('onSubmitForm()', function() {
+      it('shows required errors for empty fields when on INDIVIDUAL path', function() {
+        modal.signupState.set('path', 'individual');
+        basicInfoView.$('input').val('');
+        basicInfoView.$('#basic-info-form').submit();
+        return expect(basicInfoView.$('.form-group.has-error').length).toBe(3);
+      });
 
-      it 'shows required errors for empty fields when on STUDENT path', ->
-        modal.signupState.set('path', 'student')
-        modal.render()
-        basicInfoView.$('#basic-info-form').submit()
-        expect(basicInfoView.$('.form-group.has-error').length).toBe(4) # includes first and last name, not email
+      it('shows required errors for empty fields when on STUDENT path', function() {
+        modal.signupState.set('path', 'student');
+        modal.render();
+        basicInfoView.$('#basic-info-form').submit();
+        return expect(basicInfoView.$('.form-group.has-error').length).toBe(4);
+      }); // includes first and last name, not email
 
-      describe 'submit with password', ->
-        beforeEach ->
+      return describe('submit with password', function() {
+        beforeEach(function() {
           forms.objectToForm(basicInfoView.$el, {
-            email: 'some@email.com'
-            password: 'password'
-            name: 'A Username'
-            firstName: 'First'
+            email: 'some@email.com',
+            password: 'password',
+            name: 'A Username',
+            firstName: 'First',
             lastName: 'Last'
-          })
-          basicInfoView.$('form').submit()
+          });
+          return basicInfoView.$('form').submit();
+        });
 
-        it 'checks for email and name conflicts', ->
-          emailCheck = _.find(jasmine.Ajax.requests.all(), (r) -> _.string.startsWith(r.url, '/auth/email'))
-          nameCheck = _.find(jasmine.Ajax.requests.all(), (r) -> _.string.startsWith(r.url, '/auth/name'))
-          expect(_.all([emailCheck, nameCheck])).toBe(true)
+        it('checks for email and name conflicts', function() {
+          const emailCheck = _.find(jasmine.Ajax.requests.all(), r => _.string.startsWith(r.url, '/auth/email'));
+          const nameCheck = _.find(jasmine.Ajax.requests.all(), r => _.string.startsWith(r.url, '/auth/name'));
+          return expect(_.all([emailCheck, nameCheck])).toBe(true);
+        });
 
-        describe 'a check does not pass', ->
-          beforeEach (done) ->
-            nameCheck = _.find(jasmine.Ajax.requests.all(), (r) -> _.string.startsWith(r.url, '/auth/name'))
+        describe('a check does not pass', function() {
+          beforeEach(function(done) {
+            const nameCheck = _.find(jasmine.Ajax.requests.all(), r => _.string.startsWith(r.url, '/auth/name'));
             nameCheck.respondWith({
-              status: 200
+              status: 200,
               responseText: JSON.stringify({conflicts: false})
-            })
-            emailCheck = _.find(jasmine.Ajax.requests.all(), (r) -> _.string.startsWith(r.url, '/auth/email'))
+            });
+            const emailCheck = _.find(jasmine.Ajax.requests.all(), r => _.string.startsWith(r.url, '/auth/email'));
             emailCheck.respondWith({
-              status: 200
+              status: 200,
               responseText: JSON.stringify({ exists: true })
-            })
-            _.defer done
+            });
+            return _.defer(done);
+          });
 
-          it 're-enables the form and shows which field failed', ->
+          return it('re-enables the form and shows which field failed', function() {});
+        });
 
-        describe 'both checks do pass', ->
-          beforeEach (done) ->
-            nameCheck = _.find(jasmine.Ajax.requests.all(), (r) -> _.string.startsWith(r.url, '/auth/name'))
+        return describe('both checks do pass', function() {
+          beforeEach(function(done) {
+            const nameCheck = _.find(jasmine.Ajax.requests.all(), r => _.string.startsWith(r.url, '/auth/name'));
             nameCheck.respondWith({
-              status: 200
+              status: 200,
               responseText: JSON.stringify({conflicts: false})
-            })
-            emailCheck = _.find(jasmine.Ajax.requests.all(), (r) -> _.string.startsWith(r.url, '/auth/email'))
+            });
+            const emailCheck = _.find(jasmine.Ajax.requests.all(), r => _.string.startsWith(r.url, '/auth/email'));
             emailCheck.respondWith({
-              status: 200
+              status: 200,
               responseText: JSON.stringify({ exists: false })
-            })
-            _.defer done
+            });
+            return _.defer(done);
+          });
 
-          it 'saves the user', ->
-            request = jasmine.Ajax.requests.mostRecent()
-            expect(_.string.startsWith(request.url, '/db/user')).toBe(true)
-            body = JSON.parse(request.params)
-            expect(body.firstName).toBe('First')
-            expect(body.lastName).toBe('Last')
-            expect(body.emails.generalNews.enabled).toBe(true)
+          it('saves the user', function() {
+            const request = jasmine.Ajax.requests.mostRecent();
+            expect(_.string.startsWith(request.url, '/db/user')).toBe(true);
+            const body = JSON.parse(request.params);
+            expect(body.firstName).toBe('First');
+            expect(body.lastName).toBe('Last');
+            return expect(body.emails.generalNews.enabled).toBe(true);
+          });
 
-          describe 'saving the user FAILS', ->
-            beforeEach (done) ->
-              request = jasmine.Ajax.requests.mostRecent()
+          describe('saving the user FAILS', function() {
+            beforeEach(function(done) {
+              const request = jasmine.Ajax.requests.mostRecent();
               request.respondWith({
-                status: 422
+                status: 422,
                 responseText: JSON.stringify({
                   message: 'Some error happened'
                 })
-              })
-              _.defer(done)
+              });
+              return _.defer(done);
+            });
 
-            it 'displays the server error', ->
-              expect(basicInfoView.$('.alert-danger').length).toBe(1)
+            return it('displays the server error', () => expect(basicInfoView.$('.alert-danger').length).toBe(1));
+          });
 
-          describe 'saving the user SUCCEEDS', ->
-            beforeEach (done) ->
-              request = jasmine.Ajax.requests.mostRecent()
+          return describe('saving the user SUCCEEDS', function() {
+            beforeEach(function(done) {
+              const request = jasmine.Ajax.requests.mostRecent();
               request.respondWith({
-                status: 200
+                status: 200,
                 responseText: '{}'
-              })
-              _.defer(done)
+              });
+              return _.defer(done);
+            });
 
-            it 'signs the user up with the password', ->
-              request = jasmine.Ajax.requests.mostRecent()
-              expect(_.string.endsWith(request.url, 'signup-with-password')).toBe(true)
+            it('signs the user up with the password', function() {
+              const request = jasmine.Ajax.requests.mostRecent();
+              return expect(_.string.endsWith(request.url, 'signup-with-password')).toBe(true);
+            });
 
-            describe 'after signup STUDENT', ->
-              beforeEach (done) ->
+            describe('after signup STUDENT', function() {
+              beforeEach(function(done) {
                 basicInfoView.signupState.set({
-                  path: 'student'
-                  classCode: 'ABC'
+                  path: 'student',
+                  classCode: 'ABC',
                   classroom: new Classroom()
-                })
-                request = jasmine.Ajax.requests.mostRecent()
-                request.respondWith(responses.signupSuccess)
-                _.defer(done)
+                });
+                const request = jasmine.Ajax.requests.mostRecent();
+                request.respondWith(responses.signupSuccess);
+                return _.defer(done);
+              });
 
-              it 'joins the classroom', ->
-                request = jasmine.Ajax.requests.mostRecent()
-                expect(request.url).toBe('/db/classroom/~/members')
+              return it('joins the classroom', function() {
+                const request = jasmine.Ajax.requests.mostRecent();
+                return expect(request.url).toBe('/db/classroom/~/members');
+              });
+            });
 
-            describe 'signing the user up SUCCEEDS', ->
-              beforeEach (done) ->
-                spyOn(basicInfoView, 'finishSignup')
-                request = jasmine.Ajax.requests.mostRecent()
-                request.respondWith(responses.signupSuccess)
-                _.defer(done)
+            return describe('signing the user up SUCCEEDS', function() {
+              beforeEach(function(done) {
+                spyOn(basicInfoView, 'finishSignup');
+                const request = jasmine.Ajax.requests.mostRecent();
+                request.respondWith(responses.signupSuccess);
+                return _.defer(done);
+              });
 
-              it 'calls finishSignup()', ->
-                expect(basicInfoView.finishSignup).toHaveBeenCalled()
+              return it('calls finishSignup()', () => expect(basicInfoView.finishSignup).toHaveBeenCalled());
+            });
+          });
+        });
+      });
+    });
+  });
 
-  describe 'ConfirmationView', ->
-    confirmationView = null
+  describe('ConfirmationView', function() {
+    let confirmationView = null;
 
-    beforeEach ->
-      modal = new CreateAccountModal()
-      modal.signupState.set('screen', 'confirmation')
-      modal.render()
-      jasmine.demoModal(modal)
-      confirmationView = modal.subviews.confirmation_view
+    beforeEach(function() {
+      modal = new CreateAccountModal();
+      modal.signupState.set('screen', 'confirmation');
+      modal.render();
+      jasmine.demoModal(modal);
+      return confirmationView = modal.subviews.confirmation_view;
+    });
 
-    it '(for demo testing)', ->
-      me.set('name', 'A Sweet New Username')
-      me.set('email', 'some@email.com')
-      confirmationView.signupState.set('ssoUsed', 'gplus')
+    return it('(for demo testing)', function() {
+      me.set('name', 'A Sweet New Username');
+      me.set('email', 'some@email.com');
+      return confirmationView.signupState.set('ssoUsed', 'gplus');
+    });
+  });
 
-  describe 'SingleSignOnConfirmView', ->
-    singleSignOnConfirmView = null
+  describe('SingleSignOnConfirmView', function() {
+    let singleSignOnConfirmView = null;
 
-    beforeEach ->
-      modal = new CreateAccountModal()
+    beforeEach(function() {
+      modal = new CreateAccountModal();
       modal.signupState.set({
-        screen: 'sso-confirm'
+        screen: 'sso-confirm',
         email: 'some@email.com'
-      })
-      modal.render()
-      jasmine.demoModal(modal)
-      singleSignOnConfirmView = modal.subviews.single_sign_on_confirm_view
+      });
+      modal.render();
+      jasmine.demoModal(modal);
+      return singleSignOnConfirmView = modal.subviews.single_sign_on_confirm_view;
+    });
 
-    it '(for demo testing)', ->
-      me.set('name', 'A Sweet New Username')
-      me.set('email', 'some@email.com')
-      singleSignOnConfirmView.signupState.set('ssoUsed', 'facebook')
+    return it('(for demo testing)', function() {
+      me.set('name', 'A Sweet New Username');
+      me.set('email', 'some@email.com');
+      return singleSignOnConfirmView.signupState.set('ssoUsed', 'facebook');
+    });
+  });
 
-  describe 'CoppaDenyView', ->
-    coppaDenyView = null
+  return describe('CoppaDenyView', function() {
+    let coppaDenyView = null;
 
-    beforeEach ->
-      modal = new CreateAccountModal()
+    beforeEach(function() {
+      modal = new CreateAccountModal();
       modal.signupState.set({
         screen: 'coppa-deny'
-      })
-      modal.render()
-      jasmine.demoModal(modal)
-      coppaDenyView = modal.subviews.coppa_deny_view
+      });
+      modal.render();
+      jasmine.demoModal(modal);
+      return coppaDenyView = modal.subviews.coppa_deny_view;
+    });
 
-    it '(for demo testing)', ->
+    return it('(for demo testing)', function() {});
+  });
+});
 
-xdescribe 'CreateAccountModal Vue Components', ->
-  describe 'TeacherSignupComponent', ->
-    beforeEach ->
-      @store = {}
+xdescribe('CreateAccountModal Vue Components', () => describe('TeacherSignupComponent', function() {
+  beforeEach(function() {
+    return this.store = {};});
 
-    describe 'SchoolInfoPanel', ->
-      describe 'updateValue', ->
-        beforeEach ->
-          @store = {
-            state:
-              modal:
-                trialRequestProperties:
-                  organization: 'suggested school'
-                  district: 'suggested district'
-                  nces_id: 'school NCES id'
-                  nces_district_id: 'district NCES id'
-                  nces_phone: 'school NCES phone'
+  describe('SchoolInfoPanel', function() {
+    describe('updateValue', function() {
+      beforeEach(function() {
+        this.store = {
+          state: {
+            modal: {
+              trialRequestProperties: {
+                organization: 'suggested school',
+                district: 'suggested district',
+                nces_id: 'school NCES id',
+                nces_district_id: 'district NCES id',
+                nces_phone: 'school NCES phone'
+              }
+            }
           }
-          @schoolInfoPanel = new SchoolInfoPanel({
-            store: @store
-          })
-          null
+        };
+        this.schoolInfoPanel = new SchoolInfoPanel({
+          store: this.store
+        });
+        return null;
+      });
 
-        describe 'when you type into the school field', ->
-          it 'clears the school NCES info', ->
-            expect(@schoolInfoPanel.organization).not.toBe('')
-            expect(@schoolInfoPanel.district).not.toBe('')
-            expect(@schoolInfoPanel.nces_id).not.toBe('')
-            expect(@schoolInfoPanel.nces_phone).not.toBe('')
-            expect(@schoolInfoPanel.nces_district_id).not.toBe('')
-            @schoolInfoPanel.updateValue('organization', 'homeschool')
-            expect(@schoolInfoPanel.organization).toBe('homeschool')
-            expect(@schoolInfoPanel.district).toBe('suggested district')
-            expect(@schoolInfoPanel.nces_id).toBe('')
-            expect(@schoolInfoPanel.nces_phone).toBe('')
-            expect(@schoolInfoPanel.nces_district_id).toBe('district NCES id')
+      describe('when you type into the school field', () => it('clears the school NCES info', function() {
+        expect(this.schoolInfoPanel.organization).not.toBe('');
+        expect(this.schoolInfoPanel.district).not.toBe('');
+        expect(this.schoolInfoPanel.nces_id).not.toBe('');
+        expect(this.schoolInfoPanel.nces_phone).not.toBe('');
+        expect(this.schoolInfoPanel.nces_district_id).not.toBe('');
+        this.schoolInfoPanel.updateValue('organization', 'homeschool');
+        expect(this.schoolInfoPanel.organization).toBe('homeschool');
+        expect(this.schoolInfoPanel.district).toBe('suggested district');
+        expect(this.schoolInfoPanel.nces_id).toBe('');
+        expect(this.schoolInfoPanel.nces_phone).toBe('');
+        return expect(this.schoolInfoPanel.nces_district_id).toBe('district NCES id');
+      }));
 
-        describe 'when you type into the district field', ->
-          it 'clears the school and district NCES info', ->
-            expect(@schoolInfoPanel.organization).not.toBe('')
-            expect(@schoolInfoPanel.district).not.toBe('')
-            expect(@schoolInfoPanel.nces_id).not.toBe('')
-            expect(@schoolInfoPanel.nces_phone).not.toBe('')
-            expect(@schoolInfoPanel.nces_district_id).not.toBe('')
-            @schoolInfoPanel.updateValue('district', 'homedistrict')
-            expect(@schoolInfoPanel.organization).toBe('suggested school')
-            expect(@schoolInfoPanel.district).toBe('homedistrict')
-            expect(@schoolInfoPanel.nces_id).toBe('')
-            expect(@schoolInfoPanel.nces_phone).toBe('')
-            expect(@schoolInfoPanel.nces_district_id).toBe('')
+      return describe('when you type into the district field', () => it('clears the school and district NCES info', function() {
+        expect(this.schoolInfoPanel.organization).not.toBe('');
+        expect(this.schoolInfoPanel.district).not.toBe('');
+        expect(this.schoolInfoPanel.nces_id).not.toBe('');
+        expect(this.schoolInfoPanel.nces_phone).not.toBe('');
+        expect(this.schoolInfoPanel.nces_district_id).not.toBe('');
+        this.schoolInfoPanel.updateValue('district', 'homedistrict');
+        expect(this.schoolInfoPanel.organization).toBe('suggested school');
+        expect(this.schoolInfoPanel.district).toBe('homedistrict');
+        expect(this.schoolInfoPanel.nces_id).toBe('');
+        expect(this.schoolInfoPanel.nces_phone).toBe('');
+        return expect(this.schoolInfoPanel.nces_district_id).toBe('');
+      }));
+    });
 
-      describe 'clearDistrictNcesValues', ->
+    describe('clearDistrictNcesValues', function() {});
 
-      describe 'clearSchoolNcesValues', ->
+    describe('clearSchoolNcesValues', function() {});
 
-      describe 'applySuggestion', ->
-        beforeEach ->
-          @store = {
-            state:
-              modal:
-                trialRequestProperties:
-                  organization: 'suggested school'
-                  district: 'suggested district'
-                  nces_id: 'school NCES id'
-                  nces_district_id: 'district NCES id'
-                  nces_phone: 'school NCES phone'
+    describe('applySuggestion', function() {
+      beforeEach(function() {
+        this.store = {
+          state: {
+            modal: {
+              trialRequestProperties: {
+                organization: 'suggested school',
+                district: 'suggested district',
+                nces_id: 'school NCES id',
+                nces_district_id: 'district NCES id',
+                nces_phone: 'school NCES phone'
+              }
+            }
           }
-          @schoolInfoPanel = new SchoolInfoPanel({
-            store: @store
-          })
+        };
+        return this.schoolInfoPanel = new SchoolInfoPanel({
+          store: this.store
+        });
+      });
 
-        describe 'when choosing a suggested school', ->
-          it 'sets the school name', ->
-            @schoolInfoPanel.applySuggestion('name', {
-              name: 'suggested school 2'
-              district: 'suggested district 2'
-              city: 'suggested city 2'
-              state: 'suggested state 2'
-              id: 'suggested nces_id 2'
-              district_id: 'suggested nces_district_id 2'
-              phone: 'suggested nces_phone 2'
-            })
-            expect(@schoolInfoPanel.organization).toBe('suggested school 2')
-            expect(@schoolInfoPanel.district).toBe('suggested district 2')
-            expect(@schoolInfoPanel.city).toBe('suggested city 2')
-            expect(@schoolInfoPanel.state).toBe('suggested state 2')
-            expect(@schoolInfoPanel.nces_id).toBe('suggested nces_id 2')
-            expect(@schoolInfoPanel.nces_phone).toBe('suggested nces_phone 2')
-            expect(@schoolInfoPanel.nces_district_id).toBe('suggested nces_district_id 2')
+      describe('when choosing a suggested school', () => it('sets the school name', function() {
+        this.schoolInfoPanel.applySuggestion('name', {
+          name: 'suggested school 2',
+          district: 'suggested district 2',
+          city: 'suggested city 2',
+          state: 'suggested state 2',
+          id: 'suggested nces_id 2',
+          district_id: 'suggested nces_district_id 2',
+          phone: 'suggested nces_phone 2'
+        });
+        expect(this.schoolInfoPanel.organization).toBe('suggested school 2');
+        expect(this.schoolInfoPanel.district).toBe('suggested district 2');
+        expect(this.schoolInfoPanel.city).toBe('suggested city 2');
+        expect(this.schoolInfoPanel.state).toBe('suggested state 2');
+        expect(this.schoolInfoPanel.nces_id).toBe('suggested nces_id 2');
+        expect(this.schoolInfoPanel.nces_phone).toBe('suggested nces_phone 2');
+        return expect(this.schoolInfoPanel.nces_district_id).toBe('suggested nces_district_id 2');
+      }));
 
-        describe 'when choosing a suggested district', ->
-          it 'sets the district and leaves the school name alone', ->
-            @schoolInfoPanel.applySuggestion('district', {
-              name: 'suggested name 2'
-              district: 'suggested district 2'
-              city: 'suggested city 2'
-              state: 'suggested state 2'
-              id: 'suggested nces_id 2'
-              district_id: 'suggested nces_district_id 2'
-              phone: 'suggested nces_phone'
-            })
-            expect(@schoolInfoPanel.organization).toBe('suggested school')
-            expect(@schoolInfoPanel.district).toBe('suggested district 2')
-            expect(@schoolInfoPanel.city).toBe('suggested city 2')
-            expect(@schoolInfoPanel.state).toBe('suggested state 2')
-            expect(@schoolInfoPanel.nces_id).toBe('')
-            expect(@schoolInfoPanel.nces_phone).toBe('')
-            expect(@schoolInfoPanel.nces_district_id).toBe('suggested nces_district_id 2')
+      return describe('when choosing a suggested district', () => it('sets the district and leaves the school name alone', function() {
+        this.schoolInfoPanel.applySuggestion('district', {
+          name: 'suggested name 2',
+          district: 'suggested district 2',
+          city: 'suggested city 2',
+          state: 'suggested state 2',
+          id: 'suggested nces_id 2',
+          district_id: 'suggested nces_district_id 2',
+          phone: 'suggested nces_phone'
+        });
+        expect(this.schoolInfoPanel.organization).toBe('suggested school');
+        expect(this.schoolInfoPanel.district).toBe('suggested district 2');
+        expect(this.schoolInfoPanel.city).toBe('suggested city 2');
+        expect(this.schoolInfoPanel.state).toBe('suggested state 2');
+        expect(this.schoolInfoPanel.nces_id).toBe('');
+        expect(this.schoolInfoPanel.nces_phone).toBe('');
+        return expect(this.schoolInfoPanel.nces_district_id).toBe('suggested nces_district_id 2');
+      }));
+    });
 
-      describe 'commitValues', ->
-        beforeEach ->
-          @store = {
-            state:
-              modal:
-                trialRequestProperties: {}
-            commit: jasmine.createSpy()
+    describe('commitValues', function() {
+      beforeEach(function() {
+        this.store = {
+          state: {
+            modal: {
+              trialRequestProperties: {}
+            }
+          },
+          commit: jasmine.createSpy()
+        };
+        return this.schoolInfoPanel = new SchoolInfoPanel({
+          store: this.store,
+          data: {
+            organization: 'some name',
+            district: 'some district',
+            city: 'some city',
+            state: 'some state',
+            country: 'some country',
+            nces_id: 'some nces_id',
+            nces_name: 'some name',
+            nces_students: 'some students',
+            nces_phone: 'some nces_phone',
+            nces_district_id: 'some nces_district_id',
+            nces_district_schools: 'some nces_district_schools',
+            nces_district_students: 'some nces_district_students'
           }
-          @schoolInfoPanel = new SchoolInfoPanel({
-            store: @store
-            data:
-              organization: 'some name'
-              district: 'some district'
-              city: 'some city'
-              state: 'some state'
-              country: 'some country'
-              nces_id: 'some nces_id'
-              nces_name: 'some name'
-              nces_students: 'some students'
-              nces_phone: 'some nces_phone'
-              nces_district_id: 'some nces_district_id'
-              nces_district_schools: 'some nces_district_schools'
-              nces_district_students: 'some nces_district_students'
-          })
+        });
+      });
 
-        it 'Commits all of the important values', ->
-          @schoolInfoPanel.commitValues()
-          [storeName, attrs] = @store.commit.calls.argsFor(0)
-          expect(storeName).toBe('modal/updateTrialRequestProperties')
-          expect(attrs.organization).toBe('some name')
-          expect(attrs.district).toBe('some district')
-          expect(attrs.city).toBe('some city')
-          expect(attrs.state).toBe('some state')
-          expect(attrs.country).toBe('some country')
-          expect(attrs.nces_id).toBe('some nces_id')
-          expect(attrs.nces_name).toBe('some name')
-          expect(attrs.nces_students).toBe('some students')
-          expect(attrs.nces_phone).toBe('some nces_phone')
-          expect(attrs.nces_district_id).toBe('some nces_district_id')
-          expect(attrs.nces_district_schools).toBe('some nces_district_schools')
-          expect(attrs.nces_district_students).toBe('some nces_district_students')
+      return it('Commits all of the important values', function() {
+        this.schoolInfoPanel.commitValues();
+        const [storeName, attrs] = Array.from(this.store.commit.calls.argsFor(0));
+        expect(storeName).toBe('modal/updateTrialRequestProperties');
+        expect(attrs.organization).toBe('some name');
+        expect(attrs.district).toBe('some district');
+        expect(attrs.city).toBe('some city');
+        expect(attrs.state).toBe('some state');
+        expect(attrs.country).toBe('some country');
+        expect(attrs.nces_id).toBe('some nces_id');
+        expect(attrs.nces_name).toBe('some name');
+        expect(attrs.nces_students).toBe('some students');
+        expect(attrs.nces_phone).toBe('some nces_phone');
+        expect(attrs.nces_district_id).toBe('some nces_district_id');
+        expect(attrs.nces_district_schools).toBe('some nces_district_schools');
+        return expect(attrs.nces_district_students).toBe('some nces_district_students');
+      });
+    });
 
-      describe 'clickContinue', ->
+    describe('clickContinue', function() {});
 
-      describe 'clickBack', ->
+    return describe('clickBack', function() {});
+  });
 
-    describe 'NcesSearchInput', ->
+  describe('NcesSearchInput', function() {});
 
-    describe 'SetupAccountPanel', ->
+  describe('SetupAccountPanel', function() {});
 
-    describe 'TeacherRolePanel', ->
+  return describe('TeacherRolePanel', function() {});
+}));
 
-api = require 'core/api'
-xdescribe 'CreateAccountModal Vue Store', ->
-  describe 'actions.createAccount', ->
-    beforeEach ->
-      spyOn(window, 'fetch').and.callFake ->
-        throw "This shouldn't be called!"
-      spyOn(api.users, 'signupWithGPlus').and.returnValue(Promise.resolve())
-      spyOn(api.users, 'signupWithFacebook').and.returnValue(Promise.resolve())
-      spyOn(api.users, 'signupWithPassword').and.returnValue(Promise.resolve())
-      spyOn(api.trialRequests, 'post').and.returnValue(Promise.resolve())
-      @dispatch = jasmine.createSpy()
-      @commit = jasmine.createSpy()
-      @rootState = {
-        me:
-          _id: '12345'
+const api = require('core/api');
+xdescribe('CreateAccountModal Vue Store', () => describe('actions.createAccount', function() {
+  beforeEach(function() {
+    spyOn(window, 'fetch').and.callFake(function() {
+      throw "This shouldn't be called!";
+    });
+    spyOn(api.users, 'signupWithGPlus').and.returnValue(Promise.resolve());
+    spyOn(api.users, 'signupWithFacebook').and.returnValue(Promise.resolve());
+    spyOn(api.users, 'signupWithPassword').and.returnValue(Promise.resolve());
+    spyOn(api.trialRequests, 'post').and.returnValue(Promise.resolve());
+    this.dispatch = jasmine.createSpy();
+    this.commit = jasmine.createSpy();
+    this.rootState = {
+      me: {
+        _id: '12345'
       }
-      @state = {
-        trialRequestProperties:
-          role: 'teacher'
-          organization: 'some name'
-          district: 'some district'
-          city: 'some city'
-          nces_id: 'some nces_id'
-        signupForm:
-          email: 'form email'
-          name: 'form name'
-          password: 'form password'
-        ssoAttrs:
-          email: ''
-          gplusID: ''
-          facebookID: ''
-        ssoUsed: ''
-      }
+    };
+    return this.state = {
+      trialRequestProperties: {
+        role: 'teacher',
+        organization: 'some name',
+        district: 'some district',
+        city: 'some city',
+        nces_id: 'some nces_id'
+      },
+      signupForm: {
+        email: 'form email',
+        name: 'form name',
+        password: 'form password'
+      },
+      ssoAttrs: {
+        email: '',
+        gplusID: '',
+        facebookID: ''
+      },
+      ssoUsed: ''
+    };});
 
-    it "uses the form email when SSO isn't used", (done) ->
-      TeacherSignupStoreModule.actions.createAccount({@state, @commit, @dispatch, @rootState}).then ->
-        expect(api.users.signupWithPassword).toHaveBeenCalled()
-        expect(api.users.signupWithGPlus).not.toHaveBeenCalled()
-        expect(api.users.signupWithFacebook).not.toHaveBeenCalled()
-        expect(api.users.signupWithPassword.calls.argsFor(0)?[0]?.email).toBe('form email')
-        expect(api.users.signupWithPassword.calls.argsFor(0)?[0]?.name).toBe('form name')
-        done()
+  it("uses the form email when SSO isn't used", function(done) {
+    return TeacherSignupStoreModule.actions.createAccount({state: this.state, commit: this.commit, dispatch: this.dispatch, rootState: this.rootState}).then(function() {
+      expect(api.users.signupWithPassword).toHaveBeenCalled();
+      expect(api.users.signupWithGPlus).not.toHaveBeenCalled();
+      expect(api.users.signupWithFacebook).not.toHaveBeenCalled();
+      expect(__guard__(__guard__(api.users.signupWithPassword.calls.argsFor(0), x1 => x1[0]), x => x.email)).toBe('form email');
+      expect(__guard__(__guard__(api.users.signupWithPassword.calls.argsFor(0), x3 => x3[0]), x2 => x2.name)).toBe('form name');
+      return done();
+    });
+  });
 
-    it "uses the SSO email when using GPlus SSO", (done) ->
-      _.assign @state,
-        ssoAttrs:
-          email: 'sso email'
-          gplusID: 'gplus ID'
-        ssoUsed: 'gplus'
-      TeacherSignupStoreModule.actions.createAccount({@state, @commit, @dispatch, @rootState}).then ->
-        expect(api.users.signupWithPassword).not.toHaveBeenCalled()
-        expect(api.users.signupWithGPlus).toHaveBeenCalled()
-        expect(api.users.signupWithFacebook).not.toHaveBeenCalled()
-        expect(api.users.signupWithGPlus.calls.argsFor(0)?[0]?.email).toBe('sso email')
-        expect(api.users.signupWithGPlus.calls.argsFor(0)?[0]?.name).toBe('form name')
-        expect(api.users.signupWithGPlus.calls.argsFor(0)?[0]?.gplusID).toBe('gplus ID')
-        done()
+  it("uses the SSO email when using GPlus SSO", function(done) {
+    _.assign(this.state, {
+      ssoAttrs: {
+        email: 'sso email',
+        gplusID: 'gplus ID'
+      },
+      ssoUsed: 'gplus'
+    }
+    );
+    return TeacherSignupStoreModule.actions.createAccount({state: this.state, commit: this.commit, dispatch: this.dispatch, rootState: this.rootState}).then(function() {
+      expect(api.users.signupWithPassword).not.toHaveBeenCalled();
+      expect(api.users.signupWithGPlus).toHaveBeenCalled();
+      expect(api.users.signupWithFacebook).not.toHaveBeenCalled();
+      expect(__guard__(__guard__(api.users.signupWithGPlus.calls.argsFor(0), x1 => x1[0]), x => x.email)).toBe('sso email');
+      expect(__guard__(__guard__(api.users.signupWithGPlus.calls.argsFor(0), x3 => x3[0]), x2 => x2.name)).toBe('form name');
+      expect(__guard__(__guard__(api.users.signupWithGPlus.calls.argsFor(0), x5 => x5[0]), x4 => x4.gplusID)).toBe('gplus ID');
+      return done();
+    });
+  });
 
-    it "uses the SSO email when using Facebook SSO", (done) ->
-      _.assign @state,
-        ssoAttrs:
-          email: 'sso email'
-          facebookID: 'facebook ID'
-        ssoUsed: 'facebook'
-      TeacherSignupStoreModule.actions.createAccount({@state, @commit, @dispatch, @rootState}).then ->
-        expect(api.users.signupWithPassword).not.toHaveBeenCalled()
-        expect(api.users.signupWithGPlus).not.toHaveBeenCalled()
-        expect(api.users.signupWithFacebook).toHaveBeenCalled()
-        expect(api.users.signupWithFacebook.calls.argsFor(0)?[0]?.email).toBe('sso email')
-        expect(api.users.signupWithFacebook.calls.argsFor(0)?[0]?.name).toBe('form name')
-        expect(api.users.signupWithFacebook.calls.argsFor(0)?[0]?.facebookID).toBe('facebook ID')
-        done()
+  return it("uses the SSO email when using Facebook SSO", function(done) {
+    _.assign(this.state, {
+      ssoAttrs: {
+        email: 'sso email',
+        facebookID: 'facebook ID'
+      },
+      ssoUsed: 'facebook'
+    }
+    );
+    return TeacherSignupStoreModule.actions.createAccount({state: this.state, commit: this.commit, dispatch: this.dispatch, rootState: this.rootState}).then(function() {
+      expect(api.users.signupWithPassword).not.toHaveBeenCalled();
+      expect(api.users.signupWithGPlus).not.toHaveBeenCalled();
+      expect(api.users.signupWithFacebook).toHaveBeenCalled();
+      expect(__guard__(__guard__(api.users.signupWithFacebook.calls.argsFor(0), x1 => x1[0]), x => x.email)).toBe('sso email');
+      expect(__guard__(__guard__(api.users.signupWithFacebook.calls.argsFor(0), x3 => x3[0]), x2 => x2.name)).toBe('form name');
+      expect(__guard__(__guard__(api.users.signupWithFacebook.calls.argsFor(0), x5 => x5[0]), x4 => x4.facebookID)).toBe('facebook ID');
+      return done();
+    });
+  });
+}));
+
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

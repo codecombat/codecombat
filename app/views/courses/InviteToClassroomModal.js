@@ -1,53 +1,81 @@
-require('app/styles/courses/invite-to-classroom-modal.sass')
-ModalView = require 'views/core/ModalView'
-template = require 'app/templates/courses/invite-to-classroom-modal'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let InviteToClassroomModal;
+require('app/styles/courses/invite-to-classroom-modal.sass');
+const ModalView = require('views/core/ModalView');
+const template = require('app/templates/courses/invite-to-classroom-modal');
 
-module.exports = class InviteToClassroomModal extends ModalView
-  id: 'invite-to-classroom-modal'
-  template: template
-  recaptcha_site_key: require('core/services/google').recaptcha_site_key
+module.exports = (InviteToClassroomModal = (function() {
+  InviteToClassroomModal = class InviteToClassroomModal extends ModalView {
+    static initClass() {
+      this.prototype.id = 'invite-to-classroom-modal';
+      this.prototype.template = template;
+      this.prototype.recaptcha_site_key = require('core/services/google').recaptcha_site_key;
+  
+      this.prototype.events = {
+        'click #send-invites-btn': 'onClickSendInvitesButton',
+        'click #copy-url-btn, #join-url-input': 'copyURL'
+      };
+    }
 
-  events:
-    'click #send-invites-btn': 'onClickSendInvitesButton'
-    'click #copy-url-btn, #join-url-input': 'copyURL'
+    initialize(options) {
+      this.classroom = options.classroom;
+      this.classCode = this.classroom.get('codeCamel') || this.classroom.get('code');
+      this.joinURL = document.location.origin + "/students?_cc=" + this.classCode;
+      return window.recaptchaCallback = this.recaptchaCallback.bind(this);
+    }
 
-  initialize: (options) ->
-    @classroom = options.classroom
-    @classCode = @classroom.get('codeCamel') || @classroom.get('code')
-    @joinURL = document.location.origin + "/students?_cc=" + @classCode
-    window.recaptchaCallback = @recaptchaCallback.bind(@)
+    onClickSendInvitesButton() {
+      let emails = this.$('#invite-emails-textarea').val();
+      emails = emails.split(/[,\n]/);
+      emails = _.filter((Array.from(emails).map((email) => _.string.trim(email))));
+      if (!emails.length) { return; }
 
-  onClickSendInvitesButton: ->
-    emails = @$('#invite-emails-textarea').val()
-    emails = emails.split(/[,\n]/)
-    emails = _.filter((_.string.trim(email) for email in emails))
-    return unless emails.length
+      if (!this.recaptchaResponseToken) {
+        $('#send-invites-btn').addClass('disabled');
+        console.error('Tried to send student invites via email without recaptcha success token, resetting widget');
+        if (typeof grecaptcha !== 'undefined' && grecaptcha !== null) {
+          grecaptcha.reset();
+        }
+        return;
+      }
 
-    unless @recaptchaResponseToken
-      $('#send-invites-btn').addClass('disabled');
-      console.error 'Tried to send student invites via email without recaptcha success token, resetting widget'
-      grecaptcha?.reset()
-      return
+      this.$('#send-invites-btn, #invite-emails-textarea, .g-recaptcha').addClass('hide');
+      this.$('#invite-emails-sending-alert').removeClass('hide');
+      if (application.tracker != null) {
+        application.tracker.trackEvent('Classroom invite via email', {category: 'Courses', classroomID: this.classroom.id, emails});
+      }
+      return this.classroom.inviteMembers(emails, this.recaptchaResponseToken, {
+        success: () => {
+          this.$('#invite-emails-sending-alert').addClass('hide');
+          return this.$('#invite-emails-success-alert').removeClass('hide');
+        }
+      });
+    }
 
-    @$('#send-invites-btn, #invite-emails-textarea, .g-recaptcha').addClass('hide')
-    @$('#invite-emails-sending-alert').removeClass('hide')
-    application.tracker?.trackEvent 'Classroom invite via email', category: 'Courses', classroomID: @classroom.id, emails: emails
-    @classroom.inviteMembers(emails, @recaptchaResponseToken, {
-      success: =>
-        @$('#invite-emails-sending-alert').addClass('hide')
-        @$('#invite-emails-success-alert').removeClass('hide')
-    })
+    copyURL() {
+      this.$('#join-url-input').val(this.joinURL).select();
+      try {
+        document.execCommand('copy');
+        this.$('#copied-alert').removeClass('hide');
+        return (application.tracker != null ? application.tracker.trackEvent('Classroom copy URL', {category: 'Courses', classroomID: this.classroom.id, url: this.joinURL}) : undefined);
+      } catch (err) {
+        console.log('Oops, unable to copy', err);
+        return this.$('#copy-failed-alert').removeClass('hide');
+      }
+    }
 
-  copyURL: ->
-    @$('#join-url-input').val(@joinURL).select()
-    try
-      document.execCommand('copy')
-      @$('#copied-alert').removeClass('hide')
-      application.tracker?.trackEvent 'Classroom copy URL', category: 'Courses', classroomID: @classroom.id, url: @joinURL
-    catch err
-      console.log('Oops, unable to copy', err)
-      @$('#copy-failed-alert').removeClass('hide')
-
-  recaptchaCallback: (response) ->
-    @$('#send-invites-btn').removeClass('disabled');
-    @recaptchaResponseToken = response
+    recaptchaCallback(response) {
+      this.$('#send-invites-btn').removeClass('disabled');
+      return this.recaptchaResponseToken = response;
+    }
+  };
+  InviteToClassroomModal.initClass();
+  return InviteToClassroomModal;
+})());

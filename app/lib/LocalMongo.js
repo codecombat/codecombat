@@ -1,50 +1,66 @@
-LocalMongo = module.exports
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const LocalMongo = module.exports;
 
-# Checks whether func(l, r) is true for at least one value of left for at least one value of right
-mapred = (left, right, func) ->
-  _.reduce(left, ((result, singleLeft) ->
-    result or (_.reduce (_.map right, (singleRight) -> func(singleLeft, singleRight)),
-      ((intermediate, value) -> intermediate or value), false)), false)
+// Checks whether func(l, r) is true for at least one value of left for at least one value of right
+const mapred = (left, right, func) => _.reduce(left, ((result, singleLeft) => result || (_.reduce((_.map(right, singleRight => func(singleLeft, singleRight))),
+  ((intermediate, value) => intermediate || value), false))), false);
 
-doQuerySelector = (originalValue, operatorObj) ->
-  value = if _.isArray originalValue then originalValue else [originalValue] # left hand can be an array too
-  for operator, originalBody of operatorObj
-    body = if _.isArray originalBody then originalBody else [originalBody] # right hand can be an array too
-    switch operator
-      when '$gt' then return false unless mapred value, body, (l, r) -> l > r
-      when '$gte' then return false unless mapred value, body, (l, r) -> l >= r
-      when '$lt' then return false unless mapred value, body, (l, r) -> l < r
-      when '$lte' then return false unless mapred value, body, (l, r) -> l <= r
-      when '$ne' then return false if mapred value, body, (l, r) -> l == r
-      when '$in' then return false unless _.reduce value, ((result, val) -> result or val in body), false
-      when '$nin' then return false if _.reduce value, ((result, val) -> result or val in body), false
-      when '$exists' then return false if value[0]? isnt body[0]
-      else 
-        trimmedOperator = _.pick(operatorObj, operator)
-        return false unless _.isObject(originalValue) and matchesQuery(originalValue, trimmedOperator)
-  true
+const doQuerySelector = function(originalValue, operatorObj) {
+  const value = _.isArray(originalValue) ? originalValue : [originalValue]; // left hand can be an array too
+  for (var operator in operatorObj) {
+    var originalBody = operatorObj[operator];
+    var body = _.isArray(originalBody) ? originalBody : [originalBody]; // right hand can be an array too
+    switch (operator) {
+      case '$gt': if (!mapred(value, body, (l, r) => l > r)) { return false; } break;
+      case '$gte': if (!mapred(value, body, (l, r) => l >= r)) { return false; } break;
+      case '$lt': if (!mapred(value, body, (l, r) => l < r)) { return false; } break;
+      case '$lte': if (!mapred(value, body, (l, r) => l <= r)) { return false; } break;
+      case '$ne': if (mapred(value, body, (l, r) => l === r)) { return false; } break;
+      case '$in': if (!_.reduce(value, ((result, val) => result || Array.from(body).includes(val)), false)) { return false; } break;
+      case '$nin': if (_.reduce(value, ((result, val) => result || Array.from(body).includes(val)), false)) { return false; } break;
+      case '$exists': if ((value[0] != null) !== body[0]) { return false; } break;
+      default: 
+        var trimmedOperator = _.pick(operatorObj, operator);
+        if (!_.isObject(originalValue) || !matchesQuery(originalValue, trimmedOperator)) { return false; }
+    }
+  }
+  return true;
+};
 
-matchesQuery = (target, queryObj) ->
-  return true unless queryObj
-  throw new Error 'Expected an object to match a query against, instead got null' unless target
-  for prop, query of queryObj
-    if prop[0] == '$'
-      switch prop
-        when '$or' then return false unless _.reduce query, ((res, obj) -> res or matchesQuery target, obj), false
-        when '$and' then return false unless _.reduce query, ((res, obj) -> res and matchesQuery target, obj), true
-        else return false
-    else
-      # Do nested properties
-      pieces = prop.split('.')
-      obj = target
-      for piece in pieces
-        unless piece of obj
-          obj = null
-          break
-        obj = obj[piece]
-      if typeof query != 'object' or _.isArray query
-        return false unless obj == query or (query in obj if _.isArray obj)
-      else return false unless doQuerySelector obj, query
-  true
+var matchesQuery = function(target, queryObj) {
+  if (!queryObj) { return true; }
+  if (!target) { throw new Error('Expected an object to match a query against, instead got null'); }
+  for (var prop in queryObj) {
+    var query = queryObj[prop];
+    if (prop[0] === '$') {
+      switch (prop) {
+        case '$or': if (!_.reduce(query, ((res, obj) => res || matchesQuery(target, obj)), false)) { return false; } break;
+        case '$and': if (!_.reduce(query, ((res, obj) => res && matchesQuery(target, obj)), true)) { return false; } break;
+        default: return false;
+      }
+    } else {
+      // Do nested properties
+      var pieces = prop.split('.');
+      var obj = target;
+      for (var piece of Array.from(pieces)) {
+        if (!(piece in obj)) {
+          obj = null;
+          break;
+        }
+        obj = obj[piece];
+      }
+      if ((typeof query !== 'object') || _.isArray(query)) {
+        if ((obj !== query) && (!(_.isArray(obj) ? Array.from(obj).includes(query) : undefined))) { return false; }
+      } else if (!doQuerySelector(obj, query)) { return false; }
+    }
+  }
+  return true;
+};
 
-LocalMongo.matchesQuery = matchesQuery
+LocalMongo.matchesQuery = matchesQuery;

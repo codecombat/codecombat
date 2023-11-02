@@ -1,49 +1,70 @@
-ScriptModule = require './ScriptModule'
+/*
+ * decaffeinate suggestions:
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let SurfaceScriptModule;
+const ScriptModule = require('./ScriptModule');
 
-module.exports = class SurfaceScriptModule extends ScriptModule
-  @neededFor: (noteGroup) ->
-    return noteGroup.surface?
+module.exports = (SurfaceScriptModule = class SurfaceScriptModule extends ScriptModule {
+  static neededFor(noteGroup) {
+    return (noteGroup.surface != null);
+  }
 
-  startNotes: ->
-    notes = []
-    notes.push(@surfaceCameraNote()) if @noteGroup.surface.focus?
-    notes.push(@surfaceHighlightNote()) if @noteGroup.surface.highlight?
-    notes.push(@surfaceLockSelectNote()) if @noteGroup.surface.lockSelect?
-    return notes
+  startNotes() {
+    const notes = [];
+    if (this.noteGroup.surface.focus != null) { notes.push(this.surfaceCameraNote()); }
+    if (this.noteGroup.surface.highlight != null) { notes.push(this.surfaceHighlightNote()); }
+    if (this.noteGroup.surface.lockSelect != null) { notes.push(this.surfaceLockSelectNote()); }
+    return notes;
+  }
 
-  endNotes: ->
-    notes = []
-    notes.push({channel:'sprite:highlight-sprites', event: {thangIDs: []}}) if @noteGroup.surface.highlight?
-    notes.push(@surfaceCameraNote(true)) if @noteGroup.surface.focus?
-    notes.push(@surfaceLockSelectNote()) if @noteGroup.surface.lockSelect?
-    return notes
+  endNotes() {
+    const notes = [];
+    if (this.noteGroup.surface.highlight != null) { notes.push({channel:'sprite:highlight-sprites', event: {thangIDs: []}}); }
+    if (this.noteGroup.surface.focus != null) { notes.push(this.surfaceCameraNote(true)); }
+    if (this.noteGroup.surface.lockSelect != null) { notes.push(this.surfaceLockSelectNote()); }
+    return notes;
+  }
 
-  skipNotes: ->
-    notes = []
-    notes.push(@surfaceCameraNote(true)) if @noteGroup.surface.focus?
-    notes.push(@surfaceLockSelectNote()) if @noteGroup.surface.lockSelect?
-    return notes
+  skipNotes() {
+    const notes = [];
+    if (this.noteGroup.surface.focus != null) { notes.push(this.surfaceCameraNote(true)); }
+    if (this.noteGroup.surface.lockSelect != null) { notes.push(this.surfaceLockSelectNote()); }
+    return notes;
+  }
 
-  surfaceCameraNote: (instant=false) ->
-    focus = @noteGroup.surface.focus
-    e = {}
-    e.pos = focus.target if _.isPlainObject focus.target
-    e.thangID = focus.target if _.isString focus.target
-    e.zoom = focus.zoom or 2.0  # TODO: test only doing this if e.pos, e.thangID, or focus.zoom?
-    e.duration = if focus.duration? then focus.duration else 1500
-    e.duration = 0 if instant
-    e.bounds = focus.bounds if focus.bounds?
-    return { channel: 'camera:set-camera', event: e }
+  surfaceCameraNote(instant) {
+    if (instant == null) { instant = false; }
+    const {
+      focus
+    } = this.noteGroup.surface;
+    const e = {};
+    if (_.isPlainObject(focus.target)) { e.pos = focus.target; }
+    if (_.isString(focus.target)) { e.thangID = focus.target; }
+    e.zoom = focus.zoom || 2.0;  // TODO: test only doing this if e.pos, e.thangID, or focus.zoom?
+    e.duration = (focus.duration != null) ? focus.duration : 1500;
+    if (instant) { e.duration = 0; }
+    if (focus.bounds != null) { e.bounds = focus.bounds; }
+    return { channel: 'camera:set-camera', event: e };
+  }
 
-  surfaceHighlightNote: ->
-    highlight = @noteGroup.surface.highlight
-    note =
-      channel: 'sprite:highlight-sprites'
-      event:
-        thangIDs: highlight.targets
+  surfaceHighlightNote() {
+    const {
+      highlight
+    } = this.noteGroup.surface;
+    const note = {
+      channel: 'sprite:highlight-sprites',
+      event: {
+        thangIDs: highlight.targets,
         delay: highlight.delay
-    @maybeApplyDelayToNote note, @noteGroup
-    return note
+      }
+    };
+    this.maybeApplyDelayToNote(note, this.noteGroup);
+    return note;
+  }
 
-  surfaceLockSelectNote: ->
-    return { channel: 'level:lock-select', event: {lock: @noteGroup.surface.lockSelect} }
+  surfaceLockSelectNote() {
+    return { channel: 'level:lock-select', event: {lock: this.noteGroup.surface.lockSelect} };
+  }
+});

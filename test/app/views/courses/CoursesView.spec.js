@@ -1,32 +1,41 @@
-CoursesView = require 'views/courses/CoursesView'
-HeroSelectModal = require 'views/courses/HeroSelectModal'
-Classrooms = require 'collections/Classrooms'
-CourseInstances = require 'collections/CourseInstances'
-Courses = require 'collections/Courses'
-auth = require 'core/auth'
-factories = require 'test/app/factories'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const CoursesView = require('views/courses/CoursesView');
+const HeroSelectModal = require('views/courses/HeroSelectModal');
+const Classrooms = require('collections/Classrooms');
+const CourseInstances = require('collections/CourseInstances');
+const Courses = require('collections/Courses');
+const auth = require('core/auth');
+const factories = require('test/app/factories');
 
-describe 'CoursesView', ->
+describe('CoursesView', function() {
 
-  modal = null
-  view = null
+  const modal = null;
+  let view = null;
 
-  describe 'Change Hero button', ->
-    beforeEach (done) ->
-      me.set(factories.makeUser({ role: 'student' }).attributes)
-      view = new CoursesView()
-      classrooms = new Classrooms([factories.makeClassroom()])
-      courseInstances = new CourseInstances([factories.makeCourseInstance()])
-      courses = new Courses([factories.makeCourse()])
-      view.classrooms.fakeRequests[0].respondWith({ status: 200, responseText: classrooms.stringify() })
-      view.courseInstances.fakeRequests[0].respondWith({ status: 200, responseText: courseInstances.stringify() })
-      view.render()
-      jasmine.demoEl(view.$el)
-      done()
+  return describe('Change Hero button', function() {
+    beforeEach(function(done) {
+      me.set(factories.makeUser({ role: 'student' }).attributes);
+      view = new CoursesView();
+      const classrooms = new Classrooms([factories.makeClassroom()]);
+      const courseInstances = new CourseInstances([factories.makeCourseInstance()]);
+      const courses = new Courses([factories.makeCourse()]);
+      view.classrooms.fakeRequests[0].respondWith({ status: 200, responseText: classrooms.stringify() });
+      view.courseInstances.fakeRequests[0].respondWith({ status: 200, responseText: courseInstances.stringify() });
+      view.render();
+      jasmine.demoEl(view.$el);
+      return done();
+    });
 
-    it 'opens the modal when you click Change Hero', ->
-      spyOn(view, 'openModalView')
-      view.$('.change-hero-btn').click()
-      expect(view.openModalView).toHaveBeenCalled()
-      args = view.openModalView.calls.argsFor(0)
-      expect(args[0] instanceof HeroSelectModal).toBe(true)
+    return it('opens the modal when you click Change Hero', function() {
+      spyOn(view, 'openModalView');
+      view.$('.change-hero-btn').click();
+      expect(view.openModalView).toHaveBeenCalled();
+      const args = view.openModalView.calls.argsFor(0);
+      return expect(args[0] instanceof HeroSelectModal).toBe(true);
+    });
+  });
+});

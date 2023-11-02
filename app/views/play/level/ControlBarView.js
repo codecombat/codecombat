@@ -1,191 +1,256 @@
-require('app/styles/play/level/control-bar-view.sass')
-storage = require 'core/storage'
+/*
+ * decaffeinate suggestions:
+ * DS002: Fix invalid constructor
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS104: Avoid inline assignments
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let ControlBarView;
+require('app/styles/play/level/control-bar-view.sass');
+const storage = require('core/storage');
 
-CocoView = require 'views/core/CocoView'
-template = require 'app/templates/play/level/control-bar-view'
-{me} = require 'core/auth'
-utils = require 'core/utils'
+const CocoView = require('views/core/CocoView');
+const template = require('app/templates/play/level/control-bar-view');
+const {me} = require('core/auth');
+const utils = require('core/utils');
 
-Campaign = require 'models/Campaign'
-Classroom = require 'models/Classroom'
-Course = require 'models/Course'
-CourseInstance = require 'models/CourseInstance'
-GameMenuModal = require 'views/play/menu/GameMenuModal'
-LevelSetupManager = require 'lib/LevelSetupManager'
-CreateAccountModal = require 'views/core/CreateAccountModal'
+const Campaign = require('models/Campaign');
+const Classroom = require('models/Classroom');
+const Course = require('models/Course');
+const CourseInstance = require('models/CourseInstance');
+const GameMenuModal = require('views/play/menu/GameMenuModal');
+const LevelSetupManager = require('lib/LevelSetupManager');
+const CreateAccountModal = require('views/core/CreateAccountModal');
 
-module.exports = class ControlBarView extends CocoView
-  id: 'control-bar-view'
-  template: template
+module.exports = (ControlBarView = (function() {
+  ControlBarView = class ControlBarView extends CocoView {
+    static initClass() {
+      this.prototype.id = 'control-bar-view';
+      this.prototype.template = template;
+  
+      this.prototype.subscriptions = {
+        'level:disable-controls': 'onDisableControls',
+        'level:enable-controls': 'onEnableControls',
+        'ipad:memory-warning': 'onIPadMemoryWarning'
+      };
+  
+      this.prototype.events = {
+        'click #next-game-button'() { return Backbone.Mediator.publish('level:next-game-pressed', {}); },
+        'click #game-menu-button': 'showGameMenuModal',
+        'click'() { return Backbone.Mediator.publish('tome:focus-editor', {}); },
+        'click .levels-link-area': 'onClickHome',
+        'click .home a': 'onClickHome',
+        'click #control-bar-sign-up-button': 'onClickSignupButton',
+        'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
+      };
+    }
 
-  subscriptions:
-    'level:disable-controls': 'onDisableControls'
-    'level:enable-controls': 'onEnableControls'
-    'ipad:memory-warning': 'onIPadMemoryWarning'
+    constructor(options) {
+      let jqxhr;
+      this.supermodel = options.supermodel;
+      this.courseID = options.courseID;
+      this.courseInstanceID = options.courseInstanceID;
 
-  events:
-    'click #next-game-button': -> Backbone.Mediator.publish 'level:next-game-pressed', {}
-    'click #game-menu-button': 'showGameMenuModal'
-    'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
-    'click .levels-link-area': 'onClickHome'
-    'click .home a': 'onClickHome'
-    'click #control-bar-sign-up-button': 'onClickSignupButton'
-    'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
+      this.worldName = options.worldName;
+      this.session = options.session;
+      this.level = options.level;
+      this.levelSlug = this.level.get('slug');
+      this.levelID = this.levelSlug || this.level.id;
+      this.spectateGame = options.spectateGame != null ? options.spectateGame : false;
+      this.observing = options.session.get('creator') !== me.id;
 
-  constructor: (options) ->
-    @supermodel = options.supermodel
-    @courseID = options.courseID
-    @courseInstanceID = options.courseInstanceID
+      this.levelNumber = '';
+      if (this.level.isType('course', 'game-dev', 'web-dev') && (this.level.get('campaignIndex') != null)) {
+        this.levelNumber = this.level.get('campaignIndex') + 1;
+      }
+      if (this.courseInstanceID) {
+        this.courseInstance = new CourseInstance({_id: this.courseInstanceID});
+        jqxhr = this.courseInstance.fetch();
+        this.supermodel.trackRequest(jqxhr);
+        new Promise(jqxhr.then).then(() => {
+          this.classroom = new Classroom({_id: this.courseInstance.get('classroomID')});
+          this.course = new Course({_id: this.courseInstance.get('courseID')});
+          this.supermodel.trackRequest(this.classroom.fetch());
+          return this.supermodel.trackRequest(this.course.fetch());
+        });
+      } else if (this.courseID) {
+        this.course = new Course({_id: this.courseID});
+        jqxhr = this.course.fetch();
+        this.supermodel.trackRequest(jqxhr);
+        new Promise(jqxhr.then).then(() => {
+          this.campaign = new Campaign({_id: this.course.get('campaignID')});
+          return this.supermodel.trackRequest(this.campaign.fetch());
+        });
+      }
+      super(options);
+      if (this.level.get('replayable')) {
+        this.listenTo(this.session, 'change-difficulty', this.onSessionDifficultyChanged);
+      }
+    }
 
-    @worldName = options.worldName
-    @session = options.session
-    @level = options.level
-    @levelSlug = @level.get('slug')
-    @levelID = @levelSlug or @level.id
-    @spectateGame = options.spectateGame ? false
-    @observing = options.session.get('creator') isnt me.id
+    setLevelName(overideLevelName) {
+      this.levelName = overideLevelName;
+      return this.render();
+    }
 
-    @levelNumber = ''
-    if @level.isType('course', 'game-dev', 'web-dev') and @level.get('campaignIndex')?
-      @levelNumber = @level.get('campaignIndex') + 1
-    if @courseInstanceID
-      @courseInstance = new CourseInstance(_id: @courseInstanceID)
-      jqxhr = @courseInstance.fetch()
-      @supermodel.trackRequest(jqxhr)
-      new Promise(jqxhr.then).then(=>
-        @classroom = new Classroom(_id: @courseInstance.get('classroomID'))
-        @course = new Course(_id: @courseInstance.get('courseID'))
-        @supermodel.trackRequest @classroom.fetch()
-        @supermodel.trackRequest @course.fetch()
-      )
-    else if @courseID
-      @course = new Course(_id: @courseID)
-      jqxhr = @course.fetch()
-      @supermodel.trackRequest(jqxhr)
-      new Promise(jqxhr.then).then(=>
-        @campaign = new Campaign(_id: @course.get('campaignID'))
-        @supermodel.trackRequest(@campaign.fetch())
-      )
-    super options
-    if @level.get 'replayable'
-      @listenTo @session, 'change-difficulty', @onSessionDifficultyChanged
+    onLoaded() {
+      if (this.classroom) {
+        this.levelNumber = this.classroom.getLevelNumber(this.level.get('original'), this.levelNumber);
+        const newClassroomItemsSetting = this.classroom.get('classroomItems', true);
+        const oldClassroomItemsSetting = me.lastClassroomItems();
+        me.setLastClassroomItems(this.classroom.get('classroomItems', true));
+        if ((newClassroomItemsSetting !== oldClassroomItemsSetting) && this.level.isType('course')) {
+          // Teacher must have just changed the setting, so we need to reload the page
+          me.setLastClassroomItems(newClassroomItemsSetting);
+          noty({text: 'Classroom items & gems setting changed; reloading', layout: 'topCenter', type: 'success', killer: false, timeout: 2000});
+          _.delay((() => document.location.reload()), 2000);
+        }
+      } else if (this.campaign) {
+        this.levelNumber = this.campaign.getLevelNumber(this.level.get('original'), this.levelNumber);
+      }
+      if (application.getHocCampaign() || this.level.get('assessment')) {
+        this.levelNumber = null;
+      }
+      return super.onLoaded();
+    }
 
-  setLevelName: (overideLevelName) ->
-    @levelName = overideLevelName
-    @render()
+    openCreateAccountModal(e) {
+      e.stopPropagation();
+      return this.openModalView(new CreateAccountModal());
+    }
 
-  onLoaded: ->
-    if @classroom
-      @levelNumber = @classroom.getLevelNumber(@level.get('original'), @levelNumber)
-      newClassroomItemsSetting = @classroom.get('classroomItems', true)
-      oldClassroomItemsSetting = me.lastClassroomItems()
-      me.setLastClassroomItems @classroom.get('classroomItems', true)
-      if newClassroomItemsSetting isnt oldClassroomItemsSetting and @level.isType('course')
-        # Teacher must have just changed the setting, so we need to reload the page
-        me.setLastClassroomItems newClassroomItemsSetting
-        noty text: 'Classroom items & gems setting changed; reloading', layout: 'topCenter', type: 'success', killer: false, timeout: 2000
-        _.delay (-> document.location.reload()), 2000
-    else if @campaign
-      @levelNumber = @campaign.getLevelNumber(@level.get('original'), @levelNumber)
-    if application.getHocCampaign() or @level.get('assessment')
-      @levelNumber = null
-    super()
+    setBus(bus) {
+      this.bus = bus;
+    }
 
-  openCreateAccountModal: (e) ->
-    e.stopPropagation()
-    @openModalView new CreateAccountModal()
+    getRenderData(c) {
+      if (c == null) { c = {}; }
+      super.getRenderData(c);
+      c.worldName = this.worldName;
+      c.ladderGame = this.level.isLadder();
+      if (this.level.get('replayable')) {
+        let left;
+        c.levelDifficulty = (left = __guard__(this.session.get('state'), x => x.difficulty)) != null ? left : 0;
+        if (this.observing) {
+          c.levelDifficulty = Math.max(0, c.levelDifficulty - 1);  // Show the difficulty they won, not the next one.
+        }
+        c.difficultyTitle = `${$.i18n.t('play.level_difficulty')}${c.levelDifficulty}`;
+        this.lastDifficulty = c.levelDifficulty;
+      }
+      c.spectateGame = this.spectateGame;
+      c.observing = this.observing;
+      this.homeViewArgs = [{supermodel: this.hasReceivedMemoryWarning ? null : this.supermodel}];
+      const gameDevCampaign = application.getHocCampaign();
+      if (gameDevCampaign && !this.level.isLadder()) {
+        this.homeLink = `/play/${gameDevCampaign}`;
+        this.homeViewClass = 'views/play/CampaignView';
+        this.homeViewArgs.push(gameDevCampaign);
+      } else if (me.isSessionless()) {
+        this.homeLink = "/teachers/courses";
+        this.homeViewClass = "views/courses/TeacherCoursesView";
+      } else if (this.level.isLadder()) {
+        let leagueID;
+        const levelID = __guard__(this.level.get('slug'), x1 => x1.replace(/\-tutorial$/, '')) || this.level.id;
+        this.homeLink = `/play/ladder/${levelID}`;
+        this.homeViewClass = 'views/ladder/LadderView';
+        this.homeViewArgs.push(levelID);
+        if (leagueID = utils.getQueryVariable('league') || utils.getQueryVariable('course-instance')) {
+          let tournamentId;
+          const leagueType = this.level.isType('course-ladder') || (this.level.isType('ladder') && utils.getQueryVariable('course-instance')) ? 'course' : 'clan';
+          this.homeViewArgs.push(leagueType);
+          this.homeViewArgs.push(leagueID);
+          this.homeLink += `/${leagueType}/${leagueID}`;
+          if (tournamentId = utils.getQueryVariable('tournament')) {
+            this.homeLink += `?tournament=${tournamentId}`;
+          }
+        }
+      } else if (this.level.isType('course') || this.courseID) {
+        this.homeLink = "/play";
+        if (this.course != null) {
+          this.homeLink += `/${this.course.get('campaignID')}`;
+          this.homeViewArgs.push(this.course.get('campaignID'));
+        }
+        if (this.courseInstanceID) {
+          this.homeLink += `?course-instance=${this.courseInstanceID}`;
+        }
 
-  setBus: (@bus) ->
+        this.homeViewClass = 'views/play/CampaignView';
+      } else if (this.level.isType('hero', 'hero-coop', 'game-dev', 'web-dev') || window.serverConfig.picoCTF) {
+        this.homeLink = '/play';
+        this.homeViewClass = 'views/play/CampaignView';
+        const campaign = this.level.get('campaign');
+        this.homeLink += '/' + campaign;
+        this.homeViewArgs.push(campaign);
+      } else {
+        this.homeLink = '/';
+        this.homeViewClass = 'views/HomeView';
+      }
+      c.editorLink = `/editor/level/${this.level.get('slug') || this.level.id}`;
+      c.homeLink = this.homeLink;
+      return c;
+    }
 
-  getRenderData: (c={}) ->
-    super c
-    c.worldName = @worldName
-    c.ladderGame = @level.isLadder()
-    if @level.get 'replayable'
-      c.levelDifficulty = @session.get('state')?.difficulty ? 0
-      if @observing
-        c.levelDifficulty = Math.max 0, c.levelDifficulty - 1  # Show the difficulty they won, not the next one.
-      c.difficultyTitle = "#{$.i18n.t 'play.level_difficulty'}#{c.levelDifficulty}"
-      @lastDifficulty = c.levelDifficulty
-    c.spectateGame = @spectateGame
-    c.observing = @observing
-    @homeViewArgs = [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}]
-    gameDevCampaign = application.getHocCampaign()
-    if gameDevCampaign and not @level.isLadder()
-      @homeLink = "/play/#{gameDevCampaign}"
-      @homeViewClass = 'views/play/CampaignView'
-      @homeViewArgs.push gameDevCampaign
-    else if me.isSessionless()
-      @homeLink = "/teachers/courses"
-      @homeViewClass = "views/courses/TeacherCoursesView"
-    else if @level.isLadder()
-      levelID = @level.get('slug')?.replace(/\-tutorial$/, '') or @level.id
-      @homeLink = "/play/ladder/#{levelID}"
-      @homeViewClass = 'views/ladder/LadderView'
-      @homeViewArgs.push levelID
-      if leagueID = utils.getQueryVariable('league') or utils.getQueryVariable('course-instance')
-        leagueType = if @level.isType('course-ladder') or (@level.isType('ladder') and utils.getQueryVariable('course-instance')) then 'course' else 'clan'
-        @homeViewArgs.push leagueType
-        @homeViewArgs.push leagueID
-        @homeLink += "/#{leagueType}/#{leagueID}"
-        if tournamentId = utils.getQueryVariable('tournament')
-          @homeLink += "?tournament=#{tournamentId}"
-    else if @level.isType('course') or @courseID
-      @homeLink = "/play"
-      if @course?
-        @homeLink += "/#{@course.get('campaignID')}"
-        @homeViewArgs.push @course.get('campaignID')
-      if @courseInstanceID
-        @homeLink += "?course-instance=#{@courseInstanceID}"
+    showGameMenuModal(e, tab=null) {
+      const gameMenuModal = new GameMenuModal({level: this.level, session: this.session, supermodel: this.supermodel, showTab: tab, classroomAceConfig: this.options.classroomAceConfig});
+      this.openModalView(gameMenuModal);
+      return this.listenToOnce(gameMenuModal, 'change-hero', function() {
+        if (this.setupManager != null) {
+          this.setupManager.destroy();
+        }
+        this.setupManager = new LevelSetupManager({supermodel: this.supermodel, level: this.level, levelID: this.levelID, parent: this, session: this.session, courseID: this.courseID, courseInstanceID: this.courseInstanceID});
+        return this.setupManager.open();
+      });
+    }
 
-      @homeViewClass = 'views/play/CampaignView'
-    else if @level.isType('hero', 'hero-coop', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
-      @homeLink = '/play'
-      @homeViewClass = 'views/play/CampaignView'
-      campaign = @level.get 'campaign'
-      @homeLink += '/' + campaign
-      @homeViewArgs.push campaign
-    else
-      @homeLink = '/'
-      @homeViewClass = 'views/HomeView'
-    c.editorLink = "/editor/level/#{@level.get('slug') or @level.id}"
-    c.homeLink = @homeLink
-    c
+    onClickHome(e) {
+      if (this.level.isType('course')) {
+        const category = me.isTeacher() ? 'Teachers' : 'Students';
+        if (window.tracker != null) {
+          window.tracker.trackEvent('Play Level Back To Levels', {category, levelSlug: this.levelSlug});
+        }
+      }
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return Backbone.Mediator.publish('router:navigate', {route: this.homeLink, viewClass: this.homeViewClass, viewArgs: this.homeViewArgs});
+    }
 
-  showGameMenuModal: (e, tab=null) ->
-    gameMenuModal = new GameMenuModal level: @level, session: @session, supermodel: @supermodel, showTab: tab, classroomAceConfig: @options.classroomAceConfig
-    @openModalView gameMenuModal
-    @listenToOnce gameMenuModal, 'change-hero', ->
-      @setupManager?.destroy()
-      @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, courseID: @courseID, courseInstanceID: @courseInstanceID})
-      @setupManager.open()
+    onClickSignupButton(e) {
+      return (window.tracker != null ? window.tracker.trackEvent('Started Signup', {category: 'Play Level', label: 'Control Bar', level: this.levelID}) : undefined);
+    }
 
-  onClickHome: (e) ->
-    if @level.isType('course')
-      category = if me.isTeacher() then 'Teachers' else 'Students'
-      window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug
-    e.preventDefault()
-    e.stopImmediatePropagation()
-    Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs
+    onDisableControls(e) { return this.toggleControls(e, false); }
+    onEnableControls(e) { return this.toggleControls(e, true); }
+    toggleControls(e, enabled) {
+      if (e.controls && !(Array.from(e.controls).includes('level'))) { return; }
+      if (enabled === this.controlsEnabled) { return; }
+      this.controlsEnabled = enabled;
+      return this.$el.toggleClass('controls-disabled', !enabled);
+    }
 
-  onClickSignupButton: (e) ->
-    window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Control Bar', level: @levelID
+    onIPadMemoryWarning(e) {
+      return this.hasReceivedMemoryWarning = true;
+    }
 
-  onDisableControls: (e) -> @toggleControls e, false
-  onEnableControls: (e) -> @toggleControls e, true
-  toggleControls: (e, enabled) ->
-    return if e.controls and not ('level' in e.controls)
-    return if enabled is @controlsEnabled
-    @controlsEnabled = enabled
-    @$el.toggleClass 'controls-disabled', not enabled
+    onSessionDifficultyChanged() {
+      if (__guard__(this.session.get('state'), x => x.difficulty) === this.lastDifficulty) { return; }
+      return this.render();
+    }
 
-  onIPadMemoryWarning: (e) ->
-    @hasReceivedMemoryWarning = true
+    destroy() {
+      if (this.setupManager != null) {
+        this.setupManager.destroy();
+      }
+      return super.destroy();
+    }
+  };
+  ControlBarView.initClass();
+  return ControlBarView;
+})());
 
-  onSessionDifficultyChanged: ->
-    return if @session.get('state')?.difficulty is @lastDifficulty
-    @render()
-
-  destroy: ->
-    @setupManager?.destroy()
-    super()
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}

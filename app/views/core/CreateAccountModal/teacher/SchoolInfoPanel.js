@@ -1,122 +1,173 @@
-require 'app/styles/modal/create-account-modal/school-info-panel.sass'
-NcesSearchInput = require './NcesSearchInput'
-algolia = require 'core/services/algolia'
-utils = require 'core/utils'
-DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students']
-SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone'])
-# NOTE: Phone number in algolia search results is for a school, not a district
-{ countries } = require 'core/utils';
-countryList = require('country-list')()
-UsaStates = require('usa-states').UsaStates
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+require('app/styles/modal/create-account-modal/school-info-panel.sass');
+const NcesSearchInput = require('./NcesSearchInput');
+const algolia = require('core/services/algolia');
+const utils = require('core/utils');
+const DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students'];
+const SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone']);
+// NOTE: Phone number in algolia search results is for a school, not a district
+const { countries } = require('core/utils');
+const countryList = require('country-list')();
+const {
+  UsaStates
+} = require('usa-states');
 
-SchoolInfoPanel =
-  name: 'school-info-panel'
-  template: require('app/templates/core/create-account-modal/school-info-panel')()
+const SchoolInfoPanel = {
+  name: 'school-info-panel',
+  template: require('app/templates/core/create-account-modal/school-info-panel')(),
 
-  data: ->
-    # TODO: Store ncesData in just the store?
-    ncesData = _.zipObject(['nces_'+key, ''] for key in SCHOOL_NCES_KEYS)
-    formData = _.pick(@$store.state.modalTeacher.trialRequestProperties,
-      ('nces_'+key for key in SCHOOL_NCES_KEYS).concat [
-        'organization'
-        'district'
-        'city'
-        'state'
+  data() {
+    // TODO: Store ncesData in just the store?
+    let key;
+    const ncesData = _.zipObject((() => {
+      const result = [];
+      for (key of Array.from(SCHOOL_NCES_KEYS)) {         result.push(['nces_'+key, '']);
+      }
+      return result;
+    })());
+    const formData = _.pick(this.$store.state.modalTeacher.trialRequestProperties,
+      ((() => {
+        const result1 = [];
+        for (key of Array.from(SCHOOL_NCES_KEYS)) {           result1.push('nces_'+key);
+        }
+        return result1;
+      })()).concat([
+        'organization',
+        'district',
+        'city',
+        'state',
         'country'
-      ])
+      ]));
 
-    Object.assign formData, {
+    Object.assign(formData, {
       countriesList: countryList.getNames()
-    }
+    });
 
     return _.assign(ncesData, formData, {
-      showRequired: false
-      usaStates: new UsaStates().states
-      usaStatesAbbreviations: new UsaStates().arrayOf('abbreviations')
-      countryMap:
+      showRequired: false,
+      usaStates: new UsaStates().states,
+      usaStatesAbbreviations: new UsaStates().arrayOf('abbreviations'),
+      countryMap: {
         "Hong Kong": "Hong Kong, China",
         "Macao": "Macao, China",
         "Taiwan, Province of China": "Taiwan, China"
-    })
+      }
+    });
+  },
 
-  components:
+  components: {
     'nces-search-input': NcesSearchInput
+  },
 
-  methods:
-    updateValue: (name, value) ->
-      @[name] = value
-      # Clear relevant NCES fields if they type a custom value instead of an autocompleted value
-      if name is 'organization'
-        @clearSchoolNcesValues()
-      if name is 'district'
-        @clearSchoolNcesValues()
-        @clearDistrictNcesValues()
+  methods: {
+    updateValue(name, value) {
+      this[name] = value;
+      // Clear relevant NCES fields if they type a custom value instead of an autocompleted value
+      if (name === 'organization') {
+        this.clearSchoolNcesValues();
+      }
+      if (name === 'district') {
+        this.clearSchoolNcesValues();
+        return this.clearDistrictNcesValues();
+      }
+    },
 
-    clearDistrictNcesValues: ->
-      for key in DISTRICT_NCES_KEYS
-        @['nces_' + key] = ''
+    clearDistrictNcesValues() {
+      return Array.from(DISTRICT_NCES_KEYS).map((key) =>
+        (this['nces_' + key] = ''));
+    },
 
-    clearSchoolNcesValues: ->
-      for key in _.difference(SCHOOL_NCES_KEYS, DISTRICT_NCES_KEYS)
-        @['nces_' + key] = ''
+    clearSchoolNcesValues() {
+      return Array.from(_.difference(SCHOOL_NCES_KEYS, DISTRICT_NCES_KEYS)).map((key) =>
+        (this['nces_' + key] = ''));
+    },
 
-    applySuggestion: (displayKey, suggestion) ->
-      return unless suggestion
-      _.assign(@, _.pick(suggestion, 'district', 'city', 'state'))
-      if displayKey is 'name'
-        @organization = suggestion.name
-      @country = 'United States'
-      @clearSchoolNcesValues()
-      @clearDistrictNcesValues()
-      NCES_KEYS = if displayKey is 'name' then SCHOOL_NCES_KEYS else DISTRICT_NCES_KEYS
-      for key in NCES_KEYS
-        @['nces_'+key] = suggestion[key]
+    applySuggestion(displayKey, suggestion) {
+      if (!suggestion) { return; }
+      _.assign(this, _.pick(suggestion, 'district', 'city', 'state'));
+      if (displayKey === 'name') {
+        this.organization = suggestion.name;
+      }
+      this.country = 'United States';
+      this.clearSchoolNcesValues();
+      this.clearDistrictNcesValues();
+      const NCES_KEYS = displayKey === 'name' ? SCHOOL_NCES_KEYS : DISTRICT_NCES_KEYS;
+      return Array.from(NCES_KEYS).map((key) =>
+        (this['nces_'+key] = suggestion[key]));
+    },
 
-    onChangeCountry: ->
-      if @['country'] == 'United States' && !@usaStatesAbbreviations.includes(@['state'])
-        @['state'] = ''
+    onChangeCountry() {
+      if ((this['country'] === 'United States') && !this.usaStatesAbbreviations.includes(this['state'])) {
+        return this['state'] = '';
+      }
+    },
 
-    commitValues: ->
-      attrs = _.pick(@, 'organization', 'district', 'city', 'state', 'country')
-      for key in SCHOOL_NCES_KEYS
-        ncesKey = 'nces_'+key
-        attrs[ncesKey] = @[ncesKey].toString()
-      @$store.commit('modalTeacher/updateTrialRequestProperties', attrs)
+    commitValues() {
+      const attrs = _.pick(this, 'organization', 'district', 'city', 'state', 'country');
+      for (var key of Array.from(SCHOOL_NCES_KEYS)) {
+        var ncesKey = 'nces_'+key;
+        attrs[ncesKey] = this[ncesKey].toString();
+      }
+      return this.$store.commit('modalTeacher/updateTrialRequestProperties', attrs);
+    },
 
-    clickContinue: ->
-      # Make sure to add conditions if we change this to be used on non-teacher path
-      window.tracker?.trackEvent 'CreateAccountModal Teacher SchoolInfoPanel Continue Clicked', category: 'Teachers'
-      requiredAttrs = _.pick(@, 'district', 'city', 'state', 'country')
-      unless _.all(requiredAttrs)
-        @showRequired = true
-        return
-      @commitValues()
-      window.tracker?.trackEvent 'CreateAccountModal Teacher SchoolInfoPanel Continue Success', category: 'Teachers'
-      @$emit('continue')
+    clickContinue() {
+      // Make sure to add conditions if we change this to be used on non-teacher path
+      if (window.tracker != null) {
+        window.tracker.trackEvent('CreateAccountModal Teacher SchoolInfoPanel Continue Clicked', {category: 'Teachers'});
+      }
+      const requiredAttrs = _.pick(this, 'district', 'city', 'state', 'country');
+      if (!_.all(requiredAttrs)) {
+        this.showRequired = true;
+        return;
+      }
+      this.commitValues();
+      if (window.tracker != null) {
+        window.tracker.trackEvent('CreateAccountModal Teacher SchoolInfoPanel Continue Success', {category: 'Teachers'});
+      }
+      return this.$emit('continue');
+    },
 
-    clickBack: ->
-      @commitValues()
-      window.tracker?.trackEvent 'CreateAccountModal Teacher SchoolInfoPanel Back Clicked', category: 'Teachers'
-      @$emit('back')
+    clickBack() {
+      this.commitValues();
+      if (window.tracker != null) {
+        window.tracker.trackEvent('CreateAccountModal Teacher SchoolInfoPanel Back Clicked', {category: 'Teachers'});
+      }
+      return this.$emit('back');
+    }
+  },
 
-  mounted: ->
-    $("input[name*='organization']").focus()
+  mounted() {
+    $("input[name*='organization']").focus();
 
-    if utils.isOzaria
-      return
+    if (utils.isOzaria) {
+      return;
+    }
 
-    if me.showChinaRegistration()
-      @country = 'China'
-    else
-      userCountry = me.get('country')
-      matchingCountryName = if userCountry then _.find(countryList.getNames(), (c) => c is _.string.slugify(userCountry) or c.toLowerCase() is userCountry.toLowerCase()) else undefined
-      if matchingCountryName
-        @country = matchingCountryName
-      else
-        @country = 'United States'
+    if (me.showChinaRegistration()) {
+      this.country = 'China';
+    } else {
+      const userCountry = me.get('country');
+      const matchingCountryName = userCountry ? _.find(countryList.getNames(), c => (c === _.string.slugify(userCountry)) || (c.toLowerCase() === userCountry.toLowerCase())) : undefined;
+      if (matchingCountryName) {
+        this.country = matchingCountryName;
+      } else {
+        this.country = 'United States';
+      }
+    }
 
-    if !me.addressesIncludeAdministrativeRegion()
-      @state = ' '
+    if (!me.addressesIncludeAdministrativeRegion()) {
+      return this.state = ' ';
+    }
+  }
+};
 
 
-module.exports = SchoolInfoPanel
+module.exports = SchoolInfoPanel;

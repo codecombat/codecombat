@@ -1,29 +1,33 @@
-module.exports = initializeFilepicker = ->
-  ((a) ->
-    return if window.filepicker
-    b = a.createElement('script')
-    b.type = 'text/javascript'
-    b.async = not 0
-    b.src = ((if 'https:' is a.location.protocol then 'https:' else 'http:')) + '//api.filepicker.io/v1/filepicker.js'
-    c = a.getElementsByTagName('script')[0]
-    c.parentNode.insertBefore b, c
-    d = {}
-    d._queue = []
-    e = 'pick,pickMultiple,pickAndStore,read,write,writeUrl,export,convert,store,storeUrl,remove,stat,setKey,constructWidget,makeDropPane'.split(',')
-    f = (a, b) ->
-      ->
-        b.push [
-          a
-          arguments
-        ]
-        return
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+let initializeFilepicker;
+module.exports = (initializeFilepicker = () => (function(a) {
+  if (window.filepicker) { return; }
+  const b = a.createElement('script');
+  b.type = 'text/javascript';
+  b.async = !0;
+  b.src = (('https:' === a.location.protocol ? 'https:' : 'http:')) + '//api.filepicker.io/v1/filepicker.js';
+  const c = a.getElementsByTagName('script')[0];
+  c.parentNode.insertBefore(b, c);
+  const d = {};
+  d._queue = [];
+  const e = 'pick,pickMultiple,pickAndStore,read,write,writeUrl,export,convert,store,storeUrl,remove,stat,setKey,constructWidget,makeDropPane'.split(',');
+  const f = (a, b) => (function() {
+    b.push([
+      a,
+      arguments
+    ]);
+  });
 
-    g = 0
+  let g = 0;
 
-    while g < e.length
-      d[e[g]] = f(e[g], d._queue)
-      g++
-    d.setKey('AvlkNoldcTOU4PvKi2Xm7z')
-    window.filepicker = d
-    return
-  ) document
+  while (g < e.length) {
+    d[e[g]] = f(e[g], d._queue);
+    g++;
+  }
+  d.setKey('AvlkNoldcTOU4PvKi2Xm7z');
+  window.filepicker = d;
+})(document));
