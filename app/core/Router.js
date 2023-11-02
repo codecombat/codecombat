@@ -38,7 +38,7 @@ const paymentUtils = require('lib/paymentUtils');
 module.exports = (CocoRouter = (function() {
   CocoRouter = class CocoRouter extends Backbone.Router {
     static initClass() {
-  
+
       this.prototype.routes = {
         ''() {
           if (window.serverConfig.picoCTF) {
@@ -48,7 +48,7 @@ module.exports = (CocoRouter = (function() {
             delete window.alreadyLoadedView;
             return this.navigate("/play?hour_of_code=true", {trigger: true, replace: true});
           }
-  
+
           if (utils.isCodeCombat) {
             if (utils.getQueryVariable('payment-homeSubscriptions')) {
               return this.routeDirectly('HomeView');
@@ -69,26 +69,26 @@ module.exports = (CocoRouter = (function() {
           }
           return this.routeDirectly('HomeView', []);
         },
-  
+
         'about': go('AboutView'),
         'contact-cn': go('ContactCNView'),
         'china-bridge': go('ChinaBridgeView'),
-  
+
         'account': go('account/MainAccountView'),
         'account/oauth-aiyouth': go('account/OAuthAIYouthView'),
-  
+
         'account/settings': go('account/AccountSettingsRootView'),
         'account/unsubscribe': go('account/UnsubscribeView'),
         'account/payments': go('account/PaymentsView'),
         'account/subscription': go('account/SubscriptionView', { redirectStudents: true, redirectTeachers: true }),
         'account/invoices': go('account/InvoicesView'),
         'account/prepaid': go('account/PrepaidView'),
-  
+
         'ai': go('ai/AIView'),
         'ai/*path': go('ai/AIView'),
-  
+
         'licensor': go('LicensorView'),
-  
+
         'admin': go('admin/MainAdminView'),
         'admin/clas': go('admin/CLAsView'),
         'admin/classroom-content': go('admin/AdminClassroomContentView'),
@@ -116,18 +116,18 @@ module.exports = (CocoRouter = (function() {
         'admin/outcomes-report-result': go('admin/OutcomeReportResultView'),
         'admin/outcomes-report': go('admin/OutcomesReportView'),
         'admin/clan(/:clanID)': go('core/SingletonAppVueComponentView'),
-  
+
         'announcements': go('core/SingletonAppVueComponentView'),
         'event-calendar(/*subpath)': go('core/SingletonAppVueComponentView'),
-  
+
     //    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
-  
+
         'library-dashboard': go('core/SingletonAppVueComponentView'),
         'partner-dashboard': go('core/SingletonAppVueComponentView'),
         'api-dashboard': go('core/SingletonAppVueComponentView'),
-  
+
         'artisans': go('artisans/ArtisansView'),
-  
+
         'artisans/level-tasks': go('artisans/LevelTasksView'),
         'artisans/solution-problems': go('artisans/SolutionProblemsView'),
         'artisans/thang-tasks': go('artisans/ThangTasksView'),
@@ -136,16 +136,16 @@ module.exports = (CocoRouter = (function() {
         'artisans/student-solutions': go('artisans/StudentSolutionsView'),
         'artisans/sandbox': go('artisans/SandboxView'),
         'artisans/arena-balancer(/:levelSlug)': go('artisans/ArenaBalancerView'),
-  
+
         'careers': () => { return window.location.href = 'https://jobs.lever.co/codecombat'; },
-  
+
         'cla': go('CLAView'),
-  
+
         'clans': go('clans/ClansView', { redirectStudents: true }),
         'clans/:clanID': go('clans/ClanDetailsView', { redirectStudents: true }),
-  
+
         'community'() { return this.navigate("/contribute", {trigger: true, replace: true}); },
-  
+
         'contribute': go('contribute/MainContributeView'),
         'contribute/adventurer': go('contribute/AdventurerView'),
         'contribute/ambassador': go('contribute/AmbassadorView'),
@@ -153,7 +153,7 @@ module.exports = (CocoRouter = (function() {
         'contribute/artisan': go('contribute/ArtisanView'),
         'contribute/diplomat': go('contribute/DiplomatView'),
         'contribute/scribe': go('contribute/ScribeView'),
-  
+
         'courses': redirect('/students'), // Redirected 9/3/16
         'Courses': redirect('/students'), // Redirected 9/3/16
         'courses/students': redirect('/students'), // Redirected 9/3/16
@@ -163,15 +163,15 @@ module.exports = (CocoRouter = (function() {
         'courses/update-account': redirect('students/update-account'), // Redirected 9/3/16
         'courses/:classroomID'() { return this.navigate(`/students/${arguments[0]}`, {trigger: true, replace: true}); }, // Redirected 9/3/16
         'courses/:courseID/:courseInstanceID'() { return this.navigate(`/students/${arguments[0]}/${arguments[1]}`, {trigger: true, replace: true}); }, // Redirected 9/3/16
-  
+
         'dei': go('core/SingletonAppVueComponentView'),
         'diversity-equity-and-inclusion': go('core/SingletonAppVueComponentView'),
         'db/*path': 'routeToServer',
         'docs/components': go('editor/docs/ComponentsDocumentationView'),
         'docs/systems': go('editor/docs/SystemsDocumentationView'),
-  
+
         'editor': go('CommunityView'),
-  
+
         'editor/concept': go('editor/concept/ConceptSearchView'),
         'editor/concept/:conceptID': go('editor/concept/ConceptEditView'),
         'editor/standards': go('editor/standards/StandardsSearchView'),
@@ -214,18 +214,18 @@ module.exports = (CocoRouter = (function() {
         'editor/ai-document/:documentID': go('editor/ai-document/AIDocumentEditView'),
         'editor/ai-chat-message': go('editor/ai-chat-message/AIChatMessageSearchView'),
         'editor/ai-chat-message/:chatMessageID': go('editor/ai-chat-message/AIChatMessageEditView'),
-  
-  
+
+
         'etc': redirect('/teachers/demo'),
         'demo': redirect('/teachers/demo'),
         'quote': redirect('/teachers/demo'),
-  
+
         'file/*path': 'routeToServer',
-  
+
         'funding': go('core/SingletonAppVueComponentView'),
-  
+
         'github/*path': 'routeToServer',
-  
+
         'hoc'(queryString) {
            if (utils.isCodeCombat) {
              return this.navigate("/play/hoc-2018", {trigger: true, replace: true});
@@ -240,10 +240,10 @@ module.exports = (CocoRouter = (function() {
             return this.navigate(`/play/chapter-1-sky-mountain?hour_of_code=true${queryString}`, { trigger: true });
           }
          },
-  
+
         'play/hoc-2020'() { return this.navigate("/play/hoc-2018", {trigger: true, replace: true}); }, // Added to handle HoC PDF
         'home': utils.isCodeCombat && me.useChinaHomeView() ? go('HomeCNView') : go('HomeView'),
-  
+
         'i18n': go('i18n/I18NHomeView'),
         'i18n/thang/:handle': go('i18n/I18NEditThangTypeView'),
         'i18n/component/:handle': go('i18n/I18NEditComponentView'),
@@ -263,60 +263,60 @@ module.exports = (CocoRouter = (function() {
         'i18n/ai/scenario/:handle': go('i18n/I18NEditAIScenarioView'),
         'i18n/ai/chat_message/:handle': go('i18n/I18NEditAIChatMessageView'),
         'i18n/ai/document/:handle': go('i18n/I18NEditAIDocumentView'),
-  
-  
+
+
         'identify': go('user/IdentifyView'),
         'il-signup': go('account/IsraelSignupView'),
-  
+
         'impact'() {
           return this.routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat-vue' });
         },
-  
+
         'partners'() {
           return this.routeDirectly('PagePartners', [], { vueRoute: true, baseTemplate: 'base-flat-vue' });
         },
-  
+
         'apcsp'() {
           return this.routeDirectly('PageAPCSPMarketing', [], { vueRoute: true, baseTemplate: 'base-flat-vue' });
         },
-  
+
         'apcspportal'() {
           return this.routeDirectly('PageAPCSPCurriculum', [], { vueRoute: true, baseTemplate: 'base-flat-vue' });
         },
-  
+
         'apcsportal'() {
           return this.routeDirectly('PageAPCSPCurriculum', [], { vueRoute: true, baseTemplate: 'base-flat-vue' });
         },
-  
+
         'league/academica': redirect('/league/autoclan-school-network-academica'), // Redirect for Academica.
         'league/kipp': redirect('/league/autoclan-school-network-kipp'), // Redirect for KIPP.
         'league(/*subpath)': go('core/SingletonAppVueComponentView'),
-  
+
         'legal': go('LegalView'),
-  
+
         'logout': 'logout',
-  
+
         'minigames/conditionals': go('minigames/ConditionalMinigameView'),
-  
+
         'mobile'() {
           return this.routeDirectly('views/landing-pages/mobile/PageMobileView', [], { vueRoute: true, baseTemplate: 'base-empty' });
         },
-  
+
         'parents': go('core/SingletonAppVueComponentView'),
         'parents/*path': go('core/SingletonAppVueComponentView'),
         'live-classes': go('core/SingletonAppVueComponentView'),
         'live': go('core/SingletonAppVueComponentView'),
-  
+
         'outcomes-report(/*subpath)': go('core/SingletonAppVueComponentView'),
-  
+
         // Warning: In production debugging of third party iframe!
         'temporary-debug-timetap': go('core/SingletonAppVueComponentView'),
-  
+
         'paypal/subscribe-callback': go('play/CampaignView'),
         'paypal/cancel-callback': go('account/SubscriptionView'),
-  
+
         'tournaments/:pageType/:objectId': go('ladder/MainTournamentView'),
-  
+
         'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }), // extra slash is to get Facebook app to work
         'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView'),
         'play/ladder/:levelID': go('ladder/LadderView'),
@@ -337,7 +337,7 @@ module.exports = (CocoRouter = (function() {
           };
           return this.routeDirectly('introLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props});
         },
-  
+
         'play/video/level/:levelID': go('play/level/PlayLevelVideoView'),
         'play/game-dev-level/:sessionID': go('play/level/PlayGameDevLevelView'),
         'play/web-dev-level/:sessionID': go('play/level/PlayWebDevLevelView'),
@@ -366,44 +366,44 @@ module.exports = (CocoRouter = (function() {
           };
           if (me.isAdmin()) { return this.routeDirectly('interactive', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props}); }
         },
-  
+
         'cinematic/:cinematicIdOrSlug'(cinematicIdOrSlug) {
           const props = {
             cinematicIdOrSlug,
           };
           if (me.isAdmin()) { return this.routeDirectly('cinematic', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props}); }
         },
-  
+
         'cutscene/:cutsceneId'(cutsceneId) {
           const props = {
             cutsceneId,
           };
           if (me.isAdmin()) { return this.routeDirectly('cutscene', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props }); }
         },
-  
+
         'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true }),
-  
+
         'ozaria/avatar-selector'() {
           if (me.isAdmin()) { return this.routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' }); }
         },
-  
+
         'preview': me.useChinaHomeView() ? go('HomeCNView') : go('HomeView'),
-  
+
         'privacy': go('PrivacyView'),
-  
+
         'professional-development': go('core/SingletonAppVueComponentView'),
         'pd': go('core/SingletonAppVueComponentView'),
         'efficacy': go('core/SingletonAppVueComponentView'),
-  
+
         'sel': go('core/SingletonAppVueComponentView'),
         'social-and-emotional-learning': go('core/SingletonAppVueComponentView'),
-  
+
         'roblox': go('core/SingletonAppVueComponentView'),
         'grants': go('core/SingletonAppVueComponentView'),
-  
+
         'schools': me.useChinaHomeView() ? go('HomeCNView') : go('HomeView'),
         'seen': me.useChinaHomeView() ? go('HomeCNView') : go('HomeView'),
-  
+
         'students': go('courses/CoursesView', { redirectTeachers: true }),
         'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true }),
         'students/project-gallery/:courseInstanceID': go('courses/ProjectGalleryView'),
@@ -411,7 +411,7 @@ module.exports = (CocoRouter = (function() {
         'students/videos/:courseID/:courseName': go('courses/CourseVideosView'),
         'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true }),
         'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true }),
-  
+
         'teachers'() {
           if (utils.isCodeCombat && (localStorage.getItem('newDT') !== 'true')) {
             delete window.alreadyLoadedView;
@@ -460,7 +460,7 @@ module.exports = (CocoRouter = (function() {
         'teachers/resources/hoc2019':  () => { return window.location.href = 'https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'; },
         'teachers/resources/hoc2020':  () => { return window.location.href = 'https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'; },
         'teachers/licenses/v0': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true }),
-  
+
         'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true }),
         'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true }),
         'teachers/resources_old': go('teachers/ResourceHubView', { redirectStudents: true }),
@@ -479,25 +479,25 @@ module.exports = (CocoRouter = (function() {
           if (me.isStudent() && !me.isAdmin()) { return this.navigate('/students', {trigger: true, replace: true}); }
           return this.routeDirectly('teachers/ConvertToTeacherAccountView', []);
         },
-  
+
         'school-administrator(/*subpath)': go('core/SingletonAppVueComponentView'),
         'cinematicplaceholder/:levelSlug': go('core/SingletonAppVueComponentView'),
-  
+
         'sign-up/educator': go('core/SingletonAppVueComponentView'),
-  
+
         'test(/*subpath)': go('TestView'),
-  
+
         'user/:slugOrID': go('user/MainUserView'),
         'certificates/:slugOrID': go('user/CertificatesView'),
         'certificates/all-courses/:slugOrID': go('user/AllCoursesCertificatesView'),
         'certificates/:id/anon': go('user/AnonCertificatesView'),
-  
+
         'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView'),
         'user/:userID/opt-in/:verificationCode': go('user/UserOptInView'),
-  
+
         'users/switch-account': go('core/SingletonAppVueComponentView'),
         'users/switch-account/*path': go('core/SingletonAppVueComponentView'),
-  
+
         'payments/*path': go('core/SingletonAppVueComponentView'),
         'ladders/*path': go('core/SingletonAppVueComponentView'),
         'ed-link/*path': go('core/SingletonAppVueComponentView'),
@@ -505,12 +505,12 @@ module.exports = (CocoRouter = (function() {
         'teachers/licenses/join': go('core/SingletonAppVueComponentView'),
         'podcast': go('core/SingletonAppVueComponentView'),
         'podcast/*path': go('core/SingletonAppVueComponentView'),
-  
+
         'libraries': go('core/SingletonAppVueComponentView'),
         'library/*path': go('core/SingletonAppVueComponentView'),
-  
+
         'acte': redirect('/home?registering=true&referrerEvent=ACTE#create-account-teacher'),
-  
+
         '*name/': 'removeTrailingSlash',
         '*name': go('NotFoundView')
       };
@@ -686,7 +686,7 @@ module.exports = (CocoRouter = (function() {
       if (globalVar.currentView != null ? globalVar.currentView.reloadOnClose : undefined) {
         return document.location.reload();
       }
-      __guardMethod__(currentModal, 'hide', o => o.hide());
+      __guardMethod__(window.currentModal, 'hide', o => o.hide());
       if (globalVar.currentView == null) { return; }
       globalVar.currentView.modalClosed();
       globalVar.currentView.destroy();
