@@ -298,7 +298,8 @@ module.exports = class SpellPaletteView extends CocoView
     if @options.level.isType('web-dev')
       @entryGroups = _.groupBy @entries, (entry) -> entry.doc.type
     else
-      @entryGroups = _.groupBy @entries, (entry) -> itemsByProp[entry.doc.name]?.get('name') ? 'Hero'
+      @entryGroups = _.groupBy @entries, (entry) ->
+        itemsByProp[entry.doc.name]?.get?('name') ? 'Hero'
     if @position is 'bot'
       # Reorganize to balance number of entries in each group (especially useful for arenas when all properties are on hero)
       nColumns = @calculateNColumns()
@@ -308,12 +309,12 @@ module.exports = class SpellPaletteView extends CocoView
         while @entryGroups[group].length > itemsPerGroup
           excessEntries = @entryGroups[group].splice(itemsPerGroup, itemsPerGroup)
           @entryGroups[group + " #{++excessGroupCounter}"] = excessEntries
-    iOSEntryGroups = {}
+    entryGroups = {}
     for group, entries of @entryGroups
-      iOSEntryGroups[group] =
+      entryGroups[group] =
         item: {name: group, imageURL: itemThangTypes[group]?.getPortraitURL()}
         props: (entry.doc for entry in entries)
-    Backbone.Mediator.publish 'tome:palette-updated', thangID: @thang.id, entryGroups: JSON.stringify(iOSEntryGroups)
+    Backbone.Mediator.publish 'tome:palette-updated', thangID: @thang.id, entryGroups: entryGroups
 
   addEntry: (doc, shortenize, isSnippet=false, item=null, showImage=false) ->
     writable = (if _.isString(doc) then doc else doc.name) in (@thang.apiUserProperties ? [])

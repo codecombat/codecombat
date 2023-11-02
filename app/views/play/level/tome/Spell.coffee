@@ -1,4 +1,3 @@
-
 SpellView = require './SpellView'
 SpellTopBarView = require './SpellTopBarView'
 {me} = require 'core/auth'
@@ -24,7 +23,7 @@ module.exports = class Spell
     @level = options.level
     @createFromProgrammableMethod options.programmableMethod, options.language
     if @canRead()  # We can avoid creating these views if we'll never use them.
-      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel, levelID: options.levelID, classroomAceConfig: options.classroomAceConfig, spectateView: @spectateView, courseID: options.courseID}
+      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel, levelID: options.levelID, classroomAceConfig: options.classroomAceConfig, spectateView: @spectateView, courseID: options.courseID, blocks: options.blocks}
       @view.render()  # Get it ready and code loaded in advance
       @topBarView = new SpellTopBarView
         hintsState: options.hintsState
@@ -35,6 +34,8 @@ module.exports = class Spell
         session: options.session
         courseID: options.courseID
         courseInstanceID: options.courseInstanceID
+        blocks: options.blocks
+        blocksHidden: options.blocksHidden
         teacherID: options.teacherID
       @topBarView.render()
     Backbone.Mediator.publish 'tome:spell-created', spell: @

@@ -1,3 +1,4 @@
+{ commentStarts } = require 'core/utils'
 module.exports.translateJS = (jsCode, language='cpp', fullCode=true) ->
   return translateJSBrackets(jsCode, language, fullCode) if language in ['cpp', 'java']
   return translateJSWhitespace(jsCode, language) if language in ['python', 'lua', 'coffeescript']
@@ -365,14 +366,3 @@ translateJSWhitespace = (jsCode, language='lua') ->
   lines = s.split '\n'
   output = (lines.map (line) -> line.slice 1).join('\n')  # Remove leading convenience whitespace that we added
   output
-
-# Note: These need to be double-escaped for insertion into regexes
-commentStarts =
-  javascript: '//'
-  python: '#'
-  coffeescript: '#'
-  lua: '--'
-  java: '//'
-  cpp: '//'
-  html: '<!--'
-  css: '/\\*'

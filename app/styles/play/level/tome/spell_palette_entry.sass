@@ -79,9 +79,13 @@ body.dialogue-view-active
   right: calc(#{$code-area-width} + 1.5%)
   .no-api &
     right: calc(#{$code-area-width-no-api} + 1.5%)
+  .blocks &
+    right: calc(#{$code-area-width-blocks} + 1.5%)
   left: auto !important
-  max-width: 600px
   min-width: 500px
+
+.spell-palette-popover.popover, .blocklyTooltipDiv
+  max-width: 600px
   padding: 0
   border-style: solid
   border-image: url(/images/level/popover_border_background.png) 16 12 fill round
@@ -121,6 +125,8 @@ body.dialogue-view-active
     right: calc(#{$code-area-width} + 1.5%)
     .no-api &
       right: calc(#{$code-area-width-no-api} + 1.5%)
+    .blocks &
+      right: calc(#{$code-area-width-blocks} + 1.5%)
 
     // bottom: 151px
     @include user-select(text)
@@ -196,6 +202,11 @@ body.dialogue-view-active
 
     body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
       font-family: "Cousine", "Courier", "Courier New", monospace !important
+
+.blocklyTooltipDiv
+  .docs-ace-container
+    &, .docs-ace
+      white-space: pre-wrap
 
 html.no-borderimage
   .spell-palette-popover.popover

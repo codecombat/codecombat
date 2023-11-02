@@ -2,6 +2,7 @@
 
 ace = require('lib/aceContainer');
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
+{commentStarts} = require 'core/utils'
 UndoManager = ace.require('ace/undomanager').UndoManager
 Y = require 'yjs'
 { WebsocketProvider } = require 'y-websocket'
@@ -56,16 +57,6 @@ identifierRegex = (lang, type) ->
   return /./
 
 singleLineCommentRegex = (lang) ->
-  commentStarts =
-    javascript: '//'
-    python: '#'
-    coffeescript: '#'
-    lua: '--'
-    java: '//'
-    cpp: '//'
-    html: '<!--'
-    css: '/\\*'
-
   if lang is 'html'
     commentStart = "#{commentStarts.html}|#{commentStarts.css}|#{commentStarts.javascript}"
   else

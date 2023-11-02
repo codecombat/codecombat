@@ -739,19 +739,19 @@ skipPracticeLevels = (levels, index) ->
 
 findFirstIncompleteLevelOfPreviousPracticeChain = (levels, currentIndex) ->
   index = skipNonPracticeLevels(levels, currentIndex - 1)
-  
+
   if index >= 0
     index = skipPracticeLevels(levels, index)
-    
+
     if index >= 0
       index++
-      
+
       # Skip completed practice levels
       index++ while index < levels.length and isPractice(levels[index]) and levels[index].complete
-      
+
       return -1 if isLocked(levels[index])
       return index if isPractice(levels[index]) and not levels[index].complete
-  
+
   return -1
 
 isAnyPrecedingLevelLocked = (levels, currentIndex) ->
@@ -771,7 +771,7 @@ findNextLevel = (levels, currentIndex, needsPractice) ->
         index++
     else
       index = findFirstIncompleteLevelOfPreviousPracticeChain(levels, currentIndex)
-      
+
       if index == -1
         index = currentIndex + 1
         while index < levels.length and (isCompleteOrAssessmentOrSkipped(levels[index]) or isLocked(levels[index]))
@@ -1242,6 +1242,17 @@ ozBaseURL = ->
 
 capitalizeFirstLetter = (str) -> (str[0] or '').toUpperCase() + str.slice(1)
 
+# Note: These need to be double-escaped for insertion into regexes
+commentStarts =
+  javascript: '//'
+  python: '#'
+  coffeescript: '#'
+  lua: '--'
+  java: '//'
+  cpp: '//'
+  html: '<!--'
+  css: '/\\*'
+
 markdownToPlainText = (text) ->
   # First, replace HTML tags in text with their plain text contents
   text = text.replace /<[^>]*>/g, ''
@@ -1315,6 +1326,7 @@ module.exports = {
   clanHeroes
   clone
   combineAncestralObject
+  commentStarts
   countries
   countryCodeToFlagEmoji
   countryCodeToName
