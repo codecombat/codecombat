@@ -323,9 +323,9 @@ module.exports = class LadderTabView extends CocoView
           models = [_session, player]
         @openModalView new ModelModal models: models
     else if me.isTeacher()
-      ;
+      # TODO
     else
-      ;
+      # TODO
 
   onClickSpectateCell: (e) ->
     cell = $(e.target).closest '.spectate-cell'
