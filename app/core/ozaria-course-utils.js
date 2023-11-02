@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 // this is a copy of course info from utils.coffee for ozaria since we want to show oz info in coco now
 const campaignIDs =
   {CHAPTER_ONE: '5d1a8368abd38e8b5363bad9'};

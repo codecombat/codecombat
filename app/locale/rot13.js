@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 module.exports = { nativeDescription: "rot13", englishDescription: "English with the letters jumbled", translation: {
 
   ozaria_home: {

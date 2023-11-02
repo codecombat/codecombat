@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 const LevelConstants = {
   levels: {
     'dungeons-of-kithgard': '5411cb3769152f1707be029c',

@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 let results;
 module.exports = (results = {greed: {}, 'criss-cross': {}, 'zero-sum': {}, 'ace-of-coders': {}, 'battle-of-red-cliffs': {}});
 
