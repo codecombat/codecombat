@@ -1,3 +1,4 @@
+{ commentStarts } = require 'core/utils'
 module.exports.translateJS = (jsCode, language='cpp', fullCode=true) ->
   return translateJSBrackets(jsCode, language, fullCode) if language in ['cpp', 'java']
   return translateJSWhitespace(jsCode, language) if language in ['python', 'lua', 'coffeescript']
@@ -282,7 +283,7 @@ translateJSWhitespace = (jsCode, language='lua') ->
       s = s.replace newRegex, '$1'
 
   # Rewrite comments
-  commentStart = utils.commentStarts[language] or '#'
+  commentStart = commentStarts[language] or '#'
   commentStartRegex = new RegExp "([ \t]*?)//", 'gm'
   s = s.replace commentStartRegex, "$1#{commentStart}"  # `    // Comment` -> `    # Comment`
 
