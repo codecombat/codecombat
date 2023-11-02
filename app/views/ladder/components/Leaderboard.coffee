@@ -217,9 +217,9 @@ module.exports = class LeaderboardView extends CocoView
           models.push new TournamentSubmission _id: leaderboards[id].get('_id')
         @openModalView new ModelModal models: models
     else if me.isTeacher()
-      ;
+      # TODO
     else
-      ;
+      # TODO
 
   handleClickAgeFilter: (ageBracket) ->
     @ageBracket = ageBracket
