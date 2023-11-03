@@ -195,12 +195,18 @@ module.exports = class PlayLevelView extends RootView
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
 
-    @classroomAceConfig = {liveCompletion: true}  # default (home users, teachers, etc.)
+    blocksDefault = 'hidden'
+    blocksOverride = utils.getQueryVariable 'blocks'
+    if blocksOverride?
+      blocksDefault = { true: 'opt-out', false: 'hidden' }[blocksOverride] or blocksOverride
+    @classroomAceConfig = {liveCompletion: true, blocks: blocksDefault}  # default (home users, teachers, etc.)
     if @courseInstanceID
       fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members,ownerID")
       @supermodel.trackRequest fetchAceConfig
       fetchAceConfig.then (classroom) =>
         @classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion ? true
+        @classroomAceConfig.blocks = classroom.aceConfig?.blocks ? blocksDefault
+        @tome?.determineBlocksSettings()
         @classroomAceConfig.levelChat = classroom.aceConfig?.levelChat ? 'none'
         @teacherID = classroom.ownerID
 

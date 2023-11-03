@@ -32,6 +32,7 @@ module.exports = class SpellTopBarView extends CocoView
     'click #fill-solution': 'onFillSolution'
     'click #toggle-solution': 'onToggleSolution'
     'click #switch-team': 'onSwitchTeam'
+    'click .toggle-blocks': 'onToggleBlocks'
     'click #ask-teacher-for-help': 'onClickHelpButton'
 
   constructor: (options) ->
@@ -39,6 +40,8 @@ module.exports = class SpellTopBarView extends CocoView
     @spell = options.spell
     @courseInstanceID = options.courseInstanceID
     @courseID = options.courseID
+    @blocks = options.blocks
+    @blocksHidden = options.blocksHidden
     @teacherID = options.teacherID
     @teaching = utils.getQueryVariable 'teaching'
 
@@ -171,6 +174,10 @@ module.exports = class SpellTopBarView extends CocoView
     else
       query = '?team='
     window.location.href = protocol+host+pathname+query + @otherTeam()
+
+  onToggleBlocks: ->
+    @blocks = not @blocks
+    Backbone.Mediator.publish 'tome:toggle-blocks', { blocks: @blocks }
 
   onClickHelpButton: ->
     Backbone.Mediator.publish('websocket:asking-help', {

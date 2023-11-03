@@ -160,6 +160,10 @@ body.is-playing
       right: 43.5%
       right: $code-area-width-no-api
 
+  &.blocks #code-area
+    width: 43.5%
+    width: $code-area-width-blocks
+
   #code-area, #solution-area
     @include box-sizing(border-box)
     padding: 0px 0.9% 10px 0
@@ -318,6 +322,10 @@ body.is-playing
     width: 57%
     width: $game-view-width-no-api
 
+  &.blocks #play-footer
+    width: 57%
+    width: $game-view-width-blocks
+
   #play-footer
     position: absolute
     bottom: 0px
@@ -425,7 +433,6 @@ body.is-playing
   .game-container, .level-content
     height: 100%
 
-
   &.no-api
     #spell-palette-view-mid
       display: none
@@ -436,6 +443,13 @@ body.is-playing
     &.real-time
       #canvas-wrapper
         width: 100%
+
+  &.blocks
+    #spell-palette-view-mid
+      display: none
+    #canvas-wrapper
+      width: 57%
+      width: $game-view-width-blocks
 
   &.web-dev
     position: absolute

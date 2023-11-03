@@ -228,6 +228,7 @@ _.extend UserSchema.properties,
     behaviors: { type: 'boolean' }
     liveCompletion: { type: 'boolean' }
     screenReaderMode: { type: 'boolean' }
+    blocks: { type: 'boolean' }
 
   simulatedBy: {type: 'integer', minimum: 0 }
   simulatedFor: {type: 'integer', minimum: 0 }

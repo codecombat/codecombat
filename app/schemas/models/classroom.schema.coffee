@@ -21,6 +21,7 @@ _.extend ClassroomSchema.properties,
   aceConfig:
     language: {type: 'string', 'enum': ['python', 'javascript', 'cpp', 'java']}
     liveCompletion: {type: 'boolean', default: true}
+    blocks: { type: 'string', enum: ['hidden', 'opt-in', 'opt-out'], description: 'Drag-and-drop blocks option for students. Default if unset: hidden.' }
     levelChat: {type: 'string', enum: ['fixed_prompt_only', 'none']}
   averageStudentExp: { type: 'string' }
   ageRangeMin: { type: 'string' }

@@ -1023,9 +1023,9 @@ module.exports = class SpellView extends CocoView
       @_singleLineCommentRegex.lastIndex = 0
       return @_singleLineCommentRegex
     if @spell.language is 'html'
-      commentStart = "#{commentStarts.html}|#{commentStarts.css}|#{commentStarts.javascript}"
+      commentStart = "#{utils.commentStarts.html}|#{utils.commentStarts.css}|#{utils.commentStarts.javascript}"
     else
-      commentStart = commentStarts[@spell.language] or '//'
+      commentStart = utils.commentStarts[@spell.language] or '//'
     @_singleLineCommentRegex = new RegExp "[ \t]*(#{commentStart})[^\"'\n]*"
     @_singleLineCommentRegex
 
@@ -1039,10 +1039,10 @@ module.exports = class SpellView extends CocoView
   # Returns string that will stop code from running.
   commentOutMyCode: ->
     prefix = if @spell.language is 'javascript' then 'return;  ' else 'return  '
-    comment = prefix + commentStarts[@spell.language]
+    comment = prefix + utils.commentStarts[@spell.language]
 
   getLanguageComment: ->
-    commentStarts[@spell.language]
+    utils.commentStarts[@spell.language]
 
   preload: ->
     # Send this code over to the God for preloading, but don't change the cast state.
@@ -1387,13 +1387,3 @@ module.exports = class SpellView extends CocoView
     @saveSpadeTimeout = null
     @autocomplete?.destroy()
     super()
-
-# Note: These need to be double-escaped for insertion into regexes
-commentStarts =
-  javascript: '//'
-  python: '#'
-  coffeescript: '#'
-  lua: '--'
-  java: '//'
-  html: '<!--'
-  css: '/\\*'

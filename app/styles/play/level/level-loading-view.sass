@@ -122,6 +122,8 @@ $UNVEIL_TIME: 1.2s
         width: calc(#{$code-area-width} + #{$api-bar-width} - 20px)
         .no-api &
           width: calc($code-area-width-no-api - 20px)
+        .blocks &
+          width: calc($code-area-width-blocks - 20px)
         height: auto
         pointer-events: all
         @include transition($UNVEIL_TIME ease-in-out)
