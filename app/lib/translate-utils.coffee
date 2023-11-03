@@ -1,4 +1,4 @@
-{ commentStarts } = require 'core/utils'
+{ commentStarts } = require '../core/utils'
 module.exports.translateJS = (jsCode, language='cpp', fullCode=true) ->
   return translateJSBrackets(jsCode, language, fullCode) if language in ['cpp', 'java']
   return translateJSWhitespace(jsCode, language) if language in ['python', 'lua', 'coffeescript']
