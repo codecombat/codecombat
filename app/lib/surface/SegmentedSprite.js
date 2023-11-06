@@ -33,6 +33,7 @@ module.exports = (SegmentedSprite = (function() {
     }
 
     constructor(spriteSheet, thangType, spriteSheetPrefix, resolutionFactor) {
+      super(spriteSheet)
       this.handleTick = this.handleTick.bind(this);
       this.spriteSheet = spriteSheet;
       this.thangType = thangType;
@@ -40,7 +41,6 @@ module.exports = (SegmentedSprite = (function() {
       if (resolutionFactor == null) { resolutionFactor = SPRITE_RESOLUTION_FACTOR; }
       this.resolutionFactor = resolutionFactor;
       if (this.spriteSheet.mcPool == null) { this.spriteSheet.mcPool = {}; }
-      super(this.spriteSheet);
       this.addEventListener('tick', this.handleTick);
     }
 

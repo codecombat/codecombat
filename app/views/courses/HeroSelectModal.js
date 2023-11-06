@@ -23,13 +23,14 @@ module.exports = (HeroSelectModal = (function() {
       this.prototype.id = 'hero-select-modal';
       this.prototype.template = template;
       this.prototype.retainSubviews = true;
-  
+
       this.prototype.events =
         {'click .select-hero-btn': 'onClickSelectHeroButton'};
     }
 
-    initialize() {
-      return this.listenTo(this.insertSubView(new HeroSelectView({ showCurrentHero: true })),
+    constructor () {
+      super()
+      this.listenTo(this.insertSubView(new HeroSelectView({ showCurrentHero: true })),
         'hero-select:success', function(hero) {
           if (!this.destroyed) { return this.trigger('hero-select:success', hero); }
       });

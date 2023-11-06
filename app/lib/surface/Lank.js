@@ -38,14 +38,14 @@ module.exports = (Lank = (Lank = (function() {
   Lank = class Lank extends CocoClass {
     static initClass() {
       this.prototype.thangType = null; // ThangType instance
-  
+
       this.prototype.sprite = null;
-  
+
       this.prototype.healthBar = null;
       this.prototype.marks = null;
       this.prototype.labels = null;
       this.prototype.ranges = null;
-  
+
       this.prototype.options = {
         groundLayer: null,
         textLayer: null,
@@ -55,26 +55,26 @@ module.exports = (Lank = (Lank = (function() {
         showInvisible: false,
         preloadSounds: true
       };
-  
+
       this.prototype.possessed = false;
       this.prototype.flipped = false;
       this.prototype.flippedCount = 0;
       this.prototype.actionQueue = null;
       this.prototype.actions = null;
       this.prototype.rotation = 0;
-  
+
       // Scale numbers
       this.prototype.scaleFactorX = 1; // Current scale adjustment. This can change rapidly.
       this.prototype.scaleFactorY = 1;
       this.prototype.targetScaleFactorX = 1; // What the scaleFactor is going toward during a tween.
       this.prototype.targetScaleFactorY = 1;
-  
+
       // ACTION STATE
       // Actions have relations. If you say 'move', 'move_side' may play because of a direction
       // relationship, and if you say 'cast', 'cast_begin' may happen first, or 'cast_end' after.
       this.prototype.currentRootAction = null;  // action that, in general, is playing or will play
       this.prototype.currentAction = null;  // related action that is right now playing
-  
+
       this.prototype.subscriptions = {
         'level:sprite-dialogue': 'onDialogue',
         'level:sprite-clear-dialogue': 'onClearDialogue',
@@ -85,12 +85,12 @@ module.exports = (Lank = (Lank = (function() {
     }
 
     constructor(thangType, options) {
+      if (options == null) { options = {}; }
+      super();
       this.playNextAction = this.playNextAction.bind(this);
       this.rotateEffect = this.rotateEffect.bind(this);
       this.move = this.move.bind(this);
       this.thangType = thangType;
-      if (options == null) { options = {}; }
-      super();
       const spriteName = this.thangType.get('name');
       this.isMissile = /(Missile|Arrow|Spear|Bolt)/.test(spriteName) && !/(Tower|Charge)/.test(spriteName);
       this.options = _.extend($.extend(true, {}, this.options), options);

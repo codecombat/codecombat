@@ -12,9 +12,9 @@ const createjs = require('lib/createjs-parts');
 
 module.exports = (PointChooser = class PointChooser extends CocoClass {
   constructor(options) {
+    super();
     this.onMouseDown = this.onMouseDown.bind(this);
     this.options = options;
-    super();
     this.buildShape();
     this.options.stage.addEventListener('stagemousedown', this.onMouseDown);
     this.options.camera.dragDisabled = true;

@@ -29,12 +29,12 @@ module.exports = (SingularSprite = (function() {
     }
 
     constructor(spriteSheet, thangType, spriteSheetPrefix, resolutionFactor) {
+      super(spriteSheet)
       this.spriteSheet = spriteSheet;
       this.thangType = thangType;
       this.spriteSheetPrefix = spriteSheetPrefix;
       if (resolutionFactor == null) { resolutionFactor = SPRITE_RESOLUTION_FACTOR; }
       this.resolutionFactor = resolutionFactor;
-      super(this.spriteSheet);
     }
 
     destroy() {

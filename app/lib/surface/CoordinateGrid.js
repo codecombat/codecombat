@@ -18,14 +18,14 @@ module.exports = (CoordinateGrid = (function() {
     static initClass() {
       this.prototype.subscriptions =
         {'level:toggle-grid': 'onToggleGrid'};
-  
+
       this.prototype.shortcuts =
         {'ctrl+g, ⌘+g': 'onToggleGrid'};
     }
 
     constructor(options, worldSize) {
-      super();
       if (options == null) { options = {}; }
+      super();
       this.camera = options.camera;
       this.layer = options.layer;
       this.textLayer = options.textLayer;

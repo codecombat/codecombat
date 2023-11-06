@@ -47,8 +47,8 @@ module.exports = (CoordinateDisplay = (function() {
     }
 
     constructor(options) {
-      this.show = this.show.bind(this);
       super();
+      this.show = this.show.bind(this);
       this.initialize();
       this.camera = options.camera;
       this.layer = options.layer;

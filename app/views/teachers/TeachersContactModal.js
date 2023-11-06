@@ -22,15 +22,16 @@ module.exports = (TeachersContactModal = (function() {
     static initClass() {
       this.prototype.id = 'teachers-contact-modal';
       this.prototype.template = require('app/templates/teachers/teachers-contact-modal');
-  
+
       this.prototype.events = {
         'submit form': 'onSubmitForm',
         'change #form-licensesNeeded': 'onLicenseNeededChange'
       };
     }
 
-    initialize(options) {
+    constructor (options) {
       if (options == null) { options = {}; }
+      super(options)
       this.isCodeCombat = utils.isCodeCombat;
       this.state = new State({
         formValues: {
@@ -46,7 +47,7 @@ module.exports = (TeachersContactModal = (function() {
       this.shouldUpsellParent = options.shouldUpsellParent;
       this.trialRequests = new TrialRequests();
       this.supermodel.trackRequest(this.trialRequests.fetchOwn());
-      return this.state.on('change', this.render, this);
+      this.state.on('change', this.render, this);
     }
 
     onLoaded() {

@@ -13,11 +13,11 @@ const createjs = require('lib/createjs-parts');
 
 module.exports = (RegionChooser = class RegionChooser extends CocoClass {
   constructor(options) {
+    super();
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
     this.options = options;
-    super();
     this.options.stage.addEventListener('stagemousedown', this.onMouseDown);
     this.options.stage.addEventListener('stagemousemove', this.onMouseMove);
     this.options.stage.addEventListener('stagemouseup', this.onMouseUp);

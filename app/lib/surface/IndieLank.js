@@ -23,10 +23,10 @@ module.exports = (IndieLank = (IndieLank = (function() {
     }
 
     constructor(thangType, options) {
+      super(thangType, options);
       this.onNoteGroupStarted = this.onNoteGroupStarted.bind(this);
       this.onNoteGroupEnded = this.onNoteGroupEnded.bind(this);
       options.thang = this.makeIndieThang(thangType, options);
-      super(thangType, options);
       this.shadow = this.thang;
     }
 

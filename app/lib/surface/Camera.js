@@ -36,27 +36,27 @@ module.exports = (Camera = (function() {
     static initClass() {
       this.PPM = 10;   // pixels per meter
       this.MPP = 0.1;  // meters per pixel; should match @PPM
-  
+
       this.prototype.bounds = null;  // list of two surface points defining the viewable rectangle in the world
                     // or null if there are no bounds
-  
+
       // what the camera is pointed at right now
       this.prototype.target = DEFAULT_TARGET;
       this.prototype.zoom = DEFAULT_ZOOM;
       this.prototype.canvasScaleFactorX = 1;
       this.prototype.canvasScaleFactorY = 1;
-  
+
       // properties for tracking going between targets
       this.prototype.oldZoom = null;
       this.prototype.newZoom = null;
       this.prototype.oldTarget = null;
       this.prototype.newTarget = null;
       this.prototype.tweenProgress = 0.0;
-  
+
       this.prototype.instant = false;
-  
+
       // INIT
-  
+
       this.prototype.subscriptions =
         Object.assign(
           {
@@ -71,13 +71,13 @@ module.exports = (Camera = (function() {
     }
 
     constructor(canvas, options) {
+      if (options == null) { options = {}; }
+      super();
       this.finishTween = this.finishTween.bind(this);
       this.canvas = canvas;
-      if (options == null) { options = {}; }
       this.options = options;
       const angle=Math.asin(0.75);
       const hFOV=d2r(30);
-      super();
       this.gameUIState = this.options.gameUIState || new GameUIState();
       this.listenTo(this.gameUIState, 'surface:stage-mouse-move', this.onMouseMove);
       this.listenTo(this.gameUIState, 'surface:stage-mouse-down', this.onMouseDown);

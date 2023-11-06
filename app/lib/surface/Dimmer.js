@@ -28,8 +28,8 @@ module.exports = (Dimmer = (function() {
     }
 
     constructor(options) {
-      this.updateDimMask = this.updateDimMask.bind(this);
       super();
+      this.updateDimMask = this.updateDimMask.bind(this);
       if (options == null) { options = {}; }
       this.camera = options.camera;
       this.layer = options.layer;
