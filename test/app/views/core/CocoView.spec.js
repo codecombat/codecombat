@@ -14,11 +14,12 @@ var BlandView = (BlandView = class BlandView extends CocoView {
     if (this.specialMessage) { return '<div id="content">custom message</div>'; } else { return '<div id="content">normal message</div>'; }
   }
 
-  initialize() {
+  constructor () {
+    super()
     this.user1 = new User({_id: _.uniqueId()});
     this.supermodel.loadModel(this.user1);
-    this.user2 = new User({_id: _.uniqueId()});
-    return this.supermodel.loadModel(this.user2);
+    this.user2 = new User({ _id: _.uniqueId() })
+    this.supermodel.loadModel(this.user2)
   }
 
   onResourceLoadFailed(e) {
