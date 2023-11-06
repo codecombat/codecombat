@@ -21,9 +21,9 @@ module.exports = (ThangNamesCollection = (function() {
     }
 
     constructor(ids) {
-      this.ids = ids;
       super();
-      this.ids.sort();
+      this.ids = ids
+      this.ids.sort()
     }
 
     fetch(options) {

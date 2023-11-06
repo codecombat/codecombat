@@ -25,8 +25,8 @@ let lastHeroesPurchased = (left1 = __guard__(me.get('purchased'), x1 => x1.heroe
 module.exports = (LevelSetupManager = class LevelSetupManager extends CocoClass {
 
   constructor(options) {
-    this.options = options;
     super();
+    this.options = options;
     this.supermodel = this.options.supermodel != null ? this.options.supermodel : new SuperModel();
     this.session = this.options.session;
     if (!(this.level = this.options.level)) {

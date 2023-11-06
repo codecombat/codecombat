@@ -54,7 +54,7 @@ module.exports = (World = (function() {
       this.prototype.framesClearedSoFar = 0;
       this.prototype.apiProperties = ['age', 'dt'];
       this.prototype.realTimeBufferMax = REAL_TIME_BUFFER_MAX / 1000;  // Return in-progress deserializing world
-  
+
       // Spread deserialization out across multiple calls so the interface stays responsive
       this.deserializeSomeFrames = (o, w, finishedWorldCallback, perf, startFrame, endFrame) => {
         let elapsed;
@@ -74,7 +74,7 @@ module.exports = (World = (function() {
         perf.framesCPUTime += elapsed;
         return this.finishDeserializing(w, finishedWorldCallback, perf, startFrame, endFrame);  // Pick at random for good distribution
       };
-  
+
       this.prototype.scoreTypes = ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty', 'survival-time', 'defeated'];
     }
     constructor(userCodeMap, classMap) {
@@ -470,12 +470,13 @@ module.exports = (World = (function() {
       let c = map[js];
       if (c) { return c; }
       try {
-        const require = window.libWorldRequire;
+        window.require = window.libWorldRequire;
         c = (map[js] = eval(js));
       } catch (err) {
         console.error(`Couldn't compile ${kind} code:`, err, "\n", js);
         c = (map[js] = {});
       }
+      window.require = null
       c.className = name;
       return c;
     }

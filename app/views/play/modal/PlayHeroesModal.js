@@ -39,7 +39,7 @@ module.exports = (PlayHeroesModal = (function() {
       this.prototype.template = template;
       this.prototype.id = 'play-heroes-modal';
       this.prototype.trapsFocus = false;
-  
+
       this.prototype.events = {
         'slide.bs.carousel #hero-carousel': 'onHeroChanged',
         'change #option-code-language': 'onCodeLanguageChanged',
@@ -51,7 +51,7 @@ module.exports = (PlayHeroesModal = (function() {
         'click .start-subscription-button': 'onSubscribeButtonClicked',
         'click': 'onClickedSomewhere'
       };
-  
+
       this.prototype.shortcuts = {
         'left'() { if (this.heroes.models.length && !this.$el.hasClass('secret')) { return this.$el.find('#hero-carousel').carousel('prev'); } },
         'right'() { if (this.heroes.models.length && !this.$el.hasClass('secret')) { return this.$el.find('#hero-carousel').carousel('next'); } },
@@ -60,8 +60,8 @@ module.exports = (PlayHeroesModal = (function() {
     }
 
     constructor(options) {
-      this.animateHeroes = this.animateHeroes.bind(this);
       super(options);
+      this.animateHeroes = this.animateHeroes.bind(this);
       if (options == null) { options = {}; }
       this.confirmButtonI18N = options.confirmButtonI18N != null ? options.confirmButtonI18N : "common.save";
       this.heroes = new CocoCollection([], {model: ThangType});

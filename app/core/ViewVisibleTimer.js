@@ -57,8 +57,9 @@ class ViewVisibleTimer extends CocoClass {
       'view-visibility:visible': 'onVisible'
     };
   }
-  
+
   constructor() {
+    super();
     this.running = false;
     // If the user is inactive for this many seconds, stop the timer and
     //   record the time they were active (NOT including this timeout)
@@ -67,7 +68,6 @@ class ViewVisibleTimer extends CocoClass {
     this.awayTimeoutLimit = 5 * 1000;
     this.awayTimeoutId = null;
     this.throttleRate = 50;
-    super();
   }
 
   startTimer(featureData) {
@@ -101,7 +101,7 @@ class ViewVisibleTimer extends CocoClass {
     }
     if (clearName) { return this.featureData = null; }
   }
-    
+
   markLastActive() {
     return this.lastActive = window.performance.now();
   }
@@ -116,20 +116,20 @@ class ViewVisibleTimer extends CocoClass {
       ), this.awayTimeoutLimit);
     }
   }
-    
+
   onAwayBack() {
     clearTimeout(this.awayTimeoutId);
     if (!this.running && this.featureData) { return this.startTimer(this.featureData); }
   }
-    
+
   onHidden() {
     return this.stopTimer({ subtractTimeout: false });
   }
-    
+
   onVisible() {
     if (this.featureData) { return this.startTimer(this.featureData); }
   }
-    
+
   destroy() {
     this.stopTimer();
     return super.destroy();

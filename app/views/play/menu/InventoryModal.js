@@ -46,7 +46,7 @@ module.exports = (InventoryModal = (function() {
       this.prototype.ringSlots = ['left-ring', 'right-ring'];
       this.prototype.closesOnClickOutside = false; // because draggable somehow triggers hide when you don't drag onto a draggable
       this.prototype.trapsFocus = false;
-  
+
       this.prototype.events = {
         'click .item-slot': 'onItemSlotClick',
         'click #unequipped .item': 'onUnequippedItemClick',
@@ -66,17 +66,22 @@ module.exports = (InventoryModal = (function() {
         'click': 'onClickedSomewhere',
         'update #unequipped .nano': 'onScrollUnequipped'
       };
-  
+
       this.prototype.shortcuts = {
         'esc': 'clearSelection',
         'enter': 'onClickPlayLevel'
       };
     }
 
+    constructor (options) {
+      super(...arguments)
+      this.supermodel.loadCollection(this.items, 'items')
+    }
 
     //- Setup
 
     initialize(options) {
+      super.initialize(...arguments)
       if (application.getHocCampaign() === 'game-dev-hoc-2') {
         if (!me.get('earned')) {
           me.set('earned', {});
@@ -98,9 +103,8 @@ module.exports = (InventoryModal = (function() {
         }
       }
 
-      this.onScrollUnequipped = _.throttle(_.bind(this.onScrollUnequipped, this), 200);
-      super.initialize(...arguments);
-      this.items = new CocoCollection([], {model: ThangType});
+      this.onScrollUnequipped = _.throttle(_.bind(this.onScrollUnequipped, this), 200)
+      this.items = new CocoCollection([], { model: ThangType })
       // TODO: switch to item store loading system?
       this.items.url = '/db/thang.type?view=items';
       this.items.setProjection([
@@ -117,8 +121,7 @@ module.exports = (InventoryModal = (function() {
         'i18n',
         'subscriber'
       ]);
-      this.supermodel.loadCollection(this.items, 'items');
-      return this.equipment = {};  // Assign for real when we have loaded the session and items.
+      this.equipment = {} // Assign for real when we have loaded the session and items.
     }
 
     onItemsLoaded() {
@@ -674,7 +677,7 @@ module.exports = (InventoryModal = (function() {
         var items = requiredGear[slot];
         if (items.length) {var left1;
         var itemOffsetTop, validSlots;
-        
+
           if (Array.from(this.ringSlots).includes(slot)) {
             validSlots = this.ringSlots;
           } else {

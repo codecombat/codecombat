@@ -47,11 +47,11 @@ const reportedLoadErrorAlready = false;
 module.exports = (LevelLoader = class LevelLoader extends CocoClass {
 
   constructor(options) {
+    super()
     this.preloadTeamForSession = this.preloadTeamForSession.bind(this);
     this.preloadTokenForOpponentSession = this.preloadTokenForOpponentSession.bind(this);
     this.buildLoop = this.buildLoop.bind(this);
     this.t0 = new Date().getTime();
-    super();
     this.supermodel = options.supermodel;
     this.supermodel.setMaxProgress(0.2);
     this.levelID = options.levelID;

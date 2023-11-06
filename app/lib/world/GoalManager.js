@@ -25,19 +25,19 @@ module.exports = (GoalManager = (function() {
       // and saved to the main thread instance.
       // The main instance handles goals based on UI notifications,
       // and keeps track of what the goals are at any given point.
-  
+
       // Goals can only have only one goal property. Otherwise who knows what will happen.
       // If you want weird goals or hybrid goals, make a custom goal.
-  
+
       this.prototype.nextGoalID = 0;
       this.prototype.nicks = ['GoalManager'];
-  
+
       this.prototype.subscriptions = {
         'god:new-world-created': 'onNewWorldCreated',
         'god:new-html-goal-states': 'onNewHTMLGoalStates',
         'level:restarted': 'onLevelRestarted'
       };
-  
+
       this.prototype.backgroundSubscriptions = {
         'world:thang-died': 'onThangDied',
         'world:thang-touched-goal': 'onThangTouchedGoal',
@@ -46,7 +46,7 @@ module.exports = (GoalManager = (function() {
         'world:user-code-problem': 'onUserCodeProblem',
         'world:lines-of-code-counted': 'onLinesOfCodeCounted'
       };
-  
+
       this.prototype.positiveGoalMap = {
         killThangs: 1,
         saveThangs: 0,
@@ -64,10 +64,10 @@ module.exports = (GoalManager = (function() {
     }
 
     constructor(world, initialGoals, team, options) {
+      super();
       this.world = world;
       this.initialGoals = initialGoals;
       this.team = team;
-      super();
       this.options = options || {};
       this.init();
     }

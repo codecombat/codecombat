@@ -24,24 +24,24 @@ const store = require('core/store');
 module.exports = (LevelLoadingView = (function() {
   LevelLoadingView = class LevelLoadingView extends CocoView {
     constructor(...args) {
+      super(...args);
       this.finishShowingReady = this.finishShowingReady.bind(this);
       this.onClickStartLevel = this.onClickStartLevel.bind(this);
       this.unveilIntro = this.unveilIntro.bind(this);
       this.onUnveilEnded = this.onUnveilEnded.bind(this);
       this.onWindowResize = this.onWindowResize.bind(this);
-      super(...args);
     }
 
     static initClass() {
       this.prototype.id = 'level-loading-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'mousedown .start-level-button': 'startUnveiling',  // Split into two for animation smoothness.
         'click .start-level-button': 'onClickStartLevel',
         'click .start-subscription-button': 'onClickStartSubscription'
       };
-  
+
       this.prototype.subscriptions = {
         'level:loaded': 'onLevelLoaded',  // If Level loads after level loading view.
         'level:session-loaded': 'onSessionLoaded',
@@ -50,7 +50,7 @@ module.exports = (LevelLoadingView = (function() {
         'level:license-required': 'onLicenseRequired', // If they need a license.
         'subscribe-modal:subscribed': 'onSubscribed'
       };
-  
+
       this.prototype.shortcuts =
         {'enter': 'onEnterPressed'};
     }

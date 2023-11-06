@@ -59,8 +59,8 @@ let buildQueue = [];
 module.exports = (ThangType = (function() {
   ThangType = class ThangType extends CocoModel {
     constructor(...args) {
-      this.onFileUploaded = this.onFileUploaded.bind(this);
       super(...args);
+      this.onFileUploaded = this.onFileUploaded.bind(this)
     }
 
     static initClass() {
@@ -257,7 +257,7 @@ module.exports = (ThangType = (function() {
       for (name in this.actions) {
         action = this.actions[name];
         if (action.animation) {var left;
-        
+
           if (name === 'portrait') { continue; }
           scale = (left = action.scale != null ? action.scale : this.get('scale')) != null ? left : 1;
           var frames = framesMap[scale + '_' + action.animation];
@@ -918,7 +918,7 @@ module.exports = (ThangType = (function() {
 class PrerenderedSpriteSheet extends CocoModel {
   static initClass() {
     this.className = 'PrerenderedSpriteSheet';
-  
+
     this.prototype.needToLoad = false;
     this.prototype.loadedImage = false;
     this.prototype.loadingImage = false;

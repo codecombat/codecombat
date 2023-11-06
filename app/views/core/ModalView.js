@@ -24,26 +24,26 @@ module.exports = (ModalView = (function() {
       this.prototype.instant = false;
       this.prototype.template = require('app/templates/core/modal-base');
       this.prototype.trapsFocus = true;
-  
+
       this.prototype.events = {
         'click a': 'toggleModal',
         'click button': 'toggleModal',
         'click li': 'toggleModal',
         'click [data-i18n]': 'onClickTranslatedElement'
       };
-  
+
       this.prototype.shortcuts =
         {'esc': 'onEsc'};
-  
+
       this.prototype.subscriptions =
         {};
     }
 
     constructor(options) {
+      super(...arguments)
       if ((options != null ? options.instant : undefined) || this.instant) { this.className = this.className.replace(' fade', ''); }
       if ((options != null ? options.closeButton : undefined) != null) { this.closeButton = options.closeButton; }
       if (options != null ? options.modalWidthPercent : undefined) { this.modalWidthPercent = options.modalWidthPercent; }
-      super(...arguments);
       if (this.options == null) { this.options = {}; }
       if ((options != null ? options.trapsFocus : undefined) != null) { this.trapsFocus = options.trapsFocus; }
     }
