@@ -23,20 +23,21 @@ module.exports = (WorldSelectModal = (function() {
       this.prototype.template = template;
       this.prototype.modalWidthPercent = 80;
       this.prototype.cache = false;
-  
+
       this.prototype.subscriptions = {
         'surface:choose-region': 'selectionMade',
         'surface:choose-point': 'selectionMade'
       };
-  
+
       this.prototype.events =
         {'click #done-button': 'done'};
-  
+
       this.prototype.shortcuts =
         {'enter': 'done'};
     }
 
     constructor(options) {
+      super();
       this.getRenderData = this.getRenderData.bind(this);
       this.selectionMade = this.selectionMade.bind(this);
       this.done = this.done.bind(this);
@@ -46,7 +47,6 @@ module.exports = (WorldSelectModal = (function() {
       this.defaultFromZoom = options.defaultFromZoom;
       this.selectionMade = _.debounce(this.selectionMade, 300);
       this.supermodel = options.supermodel;
-      super();
     }
 
     getRenderData(c) {

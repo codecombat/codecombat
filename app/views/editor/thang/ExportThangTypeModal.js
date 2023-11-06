@@ -16,18 +16,18 @@ const SpriteExporter = require('lib/sprites/SpriteExporter');
 module.exports = (ExportThangTypeModal = (function() {
   ExportThangTypeModal = class ExportThangTypeModal extends ModalView {
     constructor(...args) {
-      this.onSpriteSheetUploaded = this.onSpriteSheetUploaded.bind(this);
       super(...args);
+      this.onSpriteSheetUploaded = this.onSpriteSheetUploaded.bind(this);
     }
 
     static initClass() {
       this.prototype.id = "export-thang-type-modal";
       this.prototype.template = template;
       this.prototype.plain = true;
-  
+
       this.prototype.events =
         {'click #save-btn': 'onClickSaveButton'};
-  
+
       this.prototype.colorMap = {
         red: { hue: 0, saturation: 0.75, lightness: 0.5 },
         blue: { hue: 0.66, saturation: 0.75, lightness: 0.5 },

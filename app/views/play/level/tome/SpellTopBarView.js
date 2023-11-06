@@ -26,7 +26,7 @@ module.exports = (SpellTopBarView = (function() {
       this.prototype.template = template;
       this.prototype.id = 'spell-top-bar-view';
       this.prototype.controlsEnabled = true;
-  
+
       this.prototype.subscriptions = {
         'level:disable-controls': 'onDisableControls',
         'level:enable-controls': 'onEnableControls',
@@ -36,7 +36,7 @@ module.exports = (SpellTopBarView = (function() {
         'tome:toggle-maximize': 'onToggleMaximize',
         'websocket:user-online': 'onUserOnlineChanged'
       };
-  
+
       this.prototype.events = {
         'click .reload-code': 'onCodeReload',
         'click .beautify-code': 'onBeautifyClick',
@@ -53,6 +53,7 @@ module.exports = (SpellTopBarView = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.attachTransitionEventListener = this.attachTransitionEventListener.bind(this);
       this.otherTeam = this.otherTeam.bind(this);
       this.onSwitchTeam = this.onSwitchTeam.bind(this);
@@ -66,7 +67,6 @@ module.exports = (SpellTopBarView = (function() {
       this.teaching = utils.getQueryVariable('teaching');
 
       this.wsBus = globalVar.application.wsBus;
-      super(options);
     }
 
     getRenderData(context) {

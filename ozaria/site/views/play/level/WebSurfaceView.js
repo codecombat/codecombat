@@ -17,14 +17,14 @@ const HtmlExtractor = require('lib/HtmlExtractor');
 module.exports = (WebSurfaceView = (function() {
   WebSurfaceView = class WebSurfaceView extends CocoView {
     constructor(...args) {
-      this.onIframeMessage = this.onIframeMessage.bind(this);
       super(...args);
+      this.onIframeMessage = this.onIframeMessage.bind(this);
     }
 
     static initClass() {
       this.prototype.id = 'web-surface-view';
       this.prototype.template = template;
-  
+
       this.prototype.subscriptions = {
         'tome:html-updated': 'onHTMLUpdated',
         'web-dev:hover-line': 'onHoverLine',

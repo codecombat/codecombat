@@ -28,7 +28,7 @@ module.exports = (CourseEditView = (function() {
     static initClass() {
       this.prototype.id = 'editor-course-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #save-button': 'onClickSaveButton',
         'click #i18n-button': 'onPopulateI18N'
@@ -36,8 +36,8 @@ module.exports = (CourseEditView = (function() {
     }
 
     constructor(options, courseID) {
-      this.courseID = courseID;
       super(options);
+      this.courseID = courseID;
       this.course = new Course({_id: this.courseID});
       this.course.saveBackups = true;
       this.supermodel.loadModel(this.course);
@@ -51,12 +51,12 @@ module.exports = (CourseEditView = (function() {
         schemas.concept.enum = _.map(this.concepts.models, c => c.get('key'));
         return this.onConceptsLoaded();
       });
-    
+
       return this.concepts.fetch({
         data: { skip: 0, limit: 1000 }});
     }
 
-    onConceptsLoaded() {    
+    onConceptsLoaded() {
       this.buildTreema();
       return this.listenTo(this.course, 'change', () => {
         this.course.updateI18NCoverage();
@@ -76,7 +76,7 @@ module.exports = (CourseEditView = (function() {
         nodeClasses: {
           'concepts-list': nodes.conceptNodes(this.concepts.models).ConceptsListNode,
           'concept': nodes.conceptNodes(this.concepts.models).ConceptNode
-        }      
+        }
       };
       this.treema = this.$el.find('#course-treema').treema(options);
       this.treema.build();

@@ -20,15 +20,15 @@ const utils = require('core/utils');
 module.exports = (LevelPlaybackView = (function() {
   LevelPlaybackView = class LevelPlaybackView extends CocoView {
     constructor(...args) {
+      super(...args);
       this.formatTime = this.formatTime.bind(this);
       this.onWindowResize = this.onWindowResize.bind(this);
-      super(...args);
     }
 
     static initClass() {
       this.prototype.id = 'playback-view';
       this.prototype.template = template;
-  
+
       this.prototype.subscriptions = {
         'level:disable-controls': 'onDisableControls',
         'level:enable-controls': 'onEnableControls',
@@ -47,7 +47,7 @@ module.exports = (LevelPlaybackView = (function() {
         'playback:stop-real-time-playback': 'onStopRealTimePlayback',
         'playback:stop-cinematic-playback': 'onStopCinematicPlayback'
       };
-  
+
       this.prototype.events = {
         'click #volume-button': 'onToggleVolume',
         'click #play-button': 'onTogglePlay',
@@ -55,7 +55,7 @@ module.exports = (LevelPlaybackView = (function() {
         'tapstart #timeProgress': 'onProgressTapStart',
         'tapmove #timeProgress': 'onProgressTapMove'
       };
-  
+
       this.prototype.shortcuts = {
         '⌘+p, p, ctrl+p': 'onTogglePlay',
         '⌘+[, ctrl+[': 'onScrubBack',

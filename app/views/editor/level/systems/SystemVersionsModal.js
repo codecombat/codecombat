@@ -18,8 +18,8 @@ module.exports = (SystemVersionsModal = (function() {
     }
 
     constructor(options, ID) {
-      this.ID = ID;
       super(options, this.ID, require('models/LevelSystem'));
+      this.ID = ID;
     }
   };
   SystemVersionsModal.initClass();

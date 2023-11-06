@@ -33,20 +33,20 @@ module.exports = (SettingsTabView = (function() {
       this.prototype.id = 'editor-level-settings-tab-view';
       this.prototype.className = 'tab-pane';
       this.prototype.template = template;
-  
+
       this.prototype.subscriptions = {
         'editor:level-loaded': 'onLevelLoaded',
         'editor:thangs-edited': 'onThangsEdited',
         'editor:random-terrain-generated': 'onRandomTerrainGenerated'
       };
-  
+
       // Not thangs or scripts or the backend stuff. Most properties will be added from the schema inEditor field.
       this.prototype.editableSettings = ['name'];
     }
 
     constructor(options) {
-      this.onSettingsChanged = this.onSettingsChanged.bind(this);
       super(options);
+      this.onSettingsChanged = this.onSettingsChanged.bind(this);
       this.editableSettings = this.editableSettings.concat(_.keys(_.pick(Level.schema.properties, (value, key) => (value.inEditor === true) || (value.inEditor === utils.getProduct()))));
     }
 
@@ -60,9 +60,9 @@ module.exports = (SettingsTabView = (function() {
         schemas.concept.enum = _.map(concepts, c => c.get('key'));
         return this.onConceptsLoaded(e);
       });
-    
+
       return this.concepts.fetch({
-        data: { skip: 0, limit: 1000 }});  
+        data: { skip: 0, limit: 1000 }});
     }
 
     onConceptsLoaded(e) {

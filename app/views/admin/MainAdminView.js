@@ -44,6 +44,7 @@ if (window.saveAs.saveAs) { window.saveAs = window.saveAs.saveAs; }  // Module f
 module.exports = (MainAdminView = (function() {
   MainAdminView = class MainAdminView extends RootView {
     constructor(...args) {
+      super(...args);
       this.onSearchRequestSuccess = this.onSearchRequestSuccess.bind(this);
       this.onSearchRequestFailure = this.onSearchRequestFailure.bind(this);
       this.onClickFreeSubLink = this.onClickFreeSubLink.bind(this);
@@ -51,14 +52,13 @@ module.exports = (MainAdminView = (function() {
       this.onClickTerminalSubLink = this.onClickTerminalSubLink.bind(this);
       this.onClickTerminalActivationLink = this.onClickTerminalActivationLink.bind(this);
       this.editMandate = this.editMandate.bind(this);
-      super(...args);
     }
 
     static initClass() {
       this.prototype.id = 'admin-view';
       this.prototype.template = template;
       this.prototype.lastUserSearchValue = '';
-  
+
       this.prototype.events = {
         'submit #espionage-form': 'onSubmitEspionageForm',
         'submit #user-search-form': 'onSubmitUserSearchForm',

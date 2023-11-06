@@ -21,8 +21,8 @@ const CodePlaybackView = require('./CodePlaybackView');
 module.exports = (CodeLogsView = (function() {
   CodeLogsView = class CodeLogsView extends RootView {
     constructor(...args) {
-      this.onBlurTooltip = this.onBlurTooltip.bind(this);
       super(...args);
+      this.onBlurTooltip = this.onBlurTooltip.bind(this);
     }
 
     static initClass() {

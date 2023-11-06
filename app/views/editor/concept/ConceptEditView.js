@@ -26,7 +26,7 @@ module.exports = (ConceptEditView = (function() {
     static initClass() {
       this.prototype.id = 'editor-concept-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #save-button': 'onClickSaveButton',
         'click #i18n-button': 'onPopulateI18N'
@@ -34,8 +34,8 @@ module.exports = (ConceptEditView = (function() {
     }
 
     constructor(options, conceptID) {
-      this.conceptID = conceptID;
       super(options);
+      this.conceptID = conceptID;
       this.concept = new Concept({_id: this.conceptID});
       this.concept.saveBackups = true;
       this.supermodel.loadModel(this.concept);

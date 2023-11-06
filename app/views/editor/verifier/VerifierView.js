@@ -39,15 +39,15 @@ module.exports = (VerifierView = (function() {
       this.prototype.className = 'style-flat';
       this.prototype.template = template;
       this.prototype.id = 'verifier-view';
-  
+
       this.prototype.events =
         {'click #go-button': 'onClickGoButton'};
     }
 
     constructor(options, levelID) {
+      super(options);
       this.update = this.update.bind(this);
       this.levelID = levelID;
-      super(options);
       // TODO: sort tests by unexpected result first
       this.passed = 0;
       this.failed = 0;
@@ -91,7 +91,7 @@ module.exports = (VerifierView = (function() {
         for (var campaign of Array.from(this.campaigns.models)) {
           var needle, needle1;
           if ((needle = campaign.get('type'), ['course', 'hero', 'hoc'].includes(needle)) && (needle1 = campaign.get('slug'), !Array.from(['picoctf', 'game-dev-1', 'game-dev-2', 'game-dev-3', 'web-dev-1', 'web-dev-2', 'web-dev-3', 'campaign-web-dev-1', 'campaign-web-dev-2', 'campaign-web-dev-3'].concat(CocoLegacyCampaigns)).includes(needle1))) {var name;
-          
+
             if (this.levelsByCampaign[name = campaign.get('slug')] == null) { var needle2;
             this.levelsByCampaign[name] = {levels: [], checked: (needle2 = campaign.get('slug'), ['intro'].includes(needle2))}; }
             var campaignInfo = this.levelsByCampaign[campaign.get('slug')];

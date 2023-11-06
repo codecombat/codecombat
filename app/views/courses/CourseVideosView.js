@@ -18,10 +18,10 @@ module.exports = (CourseVideosView = (function() {
       this.prototype.VueComponent = CourseVideosComponent;
     }
     constructor(options, courseID, courseName) {
+      super(options);
       this.courseID = courseID;
       this.courseName = courseName;
       this.propsData = { courseID: this.courseID, courseName: this.courseName };
-      super(options);
     }
   };
   CourseVideosView.initClass();

@@ -64,20 +64,20 @@ module.exports = (ThangComponentsEditView = (function() {
     static initClass() {
       this.prototype.id = 'thang-components-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.subscriptions =
         {'editor:thang-type-kind-changed': 'onThangTypeKindChanged'};
-  
+
       this.prototype.events =
         {'click #add-components-button': 'onAddComponentsButtonClicked'};
     }
 
     constructor(options) {
+      super(options);
       this.onComponentsTreemaChanged = this.onComponentsTreemaChanged.bind(this);
       this.onComponentsChanged = this.onComponentsChanged.bind(this);
       this.onSelectComponent = this.onSelectComponent.bind(this);
       this.onChangeExtantComponents = this.onChangeExtantComponents.bind(this);
-      super(options);
       this.originalsLoaded = {};
       this.components = options.components || [];
       this.components = $.extend(true, [], this.components); // just to be sure

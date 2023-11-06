@@ -58,13 +58,13 @@ module.exports = (SpellView = (function() {
       this.prototype.eventsSuppressed = true;
       this.prototype.writable = true;
       this.prototype.languagesThatUseWorkers = ['html'];
-  
+
       this.prototype.keyBindings = {
         'default': null,
         'vim': 'ace/keyboard/vim',
         'emacs': 'ace/keyboard/emacs'
       };
-  
+
       this.prototype.subscriptions = {
         'level:disable-controls': 'onDisableControls',
         'level:enable-controls': 'onEnableControls',
@@ -103,12 +103,13 @@ module.exports = (SpellView = (function() {
         'level:streaming-solution': 'onStreamingSolution',
         'websocket:asking-help': 'onAskingHelp'
       };
-  
+
       this.prototype.events =
         {'mouseout': 'onMouseOut'};
     }
 
     constructor(options) {
+      super(options);
       this.blocklyToAce = this.blocklyToAce.bind(this);
       this.aceToBlockly = this.aceToBlockly.bind(this);
       this.onAllLoaded = this.onAllLoaded.bind(this);
@@ -132,7 +133,6 @@ module.exports = (SpellView = (function() {
       this.checkRequiredCode = this.checkRequiredCode.bind(this);
       this.checkSuspectCode = this.checkSuspectCode.bind(this);
       this.supermodel = options.supermodel;
-      super(options);
       this.worker = options.worker;
       this.session = options.session;
       this.spell = options.spell;

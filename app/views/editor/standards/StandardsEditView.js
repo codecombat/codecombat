@@ -31,7 +31,7 @@ module.exports = (StandardsCorrelationEditView = (function() {
     static initClass() {
       this.prototype.id = 'editor-standards-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #save-button': 'onClickSaveButton',
         'click #i18n-button': 'onPopulateI18N'
@@ -39,8 +39,8 @@ module.exports = (StandardsCorrelationEditView = (function() {
     }
 
     constructor(options, standardsID) {
-      this.standardsID = standardsID;
       super(options);
+      this.standardsID = standardsID;
       this.standards = new StandardsCorrelation({_id: this.standardsID});
       this.standards.saveBackups = true;
       this.supermodel.loadModel(this.standards);
@@ -55,7 +55,7 @@ module.exports = (StandardsCorrelationEditView = (function() {
         schemas.concept.enum = _.map(concepts, c => c.get('key'));
         return this.onConceptsLoaded();
       });
-    
+
       return this.concepts.fetch({
         data: { skip: 0, limit: 1000 }});
     }

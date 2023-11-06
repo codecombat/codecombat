@@ -27,7 +27,7 @@ module.exports = (ArticleEditView = (function() {
     static initClass() {
       this.prototype.id = 'editor-article-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #preview-button': 'openPreview',
         'click #history-button': 'showVersionHistory',
@@ -37,9 +37,9 @@ module.exports = (ArticleEditView = (function() {
     }
 
     constructor(options, articleID) {
+      super(options);
       this.pushChangesToPreview = this.pushChangesToPreview.bind(this);
       this.articleID = articleID;
-      super(options);
       this.article = new Article({_id: this.articleID});
       this.article.saveBackups = true;
       this.supermodel.loadModel(this.article);

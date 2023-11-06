@@ -60,7 +60,7 @@ module.exports = (SpectateLevelView = (function() {
       this.prototype.template = template;
       this.prototype.cache = false;
       this.prototype.isEditorPreview = false;
-  
+
       this.prototype.subscriptions = {
         'level:set-volume'(e) { return createjs.Sound.volume = e.volume === 1 ? 0.6 : e.volume; },  // Quieter for now until individual sound FX controls work again.
         'god:new-world-created': 'onNewWorld',
@@ -71,7 +71,7 @@ module.exports = (SpectateLevelView = (function() {
         'level:loading-view-unveiled': 'onLoadingViewUnveiled',
         'level:session-will-save': 'onSessionWillSave'
       };
-  
+
       this.prototype.events = {
         'mouseenter .spectate-code': 'onMouseEnterSpectateCode',
         'mouseleave .spectate-code': 'onMouseLeaveSpectateCode'
@@ -79,13 +79,13 @@ module.exports = (SpectateLevelView = (function() {
     }
 
     constructor(options, levelID) {
+      super(options);
       this.onSupermodelLoadedOne = this.onSupermodelLoadedOne.bind(this);
       this.saveScreenshot = this.saveScreenshot.bind(this);
       this.levelID = levelID;
       if (PROFILE_ME) { if (typeof console.profile === 'function') {
         console.profile();
       } }
-      super(options);
 
       this.isEditorPreview = utils.getQueryVariable('dev');
       this.sessionOne = utils.getQueryVariable('session-one');

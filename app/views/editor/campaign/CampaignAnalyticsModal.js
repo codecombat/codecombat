@@ -27,7 +27,7 @@ module.exports = (CampaignAnalyticsModal = (function() {
       this.prototype.id = 'campaign-analytics-modal';
       this.prototype.template = template;
       this.prototype.plain = true;
-  
+
       this.prototype.events = {
         'click #reload-button': 'onClickReloadButton',
         'dblclick .level': 'onDblClickLevel',
@@ -37,6 +37,7 @@ module.exports = (CampaignAnalyticsModal = (function() {
     }
 
     constructor(options, campaignHandle, campaignCompletions) {
+      super(options);
       this.onClickReloadButton = this.onClickReloadButton.bind(this);
       this.getCampaignAnalytics = this.getCampaignAnalytics.bind(this);
       this.getCampaignAveragePlaytimes = this.getCampaignAveragePlaytimes.bind(this);
@@ -45,7 +46,6 @@ module.exports = (CampaignAnalyticsModal = (function() {
       this.getCampaignLevelSubscriptions = this.getCampaignLevelSubscriptions.bind(this);
       this.campaignHandle = campaignHandle;
       this.campaignCompletions = campaignCompletions;
-      super(options);
       this.showLeftGame = true;
       this.showSubscriptions = utils.isOzaria;
       if (me.isAdmin()) { this.getCampaignAnalytics(); }

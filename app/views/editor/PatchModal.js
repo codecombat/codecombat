@@ -26,14 +26,14 @@ module.exports = (PatchModal = (function() {
       this.prototype.plain = true;
       this.prototype.modalWidthPercent = 60;
       this.prototype.instant = true;
-  
+
       this.prototype.events = {
         'click #withdraw-button': 'withdrawPatch',
         'click #reject-button': 'rejectPatch',
         'click #accept-button': 'onAcceptPatch',
         'click #accept-save-button': 'onAcceptAndSavePatch'
       };
-  
+
       this.prototype.shortcuts = {
         'a, shift+a': 'acceptPatch',
         'r': 'rejectPatch'
@@ -41,9 +41,9 @@ module.exports = (PatchModal = (function() {
     }
 
     constructor(patch, targetModel, options) {
+      super(options);
       this.patch = patch;
       this.targetModel = targetModel;
-      super(options);
       const targetID = this.patch.get('target').id;
       if (targetID === this.targetModel.id) {
         this.originalSource = this.targetModel.clone(false);

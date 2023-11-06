@@ -31,7 +31,7 @@ module.exports = (AllCoursesCertificatesView = (function() {
     static initClass() {
       this.prototype.id = 'certificates-view';
       this.prototype.template = require('app/templates/user/certificates-view');
-  
+
       this.prototype.events = {
         'click .print-btn': 'onClickPrintButton',
         'click .toggle-btn': 'onClickToggleButton'
@@ -77,14 +77,10 @@ module.exports = (AllCoursesCertificatesView = (function() {
         this.supermodel.trackModel(this.classroom);
         this.listenToOnce(this.classroom, 'sync', this.onClassroomLoaded);
 
-
         this.courseInstances = new CourseInstances();
-        this.supermodel.trackRequest(this.courseInstances.fetchForClassroom(this.classroom.get('_id')));      
+        this.supermodel.trackRequest(this.courseInstances.fetchForClassroom(this.classroom.get('_id')));
         this.listenToOnce(this.courseInstances, 'sync', this.loadStats);
       }
-
-
-
 
       const tenbillion = 10000000;
       const nintybillion = 90000000;
@@ -133,8 +129,8 @@ module.exports = (AllCoursesCertificatesView = (function() {
       this.courseInstances.models.forEach(courseInstance => {
         const courseID = courseInstance.get('courseID');
         return uncompletedCourses = uncompletedCourses.filter(i => i !== courseID);
-      });    
-    
+      });
+
       if (uncompletedCourses.length) { // not all courses are completed
         this.multipleCoursesStats = null;
         return;
@@ -145,7 +141,7 @@ module.exports = (AllCoursesCertificatesView = (function() {
         const sessions = new LevelSessions();
         const courseLevels = new Levels();
         const course = new Course({_id: courseID});
-      
+
         const calculateStats = () => {
           if (!sessions.loaded || !courseLevels.loaded || !course.loaded || !this.multipleCoursesStats) { return; }
           this.multipleCoursesStats[courseInstance.get('_id')] = this.classroom.statsForSessions(sessions, courseInstance.get('courseID'), courseLevels);
@@ -210,7 +206,7 @@ module.exports = (AllCoursesCertificatesView = (function() {
                 return fetchJson('/db/level.session/short-link', {method: 'POST', json: {url: projectLink}}).then(response => {
                   projectLinkData.shortLink = response.shortLink;
                   return this.render();
-                });    
+                });
               })());
             } else {
               result.push(undefined);

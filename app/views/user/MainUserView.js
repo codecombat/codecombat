@@ -25,8 +25,8 @@ class LevelSessionsCollection extends CocoCollection {
   }
 
   constructor(userID) {
-    this.url = `/db/user/${userID}/level.sessions?project=state.complete,levelID,levelName,changed,team,codeLanguage,submittedCodeLanguage,totalScore&order=-1`;
     super();
+    this.url = `/db/user/${userID}/level.sessions?project=state.complete,levelID,levelName,changed,team,codeLanguage,submittedCodeLanguage,totalScore&order=-1`;
   }
 }
 LevelSessionsCollection.initClass();
@@ -36,14 +36,14 @@ module.exports = (MainUserView = (function() {
     static initClass() {
       this.prototype.id = 'user-home';
       this.prototype.template = template;
-  
+
       this.prototype.events =
         {'click .more-button': 'onClickMoreButton'};
     }
 
     constructor(userID, options) {
-      this.loadHeroPoseImage = this.loadHeroPoseImage.bind(this);
       super(options);
+      this.loadHeroPoseImage = this.loadHeroPoseImage.bind(this);
     }
 
     destroy() {

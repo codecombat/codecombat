@@ -19,7 +19,7 @@ module.exports = (LevelDialogueView = (function() {
     static initClass() {
       this.prototype.id = 'level-dialogue-view';
       this.prototype.template = template;
-  
+
       this.prototype.subscriptions = {
         'sprite:speech-updated': 'onSpriteDialogue',
         'level:sprite-clear-dialogue': 'onSpriteClearDialogue',
@@ -28,7 +28,7 @@ module.exports = (LevelDialogueView = (function() {
         'sprite:dialogue-sound-completed': 'onDialogueSoundCompleted',
         'level:open-items-modal': 'openItemsModal'
       };
-  
+
       this.prototype.events = {
         'click': 'onClick',
         'click a': 'onClickLink'
@@ -36,9 +36,9 @@ module.exports = (LevelDialogueView = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.addMoreMessage = this.addMoreMessage.bind(this);
       this.animateEnterButton = this.animateEnterButton.bind(this);
-      super(options);
       this.level = options.level;
       this.sessionID = options.sessionID;
     }

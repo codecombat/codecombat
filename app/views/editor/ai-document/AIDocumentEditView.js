@@ -26,7 +26,7 @@ module.exports = (AIDocumentEditView = (function() {
     static initClass() {
       this.prototype.id = 'editor-ai-document-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #save-button': 'onClickSaveButton',
         'click #delete-button': 'confirmDeletion'
@@ -34,9 +34,9 @@ module.exports = (AIDocumentEditView = (function() {
     }
 
     constructor(options, documentID) {
+      super(options);
       this.deleteAIDocument = this.deleteAIDocument.bind(this);
       this.documentID = documentID;
-      super(options);
       this.document = new AIDocument({_id: this.documentID});
       this.document.saveBackups = true;
       this.supermodel.loadModel(this.document);

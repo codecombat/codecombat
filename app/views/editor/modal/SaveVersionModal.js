@@ -24,7 +24,7 @@ module.exports = (SaveVersionModal = (function() {
       this.prototype.template = template;
       this.prototype.plain = true;
       this.prototype.modalWidthPercent = 60;
-  
+
       this.prototype.events = {
         'click #save-version-button': 'saveChanges',
         'click #cla-link': 'onClickCLALink',
@@ -35,9 +35,9 @@ module.exports = (SaveVersionModal = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.onAgreeSucceeded = this.onAgreeSucceeded.bind(this);
       this.onAgreeFailed = this.onAgreeFailed.bind(this);
-      super(options);
       this.model = options.model || options.level;
       this.isPatch = !this.model.hasWriteAccess();
       this.hasChanges = this.model.hasLocalChanges();

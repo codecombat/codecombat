@@ -40,20 +40,20 @@ module.exports = (VersionsModal = (function() {
       this.prototype.template = template;
       this.prototype.plain = true;
       this.prototype.modalWidthPercent = 80;
-  
+
       // needs to be overwritten by child
       this.prototype.id = '';
       this.prototype.url = '';
       this.prototype.page = '';
-  
+
       this.prototype.events =
         {'change input.select': 'onSelectionChanged'};
     }
 
     constructor(options, ID, model) {
+      super(options);
       this.ID = ID;
       this.model = model;
-      super(options);
       this.original = new this.model({_id: this.ID});
       this.original = this.supermodel.loadModel(this.original).model;
       this.listenToOnce(this.original, 'sync', this.onViewSync);

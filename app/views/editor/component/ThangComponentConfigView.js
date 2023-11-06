@@ -29,8 +29,8 @@ module.exports = (ThangComponentConfigView = (function() {
     }
 
     constructor(options) {
-      this.onConfigEdited = this.onConfigEdited.bind(this);
       super(options);
+      this.onConfigEdited = this.onConfigEdited.bind(this);
       this.component = options.component;
       this.config = options.config || {};
       this.additionalDefaults = options.additionalDefaults;

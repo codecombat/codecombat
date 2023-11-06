@@ -35,7 +35,7 @@ module.exports = (I18NEditModelView = (function() {
     static initClass() {
       this.prototype.className = 'editor i18n-edit-model-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'input .translation-input': 'onInputChanged',
         'change #language-select': 'onLanguageSelectChanged',
@@ -45,9 +45,9 @@ module.exports = (I18NEditModelView = (function() {
     }
 
     constructor(options, modelHandle) {
+      super(options);
       this.onEditorChange = this.onEditorChange.bind(this);
       this.modelHandle = modelHandle;
-      super(options);
 
       this.model = new this.modelClass({_id: this.modelHandle});
       this.supermodel.trackRequest(this.model.fetch());

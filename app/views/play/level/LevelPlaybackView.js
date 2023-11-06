@@ -22,7 +22,7 @@ module.exports = (LevelPlaybackView = (function() {
     static initClass() {
       this.prototype.id = 'playback-view';
       this.prototype.template = template;
-  
+
       this.prototype.subscriptions = {
         'level:disable-controls': 'onDisableControls',
         'level:enable-controls': 'onEnableControls',
@@ -41,7 +41,7 @@ module.exports = (LevelPlaybackView = (function() {
         'playback:stop-real-time-playback': 'onStopRealTimePlayback',
         'playback:stop-cinematic-playback': 'onStopCinematicPlayback'
       };
-  
+
       this.prototype.events = {
         'click #music-button': 'onToggleMusic',
         'click #zoom-in-button'() { if (!this.shouldIgnore()) { return Backbone.Mediator.publish('camera:zoom-in', {}); } },
@@ -56,7 +56,7 @@ module.exports = (LevelPlaybackView = (function() {
         'tapend #timeProgress': 'onProgressTapEnd',
         'tapmove #timeProgress': 'onProgressTapMove'
       };
-  
+
       this.prototype.shortcuts = {
         '⌘+p, p, ctrl+p': 'onTogglePlay',
         '⌘+[, ctrl+[': 'onScrubBack',
@@ -67,9 +67,9 @@ module.exports = (LevelPlaybackView = (function() {
     }
 
     constructor() {
+      super(...arguments);
       this.formatTime = this.formatTime.bind(this);
       this.onWindowResize = this.onWindowResize.bind(this);
-      super(...arguments);
       this.utils = utils;
       me.on('change:music', this.updateMusicButton, this);
     }

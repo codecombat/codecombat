@@ -29,7 +29,7 @@ module.exports = (ChatEditView = (function() {
     static initClass() {
       this.prototype.id = 'editor-chat-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #save-button': 'onClickSaveButton',
         'click #i18n-button': 'onPopulateI18N',
@@ -41,9 +41,9 @@ module.exports = (ChatEditView = (function() {
     }
 
     constructor(options, chatID) {
+      super(options);
       this.deleteChatMessage = this.deleteChatMessage.bind(this);
       this.chatID = chatID;
-      super(options);
       this.chat = new ChatMessage({_id: this.chatID});
       this.chat.saveBackups = true;
       this.supermodel.loadModel(this.chat);

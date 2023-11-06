@@ -31,13 +31,13 @@ module.exports = (ControlBarView = (function() {
     static initClass() {
       this.prototype.id = 'control-bar-view';
       this.prototype.template = template;
-  
+
       this.prototype.subscriptions = {
         'level:disable-controls': 'onDisableControls',
         'level:enable-controls': 'onEnableControls',
         'ipad:memory-warning': 'onIPadMemoryWarning'
       };
-  
+
       this.prototype.events = {
         'click #next-game-button'() { return Backbone.Mediator.publish('level:next-game-pressed', {}); },
         'click #game-menu-button': 'showGameMenuModal',
@@ -52,6 +52,7 @@ module.exports = (ControlBarView = (function() {
     }
 
     constructor(options) {
+      super(options);
       let jqxhr;
       this.supermodel = options.supermodel;
       this.courseID = options.courseID;
@@ -88,7 +89,6 @@ module.exports = (ControlBarView = (function() {
           return this.supermodel.trackRequest(this.campaign.fetch());
         });
       }
-      super(options);
       if (this.level.get('replayable')) {
         this.listenTo(this.session, 'change-difficulty', this.onSessionDifficultyChanged);
       }

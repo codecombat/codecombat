@@ -21,7 +21,7 @@ module.exports = (PatchesView = (function() {
       this.prototype.template = template;
       this.prototype.className = 'patches-view';
       this.prototype.status = 'pending';
-  
+
       this.prototype.events = {
         'change .status-buttons': 'onStatusButtonsChanged',
         'click .patch-row': 'openPatchModal'
@@ -29,8 +29,8 @@ module.exports = (PatchesView = (function() {
     }
 
     constructor(model, options) {
-      this.model = model;
       super(options);
+      this.model = model;
       this.initPatches();
     }
 

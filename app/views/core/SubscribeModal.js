@@ -32,7 +32,7 @@ module.exports = (SubscribeModal = (function() {
       this.prototype.closesOnClickOutside = false;
       this.prototype.planID = 'basic';
       this.prototype.i18nData = utils.premiumContent;
-  
+
       this.prototype.events = {
         'click #close-modal': 'hide',
         'click .purchase-button': 'onClickPurchaseButton',
@@ -46,10 +46,10 @@ module.exports = (SubscribeModal = (function() {
       //if document.location.host is 'br.codecombat.com'
       //  document.location.href = 'http://codecombat.net.br/'
 
-      this.onPayPalPaymentStarted = this.onPayPalPaymentStarted.bind(this);
-      this.onPayPalPaymentComplete = this.onPayPalPaymentComplete.bind(this);
       if (options == null) { options = {}; }
       super(options);
+      this.onPayPalPaymentStarted = this.onPayPalPaymentStarted.bind(this);
+      this.onPayPalPaymentComplete = this.onPayPalPaymentComplete.bind(this);
       // Path check due to modal refresh when user isn't signed in.
       this.hideMonthlySub = (options != null ? options.hideMonthlySub : undefined) || window.location.pathname.startsWith('/parents') || (me.get('country') === 'japan') || null;
       if (options != null ? options.forceShowMonthlySub : undefined) {

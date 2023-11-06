@@ -29,7 +29,7 @@ module.exports = (SystemsTabView = (function() {
       this.prototype.id = 'systems-tab-view';
       this.prototype.template = template;
       this.prototype.className = 'tab-pane';
-  
+
       this.prototype.subscriptions = {
         'editor:level-system-added': 'onLevelSystemAdded',
         'editor:edit-level-system': 'editLevelSystem',
@@ -37,7 +37,7 @@ module.exports = (SystemsTabView = (function() {
         'editor:level-loaded': 'onLevelLoaded',
         'editor:terrain-changed': 'onTerrainChanged'
       };
-  
+
       this.prototype.events = {
         'click #add-system-button': 'addLevelSystem',
         'click #create-new-system-button': 'createNewLevelSystem',
@@ -46,10 +46,10 @@ module.exports = (SystemsTabView = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.onSystemsChanged = this.onSystemsChanged.bind(this);
       this.getSortedByName = this.getSortedByName.bind(this);
       this.onSystemSelected = this.onSystemSelected.bind(this);
-      super(options);
       for (var system of Array.from(this.buildDefaultSystems())) {
         var url = `/db/level.system/${system.original}/version/${system.majorVersion}`;
         var ls = new LevelSystem().setURL(url);

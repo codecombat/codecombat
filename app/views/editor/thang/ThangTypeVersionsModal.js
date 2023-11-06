@@ -18,8 +18,8 @@ module.exports = (ThangTypeVersionsModal = (function() {
     }
 
     constructor(options, ID) {
-      this.ID = ID;
       super(options, this.ID, require('models/ThangType'));
+      this.ID = ID;
     }
   };
   ThangTypeVersionsModal.initClass();

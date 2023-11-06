@@ -47,18 +47,18 @@ TournamentLeaderboardCollection.initClass();
 module.exports = (LadderTabView = (function() {
   LadderTabView = class LadderTabView extends CocoView {
     constructor(...args) {
+      super(...args);
       this.onFacebookFriendsLoaded = this.onFacebookFriendsLoaded.bind(this);
       this.onFacebookFriendSessionsLoaded = this.onFacebookFriendSessionsLoaded.bind(this);
       this.gplusFriendsLoaded = this.gplusFriendsLoaded.bind(this);
       this.onGPlusFriendSessionsLoaded = this.onGPlusFriendSessionsLoaded.bind(this);
-      super(...args);
     }
 
     static initClass() {
       this.prototype.id = 'ladder-tab-view';
       this.prototype.template = require('app/templates/play/ladder/ladder-tab-view');
       this.prototype.scoreForDisplay = scoreForDisplay;
-  
+
       this.prototype.events = {
         'click .connect-facebook': 'onConnectFacebook',
         'click .connect-google-plus': 'onConnectGPlus',
@@ -404,7 +404,7 @@ module.exports = (LadderTabView = (function() {
           }
           return this.openModalView(new ModelModal({models}));
         });
-      } else if (me.isTeacher()) {} 
+      } else if (me.isTeacher()) {}
         // TODO
       else {}
     }

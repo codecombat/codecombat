@@ -31,8 +31,8 @@ const WIDTH = 924;
 
 module.exports.WorldPointNode = (WorldPointNode = class WorldPointNode extends TreemaNode.nodeMap.point2d {
   constructor(...args) {
-    this.callback = this.callback.bind(this);
     super(...Array.from(args || []));
+    this.callback = this.callback.bind(this);
     if (this.settings.world == null) { console.error('Point Treema node needs a World included in the settings.'); }
     if (this.settings.view == null) { console.error('Point Treema node needs a RootView included in the settings.'); }
   }
@@ -331,7 +331,7 @@ module.exports.ThangTypeNode = (ThangTypeNode = (ThangTypeNode = (function() {
       super(...arguments);
       this.getThangTypes();
       if (!ThangTypeNode.thangTypesCollection.loaded) {
-        const f = function() { 
+        const f = function() {
           if (!this.isEditing()) { this.refreshDisplay(); }
           return this.getThangTypes();
         };
@@ -450,7 +450,7 @@ module.exports.ChatMessageLinkNode = (ChatMessageLinkNode = (ChatMessageLinkNode
   processChatMessages(chatMessageCollection) {
     const text = __guard__(chatMessageCollection.models != null ? chatMessageCollection.models[0] : undefined, x => x.get('text'));
     if (text) {
-      const htmlText = entities.decodeHTML(text.substring(0, 60)); 
+      const htmlText = entities.decodeHTML(text.substring(0, 60));
       this.$el.find('.ai-chat-message-link-text').remove();
       this.$el.find('.treema-row').append($("<span class='ai-chat-message-link-text'></span>").text(htmlText));
     }
@@ -462,7 +462,7 @@ module.exports.ChatMessageLinkNode = (ChatMessageLinkNode = (ChatMessageLinkNode
     }
   }
 }));
-      
+
 module.exports.ChatMessageParentLinkNode = (ChatMessageParentLinkNode = (ChatMessageParentLinkNode = class ChatMessageParentLinkNode extends TreemaNode.nodeMap.string {
   buildValueForDisplay(valEl, data) {
     super.buildValueForDisplay(valEl, data);
@@ -489,13 +489,13 @@ module.exports.ChatMessageParentLinkNode = (ChatMessageParentLinkNode = (ChatMes
   processParent(parentCollection) {
     const text = __guard__(parentCollection.models != null ? parentCollection.models[0] : undefined, x => x.get('name'));
     if (text) {
-      const htmlText = entities.decodeHTML(text.substring(0, 60)); 
+      const htmlText = entities.decodeHTML(text.substring(0, 60));
       this.$el.find('.ai-chat-message-parent-name').remove();
       return this.$el.find('.treema-row').append($("<span class='ai-chat-message-parent-name'></span>").text(htmlText));
     }
   }
 }));
-      
+
 
 
 module.exports.AIDocumentLinkNode = (AIDocumentLinkNode = (AIDocumentLinkNode = class AIDocumentLinkNode extends TreemaNode.nodeMap.string {
@@ -520,7 +520,7 @@ module.exports.StateNode = (StateNode = (SateNode = class SateNode extends Treem
   }
 }));
 
-module.exports.conceptNodes = function(concepts) { 
+module.exports.conceptNodes = function(concepts) {
   class ConceptNode extends TreemaNode.nodeMap.string {
     buildValueForDisplay(valEl, data) {
       let concept;
@@ -583,7 +583,7 @@ module.exports.conceptNodes = function(concepts) {
     }
   }
   ConceptsListNode.initClass();  // Alpha within auto
-  return { 
+  return {
     ConceptsListNode,
     ConceptNode
   };

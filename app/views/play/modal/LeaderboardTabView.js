@@ -22,10 +22,10 @@ class TopScoresCollection extends CocoCollection {
   }
 
   constructor(level, scoreType, timespan) {
+    super();
     this.level = level;
     this.scoreType = scoreType;
     this.timespan = timespan;
-    super();
     this.url = `/db/level/${this.level.get('original')}/top_scores/${this.scoreType}/${this.timespan}`;
   }
 }
@@ -36,7 +36,7 @@ module.exports = (LeaderboardTabView = (function() {
     static initClass() {
       this.prototype.template = template;
       this.prototype.className = 'leaderboard-tab-view';
-  
+
       this.prototype.events = {
         'click tbody tr.viewable': 'onClickRow',
         'click tbody tr.viewable .nuke-button': 'onClickNukeButton'

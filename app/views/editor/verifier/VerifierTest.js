@@ -21,6 +21,7 @@ const aetherUtils = require('lib/aether_utils');
 
 module.exports = (VerifierTest = class VerifierTest extends CocoClass {
   constructor(levelID, updateCallback, supermodel, language, options) {
+    super();
     this.onWorldNecessitiesLoaded = this.onWorldNecessitiesLoaded.bind(this);
     this.fetchToken = this.fetchToken.bind(this);
     this.configureSession = this.configureSession.bind(this);
@@ -30,7 +31,6 @@ module.exports = (VerifierTest = class VerifierTest extends CocoClass {
     this.supermodel = supermodel;
     this.language = language;
     this.options = options;
-    super();
     // TODO: turn this into a Subview
     // TODO: listen to the progress report from Angel to show a simulation progress bar (maybe even out of the number of frames we actually know it'll take)
     if (this.supermodel == null) { this.supermodel = new SuperModel(); }

@@ -40,7 +40,7 @@ module.exports = (ClanDetailsView = (function() {
     static initClass() {
       this.prototype.id = 'clan-details-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'change .expand-progress-checkbox': 'onExpandedProgressCheckbox',
         'click .delete-clan-btn': 'onDeleteClan',
@@ -67,8 +67,8 @@ module.exports = (ClanDetailsView = (function() {
     }
 
     constructor(options, clanID) {
-      this.clanID = clanID;
       super(options);
+      this.clanID = clanID;
       this.initData();
     }
 

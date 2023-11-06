@@ -16,15 +16,15 @@ const {me} = require('core/auth');
 module.exports = (CLAView = (function() {
   CLAView = class CLAView extends RootView {
     constructor(...args) {
+      super(...args);
       this.onAgreeSucceeded = this.onAgreeSucceeded.bind(this);
       this.onAgreeFailed = this.onAgreeFailed.bind(this);
-      super(...args);
     }
 
     static initClass() {
       this.prototype.id = 'cla-view';
       this.prototype.template = template;
-  
+
       this.prototype.events =
         {'click #agreement-button': 'onAgree'};
     }

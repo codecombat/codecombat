@@ -37,15 +37,15 @@ const {
 module.exports = (EnrollmentsView = (function() {
   EnrollmentsView = class EnrollmentsView extends RootView {
     constructor(...args) {
-      this.uniqueStudentsPerYear = this.uniqueStudentsPerYear.bind(this);
       super(...args);
+      this.uniqueStudentsPerYear = this.uniqueStudentsPerYear.bind(this);
     }
 
     static initClass() {
       this.prototype.id = 'enrollments-view';
       this.prototype.template = template;
       this.prototype.enrollmentRequestSent = false;
-  
+
       this.prototype.events = {
         'click #how-to-enroll-link': 'onClickHowToEnrollLink',
         'click #contact-us-btn': 'onClickContactUsButton',

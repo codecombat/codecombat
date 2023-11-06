@@ -23,13 +23,13 @@ module.exports = (AchievementPopup = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.achievement = options.achievement;
       this.earnedAchievement = options.earnedAchievement;
       this.container = options.container || this.getContainer();
       this.popup = options.container;
       if (this.popup == null) { this.popup = true; }
       if (this.popup) { this.className += ' popup'; }
-      super(options);
       this.render();
     }
 

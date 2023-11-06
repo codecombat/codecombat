@@ -75,7 +75,7 @@ module.exports = (LevelEditView = (function() {
       this.prototype.className = 'editor';
       this.prototype.template = template;
       this.prototype.cache = false;
-  
+
       this.prototype.events = {
         'click #play-button': 'onPlayLevel',
         'click .play-with-team-button': 'onPlayLevel',
@@ -101,16 +101,16 @@ module.exports = (LevelEditView = (function() {
         'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal',
         'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal'
       };
-  
+
       this.prototype.subscriptions =
         {'editor:thang-deleted': 'onThangDeleted'};
     }
 
     constructor(options, levelID) {
+      super(options);
       this.incrementBuildTime = this.incrementBuildTime.bind(this);
       this.checkPresence = this.checkPresence.bind(this);
       this.levelID = levelID;
-      super(options);
       this.supermodel.shouldSaveBackups = model => ['Level', 'LevelComponent', 'LevelSystem', 'ThangType'].includes(model.constructor.className);
       this.levelLoader = new LevelLoader({supermodel: this.supermodel, levelID: this.levelID, headless: true, sessionless: true, loadArticles: true});
       this.level = this.levelLoader.level;

@@ -18,8 +18,8 @@ module.exports = (ArticleVersionsModal = (function() {
     }
 
     constructor(options, ID) {
-      this.ID = ID;
       super(options, this.ID, require('models/Article'));
+      this.ID = ID;
     }
   };
   ArticleVersionsModal.initClass();

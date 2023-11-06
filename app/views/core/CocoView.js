@@ -69,9 +69,9 @@ module.exports = (CocoView = (function() {
       this.modalClosed = this.modalClosed.bind(this);
       this.animatePointer = this.animatePointer.bind(this);
       this.loadProgress = _.cloneDeep(this.loadProgress);
-      if (this.supermodel == null) { this.supermodel = new SuperModel(); }
+      if (!this.supermodel) { this.supermodel = new SuperModel(); }
       this.options = options;
-      if (options != null ? options.supermodel : undefined) { // kind of a hacky way to get each view to store its own progress
+      if (!options ? options.supermodel : undefined) { // kind of a hacky way to get each view to store its own progress
         this.supermodel.models = options.supermodel.models;
         this.supermodel.collections = options.supermodel.collections;
         this.supermodel.shouldSaveBackups = options.supermodel.shouldSaveBackups;

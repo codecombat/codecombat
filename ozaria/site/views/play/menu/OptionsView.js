@@ -33,7 +33,7 @@ module.exports = (OptionsView = (function() {
         liveCompletion: true,
         screenReaderMode: false
       };
-  
+
       this.prototype.events = {
         'click .done-button': 'onDoneClicked',
         'change #option-music': 'updateMusic'
@@ -41,8 +41,8 @@ module.exports = (OptionsView = (function() {
     }
 
     constructor(options) {
-      this.onVolumeSliderChange = this.onVolumeSliderChange.bind(this);
       super(options);
+      this.onVolumeSliderChange = this.onVolumeSliderChange.bind(this);
       this.utils = utils;
     }
 

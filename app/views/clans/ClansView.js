@@ -26,7 +26,7 @@ module.exports = (ClansView = (function() {
     static initClass() {
       this.prototype.id = 'clans-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click .create-clan-btn': 'onClickCreateClan',
         'click .join-clan-btn': 'onJoinClan',
@@ -44,13 +44,17 @@ module.exports = (ClansView = (function() {
       };
     }
 
+    constructor (options = {}) {
+      super(options)
+      this.loadData()
+    }
+
     initialize() {
       super.initialize();
 
       this.publicClansArray = [];
       this.myClansArray = [];
       this.idNameMap = {};
-      return this.loadData();
     }
 
     destroy() {

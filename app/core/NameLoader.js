@@ -14,8 +14,8 @@ const namesCache = {};
 
 class NameLoader extends CocoClass {
   constructor(...args) {
-    this.loadedNames = this.loadedNames.bind(this);
-    super(...args);
+    super(...args)
+    this.loadedNames = this.loadedNames.bind(this)
   }
 
   loadNames(ids) {

@@ -30,7 +30,7 @@ const MyMatchesTabView = require('./MyMatchesTabView');
 const SimulateTabView = require('./SimulateTabView');
 const LadderPlayModal = require('./LadderPlayModal');
 const CocoClass = require('core/CocoClass');
-const TournamentLeaderboard = require('./components/Leaderboard.coffee');
+const TournamentLeaderboard = require('./components/Leaderboard');
 
 const Clan = require('models/Clan');
 const CourseInstance = require('models/CourseInstance');
@@ -66,54 +66,10 @@ LevelSessionsCollection.initClass();
 module.exports = (LadderView = (function() {
   LadderView = class LadderView extends RootView {
     constructor(...args) {
-      this.refreshViews = this.refreshViews.bind(this);
       super(...args);
-    }
+      this.refreshViews = this.refreshViews.bind(this);
 
-    static initClass() {
-      this.prototype.id = 'ladder-view';
-      this.prototype.template = require('app/templates/play/ladder/ladder');
-      this.prototype.usesSocialMedia = true;
-      this.prototype.showBackground = false;
-  
-      this.prototype.subscriptions =
-        {'application:idle-changed': 'onIdleChanged'};
-  
-      this.prototype.events = {
-        'click .play-button': 'onClickPlayButton',
-        'click a:not([data-toggle])': 'onClickedLink',
-        'click .publish-button': 'onClickPublishButton',
-        'click .spectate-button': 'onClickSpectateButton',
-        'click .simulate-all-button': 'onClickSimulateAllButton',
-        'click .early-results-button': 'onClickEarlyResultsButton',
-        'click .join-clan-button': 'onClickJoinClanButton'
-      };
-  
-      this.prototype.onCourseInstanceLoaded = co.wrap(function*(courseInstance) {
-        this.courseInstance = courseInstance;
-        if (this.destroyed) { return; }
-        this.classroomID = this.courseInstance.get('classroomID');
-        this.ownerID = this.courseInstance.get('ownerID');
-        this.isSchoolAdmin = yield userClassroomHelper.isSchoolAdminOf({ user: me, classroomId: this.classroomID });
-        this.isTeacher = yield userClassroomHelper.isTeacherOf({ user: me, classroomId: this.classroomID });
-        const course = new Course({_id: this.courseInstance.get('courseID')});
-        this.course = this.supermodel.loadModel(course).model;
-        return this.listenToOnce(this.course, 'sync', this.render);
-      });
-  
-      this.prototype.teamOffers = [
-        {slug: 'hyperx', clanId: '60a4378875b540004c78f121', name: 'Team HyperX', clanSlug: 'hyperx'},
-        {slug: 'derbezt', clanId: '601351bb4b79b4013e198fbe', name: 'Team DerBezt', clanSlug: 'team-derbezt'}
-      ];
-    }
-
-    initialize(options, levelID, leagueType, leagueID) {
       let tournamentEndDate, tournamentStartDate;
-      this.levelID = levelID;
-      this.leagueType = leagueType;
-      this.leagueID = leagueID;
-      super.initialize(options);
-
       this.level = this.supermodel.loadModel(new Level({_id: this.levelID})).model;
       this.level.once('sync', level => {
         return this.setMeta({ title: $.i18n.t('ladder.arena_title', { arena: level.get('name') }) });
@@ -162,6 +118,50 @@ module.exports = (LadderView = (function() {
         this.checkTournamentCloseInterval = setInterval(this.checkTournamentClose.bind(this), 3000);
         return this.checkTournamentClose();
       }
+    }
+
+    static initClass() {
+      this.prototype.id = 'ladder-view';
+      this.prototype.template = require('app/templates/play/ladder/ladder');
+      this.prototype.usesSocialMedia = true;
+      this.prototype.showBackground = false;
+
+      this.prototype.subscriptions =
+        {'application:idle-changed': 'onIdleChanged'};
+
+      this.prototype.events = {
+        'click .play-button': 'onClickPlayButton',
+        'click a:not([data-toggle])': 'onClickedLink',
+        'click .publish-button': 'onClickPublishButton',
+        'click .spectate-button': 'onClickSpectateButton',
+        'click .simulate-all-button': 'onClickSimulateAllButton',
+        'click .early-results-button': 'onClickEarlyResultsButton',
+        'click .join-clan-button': 'onClickJoinClanButton'
+      };
+
+      this.prototype.onCourseInstanceLoaded = co.wrap(function*(courseInstance) {
+        this.courseInstance = courseInstance;
+        if (this.destroyed) { return; }
+        this.classroomID = this.courseInstance.get('classroomID');
+        this.ownerID = this.courseInstance.get('ownerID');
+        this.isSchoolAdmin = yield userClassroomHelper.isSchoolAdminOf({ user: me, classroomId: this.classroomID });
+        this.isTeacher = yield userClassroomHelper.isTeacherOf({ user: me, classroomId: this.classroomID });
+        const course = new Course({_id: this.courseInstance.get('courseID')});
+        this.course = this.supermodel.loadModel(course).model;
+        return this.listenToOnce(this.course, 'sync', this.render);
+      });
+
+      this.prototype.teamOffers = [
+        {slug: 'hyperx', clanId: '60a4378875b540004c78f121', name: 'Team HyperX', clanSlug: 'hyperx'},
+        {slug: 'derbezt', clanId: '601351bb4b79b4013e198fbe', name: 'Team DerBezt', clanSlug: 'team-derbezt'}
+      ];
+    }
+
+    initialize(options, levelID, leagueType, leagueID) {
+      this.levelID = levelID;
+      this.leagueType = leagueType;
+      this.leagueID = leagueID;
+      super.initialize(options);
     }
 
     calcTimeOffset() {

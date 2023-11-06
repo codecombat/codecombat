@@ -34,7 +34,7 @@ module.exports = (CourseDetailsView = (function() {
       this.prototype.id = 'course-details-view';
       this.prototype.template = template;
       this.prototype.memberSort = 'nameAsc';
-  
+
       this.prototype.events = {
         'click .btn-play-level': 'onClickPlayLevel',
         'click .btn-select-instance': 'onClickSelectInstance',
@@ -43,9 +43,9 @@ module.exports = (CourseDetailsView = (function() {
     }
 
     constructor(options, courseID, courseInstanceID) {
+      super(options);
       this.courseID = courseID;
       this.courseInstanceID = courseInstanceID;
-      super(options);
       this.courses = new Courses();
       this.course = new Course();
       this.levelSessions = new LevelSessions();

@@ -28,7 +28,7 @@ module.exports = (AIScenarioEditView = (function() {
     static initClass() {
       this.prototype.id = 'editor-ai-scenario-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #save-button': 'onClickSaveButton',
         'click #i18n-button': 'onPopulateI18N',
@@ -39,9 +39,9 @@ module.exports = (AIScenarioEditView = (function() {
     }
 
     constructor(options, scenarioID) {
+      super(options);
       this.deleteAIScenario = this.deleteAIScenario.bind(this);
       this.scenarioID = scenarioID;
-      super(options);
       this.scenario = new AIScenario({_id: this.scenarioID});
       this.scenario.saveBackups = true;
       this.supermodel.loadModel(this.scenario);

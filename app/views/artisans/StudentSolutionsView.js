@@ -40,18 +40,18 @@ if (utils.isOzaria) {
 module.exports = (StudentSolutionsView = (function() {
   StudentSolutionsView = class StudentSolutionsView extends RootView {
     constructor(...args) {
+      super(...args);
       this.parseSource = this.parseSource.bind(this);
       this.processASTNode = this.processASTNode.bind(this);
-      super(...args);
     }
 
     static initClass() {
       this.prototype.template = template;
       this.prototype.id = 'student-solutions-view';
-  
+
       this.prototype.events =
         {'click #go-button': 'onClickGoButton'};
-  
+
       this.prototype.levelSlug = "eagle-eye";
       this.prototype.limit = 500;
       this.prototype.languages = "python";

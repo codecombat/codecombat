@@ -39,14 +39,14 @@ module.exports = (AddThangsView = (function() {
       this.prototype.id = 'add-thangs-view';
       this.prototype.className = 'add-thangs-palette';
       this.prototype.template = add_thangs_template;
-  
+
       this.prototype.events =
         {'keyup input#thang-search': 'runSearch'};
     }
 
     constructor(options) {
-      this.runSearch = this.runSearch.bind(this);
       super(options);
+      this.runSearch = this.runSearch.bind(this);
       this.world = options.world;
 
       this.thangTypes = new Backbone.Collection();

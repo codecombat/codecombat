@@ -23,7 +23,7 @@ module.exports = (ScreenReaderSurfaceView = (function() {
       this.prototype.id = 'screen-reader-surface-view';
       this.prototype.template = template;
       this.prototype.cursorFollowsHero = true;
-  
+
       this.prototype.subscriptions = {
         'tome:change-config': 'onChangeTomeConfig',
         'surface:update-screen-reader-map': 'onUpdateScreenReaderMap',
@@ -32,8 +32,8 @@ module.exports = (ScreenReaderSurfaceView = (function() {
     }
 
     constructor(options) {
-      this.onKeyEvent = this.onKeyEvent.bind(this);
       super(options);
+      this.onKeyEvent = this.onKeyEvent.bind(this);
     }
 
     afterInsert() {

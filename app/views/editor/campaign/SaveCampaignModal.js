@@ -19,14 +19,14 @@ module.exports = (SaveCampaignModal = (function() {
       this.prototype.id = 'save-campaign-modal';
       this.prototype.template = template;
       this.prototype.plain = true;
-  
+
       this.prototype.events =
         {'click #save-button': 'onClickSaveButton'};
     }
 
     constructor(options, modelsToSave) {
-      this.modelsToSave = modelsToSave;
       super(options);
+      this.modelsToSave = modelsToSave;
     }
 
     afterRender() {

@@ -28,7 +28,7 @@ module.exports = (AIChatMessageEditView = (function() {
     static initClass() {
       this.prototype.id = 'editor-ai-chat-message-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #save-button': 'onClickSaveButton',
         'click #delete-button': 'confirmDeletion',
@@ -37,9 +37,9 @@ module.exports = (AIChatMessageEditView = (function() {
     }
 
     constructor(options, chatMessageID) {
+      super(options);
       this.deleteAIChatMessage = this.deleteAIChatMessage.bind(this);
       this.chatMessageID = chatMessageID;
-      super(options);
       this.chatMessage = new AIChatMessage({_id: this.chatMessageID});
       this.chatMessage.saveBackups = true;
       this.supermodel.loadModel(this.chatMessage);

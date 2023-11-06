@@ -33,20 +33,20 @@ LevelComponentCollection.initClass();
 module.exports = (ComponentsTabView = (function() {
   ComponentsTabView = class ComponentsTabView extends CocoView {
     constructor(...args) {
-      this.onTreemaComponentSelected = this.onTreemaComponentSelected.bind(this);
       super(...args);
+      this.onTreemaComponentSelected = this.onTreemaComponentSelected.bind(this);
     }
 
     static initClass() {
       this.prototype.id = 'editor-level-components-tab-view';
       this.prototype.template = template;
       this.prototype.className = 'tab-pane';
-  
+
       this.prototype.subscriptions = {
         'editor:level-component-editing-ended': 'onLevelComponentEditingEnded',
         'editor:level-loaded': 'onLevelLoaded'
       };
-  
+
       this.prototype.events = {
         'click #create-new-component-button': 'createNewLevelComponent',
         'click #create-new-component-button-no-select': 'createNewLevelComponent'

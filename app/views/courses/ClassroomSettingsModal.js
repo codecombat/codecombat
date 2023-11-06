@@ -30,16 +30,16 @@ const initializeFilePicker = function() {
 module.exports = (ClassroomSettingsModal = (function() {
   ClassroomSettingsModal = class ClassroomSettingsModal extends ModalView {
     constructor(...args) {
+      super(...args);
       this.onFileChosen = this.onFileChosen.bind(this);
       this.onFileUploaded = this.onFileUploaded.bind(this);
-      super(...args);
     }
 
     static initClass() {
       this.prototype.id = 'classroom-settings-modal';
       this.prototype.template = template;
       this.prototype.schema = require('schemas/models/classroom.schema');
-  
+
       this.prototype.events = {
         'click #save-settings-btn': 'onSubmitForm',
         'click #update-courses-btn': 'onClickUpdateCoursesButton',

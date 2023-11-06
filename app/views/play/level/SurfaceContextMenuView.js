@@ -15,10 +15,10 @@ module.exports = (SurfaceContextMenuView = (function() {
       this.prototype.id = 'surface-context-menu-view';
       this.prototype.className = 'surface-context-menu';
       this.prototype.template = require('app/templates/play/level/surface-context-menu');
-  
+
       this.prototype.events =
         {'click #copy': 'onClickCopy'};
-  
+
       this.prototype.subscriptions = {
         'level:surface-context-menu-pressed': 'showView',
         'level:surface-context-menu-hide': 'hideView'
@@ -26,8 +26,8 @@ module.exports = (SurfaceContextMenuView = (function() {
     }
 
     constructor(options) {
-      this.supermodel = options.supermodel; // Has to go before super so events are hooked up
       super(options);
+      this.supermodel = options.supermodel; // Has to go before super so events are hooked up
       this.level = options.level;
       this.session = options.session;
     }

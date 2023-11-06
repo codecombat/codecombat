@@ -19,26 +19,23 @@ module.exports = (ModelModal = (function() {
       this.prototype.id = 'model-modal';
       this.prototype.template = template;
       this.prototype.plain = true;
-  
+
       this.prototype.events = {'click .save-model': 'onSaveModel'};
     }
 
-    initialize(options) {
-      super.initialize(options);
-      this.models = options.models != null ? options.models : [];
-      return (() => {
-        const result = [];
-        for (var model of Array.from(this.models)) {
-          if (!model.loaded) {
-            this.supermodel.loadModel(model);
-            result.push(model.fetch({cache: false, error(error) {
-              return console.log('Error loading', model, error);
-            }
-            }));
+    constructor (options = {}) {
+      super(options)
+      this.models = !options.models ? options.models : [];
+      const result = []
+      for (const model of Array.from(this.models)) {
+        if (!model.loaded) {
+          this.supermodel.loadModel(model);
+          result.push(model.fetch({cache: false, error(error) {
+            return console.log('Error loading', model, error);
           }
+          }));
         }
-        return result;
-      })();
+      }
     }
 
     afterRender() {

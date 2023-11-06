@@ -26,7 +26,7 @@ module.exports = (ResourceEditView = (function() {
     static initClass() {
       this.prototype.id = 'editor-resource-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #save-button': 'onClickSaveButton',
         'click #i18n-button': 'onPopulateI18N'
@@ -34,8 +34,8 @@ module.exports = (ResourceEditView = (function() {
     }
 
     constructor(options, resourceID) {
-      this.resourceID = resourceID;
       super(options);
+      this.resourceID = resourceID;
       this.resource = new ResourceHubResource({_id: this.resourceID});
       this.resource.saveBackups = true;
       this.supermodel.loadModel(this.resource);

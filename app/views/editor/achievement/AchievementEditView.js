@@ -31,7 +31,7 @@ module.exports = (AchievementEditView = (function() {
     static initClass() {
       this.prototype.id = 'editor-achievement-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #save-button': 'saveAchievement',
         'click #recalculate-button': 'confirmRecalculation',
@@ -41,11 +41,11 @@ module.exports = (AchievementEditView = (function() {
     }
 
     constructor(options, achievementID) {
+      super(options);
       this.pushChangesToPreview = this.pushChangesToPreview.bind(this);
       this.recalculateAchievement = this.recalculateAchievement.bind(this);
       this.deleteAchievement = this.deleteAchievement.bind(this);
       this.achievementID = achievementID;
-      super(options);
       this.achievement = new Achievement({_id: this.achievementID});
       this.achievement.saveBackups = true;
       this.supermodel.trackRequest(this.achievement.fetch());

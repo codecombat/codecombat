@@ -34,9 +34,9 @@ module.exports = (ThangTypeColorsTabView = (function() {
       this.prototype.id = 'editor-thang-colors-tab-view';
       this.prototype.template = template;
       this.prototype.className = 'tab-pane';
-  
+
       this.prototype.offset = 0;
-  
+
       this.prototype.events = {
         'click #color-group-btn': 'onColorGroupTab',
         'click #tint-assignment-btnTint': 'onTintAssignmentTab'
@@ -44,10 +44,10 @@ module.exports = (ThangTypeColorsTabView = (function() {
     }
 
     constructor(thangType, options) {
+      super(options);
       this.onColorGroupsChanged = this.onColorGroupsChanged.bind(this);
       this.onColorGroupSelected = this.onColorGroupSelected.bind(this);
       this.thangType = thangType;
-      super(options);
       this.utils = utils;
       this.tab = COLOR_GROUP_TAB;
       this.supermodel.loadModel(this.thangType);
@@ -138,7 +138,7 @@ module.exports = (ThangTypeColorsTabView = (function() {
       if (!this.tintAssignments) {
         return colorConfig;
       }
-    
+
       const tintMap = {};
       for (var tint of Array.from(this.tintAssignments.data)) {
         tintMap[tint.name] = tint;

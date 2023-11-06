@@ -25,7 +25,7 @@ module.exports = (CampaignLevelView = (function() {
     static initClass() {
       this.prototype.id = 'campaign-level-view';
       this.prototype.template = require('app/templates/editor/campaign/campaign-level-view');
-  
+
       this.prototype.events = {
         'change .line-graph-checkbox': 'updateGraphCheckbox',
         'click .close': 'onClickClose',
@@ -36,16 +36,16 @@ module.exports = (CampaignLevelView = (function() {
         'click .replay-button': 'onClickReplay',
         'click #recent-button': 'onClickRecentButton'
       };
-  
+
       this.prototype.limit = 100;
     }
 
     constructor(options, level) {
+      super(options);
       this.onClickReloadButton = this.onClickReloadButton.bind(this);
       this.makeFinishDataFetch = this.makeFinishDataFetch.bind(this);
       this.getAnalytics = this.getAnalytics.bind(this);
       this.level = level;
-      super(options);
       this.fullLevel = new Level({_id: this.level.id});
       this.fullLevel.fetch();
       this.listenToOnce(this.fullLevel, 'sync', () => (typeof this.render === 'function' ? this.render() : undefined));

@@ -109,7 +109,8 @@ module.exports = (HomeView = (function() {
 
     getBanner() {
       return fetchJson('/db/banner').then(data => {
-        this.banner = data;
+        if (!data) { return }
+        this.banner = data
         const content = utils.i18n(data, 'content');
         this.banner.display = DOMPurify.sanitize(marked(content != null ? content : ''));
         return this.renderSelectors('#top-banner');

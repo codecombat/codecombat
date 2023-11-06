@@ -31,7 +31,7 @@ module.exports = (ScriptsTabView = (function() {
       this.prototype.id = 'editor-level-scripts-tab-view';
       this.prototype.template = template;
       this.prototype.className = 'tab-pane';
-  
+
       this.prototype.subscriptions = {
         'editor:level-loaded': 'onLevelLoaded',
         'editor:thangs-edited': 'onThangsEdited'
@@ -39,13 +39,13 @@ module.exports = (ScriptsTabView = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.onScriptsChanged = this.onScriptsChanged.bind(this);
       this.onScriptSelected = this.onScriptSelected.bind(this);
       this.onNewScriptAdded = this.onNewScriptAdded.bind(this);
       this.onScriptDeleted = this.onScriptDeleted.bind(this);
       this.onScriptChanged = this.onScriptChanged.bind(this);
       this.onWindowResize = this.onWindowResize.bind(this);
-      super(options);
       this.world = options.world;
       this.files = options.files;
       $(window).on('resize', this.onWindowResize);

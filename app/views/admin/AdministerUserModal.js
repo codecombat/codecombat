@@ -1,11 +1,7 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 /*
  * decaffeinate suggestions:
- * DS002: Fix invalid constructor
  * DS101: Remove unnecessary use of Array.from
  * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
  * DS104: Avoid inline assignments
  * DS205: Consider reworking code to avoid use of IIFEs
  * DS206: Consider reworking classes to avoid initClass
@@ -37,16 +33,10 @@ const { LICENSE_PRESETS, ESPORTS_PRODUCT_STATS } = require('core/constants');
 
 module.exports = (AdministerUserModal = (function() {
   AdministerUserModal = class AdministerUserModal extends ModelModal {
-    constructor(...args) {
-      this.onSearchRequestSuccess = this.onSearchRequestSuccess.bind(this);
-      this.onSearchRequestFailure = this.onSearchRequestFailure.bind(this);
-      super(...args);
-    }
-
     static initClass() {
       this.prototype.id = 'administer-user-modal';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #save-changes': 'onClickSaveChanges',
         'click #create-payment-btn': 'onClickCreatePayment',
@@ -85,11 +75,18 @@ module.exports = (AdministerUserModal = (function() {
       };
     }
 
-    initialize(options, userHandle) {
+    constructor (options, userHandle) {
+      const user = new User({ _id: userHandle })
+      if (!options) {
+        options = {}
+      }
+      options.models = [user]
+      super(options)
       this.userHandle = userHandle;
       this.ESPORTS_PRODUCT_STATS = ESPORTS_PRODUCT_STATS;
-      this.user = new User({_id: this.userHandle});
+      this.user = user
       this.classrooms = new Classrooms();
+      this.supermodel.trackRequest(this.user.fetch({ cache: false }))
       this.listenTo(this.user, 'sync', () => {
         if (this.user.isStudent()) {
           this.supermodel.loadCollection(this.classrooms, { data: {memberID: this.user.id}, cache: false });
@@ -100,7 +97,6 @@ module.exports = (AdministerUserModal = (function() {
         this.esportsProducts = this.user.getProductsByType('esports');
         return this.renderSelectors('#esports-products');
       });
-      this.supermodel.trackRequest(this.user.fetch({cache: false}));
       this.coupons = new StripeCoupons();
       if (me.isAdmin()) { this.supermodel.trackRequest(this.coupons.fetch({cache: false})); }
       this.prepaids = new Prepaids();
@@ -116,14 +112,13 @@ module.exports = (AdministerUserModal = (function() {
       this.esportsProducts = this.user.getProductsByType('esports');
       this.trialRequests = new TrialRequests();
       if (me.isAdmin()) { this.supermodel.trackRequest(this.trialRequests.fetchByApplicant(this.userHandle)); }
-      this.timeZone = (typeof features !== 'undefined' && features !== null ? features.chinaInfra : undefined) ? 'Asia/Shanghai' : 'America/Los_Angeles';
-      this.licenseType = 'all';
+      this.timeZone = features?.chinaInfra ? 'Asia/Shanghai' : 'America/Los_Angeles'
+      this.licenseType = 'all'
       this.licensePresets = LICENSE_PRESETS;
       this.esportsType = 'basic';
       this.utils = utils;
       options.models = [this.user];  // For ModelModal to generate a Treema of this user
       this.momentTimezone = momentTimezone;
-      return super.initialize(options);
     }
 
     onLoaded() {
@@ -161,8 +156,9 @@ module.exports = (AdministerUserModal = (function() {
       this.freeUntilDate = (() => { switch (false) {
         case !this.freeUntil: return stripe.free;
         case !me.isOnlineTeacher(): return moment().add(1, "day").toISOString().slice(0, 10);  // Default to tomorrow
-        default: return new (Date().toISOString().slice(0, 10));
-      } })();
+        default: return new Date().toISOString().slice(0, 10)
+      }
+      })()
       this.currentCouponID = stripe.couponID;
       return this.none = !(this.free || this.freeUntil || this.coupon);
     }
@@ -222,10 +218,8 @@ module.exports = (AdministerUserModal = (function() {
 
       const options = {};
       options.success = () => {
-        if (typeof this.updateStripeStatus === 'function') {
-          this.updateStripeStatus();
-        }
-        return (typeof this.render === 'function' ? this.render() : undefined);
+        this.updateStripeStatus?.()
+        return this.render?.()
       };
       return this.user.patch(options);
     }
@@ -239,9 +233,9 @@ module.exports = (AdministerUserModal = (function() {
       attrs.endDate = attrs.endDate + " " + "23:59";   // Otherwise, it ends at 12 am by default which does not include the date indicated
       let {
         timeZone
-      } = this;
-      if ((attrs.userTimeZone != null ? attrs.userTimeZone[0] : undefined) === 'on') {
-        timeZone = this.getUserTimeZone();
+      } = this
+      if (attrs.userTimeZone?.[0] === 'on') {
+        timeZone = this.getUserTimeZone()
       }
       attrs.startDate = momentTimezone.tz(attrs.startDate, timeZone).toISOString();
       attrs.endDate = momentTimezone.tz(attrs.endDate, timeZone).toISOString();
@@ -359,9 +353,9 @@ module.exports = (AdministerUserModal = (function() {
         return button.remove();
     }).catch(e => {
         button.attr('disabled', false).text('Destudent');
-        noty({
-          text: e.message || (e.responseJSON != null ? e.responseJSON.message : undefined) || e.responseText || 'Unknown Error',
-          type: 'error'
+          noty({
+            text: e.message || e.responseJSON?.message || e.responseText || 'Unknown Error',
+            type: 'error'
         });
         if (e.stack) {
           throw e;
@@ -377,9 +371,9 @@ module.exports = (AdministerUserModal = (function() {
         return button.remove();
     }).catch(e => {
         button.attr('disabled', false).text('Destudent');
-        noty({
-          text: e.message || (e.responseJSON != null ? e.responseJSON.message : undefined) || e.responseText || 'Unknown Error',
-          type: 'error'
+          noty({
+            text: e.message || e.responseJSON?.message || e.responseText || 'Unknown Error',
+            type: 'error'
         });
         if (e.stack) {
           throw e;
@@ -389,7 +383,7 @@ module.exports = (AdministerUserModal = (function() {
 
     onClickResetProgressButton() {
       if (confirm("Really RESET this person's progress?")) {
-        return api.users.resetProgress({ userID: this.user.id});
+        return api.users.resetProgress({ userID: this.user.id });
       }
     }
 
@@ -598,7 +592,7 @@ module.exports = (AdministerUserModal = (function() {
       if (typeof this.editingSchoolAdmins === 'undefined') {
         const administrated = this.user.get('administratedTeachers');
 
-        if (administrated != null ? administrated.length : undefined) {
+        if (administrated?.length) {
           api.users.fetchByIds({
             fetchByIds: administrated,
             teachersOnly: true,
@@ -753,7 +747,7 @@ ${teachers.join('\n')} \
     administratedSchools(teachers) {
       const schools = {};
       _.forEach(teachers, teacher => {
-        const school = __guard__(teacher != null ? teacher._trialRequest : undefined, x => x.organization) || "Other";
+        const school = teacher?._trialRequest?.organization || 'Other'
         if (!schools[school]) {
           return schools[school] = [teacher];
         } else {
@@ -769,10 +763,10 @@ ${teachers.join('\n')} \
       const ownerIDs = (left = _.map(this.classrooms.models, c => c.get('ownerID'))) != null ? left : [];
       return Promise.resolve($.ajax(NameLoader.loadNames(ownerIDs)))
       .then(() => {
-        this.ownerNameMap = {};
-        for (var ownerID of Array.from(ownerIDs)) { this.ownerNameMap[ownerID] = NameLoader.getName(ownerID); }
-        return (typeof this.render === 'function' ? this.render() : undefined);
-      });
+          this.ownerNameMap = {}
+          for (const ownerID of Array.from(ownerIDs)) { this.ownerNameMap[ownerID] = NameLoader.getName(ownerID) }
+          return this.render?.()
+        })
     }
 
     onClickOtherUserLink(e) {
@@ -802,9 +796,9 @@ ${teachers.join('\n')} \
     }
 
     getUserTimeZone() {
-      const geo = this.user.get('geo');
-      if (geo != null ? geo.timeZone : undefined) {
-        return geo.timeZone;
+      const geo = this.user.get('geo')
+      if (geo?.timeZone) {
+        return geo.timeZone
       } else {
         return this.timeZone;
       }
@@ -813,6 +807,3 @@ ${teachers.join('\n')} \
   AdministerUserModal.initClass();
   return AdministerUserModal;
 })());
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}

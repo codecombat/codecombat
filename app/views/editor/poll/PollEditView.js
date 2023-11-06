@@ -26,7 +26,7 @@ module.exports = (PollEditView = (function() {
     static initClass() {
       this.prototype.id = 'editor-poll-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #save-button': 'savePoll',
         'click #delete-button': 'confirmDeletion'
@@ -34,10 +34,10 @@ module.exports = (PollEditView = (function() {
     }
 
     constructor(options, pollID) {
+      super(options);
       this.pushChangesToPreview = this.pushChangesToPreview.bind(this);
       this.deletePoll = this.deletePoll.bind(this);
       this.pollID = pollID;
-      super(options);
       this.loadPoll();
       this.loadUserPollsRecord();
       this.pushChangesToPreview = _.throttle(this.pushChangesToPreview, 500);

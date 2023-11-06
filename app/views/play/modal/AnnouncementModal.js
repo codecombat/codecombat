@@ -24,9 +24,9 @@ module.exports = (AnnouncementModal = (function() {
       this.prototype.plain = true;
       this.prototype.closesOnClickOutside = true;
       this.prototype.modalPath = 'views/play/modal/AnnouncementModal';
-  
+
       announcementId = null;
-  
+
       this.prototype.events = {
         'click #close-modal': 'hide',
         'click .purchase-button': 'onClickPurchaseButton',
@@ -34,13 +34,14 @@ module.exports = (AnnouncementModal = (function() {
         'mouseover .has-tooltip': 'displayTooltip',
         'mousemove .has-tooltip': 'displayTooltip',
         'mouseout .has-tooltip': 'hideTooltip',
-  
+
         'click .ability-icon': 'onClickAbilityIcon',
         'click .ritic-block': 'onClickRiticBlock'
       };
     }
 
     constructor(options) {
+      super(options);
       this.onClickPurchaseButton = this.onClickPurchaseButton.bind(this);
       if (options == null) { options = {}; }
       if (options.announcementId == null) { options.announcementId = 1; }
@@ -48,7 +49,6 @@ module.exports = (AnnouncementModal = (function() {
         announcementId
       } = options);
       this.template = require(`templates/play/modal/announcements/${options.announcementId}`);
-      super(options);
       this.trackTimeVisible({ trackViewLifecycle: true });
     }
 

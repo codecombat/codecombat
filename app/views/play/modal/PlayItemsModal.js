@@ -65,7 +65,7 @@ module.exports = (PlayItemsModal = (function() {
       this.prototype.className = 'modal fade play-modal';
       this.prototype.template = template;
       this.prototype.id = 'play-items-modal';
-  
+
       this.prototype.events = {
         'click .item': 'onItemClicked',
         'shown.bs.tab': 'onTabClicked',
@@ -81,8 +81,8 @@ module.exports = (PlayItemsModal = (function() {
     }
 
     constructor(options) {
-      this.showVisibleItemImages = _.throttle(_.bind(this.showVisibleItemImages, this), 200);
       super(options);
+      this.showVisibleItemImages = _.throttle(_.bind(this.showVisibleItemImages, this), 200);
       this.items = new Backbone.Collection();
       this.itemCategoryCollections = {};
 

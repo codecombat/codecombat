@@ -20,9 +20,9 @@ module.exports = (LicenseStatsModal = (function() {
     }
 
     constructor(options) {
+      super(options);
       let left, left1;
       this.nameMapping = this.nameMapping.bind(this);
-      super(options);
       this.prepaid = options.prepaid;
 
       this.redeemers = (left = this.prepaid.get('redeemers')) != null ? left : [];

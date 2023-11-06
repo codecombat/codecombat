@@ -18,8 +18,8 @@ module.exports = (ComponentVersionsModal = (function() {
     }
 
     constructor(options, ID) {
-      this.ID = ID;
       super(options, this.ID, require('models/LevelComponent'));
+      this.ID = ID;
     }
   };
   ComponentVersionsModal.initClass();

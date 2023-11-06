@@ -27,14 +27,14 @@ require('d3/d3.js');
 module.exports = (MyMatchesTabView = (function() {
   MyMatchesTabView = class MyMatchesTabView extends CocoView {
     constructor(...args) {
-      this.generateScoreLineChart = this.generateScoreLineChart.bind(this);
       super(...args);
+      this.generateScoreLineChart = this.generateScoreLineChart.bind(this);
     }
 
     static initClass() {
       this.prototype.id = 'my-matches-tab-view';
       this.prototype.template = require('app/templates/play/ladder/my_matches_tab');
-  
+
       this.prototype.events = {
         'click .load-more-matches': 'onLoadMoreMatches',
         'click .share-ladder-link-button': 'openShareLadderLinkModal'

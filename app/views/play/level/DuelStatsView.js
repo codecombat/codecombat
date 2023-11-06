@@ -29,7 +29,7 @@ module.exports = (DuelStatsView = (function() {
     static initClass() {
       this.prototype.id = 'duel-stats-view';
       this.prototype.template = template;
-  
+
       this.prototype.subscriptions = {
         'surface:gold-changed': 'onGoldChanged',
         'god:new-world-created': 'onNewWorld',
@@ -41,8 +41,8 @@ module.exports = (DuelStatsView = (function() {
     }
 
     constructor(options) {
-      let needle;
       super(options);
+      let needle;
       options.thangs = _.filter(options.thangs, 'inThangList');
       if (!options.otherSession) {
         options.otherSession = { get: prop => ({

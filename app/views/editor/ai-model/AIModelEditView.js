@@ -26,7 +26,7 @@ module.exports = (AIModelEditView = (function() {
     static initClass() {
       this.prototype.id = 'editor-ai-model-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #save-button': 'onClickSaveButton',
         'click #delete-button': 'confirmDeletion'
@@ -34,9 +34,9 @@ module.exports = (AIModelEditView = (function() {
     }
 
     constructor(options, modelID) {
+      super(options);
       this.deleteAIModel = this.deleteAIModel.bind(this);
       this.modelID = modelID;
-      super(options);
       this.model = new AIModel({_id: this.modelID});
       this.model.saveBackups = true;
       this.supermodel.loadModel(this.model);

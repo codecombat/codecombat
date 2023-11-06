@@ -26,7 +26,7 @@ module.exports = (LevelSystemEditView = (function() {
       this.prototype.id = 'level-system-edit-view';
       this.prototype.template = template;
       this.prototype.editableSettings = ['name', 'description', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n'];
-  
+
       this.prototype.events = {
         'click #done-editing-system-button': 'endEditing',
         'click .nav a'(e) { return $(e.target).tab('show'); },
@@ -41,10 +41,10 @@ module.exports = (LevelSystemEditView = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.onSystemSettingsEdited = this.onSystemSettingsEdited.bind(this);
       this.onConfigSchemaEdited = this.onConfigSchemaEdited.bind(this);
       this.onEditorChange = this.onEditorChange.bind(this);
-      super(options);
       this.levelSystem = this.supermodel.getModelByOriginalAndMajorVersion(LevelSystem, options.original, options.majorVersion || 0);
       if (!this.levelSystem) { console.log('Couldn\'t get levelSystem for', options, 'from', this.supermodel.models); }
     }

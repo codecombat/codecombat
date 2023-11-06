@@ -168,7 +168,7 @@ module.exports = (ThangTypeEditView = (function() {
         hudProperties: ['health'],
         acts: true
       };
-  
+
       this.prototype.events = {
         'click #clear-button': 'clearRawData',
         'click #upload-button'() { return this.$el.find('input#real-upload-button').click(); },
@@ -196,7 +196,7 @@ module.exports = (ThangTypeEditView = (function() {
         'click .reoptimize-btn': 'onClickReoptimizeButton',
         'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
       };
-  
+
       this.prototype.subscriptions =
         {'editor:thang-type-color-groups-changed': 'onColorGroupsChanged'};
     }
@@ -215,6 +215,7 @@ module.exports = (ThangTypeEditView = (function() {
     // init / render
 
     constructor(options, thangTypeID) {
+      super(options);
       this.initComponents = this.initComponents.bind(this);
       this.onComponentsChanged = this.onComponentsChanged.bind(this);
       this.onAnimateFileLoad = this.onAnimateFileLoad.bind(this);
@@ -228,7 +229,6 @@ module.exports = (ThangTypeEditView = (function() {
       this.pushChangesToPreview = this.pushChangesToPreview.bind(this);
       this.onSelectNode = this.onSelectNode.bind(this);
       this.thangTypeID = thangTypeID;
-      super(options);
       this.mockThang = $.extend(true, {}, this.mockThang);
       this.thangType = new ThangType({_id: this.thangTypeID});
       this.thangType = this.supermodel.loadModel(this.thangType).model;

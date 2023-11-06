@@ -31,7 +31,7 @@ module.exports = (OptionsView = (function() {
         behaviors: false,
         liveCompletion: true
       };
-  
+
       this.prototype.events = {
         'change #option-music': 'updateMusic',
         'change #option-behaviors': 'updateBehaviors',
@@ -42,8 +42,8 @@ module.exports = (OptionsView = (function() {
     }
 
     constructor(options) {
-      this.onVolumeSliderChange = this.onVolumeSliderChange.bind(this);
       super(options);
+      this.onVolumeSliderChange = this.onVolumeSliderChange.bind(this);
       this.utils = utils;
     }
 

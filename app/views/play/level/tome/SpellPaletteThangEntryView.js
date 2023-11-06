@@ -22,14 +22,14 @@ module.exports = (SpellPaletteThangEntryView = (function() {
       this.prototype.tagName = 'div';  // Could also try <code> instead of <div>, but would need to adjust colors
       this.prototype.className = 'spell-palette-thang-entry-view';
       this.prototype.template = template;
-  
+
       this.prototype.subscriptions = {
         'surface:frame-changed': 'onFrameChanged',
         'tome:palette-hovered': 'onPaletteHovered',
         'tome:palette-clicked': 'onPaletteClicked',
         'tome:spell-debug-property-hovered': 'onSpellDebugPropertyHovered'
       };
-  
+
       this.prototype.events = {
         'mouseenter': 'onMouseEnter',
         'mouseleave': 'onMouseLeave',
@@ -38,10 +38,10 @@ module.exports = (SpellPaletteThangEntryView = (function() {
     }
 
     constructor(options) {
+      super(options);
       let example;
       this.onPaletteClicked = this.onPaletteClicked.bind(this);
       this.onClick = this.onClick.bind(this);
-      super(options);
       this.thang = options.thang;
       if (options.doc.example != null) {
         example = options.doc.example != null ? options.doc.example[options.language] : undefined;

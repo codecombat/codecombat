@@ -18,9 +18,9 @@ module.exports = (StudentAssessmentsView = (function() {
       this.prototype.VueComponent = StudentAssessmentsComponent;
     }
     constructor(options, classroomID) {
+      super(options);
       this.classroomID = classroomID;
       this.propsData = { classroomID: this.classroomID };
-      super(options);
     }
   };
   StudentAssessmentsView.initClass();

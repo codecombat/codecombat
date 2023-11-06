@@ -29,7 +29,7 @@ module.exports = (SaveLevelModal = (function() {
       this.prototype.instant = false;
       this.prototype.modalWidthPercent = 60;
       this.prototype.plain = true;
-  
+
       this.prototype.events = {
         'click #save-version-button': 'commitLevel',
         'submit form': 'commitLevel'
@@ -37,8 +37,8 @@ module.exports = (SaveLevelModal = (function() {
     }
 
     constructor(options) {
-      this.onVerifierTestUpate = this.onVerifierTestUpate.bind(this);
       super(options);
+      this.onVerifierTestUpate = this.onVerifierTestUpate.bind(this);
       this.level = options.level;
       this.buildTime = options.buildTime;
       this.commitMessage = options.commitMessage != null ? options.commitMessage : "";

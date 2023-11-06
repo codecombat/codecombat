@@ -27,22 +27,22 @@ module.exports = (SpellTranslationView = (function() {
     static initClass() {
       this.prototype.className = 'spell-translation-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'mousemove'() {
           return this.$el.hide();
         }
       };
-  
+
       this.prototype.subscriptions =
         {'tome:completer-popup-focus-change': 'onPopupFocusChange'};
     }
 
     constructor(options) {
+      super(options);
       this.setTooltipText = this.setTooltipText.bind(this);
       this.onMouseMove = this.onMouseMove.bind(this);
       this.onPopupFocusChange = this.onPopupFocusChange.bind(this);
-      super(options);
       this.ace = options.ace;
 
       const levelComponents = this.supermodel.getModels(LevelComponent);

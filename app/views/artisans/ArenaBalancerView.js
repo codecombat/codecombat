@@ -35,19 +35,19 @@ module.exports = (ArenaBalancerView = (function() {
     static initClass() {
       this.prototype.template = template;
       this.prototype.id = 'arena-balancer-view';
-  
+
       this.prototype.events =
         {'click #go-button': 'onClickGoButton'};
-  
+
       this.prototype.levelSlug = 'infinite-inferno';
     }
 
     constructor(options, levelSlug) {
+      super(options);
       this.setUpVariablesTreema = this.setUpVariablesTreema.bind(this);
       this.onVariablesChanged = this.onVariablesChanged.bind(this);
       this.submitSessions = this.submitSessions.bind(this);
       this.levelSlug = levelSlug;
-      super(options);
       this.getLevelInfo();
     }
 

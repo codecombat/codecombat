@@ -32,7 +32,7 @@ module.exports = (AccountSettingsView = (function() {
       this.prototype.id = 'account-settings-view';
       this.prototype.template = template;
       this.prototype.className = 'countainer-fluid';
-  
+
       this.prototype.events = {
         'change .panel input': 'onChangePanelInput',
         'change #name-input': 'onChangeNameInput',
@@ -42,7 +42,7 @@ module.exports = (AccountSettingsView = (function() {
         'click .resend-verification-email': 'onClickResendVerificationEmail',
         'click #save-button': 'save'
       };
-  
+
       // TODO: After Ozaria launch, when redoing this page - do we still need this weird shortcut?
       this.prototype.shortcuts =
         {'enter'() { return this; }};
@@ -95,11 +95,12 @@ module.exports = (AccountSettingsView = (function() {
         .addClass('btn-danger', 500);
     }
 
-    initialize() {
+    constructor () {
+      super(...arguments)
       this.uploadFilePath = `db/user/${me.id}`;
       this.user = new User({_id: me.id});
       this.supermodel.trackRequest(this.user.fetch()); // use separate, fresh User object instead of `me`
-      return this.utils = utils;
+      this.utils = utils
     }
 
     getEmailSubsDict() {

@@ -18,14 +18,14 @@ const storage = require('core/storage');
 module.exports = (ContactGEEKView = (function() {
   ContactGEEKView = class ContactGEEKView extends RootView {
     constructor(...args) {
-      this.goRedirect = this.goRedirect.bind(this);
       super(...args);
+      this.goRedirect = this.goRedirect.bind(this);
     }
 
     static initClass() {
       this.prototype.id = 'contact-geek-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click .one': 'onClickOne',
         'click .two': 'onClickTwo'

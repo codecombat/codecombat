@@ -22,14 +22,14 @@ module.exports = (VectorIconSetupModal = (function() {
       this.prototype.template = template;
       this.prototype.demoSize = 400;
       this.prototype.plain = true;
-  
+
       this.prototype.events = {
         'change #container-select': 'onChangeContainer',
         'click #center': 'onClickCenter',
         'click #zero-bounds': 'onClickZeroBounds',
         'click #done-button': 'onClickDone'
       };
-  
+
       this.prototype.shortcuts = {
         'shift+-'() { return this.incrScale(-0.02); },
         'shift+='() { return this.incrScale(0.02); },
@@ -41,6 +41,7 @@ module.exports = (VectorIconSetupModal = (function() {
     }
 
     constructor(options, thangType) {
+      super(options);
       this.thangType = thangType;
       const portrait = __guard__(this.thangType.get('actions'), x => x.portrait);
       this.containers = _.keys(__guard__(this.thangType.get('raw'), x1 => x1.containers) || {});
@@ -49,7 +50,6 @@ module.exports = (VectorIconSetupModal = (function() {
       this.regX = __guard__(__guard__(portrait != null ? portrait.positions : undefined, x3 => x3.registration), x2 => x2.x) || 0;
       this.regY = __guard__(__guard__(portrait != null ? portrait.positions : undefined, x5 => x5.registration), x4 => x4.y) || 0;
       this.saveChanges();
-      super(options);
     }
 
     saveChanges() {

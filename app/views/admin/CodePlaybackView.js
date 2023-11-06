@@ -37,8 +37,8 @@ module.exports = (CodePlaybackView = (function() {
     }
 
     constructor(options) {
-      this.updateSlider = this.updateSlider.bind(this);
       super();
+      this.updateSlider = this.updateSlider.bind(this);
       this.spade = new Spade();
       this.options = options;
       this.options.decompressedLog = LZString.decompressFromUTF16(this.options.rawLog);

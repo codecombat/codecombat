@@ -23,14 +23,14 @@ const loadAetherLanguage = require("lib/loadAetherLanguage");
 module.exports = (SimulateTabView = (function() {
   SimulateTabView = class SimulateTabView extends CocoView {
     constructor(...args) {
-      this.refreshAndContinueSimulating = this.refreshAndContinueSimulating.bind(this);
       super(...args);
+      this.refreshAndContinueSimulating = this.refreshAndContinueSimulating.bind(this);
     }
 
     static initClass() {
       this.prototype.id = 'simulate-tab-view';
       this.prototype.template = require('app/templates/play/ladder/simulate_tab');
-  
+
       this.prototype.events =
         {'click #simulate-button': 'onSimulateButtonClick'};
     }

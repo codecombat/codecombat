@@ -15,8 +15,8 @@ const utils = require('core/utils');
 module.exports = (ThangTypeSearchView = (function() {
   ThangTypeSearchView = class ThangTypeSearchView extends SearchView {
     constructor(...args) {
-      this.onSearchChange = this.onSearchChange.bind(this);
       super(...args);
+      this.onSearchChange = this.onSearchChange.bind(this);
     }
 
     static initClass() {

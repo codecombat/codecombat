@@ -26,12 +26,12 @@ module.exports = (RecoverModal = (function() {
     static initClass() {
       this.prototype.id = 'recover-modal';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #recover-button': 'recoverAccount',
         'keydown input': 'recoverAccount'
       };
-  
+
       this.prototype.subscriptions =
         {'errors:server-error': 'onServerError'};
     }
@@ -41,10 +41,10 @@ module.exports = (RecoverModal = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.recoverAccount = this.recoverAccount.bind(this);
       this.successfullyRecovered = this.successfullyRecovered.bind(this);
       this.recoverAccount = filterKeyboardEvents([13], this.recoverAccount); // TODO: part of forms
-      super(options);
     }
 
     recoverAccount(e) {

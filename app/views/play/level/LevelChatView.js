@@ -22,18 +22,30 @@ const _ = require('lodash')
 
 module.exports = (LevelChatView = (function () {
   LevelChatView = class LevelChatView extends CocoView {
+<<<<<<< HEAD
     static initClass () {
       this.prototype.id = 'level-chat-view'
       this.prototype.template = template
       this.prototype.open = false
       this.prototype.visible = false
+=======
+    static initClass() {
+      this.prototype.id = 'level-chat-view';
+      this.prototype.template = template;
+      this.prototype.open = false;
+      this.prototype.visible = false;
+>>>>>>> b9d687388 (fix admin view and change super call)
 
       this.prototype.events = {
         'keydown textarea': 'onChatKeydown',
         'keypress textarea': 'onChatKeypress',
         'click i': 'onIconClick',
         'click .fix-code-button': 'onFixCodeClick'
+<<<<<<< HEAD
       }
+=======
+      };
+>>>>>>> b9d687388 (fix admin view and change super call)
 
       this.prototype.subscriptions = {
         'level:toggle-solution': 'onToggleSolution',

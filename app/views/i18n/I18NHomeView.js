@@ -48,7 +48,7 @@ module.exports = (I18NHomeView = (function() {
     static initClass() {
       this.prototype.id = 'i18n-home-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'change #language-select': 'onLanguageSelectChanged',
         'change #type-select': 'onTypeSelectChanged'
@@ -56,8 +56,8 @@ module.exports = (I18NHomeView = (function() {
     }
 
     constructor(options) {
-      let collections;
       super(options);
+      let collections;
       this.selectedLanguage = me.get('preferredLanguage') || '';
       this.selectedTypes = '';
 

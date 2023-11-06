@@ -22,13 +22,13 @@ module.exports = (VictoryModal = (function() {
     static initClass() {
       this.prototype.id = 'level-victory-modal';
       this.prototype.template = template;
-  
+
       this.prototype.subscriptions =
         {'ladder:game-submitted': 'onGameSubmitted'};
-  
+
       this.prototype.events = {
         'click .sign-up-button': 'onClickSignupButton',
-  
+
         // review events
         'mouseover .rating i'(e) { return this.showStars(this.starNum($(e.target))); },
         'mouseout .rating i'() { return this.showStars(); },
@@ -41,6 +41,7 @@ module.exports = (VictoryModal = (function() {
     }
 
     constructor(options) {
+      super(options);
       application.router.initializeSocialMediaServices();
       const victory = options.level.get('victory', true);
       const body = utils.i18n(victory, 'body') || 'Sorry, this level has no victory message yet.';
@@ -49,7 +50,6 @@ module.exports = (VictoryModal = (function() {
       this.session = options.session;
       this.saveReviewEventually = _.debounce(this.saveReviewEventually, 2000);
       this.loadExistingFeedback();
-      super(options);
     }
 
     loadExistingFeedback() {

@@ -29,10 +29,10 @@ module.exports = (LevelThangEditView = (function() {
       Everything below is part of the ThangComponentsEditView, which is shared with the
       ThangType editor view.
       */
-  
+
       this.prototype.id = 'level-thang-edit-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #all-thangs-link': 'navigateToAllThangs',
         'click #thang-name-link span': 'toggleNameEdit',
@@ -44,16 +44,16 @@ module.exports = (LevelThangEditView = (function() {
         'click #prev-thang-link': 'navigateToPreviousThang',
         'click #next-thang-link': 'navigateToNextThang'
       };
-  
+
       this.prototype.subscriptions =
         {'editor:level-thangs-changed': 'onThangsEdited'};
     }
 
     constructor(options) {
-      this.onComponentsChanged = this.onComponentsChanged.bind(this);
-      this.reportChanges = this.reportChanges.bind(this);
       if (options == null) { options = {}; }
       super(options);
+      this.onComponentsChanged = this.onComponentsChanged.bind(this);
+      this.reportChanges = this.reportChanges.bind(this);
       this.world = options.world;
       this.thangData = $.extend(true, {}, options.thangData != null ? options.thangData : {});
       this.level = options.level;

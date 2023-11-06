@@ -42,10 +42,10 @@ module.exports = (HeroVictoryModal = (function() {
       this.prototype.template = template;
       this.prototype.closeButton = false;
       this.prototype.closesOnClickOutside = false;
-  
+
       this.prototype.subscriptions =
         {'ladder:game-submitted': 'onGameSubmitted'};
-  
+
       this.prototype.events = {
         'click #continue-button': 'onClickContinue',
         'click .leaderboard-button': 'onClickLeaderboard',
@@ -59,7 +59,7 @@ module.exports = (HeroVictoryModal = (function() {
         'click #amazon-hoc-button': 'onClickAmazonHocButton',
         'input #share-game-with-teacher-input': 'onChangeShareGameWithTeacherInput',
         'click #share-game-with-teacher-btn': 'onClickShareGameWithTeacherButton',
-  
+
         // Feedback events
         'mouseover .rating i'(e) { return this.showStars(this.starNum($(e.target))); },
         'mouseout .rating i'() { return this.showStars(); },
@@ -72,8 +72,8 @@ module.exports = (HeroVictoryModal = (function() {
     }
 
     constructor(options) {
-      this.tickSequentialAnimation = this.tickSequentialAnimation.bind(this);
       super(options);
+      this.tickSequentialAnimation = this.tickSequentialAnimation.bind(this);
       this.courseID = options.courseID;
       this.courseInstanceID = options.courseInstanceID;
 

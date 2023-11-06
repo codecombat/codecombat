@@ -27,7 +27,7 @@ module.exports = (LevelComponentEditView = (function() {
       this.prototype.id = 'level-component-edit-view';
       this.prototype.template = template;
       this.prototype.editableSettings = ['name', 'description', 'system', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n', 'context'];
-  
+
       this.prototype.events = {
         'click #done-editing-component-button': 'endEditing',
         'click .nav a'(e) { return $(e.target).tab('show'); },
@@ -43,10 +43,10 @@ module.exports = (LevelComponentEditView = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.onComponentSettingsEdited = this.onComponentSettingsEdited.bind(this);
       this.onConfigSchemaEdited = this.onConfigSchemaEdited.bind(this);
       this.onEditorChange = this.onEditorChange.bind(this);
-      super(options);
       this.levelComponent = this.supermodel.getModelByOriginalAndMajorVersion(LevelComponent, options.original, options.majorVersion || 0);
       if (!this.levelComponent) { console.log('Couldn\'t get levelComponent for', options, 'from', this.supermodel.models); }
       this.onEditorChange = _.debounce(this.onEditorChange, 1000);

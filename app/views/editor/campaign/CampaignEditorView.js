@@ -46,26 +46,26 @@ module.exports = (CampaignEditorView = (function() {
       this.prototype.id = "campaign-editor-view";
       this.prototype.template = require('app/templates/editor/campaign/campaign-editor-view');
       this.prototype.className = 'editor';
-  
+
       this.prototype.events = {
         'click #analytics-button': 'onClickAnalyticsButton',
         'click #save-button': 'onClickSaveButton',
         'click #patches-button': 'onClickPatches',
         'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
       };
-  
+
       this.prototype.subscriptions =
         {'editor:campaign-analytics-modal-closed' : 'onAnalyticsModalClosed'};
     }
 
     constructor(options, campaignHandle, campaignPage) {
+      super(options);
       this.onTreemaChanged = this.onTreemaChanged.bind(this);
       this.onTreemaSelectionChanged = this.onTreemaSelectionChanged.bind(this);
       this.onTreemaDoubleClicked = this.onTreemaDoubleClicked.bind(this);
       this.onAchievementUpdated = this.onAchievementUpdated.bind(this);
       this.campaignHandle = campaignHandle;
       this.campaignPage = campaignPage;
-      super(options);
       this.campaignPage = parseInt(this.campaignPage) || 1;
       this.campaign = new Campaign({_id:this.campaignHandle});
       this.supermodel.loadModel(this.campaign);

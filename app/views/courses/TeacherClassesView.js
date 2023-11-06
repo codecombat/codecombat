@@ -61,10 +61,10 @@ const officeHours = [
 module.exports = (TeacherClassesView = (function() {
   TeacherClassesView = class TeacherClassesView extends RootView {
     constructor(...args) {
+      super(...args);
       this.onMyClansLoaded = this.onMyClansLoaded.bind(this);
       this.onClickSeeAllQuests = this.onClickSeeAllQuests.bind(this);
       this.onClickSeeLessQuests = this.onClickSeeLessQuests.bind(this);
-      super(...args);
     }
 
     static initClass() {
@@ -72,7 +72,7 @@ module.exports = (TeacherClassesView = (function() {
       this.prototype.template = template;
       this.prototype.helper = helper;
       this.prototype.translateWithMarkdown = translateWithMarkdown;
-  
+
       // TODO: where to track/save this data?
       this.prototype.teacherQuestData = {
         'create_classroom': {
@@ -130,7 +130,7 @@ module.exports = (TeacherClassesView = (function() {
           ]
         }
       };
-  
+
       this.prototype.events = {
         'click .edit-classroom': 'onClickEditClassroom',
         'click .archive-classroom': 'onClickArchiveClassroom',
@@ -149,7 +149,7 @@ module.exports = (TeacherClassesView = (function() {
         'click .try-ozaria a': 'tryOzariaLinkClicked',
         'click .share-class': 'onClickShareClass'
       };
-  
+
       this.prototype.addFreeCourseInstances = co.wrap(function*() {
         // so that when students join the classroom, they can automatically get free courses
         // non-free courses are generated when the teacher first adds a student to them

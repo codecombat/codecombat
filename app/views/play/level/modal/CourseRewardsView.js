@@ -25,15 +25,15 @@ const User = require('models/User');
 module.exports = (CourseRewardsView = (function() {
   CourseRewardsView = class CourseRewardsView extends CocoView {
     constructor(...args) {
-      this.tickSequentialAnimation = this.tickSequentialAnimation.bind(this);
       super(...args);
+      this.tickSequentialAnimation = this.tickSequentialAnimation.bind(this);
     }
 
     static initClass() {
       this.prototype.id = 'course-rewards-view';
       this.prototype.className = 'modal-content';
       this.prototype.template = require('app/templates/play/level/modal/course-rewards-view');
-  
+
       this.prototype.events =
         {'click #continue-btn': 'onClickContinueButton'};
     }

@@ -25,8 +25,8 @@ module.exports = (UserView = (function() {
     }
 
     constructor(userID, options) {
-      this.userID = userID;
       super(options);
+      this.userID = userID;
       this.listenTo(this, 'userNotFound', this.ifUserNotFound);
       this.fetchUser(this.userID);
     }

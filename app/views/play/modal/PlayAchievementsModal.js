@@ -28,13 +28,13 @@ module.exports = (PlayAchievementsModal = (function() {
       this.prototype.template = template;
       this.prototype.id = 'play-achievements-modal';
       this.prototype.plain = true;
-  
+
       this.prototype.earnedMap = {};
     }
 
     constructor(options) {
-      this.onEverythingLoaded = this.onEverythingLoaded.bind(this);
       super(options);
+      this.onEverythingLoaded = this.onEverythingLoaded.bind(this);
       this.achievements = new Backbone.Collection();
       const earnedMap = {};
 

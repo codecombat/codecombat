@@ -50,7 +50,7 @@ module.exports = (SearchView = (function() {
     static initClass() {
       this.prototype.template = template;
       this.prototype.className = 'search-view';
-  
+
       // to overwrite in subclasses
       this.prototype.modelLabel = ''; // 'Article'
       this.prototype.model = null; // Article
@@ -60,7 +60,7 @@ module.exports = (SearchView = (function() {
       this.prototype.canMakeNew = true;
       this.prototype.archived = true; // Include archived game elements
       this.prototype.limit = 100;
-  
+
       this.prototype.events = {
         'change input#search': 'runSearch',
         'keydown input#search': 'runSearch',
@@ -71,9 +71,9 @@ module.exports = (SearchView = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.runSearch = this.runSearch.bind(this);
       this.runSearch = _.debounce(this.runSearch, 500);
-      super(options);
     }
 
     afterRender() {

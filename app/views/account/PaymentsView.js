@@ -25,12 +25,15 @@ module.exports = (PaymentsView = (function() {
 
     initialize() {
       super.initialize();
+    }
 
+    constructor () {
+      super()
       this.payments = new Payments();
       this.supermodel.trackRequest(this.payments.fetchByRecipient(me.id));
       this.prepaids = new Prepaids();
       this.supermodel.trackRequest(this.prepaids.fetchByCreator(me.id, {data: {allTypes: true}}));
-      return this.paymentDescription = {};
+      this.paymentDescription = {};
     }
 
     getMeta() {

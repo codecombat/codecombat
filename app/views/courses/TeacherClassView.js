@@ -62,16 +62,16 @@ const getLastSelectedCourseKey = classroomId => 'selectedCourseId_' + classroomI
 module.exports = (TeacherClassView = (function() {
   TeacherClassView = class TeacherClassView extends RootView {
     constructor(...args) {
+      super(...args);
       this.setCourseMembers = this.setCourseMembers.bind(this);
       this.onMyClansLoaded = this.onMyClansLoaded.bind(this);
       this.onClickAddStudents = this.onClickAddStudents.bind(this);
-      super(...args);
     }
 
     static initClass() {
       this.prototype.id = 'teacher-class-view';
       this.prototype.helper = helper;
-  
+
       this.prototype.events = {
         'click .nav-tabs a': 'onClickNavTabLink',
         'click .unarchive-btn': 'onClickUnarchive',

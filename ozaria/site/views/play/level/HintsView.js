@@ -20,21 +20,21 @@ const aetherUtils = require('lib/aether_utils');
 module.exports = (HintsView = (function() {
   HintsView = class HintsView extends CocoView {
     constructor(...args) {
-      this.incrementHintViewTime = this.incrementHintViewTime.bind(this);
       super(...args);
+      this.incrementHintViewTime = this.incrementHintViewTime.bind(this);
     }
 
     static initClass() {
       this.prototype.template = require('templates/play/level/hints-view');
       this.prototype.className = 'hints-view';
       this.prototype.hintUsedThresholdSeconds = 10;
-  
+
       this.prototype.events = {
         'click .next-btn': 'onClickNextButton',
         'click .previous-btn': 'onClickPreviousButton',
         'click .close-hint-btn': 'hideView'
       };
-  
+
       this.prototype.subscriptions = {
         'level:show-victory': 'hideView',
         'tome:manual-cast': 'hideView'

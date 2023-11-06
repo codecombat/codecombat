@@ -57,7 +57,7 @@ module.exports = (ThangsTabView = (function() {
       this.prototype.id = 'thangs-tab-view';
       this.prototype.className = 'tab-pane active';
       this.prototype.template = thangs_template;
-  
+
       this.prototype.subscriptions = {
         'surface:mouse-moved': 'onSurfaceMouseMoved',
         'surface:mouse-over': 'onSurfaceMouseOver',
@@ -73,7 +73,7 @@ module.exports = (ThangsTabView = (function() {
         'surface:stage-mouse-up': 'onStageMouseUp',
         'editor:random-terrain-generated': 'onRandomTerrainGenerated'
       };
-  
+
       this.prototype.events = {
         'click #extant-thangs-filter button': 'onFilterExtantThangs',
         'click #delete': 'onDeleteClicked',
@@ -84,7 +84,7 @@ module.exports = (ThangsTabView = (function() {
         'click #rotation-menu-item button': 'onClickRotationButton',
         'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal'
       };
-  
+
       this.prototype.shortcuts = {
         'esc': 'selectAddThang',
         'delete, del, backspace': 'deleteSelectedExtantThang',
@@ -109,13 +109,13 @@ module.exports = (ThangsTabView = (function() {
     }
 
     constructor(options) {
+      super(options);
       this.selectAddThang = this.selectAddThang.bind(this);
       this.moveSide = this.moveSide.bind(this);
       this.deleteSelectedExtantThang = this.deleteSelectedExtantThang.bind(this);
       this.onThangsChanged = this.onThangsChanged.bind(this);
       this.onTreemaThangSelected = this.onTreemaThangSelected.bind(this);
       this.onTreemaThangDoubleClicked = this.onTreemaThangDoubleClicked.bind(this);
-      super(options);
       this.world = options.world;
       this.gameUIState = new GameUIState();
       this.listenTo(this.gameUIState, 'sprite:mouse-down', this.onSpriteMouseDown);
