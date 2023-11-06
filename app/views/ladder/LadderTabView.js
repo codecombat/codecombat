@@ -460,6 +460,7 @@ module.exports.LeaderboardData = (LeaderboardData = (LeaderboardData = class Lea
   */
 
   constructor(level, team, session, limit, league, tournamentId, ageBracket, myTournamentSubmission) {
+    super();
     this.onLoad = this.onLoad.bind(this);
     this.onFail = this.onFail.bind(this);
     this.level = level;
@@ -476,7 +477,6 @@ module.exports.LeaderboardData = (LeaderboardData = (LeaderboardData = class Lea
       this.myTotalScore = this.myTournamentSubmission.get('totalScore');
       this.myWinRate = (this.myWins || 0) / Math.max((this.myWins || 0) + (this.myLosses || 0), 1);
     }
-    super();
   }
 
   collectionParameters(parameters) {

@@ -25,7 +25,7 @@ module.exports = (ActivateLicensesModal = (function() {
     static initClass() {
       this.prototype.id = 'activate-licenses-modal';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'change input[type="checkbox"][name="user"]': 'updateSelectedStudents',
         'change .select-all-users-checkbox': 'toggleSelectAllStudents',
@@ -46,7 +46,8 @@ module.exports = (ActivateLicensesModal = (function() {
       };
     }
 
-    initialize(options) {
+    constructor (options) {
+      super(options)
       this.state = new State(this.getInitialState(options));
       this.classroom = options.classroom;
       this.users = options.users.clone();
@@ -79,13 +80,13 @@ module.exports = (ActivateLicensesModal = (function() {
         this.updateVisibleSelectedUsers();
         return this.render();
       });
-      return this.listenTo(this.prepaids, 'sync add remove reset', function() {
-          this.prepaidByGroup = {};
-          return this.prepaids.each(prepaid => {
-            const type = prepaid.typeDescriptionWithTime();
-            this.prepaidByGroup[type] = (this.prepaidByGroup != null ? this.prepaidByGroup[type] : undefined) || 0;
-            return this.prepaidByGroup[type] += (prepaid.get('maxRedeemers') || 0) - (_.size(prepaid.get('redeemers')) || 0);
-          });
+      this.listenTo(this.prepaids, 'sync add remove reset', function() {
+        this.prepaidByGroup = {};
+        return this.prepaids.each(prepaid => {
+          const type = prepaid.typeDescriptionWithTime();
+          this.prepaidByGroup[type] = (this.prepaidByGroup != null ? this.prepaidByGroup[type] : undefined) || 0;
+          return this.prepaidByGroup[type] += (prepaid.get('maxRedeemers') || 0) - (_.size(prepaid.get('redeemers')) || 0);
+        });
       });
     }
 

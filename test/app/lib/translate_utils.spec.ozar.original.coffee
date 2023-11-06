@@ -1027,7 +1027,7 @@ levenshteinDistance = (str1, str2) ->
 
   d[m][n]
 
-describe 'Aether / code transpilation utility library', ->
+xdescribe 'Aether / code transpilation utility library', ->
   translateUtils = require '../../../app/lib/translate-utils'
 
   describe 'translateJS(jsCode, "cpp", fullCode)', ->

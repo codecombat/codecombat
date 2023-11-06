@@ -19,7 +19,7 @@ module.exports = (InviteToClassroomModal = (function() {
       this.prototype.id = 'invite-to-classroom-modal';
       this.prototype.template = template;
       this.prototype.recaptcha_site_key = require('core/services/google').recaptcha_site_key;
-  
+
       this.prototype.events = {
         'click #send-invites-btn': 'onClickSendInvitesButton',
         'click #copy-url-btn, #join-url-input': 'copyURL'
@@ -30,7 +30,7 @@ module.exports = (InviteToClassroomModal = (function() {
       this.classroom = options.classroom;
       this.classCode = this.classroom.get('codeCamel') || this.classroom.get('code');
       this.joinURL = document.location.origin + "/students?_cc=" + this.classCode;
-      return window.recaptchaCallback = this.recaptchaCallback.bind(this);
+      window.recaptchaCallback = this.recaptchaCallback.bind(this);
     }
 
     onClickSendInvitesButton() {

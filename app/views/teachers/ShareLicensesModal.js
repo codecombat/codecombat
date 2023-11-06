@@ -25,7 +25,7 @@ module.exports = (ShareLicensesModal = (function() {
       if (options == null) { options = {}; }
       this.shareLicensesComponent = null;
       store.registerModule('modal', ShareLicensesStoreModule);
-      return store.dispatch('modal/setPrepaid', options.prepaid.attributes);
+      store.dispatch('modal/setPrepaid', options.prepaid.attributes);
     }
     afterRender() {
       const target = this.$el.find('#share-licenses-component');

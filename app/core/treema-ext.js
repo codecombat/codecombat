@@ -72,15 +72,15 @@ module.exports.LiveEditingMarkup = (LiveEditingMarkup = (function() {
   LiveEditingMarkup = class LiveEditingMarkup extends TreemaNode.nodeMap.ace {
     static initClass() {
       this.prototype.valueClass = 'treema-markdown treema-multiline treema-ace';
-  
+
       this.prototype.showingPreview = false;
     }
 
     constructor() {
+      super(...arguments);
       this.onFileChosen = this.onFileChosen.bind(this);
       this.onFileUploaded = this.onFileUploaded.bind(this);
       this.togglePreview = this.togglePreview.bind(this);
-      super(...arguments);
       this.workingSchema.aceMode = 'ace/mode/markdown';
       this.workingSchema.aceUseWrapMode = true;
       initializeFilePicker();
@@ -156,8 +156,8 @@ module.exports.LiveEditingMarkup = (LiveEditingMarkup = (function() {
 
 class RichTextTreema extends TreemaNode {
   constructor(...args) {
-    this.editContent = this.editContent.bind(this);
     super(...args);
+    this.editContent = this.editContent.bind(this);
   }
 
   initPreview(valEl, data) {
@@ -192,11 +192,11 @@ class SoundFileTreema extends TreemaNode.nodeMap.string {
   }
 
   constructor() {
+    super(...arguments);
     this.playFile = this.playFile.bind(this);
     this.stopFile = this.stopFile.bind(this);
     this.onFileChosen = this.onFileChosen.bind(this);
     this.onFileUploaded = this.onFileUploaded.bind(this);
-    super(...arguments);
     initializeFilePicker();
   }
 
@@ -336,9 +336,9 @@ class GeneralFileTreema extends TreemaNode.nodeMap.string {
   }
 
   constructor() {
+    super(...arguments);
     this.onFileChosen = this.onFileChosen.bind(this);
     this.onFileUploaded = this.onFileUploaded.bind(this);
-    super(...arguments);
     initializeFilePicker();
   }
 
@@ -598,8 +598,8 @@ module.exports.LatestVersionReferenceNode = (LatestVersionReferenceNode = (funct
     }
 
     constructor() {
-      this.search = this.search.bind(this);
       super(...arguments);
+      this.search = this.search.bind(this);
 
       // to dynamically build the search url, inspect the links url that should be included
       const links = this.workingSchema.links || [];
@@ -815,9 +815,9 @@ class SlugPropsObject extends TreemaNode.nodeMap.object {
 
 class TaskTreema extends TreemaNode.nodeMap.string {
   constructor(...args) {
+    super(...args);
     this.onTaskChanged = this.onTaskChanged.bind(this);
     this.onEditInputBlur = this.onEditInputBlur.bind(this);
-    super(...args);
   }
 
   buildValueForDisplay(valEl) {

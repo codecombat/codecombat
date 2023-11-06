@@ -30,7 +30,7 @@ module.exports = (TeacherCourseSolutionView = (function() {
     static initClass() {
       this.prototype.id = 'teacher-course-solution-view';
       this.prototype.template = require('app/templates/teachers/teacher-course-solution-view');
-  
+
       this.prototype.events = {
         'click .nav-link': 'onClickSolutionTab',
         'click .print-btn': 'onClickPrint'
@@ -41,11 +41,11 @@ module.exports = (TeacherCourseSolutionView = (function() {
       const link = $(e.target).closest('a');
       const levelSlug = link.data('level-slug');
       const solutionIndex = link.data('solution-index');
-      return tracker.trackEvent('Click Teacher Course Solution Tab', {levelSlug, solutionIndex});
+      window.tracker.trackEvent('Click Teacher Course Solution Tab', {levelSlug, solutionIndex});
     }
 
     onClickPrint() {
-      return (window.tracker != null ? window.tracker.trackEvent('Teachers Click Print Solution', { category: 'Teachers', label: this.courseID + "/" + this.language }) : undefined);
+      return (window.tracker ? window.tracker.trackEvent('Teachers Click Print Solution', { category: 'Teachers', label: this.courseID + "/" + this.language }) : undefined);
     }
 
     getTitle() {
@@ -192,7 +192,7 @@ ${translateUtils.translateJS(a.slice(13, +(a.length-4) + 1 || undefined), this.l
       const levels = [];
       for (level of Array.from((this.levels != null ? this.levels.models : undefined))) {
         if (level.get('original')) {var left, left1;
-        
+
           if ((this.language != null) && (level.get('primerLanguage') === this.language)) { continue; }
           levels.push({
             key: level.get('original'),

@@ -70,8 +70,8 @@ class WorldRegionNode extends TreemaNode.nodeMap.object {
   // this class is not yet used, later will be used to configure the Physical component
 
   constructor(...args) {
-    this.callback = this.callback.bind(this);
     super(...Array.from(args || []));
+    this.callback = this.callback.bind(this);
     if (this.settings.world == null) { console.error('Region Treema node needs a World included in the settings.'); }
     if (this.settings.view == null) { console.error('Region Treema node needs a RootView included in the settings.'); }
   }
@@ -113,8 +113,8 @@ class WorldRegionNode extends TreemaNode.nodeMap.object {
 module.exports.WorldViewportNode = (WorldViewportNode = class WorldViewportNode extends TreemaNode.nodeMap.object {
   // selecting ratio'd dimensions in the world, ie the camera in level scripts
   constructor(...args) {
-    this.callback = this.callback.bind(this);
     super(...Array.from(args || []));
+    this.callback = this.callback.bind(this);
     if (this.settings.world == null) { console.error('Viewport Treema node needs a World included in the settings.'); }
     if (this.settings.view == null) { console.error('Viewport Treema node needs a RootView included in the settings.'); }
   }
@@ -166,8 +166,8 @@ module.exports.WorldBoundsNode = (WorldBoundsNode = (function() {
     }
 
     constructor(...args) {
-      this.callback = this.callback.bind(this);
       super(...Array.from(args || []));
+      this.callback = this.callback.bind(this);
       if (this.settings.world == null) { console.error('Bounds Treema node needs a World included in the settings.'); }
       if (this.settings.view == null) { console.error('Bounds Treema node needs a RootView included in the settings.'); }
     }

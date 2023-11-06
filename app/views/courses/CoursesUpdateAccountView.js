@@ -23,7 +23,7 @@ module.exports = (CoursesUpdateAccountView = (function() {
     static initClass() {
       this.prototype.id = 'courses-update-account-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click .login-btn': 'onClickLogInButton',
         'click .logout-btn': 'onClickLogoutButton',
@@ -40,7 +40,7 @@ module.exports = (CoursesUpdateAccountView = (function() {
         case !me.isTeacher(): return $.i18n.t('courses.teacher');
         case !me.isStudent(): return $.i18n.t('courses.student');
       } })();
-      return this.isOzaria = utils.isOzaria;
+      this.isOzaria = utils.isOzaria;
     }
 
     onClickLogInButton() {

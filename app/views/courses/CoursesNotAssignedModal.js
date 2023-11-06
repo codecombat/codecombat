@@ -24,7 +24,8 @@ module.exports = (CoursesNotAssignedModal = (function() {
       this.prototype.template = template;
     }
 
-    initialize(options) {
+    constructor (options) {
+      super(options)
       this.i18nData = _.pick(options, ['selected', 'numStudentsWithoutFullLicenses', 'numFullLicensesAvailable']);
       this.state = new State({
         promoteStarterLicenses: false
@@ -41,7 +42,7 @@ module.exports = (CoursesNotAssignedModal = (function() {
             !__guard__(me.get('administratedTeachers'), x => x.length)
           }));
       }
-      return this.listenTo(this.state, 'change', this.render);
+      this.listenTo(this.state, 'change', this.render);
     }
   };
   CoursesNotAssignedModal.initClass();

@@ -34,7 +34,7 @@ module.exports = (PreapidActivationCodesModal = (function() {
     static initClass() {
       this.prototype.id = 'administer-user-modal';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click .edit-prepaids-info-btn': 'onClickEditPrepaidsInfoButton',
         'click .cancel-prepaid-info-edit-btn': 'onClickCancelPrepaidInfoEditButton',
@@ -44,7 +44,8 @@ module.exports = (PreapidActivationCodesModal = (function() {
       };
     }
 
-    initialize(options, classroom) {
+    constructor (options, classroom) {
+      super(...arguments)
       this.classroom = classroom;
       this.user = me;
       this.supermodel.trackRequest(this.user.fetch({cache: false}));
@@ -62,7 +63,7 @@ module.exports = (PreapidActivationCodesModal = (function() {
       this.licenseType = 'all';
       this.licensePresets = LICENSE_PRESETS;
       this.utils = utils;
-      return this.momentTimezone = momentTimezone;
+      this.momentTimezone = momentTimezone;
     }
 
     onLoaded() {

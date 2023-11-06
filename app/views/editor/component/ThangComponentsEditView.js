@@ -582,8 +582,8 @@ module.exports = (ThangComponentsEditView = (function() {
 
 class ThangComponentsObjectNode extends TreemaObjectNode {
   constructor(...args) {
-    this.sortFunction = this.sortFunction.bind(this);
     super(...args);
+    this.sortFunction = this.sortFunction.bind(this);
   }
 
   addNewChild() { return this.addNewChildForKey(''); } // HACK to get the object adding to act more like adding to an array

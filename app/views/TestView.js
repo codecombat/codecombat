@@ -28,7 +28,7 @@ if (!application.karmaTest) { // Karma doesn't use these two libraries, needs th
 }
 require('imports-loader?getJasmineRequireObj=>window.getJasmineRequireObj!vendor/scripts/jasmine-mock-ajax');
 
-const requireTests = require.context('test', true, /.*\.(coffee|js)$/);
+const requireTests = require.context('test', true, /.*\.js$/)
 
 const TEST_REQUIRE_PREFIX = './';
 const TEST_URL_PREFIX = '/test/';
@@ -52,7 +52,7 @@ module.exports = (TestView = (TestView = (function() {
       this.prototype.template = template;
       this.prototype.reloadOnClose = true;
       this.prototype.className = 'style-flat';
-  
+
       this.prototype.events = {
         'click #show-demos-btn': 'onClickShowDemosButton',
         'click #hide-demos-btn': 'onClickHideDemosButton'
@@ -61,13 +61,14 @@ module.exports = (TestView = (TestView = (function() {
 
     // INITIALIZE
 
-    initialize(options, subPath) {
+    constructor (options, subPath) {
+      super(...arguments)
       if (subPath == null) { subPath = ''; }
       this.subPath = subPath;
       if (this.subPath[0] === '/') { this.subPath = this.subPath.slice(1); }
       this.demosOn = storage.load('demos-on');
       this.failureReports = [];
-      return this.loadedFileIDs = [];
+      this.loadedFileIDs = [];
     }
 
     afterInsert() {
@@ -115,7 +116,8 @@ module.exports = (TestView = (TestView = (function() {
         const prefix = TEST_REQUIRE_PREFIX + this.subPath;
         return this.specFiles = ((() => {
           const result = [];
-          for (var f of Array.from(this.specFiles)) {             if (_.string.startsWith(f, prefix)) {
+          for (const f of Array.from(this.specFiles)) {
+            if (_.string.startsWith(f, prefix)) {
               result.push(f);
             }
           }
@@ -211,15 +213,13 @@ module.exports = (TestView = (TestView = (function() {
       const product = utils.isOzaria ? 'ozaria' : 'codecombat';
       const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product];
       const otherProductSuffix = { codecombat: 'ozar', ozaria: 'coco' }[product];
-      const productSpecificTests = ((() => {
-        const result = [];
-        for (var file of Array.from(allTests)) {           if (!new RegExp(`\\.${otherProductSuffix}\\.(coffee|js)$`).test(file)) {
-            result.push(file);
-          }
+      const productSpecificTests = []
+      for (const file of Array.from(allTests)) {
+        if (!new RegExp(`\\.${otherProductSuffix}\\.js$`).test(file)) {
+          productSpecificTests.push(file)
         }
-        return result;
-      })());
-      return productSpecificTests;
+      }
+      return productSpecificTests
     }
 
     destroy() {

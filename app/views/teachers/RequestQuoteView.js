@@ -38,7 +38,7 @@ module.exports = (RequestQuoteView = (function() {
       this.prototype.id = 'request-quote-view';
       this.prototype.template = require('app/templates/teachers/request-quote-view');
       this.prototype.logoutRedirectURL = null;
-  
+
       this.prototype.events = {
         'change #request-form': 'onChangeRequestForm',
         'submit #request-form': 'onSubmitRequestForm',
@@ -67,13 +67,14 @@ module.exports = (RequestQuoteView = (function() {
 
     getTitle() { return $.i18n.t('new_home.request_quote'); }
 
-    initialize() {
+    constructor () {
+      super(...arguments)
       this.trialRequest = new TrialRequest();
       this.trialRequests = new TrialRequests();
       this.trialRequests.fetchOwn();
       this.supermodel.trackCollection(this.trialRequests);
       this.formChanged = false;
-      if (window.tracker != null) {
+      if (window.tracker) {
         window.tracker.trackEvent('Teachers Request Demo Loaded', {category: 'Teachers'});
       }
       this.state = new State({
@@ -95,7 +96,7 @@ module.exports = (RequestQuoteView = (function() {
       this.listenTo(this.state, 'change:checkNameState', function() { return this.renderSelectors('.name-check'); });
       this.listenTo(this.state, 'change:error', function() { return this.renderSelectors('.error-area'); });
       this.listenTo(this.state, 'change:showUsaStateDropdown', function() { return this.renderSelectors('.state'); });
-      return this.listenTo(this.state, 'change:stateValue', function() { return this.renderSelectors('.state'); });
+      this.listenTo(this.state, 'change:stateValue', function() { return this.renderSelectors('.state'); });
     }
 
     onLeaveMessage() {

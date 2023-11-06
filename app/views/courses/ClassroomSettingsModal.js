@@ -73,7 +73,7 @@ module.exports = (ClassroomSettingsModal = (function() {
           }
         });
       }
-      return this.showLMSDropDown = false;
+      this.showLMSDropDown = false;
     }
 
     afterRender() {

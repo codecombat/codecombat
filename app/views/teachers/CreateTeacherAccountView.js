@@ -35,7 +35,7 @@ module.exports = (CreateTeacherAccountView = (function() {
     static initClass() {
       this.prototype.id = 'create-teacher-account-view';
       this.prototype.template = require('app/templates/teachers/create-teacher-account-view');
-  
+
       this.prototype.events = {
         'click .login-link': 'onClickLoginLink',
         'change form#signup-form': 'onChangeForm',
@@ -56,12 +56,13 @@ module.exports = (CreateTeacherAccountView = (function() {
       return _.merge(super.getRenderData(...arguments), { product: utils.getProductName() });
     }
 
-    initialize() {
+    constructor () {
+      super(...arguments)
       this.trialRequest = new TrialRequest();
       this.trialRequests = new TrialRequests();
       this.trialRequests.fetchOwn();
       this.supermodel.trackCollection(this.trialRequests);
-      if (window.tracker != null) {
+      if (window.tracker) {
         window.tracker.trackEvent('Teachers Create Account Loaded', {category: 'Teachers'});
       }
       this.state = new State({
@@ -83,7 +84,7 @@ module.exports = (CreateTeacherAccountView = (function() {
       this.listenTo(this.state, 'change:checkNameState', function() { return this.renderSelectors('.name-check'); });
       this.listenTo(this.state, 'change:error', function() { return this.renderSelectors('.error-area'); });
       this.listenTo(this.state, 'change:showUsaStateDropdown', function() { return this.renderSelectors('.state'); });
-      return this.listenTo(this.state, 'change:stateValue', function() { return this.renderSelectors('.state'); });
+      this.listenTo(this.state, 'change:stateValue', function() { return this.renderSelectors('.state'); });
     }
 
     onLeaveMessage() {

@@ -39,14 +39,13 @@ var BlandView = (BlandView = class BlandView extends CocoView {
 describe('CocoView', () => describe('network error handling', function() {
   let view = null;
   const respond = function(code, index) {
-    if (index == null) { index = 0; }
+    if (!index) { index = 0 }
     view.render();
     const requests = jasmine.Ajax.requests.all();
     return requests[index].respondWith({status: code, responseText: JSON.stringify({})});
   };
 
   beforeEach(() => view = new BlandView());
-
 
   describe('when the view overrides onResourceLoadFailed', function() {
     beforeEach(function() {

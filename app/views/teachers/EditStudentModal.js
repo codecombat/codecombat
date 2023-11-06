@@ -22,7 +22,7 @@ module.exports = (EditStudentModal = (function() {
     static initClass() {
       this.prototype.id = 'edit-student-modal';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click .send-recovery-email-btn:not(.disabled)': 'onClickSendRecoveryEmail',
         'click .change-password-btn:not(.disabled)': 'onClickChangePassword',
@@ -32,7 +32,8 @@ module.exports = (EditStudentModal = (function() {
       };
     }
 
-    initialize({ user, classroom, students }) {
+    constructor ({ user, classroom, students }) {
+      super(...arguments)
       this.user = user;
       this.classroom = classroom;
       this.students = students;
@@ -47,17 +48,17 @@ module.exports = (EditStudentModal = (function() {
       this.fetchPrepaids();
       this.listenTo(this.state, 'change', this.render);
       this.listenTo(this.classroom, 'save-password:success', function() {
-        return this.state.set({ passwordChanged: true, errorMessage: "" });
-    });
+        this.state.set({ passwordChanged: true, errorMessage: "" });
+      });
       this.listenTo(this.classroom, 'save-password:error', function(error) {
         if (error.message === "Data matches schema from \"not\"") {
           error.message = $.i18n.t('signup.invalid_password');
         }
-        return this.state.set({ errorMessage: error.message });
+        this.state.set({ errorMessage: error.message });
       });
         // TODO: Show an error. (password too short)
 
-      return __guard__(me.getClientCreatorPermissions(), x => x.then(() => (typeof this.render === 'function' ? this.render() : undefined)));
+       __guard__(me.getClientCreatorPermissions(), x => x.then(() => (typeof this.render === 'function' ? this.render() : undefined)));
     }
 
     onLoaded() {

@@ -28,7 +28,7 @@ module.exports = (ManageLicenseModal = (function() {
     static initClass() {
       this.prototype.id = 'manage-license-modal';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'change input[type="checkbox"][name="user"]': 'updateSelectedStudents',
         'change .select-all-users-checkbox': 'toggleSelectAllStudents',
@@ -57,8 +57,9 @@ module.exports = (ManageLicenseModal = (function() {
         error: null
       };
     }
-  
-    initialize(options) {
+
+    constructor (options) {
+      super(options)
       this.state = new State(this.getInitialState(options));
       this.classroom = options.classroom;
       this.users = options.users.clone();
@@ -82,7 +83,7 @@ module.exports = (ManageLicenseModal = (function() {
         }
         })
       );
-    
+
       this.listenTo(this.state, 'change', function() {
         return this.renderSelectors('#submit-form-area');
       });
@@ -94,14 +95,14 @@ module.exports = (ManageLicenseModal = (function() {
         this.updateVisibleSelectedUsers();
         return this.render();
       });
-      return this.listenTo(this.prepaids, 'sync add remove reset', function() {
-          this.prepaidByGroup = {};
-          return this.prepaids.each(prepaid => { 
-            this.teacherPrepaidIds.push(prepaid.get('_id'));
-            const type = prepaid.typeDescriptionWithTime();
-            this.prepaidByGroup[type] = (this.prepaidByGroup != null ? this.prepaidByGroup[type] : undefined) || {num: 0, prepaid};
-            return this.prepaidByGroup[type].num += (prepaid.get('maxRedeemers') || 0) - (_.size(prepaid.get('redeemers')) || 0);
-          });
+      this.listenTo(this.prepaids, 'sync add remove reset', function() {
+        this.prepaidByGroup = {};
+        return this.prepaids.each(prepaid => {
+          this.teacherPrepaidIds.push(prepaid.get('_id'));
+          const type = prepaid.typeDescriptionWithTime();
+          this.prepaidByGroup[type] = (this.prepaidByGroup != null ? this.prepaidByGroup[type] : undefined) || {num: 0, prepaid};
+          return this.prepaidByGroup[type].num += (prepaid.get('maxRedeemers') || 0) - (_.size(prepaid.get('redeemers')) || 0);
+        });
       });
     }
 
@@ -113,7 +114,7 @@ module.exports = (ManageLicenseModal = (function() {
        }
       return super.onLoaded();
     }
-  
+
     afterRender() {
       return super.afterRender();
     }

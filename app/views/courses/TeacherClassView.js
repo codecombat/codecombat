@@ -224,11 +224,6 @@ module.exports = (TeacherClassView = (function() {
 
     getTitle() { return (this.classroom != null ? this.classroom.get('name') : undefined); }
 
-    initialize(options, classroomID) {
-      super.initialize(options);
-
-    }
-
     fetchStudents() {
       return Promise.all(this.students.fetchForClassroom(this.classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,products,deleted'}}))
       .then(() => {

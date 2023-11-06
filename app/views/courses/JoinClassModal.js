@@ -18,13 +18,14 @@ module.exports = (JoinClassModal = (function() {
     static initClass() {
       this.prototype.id = 'join-class-modal';
       this.prototype.template = template;
-  
+
       this.prototype.events =
         {'click .join-class-btn': 'onClickJoinClassButton'};
     }
 
-    initialize(param) {
+    constructor (param) {
       if (param == null) { param = {}; }
+      super(param)
       const { classCode } = param;
       this.classCode = classCode;
       this.classroom = new Classroom();
@@ -42,7 +43,7 @@ module.exports = (JoinClassModal = (function() {
       this.listenTo(this.classroom, 'join:success', function() {
         return this.trigger('join:success', this.classroom);
       });
-      return this.listenTo(this.classroom, 'join:error', function() {
+      this.listenTo(this.classroom, 'join:error', function() {
         return this.trigger('join:error', this.classroom, jqxhr);
       });
     }

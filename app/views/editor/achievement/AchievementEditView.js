@@ -40,7 +40,7 @@ module.exports = (AchievementEditView = (function() {
       };
     }
 
-    constructor(options, achievementID) {
+    constructor (options, achievementID) {
       super(options);
       this.pushChangesToPreview = this.pushChangesToPreview.bind(this);
       this.recalculateAchievement = this.recalculateAchievement.bind(this);

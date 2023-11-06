@@ -38,7 +38,7 @@ module.exports = (TeacherStudentView = (function() {
   TeacherStudentView = class TeacherStudentView extends RootView {
     static initClass() {
       this.prototype.id = 'teacher-student-view';
-  
+
       this.prototype.events = {
         'change #course-dropdown': 'onChangeCourseChart',
         'change .course-select': 'onChangeCourseSelect',
@@ -82,7 +82,8 @@ module.exports = (TeacherStudentView = (function() {
       return tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex});
     }
 
-    initialize(options, classroomID, studentID) {
+    constructor (options, classroomID, studentID) {
+      super(...arguments)
       this.studentID = studentID;
       this.state = new State({
         'renderOnlyContent': options.renderOnlyContent
@@ -127,7 +128,6 @@ module.exports = (TeacherStudentView = (function() {
       this.singleStudentLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText);
       this.levelProgressMap = {};
       __guard__(me.getClientCreatorPermissions(), x => x.then(() => (typeof this.render === 'function' ? this.render() : undefined)));
-      return super.initialize(options);
     }
 
     getRenderData() {
@@ -254,7 +254,7 @@ module.exports = (TeacherStudentView = (function() {
           for (var session of Array.from(this.sessions.models)) {
           // Normal level
             if (session.get('creator') === this.studentID) {var name;
-            
+
               this.levelStudentCodeMap[session.get('level').original] = __guard__(__guard__(session.get('code'), x2 => x2['hero-placeholder']), x1 => x1['plan']);
               // Arena level
               if (this.levelStudentCodeMap[name = session.get('level').original] == null) { this.levelStudentCodeMap[name] = __guard__(__guard__(session.get('code'), x4 => x4['hero-placeholder-1']), x3 => x3['plan']); }

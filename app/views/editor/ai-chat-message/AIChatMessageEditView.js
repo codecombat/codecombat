@@ -36,7 +36,7 @@ module.exports = (AIChatMessageEditView = (function() {
       };
     }
 
-    constructor(options, chatMessageID) {
+    constructor (options, chatMessageID) {
       super(options);
       this.deleteAIChatMessage = this.deleteAIChatMessage.bind(this);
       this.chatMessageID = chatMessageID;

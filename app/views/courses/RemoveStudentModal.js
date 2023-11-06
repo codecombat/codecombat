@@ -16,12 +16,13 @@ module.exports = (RemoveStudentModal = (function() {
     static initClass() {
       this.prototype.id = 'remove-student-modal';
       this.prototype.template = template;
-  
+
       this.prototype.events =
         {'click #remove-student-btn': 'onClickRemoveStudentButton'};
     }
 
-    initialize(options) {
+    constructor (options) {
+      super(options)
       this.classroom = options.classroom;
       this.user = options.user;
       this.supermodel.trackRequest(this.user.fetch());

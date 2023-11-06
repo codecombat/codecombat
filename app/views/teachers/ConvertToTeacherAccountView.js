@@ -33,7 +33,7 @@ module.exports = (ConvertToTeacherAccountView = (function() {
       this.prototype.id = 'convert-to-teacher-account-view';
       this.prototype.template = require('app/templates/teachers/convert-to-teacher-account-view');
       this.prototype.logoutRedirectURL = null;
-  
+
       this.prototype.events = {
         'change form': 'onChangeForm',
         'submit form': 'onSubmitForm',
@@ -50,7 +50,8 @@ module.exports = (ConvertToTeacherAccountView = (function() {
       return _.merge(super.getRenderData(...arguments), { product: utils.getProductName() });
     }
 
-    initialize() {
+    constructor () {
+      super()
       if (me.isAnonymous()) {
         application.router.navigate('/teachers/signup', {trigger: true, replace: true});
         return;
@@ -62,7 +63,7 @@ module.exports = (ConvertToTeacherAccountView = (function() {
       this.countries = countryList.getNames();
       this.usaStates = new UsaStates().states;
       this.usaStatesAbbreviations = new UsaStates().arrayOf('abbreviations');
-      if (window.tracker != null) {
+      if (window.tracker) {
         window.tracker.trackEvent('Teachers Convert Account Loaded', {category: 'Teachers'});
       }
       this.state = new State({
@@ -70,7 +71,7 @@ module.exports = (ConvertToTeacherAccountView = (function() {
         stateValue: null
       });
       this.listenTo(this.state, 'change:showUsaStateDropdown', function() { return this.renderSelectors('.state'); });
-      return this.listenTo(this.state, 'change:stateValue', function() { return this.renderSelectors('.state'); });
+      this.listenTo(this.state, 'change:stateValue', function() { return this.renderSelectors('.state'); });
     }
 
     onLeaveMessage() {

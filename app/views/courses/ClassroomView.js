@@ -40,7 +40,7 @@ module.exports = (ClassroomView = (function() {
       this.prototype.id = 'classroom-view';
       this.prototype.template = template;
       this.prototype.teacherMode = false;
-  
+
       this.prototype.events = {
         'click #edit-class-details-link': 'onClickEditClassDetailsLink',
         'click #activate-licenses-btn': 'onClickActivateLicensesButton',
@@ -51,7 +51,8 @@ module.exports = (ClassroomView = (function() {
       };
     }
 
-    initialize(options, classroomID) {
+    constructor (options, classroomID) {
+      super(...arguments)
       if (me.isAnonymous()) { return; }
       this.classroom = new Classroom({_id: classroomID});
       this.supermodel.loadModel(this.classroom);
@@ -78,7 +79,9 @@ module.exports = (ClassroomView = (function() {
       this.levels.fetchForClassroom(classroomID, {data: {project: 'name,original,practice,slug'}});
       this.levels.on('add', function(model) { return this._byId[model.get('original')] = model; }); // so you can 'get' them
       this.supermodel.trackCollection(this.levels);
-      return window.tracker != null ? window.tracker.trackEvent('Students Class Loaded', {category: 'Students', classroomID}) : undefined;
+      if (window.tracker) {
+        window.tracker.trackEvent('Students Class Loaded', { category: 'Students', classroomID })
+      }
     }
 
     onCourseInstancesSync() {
