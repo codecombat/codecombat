@@ -11,7 +11,6 @@ let TeacherSignupComponent;
 const SchoolInfoPanel = require('./SchoolInfoPanel');
 const TeacherRolePanel = require('./TeacherRolePanel');
 const SetupAccountPanel = require('./SetupAccountPanel');
-const TeacherSignupStoreModule = require('./TeacherSignupStoreModule');
 
 module.exports = (TeacherSignupComponent = Vue.extend({
   name: 'teacher-signup-component',
@@ -42,11 +41,11 @@ module.exports = (TeacherSignupComponent = Vue.extend({
   methods: {
     onContinue(attributes) {
       this.trialRequestAttributes = _.assign({}, this.trialRequestAttributes, attributes);
-      return this.panelIndex += 1;
+      this.panelIndex += 1;
     },
 
     onBack() {
-      if (this.panelIndex === 0) { return this.$emit('back'); } else { return this.panelIndex -= 1; }
+      if (this.panelIndex === 0) { this.$emit('back') } else { this.panelIndex -= 1 }
     },
 
     disableKeyboardClose() {

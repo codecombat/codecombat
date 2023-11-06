@@ -52,6 +52,17 @@ module.exports = (MainAdminView = (function() {
       this.onClickTerminalSubLink = this.onClickTerminalSubLink.bind(this);
       this.onClickTerminalActivationLink = this.onClickTerminalActivationLink.bind(this);
       this.editMandate = this.editMandate.bind(this);
+      if (window.serverSession.amActually) {
+        this.amActually = new User({_id: window.serverSession.amActually});
+        this.amActually.fetch();
+        this.supermodel.trackModel(this.amActually);
+      }
+      this.featureMode = window.serverSession.featureMode;
+      if (me.isParentAdmin()) {
+        this.checkParentAdminAvailability();
+      }
+      this.timeZone = (typeof features !== 'undefined' && features !== null ? features.chinaInfra : undefined) ? 'Asia/Shanghai' : 'America/Los_Angeles';
+      this.prepaidEndDate = momentTimezone().tz(this.timeZone).add(1, 'year').format('YYYY-MM-DD');
     }
 
     static initClass() {
@@ -80,21 +91,6 @@ module.exports = (MainAdminView = (function() {
     }
 
     getTitle() { return $.i18n.t('account_settings.admin'); }
-
-    initialize() {
-      if (window.serverSession.amActually) {
-        this.amActually = new User({_id: window.serverSession.amActually});
-        this.amActually.fetch();
-        this.supermodel.trackModel(this.amActually);
-      }
-      this.featureMode = window.serverSession.featureMode;
-      if (me.isParentAdmin()) {
-        this.checkParentAdminAvailability();
-      }
-      this.timeZone = (typeof features !== 'undefined' && features !== null ? features.chinaInfra : undefined) ? 'Asia/Shanghai' : 'America/Los_Angeles';
-      this.prepaidEndDate = momentTimezone().tz(this.timeZone).add(1, 'year').format('YYYY-MM-DD');
-      return super.initialize();
-    }
 
     checkParentAdminAvailability() {
       this.parentAdminUpdateInProgress = true;

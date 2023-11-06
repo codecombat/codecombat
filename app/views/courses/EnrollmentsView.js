@@ -36,12 +36,7 @@ const {
 
 module.exports = (EnrollmentsView = (function() {
   EnrollmentsView = class EnrollmentsView extends RootView {
-    constructor(...args) {
-      super(...args);
-      this.uniqueStudentsPerYear = this.uniqueStudentsPerYear.bind(this);
-    }
-
-    static initClass() {
+    static initClass () {
       this.prototype.id = 'enrollments-view';
       this.prototype.template = template;
       this.prototype.enrollmentRequestSent = false;
@@ -60,7 +55,8 @@ module.exports = (EnrollmentsView = (function() {
       return {starterLicenseCourseList: this.state.get('starterLicenseCourseList')};
     }
 
-    initialize(options) {
+    constructor (options) {
+      super(options)
       this.state = new State({
         totalEnrolled: 0,
         totalNotEnrolled: 0,
@@ -74,23 +70,22 @@ module.exports = (EnrollmentsView = (function() {
         },
         shouldUpsell: false
       });
-      if (window.tracker != null) {
+      if (window.tracker) {
         window.tracker.trackEvent('Classes Licenses Loaded', {category: 'Teachers'});
       }
-      super.initialize(options);
 
       this.utils = utils;
       this.courses = new Courses();
       this.supermodel.trackRequest(this.courses.fetch({data: { project: 'free,i18n,name' }}));
       this.listenTo(this.courses, 'sync', function() {
         return this.state.set({ starterLicenseCourseList: this.getStarterLicenseCourseList() });
-    });
+      })
       // Listen for language change
-      this.listenTo(me, 'change:preferredLanguage', function() {
+      this.listenTo(me, 'change:preferredLanguage', function () {
         return this.state.set({ starterLicenseCourseList: this.getStarterLicenseCourseList() });
-    });
+      })
       this.members = new Users();
-      this.classrooms = new Classrooms();
+      this.classrooms = new Classrooms()
       this.classrooms.comparator = '_id';
       this.listenToOnce(this.classrooms, 'sync', this.onceClassroomsSync);
       this.supermodel.trackRequest(this.classrooms.fetchMine());
@@ -117,7 +112,7 @@ module.exports = (EnrollmentsView = (function() {
 
       const leadPriorityRequest = me.getLeadPriority();
       this.supermodel.trackRequest(leadPriorityRequest);
-      return leadPriorityRequest.then(r => this.onLeadPriorityResponse(r));
+      leadPriorityRequest.then(r => this.onLeadPriorityResponse(r))
     }
 
     afterRender() {

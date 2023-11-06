@@ -32,7 +32,6 @@ const CourseNagSubview = require('views/teachers/CourseNagSubview');
 const viewContentTemplate = require('app/templates/courses/teacher-class-view');
 const viewContentTemplateWithLayout = require('app/templates/courses/teacher-class-view-full');
 
-const Campaigns = require('collections/Campaigns');
 const Classroom = require('models/Classroom');
 const Classrooms = require('collections/Classrooms');
 const Levels = require('collections/Levels');
@@ -52,20 +51,116 @@ const PieChart = require('core/components/PieComponent').default;
 const GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler');
 const clansApi = require('core/api/clans');
 const prepaids = require('core/store/modules/prepaids').default;
-
+const _ = require('lodash')
 const DOMPurify = require('dompurify');
-
-const { STARTER_LICENSE_COURSE_IDS } = require('core/constants');
 
 const getLastSelectedCourseKey = classroomId => 'selectedCourseId_' + classroomId + '_' + me.id;
 
 module.exports = (TeacherClassView = (function() {
   TeacherClassView = class TeacherClassView extends RootView {
-    constructor(...args) {
-      super(...args);
+    constructor (options, classroomID) {
+      if (!options) {
+        options = {}
+      }
+      super(options)
       this.setCourseMembers = this.setCourseMembers.bind(this);
       this.onMyClansLoaded = this.onMyClansLoaded.bind(this);
       this.onClickAddStudents = this.onClickAddStudents.bind(this);
+
+      this.utils = utils
+
+      if (options.renderOnlyContent) {
+        this.template = viewContentTemplate
+      } else {
+        this.template = viewContentTemplateWithLayout
+      }
+
+      // wrap templates so they translate when called
+      const translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
+      this.singleStudentCourseProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-course'), translateTemplateText)
+      this.singleStudentLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
+      this.allStudentsLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-all-students-single-level'), translateTemplateText)
+
+      this.urls = require('core/urls')
+
+      this.debouncedRender = _.debounce(this.render)
+      this.debouncedRenderSelectors = _.debounce(this.renderSelectors, 800)
+      this.calculateProgressAndLevels = _.debounce(this.calculateProgressAndLevelsAux, 800)
+
+      this.state = new State(this.getInitialState())
+
+      if (options.readOnly) {
+        this.state.set('readOnly', options.readOnly)
+      }
+      if (options.renderOnlyContent) {
+        this.state.set('renderOnlyContent', options.renderOnlyContent)
+      }
+
+      this.updateHash(this.state.get('activeTab')) // TODO: Don't push to URL history (maybe don't use url fragment for default tab)
+
+      this.classroom = new Classroom({ _id: classroomID })
+      this.supermodel.trackRequest(this.classroom.fetch())
+      this.onKeyPressStudentSearch = _.debounce(this.onKeyPressStudentSearch, 200)
+      this.sortedCourses = []
+      this.latestReleasedCourses = []
+
+      this.students = new Users()
+      this.classroom.sessions = new LevelSessions()
+      this.listenTo(this.classroom, 'sync', function () {
+        this.fetchStudents()
+        this.fetchSessions()
+        this.fetchPrepaids()
+        this.fetchClans()
+        this.classroom.language = __guard__(this.classroom.get('aceConfig'), x => x.language)
+      })
+
+      this.students.comparator = (s1, s2) => {
+        const dir = this.state.get('sortDirection')
+        const value = this.state.get('sortValue')
+        const s1LastName = s1.get('lastName') || s1.broadName()
+        const s2LastName = s2.get('lastName') || s2.broadName()
+        if (value === 'first-name') {
+          return (s1.broadName().toLowerCase() < s2.broadName().toLowerCase() ? -dir : dir)
+        }
+
+        if (value === 'last-name') {
+          return (s1LastName.toLowerCase() < s2LastName.toLowerCase() ? -dir : dir)
+        }
+
+        if (value === 'progress') {
+          // TODO: I would like for this to be in the Level model,
+          //   but it doesn't know about its own courseNumber.
+          const level1 = s1.latestCompleteLevel
+          const level2 = s2.latestCompleteLevel
+          if (!level1) { return -dir }
+          if (!level2) { return dir }
+          return dir * ((level1.courseNumber - level2.courseNumber) || (level1.levelIndex - level2.levelIndex))
+        }
+
+        if (value === 'status') {
+          const statusMap = { expired: 0, 'not-enrolled': 1, enrolled: 2 }
+          const diff = statusMap[s1.prepaidStatus()] - statusMap[s2.prepaidStatus()]
+          if (diff) { return dir * diff }
+          return (s1LastName.toLowerCase() < s2LastName.toLowerCase() ? -dir : dir)
+        }
+      }
+
+      this.courses = new Courses()
+      this.supermodel.trackRequest(this.courses.fetch())
+
+      this.campaignLevelNumberMap = {}
+
+      this.courseInstances = new CourseInstances()
+      this.supermodel.trackRequest(this.courseInstances.fetchForClassroom(classroomID))
+
+      this.levels = new Levels()
+      this.supermodel.trackRequest(this.levels.fetchForClassroom(classroomID, { data: { project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n,assessment,assessmentPlacement,slug,goals' } }))
+      __guard__(me.getClientCreatorPermissions(), x => x.then(() => (typeof this.debouncedRender === 'function' ? this.debouncedRender() : undefined)))
+      this.attachMediatorEvents()
+      if (window.tracker != null) {
+        window.tracker.trackEvent('Teachers Class Loaded', { category: 'Teachers', classroomID: this.classroom.id })
+      }
+      this.timeSpentOnUnitProgress = null
     }
 
     static initClass() {
@@ -131,100 +226,7 @@ module.exports = (TeacherClassView = (function() {
 
     initialize(options, classroomID) {
       super.initialize(options);
-      this.utils = utils;
 
-      if (options.renderOnlyContent) {
-        this.template = viewContentTemplate;
-      } else {
-        this.template = viewContentTemplateWithLayout;
-      }
-
-      // wrap templates so they translate when called
-      const translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html();
-      this.singleStudentCourseProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-course'), translateTemplateText);
-      this.singleStudentLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText);
-      this.allStudentsLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-all-students-single-level'), translateTemplateText);
-
-      this.urls = require('core/urls');
-
-      this.debouncedRender = _.debounce(this.render);
-      this.debouncedRenderSelectors = _.debounce(this.renderSelectors, 800);
-      this.calculateProgressAndLevels = _.debounce(this.calculateProgressAndLevelsAux, 800);
-
-      this.state = new State(this.getInitialState());
-
-      if (options.readOnly) {
-        this.state.set('readOnly', options.readOnly);
-      }
-      if (options.renderOnlyContent) {
-        this.state.set('renderOnlyContent', options.renderOnlyContent);
-      }
-
-      this.updateHash(this.state.get('activeTab')); // TODO: Don't push to URL history (maybe don't use url fragment for default tab)
-
-      this.classroom = new Classroom({ _id: classroomID });
-      this.supermodel.trackRequest(this.classroom.fetch());
-      this.onKeyPressStudentSearch = _.debounce(this.onKeyPressStudentSearch, 200);
-      this.sortedCourses = [];
-      this.latestReleasedCourses = [];
-
-      this.students = new Users();
-      this.classroom.sessions = new LevelSessions();
-      this.listenTo(this.classroom, 'sync', function() {
-        this.fetchStudents();
-        this.fetchSessions();
-        this.fetchPrepaids();
-        this.fetchClans();
-        return this.classroom.language = __guard__(this.classroom.get('aceConfig'), x => x.language);
-      });
-
-      this.students.comparator = (s1, s2) => {
-        const dir = this.state.get('sortDirection');
-        const value = this.state.get('sortValue');
-        const s1LastName = s1.get('lastName') || s1.broadName();
-        const s2LastName = s2.get('lastName') || s2.broadName();
-        if (value === 'first-name') {
-          return (s1.broadName().toLowerCase() < s2.broadName().toLowerCase() ? -dir : dir);
-        }
-
-        if (value === 'last-name') {
-          return (s1LastName.toLowerCase() < s2LastName.toLowerCase() ? -dir : dir);
-        }
-
-        if (value === 'progress') {
-          // TODO: I would like for this to be in the Level model,
-          //   but it doesn't know about its own courseNumber.
-          const level1 = s1.latestCompleteLevel;
-          const level2 = s2.latestCompleteLevel;
-          if (!level1) { return -dir; }
-          if (!level2) { return dir; }
-          return dir * ((level1.courseNumber - level2.courseNumber) || (level1.levelIndex - level2.levelIndex));
-        }
-
-        if (value === 'status') {
-          const statusMap = { expired: 0, 'not-enrolled': 1, enrolled: 2 };
-          const diff = statusMap[s1.prepaidStatus()] - statusMap[s2.prepaidStatus()];
-          if (diff) { return dir * diff; }
-          return (s1LastName.toLowerCase() < s2LastName.toLowerCase() ? -dir : dir);
-        }
-      };
-
-      this.courses = new Courses();
-      this.supermodel.trackRequest(this.courses.fetch());
-
-      this.campaignLevelNumberMap = {};
-
-      this.courseInstances = new CourseInstances();
-      this.supermodel.trackRequest(this.courseInstances.fetchForClassroom(classroomID));
-
-      this.levels = new Levels();
-      this.supermodel.trackRequest(this.levels.fetchForClassroom(classroomID, {data: {project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n,assessment,assessmentPlacement,slug,goals'}}));
-      __guard__(me.getClientCreatorPermissions(), x => x.then(() => (typeof this.debouncedRender === 'function' ? this.debouncedRender() : undefined)));
-      this.attachMediatorEvents();
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Teachers Class Loaded', {category: 'Teachers', classroomID: this.classroom.id});
-      }
-      return this.timeSpentOnUnitProgress = null;
     }
 
     fetchStudents() {

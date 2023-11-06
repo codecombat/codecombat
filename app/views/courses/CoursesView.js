@@ -63,15 +63,10 @@ LadderCollection.initClass();
 
 module.exports = (CoursesView = (function() {
   CoursesView = class CoursesView extends RootView {
-    constructor(...args) {
-      this.renderStats = this.renderStats.bind(this);
-      super(...args);
-    }
-
     static initClass() {
       this.prototype.id = 'courses-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #log-in-btn': 'onClickLogInButton',
         'click #start-new-game-btn': 'openSignUpModal',
@@ -88,7 +83,7 @@ module.exports = (CoursesView = (function() {
         'click .view-announcement-link': 'onClickAnnouncementLink',
         'click .more-tournaments': 'onClickMoreTournaments'
       };
-  
+
       this.prototype.subscriptions =
         {'websocket:user-online': 'handleUserOnline'};
     }
@@ -102,9 +97,9 @@ module.exports = (CoursesView = (function() {
       };
     }
 
-    initialize() {
-      super.initialize();
-
+    constructor () {
+      super()
+      this.renderStats = this.renderStats.bind(this)
       this.utils = utils;
       this.classCodeQueryVar = utils.getQueryVariable('_cc', false);
       this.courseInstances = new CocoCollection([], { url: `/db/user/${me.id}/course-instances`, model: CourseInstance});
@@ -158,7 +153,7 @@ module.exports = (CoursesView = (function() {
         // @hero.setProjection ['name','slug','soundTriggers','featureImages','gems','heroClass','description','components','extendedName','shortName','unlockLevelName','i18n']
         this.supermodel.loadModel(this.hero, 'hero');
         this.listenTo(this.hero, 'change', function() { if (this.supermodel.finished()) { return this.renderSelectors('.current-hero'); } });
-        return this.loadAILeagueStats();
+        this.loadAILeagueStats();
       }
     }
 

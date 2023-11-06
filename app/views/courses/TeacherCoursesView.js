@@ -13,18 +13,13 @@
  */
 let TeacherCoursesView;
 require('app/styles/courses/teacher-courses-view.sass');
-const CocoCollection = require('collections/CocoCollection');
-const CocoModel = require('models/CocoModel');
 const Courses = require('collections/Courses');
 const Campaigns = require('collections/Campaigns');
-const Classroom = require('models/Classroom');
-const Classrooms = require('collections/Classrooms');
-const User = require('models/User');
-const CourseInstance = require('models/CourseInstance');
 const Prepaids = require('collections/Prepaids');
 const RootView = require('views/core/RootView');
 const template = require('app/templates/courses/teacher-courses-view');
 const HeroSelectModal = require('views/courses/HeroSelectModal');
+const Classrooms = require('collections/Classrooms')
 const utils = require('core/utils');
 const api = require('core/api');
 
@@ -33,7 +28,7 @@ module.exports = (TeacherCoursesView = (function() {
     static initClass() {
       this.prototype.id = 'teacher-courses-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click .guide-btn': 'onClickGuideButton',
         'click .play-level-button': 'onClickPlayLevel',
@@ -44,14 +39,14 @@ module.exports = (TeacherCoursesView = (function() {
 
     getTitle() { return $.i18n.t('teacher.courses_coco'); }
 
-    initialize(options) {
-      super.initialize(options);
+    constructor (options) {
+      super(options)
       application.setHocCampaign(''); // teachers playing levels from here return here
       this.utils = require('core/utils');
       this.enableCpp = me.enableCpp();
       this.enableJava = me.enableJava();
       this.ownedClassrooms = new Classrooms();
-      this.ownedClassrooms.fetchMine({data: {project: '_id'}});
+      this.ownedClassrooms.fetchMine({data: { project: '_id' }});
       this.supermodel.trackCollection(this.ownedClassrooms);
       this.courses = new Courses();
       this.prepaids = new Prepaids();
@@ -67,7 +62,9 @@ module.exports = (TeacherCoursesView = (function() {
       this.campaignLevelNumberMap = {};
       this.courseChangeLog = {};
       this.videoLevels = utils.videoLevels || {};
-      return (window.tracker != null ? window.tracker.trackEvent('Classes Guides Loaded', {category: 'Teachers'}) : undefined);
+      if (window.tracker) {
+        window.tracker.trackEvent('Classes Guides Loaded', { category: 'Teachers' })
+      }
     }
 
     onLoaded() {

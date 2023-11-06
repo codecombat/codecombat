@@ -25,12 +25,12 @@ module.exports = (CourseNagSubview = (function() {
         {'click .more-info': 'onClickMoreInfo'};
     }
 
-    initialize(options) {
-      super.initialize(options);
+    constructor (options) {
+      super(options)
       this.prepaids = new Prepaids();
       this.supermodel.trackRequest(this.prepaids.fetchMineAndShared());
       this.listenTo(this.prepaids, 'sync', this.gotPrepaids);
-      return this.shown = false;
+      this.shown = false
     }
 
     afterRender() {

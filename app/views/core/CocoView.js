@@ -71,7 +71,7 @@ module.exports = (CocoView = (function() {
       this.loadProgress = _.cloneDeep(this.loadProgress);
       if (!this.supermodel) { this.supermodel = new SuperModel(); }
       this.options = options;
-      if (!options ? options.supermodel : undefined) { // kind of a hacky way to get each view to store its own progress
+      if (options ? options.supermodel : undefined) { // kind of a hacky way to get each view to store its own progress
         this.supermodel.models = options.supermodel.models;
         this.supermodel.collections = options.supermodel.collections;
         this.supermodel.shouldSaveBackups = options.supermodel.shouldSaveBackups;
@@ -580,7 +580,7 @@ module.exports = (CocoView = (function() {
     insertSubView(view, elToReplace=null) {
       // used to insert views with ids
       const key = this.makeSubViewKey(view);
-      if (key in this.subviews) { this.subviews[key].destroy(); }
+      if (this.subviews[key]) { this.subviews[key].destroy() }
       if (elToReplace == null) { elToReplace = this.$el.find('#'+view.id); }
       if (this.retainSubviews) {
         this.registerSubView(view, key);
@@ -606,7 +606,7 @@ module.exports = (CocoView = (function() {
       key = this.makeSubViewKey(view);
       view.parent = this;
       view.parentKey = key;
-      this.subviews[key] = view;
+      this.subviews[key] = view
       return view;
     }
 

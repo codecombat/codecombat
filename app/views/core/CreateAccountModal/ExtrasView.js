@@ -20,7 +20,7 @@ module.exports = (ExtrasView = (function() {
       this.prototype.id = 'extras-view';
       this.prototype.template = template;
       this.prototype.retainSubviews = true;
-  
+
       this.prototype.events = {
         'click .next-button'() {
           if (this.signupState.get('path') === 'student') {
@@ -33,11 +33,12 @@ module.exports = (ExtrasView = (function() {
       };
     }
 
-    initialize(param) {
+    constructor (param) {
       if (param == null) { param = {}; }
+      super(param)
       const { signupState } = param;
       this.signupState = signupState;
-      return this.insertSubView(new HeroSelectView({ showCurrentHero: false, createAccount: true }));
+      this.insertSubView(new HeroSelectView({ showCurrentHero: false, createAccount: true }));
     }
   };
   ExtrasView.initClass();

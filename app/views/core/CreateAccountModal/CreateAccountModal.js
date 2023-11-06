@@ -79,15 +79,16 @@ module.exports = (CreateAccountModal = (function() {
       this.prototype.template = template;
       this.prototype.closesOnClickOutside = false;
       this.prototype.retainSubviews = true;
-  
+
       this.prototype.events = {
         'click .login-link': 'onClickLoginLink',
         'click .button.close': 'onClickDismiss'
       };
     }
 
-    initialize(options) {
-      if (options == null) { options = {}; }
+    constructor (options) {
+      if (options == null) { options = {} }
+      super(options)
       this.utils = utils;
       const classCode = utils.getQueryVariable('_cc', undefined);
       this.signupState = new State({

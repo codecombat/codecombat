@@ -65,6 +65,93 @@ module.exports = (TeacherClassesView = (function() {
       this.onMyClansLoaded = this.onMyClansLoaded.bind(this);
       this.onClickSeeAllQuests = this.onClickSeeAllQuests.bind(this);
       this.onClickSeeLessQuests = this.onClickSeeLessQuests.bind(this);
+
+      this.teacherID = (me.isAdmin() && utils.getQueryVariable('teacherID')) || me.id
+      this.classrooms = new Classrooms()
+      this.classrooms.comparator = (a, b) => b.id.localeCompare(a.id)
+      this.classrooms.fetchByOwner(this.teacherID, { data: { includeShared: true } })
+      this.supermodel.trackCollection(this.classrooms)
+      this.listenTo(this.classrooms, 'sync', function () {
+        const sharedClassroomIds = []
+        for (const classroom of Array.from(this.classrooms.models)) {
+          if (classroom.get('archived')) { continue }
+          if (!classroom.isOwner() && classroom.hasReadPermission()) {
+            sharedClassroomIds.push(classroom.id)
+          }
+          classroom.sessions = new LevelSessions()
+          Promise.all(classroom.sessions.fetchForAllClassroomMembers(
+            classroom,
+            {
+              data: {
+                project: 'state.complete,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts'
+              }
+            }
+          ))
+            .then(results => {
+              if (this.destroyed) { return }
+              helper.calculateDots(this.classrooms, this.courses, this.courseInstances)
+              this.calculateQuestCompletion()
+              return this.render()
+            })
+        }
+        if (sharedClassroomIds.length) {
+          this.sharedCourseInstances = new CourseInstances()
+          this.sharedCourseInstances.fetchByClassrooms(sharedClassroomIds)
+          return this.supermodel.trackCollection(this.sharedCourseInstances)
+        }
+      })
+
+      if (window.tracker != null) {
+        window.tracker.trackEvent('Teachers Classes Loaded', { category: 'Teachers' })
+      }
+
+      this.courses = new Courses()
+      this.courses.fetch()
+      this.supermodel.trackCollection(this.courses)
+
+      this.courseInstances = new CourseInstances()
+      this.courseInstances.fetchByOwner(this.teacherID)
+      this.supermodel.trackCollection(this.courseInstances)
+      this.progressDotTemplate = require('app/templates/teachers/hovers/progress-dot-whole-course')
+      this.prepaids = new Prepaids()
+      this.supermodel.trackRequest(this.prepaids.fetchByCreator(me.id))
+
+      const earliestHourTime = new Date() - (60 * 60 * 1000)
+      const latestHourTime = new Date() - (-21 * 24 * 60 * 60 * 1000)
+      this.upcomingOfficeHours = _.sortBy(((() => {
+        const result = []
+        for (const oh of Array.from(officeHours)) {
+          if (earliestHourTime < oh.time && oh.time < latestHourTime) {
+            result.push(oh)
+          }
+        }
+        return result
+      })()), 'time')
+      this.howManyOfficeHours = storage.load('hide-office-hours') ? 'none' : 'some'
+      __guard__(me.getClientCreatorPermissions(), x => x.then(() => {
+        this.calculateQuestCompletion()
+        return (typeof this.render === 'function' ? this.render() : undefined)
+      }))
+
+      const administratingTeacherIds = me.get('administratingTeachers') || []
+
+      this.administratingTeachers = new Users()
+      if (administratingTeacherIds.length > 0) {
+        const req = this.administratingTeachers.fetchByIds(administratingTeacherIds)
+        this.supermodel.trackRequest(req)
+      }
+
+      if (__guard__(me.get('clans'), x1 => x1.length)) {
+        // TODO: allow this to fetch for the actual teacher User if we are an admin looking at this classroom instead of the teacher
+        clansApi.getMyClans().then(this.onMyClansLoaded)
+      }
+
+      // Level Sessions loaded after onLoaded to prevent race condition in calculateDots
+
+      this.trialRequest = new TrialRequest()
+      this.trialRequests = new TrialRequests()
+      this.trialRequests.fetchOwn()
+      this.supermodel.trackCollection(this.trialRequests)
     }
 
     static initClass() {
@@ -186,95 +273,6 @@ module.exports = (TeacherClassesView = (function() {
       return {
         title: $.i18n.t('teacher.my_classes')
       };
-    }
-
-    initialize(options) {
-      super.initialize(options);
-      this.teacherID = (me.isAdmin() && utils.getQueryVariable('teacherID')) || me.id;
-      this.classrooms = new Classrooms();
-      this.classrooms.comparator = (a, b) => b.id.localeCompare(a.id);
-      this.classrooms.fetchByOwner(this.teacherID, { data: { includeShared: true } });
-      this.supermodel.trackCollection(this.classrooms);
-      this.listenTo(this.classrooms, 'sync', function() {
-        const sharedClassroomIds = [];
-        for (var classroom of Array.from(this.classrooms.models)) {
-          if (classroom.get('archived')) { continue; }
-          if (!classroom.isOwner() && classroom.hasReadPermission()) {
-            sharedClassroomIds.push(classroom.id);
-          }
-          classroom.sessions = new LevelSessions();
-          Promise.all(classroom.sessions.fetchForAllClassroomMembers(
-            classroom,
-            {
-              data: {
-                project: 'state.complete,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts'
-              }
-            }
-          ))
-          .then(results => {
-            if (this.destroyed) { return; }
-            helper.calculateDots(this.classrooms, this.courses, this.courseInstances);
-            this.calculateQuestCompletion();
-            return this.render();
-          });
-        }
-        if (sharedClassroomIds.length) {
-          this.sharedCourseInstances = new CourseInstances();
-          this.sharedCourseInstances.fetchByClassrooms(sharedClassroomIds);
-          return this.supermodel.trackCollection(this.sharedCourseInstances);
-        }
-      });
-
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Teachers Classes Loaded', {category: 'Teachers'});
-      }
-
-      this.courses = new Courses();
-      this.courses.fetch();
-      this.supermodel.trackCollection(this.courses);
-
-      this.courseInstances = new CourseInstances();
-      this.courseInstances.fetchByOwner(this.teacherID);
-      this.supermodel.trackCollection(this.courseInstances);
-      this.progressDotTemplate = require('app/templates/teachers/hovers/progress-dot-whole-course');
-      this.prepaids = new Prepaids();
-      this.supermodel.trackRequest(this.prepaids.fetchByCreator(me.id));
-
-      const earliestHourTime = new Date() - (60 * 60 * 1000);
-      const latestHourTime = new Date() - (-21 * 24 * 60 * 60 * 1000);
-      this.upcomingOfficeHours = _.sortBy(((() => {
-        const result = [];
-        for (var oh of Array.from(officeHours)) {           if (earliestHourTime < oh.time && oh.time < latestHourTime) {
-            result.push(oh);
-          }
-        }
-        return result;
-      })()), 'time');
-      this.howManyOfficeHours = storage.load('hide-office-hours') ? 'none' : 'some';
-      __guard__(me.getClientCreatorPermissions(), x => x.then(() => {
-        this.calculateQuestCompletion();
-        return (typeof this.render === 'function' ? this.render() : undefined);
-      }));
-
-      const administratingTeacherIds = me.get('administratingTeachers') || [];
-
-      this.administratingTeachers = new Users();
-      if (administratingTeacherIds.length > 0) {
-        const req = this.administratingTeachers.fetchByIds(administratingTeacherIds);
-        this.supermodel.trackRequest(req);
-      }
-
-      if (__guard__(me.get('clans'), x1 => x1.length)) {
-        // TODO: allow this to fetch for the actual teacher User if we are an admin looking at this classroom instead of the teacher
-        clansApi.getMyClans().then(this.onMyClansLoaded);
-      }
-
-      // Level Sessions loaded after onLoaded to prevent race condition in calculateDots
-
-      this.trialRequest = new TrialRequest();
-      this.trialRequests = new TrialRequests();
-      this.trialRequests.fetchOwn();
-      return this.supermodel.trackCollection(this.trialRequests);
     }
 
     afterRender() {
