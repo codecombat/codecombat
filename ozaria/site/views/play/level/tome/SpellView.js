@@ -49,13 +49,13 @@ module.exports = (SpellView = (function() {
       this.prototype.eventsSuppressed = true;
       this.prototype.writable = true;
       this.prototype.languagesThatUseWorkers = ['html'];
-  
+
       this.prototype.keyBindings = {
         'default': null,
         'vim': 'ace/keyboard/vim',
         'emacs': 'ace/keyboard/emacs'
       };
-  
+
       this.prototype.subscriptions = {
         'level:disable-controls': 'onDisableControls',
         'level:enable-controls': 'onEnableControls',
@@ -88,13 +88,13 @@ module.exports = (SpellView = (function() {
         'tome:scroll-to-top': 'onScrollToTop',
         'tome:remove-all-markers': 'onRemoveAllMarkers'
       };
-  
-  
+
       this.prototype.events =
         {'mouseout': 'onMouseOut'};
     }
 
-    constructor(options) {
+    constructor (options) {
+      super(options)
       this.onAllLoaded = this.onAllLoaded.bind(this);
       this.notifySpellChanged = this.notifySpellChanged.bind(this);
       this.notifyEditingEnded = this.notifyEditingEnded.bind(this);
@@ -112,7 +112,6 @@ module.exports = (SpellView = (function() {
       this.checkRequiredCode = this.checkRequiredCode.bind(this);
       this.checkSuspectCode = this.checkSuspectCode.bind(this);
       this.supermodel = options.supermodel;
-      super(options);
       this.worker = options.worker;
       this.session = options.session;
       this.spell = options.spell;
@@ -766,7 +765,6 @@ border-right: ${bw}px solid rgba(${color.border},1); border-bottom: ${bw}px soli
       this.createToolbarView();
       if (this.options.level.isType('web-dev')) { return this.updateHTML({create: true}); }
     }
-
 
     onUpdateAether() {
       this.spell.transpile();

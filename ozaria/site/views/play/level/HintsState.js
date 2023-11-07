@@ -16,7 +16,7 @@ module.exports = (HintsState = class HintsState extends Backbone.Model {
   initialize(attributes, options) {
     ({ level: this.level, session: this.session, supermodel: this.supermodel } = options);
     this.listenTo(this.level, 'change:documentation', this.update);
-    return this.update();
+    this.update();
   }
 
   getHint(index) {

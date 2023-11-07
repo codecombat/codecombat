@@ -19,11 +19,6 @@ const aetherUtils = require('lib/aether_utils');
 
 module.exports = (HintsView = (function() {
   HintsView = class HintsView extends CocoView {
-    constructor(...args) {
-      super(...args);
-      this.incrementHintViewTime = this.incrementHintViewTime.bind(this);
-    }
-
     static initClass() {
       this.prototype.template = require('templates/play/level/hints-view');
       this.prototype.className = 'hints-view';
@@ -41,8 +36,10 @@ module.exports = (HintsView = (function() {
       };
     }
 
-    initialize(options) {
-      ({level: this.level, session: this.session, hintsState: this.hintsState} = options);
+    constructor (options) {
+      super(options)
+      this.incrementHintViewTime = this.incrementHintViewTime.bind(this);
+      ({ level: this.level, session: this.session, hintsState: this.hintsState } = options)
       this.state = new State({
         hintIndex: 0,
         hintsViewTime: {},
@@ -54,12 +51,12 @@ module.exports = (HintsView = (function() {
       this.listenTo(this.state, 'change', debouncedRender);
       this.listenTo(this.hintsState, 'change', debouncedRender);
       this.listenTo(this.state, 'change:hintIndex', this.updateHint);
-      return this.listenTo(this.hintsState, 'change:hidden', this.visibilityChanged);
+      this.listenTo(this.hintsState, 'change:hidden', this.visibilityChanged);
     }
 
     destroy() {
       clearInterval(this.timerIntervalID);
-      return super.destroy();
+      super.destroy();
     }
 
     afterRender() {

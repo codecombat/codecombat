@@ -24,16 +24,11 @@ const store = require('core/store');
 
 module.exports = (SpellPaletteView = (function() {
   SpellPaletteView = class SpellPaletteView extends CocoView {
-    constructor(...args) {
-      this.onResize = this.onResize.bind(this);
-      super(...args);
-    }
-
     static initClass() {
       this.prototype.id = 'spell-palette-view';
       this.prototype.template = require('ozaria/site/templates/play/level/tome/spell-palette-view');
       this.prototype.controlsEnabled = true;
-  
+
       this.prototype.subscriptions = {
         'level:disable-controls': 'onDisableControls',
         'level:enable-controls': 'onEnableControls',
@@ -41,20 +36,21 @@ module.exports = (SpellPaletteView = (function() {
         'tome:change-language': 'onTomeChangedLanguage',
         'tome:palette-clicked': 'onPaletteClick'
       };
-  
-  
+
       this.prototype.events = {
         'click .sub-section-header': 'onSubSectionHeaderClick',
         'click .code-bank-close-btn': 'onCodeBankCloseBtnClick',
-        'transitionend': 'onTransitionEnd'
+        transitionend: 'onTransitionEnd'
       };
     }
 
-    initialize(options) {
-      ({level: this.level, session: this.session, thang: this.thang, useHero: this.useHero} = options);
-      this.aceEditors = [];
-      this.createPalette();
-      return $(window).on('resize', this.onResize);
+    constructor (options) {
+      super(options)
+      this.onResize = this.onResize.bind(this);
+      ({ level: this.level, session: this.session, thang: this.thang, useHero: this.useHero } = options)
+      this.aceEditors = []
+      this.createPalette()
+      return $(window).on('resize', this.onResize)
     }
 
     getRenderData() {
@@ -257,11 +253,11 @@ module.exports = (SpellPaletteView = (function() {
                 if (props = component.config[storages]) {
                   for (prop of Array.from(_.sortBy(props))) {  // no private properties
                     if ((prop[0] !== '_') && !itemsByProp[prop]) {var name;
-                    
-                      if ((prop === 'moveXY') && (this.options.level.get('slug') === 'slalom')) { continue; }  // Hide for Slalom
+
+                      if ((prop === 'moveXY') && (this.options.level.get('slug') === 'slalom')) { continue } // Hide for Slalom
                       if (this.thang.excludedProperties && Array.from(this.thang.excludedProperties).includes(prop)) { continue; }
                       if (propsByItem[name = item.get('name')] == null) { propsByItem[name] = []; }
-                      propsByItem[item.get('name')].push({owner, prop, item});
+                      propsByItem[item.get('name')].push({ owner, prop, item })
                       itemsByProp[prop] = item;
                     }
                   }

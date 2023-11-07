@@ -32,7 +32,7 @@ module.exports = (SpellDebugView = (function() {
     static initClass() {
       this.prototype.className = 'spell-debug-view';
       this.prototype.template = template;
-  
+
       this.prototype.subscriptions = {
         'god:new-world-created': 'onNewWorld',
         'god:debug-value-return': 'handleDebugValue',
@@ -41,11 +41,12 @@ module.exports = (SpellDebugView = (function() {
         'surface:frame-changed': 'onFrameChanged',
         'tome:spell-has-changed-significantly-calculation': 'onSpellChangedCalculation'
       };
-  
+
       this.prototype.events = {};
     }
 
     constructor(options) {
+      super(options);
       this.calculateCurrentTimeString = this.calculateCurrentTimeString.bind(this);
       this.setTooltipKeyAndValue = this.setTooltipKeyAndValue.bind(this);
       this.setTooltipText = this.setTooltipText.bind(this);
@@ -53,7 +54,6 @@ module.exports = (SpellDebugView = (function() {
       this.onMouseMove = this.onMouseMove.bind(this);
       this.updateTooltipProgress = this.updateTooltipProgress.bind(this);
       this.notifyPropertyHovered = this.notifyPropertyHovered.bind(this);
-      super(options);
       this.ace = options.ace;
       this.thang = options.thang;
       this.spell = options.spell;

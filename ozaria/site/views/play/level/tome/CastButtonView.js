@@ -26,14 +26,14 @@ module.exports = (CastButtonView = (function() {
     static initClass() {
       this.prototype.id = 'cast-button-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click #run': 'onRunButtonClick',
         'click #update-game': 'onUpdateButtonClick',
         'click #next': 'onNextButtonClick',
         'click #fill-solution': 'onFillSolution'
       };
-  
+
       this.prototype.subscriptions = {
         'tome:spell-changed': 'onSpellChanged',
         'tome:cast-spells': 'onCastSpells',
@@ -47,9 +47,9 @@ module.exports = (CastButtonView = (function() {
     }
 
     constructor(options) {
+      super(options)
       let needle;
       this.updateReplayability = this.updateReplayability.bind(this);
-      super(options);
       this.spells = options.spells;
       this.castShortcut = '⇧↵';
       this.updateReplayabilityInterval = setInterval(this.updateReplayability, 1000);

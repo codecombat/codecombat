@@ -35,7 +35,8 @@ module.exports = (CourseVictoryModal = (function() {
       this.prototype.closesOnClickOutside = false;
     }
 
-    initialize(options) {
+    constructor (options) {
+      super(options)
       this.courseID = options.courseID;
       this.courseInstanceID = options.courseInstanceID || utils.getQueryVariable('course-instance') || utils.getQueryVariable('league');
       if (features.china && !this.courseID && !this.courseInstanceID) {   //just for china tarena hackthon 2019 classroom RestPoolLeaf

@@ -16,11 +16,6 @@ const HtmlExtractor = require('lib/HtmlExtractor');
 
 module.exports = (WebSurfaceView = (function() {
   WebSurfaceView = class WebSurfaceView extends CocoView {
-    constructor(...args) {
-      super(...args);
-      this.onIframeMessage = this.onIframeMessage.bind(this);
-    }
-
     static initClass() {
       this.prototype.id = 'web-surface-view';
       this.prototype.template = template;
@@ -32,10 +27,11 @@ module.exports = (WebSurfaceView = (function() {
       };
     }
 
-    initialize(options) {
+    constructor (options) {
+      super(options)
       this.goals = (Array.from((options.goalManager != null ? options.goalManager.goals : undefined) != null ? (options.goalManager != null ? options.goalManager.goals : undefined) : []).filter((goal) => goal.html));
       // Consider https://www.npmjs.com/package/css-select to do this on virtualDom instead of in iframe on concreteDOM
-      return super.initialize(options);
+      this.onIframeMessage = this.onIframeMessage.bind(this);
     }
 
     getRenderData() {

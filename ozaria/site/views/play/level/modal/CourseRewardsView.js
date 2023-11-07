@@ -24,30 +24,26 @@ const User = require('models/User');
 
 module.exports = (CourseRewardsView = (function() {
   CourseRewardsView = class CourseRewardsView extends CocoView {
-    constructor(...args) {
-      this.tickSequentialAnimation = this.tickSequentialAnimation.bind(this);
-      super(...args);
-    }
-
     static initClass() {
       this.prototype.id = 'course-rewards-view';
-      this.prototype.className = 'modal-content'; 
+      this.prototype.className = 'modal-content'
       this.prototype.template = require('templates/play/level/modal/course-rewards-view');
-    
+
       this.prototype.events =
-        {'click #continue-btn': 'onClickContinueButton'};
-    }
-    
-    initialize(options) {
-      super.initialize();
-      this.level = options.level;
-      this.session = options.session;
-      this.thangTypes = {};
-      return this.achievements = options.achievements;
+        { 'click #continue-btn': 'onClickContinueButton' }
     }
 
-    render() {
-      this.loadAchievementsData();
+    constructor (options) {
+      super(options)
+      this.level = options.level;
+      this.session = options.session
+      this.thangTypes = {}
+      this.achievements = options.achievements
+      this.tickSequentialAnimation = this.tickSequentialAnimation.bind(this)
+    }
+
+    render () {
+      this.loadAchievementsData()
       this.previousXP = me.get('points', true);
       this.previousLevel = me.level();
       return super.render();

@@ -19,14 +19,8 @@ const utils = require('core/utils');
 
 module.exports = (LevelPlaybackView = (function() {
   LevelPlaybackView = class LevelPlaybackView extends CocoView {
-    constructor(...args) {
-      super(...args);
-      this.formatTime = this.formatTime.bind(this);
-      this.onWindowResize = this.onWindowResize.bind(this);
-    }
-
     static initClass() {
-      this.prototype.id = 'playback-view';
+      this.prototype.id = 'playback-view'
       this.prototype.template = template;
 
       this.prototype.subscriptions = {
@@ -65,12 +59,15 @@ module.exports = (LevelPlaybackView = (function() {
       };
     }
 
-    initialize() {
-      return this.utils = utils;
+    constructor () {
+      super(...arguments)
+      this.formatTime = this.formatTime.bind(this)
+      this.onWindowResize = this.onWindowResize.bind(this)
+      this.utils = utils
     }
 
-    afterRender() {
-      super.afterRender();
+    afterRender () {
+      super.afterRender()
       this.$progressScrubber = $('.scrubber .progress', this.$el);
       if (!this.options.level.isType('game-dev')) { this.hookUpScrubber(); }
       $(window).on('resize', this.onWindowResize);

@@ -20,7 +20,7 @@ module.exports = (HoC2018InterstitialModal = (function() {
 
     // Runs before the constructor is called.
     initialize() {
-      return this.propsData = {
+      this.propsData = {
         clickStudent: () => this.hide(),
         clickTeacher: () => application.router.navigate('/teachers/hour-of-code', { trigger: true }),
         showVideo: false
