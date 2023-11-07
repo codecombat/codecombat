@@ -109,7 +109,7 @@ module.exports = (SpellView = (function() {
     }
 
     constructor(options) {
-      super(options);
+      super(options)
       this.blocklyToAce = this.blocklyToAce.bind(this);
       this.aceToBlockly = this.aceToBlockly.bind(this);
       this.onAllLoaded = this.onAllLoaded.bind(this);

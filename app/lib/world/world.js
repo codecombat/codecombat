@@ -471,6 +471,7 @@ module.exports = (World = (function() {
       if (c) { return c; }
       try {
         window.require = window.libWorldRequire;
+        // .replace('this.gridPoints.push(Vector(x, y));', 'this.gridPoints.push(new Vector(x, y));')
         c = (map[js] = eval(js));
       } catch (err) {
         console.error(`Couldn't compile ${kind} code:`, err, "\n", js);
