@@ -92,7 +92,7 @@ module.exports = (LevelLoader = class LevelLoader extends CocoClass {
       return this.once('world-necessity-load-failed', function({resource}) {
         const { jqxhr } = resource;
         return reject({message: (jqxhr.responseJSON != null ? jqxhr.responseJSON.message : undefined) || jqxhr.responseText || 'Unknown Error'});
-    });
+      });
     });
   }
 
@@ -108,12 +108,13 @@ module.exports = (LevelLoader = class LevelLoader extends CocoClass {
 
   reportLoadError() {
     if (this.destroyed) { return; }
-    return window.tracker != null ? window.tracker.trackEvent('LevelLoadError', {
-      category: 'Error',
-      levelSlug: __guard__(this.work != null ? this.work.level : undefined, x => x.slug),
-      unloaded: JSON.stringify(this.supermodel.report().map(m => _.result(m.model, 'url')))
+    if (window.tracker) {
+      window.tracker.trackEvent('LevelLoadError', {
+        category: 'Error',
+        levelSlug: __guard__(this.work != null ? this.work.level : undefined, x => x.slug),
+        unloaded: JSON.stringify(this.supermodel.report().map(m => _.result(m.model, 'url')))
+      })
     }
-    ) : undefined;
   }
 
   onLevelLoaded() {

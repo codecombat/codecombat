@@ -16,15 +16,15 @@ module.exports = (EmailVerifiedView = (function() {
     static initClass() {
       this.prototype.id = 'email-verified-view';
       this.prototype.template = template;
-  
+
       this.prototype.events =
         {'click .login-button': 'onClickLoginButton'};
     }
 
-    initialize(options, userID, verificationCode) {
+    constructor (options, userID, verificationCode) {
+      super(...arguments)
       this.userID = userID;
       this.verificationCode = verificationCode;
-      super.initialize(options);
       this.state = new State(this.getInitialState());
       this.user = new User({ _id: this.userID });
       this.user.sendVerificationCode(this.verificationCode);
@@ -34,9 +34,9 @@ module.exports = (EmailVerifiedView = (function() {
         this.state.set({ verifyStatus: 'success' });
         return me.fetch();
       });
-      return this.listenTo(this.user, 'email-verify-error', function() {
+      this.listenTo(this.user, 'email-verify-error', function() {
         return this.state.set({ verifyStatus: 'error' });
-    });
+      });
     }
 
     getInitialState() {

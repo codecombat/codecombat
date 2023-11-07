@@ -38,7 +38,7 @@ module.exports = (Level = (function() {
       this.levels = LevelConstants.levels;
       this.prototype.urlRoot = '/db/level';
       this.prototype.editableByArtisans = true;
-  
+
       this.prototype.cachedLevelComponents = null;
     }
 
@@ -78,8 +78,7 @@ module.exports = (Level = (function() {
       this.fillInDefaultComponentConfiguration(o.thangTypes, o.levelComponents);
 
       if (this.picoCTFProblem) { o.picoCTFProblem = this.picoCTFProblem; }
-
-      return o;
+      return o
     }
 
     getCachedLevelComponents(supermodel) {
@@ -103,7 +102,8 @@ module.exports = (Level = (function() {
       if (o.thangs && (utils.isCodeCombat || this.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev'))) {
         const thangTypesWithComponents = ((() => {
           const result = [];
-          for (tt of Array.from(supermodel.getModels('ThangType'))) {             if (tt.get('components') != null) {
+          for (tt of Array.from(supermodel.getModels('ThangType'))) {
+            if (tt.get('components')) {
               result.push(tt);
             }
           }

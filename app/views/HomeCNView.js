@@ -28,7 +28,7 @@ module.exports = (HomeCNView = (function() {
     static initClass() {
       this.prototype.id = 'home-cn-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click .continue-playing-btn': 'onClickTrackEvent',
         'click .example-gd-btn': 'onClickTrackEvent',
@@ -47,8 +47,8 @@ module.exports = (HomeCNView = (function() {
       };
     }
 
-    initialize(options) {
-      super.initialize(options);
+    constructor (options) {
+      super(options)
 
       this.courses = new Courses();
       this.supermodel.trackRequest(this.courses.fetchReleased());

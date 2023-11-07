@@ -20,23 +20,19 @@ class Vector {
     for (name of ['magnitude', 'heading', 'distance', 'dot', 'equals', 'copy', 'distanceSquared']) {
       ((name => Vector[name] = (a, b, useZ) => a[name](b, useZ)))(name);
     }
-  
+
     this.prototype.isVector = true;
     this.prototype.apiProperties = ['x', 'y', 'z', 'magnitude', 'heading', 'distance', 'dot', 'equals', 'copy', 'distanceSquared', 'add', 'subtract', 'multiply', 'divide', 'limit', 'normalize', 'rotate'];
   }
 
-  constructor(x, y, z) {
-    if (x == null) { x = 0; }
-    if (y == null) { y = 0; }
-    if (z == null) { z = 0; }
-    if (!(this instanceof Vector)) { return new Vector(x, y, z); }
+  constructor (x = 0, y = 0, z = 0) {
+    if (!(this instanceof Vector)) { return new Vector(x, y, z) }
     [this.x, this.y, this.z] = Array.from([x, y, z]);
   }
 
   copy() {
     return new Vector(this.x, this.y, this.z);
   }
-
 
   // Mutating methods:
 

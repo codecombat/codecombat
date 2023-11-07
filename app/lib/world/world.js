@@ -80,10 +80,10 @@ module.exports = (World = (function() {
     constructor(userCodeMap, classMap) {
       // classMap is needed for deserializing Worlds, Thangs, and other classes
       this.userCodeMap = userCodeMap;
-      this.classMap = classMap != null ? classMap : {Vector, Rectangle, Thang, Ellipse, LineSegment};
+      this.classMap = classMap || { Vector, Rectangle, Thang, Ellipse, LineSegment }
       Thang.resetThangIDs();
 
-      if (this.userCodeMap == null) { this.userCodeMap = {}; }
+      if (!this.userCodeMap) { this.userCodeMap = {} }
       this.thangs = [];
       this.thangMap = {};
       this.systems = [];
@@ -396,7 +396,7 @@ module.exports = (World = (function() {
           config
         } = levelSystem;
         var systemClass = this.loadClassFromCode(systemModel.js, systemModel.name, 'system');
-        //console.log "using db system class ---\n", systemClass, "\n--- from code ---n", systemModel.js, "\n---"
+
         var system = new systemClass(this, config);
         this.addSystems(system);
       }

@@ -37,6 +37,8 @@ module.exports = (HomeView = (function() {
       super(...args);
       this.onCarouselSlide = this.onCarouselSlide.bind(this);
       this.activateCarousels = this.activateCarousels.bind(this);
+      this.renderedPaymentNoty = false;
+      this.getBanner();
     }
 
     static initClass() {
@@ -64,12 +66,6 @@ module.exports = (HomeView = (function() {
         'click .try-chapter-1': 'onClickGenericTryChapter1',
         'click .contact-us': 'onClickContactModal'
       };
-    }
-
-    initialize(options) {
-      super.initialize(options);
-      this.renderedPaymentNoty = false;
-      return this.getBanner();
     }
 
     getRenderData(context) {

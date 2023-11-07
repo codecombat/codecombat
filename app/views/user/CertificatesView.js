@@ -15,7 +15,6 @@ const RootView = require('views/core/RootView');
 const User = require('models/User');
 const Classroom = require('models/Classroom');
 const Course = require('models/Course');
-const CourseInstance = require('models/CourseInstance');
 const Campaign = require('models/Campaign');
 const LevelSessions = require('collections/LevelSessions');
 const Levels = require('collections/Levels');
@@ -30,7 +29,7 @@ module.exports = (CertificatesView = (function() {
     static initClass() {
       this.prototype.id = 'certificates-view';
       this.prototype.template = require('app/templates/user/certificates-view');
-  
+
       this.prototype.events = {
         'click .print-btn': 'onClickPrintButton',
         'click .toggle-btn': 'onClickToggleButton'
@@ -46,7 +45,8 @@ module.exports = (CertificatesView = (function() {
       return (__range__(0, str.length, false).map((i) => str.charCodeAt(i))).reduce(((hash, char) => ((hash << 5) + hash) + char), 5381);  // hash * 33 + c
     }
 
-    initialize(options, userID) {
+    constructor (options, userID) {
+      super(options)
       let campaignId, classroomID, courseID;
       this.userID = userID;
       this.utils = utils;
@@ -110,13 +110,13 @@ module.exports = (CertificatesView = (function() {
 
       const tenbillion = 10000000;
       const nintybillion = 90000000;
-      if (typeof features !== 'undefined' && features !== null ? features.chinaUx : undefined) {
+      if (features?.chinaUx) {
         this.certificateNumber =   // keep only 8 digits
           (((this.hashString(this.user.id + this.courseInstanceID) % nintybillion) + nintybillion) % nintybillion) + tenbillion;   // 10000000 ~ 99999999
       }
 
       this.currentLang = me.get('preferredLanguage', true);
-      return this.needLanguageToggle = this.currentLang.split('-')[0] !== 'en';
+      this.needLanguageToggle = this.currentLang.split('-')[0] !== 'en';
     }
 
 

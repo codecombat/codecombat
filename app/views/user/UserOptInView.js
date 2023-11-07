@@ -17,17 +17,17 @@ module.exports = (UserOptInView = (function() {
     static initClass() {
       this.prototype.id = 'user-opt-in-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click .keep-me-updated-btn': 'onClickKeepMeUpdated',
         'click .login-button': 'onClickLoginButton'
       };
     }
 
-    initialize(options, userID, verificationCode) {
+    constructor (options, userID, verificationCode) {
+      super(options)
       this.userID = userID;
       this.verificationCode = verificationCode;
-      super.initialize(options);
       this.noDeleteInactiveEU = utils.getQueryVariable('no_delete_inactive_eu', false);
       this.keepMeUpdated = utils.getQueryVariable('keep_me_updated', false);
       this.promptKeepMeUpdated = utils.getQueryVariable('prompt_keep_me_updated', false);
@@ -54,7 +54,7 @@ module.exports = (UserOptInView = (function() {
         this.state.set({status: 'done loading'});
         return me.fetch();
       });
-      return this.listenTo(this.user, 'user-no-delete-eu-error', () => {
+      this.listenTo(this.user, 'user-no-delete-eu-error', () => {
         this.state.set({status: 'done loading'});
         return this.state.set({noDeleteEUError: true});
       });
