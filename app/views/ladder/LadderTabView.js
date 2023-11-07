@@ -46,14 +46,6 @@ TournamentLeaderboardCollection.initClass();
 
 module.exports = (LadderTabView = (function() {
   LadderTabView = class LadderTabView extends CocoView {
-    constructor(...args) {
-      super(...args);
-      this.onFacebookFriendsLoaded = this.onFacebookFriendsLoaded.bind(this);
-      this.onFacebookFriendSessionsLoaded = this.onFacebookFriendSessionsLoaded.bind(this);
-      this.gplusFriendsLoaded = this.gplusFriendsLoaded.bind(this);
-      this.onGPlusFriendSessionsLoaded = this.onGPlusFriendSessionsLoaded.bind(this);
-    }
-
     static initClass() {
       this.prototype.id = 'ladder-tab-view';
       this.prototype.template = require('app/templates/play/ladder/ladder-tab-view');
@@ -76,7 +68,13 @@ module.exports = (LadderTabView = (function() {
   //    'auth:logged-in-with-facebook': 'onConnectedWithFacebook'
   //    'auth:logged-in-with-gplus': 'onConnectedWithGPlus'
 
-    initialize(options, level, sessions, tournamentId) {
+    constructor (options, level, sessions, tournamentId) {
+      super(...arguments)
+      this.onFacebookFriendsLoaded = this.onFacebookFriendsLoaded.bind(this);
+      this.onFacebookFriendSessionsLoaded = this.onFacebookFriendSessionsLoaded.bind(this);
+      this.gplusFriendsLoaded = this.gplusFriendsLoaded.bind(this);
+      this.onGPlusFriendSessionsLoaded = this.onGPlusFriendSessionsLoaded.bind(this);
+
       this.level = level;
       this.sessions = sessions;
       this.tournamentId = tournamentId;
@@ -85,7 +83,7 @@ module.exports = (LadderTabView = (function() {
       this.refreshLadder();
 
       this.capitalize = _.string.capitalize;
-      return this.selectedTeam = 'humans';
+      this.selectedTeam = 'humans';
     }
 
       // Trying not loading the FP/G+ stuff for now to see if anyone complains they were using it so we can have just two columns.

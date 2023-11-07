@@ -483,6 +483,7 @@ module.exports = (LevelPlaybackView = (function() {
 // Could make this into a jQuery plugins itself theoretically.
 class HoverPopup extends $.fn.popover.Constructor {
   constructor() {
+    super()
     this.enabled = true;
     this.shown = false;
     this.type = 'HoverPopup';

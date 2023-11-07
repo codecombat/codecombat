@@ -29,12 +29,6 @@ const N_ROWS = 4;
 
 module.exports = (SpellPaletteView = (function() {
   SpellPaletteView = class SpellPaletteView extends CocoView {
-    constructor(...args) {
-      super(...args);
-      this.onResize = this.onResize.bind(this);
-      this.hide = this.hide.bind(this);
-    }
-
     static initClass() {
       this.prototype.id = 'spell-palette-view';
       this.prototype.template = require('app/templates/play/level/tome/spell-palette-view-mid');
@@ -57,13 +51,15 @@ module.exports = (SpellPaletteView = (function() {
       };
     }
 
-    initialize(options) {
-      let left;
+    constructor (options) {
+      super(options)
+      this.onResize = this.onResize.bind(this)
+      this.hide = this.hide.bind(this);
       ({level: this.level, session: this.session, thang: this.thang, useHero: this.useHero} = options);
-      this.aceEditors = [];
-      const docs = (left = this.options.level.get('documentation')) != null ? left : {};
-      this.createPalette();
-      return $(window).on('resize', this.onResize);
+      this.aceEditors = []
+      const docs = options.level.get('documentation') || {}
+      this.createPalette()
+      $(window).on('resize', this.onResize)
     }
 
     getRenderData() {

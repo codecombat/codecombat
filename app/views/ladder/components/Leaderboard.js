@@ -36,13 +36,14 @@ module.exports = (LeaderboardView = (function() {
       this.prototype.template = require('templates/play/ladder/leaderboard-view');
       this.prototype.VueComponent = LeaderboardComponent;
     }
-    constructor(options, level, sessions, anonymousPlayerName) {
+
+    constructor (options, level, sessions, anonymousPlayerName) {
+      super(options)
       this.level = level;
       this.sessions = sessions;
       this.anonymousPlayerName = anonymousPlayerName;
       ({ league: this.league, tournament: this.tournament, leagueType: this.leagueType, course: this.course } = options);
       // params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
-      super(options);
       this.tableTitles = [
         {slug: 'creator', col: 0, title: ''},
         {slug: 'language', col: 1, title: ''},
@@ -264,11 +265,13 @@ module.exports = (LeaderboardView = (function() {
           }
           return this.openModalView(new ModelModal({models}));
         });
-      } else if (me.isTeacher()) {} 
+      } else if (me.isTeacher()) {
         // TODO
-      else {}
+      } else {
+        // TODO
+      }
     }
-        // TODO
+
 
     handleClickAgeFilter(ageBracket) {
       this.ageBracket = ageBracket;

@@ -52,7 +52,7 @@ module.exports = (MainLadderView = (function() {
     static initClass() {
       this.prototype.id = 'main-ladder-view';
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click .create-button': 'createTournament',
         'click .edit-button': 'editTournament',
@@ -61,11 +61,11 @@ module.exports = (MainLadderView = (function() {
       };
     }
 
-    initialize(options, pageType, objectId){
+    constructor (options, pageType, objectId) {
+      super(options)
       let url;
       this.pageType = pageType;
       this.objectId = objectId;
-      super.initialize();
       this.ladderLevels = [];
       this.ladderImageMap = {};
       this.tournaments = [];
@@ -90,7 +90,7 @@ module.exports = (MainLadderView = (function() {
       this.editableTournament = {};
 
       this.ladders = this.supermodel.loadCollection(new LadderCollection()).model;
-      return this.listenToOnce(this.ladders, 'sync', this.onLaddersLoaded);
+      this.listenToOnce(this.ladders, 'sync', this.onLaddersLoaded);
     }
 
     getMeta() {

@@ -26,13 +26,8 @@ require('d3/d3.js');
 
 module.exports = (MyMatchesTabView = (function() {
   MyMatchesTabView = class MyMatchesTabView extends CocoView {
-    constructor(...args) {
-      super(...args);
-      this.generateScoreLineChart = this.generateScoreLineChart.bind(this);
-    }
-
     static initClass() {
-      this.prototype.id = 'my-matches-tab-view';
+      this.prototype.id = 'my-matches-tab-view'
       this.prototype.template = require('app/templates/play/ladder/my_matches_tab');
 
       this.prototype.events = {
@@ -41,17 +36,20 @@ module.exports = (MyMatchesTabView = (function() {
       };
     }
 
-    initialize(options, level, sessions) {
-      this.level = level;
-      this.sessions = sessions;
-      this.nameMap = {};
-      this.previouslyRankingTeams = {};
+    constructor (options, level, sessions) {
+      super(...arguments)
+      this.generateScoreLineChart = this.generateScoreLineChart.bind(this)
+
+      this.level = level
+      this.sessions = sessions
+      this.nameMap = {}
+      this.previouslyRankingTeams = {}
       this.matchesLimit = 95;
-      return this.refreshMatches(20);
+      this.refreshMatches(20)
     }
 
     onLoadMoreMatches() {
-      if (this.matchesLimit == null) { this.matchesLimit = 95; }
+      if (this.matchesLimit == null) { this.matchesLimit = 95 }
       this.matchesLimit += 100;
       return this.refreshMatches(10);
     }

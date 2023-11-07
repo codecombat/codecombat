@@ -35,15 +35,15 @@ module.exports = (MainLadderView = (function() {
       this.prototype.template = template;
     }
 
-    initialize() {
-      super.initialize();
+    constructor () {
+      super()
 
       this.levelStatusMap = [];
       this.levelPlayCountMap = [];
       this.campaigns = campaigns;
 
       this.sessions = this.supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model;
-      return this.listenToOnce(this.sessions, 'sync', this.onSessionsLoaded);
+      this.listenToOnce(this.sessions, 'sync', this.onSessionsLoaded)
     }
 
       // TODO: Make sure this is also enabled server side.

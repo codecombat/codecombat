@@ -29,12 +29,12 @@ module.exports = (LadderPlayModal = (function() {
       this.prototype.closeButton = true;
       this.shownTutorialButton = false;
       this.prototype.tutorialLevelExists = null;
-  
+
       this.prototype.events = {
         'click #skip-tutorial-button': 'hideTutorialButtons',
         'change #tome-language': 'updateLanguage'
       };
-  
+
       this.prototype.defaultAceConfig = {
         language: 'javascript',
         keyBindings: 'default',
@@ -73,7 +73,7 @@ module.exports = (LadderPlayModal = (function() {
       this.teamColor = teams[this.team].primaryColor;
       this.teamBackgroundColor = teams[this.team].bgColor;
       this.opponentTeamColor = teams[this.otherTeam].primaryColor;
-      return this.opponentTeamBackgroundColor = teams[this.otherTeam].bgColor;
+      this.opponentTeamBackgroundColor = teams[this.otherTeam].bgColor;
     }
 
     updateLanguage() {
