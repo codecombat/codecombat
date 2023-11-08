@@ -23,15 +23,6 @@ const store = require('core/store');
 
 module.exports = (LevelLoadingView = (function() {
   LevelLoadingView = class LevelLoadingView extends CocoView {
-    constructor(...args) {
-      super(...args);
-      this.finishShowingReady = this.finishShowingReady.bind(this);
-      this.onClickStartLevel = this.onClickStartLevel.bind(this);
-      this.unveilIntro = this.unveilIntro.bind(this);
-      this.onUnveilEnded = this.onUnveilEnded.bind(this);
-      this.onWindowResize = this.onWindowResize.bind(this);
-    }
-
     static initClass() {
       this.prototype.id = 'level-loading-view';
       this.prototype.template = template;
@@ -55,10 +46,16 @@ module.exports = (LevelLoadingView = (function() {
         {'enter': 'onEnterPressed'};
     }
 
-    initialize(options) {
-      if (options == null) { options = {}; }
+    constructor (options) {
+      if (!options) { options = {} }
+      super(options)
       this.utils = utils;
-      return this.loadingWingClass = _.sample(['alejandro', 'anya', 'chess', 'naria', 'okar']);
+      this.loadingWingClass = _.sample(['alejandro', 'anya', 'chess', 'naria', 'okar']);
+      this.finishShowingReady = this.finishShowingReady.bind(this);
+      this.onClickStartLevel = this.onClickStartLevel.bind(this);
+      this.unveilIntro = this.unveilIntro.bind(this);
+      this.onUnveilEnded = this.onUnveilEnded.bind(this);
+      this.onWindowResize = this.onWindowResize.bind(this);
     }
 
     afterRender() {
@@ -177,10 +174,10 @@ module.exports = (LevelLoadingView = (function() {
       if (this.shownReady) { return; }
       this.shownReady = true;
       if (utils.isCodeCombat) {
-        return _.delay(this.finishShowingReady, 100);  // Let any blocking JS hog the main thread before we show that we're done.
+        _.delay(this.finishShowingReady, 100) // Let any blocking JS hog the main thread before we show that we're done.
       } else {
         this.unveilPreviewTime = new Date().getTime();
-        return _.delay(this.startUnveiling, 100);  // Let any blocking JS hog the main thread before we show that we're done.
+        _.delay(() => this.startUnveiling(), 100) // Let any blocking JS hog the main thread before we show that we're done.
       }
     }
 
@@ -212,9 +209,10 @@ module.exports = (LevelLoadingView = (function() {
         Backbone.Mediator.publish('level:loading-view-unveiling', {});
         return _.delay(this.onClickStartLevel, 1000);  // If they never mouse-up for the click (or a modal shows up and interrupts the click), do it anyway.
       } else {
-        const levelSlug = (this.level != null ? this.level.get('slug') : undefined) || __guard__(this.options != null ? this.options.level : undefined, x => x.get('slug'));
+        console.log('level', this.level, 'unveiling')
+        const levelSlug = (this.level ? this.level.get('slug') : undefined) || __guard__(this.options != null ? this.options.level : undefined, x => x.get('slug'));
         const timespent = (new Date().getTime() - this.unveilPreviewTime) / 1000;
-        if (window.tracker != null) {
+        if (window.tracker) {
           window.tracker.trackEvent('Finish Viewing Intro', {
           category: 'Play Level',
           label: 'level loading',

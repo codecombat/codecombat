@@ -217,13 +217,14 @@ ${problem.description}\
           careAboutLineNumbers: true,
           careAboutLint: true
         };
-        this.worker.addEventListener('message', function(e) {
-          const workerData = JSON.parse(e.data);
+        const workerDataCb = function (e) {
+          const workerData = JSON.parse(e.data)
           if ((workerData.function === 'hasChangedSignificantly') && (workerData.spellKey === this.spellKey)) {
-            this.worker.removeEventListener('message', arguments.callee, false);
-            return cb(workerData.hasChanged);
+            this.worker.removeEventListener('message', workerDataCb, false)
+            return cb(workerData.hasChanged)
           }
-        }.bind(this));
+        }
+        this.worker.addEventListener('message', workerDataCb, false)
         return this.worker.postMessage(JSON.stringify(workerMessage));
       } else {
         return cb(aether.hasChangedSignificantly((newSource != null ? newSource : this.originalSource), (currentSource != null ? currentSource : this.source), true, true));

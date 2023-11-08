@@ -26,7 +26,7 @@ const globalVar = require('core/globalVar');
 module.exports = (LevelBus = (function() {
   LevelBus = class LevelBus extends Bus {
     static initClass() {
-  
+
       this.prototype.subscriptions = {
         'tome:editing-began': 'onEditingBegan',
         'tome:editing-ended': 'onEditingEnded',
@@ -51,11 +51,11 @@ module.exports = (LevelBus = (function() {
     }
 
     constructor() {
+      super(...arguments);
       this.incrementSessionPlaytime = this.incrementSessionPlaytime.bind(this);
       this.onMeSynced = this.onMeSynced.bind(this);
       this.onPlayerJoined = this.onPlayerJoined.bind(this);
       this.onChatAdded = this.onChatAdded.bind(this);
-      super(...arguments);
       this.changedSessionProperties = {};
       const saveDelay = window.serverConfig != null ? window.serverConfig.sessionSaveDelay : undefined;
       const [wait, maxWait] = Array.from((() => { switch (false) {
@@ -392,7 +392,7 @@ module.exports = (LevelBus = (function() {
     updateSessionConcepts() {
       let needle;
       if ((needle = this.session.get('codeLanguage'), !['javascript', 'python'].includes(needle))) { return; }
-      return this.loadConcepts(concepts => { 
+      return this.loadConcepts(concepts => {
         try {
           let tags = tagger({ast: this.session.lastAST, language: this.session.get('codeLanguage')}, concepts);
           tags = _.without(tags, 'basic_syntax');

@@ -32,7 +32,7 @@ const LevelComponent = require('models/LevelComponent');
 const UserCodeProblem = require('models/UserCodeProblem');
 const aceUtils = require('core/aceUtils');
 const CodeLog = require('models/CodeLog');
-const Autocomplete = require('views/play/level/tome/editor/autocomplete');
+const AutoComplete = require('views/play/level/tome/editor/autocomplete')
 const {
   TokenIterator
 } = ace.require('ace/token_iterator');
@@ -111,7 +111,7 @@ module.exports = (SpellView = (function() {
       this.onWindowResize = this.onWindowResize.bind(this);
       this.checkRequiredCode = this.checkRequiredCode.bind(this);
       this.checkSuspectCode = this.checkSuspectCode.bind(this);
-      this.supermodel = options.supermodel;
+      // this.supermodel = options.supermodel;
       this.worker = options.worker;
       this.session = options.session;
       this.spell = options.spell;
@@ -134,7 +134,7 @@ module.exports = (SpellView = (function() {
       this.fillACE();
       this.createOnCodeChangeHandlers();
       this.lockDefaultCode();
-      return _.defer(this.onAllLoaded);  // Needs to happen after the code generating this view is complete
+      _.defer(this.onAllLoaded); // Needs to happen after the code generating this view is complete
     }
 
     // This ACE is used for the code editor, and is only instantiated once per level.
@@ -181,8 +181,8 @@ module.exports = (SpellView = (function() {
       if (this.courseID && (this.courseID === utils.courseIDs.CHAPTER_ONE)) {
         this.ace.setFontSize(22);
       }
-      let liveCompletion = aceConfig.liveCompletion != null ? aceConfig.liveCompletion : true;
-      liveCompletion = this.options.classroomAceConfig.liveCompletion && liveCompletion;
+      let liveCompletion = aceConfig.liveCompletion ? aceConfig.liveCompletion : true
+      liveCompletion = this.options.classroomAceConfig?.liveCompletion && liveCompletion
       this.initAutocomplete(liveCompletion);
 
       if ((this.session.get('creator') !== me.id) || this.session.fake) { return; }
@@ -191,7 +191,7 @@ module.exports = (SpellView = (function() {
       this.spade.track(this.ace);
       // If a user is taking longer than 10 minutes, let's log it.
       const saveSpadeDelay = 10 * 60 * 1000;
-      return this.saveSpadeTimeout = setTimeout(this.saveSpade, saveSpadeDelay);
+      this.saveSpadeTimeout = setTimeout(this.saveSpade, saveSpadeDelay);
     }
 
     createACEShortcuts() {
@@ -677,8 +677,11 @@ border-right: ${bw}px solid rgba(${color.border},1); border-bottom: ${bw}px soli
       let left;
       this.autocompleteOn = autocompleteOn;
       if (this.spell.language === 'html') { return; }
-      const popupFontSizePx = (left = this.options.level.get('autocompleteFontSizePx')) != null ? left : 16;
-      return this.autocomplete = new Autocomplete(this.ace, {
+      const popupFontSizePx = this.options.level.get('autocompleteFontSizePx') || 16
+      console.log('abc', AutoComplete, SpellToolbarView)
+      window.xyz = AutoComplete
+      window.qwe = SpellToolbarView
+      this.autocomplete = new AutoComplete(this.ace, {
         basic: false,
         liveCompletion: false,
         snippetsLangDefaults: false,
@@ -692,13 +695,14 @@ border-right: ${bw}px solid rgba(${color.border},1); border-bottom: ${bw}px soli
         popupFontSizePx,
         popupLineHeightPx: 1.5 * popupFontSizePx,
         popupWidthPx: 380
-      }
-      );
+      })
     }
 
     updateAutocomplete(autocompleteOn) {
       this.autocompleteOn = autocompleteOn;
-      return (this.autocomplete != null ? this.autocomplete.set('snippets', this.autocompleteOn) : undefined);
+      if (this.autocomplete) {
+        this.autocomplete.set('snippets', this.autocompleteOn)
+      }
     }
 
     reallyAddUserSnippets(source, lang, session) {

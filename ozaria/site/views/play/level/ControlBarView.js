@@ -54,7 +54,7 @@ module.exports = (ControlBarView = (function() {
     constructor(options) {
       super(options);
       let jqxhr;
-      this.supermodel = options.supermodel;
+      // this.supermodel = options.supermodel;
       this.courseID = options.courseID;
       this.courseInstanceID = options.courseInstanceID;
 

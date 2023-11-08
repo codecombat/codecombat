@@ -50,7 +50,7 @@ module.exports = (SpellPaletteView = (function() {
       ({ level: this.level, session: this.session, thang: this.thang, useHero: this.useHero } = options)
       this.aceEditors = []
       this.createPalette()
-      return $(window).on('resize', this.onResize)
+      $(window).on('resize', this.onResize)
     }
 
     getRenderData() {
