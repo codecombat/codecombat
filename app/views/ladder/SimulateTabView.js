@@ -22,25 +22,26 @@ const loadAetherLanguage = require("lib/loadAetherLanguage");
 
 module.exports = (SimulateTabView = (function() {
   SimulateTabView = class SimulateTabView extends CocoView {
-    constructor(...args) {
-      super(...args);
-      this.refreshAndContinueSimulating = this.refreshAndContinueSimulating.bind(this);
-    }
-
     static initClass() {
       this.prototype.id = 'simulate-tab-view';
-      this.prototype.template = require('app/templates/play/ladder/simulate_tab');
+      this.prototype.template = require('app/templates/play/ladder/simulate_tab')
 
       this.prototype.events =
         {'click #simulate-button': 'onSimulateButtonClick'};
     }
 
-    initialize() {
-      this.simulatedByYouCount = me.get('simulatedBy') || 0;
-      this.simulatorsLeaderboardData = new SimulatorsLeaderboardData(me, this.options.level);
-      this.simulatorsLeaderboardDataRes = this.supermodel.addModelResource(this.simulatorsLeaderboardData, 'top_simulators', {cache: false});
-      this.simulatorsLeaderboardDataRes.load();
-      return Promise.all(
+    constructor (options) {
+      if (!options) {
+        options = {}
+      }
+      super(options)
+      this.options = options
+      this.refreshAndContinueSimulating = this.refreshAndContinueSimulating.bind(this)
+      this.simulatedByYouCount = me.get('simulatedBy') || 0
+      this.simulatorsLeaderboardData = new SimulatorsLeaderboardData(me, this.options.level)
+      this.simulatorsLeaderboardDataRes = this.supermodel.addModelResource(this.simulatorsLeaderboardData, 'top_simulators', { cache: false })
+      this.simulatorsLeaderboardDataRes.load()
+      Promise.all(
         ["javascript", "python", "coffeescript", "lua", "cpp", "java"].map(
           loadAetherLanguage
         )
@@ -163,11 +164,11 @@ class SimulatorsLeaderboardData extends CocoClass {
   */
 
   constructor(me1, level) {
+    super();
     this.onLoad = this.onLoad.bind(this);
     this.onFail = this.onFail.bind(this);
     this.me = me1;
     this.level = level;
-    super();
   }
 
   fetch() {

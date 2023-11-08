@@ -104,7 +104,7 @@ module.exports = (CourseVictoryModal = (function() {
         if (!this.achievements) {
           this.achievements = new Achievements();
           this.achievements.fetchRelatedToLevel(this.session.get('level').original);
-          return this.achievements = this.supermodel.loadCollection(this.achievements, 'achievements').model;
+          this.achievements = this.supermodel.loadCollection(this.achievements, 'achievements').model;
         }
       }
     }

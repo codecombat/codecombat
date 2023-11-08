@@ -132,7 +132,7 @@ module.exports = (SpellView = (function() {
       this.onWindowResize = this.onWindowResize.bind(this);
       this.checkRequiredCode = this.checkRequiredCode.bind(this);
       this.checkSuspectCode = this.checkSuspectCode.bind(this);
-      this.supermodel = options.supermodel;
+      // this.supermodel = options.supermodel;
       this.worker = options.worker;
       this.session = options.session;
       this.spell = options.spell;

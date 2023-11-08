@@ -47,6 +47,7 @@ module.exports = (LadderPlayModal = (function() {
 
     initialize(options, level, session, team) {
       let left, left1;
+      this.options = options
       this.level = level;
       this.session = session;
       this.team = team;

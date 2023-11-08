@@ -320,7 +320,8 @@ module.exports = (LadderView = (function() {
       }
       this.renderSelectors('#ladder-action-columns');
       if (!this.level.isType('ladder') || !me.isAnonymous()) {
-        this.insertSubView(this.simulateTab = new SimulateTabView({league: this.league, level: this.level, leagueID: this.leagueID}));
+        this.simulateTab = new SimulateTabView({ league: this.league, level: this.level, leagueID: this.leagueID })
+        this.insertSubView(this.simulateTab)
       }
       const highLoad = true;
       this.refreshDelay = (() => { switch (false) {

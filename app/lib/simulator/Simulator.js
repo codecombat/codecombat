@@ -32,6 +32,7 @@ if ($.browser) {
 
 module.exports = (Simulator = class Simulator extends CocoClass {
   constructor(options) {
+    super(options)
     this.fetchAndSimulateOneGame = this.fetchAndSimulateOneGame.bind(this);
     this.fetchAndSimulateTask = this.fetchAndSimulateTask.bind(this);
     this.handleFetchTaskError = this.handleFetchTaskError.bind(this);
