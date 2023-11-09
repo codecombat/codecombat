@@ -1648,8 +1648,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_blocks_opt_in: "Off by default"
     classroom_blocks_opt_out: "On by default"
     not_allow_to_solution: '# Licenses needed to view solutions'
-    classroom_level_chat: 'Level Chat with AI'
-    classroom_level_chat_blurb: 'Control whether students can interact with the AI in level chat.'
+    classroom_level_chat: 'AI Hints'
+    classroom_level_chat_blurb: 'Whether students can request AI hints during levels.'
     classroom_level_chat_option_free_form: 'Free form'
     classroom_level_chat_option_fixed_prompt_only: 'Fixed prompt only'
     classroom_level_chat_option_none: 'No chat'

@@ -51,6 +51,7 @@ module.exports = class ProblemAlertView extends CocoView
       @onWindowResize()
     else
       @$el.hide()
+    @aceConfig = options.aceConfig
     @duckImg = _.sample(@duckImages)
     $(window).on 'resize', @onWindowResize
 

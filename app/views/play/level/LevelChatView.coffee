@@ -41,7 +41,8 @@ module.exports = class LevelChatView extends CocoView
 
     ## TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
     #@listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
-    @visible = @aceConfig.levelChat isnt 'none' or me.getLevelChatExperimentValue() is 'beta'  # not 'control'
+    #@visible = @aceConfig.levelChat isnt 'none'
+    @visible = false  # Only show once AI starts chatting; don't let players do free-form chat
 
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
@@ -306,7 +307,7 @@ module.exports = class LevelChatView extends CocoView
     @fetchChatMessageStream chatMessage.id
 
   fetchChatMessageStream: (chatMessageId) ->
-    model = utils.getQueryVariable('model') or 'gpt-4' # or 'gpt-4'
+    model = utils.getQueryVariable('model') or 'gpt-4-1106-preview' # or 'gpt-4'
     fetch("/db/chat_message/#{chatMessageId}/ai-response?model=#{model}").then co.wrap (response) =>
       reader = response.body.getReader()
       decoder = new TextDecoder('utf-8')
