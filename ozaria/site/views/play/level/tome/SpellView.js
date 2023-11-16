@@ -678,9 +678,6 @@ border-right: ${bw}px solid rgba(${color.border},1); border-bottom: ${bw}px soli
       this.autocompleteOn = autocompleteOn;
       if (this.spell.language === 'html') { return; }
       const popupFontSizePx = this.options.level.get('autocompleteFontSizePx') || 16
-      console.log('abc', AutoComplete, SpellToolbarView)
-      window.xyz = AutoComplete
-      window.qwe = SpellToolbarView
       this.autocomplete = new AutoComplete(this.ace, {
         basic: false,
         liveCompletion: false,

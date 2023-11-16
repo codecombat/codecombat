@@ -24,6 +24,7 @@ const auth = require('core/auth');
 const ViewVisibleTimer = require('core/ViewVisibleTimer');
 const storage = require('core/storage');
 const zendesk = require('core/services/zendesk');
+const moment = require('moment')
 
 let visibleModal = null;
 let waitingModal = null;

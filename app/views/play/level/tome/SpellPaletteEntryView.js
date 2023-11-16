@@ -44,7 +44,6 @@ module.exports = (SpellPaletteEntryView = (function() {
 
     constructor(options) {
       super(options);
-      this.onPaletteClicked = this.onPaletteClicked.bind(this);
       this.onClick = this.onClick.bind(this);
       this.thang = options.thang;
       this.docFormatter = new DocFormatter(options);
@@ -133,7 +132,7 @@ module.exports = (SpellPaletteEntryView = (function() {
     }
 
     onPaletteClicked(e) {
-      return this.$el.toggleClass('selected', e.prop === this.doc.name);
+      this.$el.toggleClass('selected', e.prop === this.doc.name)
     }
 
     onClick(e) {

@@ -165,12 +165,12 @@ module.exports = (GoalManager = (function() {
     }
 
     updateGoalStates(newGoalStates) {
-      for (var goalID in newGoalStates) {
+      for (const goalID in newGoalStates) {
         var goalState = newGoalStates[goalID];
-        if (this.goalStates[goalID] == null) { continue; }
+        if (!this.goalStates[goalID]) { continue }
         this.goalStates[goalID] = goalState;
       }
-      return this.notifyGoalChanges();
+      this.notifyGoalChanges();
     }
 
     static maxCapstoneStage(additionalGoals) {

@@ -209,7 +209,6 @@ module.exports = (LevelLoadingView = (function() {
         Backbone.Mediator.publish('level:loading-view-unveiling', {});
         return _.delay(this.onClickStartLevel, 1000);  // If they never mouse-up for the click (or a modal shows up and interrupts the click), do it anyway.
       } else {
-        console.log('level', this.level, 'unveiling')
         const levelSlug = (this.level ? this.level.get('slug') : undefined) || __guard__(this.options != null ? this.options.level : undefined, x => x.get('slug'));
         const timespent = (new Date().getTime() - this.unveilPreviewTime) / 1000;
         if (window.tracker) {

@@ -21,12 +21,17 @@ module.exports = (ShareLicensesModal = (function() {
       this.prototype.template = require('app/templates/teachers/share-licenses-modal');
       this.prototype.events = {};
     }
-    initialize(options) {
-      if (options == null) { options = {}; }
+
+    constructor (options) {
+      if (!options) {
+        options = {}
+      }
+      super(options)
       this.shareLicensesComponent = null;
       store.registerModule('modal', ShareLicensesStoreModule);
       store.dispatch('modal/setPrepaid', options.prepaid.attributes);
     }
+
     afterRender() {
       const target = this.$el.find('#share-licenses-component');
       if (this.shareLicensesComponent) {

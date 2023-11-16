@@ -66,12 +66,12 @@ module.exports = (TeacherCourseSolutionView = (function() {
       return true;
     }
 
-    initialize(options, courseID, language) {
+    constructor (options, courseID, language) {
+      super(...arguments)
       this.courseID = courseID;
       this.language = language;
       this.isWebDev = [utils.courseIDs.WEB_DEVELOPMENT_2].includes(this.courseID);
       this.callOz = !!utils.getQueryVariable('callOz');
-      console.log('callOz', this.callOz);
       if (me.isTeacher() || me.isAdmin() || me.isParentHome()) {
         this.prettyLanguage = this.camelCaseLanguage(this.language);
         if (options.campaignMode) {
@@ -96,7 +96,6 @@ module.exports = (TeacherCourseSolutionView = (function() {
       }
       this.paidTeacher = me.isAdmin() || me.isPaidTeacher();
       __guard__(me.getClientCreatorPermissions(), x => x.then(() => (typeof this.render === 'function' ? this.render() : undefined)));
-      return super.initialize(options);
     }
 
     camelCaseLanguage(language) {

@@ -18,7 +18,9 @@ module.exports = (RestrictedToTeachersView = (function() {
 
     initialize() {
       __guard__(me.getClientCreatorPermissions(), x => x.then(() => (typeof this.render === 'function' ? this.render() : undefined)));
-      return (window.tracker != null ? window.tracker.trackEvent('Restricted To Teachers Loaded', {category: 'Students'}) : undefined);
+      if (window.tracker) {
+        window.tracker.trackEvent('Restricted To Teachers Loaded', { category: 'Students' })
+      }
     }
   };
   RestrictedToTeachersView.initClass();

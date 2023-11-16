@@ -24,17 +24,17 @@ module.exports = (UnnamedView = (function() {
       this.prototype.template = template;
       this.prototype.plain = true;
       this.prototype.modalWidthPercent = 80;
-  
+
       this.prototype.events =
         {'click .footer button': 'onDonePressed'};
     }
 
-    initialize(options) {
-      super.initialize();
-      this.skipOriginals = options.skipOriginals || [];
-      this.components = new CocoCollection([], {model: LevelComponent});
-      this.components.url = "/db/level.component?term=&archived=false&project=name,system,original,version,description";
-      return this.supermodel.loadCollection(this.components, 'components');
+    constructor (options) {
+      super(options)
+      this.skipOriginals = options.skipOriginals || []
+      this.components = new CocoCollection([], { model: LevelComponent })
+      this.components.url = '/db/level.component?term=&archived=false&project=name,system,original,version,description'
+      this.supermodel.loadCollection(this.components, 'components')
     }
 
     getRenderData() {

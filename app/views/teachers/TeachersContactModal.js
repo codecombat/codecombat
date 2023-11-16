@@ -30,7 +30,7 @@ module.exports = (TeachersContactModal = (function() {
     }
 
     constructor (options) {
-      if (options == null) { options = {}; }
+      if (!options) { options = {}; }
       super(options)
       this.isCodeCombat = utils.isCodeCombat;
       this.state = new State({

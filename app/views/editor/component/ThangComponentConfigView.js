@@ -163,8 +163,8 @@ ComponentConfigNode.initClass();
 
 class SolutionsNode extends TreemaArrayNode {
   constructor(...args) {
-    this.onClickFillDefaults = this.onClickFillDefaults.bind(this);
-    super(...args);
+    super(...args)
+    this.onClickFillDefaults = this.onClickFillDefaults.bind(this)
   }
 
   buildValueForDisplay(valEl, data) {

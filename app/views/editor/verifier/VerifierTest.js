@@ -33,7 +33,7 @@ module.exports = (VerifierTest = class VerifierTest extends CocoClass {
     this.options = options;
     // TODO: turn this into a Subview
     // TODO: listen to the progress report from Angel to show a simulation progress bar (maybe even out of the number of frames we actually know it'll take)
-    if (this.supermodel == null) { this.supermodel = new SuperModel(); }
+    if (!this.supermodel) { this.supermodel = new SuperModel(); }
 
     if (utils.getQueryVariable('dev') || this.options.devMode) {
       this.supermodel.shouldSaveBackups = model => // Make sure to load possibly changed things from localStorage.
