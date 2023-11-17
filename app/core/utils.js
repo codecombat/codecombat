@@ -16,7 +16,7 @@ const product = ((left = typeof COCO_PRODUCT !== 'undefined' && COCO_PRODUCT !==
 const isCodeCombat = product === 'codecombat';
 const isOzaria = !isCodeCombat;
 const _ = require('lodash');
-const useWebsocket = true;
+const useWebsocket = false;
 
 // Yuqiang: i don't know why we use same slugify from different source but let's keep it right now since change it sometimes trigger unbelievable bug
 if (isCodeCombat) {
