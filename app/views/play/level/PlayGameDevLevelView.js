@@ -40,12 +40,12 @@ module.exports = (PlayGameDevLevelView = (function() {
     static initClass() {
       this.prototype.id = 'play-game-dev-level-view';
       this.prototype.template = require('app/templates/play/level/play-game-dev-level-view');
-  
+
       this.prototype.subscriptions = {
         'god:new-world-created': 'onNewWorld',
         'god:streaming-world-updated': 'onStreamingWorldUpdated'
       };
-  
+
       this.prototype.events = {
         'click #edit-level-btn': 'onEditLevelButton',
         'click #play-btn': 'onClickPlayButton',
@@ -54,10 +54,10 @@ module.exports = (PlayGameDevLevelView = (function() {
       };
     }
 
-    initialize(options, sessionID) {
+    constructor (options, sessionID) {
+      super(options)
       this.options = options;
       this.sessionID = sessionID;
-      super.initialize(this.options);
 
       this.state = new State({
         loading: true,
