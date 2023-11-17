@@ -36,6 +36,9 @@ module.exports = wsBus = class WsBus extends CocoClass {
 
   init () {
     this.ws = websocket.setupBaseWS()
+    if (!this.ws) {
+      return
+    }
     this.ws.addEventListener('message', (msg) => {
       let data = msg.data
       // console.log('received: ', data)
