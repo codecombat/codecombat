@@ -792,36 +792,18 @@ module.exports = class User extends CocoModel
 
   getLevelChatExperimentValue: ->
     value = {true: 'beta', false: 'control', control: 'control', beta: 'beta'}[utils.getQueryVariable 'ai']
-    value ?= me.getExperimentValue('level-chat', null, 'beta')
     if not value? and utils.isOzaria
       # Don't include Ozaria for now
       value = 'control'
     if not value? and features?.china
       # Don't include China players for now
       value = 'control'
-    if userUtils.isInLibraryNetwork()
-      value = 'control'
-    if not value? and new Date(me.get('dateCreated')) < new Date('2023-07-20')
-      # Don't include users created before experiment start date
-      value = 'control'
-    if not value? and not /^en/.test me.get('preferredLanguage', true)
-      # Don't include non-English-speaking users before we fine-tune for other languages
-      value = 'control'
-    if not value? and me.get('hourOfCode')
-      # Don't include users coming in through Hour of Code
-      value = 'control'
     if not value? and me.get('role') is 'student'
       # Don't include student users (do include teachers, parents, home users, and anonymous)
       value = 'control'
     if not value?
-      probability = window.serverConfig?.experimentProbabilities?['level-chat']?.beta ? 0.02
-      if Math.random() < probability
-        value = 'beta'
-        valueProbability = probability
-      else
-        value = 'control'
-        valueProbability = 1 - probability
-      me.startExperiment('level-chat', value, valueProbability)
+      # No experiment any more, just on for everyone else
+      value = 'beta'
     value
 
   getHackStackExperimentValue: ->

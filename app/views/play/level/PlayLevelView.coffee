@@ -463,7 +463,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new HUDView {level: @level} unless @level.isType('web-dev')
     @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session, aceConfig: @classroomAceConfig
-    @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
+    @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel, aceConfig: @classroomAceConfig
     @insertSubView new SurfaceContextMenuView session: @session, level: @level
     @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isLadder()
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID, @classroomAceConfig}
