@@ -93,8 +93,8 @@ module.exports = (SpellTopBarView = (function() {
     }
 
     teacherOnline() {
-      console.log("what online?", __guard__(this.wsBus.wsInfos != null ? this.wsBus.wsInfos.friends : undefined, x => x[this.teacherID]), this.teacherID);
-      return __guard__(__guard__(__guard__(this.wsBus != null ? this.wsBus.wsInfos : undefined, x3 => x3.friends), x2 => x2[this.teacherID]), x1 => x1.online);
+      console.log('what online?', this.wsBus?.wsInfos?.friends?.[this.teacherID], this.teacherID)
+      return this.wsBus?.wsInfos?.friends?.[this.teacherID]?.online
     }
 
     onDisableControls(e) { return this.toggleControls(e, false); }
