@@ -726,17 +726,17 @@ module.exports = (User = (function () {
     logout (options = {}) {
       options.type = 'POST'
       options.url = '/auth/logout'
-      FB?.logout?.()
-      if (options.success == null) {
+      window?.FB?.logout?.()
+      if (!options.success) {
         options.success = () => {
           globalVar.application.tracker.identifyAfterNextPageLoad()
           return globalVar.application.tracker.resetIdentity().finally(() => {
             const location = _.result(globalVar.currentView, 'logoutRedirectURL')
             this.clearUserSpecificLocalStorage?.()
             if (location) {
-              return window.location = location
+              window.location = location
             } else {
-              return window.location.reload()
+              window.location.reload()
             }
           })
         }
