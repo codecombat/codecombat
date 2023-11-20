@@ -118,6 +118,7 @@ module.exports = (AdministerUserModal = (function() {
       this.esportsType = 'basic';
       this.utils = utils;
       options.models = [this.user];  // For ModelModal to generate a Treema of this user
+      this.models = [this.user]
       this.momentTimezone = momentTimezone;
     }
 
