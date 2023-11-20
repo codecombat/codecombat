@@ -1,7 +1,7 @@
 module.exports = nativeDescription: "Українська", englishDescription: "Ukrainian", translation:
 
 #  ozaria_home:
-#    subtitle: "Computer Science that Captivates"
+#    subtitle: "Комп'ютерна наука, яка захоплює" # {change}
 #    heading_subtitle: "A coding adventure for students and your turnkey solution for teaching Computer Science."
 #    item_list_p: "Try Chapter 1 for Free Today!"
 #    engaging_heading_corner: "A solution to Engage Students and Support Teachers"
@@ -12,7 +12,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    engaging_row3_h2: "Standards-Aligned Curriculum"
 #    engaging_row3_p: "Ozaria meets CSTA and ISTE standards, enabling you to teach with confidence as your students master core Computer Science concepts, develop computational thinking skills, and learn about the relevance of Computer Science to their daily lives."
 #    pd_blurb: "Learn the skills to effectively teach computer science with our self-directed, CSTA-accredited __pd__ course. Earn up to 40 credit hours any time, from any device."
-#    back_cta_1_a: "Try Chapter 1 for Free"
+#    back_cta_1_a: "Спробуй розділ 1 безкоштовно" # {change}
 #    speech_bubble_testimonial_1_blockquote: "Once again, your team has managed to accomplish the Holy Grail of Edutainment. In my opinion as a 26-year veteran Middle School educator, there is no more engaging resource for teaching coding."
 #    core_curriculum_header: "Core Computer Science Curriculum"
 #    core_curriculum_p: "We have developed our instructional model based on proven theories and extensive evidence around how students learn best."
@@ -20,30 +20,30 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    core_curriculum_carousel_item1_p: "At the start of every module, use our turnkey lesson slides to help your students make the connection between new Computer Science concepts and relevant examples from their daily lives."
 #    core_curriculum_carousel_item2_header: "Construct Own Meaning"
 #    core_curriculum_carousel_item2_p: "Next, guide your students in constructing a deeper understanding of new concepts through unplugged and discussion activities that are built into our lesson plans."
-#    core_curriculum_carousel_item3_header: "Learn New Concepts"
+#    core_curriculum_carousel_item3_header: "Вивчи нові поняття" # {change}
 #    core_curriculum_carousel_item3_p: "In the third stage of the learning cycle, your students will learn new concepts through expositional dialogue between characters in the Ozaria story. Voice-over, graphics, and animations make absorbing new information even more accessible and fun."
-#    core_curriculum_carousel_item4_header: "Apply New Knowledge"
+#    core_curriculum_carousel_item4_header: "Застосуй нові знання" # {change}
 #    core_curriculum_carousel_item4_p: "Next, your students will put what they learned into practice by typing real Python or JavaScript to solve a variety of challenges in scaffolded game levels. Built-in hints help students identify and fix bugs, leading to greater coding confidence."
 #    core_curriculum_carousel_item5_header: "Summative Project"
 #    core_curriculum_carousel_item5_p: "At the end of each chapter, your students will be challenged to showcase their new skills and express their creativity through summative projects in which they build their own games, stories, and more."
 #    core_curriculum_scope_sequence: "View Scope & Sequence"
 #    core_curriculum_sample_lesson_slides: "View Sample Lesson Slides"
-#    global_community_header: "Join Our Global Community"
-#    global_community_row1_p: "Learners"
-#    global_community_row2_p: "Lines of Code"
-#    global_community_row3_p: "Teachers"
-#    global_community_row4_p: "Countries"
+#    global_community_header: "Приєднайся до глобальної спільноти" # {change}
+#    global_community_row1_p: "Учні" # {change}
+#    global_community_row2_p: "Рядки коду" # {change}
+#    global_community_row3_p: "Вчителі" # {change}
+#    global_community_row4_p: "Країни" # {change}
 #    admin_dashboard_header: "Comprehensive Teacher & Admin Dashboards"
 #    admin_dashboard_p: "Designed with feedback from our community of over 140,000 educators, Ozaria addresses the challenges of teaching Computer Science by providing tools and resources that work."
 #    admin_dashboard_row1_p: "The intuitive Teacher Dashboard provides access to student-facing lesson plans, pacing guides, distance learning strategies, and other resources to support your needs."
 #    admin_dashboard_row2_p: "The Track Progress page allows you to monitor student progress on an ongoing basis, get valuable information on their performance, and immediately identify whether interventions are needed."
 #    admin_dashboard_row3_a: "Request a Quote"
-#    acodus_awards_a: "Try Chapter 1 for Free"
+#    acodus_awards_a: "Спробуй Розділ 1 безкоштовно" # {change}
 #    speech_bubble_testimonial_2_blockquote: "It’s the most accessible programming site I’ve seen as of yet. I appreciate the story that goes with Ozaria, as it aligns with a mission my students can empathize with. Frankly, I love it. In fact, I found myself playing for far longer than I wish to admit last weekend!"
 #    shareable_resources_header: "Shareable Resources"
 #    shareable_resources_p: "Share the resources below with teachers, administrators, and others involved in bringing Computer Science to your school or expanding offerings already in place."
 #    shareable_resources_a: "Download Flyer"
-#    back_cta_2_a: "Try Chapter 1 for Free"
+#    back_cta_2_a: "Спробуй Розділ 1 безкоштовно" # {change}
 #    faq_header: "Frequently Asked Questions"
 #    faq_row1_header: "How is Ozaria related to CodeCombat?"
 #    faq_row1_p: "Ozaria is the classroom-centered evolution of CodeCombat, one of the most popular coding games in history. We built Ozaria based off the insights gained from teaching over 20 million learners Python and JavaScript. Ozaria incorporates new pedagogical models, an immersive story-driven narrative, and was designed to be implemented in classrooms, for both in-person and remote learning settings."
@@ -59,7 +59,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    faq_row5_header: "Can I use Ozaria as my class’s main curriculum?"
 #    faq_row5_p: "Absolutely! Ozaria has everything you need to run a full Computer Science class, even if you don't have a Computer Science background. From lesson plans and solution guides to project rubrics and built-in standards alignment, it's all here."
 #    faq_row6_p_part1: "If you have any other questions, please "
-#    see_faq_prefix: "See more"
+#    see_faq_prefix: "Дізнатись більше" # {change}
 #    see_faq_link: "frequently asked questions in our help center"
 #    see_faq_suffix: "."
 #    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
@@ -67,9 +67,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    value_prop1_h2: "Inspire a deeper connection to learning"
 #    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
 #    value_prop2_h1: "Discover the Hero within Every Student"
-#    value_prop2_h2: "Build real skills through play"
+#    value_prop2_h2: "Розвинь реальні навички через гру" # {change}
 #    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
-#    value_prop3_h1: "Start Your Journey For Free"
+#    value_prop3_h1: "Розпочни свою подорож безкоштовно" # {change}
 #    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
 #    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
 #    student_creativity: "Unleash Student Creativity"
@@ -77,13 +77,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    teach_with_support: "Teach with Support"
 #    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
 #    request_demo: "Request a Demo"
-#    im_an_educator: "I'm an Educator"
-#    im_a_student: "I'm a Student"
+#    im_an_educator: "Я викладач" # {change}
+#    im_a_student: "Я студент" # {change}
 #    global_title: "Join Our Global Community of Learners and Educators"
-#    global_subtitle1: "Learners"
-#    global_subtitle2: "Lines of Code"
-#    global_subtitle3: "Teachers"
-#    global_subtitle4: "Countries"
+#    global_subtitle1: "Учні" # {change}
+#    global_subtitle2: "Рядки коду" # {change}
+#    global_subtitle3: "Вчителі" # {change}
+#    global_subtitle4: "Країни" # {change}
 #    sign_up: "Sign Up"
 #    individual_account_warning: "You are logged in as __name__, which is an individual account. Ozaria is for teacher and student accounts only; do you need to update your account?"
 #    learner_number: "12 Million"
@@ -110,26 +110,26 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     become_investor: "стати інвестором у CodeCombat"
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
-#    built_for_teachers_subtitle1: "Computer Science"
+#    built_for_teachers_subtitle1: "Комп'ютерні науки" # {change}
 #    built_for_teachers_subblurb1: "Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms."
 #    built_for_teachers_subtitle2: "Game Development"
 #    built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family."
 #    built_for_teachers_subtitle3: "Web Development"
 #    built_for_teachers_subblurb3: "Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates."
-#    century_skills_title: "21st Century Skills"
+#    century_skills_title: "Навички 21 століття" # {change}
 #    century_skills_blurb1: "Students Don't Just Level Up Their Hero, They Level Up Themselves"
 #    century_skills_quote1: "You mess up…so then you think about all of the possible ways to fix it, and then try again. I wouldn't be able to get here without trying hard."
     century_skills_subtitle1: "Критичне мислення"
 #    century_skills_subblurb1: "With coding puzzles that are naturally scaffolded into increasingly challenging levels, CodeCombat's programming game ensures kids are always practicing critical thinking."
 #    century_skills_quote2: "Everyone else was making mazes, so I thought, ‘capture the flag’ and that’s what I did."
-#    century_skills_subtitle2: "Creativity"
+#    century_skills_subtitle2: "Творчість" # {change}
 #    century_skills_subblurb2: "CodeCombat encourages students to showcase their creativity by building and sharing their own games and webpages."
 #    century_skills_quote3: "If I got stuck on a level. I would work with people around me until we were all able to figure it out."
-#    century_skills_subtitle3: "Collaboration"
+#    century_skills_subtitle3: "Співпраця" # {change}
 #    century_skills_subblurb3: "Throughout the game, there are opportunities for students to collaborate when they get stuck and to work together using our pair programming guide."
 #    century_skills_quote4: "I’ve always had aspirations of designing video games and learning how to code ... this is giving me a great starting point."
 #    century_skills_quote4_author: "Joey, 10th Grade"
-#    century_skills_subtitle4: "Communication"
+#    century_skills_subtitle4: "Спілкування" # {change}
 #    century_skills_subblurb4: "Coding requires kids to practice new forms of communication, including communicating with the computer itself and conveying their ideas using the most efficient code."
 #    classroom_in_box_title: "We Strive To:"
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
@@ -152,7 +152,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    featured_partners_blurb4: "Code.org Official Partner"
 #    featured_partners_blurb5: "CSforAll Official Member"
 #    featured_partners_blurb6: "Hour of Code Activity Partner"
-#    for_leaders_title: "For School Leaders"
+#    for_leaders_title: "Для керівників шкіл" # {change}
 #    for_leaders_blurb: "A Comprehensive, Standards-Aligned Computer Science Program"
 #    for_leaders_subtitle1: "Easy Implementation"
 #    for_leaders_subblurb1: "A web-based program that requires no IT support. Get started in under 5 minutes using Google or Clever Single Sign-On (SSO)."
