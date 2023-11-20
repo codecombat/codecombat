@@ -399,7 +399,7 @@ module.exports = (User = (function () {
     }
 
     ownsHero (heroOriginal) {
-      const needle = this.heroes().indexOf(heroOriginal) >= 0
+      const needle = heroOriginal
       return this.isInGodMode() || this.heroes().includes(needle)
     }
 
