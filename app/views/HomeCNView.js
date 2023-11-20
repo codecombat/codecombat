@@ -57,7 +57,7 @@ module.exports = (HomeCNView = (function() {
       if (me.isTeacher()) {
         this.trialRequests = new TrialRequests();
         this.trialRequests.fetchOwn();
-        return this.supermodel.loadCollection(this.trialRequests);
+        this.supermodel.loadCollection(this.trialRequests);
       }
     }
 
