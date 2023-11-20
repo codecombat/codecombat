@@ -29,7 +29,7 @@ module.exports = (RemoveStudentModal = (function() {
       this.courseInstances = options.courseInstances;
       const request = $.ajax(`/db/classroom/${this.classroom.id}/members/${this.user.id}/is-auto-revokable`);
       this.supermodel.trackRequest(request);
-      return request.then(data => {
+      request.then(data => {
         return this.willRevokeLicense = data.willRevokeLicense;
       }
       , function(err) {
