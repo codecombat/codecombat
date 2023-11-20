@@ -221,6 +221,7 @@ module.exports = (SpellPaletteView = (function() {
     }
 
     onResize(e) {
+      if (this.destroyed) return
       return (typeof this.updateMaxHeight === 'function' ? this.updateMaxHeight() : undefined);
     }
 
@@ -495,6 +496,7 @@ module.exports = (SpellPaletteView = (function() {
     }
 
     hide() {
+      if (this.destroyed) return
       this.$el.find('.left .selected').removeClass('selected');
       return this.$el.removeClass('open');
     }
