@@ -90,100 +90,100 @@ module.exports = (PlayGameDevLevelView = (function() {
       this.god = new God({ gameUIState: this.gameUIState, indefiniteLength: true });
 
       this.supermodel.registerModel(this.session);
-      return new Promise((accept,reject) => this.session.fetch({ cache: false }).then(accept, reject)).then(sessionData => {
+      new Promise((accept,reject) => this.session.fetch({ cache: false }).then(accept, reject)).then(sessionData => {
         return api.levels.getByOriginal(sessionData.level.original);
-    }).then(levelData => {
-        this.levelID = levelData.slug;
-        this.levelLoader = new LevelLoader({ supermodel: this.supermodel, levelID: this.levelID, sessionID: this.sessionID, observing: true, team: TEAM, courseID: this.courseID });
-        this.supermodel.setMaxProgress(1); // Hack, why are we setting this to 0.2 in LevelLoader?
-        this.listenTo(this.state, 'change', _.debounce(this.renderAllButCanvas));
-        this.updateDb = _.throttle(this.updateDb, 1000);
+      }).then(levelData => {
+          this.levelID = levelData.slug;
+          this.levelLoader = new LevelLoader({ supermodel: this.supermodel, levelID: this.levelID, sessionID: this.sessionID, observing: true, team: TEAM, courseID: this.courseID });
+          this.supermodel.setMaxProgress(1); // Hack, why are we setting this to 0.2 in LevelLoader?
+          this.listenTo(this.state, 'change', _.debounce(this.renderAllButCanvas));
+          this.updateDb = _.throttle(this.updateDb, 1000);
 
-        return this.levelLoader.loadWorldNecessities();
-      }).then(levelLoader => {
-        ({ level: this.level, session: this.session, world: this.world } = levelLoader);
+          return this.levelLoader.loadWorldNecessities();
+        }).then(levelLoader => {
+          ({ level: this.level, session: this.session, world: this.world } = levelLoader);
 
-        this.setMeta({
-          title: $.i18n.t('play.game_development_title', { level: this.level.get('name') })
+          this.setMeta({
+            title: $.i18n.t('play.game_development_title', { level: this.level.get('name') })
+          });
+
+          this.god.setLevel(this.level.serialize({supermodel: this.supermodel, session: this.session}));
+          this.god.setWorldClassMap(this.world.classMap);
+          this.goalManager = new GoalManager(this.world, this.level.get('goals'), this.team);
+          this.god.setGoalManager(this.goalManager);
+          this.god.angelsShare.firstWorld = false; // HACK
+          me.team = TEAM;
+          this.session.set('team', TEAM);
+          this.scriptManager = new ScriptManager({
+            scripts: this.world.scripts || [], view: this, session: this.session, levelID: this.level.get('slug')});
+          this.scriptManager.loadFromSession(); // Should we? TODO: Figure out how scripts work for game dev levels
+          this.howToPlayText = utils.i18n(this.level.attributes, 'studentPlayInstructions');
+          if (this.howToPlayText == null) { this.howToPlayText = $.i18n.t('play_game_dev_level.default_student_instructions'); }
+          this.howToPlayText = marked(this.howToPlayText, { sanitize: true });
+          this.renderAllButCanvas();
+          return this.supermodel.finishLoading();
+        }).then(supermodel => {
+          let left;
+          this.levelLoader.destroy();
+          this.levelLoader = null;
+          const webGLSurface = this.$('canvas#webgl-surface');
+          const normalSurface = this.$('canvas#normal-surface');
+          this.surface = new Surface(this.world, normalSurface, webGLSurface, {
+            thangTypes: this.supermodel.getModels(ThangType),
+            levelType: this.level.get('type', true),
+            gameUIState: this.gameUIState,
+            resizeStrategy: 'wrapper-size'
+          });
+          this.listenTo(this.surface, 'resize', this.onSurfaceResize);
+          const worldBounds = this.world.getBounds();
+          const bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}];
+          this.surface.camera.setBounds(bounds);
+          this.surface.camera.zoomTo({x: 0, y: 0}, 0.1, 0);
+          this.surface.setWorld(this.world);
+          this.scriptManager.initializeCamera();
+          this.renderSelectors('#info-col');
+          this.spells = aetherUtils.generateSpellsObject({level: this.level, levelSession: this.session});
+          const goalNames = (Array.from(this.goalManager.goals).map((goal) => utils.i18n(goal, 'name')));
+
+          const course = this.courseID ? new Course({_id: this.courseID}) : null;
+          const shareURL = urls.playDevLevel({level: this.level, session: this.session, course});
+
+          const creatorString = this.session.get('creatorName') ?
+            $.i18n.t('play_game_dev_level.created_by').replace('{{name}}', this.session.get('creatorName'))
+          :
+            $.i18n.t('play_game_dev_level.created_during_hoc');
+
+          this.state.set({
+            loading: false,
+            goalNames,
+            shareURL,
+            creatorString,
+            isOwner: me.id === this.session.get('creator')
+          });
+          this.eventProperties = {
+            category: 'Play GameDev Level',
+            courseID: this.courseID,
+            sessionID: this.session.id,
+            levelID: this.level.id,
+            levelSlug: this.level.get('slug')
+          };
+          if (window.tracker != null) {
+            window.tracker.trackEvent('Play GameDev Level - Load', this.eventProperties);
+          }
+          if (this.level.isType('game-dev')) { this.insertSubView(new GameDevTrackView({})); }
+          // Load a realtime, synchronous world to get uiText properties off the world object.
+          // We don't want the world to be playable immediately so calling updateStudentGoals
+          // replaces this world with the first frame of the world level.
+          const worldCreationOptions = {spells: this.spells, preload: false, realTime: true, justBegin: false, keyValueDb: (left = this.session.get('keyValueDb')) != null ? left : {}, synchronous: true};
+          this.god.createWorld(worldCreationOptions);
+          this.willUpdateFrontEnd = true;
+          if (utils.isOzaria) {
+            return this.subscribeShortcuts();
+          }
+        }).catch(e => {
+          if (e.stack) { throw e; }
+          return this.state.set('errorMessage', e.message);
         });
-
-        this.god.setLevel(this.level.serialize({supermodel: this.supermodel, session: this.session}));
-        this.god.setWorldClassMap(this.world.classMap);
-        this.goalManager = new GoalManager(this.world, this.level.get('goals'), this.team);
-        this.god.setGoalManager(this.goalManager);
-        this.god.angelsShare.firstWorld = false; // HACK
-        me.team = TEAM;
-        this.session.set('team', TEAM);
-        this.scriptManager = new ScriptManager({
-          scripts: this.world.scripts || [], view: this, session: this.session, levelID: this.level.get('slug')});
-        this.scriptManager.loadFromSession(); // Should we? TODO: Figure out how scripts work for game dev levels
-        this.howToPlayText = utils.i18n(this.level.attributes, 'studentPlayInstructions');
-        if (this.howToPlayText == null) { this.howToPlayText = $.i18n.t('play_game_dev_level.default_student_instructions'); }
-        this.howToPlayText = marked(this.howToPlayText, { sanitize: true });
-        this.renderAllButCanvas();
-        return this.supermodel.finishLoading();
-      }).then(supermodel => {
-        let left;
-        this.levelLoader.destroy();
-        this.levelLoader = null;
-        const webGLSurface = this.$('canvas#webgl-surface');
-        const normalSurface = this.$('canvas#normal-surface');
-        this.surface = new Surface(this.world, normalSurface, webGLSurface, {
-          thangTypes: this.supermodel.getModels(ThangType),
-          levelType: this.level.get('type', true),
-          gameUIState: this.gameUIState,
-          resizeStrategy: 'wrapper-size'
-        });
-        this.listenTo(this.surface, 'resize', this.onSurfaceResize);
-        const worldBounds = this.world.getBounds();
-        const bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}];
-        this.surface.camera.setBounds(bounds);
-        this.surface.camera.zoomTo({x: 0, y: 0}, 0.1, 0);
-        this.surface.setWorld(this.world);
-        this.scriptManager.initializeCamera();
-        this.renderSelectors('#info-col');
-        this.spells = aetherUtils.generateSpellsObject({level: this.level, levelSession: this.session});
-        const goalNames = (Array.from(this.goalManager.goals).map((goal) => utils.i18n(goal, 'name')));
-
-        const course = this.courseID ? new Course({_id: this.courseID}) : null;
-        const shareURL = urls.playDevLevel({level: this.level, session: this.session, course});
-
-        const creatorString = this.session.get('creatorName') ?
-          $.i18n.t('play_game_dev_level.created_by').replace('{{name}}', this.session.get('creatorName'))
-        :
-          $.i18n.t('play_game_dev_level.created_during_hoc');
-
-        this.state.set({
-          loading: false,
-          goalNames,
-          shareURL,
-          creatorString,
-          isOwner: me.id === this.session.get('creator')
-        });
-        this.eventProperties = {
-          category: 'Play GameDev Level',
-          courseID: this.courseID,
-          sessionID: this.session.id,
-          levelID: this.level.id,
-          levelSlug: this.level.get('slug')
-        };
-        if (window.tracker != null) {
-          window.tracker.trackEvent('Play GameDev Level - Load', this.eventProperties);
-        }
-        if (this.level.isType('game-dev')) { this.insertSubView(new GameDevTrackView({})); }
-        // Load a realtime, synchronous world to get uiText properties off the world object.
-        // We don't want the world to be playable immediately so calling updateStudentGoals
-        // replaces this world with the first frame of the world level.
-        const worldCreationOptions = {spells: this.spells, preload: false, realTime: true, justBegin: false, keyValueDb: (left = this.session.get('keyValueDb')) != null ? left : {}, synchronous: true};
-        this.god.createWorld(worldCreationOptions);
-        this.willUpdateFrontEnd = true;
-        if (utils.isOzaria) {
-          return this.subscribeShortcuts();
-        }
-      }).catch(e => {
-        if (e.stack) { throw e; }
-        return this.state.set('errorMessage', e.message);
-      });
     }
 
     getMeta() {

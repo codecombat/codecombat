@@ -264,7 +264,7 @@ module.exports = (CreateAccountModal = (function() {
         application.gplusHandler.loadAPI({ success: () => { if (!this.destroyed) { return this.signupState.set({ gplusEnabled: true }); } } });
       }
 
-      return this.once('hidden', function() {
+      this.once('hidden', function() {
         if (this.signupState.get('accountCreated') && !application.testing) {
           // ensure logged in state propagates through the entire app
           if (window.nextURL) {

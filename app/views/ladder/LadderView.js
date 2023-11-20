@@ -75,14 +75,14 @@ module.exports = (LadderView = (function() {
       let tournamentEndDate, tournamentStartDate;
       this.level = this.supermodel.loadModel(new Level({_id: this.levelID})).model;
       this.level.once('sync', level => {
-        return this.setMeta({ title: $.i18n.t('ladder.arena_title', { arena: level.get('name') }) });
+        this.setMeta({ title: $.i18n.t('ladder.arena_title', { arena: level.get('name') }) });
       });
 
       const onLoaded = () => {
         if (this.destroyed) { return; }
         if (this.level.get('description')) { this.levelDescription = marked(utils.i18n(this.level.attributes, 'description')).replace(/<img.*?>/, ''); }
         this.levelBanner = this.level.get('banner');
-        return this.teams = teamDataFromLevel(this.level);
+        this.teams = teamDataFromLevel(this.level);
       };
 
       if (this.level.loaded) { onLoaded(); } else { this.level.once('sync', onLoaded); }
@@ -113,7 +113,7 @@ module.exports = (LadderView = (function() {
 
       if (this.leagueType === 'clan') {
         utils.getAnonymizationStatus(this.leagueID, this.supermodel).then(anonymous => {
-          return this.anonymousPlayerName = anonymous;
+          this.anonymousPlayerName = anonymous;
         });
       }
 
