@@ -65,8 +65,11 @@ LevelSessionsCollection.initClass();
 
 module.exports = (LadderView = (function() {
   LadderView = class LadderView extends RootView {
-    constructor(...args) {
-      super(...args);
+    constructor (options, levelID, leagueType, leagueID) {
+      super(options)
+      this.levelID = levelID;
+      this.leagueType = leagueType;
+      this.leagueID = leagueID;
       this.refreshViews = this.refreshViews.bind(this);
 
       let tournamentEndDate, tournamentStartDate;
@@ -116,7 +119,7 @@ module.exports = (LadderView = (function() {
 
       if (this.tournamentId) {
         this.checkTournamentCloseInterval = setInterval(this.checkTournamentClose.bind(this), 3000);
-        return this.checkTournamentClose();
+        this.checkTournamentClose();
       }
     }
 
@@ -155,13 +158,6 @@ module.exports = (LadderView = (function() {
         {slug: 'hyperx', clanId: '60a4378875b540004c78f121', name: 'Team HyperX', clanSlug: 'hyperx'},
         {slug: 'derbezt', clanId: '601351bb4b79b4013e198fbe', name: 'Team DerBezt', clanSlug: 'team-derbezt'}
       ];
-    }
-
-    initialize(options, levelID, leagueType, leagueID) {
-      this.levelID = levelID;
-      this.leagueType = leagueType;
-      this.leagueID = leagueID;
-      super.initialize(options);
     }
 
     calcTimeOffset() {
