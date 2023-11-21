@@ -15,7 +15,8 @@ module.exports = {
     me: 'readonly',
     noty: 'readonly',
     features: 'readonly',
-    gapi: 'readonly'
+    gapi: 'readonly',
+    _: 'readonly'
   },
 
   env: {

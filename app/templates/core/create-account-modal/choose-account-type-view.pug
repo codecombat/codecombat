@@ -13,13 +13,13 @@ if view.utils.isCodeCombat
       .alert.alert-info.text-center(dir="rtl")
         span תלמיד מערכת החינוך?
         a(href="https://pub.skillz-edu.org/portal/playground")  התחבר דרך פורטל משרד החינוך
-  
-  
+
+
     if me.showIndividualRegister()
       .row.path-cards
         +button-hello-mivan("teacher-path-button","new_home.im_an_educator", "new_home.im_an_educator_description", '[alt]new_home.for_educators', '/images/pages/account/create/educator.png')
         +button-hello-mivan("parent-path-button","new_home.im_a_parent", "new_home.im_a_parent_description", '[alt]new_home.for_parents', '/images/pages/account/create/parent.png')
-  
+
       .row.path-cards
         +button-hello-mivan("student-path-button","new_home.im_a_student", "new_home.im_a_student_description", '[alt]new_home.for_students', '/images/pages/account/create/student.png')
         +button-hello-mivan("individual-path-button","new_home.im_an_individual", "new_home.im_an_individual_description", '[alt]new_home.for_individuals', '/images/pages/account/create/individual.png')
@@ -27,26 +27,25 @@ if view.utils.isCodeCombat
       .row.path-cards
         +button-hello-mivan("teacher-path-button","new_home.im_an_educator", "new_home.im_an_educator_description", '[alt]new_home.for_educators', '/images/pages/account/create/educator.png')
         +button-hello-mivan("student-path-button","new_home.im_a_student", "new_home.im_a_student_description", '[alt]new_home.for_students', '/images/pages/account/create/student.png')
-  
+
 else
   form.modal-body.choose-account-type
-    - console.log('use in ozar ? -- choose-account-type-view.ozar.pug')
     .row
       p.medium-gray.constrain-text-width(data-i18n="signup.educators_create_account")
     .row
       button.btn.btn-lg.teacher-path-button.ozaria-primary-button(data-i18n="signup.signup_as_teacher" type="button")
-  
+
     .row.or-row
       .line
       p.or(data-i18n="login.or")
       .line
-  
+
     .form-group
       p.medium-gray.constrain-text-width(data-i18n="signup.request_class_code")
-  
+
       label.control-label(for="classCode")
         span(data-i18n="play.anon_signup_enter_code")
       .class-code-input-group.form-group
         input.class-code-input(name="classCode" value=view.signupState.get('classCode') spellcheck="false" required)
-  
+
       button.btn.btn-lg.student-path-button.ozaria-primary-button(type="submit" data-i18n="signup.signup_as_student")

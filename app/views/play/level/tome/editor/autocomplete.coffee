@@ -24,6 +24,7 @@ defaults =
 
 # TODO: Create list of manual test cases
 
+# TODO: after migration to JS, when going from 1 level to next after completion, it fails with "Cannot call a class as a function". After migration, fix it.
 module.exports = class Autocomplete
   Tokenizer = ''
   BackgroundTokenizer = ''
