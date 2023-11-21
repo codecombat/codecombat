@@ -106,6 +106,7 @@
           <div class="col-md-12">
             <div class="video-container">
               <base-video :youtube-props="{ videoId: youtubeId, fitParent: true }"
+                default-type="cloudflare"
                 :cloudflare-props="{ videoCloudflareId: videoId, thumbnailUrl }" />
             </div>
           </div>
@@ -208,7 +209,7 @@ export default {
       interpolation: { escapeValue: false }
     }
 
-    const videoId = 'a4a795197e1e6b4c75149c7ff297d2fa'
+    const videoId = '282f5318fdb571dd3e02cd753d84ea07'
     const youtubeId = 'ZhfFr0TWqjo'
 
     return {
@@ -229,7 +230,7 @@ export default {
       i18nData,
       videoId,
       youtubeId,
-      thumbnailUrl: `https://videodelivery.net/${videoId}/thumbnails/thumbnail.jpg?time=3.000s`
+      thumbnailUrl: `https://videodelivery.net/${videoId}/thumbnails/thumbnail.jpg?time=0.000s`
     }
   },
   computed: {
