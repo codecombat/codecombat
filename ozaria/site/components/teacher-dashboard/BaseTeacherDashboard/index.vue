@@ -13,6 +13,8 @@ import TitleBar from '../common/TitleBar'
 import LoadingBar from 'ozaria/site/components/common/LoadingBar'
 import { COMPONENT_NAMES } from '../common/constants.js'
 
+import utils from 'core/utils'
+
 import storage from 'core/storage'
 
 import { mapMutations, mapGetters } from 'vuex'
@@ -92,13 +94,13 @@ export default {
       return this.componentName === COMPONENT_NAMES.MY_CLASSES_ALL
     },
 
-    showClassInfo () {
-      return this.componentName === COMPONENT_NAMES.MY_CLASSES_SINGLE || this.componentName === COMPONENT_NAMES.STUDENT_PROJECTS
+      showClassInfo () {
+        return this.componentName === COMPONENT_NAMES.MY_CLASSES_SINGLE || this.componentName === COMPONENT_NAMES.STUDENT_PROJECTS || this.componentName === COMPONENT_NAMES.STUDENT_ASSESSMENTS
+      },
+      allClassrooms () {
+        return [...this.activeClassrooms, ...this.sharedClassrooms]
+      }
     },
-    allClassrooms () {
-      return [...this.activeClassrooms, ...this.sharedClassrooms]
-    }
-  },
 
   watch: {
     $route (to, from) {
@@ -121,11 +123,11 @@ export default {
     }
   },
 
-  metaInfo () {
-    return {
-      title: 'Ozaria - Teacher Dashboard'
-    }
-  },
+    metaInfo () {
+      return {
+        title: $.i18n.t(`nav.${utils.getProduct()}_teacher_dashboard`)
+      }
+    },
 
   beforeRouteUpdate (to, from, next) {
     // Ensures we close curriculum guide when navigating between pages in the

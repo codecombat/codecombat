@@ -65,6 +65,7 @@ export default {
     },
 
     addContentForClassroom: (state, { classroomId, contentData }) => {
+      // debugger
       Vue.set(state.gameContent.byClassroom, classroomId, contentData)
     },
 
@@ -99,6 +100,7 @@ export default {
       return classroomsApi.fetchGameContent(classroomId, { data: { project: projectData } })
         .then(res => {
           if (res) {
+            // debugger
             commit('addContentForClassroom', {
               classroomId,
               contentData: res

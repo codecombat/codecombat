@@ -1,7 +1,9 @@
 doctype html
 block begin
-html(lang='en')
+html(lang='en' mivanmar='belavan')
   head
+    - debugger
+    - console.log("NAGY A BAJ")
     - var product = me.getProduct()
     - var productShort = product == 'codecombat' ? 'coco' : 'ozar'
     - var productCap = product == 'codecombat' ? 'CodeCombat' : 'Ozaria'
@@ -148,8 +150,24 @@ html(lang='en')
       script.
         DD_LOGS.init({
           clientToken: 'puba9a669c3117915d99f1f47970d1f49ff',
-          forwardErrorsToLogs: true
+          forwardErrorsToLogs: true // default value
         });
+
+    script(src="https://www.datadoghq-browser-agent.com/datadog-rum.js")
+      script.
+        debugger
+        alert('DD_RUM')
+        console.log('DD_RUM')
+        window.DD_RUM && window.DD_RUM.init({
+          clientToken: 'puba9a669c3117915d99f1f47970d1f49ff',
+          applicationId: 'client',
+          site: me.getProduct(),
+          service: 'frontend',
+          // Specify a version number to identify the deployed version of your application in Datadog 
+          version: '1.0'
+        });
+        console.log('DD_RUM2')
+              
 
     // Webpack-inserted CSS:
     //- (will be inserted at runtime)
@@ -157,11 +175,13 @@ html(lang='en')
     block setup
     block script-start
       script.
-        //- This runs for pages without specific static templates
+        //- T his runs for pages without specific static templates
         //- Those pages with static templates run this themselves (in mock.static.pug),
         //-   after setting window.alreadyLoadedView
         function onLoad() {
           try {
+              debugger
+              console.log('ez a x layout.static.pug')
               // IE10 warning
               var htmlElement = document.querySelector("html");
               if (htmlElement) {
@@ -175,7 +195,7 @@ html(lang='en')
               FastClick.attach(document.body);
           } catch (error) { }
         }
-  body.clearfix(onload='onLoad();')
-    #fb-root
+  body.clearfix(onload='onLoad();').hellokamivan
+    #fb-root.gyere1
     block content
-    #modal-wrapper.modal-content.hide
+    #modal-wrapper.modal-content.hide.gyere2

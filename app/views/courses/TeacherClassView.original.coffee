@@ -193,8 +193,10 @@ module.exports = class TeacherClassView extends RootView
       @debouncedRender?()
 
   fetchSessions: ->
+    debugger
     Promise.all(@classroom.sessions.fetchForAllClassroomMembers(@classroom))
     .then =>
+      debugger
       return if @destroyed
       @removeDeletedStudents() # TODO: Move this to mediator listeners?
       @calculateProgressAndLevels()
@@ -316,6 +318,7 @@ module.exports = class TeacherClassView extends RootView
           courseInstance = courseInstance.toJSON()
       students = @state.get('students').toJSON()
 
+      debugger
       propsData = {
         students
         levels,
@@ -325,6 +328,7 @@ module.exports = class TeacherClassView extends RootView
         classroom: @classroom.toJSON(),
         readOnly: @state.get('readOnly')
       }
+      console.log("IIIIIIIII ", propsData)
       new TeacherClassAssessmentsTable({
         el: @$el.find('.assessments-table')[0]
         propsData
@@ -368,6 +372,7 @@ module.exports = class TeacherClassView extends RootView
     latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, @students, userLevelCompletedMap)
 
     classroomsStub = new Classrooms([ @classroom ])
+    debugger
     progressData = helper.calculateAllProgress(classroomsStub, @courses, @courseInstances, @students)
     # conceptData: helper.calculateConceptsCovered(classroomsStub, @courses, @campaigns, @courseInstances, @students)
 
@@ -393,6 +398,11 @@ module.exports = class TeacherClassView extends RootView
     @courseAssessmentPairs = []
     for course in @courses.models
       assessmentLevels = @classroom.getLevels({courseID: course.id, assessmentLevels: true}).models
+
+      levelOs = @levels.models.map((i) => i.get('original'))
+      assessmentOs = assessmentLevels.map((i) => i.get('original')) 
+      console.log('AAAPC', course.id,{levelOs, assessmentOs})
+
       fullLevels = _.filter(@levels.models, (l) => l.get('original') in _.map(assessmentLevels, (l2)=>l2.get('original')))
       @courseAssessmentPairs.push([course, fullLevels])
     return @courseAssessmentPairs

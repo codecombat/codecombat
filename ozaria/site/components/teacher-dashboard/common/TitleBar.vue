@@ -6,6 +6,8 @@ import NavSelectUnit from '../common/NavSelectUnit'
 import ClassInfoRow from './ClassInfoRow'
 import moment from 'moment'
 import { getDisplayPermission } from '../../../common/utils'
+const Classroom = require('models/Classroom')
+
 
 import { mapActions, mapGetters } from 'vuex'
 
@@ -45,10 +47,19 @@ export default {
     }
   },
 
-  computed: {
-    ...mapGetters({
-      activeClassrooms: 'teacherDashboard/getActiveClassrooms'
-    }),
+    computed: {
+      ...mapGetters({
+        activeClassrooms: 'teacherDashboard/getActiveClassrooms',
+      }),
+
+    filteredCourses () {
+      if (this.$route.path.startsWith('/teachers/assessments')) {
+        const classroom = new Classroom(this.classroom)
+        return this.courses.filter(course => classroom.hasAssessments({ courseId: course._id }))
+      } else {
+        return this.courses
+      }
+    },
 
     classroomCreationDate () {
       if ((this.classroom || {})._id) {
@@ -159,7 +170,7 @@ export default {
       <nav-select-unit
         v-if="showClassInfo"
         class="btn-margins-height"
-        :courses="courses"
+        :courses="filteredCourses"
         :selected-course-id="selectedCourseId"
         @change-course=" (courseId) => $emit('change-course', courseId)"
       />
