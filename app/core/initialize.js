@@ -26,6 +26,8 @@ const VueMeta = require('vue-meta');
 const { VueMaskDirective } = require('v-mask');
 const VueAsyncComputed = require('vue-async-computed');
 
+const { datadogRum } = require('@datadog/browser-rum')
+
 Vue.use(VueRouter.default);
 Vue.use(Vuex.default);
 Vue.use(VueMoment.default);
@@ -38,6 +40,32 @@ if (utils.isOzaria) {
   Vue.use(VueAsyncComputed);
   Vue.directive('mask', VueMaskDirective);
 }
+
+datadogRum.init({
+  ...(utils.isCodeCombat ? {
+    applicationId: '0fe8c7ec-5984-4191-b5f3-666fa6617477',
+    clientToken: 'pubb0ab7e396292808398f9cccbd7cdde42',
+    service: 'coco-client'
+  } : {
+    applicationId: 'be527613-fee9-4a9d-a0b7-7bf28c35946f',
+    clientToken: 'pub1d3aa1bffdc982bc39deba66302a4f31',
+    service: 'ozaria-client'
+  }),
+  site: 'datadoghq.com',
+  env: utils.shaTag === 'dev' ? 'development' : 'production',
+  version: utils.shaTag, // we can use it as version for now. or do we have a version somewhere?
+  sessionSampleRate: 100,
+  sessionReplaySampleRate: 20,
+  trackUserInteractions: true,
+  trackResources: true,
+  trackLongTasks: true,
+  defaultPrivacyLevel: 'mask-user-input',
+  allowedTracingUrls: [
+    /https:\/\/.*\.codecombat\.com/,
+    /https:\/\/.*\.ozaria\.com/,
+    ...(utils.shaTag === 'dev' ? [/localhost/] : [])
+  ]
+})
 
 const channelSchemas = {
   'auth': require('schemas/subscriptions/auth'),
