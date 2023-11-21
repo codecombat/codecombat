@@ -1,10 +1,6 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 /*
  * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
  * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
  * DS104: Avoid inline assignments
  * DS204: Change includes calls to have a more natural evaluation order
  * DS206: Consider reworking classes to avoid initClass
@@ -27,21 +23,21 @@ module.exports = (HeroSelectView = (function() {
     static initClass() {
       this.prototype.id = 'hero-select-view';
       this.prototype.template = template;
-  
+
       this.prototype.events =
         {'click .hero-option': 'onClickHeroOption'};
     }
 
-    initialize(options) {
+    constructor (options = {}) {
+      super(options)
       let currentHeroOriginal, defaultHeroOriginal;
-      if (options == null) { options = {}; }
       this.options = options;
       if (utils.isCodeCombat) {
-        defaultHeroOriginal = ThangTypeConstants.heroes.captain;
-        currentHeroOriginal = __guard__(me.get('heroConfig'), x => x.thangType) || defaultHeroOriginal;
+        defaultHeroOriginal = ThangTypeConstants.heroes.captain
+        currentHeroOriginal = me.get('heroConfig')?.thangType || defaultHeroOriginal
       } else {
-        defaultHeroOriginal = ThangTypeConstants.ozariaHeroes['hero-b'];
-        currentHeroOriginal = __guard__(me.get('ozariaUserOptions'), x1 => x1.isometricThangTypeOriginal) || defaultHeroOriginal;
+        defaultHeroOriginal = ThangTypeConstants.ozariaHeroes['hero-b']
+        currentHeroOriginal = me.get('ozariaUserOptions')?.isometricThangTypeOriginal || defaultHeroOriginal
       }
 
       this.debouncedRender = _.debounce(this.render, 0);
@@ -58,8 +54,8 @@ module.exports = (HeroSelectView = (function() {
             let clanHero;
             if (hero.ozaria) { return false; }
             if (clanHero = _.find(utils.clanHeroes, {thangTypeOriginal: hero.original})) {
-              let left, needle;
-              if ((needle = clanHero.clanId, !Array.from(((left = me.get('clans')) != null ? left : [])).includes(needle))) { return false; }
+              let left, needle
+              if ((needle = clanHero.clanId, !(((left = me.get('clans')) != null ? left : [])).includes(needle))) { return false }
             }
             if (hero.original === ThangTypeConstants.heroes['code-ninja']) {
               if (window.location.host !== 'coco.code.ninja') { return false; }
@@ -78,7 +74,7 @@ module.exports = (HeroSelectView = (function() {
         });
       }
 
-      return this.listenTo(this.state, 'all', function() { return this.debouncedRender(); });
+      this.listenTo(this.state, 'all', function () { return this.debouncedRender() })
     }
       // @listenTo @heroes, 'all', -> @debouncedRender()
 
@@ -107,10 +103,8 @@ module.exports = (HeroSelectView = (function() {
         let event = 'Hero selected';
         event += me.isStudent() ? ' student' : ' teacher';
         if (this.options.createAccount) { event += ' create account'; }
-        const category = me.isStudent() ? 'Students' : 'Teachers';
-        if (window.tracker != null) {
-          window.tracker.trackEvent(event, {category, heroOriginal});
-        }
+        const category = me.isStudent() ? 'Students' : 'Teachers'
+        window.tracker?.trackEvent(event, { category, heroOriginal })
         return this.trigger('hero-select:success', {attributes: hero});
     });
     }
@@ -118,7 +112,3 @@ module.exports = (HeroSelectView = (function() {
   HeroSelectView.initClass();
   return HeroSelectView;
 })());
-
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}
