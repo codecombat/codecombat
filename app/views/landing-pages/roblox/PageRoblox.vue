@@ -230,7 +230,7 @@ export default {
       i18nData,
       videoId,
       youtubeId,
-      thumbnailUrl: `https://videodelivery.net/${videoId}/thumbnails/thumbnail.jpg?time=0.000s`
+      thumbnailUrl: `https://videodelivery.net/${videoId}/thumbnails/thumbnail.jpg?time=11.000s`
     }
   },
   computed: {
