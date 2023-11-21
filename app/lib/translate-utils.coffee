@@ -1,4 +1,3 @@
-{ commentStarts } = require 'core/utils'
 module.exports.translateJS = (jsCode, language='cpp', fullCode=true) ->
   return translateJSBrackets(jsCode, language, fullCode) if language in ['cpp', 'java']
   return translateJSWhitespace(jsCode, language) if language in ['python', 'lua', 'coffeescript']
@@ -366,3 +365,14 @@ translateJSWhitespace = (jsCode, language='lua') ->
   lines = s.split '\n'
   output = (lines.map (line) -> line.slice 1).join('\n')  # Remove leading convenience whitespace that we added
   output
+
+# Duplicated again from core/utils because of import issues from server
+commentStarts =
+  javascript: '//'
+  python: '#'
+  coffeescript: '#'
+  lua: '--'
+  java: '//'
+  cpp: '//'
+  html: '<!--'
+  css: '/\\*'
