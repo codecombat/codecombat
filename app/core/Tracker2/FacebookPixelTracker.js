@@ -89,12 +89,11 @@ export default class FacebookPixelTracker extends BaseTracker {
   }
 
   mapToFbProperties (fbEvent, properties) {
-    if (!properties || Object.keys(properties).length === 0)
-      return {}
+    if (!properties || Object.keys(properties).length === 0) { return {} }
     let result = {}
     if (fbEvent === SUBSCRIBE_EVENT) {
       const { purchaseAmount, predictedLtv, currency } = properties
-      result['predicted_ltv'] = predictedLtv
+      result.predicted_ltv = predictedLtv
       result.value = purchaseAmount
       result.currency = currency
     } else if (fbEvent === PURCHASE_EVENT) {

@@ -19,7 +19,15 @@ module.exports = {
     _: 'readonly',
     Backbone: 'readonly',
     jasmine: 'readonly',
-    zE: 'readonly'
+    zE: 'readonly',
+    ga: 'readonly',
+    moment: 'readonly',
+    webkit: 'readonly',
+    Vuex: 'readonly',
+    d3: 'readonly',
+    algoliasearch: 'readonly',
+    FB: 'readonly',
+    lscache: 'readonly'
   },
 
   env: {

@@ -6,30 +6,31 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const fetchJson = require('./fetch-json');
+const fetchJson = require('./fetch-json')
 
 module.exports = {
-  post(trialRequest, options) {
+  post (trialRequest, options) {
     return fetchJson('/db/trial.request', _.assign({}, options, {
       method: 'POST',
       json: trialRequest
-    }));
+    }))
   },
 
-  getOwn(options) {
-    if (options == null) { options = {}; }
-    if (options.data == null) { options.data = {}; }
-    options.data.applicant = me.id;
-    return fetchJson('/db/trial.request', options);
+  getOwn (options) {
+    if (options == null) { options = {} }
+    if (options.data == null) { options.data = {} }
+    options.data.applicant = me.id
+    return fetchJson('/db/trial.request', options)
   },
 
-  update(trialRequest, options) {
+  update (trialRequest, options) {
     if (!trialRequest._id) {
-      return Promise.reject('Trial request id missing');
+      // eslint-disable-next-line prefer-promise-reject-errors
+      return Promise.reject('Trial request id missing')
     }
     return fetchJson(`/db/trial.request/update/${trialRequest._id}`, _.assign({}, options, {
       method: 'PUT',
       json: trialRequest
-    }));
+    }))
   }
-};
+}

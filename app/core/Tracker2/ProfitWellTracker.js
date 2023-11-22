@@ -1,6 +1,6 @@
 import BaseTracker from './BaseTracker'
 
-export function loadProfitWell() {
+export function loadProfitWell () {
   /* eslint-disable */
   const token = '89ed4df33a1bbc8816793a66941361ed'
   const script = document.createElement('script')

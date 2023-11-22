@@ -50,7 +50,7 @@ export default {
           const classroomCourseLevelsData = await api.classrooms.getCourseLevels({ classroomID: classroomId, courseID: courseId })
 
           const classroomLevelMap = {}
-          for (let level of classroomCourseLevels) {
+          for (const level of classroomCourseLevels) {
             classroomLevelMap[level.original] = level
             // Default the campaignPage value as 1 in classroom levels for backward compatibility
             if (!classroomLevelMap[level.original].campaignPage) {
@@ -58,9 +58,9 @@ export default {
             }
           }
 
-          let courseLevelsData = {}
-          for (let level of classroomCourseLevelsData) {
-            let original = level.original
+          const courseLevelsData = {}
+          for (const level of classroomCourseLevelsData) {
+            const original = level.original
             if (existingCampaignLevels[original]) {
               courseLevelsData[original] = existingCampaignLevels[original]
             } else {

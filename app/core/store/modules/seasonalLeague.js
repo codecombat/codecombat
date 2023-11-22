@@ -1,6 +1,8 @@
-import { getLeaderboard, getMyRank, getLeaderboardPlayerCount,
+import {
+  getLeaderboard, getMyRank, getLeaderboardPlayerCount,
   getCodePointsLeaderboard, getCodePointsRankForUser,
-  getCodePointsPlayerCount } from '../../api/leaderboard'
+  getCodePointsPlayerCount
+} from '../../api/leaderboard'
 import { fetchMySessions } from '../../api/level-sessions'
 import { activeArenas } from '../../utils'
 import { getUsableArenas } from '../../api/arenas'
@@ -108,7 +110,7 @@ export default {
     },
 
     setCodePointsPlayerCount (state, playerCount) {
-      Vue.set(state.codePointsRankingsForLeague, 'playerCount', playerCount);
+      Vue.set(state.codePointsRankingsForLeague, 'playerCount', playerCount)
     },
 
     setMyCodePointsRank (state, myCodePointsRank) {
@@ -429,7 +431,7 @@ export default {
         const score = (((teamSession.leagues || []).find(({ leagueID }) => leagueID === leagueId) || {}).stats || {}).totalScore
 
         if (score !== undefined) {
-          const [ playersAbove, playersBelow, myRank ] = await Promise.all([
+          const [playersAbove, playersBelow, myRank] = await Promise.all([
             getLeaderboard(currentRegularArenaOriginal, { order: 1, scoreOffset: score, limit: 4, 'leagues.leagueID': leagueId }),
             getLeaderboard(currentRegularArenaOriginal, { order: -1, scoreOffset: score, limit: 4, 'leagues.leagueID': leagueId }),
             getMyRank(currentRegularArenaOriginal, teamSession._id, {
@@ -461,7 +463,7 @@ export default {
 
       await Promise.all(awaitPromises)
 
-      commit('setLeagueRanking', { leagueId: leagueId, ranking: leagueRankingInfo })
+      commit('setLeagueRanking', { leagueId, ranking: leagueRankingInfo })
     },
 
     async loadChampionshipClanRequiredData ({ commit }, { leagueId }) {
@@ -506,7 +508,7 @@ export default {
         const score = (((teamSession.leagues || []).find(({ leagueID }) => leagueID === leagueId) || {}).stats || {}).totalScore
 
         if (score !== undefined) {
-          const [ playersAbove, playersBelow, myRank ] = await Promise.all([
+          const [playersAbove, playersBelow, myRank] = await Promise.all([
             getLeaderboard(currentChampionshipArenaOriginal, { order: 1, scoreOffset: score, limit: 4, 'leagues.leagueID': leagueId }),
             getLeaderboard(currentChampionshipArenaOriginal, { order: -1, scoreOffset: score, limit: 4, 'leagues.leagueID': leagueId }),
             getMyRank(currentChampionshipArenaOriginal, teamSession._id, {
@@ -538,7 +540,7 @@ export default {
 
       await Promise.all(awaitPromises)
 
-      commit('setChampionshipLeagueRanking', { leagueId: leagueId, ranking: leagueRankingInfo })
+      commit('setChampionshipLeagueRanking', { leagueId, ranking: leagueRankingInfo })
     },
 
     async loadCodePointsRequiredData ({ commit }, { leagueId }) {
@@ -557,7 +559,7 @@ export default {
       })
 
       if (me.get('stats') && me.get('stats').codePoints) {
-        const [ playersAbove, playersBelow, myRank ] = await Promise.all([
+        const [playersAbove, playersBelow, myRank] = await Promise.all([
           getCodePointsLeaderboard(leagueId, { order: 1, scoreOffset: me.get('stats').codePoints, limit: 4 }),
           getCodePointsLeaderboard(leagueId, { order: -1, scoreOffset: me.get('stats').codePoints, limit: 4 }),
           getCodePointsRankForUser(leagueId, me.id, { scoreOffset: me.get('stats').codePoints })
@@ -599,7 +601,7 @@ export default {
 
       await topCodePointsRankingPromise
 
-      commit('setCodePointsRanking', { leagueId: leagueId, ranking: codePointsRankingInfo })
+      commit('setCodePointsRanking', { leagueId, ranking: codePointsRankingInfo })
 
       getCodePointsPlayerCount(leagueId, {})
         .then((playerCount) => {
@@ -615,7 +617,7 @@ export default {
         scoreOffset: 1000000,
         limit: 20,
         team: 'humans',
-        '_': Math.floor(Math.random() * 100000000)
+        _: Math.floor(Math.random() * 100000000)
       })
       commit('setGlobalRanking', ranking)
     },
@@ -627,7 +629,7 @@ export default {
         scoreOffset: 1000000,
         limit: 20,
         team: 'humans',
-        '_': Math.floor(Math.random() * 100000000)
+        _: Math.floor(Math.random() * 100000000)
       })
       commit('setChampionshipGlobalRanking', ranking)
     },

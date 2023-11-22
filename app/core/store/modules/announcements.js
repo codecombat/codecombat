@@ -1,4 +1,3 @@
-const fetchJson = require('../../api/fetch-json')
 import { getNew, getList, read } from '../../api/announcements'
 const { ANNOUNCEMENT_LIMIT } = require('../../constants')
 
@@ -23,25 +22,23 @@ export default {
     setAnnouncementModalOpen (state, mode) {
       state.announcementModalOpen = mode
     },
-    setAnnouncements (state, {anns, append}) {
-      if(append) {
+    setAnnouncements (state, { anns, append }) {
+      if (append) {
         anns.forEach((ann) => {
-          if(!_.find(state.announcements, {_id: ann._id})) {
+          if (!_.find(state.announcements, { _id: ann._id })) {
             state.announcements.push(ann)
           }
         })
-      }
-      else
-        state.announcements = [...anns]
+      } else { state.announcements = [...anns] }
     },
     setDisplay (state, ann) {
       state.display = ann
     },
     readAnnouncement (state, id) {
       state.announcements = state.announcements.map((ann) => {
-        if(ann._id === id) {
-          if(!ann.read) {
-            state.unread -= 1;
+        if (ann._id === id) {
+          if (!ann.read) {
+            state.unread -= 1
           }
           ann.read = true
         }
@@ -60,20 +57,20 @@ export default {
       commit('setDisplay', announcement)
       commit('setAnnouncementModalOpen', true)
     },
-    closeAnnouncementModal ({commit}) {
+    closeAnnouncementModal ({ commit }) {
       commit('setAnnouncementModalOpen', false)
     },
-    startInterval ({commit, dispatch}, fromNav) {
-      let interval = setInterval(() => { dispatch('checkAnnouncements', fromNav) }, 600000) // every 10 mins
+    startInterval ({ commit, dispatch }, fromNav) {
+      const interval = setInterval(() => { dispatch('checkAnnouncements', fromNav) }, 600000) // every 10 mins
       commit('setAnnouncementInterval', interval)
     },
     checkAnnouncements ({ commit }, fromNav) {
-      if(me.isAnonymous()) {
+      if (me.isAnonymous()) {
         return
       }
       getNew().then((data) => {
         commit('setUnread', data.unread)
-        if(data.sequence) {
+        if (data.sequence) {
           commit('setDisplay', data.sequence)
           commit('setAnnouncementModalOpen', true)
           commit('setShowMoreButton', fromNav)
@@ -83,8 +80,7 @@ export default {
     getAnnouncements ({ commit }, options) {
       let append = false
       commit('setShowMoreButton', false)
-      if(options)
-        append = options.append
+      if (options) { append = options.append }
       getList(options).then((data) => {
         commit('setAnnouncements', { anns: data.slice(0, ANNOUNCEMENT_LIMIT - 1), append })
         if (data.length < ANNOUNCEMENT_LIMIT) {
@@ -92,8 +88,8 @@ export default {
         }
       })
     },
-    readAnnouncement ({commit}, id) {
-      read({announcement: id}).then((data) => {
+    readAnnouncement ({ commit }, id) {
+      read({ announcement: id }).then((data) => {
         commit('readAnnouncement', id)
       })
     }
