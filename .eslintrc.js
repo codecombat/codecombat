@@ -18,7 +18,8 @@ module.exports = {
     gapi: 'readonly',
     _: 'readonly',
     Backbone: 'readonly',
-    jasmine: 'readonly'
+    jasmine: 'readonly',
+    zE: 'readonly'
   },
 
   env: {

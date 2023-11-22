@@ -1,4 +1,4 @@
-<script>
+<script> // eslint-disable-line vue/multi-word-component-names
 import {
   cocoBaseURL,
   CODECOMBAT,
@@ -23,7 +23,7 @@ export default Vue.extend({
       'unread',
       'announcementInterval',
       'announcementModalOpen',
-      'announcementDisplay',
+      'announcementDisplay'
     ]),
     isChinaOldBrowser () {
       return isChinaOldBrowser()
@@ -66,8 +66,7 @@ export default Vue.extend({
     }
   },
   beforeUnmounted () {
-    if (this.announcementInterval)
-      clearInterval(this.announcementInterval)
+    if (this.announcementInterval) { clearInterval(this.announcementInterval) }
   },
   methods: {
     ...mapActions('announcements', [

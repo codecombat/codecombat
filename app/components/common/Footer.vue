@@ -1,4 +1,4 @@
-<script>
+<script> // eslint-disable-line vue/multi-word-component-names
 import { cocoBaseURL, getQueryVariable, isCodeCombat, isOzaria, ozBaseURL } from 'core/utils'
 import { mapGetters } from 'vuex'
 import FinalFooter from './FinalFooter'
@@ -7,15 +7,15 @@ import FinalFooter from './FinalFooter'
  * Unified footer component between CodeCombat and Ozaria.
  */
 export default Vue.extend({
+  components: {
+    FinalFooter
+  },
   data () {
     return {}
   },
-  components:{
-    FinalFooter
-  },
   computed: {
     ...mapGetters({
-      'preferredLocale': 'me/preferredLocale',
+      preferredLocale: 'me/preferredLocale'
     }),
 
     isCodeCombat () {
@@ -83,8 +83,8 @@ export default Vue.extend({
             { url: '/teachers/resources', title: 'nav.resource_hub' },
             { url: '/teachers/classes', title: 'nav.my_classrooms' },
             { url: '/pricing', title: 'nav.pricing', hide: true },
-            { url: this.ozPath('/'), title: 'new_home.try_ozaria', attrs: { 'data-event-action': 'Click: Footer Try Ozaria' }, hide: this.isOzaria},
-            { url: this.cocoPath('/'), title: 'nav.return_coco', attrs: { 'data-event-action': 'Click: Footer Return to CodeCombat' }, hide: this.isCodeCombat},
+            { url: this.ozPath('/'), title: 'new_home.try_ozaria', attrs: { 'data-event-action': 'Click: Footer Try Ozaria' }, hide: this.isOzaria },
+            { url: this.cocoPath('/'), title: 'nav.return_coco', attrs: { 'data-event-action': 'Click: Footer Return to CodeCombat' }, hide: this.isCodeCombat },
             { url: this.cocoPath('/podcast'), title: 'nav.podcast' }
           ]
         },
@@ -100,7 +100,7 @@ export default Vue.extend({
             { url: this.cocoPath('/league'), title: 'nav.esports' },
             { url: this.cocoPath('/partners'), title: 'nav.partnerships' },
             { url: this.cocoPath('/libraries'), title: 'nav.libraries' },
-            { url: this.cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' },
+            { url: this.cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' }
           ]
         }
       ]
@@ -140,7 +140,7 @@ export default Vue.extend({
             { url: 'https://aishiqingsai.org.cn', extra: 'AI世青赛' },
 
             { url: 'https://koudashijie.com', extra: '扣哒世界', hide: !this.isChinaHome },
-            { url: 'https://codecombat.cn', extra: 'CodeCombat 个人版', hide: this.isChinaHome },
+            { url: 'https://codecombat.cn', extra: 'CodeCombat 个人版', hide: this.isChinaHome }
           ]
         }
       ]
@@ -174,7 +174,7 @@ export default Vue.extend({
       const properties = {
         category: 'Footer',
         // Inspired from the HomeView homePageEvent method
-        user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
+        user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser'
       }
 
       window.tracker.trackEvent(action, properties)
@@ -185,8 +185,8 @@ export default Vue.extend({
      */
     checkLocation (route) {
       const location = document.location.href
-          .replace(document.location.hash, '')
-          .replace(document.location.search, '')
+        .replace(document.location.hash, '')
+        .replace(document.location.search, '')
       return route === new URL(location).pathname
     },
 
@@ -206,7 +206,7 @@ export default Vue.extend({
 
     ozPath (relativePath) {
       return `${this.ozBaseURL}${relativePath}`
-    },
+    }
   }
 })
 </script>

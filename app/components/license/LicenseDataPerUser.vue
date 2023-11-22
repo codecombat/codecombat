@@ -69,7 +69,7 @@ export default {
   name: 'LicensesDataPerStudent',
   props: {
     teacherMap: {
-      type: Object,
+      type: Object
     },
     prepaids: {
       type: Object,
