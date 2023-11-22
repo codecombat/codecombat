@@ -29,7 +29,7 @@ export default class InternalTracker extends BaseTracker {
     } else {
       traits = _.omit(traits, 'firstName', 'lastName')
     }
-    this.trackEventInternal('Identify', {id: me.id, traits})
+    this.trackEventInternal('Identify', { id: me.id, traits })
   }
 
   async trackPageView () {
@@ -53,12 +53,11 @@ export default class InternalTracker extends BaseTracker {
     if (['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero'].indexOf(event) !== -1) {
       delete properties.category
       delete properties.label
-    }
-    else if (['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero'].indexOf(event) !== -1) {
+    } else if (['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero'].indexOf(event) !== -1) {
       delete properties.category
     }
     this.log('tracking internal analytics event:', event, properties)
-    api.analyticsLogEvents.post({event, properties})
+    api.analyticsLogEvents.post({ event, properties })
   }
 
   trackReferrers () {
@@ -83,7 +82,7 @@ export default class InternalTracker extends BaseTracker {
 
   trackUtm () {
     const properties = { url: window.location.href }
-    for (let [param, value] of new URLSearchParams(window.location.search)) {
+    for (const [param, value] of new URLSearchParams(window.location.search)) {
       if (param.startsWith('utm_')) {
         properties[param] = value
       }

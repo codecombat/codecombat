@@ -2,8 +2,7 @@ import { getPodcasts, getPodcast } from '../../api/podcast'
 
 const comparePodcastFn = (a, b) => {
   // higher priority podcast should come up at top
-  if (a.priority || b.priority)
-    return (b.priority || 0) - (a.priority || 0)
+  if (a.priority || b.priority) { return (b.priority || 0) - (a.priority || 0) }
   const aDate = a.uploadDate ? new Date(a.uploadDate).getTime() : 0
   const bDate = b.uploadDate ? new Date(b.uploadDate).getTime() : 0
   return bDate - aDate

@@ -5,10 +5,10 @@ module.exports = {
   template: require('app/templates/core/components/page-errors')(),
   computed: _.assign(
     Vuex.mapState({
-      error(state) { return _.first(state.pageErrors); }
+      error (state) { return _.first(state.pageErrors) }
     }),
     Vuex.mapGetters('me', [
       'isAnonymous'
     ])
   )
-};
+}

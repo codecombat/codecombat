@@ -11,6 +11,7 @@ export default Vue.extend({
     Modal,
     SecondaryButton
   },
+  mixins: [validationMixin],
   props: {
     subtitle: {
       type: String,
@@ -22,7 +23,6 @@ export default Vue.extend({
       default: 'Contact Our Classroom Team'
     }
   },
-  mixins: [validationMixin],
   data: () => ({
     name: '',
     email: '',
@@ -104,101 +104,101 @@ export default Vue.extend({
 
 <template>
   <modal
-      :title="modalTitle"
-      @close="closeModal"
+    :title="modalTitle"
+    @close="closeModal"
   >
     <div class="style-ozaria teacher-form">
       <span class="sub-title"> {{ subtitle }} </span>
       <form
-          class="form-container"
-          @submit.prevent="onClickSubmit"
+        class="form-container"
+        @submit.prevent="onClickSubmit"
       >
         <div
-            class="form-group row name"
-            :class="{ 'has-error': $v.name.$error }"
+          class="form-group row name"
+          :class="{ 'has-error': $v.name.$error }"
         >
           <div class="col-xs-12">
             <span class="control-label"> {{ $t('general.name') }} </span>
             <input
-                v-model="$v.name.$model"
-                type="text"
-                class="form-control"
+              v-model="$v.name.$model"
+              type="text"
+              class="form-control"
             >
             <span
-                v-if="!$v.name.required"
-                class="form-error"
+              v-if="!$v.name.required"
+              class="form-error"
             > {{ $t('form_validation_errors.required') }} </span>
           </div>
         </div>
         <div
-            class="form-group row email"
-            :class="{ 'has-error': $v.email.$error }"
+          class="form-group row email"
+          :class="{ 'has-error': $v.email.$error }"
         >
           <div class="col-xs-12">
             <span class="control-label"> {{ $t('general.email') }} </span>
             <input
-                v-model="$v.email.$model"
-                type="text"
-                class="form-control"
+              v-model="$v.email.$model"
+              type="text"
+              class="form-control"
             >
             <span
-                v-if="!$v.email.required"
-                class="form-error"
+              v-if="!$v.email.required"
+              class="form-error"
             > {{ $t('form_validation_errors.required') }} </span>
             <span
-                v-if="!$v.email.email"
-                class="form-error"
+              v-if="!$v.email.email"
+              class="form-error"
             > {{ $t('form_validation_errors.invalidEmail') }} </span>
           </div>
         </div>
 
         <div
-            class="form-group row role"
-            :class="{ 'has-error': $v.role.$error }"
+          class="form-group row role"
+          :class="{ 'has-error': $v.role.$error }"
         >
           <div class="col-xs-12">
             <span class="control-label"> {{ $t('apcsp_curriculum.role') }} </span>
             <input
-                v-model="$v.role.$model"
-                type="text"
-                class="form-control"
+              v-model="$v.role.$model"
+              type="text"
+              class="form-control"
             >
             <span
-                v-if="!$v.role.required"
-                class="form-error"
+              v-if="!$v.role.required"
+              class="form-error"
             > {{ $t('form_validation_errors.required') }} </span>
           </div>
         </div>
         <div
-            class="form-group row message"
-            :class="{ 'has-error': $v.message.$error }"
+          class="form-group row message"
+          :class="{ 'has-error': $v.message.$error }"
         >
           <div class="col-xs-12">
             <span class="control-label"> {{ $t('general.message') }} </span>
             <textarea
-                v-model="$v.message.$model"
-                rows="10"
-                class="form-control"
+              v-model="$v.message.$model"
+              rows="10"
+              class="form-control"
             />
             <span
-                v-if="!$v.message.required"
-                class="form-error"
+              v-if="!$v.message.required"
+              class="form-error"
             > {{ $t('form_validation_errors.required') }} </span>
           </div>
         </div>
         <div class="form-group row">
           <div class="col-xs-12 buttons">
             <secondary-button
-                v-if="!sendingInProgress"
-                type="submit"
-                :inactive="!isFormValid"
+              v-if="!sendingInProgress"
+              type="submit"
+              :inactive="!isFormValid"
             >
               {{ $t('common.submit') }}
             </secondary-button>
             <secondary-button
-                v-else-if="sendingInProgress"
-                type="submit"
-                :inactive="true"
+              v-else-if="sendingInProgress"
+              type="submit"
+              :inactive="true"
             >
               {{ $t('common.sending') }}
             </secondary-button>

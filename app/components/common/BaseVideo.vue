@@ -46,13 +46,13 @@ export default {
 <template>
   <div class="video-div">
     <youtube
-        v-if="activeType==TYPES.YOUTUBE"
-        @error="youtubeError"
-        v-bind="youtubeProps"
+      v-if="activeType==TYPES.YOUTUBE"
+      v-bind="youtubeProps"
+      @error="youtubeError"
     />
     <base-cloudflare-video
-        v-if="activeType==TYPES.CLOUDFLARE"
-        v-bind="cloudflareProps"
+      v-if="activeType==TYPES.CLOUDFLARE"
+      v-bind="cloudflareProps"
     />
   </div>
 </template>

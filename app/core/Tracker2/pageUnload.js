@@ -1,5 +1,5 @@
 function getKeyForNamespace (namespace) {
-  return `coco.tracker.pageUnloadRetries.${namespace}`;
+  return `coco.tracker.pageUnloadRetries.${namespace}`
 }
 
 function getNamespaceData (namespace) {
@@ -9,12 +9,12 @@ function getNamespaceData (namespace) {
   return JSON.parse(namespaceRetriesJson || '[]')
 }
 
-function setNamespaceData(namespace, data) {
+function setNamespaceData (namespace, data) {
   const namespaceKey = getKeyForNamespace(namespace)
   window.sessionStorage.setItem(namespaceKey, JSON.stringify(data || []))
 }
 
-function deleteNamespaceData(namespace) {
+function deleteNamespaceData (namespace) {
   const namespaceKey = getKeyForNamespace(namespace)
   window.sessionStorage.removeItem(namespaceKey)
 }
@@ -32,16 +32,16 @@ function runAfterPageLoad (namespace, identifier, args) {
 }
 
 export async function watchForPageUnload (timeout = 500) {
-  let unloadCallback;
+  let unloadCallback
   const unloadPromise = new Promise((resolve, reject) => {
-    unloadCallback = () => reject('unload')
+    unloadCallback = () => reject('unload') // eslint-disable-line prefer-promise-reject-errors
     window.addEventListener('beforeunload', unloadCallback)
   })
 
-  const timeoutPromise = new Promise((resolve) => setTimeout(resolve, timeout));
+  const timeoutPromise = new Promise((resolve) => setTimeout(resolve, timeout))
 
   try {
-    await Promise.race([ unloadPromise, timeoutPromise ])
+    await Promise.race([unloadPromise, timeoutPromise])
   } finally {
     window.removeEventListener('beforeunload', unloadCallback)
   }
