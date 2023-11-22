@@ -1,7 +1,8 @@
 node_modules
 bower_components
 
-public
+public_coco
+public_ozar
 vendor
 hooks
 

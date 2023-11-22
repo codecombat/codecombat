@@ -5,7 +5,7 @@ module.exports = {
   extends: [
     'standard',
     'plugin:vue/recommended',
-    'plugin:diff/diff',
+    'plugin:diff/ci',
     'plugin:json/recommended'
   ],
 
@@ -16,7 +16,9 @@ module.exports = {
     noty: 'readonly',
     features: 'readonly',
     gapi: 'readonly',
-    _: 'readonly'
+    _: 'readonly',
+    Backbone: 'readonly',
+    jasmine: 'readonly'
   },
 
   env: {
