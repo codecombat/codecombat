@@ -5,17 +5,17 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let SkippedContacts;
-const SkippedContact = require('models/SkippedContact');
-const CocoCollection = require('collections/CocoCollection');
+let SkippedContacts
+const SkippedContact = require('models/SkippedContact')
+const CocoCollection = require('collections/CocoCollection')
 
-module.exports = (SkippedContacts = (function() {
+module.exports = (SkippedContacts = (function () {
   SkippedContacts = class SkippedContacts extends CocoCollection {
-    static initClass() {
-      this.prototype.model = SkippedContact;
-      this.prototype.url = '/db/skipped-contact';
+    static initClass () {
+      this.prototype.model = SkippedContact
+      this.prototype.url = '/db/skipped-contact'
     }
-  };
-  SkippedContacts.initClass();
-  return SkippedContacts;
-})());
+  }
+  SkippedContacts.initClass()
+  return SkippedContacts
+})())

@@ -6,23 +6,23 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let ThangTypeCollection;
-const CocoCollection = require('collections/CocoCollection');
-const ThangType = require('models/ThangType');
+let ThangTypeCollection
+const CocoCollection = require('collections/CocoCollection')
+const ThangType = require('models/ThangType')
 
-module.exports = (ThangTypeCollection = (function() {
+module.exports = (ThangTypeCollection = (function () {
   ThangTypeCollection = class ThangTypeCollection extends CocoCollection {
-    static initClass() {
-      this.prototype.url = '/db/thang.type';
-      this.prototype.model = ThangType;
+    static initClass () {
+      this.prototype.url = '/db/thang.type'
+      this.prototype.model = ThangType
     }
 
-    fetchHeroes() {
+    fetchHeroes () {
       return this.fetch({
         url: '/db/thang.type?view=heroes'
-      });
+      })
     }
-  };
-  ThangTypeCollection.initClass();
-  return ThangTypeCollection;
-})());
+  }
+  ThangTypeCollection.initClass()
+  return ThangTypeCollection
+})())
