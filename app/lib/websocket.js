@@ -1,3 +1,4 @@
+const utils = require('app/core/utils')
 // https://github.com/maxogden/websocket-stream/blob/48dc3ddf943e5ada668c31ccd94e9186f02fafbd/ws-fallback.js
 let WebWS = null
 
@@ -36,6 +37,10 @@ module.exports = {
     if (!WebWS) {
       console.log('WebSocket not found!')
       return null
+    }
+    if (!utils.useWebsocket) {
+      console.log('websocket disabled')
+      return
     }
     const url = module.exports.websocketUrl('/base-info')
     const ws = new WebWS(url)
