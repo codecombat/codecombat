@@ -8,7 +8,8 @@ const ClassroomSchema = c.object({
   title: 'Classroom',
   required: ['name'],
   default: {
-    classroomItems: true
+    classroomItems: true,
+    initializedOuterStats: true,
   }
 });
 
@@ -102,6 +103,7 @@ _.extend(ClassroomSchema.properties, {
       })
   }, {}),
   stats: c.object({ additionalProperties: true }),
+  initializedOuterStats: { type: 'boolean', default: true, description: 'whether the classroom.stats for the classroom is initialized' },
   type: { title: 'Class Type', type: 'string', enum: ['', 'in-school', 'after-school', 'online', 'camp', 'homeschool', 'other'] }
 });
 
