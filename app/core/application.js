@@ -149,7 +149,8 @@ const Application = {
     })
     this.idleTracker.start()
     this.trackProductVisit()
-    return this.setReferrerTracking()
+    this.setReferrerTracking()
+    this.setupSematextTracking(utils.isCodeCombat)
   },
 
   checkForNewAchievement () {
@@ -235,6 +236,19 @@ const Application = {
     const value = Object.assign(referrerParams, (me.get('referrerTrack') || {}))
     me.set('referrerTrack', value)
     return me.save()
+  },
+
+  setupSematextTracking (isCodeCombat) {
+    if (!me.isStudent()) {
+      console.log('sematext disabled for non-students')
+      return
+    }
+    if (!this.isProduction()) {
+      console.log('sematext disabled for non-production')
+      return
+    }
+    const semaToken = isCodeCombat ? '1edae6bb-d7eb-46b9-a134-ed831c4e3ae3' : '2c9127fa-87fc-4bd7-b735-8b6aaa211c38'
+    window.strum('config', { token: semaToken , 'receiverUrl': 'https://rum-receiver.sematext.com' });
   }
 }
 
