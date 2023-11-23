@@ -51,7 +51,7 @@ module.exports = (SubscriptionView = (function() {
     static initClass() {
       this.prototype.id = "subscription-view";
       this.prototype.template = template;
-  
+
       this.prototype.events = {
         'click .start-subscription-button': 'onClickStartSubscription',
         'click .end-subscription-button': 'onClickEndSubscription',
@@ -61,7 +61,7 @@ module.exports = (SubscriptionView = (function() {
         'click .confirm-recipient-unsubscribe-button': 'onClickRecipientConfirmUnsubscribe',
         'click .recipient-unsubscribe-button': 'onClickRecipientUnsubscribe'
       };
-  
+
       this.prototype.subscriptions = {
         'subscribe-modal:subscribed': 'onSubscribed',
         'stripe:received-token': 'onStripeReceivedToken'
@@ -420,13 +420,23 @@ class PersonalSub {
           delete this.state;
           return render();
         };
-        this.supermodel.addRequestResource('personal_payment_info', options).load();
+        if (me.get('stripe').customerID) {
+          this.supermodel.addRequestResource('personal_payment_info', options).load();
+        } else {
+          const activeProducts = me.activeProducts('basic_subscription')
+          if (activeProducts?.length > 0) {
+            const sub = activeProducts[activeProducts.length - 1]
+            this.free = sub.endDate
+            this.self = false
+          }
+        }
 
         payments = new CocoCollection([], { url: '/db/payment', model: Payment, comparator:'_id' });
         payments.once('sync', function() {
           this.monthsSubscribed = ((() => {
             const result = [];
-            for (var x of Array.from(payments.models)) {               if (!x.get('productID')) {
+            for (var x of Array.from(payments.models)) {
+              if (!x.get('productID')) {
                 result.push(x);
               }
             }
