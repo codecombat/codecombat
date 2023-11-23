@@ -9,7 +9,7 @@ module.exports = {
   },
   getAvailability () {
     return fetchJson('/parents/admin-availability', {
-      method: 'GET',
+      method: 'GET'
     })
   },
   updateAvailabilityStatus (status = 'on') {

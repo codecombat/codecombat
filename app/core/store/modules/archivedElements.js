@@ -16,8 +16,12 @@ export default {
   },
 
   mutations: {
-    setSearchTerm: (state, searchTerm) => state.searchTerm = searchTerm,
-    setElementType: (state, elementType) => state.elementType = elementType,
+    setSearchTerm: (state, searchTerm) => {
+      state.searchTerm = searchTerm
+    },
+    setElementType: (state, elementType) => {
+      state.elementType = elementType
+    },
     setDisplayArchived: (state, displayArchived) => {
       if (displayArchivedTypes.indexOf(displayArchived) === -1) {
         throw new Error(`Cannot mutate displayedArchive to ${displayArchived}`)
@@ -38,4 +42,3 @@ export default {
     }
   }
 }
-

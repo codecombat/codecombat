@@ -6,23 +6,23 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let LeaderboardCollection;
-const CocoCollection = require('collections/CocoCollection');
-const LevelSession = require('models/LevelSession');
+let LeaderboardCollection
+const CocoCollection = require('collections/CocoCollection')
+const LevelSession = require('models/LevelSession')
 
-module.exports = (LeaderboardCollection = (function() {
+module.exports = (LeaderboardCollection = (function () {
   LeaderboardCollection = class LeaderboardCollection extends CocoCollection {
-    static initClass() {
-      this.prototype.url = '';
-      this.prototype.model = LevelSession;
+    static initClass () {
+      this.prototype.url = ''
+      this.prototype.model = LevelSession
     }
 
-    constructor(level, options) {
-      super();
-      if (options == null) { options = {}; }
-      this.url = `/db/level/${level.get('original')}/rankings?${$.param(options)}`;
+    constructor (level, options) {
+      super()
+      if (options == null) { options = {} }
+      this.url = `/db/level/${level.get('original')}/rankings?${$.param(options)}`
     }
-  };
-  LeaderboardCollection.initClass();
-  return LeaderboardCollection;
-})());
+  }
+  LeaderboardCollection.initClass()
+  return LeaderboardCollection
+})())

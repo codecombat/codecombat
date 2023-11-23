@@ -6,53 +6,53 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const fetchJson = require('./fetch-json');
+const fetchJson = require('./fetch-json')
 
 module.exports = {
-  get({ courseInstanceID }, options) {
-    if (options == null) { options = {}; }
-    return fetchJson(`/db/course_instance/${courseInstanceID}`, options);
+  get ({ courseInstanceID }, options) {
+    if (options == null) { options = {} }
+    return fetchJson(`/db/course_instance/${courseInstanceID}`, options)
   },
 
-  getProjectGallery({ courseInstanceID }, options) {
-    if (options == null) { options = {}; }
-    return fetchJson(`/db/course_instance/${courseInstanceID}/peer-projects`, options);
+  getProjectGallery ({ courseInstanceID }, options) {
+    if (options == null) { options = {} }
+    return fetchJson(`/db/course_instance/${courseInstanceID}/peer-projects`, options)
   },
 
-  getSessions({ courseInstanceID }, options) {
-    if (options == null) { options = {}; }
-    const userID = (options != null ? options.userID : undefined) || me.id;
-    return fetchJson(`/db/course_instance/${courseInstanceID}/course-level-sessions/${userID}`, options);
+  getSessions ({ courseInstanceID }, options) {
+    if (options == null) { options = {} }
+    const userID = (options != null ? options.userID : undefined) || me.id
+    return fetchJson(`/db/course_instance/${courseInstanceID}/course-level-sessions/${userID}`, options)
   },
 
-  fetchByOwner(ownerID) {
-    return fetchJson("/db/course_instance", {
+  fetchByOwner (ownerID) {
+    return fetchJson('/db/course_instance', {
       data: { ownerID }
-    });
+    })
   },
 
-  fetchByClassroom(classroomID) {
-    return fetchJson("/db/course_instance", {
+  fetchByClassroom (classroomID) {
+    return fetchJson('/db/course_instance', {
       data: { classroomID }
-    });
+    })
   },
 
   // courseInstanceDetails = {classroomID: '', courseID: ''}
-  post(courseInstanceDetails, options) {
-    if (options == null) { options = {}; }
-    return fetchJson("/db/course_instance", _.assign({}, options, {
+  post (courseInstanceDetails, options) {
+    if (options == null) { options = {} }
+    return fetchJson('/db/course_instance', _.assign({}, options, {
       method: 'POST',
       json: courseInstanceDetails
-    }));
+    }))
   },
 
-  removeMember(courseInstanceID, options) {
-    if (options == null) { options = {}; }
+  removeMember (courseInstanceID, options) {
+    if (options == null) { options = {} }
     return fetchJson(`/db/course_instance/${courseInstanceID}/members`, _.assign({}, options, {
       method: 'DELETE',
       json: {
         userID: options.memberId
       }
-    }));
+    }))
   }
-};
+}

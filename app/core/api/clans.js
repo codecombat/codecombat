@@ -1,6 +1,6 @@
 import fetchJson from './fetch-json'
 
-export const getPublicClans = () => fetchJson(`/db/clan/-/public`)
+export const getPublicClans = () => fetchJson('/db/clan/-/public')
 
 export const getMyClans = () => fetchJson(`/db/user/${me.id}/clans`)
 

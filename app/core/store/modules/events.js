@@ -35,7 +35,7 @@ export default {
     memberNames: {}
   },
   getters: {
-    events(state) {
+    events (state) {
       return state.events
     },
     eventPanelVisible (state) {
@@ -153,7 +153,7 @@ export default {
     async editEventMember ({ commit }, { eventId, member } = {}) {
       return await putEventMember(eventId, member)
     },
-    async delEventMember ({ commit }, {eventId, member} = {}) {
+    async delEventMember ({ commit }, { eventId, member } = {}) {
       return await deleteEventMember(eventId, member)
     },
     async saveInstance ({ commit }, instance) {
@@ -168,6 +168,6 @@ export default {
     async importMembersFromClass ({ commit }, { classCode }) {
       const members = await getMembersByClassCode(classCode)
       return members
-    },
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Howl, Howler } from 'howler'
+import { Howl } from 'howler'
 
 export default {
   namespaced: true,
@@ -203,7 +203,7 @@ export default {
      *
      * @throws {Error} when invalid track specified
      */
-    stopTrack({ state, dispatch }, opts) {
+    stopTrack ({ state, dispatch }, opts) {
       let unload
       let track
 
@@ -487,7 +487,6 @@ export default {
 
       return Promise.all(volumes)
     },
-
 
     /**
      * Sets volume of specified sound

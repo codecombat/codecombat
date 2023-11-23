@@ -1,37 +1,37 @@
-<script>
-  import BaseModal from 'app/components/common/BaseModal'
+<script> // eslint-disable-line vue/multi-word-component-names
+import BaseModal from 'app/components/common/BaseModal'
 
-  // This is a dynamic modal that works in both Vue and Backbone views.
-  // How to handle modal closing:
-  // From Vue: use $emit('close') like usual
-  // From elsewhere: use backboneDismissModal prop to have data-dismiss='modal' close the modal for you
-  export default Vue.extend({
-    components: {
-      BaseModal
+// This is a dynamic modal that works in both Vue and Backbone views.
+// How to handle modal closing:
+// From Vue: use $emit('close') like usual
+// From elsewhere: use backboneDismissModal prop to have data-dismiss='modal' close the modal for you
+export default Vue.extend({
+  components: {
+    BaseModal
+  },
+  props: {
+    title: {
+      type: String,
+      default: ''
     },
-    props: {
-      title: {
-        type: String,
-        default: ''
-      },
-      backboneDismissModal: {
-        type: Boolean,
-        default: false
-      }
-    },
-    computed: {
-      backboneClose () {
-        // Passing undefined as an attribute for Vue will simply remove it,
-        // meaning the :data-dismiss will not appear on the element
-        return this.backboneDismissModal ? 'modal' : undefined
-      },
-      vueClose () {
-        // In order to conditionally use @click, we can use the @[event] syntax.
-        // Writing @[null] (not undefined or false) safely does nothing.
-        return !this.backboneDismissModal ? 'click' : null
-      }
+    backboneDismissModal: {
+      type: Boolean,
+      default: false
     }
-  })
+  },
+  computed: {
+    backboneClose () {
+      // Passing undefined as an attribute for Vue will simply remove it,
+      // meaning the :data-dismiss will not appear on the element
+      return this.backboneDismissModal ? 'modal' : undefined
+    },
+    vueClose () {
+      // In order to conditionally use @click, we can use the @[event] syntax.
+      // Writing @[null] (not undefined or false) safely does nothing.
+      return !this.backboneDismissModal ? 'click' : null
+    }
+  }
+})
 </script>
 
 <template>

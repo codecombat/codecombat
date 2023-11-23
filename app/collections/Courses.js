@@ -7,28 +7,28 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let Courses;
-const Course = require('models/Course');
-const CocoCollection = require('collections/CocoCollection');
+let Courses
+const Course = require('models/Course')
+const CocoCollection = require('collections/CocoCollection')
 
-module.exports = (Courses = (function() {
+module.exports = (Courses = (function () {
   Courses = class Courses extends CocoCollection {
-    static initClass() {
-      this.prototype.model = Course;
-      this.prototype.url = '/db/course';
+    static initClass () {
+      this.prototype.model = Course
+      this.prototype.url = '/db/course'
     }
 
-    fetchReleased(options) {
-      if (options == null) { options = {}; }
-      if (options.data == null) { options.data = {}; }
+    fetchReleased (options) {
+      if (options == null) { options = {} }
+      if (options.data == null) { options.data = {} }
       if (me.isInternal()) {
-        options.data.fetchInternal = true; // will fetch 'released' and 'internalRelease' courses
+        options.data.fetchInternal = true // will fetch 'released' and 'internalRelease' courses
       } else {
-        options.data.releasePhase = 'released';
+        options.data.releasePhase = 'released'
       }
-      return this.fetch(options);
+      return this.fetch(options)
     }
-  };
-  Courses.initClass();
-  return Courses;
-})());
+  }
+  Courses.initClass()
+  return Courses
+})())

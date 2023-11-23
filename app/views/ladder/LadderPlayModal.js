@@ -1,10 +1,6 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 /*
  * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
  * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
  * DS104: Avoid inline assignments
  * DS205: Consider reworking code to avoid use of IIFEs
  * DS206: Consider reworking classes to avoid initClass
@@ -45,9 +41,9 @@ module.exports = (LadderPlayModal = (function() {
       };
     }
 
-    initialize(options, level, session, team) {
+    constructor (options, level, session, team) {
+      super(options)
       let left, left1;
-      this.options = options
       this.level = level;
       this.session = session;
       this.team = team;
@@ -58,7 +54,7 @@ module.exports = (LadderPlayModal = (function() {
       this.wizardType = ThangType.loadUniversalWizard();
       this.startLoadingChallengersMaybe();
       this.levelID = this.level.get('slug') || this.level.id;
-      this.language = (left = (left1 = (this.session != null ? this.session.get('codeLanguage') : undefined)) != null ? left1 : __guard__(me.get('aceConfig'), x => x.language)) != null ? left : 'python';
+      this.language = (left = (left1 = this.session?.get('codeLanguage')) != null ? left1 : me.get('aceConfig')?.language) != null ? left : 'python'
       this.languages = [
         {id: 'python', name: 'Python'},
         {id: 'javascript', name: 'JavaScript'},
@@ -70,11 +66,11 @@ module.exports = (LadderPlayModal = (function() {
       this.myName = me.get('name') || 'Newcomer';
 
       const teams = [];
-      for (var t of Array.from(teamDataFromLevel(this.level))) { teams[t.id] = t; }
+      for (const t of teamDataFromLevel(this.level)) { teams[t.id] = t }
       this.teamColor = teams[this.team].primaryColor;
       this.teamBackgroundColor = teams[this.team].bgColor;
       this.opponentTeamColor = teams[this.otherTeam].primaryColor;
-      this.opponentTeamBackgroundColor = teams[this.otherTeam].bgColor;
+      this.opponentTeamBackgroundColor = teams[this.otherTeam].bgColor
     }
 
     updateLanguage() {
@@ -98,11 +94,11 @@ module.exports = (LadderPlayModal = (function() {
     startLoadingChallengersMaybe() {
       let matches;
       if (this.options.league) {
-        matches = __guard__(_.find(this.session != null ? this.session.get('leagues') : undefined, {leagueID: this.options.league.id}), x => x.stats.matches);
+        matches = _.find(this.session?.get('leagues'), { leagueID: this.options.league.id })?.stats.matches
       } else {
-        matches = this.session != null ? this.session.get('matches') : undefined;
+        matches = this.session?.get('matches')
       }
-      if ((matches != null ? matches.length : undefined)) { return this.loadNames(); } else { return this.loadChallengers(); }
+      if (matches?.length) { return this.loadNames() } else { return this.loadChallengers() }
     }
 
     loadChallengers() {
@@ -117,14 +113,15 @@ module.exports = (LadderPlayModal = (function() {
       this.challengers = this.getChallengers();
       const ids = ((() => {
         const result = [];
-        for (challenger of Array.from(_.values(this.challengers))) {           result.push(challenger.opponentID);
+        for (challenger of _.values(this.challengers)) {
+ result.push(challenger.opponentID)
         }
         return result;
       })());
 
-      for (challenger of Array.from(_.values(this.challengers))) {
-        if (!challenger || !this.wizardType.loaded) { continue; }
-        if ((!challenger.opponentImageSource) && (challenger.opponentWizard != null ? challenger.opponentWizard.colorConfig : undefined)) {
+      for (challenger of _.values(this.challengers)) {
+        if (!challenger || !this.wizardType.loaded) { continue }
+        if ((!challenger.opponentImageSource) && challenger.opponentWizard?.colorConfig) {
           challenger.opponentImageSource = this.wizardType.getPortraitSource(
             {colorConfig: challenger.opponentWizard.colorConfig});
         }
@@ -133,10 +130,10 @@ module.exports = (LadderPlayModal = (function() {
       const success = nameMap => {
         // it seems to be fix that could go to both
         this.nameMap = nameMap;
-        if (this.destroyed) { return; }
-        for (challenger of Array.from(_.values(this.challengers))) {
-          challenger.opponentName = (this.nameMap[challenger.opponentID] != null ? this.nameMap[challenger.opponentID].name : undefined) || 'Anonymous';
-          challenger.opponentWizard = (this.nameMap[challenger.opponentID] != null ? this.nameMap[challenger.opponentID].wizard : undefined) || {};
+        if (this.destroyed) { return }
+        for (challenger of _.values(this.challengers)) {
+          challenger.opponentName = this.nameMap[challenger.opponentID]?.name || 'Anonymous'
+          challenger.opponentWizard = this.nameMap[challenger.opponentID]?.wizard || {}
         }
         return this.checkWizardLoaded();
       };
@@ -170,8 +167,8 @@ module.exports = (LadderPlayModal = (function() {
         this.render();
         return this.maybeShowTutorialButtons();
       });
-      this.genericPortrait = this.wizardType.getPortraitSource();
-      const myColorConfig = __guard__(me.get('wizard'), x => x.colorConfig);
+      this.genericPortrait = this.wizardType.getPortraitSource()
+      const myColorConfig = me.get('wizard')?.colorConfig
       return this.myPortrait = myColorConfig ? this.wizardType.getPortraitSource({colorConfig: myColorConfig}) : this.genericPortrait;
     }
 
@@ -219,13 +216,14 @@ module.exports = (LadderPlayModal = (function() {
       } else {
         let matches;
         if (this.options.league) {
-          matches = __guard__(_.find(this.session != null ? this.session.get('leagues') : undefined, {leagueID: this.options.league.id}), x => x.stats.matches);
+          matches = _.find(this.session?.get('leagues'), { leagueID: this.options.league.id })?.stats.matches
         } else {
-          matches = this.session != null ? this.session.get('matches') : undefined;
+          matches = this.session?.get('matches')
         }
         const won = ((() => {
-          const result = [];
-          for (m of Array.from(matches)) {             if (m.metrics.rank < m.opponents[0].metrics.rank) {
+          const result = []
+          for (m of matches) {
+ if (m.metrics.rank < m.opponents[0].metrics.rank) {
               result.push(m);
             }
           }
@@ -233,15 +231,17 @@ module.exports = (LadderPlayModal = (function() {
         })());
         const lost = ((() => {
           const result1 = [];
-          for (m of Array.from(matches)) {             if (m.metrics.rank > m.opponents[0].metrics.rank) {
+          for (m of matches) {
+ if (m.metrics.rank > m.opponents[0].metrics.rank) {
               result1.push(m);
             }
           }
           return result1;
-        })());
+        })())
         const tied = ((() => {
           const result2 = [];
-          for (m of Array.from(matches)) {             if (m.metrics.rank === m.opponents[0].metrics.rank) {
+          for (m of matches) {
+ if (m.metrics.rank === m.opponents[0].metrics.rank) {
               result2.push(m);
             }
           }
@@ -257,11 +257,11 @@ module.exports = (LadderPlayModal = (function() {
       return challengers;
     }
 
-    addChallenger(info, challengers, title) {
+    addChallenger (info, challengers, title) {
       // check for duplicates first
       if (!info) { return; }
-      for (var key in challengers) {
-        var value = challengers[key];
+      for (const key in challengers) {
+        const value = challengers[key]
         if (value.sessionID === info.sessionID) { return; }
       }
       return challengers[title] = info;
@@ -274,11 +274,11 @@ module.exports = (LadderPlayModal = (function() {
         sessionID: session.id,
         opponentID: session.get('creator'),
         codeLanguage: session.get('submittedCodeLanguage')
-      };
+      }
     }
 
     challengeInfoFromMatches(matches) {
-      if (!(matches != null ? matches.length : undefined)) { return; }
+      if (!matches?.length) { return }
       const match = _.sample(matches);
       const opponent = match.opponents[0];
       return {
@@ -298,20 +298,20 @@ class ChallengersData {
     this.level = level;
     this.team = team;
     this.otherTeam = otherTeam;
-    this.session = session;
+    this.session = session
     this.league = league;
-    _.extend(this, Backbone.Events);
+    _.extend(this, Backbone.Events)
     if (this.league) {
-      score = __guard__(__guard__(_.find(this.session != null ? this.session.get('leagues') : undefined, {leagueID: this.league.id}), x1 => x1.stats), x => x.totalScore) || 10;
+      score = _.find(this.session?.get('leagues'), { leagueID: this.league.id })?.stats?.totalScore || 10
     } else {
-      score = (this.session != null ? this.session.get('totalScore') : undefined) || 10;
+      score = this.session?.get('totalScore') || 10
     }
-    for (var player of [
-      {type: 'easyPlayer', order: 1, scoreOffset: score - 5},
+    for (const player of [
+      { type: 'easyPlayer', order: 1, scoreOffset: score - 5 },
       {type: 'mediumPlayer', order: 1, scoreOffset: score},
       {type: 'hardPlayer', order: -1, scoreOffset: score + 5}
     ]) {
-      var playerResource = (this[player.type] = new LeaderboardCollection(this.level, this.collectionParameters({order: player.order, scoreOffset: player.scoreOffset})));
+      const playerResource = (this[player.type] = new LeaderboardCollection(this.level, this.collectionParameters({ order: player.order, scoreOffset: player.scoreOffset })))
       playerResource.fetch({cache: false});
       this.listenToOnce(playerResource, 'sync', this.challengerLoaded);
     }
@@ -333,14 +333,10 @@ class ChallengersData {
 
   playerIDs() {
     const collections = [this.easyPlayer, this.mediumPlayer, this.hardPlayer];
-    return (Array.from(collections).filter((c) => (c != null ? c.models[0] : undefined)).map((c) => c.models[0].get('creator')));
+    return (collections.filter((c) => c?.models[0]).map((c) => c.models[0].get('creator')))
   }
 
   allLoaded() {
     return _.all([this.easyPlayer.loaded, this.mediumPlayer.loaded, this.hardPlayer.loaded]);
   }
-}
-
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
 }

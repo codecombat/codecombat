@@ -45,7 +45,7 @@ export default {
       return state.licenseStats
     },
     getLoadingByLicenseState: (state) => {
-      return state.loading['byLicense']
+      return state.loading.byLicense
     }
   },
   actions: {
@@ -58,7 +58,7 @@ export default {
       commit('toggleLoading', 'byLicense')
       return apiclientsApi
         .getLicenseStats(clientId, { startDate, endDate })
-        .then(res =>  {
+        .then(res => {
           if (res) {
             commit('addLicenseStats', {
               stats: res

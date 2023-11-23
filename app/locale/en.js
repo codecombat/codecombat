@@ -1599,8 +1599,6 @@ module.exports = {
       de_title: 'Director of Education',
       vpm_title: 'VP, Marketing',
       vps_title: 'VP, Sales',
-      sales_om_title: 'Sales Operations Manager',
-      bd_pr_title: 'Business Development and Partnerships Representative',
       oi_title: 'Online Instructor',
       m_oi_title: 'Manager, Online Instruction',
       aoim_title: 'Associate Online Instructor Manager',
@@ -2722,7 +2720,7 @@ module.exports = {
       bullet2: 'Teach CS fundamentals, Python or JavaScript and 21st century skills',
       bullet3: 'Unlock creativity through capstone projects',
       bullet4: 'Support instructions through dedicated curriculum resources',
-    you_can_return: 'You can always return to CodeCombat'
+      you_can_return: 'You can always return to CodeCombat'
     },
 
     educator_signup_ozaria_encouragement: {
@@ -2730,7 +2728,7 @@ module.exports = {
       independent_learners: 'Independent learners',
       homeschoolers: 'Homeschoolers',
       educators_continue_coco: 'Educators who want to continue using CodeCombat in their class',
-    continue_coco: 'Continue with CodeCombat'
+      continue_coco: 'Continue with CodeCombat'
     },
 
     ozaria_cta: {
@@ -2739,7 +2737,7 @@ module.exports = {
       title2: 'Turnkey Lesson Plans',
       description2: 'In-depth presentations and worksheets for teachers to guide students through learning objectives.',
       title3: 'New Teacher & Admin Dashboards',
-    description3: 'All the actionable insights educators need at a glance, such as student progress and concept understanding.'
+      description3: 'All the actionable insights educators need at a glance, such as student progress and concept understanding.'
     },
 
     share_licenses: {
@@ -3276,12 +3274,12 @@ module.exports = {
     },
 
     ozaria_chrome: {
-    sound_off: 'Mute',
-    sound_on: 'Unmute',
-    back_to_map: 'Back to Map',
-    level_options: 'Level Options',
+      sound_off: 'Mute',
+      sound_on: 'Unmute',
+      back_to_map: 'Back to Map',
+      level_options: 'Level Options',
       restart_level: 'Restart Level',
-    max_browser: 'Maximize Browser'
+      max_browser: 'Maximize Browser'
     },
 
     impact: {
@@ -3338,7 +3336,7 @@ module.exports = {
       continue_reading_blog: 'Continue Reading on Blog...',
       ozaria_impact_title: 'Positive Impacts with Ozaria',
       ozaria_impact_blurb: 'CodeCombat\'s sister curriculum, Ozaria, has proven to have a positive impact on the student learning outcomes that matter most to both students and educators.',
-    ozaria_impact_learn_more: 'Learn more about Ozaria\'s curriculum efficacy here.'
+      ozaria_impact_learn_more: 'Learn more about Ozaria\'s curriculum efficacy here.'
     },
 
     loading_error: {
@@ -3519,7 +3517,7 @@ module.exports = {
       methods: 'Methods',
       compound_conditionals: 'Compound Conditionals',
       comparators: 'Comparators',
-    data_and_analysis: 'Data & Analysis'
+      data_and_analysis: 'Data & Analysis'
     },
 
     anonymous_teacher: {
@@ -3531,7 +3529,7 @@ module.exports = {
       student_name_placeholder: 'type your name here',
       teachers_section: 'Teachers:',
       students_section: 'Students:',
-    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
+      teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
     },
 
     delta: {
@@ -3603,7 +3601,7 @@ module.exports = {
       third_party_description: 'CodeCombat uses the following third party services (among others):',
       cookies_message: 'CodeCombat uses a few essential and non-essential cookies.',
       cookies_deny: 'Decline non-essential cookies',
-    cookies_allow: 'Allow cookies'
+      cookies_allow: 'Allow cookies'
     },
 
     ladder_prizes: {
@@ -3657,7 +3655,7 @@ module.exports = {
       email_taken: 'Email already taken',
       username_taken: 'Username already taken',
       easy_password: 'Password is too easy to guess',
-    reused_password: 'Password cannot be reused'
+      reused_password: 'Password cannot be reused'
     },
 
     esper: {
@@ -4207,9 +4205,9 @@ module.exports = {
       classes_stats: 'Online Classes Stats',
       name: 'Name',
       class_name: 'Class Name',
-    description: 'Description',
-    owner: 'Owner',
-    type: 'Type',
+      description: 'Description',
+      owner: 'Owner',
+      type: 'Type',
       members: 'Members',
       start_date: 'Start Date',
       end_date: 'End Time',
@@ -4451,7 +4449,6 @@ module.exports = {
       student_register_3: 'Provide the information below to be eligible for prizes.',
       teacher_register_1: 'Sign up to access your class league profile page and get your class started.',
       general_news: 'Get emails on the latest news and updates regarding our AI Leagues and tournaments.',
-      team: 'team',
       how_it_works1: 'Join a __team__',
       seasonal_arena_tooltip: 'Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season.',
       summary: 'The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.',
@@ -4856,7 +4853,6 @@ module.exports = {
       total_users: 'Total Users',
       lines_of_code_written: 'Lines of Code Written',
       hours_spent: 'Hours spent',
-      programs_written: 'Programs written',
       number_users: 'Number of users',
       time_spent: 'Time spent (in minutes)',
       new_users: 'New Users',

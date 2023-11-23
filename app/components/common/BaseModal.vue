@@ -1,11 +1,11 @@
 <script>
-  import BaseModalContainer from './BaseModalContainer'
+import BaseModalContainer from './BaseModalContainer'
 
-  export default {
-    components: {
-      BaseModalContainer
-    }
+export default {
+  components: {
+    BaseModalContainer
   }
+}
 </script>
 
 <template>

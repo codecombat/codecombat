@@ -52,7 +52,7 @@
   },
   "main": "index.js",
   "standard": {
-    "parser": "@babel",
+    "parser": "@babel/eslint-parser",
     "plugins": [
       "script-tags"
     ],
@@ -212,7 +212,7 @@
     "diff": "^5.1.0",
     "eslint": "^8.24.0",
     "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-diff": "^1.0.15",
+    "eslint-plugin-diff": "^2.0.3",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-n": "^15.0.0",
