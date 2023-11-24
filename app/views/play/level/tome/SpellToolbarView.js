@@ -17,12 +17,12 @@ module.exports = (SpellToolbarView = (function() {
       this.prototype.className = 'spell-toolbar-view';
       this.prototype.template = template;
       this.prototype.progressHoverDelay = 500;
-  
+
       this.prototype.subscriptions = {
         'tome:spell-step-backward': 'onStepBackward',
         'tome:spell-step-forward': 'onStepForward'
       };
-  
+
       this.prototype.events = {
         'mousedown .spell-progress': 'onProgressMouseDown',
         'mouseup .spell-progress': 'onProgressMouseUp',
