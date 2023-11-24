@@ -13,7 +13,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let User
-const cache = {}
 const CocoModel = require('./CocoModel')
 const ThangTypeConstants = require('lib/ThangTypeConstants')
 const LevelConstants = require('lib/LevelConstants')
@@ -45,7 +44,7 @@ const UserLib = {
       name
     } = user)
     if (name) { return name }
-    const [emailName, emailDomain] = Array.from(user.email?.split('@') || [])
+    const [emailName, emailDomain] = Array.from(user.email?.split('@') || []) // eslint-disable-line no-unused-vars
     if (emailName) { return emailName }
     return 'Anonymous'
   },
@@ -61,9 +60,9 @@ module.exports = (User = (function () {
   let b
   let c
   User = class User extends CocoModel {
-    constructor(...args) {
-      super(...args);
-      this.prepaidType = this.prepaidType.bind(this);
+    constructor (...args) {
+      super(...args)
+      this.prepaidType = this.prepaidType.bind(this)
     }
 
     static initClass () {
@@ -380,8 +379,7 @@ module.exports = (User = (function () {
       const heroes = ((left = this.get('purchased')?.heroes) != null ? left : []).concat([ThangTypeConstants.heroes.captain, ThangTypeConstants.heroes.knight, ThangTypeConstants.heroes.champion, ThangTypeConstants.heroes.duelist])
       if (window.serverConfig.codeNinjas) { heroes.push(ThangTypeConstants.heroes['code-ninja']) }
       for (const clanHero of utils.clanHeroes) {
-        var left1, needle
-        if ((needle = clanHero.clanId, (((left1 = this.get('clans')) != null ? left1 : [])).includes(needle))) {
+        if ((this.get('clans') || []).includes(clanHero.clanId)) {
           heroes.push(clanHero.thangTypeOriginal)
         }
       }
@@ -441,17 +439,18 @@ module.exports = (User = (function () {
     }
 
     hasSubscription () {
-      let payPal, products, stripe
       if (this.isStudent() || this.isTeacher()) { return false }
-      if (payPal = this.get('payPal')) {
+      const payPal = this.get('payPal')
+      const stripe = this.get('stripe')
+      const products = this.get('products')
+      if (payPal) {
         if (payPal.billingAgreementID) { return true }
       }
-      if (stripe = this.get('stripe')) {
+      if (stripe) {
         if (stripe.free === true) { return true }
         if (_.isString(stripe.free) && (new Date() < new Date(stripe.free))) { return true }
       }
-      if (products = this.get('products')) {
-        const now = new Date()
+      if (products) {
         const homeProducts = this.activeProducts('basic_subscription')
         const maxFree = _.max(homeProducts, p => new Date(p.endDate)).endDate
         if (new Date() < new Date(maxFree)) { return true }
@@ -460,8 +459,8 @@ module.exports = (User = (function () {
     }
 
     isPaidOnlineClassUser () {
-      let products
-      if (products = this.get('products')) {
+      const products = this.get('products')
+      if (products) {
         const onlineClassProducts = this.activeProducts('online-classes')
         if (onlineClassProducts.length > 0) { return true }
       }
@@ -469,17 +468,18 @@ module.exports = (User = (function () {
     }
 
     premiumEndDate () {
-      let products, stripe
       if (!this.isPremium()) { return null }
       let stripeEnd
-      if (stripe = this.get('stripe')) {
+      const stripe = this.get('stripe')
+      if (stripe) {
         if (stripe.free === true) { return $.t('subscribe.forever') }
         if (stripe.sponsorID) { return $.t('subscribe.forever') }
         if (stripe.subscriptionID) { return $.t('subscribe.forever') }
         if (_.isString(stripe.free)) { stripeEnd = moment(stripe.free) }
       }
 
-      if (products = this.get('products')) {
+      const products = this.get('products')
+      if (products) {
         const homeProducts = this.activeProducts('basic_subscription')
         const {
           endDate
@@ -573,7 +573,7 @@ module.exports = (User = (function () {
       let left
       const experiments = (left = this.get('experiments')) != null ? left : []
       if (_.find(experiments, { name })) { return console.error(`Already started experiment ${name}`) }
-      if (!/^[a-z][\-a-z0-9]*$/.test(name)) { return console.error(`Invalid experiment name: ${name}`) }
+      if (!/^[a-z][\-a-z0-9]*$/.test(name)) { return console.error(`Invalid experiment name: ${name}`) } // eslint-disable-line no-useless-escape
       if (value == null) { return console.error('No experiment value provided') }
       if ((probability != null) && !(probability >= 0 && probability <= 1)) { return console.error(`Probability should be between 0-1 if set - ${name} - ${value} - ${probability}`) }
       $.ajax({
@@ -1200,8 +1200,8 @@ module.exports = (User = (function () {
     }
 
     isTecmilenio () {
-      let left, needle
-      return (needle = this.get('clientCreator'), ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'].includes(needle)) || _.find((left = this.get('clientPermissions')) != null ? left : [], p => ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'].includes(p.client))
+      let left
+      return ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'].includes(this.get('clientCreator')) || _.find((left = this.get('clientPermissions')) != null ? left : [], p => ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'].includes(p.client))
     }
 
     showForumLink () { return !(features?.china != null ? features?.china : false) }
@@ -1259,7 +1259,7 @@ module.exports = (User = (function () {
   return User
 })())
 
-var tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
+const tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
   5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15
 ]
 
