@@ -10,7 +10,7 @@ module.exports = {
 
   getConnectionsCount (options) {
     return fetchJson('/db/oauth2identity/count?filter[provider]=roblox', {
-      method: 'GET',
+      method: 'GET'
     })
   }
 }

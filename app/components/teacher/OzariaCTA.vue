@@ -1,21 +1,21 @@
 <template>
   <div id="ozaria-cta">
     <div class="ozaria-row">
-      <img src="/images/ozaria/modal/encouragement-modal/Icon_StandardsAlignment.svg" />
+      <img src="/images/ozaria/modal/encouragement-modal/Icon_StandardsAlignment.svg">
       <div>
         <h4>{{ $t('ozaria_cta.title1') }}</h4>
         <p>{{ $t('ozaria_cta.description1') }}</p>
       </div>
     </div>
     <div class="ozaria-row">
-      <img src="/images/ozaria/modal/encouragement-modal/Icon_Turnkey.svg" />
+      <img src="/images/ozaria/modal/encouragement-modal/Icon_Turnkey.svg">
       <div>
         <h4>{{ $t('ozaria_cta.title2') }}</h4>
         <p>{{ $t('ozaria_cta.description2') }}</p>
       </div>
     </div>
     <div class="ozaria-row">
-      <img src="/images/ozaria/modal/encouragement-modal/Icon_NewTeacherDashboard.svg" />
+      <img src="/images/ozaria/modal/encouragement-modal/Icon_NewTeacherDashboard.svg">
       <div>
         <h4>{{ $t('ozaria_cta.title3') }}</h4>
         <p>{{ $t('ozaria_cta.description3') }}</p>

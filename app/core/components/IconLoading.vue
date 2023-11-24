@@ -1,5 +1,8 @@
 <template>
-  <img src="/images/common/IconLoading.svg" @click="$emit('clicked')">
+  <img
+    src="/images/common/IconLoading.svg"
+    @click="$emit('clicked')"
+  >
 </template>
 
 <style lang="scss" scoped>

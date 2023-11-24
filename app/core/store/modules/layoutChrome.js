@@ -43,8 +43,8 @@ export default {
         return undefined
       }
       const url = urls.courseWorldMap({
-        courseId: courseId,
-        courseInstanceId: courseInstanceId,
+        courseId,
+        courseInstanceId,
         campaignId: campaign.slug,
         codeLanguage: utils.getQueryVariable('codeLanguage')
       })

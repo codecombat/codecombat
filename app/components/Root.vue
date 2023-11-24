@@ -1,17 +1,17 @@
-<script>
-  import MetaManger from './common/MetaManager'
+<script> // eslint-disable-line vue/multi-word-component-names
+import MetaManger from './common/MetaManager'
 
-  export default {
-    components: {
-      'meta-manager': MetaManger
-    },
+export default {
+  components: {
+    'meta-manager': MetaManger
+  },
 
-    computed: {
-      currentQueryParams: function () {
-        return this.$router.currentRoute.query
-      }
+  computed: {
+    currentQueryParams: function () {
+      return this.$router.currentRoute.query
     }
   }
+}
 </script>
 
 <template>

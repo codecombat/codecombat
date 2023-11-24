@@ -22,7 +22,7 @@ const twitterEventActions = {
   'Home subscription purchase success': SUBSCRIBE_EVENTS.home, // should include properties: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
   UniqueTeacherSignup: 'tw-obu6l-ock8e',
   OzariaUniqueTeacherSignup: 'tw-obu6l-ock8f',
-  'Page View': 'tw-obu6l-ocku4',
+  'Page View': 'tw-obu6l-ocku4'
 }
 
 export default class TwitterPixelTracker extends BaseTracker {
@@ -34,13 +34,13 @@ export default class TwitterPixelTracker extends BaseTracker {
   async _initializeTracker () {
     this.watchForDisableAllTrackingChanges(this.store)
 
-    !function (e, t, n, s, u, a) {
-      e.twq || (s = e.twq = function () {
+    !(function (e, t, n, s, u, a) { // eslint-disable-line
+      e.twq || (s = e.twq = function () { // eslint-disable-line
         s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments)
       }, s.version = '1.1', s.queue = [], u = t.createElement(n), u.async = !0, u.src = 'https://static.ads-twitter.com/uwt.js',
-        a = t.getElementsByTagName(n)[0], a.parentNode.insertBefore(u, a))
-    }(window, document, 'script')
-    twq('config', 'obu6l')
+      a = t.getElementsByTagName(n)[0], a.parentNode.insertBefore(u, a))
+    }(window, document, 'script'))
+    twq('config', 'obu6l') // eslint-disable-line no-undef
 
     const isStudent = this.store.getters['me/isStudent']
     const isChina = (window.features || {}).china
@@ -79,9 +79,8 @@ export default class TwitterPixelTracker extends BaseTracker {
   }
 
   mapToTwitterProperties (twitterEvent, properties) {
-    if (!properties || Object.keys(properties).length === 0)
-      return {}
-    let result = {}
+    if (!properties || Object.keys(properties).length === 0) { return {} }
+    const result = {}
     if (Object.values(SUBSCRIBE_EVENTS).includes(twitterEvent)) {
       const { purchaseAmount, currency } = properties
       result.value = purchaseAmount

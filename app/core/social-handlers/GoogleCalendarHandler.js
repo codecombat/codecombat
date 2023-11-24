@@ -1,4 +1,3 @@
-import api from 'core/api'
 import CocoClass from 'core/CocoClass'
 const SCOPE = 'https://www.googleapis.com/auth/calendar'
 
@@ -45,8 +44,8 @@ const GoogleCalendarAPIHandler = class GoogleCalendarAPIHandler extends CocoClas
         // gapi.client.load('calendar', 'v3', async () => {
         try {
           const r = await gapi.client.calendar.events.list({
-            'calendarId': 'primary',
-            'timeMin': (new Date()).toISOString(),
+            calendarId: 'primary',
+            timeMin: (new Date()).toISOString()
           })
           resolve(r.result.items || [])
         } catch (err) {
@@ -161,11 +160,11 @@ module.exports = {
         gEvent.importedToCoco = true
         await new Promise(me.save().then)
       } else {
-        return Promise.reject('Event not found in me.googleClanedarEvents')
+        return Promise.reject(new Error('Event not found in me.googleClanedarEvents'))
       }
     } catch (err) {
       console.error('Error in marking google calendar event as imported:', err)
-      return Promise.reject('Error in marking event as imported')
+      return Promise.reject(new Error('Error in marking event as imported'))
     }
   },
 
@@ -190,7 +189,7 @@ module.exports = {
       await new Promise(me.save().then)
     } catch (err) {
       console.error('Error in importing google calendar events:', err)
-      return Promise.reject('Error in importing events')
+      return Promise.reject(new Error('Error in importing events'))
     }
   },
 

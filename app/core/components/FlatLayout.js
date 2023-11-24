@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const PageErrors = require('core/components/PageErrors');
+const PageErrors = require('core/components/PageErrors')
 
 module.exports = {
   name: 'flat-layout',
@@ -9,7 +9,7 @@ module.exports = {
     'page-errors': PageErrors
   },
   computed: Vuex.mapState({
-    errors(state) { return state.pageErrors; }
+    errors (state) { return state.pageErrors }
   })
 
-};
+}

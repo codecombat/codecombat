@@ -5,19 +5,19 @@
    *
    * {@see BackboneVueMetaBinding}
    */
-  export default Vue.extend({
+export default Vue.extend({
 
-    props: {
-      meta: {
-        type: Object,
-        default: () => ({})
-      }
-    },
-
-    metaInfo () {
-      return this.meta
+  props: {
+    meta: {
+      type: Object,
+      default: () => ({})
     }
-  })
+  },
+
+  metaInfo () {
+    return this.meta
+  }
+})
 </script>
 
 <template>

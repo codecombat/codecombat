@@ -1,6 +1,5 @@
 
 import { COMPONENT_NAMES, PAGE_TITLES } from 'ozaria/site/components/school-admin-dashboard/common/constants.js'
-import { COMPONENT_NAMES as DT_COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 import User from 'app/models/User'
 
 export default {
@@ -56,7 +55,7 @@ export default {
     },
     selectedAdministeredTeacherName (state, getters) {
       if (state.selectedAdministeredTeacherId) {
-        const teacherData = getters['getAdministratedTeacherData']
+        const teacherData = getters.getAdministratedTeacherData
         return User.broadName(teacherData)
       } else {
         return ''
@@ -72,12 +71,12 @@ export default {
       if (!Object.values(COMPONENT_NAMES.ADMINISTERED_TEACHERS).includes(state.componentName)) {
         return []
       }
-      const teacherName = getters['selectedAdministeredTeacherName']
+      const teacherName = getters.selectedAdministeredTeacherName
       const teacherId = state.selectedAdministeredTeacherId
       let classroomName = ''
       let breadcrumbs = []
       if (state.selectedAdministeredTeacherClassroomId) {
-        const classroomData = getters['getAdministratedTeacherClassroomData']
+        const classroomData = getters.getAdministratedTeacherClassroomData
         classroomName = classroomData.name
       }
       if (state.componentName === COMPONENT_NAMES.ADMINISTERED_TEACHERS.ALL_CLASSES) {
@@ -158,7 +157,7 @@ export default {
       }
     },
     getAllAdministratedClassrooms (_state, getters, _rootState, rootGetters) {
-      const teachers = getters['getAdministratedTeachers']
+      const teachers = getters.getAdministratedTeachers
       let allClassrooms = []
       teachers.forEach((t) => {
         const classrooms = rootGetters['classrooms/getClassroomsByTeacher'](t._id) || {}
@@ -210,7 +209,7 @@ export default {
       await dispatch('schoolAdministrator/fetchTeachers', undefined, { root: true }) // fetches for me.id
 
       const fetchPromises = []
-      const teachers = getters['getAdministratedTeachers']
+      const teachers = getters.getAdministratedTeachers
       teachers.forEach((t) => {
         fetchPromises.push(dispatch('userStats/fetchStatsForUser', t._id, { root: true }))
       })
@@ -223,7 +222,7 @@ export default {
       await dispatch('schoolAdministrator/fetchTeachers', undefined, { root: true }) // fetches for me.id
 
       const fetchPromises = []
-      const teachers = getters['getAdministratedTeachers']
+      const teachers = getters.getAdministratedTeachers
       teachers.forEach((t) => {
         fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: t._id }, { root: true })) // needed for breadcrumbs
       })
@@ -251,7 +250,7 @@ export default {
     async fetchDataMyLicensesAsync ({ state, dispatch, getters }, options = {}) {
       const fetchPromises = []
 
-      const licenses = getters['getActiveLicenses'].concat(getters['getExpiredLicenses'])
+      const licenses = getters.getActiveLicenses.concat(getters.getExpiredLicenses)
       const licenseIds = (licenses || []).map((l) => l._id)
 
       licenseIds.forEach((id) => {

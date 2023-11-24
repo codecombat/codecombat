@@ -4,7 +4,7 @@ const FULLSTORY_SESSION_TRACKING_ENABLED_KEY = 'coco.tracker.fullstory.enabled'
 const FULLSTORY_LAST_USER_ID_KEY = 'coco.tracker.fullstory.lastUserId'
 const FULLSTORY_ENABLE_QUERY_PARAM = 'fullstory_enable'
 
-export function loadFullStory() {
+export function loadFullStory () {
   /* eslint-disable */
 
   window['_fs_debug'] = false;

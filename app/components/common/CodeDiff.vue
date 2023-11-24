@@ -1,87 +1,86 @@
 <script>
-  const AceDiff = require('ace-diff')
-  const aceUtils = require('../../core/aceUtils')
+const AceDiff = require('ace-diff')
+const aceUtils = require('../../core/aceUtils')
 
-  const aceEditModes = {
-    javascript: 'ace/mode/javascript',
-    coffeescript: 'ace/mode/coffee',
-    python: 'ace/mode/python',
-    lua: 'ace/mode/lua',
-    java: 'ace/mode/java',
-    html: 'ace/mode/html'
-  }
+const aceEditModes = {
+  javascript: 'ace/mode/javascript',
+  coffeescript: 'ace/mode/coffee',
+  python: 'ace/mode/python',
+  lua: 'ace/mode/lua',
+  java: 'ace/mode/java',
+  html: 'ace/mode/html'
+}
 
-  export default {
-    props: {
-      codeLeft: {
-        type: String,
-        required: true
-      },
-      codeRight: {
-        type: String,
-        required: true
-      },
-      language: {
-        type: String,
-        required: true
+export default {
+  props: {
+    codeLeft: {
+      type: String,
+      required: true
+    },
+    codeRight: {
+      type: String,
+      required: true
+    },
+    language: {
+      type: String,
+      required: true
+    }
+  },
+
+  data: () => ({
+    codeDiff: null
+  }),
+
+  watch: {
+    codeLeft (val, oldVal) {
+      if (val !== oldVal && this.codeDiff) {
+        this.codeDiff.editors.left.ace.setValue(val.trim(), -1)
       }
     },
-
-    data: () => ({
-      codeDiff: null
-    }),
-
-    watch: {
-      codeLeft (val, oldVal) {
-        if (val !== oldVal && this.codeDiff) {
-          this.codeDiff.editors.left.ace.setValue(val.trim(), -1)
-        }
-      },
-      codeRight (val, oldVal) {
-        if (val !== oldVal && this.codeDiff) {
-          this.codeDiff.editors.right.ace.setValue(val.trim(), -1)
-        }
-      }
-    },
-
-    mounted () {
-      this.codeDiff = this.createAceDiff(`.code-diff-component-${this._uid}`)
-    },
-
-    beforeUnmount () {
-      this.codeDiff.destroy()
-    },
-
-    methods: {
-      createAceDiff (el) {
-        aceUtils.initializeACE(this.$refs.code, this.language)
-        const diffView = new AceDiff({
-          element: el,
-          mode: aceEditModes[this.language],
-          theme: 'ace/theme/textmate',
-          left: {
-            content: this.codeLeft,
-            editable: false,
-            copyLinkEnabled: false
-          },
-          right: {
-            content: this.codeRight,
-            editable: false,
-            copyLinkEnabled: false
-          }
-        })
-        return diffView
+    codeRight (val, oldVal) {
+      if (val !== oldVal && this.codeDiff) {
+        this.codeDiff.editors.right.ace.setValue(val.trim(), -1)
       }
     }
+  },
+
+  mounted () {
+    this.codeDiff = this.createAceDiff(`.code-diff-component-${this._uid}`)
+  },
+
+  beforeUnmount () {
+    this.codeDiff.destroy()
+  },
+
+  methods: {
+    createAceDiff (el) {
+      aceUtils.initializeACE(this.$refs.code, this.language)
+      const diffView = new AceDiff({
+        element: el,
+        mode: aceEditModes[this.language],
+        theme: 'ace/theme/textmate',
+        left: {
+          content: this.codeLeft,
+          editable: false,
+          copyLinkEnabled: false
+        },
+        right: {
+          content: this.codeRight,
+          editable: false,
+          copyLinkEnabled: false
+        }
+      })
+      return diffView
+    }
   }
+}
 </script>
 
 <template>
   <div
     ref="code"
     :class="`code-diff-component-${_uid} code-diff-cmpt`"
-  >
-  </div>
+  />
 </template>
 
 <style lang="sass">

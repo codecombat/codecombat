@@ -31,7 +31,6 @@ export default {
         noty({ text: 'Fetch tints failure', type: 'error' })
         commit('toggleLoading')
       }
-
     }
   }
 }

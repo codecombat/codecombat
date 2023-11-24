@@ -6,28 +6,28 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const fetchJson = require('./fetch-json');
+const fetchJson = require('./fetch-json')
 
 module.exports = {
-  getAll(options) {
-    if (options == null) { options = {}; }
-    return fetchJson("/db/campaign", options);
+  getAll (options) {
+    if (options == null) { options = {} }
+    return fetchJson('/db/campaign', options)
   },
-  get({ campaignHandle }, options) {
-    if (options == null) { options = {}; }
-    return fetchJson(`/db/campaign/${campaignHandle}`, options);
+  get ({ campaignHandle }, options) {
+    if (options == null) { options = {} }
+    return fetchJson(`/db/campaign/${campaignHandle}`, options)
   },
-  fetchGameContent(campaignHandle, options) {
-    if (options == null) { options = {}; }
-    return fetchJson(`/db/campaign/${campaignHandle}/game-content`, options);
+  fetchGameContent (campaignHandle, options) {
+    if (options == null) { options = {} }
+    return fetchJson(`/db/campaign/${campaignHandle}/game-content`, options)
   },
-  fetchOverworld(options) {
-    if (options == null) { options = {}; }
-    return fetchJson("/db/campaign/-/overworld", options);
+  fetchOverworld (options) {
+    if (options == null) { options = {} }
+    return fetchJson('/db/campaign/-/overworld', options)
   },
-  fetchLevels(campaignHandle, options) {
-    if (options == null) { options = {}; }
-    return fetchJson(`/db/campaign/${campaignHandle}/levels`, options);
+  fetchLevels (campaignHandle, options) {
+    if (options == null) { options = {} }
+    return fetchJson(`/db/campaign/${campaignHandle}/levels`, options)
   }
 
-};
+}

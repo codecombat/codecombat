@@ -1,4 +1,4 @@
-<script>
+<script> // eslint-disable-line vue/multi-word-component-names
 import {
   cocoBaseURL,
   CODECOMBAT,
@@ -23,7 +23,7 @@ export default Vue.extend({
       'unread',
       'announcementInterval',
       'announcementModalOpen',
-      'announcementDisplay',
+      'announcementDisplay'
     ]),
     isChinaOldBrowser () {
       return isChinaOldBrowser()
@@ -66,8 +66,7 @@ export default Vue.extend({
     }
   },
   beforeUnmounted () {
-    if (this.announcementInterval)
-      clearInterval(this.announcementInterval)
+    if (this.announcementInterval) { clearInterval(this.announcementInterval) }
   },
   methods: {
     ...mapActions('announcements', [
@@ -285,7 +284,7 @@ export default Vue.extend({
                     a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                   li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
                     a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
-                  li(v-if="isCodeCombat && (me.isAdmin() || (me.get('emailVerified') && (me.isTeacher() || (!me.get('role') && !me.isAnonymous()))))")
+                  li(v-if="isCodeCombat && (me.isAdmin() || (me.get('emailVerified') && (me.isTeacher() || me.isParentHome() || (!me.get('role') && !me.isAnonymous()))))")
                     a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li(v-if="me.isAPIClient()")
                     a.account-dropdown-item(href="/partner-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}

@@ -6,21 +6,21 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let EarnedAchievementCollection;
-const CocoCollection = require('collections/CocoCollection');
-const EarnedAchievement = require('models/EarnedAchievement');
+let EarnedAchievementCollection
+const CocoCollection = require('collections/CocoCollection')
+const EarnedAchievement = require('models/EarnedAchievement')
 
-module.exports = (EarnedAchievementCollection = (function() {
+module.exports = (EarnedAchievementCollection = (function () {
   EarnedAchievementCollection = class EarnedAchievementCollection extends CocoCollection {
-    static initClass() {
-      this.prototype.model = EarnedAchievement;
+    static initClass () {
+      this.prototype.model = EarnedAchievement
     }
 
-    initialize(userID) {
-      this.url = `/db/user/${userID}/achievements`;
-      return super.initialize();
+    initialize (userID) {
+      this.url = `/db/user/${userID}/achievements`
+      return super.initialize()
     }
-  };
-  EarnedAchievementCollection.initClass();
-  return EarnedAchievementCollection;
-})());
+  }
+  EarnedAchievementCollection.initClass()
+  return EarnedAchievementCollection
+})())

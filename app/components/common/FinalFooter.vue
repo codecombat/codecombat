@@ -1,7 +1,7 @@
 <script>
 import {
   isCodeCombat,
-  isOzaria,
+  isOzaria
 } from 'core/utils'
 
 import { COCO_CHINA_CONST } from 'core/constants'
@@ -17,14 +17,14 @@ export default Vue.extend({
 
     isOzaria () {
       return isOzaria
-    },
+    }
   },
   created () {
     // Bind the global values to the vue component.
     this.me = me
     this.document = window.document
     this.COCO_CHINA_CONST = COCO_CHINA_CONST
-  },
+  }
 })
 </script>
 
@@ -62,7 +62,6 @@ export default Vue.extend({
 @import "app/styles/bootstrap/variables"
 @import "app/styles/mixins"
 @import "app/styles/style-flat-variables"
-
 
 #final-footer
   padding: 20px 70px 14px

@@ -40,7 +40,7 @@ export default {
     },
     setSelectedCourseIdCurrentClassroom (state, { courseId }) {
       if (state.classroomId) {
-        localStorage.setItem(getLastSelectedCourseKey(state), courseId);
+        localStorage.setItem(getLastSelectedCourseKey(state), courseId)
         Vue.set(state.selectedCourseIdForClassroom, state.classroomId, courseId)
       }
     },
@@ -100,11 +100,11 @@ export default {
     },
     getCurrentClassroom (state, _getters, _rootState, rootGetters) {
       if (state.teacherId && state.classroomId) {
-        let classrooms = [
+        const classrooms = [
           ...(rootGetters['classrooms/getActiveClassroomsByTeacher'](state.teacherId) || []),
           ...(rootGetters['classrooms/getSharedClassroomsByTeacher'](state.teacherId) || [])
         ]
-        if (!classrooms || classrooms.length === 0){
+        if (!classrooms || classrooms.length === 0) {
           return rootGetters['classrooms/getClassroomById'](state.classroomId) || {}
         }
         return classrooms.find((c) => c._id === state.classroomId) || {}
@@ -114,7 +114,7 @@ export default {
     },
     getCoursesCurrentClassroom (state, getters, _rootState, rootGetters) {
       if (state.classroomId) {
-        const classroom = getters['getCurrentClassroom']
+        const classroom = getters.getCurrentClassroom
         const classroomCourseIds = (classroom.courses || []).map((c) => c._id) || []
         const courses = rootGetters['courses/sorted'] || []
         return courses.filter((c) => classroomCourseIds.includes(c._id))
@@ -125,13 +125,12 @@ export default {
       if (state.classroomId && state.selectedCourseIdForClassroom[state.classroomId]) {
         return state.selectedCourseIdForClassroom[state.classroomId]
       } else {
-
-        const savedCourseId = localStorage.getItem(getLastSelectedCourseKey(state));
-        if(savedCourseId){
-          return savedCourseId;
+        const savedCourseId = localStorage.getItem(getLastSelectedCourseKey(state))
+        if (savedCourseId) {
+          return savedCourseId
         }
 
-        const classroomCourses = getters['getCoursesCurrentClassroom'] || []
+        const classroomCourses = getters.getCoursesCurrentClassroom || []
         if (classroomCourses.length > 0) {
           return (classroomCourses[0] || {})._id
         }
@@ -139,7 +138,7 @@ export default {
     },
     getMembersCurrentClassroom (state, getters, _rootState, rootGetters) {
       if (state.classroomId) {
-        const classroom = getters['getCurrentClassroom']
+        const classroom = getters.getCurrentClassroom
         return rootGetters['users/getClassroomMembers'](classroom) || []
       }
       return []
@@ -273,14 +272,14 @@ export default {
 
       let isSharedClass = false
       let teacherId = state.teacherId
-      const classroom = getters['getCurrentClassroom']
+      const classroom = getters.getCurrentClassroom
       if (classroom) {
         isSharedClass = (classroom.permissions || []).find((p) => p.target === me.get('_id'))
         if (isSharedClass) {
           teacherId = classroom.ownerID
         }
       }
-      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: teacherId, sharedClassroomId: (isSharedClass ? state.classroomId : null) }, { root: true }))
+      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId, sharedClassroomId: (isSharedClass ? state.classroomId : null) }, { root: true }))
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
 
       await Promise.all(fetchPromises)
@@ -320,7 +319,7 @@ export default {
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true }))
 
-      const licenses = getters['getActiveLicenses'].concat(getters['getExpiredLicenses'])
+      const licenses = getters.getActiveLicenses.concat(getters.getExpiredLicenses)
       const licenseIds = (licenses || []).map((l) => l._id)
 
       licenseIds.forEach((id) => {

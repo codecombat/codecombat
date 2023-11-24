@@ -7,37 +7,37 @@ export default {
     paymentGroup: {}
   },
   mutations: {
-    setPaymentGroup(state, paymentGroup) {
-      state.paymentGroup = { ...paymentGroup };
+    setPaymentGroup (state, paymentGroup) {
+      state.paymentGroup = { ...paymentGroup }
     },
-    setLoading(state, loading) {
-      state.loading = loading;
-    },
+    setLoading (state, loading) {
+      state.loading = loading
+    }
   },
   getters: {
-    paymentGroup(state) {
-      return state.paymentGroup;
+    paymentGroup (state) {
+      return state.paymentGroup
     },
-    loading(state) {
-      return state.loading;
-    },
+    loading (state) {
+      return state.loading
+    }
   },
   actions: {
-    async fetch({ commit,state }, slug) {
+    async fetch ({ commit, state }, slug) {
       commit('setLoading', true)
       if (state.paymentGroup.slug === slug) {
         commit('setLoading', false)
         return
       }
-      let paymentGroup;
+      let paymentGroup
       try {
-        paymentGroup = await getPaymentGroup(slug);
+        paymentGroup = await getPaymentGroup(slug)
       } catch (err) {
-        console.error('GET paymentGroup failed', err);
+        console.error('GET paymentGroup failed', err)
         return
       }
-      commit('setPaymentGroup', paymentGroup.data);
-      commit('setLoading', false);
+      commit('setPaymentGroup', paymentGroup.data)
+      commit('setLoading', false)
     }
   }
 }
