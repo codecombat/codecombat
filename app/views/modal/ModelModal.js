@@ -25,7 +25,7 @@ module.exports = (ModelModal = (function() {
 
     constructor (options = {}) {
       super(options)
-      this.models = !options.models ? options.models : [];
+      this.models = options.models || [];
       const result = []
       for (const model of Array.from(this.models)) {
         if (!model.loaded) {
