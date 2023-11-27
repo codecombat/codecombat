@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+const c = require('./../schemas')
 
 const TournamentSchema = c.object({
   title: 'Tournament',
@@ -9,9 +9,9 @@ const TournamentSchema = c.object({
   default: {
     simulationType: 'round-robin'
   }
-});
+})
 
-c.extendNamedProperties(TournamentSchema);
+c.extendNamedProperties(TournamentSchema)
 
 _.extend(TournamentSchema.properties, {
   description: {
@@ -40,9 +40,9 @@ _.extend(TournamentSchema.properties, {
     type: 'string',
     enum: ['initializing', 'starting', 'ranking', 'waiting', 'ended', 'disabled']
   },
-  clan: c.objectId({links: [{rel: 'db', href: '/db/clan/{($)}'}]})
+  clan: c.objectId({ links: [{ rel: 'db', href: '/db/clan/{($)}' }] })
 }
-);
+)
 
-c.extendBasicProperties(TournamentSchema, 'tournament');
-module.exports = TournamentSchema;
+c.extendBasicProperties(TournamentSchema, 'tournament')
+module.exports = TournamentSchema

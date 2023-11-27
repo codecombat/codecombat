@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+const c = require('./../schemas')
 
 const OAuthProviderSchema = {
   description: 'A service which provides OAuth identification, login for our users.',
@@ -12,12 +12,11 @@ const OAuthProviderSchema = {
     },
     lookupUrlTemplate: {
       type: 'string',
-      description: `\
-A template of the URL for the user resource. Should include "<%= accessToken %>" for string interpolation.`
+      description: 'A template of the URL for the user resource. Should include "<%= accessToken %>" for string interpolation.'
     },
-    lookupIdProperty: { 
-      type: 'string', 
-      description: 'What property in the response from lookupUrlTemplate to use as the user id. Defaults to "id".' 
+    lookupIdProperty: {
+      type: 'string',
+      description: 'What property in the response from lookupUrlTemplate to use as the user id. Defaults to "id".'
     },
     tokenUrl: { type: 'string' },
     tokenAuth: {
@@ -29,15 +28,15 @@ A template of the URL for the user resource. Should include "<%= accessToken %>"
         sendImmediately: { type: 'boolean' }
       }
     },
-    tokenMethod: { enum: ['get', 'post']},
+    tokenMethod: { enum: ['get', 'post'] },
     authorizeUrl: { type: 'string' },
     clientID: { type: 'string' },
     strictSSL: { type: 'boolean' },
     redirectAfterLogin: { type: 'string' }
   }
-};
+}
 
-c.extendBasicProperties(OAuthProviderSchema, 'OAuthProvider');
-c.extendNamedProperties(OAuthProviderSchema);
+c.extendBasicProperties(OAuthProviderSchema, 'OAuthProvider')
+c.extendNamedProperties(OAuthProviderSchema)
 
-module.exports = OAuthProviderSchema;
+module.exports = OAuthProviderSchema

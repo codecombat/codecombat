@@ -26,16 +26,16 @@ const StandardsCorrelation = c.object(
     }),
     country: c.shortString({
       title: 'Country',
-      enum: utils.countries.map(c => c.country),
+      enum: utils.countries.map(c => c.country)
     }),
     gradeLevels: {
       title: 'Grade Levels',
-      type: "object",
+      type: 'object',
       additionalProperties: {
         type: 'object',
         properties: {
           sections: c.array({
-            title: 'Sections',
+            title: 'Sections'
           }, {
             type: 'object',
             properties: {
@@ -62,7 +62,7 @@ const StandardsCorrelation = c.object(
                 }
               })
             }
-          }),
+          })
         }
       }
     },

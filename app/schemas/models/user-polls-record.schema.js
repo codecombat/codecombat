@@ -1,27 +1,27 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+const c = require('./../schemas')
 
-const UserPollsRecordSchema = c.object({title: 'UserPollsRecord'});
+const UserPollsRecordSchema = c.object({ title: 'UserPollsRecord' })
 
 _.extend(UserPollsRecordSchema.properties, {
-  user: c.stringID({links: [{rel: 'extra', href: '/db/user/{($)}'}]}),
-  polls: {  // Poll ID strings -> answer key strings
+  user: c.stringID({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] }),
+  polls: { // Poll ID strings -> answer key strings
     type: 'object',
-    additionalProperties: c.shortString({pattern: '^[a-z0-9-]+$'})
+    additionalProperties: c.shortString({ pattern: '^[a-z0-9-]+$' })
   },
-  rewards: {  // Poll ID strings -> reward objects, for calculating gems
+  rewards: { // Poll ID strings -> reward objects, for calculating gems
     type: 'object',
     additionalProperties: c.object({}, {
-      random: {type: 'number', minimum: 0, maximum: 1},
-      level: {type: 'integer', minimum: 1}
+      random: { type: 'number', minimum: 0, maximum: 1 },
+      level: { type: 'integer', minimum: 1 }
     })
   },
-  level: {type: 'integer', minimum: 1, description: 'The player level when last saved.'},
-  changed: c.date({title: 'Changed', readOnly: true})
+  level: { type: 'integer', minimum: 1, description: 'The player level when last saved.' },
+  changed: c.date({ title: 'Changed', readOnly: true })
 }
-);  // Controls when next poll is available
+) // Controls when next poll is available
 
-c.extendBasicProperties(UserPollsRecordSchema, 'user-polls-record');
+c.extendBasicProperties(UserPollsRecordSchema, 'user-polls-record')
 
-module.exports = UserPollsRecordSchema;
+module.exports = UserPollsRecordSchema

@@ -1,13 +1,13 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('schemas/schemas');
-const ChatMessage = require('schemas/models/chat_message.schema');
+const c = require('schemas/schemas')
+const ChatMessage = require('schemas/models/chat_message.schema')
 
 module.exports = {
   // TODO There should be a better way to divide these channels into smaller ones
 
-  'level:session-will-save': c.object({required: ['session']},
-    {session: {type: 'object'}}),
+  'level:session-will-save': c.object({ required: ['session'] },
+    { session: { type: 'object' } }),
 
   'level:shift-space-pressed': c.object({}),
 
@@ -25,93 +25,92 @@ module.exports = {
   }
   ),
 
-
   'level:set-letterbox': c.object({},
-    {on: {type: 'boolean'}}),
+    { on: { type: 'boolean' } }),
 
   'level:started': c.object({}),
 
-  'level:set-debug': c.object({required: ['debug']},
-    {debug: {type: 'boolean'}}),
+  'level:set-debug': c.object({ required: ['debug'] },
+    { debug: { type: 'boolean' } }),
 
   'level:restart': c.object({}),
 
   'level:restarted': c.object({}),
 
-  'level:set-volume': c.object({required: ['volume']},
-    {volume: {type: 'number', minimum: 0, maximum: 1}}),
+  'level:set-volume': c.object({ required: ['volume'] },
+    { volume: { type: 'number', minimum: 0, maximum: 1 } }),
 
   'level:set-time': c.object({}, {
-    time: {type: 'number', minimum: 0},
-    ratio: {type: 'number', minimum: 0, maximum: 1},
-    ratioOffset: {type: 'number'},
-    frameOffset: {type: 'number'},
-    scrubDuration: {type: 'number', minimum: 0}
+    time: { type: 'number', minimum: 0 },
+    ratio: { type: 'number', minimum: 0, maximum: 1 },
+    ratioOffset: { type: 'number' },
+    frameOffset: { type: 'number' },
+    scrubDuration: { type: 'number', minimum: 0 }
   }),
 
   'level:select-sprite': c.object({}, {
-    thangID: {type: ['string', 'null', 'undefined']},
-    spellName: {type: ['string', 'null', 'undefined']}
+    thangID: { type: ['string', 'null', 'undefined'] },
+    spellName: { type: ['string', 'null', 'undefined'] }
   }),
 
-  'level:set-playing': c.object({required: ['playing']},
-    {playing: {type: 'boolean'}}),
+  'level:set-playing': c.object({ required: ['playing'] },
+    { playing: { type: 'boolean' } }),
 
-  'level:team-set': c.object({required: ['team']},
-    {team: c.shortString()}),
+  'level:team-set': c.object({ required: ['team'] },
+    { team: c.shortString() }),
 
   'level:docs-shown': c.object({}),
 
   'level:docs-hidden': c.object({}),
 
   'level:hints-button': c.object({},
-    {state: {type: 'boolean'}}),
+    { state: { type: 'boolean' } }),
 
   'level:flag-color-selected': c.object({}, {
     color: {
       oneOf: [
-        {type: 'null'},
-        {type: 'string', enum: ['green', 'black', 'violet'], description: 'The flag color to place next, or omitted/null if deselected.'}
+        { type: 'null' },
+        { type: 'string', enum: ['green', 'black', 'violet'], description: 'The flag color to place next, or omitted/null if deselected.' }
       ]
     },
-    pos: c.object({required: ['x', 'y']}, {
-      x: {type: 'number'},
-      y: {type: 'number'}
+    pos: c.object({ required: ['x', 'y'] }, {
+      x: { type: 'number' },
+      y: { type: 'number' }
     })
   }),
 
-  'level:flag-updated': c.object({required: ['player', 'color', 'time', 'active']}, {
-    player: {type: 'string'},
-    team: {type: 'string'},
-    color: {type: 'string', enum: ['green', 'black', 'violet']},
-    time: {type: 'number', minimum: 0},
-    active: {type: 'boolean'},
-    pos: c.object({required: ['x', 'y']}, {
-      x: {type: 'number'},
-      y: {type: 'number'}
+  'level:flag-updated': c.object({ required: ['player', 'color', 'time', 'active'] }, {
+    player: { type: 'string' },
+    team: { type: 'string' },
+    color: { type: 'string', enum: ['green', 'black', 'violet'] },
+    time: { type: 'number', minimum: 0 },
+    active: { type: 'boolean' },
+    pos: c.object({ required: ['x', 'y'] }, {
+      x: { type: 'number' },
+      y: { type: 'number' }
     }),
-    source: {type: 'string', enum: ['click', 'code']}
+    source: { type: 'string', enum: ['click', 'code'] }
   }),
 
   'level:next-game-pressed': c.object({}),
 
-  'level:loaded': c.object({required: ['level']}, {
-    level: {type: 'object'},
-    team: {type: ['string', 'null', 'undefined']}
+  'level:loaded': c.object({ required: ['level'] }, {
+    level: { type: 'object' },
+    team: { type: ['string', 'null', 'undefined'] }
   }),
 
-  'level:session-loaded': c.object({required: ['level', 'session']}, {
-    level: {type: 'object'},
-    session: {type: 'object'}
+  'level:session-loaded': c.object({ required: ['level', 'session'] }, {
+    level: { type: 'object' },
+    session: { type: 'object' }
   }),
 
   'level:loading-view-unveiling': c.object({}),
 
-  'level:loading-view-unveiled': c.object({required: ['view']},
-    {view: {type: 'object'}}),
+  'level:loading-view-unveiled': c.object({ required: ['view'] },
+    { view: { type: 'object' } }),
 
-  'playback:manually-scrubbed': c.object({required: ['ratio']},
-    {ratio: {type: 'number', minimum: 0, maximum: 1}}),
+  'playback:manually-scrubbed': c.object({ required: ['ratio'] },
+    { ratio: { type: 'number', minimum: 0, maximum: 1 } }),
 
   'playback:stop-real-time-playback': c.object({}),
 
@@ -125,10 +124,10 @@ module.exports = {
 
   'playback:cinematic-playback-ended': c.object({}),
 
-  'playback:ended-changed': c.object({required: ['ended']},
-    {ended: {type: 'boolean'}}),
+  'playback:ended-changed': c.object({ required: ['ended'] },
+    { ended: { type: 'boolean' } }),
 
-  'playback:playback-ended': c.object({description: 'Ozaria uses this; not sure if it needs to be different from surface:playback-ended'}),
+  'playback:playback-ended': c.object({ description: 'Ozaria uses this; not sure if it needs to be different from surface:playback-ended' }),
 
   'level:toggle-playing': c.object({}),
 
@@ -142,33 +141,33 @@ module.exports = {
 
   'level:scrub-back': c.object({}),
 
-  'level:show-victory': c.object({required: ['showModal']}, {
-    showModal: {type: 'boolean'},
+  'level:show-victory': c.object({ required: ['showModal'] }, {
+    showModal: { type: 'boolean' },
     manual: { type: 'boolean' },
     capstoneInProgress: { type: 'boolean' },
     isCapstone: { type: 'boolean' }
   }),
 
-  'level:highlight-dom': c.object({required: ['selector']}, {
-    selector: {type: 'string'},
-    delay: {type: ['number', 'null', 'undefined']},
-    sides: {type: 'array', items: {'enum': ['left', 'right', 'top', 'bottom']}},
-    offset: {type: 'object'},
-    rotation: {type: 'number'}
+  'level:highlight-dom': c.object({ required: ['selector'] }, {
+    selector: { type: 'string' },
+    delay: { type: ['number', 'null', 'undefined'] },
+    sides: { type: 'array', items: { enum: ['left', 'right', 'top', 'bottom'] } },
+    offset: { type: 'object' },
+    rotation: { type: 'number' }
   }),
 
   'level:end-highlight-dom': c.object({}),
 
   'level:focus-dom': c.object({},
-    {selector: {type: 'string'}}),
+    { selector: { type: 'string' } }),
 
   'level:lock-select': c.object({},
-    {lock: {type: ['boolean', 'array']}}),
+    { lock: { type: ['boolean', 'array'] } }),
 
-  'level:suppress-selection-sounds': c.object({required: ['suppress']},
-    {suppress: {type: 'boolean'}}),
+  'level:suppress-selection-sounds': c.object({ required: ['suppress'] },
+    { suppress: { type: 'boolean' } }),
 
-  'goal-manager:new-goal-states': c.object({required: ['goalStates', 'goals', 'overallStatus', 'timedOut']}, {
+  'goal-manager:new-goal-states': c.object({ required: ['goalStates', 'goals', 'overallStatus', 'timedOut'] }, {
     goalStates: {
       type: 'object',
       additionalProperties: {
@@ -177,48 +176,48 @@ module.exports = {
         properties: {
           status: {
             oneOf: [
-              {type: 'null'},
-              {type: 'string', enum: ['success', 'failure', 'incomplete']}
+              { type: 'null' },
+              { type: 'string', enum: ['success', 'failure', 'incomplete'] }
             ]
           },
           keyFrame: {
             oneOf: [
-              {type: 'integer', minimum: 0},
-              {type: 'string', enum: ['end']}
+              { type: 'integer', minimum: 0 },
+              { type: 'string', enum: ['end'] }
             ]
           },
-          team: {type: ['null', 'string', 'undefined']}
+          team: { type: ['null', 'string', 'undefined'] }
         }
       }
     },
     goals: c.array({},
-      {type: 'object'}),
+      { type: 'object' }),
     overallStatus: {
       oneOf: [
-        {type: 'null'},
-        {type: 'string', enum: ['success', 'failure', 'incomplete']}
+        { type: 'null' },
+        { type: 'string', enum: ['success', 'failure', 'incomplete'] }
       ]
     },
-    timedOut: {type: 'boolean'},
-    capstoneStage: {type: ['integer', 'undefined']}
+    timedOut: { type: 'boolean' },
+    capstoneStage: { type: ['integer', 'undefined'] }
   }),
 
   'level:hero-config-changed': c.object({}),
 
-  'level:hero-selection-updated': c.object({required: ['hero']},
-    {hero: {type: 'object'}}),
+  'level:hero-selection-updated': c.object({ required: ['hero'] },
+    { hero: { type: 'object' } }),
 
   'level:subscription-required': c.object({}),
 
   'level:course-membership-required': c.object({}),
 
-  'level:contact-button-pressed': c.object({title: 'Contact Pressed', description: 'Dispatched when the contact button is pressed in a level.'}),
+  'level:contact-button-pressed': c.object({ title: 'Contact Pressed', description: 'Dispatched when the contact button is pressed in a level.' }),
 
-  'level:surface-context-menu-pressed': c.object({required: ['posX', 'posY', 'wopX', 'wopY']}, {
-    posX: {type: 'number'},
-    posY: {type: 'number'},
-    wopX: {type: 'number'},
-    wopY: {type: 'number'}
+  'level:surface-context-menu-pressed': c.object({ required: ['posX', 'posY', 'wopX', 'wopY'] }, {
+    posX: { type: 'number' },
+    posY: { type: 'number' },
+    wopX: { type: 'number' },
+    wopY: { type: 'number' }
   }),
 
   'level:surface-context-menu-hide': c.object({}),
@@ -229,17 +228,17 @@ module.exports = {
 
   'level:scores-updated': c.object({}, {
     scores: c.array({},
-      c.object({required: ['type', 'score']}, {
+      c.object({ required: ['type', 'score'] }, {
         type: c.shortString(),
-        score: {type: 'number'}
+        score: { type: 'number' }
       }))
   }),
 
   'level:top-scores-updated': c.object({}, {
     scores: c.array({},
-      c.object({required: ['type', 'score']}, {
+      c.object({ required: ['type', 'score'] }, {
         type: c.shortString(),
-        score: {type: 'number'},
+        score: { type: 'number' },
         date: c.date()
       }
       )
@@ -247,21 +246,21 @@ module.exports = {
   }
   ),
 
-  'level:gather-chat-message-context': c.object({required: ['chat']},
-    {chat: ChatMessage}),
+  'level:gather-chat-message-context': c.object({ required: ['chat'] },
+    { chat: ChatMessage }),
 
   'level:streaming-solution': c.object({},
-    {finish: {type: 'boolean'}}),
+    { finish: { type: 'boolean' } }),
 
-  'level:add-user-chat': c.object({required: ['message']},
-    {message: {type: 'string'}}),
+  'level:add-user-chat': c.object({ required: ['message'] },
+    { message: { type: 'string' } }),
 
-  'level:update-solution': c.object({required: ['code']},
-    {code: {type: 'string'}}),
+  'level:update-solution': c.object({ required: ['code'] },
+    { code: { type: 'string' } }),
 
   'level:toggle-solution': c.object({},
-    {code: {type: 'string'}}),
+    { code: { type: 'string' } }),
 
   'level:close-solution': c.object({},
-    {removeButton: {type: 'boolean'}})
-};
+    { removeButton: { type: 'boolean' } })
+}

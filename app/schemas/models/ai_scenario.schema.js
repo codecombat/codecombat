@@ -8,49 +8,49 @@ const c = require('./../schemas')
 
 const AIScenarioSchema = c.object({
   title: 'AI Scenario',
-  description: 'A generative AI scenario',
+  description: 'A generative AI scenario'
 })
 
 _.extend(AIScenarioSchema.properties, {
   persona: {
     title: 'Persona',
     type: 'string',
-    description: 'Which persona this scenario is for (kid, teacher, parent, etc.)',
+    description: 'Which persona this scenario is for (kid, teacher, parent, etc.)'
   },
   mode: {
     title: 'Mode',
     type: 'string',
     description: 'Which mode this scenario is for (learn to use, practice using, etc.)',
-    enum: ['learn to use', 'practice using', 'use', 'teach how to use'],
+    enum: ['learn to use', 'practice using', 'use', 'teach how to use']
   },
   tool: {
     title: 'Tool',
     type: 'string',
     description:
-      'Which generative AI tool this scenario is for (ChatGPT 4, ChatGPT 3.5, Stable Diffusion, DALL-E 2, etc.)',
+      'Which generative AI tool this scenario is for (ChatGPT 4, ChatGPT 3.5, Stable Diffusion, DALL-E 2, etc.)'
   },
   task: {
     title: 'Task',
     type: 'string',
-    description: 'Which task verb this scenario is for (make, edit, explain, etc.)',
+    description: 'Which task verb this scenario is for (make, edit, explain, etc.)'
   },
   doc: {
     title: 'Doc',
     type: 'string',
-    description: 'Which document type this scenario is for (a webpage, an essay, an image, etc.))',
+    description: 'Which document type this scenario is for (a webpage, an essay, an image, etc.))'
   },
   releasePhase: {
     title: 'Release Phase',
     type: 'string',
     description:
       'Scenarios are initially created as drafts, start off publicly in beta, then are released when they are completed',
-    enum: ['beta', 'released', 'draft'],
+    enum: ['beta', 'released', 'draft']
   },
   initialActionQueue: {
     title: 'Initial Action Queue',
     type: 'array',
     description: 'Actions to add to a project when it is created from this scenario',
-    items: { type: ['object', 'string'], format: 'chat-message-link' },
+    items: { type: ['object', 'string'], format: 'chat-message-link' }
   },
   i18n: {
     title: 'I18n',
