@@ -18,12 +18,12 @@ _.extend(OAuth2IdentitySchema.properties, {
       expires_in: { type: 'integer', description: 'The number of seconds until the token expires' },
       id_token: { type: 'string', description: 'The id token for the user' },
       scope: { type: 'string', description: 'The scope of the token' },
-      expires_at: { type: schema.date(), description: 'The time at which the token expires' },
+      expires_at: { type: schema.date(), description: 'The time at which the token expires' }
     }
   },
-  profile: {type: 'object', description: 'The profile info of the user on the OAuth2 provider'},
+  profile: { type: 'object', description: 'The profile info of the user on the OAuth2 provider' }
 })
 
-schema.extendBasicProperties(OAuth2IdentitySchema,'oauth2identity',)
+schema.extendBasicProperties(OAuth2IdentitySchema, 'oauth2identity')
 
 module.exports = OAuth2IdentitySchema

@@ -15,4 +15,4 @@ module.exports = {
     required: [],
     additionalProperties: true
   }
-};
+}

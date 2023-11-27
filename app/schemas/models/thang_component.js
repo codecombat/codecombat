@@ -1,9 +1,8 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-let ThangComponentSchema;
-const c = require('./../schemas');
+const c = require('./../schemas')
 
-module.exports = (ThangComponentSchema = c.object({
+module.exports = c.object({
   title: 'Component',
   description: 'Configuration for a Component that this Thang uses.',
   format: 'component-reference',
@@ -12,10 +11,10 @@ module.exports = (ThangComponentSchema = c.object({
     majorVersion: 0,
     config: {}
   },
-  links: [{rel: 'db', href: '/db/level.component/{(original)}/version/{(majorVersion)}'}]
+  links: [{ rel: 'db', href: '/db/level.component/{(original)}/version/{(majorVersion)}' }]
 }, {
-  original: c.objectId({title: 'Original', description: 'A reference to the original Component being configured.', format: 'hidden'}),
-  config: c.object({title: 'Configuration', description: 'Component-specific configuration properties.', additionalProperties: true, format: 'thang-component-configuration'}),
+  original: c.objectId({ title: 'Original', description: 'A reference to the original Component being configured.', format: 'hidden' }),
+  config: c.object({ title: 'Configuration', description: 'Component-specific configuration properties.', additionalProperties: true, format: 'thang-component-configuration' }),
   majorVersion: {
     title: 'Major Version',
     description: 'Which major version of the Component is being used.',
@@ -24,4 +23,4 @@ module.exports = (ThangComponentSchema = c.object({
     format: 'hidden'
   }
 }
-));
+)

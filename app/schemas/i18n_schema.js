@@ -1,11 +1,9 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-//this file will hold the experimental JSON schema for i18n
-const c = require('./schemas');
+// this file will hold the experimental JSON schema for i18n
+const c = require('./schemas') // eslint-disable-line no-unused-vars
 
-const languageCodeArrayRegex = c.generateLanguageCodeArrayRegex();
-
-const ExampleSchema = {
+const ExampleSchema = { // eslint-disable-line no-unused-vars
   title: 'Example Schema',
   description: 'An example schema',
   type: 'object',
@@ -16,7 +14,7 @@ const ExampleSchema = {
       type: 'string',
       maxLength: 400
     },
-    i18n: {'$ref': '#/definitions/i18n'}
+    i18n: { $ref: '#/definitions/i18n' }
   },
   definitions: {
     i18n: {
@@ -27,11 +25,11 @@ const ExampleSchema = {
         languageCodeArrayRegex: {
           additionalProperties: false,
           properties: {
-          //put the translatable properties here
-          //if it is possible to not include i18n with a reference
+          // put the translatable properties here
+          // if it is possible to not include i18n with a reference
           // to #/properties, you could just do
-          properties: {'$ref': '#/properties'}
-           // text: {'$ref': '#/properties/text'}
+            properties: { $ref: '#/properties' }
+            // text: {'$ref': '#/properties/text'}
           },
           default: {
             title: 'LanguageCode',
@@ -41,7 +39,7 @@ const ExampleSchema = {
       }
     }
   }
-};
+}
 
-//define a i18n object type for each schema, then have the i18n have it's oneOf check against
-//translatable schemas of that object
+// define a i18n object type for each schema, then have the i18n have it's oneOf check against
+// translatable schemas of that object

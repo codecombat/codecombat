@@ -8,7 +8,7 @@ const c = require('./../schemas')
 
 const AIModelSchema = c.object({
   title: 'AI Model',
-  description: 'A generative AI model',
+  description: 'A generative AI model'
 })
 
 _.extend(AIModelSchema.properties, {
@@ -17,14 +17,14 @@ _.extend(AIModelSchema.properties, {
     title: 'Family',
     type: 'string',
     description: 'The common name for the model or the family of models it is in',
-    enum: ['ChatGPT', 'Stable Diffusion', 'Claude'],
+    enum: ['ChatGPT', 'Stable Diffusion', 'Claude']
   },
   description: {
     title: 'Description',
     type: 'string',
     description: 'A short explanation of what this model does',
-    maxLength: 2000,
-  },
+    maxLength: 2000
+  }
 })
 
 AIModelSchema.required = ['name', 'family']

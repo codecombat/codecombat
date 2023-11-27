@@ -8,7 +8,8 @@ const interactiveDraggableOrderingSchema = {
   additionalProperties: false,
   title: 'Draggable Ordering interactive data',
   properties: {
-    labels: { type: 'array',
+    labels: {
+      type: 'array',
       items: {
         type: 'object',
         additionalProperties: false,
