@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const text = fs.readFileSync("./app/locale/en.coffee").toString();
+const text = fs.readFileSync("./app/locale/en.js").toString();
 
 const lines = text.split('\n');
 
@@ -13,12 +13,13 @@ const rot13 = s => s.split('').map(function(char) {
 
 const output = lines.map(function(line, index) {
   if (index === 0) {
-    return 'module.exports = nativeDescription: "rot13", englishDescription: "English with the letters jumbled", translation:';
+    return 'module.exports = {'
   }
   if (!line.match(':')) { return line; }
   const separator = line.match(':').index;
   const leftHalf = line.slice(0, separator);
   const rightHalf = line.slice(separator);
-  return leftHalf + rot13(rightHalf);}).join('\n');
+  return leftHalf + rot13(rightHalf);
+}).join('\n');
 
-fs.writeFileSync("./app/locale/rot13.coffee", output);
+fs.writeFileSync("./app/locale/rot13.js", output);
