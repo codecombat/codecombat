@@ -198,7 +198,7 @@ export default {
     onLockSolutionGuideClick () {
       noty({
         type: 'information',
-        text: 'Only available to paid users',
+        text: 'Only available to online-classes paid users',
         timeout: 5000,
         layout: 'center'
       })

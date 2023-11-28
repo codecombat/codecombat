@@ -1,7 +1,7 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
-const metaschema = require('./../metaschema');
+const c = require('./../schemas')
+const metaschema = require('./../metaschema')
 
 const jitterSystemCode = `\
 class Jitter extends System
@@ -18,16 +18,16 @@ class Jitter extends System
       hash += thang.pos.y += 0.5 - Math.random()
       thang.hasMoved = true
     return hash\
-`;
+`
 
 const DependencySchema = c.object({
   title: 'System Dependency',
   description: 'A System upon which this System depends.',
   required: ['original', 'majorVersion'],
   format: 'latest-version-reference',
-  links: [{rel: 'db', href: '/db/level.system/{(original)}/version/{(majorVersion)}'}]
+  links: [{ rel: 'db', href: '/db/level.system/{(original)}/version/{(majorVersion)}' }]
 }, {
-  original: c.objectId({title: 'Original', description: 'A reference to another System upon which this System depends.'}),
+  original: c.objectId({ title: 'Original', description: 'A reference to another System upon which this System depends.' }),
   majorVersion: {
     title: 'Major Version',
     description: 'Which major version of the System this System needs.',
@@ -35,7 +35,7 @@ const DependencySchema = c.object({
     minimum: 0
   }
 }
-);
+)
 
 const LevelSystemSchema = c.object({
   title: 'System',
@@ -46,12 +46,12 @@ const LevelSystemSchema = c.object({
     description: 'This System makes all idle, movable Thangs jitter around.',
     code: jitterSystemCode,
     codeLanguage: 'coffeescript',
-    dependencies: [],  // TODO: should depend on something by default
+    dependencies: [], // TODO: should depend on something by default
     configSchema: {}
   }
-});
-c.extendNamedProperties(LevelSystemSchema);  // let's have the name be the first property
-LevelSystemSchema.properties.name.pattern = c.classNamePattern;
+})
+c.extendNamedProperties(LevelSystemSchema) // let's have the name be the first property
+LevelSystemSchema.properties.name.pattern = c.classNamePattern
 _.extend(LevelSystemSchema.properties, {
   description: {
     title: 'Description',
@@ -63,7 +63,7 @@ _.extend(LevelSystemSchema.properties, {
     type: 'string',
     title: 'Language',
     description: 'Which programming language this System is written in.',
-    'enum': ['coffeescript', 'javascript']
+    enum: ['coffeescript', 'javascript']
   },
   code: {
     title: 'Code',
@@ -77,20 +77,20 @@ _.extend(LevelSystemSchema.properties, {
     type: 'string',
     format: 'hidden'
   },
-  dependencies: c.array({title: 'Dependencies', description: 'An array of Systems upon which this System depends.', uniqueItems: true}, DependencySchema),
-  configSchema: _.extend(metaschema, {title: 'Configuration Schema', description: 'A schema for validating the arguments that can be passed to this System as configuration.', default: {type: 'object', additionalProperties: false}}),
+  dependencies: c.array({ title: 'Dependencies', description: 'An array of Systems upon which this System depends.', uniqueItems: true }, DependencySchema),
+  configSchema: _.extend(metaschema, { title: 'Configuration Schema', description: 'A schema for validating the arguments that can be passed to this System as configuration.', default: { type: 'object', additionalProperties: false } }),
   official: {
     type: 'boolean',
     title: 'Official',
     description: 'Whether this is an official CodeCombat System.'
   }
 }
-);
+)
 
-c.extendBasicProperties(LevelSystemSchema, 'level.system');
-c.extendSearchableProperties(LevelSystemSchema);
-c.extendVersionedProperties(LevelSystemSchema, 'level.system');
-c.extendPermissionsProperties(LevelSystemSchema);
-c.extendPatchableProperties(LevelSystemSchema);
+c.extendBasicProperties(LevelSystemSchema, 'level.system')
+c.extendSearchableProperties(LevelSystemSchema)
+c.extendVersionedProperties(LevelSystemSchema, 'level.system')
+c.extendPermissionsProperties(LevelSystemSchema)
+c.extendPatchableProperties(LevelSystemSchema)
 
-module.exports = LevelSystemSchema;
+module.exports = LevelSystemSchema

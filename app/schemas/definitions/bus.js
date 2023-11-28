@@ -18,4 +18,4 @@ module.exports = {
     required: ['joined', 'players'],
     additionalProperties: true
   }
-};
+}

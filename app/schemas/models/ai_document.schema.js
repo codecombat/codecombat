@@ -8,7 +8,7 @@ const c = require('./../schemas')
 
 const AIDocumentSchema = c.object({
   title: 'AI Document',
-  description: 'A code/image/whatever thing that is hacked on inside an AI project',
+  description: 'A code/image/whatever thing that is hacked on inside an AI project'
 })
 
 _.extend(AIDocumentSchema.properties, {

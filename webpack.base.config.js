@@ -12,6 +12,7 @@ const glob = require('glob')
 require('coffee-script')
 require('coffee-script/register')
 const product = process.env.COCO_PRODUCT || 'codecombat'
+const shaTag = process.env.GIT_SHA || 'dev'
 const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
 require.extensions[`.${productSuffix}.coffee`] = require.extensions['.coffee']
 const CompileStaticTemplatesPlugin = require('./compile-static-templates')
@@ -280,7 +281,8 @@ module.exports = (env) => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        "COCO_PRODUCT": JSON.stringify(product) // Has to stringify
+        "COCO_PRODUCT": JSON.stringify(product), // Has to stringify
+        "SHA_TAG": JSON.stringify(shaTag)
       }),
       new webpack.ProgressPlugin({ profile: false }), // Always show build progress
       new MiniCssExtractPlugin({ // Move CSS into external file

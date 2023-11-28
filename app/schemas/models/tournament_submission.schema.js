@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+const c = require('./../schemas')
 
 const TournamentSubmissionSchema = c.object({
   title: 'Submission',
@@ -9,7 +9,7 @@ const TournamentSubmissionSchema = c.object({
     submittedCodeLanguage: 'python',
     totalScore: 10
   }
-});
+})
 
 _.extend(TournamentSubmissionSchema.properties, {
   tournament: c.objectId(),
@@ -38,10 +38,10 @@ _.extend(TournamentSubmissionSchema.properties, {
     type: 'number',
     minimum: 0
   },
-  totalScore: {               // bayesian calculation of strength
+  totalScore: { // bayesian calculation of strength
     type: 'number'
   },
-  originalRank: {             // for randomsimulation rank
+  originalRank: { // for randomsimulation rank
     type: 'number'
   },
   standardDeviation: {
@@ -56,9 +56,7 @@ _.extend(TournamentSubmissionSchema.properties, {
     readOnly: true
   })
 }
-);
+)
 
-
-
-c.extendBasicProperties(TournamentSubmissionSchema, 'tournament.submission');
-module.exports = TournamentSubmissionSchema;
+c.extendBasicProperties(TournamentSubmissionSchema, 'tournament.submission')
+module.exports = TournamentSubmissionSchema

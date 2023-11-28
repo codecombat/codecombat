@@ -8,7 +8,7 @@ const c = require('./../schemas')
 
 const AIChatMessageSchema = c.object({
   title: 'AI Chat Message',
-  description: 'A generative AI interaction',
+  description: 'A generative AI interaction'
 })
 
 _.extend(AIChatMessageSchema.properties, {
@@ -18,13 +18,13 @@ _.extend(AIChatMessageSchema.properties, {
     type: ['object', 'string'],
     description: 'The parent chat of this message',
     format: 'chat-message-parent-link',
-    refPath: 'parentKind',
+    refPath: 'parentKind'
   },
   parentKind: {
     title: 'Parent Kind',
     type: 'string',
     description: 'Whether this message is part of a scenario or project chat',
-    enum: ['scenario', 'project'],
+    enum: ['scenario', 'project']
   },
   sentAt: { title: 'Sent At', type: 'number' },
   text: { title: 'Text', type: 'string', description: 'The content text of the chat message' },
@@ -32,7 +32,7 @@ _.extend(AIChatMessageSchema.properties, {
     title: 'Documents',
     type: 'array',
     description: 'The attached AI Document objects',
-    items: { type: 'string', links: [{ rel: 'db', href: '/db/level/{($)}/version' }], format: 'ai-document-link' },
+    items: { type: 'string', links: [{ rel: 'db', href: '/db/level/{($)}/version' }], format: 'ai-document-link' }
   },
   actionData: {
     title: 'Action Data',

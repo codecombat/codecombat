@@ -1,31 +1,15 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+const c = require('./../schemas')
 
-const LevelSessionPlayerSchema = c.object({
-  id: c.objectId({
-    links: [
-      {
-        rel: 'extra',
-        href: '/db/user/{($)}'
-      }
-    ]}),
-  time: {
-    type: 'Number'
-  },
-  changes: {
-    type: 'Number'
-  }
-});
-
-const LevelSessionLevelSchema = c.object({required: ['original'], links: [{rel: 'db', href: '/db/level/{(original)}'}]}, {
+const LevelSessionLevelSchema = c.object({ required: ['original'], links: [{ rel: 'db', href: '/db/level/{(original)}' }] }, {
   original: c.objectId({}),
   majorVersion: {
     type: 'integer',
     minimum: 0
   }
 }
-);
+)
 
 const LevelSessionSchema = c.object({
   title: 'Session',
@@ -35,7 +19,7 @@ const LevelSessionSchema = c.object({
     submittedCodeLanguage: 'python',
     playtime: 0
   }
-});
+})
 
 _.extend(LevelSessionSchema.properties, {
   // denormalization
@@ -58,7 +42,8 @@ _.extend(LevelSessionSchema.properties, {
           rel: 'extra',
           href: '/db/user/{($)}'
         }
-      ]}),
+      ]
+  }),
   created: c.date({
     title: 'Created',
     readOnly: true
@@ -70,8 +55,8 @@ _.extend(LevelSessionSchema.properties, {
   }),
 
   dateFirstCompleted: {}, // c.stringDate
-//    title: 'Completed'
-//    readOnly: true
+  //    title: 'Completed'
+  //    readOnly: true
 
   team: c.shortString(),
   level: LevelSessionLevelSchema,
@@ -82,7 +67,7 @@ _.extend(LevelSessionSchema.properties, {
     complete: {
       type: 'boolean'
     },
-    introContentSessionComplete: {  // Ozaria
+    introContentSessionComplete: { // Ozaria
       type: 'object',
       description: 'Key is the content _id allowing for quick lookup.',
       additionalProperties: c.object({}, {
@@ -119,7 +104,7 @@ _.extend(LevelSessionSchema.properties, {
     }
     ),
 
-    selected: {  // Not tracked any more, delete with old level types
+    selected: { // Not tracked any more, delete with old level types
       type: [
         'null',
         'string'
@@ -127,11 +112,11 @@ _.extend(LevelSessionSchema.properties, {
     },
     playing: {
       type: 'boolean'
-    },  // Not tracked any more, delete with old level types
+    }, // Not tracked any more, delete with old level types
     frame: {
       type: 'number'
-    },  // Not tracked any more, delete with old level types
-    thangs: {   // ... what is this? Is this used?
+    }, // Not tracked any more, delete with old level types
+    thangs: { // ... what is this? Is this used?
       type: 'object',
       additionalProperties: {
         title: 'Thang',
@@ -162,7 +147,7 @@ _.extend(LevelSessionSchema.properties, {
         title: 'Goal State',
         type: 'object',
         properties: {
-          status: {enum: ['failure', 'incomplete', 'success']}
+          status: { enum: ['failure', 'incomplete', 'success'] }
         }
       }
     },
@@ -176,32 +161,30 @@ _.extend(LevelSessionSchema.properties, {
       type: 'integer',
       minimum: 0
     },
-    lastUnsuccessfulSubmissionTime: c.date({
-      description: 'The last time that real-time submission was started without resulting in a win.'}),
+    lastUnsuccessfulSubmissionTime: c.date({ description: 'The last time that real-time submission was started without resulting in a win.' }),
     flagHistory: {
       description: 'The history of flag events during the last real-time playback submission.',
       type: 'array',
-      items: c.object({required: ['player', 'color', 'time', 'active']}, {
-        player: {type: 'string'},
-        team: {type: 'string'},
-        color: {type: 'string', enum: ['green', 'black', 'violet']},
-        time: {type: 'number', minimum: 0},
-        active: {type: 'boolean'},
-        pos: c.object({required: ['x', 'y']}, {
-          x: {type: 'number'},
-          y: {type: 'number'}
+      items: c.object({ required: ['player', 'color', 'time', 'active'] }, {
+        player: { type: 'string' },
+        team: { type: 'string' },
+        color: { type: 'string', enum: ['green', 'black', 'violet'] },
+        time: { type: 'number', minimum: 0 },
+        active: { type: 'boolean' },
+        pos: c.object({ required: ['x', 'y'] }, {
+          x: { type: 'number' },
+          y: { type: 'number' }
         }),
-        source: {type: 'string', enum: ['click']}
+        source: { type: 'string', enum: ['click'] }
       })
-    },  // Do not store 'code' flag events in the session.
+    }, // Do not store 'code' flag events in the session.
     topScores: c.array({},
       c.object({}, {
         type: c.scoreType,
-        date: c.date({
-          description: 'When the submission achieving this score happened.'}),
-        score: {type: 'number'}
-      })),  // Store 'time', 'damage-taken', etc. as negative numbers so the index works.
-    capstoneStage: {  // Ozaria
+        date: c.date({ description: 'When the submission achieving this score happened.' }),
+        score: { type: 'number' }
+      })), // Store 'time', 'damage-taken', etc. as negative numbers so the index works.
+    capstoneStage: { // Ozaria
       type: 'number',
       title: 'Capstone Stage',
       description: 'Current capstone stage of the level. If, say, stage 7 is yet incomplete, capstoneStage will be 7. If stage 7 is complete, capstoneStage will be 8. When a capstone level is complete, capstoneStage will be 1 higher than the final stage number.'
@@ -216,7 +199,7 @@ _.extend(LevelSessionSchema.properties, {
       additionalProperties: {
         type: 'string',
         format: 'code',
-        maxLength: 1024*128
+        maxLength: 1024 * 128
       }
     }
   },
@@ -298,8 +281,7 @@ _.extend(LevelSessionSchema.properties, {
     type: 'boolean'
   },
 
-  submitDate: c.date({
-    title: 'Submitted'}),
+  submitDate: c.date({ title: 'Submitted' }),
 
   submittedCode: {
     type: 'object',
@@ -421,7 +403,7 @@ _.extend(LevelSessionSchema.properties, {
                 }
               },
               codeLanguage: {
-                type: ['string', 'null'],  // 'null' in case an opponent session got corrupted, don't care much here
+                type: ['string', 'null'], // 'null' in case an opponent session got corrupted, don't care much here
                 description: 'What submittedCodeLanguage the opponent used during the match'
               },
               team: {
@@ -431,18 +413,18 @@ _.extend(LevelSessionSchema.properties, {
             }
           }
         },
-        simulator: {type: 'object', description: 'Holds info on who simulated the match, and with what tools.'},
-        randomSeed: {description: 'Stores the random seed that was used during this match.'}
+        simulator: { type: 'object', description: 'Holds info on who simulated the match, and with what tools.' },
+        randomSeed: { description: 'Stores the random seed that was used during this match.' }
       }
     }
   },
 
   leagues:
-    c.array({description: 'Multiplayer data for the league corresponding to Clans and CourseInstances the player is a part of.'},
+    c.array({ description: 'Multiplayer data for the league corresponding to Clans and CourseInstances the player is a part of.' },
       c.object({}, {
-        leagueID: {type: 'string', description: 'The _id of a Clan or CourseInstance the user belongs to.'},
-        stats: c.object({description: 'Multiplayer match statistics corresponding to this entry in the league.'}),
-        lastOpponentSubmitDate: c.date({description: 'The submitDate of the last league session we selected to play against (for playing through league opponents in order).'})
+        leagueID: { type: 'string', description: 'The _id of a Clan or CourseInstance the user belongs to.' },
+        stats: c.object({ description: 'Multiplayer match statistics corresponding to this entry in the league.' }),
+        lastOpponentSubmitDate: c.date({ description: 'The submitDate of the last league session we selected to play against (for playing through league opponents in order).' })
       })),
 
   isForClassroom: {
@@ -480,22 +462,22 @@ _.extend(LevelSessionSchema.properties, {
     minimum: 0
   },
 
-  codePoints: c.int({title: 'CodePoints', minimum: 0, description: 'CodePoints this user earned for completing this level'}),
+  codePoints: c.int({ title: 'CodePoints', minimum: 0, description: 'CodePoints this user earned for completing this level' }),
 
-  contentPlaytimes:  // Ozaria
-    c.array({description: 'List of content playtimes, similar to intro level content lists'},
+  contentPlaytimes: // Ozaria
+    c.array({ description: 'List of content playtimes, similar to intro level content lists' },
       c.object({}, {
-        type: {type: 'string', description: 'Content type'},
-        contentId: c.stringID({title: 'Content id for same language as level session codeLanguage'}),
-        playtime: {type: 'number', description: 'Total seconds of playtime for this piece of content'}
+        type: { type: 'string', description: 'Content type' },
+        contentId: c.stringID({ title: 'Content id for same language as level session codeLanguage' }),
+        playtime: { type: 'number', description: 'Total seconds of playtime for this piece of content' }
       })),
 
-  archived: c.date({description: 'Marks this record for automatic online archiving to cold storage by our cloud database.'})
-});
+  archived: c.date({ description: 'Marks this record for automatic online archiving to cold storage by our cloud database.' })
+})
 
-LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick(LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches');
+LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick(LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches')
 
-c.extendBasicProperties(LevelSessionSchema, 'level.session');
-c.extendPermissionsProperties(LevelSessionSchema, 'level.session');
+c.extendBasicProperties(LevelSessionSchema, 'level.session')
+c.extendPermissionsProperties(LevelSessionSchema, 'level.session')
 
-module.exports = LevelSessionSchema;
+module.exports = LevelSessionSchema

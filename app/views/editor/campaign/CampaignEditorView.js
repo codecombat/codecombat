@@ -486,8 +486,8 @@ module.exports = (CampaignEditorView = (function() {
 // todo: can we use ozar levels node for coco too?
 class CocoLevelsNode extends TreemaObjectNode {
   constructor(...args) {
-    this.childSource = this.childSource.bind(this);
     super(...args);
+    this.childSource = this.childSource.bind(this);
   }
 
   static initClass() {
@@ -536,8 +536,8 @@ class OzarLevelsNode extends TreemaObjectNode {
   }
 
   constructor(...args) {
-    this.childSource = this.childSource.bind(this);
     super(...Array.from(args || []));
+    this.childSource = this.childSource.bind(this);
     const s = new Backbone.Collection([], {model:Level});
     s.url = '/db/level';
     s.url += '?archived=false';
@@ -639,8 +639,8 @@ class NextLevelNode extends LevelNode {
 
 class CocoCampaignsNode extends TreemaObjectNode {
   constructor(...args) {
-    this.childSource = this.childSource.bind(this);
     super(...args);
+    this.childSource = this.childSource.bind(this);
   }
 
   static initClass() {
@@ -675,8 +675,8 @@ class OzarCampaignsNode extends TreemaObjectNode {
   }
 
   constructor(...args) {
-    this.childSource = this.childSource.bind(this);
     super(...Array.from(args || []));
+    this.childSource = this.childSource.bind(this);
     const s = new Backbone.Collection([], {model:Campaign});
     s.url = '/db/campaign';
     s.fetch({data: {project: Campaign.denormalizedCampaignProperties}});
