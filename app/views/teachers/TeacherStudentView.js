@@ -1,8 +1,6 @@
 /*
  * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
  * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
  * DS104: Avoid inline assignments
  * DS204: Change includes calls to have a more natural evaluation order
  * DS205: Consider reworking code to avoid use of IIFEs
@@ -45,7 +43,7 @@ module.exports = (TeacherStudentView = (function () {
       }
     }
 
-    getMeta () { return { title: utils.isOzaria ? `${$.i18n.t('teacher.student_profile')} | ${$.i18n.t('common.ozaria')}` : (this.user != null ? this.user.broadName() : undefined) } }
+    getMeta () { return { title: utils.isOzaria ? `${$.i18n.t('teacher.student_profile')} | ${$.i18n.t('common.ozaria')}` : this.user?.broadName() } }
 
     onClickSolutionTab (e) {
       let idTarget
@@ -65,18 +63,14 @@ module.exports = (TeacherStudentView = (function () {
           levelOriginal = idTarget.split('+')[0]
           const codes = this.levelStudentCodeMap[levelOriginal]
           const code = this.levels.fingerprint(codes[solutionIndex].plan, lang)
-          if (this.aceDiffs != null) {
-            this.aceDiffs[levelOriginal].editors.left.ace.setValue(code, -1)
-          }
+          this.aceDiffs?.[levelOriginal].editors.left.ace.setValue(code, -1)
         } else {
           levelOriginal = link.attr('id').split('-')[0].slice(0, -1)
           const solutions = this.paidTeacher || (utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE === this.selectedCourseId) ? this.levelSolutionsMap[levelOriginal] : [{ source: $.i18n.t('teachers.not_allow_to_solution') }]
-          if (this.aceDiffs != null) {
-            this.aceDiffs[levelOriginal].editors.right.ace.setValue(solutions[solutionIndex].source, -1)
-          }
+          this.aceDiffs?.[levelOriginal].editors.right.ace.setValue(solutions[solutionIndex].source, -1)
         }
       }
-      return window.tracker.trackEvent('Click Teacher Student Solution Tab', { levelSlug, solutionIndex })
+      window.tracker.trackEvent('Click Teacher Student Solution Tab', { levelSlug, solutionIndex })
     }
 
     constructor (options, classroomID, studentID) {
@@ -124,7 +118,7 @@ module.exports = (TeacherStudentView = (function () {
       const translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
       this.singleStudentLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
       this.levelProgressMap = {}
-      __guard__(me.getClientCreatorPermissions(), x => x.then(() => (typeof this.render === 'function' ? this.render() : undefined)))
+      me.getClientCreatorPermissions()?.then(() => this.render?.())
     }
 
     getRenderData () {
@@ -134,8 +128,9 @@ module.exports = (TeacherStudentView = (function () {
     }
 
     onLoaded () {
+      let needle
       if (this.courses.loaded && (this.courses.length > 0) && !this.selectedCourseId) { this.selectedCourseId = this.courses.first().id }
-      this.paidTeacher = this.paidTeacher || this.prepaids.find(p => ['course', 'starter_license'].includes(p.get('type')) && (p.get('maxRedeemers') > 0))
+      this.paidTeacher = this.paidTeacher || (this.prepaids.find(p => (needle = p.get('type'), ['course', 'starter_license'].includes(needle)) && (p.get('maxRedeemers') > 0)) != null)
       if (this.students.loaded && !this.destroyed) {
         this.user = _.find(this.students.models, s => s.id === this.studentID)
         if (utils.isOzaria) {
@@ -154,16 +149,14 @@ module.exports = (TeacherStudentView = (function () {
       if (window.location.hash) {
         const levelSlug = window.location.hash.substring(1)
         this.updateSelectedCourseProgress(levelSlug)
-        window.location.href = window.location.href // eslint-disable-line no-self-assign
+        return window.location.href = window.location.href
       }
     }
 
     destroy () {
       if (this.startTime) {
         const timeSpent = new Date() - this.startTime
-        if (application.tracker != null) {
-          application.tracker.trackTiming(timeSpent, 'Teachers Time Spent', 'Student Profile Page', me.id)
-        }
+        application.tracker?.trackTiming(timeSpent, 'Teachers Time Spent', 'Student Profile Page', me.id)
       }
       return super.destroy()
     }
@@ -189,16 +182,16 @@ module.exports = (TeacherStudentView = (function () {
       this.drawBarGraph()
       this.onChangeCourseChart()
 
-      for (const oldEditor of Array.from(this.aceEditors != null ? this.aceEditors : [])) { oldEditor.destroy() }
+      for (const oldEditor of this.aceEditors != null ? this.aceEditors : []) { oldEditor.destroy() }
       this.aceEditors = []
       const {
         aceEditors
       } = this
-      const classLang = __guard__(this.classroom.get('aceConfig'), x => x.language) || 'python'
+      const classLang = this.classroom.get('aceConfig')?.language || 'python'
       this.$el.find('pre:has(code[class*="lang-"])').each(function () {
         let lang
         const codeElem = $(this).first().children().first()
-        for (const mode in aceUtils.aceEditModes) { if ((codeElem != null ? codeElem.hasClass('lang-' + mode) : undefined)) { lang = mode } }
+        for (const mode in aceUtils.aceEditModes) { if (codeElem?.hasClass('lang-' + mode)) { lang = mode } }
         if (utils.isOzaria) {
           const aceEditor = aceUtils.initializeACE(this, lang || classLang)
           return aceEditors.push(aceEditor)
@@ -224,12 +217,12 @@ module.exports = (TeacherStudentView = (function () {
             showDiffs: showAceDiff,
             showConnectors: showAceDiff,
             left: {
-              content: view.levels.fingerprint(__guard__(studentCode != null ? studentCode[0] : undefined, x1 => x1.plan) != null ? __guard__(studentCode != null ? studentCode[0] : undefined, x1 => x1.plan) : '', lang),
+              content: view.levels.fingerprint(studentCode?.[0]?.plan != null ? studentCode?.[0]?.plan : '', lang),
               editable: false,
               copyLinkEnabled: false
             },
             right: {
-              content: __guard__(solutions != null ? solutions[0] : undefined, x2 => x2.source) != null ? __guard__(solutions != null ? solutions[0] : undefined, x2 => x2.source) : '',
+              content: solutions?.[0]?.source != null ? solutions?.[0]?.source : '',
               editable: false,
               copyLinkEnabled: false
             }
@@ -240,24 +233,24 @@ module.exports = (TeacherStudentView = (function () {
     }
 
     updateSolutions () {
-      if (!(this.classroom != null ? this.classroom.loaded : undefined) || !(this.sessions != null ? this.sessions.loaded : undefined) || !(this.levels != null ? this.levels.loaded : undefined)) { return }
-      this.levelSolutionsMap = this.levels.getSolutionsMap([__guard__(this.classroom.get('aceConfig'), x => x.language), 'html'])
+      if (!this.classroom?.loaded || !this.sessions?.loaded || !this.levels?.loaded) { return }
+      this.levelSolutionsMap = this.levels.getSolutionsMap([this.classroom.get('aceConfig')?.language, 'html'])
       this.levelStudentCodeMap = {}
       this.capstoneGuidedCode = {}
       // I it's not clear why the value is _plan_ in Ozaria and {plan:_plan_,...} in CodeCombat
       if (utils.isOzaria) {
         return (() => {
           const result = []
-          for (const session of Array.from(this.sessions.models)) {
+          for (const session of this.sessions.models) {
           // Normal level
             if (session.get('creator') === this.studentID) {
-              const name = session.get('level').original
+              var name
 
-              this.levelStudentCodeMap[session.get('level').original] = __guard__(__guard__(session.get('code'), x2 => x2['hero-placeholder']), x1 => x1.plan)
+              this.levelStudentCodeMap[session.get('level').original] = session.get('code')?.['hero-placeholder']?.plan
               // Arena level
-              if (this.levelStudentCodeMap[name] == null) { this.levelStudentCodeMap[name] = __guard__(__guard__(session.get('code'), x4 => x4['hero-placeholder-1']), x3 => x3.plan) }
+              if (this.levelStudentCodeMap[name = session.get('level').original] == null) { this.levelStudentCodeMap[name] = session.get('code')?.['hero-placeholder-1']?.plan }
               // Capstone with saved code level
-              if (__guard__(__guard__(session.get('code'), x6 => x6['saved-capstone-normal-code']), x5 => x5.plan)) {
+              if (session.get('code')?.['saved-capstone-normal-code']?.plan) {
                 result.push(this.capstoneGuidedCode[session.get('level').original] = session.get('code')['saved-capstone-normal-code'].plan)
               } else {
                 result.push(undefined)
@@ -269,19 +262,19 @@ module.exports = (TeacherStudentView = (function () {
       } else { // CodeCombat
         return (() => {
           const result1 = []
-          for (const session of Array.from(this.sessions.models)) {
+          for (const session of this.sessions.models) {
             if (session.get('creator') === this.studentID) {
               const levelOriginal = session.get('level').original
               this.levelStudentCodeMap[levelOriginal] = this.levelStudentCodeMap[levelOriginal] || []
               // Normal level
-              if (__guard__(__guard__(session.get('code'), x8 => x8['hero-placeholder']), x7 => x7.plan)) {
+              if (session.get('code')?.['hero-placeholder']?.plan) {
                 this.levelStudentCodeMap[levelOriginal].push({
                   plan: session.get('code')['hero-placeholder'].plan,
                   team: 'humans'
                 })
               }
               // Arena level
-              if (__guard__(__guard__(session.get('code'), x10 => x10['hero-placeholder-1']), x9 => x9.plan)) {
+              if (session.get('code')?.['hero-placeholder-1']?.plan) {
                 result1.push(this.levelStudentCodeMap[levelOriginal].push({
                   plan: session.get('code')['hero-placeholder-1'].plan,
                   team: 'ogres'
@@ -302,9 +295,9 @@ module.exports = (TeacherStudentView = (function () {
 
     updateSelectedCourseProgress (levelSlug) {
       if (!levelSlug) { return }
-      this.selectedCourseId = __guard__(this.classroom.get('courses').find(c => c.levels.find(l => l.slug === levelSlug)), x => x._id)
+      this.selectedCourseId = this.classroom.get('courses').find(c => c.levels.find(l => l.slug === levelSlug))?._id
       if (!this.selectedCourseId) { return }
-      return (typeof this.render === 'function' ? this.render() : undefined)
+      return this.render?.()
     }
 
     onClickProgressDot (e) {
@@ -321,16 +314,14 @@ module.exports = (TeacherStudentView = (function () {
 
     onChangeCourseSelect (e) {
       this.selectedCourseId = $(e.currentTarget).val()
-      if (typeof this.render === 'function') {
-        this.render()
-      }
-      return (window.tracker != null ? window.tracker.trackEvent('Change Teacher Student Code Review Course', { category: 'Teachers', classroomId: this.classroom.id, studentId: this.studentID, selectedCourseId: this.selectedCourseId }) : undefined)
+      this.render?.()
+      return window.tracker?.trackEvent('Change Teacher Student Code Review Course', { category: 'Teachers', classroomId: this.classroom.id, studentId: this.studentID, selectedCourseId: this.selectedCourseId })
     }
 
     onClickStudentProgressDot (e) {
       const levelSlug = $(e.currentTarget).data('level-slug')
       const levelProgress = $(e.currentTarget).data('level-progress')
-      return (window.tracker != null ? window.tracker.trackEvent('Click Teacher Student Code Review Progress Dot', { category: 'Teachers', classroomId: this.classroom.id, courseId: this.selectedCourseId, studentId: this.studentID, levelSlug, levelProgress }) : undefined)
+      return window.tracker?.trackEvent('Click Teacher Student Code Review Progress Dot', { category: 'Teachers', classroomId: this.classroom.id, courseId: this.selectedCourseId, studentId: this.studentID, levelSlug, levelProgress })
     }
 
     questionMarkHtml (i18nBlurb) {
@@ -339,10 +330,10 @@ module.exports = (TeacherStudentView = (function () {
 
     calculateStandardDev () {
       let session
-      if (!this.courses.loaded || !this.levels.loaded || !(this.sessions != null ? this.sessions.loaded : undefined) || !this.levelData) { return }
+      if (!this.courses.loaded || !this.levels.loaded || !this.sessions?.loaded || !this.levelData) { return }
 
       const levelSessionsByStudentByLevel = {}
-      for (session of Array.from(this.sessions.models)) {
+      for (session of this.sessions.models) {
         const userSessions = levelSessionsByStudentByLevel[session.get('creator')] || {}
         const userSessionsForLevel = userSessions[session.get('level').original] || []
         userSessionsForLevel.push(session)
@@ -350,27 +341,27 @@ module.exports = (TeacherStudentView = (function () {
         levelSessionsByStudentByLevel[session.get('creator')] = userSessions
       }
       const levelDataByLevel = {}
-      for (const levelDatum of Array.from(this.levelData)) {
+      for (const levelDatum of this.levelData) {
         levelDataByLevel[levelDatum.levelID] = levelDatum
       }
       this.courseComparisonMap = []
       return (() => {
         const result = []
-        for (const versionedCourse of Array.from(this.classroom.getSortedCourses() || [])) {
+        for (const versionedCourse of this.classroom.getSortedCourses() || []) {
           const course = this.courses.get(versionedCourse._id)
           const numbers = []
           const performanceNumbers = []
           let studentCourseTotal = 0
           let performanceStudentCourseTotal = 0
           let members = 0 // this is the COUNT for our standard deviation, number of members who have played all of the levels this student has played.
-          for (const member of Array.from(this.classroom.get('members'))) {
+          for (const member of this.classroom.get('members')) {
             let number = 0
             let performanceNumber = 0
             let memberPlayed = 0 // number of levels a member has played that this student has also played
-            for (const versionedLevel of Array.from(versionedCourse.levels)) {
-              const left = levelSessionsByStudentByLevel[member] || {}
-              const sessions = left[versionedLevel.original] || []
-              for (session of Array.from(sessions)) {
+            for (const versionedLevel of versionedCourse.levels) {
+              var left
+              const sessions = (left = (levelSessionsByStudentByLevel[member] != null ? levelSessionsByStudentByLevel[member] : {})[versionedLevel.original]) != null ? left : []
+              for (session of sessions) {
                 const playedLevel = levelDataByLevel[session.get('level').original]
                 if ((playedLevel.levelProgress === 'complete') || (playedLevel.levelProgress === 'started')) {
                   number += session.get('playtime') || 0
@@ -393,8 +384,8 @@ module.exports = (TeacherStudentView = (function () {
           const performanceSum = performanceNumbers.reduce((a, b) => a + b)
 
           // divide by members to get MEAN, remember MEAN is only an average of the members' performance on levels THIS student has done.
-          const mean = sum / members
-          const performanceMean = performanceSum / members
+          var mean = sum / members
+          var performanceMean = performanceSum / members
 
           // # for each number in numbers[], subtract MEAN then SQUARE, add all, then divide by COUNT to get VARIANCE
           const diffSum = numbers.map(num => Math.pow((num - mean), 2)).reduce((a, b) => a + b)
@@ -425,7 +416,7 @@ module.exports = (TeacherStudentView = (function () {
     // console.log (@courseComparisonMap)
 
     drawBarGraph () {
-      if (!this.courses.loaded || !this.levels.loaded || !(this.sessions != null ? this.sessions.loaded : undefined) || !this.levelData || !this.courseComparisonMap) { return }
+      if (!this.courses.loaded || !this.levels.loaded || !this.sessions?.loaded || !this.levelData || !this.courseComparisonMap) { return }
 
       const WIDTH = 1142
       const HEIGHT = 600
@@ -438,12 +429,12 @@ module.exports = (TeacherStudentView = (function () {
 
       return (() => {
         const result = []
-        for (const versionedCourse of Array.from(this.classroom.getSortedCourses() || [])) {
+        for (const versionedCourse of this.classroom.getSortedCourses() || []) {
         // this does all of the courses, logic for whether student was assigned is in corresponding jade file
           const vis = d3.select('#visualisation-' + versionedCourse._id)
           // TODO: continue if selector isn't found.
           const courseLevelData = []
-          for (const level of Array.from(this.levelData)) {
+          for (const level of this.levelData) {
             if (level.courseID === versionedCourse._id) {
               if (level.assessment) {
                 continue
@@ -453,9 +444,10 @@ module.exports = (TeacherStudentView = (function () {
           }
 
           const course = this.courses.get(versionedCourse._id)
+          const levels = this.classroom.getLevels({ courseID: course.id }).models
 
-          const xRange = d3.scale.ordinal().rangeRoundBands([MARGINS.left, WIDTH - MARGINS.right], 0.1).domain(courseLevelData.map(d => d.levelIndex))
-          const yRange = d3.scale.linear().range([HEIGHT - (MARGINS.top), MARGINS.bottom]).domain([0, d3.max(courseLevelData, function (d) { if (d.classAvg > d.studentTime) { return d.classAvg } else { return d.studentTime } })])
+          var xRange = d3.scale.ordinal().rangeRoundBands([MARGINS.left, WIDTH - MARGINS.right], 0.1).domain(courseLevelData.map(d => d.levelIndex))
+          var yRange = d3.scale.linear().range([HEIGHT - (MARGINS.top), MARGINS.bottom]).domain([0, d3.max(courseLevelData, function (d) { if (d.classAvg > d.studentTime) { return d.classAvg } else { return d.studentTime } })])
           const xAxis = d3.svg.axis().scale(xRange).tickSize(1).tickSubdivide(true)
           const yAxis = d3.svg.axis().scale(yRange).tickSize(1).orient('left').tickSubdivide(true)
 
@@ -541,7 +533,7 @@ module.exports = (TeacherStudentView = (function () {
     updateLastPlayedInfo () {
       // Make sure all our data is loaded, @sessions may not even be intialized yet
       let course, level
-      if (!this.courses.loaded || !this.levels.loaded || !(this.sessions != null ? this.sessions.loaded : undefined) || !(this.user != null ? this.user.loaded : undefined)) { return }
+      if (!this.courses.loaded || !this.levels.loaded || !this.sessions?.loaded || !this.user?.loaded) { return }
 
       // Use lodash to find the last session for our user, @sessions already sorted by changed date
       const session = _.findLast(this.sessions.models, s => s.get('creator') === this.user.id)
@@ -550,8 +542,8 @@ module.exports = (TeacherStudentView = (function () {
 
       // Find course for this level session, for it's name
       // Level.original is the original id, used for level versioning, and connects levels to level sessions
-      for (const versionedCourse of Array.from(this.classroom.getSortedCourses() || [])) {
-        for (level of Array.from(versionedCourse.levels)) {
+      for (const versionedCourse of this.classroom.getSortedCourses() || []) {
+        for (level of versionedCourse.levels) {
           if (level.original === session.get('level').original) {
             // Found the level for our level session in the classroom versioned courses
             // Find the full course so we can get it's name
@@ -574,7 +566,7 @@ module.exports = (TeacherStudentView = (function () {
       // extra vars for display
       this.lastPlayedCourse = course
       this.lastPlayedLevel = level
-      this.lastPlayedSession = session
+      return this.lastPlayedSession = session
     }
 
     lastPlayedString () {
@@ -596,11 +588,11 @@ module.exports = (TeacherStudentView = (function () {
 
     updateLevelProgressMap () {
       let session
-      if (!this.courses.loaded || !this.levels.loaded || !(this.sessions != null ? this.sessions.loaded : undefined) || !(this.user != null ? this.user.loaded : undefined)) { return }
+      if (!this.courses.loaded || !this.levels.loaded || !this.sessions?.loaded || !this.user?.loaded) { return }
 
       // Map levels to sessions once, so we don't have to search entire session list multiple times below
       this.levelSessionMap = {}
-      for (session of Array.from(this.sessions.models)) {
+      for (session of this.sessions.models) {
         if (session.get('creator') === this.studentID) {
           this.levelSessionMap[session.get('level').original] = session
         }
@@ -609,14 +601,14 @@ module.exports = (TeacherStudentView = (function () {
       // Create mapping of level to student progress
       this.levelProgressMap = {}
       this.levelProgressTimeMap = {}
-      return Array.from(this.classroom.getSortedCourses() || []).map((versionedCourse) =>
+      return (this.classroom.getSortedCourses() || []).map((versionedCourse) =>
         (() => {
           const result = []
-          for (const versionedLevel of Array.from(versionedCourse.levels)) {
+          for (const versionedLevel of versionedCourse.levels) {
             session = this.levelSessionMap[versionedLevel.original]
-            if ((session != null ? session.get('creator') : undefined) === this.studentID) {
+            if (session?.get('creator') === this.studentID) {
               this.levelProgressTimeMap[versionedLevel.original] = { changed: moment(session.get('changed')) }
-              if (__guard__(session.get('state'), x => x.complete)) {
+              if (session.get('state')?.complete) {
                 this.levelProgressMap[versionedLevel.original] = 'complete'
                 result.push(this.levelProgressTimeMap[versionedLevel.original].dateFirstCompleted = moment(session.get('dateFirstCompleted'))) // enable this line if needed
               } else {
@@ -631,23 +623,23 @@ module.exports = (TeacherStudentView = (function () {
     }
 
     updateLevelDataMap () {
-      if (!this.courses.loaded || !this.levels.loaded || !(this.sessions != null ? this.sessions.loaded : undefined)) { return }
+      if (!this.courses.loaded || !this.levels.loaded || !this.sessions?.loaded) { return }
 
       this.levelData = []
       return (() => {
         const result = []
-        for (const versionedCourse of Array.from(this.classroom.getSortedCourses() || [])) {
-          const course = this.courses.get(versionedCourse._id)
-          const ladderLevel = this.classroom.getLadderLevel(course.get('_id'))
-          const projectLevel = this.classroom.getProjectLevel(course.get('_id'))
+        for (var versionedCourse of this.classroom.getSortedCourses() || []) {
+          var course = this.courses.get(versionedCourse._id)
+          var ladderLevel = this.classroom.getLadderLevel(course.get('_id'))
+          var projectLevel = this.classroom.getProjectLevel(course.get('_id'))
           result.push((() => {
             const result1 = []
-            for (const versionedLevel of Array.from(versionedCourse.levels)) {
+            for (const versionedLevel of versionedCourse.levels) {
               let playTime = 0 // TODO: this and timesPlayed should probably only count when the levels are completed
               let timesPlayed = 0
               let studentTime = 0
               let levelProgress = 'not started'
-              for (const session of Array.from(this.sessions.models)) {
+              for (const session of this.sessions.models) {
                 if (session.get('level').original === versionedLevel.original) {
                   // if @levelProgressMap[versionedLevel.original] == 'complete' # ideally, don't log sessions that aren't completed in the class
                   playTime += session.get('playtime') || 0
@@ -674,8 +666,8 @@ module.exports = (TeacherStudentView = (function () {
                 classAvg,
                 studentTime: studentTime || 0,
                 levelProgress,
-                isLadder: (ladderLevel != null ? ladderLevel.attributes.original : undefined) === versionedLevel.original,
-                isProject: (projectLevel != null ? projectLevel.attributes.original : undefined) === versionedLevel.original
+                isLadder: ladderLevel?.attributes.original === versionedLevel.original,
+                isProject: projectLevel?.attributes.original === versionedLevel.original
                 // required:
               }))
             }
@@ -689,7 +681,7 @@ module.exports = (TeacherStudentView = (function () {
     studentStatusString () {
       const status = this.user.prepaidStatus()
       if (!this.user.get('coursePrepaid')) { return '' }
-      const expires = __guard__(this.user.get('coursePrepaid'), x => x.endDate)
+      const expires = this.user.get('coursePrepaid')?.endDate
       const date = (expires != null) ? moment(expires).utc().format('l') : ''
       return utils.formatStudentLicenseStatusDate(status, date)
     }
@@ -733,7 +725,3 @@ module.exports = (TeacherStudentView = (function () {
 // getLevelURL: (level, course, courseInstance, session) ->
 //   return null unless @teacherMode and _.all(arguments)
 //   "/play/level/#{level.get('slug')}?course=#{course.id}&course-instance=#{courseInstance.id}&session=#{session.id}&observing=true"
-
-function __guard__ (value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
-}
