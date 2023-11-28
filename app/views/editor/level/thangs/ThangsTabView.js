@@ -122,33 +122,47 @@ module.exports = (ThangsTabView = (function() {
       this.listenTo(this.gameUIState, 'surface:stage-mouse-move', this.onStageMouseMove);
       this.listenTo(this.gameUIState, 'change:selected', this.onChangeSelected);
 
-      this.thangTypes = new Backbone.Collection();
-      const thangTypeCollection = new ThangTypeSearchCollection([]);
-      thangTypeCollection.url += '&archived=false';
-      thangTypeCollection.fetch({data: {limit: PAGE_SIZE}});
-      thangTypeCollection.skip = 0;
-      // should load depended-on Components, too
-      this.supermodel.loadCollection(thangTypeCollection, 'thangs');
-      this.listenToOnce(thangTypeCollection, 'sync', this.onThangCollectionSynced);
-
-      // just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
-      this.componentCollection = new LevelComponents([], {saveBackups: true});
-      this.componentCollection.url += '?archived=false';
-      this.supermodel.trackRequest(this.componentCollection.fetch());
-      this.listenToOnce(this.componentCollection, 'sync', function() {
-        return (() => {
-          const result = [];
-          for (var component of Array.from(this.componentCollection.models)) {
-            component.url = `/db/level.component/${component.get('original')}/version/${component.get('version').major}`;
-            result.push(this.supermodel.registerModel(component));
-          }
-          return result;
-        })();
-      });
       this.level = options.level;
       this.onThangsChanged = _.debounce(this.onThangsChanged);
 
       $(document).bind('contextmenu', this.preventDefaultContextMenu);
+
+      this.componentCollection = options.previouslyLoadedData.componentCollection
+      if (!this.componentCollection) {
+        // just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
+        this.componentCollection = new LevelComponents([], {saveBackups: true});
+        this.componentCollection.url += '?archived=false';
+        this.supermodel.trackRequest(this.componentCollection.fetch());
+        this.listenToOnce(this.componentCollection, 'sync', function() {
+          for (const component of this.componentCollection.models) {
+            component.url = `/db/level.component/${component.get('original')}/version/${component.get('version').major}`;
+            this.supermodel.registerModel(component)
+          }
+        });
+      }
+
+      this.thangTypes = new Backbone.Collection();
+
+      this.thangTypeCollection = options.previouslyLoadedData.thangTypeCollection
+      if (!this.thangTypeCollection) {
+        this.thangTypeCollection = new ThangTypeSearchCollection([]);
+        this.thangTypeCollection.url += '&archived=false';
+        this.thangTypeCollection.fetch({data: {limit: PAGE_SIZE}});
+        this.thangTypeCollection.skip = 0;
+        // should load depended-on Components, too
+        this.supermodel.loadCollection(this.thangTypeCollection, 'thangs');
+        this.listenToOnce(this.thangTypeCollection, 'sync', this.onThangCollectionSynced);
+      } else {
+        this.thangTypes.add(this.thangTypeCollection.models)
+      }
+    }
+
+    getDataForReplacementView() {
+      return {
+        thangTypeCollection: this.thangTypeCollection,
+        componentCollection: this.componentCollection,
+        addThangsView: this.addThangsView
+      }
     }
 
     onThangCollectionSynced(collection) {
@@ -216,7 +230,8 @@ module.exports = (ThangsTabView = (function() {
       $('#thangs-list').bind('mousewheel', this.preventBodyScrollingInThangList);
       this.$el.find('#extant-thangs-filter button:first').button('toggle');
       $(window).on('resize', this.onWindowResize);
-      this.addThangsView = this.insertSubView(new AddThangsView({world: this.world}));
+      const addThangsView = this.options.previouslyLoadedData.addThangsView || new AddThangsView({world: this.world, supermodel: this.supermodel});
+      this.addThangsView = this.insertSubView(addThangsView);
       this.buildInterface(); // refactor to not have this trigger when this view re-renders?
       if (_.keys(this.thangsTreema.data).length) {
         return this.$el.find('#canvas-overlay').css('display', 'none');
@@ -331,17 +346,36 @@ module.exports = (ThangsTabView = (function() {
       this.surface.playing = false;
       this.surface.setWorld(this.world);
       this.surface.lankBoss.suppressSelectionSounds = true;
-      return this.centerCamera();
+      _.defer(() => this.centerCamera()) // Wait a frame for world to establish new bounds
     }
 
     centerCamera() {
+      if (this.destroyed) return
+      const margin = 4
+      const screenViewport = {
+        width: $(window).width() - $('#add-thangs-view').width() - $('#all-thangs').width() - 2 * margin,
+        height: Math.min($(window).height() - $('#level-editor-top-nav').height(), $('canvas#webgl-surface').height()) - 2 * margin
+      }
+      this.world.bounds = this.world.width = this.world.height = null // Make sure to recalculate instead of using old bounds
       let [width, height] = Array.from(this.world.size());
       width = Math.max(width, 80);
       height = Math.max(height, 68);
       const {left, top, right, bottom} = this.world.getBounds();
       const center = {x: left + (width / 2), y: bottom + (height / 2)};
       const sup = this.surface.camera.worldToSurface(center);
-      const zoom = (0.94 * 92.4) / width;  // Zoom 1.0 lets us see 92.4 meters.
+
+      const worldAspectRatio = width / height;
+      const viewportAspectRatio = screenViewport.width / screenViewport.height;
+
+      // Determine the zoom factor based on aspect ratios
+      let zoom
+      if (worldAspectRatio > viewportAspectRatio) {
+        zoom = screenViewport.width / $('canvas#webgl-surface').width() * 80 / width
+      } else {
+        zoom = screenViewport.height / $('canvas#webgl-surface').height() * 68 / height
+        // TODO: figure out some adjustment to get it centered vertically when the canvas is taller than the screen viewport
+        sup.y += ($('canvas#webgl-surface').height() - screenViewport.height) / 4 * viewportAspectRatio / (924 / 589) * height / 68 // Not right but better than nothing
+      }
       return this.surface.camera.zoomTo(sup, zoom, 0);
     }
 
@@ -794,6 +828,7 @@ module.exports = (ThangsTabView = (function() {
     }
 
     onThangsChanged(skipSerialization) {
+      if (this.destroyed) { return }
       let thang;
       if (this.hush) { return; }
 

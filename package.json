@@ -202,6 +202,7 @@
     "bower": "~1.8.8",
     "bulk-decaffeinate": "^3.3.1",
     "bundle-loader": "^0.5.6",
+    "commander": "^11.1.0",
     "commonjs-require-definition": "0.2.0",
     "compressible": "~1.0.1",
     "copy-webpack-plugin": "^11.0.0",

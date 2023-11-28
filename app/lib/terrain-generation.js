@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 const clusters = {
   'hero': {
     'thangs': ['Hero Placeholder'],
@@ -331,10 +333,10 @@ const thangSizes = {
   }
 }
 
-function generateThangs(presetName, presetSize) {
+function generateThangs({ presetName, presetSize, goals }) {
   presetName = (presetName || 'dungeon').toLowerCase()
   presetName = {
-    grass: 'graassy',
+    grass: 'grassy',
     volcano: 'glacier'
   }[presetName] || presetName
   const preset = presets[presetName]
@@ -343,6 +345,25 @@ function generateThangs(presetName, presetSize) {
   generateFloor(result)
   generateBorder(result)
   generateDecorations(result)
+  if (!goals) {
+    return result.thangs
+  }
+  const killThangsGoal = _.find(goals, (goal) => goal.killThangs)
+  if (killThangsGoal) {
+    generateEnemies(result, killThangsGoal)
+  }
+  const getToLocationsGoal = _.find(goals, (goal) => goal.getToLocations)
+  if (getToLocationsGoal) {
+    generateGetToLocations(result, getToLocationsGoal)
+  }
+  const collectThangsGoal = _.find(goals, (goal) => goal.collectThangs)
+  if (collectThangsGoal) {
+    generateCollectThangs(result, collectThangsGoal)
+  }
+  const defendThangsGoal = _.find(goals, (goal) => goal.id === 'humans-survive')
+  if (defendThangsGoal) {
+    generateDefendThangs(result, defendThangsGoal)
+  }
   return result.thangs
 }
 
@@ -494,6 +515,89 @@ function generateDecorations(result) {
   }
 }
 
+function generateEnemies(result, killThangsGoal) {
+  console.log('generate enemies', killThangsGoal)
+  for (let i = 0; i < Math.floor(Math.random() * 8); ) {
+    const enemy = {
+      'id': getRandomThang(['Ogre Munchkin M', 'Ogre Munchkin F']),
+      'pos': {
+        'x': _.random(result.presetSize.x / 2, result.presetSize.x - (result.preset.borderSize / 2)),
+        'y': _.random(result.presetSize.y / 2, result.presetSize.y - (result.preset.borderSize / 2))
+      },
+      'margin': 1
+    }
+    if (addThang(result, enemy)) {
+      ++i
+    }
+    // if (addThang(result, enemy)) {
+    //   killThangsGoal.thangIDs.push(enemy.id)
+    //   ++i
+    // }
+  }
+}
+
+function generateGetToLocations(result, getToLocationsGoal) {
+  console.log('generate get to locations thangs', getToLocationsGoal)
+  while (true) {
+    const locationThang = {
+      'id': 'Goal Trigger',
+      'pos': {
+        'x': _.random(result.presetSize.x / 2, result.presetSize.x - (result.preset.borderSize / 2)),
+        'y': _.random(result.presetSize.y / 2, result.presetSize.y - (result.preset.borderSize / 2))
+      },
+      'margin': 2
+    }
+    if (addThang(result, locationThang)) {
+      const visibleXMarkThang = _.cloneDeep(locationThang)
+      visibleXMarkThang.id = 'X Mark Red'
+      result.thangs.push(visibleXMarkThang)
+      break
+    }
+  }
+}
+
+function generateCollectThangs(result, collectThangsGoal) {
+  console.log('generate collect thangs', collectThangsGoal)
+  for (let i = 0; i < Math.floor(Math.random() * 8); ) {
+    const collectThang = {
+      'id': getRandomThang(['Gem', 'Gem Pile Small', 'Gem Pile Medium', 'Chest of Gems']),
+      'pos': {
+        'x': _.random(result.presetSize.x / 2, result.presetSize.x - (result.preset.borderSize / 2)),
+        'y': _.random(result.presetSize.y / 2, result.presetSize.y - (result.preset.borderSize / 2))
+      },
+      'margin': 1
+    }
+    if (addThang(result, collectThang)) {
+      ++i
+    }
+    // if (addThang(result, collectThang)) {
+    //   collectThangsGoal.thangIDs.push(collectThang.id)
+    //   ++i
+    // }
+  }
+}
+
+function generateDefendThangs(result, defendThangsGoal) {
+  console.log('generate defend thangs', defendThangsGoal)
+  for (let i = 0; i < Math.floor(Math.random() * 8); ) {
+    const defendThang = {
+      'id': getRandomThang(['Soldier M', 'Soldier F', 'Archer M', 'Archer F', 'Peasant M', 'Peasant F']),
+      'pos': {
+        'x': _.random(result.presetSize.x / 2, result.presetSize.x - (result.preset.borderSize / 2)),
+        'y': _.random(result.presetSize.y / 2, result.presetSize.y - (result.preset.borderSize / 2))
+      },
+      'margin': 1
+    }
+    if (addThang(result, defendThang)) {
+      ++i
+    }
+    // if (addThang(result, defendThang)) {
+    //   defendThangsGoal.thangIDs.push(defendThang.id)
+    //   ++i
+    // }
+  }
+}
+
 const buildFunctions = {}
 
 buildFunctions.room = function(result, room) {
@@ -637,7 +741,7 @@ buildFunctions.barrels = function(result, decoration) {
 
 function addThang(result, thang) {
   if (result.falseCount > 100) {
-    console.log('infinite loop', thang)
+    // console.log('infinite loop', thang)
     result.falseCount = 0
     return true
   }
@@ -658,7 +762,7 @@ function addThang(result, thang) {
 
 function addRect(result, rect) {
   if (result.falseCount > 100) {
-    console.log('infinite loop', rect)
+    // console.log('infinite loop', rect)
     result.falseCount = 0
     return true
   }

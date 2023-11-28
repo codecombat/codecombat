@@ -7,6 +7,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const Language = require('./languages');
+const _ = require('lodash')
 
 // schema helper methods
 

@@ -43,7 +43,7 @@ module.exports = (GenerateTerrainModal = (function() {
       const target = $(e.target)
       const presetType = target.attr('data-preset-type')
       const presetSize = target.attr('data-preset-size')
-      const thangs = generateThangs(presetType, presetSize)
+      const thangs = generateThangs({ presetType, presetSize })
       Backbone.Mediator.publish('editor:random-terrain-generated', { thangs, terrain: presets[presetType].terrainName })
       this.hide()
     }
