@@ -68,7 +68,7 @@ module.exports = class SpellTopBarView extends CocoView
     me.isStudent() and @courseID == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
 
   teacherOnline: () ->
-    console.log("what online?", @wsBus.wsInfos?.friends?[@teacherID], @teacherID)
+    console.log("what online?", @wsBus?.wsInfos?.friends?[@teacherID], @teacherID)
     @wsBus?.wsInfos?.friends?[@teacherID]?.online
 
   onDisableControls: (e) -> @toggleControls e, false
