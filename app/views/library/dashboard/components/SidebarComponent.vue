@@ -5,7 +5,7 @@
         v-if="imagePath"
         :src="`/images${imagePath}`"
         alt="Library logo"
-      />
+      >
     </div>
     <div
       v-if="totalLicensesUsed"

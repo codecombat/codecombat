@@ -5,10 +5,14 @@
         <div class="heading-row">
           <img
             v-if="isTecmilenioPartner"
-            src="/images/pages/payment/tecmilenio-logo.png" alt="Tecmilenio logo"
+            src="/images/pages/payment/tecmilenio-logo.png"
+            alt="Tecmilenio logo"
             class="tecmilenio-heading-img"
           >
-          <h1 class="tecmilenio-heading-txt" v-if="isTecmilenioPartner">
+          <h1
+            v-if="isTecmilenioPartner"
+            class="tecmilenio-heading-txt"
+          >
             Licencias de Estudiantes
           </h1>
           <h1
@@ -21,10 +25,16 @@
             {{ title || $t(`payments.${i18nHeadingName}`) }}
           </h1>
 
-          <p class="dsh-info" v-if="isDshPartner">
+          <p
+            v-if="isDshPartner"
+            class="dsh-info"
+          >
             <b>Digital Schoolhouse</b> has partnered with CodeCombat to offer the entirety of the Ozaria story-based computer science adventure game (all 4 Chapters, and over 70 hours of comprehensive instruction) as well as our original game CodeCombat (11 courses spanning Computer Science, Game Development and Web Development) for the <b>discounted rate of $25 USD per annual license (normally $30 USD)</b>. Happy coding!
           </p>
-          <div class="tecmilenio-info" v-else-if="isTecmilenioPartner">
+          <div
+            v-else-if="isTecmilenioPartner"
+            class="tecmilenio-info"
+          >
             <p class="tecmilenio-info-txt">
               Tecmilenio se asoció con CodeCombat para ofrecer educación en programación en Python, basada en juegos, por el precio con descuento de $12.52 USD. Todos los estudiantes de Tecmilenio que reciban este enlace deberán comprar el software CodeCombat.
             </p>
@@ -95,7 +105,7 @@
 import CocoHeadInfoComponent from '../components/CocoHeadInfoComponent'
 import OzariaHeadInfoComponent from '../components/OzariaHeadInfoComponent'
 export default {
-  name: "PaymentStudentLicenseHeadComponent",
+  name: 'PaymentStudentLicenseHeadComponent',
   components: {
     CocoHeadInfoComponent,
     OzariaHeadInfoComponent
@@ -116,7 +126,7 @@ export default {
       type: Boolean,
       default: false
     }
-  },
+  }
 }
 </script>
 

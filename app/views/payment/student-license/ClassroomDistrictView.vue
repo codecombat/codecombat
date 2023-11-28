@@ -12,21 +12,21 @@
 
 <script>
 import PaymentStudentLicenseHeadComponent from './HeadComponent'
-import PaymentStudentLicenseClassroomDistrictBodyComponent from "./ClassroomDistrictBodyComponent";
+import PaymentStudentLicenseClassroomDistrictBodyComponent from './ClassroomDistrictBodyComponent'
 export default {
-  name: "PaymentStudentLicenseClassroomDistrictView",
+  name: 'PaymentStudentLicenseClassroomDistrictView',
   components: {
     PaymentStudentLicenseHeadComponent,
-    PaymentStudentLicenseClassroomDistrictBodyComponent,
+    PaymentStudentLicenseClassroomDistrictBodyComponent
   },
   props: {
     priceInfo: {
       type: Object,
-      required: true,
+      required: true
     },
     paymentGroupId: {
       type: String,
-      required: true,
+      required: true
     }
   }
 }

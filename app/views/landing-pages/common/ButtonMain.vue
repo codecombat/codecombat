@@ -1,11 +1,26 @@
 <template>
   <a
-      :href="href"
-      @click="$emit('click')"
+    :href="href"
+    @click="$emit('click')"
   >
     {{ buttonText }}
   </a>
 </template>
+
+<script>
+export default {
+  props: {
+    buttonText: {
+      type: String,
+      default: 'Schedule a Free Class'
+    },
+    href: {
+      type: [String, Boolean],
+      default: '#'
+    }
+  }
+}
+</script>
 
 <style scoped>
 
@@ -32,18 +47,3 @@ a:hover {
 }
 
 </style>
-
-<script>
-export default {
-  props: {
-    buttonText: {
-      type: String,
-      default: 'Schedule a Free Class'
-    },
-    href: {
-      type: [String, Boolean],
-      default: '#'
-    }
-  }
-}
-</script>

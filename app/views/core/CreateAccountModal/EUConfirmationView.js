@@ -7,39 +7,39 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let EUConfirmationView;
-require('app/styles/modal/create-account-modal/eu-confirmation-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/core/create-account-modal/eu-confirmation-view');
-const forms = require('core/forms');
-const Classroom = require('models/Classroom');
-const State = require('models/State');
+let EUConfirmationView
+require('app/styles/modal/create-account-modal/eu-confirmation-view.sass')
+const CocoView = require('views/core/CocoView')
+const template = require('app/templates/core/create-account-modal/eu-confirmation-view')
+const forms = require('core/forms')
+const Classroom = require('models/Classroom')
+const State = require('models/State')
 
-module.exports = (EUConfirmationView = (function() {
+module.exports = (EUConfirmationView = (function () {
   EUConfirmationView = class EUConfirmationView extends CocoView {
-    static initClass() {
-      this.prototype.id = 'eu-confirmation-view';
-      this.prototype.template = template;
-  
+    static initClass () {
+      this.prototype.id = 'eu-confirmation-view'
+      this.prototype.template = template
+
       this.prototype.events = {
-        'click .back-button'() { return this.trigger('nav-back'); },
-        'click .forward-button'() { return this.trigger('nav-forward'); },
+        'click .back-button' () { return this.trigger('nav-back') },
+        'click .forward-button' () { return this.trigger('nav-forward') },
         'change #eu-confirmation-checkbox': 'onChangeEUConfirmationCheckbox'
-      };
+      }
     }
 
-    initialize(param) {
-      if (param == null) { param = {}; }
-      const { signupState } = param;
-      this.signupState = signupState;
-      return this.state = new State();
+    initialize (param) {
+      if (param == null) { param = {} }
+      const { signupState } = param
+      this.signupState = signupState
+      return this.state = new State()
     }
 
-    onChangeEUConfirmationCheckbox(e) {
-      this.state.set('euConfirmationGranted', $(e.target).is(':checked'));
-      return this.$('.forward-button').attr('disabled', !$(e.target).is(':checked'));
+    onChangeEUConfirmationCheckbox (e) {
+      this.state.set('euConfirmationGranted', $(e.target).is(':checked'))
+      return this.$('.forward-button').attr('disabled', !$(e.target).is(':checked'))
     }
-  };
-  EUConfirmationView.initClass();
-  return EUConfirmationView;
-})());
+  }
+  EUConfirmationView.initClass()
+  return EUConfirmationView
+})())

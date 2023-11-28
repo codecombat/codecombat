@@ -1,26 +1,25 @@
 <template>
   <div class="student-licenses-cmpt">
     <div class="student-license-content">
-
       <home-school-view
+        v-if="me.get('role') === 'parent' && paymentGroupLoaded"
         :payment-group-id="paymentGroup._id"
         :price-info="paymentGroup.priceData[0]"
-        v-if="me.get('role') === 'parent' && paymentGroupLoaded"
       />
       <student-licenses-body-component
+        v-else-if="me.isTeacher() && paymentGroupLoaded"
         :num-students="numStudentsVal"
         :payment-group="paymentGroup"
-        v-else-if="me.isTeacher() && paymentGroupLoaded"
       />
       <div
-        class="no-permission"
         v-else-if="!me.isTeacher()"
+        class="no-permission"
       >
         You don't have permission to view this page.
       </div>
       <div
-        class="loading"
         v-else
+        class="loading"
       >
         loading...
       </div>
@@ -29,31 +28,29 @@
 </template>
 
 <script>
-import RawPugComponent from 'app/views/common/RawPugComponent'
 import teacherDashboardNavTemplate from 'app/templates/courses/teacher-dashboard-nav.pug'
 import StudentLicensesBodyComponent from './StudentLicensesBodyComponent'
-import HomeSchoolView from "../student-license/HomeSchoolView";
-import { mapActions, mapGetters } from "vuex";
+import HomeSchoolView from '../student-license/HomeSchoolView'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'PaymentStudentLicensesComponent',
   components: {
-    RawPugComponent,
     StudentLicensesBodyComponent,
     HomeSchoolView
   },
   data () {
     return {
       teacherDashboardNavTemplate,
-      me: me,
+      me,
       paymentGroupLoaded: false
     }
   },
   computed: {
     ...mapGetters({
-      'currentTrialRequest': 'trialRequest/properties',
-      'paymentGroup': 'paymentGroups/paymentGroup',
-      'teacherPrepaids': 'prepaids/getPrepaidsByTeacher'
+      currentTrialRequest: 'trialRequest/properties',
+      paymentGroup: 'paymentGroups/paymentGroup',
+      teacherPrepaids: 'prepaids/getPrepaidsByTeacher'
     }),
     numStudentsVal () {
       const numStudents = this.currentTrialRequest?.numStudents
@@ -62,14 +59,13 @@ export default {
   },
   methods: {
     ...mapActions({
-      'fetchCurrentTrialRequest': 'trialRequest/fetchCurrentTrialRequest',
-      'fetchPaymentGroup': 'paymentGroups/fetch',
-      'fetchTeacherPrepaids': 'prepaids/fetchPrepaidsForTeacher'
+      fetchCurrentTrialRequest: 'trialRequest/fetchCurrentTrialRequest',
+      fetchPaymentGroup: 'paymentGroups/fetch',
+      fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher'
     })
   },
-  async created() {
-    if (!this.currentTrialRequest?.numStudents)
-      await this.fetchCurrentTrialRequest()
+  async created () {
+    if (!this.currentTrialRequest?.numStudents) { await this.fetchCurrentTrialRequest() }
     await this.fetchTeacherPrepaids({ teacherId: me.get('_id') })
     const prepaids = this.teacherPrepaids(me.get('_id'))
     // not including expired license in count since we don't show them in UI so it will be confusing

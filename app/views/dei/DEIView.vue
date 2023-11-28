@@ -10,15 +10,15 @@ export default {
   },
 
   data: () => ({
-    showModalGetLicenses: false,
+    showModalGetLicenses: false
   }),
 
   methods: {
     onClickSalesCTA (e) {
       window.tracker?.trackEvent('DEI Contact Clicked', { category: 'Teachers', label: `${this.$route.path}` })
       this.showModalGetLicenses = true
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -365,4 +365,3 @@ export default {
   }
 }
 </style>
-

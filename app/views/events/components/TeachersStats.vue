@@ -2,8 +2,18 @@
   <div class="teachers-stats">
     <div class="month-select form-group">
       <label for="month">Select a Month:</label>
-      <select class="form-control" name="month" v-model="month">
-        <option v-for="(m, index) in MONTHS" :value="index" :key="m">{{m}}</option>
+      <select
+        v-model="month"
+        class="form-control"
+        name="month"
+      >
+        <option
+          v-for="(m, index) in MONTHS"
+          :key="m"
+          :value="index"
+        >
+          {{ m }}
+        </option>
       </select>
     </div>
     <user-search
@@ -130,13 +140,13 @@ export default {
       ]
     }
   },
-  mounted () {
-    this.month = moment().month() - 1
-  },
   watch: {
     month () {
       this.$emit('month-change', this.month)
     }
+  },
+  mounted () {
+    this.month = moment().month() - 1
   },
   methods: {
     clearSearch () {

@@ -7,22 +7,30 @@
       class="campaigns"
     >
       <li
-        @click="onLeftArrowClick"
         :class="{ arrow: true, 'left-active': isLeftArrowActive }"
+        @click="onLeftArrowClick"
       >
-        <img v-if="isLeftArrowActive" class="left-rotate" src="/images/pages/parents/dashboard/arrow-blue.png" alt="Move left" />
-        <img v-else src="/images/pages/parents/dashboard/arrow-grey.png" alt="Move left" />
+        <img
+          v-if="isLeftArrowActive"
+          class="left-rotate"
+          src="/images/pages/parents/dashboard/arrow-blue.png"
+          alt="Move left"
+        >
+        <img
+          v-else
+          src="/images/pages/parents/dashboard/arrow-grey.png"
+          alt="Move left"
+        >
       </li>
       <li
         v-for="campaign in campaignsToShow"
-        class="campaign"
         :key="campaign._id"
+        class="campaign"
         @click="() => updateSelectedCampaign(campaign._id)"
       >
         <div
           :class="{ campaign__dot: true, 'complete-dot': completionStatusMap[campaign._id] === 'complete', 'in-progress-dot': completionStatusMap[campaign._id] === 'in-progress' }"
-        >
-        </div>
+        />
         <div
           :class="{ campaign__name: true, campaign__name__sel: campaign._id === selectedCampaignId }"
         >
@@ -30,11 +38,20 @@
         </div>
       </li>
       <li
-        @click="onRightArrowClick"
         :class="{ arrow: true, 'right-active': isRightArrowActive }"
+        @click="onRightArrowClick"
       >
-        <img v-if="isRightArrowActive" src="/images/pages/parents/dashboard/arrow-blue.png" alt="Move right" />
-        <img v-else class="right-rotate" src="/images/pages/parents/dashboard/arrow-grey.png" alt="Move right" />
+        <img
+          v-if="isRightArrowActive"
+          src="/images/pages/parents/dashboard/arrow-blue.png"
+          alt="Move right"
+        >
+        <img
+          v-else
+          class="right-rotate"
+          src="/images/pages/parents/dashboard/arrow-grey.png"
+          alt="Move right"
+        >
       </li>
     </ul>
   </div>
@@ -76,6 +93,13 @@ export default {
       return this.currentIndex > 0 && this.campaignsToShow.length > 0
     }
   },
+  watch: {
+    initialCampaignId: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.selectedCampaignId = newVal
+      }
+    }
+  },
   methods: {
     onLeftArrowClick () {
       this.currentIndex = Math.max(this.currentIndex - 1, 0)
@@ -86,13 +110,6 @@ export default {
     updateSelectedCampaign (id) {
       this.selectedCampaignId = id
       this.$emit('selectedCampaignUpdated', id)
-    }
-  },
-  watch: {
-    initialCampaignId: function (newVal, oldVal) {
-      if (newVal !== oldVal) {
-        this.selectedCampaignId = newVal
-      }
     }
   }
 }

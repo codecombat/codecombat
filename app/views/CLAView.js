@@ -7,47 +7,47 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let CLAView;
-require('app/styles/cla.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/cla');
-const {me} = require('core/auth');
+let CLAView
+require('app/styles/cla.sass')
+const RootView = require('views/core/RootView')
+const template = require('app/templates/cla')
+const { me } = require('core/auth')
 
-module.exports = (CLAView = (function() {
+module.exports = (CLAView = (function () {
   CLAView = class CLAView extends RootView {
-    constructor(...args) {
-      super(...args);
-      this.onAgreeSucceeded = this.onAgreeSucceeded.bind(this);
-      this.onAgreeFailed = this.onAgreeFailed.bind(this);
+    constructor (...args) {
+      super(...args)
+      this.onAgreeSucceeded = this.onAgreeSucceeded.bind(this)
+      this.onAgreeFailed = this.onAgreeFailed.bind(this)
     }
 
-    static initClass() {
-      this.prototype.id = 'cla-view';
-      this.prototype.template = template;
+    static initClass () {
+      this.prototype.id = 'cla-view'
+      this.prototype.template = template
 
       this.prototype.events =
-        {'click #agreement-button': 'onAgree'};
+        { 'click #agreement-button': 'onAgree' }
     }
 
-    onAgree() {
-      this.$el.find('#agreement-button').prop('disabled', true).text('Saving');
+    onAgree () {
+      this.$el.find('#agreement-button').prop('disabled', true).text('Saving')
       return $.ajax({
         url: '/db/user/me/agreeToCLA',
-        data: {'githubUsername': this.$el.find('#github-username').val()},
+        data: { githubUsername: this.$el.find('#github-username').val() },
         method: 'POST',
         success: this.onAgreeSucceeded,
         error: this.onAgreeFailed
-      });
+      })
     }
 
-    onAgreeSucceeded() {
-      return this.$el.find('#agreement-button').text('Success');
+    onAgreeSucceeded () {
+      return this.$el.find('#agreement-button').text('Success')
     }
 
-    onAgreeFailed() {
-      return this.$el.find('#agreement-button').text('Failed');
+    onAgreeFailed () {
+      return this.$el.find('#agreement-button').text('Failed')
     }
-  };
-  CLAView.initClass();
-  return CLAView;
-})());
+  }
+  CLAView.initClass()
+  return CLAView
+})())

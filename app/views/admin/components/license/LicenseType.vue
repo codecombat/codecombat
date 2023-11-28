@@ -1,38 +1,38 @@
 <script>
-  const utils = require('core/utils')
-  const { LICENSE_PRESETS } = require('core/constants')
-  export default {
-    data () {
-	  return {
-		licenseType: 'all',
-		selectedCourses: [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]
-	  }
+const utils = require('core/utils')
+const { LICENSE_PRESETS } = require('core/constants')
+export default {
+  data () {
+    return {
+      licenseType: 'all',
+      selectedCourses: [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]
+    }
+  },
+  computed: {
+    utils () {
+      return utils
     },
-    computed: {
-      utils() {
-        return utils
-      },
-      licensePresets() {
-        return LICENSE_PRESETS
+    licensePresets () {
+      return LICENSE_PRESETS
+    }
+  },
+  watch: {
+    licenseType (val) {
+      this.$emit('input-type', val)
+    }
+  },
+  methods: {
+    selectCourse (id) {
+      const index = this.selectedCourses.indexOf(id)
+      if (index > -1) {
+        this.selectedCourses.splice(index, 1)
+      } else {
+        this.selectedCourses.push(id)
       }
-    },
-    methods: {
-      selectCourse (id) {
-		let index = this.selectedCourses.indexOf(id)
-		if(index > -1) {
-		  this.selectedCourses.splice(index, 1)
-		} else {
-		  this.selectedCourses.push(id)
-		}
-		this.$emit('input-course', this.selectedCourses)
-      }
-    },
-	watch: {
-	  licenseType (val) {
-		this.$emit('input-type', val)
-	  }
-	}
+      this.$emit('input-course', this.selectedCourses)
+    }
   }
+}
 </script>
 <template lang="pug">
   .form-group

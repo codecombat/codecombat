@@ -6,7 +6,11 @@
         class="arapahoe common"
       >
         <div class="common__head">
-          <img src="/images/pages/play/arapahoe-logo.png" alt="Arapahoe logo" class="common__head-logo">
+          <img
+            src="/images/pages/play/arapahoe-logo.png"
+            alt="Arapahoe logo"
+            class="common__head-logo"
+          >
         </div>
         <form
           v-if="!alreadyLoggedIn"
@@ -18,15 +22,25 @@
                 {{ $t('library.enter_library_card') }}
               </h2>
               <div class="arapahoe__body__library-input">
-                <input type="text" class="form-control arapahoe__body__library-input-box" v-model="libraryProfileId">
+                <input
+                  v-model="libraryProfileId"
+                  type="text"
+                  class="form-control arapahoe__body__library-input-box"
+                >
               </div>
             </div>
             <div class="arapahoe__body__submit">
-              <button type="submit" class="arapahoe__body__submit-btn btn btn-primary">
+              <button
+                type="submit"
+                class="arapahoe__body__submit-btn btn btn-primary"
+              >
                 {{ $t('library.access_coco') }}
               </button>
             </div>
-            <div class="arapahoe__error error" v-if="errMsg">
+            <div
+              v-if="errMsg"
+              class="arapahoe__error error"
+            >
               {{ errMsg }}
             </div>
           </div>
@@ -43,7 +57,11 @@
         class="shreve common"
       >
         <div class="shreve__head">
-          <img src="/images/pages/play/shreve-logo.webp" alt="shreve logo" class="common__head-logo">
+          <img
+            src="/images/pages/play/shreve-logo.webp"
+            alt="shreve logo"
+            class="common__head-logo"
+          >
         </div>
         <form
           v-if="!alreadyLoggedIn"
@@ -55,18 +73,34 @@
                 {{ $t('library.enter_library_card') }}
               </h2>
               <div class="shreve__body__library-input">
-                <input type="text" class="form-control shreve__body__library-input-box" v-model="libraryProfileId" placeholder="Library Card No.">
+                <input
+                  v-model="libraryProfileId"
+                  type="text"
+                  class="form-control shreve__body__library-input-box"
+                  placeholder="Library Card No."
+                >
               </div>
               <div class="shreve__body__password-input">
-                <input type="password" class="form-control shreve__body__library-input-box" v-model="libraryPassword" placeholder="Password">
+                <input
+                  v-model="libraryPassword"
+                  type="password"
+                  class="form-control shreve__body__library-input-box"
+                  placeholder="Password"
+                >
               </div>
             </div>
             <div class="shreve__body__submit">
-              <button type="submit" class="shreve__body__submit-btn btn btn-primary">
+              <button
+                type="submit"
+                class="shreve__body__submit-btn btn btn-primary"
+              >
                 {{ $t('library.access_coco') }}
               </button>
             </div>
-            <div class="shreve__error error" v-if="errMsg">
+            <div
+              v-if="errMsg"
+              class="shreve__error error"
+            >
               {{ errMsg }}
             </div>
           </div>
@@ -77,13 +111,17 @@
         >
           {{ $t('library.already_logged_in') }}
         </div>
-      </div>     
+      </div>
       <div
         v-else-if="isLafourche"
         class="lafourche common"
       >
         <div class="lafourche__head">
-          <img src="/images/pages/play/lafourche-logo.webp" alt="Lafourche logo" class="common__head-logo">
+          <img
+            src="/images/pages/play/lafourche-logo.webp"
+            alt="Lafourche logo"
+            class="common__head-logo"
+          >
         </div>
         <form
           v-if="!alreadyLoggedIn"
@@ -95,18 +133,34 @@
                 {{ $t('library.enter_library_card') }}
               </h2>
               <div class="lafourche__body__library-input">
-                <input type="text" class="form-control lafourche__body__library-input-box" v-model="libraryProfileId" placeholder="Library Card No.">
+                <input
+                  v-model="libraryProfileId"
+                  type="text"
+                  class="form-control lafourche__body__library-input-box"
+                  placeholder="Library Card No."
+                >
               </div>
               <div class="lafourche__body__password-input">
-                <input type="password" class="form-control lafourche__body__library-input-box" v-model="libraryPassword" placeholder="Password">
+                <input
+                  v-model="libraryPassword"
+                  type="password"
+                  class="form-control lafourche__body__library-input-box"
+                  placeholder="Password"
+                >
               </div>
             </div>
             <div class="lafourche__body__submit">
-              <button type="submit" class="lafourche__body__submit-btn btn btn-primary">
+              <button
+                type="submit"
+                class="lafourche__body__submit-btn btn btn-primary"
+              >
                 {{ $t('library.access_coco') }}
               </button>
             </div>
-            <div class="lafourche__error error" v-if="errMsg">
+            <div
+              v-if="errMsg"
+              class="lafourche__error error"
+            >
               {{ errMsg }}
             </div>
           </div>
@@ -126,7 +180,11 @@
           v-if="isHoustonLibrary"
           class="common__head"
         >
-          <img src="/images/pages/play/houston-library-logo.png" alt="Houston logo" class="common__head-logo">
+          <img
+            src="/images/pages/play/houston-library-logo.png"
+            alt="Houston logo"
+            class="common__head-logo"
+          >
         </div>
         <div
           v-show="!progressState && !alreadyLoggedIn && showWayFinder"
@@ -135,8 +193,8 @@
           {{ $t('common.loading') }}
         </div>
         <div
-          class="houston__login"
           v-if="!alreadyLoggedIn"
+          class="houston__login"
         >
           <p
             v-if="!progressState && showWayFinder"
@@ -144,9 +202,9 @@
           >
             {{ $t('library.search_box_option') }}
             <a
-              @click.prevent="redirectToOpenAthens"
               href="#"
               class="houston__login__option-link"
+              @click.prevent="redirectToOpenAthens"
             >
               {{ $t('general.here') }}
             </a>
@@ -157,8 +215,8 @@
             class="houston__login__btn"
           >
             <button
-              @click="redirectToOpenAthens"
               class="btn btn-primary btn-lg"
+              @click="redirectToOpenAthens"
             >
               Login / Sign Up
             </button>
@@ -189,7 +247,10 @@
           {{ errMsg }}
         </div>
       </div>
-      <div class="unknown" v-else>
+      <div
+        v-else
+        class="unknown"
+      >
         {{ $t('not_found.page_not_found') }}
       </div>
     </div>
@@ -202,15 +263,6 @@ const usersLib = require('../../core/api/users')
 const globalVar = require('core/globalVar')
 export default {
   name: 'LibraryLoginView',
-  data () {
-    return {
-      libraryProfileId: null,
-      libraryPassword: null,
-      errMsg: null,
-      progressState: null,
-      alreadyLoggedIn: false
-    }
-  },
   props: {
     libraryId: {
       type: String,
@@ -237,16 +289,13 @@ export default {
       default: null
     }
   },
-  mounted () {
-    this.libraryProfileId = me.get('library')?.profileId
-    this.alreadyLoggedIn = !me.isAnonymous()
-    if (this.isDeeplink === 'true' && !this.alreadyLoggedIn) {
-      // document.cookie = `deeplink=${this.target}; max-age=300; path=/;`
-      this.redirectToOpenAthens()
-      return
-    }
-    if (this.isHoustonLibrary || this.isOpenAthens) {
-      this.handleHoustonLibrary()
+  data () {
+    return {
+      libraryProfileId: null,
+      libraryPassword: null,
+      errMsg: null,
+      progressState: null,
+      alreadyLoggedIn: false
     }
   },
   computed: {
@@ -269,19 +318,31 @@ export default {
       return this.libName === 'way-finder'
     }
   },
+  mounted () {
+    this.libraryProfileId = me.get('library')?.profileId
+    this.alreadyLoggedIn = !me.isAnonymous()
+    if (this.isDeeplink === 'true' && !this.alreadyLoggedIn) {
+      // document.cookie = `deeplink=${this.target}; max-age=300; path=/;`
+      this.redirectToOpenAthens()
+      return
+    }
+    if (this.isHoustonLibrary || this.isOpenAthens) {
+      this.handleHoustonLibrary()
+    }
+  },
   methods: {
     async onLibraryLogin ({ libraryName }) {
       this.errMsg = null
       try {
-        if(this.isArapahoe){
+        if (this.isArapahoe) {
           await usersLib.loginArapahoe({ libraryProfileId: this.libraryProfileId, libraryName })
         }
-        if(this.isLafourche){
+        if (this.isLafourche) {
           await usersLib.loginLafourche({ libraryProfileId: this.libraryProfileId, libraryPassword: this.libraryPassword, libraryName })
         }
-        if(this.isShreve){
+        if (this.isShreve) {
           await usersLib.loginShreve({ libraryProfileId: this.libraryProfileId, libraryPassword: this.libraryPassword, libraryName })
-        }        
+        }
         await this.postLogin()
       } catch (err) {
         console.error('error resp', err)

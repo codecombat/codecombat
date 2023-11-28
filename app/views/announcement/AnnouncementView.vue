@@ -10,7 +10,7 @@
             v-for="ann in announcements"
             :key="ann._id"
             :announcement="ann"
-            :scrolledTo="query.id === ann._id"
+            :scrolled-to="query.id === ann._id"
           />
           <div
             v-if="moreAnnouncements"
@@ -81,17 +81,17 @@ export default {
       })
     },
     more () {
-      let skip = this.announcements.length
-      let options = {
+      const skip = this.announcements.length
+      const options = {
         append: true,
-        skip: skip
+        skip
       }
       this.getAnnouncements(options)
     }
   },
   components: {
     AnnouncementModal,
-    AnnouncementTab,
+    AnnouncementTab
   }
 }
 </script>

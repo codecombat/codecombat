@@ -13,22 +13,22 @@
 </template>
 
 <script>
-import PaymentStudentLicenseHeadComponent from "./HeadComponent";
-import PaymentStudentLicenseHomeSchoolBodyComponent from "./HomeSchoolBodyComponent";
+import PaymentStudentLicenseHeadComponent from './HeadComponent'
+import PaymentStudentLicenseHomeSchoolBodyComponent from './HomeSchoolBodyComponent'
 export default {
-  name: "PaymentStudentLicenseHomeSchoolView",
+  name: 'PaymentStudentLicenseHomeSchoolView',
   components: {
     PaymentStudentLicenseHeadComponent,
-    PaymentStudentLicenseHomeSchoolBodyComponent,
+    PaymentStudentLicenseHomeSchoolBodyComponent
   },
   props: {
     priceInfo: {
       type: Object,
-      required: true,
+      required: true
     },
     paymentGroupId: {
       type: String,
-      required: true,
+      required: true
     }
   }
 }

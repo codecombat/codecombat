@@ -3,8 +3,8 @@
     <div class="lprogress__info">
       <div
         v-for="level in levels"
-        class="lprogress__level"
         :key="level.original"
+        class="lprogress__level"
       >
         <module-row
           :display-name="level.name"
@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import LevelProgressInfoComponent from './LevelProgressInfoComponent'
 import ModuleRow from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ModuleRow'
 import ModuleResources from './ModuleResources'
 import CodeDiff from '../../../components/common/CodeDiff'
@@ -41,6 +40,14 @@ import moduleProgressMixin from '../mixins/moduleProgressMixin'
 import { getStudentAndSolutionCode } from '../helpers/levelCompletionHelper'
 export default {
   name: 'CocoModuleProgressComponent',
+  components: {
+    ModuleRow,
+    ModuleResources,
+    CodeDiff
+  },
+  mixins: [
+    moduleProgressMixin
+  ],
   props: {
     levels: {
       type: Array,
@@ -68,15 +75,6 @@ export default {
       solution: {}
     }
   },
-  components: {
-    LevelProgressInfoComponent,
-    ModuleRow,
-    ModuleResources,
-    CodeDiff
-  },
-  mixins: [
-    moduleProgressMixin
-  ],
   methods: {
     getIconType (level) {
       if (level.kind === 'practice' || level.practice) return 'practicelvl'

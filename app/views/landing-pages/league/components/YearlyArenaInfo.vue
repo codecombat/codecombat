@@ -1,31 +1,58 @@
 <template>
-  <div id="yearly-arenas" >
-    <div class="year-arenas row flex-row" v-for="(seasons, year) in seasonsByYear">
+  <div id="yearly-arenas">
+    <div
+      v-for="(seasons, year) in seasonsByYear"
+      :key="year"
+      class="year-arenas row flex-row"
+    >
       <h2 class="year-label">
-        <div class="year-label-content" >{{ year }}</div>
+        <div class="year-label-content">
+          {{ year }}
+        </div>
       </h2>
       <div
-        class="col-sm-4 text-center xs-pb-20"
         v-for="season in seasons"
         :key="season.number"
+        class="col-sm-4 text-center xs-pb-20"
       >
         <!--<h3 class="season-name">{{ $t(`league.${season.championshipArena.slug.replace(/-/g, '_')}`) }} {{ $t(`league.${season.championshipType}`) }}</h3>-->
-        <h3 class="season-name esports-aqua">{{ $t('league.season_label', { seasonNumber: season.number, seasonName: $t(`league.season_${season.number}`), interpolation: { escapeValue: false } }) }}</h3>
-        <div class="season-dates">{{ season.dates.rangeDisplay }}</div>
+        <h3 class="season-name esports-aqua">
+          {{ $t('league.season_label', { seasonNumber: season.number, seasonName: $t(`league.season_${season.number}`), interpolation: { escapeValue: false } }) }}
+        </h3>
+        <div class="season-dates">
+          {{ season.dates.rangeDisplay }}
+        </div>
         <div
           v-if="season.video && season.published"
         >
-          <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0">
+          <div
+            class="row flex-row video-iframe-section"
+            style="margin: 10px 0 10px 0"
+          >
             <div class="col-xs-12 video-backer video-iframe">
-              <div style="position: relative; padding-top: 56.14583333333333%;"><iframe :src="`https://iframe.videodelivery.net/${season.video}?poster=https://videodelivery.net/${season.video}/thumbnails/thumbnail.jpg%3Ftime%3D${season.videoThumbnailTime || '600s'}`" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" :title="`CodeCombat AI League Winners - Season ${$t('league.season_' + season.number)}`"></iframe></div>
+              <div style="position: relative; padding-top: 56.14583333333333%;">
+                <iframe
+                  :src="`https://iframe.videodelivery.net/${season.video}?poster=https://videodelivery.net/${season.video}/thumbnails/thumbnail.jpg%3Ftime%3D${season.videoThumbnailTime || '600s'}`"
+                  style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                  allowfullscreen="true"
+                  :title="`CodeCombat AI League Winners - Season ${$t('league.season_' + season.number)}`"
+                />
+              </div>
             </div>
           </div>
           <div class="row text-center">
             <div class="col-xs-12 col-md-6 view-winners-col">
-              <a :href="`/play/ladder/${season.regularArena.slug}?tournament=${season.regularArena.tournament}`" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t('league.' + season.regularArena.slug.replace(/-/g, '_')), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
+              <a
+                :href="`/play/ladder/${season.regularArena.slug}?tournament=${season.regularArena.tournament}`"
+                class="btn btn-small btn-primary btn-moon play-btn-cta"
+              >{{ $t('league.view_arena_winners', { arenaName: $t('league.' + season.regularArena.slug.replace(/-/g, '_')), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
             </div>
             <div class="col-xs-12 col-md-6 view-winners-col">
-              <a :href="`/play/ladder/${season.championshipArena.slug}?tournament=${season.championshipArena.tournament}`" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t('league.' + season.championshipArena.slug.replace(/-/g, '_')) + ' ' + $t('league.' + season.championshipType), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
+              <a
+                :href="`/play/ladder/${season.championshipArena.slug}?tournament=${season.championshipArena.tournament}`"
+                class="btn btn-small btn-primary btn-moon play-btn-cta"
+              >{{ $t('league.view_arena_winners', { arenaName: $t('league.' + season.championshipArena.slug.replace(/-/g, '_')) + ' ' + $t('league.' + season.championshipType), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
             </div>
           </div>
         </div>
@@ -35,10 +62,10 @@
             :src="season.image"
             loading="lazy"
             :alt="$t(`league.season_${season.number}`)"
-          />
+          >
           <div class="championship-month">
             <span>{{ $t(`league.${season.championshipArena.slug.replace(/-/g, '_')}`) }} {{ $t(`league.${season.championshipType}`) }}</span>
-            <br />
+            <br>
             <span>{{ season.dates.endDisplay + ' ' + $t('league.final_arena') }}</span>
           </div>
         </div>
@@ -54,16 +81,16 @@ import { AILeagueSeasons, arenas } from '../../../../core/utils'
 const seasonsByYear = {}
 const latestSeason = _.max(AILeagueSeasons, 'number').number
 for (let seasonNumber = latestSeason; seasonNumber >= 1; --seasonNumber) {
-  const season = _.cloneDeep(_.find(AILeagueSeasons, {number: seasonNumber}))
-  season.regularArena = _.find(arenas, {season: seasonNumber, type: 'regular'})
-  season.championshipArena = _.find(arenas, {season: seasonNumber, type: 'championship'})
+  const season = _.cloneDeep(_.find(AILeagueSeasons, { number: seasonNumber }))
+  season.regularArena = _.find(arenas, { season: seasonNumber, type: 'regular' })
+  season.championshipArena = _.find(arenas, { season: seasonNumber, type: 'championship' })
   season.dates = {
     start: season.regularArena.start,
     end: season.championshipArena.end,
-    results: season.championshipArena.results,
+    results: season.championshipArena.results
   }
-  season.dates.startDisplay = moment(season.dates.start).add(1, 'days').format('MMM')  // Add a day to avoid timezone nonsense
-  season.dates.endDisplay = moment(season.dates.end).subtract(1, 'days').format('MMM YYYY')  // Subtract a day to avoid timezone nonsense
+  season.dates.startDisplay = moment(season.dates.start).add(1, 'days').format('MMM') // Add a day to avoid timezone nonsense
+  season.dates.endDisplay = moment(season.dates.end).subtract(1, 'days').format('MMM YYYY') // Subtract a day to avoid timezone nonsense
   season.dates.rangeDisplay = `${season.dates.startDisplay} - ${season.dates.endDisplay}`
   season.published = new Date() > season.dates.results
   const year = 2021 + Math.floor((seasonNumber - 1) / 3)

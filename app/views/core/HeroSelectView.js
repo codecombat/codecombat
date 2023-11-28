@@ -7,31 +7,31 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let HeroSelectView;
-require('app/styles/core/hero-select-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/core/hero-select-view');
-const State = require('models/State');
-const ThangTypeConstants = require('lib/ThangTypeConstants');
-const ThangTypeLib = require('lib/ThangTypeLib');
-const User = require('models/User');
-const api = require('core/api');
-const utils = require('core/utils');
+let HeroSelectView
+require('app/styles/core/hero-select-view.sass')
+const CocoView = require('views/core/CocoView')
+const template = require('app/templates/core/hero-select-view')
+const State = require('models/State')
+const ThangTypeConstants = require('lib/ThangTypeConstants')
+const ThangTypeLib = require('lib/ThangTypeLib')
+const User = require('models/User')
+const api = require('core/api')
+const utils = require('core/utils')
 
-module.exports = (HeroSelectView = (function() {
+module.exports = (HeroSelectView = (function () {
   HeroSelectView = class HeroSelectView extends CocoView {
-    static initClass() {
-      this.prototype.id = 'hero-select-view';
-      this.prototype.template = template;
+    static initClass () {
+      this.prototype.id = 'hero-select-view'
+      this.prototype.template = template
 
       this.prototype.events =
-        {'click .hero-option': 'onClickHeroOption'};
+        { 'click .hero-option': 'onClickHeroOption' }
     }
 
     constructor (options = {}) {
       super(options)
-      let currentHeroOriginal, defaultHeroOriginal;
-      this.options = options;
+      let currentHeroOriginal, defaultHeroOriginal
+      this.options = options
       if (utils.isCodeCombat) {
         defaultHeroOriginal = ThangTypeConstants.heroes.captain
         currentHeroOriginal = me.get('heroConfig')?.thangType || defaultHeroOriginal
@@ -40,75 +40,75 @@ module.exports = (HeroSelectView = (function() {
         currentHeroOriginal = me.get('ozariaUserOptions')?.isometricThangTypeOriginal || defaultHeroOriginal
       }
 
-      this.debouncedRender = _.debounce(this.render, 0);
+      this.debouncedRender = _.debounce(this.render, 0)
 
       this.state = new State({
         currentHeroOriginal,
         selectedHeroOriginal: currentHeroOriginal
-      });
+      })
 
       if (utils.isCodeCombat) {
         api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'i18n', 'heroClass', 'slug', 'ozaria', 'poseImage'] }).then(heroes => {
-          if (this.destroyed) { return; }
-          this.heroes = heroes.filter(function(hero) {
-            let clanHero;
-            if (hero.ozaria) { return false; }
-            if (clanHero = _.find(utils.clanHeroes, {thangTypeOriginal: hero.original})) {
+          if (this.destroyed) { return }
+          this.heroes = heroes.filter(function (hero) {
+            let clanHero
+            if (hero.ozaria) { return false }
+            if (clanHero = _.find(utils.clanHeroes, { thangTypeOriginal: hero.original })) {
               let left, needle
               if ((needle = clanHero.clanId, !(((left = me.get('clans')) != null ? left : [])).includes(needle))) { return false }
             }
             if (hero.original === ThangTypeConstants.heroes['code-ninja']) {
-              if (window.location.host !== 'coco.code.ninja') { return false; }
+              if (window.location.host !== 'coco.code.ninja') { return false }
             }
-            return true;
-          });
-          return this.debouncedRender();
-        });
-       } else {
+            return true
+          })
+          return this.debouncedRender()
+        })
+      } else {
         // @heroes = new ThangTypes({}, { project: ['original', 'name', 'heroClass, 'slug''] })
         // @supermodel.trackRequest @heroes.fetchHeroes()
 
         api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'heroClass', 'slug', 'ozaria'] }).then(heroes => {
-          this.heroes = heroes.filter(h => !h.ozaria);
-          return this.debouncedRender();
-        });
+          this.heroes = heroes.filter(h => !h.ozaria)
+          return this.debouncedRender()
+        })
       }
 
       this.listenTo(this.state, 'all', function () { return this.debouncedRender() })
     }
-      // @listenTo @heroes, 'all', -> @debouncedRender()
+    // @listenTo @heroes, 'all', -> @debouncedRender()
 
-    onClickHeroOption(e) {
-      const heroOriginal = $(e.currentTarget).data('hero-original');
-      this.state.set({selectedHeroOriginal: heroOriginal});
-      return this.saveHeroSelection(heroOriginal);
+    onClickHeroOption (e) {
+      const heroOriginal = $(e.currentTarget).data('hero-original')
+      this.state.set({ selectedHeroOriginal: heroOriginal })
+      return this.saveHeroSelection(heroOriginal)
     }
 
-    getPortraitURL(hero) {
-      return ThangTypeLib.getPortraitURL(hero);
+    getPortraitURL (hero) {
+      return ThangTypeLib.getPortraitURL(hero)
     }
 
-    getHeroShortName(hero) {
-      return ThangTypeLib.getHeroShortName(hero);
+    getHeroShortName (hero) {
+      return ThangTypeLib.getHeroShortName(hero)
     }
 
-    saveHeroSelection(heroOriginal) {
-      if (!me.get('heroConfig')) { me.set({heroConfig: {}}); }
-      const heroConfig = _.assign({}, me.get('heroConfig'), { thangType: heroOriginal });
-      me.set({ heroConfig });
+    saveHeroSelection (heroOriginal) {
+      if (!me.get('heroConfig')) { me.set({ heroConfig: {} }) }
+      const heroConfig = _.assign({}, me.get('heroConfig'), { thangType: heroOriginal })
+      me.set({ heroConfig })
 
-      const hero = _.find(this.heroes, { original: heroOriginal });
+      const hero = _.find(this.heroes, { original: heroOriginal })
       return me.save().then(() => {
-        if (utils.isCodeCmbat && this.destroyed) { return; }
-        let event = 'Hero selected';
-        event += me.isStudent() ? ' student' : ' teacher';
-        if (this.options.createAccount) { event += ' create account'; }
+        if (utils.isCodeCmbat && this.destroyed) { return }
+        let event = 'Hero selected'
+        event += me.isStudent() ? ' student' : ' teacher'
+        if (this.options.createAccount) { event += ' create account' }
         const category = me.isStudent() ? 'Students' : 'Teachers'
         window.tracker?.trackEvent(event, { category, heroOriginal })
-        return this.trigger('hero-select:success', {attributes: hero});
-    });
+        return this.trigger('hero-select:success', { attributes: hero })
+      })
     }
-  };
-  HeroSelectView.initClass();
-  return HeroSelectView;
-})());
+  }
+  HeroSelectView.initClass()
+  return HeroSelectView
+})())

@@ -7,128 +7,131 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let ModelModal;
-require('app/styles/modal/model-modal.sass');
-const ModalView = require('views/core/ModalView');
-const template = require('app/templates/modal/model-modal');
-require('lib/setupTreema');
+let ModelModal
+require('app/styles/modal/model-modal.sass')
+const ModalView = require('views/core/ModalView')
+const template = require('app/templates/modal/model-modal')
+require('lib/setupTreema')
 
-module.exports = (ModelModal = (function() {
+module.exports = (ModelModal = (function () {
   ModelModal = class ModelModal extends ModalView {
-    static initClass() {
-      this.prototype.id = 'model-modal';
-      this.prototype.template = template;
-      this.prototype.plain = true;
+    static initClass () {
+      this.prototype.id = 'model-modal'
+      this.prototype.template = template
+      this.prototype.plain = true
 
-      this.prototype.events = {'click .save-model': 'onSaveModel'};
+      this.prototype.events = { 'click .save-model': 'onSaveModel' }
     }
 
     constructor (options = {}) {
       super(options)
-      this.models = options.models || [];
+      this.models = options.models || []
       const result = []
       for (const model of Array.from(this.models)) {
         if (!model.loaded) {
-          this.supermodel.loadModel(model);
-          result.push(model.fetch({cache: false, error(error) {
-            return console.log('Error loading', model, error);
-          }
-          }));
+          this.supermodel.loadModel(model)
+          result.push(model.fetch({
+            cache: false,
+            error (error) {
+              return console.log('Error loading', model, error)
+            }
+          }))
         }
       }
     }
 
-    afterRender() {
-      if (!this.supermodel.finished()) { return; }
-      this.modelTreemas = {};
+    afterRender () {
+      if (!this.supermodel.finished()) { return }
+      this.modelTreemas = {}
       return (() => {
-        const result = [];
-        for (var model of Array.from(this.models != null ? this.models : [])) {
-          var data = $.extend(true, {}, model.attributes);
-          var schema = $.extend(true, {}, model.schema());
-          var treemaOptions = {
+        const result = []
+        for (const model of Array.from(this.models != null ? this.models : [])) {
+          const data = $.extend(true, {}, model.attributes)
+          const schema = $.extend(true, {}, model.schema())
+          const treemaOptions = {
             schema,
             data,
             readOnly: false
-          };
-          var modelTreema = this.$el.find(`.model-treema[data-model-id='${model.id}']`).treema(treemaOptions);
+          }
+          const modelTreema = this.$el.find(`.model-treema[data-model-id='${model.id}']`).treema(treemaOptions)
           if (modelTreema != null) {
-            modelTreema.build();
+            modelTreema.build()
           }
           if (modelTreema != null) {
-            modelTreema.open();
+            modelTreema.open()
           }
-          this.openTastyTreemas(modelTreema, model);
-          result.push(this.modelTreemas[model.id] = modelTreema);
+          this.openTastyTreemas(modelTreema, model)
+          result.push(this.modelTreemas[model.id] = modelTreema)
         }
-        return result;
-      })();
+        return result
+      })()
     }
 
-    openTastyTreemas(modelTreema, model) {
+    openTastyTreemas (modelTreema, model) {
       // To save on quick inspection, let's auto-open the properties we're most likely to want to see.
-      const delicacies = ['code', 'properties'];
+      const delicacies = ['code', 'properties']
       return (() => {
-        const result = [];
-        for (var dish of Array.from(delicacies)) {
-          var team;
-          var child = modelTreema.childrenTreemas[dish];
+        const result = []
+        for (const dish of Array.from(delicacies)) {
+          const team = modelTreema.get('team')
+          const child = modelTreema.childrenTreemas[dish]
           if (child != null) {
-            child.open();
+            child.open()
           }
-          if (child && (dish === 'code') && (model.type() === 'LevelSession') && (team = modelTreema.get('team'))) {
-            var desserts = {
+          if (child && (dish === 'code') && (model.type() === 'LevelSession') && team) {
+            const desserts = {
               humans: ['hero-placeholder'],
               ogres: ['hero-placeholder-1']
-            }[team];
+            }[team]
             result.push(Array.from(desserts).map((dessert) =>
-              (child.childrenTreemas[dessert] != null ? child.childrenTreemas[dessert].open() : undefined)));
+              (child.childrenTreemas[dessert] != null ? child.childrenTreemas[dessert].open() : undefined)))
           } else {
-            result.push(undefined);
+            result.push(undefined)
           }
         }
-        return result;
-      })();
+        return result
+      })()
     }
 
-    onSaveModel(e) {
-      let errors, key, res, val;
-      const container = $(e.target).closest('.model-container');
-      const model = _.find(this.models, {id: container.data('model-id')});
-      const treema = this.modelTreemas[model.id];
+    onSaveModel (e) {
+      let key, res, val
+      const container = $(e.target).closest('.model-container')
+      const model = _.find(this.models, { id: container.data('model-id') })
+      const treema = this.modelTreemas[model.id]
       for (key in treema.data) {
-        val = treema.data[key];
+        val = treema.data[key]
         if (!_.isEqual(val, model.get(key))) {
-          console.log('Updating', key, 'from', model.get(key), 'to', val);
-          model.set(key, val);
+          console.log('Updating', key, 'from', model.get(key), 'to', val)
+          model.set(key, val)
         }
       }
       for (key in model.attributes) {
-        val = model.attributes[key];
+        val = model.attributes[key]
         if ((treema.get(key) === undefined) && !_.string.startsWith(key, '_')) {
-          console.log('Deleting', key, 'which was', val, 'but man, that ain\'t going to work, now is it?');
+          console.log('Deleting', key, 'which was', val, 'but man, that ain\'t going to work, now is it?')
         }
       }
-        //model.unset key
-      if (errors = model.validate()) {
-        return console.warn(model, 'failed validation with errors:', errors);
+      // model.unset key
+      const errors = model.validate()
+      if (errors) {
+        return console.warn(model, 'failed validation with errors:', errors)
       }
-      if (!(res = model.patch())) { return; }
+      if (!(res = model.patch())) { return }
       res.error(() => {
-        if (this.destroyed) { return; }
-        return console.error(model, 'failed to save with error:', res.responseText);
-      });
+        if (this.destroyed) { return }
+        return console.error(model, 'failed to save with error:', res.responseText)
+      })
       return res.success((model, response, options) => {
-        if (this.destroyed) { return; }
-        return this.hide();
-      });
+        if (this.destroyed) { return }
+        return this.hide()
+      })
     }
 
-    destroy() {
-      for (var model in this.modelTreemas) { this.modelTreemas[model].destroy(); }
-      return super.destroy();
+    destroy () {
+      for (const model in this.modelTreemas) { this.modelTreemas[model].destroy() }
+      return super.destroy()
     }
-  };
-  ModelModal.initClass();
-  return ModelModal;
-})());
+  }
+  ModelModal.initClass()
+  return ModelModal
+})())

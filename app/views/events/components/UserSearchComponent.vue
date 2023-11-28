@@ -20,8 +20,8 @@
       <div
         v-for="u in filteredUserList"
         :key="u._id"
-        @click="selectUser(u)"
         class="user-line"
+        @click="selectUser(u)"
       >
         <span>{{ u.name }}</span>
         <span>{{ u.firstName }}</span>

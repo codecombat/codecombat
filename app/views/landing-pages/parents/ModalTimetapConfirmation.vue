@@ -1,45 +1,52 @@
 <script>
-  import BaseModal from 'app/components/common/BaseModal'
+import BaseModal from 'app/components/common/BaseModal'
 
-  export default {
-    components: {
-      BaseModal
-    },
+export default {
+  components: {
+    BaseModal
+  },
 
-    props: {
-      show: {
-        type: Boolean,
-        default: false
-      },
-    },
+  props: {
+    show: {
+      type: Boolean,
+      default: false
+    }
+  },
 
-    methods: {
-      handleBackToCoco () {
-        this.$emit('close')
-        application.router.navigate('/', { trigger: true })
-      }
+  methods: {
+    handleBackToCoco () {
+      this.$emit('close')
+      application.router.navigate('/', { trigger: true })
     }
   }
+}
 </script>
 
 <template>
   <base-modal :class="[ !show ? 'hide' : undefined, 'timetap-confirmed']">
     <template slot="header">
       <div />
-      <button 
+      <button
         class="close-button"
-        @click="$emit('close')"
         aria-label="Close"
+        @click="$emit('close')"
       >
-        <img alt="close icon" src="/images/common/modal/Exit_Dusk.svg" />
+        <img
+          alt="close icon"
+          src="/images/common/modal/Exit_Dusk.svg"
+        >
       </button>
     </template>
 
     <template slot="body">
-      <img class="coco-logo" alt="CodeCombat logo" src="/images/pages/base/logo.png">
+      <img
+        class="coco-logo"
+        alt="CodeCombat logo"
+        src="/images/pages/base/logo.png"
+      >
       <h3>{{ $t('modal_timetap_confirmation.congratulations') }}</h3>
       <div class="blue-line" />
-      
+
       <div>
         <p>{{ $t('modal_timetap_confirmation.paragraph_1') }}</p>
         <p>{{ $t('modal_timetap_confirmation.paragraph_2') }}</p>
@@ -49,8 +56,8 @@
       </div>
 
       <button
+        class="back-to-coco"
         @click="handleBackToCoco"
-        class='back-to-coco'
       >
         {{ $t('modal_timetap_confirmation.back_to_coco') }}
       </button>
@@ -104,7 +111,6 @@
 .timetap-confirmed ::v-deep .modal-body > * {
   max-width: 757px;
 }
-
 
 .close-button {
   border: 0;

@@ -9,23 +9,32 @@
           <div class="podcast-item__title">
             {{ formatPodcastName(podcast) }}
           </div>
-          <div class="podcast-item__subtitle" v-if="podcast.shortDescription">
+          <div
+            v-if="podcast.shortDescription"
+            class="podcast-item__subtitle"
+          >
             {{ formatShortDescription(podcast) }}
           </div>
         </div>
       </router-link>
 
       <div class="col-md-6 podcast-item__player">
-        <iframe :src="transistorUrl(podcast)"
-                width='100%' height='180' frameborder='0' scrolling='no'
-                seamless='true' style='width:100%; height:180px;' :id="`podcast-${podcast._id}`">
-        </iframe>
+        <iframe
+          :id="`podcast-${podcast._id}`"
+          :src="transistorUrl(podcast)"
+          width="100%"
+          height="180"
+          frameborder="0"
+          scrolling="no"
+          seamless="true"
+          style="width:100%; height:180px;"
+        />
       </div>
     </div>
     <audio-player-component
-        :transistor-episode-id="podcast.transistorEpisodeId"
-        v-show="showPlayModal === podcast._id"
-        @close="showPlayModal = null"
+      v-show="showPlayModal === podcast._id"
+      :transistor-episode-id="podcast.transistorEpisodeId"
+      @close="showPlayModal = null"
     />
   </div>
 </template>
@@ -39,15 +48,15 @@ import { i18n } from 'app/core/utils'
 
 export default {
   name: 'ItemComponent',
+  components: {
+    AudioPlayerComponent
+  },
+  mixins: [uploadDateMixin],
   props: {
     podcast: {
       type: Object,
       required: true
     }
-  },
-  mixins: [uploadDateMixin],
-  components: {
-    AudioPlayerComponent
   },
   data () {
     return {

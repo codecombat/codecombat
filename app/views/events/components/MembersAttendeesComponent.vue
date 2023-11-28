@@ -19,8 +19,8 @@
       <input
         class="attendance"
         :checked="m.attendance"
-        @input="select(m.userId)"
         type="checkbox"
+        @input="select(m.userId)"
       >
       <div class="name">
         {{ m.name }}

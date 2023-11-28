@@ -6,22 +6,22 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let LevelVersionsModal;
-const VersionsModal = require('views/editor/modal/VersionsModal');
+let LevelVersionsModal
+const VersionsModal = require('views/editor/modal/VersionsModal')
 
-module.exports = (LevelVersionsModal = (function() {
+module.exports = (LevelVersionsModal = (function () {
   LevelVersionsModal = class LevelVersionsModal extends VersionsModal {
-    static initClass() {
-      this.prototype.id = 'editor-level-versions-view';
-      this.prototype.url = '/db/level/';
-      this.prototype.page = 'level';
+    static initClass () {
+      this.prototype.id = 'editor-level-versions-view'
+      this.prototype.url = '/db/level/'
+      this.prototype.page = 'level'
     }
 
-    constructor(options, ID) {
-      super(options, this.ID, require('models/Level'));
-      this.ID = ID;
+    constructor (options, ID) {
+      super(options, ID, require('models/Level'))
+      this.ID = ID
     }
-  };
-  LevelVersionsModal.initClass();
-  return LevelVersionsModal;
-})());
+  }
+  LevelVersionsModal.initClass()
+  return LevelVersionsModal
+})())

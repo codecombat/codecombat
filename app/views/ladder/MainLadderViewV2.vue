@@ -3,8 +3,12 @@
     class="ladder-view-v2 container"
   >
     <div class="ladder-head row">
-      <h3 class="ladder-head__title">{{ $t('ladder.title') }}</h3>
-      <h5 class="ladder-head__subtitle">{{ $t('play.campaign_multiplayer_description') }}</h5>
+      <h3 class="ladder-head__title">
+        {{ $t('ladder.title') }}
+      </h3>
+      <h5 class="ladder-head__subtitle">
+        {{ $t('play.campaign_multiplayer_description') }}
+      </h5>
     </div>
     <div class="ladder-subhead row">
       <a

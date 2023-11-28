@@ -1,15 +1,26 @@
 <template>
   <div class="student-licenses-body">
     <div class="header">
-      <div class="header__heading">{{ $t('payments.student_licenses') }}</div>
+      <div class="header__heading">
+        {{ $t('payments.student_licenses') }}
+      </div>
       <div class="header__subheading">
         {{ $t('payments.purchase_licenses_2') }}. {{ $t('new_home.learn_more') }} {{ $t('payments.about') }}
-        <a href="javascript:;" @click="onApplyLicenseClicked">{{ $t('payments.applying_licenses') }}</a>
+        <a
+          href="javascript:;"
+          @click="onApplyLicenseClicked"
+        >{{ $t('payments.applying_licenses') }}</a>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6" v-if="numStudents === '<=10'">
-        <div class="license small-class" @click="onSmallClassClicked">
+      <div
+        v-if="numStudents === '<=10'"
+        class="col-md-6"
+      >
+        <div
+          class="license small-class"
+          @click="onSmallClassClicked"
+        >
           <div class="license__header">
             <div class="license__header-heading">
               {{ $t('payments.classroom_heading') }}
@@ -34,21 +45,34 @@
               </div>
             </div>
 
-            <div class="body-details" v-show="showPlanFeatures">
+            <div
+              v-show="showPlanFeatures"
+              class="body-details"
+            >
               <includes-body-component class-type="small-class" />
 
               <addon-body-component class-type="small-class" />
             </div>
-            <div class="plan-features" @click="onPlanFeaturesClicked" v-show="!showPlanFeatures" @click.stop>
-              <div class="plan-features__link">{{ $t('payments.show_plan_features') }}</div>
+            <div
+              v-show="!showPlanFeatures"
+              class="plan-features"
+              @click="onPlanFeaturesClicked"
+              @click.stop
+            >
+              <div class="plan-features__link">
+                {{ $t('payments.show_plan_features') }}
+              </div>
             </div>
           </div>
 
-          <body-footer-component :class-type="'small-class'"/>
+          <body-footer-component :class-type="'small-class'" />
         </div>
       </div>
       <div :class="{'col-md-6': numStudents === '<=10', 'col-md-12': numStudents !== '<=10'}">
-        <div class="license school-district" @click="onSchoolDistrictClicked">
+        <div
+          class="license school-district"
+          @click="onSchoolDistrictClicked"
+        >
           <div class="license__header">
             <div class="license__header-heading">
               {{ $t('payments.school_district_heading') }}
@@ -76,13 +100,23 @@
               </div>
             </div>
 
-            <div class="body-details" v-show="showPlanFeatures">
+            <div
+              v-show="showPlanFeatures"
+              class="body-details"
+            >
               <includes-body-component class-type="school-district" />
 
               <addon-body-component class-type="school-district" />
             </div>
-            <div class="plan-features" @click="onPlanFeaturesClicked" v-show="!showPlanFeatures" @click.stop>
-              <div class="plan-features__link">{{ $t('payments.show_plan_features') }}</div>
+            <div
+              v-show="!showPlanFeatures"
+              class="plan-features"
+              @click="onPlanFeaturesClicked"
+              @click.stop
+            >
+              <div class="plan-features__link">
+                {{ $t('payments.show_plan_features') }}
+              </div>
             </div>
           </div>
           <div
@@ -96,13 +130,19 @@
               <addon-body-component class-type="school-district" />
             </div>
           </div>
-          <body-footer-component :class-type="'school-district'" :num-students="numStudents" />
+          <body-footer-component
+            :class-type="'school-district'"
+            :num-students="numStudents"
+          />
         </div>
       </div>
     </div>
     <div class="footer">
       <div class="footer__text">
-        See also our <a href="https://www.ozaria.com/funding" target="_blank">Funding Resources Guide</a> for how to leverage CARES Act funding sources like ESSER and GEER.
+        See also our <a
+          href="https://www.ozaria.com/funding"
+          target="_blank"
+        >Funding Resources Guide</a> for how to leverage CARES Act funding sources like ESSER and GEER.
       </div>
     </div>
     <modal-get-licenses
@@ -110,8 +150,8 @@
       @close="openLicenseModal = false"
     />
     <purchase-license-modal
-      :payment-group="paymentGroup"
       v-if="openPurchaseModal"
+      :payment-group="paymentGroup"
       @close="openPurchaseModal = false"
     />
     <backbone-modal-harness
@@ -140,6 +180,18 @@ export default {
     PurchaseLicenseModal,
     BackboneModalHarness
   },
+  props: {
+    numStudents: {
+      type: String,
+      required: true,
+      validator: (v) => {
+        return ['<=10', '10+'].includes(v)
+      }
+    },
+    paymentGroup: {
+      type: Object
+    }
+  },
   data () {
     return {
       openLicenseModal: false,
@@ -149,17 +201,14 @@ export default {
       showPlanFeatures: true
     }
   },
-  props: {
-    numStudents: {
-      type: String,
-      required: true,
-      validator: (v) => {
-        return [ '<=10', '10+' ].includes(v)
-      }
-    },
-    paymentGroup: {
-      type: Object
-    }
+  created () {
+    window.addEventListener('resize', this.onResize)
+  },
+  mounted () {
+    this.onResize()
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.onResize)
   },
   methods: {
     onSchoolDistrictClicked () {
@@ -176,17 +225,8 @@ export default {
     },
     onResize () {
       // hard-coding pixel for bootstrap md
-      this.showPlanFeatures = window.innerWidth > 992;
+      this.showPlanFeatures = window.innerWidth > 992
     }
-  },
-  created() {
-    window.addEventListener('resize', this.onResize)
-  },
-  mounted () {
-    this.onResize()
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.onResize)
   }
 }
 </script>
@@ -390,7 +430,6 @@ export default {
     /* or 80% */
 
     letter-spacing: 0.56px;
-
 
     margin-bottom: 1rem;
   }

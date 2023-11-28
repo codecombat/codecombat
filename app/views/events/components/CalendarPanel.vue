@@ -76,7 +76,7 @@ export default {
     return {
       linkGoogleDisabled: true
     }
-},
+  },
   mounted () {
     if (!this.type) {
       return
@@ -123,7 +123,7 @@ export default {
       gcApiHandler.importEvents().then((res) => {
         console.log(res)
       })
-    },
+    }
   }
 }
 </script>

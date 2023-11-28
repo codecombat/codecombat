@@ -3,10 +3,16 @@
     <div class="container">
       <div class="row episode__frame">
         <div class="col-md-offset-3 col-md-7">
-          <iframe :src="transistorUrl"
-                  width='100%' height='180' frameborder='0' scrolling='no'
-                  seamless='true' style='width:100%; height:180px;' :id="`podcast-${podcast._id}`">
-          </iframe>
+          <iframe
+            :id="`podcast-${podcast._id}`"
+            :src="transistorUrl"
+            width="100%"
+            height="180"
+            frameborder="0"
+            scrolling="no"
+            seamless="true"
+            style="width:100%; height:180px;"
+          />
         </div>
       </div>
       <div class="row">
@@ -19,22 +25,32 @@
               {{ getUploadDate(podcast.uploadDate) }}
             </div>
           </div>
-          <div class="episode__subscribe" @click="onSubscribeClick">
+          <div
+            class="episode__subscribe"
+            @click="onSubscribeClick"
+          >
             {{ $t('podcast.subscribe') }}+
           </div>
         </div>
         <div class="col-md-5 episode__info">
-          <div class="episode__info-description" v-html="formatDescription"></div>
+          <div
+            class="episode__info-description"
+            v-html="formatDescription"
+          />
         </div>
         <div class="col-md-4 episode__function">
           <a
+            v-if="podcast.audio && podcast.audio.mp3"
             :href="`/file/${podcast.audio.mp3}`"
             target="_blank"
             download
-            v-if="podcast.audio && podcast.audio.mp3"
             class="episode__btn-info episode__btn-anchor episode__function-download"
           >
-            <img src="/images/pages/podcast/IconDownload.svg" alt="Download Icon" class="episode__download-icon episode__icon">
+            <img
+              src="/images/pages/podcast/IconDownload.svg"
+              alt="Download Icon"
+              class="episode__download-icon episode__icon"
+            >
             <span class="episode__listen episode__btn-text episode__btn-text-hor">{{ $t('podcast.download') }}</span>
           </a>
           <div
@@ -42,15 +58,19 @@
             class="episode__btn-info"
             @click="() => onTranscriptClick(podcast)"
           >
-            <img src="/images/pages/podcast/IconTranscript.svg" alt="Transcript Icon" class="episode__transcript-icon episode__icon">
+            <img
+              src="/images/pages/podcast/IconTranscript.svg"
+              alt="Transcript Icon"
+              class="episode__transcript-icon episode__icon"
+            >
             <span class="episode__listen episode__btn-text episode__btn-text-hor">{{ $t('podcast.transcript') }}</span>
           </div>
         </div>
       </div>
     </div>
     <audio-player-component
-      :transistor-episode-id="podcast.transistorEpisodeId"
       v-if="showPlayModal"
+      :transistor-episode-id="podcast.transistorEpisodeId"
       @close="showPlayModal = false"
     />
     <subscribe-modal
@@ -70,36 +90,21 @@ import { i18n } from 'app/core/utils'
 const marked = require('marked')
 export default {
   name: 'EpisodeComponent',
+  components: {
+    AudioPlayerComponent,
+    SubscribeModal
+  },
+  mixins: [uploadDateMixin, trackPlayMixin],
   props: {
     podcast: {
       type: Object,
       required: true
     }
   },
-  components: {
-    AudioPlayerComponent,
-    SubscribeModal
-  },
   data () {
     return {
       showPlayModal: false,
       showSubscribeModal: false
-    }
-  },
-  mixins: [ uploadDateMixin, trackPlayMixin ],
-  methods: {
-    onDownloadClick (podcast) {
-      window.tracker.trackEvent('Download podcast clicked')
-        .catch ((e) => console.log('podcastTrackEvent download failed', e))
-      window.open(fullFileUrl(podcast.audio.mp3), '_blank').focus()
-    },
-    onTranscriptClick (podcast) {
-      window.tracker.trackEvent('Transcript podcast clicked')
-        .catch ((e) => console.log('podcastTrackEvent transcript failed', e))
-      window.open(fullFileUrl(podcast.transcript), '_blank').focus()
-    },
-    onSubscribeClick () {
-      this.showSubscribeModal = true
     }
   },
   computed: {
@@ -108,6 +113,21 @@ export default {
     },
     formatDescription () {
       return marked(i18n(this.podcast, 'description'), { renderer: podcastLinkRenderer() })
+    }
+  },
+  methods: {
+    onDownloadClick (podcast) {
+      window.tracker.trackEvent('Download podcast clicked')
+        .catch((e) => console.log('podcastTrackEvent download failed', e))
+      window.open(fullFileUrl(podcast.audio.mp3), '_blank').focus()
+    },
+    onTranscriptClick (podcast) {
+      window.tracker.trackEvent('Transcript podcast clicked')
+        .catch((e) => console.log('podcastTrackEvent transcript failed', e))
+      window.open(fullFileUrl(podcast.transcript), '_blank').focus()
+    },
+    onSubscribeClick () {
+      this.showSubscribeModal = true
     }
   }
 }

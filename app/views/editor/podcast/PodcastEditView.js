@@ -9,7 +9,7 @@ class PodcastEditView extends EditView {
   filePath = 'podcast'
   resourceName = 'Podcast'
 
-  constructor(options = {}, resourceId) {
+  constructor (options = {}, resourceId) {
     super({})
     this.resource = new Podcast({ _id: resourceId })
     this.supermodel.loadModel(this.resource)
