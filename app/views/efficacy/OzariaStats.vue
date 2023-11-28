@@ -29,9 +29,9 @@ export default {
     framed: {
       type: Boolean,
       required: false,
-      default: false,
-    },
-  },
+      default: false
+    }
+  }
 }
 </script>
 
@@ -41,8 +41,6 @@ export default {
 @import "app/styles/style-flat-variables";
 @import "ozaria/site/styles/common/common.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
-
-
 
 #ozaria-stats {
   display: flex;
@@ -58,7 +56,6 @@ export default {
 
   $body-fonts: 'Space Mono', 'Work Sans', "Open Sans", serif;
   $body-fonts2: 'Work Sans', "Open Sans", serif;
-
 
   .graph-boxes {
     border-image: linear-gradient(
@@ -246,7 +243,6 @@ export default {
     padding: 0;
     margin: 0;
   }
-
 
 }
 </style>

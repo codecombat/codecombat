@@ -9,8 +9,7 @@
           :user-id="child._id"
         />
       </div>
-      <div class="board">
-      </div>
+      <div class="board" />
     </div>
     <div class="policy body-bg">
       <footer-component />
@@ -23,14 +22,14 @@ import CalendarPanel from '../../events/components/CalendarPanel'
 import FooterComponent from './FooterComponent'
 export default {
   name: 'BodyComponent',
+  components: {
+    CalendarPanel,
+    FooterComponent
+  },
   props: {
     child: {
       type: Object
     }
-  },
-  components: {
-    CalendarPanel,
-    FooterComponent
   }
 }
 </script>

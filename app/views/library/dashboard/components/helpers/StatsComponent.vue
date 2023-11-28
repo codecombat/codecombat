@@ -27,6 +27,9 @@
 import StatItemComponent from './StatItemComponent'
 export default {
   name: 'StatsComponent',
+  components: {
+    StatItemComponent
+  },
   props: {
     totalUsers: {
       type: Number
@@ -40,9 +43,6 @@ export default {
     programsWritten: {
       type: Number
     }
-  },
-  components: {
-    StatItemComponent
   }
 }
 </script>

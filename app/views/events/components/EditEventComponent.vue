@@ -14,17 +14,20 @@ import convertDateMixin from '../mixins/convertDateMixin'
 
 export default {
   name: 'EditEventComponent',
-  props: {
-    editType: {
-      type: String,
-      default: 'new'
-    }
-  },
   components: {
     'rrule-generator': RRuleGenerator,
     'user-search': UserSearchComponent,
     'time-picker': VueTimepicker,
     'timezone-picker': TimeZonePicker
+  },
+  mixins: [
+    convertDateMixin
+  ],
+  props: {
+    editType: {
+      type: String,
+      default: 'new'
+    }
   },
   data () {
     return {
@@ -42,9 +45,6 @@ export default {
       endTime: null
     }
   },
-  mixins: [
-    convertDateMixin
-  ],
   methods: {
     ...mapMutations('events', [
       'setEvent',
@@ -82,7 +82,7 @@ export default {
       const instance = {
         _id: 'temp-event-' + Math.random(),
         title: 'temp-' + event.name,
-        owner: event.owner,
+        owner: event.owner
       }
       return this.rrule.all().map(d => {
         return Object.assign({}, instance, {
@@ -161,7 +161,7 @@ export default {
     },
     eventUpdate () {
       const now = new Date()
-      let date;
+      let date
       if (this.clickedDate) {
         date = new Date(this.clickedDate).setHours(now.getHours())
       }
@@ -215,6 +215,11 @@ export default {
       return this.rrule.all((date, i) => i < 6).map(d => moment(d).format('ll'))
     }
   },
+  watch: {
+    propsEvent () {
+      this.eventUpdate()
+    }
+  },
   created () {
     if (!this.$store.hasModule('rruleGenerator')) {
       this.$store.registerModule('rruleGenerator', rruleGeneratorModule)
@@ -222,11 +227,6 @@ export default {
   },
   mounted () {
     this.eventUpdate()
-  },
-  watch: {
-    propsEvent () {
-      this.eventUpdate()
-    }
   }
 }
 </script>
@@ -283,34 +283,42 @@ export default {
       <div class="form-group">
         <label for="startDate"> {{ $t('events.start_date') }}</label>
         <input
+          id="startDate"
           v-model="startDate"
           type="date"
           class="form-control"
           name="startDate"
-          id="startDate"
         >
       </div>
       <div class="form-group">
         <label for="timeRange"> {{ $t('events.time_range') }}</label>
         <div>
-          <time-picker format="hh:mm A" :minute-interval="10" v-model="startTime" />
+          <time-picker
+            v-model="startTime"
+            format="hh:mm A"
+            :minute-interval="10"
+          />
         </div>
       </div>
 
       <div class="form-group">
         <label for="endDate"> {{ $t('events.end_date') }}</label>
         <input
+          id="endDate"
           v-model="endDate"
           type="date"
           class="form-control"
           name="endDate"
-          id="endDate"
         >
       </div>
       <div class="form-group">
         <label for="timeRange"> {{ $t('events.time_range') }}</label>
         <div>
-          <time-picker format="hh:mm A" :minute-interval="10" v-model="endTime" />
+          <time-picker
+            v-model="endTime"
+            format="hh:mm A"
+            :minute-interval="10"
+          />
         </div>
       </div>
 
@@ -319,7 +327,7 @@ export default {
         :start="rruleStart"
         :option="{showStart: false}"
         :rrule="event.rrule"
-        :resetRRule="resetRRule"
+        :reset-r-rule="resetRRule"
       />
 
       <div class="form-group">
@@ -334,7 +342,10 @@ export default {
           >
         </div>
       </div>
-      <div class="form-group" v-if="true || me.useGoogleCalendar()">
+      <div
+        v-if="true || me.useGoogleCalendar()"
+        class="form-group"
+      >
         <label for="importedToGC"> {{ $t(`events.sync${propsEvent?.syncedToGC ? 'ed' : ''}_to_google`) }}</label>
         <div class="input-label">
           {{ $t('events.sync_to_google_desc') }}
@@ -347,8 +358,11 @@ export default {
           :disabled="propsEvent?.syncedToGC"
         >
       </div>
-      <div class="form-group" v-if="event.syncedToGC">
-        <label for="gcEmails">{{$t('events.google_calendar_attendees')}} </label>
+      <div
+        v-if="event.syncedToGC"
+        class="form-group"
+      >
+        <label for="gcEmails">{{ $t('events.google_calendar_attendees') }} </label>
         <textarea
           v-model="_gcEmails"
           class="form-control gcEmails"

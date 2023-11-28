@@ -3,30 +3,67 @@
     title="Contact Details"
     @close="$emit('close')"
   >
-    <form @submit.prevent="onFormSubmit" class="lets-chat-form">
+    <form
+      class="lets-chat-form"
+      @submit.prevent="onFormSubmit"
+    >
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" id="name" placeholder="Enter name" v-model="name" class="form-control" />
+        <input
+          id="name"
+          v-model="name"
+          type="text"
+          placeholder="Enter name"
+          class="form-control"
+        >
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Enter email" v-model="email" class="form-control" />
+        <input
+          id="email"
+          v-model="email"
+          type="email"
+          placeholder="Enter email"
+          class="form-control"
+        >
       </div>
       <div class="form-group">
         <label for="org">Company/School</label>
-        <input type="text" id="org" placeholder="Enter company/school" v-model="org" class="form-control" />
+        <input
+          id="org"
+          v-model="org"
+          type="text"
+          placeholder="Enter company/school"
+          class="form-control"
+        >
       </div>
       <div class="form-group">
         <label for="role">Role/Occupation</label>
-        <input type="text" id="role" placeholder="Enter role" v-model="role" class="form-control" />
+        <input
+          id="role"
+          v-model="role"
+          type="text"
+          placeholder="Enter role"
+          class="form-control"
+        >
       </div>
       <div class="form-group">
         <label for="userBg">Tell us about your background in education and EdTech</label>
-        <textarea id="userBg" placeholder="Enter.." v-model="userBackground" class="form-control" />
+        <textarea
+          id="userBg"
+          v-model="userBackground"
+          placeholder="Enter.."
+          class="form-control"
+        />
       </div>
       <div class="form-group">
         <label for="topicsToDiscuss">What kind of topics would you like to discuss as a guest on EdTech Adventures?</label>
-        <textarea id="topicsToDiscuss" placeholder="Enter.." v-model="topicsToDiscuss" class="form-control" />
+        <textarea
+          id="topicsToDiscuss"
+          v-model="topicsToDiscuss"
+          placeholder="Enter.."
+          class="form-control"
+        />
       </div>
       <div class="form-group pull-right">
         <span
@@ -80,7 +117,7 @@ export default {
         this.isSuccess = true
       } catch (err) {
         console.error('podcast contact err', err)
-        noty({ text: 'Failed to contact server, please reach out to support@codecombat.com', type:'error', timeout: 5000, layout:'topCenter' })
+        noty({ text: 'Failed to contact server, please reach out to support@codecombat.com', type: 'error', timeout: 5000, layout: 'topCenter' })
       }
       this.inProgress = false
     }

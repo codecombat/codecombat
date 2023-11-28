@@ -18,6 +18,9 @@ export default {
     'time-picker': VueTimepicker,
     'timezone-picker': TimeZonePicker
   },
+  mixins: [
+    convertDateMixin
+  ],
   data () {
     return {
       isSuccess: false,
@@ -34,9 +37,6 @@ export default {
       endTime: null
     }
   },
-  mixins: [
-    convertDateMixin
-  ],
   methods: {
     ...mapActions('events', [
       'saveInstance'
@@ -150,9 +150,9 @@ export default {
       {{ $t('events.edit_instance_tab_desc') }}
     </div>
     <form
+      v-if="instance"
       class="edit-instance-form"
       @submit.prevent="onFormSubmit"
-      v-if="instance"
     >
       <div class="form-group">
         <label for="name"> {{ $t('events.name') }}</label>
@@ -207,34 +207,42 @@ export default {
       <div class="form-group">
         <label for="startDate"> {{ $t('events.start_date') }}</label>
         <input
+          id="startDate"
           v-model="startDate"
           type="date"
           class="form-control"
           name="startDate"
-          id="startDate"
         >
       </div>
       <div class="form-group">
         <label for="timeRange"> {{ $t('events.time_range') }}</label>
         <div>
-          <time-picker format="hh:mm A" :minute-interval="10" v-model="startTime" />
+          <time-picker
+            v-model="startTime"
+            format="hh:mm A"
+            :minute-interval="10"
+          />
         </div>
       </div>
 
       <div class="form-group">
         <label for="endDate"> {{ $t('events.end_date') }}</label>
         <input
+          id="endDate"
           v-model="endDate"
           type="date"
           class="form-control"
           name="endDate"
-          id="endDate"
         >
       </div>
       <div class="form-group">
         <label for="timeRange"> {{ $t('events.time_range') }}</label>
         <div>
-          <time-picker format="hh:mm A" :minute-interval="10" v-model="endTime" />
+          <time-picker
+            v-model="endTime"
+            format="hh:mm A"
+            :minute-interval="10"
+          />
         </div>
       </div>
 

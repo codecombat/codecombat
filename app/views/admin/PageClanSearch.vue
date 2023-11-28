@@ -6,7 +6,7 @@ export default {
     InputClanSearch
   },
 
-  mounted() {
+  mounted () {
     if (!me.isAdmin()) {
       alert('You must be logged in as an admin to use this page.')
       return application.router.navigate('/', { trigger: true })

@@ -3,32 +3,58 @@
     <table class="table">
       <thead>
         <tr>
-          <th class="heading" v-for="col in getColumns" :key="col">
-            {{getI18n(col)}}
+          <th
+            v-for="col in getColumns"
+            :key="col"
+            class="heading"
+          >
+            {{ getI18n(col) }}
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, ind) in getRows" :key="ind">
-          <td class="data-row" v-for="(elem, index) in row" :key="typeof elem === 'string' ? elem : elem.id">
-            <div class="interval" v-if="typeof elem === 'string'">
-              <p>{{getI18n(elem)}}</p>
-              <p class="recurring-interval">{{getI18n(`recurring_${elem}`)}}</p>
-              <p class="percent-off" v-if="getPercentOff(row)">{{getPercentOff(row)}}% Off</p>
-            </div>
-            <div class="price-box" v-else>
-              <p class="display-price price">{{getDisplayPrice(elem)}}</p>
-              <p
-                class="comparing-price price"
-                v-if="getComparingPrice(elem, index)"
-              >
-                {{getComparingPrice(elem, index)}}
+        <tr
+          v-for="(row, ind) in getRows"
+          :key="ind"
+        >
+          <td
+            v-for="(elem, index) in row"
+            :key="typeof elem === 'string' ? elem : elem.id"
+            class="data-row"
+          >
+            <div
+              v-if="typeof elem === 'string'"
+              class="interval"
+            >
+              <p>{{ getI18n(elem) }}</p>
+              <p class="recurring-interval">
+                {{ getI18n(`recurring_${elem}`) }}
               </p>
               <p
-                class="sub-label"
-                v-if="elem.metadata.subLabel"
+                v-if="getPercentOff(row)"
+                class="percent-off"
               >
-                {{getI18n(elem.metadata.subLabel)}}
+                {{ getPercentOff(row) }}% Off
+              </p>
+            </div>
+            <div
+              v-else
+              class="price-box"
+            >
+              <p class="display-price price">
+                {{ getDisplayPrice(elem) }}
+              </p>
+              <p
+                v-if="getComparingPrice(elem, index)"
+                class="comparing-price price"
+              >
+                {{ getComparingPrice(elem, index) }}
+              </p>
+              <p
+                v-if="elem.metadata.subLabel"
+                class="sub-label"
+              >
+                {{ getI18n(elem.metadata.subLabel) }}
               </p>
             </div>
           </td>
@@ -41,15 +67,15 @@
 <script>
 import _ from 'lodash'
 export default {
-  name: "PaymentOnlineClassesPlansView",
+  name: 'PaymentOnlineClassesPlansView',
   props: {
     priceData: {
       type: Array,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
-    getColumns() {
+    getColumns () {
       const colKeys = _.uniq(this.priceData.map((price) => price.metadata.groupKey)).sort()
       if (this.shouldChangeOrderOfData) {
         return [
@@ -58,17 +84,17 @@ export default {
           ...colKeys.slice(parseInt(colKeys.length / 2))
         ]
       } else {
-        return ['', ...colKeys];
+        return ['', ...colKeys]
       }
     },
-    getRows() {
+    getRows () {
       const rowKey = price => `${price.recurring.interval}_${price.recurring.interval_count}`
       const intervals = _.uniq(this.priceData.map(rowKey))
-      const rows = [];
+      const rows = []
       intervals.forEach((interval) => {
         const rowWithSameInterval = this.priceData.filter(price => interval === rowKey(price))
         const rowWithSameIntervalSorted = _.sortBy(rowWithSameInterval, function (row) {
-          return row.metadata.groupKey;
+          return row.metadata.groupKey
         })
         let row
         if (this.shouldChangeOrderOfData) {
@@ -82,60 +108,56 @@ export default {
         }
         rows.push(row)
       })
-      return rows;
+      return rows
     },
-    shouldChangeOrderOfData() {
+    shouldChangeOrderOfData () {
       const colKeys = _.uniq(this.priceData.map((price) => price.metadata.groupKey)).sort()
       return (colKeys.length % 2 === 0)
     }
   },
   methods: {
-    getDisplayPrice(price) {
+    getDisplayPrice (price) {
       return `${this.getCurrency(price)}${this.getTieredPrice(price).toLocaleString()}`
     },
-    getCurrency(price) {
-      return price.currency === 'usd' ? '$' : price.currency;
+    getCurrency (price) {
+      return price.currency === 'usd' ? '$' : price.currency
     },
-    getTieredPrice(price) {
+    getTieredPrice (price) {
       const tier = price.tiers.find(tier => tier.up_to === 1)
-      return tier.unit_amount / 100;
+      return tier.unit_amount / 100
     },
-    getComparingPrice(currentPrice, index) {
+    getComparingPrice (currentPrice, index) {
       const priceStr = this.getComparingNumber(currentPrice, index)
-      if (!priceStr)
-        return
+      if (!priceStr) { return }
       return `${this.getCurrency(currentPrice)}${priceStr.toLocaleString()}`
     },
-    getComparingNumber(currentPrice, index) {
+    getComparingNumber (currentPrice, index) {
       const firstPrice = this.getRows[0][index]
-      const multiplier = (price) => price.recurring.interval === 'year' ? 12 : 1;
-      const currentIntervalCount =  multiplier(currentPrice) * currentPrice.recurring.interval_count;
-      const firstIntervalCount = multiplier(firstPrice) * firstPrice.recurring.interval_count;
-      const intervalMultiplier = currentIntervalCount / firstIntervalCount;
-      if (intervalMultiplier <= 1)
-        return
+      const multiplier = (price) => price.recurring.interval === 'year' ? 12 : 1
+      const currentIntervalCount = multiplier(currentPrice) * currentPrice.recurring.interval_count
+      const firstIntervalCount = multiplier(firstPrice) * firstPrice.recurring.interval_count
+      const intervalMultiplier = currentIntervalCount / firstIntervalCount
+      if (intervalMultiplier <= 1) { return }
       const actualPrice = intervalMultiplier * this.getTieredPrice(firstPrice)
-      return parseFloat(actualPrice.toFixed(2)); // parseFloat to remove trimming remove zeros after dot
+      return parseFloat(actualPrice.toFixed(2)) // parseFloat to remove trimming remove zeros after dot
     },
-    getI18n(key) {
+    getI18n (key) {
       const paymentKey = `payments.${key}`
       const data = this.$t(paymentKey)
-      if (data === paymentKey)
-        return key;
-      return data;
+      if (data === paymentKey) { return key }
+      return data
     },
-    getPercentOff(row) {
-      let percentages = []
+    getPercentOff (row) {
+      const percentages = []
       row.forEach((elem, index) => {
         if (typeof elem !== 'string') {
           const tier1 = elem.tiers.find((el) => el.up_to === 1)
           const tier2 = this.getComparingNumber(elem, index)
-          if (!tier2)
-            return
+          if (!tier2) { return }
           const tier1Amount = tier1.unit_amount / 100
           const off = (tier2 - tier1Amount) / tier2
           const percentOff = Math.round(off * 100)
-          percentages.push(percentOff);
+          percentages.push(percentOff)
         }
       })
       let allPercentSame = true
@@ -144,10 +166,9 @@ export default {
           allPercentSame = percentages[i] === percentages[i - 1]
         }
       }
-      if (allPercentSame && percentages.length)
-        return percentages[0]
+      if (allPercentSame && percentages.length) { return percentages[0] }
     }
-  },
+  }
 }
 </script>
 

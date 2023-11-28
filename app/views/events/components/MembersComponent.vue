@@ -108,7 +108,7 @@ export default {
       if (key === 'count') {
         value = parseInt(value)
       }
-      this.$emit('update-member', {id, key, value})
+      this.$emit('update-member', { id, key, value })
     }
   }
 }

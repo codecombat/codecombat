@@ -71,7 +71,6 @@ export default {
       // top level component
       el.parentElement.parentElement.scrollIntoView({ behaviors: 'smooth', block: 'center' })
     }
-
   },
   methods: {
     ...mapActions('announcements', [
@@ -91,8 +90,8 @@ export default {
     // so don't need to review logic, it works good!
     checkEllipsisActive (el) {
       return el.scrollHeight !== el.offsetHeight
-           ? el.scrollHeight > el.offsetHeight
-                             : this.checkRanges(el)
+        ? el.scrollHeight > el.offsetHeight
+        : this.checkRanges(el)
     },
     checkRanges (el) {
       const range = new Range()

@@ -1,65 +1,72 @@
 <script>
-  import BaseModal from 'app/components/common/BaseModal'
+import BaseModal from 'app/components/common/BaseModal'
 
-  export default {
-    components: {
-      BaseModal
+export default {
+  components: {
+    BaseModal
+  },
+
+  props: {
+    show: {
+      type: Boolean,
+      default: false
     },
 
-    props: {
-      show: {
-        type: Boolean,
-        default: false
-      },
+    classType: {
+      type: String,
+      default: undefined
+    }
+  },
 
-      classType: {
-        type: String,
-        default: undefined
+  computed: {
+    // Note this is not used because changing the page url causes a reload, which makes
+    // the pre load of this iframe useless
+    timetapIframeUrl () {
+      if (this.classType === undefined) {
+        return 'https://codecombat.timetap.com?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal'
+      } else if (this.classType === 'group') {
+        return 'https://www.timetap.com/appts/jPlOQTv7JXIJ?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal'
+      } else if (this.classType === 'private') {
+        return 'https://www.timetap.com/appts/wPvlbTkKwauE?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal'
       }
-    },
+      return null
+    }
+  },
 
-    computed: {
-      // Note this is not used because changing the page url causes a reload, which makes
-      // the pre load of this iframe useless
-      timetapIframeUrl () {
-        if (this.classType === undefined) {
-          return 'https://codecombat.timetap.com?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal'
-        } else if (this.classType === 'group') {
-          return 'https://www.timetap.com/appts/jPlOQTv7JXIJ?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal'
-        } else if (this.classType === 'private') {
-          return 'https://www.timetap.com/appts/wPvlbTkKwauE?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal'
-        }
+  mounted () {
+    window.addEventListener('message', this.onWindowMessage, false)
+  },
+
+  beforeDestroy () {
+    window.removeEventListener('message', this.onWindowMessage)
+  },
+
+  methods: {
+    onWindowMessage (event) {
+      if (event.source === this.$refs.timetapIframe.contentWindow && event.data === 'class.booked') {
+        this.$emit('booked')
       }
-    },
-
-    methods: {
-      onWindowMessage (event) {
-        if (event.source === this.$refs.timetapIframe.contentWindow && event.data === 'class.booked') {
-          this.$emit('booked')
-        }
-      }
-    },
-
-    mounted () {
-      window.addEventListener('message', this.onWindowMessage, false)
-    },
-
-    beforeDestroy () {
-      window.removeEventListener('message', this.onWindowMessage)
     }
   }
+}
 </script>
 
 <template>
   <base-modal :class="[ !show ? 'hide' : undefined, 'timetap-modal']">
     <template slot="header">
       {{ $t('parents_landing_2.book_your_class') }}
-      <span class="glyphicon glyphicon-remove close" @click="$emit('close')"></span>
+      <span
+        class="glyphicon glyphicon-remove close"
+        @click="$emit('close')"
+      />
     </template>
 
     <template slot="body">
       <!-- Temporarily removed 'sandbox="allow-same-origin allow-scripts"' for TimeTap to debug sessionStorage error -->
-      <iframe ref="timetapIframe" src="https://codecombat.timetap.com?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal" />
+      <iframe
+        ref="timetapIframe"
+        src="https://codecombat.timetap.com?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal"
+      />
     </template>
   </base-modal>
 </template>

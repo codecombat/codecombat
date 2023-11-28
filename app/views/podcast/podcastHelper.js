@@ -6,12 +6,12 @@ function fullFileUrl (relativePath) {
 
 function podcastLinkRenderer () {
   // https://github.com/markedjs/marked/issues/655#issuecomment-383226346
-  const renderer = new marked.Renderer();
-  const linkRenderer = renderer.link;
+  const renderer = new marked.Renderer()
+  const linkRenderer = renderer.link
   renderer.link = (href, title, text) => {
-    const localLink = href.startsWith(`${location.protocol}//${location.hostname}`);
-    const html = linkRenderer.call(renderer, href, title, text);
-    return localLink ? html : html.replace(/^<a /, `<a target="_blank" rel="noreferrer noopener nofollow" `);
+    const localLink = href.startsWith(`${location.protocol}//${location.hostname}`)
+    const html = linkRenderer.call(renderer, href, title, text)
+    return localLink ? html : html.replace(/^<a /, '<a target="_blank" rel="noreferrer noopener nofollow" ')
   }
   return renderer
 }

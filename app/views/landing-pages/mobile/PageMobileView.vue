@@ -1,49 +1,134 @@
 <template>
   <div id="page-mobile">
     <div class="page-mobile-container">
-      <a v-if="isCodeCombat" href="/"><img class="coco-logo" src="/images/pages/base/logo.png"></a>
-      <a v-if="isOzaria" href="/"><img class="ozaria-logo" src="/images/pages/mobile/ozaria-logo.svg"></a>
-      <p v-if="activeStep!==STEP_DONE" class="subtitle">{{ $t('mobile_landing.subtitle') }}</p>
+      <a
+        v-if="isCodeCombat"
+        href="/"
+      ><img
+        class="coco-logo"
+        src="/images/pages/base/logo.png"
+      ></a>
+      <a
+        v-if="isOzaria"
+        href="/"
+      ><img
+        class="ozaria-logo"
+        src="/images/pages/mobile/ozaria-logo.svg"
+      ></a>
+      <p
+        v-if="activeStep!==STEP_DONE"
+        class="subtitle"
+      >
+        {{ $t('mobile_landing.subtitle') }}
+      </p>
 
-      <img v-if="isCodeCombat && activeStep===STEP_DONE" src="/images/pages/mobile/you-re-set.svg" class="title-image"/>
-      <h3 v-if="isOzaria && activeStep===STEP_DONE" class="you-re-set">{{ $t('mobile_landing.you_re_set') }}</h3>
-      <p v-if="activeStep===STEP_DONE" class="blurb-done">{{ $t('mobile_landing.done_blurb') }}</p>
-      <div class="form-container" :class="{'step-done':activeStep===STEP_DONE}">
+      <img
+        v-if="isCodeCombat && activeStep===STEP_DONE"
+        src="/images/pages/mobile/you-re-set.svg"
+        class="title-image"
+      >
+      <h3
+        v-if="isOzaria && activeStep===STEP_DONE"
+        class="you-re-set"
+      >
+        {{ $t('mobile_landing.you_re_set') }}
+      </h3>
+      <p
+        v-if="activeStep===STEP_DONE"
+        class="blurb-done"
+      >
+        {{ $t('mobile_landing.done_blurb') }}
+      </p>
+      <div
+        class="form-container"
+        :class="{'step-done':activeStep===STEP_DONE}"
+      >
         <!-- Wrapper for slides -->
-        <div v-if="activeStep!==STEP_DONE" class="page-mobile-inner">
-          <div class="line" :class="{'step-name':activeStep===STEP_NAME}">
-            <img v-if="isCodeCombat" src="/images/pages/mobile/hero1.svg"
-                 :class="{'moved-out':activeStep!==STEP_EMAIL}"/>
+        <div
+          v-if="activeStep!==STEP_DONE"
+          class="page-mobile-inner"
+        >
+          <div
+            class="line"
+            :class="{'step-name':activeStep===STEP_NAME}"
+          >
+            <img
+              v-if="isCodeCombat"
+              src="/images/pages/mobile/hero1.svg"
+              :class="{'moved-out':activeStep!==STEP_EMAIL}"
+            >
           </div>
-          <div class="input-container text-input-container input-container-email"
-               :class="{'moved-out': activeStep!==STEP_EMAIL}">
-            <input ref="email" type="email" placeholder="Enter email here" v-model="email" @keyup="onEmailChange"
-                   @keyup.enter="emailEntered" @focus="setActiveStep(STEP_EMAIL)" @blur="onEmailBlur"/>
+          <div
+            class="input-container text-input-container input-container-email"
+            :class="{'moved-out': activeStep!==STEP_EMAIL}"
+          >
+            <input
+              ref="email"
+              v-model="email"
+              type="email"
+              placeholder="Enter email here"
+              @keyup="onEmailChange"
+              @keyup.enter="emailEntered"
+              @focus="setActiveStep(STEP_EMAIL)"
+              @blur="onEmailBlur"
+            >
             <template v-if="email">
-              <i v-if="checkingEmail" class="small glyphicon glyphicon-refresh mobile-icon-refresh"></i>
-              <i v-if="!checkingEmail && isEmailValid && !isEmailAvailable"
-                 class="small text-burgundy glyphicon glyphicon-remove-circle"></i>
-              <i v-if="!checkingEmail && isEmailValid && isEmailAvailable"
-                 class="small text-forest glyphicon glyphicon-ok-circle"></i>
+              <i
+                v-if="checkingEmail"
+                class="small glyphicon glyphicon-refresh mobile-icon-refresh"
+              />
+              <i
+                v-if="!checkingEmail && isEmailValid && !isEmailAvailable"
+                class="small text-burgundy glyphicon glyphicon-remove-circle"
+              />
+              <i
+                v-if="!checkingEmail && isEmailValid && isEmailAvailable"
+                class="small text-forest glyphicon glyphicon-ok-circle"
+              />
             </template>
           </div>
 
-          <div class="input-container text-input-container input-container-firstname"
-               :class="{'moved-out': activeStep!==STEP_NAME}">
-            <input ref="firstName" type="text" placeholder="First name" v-model="firstName"
-                   @keyup.enter="firstNameEntered" @focus="emailEntered">
+          <div
+            class="input-container text-input-container input-container-firstname"
+            :class="{'moved-out': activeStep!==STEP_NAME}"
+          >
+            <input
+              ref="firstName"
+              v-model="firstName"
+              type="text"
+              placeholder="First name"
+              @keyup.enter="firstNameEntered"
+              @focus="emailEntered"
+            >
           </div>
-          <div class="input-container text-input-container input-container-lastname"
-               :class="{'moved-out': activeStep!==STEP_NAME}">
-            <input ref="lastName" type="text" placeholder="Last name" v-model="lastName"
-                   @keyup.enter="lastNameEntered">
+          <div
+            class="input-container text-input-container input-container-lastname"
+            :class="{'moved-out': activeStep!==STEP_NAME}"
+          >
+            <input
+              ref="lastName"
+              v-model="lastName"
+              type="text"
+              placeholder="Last name"
+              @keyup.enter="lastNameEntered"
+            >
           </div>
 
-          <div v-if="activeStep!==STEP_DONE" class="input-container input-container-button"
-               :class="{'moved-out': activeStep===STEP_DONE}">
-            <img v-if="isCodeCombat" class="hero-2" src="/images/pages/mobile/hero2.png"
-                 :class="{'moved-out': activeStep!==0}"/>
-            <button @click="setActiveStep(activeStep + 1)" :disabled="nextButtonDisabled">
+          <div
+            v-if="activeStep!==STEP_DONE"
+            class="input-container input-container-button"
+            :class="{'moved-out': activeStep===STEP_DONE}"
+          >
+            <img
+              v-if="isCodeCombat"
+              class="hero-2"
+              src="/images/pages/mobile/hero2.png"
+              :class="{'moved-out': activeStep!==0}"
+            >
+            <button
+              :disabled="nextButtonDisabled"
+              @click="setActiveStep(activeStep + 1)"
+            >
               <span :class="{hidden: activeStep!==STEP_EMAIL}">START</span>
               <span :class="{hidden: activeStep!==STEP_NAME}">NEXT</span>
             </button>
@@ -51,10 +136,16 @@
         </div>
 
         <ol class="carousel-indicators">
-          <li :class="{active: activeStep===STEP_EMAIL}" @click="setActiveStep(STEP_EMAIL)">
+          <li
+            :class="{active: activeStep===STEP_EMAIL}"
+            @click="setActiveStep(STEP_EMAIL)"
+          >
             <span class="">{{ $t('mobile_landing.step_email') }}</span>
           </li>
-          <li :class="{active: activeStep===STEP_NAME}" @click="setActiveStep(STEP_NAME)">
+          <li
+            :class="{active: activeStep===STEP_NAME}"
+            @click="setActiveStep(STEP_NAME)"
+          >
             <span class="">{{ $t('mobile_landing.step_name') }}</span>
           </li>
           <li :class="{active: activeStep===STEP_DONE}">
@@ -63,19 +154,38 @@
         </ol>
 
         <div class="screenshot-container">
-          <h4 v-if="activeStep===STEP_DONE" class="">{{ $t('mobile_landing.video_title') }}</h4>
-          <base-cloudflare-video v-if="(isCodeCombat && activeStep===STEP_DONE)"
-                                 video-cloudflare-id="100412c840bf03141644c1855784c785" ref="video"/>
-          <base-cloudflare-video v-if="(isOzaria && activeStep===STEP_DONE)"
-                                 video-cloudflare-id="94e611192ce86d5b4cf6ba2343a53927" ref="video"/>
+          <h4
+            v-if="activeStep===STEP_DONE"
+            class=""
+          >
+            {{ $t('mobile_landing.video_title') }}
+          </h4>
+          <base-cloudflare-video
+            v-if="(isCodeCombat && activeStep===STEP_DONE)"
+            ref="video"
+            video-cloudflare-id="100412c840bf03141644c1855784c785"
+          />
+          <base-cloudflare-video
+            v-if="(isOzaria && activeStep===STEP_DONE)"
+            ref="video"
+            video-cloudflare-id="94e611192ce86d5b4cf6ba2343a53927"
+          />
         </div>
       </div>
     </div>
     <footer>
-      <a v-if="isOzaria" href="https://codecombat.com" target="_blank">
-        <img class="coco-logo-bottom" src="/images/pages/base/logo.png" :class="{'step-done':activeStep===STEP_DONE}">
+      <a
+        v-if="isOzaria"
+        href="https://codecombat.com"
+        target="_blank"
+      >
+        <img
+          class="coco-logo-bottom"
+          src="/images/pages/base/logo.png"
+          :class="{'step-done':activeStep===STEP_DONE}"
+        >
       </a>
-      <final-footer></final-footer>
+      <final-footer />
     </footer>
     <vue-confirm-dialog />
   </div>
@@ -92,7 +202,7 @@ import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo'
 import FinalFooter from 'app/components/common/FinalFooter'
 
 Vue.use(VueConfirmDialog)
-Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
+Vue.component('VueConfirmDialog', VueConfirmDialog.default)
 
 export default Vue.extend({
   name: 'PageMobileView',
@@ -156,8 +266,8 @@ export default Vue.extend({
     ...mapGetters({}),
     nextButtonDisabled () {
       return (
-          (this.activeStep === this.STEP_EMAIL && this.email.length > 3 && (!this.isEmailValid || !this.isEmailAvailable)) ||
-          (this.activeStep === this.STEP_NAME && (this.firstName.length < 1 || this.lastName.length < 1 || this.registrationInProgress))
+        (this.activeStep === this.STEP_EMAIL && this.email.length > 3 && (!this.isEmailValid || !this.isEmailAvailable)) ||
+        (this.activeStep === this.STEP_NAME && (this.firstName.length < 1 || this.lastName.length < 1 || this.registrationInProgress))
       )
     },
     emailCheck () {

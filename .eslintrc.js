@@ -31,7 +31,8 @@ module.exports = {
     tv4: 'readonly',
     TreemaUtils: 'readonly',
     CoffeeScript: 'readonly',
-    i18n: 'readonly'
+    i18n: 'readonly',
+    marked: 'readonly'
   },
 
   env: {

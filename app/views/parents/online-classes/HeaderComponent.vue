@@ -8,19 +8,19 @@
         v-if="nextEventDate && child"
         class="header__date"
       >
-      {{ child.broadName }}'s next class is on {{ nextEventDateFormatted }}.
-    </span>
-    <span
-      v-else-if="child"
-      class="header__date"
-    >
-      Try a free online class for {{ child.broadName }} today! Cancel anytime.
-    </span>
-    <span
-      v-else
-    >
-      Try a free online class today! Cancel anytime.
-    </span>
+        {{ child.broadName }}'s next class is on {{ nextEventDateFormatted }}.
+      </span>
+      <span
+        v-else-if="child"
+        class="header__date"
+      >
+        Try a free online class for {{ child.broadName }} today! Cancel anytime.
+      </span>
+      <span
+        v-else
+      >
+        Try a free online class today! Cancel anytime.
+      </span>
     </div>
     <div
       v-if="!nextEventDate"
@@ -28,8 +28,8 @@
     >
       <!-- maybe we use different scheduler than timetap if we have clild account info already -->
       <button
-        @click="onTryFreeClassClicked"
         class="header__try__btn yellow-btn-black-text"
+        @click="onTryFreeClassClicked"
       >
         Try a Free Online Class
       </button>
@@ -47,6 +47,9 @@ import moment from 'moment'
 import ModalTimetapSchedule from '../../landing-pages/parents/ModalTimetapSchedule'
 export default {
   name: 'HeaderComponent',
+  components: {
+    ModalTimetapSchedule
+  },
   props: {
     events: {
       type: Array,
@@ -62,9 +65,6 @@ export default {
     return {
       showBookClassModal: false
     }
-  },
-  components: {
-    ModalTimetapSchedule
   },
   computed: {
     nextEventDate () {

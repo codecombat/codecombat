@@ -6,32 +6,32 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let TeacherLicenseCodeModal;
-const ModalComponent = require('views/core/ModalComponent');
-const TeacherLicenseCodeComponent = require('./components/license/TeacherLicenseCode.vue').default;
+let TeacherLicenseCodeModal
+const ModalComponent = require('views/core/ModalComponent')
+const TeacherLicenseCodeComponent = require('./components/license/TeacherLicenseCode.vue').default
 
-module.exports = (TeacherLicenseCodeModal = (function() {
+module.exports = (TeacherLicenseCodeModal = (function () {
   TeacherLicenseCodeModal = class TeacherLicenseCodeModal extends ModalComponent {
-    static initClass() {
-      this.prototype.id = 'teacher-license-code';
-      this.prototype.template = require('app/templates/core/modal-base-flat');
-      this.prototype.VueComponent = TeacherLicenseCodeComponent;
+    static initClass () {
+      this.prototype.id = 'teacher-license-code'
+      this.prototype.template = require('app/templates/core/modal-base-flat')
+      this.prototype.VueComponent = TeacherLicenseCodeComponent
     }
 
-    constructor(options) {
-      super(options);
+    constructor (options) {
+      super(options)
       this.propsData = {
         hide: () => this.hide()
-      };
+      }
     }
 
-    destroy() {
+    destroy () {
       if (typeof this.onDestroy === 'function') {
-        this.onDestroy();
+        this.onDestroy()
       }
-      return super.destroy();
+      return super.destroy()
     }
-  };
-  TeacherLicenseCodeModal.initClass();
-  return TeacherLicenseCodeModal;
-})());
+  }
+  TeacherLicenseCodeModal.initClass()
+  return TeacherLicenseCodeModal
+})())

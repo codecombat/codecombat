@@ -5,16 +5,22 @@
     </div>
     <div class="lprogress__intro__options">
       <div class="lprogress__intro__option">
-        <div class="lprogress__intro__dot not-started-dot"></div>
-        <div class="lprogress__intro__text">Not Started</div>
+        <div class="lprogress__intro__dot not-started-dot" />
+        <div class="lprogress__intro__text">
+          Not Started
+        </div>
       </div>
       <div class="lprogress__intro__option">
-        <div class="lprogress__intro__dot in-progress-dot"></div>
-        <div class="lprogress__intro__text">In progress</div>
+        <div class="lprogress__intro__dot in-progress-dot" />
+        <div class="lprogress__intro__text">
+          In progress
+        </div>
       </div>
       <div class="lprogress__intro__option">
-        <div class="lprogress__intro__dot complete-dot"></div>
-        <div class="lprogress__intro__text">Complete</div>
+        <div class="lprogress__intro__dot complete-dot" />
+        <div class="lprogress__intro__text">
+          Complete
+        </div>
       </div>
     </div>
   </div>

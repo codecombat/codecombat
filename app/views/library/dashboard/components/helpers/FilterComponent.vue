@@ -10,16 +10,16 @@
     </div>
     <div class="filter__dates">
       <input
+        v-model="startDate"
         type="date"
         class="filter__date"
-        v-model="startDate"
         :max="endDate"
       >
       <span class="filter__to">To:</span>
       <input
+        v-model="endDate"
         type="date"
         class="filter__date"
-        v-model="endDate"
         :min="startDate"
         :max="currentDate"
       >

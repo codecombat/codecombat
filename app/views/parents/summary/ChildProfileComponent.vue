@@ -6,76 +6,103 @@
     <div class="profile__info">
       <div class="info">
         <div class="info__image">
-          <img src="/images/pages/parents/dashboard/profile-photo.png" alt="Profile photo" />
+          <img
+            src="/images/pages/parents/dashboard/profile-photo.png"
+            alt="Profile photo"
+          >
         </div>
         <div class="info__details">
           <div class="detail">
-            <div class="detail__title">Child Username:</div>
-            <div class="detail__text detail__username">{{ child.name }}</div>
+            <div class="detail__title">
+              Child Username:
+            </div>
+            <div class="detail__text detail__username">
+              {{ child.name }}
+            </div>
           </div>
           <div
             v-if="child.isOnline !== null && child.isOnline !== undefined"
             class="detail"
           >
-            <div class="detail__title">Online Status:</div>
-            <div class="detail__text">Offline</div>
+            <div class="detail__title">
+              Online Status:
+            </div>
+            <div class="detail__text">
+              Offline
+            </div>
           </div>
           <div class="detail">
-            <div class="detail__title">Email:</div>
-            <div class="detail__text">{{ child.email }}</div>
+            <div class="detail__title">
+              Email:
+            </div>
+            <div class="detail__text">
+              {{ child.email }}
+            </div>
           </div>
           <div
             v-if="child.lastVisit"
             class="detail"
           >
-            <div class="detail__title">Last Active:</div>
-            <div class="detail__text">{{ new Date(child.lastVisit).toDateString() }}</div>
+            <div class="detail__title">
+              Last Active:
+            </div>
+            <div class="detail__text">
+              {{ new Date(child.lastVisit).toDateString() }}
+            </div>
           </div>
           <div
             v-if="child.learningIn"
             class="detail"
           >
-            <div class="detail__title">Learning In:</div>
-            <div class="detail__text">Python</div>
+            <div class="detail__title">
+              Learning In:
+            </div>
+            <div class="detail__text">
+              Python
+            </div>
           </div>
           <div class="detail">
-            <div class="detail__title">Subscription Status:</div>
-            <div class="detail__text">{{ child.isPremium ? 'Premium' : 'Free' }}</div>
+            <div class="detail__title">
+              Subscription Status:
+            </div>
+            <div class="detail__text">
+              {{ child.isPremium ? 'Premium' : 'Free' }}
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="helpers">
       <div
-        @click="onLoginToChildAccount"
         class="helpers__btn"
+        @click="onLoginToChildAccount"
       >
         Login to Child Account
       </div>
       <div
-        @click="onChangePassword"
         class="helpers__btn"
+        @click="onChangePassword"
       >
         Change Password
       </div>
       <div
         v-if="!child.isPremium && !isPaidOnlineClassUser"
-        @click="onUpgradeSub"
         class="helpers__btn helpers__upgrade"
+        @click="onUpgradeSub"
       >
         Upgrade Subscription
       </div>
     </div>
     <change-password-modal
-      :user-id-to-change-password="child.userId"
       v-if="showChangePasswordModal"
+      :user-id-to-change-password="child.userId"
       @close="showChangePasswordModal = false"
     />
     <backbone-modal-harness
       :modal-view="SubscribeModal"
       :open="showSubscribeModal"
-      @close="showSubscribeModal = false"
       :modal-options="{ forceShowMonthlySub: true, purchasingForId: child.userId }"
+      @close="showSubscribeModal = false"
     />
   </div>
 </template>
@@ -88,6 +115,14 @@ import SubscribeModal from '../../core/SubscribeModal'
 import getPremiumForChildMixin from '../mixins/getPremiumForChildMixin'
 export default {
   name: 'ChildProfileComponent',
+  components: {
+    ChangePasswordModal,
+    BackboneModalHarness
+  },
+  mixins: [
+    switchUserMixin,
+    getPremiumForChildMixin
+  ],
   props: {
     child: {
       type: Object,
@@ -105,14 +140,6 @@ export default {
       SubscribeModal
     }
   },
-  components: {
-    ChangePasswordModal,
-    BackboneModalHarness
-  },
-  mixins: [
-    switchUserMixin,
-    getPremiumForChildMixin
-  ],
   methods: {
     onLoginToChildAccount () {
       this.onSwitchUser({ identifier: this.child.email || this.child.name, location: '/' })

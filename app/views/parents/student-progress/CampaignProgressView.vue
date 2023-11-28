@@ -22,9 +22,9 @@
       class="cprogress__oz"
     >
       <div
-        class="cprogress__module"
         v-for="num in moduleNumbers"
         :key="num"
+        class="cprogress__module"
       >
         <oz-module-progress-component
           :module-num="num"
@@ -52,6 +52,11 @@ import {
 } from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper'
 export default {
   name: 'CampaignProgressView',
+  components: {
+    CocoModuleProgressComponent,
+    OzModuleProgressComponent,
+    LevelProgressInfoComponent
+  },
   props: {
     campaign: {
       type: Object
@@ -78,11 +83,6 @@ export default {
     codeLanguage: {
       type: String
     }
-  },
-  components: {
-    CocoModuleProgressComponent,
-    OzModuleProgressComponent,
-    LevelProgressInfoComponent
   },
   computed: {
     moduleNumbers () {

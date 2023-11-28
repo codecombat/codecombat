@@ -3,8 +3,8 @@
     <div class="form-group">
       <label for="plans">Select Plan</label>
       <select
-        class="form-control"
         id="plans"
+        class="form-control"
         @change="updateSelectedPlan"
       >
         <option
@@ -12,7 +12,7 @@
           :key="plan"
           :value="plan"
         >
-          {{getI18n(plan)}}
+          {{ getI18n(plan) }}
         </option>
       </select>
     </div>
@@ -28,18 +28,41 @@
           :key="interval"
           :value="interval"
         >
-          {{getI18n(interval)}}
+          {{ getI18n(interval) }}
         </option>
       </select>
     </div>
     <div class="form-group">
       <label for="licenseNum">Number of Students</label>
-      <input type="text" class="form-control" id="licenseNum" @keydown="updateLicenseNum" @keyup="updateLicenseNum">
+      <input
+        id="licenseNum"
+        type="text"
+        class="form-control"
+        @keydown="updateLicenseNum"
+        @keyup="updateLicenseNum"
+      >
       <div class="price-info-view">
-        <p v-if="licenseNum && !errMsg" class="total-price">Total price: {{selectedCurrency}}{{totalPrice}}</p>
-        <p class="selected-price-text" v-if="getSelectedUnitPriceAmount && licenseNum">Selected product with price: {{selectedCurrency}}{{getSelectedUnitPriceAmount}}</p>
-        <p class="sibling-discount-text" v-if="getSiblingPercentageText">{{getSiblingPercentageText}} Price Without Sibling Discount: {{selectedCurrency}}{{getPriceWithoutSiblingDiscount}}</p>
-        <p class="error">{{errMsg}}</p>
+        <p
+          v-if="licenseNum && !errMsg"
+          class="total-price"
+        >
+          Total price: {{ selectedCurrency }}{{ totalPrice }}
+        </p>
+        <p
+          v-if="getSelectedUnitPriceAmount && licenseNum"
+          class="selected-price-text"
+        >
+          Selected product with price: {{ selectedCurrency }}{{ getSelectedUnitPriceAmount }}
+        </p>
+        <p
+          v-if="getSiblingPercentageText"
+          class="sibling-discount-text"
+        >
+          {{ getSiblingPercentageText }} Price Without Sibling Discount: {{ selectedCurrency }}{{ getPriceWithoutSiblingDiscount }}
+        </p>
+        <p class="error">
+          {{ errMsg }}
+        </p>
       </div>
     </div>
     <div class="form-group">
@@ -50,18 +73,18 @@
     </div>
     <div class="form-group">
       <payment-online-classes-student-details-component
+        v-if="licenseNum && !errMsg && selectedPlan"
         :num-of-students="licenseNum"
         :selected-plan="selectedPlan"
-        v-if="licenseNum && !errMsg && selectedPlan"
         @updateStudentDetails="updateStudentDetails"
       />
     </div>
     <div class="form-group">
       <button
-          type="submit"
-          class="btn btn-primary btn-lg purchase-btn"
-          :class="isDataValid ? '' : 'disabled'"
-          @click="onPurchaseNow"
+        type="submit"
+        class="btn btn-primary btn-lg purchase-btn"
+        :class="isDataValid ? '' : 'disabled'"
+        @click="onPurchaseNow"
       >
         Purchase Now
       </button>
@@ -70,28 +93,28 @@
 </template>
 
 <script>
-import _ from "lodash";
-import PaymentOnlineClassesParentDetailsComponent from "./ParentDetailsComponent";
-import PaymentOnlineClassesStudentDetailsComponent from "./StudentDetailsComponent";
+import _ from 'lodash'
+import PaymentOnlineClassesParentDetailsComponent from './ParentDetailsComponent'
+import PaymentOnlineClassesStudentDetailsComponent from './StudentDetailsComponent'
 import { handleCheckoutSession } from '../paymentPriceHelper'
 
 export default {
-  name: "PaymentOnlineClassesPurchaseView",
+  name: 'PaymentOnlineClassesPurchaseView',
   components: {
     PaymentOnlineClassesParentDetailsComponent,
-    PaymentOnlineClassesStudentDetailsComponent,
+    PaymentOnlineClassesStudentDetailsComponent
   },
   props: {
     priceData: {
       type: Array,
-      required: true,
+      required: true
     },
     paymentGroupId: {
       type: String,
-      required: true,
+      required: true
     },
     siblingPercentageOff: {
-      type: Number,
+      type: Number
     }
   },
   data () {
@@ -101,121 +124,122 @@ export default {
       selectedPlan: null,
       selectedInterval: null,
       parentDetails: null,
-      studentDetails: null,
-    };
+      studentDetails: null
+    }
   },
   computed: {
-    getPlans() {
+    getPlans () {
       const plans = _.uniq(this.priceData.map(this.getPlanKey)).sort()
-      this.selectedPlan = plans[0]
-      return plans;
+      this.selectedPlan = plans[0] // eslint-disable-line vue/no-side-effects-in-computed-properties
+      return plans
     },
-    getIntervals() {
+    getIntervals () {
       const intervals = _.uniq(this.priceData.map(this.getIntervalKey))
-      this.selectedInterval = intervals[0]
-      return intervals;
+      this.selectedInterval = intervals[0] // eslint-disable-line vue/no-side-effects-in-computed-properties
+      return intervals
     },
-    totalPrice() {
+    totalPrice () {
       const selectedTier = this.getSelectedTier
-      return (this.licenseNum * (selectedTier.unit_amount / 100)).toFixed(2);
+      return (this.licenseNum * (selectedTier.unit_amount / 100)).toFixed(2)
     },
-    totalPriceInDecimal() {
+    totalPriceInDecimal () {
       const selectedTier = this.getSelectedTier
       return this.licenseNum * selectedTier.unit_amount
     },
-    getSelectedUnitPriceAmount() {
-      return this.getSingleUnitPriceTier.unit_amount / 100;
+    getSelectedUnitPriceAmount () {
+      return this.getSingleUnitPriceTier.unit_amount / 100
     },
-    getSelectedTier() {
-      const price = this.selectedPrice;
-      const tiers = price.tiers;
-      const reverseTiers = [...tiers].reverse();
+    getSelectedTier () {
+      const price = this.selectedPrice
+      const tiers = price.tiers
+      const reverseTiers = [...tiers].reverse()
       let selectedTier = null
       reverseTiers.forEach((tier) => {
         if (tier.up_to === null) {
-          selectedTier = tier;
+          selectedTier = tier
         } else if (tier.up_to >= this.licenseNum) {
-          selectedTier = tier;
+          selectedTier = tier
         }
       })
       return selectedTier
     },
-    getPriceWithoutSiblingDiscount() {
+    getPriceWithoutSiblingDiscount () {
       const tier = this.getSingleUnitPriceTier
       if (tier) {
-        return (this.licenseNum * (tier.unit_amount / 100)).toFixed(2);
+        return (this.licenseNum * (tier.unit_amount / 100)).toFixed(2)
       }
+      return null
     },
-    getSingleUnitPriceTier() {
-      const price = this.selectedPrice;
-      return price.tiers.find((tier) => tier.up_to === 1);
+    getSingleUnitPriceTier () {
+      const price = this.selectedPrice
+      return price.tiers.find((tier) => tier.up_to === 1)
     },
-    selectedCurrency() {
-      const price = this.selectedPrice;
-      return this.getCurrency(price);
+    selectedCurrency () {
+      const price = this.selectedPrice
+      return this.getCurrency(price)
     },
-    selectedPrice() {
+    selectedPrice () {
       return this.priceData.find((price) => {
         return this.getPlanKey(price) === this.selectedPlan &&
-            this.getIntervalKey(price) === this.selectedInterval;
+          this.getIntervalKey(price) === this.selectedInterval
       })
     },
-    isDataValid() {
-      return this.licenseNum > 0 && this.parentDetails && this.studentDetails && !this.errMsg;
+    isDataValid () {
+      return this.licenseNum > 0 && this.parentDetails && this.studentDetails && !this.errMsg
     },
-    getSiblingPercentageText() {
+    getSiblingPercentageText () {
       if (this.licenseNum > 1 && this.siblingPercentageOff > 0) {
         return `EXTRA ${this.siblingPercentageOff}% OFF APPLIED!!`
       }
+      return null
     }
   },
   methods: {
-    getI18n(key) {
+    getI18n (key) {
       const paymentKey = `payments.${key}`
       const data = this.$t(paymentKey)
-      if (data === paymentKey)
-        return key;
-      return data;
+      if (data === paymentKey) { return key }
+      return data
     },
-    updateLicenseNum(e) {
-      this.errMsg = '';
+    updateLicenseNum (e) {
+      this.errMsg = ''
       const licenseVal = parseInt(e.target.value)
       if (isNaN(licenseVal)) {
-        this.errMsg = 'Invalid value';
-        return;
+        this.errMsg = 'Invalid value'
+        return
       }
-      this.licenseNum = licenseVal;
+      this.licenseNum = licenseVal
     },
-    updateSelectedPlan(e) {
-      this.selectedPlan = e.target.value;
+    updateSelectedPlan (e) {
+      this.selectedPlan = e.target.value
     },
-    updateSelectedInterval(e) {
-      this.selectedInterval = e.target.value;
+    updateSelectedInterval (e) {
+      this.selectedInterval = e.target.value
     },
-    getIntervalKey(price) {
-      return `${price.recurring.interval}_${price.recurring.interval_count}`;
+    getIntervalKey (price) {
+      return `${price.recurring.interval}_${price.recurring.interval_count}`
     },
-    getPlanKey(price) {
-      return price.metadata.groupKey;
+    getPlanKey (price) {
+      return price.metadata.groupKey
     },
-    getCurrency(price) {
-      return price.currency === 'usd' ? '$' : price.currency;
+    getCurrency (price) {
+      return price.currency === 'usd' ? '$' : price.currency
     },
-    updateParentDetails(details) {
-      this.parentDetails = details;
+    updateParentDetails (details) {
+      this.parentDetails = details
     },
-    updateStudentDetails(details) {
-      this.studentDetails = details;
+    updateStudentDetails (details) {
+      this.studentDetails = details
     },
-    async onPurchaseNow(e) {
-      e.preventDefault();
-      const stripePriceId = this.selectedPrice.id;
+    async onPurchaseNow (e) {
+      e.preventDefault()
+      const stripePriceId = this.selectedPrice.id
       const onlineClassesDetails = {
         purchaser: this.parentDetails,
         students: this.studentDetails
-      };
+      }
       const additionalInfo = {
-        selectedPlan: this.getI18n(this.selectedPlan),
+        selectedPlan: this.getI18n(this.selectedPlan)
       }
       const sessionOptions = {
         stripePriceId,
@@ -226,7 +250,7 @@ export default {
         totalAmount: this.totalPriceInDecimal,
         onlineClassesDetails,
         additionalInfo
-      };
+      }
       const { errMsg } = await handleCheckoutSession(sessionOptions)
       this.errMsg = errMsg
     }

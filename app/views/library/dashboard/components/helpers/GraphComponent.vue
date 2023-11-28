@@ -34,9 +34,9 @@
         {{ $t('library.age_demographics') }}
       </div>
       <d3-pie-chart
+        v-if="ageData.length > 0"
         :datum="ageData"
         :config="ageConfig"
-        v-if="ageData.length > 0"
       />
       <div
         v-else
@@ -70,15 +70,15 @@
 import { D3LineChart, D3BarChart, D3PieChart } from 'vue-d3-charts'
 export default {
   name: 'GraphComponent',
-  props: {
-    stats: {
-      type: Object
-    }
-  },
   components: {
     D3LineChart,
     D3BarChart,
     D3PieChart
+  },
+  props: {
+    stats: {
+      type: Object
+    }
   },
   data () {
     return {

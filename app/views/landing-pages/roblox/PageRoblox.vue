@@ -3,41 +3,93 @@
     <div class="container-fluid headline-container">
       <div class="responsive-background">
         <picture>
-          <source media="(max-width: 600px)" srcset="/images/pages/roblox/header-bg/bg_600.webp" type="image/webp">
-          <source media="(max-width: 600px)" srcset="/images/pages/roblox/header-bg/bg_600.png" type="image/png">
+          <source
+            media="(max-width: 600px)"
+            srcset="/images/pages/roblox/header-bg/bg_600.webp"
+            type="image/webp"
+          >
+          <source
+            media="(max-width: 600px)"
+            srcset="/images/pages/roblox/header-bg/bg_600.png"
+            type="image/png"
+          >
 
-          <source media="(min-width: 601px) and (max-width: 800px)" srcset="/images/pages/roblox/header-bg/bg_800.webp"
-            type="image/webp">
-          <source media="(min-width: 601px) and (max-width: 800px)" srcset="/images/pages/roblox/header-bg/bg_800.png"
-            type="image/png">
+          <source
+            media="(min-width: 601px) and (max-width: 800px)"
+            srcset="/images/pages/roblox/header-bg/bg_800.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 601px) and (max-width: 800px)"
+            srcset="/images/pages/roblox/header-bg/bg_800.png"
+            type="image/png"
+          >
 
-          <source media="(min-width: 801px) and (max-width: 991px)" srcset="/images/pages/roblox/header-bg/bg_991.webp"
-            type="image/webp">
-          <source media="(min-width: 801px) and (max-width: 991px)" srcset="/images/pages/roblox/header-bg/bg_991.png"
-            type="image/png">
+          <source
+            media="(min-width: 801px) and (max-width: 991px)"
+            srcset="/images/pages/roblox/header-bg/bg_991.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 801px) and (max-width: 991px)"
+            srcset="/images/pages/roblox/header-bg/bg_991.png"
+            type="image/png"
+          >
 
-          <source media="(min-width: 992px) and (max-width: 993px)" srcset="/images/pages/roblox/header-bg/bg_993.webp"
-            type="image/webp">
-          <source media="(min-width: 992px) and (max-width: 993px)" srcset="/images/pages/roblox/header-bg/bg_993.png"
-            type="image/png">
+          <source
+            media="(min-width: 992px) and (max-width: 993px)"
+            srcset="/images/pages/roblox/header-bg/bg_993.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 992px) and (max-width: 993px)"
+            srcset="/images/pages/roblox/header-bg/bg_993.png"
+            type="image/png"
+          >
 
-          <source media="(min-width: 994px) and (max-width: 1199px)" srcset="/images/pages/roblox/header-bg/bg_1199.webp"
-            type="image/webp">
-          <source media="(min-width: 994px) and (max-width: 1199px)" srcset="/images/pages/roblox/header-bg/bg_1199.png"
-            type="image/png">
+          <source
+            media="(min-width: 994px) and (max-width: 1199px)"
+            srcset="/images/pages/roblox/header-bg/bg_1199.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 994px) and (max-width: 1199px)"
+            srcset="/images/pages/roblox/header-bg/bg_1199.png"
+            type="image/png"
+          >
 
-          <source media="(min-width: 1200px) and (max-width: 1300px)" srcset="/images/pages/roblox/header-bg/bg_1300.webp"
-            type="image/webp">
-          <source media="(min-width: 1200px) and (max-width: 1300px)" srcset="/images/pages/roblox/header-bg/bg_1300.png"
-            type="image/png">
+          <source
+            media="(min-width: 1200px) and (max-width: 1300px)"
+            srcset="/images/pages/roblox/header-bg/bg_1300.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 1200px) and (max-width: 1300px)"
+            srcset="/images/pages/roblox/header-bg/bg_1300.png"
+            type="image/png"
+          >
 
-          <source media="(min-width: 1301px) and (max-width: 1600px)" srcset="/images/pages/roblox/header-bg/bg_1600.webp"
-            type="image/webp">
-          <source media="(min-width: 1301px) and (max-width: 1600px)" srcset="/images/pages/roblox/header-bg/bg_1600.png"
-            type="image/png">
+          <source
+            media="(min-width: 1301px) and (max-width: 1600px)"
+            srcset="/images/pages/roblox/header-bg/bg_1600.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 1301px) and (max-width: 1600px)"
+            srcset="/images/pages/roblox/header-bg/bg_1600.png"
+            type="image/png"
+          >
 
-          <source media="(min-width: 1601px)" srcset="/images/pages/roblox/header-bg/bg_full.webp" type="image/webp">
-          <source media="(min-width: 1601px)" srcset="/images/pages/roblox/header-bg/bg_full.png" type="image/png">
+          <source
+            media="(min-width: 1601px)"
+            srcset="/images/pages/roblox/header-bg/bg_full.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 1601px)"
+            srcset="/images/pages/roblox/header-bg/bg_full.png"
+            type="image/png"
+          >
 
           <!-- Fallback for browsers that don't support the picture element -->
           <img src="/images/pages/roblox/header-bg/bg_600.png">
@@ -46,7 +98,10 @@
       <div class="container">
         <div class="row headline-row">
           <div class="col col-sm-8">
-            <img class="coco-worlds-logo" src="/images/pages/roblox/coco-worlds.png">
+            <img
+              class="coco-worlds-logo"
+              src="/images/pages/roblox/coco-worlds.png"
+            >
             <div class="text-container">
               <h1 class="text-headline">
                 {{ $t('roblox_landing.headline') }}
@@ -56,10 +111,19 @@
               </h2>
             </div>
 
-            <a href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds" target="_blank">
+            <a
+              href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds"
+              target="_blank"
+            >
               <picture>
-                <source srcset="/images/pages/roblox/play_now.webp" type="image/webp">
-                <img src="/images/pages/roblox/play_now.png" class="header-button">
+                <source
+                  srcset="/images/pages/roblox/play_now.webp"
+                  type="image/webp"
+                >
+                <img
+                  src="/images/pages/roblox/play_now.png"
+                  class="header-button"
+                >
               </picture>
             </a>
           </div>
@@ -67,12 +131,23 @@
       </div>
     </div>
     <div class="container-fluid container-fluid-boxes">
-      <div v-if="role" class="container container-boxes">
+      <div
+        v-if="role"
+        class="container container-boxes"
+      >
         <robloxButton class="roblox-connect" />
         <h3>{{ $t('roblox_landing.boxes_title') }}</h3>
-        <div v-for="boxType in boxesByRole[role]" class="row" :class="`row-type-${boxType}`">
+        <div
+          v-for="boxType in boxesByRole[role]"
+          :key="boxType"
+          class="row"
+          :class="`row-type-${boxType}`"
+        >
           <div class="col col-md-6 box-content ">
-            <img class="box-icon" :src="`/images/pages/roblox/${boxType}-icon.svg`">
+            <img
+              class="box-icon"
+              :src="`/images/pages/roblox/${boxType}-icon.svg`"
+            >
             <h4 class="box-title">
               {{ $t(`roblox_landing.box_${boxType}_subhead`) }}
             </h4>
@@ -82,21 +157,42 @@
           </div>
           <div class="col col-md-6">
             <picture>
-              <source media="(max-width: 600px)" :srcset="`/images/pages/roblox/${boxType}_600.webp`" type="image/webp">
-              <source media="(max-width: 600px)" :srcset="`/images/pages/roblox/${boxType}_600.png`" type="image/png">
+              <source
+                media="(max-width: 600px)"
+                :srcset="`/images/pages/roblox/${boxType}_600.webp`"
+                type="image/webp"
+              >
+              <source
+                media="(max-width: 600px)"
+                :srcset="`/images/pages/roblox/${boxType}_600.png`"
+                type="image/png"
+              >
 
-              <source media="(min-width: 1601px)" :srcset="`/images/pages/roblox/${boxType}.webp`" type="image/webp">
-              <source media="(min-width: 1601px)" :srcset="`/images/pages/roblox/${boxType}.png`" type="image/png">
+              <source
+                media="(min-width: 1601px)"
+                :srcset="`/images/pages/roblox/${boxType}.webp`"
+                type="image/webp"
+              >
+              <source
+                media="(min-width: 1601px)"
+                :srcset="`/images/pages/roblox/${boxType}.png`"
+                type="image/png"
+              >
 
               <img :src="`/images/pages/roblox/${boxType}_600.png`">
             </picture>
-
           </div>
         </div>
         <div class="row">
           <div class="col col-md-12">
-            <p v-if="role === 'parent'" v-html="$t('roblox_landing.bottom_blurb_parent', i18nData)"></p>
-            <p v-if="role === 'partner'" v-html="$t('roblox_landing.bottom_blurb_partner', i18nData)"></p>
+            <p
+              v-if="role === 'parent'"
+              v-html="$t('roblox_landing.bottom_blurb_parent', i18nData)"
+            />
+            <p
+              v-if="role === 'partner'"
+              v-html="$t('roblox_landing.bottom_blurb_partner', i18nData)"
+            />
           </div>
         </div>
       </div>
@@ -105,9 +201,11 @@
         <div class="row row-video">
           <div class="col-md-12">
             <div class="video-container">
-              <base-video :youtube-props="{ videoId: youtubeId, fitParent: true }"
+              <base-video
+                :youtube-props="{ videoId: youtubeId, fitParent: true }"
                 default-type="cloudflare"
-                :cloudflare-props="{ videoCloudflareId: videoId, thumbnailUrl }" />
+                :cloudflare-props="{ videoCloudflareId: videoId, thumbnailUrl }"
+              />
             </div>
           </div>
         </div>
@@ -116,60 +214,109 @@
           <div class="col-md-12">
             <button-main
               href="https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-"
-              target="_blank" :buttonText="$t('contact.faq')" class="button-main" />
+              target="_blank"
+              :button-text="$t('contact.faq')"
+              class="button-main"
+            />
 
             <div class="item">
-              <p class="question">{{ $t('roblox_landing.question_1') }}</p>
+              <p class="question">
+                {{ $t('roblox_landing.question_1') }}
+              </p>
               <ul>
                 <li>{{ $t('roblox_landing.answer_1') }}</li>
               </ul>
             </div>
 
             <div class="item">
-              <p class="question">{{ $t('roblox_landing.question_2') }}</p>
+              <p class="question">
+                {{ $t('roblox_landing.question_2') }}
+              </p>
               <ul>
                 <li>{{ $t('roblox_landing.answer_2') }}</li>
               </ul>
             </div>
 
             <div class="item">
-              <p class="question">{{ $t('roblox_landing.question_3') }}</p>
+              <p class="question">
+                {{ $t('roblox_landing.question_3') }}
+              </p>
               <ul>
                 <li>{{ $t('roblox_landing.answer_3') }}</li>
               </ul>
             </div>
 
-            <p class="faq-bottom" v-html="$t('roblox_landing.faq_bottom')"></p>
+            <p
+              class="faq-bottom"
+              v-html="$t('roblox_landing.faq_bottom')"
+            />
           </div>
         </div>
       </div>
     </div>
-    <modal v-if="modalShown" :title="`Join the Beta ${isMobile ? 'Waitlist' : 'Now'}`" ref="modal" @close="closeModal">
-      <form @submit.prevent="onFormSubmit" class="schedule-free-class-form">
+    <modal
+      v-if="modalShown"
+      ref="modal"
+      :title="`Join the Beta ${isMobile ? 'Waitlist' : 'Now'}`"
+      @close="closeModal"
+    >
+      <form
+        class="schedule-free-class-form"
+        @submit.prevent="onFormSubmit"
+      >
         <div class="form-group">
           <label for="role">{{ $t('roblox_landing.select_role') }}</label>
-          <select class="form-control" v-model="role">
-            <option v-for="value in roles" :key="value" :value="value">
+          <select
+            v-model="role"
+            class="form-control"
+          >
+            <option
+              v-for="value in roles"
+              :key="value"
+              :value="value"
+            >
               {{ $t(`roblox_landing.role_${value}`) }}
             </option>
           </select>
         </div>
-        <div class="form-group" :class="{ 'has-error': !isValidEmail }">
+        <div
+          class="form-group"
+          :class="{ 'has-error': !isValidEmail }"
+        >
           <label for="email">{{ $t('modal_free_class.email') }}</label>
-          <input type="email" id="email" placeholder="Enter email" v-model="email" class="form-control" />
+          <input
+            id="email"
+            v-model="email"
+            type="email"
+            placeholder="Enter email"
+            class="form-control"
+          >
         </div>
         <div class="form-group pull-right">
-          <span v-if="isSuccess" class="success-msg">
+          <span
+            v-if="isSuccess"
+            class="success-msg"
+          >
             <span v-if="isMobile">
               Success
             </span>
             <span v-else>
-              You're in! First, <a href="https://www.roblox.com/groups/14987146/CodeCombat#!/about" target="_blank">join
-                the CodeCombat Roblox group</a>, then <a href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds"
-                target="_blank">play CodeCombat Worlds</a>!
+              You're in! First, <a
+                href="https://www.roblox.com/groups/14987146/CodeCombat#!/about"
+                target="_blank"
+              >join
+                the CodeCombat Roblox group</a>, then <a
+                href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds"
+                target="_blank"
+              >play CodeCombat Worlds</a>!
             </span>
           </span>
-          <button v-if="!isSuccess" class="btn btn-success btn-lg" type="submit" :disabled="inProgress">
+          <button
+            v-if="!isSuccess"
+            class="btn btn-success btn-lg"
+            type="submit"
+            :disabled="inProgress"
+          >
             <span v-if="isMobile">
               Submit
             </span>
@@ -235,11 +382,11 @@ export default {
   },
   computed: {
     isMobile () {
-      const userAgent = window.navigator.userAgent;
-      const mobileDevices = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+      const userAgent = window.navigator.userAgent
+      const mobileDevices = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 
-      return mobileDevices.test(userAgent);
-    },
+      return mobileDevices.test(userAgent)
+    }
   },
 
   methods: {
@@ -265,8 +412,7 @@ export default {
         await waitlistSignup({ email: this.email, role: this.role, mobile: this.isMobile })
         this.isSuccess = true
       } catch (err) {
-
-        let text = 'Failed to contact server, please reach out to support@codecombat.com'
+        const text = 'Failed to contact server, please reach out to support@codecombat.com'
         if (err.code === 409) { // already signed up, so we'll just show success
           this.isSuccess = true
           this.inProgress = false
@@ -510,7 +656,6 @@ $box-content-margin: min(6vw, 90px);
     }
   }
 
-
   .headline-container {
     margin-bottom: min(3.33vw, 50px);
     position: relative;
@@ -535,7 +680,6 @@ $box-content-margin: min(6vw, 90px);
         }
       }
     }
-
 
     .responsive-background {
       position: absolute;
@@ -587,14 +731,12 @@ $box-content-margin: min(6vw, 90px);
       background: white;
     }
 
-
     .text-container {
       background: rgb(255 255 255 / 55%);
       border-radius: 20px;
       padding: 10px;
       margin: 10px 0;
     }
-
 
     .header-button {
       width: 190px;

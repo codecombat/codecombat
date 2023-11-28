@@ -1,7 +1,8 @@
 <template>
   <div class="stat">
     <img
-      :src="imgPath" :alt="`Icon for ${name}`"
+      :src="imgPath"
+      :alt="`Icon for ${name}`"
       class="stat__img"
     >
     <div class="stat__info">

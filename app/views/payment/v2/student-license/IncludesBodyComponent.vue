@@ -12,14 +12,21 @@
       </div>
 
       <div class="license__info">
-        <img src="/images/pages/payment/message-green.png" class="license__info-logo" alt="Message logo">
+        <img
+          src="/images/pages/payment/message-green.png"
+          class="license__info-logo"
+          alt="Message logo"
+        >
         <span class="license__info-text">{{ $t('payments.customer_support_info_1') }}</span>
       </div>
       <div class="license__info">
-        <img src="/images/pages/payment/dollar-green.png" class="license__info-logo" alt="Dollar logo">
+        <img
+          src="/images/pages/payment/dollar-green.png"
+          class="license__info-logo"
+          alt="Dollar logo"
+        >
         <span class="license__info-text">{{ $t('payments.self_serve_credit') }}</span>
       </div>
-
     </div>
     <div
       v-else
@@ -33,21 +40,31 @@
       </div>
 
       <div class="license__info">
-        <img src="/images/pages/payment/message-green.png" class="license__info-logo" alt="Message logo">
+        <img
+          src="/images/pages/payment/message-green.png"
+          class="license__info-logo"
+          alt="Message logo"
+        >
         <span class="license__info-text">{{ $t('payments.customer_support_info_2') }}</span>
       </div>
       <div class="license__info">
-        <img src="/images/pages/payment/dollar-green.png" class="license__info-logo" alt="Dollar logo">
+        <img
+          src="/images/pages/payment/dollar-green.png"
+          class="license__info-logo"
+          alt="Dollar logo"
+        >
         <span class="license__info-text">{{ $t('payments.multiple_payment_options') }}</span>
       </div>
       <div class="license__info">
-        <img src="/images/pages/payment/insights-green.png" class="license__info-logo" alt="Insights logo">
+        <img
+          src="/images/pages/payment/insights-green.png"
+          class="license__info-logo"
+          alt="Insights logo"
+        >
         <span class="license__info-text">{{ $t('payments.admin_dashboard') }}</span>
       </div>
-
     </div>
   </div>
-
 </template>
 
 <script>
@@ -61,7 +78,7 @@ export default {
     classType: {
       type: String,
       validator: (v) => {
-        return [ 'small-class', 'school-district' ].includes(v)
+        return ['small-class', 'school-district'].includes(v)
       }
     }
   }

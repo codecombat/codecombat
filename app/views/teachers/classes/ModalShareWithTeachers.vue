@@ -1,59 +1,109 @@
 <template>
   <modal
-      title="Share Class"
-      @close="$emit('close')"
-      :backbone-dismiss-modal=true
-      v-if="classroom"
+    v-if="classroom"
+    title="Share Class"
+    :backbone-dismiss-modal="true"
+    @close="$emit('close')"
   >
     <div class="share-class-modal">
-      <div class="selected-class">{{classroom.name}}</div>
-      <div class="small-text">{{$t('teacher_dashboard.share_info')}}</div>
+      <div class="selected-class">
+        {{ classroom.name }}
+      </div>
+      <div class="small-text">
+        {{ $t('teacher_dashboard.share_info') }}
+      </div>
       <form
-          class="share-class-form"
-          @submit.prevent="addTeacher"
+        class="share-class-form"
+        @submit.prevent="addTeacher"
       >
         <div class="form-group row">
           <div class="col-lg-6">
-            <input class="form-control" id="share-teacher-email" type="text" v-model="email" placeholder="Teacher's email" required />
+            <input
+              id="share-teacher-email"
+              v-model="email"
+              class="form-control"
+              type="text"
+              placeholder="Teacher's email"
+              required
+            >
           </div>
           <div class="col-lg-4">
-            <select class="select-dropdown form-control" @change="updatePermission" id="share-teacher-permission" required>
-              <option value="" :selected="permission === ''" disabled>Permission</option>
-              <option value="write" :selected="permission === 'write'">{{this.displayPermission('Write')}}</option>
-              <option value="read" :selected="permission === 'read'">{{this.displayPermission('Read')}}</option>
+            <select
+              id="share-teacher-permission"
+              class="select-dropdown form-control"
+              required
+              @change="updatePermission"
+            >
+              <option
+                value=""
+                :selected="permission === ''"
+                disabled
+              >
+                Permission
+              </option>
+              <option
+                value="write"
+                :selected="permission === 'write'"
+              >
+                {{ displayPermission('Write') }}
+              </option>
+              <option
+                value="read"
+                :selected="permission === 'read'"
+              >
+                {{ displayPermission('Read') }}
+              </option>
             </select>
           </div>
           <div class="col-lg-2">
-            <button type="submit" class="btn btn-primary" :disabled="addInProgress">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              :disabled="addInProgress"
+            >
               Add
             </button>
           </div>
         </div>
-        <div class="form-group error" v-if="error">
-          {{error}}
+        <div
+          v-if="error"
+          class="form-group error"
+        >
+          {{ error }}
         </div>
       </form>
       <div class="already-shared-with">
-        <div class="already-shared-heading">Shared With:</div>
-        <div v-if="this.alreadySharedWith">
+        <div class="already-shared-heading">
+          Shared With:
+        </div>
+        <div v-if="alreadySharedWith">
           <ul>
-            <li v-for="shared in alreadySharedWith" :key="shared.target">
-              {{shared.email}} - {{displayPermission(shared.access)}} <icon-close @clicked="removeTeacher(shared)" /><span class="small-text" v-if="deleteInProgress === shared.target">deleting...</span>
+            <li
+              v-for="shared in alreadySharedWith"
+              :key="shared.target"
+            >
+              {{ shared.email }} - {{ displayPermission(shared.access) }} <icon-close @clicked="removeTeacher(shared)" /><span
+                v-if="deleteInProgress === shared.target"
+                class="small-text"
+              >deleting...</span>
             </li>
           </ul>
         </div>
-        <div v-else class="small-text">
-          {{$t('teacher_dashboard.shared_with_none')}}
+        <div
+          v-else
+          class="small-text"
+        >
+          {{ $t('teacher_dashboard.shared_with_none') }}
         </div>
       </div>
       <div>
         Note:
         <ul>
           <li class="small-text">
-            {{$t('teacher_dashboard.read_blurb')}}
+            {{ $t('teacher_dashboard.read_blurb') }}
           </li>
           <li class="small-text">
-            {{$t('teacher_dashboard.write_blurb')}}
+            {{ $t('teacher_dashboard.write_blurb') }}
           </li>
         </ul>
       </div>
@@ -62,16 +112,16 @@
 </template>
 
 <script>
-import Modal from "app/components/common/Modal"
+import Modal from 'app/components/common/Modal'
 import usersApi from 'app/core/api/users'
 import User from 'app/models/User'
-import {mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import classroomsApi from 'app/core/api/classrooms'
 import IconClose from 'app/core/components/IconClose'
 import { getDisplayPermission } from 'app/lib/classroom-utils'
 
 export default Vue.extend({
-  name: "ModalShareWithTeachers",
+  name: 'ModalShareWithTeachers',
   components: {
     Modal,
     IconClose
@@ -81,7 +131,7 @@ export default Vue.extend({
       type: String
     }
   },
-  data() {
+  data () {
     return {
       email: null,
       permission: 'write',
@@ -90,10 +140,6 @@ export default Vue.extend({
       addInProgress: false,
       alreadySharedWith: null
     }
-  },
-  async created() {
-    await this.getClassroomForId(this.classroomId)
-    await this.updateAlreadySharedWith()
   },
   computed: {
     ...mapGetters({
@@ -115,6 +161,10 @@ export default Vue.extend({
       }
     }
   },
+  async created () {
+    await this.getClassroomForId(this.classroomId)
+    await this.updateAlreadySharedWith()
+  },
   methods: {
     ...mapActions({
       updateClassroom: 'classrooms/updateClassroom',
@@ -122,7 +172,7 @@ export default Vue.extend({
       removePermission: 'classrooms/removePermission',
       getClassroomForId: 'classrooms/fetchClassroomForId'
     }),
-    async addTeacher() {
+    async addTeacher () {
       this.addInProgress = true
       this.error = ''
       let errMsg
@@ -154,18 +204,18 @@ export default Vue.extend({
       }
       this.addInProgress = false
     },
-    updatePermission(e) {
+    updatePermission (e) {
       this.permission = e.target.value
     },
-    async removeTeacher(permission) {
+    async removeTeacher (permission) {
       this.deleteInProgress = permission.target
       await this.removePermission({ classroom: this.classroom, permission })
       this.deleteInProgress = null
     },
-    displayPermission(permission) {
+    displayPermission (permission) {
       return getDisplayPermission(permission)
     },
-    async updateAlreadySharedWith() {
+    async updateAlreadySharedWith () {
       if (this.classroom.permissions.length) {
         const resp = await classroomsApi.getPermission({ classroomID: this.classroomId })
         this.alreadySharedWith = resp.data

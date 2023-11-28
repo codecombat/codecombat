@@ -3,54 +3,51 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let ShareLicensesJoinerRow;
-const store = require('core/store');
-const api = require('core/api');
-const ShareLicensesStoreModule = require('./ShareLicensesStoreModule');
-const User = require('models/User');
+const ShareLicensesStoreModule = require('./ShareLicensesStoreModule')
+const User = require('models/User')
 
-module.exports = (ShareLicensesJoinerRow = {
+module.exports = {
   name: 'share-licenses-joiner-row',
   template: require('app/templates/teachers/share-licenses-joiner-row')(),
   storeModule: ShareLicensesStoreModule,
   props: {
     joiner: {
       type: Object,
-      default() { return {}; }
+      default () { return {} }
     },
     prepaid: {
       type: Object,
-      default() {
-        return {joiners: []};
+      default () {
+        return { joiners: [] }
       }
     }
   },
-  created() {},
-  data() {
+  created () {},
+  data () {
     return {
       me,
       editing: false,
       maxRedeemers: this.joiner.maxRedeemers
-    };
+    }
   },
   computed: {
-    broadName() {
-      return (new User(this.joiner)).broadName();
+    broadName () {
+      return (new User(this.joiner)).broadName()
     }
   },
   components: {},
   methods:
     {
-      saveJoiner() {
-        this.$emit('setJoinerMaxRedeemers', this.prepaid._id, this.joiner, this.maxRedeemers);
-        return this.editing = false;
+      saveJoiner () {
+        this.$emit('setJoinerMaxRedeemers', this.prepaid._id, this.joiner, this.maxRedeemers)
+        this.editing = false
       },
 
-      editJoiner() {
-        return this.editing = true;
+      editJoiner () {
+        this.editing = true
       },
 
-      revokeTeacher() {
+      revokeTeacher () {
         // coco version can be applied for both, because this code
         // doesn't run in Ozaria anyway
         if (this.joiner.licensesUsed > 0) {
@@ -63,21 +60,22 @@ module.exports = (ShareLicensesJoinerRow = {
                 addClass: 'btn btn-primary',
                 text: 'Ok',
                 onClick: $noty => {
-                  this.$emit('revokeJoiner', this.prepaid._id, this.joiner);
-                  return $noty.close();
+                  this.$emit('revokeJoiner', this.prepaid._id, this.joiner)
+                  return $noty.close()
                 }
               },
               {
                 addClass: 'btn btn-danger',
                 text: 'Cancel',
                 onClick: $noty => {
-                  return $noty.close();
+                  return $noty.close()
                 }
               }
-            ]});
+            ]
+          })
         } else {
-          return this.$emit('revokeJoiner', this.prepaid._id, this.joiner);
+          return this.$emit('revokeJoiner', this.prepaid._id, this.joiner)
         }
       }
     }
-});
+}

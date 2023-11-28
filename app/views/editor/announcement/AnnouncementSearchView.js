@@ -1,6 +1,6 @@
 const SearchView = require('views/common/SearchView')
 
-class AnnouncementSearchView extends SearchView{
+class AnnouncementSearchView extends SearchView {
   id = 'editor-announcement-home-view'
   modelLabel = 'Announcement'
   model = require('models/Announcement')

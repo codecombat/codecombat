@@ -8,86 +8,86 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let MainLadderView;
-require('app/styles/play/ladder_home.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/play/ladder_home');
-const LevelSession = require('models/LevelSession');
-const CocoCollection = require('collections/CocoCollection');
+let MainLadderView
+require('app/styles/play/ladder_home.sass')
+const RootView = require('views/core/RootView')
+const template = require('app/templates/play/ladder_home')
+const LevelSession = require('models/LevelSession')
+const CocoCollection = require('collections/CocoCollection')
 
 class LevelSessionsCollection extends CocoCollection {
-  static initClass() {
-    this.prototype.url = '';
-    this.prototype.model = LevelSession;
+  static initClass () {
+    this.prototype.url = ''
+    this.prototype.model = LevelSession
   }
 
-  constructor(model) {
-    super();
-    this.url = `/db/user/${me.id}/level.sessions?project=state.complete,levelID`;
+  constructor (model) {
+    super()
+    this.url = `/db/user/${me.id}/level.sessions?project=state.complete,levelID`
   }
 }
-LevelSessionsCollection.initClass();
+LevelSessionsCollection.initClass()
 
-module.exports = (MainLadderView = (function() {
+module.exports = (MainLadderView = (function () {
   MainLadderView = class MainLadderView extends RootView {
-    static initClass() {
-      this.prototype.id = 'main-ladder-view';
-      this.prototype.template = template;
+    static initClass () {
+      this.prototype.id = 'main-ladder-view'
+      this.prototype.template = template
     }
 
     constructor () {
       super()
 
-      this.levelStatusMap = [];
-      this.levelPlayCountMap = [];
-      this.campaigns = campaigns;
+      this.levelStatusMap = []
+      this.levelPlayCountMap = []
+      this.campaigns = campaigns
 
-      this.sessions = this.supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model;
+      this.sessions = this.supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', { cache: false }, 0).model
       this.listenToOnce(this.sessions, 'sync', this.onSessionsLoaded)
     }
 
-      // TODO: Make sure this is also enabled server side.
-      // Disabled due to high load on database.
-      // @getLevelPlayCounts()
+    // TODO: Make sure this is also enabled server side.
+    // Disabled due to high load on database.
+    // @getLevelPlayCounts()
 
-    getMeta() {
-      return {title: $.i18n.t('ladder.title')};
+    getMeta () {
+      return { title: $.i18n.t('ladder.title') }
     }
 
-    onSessionsLoaded(e) {
-      for (var session of Array.from(this.sessions.models)) {
-        this.levelStatusMap[session.get('levelID')] = __guard__(session.get('state'), x => x.complete) ? 'complete' : 'started';
+    onSessionsLoaded (e) {
+      for (const session of Array.from(this.sessions.models)) {
+        this.levelStatusMap[session.get('levelID')] = __guard__(session.get('state'), x => x.complete) ? 'complete' : 'started'
       }
-      return this.render();
+      return this.render()
     }
 
-    getLevelPlayCounts() {
+    getLevelPlayCounts () {
       const success = levelPlayCounts => {
-        if (this.destroyed) { return; }
-        for (var level of Array.from(levelPlayCounts)) {
-          this.levelPlayCountMap[level._id] = {playtime: level.playtime, sessions: level.sessions};
+        if (this.destroyed) { return }
+        for (const level of Array.from(levelPlayCounts)) {
+          this.levelPlayCountMap[level._id] = { playtime: level.playtime, sessions: level.sessions }
         }
-        if (this.supermodel.finished()) { return this.render(); }
-      };
+        if (this.supermodel.finished()) { return this.render() }
+      }
 
-      const levelIDs = [];
-      for (var campaign of Array.from(campaigns)) {
-        for (var level of Array.from(campaign.levels)) {
-          levelIDs.push(level.id);
+      const levelIDs = []
+      for (const campaign of Array.from(campaigns)) {
+        for (const level of Array.from(campaign.levels)) {
+          levelIDs.push(level.id)
         }
       }
       const levelPlayCountsRequest = this.supermodel.addRequestResource('play_counts', {
         url: '/db/level/-/play_counts',
-        data: {ids: levelIDs},
+        data: { ids: levelIDs },
         method: 'POST',
         success
-      }, 0);
-      return levelPlayCountsRequest.load();
+      }, 0)
+      return levelPlayCountsRequest.load()
     }
-  };
-  MainLadderView.initClass();
-  return MainLadderView;
-})());
+  }
+  MainLadderView.initClass()
+  return MainLadderView
+})())
 
 const heroArenas = [
   {
@@ -132,12 +132,12 @@ const heroArenas = [
     image: '/file/db/level/54b83c2629843994803c838e/OCT27-Harrowland.png',
     description: 'Go head-to-head against another player in this dueling arena--but watch out for their friends!'
   }
-];
+]
 
 var campaigns = [
-  {id: 'multiplayer', name: 'Multiplayer Arenas', description: '... in which you code head-to-head against other players.', levels: heroArenas}
-];
+  { id: 'multiplayer', name: 'Multiplayer Arenas', description: '... in which you code head-to-head against other players.', levels: heroArenas }
+]
 
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+function __guard__ (value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
 }
