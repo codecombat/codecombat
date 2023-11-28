@@ -10,15 +10,15 @@ export default {
   },
 
   data: () => ({
-    showModalGetLicenses: false,
+    showModalGetLicenses: false
   }),
 
   methods: {
     onClickContact (e) {
       window.tracker?.trackEvent('Efficacy Contact Clicked', { category: 'Teachers', label: `${this.$route.path}` })
       this.showModalGetLicenses = true
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -62,7 +62,6 @@ export default {
           p {{ $t("efficacy.easy_to_use_description") }}
 
     #graphics-1-back
-
 
     .row.study-boxes
       .col.col-md-6
@@ -114,7 +113,6 @@ export default {
         p.small {{ $t("efficacy.quote_section_footer") }}
         h1 &rdquo;
 
-
     section.container.teacher-quote
       .bubble
         p {{ $t("efficacy.teacher_quote1_content") }}
@@ -124,7 +122,6 @@ export default {
           span {{ $t("efficacy.teacher_quote1_footer2") }}
         .image
           img(src="/images/pages/efficacy/teacher-1.png", :alt="`${$t('efficacy.teacher')}`")
-
 
     section.student-quote
       .row.bubble
@@ -180,8 +177,6 @@ export default {
 @import "ozaria/site/styles/common/common.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 
-
-
 #efficacy-view{
   display: flex;
   flex-direction: column;
@@ -196,7 +191,6 @@ export default {
 
   $body-fonts: 'Space Mono', 'Work Sans', "Open Sans", serif;
   $body-fonts2: 'Work Sans', "Open Sans", serif;
-
 
   .dialog {
     position: absolute;
@@ -257,7 +251,6 @@ export default {
     }
   }
 
-
   .pathway {
     z-index: 1;
     position: relative;
@@ -292,9 +285,6 @@ export default {
     }
   }
 
-
-
-
   .pathway-boxes {
     padding: 0 173px;
 
@@ -313,7 +303,6 @@ export default {
         }
       }
     }
-
 
     h2 {
       font-family: $body-fonts2;
@@ -513,7 +502,6 @@ export default {
         font-size: 24px;
         line-height: 30px;
         color: black;
-
 
         &.small {
           font-weight: 700;
@@ -819,7 +807,6 @@ export default {
     padding: 0;
     margin: 0;
   }
-
 
   #graphics-1-back {
     background: url(/images/pages/efficacy/pathway-backgroun.svg) no-repeat center;

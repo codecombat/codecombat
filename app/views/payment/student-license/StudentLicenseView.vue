@@ -7,15 +7,21 @@
       :is-tecmilenio-partner="isTecmilenioPartner"
     />
     <modal-get-licenses
-        v-if="showContactModal"
-        @close="showContactModal = false"
+      v-if="showContactModal"
+      @close="showContactModal = false"
     />
     <div class="middle-section">
-      <h3 class="per-student text-center" v-if="isTecmilenioPartner">
-        Su costo es de {{this.getCurrency()}}{{this.getUnitPrice()}} USD por estudiante
+      <h3
+        v-if="isTecmilenioPartner"
+        class="per-student text-center"
+      >
+        Su costo es de {{ getCurrency() }}{{ getUnitPrice() }} USD por estudiante
       </h3>
-      <h3 class="per-student text-center" v-else>
-        {{$t('payments.just')}} {{this.getCurrency()}}{{this.getUnitPrice()}} {{$t('payments.per_student')}}
+      <h3
+        v-else
+        class="per-student text-center"
+      >
+        {{ $t('payments.just') }} {{ getCurrency() }}{{ getUnitPrice() }} {{ $t('payments.per_student') }}
       </h3>
       <div
         v-if="isBDPartner"
@@ -52,7 +58,14 @@
             v-if="!licenseCap || licenseCap < 10000"
             class="light-text"
           >
-            <payment-license-min-max-text-component :min-licenses="minLicenses" :max-licenses="licenseCap" :max-value-to-show="10000" /> <span>can be purchased, <a href="#" @click="enableContactModal">Contact Us</a> to purchase more</span>
+            <payment-license-min-max-text-component
+              :min-licenses="minLicenses"
+              :max-licenses="licenseCap"
+              :max-value-to-show="10000"
+            /> <span>can be purchased, <a
+              href="#"
+              @click="enableContactModal"
+            >Contact Us</a> to purchase more</span>
           </li>
           <li class="light-text">Licenses are active for {{ licenseValidityPeriodInDays }} days from the day of purchase</li>
           <li class="light-text">Teacher account licenses are free with purchase</li>
@@ -63,47 +76,42 @@
 </template>
 
 <script>
-import ModalGetLicenses from "../../../components/common/ModalGetLicenses";
-import PaymentStudentLicenseHeadComponent from "./HeadComponent"
-import PaymentLicenseMinMaxTextComponent from "../components/LicenseMinMaxTextComponent";
+import ModalGetLicenses from '../../../components/common/ModalGetLicenses'
+import PaymentStudentLicenseHeadComponent from './HeadComponent'
+import PaymentLicenseMinMaxTextComponent from '../components/LicenseMinMaxTextComponent'
 import {
   getDisplayUnitPrice,
   getDisplayCurrency
 } from '../paymentPriceHelper'
 export default {
-  name: "PaymentStudentLicenseView",
-  data () {
-    return {
-      showContactModal: false
-    }
-  },
+  name: 'PaymentStudentLicenseView',
   components: {
     ModalGetLicenses,
     PaymentStudentLicenseHeadComponent,
-    PaymentLicenseMinMaxTextComponent,
+    PaymentLicenseMinMaxTextComponent
   },
   props: {
     currency: {
       type: String,
-      required: true,
+      required: true
     },
     unitAmount: {
       type: Number,
-      required: true,
+      required: true
     },
     priceId: {
       type: String,
-      required: true,
+      required: true
     },
     licenseCap: {
-      type: Number,
+      type: Number
     },
     minLicenses: {
-      type: Number,
+      type: Number
     },
     licenseValidityPeriodInDays: {
       type: Number,
-      required: true,
+      required: true
     },
     i18nName: String,
     isDshPartner: {
@@ -119,14 +127,19 @@ export default {
       default: false
     }
   },
+  data () {
+    return {
+      showContactModal: false
+    }
+  },
   methods: {
-    getUnitPrice() {
-      return getDisplayUnitPrice(this.unitAmount);
+    getUnitPrice () {
+      return getDisplayUnitPrice(this.unitAmount)
     },
-    getCurrency() {
-      return getDisplayCurrency(this.currency);
+    getCurrency () {
+      return getDisplayCurrency(this.currency)
     },
-    enableContactModal(e) {
+    enableContactModal (e) {
       e.preventDefault()
       this.showContactModal = true
     }

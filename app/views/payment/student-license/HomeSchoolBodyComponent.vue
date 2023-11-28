@@ -20,35 +20,35 @@
 </template>
 
 <script>
-import PaymentStudentLicensePurchaseComponent from "./PurchaseComponent";
-import PaymentStudentLicensesOnlineClassesComponent from "./OnlineClassesInfoComponent";
+import PaymentStudentLicensePurchaseComponent from './PurchaseComponent'
+import PaymentStudentLicensesOnlineClassesComponent from './OnlineClassesInfoComponent'
 export default {
-  name: "PaymentStudentLicenseHomeSchoolBodyComponent",
+  name: 'PaymentStudentLicenseHomeSchoolBodyComponent',
   components: {
     PaymentStudentLicensePurchaseComponent,
-    PaymentStudentLicensesOnlineClassesComponent,
-  },
-  data() {
-    return {
-      includesText: [
-        'Full access to CodeCombat and Ozaria',
-        'Teacher Dashboard for record keeping and progress tracking',
-        'Curriculum guide to help you understand what your child is learning and assist them',
-      ],
-      showContactUs: true,
-      contactUsText: 'Hi! I want to learn more about the homeschooling experience and get licenses so that my students can access Chapter 2 and on.'
-    }
+    PaymentStudentLicensesOnlineClassesComponent
   },
   props: {
     priceInfo: {
       type: Object,
-      required: true,
+      required: true
     },
     paymentGroupId: {
       type: String,
-      required: true,
+      required: true
     }
   },
+  data () {
+    return {
+      includesText: [
+        'Full access to CodeCombat and Ozaria',
+        'Teacher Dashboard for record keeping and progress tracking',
+        'Curriculum guide to help you understand what your child is learning and assist them'
+      ],
+      showContactUs: true,
+      contactUsText: 'Hi! I want to learn more about the homeschooling experience and get licenses so that my students can access Chapter 2 and on.'
+    }
+  }
 }
 </script>
 

@@ -1,146 +1,149 @@
 <script>
-    import BaseModal from 'app/components/common/BaseModal'
-    const VueYoutube = require('vue-youtube')
-    export default Vue.extend({
-      data: () => ({
-        show: true,
+import BaseModal from 'app/components/common/BaseModal'
+const VueYoutube = require('vue-youtube')
+export default Vue.extend({
 
-        hasPlayed: false,
-        playerVars: {
-          rel: 0
-        }
-      }),
+  components: {
+    BaseModal
+  },
+  data: () => ({
+    show: true,
 
-      components: {
-        BaseModal
-      },
+    hasPlayed: false,
+    playerVars: {
+      rel: 0
+    }
+  }),
 
-      computed: {
-        tryOzariaLink () {
-          if (me.useChinaServices()) {
-            return "https://aojiarui.com/teachers/classes?utm_campaign=emodel&utm_medium=web&utm_source=codecombat"
-          } else {
-            return "https://www.ozaria.com/teachers/classes?utm_campaign=emodel&utm_medium=web&utm_source=codecombat"
-          }
-        },
-        showChinaVideo () {
-            return me.showChinaVideo()
-        }
-      },
-
-      methods: {
-        async startPlay () {
-          if (this.hasPlayed) {
-            return
-          }
-
-          this.hasPlayed = true
-          const iframe = await this.$refs.player.player.getIframe()
-          iframe.requestFullscreen()
-        },
-
-        close () {
-          this.show = false
-        },
-
-        noThanksClicked () {
-          window.tracker.trackEvent('Ozaria Encouragement Modal Declined', { category: 'Teachers' })
-          this.close()
-        },
-
-        tryOzariaEvent () {
-          window.tracker.trackEvent('Ozaria Encouragement Modal CTA Click', { category: 'Teachers' })
-        }
-      },
-
-      mounted () {
-        window.tracker.trackEvent('Ozaria Encouragement Modal Displayed', { category: 'Teachers' })
-      },
-      beforeCreate () {
-        Vue.use(VueYoutube.default)
+  computed: {
+    tryOzariaLink () {
+      if (me.useChinaServices()) {
+        return 'https://aojiarui.com/teachers/classes?utm_campaign=emodel&utm_medium=web&utm_source=codecombat'
+      } else {
+        return 'https://www.ozaria.com/teachers/classes?utm_campaign=emodel&utm_medium=web&utm_source=codecombat'
       }
-    })
+    },
+    showChinaVideo () {
+      return me.showChinaVideo()
+    }
+  },
+
+  mounted () {
+    window.tracker.trackEvent('Ozaria Encouragement Modal Displayed', { category: 'Teachers' })
+  },
+  beforeCreate () {
+    Vue.use(VueYoutube.default)
+  },
+
+  methods: {
+    async startPlay () {
+      if (this.hasPlayed) {
+        return
+      }
+
+      this.hasPlayed = true
+      const iframe = await this.$refs.player.player.getIframe()
+      iframe.requestFullscreen()
+    },
+
+    close () {
+      this.show = false
+    },
+
+    noThanksClicked () {
+      window.tracker.trackEvent('Ozaria Encouragement Modal Declined', { category: 'Teachers' })
+      this.close()
+    },
+
+    tryOzariaEvent () {
+      window.tracker.trackEvent('Ozaria Encouragement Modal CTA Click', { category: 'Teachers' })
+    }
+  }
+})
 </script>
 
 <template>
-    <base-modal v-if="show" class="encouragement-modal">
-        <template slot="header">
-            <div class="header">
-                <h1>
-                    {{ $t('teacher_ozaria_encouragement_modal.title') }}
-                </h1>
+  <base-modal
+    v-if="show"
+    class="encouragement-modal"
+  >
+    <template slot="header">
+      <div class="header">
+        <h1>
+          {{ $t('teacher_ozaria_encouragement_modal.title') }}
+        </h1>
 
-                <h2>
-                    {{ $t('teacher_ozaria_encouragement_modal.sub_title') }}
-                </h2>
+        <h2>
+          {{ $t('teacher_ozaria_encouragement_modal.sub_title') }}
+        </h2>
 
-                <div class="spacer"></div>
+        <div class="spacer" />
+      </div>
+    </template>
+
+    <template slot="body">
+      <div class="content">
+        <div class="trailer">
+          <div class="player-container">
+            <div class="player-sizer">
+              <youtube
+                v-if="!showChinaVideo"
+                ref="player"
+                class="player"
+                video-id="prJJvvI3WJM"
+                :player-vars="playerVars"
+                @playing="startPlay"
+              />
+              <video
+                v-if="showChinaVideo"
+                controls
+                class="player"
+                poster="https://ozaria-assets.oss-cn-qingdao.aliyuncs.com/home-video-poster.jpg"
+                preload="metadata"
+              >
+                <source
+                  src="https://ozaria-assets.oss-cn-qingdao.aliyuncs.com/aojiarui-home.mp4"
+                  type="video/mp4"
+                >
+              </video>
             </div>
-        </template>
+          </div>
+        </div>
 
-        <template slot="body">
-            <div class="content">
-                <div class="trailer">
-                    <div class="player-container">
-                        <div class="player-sizer">
-                            <youtube
-                                    v-if="!showChinaVideo"
-                                    class="player"
-                                    ref="player"
-                                    video-id="prJJvvI3WJM"
-                                    @playing="startPlay"
-                                    :player-vars="playerVars"
-                            />
-                            <video
-                                    v-if="showChinaVideo"
-                                    controls
-                                    class="player"
-                                    poster="https://ozaria-assets.oss-cn-qingdao.aliyuncs.com/home-video-poster.jpg"
-                                    preload="metadata"
-                            >
-                                <source
-                                    src="https://ozaria-assets.oss-cn-qingdao.aliyuncs.com/aojiarui-home.mp4"
-                                    type="video/mp4"
-                                >
-                            </video>
-                        </div>
-                    </div>
-                </div>
+        <ul>
+          <li>{{ $t('teacher_ozaria_encouragement_modal.bullet1') }}</li>
+          <li>{{ $t('teacher_ozaria_encouragement_modal.bullet2') }}</li>
+          <li>{{ $t('teacher_ozaria_encouragement_modal.bullet3') }}</li>
+          <li>{{ $t('teacher_ozaria_encouragement_modal.bullet4') }}</li>
+        </ul>
+      </div>
+    </template>
 
-                <ul>
-                    <li>{{ $t('teacher_ozaria_encouragement_modal.bullet1') }}</li>
-                    <li>{{ $t('teacher_ozaria_encouragement_modal.bullet2') }}</li>
-                    <li>{{ $t('teacher_ozaria_encouragement_modal.bullet3') }}</li>
-                    <li>{{ $t('teacher_ozaria_encouragement_modal.bullet4') }}</li>
-                </ul>
-            </div>
-        </template>
+    <template slot="footer">
+      <div class="footer">
+        <div class="top-row">
+          <a
+            href="#"
+            class="no-thanks"
+            @click="noThanksClicked"
+          >
+            {{ $t('teacher_ozaria_encouragement_modal.cancel') }}
+          </a>
 
-        <template slot="footer">
-            <div class="footer">
-                <div class="top-row">
-                    <a
-                            href="#"
-                            class="no-thanks"
-                            @click="noThanksClicked"
-                    >
-                        {{ $t('teacher_ozaria_encouragement_modal.cancel') }}
-                    </a>
-
-                    <a
-                            :href="tryOzariaLink"
-                            class="try-ozaria"
-                            @click="tryOzariaEvent"
-                    >
-                        {{ $t('teacher_ozaria_encouragement_modal.accept') }}
-                    </a>
-                </div>
-                <div class="bottom-row">
-                    <span>{{ $t('teacher_ozaria_encouragement_modal.you_can_return') }}</span>
-                </div>
-            </div>
-        </template>
-    </base-modal>
+          <a
+            :href="tryOzariaLink"
+            class="try-ozaria"
+            @click="tryOzariaEvent"
+          >
+            {{ $t('teacher_ozaria_encouragement_modal.accept') }}
+          </a>
+        </div>
+        <div class="bottom-row">
+          <span>{{ $t('teacher_ozaria_encouragement_modal.you_can_return') }}</span>
+        </div>
+      </div>
+    </template>
+  </base-modal>
 </template>
 
 <style scoped lang="scss">

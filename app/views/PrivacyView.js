@@ -6,28 +6,28 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let PrivacyView;
-require('app/styles/privacy.sass');
-const RootView = require('views/core/RootView');
-const template = require('templates/privacy');
+let PrivacyView
+require('app/styles/privacy.sass')
+const RootView = require('views/core/RootView')
+const template = require('templates/privacy')
 
-module.exports = (PrivacyView = (function() {
+module.exports = (PrivacyView = (function () {
   PrivacyView = class PrivacyView extends RootView {
-    static initClass() {
-      this.prototype.id = 'privacy-view';
-      this.prototype.template = template;
+    static initClass () {
+      this.prototype.id = 'privacy-view'
+      this.prototype.template = template
     }
 
-    afterRender() {
-      super.afterRender();
+    afterRender () {
+      super.afterRender()
       if (_.contains(location.href, '#')) {
         return _.defer(() => {
           // Remind the browser of the fragment in the URL, so it jumps to the right section.
-          return location.href = location.href;
-        });
+          return location.href = location.href
+        })
       }
     }
-  };
-  PrivacyView.initClass();
-  return PrivacyView;
-})());
+  }
+  PrivacyView.initClass()
+  return PrivacyView
+})())

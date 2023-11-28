@@ -20,7 +20,7 @@
           class="form-control"
           @blur="validateEmail"
           @input="validateEmail"
-        />
+        >
       </div>
       <div
         v-if="!hideRelationDropdown"
@@ -37,7 +37,13 @@
           v-model="relation"
           class="form-control"
         >
-          <option value="" selected disabled>Please select</option>
+          <option
+            value=""
+            selected
+            disabled
+          >
+            Please select
+          </option>
           <option
             v-for="(option) in relationOptions"
             :key="option"
@@ -68,7 +74,7 @@
         v-if="validating"
         class="validating"
       >
-        validating {{  validating }} ...
+        validating {{ validating }} ...
       </div>
       <div class="form-group row auth">
         <div
@@ -80,21 +86,52 @@
           </div>
           <div class="form-group">
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="authAndPass" v-model="existsAuthType">
-              <label class="form-check-label" for="exampleRadios1">
+              <input
+                id="exampleRadios1"
+                v-model="existsAuthType"
+                class="form-check-input"
+                type="radio"
+                name="exampleRadios"
+                value="authAndPass"
+              >
+              <label
+                class="form-check-label"
+                for="exampleRadios1"
+              >
                 {{ $t('related_accounts.auth_using_pass', { email }) }}
               </label>
             </div>
-            <div class="form-check auth__additional" v-if="existsAuthType === 'authAndPass'">
-              <input class="form-control" type="password" v-model="relatedPass" placeholder="Enter related user password">
+            <div
+              v-if="existsAuthType === 'authAndPass'"
+              class="form-check auth__additional"
+            >
+              <input
+                v-model="relatedPass"
+                class="form-control"
+                type="password"
+                placeholder="Enter related user password"
+              >
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="authAndEmail" v-model="existsAuthType">
-              <label class="form-check-label" for="exampleRadios2">
+              <input
+                id="exampleRadios2"
+                v-model="existsAuthType"
+                class="form-check-input"
+                type="radio"
+                name="exampleRadios"
+                value="authAndEmail"
+              >
+              <label
+                class="form-check-label"
+                for="exampleRadios2"
+              >
                 {{ $t('related_accounts.link_using_email') }}
               </label>
             </div>
-            <div class="form-check auth__additional" v-if="existsAuthType === 'authAndEmail'">
+            <div
+              v-if="existsAuthType === 'authAndEmail'"
+              class="form-check auth__additional"
+            >
               <p>
                 {{ $t('related_accounts.link_using_email_blurb', { email }) }}
               </p>
@@ -134,8 +171,19 @@
               </select>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked disabled>
-              <label class="form-check-label" for="exampleRadios1">
+              <input
+                id="exampleRadios1"
+                class="form-check-input"
+                type="radio"
+                name="exampleRadios"
+                value="option1"
+                checked
+                disabled
+              >
+              <label
+                class="form-check-label"
+                for="exampleRadios1"
+              >
                 {{ $t('related_accounts.create_account_and_email') }}
               </label>
             </div>
@@ -146,8 +194,18 @@
           class="auth__default"
         >
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" disabled>
-            <label class="form-check-label" for="exampleRadios1">
+            <input
+              id="exampleRadios1"
+              class="form-check-input"
+              type="radio"
+              name="exampleRadios"
+              value="option1"
+              disabled
+            >
+            <label
+              class="form-check-label"
+              for="exampleRadios1"
+            >
               {{ $t('related_accounts.authenticate') }} / {{ $t('related_accounts.invite') }}
             </label>
           </div>

@@ -4,22 +4,26 @@
     @close="$emit('close')"
   >
     <form
-      @submit.prevent="onFormSubmit"
       class="passwd container"
+      @submit.prevent="onFormSubmit"
     >
       <div class="form-group">
         <label for="new-password">New Password</label>
         <input
+          id="new-password"
           v-model="newPassword"
-          type="password" id="new-password" class="form-control"
-        />
+          type="password"
+          class="form-control"
+        >
       </div>
       <div class="form-group">
         <label for="confirm-new-password">Confirm New Password</label>
         <input
+          id="confirm-new-password"
           v-model="newConfirmedPassword"
-          type="password" id="confirm-new-password" class="form-control"
-        />
+          type="password"
+          class="form-control"
+        >
       </div>
       <div
         v-if="errMsg"

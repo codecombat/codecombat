@@ -5,23 +5,23 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let SandboxView;
-const RootComponent = require('views/core/RootComponent');
-const template = require('app/templates/base-flat');
-const SandboxViewComponent = require('./SandboxViewComponent.vue').default;
+let SandboxView
+const RootComponent = require('views/core/RootComponent')
+const template = require('app/templates/base-flat')
+const SandboxViewComponent = require('./SandboxViewComponent.vue').default
 
-module.exports = (SandboxView = (function() {
+module.exports = (SandboxView = (function () {
   SandboxView = class SandboxView extends RootComponent {
-    static initClass() {
-      this.prototype.id = 'sandbox-view';
-      this.prototype.template = template;
-      this.prototype.VueComponent = SandboxViewComponent;
+    static initClass () {
+      this.prototype.id = 'sandbox-view'
+      this.prototype.template = template
+      this.prototype.VueComponent = SandboxViewComponent
     }
 
-    constructor(options) {
-      super(options);
+    constructor (options) {
+      super(options)
     }
-  };
-  SandboxView.initClass();
-  return SandboxView;
-})());
+  }
+  SandboxView.initClass()
+  return SandboxView
+})())

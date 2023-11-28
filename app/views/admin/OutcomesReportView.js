@@ -7,30 +7,30 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let OutcomesReportView;
-const RootView = require('views/core/RootView');
-const template = require('app/templates/base-flat');
-const OutcomesReportComponent = Vue.extend(require('./OutcomesReportComponent.vue')['default']);
+let OutcomesReportView
+const RootView = require('views/core/RootView')
+const template = require('app/templates/base-flat')
+const OutcomesReportComponent = Vue.extend(require('./OutcomesReportComponent.vue').default)
 
-module.exports = (OutcomesReportView = (function() {
+module.exports = (OutcomesReportView = (function () {
   OutcomesReportView = class OutcomesReportView extends RootView {
-    static initClass() {
-      this.prototype.id = 'outcomes-report-view';
-      this.prototype.template = template;
+    static initClass () {
+      this.prototype.id = 'outcomes-report-view'
+      this.prototype.template = template
     }
 
-    afterRender() {
+    afterRender () {
       if (this.vueComponent != null) {
-        this.vueComponent.$destroy();
+        this.vueComponent.$destroy()
       }
       this.vueComponent = new OutcomesReportComponent({
-        data: {parentView: this},
+        data: { parentView: this },
         el: this.$el.find('#site-content-area')[0],
         store: this.store
-      });
-      return super.afterRender(...arguments);
+      })
+      return super.afterRender(...arguments)
     }
-  };
-  OutcomesReportView.initClass();
-  return OutcomesReportView;
-})());
+  }
+  OutcomesReportView.initClass()
+  return OutcomesReportView
+})())

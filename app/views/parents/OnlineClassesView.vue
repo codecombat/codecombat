@@ -18,14 +18,14 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'OnlineClassesView',
+  components: {
+    BodyComponent,
+    HeaderComponent
+  },
   props: {
     child: {
       type: Object
     }
-  },
-  components: {
-    BodyComponent,
-    HeaderComponent
   },
   computed: {
     ...mapGetters({

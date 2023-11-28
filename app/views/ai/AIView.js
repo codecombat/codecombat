@@ -22,12 +22,12 @@ const DirectContactModal = require('app/views/core/DirectContactModal').default
 
 module.exports = (AIView = (function () {
   AIView = class AIView extends RootView {
-    static initClass() {
+    static initClass () {
       this.prototype.id = 'ai-view'
       this.prototype.template = template
     }
 
-    afterInsert() {
+    afterInsert () {
       // Undo our 62.5% default HTML font-size here
       $('html').css('font-size', '16px')
       ai.AI({ domElement: this.$el.find('#ai-root')[0] })
@@ -35,7 +35,7 @@ module.exports = (AIView = (function () {
       return super.afterInsert()
     }
 
-    destroy() {
+    destroy () {
       // Redo our 62.5% default HTML font-size here
       $('html').css('font-size', '62.5%')
       window.handleAICreditLimitReached = null

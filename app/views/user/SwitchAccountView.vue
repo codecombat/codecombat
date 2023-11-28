@@ -82,6 +82,16 @@ export default {
       errMsg: null
     }
   },
+  async created () {
+    const related = me.get('related')
+    if (!related || related.length === 0) {
+      this.loading = false
+      return
+    }
+    this.relatedUsers = related
+    await this.fetchRelatedUsers()
+    this.loading = false
+  },
   methods: {
     async onAddSwitchAccount (body) {
       this.inProgress = $.t('related_accounts.adding')
@@ -132,16 +142,6 @@ export default {
       await usersLib.sendVerifyEmail({ userId, email })
       this.confirmEmailSentFor = email
     }
-  },
-  async created () {
-    const related = me.get('related')
-    if (!related || related.length === 0) {
-      this.loading = false
-      return
-    }
-    this.relatedUsers = related
-    await this.fetchRelatedUsers()
-    this.loading = false
   }
 }
 </script>

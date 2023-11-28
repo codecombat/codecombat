@@ -191,7 +191,7 @@
 
 </template>
 
-<script>
+<script> // eslint-disable-line vue/multi-word-component-names
 import BaseSchoolFacts from './BaseSchoolFacts'
 import OzariaStats from 'app/views/efficacy/OzariaStats'
 export default Vue.extend({
@@ -559,7 +559,7 @@ p, .text-p {
     min-height: 133px;
     margin-bottom: 20px;
     border-bottom: 2.59px $teal solid;
-    
+
   }
 
   h3 {

@@ -80,7 +80,7 @@
     flex-direction: column;
     justify-content: center;
   }
-  
+
   p {
     font-size: 14px;
     letter-spacing: 0.58px;
@@ -150,6 +150,5 @@ ul {
 .extra-bottom-margin{
   margin-bottom: 15px;
 }
-
 
 </style>

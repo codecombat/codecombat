@@ -1,94 +1,94 @@
 <script>
-  import { courses } from 'core/api'
-  import BaseModal from 'ozaria/site/components/common/BaseModal'
+import { courses } from 'core/api'
+import BaseModal from 'ozaria/site/components/common/BaseModal'
 
-  export default Vue.extend({
-    name: 'PartialUnitReleaseView',
+export default Vue.extend({
+  name: 'PartialUnitReleaseView',
 
-    data: () => ({
-      willUpdateCourse: null,
-      loading: false,
-      classrooms: [],
-      courseId: null
-    }),
+  components: {
+    BaseModal
+  },
 
-    methods: {
-      async onClickFetchClassrooms() {
-        if (!this.courseId) {
-          noty({
-            text: 'Course ID needs to be set',
-            type: 'error'
-          })
-          return
-        }
+  data: () => ({
+    willUpdateCourse: null,
+    loading: false,
+    classrooms: [],
+    courseId: null
+  }),
 
-        try {
-          this.loading = true
-          const classrooms = await courses.getAllClassroomLevels({ courseId: this.courseId })
-          this.loading = false
-          this.classrooms = classrooms[1] || [{ name: 'Nothing found' }]
-        } catch (e) {
-          noty({
-            text: 'Could not fetch classroom levels: ' + e.message,
-            type: 'error'
-          })
-        }
-      },
-      async onClickDryRun() {
-        if (!this.courseId) {
-          noty({
-            text: 'Course ID needs to be set',
-            type: 'error'
-          })
-          return
-        }
+  methods: {
+    async onClickFetchClassrooms () {
+      if (!this.courseId) {
+        noty({
+          text: 'Course ID needs to be set',
+          type: 'error'
+        })
+        return
+      }
 
-        try {
-          this.loading = true
-          const classrooms = await courses.addLevelsForAllClassroomsDryRun({ courseId: this.courseId })
-          this.classrooms = classrooms.wouldBeUpdated || [{ name: 'Nothing found' }]
-        } catch (e) {
-          noty({
-            text: 'Could not perform dry run: ' + e.message,
-            type: 'error'
-          })
-        }
-        this.loading = false
-      },
-      onClickUpdateClassrooms() {
-        if (!this.courseId) {
-          noty({
-            text: 'Course ID needs to be set',
-            type: 'error'
-          })
-          return
-        }
-
-        this.willUpdateCourse = this.courseId
-      },
-      async reallyUpdateClassrooms() {
-        const courseId = this.willUpdateCourse
-        this.willUpdateCourse = null
+      try {
         this.loading = true
-        try {
-          this.classrooms = await courses.addLevelsForAllClasses({ courseId })
-        } catch (e) {
-          noty({
-            text: 'Could not perform add levels for classrooms: ' + e.message,
-            type: 'error'
-          })
-        }
+        const classrooms = await courses.getAllClassroomLevels({ courseId: this.courseId })
         this.loading = false
-      },
-      cancelUpdate() {
-        this.willUpdateCourse = null
+        this.classrooms = classrooms[1] || [{ name: 'Nothing found' }]
+      } catch (e) {
+        noty({
+          text: 'Could not fetch classroom levels: ' + e.message,
+          type: 'error'
+        })
       }
     },
+    async onClickDryRun () {
+      if (!this.courseId) {
+        noty({
+          text: 'Course ID needs to be set',
+          type: 'error'
+        })
+        return
+      }
 
-    components: {
-      BaseModal
+      try {
+        this.loading = true
+        const classrooms = await courses.addLevelsForAllClassroomsDryRun({ courseId: this.courseId })
+        this.classrooms = classrooms.wouldBeUpdated || [{ name: 'Nothing found' }]
+      } catch (e) {
+        noty({
+          text: 'Could not perform dry run: ' + e.message,
+          type: 'error'
+        })
+      }
+      this.loading = false
+    },
+    onClickUpdateClassrooms () {
+      if (!this.courseId) {
+        noty({
+          text: 'Course ID needs to be set',
+          type: 'error'
+        })
+        return
+      }
+
+      this.willUpdateCourse = this.courseId
+    },
+    async reallyUpdateClassrooms () {
+      const courseId = this.willUpdateCourse
+      this.willUpdateCourse = null
+      this.loading = true
+      try {
+        this.classrooms = await courses.addLevelsForAllClasses({ courseId })
+      } catch (e) {
+        noty({
+          text: 'Could not perform add levels for classrooms: ' + e.message,
+          type: 'error'
+        })
+      }
+      this.loading = false
+    },
+    cancelUpdate () {
+      this.willUpdateCourse = null
     }
-  })
+  }
+})
 </script>
 
 <template>
@@ -97,7 +97,10 @@
     <div v-if="!$store.getters['me/isAdmin']">
       You must be logged in as an admin to view this page.
     </div>
-    <base-modal v-else-if="willUpdateCourse" class="confirmation-modal">
+    <base-modal
+      v-else-if="willUpdateCourse"
+      class="confirmation-modal"
+    >
       <template #header>
         <span class="text-capitalize status-text"> Are you ready to update the classrooms? </span>
       </template>
@@ -109,31 +112,73 @@
       </template>
 
       <template #footer>
-        <button class="ozaria-button ozaria-secondary-button" v-on:click="cancelUpdate" data-dismiss="modal">Cancel</button>
-        <button class="ozaria-button ozaria-primary-button" v-on:click="reallyUpdateClassrooms" data-dismiss="modal">Yes, let's do this!</button>
+        <button
+          class="ozaria-button ozaria-secondary-button"
+          data-dismiss="modal"
+          @click="cancelUpdate"
+        >
+          Cancel
+        </button>
+        <button
+          class="ozaria-button ozaria-primary-button"
+          data-dismiss="modal"
+          @click="reallyUpdateClassrooms"
+        >
+          Yes, let's do this!
+        </button>
       </template>
     </base-modal>
     <div v-else>
       <label>
-        <input type="text" class="form-control search-input" placeholder="Enter course id" v-model="courseId">
+        <input
+          v-model="courseId"
+          type="text"
+          class="form-control search-input"
+          placeholder="Enter course id"
+        >
       </label>
       <h3>
         Find classrooms with the course id (harmless operation :)):
       </h3>
-      <button @click="onClickFetchClassrooms" class="btn btn-primary">Search</button>
+      <button
+        class="btn btn-primary"
+        @click="onClickFetchClassrooms"
+      >
+        Search
+      </button>
       <h3>
         Do a dry run to see how many classes would be added (harmless operation :))
       </h3>
-      <button @click="onClickDryRun" class="btn btn-primary">Test</button>
+      <button
+        class="btn btn-primary"
+        @click="onClickDryRun"
+      >
+        Test
+      </button>
       <h3>
         Update levels for all classrooms with this course id. <b>Warning: This will update the database!</b>
       </h3>
-      <button @click="onClickUpdateClassrooms" class="btn btn-primary">Update all classrooms</button>
+      <button
+        class="btn btn-primary"
+        @click="onClickUpdateClassrooms"
+      >
+        Update all classrooms
+      </button>
 
-      <h4 v-if="loading">Loading...</h4>
-      <div v-else class="classroom-list">
-        <div v-for="classroom in classrooms" class="classroom-item">
-          <p class="classroom-item-title">name: {{ classroom.name }}</p>
+      <h4 v-if="loading">
+        Loading...
+      </h4>
+      <div
+        v-else
+        class="classroom-list"
+      >
+        <div
+          v-for="classroom in classrooms"
+          class="classroom-item"
+        >
+          <p class="classroom-item-title">
+            name: {{ classroom.name }}
+          </p>
           <p>_id: {{ classroom._id }}</p>
           <p>codeCamel: {{ classroom.codeCamel }}</p>
           <p>ownerID: {{ classroom.ownerID }}</p>
@@ -146,9 +191,13 @@
               <p>original: {{ level.original }}</p>
             </div>
           </div>
-          <p v-if="classroom.oldLevelCount">Total levels before: {{ classroom.oldLevelCount }}</p>
-          <p v-if="classroom.newLevelCount">Total levels after: {{ classroom.newLevelCount }}</p>
-          <div class="divider"></div>
+          <p v-if="classroom.oldLevelCount">
+            Total levels before: {{ classroom.oldLevelCount }}
+          </p>
+          <p v-if="classroom.newLevelCount">
+            Total levels after: {{ classroom.newLevelCount }}
+          </p>
+          <div class="divider" />
         </div>
       </div>
     </div>

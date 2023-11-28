@@ -89,7 +89,7 @@
                     img(:src="icon.img")
                   .title {{ icon.title }}
 
-    #course-outline.width-container.row 
+    #course-outline.width-container.row
       .col-lg-12
         .border-yellow
           .row
@@ -204,19 +204,12 @@
                 .question {{ $t('apcsp_marketing.question_3') }}
                 .answer(v-html="$t('apcsp_marketing.answer_3', i18nData)")
 
-
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 
 export default Vue.extend({
-  async created () {
-    this.me = me
-    if (me.isTeacher()) {
-      this.updateLicenseStatus()
-    }
-  },
   data () {
     return {
       icons: [
@@ -256,13 +249,13 @@ export default Vue.extend({
         {
           img: '/images/pages/apcsp/small-images/10-standards-aligned.png',
           title: $.i18n.t('apcsp_marketing.icons_standards_aligned')
-        },
+        }
       ],
       units: Array.from(Array(9).keys()).map((i) => ({
-            title: $.i18n.t(`apcsp_marketing.course_outline_unit_${i + 1}`),
-            course: $.i18n.t(`apcsp_marketing.course_outline_course_${i + 1}`),
-            description: $.i18n.t(`apcsp_marketing.course_outline_description_${i + 1}`)
-          })
+        title: $.i18n.t(`apcsp_marketing.course_outline_unit_${i + 1}`),
+        course: $.i18n.t(`apcsp_marketing.course_outline_course_${i + 1}`),
+        description: $.i18n.t(`apcsp_marketing.course_outline_description_${i + 1}`)
+      })
       ),
       i18nData: {
         course_overview: `<a href='https://apcentral.collegeboard.org/courses/ap-computer-science-principles/course' target='_blank'>${$.i18n.t('apcsp_marketing.course_overview')}</a>`,
@@ -271,6 +264,12 @@ export default Vue.extend({
         interpolation: { escapeValue: false }
       },
       hasLicense: false
+    }
+  },
+  async created () {
+    this.me = me
+    if (me.isTeacher()) {
+      this.updateLicenseStatus()
     }
   },
   computed: {
@@ -359,7 +358,6 @@ $apcsp-marketing-body-font: 'Arvo';
     font-size: 14px;
   }
 }
-
 
 .text-h5 {
   font-family: $apcsp-marketing-body-font;
@@ -496,7 +494,6 @@ p, .text-p {
 
       background: linear-gradient(118.13deg, $teal-dark 0%, $forest 100%);
 
-
       .row-request-access {
         padding-bottom: 72px;
       }
@@ -511,11 +508,9 @@ p, .text-p {
     }
   }
 
-
   .row-top-margin {
     margin-top: 30px;
   }
-
 
   .container-fluid-gradient {
     background: linear-gradient(90deg, $teal-dark 19.5%, $forest 110.94%);
@@ -690,7 +685,6 @@ p, .text-p {
     }
   }
 
-
   .row-eq-height {
     display: flex;
     flex-wrap: wrap;
@@ -710,7 +704,6 @@ p, .text-p {
     align-items: stretch;
   }
 
-
   .border-blue {
     border: 5px dashed $teal-dark;
     border-radius: 20px;
@@ -725,7 +718,6 @@ p, .text-p {
     @extend .border-blue;
     border-color: $yellow-dark;
   }
-
 
   #teachers-love-codecombat {
     margin-top: 90px;
@@ -791,7 +783,6 @@ p, .text-p {
       margin-top: 60px;
       margin-bottom: 45px;
     }
-
 
     .mcrel-blurb {
       font-family: 'Open Sans';
@@ -990,7 +981,6 @@ p, .text-p {
             height: 83px;
           }
 
-
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1128,7 +1118,6 @@ p, .text-p {
       }
     }
   }
-
 
   #explore-our-curriculum {
     margin-top: 90px;
@@ -1290,7 +1279,6 @@ p, .text-p {
       }
     }
   }
-
 
   .btn-shadow {
     filter: drop-shadow(0px 0px 20px #000000);

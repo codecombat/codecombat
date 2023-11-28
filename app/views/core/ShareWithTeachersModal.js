@@ -2,7 +2,7 @@ import ModalComponent from 'app/views/core/ModalComponent'
 import component from 'app/views/teachers/classes/ModalShareWithTeachers'
 
 class ShareWithTeachersModal extends ModalComponent {
-  constructor(options = {}) {
+  constructor (options = {}) {
     super(options)
     this.propsData = options.propsData
   }

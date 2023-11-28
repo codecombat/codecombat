@@ -6,7 +6,10 @@
       {{ libraryName || '' }}
     </div>
     <div class="library__desc">
-      {{ $t('library.welcome_dashboard') }}, <span v-if="libraryName" class="library__desc__name">{{ libraryName }}!</span> {{ $t('library.adjust_dates_explore') }}
+      {{ $t('library.welcome_dashboard') }}, <span
+        v-if="libraryName"
+        class="library__desc__name"
+      >{{ libraryName }}!</span> {{ $t('library.adjust_dates_explore') }}
     </div>
     <sidebar-component
       :stats="licenseStats"
@@ -31,16 +34,16 @@ const _ = require('lodash')
 
 export default {
   name: 'MainView',
+  components: {
+    SidebarComponent,
+    LibraryDataComponent
+  },
   data () {
     return {
       startDate: moment().subtract(3, 'months').format('YYYY-MM-DD'),
       endDate: moment().format('YYYY-MM-DD'),
       clientId: null
     }
-  },
-  components: {
-    SidebarComponent,
-    LibraryDataComponent
   },
   methods: {
     ...mapActions({

@@ -6,7 +6,10 @@
       v-if="isBDPartner"
       class="footer-cmpt-bd"
     >
-      {{ $t('payments.bd_help') }} <a href="mailto:partnerships@codecombat.com" class="footer-cmpt-bd__link">partnerships@codecombat.com</a>
+      {{ $t('payments.bd_help') }} <a
+        href="mailto:partnerships@codecombat.com"
+        class="footer-cmpt-bd__link"
+      >partnerships@codecombat.com</a>
     </div>
   </div>
 </template>

@@ -1,64 +1,94 @@
 <template>
   <div class="purchase-component">
     <div class="content">
-      <h2 class="price">{{this.getDisplayCurrency()}}{{this.getUnitPrice()}}</h2>
-      <p class="bold">Per Student Per Year</p>
+      <h2 class="price">
+        {{ getDisplayCurrency() }}{{ getUnitPrice() }}
+      </h2>
+      <p class="bold">
+        Per Student Per Year
+      </p>
       <div class="license-range-text">
         <payment-license-min-max-text-component
-          :min-licenses="this.getMinimumLicenses()"
-          :max-licenses="this.getMaximumLicenses()"
+          :min-licenses="getMinimumLicenses()"
+          :max-licenses="getMaximumLicenses()"
         />
       </div>
       <div class="license-number form-group">
         <select
-          :class="`form-control license-range-dropdown ${this.licenseSelectErrorClass}`"
+          :class="`form-control license-range-dropdown ${licenseSelectErrorClass}`"
           @change="updateNumberOfLicenses"
         >
-          <option value="" selected disabled>Number of licenses</option>
           <option
-            v-for="num in this.getLicenseDropdownRange()"
+            value=""
+            selected
+            disabled
+          >
+            Number of licenses
+          </option>
+          <option
+            v-for="num in getLicenseDropdownRange()"
             :key="num"
             :value="num"
           >
-            {{num}} Licenses - {{getDisplayCurrency()}}{{getPriceBasedOnAmount(num)}}
+            {{ num }} Licenses - {{ getDisplayCurrency() }}{{ getPriceBasedOnAmount(num) }}
           </option>
         </select>
       </div>
       <div class="buy-now">
-        <button type="button" class="btn btn-success btn-lg buy-now-btn" @click="onBuyNow">Buy Now</button>
-        <p class="small-text">Available for purchase one time annually</p>
-        <p v-if="showContactUs" class="small-text"><a href="#" @click="onContactUs">Contact Us</a> to purchase more</p>
-        <p class="error">{{errMsg}}</p>
+        <button
+          type="button"
+          class="btn btn-success btn-lg buy-now-btn"
+          @click="onBuyNow"
+        >
+          Buy Now
+        </button>
+        <p class="small-text">
+          Available for purchase one time annually
+        </p>
+        <p
+          v-if="showContactUs"
+          class="small-text"
+        >
+          <a
+            href="#"
+            @click="onContactUs"
+          >Contact Us</a> to purchase more
+        </p>
+        <p class="error">
+          {{ errMsg }}
+        </p>
       </div>
       <div class="features">
-        <p class="include">Includes</p>
+        <p class="include">
+          Includes
+        </p>
         <ul class="features-list">
           <li
             v-for="include in includesTextArray"
             :key="include.split(' ').join('-')"
           >
-            {{include}}
+            {{ include }}
           </li>
         </ul>
       </div>
     </div>
     <modal-get-licenses
       v-if="isContactModalVisible"
-      @close="isContactModalVisible = false"
       :email-message="contactUsText"
+      @close="isContactModalVisible = false"
     />
   </div>
 </template>
 
 <script>
-import PaymentLicenseMinMaxTextComponent from "../components/LicenseMinMaxTextComponent";
-import {getDisplayCurrency, getDisplayUnitPrice, handleCheckoutSession} from "../paymentPriceHelper";
-import ModalGetLicenses from "../../../components/common/ModalGetLicenses";
+import PaymentLicenseMinMaxTextComponent from '../components/LicenseMinMaxTextComponent'
+import { getDisplayCurrency, getDisplayUnitPrice, handleCheckoutSession } from '../paymentPriceHelper'
+import ModalGetLicenses from '../../../components/common/ModalGetLicenses'
 export default {
-  name: "PaymentStudentLicenseBuyNowComponent",
+  name: 'PaymentStudentLicenseBuyNowComponent',
   components: {
     PaymentLicenseMinMaxTextComponent,
-    ModalGetLicenses,
+    ModalGetLicenses
   },
   props: {
     priceInfo: {
@@ -66,60 +96,60 @@ export default {
       required: true
     },
     includesTextArray: {
-      type: Array,
+      type: Array
     },
     paymentGroupId: {
       type: String,
-      required: true,
+      required: true
     },
     showContactUs: Boolean,
-    contactUsText: String,
+    contactUsText: String
   },
-  data() {
+  data () {
     return {
       numOfLicenses: null,
       licenseSelectErrorClass: '',
       errMsg: '',
-      isContactModalVisible: false,
+      isContactModalVisible: false
     }
   },
   methods: {
-    getUnitPrice() {
-      return getDisplayUnitPrice(this.priceInfo.unit_amount);
+    getUnitPrice () {
+      return getDisplayUnitPrice(this.priceInfo.unit_amount)
     },
-    getDisplayCurrency() {
-      return getDisplayCurrency(this.priceInfo.currency);
+    getDisplayCurrency () {
+      return getDisplayCurrency(this.priceInfo.currency)
     },
-    getMinimumLicenses() {
+    getMinimumLicenses () {
       return parseInt(this.priceInfo.metadata.minLicenses)
     },
-    getMaximumLicenses() {
+    getMaximumLicenses () {
       return parseInt(this.priceInfo.metadata.licenseCap)
     },
-    getLicenseDropdownStart() {
+    getLicenseDropdownStart () {
       return this.getMinimumLicenses() || 1
     },
-    getLicenseDropdownEnd() {
+    getLicenseDropdownEnd () {
       return this.getMaximumLicenses() || 9
     },
-    getLicenseDropdownRange() {
+    getLicenseDropdownRange () {
       const range = []
       for (let i = this.getLicenseDropdownStart(); i <= this.getLicenseDropdownEnd(); i++) {
         range.push(i)
       }
       return range
     },
-    getPriceBasedOnAmount(amount) {
-      return (this.getUnitPrice() * amount).toFixed(2).replace(/\.00$/, "")
+    getPriceBasedOnAmount (amount) {
+      return (this.getUnitPrice() * amount).toFixed(2).replace(/\.00$/, '')
     },
-    updateNumberOfLicenses(e) {
+    updateNumberOfLicenses (e) {
       this.numOfLicenses = parseInt(e.target.value)
       this.licenseSelectErrorClass = ''
     },
-    totalAmountInDecimal() {
+    totalAmountInDecimal () {
       return this.priceInfo.unit_amount * this.numOfLicenses
     },
-    async onBuyNow(e) {
+    async onBuyNow (e) {
       e.preventDefault()
       if (!this.numOfLicenses) {
         this.licenseSelectErrorClass = 'dropdown-error'
@@ -131,16 +161,16 @@ export default {
         numberOfLicenses: this.numOfLicenses,
         email: me.get('email'),
         userId: me.get('_id'),
-        totalAmount: this.totalAmountInDecimal(),
+        totalAmount: this.totalAmountInDecimal()
       }
       const { errMsg } = await handleCheckoutSession(options)
       this.errMsg = errMsg
     },
-    onContactUs(e) {
+    onContactUs (e) {
       e.preventDefault()
       this.isContactModalVisible = true
     }
-  },
+  }
 }
 </script>
 

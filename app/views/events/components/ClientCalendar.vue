@@ -4,14 +4,20 @@
     <div class="split split-column" />
     <div id="event-details">
       <div class="title date event-details-title-bar">
-        <div :class="{myHide: eventsInDate.length <= 1 || eventIndexInDate == 0}" @click="nextClass(-1)">
+        <div
+          :class="{myHide: eventsInDate.length <= 1 || eventIndexInDate == 0}"
+          @click="nextClass(-1)"
+        >
           {{ "<" }}
         </div>
         <div>
           {{ date }}
         </div>
 
-        <div :class="{myHide: eventsInDate.length <= 1 || eventIndexInDate == eventsInDate.length - 1}" @click="nextClass(1)">
+        <div
+          :class="{myHide: eventsInDate.length <= 1 || eventIndexInDate == eventsInDate.length - 1}"
+          @click="nextClass(1)"
+        >
           {{ ">" }}
         </div>
       </div>
@@ -40,9 +46,15 @@
             {{ instanceStartTime(propsInstance.startDate) }}
           </div>
         </div>
-        <div class="event-link" v-if="propsInstance?.meetingLink">
+        <div
+          v-if="propsInstance?.meetingLink"
+          class="event-link"
+        >
           <div class="title">
-            <a :href="propsInstance?.meetingLink" target="_blank">
+            <a
+              :href="propsInstance?.meetingLink"
+              target="_blank"
+            >
               {{ $t('events.meetingLink') }}
             </a>
           </div>
@@ -218,7 +230,7 @@ export default {
         eventContent (info) {
           return {
             html: `<div class="ec-event-time">${info.timeText}</div>` +
-                  `<div class="ec-event-title" data-event-id="${info.event.id}">${info.event.title}</div>`
+              `<div class="ec-event-title" data-event-id="${info.event.id}">${info.event.title}</div>`
           }
         }
       }

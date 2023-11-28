@@ -1,22 +1,27 @@
 <template>
   <div
-    class="license__footer"
     v-if="classType === 'small-class'"
+    class="license__footer"
   >
     <div class="license__buy row">
       <div class="license__buy-once col-md-6">
         {{ $t('payments.purchase_annually') }}
       </div>
       <div class="col-md-offset-1 col-md-5">
-        <div class="license__buy-btn">{{ $t('subscribe.buy_now') }}</div>
+        <div class="license__buy-btn">
+          {{ $t('subscribe.buy_now') }}
+        </div>
       </div>
     </div>
   </div>
   <div
-    class="license__footer"
     v-else
+    class="license__footer"
   >
-    <div class="license__buy license__request row" v-if="numStudents === '<=10'">
+    <div
+      v-if="numStudents === '<=10'"
+      class="license__buy license__request row"
+    >
       <div class="license__buy-once col-md-6">
         {{ $t('payments.class_school_solution') }}
       </div>
@@ -26,21 +31,26 @@
         </div>
       </div>
     </div>
-    <div class="license__buy license__request license__bulk-only" v-else>
+    <div
+      v-else
+      class="license__buy license__request license__bulk-only"
+    >
       <div class="license__buy-once">
         {{ $t('payments.class_school_solution') }}
       </div>
       <div class="license__bulk-discount">
         <div class="license__bulk-discount-body">
-            <div class="license__price">
-              {{ $t('payments.bulk') }}
-            </div>
-            <div class="license__per">
-              <span class="license__per-student">{{ $t('payments.discounts') }}</span>
-              <span class="license__per-year">{{ $t('payments.available') }}</span>
-            </div>
+          <div class="license__price">
+            {{ $t('payments.bulk') }}
+          </div>
+          <div class="license__per">
+            <span class="license__per-student">{{ $t('payments.discounts') }}</span>
+            <span class="license__per-year">{{ $t('payments.available') }}</span>
+          </div>
         </div>
-        <div class="license__buy-btn license__bulk-only-request-quote cls2">{{ $t('payments.request_quote') }}</div>
+        <div class="license__buy-btn license__bulk-only-request-quote cls2">
+          {{ $t('payments.request_quote') }}
+        </div>
       </div>
     </div>
   </div>
@@ -53,13 +63,13 @@ export default {
     classType: {
       type: String,
       validator: (v) => {
-        return [ 'small-class', 'school-district' ].includes(v)
+        return ['small-class', 'school-district'].includes(v)
       }
     },
     numStudents: {
       type: String,
       validator: (v) => {
-        return [ '<=10', '10+' ].includes(v)
+        return ['<=10', '10+'].includes(v)
       }
     }
   }

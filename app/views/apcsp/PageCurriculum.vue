@@ -29,12 +29,12 @@
         .col.col-md-7.col-lg-8
           .border-yellow
             .college-board-image-container
-              img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")          
+              img(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")
             .row
               .col.col-lg-12.lesson-slides
                 h2.text-h2(v-html="$t('apcsp_curriculum.explore_each_unit')")
                 .lesson-slides__buttons
-                  a.btn.btn-primary.btn-lg.btn-shadow(v-for="(slide, index) in lesson_slides" :key="index" :href="slide.url" target="_blank") 
+                  a.btn.btn-primary.btn-lg.btn-shadow(v-for="(slide, index) in lesson_slides" :key="index" :href="slide.url" target="_blank")
                     span.prefix {{ slide.prefix }}
                     span.title(v-html="slide.title")
 
@@ -42,79 +42,79 @@
       .width-container.row
         .col-lg-12
           h2.text-h2 {{ $t('apcsp_curriculum.resources') }}
-        .col-lg-12    
+        .col-lg-12
           .row-boxes-container
             .resources-container
               .resources-container__box
                 h4.text-h4 College Board
-                ul 
-                  li 
+                ul
+                  li
                     a(href="https://apcentral.collegeboard.org/media/pdf/ap-computer-science-principles-course-and-exam-description.pdf" target="_blank") Course and Exam Description (CED)
-                  li 
+                  li
                     a(href="https://myap.collegeboard.org/" target="_blank") AP Classroom
-                  li 
+                  li
                     a(href="https://apcentral.collegeboard.org/courses/ap-course-audit" target="_blank") AP Course Audit
-                  li                  
+                  li
                     a(href="https://apcentral.collegeboard.org/" target="_blank") AP Central
-                  li 
+                  li
                     a(href="https://apcommunity.collegeboard.org/" target="_blank") Teacher Community
               .resources-container__box
                 h4.text-h4 CodeCombat
-                ul 
-                  li 
+                ul
+                  li
                     a(href="https://codecombat.com/" target="_blank") CodeCombat Login
-                  li 
+                  li
                     a(href="https://edapp.com" target="_blank") EdApp Login
-                  li 
+                  li
                     a(href="https://communityinviter.com/apps/codecombat/join-community" target="_blank") CodeCombat Community Slack Channel
-                  li 
-                    a(href="https://codecombat.com/podcast" target="_blank") EdTech Adventures -CodeCombat’s Podcast             
+                  li
+                    a(href="https://codecombat.com/podcast" target="_blank") EdTech Adventures -CodeCombat’s Podcast
               .resources-container__box
                 h4.text-h4 Recruitment
-                ul 
-                  li 
+                ul
+                  li
                     a(href="https://apcentral.collegeboard.org/courses/resources/ap-computer-science-recruitment-strategies" target="_blank") Recruitment Strategies
-                  li 
+                  li
                     a(href="https://drive.google.com/drive/folders/1Nrd70AtxGSdkwiWM2lsAsNrpstnmFnh3?usp=drive_link" target="_blank") Recruitment Flyers
-                  li 
+                  li
                     a(href="https://docs.google.com/document/d/1-LRofVdnEFUFVqzp3tXqFep7YxGCSZd88lsE5-JoA_s/edit?usp=sharing" target="_blank") Recruitment Letter
                     span (English + Spanish)
-                  li 
+                  li
                     a(href="https://docs.google.com/document/d/1GiEz1l7_deD4pdJlZno6s0X8rKNQLXXWVAjREsLNP40/edit?usp=sharing" target="_blank") My Recruitment Plan
               .resources-container__box
                 h4.text-h4 Create Task
-                ul 
-                  li 
+                ul
+                  li
                     a(href="https://docs.google.com/document/d/1-ar3rSXLXgqgfGmt5-DOTZuciGrgJ2wI1iadsIgyrgg/edit?usp=sharing" target="_blank") Written Response Handout
-                  li 
+                  li
                     a(href="https://apcentral.collegeboard.org/courses/ap-computer-science-principles/exam" target="_blank") Example Projects
-                  li 
+                  li
                     a(href="https://apcentral.collegeboard.org/media/pdf/ap22-sg-computer-science-principles.pdf" target="_blank") College Board’s Official Scoring Rubric
-                  li 
-                    a(href="https://drive.google.com/file/d/1UCnlnfGiDIT1bmSJUMBowBddG4Tkh64o/view?usp=sharing" target="_blank") College Board’s Student Handout 
+                  li
+                    a(href="https://drive.google.com/file/d/1UCnlnfGiDIT1bmSJUMBowBddG4Tkh64o/view?usp=sharing" target="_blank") College Board’s Student Handout
               .resources-container__box
                 h4.text-h4 Teaching Strategies
-                ul 
-                  li 
+                ul
+                  li
                     a(href="https://docs.google.com/document/d/1yEBvUSwyJ5bRPpZUslS-DU8IEmTeR6Bw6rfPDakocYI/edit?usp=sharing" target="_blank") Pair Programming Protocol
-                  li 
+                  li
                     a(href="https://docs.google.com/presentation/d/1Qtx_XOlqDLFlBfWVpqDeJU87MFe99Ks5KtEMJeJEnZo/edit?usp=sharing" target="_blank") Vocab Card Template
-                  li 
+                  li
                     a(href="https://docs.google.com/document/d/1vo3V4LUbTvBADIIZ9REPUbES5W2mFjORf4ZuZl0XTs4/edit?usp=sharing" target="_blank") Student Grouping Strategies
-                  li 
-                    a(href="https://docs.google.com/document/d/1hBSpxtjcd7DMGrsGIhgLXII2uGkRFBXy60qb89H7PiY/edit?usp=sharing" target="_blank") Interpersonal Skills Rubric                
+                  li
+                    a(href="https://docs.google.com/document/d/1hBSpxtjcd7DMGrsGIhgLXII2uGkRFBXy60qb89H7PiY/edit?usp=sharing" target="_blank") Interpersonal Skills Rubric
               .resources-container__box
                 h4.text-h4 More to Explore
-                ul 
-                  li 
+                ul
+                  li
                     a(href="https://docs.google.com/document/d/1_gY1r1MM0wP1vS_0ctsxzq025k3tZ7w8fxLaIffJH_4/edit?usp=drive_link" target="_blank") AP CSP Vocab Terms
-                  li 
+                  li
                     a(href="https://create.kahoot.it/groups/ed7457aa-8b38-4e17-81d9-2305533da20d/join?inviteCode=jfj71f9h3vm6mk6rdthc80922to250g9e2kikghked9v7i12ullnc98nl228jce2lhe8n90vurde" target="_blank") Kahoot! Quizzes
-                  li 
+                  li
                     a(href="https://apcentral.collegeboard.org/media/pdf/ap-computer-science-principles-exam-reference-sheet.pdf" target="_blank") Pseudocode Reference Sheet
-                  li 
+                  li
                     a(href="https://replit.com" target="_blank") Repl.it
-                  li 
+                  li
                     a(href="https://www.screencastify.com/get-started?gad=1&gclid=CjwKCAjwp6CkBhB_EiwAlQVyxRDyiZV_Iga9zBUn06cdmILnQYq8HYRuJRhyzrD9nLiUZZ_5MPzJIRoCXOYQAvD_BwE" target="_blank") Screencastify
 
     #more-information.container-fluid
@@ -135,15 +135,7 @@ export default Vue.extend({
   components: {
     'modal-apcsp-contact': ModalAPCSPContact
   },
-
-  async created() {
-    window.nextURL = window.location.href
-    this.me = me
-    if (me.isTeacher()) {
-      this.updateLicenseStatus()
-    }
-  },
-  data() {
+  data () {
     return {
       showModal: false,
       lesson_slides: [
@@ -230,7 +222,7 @@ export default Vue.extend({
         {
           img: '/images/pages/apcsp/small-images/10-standards-aligned.png',
           title: $.i18n.t('apcsp_marketing.icons_standards_aligned')
-        },
+        }
       ],
       units: Array.from(Array(9).keys()).map((i) => ({
         title: $.i18n.t(`apcsp_marketing.course_outline_unit_${i + 1}`),
@@ -241,11 +233,19 @@ export default Vue.extend({
       hasLicense: false
     }
   },
+
+  async created () {
+    window.nextURL = window.location.href
+    this.me = me
+    if (me.isTeacher()) {
+      this.updateLicenseStatus()
+    }
+  },
   computed: {
     ...mapGetters({
       teacherPrepaids: 'prepaids/getPrepaidsByTeacher'
     }),
-    i18nData() {
+    i18nData () {
       return {
         syllabus: `<a href='https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus${this.hasLicense ? '_FullAccess' : ''}.pdf' target='_blank'>${$.i18n.t('apcsp_curriculum.college_board_approved_syllabus')}</a>`,
         pacing_guide: `<a href='https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide${this.hasLicense ? '_Full' : ''}.pdf' target='_blank'>${$.i18n.t('apcsp_curriculum.pacing_guide')}</a>`,
@@ -259,7 +259,7 @@ export default Vue.extend({
     ...mapActions({
       fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher'
     }),
-    async updateLicenseStatus() {
+    async updateLicenseStatus () {
       if (me.isPaidTeacher()) {
         this.hasLicense = true
         return
@@ -343,7 +343,6 @@ $apcsp-marketing-body-font: 'Arvo';
     font-size: 14px;
   }
 }
-
 
 .text-h5 {
   font-family: $apcsp-marketing-body-font;
@@ -511,11 +510,9 @@ p,
     }
   }
 
-
   .row-top-margin {
     margin-top: 30px;
   }
-
 
   .container-fluid-gradient {
     background: linear-gradient(90deg, $teal-dark 19.5%, $forest 110.94%);
@@ -545,7 +542,6 @@ p,
       }
     }
   }
-
 
   .border-blue {
     border: 5px dashed $teal-dark;
@@ -655,7 +651,6 @@ p,
             justify-content: center;
             align-items: center;
             text-align: center;
-
 
             max-width: none;
             white-space: normal;
@@ -849,7 +844,7 @@ p,
       grid-template-columns: 1fr 1fr 1fr;
       gap: 45px;
 
-      // Let's keep 3 columns till the 992 breakpoint, 2 columns till the 768px 
+      // Let's keep 3 columns till the 992 breakpoint, 2 columns till the 768px
       @media (max-width: $screen-md) {
         grid-template-columns: 1fr 1fr;
       }
@@ -919,7 +914,6 @@ p,
     }
 
     .col-yellow-border {
-
 
       border: 2px solid #FCBB00;
       border-radius: 20px;
@@ -1057,11 +1051,9 @@ p,
       }
     }
 
-
   }
 
 }
-
 
 .bubble-img-container {
   position: relative;

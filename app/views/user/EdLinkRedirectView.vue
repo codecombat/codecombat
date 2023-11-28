@@ -1,12 +1,21 @@
 <template>
   <div class="text-center ed-link-redirect">
-    <div v-if="loggedIn" class="success">
+    <div
+      v-if="loggedIn"
+      class="success"
+    >
       Logged in, redirecting...
     </div>
-    <div v-else-if="!code" class="error">
+    <div
+      v-else-if="!code"
+      class="error"
+    >
       Login failed on LMS
     </div>
-    <div v-else-if="cocoLoginFailed" class="error">
+    <div
+      v-else-if="cocoLoginFailed"
+      class="error"
+    >
       Login failed on CodeCombat, please contact support@codecombat.com
     </div>
     <div v-else>

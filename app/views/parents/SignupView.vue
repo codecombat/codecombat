@@ -1,23 +1,31 @@
 <template>
   <div class="parent-signup">
     <div class="signup__image signup__image--1">
-      <img src="/images/pages/parents/personal_learning_3.png" alt="Personal learning image" class="signup__img img-responsive">
+      <img
+        src="/images/pages/parents/personal_learning_3.png"
+        alt="Personal learning image"
+        class="signup__img img-responsive"
+      >
     </div>
     <create-parent-account-component
       v-if="currentView === 'create-parent-account'"
-      @onParentAccountSubmit="onParentAccountSubmit"
       :initial-data="parentAccountData"
       :error-msg="errorMsg"
+      @onParentAccountSubmit="onParentAccountSubmit"
     />
     <create-child-account-component
       v-if="currentView === 'create-child-account'"
+      :initial-data="childAccountData"
       @backButtonClicked="onBackButtonClicked"
       @onChildAccountSubmit="onChildAccountSubmit"
       @existingAccountLinked="onExistingAccountLink"
-      :initial-data="childAccountData"
     />
     <div class="signup__image signup__image--2">
-      <img src="/images/pages/home-v2/loc-image.png" alt="Girl playing CodeCombat" class="signup__img img-responsive">
+      <img
+        src="/images/pages/home-v2/loc-image.png"
+        alt="Girl playing CodeCombat"
+        class="signup__img img-responsive"
+      >
     </div>
   </div>
 </template>
@@ -30,6 +38,13 @@ const User = require('../../models/User')
 
 export default {
   name: 'SignupView',
+  components: {
+    CreateParentAccountComponent,
+    CreateChildAccountComponent
+  },
+  mixins: [
+    createChildAccountMixin
+  ],
   data () {
     return {
       currentView: 'create-parent-account',
@@ -38,13 +53,6 @@ export default {
       errorMsg: null
     }
   },
-  components: {
-    CreateParentAccountComponent,
-    CreateChildAccountComponent
-  },
-  mixins: [
-    createChildAccountMixin
-  ],
   methods: {
     async onParentAccountSubmit (data) {
       this.parentAccountData = data

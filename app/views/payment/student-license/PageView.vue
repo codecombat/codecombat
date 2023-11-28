@@ -1,12 +1,12 @@
 <template>
   <div>
-    <template v-if="this.paymentGroup.subType === 'classroom-and-school-district'">
+    <template v-if="paymentGroup.subType === 'classroom-and-school-district'">
       <payment-student-license-classroom-district-view
         :price-info="paymentGroup.priceData[0]"
         :payment-group-id="paymentGroup._id"
       />
     </template>
-    <template v-else-if="this.paymentGroup.subType === 'home-school'">
+    <template v-else-if="paymentGroup.subType === 'home-school'">
       <payment-student-license-home-school-view
         :price-info="paymentGroup.priceData[0]"
         :payment-group-id="paymentGroup._id"
@@ -25,20 +25,20 @@
 <script>
 import PaymentStudentLicensesView from './StudentLicensesView'
 import PaymentStudentLicenseClassroomDistrictView from './ClassroomDistrictView'
-import PaymentStudentLicenseHomeSchoolView from "./HomeSchoolView";
+import PaymentStudentLicenseHomeSchoolView from './HomeSchoolView'
 export default {
-  name: "PaymentStudentLicensesComponent",
+  name: 'PaymentStudentLicensesComponent',
   components: {
     PaymentStudentLicensesView,
     PaymentStudentLicenseClassroomDistrictView,
-    PaymentStudentLicenseHomeSchoolView,
+    PaymentStudentLicenseHomeSchoolView
   },
   props: {
     paymentGroup: {
       type: Object,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 }
 </script>
 

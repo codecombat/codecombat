@@ -1,8 +1,8 @@
 <template>
   <div class="addon-body">
     <div
-      class="license__body-3 small-class__body-3"
       v-if="classType === 'small-class'"
+      class="license__body-3 small-class__body-3"
     >
       <div class="license__addon">
         <span class="license__addon-new">New!</span> <span class="license__addon-text">Paid Add-Ons:</span>
@@ -10,17 +10,24 @@
 
       <div class="license__addon-info">
         <div class="license__addon-info-heading">
-          <img src="/images/pages/payment/apple-green.png" alt="Apple logo" class="license__addon-info-apple">
+          <img
+            src="/images/pages/payment/apple-green.png"
+            alt="Apple logo"
+            class="license__addon-info-apple"
+          >
           <span class="license__addon-info-heading-text">Professional Development</span>
         </div>
         <div class="license__addon-info-subheading">
-          Comprehensive 40-hour online course that allows you to learn anytime, anywhere and at any pace. <a href="https://www.ozaria.com/professional-development" target="_blank">Learn More.</a>
+          Comprehensive 40-hour online course that allows you to learn anytime, anywhere and at any pace. <a
+            href="https://www.ozaria.com/professional-development"
+            target="_blank"
+          >Learn More.</a>
         </div>
       </div>
     </div>
     <div
-      class="school-district__body-3"
       v-else
+      class="school-district__body-3"
     >
       <div class="license__addon">
         <span class="license__addon-new">New!</span> <span class="license__addon-text">Paid Add-Ons:</span>
@@ -28,17 +35,29 @@
 
       <div class="license__addon-info">
         <div class="license__addon-info-heading">
-          <img src="/images/pages/payment/apple-green.png" alt="Apple logo" class="license__addon-info-apple">
+          <img
+            src="/images/pages/payment/apple-green.png"
+            alt="Apple logo"
+            class="license__addon-info-apple"
+          >
           <span class="license__addon-info-heading-text">{{ $t('nav.professional_development') }}</span>
         </div>
         <div class="license__addon-info-subheading">
-          {{ $t('payments.pd_info') }} <a href="https://www.ozaria.com/professional-development" target="_blank" @click.stop>Learn More.</a>
+          {{ $t('payments.pd_info') }} <a
+            href="https://www.ozaria.com/professional-development"
+            target="_blank"
+            @click.stop
+          >Learn More.</a>
         </div>
       </div>
 
       <div class="license__addon-info">
         <div class="license__addon-info-heading">
-          <img src="/images/pages/payment/desktop-green.png" alt="Training logo" class="license__addon-info-apple">
+          <img
+            src="/images/pages/payment/desktop-green.png"
+            alt="Training logo"
+            class="license__addon-info-apple"
+          >
           <span class="license__addon-info-heading-text">{{ $t('payments.implementation_training') }}</span>
         </div>
         <div class="license__addon-info-subheading">
@@ -48,14 +67,21 @@
 
       <div class="license__addon-info">
         <div class="license__addon-info-heading">
-          <img src="/images/pages/payment/league-green.png" alt="AI league logo" class="license__addon-info-apple">
+          <img
+            src="/images/pages/payment/league-green.png"
+            alt="AI league logo"
+            class="license__addon-info-apple"
+          >
           <span class="license__addon-info-heading-text">{{ $t('payments.ai_custom_tournament') }}</span>
         </div>
         <div class="license__addon-info-subheading">
-          {{ $t('payments.ai_league_info') }} <a href="https://codecombat.com/league" target="_blank" @click.stop>Learn More.</a>
+          {{ $t('payments.ai_league_info') }} <a
+            href="https://codecombat.com/league"
+            target="_blank"
+            @click.stop
+          >Learn More.</a>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -67,7 +93,7 @@ export default {
     classType: {
       type: String,
       validator: (v) => {
-        return [ 'small-class', 'school-district' ].includes(v)
+        return ['small-class', 'school-district'].includes(v)
       }
     }
   }

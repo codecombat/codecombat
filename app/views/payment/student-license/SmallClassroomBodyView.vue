@@ -9,30 +9,30 @@
 </template>
 
 <script>
-import PaymentStudentLicensePurchaseComponent from "./PurchaseComponent";
+import PaymentStudentLicensePurchaseComponent from './PurchaseComponent'
 export default {
-  name: "PaymentSmallClassroomBodyView",
+  name: 'PaymentSmallClassroomBodyView',
   components: {
-    PaymentStudentLicensePurchaseComponent,
+    PaymentStudentLicensePurchaseComponent
   },
-  data() {
+  props: {
+    priceInfo: {
+      type: Object,
+      required: true
+    },
+    paymentGroupId: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
     return {
       includesTextArray: [
         'Full access to CodeCombat and Ozaria',
         'Customer support via email or chat'
       ]
     }
-  },
-  props: {
-    priceInfo: {
-      type: Object,
-      required: true,
-    },
-    paymentGroupId: {
-      type: String,
-      required: true,
-    },
-  },
+  }
 }
 </script>
 
