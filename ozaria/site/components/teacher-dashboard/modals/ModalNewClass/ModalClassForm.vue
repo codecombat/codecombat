@@ -1,131 +1,131 @@
 <script>
-  import { validationMixin } from 'vuelidate'
-  import { required, requiredIf } from 'vuelidate/lib/validators'
-  import { mapActions, mapGetters } from 'vuex'
+import { validationMixin } from 'vuelidate'
+import { required, requiredIf } from 'vuelidate/lib/validators'
+import { mapActions, mapGetters } from 'vuex'
 
-  import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
+import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 
-  import ModalDivider from '../../../common/ModalDivider'
-  import ButtonGoogleClassroom from '../common/ButtonGoogleClassroom'
-  import SecondaryButton from '../../common/buttons/SecondaryButton'
-  import TertiaryButton from '../../common/buttons/TertiaryButton'
+import ModalDivider from '../../../common/ModalDivider'
+import ButtonGoogleClassroom from '../common/ButtonGoogleClassroom'
+import SecondaryButton from '../../common/buttons/SecondaryButton'
+import TertiaryButton from '../../common/buttons/TertiaryButton'
 
-  export default Vue.extend({
-    components: {
-      ModalDivider,
-      ButtonGoogleClassroom,
-      SecondaryButton,
-      TertiaryButton
+export default Vue.extend({
+  components: {
+    ModalDivider,
+    ButtonGoogleClassroom,
+    SecondaryButton,
+    TertiaryButton
+  },
+  mixins: [validationMixin],
+  data: () => ({
+    showGoogleClassroom: me.showGoogleClassroom(),
+    classLanguage: '',
+    className: '',
+    classGrades: [],
+    googleClassId: '',
+    googleClassrooms: null,
+    isGoogleClassroomForm: false,
+    googleSyncInProgress: false
+  }),
+  validations: {
+    className: {
+      required: requiredIf(function () { return !this.isGoogleClassroomForm })
     },
-    mixins: [validationMixin],
-    data: () => ({
-      showGoogleClassroom: me.showGoogleClassroom(),
-      classLanguage: '',
-      className: '',
-      classGrades: [],
-      googleClassId: '',
-      googleClassrooms: null,
-      isGoogleClassroomForm: false,
-      googleSyncInProgress: false
-    }),
-    validations: {
-      className: {
-        required: requiredIf(function () { return !this.isGoogleClassroomForm })
-      },
-      googleClassId: {
-        required: requiredIf(function () { return this.isGoogleClassroomForm })
-      },
-      classLanguage: {
-        required
-      },
-      classGrades: {
-        required
-      }
+    googleClassId: {
+      required: requiredIf(function () { return this.isGoogleClassroomForm })
     },
-    computed: {
-      ...mapGetters({
-        courses: 'courses/sorted'
-      }),
-      isFormValid () {
-        return !this.$v.$invalid
-      },
-      googleClassroomDisabled () {
-        return !me.googleClassroomEnabled()
-      }
+    classLanguage: {
+      required
     },
-    methods: {
-      ...mapActions({
-        createClassroom: 'classrooms/createClassroom',
-        createFreeCourseInstances: 'courseInstances/createFreeCourseInstances'
-      }),
-      updateGrades (event) {
-        const grade = event.target.name
-        if (this.classGrades.includes(grade)) {
-          this.classGrades.splice(this.classGrades.indexOf(grade), 1)
-        } else {
-          this.classGrades.push(grade)
-        }
-        this.$v.classGrades.$touch()
-      },
-      async onClickDone () {
-        if (this.isFormValid) {
-          const eventLabel = this.isGoogleClassroomForm ? 'Google classroom' : 'Manual'
-          window.tracker?.trackEvent('Add New Class: Create Clicked', { category: 'Teachers', label: eventLabel })
-          const classOptions = {
-            aceConfig: {
-              language: this.classLanguage
-            },
-            name: this.className,
-            grades: this.classGrades
-          }
-          if (this.isGoogleClassroomForm) {
-            classOptions.googleClassroomId = this.googleClassId
-            classOptions.name = this.googleClassrooms.find((c) => c.id === this.googleClassId).name
-          }
-          try {
-            const classroom = await this.createClassroom(classOptions)
-            await this.createFreeCourseInstances({ classroom: classroom, courses: this.courses })
-            if (this.isGoogleClassroomForm) {
-              await GoogleClassroomHandler.markAsImported(this.googleClassId)
-              GoogleClassroomHandler.importStudentsToClassroom(classroom)
-                .then((importedMembers) => {
-                  if (importedMembers.length > 0) {
-                    console.debug('Students imported to classroom:', importedMembers)
-                  }
-                })
-                .catch((e) => {
-                  noty({ text: 'Error in importing students', layout: 'topCenter', type: 'error', timeout: 2000 })
-                })
-            }
-            window.tracker?.trackEvent('Add New Class: Create Successful', { category: 'Teachers', label: eventLabel })
-            this.$emit('done', classroom)
-          } catch (e) {
-            console.error(e)
-            noty({ type: 'error', text: 'Error during classroom creation', layout: 'topCenter', timeout: 2000 })
-          }
-        }
-      },
-      async linkGoogleClassroom () {
-        window.tracker?.trackEvent('Add New Class: Link Google Classroom Clicked', { category: 'Teachers' })
-        this.googleSyncInProgress = true
-        await new Promise((resolve, reject) =>
-          application.gplusHandler.loadAPI({
-            success: resolve,
-            error: reject
-          }))
-        GoogleClassroomHandler.importClassrooms()
-          .then(() => {
-            this.googleClassrooms = me.get('googleClassrooms').filter((c) => !c.importedToOzaria && !c.deletedFromGC)
-            this.isGoogleClassroomForm = true
-            window.tracker?.trackEvent('Add New Class: Link Google Classroom Successful', { category: 'Teachers' })
-          })
-          .catch((e) => {
-            noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
-          })
-        this.googleSyncInProgress = false
-      }
+    classGrades: {
+      required
     }
-  })
+  },
+  computed: {
+    ...mapGetters({
+      courses: 'courses/sorted'
+    }),
+    isFormValid () {
+      return !this.$v.$invalid
+    },
+    googleClassroomDisabled () {
+      return !me.googleClassroomEnabled()
+    }
+  },
+  methods: {
+    ...mapActions({
+      createClassroom: 'classrooms/createClassroom',
+      createFreeCourseInstances: 'courseInstances/createFreeCourseInstances'
+    }),
+    updateGrades (event) {
+      const grade = event.target.name
+      if (this.classGrades.includes(grade)) {
+        this.classGrades.splice(this.classGrades.indexOf(grade), 1)
+      } else {
+        this.classGrades.push(grade)
+      }
+      this.$v.classGrades.$touch()
+    },
+    async onClickDone () {
+      if (this.isFormValid) {
+        const eventLabel = this.isGoogleClassroomForm ? 'Google classroom' : 'Manual'
+        window.tracker?.trackEvent('Add New Class: Create Clicked', { category: 'Teachers', label: eventLabel })
+        const classOptions = {
+          aceConfig: {
+            language: this.classLanguage
+          },
+          name: this.className,
+          grades: this.classGrades
+        }
+        if (this.isGoogleClassroomForm) {
+          classOptions.googleClassroomId = this.googleClassId
+          classOptions.name = this.googleClassrooms.find((c) => c.id === this.googleClassId).name
+        }
+        try {
+          const classroom = await this.createClassroom(classOptions)
+          await this.createFreeCourseInstances({ classroom, courses: this.courses })
+          if (this.isGoogleClassroomForm) {
+            await GoogleClassroomHandler.markAsImported(this.googleClassId)
+            GoogleClassroomHandler.importStudentsToClassroom(classroom)
+              .then((importedMembers) => {
+                if (importedMembers.length > 0) {
+                  console.debug('Students imported to classroom:', importedMembers)
+                }
+              })
+              .catch((e) => {
+                noty({ text: 'Error in importing students', layout: 'topCenter', type: 'error', timeout: 2000 })
+              })
+          }
+          window.tracker?.trackEvent('Add New Class: Create Successful', { category: 'Teachers', label: eventLabel })
+          this.$emit('done', classroom)
+        } catch (e) {
+          console.error(e)
+          noty({ type: 'error', text: 'Error during classroom creation', layout: 'topCenter', timeout: 2000 })
+        }
+      }
+    },
+    async linkGoogleClassroom () {
+      window.tracker?.trackEvent('Add New Class: Link Google Classroom Clicked', { category: 'Teachers' })
+      this.googleSyncInProgress = true
+      await new Promise((resolve, reject) =>
+        application.gplusHandler.loadAPI({
+          success: resolve,
+          error: reject
+        }))
+      GoogleClassroomHandler.importClassrooms()
+        .then(() => {
+          this.googleClassrooms = me.get('googleClassrooms').filter((c) => !c.importedToOzaria && !c.deletedFromGC)
+          this.isGoogleClassroomForm = true
+          window.tracker?.trackEvent('Add New Class: Link Google Classroom Successful', { category: 'Teachers' })
+        })
+        .catch((e) => {
+          noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
+        })
+      this.googleSyncInProgress = false
+    }
+  }
+})
 </script>
 
 <template>

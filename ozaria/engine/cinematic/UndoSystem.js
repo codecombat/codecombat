@@ -45,7 +45,7 @@ class UndoSystem {
   // command state.
   pushUsedForwardCommands (playedCommands) {
     if (!Array.isArray(playedCommands)) {
-      throw new Error(`Undo system has exploded. Expected array of commands and got: ${typeof playedCommands} - ${playedCommands}`, )
+      throw new Error(`Undo system has exploded. Expected array of commands and got: ${typeof playedCommands} - ${playedCommands}`)
     }
     this.undoCommandStack.push(playedCommands)
   }

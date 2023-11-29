@@ -1,57 +1,57 @@
 
 <script>
-  import LicenseCard from './common/LicenseCard'
-  import PrimaryButton from '../common/buttons/PrimaryButton'
-  import { mapGetters } from 'vuex'
-  import ButtonResourceIcon from '../BaseResourceHub/components/ButtonResourceIcon'
+import LicenseCard from './common/LicenseCard'
+import PrimaryButton from '../common/buttons/PrimaryButton'
+import { mapGetters } from 'vuex'
+import ButtonResourceIcon from '../BaseResourceHub/components/ButtonResourceIcon'
 
-  export default {
-    components: {
-      LicenseCard,
-      PrimaryButton,
-      ButtonResourceIcon
+export default {
+  components: {
+    LicenseCard,
+    PrimaryButton,
+    ButtonResourceIcon
+  },
+  props: {
+    activeLicenses: {
+      type: Array,
+      required: true,
+      default: () => []
     },
-    props: {
-      activeLicenses: {
-        type: Array,
-        required: true,
-        default: () => []
-      },
-      expiredLicenses: {
-        type: Array,
-        required: true,
-        default: () => []
-      },
-      teacherId: {
-        type: String,
-        required: true
-      },
-      displayOnly: { // sent from DSA
-        type: Boolean,
-        default: false
+    expiredLicenses: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
+    teacherId: {
+      type: String,
+      required: true
+    },
+    displayOnly: { // sent from DSA
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    ...mapGetters({
+      getUserById: 'users/getUserById',
+      getTrackCategory: 'teacherDashboard/getTrackCategory'
+    }),
+    howToLicensesResourceData () {
+      return {
+        icon: 'Slides',
+        label: 'How To: Manage Licenses',
+        link: 'https://docs.google.com/presentation/d/1SfM5ZMjae8wm8HESHoXXO0wBnKJmJD53BgtG9XwVW9k/edit?usp=sharing'
       }
-    },
-    computed: {
-      ...mapGetters({
-        getUserById: 'users/getUserById',
-        getTrackCategory: 'teacherDashboard/getTrackCategory'
-      }),
-      howToLicensesResourceData () {
-        return {
-          icon: 'Slides',
-          label: 'How To: Manage Licenses',
-          link: 'https://docs.google.com/presentation/d/1SfM5ZMjae8wm8HESHoXXO0wBnKJmJD53BgtG9XwVW9k/edit?usp=sharing'
-        }
-      }
-    },
-    methods: {
-      trackEvent (eventName) {
-        if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: this.getTrackCategory })
-        }
+    }
+  },
+  methods: {
+    trackEvent (eventName) {
+      if (eventName) {
+        window.tracker?.trackEvent(eventName, { category: this.getTrackCategory })
       }
     }
   }
+}
 </script>
 
 <template>
@@ -85,7 +85,10 @@
       </div>
     </div>
     <div class="license-cards">
-      <div class="active-licenses row" v-if="activeLicenses.length > 0">
+      <div
+        v-if="activeLicenses.length > 0"
+        class="active-licenses row"
+      >
         <span class="col-md-12"> {{ $t("teacher_licenses.active_licenses") }} </span>
         <license-card
           v-for="license in activeLicenses"
@@ -103,7 +106,10 @@
           @stats="$emit('stats', license)"
         />
       </div>
-      <div class="expired-licenses row" v-if="expiredLicenses.length > 0">
+      <div
+        v-if="expiredLicenses.length > 0"
+        class="expired-licenses row"
+      >
         <span class="col-md-12"> {{ $t("teacher_licenses.expired_licenses") }} </span>
         <license-card
           v-for="license in expiredLicenses"

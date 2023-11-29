@@ -1,75 +1,75 @@
 <script>
-  import { mapMutations, mapGetters } from 'vuex'
-  import { validationMixin } from 'vuelidate'
-  import { getSchoolFormFieldsConfig } from '../common/signUpConfig'
-  import { SCHOOL_NCES_KEYS } from '../common/constants'
-  import { schoolLocationInfoValidations, validationMessages } from '../common/signUpValidations'
+import { mapMutations, mapGetters } from 'vuex'
+import { validationMixin } from 'vuelidate'
+import { getSchoolFormFieldsConfig } from '../common/signUpConfig'
+import { SCHOOL_NCES_KEYS } from '../common/constants'
+import { schoolLocationInfoValidations, validationMessages } from '../common/signUpValidations'
 
-  export default {
-    mixins: [validationMixin],
-    data: function () {
-      let ncesData = {}
-      let formData = {}
-      let ncesKeys = []
+export default {
+  mixins: [validationMixin],
+  data: function () {
+    let ncesData = {}
+    let formData = {}
+    const ncesKeys = []
+    SCHOOL_NCES_KEYS.forEach(key => {
+      ncesKeys.push('nces_' + key, '')
+    })
+    ncesData = _.zipObject(ncesKeys)
+    formData = _.pick(this.$store.state.teacherSignup.trialRequestProperties, ncesKeys.concat(['organization', 'district', 'city', 'state']))
+
+    return _.assign(ncesData, formData, {
+      validationMessages,
+      isChinaServer: window.features.china
+    })
+  },
+
+  validations () {
+    return schoolLocationInfoValidations(this.country, this.role, this.isChinaServer)
+  },
+
+  computed: {
+    ...mapGetters({
+      trialReqProps: 'teacherSignup/getTrialRequestProperties'
+    }),
+
+    country () {
+      return this.trialReqProps.country
+    },
+
+    role () {
+      return this.trialReqProps.role
+    },
+
+    formFieldClasses () {
+      return getSchoolFormFieldsConfig(this.country, this.role, this.isChinaServer)
+    },
+
+    isFormValid () {
+      return !this.$v.$invalid
+    }
+  },
+
+  watch: {
+    isFormValid (val) {
+      this.$emit('validityChange', val)
+    }
+  },
+
+  methods: {
+    ...mapMutations({
+      updateTrialRequestProperties: 'teacherSignup/updateTrialRequestProperties'
+    }),
+
+    onChangeValue () {
+      const attrs = _.pick(this, 'organization', 'district', 'city', 'state')
       SCHOOL_NCES_KEYS.forEach(key => {
-        ncesKeys.push('nces_' + key, '')
+        const ncesKey = 'nces_' + key
+        attrs[ncesKey] = this[ncesKey].toString()
       })
-      ncesData = _.zipObject(ncesKeys)
-      formData = _.pick(this.$store.state.teacherSignup.trialRequestProperties, ncesKeys.concat([ 'organization', 'district', 'city', 'state' ]))
-
-      return _.assign(ncesData, formData, {
-        validationMessages,
-        isChinaServer: window.features.china
-      })
-    },
-
-    validations () {
-      return schoolLocationInfoValidations(this.country, this.role, this.isChinaServer)
-    },
-
-    computed: {
-      ...mapGetters({
-        trialReqProps: 'teacherSignup/getTrialRequestProperties'
-      }),
-
-      country () {
-        return this.trialReqProps.country
-      },
-
-      role () {
-        return this.trialReqProps.role
-      },
-
-      formFieldClasses () {
-        return getSchoolFormFieldsConfig(this.country, this.role, this.isChinaServer)
-      },
-
-      isFormValid () {
-        return !this.$v.$invalid
-      }
-    },
-
-    watch: {
-      isFormValid (val) {
-        this.$emit('validityChange', val)
-      }
-    },
-
-    methods: {
-      ...mapMutations({
-        updateTrialRequestProperties: 'teacherSignup/updateTrialRequestProperties'
-      }),
-
-      onChangeValue () {
-        const attrs = _.pick(this, 'organization', 'district', 'city', 'state')
-        SCHOOL_NCES_KEYS.forEach(key => {
-          const ncesKey = 'nces_' + key
-          attrs[ncesKey] = this[ncesKey].toString()
-        })
-        this.updateTrialRequestProperties(attrs)
-      }
+      this.updateTrialRequestProperties(attrs)
     }
   }
+}
 </script>
 
 <template lang="pug">

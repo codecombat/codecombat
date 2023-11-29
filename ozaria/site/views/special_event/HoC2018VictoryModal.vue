@@ -64,38 +64,38 @@ module.exports = Vue.extend({
       type: String
     }
   },
-  data: function() {
+  data: function () {
     return {
-      firstName: "",
-      lastInitial: "",
-      teacherEmail: ""
-    };
-  },
-  methods: {
-    getCertificate: function(e) {
-      this.navigateCertificate(this.name, this.teacherEmail, this.shareURL);
-    },
-    copyShareURL: function() {
-      document.querySelector("#shareable").select();
-      try {
-        document.execCommand("copy");
-      } catch (err) {
-        message = "Oops, unable to copy";
-        noty({
-          text: message,
-          layout: "topCenter",
-          type: "error",
-          killer: false
-        });
-      }
+      firstName: '',
+      lastInitial: '',
+      teacherEmail: ''
     }
   },
   computed: {
-    name: function() {
-      return this.fullName || `${this.firstName} ${this.lastInitial}`;
+    name: function () {
+      return this.fullName || `${this.firstName} ${this.lastInitial}`
+    }
+  },
+  methods: {
+    getCertificate: function (e) {
+      this.navigateCertificate(this.name, this.teacherEmail, this.shareURL)
+    },
+    copyShareURL: function () {
+      document.querySelector('#shareable').select()
+      try {
+        document.execCommand('copy')
+      } catch (err) {
+        const message = 'Oops, unable to copy'
+        noty({
+          text: message,
+          layout: 'topCenter',
+          type: 'error',
+          killer: false
+        })
+      }
     }
   }
-});
+})
 </script>
 
 <style lang="sass">

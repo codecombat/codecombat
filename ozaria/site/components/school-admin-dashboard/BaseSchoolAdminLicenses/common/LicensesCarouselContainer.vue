@@ -1,10 +1,10 @@
 <script>
-  import ScrollArrow from 'ozaria/site/components/teacher-dashboard/common/buttons/ScrollArrow'
-  export default {
-    components: {
-      ScrollArrow
-    }
+import ScrollArrow from 'ozaria/site/components/teacher-dashboard/common/buttons/ScrollArrow'
+export default {
+  components: {
+    ScrollArrow
   }
+}
 </script>
 
 <template>
@@ -14,11 +14,27 @@
   >
     <!-- Indicators -->
     <ol class="carousel-indicators">
-      <li data-target="#licenses-carousel-div" data-slide-to="0" class="active" />
-      <li data-target="#licenses-carousel-div" data-slide-to="1"/>
-      <li data-target="#licenses-carousel-div" data-slide-to="2"/>
-      <li data-target="#licenses-carousel-div" data-slide-to="3"/>
-      <li data-target="#licenses-carousel-div" data-slide-to="4"/>
+      <li
+        data-target="#licenses-carousel-div"
+        data-slide-to="0"
+        class="active"
+      />
+      <li
+        data-target="#licenses-carousel-div"
+        data-slide-to="1"
+      />
+      <li
+        data-target="#licenses-carousel-div"
+        data-slide-to="2"
+      />
+      <li
+        data-target="#licenses-carousel-div"
+        data-slide-to="3"
+      />
+      <li
+        data-target="#licenses-carousel-div"
+        data-slide-to="4"
+      />
     </ol>
 
     <!-- Wrapper for slides -->
@@ -26,7 +42,10 @@
       <div class="item active">
         <div class="item-row">
           <div>
-            <img src="/images/ozaria/school-admins/dashboard/my_licenses/Device_1.png" class="computer">
+            <img
+              src="/images/ozaria/school-admins/dashboard/my_licenses/Device_1.png"
+              class="computer"
+            >
           </div>
           <div class="text-part-carousel">
             <span class="subtitle-24 text-twilight"> {{ $t("no_licenses_page.real_world_skills") }} </span>
@@ -43,7 +62,10 @@
       <div class="item">
         <div class="item-row">
           <div>
-            <img src="/images/ozaria/school-admins/dashboard/my_licenses/Device_2.png" class="computer">
+            <img
+              src="/images/ozaria/school-admins/dashboard/my_licenses/Device_2.png"
+              class="computer"
+            >
           </div>
           <div class="text-part-carousel">
             <span class="subtitle-24 text-twilight"> {{ $t("no_licenses_page.personalized_learning") }} </span>
@@ -56,7 +78,10 @@
       <div class="item">
         <div class="item-row">
           <div>
-            <img src="/images/ozaria/school-admins/dashboard/my_licenses/Device_3.png" class="computer">
+            <img
+              src="/images/ozaria/school-admins/dashboard/my_licenses/Device_3.png"
+              class="computer"
+            >
           </div>
           <div class="text-part-carousel">
             <span class="subtitle-24 text-twilight"> {{ $t("no_licenses_page.flexible_curriculum") }} </span>
@@ -69,7 +94,10 @@
       <div class="item">
         <div class="item-row">
           <div>
-            <img src="/images/ozaria/school-admins/dashboard/my_licenses/Device_4.png" class="computer">
+            <img
+              src="/images/ozaria/school-admins/dashboard/my_licenses/Device_4.png"
+              class="computer"
+            >
           </div>
           <div class="text-part-carousel">
             <span class="subtitle-24 text-twilight"> {{ $t("no_licenses_page.resources_to_support") }} </span>
@@ -82,7 +110,10 @@
       <div class="item">
         <div class="item-row">
           <div>
-            <img src="/images/ozaria/school-admins/dashboard/my_licenses/Device_5.png" class="computer">
+            <img
+              src="/images/ozaria/school-admins/dashboard/my_licenses/Device_5.png"
+              class="computer"
+            >
           </div>
           <div class="text-part-carousel">
             <span class="subtitle-24 text-twilight"> {{ $t("no_licenses_page.actionable_insights") }} </span>

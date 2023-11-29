@@ -4,149 +4,148 @@ import { mapGetters } from 'vuex'
 import utils from 'core/utils'
 
 export default Vue.extend({
-    props: {
-      levelData: {
-        type: Object,
-        required: true
-      },
-      courseId: {
-        type: String,
-        default: undefined
-      },
-      courseInstanceId: {
-        type: String,
-        default: undefined
-      },
-      codeLanguage: {
-        type: String,
-        default: undefined
-      }
+  props: {
+    levelData: {
+      type: Object,
+      required: true
     },
+    courseId: {
+      type: String,
+      default: undefined
+    },
+    courseInstanceId: {
+      type: String,
+      default: undefined
+    },
+    codeLanguage: {
+      type: String,
+      default: undefined
+    }
+  },
 
-    data: () => ({
-      levelType: '',
-      levelStatus: '',
-      levelStatusText: '',
-      levelIcon: {},
-      concepts: ''
+  data: () => ({
+    levelType: '',
+    levelStatus: '',
+    levelStatusText: '',
+    levelIcon: {},
+    concepts: ''
+  }),
+
+  computed: {
+    ...mapGetters({
+      isTeacher: 'me/isTeacher'
     }),
 
-    computed: {
-      ...mapGetters({
-        isTeacher: 'me/isTeacher'
-      }),
+    isCutsceneLevel: function () {
+      if (this.levelData.type !== 'intro') {
+        return false
+      }
+      const introContent = this.levelData.introContent
+      return introContent.length === 1 && introContent[0].type === 'cutscene-video'
+    },
 
-      isCutsceneLevel: function () {
-        if (this.levelData.type !== 'intro') {
-          return false
-        }
-        const introContent = this.levelData.introContent
-        return introContent.length === 1 && introContent[0].type === 'cutscene-video'
-      },
+    levelDotPosition: function () {
+      const position = {
+        left: this.levelData.position.x + '%',
+        bottom: this.levelData.position.y + '%'
+      }
+      return position
+    },
 
-      levelDotPosition: function () {
-        let position = {
-          left: this.levelData.position.x + '%',
-          bottom: this.levelData.position.y + '%'
-        }
-        return position
-      },
-
-      levelDotClasses: function () {
-        return {
-          locked: this.levelData.locked,
-          next: this.levelData.next
-        }
-      },
-
-      playLevelLink: function () {
-        if (this.levelData.locked) { return '#' }
-
-        const nextLevelOptions = {
-          courseId: this.courseId,
-          courseInstanceId: this.courseInstanceId,
-          codeLanguage: this.codeLanguage
-        }
-
-        const link = getNextLevelLink(this.levelData, nextLevelOptions)
-        return link || '#'
-      },
-
-      displayName: function () {
-        return utils.i18n(this.levelData, 'displayName') || utils.i18n(this.levelData, 'name')
+    levelDotClasses: function () {
+      return {
+        locked: this.levelData.locked,
+        next: this.levelData.next
       }
     },
 
-    created () {
-      this.setLevelTypeAndIcon()
-      this.setLevelStatus()
-      this.setLevelConcepts()
+    playLevelLink: function () {
+      if (this.levelData.locked) { return '#' }
+
+      const nextLevelOptions = {
+        courseId: this.courseId,
+        courseInstanceId: this.courseInstanceId,
+        codeLanguage: this.codeLanguage
+      }
+
+      const link = getNextLevelLink(this.levelData, nextLevelOptions)
+      return link || '#'
     },
 
-    methods: {
-      setLevelTypeAndIcon () {
-        let type = this.levelData.ozariaType
-        if (type === 'practice') {
-          this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_practice.png'
-          this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_practice.png'
-          this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_practice.png'
-        } else if (type === 'challenge') {
-          this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_challenge.png'
-          this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_challenge.png'
-          this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_challenge.png'
-        } else if (this.isCutsceneLevel) {
-          type = 'cutscene'
-          this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_cutscene.png'
-          this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_cutscene.png'
-          this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_cutscene.png'
-        } else if (type === 'capstone') {
-          this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_capstone.png'
-          this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_capstone.png'
-          this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_capstone.png'
-        } else if (this.levelData.type === 'intro') {
-          type = 'intro'
-          this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_intro.png'
-          this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_intro.png'
-          this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_intro.png'
-        } else {
-          // Using practice as the default values
-          this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_practice.png'
-          this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_practice.png'
-          this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_practice.png'
+    displayName: function () {
+      return utils.i18n(this.levelData, 'displayName') || utils.i18n(this.levelData, 'name')
+    }
+  },
+
+  created () {
+    this.setLevelTypeAndIcon()
+    this.setLevelStatus()
+    this.setLevelConcepts()
+  },
+
+  methods: {
+    setLevelTypeAndIcon () {
+      let type = this.levelData.ozariaType
+      if (type === 'practice') {
+        this.levelIcon.Complete = '/images/ozaria/unit-map/complete_practice.png'
+        this.levelIcon.Locked = '/images/ozaria/unit-map/locked_practice.png'
+        this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_practice.png'
+      } else if (type === 'challenge') {
+        this.levelIcon.Complete = '/images/ozaria/unit-map/complete_challenge.png'
+        this.levelIcon.Locked = '/images/ozaria/unit-map/locked_challenge.png'
+        this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_challenge.png'
+      } else if (this.isCutsceneLevel) {
+        type = 'cutscene'
+        this.levelIcon.Complete = '/images/ozaria/unit-map/complete_cutscene.png'
+        this.levelIcon.Locked = '/images/ozaria/unit-map/locked_cutscene.png'
+        this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_cutscene.png'
+      } else if (type === 'capstone') {
+        this.levelIcon.Complete = '/images/ozaria/unit-map/complete_capstone.png'
+        this.levelIcon.Locked = '/images/ozaria/unit-map/locked_capstone.png'
+        this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_capstone.png'
+      } else if (this.levelData.type === 'intro') {
+        type = 'intro'
+        this.levelIcon.Complete = '/images/ozaria/unit-map/complete_intro.png'
+        this.levelIcon.Locked = '/images/ozaria/unit-map/locked_intro.png'
+        this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_intro.png'
+      } else {
+        // Using practice as the default values
+        this.levelIcon.Complete = '/images/ozaria/unit-map/complete_practice.png'
+        this.levelIcon.Locked = '/images/ozaria/unit-map/locked_practice.png'
+        this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_practice.png'
+      }
+      this.levelType = internationalizeLevelType(type)
+    },
+    setLevelStatus () {
+      if (this.levelData.locked) {
+        this.levelStatus = 'Locked'
+        this.levelStatusText = $.i18n.t('play_level.level_status_locked')
+        if (this.levelData.optional) {
+          this.levelStatusText = $.i18n.t('play_level.level_status_skipped')
         }
-        this.levelType = internationalizeLevelType(type)
-      },
-      setLevelStatus () {
-        if (this.levelData.locked) {
-          this.levelStatus = 'Locked'
-          this.levelStatusText = $.i18n.t('play_level.level_status_locked')
-          if(this.levelData.optional) {
-            this.levelStatusText = $.i18n.t('play_level.level_status_skipped')
-          }
-        } else if (this.levelData.next || !this.levelData.complete) {
-          this.levelStatus = 'In Progress'
-          if(this.levelData.started) {
-            this.levelStatusText = $.i18n.t('play_level.level_status_in_progress')
+      } else if (this.levelData.next || !this.levelData.complete) {
+        this.levelStatus = 'In Progress'
+        if (this.levelData.started) {
+          this.levelStatusText = $.i18n.t('play_level.level_status_in_progress')
+        } else {
+          if (this.levelData.optional) {
+            this.levelStatusText = $.i18n.t('play_level.level_status_optional')
           } else {
-            if (this.levelData.optional) {
-              this.levelStatusText = $.i18n.t('play_level.level_status_optional')
-            } else {
-              this.levelStatusText = $.i18n.t('play_level.level_status_unlocked')
-            }
+            this.levelStatusText = $.i18n.t('play_level.level_status_unlocked')
           }
-          
-        } else {
-          this.levelStatus = 'Complete'
-          this.levelStatusText = $.i18n.t('play_level.level_status_complete')
         }
-      },
-      setLevelConcepts () {
-        if ((this.levelData.concepts || []).length > 0) {
-          this.concepts = this.levelData.concepts
-        }
+      } else {
+        this.levelStatus = 'Complete'
+        this.levelStatusText = $.i18n.t('play_level.level_status_complete')
+      }
+    },
+    setLevelConcepts () {
+      if ((this.levelData.concepts || []).length > 0) {
+        this.concepts = this.levelData.concepts
       }
     }
-  })
+  }
+})
 </script>
 
 <template>
@@ -185,7 +184,7 @@ export default Vue.extend({
             </div>
 
             <div class="level-status">
-              {{ $t("play_level.level_status") }}: {{levelStatusText}}
+              {{ $t("play_level.level_status") }}: {{ levelStatusText }}
             </div>
           </div>
         </div>

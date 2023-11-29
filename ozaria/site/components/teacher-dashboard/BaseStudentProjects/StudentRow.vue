@@ -1,84 +1,84 @@
 <script>
-  import ProgressDot from '../common/progress/progressDot'
-  import CapstoneCodeComponent from '../common/CapstoneCodeComponent'
-  export default {
-    components: {
-      'progress-dot': ProgressDot,
-      'capstone-code-component': CapstoneCodeComponent
+import ProgressDot from '../common/progress/progressDot'
+import CapstoneCodeComponent from '../common/CapstoneCodeComponent'
+export default {
+  components: {
+    'progress-dot': ProgressDot,
+    'capstone-code-component': CapstoneCodeComponent
+  },
+  props: {
+    studentName: {
+      type: String,
+      default: '',
+      required: true
     },
-    props: {
-      studentName: {
-        type: String,
-        default: '',
-        required: true
-      },
-      status: {
-        type: String,
-        default: '',
-        required: true
-      },
-      code: {
-        type: String,
-        default: ''
-      },
-      language: {
-        type: String,
-        default: ''
-      },
-      projectUrl: {
-        type: String,
-        default: ''
-      },
-      goals: {
-        type: Array,
-        default: () => []
-      },
-      trackCategory: {
-        type: String,
-        default: ''
+    status: {
+      type: String,
+      default: '',
+      required: true
+    },
+    code: {
+      type: String,
+      default: ''
+    },
+    language: {
+      type: String,
+      default: ''
+    },
+    projectUrl: {
+      type: String,
+      default: ''
+    },
+    goals: {
+      type: Array,
+      default: () => []
+    },
+    trackCategory: {
+      type: String,
+      default: ''
+    }
+  },
+  data: () => {
+    return {
+      codeContainerVisible: false
+    }
+  },
+  computed: {
+    arrowDirection () {
+      if (this.codeContainerVisible) {
+        return { 'arrow-up': true }
+      } else {
+        return { 'arrow-down': true }
       }
     },
-    data: () => {
-      return {
-        codeContainerVisible: false
-      }
+    inactiveAccordion () {
+      return !this.status || this.status.length === 0
     },
-    computed: {
-      arrowDirection () {
+    viewProjectIconName () {
+      if (this.inactiveAccordion) {
+        return 'IconViewProject_Gray'
+      } else {
+        return 'IconViewProject_Blue'
+      }
+    }
+  },
+  methods: {
+    clickArrow () {
+      if (!this.inactiveAccordion) {
+        this.codeContainerVisible = !this.codeContainerVisible
         if (this.codeContainerVisible) {
-          return { 'arrow-up': true }
-        } else {
-          return { 'arrow-down': true }
-        }
-      },
-      inactiveAccordion () {
-        return !this.status || this.status.length === 0
-      },
-      viewProjectIconName () {
-        if (this.inactiveAccordion) {
-          return 'IconViewProject_Gray'
-        } else {
-          return 'IconViewProject_Blue'
+          window.tracker?.trackEvent('Student Projects: View Student Code Arrow Opened', { category: this.trackCategory || 'Teachers' })
         }
       }
     },
-    methods: {
-      clickArrow () {
-        if (!this.inactiveAccordion) {
-          this.codeContainerVisible = !this.codeContainerVisible
-          if (this.codeContainerVisible) {
-            window.tracker?.trackEvent('Student Projects: View Student Code Arrow Opened', { category: this.trackCategory || 'Teachers' })
-          }
-        }
-      },
-      openProjectUrl () {
-        if (!this.inactiveAccordion && this.projectUrl) {
-          window.tracker?.trackEvent('Student Projects: View Project Clicked', { category: this.trackCategory || 'Teachers' })
-          window.open(this.projectUrl, '_blank')
-        }
+    openProjectUrl () {
+      if (!this.inactiveAccordion && this.projectUrl) {
+        window.tracker?.trackEvent('Student Projects: View Project Clicked', { category: this.trackCategory || 'Teachers' })
+        window.open(this.projectUrl, '_blank')
       }
     }
   }
+}
 </script>
 
 <template>

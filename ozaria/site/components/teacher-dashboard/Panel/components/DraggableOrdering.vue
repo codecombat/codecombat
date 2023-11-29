@@ -1,24 +1,27 @@
 <script>
-  export default {
-    props: {
-      panelSessionContent: {
-        type: Object,
-        required: true
-      }
-    },
+export default {
+  props: {
+    panelSessionContent: {
+      type: Object,
+      required: true
+    }
+  },
 
-    computed: {
-      cssVariables () {
-        return {
-          '--cols': `${this.panelSessionContent.solutionText?.length || 0}`
-        }
+  computed: {
+    cssVariables () {
+      return {
+        '--cols': `${this.panelSessionContent.solutionText?.length || 0}`
       }
     }
   }
+}
 </script>
 
 <template>
-  <div class="draggable-ordering" :style="cssVariables">
+  <div
+    class="draggable-ordering"
+    :style="cssVariables"
+  >
     <div class="prompt">
       <h4>Prompt: {{ ` ${panelSessionContent.prompt}` }}</h4>
     </div>
@@ -31,8 +34,13 @@
       >
         <p>{{ text }}</p>
       </div>
-      <h4 class="solution">Solution</h4>
-      <div v-for="{ text } in panelSessionContent.solutionText" :key="`${text}-sol`">
+      <h4 class="solution">
+        Solution
+      </h4>
+      <div
+        v-for="{ text } in panelSessionContent.solutionText"
+        :key="`${text}-sol`"
+      >
         <p>{{ text }}</p>
       </div>
       <div class="spacer" />

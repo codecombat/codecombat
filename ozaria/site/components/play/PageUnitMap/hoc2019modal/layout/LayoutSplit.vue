@@ -13,26 +13,34 @@ export default {
   <div class="flex-container">
     <div class="left-side">
       <div class="back-row">
-        <a v-if="showBackButton" @click="() => $emit('back')">
-          <img class="back-arrow" src="/images/pages/modal/hoc2019/BackArrow_Dusk.png"/>
+        <a
+          v-if="showBackButton"
+          @click="() => $emit('back')"
+        >
+          <img
+            class="back-arrow"
+            src="/images/pages/modal/hoc2019/BackArrow_Dusk.png"
+          >
           <span class="back-text">Back</span>
         </a>
       </div>
       <div class="ozaria-header">
-        <img src="/images/pages/modal/hoc2019/whiteOzariaWordmark.png" />
+        <img src="/images/pages/modal/hoc2019/whiteOzariaWordmark.png">
         <h3>{{ $t('hoc_2019.heading') }}</h3>
-        <div class="yellow-bar"></div>
+        <div class="yellow-bar" />
       </div>
-      <img class="spirit-lands" src="/images/pages/modal/hoc2019/SpiritLandReveal.png" />
-      <slot name="aside"></slot>
-      <div class="flex-spacer"></div>
+      <img
+        class="spirit-lands"
+        src="/images/pages/modal/hoc2019/SpiritLandReveal.png"
+      >
+      <slot name="aside" />
+      <div class="flex-spacer" />
     </div>
     <div class="right-side">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
-
 
 <style lang="scss" scoped>
 @import "app/styles/bootstrap/variables";

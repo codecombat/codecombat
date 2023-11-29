@@ -1,84 +1,90 @@
 <script>
-    import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
-    export default {
-      props: {
-        backButtonLink: {
-          type: String,
-          required: true
-        }
-      },
-
-      data () {
-        return {
-          showAccountDropdown: false
-        }
-      },
-
-      computed: {
-        ...mapGetters({
-          isAnonymous: 'me/isAnonymous'
-        })
-      },
-
-      methods: {
-        onMyAccountClicked () {
-          this.showAccountDropdown = !this.showAccountDropdown
-        },
-
-        onBackToDashboard () {
-          return application.router.navigate(this.backButtonLink, { trigger: true })
-        },
-
-        onAccountSettings () {
-          return application.router.navigate('/account/settings', { trigger: true })
-        },
-
-        onLogout () {
-          return application.router.navigate('/logout', { trigger: true })
-        }
-      }
+export default {
+  props: {
+    backButtonLink: {
+      type: String,
+      required: true
     }
+  },
+
+  data () {
+    return {
+      showAccountDropdown: false
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      isAnonymous: 'me/isAnonymous'
+    })
+  },
+
+  methods: {
+    onMyAccountClicked () {
+      this.showAccountDropdown = !this.showAccountDropdown
+    },
+
+    onBackToDashboard () {
+      return application.router.navigate(this.backButtonLink, { trigger: true })
+    },
+
+    onAccountSettings () {
+      return application.router.navigate('/account/settings', { trigger: true })
+    },
+
+    onLogout () {
+      return application.router.navigate('/logout', { trigger: true })
+    }
+  }
+}
 </script>
 
 <template>
-    <nav class="unit-map-nav">
-        <ul class="unit-map-navbar">
-            <li v-if="!isAnonymous" class="account-icon">
-                <img src="/images/ozaria/unit-map/account_generic.png" />
-            </li>
-            <li v-if="!isAnonymous">
-                <button @click="onMyAccountClicked">
-                    {{ $t('nav.my_account') }}
-                    <span :class="{ caret: true, flip: showAccountDropdown }"></span>
-                </button>
+  <nav class="unit-map-nav">
+    <ul class="unit-map-navbar">
+      <li
+        v-if="!isAnonymous"
+        class="account-icon"
+      >
+        <img src="/images/ozaria/unit-map/account_generic.png">
+      </li>
+      <li v-if="!isAnonymous">
+        <button @click="onMyAccountClicked">
+          {{ $t('nav.my_account') }}
+          <span :class="{ caret: true, flip: showAccountDropdown }" />
+        </button>
 
-                <ul v-if="showAccountDropdown" class="dropdown">
-                    <li>
-                        <button @click="onAccountSettings">
-                            {{ $t('play.account_settings') }}
-                        </button>
-                    </li>
-                    <li>
-                        <button @click="onLogout">
-                            {{ $t('common.logout') }}
-                        </button>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <button @click="$emit('customizeHero')">
-                    {{ $t('play.customize_hero') }}
-                </button>
-            </li>
-            <li>
-                <button @click="onBackToDashboard">
-                    <span v-if="isAnonymous"> {{ $t("play.back_to_ozaria") }} </span>
-                    <span v-else> {{ $t("play.back_to_dashboard") }} </span>
-                </button>
-            </li>
+        <ul
+          v-if="showAccountDropdown"
+          class="dropdown"
+        >
+          <li>
+            <button @click="onAccountSettings">
+              {{ $t('play.account_settings') }}
+            </button>
+          </li>
+          <li>
+            <button @click="onLogout">
+              {{ $t('common.logout') }}
+            </button>
+          </li>
         </ul>
-    </nav>
+      </li>
+      <li>
+        <button @click="$emit('customizeHero')">
+          {{ $t('play.customize_hero') }}
+        </button>
+      </li>
+      <li>
+        <button @click="onBackToDashboard">
+          <span v-if="isAnonymous"> {{ $t("play.back_to_ozaria") }} </span>
+          <span v-else> {{ $t("play.back_to_dashboard") }} </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <style scoped lang="scss">

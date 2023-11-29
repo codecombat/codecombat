@@ -1,30 +1,30 @@
 
 <script>
-  export default {
-    props: {
-      iconName: {
-        type: String,
-        required: false,
-        default: ''
-      },
-      text: {
-        type: String,
-        required: true,
-        default: ''
-      },
-      inactive: {
-        type: Boolean,
-        default: false
-      }
+export default {
+  props: {
+    iconName: {
+      type: String,
+      required: false,
+      default: ''
     },
-    methods: {
-      onClick () {
-        if (!this.inactive) {
-          this.$emit('click')
-        }
+    text: {
+      type: String,
+      required: true,
+      default: ''
+    },
+    inactive: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    onClick () {
+      if (!this.inactive) {
+        this.$emit('click')
       }
     }
   }
+}
 </script>
 
 <template>
@@ -34,7 +34,10 @@
     :disabled="inactive"
     @click="onClick"
   >
-    <img v-if="iconName" :src="'/images/ozaria/teachers/dashboard/svg_icons/'+iconName+'.svg'">
+    <img
+      v-if="iconName"
+      :src="'/images/ozaria/teachers/dashboard/svg_icons/'+iconName+'.svg'"
+    >
     <span> {{ text }} </span>
   </div>
 </template>

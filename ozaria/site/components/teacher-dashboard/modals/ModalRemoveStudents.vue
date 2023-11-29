@@ -1,48 +1,48 @@
 <script>
-  import { mapGetters, mapActions, mapMutations } from 'vuex'
-  import Modal from '../../common/Modal'
-  import SecondaryButton from '../common/buttons/SecondaryButton'
-  import TertiaryButton from '../common/buttons/TertiaryButton'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
+import Modal from '../../common/Modal'
+import SecondaryButton from '../common/buttons/SecondaryButton'
+import TertiaryButton from '../common/buttons/TertiaryButton'
 
-  export default Vue.extend({
-    components: {
-      Modal,
-      SecondaryButton,
-      TertiaryButton
-    },
+export default Vue.extend({
+  components: {
+    Modal,
+    SecondaryButton,
+    TertiaryButton
+  },
 
-    computed: {
-      ...mapGetters({
-        classroom: 'teacherDashboard/getCurrentClassroom',
-        selectedStudentIds: 'baseSingleClass/selectedStudentIds'
-      })
-    },
+  computed: {
+    ...mapGetters({
+      classroom: 'teacherDashboard/getCurrentClassroom',
+      selectedStudentIds: 'baseSingleClass/selectedStudentIds'
+    })
+  },
 
-    created () {
-      if (!Array.isArray(this.selectedStudentIds) || this.selectedStudentIds.length === 0) {
-        noty({ text: `You need to select student(s) first before performing that action.`, layout: 'center', type: 'information', killer: true, timeout: 8000 })
-        this.$emit('close')
-      }
-      if (!this.classroom) {
-        console.error('Classroom not set')
-        this.$emit('close')
-      }
-    },
-
-    methods: {
-      ...mapActions({
-        removeMembersFromClassroom: 'classrooms/removeMembersFromClassroom'
-      }),
-      ...mapMutations({
-        clearSelectedStudents: 'baseSingleClass/clearSelectedStudents'
-      }),
-      async removeStudents () {
-        await this.removeMembersFromClassroom({ classroom: this.classroom, memberIds: this.selectedStudentIds })
-        this.clearSelectedStudents()
-        this.$emit('close')
-      }
+  created () {
+    if (!Array.isArray(this.selectedStudentIds) || this.selectedStudentIds.length === 0) {
+      noty({ text: 'You need to select student(s) first before performing that action.', layout: 'center', type: 'information', killer: true, timeout: 8000 })
+      this.$emit('close')
     }
-  })
+    if (!this.classroom) {
+      console.error('Classroom not set')
+      this.$emit('close')
+    }
+  },
+
+  methods: {
+    ...mapActions({
+      removeMembersFromClassroom: 'classrooms/removeMembersFromClassroom'
+    }),
+    ...mapMutations({
+      clearSelectedStudents: 'baseSingleClass/clearSelectedStudents'
+    }),
+    async removeStudents () {
+      await this.removeMembersFromClassroom({ classroom: this.classroom, memberIds: this.selectedStudentIds })
+      this.clearSelectedStudents()
+      this.$emit('close')
+    }
+  }
+})
 </script>
 
 <template>
@@ -54,9 +54,15 @@
       <div class="remove-students-info">
         <span class="sub-title"> Are you sure you want to remove (this student / these students) from your class? </span>
         <ul class="info-list">
-          <li class="list-item"> If licenses are applied, remember to revoke them before removing students in order to apply them to other students. </li>
-          <li class="list-item"> Student(s) will lose access to this classroom and assigned chapters. </li>
-          <li class="list-item"> Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time. </li>
+          <li class="list-item">
+            If licenses are applied, remember to revoke them before removing students in order to apply them to other students.
+          </li>
+          <li class="list-item">
+            Student(s) will lose access to this classroom and assigned chapters.
+          </li>
+          <li class="list-item">
+            Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.
+          </li>
         </ul>
       </div>
       <div class="buttons">

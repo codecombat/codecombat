@@ -4,35 +4,35 @@ import SecondaryButton from '../common/buttons/SecondaryButton'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo'
 
 export default Vue.extend({
-    components: {
-      Modal,
-      BaseCloudflareVideo,
-      SecondaryButton
-    },
-    data: () => {
-      const videoId = '7897f22d74442c9d41bde91857339382'  // cloudflare id
-      return {
-        videoId,
-        thumbnailUrl: `https://videodelivery.net/${videoId}/thumbnails/thumbnail.jpg?time=1.000s`
-      }
-    },
-
-    methods: {
-      trackEvent(eventName) {
-        if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: 'Teachers' })
-        }
-      },
-      onClose() {
-        this.trackEvent('Welcome Video: Modal Closed')
-        this.$emit('close')
-      },
-      onClickResourceHub () {
-        this.trackEvent('Welcome Video: Modal Clicked Resource Hub')
-        this.$emit('close')
-      }
+  components: {
+    Modal,
+    BaseCloudflareVideo,
+    SecondaryButton
+  },
+  data: () => {
+    const videoId = '7897f22d74442c9d41bde91857339382' // cloudflare id
+    return {
+      videoId,
+      thumbnailUrl: `https://videodelivery.net/${videoId}/thumbnails/thumbnail.jpg?time=1.000s`
     }
-  })
+  },
+
+  methods: {
+    trackEvent (eventName) {
+      if (eventName) {
+        window.tracker?.trackEvent(eventName, { category: 'Teachers' })
+      }
+    },
+    onClose () {
+      this.trackEvent('Welcome Video: Modal Closed')
+      this.$emit('close')
+    },
+    onClickResourceHub () {
+      this.trackEvent('Welcome Video: Modal Clicked Resource Hub')
+      this.$emit('close')
+    }
+  }
+})
 </script>
 
 <template>
@@ -41,7 +41,10 @@ export default Vue.extend({
     @close="onClose"
   >
     <div class="onboarding-video-modal">
-      <span class="sub-title"> Watch this brief video for best practices and tips on how to make the most of your dashboard. You can always re-watch it in the <a href="/teachers/resources" @click="onClickResourceHub"> Teacher Toolkit. </a> </span>
+      <span class="sub-title"> Watch this brief video for best practices and tips on how to make the most of your dashboard. You can always re-watch it in the <a
+        href="/teachers/resources"
+        @click="onClickResourceHub"
+      > Teacher Toolkit. </a> </span>
       <div class="video">
         <base-cloudflare-video
           :video-cloudflare-id="videoId"

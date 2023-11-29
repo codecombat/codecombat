@@ -1,88 +1,88 @@
 <script>
-  import { mapMutations } from 'vuex'
-  import { validationMixin } from 'vuelidate'
-  import utils from 'app/core/utils'
-  import { getEducatorRoles } from './common/signUpConfig'
-  import { SCHOOL_NCES_KEYS } from './common/constants'
-  import { validationMessages, roleInfoValidations } from './common/signUpValidations'
-  import SecondaryButton from '../../teacher-dashboard/common/buttons/SecondaryButton'
+import { mapMutations } from 'vuex'
+import { validationMixin } from 'vuelidate'
+import utils from 'app/core/utils'
+import { getEducatorRoles } from './common/signUpConfig'
+import { SCHOOL_NCES_KEYS } from './common/constants'
+import { validationMessages, roleInfoValidations } from './common/signUpValidations'
+import SecondaryButton from '../../teacher-dashboard/common/buttons/SecondaryButton'
 
-  const countryList = require('country-list')()
+const countryList = require('country-list')()
 
-  export default {
-    metaInfo: {
-      meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }]
-    },
-    components: {
-      SecondaryButton
-    },
-    mixins: [validationMixin],
-    data: () => ({
-      countriesList: countryList.getNames(),
-      country: '',
-      role: '',
-      roleOptions: getEducatorRoles(me.showChinaRegistration()),
-      validationMessages
+export default {
+  metaInfo: {
+    meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }]
+  },
+  components: {
+    SecondaryButton
+  },
+  mixins: [validationMixin],
+  data: () => ({
+    countriesList: countryList.getNames(),
+    country: '',
+    role: '',
+    roleOptions: getEducatorRoles(me.showChinaRegistration()),
+    validationMessages
+  }),
+
+  validations: roleInfoValidations,
+
+  computed: {
+    isFormValid () {
+      return !this.$v.$invalid
+    }
+  },
+
+  watch: {
+    isFormValid (val) {
+      this.$emit('validityChange', val)
+    }
+  },
+
+  mounted () {
+    // Set default value for country
+    const userCountry = (utils.countries || []).find((c) => c.country === me.get('country'))?.countryCode
+    if (userCountry) {
+      this.country = countryList.getName(userCountry)
+      this.updateTrialRequestProperties({ country: this.country })
+    }
+  },
+
+  methods: {
+    ...mapMutations({
+      updateTrialRequestProperties: 'teacherSignup/updateTrialRequestProperties'
     }),
 
-    validations: roleInfoValidations,
-
-    computed: {
-      isFormValid () {
-        return !this.$v.$invalid
-      }
+    onChangeValue (event) {
+      const attrs = {}
+      attrs[event.target.name] = event.target.value
+      this.updateTrialRequestProperties(attrs)
+      this.clearSchoolInfoFormValues() // since different properties are needed for different country-role combinations, reset the school form to fill it again
     },
 
-    watch: {
-      isFormValid (val) {
-        this.$emit('validityChange', val)
+    clearSchoolInfoFormValues () {
+      const attrs = {
+        organization: '',
+        district: '',
+        city: '',
+        state: '',
+        phoneNumber: '',
+        numStudents: ''
       }
+      SCHOOL_NCES_KEYS.forEach(key => {
+        const ncesKey = 'nces_' + key
+        attrs[ncesKey] = ''
+      })
+      this.updateTrialRequestProperties(attrs)
     },
 
-    mounted () {
-      // Set default value for country
-      const userCountry = (utils.countries || []).find((c) => c.country === me.get('country'))?.countryCode
-      if (userCountry) {
-        this.country = countryList.getName(userCountry)
-        this.updateTrialRequestProperties({ country: this.country })
-      }
-    },
-
-    methods: {
-      ...mapMutations({
-        updateTrialRequestProperties: 'teacherSignup/updateTrialRequestProperties'
-      }),
-
-      onChangeValue (event) {
-        const attrs = {}
-        attrs[event.target.name] = event.target.value
-        this.updateTrialRequestProperties(attrs)
-        this.clearSchoolInfoFormValues() // since different properties are needed for different country-role combinations, reset the school form to fill it again
-      },
-
-      clearSchoolInfoFormValues () {
-        const attrs = {
-          organization: '',
-          district: '',
-          city: '',
-          state: '',
-          phoneNumber: '',
-          numStudents: ''
-        }
-        SCHOOL_NCES_KEYS.forEach(key => {
-          const ncesKey = 'nces_' + key
-          attrs[ncesKey] = ''
-        })
-        this.updateTrialRequestProperties(attrs)
-      },
-
-      onClickNext () {
-        if (this.isFormValid) {
-          this.$emit('goToNext')
-        }
+    onClickNext () {
+      if (this.isFormValid) {
+        this.$emit('goToNext')
       }
     }
   }
+}
 </script>
 
 <template lang="pug">

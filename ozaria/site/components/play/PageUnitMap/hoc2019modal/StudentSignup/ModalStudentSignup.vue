@@ -1,212 +1,236 @@
 <script>
-  import { mapMutations, mapActions } from 'vuex'
-  import LayoutSplit from '../layout/LayoutSplit'
-  import CloseModalBar from '../layout/CloseModalBar'
-  import { logInWithClever } from 'core/social-handlers/CleverHandler'
+import { mapMutations, mapActions } from 'vuex'
+import LayoutSplit from '../layout/LayoutSplit'
+import CloseModalBar from '../layout/CloseModalBar'
+import { logInWithClever } from 'core/social-handlers/CleverHandler'
 
-  const User = require('models/User')
-  export default {
-    props: {
-      saveProgressModal: {
-        type: Boolean,
-        default: false
-      }
-    },
-    components: {
-      LayoutSplit,
-      CloseModalBar
-    },
-    data: () => ({
-      firstName: '',
-      lastName: '',
-      userName: '',
-      password: '',
-      ssoUsed: '',
-      ssoAttrs: ''
+const User = require('models/User')
+export default {
+  components: {
+    LayoutSplit,
+    CloseModalBar
+  },
+  props: {
+    saveProgressModal: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data: () => ({
+    firstName: '',
+    lastName: '',
+    userName: '',
+    password: '',
+    ssoUsed: '',
+    ssoAttrs: ''
+  }),
+  mounted () {
+    this.setHourOfCode()
+  },
+  methods: {
+    ...mapMutations({
+      updateSso: 'studentModal/updateSso',
+      updateSignupForm: 'studentModal/updateSignupForm',
+      setHourOfCode: 'studentModal/setHourOfCode',
+      updateEmail: 'studentModal/updateEmail'
     }),
-    mounted () {
-      this.setHourOfCode()
+    ...mapActions({
+      createAccount: 'studentModal/createAccount',
+      joinClass: 'studentModal/joinClass',
+      setHocOptions: 'studentModal/setHocOptions'
+    }),
+    async onSubmitForm (e) {
+      this.updateSignupForm({
+        firstName: this.firstName,
+        lastName: this.lastName,
+        name: this.userName,
+        password: this.password
+      })
+      await this.signUpStudent()
     },
-    methods: {
-      ...mapMutations({
-        updateSso: 'studentModal/updateSso',
-        updateSignupForm: 'studentModal/updateSignupForm',
-        setHourOfCode: 'studentModal/setHourOfCode',
-        updateEmail: 'studentModal/updateEmail'
-      }),
-      ...mapActions({
-        createAccount: 'studentModal/createAccount',
-        joinClass: 'studentModal/joinClass',
-        setHocOptions: 'studentModal/setHocOptions'
-      }),
-      async onSubmitForm (e) {
-        this.updateSignupForm({
-          firstName: this.firstName,
-          lastName: this.lastName,
-          name: this.userName,
-          password: this.password
-        })
-        await this.signUpStudent()
-      },
-      async googleSignUp () {
-        const USER_EXISTS = 'User already exists.'
-        try {
-          await new Promise((resolve, reject) =>
-            application.gplusHandler.loadAPI({
-              success: resolve,
-              error: reject
-            }))
-          await new Promise((resolve, reject) =>
-            application.gplusHandler.connect({
-              context: this,
-              success: resolve
-            }))
-          const gplusAttrs = await new Promise((resolve, reject) =>
-            application.gplusHandler.loadPerson({
-              context: this,
-              success: resolve,
-              error: reject
-            }))
-          const { email } = gplusAttrs
-          const { exists } = await User.checkEmailExists(email)
-          if (exists) {
-            throw new Error(USER_EXISTS)
-          } else {
-            this.updateEmail({ email: email })
-            this.updateSso({
-              ssoUsed: 'gplus',
-              ssoAttrs: gplusAttrs
-            })
-          }
-        } catch (err) {
-          console.error('Error in google sign up', err)
-          if (err.message === USER_EXISTS) {
-            noty({
-              text: this.$t('hoc_2019.err_google_exists'),
-              type: 'info',
-              layout: 'center',
-              buttons: [
-                {
-                  addClass: 'btn btn-primary', text: 'Ok', onClick: function($noty) {
-                  $noty.close();
-                }
-              }
-              ]
-            })
-          } else {
-            noty({ text: err.message || 'Error in sign up', type: 'error', layout: 'center', timeout: 2000 })
-          }
-          return
-        }
-        await this.signUpStudent()
-      },
-      async signUpStudent () {
-        try {
-          await this.createAccount()
-          try {
-            await this.joinClass()
-          } catch (err) {
-            // Set hoc progress options if could not join the class
-            await this.setHocOptions()
-          }
-
-          // A minor hack to pull down the logged in user details.
-          me.fetch({
-            success: () => { this.$emit('done') },
-            error: () => {
-              throw new Error('Fetching created student failed')
-            }
+    async googleSignUp () {
+      const USER_EXISTS = 'User already exists.'
+      try {
+        await new Promise((resolve, reject) =>
+          application.gplusHandler.loadAPI({
+            success: resolve,
+            error: reject
+          }))
+        await new Promise((resolve, reject) =>
+          application.gplusHandler.connect({
+            context: this,
+            success: resolve
+          }))
+        const gplusAttrs = await new Promise((resolve, reject) =>
+          application.gplusHandler.loadPerson({
+            context: this,
+            success: resolve,
+            error: reject
+          }))
+        const { email } = gplusAttrs
+        const { exists } = await User.checkEmailExists(email)
+        if (exists) {
+          throw new Error(USER_EXISTS)
+        } else {
+          this.updateEmail({ email })
+          this.updateSso({
+            ssoUsed: 'gplus',
+            ssoAttrs: gplusAttrs
           })
-          
-          return true
-        } catch (err) {
-          console.log('Error in sign up', err)
-          if (err && err.errorName === 'Conflict') {
-            noty({
-              text: this.$t('hoc_2019.err_username_taken'),
-              type: 'info',
-              layout: 'center',
-              buttons: [
-                {
-                  addClass: 'btn btn-primary', text: 'Ok', onClick: function($noty) {
-                  $noty.close();
+        }
+      } catch (err) {
+        console.error('Error in google sign up', err)
+        if (err.message === USER_EXISTS) {
+          noty({
+            text: this.$t('hoc_2019.err_google_exists'),
+            type: 'info',
+            layout: 'center',
+            buttons: [
+              {
+                addClass: 'btn btn-primary',
+                text: 'Ok',
+                onClick: function ($noty) {
+                  $noty.close()
                 }
               }
-              ]
-            })
-          } else {
-            noty({ text: err.message || 'Error in sign up', type: 'error', layout: 'center', timeout: 2000 })
-          }
+            ]
+          })
+        } else {
+          noty({ text: err.message || 'Error in sign up', type: 'error', layout: 'center', timeout: 2000 })
         }
-      },
-      // TODO: test this to see if progress actually is saved when signing in with Clever this way, or if it leaves student on empty student dashboard
-      cleverSignUp () {
-        logInWithClever()
+        return
       }
+      await this.signUpStudent()
+    },
+    async signUpStudent () {
+      try {
+        await this.createAccount()
+        try {
+          await this.joinClass()
+        } catch (err) {
+          // Set hoc progress options if could not join the class
+          await this.setHocOptions()
+        }
+
+        // A minor hack to pull down the logged in user details.
+        me.fetch({
+          success: () => { this.$emit('done') },
+          error: () => {
+            throw new Error('Fetching created student failed')
+          }
+        })
+
+        return true
+      } catch (err) {
+        console.log('Error in sign up', err)
+        if (err && err.errorName === 'Conflict') {
+          noty({
+            text: this.$t('hoc_2019.err_username_taken'),
+            type: 'info',
+            layout: 'center',
+            buttons: [
+              {
+                addClass: 'btn btn-primary',
+                text: 'Ok',
+                onClick: function ($noty) {
+                  $noty.close()
+                }
+              }
+            ]
+          })
+        } else {
+          noty({ text: err.message || 'Error in sign up', type: 'error', layout: 'center', timeout: 2000 })
+        }
+      }
+    },
+    // TODO: test this to see if progress actually is saved when signing in with Clever this way, or if it leaves student on empty student dashboard
+    cleverSignUp () {
+      logInWithClever()
     }
   }
+}
 </script>
 
 <template>
-  <LayoutSplit @back="$emit('back')" :showBackButton="!saveProgressModal">
-    <CloseModalBar @click="$emit('closeModal')" style="margin-bottom: -9px;"/>
+  <LayoutSplit
+    :show-back-button="!saveProgressModal"
+    @back="$emit('back')"
+  >
+    <CloseModalBar
+      style="margin-bottom: -9px;"
+      @click="$emit('closeModal')"
+    />
     <div id="student-signup">
-      <div v-if="saveProgressModal" class="text-left">
-        <h1>{{$t("hoc_2019.save_progress_modal") + ':'}}</h1>
+      <div
+        v-if="saveProgressModal"
+        class="text-left"
+      >
+        <h1>{{ $t("hoc_2019.save_progress_modal") + ':' }}</h1>
       </div>
       <form @submit.prevent="onSubmitForm">
         <div class="form-group">
-          <label for="firstName">{{$t("general.first_name")}}</label>
+          <label for="firstName">{{ $t("general.first_name") }}</label>
           <input
             id="firstName"
-            class="ozaria-input-field"
             v-model="firstName"
+            class="ozaria-input-field"
             type="text"
             required
           >
         </div>
         <div class="form-group">
-          <label for="lastName">{{$t("general.last_name")}}</label>
+          <label for="lastName">{{ $t("general.last_name") }}</label>
           <input
             id="lastName"
-            class="ozaria-input-field"
             v-model="lastName"
+            class="ozaria-input-field"
             type="text"
             required
           >
         </div>
         <div class="form-group">
-          <label for="userName">{{$t("general.username")}}</label>
+          <label for="userName">{{ $t("general.username") }}</label>
           <input
             id="userName"
-            class="ozaria-input-field"
             v-model="userName"
+            class="ozaria-input-field"
             type="text"
             required
           >
         </div>
         <div class="form-group">
-          <label for="password">{{$t("general.password")}}</label>
+          <label for="password">{{ $t("general.password") }}</label>
           <input
             id="password"
-            class="ozaria-input-field"
             v-model="password"
+            class="ozaria-input-field"
             type="password"
             required
             minlength="4"
           >
         </div>
 
-        <button class="ozaria-btn" type="submit">{{saveProgressModal ? 'Save Progress' : 'Start the Game'}}</button>
+        <button
+          class="ozaria-btn"
+          type="submit"
+        >
+          {{ saveProgressModal ? 'Save Progress' : 'Start the Game' }}
+        </button>
       </form>
-      <div class="yellow-bar"></div>
+      <div class="yellow-bar" />
       <div class="sso">
-        <span id="or">{{$t("general.or")}}</span>
-        <a id="google-sso-signup" @click="googleSignUp">
-          <img src="/images/ozaria/common/Google Sign Up.png"/>
+        <span id="or">{{ $t("general.or") }}</span>
+        <a
+          id="google-sso-signup"
+          @click="googleSignUp"
+        >
+          <img src="/images/ozaria/common/Google Sign Up.png">
         </a>
-        <a id="clever-sso-signup" @click="cleverSignUp">
-          <img src="/images/pages/modal/auth/clever_sso_button@2x.png"/>
+        <a
+          id="clever-sso-signup"
+          @click="cleverSignUp"
+        >
+          <img src="/images/pages/modal/auth/clever_sso_button@2x.png">
         </a>
       </div>
       <a
@@ -216,7 +240,7 @@
 
         @click="$emit('signIn')"
       >
-        {{$t("hoc_2019.already_have_account")}}
+        {{ $t("hoc_2019.already_have_account") }}
       </a>
     </div>
   </LayoutSplit>

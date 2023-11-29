@@ -1,73 +1,73 @@
 <script>
-  import IconButtonWithTextTwilight from '../common/buttons/IconButtonWithTextTwilight'
-  import User from 'app/models/User'
+import IconButtonWithTextTwilight from '../common/buttons/IconButtonWithTextTwilight'
+import User from 'app/models/User'
 
-  export default {
-    components: {
-      IconButtonWithTextTwilight
+export default {
+  components: {
+    IconButtonWithTextTwilight
+  },
+
+  props: {
+    teacher: {
+      type: Object,
+      default: () => ({})
     },
+    userStats: {
+      type: Object,
+      default: () => ({})
+    }
+  },
 
-    props: {
-      teacher: {
-        type: Object,
-        default: () => ({})
-      },
-      userStats: {
-        type: Object,
-        default: () => ({})
+  computed: {
+    teacherName () {
+      return User.broadName(this.teacher)
+    },
+    teacherLastLogin () {
+      const teacher = this.$props.teacher || {}
+      const teacherActivity = teacher.activity || {}
+      const loginActivity = teacherActivity.login || {}
+
+      return loginActivity.last
+    },
+    licenseStats () {
+      const teacherStats = this.teacher.stats || {}
+      const licenseStats = teacherStats.licenses || {}
+      const usageStats = licenseStats.usage || {}
+
+      return {
+        licensesUsed: usageStats.used || 0,
+        licensesTotal: usageStats.total || 0,
+        licensesUsedInActiveClassrooms: this.userStats.stats?.licenses?.appliedInActiveClassrooms || 0
       }
     },
-
-    computed: {
-      teacherName () {
-        return User.broadName(this.teacher)
-      },
-      teacherLastLogin () {
-        const teacher = this.$props.teacher || {}
-        const teacherActivity = teacher.activity || {}
-        const loginActivity = teacherActivity.login || {}
-
-        return loginActivity.last
-      },
-      licenseStats () {
-        const teacherStats = this.teacher.stats || {}
-        const licenseStats = teacherStats.licenses || {}
-        const usageStats = licenseStats.usage || {}
-
-        return {
-          licensesUsed: usageStats.used || 0,
-          licensesTotal: usageStats.total || 0,
-          licensesUsedInActiveClassrooms: this.userStats.stats?.licenses?.appliedInActiveClassrooms || 0,
+    displayStats () {
+      const teacherStats = this.teacher.stats || {}
+      return [
+        {
+          value: this.licenseStats.licensesTotal,
+          label: 'Licenses'
+        },
+        {
+          value: this.userStats.stats?.students?.totalInActiveClassrooms || 0,
+          label: 'Students Enrolled',
+          subLabel: 'active classes'
+        },
+        {
+          value: this.licenseStats.licensesUsedInActiveClassrooms,
+          label: 'Licenses in use',
+          subLabel: 'active classes'
         }
-      },
-      displayStats () {
-        const teacherStats = this.teacher.stats || {}
-        return [
-          {
-            value: this.licenseStats.licensesTotal,
-            label: 'Licenses'
-          },
-          {
-            value: this.userStats.stats?.students?.totalInActiveClassrooms || 0,
-            label: 'Students Enrolled',
-            subLabel: 'active classes'
-          },
-          {
-            value: this.licenseStats.licensesUsedInActiveClassrooms,
-            label: 'Licenses in use',
-            subLabel: 'active classes'
-          }
-        ]
-      }
-    },
-    methods: {
-      trackEvent (eventName) {
-        if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: 'SchoolAdmin' })
-        }
+      ]
+    }
+  },
+  methods: {
+    trackEvent (eventName) {
+      if (eventName) {
+        window.tracker?.trackEvent(eventName, { category: 'SchoolAdmin' })
       }
     }
   }
+}
 </script>
 
 <template>
@@ -95,20 +95,23 @@
         >
           <span class="stats-value">{{ stats.value }} </span>
           <span class="stats-label">{{ stats.label }} </span>
-          <span v-if="stats.subLabel" class="stats-sub-label">{{ stats.subLabel }} </span>
+          <span
+            v-if="stats.subLabel"
+            class="stats-sub-label"
+          >{{ stats.subLabel }} </span>
         </li>
       </ul>
     </li>
     <div class="teacher-buttons">
       <icon-button-with-text-twilight
         text="View Classes"
-        iconUrl="/images/ozaria/school-admins/dashboard/svg_icons/IconClasses_Moon.svg"
+        icon-url="/images/ozaria/school-admins/dashboard/svg_icons/IconClasses_Moon.svg"
         :link="`/school-administrator/teacher/${teacher._id}`"
         @click="trackEvent('My Schools: View Classes Clicked')"
       />
       <icon-button-with-text-twilight
         text="License Details"
-        iconUrl='/images/ozaria/school-admins/dashboard/svg_icons/IconLicenses_Moon.svg'
+        icon-url="/images/ozaria/school-admins/dashboard/svg_icons/IconLicenses_Moon.svg"
         :link="`/school-administrator/teacher/${teacher._id}/licenses`"
         @click="trackEvent('My Schools: License Details Clicked')"
       />

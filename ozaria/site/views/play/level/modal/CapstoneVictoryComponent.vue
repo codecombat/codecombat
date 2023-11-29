@@ -8,28 +8,28 @@
 </template>
 
 <script>
-  export default Vue.extend({
-    name: 'CapstoneVictoryModal',
-    props: {
-      levelSlug: {
-        type: String,
-        required: true
-      },
-      capstoneStage: {
-        type: Number,
-        required: true
-      }
+export default Vue.extend({
+  name: 'CapstoneVictoryModal',
+  props: {
+    levelSlug: {
+      type: String,
+      required: true
     },
-    computed: {
-      cinematicLink: function () {
-        if (this.levelSlug) {
-          return `/cinematicplaceholder/${this.levelSlug}`
-        } else {
-          return ''
-        }
+    capstoneStage: {
+      type: Number,
+      required: true
+    }
+  },
+  computed: {
+    cinematicLink: function () {
+      if (this.levelSlug) {
+        return `/cinematicplaceholder/${this.levelSlug}`
+      } else {
+        return ''
       }
     }
-  })
+  }
+})
 </script>
 
 <style scoped>

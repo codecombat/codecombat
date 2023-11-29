@@ -1,116 +1,115 @@
 <script>
-  import BaseModal from 'ozaria/site/components/common/BaseModal'
-  import { mapActions, mapMutations } from 'vuex'
-  import NcesSearchInput from 'app/views/core/CreateAccountModal/teacher/NcesSearchInput'
-  const DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students']
-  const SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone'])
-  const countryList = require('country-list')()
-  const UsaStates = require('usa-states').UsaStates
-  const _ = require('lodash')
+import BaseModal from 'ozaria/site/components/common/BaseModal'
+import { mapActions, mapMutations } from 'vuex'
+import NcesSearchInput from 'app/views/core/CreateAccountModal/teacher/NcesSearchInput'
+const DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students']
+const SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone'])
+const countryList = require('country-list')()
+const UsaStates = require('usa-states').UsaStates
+const _ = require('lodash')
 
-  export default Vue.extend({
-    components: {
-      BaseModal,
-      NcesSearchInput
-    },
-    data: function () {
-      let ncesData = {}
-      let formData = {}
-      let ncesKeys = []
-      SCHOOL_NCES_KEYS.forEach(key => {
-        ncesKeys.push('nces_' + key, '')
-      })
-      ncesData = _.zipObject(ncesKeys)
-      formData = _.pick(this.$store.state.modalTeacher.trialRequestProperties, ncesKeys.concat(['organization', 'district', 'city', 'state', 'country', 'role']))
+export default Vue.extend({
+  components: {
+    BaseModal,
+    NcesSearchInput
+  },
+  data: function () {
+    let ncesData = {}
+    let formData = {}
+    const ncesKeys = []
+    SCHOOL_NCES_KEYS.forEach(key => {
+      ncesKeys.push('nces_' + key, '')
+    })
+    ncesData = _.zipObject(ncesKeys)
+    formData = _.pick(this.$store.state.modalTeacher.trialRequestProperties, ncesKeys.concat(['organization', 'district', 'city', 'state', 'country', 'role']))
 
-      return _.assign(ncesData, formData, {
-        showRequired: false,
-        countries: countryList.getNames(),
-        usaStates: new UsaStates().states,
-        usaStatesAbbreviations: new UsaStates().arrayOf('abbreviations')
-      })
-    },
-    methods: {
-      ...mapMutations({
-        updateTrialRequestProperties: 'modalTeacher/updateTrialRequestProperties'
-      }),
-      ...mapActions({
-        updateAccount: 'modalTeacher/updateAccount',
-        saveMe: 'me/save'
-      }),
-      updateValue (name, value) {
-        this[name] = value
-        // Clear relevant NCES fields if they type a custom value instead of an autocompleted value
-        if (name === 'organization') {
-          this.clearSchoolNcesValues()
-        }
-        if (name === 'district') {
-          this.clearSchoolNcesValues()
-          this.clearDistrictNcesValues()
-        }
-      },
-
-      clearDistrictNcesValues () {
-        DISTRICT_NCES_KEYS.forEach(key => {
-          this['nces_' + key] = ''
-        })
-      },
-
-      clearSchoolNcesValues () {
-        _.difference(SCHOOL_NCES_KEYS, DISTRICT_NCES_KEYS).forEach(key => {
-          this['nces_' + key] = ''
-        })
-      },
-
-      applySuggestion (displayKey, suggestion) {
-        if (!suggestion) {
-          return
-        }
-        _.assign(this, _.pick(suggestion, 'district', 'city', 'state'))
-        let NCES_KEYS = []
-        if (displayKey === 'name') {
-          this.organization = suggestion.name
-          NCES_KEYS = SCHOOL_NCES_KEYS
-        } else {
-          NCES_KEYS = DISTRICT_NCES_KEYS
-        }
-        this.country = 'United States'
+    return _.assign(ncesData, formData, {
+      showRequired: false,
+      countries: countryList.getNames(),
+      usaStates: new UsaStates().states,
+      usaStatesAbbreviations: new UsaStates().arrayOf('abbreviations')
+    })
+  },
+  methods: {
+    ...mapMutations({
+      updateTrialRequestProperties: 'modalTeacher/updateTrialRequestProperties'
+    }),
+    ...mapActions({
+      updateAccount: 'modalTeacher/updateAccount',
+      saveMe: 'me/save'
+    }),
+    updateValue (name, value) {
+      this[name] = value
+      // Clear relevant NCES fields if they type a custom value instead of an autocompleted value
+      if (name === 'organization') {
+        this.clearSchoolNcesValues()
+      }
+      if (name === 'district') {
         this.clearSchoolNcesValues()
         this.clearDistrictNcesValues()
-        NCES_KEYS.forEach(key => {
-          this['nces_' + key] = suggestion[key]
-        })
-      },
+      }
+    },
 
-      onChangeCountry () {
-        if (this.country == 'United States' && !this.usaStatesAbbreviations.includes(this.state))
-          this.state = ''
-      },
+    clearDistrictNcesValues () {
+      DISTRICT_NCES_KEYS.forEach(key => {
+        this['nces_' + key] = ''
+      })
+    },
 
-      async clickSave () {
-        const requiredAttrs = _.pick(this, 'district', 'city', 'state', 'country', 'role')
-        if (!_.all(requiredAttrs)) {
-          this.showRequired = true
-          return
-        }
-        const attrs = _.pick(this, 'organization', 'district', 'city', 'state', 'country', 'role')
-        SCHOOL_NCES_KEYS.forEach(key => {
-          const ncesKey = 'nces_' + key
-          attrs[ncesKey] = this[ncesKey].toString()
-        })
-        this.updateTrialRequestProperties(attrs)
-        try {
-          await this.updateAccount()
-          await this.saveMe({ hourOfCodeOptions: { showCompleteSignupModal: false } })
-          window.$('.modal').modal('hide')
-          noty({ text: 'Account details updated', layout: 'topCenter', type: 'success', timeout: 2000 })
-        } catch (err) {
-          console.error('Error in updating account details', err)
-          noty({ text: 'Error in updating account details', layout: 'topCenter', type: 'error', timeout: 2000 })
-        }
+    clearSchoolNcesValues () {
+      _.difference(SCHOOL_NCES_KEYS, DISTRICT_NCES_KEYS).forEach(key => {
+        this['nces_' + key] = ''
+      })
+    },
+
+    applySuggestion (displayKey, suggestion) {
+      if (!suggestion) {
+        return
+      }
+      _.assign(this, _.pick(suggestion, 'district', 'city', 'state'))
+      let NCES_KEYS = []
+      if (displayKey === 'name') {
+        this.organization = suggestion.name
+        NCES_KEYS = SCHOOL_NCES_KEYS
+      } else {
+        NCES_KEYS = DISTRICT_NCES_KEYS
+      }
+      this.country = 'United States'
+      this.clearSchoolNcesValues()
+      this.clearDistrictNcesValues()
+      NCES_KEYS.forEach(key => {
+        this['nces_' + key] = suggestion[key]
+      })
+    },
+
+    onChangeCountry () {
+      if (this.country == 'United States' && !this.usaStatesAbbreviations.includes(this.state)) { this.state = '' }
+    },
+
+    async clickSave () {
+      const requiredAttrs = _.pick(this, 'district', 'city', 'state', 'country', 'role')
+      if (!_.all(requiredAttrs)) {
+        this.showRequired = true
+        return
+      }
+      const attrs = _.pick(this, 'organization', 'district', 'city', 'state', 'country', 'role')
+      SCHOOL_NCES_KEYS.forEach(key => {
+        const ncesKey = 'nces_' + key
+        attrs[ncesKey] = this[ncesKey].toString()
+      })
+      this.updateTrialRequestProperties(attrs)
+      try {
+        await this.updateAccount()
+        await this.saveMe({ hourOfCodeOptions: { showCompleteSignupModal: false } })
+        window.$('.modal').modal('hide')
+        noty({ text: 'Account details updated', layout: 'topCenter', type: 'success', timeout: 2000 })
+      } catch (err) {
+        console.error('Error in updating account details', err)
+        noty({ text: 'Error in updating account details', layout: 'topCenter', type: 'error', timeout: 2000 })
       }
     }
-  })
+  }
+})
 </script>
 
 <template lang="pug">

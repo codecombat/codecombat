@@ -1,132 +1,132 @@
 <script>
-  import { mapMutations, mapGetters } from 'vuex'
-  import { validationMixin } from 'vuelidate'
-  import { getSchoolFormFieldsConfig } from '../common/signUpConfig'
-  import { DISTRICT_NCES_KEYS, SCHOOL_NCES_KEYS } from '../common/constants'
-  import { schoolLocationInfoValidations, validationMessages } from '../common/signUpValidations'
+import { mapMutations, mapGetters } from 'vuex'
+import { validationMixin } from 'vuelidate'
+import { getSchoolFormFieldsConfig } from '../common/signUpConfig'
+import { DISTRICT_NCES_KEYS, SCHOOL_NCES_KEYS } from '../common/constants'
+import { schoolLocationInfoValidations, validationMessages } from '../common/signUpValidations'
 
-  import NcesSearchInput from './NcesSearchInput'
-  const UsaStates = require('usa-states').UsaStates
+import NcesSearchInput from './NcesSearchInput'
+const UsaStates = require('usa-states').UsaStates
 
-  export default {
-    components: {
-      'nces-search-input': NcesSearchInput
+export default {
+  components: {
+    'nces-search-input': NcesSearchInput
+  },
+
+  mixins: [validationMixin],
+
+  data: function () {
+    let ncesData = {}
+    let formData = {}
+    const ncesKeys = []
+    SCHOOL_NCES_KEYS.forEach(key => {
+      ncesKeys.push('nces_' + key, '')
+    })
+    ncesData = _.zipObject(ncesKeys)
+    formData = _.pick(this.$store.state.teacherSignup.trialRequestProperties, ncesKeys.concat(['organization', 'district', 'city', 'state']))
+
+    return _.assign(ncesData, formData, {
+      usaStates: new UsaStates().states,
+      usaStatesAbbreviations: new UsaStates().arrayOf('abbreviations'),
+      validationMessages,
+      isChinaServer: window.features.china
+    })
+  },
+
+  validations () {
+    return schoolLocationInfoValidations(this.country, this.role, this.isChinaServer)
+  },
+
+  computed: {
+    ...mapGetters({
+      trialReqProps: 'teacherSignup/getTrialRequestProperties'
+    }),
+
+    country () {
+      return this.trialReqProps.country
     },
 
-    mixins: [validationMixin],
-
-    data: function () {
-      let ncesData = {}
-      let formData = {}
-      let ncesKeys = []
-      SCHOOL_NCES_KEYS.forEach(key => {
-        ncesKeys.push('nces_' + key, '')
-      })
-      ncesData = _.zipObject(ncesKeys)
-      formData = _.pick(this.$store.state.teacherSignup.trialRequestProperties, ncesKeys.concat([ 'organization', 'district', 'city', 'state' ]))
-
-      return _.assign(ncesData, formData, {
-        usaStates: new UsaStates().states,
-        usaStatesAbbreviations: new UsaStates().arrayOf('abbreviations'),
-        validationMessages,
-        isChinaServer: window.features.china
-      })
+    role () {
+      return this.trialReqProps.role
     },
 
-    validations () {
-      return schoolLocationInfoValidations(this.country, this.role, this.isChinaServer)
+    formFieldConfig () {
+      return getSchoolFormFieldsConfig(this.country, this.role, this.isChinaServer)
     },
 
-    computed: {
-      ...mapGetters({
-        trialReqProps: 'teacherSignup/getTrialRequestProperties'
-      }),
+    isFormValid () {
+      return !this.$v.$invalid
+    }
+  },
 
-      country () {
-        return this.trialReqProps.country
-      },
+  watch: {
+    isFormValid (val) {
+      this.$emit('validityChange', val)
+    }
+  },
 
-      role () {
-        return this.trialReqProps.role
-      },
+  methods: {
+    ...mapMutations({
+      updateTrialRequestProperties: 'teacherSignup/updateTrialRequestProperties'
+    }),
 
-      formFieldConfig () {
-        return getSchoolFormFieldsConfig(this.country, this.role, this.isChinaServer)
-      },
-
-      isFormValid () {
-        return !this.$v.$invalid
+    updateValue (name, value) {
+      this[name] = value
+      // Clear relevant NCES fields if they type a custom value instead of an autocompleted value
+      if (name === 'organization') {
+        this.clearSchoolNcesValues()
+        this.$v.organization.$touch()
       }
-    },
-
-    watch: {
-      isFormValid (val) {
-        this.$emit('validityChange', val)
-      }
-    },
-
-    methods: {
-      ...mapMutations({
-        updateTrialRequestProperties: 'teacherSignup/updateTrialRequestProperties'
-      }),
-
-      updateValue (name, value) {
-        this[name] = value
-        // Clear relevant NCES fields if they type a custom value instead of an autocompleted value
-        if (name === 'organization') {
-          this.clearSchoolNcesValues()
-          this.$v.organization.$touch()
-        }
-        if (name === 'district') {
-          this.clearSchoolNcesValues()
-          this.clearDistrictNcesValues()
-          this.$v.district.$touch()
-        }
-      },
-
-      clearDistrictNcesValues () {
-        DISTRICT_NCES_KEYS.forEach(key => {
-          this['nces_' + key] = ''
-        })
-      },
-
-      clearSchoolNcesValues () {
-        _.difference(SCHOOL_NCES_KEYS, DISTRICT_NCES_KEYS).forEach(key => {
-          this['nces_' + key] = ''
-        })
-      },
-
-      applySuggestion (displayKey, suggestion) {
-        if (!suggestion) {
-          return
-        }
-        _.assign(this, _.pick(suggestion, 'district', 'city', 'state'))
-        let ncesKeys = []
-        if (displayKey === 'name') {
-          this.organization = suggestion.name
-          ncesKeys = SCHOOL_NCES_KEYS
-        } else {
-          ncesKeys = DISTRICT_NCES_KEYS
-        }
+      if (name === 'district') {
         this.clearSchoolNcesValues()
         this.clearDistrictNcesValues()
-
-        const attrs = _.pick(this, 'organization', 'district', 'city', 'state')
-        ncesKeys.forEach(key => {
-          const ncesKey = 'nces_' + key
-          this[ncesKey] = suggestion[key]
-          attrs[ncesKey] = this[ncesKey].toString()
-        })
-        this.updateTrialRequestProperties(attrs)
-      },
-
-      onChangeValue () {
-        const attrs = {}
-        attrs[event.target.name] = event.target.value
-        this.updateTrialRequestProperties(attrs)
+        this.$v.district.$touch()
       }
+    },
+
+    clearDistrictNcesValues () {
+      DISTRICT_NCES_KEYS.forEach(key => {
+        this['nces_' + key] = ''
+      })
+    },
+
+    clearSchoolNcesValues () {
+      _.difference(SCHOOL_NCES_KEYS, DISTRICT_NCES_KEYS).forEach(key => {
+        this['nces_' + key] = ''
+      })
+    },
+
+    applySuggestion (displayKey, suggestion) {
+      if (!suggestion) {
+        return
+      }
+      _.assign(this, _.pick(suggestion, 'district', 'city', 'state'))
+      let ncesKeys = []
+      if (displayKey === 'name') {
+        this.organization = suggestion.name
+        ncesKeys = SCHOOL_NCES_KEYS
+      } else {
+        ncesKeys = DISTRICT_NCES_KEYS
+      }
+      this.clearSchoolNcesValues()
+      this.clearDistrictNcesValues()
+
+      const attrs = _.pick(this, 'organization', 'district', 'city', 'state')
+      ncesKeys.forEach(key => {
+        const ncesKey = 'nces_' + key
+        this[ncesKey] = suggestion[key]
+        attrs[ncesKey] = this[ncesKey].toString()
+      })
+      this.updateTrialRequestProperties(attrs)
+    },
+
+    onChangeValue () {
+      const attrs = {}
+      attrs[event.target.name] = event.target.value
+      this.updateTrialRequestProperties(attrs)
     }
   }
+}
 </script>
 
 <template lang="pug">

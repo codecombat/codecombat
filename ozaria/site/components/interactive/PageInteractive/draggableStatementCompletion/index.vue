@@ -1,229 +1,229 @@
 <script>
-  import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
-  import StatementSlot from '../common/BaseDraggableSlot'
-  import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
+import StatementSlot from '../common/BaseDraggableSlot'
+import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
 
-  import { putSession } from 'ozaria/site/api/interactive'
-  import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
-  import { deterministicShuffleForUserAndDay } from '../../../../common/utils'
+import { putSession } from 'ozaria/site/api/interactive'
+import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
+import { deterministicShuffleForUserAndDay } from '../../../../common/utils'
 
-  import BaseButton from '../../../common/BaseButton'
-  import ModalInteractive from '../common/ModalInteractive.vue'
+import BaseButton from '../../../common/BaseButton'
+import ModalInteractive from '../common/ModalInteractive.vue'
 
-  export default {
-    components: {
-      BaseButton,
-      ModalInteractive,
+export default {
+  components: {
+    BaseButton,
+    ModalInteractive,
 
-      BaseInteractiveLayout,
+    BaseInteractiveLayout,
 
-      'statement-slot': StatementSlot
+    'statement-slot': StatementSlot
+  },
+
+  props: {
+    interactive: {
+      type: Object,
+      required: true
     },
 
-    props: {
-      interactive: {
-        type: Object,
-        required: true
-      },
+    localizedInteractiveConfig: {
+      type: Object,
+      required: true
+    },
 
-      localizedInteractiveConfig: {
-        type: Object,
-        required: true
-      },
+    interactiveSession: {
+      type: Object,
+      default: undefined
+    },
 
-      interactiveSession: {
-        type: Object,
-        default: undefined
-      },
+    codeLanguage: {
+      type: String,
+      required: true
+    }
+  },
 
-      codeLanguage: {
-        type: String,
-        required: true
+  data () {
+    const shuffle = deterministicShuffleForUserAndDay(
+      me,
+      [...Array(this.localizedInteractiveConfig.elements.length).keys()]
+    )
+
+    return {
+      showModal: false,
+      submitEnabled: true,
+
+      initializedAnswer: false,
+
+      draggableGroup: Math.random().toString(),
+
+      shuffle,
+      promptSlots: this.getShuffledPrompt(shuffle),
+
+      answerSlots: Array(3).fill(undefined)
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      pastCorrectSubmission: 'interactives/correctSubmissionFromSession'
+    }),
+
+    answerSlotLabels () {
+      return (this.localizedInteractiveConfig || {}).labels || []
+    },
+
+    artUrl () {
+      if (this.interactive.defaultArtAsset) {
+        return getOzariaAssetUrl(this.interactive.defaultArtAsset)
       }
+
+      return undefined
     },
 
-    data () {
-      const shuffle = deterministicShuffleForUserAndDay(
-        me,
-        [ ...Array(this.localizedInteractiveConfig.elements.length).keys() ]
-      )
-
-      return {
-        showModal: false,
-        submitEnabled: true,
-
-        initializedAnswer: false,
-
-        draggableGroup: Math.random().toString(),
-
-        shuffle,
-        promptSlots: this.getShuffledPrompt(shuffle),
-
-        answerSlots: Array(3).fill(undefined)
-      }
-    },
-
-    computed: {
-      ...mapGetters({
-        pastCorrectSubmission: 'interactives/correctSubmissionFromSession'
-      }),
-
-      answerSlotLabels () {
-        return (this.localizedInteractiveConfig || {}).labels || []
-      },
-
-      artUrl () {
-        if (this.interactive.defaultArtAsset) {
-          return getOzariaAssetUrl(this.interactive.defaultArtAsset)
-        }
-
-        return undefined
-      },
-
-      questionAnswered () {
-        for (let i = 0; i < this.answerSlots.length; i++) {
-          if (this.answerSlots[i] === undefined) {
-            return false
-          }
-        }
-
-        return true
-      },
-
-      userAnswer () {
-        if (!this.questionAnswered) {
-          return undefined
-        }
-
-        return this.answerSlots
-          .map((s) => s.id || s.elementId)
-      },
-
-      solutionCorrect () {
-        if (!this.questionAnswered) {
+    questionAnswered () {
+      for (let i = 0; i < this.answerSlots.length; i++) {
+        if (this.answerSlots[i] === undefined) {
           return false
         }
+      }
 
-        for (let i = 0; i < this.userAnswer.length; i++) {
-          if (this.userAnswer[i] !== this.localizedInteractiveConfig.solution[i]) {
-            return false
-          }
+      return true
+    },
+
+    userAnswer () {
+      if (!this.questionAnswered) {
+        return undefined
+      }
+
+      return this.answerSlots
+        .map((s) => s.id || s.elementId)
+    },
+
+    solutionCorrect () {
+      if (!this.questionAnswered) {
+        return false
+      }
+
+      for (let i = 0; i < this.userAnswer.length; i++) {
+        if (this.userAnswer[i] !== this.localizedInteractiveConfig.solution[i]) {
+          return false
         }
+      }
 
-        return true
-      },
+      return true
+    },
 
-      modalMessageTag () {
-        if (this.questionAnswered) {
-          if (this.solutionCorrect) {
-            return 'interactives.phenomenal_job'
-          } else {
-            return 'interactives.try_again'
-          }
+    modalMessageTag () {
+      if (this.questionAnswered) {
+        if (this.solutionCorrect) {
+          return 'interactives.phenomenal_job'
         } else {
-          return 'interactives.fill_boxes'
+          return 'interactives.try_again'
         }
+      } else {
+        return 'interactives.fill_boxes'
       }
+    }
+  },
+
+  watch: {
+    pastCorrectSubmission () {
+      this.initializeFromPastSubmission()
+    }
+  },
+
+  created () {
+    this.initializeFromPastSubmission()
+  },
+
+  methods: {
+    async submitSolution () {
+      if (this.solutionCorrect) {
+        // Straight to standard victory modal rather than interactive modal
+        this.$emit('completed')
+        this.submitEnabled = true
+      } else {
+        this.showModal = true
+        this.submitEnabled = false
+      }
+
+      if (!this.questionAnswered) {
+        return
+      }
+
+      // TODO save through vuex and block progress until save is successful
+      await putSession(this.interactive._id, {
+        json: {
+          codeLanguage: this.codeLanguage,
+          submission: {
+            correct: this.solutionCorrect,
+            submittedSolution: this.userAnswer
+          }
+        }
+      })
     },
 
-    watch: {
-      pastCorrectSubmission () {
-        this.initializeFromPastSubmission()
-      }
+    closeModal () {
+      this.resetAnswer()
+      this.showModal = false
+      this.submitEnabled = true
     },
 
-    created () {
+    getShuffledPrompt (shuffle) {
+      const elements = this.localizedInteractiveConfig.elements || []
+
+      return shuffle.map((idx) => {
+        const {
+          elementId,
+          ...rest
+        } = elements[idx]
+
+        return {
+          ...rest,
+          id: elementId
+        }
+      })
+    },
+
+    resetAnswer () {
+      this.answerSlots = Array(3).fill(undefined)
+      this.promptSlots = this.getShuffledPrompt(this.shuffle)
+
+      this.initializedAnswer = false
       this.initializeFromPastSubmission()
     },
 
-    methods: {
-      async submitSolution () {
-        if (this.solutionCorrect) {
-          // Straight to standard victory modal rather than interactive modal
-          this.$emit('completed')
-          this.submitEnabled = true
+    initializeFromPastSubmission () {
+      if (!this.pastCorrectSubmission || this.initializedAnswer) {
+        return
+      }
+
+      this.initializedAnswer = true
+
+      let missingAnswer = false
+      const answer = this.pastCorrectSubmission.submittedSolution.map((elementId) => {
+        const choice = this.localizedInteractiveConfig.elements.find(e => e.elementId === elementId)
+
+        if (choice) {
+          return choice
         } else {
-          this.showModal = true
-          this.submitEnabled = false
-        }
-
-        if (!this.questionAnswered) {
-          return
-        }
-
-        // TODO save through vuex and block progress until save is successful
-        await putSession(this.interactive._id, {
-          json: {
-            codeLanguage: this.codeLanguage,
-            submission: {
-              correct: this.solutionCorrect,
-              submittedSolution: this.userAnswer
-            }
-          }
-        })
-      },
-
-      closeModal () {
-        this.resetAnswer()
-        this.showModal = false
-        this.submitEnabled = true
-      },
-
-      getShuffledPrompt (shuffle) {
-        const elements = this.localizedInteractiveConfig.elements || []
-
-        return shuffle.map((idx) => {
-          const {
-            elementId,
-            ...rest
-          } = elements[idx]
-
-          return {
-            ...rest,
-            id: elementId
-          }
-        })
-      },
-
-      resetAnswer () {
-        this.answerSlots = Array(3).fill(undefined)
-        this.promptSlots = this.getShuffledPrompt(this.shuffle)
-
-        this.initializedAnswer = false
-        this.initializeFromPastSubmission()
-      },
-
-      initializeFromPastSubmission () {
-        if (!this.pastCorrectSubmission || this.initializedAnswer) {
-          return
-        }
-
-        this.initializedAnswer = true
-
-        let missingAnswer = false
-        const answer = this.pastCorrectSubmission.submittedSolution.map((elementId) => {
-          const choice = this.localizedInteractiveConfig.elements.find(e => e.elementId === elementId)
-
-          if (choice) {
-            return choice
-          } else {
-            missingAnswer = true
-            return undefined
-          }
-        })
-
-        if (missingAnswer) {
-          // TODO handle_error_ozaria - undefined state
-          console.error('Unexpected state recovering answer')
+          missingAnswer = true
           return undefined
         }
+      })
 
-        this.promptSlots = Array(3).fill(undefined)
-        this.answerSlots = answer
+      if (missingAnswer) {
+        // TODO handle_error_ozaria - undefined state
+        console.error('Unexpected state recovering answer')
+        return undefined
       }
+
+      this.promptSlots = Array(3).fill(undefined)
+      this.answerSlots = answer
     }
   }
+}
 </script>
 
 <template>
@@ -255,7 +255,9 @@
           :label-text="(answerSlotLabels[0] || {}).text || ''"
         />
 
-        <div class="syntax">.</div>
+        <div class="syntax">
+          .
+        </div>
 
         <statement-slot
           v-model="answerSlots[1]"
@@ -266,7 +268,9 @@
           :label-text="(answerSlotLabels[1] || {}).text || ''"
         />
 
-        <div class="syntax">(</div>
+        <div class="syntax">
+          (
+        </div>
 
         <statement-slot
           v-model="answerSlots[2]"
@@ -277,7 +281,9 @@
           :label-text="(answerSlotLabels[2] || {}).text || ''"
         />
 
-        <div class="syntax">)</div>
+        <div class="syntax">
+          )
+        </div>
       </div>
 
       <base-button

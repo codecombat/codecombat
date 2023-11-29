@@ -1,62 +1,62 @@
 <script>
-  import store from 'app/core/store'
-  import { mapState } from 'vuex'
-  import visualChalkboardModule from './visualChalkboardModule'
+import store from 'app/core/store'
+import { mapState } from 'vuex'
+import visualChalkboardModule from './visualChalkboardModule'
 
-  /**
-   * Converts a string such as "3 &lt; 2" into "3 < 2".
-   * Reference: https://stackoverflow.com/a/7394787
-   * @param {string} text
-   * @returns {string} Text with escaped values decoded
-   */
-  function decodeHtml (text) {
-    const txt = document.createElement('textarea')
-    txt.innerHTML = text
-    return txt.value
-  }
+/**
+ * Converts a string such as "3 &lt; 2" into "3 < 2".
+ * Reference: https://stackoverflow.com/a/7394787
+ * @param {string} text
+ * @returns {string} Text with escaped values decoded
+ */
+function decodeHtml (text) {
+  const txt = document.createElement('textarea')
+  txt.innerHTML = text
+  return txt.value
+}
 
-  export default {
-    data: () => ({
-      displayed: false,
-      displayInterval: null
+export default {
+  data: () => ({
+    displayed: false,
+    displayInterval: null
+  }),
+  computed: {
+    ...mapState({
+      html: state => (state.visualChalkboard || {}).chalkboardHtml || '',
+      chalkboardWidth: state => (state.visualChalkboard || {}).width || 45,
+      chalkboardHeight: state => (state.visualChalkboard || {}).height || 80,
+      xOffset: state => {
+        // This getter returns either the onscreen xOffset or the value xOffsetHiddenOverride
+        // that triggers the chalkboard to move off the screen.
+        const xOffset = (state.visualChalkboard || {}).xOffset || 0
+        const xOffsetHiddenOverride = (state.visualChalkboard || {}).xOffsetHiddenOverride || 0
+        if (xOffsetHiddenOverride !== 0) {
+          return xOffsetHiddenOverride
+        } else {
+          return xOffset
+        }
+      },
+      yOffset: state => (state.visualChalkboard || {}).yOffset,
+      transitionTime: state => (state.visualChalkboard || {}).transitionTime || 0
     }),
-    computed: {
-      ...mapState({
-        html: state => (state.visualChalkboard || {}).chalkboardHtml || '',
-        chalkboardWidth: state => (state.visualChalkboard || {}).width || 45,
-        chalkboardHeight: state => (state.visualChalkboard || {}).height || 80,
-        xOffset: state => {
-          // This getter returns either the onscreen xOffset or the value xOffsetHiddenOverride
-          // that triggers the chalkboard to move off the screen.
-          const xOffset = (state.visualChalkboard || {}).xOffset || 0
-          const xOffsetHiddenOverride = (state.visualChalkboard || {}).xOffsetHiddenOverride || 0
-          if (xOffsetHiddenOverride !== 0) {
-            return xOffsetHiddenOverride
-          } else {
-            return xOffset
-          }
-        },
-        yOffset: state => (state.visualChalkboard || {}).yOffset,
-        transitionTime: state => (state.visualChalkboard || {}).transitionTime || 0
-      }),
 
-      compiledHtml () {
-        return decodeHtml(this.html)
-      }
-    },
-
-    mounted () {
-      store.registerModule('visualChalkboard', visualChalkboardModule())
-
-      // Hack: Fixes chalkboard flying across screen when loading
-      this.displayInterval = setTimeout(() => { this.displayed = true }, 1200)
-    },
-
-    beforeDestroy () {
-      clearInterval(this.displayInterval)
-      store.unregisterModule('visualChalkboard')
+    compiledHtml () {
+      return decodeHtml(this.html)
     }
+  },
+
+  mounted () {
+    store.registerModule('visualChalkboard', visualChalkboardModule())
+
+    // Hack: Fixes chalkboard flying across screen when loading
+    this.displayInterval = setTimeout(() => { this.displayed = true }, 1200)
+  },
+
+  beforeDestroy () {
+    clearInterval(this.displayInterval)
+    store.unregisterModule('visualChalkboard')
   }
+}
 </script>
 
 <template>

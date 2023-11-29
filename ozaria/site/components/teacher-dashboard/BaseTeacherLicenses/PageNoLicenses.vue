@@ -1,19 +1,19 @@
 <script>
-  import LicensesCarouselContainer from './common/LicensesCarouselContainer'
-  import PrimaryButton from '../common/buttons/PrimaryButton'
-  export default {
-    components: {
-      PrimaryButton,
-      LicensesCarouselContainer
-    },
-    methods: {
-      trackEvent (eventName) {
-        if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: 'Teachers' })
-        }
+import LicensesCarouselContainer from './common/LicensesCarouselContainer'
+import PrimaryButton from '../common/buttons/PrimaryButton'
+export default {
+  components: {
+    PrimaryButton,
+    LicensesCarouselContainer
+  },
+  methods: {
+    trackEvent (eventName) {
+      if (eventName) {
+        window.tracker?.trackEvent(eventName, { category: 'Teachers' })
       }
     }
   }
+}
 </script>
 
 <template>

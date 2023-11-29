@@ -19,7 +19,7 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
-      required: false,
+      required: false
     }
   },
   methods: {
@@ -35,15 +35,18 @@ export default {
 <template>
   <div class="level-access-status-button">
     <div
-        class="btn-icon-text"
-        :class="{ disabled,active }"
-        :disabled="disabled"
-        @click="onClick"
+      class="btn-icon-text"
+      :class="{ disabled,active }"
+      :disabled="disabled"
+      @click="onClick"
     >
-      <img v-if="iconName" :src="'/images/ozaria/teachers/dashboard/svg_icons/'+iconName+'.svg'">
+      <img
+        v-if="iconName"
+        :src="'/images/ozaria/teachers/dashboard/svg_icons/'+iconName+'.svg'"
+      >
       <span> {{ text }} </span>
     </div>
-    <slot></slot>
+    <slot />
   </div>
 </template>
 

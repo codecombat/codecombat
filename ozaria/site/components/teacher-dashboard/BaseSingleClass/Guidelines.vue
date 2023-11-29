@@ -1,28 +1,31 @@
 <script>
-  import ProgressLabels from '../common/progress/progressLabels'
-  import ContentIcon from '../common/icons/ContentIcon'
-  export default {
-    components: {
-      'progress-labels': ProgressLabels,
-      ContentIcon
-    },
-    props: {
-      visible: {
-        type: Boolean,
-        default: true
-      }
-    },
-    methods: {
-      clickArrow () {
-        this.$emit('click-arrow')
-      }
+import ProgressLabels from '../common/progress/progressLabels'
+import ContentIcon from '../common/icons/ContentIcon'
+export default {
+  components: {
+    'progress-labels': ProgressLabels,
+    ContentIcon
+  },
+  props: {
+    visible: {
+      type: Boolean,
+      default: true
+    }
+  },
+  methods: {
+    clickArrow () {
+      this.$emit('click-arrow')
     }
   }
+}
 </script>
 
 <template>
   <transition name="fade">
-    <div class="guidelines-nav" v-show="visible">
+    <div
+      v-show="visible"
+      class="guidelines-nav"
+    >
       <div class="title-card">
         <span>{{ $t('teacher_dashboard.color_code') }}</span>
       </div>
@@ -32,7 +35,9 @@
       </div>
       <div class="spacer">
         <div class="grid-container">
-          <div class="story-title"><h3>{{ $t('teacher_dashboard.story') }}</h3></div>
+          <div class="story-title">
+            <h3>{{ $t('teacher_dashboard.story') }}</h3>
+          </div>
           <div
             v-tooltip.bottom="{
               content: $t('teacher_dashboard.cutscenes_tooltip'),
@@ -105,12 +110,23 @@
             />
             <span>{{ $t('teacher_dashboard.capstone_levels') }}</span>
           </div>
-          <div class="intro-title"><h3>{{ $t('teacher_dashboard.intro') }}</h3></div>
-          <div class="practice-title"><h3>{{ $t('teacher_dashboard.practice') }}</h3></div>
-          <div class="assess-title"><h3>{{ $t('teacher_dashboard.assess') }}</h3></div>
+          <div class="intro-title">
+            <h3>{{ $t('teacher_dashboard.intro') }}</h3>
+          </div>
+          <div class="practice-title">
+            <h3>{{ $t('teacher_dashboard.practice') }}</h3>
+          </div>
+          <div class="assess-title">
+            <h3>{{ $t('teacher_dashboard.assess') }}</h3>
+          </div>
         </div>
       </div>
-      <div class="arrow-toggle" @click="clickArrow"><div class="arrow-icon"></div></div>
+      <div
+        class="arrow-toggle"
+        @click="clickArrow"
+      >
+        <div class="arrow-icon" />
+      </div>
     </div>
   </transition>
 </template>

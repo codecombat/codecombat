@@ -1,12 +1,18 @@
 <template>
   <div class="row list-item">
     <div class="col-xs-4">
-      <a v-on:click="clickHandler">{{ text }}</a>
+      <a @click="clickHandler">{{ text }}</a>
     </div>
-    <div class="col-xs-4" v-if="slug">
+    <div
+      v-if="slug"
+      class="col-xs-4"
+    >
       <span class="slug">{{ slug }}</span>
     </div>
-    <div class="col-xs-4" v-if="id">
+    <div
+      v-if="id"
+      class="col-xs-4"
+    >
       <span class="id">{{ id }}</span>
     </div>
   </div>
@@ -32,7 +38,7 @@ export default {
       type: String,
       required: false
     }
-  },
+  }
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div id="layout-center">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 

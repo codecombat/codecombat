@@ -9,6 +9,12 @@ import LayoutCenterContent from '../../common/LayoutCenterContent'
 const utils = require('core/utils')
 
 module.exports = Vue.extend({
+
+  components: {
+    'cinematic-canvas': CinematicCanvas,
+    'layout-chrome': LayoutChrome,
+    'layout-center-content': LayoutCenterContent
+  },
   props: {
     cinematicIdOrSlug: {
       type: String,
@@ -23,12 +29,6 @@ module.exports = Vue.extend({
   data: () => ({
     cinematicData: null
   }),
-
-  components: {
-    'cinematic-canvas': CinematicCanvas,
-    'layout-chrome': LayoutChrome,
-    'layout-center-content': LayoutCenterContent
-  },
 
   async created () {
     await this.getCinematicData()
@@ -52,14 +52,14 @@ module.exports = Vue.extend({
       this.$emit('completed', this.cinematicData, cinematicTracking)
     },
 
-    async getCinematicData() {
+    async getCinematicData () {
       try {
         this.cinematicData = await getCinematic(this.cinematicIdOrSlug)
       } catch (e) {
         console.error(e)
         return noty({
           text: `Error finding cinematic '${this.cinematicIdOrSlug}'.`,
-          type:'error',
+          type: 'error',
           timeout: 3000
         })
       }
@@ -75,7 +75,7 @@ module.exports = Vue.extend({
   },
 
   watch: {
-    soundOn() {
+    soundOn () {
       this.handleSoundMuted()
     }
   }
@@ -89,10 +89,10 @@ module.exports = Vue.extend({
     <layout-center-content>
       <cinematic-canvas
         v-if="cinematicData"
-        v-on:completed="completedHandler"
-        :cinematicData="cinematicData"
-        :userOptions="userOptions"
-        />
+        :cinematic-data="cinematicData"
+        :user-options="userOptions"
+        @completed="completedHandler"
+      />
     </layout-center-content>
   </layout-chrome>
 </template>

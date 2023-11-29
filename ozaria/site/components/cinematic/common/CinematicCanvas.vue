@@ -13,28 +13,44 @@
         id="cinematic-nav"
         :class="{ hiding: showInstructionalTooltip && loaded }"
       >
-        <div v-if="showInstructionalTooltip && loaded" id="cinematic-instruction-tooltip">
-          <div class="close-btn"
+        <div
+          v-if="showInstructionalTooltip && loaded"
+          id="cinematic-instruction-tooltip"
+        >
+          <div
+            class="close-btn"
             @click="() => userAction('escapeInteraction')"
-          ></div>
+          />
           <span>
             {{ $t('cinematic.instructional_tooltip') }}
           </span>
-          <img src="/images/ozaria/cinematic/navigation/Keyboard.svg" alt="Keyboard showing cinematic navigation with left and right keys" usemap="#keyboard-image-map" />
+          <img
+            src="/images/ozaria/cinematic/navigation/Keyboard.svg"
+            alt="Keyboard showing cinematic navigation with left and right keys"
+            usemap="#keyboard-image-map"
+          >
           <map name="keyboard-image-map">
-            <area class="keyboard-right" shape="rect" coords="92,0,143,52" @click="() => userAction('forwardInteraction')">
+            <area
+              class="keyboard-right"
+              shape="rect"
+              coords="92,0,143,52"
+              @click="() => userAction('forwardInteraction')"
+            >
           </map>
         </div>
-        <div id="cinematic-backer" v-if="loaded">
+        <div
+          v-if="loaded"
+          id="cinematic-backer"
+        >
           <div
             id="back-btn"
             :class="{ disabled: !canUndo }"
             @click="() => userAction('backInteraction')"
-          ></div>
+          />
           <div
             id="forward-btn"
             @click="() => userAction('forwardInteraction')"
-          ></div>
+          />
         </div>
       </div>
       <chalkboard />
@@ -82,8 +98,8 @@ import { WIDTH, HEIGHT, CINEMATIC_ASPECT_RATIO } from '../../../../engine/cinema
 import Chalkboard from './Chalkboard'
 import _ from 'lodash'
 import store from 'app/core/store'
-import cinematicActionLogModule from "./cinematicActionLogModule";
-import {mapGetters} from "vuex";
+import cinematicActionLogModule from './cinematicActionLogModule'
+import { mapGetters } from 'vuex'
 
 const BACK_INTERACTION = 'backInteraction'
 const FORWARD_INTERACTION = 'forwardInteraction'
@@ -93,7 +109,7 @@ const INTERACTION_TYPES = {
   Escape: ESCAPE_INTERACTION,
   Enter: FORWARD_INTERACTION,
   ArrowRight: FORWARD_INTERACTION,
-  ArrowLeft: BACK_INTERACTION,
+  ArrowLeft: BACK_INTERACTION
 }
 
 export default {
@@ -137,17 +153,18 @@ export default {
         onPlay: this.handlePlay,
         onPause: this.handleWait,
         onCompletion: () => {
-          this.$emit('completed', this.cinematicLogs);
+          this.$emit('completed', this.cinematicLogs)
           this.cinematicCompleted = true
           window.tracker.trackEvent('Completed Cinematic', { cinematicId: (this.cinematicData || {})._id }, ['Google Analytics'])
         },
         onLoaded: this.handleCinematicLoad
-      }})
+      }
+    })
     window.addEventListener('resize', this.onResize)
     this.onResize()
-    store.registerModule('cinematicActionLog', cinematicActionLogModule);
+    store.registerModule('cinematicActionLog', cinematicActionLogModule)
     // hasModule func is available in vue3 not in vue2 so just resetting state for now, if mounted again on replay of cinematic
-    store.dispatch('cinematicActionLog/resetState');
+    store.dispatch('cinematicActionLog/resetState')
   },
 
   computed: {
@@ -161,21 +178,21 @@ export default {
       return this.controller.undoCommands.canUndo
     },
     ...mapGetters({
-      'cinematicLogs': 'cinematicActionLog/logs',
-    }),
+      cinematicLogs: 'cinematicActionLog/logs'
+    })
   },
 
   methods: {
     // Note: This is called between dialogue nodes when autoplay system is used.
-    handlePlay: function() {
+    handlePlay: function () {
       this.cinematicPlaying = true
     },
 
-    handleWait: function() {
+    handleWait: function () {
       this.cinematicPlaying = false
     },
 
-    playNextShot: function() {
+    playNextShot: function () {
       this.controller && this.controller.runShot()
     },
 
@@ -198,8 +215,8 @@ export default {
 
     pressBackwardsNavigation: function () {
       if (this.canUndo && this.controller) {
-        this.controller.undoShot();
-        store.dispatch('cinematicActionLog/addLog', { skip: this.cinematicPlaying, next: 'B' });
+        this.controller.undoShot()
+        store.dispatch('cinematicActionLog/addLog', { skip: this.cinematicPlaying, next: 'B' })
       }
     },
 
@@ -216,7 +233,7 @@ export default {
         this.handleWait()
       }
 
-      store.dispatch('cinematicActionLog/addLog', { skip: this.cinematicPlaying, next: 'F' });
+      store.dispatch('cinematicActionLog/addLog', { skip: this.cinematicPlaying, next: 'F' })
       if (this.cinematicPlaying) {
         this.controller.cancelShot()
       } else {
@@ -282,8 +299,8 @@ export default {
     }
     window.removeEventListener('keydown', this.handleKeyboard)
     window.removeEventListener('resize', this.onResize)
-    window.tracker.trackEvent('Unloaded Cinematic', {cinematicId: (this.cinematicData || {})._id}, ['Google Analytics'])
-    store.unregisterModule('cinematicActionLog');
+    window.tracker.trackEvent('Unloaded Cinematic', { cinematicId: (this.cinematicData || {})._id }, ['Google Analytics'])
+    store.unregisterModule('cinematicActionLog')
   }
 }
 </script>

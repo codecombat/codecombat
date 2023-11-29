@@ -1,38 +1,38 @@
 <template>
-    <span class="fit"><slot></slot></span>
+  <span class="fit"><slot /></span>
 </template>
 
 <script>
-  import fitty from 'fitty';
+import fitty from 'fitty'
 
-  export default {
-    props: {
-      options: {
-        type: Object,
-        required: false,
-        default() {
-          return {
-            minSize: 16,
-            maxSize: 512,
-            multiLine: true
-          };
+export default {
+  props: {
+    options: {
+      type: Object,
+      required: false,
+      default () {
+        return {
+          minSize: 16,
+          maxSize: 512,
+          multiLine: true
         }
       }
-    },
-
-    data() {
-      return {
-        _fitty: undefined
-      };
-    },
-
-    destroyed() {
-      this._fitty.unsubscribe();
-    },
-    mounted() {
-      this._fitty = fitty(this.$el, this.options);
     }
-  };
+  },
+
+  data () {
+    return {
+      _fitty: undefined
+    }
+  },
+
+  destroyed () {
+    this._fitty.unsubscribe()
+  },
+  mounted () {
+    this._fitty = fitty(this.$el, this.options)
+  }
+}
 </script>
 
 <style scoped>

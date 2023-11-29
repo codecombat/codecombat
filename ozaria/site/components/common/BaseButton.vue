@@ -1,29 +1,29 @@
 <script>
-  export default {
-    props: {
-      onClick: {
-        type: Function,
-        default: () => {}
-      },
-
-      enabled: {
-        type: Boolean,
-        default: true
-      }
+export default {
+  props: {
+    onClick: {
+      type: Function,
+      default: () => {}
     },
 
-    methods: {
-      handleClick () {
-        this.$emit('click')
-        this.onClick()
-      }
+    enabled: {
+      type: Boolean,
+      default: true
+    }
+  },
+
+  methods: {
+    handleClick () {
+      this.$emit('click')
+      this.onClick()
     }
   }
+}
 </script>
 
 <template>
   <button
-    class='ozaria-btn'
+    class="ozaria-btn"
 
     :disabled="!enabled"
 

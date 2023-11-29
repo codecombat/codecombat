@@ -31,7 +31,7 @@ Cinematic.flattenDialogueText = (cinematic) => {
       if (text) {
         cinematicText.push({
           id: idx,
-          text: text
+          text
         })
         idx += 1
       }

@@ -1,82 +1,82 @@
 <script>
-  import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 
-  import ChapterNav from './components/ChapterNav'
-  import ChapterInfo from './components/ChapterInfo'
-  import ConceptsCovered from './components/ConceptsCovered'
-  import CstaStandards from './components/CstaStandards'
-  import ModuleContent from './components/ModuleContent'
+import ChapterNav from './components/ChapterNav'
+import ChapterInfo from './components/ChapterInfo'
+import ConceptsCovered from './components/ConceptsCovered'
+import CstaStandards from './components/CstaStandards'
+import ModuleContent from './components/ModuleContent'
 
-  export default {
-    components: {
-      ChapterNav,
-      ChapterInfo,
-      ConceptsCovered,
-      CstaStandards,
-      ModuleContent
+export default {
+  components: {
+    ChapterNav,
+    ChapterInfo,
+    ConceptsCovered,
+    CstaStandards,
+    ModuleContent
+  },
+
+  props: {
+    defaultLanguage: {
+      type: String,
+      default: 'python'
+    }
+  },
+
+  computed: {
+    ...mapState({
+      isVisible: state => state.baseCurriculumGuide.visible
+    }),
+
+    ...mapGetters({
+      getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
+      getModuleInfo: 'baseCurriculumGuide/getModuleInfo',
+      getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
+      getTrackCategory: 'teacherDashboard/getTrackCategory'
+    }),
+
+    courseName () {
+      return this.getCurrentCourse?.name || ''
     },
 
-    props: {
-      defaultLanguage: {
-        type: String,
-        default: 'python'
-      },
+    conceptsCovered () {
+      return this.getCurrentCourse?.concepts || []
     },
 
-    computed: {
-      ...mapState({
-        isVisible: state => state.baseCurriculumGuide.visible
-      }),
+    cstaStandards () {
+      return this.getCurrentCourse?.cstaStandards || []
+    },
 
-      ...mapGetters({
-        getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
-        getModuleInfo: 'baseCurriculumGuide/getModuleInfo',
-        getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
-        getTrackCategory: 'teacherDashboard/getTrackCategory'
-      }),
+    moduleNumbers () {
+      return Object.keys(this.getModuleInfo || {})
+    }
+  },
 
-      courseName () {
-        return this.getCurrentCourse?.name || ''
-      },
-
-      conceptsCovered () {
-        return this.getCurrentCourse?.concepts || []
-      },
-
-      cstaStandards () {
-        return this.getCurrentCourse?.cstaStandards || []
-      },
-
-      moduleNumbers () {
-        return Object.keys(this.getModuleInfo || {})
+  methods: {
+    ...mapActions({
+      toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide'
+    }),
+    ...mapMutations({
+      setSelectedLanguage: 'baseCurriculumGuide/setSelectedLanguage',
+      closeCurriculumGuide: 'baseCurriculumGuide/closeCurriculumGuide'
+    }),
+    changeLanguage (e) {
+      window.tracker?.trackEvent('Curriculum Guide: Language Changed from dropdown', { category: this.getTrackCategory, label: this.courseName })
+      this.setSelectedLanguage(e.target.value)
+    },
+    isCapstoneModule (moduleNum) {
+      // Assuming that last module is the capstone module, TODO store `isCapstoneModule` with module details in the course schema.
+      return moduleNum === this.moduleNumbers[this.moduleNumbers.length - 1]
+    }
+  },
+  watch: {
+    defaultLanguage: {
+      handler (language) {
+        this.setSelectedLanguage(language)
       }
-    },
-
-    methods: {
-      ...mapActions({
-        toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide'
-      }),
-      ...mapMutations({
-        setSelectedLanguage: 'baseCurriculumGuide/setSelectedLanguage',
-        closeCurriculumGuide: 'baseCurriculumGuide/closeCurriculumGuide'
-      }),
-      changeLanguage(e) {
-        window.tracker?.trackEvent('Curriculum Guide: Language Changed from dropdown', { category: this.getTrackCategory, label: this.courseName })
-        this.setSelectedLanguage(e.target.value)
-      },
-      isCapstoneModule (moduleNum) {
-        // Assuming that last module is the capstone module, TODO store `isCapstoneModule` with module details in the course schema.
-        return moduleNum === this.moduleNumbers[this.moduleNumbers.length-1]
-      }
-    },
-    watch: {
-      defaultLanguage: {
-        handler(language) {
-          this.setSelectedLanguage(language)
-        },
-      }
-    },
+    }
   }
+}
 </script>
 
 <template>
@@ -97,14 +97,24 @@
             <div class="code-language-dropdown">
               <span class="select-language">{{ $t('courses.select_language') }}</span>
               <select @change="changeLanguage">
-                <option value="python" :selected="getSelectedLanguage === 'python'"> Python </option>
-                <option value="javascript" :selected="getSelectedLanguage === 'javascript'"> JavaScript </option>
+                <option
+                  value="python"
+                  :selected="getSelectedLanguage === 'python'"
+                >
+                  Python
+                </option>
+                <option
+                  value="javascript"
+                  :selected="getSelectedLanguage === 'javascript'"
+                >
+                  JavaScript
+                </option>
               </select>
             </div>
             <img
               class="close-btn"
-              @click="toggleCurriculumGuide"
               src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Exit.svg"
+              @click="toggleCurriculumGuide"
             >
           </div>
         </div>
@@ -135,8 +145,7 @@
       class="clickable-hide-area"
 
       @click="closeCurriculumGuide"
-    >
-    </div>
+    />
   </div>
 </template>
 

@@ -2,194 +2,202 @@
 import moment from 'moment'
 
 export default {
-    props: {
-      status: {
-        type: String,
-        default: 'assigned',
-        validator: value => {
-          const index = ['assigned', 'progress', 'complete', 'unassigned'].indexOf(value)
-          if (index === -1) {
-            console.error(`Got progressDot status value of '${value}'`)
-          }
-          return index !== -1
+  props: {
+    status: {
+      type: String,
+      default: 'assigned',
+      validator: value => {
+        const index = ['assigned', 'progress', 'complete', 'unassigned'].indexOf(value)
+        if (index === -1) {
+          console.error(`Got progressDot status value of '${value}'`)
         }
-      },
-
-      isLocked: {
-        type: Boolean,
-        default: false,
-      },
-
-      isSkipped: {
-        type: Boolean,
-        default: false,
-      },
-
-      lockDate: {
-        type: Date,
-        default: null
-      },
-
-      lastLockDate: {
-        type: Date,
-        default: null
-      },
-
-      border: {
-        type: String,
-        default: ''
-      },
-
-      clickState: {
-        type: Boolean,
-        default: false
-      },
-
-      clickProgressHandler: {
-        type: Function,
-        required: false,
-        default: undefined
-      },
-
-      contentType: {
-        type: String,
-        default: null
-      },
-
-      trackCategory: {
-        type: String,
-        default: ''
-      },
-
-      selected: {
-        type: Boolean,
-        default: false
-      },
-
-      hovered: {
-        type: Boolean,
-        default: false
-      },
-
-      isPlayable: {
-        type: Boolean,
-        default: true
-      },
-      isOptional: {
-        type: Boolean,
-        default: false
+        return index !== -1
       }
     },
 
-    computed: {
-      isClicked () {
-        return this.clickState || false
-      },
+    isLocked: {
+      type: Boolean,
+      default: false
+    },
 
-      dotClass () {
-        return {
-          'green-dot': this.status === 'complete',
-          'teal-dot': this.status === 'progress',
-          'assigned-dot': this.levelAccessStatus === 'assigned',
-          [this.levelAccessStatus]: true
-        }
-      },
+    isSkipped: {
+      type: Boolean,
+      default: false
+    },
 
-      dotBorder () {
-        return {
-          'dot-border': true,
-          'border-red': this.border === 'red',
-          'border-gray': this.border === 'gray',
-          'selected': this.selected,
-          'hovered': this.hovered,
-        }
-      },
+    lockDate: {
+      type: Date,
+      default: null
+    },
 
-      isClickedClasses () {
-        return {
-          'clicked': this.isClicked,
-          'progress-dot': true,
-          'clickable': typeof this.clickProgressHandler === 'function'
-        }
-      },
+    lastLockDate: {
+      type: Date,
+      default: null
+    },
 
-      tooltipContent () {
-        const date = (this.isLocked && this.lockDate > new Date() && this.lockDate) || (!this.isLocked && this.lastLockDate)
-        const dateString = moment(date).utc().format('ll')
+    border: {
+      type: String,
+      default: ''
+    },
 
-        const label = {
-          'locked-by-previous': 'locked_by_previous',
-          'locked-with-timeframe': 'locked_with_timeframe'
-        }[this.levelAccessStatus] || this.levelAccessStatus
+    clickState: {
+      type: Boolean,
+      default: false
+    },
 
-        return $.i18n.t(`teacher_dashboard.${label}`) + (!this.isSkipped && date ? ' ' + $.i18n.t('teacher_dashboard.until_date', { date: dateString }) : '')
-      },
+    clickProgressHandler: {
+      type: Function,
+      required: false,
+      default: undefined
+    },
 
-      levelAccessStatus () {
-        if (this.isLocked && !this.lockDate && !this.isOptional) {
-          return 'locked'
-        } else if (!this.isLocked && !this.isPlayable && !this.lockDate) {
-          return 'locked-by-previous'
-        } else if (this.lockDate && this.lockDate > new Date()) {
-          return 'locked-with-timeframe'
-        } else if (this.isSkipped) {
-          return 'skipped'
-        } else if (this.isOptional && this.isPlayable) {
-          return 'optional'
-        }
-        return 'assigned'
-      },
+    contentType: {
+      type: String,
+      default: null
+    },
 
-      hasClockIcon () {
-        if (this.levelAccessStatus === 'locked-with-timeframe') {
-          return true
-        }
-        if (this.levelAccessStatus === 'locked-by-previous' && this.lastLockDate > new Date()) {
-          return true
-        }
-        return false
+    trackCategory: {
+      type: String,
+      default: ''
+    },
+
+    selected: {
+      type: Boolean,
+      default: false
+    },
+
+    hovered: {
+      type: Boolean,
+      default: false
+    },
+
+    isPlayable: {
+      type: Boolean,
+      default: true
+    },
+    isOptional: {
+      type: Boolean,
+      default: false
+    }
+  },
+
+  computed: {
+    isClicked () {
+      return this.clickState || false
+    },
+
+    dotClass () {
+      return {
+        'green-dot': this.status === 'complete',
+        'teal-dot': this.status === 'progress',
+        'assigned-dot': this.levelAccessStatus === 'assigned',
+        [this.levelAccessStatus]: true
       }
     },
 
-    methods: {
-      clickHandler () {
-        if (typeof this.clickProgressHandler === 'function') {
-          this.trackEvent()
-          this.clickProgressHandler()
-        }
-      },
+    dotBorder () {
+      return {
+        'dot-border': true,
+        'border-red': this.border === 'red',
+        'border-gray': this.border === 'gray',
+        selected: this.selected,
+        hovered: this.hovered
+      }
+    },
 
-      trackEvent () {
-        if (this.contentType) {
-          let eventLabel = this.contentType
-          if (this.border === 'red') {
-            eventLabel += ' alert'
-          }
-          window.tracker?.trackEvent('Track Progress: Progress Dot Clicked', {
-            category: this.trackCategory || 'Teachers',
-            label: eventLabel
-          })
+    isClickedClasses () {
+      return {
+        clicked: this.isClicked,
+        'progress-dot': true,
+        clickable: typeof this.clickProgressHandler === 'function'
+      }
+    },
+
+    tooltipContent () {
+      const date = (this.isLocked && this.lockDate > new Date() && this.lockDate) || (!this.isLocked && this.lastLockDate)
+      const dateString = moment(date).utc().format('ll')
+
+      const label = {
+        'locked-by-previous': 'locked_by_previous',
+        'locked-with-timeframe': 'locked_with_timeframe'
+      }[this.levelAccessStatus] || this.levelAccessStatus
+
+      return $.i18n.t(`teacher_dashboard.${label}`) + (!this.isSkipped && date ? ' ' + $.i18n.t('teacher_dashboard.until_date', { date: dateString }) : '')
+    },
+
+    levelAccessStatus () {
+      if (this.isLocked && !this.lockDate && !this.isOptional) {
+        return 'locked'
+      } else if (!this.isLocked && !this.isPlayable && !this.lockDate) {
+        return 'locked-by-previous'
+      } else if (this.lockDate && this.lockDate > new Date()) {
+        return 'locked-with-timeframe'
+      } else if (this.isSkipped) {
+        return 'skipped'
+      } else if (this.isOptional && this.isPlayable) {
+        return 'optional'
+      }
+      return 'assigned'
+    },
+
+    hasClockIcon () {
+      if (this.levelAccessStatus === 'locked-with-timeframe') {
+        return true
+      }
+      if (this.levelAccessStatus === 'locked-by-previous' && this.lastLockDate > new Date()) {
+        return true
+      }
+      return false
+    }
+  },
+
+  methods: {
+    clickHandler () {
+      if (typeof this.clickProgressHandler === 'function') {
+        this.trackEvent()
+        this.clickProgressHandler()
+      }
+    },
+
+    trackEvent () {
+      if (this.contentType) {
+        let eventLabel = this.contentType
+        if (this.border === 'red') {
+          eventLabel += ' alert'
         }
+        window.tracker?.trackEvent('Track Progress: Progress Dot Clicked', {
+          category: this.trackCategory || 'Teachers',
+          label: eventLabel
+        })
       }
     }
   }
+}
 </script>
 
 <template>
   <div
-      :class="isClickedClasses"
-      @click="clickHandler"
-      v-tooltip="tooltipContent && {
-           content: tooltipContent,
-           placement: 'right',
-           classes: 'layoutChromeTooltip',
-         }"
+    v-tooltip="tooltipContent && {
+      content: tooltipContent,
+      placement: 'right',
+      classes: 'layoutChromeTooltip',
+    }"
+    :class="isClickedClasses"
+    @click="clickHandler"
   >
-    <div :class="dotBorder" data="">
-      <div class="dot" :class="dotClass">
-      </div>
-      <span v-if="hasClockIcon" class="timed-lock">
-        <i class="glyphicon glyphicon-time"></i>
+    <div
+      :class="dotBorder"
+      data=""
+    >
+      <div
+        class="dot"
+        :class="dotClass"
+      />
+      <span
+        v-if="hasClockIcon"
+        class="timed-lock"
+      >
+        <i class="glyphicon glyphicon-time" />
       </span>
     </div>
   </div>

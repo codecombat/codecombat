@@ -1,53 +1,53 @@
 <script>
-  import { mapGetters, mapMutations, mapActions } from 'vuex'
-  import { COMPONENT_NAMES } from '../../common/constants.js'
-  import BaseTeacherLicensesComponent from 'ozaria/site/components/teacher-dashboard/BaseTeacherLicenses'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { COMPONENT_NAMES } from '../../common/constants.js'
+import BaseTeacherLicensesComponent from 'ozaria/site/components/teacher-dashboard/BaseTeacherLicenses'
 
-  export default {
-    name: COMPONENT_NAMES.ADMINISTERED_TEACHERS.TEACHER_LICENSES,
+export default {
+  name: COMPONENT_NAMES.ADMINISTERED_TEACHERS.TEACHER_LICENSES,
 
-    components: {
-      BaseTeacherLicensesComponent
-    },
+  components: {
+    BaseTeacherLicensesComponent
+  },
 
-    props: {
-      teacherId: {
-        type: String,
-        required: true
-      }
-    },
-
-    computed: {
-      ...mapGetters({
-        loading: 'schoolAdminDashboard/getLoadingState',
-        selectedAdministeredTeacherName: 'schoolAdminDashboard/selectedAdministeredTeacherName',
-        activeLicenses: 'teacherDashboard/getActiveLicenses',
-        expiredLicenses: 'teacherDashboard/getExpiredLicenses'
-      }),
-      showNoLicenses () {
-        return this.activeLicenses.length === 0 && this.expiredLicenses.length === 0 && !this.loading
-      }
-    },
-
-    mounted () {
-      this.setSelectedAdministeredTeacherId(this.teacherId)
-      this.fetchData({ componentName: this.$options.name })
-    },
-
-    destroyed () {
-      this.resetLoadingState()
-    },
-
-    methods: {
-      ...mapMutations({
-        resetLoadingState: 'schoolAdminDashboard/resetLoadingState',
-        setSelectedAdministeredTeacherId: 'schoolAdminDashboard/setSelectedAdministeredTeacherId'
-      }),
-      ...mapActions({
-        fetchData: 'schoolAdminDashboard/fetchData'
-      })
+  props: {
+    teacherId: {
+      type: String,
+      required: true
     }
+  },
+
+  computed: {
+    ...mapGetters({
+      loading: 'schoolAdminDashboard/getLoadingState',
+      selectedAdministeredTeacherName: 'schoolAdminDashboard/selectedAdministeredTeacherName',
+      activeLicenses: 'teacherDashboard/getActiveLicenses',
+      expiredLicenses: 'teacherDashboard/getExpiredLicenses'
+    }),
+    showNoLicenses () {
+      return this.activeLicenses.length === 0 && this.expiredLicenses.length === 0 && !this.loading
+    }
+  },
+
+  mounted () {
+    this.setSelectedAdministeredTeacherId(this.teacherId)
+    this.fetchData({ componentName: this.$options.name })
+  },
+
+  destroyed () {
+    this.resetLoadingState()
+  },
+
+  methods: {
+    ...mapMutations({
+      resetLoadingState: 'schoolAdminDashboard/resetLoadingState',
+      setSelectedAdministeredTeacherId: 'schoolAdminDashboard/setSelectedAdministeredTeacherId'
+    }),
+    ...mapActions({
+      fetchData: 'schoolAdminDashboard/fetchData'
+    })
   }
+}
 </script>
 
 <template>
