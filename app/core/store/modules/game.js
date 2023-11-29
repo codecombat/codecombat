@@ -12,7 +12,6 @@
 const levelSchema = require('schemas/models/level')
 const utils = require('core/utils')
 const translateUtils = require('lib/translate-utils')
-const aetherUtils = require('lib/aether_utils')
 
 // TODO: Be explicit about the properties being stored
 const emptyLevel = _.zipObject((Array.from(_.keys(levelSchema.properties)).map((key) => [key, null])))
@@ -242,7 +241,7 @@ module.exports = {
         let rawSource = __guard__(_.find(solutions, { language: codeLanguage }), x => x.source)
         if (!rawSource && (jsSource = __guard__(_.find(solutions, { language: 'javascript' }), x1 => x1.source))) {
           // If there is no target language solution yet, generate one from JavaScript.
-          rawSource = aetherUtils.translateJS(jsSource, codeLanguage)
+          rawSource = translateUtils.translateJS(jsSource, codeLanguage)
         }
 
         if (!rawSource) {
