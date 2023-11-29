@@ -1,22 +1,22 @@
 <script>
-  export default {
-    props: {
-      courses: {
-        type: Array,
-        default: () => []
-      },
-      selectedCourseId: {
-        type: String,
-        default: ''
-      }
+export default {
+  props: {
+    courses: {
+      type: Array,
+      default: () => []
     },
+    selectedCourseId: {
+      type: String,
+      default: ''
+    }
+  },
 
-    methods: {
-      onChange (event) {
-        this.$emit('change-course', event.target.value)
-      }
+  methods: {
+    onChange (event) {
+      this.$emit('change-course', event.target.value)
     }
   }
+}
 </script>
 
 <template>

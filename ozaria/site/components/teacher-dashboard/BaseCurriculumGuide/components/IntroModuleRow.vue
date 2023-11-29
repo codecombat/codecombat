@@ -1,24 +1,24 @@
 <script>
-  import ContentIcon from '../../common/icons/ContentIcon'
+import ContentIcon from '../../common/icons/ContentIcon'
 
-  export default {
-    components: {
-      ContentIcon
+export default {
+  components: {
+    ContentIcon
+  },
+
+  props: {
+    iconType: {
+      type: String,
+      required: true,
+      validator: value => ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].indexOf(value) !== -1
     },
 
-    props: {
-      iconType: {
-        type: String,
-        required: true,
-        validator: value => ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].indexOf(value) !== -1
-      },
-
-      displayName: {
-        type: String,
-        required: true
-      }
+    displayName: {
+      type: String,
+      required: true
     }
   }
+}
 </script>
 <template>
   <div

@@ -1,16 +1,16 @@
 <script>
-  export default {
-    props: {
-      labelText: {
-        required: true,
-        type: String
-      },
-      options: {
-        type: Array,
-        default: () => []
-      }
+export default {
+  props: {
+    labelText: {
+      required: true,
+      type: String
+    },
+    options: {
+      type: Array,
+      default: () => []
     }
   }
+}
 </script>
 <template>
   <div>

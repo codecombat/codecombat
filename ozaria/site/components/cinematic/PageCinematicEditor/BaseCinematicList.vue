@@ -1,47 +1,47 @@
 <script>
-  import { createCinematic, getAllCinematics } from '../../../api/cinematic'
-  import ListItem from '../../common/BaseListItem'
-  const globalVar = require('core/globalVar')
+import { createCinematic, getAllCinematics } from '../../../api/cinematic'
+import ListItem from '../../common/BaseListItem'
+const globalVar = require('core/globalVar')
 
-  module.exports = Vue.extend({
-    components: {
-      'editor-list': ListItem
-    },
+module.exports = Vue.extend({
+  components: {
+    'editor-list': ListItem
+  },
 
-    data: () => ({
-      cinematicList: null
-    }),
+  data: () => ({
+    cinematicList: null
+  }),
 
-    mounted () {
-      if (!me.hasCinematicEditorAccess()) {
-        alert('You must be logged in as an admin to use this page.')
-        return application.router.navigate('/editor', { trigger: true })
-      }
-      this.fetchList()
-    },
-
-    methods: {
-      /**
-       * Fetch all names and slugs of cinematics from the database.
-       * Clears the slug.
-       */
-      async fetchList () {
-        this.cinematicList = await getAllCinematics()
-      },
-
-      async createCinematic () {
-        const name = window.prompt('Name of new cinematic?')
-        if (!name) { return }
-
-        await createCinematic({ name })
-        return this.fetchList()
-      },
-
-      navigateToCinematic (cinematicSlug) {
-        return () => globalVar.application.router.navigate(`/editor/cinematic/${cinematicSlug}`, { trigger: true })
-      }
+  mounted () {
+    if (!me.hasCinematicEditorAccess()) {
+      alert('You must be logged in as an admin to use this page.')
+      return application.router.navigate('/editor', { trigger: true })
     }
-  })
+    this.fetchList()
+  },
+
+  methods: {
+    /**
+     * Fetch all names and slugs of cinematics from the database.
+     * Clears the slug.
+     */
+    async fetchList () {
+      this.cinematicList = await getAllCinematics()
+    },
+
+    async createCinematic () {
+      const name = window.prompt('Name of new cinematic?')
+      if (!name) { return }
+
+      await createCinematic({ name })
+      return this.fetchList()
+    },
+
+    navigateToCinematic (cinematicSlug) {
+      return () => globalVar.application.router.navigate(`/editor/cinematic/${cinematicSlug}`, { trigger: true })
+    }
+  }
+})
 </script>
 
 <template>

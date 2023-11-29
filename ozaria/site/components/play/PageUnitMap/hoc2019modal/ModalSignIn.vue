@@ -31,9 +31,14 @@ export default {
   },
   data: () => ({
     gplusLoaded: false,
-    showingError: false,
+    showingError: false
   }),
-  mounted() {
+  computed: {
+    useSocialSignOn () {
+      return me.useSocialSignOn()
+    }
+  },
+  mounted () {
     if (me.useSocialSignOn()) {
       application.gplusHandler.loadAPI({
         success: () => {
@@ -43,24 +48,19 @@ export default {
       })
     }
   },
-  computed: {
-    useSocialSignOn() {
-      return me.useSocialSignOn();
-    }
-  },
   methods: {
     ...mapActions({
-        joinClass: 'studentModal/joinClass',
-        setHocOptions: 'studentModal/setHocOptions'
-      }),
+      joinClass: 'studentModal/joinClass',
+      setHocOptions: 'studentModal/setHocOptions'
+    }),
     async onSubmitForm (e) {
       forms.clearFormAlerts($('#auth-modal'))
       $('#unknown-error-alert').addClass('hide')
-      const userObject = forms.formToObject($("#auth-modal"))
+      const userObject = forms.formToObject($('#auth-modal'))
 
       const res = tv4.validateMultiple(userObject, formSchema)
       if (!res.valid) {
-        return forms.applyErrorsToForm($("#auth-modal"), res.errors)
+        return forms.applyErrorsToForm($('#auth-modal'), res.errors)
       }
       try {
         await new Promise(me.loginPasswordUser(userObject.emailOrUsername, userObject.password).then)
@@ -120,7 +120,11 @@ export default {
             success: resolve,
             error: function (user, jqxhr) {
               if (jqxhr.status === 409 && jqxhr.responseJSON.errorID && jqxhr.responseJSON.errorID === 'account-with-email-exists') {
-                noty({ text: $.i18n.t('login.accounts_merge_confirmation'), layout: 'topCenter', type: 'info', buttons: [
+                noty({
+                  text: $.i18n.t('login.accounts_merge_confirmation'),
+                  layout: 'topCenter',
+                  type: 'info',
+                  buttons: [
                     {
                       text: 'Yes',
                       onClick: ($noty) => {
@@ -142,7 +146,7 @@ export default {
                   ]
                 })
               } else {
-                errors.showNotyNetworkError(...arguments);
+                errors.showNotyNetworkError(...arguments)
                 reject(new Error('Network Error'))
               }
             }
@@ -152,7 +156,7 @@ export default {
           me.loginGPlusUser(gplusAttrs.gplusID, {
             data: loginOptions,
             success: resolve,
-            error: function(res, jqxhr) {
+            error: function (res, jqxhr) {
               if (jqxhr.status === 401 && jqxhr.responseJSON.errorID && jqxhr.responseJSON.errorID === 'individuals-not-supported') {
                 forms.setErrorToProperty($('#auth-modal'), 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
               } else {

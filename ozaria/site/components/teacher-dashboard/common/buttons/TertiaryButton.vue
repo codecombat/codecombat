@@ -1,20 +1,20 @@
 
 <script>
-  export default Vue.extend({
-    props: {
-      inactive: {
-        type: Boolean,
-        default: false
-      }
-    },
-    methods: {
-      onClick () {
-        if (!this.inactive) {
-          this.$emit('click')
-        }
+export default Vue.extend({
+  props: {
+    inactive: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    onClick () {
+      if (!this.inactive) {
+        this.$emit('click')
       }
     }
-  })
+  }
+})
 </script>
 
 <template>

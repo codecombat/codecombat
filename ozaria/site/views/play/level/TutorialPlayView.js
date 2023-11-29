@@ -1,9 +1,9 @@
-const store = require('core/store')
-const utils = require('core/utils')
 import { internationalizeLevelType } from 'ozaria/site/common/ozariaUtils'
 import RootComponent from 'views/core/RootComponent'
 import template from 'templates/base-flat'
 import TutorialPlayComponent from './TutorialPlayComponent'
+const store = require('core/store')
+const utils = require('core/utils')
 
 class TutorialPlayView extends RootComponent {
   constructor (props = {}) {

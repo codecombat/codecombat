@@ -183,9 +183,9 @@ class PlayLevelView extends RootView {
       'world-necessities-loaded',
       this.onWorldNecessitiesLoaded
     )
-    this.classroomAceConfig = {liveCompletion: true} // default (home users, teachers, etc.)
-    if(this.courseInstanceID) {
-      let fetchAceConfig = $.get(`/db/course_instance/${this.courseInstanceID}/classroom?project=aceConfig,members`)
+    this.classroomAceConfig = { liveCompletion: true } // default (home users, teachers, etc.)
+    if (this.courseInstanceID) {
+      const fetchAceConfig = $.get(`/db/course_instance/${this.courseInstanceID}/classroom?project=aceConfig,members`)
       this.supermodel.trackRequest(fetchAceConfig)
       fetchAceConfig.then(classroom => {
         if (classroom.aceConfig?.liveCompletion !== null && classroom.aceConfig?.liveCompletion !== undefined) {
@@ -479,7 +479,7 @@ class PlayLevelView extends RootView {
   loadOpponentTeam (myTeam) {
     let opponentSpells = []
     const object = this.session.get('teamSpells') || (this.otherSession && this.otherSession.get('teamSpells')) || {}
-    for (let spellTeam in object) {
+    for (const spellTeam in object) {
       const spells = object[spellTeam]
       if (spellTeam === myTeam || !myTeam) {
         continue
@@ -906,7 +906,7 @@ class PlayLevelView extends RootView {
       return {}
     }
     const playerNames = {}
-    for (let session of [this.session, this.otherSession]) {
+    for (const session of [this.session, this.otherSession]) {
       if (session != null ? session.get('team') : undefined) {
         playerNames[session.get('team')] =
           session.get('creatorName') || 'Anonymous'
@@ -1069,7 +1069,7 @@ class PlayLevelView extends RootView {
     const isReload = Boolean(this.world)
     if (isReload) {
       // Make sure to share any models we loaded that the parent didn't, like hero equipment, in case the parent reloaded
-      for (let url in this.supermodel.models) {
+      for (const url in this.supermodel.models) {
         const model = this.supermodel.models[url]
         if (!e.supermodel.models[url]) {
           e.supermodel.registerModel(model)
@@ -1086,10 +1086,10 @@ class PlayLevelView extends RootView {
 
   onLevelReloadThangType (e) {
     const tt = e.thangType
-    for (let url in this.supermodel.models) {
+    for (const url in this.supermodel.models) {
       const model = this.supermodel.models[url]
       if (model.id === tt.id) {
-        for (let key in tt.attributes) {
+        for (const key in tt.attributes) {
           const val = tt.attributes[key]
           model.attributes[key] = val
         }
@@ -1104,7 +1104,7 @@ class PlayLevelView extends RootView {
   }
 
   onOpenOptionsModal (e) {
-    this.openModalView(new GameMenuModal({ level: this.level, session: this.session, supermodel: this.supermodel, classroomAceConfig: this.classroomAceConfig}))
+    this.openModalView(new GameMenuModal({ level: this.level, session: this.session, supermodel: this.supermodel, classroomAceConfig: this.classroomAceConfig }))
   }
 
   onWindowResize (e) {
@@ -1250,7 +1250,7 @@ class PlayLevelView extends RootView {
       }
     }
 
-    let ModalClass = OzariaTransitionModal
+    const ModalClass = OzariaTransitionModal
     if (this.level.isType('course-ladder')) {
       options.courseInstanceID =
         utils.getQueryVariable('course-instance') ||
@@ -1729,7 +1729,6 @@ class PlayLevelView extends RootView {
 
       window.history.pushState(null, null, url)
     }
-
 
     store.dispatch('game/resetTutorial', {
       keepIntro: true

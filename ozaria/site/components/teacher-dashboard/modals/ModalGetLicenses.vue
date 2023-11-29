@@ -1,144 +1,144 @@
 <script>
-  import { validationMixin } from 'vuelidate'
-  import { required, email, numeric } from 'vuelidate/lib/validators'
-  import SecondaryButton from '../common/buttons/SecondaryButton'
-  import Modal from '../../common/Modal'
-  import api from 'core/api'
-  import contact from 'core/contact'
-  import { mapGetters } from 'vuex'
+import { validationMixin } from 'vuelidate'
+import { required, email, numeric } from 'vuelidate/lib/validators'
+import SecondaryButton from '../common/buttons/SecondaryButton'
+import Modal from '../../common/Modal'
+import api from 'core/api'
+import contact from 'core/contact'
+import { mapGetters } from 'vuex'
 
-  export default Vue.extend({
-    components: {
-      Modal,
-      SecondaryButton
+export default Vue.extend({
+  components: {
+    Modal,
+    SecondaryButton
+  },
+  mixins: [validationMixin],
+  props: {
+    subtitle: {
+      type: String,
+      // default to DT text
+      default: 'Send us a message and our classroom success team will be in touch to help find the best solution for your students\' needs!'
     },
-    props: {
-      subtitle: {
-        type: String,
-        // default to DT text
-        default: 'Send us a message and our classroom success team will be in touch to help find the best solution for your students\' needs!'
-      },
-      emailMessage: {
-        type: String,
-        // default to DT text
-        default: 'Hi Ozaria! I want to learn more about the Classroom experience and get licenses so that my students can access Chapter 2 and on.'
-      }
+    emailMessage: {
+      type: String,
+      // default to DT text
+      default: 'Hi Ozaria! I want to learn more about the Classroom experience and get licenses so that my students can access Chapter 2 and on.'
+    }
+  },
+  data: () => ({
+    name: '',
+    email: '',
+    licensesNeeded: null,
+    message: '',
+    state: '',
+    sendingInProgress: false,
+    paymentLink: '',
+    showPaymentLink: false
+  }),
+  validations: {
+    name: {
+      required
     },
-    mixins: [validationMixin],
-    data: () => ({
-      name: '',
-      email: '',
-      licensesNeeded: null,
-      message: '',
-      state: '',
-      sendingInProgress: false,
-      paymentLink: '',
-      showPaymentLink: false,
+    email: {
+      required,
+      email
+    },
+    licensesNeeded: {
+      required,
+      numeric,
+      mustBeGreaterThanZero: (value) => value > 0
+    },
+    message: {
+      required
+    }
+  },
+  computed: {
+    ...mapGetters({
+      getTrackCategory: 'teacherDashboard/getTrackCategory'
     }),
-    validations: {
-      name: {
-        required
-      },
-      email: {
-        required,
-        email
-      },
-      licensesNeeded: {
-        required,
-        numeric,
-        mustBeGreaterThanZero: (value) => value > 0
-      },
-      message: {
-        required
-      }
-    },
-    computed: {
-      ...mapGetters({
-        getTrackCategory: 'teacherDashboard/getTrackCategory'
-      }),
-      isFormValid () {
-        return !this.$v.$invalid
-      }
-    },
-    async mounted () {
-      const trialRequests = await api.trialRequests.getOwn()
-      const trialRequest = _.last(_.sortBy(trialRequests, (t) => t.id)) || {}
-      const props = trialRequest.properties || {}
+    isFormValid () {
+      return !this.$v.$invalid
+    }
+  },
+  async mounted () {
+    const trialRequests = await api.trialRequests.getOwn()
+    const trialRequest = _.last(_.sortBy(trialRequests, (t) => t.id)) || {}
+    const props = trialRequest.properties || {}
 
-      if (props.firstName && props.lastName) {
-        this.name = `${props.firstName} ${props.lastName}`
-      } else {
-        this.name = me.get('name')
-      }
+    if (props.firstName && props.lastName) {
+      this.name = `${props.firstName} ${props.lastName}`
+    } else {
+      this.name = me.get('name')
+    }
 
-      this.state = props.state
+    this.state = props.state
 
-      this.email = me.get('email') || props.email
+    this.email = me.get('email') || props.email
 
-      this.message = this.emailMessage + `
+    this.message = this.emailMessage + `
 
       Name of School: ${props.nces_name || props.organization || ''}
       Name of District: ${props.nces_district || props.district || ''}
       Role: ${props.role || ''}
       Phone Number: ${props.phoneNumber || ''}
       `
-      const numStudents = props.numStudents
-      const excludeLinkCountries = ['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia']
-      if ((numStudents === '1-10' || me.get('role') === 'parent') && !excludeLinkCountries.includes(me.get('country'))) {
-        api.prepaids.getOwn()
-          .then((data) => {
-            if (data.length === 0) {
-              this.paymentLink = me.get('role') === 'parent' ?
-                'https://codecombat.com/payments/homeschool-coco'
-                : 'https://codecombat.com/payments/student-licenses-small-classroom-coco'
-            }
-          })
+    const numStudents = props.numStudents
+    const excludeLinkCountries = ['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia']
+    if ((numStudents === '1-10' || me.get('role') === 'parent') && !excludeLinkCountries.includes(me.get('country'))) {
+      api.prepaids.getOwn()
+        .then((data) => {
+          if (data.length === 0) {
+            this.paymentLink = me.get('role') === 'parent'
+              ? 'https://codecombat.com/payments/homeschool-coco'
+              : 'https://codecombat.com/payments/student-licenses-small-classroom-coco'
+          }
+        })
+    }
+  },
+  methods: {
+    closeModal () {
+      window.location.href = '#license-interest'
+      this.$emit('close')
+    },
+    async onClickSubmit () {
+      if (this.isFormValid) {
+        window.tracker?.trackEvent('Get Licenses Modal: Submit Clicked', { category: this.getTrackCategory })
+        const sendObject = {
+          country: me.get('country'),
+          state: this.state,
+          name: this.name,
+          email: this.email,
+          licensesNeeded: this.licensesNeeded,
+          message: this.message
+        }
+        this.sendingInProgress = true
+        try {
+          await contact.send({ data: sendObject })
+          this.sendingInProgress = false
+          window.location.href = '#license-request'
+          window.tracker?.trackEvent('Get Licenses Modal: Submit Success', { category: this.getTrackCategory })
+          noty({ text: 'Our team has received your request and will reach out to you shortly.', type: 'success', layout: 'center', timeout: 2000 })
+          this.$emit('close')
+        } catch (e) {
+          this.sendingInProgress = false
+          noty({ text: 'Couldnt send the message', type: 'error', layout: 'center', timeout: 2000 })
+        }
       }
     },
-    methods: {
-      closeModal () {
-        window.location.href = '#license-interest'
-        this.$emit('close')
-      },
-      async onClickSubmit () {
-        if (this.isFormValid) {
-          window.tracker?.trackEvent('Get Licenses Modal: Submit Clicked', { category: this.getTrackCategory })
-          const sendObject = {
-            country: me.get('country'),
-            state: this.state,
-            name: this.name,
-            email: this.email,
-            licensesNeeded: this.licensesNeeded,
-            message: this.message
-          }
-          this.sendingInProgress = true
-          try {
-            await contact.send({ data: sendObject })
-            this.sendingInProgress = false
-            window.location.href = '#license-request'
-            window.tracker?.trackEvent('Get Licenses Modal: Submit Success', { category: this.getTrackCategory })
-            noty({ text: 'Our team has received your request and will reach out to you shortly.', type: 'success', layout: 'center', timeout: 2000 })
-            this.$emit('close')
-          } catch (e) {
-            this.sendingInProgress = false
-            noty({ text: 'Couldnt send the message', type: 'error', layout: 'center', timeout: 2000 })
-          }
-        }
-      },
-      onLicensesNeededUpdate(_e) {
-        if (!this.paymentLink || isNaN(this.licensesNeeded)) {
-          return
-        }
-        if (me.get('role') === 'parent' && this.licensesNeeded < 6) {
-          this.showPaymentLink = true
-        } else if (me.isTeacher() && this.licensesNeeded < 10) {
-          this.showPaymentLink = true
-        } else {
-          this.showPaymentLink = false
-        }
-      },
+    onLicensesNeededUpdate (_e) {
+      if (!this.paymentLink || isNaN(this.licensesNeeded)) {
+        return
+      }
+      if (me.get('role') === 'parent' && this.licensesNeeded < 6) {
+        this.showPaymentLink = true
+      } else if (me.isTeacher() && this.licensesNeeded < 10) {
+        this.showPaymentLink = true
+      } else {
+        this.showPaymentLink = false
+      }
     }
-  })
+  }
+})
 </script>
 
 <template>
@@ -217,7 +217,10 @@
               v-if="showPaymentLink && paymentLink"
               class="payment-link"
             >
-              You can buy {{this.licensesNeeded}} licenses <a :href="paymentLink" target="_blank">here</a> directly
+              You can buy {{ licensesNeeded }} licenses <a
+                :href="paymentLink"
+                target="_blank"
+              >here</a> directly
             </p>
           </div>
         </div>

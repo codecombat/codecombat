@@ -56,11 +56,11 @@ export class CinematicController {
     this.stage = new createjs.StageGL(canvas)
     const camera = new Camera($(canvas))
     // stubRequiredLayer needed by Lanks as a dependency. We don't attach to canvas.
-    this.stubRequiredLayer = new LayerAdapter({ name: 'Ground', webGL: true, camera: camera })
+    this.stubRequiredLayer = new LayerAdapter({ name: 'Ground', webGL: true, camera })
 
-    this.layerAdapter = new LayerAdapter({ name: 'Default', webGL: true, camera: camera })
-    this.backgroundObjectAdapter = new LayerAdapter({ name: 'Background Object', webGL: true, camera: camera })
-    this.backgroundAdapter = new LayerAdapter({ name: 'Background', webGL: true, camera: camera })
+    this.layerAdapter = new LayerAdapter({ name: 'Default', webGL: true, camera })
+    this.backgroundObjectAdapter = new LayerAdapter({ name: 'Background Object', webGL: true, camera })
+    this.backgroundAdapter = new LayerAdapter({ name: 'Background', webGL: true, camera })
     this.layerAdapter.resolutionFactor = CINEMATIC_SPRITE_RESOLUTION_FACTOR
     this.backgroundAdapter.resolutionFactor = CINEMATIC_SPRITE_RESOLUTION_FACTOR
     this.backgroundObjectAdapter.resolutionFactor = CINEMATIC_BACKGROUND_OBJECT_RESOLUTION_FACTOR
@@ -89,7 +89,7 @@ export class CinematicController {
       layerAdapter: this.layerAdapter,
       backgroundAdapter: this.backgroundAdapter,
       backgroundObjectAdapter: this.backgroundObjectAdapter,
-      camera: camera,
+      camera,
       loader: this.systems.loader
     })
 

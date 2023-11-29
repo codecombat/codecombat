@@ -1,19 +1,19 @@
 <script>
-  import LicensesCarouselContainer from './common/LicensesCarouselContainer'
-  import PrimaryButton from 'ozaria/site/components/teacher-dashboard/common/buttons/PrimaryButton'
-  export default {
-    components: {
-      PrimaryButton,
-      LicensesCarouselContainer
-    },
-    methods: {
-      trackEvent (eventName) {
-        if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: 'SchoolAdmin' })
-        }
+import LicensesCarouselContainer from './common/LicensesCarouselContainer'
+import PrimaryButton from 'ozaria/site/components/teacher-dashboard/common/buttons/PrimaryButton'
+export default {
+  components: {
+    PrimaryButton,
+    LicensesCarouselContainer
+  },
+  methods: {
+    trackEvent (eventName) {
+      if (eventName) {
+        window.tracker?.trackEvent(eventName, { category: 'SchoolAdmin' })
       }
     }
   }
+}
 </script>
 
 <template>

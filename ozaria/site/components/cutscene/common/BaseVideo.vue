@@ -1,11 +1,15 @@
 <script>
-const Plyr = require('vendor/scripts/plyr')
-const VimeoPlayer = require('@vimeo/player').default
 import 'vendor/styles/plyr.css'
 import BaseModal from 'ozaria/site/components/common/BaseModal'
 import { cutsceneEvent } from './cutsceneUtil'
+const Plyr = require('vendor/scripts/plyr')
+const VimeoPlayer = require('@vimeo/player').default
 
 export default {
+
+  components: {
+    BaseModal
+  },
   props: {
     vimeoId: {
       type: String,
@@ -24,13 +28,9 @@ export default {
 
     captions: {
       type: Array,
-      default: ()=>([]),
+      default: () => ([]),
       required: false
     }
-  },
-
-  components: {
-    BaseModal
   },
 
   data: () => ({
@@ -38,6 +38,15 @@ export default {
     videoUnavailable: false,
     skipping: false
   }),
+
+  watch: {
+    soundOn () {
+      if (!this.vimeoPlayer) {
+        return
+      }
+      this.updateVideoSound()
+    }
+  },
 
   async mounted () {
     if (!(this.vimeoId || this.videoSrc)) {
@@ -60,14 +69,14 @@ export default {
           await player.setVolume(this.soundOn ? 1 : 0)
           await player.play()
         } catch (e) {
-            console.warn(`Wasn't able to auto play video.`)
+          console.warn('Wasn\'t able to auto play video.')
         }
       }).catch((e) => {
         console.error(e)
         this.videoUnavailable = true
       })
     } else if (this.videoSrc) {
-      const vid = new Plyr(this.$refs['player'], { captions: { active: true } })
+      const vid = new Plyr(this.$refs.player, { captions: { active: true } })
       vid.on('ended', () => this.$emit('completed'))
     }
   },
@@ -76,26 +85,16 @@ export default {
     updateVideoSound () {
       // TODO: This can sometimes pause the video when turning on the volume.
       this.vimeoPlayer.setVolume(this.soundOn ? 1 : 0)
-        .catch((e) => console.warn(`Couldn't set volume of cutscene`))
+        .catch((e) => console.warn('Couldn\'t set volume of cutscene'))
     },
     skip () {
       this.skipping = true
       this.$emit('completed')
     }
-  },
-
-  watch: {
-    soundOn() {
-      if (!this.vimeoPlayer) {
-        return
-      }
-      this.updateVideoSound()
-    }
   }
 }
 
 </script>
-
 
 <template>
   <base-modal v-if="videoUnavailable && !skipping">
@@ -106,22 +105,53 @@ export default {
     <template #body>
       <div class="video-unavailable-body">
         <p>{{ $t('interactives.cannot_play_video') }}</p>
-        <p class="instructions">{{ $t('interactives.console_instructions') }}</p>
+        <p class="instructions">
+          {{ $t('interactives.console_instructions') }}
+        </p>
       </div>
     </template>
 
     <template #footer>
-      <button class="ozaria-button ozaria-primary-button" v-on:click="skip" data-dismiss="modal">{{ $t('interactives.skip_video')}}</button>
+      <button
+        class="ozaria-button ozaria-primary-button"
+        data-dismiss="modal"
+        @click="skip"
+      >
+        {{ $t('interactives.skip_video') }}
+      </button>
     </template>
   </base-modal>
-  <iframe v-else-if="vimeoId && !skipping" ref="vimeo-player" :src="`https://player.vimeo.com/video/${vimeoId}`" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+  <iframe
+    v-else-if="vimeoId && !skipping"
+    ref="vimeo-player"
+    :src="`https://player.vimeo.com/video/${vimeoId}`"
+    frameborder="0"
+    webkitallowfullscreen
+    mozallowfullscreen
+    allowfullscreen
+  />
   <div v-else-if="videoSrc && !skipping">
-    <video id="player" ref="player" playsinline controls>
-      <source :src="videoSrc" type="video/mp4" />
+    <video
+      id="player"
+      ref="player"
+      playsinline
+      controls
+    >
+      <source
+        :src="videoSrc"
+        type="video/mp4"
+      >
 
       <!-- Captions are optional -->
       <template v-for="caption in captions">
-        <track :key="caption.label" kind="captions" :label="caption.label" :src="caption.src" :srclang="caption.srclang" default />
+        <track
+          :key="caption.label"
+          kind="captions"
+          :label="caption.label"
+          :src="caption.src"
+          :srclang="caption.srclang"
+          default
+        >
       </template>
     </video>
   </div>

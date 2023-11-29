@@ -1,39 +1,39 @@
 <script>
-  import ButtonResourceIcon from '../../BaseResourceHub/components/ButtonResourceIcon'
-  import utils from 'core/utils'
+import ButtonResourceIcon from '../../BaseResourceHub/components/ButtonResourceIcon'
+import utils from 'core/utils'
 
-  export default {
-    components: {
-      ButtonResourceIcon
+export default {
+  components: {
+    ButtonResourceIcon
+  },
+  props: {
+    cstaList: {
+      type: Array,
+      required: false,
+      default: () => ([])
+    }
+  },
+  computed: {
+    shouldShow () {
+      return this.cstaList?.length > 0
     },
-    props: {
-      cstaList: {
-        type: Array,
-        required: false,
-        default: () => ([])
+
+    cstaResourceData () {
+      return {
+        icon: 'Doc',
+        label: 'CSTA Standards Alignment',
+        link: 'https://docs.google.com/document/d/1sHP75V5WqdQBfavI792mswYDS67pSSf8otNM05Rma5A/edit?usp=sharing'
       }
     },
-    computed: {
-      shouldShow () {
-        return this.cstaList?.length > 0
-      },
 
-      cstaResourceData () {
-        return {
-          icon: 'Doc',
-          label: 'CSTA Standards Alignment',
-          link: 'https://docs.google.com/document/d/1sHP75V5WqdQBfavI792mswYDS67pSSf8otNM05Rma5A/edit?usp=sharing'
-        }
-      },
-
-      translatedCstaList () {
-        return this.cstaList.map(standard => ({
-          name: utils.i18n(standard, 'name'),
-          description: utils.i18n(standard, 'description')
-        }))
-      }
+    translatedCstaList () {
+      return this.cstaList.map(standard => ({
+        name: utils.i18n(standard, 'name'),
+        description: utils.i18n(standard, 'description')
+      }))
     }
   }
+}
 </script>
 
 <template>

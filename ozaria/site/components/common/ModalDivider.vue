@@ -1,13 +1,13 @@
 
 <script>
-  export default Vue.extend({
-    props: {
-      withOrText: {
-        type: Boolean,
-        default: true
-      }
+export default Vue.extend({
+  props: {
+    withOrText: {
+      type: Boolean,
+      default: true
     }
-  })
+  }
+})
 </script>
 
 <template>

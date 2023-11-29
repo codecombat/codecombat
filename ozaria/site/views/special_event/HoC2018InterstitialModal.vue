@@ -32,7 +32,7 @@ module.exports = Vue.extend({
       type: Boolean
     }
   }
-});
+})
 </script>
 
 <style lang="sass">

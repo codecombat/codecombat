@@ -1,18 +1,18 @@
 <script>
-  import UnitProgress from './UnitProgress'
+import UnitProgress from './UnitProgress'
 
-  export default {
-    components: {
-      UnitProgress
-    },
+export default {
+  components: {
+    UnitProgress
+  },
 
-    props: {
-      chapterProgress: {
-        type: Array,
-        required: true
-      }
+  props: {
+    chapterProgress: {
+      type: Array,
+      required: true
     }
   }
+}
 </script>
 
 <template>

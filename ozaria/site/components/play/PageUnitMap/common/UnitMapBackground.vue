@@ -1,117 +1,117 @@
 <script>
 
-  import levelDot from './UnitMapLevelDot'
-  import ModalCharCustomization from 'ozaria/site/components/char-customization/ModalCharCustomization'
-  import { mapGetters } from 'vuex'
-  import urls from 'app/core/urls'
-  import UnitMapNav from '../Nav'
+import levelDot from './UnitMapLevelDot'
+import ModalCharCustomization from 'ozaria/site/components/char-customization/ModalCharCustomization'
+import { mapGetters } from 'vuex'
+import urls from 'app/core/urls'
+import UnitMapNav from '../Nav'
 
-  export default Vue.extend({
-    components: {
-      'level-dot': levelDot,
-      'modal-char-customization': ModalCharCustomization,
-      UnitMapNav
+export default Vue.extend({
+  components: {
+    'level-dot': levelDot,
+    'modal-char-customization': ModalCharCustomization,
+    UnitMapNav
+  },
+  props: {
+    campaignData: {
+      type: Object,
+      required: true,
+      default: () => {}
     },
-    props: {
-      campaignData: {
-        type: Object,
-        required: true,
-        default: () => {}
-      },
-      levels: {
-        type: Object,
-        required: true,
-        default: () => {}
-      },
-      campaignPage: {
-        type: Number,
-        default: 1
-      },
-      courseId: {
-        type: String,
-        default: undefined
-      },
-      courseInstanceId: {
-        type: String,
-        default: undefined
-      },
-      codeLanguage: {
-        type: String,
-        default: undefined
-      }
+    levels: {
+      type: Object,
+      required: true,
+      default: () => {}
     },
-    data: () => ({
-      showCharCx: false,
-      heroName: undefined
+    campaignPage: {
+      type: Number,
+      default: 1
+    },
+    courseId: {
+      type: String,
+      default: undefined
+    },
+    courseInstanceId: {
+      type: String,
+      default: undefined
+    },
+    codeLanguage: {
+      type: String,
+      default: undefined
+    }
+  },
+  data: () => ({
+    showCharCx: false,
+    heroName: undefined
+  }),
+  computed: {
+    ...mapGetters({
+      isAnonymous: 'me/isAnonymous',
+      isTeacher: 'me/isTeacher',
+      isStudent: 'me/isStudent'
     }),
-    computed: {
-      ...mapGetters({
-        isAnonymous: 'me/isAnonymous',
-        isTeacher: 'me/isTeacher',
-        isStudent: 'me/isStudent'
-      }),
-      backgroundImage: function () {
-        if (this.campaignData.backgroundImage) {
-          // Fetch the background relevant for current campaign page
-          const background = this.campaignData.backgroundImage.find((b) => b.campaignPage === this.campaignPage) || {}
-          return {
-            'background-image': 'url(/file/' + background.image + ')'
-          }
-        }
-        return undefined
-      },
-      currentPageLevels () {
-        // Fetch the levels relevant for current campaign page
-        const currentPageLevelIds = Object.keys(this.levels).filter((l) => this.levels[l].campaignPage === this.campaignPage)
-        return _.pick(this.levels, currentPageLevelIds)
-      },
-      totalPages: function () {
-        // get max value of campaignPage from the classroom levels
-        return Math.max(...Object.values(this.levels).map((l) => l.campaignPage || 1), 0) || 0
-      },
-      showNavDots: function () {
-        return this.totalPages > 1
-      },
-      backButtonLink: function () {
-        if (this.isTeacher) {
-          return '/teachers'
-        } else if (this.isStudent) {
-          return '/students'
-        } else {
-          return '/'
+    backgroundImage: function () {
+      if (this.campaignData.backgroundImage) {
+        // Fetch the background relevant for current campaign page
+        const background = this.campaignData.backgroundImage.find((b) => b.campaignPage === this.campaignPage) || {}
+        return {
+          'background-image': 'url(/file/' + background.image + ')'
         }
       }
+      return undefined
     },
-    mounted () {
-      // heroName is not working as computed property for some reason
-      // TODO move heroName to Vuex store `me` and use its getter as computed property.
-      this.heroName = (me.get('ozariaUserOptions') || {}).playerHeroName
+    currentPageLevels () {
+      // Fetch the levels relevant for current campaign page
+      const currentPageLevelIds = Object.keys(this.levels).filter((l) => this.levels[l].campaignPage === this.campaignPage)
+      return _.pick(this.levels, currentPageLevelIds)
     },
-    methods: {
-      customizeHero () {
-        this.showCharCx = true
-      },
-      onCharCxSaved () {
-        this.showCharCx = false
-        this.heroName = (me.get('ozariaUserOptions') || {}).playerHeroName
-      },
-      onCharCxClose () {
-        this.showCharCx = false
-      },
-      clickPageNav (page) {
-        if (page !== this.campaignPage) {
-          const url = urls.courseWorldMap({
-            courseId: this.courseId,
-            courseInstanceId: this.courseInstanceId,
-            campaignPage: page,
-            campaignId: this.campaignData._id,
-            codeLanguage: this.codeLanguage
-          })
-          return application.router.navigate(url, { trigger: true })
-        }
+    totalPages: function () {
+      // get max value of campaignPage from the classroom levels
+      return Math.max(...Object.values(this.levels).map((l) => l.campaignPage || 1), 0) || 0
+    },
+    showNavDots: function () {
+      return this.totalPages > 1
+    },
+    backButtonLink: function () {
+      if (this.isTeacher) {
+        return '/teachers'
+      } else if (this.isStudent) {
+        return '/students'
+      } else {
+        return '/'
       }
     }
-  })
+  },
+  mounted () {
+    // heroName is not working as computed property for some reason
+    // TODO move heroName to Vuex store `me` and use its getter as computed property.
+    this.heroName = (me.get('ozariaUserOptions') || {}).playerHeroName
+  },
+  methods: {
+    customizeHero () {
+      this.showCharCx = true
+    },
+    onCharCxSaved () {
+      this.showCharCx = false
+      this.heroName = (me.get('ozariaUserOptions') || {}).playerHeroName
+    },
+    onCharCxClose () {
+      this.showCharCx = false
+    },
+    clickPageNav (page) {
+      if (page !== this.campaignPage) {
+        const url = urls.courseWorldMap({
+          courseId: this.courseId,
+          courseInstanceId: this.courseInstanceId,
+          campaignPage: page,
+          campaignId: this.campaignData._id,
+          codeLanguage: this.codeLanguage
+        })
+        return application.router.navigate(url, { trigger: true })
+      }
+    }
+  }
+})
 </script>
 
 <template>
@@ -128,8 +128,8 @@
       :code-language="codeLanguage"
     />
     <unit-map-nav
+      :back-button-link="backButtonLink"
       @customizeHero="customizeHero"
-      :backButtonLink="backButtonLink"
     />
     <div
       v-if="showNavDots"

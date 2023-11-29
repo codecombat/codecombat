@@ -1,29 +1,29 @@
 
 <script>
-  export default Vue.extend({
-    props: {
-      inactive: {
-        type: Boolean,
-        default: false
-      },
-      inProgress: {
-        type: Boolean,
-        default: false
-      },
-      text: {
-        type: String,
-        required: true,
-        default: 'Link Google Classroom'
-      }
+export default Vue.extend({
+  props: {
+    inactive: {
+      type: Boolean,
+      default: false
     },
-    methods: {
-      onClick () {
-        if (!this.inactive) {
-          this.$emit('click')
-        }
+    inProgress: {
+      type: Boolean,
+      default: false
+    },
+    text: {
+      type: String,
+      required: true,
+      default: 'Link Google Classroom'
+    }
+  },
+  methods: {
+    onClick () {
+      if (!this.inactive) {
+        this.$emit('click')
       }
     }
-  })
+  }
+})
 </script>
 
 <template>

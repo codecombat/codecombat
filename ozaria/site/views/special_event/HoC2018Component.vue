@@ -100,19 +100,19 @@ module.exports = Vue.extend({
       ]
     }
   },
-
-  data: function() {
-    return {
-      teacherEmail: ''
-    }
-  },
   props: {
     onGetCS1Free: {
       type: Function,
       required: true
     }
+  },
+
+  data: function () {
+    return {
+      teacherEmail: ''
+    }
   }
-});
+})
 </script>
 
 <style lang="sass">

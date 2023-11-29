@@ -1,18 +1,18 @@
 <script>
-  export default {
-    props: {
-      conceptList: {
-        type: Array,
-        required: false,
-        default: () => ([])
-      }
-    },
-    computed: {
-      shouldShow () {
-        return this.conceptList?.length > 0
-      }
+export default {
+  props: {
+    conceptList: {
+      type: Array,
+      required: false,
+      default: () => ([])
+    }
+  },
+  computed: {
+    shouldShow () {
+      return this.conceptList?.length > 0
     }
   }
+}
 </script>
 <template>
   <div v-if="shouldShow">

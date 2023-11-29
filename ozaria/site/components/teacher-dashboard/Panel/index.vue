@@ -1,68 +1,71 @@
 <script>
-  import { mapMutations, mapGetters } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 
-  import StudentInfo from './components/StudentInfo'
-  import ConceptCheckInfo from './components/ConceptCheckInfo'
-  import PracticeLevel from './components/PracticeLevel'
-  import CapstoneLevel from './components/CapstoneLevel'
-  import DraggableOrdering from './components/DraggableOrdering'
-  import InsertCode from './components/InsertCode'
-  import DraggableStatementCompletion from './components/DraggableStatementCompletion'
-  import ContentIcon from '../common/icons/ContentIcon'
-  import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
+import StudentInfo from './components/StudentInfo'
+import ConceptCheckInfo from './components/ConceptCheckInfo'
+import PracticeLevel from './components/PracticeLevel'
+import CapstoneLevel from './components/CapstoneLevel'
+import DraggableOrdering from './components/DraggableOrdering'
+import InsertCode from './components/InsertCode'
+import DraggableStatementCompletion from './components/DraggableStatementCompletion'
+import ContentIcon from '../common/icons/ContentIcon'
+import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
 
-  export default {
-    components: {
-      StudentInfo,
-      ConceptCheckInfo,
-      PracticeLevel,
-      CapstoneLevel,
-      DraggableOrdering,
-      DraggableStatementCompletion,
-      InsertCode,
-      ContentIcon
-    },
+export default {
+  components: {
+    StudentInfo,
+    ConceptCheckInfo,
+    PracticeLevel,
+    CapstoneLevel,
+    DraggableOrdering,
+    DraggableStatementCompletion,
+    InsertCode,
+    ContentIcon
+  },
 
-    computed: {
-      ...mapGetters({
-        panelFooter: 'teacherDashboardPanel/panelFooter',
-        isOpen: 'teacherDashboardPanel/isOpen',
-        panelHeader: 'teacherDashboardPanel/panelHeader',
-        studentInfo: 'teacherDashboardPanel/studentInfo',
-        conceptCheck: 'teacherDashboardPanel/conceptCheck',
-        panelSessionContent: 'teacherDashboardPanel/panelSessionContent',
-        getTrackCategory: 'teacherDashboard/getTrackCategory'
-      }),
+  computed: {
+    ...mapGetters({
+      panelFooter: 'teacherDashboardPanel/panelFooter',
+      isOpen: 'teacherDashboardPanel/isOpen',
+      panelHeader: 'teacherDashboardPanel/panelHeader',
+      studentInfo: 'teacherDashboardPanel/studentInfo',
+      conceptCheck: 'teacherDashboardPanel/conceptCheck',
+      panelSessionContent: 'teacherDashboardPanel/panelSessionContent',
+      getTrackCategory: 'teacherDashboard/getTrackCategory'
+    }),
 
-      footerLinkText () {
-        if (this.panelFooter?.icon) {
-          return `View ${getGameContentDisplayType(this.panelFooter.icon)}`
-        } else {
-          return ``
-        }
-      }
-    },
-
-    methods: {
-      ...mapMutations({
-        closePanel: 'teacherDashboardPanel/closePanel',
-        setSelectedProgressKey: 'teacherDashboardPanel/setSelectedProgressKey'
-      }),
-
-      handleClosePanel () {
-        this.closePanel()
-        this.setSelectedProgressKey(undefined)
-      },
-
-      clickFooterLink () {
-        window.tracker?.trackEvent('Track Progress: Progress Modal Footer Link Clicked', { category: this.getTrackCategory, label: this.panelFooter.icon })
+    footerLinkText () {
+      if (this.panelFooter?.icon) {
+        return `View ${getGameContentDisplayType(this.panelFooter.icon)}`
+      } else {
+        return ''
       }
     }
+  },
+
+  methods: {
+    ...mapMutations({
+      closePanel: 'teacherDashboardPanel/closePanel',
+      setSelectedProgressKey: 'teacherDashboardPanel/setSelectedProgressKey'
+    }),
+
+    handleClosePanel () {
+      this.closePanel()
+      this.setSelectedProgressKey(undefined)
+    },
+
+    clickFooterLink () {
+      window.tracker?.trackEvent('Track Progress: Progress Modal Footer Link Clicked', { category: this.getTrackCategory, label: this.panelFooter.icon })
+    }
   }
+}
 </script>
 
 <template>
-  <div v-show="isOpen" id="panel">
+  <div
+    v-show="isOpen"
+    id="panel"
+  >
     <div class="header">
       <h3>{{ panelHeader }}</h3>
       <div

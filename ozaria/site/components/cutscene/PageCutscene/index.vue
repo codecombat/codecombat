@@ -13,6 +13,14 @@ import CloudflareVideoPlayer from '../common/CloudflareVideoPlayer'
 const throttledSkippedCutsceneEvent = _.once(cutsceneEvent)
 
 module.exports = Vue.extend({
+
+  components: {
+    LayoutChrome,
+    BaseVideo,
+    LayoutAspectRatioContainer,
+    LayoutCenterContent,
+    CloudflareVideoPlayer
+  },
   props: {
     cutsceneId: {
       type: String,
@@ -23,38 +31,30 @@ module.exports = Vue.extend({
   data: () => ({
     vimeoId: null,
     videoSrc: null,
-    captions: ()=>([]),
+    captions: () => ([]),
     cutscene: {},
     cloudflareID: null
   }),
-
-  components: {
-    LayoutChrome,
-    BaseVideo,
-    LayoutAspectRatioContainer,
-    LayoutCenterContent,
-    CloudflareVideoPlayer
-  },
 
   mounted () {
     this.loadCutscene()
   },
 
   beforeDestroy () {
-    cutsceneEvent('Unloaded Cutscene', {cutsceneId: this.cutsceneId})
+    cutsceneEvent('Unloaded Cutscene', { cutsceneId: this.cutsceneId })
   },
 
   computed: {
     ...mapGetters({
       soundOn: 'layoutChrome/soundOn'
     }),
-    title(){
+    title () {
       return utils.i18n(this.cutscene, 'displayName') || utils.i18n(this.cutscene, 'name')
     }
   },
 
   methods: {
-    async loadCutscene() {
+    async loadCutscene () {
       // TODO handle_error_ozaria - What if unable to fetch cutscene?
 
       const cutscene = this.cutscene = await getCutscene(this.cutsceneId)
@@ -73,7 +73,7 @@ module.exports = Vue.extend({
       this.captions = Object.keys(cutscene.i18n || {})
         .filter((i18nKey) => {
           if (i18nKey === '-' || !cutscene.i18n[i18nKey].captions) {
-            return false;
+            return false
           }
           const { src, label } = cutscene.i18n[i18nKey].captions
           return label && src
@@ -82,18 +82,18 @@ module.exports = Vue.extend({
           src: `/file/${cutscene.i18n[i18nKey].captions.src}`,
           srclang: i18nKey
         }))
-      cutsceneEvent('Loaded Cutscene', {cutsceneId: this.cutsceneId})
+      cutsceneEvent('Loaded Cutscene', { cutsceneId: this.cutsceneId })
     },
 
-    onCompleted() {
+    onCompleted () {
       this.$emit('completed', this.cutscene)
-      cutsceneEvent('Completed Cutscene', {cutsceneId: this.cutsceneId})
+      cutsceneEvent('Completed Cutscene', { cutsceneId: this.cutsceneId })
     },
 
-    handleSkip() {
+    handleSkip () {
       this.pauseCutscene()
       this.onCompleted()
-      throttledSkippedCutsceneEvent('Skipped Cutscene', {cutsceneId: this.cutsceneId})
+      throttledSkippedCutsceneEvent('Skipped Cutscene', { cutsceneId: this.cutsceneId })
     },
 
     pauseCutscene () {
@@ -101,8 +101,8 @@ module.exports = Vue.extend({
       if (videoPlayer) {
         if (this.cloudflareID && videoPlayer && typeof videoPlayer.pauseVideo === 'function') {
           videoPlayer.pauseVideo()
-        } else if (videoPlayer.$refs['player']) { // for china player and vimeo player
-          videoPlayer.$refs['player'].pause()
+        } else if (videoPlayer.$refs.player) { // for china player and vimeo player
+          videoPlayer.$refs.player.pause()
         }
       }
     }
@@ -112,30 +112,30 @@ module.exports = Vue.extend({
 
 <template>
   <layout-chrome
-      :title="title"
-      @pause-cutscene="pauseCutscene"
+    :title="title"
+    @pause-cutscene="pauseCutscene"
   >
     <!-- CLOUDFLARE PLAYER -->
     <CloudflareVideoPlayer
-      ref="cloudflare-player"
       v-if="cloudflareID"
+      ref="cloudflare-player"
 
       :cutscene="cutscene"
-      :cloudflareID="cloudflareID"
-      :soundOn="soundOn"
+      :cloudflare-i-d="cloudflareID"
+      :sound-on="soundOn"
 
-      v-on:completed="onCompleted"
+      @completed="onCompleted"
     />
     <!-- VIMEO PLAYER -->
     <base-video
-      ref="vimeo-player"
       v-if="vimeoId"
-
       id="cutscene-player"
-      :vimeoId="vimeoId"
-      :soundOn="soundOn"
 
-      v-on:completed="onCompleted"
+      ref="vimeo-player"
+      :vimeo-id="vimeoId"
+      :sound-on="soundOn"
+
+      @completed="onCompleted"
     />
     <!-- FALLBACK CHINA PLAYER -->
     <layout-center-content v-if="videoSrc">
@@ -146,15 +146,20 @@ module.exports = Vue.extend({
         <div class="cutscene">
           <base-video
             ref="china-player"
-            :videoSrc="videoSrc"
+            :video-src="videoSrc"
             :captions="captions"
 
-            v-on:completed="onCompleted"
+            @completed="onCompleted"
           />
         </div>
       </layout-aspect-ratio-container>
     </layout-center-content>
-    <button id="skip-btn" @click="handleSkip">{{ $t("interactives.skip_video") }}</button>
+    <button
+      id="skip-btn"
+      @click="handleSkip"
+    >
+      {{ $t("interactives.skip_video") }}
+    </button>
   </layout-chrome>
 </template>
 
@@ -179,4 +184,3 @@ module.exports = Vue.extend({
     height: calc(100vh - #{$chromeTopPadding + $chromeBottomPadding})
 
 </style>
-

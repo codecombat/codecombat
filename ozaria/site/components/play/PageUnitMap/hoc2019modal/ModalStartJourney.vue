@@ -38,16 +38,26 @@ export default Vue.extend({
 <template>
   <div id="start-journey">
     <div class="hero-img">
-      <CloseModalBar @click="$emit('closeModal')"/>
+      <CloseModalBar @click="$emit('closeModal')" />
       <div class="heading-bar">
         <img src="/images/pages/modal/hoc2019/blackOzariaWordmark.png">
-        <h2>{{$t("hoc_2019.heading")}}</h2>
+        <h2>{{ $t("hoc_2019.heading") }}</h2>
       </div>
     </div>
     <div class="center-row">
-      <h1>{{$t("hoc_2019.start")}}</h1>
-      <button @click="$emit('clickEducator')" class="btn btn-large btn-primary btn-moon">{{$t("hoc_2018_interstitial.educator")}}</button>
-      <button @click="$emit('clickStudent')" class="btn btn-large btn-primary btn-moon">{{$t("hoc_2018_interstitial.student")}}</button>
+      <h1>{{ $t("hoc_2019.start") }}</h1>
+      <button
+        class="btn btn-large btn-primary btn-moon"
+        @click="$emit('clickEducator')"
+      >
+        {{ $t("hoc_2018_interstitial.educator") }}
+      </button>
+      <button
+        class="btn btn-large btn-primary btn-moon"
+        @click="$emit('clickStudent')"
+      >
+        {{ $t("hoc_2018_interstitial.student") }}
+      </button>
     </div>
   </div>
 </template>

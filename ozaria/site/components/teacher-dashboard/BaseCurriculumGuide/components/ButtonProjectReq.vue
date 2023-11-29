@@ -1,16 +1,16 @@
 <script>
-  export default {
-    props: {
-      link: {
-        type: String,
-        required: true
-      },
-      locked: {
-        type: Boolean,
-        default: false
-      }
+export default {
+  props: {
+    link: {
+      type: String,
+      required: true
+    },
+    locked: {
+      type: Boolean,
+      default: false
     }
   }
+}
 </script>
 <template>
   <div

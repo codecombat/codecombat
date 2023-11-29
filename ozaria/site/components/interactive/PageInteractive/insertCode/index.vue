@@ -1,291 +1,291 @@
 <script xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  import { mapGetters } from 'vuex'
-  import { codemirror } from 'vue-codemirror'
+import { mapGetters } from 'vuex'
+import { codemirror } from 'vue-codemirror'
 
-  import { putSession } from 'ozaria/site/api/interactive'
+import { putSession } from 'ozaria/site/api/interactive'
 
-  import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
-  import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
-  import { deterministicShuffleForUserAndDay } from '../../../../common/utils'
+import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
+import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
+import { deterministicShuffleForUserAndDay } from '../../../../common/utils'
 
-  import BaseButton from '../../../common/BaseButton'
-  import ModalInteractive from '../common/ModalInteractive.vue'
+import BaseButton from '../../../common/BaseButton'
+import ModalInteractive from '../common/ModalInteractive.vue'
 
-  // TODO dynamically import these
-  import 'codemirror/mode/javascript/javascript'
-  import 'codemirror/mode/python/python'
-  import 'codemirror/lib/codemirror.css'
+// TODO dynamically import these
+import 'codemirror/mode/javascript/javascript'
+import 'codemirror/mode/python/python'
+import 'codemirror/lib/codemirror.css'
 
-  export default {
-    components: {
-      codemirror,
-      BaseInteractiveLayout,
-      'base-button': BaseButton,
-      'modal-interactive': ModalInteractive
+export default {
+  components: {
+    codemirror,
+    BaseInteractiveLayout,
+    'base-button': BaseButton,
+    'modal-interactive': ModalInteractive
+  },
+
+  props: {
+    interactive: {
+      type: Object,
+      required: true,
+      default: () => ({})
     },
 
-    props: {
-      interactive: {
-        type: Object,
-        required: true,
-        default: () => ({})
-      },
-
-      localizedInteractiveConfig: {
-        type: Object,
-        required: true
-      },
-
-      interactiveSession: {
-        type: Object,
-        default: undefined
-      },
-
-      codeLanguage: {
-        type: String,
-        required: true
-      }
+    localizedInteractiveConfig: {
+      type: Object,
+      required: true
     },
 
-    data () {
-      const language = this.codeLanguage.toLowerCase()
-      if (language !== 'python' && language !== 'javascript') {
-        // TODO handle_error_ozaria - this can crash with invalid input.
-        throw new Error('Unexpected language type')
-      }
-
-      const splitSampleCode = this.localizedInteractiveConfig
-        .starterCode
-        .trim()
-        .split('\n')
-
-      let defaultImage
-      if (this.interactive.defaultArtAsset) {
-        defaultImage = getOzariaAssetUrl(this.interactive.defaultArtAsset)
-      }
-
-      const choices = this.localizedInteractiveConfig.choices || []
-
-      return {
-        showModal: false,
-        codemirrorReady: false,
-        submitEnabled: true,
-
-        shuffle: deterministicShuffleForUserAndDay(
-          me,
-          [ ...Array(choices.length).keys() ]
-        ),
-
-        codemirrorOptions: {
-          tabSize: 2,
-          mode: `text/${language}`,
-          lineNumbers: true,
-          readOnly: 'nocursor',
-          lineWrapping: true
-        },
-
-        splitSampleCode,
-
-        defaultImage,
-
-        userAnswer: undefined
-      }
+    interactiveSession: {
+      type: Object,
+      default: undefined
     },
 
-    computed: {
-      ...mapGetters({
-        pastCorrectSubmission: 'interactives/correctSubmissionFromSession'
-      }),
+    codeLanguage: {
+      type: String,
+      required: true
+    }
+  },
 
-      correctChoiceFromPastSubmission () {
-        if (this.pastCorrectSubmission) {
-          const choice = this.localizedInteractiveConfig
-            .choices
-            .find(c => c.choiceId === this.pastCorrectSubmission.submittedSolution)
+  data () {
+    const language = this.codeLanguage.toLowerCase()
+    if (language !== 'python' && language !== 'javascript') {
+      // TODO handle_error_ozaria - this can crash with invalid input.
+      throw new Error('Unexpected language type')
+    }
 
-          if (choice) {
-            return choice
+    const splitSampleCode = this.localizedInteractiveConfig
+      .starterCode
+      .trim()
+      .split('\n')
+
+    let defaultImage
+    if (this.interactive.defaultArtAsset) {
+      defaultImage = getOzariaAssetUrl(this.interactive.defaultArtAsset)
+    }
+
+    const choices = this.localizedInteractiveConfig.choices || []
+
+    return {
+      showModal: false,
+      codemirrorReady: false,
+      submitEnabled: true,
+
+      shuffle: deterministicShuffleForUserAndDay(
+        me,
+        [...Array(choices.length).keys()]
+      ),
+
+      codemirrorOptions: {
+        tabSize: 2,
+        mode: `text/${language}`,
+        lineNumbers: true,
+        readOnly: 'nocursor',
+        lineWrapping: true
+      },
+
+      splitSampleCode,
+
+      defaultImage,
+
+      userAnswer: undefined
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      pastCorrectSubmission: 'interactives/correctSubmissionFromSession'
+    }),
+
+    correctChoiceFromPastSubmission () {
+      if (this.pastCorrectSubmission) {
+        const choice = this.localizedInteractiveConfig
+          .choices
+          .find(c => c.choiceId === this.pastCorrectSubmission.submittedSolution)
+
+        if (choice) {
+          return choice
+        }
+
+        // Unexpected state - choices array does not contain selected submission
+        // TODO handle_error_ozaria
+        console.error('Unexpected state recovering answer')
+      }
+
+      return undefined
+    },
+
+    selectedAnswer () {
+      if (this.userAnswer) {
+        return this.userAnswer
+      }
+
+      if (this.correctChoiceFromPastSubmission) {
+        return this.correctChoiceFromPastSubmission
+      }
+
+      return undefined
+    },
+
+    code () {
+      const arrayIndexToReplace = this.localizedInteractiveConfig.lineToReplace - 1
+      let finalCode = this.splitSampleCode
+      if (this.questionAnswered) {
+        finalCode = finalCode.map((v, i) => {
+          if (i === arrayIndexToReplace) {
+            return this.selectedAnswer.text
           }
 
-          // Unexpected state - choices array does not contain selected submission
-          // TODO handle_error_ozaria
-          console.error('Unexpected state recovering answer')
-        }
+          return v
+        })
+      }
 
-        return undefined
-      },
+      return finalCode.join('\n')
+    },
 
-      selectedAnswer () {
-        if (this.userAnswer) {
-          return this.userAnswer
-        }
+    answerOptions () {
+      return this.shuffle
+        .map(idx => this.localizedInteractiveConfig.choices[idx])
+    },
 
-        if (this.correctChoiceFromPastSubmission) {
-          return this.correctChoiceFromPastSubmission
-        }
+    codemirror () {
+      return this.$refs.codeMirrorComponent.codemirror
+    },
 
-        return undefined
-      },
+    artUrl () {
+      let art
+      if (this.selectedAnswer) {
+        art = this.selectedAnswer.triggerArt
+      }
 
-      code () {
-        const arrayIndexToReplace = this.localizedInteractiveConfig.lineToReplace - 1
-        let finalCode = this.splitSampleCode
-        if (this.questionAnswered) {
-          finalCode = finalCode.map((v, i) => {
-            if (i === arrayIndexToReplace) {
-              return this.selectedAnswer.text
-            }
+      art = art || this.defaultImage
 
-            return v
-          })
-        }
+      if (art && !art.startsWith('/')) {
+        art = getOzariaAssetUrl(art)
+      }
 
-        return finalCode.join('\n')
-      },
+      return art
+    },
 
-      answerOptions () {
-        return this.shuffle
-          .map(idx => this.localizedInteractiveConfig.choices[idx])
-      },
+    questionAnswered () {
+      return this.selectedAnswer && this.selectedAnswer.choiceId !== undefined
+    },
 
-      codemirror () {
-        return this.$refs.codeMirrorComponent.codemirror
-      },
+    solutionCorrect () {
+      if (!this.questionAnswered) {
+        return false
+      }
+      return this.localizedInteractiveConfig.solution === this.selectedAnswer.choiceId
+    },
 
-      artUrl () {
-        let art
-        if (this.selectedAnswer) {
-          art = this.selectedAnswer.triggerArt
-        }
-
-        art = art || this.defaultImage
-
-        if (art && !art.startsWith('/')) {
-          art = getOzariaAssetUrl(art)
-        }
-
-        return art
-      },
-
-      questionAnswered () {
-        return this.selectedAnswer && this.selectedAnswer.choiceId !== undefined
-      },
-
-      solutionCorrect () {
-        if (!this.questionAnswered) {
-          return false
-        }
-        return this.localizedInteractiveConfig.solution === this.selectedAnswer.choiceId
-      },
-
-      modalMessageTag () {
-        if (this.questionAnswered) {
-          if (this.solutionCorrect) {
-            return 'interactives.phenomenal_job'
-          } else {
-            return 'interactives.try_again'
-          }
+    modalMessageTag () {
+      if (this.questionAnswered) {
+        if (this.solutionCorrect) {
+          return 'interactives.phenomenal_job'
         } else {
-          return 'interactives.select_statement_left'
+          return 'interactives.try_again'
         }
+      } else {
+        return 'interactives.select_statement_left'
       }
+    }
+  },
+
+  watch: {
+    selectedAnswer () {
+      this.updateHighlightedLine()
+    }
+  },
+
+  mounted () {
+    window.addEventListener('resize', this.onResize)
+    this.onResize()
+  },
+
+  beforeDestroy () {
+    window.removeEventListener('resize', this.onResize)
+  },
+
+  methods: {
+    onResize () {
+      if (!this.codemirrorReady) {
+        return
+      }
+
+      window.requestAnimationFrame(() => this.codemirror.setSize('100%', '100%'))
     },
 
-    watch: {
-      selectedAnswer () {
-        this.updateHighlightedLine()
-      }
+    resetAnswer () {
+      this.userAnswer = undefined
     },
 
-    mounted () {
-      window.addEventListener('resize', this.onResize)
+    selectAnswer (answer) {
+      this.userAnswer = answer
+    },
+
+    onCodeMirrorReady () {
+      this.codemirrorReady = true
+      this.updateHighlightedLine()
       this.onResize()
     },
 
-    beforeDestroy () {
-      window.removeEventListener('resize', this.onResize)
+    onCodeMirrorUpdated () {
+      this.updateHighlightedLine()
     },
 
-    methods: {
-      onResize () {
-        if (!this.codemirrorReady) {
-          return
-        }
-
-        window.requestAnimationFrame(() => this.codemirror.setSize('100%', '100%'))
-      },
-
-      resetAnswer () {
-        this.userAnswer = undefined
-      },
-
-      selectAnswer (answer) {
-        this.userAnswer = answer
-      },
-
-      onCodeMirrorReady () {
-        this.codemirrorReady = true
-        this.updateHighlightedLine()
-        this.onResize()
-      },
-
-      onCodeMirrorUpdated () {
-        this.updateHighlightedLine()
-      },
-
-      updateHighlightedLine () {
-        if (!this.codemirrorReady) {
-          return
-        }
-
-        const lineToReplace = this.localizedInteractiveConfig.lineToReplace - 1
-
-        if (this.questionAnswered) {
-          this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-answered')
-          this.codemirror.removeLineClass(lineToReplace, 'background', 'highlight-line-prompt')
-
-          this.codemirror.removeLineClass(lineToReplace, 'text', 'line-text-prompt')
-        } else {
-          this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-prompt')
-          this.codemirror.removeLineClass(lineToReplace, 'background', 'highlight-line-answered')
-          this.codemirror.addLineClass(lineToReplace, 'text', 'line-text-prompt')
-        }
-      },
-
-      async submitSolution () {
-        if (this.solutionCorrect) {
-          // Straight to standard victory modal rather than interactive modal
-          this.$emit('completed')
-          this.submitEnabled = true
-        } else {
-          this.showModal = true
-          this.submitEnabled = false
-        }
-
-        if (!this.questionAnswered) {
-          return
-        }
-
-        // TODO save through vuex and block progress until save is successful
-        await putSession(this.interactive._id, {
-          json: {
-            codeLanguage: this.codeLanguage,
-            submission: {
-              correct: this.solutionCorrect,
-              submittedSolution: this.selectedAnswer.choiceId
-            }
-          }
-        })
-      },
-
-      closeModal () {
-        this.resetAnswer()
-        this.updateHighlightedLine()
-        this.showModal = false
-        this.submitEnabled = true
+    updateHighlightedLine () {
+      if (!this.codemirrorReady) {
+        return
       }
+
+      const lineToReplace = this.localizedInteractiveConfig.lineToReplace - 1
+
+      if (this.questionAnswered) {
+        this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-answered')
+        this.codemirror.removeLineClass(lineToReplace, 'background', 'highlight-line-prompt')
+
+        this.codemirror.removeLineClass(lineToReplace, 'text', 'line-text-prompt')
+      } else {
+        this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-prompt')
+        this.codemirror.removeLineClass(lineToReplace, 'background', 'highlight-line-answered')
+        this.codemirror.addLineClass(lineToReplace, 'text', 'line-text-prompt')
+      }
+    },
+
+    async submitSolution () {
+      if (this.solutionCorrect) {
+        // Straight to standard victory modal rather than interactive modal
+        this.$emit('completed')
+        this.submitEnabled = true
+      } else {
+        this.showModal = true
+        this.submitEnabled = false
+      }
+
+      if (!this.questionAnswered) {
+        return
+      }
+
+      // TODO save through vuex and block progress until save is successful
+      await putSession(this.interactive._id, {
+        json: {
+          codeLanguage: this.codeLanguage,
+          submission: {
+            correct: this.solutionCorrect,
+            submittedSolution: this.selectedAnswer.choiceId
+          }
+        }
+      })
+    },
+
+    closeModal () {
+      this.resetAnswer()
+      this.updateHighlightedLine()
+      this.showModal = false
+      this.submitEnabled = true
     }
   }
+}
 </script>
 
 <template>

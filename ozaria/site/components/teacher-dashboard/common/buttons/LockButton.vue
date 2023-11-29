@@ -1,13 +1,13 @@
 <script>
-  export default {
-    props: {
-      inactive: {
-        type: Boolean,
-        default: false,
-        required: false
-      }
+export default {
+  props: {
+    inactive: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   }
+}
 </script>
 
 <template>

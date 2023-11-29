@@ -1,51 +1,51 @@
 <script>
-  import IconButtonWithTextTwilight from 'ozaria/site/components/school-admin-dashboard/common/buttons/IconButtonWithTextTwilight'
+import IconButtonWithTextTwilight from 'ozaria/site/components/school-admin-dashboard/common/buttons/IconButtonWithTextTwilight'
 
-  export default {
-    components: {
-      IconButtonWithTextTwilight
+export default {
+  components: {
+    IconButtonWithTextTwilight
+  },
+
+  props: {
+    progressUrl: {
+      type: String,
+      default: ''
     },
+    projectsUrl: {
+      type: String,
+      default: ''
+    },
+    inactive: {
+      type: Boolean,
+      default: false
+    }
+  },
 
-    props: {
-      progressUrl: {
-        type: String,
-        default: ''
-      },
-      projectsUrl: {
-        type: String,
-        default: ''
-      },
-      inactive: {
-        type: Boolean,
-        default: false
+  computed: {
+    progressIcon () {
+      if (this.inactive) {
+        return '/images/ozaria/teachers/dashboard/svg_icons/Icon_Progress_Black.svg'
+      } else {
+        return '/images/ozaria/teachers/dashboard/svg_icons/Icon_Progress_Moon.svg'
       }
     },
-
-    computed: {
-      progressIcon () {
-        if (this.inactive) {
-          return '/images/ozaria/teachers/dashboard/svg_icons/Icon_Progress_Black.svg'
-        } else {
-          return '/images/ozaria/teachers/dashboard/svg_icons/Icon_Progress_Moon.svg'
-        }
-      },
-      projectsIcon () {
-        if (this.inactive) {
-          return '/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Black.svg'
-        } else {
-          return '/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Moon.svg'
-        }
+    projectsIcon () {
+      if (this.inactive) {
+        return '/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Black.svg'
+      } else {
+        return '/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Moon.svg'
       }
-    },
+    }
+  },
 
-    methods: {
-      trackEvent (eventName) {
-        if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: 'SchoolAdmin' })
-        }
+  methods: {
+    trackEvent (eventName) {
+      if (eventName) {
+        window.tracker?.trackEvent(eventName, { category: 'SchoolAdmin' })
       }
     }
   }
+}
 </script>
 
 <template>

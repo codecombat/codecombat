@@ -1,162 +1,162 @@
 <script>
-  import { mapGetters, mapActions } from 'vuex'
-  import SignupModal from 'ozaria/site/components/play/PageUnitMap/hoc2019modal'
-  import { tryCopy } from '../../common/ozariaUtils'
+import { mapGetters, mapActions } from 'vuex'
+import SignupModal from 'ozaria/site/components/play/PageUnitMap/hoc2019modal'
+import { tryCopy } from '../../common/ozariaUtils'
 
-  export default Vue.extend({
-    components: {
-      SignupModal
-    },
-    props: {
-      title: {
-        type: String,
-        default: ''
-      },
-
-      chromeOn: {
-        type: Boolean,
-        default: false
-      },
-
-      displayOptionsMenuItem: {
-        type: Boolean,
-        default: false
-      },
-
-      displayRestartMenuItem: {
-        type: Boolean,
-        default: false
-      }
-    },
-    data: () => ({
-      openSaveProgressModal: false,
-      screenReaderMode: false
-    }),
-    computed: {
-      ...mapGetters({
-        soundOn: 'layoutChrome/soundOn',
-        getMapUrl: 'layoutChrome/getMapUrl',
-        isTeacher: 'me/isTeacher',
-        isStudent: 'me/isStudent',
-        isAnonymous: 'me/isAnonymous',
-        classCode: 'classrooms/getMostRecentClassCode'
-      }),
-
-      mapLink () {
-        if (!this.getMapUrl) {
-          if (this.isTeacher) {
-            return '/teachers/units'
-          } else if (this.isStudent) {
-            return '/students'
-          } else {
-            return '/'
-          }
-        }
-        return this.getMapUrl
-      },
-
-      displaySaveProgressButton () {
-        return !this.isTeacher && this.isAnonymous
-      },
-
-      showSaveProgressModal () {
-        return this.openSaveProgressModal
-      }
+export default Vue.extend({
+  components: {
+    SignupModal
+  },
+  props: {
+    title: {
+      type: String,
+      default: ''
     },
 
-    mounted () {
-      // Check here if `show_hoc_progress_modal` has been set as true to show the progress modal
-      // `hoc_progress_modal_time` is set in the unit map component
-      // and since chrome is mounted before unit map, the condition will be false while on the unit map page
-      // However it will be true if the user navigates to any level from the unit map, since chrome is mounted again on those pages
-      if (window.sessionStorage.getItem('hoc_progress_modal_time') && this.isAnonymous) {
-        this.showProgressModal = setInterval(() => {
-          if (window.sessionStorage.getItem('show_hoc_progress_modal')) {
-            this.openSaveProgressModal = true
-            this.$emit('pause-cutscene')
-            window.sessionStorage.removeItem('show_hoc_progress_modal')
-            clearInterval(this.showProgressModal)
-          }
-        }, 60000) // every 1 min
-      }
-
-      this.screenReaderMode = me.get('aceConfig') && me.get('aceConfig').screenReaderMode
+    chromeOn: {
+      type: Boolean,
+      default: false
     },
 
-    beforeDestroy () {
-      if (this.showProgressModal) {
-        clearInterval(this.showProgressModal)
-      }
+    displayOptionsMenuItem: {
+      type: Boolean,
+      default: false
     },
 
-    methods: {
-      ...mapActions('layoutChrome', ['toggleSoundAction', 'toggleScreenReaderModeAction']),
-
-      clickOptions () {
-        this.$emit('click-options')
-      },
-
-      clickRestart () {
-        this.$emit('click-restart')
-      },
-
-      closeSaveProgressModal () {
-        this.openSaveProgressModal = false
-      },
-
-      clickSaveProgress () {
-        this.openSaveProgressModal = true
-        this.$emit('pause-cutscene')
-      },
-
-      // Inspired from CocoView toggleFullscreen method.
-      toggleFullScreen () {
-        const full = document.fullscreenElement ||
-           document.mozFullScreenElement ||
-           document.mozFullscreenElement ||
-           document.msFullscreenElement ||
-           document.webkitFullscreenElement
-
-        if (!full) {
-          const d = document.documentElement
-
-          const req = d.requestFullscreen ||
-                d.mozRequestFullScreen ||
-                d.mozRequestFullscreen ||
-                d.msRequestFullscreen ||
-                d.webkitRequestFullscreen
-
-          if (req) {
-            req.call(d)
-          }
-        } else {
-          const exitFullScreen = document.exitFullscreen ||
-                document.mozCancelFullScreen ||
-                document.mozCancelFullscreen ||
-                document.webkitExitFullscreen ||
-                document.msExitFullscreen
-          if (exitFullScreen) {
-            exitFullScreen.call(document)
-          }
-        }
-      },
-
-      toggleScreenReaderMode () {
-        this.screenReaderMode = !this.screenReaderMode
-        const aceConfig = me.get('aceConfig') || {}
-        aceConfig.screenReaderMode = this.screenReaderMode
-        me.set('aceConfig', aceConfig)
-        me.patch()
-        $('body').toggleClass('screen-reader-mode', aceConfig.screenReaderMode)
-        Backbone.Mediator.publish('tome:change-config', {})
-      },
-
-      copyClassCode () {
-        this.$refs['classCodeRef'].select()
-        tryCopy()
-      }
+    displayRestartMenuItem: {
+      type: Boolean,
+      default: false
     }
-  })
+  },
+  data: () => ({
+    openSaveProgressModal: false,
+    screenReaderMode: false
+  }),
+  computed: {
+    ...mapGetters({
+      soundOn: 'layoutChrome/soundOn',
+      getMapUrl: 'layoutChrome/getMapUrl',
+      isTeacher: 'me/isTeacher',
+      isStudent: 'me/isStudent',
+      isAnonymous: 'me/isAnonymous',
+      classCode: 'classrooms/getMostRecentClassCode'
+    }),
+
+    mapLink () {
+      if (!this.getMapUrl) {
+        if (this.isTeacher) {
+          return '/teachers/units'
+        } else if (this.isStudent) {
+          return '/students'
+        } else {
+          return '/'
+        }
+      }
+      return this.getMapUrl
+    },
+
+    displaySaveProgressButton () {
+      return !this.isTeacher && this.isAnonymous
+    },
+
+    showSaveProgressModal () {
+      return this.openSaveProgressModal
+    }
+  },
+
+  mounted () {
+    // Check here if `show_hoc_progress_modal` has been set as true to show the progress modal
+    // `hoc_progress_modal_time` is set in the unit map component
+    // and since chrome is mounted before unit map, the condition will be false while on the unit map page
+    // However it will be true if the user navigates to any level from the unit map, since chrome is mounted again on those pages
+    if (window.sessionStorage.getItem('hoc_progress_modal_time') && this.isAnonymous) {
+      this.showProgressModal = setInterval(() => {
+        if (window.sessionStorage.getItem('show_hoc_progress_modal')) {
+          this.openSaveProgressModal = true
+          this.$emit('pause-cutscene')
+          window.sessionStorage.removeItem('show_hoc_progress_modal')
+          clearInterval(this.showProgressModal)
+        }
+      }, 60000) // every 1 min
+    }
+
+    this.screenReaderMode = me.get('aceConfig') && me.get('aceConfig').screenReaderMode
+  },
+
+  beforeDestroy () {
+    if (this.showProgressModal) {
+      clearInterval(this.showProgressModal)
+    }
+  },
+
+  methods: {
+    ...mapActions('layoutChrome', ['toggleSoundAction', 'toggleScreenReaderModeAction']),
+
+    clickOptions () {
+      this.$emit('click-options')
+    },
+
+    clickRestart () {
+      this.$emit('click-restart')
+    },
+
+    closeSaveProgressModal () {
+      this.openSaveProgressModal = false
+    },
+
+    clickSaveProgress () {
+      this.openSaveProgressModal = true
+      this.$emit('pause-cutscene')
+    },
+
+    // Inspired from CocoView toggleFullscreen method.
+    toggleFullScreen () {
+      const full = document.fullscreenElement ||
+        document.mozFullScreenElement ||
+        document.mozFullscreenElement ||
+        document.msFullscreenElement ||
+        document.webkitFullscreenElement
+
+      if (!full) {
+        const d = document.documentElement
+
+        const req = d.requestFullscreen ||
+          d.mozRequestFullScreen ||
+          d.mozRequestFullscreen ||
+          d.msRequestFullscreen ||
+          d.webkitRequestFullscreen
+
+        if (req) {
+          req.call(d)
+        }
+      } else {
+        const exitFullScreen = document.exitFullscreen ||
+          document.mozCancelFullScreen ||
+          document.mozCancelFullscreen ||
+          document.webkitExitFullscreen ||
+          document.msExitFullscreen
+        if (exitFullScreen) {
+          exitFullScreen.call(document)
+        }
+      }
+    },
+
+    toggleScreenReaderMode () {
+      this.screenReaderMode = !this.screenReaderMode
+      const aceConfig = me.get('aceConfig') || {}
+      aceConfig.screenReaderMode = this.screenReaderMode
+      me.set('aceConfig', aceConfig)
+      me.patch()
+      $('body').toggleClass('screen-reader-mode', aceConfig.screenReaderMode)
+      Backbone.Mediator.publish('tome:change-config', {})
+    },
+
+    copyClassCode () {
+      this.$refs.classCodeRef.select()
+      tryCopy()
+    }
+  }
+})
 </script>
 
 <template>
@@ -166,37 +166,46 @@
       <slot />
     </div>
 
-    <div v-if="classCode" class="class-code-container">
-      <label for="classCode" class="class-code-descriptor"> {{ $t("teachers.class_code") }} </label>
+    <div
+      v-if="classCode"
+      class="class-code-container"
+    >
+      <label
+        for="classCode"
+        class="class-code-descriptor"
+      > {{ $t("teachers.class_code") }} </label>
       <div class="class-code-text-container">
         <input
           id="classCode"
-          class="class-code-text"
           ref="classCodeRef"
+          class="class-code-text"
           :value="classCode"
           type="text"
           readonly
-        />
+        >
       </div>
-      <a @click="copyClassCode"><img src="/images/pages/modal/hoc2019/Copy.png" alt="Copy class code"/></a>
+      <a @click="copyClassCode"><img
+        src="/images/pages/modal/hoc2019/Copy.png"
+        alt="Copy class code"
+      ></a>
     </div>
 
     <div
-        :class="[ 'chrome-border', chromeOn ? 'chrome-on-slice' : 'chrome-off-slice']"
+      :class="[ 'chrome-border', chromeOn ? 'chrome-on-slice' : 'chrome-off-slice']"
     >
       <div :class="[ chromeOn ? 'side-center-on' : 'side-center-off']" />
 
       <div id="chrome-menu">
         <button
+          v-tooltip="{
+            content: screenReaderMode
+              ? $t('options.editor_config_screen_reader_mode_label_disable')
+              : $t('options.editor_config_screen_reader_mode_label'),
+            placement: 'right',
+            classes: 'layoutChromeTooltip'
+          }"
           class="button-flex-item screen-reader-btn"
           :class="{ 'menu-screen-reader-mode-enabled': screenReaderMode, 'sr-only': !screenReaderMode }"
-          v-tooltip="{
-             content: screenReaderMode
-               ? $t('options.editor_config_screen_reader_mode_label_disable')
-               : $t('options.editor_config_screen_reader_mode_label'),
-             placement: 'right',
-             classes: 'layoutChromeTooltip'
-           }"
           :aria-label="screenReaderMode
             ? $t('options.editor_config_screen_reader_mode_label_disable')
             : $t('options.editor_config_screen_reader_mode_label')"
@@ -205,57 +214,59 @@
         />
 
         <button
-          class="button-flex-item options-btn"
-          :class="{ hideBtn: !displayOptionsMenuItem }"
           v-tooltip="{
             content: $t('ozaria_chrome.level_options'),
             placement: 'right',
             classes: 'layoutChromeTooltip',
           }"
+          class="button-flex-item options-btn"
+          :class="{ hideBtn: !displayOptionsMenuItem }"
           :aria-label="$t('ozaria_chrome.level_options')"
           @click="clickOptions"
         />
 
         <button
-          class="button-flex-item restart-btn"
-          :class="{ hideBtn: !displayRestartMenuItem }"
-
           v-tooltip="{
             content: $t('ozaria_chrome.restart_level'),
             placement: 'right',
             classes: 'layoutChromeTooltip',
           }"
+          class="button-flex-item restart-btn"
+
+          :class="{ hideBtn: !displayRestartMenuItem }"
           :aria-label="$t('ozaria_chrome.restart_level')"
           @click="clickRestart"
         />
 
         <div class="spacer" />
 
-        <a :href="mapLink" tabindex="-1">
-          <button class="button-flex-item map-btn"
+        <a
+          :href="mapLink"
+          tabindex="-1"
+        >
+          <button
             v-tooltip="{
               content: $t('ozaria_chrome.back_to_map'),
               placement: 'right',
               classes: 'layoutChromeTooltip',
             }"
+            class="button-flex-item map-btn"
             :aria-label="$t('ozaria_chrome.back_to_map')"
           />
         </a>
 
         <button
-          class="button-flex-item fullscreen-btn"
           v-tooltip="{
             content: $t('ozaria_chrome.max_browser'),
             placement: 'right',
             classes: 'layoutChromeTooltip',
           }"
+          class="button-flex-item fullscreen-btn"
           :aria-label="$t('ozaria_chrome.max_browser')"
           @click="toggleFullScreen"
         />
 
         <button
-          class="button-flex-item sound-btn"
-          :class="{ menuVolumeOff: soundOn }"
           v-tooltip="{
             content: soundOn
               ? $t('ozaria_chrome.sound_off')
@@ -263,6 +274,8 @@
             placement: 'right',
             classes: 'layoutChromeTooltip'
           }"
+          class="button-flex-item sound-btn"
+          :class="{ menuVolumeOff: soundOn }"
           :aria-label="soundOn
             ? $t('ozaria_chrome.sound_off')
             : $t('ozaria_chrome.sound_on')"
@@ -276,7 +289,10 @@
           class="text-contents"
           :class="[ chromeOn ? 'chrome-on' : 'chrome-off']"
         >
-          <span role="heading" aria-level="1">{{ title }}</span>
+          <span
+            role="heading"
+            aria-level="1"
+          >{{ title }}</span>
         </div>
         <button
           v-if="displaySaveProgressButton"

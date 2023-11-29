@@ -1,12 +1,12 @@
 <script>
-  export default {
-    props: {
-      conceptCheck: {
-        type: Object,
-        required: true
-      }
+export default {
+  props: {
+    conceptCheck: {
+      type: Object,
+      required: true
     }
   }
+}
 </script>
 <template>
   <div id="concept-check-info">
@@ -17,21 +17,30 @@
         {{ conceptCheck.learningGoal }}
       </p>
     </div>
-    <div v-if="conceptCheck.totalSubmissions !== -1" class="row-icon">
+    <div
+      v-if="conceptCheck.totalSubmissions !== -1"
+      class="row-icon"
+    >
       <img src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Submissions.svg">
       <p>
         <b>{{ 'Number of total submissions: ' }}</b>
         {{ conceptCheck.totalSubmissions }}
       </p>
     </div>
-    <div v-if="conceptCheck.timeSpent !== -1" class="row-icon">
+    <div
+      v-if="conceptCheck.timeSpent !== -1"
+      class="row-icon"
+    >
       <img src="/images/ozaria/teachers/dashboard/svg_icons/Icon_TimeSpent.svg">
       <p>
         <b>{{ 'Time Spent: ' }}</b>
         {{ `${conceptCheck.timeSpent} min` }}
       </p>
     </div>
-    <div v-if="conceptCheck.classAverage !== -1" class="row-icon">
+    <div
+      v-if="conceptCheck.classAverage !== -1"
+      class="row-icon"
+    >
       <img src="/images/ozaria/teachers/dashboard/svg_icons/Icon_ClassAvg.svg">
       <p>
         <b>{{ 'Class Average: ' }}</b>

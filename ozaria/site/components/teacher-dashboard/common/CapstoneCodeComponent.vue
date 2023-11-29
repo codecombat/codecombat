@@ -1,31 +1,31 @@
 <script>
-  import CodeArea from './CodeArea'
-  import utils from 'core/utils'
+import CodeArea from './CodeArea'
+import utils from 'core/utils'
 
-  export default {
-    components: {
-      CodeArea
-    },
+export default {
+  components: {
+    CodeArea
+  },
 
-    props: {
-      gameGoals: {
-        type: Array,
-        required: true
-      },
-      capstoneSessionCode: {
-        type: String,
-        required: true
-      },
-      capstoneSessionLanguage: {
-        type: String,
-        required: true
-      }
+  props: {
+    gameGoals: {
+      type: Array,
+      required: true
     },
-    created() {
-      this.utils = utils
+    capstoneSessionCode: {
+      type: String,
+      required: true
+    },
+    capstoneSessionLanguage: {
+      type: String,
+      required: true
     }
-
+  },
+  created () {
+    this.utils = utils
   }
+
+}
 </script>
 
 <template>
@@ -38,7 +38,10 @@
           :key="goal.name"
           class="flex-row pushed-left"
         >
-          <img v-if="completed" src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Checkbox_Checked.svg">
+          <img
+            v-if="completed"
+            src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Checkbox_Checked.svg"
+          >
           <div
             v-else
             class="unchecked"

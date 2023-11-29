@@ -1,87 +1,87 @@
 <script>
-  import ContentIcon from '../../common/icons/ContentIcon'
-  import { mapGetters } from 'vuex'
-  import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
+import ContentIcon from '../../common/icons/ContentIcon'
+import { mapGetters } from 'vuex'
+import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
 
-  export default {
-    components: {
-      ContentIcon
+export default {
+  components: {
+    ContentIcon
+  },
+
+  props: {
+    iconType: {
+      type: String,
+      required: true,
+      validator: value => ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].indexOf(value) !== -1
     },
 
-    props: {
-      iconType: {
-        type: String,
-        required: true,
-        validator: value => ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].indexOf(value) !== -1
-      },
-
-      displayName: {
-        type: String,
-        required: true
-      },
-
-      description: {
-        type: String,
-        required: false,
-        default: ''
-      },
-
-      isPartOfIntro: {
-        type: Boolean,
-        default: false
-      },
-
-      showCodeBtn: {
-        type: Boolean,
-        default: false
-      },
-      showProgressDot: {
-        type: Boolean,
-        default: false
-      },
-      progressStatus: {
-        type: String,
-        default: ''
-      },
-      identifier: {
-        type: String
-      }
+    displayName: {
+      type: String,
+      required: true
     },
 
-    data () {
+    description: {
+      type: String,
+      required: false,
+      default: ''
+    },
+
+    isPartOfIntro: {
+      type: Boolean,
+      default: false
+    },
+
+    showCodeBtn: {
+      type: Boolean,
+      default: false
+    },
+    showProgressDot: {
+      type: Boolean,
+      default: false
+    },
+    progressStatus: {
+      type: String,
+      default: ''
+    },
+    identifier: {
+      type: String
+    }
+  },
+
+  data () {
+    return {
+      showCode: false
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
+    }),
+
+    moduleRowClass () {
       return {
-        showCode: false
+        locked: this.isOnLockedCampaign,
+        'part-of-intro': this.isPartOfIntro,
+        'show-progress-dot': this.showProgressDot
       }
     },
 
-    computed: {
-      ...mapGetters({
-        isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
-      }),
-
-      moduleRowClass () {
-        return {
-          locked: this.isOnLockedCampaign,
-          'part-of-intro': this.isPartOfIntro,
-          'show-progress-dot': this.showProgressDot
-        }
-      },
-
-      getContentTypeHeader () {
-        if (this.iconType) {
-          return getGameContentDisplayType(this.iconType, true, true)
-        } else {
-          return ''
-        }
-      }
-    },
-    methods: {
-      onShowCodeClicked () {
-        this.showCode = !this.showCode
-        this.$emit('showCodeClicked', { identifier: this.identifier, hideCode: !this.showCode })
+    getContentTypeHeader () {
+      if (this.iconType) {
+        return getGameContentDisplayType(this.iconType, true, true)
+      } else {
+        return ''
       }
     }
+  },
+  methods: {
+    onShowCodeClicked () {
+      this.showCode = !this.showCode
+      this.$emit('showCodeClicked', { identifier: this.identifier, hideCode: !this.showCode })
+    }
   }
+}
 </script>
 <template>
   <div
@@ -93,17 +93,27 @@
       <div
         v-if="showProgressDot"
         :class="{ 'progress-dot': true, 'in-progress': progressStatus === 'in-progress', 'not-started': progressStatus === 'not-started', 'complete': progressStatus === 'complete' }"
-      >
-      </div>
-      <content-icon class="content-icon" :icon="iconType" />
-      <p class="content-heading"><b>{{ getContentTypeHeader }}: {{ displayName }}</b></p>
-      <p class="content-desc">{{ description }}</p>
+      />
+      <content-icon
+        class="content-icon"
+        :icon="iconType"
+      />
+      <p class="content-heading">
+        <b>{{ getContentTypeHeader }}: {{ displayName }}</b>
+      </p>
+      <p class="content-desc">
+        {{ description }}
+      </p>
       <div
         v-if="showCodeBtn"
         class="code-view"
         @click="onShowCodeClicked"
       >
-        <img src="/images/pages/parents/dashboard/show-code-logo.svg" alt="Show Code Logo" class="code-view__icon">
+        <img
+          src="/images/pages/parents/dashboard/show-code-logo.svg"
+          alt="Show Code Logo"
+          class="code-view__icon"
+        >
         <span class="code-view__text">
           {{ showCode ? 'Hide Code' : 'See Code' }}
         </span>

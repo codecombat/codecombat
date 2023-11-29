@@ -3,54 +3,85 @@ import IconHelp from '../../common/icons/IconHelp'
 import ProgressDot from '../../common/progress/progressDot'
 
 export default {
-    components: {
-      IconHelp,
-      ProgressDot
-    },
-    props: {
-      showReviewLabels: {
-        type: Boolean,
-        default: false
-      }
+  components: {
+    IconHelp,
+    ProgressDot
+  },
+  props: {
+    showReviewLabels: {
+      type: Boolean,
+      default: false
     }
   }
+}
 </script>
 
 <template>
   <div class="progress-labels">
     <div class="img-subtext">
-      <div class="dot-border"><div class="dot green-dot"></div></div>
+      <div class="dot-border">
+        <div class="dot green-dot" />
+      </div>
       <span>{{ $t('courses.complete') }}</span>
     </div>
     <div class="img-subtext">
-      <div class="dot-border"><div class="dot teal-dot"></div></div>
+      <div class="dot-border">
+        <div class="dot teal-dot" />
+      </div>
       <span>{{ $t('teacher.in_progress') }}</span>
     </div>
     <div class="img-subtext">
-      <div class="dot-border"><div class="dot assigned-dot"></div></div>
+      <div class="dot-border">
+        <div class="dot assigned-dot" />
+      </div>
       <span>{{ $t('teacher.assigned') }}</span>
     </div>
-    <div class="img-subtext" v-if="showReviewLabels">
+    <div
+      v-if="showReviewLabels"
+      class="img-subtext"
+    >
       <progress-dot
         :is-locked="true"
         class="dot-border"
       />
       <span>{{ $t("common.locked") }}</span>
     </div>
-    <div class="img-subtext" v-if="showReviewLabels">
-      <div class="dot-border concept-flag-border"><div class="dot green-dot"></div></div>
+    <div
+      v-if="showReviewLabels"
+      class="img-subtext"
+    >
+      <div class="dot-border concept-flag-border">
+        <div class="dot green-dot" />
+      </div>
       <span>{{ $t('teacher_dashboard.concept_flag') }}</span>
     </div>
-    <div class="img-subtext" v-if="showReviewLabels">
-      <div class="dot-border"><div class="dot"><img src="/images/ozaria/teachers/dashboard/svg_icons/IconSkippedLevel.svg"></div></div>
+    <div
+      v-if="showReviewLabels"
+      class="img-subtext"
+    >
+      <div class="dot-border">
+        <div class="dot">
+          <img src="/images/ozaria/teachers/dashboard/svg_icons/IconSkippedLevel.svg">
+        </div>
+      </div>
       <span>{{ $t('teacher_dashboard.skipped') }}</span>
     </div>
-    <div class="img-subtext" v-if="showReviewLabels">
-      <div class="dot-border"><div class="dot"><img src="/images/ozaria/teachers/dashboard/svg_icons/IconOptionalLevel.svg"></div></div>
+    <div
+      v-if="showReviewLabels"
+      class="img-subtext"
+    >
+      <div class="dot-border">
+        <div class="dot">
+          <img src="/images/ozaria/teachers/dashboard/svg_icons/IconOptionalLevel.svg">
+        </div>
+      </div>
       <span>{{ $t('teacher_dashboard.optional') }}</span>
     </div>
 
-    <div v-if="showReviewLabels" class="help-container">
+    <div
+      v-if="showReviewLabels"
+      class="help-container"
+    >
       <v-popover
         popover-class="teacher-dashboard-tooltip lighter-p large-width"
         trigger="hover"
@@ -60,19 +91,29 @@ export default {
         <!-- The tooltip -->
         <template slot="popover">
           <div>
-            <h3 style="margin-bottom: 15px;">{{ $t('teacher_dashboard.support_learning') }}</h3>
+            <h3 style="margin-bottom: 15px;">
+              {{ $t('teacher_dashboard.support_learning') }}
+            </h3>
             <div class="supportGrid">
               <div class="top-row">
                 <p>{{ $t('teacher.all_students') }}</p>
               </div>
               <div class="top-row">
-                <div class="dot-border concept-flag-border"><div class="dot green-dot"></div></div>
+                <div class="dot-border concept-flag-border">
+                  <div class="dot green-dot" />
+                </div>
               </div>
               <div class="description top-row">
                 <p>{{ $t('teacher_dashboard.concept_flag_desc') }}</p>
               </div>
-              <div class="bottom-row"><p> {{ $t('courses.student') }} </p></div>
-              <div class="bottom-row"><div class="dot-border concept-flag-border"><div class="dot green-dot"></div></div></div>
+              <div class="bottom-row">
+                <p> {{ $t('courses.student') }} </p>
+              </div>
+              <div class="bottom-row">
+                <div class="dot-border concept-flag-border">
+                  <div class="dot green-dot" />
+                </div>
+              </div>
               <div class="description bottom-row">
                 <p> {{ $t('teacher_dashboard.concept_flag_desc2') }} </p>
               </div>

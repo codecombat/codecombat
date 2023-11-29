@@ -1,46 +1,46 @@
 <script>
-  import IconButton from '../common/buttons/IconButton'
-  import { mapGetters } from 'vuex'
+import IconButton from '../common/buttons/IconButton'
+import { mapGetters } from 'vuex'
 
-  export default {
-    components: {
-      'icon-button': IconButton
+export default {
+  components: {
+    'icon-button': IconButton
+  },
+  props: {
+    title: {
+      type: String,
+      default: ''
     },
-    props: {
-      title: {
-        type: String,
-        default: ''
-      },
-      courseName: {
-        type: String,
-        default: ''
-      },
-      exemplarProjectUrl: {
-        type: String,
-        default: ''
-      },
-      exemplarCodeUrl: {
-        type: String,
-        default: ''
-      },
-      projectRubricUrl: {
-        type: String,
-        default: ''
-      }
+    courseName: {
+      type: String,
+      default: ''
     },
-    computed: {
-      ...mapGetters({
-        getTrackCategory: 'teacherDashboard/getTrackCategory'
-      })
+    exemplarProjectUrl: {
+      type: String,
+      default: ''
     },
-    methods: {
-      trackEvent (eventName) {
-        if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
-        }
+    exemplarCodeUrl: {
+      type: String,
+      default: ''
+    },
+    projectRubricUrl: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    ...mapGetters({
+      getTrackCategory: 'teacherDashboard/getTrackCategory'
+    })
+  },
+  methods: {
+    trackEvent (eventName) {
+      if (eventName) {
+        window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
       }
     }
   }
+}
 </script>
 
 <template>

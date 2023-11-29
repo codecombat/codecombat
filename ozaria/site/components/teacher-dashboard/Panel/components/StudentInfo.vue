@@ -1,16 +1,16 @@
 <script>
-  export default {
-    props: {
-      name: {
-        type: String,
-        required: true
-      },
-      completed: {
-        type: String,
-        default: ''
-      }
+export default {
+  props: {
+    name: {
+      type: String,
+      required: true
+    },
+    completed: {
+      type: String,
+      default: ''
     }
   }
+}
 </script>
 <template>
   <div id="student-info">

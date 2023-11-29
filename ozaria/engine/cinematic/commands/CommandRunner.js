@@ -10,7 +10,7 @@ import { run, cancel } from './AbstractCommand'
 export default class CommandRunner {
   constructor (commands) {
     if (!commands || (commands && !Array.isArray(commands))) {
-      throw new Error(`'commands' must be an array.`)
+      throw new Error('\'commands\' must be an array.')
     }
     this.commands = commands
 

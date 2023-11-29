@@ -1,69 +1,69 @@
 <script>
-  import { mapMutations } from 'vuex'
-  import { validationMixin } from 'vuelidate'
-  import { basicInfoValidations, validationMessages } from './common/signUpValidations'
-  import SecondaryButton from '../../teacher-dashboard/common/buttons/SecondaryButton'
+import { mapMutations } from 'vuex'
+import { validationMixin } from 'vuelidate'
+import { basicInfoValidations, validationMessages } from './common/signUpValidations'
+import SecondaryButton from '../../teacher-dashboard/common/buttons/SecondaryButton'
 
-  export default {
-    metaInfo: {
-      meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }]
-    },
-    components: {
-      SecondaryButton
-    },
-    mixins: [validationMixin],
-    data: () => {
-      const url = new URLSearchParams(window.location.search)
-      return {
-        firstName: url.get('firstName') || '',
-        lastName: url.get('lastName') || '',
-        email: url.get('email') || '',
-        password: '',
-        passwordFieldType: 'password',
-        validationMessages: validationMessages
+export default {
+  metaInfo: {
+    meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }]
+  },
+  components: {
+    SecondaryButton
+  },
+  mixins: [validationMixin],
+  data: () => {
+    const url = new URLSearchParams(window.location.search)
+    return {
+      firstName: url.get('firstName') || '',
+      lastName: url.get('lastName') || '',
+      email: url.get('email') || '',
+      password: '',
+      passwordFieldType: 'password',
+      validationMessages
+    }
+  },
+
+  validations: basicInfoValidations,
+
+  computed: {
+    isFormValid () {
+      return !this.$v.$invalid
+    }
+  },
+
+  watch: {
+    isFormValid (val) {
+      this.$emit('validityChange', val)
+    }
+  },
+
+  methods: {
+    ...mapMutations({
+      updateSignupForm: 'teacherSignup/updateSignupForm',
+      updateTrialRequestProperties: 'teacherSignup/updateTrialRequestProperties'
+    }),
+
+    onChangeValue (event) {
+      const attrs = {}
+      attrs[event.target.name] = event.target.value
+      this.updateSignupForm(attrs)
+      if (event.target.name !== 'password') {
+        this.updateTrialRequestProperties(attrs)
       }
     },
-
-    validations: basicInfoValidations,
-
-    computed: {
-      isFormValid () {
-        return !this.$v.$invalid
-      }
+    togglePassword () {
+      this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password'
+      this.$refs.password.focus()
     },
 
-    watch: {
-      isFormValid (val) {
-        this.$emit('validityChange', val)
-      }
-    },
-
-    methods: {
-      ...mapMutations({
-        updateSignupForm: 'teacherSignup/updateSignupForm',
-        updateTrialRequestProperties: 'teacherSignup/updateTrialRequestProperties'
-      }),
-
-      onChangeValue (event) {
-        const attrs = {}
-        attrs[event.target.name] = event.target.value
-        this.updateSignupForm(attrs)
-        if (event.target.name !== 'password') {
-          this.updateTrialRequestProperties(attrs)
-        }
-      },
-      togglePassword () {
-        this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
-        this.$refs.password.focus();
-      },
-
-      onClickNext () {
-        if (this.isFormValid) {
-          this.$emit('goToNext')
-        }
+    onClickNext () {
+      if (this.isFormValid) {
+        this.$emit('goToNext')
       }
     }
   }
+}
 </script>
 
 <template lang="pug">

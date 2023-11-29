@@ -1,29 +1,29 @@
 <script>
-  import CapstoneCodeComponent from '../../common/CapstoneCodeComponent'
-  import { mapGetters } from 'vuex'
+import CapstoneCodeComponent from '../../common/CapstoneCodeComponent'
+import { mapGetters } from 'vuex'
 
-  export default {
-    components: {
-      CapstoneCodeComponent
-    },
+export default {
+  components: {
+    CapstoneCodeComponent
+  },
 
-    props: {
-      panelSessionContent: {
-        type: Object,
-        required: true
-      }
-    },
+  props: {
+    panelSessionContent: {
+      type: Object,
+      required: true
+    }
+  },
 
-    computed: {
-      ...mapGetters({
-        classroomId: 'teacherDashboard/classroomId'
-      }),
+  computed: {
+    ...mapGetters({
+      classroomId: 'teacherDashboard/classroomId'
+    }),
 
-      projectURL () {
-        return `/teachers/projects/${this.classroomId}`
-      }
+    projectURL () {
+      return `/teachers/projects/${this.classroomId}`
     }
   }
+}
 </script>
 
 <template>

@@ -1,54 +1,54 @@
 <script>
-  import { mapMutations, mapGetters } from 'vuex'
-  export default {
-    props: {
-      studentName: {
-        type: String,
-        required: true
-      },
-      studentId: {
-        type: String,
-        required: true
-      },
-      checked: {
-        type: Boolean,
-        required: true
-      },
-      isEnrolled: {
-        type: Boolean,
-        default: false
-      },
-      studentSessions: {
-        type: Array,
-      },
+import { mapMutations, mapGetters } from 'vuex'
+export default {
+  props: {
+    studentName: {
+      type: String,
+      required: true
     },
-
-    computed: {
-      ...mapGetters({
-        classroom: 'teacherDashboard/getCurrentClassroom',
-        selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
-        getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass'
-      }),
-
-      selectedCourseInstanceId () {
-        const courseInstances = this.getCourseInstancesOfClass(this.classroom._id)
-        const courseInstance = _.find(courseInstances, (ci) => ci.courseID === this.selectedCourseId)
-        return (courseInstance || {})._id
-      },
-      hasCompletedCourse () {
-        if (!this.studentSessions || this.studentSessions.length === 0) {
-          return false
-        }
-        const completedSessions = this.studentSessions.filter(session => session.status === 'complete')
-        return completedSessions.length === this.studentSessions.length
-      }
+    studentId: {
+      type: String,
+      required: true
     },
-    methods: {
-      ...mapMutations({
-        openModalEditStudent: 'baseSingleClass/openModalEditStudent'
-      }),
+    checked: {
+      type: Boolean,
+      required: true
+    },
+    isEnrolled: {
+      type: Boolean,
+      default: false
+    },
+    studentSessions: {
+      type: Array
     }
+  },
+
+  computed: {
+    ...mapGetters({
+      classroom: 'teacherDashboard/getCurrentClassroom',
+      selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+      getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass'
+    }),
+
+    selectedCourseInstanceId () {
+      const courseInstances = this.getCourseInstancesOfClass(this.classroom._id)
+      const courseInstance = _.find(courseInstances, (ci) => ci.courseID === this.selectedCourseId)
+      return (courseInstance || {})._id
+    },
+    hasCompletedCourse () {
+      if (!this.studentSessions || this.studentSessions.length === 0) {
+        return false
+      }
+      const completedSessions = this.studentSessions.filter(session => session.status === 'complete')
+      return completedSessions.length === this.studentSessions.length
+    }
+  },
+  methods: {
+    ...mapMutations({
+      openModalEditStudent: 'baseSingleClass/openModalEditStudent'
+    })
   }
+}
 </script>
 <template>
   <div class="cell-student">
@@ -67,17 +67,22 @@
       </p>
     </div>
     <div class="student-status-icons">
-      <a target='_blank' :href='`/certificates/${studentId}?class=${classroom._id}&course=${selectedCourseId}&course-instance=${selectedCourseInstanceId}`' v-if="hasCompletedCourse" title="View Course Completion Certificate">
+      <a
+        v-if="hasCompletedCourse"
+        target="_blank"
+        :href="`/certificates/${studentId}?class=${classroom._id}&course=${selectedCourseId}&course-instance=${selectedCourseInstanceId}`"
+        title="View Course Completion Certificate"
+      >
         <img
           src="/images/pages/user/certificates/certificate-icon.png"
           class="certificate-icon"
-          >
+        >
       </a>
       <img
         v-if="isEnrolled"
         src="/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg"
         title="Licensed"
-        >
+      >
     </div>
   </div>
 </template>

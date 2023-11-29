@@ -64,7 +64,7 @@ export default {
       Vue.set(state.selectedStudents, studentId, true)
     },
 
-    setSelectableStudentIds (state, studentIds ) {
+    setSelectableStudentIds (state, studentIds) {
       state.selectableStudentIds = studentIds
     },
 
@@ -164,13 +164,13 @@ export default {
         if (hasSharedWriteAccess) {
           teacherId = classroom.ownerID
         } else {
-          noty({ text: `You do not have a write permission on this class`, layout: 'center', type: 'information', killer: true, timeout: 5000 })
+          noty({ text: 'You do not have a write permission on this class', layout: 'center', type: 'information', killer: true, timeout: 5000 })
           return
         }
       }
 
       if (students.length === 0) {
-        noty({ text: `You need to select student(s) first before performing that action.`, layout: 'center', type: 'information', killer: true, timeout: 8000 })
+        noty({ text: 'You need to select student(s) first before performing that action.', layout: 'center', type: 'information', killer: true, timeout: 8000 })
         return
       }
       const sharedClassroomId = hasSharedWriteAccess ? classroom._id : null
@@ -183,7 +183,7 @@ export default {
     async revokeLicenses ({ state, rootGetters, dispatch, getters }) {
       const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id))
       if (students.length === 0) {
-        noty({ text: `You need to select student(s) first before performing that action.`, layout: 'center', type: 'information', killer: true, timeout: 8000 })
+        noty({ text: 'You need to select student(s) first before performing that action.', layout: 'center', type: 'information', killer: true, timeout: 8000 })
         return
       }
       let teacherId = rootGetters['teacherDashboard/teacherId']
@@ -195,7 +195,7 @@ export default {
         if (hasSharedWriteAccess) {
           teacherId = classroom.ownerID
         } else {
-          noty({ text: `You do not have a write permission on this class`, layout: 'center', type: 'information', killer: true, timeout: 5000 })
+          noty({ text: 'You do not have a write permission on this class', layout: 'center', type: 'information', killer: true, timeout: 5000 })
           return
         }
       }
@@ -223,7 +223,7 @@ export default {
     }) {
       const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id))
       if (students.length === 0) {
-        noty({ text: `You need to select student(s) first before performing that action.`, layout: 'center', type: 'information', killer: true, timeout: 8000 })
+        noty({ text: 'You need to select student(s) first before performing that action.', layout: 'center', type: 'information', killer: true, timeout: 8000 })
         window.tracker?.trackEvent('Failure to lock', { category: 'Teachers' })
         return
       }
@@ -239,7 +239,6 @@ export default {
 
       for (const modifier of modifiers) {
         for (const { _id } of students) {
-
           // let's filter out the levels that are already has the same modifier
           const levelsToHandle = levels.filter((level) => {
             if (modifierValue) {
@@ -261,7 +260,7 @@ export default {
 
       if (numberStudentsChanged === 0) {
         noty({
-          text: `Levels already modified for these students`,
+          text: 'Levels already modified for these students',
           layout: 'center',
           type: 'information',
           killer: true,

@@ -4,48 +4,48 @@ import { mapActions, mapGetters } from 'vuex'
 import CellStudent from './CellStudent'
 
 export default {
-    components: {
-      CellStudent
-    },
+  components: {
+    CellStudent
+  },
 
-    props: {
-      students: {
-        type: Array,
-        required: true
-      },
-      studentSessionsData: {
-        type: Array,
-      }
+  props: {
+    students: {
+      type: Array,
+      required: true
     },
+    studentSessionsData: {
+      type: Array
+    }
+  },
 
-    computed: {
-      ...mapGetters({
-        isStudentSelected: 'baseSingleClass/isStudentSelected'
-      }),
-      // combines student with his sessionInfo for all modules of a chapter
-      studentsWithSessions() {
-        return this.students.map((student) => {
-          student.studentCombinedSessions ||= []
-          this.studentSessionsData.forEach((info) => {
-            if (info.studentSessions[student._id]) {
-              student.studentCombinedSessions.push(...info.studentSessions[student._id])
-            }
-          })
-          return student
+  computed: {
+    ...mapGetters({
+      isStudentSelected: 'baseSingleClass/isStudentSelected'
+    }),
+    // combines student with his sessionInfo for all modules of a chapter
+    studentsWithSessions () {
+      return this.students.map((student) => {
+        student.studentCombinedSessions ||= []
+        this.studentSessionsData.forEach((info) => {
+          if (info.studentSessions[student._id]) {
+            student.studentCombinedSessions.push(...info.studentSessions[student._id])
+          }
         })
-      }
-    },
+        return student
+      })
+    }
+  },
 
-    methods: {
-      ...mapActions({
-        toggleStudentSelectedId: 'baseSingleClass/toggleStudentSelectedId'
-      }),
+  methods: {
+    ...mapActions({
+      toggleStudentSelectedId: 'baseSingleClass/toggleStudentSelectedId'
+    }),
 
-      changeCheckbox (id) {
-        this.toggleStudentSelectedId({ studentId: id })
-      }
-    },
+    changeCheckbox (id) {
+      this.toggleStudentSelectedId({ studentId: id })
+    }
   }
+}
 </script>
 <template>
   <div id="studentList">

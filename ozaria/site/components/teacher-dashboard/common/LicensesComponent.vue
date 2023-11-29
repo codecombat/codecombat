@@ -1,58 +1,58 @@
 <script>
-  import {mapActions, mapGetters} from 'vuex'
-  import ModalGetLicenses from '../modals/ModalGetLicenses'
-  export default {
-    components: {
-      ModalGetLicenses
+import { mapActions, mapGetters } from 'vuex'
+import ModalGetLicenses from '../modals/ModalGetLicenses'
+export default {
+  components: {
+    ModalGetLicenses
+  },
+  props: {
+    selectedTeacherId: {
+      type: String
     },
-    props: {
-      selectedTeacherId: {
-        type: String,
-      },
-      sharedClassroomId: {
-        type: String
-      }
-    },
-    data: () => {
-      return {
-        showModalGetLicenses: false
-      }
-    },
-    computed: {
-      ...mapGetters({
-        getLicensesStatsByTeacher: 'prepaids/getLicensesStatsByTeacher',
-        teacherId: 'teacherDashboard/teacherId'
-      }),
+    sharedClassroomId: {
+      type: String
+    }
+  },
+  data: () => {
+    return {
+      showModalGetLicenses: false
+    }
+  },
+  computed: {
+    ...mapGetters({
+      getLicensesStatsByTeacher: 'prepaids/getLicensesStatsByTeacher',
+      teacherId: 'teacherDashboard/teacherId'
+    }),
 
-      totalUsedLicenses () {
-        return this.getLicensesStatsByTeacher(this.currentTeacherId).usedLicenses
-      },
+    totalUsedLicenses () {
+      return this.getLicensesStatsByTeacher(this.currentTeacherId).usedLicenses
+    },
 
-      totalSpots () {
-        return this.getLicensesStatsByTeacher(this.currentTeacherId).totalSpots
-      },
-      currentTeacherId () {
-        return this.selectedTeacherId || this.teacherId
-      },
-      showRequestLicense () {
-        return this.currentTeacherId === me.get('_id')
-      }
+    totalSpots () {
+      return this.getLicensesStatsByTeacher(this.currentTeacherId).totalSpots
     },
-    methods: {
-      ...mapActions({
-        fetchPrepaidsForTeacher: 'prepaids/fetchPrepaidsForTeacher'
-      }),
-      clickRequestLicenses () {
-        window.tracker?.trackEvent('Request Licenses Clicked', { category: 'Teachers', label: `${this.$route.path}` })
-        this.showModalGetLicenses = true
-      }
+    currentTeacherId () {
+      return this.selectedTeacherId || this.teacherId
     },
-    mounted() {
-      if (this.selectedTeacherId && this.selectedTeacherId !== this.teacherId) {
-        this.fetchPrepaidsForTeacher({ teacherId: this.selectedTeacherId, sharedClassroomId: this.sharedClassroomId })
-      }
+    showRequestLicense () {
+      return this.currentTeacherId === me.get('_id')
+    }
+  },
+  methods: {
+    ...mapActions({
+      fetchPrepaidsForTeacher: 'prepaids/fetchPrepaidsForTeacher'
+    }),
+    clickRequestLicenses () {
+      window.tracker?.trackEvent('Request Licenses Clicked', { category: 'Teachers', label: `${this.$route.path}` })
+      this.showModalGetLicenses = true
+    }
+  },
+  mounted () {
+    if (this.selectedTeacherId && this.selectedTeacherId !== this.teacherId) {
+      this.fetchPrepaidsForTeacher({ teacherId: this.selectedTeacherId, sharedClassroomId: this.sharedClassroomId })
     }
   }
+}
 </script>
 
 <template>
@@ -63,9 +63,15 @@
       id="license-text"
     >
       <span>{{ $t('teacher_dashboard.no_licenses_yet') }}</span>
-      <a @click="clickRequestLicenses" v-if="this.showRequestLicense">{{ $t('teacher_dashboard.req_licenses') }}</a>
+      <a
+        v-if="showRequestLicense"
+        @click="clickRequestLicenses"
+      >{{ $t('teacher_dashboard.req_licenses') }}</a>
     </div>
-    <div v-else id="license-text">
+    <div
+      v-else
+      id="license-text"
+    >
       <span>{{ $t('teacher_dashboard.license_ratio_used', { totalUsedLicenses, totalSpots }) }}</span>
       <span class="licenses-applied">{{ $t('teacher_dashboard.licenses_applied') }}</span>
     </div>
