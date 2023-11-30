@@ -14,14 +14,11 @@ const RootView = require('views/core/RootView')
 const template = require('app/templates/editor/ai-chat-message/edit')
 const AIChatMessage = require('models/AIChatMessage')
 const ConfirmModal = require('views/core/ConfirmModal')
-const PatchesView = require('views/editor/PatchesView')
-const errors = require('core/errors')
 
 const nodes = require('views/editor/level/treema_nodes')
 
 require('lib/game-libraries')
 require('lib/setupTreema')
-const treemaExt = require('core/treema-ext')
 
 module.exports = (AIChatMessageEditView = (function () {
   AIChatMessageEditView = class AIChatMessageEditView extends RootView {
@@ -41,7 +38,7 @@ module.exports = (AIChatMessageEditView = (function () {
       this.deleteAIChatMessage = this.deleteAIChatMessage.bind(this)
       this.chatMessageID = chatMessageID
       this.chatMessage = new AIChatMessage({ _id: this.chatMessageID })
-      this.chatMessage.saveBackups = true
+      this.chatMessage.saveBackups = false
       this.supermodel.loadModel(this.chatMessage)
     }
 
@@ -74,7 +71,6 @@ module.exports = (AIChatMessageEditView = (function () {
 
     afterRender () {
       super.afterRender()
-      if (!this.supermodel.finished()) { }
     }
 
     onClickSaveButton (e) {
@@ -92,7 +88,7 @@ module.exports = (AIChatMessageEditView = (function () {
 
       return res.success(() => {
         const url = `/editor/ai-chat-message/${this.chatMessage.get('slug') || this.chatMessage.id}`
-        return document.location.href = url
+        document.location.href = url
       })
     }
 

@@ -21,15 +21,15 @@ block tableHeader
 block tableBody
   for chatMessage in documents
     tr(data-chat-message=chatMessage.get('_id') data-name=chatMessage.get('name'))
-      td(title=chatMessage.get('created'))
+      td(title=chatMessage.get('sentAt'))
         a(href='/editor/' + page + '/' + chatMessage.get('_id'))
-          | #{moment(chatMessage.get('created')).format('lll')}
-      td 
+          | #{moment(chatMessage.get('sentAt')).format('lll')}
+      td
         a(href='/editor/ai-document/' + chatMessage.get('document') target='_blank')
           | #{chatMessage.get('document')}
-      td #{chatMessage.get('actor')}          
-      td 
-        | #{chatMessage.get('parentKind')} 
+      td #{chatMessage.get('actor')}
+      td
+        | #{chatMessage.get('parentKind')}
         a(href='/editor/ai-' + chatMessage.get('parentKind') + '/' + chatMessage.get('parent') target='_blank')
           | #{chatMessage.get('parent')}
       td #{chatMessage.get('preview')}

@@ -18,7 +18,7 @@ module.exports = (AIModelSearchView = (function () {
       this.prototype.model = require('models/AIChatMessage')
       this.prototype.modelURL = '/db/ai_chat_message'
       this.prototype.tableTemplate = require('app/templates/editor/ai-chat-message/table')
-      this.prototype.projection = ['name', 'preview', 'actor', 'description', 'text', 'document', 'parent', 'parentKind']
+      this.prototype.projection = ['name', 'preview', 'actor', 'description', 'text', 'document', 'parent', 'parentKind', 'sentAt']
       this.prototype.page = 'ai-chat-message'
       this.prototype.canMakeNew = false
 
