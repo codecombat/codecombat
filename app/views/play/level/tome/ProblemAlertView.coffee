@@ -46,6 +46,7 @@ module.exports = class ProblemAlertView extends CocoView
     super options
     @level = options.level
     @session = options.session
+    @aceConfig = options.aceConfig || {}
     if options.problem?
       @problem = options.problem
       @onWindowResize()
