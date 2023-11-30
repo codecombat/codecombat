@@ -82,6 +82,8 @@ module.exports = (AdministerUserModal = (function () {
       }
       options.models = [user]
       super(options)
+      this.onSearchRequestSuccess = this.onSearchRequestSuccess.bind(this)
+      this.onSearchRequestFailure = this.onSearchRequestFailure.bind(this)
       this.userHandle = userHandle
       this.ESPORTS_PRODUCT_STATS = ESPORTS_PRODUCT_STATS
       this.user = user
@@ -162,7 +164,7 @@ module.exports = (AdministerUserModal = (function () {
         }
       })()
       this.currentCouponID = stripe.couponID
-      return this.none = !(this.free || this.freeUntil || this.coupon)
+      this.none = !(this.free || this.freeUntil || this.coupon)
     }
 
     onClickCreatePayment () {
@@ -673,7 +675,7 @@ module.exports = (AdministerUserModal = (function () {
 </tr>\
 `)
 
-      result = `<table class=\"table\">${result.join('\n')}</table>`
+      result = `<table class=\"table\">${result.join('\n')}</table>` // eslint-disable-line no-useless-escape
       return this.$el.find('#teacher-search-result').html(result)
     }
 
@@ -725,7 +727,7 @@ ${teachers.join('\n')} \
 `
       })
 
-      result = `<table class=\"table\">${result.join('\n')}</table>`
+      result = `<table class=\"table\">${result.join('\n')}</table>` // eslint-disable-line no-useless-escape
       return this.$el.find('#school-admin-result').html(result)
     }
 
@@ -750,9 +752,9 @@ ${teachers.join('\n')} \
       _.forEach(teachers, teacher => {
         const school = teacher?._trialRequest?.organization || 'Other'
         if (!schools[school]) {
-          return schools[school] = [teacher]
+          schools[school] = [teacher]
         } else {
-          return schools[school].push(teacher)
+          schools[school].push(teacher)
         }
       })
 
@@ -789,8 +791,8 @@ ${teachers.join('\n')} \
     }
 
     onClickVolumeCheckbox (e) {
-      let checked
-      const val = (checked = this.$(e.target).prop('checked')) ? 1.0 : 0.0
+      const checked = this.$(e.target).prop('checked')
+      const val = checked ? 1.0 : 0.0
       this.user.set('volume', val)
       this.user.patch()
       return this.modelTreemas[this.user.id].set('volume', val)
