@@ -1,12 +1,22 @@
 <template>
-  <div class="container-fluid" id="online-classes-success-view">
+  <div
+    id="online-classes-success-view"
+    class="container-fluid"
+  >
     <div class="container">
       <div class="head text-center">
-        <h2 class="head-text">Congratulations</h2>
-        <h2 class="head-text">Your student's coding adventure awaits</h2>
+        <h2 class="head-text">
+          Congratulations
+        </h2>
+        <h2 class="head-text">
+          Your student's coding adventure awaits
+        </h2>
       </div>
-      <div v-if="selectedPlan && numStudents" class="section">
-        You are confirmed for {{selectedPlan}} for {{numStudents}} {{ numStudents > 1 ? 'students' : 'student' }}
+      <div
+        v-if="selectedPlan && numStudents"
+        class="section"
+      >
+        You are confirmed for {{ selectedPlan }} for {{ numStudents }} {{ numStudents > 1 ? 'students' : 'student' }}
       </div>
       <div class="section">
         As a next step you can expect one of our remote learning advisors to reach out to confirm details for your next class session including more about your teacher. This typically happens within the first 24 hrs after signup.
@@ -21,14 +31,14 @@
 <script>
 import { getTrackingData, setTrackedPremiumPurchase, hasTrackedPremiumAccess } from 'app/lib/paymentUtils'
 export default {
-  name: "PaymentOnlineClassesSuccessView",
-  data() {
+  name: 'PaymentOnlineClassesSuccessView',
+  data () {
     return {
       numStudents: null,
-      selectedPlan: null,
-    };
+      selectedPlan: null
+    }
   },
-  created() {
+  created () {
     const query = this.$route.query
     this.selectedPlan = query.selectedPlan
     this.numStudents = query.numStudents

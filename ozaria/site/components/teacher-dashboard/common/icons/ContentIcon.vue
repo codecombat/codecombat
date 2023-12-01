@@ -1,35 +1,38 @@
 <script>
-  import IconCutscene from './IconCutscene'
-  import IconCapstone from './IconCapstone'
-  import IconCinematic from './IconCinematic'
-  import IconInteractive from './IconInteractive'
-  import IconPracticeLevel from './IconPracticeLevel'
-  import IconChallengeLevel from './IconChallengeLevel'
-  import IconIntro from './IconIntro'
+import IconCutscene from './IconCutscene'
+import IconCapstone from './IconCapstone'
+import IconCinematic from './IconCinematic'
+import IconInteractive from './IconInteractive'
+import IconPracticeLevel from './IconPracticeLevel'
+import IconChallengeLevel from './IconChallengeLevel'
+import IconIntro from './IconIntro'
 
-  export default {
-    components: {
-      IconCutscene,
-      IconCinematic,
-      IconCapstone,
-      IconPracticeLevel,
-      IconChallengeLevel,
-      IconInteractive,
-      IconIntro
-    },
+export default {
+  components: {
+    IconCutscene,
+    IconCinematic,
+    IconCapstone,
+    IconPracticeLevel,
+    IconChallengeLevel,
+    IconInteractive,
+    IconIntro
+  },
 
-    props: {
-      icon: {
-        type: String,
-        required: true,
-        validator: value => { return ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].indexOf(value) !== -1}
-      }
+  props: {
+    icon: {
+      type: String,
+      required: true,
+      validator: value => { return ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].indexOf(value) !== -1 }
     }
   }
+}
 </script>
 
 <template>
-  <div class="flex-content" :class="icon">
+  <div
+    class="flex-content"
+    :class="icon"
+  >
     <IconCutscene v-if="icon=='cutscene'" />
     <IconCinematic v-else-if="icon=='cinematic'" />
     <IconCapstone v-else-if="icon=='capstone'" />

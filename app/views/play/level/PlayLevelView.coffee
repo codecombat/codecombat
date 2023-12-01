@@ -134,6 +134,7 @@ module.exports = class PlayLevelView extends RootView
     console.profile?() if PROFILE_ME
     super options
 
+    @options = options
     @courseID = options.courseID or utils.getQueryVariable 'course'
     @courseInstanceID = options.courseInstanceID or utils.getQueryVariable 'course-instance' or utils.getQueryVariable 'instance' # instance to avoid sessionless to be false when teaching
 

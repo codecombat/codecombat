@@ -5,6 +5,7 @@ SpellTopBarView = require './SpellTopBarView'
 { translateJS } = require 'lib/translate-utils'
 utils = require 'core/utils'
 
+# while migrating to JS, function: hasChangedSignificantly doesn't work correctly and throws errors when loading a level
 module.exports = class Spell
   loaded: false
   view: null

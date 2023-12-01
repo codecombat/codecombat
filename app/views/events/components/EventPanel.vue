@@ -1,17 +1,18 @@
 <template>
   <side-panel
+    id="event-panel"
     :is-visible="isVisible"
     :block-background="false"
-    id="event-panel"
     @close-panel="close"
   >
     <template #header>
       <ul class="event-panel-tabs nav nav-tabs">
-        <li class="tab"
-            :class="{active: panelType === t}"
-            v-for="t in possibleTabs"
-            :key="t"
-            @click="changeTab(t)"
+        <li
+          v-for="t in possibleTabs"
+          :key="t"
+          class="tab"
+          :class="{active: panelType === t}"
+          @click="changeTab(t)"
         >
           <a href="#">{{ t }}</a>
         </li>
@@ -20,9 +21,19 @@
 
     <template #body>
       <div class="event-panel-body">
-        <edit-event v-if="['new', 'edit'].includes(panelType)" :editType="panelType" @save="onEventSave" />
-        <edit-members v-if="panelType === 'members'" @save="onEventSave" />
-        <edit-instance v-if="panelType === 'instance'" @save="onEventSave" />
+        <edit-event
+          v-if="['new', 'edit'].includes(panelType)"
+          :edit-type="panelType"
+          @save="onEventSave"
+        />
+        <edit-members
+          v-if="panelType === 'members'"
+          @save="onEventSave"
+        />
+        <edit-instance
+          v-if="panelType === 'instance'"
+          @save="onEventSave"
+        />
       </div>
     </template>
   </side-panel>

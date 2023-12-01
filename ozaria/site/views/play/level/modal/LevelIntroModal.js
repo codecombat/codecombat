@@ -30,10 +30,10 @@ class LevelIntroModal extends ModalComponent {
       if (learningGoals) {
         learningGoalsText = utils.i18n(learningGoals, 'body')
       }
-      let levelTypeText = internationalizeLevelType(options.level.get('ozariaType'), true)
-      let levelName = utils.i18n(options.level.attributes, 'displayName') || utils.i18n(options.level.attributes, 'name')
+      const levelTypeText = internationalizeLevelType(options.level.get('ozariaType'), true)
+      const levelName = utils.i18n(options.level.attributes, 'displayName') || utils.i18n(options.level.attributes, 'name')
       this.propsData = {
-        levelName: levelName,
+        levelName,
         levelType: levelTypeText,
         narrative: narrativeText,
         learningGoals: learningGoalsText,

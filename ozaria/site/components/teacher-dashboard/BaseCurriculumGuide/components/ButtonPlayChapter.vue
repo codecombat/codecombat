@@ -1,12 +1,12 @@
 <script>
-  export default {
-    props: {
-      locked: {
-        type: Boolean,
-        default: false
-      }
+export default {
+  props: {
+    locked: {
+      type: Boolean,
+      default: false
     }
   }
+}
 </script>
 
 <template>

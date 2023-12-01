@@ -1,25 +1,25 @@
 <script>
-  import CodeArea from '../../common/CodeArea'
-  import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
+import CodeArea from '../../common/CodeArea'
+import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
 
-  export default {
-    components: {
-      CodeArea
-    },
+export default {
+  components: {
+    CodeArea
+  },
 
-    props: {
-      panelSessionContent: {
-        type: Object,
-        required: true
-      }
-    },
+  props: {
+    panelSessionContent: {
+      type: Object,
+      required: true
+    }
+  },
 
-    computed: {
-      ozariaAssetUrl () {
-        return `url("${getOzariaAssetUrl(this.panelSessionContent.interactiveArt)}")`
-      }
+  computed: {
+    ozariaAssetUrl () {
+      return `url("${getOzariaAssetUrl(this.panelSessionContent.interactiveArt)}")`
     }
   }
+}
 </script>
 
 <template>
@@ -34,7 +34,10 @@
           class="img"
         />
         <div class="flex-col">
-          <code-area :code="panelSessionContent.code" language="javascript" />
+          <code-area
+            :code="panelSessionContent.code"
+            language="javascript"
+          />
           <h4>Options</h4>
           <ul>
             <li

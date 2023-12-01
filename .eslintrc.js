@@ -27,7 +27,12 @@ module.exports = {
     d3: 'readonly',
     algoliasearch: 'readonly',
     FB: 'readonly',
-    lscache: 'readonly'
+    lscache: 'readonly',
+    tv4: 'readonly',
+    TreemaUtils: 'readonly',
+    CoffeeScript: 'readonly',
+    i18n: 'readonly',
+    marked: 'readonly'
   },
 
   env: {

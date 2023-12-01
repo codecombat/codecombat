@@ -67,7 +67,6 @@ const ClassroomLib = {
   },
 
   isModifierActiveForStudent: (classroomAttributes, studentId, courseIdToCheck, level, modifier, modifierExpiryDate = null) => {
-
     if (!level) {
       return false
     }

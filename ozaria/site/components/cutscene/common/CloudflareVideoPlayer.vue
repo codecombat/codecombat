@@ -37,7 +37,7 @@ export default {
 
   watch: {
     soundOn () {
-      const video = this.$refs['cloudflareVideo']
+      const video = this.$refs.cloudflareVideo
       if (!video) {
         return
       }
@@ -84,7 +84,7 @@ export default {
 
   methods: {
     onVideoLoaded () {
-      const video = this.$refs['cloudflareVideo']
+      const video = this.$refs.cloudflareVideo
       if (video) {
         video.muted = !this.soundOn
         video.addEventListener('ended', () => this.onCompleted())
@@ -96,7 +96,7 @@ export default {
         // trigger an ended event.
         clearInterval(this.checkEndedIntervalFailsafe)
         this.checkEndedIntervalFailsafe = setInterval(() => {
-          const { currentTime, duration, paused } = this.$refs['cloudflareVideo']
+          const { currentTime, duration, paused } = this.$refs.cloudflareVideo
           if (!this.lastCurrentTime || this.lastCurrentTime !== currentTime) {
             this.lastCurrentTime = currentTime
             this.currentTimeFrozenCheck = 0
@@ -124,7 +124,7 @@ export default {
     },
 
     pauseVideo () {
-      const video = this.$refs['cloudflareVideo']
+      const video = this.$refs.cloudflareVideo
       if (video && typeof video.pause === 'function') {
         video.pause()
       }
@@ -140,8 +140,20 @@ export default {
       :aspect-ratio="16 / 9"
     >
       <div class="cutscene">
-        <stream ref="cloudflareVideo" :src="cloudflareID" controls preload="auto" :default-text-track="cloudflareCaptionLanguage">
-          <track :srclang="cloudflareCaptionLanguage" v-if="cloudflareCaptionUrl" kind="captions" :src="cloudflareCaptionUrl" default/>
+        <stream
+          ref="cloudflareVideo"
+          :src="cloudflareID"
+          controls
+          preload="auto"
+          :default-text-track="cloudflareCaptionLanguage"
+        >
+          <track
+            v-if="cloudflareCaptionUrl"
+            :srclang="cloudflareCaptionLanguage"
+            kind="captions"
+            :src="cloudflareCaptionUrl"
+            default
+          >
         </stream>
       </div>
     </layout-aspect-ratio-container>

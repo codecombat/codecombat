@@ -6,25 +6,25 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let MainAccountView;
-require('app/styles/account/main-account-view.sass');
-const RootView = require('views/core/RootView');
-const template = require('app/templates/account/main-account-view');
+let MainAccountView
+require('app/styles/account/main-account-view.sass')
+const RootView = require('views/core/RootView')
+const template = require('app/templates/account/main-account-view')
 
-module.exports = (MainAccountView = (function() {
+module.exports = (MainAccountView = (function () {
   MainAccountView = class MainAccountView extends RootView {
-    static initClass() {
-      this.prototype.id = 'main-account-view';
-      this.prototype.template = template;
-  
+    static initClass () {
+      this.prototype.id = 'main-account-view'
+      this.prototype.template = template
+
       this.prototype.events =
-        {'click .logout-btn': 'logoutAccount'};
+        { 'click .logout-btn': 'logoutAccount' }
     }
 
-    getMeta() {
-      return {title: $.i18n.t('account.title')};
+    getMeta () {
+      return { title: $.i18n.t('account.title') }
     }
-  };
-  MainAccountView.initClass();
-  return MainAccountView;
-})());
+  }
+  MainAccountView.initClass()
+  return MainAccountView
+})())

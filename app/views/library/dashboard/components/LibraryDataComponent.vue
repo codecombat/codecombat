@@ -7,15 +7,15 @@
       @endDateChanged="(end) => $emit('endDateChanged', end)"
     />
     <stats-component
+      v-if="!loading"
       :total-users="totalUsers"
       :lines-of-code="linesOfCode"
       :minutes-spent="minutesSpent"
       :programs-written="programsWritten"
-      v-if="!loading"
     />
     <graph-component
-      :stats="stats"
       v-if="!loading"
+      :stats="stats"
     />
     <div
       v-if="loading"
@@ -24,7 +24,11 @@
       {{ $t('library.loading_from') }} {{ startDate }} to {{ endDate }}.....
     </div>
     <div class="ldata__old">
-      {{ $t('library.access_old_dashboard') }} <a href="/api-dashboard?fromNew=1" target="_blank" class="ldata__link">{{ $t('general.here') }}</a>
+      {{ $t('library.access_old_dashboard') }} <a
+        href="/api-dashboard?fromNew=1"
+        target="_blank"
+        class="ldata__link"
+      >{{ $t('general.here') }}</a>
     </div>
   </div>
 </template>
@@ -36,6 +40,11 @@ import StatsComponent from './helpers/StatsComponent'
 
 export default {
   name: 'LibraryDataComponent',
+  components: {
+    FilterComponent,
+    GraphComponent,
+    StatsComponent
+  },
   props: {
     startDate: {
       type: String
@@ -50,11 +59,6 @@ export default {
       type: Boolean,
       default: true
     }
-  },
-  components: {
-    FilterComponent,
-    GraphComponent,
-    StatsComponent
   },
   computed: {
     totalUsers () {

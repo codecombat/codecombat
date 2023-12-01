@@ -44,6 +44,12 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'StudentProgressView',
+  components: {
+    CampaignListComponent,
+    CampaignBasicSummary,
+    CampaignProgressView,
+    LoadingBar
+  },
   props: {
     product: {
       type: String,
@@ -56,12 +62,6 @@ export default {
       type: Boolean,
       default: false
     }
-  },
-  components: {
-    CampaignListComponent,
-    CampaignBasicSummary,
-    CampaignProgressView,
-    LoadingBar
   },
   data () {
     return {
@@ -152,6 +152,7 @@ export default {
       if (this.product !== 'ozaria') {
         return this.getCampaignLevels(this.selectedCampaignId)
       }
+      return []
     },
     ozCourseContent () {
       return this.getGameContentByCampaign(this.ozCourseCampaignId)
@@ -226,15 +227,15 @@ export default {
       return this.callOz ? this.ozCourseCampaignId : this.selectedCampaignId
     }
   },
-  async created () {
-    await this.handleCampaignFetch()
-  },
   watch: {
     product: async function (newVal, oldVal) {
       if (newVal !== oldVal) {
         await this.handleCampaignFetch()
       }
     }
+  },
+  async created () {
+    await this.handleCampaignFetch()
   }
 }
 </script>

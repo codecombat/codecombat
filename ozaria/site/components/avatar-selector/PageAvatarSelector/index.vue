@@ -3,9 +3,9 @@
 import LayoutCenterContent from '../../common/LayoutCenterContent.vue'
 import LayoutAspectRatioContainer from '../../common/LayoutAspectRatioContainer.vue'
 import LayoutChrome from '../../common/LayoutChrome.vue'
-import Surface from '../../char-customization/common/Surface.vue';
-import BaseButton from '../../common/BaseButton.vue';
-import { mapActions } from 'vuex';
+import Surface from '../../char-customization/common/Surface.vue'
+import BaseButton from '../../common/BaseButton.vue'
+import { mapActions } from 'vuex'
 
 // TODO migrate api calls to the Vuex store.
 import { getThangTypeOriginal } from '../../../../../app/core/api/thang-types'
@@ -47,7 +47,7 @@ const avatars = _.shuffle([
     cinematicThangTypeId: '5d48bb5277c98f0029118d0d',
     cinematicPetThangId: '5d48c24a8ccd9600357680fd',
     avatarCodeString: 'snake'
-  },
+  }
 ])
 
 export default Vue.extend({
@@ -65,6 +65,24 @@ export default Vue.extend({
     loaded: false,
     avatars
   }),
+
+  computed: {
+    topRowAvatars () {
+      return this.avatars.slice(0, 3)
+    },
+
+    bottomRowAvatars () {
+      return this.avatars.slice(3)
+    },
+
+    selectedAvatar () {
+      return this.avatars[this.selected]
+    },
+
+    title () {
+      return $.i18n.t('avatar_selection.select_avatar_title')
+    }
+  },
 
   async created () {
     const loader = []
@@ -89,27 +107,11 @@ export default Vue.extend({
 
   beforeDestroy () {
     window.tracker.trackEvent('Unloaded Avatar Selector',
-      {petThangTypeOriginalId: (this.avatars[this.selected] || {}).cinematicPetThangId,
-        avatarThangTypeOriginalId: (this.avatars[this.selected] || {}).cinematicThangTypeId},
-      ['Google Analytics'])
-  },
-
-  computed: {
-    topRowAvatars () {
-      return this.avatars.slice(0, 3)
-    },
-
-    bottomRowAvatars () {
-      return this.avatars.slice(3)
-    },
-
-    selectedAvatar () {
-      return this.avatars[this.selected]
-    },
-
-    title () {
-      return $.i18n.t('avatar_selection.select_avatar_title')
-    }
+                              {
+                                petThangTypeOriginalId: (this.avatars[this.selected] || {}).cinematicPetThangId,
+                                avatarThangTypeOriginalId: (this.avatars[this.selected] || {}).cinematicThangTypeId
+                              },
+                              ['Google Analytics'])
   },
 
   methods: {
@@ -139,80 +141,86 @@ export default Vue.extend({
 </script>
 
 <template>
-
   <layout-chrome
     :title="title"
   >
     <layout-center-content>
       <layout-aspect-ratio-container
-        :aspectRatio="1266 / 668"
+        :aspect-ratio="1266 / 668"
       >
-      <div class="avatar-selector container-fluid">
-        <div id="row">
-          <div class="col-xs-12 header">
-            <h1>{{ this.$t('avatar_selection.pick_an_avatar') }}:</h1>
+        <div class="avatar-selector container-fluid">
+          <div id="row">
+            <div class="col-xs-12 header">
+              <h1>{{ $t('avatar_selection.pick_an_avatar') }}:</h1>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-8 avatar-grid">
-
-            <section class="row">
-              <div class="col-xs-4 avatar-item" v-for="({ selectionImg, avatarCodeString }, index) in topRowAvatars" :key="avatarCodeString">
+          <div class="row">
+            <div class="col-xs-8 avatar-grid">
+              <section class="row">
                 <div
-                  :class="{selected: selected === index}"
-                  :data-avatar="index"
-                  @click="handleClick"
-                  :style="{ backgroundImage: `url(${selectionImg})` }"
+                  v-for="({ selectionImg, avatarCodeString }, index) in topRowAvatars"
+                  :key="avatarCodeString"
+                  class="col-xs-4 avatar-item"
+                >
+                  <div
+                    :class="{selected: selected === index}"
+                    :data-avatar="index"
+                    :style="{ backgroundImage: `url(${selectionImg})` }"
+                    @click="handleClick"
+                  />
+                </div>
+              </section>
+
+              <section class="row">
+                <div
+                  v-for="({ selectionImg, avatarCodeString }, index) in bottomRowAvatars"
+                  :key="avatarCodeString"
+                  class="col-xs-4 avatar-item"
+                >
+                  <div
+                    :class="{selected: selected === index + 3}"
+                    :data-avatar="index+3"
+                    :style="{ backgroundImage: `url(${selectionImg})` }"
+                    @click="handleClick"
+                  />
+                </div>
+              </section>
+            </div>
+            <div
+              v-if="loaded && selected !== -1"
+              class="col-xs-4 surface"
+            >
+              <div>
+                <Surface
+                  :key="selected"
+                  :width="200"
+                  :height="200"
+                  :loaded-thang-types="loadedThangTypes"
+                  :selected-thang="selectedAvatar.cinematicThangTypeId"
+                  :thang="{
+                    scaleFactorX: 0.5,
+                    scaleFactorY: 0.5,
+                    pos: { y: -21.5, x: 3.5 }
+                  }"
                 />
               </div>
-            </section>
-
-            <section class="row">
-              <div class="col-xs-4 avatar-item" v-for="({ selectionImg, avatarCodeString }, index) in bottomRowAvatars" :key="avatarCodeString">
-                <div
-                  :class="{selected: selected === index + 3}"
-                  :data-avatar="index+3"
-                  @click="handleClick"
-                  :style="{ backgroundImage: `url(${selectionImg})` }"
-                />
-              </div>
-            </section>
-
+            </div>
           </div>
-          <div class="col-xs-4 surface" v-if="loaded && selected !== -1">
-            <div>
-              <Surface
-                :key="selected"
-                :width="200"
-                :height="200"
-                :loadedThangTypes="loadedThangTypes"
-                :selectedThang="selectedAvatar.cinematicThangTypeId"
-                :thang="{
-                  scaleFactorX: 0.5,
-                  scaleFactorY: 0.5,
-                  pos: { y: -21.5, x: 3.5 }
-                }"
-              />
+
+          <div class="row">
+            <div class="col-xs-12 footer">
+              <base-button
+                :enabled="selected !== -1"
+                @click="handleNext"
+              >
+                {{ $t('common.next') }}
+              </base-button>
             </div>
           </div>
         </div>
-
-        <div class="row">
-          <div class="col-xs-12 footer">
-            <base-button
-              :enabled="selected !== -1"
-              @click="handleNext"
-            >
-              {{ this.$t('common.next') }}
-            </base-button>
-          </div>
-        </div>
-      </div>
-
       </layout-aspect-ratio-container>
     </layout-center-content>
   </layout-chrome>
-
 </template>
 
 <style lang="scss" scoped>

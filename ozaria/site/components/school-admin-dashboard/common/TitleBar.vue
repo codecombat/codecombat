@@ -1,84 +1,86 @@
 <script>
-  import PrimaryButton from '../../teacher-dashboard/common/buttons/PrimaryButton'
-  import ButtonCurriculumGuide from '../../teacher-dashboard/common/ButtonCurriculumGuide'
-  import NavSelectUnit from '../../teacher-dashboard/common/NavSelectUnit'
-  import BreadcrumbComponent from 'app/views/common/BreadcrumbComponent'
+import PrimaryButton from '../../teacher-dashboard/common/buttons/PrimaryButton'
+import ButtonCurriculumGuide from '../../teacher-dashboard/common/ButtonCurriculumGuide'
+import NavSelectUnit from '../../teacher-dashboard/common/NavSelectUnit'
+import BreadcrumbComponent from 'app/views/common/BreadcrumbComponent'
 
-  import { mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
-  export default {
-    components: {
-      'primary-button': PrimaryButton,
-      'button-curriculum-guide': ButtonCurriculumGuide,
-      'nav-select-unit': NavSelectUnit,
-      BreadcrumbComponent
+export default {
+  components: {
+    'primary-button': PrimaryButton,
+    'button-curriculum-guide': ButtonCurriculumGuide,
+    'nav-select-unit': NavSelectUnit,
+    BreadcrumbComponent
+  },
+
+  props: {
+    title: {
+      type: String,
+      default: ''
     },
+    breadcrumbList: {
+      type: Array,
+      default: () => []
+    },
+    showBreadCrumbs: {
+      type: Boolean,
+      default: false
+    },
+    showCourseDropdown: {
+      type: Boolean,
+      default: false
+    },
+    selectedCourseId: {
+      type: String,
+      default: ''
+    },
+    courses: {
+      type: Array,
+      default: () => []
+    }
+  },
 
-    props: {
-      title: {
-        type: String,
-        default: ''
-      },
-      breadcrumbList: {
-        type: Array,
-        default: () => []
-      },
-      showBreadCrumbs: {
-        type: Boolean,
-        default: false
-      },
-      showCourseDropdown: {
-        type: Boolean,
-        default: false
-      },
-      selectedCourseId: {
-        type: String,
-        default: ''
-      },
-      courses: {
-        type: Array,
-        default: () => []
+  computed: {
+    outcomesReportLink () {
+      const kind = 'school-admin'
+      const org = me.get('_id')
+      return `/outcomes-report/${kind}/${org}`
+    }
+  },
+
+  methods: {
+    ...mapActions({
+      toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide'
+    }),
+
+    clickBreadCrumbsLink (text) {
+      if (text.length > 0) {
+        const textArr = text.split(' ')
+        const eventName = textArr[textArr.length - 1] // Take last word of the breadcrumbs' text
+        window.tracker?.trackEvent(`BreadCrumbs: ${eventName} Clicked`, { category: 'SchoolAdmin', label: this.$route.path })
       }
     },
 
-    computed: {
-      outcomesReportLink () {
-        const kind = 'school-admin'
-        const org = me.get('_id')
-        return `/outcomes-report/${kind}/${org}`
-      }
+    clickOutcomesReport () {
+      window.tracker?.trackEvent('Outcomes Report Clicked', { category: 'SchoolAdmin', label: this.$route.path })
+      this.$emit('outcomesReport')
     },
 
-    methods: {
-      ...mapActions({
-        toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide'
-      }),
-
-      clickBreadCrumbsLink (text) {
-        if (text.length > 0) {
-          const textArr = text.split(" ")
-          const eventName = textArr[textArr.length - 1] // Take last word of the breadcrumbs' text
-          window.tracker?.trackEvent(`BreadCrumbs: ${eventName} Clicked`, { category: 'SchoolAdmin', label: this.$route.path })
-        }
-      },
-
-      clickOutcomesReport () {
-        window.tracker?.trackEvent('Outcomes Report Clicked', { category: 'SchoolAdmin', label: this.$route.path })
-        this.$emit('outcomesReport')
-      },
-
-      clickCurriculumGuide () {
-        window.tracker?.trackEvent('Curriculum Guide Clicked', { category: 'SchoolAdmin', label: this.$route.path })
-        this.toggleCurriculumGuide()
-      }
+    clickCurriculumGuide () {
+      window.tracker?.trackEvent('Curriculum Guide Clicked', { category: 'SchoolAdmin', label: this.$route.path })
+      this.toggleCurriculumGuide()
     }
   }
+}
 </script>
 
 <template>
   <div class="school-admin-title-bar">
     <div class="sub-nav">
-      <h1 v-if="!showBreadCrumbs && title"> {{ title }} </h1>
+      <h1 v-if="!showBreadCrumbs && title">
+        {{ title }}
+      </h1>
       <breadcrumb-component
         v-else-if="showBreadCrumbs && breadcrumbList.length > 0"
         :links="breadcrumbList"

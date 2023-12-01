@@ -17,7 +17,7 @@ export default {
       saving: false
     }
   }),
-  mounted: function() {
+  mounted: function () {
     if (!me.hasCutsceneEditorAccess()) {
       alert('You must be logged in as an admin to use this page.')
       return application.router.navigate('/editor', { trigger: true })
@@ -25,13 +25,13 @@ export default {
     this.loadTreema(this.slugOrId)
   },
   methods: {
-    async loadTreema(slugOrId) {
+    async loadTreema (slugOrId) {
       try {
         this.cutscene = new Cutscene(await getCutscene(slugOrId))
       } catch (e) {
         return noty({
           text: `Error finding slug '${slugOrId}'.`,
-          type:'error',
+          type: 'error',
           timeout: 3000,
           callback: {
             onClose: () => {
@@ -42,9 +42,9 @@ export default {
       }
       const c = this.cutscene
       const data = $.extend(true, {}, c.attributes)
-      const el = $(`<div></div>`);
+      const el = $('<div></div>')
       const treema = this.treema = TreemaNode.make(el, {
-        data: data,
+        data,
         schema: Cutscene.schema,
         filePath: 'cutscene',
         callbacks: {
@@ -55,7 +55,7 @@ export default {
       $(this.$refs.treemaEditor).append(el)
     },
 
-    onTreemaChange() {
+    onTreemaChange () {
       this.cutscene.set(this.treema.data)
     },
 
@@ -89,7 +89,7 @@ export default {
         return
       }
 
-      const cutsceneData = this.treema.data;
+      const cutsceneData = this.treema.data
       const i18n = cutsceneData.i18n
       if (i18n === undefined) {
         cutsceneData.i18n = { '-': { '-': '-' } }
@@ -103,20 +103,33 @@ export default {
 </script>
 
 <template>
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-8"><h1>Cutscene: '{{slugOrId}}'</h1></div>
-    <div class="col-md-4">
-      <button v-on:click="saveCutscene" :disabled="state.saving || !cutscene">save</button>
-      <button v-on:click="watchCutscene">Watch Cutscene</button>
-      <button><a href="/editor/cutscene">Back to list view</a></button>
-      <button @click="makeTranslatable">Make Translatable</button>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <h1>Cutscene: '{{ slugOrId }}'</h1>
+      </div>
+      <div class="col-md-4">
+        <button
+          :disabled="state.saving || !cutscene"
+          @click="saveCutscene"
+        >
+          save
+        </button>
+        <button @click="watchCutscene">
+          Watch Cutscene
+        </button>
+        <button><a href="/editor/cutscene">Back to list view</a></button>
+        <button @click="makeTranslatable">
+          Make Translatable
+        </button>
+      </div>
     </div>
+    <div
+      v-once
+      id="treema-editor"
+      ref="treemaEditor"
+    />
   </div>
-  <div id="treema-editor" ref="treemaEditor" v-once></div>
-</div>
-
 </template>
 
 <style>

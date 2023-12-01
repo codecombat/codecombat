@@ -1,7 +1,6 @@
 <template>
   <div class="speech-bubble">
     <slot />
-
   </div>
 </template>
 

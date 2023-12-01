@@ -5,7 +5,10 @@
         {{ $t('podcast.learn_more_coco') }}
       </div>
       <div>
-        <a href="/" class="btn podcast-btn-yellow">{{ $t('podcast.explore_coco') }}</a>
+        <a
+          href="/"
+          class="btn podcast-btn-yellow"
+        >{{ $t('podcast.explore_coco') }}</a>
       </div>
     </div>
 
@@ -14,7 +17,12 @@
         {{ $t('podcast.interested_in_being_guest') }}
       </div>
       <div>
-        <button class="btn podcast-btn-yellow" @click="letsChatClicked">{{ $t('podcast.lets_chat') }}</button>
+        <button
+          class="btn podcast-btn-yellow"
+          @click="letsChatClicked"
+        >
+          {{ $t('podcast.lets_chat') }}
+        </button>
       </div>
     </div>
     <LetsChatModal

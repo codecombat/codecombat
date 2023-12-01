@@ -100,9 +100,6 @@ export default {
       propsEvent: 'events/eventPanelEvent'
     })
   },
-  mounted () {
-    this.members = _.indexBy(_.cloneDeep(this.propsEvent.members), 'userId')
-  },
   watch: {
     propsEvent: {
       handler (val) {
@@ -110,6 +107,9 @@ export default {
       },
       deep: true
     }
+  },
+  mounted () {
+    this.members = _.indexBy(_.cloneDeep(this.propsEvent.members), 'userId')
   }
 }
 </script>
@@ -135,19 +135,19 @@ export default {
       <div class="form-group import-from-class">
         <label for="import"> {{ $t('events.import_from_class') }}</label>
         <div class="my-input-group">
-        <input
-          type="text"
-          class="form-control"
-          id="import"
-          placeholder="Class Code"
-          v-model="classCode"
-          />
-        <input
-          type="button"
-          class="btn btn-primary"
-          value="Import"
-          @click="importClassroom"
-          />
+          <input
+            id="import"
+            v-model="classCode"
+            type="text"
+            class="form-control"
+            placeholder="Class Code"
+          >
+          <input
+            type="button"
+            class="btn btn-primary"
+            value="Import"
+            @click="importClassroom"
+          >
         </div>
       </div>
       <div class="form-group pull-right">

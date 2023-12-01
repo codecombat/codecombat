@@ -11,8 +11,8 @@ import ModalStudentAccountCreated from './StudentSignup/ModalStudentAccountCreat
 import TeacherSignupStoreModule from 'app/views/core/CreateAccountModal/teacher/TeacherSignupStoreModule'
 import StudentAuthStoreModule from 'ozaria/site/store/StudentAuthStoreModule'
 import { markTeacherDetailsModalAsSeen, hasSeenTeacherDetailModalRecently } from '../../../../common/utils'
-import ModalTeacherDetails from "../../../teacher-dashboard/modals/ModalTeacherDetails";
-import {mapGetters} from "vuex";
+import ModalTeacherDetails from '../../../teacher-dashboard/modals/ModalTeacherDetails'
+import { mapGetters } from 'vuex'
 
 const utils = require('core/utils')
 
@@ -27,15 +27,15 @@ const STUDENTACCOUNTCREATED = 'ModalStudentAccountCreated'
 const MODAL_TEACHER_DETAILS = 'ModalTeacherDetails'
 
 const viewData = {
-  [STARTJOURNEY] : {
+  [STARTJOURNEY]: {
     kind: STARTJOURNEY,
     id: 'start-journey-modal'
   },
-  [SIGNIN] : {
+  [SIGNIN]: {
     kind: SIGNIN,
     id: 'auth-modal-container'
   },
-  [RECOVERPASSWORD] : {
+  [RECOVERPASSWORD]: {
     kind: RECOVERPASSWORD,
     id: 'recover-password'
   },
@@ -43,19 +43,19 @@ const viewData = {
     kind: STUDENTCLASSCODE,
     id: 'student-class-code-container'
   },
-  [EDUCATORSIGNUP] : {
+  [EDUCATORSIGNUP]: {
     kind: EDUCATORSIGNUP,
     id: 'educator-sign-up-container'
   },
-  [STUDENTSIGNUP] : {
+  [STUDENTSIGNUP]: {
     kind: STUDENTSIGNUP,
     id: 'ozaria-modal-container'
   },
-  [EDUCATORCOMPLETESIGNUP] : {
+  [EDUCATORCOMPLETESIGNUP]: {
     kind: EDUCATORCOMPLETESIGNUP,
     id: 'ozaria-modal-container'
   },
-  [STUDENTACCOUNTCREATED] : {
+  [STUDENTACCOUNTCREATED]: {
     kind: STUDENTACCOUNTCREATED,
     id: 'ozaria-modal-container'
   },
@@ -97,7 +97,7 @@ export default {
     this.$store.registerModule('teacherModal', TeacherSignupStoreModule)
     const { _cc } = utils.getQueryVariables()
     if (!_cc) {
-      return this.openStartJourney();
+      return this.openStartJourney()
     }
     this.openStudentClassCode()
   },
@@ -160,19 +160,19 @@ export default {
 
     completeSignUp () {
       this.closeModal()
-      window.location.reload();
+      window.location.reload()
     },
 
     completeLogin () {
-      window.location.reload();
+      window.location.reload()
     },
 
     navigateBack () {
       if (this.modalHistory.length <= 0) {
         return this.openStartJourney()
       }
-      const destination = this.modalHistory.pop();
-      this.currentView = destination;
+      const destination = this.modalHistory.pop()
+      this.currentView = destination
     },
 
     navigateToView (view) {
@@ -188,7 +188,7 @@ export default {
     },
 
     setClassCode (classCode) {
-      this.classCode = classCode;
+      this.classCode = classCode
       this.$store.dispatch('classrooms/setMostRecentClassCode', classCode)
     },
     setSeenTeacherDetailsModal () {
@@ -201,7 +201,7 @@ export default {
     ...mapGetters({
       trialRequest: 'trialRequest/properties'
     }),
-    viewId() {
+    viewId () {
       return viewData[this.currentView].id
     }
   }
@@ -222,7 +222,7 @@ export default {
     />
     <ModalSignIn
       v-if="currentView === 'ModalSignIn'"
-      :saveProgressModal="saveProgressModal"
+      :save-progress-modal="saveProgressModal"
       @switchToSignup="openStartJourney"
       @clickRecoverModal="openRecoverPassword"
       @done="completeLogin"
@@ -243,7 +243,7 @@ export default {
     <ModalStudentSignUp
       v-if="currentView === 'ModalStudentSignUp'"
 
-      :saveProgressModal="saveProgressModal"
+      :save-progress-modal="saveProgressModal"
 
       @back="navigateBack"
       @closeModal="closeModal"
@@ -266,19 +266,18 @@ export default {
     />
     <ModalEducatorCompletedSignUp
       v-if="currentView === 'ModalEducatorCompletedSignUp'"
-      :classCode="classCode"
+      :class-code="classCode"
       @closeModal="completeSignUp"
     />
     <modal-teacher-details
-      @close="setSeenTeacherDetailsModal"
       v-if="currentView === 'ModalTeacherDetails'"
       :initial-organization="trialRequest.organization"
       :initial-district="trialRequest.district"
       :initial-city="trialRequest.city"
       :initial-state="trialRequest.state"
       :initial-country="trialRequest.country"
+      @close="setSeenTeacherDetailsModal"
     />
-
   </base-modal-container>
 </template>
 

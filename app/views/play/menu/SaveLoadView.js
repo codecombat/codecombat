@@ -4,35 +4,33 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let SaveLoadView;
-require('app/styles/play/menu/save-load-view.sass');
-const CocoView = require('views/core/CocoView');
-const template = require('app/templates/play/menu/save-load-view');
-const {me} = require('core/auth');
-const ThangType = require('models/ThangType');
+let SaveLoadView
+require('app/styles/play/menu/save-load-view.sass')
+const CocoView = require('views/core/CocoView')
+const template = require('app/templates/play/menu/save-load-view')
 
-module.exports = (SaveLoadView = (function() {
+module.exports = (SaveLoadView = (function () {
   SaveLoadView = class SaveLoadView extends CocoView {
-    static initClass() {
-      this.prototype.id = 'save-load-view';
-      this.prototype.className = 'tab-pane';
-      this.prototype.template = template;
-  
+    static initClass () {
+      this.prototype.id = 'save-load-view'
+      this.prototype.className = 'tab-pane'
+      this.prototype.template = template
+
       this.prototype.events =
-        {'change #save-granularity-toggle input': 'onSaveGranularityChanged'};
+        { 'change #save-granularity-toggle input': 'onSaveGranularityChanged' }
     }
 
-    afterRender() {
-      return super.afterRender();
+    afterRender () {
+      return super.afterRender()
     }
 
-    onSaveGranularityChanged(e) {
-      this.playSound('menu-button-click');
-      const toShow = $(e.target).val();
-      this.$el.find('.save-list, .save-pane').hide();
-      return this.$el.find('.save-list.' + toShow + ', .save-pane.' + toShow).show();
+    onSaveGranularityChanged (e) {
+      this.playSound('menu-button-click')
+      const toShow = $(e.target).val()
+      this.$el.find('.save-list, .save-pane').hide()
+      return this.$el.find('.save-list.' + toShow + ', .save-pane.' + toShow).show()
     }
-  };
-  SaveLoadView.initClass();
-  return SaveLoadView;
-})());
+  }
+  SaveLoadView.initClass()
+  return SaveLoadView
+})())

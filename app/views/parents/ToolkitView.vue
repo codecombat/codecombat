@@ -43,6 +43,13 @@ import ButtonResourceIcon
 import LoadingBar from '../../../ozaria/site/components/common/LoadingBar'
 export default {
   name: 'ToolkitView',
+  components: {
+    ButtonResourceIcon,
+    LoadingBar
+  },
+  mixins: [
+    zendeskResourceMixin
+  ],
   props: {
     product: {
       type: String,
@@ -57,12 +64,26 @@ export default {
       loading: true
     }
   },
-  mixins: [
-    zendeskResourceMixin
-  ],
-  components: {
-    ButtonResourceIcon,
-    LoadingBar
+  computed: {
+    relevantCategoryIds () {
+      if (this.product === 'ozaria') {
+        return {
+          360004950774: 'Ozaria for Educators'
+        }
+      } else {
+        return {
+          1500001145602: 'CodeCombat for Educators'
+        }
+      }
+    }
+  },
+  watch: {
+    product: async function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.resources = []
+        await this.fetchResources()
+      }
+    }
   },
   async created () {
     await this.fetchResources()
@@ -76,27 +97,6 @@ export default {
       const resourceHubRes = await this.getResourceHubResources()
       const parentRes = resourceHubRes.filter(r => (r.roles || []).includes('parent-home'))
       this.resources = [...zendeskRes, ...parentRes]
-    }
-  },
-  watch: {
-    product: async function (newVal, oldVal) {
-      if (newVal !== oldVal) {
-        this.resources = []
-        await this.fetchResources()
-      }
-    }
-  },
-  computed: {
-    relevantCategoryIds () {
-      if (this.product === 'ozaria') {
-        return {
-          360004950774: 'Ozaria for Educators'
-        }
-      } else {
-        return {
-          1500001145602: 'CodeCombat for Educators'
-        }
-      }
     }
   }
 }

@@ -1,20 +1,20 @@
 <script>
-  import CodeArea from '../../common/CodeArea'
-  import CodeDiff from '../../../../../../app/components/common/CodeDiff'
+import CodeArea from '../../common/CodeArea'
+import CodeDiff from '../../../../../../app/components/common/CodeDiff'
 
-  export default {
-    components: {
-      CodeArea,
-      CodeDiff
-    },
+export default {
+  components: {
+    CodeArea,
+    CodeDiff
+  },
 
-    props: {
-      panelSessionContent: {
-        type: Object,
-        required: true
-      }
+  props: {
+    panelSessionContent: {
+      type: Object,
+      required: true
     }
   }
+}
 </script>
 
 <template>
@@ -30,15 +30,15 @@
       <div />
     </div>
     <div class="flex-row extra-title">
-        <h4>Student Code</h4>
-        <h4>Solution</h4>
+      <h4>Student Code</h4>
+      <h4>Solution</h4>
     </div>
     <div class="flex-row">
       <code-diff
-        :codeLeft="panelSessionContent.studentCode"
-        :codeRight="panelSessionContent.solutionCode"
+        :code-left="panelSessionContent.studentCode"
+        :code-right="panelSessionContent.solutionCode"
         :language="panelSessionContent.language"
-        />
+      />
     </div>
   </div>
 </template>

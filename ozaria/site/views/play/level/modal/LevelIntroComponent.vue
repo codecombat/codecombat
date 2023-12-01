@@ -12,13 +12,19 @@
     </div>
     <div class="modal-body">
       <div class="narrative-row row">
-        <div class="portrait" v-if="characterPortrait !== 'blank'">
+        <div
+          v-if="characterPortrait !== 'blank'"
+          class="portrait"
+        >
           <img
             class="portrait-image"
             :src="characterURL"
           >
         </div>
-        <div class="narrative-div" v-bind:style="{ top: characterPortrait !== 'blank' ? undefined : '0px' }">
+        <div
+          class="narrative-div"
+          :style="{ top: characterPortrait !== 'blank' ? undefined : '0px' }"
+        >
           <div class="narrative-speech-bubble">
             <span class="narrative-text"> {{ narrative }} </span>
           </div>
@@ -42,53 +48,53 @@
 </template>
 
 <script>
-  export default Vue.extend({
-    name: 'LevelIntroModal',
-    props: {
-      levelName: {
-        type: String,
-        required: true
-      },
-      levelType: {
-        type: String,
-        required: true
-      },
-      narrative: {
-        type: String,
-        required: true
-      },
-      learningGoals: {
-        type: String,
-        required: true
-      },
-      onStart: {
-        type: Function,
-        required: true
-      },
-      characterPortrait: {
-        type: String,
-        required: true
-      }
+export default Vue.extend({
+  name: 'LevelIntroModal',
+  props: {
+    levelName: {
+      type: String,
+      required: true
     },
-    computed: {
-      characterURL () {
-        if (this.characterPortrait === 'vega') {
-          return '/images/ozaria/level/vega_headshot_transparent.png'
-        } else if (this.characterPortrait === 'capella') {
-          return '/images/ozaria/level/Wise_Capella_Headshot_Transparent.png'
-        } else if (this.characterPortrait === 'octans') {
-          return '/images/ozaria/level/Octans_Headshot_Transparent.png'
-        }
-        console.error('There is no character portrait for ' + this.characterPortrait)
-        // Use Vega as fallback
-        return '/images/ozaria/level/vega_headshot_transparent.png'
-      },
-
-      title () {
-        return this.levelType + ': ' + this.levelName
-      }
+    levelType: {
+      type: String,
+      required: true
+    },
+    narrative: {
+      type: String,
+      required: true
+    },
+    learningGoals: {
+      type: String,
+      required: true
+    },
+    onStart: {
+      type: Function,
+      required: true
+    },
+    characterPortrait: {
+      type: String,
+      required: true
     }
-  })
+  },
+  computed: {
+    characterURL () {
+      if (this.characterPortrait === 'vega') {
+        return '/images/ozaria/level/vega_headshot_transparent.png'
+      } else if (this.characterPortrait === 'capella') {
+        return '/images/ozaria/level/Wise_Capella_Headshot_Transparent.png'
+      } else if (this.characterPortrait === 'octans') {
+        return '/images/ozaria/level/Octans_Headshot_Transparent.png'
+      }
+      console.error('There is no character portrait for ' + this.characterPortrait)
+      // Use Vega as fallback
+      return '/images/ozaria/level/vega_headshot_transparent.png'
+    },
+
+    title () {
+      return this.levelType + ': ' + this.levelName
+    }
+  }
+})
 </script>
 
 <style lang="sass" scoped>

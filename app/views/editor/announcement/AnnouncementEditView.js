@@ -5,15 +5,14 @@ const AnnouncementSchema = require('schemas/models/announcement.schema')
 const moment = require('moment')
 const treemaExt = require('core/treema-ext')
 
-
-class AnnouncementEditView extends EditView{
+class AnnouncementEditView extends EditView {
   resource = null
   schema = AnnouncementSchema
   redirectPathOnSuccess = '/editor/announcement'
   filePath = 'announcement'
   resourceName = 'Announcement'
 
-  constructor(options = {}, resourceId) {
+  constructor (options = {}, resourceId) {
     super({})
     this.resource = new Announcement({ _id: resourceId })
 

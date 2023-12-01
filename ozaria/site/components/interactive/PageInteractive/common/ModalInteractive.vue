@@ -1,51 +1,51 @@
 <script>
-  import BaseModalContainer from '../../../common/BaseModalContainer'
-  import BaseSpeechBubble from '../../../common/BaseSpeechBubble'
-  import BaseButton from '../../../common/BaseButton'
+import BaseModalContainer from '../../../common/BaseModalContainer'
+import BaseSpeechBubble from '../../../common/BaseSpeechBubble'
+import BaseButton from '../../../common/BaseButton'
 
-  export default {
-    components: {
-      BaseModalContainer,
-      BaseSpeechBubble,
-      BaseButton
+export default {
+  components: {
+    BaseModalContainer,
+    BaseSpeechBubble,
+    BaseButton
+  },
+
+  props: {
+    image: {
+      type: String,
+      default: undefined
     },
 
-    props: {
-      image: {
-        type: String,
-        default: undefined
-      },
-
-      show: {
-        type: Boolean,
-        default: false
-      },
-
-      success: {
-        type: Boolean,
-        default: false
-      },
-
-      smallText: {
-        type: Boolean,
-        default: false
-      }
+    show: {
+      type: Boolean,
+      default: false
     },
 
-    computed: {
-      imageUrl () {
-        if (this.image) {
-          return this.image
-        }
+    success: {
+      type: Boolean,
+      default: false
+    },
 
-        if (this.success) {
-          return '/images/ozaria/interactives/alejandro_modal.png'
-        }
+    smallText: {
+      type: Boolean,
+      default: false
+    }
+  },
 
-        return '/images/ozaria/level/vega_headshot_transparent.png'
+  computed: {
+    imageUrl () {
+      if (this.image) {
+        return this.image
       }
+
+      if (this.success) {
+        return '/images/ozaria/interactives/alejandro_modal.png'
+      }
+
+      return '/images/ozaria/level/vega_headshot_transparent.png'
     }
   }
+}
 </script>
 
 <template>
@@ -61,7 +61,7 @@
 
       <div class="interactive-modal-right-col">
         <base-speech-bubble
-                :class="{ message: true, smallText }"
+          :class="{ message: true, smallText }"
         >
           <slot />
         </base-speech-bubble>

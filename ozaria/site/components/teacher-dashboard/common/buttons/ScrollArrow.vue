@@ -1,30 +1,30 @@
 <script>
-  export default {
-    props: {
-      faceLeft: {
-        type: Boolean,
-        default: false
-      },
-      inactive: {
-        type: Boolean,
-        default: false
-      }
+export default {
+  props: {
+    faceLeft: {
+      type: Boolean,
+      default: false
     },
+    inactive: {
+      type: Boolean,
+      default: false
+    }
+  },
 
-    computed: {
-      imgSrc () {
-        return this.inactive
-          ? '/images/ozaria/teachers/dashboard/png_icons/Arrow_Left_Inactive.png'
-          : '/images/ozaria/teachers/dashboard/png_icons/Arrow_Left.png'
-      },
-      imgClass () {
-        return {
-          flip: !this.faceLeft,
-          inactive: this.inactive
-        }
+  computed: {
+    imgSrc () {
+      return this.inactive
+        ? '/images/ozaria/teachers/dashboard/png_icons/Arrow_Left_Inactive.png'
+        : '/images/ozaria/teachers/dashboard/png_icons/Arrow_Left.png'
+    },
+    imgClass () {
+      return {
+        flip: !this.faceLeft,
+        inactive: this.inactive
       }
     }
   }
+}
 </script>
 
 <template>

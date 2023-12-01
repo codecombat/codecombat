@@ -1,52 +1,52 @@
 <script>
-  import { mapGetters, mapActions } from 'vuex'
-  export default {
-    computed: {
-      ...mapGetters({
-        chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
-        selectedChapterId: 'baseCurriculumGuide/selectedChapterId',
-        getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
-        getTrackCategory: 'teacherDashboard/getTrackCategory'
-      }),
+import { mapGetters, mapActions } from 'vuex'
+export default {
+  computed: {
+    ...mapGetters({
+      chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
+      selectedChapterId: 'baseCurriculumGuide/selectedChapterId',
+      getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
+      getTrackCategory: 'teacherDashboard/getTrackCategory'
+    }),
 
-      chapterNav () {
-        // This ensures released chapters are correctly placed, with internal chapters added after.
-        return (this.chapterNavBar || [])
-          .filter(({ releasePhase }) => releasePhase !== 'internalRelease')
-          .concat(
-            (this.chapterNavBar || [])
-              .filter(({ releasePhase }) => releasePhase === 'internalRelease')
-          ).map(({ campaignID, free }, idx) => {
-            return ({
-              campaignID,
-              heading: this.$t('teacher_dashboard.chapter_num', { num: idx + 1 })
-            })
+    chapterNav () {
+      // This ensures released chapters are correctly placed, with internal chapters added after.
+      return (this.chapterNavBar || [])
+        .filter(({ releasePhase }) => releasePhase !== 'internalRelease')
+        .concat(
+          (this.chapterNavBar || [])
+            .filter(({ releasePhase }) => releasePhase === 'internalRelease')
+        ).map(({ campaignID, free }, idx) => {
+          return ({
+            campaignID,
+            heading: this.$t('teacher_dashboard.chapter_num', { num: idx + 1 })
           })
-      },
+        })
+    },
 
-      courseName () {
-        return this.getCurrentCourse?.name || ''
+    courseName () {
+      return this.getCurrentCourse?.name || ''
+    }
+  },
+
+  methods: {
+    ...mapActions({
+      clickChapterHeading: 'baseCurriculumGuide/setSelectedCampaign'
+    }),
+
+    classForButton (campaignID) {
+      return {
+        selected: this.selectedChapterId === campaignID,
+        'chapter-btn': true
       }
     },
 
-    methods: {
-      ...mapActions({
-        clickChapterHeading: 'baseCurriculumGuide/setSelectedCampaign'
-      }),
-
-      classForButton (campaignID) {
-        return {
-          selected: this.selectedChapterId === campaignID,
-          'chapter-btn': true
-        }
-      },
-
-      clickChapterNav (campaignID) {
-        this.clickChapterHeading(campaignID)
-        window.tracker?.trackEvent('Curriculum Guide: Chapter Nav Clicked', { category: this.getTrackCategory, label: this.courseName })
-      }
+    clickChapterNav (campaignID) {
+      this.clickChapterHeading(campaignID)
+      window.tracker?.trackEvent('Curriculum Guide: Chapter Nav Clicked', { category: this.getTrackCategory, label: this.courseName })
     }
   }
+}
 </script>
 
 <template>

@@ -29,7 +29,10 @@ export default Vue.extend({
           <p>
             Join us {{ whenDisplay }} for our Hour of Code Walkthrough! Everything you need to implement our all new
             activities
-            <a :href="url" target="_blank">
+            <a
+              :href="url"
+              target="_blank"
+            >
               HERE.
             </a>
           </p>

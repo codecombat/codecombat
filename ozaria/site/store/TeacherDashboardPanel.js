@@ -258,11 +258,11 @@ export default {
   },
 
   getters: {
-    selectedProgressKey ( state ) {
+    selectedProgressKey (state) {
       return state.selectedProgressKey
     },
 
-    panelFooter ( state ) {
+    panelFooter (state) {
       return state.panelFooter
     },
 
@@ -284,7 +284,7 @@ export default {
 
     panelSessionContent (state) {
       return state.panelSessionContent
-    },
+    }
   },
 
   actions: {
@@ -296,7 +296,7 @@ export default {
       const classroomLanguage = classroom?.aceConfig?.language || 'python'
       const modules = rootGetters['gameContent/getContentForClassroom'](classroomId)?.[selectedCourseId]?.modules
       const moduleContent = modules[moduleNum]
-      const content = moduleContent.find(({ _id }) => _id === contentId);
+      const content = moduleContent.find(({ _id }) => _id === contentId)
 
       const { introContent, ozariaType, original, fromIntroLevelOriginal, type } = content
 
@@ -320,16 +320,16 @@ export default {
         console.error('missing url or icon in curriculum guide')
       }
 
-      let normalizedOriginal = original || fromIntroLevelOriginal
+      const normalizedOriginal = original || fromIntroLevelOriginal
 
       if (content === undefined) {
-        throw new Error(`Couldn't find module content.`)
+        throw new Error('Couldn\'t find module content.')
       }
 
       commit('resetState')
       commit('setPanelFooter', { url, icon })
       commit('setSelectedProgressKey', `${student._id}_${content._id}`)
-      commit('setLearningGoal', (content?.documentation?.specificArticles || []).find(({name}) => name === 'Learning Goals')?.body || '')
+      commit('setLearningGoal', (content?.documentation?.specificArticles || []).find(({ name }) => name === 'Learning Goals')?.body || '')
 
       const panelHeader = `Module ${moduleNum} | ${getGameContentDisplayNameWithType(content)}`
 
@@ -344,7 +344,7 @@ export default {
           .filter((s) => s.language === language)
           .find((s) => !s.testOnly)
 
-          dispatch('setPanelSessionContent', {
+        dispatch('setPanelSessionContent', {
           header: panelHeader,
           studentName: student.displayName,
           dateFirstCompleted: studentSessions[normalizedOriginal].dateFirstCompleted,
@@ -352,19 +352,19 @@ export default {
             starterCode: level.getSampleCode()?.[language] || '',
             studentCode: studentSessions[normalizedOriginal]?.code?.['hero-placeholder']?.plan || '',
             solutionCode: solutionCode.source || '',
-            language: language
+            language
           })
         })
       } else if (content.type === 'game-dev') {
         const language = studentSessions[normalizedOriginal]?.codeLanguage || 'python'
         const gameGoals = [
-            ...(content.goals || []), ...(content.additionalGoals || []).map(({goals}) => goals).flat()
+          ...(content.goals || []), ...(content.additionalGoals || []).map(({ goals }) => goals).flat()
         ]
 
         commit('setTimeSpent', Math.ceil(studentSessions[normalizedOriginal].playtime / 60))
 
         const studentSolved = new Set(Object.entries(studentSessions[normalizedOriginal]?.state?.goalStates || {})
-          .filter(([_, {status}]) => status === 'success')
+          .filter(([_, { status }]) => status === 'success')
           .map(([goalId, _]) => goalId) || [])
 
         dispatch('setPanelSessionContent', {
@@ -387,7 +387,7 @@ export default {
 
         commit('setTotalSubmissions', firstSolution.submissionCount || 0)
 
-        if (content.interactiveType === "draggable-statement-completion") {
+        if (content.interactiveType === 'draggable-statement-completion') {
           const elementsMap = new Map(content.draggableStatementCompletionData.elements.map((element) => [element.elementId, element]))
 
           dispatch('setPanelSessionContent', {

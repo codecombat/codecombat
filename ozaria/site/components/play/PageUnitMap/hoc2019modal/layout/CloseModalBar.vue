@@ -1,6 +1,6 @@
 <template>
   <div class="exit-row">
-    <a @click="$emit('click')"><img src="/images/pages/modal/hoc2019/ExitButton_Dusk.png"/></a>
+    <a @click="$emit('click')"><img src="/images/pages/modal/hoc2019/ExitButton_Dusk.png"></a>
   </div>
 </template>
 

@@ -4,16 +4,16 @@
       :children="children"
       :default-tab="selectedView"
       :product="selectedProduct"
+      :child-id="selectedChildrenId"
       @onAddAnotherChild="onAddAnotherChildClicked"
       @onSelectedChildrenChange="onSelectedChildrenChange"
-      :child-id="selectedChildrenId"
     />
     <header-component
-      @onSelectedProductChange="onSelectedProductChange"
+      v-if="showHeaderComponent"
       :child="selectedChildren"
       :product="selectedProduct"
       :is-online-class-paid-user="isPaidOnlineClassUser()"
-      v-if="showHeaderComponent"
+      @onSelectedProductChange="onSelectedProductChange"
     />
     <student-progress-view
       v-if="selectedView === 'dashboard' || selectedView === 'progress'"
@@ -31,9 +31,9 @@
       class="create-child"
     >
       <create-child-account-component
+        :hide-back-button="true"
         @onChildAccountSubmit="onChildAccountSubmit"
         @existingAccountLinked="onExistingAccountLink"
-        :hide-back-button="true"
       />
     </div>
     <toolkit-view
@@ -65,6 +65,18 @@ import OnlineClassesView from './OnlineClassesView'
 
 export default {
   name: 'DashboardMainView',
+  components: {
+    OnlineClassesView,
+    StudentSummaryView,
+    SidebarComponent,
+    HeaderComponent,
+    StudentProgressView,
+    CreateChildAccountComponent,
+    ToolkitView
+  },
+  mixins: [
+    createChildAccountMixin
+  ],
   props: {
     viewName: {
       type: String,
@@ -87,22 +99,18 @@ export default {
       selectedChildrenId: null
     }
   },
+  computed: {
+    selectedChildren () {
+      return this.children?.find(c => c.userId === this.selectedChildrenId)
+    },
+    showHeaderComponent () {
+      return this.selectedView !== 'online-classes' && this.selectedView !== 'summary' && this.selectedView !== 'toolkit'
+    }
+  },
   watch: {
     viewName: function (newVal, oldVal) {
       if (newVal !== oldVal) this.selectedView = newVal
     }
-  },
-  mixins: [
-    createChildAccountMixin
-  ],
-  components: {
-    OnlineClassesView,
-    StudentSummaryView,
-    SidebarComponent,
-    HeaderComponent,
-    StudentProgressView,
-    CreateChildAccountComponent,
-    ToolkitView
   },
   async created () {
     if (!me.isParentHome()) {
@@ -160,14 +168,6 @@ export default {
     },
     isPaidOnlineClassUser () {
       return me.isPaidOnlineClassUser()
-    }
-  },
-  computed: {
-    selectedChildren () {
-      return this.children?.find(c => c.userId === this.selectedChildrenId)
-    },
-    showHeaderComponent () {
-      return this.selectedView !== 'online-classes' && this.selectedView !== 'summary' && this.selectedView !== 'toolkit'
     }
   }
 }

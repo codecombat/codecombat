@@ -6,91 +6,91 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const forms = require('core/forms');
-const utils = require('core/utils');
+const forms = require('core/forms')
+const utils = require('core/utils')
 
 const TeacherRolePanel = Vue.extend({
-  name: 'teacher-role-panel',
+  name: 'TeacherRolePanel',
   template: require('app/templates/core/create-account-modal/teacher-role-panel')(),
-  data() {
+  data () {
     const formData = _.pick(this.$store.state.modalTeacher.trialRequestProperties, [
       'role',
       'numStudents',
       'notes',
       'referrer',
       'phoneNumber'
-    ]);
+    ])
     return _.assign(formData, {
       showRequired: false,
       product: utils.getProductName(),
       isCodeCombat: utils.isCodeCombat
-    });
+    })
   },
 
   computed:
     _.assign({},
-      Vuex.mapGetters({trialReqProps: 'modalTeacher/getTrialRequestProperties'}), {
-      askForPhoneNumber() {
-        return me.showChinaRegistration() || (this.trialReqProps.country === 'United States');
-      },
-      phoneNumberRequired() {
-        return me.showChinaRegistration();
-      },
-      validPhoneNumber() {
-        return !this.phoneNumber || forms.validatePhoneNumber(this.phoneNumber);
+      Vuex.mapGetters({ trialReqProps: 'modalTeacher/getTrialRequestProperties' }), {
+        askForPhoneNumber () {
+          return me.showChinaRegistration() || (this.trialReqProps.country === 'United States')
+        },
+        phoneNumberRequired () {
+          return me.showChinaRegistration()
+        },
+        validPhoneNumber () {
+          return !this.phoneNumber || forms.validatePhoneNumber(this.phoneNumber)
+        }
       }
-    }
     ),
 
+  mounted () {
+    return this.$refs.focus.focus()
+  },
+
   methods: {
-    clickContinue() {
+    clickContinue () {
       // Make sure to add conditions if we change this to be used on non-teacher path
       if (window.tracker != null) {
-        window.tracker.trackEvent('CreateAccountModal Teacher TeacherRolePanel Continue Clicked', {category: 'Teachers'});
+        window.tracker.trackEvent('CreateAccountModal Teacher TeacherRolePanel Continue Clicked', { category: 'Teachers' })
       }
-      const requiredAttrs = _.pick(this, ['role','numStudents'].concat(this.phoneNumberRequired ? ['phoneNumber'] : []));
+      const requiredAttrs = _.pick(this, ['role', 'numStudents'].concat(this.phoneNumberRequired ? ['phoneNumber'] : []))
       if (!_.all(requiredAttrs) || !this.validPhoneNumber) {
-        this.showRequired = true;
-        return;
+        this.showRequired = true
+        return
       }
-      this.commitValues();
+      this.commitValues()
       if (window.tracker != null) {
-        window.tracker.trackEvent('CreateAccountModal Teacher TeacherRolePanel Continue Success', {category: 'Teachers'});
+        window.tracker.trackEvent('CreateAccountModal Teacher TeacherRolePanel Continue Success', { category: 'Teachers' })
       }
       // Facebook Pixel tracking for Teacher conversions.
       if (utils.isOzaria) {
         if (window.tracker != null) {
-          window.tracker.trackEvent('OzariaUniqueTeacherSignup');
+          window.tracker.trackEvent('OzariaUniqueTeacherSignup')
         }
       } else {
         if (window.tracker != null) {
-          window.tracker.trackEvent('UniqueTeacherSignup');
+          window.tracker.trackEvent('UniqueTeacherSignup')
         }
       }
       // Google AdWord teacher conversion.
       if (typeof gtag === 'function') {
-        gtag('event', 'conversion', {'send_to': 'AW-811324643/8dp2CJK6_5QBEOOp74ID'});
+        gtag('event', 'conversion', { send_to: 'AW-811324643/8dp2CJK6_5QBEOOp74ID' })
       }
-      return this.$emit('continue');
+      return this.$emit('continue')
     },
 
-    clickBack() {
-      this.commitValues();
+    clickBack () {
+      this.commitValues()
       if (window.tracker != null) {
-        window.tracker.trackEvent('CreateAccountModal Teacher TeacherRolePanel Back Clicked', {category: 'Teachers'});
+        window.tracker.trackEvent('CreateAccountModal Teacher TeacherRolePanel Back Clicked', { category: 'Teachers' })
       }
-      return this.$emit('back');
+      return this.$emit('back')
     },
 
-    commitValues() {
-      const attrs = _.pick(this, 'role', 'numStudents', 'notes', 'referrer', 'phoneNumber');
-      return this.$store.commit('modalTeacher/updateTrialRequestProperties', attrs);
+    commitValues () {
+      const attrs = _.pick(this, 'role', 'numStudents', 'notes', 'referrer', 'phoneNumber')
+      return this.$store.commit('modalTeacher/updateTrialRequestProperties', attrs)
     }
-  },
-
-  mounted() {
-    return this.$refs.focus.focus();
   }
-});
+})
 
-module.exports = TeacherRolePanel;
+module.exports = TeacherRolePanel

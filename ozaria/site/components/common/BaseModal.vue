@@ -1,15 +1,19 @@
 <script>
-  import BaseModalContainer from './BaseModalContainer'
+import BaseModalContainer from './BaseModalContainer'
 
-  export default {
-    components: {
-      BaseModalContainer
-    }
+export default {
+  components: {
+    BaseModalContainer
   }
+}
 </script>
 
 <template>
-  <base-modal-container class="ozaria-modal" role="dialog" tabindex="0" >
+  <base-modal-container
+    class="ozaria-modal"
+    role="dialog"
+    tabindex="0"
+  >
     <slot name="close-icon" />
     <div class="ozaria-modal-content">
       <div class="ozaria-modal-header">

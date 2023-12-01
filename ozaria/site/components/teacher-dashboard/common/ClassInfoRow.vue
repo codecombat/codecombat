@@ -1,56 +1,56 @@
 <script>
-  import { getDisplayPermission } from "../../../common/utils"
-  import IconShareGray from '../common/icons/IconShareGray'
-  import IconArchived from './icons/IconArchive'
+import { getDisplayPermission } from '../../../common/utils'
+import IconShareGray from '../common/icons/IconShareGray'
+import IconArchived from './icons/IconArchive'
 
-  export default {
-    components: {
-      IconShareGray,
-      IconArchived
+export default {
+  components: {
+    IconShareGray,
+    IconArchived
+  },
+  props: {
+    language: {
+      type: String,
+      required: false,
+      default: 'javascript'
     },
-    props: {
-      language: {
-        type: String,
-        required: false,
-        default: 'javascript'
-      },
-      numStudents: {
-        type: Number,
-        required: true
-      },
-      dateCreated: {
-        type: String,
-        required: true
-      },
-      sharePermission: {
-        type: String,
-      },
-      archived: {
-        type: Boolean,
-        default: false
-      }
+    numStudents: {
+      type: Number,
+      required: true
     },
+    dateCreated: {
+      type: String,
+      required: true
+    },
+    sharePermission: {
+      type: String
+    },
+    archived: {
+      type: Boolean,
+      default: false
+    }
+  },
 
-    computed: {
-      languageImgSrc () {
-        return `/images/ozaria/teachers/dashboard/png_icons/${this.language}.png`
-      },
-      languageName () {
-        return {javascript: 'JavaScript', cpp: 'C++'}[this.language] || _.string.titleize(this.language)
-      }
+  computed: {
+    languageImgSrc () {
+      return `/images/ozaria/teachers/dashboard/png_icons/${this.language}.png`
     },
+    languageName () {
+      return { javascript: 'JavaScript', cpp: 'C++' }[this.language] || _.string.titleize(this.language)
+    }
+  },
 
-    created () {
-      if (this.language && !['javascript', 'python'].includes(this.language)) {
-        throw new Error(`Unexpected language prop passed into ClassInfoRow.vue. Got: '${this.language}'`)
-      }
-    },
-    methods: {
-      displayPermission(permission) {
-        return getDisplayPermission(permission)
-      }
+  created () {
+    if (this.language && !['javascript', 'python'].includes(this.language)) {
+      throw new Error(`Unexpected language prop passed into ClassInfoRow.vue. Got: '${this.language}'`)
+    }
+  },
+  methods: {
+    displayPermission (permission) {
+      return getDisplayPermission(permission)
     }
   }
+}
 </script>
 
 <template>
@@ -60,11 +60,11 @@
       <span>{{ languageName }}</span>
     </div>
     <div class="stats-tab">
-      <img src="/images/ozaria/teachers/dashboard/png_icons/MultipleUsers.png" />
-      <span>{{ numStudents }} Student{{ numStudents === 1 ? '' : 's'}}</span>
+      <img src="/images/ozaria/teachers/dashboard/png_icons/MultipleUsers.png">
+      <span>{{ numStudents }} Student{{ numStudents === 1 ? '' : 's' }}</span>
     </div>
     <div class="stats-tab">
-      <img src="/images/ozaria/teachers/dashboard/svg_icons/calendar.svg" />
+      <img src="/images/ozaria/teachers/dashboard/svg_icons/calendar.svg">
       <span>{{ dateCreated }}</span>
     </div>
     <div
@@ -72,7 +72,7 @@
       class="stats-tab"
     >
       <icon-share-gray />
-      <span>{{this.displayPermission(sharePermission)}}</span>
+      <span>{{ displayPermission(sharePermission) }}</span>
     </div>
     <div
       v-if="sharePermission && archived"

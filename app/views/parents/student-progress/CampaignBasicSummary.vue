@@ -6,7 +6,7 @@
     <div class="content">
       <div class="content__img">
         <img
-          :src=getCampaignImage(campaign)
+          :src="getCampaignImage(campaign)"
           alt="Campaign image"
           class="content__level-img"
         >
@@ -22,7 +22,9 @@
           {{ campaign?.course?.description || campaign?.description }}
         </div>
         <div class="content__proficiency">
-          <p class="content__proficiency__text">Concept proficiency</p>
+          <p class="content__proficiency__text">
+            Concept proficiency
+          </p>
           <div class="content__list">
             <div
               v-for="concept in levelConcepts"
@@ -39,11 +41,25 @@
           </p>
           <div class="content__lang-solution">
             <select
+              id="content__language-id"
+              name="content__language"
+              class="content__language"
               @change="updateLanguage"
-              name="content__language" id="content__language-id" class="content__language"
             >
-              <option :selected="selectedCodeLang === 'python'" value="python" class="content__language__option">Python</option>
-              <option :selected="selectedCodeLang === 'javascript'" value="javascript" class="content__language__option">Javascript</option>
+              <option
+                :selected="selectedCodeLang === 'python'"
+                value="python"
+                class="content__language__option"
+              >
+                Python
+              </option>
+              <option
+                :selected="selectedCodeLang === 'javascript'"
+                value="javascript"
+                class="content__language__option"
+              >
+                Javascript
+              </option>
             </select>
             <button
               v-if="!isPaidUser && !isFreeCampaign"
@@ -54,7 +70,7 @@
                 src="/images/ozaria/teachers/dashboard/svg_icons/IconSolution.svg"
                 alt="Solution Guide Icon"
                 class="content__solution__icon"
-              />
+              >
               <span class="content__solution__text">
                 Solution Guide
               </span>
@@ -62,7 +78,7 @@
                 src="/images/pages/game-menu/lock.png"
                 alt="Solution Guide Icon"
                 class="content__solution__lock-icon"
-              />
+              >
             </button>
             <a
               v-else
@@ -74,7 +90,7 @@
                 src="/images/ozaria/teachers/dashboard/svg_icons/IconSolution.svg"
                 alt="Solution Guide Icon"
                 class="content__solution__icon"
-              />
+              >
               <span class="content__solution__text">
                 Solution Guide
               </span>
@@ -198,7 +214,7 @@ export default {
     onLockSolutionGuideClick () {
       noty({
         type: 'information',
-        text: 'Only available to paid users',
+        text: 'Only available to online-classes paid users',
         timeout: 5000,
         layout: 'center'
       })

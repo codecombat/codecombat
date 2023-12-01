@@ -7,7 +7,7 @@ import fetchJson from 'app/core/api/fetch-json'
  */
 export const getStatsForUser = userId => {
   if (!userId) {
-    throw new Error(`No userId supplied`)
+    throw new Error('No userId supplied')
   }
   return fetchJson(`/db/user.stats/user/${userId}`)
 }

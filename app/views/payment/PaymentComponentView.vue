@@ -1,12 +1,19 @@
 <template>
-  <div id="payment-view" class="p-y-2">
+  <div
+    id="payment-view"
+    class="p-y-2"
+  >
     <template v-if="loading">
       <div>
-        <h2 class="text-center">Loading...</h2>
+        <h2 class="text-center">
+          Loading...
+        </h2>
       </div>
     </template>
-    <template v-else-if="paymentGroup && paymentGroup.groupType ==='studentLicenses' &&
-      me && (!me.anonymous || (paymentGroup.metadata && paymentGroup.metadata.isTecmilenioPartner))">
+    <template
+      v-else-if="paymentGroup && paymentGroup.groupType ==='studentLicenses' &&
+        me && (!me.anonymous || (paymentGroup.metadata && paymentGroup.metadata.isTecmilenioPartner))"
+    >
       <payment-student-licenses-component
         :payment-group="paymentGroup"
       />
@@ -19,36 +26,38 @@
     </template>
     <template v-else>
       <div>
-        <h2 class="text-center">You must be logged in to view this page</h2>
+        <h2 class="text-center">
+          You must be logged in to view this page
+        </h2>
       </div>
     </template>
   </div>
 </template>
 
 <script>
-import PaymentOnlineClassesView from "./online-class/PageView";
+import PaymentOnlineClassesView from './online-class/PageView'
 import PaymentStudentLicensesComponent from './student-license/PageView'
 export default {
-  name: "PaymentComponentView",
+  name: 'PaymentComponentView',
   components: {
     PaymentOnlineClassesView,
     PaymentStudentLicensesComponent
   },
-  data() {
+  data () {
     return {
       me: me.attributes
     }
   },
-  created(){
-    this.$store.dispatch('paymentGroups/fetch', this.$route.params.slug);
-  },
   computed: {
-    paymentGroup() {
-      return this.$store.getters['paymentGroups/paymentGroup'];
+    paymentGroup () {
+      return this.$store.getters['paymentGroups/paymentGroup']
     },
-    loading() {
-      return this.$store.getters['paymentGroups/loading'];
+    loading () {
+      return this.$store.getters['paymentGroups/loading']
     }
+  },
+  created () {
+    this.$store.dispatch('paymentGroups/fetch', this.$route.params.slug)
   }
 }
 </script>

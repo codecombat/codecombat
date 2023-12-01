@@ -7,28 +7,29 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let languageCodeFromAcceptedLanguages, languageCodes, languageCodesLower;
-let code;
-const locale = require('../locale/locale');  // requiring from app; will break if we stop serving from where app lives
+let languageCodes, languageCodesLower
+let code
+const locale = require('../locale/locale') // requiring from app; will break if we stop serving from where app lives
 
-const languages = [{code: 'rot13', nativeDescription: 'rot13', englishDescription: 'rot13'}];
+const languages = [{ code: 'rot13', nativeDescription: 'rot13', englishDescription: 'rot13' }]
 for (code in locale) {
-  var localeInfo = locale[code];
-  languages.push({code, nativeDescription: localeInfo.nativeDescription, englishDescription: localeInfo.englishDescription});
+  const localeInfo = locale[code]
+  languages.push({ code, nativeDescription: localeInfo.nativeDescription, englishDescription: localeInfo.englishDescription })
 }
 
-module.exports.languages = languages;
-module.exports.languageCodes = (languageCodes = (Array.from(languages).map((language) => language.code)));
+module.exports.languages = languages
+module.exports.languageCodes = (languageCodes = (Array.from(languages).map((language) => language.code)))
 module.exports.languageCodesLower = (languageCodesLower = ((() => {
-  const result = [];
-  for (code of Array.from(languageCodes)) {     result.push(code.toLowerCase());
+  const result = []
+  for (code of Array.from(languageCodes)) {
+    result.push(code.toLowerCase())
   }
-  return result;
-})()));
+  return result
+})()))
 
 // Keep keys lower-case for matching and values with second subtag uppercase like i18next expects
 const languageAliases = {
-  'en': 'en-US',
+  en: 'en-US',
 
   'zh-cn': 'zh-HANS',
   'zh-hans-cn': 'zh-HANS',
@@ -41,16 +42,16 @@ const languageAliases = {
   'zh-hant-hk': 'zh-HANT',
   'zh-mo': 'zh-HANT',
   'zh-hant-mo': 'zh-HANT'
-};
+}
 
-module.exports.languageCodeFromAcceptedLanguages = (languageCodeFromAcceptedLanguages = function(acceptedLanguages) {
-  for (var lang of Array.from(acceptedLanguages != null ? acceptedLanguages : [])) {
-    code = languageAliases[lang.toLowerCase()];
-    if (code) { return code; }
-    var codeIndex = _.indexOf(languageCodesLower, lang);
+module.exports.languageCodeFromAcceptedLanguages = function (acceptedLanguages) {
+  for (const lang of Array.from(acceptedLanguages != null ? acceptedLanguages : [])) {
+    code = languageAliases[lang.toLowerCase()]
+    if (code) { return code }
+    const codeIndex = _.indexOf(languageCodesLower, lang)
     if (codeIndex !== -1) {
-      return languageCodes[codeIndex];
+      return languageCodes[codeIndex]
     }
   }
-  return 'en-US';
-});
+  return 'en-US'
+}

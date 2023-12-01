@@ -31,7 +31,7 @@ const ResourceHubResourceSchema = schema.object(
     i18n: {
       type: 'object',
       format: 'i18n',
-      props: ['name', 'link', 'description'],
+      props: ['name', 'link', 'description']
     },
 
     hidden: {

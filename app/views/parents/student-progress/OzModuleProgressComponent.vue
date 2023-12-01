@@ -35,10 +35,10 @@
         />
         <code-diff
           v-if="showCodeModal.includes(slug)"
+          :key="slug"
           :language="codeLanguage"
           :code-right="solution[slug]"
           :code-left="code[slug]"
-          :key="slug"
         />
       </div>
     </div>
@@ -64,12 +64,22 @@ import moduleProgressMixin from '../mixins/moduleProgressMixin'
 
 export default {
   name: 'OzModuleProgressComponent',
+  components: {
+    ModuleRow,
+    ModuleResources,
+    CodeDiff,
+    ModuleHeader,
+    IntroModuleRow
+  },
+  mixins: [
+    moduleProgressMixin
+  ],
   props: {
     moduleNum: {
       type: Number
     },
     moduleName: {
-      type: String,
+      type: String
     },
     lessonSlidesUrl: {
       type: String
@@ -111,16 +121,6 @@ export default {
       solution: {}
     }
   },
-  components: {
-    ModuleRow,
-    ModuleResources,
-    CodeDiff,
-    ModuleHeader,
-    IntroModuleRow
-  },
-  mixins: [
-    moduleProgressMixin
-  ],
   methods: {
     onShowCodeClicked ({ identifier, hideCode = false }) {
       const levelSlug = identifier
@@ -133,7 +133,7 @@ export default {
       this.code[levelSlug] = studentCode
       this.solution[levelSlug] = solutionCode
       this.showCodeModal.push(level.slug)
-    },
+    }
   }
 }
 </script>

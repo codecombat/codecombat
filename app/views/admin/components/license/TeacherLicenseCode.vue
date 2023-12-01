@@ -38,10 +38,7 @@ export default Vue.extend({
       return LICENSE_PRESETS
     },
     timeZone () {
-      if (features?.chinaInfra)
-        return 'Asia/Shanghai'
-      else
-        return 'America/Los_Angeles'
+      if (features?.chinaInfra) { return 'Asia/Shanghai' } else { return 'America/Los_Angeles' }
     },
     moment () {
       return moment
@@ -61,10 +58,9 @@ export default Vue.extend({
       this.endDate = new Date(time)
     },
     addSeats () {
-      if (this.number <= 0 || this.duration <= 0 || moment().isAfter(this.endDate))
-        return
+      if (this.number <= 0 || this.duration <= 0 || moment().isAfter(this.endDate)) { return }
 
-      let attrs = {
+      const attrs = {
         type: 'course',
         creator: me.id,
         maxRedeemers: this.number,

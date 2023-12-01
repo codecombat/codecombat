@@ -188,7 +188,6 @@ $partners-body-font: 'Arvo';
   color: #0E4C60;
 }
 
-
 .text-h5 {
   font-family: $partners-body-font;
   font-size: 32px;
@@ -284,11 +283,9 @@ p, .text-p {
     }
   }
 
-
   .row-top-margin {
     margin-top: 30px;
   }
-
 
   .img-responsive-height {
     display: block;
@@ -343,7 +340,6 @@ p, .text-p {
         align-items: center;
       }
     }
-
 
   }
 
@@ -524,7 +520,6 @@ p, .text-p {
       }
     }
 
-
     &.row-tech-equity {
       img {
         bottom: -47px;
@@ -586,7 +581,6 @@ img.img-eugenio {
   width: 100%;
 }
 
-
 .text-footer-blurb {
   font-family: 'Arvo';
   font-style: normal;
@@ -607,7 +601,6 @@ img.img-eugenio {
     background-color: #2dcec8;
   }
 }
-
 
 .container-footer-mountains {
   width: 100%;
@@ -652,6 +645,5 @@ img.img-eugenio {
     }
   }
 }
-
 
 </style>

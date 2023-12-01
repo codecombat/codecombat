@@ -1,6 +1,10 @@
 <template>
   <loading-progress :loading-status="loadingStatuses">
-    <license-data-per-user :loading="loading" :prepaids="prepaids" :teacherMap="teacherMap" />
+    <license-data-per-user
+      :loading="loading"
+      :prepaids="prepaids"
+      :teacher-map="teacherMap"
+    />
   </loading-progress>
 </template>
 
@@ -17,7 +21,7 @@ export default {
   },
   data () {
     return {
-      myId: undefined,
+      myId: undefined
     }
   },
   computed: {
@@ -43,7 +47,7 @@ export default {
       const administratedTeachers = window._.indexBy(this.administratedTeachers, '_id')
       administratedTeachers[this.myId] = Object.assign({ _trialRequest: { organization: 'Yourself' } }, me.attributes)
       return administratedTeachers
-    },
+    }
   },
   created () {
     this.myId = me.get('_id')
@@ -61,8 +65,8 @@ export default {
         csvContent += `${row.join(',')}\n`
       })
       const file = new Blob([csvContent], { type: 'text/csv;charset=utf-8' })
-      saveAs.saveAs(file, `License-stats-${new Date().toLocaleDateString()}.csv`)
-    },
+      window.saveAs.saveAs(file, `License-stats-${new Date().toLocaleDateString()}.csv`)
+    }
   }
 
 }

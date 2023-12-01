@@ -1,6 +1,6 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
+const c = require('./../schemas')
 
 // NOTE:
 // Clan specific code has recently (Dec 2020) had many changes.
@@ -14,10 +14,9 @@ const c = require('./../schemas');
 // Avoid rendering only 'name', instead check for 'displayName' first like so:
 // <h1>{{ clan.displayName || clan.name }}</h1>
 
-
-const ClanSchema = c.object({title: 'Clan', required: ['name', 'type']});
+const ClanSchema = c.object({ title: 'Clan', required: ['name', 'type'] })
 // TODO: Require name to be non-empty
-c.extendNamedProperties(ClanSchema);
+c.extendNamedProperties(ClanSchema)
 
 // Clan.name now has two main uses:
 // - For original clans it remains the regular name, no changes
@@ -41,15 +40,15 @@ c.extendNamedProperties(ClanSchema);
 // displayName: 'Computer Science 1'
 
 _.extend(ClanSchema.properties, {
-  description: {type: 'string', format: 'markdown'},
+  description: { type: 'string', format: 'markdown' },
   // Empty for auto clans
-  members: c.array({title: 'Members'}, c.objectId()),
+  members: c.array({ title: 'Members' }, c.objectId()),
   // Optional property
   ownerID: c.objectId(),
   // Set to 'public' for auto clans
-  type: {type: 'string', 'enum': ['public', 'private'], description: 'Controls clan general visibility.'},
+  type: { type: 'string', enum: ['public', 'private'], description: 'Controls clan general visibility.' },
   // Set to 'basic' for auto clans
-  dashboardType: {type: 'string', 'enum': ['basic', 'premium']},
+  dashboardType: { type: 'string', enum: ['basic', 'premium'] },
   // Set only for auto clans, to the origins of the programmatic creation
   kind: {
     type: 'string',
@@ -71,9 +70,9 @@ _.extend(ClanSchema.properties, {
   }),
   displayName: { type: 'string', description: 'overwrites visual visual name of clan - used as name is tied to the slug' },
   esportsImage: { type: 'string', format: 'image-file', title: 'Esports Image', description: 'Image to show for this team on league page.' }
-});
+})
 
-c.extendBasicProperties(ClanSchema, 'Clan');
-c.extendSearchableProperties(ClanSchema);
+c.extendBasicProperties(ClanSchema, 'Clan')
+c.extendSearchableProperties(ClanSchema)
 
-module.exports = ClanSchema;
+module.exports = ClanSchema

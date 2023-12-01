@@ -66,7 +66,7 @@ export function wrapText (htmlString, wrapLetterString, wrapWordString) {
   // Method that replaces text content within an html string.
   function replaceHtmlContent (str, match, replaceFn) {
     // we use the "g" and "i" flags to make it replace all occurrences and ignore case
-    var re = new RegExp(match, 'gi')
+    const re = new RegExp(match, 'gi')
     // this RegExp will match any char sequence that doesn't contain "<" or ">"
     // and that is followed by a tag
     return str.replace(/([^<>]+)(?=<[^>]+>)/g, function (s, content) {

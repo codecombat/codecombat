@@ -3,24 +3,38 @@
     title="Purchase License"
     @close="$emit('close')"
   >
-    <form @submit.prevent="onFormSubmit" class="purchase">
+    <form
+      class="purchase"
+      @submit.prevent="onFormSubmit"
+    >
       <div class="form-group purchase__license-num">
         <select
           class="form-control"
           @change="updateNumberOfLicenses"
         >
-          <option value="" selected disabled>Number of licenses</option>
           <option
-            v-for="num in this.getLicenseDropdownRange()"
+            value=""
+            selected
+            disabled
+          >
+            Number of licenses
+          </option>
+          <option
+            v-for="num in getLicenseDropdownRange()"
             :key="num"
             :value="num"
           >
-            {{num}} Licenses - {{getCurrency()}}{{getPriceBasedOnAmount(num)}}
+            {{ num }} Licenses - {{ getCurrency() }}{{ getPriceBasedOnAmount(num) }}
           </option>
         </select>
       </div>
       <div class="form-group purchase__license-submit">
-        <button class="btn btn-success btn-lg" type="submit">Buy Now</button>
+        <button
+          class="btn btn-success btn-lg"
+          type="submit"
+        >
+          Buy Now
+        </button>
       </div>
       <div class="form-group purchase__error">
         {{ errMsg }}
@@ -43,35 +57,35 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       errMsg: null,
       numOfLicenses: null
     }
   },
   computed: {
-    getPrice() {
+    getPrice () {
       return this.paymentGroup?.priceData[0]
     }
   },
   methods: {
-    getLicenseDropdownRange() {
+    getLicenseDropdownRange () {
       const range = []
       for (let i = 5; i <= 9; i++) {
         range.push(i)
       }
       return range
     },
-    getCurrency() {
+    getCurrency () {
       return getDisplayCurrency(this.getPrice.currency)
     },
-    getPriceBasedOnAmount(amount) {
-      return (this.getUnitPrice() * amount).toFixed(2).replace(/\.00$/, "")
+    getPriceBasedOnAmount (amount) {
+      return (this.getUnitPrice() * amount).toFixed(2).replace(/\.00$/, '')
     },
-    getUnitPrice() {
-      return getDisplayUnitPrice(this.getPrice.unit_amount);
+    getUnitPrice () {
+      return getDisplayUnitPrice(this.getPrice.unit_amount)
     },
-    async onFormSubmit() {
+    async onFormSubmit () {
       this.errMsg = null
       if (!this.numOfLicenses) {
         this.errMsg = 'Select number of licenses to purchase'
@@ -86,10 +100,9 @@ export default {
         totalAmount: (this.getPrice.unit_amount * this.numOfLicenses)
       }
       const { errMsg } = await handleCheckoutSession(sessionOptions)
-      if (errMsg)
-        alert('Failed to redirect to payment page - please contact support@codecombat.com')
+      if (errMsg) { alert('Failed to redirect to payment page - please contact support@codecombat.com') }
     },
-    updateNumberOfLicenses(e) {
+    updateNumberOfLicenses (e) {
       this.numOfLicenses = parseInt(e.target.value)
     }
   }

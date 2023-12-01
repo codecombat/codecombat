@@ -4,7 +4,11 @@
       <div class="row">
         <div class="col-md-7">
           <div class="podcast-head__adventure">
-            <img src="/images/pages/podcast/edtech-adventure.jpg" alt="Edtech adventure" class="podcast-head__adventure-img">
+            <img
+              src="/images/pages/podcast/edtech-adventure.jpg"
+              alt="Edtech adventure"
+              class="podcast-head__adventure-img"
+            >
           </div>
         </div>
         <div class="col-md-5 podcast-head__text">
@@ -15,14 +19,19 @@
             {{ $t('podcast.explores_stem') }}
           </div>
           <div class="podcast-head__subscribe">
-            <button class="btn btn-subscribe podcast-btn-yellow" @click="onSubscribeClick">{{ $t('podcast.listen_now') }}</button>
+            <button
+              class="btn btn-subscribe podcast-btn-yellow"
+              @click="onSubscribeClick"
+            >
+              {{ $t('podcast.listen_now') }}
+            </button>
           </div>
         </div>
       </div>
     </div>
     <subscribe-modal
-      @close="showSubscribeModal = false"
       v-if="showSubscribeModal"
+      @close="showSubscribeModal = false"
     />
   </div>
 </template>

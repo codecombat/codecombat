@@ -6,106 +6,105 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let DynamicAPCSPView;
-require('app/styles/teachers/markdown-resource-view.sass');
-const RootView = require('views/core/RootView');
-const api = require('core/api');
-const ace = require('lib/aceContainer');
-const aceUtils = require('core/aceUtils');
-const APCSPLanding = require('./APCSPLanding').default;
+let DynamicAPCSPView
+require('app/styles/teachers/markdown-resource-view.sass')
+const RootView = require('views/core/RootView')
+const api = require('core/api')
+const aceUtils = require('core/aceUtils')
+const APCSPLanding = require('./APCSPLanding').default
 
-module.exports = (DynamicAPCSPView = (function() {
+module.exports = (DynamicAPCSPView = (function () {
   DynamicAPCSPView = class DynamicAPCSPView extends RootView {
-    static initClass() {
-      this.prototype.id = 'dynamic-apcsp-view';
-      this.prototype.template = require('app/templates/teachers/dynamic-apcsp-view');
+    static initClass () {
+      this.prototype.id = 'dynamic-apcsp-view'
+      this.prototype.template = require('app/templates/teachers/dynamic-apcsp-view')
     }
 
-    getMeta() {
+    getMeta () {
       return {
         title: $.i18n.t('apcsp.title'),
         meta: [
           { vmid: 'meta-description', name: 'description', content: $.i18n.t('apcsp.meta_description') }
         ]
-      };
+      }
     }
 
-    initialize(options, name) {
-      this.name = name;
-      super.initialize(options);
-      if (this.name == null) { this.name = 'index'; }
-      this.content = '';
-      this.loadingData = true;
-      __guard__(me.getClientCreatorPermissions(), x => x.then(() => (typeof this.render === 'function' ? this.render() : undefined)));
+    initialize (options, name) {
+      this.name = name
+      super.initialize(options)
+      if (this.name == null) { this.name = 'index' }
+      this.content = ''
+      this.loadingData = true
+      __guard__(me.getClientCreatorPermissions(), x => x.then(() => (typeof this.render === 'function' ? this.render() : undefined)))
       if (!this.cannotAccess()) {
-        let promise;
+        let promise
         if (_.string.startsWith(this.name, 'markdown/')) {
           if (!_.string.endsWith(this.name, '.md')) {
-            this.name = this.name + '.md';
+            this.name = this.name + '.md'
           }
-          promise = api.markdown.getMarkdownFile(this.name.replace('markdown/', ''));
+          promise = api.markdown.getMarkdownFile(this.name.replace('markdown/', ''))
         } else {
-          promise = api.apcsp.getAPCSPFile(this.name);
+          promise = api.apcsp.getAPCSPFile(this.name)
         }
 
         return promise.then(data => {
-          this.content = marked(data, {sanitize: false});
-          this.loadingData = false;
-          return this.render();
+          this.content = marked(data, { sanitize: false })
+          this.loadingData = false
+          return this.render()
         }).catch(error => {
-          this.loadingData = false;
+          this.loadingData = false
           if (error.code === 404) {
-            this.notFound = true;
-            return this.render();
+            this.notFound = true
+            return this.render()
           } else {
-            console.error(error);
-            this.error = error.message;
-            return this.render();
+            console.error(error)
+            this.error = error.message
+            return this.render()
           }
-        });
+        })
       }
     }
 
-    cannotAccess() {
-      return false; // me.isAnonymous() or !me.isTeacher() or !me.get('verifiedTeacher')
+    cannotAccess () {
+      return false // me.isAnonymous() or !me.isTeacher() or !me.get('verifiedTeacher')
     }
 
-    afterRender() {
-      super.afterRender();
+    afterRender () {
+      super.afterRender()
       if (this.cannotAccess()) {
-        new APCSPLanding({
+        new APCSPLanding({ // eslint-disable-line no-new
           el: this.$('#apcsp-landing')[0]
-        });
+        })
       }
 
-      this.$el.find('pre>code').each(function() {
-        const els = $(this);
-        const c = els.parent();
-        let lang = els.attr('class');
+      this.$el.find('pre>code').each(function () {
+        const els = $(this)
+        const c = els.parent()
+        let lang = els.attr('class')
         if (lang) {
-          lang = lang.replace(/^lang-/,'');
+          lang = lang.replace(/^lang-/, '')
         } else {
-          lang = 'python';
+          lang = 'python'
         }
 
-        const aceEditor = aceUtils.initializeACE(c[0], lang);
-        aceEditor.setShowInvisibles(false);
-        aceEditor.setBehavioursEnabled(false);
-        aceEditor.setAnimatedScroll(false);
-        return aceEditor.$blockScrolling = Infinity;
-      });
+        const aceEditor = aceUtils.initializeACE(c[0], lang)
+        aceEditor.setShowInvisibles(false)
+        aceEditor.setBehavioursEnabled(false)
+        aceEditor.setAnimatedScroll(false)
+        aceEditor.$blockScrolling = Infinity
+      })
       if (_.contains(location.href, '#')) {
         return _.defer(() => {
           // Remind the browser of the fragment in the URL, so it jumps to the right section.
-          return location.href = location.href;
-        });
+          location.href = location.href // eslint-disable-line no-self-assign
+        })
       }
     }
-  };
-  DynamicAPCSPView.initClass();
-  return DynamicAPCSPView;
-})());
+  }
+  DynamicAPCSPView.initClass()
+  return DynamicAPCSPView
+})())
 
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+function __guard__ (value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
 }

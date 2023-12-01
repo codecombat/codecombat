@@ -1,4 +1,4 @@
-<script>
+<script> // eslint-disable-line vue/multi-word-component-names
 /**
  * TODO: Extend or create an alternative leaderboard compatible with teams (humans/ogres)
  * TODO: This leaderboard is not only shown on the league url but also the ladder url.
@@ -46,7 +46,7 @@ export default Vue.extend({
       default () {
         return []
       }
-    },
+    }
   },
   data () {
     return {
@@ -118,22 +118,22 @@ export default Vue.extend({
       const xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(5).outerTickSize(0)
 
       const svg = d3.select('#histogram-display-humans').append('svg')
-                    .attr('preserveAspectRatio', 'xMinYMin meet')
-                    .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
-                    .append('g')
-                    .attr('transform', `translate(${margin.left}, ${margin.top})`)
+        .attr('preserveAspectRatio', 'xMinYMin meet')
+        .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+        .append('g')
+        .attr('transform', `translate(${margin.left}, ${margin.top})`)
       const barClass = 'humans-bar'
 
       const bar = svg.selectAll('.bar')
-                     .data(data)
-                     .enter().append('g')
-                     .attr('class', barClass)
-                     .attr('transform', (d) => `translate(${x(d.x)}, ${y(d.y)})`)
+        .data(data)
+        .enter().append('g')
+        .attr('class', barClass)
+        .attr('transform', (d) => `translate(${x(d.x)}, ${y(d.y)})`)
 
       bar.append('rect')
-                     .attr('x', 1)
-                     .attr('width', width / 20)
-                     .attr('height', (d) => height - y(d.y))
+        .attr('x', 1)
+        .attr('width', width / 20)
+        .attr('height', (d) => height - y(d.y))
       if (this.session) {
         let playerScore = this.session.get('totalScore')
         if (this.league) {
@@ -143,15 +143,15 @@ export default Vue.extend({
         playerScore = playerScore * 100
 
         const scorebar = svg.selectAll('.specialbar')
-                            .data([playerScore])
-                            .enter().append('g')
-                            .attr('class', 'specialbar')
-                            .attr('transform', `translate(${x(playerScore)}, 0)`)
+          .data([playerScore])
+          .enter().append('g')
+          .attr('class', 'specialbar')
+          .attr('transform', `translate(${x(playerScore)}, 0)`)
 
         scorebar.append('rect')
-                            .attr('x', 1)
-                            .attr('width', 2)
-                            .attr('height', height)
+          .attr('x', 1)
+          .attr('width', 2)
+          .attr('height', height)
       }
       const rankClass = 'rank-text humans-rank-text'
 
@@ -170,18 +170,18 @@ export default Vue.extend({
        * else
        *   message = 'Rank your session!' */
       svg.append('g')
-         .append('text')
-         .attr('class', rankClass)
-         .attr('y', 0)
-         .attr('text-anchor', 'end')
-         .attr('x', width)
-         .text(message)
+        .append('text')
+        .attr('class', rankClass)
+        .attr('y', 0)
+        .attr('text-anchor', 'end')
+        .attr('x', width)
+        .text(message)
 
       // Translate the x-axis up
       svg.append('g')
-         .attr('class', 'x axis')
-         .attr('transform', 'translate(0, ' + height + ')')
-         .call(xAxis)
+        .attr('class', 'x axis')
+        .attr('transform', 'translate(0, ' + height + ')')
+        .call(xAxis)
 
       histogramElement.show()
     },

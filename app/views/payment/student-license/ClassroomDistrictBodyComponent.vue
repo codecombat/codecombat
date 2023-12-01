@@ -6,7 +6,9 @@
           :class="['classroom', 'common-tab', (isSmallClassroomSelected ? 'selected-tab' : 'unselected-tab')]"
           @click="() => setClassroomSelected(true)"
         >
-          <h2 class="title">Small Classroom</h2>
+          <h2 class="title">
+            Small Classroom
+          </h2>
           <div>
             For clubs, after-school programs and small classrooms with 5-9 students
           </div>
@@ -15,7 +17,9 @@
           :class="['district', 'common-tab', (!isSmallClassroomSelected ? 'selected-tab' : 'unselected-tab')]"
           @click="() => setClassroomSelected(false)"
         >
-          <h2 class="title">Schools & Districts</h2>
+          <h2 class="title">
+            Schools & Districts
+          </h2>
           <div>
             For classrooms, schools and districts with 10 or more students
           </div>
@@ -34,33 +38,33 @@
 </template>
 
 <script>
-import PaymentSchoolDistrictBodyView from "./SchoolDistrictBodyView";
-import PaymentSmallClassroomBodyView from "./SmallClassroomBodyView";
+import PaymentSchoolDistrictBodyView from './SchoolDistrictBodyView'
+import PaymentSmallClassroomBodyView from './SmallClassroomBodyView'
 export default {
-  name: "PaymentStudentLicenseClassroomDistrictBodyComponent",
+  name: 'PaymentStudentLicenseClassroomDistrictBodyComponent',
   components: {
     PaymentSchoolDistrictBodyView,
-    PaymentSmallClassroomBodyView,
+    PaymentSmallClassroomBodyView
   },
   props: {
     priceInfo: {
       type: Object,
-      required: true,
+      required: true
     },
     paymentGroupId: {
       type: String,
-      required: true,
+      required: true
     }
   },
-  data() {
+  data () {
     return {
-      isSmallClassroomSelected: false,
+      isSmallClassroomSelected: false
     }
   },
   methods: {
-    setClassroomSelected(value) {
+    setClassroomSelected (value) {
       this.isSmallClassroomSelected = value
-    },
+    }
   }
 }
 </script>

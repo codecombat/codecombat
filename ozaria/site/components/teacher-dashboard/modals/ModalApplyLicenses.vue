@@ -1,20 +1,20 @@
 <script>
-  import Modal from '../../common/Modal'
-  import SecondaryButton from '../common/buttons/SecondaryButton'
+import Modal from '../../common/Modal'
+import SecondaryButton from '../common/buttons/SecondaryButton'
 
-  export default Vue.extend({
-    components: {
-      Modal,
-      SecondaryButton
-    },
-    methods: {
-      trackEvent (eventName) {
-        if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: 'Teachers' })
-        }
+export default Vue.extend({
+  components: {
+    Modal,
+    SecondaryButton
+  },
+  methods: {
+    trackEvent (eventName) {
+      if (eventName) {
+        window.tracker?.trackEvent(eventName, { category: 'Teachers' })
       }
     }
-  })
+  }
+})
 </script>
 
 <template>
@@ -24,11 +24,17 @@
   >
     <div class="apply-licenses">
       <div class="apply-licenses-info">
-        <span class="sub-title"> {{$t('teacher.apply_modal_subtitle')}} </span>
+        <span class="sub-title"> {{ $t('teacher.apply_modal_subtitle') }} </span>
         <ul class="info-list">
-          <li class="list-item"> {{$t('teacher.apply_modal_list_item_1')}} </li>
-          <li class="list-item"> {{$t('teacher.apply_modal_list_item_2')}} </li>
-          <li class="list-item"> {{$t('teacher.apply_modal_list_item_3')}} </li>
+          <li class="list-item">
+            {{ $t('teacher.apply_modal_list_item_1') }}
+          </li>
+          <li class="list-item">
+            {{ $t('teacher.apply_modal_list_item_2') }}
+          </li>
+          <li class="list-item">
+            {{ $t('teacher.apply_modal_list_item_3') }}
+          </li>
         </ul>
       </div>
       <div class="apply-licenses-img">

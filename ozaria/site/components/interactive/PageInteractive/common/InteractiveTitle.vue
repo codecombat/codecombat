@@ -1,41 +1,41 @@
 <script>
-  import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
-  import { internationalizeConfig } from '../../../../common/ozariaUtils'
-  import FontScaler from '../../../common/FontScaler'
+import { internationalizeConfig } from '../../../../common/ozariaUtils'
+import FontScaler from '../../../common/FontScaler'
 
-  export default {
-    components: {
-      FontScaler
-    },
+export default {
+  components: {
+    FontScaler
+  },
 
-    props: {
-      interactive: {
-        type: Object,
-        required: true
-      }
-    },
+  props: {
+    interactive: {
+      type: Object,
+      required: true
+    }
+  },
 
-    computed: {
-      ...mapGetters({
-        userLocale: 'me/preferredLocale'
-      }),
+  computed: {
+    ...mapGetters({
+      userLocale: 'me/preferredLocale'
+    }),
 
-      localizedInteractive () {
-        return internationalizeConfig(this.interactive, this.userLocale)
-      }
+    localizedInteractive () {
+      return internationalizeConfig(this.interactive, this.userLocale)
     }
   }
+}
 </script>
 
 <template>
-        <div class="title-container">
-            <div>
-                <font-scaler>
-                    {{ localizedInteractive.promptText }}
-                </font-scaler>
-            </div>
-        </div>
+  <div class="title-container">
+    <div>
+      <font-scaler>
+        {{ localizedInteractive.promptText }}
+      </font-scaler>
+    </div>
+  </div>
 </template>
 
 <style scoped>

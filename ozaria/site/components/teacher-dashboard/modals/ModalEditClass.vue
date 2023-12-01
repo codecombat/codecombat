@@ -1,96 +1,96 @@
 <script>
-  import { mapActions, mapGetters } from 'vuex'
-  import Modal from '../../common/Modal'
-  import SecondaryButton from '../common/buttons/SecondaryButton'
-  import TertiaryButton from '../common/buttons/TertiaryButton'
-  import Classroom from 'models/Classroom'
+import { mapActions, mapGetters } from 'vuex'
+import Modal from '../../common/Modal'
+import SecondaryButton from '../common/buttons/SecondaryButton'
+import TertiaryButton from '../common/buttons/TertiaryButton'
+import Classroom from 'models/Classroom'
 
-  export default Vue.extend({
-    components: {
-      Modal,
-      SecondaryButton,
-      TertiaryButton
+export default Vue.extend({
+  components: {
+    Modal,
+    SecondaryButton,
+    TertiaryButton
+  },
+
+  props: {
+    classroom: {
+      type: Object,
+      required: true,
+      default: () => {}
+    }
+  },
+
+  data: () => {
+    return {
+      newClassName: '',
+      newProgrammingLanguage: '',
+      newLiveCompletion: true
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      getSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom'
+    }),
+    classroomName () {
+      return (this.classroom || {}).name
     },
+    language () {
+      return ((this.classroom || {}).aceConfig || {}).language
+    },
+    archived () {
+      return (this.classroom || {}).archived
+    },
+    liveCompletion () {
+      return _.assign({ liveCompletion: true }, (this.classroom || {}).aceConfig).liveCompletion
+    }
+  },
 
-    props: {
-      classroom: {
-        type: Object,
-        required: true,
-        default: () => {}
+  mounted () {
+    this.newClassName = this.classroomName
+    this.newProgrammingLanguage = this.language
+    this.newLiveCompletion = this.liveCompletion
+  },
+
+  methods: {
+    ...mapActions({
+      updateClassroom: 'classrooms/updateClassroom',
+      fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers'
+    }),
+    archiveClass () {
+      this.updateClassroom({ classroom: this.classroom, updates: { archived: true } })
+      const classroom = new Classroom(this.classroom)
+      classroom.revokeStudentLicenses()
+      this.$emit('close')
+    },
+    unarchiveClass () {
+      this.updateClassroom({ classroom: this.classroom, updates: { archived: false } })
+      if (!this.getSessionsMapForClassroom(this.classroom._id)) {
+        this.fetchClassroomSessions({ classroom: this.classroom })
       }
+      this.$emit('close')
     },
-
-    data: () => {
-      return {
-        newClassName: '',
-        newProgrammingLanguage: '',
-        newLiveCompletion: true,
+    saveClass () {
+      const updates = {}
+      if (this.newClassName && this.newClassName !== this.classroomName) {
+        updates.name = this.newClassName
       }
-    },
-
-    computed: {
-      ...mapGetters({
-        getSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom'
-      }),
-      classroomName () {
-        return (this.classroom || {}).name
-      },
-      language () {
-        return ((this.classroom || {}).aceConfig || {}).language
-      },
-      archived () {
-        return (this.classroom || {}).archived
-      },
-      liveCompletion () {
-        return _.assign({liveCompletion: true}, (this.classroom || {}).aceConfig).liveCompletion
+      const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
+      if (this.newProgrammingLanguage && this.newProgrammingLanguage !== this.language) {
+        aceConfig.language = this.newProgrammingLanguage
+        updates.aceConfig = aceConfig
       }
-    },
-
-    mounted () {
-      this.newClassName = this.classroomName
-      this.newProgrammingLanguage = this.language
-      this.newLiveCompletion = this.liveCompletion
-    },
-
-    methods: {
-      ...mapActions({
-        updateClassroom: 'classrooms/updateClassroom',
-        fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers'
-      }),
-      archiveClass () {
-        this.updateClassroom({ classroom: this.classroom, updates: { archived: true } })
-        const classroom = new Classroom(this.classroom)
-        classroom.revokeStudentLicenses()
+      if (this.newLiveCompletion !== this.liveCompletion) {
+        aceConfig.liveCompletion = this.newLiveCompletion
+        updates.aceConfig = aceConfig
+      }
+      if (_.size(updates)) {
+        this.updateClassroom({ classroom: this.classroom, updates })
         this.$emit('close')
-      },
-      unarchiveClass () {
-        this.updateClassroom({ classroom: this.classroom, updates: { archived: false } })
-        if (!this.getSessionsMapForClassroom(this.classroom._id)) {
-          this.fetchClassroomSessions({ classroom: this.classroom })
-        }
-        this.$emit('close')
-      },
-      saveClass () {
-        const updates = {}
-        if (this.newClassName && this.newClassName !== this.classroomName) {
-          updates.name = this.newClassName
-        }
-        const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
-        if (this.newProgrammingLanguage && this.newProgrammingLanguage !== this.language) {
-          aceConfig.language = this.newProgrammingLanguage
-          updates.aceConfig = aceConfig
-        }
-        if (this.newLiveCompletion !== this.liveCompletion) {
-          aceConfig.liveCompletion = this.newLiveCompletion
-          updates.aceConfig = aceConfig
-        }
-        if (_.size(updates)) {
-          this.updateClassroom({ classroom: this.classroom, updates: updates })
-          this.$emit('close')
-        }
       }
     }
-  })
+  }
+})
 </script>
 
 <template>
@@ -132,10 +132,10 @@
           <div class="col-xs-12">
             <span class="control-label"> {{ $t('courses.classroom_live_completion') }}</span>
             <input
+              id="liveCompletion"
               v-model="newLiveCompletion"
               type="checkbox"
-              id="liveCompletion"
-              >
+            >
             <span class="control-label-desc">{{ $t("teachers.classroom_live_completion") }}</span>
           </div>
         </div>

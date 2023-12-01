@@ -1,27 +1,27 @@
 <script>
-  import ClassSummaryRow from './components/ClassSummaryRow'
-  import ClassChapterSummaries from './components/ClassChapterSummaries'
+import ClassSummaryRow from './components/ClassSummaryRow'
+import ClassChapterSummaries from './components/ClassChapterSummaries'
 
-  export default {
-    components: {
-      ClassSummaryRow,
-      ClassChapterSummaries
+export default {
+  components: {
+    ClassSummaryRow,
+    ClassChapterSummaries
+  },
+  props: {
+    classroomStats: {
+      type: Object,
+      required: true
     },
-    props: {
-      classroomStats: {
-        type: Object,
-        required: true
-      },
-      chapterStats: {
-        type: Array,
-        required: true
-      },
-      displayOnly: {
-        type: Boolean,
-        default: false
-      }
+    chapterStats: {
+      type: Array,
+      required: true
+    },
+    displayOnly: {
+      type: Boolean,
+      default: false
     }
   }
+}
 </script>
 
 <template>

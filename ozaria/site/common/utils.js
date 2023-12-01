@@ -1,5 +1,5 @@
 import RandomSeed from 'random-seed'
-import storage from "../../../app/core/storage";
+import storage from '../../../app/core/storage'
 
 function getDateString () {
   const date = new Date()
@@ -18,7 +18,7 @@ export function deterministicShuffleForUserAndDay (user, originalArray) {
   if (originalArray.length < 2) return originalArray
   const rand = new RandomSeed(`${getDateString()}${user.id}`)
 
-  let shuffledArray, array;
+  let shuffledArray, array
   do {
     shuffledArray = []
     array = _.cloneDeep(originalArray)
@@ -49,6 +49,6 @@ export function hasSeenTeacherDetailModalRecently (teacherId) {
 }
 
 export function markTeacherDetailsModalAsSeen (teacherId) {
-  const HRS_12 = 60 * 12;
+  const HRS_12 = 60 * 12
   storage.save(teacherModalSeenKey(teacherId), true, HRS_12)
 }

@@ -4,93 +4,93 @@
    * TODO: Connect to a Vuex store.
    */
 
-  import { mapGetters } from 'vuex'
-  import TableModuleHeader from './TableModuleHeader'
-  import TableModuleGrid from './TableModuleGrid'
-  import TableStudentList from './TableStudentList'
-  import ScrollArrow from '../../common/buttons/ScrollArrow'
+import { mapGetters } from 'vuex'
+import TableModuleHeader from './TableModuleHeader'
+import TableModuleGrid from './TableModuleGrid'
+import TableStudentList from './TableStudentList'
+import ScrollArrow from '../../common/buttons/ScrollArrow'
 
-  export default {
-    components: {
-      'table-module-header': TableModuleHeader,
-      'table-module-grid': TableModuleGrid,
-      'table-student-list': TableStudentList,
-      ScrollArrow
+export default {
+  components: {
+    'table-module-header': TableModuleHeader,
+    'table-module-grid': TableModuleGrid,
+    'table-student-list': TableStudentList,
+    ScrollArrow
+  },
+  props: {
+    // Order that students appear in the table.
+    students: {
+      type: Array,
+      required: true
     },
-    props: {
-      // Order that students appear in the table.
-      students: {
-        type: Array,
-        required: true
-      },
-      modules: {
-        type: Array,
-        required: true
-      },
-      displayOnly: {
-        type: Boolean,
-        default: false
-      }
+    modules: {
+      type: Array,
+      required: true
     },
+    displayOnly: {
+      type: Boolean,
+      default: false
+    }
+  },
 
-    data: () => ({
-      isTouchingRight: false,
-      isTouchingLeft: false,
-      selectedLevels: [],
-      hoveredLevel: null
+  data: () => ({
+    isTouchingRight: false,
+    isTouchingLeft: false,
+    selectedLevels: [],
+    hoveredLevel: null
+  }),
+
+  computed: {
+    ...mapGetters({
+      selectedStudentIds: 'baseSingleClass/selectedStudentIds',
+      selectedOriginals: 'baseSingleClass/selectedOriginals'
     }),
+    getStudentSessionsData () {
+      return this.modules.map(m => {
+        return { moduleNum: m.moduleNum, studentSessions: m.studentSessions }
+      })
+    }
+  },
+  watch: {
+    // Use this to trigger attaching the scroll callback
+    // as the table is changing width.
+    modules (newModules, lastModules) {
+      const table = $('#classTableFrame')
+      table.off('scroll')
+      table.scroll(this.debouncedDetectMaxScrolledRight)
 
-    computed: {
-      ...mapGetters({
-        selectedStudentIds: 'baseSingleClass/selectedStudentIds',
-        selectedOriginals: 'baseSingleClass/selectedOriginals'
-      }),
-      getStudentSessionsData() {
-        return this.modules.map(m => {
-          return { moduleNum: m.moduleNum, studentSessions: m.studentSessions }
-        })
-      }
+      this.debouncedDetectMaxScrolledRight()
+    }
+  },
+
+  mounted () {
+    this.debouncedDetectMaxScrolledRight = _.debounce(this.detectMaxScrolledRight, 100)
+  },
+
+  beforeDestroy () {
+    $('#classTableFrame').off('scroll')
+  },
+
+  methods: {
+    scrollRight () {
+      $('#classTableFrame').animate({ scrollLeft: '+=400px' })
     },
-    watch: {
-      // Use this to trigger attaching the scroll callback
-      // as the table is changing width.
-      modules (newModules, lastModules) {
-        const table = $('#classTableFrame')
-        table.off('scroll')
-        table.scroll(this.debouncedDetectMaxScrolledRight)
 
-        this.debouncedDetectMaxScrolledRight()
-      }
+    scrollLeft () {
+      $('#classTableFrame').animate({ scrollLeft: '-=400px' })
     },
 
-    mounted () {
-      this.debouncedDetectMaxScrolledRight = _.debounce(this.detectMaxScrolledRight, 100)
+    detectMaxScrolledRight () {
+      const table = $('#classTableFrame')
+      this.isTouchingRight = table.scrollLeft() + table.innerWidth() >= table[0].scrollWidth
+      this.isTouchingLeft = table.scrollLeft() <= 0.1
     },
 
-    beforeDestroy () {
-      $('#classTableFrame').off('scroll')
-    },
-
-    methods: {
-      scrollRight () {
-        $('#classTableFrame').animate({ scrollLeft: '+=400px' })
-      },
-
-      scrollLeft () {
-        $('#classTableFrame').animate({ scrollLeft: '-=400px' })
-      },
-
-      detectMaxScrolledRight () {
-        const table = $('#classTableFrame')
-        this.isTouchingRight = table.scrollLeft() + table.innerWidth() >= table[0].scrollWidth
-        this.isTouchingLeft = table.scrollLeft() <= 0.1
-      },
-
-      updateHoveredLevel (level) {
-        this.hoveredLevel = level
-      }
+    updateHoveredLevel (level) {
+      this.hoveredLevel = level
     }
   }
+}
 </script>
 
 <template>
@@ -131,7 +131,10 @@
       </div>
       <div class="size-container">
         <div class="table-row">
-          <table-student-list :students="students" :student-sessions-data="getStudentSessionsData" />
+          <table-student-list
+            :students="students"
+            :student-sessions-data="getStudentSessionsData"
+          />
 
           <!-- List of student solutions per module -->
           <table-module-grid
@@ -142,7 +145,10 @@
           />
 
           <!-- Fade on the right to signal more -->
-          <div class="fade-out" :class="isTouchingRight ? 'hidden' : ''" />
+          <div
+            class="fade-out"
+            :class="isTouchingRight ? 'hidden' : ''"
+          />
         </div>
       </div>
     </div>

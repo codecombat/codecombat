@@ -7,7 +7,7 @@ import fetchJson from 'app/core/api/fetch-json'
  */
 export const getInteractive = idOrSlug => {
   if (!idOrSlug) {
-    throw new Error(`No slug/id supplied`)
+    throw new Error('No slug/id supplied')
   }
   return fetchJson(`/db/interactive/${idOrSlug}`)
 }
@@ -62,7 +62,7 @@ export const postInteractive = ({ name }, options = {}) => {
  */
 export const getSession = (idOrSlug, options = {}) => {
   if (!idOrSlug) {
-    throw new Error(`No slug/id supplied`)
+    throw new Error('No slug/id supplied')
   }
   return fetchJson(`/db/interactive/${idOrSlug}/session`, {
     method: 'GET',
@@ -78,13 +78,13 @@ export const getSession = (idOrSlug, options = {}) => {
  */
 export const putSession = (idOrSlug, options = {}) => {
   if (!idOrSlug) {
-    throw new Error(`No slug/id supplied`)
+    throw new Error('No slug/id supplied')
   }
   if (!(options.json || {}).codeLanguage) {
-    throw new Error(`CodeLanguage required to post interactive submission`)
+    throw new Error('CodeLanguage required to post interactive submission')
   }
   if (!(options.json || {}).submission) {
-    throw new Error(`Need to post a submission`)
+    throw new Error('Need to post a submission')
   }
 
   return fetchJson(`/db/interactive/${idOrSlug}/submission`, {

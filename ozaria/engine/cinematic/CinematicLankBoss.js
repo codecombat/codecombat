@@ -19,8 +19,10 @@ import {
   getChangeDefaultIdles,
   getPlayThangAnimations
 } from '../../../app/schemas/models/selectors/cinematic'
-import { LETTER_ANIMATE_TIME, HERO_THANG_ID, AVATAR_THANG_ID, PET_AVATAR_THANG_ID,
-  LEFT_LANK_KEY, RIGHT_LANK_KEY, HERO_PET, BACKGROUND_OBJECT, BACKGROUND } from './constants'
+import {
+  LETTER_ANIMATE_TIME, HERO_THANG_ID, AVATAR_THANG_ID, PET_AVATAR_THANG_ID,
+  LEFT_LANK_KEY, RIGHT_LANK_KEY, HERO_PET, BACKGROUND_OBJECT, BACKGROUND
+} from './constants'
 
 const store = require('core/store')
 
@@ -41,9 +43,9 @@ const BACKGROUND_OBJECT_LAYER = 'Background Object'
 
 // Lank to Background mapping. If not set, will default to 'Default' layer.
 const lankLayer = new Map([
-  [ BACKGROUND, BACKGROUND_LAYER ],
-  [ BACKGROUND_OBJECT, BACKGROUND_OBJECT_LAYER ],
-  [ HERO_PET, BACKGROUND_OBJECT_LAYER ]
+  [BACKGROUND, BACKGROUND_LAYER],
+  [BACKGROUND_OBJECT, BACKGROUND_OBJECT_LAYER],
+  [HERO_PET, BACKGROUND_OBJECT_LAYER]
 ])
 
 // Thang rotation constants
@@ -524,7 +526,7 @@ export default class CinematicLankBoss {
   }) {
     // Make sure we can undo the lank by tracing state during command creation.
     if (resource) {
-      this.commandParsingState.lanks[key] = { slug: resource, thang: thang }
+      this.commandParsingState.lanks[key] = { slug: resource, thang }
     }
 
     if (ms === 0) {

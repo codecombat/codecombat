@@ -14,14 +14,17 @@ export default {
     championshipActive: {
       type: Boolean
     }
-  },
+  }
 }
 </script>
 
 <template>
   <div class="section-first-cta">
     <div class="row flex-row text-center">
-      <p class="subheader2" style="max-width: 800px;">
+      <p
+        class="subheader2"
+        style="max-width: 800px;"
+      >
         <span v-if="championshipActive">
           {{ $t('league.championship_summary', { championshipArena: $t('league.snowhold'), championshipMonth: $t('calendar.december'), championshipType: $t('league.clash') }) }}
         </span>
@@ -30,8 +33,14 @@ export default {
         </span>
       </p>
     </div>
-    <div v-if="!doneRegistering && !isClanCreator()" class="row flex-row text-center xs-m-0">
-      <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
+    <div
+      v-if="!doneRegistering && !isClanCreator()"
+      class="row flex-row text-center xs-m-0"
+    >
+      <a
+        class="btn btn-large btn-primary btn-moon"
+        @click="onHandleJoinCTA"
+      >{{ $t('league.join_now') }}</a>
     </div>
   </div>
 </template>

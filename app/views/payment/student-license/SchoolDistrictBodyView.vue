@@ -3,32 +3,60 @@
     <div class="column pd-training">
       <div class="pd">
         <div class="info">
-          <p class="heading">Professional Development Available</p>
+          <p class="heading">
+            Professional Development Available
+          </p>
           <p class="small-text">
             Comprehensive 40-hour online course that allows you to learn anytime, anywhere and at any pace. It provides teachers of all experience levels with the skills, knowledge and confidence to teach computer science.
           </p>
         </div>
-        <button type="button" class="btn btn-default btn-lg more-info-btn" @click="moreInfo">More info</button>
+        <button
+          type="button"
+          class="btn btn-default btn-lg more-info-btn"
+          @click="moreInfo"
+        >
+          More info
+        </button>
       </div>
       <div class="training">
         <div class="info">
-          <p class="heading">Implementation Training Options</p>
+          <p class="heading">
+            Implementation Training Options
+          </p>
           <p class="small-text">
             Educators can be provided with a 60 min Onboarding Training and guidance on how to use CodeCombat or Ozaria to support specific institutional and instructional goals. Contact us for more information and pricing.
           </p>
         </div>
-        <button type="button" class="btn btn-primary btn-lg contact-us-btn" @click="showImplementationModal">Contact Us</button>
+        <button
+          type="button"
+          class="btn btn-primary btn-lg contact-us-btn"
+          @click="showImplementationModal"
+        >
+          Contact Us
+        </button>
       </div>
     </div>
     <div class="column quote-column">
       <div class="request-quote">
         <div class="info">
-          <p class="heading">Bulk Discounts Available</p>
-          <p class="small-text">Minimum 10 licenses</p>
+          <p class="heading">
+            Bulk Discounts Available
+          </p>
+          <p class="small-text">
+            Minimum 10 licenses
+          </p>
         </div>
-        <button type="button" class="btn btn-success btn-lg" @click="showLicenseModal">Request a Quote</button>
+        <button
+          type="button"
+          class="btn btn-success btn-lg"
+          @click="showLicenseModal"
+        >
+          Request a Quote
+        </button>
         <div class="feature-list">
-          <p class="include">Includes</p>
+          <p class="include">
+            Includes
+          </p>
           <ul>
             <li>Full access to CodeCombat and Ozaria</li>
             <li>Dedicated school success manager available via phone or email for implementation support</li>
@@ -45,35 +73,35 @@
       @close="openLicenseModal = false"
     />
     <modal-get-licenses
-      email-message="Hi! I want to learn more about options for educators training on how to use CodeCombat or Ozaria"
       v-if="openImplementationModal"
+      email-message="Hi! I want to learn more about options for educators training on how to use CodeCombat or Ozaria"
       @close="openImplementationModal = false"
     />
   </div>
 </template>
 
 <script>
-import ModalGetLicenses from "../../../components/common/ModalGetLicenses";
+import ModalGetLicenses from '../../../components/common/ModalGetLicenses'
 export default {
-  name: "PaymentSchoolDistrictBodyView",
+  name: 'PaymentSchoolDistrictBodyView',
   components: {
-    ModalGetLicenses,
+    ModalGetLicenses
   },
-  data() {
+  data () {
     return {
       openLicenseModal: false,
-      openImplementationModal: false,
+      openImplementationModal: false
     }
   },
   methods: {
-    moreInfo() {
+    moreInfo () {
       window.open('https://www.ozaria.com/professional-development#license-interest', '_blank')
     },
-    showLicenseModal(e) {
+    showLicenseModal (e) {
       e.preventDefault()
       this.openLicenseModal = true
     },
-    showImplementationModal(e) {
+    showImplementationModal (e) {
       e.preventDefault()
       this.openImplementationModal = true
     }

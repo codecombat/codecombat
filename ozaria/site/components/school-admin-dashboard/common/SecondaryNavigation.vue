@@ -1,38 +1,38 @@
 <script>
-  import { COMPONENT_NAMES, PAGE_TITLES } from './constants'
-  export default {
-    computed: {
-      schoolsTabSelected () {
-        return this.$route.path === '/school-administrator' || this.$route.path.startsWith('/school-administrator/teacher')
-      },
-
-      licensesTabSelected () {
-        return this.$route.path.startsWith('/school-administrator/licenses')
-      },
-
-      schoolTabsTitle () {
-        return PAGE_TITLES[COMPONENT_NAMES.MY_SCHOOLS]
-      },
-
-      licensesTabTitle () {
-        return PAGE_TITLES[COMPONENT_NAMES.SCHOOL_ADMIN_LICENSES]
-      }
+import { COMPONENT_NAMES, PAGE_TITLES } from './constants'
+export default {
+  computed: {
+    schoolsTabSelected () {
+      return this.$route.path === '/school-administrator' || this.$route.path.startsWith('/school-administrator/teacher')
     },
 
-    methods: {
-      trackEvent (e) {
-        const eventName = e.target.dataset['action']
-        const eventLabel = e.target.dataset['label']
-        if (eventName) {
-          if (eventLabel) {
-            window.tracker?.trackEvent(eventName, { category: 'SchoolAdmin', label: eventLabel })
-          } else {
-            window.tracker?.trackEvent(eventName, { category: 'SchoolAdmin' })
-          }
+    licensesTabSelected () {
+      return this.$route.path.startsWith('/school-administrator/licenses')
+    },
+
+    schoolTabsTitle () {
+      return PAGE_TITLES[COMPONENT_NAMES.MY_SCHOOLS]
+    },
+
+    licensesTabTitle () {
+      return PAGE_TITLES[COMPONENT_NAMES.SCHOOL_ADMIN_LICENSES]
+    }
+  },
+
+  methods: {
+    trackEvent (e) {
+      const eventName = e.target.dataset.action
+      const eventLabel = e.target.dataset.label
+      if (eventName) {
+        if (eventLabel) {
+          window.tracker?.trackEvent(eventName, { category: 'SchoolAdmin', label: eventLabel })
+        } else {
+          window.tracker?.trackEvent(eventName, { category: 'SchoolAdmin' })
         }
       }
     }
   }
+}
 </script>
 
 <template>

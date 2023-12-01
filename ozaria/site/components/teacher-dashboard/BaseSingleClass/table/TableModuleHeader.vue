@@ -10,113 +10,116 @@ import LockOrSkip from './LockOrSkip'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
-    components: {
-      ContentIcon,
-      ProgressDot,
-      LockOrSkip
-    },
-    props: {
-      moduleHeading: {
-        type: String,
-        required: true
-      },
-
-      listOfContent: {
-        type: Array,
-        required: true
-      },
-
-      classSummaryProgress: {
-        type: Array,
-        required: true
-      },
-
-      displayOnly: {
-        type: Boolean,
-        default: false
-      }
+  components: {
+    ContentIcon,
+    ProgressDot,
+    LockOrSkip
+  },
+  props: {
+    moduleHeading: {
+      type: String,
+      required: true
     },
 
-    data () {
+    listOfContent: {
+      type: Array,
+      required: true
+    },
+
+    classSummaryProgress: {
+      type: Array,
+      required: true
+    },
+
+    displayOnly: {
+      type: Boolean,
+      default: false
+    }
+  },
+
+  data () {
+    return {
+      lockOrSkipShown: false,
+      hoveredOriginal: null,
+      userSelectedOriginals: []
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      showingTooltipOfThisOriginal: 'baseSingleClass/getShowingTooltipOfThisOriginal',
+      selectedOriginals: 'baseSingleClass/selectedOriginals'
+    }),
+
+    listOfOriginals () {
+      return [...new Set(Object.values(this.listOfContent).map(item => item.normalizedOriginal))] // array of unique original ids
+    },
+
+    cssVariables () {
       return {
-        lockOrSkipShown: false,
-        hoveredOriginal: null,
-        userSelectedOriginals: []
+        '--cols': this.listOfContent.length
       }
     },
 
-    computed: {
-      ...mapGetters({
-        showingTooltipOfThisOriginal: 'baseSingleClass/getShowingTooltipOfThisOriginal',
-        selectedOriginals: 'baseSingleClass/selectedOriginals'
-      }),
-
-      listOfOriginals () {
-        return [...new Set(Object.values(this.listOfContent).map(item => item.normalizedOriginal))] // array of unique original ids
-      },
-
-      cssVariables () {
-        return {
-          '--cols': this.listOfContent.length
-        }
-      },
-
-      lockIconUrl () {
-        if (this.displayOnly) {
-          return '/images/ozaria/teachers/dashboard/svg_icons/IconLock_Gray.svg'
-        } else {
-          return '/images/ozaria/teachers/dashboard/svg_icons/IconLock.svg'
-        }
-      }
-    },
-
-    methods: {
-      ...mapMutations({
-        setShowingTooltipOfThisOriginal: 'baseSingleClass/setShowingTooltipOfThisOriginal',
-        replaceSelectedOriginals: 'baseSingleClass/replaceSelectedOriginals',
-        updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals'
-      }),
-
-      toggleDatepicker () {
-        this.showDatepicker = !this.showDatepicker
-      },
-
-      setHoveredOriginal (original) {
-        this.hoveredOriginal = original
-        this.$emit('updateHoveredLevel', original)
-      },
-
-      updateList (event, original) {
-        this.updateSelectedOriginals({ shiftKey: event.shiftKey, original, listOfOriginals: this.listOfOriginals })
-      },
-
-      classContentTooltip (type) {
-        return {
-          'intro-tooltip': type === 'cinematic' || type === 'interactive'
-        }
-      },
-
-      classForContentIconHover (normalizedOriginal) {
-        return {
-          'hover-trigger-area': true,
-          hoverState: this.hoveredOriginal === normalizedOriginal,
-          'is-selected': this.selectedOriginals.includes(normalizedOriginal)
-        }
-      },
-
-      selectAll () {
-        this.userSelectedOriginals = [...this.selectedOriginals]
-        this.replaceSelectedOriginals(this.listOfOriginals)
-      },
-      deselectAll () {
-        this.replaceSelectedOriginals(this.userSelectedOriginals)
+    lockIconUrl () {
+      if (this.displayOnly) {
+        return '/images/ozaria/teachers/dashboard/svg_icons/IconLock_Gray.svg'
+      } else {
+        return '/images/ozaria/teachers/dashboard/svg_icons/IconLock.svg'
       }
     }
+  },
+
+  methods: {
+    ...mapMutations({
+      setShowingTooltipOfThisOriginal: 'baseSingleClass/setShowingTooltipOfThisOriginal',
+      replaceSelectedOriginals: 'baseSingleClass/replaceSelectedOriginals',
+      updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals'
+    }),
+
+    toggleDatepicker () {
+      this.showDatepicker = !this.showDatepicker
+    },
+
+    setHoveredOriginal (original) {
+      this.hoveredOriginal = original
+      this.$emit('updateHoveredLevel', original)
+    },
+
+    updateList (event, original) {
+      this.updateSelectedOriginals({ shiftKey: event.shiftKey, original, listOfOriginals: this.listOfOriginals })
+    },
+
+    classContentTooltip (type) {
+      return {
+        'intro-tooltip': type === 'cinematic' || type === 'interactive'
+      }
+    },
+
+    classForContentIconHover (normalizedOriginal) {
+      return {
+        'hover-trigger-area': true,
+        hoverState: this.hoveredOriginal === normalizedOriginal,
+        'is-selected': this.selectedOriginals.includes(normalizedOriginal)
+      }
+    },
+
+    selectAll () {
+      this.userSelectedOriginals = [...this.selectedOriginals]
+      this.replaceSelectedOriginals(this.listOfOriginals)
+    },
+    deselectAll () {
+      this.replaceSelectedOriginals(this.userSelectedOriginals)
+    }
   }
+}
 </script>
 
 <template>
-  <div class="moduleHeading" :style="cssVariables">
+  <div
+    class="moduleHeading"
+    :style="cssVariables"
+  >
     <div class="title">
       <h3>{{ moduleHeading }}</h3>
       <v-popover
@@ -129,18 +132,22 @@ export default {
       >
         <!-- Triggers the tooltip -->
         <div v-if="!displayOnly">
-
           <span class="btn btn-sm btn-default"><img :src="lockIconUrl"></span>
         </div>
         <!-- The tooltip -->
         <template slot="popover">
-          <lock-or-skip :allOriginals="listOfOriginals" :shown="lockOrSkipShown"/>
+          <lock-or-skip
+            :all-originals="listOfOriginals"
+            :shown="lockOrSkipShown"
+          />
         </template>
       </v-popover>
-
     </div>
-    <div v-for="({ type, isPractice, tooltipName, description, normalizedOriginal }, idx) of listOfContent" :key="`${idx}-${type}`"
-      class="content-icons">
+    <div
+      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal }, idx) of listOfContent"
+      :key="`${idx}-${type}`"
+      class="content-icons"
+    >
       <v-popover
         popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
         trigger="hover"
@@ -151,12 +158,15 @@ export default {
       >
         <!-- Triggers the tooltip -->
         <div
-            @click="updateList($event, normalizedOriginal)"
-            @mouseenter="setHoveredOriginal(normalizedOriginal)"
-            @mouseleave="setHoveredOriginal(null)"
-            :class="classForContentIconHover(normalizedOriginal)"
+          :class="classForContentIconHover(normalizedOriginal)"
+          @click="updateList($event, normalizedOriginal)"
+          @mouseenter="setHoveredOriginal(normalizedOriginal)"
+          @mouseleave="setHoveredOriginal(null)"
         >
-          <ContentIcon class="content-icon" :icon="type" />
+          <ContentIcon
+            class="content-icon"
+            :icon="type"
+          />
         </div>
         <!-- The tooltip -->
         <template slot="popover">
@@ -169,13 +179,23 @@ export default {
             >
               {{ tooltipName }}
             </h3>
-            <p style="margin-bottom: 15px;" v-html="description" />
+            <p
+              style="margin-bottom: 15px;"
+              v-html="description"
+            />
           </div>
         </template>
       </v-popover>
     </div>
-    <div class="golden-backer" v-for="({ status, border }, idx) of classSummaryProgress" :key="idx">
-      <ProgressDot :status="status" :border="border" />
+    <div
+      v-for="({ status, border }, idx) of classSummaryProgress"
+      :key="idx"
+      class="golden-backer"
+    >
+      <ProgressDot
+        :status="status"
+        :border="border"
+      />
     </div>
   </div>
 </template>

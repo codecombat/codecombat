@@ -1,7 +1,7 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-const c = require('./../schemas');
-const {FeatureAuthoritySchema} = require('./feature.schema');
+const c = require('./../schemas')
+const { FeatureAuthoritySchema } = require('./feature.schema')
 
 const APIClientSchema = {
   description: 'Third parties who can make API calls, usually on behalf of a user.',
@@ -25,15 +25,15 @@ const APIClientSchema = {
       type: 'object',
       description: 'permissions assigned to the API client',
       properties: {
-        manageLicensesViaUI: { type: 'boolean', default: false},
-        manageLicensesViaAPI: { type: 'boolean', default: true},
-        revokeLicensesViaUI: { type: 'boolean', default: false},
-        revokeLicensesViaAPI : { type: 'boolean', default: false},
-        manageSubscriptionViaAPI : { type: 'boolean', default: false},
-        revokeSubscriptionViaAPI : { type: 'boolean', default: false}
+        manageLicensesViaUI: { type: 'boolean', default: false },
+        manageLicensesViaAPI: { type: 'boolean', default: true },
+        revokeLicensesViaUI: { type: 'boolean', default: false },
+        revokeLicensesViaAPI: { type: 'boolean', default: false },
+        manageSubscriptionViaAPI: { type: 'boolean', default: false },
+        revokeSubscriptionViaAPI: { type: 'boolean', default: false }
       }
     },
-    minimumLicenseDays : {
+    minimumLicenseDays: {
       type: 'integer',
       default: 365
     },
@@ -43,26 +43,26 @@ const APIClientSchema = {
       default: 0
     },
     autoClanOwner: c.objectId({ description: 'owner (user) of APIClient auto clan' }),
-    accessPermissions: c.array({ description: 'list users who have the access permission to the api-client-auto-clan'}, {
+    accessPermissions: c.array({ description: 'list users who have the access permission to the api-client-auto-clan' }, {
       type: 'object',
       properties: {
-        target: c.objectId(), access: {type: 'string', enum: ['read', 'write']}
+        target: c.objectId(), access: { type: 'string', enum: ['read', 'write'] }
       }
     }, {
-    info: {
-      type: 'object',
-      properties: {
-        name: { type: 'string', description: 'library or client name' },
-        startDate: { type: 'date', description: 'startDate of when we started giving out licenses to client/library' },
-        endDate: { type: 'date', description: 'renewalDate of client' },
-        imagePath: { type: 'string', description: 'path of library/client logo in /images${imagePath} location' }
+      info: {
+        type: 'object',
+        properties: {
+          name: { type: 'string', description: 'library or client name' },
+          startDate: { type: 'date', description: 'startDate of when we started giving out licenses to client/library' },
+          endDate: { type: 'date', description: 'renewalDate of client' },
+          imagePath: { type: 'string', description: 'path of library/client logo in /images${imagePath} location' } // eslint-disable-line no-template-curly-in-string
+        }
       }
-    }
-  })
+    })
   }
-};
+}
 
-c.extendBasicProperties(APIClientSchema, 'Client');
-c.extendNamedProperties(APIClientSchema);
+c.extendBasicProperties(APIClientSchema, 'Client')
+c.extendNamedProperties(APIClientSchema)
 
-module.exports = APIClientSchema;
+module.exports = APIClientSchema

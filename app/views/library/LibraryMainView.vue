@@ -3,64 +3,90 @@
     <div class="library">
       <div class="container">
         <section class="row library__heading">
-          <img src="/images/pages/base/logo.png"/>
+          <img src="/images/pages/base/logo.png">
           <div class="library__heading-row">
             <div class="col-md-4">
-              <img class="library__heading-image-books" src="/images/pages/library/books_1.png">
+              <img
+                class="library__heading-image-books"
+                src="/images/pages/library/books_1.png"
+              >
             </div>
             <div class="col-md-4">
-              <h1 class="library__heading-title pixel-text">for</h1>
-              <h1 class="library__heading-title pixel-text">Libraries</h1>
+              <h1 class="library__heading-title pixel-text">
+                for
+              </h1>
+              <h1 class="library__heading-title pixel-text">
+                Libraries
+              </h1>
             </div>
             <div class="col-md-4">
-              <img class="library__heading-image-books" src="/images/pages/library/books_2.png">
+              <img
+                class="library__heading-image-books"
+                src="/images/pages/library/books_2.png"
+              >
             </div>
-
           </div>
           <h2 class="library__heading-text pixel-text">
             {{ $t('library.engage_members') }}
           </h2>
-          <button class="btn library__heading-btn btn-moon" @click="toggleLicenseModal">
+          <button
+            class="btn library__heading-btn btn-moon"
+            @click="toggleLicenseModal"
+          >
             {{ $t('general.contact_us') }}
           </button>
         </section>
 
         <section class="library__sub">
-
           <div class="row library__sub-1">
             <div class="library__sub-text col-md-6">
-              <div class="library__needs__info__text-heading">{{$t('library.educational_equity')}}</div>
-              <div class="library__needs__info__text-sub">{{ $t('library.importance_blurb') }}</div>
+              <div class="library__needs__info__text-heading">
+                {{ $t('library.educational_equity') }}
+              </div>
+              <div class="library__needs__info__text-sub">
+                {{ $t('library.importance_blurb') }}
+              </div>
             </div>
             <div class="library__sub-image col-md-6">
-              <img src="/images/pages/library/library-students.png"
-                   alt="Students in library"
-                   class="library__sub-image-img img-responsive teal-border">
+              <img
+                src="/images/pages/library/library-students.png"
+                alt="Students in library"
+                class="library__sub-image-img img-responsive teal-border"
+              >
             </div>
           </div>
 
           <div class="library__continue">
-            <img class="img-responsive library__continue__image"
-                 src="/images/pages/library/image-1.png"/>
+            <img
+              class="img-responsive library__continue__image"
+              src="/images/pages/library/image-1.png"
+            >
           </div>
 
           <div class="row library__sub-2 row-reverse-order">
             <div class="library__sub-text col-md-6">
-              <div class="library__needs__info__text-heading">{{$t('library.power_of_play')}}</div>
-              <div class="library__needs__info__text-sub">{{ $t('library.games_teach_blurb') }}</div>
+              <div class="library__needs__info__text-heading">
+                {{ $t('library.power_of_play') }}
+              </div>
+              <div class="library__needs__info__text-sub">
+                {{ $t('library.games_teach_blurb') }}
+              </div>
             </div>
             <div class="library__sub-image col-md-6">
-              <img src="/images/pages/library/power-of-play.png"
-                   alt="Teach real code"
-                   class="library__sub-image-img img-responsive teal-border">
+              <img
+                src="/images/pages/library/power-of-play.png"
+                alt="Teach real code"
+                class="library__sub-image-img img-responsive teal-border"
+              >
             </div>
           </div>
-
         </section>
 
         <div class="library__continue">
-          <img class="img-responsive library__continue__image"
-               src="/images/pages/library/image-2.png"/>
+          <img
+            class="img-responsive library__continue__image"
+            src="/images/pages/library/image-2.png"
+          >
         </div>
 
         <section class="library__needs">
@@ -69,10 +95,11 @@
           </div>
 
           <div class="library__continue">
-            <img class="img-responsive library__continue__image"
-                 src="/images/pages/library/image-3.png"/>
+            <img
+              class="img-responsive library__continue__image"
+              src="/images/pages/library/image-3.png"
+            >
           </div>
-
 
           <div class="row library__needs__info">
             <div class="col-md-6 library__needs__info__text">
@@ -84,14 +111,19 @@
               </div>
             </div>
             <div class="col-md-6 library__needs__info-img">
-              <img src="/images/pages/library/accessible.png"
-                   alt="Students with computer" class="img-responsive teal-border">
+              <img
+                src="/images/pages/library/accessible.png"
+                alt="Students with computer"
+                class="img-responsive teal-border"
+              >
             </div>
           </div>
 
           <div class="library__continue">
-            <img class="img-responsive library__continue__image"
-                 src="/images/pages/library/image-4.png"/>
+            <img
+              class="img-responsive library__continue__image"
+              src="/images/pages/library/image-4.png"
+            >
           </div>
 
           <div class="row library__needs__info row-reverse-order">
@@ -104,14 +136,19 @@
               </div>
             </div>
             <div class="col-md-6 library__needs__info-img">
-              <img src="/images/pages/library/self-paced.png"
-                   alt="Self paced and intuitive" class="img-responsive teal-border">
+              <img
+                src="/images/pages/library/self-paced.png"
+                alt="Self paced and intuitive"
+                class="img-responsive teal-border"
+              >
             </div>
           </div>
 
           <div class="library__continue">
-            <img class="img-responsive library__continue__image"
-                 src="/images/pages/library/image-5.png"/>
+            <img
+              class="img-responsive library__continue__image"
+              src="/images/pages/library/image-5.png"
+            >
           </div>
 
           <div class="row library__needs__info">
@@ -124,14 +161,19 @@
               </div>
             </div>
             <div class="col-md-6 library__needs__info-img">
-              <img src="/images/pages/library/engaging.png"
-                   alt="Engaging" class="img-responsive teal-border">
+              <img
+                src="/images/pages/library/engaging.png"
+                alt="Engaging"
+                class="img-responsive teal-border"
+              >
             </div>
           </div>
 
           <div class="library__continue">
-            <img class="img-responsive library__continue__image"
-                 src="/images/pages/library/image-6.png"/>
+            <img
+              class="img-responsive library__continue__image"
+              src="/images/pages/library/image-6.png"
+            >
           </div>
 
           <div class="row library__needs__info  row-reverse-order">
@@ -144,38 +186,62 @@
               </div>
             </div>
             <div class="col-md-6 library__needs__info-img">
-              <img src="/images/pages/library/api-integration.png"
-                   alt="Calgary library page" class="img-responsive teal-border">
+              <img
+                src="/images/pages/library/api-integration.png"
+                alt="Calgary library page"
+                class="img-responsive teal-border"
+              >
             </div>
           </div>
 
-
           <div class="library__continue">
-            <img class="img-responsive library__continue__image"
-                 src="/images/pages/library/image-7.png"/>
+            <img
+              class="img-responsive library__continue__image"
+              src="/images/pages/library/image-7.png"
+            >
           </div>
 
-
-          <div id="carousel-libraries" class="carousel slide" data-interval=8000>
-
+          <div
+            id="carousel-libraries"
+            class="carousel slide"
+            data-interval="8000"
+          >
             <div class="carousel-indicators carousel-tabs">
-              <div class="carousel-tabs__tab pixel-text active" data-target="#carousel-libraries"
-                   data-slide-to="0">{{ $t('library.privacy') }}
+              <div
+                class="carousel-tabs__tab pixel-text active"
+                data-target="#carousel-libraries"
+                data-slide-to="0"
+              >
+                {{ $t('library.privacy') }}
               </div>
-              <div class="carousel-tabs__tab pixel-text" data-target="#carousel-libraries" data-slide-to="1">
+              <div
+                class="carousel-tabs__tab pixel-text"
+                data-target="#carousel-libraries"
+                data-slide-to="1"
+              >
                 {{ $t('library.communication_limit') }}
               </div>
-              <div class="carousel-tabs__tab pixel-text" data-target="#carousel-libraries" data-slide-to="2">
+              <div
+                class="carousel-tabs__tab pixel-text"
+                data-target="#carousel-libraries"
+                data-slide-to="2"
+              >
                 {{ $t('library.usage_stats') }}
               </div>
-              <div class="carousel-tabs__tab pixel-text" data-target="#carousel-libraries" data-slide-to="3">
+              <div
+                class="carousel-tabs__tab pixel-text"
+                data-target="#carousel-libraries"
+                data-slide-to="3"
+              >
                 {{ $t('library.esports') }}
               </div>
             </div>
 
             <div class="carousel-inner">
-
-              <div class="item active" data-slide="0">
+              <div
+                class="item active"
+                data-slide="0"
+              >
                 <div class="row library__needs__info library__needs-only-text">
                   <div class="col-md-5 library__needs__info__image">
                     <img src="/images/pages/library/privacy1.png">
@@ -185,7 +251,10 @@
                       {{ $t('library.privacy') }}
                     </div>
                     <div class="library__needs__info__text-sub">
-                      {{ $t('library.privacy_blurb') }} {{ $t('library.see') }} <a href="/privacy" target="_blank">{{
+                      {{ $t('library.privacy_blurb') }} {{ $t('library.see') }} <a
+                        href="/privacy"
+                        target="_blank"
+                      >{{
                         $t('library.privacy_policy')
                       }}</a>
                     </div>
@@ -193,8 +262,10 @@
                 </div>
               </div>
 
-
-              <div class="item" data-slide="1">
+              <div
+                class="item"
+                data-slide="1"
+              >
                 <div class="row library__needs__info library__needs-only-text">
                   <div class="col-md-5 library__needs__info__image">
                     <img src="/images/pages/library/differentiation1.png">
@@ -210,7 +281,10 @@
                 </div>
               </div>
 
-              <div class="item" data-slide="2">
+              <div
+                class="item"
+                data-slide="2"
+              >
                 <div class="row library__needs__info library__needs-only-text">
                   <div class="col-md-5 library__needs__info__image">
                     <img src="/images/pages/library/dashboard1.png">
@@ -226,7 +300,10 @@
                 </div>
               </div>
 
-              <div class="item" data-slide="3">
+              <div
+                class="item"
+                data-slide="3"
+              >
                 <div class="row library__needs__info library__needs-only-text">
                   <div class="col-md-5 library__needs__info__image">
                     <img src="/images/pages/library/esports-powered-by-hyper1.png">
@@ -241,18 +318,27 @@
                   </div>
                 </div>
               </div>
-
-
             </div>
 
-
             <ol class="carousel-indicators">
-              <li data-target="#carousel-libraries" data-slide-to="0" class="active"></li>
-              <li data-target="#carousel-libraries" data-slide-to="1"></li>
-              <li data-target="#carousel-libraries" data-slide-to="2"></li>
-              <li data-target="#carousel-libraries" data-slide-to="3"></li>
+              <li
+                data-target="#carousel-libraries"
+                data-slide-to="0"
+                class="active"
+              />
+              <li
+                data-target="#carousel-libraries"
+                data-slide-to="1"
+              />
+              <li
+                data-target="#carousel-libraries"
+                data-slide-to="2"
+              />
+              <li
+                data-target="#carousel-libraries"
+                data-slide-to="3"
+              />
             </ol>
-
           </div>
           <section class="library__footer">
             <div class="library__footer-content row">
@@ -261,7 +347,10 @@
                   {{ $t('library.work_with_us_blurb') }}
                 </h2>
                 <div class="library__footer-cta">
-                  <button class="btn library__footer-cta-btn btn-moon" @click="toggleLicenseModal">
+                  <button
+                    class="btn library__footer-cta-btn btn-moon"
+                    @click="toggleLicenseModal"
+                  >
                     {{ $t('library.schedule_demo') }}
                   </button>
                 </div>
@@ -271,23 +360,22 @@
         </section>
       </div>
     </div>
-    <div class="container-footer-mountains">
-    </div>
+    <div class="container-footer-mountains" />
     <modal-get-licenses
-        v-if="showLicenseModal"
-        :subtitle="$t('library.license_modal_subtitle')"
-        email-message="Hi CodeCombat team! I’m interested in learning more about CodeCombat and how it can be used for my library or library network membership.
+      v-if="showLicenseModal"
+      :subtitle="$t('library.license_modal_subtitle')"
+      email-message="Hi CodeCombat team! I’m interested in learning more about CodeCombat and how it can be used for my library or library network membership.
 
         Name of Library or Library Network:
         State or Region Served:
         My Role:
         My Phone Number:
       "
-        :ask-school-info="askSchoolInfo"
-        :licenses-needed-text="$t('library.license_modal_members')"
-        :licenses-needed-placeholder="$t('library.license_modal_members_placeholder')"
-        :modal-title="$t('library.license_modal_contact')"
-        @close="toggleLicenseModal"
+      :ask-school-info="askSchoolInfo"
+      :licenses-needed-text="$t('library.license_modal_members')"
+      :licenses-needed-placeholder="$t('library.license_modal_members_placeholder')"
+      :modal-title="$t('library.license_modal_contact')"
+      @close="toggleLicenseModal"
     />
   </div>
 </template>
@@ -324,7 +412,6 @@ export default {
     onCarouselSlide (e) {
       $('[data-slide-to]').removeClass('active')
       $('[data-slide-to="' + $(e.relatedTarget).data('slide') + '"]').addClass('active')
-
     }
   }
 }
@@ -505,7 +592,6 @@ export default {
   box-sizing: border-box;
   border-radius: 20px;
 }
-
 
 .carousel {
   margin-top: 30px;
