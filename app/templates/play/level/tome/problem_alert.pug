@@ -12,7 +12,7 @@ table
         span.problem-subtitle!= view.message
       else
         span.problem-title!= view.message
-if me.getLevelChatExperimentValue() == 'beta' && view.aceConfig && view.aceConfig.levelChat != 'none'
+if me.getLevelChatExperimentValue() == 'beta' && view.aceConfig.levelChat != 'none'
   .chatbot-help
     img.avatar(src='/images/level/baby-griffin.png' alt='AI')
     span.spr(data-i18n="play_level.problem_alert_need_help")
