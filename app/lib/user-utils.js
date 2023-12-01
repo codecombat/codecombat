@@ -63,14 +63,21 @@ async function levelChatCreditsString () {
   const res = await me.getUserCredits('LEVEL_CHAT_BOT')
   const credits = res?.result
   if (!credits || credits.length === 0) {
-    return 'No Credits left'
+    return $.i18n.t('user_credits.level_chat_no_credits_left')
   }
-  console.log('credits', credits)
   const { creditsLeft, durationKey, durationAmount } = credits[0]
-  if (durationAmount > 1) {
-    return $.i18n.t('user_credits.level_chat_left_in_duration_multiple', { credits: creditsLeft, duration_key: durationKey, duration_amount: durationAmount })
+  if (creditsLeft > 0) {
+    if (durationAmount > 1) {
+      return $.i18n.t('user_credits.level_chat_left_in_duration_multiple', { credits: creditsLeft, duration_key: durationKey, duration_amount: durationAmount })
+    } else {
+      return $.i18n.t('user_credits.level_chat_left_in_duration', { credits: creditsLeft, duration_key: durationKey })
+    }
   } else {
-    return $.i18n.t('user_credits.level_chat_left_in_duration_1', { credits: creditsLeft, duration_key: durationKey })
+    if (durationAmount > 1) {
+      return $.i18n.t('user_credits.level_chat_no_credits_left_duration_multiple', { duration_key: durationKey, duration_amount: durationAmount })
+    } else {
+      return $.i18n.t('user_credits.level_chat_no_credits_left_duration', { duration_key: durationKey })
+    }
   }
 }
 

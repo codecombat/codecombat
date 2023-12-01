@@ -55,29 +55,28 @@ module.exports = class ProblemAlertView extends CocoView
       @$el.hide()
     @duckImg = _.sample(@duckImages)
     $(window).on 'resize', @onWindowResize
-    console.log('constructor', @level, @session, @problem)
-    @creditMessage = '-'
-    userUtils.levelChatCreditsString()
-      .then (res) =>
-        console.log('msg', res, $('[data-toggle="popover"]'))
-        @creditMessage = res
-        @render()
+    @creditMessage = ''
+    @showAiBotHelp = false
+    if @aceConfig.levelChat != 'none'
+      if me.isHomeUser() && me.getLevelChatExperimentValue() == 'beta'
+        @showAiBotHelp = true
+      else if not me.isHomeUser()
+        @showAiBotHelp = true
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
     super()
 
   afterRender: ->
-    console.log 'after render2'
-    super.afterRender()
-    @creditMessage = yield userUtils.levelChatCreditsString()
-    console.log('creditMessage', @creditMessage)
+    @$('[data-toggle="popover"]').popover()
+    unless @creditMessage
+      @handleUserCreditsMessage()
+
+    super()
     if @problem?
       @$el.addClass('alert').addClass("alert-#{@problem.level}").hide().fadeIn('slow')
       @$el.addClass('no-hint') unless @problem.hint
       @playSound 'error_appear'
-    # console.log('render', $('[data-toggle="popover"]'))
-    $('[data-toggle="popover"]').popover()
 
   setProblemMessage: ->
     if @problem?
@@ -133,6 +132,7 @@ module.exports = class ProblemAlertView extends CocoView
     rand = _.random(1, 13)
     message = $.i18n.t('ai.prompt_level_chat_' + rand)
     Backbone.Mediator.publish 'level:add-user-chat', { message }
+    _.delay (=> @handleUserCreditsMessage()), 5000
 
   onWindowResize: (e) =>
     # TODO: This all seems a little hacky
@@ -146,3 +146,10 @@ module.exports = class ProblemAlertView extends CocoView
 
       top = $('#code-area .ace').offset().top
       @$el.css('top', (top + @lineOffsetPx - @$el.height() / 2) + 'px')
+
+  handleUserCreditsMessage: ->
+    userUtils.levelChatCreditsString()
+        .then (res) =>
+          if @creditMessage != res
+            @creditMessage = res
+            @render()

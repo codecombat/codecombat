@@ -1136,7 +1136,8 @@ module.exports = {
       ask_teacher_for_help: 'Ask your teacher for help',
       ask_teacher_for_help_offline: 'Your Teacher is currently offline',
       not_enough_credits_bot: 'Opps! Looks like you don’t have enough queries. Subscribe now and get the queries you want for the AI powered support you need!',
-      not_enough_credits_interval: 'No credits left for the __interval__. Consumed __amount__ credits.'
+      not_enough_credits_interval: 'No credits left for the __interval__. Consumed __amount__ credits.',
+      not_enough_credits_interval_multiple: 'No credits left for __duration__ __interval__. Consumed __amount__ credits.'
     },
 
     apis: {
@@ -3562,7 +3563,7 @@ module.exports = {
       email_settings_url: 'your email settings',
       email_description_suffix: 'or through links in the emails we send, you can change your preferences and easily unsubscribe at any time.',
       cost_title: 'Cost',
-      cost_description: 'CodeCombat is free to play for its introductory levels, with a ${{price}} USD/mo subscription for access to extra levels and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee.',
+      cost_description: 'CodeCombat is free to play for its introductory levels, with a ${{price}} USD/mo subscription for access to extra levels and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee.', // eslint-disable-line no-template-curly-in-string
       copyrights_title: 'Copyrights and Licenses',
       contributor_title: 'Contributor License Agreement',
       contributor_description_prefix: 'All contributions, both on the site and on our GitHub repository, are subject to our',
@@ -4996,8 +4997,11 @@ module.exports = {
       prompt_level_chat_13: 'Dear AI, I beseech you, explain my error, in verse.'
     },
     user_credits: {
-      level_chat_left_in_duration_1: '__credits__ AI Bot queries left for the __duration_key__',
-      level_chat_left_in_duration_multiple: '__credits__ AI Bot queries left for __duration_amount__ __duration_key__'
+      level_chat_left_in_duration: '__credits__ AI Bot queries left for the __duration_key__',
+      level_chat_left_in_duration_multiple: '__credits__ AI Bot queries left for __duration_amount__ __duration_key__',
+      level_chat_no_credits_left_duration: 'No AI Bot queries left for the __duration_key__',
+      level_chat_no_credits_left_duration_multiple: 'No AI Bot queries left for __duration_amount__ __duration_key__',
+      level_chat_no_credits_left: 'No AI Bot queries left'
     }
   }
 }
