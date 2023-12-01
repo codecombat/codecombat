@@ -1299,7 +1299,7 @@ const arenas = [
   { season: 8, slug: 'farmers-feud', type: 'regular', start: new Date('2023-05-01T00:00:00.000-07:00'), end: new Date('2023-09-01T00:00:00.000-07:00'), results: new Date('2023-09-14T07:00:00.000-07:00'), levelOriginal: '6436ae25bb80330019b127c6', tournament: '64c836a5d95277dfd69f9ae3', image: '/file/db/level/6436ae25bb80330019b127c6/AILeague-Banner-Farmer\'s-Feud-02.jpg' },
   { season: 8, slug: 'farmscape', type: 'championship', start: new Date('2023-07-01T00:00:00.000-07:00'), end: new Date('2023-09-01T00:00:00.000-07:00'), results: new Date('2023-09-14T07:00:00.000-07:00'), levelOriginal: '649ab0387be08b00fdf31e8a', tournament: '64c836c5d95277dfd69f9af1', image: '/file/db/level/649ab0387be08b00fdf31e8a/AILeague-Banner-Farmer\'s-Feud-03.jpg' },
   { season: 9, slug: 'storm-siege', type: 'regular', start: new Date('2023-09-01T00:00:00.000-07:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '64c792d1562b9a008d3e2e1a', image: '/file/db/level/64c792d1562b9a008d3e2e1a/StormSiegeBannerv3.png' },
-  { season: 9, slug: 'snowhold', type: 'championship', start: new Date('2023-12-01T00:00:00.000-08:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '' }
+  { season: 9, slug: 'snowhold', type: 'championship', start: new Date('2023-12-01T00:00:00.000-08:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '654a306ba0c557007a807ead', image: '/file/db/level/654a306ba0c557007a807ead/SnowholdClashBannerv2.png' }
 ]
 
 // AI League seasons
