@@ -1119,6 +1119,11 @@ module.exports = (User = (function () {
       return this.fetch(options)
     }
 
+    getUserCredits (operation) {
+      const url = `/db/user-credits/${operation}`
+      return this.fetch({ url })
+    }
+
     getTestStudentId () {
       const testStudentRelation = (this.get('related') || []).filter(related => related.relation === 'TestStudent')[0]
       if (testStudentRelation) {
