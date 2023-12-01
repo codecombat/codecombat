@@ -3,6 +3,7 @@ CocoView = require 'views/core/CocoView'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
 template = require 'app/templates/play/level/tome/problem_alert'
 {me} = require 'core/auth'
+userUtils = require 'app/lib/user-utils'
 
 module.exports = class ProblemAlertView extends CocoView
   id: 'problem-alert-view'
@@ -54,17 +55,29 @@ module.exports = class ProblemAlertView extends CocoView
       @$el.hide()
     @duckImg = _.sample(@duckImages)
     $(window).on 'resize', @onWindowResize
+    console.log('constructor', @level, @session, @problem)
+    @creditMessage = '-'
+    userUtils.levelChatCreditsString()
+      .then (res) =>
+        console.log('msg', res, $('[data-toggle="popover"]'))
+        @creditMessage = res
+        @render()
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
     super()
 
   afterRender: ->
-    super()
+    console.log 'after render2'
+    super.afterRender()
+    @creditMessage = yield userUtils.levelChatCreditsString()
+    console.log('creditMessage', @creditMessage)
     if @problem?
       @$el.addClass('alert').addClass("alert-#{@problem.level}").hide().fadeIn('slow')
       @$el.addClass('no-hint') unless @problem.hint
       @playSound 'error_appear'
+    # console.log('render', $('[data-toggle="popover"]'))
+    $('[data-toggle="popover"]').popover()
 
   setProblemMessage: ->
     if @problem?

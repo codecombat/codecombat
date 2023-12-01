@@ -4994,6 +4994,10 @@ module.exports = {
       prompt_level_chat_11: 'What is the problem?',
       prompt_level_chat_12: '???',
       prompt_level_chat_13: 'Dear AI, I beseech you, explain my error, in verse.'
+    },
+    user_credits: {
+      level_chat_left_in_duration_1: '__credits__ AI Bot queries left for the __duration_key__',
+      level_chat_left_in_duration_multiple: '__credits__ AI Bot queries left for __duration_amount__ __duration_key__'
     }
   }
 }
