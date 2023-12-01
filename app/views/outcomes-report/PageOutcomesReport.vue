@@ -166,7 +166,6 @@ export default {
       // TODO: if we load again while one load is still in progress, abort the old one
       // TODO: if we go from loaded subOrgs true to false, don't need to re-fetch
       $('html, body').animate({ scrollTop: 0 })
-      console.log('new reprot?', this.newReport)
       await this.fetchOutcomesReportStats({ kind: this.kind, orgIdOrSlug: this.orgIdOrSlug, includeSubOrgs: this.includeSubOrgs, country: this.country, startDate: this.startDate, endDate: this.endDate, newReport: this.newReport }) // TODO: date range
       this.loading = false
     },
