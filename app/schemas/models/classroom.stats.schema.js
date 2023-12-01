@@ -34,23 +34,10 @@ _.extend(ClassroomStatsSchema.properties, {
     type: 'number',
     description: 'The lines of code on this day for a course'
   },
-  languages: c.object({
-    properties: {
-      cpp: {
-        type: 'number',
-        description: 'The number of programs in cpp on this day for a course'
-      },
-      python: {
-        type: 'number',
-        description: 'The number of programs in python on this day for a course'
-      },
-      javascript: {
-        type: 'number',
-        description: 'The number of programs in javascript on this day for a course'
-      }
-    },
-    additionalProperties: true // to support more langs (like java)
-  })
+  language: {
+    type: 'string',
+    enum: ['cpp', 'python', 'javascript', 'java']
+  }
 })
 
 c.extendBasicProperties(ClassroomStatsSchema, 'classroom.stats')

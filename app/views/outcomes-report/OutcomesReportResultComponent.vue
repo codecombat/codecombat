@@ -49,9 +49,19 @@ export default Vue.extend({
       let languageStats = {}
       let totalPrograms = 0
       for (const language of ['python', 'javascript', 'cpp']) {
-        const programs = this.org.progress.programsByLanguage[language]
+        let programs
+        if (this.org.newProgress) {
+          programs = this.org.newProgress.languages[language]
+        } else {
+          programs = this.org.progress.programsByLanguage[language]
+        }
         totalPrograms += programs
         languageStats[language] = { programs }
+      }
+      if (this.org.newProgress) {
+        let programs = this.org.newProgress.languages.java
+        totalPrograms += programs
+        languageStats['java'] = { programs }
       }
       for (const [language, stats] of Object.entries(languageStats)) {
         stats.percentage = Math.round(100 * stats.programs / totalPrograms)
@@ -79,6 +89,10 @@ export default Vue.extend({
         course.studentsStarting = (this.org.progress.studentsStartingCourse || {})[course._id] || 0
         course.studentsCompleting = (this.org.progress.studentsCompletingCourse || {})[course._id] || 0
         course.completion = course.studentsStarting ? Math.min(1, course.studentsCompleting / course.studentsStarting) : 0
+        if (this.org.newProgress) {
+          const maxCompleteLevels = Math.max(Object.values(this.org.newProgress.courseCompleteLevels[course._id] || {})) || 0
+          course.completion = Math.min(1, maxCompleteLevels / this.org.newProgress.courseAllLevels[course._id])
+        }
         course.newConcepts = _.difference(course.concepts, alreadyCoveredConcepts)
         alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
       }
