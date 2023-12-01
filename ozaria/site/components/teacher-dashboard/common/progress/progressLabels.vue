@@ -1,19 +1,25 @@
 <script>
 import IconHelp from '../../common/icons/IconHelp'
 import ProgressDot from '../../common/progress/progressDot'
+import utils from 'core/utils';
 
 export default {
-  components: {
-    IconHelp,
-    ProgressDot
-  },
-  props: {
-    showReviewLabels: {
-      type: Boolean,
-      default: false
+    components: {
+      IconHelp,
+      ProgressDot
+    },
+    props: {
+      showReviewLabels: {
+        type: Boolean,
+        default: false
+      }
+    },
+    data(){
+      return {
+        isOzaria: utils.isOzaria
+      }
     }
   }
-}
 </script>
 
 <template>
@@ -34,7 +40,7 @@ export default {
       <div class="dot-border">
         <div class="dot assigned-dot" />
       </div>
-      <span>{{ $t('teacher.assigned') }}</span>
+      <span>{{ $t('teacher.assigned') }}</span> 
     </div>
     <div
       v-if="showReviewLabels"
@@ -46,13 +52,8 @@ export default {
       />
       <span>{{ $t("common.locked") }}</span>
     </div>
-    <div
-      v-if="showReviewLabels"
-      class="img-subtext"
-    >
-      <div class="dot-border concept-flag-border">
-        <div class="dot green-dot" />
-      </div>
+    <div class="img-subtext" v-if="isOzaria && showReviewLabels">
+      <div class="dot-border concept-flag-border"><div class="dot green-dot"></div></div>
       <span>{{ $t('teacher_dashboard.concept_flag') }}</span>
     </div>
     <div

@@ -72,30 +72,20 @@ export default {
 
     modules () {
       const selectedCourseId = this.selectedCourseId
+      console.log('gameContent module?', selectedCourseId)
       const modules = (this.gameContent[selectedCourseId] || {}).modules
       if (modules === undefined) {
         return []
       }
+      
       const intros = (this.gameContent[selectedCourseId] || {}).introLevels
 
-<<<<<<< HEAD
       const modulesForTable = []
       const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
       const assignmentMap = new Map()
       for (const { courseID, members } of courseInstances) {
         assignmentMap.set(courseID, new Set(members || []))
       }
-=======
-      modules () {
-        const selectedCourseId = this.selectedCourseId
-        console.log('gameContent module?', selectedCourseId)
-        const modules = (this.gameContent[selectedCourseId] || {}).modules
-        if (modules === undefined) {
-          return []
-        }
-        
-        const intros = (this.gameContent[selectedCourseId] || {}).introLevels
->>>>>>> 78e44bd215 (DT merge WIP)
 
       // Get the name and content list of a module.
       for (const [moduleNum, moduleContent] of Object.entries(modules)) {
@@ -121,7 +111,6 @@ export default {
 
         const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, translatedModuleContent, intros, moduleNum)
 
-<<<<<<< HEAD
         // Track summary stats to display in the header of the table
         const classSummaryProgressMap = new Map(translatedModuleContent.map((content) => {
           return [content._id, { status: 'assigned', flagCount: 0 }]
@@ -133,15 +122,6 @@ export default {
 
           for (const session of Object.values(studentSessions)) {
             levelOriginalCompletionMap[session.level.original] = session.state
-=======
-          let moduleDisplayName
-          if (!utils.courseModules[this.selectedCourseId]?.[moduleNum]) {
-            const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
-            moduleDisplayName = course.name
-          } else {
-            // Todo: Ozaria-i18n
-            moduleDisplayName = `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
->>>>>>> 78e44bd215 (DT merge WIP)
           }
 
           let isPlayable = true
@@ -162,39 +142,8 @@ export default {
               }
             }
 
-<<<<<<< HEAD
             if (isLocked && !isOptional) {
               isPlayable = false
-=======
-
-            if (!normalizedType) { // TODO: show all levels as Challenge Levels for now
-              normalizedType = 'challengelvl'
-            }
-
-            if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev', 'ladder'].includes(normalizedType)) {
-              throw new Error(`Didn't handle normalized content type: '${normalizedType}'`)
-            }
-
-            let description = getLearningGoalsDocumentation(content)
-            let contentLevelSlug = slug
-            if (fromIntroLevelOriginal) {
-              description = getLearningGoalsDocumentation(intros[fromIntroLevelOriginal])
-              contentLevelSlug = intros[fromIntroLevelOriginal]?.slug
-            }
-
-            let tooltipName
-            if (utils.isCodeCombat) {
-              const classroom = new Classroom(this.classroom)
-              const levelNumber = classroom.getLevelNumber(content.original, index + 1)
-              tooltipName = `${levelNumber}: ${utils.i18n(content, 'displayName') || utils.i18n(content, 'name')}`
-            } else {
-              tooltipName = getGameContentDisplayNameWithType(content)
-            }
-            if (fromIntroLevelOriginal) {
-              const introLevel = intros[fromIntroLevelOriginal] || {}
-              description = `<h3>${tooltipName}</h3><p>${utils.i18n(content, 'description') || getLearningGoalsDocumentation(content) || ''}</p>`
-              tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${utils.i18n(introLevel, 'displayName') || utils.i18n(introLevel, 'name')}`
->>>>>>> 78e44bd215 (DT merge WIP)
             }
 
             const isPractice = Boolean(content.practice)

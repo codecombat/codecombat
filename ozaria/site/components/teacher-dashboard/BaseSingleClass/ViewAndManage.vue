@@ -4,42 +4,63 @@ import PrimaryButton from '../common/buttons/PrimaryButton'
 import IconButtonWithText from '../common/buttons/IconButtonWithText'
 import LockOrSkip from './table/LockOrSkip'
 
+import studentProgressCalculator from 'lib/studentProgressCalculator'
+
+const Classroom = require('models/Classroom')
+const Users = require('collections/Users');
+const CourseInstances = require('collections/CourseInstances')
+const Courses = require('collections/Courses')
+const Levels = require('collections/Levels')
+const Classrooms = require('collections/Classrooms')
+const helper = require('lib/coursesHelper')
+const LevelSessions = require('collections/LevelSessions')
+
+
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  components: {
-    dropdown: Dropdown,
-    'primary-button': PrimaryButton,
-    'icon-button-with-text': IconButtonWithText,
-    'lock-or-skip': LockOrSkip
-  },
-  props: {
-    arrowVisible: {
-      type: Boolean,
-      default: false
+    components: {
+      'dropdown': Dropdown,
+      'primary-button': PrimaryButton,
+      'icon-button-with-text': IconButtonWithText,
+      'lock-or-skip': LockOrSkip
     },
-    displayOnly: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data () {
-    return {
-      lockOrSkipShown: false
-    }
-  },
-  computed: {
-    ...mapGetters({
-      selectedStudentIds: 'baseSingleClass/selectedStudentIds',
-      selectedOriginals: 'baseSingleClass/selectedOriginals'
-    })
-  },
-  methods: {
-    ...mapActions({
-      applyLicenses: 'baseSingleClass/applyLicenses',
-      revokeLicenses: 'baseSingleClass/revokeLicenses',
-      resetProgress: 'baseSingleClass/resetProgress'
-    }),
+    props: {
+      arrowVisible: {
+        type: Boolean,
+        default: false
+      },
+      displayOnly: {
+        type: Boolean,
+        default: false
+      }
+    },
+    data(){
+      return {
+        lockOrSkipShown: false,
+        exportingProgress: false
+      }
+    },
+    computed: {
+      ...mapGetters({
+        selectedStudentIds: 'baseSingleClass/selectedStudentIds',
+        selectedOriginals: 'baseSingleClass/selectedOriginals',
+        classroom: 'teacherDashboard/getCurrentClassroom',
+        // sortedCourses: 'courses/sorted',
+        classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
+        classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',        
+        getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',        
+        getLevelsForClassroom: 'levels/getLevelsForClassroom',
+        getSessionsForClassroom: 'levelSessions/getSessionsForClassroom',
+      })
+    },
+    methods: {
+      ...mapActions({
+        applyLicenses: 'baseSingleClass/applyLicenses',
+        revokeLicenses: 'baseSingleClass/revokeLicenses',
+        resetProgress: 'baseSingleClass/resetProgress'
+      }),
+
 
     clickArrow () {
       if (this.arrowVisible) {
@@ -47,15 +68,40 @@ export default {
       }
     },
 
-    changeSortBy (event) {
-      // Will emit one of:
-      // 'Name'
-      // 'Progress'
-      // 'Progress (reversed)'
-      this.$emit('change-sort-by', event.target.value)
+      changeSortBy (event) {
+        // Will emit one of:
+        // 'Name'
+        // 'Progress'
+        // 'Progress (reversed)'
+        this.$emit('change-sort-by', event.target.value)
+      },
+      async exportProgress() {
+        this.exportingProgress = true
+        const classroom = new Classroom(this.classroom)
+        const sortedCourses = classroom.getSortedCourses()
+        const students = new Users(this.classroomMembers)
+        const courses = new Courses()
+        courses.fetch()
+        await courses.wait('sync')
+        const courseInstances = new CourseInstances(this.getCourseInstancesOfClass(classroom.get('_id')))        
+        const levels = new Levels()
+        levels.fetchForClassroom(classroom.get('_id'), { data: { project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n,assessment,assessmentPlacement,slug,goals' } })
+        await levels.wait('sync')
+
+        const classroomsStub = new Classrooms([classroom])
+
+        const levelSessions = new LevelSessions(this.getSessionsForClassroom(classroom.get('_id')))
+        classroom.sessions = levelSessions
+
+        const progressData = helper.calculateAllProgress(classroomsStub, courses, courseInstances, students)
+
+        studentProgressCalculator.exportStudentProgress({
+          classroom, sortedCourses, students, courses, courseInstances, levels, progressData
+        })
+        this.exportingProgress = false
+      }
     }
   }
-}
 </script>
 
 <template>
@@ -115,6 +161,15 @@ export default {
           :inactive="displayOnly"
           @click="resetProgress"
         />
+        
+        <icon-button-with-text
+          class="icon-with-text larger-icon"
+          :icon-name="'IconArchive'"
+          :text="$t('teacher_dashboard.export_progress')"
+          :inactive="exportingProgress"
+          @click="exportProgress"
+        />
+
 
         <v-popover
           popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"

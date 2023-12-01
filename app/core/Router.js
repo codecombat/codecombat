@@ -430,6 +430,7 @@ module.exports = (CocoRouter = (function () {
           }
         },
         'teachers/projects/:classroomId': go('core/SingletonAppVueComponentView'),
+        'teachers/assessments/:classroomId': go('core/SingletonAppVueComponentView'),
         'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true }),
         'teachers/classes/:classroomID' () {
           if (utils.isCodeCombat && (localStorage.getItem('newDT') !== 'true')) {

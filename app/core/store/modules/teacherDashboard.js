@@ -293,7 +293,7 @@ export default {
     // options.data = { users: '', levelSessions: '' } -> properties needed for these objects, i.e. will be used as `project` in db queries
     async fetchDataStudentProjects ({ state, dispatch }, options = {}) {
       const fetchPromises = []
-
+      fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
       fetchPromises.push(dispatch('teacherDashboard/fetchClassroomData', options, { root: true }))
 
@@ -313,9 +313,10 @@ export default {
     async fetchDataStudentAssessments ({ state, dispatch }, options = {}) {
       const fetchPromises = []
 
-      fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
-      fetchPromises.push(dispatch('teacherDashboard/fetchClassroomData', options, { root: true }))
       fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForClassroom', state.classroomId, { root: true }))
+      fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
+      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true }))
+      fetchPromises.push(dispatch('teacherDashboard/fetchClassroomData', options, { root: true }))
       fetchPromises.push(dispatch('levels/fetchForClassroom', state.classroomId, { root: true }))
 
       await Promise.all(fetchPromises)

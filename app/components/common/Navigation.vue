@@ -13,6 +13,8 @@ import AnnouncementModal from '../../views/announcement/announcementModal'
 import AnnouncementNav from '../../views/announcement/AnnouncementNav'
 import { mapActions, mapGetters } from 'vuex'
 
+import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle.vue'
+
 /**
  * Unified navigation bar component between CodeCombat and Ozaria.
  */
@@ -135,7 +137,8 @@ export default Vue.extend({
   },
   components: {
     AnnouncementModal,
-    AnnouncementNav
+    AnnouncementNav,
+    DashboardToggle
   }
 })
 </script>
@@ -182,6 +185,8 @@ export default Vue.extend({
           #navbar-collapse.collapse.navbar-collapse
             .nav-spacer
             ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
+              li
+                DashboardToggle
               template(v-if="me.showChinaResourceInfo()")
                 li
                   a.text-p(href="https://blog.koudashijie.com") {{ $t('nav.blog') }}

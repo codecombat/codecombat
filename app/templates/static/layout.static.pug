@@ -1,9 +1,7 @@
 doctype html
 block begin
-html(lang='en' mivanmar='belavan')
+html(lang='en')
   head
-    - debugger
-    - console.log("NAGY A BAJ")
     - var product = me.getProduct()
     - var productShort = product == 'codecombat' ? 'coco' : 'ozar'
     - var productCap = product == 'codecombat' ? 'CodeCombat' : 'Ozaria'
@@ -150,23 +148,8 @@ html(lang='en' mivanmar='belavan')
       script.
         DD_LOGS.init({
           clientToken: 'puba9a669c3117915d99f1f47970d1f49ff',
-          forwardErrorsToLogs: true // default value
+          forwardErrorsToLogs: true
         });
-
-    script(src="https://www.datadoghq-browser-agent.com/datadog-rum.js")
-      script.
-        debugger
-        alert('DD_RUM')
-        console.log('DD_RUM')
-        window.DD_RUM && window.DD_RUM.init({
-          clientToken: 'puba9a669c3117915d99f1f47970d1f49ff',
-          applicationId: 'client',
-          site: me.getProduct(),
-          service: 'frontend',
-          // Specify a version number to identify the deployed version of your application in Datadog 
-          version: '1.0'
-        });
-        console.log('DD_RUM2')
               
 
     // Webpack-inserted CSS:
@@ -175,7 +158,7 @@ html(lang='en' mivanmar='belavan')
     block setup
     block script-start
       script.
-        //- T his runs for pages without specific static templates
+        //- This runs for pages without specific static templates
         //- Those pages with static templates run this themselves (in mock.static.pug),
         //-   after setting window.alreadyLoadedView
         function onLoad() {
@@ -195,7 +178,7 @@ html(lang='en' mivanmar='belavan')
               FastClick.attach(document.body);
           } catch (error) { }
         }
-  body.clearfix(onload='onLoad();').hellokamivan
-    #fb-root.gyere1
+  body.clearfix(onload='onLoad();')
+    #fb-root
     block content
-    #modal-wrapper.modal-content.hide.gyere2
+    #modal-wrapper.modal-content.hide

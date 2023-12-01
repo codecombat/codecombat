@@ -1,11 +1,12 @@
 <script>
+import { coursesWithProjects } from 'core/utils'
 import PrimaryButton from '../common/buttons/PrimaryButton'
 import ButtonCurriculumGuide from '../common/ButtonCurriculumGuide'
 import LicensesComponent from '../common/LicensesComponent'
 import NavSelectUnit from '../common/NavSelectUnit'
 import ClassInfoRow from './ClassInfoRow'
 import moment from 'moment'
-import { getDisplayPermission } from '../../../common/utils'
+
 const Classroom = require('models/Classroom')
 
 
@@ -56,6 +57,8 @@ export default {
       if (this.$route.path.startsWith('/teachers/assessments')) {
         const classroom = new Classroom(this.classroom)
         return this.courses.filter(course => classroom.hasAssessments({ courseId: course._id }))
+      } else if (this.$route.path.startsWith('/teachers/projects')) {
+        return this.courses.filter(course => (coursesWithProjects || []).includes(course._id))
       } else {
         return this.courses
       }

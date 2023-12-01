@@ -2,9 +2,6 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import { COMPONENT_NAMES } from '../common/constants.js'
-// import CapstoneMenuBar from './CapstoneMenuBar'
-// import CapstoneDetailsContainer from './CapstoneDetailsContainer'
-// import CapstoneSessionsContainer from './CapstoneSessionsContainer'
 import utils from 'core/utils'
 import TeacherClassAssessmentsTable from 'app/views/courses/TeacherClassAssessmentsTable'
 import PieChart from 'core/components/PieComponent'

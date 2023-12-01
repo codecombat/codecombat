@@ -22,9 +22,15 @@ module.exports = {
     return fetchJson(`/db/level/${idOrSlug}`, _.merge({}, options))
   },
 
+
+  fetchForClassroom(classroomID, options={}){
+    return fetchJson(`/db/classroom/${classroomID}/levels`, _.merge({}, options))  
+  },
+
   fetchNextForCourse ({ levelOriginalID, courseInstanceID, courseID, sessionID }, options) {
-    let url
-    if (options == null) { options = {} }
+    let url;
+    if (options == null) { options = {}; }
+
     if (courseInstanceID) {
       url = `/db/course_instance/${courseInstanceID}/levels/${levelOriginalID}/sessions/${sessionID}/next`
     } else {

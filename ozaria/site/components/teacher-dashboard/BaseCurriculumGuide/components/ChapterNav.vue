@@ -1,28 +1,29 @@
 <script>
-import { mapGetters, mapActions } from 'vuex'
-export default {
-  computed: {
-    ...mapGetters({
-      chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
-      selectedChapterId: 'baseCurriculumGuide/selectedChapterId',
-      getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
-      getTrackCategory: 'teacherDashboard/getTrackCategory'
-    }),
+  import { mapGetters, mapActions } from 'vuex'
+  import utils from 'core/utils'
+  export default {
+    computed: {
+      ...mapGetters({
+        chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
+        selectedChapterId: 'baseCurriculumGuide/selectedChapterId',
+        getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
+      }),
 
-    chapterNav () {
-      // This ensures released chapters are correctly placed, with internal chapters added after.
-      return (this.chapterNavBar || [])
-        .filter(({ releasePhase }) => releasePhase !== 'internalRelease')
-        .concat(
-          (this.chapterNavBar || [])
-            .filter(({ releasePhase }) => releasePhase === 'internalRelease')
-        ).map(({ campaignID, free }, idx) => {
-          return ({
-            campaignID,
-            heading: this.$t('teacher_dashboard.chapter_num', { num: idx + 1 })
+      chapterNav () {
+        // This ensures released chapters are correctly placed, with internal chapters added after.
+        return (this.chapterNavBar || [])
+          .filter(({ releasePhase }) => releasePhase !== 'internalRelease')
+          .concat(
+            (this.chapterNavBar || [])
+              .filter(({ releasePhase }) => releasePhase === 'internalRelease')
+          ).map(({ campaignID, free, _id }, idx) => {
+            return ({
+              campaignID,
+              heading: utils.isCodeCombat ? utils.courseAcronyms[_id] : this.$t('teacher_dashboard.chapter_num', { num: idx + 1 })
+            })
           })
-        })
-    },
+      },
 
     courseName () {
       return this.getCurrentCourse?.name || ''

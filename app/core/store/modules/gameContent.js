@@ -79,6 +79,7 @@ export default {
       return state.gameContent.byClassroom[id]
     },
     getContentForCampaign: (state) => (id) => {
+      // debugger
       return state.gameContent.byCampaign[id]
     }
   },
