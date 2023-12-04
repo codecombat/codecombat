@@ -115,6 +115,7 @@ export default {
     this.kind = this.$route.params.kind || null
     this.orgIdOrSlug = this.$route.params.idOrSlug || null
     this.country = this.$route.params.country || null
+    this.newReport = this.$route.query.newReport || null
     this.fetchCourses()
   },
 
@@ -165,14 +166,14 @@ export default {
       // TODO: if we load again while one load is still in progress, abort the old one
       // TODO: if we go from loaded subOrgs true to false, don't need to re-fetch
       $('html, body').animate({ scrollTop: 0 })
-      await this.fetchOutcomesReportStats({ kind: this.kind, orgIdOrSlug: this.orgIdOrSlug, includeSubOrgs: this.includeSubOrgs, country: this.country, startDate: this.startDate, endDate: this.endDate }) // TODO: date range
+      await this.fetchOutcomesReportStats({ kind: this.kind, orgIdOrSlug: this.orgIdOrSlug, includeSubOrgs: this.includeSubOrgs, country: this.country, startDate: this.startDate, endDate: this.endDate, newReport: this.newReport }) // TODO: date range
       this.loading = false
     },
 
     // TODO: date range
-    async fetchOutcomesReportStats ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }) {
+    async fetchOutcomesReportStats ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate, newReport }) {
       console.log('gonna load stats for', kind, orgIdOrSlug, country)
-      const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate })
+      const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate, newReport })
       console.log(' ...', kind, orgIdOrSlug, country, 'got stats', stats)
 
       let subOrgs = []
