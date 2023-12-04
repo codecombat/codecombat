@@ -42,21 +42,22 @@ module.exports = (RecoverModal = (function () {
 
     constructor (options) {
       super(options)
-      this.recoverAccount = this.recoverAccount.bind(this)
       this.successfullyRecovered = this.successfullyRecovered.bind(this)
-      this.recoverAccount = filterKeyboardEvents([13], this.recoverAccount) // TODO: part of forms
+      this.recoverAccountHandler = filterKeyboardEvents([13], (e) => {
+        this.playSound('menu-button-click')
+        forms.clearFormAlerts(this.$el)
+        const {
+          email
+        } = forms.formToObject(this.$el)
+        if (!email) { return }
+        const res = $.post('/auth/reset', { email }, this.successfullyRecovered)
+        res.fail(genericFailure)
+        return this.enableModalInProgress(this.$el)
+      }) // TODO: part of forms
     }
 
-    recoverAccount (e) {
-      this.playSound('menu-button-click')
-      forms.clearFormAlerts(this.$el)
-      const {
-        email
-      } = forms.formToObject(this.$el)
-      if (!email) { return }
-      const res = $.post('/auth/reset', { email }, this.successfullyRecovered)
-      res.fail(genericFailure)
-      return this.enableModalInProgress(this.$el)
+    recoverAccount(e){
+      return this.recoverAccountHandler(e)
     }
 
     successfullyRecovered () {
