@@ -174,11 +174,12 @@ module.exports = (AccountSettingsView = (function () {
     }
 
     validateCredentialsForDestruction ($form, onSuccess) {
-      let needle
       forms.clearFormAlerts($form)
       const enteredEmailOrUsername = $form.find('input[name="emailOrUsername"]').val()
       const enteredPassword = $form.find('input[name="password"]').val()
-      if (enteredEmailOrUsername && (needle = enteredEmailOrUsername, [this.user.get('email'), this.user.get('name')].includes(needle))) {
+      const emailMatching = enteredEmailOrUsername && enteredEmailOrUsername.toLowerCase() === this.user.get('email')?.toLowerCase()
+      const usernameMatching = enteredEmailOrUsername && enteredEmailOrUsername === this.user.get('name')
+      if (emailMatching || usernameMatching) {
         let isPasswordCorrect = false
         let toBeDelayed = true
         $.ajax({
