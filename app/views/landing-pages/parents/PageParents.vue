@@ -763,6 +763,44 @@
       </div>
     </div>
 
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h1 class="pixelated">
+            AI Hints
+          </h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <p>
+            Our instructors offer the guidance and support your child needs, but can’t always be there. That’s where our innovative AI hints feature helps the learning continue between sessions. This support feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available students will still need to work through each level's coding challenge. Subscribers receive an allocation of <b>20 AI hints per day</b> to ensure they always have the support they need.
+          </p>
+          <p>
+            {{ $t('premium_features.ai_bot_notice') }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="container-graphic-spacer"
+      style="margin: 20px;"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <img
+              class="img-responsive"
+              src="/images/pages/parents/graphic_05.svg"
+              style="margin: 0 auto;"
+              loading="lazy"
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div
       v-if="brightchampsExperiment != 'brightchamps'"
       class="container-background-faq"

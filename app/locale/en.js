@@ -1425,7 +1425,7 @@ module.exports = {
       ai_bot_learning: 'AI powered support to accelerate learning outcomes!',
       ai_bot_description: "CodeCombat’s AI powered hints feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available young learners will still need to work through each level's coding challenge. Premium subscribers receive an allocation of <b>10 AI hints per day</b> to ensure they always have the support they need.",
       list_ai_bot: 'Premium subscribers receive an allocation of 10 AI hints per day',
-      ai_bot_notice: '* AI hint rates are subject to change.'
+      ai_bot_notice: '* AI hints rates are subject to change.'
     },
 
     choose_hero: {
