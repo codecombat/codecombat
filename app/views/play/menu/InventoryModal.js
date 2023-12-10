@@ -452,6 +452,13 @@ module.exports = (InventoryModal = (function () {
         if (!slotEl.find('img').length) { if (unequippedSlot == null) { unequippedSlot = slotEl } }
       }
       slotEl = unequippedSlot != null ? unequippedSlot : firstSlot
+      const itemEl = this.unequipItemFromSlot(slotEl)
+      if ((itemEl != null ? itemEl.length : undefined)) {
+        itemEl.addClass('active')
+        const selectedSlotItemID = itemEl.data('item-id')
+        const item = this.items.get(selectedSlotItemID)
+        item.classes = _.without(item.classes, 'equipped')
+      }
       selectedItemEl.effect('transfer', { to: slotEl, duration: 500, easing: 'easeOutCubic' })
       selectedItemEl.addClass('equipped')
       slotEl.append(selectedItemEl.find('img').clone().addClass('item').data('item-id', selectedItem.id))
