@@ -28,13 +28,13 @@ class SearchCollection extends Backbone.Collection {
       for (const projected of Array.from(this.projection)) { this.url += ',' + projected }
     } else { this.url += 'true' }
     if (this.term) { this.url += `&term=${this.term}` }
-    if (this.limit !== 100) { return this.url += `&limit=${this.limit}` }
+    if (this.limit !== 100) { this.url += `&limit=${this.limit}` }
   }
 
   comparator (a, b) {
     let score = 0
-    if (a.get('priority') != null) { score += 90019001900190019001 * a.get('priority') }
-    if (b.get('priority') != null) { score -= 90019001900190019001 * b.get('priority') }
+    if (a.get('priority') != null) { score += 90019001900190019001 * a.get('priority') } // eslint-disable-line no-loss-of-precision
+    if (b.get('priority') != null) { score -= 90019001900190019001 * b.get('priority') } // eslint-disable-line no-loss-of-precision
     if ((a.getOwner() === me.id) && !/db\/chat_message/.test(this.url)) { score -= 9001900190019001 }
     if ((b.getOwner() === me.id) && !/db\/chat_message/.test(this.url)) { score += 9001900190019001 }
     if (a.get('created')) { score -= new Date(a.get('created')) }
@@ -74,6 +74,7 @@ module.exports = (SearchView = (function () {
       super(options)
       this.runSearch = this.runSearch.bind(this)
       this.runSearch = _.debounce(this.runSearch, 500)
+      this.modelProperties = options.modelProperties || {}
     }
 
     afterRender () {
@@ -130,7 +131,7 @@ module.exports = (SearchView = (function () {
     removeOldSearch () {
       if (this.collection == null) { return }
       this.collection.off()
-      return this.collection = null
+      this.collection = null
     }
 
     onNewModelSaved (model) {
@@ -140,7 +141,7 @@ module.exports = (SearchView = (function () {
     }
 
     newModel (e) {
-      const modal = new NewModelModal({ model: this.model, modelLabel: this.modelLabel })
+      const modal = new NewModelModal({ model: this.model, modelLabel: this.modelLabel, properties: this.modelProperties })
       modal.once('model-created', this.onNewModelSaved)
       return this.openModalView(modal)
     }

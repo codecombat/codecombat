@@ -11,11 +11,9 @@ block tableResultsHeader
 block tableHeader
   tr
     th(data-i18n="general.date")
-    th Owner
-    th Language
-    th Visibility
     th(data-i18n="general.name")
     th(data-i18n="general.description")
+    th Family
     if me.isAdmin()
       th(data-i18n="editor.delete")
 
@@ -25,11 +23,9 @@ block tableBody
       td(title=model.get('created'))
         a(href='/editor/' + page + '/' + model.get('_id'))
           | #{moment(model.get('created')).format('lll')}
-      td #{model.get('owner')}
-      td #{model.get('spokenLanguage')}
-      td #{model.get('visibility')}
       td #{model.get('name')}
       td #{model.get('description')}
+      td #{model.get('family')}
       if me.isAdmin() && model.get('visibility') != 'published'
         td
           button.ai-model-tool-button.btn.btn-primary.btn-sm#delete-button(data-i18n="editor.delete")
