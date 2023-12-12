@@ -26,6 +26,11 @@ module.exports = (AIModelSearchView = (function () {
         { 'click #delete-button': 'deleteAIModel' }
     }
 
+    constructor () {
+      const defaultProp = { family: 'ChatGPT' } // if you want to specific default ai model family, specify here.
+      super({ modelProperties: defaultProp })
+    }
+
     getRenderData () {
       const context = super.getRenderData()
       context.currentEditor = 'editor.ai_model_title'

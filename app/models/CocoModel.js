@@ -202,7 +202,7 @@ class CocoModel extends Backbone.Model {
           console.debug('\t', error.dataPath, ':', error.message)
         }
         if (typeof console.trace === 'function') {
-          console.trace()
+          console.trace('cm err', errors)
         }
       }
       return errors
