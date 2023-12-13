@@ -452,6 +452,7 @@ module.exports = (InventoryModal = (function () {
         if (!slotEl.find('img').length) { if (unequippedSlot == null) { unequippedSlot = slotEl } }
       }
       slotEl = unequippedSlot != null ? unequippedSlot : firstSlot
+      this.unequipItemFromSlot(slotEl)
       selectedItemEl.effect('transfer', { to: slotEl, duration: 500, easing: 'easeOutCubic' })
       selectedItemEl.addClass('equipped')
       slotEl.append(selectedItemEl.find('img').clone().addClass('item').data('item-id', selectedItem.id))
