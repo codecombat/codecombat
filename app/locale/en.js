@@ -1340,7 +1340,7 @@ module.exports = {
       subscription_status: 'Your Subscription Status',
       currently_not_free: "You don't have a Subscription yet.",
       online_classes: 'Online Classes',
-      feature_ai_level_bot: 'Get AI powered debugging support'
+      feature_ai_level_bot: 'Accelerate learning with AI powered support'
     },
 
     announcement: {

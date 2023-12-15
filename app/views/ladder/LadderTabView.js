@@ -585,20 +585,22 @@ module.exports.LeaderboardData = (LeaderboardData = (LeaderboardData = class Lea
     }
     if (!score) { return [] }
     let l = []
-    const above = this.playersAbove.models
-    l = l.concat(above)
+    const above = this.playersAbove?.models
+    l = l.concat(above || [])
     l.reverse()
     if ((this.session != null ? this.session.get('creatorAge') : undefined) && !(this.session != null ? this.session.ageBracket : undefined)) {
       // add ageBracket for @session
       this.session.ageBracket = utils.ageToBracket(this.session.get('creatorAge'))
     }
-    l.push(this.session)
-    if (this.myWins) {
+    if (this.session) {
+      l.push(this.session)
+    }
+    if (this.myWins && this.session) {
       this.session.myWins = this.myWins
       this.session.myLosses = this.myLosses
       this.session.myTotalScore = this.myTotalScore
     }
-    l = l.concat(this.playersBelow.models)
+    l = l.concat(this.playersBelow?.models || [])
     if (this.myRank === 'unknown') {
       for (session of Array.from(l)) { if (session.rank == null) { session.rank = '' } }
     } else if (this.myRank) {
