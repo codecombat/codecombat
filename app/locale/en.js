@@ -1003,6 +1003,7 @@ module.exports = {
       problem_alert_title: 'Fix Your Code',
       problem_alert_need_help: 'Need help?',
       problem_alert_ask_the_ai: 'Ask the AI',
+      problem_alert_need_hint: 'Need a hint? You can ask the AI for help.',
       time_current: 'Now:',
       time_total: 'Max:',
       time_goto: 'Go to:',
@@ -4996,7 +4997,12 @@ module.exports = {
       prompt_level_chat_10: 'What is this error?',
       prompt_level_chat_11: 'What is the problem?',
       prompt_level_chat_12: '???',
-      prompt_level_chat_13: 'Dear AI, I beseech you, explain my error, in verse.'
+      prompt_level_chat_13: 'Dear AI, I beseech you, explain my error, in verse.',
+      prompt_level_chat_hint_1: 'Can I get a hint?',
+      prompt_level_chat_hint_2: "What's the next thing I should do?",
+      prompt_level_chat_hint_3: 'Please help me with the next part of my code.',
+      prompt_level_chat_hint_4: 'Coding hint, please.',
+      prompt_level_chat_hint_5: 'I need a hint on the next step.'
     },
     user_credits: {
       level_chat_left_in_duration: '__credits__ AI Bot queries left for the __duration_key__',
