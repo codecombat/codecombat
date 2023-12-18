@@ -91,9 +91,9 @@ export default Vue.extend({
         course.completion = course.studentsStarting ? Math.min(1, course.studentsCompleting / course.studentsStarting) : 0
         if (this.org.newProgress) {
           const courseCompleteLevels = this.org.newProgress.courseCompleteLevels || {}
-          const courseCompleteStudents = this.org.newProgress.courseCompleteStudents || {}
+          const courseStartingStudents = this.org.newProgress.courseStartingStudents || {}
           const completeLevels = Math.max(...Object.values(courseCompleteLevels[course._id] || {})) || 0
-          course.studentsStarting = courseCompleteStudents[course._id] || 0
+          course.studentsStarting = courseStartingStudents[course._id] || 0
           course.completeLevels = completeLevels
           course.completion = Math.min(1, course.completeLevels / (this.org.newProgress.courseAllLevels[course._id] || 1))
         }
