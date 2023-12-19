@@ -51,7 +51,7 @@ export default Vue.extend({
       for (const language of ['python', 'javascript', 'cpp']) {
         let programs
         if (this.org.newProgress) {
-          programs = this.org.newProgress.languages[language]
+          programs = this.org.newProgress.languages[language] || 0
         } else {
           programs = this.org.progress.programsByLanguage[language]
         }
@@ -59,7 +59,7 @@ export default Vue.extend({
         languageStats[language] = { programs }
       }
       if (this.org.newProgress) {
-        let programs = this.org.newProgress.languages.java
+        let programs = this.org.newProgress.languages.java || 0
         totalPrograms += programs
         languageStats['java'] = { programs }
       }
@@ -80,7 +80,7 @@ export default Vue.extend({
     },
 
     coursesWithProgress () {
-      if (!this.org.progress) return []
+      if (!this.org.progress && !this.org.newProgress) return []
       let courses = _.cloneDeep(this.sortedCourses)
       let alreadyCoveredConcepts = []
       for (const course of courses) {
@@ -90,13 +90,21 @@ export default Vue.extend({
         course.studentsCompleting = (this.org.progress.studentsCompletingCourse || {})[course._id] || 0
         course.completion = course.studentsStarting ? Math.min(1, course.studentsCompleting / course.studentsStarting) : 0
         if (this.org.newProgress) {
-          const maxCompleteLevels = Math.max(Object.values(this.org.newProgress.courseCompleteLevels[course._id] || {})) || 0
-          course.completion = Math.min(1, maxCompleteLevels / this.org.newProgress.courseAllLevels[course._id])
+          const courseCompleteLevels = this.org.newProgress.courseCompleteLevels || {}
+          const courseStartingStudents = this.org.newProgress.courseStartingStudents || {}
+          const completeLevels = Math.max(...Object.values(courseCompleteLevels[course._id] || {})) || 0
+          course.studentsStarting = courseStartingStudents[course._id] || 0
+          course.completeLevels = completeLevels
+          course.completion = Math.min(1, course.completeLevels / (this.org.newProgress.courseAllLevels[course._id] || 1))
         }
         course.newConcepts = _.difference(course.concepts, alreadyCoveredConcepts)
         alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
       }
-      courses = _.filter(courses, (course) => (course.studentsStarting + course.studentsCompleting) >= Math.min(100, Math.max(2, Math.ceil(0.02 * this.org.progress.studentsWithCode))))
+      if (this.org.newProgress) {
+        courses = _.filter(courses, (course) => course.completeLevels >= 1)
+      } else {
+        courses = _.filter(courses, (course) => (course.studentsStarting + course.studentsCompleting) >= Math.min(100, Math.max(2, Math.ceil(0.02 * this.org.progress.studentsWithCode))))
+      }
       return courses
     },
 
@@ -256,7 +264,7 @@ export default Vue.extend({
         a(:href="'/outcomes-report/school-admin/' + org['school-admin']._id" target="_blank")
           b= org['school-admin'].displayName
 
-  .block(v-if="included && coursesLoaded && coursesWithProgress[0] && coursesWithProgress[0].studentsStarting > 1" :class="isSubOrg && coursesWithProgress.length > 1 ? 'dont-break' : ''")
+  .block(v-if="included && coursesLoaded && coursesWithProgress[0] && (coursesWithProgress[0].completion !== null || coursesWithProgress[0].studentsStarting > 1)" :class="isSubOrg && coursesWithProgress.length > 1 ? 'dont-break' : ''")
     h1= $t('teacher.course_progress')
     for course in coursesWithProgress
       if !isSubOrg || coursesWithProgress.length == 1
