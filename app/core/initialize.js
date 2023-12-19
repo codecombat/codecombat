@@ -50,7 +50,7 @@ if(utils.shaTag !== 'dev') { // tracking only in production
   }
 
   // 5% of the users will be tracked
-  if (parseInt(sessionStorage.getItem(DD_RUM_RANDOM_NUMBER_KEY), 10) <= 5) {
+  if (parseInt(sessionStorage.getItem(DD_RUM_RANDOM_NUMBER_KEY), 10) <= 1) {
     datadogRum.init({
       ...(utils.isCodeCombat ? {
         applicationId: '0fe8c7ec-5984-4191-b5f3-666fa6617477',
