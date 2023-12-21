@@ -1603,6 +1603,7 @@ module.exports = {
       de_title: 'Director of Education',
       vpm_title: 'VP, Marketing',
       vps_title: 'VP, Sales',
+      vpsm_title: 'VP, Sales and Marketing',
       oi_title: 'Online Instructor',
       m_oi_title: 'Manager, Online Instruction',
       aoim_title: 'Associate Online Instructor Manager',
