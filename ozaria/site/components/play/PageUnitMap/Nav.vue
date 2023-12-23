@@ -1,4 +1,4 @@
-<script>
+<script> // eslint-disable-line vue/multi-word-component-names
 import { mapGetters } from 'vuex'
 
 export default {
@@ -48,7 +48,10 @@ export default {
         v-if="!isAnonymous"
         class="account-icon"
       >
-        <img src="/images/ozaria/unit-map/account_generic.png">
+        <img
+          src="/images/ozaria/unit-map/account_generic.png"
+          alt="Account Icon"
+        >
       </li>
       <li v-if="!isAnonymous">
         <button @click="onMyAccountClicked">
