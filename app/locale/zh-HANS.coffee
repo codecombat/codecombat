@@ -1633,7 +1633,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_new_students_imported: "没有新同学导入"
     error_in_importing_classrooms: "导入班级发生错误"
     error_in_importing_students: "导入学生发生错误"
-#    classroom_items_description: "Whether students should earn gems and equip items during gameplay."
+    classroom_items_description: "学生们是否需要在关卡中赚取宝石并购买装备。"
     classroom_live_completion: "关闭该项会关闭所有学生的自动补全功能。启用该项则根据学生自己的设置开启自动补全。"
     not_allow_to_solution: "# 查看解法需要许可"
 
@@ -2189,7 +2189,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    view_winners: "View Winners"
     classroom_announcement: "班级公告"
 #    link_lms_classroom: "Link LMS Classroom"
-#    classroom_items: "Items & Gems"
+    classroom_items: "装备与宝石"
     classroom_live_completion: "为学生启用自动补全："
 #    learn_without_classroom_title: "You can still learn and play without a classroom"
 #    learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
