@@ -19,33 +19,25 @@ const RootView = require('views/core/RootView')
 const template = require('app/templates/courses/courses-view')
 const AuthModal = require('views/core/AuthModal')
 const CreateAccountModal = require('views/core/CreateAccountModal')
-const ChangeCourseLanguageModal = require('views/courses/ChangeCourseLanguageModal')
 const HeroSelectModal = require('views/courses/HeroSelectModal')
-const ChooseLanguageModal = require('views/courses/ChooseLanguageModal')
 const ClassroomAnnouncementModal = require('views/courses/ClassroomAnnouncementModal')
 const TournamentsListModal = require('views/courses/TournamentsListModal')
 const JoinClassModal = require('views/courses/JoinClassModal')
 const CourseInstance = require('models/CourseInstance')
 const CocoCollection = require('collections/CocoCollection')
-const Course = require('models/Course')
 const Level = require('models/Level')
 const Classroom = require('models/Classroom')
 const Tournament = require('models/Tournament')
-const Classrooms = require('collections/Classrooms')
-const Courses = require('collections/Courses')
-const CourseInstances = require('collections/CourseInstances')
 const LevelSession = require('models/LevelSession')
 const LevelSessions = require('collections/LevelSessions')
 const Levels = require('collections/Levels')
 const NameLoader = require('core/NameLoader')
-const Campaign = require('models/Campaign')
 const ThangType = require('models/ThangType')
 const utils = require('core/utils')
 const store = require('core/store')
 const leaderboardApi = require('core/api/leaderboard')
 const clansApi = require('core/api/clans')
 const coursesHelper = require('lib/coursesHelper')
-const websocket = require('lib/websocket')
 const globalVar = require('core/globalVar')
 
 class LadderCollection extends CocoCollection {
@@ -172,9 +164,9 @@ module.exports = (CoursesView = (function () {
       const myArenaSessionsCollections = {}
       this.activeArenas = utils.activeArenas()
       for (arena of Array.from(this.activeArenas)) {
-        var sessions
         arena.ended = new Date() > arena.end
-        myArenaSessionsCollections[arena.levelOriginal] = (sessions = new LevelSessions())
+        const sessions = new LevelSessions()
+        myArenaSessionsCollections[arena.levelOriginal] = sessions
         fetches.push(sessions.fetchForLevelSlug(arena.slug))
       }
 
@@ -194,7 +186,8 @@ module.exports = (CoursesView = (function () {
         this.myArenaSessions = {}
         for (levelOriginal in myArenaSessionsCollections) {
           const sessionsCollection = myArenaSessionsCollections[levelOriginal]
-          if (session = sessionsCollection.models[0]) { // Should only be zero or one; pick first one if multiple
+          session = sessionsCollection.models[0]
+          if (session) { // Should only be zero or one; pick first one if multiple
             this.myArenaSessions[levelOriginal] = session
           }
         }
@@ -291,11 +284,12 @@ module.exports = (CoursesView = (function () {
     }
 
     sortMyClans () {
-      return this.myClans = _.sortBy(this.myClans, clan => {
+      this.myClans = _.sortBy(this.myClans, clan => {
         let left
         const playerCount = (left = this.getAILeagueStat('codePoints', clan._id, 'playerCount')) != null ? left : 0
         return -playerCount
       })
+      return this.myClans
     }
 
     handleUserOnline () {
@@ -331,7 +325,6 @@ module.exports = (CoursesView = (function () {
         const result = []
         for (const courseInstance of Array.from(this.courseInstances.models)) {
           if (!courseInstance.get('classroomID')) { continue }
-          const courseID = courseInstance.get('courseID')
           courseInstance.sessions = new CocoCollection([], {
             url: courseInstance.url() + '/course-level-sessions/' + me.id,
             model: LevelSession
@@ -407,7 +400,6 @@ module.exports = (CoursesView = (function () {
             if (stats.levels != null ? stats.levels.next : undefined) {
               // This could be made smarter than just picking the next level from the first incomplete course
               // It will suggest redoing a course arena level, like Wakka Maul, if all courses are complete
-              let startLockedLevelSlug
               this.nextLevelInfo = {
                 level: stats.levels.next,
                 courseInstance,
@@ -415,7 +407,8 @@ module.exports = (CoursesView = (function () {
                 courseAcronym: utils.courseAcronyms[course._id],
                 number: stats.levels.nextNumber
               }
-              if (startLockedLevelSlug = courseInstance.get('startLockedLevel')) {
+              const startLockedLevelSlug = courseInstance.get('startLockedLevel')
+              if (startLockedLevelSlug) {
                 const courseLevels = classroom.getLevels({ courseID: course._id })
                 let hasLocked = false
                 for (const level of Array.from(courseLevels.models)) {
@@ -463,7 +456,7 @@ module.exports = (CoursesView = (function () {
       const hocCampaignSessions = ((store.getters != null ? store.getters['levelSessions/getSessionsForCampaign'](this.hourOfCodeOptions.campaignId) : undefined) || {}).sessions || []
       const campaignSessions = _.sortBy(hocCampaignSessions, s => s.changed)
       const levelSessionMap = {}
-      campaignSessions.forEach(s => { return levelSessionMap[s.level.original] = s })
+      campaignSessions.forEach(s => { levelSessionMap[s.level.original] = s })
       const userLevelStatusMap = {}
       const levelsInCampaign = new Set()
       this.campaignLevels.models.forEach(l => {
@@ -474,11 +467,12 @@ module.exports = (CoursesView = (function () {
         }
         return levelsInCampaign.add(l.get('original'))
       })
-      const [started, completed, levelsDone] = Array.from(coursesHelper.hasUserCompletedCourse(userLevelStatusMap, levelsInCampaign))
-      return this.hocStats = {
+      const [started, completed, levelsDone] = Array.from(coursesHelper.hasUserCompletedCourse(userLevelStatusMap, levelsInCampaign)) // eslint-disable-line no-unused-vars
+      this.hocStats = {
         complete: completed,
         pctDone: ((levelsDone / this.campaignLevels.models.length) * 100).toFixed(1) + '%'
       }
+      return this.hocStats
     }
 
     courseInstanceHasProject (courseInstance) {
@@ -612,9 +606,11 @@ module.exports = (CoursesView = (function () {
 
       const classroomCourseInstances = new CocoCollection([], { url: '/db/course_instance', model: CourseInstance })
       classroomCourseInstances.fetch({ data: { classroomID: newClassroom.id } })
-      return this.listenToOnce(classroomCourseInstances, 'sync', () => // TODO: Smoother system for joining a classroom and course instances, without requiring page reload,
-      // and showing which class was just joined.
-        document.location.search = '') // Using document.location.reload() causes an infinite loop of reloading
+      return this.listenToOnce(classroomCourseInstances, 'sync', () => {
+        // TODO: Smoother system for joining a classroom and course instances, without requiring page reload,
+        // and showing which class was just joined.
+        document.location.search = ''
+      }) // Using document.location.reload() causes an infinite loop of reloading
     }
 
     nextLevelUrl () {
@@ -731,7 +727,8 @@ module.exports = (CoursesView = (function () {
         if (Array.from(criteria.heroes != null ? criteria.heroes : []).includes(hero)) { heroChoices.push(image) }
       }
       image = _.sample(levelChoices) || _.sample(heroChoices.concat(courseChoices))
-      return this._nextLevelImage = '/images/pages/courses/banners/' + image
+      this._nextLevelImage = '/images/pages/courses/banners/' + image
+      return this._nextLevelImage
     }
 
     onLaddersLoaded (e) {
@@ -743,7 +740,7 @@ module.exports = (CoursesView = (function () {
   return CoursesView
 })())
 
-var nextLevelBannerImages = {
+const nextLevelBannerImages = {
   'arena-ace-of-coders.png': { heroes: ['goliath'], courses: ['CS5', 'CS6'] },
   'arena-cavern-survival.png': { heroes: ['knight', 'master-wizard'], courses: ['CS1'] },
   'arena-dueling-grounds.png': { heroes: ['raider', 'necromancer'], courses: ['CS2', 'CS3', 'GD1', 'GD2'] },
