@@ -43,11 +43,11 @@ if showAmazonLogo
       button.btn.btn-small.btn-illustrated.btn-success(class=view.teacherOnline() ? '' : 'disabled', title=askingTeacher)
         span(data-i18n="common.help")
 
-  if view.hintsState && view.hintsState.get('total') > 0
+  if view.hintsState && view.hintsState.get('total') > 0 && (!view.hideHint) && (me.get('clientCreator') != '60fa65059e17ca0019950fdd' || view.options.level.get('slug') == 'kithgard-librarian' || view.options.level.get('type').match('ladder'))
     .btn.btn-small.btn-illustrated.hints-button
       span(data-i18n="play_level.hints")
 
-  if view.showVideosButton()
+  if view.showVideosButton() && me.get('clientCreator') != '60fa65059e17ca0019950fdd'
     .btn.btn-small.btn-illustrated.btn-success.videos-button
       span(data-i18n="play_level.videos")
 

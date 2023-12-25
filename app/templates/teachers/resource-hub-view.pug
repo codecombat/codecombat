@@ -81,7 +81,7 @@ block content
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     faqURL += "-pt-BR";
           - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-          -     faqURL += "-zh-HANS";
+          -     faqURL += "-zh-HANS.coco";
           a.resource-link(href=faqURL)
             span(data-i18n="teacher.educator_faq")
           p(data-i18n="teacher.educator_faq_desc")
@@ -90,7 +90,7 @@ block content
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     gettingStartedURL += "-pt-BR";
           - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-          -     gettingStartedURL += "-zh-HANS";
+          -     gettingStartedURL += "-zh-HANS.coco";
           a.resource-link(href=gettingStartedURL)
             span(data-i18n="teacher.teacher_getting_started")
           p(data-i18n="teacher.teacher_getting_started_desc")
@@ -160,7 +160,7 @@ block content
         li
           - var pythonURL = "https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf";
           - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-          -     pythonURL = pythonURL.replace(/\.pdf/, '-zh-HANS.pdf');
+          -     pythonURL = "https://assets.koudashijie.com/resources/Course1PythonSyntaxGuide.pdf"
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     pythonURL = pythonURL.replace(/\.pdf/, '-pt-BR.pdf');
           a.resource-link(href=pythonURL)
@@ -293,11 +293,18 @@ block content
           -     cs2URL += '-pt-BR'
           - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
           -     cs2URL += '-zh-HANS'
+
           a.resource-link(href=cs2URL)
             span(data-i18n="teacher.cs2_curriculum")
           p
             span(data-i18n="teacher.cs2_curriculum_desc")
-
+        li
+          - var pythonURL = "https://assets.koudashijie.com/resources/Course2PythonSyntaxGuide.pdf"
+          a.resource-link(href=pythonURL)
+            span(data-i18n="teacher.cs2_syntax_python")
+            span.spl [PDF]
+          p(data-i18n="teacher.cs1_syntax_python_desc")
+          
       h4(data-i18n="teacher.gd2")
       ul
         li
@@ -335,7 +342,13 @@ block content
             span(data-i18n="teacher.cs3_curriculum")
           p
             span(data-i18n="teacher.cs3_curriculum_desc")
-
+        li
+          - var pythonURL = "https://assets.koudashijie.com/resources/Course3PythonSyntaxGuide.pdf"
+          a.resource-link(href=pythonURL)
+            span(data-i18n="teacher.cs3_syntax_python")
+            span.spl [PDF]
+          p(data-i18n="teacher.cs1_syntax_python_desc")
+  
       h4(data-i18n="teacher.gd3")
       ul
         li
@@ -356,7 +369,13 @@ block content
             span(data-i18n="teacher.cs4_curriculum")
           p
             span(data-i18n="teacher.cs4_curriculum_desc")
-
+        li
+          - var pythonURL = "https://assets.koudashijie.com/resources/Course4PythonSyntaxGuide.pdf"
+          a.resource-link(href=pythonURL)
+            span(data-i18n="teacher.cs4_syntax_python")
+            span.spl [PDF]
+          p(data-i18n="teacher.cs1_syntax_python_desc")
+  
       h4(data-i18n="teacher.cs5")
       ul
         li

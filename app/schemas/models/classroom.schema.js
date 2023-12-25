@@ -6,7 +6,7 @@ const ClassroomSchema = c.object({
   title: 'Classroom',
   required: ['name'],
   default: {
-    classroomItems: true,
+    classroomItems: false,
     initializedOuterStats: true,
   }
 })

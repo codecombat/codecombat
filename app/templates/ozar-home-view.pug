@@ -2,32 +2,20 @@ extends /templates/base-flat
 
 block content
   main.container-fluid#home-page
-    section#top-banner.full-width
-      .row
-        .col-xs-12
-          if view.banner
-            span!=view.banner.display
-          else if maintenanceStartTime && maintenanceStartTime.isAfter(moment().subtract(3, 'hours'))
-            span(data-i18n="new_home.top_banner_blurb_maintenance", data-i18n-options=JSON.stringify(i18nData))
-          else if me.isTeacher() && new Date("2023-02-13T06:00:00.000-05:00") < new Date() && new Date() < new Date("2023-02-16T14:30:00.000-08:00")
-            span(data-i18n="new_home.top_banner_blurb_demo_day_2023_02_16")
-            a(href="https://us06web.zoom.us/webinar/register/WN_Hdt7MY_3TtqR4JB96mM-RQ", data-i18n="league.register", data-event-action="Click: Homepage Banner Demo Day")
-          else
-            if me.isTeacher()
-              span(data-i18n="new_home.top_banner_blurb_roblox_teachers")
-              a(href="https://codecombat.com/roblox", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Roblox Page")
-            else if me.isStudent() || (me.isHomeUser() && !me.isAnonymous())
-              span(data-i18n="new_home.top_banner_blurb_roblox_players")
-              a(href="https://codecombat.com/roblox", data-i18n="new_home.top_banner_blurb_roblox_players_cta", data-event-action="Click: Homepage Banner Roblox Page")
+    if !me.showChinaResourceInfo()
+      section#top-banner.full-width
+        .row
+          .col-xs-12
+            if view.banner
+              span!=view.banner.display
+            else if maintenanceStartTime && maintenanceStartTime.isAfter(moment().subtract(3, 'hours'))
+              span(data-i18n="new_home.top_banner_blurb_maintenance", data-i18n-options=JSON.stringify(i18nData))
+            else if me.isTeacher() && new Date() < new Date("2022-10-20T16:30:00.000-05:00")
+              span(data-i18n="new_home.top_banner_blurb_demo_day_10_20")
+              a(href="https://us06web.zoom.us/webinar/register/WN_NU2XXsQORZ-_lkx7rxUplQ", data-i18n="league.register", data-event-action="Click: Homepage Banner Demo Day")
             else
-              span(data-i18n="new_home.top_banner_blurb_roblox")
-              a(href="https://codecombat.com/roblox", data-i18n="new_home.check_it_out", data-event-action="Click: Homepage Banner Roblox Page")
-          //else
-          //  span(data-i18n="new_home.top_banner_blurb_podcast")
-          //  a(href="https://codecombat.com/podcast", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Podcast Page")
-          //else
-          //  span(data-i18n="new_home.top_banner_blurb_funding")
-          //  a(href="/funding", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Funding Page")
+              span(data-i18n="new_home.top_banner_blurb_funding")
+              a(href="/funding", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Funding Page")
 
     section.row#jumbotron-container-fluid
       .item-list
@@ -96,8 +84,8 @@ block content
             source(srcset="/images/pages/pd/pd-if-then.webp" type="image/webp")
             img(src="/images/pages/pd/pd-if-then.png" class="img-responsive" loading="lazy" style="border: 10px solid #476FB1;" alt="")
         .col-sm-4.col-sm-offset-1.col-sm-pull-7
-          h2(style="margin-bottom: 20px;") Professional Development
-          p(data-i18n="[html]ozaria_home.pd_blurb", data-i18n-options=JSON.stringify(i18nData))
+          h2(style="margin-bottom: 20px;", data-i18n="ozaria_home.engaging_row4_h2")
+          p(data-i18n="[html]ozaria_home.engaging_row4_p", data-i18n-options=JSON.stringify(i18nData))
 
     section.full-width.section-spacer#back_cta_1
       button.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-i18n="ozaria_home.back_cta_1_a" data-event-action="Click: Try Chapter 1 CTA 1")
@@ -107,15 +95,18 @@ block content
         blockquote.col-sm-8(style="z-index: 1;")
           div(data-i18n="ozaria_home.speech_bubble_testimonial_1_blockquote")
           footer
-            cite(class="name") Chris Beckwith
-            cite(class="position") Technology Instructor, Reeds Brook Middle School
+            cite(class="name", data-i18n="ozaria_home.speaker_name_1") Chris Beckwith
+            cite(class="position", data-i18n="ozaria_home.speaker_position_1") Technology Instructor, Reeds Brook Middle School
       .row
         .col-sm-6.crystal-art
           picture
             source(srcset="/images/ozaria/home/crystal-art.webp" type="image/webp")
             img(src="/images/ozaria/home/crystal-art.png" class="img-responsive" loading="lazy" alt="")
         .col-sm-6.chris-image
-          img(src="/images/ozaria/home/testimonial_1.png" class="img-responsive" style="z-index: 0;" alt="Headshot of Technology Instructor")
+          if !features.china
+            img(src="/images/ozaria/home/testimonial_1.png" class="img-responsive" style="z-index: 0;" alt="Headshot of Technology Instructor")
+          else
+            img(src="/images/ozaria/home/China_testimonial_1.png" class="img-responsive" style="z-index: 0;" alt="Headshot of Technology Instructor")
 
     section#core-curriculum
       h1.heading-corner(data-i18n="ozaria_home.core_curriculum_header")
@@ -179,8 +170,9 @@ block content
           button.press-evaluate(aria-label="Carousel Evaluate Item" data-target="#core-curriculum-carousel" data-slide-to="4")
 
       .row.flex-row.text-center.sm-mt-50(style="padding-top:20px;")
-        a.btn.btn-primary.btn-large.btn-moon(data-i18n="ozaria_home.core_curriculum_scope_sequence" data-event-action="Click: View Scope and Sequence" href="https://docs.google.com/spreadsheets/d/1S7qS2zxVccBMVNUQ0Duh6ugyQfhqopGKaSXyhCf-5UA/edit#gid=137569977" target="_blank" rel="noopener")
-        a.btn.btn-primary.btn-large.btn-moon(data-i18n="ozaria_home.core_curriculum_sample_lesson_slides" data-event-action="Click: View Sample Lesson Slides" href="https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing" target="_blank" rel="noopener")
+
+        a.btn.btn-primary.btn-large.btn-moon(data-i18n="ozaria_home.core_curriculum_scope_sequence" data-event-action="Click: View Scope and Sequence" href="https://assets.koudashijie.com/resources/%E5%A5%A5%E4%BD%B3%E7%9D%BF%E6%95%99%E5%AD%A6%E5%A4%A7%E7%BA%B2%E5%92%8C%E8%BF%9B%E5%BA%A6%E8%A7%84%E5%88%92%E6%8C%87%E5%8D%97.pdf" target="_blank" rel="noopener")
+        a.btn.btn-primary.btn-large.btn-moon(data-i18n="ozaria_home.core_curriculum_sample_lesson_slides" data-event-action="Click: View Sample Lesson Slides" href="https://coco-assets.oss-cn-beijing.aliyuncs.com/resources/%E5%A5%A5%E4%BD%B3%E7%9D%BF%E6%A0%B7%E8%AF%BEPPT_compressed.pdf" target="_blank" rel="noopener")
 
     section.section-spacer#global-community
       h1.smaller-38(data-i18n="ozaria_home.global_community_header")
@@ -191,19 +183,19 @@ block content
           img(src="/images/ozaria/home/frame_art_asset.svg" style="height: fit-content;" class="img-responsive" alt="Frame Art Asset")
         .col-xs-12.col-sm-3
           img(src="/images/ozaria/home/global_img_1.svg" class="img-responsive" alt="Graphic of a graduate cap")
-          h2 20 Million
+          h2(data-i18n="ozaria_home.global_community_row1_header")
           p(data-i18n="ozaria_home.global_community_row1_p")
         .col-xs-12.col-sm-3
           img(src="/images/ozaria/home/global_img_2.svg" class="img-responsive" alt="Graphic of computer")
-          h2 1 Billion
+          h2(data-i18n="ozaria_home.global_community_row2_header")
           p(data-i18n="ozaria_home.global_community_row2_p")
         .col-xs-12.col-sm-3
           img(src="/images/ozaria/home/global_img_3.svg" class="img-responsive" alt="Graphic of an apple")
-          h2 140,000
+          h2(data-i18n="ozaria_home.global_community_row3_header")
           p(data-i18n="ozaria_home.global_community_row3_p")
         .col-xs-12.col-sm-3
           img(src="/images/ozaria/home/global_img_4.svg" class="img-responsive" alt="Graphic of the earth")
-          h2 190
+          h2(data-i18n="ozaria_home.global_community_row4_header")
           p(data-i18n="ozaria_home.global_community_row4_p")
 
     section#admin-dashboard
@@ -256,13 +248,16 @@ block content
         blockquote.col-sm-8.col-sm-offset-4
           div(data-i18n="ozaria_home.speech_bubble_testimonial_2_blockquote")
           footer
-            cite(class="name") Alecia Nachtigal
-            cite(class="position") Educator, Victoria School for Ideal Education
+            cite(class="name", data-i18n="ozaria_home.speaker_name_2")
+            cite(class="position", data-i18n="ozaria_home.speaker_position_2")
       .row
         .col-sm-6
-          picture
-            source(srcset="/images/ozaria/home/testimonial_2.webp" type="image/webp")
-            img(src="/images/ozaria/home/testimonial_2.png" class="img-responsive" style="z-index: -1;transform: translateY(-40%);position: relative;" loading="lazy" alt="Headshot of Educator")
+          if !features.china
+            picture
+              source(srcset="/images/ozaria/home/testimonial_2.webp" type="image/webp")
+              img(src="/images/ozaria/home/testimonial_2.png" class="img-responsive" style="z-index: -1;transform: translateY(-40%);position: relative;" loading="lazy" alt="Headshot of Educator")
+          else
+            img(src="/images/ozaria/home/China_testimonial_2.png" class="img-responsive" style="z-index: -1;transform: translateY(-40%);position:relative;" loading="lazy" alt="Headshot of Educator")
         .col-sm-6.crystal-art
           picture
             source(srcset="/images/ozaria/home/crystal-art.webp" type="image/webp")
@@ -276,8 +271,8 @@ block content
         source(srcset="/images/ozaria/home/shareable_resource.webp" type="image/webp")
         img(src="/images/ozaria/home/shareable_resource.png" class="img-responsive" loading="lazy" alt="Slide with following text. What is Ozaria? Flexible and personalized core computer science curriculum. Teaches authentic text-based coding in Python and Javascript. Highly engaging game-based learning. Self-paced and scaffolded instruction. Real world project-based applications. Promotes 21st Century Skills and lifelong learning behaviors.")
       .row.flex-row.text-center(style="justify-content: center; margin: 70px 0 100px;")
-        a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Presentation" style="margin: 20px;" href="https://docs.google.com/presentation/d/1ezuQZJMvb7IUHxvrYgihIbcTsbyhyKac8FgS30rVd_k/view" target="_blank" rel="noopener") Download Presentation
-        a.btn.btn-primary.btn-large.btn-moon(data-i18n="ozaria_home.shareable_resources_a" data-event-action="Click: Download Flyer" style="margin: 20px;" href="https://drive.google.com/file/d/1T_UNIAN7v3gMJzOyyYAdbBoRTea1wkRp/view" target="_blank" rel="noopener")
+        a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Presentation" data-i18n="ozaria_home.btn_download_pre" style="margin: 20px;" href="https://docs.google.com/presentation/d/1ezuQZJMvb7IUHxvrYgihIbcTsbyhyKac8FgS30rVd_k/view" target="_blank" rel="noopener")
+        a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Flyer" data-i18n="ozaria_home.btn_download_flyer" style="margin: 20px;" href="https://drive.google.com/file/d/1T_UNIAN7v3gMJzOyyYAdbBoRTea1wkRp/view" target="_blank" rel="noopener")
 
     section.full-width#back_cta_2
       button.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-i18n="ozaria_home.back_cta_2_a" data-event-action="Click: Try Chapter 1 CTA 3")
@@ -297,8 +292,9 @@ block content
             span(data-i18n="ozaria_home.faq_row3_p_part1")
             a.contact-us(data-i18n="general.contact_us", href="#")
             span(data-i18n="ozaria_home.faq_row3_p_part2")
-            a(href="/funding" data-i18n="nav.funding_resources_guide")
-            span(data-i18n="ozaria_home.faq_row3_p_part4")
+            if !me.showChinaResourceInfo()
+              a(href="/funding" data-i18n="nav.funding_resources_guide")
+              span(data-i18n="ozaria_home.faq_row3_p_part4")
         .col-sm-6
           h2(data-i18n="ozaria_home.faq_row4_header")
           p(data-i18n="ozaria_home.faq_row4_p")
@@ -320,12 +316,13 @@ block content
 
 
       .row.text-center(style="margin: 60px 0 100px;")
-        p
-          span(data-i18n="ozaria_home.see_faq_prefix")
-          span= " "
-          a(href="https://codecombat.zendesk.com/hc/en-us" target="_blank" data-i18n="ozaria_home.see_faq_link")
-          span(data-i18n="ozaria_home.see_faq_suffix")
+        if !me.showChinaResourceInfo()
+          p
+            span(data-i18n="ozaria_home.see_faq_prefix")
+            span= " "
+            a(href="https://codecombat.zendesk.com/hc/en-us" target="_blank" data-i18n="ozaria_home.see_faq_link")
+            span(data-i18n="ozaria_home.see_faq_suffix")
         p
           span(data-i18n="ozaria_home.faq_row6_p_part1")
-          a.contact-us(data-i18n="general.contact_us", href="#")
+          a.contact-us(data-i18n="general.contact_us", href='https://koudashijie.com/contact-cn', target='_blank')
           | .

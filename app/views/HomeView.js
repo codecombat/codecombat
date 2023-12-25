@@ -46,6 +46,7 @@ module.exports = (HomeView = (function () {
 
       this.prototype.events = {
         'click .continue-playing-btn': 'onClickTrackEvent',
+        'click .start-playing-btn': 'onClickIndividualButton',
         'click .student-btn': 'onClickStudentButton',
         'click .teacher-btn': 'onClickTeacherButton',
         'click .parent-btn': 'onClickParentButton',
@@ -91,7 +92,7 @@ module.exports = (HomeView = (function () {
 
     getMeta () {
       return {
-        title: $.i18n.t('new_home.title_' + PRODUCT_SUFFIX),
+        title: $.i18n.t ('new_home.title' + features?.chinaHome ? '_cn_home' : PRODUCT_SUFFIX),
         meta: [
           { vmid: 'meta-description', name: 'description', content: $.i18n.t('new_home.meta_description_' + PRODUCT_SUFFIX) },
           { vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }
@@ -100,6 +101,12 @@ module.exports = (HomeView = (function () {
           { vmid: 'rel-canonical', rel: 'canonical', href: '/' }
         ]
       }
+    }
+
+    onClickIndividualButton (e) {
+      this.homePageEvent('Started Signup')
+      this.homePageEvent($(e.target).data('event-action'))
+      this.openModalView(new CreateAccountModal({startOnPath: 'individual'}))
     }
 
     getBanner () {

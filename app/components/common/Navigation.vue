@@ -165,8 +165,8 @@ export default Vue.extend({
                 source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
               img.tecmilenio-logo(src="/images/pages/payment/tecmilenio-logo-2.png" alt="Tecmilenio logo")
-            a.navbar-brand(v-else-if="me.showChinaResourceInfo()" href="/home")
-              img#logo-img(src="/images/pages/base/logo-en+cn.png" alt="CodeCombat logo")
+            a.navbar-brand(v-else-if="me.showChinaResourceInfo()&&!me.showChinaHomeVersion()" href="/home")
+              img#logo-img(src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
             a.navbar-brand(v-else :href="hideNav ? '#' : '/home'")
               picture
                 source#logo-img(srcset="/images/pages/base/logo.webp" type="image/webp")
@@ -182,36 +182,16 @@ export default Vue.extend({
             ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
               template(v-if="me.showChinaResourceInfo()")
                 li
-                  a.text-p(href="https://blog.koudashijie.com") {{ $t('nav.blog') }}
-
-                li
-                  a.text-p(data-event-action="Header Request Quote CTA", href="/contact-cn") {{ $t('new_home.request_quote') }}
-
-              li(v-if="me.isAnonymous()")
-                ul.nav.navbar-nav
-                  li.dropdown.dropdown-hover
-                    a.text-p(:href="isCodeCombat ? '/impact' : '/'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
-                      span {{ $t('nav.educators') }}
-                      span.caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/')")
-                          span(:class="isOzaria && !checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                      li
-                        a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
-                      li
-                        a.text-p(:href="ozPath('/professional-development')")
-                          span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
-
-              li(v-if="!me.isStudent() && !me.isTeacher() && (me.get('country') !== 'hong-kong') && !me.isParentHome()")
-                a.text-p(:class="checkLocation('/parents') && !checkLocation('/parents/signup') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
-
-              li(v-if="me.isParentHome()")
-                a.text-p(:class="checkLocation('/parents/dashboard') && 'text-teal'" :href="me.hasNoVerifiedChild() ? cocoPath('/parents/add-another-child') : cocoPath('/parents/dashboard')") {{ $t('nav.dashboard') }}
-
-              li
-                a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
-
+                  a.text-p(href="https://oj.koudashijie.com", data-i18n="nav.coco_oj", class='')
+                template(v-if="me.showChinaResourceInfo() && !me.showChinaHomeVersion()")
+                  li
+                    a.text-p(href="/CoCoStar", data-i18n="nav.star", class='')
+                  li
+                    a.text-p(data-i18n="nav.aiyouth", href="http://aiyouth.koudashijie.com")
+                  li
+                    a.text-p(data-event-action="Header Request Quote CTA", href="/contact-cn") {{ $t('new_home.request_quote') }}
+                  li
+                    a.text-p(href="/events", data-i18n="nav.events", class='')
               li(v-if="me.isTeacher()")
                 ul.nav.navbar-nav
                   li.dropdown.dropdown-hover
@@ -282,9 +262,9 @@ export default Vue.extend({
                     announcement-nav.announcement-nav(v-if="this.announcements.length")
                   li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                     a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
-                  li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
-                    a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
-                  li(v-if="isCodeCombat && (me.isAdmin() || (me.get('emailVerified') && (me.isTeacher() || me.isParentHome() || (!me.get('role') && !me.isAnonymous()))))")
+                  li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()|| (me.showChinaHomeVersion() && me.isHomeUser()))")
+                    a.account-dropdown-item(:href="`/account/${me.showChinaHomeVersion() ? 'prepaid' : 'subscription'}`") {{ $t('account.subscription') }}
+                  li(v-if="me.isAdmin() || (me.get('emailVerified') && (!me.showChinaHomeVersion()) && (me.isTeacher() || (!me.get('role') && !me.isAnonymous())))")
                     a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li(v-if="me.isAPIClient()")
                     a.account-dropdown-item(href="/partner-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
@@ -619,7 +599,7 @@ export default Vue.extend({
 }
 
 nav#main-nav.navbar.dark-mode {
-  background-color: #0C1016;
+  background-color: #352C20;
 
   .nav > li > a {
     color: #FCBB00;

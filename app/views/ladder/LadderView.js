@@ -30,6 +30,7 @@ const MyMatchesTabView = require('./MyMatchesTabView')
 const SimulateTabView = require('./SimulateTabView')
 const LadderPlayModal = require('./LadderPlayModal')
 const CocoClass = require('core/CocoClass')
+const AuthModal = require('views/core/AuthModal')
 const TournamentLeaderboard = require('./components/Leaderboard')
 
 const Clan = require('models/Clan')
@@ -88,7 +89,9 @@ module.exports = (LadderView = (function () {
       if (this.level.loaded) { onLoaded() } else { this.level.once('sync', onLoaded) }
       this.sessions = this.supermodel.loadCollection(new LevelSessionsCollection(this.levelID), 'your_sessions', { cache: false }).model
       this.listenToOnce(this.sessions, 'sync', this.onSessionsLoaded)
-      this.winners = require('./tournament_results')[this.levelID]
+      if(!features.china) {
+        this.winners = require('./tournament_results')[this.levelID]
+      }
 
       if (tournamentEndDate = { greed: 1402444800000, 'criss-cross': 1410912000000, 'zero-sum': 1428364800000, 'ace-of-coders': 1444867200000, 'battle-of-red-cliffs': 1598918400000 }[this.levelID]) {
         this.tournamentTimeLeftString = moment(new Date(tournamentEndDate)).fromNow()
@@ -293,6 +296,12 @@ module.exports = (LadderView = (function () {
       let hash
       super.afterRender()
       if (!this.supermodel.finished()) { return }
+
+      if(me.isAnonymous() && utils.getQueryVariable('requireLogin') == true ){
+        window.nextURL=window.location.href
+        const modal = new AuthModal()
+        @openModalView(modal)
+      }
       this.$el.toggleClass('single-ladder', this.level.isType('ladder'))
       // tournamentState condition
       // starting - show leaderboard && mymatches
@@ -305,6 +314,8 @@ module.exports = (LadderView = (function () {
       if ((this.tournamentState === 'ended') || ((this.tournamentState === 'waiting') && (me.get('_id') === (this.league != null ? this.league.get('ownerID') : undefined)))) {
         this.insertSubView(this.ladderTab = new TournamentLeaderboard({ league: this.league, tournament: this.tournamentId, leagueType: 'clan', myTournamentSubmission: this.myTournamentSubmission }, this.level, this.sessions)) // classroom ladder do not have tournament for now
       } else if (['initializing', 'ranking', 'waiting'].includes(this.tournamentState)) {
+        null
+      } else if(this.level.get('slug') === 'farmers-feud' && ! this.league) {
         null
       } else { // starting, or unset
         if (this.level.isType('ladder')) {

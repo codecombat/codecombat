@@ -116,7 +116,8 @@ block content
 
     +createClassButton
 
-    +clanLeagueStatsMixin(view.aiLeagueStats, (view.teacherClan ? view.teacherClan._id : null), true, null)
+    if !me.showChinaResourceInfo() && view.aiLeagueStats
+      +clanLeagueStatsMixin(view.aiLeagueStats, (view.teacherClan ? view.teacherClan._id : null), true, null)
 
     if !me.hideOtherProductCTAs() && !(me.get('activity') && me.get('activity')['visit-ozaria'])
       .container.try-ozaria
@@ -132,9 +133,10 @@ block content
       each classroom in archivedClassrooms
         +archivedClassRow(classroom)
 
-  .container.latest-podcast
-    h5.text-h5(data-i18n='teacher.from_the_podcast')
-    .podcast-item-container
+  if !me.showChinaResourceInfo()
+    .container.latest-podcast
+      h5.text-h5(data-i18n='teacher.from_the_podcast')
+      .podcast-item-container
 
 mixin classRow(classroom)
   .class.row.rtl-allowed(dir="auto")
@@ -161,7 +163,7 @@ mixin classRow(classroom)
           span=classroom.getDisplayPermission()
       .class-links.rtl-allowed(dir="auto")
         a.view-class-btn.text-h6(data-i18n='teacher.view_class' data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Link")
-        if classroom.isOwner()
+        if !me.showChinaResourceInfo() && classroom.isOwner()
           a.view-ai-league.text-h6(data-i18n='teacher.view_ai_league_team' data-clan-level='classroom' data-clan-source-object-id=classroom.id data-event-action="Teachers Classes View AI League Team")
         if classroom.hasWritePermission()
           a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id data-event-action="Teachers Classes Edit Class Started")

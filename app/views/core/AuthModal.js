@@ -341,8 +341,16 @@ var loginNavigate = function (subModalContinue) {
     if (me.isAPIClient()) {
       application.router.navigate('/partner-dashboard', { trigger: true })
     } else if (me.isStudent()) {
+      if (features.chinaHome) {
+        window.location.href = 'https://koudashijie.com/students'
+        return
+      }
       application.router.navigate('/students', { trigger: true })
     } else if (me.isTeacher()) {
+      if (features.chinaHome) {
+        window.location.href = 'https://koudashijie.com/teachers/classes'
+        return
+      }
       if (me.isSchoolAdmin()) {
         // todo: unify?
         if (utils.isCodeCombat) {

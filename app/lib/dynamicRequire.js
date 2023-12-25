@@ -1,5 +1,6 @@
 module.exports = {
   'views/AboutView': function () { return import(/* webpackChunkName: "AboutView" */ 'views/AboutView') },
+  'views/EventsView': function () { return import(/* webpackChunkName: "EventsView" */ 'views/EventsView')},
   'views/HomeView': function () { return import(/* webpackChunkName: "HomeView" */ 'views/HomeView') },
   'views/HomeCNView': function () { return import(/* webpackChunkName: "HomeCNView" */ 'views/HomeCNView') },
   'views/ContactCNView': function () { return import(/* webpackChunkName: "ContactCNView" */ 'views/ContactCNView') },
@@ -131,6 +132,7 @@ module.exports = {
   'views/play/level/PlayWebDevLevelView': function () { return import(/* webpackChunkName: "play" */ 'views/play/level/PlayWebDevLevelView') },
   'views/play/SpectateView': function () { return import(/* webpackChunkName: "play" */ 'views/play/SpectateView') },
   'views/PageImpact': function () { return import(/* webpackChunkName: "PageImpact" */ 'views/impact/PageImpact') },
+  'views/PageStar': function () { return import(/* webpackChunkName: "PageStar" */ 'views/cocostar/PageStar') },
   'views/PagePartners': function () { return import(/* webpackChunkName: "PagePartners" */ 'views/partners/PagePartners') },
   'views/PageAPCSPMarketing': function () { return import(/* webpackChunkName: "PageMarketing" */ 'views/apcsp/PageMarketing') },
   'views/PageAPCSPCurriculum': function () { return import(/* webpackChunkName: "PageCurriculum" */ 'views/apcsp/PageCurriculum') },

@@ -1316,6 +1316,9 @@ const AILeagueSeasons = [
 ]
 
 const activeArenas = function () {
+  if (features.chinaInfra) {
+    return []
+  }
   const daysActiveAfterEnd = { regular: 7, championship: 14 }
   return (() => {
     const result = []

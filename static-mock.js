@@ -45,6 +45,7 @@ exports.me = {
   hideDiplomatModal() { return false; },
   showOpenResourceLink() { return true; },
   useStripe() { return true; },
+  showChinaHomeVersion() { return false; },
   getHackStackExperimentValue() { return false; }
 };
 

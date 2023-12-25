@@ -7,43 +7,47 @@ block content
         .col-xs-12
           if view.banner
             span!=view.banner.display
-          else if maintenanceStartTime && maintenanceStartTime.isAfter(moment().subtract(3, 'hours'))
-            span(data-i18n="new_home.top_banner_blurb_maintenance", data-i18n-options=JSON.stringify(i18nData))
-          else if me.get('role') == 'parent'
-            span(data-i18n="new_home.top_banner_blurb_live_online_classes_parents")
-            a(href="/parents", data-i18n="signup.sign_up", data-event-action="Click: Homepage Banner Live Online Classes")
-          else if new Date("2023-02-20T06:00:00.000-05:00") < new Date() && !me.isTeacher()
-            span(data-i18n="new_home.top_banner_blurb_live_online_classes")
-            a(href="/parents", data-i18n="new_home.top_banner_blurb_live_online_classes_cta", data-event-action="Click: Homepage Banner Live Online Classes")
-          else if me.isTeacher() && new Date("2023-02-13T06:00:00.000-05:00") < new Date() && new Date() < new Date("2023-02-16T14:30:00.000-08:00")
-            span(data-i18n="new_home.top_banner_blurb_demo_day_2023_02_16")
-            a(href="https://us06web.zoom.us/webinar/register/WN_Hdt7MY_3TtqR4JB96mM-RQ", data-i18n="league.register", data-event-action="Click: Homepage Banner Demo Day")
-          else
-            if me.isTeacher()
-              span(data-i18n="new_home.top_banner_blurb_roblox_teachers")
-              a(href="/roblox", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Roblox Page")
-            else if me.isStudent() || (me.isHomeUser() && !me.isAnonymous())
-              span(data-i18n="new_home.top_banner_blurb_roblox_players")
-              a(href="/roblox", data-i18n="new_home.top_banner_blurb_roblox_players_cta", data-event-action="Click: Homepage Banner Roblox Page")
+          else if !features.chinaHome
+            if maintenanceStartTime && maintenanceStartTime.isAfter(moment().subtract(3, 'hours'))
+              span(data-i18n="new_home.top_banner_blurb_maintenance", data-i18n-options=JSON.stringify(i18nData))
+            else if me.get('role') == 'parent'
+              span(data-i18n="new_home.top_banner_blurb_live_online_classes_parents")
+              a(href="/parents", data-i18n="signup.sign_up", data-event-action="Click: Homepage Banner Live Online Classes")
+            else if new Date("2023-02-20T06:00:00.000-05:00") < new Date() && !me.isTeacher()
+              span(data-i18n="new_home.top_banner_blurb_live_online_classes")
+              a(href="/parents", data-i18n="new_home.top_banner_blurb_live_online_classes_cta", data-event-action="Click: Homepage Banner Live Online Classes")
+            else if me.isTeacher() && new Date("2023-02-13T06:00:00.000-05:00") < new Date() && new Date() < new Date("2023-02-16T14:30:00.000-08:00")
+              span(data-i18n="new_home.top_banner_blurb_demo_day_2023_02_16")
+              a(href="https://us06web.zoom.us/webinar/register/WN_Hdt7MY_3TtqR4JB96mM-RQ", data-i18n="league.register", data-event-action="Click: Homepage Banner Demo Day")
             else
-              span(data-i18n="new_home.top_banner_blurb_roblox")
-              a(href="/roblox", data-i18n="new_home.check_it_out", data-event-action="Click: Homepage Banner Roblox Page")
-          //else
-          //  span(data-i18n="new_home.top_banner_blurb_podcast")
-          //  a(href="/podcast", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Podcast Page")
-
+              if me.isTeacher()
+                span(data-i18n="new_home.top_banner_blurb_roblox_teachers")
+                a(href="/roblox", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Roblox Page")
+              else if me.isStudent() || (me.isHomeUser() && !me.isAnonymous())
+                span(data-i18n="new_home.top_banner_blurb_roblox_players")
+                a(href="/roblox", data-i18n="new_home.top_banner_blurb_roblox_players_cta", data-event-action="Click: Homepage Banner Roblox Page")
+              else
+                span(data-i18n="new_home.top_banner_blurb_podcast")
+                a(href="/podcast", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Podcast Page")
+  
     .cloud-wrapper
       .row#jumbotron-container-fluid
         .col-md-8
           h1(data-i18n="new_home.slogan_power_of_play")
           div.button-section
             if me.isAnonymous()
-              p
-                button.btn.btn-lg.btn-primary.teacher-btn(data-event-action="Homepage Click Teacher Button #1 CTA", data-i18n="new_home.im_an_educator", style="text-transform: none")
-              p
-                button.btn.btn-lg.btn-primary.parent-btn(data-event-action="Homepage Click Parent Button CTA", data-i18n="new_home.im_a_parent", style="text-transform: none")
-              p
-                button.btn.btn-lg.btn-primary.student-btn(data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student", style="text-transform: none")
+              if features.chinaHome
+                p
+                  a.btn.btn-lg.btn-primary.try-playing-btn(data-i18n="new_home.try_the_game", style="text-transform: none", href="/play")
+                p
+                  button.btn.btn-lg.btn-primary.start-playing-btn(data-i18n="signup.start_playing", style="text-transform: none")
+              else
+                p
+                  button.btn.btn-lg.btn-primary.teacher-btn(data-event-action="Homepage Click Teacher Button #1 CTA", data-i18n="new_home.im_an_educator", style="text-transform: none")
+                p
+                  button.btn.btn-lg.btn-primary.parent-btn(data-event-action="Homepage Click Parent Button CTA", data-i18n="new_home.im_a_parent", style="text-transform: none")
+                p
+                  button.btn.btn-lg.btn-primary.student-btn(data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student", style="text-transform: none")
             else
               p
                 if me.isTeacher()
@@ -52,6 +56,12 @@ block content
                   a.btn.btn-lg.btn-primary.my-courses-btn(href="/students", data-event-action="Homepage Click My Courses CTA", data-i18n="new_home.go_to_courses")
                 else
                   a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
+          .aiyouth
+            h1.gradient-title AI算法挑战活动（公益）
+            .subtitle  全国决赛
+            br
+            .sub2title  比赛时间 12月1日-12月31日
+            a.btn.btn-lg.btn-primary.aiyouth-btn(target="_blank", href="https://aishiqingsai.org.cn") 进入官网
 
         .col-xs-12.text-center
           picture
@@ -61,7 +71,11 @@ block content
     .container
       .row.video-row
         .col-xs-12
-          div.video-container
+          if features.chinaHome
+            .cn-video-container
+              video(src="https://assets.koudashijie.com/CC_Game_Trailer_MP4_Final.mp4", width="100%", poster="https://assets.koudashijie.com/images/homeVersion/videoPoster.jpg" controls)
+          else
+            div.video-container
             iframe(src="https://iframe.videodelivery.net/86b43ba87b804883d9c5027782aabff3?preload=false&poster=https://videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg%3Ftime%3D2s&defaultTextTrack=en" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" allowfullscreen="true" title="CodeCombat Classroom product overview video")
 
     .container-graphic-spacer
@@ -190,133 +204,67 @@ block content
               //a.btn.btn-lg.btn-primary.btn-gold(href="/impact" data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
               // TODO: alternately, finish the GetStartedSignupModal
               //button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
-              button.btn.btn-lg.btn-primary.btn-gold.create-account-teacher-btn(data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
+              button.btn.btn-lg.btn-primary.btn-gold.create-account-teacher-btn(href="https://koudashijie.com" data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
       picture
         source.codecombat-spacer-img.img-responsive(srcset="/images/pages/home-v2/graphic-5.webp" type="image/webp")
         img.codecombat-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-5.png" loading="lazy" alt="")
 
-    section.container
-      .row.product-row
-        .col-md-5
-          .row
-            h2.text-h4.product-title(data-i18n="nav.professional_development")
-            p(data-i18n="new_home.pd_blurb")
-            .product-btn
-              a.btn.btn-lg.btn-primary.btn-gold(href="https://www.ozaria.com/professional-development" data-i18n="new_home.explore_pd" data-event-action="Homepage Click Professional Development Button CTA")
-        .col-md-6.col-md-offset-1
-          picture
-            source.img-responsive(srcset="/images/pages/home-v2/pd-image.webp" type="image/webp")
-            img.img-responsive(src="/images/pages/home-v2/pd-image.png" loading="lazy" alt="Teacher taking profesional development course")
-
-    .container-graphic-spacer
-      .container
-        .row
-          .col-xs-12.text-center
-            picture
-              source.img-responsive(srcset="/images/pages/home-v2/graphic-9.webp" type="image/webp")
-              img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-47%);" alt="")
-
-    if me.get('country') !== 'hong-kong'
-      .container
-        .row.text-center.for-parents-row
-          .col-xs-12
-            h1(data-i18n="new_home.for_parents")
-
+    if !features.chinaHome
       section.container
         .row.product-row
           .col-md-5
             .row
-              h2.text-h4.product-title(data-i18n="new_home.codecombat_live_online_classes")
-              p(data-i18n="new_home.online_classes_blurb")
+              h4.product-title(data-i18n="nav.professional_development")
+              p(data-i18n="new_home.pd_blurb")
               .product-btn
-                a.btn.btn-lg.btn-primary.btn-gold(href="/parents" data-i18n="new_home.explore_online_classes" data-event-action="Homepage Click Online Classes Button CTA")
+                a.btn.btn-lg.btn-primary.btn-gold(href="https://www.ozaria.com/professional-development" data-i18n="new_home.explore_pd" data-event-action="Homepage Click Professional Development Button CTA")
           .col-md-6.col-md-offset-1
-            picture
-              source.img-responsive(srcset="/images/pages/home-v2/loc-image.webp" type="image/webp")
-              img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher")
-          .col-md-12
-            .row.coco-home-section
-              p(data-i18n="[html]new_home.codecombat_home_blurb",  data-i18n-options=JSON.stringify(i18nData))
+            img.img-responsive(src="/images/pages/home-v2/pd-image.png" loading="lazy" alt="Teacher taking profesional development course")
 
-        picture
-          source.partners-spacer-img.img-responsive(srcset="/images/pages/home-v2/graphic-79.webp" type="image/webp")
-          img.partners-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-79.png" loading="lazy" alt="")
+      .container-graphic-spacer
+        .container
+          .row
+            .col-xs-12.text-center
+              img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-47%);" alt="")
 
     .container
-      .row.text-center.for-partners-row
+      .row.text-center.for-parents-row
         .col-xs-12
-          h1(data-i18n="new_home.for_partners")
+          h1(data-i18n="new_home.for_parents")
 
     section.container
       .row.product-row
         .col-md-5
           .row
-            h2.text-h4.product-title(data-i18n="new_home.for_partners_title")
-            p(data-i18n="new_home.for_partners_blurb")
+            h4.product-title(data-i18n="new_home.codecombat_live_online_classes")
+            p(data-i18n="new_home.online_classes_blurb")
             .product-btn
-              a.btn.btn-lg.btn-primary.btn-gold(href="/partners" data-i18n="new_home.for_partners_button" data-event-action="Homepage Click Online Classes Button CTA")
+              if features.chinaHome
+                a.btn.btn-lg.btn-primary.btn-gold(href="https://xuetang.koudashijie.com" target="_blank" data-i18n="new_home.explore_online_classes" data-event-action="Homepage Click Online Classes Button CTA")
+              else
+                a.btn.btn-lg.btn-primary.btn-gold(href="/parents" data-i18n="new_home.explore_online_classes" data-event-action="Homepage Click Online Classes Button CTA")
         .col-md-6.col-md-offset-1
-          img.img-responsive(src="/images/pages/home-v2/for_partners.png" loading="lazy" alt="Partners scene: teacher teaching coding to 2 students")
-
-      picture
-        source.libraries-spacer-img.img-responsive(srcset="/images/pages/home-v2/graphic-80.webp" type="image/webp")
-        img.libraries-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-80.png" loading="lazy" alt="")
-
-    .container
-      .row.text-center.for-libraries-row
-        .col-xs-12
-          h1(data-i18n="new_home.for_libraries")
-
-    section.container
-      .row.product-row
-        .col-md-6
-          img.img-responsive(src="/images/pages/home-v2/library_user_graphic.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher")
-        .col-md-5.col-md-offset-1
-          .row
-            h2.text-h4.product-title(data-i18n="new_home.for_libraries_title")
-            p(data-i18n="new_home.for_libraries_blurb")
-            .product-btn
-              a.btn.btn-lg.btn-primary.btn-gold(href="/libraries" data-i18n="new_home.for_libraries_button" data-event-action="Homepage Click Online Classes Button CTA")
-
-
-        picture
-          source.online-classes-spacer-img.img-responsive(srcset="/images/pages/home-v2/graphic-6.webp" type="image/webp")
-          img.online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" alt="")
-
-    .container
-      .row.text-center.for-everyone-row
-        .col-xs-12
-          h1(data-i18n="new_home.for_everyone")
-
-    section.container.section-coco-worlds
-      .row.product-row
-        .col.col-md-5
-          .row
-            picture
-              source.coco-worlds-logo(srcset="/images/pages/home-v2/hp_coco_worlds_full_brand.webp" type="image/webp")
-              img.coco-worlds-logo(src="/images/pages/home-v2/hp_coco_worlds_full_brand.png" loading="lazy" alt="Roblox CodeCombat Worlds: Kid looking at the game with excitement")
-            h2.text-h4.product-title(data-i18n="new_home.coco_worlds_header")
-            p(data-i18n="new_home.coco_worlds_description")
-            .product-btn
-              a.btn.btn-lg.btn-primary.btn-gold(href="/roblox" data-i18n="new_home.coco_worlds_button" data-event-action="Homepage Click Roblox Button CTA")
-        .col.col-md-7
           picture
-            source.img-responsive(srcset="/images/pages/home-v2/hp_roblox_image.webp" type="image/webp")
-            img.img-responsive(src="/images/pages/home-v2/hp_roblox_image.png" loading="lazy" alt="Roblox: CodeCombat Worlds logo")
+            source.img-responsive(srcset="/images/pages/home-v2/loc-image.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher" type="image/png")
+            img#online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" alt="")
 
-    section.container
-      .row.product-row
-        .col-md-6
-          picture
-            source.img-responsive(srcset="/images/pages/home-v2/league-image.webp" type="image/webp")
+    if !features.chinaHome
+      .container
+        .row.text-center.for-everyone-row
+          .col-xs-12
+            h1(data-i18n="new_home.for_everyone")
+
+      section.container
+        .row.product-row
+          .col-md-6
             img.img-responsive(src="/images/pages/home-v2/league-image.png" loading="lazy" alt="AI League scene: competitive kids cheering")
-        .col-md-5.col-md-offset-1
-          .row
-            img.img-responsive.product-logo(src="/images/pages/league/hyperx-cobranded-logo.png" loading="lazy" style="max-width: 200px;" alt="AI League logo")
-            h2.text-h4.product-title(data-i18n="league.codecombat_ai_league")
-            p(data-i18n="new_home.ai_league_blurb")
-            .product-btn
-              a.btn.btn-lg.btn-primary.btn-gold(href="/league" data-i18n="new_home.explore_ai_league" data-event-action="Homepage Click AI League Button CTA")
+          .col-md-5.col-md-offset-1
+            .row
+              img.img-responsive.product-logo(src="/images/pages/league/hyperx-cobranded-logo.png" loading="lazy" style="max-width: 200px;" alt="AI League logo")
+              h4.product-title(data-i18n="league.codecombat_ai_league")
+              p(data-i18n="new_home.ai_league_blurb")
+              .product-btn
+                a.btn.btn-lg.btn-primary.btn-gold(href="/league" data-i18n="new_home.explore_ai_league" data-event-action="Homepage Click AI League Button CTA")
 
     .container
       .row.text-center.community-row
@@ -401,12 +349,11 @@ block content
           .carousel-dot(data-selector="#student-quotes", data-slide-num="1")
           .carousel-dot(data-selector="#student-quotes", data-slide-num="2")
 
-    .container-graphic-spacer
-      .container
-        .row
-          .col-xs-12.text-center
-            picture
-              source.img-responsive(srcset="/images/pages/home-v2/graphic-8.webp" type="image/webp")
+    if !features.chinaHome
+      .container-graphic-spacer
+        .container
+          .row
+            .col-xs-12.text-center
               img.img-responsive(src="/images/pages/home-v2/graphic-8.png" loading="lazy" style="max-width: 416px; transform: translateX(30%);" alt="")
 
     #featured-in-awards.container
@@ -487,29 +434,29 @@ block content
             ol
               li(data-i18n="new_home_faq.getting_started_1")
               li(data-i18n="new_home_faq.getting_started_2")
-              li(data-i18n="new_home_faq.getting_started_3")
-              li(data-i18n="new_home_faq.getting_started_4")
+              if !features.chinaHome
+                li(data-i18n="new_home_faq.getting_started_3")
+                li(data-i18n="new_home_faq.getting_started_4")
             h1.text-h4(data-i18n="new_home_faq.main_curriculum")
             p(data-i18n="new_home_faq.main_curriculum_blurb")
-          .col-md-4.col-sm-6.col-xs-12
-            h1.text-h4(data-i18n="new_home_faq.clever_instant_login")
-            p(data-i18n="[html]new_home_faq.clever_instant_login_blurb", data-i18n-options=JSON.stringify(i18nData))
-            h1.text-h4(data-i18n="new_home_faq.google_classroom")
-            p(data-i18n="new_home_faq.google_classroom_blurb1")
-            p(data-i18n="new_home_faq.google_classroom_blurb2")
+          if !features.chinaHome
+            .col-md-4.col-sm-6.col-xs-12
+              h1.text-h4(data-i18n="new_home_faq.clever_instant_login")
+              p(data-i18n="[html]new_home_faq.clever_instant_login_blurb", data-i18n-options=JSON.stringify(i18nData))
+              h1.text-h4(data-i18n="new_home_faq.google_classroom")
+              p(data-i18n="new_home_faq.google_classroom_blurb1")
+              p(data-i18n="new_home_faq.google_classroom_blurb2")
           .col-md-4.col-sm-6.col-xs-12
             h1.text-h4(data-i18n="new_home_faq.how_much_does_it_cost")
             p(data-i18n="[html]new_home_faq.how_much_does_it_cost_blurb", data-i18n-options=JSON.stringify(i18nData))
-          .col-md-4.col-sm-6.col-xs-12
-            h1.text-h4(data-i18n="new_home_faq.recommended_systems")
-            p(data-i18n="new_home_faq.recommended_systems_blurb")
-              .text-center
-        .row.faq-links-row
-          p
-            span(data-i18n="new_home_faq.see_faq_prefix")
-            span= " "
-            a(href="https://codecombat.zendesk.com/hc/en-us" target="_blank" data-i18n="new_home_faq.see_faq_link")
-            span(data-i18n="new_home_faq.see_faq_suffix")
+            if features.chinaHome
+              h1.text-h4(data-i18n="new_home_faq.recommended_systems")
+              p(data-i18n="new_home_faq.recommended_systems_blurb")
+          if !features.chinaHome
+            .col-md-4.col-sm-6.col-xs-12
+              h1.text-h4(data-i18n="new_home_faq.recommended_systems")
+              p(data-i18n="new_home_faq.recommended_systems_blurb")
+        .text-center
           p.contact-us(data-i18n="[html]new_home_faq.other_questions", data-i18n-options=JSON.stringify(i18nData))
 
     .container-footer-mountains

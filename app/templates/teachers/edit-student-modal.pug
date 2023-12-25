@@ -38,17 +38,18 @@ block modal-body-content
           span )
       
 
-      if enrolledCourseBits === 0 && me.canManageLicensesViaUI()
-        .small-details
-          if view.prepaids.totalAvailable() === 0
-            button.enroll-student-btn.btn.btn-navy.disabled(data-i18n="teacher.apply_license")
-            .small-details.not-enough-enrollments
-              span(data-i18n='teacher.not_enough_enrollments')
-          else
-            button.enroll-student-btn.btn.btn-navy(data-i18n="teacher.apply_license")
-      else if me.canRevokeLicensesViaUI()
-        .small-details
-          button.revoke-student-btn.btn.btn-burgundy-alt(data-i18n="teacher.revoke_license")
+      if me.canManageLicensesViaUI() && (me.isAdmin() || (serverSession && serverSession.amActually))
+        if enrolledCourseBits === 0 
+          .small-details
+            if view.prepaids.totalAvailable() === 0
+              button.enroll-student-btn.btn.btn-navy.disabled(data-i18n="teacher.apply_license")
+              .small-details.not-enough-enrollments
+                span(data-i18n='teacher.not_enough_enrollments')
+            else
+              button.enroll-student-btn.btn.btn-navy(data-i18n="teacher.apply_license")
+        else
+          .small-details
+            button.revoke-student-btn.btn.btn-burgundy-alt(data-i18n="teacher.revoke_license")
     .edit-student-details
       strong(data-i18n="teacher.student_details")
       span.spr :

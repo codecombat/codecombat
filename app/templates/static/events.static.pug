@@ -1,0 +1,9 @@
+extends /templates/static/mock.static.pug
+block begin
+  - viewName = 'EventsView'
+
+block content
+  - view.events = []
+  #page-container
+    #events-view
+      include /templates/events

@@ -53,6 +53,8 @@ module.exports = (HomeCNView = (function () {
       this.courses = new Courses()
       this.supermodel.trackRequest(this.courses.fetchReleased())
 
+      window.localStorage.setItem('lastUpdatedCocoStarPage', +new Date('2021-3-30 18:00:00'))
+      window?.localStorage?.setItem('lastUpdatedEventPage', +new Date('2021-3-30 18:00:00'))
       // @getBanner()
       if (me.isTeacher()) {
         this.trialRequests = new TrialRequests()

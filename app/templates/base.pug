@@ -9,6 +9,13 @@ block outer_content
     block content
       p If this is showing, you dun goofed
   .achievement-corner
+  if features.chinaHome
+    .floatCS
+      img.qr(src="https://assets.koudashijie.com/images/homeVersion/service_qr.png")
+      img.icon(src="https://assets.koudashijie.com/images/home/icon/customerservice.png")
+      .text 微信客服
+
+
 
 block footer
   footer#site-footer

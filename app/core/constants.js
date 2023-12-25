@@ -62,6 +62,13 @@ const COCO_CHINA_CONST = {
   CONTACT_EMAIL: 'china@codecombat.com'
 }
 
+const DEEP_API_LIST = [ // Those apiclient doesn't want back-to-classroom button in campaign-view
+  '60fa65059e17ca0019950fdd', // TARENA
+  '61a0a183dc0da81482892695', // KEHOU330
+  '62eafd294f52f30018e103ee', // shanzong
+  '64d49fcc339ac2035a71074a' // suzhou turing
+]
+
 const HTTP_STATUS_CODES = {
   PAYMENT_REQUIRED_CODE: 402
 }
@@ -100,6 +107,7 @@ module.exports = {
   COCO_CHINA_CONST,
   HTTP_STATUS_CODES,
   LICENSE_PRESETS,
+  DEEP_API_LIST,
   ESPORTS_PRODUCT_STATS,
   HTML5_FMT_DATETIME_LOCAL,
   HTML5_FMT_DATE_LOCAL,

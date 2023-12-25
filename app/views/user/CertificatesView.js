@@ -139,13 +139,17 @@ module.exports = (CertificatesView = (function () {
       if (me.id === this.classroom.get('ownerID')) {
         this.teacherName = me.broadName()
       } else {
-        const teacherUser = new User({ _id: this.classroom.get('ownerID') })
-        return teacherUser.fetchNameForClassmate({
-          success: data => {
-            this.teacherName = User.broadName(data)
-            return (typeof this.render === 'function' ? this.render() : undefined)
-          }
-        })
+        if(me.get('clientCreator') === '60fa65059e17ca0019950fdd') // TARENA apiclient id
+          this.teacherName = undefined
+        else {
+          const teacherUser = new User({ _id: this.classroom.get('ownerID') })
+          return teacherUser.fetchNameForClassmate({
+            success: data => {
+              this.teacherName = User.broadName(data)
+              return (typeof this.render === 'function' ? this.render() : undefined)
+            }
+          })
+        }
       }
     }
 

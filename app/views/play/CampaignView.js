@@ -30,6 +30,7 @@ const SubscribeModal = require('views/core/SubscribeModal')
 const LeaderboardModal = require('views/play/modal/LeaderboardModal')
 const Level = require('models/Level')
 const utils = require('core/utils')
+const constants = require('core/constants')
 const ShareProgressModal = require('views/play/modal/ShareProgressModal')
 const UserPollsRecord = require('models/UserPollsRecord')
 const Poll = require('models/Poll')
@@ -170,6 +171,8 @@ module.exports = (CampaignView = (function () {
       this.levelDifficultyMap = {}
       this.levelScoreMap = {}
 
+      this.DEEP_API_LIST = constants.DEEP_API_LIST
+
       if (this.terrain === 'hoc-2018') {
         $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
       }
@@ -284,7 +287,7 @@ module.exports = (CampaignView = (function () {
         this.courseLevelsFake = {}
         this.courseInstanceID = utils.getQueryVariable('course-instance')
         this.courseInstance = new CourseInstance({ _id: this.courseInstanceID })
-        const jqxhr = this.courseInstance.fetch()
+        const jqxhr = this.courseInstance.fetch({ data: $.param({time: + new Date()})})
         this.supermodel.trackRequest(jqxhr)
         new Promise(jqxhr.then).then(() => {
           const courseID = this.courseInstance.get('courseID')
@@ -1415,8 +1418,16 @@ ${problem.category} - ${problem.score} points\
       const levelOriginal = levelElement.data('level-original')
       const level = _.find(_.values(this.getLevels()), { slug: levelSlug })
 
+      if (me.showChinaResourceInfo() && !me.showChinaHomeVersion()) {
+        const defaultAccess = ['short', 'china-classroom']
+        if(me.get('hourOfCode') || @campaign?.get('type') === 'hoc' || this.campaign?.get('slug') === 'intro' ) {
+          defaultAccess = defaultAccess.concat(['medium', 'long'])
+        }
+        const freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => defaultAccess.includes(faLevel.access)).map((faLevel) => faLevel.slug)
+        const requiresSubscription = level.requiresSubscription || (!(freeAccessLevels.includes(level.slug)))
+      } else {
       let defaultAccess = me.get('hourOfCode') || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') || ((this.campaign != null ? this.campaign.get('slug') : undefined) === 'intro') ? 'long' : 'short'
-      if (new Date(me.get('dateCreated')) < new Date('2021-09-21')) {
+        if (new Date(me.get('dateCreated')) < new Date('2021-09-21') && (!me.showChinaHomeVersion())) {
         defaultAccess = 'all'
       }
       let access = me.getExperimentValue('home-content', defaultAccess)
@@ -1438,6 +1449,7 @@ ${problem.category} - ${problem.score} points\
         return result
       })())
       const requiresSubscription = level.requiresSubscription || ((access !== 'all') && !Array.from(freeAccessLevels).includes(level.slug))
+      }
       const canPlayAnyway = _.any([
         !this.requiresSubscription,
         // level.adventurer  # Disable adventurer stuff for now
@@ -2113,6 +2125,9 @@ ${problem.category} - ${problem.score} points\
 
       if (what === 'league-arena') {
         // Note: Currently the tooltips don't work in the campaignView overworld.
+        if(!me.showChinaResourceInfo()){
+          return false
+        }
         return !me.isAnonymous() && (this.campaign != null ? this.campaign.get('slug') : undefined) && !this.editorMode && !me.get('isCreatedViaLibrary')
       }
 

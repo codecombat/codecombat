@@ -405,9 +405,11 @@ module.exports = (AccountSettingsView = (function () {
 
     grabOtherData () {
       if (this.suggestedName) { this.$el.find('#name-input').val(this.suggestedName) }
-      this.user.set('name', this.$el.find('#name-input').val())
-      this.user.set('firstName', this.$el.find('#first-name-input').val())
-      this.user.set('lastName', this.$el.find('#last-name-input').val())
+      if (features.chinaInfra && (me.isAdmin() || (window.serverSession && window.serverSession.amActually))) {
+        this.user.set('name', this.$el.find('#name-input').val())
+        this.user.set('firstName', this.$el.find('#first-name-input').val())
+        this.user.set('lastName', this.$el.find('#last-name-input').val())
+      }
       this.user.set('email', this.$el.find('#email').val())
       const object = this.getSubscriptions()
       for (const emailName in object) {

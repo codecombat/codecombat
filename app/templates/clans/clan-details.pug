@@ -92,12 +92,16 @@ block content
                     span.dynamic-level-name= tournament.name
 
     else if arenas && arenas.length
-      .col-lg-6
+      .col-lg-4
         h2(data-i18n="play.campaign_multiplayer")
         p(data-i18n="clans.leagues_explanation")
         for arena in arenas
           h3
-            a(href='/play/ladder/' + arena.slug + '/clan/' + clan.id)= i18n(arena, 'name')
+            a(href="/play/ladder/#{arena.slug}/clan/#{clan.id}")= i18n(arena, 'name')
+    .col-lg-2
+      h2 Tournament
+      a(href="/clans/#{clan.id}/tournaments")
+        | Go tournaments
 
         if me.isAdmin()
           // We should move this to /league/<clan> page instead, as we are phasing out the /clan UI

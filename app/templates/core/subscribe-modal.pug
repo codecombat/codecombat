@@ -45,9 +45,12 @@ mixin price(name, p, nameWithoutCurrency)
                 li(data-i18n="subscribe.feature_level_access")
                 li(data-i18n="subscribe.feature_heroes")
                 li(data-i18n="subscribe.feature_learn")
-                if view.basicProduct
+                if view.basicProduct && !me.showChinaHomeVersion()
                   li(data-i18n="subscribe.feature_gems", data-i18n-options={gems: view.basicProduct.get('gems').toLocaleString(), gems12: (view.basicProduct.get('gems') * 12).toLocaleString()})
-                li(data-i18n="subscribe.feature_ai_level_bot")
+                  li(data-i18n="subscribe.feature_ai_level_bot")
+                else
+                  li(data-i18n="subscribe.feature_languages")
+                  li(data-i18n="subscribe.feature_aiyouth")
 
         hr
 
@@ -64,12 +67,17 @@ mixin price(name, p, nameWithoutCurrency)
           - var secondRowClass = '.col-xs-5'
           if view.basicProduct && !view.hideMonthlySub
             .col-xs-5.option-col.col-xs-offset-1
-              +price("subscribe.month_price", view.basicProduct, 'subscribe.month_price_without_currency')
+              +price("subscribe.season_price", view.basicProduct, 'subscribe.month_price_without_currency')
               .option-header.price-subtext.text-center(data-i18n="subscribe.stripe_description")
               button.btn.btn-lg.btn-illustrated.purchase-button
                 span.buy-now-text(data-i18n="subscribe.buy_now")
                 span.buy-lock-icon &#x1F512;
-
+                if features.chinaHome
+                   if isProduction
+                     img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/prod_season_qr.png')
+                   else
+                     img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/staging/basic_month_qr.png')
+ 
           else
             - var secondRowClass = '.col-xs-12'
 
@@ -94,13 +102,20 @@ mixin price(name, p, nameWithoutCurrency)
                 button.stripe-lifetime-button.btn.btn-lg.btn-illustrated
                   span.buy-now-text(data-i18n="subscribe.buy_now")
                   span.buy-lock-icon &#x1F512;
+                  if features.chinaHome
+                     if isProduction
+                       img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/prod_annual_qr.png')
 
         div.support-blurb.text-center
           p
-            span(data-i18n="subscribe.support_part1")
-            =" "
-            a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
-
+            if features.chinaHome
+              a.go-prepaid(data-i18n='subscribe.go_prepaid', href='#')
+              span(data-i18n="subscribe.support_part1")
+            if !features.chinaHome
+              span 付款时需要帮助? Email 
+              =" "
+              a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
+ 
       if view.state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible
           span(data-i18n="buy_gems.declined")

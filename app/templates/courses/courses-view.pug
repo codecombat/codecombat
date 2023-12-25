@@ -261,7 +261,7 @@ mixin coco_main_content()
     else
       .student-profile-area
         .row
-          .current-hero.col-md-2.text-center
+          .current-hero.col-md-3.text-center
             h2
               if view.hero.getHeroShortName()
                 span(data-i18n='resources.hero')
@@ -281,7 +281,7 @@ mixin coco_main_content()
             .rtl-allowed
               a.change-hero-btn(data-i18n="play.change_hero")
 
-          div(class='student-stats col-md-5' + (view.shouldEmphasizeAILeague() ? '' : ' deemphasize-ai-league'))
+          div(class='student-stats col-md-6' + (view.shouldEmphasizeAILeague() ? '' : ' deemphasize-ai-league'))
             h2
               span(data-i18n='general.player')
               span= ': '
@@ -331,18 +331,19 @@ mixin coco_main_content()
                 if !arena.image || !view.shouldEmphasizeAILeague()
                   h3(class="dynamic-level-name overlay-text" + (arena.image ? " optional" : ""))= arenaName
                 .tile-text-backdrop
-                .stats-text-container
-                  .overlay-text.stats-text
-                    if stats && stats.score
-                      if stats.rank
-                        span(data-i18n='general.rank')
-                        span= ': #'
-                        span= stats.rank.toLocaleString()
-                        if stats.playerCount
-                          span= ' / '
-                          span= stats.playerCount.toLocaleString()
-                    else if view.myArenaSessions
-                      span(data-i18n='teacher.not_started')
+                if !me.showChinaResourceInfo()
+                  .stats-text-container
+                    .overlay-text.stats-text
+                      if stats && stats.score
+                        if stats.rank
+                          span(data-i18n='general.rank')
+                          span= ': #'
+                          span= stats.rank.toLocaleString()
+                          if stats.playerCount
+                            span= ' / '
+                            span= stats.playerCount.toLocaleString()
+                      else if view.myArenaSessions
+                        span(data-i18n='teacher.not_started')
                 .play-text-container
                   .overlay-text.play-text
                     //.btn.btn-illustrated.btn-success
@@ -354,24 +355,25 @@ mixin coco_main_content()
                     else
                       span(data-i18n='courses.play_arena')
 
-            a.ai-league-btn.tile(href=(me.isRegisteredForAILeague() ? '/league#standings' : '/league?registering=true'), data-i18n="[title]league.codecombat_ai_league")
-              img.level-image(src='/images/pages/courses/banners/ai-league-banner-' + view.randomAILeagueBannerHero + '.png' data-i18n="[alt]league.codecombat_ai_league")
-              //h3.dynamic-level-name.overlay-text CodeCombat AI League  // Someday: use different background and i18n the name
-              .tile-text-backdrop
-              .stats-text-container
-                .overlay-text.stats-text
-                  if me.isRegisteredForAILeague()
-                    span(data-i18n="ladder.age_bracket")
-                    span= ': '
-                    span= view.ageBracketDisplay
-                  else
-                    span(data-i18n='league.not_registered')
-              .play-text-container
-                .overlay-text.play-text
-                  if me.isRegisteredForAILeague()
-                    span(data-i18n='courses.view_standings')
-                  else
-                    span(data-i18n='league.register')
+            if !me.showChinaResourceInfo()
+              a.ai-league-btn.tile(href=(me.isRegisteredForAILeague() ? '/league#standings' : '/league?registering=true'), data-i18n="[title]league.codecombat_ai_league")
+                img.level-image(src='/images/pages/courses/banners/ai-league-banner-' + view.randomAILeagueBannerHero + '.png' data-i18n="[alt]league.codecombat_ai_league")
+                //h3.dynamic-level-name.overlay-text CodeCombat AI League  // Someday: use different background and i18n the name
+                .tile-text-backdrop
+                .stats-text-container
+                  .overlay-text.stats-text
+                    if me.isRegisteredForAILeague()
+                      span(data-i18n="ladder.age_bracket")
+                      span= ': '
+                      span= view.ageBracketDisplay
+                    else
+                      span(data-i18n='league.not_registered')
+                .play-text-container
+                  .overlay-text.play-text
+                    if me.isRegisteredForAILeague()
+                      span(data-i18n='courses.view_standings')
+                    else
+                      span(data-i18n='league.register')
             if view.tournaments && view.tournaments.length
               - tournament = view.tournaments[view.tournaments.length-1]
               +tournamentTileMixin(tournament)
@@ -379,27 +381,41 @@ mixin coco_main_content()
               if view.tournaments.length > 1
                 a.more-tournaments(data-i18n="general.more")
 
-          .school-stats.col-md-5
-            if view.myClans
-              h2
-                span(data-i18n="courses.ai_league_team_rankings")
-                if me.get('stats') && me.get('stats').codePoints
-                  span= ': ' + me.get('stats').codePoints.toLocaleString() + ' ' + $.i18n.t('league.codepoints')
-              hr
-
-              for clan in ['_global'].concat(view.myClans)
-                - var stats = view.getAILeagueStat('codePoints', clan == '_global' ? clan : clan._id)
-                if stats && stats.playerCount > 1
-                  a.team(href='/league/' + (clan === '_global' ? '' : clan.slug + '#team-info'))
-                    .team-name= clan === '_global' ? $.i18n.t('league.world') : clan.displayName || clan.name
-                    .team-stats
-                      if stats.rank
-                        span #
-                        span= stats.rank.toLocaleString()
-                        span= ' / '
-                      span= stats.playerCount.toLocaleString()
-                      span= ' '
-                      span(data-i18n='play.players')
+          if me.showChinaResourceInfo()
+            .school-stats.col-md-3
+              if features.china && (!me.isCreatedByTarena())
+                h2
+                  span 扣哒学堂
+                hr
+                a.tile(href="https://vvf.xet.tech/s/2Daahj" target="_blank")
+                  h3(class="dynamic-level-name overlay-text") 获得许可证
+                  img.level-image(src="/images/pages/courses/coco-course.png")
+                  .tile-text-backdrop
+                  .play-text-container
+                    .overlay-text.play-text
+                      span(style="font-size: 12px") 想要获得全课许可？请点击这里购买
+          else
+            .school-stats.col-md-5
+              if view.myClans
+                h2
+                  span(data-i18n="courses.ai_league_team_rankings")
+                  if me.get('stats') && me.get('stats').codePoints
+                    span= ': ' + me.get('stats').codePoints.toLocaleString() + ' ' + $.i18n.t('league.codepoints')
+                hr
+  
+                for clan in ['_global'].concat(view.myClans)
+                  - var stats = view.getAILeagueStat('codePoints', clan == '_global' ? clan : clan._id)
+                  if stats && stats.playerCount > 1
+                    a.team(href='/league/' + (clan === '_global' ? '' : clan.slug + '#team-info'))
+                      .team-name= clan === '_global' ? $.i18n.t('league.world') : clan.displayName || clan.name
+                      .team-stats
+                        if stats.rank
+                          span #
+                          span= stats.rank.toLocaleString()
+                          span= ' / '
+                        span= stats.playerCount.toLocaleString()
+                        span= ' '
+                        span(data-i18n='play.players')
       +classrooms_content()
 
 mixin ozar_main_content()

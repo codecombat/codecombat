@@ -30,7 +30,8 @@
             li(class= path.indexOf('/teachers/licenses') === 0 ? 'active' : '')
               a.track-click-event(href='/teachers/licenses', data-event-action='Teacher Nav Click Student Licenses')
                 small.label(data-i18n='teacher.enrollments')
-          li
-            a.track-click-event(href=`${ozBaseURL()}/teachers/professional-development`, data-event-action='Teacher Nav Click PD')
-              small.label(data-i18n='teacher_dashboard.pd_short')
+          if !me.showChinaResourceInfo()
+            li
+              a.track-click-event(href=`${ozBaseURL()}/teachers/professional-development`, data-event-action='Teacher Nav Click PD')
+                small.label(data-i18n='teacher_dashboard.pd_short')
 

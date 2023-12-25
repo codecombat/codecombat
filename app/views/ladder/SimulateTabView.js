@@ -51,7 +51,7 @@ module.exports = (SimulateTabView = (function () {
     onLoaded () {
       let needle
       super.onLoaded()
-      this.autoSimulates = (utils.getQueryVariable('simulate') !== false) && (needle = this.options.level.get('slug'), !['ace-of-coders', 'zero-sum'].includes(needle))
+      this.autoSimulates = (utils.getQueryVariable('simulate') !== false) && (needle = this.options.level.get('slug'), ![].includes(needle))
       if (!this.simulator && ((document.location.hash === '#simulate') || this.autoSimulates)) {
         return this.startSimulating()
       }

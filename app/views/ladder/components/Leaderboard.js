@@ -51,7 +51,7 @@ module.exports = (LeaderboardView = (function () {
         { slug: 'age', col: 1, title: $.i18n.t('ladder.age_bracket') },
         { slug: 'country', col: 1, title: '🏴‍☠️' }
       ]
-      this.propsData = { tableTitles: this.tableTitles, league: this.league, level: this.level, leagueType: this.leagueType, course: this.course, scoreType: 'tournament' }
+      this.propsData = { tableTitles: this.tableTitles, league: this.league, level: this.level, leagueType: this.leagueType, course: this.course, scoreType: 'tournament', showContactUs: this.anonymousPlayerName && me.isTeacher() }
       if (!this.tournament) {
         this.propsData.tableTitles = [
           { slug: 'creator', col: 0, title: '' },
@@ -70,7 +70,7 @@ module.exports = (LeaderboardView = (function () {
       this.myRank = -1
       this.playerRankings = []
       this.session = null
-      this.dataObj = { myRank: this.myRank, rankings: this.rankings, session: this.session, playerRankings: this.playerRankings, showContactUs: this.anonymousPlayerName && me.isTeacher() }
+      this.dataObj = { myRank: this.myRank, rankings: this.rankings, session: this.session, playerRankings: this.playerRankings }
 
       this.refreshLadder()
     }

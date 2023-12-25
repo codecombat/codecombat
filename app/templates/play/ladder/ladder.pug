@@ -40,8 +40,9 @@ block content
 
       if view.leagueType === 'clan'
         h1.league-header
-          a(href='/clans/' + view.league.id)= view.league.get('displayName') || view.league.get('name')
-          span.spl(data-i18n="ladder.league") League
+          span= view.league.get('displayName') || view.league.get('name')
+          -// a(href="/clans/#{view.league.id}")= view.league.get('name')
+          -// span.spl(data-i18n="ladder.league") League
 
     if view.level.get('name') === 'Greed'
       .tournament-blurb
@@ -164,7 +165,7 @@ block content
             // This button could consume a lot of server resources
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.simulate-all-button
               span(data-i18n="play.simulate_all")
-          else if !me.isTeacher() && !me.isAnonymous() && !me.isRegisteredForAILeague() && view.isAILeagueArena()
+          else if !features.china && !me.isTeacher() && !me.isAnonymous() && !me.isRegisteredForAILeague() && view.isAILeagueArena()
             a.btn.btn-illustrated.btn-block.btn-lg.btn-primary.register-for-ai-league-button(href="/league?registering=true")
               span(data-i18n="league.register_for_ai_league")
     else if view.tournament && ['ranking', 'waiting', 'ended'].indexOf(view.tournamentState) !== -1
@@ -284,7 +285,7 @@ block content
       .tab-pane.well#simulate
         #simulate-tab-view
 
-      if view.level.get('name') === 'Greed' || view.level.get('name') === 'Criss-Cross' || view.level.get('name') === 'Zero Sum'
+      if (!features.chinaInfra) && (view.level.get('name') == 'Greed' || view.level.get('name') == 'Criss-Cross' || view.level.get('name') == 'Zero Sum')
         .tab-pane.well#winners
           h1(data-i18n="ladder.winners") Winners
 
@@ -356,7 +357,7 @@ block content
                     td
                     td
 
-      if view.level.get('name') === 'Battle of Red Cliffs'
+      if !features.chinaInfra && view.level.get('name') == 'Battle of Red Cliffs'
         .tab-pane.well#winners
           h1(data-i18n="ladder.winners") Winners
 

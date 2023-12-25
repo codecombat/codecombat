@@ -101,7 +101,7 @@ const compile = function(contents, locals, filename, cb) {
     locals.me.useSocialSignOn = () => !(locals.chinaInfra != null ? locals.chinaInfra : false);
     locals.me.useGoogleAnalytics = () => !(locals.chinaInfra != null ? locals.chinaInfra : false);
     locals.me.useStripe = () => !(locals.chinaInfra != null ? locals.chinaInfra : false);
-    locals.me.useQiyukf = () => locals.chinaInfra != null ? locals.chinaInfra : false;  // Netease Qiyu Live Chat Plugin
+    locals.me.useQiyukf = () => false;  // Netease Qiyu Live Chat Plugin
     locals.me.useDataDog = () => !(locals.chinaInfra != null ? locals.chinaInfra : false);
     locals.me.showChinaVideo = () => locals.chinaInfra != null ? locals.chinaInfra : false;
     locals.me.getProduct = () => product;

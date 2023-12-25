@@ -1,0 +1,114 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/style-flat-variables"
+
+#events-view
+
+  overflow: hidden
+
+  #nav-container
+    min-height: 55px
+    nav
+      background: $gold
+      &.affix
+        z-index: 1
+        position: fixed
+        top: 0
+        width: 100%
+      ul
+        margin-top: 5px
+        padding-left: 0
+        list-style: none
+        li
+          height: 22pt
+          display: inline-block
+          margin: 10px 0 0
+          @media (min-width: $screen-xs-min)
+            margin: 10px 5px 0
+          @media (min-width: $screen-sm-min)
+            margin: 10px 18px 0
+          a
+            color: white
+            text-transform: uppercase
+            text-decoration: none
+        li.active
+          .label
+            padding-left: 0
+            padding-right: 0
+            padding-bottom: 0
+            margin-left: 0.6em
+            margin-right: 0.6em
+            border-bottom: 4px solid white
+            border-radius: 0
+
+  #jumbotron
+    background-color: $navy
+    background-image: url("/images/pages/about/codebackground_zoom_compressed.png")
+    background-size: cover
+    background-repeat: no-repeat
+
+    h1
+      color: white
+      margin-top: 100px
+
+    h3.description
+      color: white !important
+      margin-bottom: 100px
+      margin-top: 10px
+      margin-left: 1em
+      font-size: 20px
+      line-height: 1.2em
+
+  #timeline
+    position: fixed
+    right: 5vw
+    bottom: 5vh
+    display: flex
+    flex-direction: column
+
+
+  #events-container
+    .event
+      margin-top: 80px
+      display: flex
+      align-items: center
+      justify-content: space-between
+
+      .content
+        display: flex
+        flex-direction: column
+        width: 30em
+        .time
+          color: rgba(130, 130, 130, 0.9)
+          align-self: flex-end
+          margin-top: 1em
+
+      .img
+        width: 30em
+        display: flex
+        flex-direction: column
+        align-items: center
+
+        .img-list
+          display: flex
+          justify-content: space-between
+
+          img
+            max-height: 24em
+            max-width: 30em
+            margin-left: 5px
+            margin-right: 5px
+
+        .img-desc
+          text-align: center
+          text-style: italic
+          font-size: 16px
+          line-height: 24px
+          margin-top: 0.5em
+          color: rgba(22, 22, 22, 0.85)
+      
+.anchor::before
+  content: ""
+  display: block
+  height: 55px
+  margin: -55px 0 0 0

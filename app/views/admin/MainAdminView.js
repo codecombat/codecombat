@@ -365,7 +365,7 @@ ${new User(user).isTeacher() && !utils.isOzaria ? "<button class='teacher-dashbo
           months
         } = prepaid.get('properties')
         for (const code of Array.from(prepaid.get('redeemers'))) {
-          csvContent += `${ocode.slice(0, 4)}-${code.code.toUpperCase()}-${ocode.slice(4)},${months},${code.date}\n`
+          csvContent += `${ocode.slice(0, 4)}${code.code.toUpperCase()}${ocode.slice(4)},${months},${code.date}\n`
         }
         const file = new Blob([csvContent], { type: 'text/csv;charset=utf-8' })
         return window.saveAs(file, 'ActivationCodes.csv')

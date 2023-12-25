@@ -90,6 +90,8 @@ module.exports = (TeacherClassesView = (function () {
             .then(results => {
               if (this.destroyed) { return }
               helper.calculateDots(this.classrooms, this.courses, this.courseInstances)
+              if(this.sharedCourseInstances)
+                helper.calculateDots(this.classrooms, this.courses, this.sharedCourseInstances)
               this.calculateQuestCompletion()
               return this.render()
             })
@@ -286,13 +288,15 @@ module.exports = (TeacherClassesView = (function () {
         el: this.$('.try-ozaria')[0]
       })
 
-      this.bannerHoC = new BannerHoC({
-        el: this.$('.banner-hoc')[0]
-      })
+      if(!me.showChinaResourceInfo()) {
+        this.bannerHoC = new BannerHoC({
+          el: this.$('.banner-hoc')[0]
+        })
 
-      new PodcastItemContainer({
-        el: this.$('.podcast-item-container')[0]
-      })
+        new PodcastItemContainer({
+          el: this.$('.podcast-item-container')[0]
+        })
+      }
 
       return $('.progress-dot').each(function (i, el) {
         const dot = $(el)

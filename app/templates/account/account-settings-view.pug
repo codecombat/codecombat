@@ -17,7 +17,10 @@ else
             - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
             .form-group
               label.control-label(for="name", data-i18n="general.username")
-              input#name-input.form-control(name="name", type="text", value=name)
+              if (me.isStudent() && !(me.isAdmin() || (serverSession && serverSession.amActually)))
+                span.form-control(readonly)=name
+              else
+                input#name-input.form-control(name="name", type="text", value=name)
             .form-group
               label.control-label(for="email")
                 span(data-i18n="general.email")
@@ -32,7 +35,10 @@ else
             .row
               .form-group.col-sm-6
                 label.control-label(for="firstName", data-i18n="general.first_name")
-                input#first-name-input.form-control(name="firstName", type="text", value=firstName)
+                if (me.isStudent() && !(me.isAdmin() || (serverSession && serverSession.amActually)))
+                  span.form-control(readonly)=firstName
+                else
+                  input#first-name-input.form-control(name="firstName", type="text", value=firstName)
               if !me.showChinaRegistration()
                 .form-group.col-sm-6
                   if me.isStudent()
@@ -218,27 +224,22 @@ else
                 span(data-i18n="contribute.teacher_subscribe_desc").help-block
 
             button#toggle-all-btn.btn.btn-primary.form-control(data-i18n="account_settings.email_toggle") Toggle All
-  
-      .panel.panel-default
-        .panel-heading
-          .panel-title#reset-progress-panel-title(data-i18n="account_settings.reset_progress_tab")
-        .panel-body
-          .form#reset-progress-form
-            .form-group
-              label.control-label(for="email-reset-progress", data-i18n="account_settings.type_in_email_progress")
-              input#email-reset-progress.form-control(name="emailOrUsername")
-            .form-group
-              label.control-label(for="password-reset-progress", data-i18n="account_settings.type_in_password")
-              input#password-reset-progress.form-control(name="password", type="password")
-          button#reset-progress-btn.btn.form-control.btn-primary(data-i18n="account_settings.reset_your_progress")
-  
-      .panel.panel-default
-        .panel-heading
-          .panel-title#connect-roblox-title(data-i18n="account_settings.connect_roblox_tab")
-        .panel-body
-          #roblox-button
-  
-  .clearfix
+
+      if !me.showChinaRegistration() || (me.isAdmin() || (serverSession && serverSession.amActually))
+        .panel.panel-default
+          .panel-heading
+            .panel-title#reset-progress-panel-title(data-i18n="account_settings.reset_progress_tab")
+          .panel-body
+            .form#reset-progress-form
+              .form-group
+                label.control-label(for="email-reset-progress", data-i18n="account_settings.type_in_email_progress")
+                input#email-reset-progress.form-control(name="emailOrUsername")
+              .form-group
+                label.control-label(for="password-reset-progress", data-i18n="account_settings.type_in_password")
+                input#password-reset-progress.form-control(name="password", type="password")
+            button#reset-progress-btn.btn.form-control.btn-primary(data-i18n="account_settings.reset_your_progress")
+
+.clearfix
   
 if !me.get('anonymous', true)
   #save-button-container

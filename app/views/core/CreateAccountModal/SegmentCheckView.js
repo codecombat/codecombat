@@ -186,7 +186,8 @@ module.exports = (SegmentCheckView = (function () {
           return forms.setErrorToProperty(this.$el, 'birthdayDay', requiredMessage)
         } else {
           const age = (new Date().getTime() - this.signupState.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
-          if (age > utils.ageOfConsent(me.get('country'), 13)) {
+          const ageLimit = features.china ? 0 : 13
+          if (age > utils.ageOfConsent(me.get('country'), ageLimit)) {
             const screen = me.get('country') && me.inEU() ? 'eu-confirmation' : 'basic-info'
             this.trigger('nav-forward', screen)
             return (window.tracker != null ? window.tracker.trackEvent('CreateAccountModal Individual SegmentCheckView Submit', { category: 'Individuals' }) : undefined)

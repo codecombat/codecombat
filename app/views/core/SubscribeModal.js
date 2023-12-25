@@ -38,7 +38,8 @@ module.exports = (SubscribeModal = (function () {
         'click .purchase-button': 'onClickPurchaseButton',
         'click .stripe-lifetime-button': 'onClickStripeLifetimeButton',
         'click .stripe-annual-button': 'onClickAnnualPurchaseButton',
-        'click .back-to-products': 'onClickBackToProducts'
+        'click .back-to-products': 'onClickBackToProducts',
+        'click .go-prepaid': 'onClickGoPrepaid'
       }
     }
 
@@ -154,6 +155,16 @@ module.exports = (SubscribeModal = (function () {
     onClickPurchaseButton (e) {
       if (!this.basicProduct) { return }
       this.playSound('menu-button-click')
+      if(features.chinaHome) {
+        const prodBasic = 'https://appKGNJyWGE8466.h5.xiaoeknow.com/v1/entity/coupon/g_61ce58b300c20_QIc9JL7I?type=2'
+        const stagingBasic = 'https://vvf.h5.xeknow.com/s/1gxOW1'
+        if(application.isProduction)
+          window.open(prodBasic, '_blank')
+        else
+          window.open(stagingBasic, '_blank')
+        return
+      }
+
       if (me.get('anonymous')) {
         const service = this.basicProduct.isRegionalSubscription() ? 'paypal' : 'stripe'
         if (application.tracker != null) {
@@ -171,6 +182,13 @@ module.exports = (SubscribeModal = (function () {
     onClickAnnualPurchaseButton (e) {
       if (!this.basicProductAnnual) { return }
       this.playSound('menu-button-click')
+      if(features.chinaHome) {
+        const prodBasic = 'https://appKGNJyWGE8466.h5.xiaoeknow.com/v1/entity/coupon/g_61ce58e0e82b4_vaLjWMMA?type=2'
+        if(application.isProduction)
+          window.open(prodBasic, '_blank')
+        return
+      }
+
       if (me.get('anonymous')) {
         if (application.tracker != null) {
           application.tracker.trackEvent('Started Signup from buy yearly', { service: 'stripe' })
@@ -387,6 +405,10 @@ module.exports = (SubscribeModal = (function () {
         this.stateMessage = $.i18n.t('loading_error.unknown')
       }
       return this.render()
+    }
+
+    onClickGoPrepaid () {
+      window.locatio.href = '/account/prepaid'
     }
 
     onHidden () {

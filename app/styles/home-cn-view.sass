@@ -100,7 +100,7 @@ $teal-dark: #0E4C60
       margin: 0 auto
 
     #jumbotron-container-fluid
-      background-image: url("/images/pages/home/jumbotron.png")
+      background-image: url("/images/pages/home/newbackground.png")
       background-size: cover
       background-repeat: no-repeat
       background-position: center center
@@ -129,38 +129,56 @@ $teal-dark: #0E4C60
         .gradient-title
           font-family: SourceHanSansCN-Bold
           font-weight: 700
-          color: $teal
+          background: linear-gradient(to right, rgb(57,160,255), rgb(0,223,213))
+          -webkit-background-clip: text
+          -webkit-text-fill-color: transparent
           margin-bottom: 14px
         .subtitle
           font-family: SourceHanSansCN-Medium
           margin-right: 70px
           font-size: 30px
           color: white
+        .sub2title
+          font-family: SourceHanSansCN-Medium
+          margin-right: 70px
+          font-size: 22px
+          color: white
+
         .aiyouth-btn
           margin-right: 70px
           background-color: $gold
           margin-top: 42px
 
-
     #game-based
-      padding: 62px 75px
-      max-width: 1170px
-      margin: 0 auto
-      @media (max-width: $screen-md-min)
-        text-align: center
-        flex-direction: column-reverse
-        .game-based-image
-          margin-bottom: 45px
-
-      .play-btn
-        margin-bottom: 0
-
-      .game-based-image
-        display: inline-block
-        max-width: 600px
+      background-color: #F7F9F9
+      .row
+        padding: 40px 0 25px 0
+      .tile-shadow
+        background-color: #FFFFFF
+        box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.51)
+        padding: 37px 40px
+        height: 100%
+        @media (max-width: $screen-lg-min)
+          margin-bottom: 15px
+        p
+          font-size: 20px
+          line-height: 28px
+          letter-spacing: 0.83px
+          min-height: 170px
+          margin: 0 0 25px
         img
-          max-height: 364px
-          width: 100%
+          max-height: 275px
+          @media (max-width: $screen-md-min)
+            width: 390px
+          @media (max-width: $screen-xs-min)
+            margin: auto
+            width: 100%
+        h2
+          line-height: 32px
+          letter-spacing: 0.66px
+          margin: 27px auto 10px
+        h3
+          margin: 10px auto 15px
 
     #classroom-in-box-row
       padding: 62px 40px
@@ -452,7 +470,7 @@ $teal-dark: #0E4C60
               width: 42px
               height: 40px
           .quote-1
-            background-image: url("http://coco-assets.oss-cn-beijing.aliyuncs.com/images/home/century_carousel1.jpg")
+            background-image: url("https://assets.koudashijie.com/images/home/century_carousel1.jpg")
             background-position: right
             @media (min-width: $screen-sm-min)
               h4.text-white
@@ -614,6 +632,32 @@ $teal-dark: #0E4C60
       font-weight: 700
       color: #000
 
+
+  .floatCS
+    position: fixed
+    bottom: 0
+    padding-top: 5px
+    right: 50px
+    width: 60px
+    border-radius: 8px
+    background-color: #0085dd
+    display: flex
+    flex-direction: column
+    align-items: center
+    color: white
+    font-size: 10px
+    cursor: pointer
+    &:hover .qr
+        display: block
+    .qr
+      width: 100px
+      position: absolute
+      display: none
+      top: -120px
+    .icon
+      width: 4em
+    .text
+      text-align: center
 
 body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='sr'], body[lang='pl'], body[lang='lt'], body[lang='sl'], body[lang='tr'], body[lang='vi']
   #home-view

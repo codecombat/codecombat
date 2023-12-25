@@ -1,7 +1,7 @@
 <template>
   <modal
     v-if="classroom"
-    title="Share Class"
+    :title="$t('teacher.share_class')"
     :backbone-dismiss-modal="true"
     @close="$emit('close')"
   >
@@ -23,7 +23,7 @@
               v-model="email"
               class="form-control"
               type="text"
-              placeholder="Teacher's email"
+              :placeholder="$t('hoc_2018_completion.teacher_email')"
               required
             >
           </div>
@@ -61,7 +61,7 @@
               class="btn btn-primary"
               :disabled="addInProgress"
             >
-              Add
+              {{$t('teacher_dashboard.add')}}
             </button>
           </div>
         </div>
@@ -74,7 +74,7 @@
       </form>
       <div class="already-shared-with">
         <div class="already-shared-heading">
-          Shared With:
+          {{$t('teacher_dashboard.shared_with')}}:
         </div>
         <div v-if="alreadySharedWith">
           <ul>
@@ -97,7 +97,7 @@
         </div>
       </div>
       <div>
-        Note:
+        {{$t('teacher_dashboard.note')}}:
         <ul>
           <li class="small-text">
             {{ $t('teacher_dashboard.read_blurb') }}

@@ -271,6 +271,21 @@
     span
       pointer-events: none
 
+  .purchase-button, .stripe-annual-button
+    position: relative
+
+    &:hover
+      & > .cn-purchase-qrcode
+        opacity: 1
+
+    .cn-purchase-qrcode
+      position: absolute
+      top: 60px
+      left: 0
+      right: 0
+      margin: auto
+      opacity: 0
+
   #paypal-button-container
     height: 45px
     width: 250px
@@ -289,6 +304,11 @@
 .support-blurb
   margin-bottom: 10px
   margin-top: 10px
+  .go-prepaid
+    font-size: 20px
+    font-style: bold
+    display: block
+
 
 body[lang='fr']
   #subscribe-modal

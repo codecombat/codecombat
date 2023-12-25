@@ -7,66 +7,71 @@ module.exports = {
 
     ozaria_home: {
       subtitle: '引人入胜的计算机科学课程',
-      //    heading_subtitle: "A coding adventure for students and your turnkey solution for teaching Computer Science."
-      //    item_list_p: "Try Chapter 1 for Free Today!"
-      //    engaging_heading_corner: "A solution to Engage Students and Support Teachers"
-      //    engaging_row1_h2: "Easy Implementation"
-      //    engaging_row1_p: "Even with no coding experience, you can teach a full Computer Science curriculum with Ozaria. Our ready-to-go lesson plans and intuitive dashboard will provide you with the tools you need to be ready to teach on day one."
-      //    engaging_row2_h2: "Immersive Gameplay"
-      //    engaging_row2_p: "Students are immersed in an adventure game in which their knowledge of Computer Science advances with the storyline. In this engaging learning environment, students build real-world skills through the power of play."
-      //    engaging_row3_h2: "Standards-Aligned Curriculum"
-      //    engaging_row3_p: "Ozaria meets CSTA and ISTE standards, enabling you to teach with confidence as your students master core Computer Science concepts, develop computational thinking skills, and learn about the relevance of Computer Science to their daily lives."
-      //    pd_blurb: "Learn the skills to effectively teach computer science with our self-directed, CSTA-accredited __pd__ course. Earn up to 40 credit hours any time, from any device."
-      //    back_cta_1_a: "Try Chapter 1 for Free"
-      //    speech_bubble_testimonial_1_blockquote: "Once again, your team has managed to accomplish the Holy Grail of Edutainment. In my opinion as a 26-year veteran Middle School educator, there is no more engaging resource for teaching coding."
-      //    core_curriculum_header: "Core Computer Science Curriculum"
-      //    core_curriculum_p: "We have developed our instructional model based on proven theories and extensive evidence around how students learn best."
-      //    core_curriculum_carousel_item1_header: "Make Connections"
-      //    core_curriculum_carousel_item1_p: "At the start of every module, use our turnkey lesson slides to help your students make the connection between new Computer Science concepts and relevant examples from their daily lives."
-      //    core_curriculum_carousel_item2_header: "Construct Own Meaning"
-      //    core_curriculum_carousel_item2_p: "Next, guide your students in constructing a deeper understanding of new concepts through unplugged and discussion activities that are built into our lesson plans."
-      //    core_curriculum_carousel_item3_header: "Learn New Concepts"
-      //    core_curriculum_carousel_item3_p: "In the third stage of the learning cycle, your students will learn new concepts through expositional dialogue between characters in the Ozaria story. Voice-over, graphics, and animations make absorbing new information even more accessible and fun."
-      //    core_curriculum_carousel_item4_header: "Apply New Knowledge"
-      //    core_curriculum_carousel_item4_p: "Next, your students will put what they learned into practice by typing real Python or JavaScript to solve a variety of challenges in scaffolded game levels. Built-in hints help students identify and fix bugs, leading to greater coding confidence."
-      //    core_curriculum_carousel_item5_header: "Summative Project"
-      //    core_curriculum_carousel_item5_p: "At the end of each chapter, your students will be challenged to showcase their new skills and express their creativity through summative projects in which they build their own games, stories, and more."
-      //    core_curriculum_scope_sequence: "View Scope & Sequence"
-      //    core_curriculum_sample_lesson_slides: "View Sample Lesson Slides"
-      //    global_community_header: "Join Our Global Community"
-      //    global_community_row1_p: "Learners"
-      //    global_community_row2_p: "Lines of Code"
-      //    global_community_row3_p: "Teachers"
-      //    global_community_row4_p: "Countries"
-      //    admin_dashboard_header: "Comprehensive Teacher & Admin Dashboards"
-      //    admin_dashboard_p: "Designed with feedback from our community of over 140,000 educators, Ozaria addresses the challenges of teaching Computer Science by providing tools and resources that work."
-      //    admin_dashboard_row1_p: "The intuitive Teacher Dashboard provides access to student-facing lesson plans, pacing guides, distance learning strategies, and other resources to support your needs."
-      //    admin_dashboard_row2_p: "The Track Progress page allows you to monitor student progress on an ongoing basis, get valuable information on their performance, and immediately identify whether interventions are needed."
-      //    admin_dashboard_row3_a: "Request a Quote"
-      //    acodus_awards_a: "Try Chapter 1 for Free"
-      //    speech_bubble_testimonial_2_blockquote: "It’s the most accessible programming site I’ve seen as of yet. I appreciate the story that goes with Ozaria, as it aligns with a mission my students can empathize with. Frankly, I love it. In fact, I found myself playing for far longer than I wish to admit last weekend!"
-      //    shareable_resources_header: "Shareable Resources"
-      //    shareable_resources_p: "Share the resources below with teachers, administrators, and others involved in bringing Computer Science to your school or expanding offerings already in place."
-      //    shareable_resources_a: "Download Flyer"
-      //    back_cta_2_a: "Try Chapter 1 for Free"
-      //    faq_header: "Frequently Asked Questions"
-      //    faq_row1_header: "How is Ozaria related to CodeCombat?"
-      //    faq_row1_p: "Ozaria is the classroom-centered evolution of CodeCombat, one of the most popular coding games in history. We built Ozaria based off the insights gained from teaching over 20 million learners Python and JavaScript. Ozaria incorporates new pedagogical models, an immersive story-driven narrative, and was designed to be implemented in classrooms, for both in-person and remote learning settings."
-      //    faq_row2_header: "What ages or grades are appropriate for Ozaria?"
-      //    faq_row2_p: "Ozaria is aligned to the CSTA and ISTE middle school CS standards, but has been practiced and enjoyed by students ranging from upper elementary through high school."
-      //    faq_row3_header: "How much does it cost to access all of the available units and resources?"
-      //    faq_row3_p_part1: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. "
-      //    faq_row3_p_part2: " for further details! We also provide a "
-      //    faq_row3_p_part3: "funding resources guide"
-      //    faq_row3_p_part4: " for school and district CS programs."
-      //    faq_row4_header: "Does Ozaria have project-based learning?"
-      //    faq_row4_p: "Yes. Ozaria incorporates shareable Capstone Projects at the end of each Chapter, where students create their own games. These projects serve as summative assessments and are great ways for students to express themselves and demonstrate their learnings to classmates, friends, and family."
-      //    faq_row5_header: "Can I use Ozaria as my class’s main curriculum?"
-      //    faq_row5_p: "Absolutely! Ozaria has everything you need to run a full Computer Science class, even if you don't have a Computer Science background. From lesson plans and solution guides to project rubrics and built-in standards alignment, it's all here."
-      //    faq_row6_p_part1: "If you have any other questions, please "
-      //    see_faq_prefix: "See more"
-      //    see_faq_link: "frequently asked questions in our help center"
-      //    see_faq_suffix: "."
+      heading_subtitle: '编程学习入门探秘之路，人工智能通识教育一站式解决方案。',
+      item_list_p: '免费体验！',
+      engaging_heading_corner: '提供沉浸式学习和教师教学支持方案',
+      engaging_row1_h2: '课程落地简单易行',
+      engaging_row1_p: '即便你无任何代码经验，奥佳睿可以帮助你从容完成计算机代码编程教学任务。我们提供完备的课程方案和智能教学面板等工具，帮助教师从一开始就能轻松驾驭极富挑战的代码编程教学。',
+      engaging_row2_h2: '沉浸式游戏化学习模式',
+      engaging_row2_p: '奥佳睿完美融合计算机科学的严谨和科幻故事的天马行空，随着故事情节发展学生将由浅入深、循序渐进学习计算机代码编程概念。在交互式学习体验中，学生在程序概念学习和关卡算法练习中不断提升真正的编程技能和AI基础。',
+      engaging_row3_h2: '沿用国际权威的课程标准',
+      engaging_row3_p: '奥佳睿参考CSTA、ISTE、国家信息学课标要求等国内外权威标准，提升教师编程教学教研能力，帮助学生有效掌握主流编程语言的核心概念和基础语法，锻炼计算思维，理解算法设计，提升编程技巧，掌握人工智能在实践中的应用。',
+      engaging_row4_h2: '专业发展',
+      engaging_row4_p: '随时随地从任何设备通过我们 CSTA 认证的自主学习课程有效学习计算机科学的技能。',
+      back_cta_1_a: '免费体验',
+      back_cta_2_a: '免费体验',
+      speech_bubble_testimonial_1_blockquote: '“扣哒世界团队带给我们堪称惊艳的AI编程学习和教学平台，在我用过的众多程序教学平台中，奥佳睿完美平衡了知识性和趣味性，交互式故事沉浸体验寓教于乐，完备的教学资源让我们中小学计算机教师事半功倍，AI教学面板可以有针对性因材施教，扎实落实国家信息学课标要求的学生信息化核心素养培养要求，我和我的学生都非常喜欢这个平台。”',
+      speaker_name_1: '赵俊',
+      speaker_position_1: '中国江苏省苏州中学园区校信息中心主任, 苏州“数字公民”课程基地联盟执行负责人',
+      speech_bubble_testimonial_2_blockquote: '“这是最容易上手代码编程教学平台，我非常喜欢奥佳睿科幻探险故事，故事中体现的创新、坚韧和卓越精神和我们培养学生的目标高度一致。香港特区有大量中小学试用了奥佳睿教学平台，效果非常好！学生们爱不释手，下了课也不想离开机房！”',
+      speaker_name_2: '关文杰',
+      speaker_position_2: '中国香港特区启瀚科技教育集团, 教学总监',
+      core_curriculum_header: '核心编程和AI课程',
+      core_curriculum_p: '我们的教学设计源自世界权威的面向中小学计算机教学理论，充分吸收来自全球各地学校和培训机构的丰富教学实践，兼收并蓄，因此学生在奥佳睿学习平台可以快速学会真是代码编程，成为AI领域的小小创造者。',
+      core_curriculum_carousel_item1_header: '学以致用',
+      core_curriculum_carousel_item1_p: '从每一个学习模块开始，奥佳睿一站式解决方案可以帮助学生建立编程知识概念和真实世界中的AI程序设计之间的联系。',
+      core_curriculum_carousel_item2_header: '建构我们自己的AI知识体系',
+      core_curriculum_carousel_item2_p: '下一步，教师通过教学活动延展知识面，指导学生建构对计算机程序概念理解的深度和广度，奥佳睿和扣哒学堂将不断提供补充学习资料、习题和案例，不断拓宽知识边际。',
+      core_curriculum_carousel_item3_header: '循序渐进学习新的知识概念',
+      core_curriculum_carousel_item3_p: '在学习的第三个阶段中，在奥佳睿人物之间的对话中，进一步引出新的程序概念和计算机AI知识体系，通过人物对话、图表展示和动画效果等，让学习过程浅显易懂并生动有趣，帮助学生快速理解和掌握全新的知识概念。',
+      core_curriculum_carousel_item4_header: '学以致用信手拈来',
+      core_curriculum_carousel_item4_p: '下一步，学生将进入写代码阶段，通过Python, JavaScript和C++等程序语言真实代码训练，完成不同难度的关卡学习挑战，学生在闯关的过程中，可以通过关卡提示发现和修复程序中的bug，满满的成就感油然而生！',
+      core_curriculum_carousel_item5_header: '总结性顶点项目设计',
+      core_curriculum_carousel_item5_p: '在每一个学习模块的最后环节，学生将完成总结性顶点项目设计和开发，顶点项目旨在锻炼编程知识在跨学科和生活实践中的应用，通过设计游戏程序、网页程序和科幻故事等，学生们尽情展示自己的算法技巧和创意天赋，棒就一个字。',
+      core_curriculum_scope_sequence: '查看课程范围和内容顺序',
+      core_curriculum_sample_lesson_slides: '查看样课幻灯片PPT',
+      global_community_header: '加入我们的全球学习社区',
+      global_community_row1_header: '2000万',
+      global_community_row1_p: '中小学学生',
+      global_community_row2_header: '10亿',
+      global_community_row2_p: '代码行',
+      global_community_row3_header: '140,000',
+      global_community_row3_p: '学校和机构教师',
+      global_community_row4_header: '190个',
+      global_community_row4_p: '国家和地区',
+      admin_dashboard_header: '完善的教师教学面板和校长管理员面板',
+      admin_dashboard_p: '奥佳睿开发过程中得到了我们全球14万教师群体的反馈意见。平台提供了行之有效的教学工具和学习资源，解决学校和机构计算机真实代码编程教学中的诸多痛点。',
+      admin_dashboard_row1_p: '智能教师教学面板提供面向中小学的课程规划、进度指南、线上远程学习策略以及其它教学指导资料。',
+      admin_dashboard_row2_p: '进度跟踪页面可以帮助教师持续监督学生学习进度，从学生的作业完成情况得到极具价值的反馈信息，并迅速找出每一个学生哪些地方需要查缺补漏，真正做到因材施教。',
+      admin_dashboard_row3_a: '课程询价',
+      acodus_awards_a: '免费体验',
+      shareable_resources_header: '可供分享的教学资源',
+      shareable_resources_p: '分享可以让教育更美好，请不吝分享以下信息给到你认识的计算机或信息学教师、编程创客培训机构教研人员以及政府教育管理工作者等，让优质的编程和AI课程和竞赛平台惠及国内各地的教师和学生，缩短和世界上科技教育发达国家在计算机基础教育方面的差距。',
+      faq_header: '常见问题',
+      faq_row1_header: '奥佳睿和扣哒世界是什么关系？',
+      faq_row1_p: '奥佳睿是基于享誉全球的游戏化编程平台 - 扣哒世界开发而成，奥佳睿平台由国内中关村清华北大谷歌团队和美国硅谷斯坦福哈佛团队共同开发。奥佳睿是建立在扣哒世界平台巨人的肩膀上，平台吸收了全球超过3万所学校的14多万教师的教学实践经验，以及2000多万中小学和各类学校学生在Python、C++、JavaScript、HTML/CSS等真实代码的学习经验。奥佳睿平台整合了当今最流行的国际STEAM教学法理论模型设计，采用沉浸式故事驱动的叙事方式，为线下代码编程教学和线上远程辅导提供优质超值的教学内容和管理工具。',
+      faq_row2_header: '最适合奥佳睿平台学习的学生年龄和年级？',
+      faq_row2_p: '奥佳睿教学平台匹配了面向中学生的CSTA、ISTE和国家中小学信息学核心素养标准等权威教学标准，适用于0基础的小学生和有一定编程基础的初高中生，对于0基础的成人学习者快速掌握编程技能也非常有效。未来，扣哒世界团队还将开发面向幼儿园大班和小学低年级少儿阶段的模块化竞技编程学习内容，让我们拭目以待！',
+      faq_row3_header: '使用奥佳睿平台所有的模块和教学资源需要多少费用？',
+      faq_row3_p_part1: '我们根据学校或培训机构的使用情况、学生规模和预算情况为你提供定制化方案，具体费用请联系扣哒世界/奥佳睿负责人王老师 [联系方式 - 13810906731/电话同微信号]，我们将和分布在全国各地的合作伙伴一起为你提供优质的教学内容和服务，开发编程竞赛挑战活动，并保证平台使用费用非常合理。',
+      faq_row3_p_part2: ' 来了解更多细节内容',
+      faq_row4_header: '奥佳睿教学平台是否有项目式学习内容？',
+      faq_row4_p: '有。奥佳睿教学平台在每个章节最后都有一个可分享的顶点项目（编程跨学科或实践应用项目），学生可以使用奥佳睿关卡开发属于自己独创的游戏和网页，或进行深入的智能算法应用设计。顶点项目是一个学习模块的总结性评估，特别有助于学习者向同学、家人和朋友展示他们丰硕的学习成果。',
+      faq_row5_header: '我是否可以用奥佳睿作为班级的人工智能通识课主要内容？',
+      faq_row5_p: '当然可以！作为老师，不论你是否有计算机真实代码编程经验，奥佳睿教学平台都将为你提供计算机课程内容、竞赛设计、学生评估和项目实践。面向中小学的AI课程方案、教学指南、竞赛规则和体系标准，在这里应有尽有。',
+      faq_row6_p_part1: '如果你还有其它问题，请点击',
+      btn_download_pre: '下载平台介绍幻灯片',
+      btn_download_flyer: '下载课程单页介绍资料',
       summary: '奥佳睿（Ozaria）既是计算机科学程序，扣人心弦的冒险游戏，也是一个让学生们掌握计算机代码魔法来拯救世界的科幻故事。',
       value_prop1_h1: '史诗故事，沉浸式体验',
       value_prop1_h2: '激发与学习的紧密联系',
