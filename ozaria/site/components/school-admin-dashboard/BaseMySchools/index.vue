@@ -1,88 +1,88 @@
 <script>
-  import { mapGetters, mapActions, mapMutations } from 'vuex'
-  import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
-  import TeacherRowComponent from './TeacherRowComponent'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
+import TeacherRowComponent from './TeacherRowComponent'
 
-  export default {
-    name: COMPONENT_NAMES.MY_SCHOOLS,
+export default {
+  name: COMPONENT_NAMES.MY_SCHOOLS,
 
-    components: {
-      TeacherRowComponent
-    },
+  components: {
+    TeacherRowComponent
+  },
 
-    computed: {
-      ...mapGetters({
-        loading: 'schoolAdminDashboard/getLoadingState',
-        administratedTeachers: 'schoolAdminDashboard/getAdministratedTeachers',
-        getStatsByUser: 'userStats/getStatsByUser'
-      }),
+  computed: {
+    ...mapGetters({
+      loading: 'schoolAdminDashboard/getLoadingState',
+      administratedTeachers: 'schoolAdminDashboard/getAdministratedTeachers',
+      getStatsByUser: 'userStats/getStatsByUser'
+    }),
 
-      groupedAdministratedTeachers () {
-        const groupedTeachers = {}
+    groupedAdministratedTeachers () {
+      const groupedTeachers = {}
 
-        for (const teacher of this.administratedTeachers) {
-          const trialRequest = teacher._trialRequest || {}
-          const organization = (trialRequest.organization || '').trim().toLowerCase();
-          groupedTeachers[organization] = groupedTeachers[organization] || []
-          groupedTeachers[organization].push(teacher)
-        }
-
-        return Object.freeze(groupedTeachers)
-      },
-      // returns example: [ [groupName, [teacher1, teacher2]] ] in sorted order of licenses used from high to low
-      sortedGroupedAdministratedTeachers() {
-        const groupLicenseUsedMap = {};
-        const groupNameTeacherArr = [];
-        for (const [groupName, teachers] of Object.entries(this.groupedAdministratedTeachers)) {
-          let totalUsage = 0
-          let enrolledStudents = 0
-          for (const teacher of Object.values(teachers)) {
-            const usage = teacher?.stats?.licenses?.usage?.used || 0;
-            teacher.userStats = this.getStatsByUser(teacher._id)
-            enrolledStudents += teacher.userStats?.stats?.students?.totalInActiveClassrooms || 0
-            totalUsage += usage;
-          }
-          groupLicenseUsedMap[groupName] = totalUsage;
-          groupNameTeacherArr.push([groupName, teachers, enrolledStudents])
-        }
-        const sortByLicenseUsedCompare = (grpNameTeacher1, grpNameTeacher2) => {
-          return groupLicenseUsedMap[grpNameTeacher1[0]] > groupLicenseUsedMap[grpNameTeacher2[0]] ? -1 : 1;
-        }
-        groupNameTeacherArr.sort(sortByLicenseUsedCompare);
-
-        // sort teachers inside a group based on license usage
-        for (const groupNameTeachers of groupNameTeacherArr) {
-          const teachers = groupNameTeachers[1];
-          teachers.sort((teacher1, teacher2) => {
-            const t1Usage = teacher1?.stats?.licenses?.usage?.used || 0;
-            const t2Usage = teacher2?.stats?.licenses?.usage?.used || 0;
-            return t1Usage > t2Usage ? -1 : 1;
-          });
-        }
-        return groupNameTeacherArr;
+      for (const teacher of this.administratedTeachers) {
+        const trialRequest = teacher._trialRequest || {}
+        const organization = (trialRequest.organization || '').trim().toLowerCase()
+        groupedTeachers[organization] = groupedTeachers[organization] || []
+        groupedTeachers[organization].push(teacher)
       }
+
+      return Object.freeze(groupedTeachers)
     },
+    // returns example: [ [groupName, [teacher1, teacher2]] ] in sorted order of licenses used from high to low
+    sortedGroupedAdministratedTeachers () {
+      const groupLicenseUsedMap = {}
+      const groupNameTeacherArr = []
+      for (const [groupName, teachers] of Object.entries(this.groupedAdministratedTeachers)) {
+        let totalUsage = 0
+        let enrolledStudents = 0
+        for (const teacher of Object.values(teachers)) {
+          const usage = teacher?.stats?.licenses?.usage?.used || 0
+          teacher.userStats = this.getStatsByUser(teacher._id)
+          enrolledStudents += teacher.userStats?.stats?.students?.totalInActiveClassrooms || 0
+          totalUsage += usage
+        }
+        groupLicenseUsedMap[groupName] = totalUsage
+        groupNameTeacherArr.push([groupName, teachers, enrolledStudents])
+      }
+      const sortByLicenseUsedCompare = (grpNameTeacher1, grpNameTeacher2) => {
+        return groupLicenseUsedMap[grpNameTeacher1[0]] > groupLicenseUsedMap[grpNameTeacher2[0]] ? -1 : 1
+      }
+      groupNameTeacherArr.sort(sortByLicenseUsedCompare)
 
-    mounted () {
-      this.setPageTitle(PAGE_TITLES[this.$options.name])
-      this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'My Schools: Loaded' } })
-    },
-
-    destroyed () {
-      this.resetLoadingState()
-    },
-
-    methods: {
-      ...mapActions({
-        fetchData: 'schoolAdminDashboard/fetchData'
-      }),
-
-      ...mapMutations({
-        resetLoadingState: 'schoolAdminDashboard/resetLoadingState',
-        setPageTitle: 'schoolAdminDashboard/setPageTitle'
-      })
+      // sort teachers inside a group based on license usage
+      for (const groupNameTeachers of groupNameTeacherArr) {
+        const teachers = groupNameTeachers[1]
+        teachers.sort((teacher1, teacher2) => {
+          const t1Usage = teacher1?.stats?.licenses?.usage?.used || 0
+          const t2Usage = teacher2?.stats?.licenses?.usage?.used || 0
+          return t1Usage > t2Usage ? -1 : 1
+        })
+      }
+      return groupNameTeacherArr
     }
+  },
+
+  mounted () {
+    this.setPageTitle(PAGE_TITLES[this.$options.name])
+    this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'My Schools: Loaded' } })
+  },
+
+  destroyed () {
+    this.resetLoadingState()
+  },
+
+  methods: {
+    ...mapActions({
+      fetchData: 'schoolAdminDashboard/fetchData'
+    }),
+
+    ...mapMutations({
+      resetLoadingState: 'schoolAdminDashboard/resetLoadingState',
+      setPageTitle: 'schoolAdminDashboard/setPageTitle'
+    })
   }
+}
 </script>
 
 <template>

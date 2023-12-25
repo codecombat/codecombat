@@ -1,73 +1,99 @@
 <template>
   <div class="parent-details">
-    <hr />
-    <h4 class="parent-details-text">Parent Details</h4>
+    <hr>
+    <h4 class="parent-details-text">
+      Parent Details
+    </h4>
     <div class="form-group">
       <label for="parent-email">Email<span class="required-field"> *</span></label>
-      <input type="text" :class="`form-control ${this.emailErrorClass}`" id="parent-email" placeholder="Enter Email" @keydown="updateEmail" @keyup="updateEmail" :value="email" />
+      <input
+        id="parent-email"
+        type="text"
+        :class="`form-control ${emailErrorClass}`"
+        placeholder="Enter Email"
+        :value="email"
+        @keydown="updateEmail"
+        @keyup="updateEmail"
+      >
     </div>
     <div class="form-group">
       <label for="parent-firstname">First Name<span class="required-field"> *</span></label>
-      <input type="text" class="form-control" id="parent-firstname" placeholder="Enter First Name" @keydown="updateFirstName" @keyup="updateFirstName" :value="firstName" />
+      <input
+        id="parent-firstname"
+        type="text"
+        class="form-control"
+        placeholder="Enter First Name"
+        :value="firstName"
+        @keydown="updateFirstName"
+        @keyup="updateFirstName"
+      >
     </div>
     <div class="form-group">
       <label for="parent-lastname">Last Name</label>
-      <input type="text" class="form-control" id="parent-lastname" placeholder="Enter Last Name" @keydown="updateLastName" @keyup="updateLastName" :value="lastName" />
+      <input
+        id="parent-lastname"
+        type="text"
+        class="form-control"
+        placeholder="Enter Last Name"
+        :value="lastName"
+        @keydown="updateLastName"
+        @keyup="updateLastName"
+      >
     </div>
-    <hr />
+    <hr>
   </div>
 </template>
 
 <script>
 import { validateEmail } from '../../../lib/common-utils'
 export default {
-  name: "PaymentOnlineClassesParentDetailsView",
+  name: 'PaymentOnlineClassesParentDetailsView',
   data () {
     return {
       email: me.get('email'),
       firstName: me.get('firstName'),
       lastName: me.get('lastName'),
-      emailErrorClass: null,
-    };
+      emailErrorClass: null
+    }
   },
-  created() {
+  created () {
     // update parent details if user is logged in
     if (me.get('email')) {
       this.updateParentDetails()
     }
   },
   methods: {
-    updateEmail(e) {
-      this.emailErrorClass = '';
-      const val = e.target.value;
-      this.email = val;
+    updateEmail (e) {
+      this.emailErrorClass = ''
+      const val = e.target.value
+      this.email = val
       if (!validateEmail(val)) {
-        this.emailErrorClass = 'error-border';
-        return;
+        this.emailErrorClass = 'error-border'
+        return
       }
-      this.updateParentDetails();
+      this.updateParentDetails()
     },
-    updateFirstName(e) {
-      this.firstName = e.target.value;
-      this.updateParentDetails();
+    updateFirstName (e) {
+      this.firstName = e.target.value
+      this.updateParentDetails()
     },
-    updateLastName(e) {
-      this.lastName = e.target.value;
-      this.updateParentDetails();
+    updateLastName (e) {
+      this.lastName = e.target.value
+      this.updateParentDetails()
     },
-    updateParentDetails() {
+    updateParentDetails () {
       // maybe use watch or something better to trigger this method
       if (this.email && this.firstName && !this.emailErrorClass) {
         this.$emit('updateParentDetails', {
           email: this.email,
           firstName: this.firstName,
           lastName: this.lastName
-        });
+        })
       } else {
-        this.$emit('updateParentDetails', null);
+        this.$emit('updateParentDetails', null)
       }
     }
-  },
+  }
 }
 </script>
 

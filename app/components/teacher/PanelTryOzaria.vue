@@ -12,12 +12,16 @@ export default Vue.extend({
   <div class="container">
     <div class="gradient">
       <div id="panel-try-ozaria">
-        <div class="top-gradient-border"></div>
+        <div class="top-gradient-border" />
         <div>
           <h3>
             {{ $t('teacher.ozaria_intro') }}
           </h3>
-          <img class="oz-logo" alt="Ozaria logo" src="/images/pages/home/logo_ozaria.png"/>
+          <img
+            class="oz-logo"
+            alt="Ozaria logo"
+            src="/images/pages/home/logo_ozaria.png"
+          >
         </div>
         <OzariaCTA />
       </div>

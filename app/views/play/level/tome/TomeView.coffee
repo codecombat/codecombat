@@ -44,12 +44,14 @@ module.exports = class TomeView extends CocoView
     'tome:comment-my-code': 'onCommentMyCode'
     'tome:reset-my-code': 'onResetMyCode'
     'tome:select-primary-sprite': 'onSelectPrimarySprite'
+    'tome:toggle-blocks': 'onToggleBlocks'
 
   events:
     'click': 'onClick'
 
   constructor: (options) ->
     super options
+    @determineBlocksSettings()
     @unwatchFn = store.watch(
       (state, getters) -> getters['game/levelSolution'],
       (solution) => @onChangeMyCode(solution.source) if solution?.source
@@ -73,6 +75,8 @@ module.exports = class TomeView extends CocoView
       noty text: warning, layout: 'topCenter', type: 'warning', killer: false, timeout: 15000, dismissQueue: true, maxVisible: 3
       console.warn warning
     delete @options.thangs
+    @$el.toggleClass 'blocks', Boolean @blocks
+    @options.playLevelView?.$el.toggleClass 'blocks', Boolean @blocks
 
   onNewWorld: (e) ->
     programmableThangs = _.filter e.thangs, (t) -> t.isProgrammable and t.programmableMethods and t.inThangList
@@ -102,6 +106,20 @@ module.exports = class TomeView extends CocoView
     return null if globalVar.application.isIPadApp  # Save memory!
     return new Worker('/javascripts/workers/aether_worker.js')
 
+  determineBlocksSettings: ->
+    language = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
+    if @options.level.isType('web-dev', 'game-dev') or (language not in ['python', 'javascript', 'lua'])
+      # TODO: eventually we could get game-dev working, if we figure out how to list spawnables
+      @blocks = false
+      @blocksHidden = true
+      return
+    classroomBlocks = @options.classroomAceConfig?.blocks ? 'opt-in'
+    @blocksHidden = false
+    switch classroomBlocks
+      when 'hidden' then @blocksHidden = true
+      when 'opt-in' then @blocks = me.get('aceConfig')?.blocks
+      when 'opt-out' then @blocks = me.get('aceConfig')?.blocks ? true
+
   generateTeamSpellMap: (spellObject) ->
     teamSpellMap = {}
     for spellName, spell of spellObject
@@ -121,6 +139,7 @@ module.exports = class TomeView extends CocoView
     language ?= @options.session.get('codeLanguage')
     language ?= me.get('aceConfig')?.language
     language ?= 'python'
+    @determineBlocksSettings()
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
     @spells ?= {}
     @thangSpells ?= {}
@@ -152,6 +171,9 @@ module.exports = class TomeView extends CocoView
           courseID: @options.courseID
           courseInstanceID: @options.courseInstanceID
           classroomAceConfig: @options.classroomAceConfig
+          blocks: @blocks
+          blocksHidden: @blocksHidden
+          teacherID: @options.teacherID
 
     for thangID, spellKeys of @thangSpells
       thang = @fakeProgrammableThang ? world.getThangByID thangID
@@ -264,6 +286,18 @@ module.exports = class TomeView extends CocoView
       Backbone.Mediator.publish 'level:select-sprite', thangID: 'Hero Placeholder 1'
     else
       Backbone.Mediator.publish 'level:select-sprite', thangID: 'Hero Placeholder'
+
+  onToggleBlocks: (e) ->
+    return if Boolean(@blocks) is Boolean(e.blocks)
+    @blocks = Boolean e.blocks
+    @$el.toggleClass 'blocks', @blocks
+    @options.playLevelView?.$el.toggleClass 'blocks', @blocks
+    $(window).trigger 'resize'
+    aceConfig = me.get('aceConfig') ? {}
+    if aceConfig.blocks isnt @blocks
+      aceConfig.blocks = @blocks
+      me.set 'aceConfig', aceConfig
+      me.save()
 
   createFakeProgrammableThang: ->
     return null unless hero = _.find @options.level.get('thangs'), id: 'Hero Placeholder'

@@ -1,33 +1,33 @@
 <script>
-  import InteractiveTitle from './InteractiveTitle'
-  import LayoutAspectRatioContainer from '../../../common/LayoutAspectRatioContainer'
-  import LayoutChrome from '../../../common/LayoutChrome'
-  import utils from 'core/utils'
+import InteractiveTitle from './InteractiveTitle'
+import LayoutAspectRatioContainer from '../../../common/LayoutAspectRatioContainer'
+import LayoutChrome from '../../../common/LayoutChrome'
+import utils from 'core/utils'
 
-  export default {
-    components: {
-      LayoutAspectRatioContainer,
-      LayoutChrome,
-      InteractiveTitle
+export default {
+  components: {
+    LayoutAspectRatioContainer,
+    LayoutChrome,
+    InteractiveTitle
+  },
+
+  props: {
+    interactive: {
+      type: Object,
+      required: true
     },
 
-    props: {
-      interactive: {
-        type: Object,
-        required: true
-      },
-
-      artUrl: {
-        type: String,
-        default: undefined
-      }
-    },
-    computed:{
-      title(){
-        return utils.i18n(this.interactive, 'displayName') || utils.i18n(this.interactive, 'name')
-      }
+    artUrl: {
+      type: String,
+      default: undefined
+    }
+  },
+  computed: {
+    title () {
+      return utils.i18n(this.interactive, 'displayName') || utils.i18n(this.interactive, 'name')
     }
   }
+}
 </script>
 
 <template>

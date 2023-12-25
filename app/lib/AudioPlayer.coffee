@@ -152,7 +152,7 @@ class AudioPlayer extends CocoClass
       @soundsToPlayWhenLoaded[media.name] = false
     @notifyProgressChanged()
 
-  onSoundLoadError: (e) =>
+  onSoundLoadError: (e) ->
     console.error 'Could not load sound', e
 
   notifyProgressChanged: ->

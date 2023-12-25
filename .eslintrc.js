@@ -5,7 +5,7 @@ module.exports = {
   extends: [
     'standard',
     'plugin:vue/recommended',
-    'plugin:diff/diff',
+    'plugin:diff/ci',
     'plugin:json/recommended'
   ],
 
@@ -15,7 +15,24 @@ module.exports = {
     me: 'readonly',
     noty: 'readonly',
     features: 'readonly',
-    gapi: 'readonly'
+    gapi: 'readonly',
+    _: 'readonly',
+    Backbone: 'readonly',
+    jasmine: 'readonly',
+    zE: 'readonly',
+    ga: 'readonly',
+    moment: 'readonly',
+    webkit: 'readonly',
+    Vuex: 'readonly',
+    d3: 'readonly',
+    algoliasearch: 'readonly',
+    FB: 'readonly',
+    lscache: 'readonly',
+    tv4: 'readonly',
+    TreemaUtils: 'readonly',
+    CoffeeScript: 'readonly',
+    i18n: 'readonly',
+    marked: 'readonly'
   },
 
   env: {

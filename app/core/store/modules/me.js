@@ -140,7 +140,8 @@ export default {
       }
 
       const ozariaConfig = state.ozariaUserOptions || {}
-      commit('updateUser', { ozariaUserOptions:
+      commit('updateUser', {
+        ozariaUserOptions:
         { ...ozariaConfig, avatar: { cinematicThangTypeId, cinematicPetThangId, avatarCodeString } }
       })
     },

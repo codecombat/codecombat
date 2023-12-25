@@ -12,3 +12,7 @@ export default {
       input(v-bind="$attrs", :value="value", @input="$emit('input', $event.target.value)")
       span(v-if="extra") {{extra}}
 </template>
+
+<style scoped>
+
+</style>

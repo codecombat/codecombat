@@ -1,6 +1,6 @@
 <template>
   <div class="student-licenses-main">
-    <raw-pug-component :pug="teacherDashboardNavTemplate"></raw-pug-component>
+    <raw-pug-component :pug="teacherDashboardNavTemplate" />
     <student-licenses-component />
   </div>
 </template>
@@ -12,14 +12,14 @@ import RawPugComponent from 'app/views/common/RawPugComponent'
 
 export default {
   name: 'StudentLicensesMainComponent',
+  components: {
+    StudentLicensesComponent,
+    RawPugComponent
+  },
   data () {
     return {
       teacherDashboardNavTemplate
     }
-  },
-  components: {
-    StudentLicensesComponent,
-    RawPugComponent
   }
 }
 </script>

@@ -2,17 +2,26 @@
   <span>
     <div class="col-md-3">
       <div class="text-center">
-        <img class="info-img" src="/images/pages/home/type_real_code.png" />
+        <img
+          class="info-img"
+          src="/images/pages/home/type_real_code.png"
+        >
       </div>
     </div>
     <div class="col-md-3 info-data">
       <h2 class="info-title">{{ isTecmilenioPartner ? 'Acceso ' : '' }}CodeCombat</h2>
-      <ul class="info-list" v-if="isTecmilenioPartner">
+      <ul
+        v-if="isTecmilenioPartner"
+        class="info-list"
+      >
         <li>La informática</li>
         <li>Desarrollo web</li>
         <li>Desarrollo de juegos</li>
       </ul>
-      <ul class="info-list" v-else>
+      <ul
+        v-else
+        class="info-list"
+      >
         <li>Computer Science 1-6</li>
         <li>Web Development 1-2</li>
         <li>Game Development 1-2</li>
@@ -23,7 +32,7 @@
 
 <script>
 export default {
-  name: "CocoHeadInfoComponent",
+  name: 'CocoHeadInfoComponent',
   props: {
     isTecmilenioPartner: {
       type: Boolean,

@@ -1,6 +1,10 @@
 <template>
   <div class="calendar-panel">
-    <client-calendar v-if="type==='my-classes'" :events="eventsArray" />
+    <client-calendar
+      v-if="type==='my-classes'"
+      :events="eventsArray"
+      :user-id="userId"
+    />
     <classes-stats
       v-if="type==='classes-stats'"
       :events="eventsArray"
@@ -72,7 +76,7 @@ export default {
     return {
       linkGoogleDisabled: true
     }
-},
+  },
   mounted () {
     if (!this.type) {
       return
@@ -119,7 +123,7 @@ export default {
       gcApiHandler.importEvents().then((res) => {
         console.log(res)
       })
-    },
+    }
   }
 }
 </script>

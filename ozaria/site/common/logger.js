@@ -10,7 +10,7 @@ const getMsTime = () => ((window.performance || {}).now() || Date.now())
  */
 export const log = (action, options = {}, status = 'info') => {
   if (typeof ((window.DD_LOGS || {}).logger || {}).log !== 'function') {
-    if(me.useDataDog()){
+    if (me.useDataDog()) {
       console.debug('DD_LOGS not available. Log: ', action)
     }
     return
@@ -20,7 +20,7 @@ export const log = (action, options = {}, status = 'info') => {
     if (globalVar.application && !globalVar.application.isProduction() || window.location.hostname === 'localhost') {
       window.DD_LOGS.logger.setHandler('console')
     }
-  
+
     window.DD_LOGS.logger.log(
       action,
       options,

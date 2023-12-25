@@ -1,115 +1,103 @@
 <script>
-  import ModuleHeader from './ModuleHeader'
-  import ModuleRow from './ModuleRow'
-  import IntroModuleRow from './IntroModuleRow'
-  import { mapGetters } from 'vuex'
-  import utils from 'core/utils'
+import ModuleHeader from './ModuleHeader'
+import ModuleRow from './ModuleRow'
+import IntroModuleRow from './IntroModuleRow'
+import { mapGetters } from 'vuex'
+import CodeDiff from '../../../../../../app/components/common/CodeDiff'
+import { getProgressStatusHelper, getStudentAndSolutionCode } from '../../../../../../app/views/parents/helpers/levelCompletionHelper'
+import { getCurriculumGuideContentList } from '../curriculum-guide-helper'
 
-  export default {
-    components: {
-      ModuleHeader,
-      ModuleRow,
-      IntroModuleRow
+export default {
+  components: {
+    ModuleHeader,
+    ModuleRow,
+    IntroModuleRow,
+    CodeDiff
+  },
+
+  props: {
+    moduleNum: {
+      required: true,
+      type: String
     },
-
-    props: {
-      moduleNum: {
-        required: true,
-        type: String
+    isCapstone: {
+      type: Boolean,
+      default: false
+    },
+    showProgressDot: {
+      type: Boolean,
+      default: false
+    },
+    levelSessions: {
+      type: Array,
+      default () {
+        return []
       },
-      isCapstone: {
-        type: Boolean,
-        default: false
-      }
+      required: false
+    },
+    language: {
+      type: String,
+      default: 'javascript'
+    }
+  },
+  data () {
+    return {
+      showCodeLevelSlug: null,
+      solutionCode: null,
+      studentCode: null
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      getModuleInfo: 'baseCurriculumGuide/getModuleInfo',
+      getModuleIntroLevels: 'baseCurriculumGuide/getModuleIntroLevels',
+      getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
+      getContentDescription: 'baseCurriculumGuide/getContentDescription',
+      getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
+      isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign',
+      getTrackCategory: 'teacherDashboard/getTrackCategory'
+    }),
+
+    courseName () {
+      return this.getCurrentCourse?.name || ''
     },
 
-    computed: {
-      ...mapGetters({
-        getModuleInfo: 'baseCurriculumGuide/getModuleInfo',
-        getModuleIntroLevels: 'baseCurriculumGuide/getModuleIntroLevels',
-        getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
-        getContentDescription: 'baseCurriculumGuide/getContentDescription',
-        getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
-        isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign',
-        getTrackCategory: 'teacherDashboard/getTrackCategory'
-      }),
+    getContentTypes () {
+      return getCurriculumGuideContentList({
+        introLevels: this.getModuleIntroLevels,
+        moduleInfo: this.getModuleInfo,
+        moduleNum: this.moduleNum,
+        currentCourseId: this.getCurrentCourse._id,
+        codeLanguage: this.getSelectedLanguage
+      })
+    }
+  },
 
-      courseName () {
-        return this.getCurrentCourse?.name || ''
-      },
-
-      getContentTypes () {
-        const introLevels = this.getModuleIntroLevels
-        const curriculumGuideContentList = []
-        let lastIntroLevelSlug = null
-        for (const content of this.getModuleInfo?.[this.moduleNum] || []) {
-          const {
-            type,
-            ozariaType,
-            introLevelSlug,
-            fromIntroLevelOriginal,
-            slug,
-            introContent,
-            _id
-          } = content
-
-          // Potentially this intro doesn't have a header in the curriculum guide yet
-          if (introLevelSlug &&
-            type !== 'cutscene' &&
-            lastIntroLevelSlug !== introLevelSlug
-          ) {
-            curriculumGuideContentList.push({
-              isIntroHeadingRow: true,
-              name: utils.i18n(introLevels[fromIntroLevelOriginal], 'displayName'),
-              icon: 'intro'
-            })
-            lastIntroLevelSlug = introLevelSlug
-          }
-
-          let icon, url
-
-          // TODO: Where is the language chosen in the curriculum guide?
-          if (!ozariaType) {
-            icon = type
-            url = `/play/intro/${introLevelSlug}?course=${this.getCurrentCourse._id}&codeLanguage=${this.getSelectedLanguage}&intro-content=${introContent || 0}`
-          } else if (ozariaType) {
-            if (ozariaType === 'practice') {
-              icon = 'practicelvl'
-            } else if (ozariaType === 'capstone') {
-              icon = 'capstone'
-            } else if (ozariaType === 'challenge') {
-              icon = 'challengelvl'
-            }
-            url = `/play/level/${slug}?course=${this.getCurrentCourse._id}&codeLanguage=${this.getSelectedLanguage}`
-          }
-
-          if (!url || !icon) {
-            console.error('missing url or icon in curriculum guide')
-          }
-          curriculumGuideContentList.push({
-            icon,
-            name: utils.i18n(content, 'displayName') || utils.i18n(content, 'name'),
-            _id,
-            description: this.getContentDescription(content),
-            url,
-            // Handle edge case that cutscenes are always in their own one to one intro
-            isPartOfIntro: !!introLevelSlug && icon !== 'cutscene',
-            isIntroHeadingRow: false
-          })
-        }
-
-        return curriculumGuideContentList
+  methods: {
+    trackEvent (eventName) {
+      if (eventName) {
+        window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
       }
     },
-
-    methods: {
-      trackEvent (eventName) {
-        if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
-        }
+    getProgressStatus ({ slug, fromIntroLevelOriginal }) {
+      if (!this.showProgressDot) return
+      return getProgressStatusHelper(this.levelSessions, { slug, fromIntroLevelOriginal })
+    },
+    onShowCodeClicked ({ identifier, hideCode = false }) {
+      const level = this.getModuleInfo?.[this.moduleNum].find(l => l.slug === identifier)
+      if (hideCode) {
+        this.showCodeLevelSlug = null
+        return
       }
+      this.showCodeLevelSlug = identifier
+      const { solutionCode, studentCode } = getStudentAndSolutionCode(level, this.levelSessions)
+      this.studentCode = studentCode
+      this.solutionCode = solutionCode
+      console.log('l', level, this.levelSessions, identifier, this.getModuleInfo?.[this.moduleNum])
     }
   }
+}
 </script>
 <template>
   <div>
@@ -119,9 +107,12 @@
       :is-capstone="isCapstone"
     />
 
-    <div v-if="!isOnLockedCampaign" class="content-rows">
+    <div
+      v-if="!isOnLockedCampaign && !showProgressDot"
+      class="content-rows"
+    >
       <a
-        v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow } in getContentTypes"
+        v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, slug, fromIntroLevelOriginal } in getContentTypes"
         :key="_id"
         :href="url"
         target="_blank"
@@ -148,7 +139,7 @@
       class="content-rows"
     >
       <template
-        v-for="{ icon, name, _id, description, isPartOfIntro, isIntroHeadingRow } in getContentTypes"
+        v-for="{ icon, name, _id, description, isPartOfIntro, isIntroHeadingRow, slug, fromIntroLevelOriginal } in getContentTypes"
       >
         <intro-module-row
           v-if="isIntroHeadingRow"
@@ -157,12 +148,24 @@
           :display-name="name"
         />
         <module-row
-
+          v-else
           :key="_id"
           :icon-type="icon"
           :display-name="name"
           :description="description"
           :is-part-of-intro="isPartOfIntro"
+          :show-progress-dot="showProgressDot"
+          :show-code-btn="getProgressStatus({ slug, fromIntroLevelOriginal }) !== 'not-started' && icon !== 'cutscene'"
+          :progress-status="getProgressStatus({ slug, fromIntroLevelOriginal })"
+          :identifier="slug"
+          @showCodeClicked="onShowCodeClicked"
+        />
+        <code-diff
+          v-if="showCodeLevelSlug === slug"
+          :key="slug"
+          :language="language"
+          :code-right="solutionCode"
+          :code-left="studentCode"
         />
       </template>
     </div>

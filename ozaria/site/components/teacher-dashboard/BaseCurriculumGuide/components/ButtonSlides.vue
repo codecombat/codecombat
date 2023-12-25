@@ -1,16 +1,16 @@
 <script>
-  export default {
-    props: {
-      link: {
-        type: String,
-        required: true
-      },
-      locked: {
-        type: Boolean,
-        default: false
-      }
+export default {
+  props: {
+    link: {
+      type: String,
+      required: true
+    },
+    locked: {
+      type: Boolean,
+      default: false
     }
   }
+}
 </script>
 <template>
   <a
@@ -23,7 +23,11 @@
       <div id="IconLessonSlides" /><span>Lesson Slides</span>
     </button>
   </a>
-  <button v-else :disabled="true" class="locked">
+  <button
+    v-else
+    :disabled="true"
+    class="locked"
+  >
     <div id="IconLessonSlides" /><span>Lesson Slides</span>
   </button>
 </template>

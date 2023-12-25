@@ -1,45 +1,45 @@
 <script>
-  export default {
-    props: {
-      text: {
-        type: String,
-        default: ''
-      },
-      iconUrl: {
-        type: String,
-        default: ''
-      },
-      link: {
-        type: String,
-        default: ''
-      },
-      inactive: {
-        type: Boolean,
-        default: false
-      }
+export default {
+  props: {
+    text: {
+      type: String,
+      default: ''
     },
-
-    computed: {
-      iconBackground () {
-        if (this.iconUrl) {
-          return { 'background-image': `url(${this.iconUrl})` }
-        } else {
-          return {}
-        }
-      }
+    iconUrl: {
+      type: String,
+      default: ''
     },
+    link: {
+      type: String,
+      default: ''
+    },
+    inactive: {
+      type: Boolean,
+      default: false
+    }
+  },
 
-    methods: {
-      clickButton () {
-        if (!this.inactive) {
-          this.$emit('click')
-          if (this.link) {
-            application.router.navigate(this.link, { trigger: true })
-          }
+  computed: {
+    iconBackground () {
+      if (this.iconUrl) {
+        return { 'background-image': `url(${this.iconUrl})` }
+      } else {
+        return {}
+      }
+    }
+  },
+
+  methods: {
+    clickButton () {
+      if (!this.inactive) {
+        this.$emit('click')
+        if (this.link) {
+          application.router.navigate(this.link, { trigger: true })
         }
       }
     }
   }
+}
 </script>
 
 <template>

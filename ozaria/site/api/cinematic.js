@@ -8,7 +8,7 @@ import fetchJson from 'app/core/api/fetch-json'
  */
 export const getCinematic = slugOrId => {
   if (!slugOrId) {
-    throw new Error(`No slugOrId supplied`)
+    throw new Error('No slugOrId supplied')
   }
   return fetchJson(`/db/cinematic/${slugOrId}`)
 }

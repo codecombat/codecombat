@@ -1,4 +1,4 @@
-<script>
+<script> // eslint-disable-line vue/multi-word-component-names
 /**
  * TODO: Extend or create an alternative leaderboard compatible with teams (humans/ogres)
  * TODO: This leaderboard is not only shown on the league url but also the ladder url.
@@ -9,7 +9,7 @@ export default {
   props: {
     rankings: {
       type: Array,
-      default: []
+      default: function () { return [] }
     },
     scoreType: {
       type: String,
@@ -42,7 +42,7 @@ export default {
         return row.totalScore.toLocaleString()
       }
       let score = (((row.leagues || []).find(({ leagueID }) => leagueID === this.clanId) || {}).stats || {}).totalScore || row.totalScore
-      if (/(Bronze|Silver|Gold|Platinum|Diamond) AI/.test(row.creatorName) && score == row.totalScore) {
+      if (/(Bronze|Silver|Gold|Platinum|Diamond) AI/.test(row.creatorName) && score === row.totalScore) {
         // Hack: divide display score by 2, since the AI doesn't have league-specific score
         score /= 2
       }
@@ -55,9 +55,8 @@ export default {
 
     getClanName (row) {
       const firstClan = (row.creatorClans || [])[0] || {}
-      let name = firstClan.displayName || firstClan.name || ""
-      if (!/[a-z]/.test(name))
-        name = utils.titleize(name)  // Convert any all-uppercase clan names to title-case
+      let name = firstClan.displayName || firstClan.name || ''
+      if (!/[a-z]/.test(name)) { name = utils.titleize(name) } // Convert any all-uppercase clan names to title-case
       return name
     },
 

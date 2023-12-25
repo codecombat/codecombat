@@ -4,30 +4,33 @@ import Campaign from 'models/Campaign'
 
 export default {
   namespaced: true,
-  state: utils.isOzaria ? {
-    campaignByCampaignHandle: {},
-    campaignById: {},
-    campaignBySlug: {},
-    campaignByCourseInstanceId: {},
-    campaignByCourseId: {}
-  } : {
-    byId: {},
-    bySlug: {},
-    currentCampaignId: null,
-    levelsByCampaignId: {},
-    areCocoCampaignsFetched: false,
-    campaignLevelsFetched: {}
-  },
+  state: utils.isOzaria
+    ? {
+        campaignByCampaignHandle: {},
+        campaignById: {},
+        campaignBySlug: {},
+        campaignByCourseInstanceId: {},
+        campaignByCourseId: {}
+      }
+    : {
+        byId: {},
+        bySlug: {},
+        currentCampaignId: null,
+        levelsByCampaignId: {},
+        areCocoCampaignsFetched: false,
+        campaignLevelsFetched: {}
+      },
 
   mutations: {
-    setCampaignData: utils.isOzaria ?
-      (state, { campaignData, campaignHandle, courseInstanceId, courseId }) => {
+    setCampaignData: utils.isOzaria
+      ? (state, { campaignData, campaignHandle, courseInstanceId, courseId }) => {
           Vue.set(state.campaignByCampaignHandle, campaignHandle, campaignData)
           Vue.set(state.campaignById, campaignData._id, campaignData)
           Vue.set(state.campaignBySlug, campaignData.slug, campaignData)
           Vue.set(state.campaignByCourseInstanceId, courseInstanceId, campaignData)
           Vue.set(state.campaignByCourseId, courseId, campaignData)
-        } : (state, campaignData) => {
+        }
+      : (state, campaignData) => {
           Vue.set(state.byId, campaignData._id, campaignData)
           Vue.set(state.bySlug, campaignData.slug, campaignData)
           state.currentCampaignId = campaignData._id
@@ -44,15 +47,17 @@ export default {
   },
 
   getters: {
-    getCampaignData: utils.isOzaria ? (state) => ({ idOrSlug, campaignHandle, courseInstanceId, courseId }) => {
-        return state.campaignById[idOrSlug] ||
+    getCampaignData: utils.isOzaria
+      ? (state) => ({ idOrSlug, campaignHandle, courseInstanceId, courseId }) => {
+          return state.campaignById[idOrSlug] ||
           state.campaignBySlug[idOrSlug] ||
           state.campaignByCampaignHandle[campaignHandle] ||
           state.campaignByCourseInstanceId[courseInstanceId] ||
           state.campaignByCourseId[courseId]
-      } : (state) => (idOrSlug) => {
-        return state.byId[idOrSlug] || state.bySlug[idOrSlug]
-      },
+        }
+      : (state) => (idOrSlug) => {
+          return state.byId[idOrSlug] || state.bySlug[idOrSlug]
+        },
     getCurrentCampaignId: (state) => state.currentCampaignId,
     getHomeVersionCampaigns: (state) => {
       const res = []
@@ -68,6 +73,7 @@ export default {
   },
 
   actions: {
+    // eslint-disable-next-line multiline-ternary
     fetch: utils.isOzaria ? async ({ commit, state, rootGetters, dispatch }, { campaignHandle, courseInstanceId, courseId }) => {
       if (state.campaignById[campaignHandle] ||
         state.campaignBySlug[campaignHandle] ||
@@ -99,7 +105,7 @@ export default {
       if (!campaignData) {
         // Without a classroom we are dealing with HoC, and have to hit the server to get the campaign:
         try {
-          campaignData = await campaignsApi.get({ campaignHandle: campaignHandle })
+          campaignData = await campaignsApi.get({ campaignHandle })
         } catch (e) {
           console.error('Error in fetching campaign', e)
           // TODO: update after a consistent error handling strategy is decided
@@ -109,6 +115,7 @@ export default {
 
       // Default the campaignPage value as 1 in campaign data for backward compatibility
       if (campaignData.backgroundImage) {
+        // eslint-disable-next-line array-callback-return
         campaignData.backgroundImage.filter(b => !b.campaignPage).map(b => { b.campaignPage = 1 })
       }
 
@@ -119,7 +126,7 @@ export default {
 
       Object.values(campaignData.levels)
         .filter(l => !l.campaignPage)
-        .map(l => { l.campaignPage = 1 })
+        .map(l => { l.campaignPage = 1 }) // eslint-disable-line array-callback-return
 
       commit('setCampaignData', { campaignData, campaignHandle, courseInstanceId, courseId })
     } : async ({ commit, state }, campaignHandle) => {
@@ -127,7 +134,7 @@ export default {
         return
       }
       try {
-        const campaignData = await campaignsApi.get({ campaignHandle: campaignHandle })
+        const campaignData = await campaignsApi.get({ campaignHandle })
         commit('setCampaignData', campaignData)
       } catch (e) {
         console.error('Error in fetching campaign', e)
@@ -147,9 +154,9 @@ export default {
       })
       commit('setCocoCampaignsFetched', true)
     },
-    fetchCampaignLevels: async ({ commit, state }, { campaignHandle }) => {
+    fetchCampaignLevels: async ({ commit, state }, { campaignHandle, callOz }) => {
       if (state.campaignLevelsFetched[campaignHandle]) return
-      const levels = await campaignsApi.fetchLevels(campaignHandle, { data: { project: 'thangs,name,slug,campaign,tasks,original' } })
+      const levels = await campaignsApi.fetchLevels(campaignHandle, { data: { project: 'thangs,name,slug,campaign,tasks,original,kind,practice' }, callOz })
       commit('setCampaignLevels', { campaignId: campaignHandle, levels })
       commit('setCampaignLevelsFetched', { campaignHandle, flag: true })
     }

@@ -1,82 +1,82 @@
 <script>
-  import draggable from 'vuedraggable'
+import draggable from 'vuedraggable'
 
-  export default {
-    components: {
-      'draggable': draggable
+export default {
+  components: {
+    draggable
+  },
+
+  props: {
+    draggableGroup: {
+      type: String,
+      required: true
     },
 
-    props: {
-      draggableGroup: {
-        type: String,
-        required: true
-      },
-
-      value: {
-        type: Object,
-        default: undefined
-      },
-
-      labelText: {
-        type: String,
-        default: ''
-      },
-
-      slotEmptyClass: {
-        type: String,
-        default: 'empty'
-      },
-
-      slotFilledClass: {
-        type: String,
-        default: 'filled'
-      }
+    value: {
+      type: Object,
+      default: undefined
     },
 
-    data () {
+    labelText: {
+      type: String,
+      default: ''
+    },
+
+    slotEmptyClass: {
+      type: String,
+      default: 'empty'
+    },
+
+    slotFilledClass: {
+      type: String,
+      default: 'filled'
+    }
+  },
+
+  data () {
+    return {
+      answers: (this.value) ? [this.value] : []
+    }
+  },
+
+  computed: {
+    draggableGroupConfig () {
       return {
-        answers: (this.value) ? [ this.value ] : []
+        name: this.draggableGroup,
+        pull: true,
+        put: (this.answers.length === 0)
       }
     },
 
-    computed: {
-      draggableGroupConfig () {
-        return {
-          name: this.draggableGroup,
-          pull: true,
-          put: (this.answers.length === 0)
-        }
-      },
-
-      hasAnswer () {
-        return this.answers.length === 1
-      },
-
-      emptyFilledClass () {
-        return (this.hasAnswer) ? this.slotFilledClass : this.slotEmptyClass
-      }
+    hasAnswer () {
+      return this.answers.length === 1
     },
 
-    methods: {
-      changed () {
-        this.$emit(
-          'input',
-          this.answers[0]
-        )
-      }
-    },
+    emptyFilledClass () {
+      return (this.hasAnswer) ? this.slotFilledClass : this.slotEmptyClass
+    }
+  },
 
-    watch: {
-      value () {
-        // Update internal answers state when external value changes.
-        //
-        // TODO this answers state can likely be removed and replaced with a simple
-        //      v-model API.  When vue-draggable integrates the swapping API this
-        //      component can also be removed in favor of that API.
-        this.answers = (this.value) ? [ this.value ] : []
-      }
+  watch: {
+    value () {
+      // Update internal answers state when external value changes.
+      //
+      // TODO this answers state can likely be removed and replaced with a simple
+      //      v-model API.  When vue-draggable integrates the swapping API this
+      //      component can also be removed in favor of that API.
+      this.answers = (this.value) ? [this.value] : []
+    }
+  },
+
+  methods: {
+    changed () {
+      this.$emit(
+        'input',
+        this.answers[0]
+      )
     }
   }
+}
 </script>
 
 <template>

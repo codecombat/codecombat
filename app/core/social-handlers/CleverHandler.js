@@ -1,11 +1,10 @@
-function logInWithClever() {
+function logInWithClever () {
   let cleverClientId, redirectTo, districtId
   if (['next.ozaria.com', 'localhost'].indexOf(window.location.hostname) !== -1) {
     cleverClientId = '05e505ed3fa677319057'
     redirectTo = 'https://next.ozaria.com/auth/login-clever'
-    districtId = '5b2ad81a709e300001e2cd7a'  // Clever Library test district
-  }
-  else {  // prod
+    districtId = '5b2ad81a709e300001e2cd7a' // Clever Library test district
+  } else { // prod
     cleverClientId = '88a2cfdb5893c16b4c0a'
     redirectTo = 'https://www.ozaria.com/auth/login-clever'
   }

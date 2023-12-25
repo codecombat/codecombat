@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="podcastsLoaded && latestPodcast">
-      <podcast-item-component :podcast="latestPodcast"/>
+      <podcast-item-component :podcast="latestPodcast" />
     </div>
   </div>
 </template>

@@ -1,113 +1,113 @@
 <script>
-  import { mapMutations, mapGetters } from 'vuex'
-  import { validationMessages } from './common/signUpValidations'
-  import { logInWithClever } from 'core/social-handlers/CleverHandler'
+import { mapMutations, mapGetters } from 'vuex'
+import { validationMessages } from './common/signUpValidations'
+import { logInWithClever } from 'core/social-handlers/CleverHandler'
 
-  const User = require('models/User')
+const User = require('models/User')
 
-  export default {
-    metaInfo: {
-      meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }]
-    },
+export default {
+  metaInfo: {
+    meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }]
+  },
 
-    data: () => ({
-      validationMessages,
-      errorMessage: ''
+  data: () => ({
+    validationMessages,
+    errorMessage: ''
+  }),
+
+  computed: {
+    ...mapGetters({
+      getSsoUsed: 'teacherSignup/getSsoUsed'
+    }),
+    useSocialSignOn () {
+      return me.useSocialSignOn()
+    }
+  },
+  created () {
+    this.clickGoogleSignup()
+  },
+  methods: {
+    ...mapMutations({
+      updateSso: 'teacherSignup/updateSso',
+      updateSignupForm: 'teacherSignup/updateSignupForm',
+      updateTrialRequestProperties: 'teacherSignup/updateTrialRequestProperties',
+      resetState: 'teacherSignup/resetState'
     }),
 
-    computed: {
-      ...mapGetters({
-        getSsoUsed: 'teacherSignup/getSsoUsed'
-      }),
-      useSocialSignOn () {
-        return me.useSocialSignOn()
+    async checkEmail (email) {
+      if (email) {
+        const { exists } = await User.checkEmailExists(email)
+        return exists
       }
+      return false
     },
-    created () {
-      this.clickGoogleSignup()
-    },
-    methods: {
-      ...mapMutations({
-        updateSso: 'teacherSignup/updateSso',
-        updateSignupForm: 'teacherSignup/updateSignupForm',
-        updateTrialRequestProperties: 'teacherSignup/updateTrialRequestProperties',
-        resetState: 'teacherSignup/resetState'
-      }),
 
-      async checkEmail (email) {
-        if (email) {
-          const { exists } = await User.checkEmailExists(email)
-          return exists
-        }
-        return false
-      },
-
-      async clickGoogleSignup (e) {
-        e?.preventDefault()
-        try {
-          this.errorMessage = ''
-          await new Promise((resolve, reject) =>
-            application.gplusHandler.loadAPI({
-              success: resolve,
-              error: reject
-            }))
-          application.gplusHandler.connect({
-            context: this,
-            elementId: 'google-login-button-priority',
-            success: (resp = {}) => {
-              this.postGoogleLoginClick({ resp })
-            }
-          })
-        } catch (err) {
-          console.error('Error in teacher signup', err)
-          this.errorMessage = err.message || 'Error during signup'
-        }
-      },
-
-      async postGoogleLoginClick ({ resp = {} }) {
-        const gplusAttrs = await new Promise((resolve, reject) =>
-          application.gplusHandler.loadPerson({
-            context: this,
-            success: resolve,
-            error: reject,
-            resp
-          }))
-        const { email, firstName, lastName } = gplusAttrs
-        const emailExists = await this.checkEmail(email)
-        if (emailExists) {
-          this.errorMessage = this.validationMessages.errorEmailExists.i18n
-          return
-        }
-        this.resetState()
-        this.updateSso({
-          ssoUsed: 'gplus',
-          ssoAttrs: gplusAttrs
-        })
-        this.updateSignupForm({
-          firstName: firstName,
-          lastName: lastName,
-          email: email
-        })
-        this.updateTrialRequestProperties({
-          firstName: firstName,
-          lastName: lastName,
-          email: email
-        })
-        this.$emit('startSignup', 'gplus')
-      },
-
-      clickEmailSignup (e) {
-        e.preventDefault()
+    async clickGoogleSignup (e) {
+      e?.preventDefault()
+      try {
         this.errorMessage = ''
-        this.resetState()
-        this.$emit('startSignup', 'email')
-      },
-
-      clickCleverSignup () {
-        logInWithClever()
+        await new Promise((resolve, reject) =>
+          application.gplusHandler.loadAPI({
+            success: resolve,
+            error: reject
+          }))
+        application.gplusHandler.connect({
+          context: this,
+          elementId: 'google-login-button-priority',
+          success: (resp = {}) => {
+            this.postGoogleLoginClick({ resp })
+          }
+        })
+      } catch (err) {
+        console.error('Error in teacher signup', err)
+        this.errorMessage = err.message || 'Error during signup'
       }
+    },
+
+    async postGoogleLoginClick ({ resp = {} }) {
+      const gplusAttrs = await new Promise((resolve, reject) =>
+        application.gplusHandler.loadPerson({
+          context: this,
+          success: resolve,
+          error: reject,
+          resp
+        }))
+      const { email, firstName, lastName } = gplusAttrs
+      const emailExists = await this.checkEmail(email)
+      if (emailExists) {
+        this.errorMessage = this.validationMessages.errorEmailExists.i18n
+        return
+      }
+      this.resetState()
+      this.updateSso({
+        ssoUsed: 'gplus',
+        ssoAttrs: gplusAttrs
+      })
+      this.updateSignupForm({
+        firstName,
+        lastName,
+        email
+      })
+      this.updateTrialRequestProperties({
+        firstName,
+        lastName,
+        email
+      })
+      this.$emit('startSignup', 'gplus')
+    },
+
+    clickEmailSignup (e) {
+      e.preventDefault()
+      this.errorMessage = ''
+      this.resetState()
+      this.$emit('startSignup', 'email')
+    },
+
+    clickCleverSignup () {
+      logInWithClever()
     }
   }
+}
 </script>
 
 <template lang="pug">

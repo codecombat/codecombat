@@ -1,84 +1,84 @@
 <script>
-  import { mapActions } from 'vuex'
-  import PrimaryButton from '../common/buttons/PrimaryButton'
-  import SecondaryButton from '../common/buttons/SecondaryButton'
-  import { tryCopy } from 'ozaria/site/common/ozariaUtils'
+import { mapActions } from 'vuex'
+import PrimaryButton from '../common/buttons/PrimaryButton'
+import SecondaryButton from '../common/buttons/SecondaryButton'
+import { tryCopy } from 'ozaria/site/common/ozariaUtils'
 
-  import ButtonGoogleClassroom from './common/ButtonGoogleClassroom'
-  import ModalDivider from '../../common/ModalDivider'
+import ButtonGoogleClassroom from './common/ButtonGoogleClassroom'
+import ModalDivider from '../../common/ModalDivider'
 
-  export default Vue.extend({
-    components: {
-      PrimaryButton,
-      SecondaryButton,
-      ButtonGoogleClassroom,
-      ModalDivider
+export default Vue.extend({
+  components: {
+    PrimaryButton,
+    SecondaryButton,
+    ButtonGoogleClassroom,
+    ModalDivider
+  },
+  props: {
+    classroomCode: {
+      type: String,
+      default: '',
+      required: true
     },
-    data: () => ({
-      regenerationInProgress: false,
-    }),
-    props: {
-      classroomCode: {
-        type: String,
-        default: '',
-        required: true
-      },
-      googleSyncInProgress: {
-        type: Boolean,
-        default: false
-      },
-      classroom: {
-        type: Object,
-        required: true
-      },
-      showGoogleClassroom: {
-        type: Boolean,
-        default: false
-      },
-      from: {
-        type: String,
-        default: null
-      }
+    googleSyncInProgress: {
+      type: Boolean,
+      default: false
     },
-    computed: {
-      classroomUrl () {
-        return `${document.location.origin}/students?_cc=${this.classroomCode}`
-      },
+    classroom: {
+      type: Object,
+      required: true
     },
-    methods: {
-      ...mapActions({
-        updateClassroom: 'classrooms/updateClassroom',
-      }),
-      copyCode () {
-        this.$refs['classCode'].select()
-        tryCopy()
-        window.tracker?.trackEvent('Add Students: Copy Class Code Clicked', { category: 'Teachers', label: this.from })
-      },
-      copyUrl () {
-        this.$refs['classUrl'].select()
-        tryCopy()
-        window.tracker?.trackEvent('Add Students: Copy Class URL Clicked', { category: 'Teachers', label: this.from })
-      },
-      clickInviteButton () {
-        window.tracker?.trackEvent('Add Students: Invite By Email Clicked', { category: 'Teachers', label: this.from })
-        this.$emit('inviteStudents')
-      },
-      async regenerateClassCode () {
-        this.regenerationInProgress = true;
-        window.tracker?.trackEvent('Add Students: Request New Class Code Clicked', { category: 'Teachers', label: this.from })
-        try {
-          await this.updateClassroom({ classroom:this.classroom, updates: { codeCamel: '', code: '' } });
-        } catch(err) {
-          noty({
-            text: `Error occurred: ${err}`,
-            type: 'error',
-            timeout: 5000
-          })
-        }
-        this.regenerationInProgress = false;
-      },
+    showGoogleClassroom: {
+      type: Boolean,
+      default: false
+    },
+    from: {
+      type: String,
+      default: null
     }
-  })
+  },
+  data: () => ({
+    regenerationInProgress: false
+  }),
+  computed: {
+    classroomUrl () {
+      return `${document.location.origin}/students?_cc=${this.classroomCode}`
+    }
+  },
+  methods: {
+    ...mapActions({
+      updateClassroom: 'classrooms/updateClassroom'
+    }),
+    copyCode () {
+      this.$refs.classCode.select()
+      tryCopy()
+      window.tracker?.trackEvent('Add Students: Copy Class Code Clicked', { category: 'Teachers', label: this.from })
+    },
+    copyUrl () {
+      this.$refs.classUrl.select()
+      tryCopy()
+      window.tracker?.trackEvent('Add Students: Copy Class URL Clicked', { category: 'Teachers', label: this.from })
+    },
+    clickInviteButton () {
+      window.tracker?.trackEvent('Add Students: Invite By Email Clicked', { category: 'Teachers', label: this.from })
+      this.$emit('inviteStudents')
+    },
+    async regenerateClassCode () {
+      this.regenerationInProgress = true
+      window.tracker?.trackEvent('Add Students: Request New Class Code Clicked', { category: 'Teachers', label: this.from })
+      try {
+        await this.updateClassroom({ classroom: this.classroom, updates: { codeCamel: '', code: '' } })
+      } catch (err) {
+        noty({
+          text: `Error occurred: ${err}`,
+          type: 'error',
+          timeout: 5000
+        })
+      }
+      this.regenerationInProgress = false
+    }
+  }
+})
 </script>
 
 <template>
@@ -115,9 +115,9 @@
       </div>
       <span class="sub-text"> {{ $t("teachers.class_code_desc") }} </span>
       <primary-button
-          :inactive="regenerationInProgress"
-          class="regenerate-code-button"
-          @click="regenerateClassCode"
+        :inactive="regenerationInProgress"
+        class="regenerate-code-button"
+        @click="regenerateClassCode"
       >
         {{ $t("teachers.regenerate_class_code") }}
       </primary-button>

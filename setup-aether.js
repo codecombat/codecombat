@@ -21,10 +21,10 @@ const PWD = process.env.PWD || __dirname;  // __dirname might be undesirable if 
 const aether_webpack_config = {
   context: path.resolve(PWD),
   entry: {
-    aether: "./app/lib/aether/aether.coffee",
+    aether: "./app/lib/aether/aether",
     // We need to create the html parser ourselves and move it ourselves into
     // `/javascripts/app/vendor/aether-html.js`
-    html: "./app/lib/aether/html.coffee"
+    html: "./app/lib/aether/html"
   },
   output: {
     filename: "./aether/build/[name].js",

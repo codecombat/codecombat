@@ -1,5 +1,4 @@
 .setup-account-panel.text-left
-  - console.log('setup account panel?')
   .p-a-3
     div.text-center(v-if="saving")
       | {{ $t("common.saving") }}
@@ -16,7 +15,7 @@
         li(:class={"medium-gray": !isCodeCombat})
           span {{ $t("signup.teacher_list_resource_hub_1") }}
           =" "
-          a(:href=`/teachers/${isCodeCombat ? 'courses' : "units'"}`) {{ $t("signup.teacher_list_resource_hub_2_" + (isCodeCombat ? 'coco': 'ozar')) }}
+          a(:href="'/teachers/' + (isCodeCombat ? 'courses' : 'units')") {{ $t("signup.teacher_list_resource_hub_2_" + (isCodeCombat ? 'coco': 'ozar')) }}
           =" "
           span {{ $t("signup.teacher_list_resource_hub_3") }}
           =" "

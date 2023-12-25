@@ -272,11 +272,11 @@ module.exports = class CocoView extends Backbone.View
       else
         DirectContactModal = require('ozaria/site/views/core/DirectContactModal').default
 
-      @openModalView(new DirectContactModal())  
+      @openModalView(new DirectContactModal())
 
     openContactModal = =>
       if utils.isCodeCombat
-        ContactModal = require('app/views/core/ContactModal')  
+        ContactModal = require('app/views/core/ContactModal')
       else
         ContactModal = require('ozaria/site/views/core/ContactModal')
 
@@ -285,7 +285,7 @@ module.exports = class CocoView extends Backbone.View
     confirmOOOMessage = (afterConfirm) =>
       oooStart = new Date('2023-06-05T00:00:00Z')
       oooEnd = new Date('2023-06-09T23:59:59Z')
-      
+
       storageKey = "contact-modal-confirm-seen-#{me.id}-#{oooStart.getTime()}-#{oooEnd.getTime()}"
       seen = storage.load(storageKey)
 
@@ -294,7 +294,7 @@ module.exports = class CocoView extends Backbone.View
       if (not isOoo) or seen
         afterConfirm()
         return
-      
+
       renderData =
         body: $.i18n.t 'contact.ooo_blurb'
         decline: $.i18n.t 'modal.cancel'
@@ -304,8 +304,8 @@ module.exports = class CocoView extends Backbone.View
       confirmModal.on 'confirm', ->
         storage.save(storageKey, true)
         afterConfirm()
-        
-      @openModalView confirmModal      
+
+      @openModalView confirmModal
 
     confirmOOOMessage =>
       if (me.isTeacher(true) and zE) or !me.showChinaResourceInfo()

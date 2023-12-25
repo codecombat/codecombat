@@ -6,12 +6,6 @@ export default {
     ButtonMainCta
   },
 
-  methods: {
-    onCtaClick () {
-      this.$emit('cta-clicked')
-    }
-  },
-
   props: {
     mainCtaButtonText: {
       type: String,
@@ -29,6 +23,12 @@ export default {
       type: String,
       default: 'control'
     }
+  },
+
+  methods: {
+    onCtaClick () {
+      this.$emit('cta-clicked')
+    }
   }
 }
 
@@ -36,48 +36,64 @@ export default {
 
 <template>
   <div :class="'top-jumbotron' + (brightchampsExperiment === 'brightchamps' ? ' brightchamps' : '')">
-    <img class="animated-griffin"
-         src="/images/pages/parents/Griffin_and_Alejandro1.svg"
-         alt="flying griffin"
-         v-if="trialClassExperiment == 'trial-class'" />
-    <div v-else class="money-back-guarantee-section" >
+    <img
+      v-if="trialClassExperiment == 'trial-class'"
+      class="animated-griffin"
+      src="/images/pages/parents/Griffin_and_Alejandro1.svg"
+      alt="flying griffin"
+    >
+    <div
+      v-else
+      class="money-back-guarantee-section"
+    >
       <img
         class="img-responsive money-back-guarantee"
         src="/images/pages/parents/money_back_guarantee.png"
         title="30-day money-back guarantee"
-        alt='"30 Day Money back Guarantee Transparent" by transparentpng.com is licensed under CC BY 4.0 - source: https://www.transparentpng.com/details/30-day-money-back-guarantee-transparent_15977.html'
-      />
+        alt="&quot;30 Day Money back Guarantee Transparent&quot; by transparentpng.com is licensed under CC BY 4.0 - source: https://www.transparentpng.com/details/30-day-money-back-guarantee-transparent_15977.html"
+      >
       <div class="money-back-guarantee-text">
         Enroll with the confidence that you have 30 days to see if CodeCombat is right for you
       </div>
     </div>
     <div class="row">
       <div class="col-lg-12">
-        <h1 class="pixelated parents-header-text">Live Online Coding Classes</h1>
+        <h1 class="pixelated parents-header-text">
+          Live Online Coding Classes
+        </h1>
         <!--<h1 class="pixelated parents-header-text">Your Child Will Love</h1>--><!-- Original; didn't convert as well -->
-        <h1 class="pixelated parents-header-text">Powered by Play</h1>
+        <h1 class="pixelated parents-header-text">
+          Powered by Play
+        </h1>
       </div>
     </div>
-
 
     <div class="row">
       <div class="col-lg-12">
         <button-main-cta
-          @click="onCtaClick"
-          :buttonText="mainCtaButtonText"
+          :button-text="mainCtaButtonText"
           :subtext="mainCtaSubtext"
+          @click="onCtaClick"
         />
       </div>
     </div>
 
-    <div class="row partnership-row" v-if="brightchampsExperiment === 'brightchamps'">
+    <div
+      v-if="brightchampsExperiment === 'brightchamps'"
+      class="row partnership-row"
+    >
       <div class="col-lg-12 text-center">
-        <h1 class="pixelated parents-header-text">in partnership with</h1>
-        <img class="img-responsive" src="/images/pages/parents/brightchamps-logo.png" alt="BrightCHAMPS">
+        <h1 class="pixelated parents-header-text">
+          in partnership with
+        </h1>
+        <img
+          class="img-responsive"
+          src="/images/pages/parents/brightchamps-logo.png"
+          alt="BrightCHAMPS"
+        >
       </div>
     </div>
   </div>
-
 </template>
 
 <style scoped>
@@ -195,7 +211,7 @@ export default {
   .top-jumbotron h1 {
     font-weight: 700;
   }
-  
+
   @media (max-width: 767px) {
     .parents-header-text {
       font-size: 40px;

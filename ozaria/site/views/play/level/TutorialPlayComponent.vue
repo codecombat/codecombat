@@ -1,563 +1,563 @@
 <script>
-  import { mapGetters } from 'vuex'
-  import DialogueAnimator from 'ozaria/site/views/play/level/DialogueAnimator'
-  const VueShepherd = require('vue-shepherd')
+import { mapGetters } from 'vuex'
+import DialogueAnimator from 'ozaria/site/views/play/level/DialogueAnimator'
+const VueShepherd = require('vue-shepherd')
 
-  function buildStepPositionalDetails ({ intro, position, animation, targetElement, targetLine, targetThangs }) {
-    if (!intro && !position && !animation && !targetElement && !targetLine) {
-      return {}
-    }
-
-    const details = {
-      attachTo: defaultPositionTargets[targetElement]
-    }
-    if (targetLine) {
-      details.arrow = false
-    }
-    if (position === 'stationary') {
-      details.classes = 'shepherd-stationary-tutorial shepherd-stationary-text'
-      details.arrow = false
-      if (details.attachTo) {
-        details.attachTo.on = undefined
-      }
-    } else if (position === 'smart') {
-      details.classes = directionOffsets[details?.attachTo?.on]
-    } else {
-      if (details.attachTo) {
-        details.attachTo.on = position
-      }
-      details.classes = directionOffsets[position]
-    }
-
-    return details
+function buildStepPositionalDetails ({ intro, position, animation, targetElement, targetLine, targetThangs }) {
+  if (!intro && !position && !animation && !targetElement && !targetLine) {
+    return {}
   }
 
-  const defaultPositionTargets = {
-    'Run Button': { element: '#run', on: 'top' },
-    'Next Button': { element: '#next', on: 'top' },
-    'Play Button': { element: '#capstone-playback-view > button:nth-child(1)', on: 'top' },
-    'Update Button': { element: '#update-game', on: 'top' },
-    'Goal List': { element: '#goals-view', on: 'bottom' },
-    'Code Bank Button': { element: '#spell-palette-view .code-bank-close-btn .rotated-spell-btn', on: 'right' },
-    'Code Editor Window': { element: '.ace_editor', on: 'left' }
+  const details = {
+    attachTo: defaultPositionTargets[targetElement]
+  }
+  if (targetLine) {
+    details.arrow = false
+  }
+  if (position === 'stationary') {
+    details.classes = 'shepherd-stationary-tutorial shepherd-stationary-text'
+    details.arrow = false
+    if (details.attachTo) {
+      details.attachTo.on = undefined
+    }
+  } else if (position === 'smart') {
+    details.classes = directionOffsets[details?.attachTo?.on]
+  } else {
+    if (details.attachTo) {
+      details.attachTo.on = position
+    }
+    details.classes = directionOffsets[position]
   }
 
-  const directionOffsets = {
-    top: 'element-attached-top',
-    right: 'element-attached-right',
-    bottom: 'element-attached-bottom',
-    left: 'element-attached-left'
-  }
+  return details
+}
 
-  export default Vue.extend({
-    name: 'TutorialPlayComponent',
-    props: {
-      isTeacher: {
-        type: Boolean,
-        required: true
-      },
-      characterPortrait: {
-        type: String,
-        default: 'vega'
+const defaultPositionTargets = {
+  'Run Button': { element: '#run', on: 'top' },
+  'Next Button': { element: '#next', on: 'top' },
+  'Play Button': { element: '#capstone-playback-view > button:nth-child(1)', on: 'top' },
+  'Update Button': { element: '#update-game', on: 'top' },
+  'Goal List': { element: '#goals-view', on: 'bottom' },
+  'Code Bank Button': { element: '#spell-palette-view .code-bank-close-btn .rotated-spell-btn', on: 'right' },
+  'Code Editor Window': { element: '.ace_editor', on: 'left' }
+}
+
+const directionOffsets = {
+  top: 'element-attached-top',
+  right: 'element-attached-right',
+  bottom: 'element-attached-bottom',
+  left: 'element-attached-left'
+}
+
+export default Vue.extend({
+  name: 'TutorialPlayComponent',
+  props: {
+    isTeacher: {
+      type: Boolean,
+      required: true
+    },
+    characterPortrait: {
+      type: String,
+      default: 'vega'
+    }
+  },
+  data: () => ({
+    seenMessages: null,
+    hasLineHighlighting: false,
+    restartAtId: null,
+    previousLength: null,
+    previousActiveStep: 0,
+    previousSteps: []
+  }),
+  watch: {
+    tutorialSteps () {
+      if (this.isTeacher) {
+        return
+      }
+
+      // If steps are being added when we are already active, it means we need to restart the tutorial and
+      // show the next step after the currently last step:
+      if (this.tour && this.tour.steps && this.tour.steps.length) {
+        const realSteps = this.tour.steps.filter(s => s.options.text !== this.defaultStep.message)
+        this.previousLength = realSteps.length
+        this.restartAtId = realSteps[realSteps.length - 1].options.id
+        this.begin()
       }
     },
-    data: () => ({
-      seenMessages: null,
-      hasLineHighlighting: false,
-      restartAtId: null,
-      previousLength: null,
-      previousActiveStep: 0,
-      previousSteps: []
-    }),
-    beforeCreate () {
-      Vue.use(VueShepherd)
+    tutorialActive () {
+      this.begin()
     },
-    mounted () {
-      window.addEventListener('resize', this.onResize)
-      // This is required for stationary vega to reappear when using touch devices.
-      // Scrolling on ipad/android causes shepherd to remove the message from our appended container.
-      // On a desktop this is a no-op.
-      window.addEventListener('scroll', this.onResize)
-      window.addEventListener('touchmove', this.onResize)
+    codeBankOpen () {
+      if (this.isTeacher) {
+        return
+      }
+
+      // Force redrawing of current step to adjust to position of the code bank:
+      const { options } = this.tour.getCurrentStep()
+      if (options?.attachTo?.element === defaultPositionTargets['Code Bank Button'].element) {
+        this.tour.show(options.id)
+      }
+    }
+  },
+  beforeCreate () {
+    Vue.use(VueShepherd)
+  },
+  mounted () {
+    window.addEventListener('resize', this.onResize)
+    // This is required for stationary vega to reappear when using touch devices.
+    // Scrolling on ipad/android causes shepherd to remove the message from our appended container.
+    // On a desktop this is a no-op.
+    window.addEventListener('scroll', this.onResize)
+    window.addEventListener('touchmove', this.onResize)
+  },
+  destroyed () {
+    if (this.tour) {
+      this.tour.cancel()
+      delete this.tour
+      this.tour = null
+    }
+    this.clearAsyncTimers()
+    window.removeEventListener('resize', this.onResize)
+    window.removeEventListener('scroll', this.onResize)
+    window.removeEventListener('touchmove', this.onResize)
+
+    // NOTE: Yeah this is a nuclear option, but there tends to be "leftovers" spread around the DOM
+    // after all the acrobatics we are doing to make the design of Vega messages fit within the Shepherd library:
+    $('[class*="shepherd"]').remove()
+  },
+  methods: {
+    onResize: _.debounce(() => {
+      $('.shepherd-stationary-text:visible').appendTo('#level-dialogue-view')
+    }, 200),
+
+    onClose () {
+      this.cleanUpRendering()
+      if (this.isTeacher) {
+        return
+      }
+
+      this.tour.show(this.restartAtId ? this.restartAtId : this.tour.steps[this.tour.steps.length - 1].options.id)
+      this.restartAtId = null
     },
-    destroyed () {
+
+    isStepOnlyStationary (step) {
+      return step.position === 'stationary' && !step.animation && !step.targetElement && !step.targetLine
+    },
+
+    clearAsyncTimers () {
+      clearInterval(this.messageInterval)
+      clearTimeout(this.messageTimeout)
+      this.messageInterval = null
+      this.messageTimeout = null
+      if (this.animator) {
+        delete this.animator
+      }
+    },
+
+    begin () {
+      this.clearAsyncTimers()
+
       if (this.tour) {
+        this.previousActiveStep = this.tour.getCurrentStep().options.id
         this.tour.cancel()
         delete this.tour
         this.tour = null
       }
-      this.clearAsyncTimers()
-      window.removeEventListener('resize', this.onResize)
-      window.removeEventListener('scroll', this.onResize)
-      window.removeEventListener('touchmove', this.onResize)
 
-      // NOTE: Yeah this is a nuclear option, but there tends to be "leftovers" spread around the DOM
-      // after all the acrobatics we are doing to make the design of Vega messages fit within the Shepherd library:
-      $('[class*="shepherd"]').remove()
-    },
-    watch: {
-      tutorialSteps () {
-        if (this.isTeacher) {
-          return
-        }
+      this.seenMessages = new Set()
 
-        // If steps are being added when we are already active, it means we need to restart the tutorial and
-        // show the next step after the currently last step:
-        if (this.tour && this.tour.steps && this.tour.steps.length) {
-          const realSteps = this.tour.steps.filter(s => s.options.text !== this.defaultStep.message)
-          this.previousLength = realSteps.length
-          this.restartAtId = realSteps[realSteps.length - 1].options.id
-          this.begin()
-        }
-      },
-      tutorialActive () {
-        this.begin()
-      },
-      codeBankOpen () {
-        if (this.isTeacher) {
-          return
-        }
-
-        // Force redrawing of current step to adjust to position of the code bank:
-        const { options } = this.tour.getCurrentStep()
-        if (options?.attachTo?.element === defaultPositionTargets['Code Bank Button'].element) {
-          this.tour.show(options.id)
-        }
+      if (!this.tutorialActive) {
+        return
       }
-    },
-    methods: {
-      onResize: _.debounce(() => {
-        $('.shepherd-stationary-text:visible').appendTo('#level-dialogue-view')
-      }, 200),
 
-      onClose () {
-        this.cleanUpRendering()
+      this.$nextTick(() => {
+        this.tour = this.$shepherd({
+          defaultStepOptions: {
+            classes: 'shepherd-rectangle',
+            highlightClass: 'golden-highlight-border',
+            scrollTo: true
+          },
+          useModalOverlay: true, // TODO: Tweak this better in-between steps
+          exitOnEsc: false, // TODO: wish this could skip to the end for admins
+          keyboardNavigation: true // TODO: when keyboard focus is set to code editor, this loses focus and can't continue to navigate
+        })
+
+        let tutorialSteps = this.tutorialSteps.slice()
+
         if (this.isTeacher) {
-          return
+          tutorialSteps = tutorialSteps.filter(s => s.intro).concat(this.teacherStep)
         }
 
-        this.tour.show(this.restartAtId ? this.restartAtId : this.tour.steps[this.tour.steps.length - 1].options.id)
-        this.restartAtId = null
-      },
-
-      isStepOnlyStationary(step) {
-        return step.position === 'stationary' && !step.animation && !step.targetElement && !step.targetLine
-      },
-
-      clearAsyncTimers () {
-        clearInterval(this.messageInterval)
-        clearTimeout(this.messageTimeout)
-        this.messageInterval = null
-        this.messageTimeout = null
-        if (this.animator) {
-          delete this.animator
-        }
-      },
-
-      begin () {
-        this.clearAsyncTimers()
-
-        if (this.tour) {
-          this.previousActiveStep = this.tour.getCurrentStep().options.id
-          this.tour.cancel()
-          delete this.tour
-          this.tour = null
-        }
-
-        this.seenMessages = new Set()
-
-        if (!this.tutorialActive) {
-          return
-        }
-
-        this.$nextTick(() => {
-          this.tour = this.$shepherd({
-            defaultStepOptions: {
-              classes: 'shepherd-rectangle',
-              highlightClass: 'golden-highlight-border',
-              scrollTo: true
-            },
-            useModalOverlay: true, // TODO: Tweak this better in-between steps
-            exitOnEsc: false,  // TODO: wish this could skip to the end for admins
-            keyboardNavigation: true,  // TODO: when keyboard focus is set to code editor, this loses focus and can't continue to navigate
-          })
-
-          let tutorialSteps = this.tutorialSteps.slice()
-
-          if (this.isTeacher) {
-            tutorialSteps = tutorialSteps.filter(s => s.intro).concat(this.teacherStep)
-          }
-
-          const backButton = {
-            classes: 'shepherd-back-button shepherd-back-button-active',
-            text: '',
+        const backButton = {
+          classes: 'shepherd-back-button shepherd-back-button-active',
+          text: '',
           label: 'Back',
-            action: () => {
-              this.tour.back()
+          action: () => {
+            this.tour.back()
           }
-          }
-          const inactiveBackButton = {
-            classes: 'shepherd-back-button shepherd-back-button-inactive',
-            text: '',
+        }
+        const inactiveBackButton = {
+          classes: 'shepherd-back-button shepherd-back-button-inactive',
+          text: '',
           label: 'Back',
           disabled: true,
-            action: () => {}
-          }
-          const nextButton = {
-            classes: 'shepherd-next-button shepherd-next-button-active',
-            text: '',
+          action: () => {}
+        }
+        const nextButton = {
+          classes: 'shepherd-next-button shepherd-next-button-active',
+          text: '',
           label: 'Next',
-            action: () => {
-              this.tour.next()
-            }
+          action: () => {
+            this.tour.next()
           }
-          const inactiveNextButton = {
-            classes: 'shepherd-next-button shepherd-next-button-inactive',
-            text: '',
+        }
+        const inactiveNextButton = {
+          classes: 'shepherd-next-button shepherd-next-button-inactive',
+          text: '',
           label: 'Next',
           disabled: true,
-            action: () => {}
-          }
-          const startButton = {
-            classes: 'shepherd-start-button',
-            text: '',
+          action: () => {}
+        }
+        const startButton = {
+          classes: 'shepherd-start-button',
+          text: '',
           label: 'Start',
-            action: () => {
-              this.tour.next()
-            }
+          action: () => {
+            this.tour.next()
           }
+        }
 
-          // We may want to inject a extra final "back to tutorial" step if the final step is complex. For example
-          // if the last step has animation or a target element or fading out the other elements, it would be
-          // pointless to keep that as the final step because it would obstruct the rest of the level.
-          let complexLastStep
-          const canSeeComplexSteps = me.isAdmin() || me?.emailLower?.endsWith('@codecombat.com')
+        // We may want to inject a extra final "back to tutorial" step if the final step is complex. For example
+        // if the last step has animation or a target element or fading out the other elements, it would be
+        // pointless to keep that as the final step because it would obstruct the rest of the level.
+        let complexLastStep
+        const canSeeComplexSteps = me.isAdmin() || me?.emailLower?.endsWith('@codecombat.com')
 
-          const steps = tutorialSteps.map((tutorialStep, index) => {
-            const details = buildStepPositionalDetails(tutorialStep)
-            const buttons = []
+        const steps = tutorialSteps.map((tutorialStep, index) => {
+          const details = buildStepPositionalDetails(tutorialStep)
+          const buttons = []
 
-            if (index === 0 && (tutorialStep.intro || index !== tutorialSteps.length - 1)) {
-              if (tutorialStep.intro) {
-                // Button for the intro
-                buttons.push(startButton)
-              } else if (tutorialSteps.length > 1) {
-                // Buttons for a weird first step without intro
-                buttons.push(inactiveBackButton)
-                buttons.push(nextButton)
-              }
-            } else if (index === tutorialSteps.length - 1) {
-              const unusualLastStep = tutorialStep.position !== 'stationary' || details.attachTo
-
-              // Button for final step. Handle if this is the first item in the tour.
-              if (index === 0) {
-                buttons.push(inactiveBackButton)
-              } else {
-                buttons.push(backButton)
-              }
-
-              if (!unusualLastStep) {
-                buttons.push(inactiveNextButton)
-              } else {
-                // When the final step is not a pure stationary step, we are in a rare, unusual situation. The step
-                // may block the user from typing code or clicking things, so it can't be the final step.
-                // We get around this by adding one extra stationary step. Because of this extra final step,
-                // the current step needs a nextButton to get to the new final stationary step:
-                buttons.push(nextButton)
-                complexLastStep = {
-                  ...buildStepPositionalDetails({ position: 'stationary' }),
-                  id: index + 1,
-                  text: this.defaultStep.message,
-                  fontSize: 19,
-                  buttons: [backButton, inactiveNextButton]
-                }
-              }
-            } else {
-              // Buttons for all regular steps - not first and last
-              buttons.push(backButton)
+          if (index === 0 && (tutorialStep.intro || index !== tutorialSteps.length - 1)) {
+            if (tutorialStep.intro) {
+              // Button for the intro
+              buttons.push(startButton)
+            } else if (tutorialSteps.length > 1) {
+              // Buttons for a weird first step without intro
+              buttons.push(inactiveBackButton)
               buttons.push(nextButton)
             }
+          } else if (index === tutorialSteps.length - 1) {
+            const unusualLastStep = tutorialStep.position !== 'stationary' || details.attachTo
 
-            if (tutorialStep.advanceOnTarget && tutorialStep.targetElement) {
-              details.advanceOn = {
-                selector: details.attachTo.element,
-                event: 'click'
+            // Button for final step. Handle if this is the first item in the tour.
+            if (index === 0) {
+              buttons.push(inactiveBackButton)
+            } else {
+              buttons.push(backButton)
+            }
+
+            if (!unusualLastStep) {
+              buttons.push(inactiveNextButton)
+            } else {
+              // When the final step is not a pure stationary step, we are in a rare, unusual situation. The step
+              // may block the user from typing code or clicking things, so it can't be the final step.
+              // We get around this by adding one extra stationary step. Because of this extra final step,
+              // the current step needs a nextButton to get to the new final stationary step:
+              buttons.push(nextButton)
+              complexLastStep = {
+                ...buildStepPositionalDetails({ position: 'stationary' }),
+                id: index + 1,
+                text: this.defaultStep.message,
+                fontSize: 19,
+                buttons: [backButton, inactiveNextButton]
               }
             }
-
-            if (tutorialStep.animation === 'Shake') {
-              details.highlightClass = 'shake-vertically'
-            }
-
-            if (tutorialStep.animation === 'Wiggle') {
-              details.highlightClass = 'wiggle'
-            }
-
-            // If we are dealing with line highlighting in ANY STEP, we have to implement some hacks
-            // to make the editor scroll to the top properly early enough, so line highlighting works
-            if (tutorialStep.targetLine) {
-              this.hasLineHighlighting = true
-            }
-
-            return {
-              ...details,
-              id: index,
-              text: '', // Text is animated with DialogueAnimator when the step is shown
-              textIdentifier: tutorialStep.message,
-              buttons: buttons,
-              fontSize: 19
-            }
-          }).filter((s, i) => !tutorialSteps[i].internalRelease || canSeeComplexSteps)
-
-          if (!steps.length) {
-            // TODO: Notify us when this happens in production? No level should be without steps
-            return
-          }
-
-          const equalSteps = this.previousSteps.filter((step, index) => {
-            if (step.intro) {
-              return false
-            }
-            const newStep = steps[index]
-            if (!newStep) {
-              return false
-            }
-
-            return _.isEqual(step.textIdentifier, newStep.textIdentifier)
-          })
-          let startingPosition = 0
-
-          if (this.previousSteps.length === 0) {
-            // Brand new tour, let's start it at the beginning
-            startingPosition = 0
-          } else if (equalSteps.length > 0) {
-            if (steps.length > equalSteps.length) {
-              // New steps were added after the last steps, so we'll start there
-              startingPosition = steps[equalSteps.length].id
-            } else if (steps.length === equalSteps.length) {
-              // The steps were equal, so we have just refreshed the tutorial with no change
-              startingPosition = this.previousActiveStep
-            }
           } else {
-            // New steps, let's show the first new step, skipping the intro
-            startingPosition = tutorialSteps[0].intro ? 1 : 0
+            // Buttons for all regular steps - not first and last
+            buttons.push(backButton)
+            buttons.push(nextButton)
           }
 
-          if (complexLastStep && canSeeComplexSteps) {
-            // Final step is not a pure stationary step - this is an unusual situation that shouldn't happen often,
-            // but we manage it by adding an extra final step that is stationary.
-            // This means we have to go back 2 steps to get to the real previous step when the back button is clicked.
-            steps.push(complexLastStep)
+          if (tutorialStep.advanceOnTarget && tutorialStep.targetElement) {
+            details.advanceOn = {
+              selector: details.attachTo.element,
+              event: 'click'
+            }
           }
 
-          // NOTE: Remove after feature flag is removed
-          // We may end up in a situation where all the final steps are moving steps, but the current user is not
-          // allowed to see them yet. To cleanly handle that without complicating the loop, we just check for it here:
-          const lastStep = steps[steps.length - 1]
-          if (lastStep.buttons[1] === nextButton) {
-            lastStep.buttons[1] = inactiveNextButton
+          if (tutorialStep.animation === 'Shake') {
+            details.highlightClass = 'shake-vertically'
           }
 
-          if (this.hasLineHighlighting) {
-            // Hack for short screens to get around the fact that loading is messy and the
-            // ace editor isn't always available to scroll up in when you expect it to.
-            setTimeout(() => Backbone.Mediator.publish('tome:scroll-to-top', {}), 2000)
-            setTimeout(() => Backbone.Mediator.publish('tome:scroll-to-top', {}), 3000)
-            setTimeout(() => Backbone.Mediator.publish('tome:scroll-to-top', {}), 4000)
+          if (tutorialStep.animation === 'Wiggle') {
+            details.highlightClass = 'wiggle'
           }
 
-          this.previousSteps = steps.slice()
-          this.tour.addSteps(steps)
-          this.tour.on('show', this.showTourStep)
-
-          if (startingPosition === 0) {
-            this.tour.start()
-          } else {
-            this.tour.show(startingPosition)
+          // If we are dealing with line highlighting in ANY STEP, we have to implement some hacks
+          // to make the editor scroll to the top properly early enough, so line highlighting works
+          if (tutorialStep.targetLine) {
+            this.hasLineHighlighting = true
           }
-        })
-      },
 
-      showTourStep ({ step }) {
-        // If we can't find information about the step, it means it is not part of the regular steps,
-        // and we need to handle the unique case of an extra appended defaultStep that links back to the regular steps
-        let tutorialStep = this.tutorialSteps[step.options.id] || this.defaultStep
-        if (this.isTeacher && !tutorialStep.intro) {
-          tutorialStep = this.teacherStep
+          return {
+            ...details,
+            id: index,
+            text: '', // Text is animated with DialogueAnimator when the step is shown
+            textIdentifier: tutorialStep.message,
+            buttons,
+            fontSize: 19
+          }
+        }).filter((s, i) => !tutorialSteps[i].internalRelease || canSeeComplexSteps)
+
+        if (!steps.length) {
+          // TODO: Notify us when this happens in production? No level should be without steps
+          return
         }
 
-        if (typeof tutorialStep?.playVoiceOver === 'function') {
-          // This plays a voiceOver track cutting off existing track if user is going fast.
-          tutorialStep.playVoiceOver()
+        const equalSteps = this.previousSteps.filter((step, index) => {
+          if (step.intro) {
+            return false
+          }
+          const newStep = steps[index]
+          if (!newStep) {
+            return false
+          }
+
+          return _.isEqual(step.textIdentifier, newStep.textIdentifier)
+        })
+        let startingPosition = 0
+
+        if (this.previousSteps.length === 0) {
+          // Brand new tour, let's start it at the beginning
+          startingPosition = 0
+        } else if (equalSteps.length > 0) {
+          if (steps.length > equalSteps.length) {
+            // New steps were added after the last steps, so we'll start there
+            startingPosition = steps[equalSteps.length].id
+          } else if (steps.length === equalSteps.length) {
+            // The steps were equal, so we have just refreshed the tutorial with no change
+            startingPosition = this.previousActiveStep
+          }
+        } else {
+          // New steps, let's show the first new step, skipping the intro
+          startingPosition = tutorialSteps[0].intro ? 1 : 0
+        }
+
+        if (complexLastStep && canSeeComplexSteps) {
+          // Final step is not a pure stationary step - this is an unusual situation that shouldn't happen often,
+          // but we manage it by adding an extra final step that is stationary.
+          // This means we have to go back 2 steps to get to the real previous step when the back button is clicked.
+          steps.push(complexLastStep)
+        }
+
+        // NOTE: Remove after feature flag is removed
+        // We may end up in a situation where all the final steps are moving steps, but the current user is not
+        // allowed to see them yet. To cleanly handle that without complicating the loop, we just check for it here:
+        const lastStep = steps[steps.length - 1]
+        if (lastStep.buttons[1] === nextButton) {
+          lastStep.buttons[1] = inactiveNextButton
         }
 
         if (this.hasLineHighlighting) {
-          // The editor tries to scroll down to show the latest code. For line highlighting, we need specific
-          // line numbers, so we to scroll to the top (as early as possible) so the offset is correct:
-          Backbone.Mediator.publish('tome:remove-all-markers', {})
-          Backbone.Mediator.publish('tome:scroll-to-top', {})
-        }
-        $(".full-gold-highlight").removeClass("full-gold-highlight")
-        $('.button-glow').removeClass('button-glow')
-
-        const alreadySeen = this.seenMessages.has(step.options.id) || this.isTeacher
-
-        this.cleanUpRendering()
-        this.delayedRenderTrigger(step, tutorialStep, alreadySeen)
-
-        if (!alreadySeen) {
-          this.seenMessages.add(step.options.id)
+          // Hack for short screens to get around the fact that loading is messy and the
+          // ace editor isn't always available to scroll up in when you expect it to.
+          setTimeout(() => Backbone.Mediator.publish('tome:scroll-to-top', {}), 2000)
+          setTimeout(() => Backbone.Mediator.publish('tome:scroll-to-top', {}), 3000)
+          setTimeout(() => Backbone.Mediator.publish('tome:scroll-to-top', {}), 4000)
         }
 
-        if (tutorialStep.targetLine) {
-          this.delayedLineHighlight(tutorialStep.targetLine)
-        }
+        this.previousSteps = steps.slice()
+        this.tour.addSteps(steps)
+        this.tour.on('show', this.showTourStep)
 
-        // Reset targetThangs highlights to only those specified (usually [])
-        Backbone.Mediator.publish('sprite:highlight-sprites', { thangIDs: tutorialStep.targetThangs || [] })
-      },
-
-      delayedLineHighlight (targetLine) {
-        setTimeout(() => {
-          $(`div.ace_line_group:nth-child(${targetLine})`).addClass('full-gold-highlight')
-        }, 10)
-      },
-
-      adjustFooter (footerElement, startButton, textLength) {
-        if (textLength <= 46) {
-          return
-        }
-
-        // Frustrating way of dealing with specific text lengths for a non dynamic element squeezed into Shepherd.js
-        let adjustment = 11
-        if (textLength > 106) {
-          adjustment += 20
-        }
-        if (textLength > 170) {
-          adjustment += 20
-        }
-        if (textLength > 236) {
-          adjustment += 20
-        }
-        footerElement.css('height', `${parseInt(footerElement.css('height')) + adjustment}px`)
-        startButton.css('top', `${parseInt(startButton.css('top')) + adjustment}px`)
-      },
-
-      delayedRenderTrigger (step, tutorialStep, alreadySeen) {
-        setTimeout(() => {
-          const attachTo = step.options.attachTo || {}
-          const headerClasses = ['shepherd-header-portrait']
-          const closeButtonClasses = ['shepherd-close-button']
-          const headerElement = $('header.shepherd-header:visible')
-          const footerElement = $('.shepherd-footer:visible')
-          const textElement = $('.shepherd-text:visible')
-          const shepherdElement = $('.shepherd-element:visible')
-          const stationaryTextElement = $('.shepherd-stationary-text')
-          const overlayElement = $('.shepherd-modal-is-visible.shepherd-modal-overlay-container')
-          const isDefaultStep = tutorialStep === this.defaultStep
-
-          // Undo the dynamic font size changes
-          textElement.css('font-size', '17px')
-
-          if (step.options.id === 0 && tutorialStep.intro) {
-            headerClasses.push('shepherd-header-intro')
-            headerClasses.push(`shepherd-header-moving-${this.characterPortrait}`)
-            closeButtonClasses.push('shepherd-close-button-intro')
-
-            textElement.addClass('shepherd-text-intro')
-            headerElement.append(`<div class="shepherd-header-title">${tutorialStep.intro.levelType}</div>`)
-            headerElement.append('<div class="shepherd-header-line"></div>')
-            footerElement.addClass('shepherd-footer-learning-goals')
-            footerElement.append(`<div class="shepherd-footer-learning-goals-body"><span class="shepherd-footer-learning-goals-title">${this.$t('play_level.learning_goals')}: </span><span class="shepherd-footer-learning-goals-description">${tutorialStep.intro.learningGoals}</span></div>`)
-            this.adjustFooter(footerElement, $('.shepherd-start-button'), tutorialStep.intro.learningGoals.length)
-            shepherdElement.addClass('shepherd-element-intro')
-          } else if (tutorialStep.position === 'stationary') {
-            $(`.shepherd-content`).addClass(`shepherd-content-stationary`)
-            headerClasses.push(`shepherd-header-stationary-${this.characterPortrait}`)
-            headerClasses.push('shepherd-header-stationary')
-            closeButtonClasses.push('shepherd-close-button-stationary')
-            footerElement.addClass('shepherd-footer-stationary')
-            if (isDefaultStep) {
-              textElement.addClass('shepherd-text-default-stationary')
-              this.clearAsyncTimers()
-            }
-            stationaryTextElement.appendTo('#level-dialogue-view')
-            // Move the inline svg overlay to be in the same z-index stacking context.
-            // Ref: https://philipwalton.com/articles/what-no-one-told-you-about-z-index/
-            const tempOverlay = overlayElement.detach()
-            $('.chrome-container').prepend(tempOverlay)
-            stationaryTextElement.css('visibility', 'visible')
-            if (this.isTeacher) {
-              // We show a fair amount of text for teachers, so let's reduce the size a bit
-              textElement.css('font-size', '15px')
-            }
-          } else {
-            $(`.shepherd-rectangle`).addClass('shepherd-rectangle-expanding')
-            headerClasses.push(`shepherd-header-moving-${this.characterPortrait}`)
-            closeButtonClasses.push('shepherd-close-button-moving')
-            footerElement.addClass('shepherd-footer-moving')
-          }
-
-          // Since the dialog is pointing to the left, we want to move the portrait to the right to get out of the way.
-          // This also applies to adjusting the text towards the left instead of the right, so it is not covered.
-          if (attachTo.on === 'right') {
-            headerClasses.push('shepherd-header-portrait-right')
-            closeButtonClasses.push('shepherd-close-button-right')
-            textElement.addClass('shepherd-text-right')
-          }
-
-          headerElement.append(`<div class="${headerClasses.join(' ')}"></div>`)
-
-          const hideOverlay = (
-              tutorialStep.targetElement === 'Run Button' ||
-              (tutorialStep.position === 'stationary' && !tutorialStep.targetElement && !tutorialStep.animation)
-          )
-          overlayElement.css('display', hideOverlay ? 'none' : 'block')
-
-          // We should only focus the code editor if it is visible,
-          // which happens when it is the target element, and shepherd highlights it
-          // or when the shepherd overlay is hidden.
-          if (tutorialStep.targetElement === 'Code Editor Window' || hideOverlay) {
-            Backbone.Mediator.publish('tome:focus-editor', {})
-          }
-
-          if (tutorialStep.animation === 'Glow') {
-            $(attachTo.element).addClass('button-glow')
-          }
-
-          const seenAllMessagesOnce = alreadySeen && this.seenMessages.size === this.tour.steps.length
-          if (seenAllMessagesOnce && !isDefaultStep && !this.isStepOnlyStationary(tutorialStep)) {
-            const b = $(`<div class="${ closeButtonClasses.join(' ') }"></div>`)
-            b.on('click', this.onClose)
-            shepherdElement.append(b)
-          }
-
-          // Text animation is only for steps we haven't seen at all
-          this.setMessage(tutorialStep.message, '.shepherd-text:visible', !isDefaultStep && !alreadySeen)
-        }, 1) // Yep. You read that right, we have to defer this to let rendering happen before we update the looks
-      },
-
-      cleanUpRendering () {
-        $('.shepherd-stationary-text').remove()
-      },
-
-      setMessage (message, targetElementClass, animate) {
-        message = message.replace(/&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>")
-        this.clearAsyncTimers()
-
-        const targetElement = $(targetElementClass)
-        if (!animate) {
-          targetElement.html(marked(message))
+        if (startingPosition === 0) {
+          this.tour.start()
         } else {
-          this.messageTimeout = setTimeout(() => {
-            this.animator = new DialogueAnimator(marked(message), targetElement)
-            this.messageInterval = setInterval(() => {
-              if (!this.animator) {
-                this.clearAsyncTimers()
-                return
-              }
+          this.tour.show(startingPosition)
+        }
+      })
+    },
 
-              if (this.animator.done()) {
+    showTourStep ({ step }) {
+      // If we can't find information about the step, it means it is not part of the regular steps,
+      // and we need to handle the unique case of an extra appended defaultStep that links back to the regular steps
+      let tutorialStep = this.tutorialSteps[step.options.id] || this.defaultStep
+      if (this.isTeacher && !tutorialStep.intro) {
+        tutorialStep = this.teacherStep
+      }
+
+      if (typeof tutorialStep?.playVoiceOver === 'function') {
+        // This plays a voiceOver track cutting off existing track if user is going fast.
+        tutorialStep.playVoiceOver()
+      }
+
+      if (this.hasLineHighlighting) {
+        // The editor tries to scroll down to show the latest code. For line highlighting, we need specific
+        // line numbers, so we to scroll to the top (as early as possible) so the offset is correct:
+        Backbone.Mediator.publish('tome:remove-all-markers', {})
+        Backbone.Mediator.publish('tome:scroll-to-top', {})
+      }
+      $('.full-gold-highlight').removeClass('full-gold-highlight')
+      $('.button-glow').removeClass('button-glow')
+
+      const alreadySeen = this.seenMessages.has(step.options.id) || this.isTeacher
+
+      this.cleanUpRendering()
+      this.delayedRenderTrigger(step, tutorialStep, alreadySeen)
+
+      if (!alreadySeen) {
+        this.seenMessages.add(step.options.id)
+      }
+
+      if (tutorialStep.targetLine) {
+        this.delayedLineHighlight(tutorialStep.targetLine)
+      }
+
+      // Reset targetThangs highlights to only those specified (usually [])
+      Backbone.Mediator.publish('sprite:highlight-sprites', { thangIDs: tutorialStep.targetThangs || [] })
+    },
+
+    delayedLineHighlight (targetLine) {
+      setTimeout(() => {
+        $(`div.ace_line_group:nth-child(${targetLine})`).addClass('full-gold-highlight')
+      }, 10)
+    },
+
+    adjustFooter (footerElement, startButton, textLength) {
+      if (textLength <= 46) {
+        return
+      }
+
+      // Frustrating way of dealing with specific text lengths for a non dynamic element squeezed into Shepherd.js
+      let adjustment = 11
+      if (textLength > 106) {
+        adjustment += 20
+      }
+      if (textLength > 170) {
+        adjustment += 20
+      }
+      if (textLength > 236) {
+        adjustment += 20
+      }
+      footerElement.css('height', `${parseInt(footerElement.css('height')) + adjustment}px`)
+      startButton.css('top', `${parseInt(startButton.css('top')) + adjustment}px`)
+    },
+
+    delayedRenderTrigger (step, tutorialStep, alreadySeen) {
+      setTimeout(() => {
+        const attachTo = step.options.attachTo || {}
+        const headerClasses = ['shepherd-header-portrait']
+        const closeButtonClasses = ['shepherd-close-button']
+        const headerElement = $('header.shepherd-header:visible')
+        const footerElement = $('.shepherd-footer:visible')
+        const textElement = $('.shepherd-text:visible')
+        const shepherdElement = $('.shepherd-element:visible')
+        const stationaryTextElement = $('.shepherd-stationary-text')
+        const overlayElement = $('.shepherd-modal-is-visible.shepherd-modal-overlay-container')
+        const isDefaultStep = tutorialStep === this.defaultStep
+
+        // Undo the dynamic font size changes
+        textElement.css('font-size', '17px')
+
+        if (step.options.id === 0 && tutorialStep.intro) {
+          headerClasses.push('shepherd-header-intro')
+          headerClasses.push(`shepherd-header-moving-${this.characterPortrait}`)
+          closeButtonClasses.push('shepherd-close-button-intro')
+
+          textElement.addClass('shepherd-text-intro')
+          headerElement.append(`<div class="shepherd-header-title">${tutorialStep.intro.levelType}</div>`)
+          headerElement.append('<div class="shepherd-header-line"></div>')
+          footerElement.addClass('shepherd-footer-learning-goals')
+          footerElement.append(`<div class="shepherd-footer-learning-goals-body"><span class="shepherd-footer-learning-goals-title">${this.$t('play_level.learning_goals')}: </span><span class="shepherd-footer-learning-goals-description">${tutorialStep.intro.learningGoals}</span></div>`)
+          this.adjustFooter(footerElement, $('.shepherd-start-button'), tutorialStep.intro.learningGoals.length)
+          shepherdElement.addClass('shepherd-element-intro')
+        } else if (tutorialStep.position === 'stationary') {
+          $('.shepherd-content').addClass('shepherd-content-stationary')
+          headerClasses.push(`shepherd-header-stationary-${this.characterPortrait}`)
+          headerClasses.push('shepherd-header-stationary')
+          closeButtonClasses.push('shepherd-close-button-stationary')
+          footerElement.addClass('shepherd-footer-stationary')
+          if (isDefaultStep) {
+            textElement.addClass('shepherd-text-default-stationary')
+            this.clearAsyncTimers()
+          }
+          stationaryTextElement.appendTo('#level-dialogue-view')
+          // Move the inline svg overlay to be in the same z-index stacking context.
+          // Ref: https://philipwalton.com/articles/what-no-one-told-you-about-z-index/
+          const tempOverlay = overlayElement.detach()
+          $('.chrome-container').prepend(tempOverlay)
+          stationaryTextElement.css('visibility', 'visible')
+          if (this.isTeacher) {
+            // We show a fair amount of text for teachers, so let's reduce the size a bit
+            textElement.css('font-size', '15px')
+          }
+        } else {
+          $('.shepherd-rectangle').addClass('shepherd-rectangle-expanding')
+          headerClasses.push(`shepherd-header-moving-${this.characterPortrait}`)
+          closeButtonClasses.push('shepherd-close-button-moving')
+          footerElement.addClass('shepherd-footer-moving')
+        }
+
+        // Since the dialog is pointing to the left, we want to move the portrait to the right to get out of the way.
+        // This also applies to adjusting the text towards the left instead of the right, so it is not covered.
+        if (attachTo.on === 'right') {
+          headerClasses.push('shepherd-header-portrait-right')
+          closeButtonClasses.push('shepherd-close-button-right')
+          textElement.addClass('shepherd-text-right')
+        }
+
+        headerElement.append(`<div class="${headerClasses.join(' ')}"></div>`)
+
+        const hideOverlay = (
+          tutorialStep.targetElement === 'Run Button' ||
+          (tutorialStep.position === 'stationary' && !tutorialStep.targetElement && !tutorialStep.animation)
+        )
+        overlayElement.css('display', hideOverlay ? 'none' : 'block')
+
+        // We should only focus the code editor if it is visible,
+        // which happens when it is the target element, and shepherd highlights it
+        // or when the shepherd overlay is hidden.
+        if (tutorialStep.targetElement === 'Code Editor Window' || hideOverlay) {
+          Backbone.Mediator.publish('tome:focus-editor', {})
+        }
+
+        if (tutorialStep.animation === 'Glow') {
+          $(attachTo.element).addClass('button-glow')
+        }
+
+        const seenAllMessagesOnce = alreadySeen && this.seenMessages.size === this.tour.steps.length
+        if (seenAllMessagesOnce && !isDefaultStep && !this.isStepOnlyStationary(tutorialStep)) {
+          const b = $(`<div class="${closeButtonClasses.join(' ')}"></div>`)
+          b.on('click', this.onClose)
+          shepherdElement.append(b)
+        }
+
+        // Text animation is only for steps we haven't seen at all
+        this.setMessage(tutorialStep.message, '.shepherd-text:visible', !isDefaultStep && !alreadySeen)
+      }, 1) // Yep. You read that right, we have to defer this to let rendering happen before we update the looks
+    },
+
+    cleanUpRendering () {
+      $('.shepherd-stationary-text').remove()
+    },
+
+    setMessage (message, targetElementClass, animate) {
+      message = message.replace(/&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>")
+      this.clearAsyncTimers()
+
+      const targetElement = $(targetElementClass)
+      if (!animate) {
+        targetElement.html(marked(message))
+      } else {
+        this.messageTimeout = setTimeout(() => {
+          this.animator = new DialogueAnimator(marked(message), targetElement)
+          this.messageInterval = setInterval(() => {
+            if (!this.animator) {
+              this.clearAsyncTimers()
+              return
+            }
+
+            if (this.animator.done()) {
               if (!this.tour) {
                 console.warn('Problem trying to finish a tour that is already null')
               } else {
@@ -565,37 +565,37 @@
                   text: marked(message)
                 })
               }
-                this.clearAsyncTimers()
-                return
-              }
+              this.clearAsyncTimers()
+              return
+            }
 
-              this.animator.tick()
-            }, 50)
-          }, 250)
-        }
+            this.animator.tick()
+          }, 50)
+        }, 250)
+      }
+    }
+  },
+  computed: {
+    ...mapGetters({
+      tutorialSteps: 'game/tutorialSteps',
+      tutorialActive: 'game/tutorialActive',
+      codeBankOpen: 'game/codeBankOpen'
+    }),
+    // Compute default and teacher steps so i18n is available
+    defaultStep () {
+      return {
+        position: 'stationary',
+        message: this.$t('play.back_to_tutorial')
       }
     },
-    computed: {
-      ...mapGetters({
-        tutorialSteps: 'game/tutorialSteps',
-        tutorialActive: 'game/tutorialActive',
-        codeBankOpen: 'game/codeBankOpen'
-      }),
-      // Compute default and teacher steps so i18n is available
-      defaultStep () {
-        return {
-          position: 'stationary',
-          message: this.$t('play.back_to_tutorial')
-        }
-      },
-      teacherStep () {
-        return {
-          position: 'stationary',
-          message: this.$t('play.teacher_vega_message')
-        }
-      },
+    teacherStep () {
+      return {
+        position: 'stationary',
+        message: this.$t('play.teacher_vega_message')
+      }
     }
-  })
+  }
+})
 </script>
 
 <style lang="sass">
@@ -825,8 +825,8 @@
   .shepherd-close-button
     top: 12px
     position: absolute
-    height: 21.53px
-    width: 22px
+    height: 22.53px
+    width: 24px
     z-index: 1000
     cursor: pointer
     background-repeat: no-repeat !important
@@ -853,8 +853,8 @@
     left: 3px
 
   .shepherd-button
-    width: 19px
-    height: 19px
+    width: 22px
+    height: 22px
     margin: 0
     padding: 0
     z-index: 1000

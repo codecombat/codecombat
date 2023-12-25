@@ -20,8 +20,8 @@
       <div
         v-for="u in filteredUserList"
         :key="u._id"
-        @click="selectUser(u)"
         class="user-line"
+        @click="selectUser(u)"
       >
         <span>{{ u.name }}</span>
         <span>{{ u.firstName }}</span>
@@ -100,6 +100,12 @@ export default {
       this.setUser = true
       this.user = newValue
       this.resetSearchedUser()
+    }
+  },
+  mounted () {
+    if (this.user !== this.value) {
+      this.setUser = true
+      this.user = this.value
     }
   },
   methods: {

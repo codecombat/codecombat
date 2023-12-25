@@ -1,44 +1,44 @@
 <script>
-  import Modal from '../../../common/Modal'
-  import ModalClassForm from './ModalClassForm'
-  import ModalClassInfo from '../ModalClassInfo'
-  import ModalInviteStudents from '../ModalInviteStudents'
+import Modal from '../../../common/Modal'
+import ModalClassForm from './ModalClassForm'
+import ModalClassInfo from '../ModalClassInfo'
+import ModalInviteStudents from '../ModalInviteStudents'
 
-  export default Vue.extend({
-    components: {
-      Modal,
-      ModalClassForm,
-      ModalClassInfo,
-      ModalInviteStudents
+export default Vue.extend({
+  components: {
+    Modal,
+    ModalClassForm,
+    ModalClassInfo,
+    ModalInviteStudents
+  },
+  data: () => {
+    return {
+      classroomInfo: null,
+      showInviteStudentsModal: false
+    }
+  },
+  computed: {
+    showClassInfoModal () {
+      return !this.showClassFormModal && this.classroomInfo && !this.showInviteStudentsModal
     },
-    data: () => {
-      return {
-        classroomInfo: null,
-        showInviteStudentsModal: false
-      }
+    showClassFormModal () {
+      return !this.classroomInfo
     },
-    computed: {
-      showClassInfoModal () {
-        return !this.showClassFormModal && this.classroomInfo && !this.showInviteStudentsModal
-      },
-      showClassFormModal () {
-        return !this.classroomInfo
-      },
-      modalTitle () {
-        if (this.showInviteStudentsModal) {
-          return 'Invite Students by Email'
-        } else {
-          return Vue.t('teachers.add_a_class')
-        }
-      }
-    },
-    methods: {
-      classCreated (classroom) {
-        this.classroomInfo = classroom
-        this.$emit('class-created')
+    modalTitle () {
+      if (this.showInviteStudentsModal) {
+        return 'Invite Students by Email'
+      } else {
+        return Vue.t('teachers.add_a_class')
       }
     }
-  })
+  },
+  methods: {
+    classCreated (classroom) {
+      this.classroomInfo = classroom
+      this.$emit('class-created')
+    }
+  }
+})
 </script>
 
 <template>

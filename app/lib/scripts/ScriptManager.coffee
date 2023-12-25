@@ -64,7 +64,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @beginTicking()
 
   setScripts: (newScripts) ->
-    @originalScripts _.clone newScripts
+    @originalScripts = _.clone newScripts
     @quiet = true
     @initProperties()
     @loadFromSession()

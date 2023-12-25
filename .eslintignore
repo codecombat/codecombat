@@ -1,7 +1,8 @@
 node_modules
 bower_components
 
-public
+public_coco
+public_ozar
 vendor
 hooks
 
@@ -26,6 +27,14 @@ app/core/store/modules/users.js
 app/core/store/modules/schoolAdministrator.js
 app/core/store/modules/classrooms.js
 app/core/store/modules/levelSessions.js
+app/core/services/paypal.js
+app/core/services/stripe.js
+app/core/utils.js
+app/core/treema-ext.js
+app/core/initialize.js
+app/core/blocklyUtils.js
+app/core/application.js
+app/core/social-handlers/GithubHandler.js
 app/models/Cinematic.js
 app/schemas/models/cinematic.schema.js
 app/schemas/selectors/cinematic.js

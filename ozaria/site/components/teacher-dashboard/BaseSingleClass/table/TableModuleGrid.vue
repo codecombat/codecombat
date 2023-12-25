@@ -8,87 +8,94 @@ import ProgressDot from '../../common/progress/progressDot'
 import { mapGetters } from 'vuex'
 
 export default {
-    components: {
-      ProgressDot
+  components: {
+    ProgressDot
+  },
+  props: {
+    studentSessions: {
+      required: true,
+      type: Object
     },
-    props: {
-      studentSessions: {
-        required: true,
-        type: Object
-      },
-      hoveredLevel: {
-        required: false,
-        type: String,
-        default: null
+    hoveredLevel: {
+      required: false,
+      type: String,
+      default: null
+    }
+  },
+  computed: {
+    ...mapGetters({
+      selectedProgressKey: 'teacherDashboardPanel/selectedProgressKey',
+      getTrackCategory: 'teacherDashboard/getTrackCategory',
+      selectedStudentIds: 'baseSingleClass/selectedStudentIds',
+      selectedOriginals: 'baseSingleClass/selectedOriginals'
+    }),
+
+    cols () {
+      return Object.values(this.studentSessions)[0]?.length || 0
+    },
+
+    cssVariables () {
+      return {
+        // This is the width or number of content pieces in the module.
+        '--cols': this.cols
       }
     },
-    computed: {
-      ...mapGetters({
-        selectedProgressKey: 'teacherDashboardPanel/selectedProgressKey',
-        getTrackCategory: 'teacherDashboard/getTrackCategory',
-        selectedStudentIds: 'baseSingleClass/selectedStudentIds',
-        selectedOriginals: 'baseSingleClass/selectedOriginals',
-      }),
 
-      cols () {
-        return Object.values(this.studentSessions)[0]?.length || 0
-      },
-
-      cssVariables () {
-        return {
-          // This is the width or number of content pieces in the module.
-          '--cols': this.cols
-        }
-      },
-
-      allStudentSessionsLinear () {
-        // All student sessions get flattened and then returned as a 1 dimension array.
-        return Object.entries(this.studentSessions).reduce((acc, [studentId, studentSessions]) => {
-          return acc.concat(studentSessions.map(session => {
-            return {
-              ...session,
-              _id: studentId
-            }
-          }))
-        }, [])
+    allStudentSessionsLinear () {
+      // All student sessions get flattened and then returned as a 1 dimension array.
+      return Object.entries(this.studentSessions).reduce((acc, [studentId, studentSessions]) => {
+        return acc.concat(studentSessions.map(session => {
+          return {
+            ...session,
+            _id: studentId
+          }
+        }))
+      }, [])
+    }
+  },
+  methods: {
+    cellClass (idx) {
+      return {
+        'gray-backer': Math.floor(idx / this.cols) % 2 === 1,
+        'cell-style': true
       }
     },
-    methods: {
-      cellClass (idx) {
-        return {
-          'gray-backer': Math.floor(idx / this.cols) % 2 === 1,
-          'cell-style': true
-        }
-      },
 
-      getFlag (flag) {
-        if (flag === 'concept') {
-          return 'red'
-        }
-        if (flag === 'time') {
-          return 'gray'
-        }
+    getFlag (flag) {
+      if (flag === 'concept') {
+        return 'red'
+      }
+      if (flag === 'time') {
+        return 'gray'
       }
     }
   }
+}
 </script>
 
 <template>
-  <div class="moduleGrid" :style="cssVariables">
+  <div
+    class="moduleGrid"
+    :style="cssVariables"
+  >
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
-    <div :class="cellClass(index)" v-for="({_id, status, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear" :key="selectedKey">
+    <div
+      v-for="({_id, status, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear"
+      :key="selectedKey"
+      :class="cellClass(index)"
+    >
       <ProgressDot
         :status="status"
         :border="getFlag(flag)"
         :click-progress-handler="clickHandler"
         :click-state="selectedProgressKey && selectedProgressKey === selectedKey"
         :content-type="normalizedType"
-        :isLocked="isLocked"
-        :isSkipped="isSkipped"
-        :lockDate="lockDate"
-        :isPlayable="isPlayable"
-        :lastLockDate="lastLockDate"
-        :isOptional="isOptional"
+        :is-locked="isLocked"
+        :is-skipped="isSkipped"
+        :lock-date="lockDate"
+        :is-playable="isPlayable"
+        :last-lock-date="lastLockDate"
+        :is-optional="isOptional"
         :track-category="getTrackCategory"
         :selected="selectedOriginals.includes(normalizedOriginal) && selectedStudentIds.includes(_id)"
         :hovered="hoveredLevel===normalizedOriginal && selectedStudentIds.includes(_id)"

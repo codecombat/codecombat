@@ -1,13 +1,19 @@
 <template>
   <div class="podcast-body">
-    <div class="podcast-content" v-if="podcastsLoaded">
+    <div
+      v-if="podcastsLoaded"
+      class="podcast-content"
+    >
       <div
-        class="podcast-item"
         v-for="(podcast, index) in allPodcasts"
+        class="podcast-item"
+        :key="index"
       >
-        <div v-if="isPodcastVisible(podcast) && (!showTop3Only || (showTop3Only && index < 3))"
-          class="container">
-          <podcast-item-component :podcast="podcast"/>
+        <div
+          v-if="isPodcastVisible(podcast) && (!showTop3Only || (showTop3Only && index < 3))"
+          class="container"
+        >
+          <podcast-item-component :podcast="podcast" />
         </div>
       </div>
 
@@ -23,7 +29,10 @@
         </button>
       </div>
     </div>
-    <div class="podcast-loading" v-else>
+    <div
+      v-else
+      class="podcast-loading"
+    >
       {{ $t('common.loading') }}
     </div>
   </div>
@@ -41,6 +50,7 @@ export default {
   components: {
     PodcastItemComponent
   },
+  mixins: [podcastVisibleMixin, trackPlayMixin],
   data () {
     return {
       podcastsLoaded: false,
@@ -48,10 +58,9 @@ export default {
       showTop3Only: true
     }
   },
-  mixins: [podcastVisibleMixin, trackPlayMixin ],
   methods: {
     ...mapActions({
-      'fetchAllPodcasts': 'podcasts/fetchAll'
+      fetchAllPodcasts: 'podcasts/fetchAll'
     }),
     onListenClick (podcast) {
       this.showPlayModal = podcast._id
@@ -68,7 +77,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      'allPodcasts': 'podcasts/podcasts'
+      allPodcasts: 'podcasts/podcasts'
     })
   },
   async created () {
@@ -82,8 +91,6 @@ export default {
 <style scoped lang="scss">
 @import "app/styles/podcast/common";
 .podcast-content {
-
-
 
   &__icon {
     border-radius: 2.5rem;

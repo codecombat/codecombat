@@ -1,311 +1,311 @@
 <script>
-  import { getCinematic, putCinematic } from '../../../api/cinematic'
-  import BaseModal from 'ozaria/site/components/common/BaseModal'
-  import Cinematic from '../../../models/Cinematic'
-  import CinematicCanvas from '../common/CinematicCanvas'
-  import CocoCollection from 'app/collections/CocoCollection'
-  import LayoutCenterContent from '../../common/LayoutCenterContent'
-  import { QUILL_CONFIG } from 'ozaria/engine/cinematic/constants'
-  import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html'
-  const FlexSearch = require('flexsearch')
-  const api = require('core/api')
-  const Quill = require('quill')
-  const globalVar = require('core/globalVar')
-  require('core/services/filepicker')()
+import { getCinematic, putCinematic } from '../../../api/cinematic'
+import BaseModal from 'ozaria/site/components/common/BaseModal'
+import Cinematic from '../../../models/Cinematic'
+import CinematicCanvas from '../common/CinematicCanvas'
+import CocoCollection from 'app/collections/CocoCollection'
+import LayoutCenterContent from '../../common/LayoutCenterContent'
+import { QUILL_CONFIG } from 'ozaria/engine/cinematic/constants'
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html'
+const FlexSearch = require('flexsearch')
+const api = require('core/api')
+const Quill = require('quill')
+const globalVar = require('core/globalVar')
+require('core/services/filepicker')()
 
-  require('lib/setupTreema')
+require('lib/setupTreema')
 
-  module.exports = Vue.extend({
-    components: {
-      BaseModal,
-      'cinematic-canvas': CinematicCanvas,
-      'layout-center-content': LayoutCenterContent
-    },
+module.exports = Vue.extend({
+  components: {
+    BaseModal,
+    'cinematic-canvas': CinematicCanvas,
+    'layout-center-content': LayoutCenterContent
+  },
 
-    props: {
-      slug: {
-        type: String,
-        required: true
-      }
-    },
-
-    data: () => ({
-      cinematic: null,
-      treema: null,
-      rawData: null,
-      state: {
-        saving: false
-      },
-      rerenderKey: 0,
-      programmingLanguage: 'python',
-      dialogSearch: null,
-      dialogSearchInput: '',
-      dialogSearchResults: [],
-      showRichEdit: false
-    }),
-
-    computed: {
-      heading () {
-        if (!this.cinematic) {
-          return `No Cinematic Loaded`
-        }
-        return `Cinematic Editor: '${this.cinematic.get('name')}'`
-      }
-    },
-    watch: {
-      dialogSearchInput (val) {
-        if (!this.dialogSearch) {
-          return
-        }
-        this.debouncedSearchDialogText()
-      }
-    },
-    mounted () {
-      if (!me.hasCinematicEditorAccess()) {
-        alert('You must be logged in as an admin to use this page.')
-        return application.router.navigate('/editor', { trigger: true })
-      }
-
-      this.debouncedSearchDialogText = _.debounce(this.searchDialogText, 250)
-      this.debouncedRebuildSearch = _.debounce(this.constructNewDialogueSearch, 250)
-
-      this.fetchCinematic(this.slug)
-    },
-    methods: {
-      /**
-       * Fetch and populate treema with cinematic slug.
-       */
-      async fetchCinematic (slug) {
-        try {
-          this.cinematic = new Cinematic(await getCinematic(slug))
-        } catch (e) {
-          return noty({
-            text: `Error finding slug '${slug}'.`,
-            type: 'error',
-            timeout: 3000,
-            callback: {
-              onClose: () => {
-                application.router.navigate('/editor/cinematic', { trigger: true })
-              }
-            }
-          })
-        }
-
-        const data = $.extend(true, {}, this.cinematic.attributes)
-        const el = $(`<div></div>`)
-        const files = new CocoCollection(await api.files.getDirectory({ path: 'cinematic' }), { model: Cinematic })
-        const treema = this.treema = TreemaNode.make(el, {
-          data: data,
-          schema: Cinematic.schema,
-          // Automatically uploads the file to /file/cinematic/<fileName>
-          // You can view files at /admin/files
-          filePath: 'cinematic',
-          files,
-          callbacks: {
-            change: this.pushChanges,
-            jsonToHtml: this.quillJsonToHtml,
-            showRichTextModal: this.showRichTextModal
-          }
-        })
-        treema.build()
-        $(this.$refs.treemaEditor).append(el)
-
-        this.debouncedRebuildSearch()
-      },
-
-      /**
-       * Pushes changes from treema to the cinematic model.
-       */
-      pushChanges () {
-        this.cinematic.set(_.cloneDeep(this.treema.data))
-        this.debouncedRebuildSearch()
-      },
-
-      constructNewDialogueSearch () {
-        if (!this.dialogSearch) {
-          this.dialogSearch = new FlexSearch()
-        }
-
-        this.dialogSearch.destroy().init({
-          tokenize: 'strict',
-          depth: 3,
-          doc: {
-            id: 'id',
-            field: 'text'
-          }
-        })
-
-        const cinematicText = Cinematic.flattenDialogueText(this.cinematic)
-        this.dialogSearch.add(cinematicText)
-      },
-
-      /**
-       * Ensures that there is an empty `i18n` field set on the cinematic.
-       * Allows fields to be translated via /i18n route.
-       */
-      makeTranslatable () {
-        if (!(this.treema || {}).data) {
-          noty({ text: 'Nothing to translate', timeout: 1000 })
-          return
-        }
-
-        if (!window.confirm('This will populate any missing i18n fields so that cinematics can be translated. Do you want to continue?')) {
-          noty({ text: 'Cancelled', timeout: 1000 })
-          return
-        }
-
-        const cinematicData = this.treema.data
-
-        const i18n = cinematicData.i18n
-        if (i18n === undefined) {
-          cinematicData.i18n = { '-': { '-': '-' } }
-        }
-
-        const shots = cinematicData.shots || []
-        for (const shot of shots) {
-          const dialogNodes = shot.dialogNodes || []
-          for (const dialogNode of dialogNodes) {
-            const i18n = dialogNode.i18n
-            if ((!i18n) && dialogNode.text) {
-              dialogNode.i18n = { '-': { '-': '-' } }
-            }
-          }
-        }
-
-        noty({ text: 'Translations added. Please save to keep changes', type: 'success', timeout: 8000 })
-        this.pushChanges()
-      },
-
-      /**
-       * Saves the cinematic to the database.
-       * Only the shots property will be saved.
-       */
-      async saveCinematic () {
-        this.state.saving = true
-        try {
-          await putCinematic({ data: this.cinematic.toJSON() })
-          noty({ text: 'Saved', type: 'success', timeout: 1000 })
-        } catch (e) {
-          noty({ text: e.message, type: 'error', timeout: 1000 })
-        }
-        this.state.saving = false
-      },
-
-      /**
-       * Runs the cinematic on the right hand side of the editor.
-       */
-      runCinematic () {
-        this.rerenderKey += 1
-        this.rawData = this.rawData || {}
-        this.rawData = JSON.parse(JSON.stringify(this.treema.data))
-      },
-
-      navigateToList () {
-        globalVar.application.router.navigate(`/editor/cinematic/`, { trigger: true })
-      },
-
-      searchDialogText () {
-        if ((this.dialogSearchInput || '').length > 0) {
-          this.dialogSearch.search(this.dialogSearchInput, results => {
-            this.dialogSearchResults = results
-          })
-        }
-      },
-
-      /**
-       * Opens all dialogue nodes that match the text.
-       */
-      openDialogueNodes (text) {
-        this.treema.childrenTreemas.shots.close()
-        const nodesToOpen = Cinematic.findDialogTextPath(this.cinematic, text)
-        for (const [shotIdx, dialogIdx] of nodesToOpen) {
-          const shots = this.treema.childrenTreemas.shots
-
-          // Path is based on the cinematic schema for accessing dialogue nodes.
-          shots.open()
-          shots.childrenTreemas[shotIdx].open()
-          shots.childrenTreemas[shotIdx].childrenTreemas.dialogNodes.open()
-          shots.childrenTreemas[shotIdx].childrenTreemas.dialogNodes.childrenTreemas[dialogIdx].open()
-        }
-      },
-
-      /**
-       * Show rich text editor modal with 3rd party Quill editor
-       */
-      showRichTextModal (data, saveChangesCallback) {
-        this.showRichEdit = true
-        // Rich text modal has to be showing before this works
-        setTimeout(() => {
-          const ozariaChalkboardFontColors = ['#0C725A', '#4425D9', '#BA0ABA', '#CD0638', '#0F6CD1', '#94653C']
-          const Font = Quill.import('formats/font')
-          Font.whitelist = ['roboto-mono','serif','monospace']
-          Quill.register(Font, true)
-          this.quill = new Quill('#rich-editor', {
-            modules: {
-              toolbar: [
-                [{ 'font': ['roboto-mono', 'serif', 'monospace'] }],
-                // TODO: make font size dropdown show actual sizes we want instead of built-in values
-                // [{ 'size': [false, '18px', '22px', '24px', '26px', '28px', '30px', '32px'] }],
-                [{ 'size': [ 'small', false, 'large', 'huge' ] }],
-                ['bold', 'italic', 'underline', 'strike'],
-                [{ 'color': ozariaChalkboardFontColors }, { 'background': ozariaChalkboardFontColors }],
-                ['image'],
-                [{ align: [false, 'center', 'right'] }],
-                ['clean']
-              ]
-            },
-            theme: 'snow'
-          })
-          const toolbar = this.quill.getModule('toolbar')
-          toolbar.addHandler('image', this.uploadAndInsertImageCallback)
-          this.quill.setContents(data)
-          this.updateLocalRichEditCallback = saveChangesCallback
-        }, 100)
-      },
-
-      /**
-       * Upload an image and insert via URL into Quill editor
-       * TODO: consolidate file picker and upload code copied from treema-ext.coffee
-       */
-      uploadAndInsertImageCallback () {
-        filepicker.pick((InkBlob) => {
-          const body = {
-            url: InkBlob.url,
-            filename: InkBlob.filename,
-            mimetype: InkBlob.mimetype,
-            path: 'cinematic',
-            force: true
-          }
-
-          const uploadingPath = ['cinematic', InkBlob.filename].join('/')
-
-          const imageUploadedCallback = (url) => {
-            this.quill.insertEmbed(this.quill.getSelection().index, 'image', url)
-          }
-          if (globalVar.application.isProduction()) {
-            $.ajax('/file', { type: 'POST', data: body, success: () => imageUploadedCallback(`/file/${uploadingPath}`) })
-          } else {
-            setTimeout(() => imageUploadedCallback('https://www.ozaria.com/images/pages/not_found/404_1.png'), 500)
-          }
-        })
-      },
-
-      updateLocalRichEdit () {
-        if (this.updateLocalRichEditCallback) {
-          this.updateLocalRichEditCallback(JSON.parse(JSON.stringify(this.quill.getContents())))
-        }
-        this.closeRichEdit()
-      },
-
-      closeRichEdit () {
-        this.showRichEdit = false
-      },
-
-      quillJsonToHtml (quillJson) {
-        return new QuillDeltaToHtmlConverter(quillJson.ops, QUILL_CONFIG).convert()
-      }
+  props: {
+    slug: {
+      type: String,
+      required: true
     }
-  })
+  },
+
+  data: () => ({
+    cinematic: null,
+    treema: null,
+    rawData: null,
+    state: {
+      saving: false
+    },
+    rerenderKey: 0,
+    programmingLanguage: 'python',
+    dialogSearch: null,
+    dialogSearchInput: '',
+    dialogSearchResults: [],
+    showRichEdit: false
+  }),
+
+  computed: {
+    heading () {
+      if (!this.cinematic) {
+        return 'No Cinematic Loaded'
+      }
+      return `Cinematic Editor: '${this.cinematic.get('name')}'`
+    }
+  },
+  watch: {
+    dialogSearchInput (val) {
+      if (!this.dialogSearch) {
+        return
+      }
+      this.debouncedSearchDialogText()
+    }
+  },
+  mounted () {
+    if (!me.hasCinematicEditorAccess()) {
+      alert('You must be logged in as an admin to use this page.')
+      return application.router.navigate('/editor', { trigger: true })
+    }
+
+    this.debouncedSearchDialogText = _.debounce(this.searchDialogText, 250)
+    this.debouncedRebuildSearch = _.debounce(this.constructNewDialogueSearch, 250)
+
+    this.fetchCinematic(this.slug)
+  },
+  methods: {
+    /**
+     * Fetch and populate treema with cinematic slug.
+     */
+    async fetchCinematic (slug) {
+      try {
+        this.cinematic = new Cinematic(await getCinematic(slug))
+      } catch (e) {
+        return noty({
+          text: `Error finding slug '${slug}'.`,
+          type: 'error',
+          timeout: 3000,
+          callback: {
+            onClose: () => {
+              application.router.navigate('/editor/cinematic', { trigger: true })
+            }
+          }
+        })
+      }
+
+      const data = $.extend(true, {}, this.cinematic.attributes)
+      const el = $('<div></div>')
+      const files = new CocoCollection(await api.files.getDirectory({ path: 'cinematic' }), { model: Cinematic })
+      const treema = this.treema = TreemaNode.make(el, {
+        data,
+        schema: Cinematic.schema,
+        // Automatically uploads the file to /file/cinematic/<fileName>
+        // You can view files at /admin/files
+        filePath: 'cinematic',
+        files,
+        callbacks: {
+          change: this.pushChanges,
+          jsonToHtml: this.quillJsonToHtml,
+          showRichTextModal: this.showRichTextModal
+        }
+      })
+      treema.build()
+      $(this.$refs.treemaEditor).append(el)
+
+      this.debouncedRebuildSearch()
+    },
+
+    /**
+     * Pushes changes from treema to the cinematic model.
+     */
+    pushChanges () {
+      this.cinematic.set(_.cloneDeep(this.treema.data))
+      this.debouncedRebuildSearch()
+    },
+
+    constructNewDialogueSearch () {
+      if (!this.dialogSearch) {
+        this.dialogSearch = new FlexSearch()
+      }
+
+      this.dialogSearch.destroy().init({
+        tokenize: 'strict',
+        depth: 3,
+        doc: {
+          id: 'id',
+          field: 'text'
+        }
+      })
+
+      const cinematicText = Cinematic.flattenDialogueText(this.cinematic)
+      this.dialogSearch.add(cinematicText)
+    },
+
+    /**
+     * Ensures that there is an empty `i18n` field set on the cinematic.
+     * Allows fields to be translated via /i18n route.
+     */
+    makeTranslatable () {
+      if (!(this.treema || {}).data) {
+        noty({ text: 'Nothing to translate', timeout: 1000 })
+        return
+      }
+
+      if (!window.confirm('This will populate any missing i18n fields so that cinematics can be translated. Do you want to continue?')) {
+        noty({ text: 'Cancelled', timeout: 1000 })
+        return
+      }
+
+      const cinematicData = this.treema.data
+
+      const i18n = cinematicData.i18n
+      if (i18n === undefined) {
+        cinematicData.i18n = { '-': { '-': '-' } }
+      }
+
+      const shots = cinematicData.shots || []
+      for (const shot of shots) {
+        const dialogNodes = shot.dialogNodes || []
+        for (const dialogNode of dialogNodes) {
+          const i18n = dialogNode.i18n
+          if ((!i18n) && dialogNode.text) {
+            dialogNode.i18n = { '-': { '-': '-' } }
+          }
+        }
+      }
+
+      noty({ text: 'Translations added. Please save to keep changes', type: 'success', timeout: 8000 })
+      this.pushChanges()
+    },
+
+    /**
+     * Saves the cinematic to the database.
+     * Only the shots property will be saved.
+     */
+    async saveCinematic () {
+      this.state.saving = true
+      try {
+        await putCinematic({ data: this.cinematic.toJSON() })
+        noty({ text: 'Saved', type: 'success', timeout: 1000 })
+      } catch (e) {
+        noty({ text: e.message, type: 'error', timeout: 1000 })
+      }
+      this.state.saving = false
+    },
+
+    /**
+     * Runs the cinematic on the right hand side of the editor.
+     */
+    runCinematic () {
+      this.rerenderKey += 1
+      this.rawData = this.rawData || {}
+      this.rawData = JSON.parse(JSON.stringify(this.treema.data))
+    },
+
+    navigateToList () {
+      globalVar.application.router.navigate('/editor/cinematic/', { trigger: true })
+    },
+
+    searchDialogText () {
+      if ((this.dialogSearchInput || '').length > 0) {
+        this.dialogSearch.search(this.dialogSearchInput, results => {
+          this.dialogSearchResults = results
+        })
+      }
+    },
+
+    /**
+     * Opens all dialogue nodes that match the text.
+     */
+    openDialogueNodes (text) {
+      this.treema.childrenTreemas.shots.close()
+      const nodesToOpen = Cinematic.findDialogTextPath(this.cinematic, text)
+      for (const [shotIdx, dialogIdx] of nodesToOpen) {
+        const shots = this.treema.childrenTreemas.shots
+
+        // Path is based on the cinematic schema for accessing dialogue nodes.
+        shots.open()
+        shots.childrenTreemas[shotIdx].open()
+        shots.childrenTreemas[shotIdx].childrenTreemas.dialogNodes.open()
+        shots.childrenTreemas[shotIdx].childrenTreemas.dialogNodes.childrenTreemas[dialogIdx].open()
+      }
+    },
+
+    /**
+     * Show rich text editor modal with 3rd party Quill editor
+     */
+    showRichTextModal (data, saveChangesCallback) {
+      this.showRichEdit = true
+      // Rich text modal has to be showing before this works
+      setTimeout(() => {
+        const ozariaChalkboardFontColors = ['#0C725A', '#4425D9', '#BA0ABA', '#CD0638', '#0F6CD1', '#94653C']
+        const Font = Quill.import('formats/font')
+        Font.whitelist = ['roboto-mono', 'serif', 'monospace']
+        Quill.register(Font, true)
+        this.quill = new Quill('#rich-editor', {
+          modules: {
+            toolbar: [
+              [{ font: ['roboto-mono', 'serif', 'monospace'] }],
+              // TODO: make font size dropdown show actual sizes we want instead of built-in values
+              // [{ 'size': [false, '18px', '22px', '24px', '26px', '28px', '30px', '32px'] }],
+              [{ size: ['small', false, 'large', 'huge'] }],
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ color: ozariaChalkboardFontColors }, { background: ozariaChalkboardFontColors }],
+              ['image'],
+              [{ align: [false, 'center', 'right'] }],
+              ['clean']
+            ]
+          },
+          theme: 'snow'
+        })
+        const toolbar = this.quill.getModule('toolbar')
+        toolbar.addHandler('image', this.uploadAndInsertImageCallback)
+        this.quill.setContents(data)
+        this.updateLocalRichEditCallback = saveChangesCallback
+      }, 100)
+    },
+
+    /**
+     * Upload an image and insert via URL into Quill editor
+     * TODO: consolidate file picker and upload code copied from treema-ext.coffee
+     */
+    uploadAndInsertImageCallback () {
+      filepicker.pick((InkBlob) => {
+        const body = {
+          url: InkBlob.url,
+          filename: InkBlob.filename,
+          mimetype: InkBlob.mimetype,
+          path: 'cinematic',
+          force: true
+        }
+
+        const uploadingPath = ['cinematic', InkBlob.filename].join('/')
+
+        const imageUploadedCallback = (url) => {
+          this.quill.insertEmbed(this.quill.getSelection().index, 'image', url)
+        }
+        if (globalVar.application.isProduction()) {
+          $.ajax('/file', { type: 'POST', data: body, success: () => imageUploadedCallback(`/file/${uploadingPath}`) })
+        } else {
+          setTimeout(() => imageUploadedCallback('https://www.ozaria.com/images/pages/not_found/404_1.png'), 500)
+        }
+      })
+    },
+
+    updateLocalRichEdit () {
+      if (this.updateLocalRichEditCallback) {
+        this.updateLocalRichEditCallback(JSON.parse(JSON.stringify(this.quill.getContents())))
+      }
+      this.closeRichEdit()
+    },
+
+    closeRichEdit () {
+      this.showRichEdit = false
+    },
+
+    quillJsonToHtml (quillJson) {
+      return new QuillDeltaToHtmlConverter(quillJson.ops, QUILL_CONFIG).convert()
+    }
+  }
+})
 </script>
 
 <template>

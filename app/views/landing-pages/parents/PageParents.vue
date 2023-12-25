@@ -21,13 +21,17 @@
       @close="showTimetapConfirmationModal = false"
     />
     <ModalScheduleFreeClass
-        v-if="showScheduleFreeClassModal"
-        @close="showScheduleFreeClassModal = false"
-        :availabilityPDT="availabilityPDT"
+      v-if="showScheduleFreeClassModal"
+      :availability-p-d-t="availabilityPDT"
+      @close="showScheduleFreeClassModal = false"
     />
     <!-- END Modals -->
 
-    <div class="row" id="top-banner" v-if="type === 'live-classes'">
+    <div
+      v-if="type === 'live-classes'"
+      id="top-banner"
+      class="row"
+    >
       <div class="row">
         <div class="col-xs-12">
           <span>Kids: show this to your parents to get your free coding class and premium heroes!</span>
@@ -35,14 +39,24 @@
       </div>
     </div>
 
-    <page-parents-jumbotron :type="type" :mainCtaButtonText="mainCtaButtonText(0)" :mainCtaSubtext="mainCtaSubtext(0)" :trialClassExperiment="trialClassExperiment" :brightchampsExperiment="brightchampsExperiment" @cta-clicked="onClickMainCta"/>
+    <page-parents-jumbotron
+      :type="type"
+      :main-cta-button-text="mainCtaButtonText(0)"
+      :main-cta-subtext="mainCtaSubtext(0)"
+      :trial-class-experiment="trialClassExperiment"
+      :brightchamps-experiment="brightchampsExperiment"
+      @cta-clicked="onClickMainCta"
+    />
 
     <div class="container-power-gameplay">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
             <!-- Margin added quickly to line up graphics -->
-            <div class="row" style="margin-top: 90px;">
+            <div
+              class="row"
+              style="margin-top: 90px;"
+            >
               <div class="col-lg-12 text-center">
                 <h2>
                   CodeCombat combines the power of gameplay and personalized instruction to deliver online coding classes that your child will look forward to every week!
@@ -55,24 +69,24 @@
           <div class="col-lg-12 trust-logos">
             <div class="flex-spacer">
               <img
-                  src="/images/pages/parents/cse_top_pick.png"
-                  class="cse-top-pick"
-              />
+                src="/images/pages/parents/cse_top_pick.png"
+                class="cse-top-pick"
+              >
             </div>
 
             <div class="flex-spacer">
               <div class="cs-for-all-container">
                 <img
                   src="/images/pages/parents/cs_for_all_member.png"
-                />
+                >
               </div>
             </div>
 
             <div class="flex-spacer">
               <div class="codie-logo-container">
                 <img
-                    src="/images/pages/parents/2017_codie_award.png"
-                />
+                  src="/images/pages/parents/2017_codie_award.png"
+                >
               </div>
             </div>
           </div>
@@ -80,14 +94,26 @@
       </div>
     </div>
 
-    <div class="container-graphic-spacer sm-min-height-auto blue-fox-spacer">
-    </div>
+    <div class="container-graphic-spacer sm-min-height-auto blue-fox-spacer" />
 
     <div class="container">
       <div class="row">
-        <h1 class="text-center pixelated" style="padding: 0 5px;">Remote Learning That Works</h1>
+        <h1
+          class="text-center pixelated"
+          style="padding: 0 5px;"
+        >
+          Remote Learning That Works
+        </h1>
         <div class="col-xs-12 video-container">
-          <div style="position: relative; padding-top: 56.25%;"><iframe :src="'https://iframe.videodelivery.net/' + videoId + '?preload=true&poster=https://videodelivery.net/' + videoId + '/thumbnails/thumbnail.jpg%3Ftime%3D2s&defaultTextTrack=en'" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat online classes video"></iframe></div>
+          <div style="position: relative; padding-top: 56.25%;">
+            <iframe
+              :src="'https://iframe.videodelivery.net/' + videoId + '?preload=true&poster=https://videodelivery.net/' + videoId + '/thumbnails/thumbnail.jpg%3Ftime%3D2s&defaultTextTrack=en'"
+              style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"
+              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+              allowfullscreen="true"
+              title="CodeCombat online classes video"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -95,14 +121,17 @@
     <div class="container-graphic-spacer">
       <div class="container">
         <div class="row">
-          <div class="col-xs-12" style="margin: 30px 0 20px;">
+          <div
+            class="col-xs-12"
+            style="margin: 30px 0 20px;"
+          >
             <img
-                class="img-responsive"
-                src="/images/pages/parents/graphic_09.png"
-                alt="hero moving along a path"
-                loading="lazy"
-                style="max-width: 290px;"
-            />
+              class="img-responsive"
+              src="/images/pages/parents/graphic_09.png"
+              alt="hero moving along a path"
+              loading="lazy"
+              style="max-width: 290px;"
+            >
           </div>
         </div>
       </div>
@@ -128,7 +157,7 @@
               src="/images/pages/parents/personal_learning.png"
               alt="teacher and student playing codecombat"
               loading="lazy"
-            />
+            >
           </div>
           <div class="col-md-6 col-sm-12">
             <h3>Personalized Learning</h3>
@@ -138,7 +167,11 @@
 
         <div class="row row-eq-height xs-pb-50">
           <div class="col-md-6 col-md-push-6 col-sm-12 ">
-            <img class="power-of-play-gif" src="/images/pages/parents/power_of_play_capstone.gif" loading="lazy" />
+            <img
+              class="power-of-play-gif"
+              src="/images/pages/parents/power_of_play_capstone.gif"
+              loading="lazy"
+            >
           </div>
           <div class="col-md-6 col-sm-12 col-md-pull-6">
             <h3>The Power of Play</h3>
@@ -148,7 +181,10 @@
 
         <div class="row row-eq-height">
           <div class="col-md-6 col-sm-12">
-            <img src="/images/pages/parents/personal_learning_3.png" loading="lazy" />
+            <img
+              src="/images/pages/parents/personal_learning_3.png"
+              loading="lazy"
+            >
           </div>
           <div class="col-md-6 col-sm-12">
             <h3>Early Exposure to Coding</h3>
@@ -158,18 +194,25 @@
       </div>
     </div>
 
-    <button-main-cta :buttonText="mainCtaButtonText(1)" :subtext="mainCtaSubtext(1)" @click="onClickMainCta" />
+    <button-main-cta
+      :button-text="mainCtaButtonText(1)"
+      :subtext="mainCtaSubtext(1)"
+      @click="onClickMainCta"
+    />
 
     <div class="container-graphic-spacer">
       <div class="container">
         <div class="row">
-          <div class="col-xs-12" style="margin: 30px 0 20px;">
+          <div
+            class="col-xs-12"
+            style="margin: 30px 0 20px;"
+          >
             <img
-                class="img-responsive"
-                src="/images/pages/parents/graphic_03_speech.svg"
-                alt="hero moving along a path based on code commands"
-                loading="lazy"
-            />
+              class="img-responsive"
+              src="/images/pages/parents/graphic_03_speech.svg"
+              alt="hero moving along a path based on code commands"
+              loading="lazy"
+            >
           </div>
         </div>
       </div>
@@ -179,17 +222,23 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <img src="/images/pages/parents/quote.svg" alt="quote" width=60 height=73 loading="lazy"/>
+            <img
+              src="/images/pages/parents/quote.svg"
+              alt="quote"
+              width="60"
+              height="73"
+              loading="lazy"
+            >
             <p>Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills.</p>
             <p><b>Latthaphon Pohpon, Parent</b></p>
           </div>
           <div class="col-md-6">
             <img
-                class="img-responsive"
-                src="/images/pages/parents/ten_testimonial.png"
-                alt="kid on computer playing codecombat looking at camera"
-                loading="lazy"
-            />
+              class="img-responsive"
+              src="/images/pages/parents/ten_testimonial.png"
+              alt="kid on computer playing codecombat looking at camera"
+              loading="lazy"
+            >
           </div>
         </div>
       </div>
@@ -201,33 +250,44 @@
         <div class="row">
           <div class="col-xs-12">
             <img
-                class="img-responsive"
-                src="/images/pages/parents/graphic_04.svg"
-                alt="CodeCombat pet following yellow dotted path"
-                loading="lazy"
-            />
+              class="img-responsive"
+              src="/images/pages/parents/graphic_04.svg"
+              alt="CodeCombat pet following yellow dotted path"
+              loading="lazy"
+            >
           </div>
         </div>
       </div>
     </div>
 
-    <div class="container-course-offering-heading" v-if="brightchampsExperiment != 'brightchamps'">
+    <div
+      v-if="brightchampsExperiment != 'brightchamps'"
+      class="container-course-offering-heading"
+    >
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
             <img
+              v-if="showPricing"
               class="img-responsive money-back-guarantee"
               src="/images/pages/parents/money_back_guarantee.png"
               title="30-day money-back guarantee"
-              alt='"30 Day Money back Guarantee Transparent" by transparentpng.com is licensed under CC BY 4.0 - source: https://www.transparentpng.com/details/30-day-money-back-guarantee-transparent_15977.html'
+              alt="&quot;30 Day Money back Guarantee Transparent&quot; by transparentpng.com is licensed under CC BY 4.0 - source: https://www.transparentpng.com/details/30-day-money-back-guarantee-transparent_15977.html"
               loading="lazy"
-              v-if="showPricing"
-            />
-            <h1 class="pixelated">Course Offerings</h1>
-            <p style="margin: 0 auto;" v-if="trialClassExperiment == 'trial-class'">
+            >
+            <h1 class="pixelated">
+              Course Offerings
+            </h1>
+            <p
+              v-if="trialClassExperiment == 'trial-class'"
+              style="margin: 0 auto;"
+            >
               With individual or small group class options and flexible scheduling available, this is the easiest way to get started in computer science.
             </p>
-            <p style="margin: 0 auto;" v-else>
+            <p
+              v-else
+              style="margin: 0 auto;"
+            >
               All classes feature private, individualized instruction. To enroll a group of students, contact <a href="mailto:classes@codecombat.com">classes@codecombat.com</a> for a custom plan.
             </p>
           </div>
@@ -235,122 +295,244 @@
       </div>
     </div>
 
-    <div class="container-pricing-table" v-if="brightchampsExperiment != 'brightchamps'">
+    <div
+      v-if="brightchampsExperiment != 'brightchamps'"
+      class="container-pricing-table"
+    >
       <div class="pricing-grid-container">
-        <div v-if="showPricing"></div>
-        <div v-if="showPricing"></div>
-        <div v-if="showPricing" class="value-topper">Most popular</div>
-        <div v-if="showPricing" class="value-topper">Best Value</div>
+        <div v-if="showPricing" />
+        <div v-if="showPricing" />
+        <div
+          v-if="showPricing"
+          class="value-topper"
+        >
+          Most popular
+        </div>
+        <div
+          v-if="showPricing"
+          class="value-topper"
+        >
+          Best Value
+        </div>
         <!-- First Row -->
-        <div class="grid-item"></div>
-        <div class="grid-item"><a href="/premium" target="_blank">Self-Paced</a></div>
-        <div class="grid-item">Private</div>
-        <div class="grid-item">Private</div>
+        <div class="grid-item" />
+        <div class="grid-item">
+          <a
+            href="/premium"
+            target="_blank"
+          >Self-Paced</a>
+        </div>
+        <div class="grid-item">
+          Private
+        </div>
+        <div class="grid-item">
+          Private
+        </div>
         <!-- End First Row -->
         <!-- Second Row -->
         <!-- TODO: differentiate between annual and lifetime -->
-        <div class="grid-item" v-if="showPricing">Subscription plan</div>
-        <div class="grid-item" v-if="showPricing">${{ basicAnnualSubscriptionPrice }} per year</div>
-        <div class="grid-item" v-if="showPricing">$219 per month</div>
-        <div class="grid-item" v-if="showPricing">$399 per month</div>
+        <div
+          v-if="showPricing"
+          class="grid-item"
+        >
+          Subscription plan
+        </div>
+        <div
+          v-if="showPricing"
+          class="grid-item"
+        >
+          ${{ basicAnnualSubscriptionPrice }} per year
+        </div>
+        <div
+          v-if="showPricing"
+          class="grid-item"
+        >
+          $219 per month
+        </div>
+        <div
+          v-if="showPricing"
+          class="grid-item"
+        >
+          $399 per month
+        </div>
         <!-- End Second Row -->
         <!-- Third Row -->
-        <div class="grid-item">60-minute sessions via Zoom</div>
-        <div class="grid-item">N/A</div>
-        <div class="grid-item">1 private session per week</div>
-        <div class="grid-item">2 private sessions per week</div>
+        <div class="grid-item">
+          60-minute sessions via Zoom
+        </div>
+        <div class="grid-item">
+          N/A
+        </div>
+        <div class="grid-item">
+          1 private session per week
+        </div>
+        <div class="grid-item">
+          2 private sessions per week
+        </div>
         <!-- End Third Row -->
         <!-- Fourth Row -->
-        <div class="grid-item">Student to Instructor Ratio</div>
-        <div class="grid-item">N/A</div>
-        <div class="grid-item">1:1</div>
-        <div class="grid-item">1:1</div>
+        <div class="grid-item">
+          Student to Instructor Ratio
+        </div>
+        <div class="grid-item">
+          N/A
+        </div>
+        <div class="grid-item">
+          1:1
+        </div>
+        <div class="grid-item">
+          1:1
+        </div>
         <!-- End Fourth Row -->
         <!-- Fifth Row -->
-        <div class="grid-item">CodeCombat premium license included</div>
-        <div class="grid-item"><icon-gem /></div>
-        <div class="grid-item"><icon-gem /></div>
-        <div class="grid-item"><icon-gem /></div>
+        <div class="grid-item">
+          CodeCombat premium license included
+        </div>
+        <div class="grid-item">
+          <icon-gem />
+        </div>
+        <div class="grid-item">
+          <icon-gem />
+        </div>
+        <div class="grid-item">
+          <icon-gem />
+        </div>
         <!-- End Fifth Row -->
         <!-- Sixth Row -->
-        <div class="grid-item">Immediate and personalized feedback</div>
-        <div class="grid-item"></div>
-        <div class="grid-item"><icon-gem /></div>
-        <div class="grid-item"><icon-gem /></div>
+        <div class="grid-item">
+          Immediate and personalized feedback
+        </div>
+        <div class="grid-item" />
+        <div class="grid-item">
+          <icon-gem />
+        </div>
+        <div class="grid-item">
+          <icon-gem />
+        </div>
         <!-- End Sixth Row -->
         <!-- Seventh Row -->
-        <div class="grid-item">Bonus activities, rewards, and course completion certificates</div>
-        <div class="grid-item"></div>
-        <div class="grid-item"><icon-gem /></div>
-        <div class="grid-item"><icon-gem /></div>
+        <div class="grid-item">
+          Bonus activities, rewards, and course completion certificates
+        </div>
+        <div class="grid-item" />
+        <div class="grid-item">
+          <icon-gem />
+        </div>
+        <div class="grid-item">
+          <icon-gem />
+        </div>
         <!-- End Eighth Row -->
         <!-- Ninth Row -->
-        <div class="grid-item">End of course projects that demonstrate concepts learned</div>
-        <div class="grid-item"></div>
-        <div class="grid-item"><icon-gem /></div>
-        <div class="grid-item"><icon-gem /></div>
+        <div class="grid-item">
+          End of course projects that demonstrate concepts learned
+        </div>
+        <div class="grid-item" />
+        <div class="grid-item">
+          <icon-gem />
+        </div>
+        <div class="grid-item">
+          <icon-gem />
+        </div>
         <!-- End Ninth Row -->
         <!-- Ninth Row -->
-        <div class="grid-item">Monthly progress updates from instructor</div>
-        <div class="grid-item"></div>
-        <div class="grid-item"><icon-gem /></div>
-        <div class="grid-item"><icon-gem /></div>
+        <div class="grid-item">
+          Monthly progress updates from instructor
+        </div>
+        <div class="grid-item" />
+        <div class="grid-item">
+          <icon-gem />
+        </div>
+        <div class="grid-item">
+          <icon-gem />
+        </div>
         <!-- End Ninth Row -->
         <!-- Tenth Row -->
-        <div class="grid-item">Flexible schedule adapted to each student's learning needs</div>
-        <div class="grid-item"></div>
-        <div class="grid-item"><icon-gem /></div>
-        <div class="grid-item"><icon-gem /></div>
+        <div class="grid-item">
+          Flexible schedule adapted to each student's learning needs
+        </div>
+        <div class="grid-item" />
+        <div class="grid-item">
+          <icon-gem />
+        </div>
+        <div class="grid-item">
+          <icon-gem />
+        </div>
         <!-- End Tenth Row -->
         <!-- Eleventh Row -->
-        <div class="grid-item">1:1 support in tackling difficult coding concepts</div>
-        <div class="grid-item"></div>
-        <div class="grid-item"><icon-gem /></div>
-        <div class="grid-item"><icon-gem /></div>
+        <div class="grid-item">
+          1:1 support in tackling difficult coding concepts
+        </div>
+        <div class="grid-item" />
+        <div class="grid-item">
+          <icon-gem />
+        </div>
+        <div class="grid-item">
+          <icon-gem />
+        </div>
         <!-- End Eleventh Row -->
         <!-- Twelth Row -->
-        <div class="grid-item">Automatic qualification into AI League coding tournaments</div>
-        <div class="grid-item"></div>
-        <div class="grid-item"></div>
-        <div class="grid-item"><icon-gem /></div>
+        <div class="grid-item">
+          Automatic qualification into AI League coding tournaments
+        </div>
+        <div class="grid-item" />
+        <div class="grid-item" />
+        <div class="grid-item">
+          <icon-gem />
+        </div>
         <!-- End Twelth Row -->
       </div>
 
-      <div class="text-below-pricing-table" v-if="showPricing">
+      <div
+        v-if="showPricing"
+        class="text-below-pricing-table"
+      >
         <p>All subscriptions are billed on a monthly basis and may be paused, cancelled, or resumed with no fees. Your subscription purchase is 100% risk-free within the first 30 days. If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">contact us</a> within 30 days of purchase and we will promptly refund 100% of your payment, no questions asked. All plans are automatically renewed at the same level and billing cycle unless otherwise changed or canceled.</p>
       </div>
     </div>
 
-    <button-main-cta :buttonText="mainCtaButtonText(2)" :subtext="mainCtaSubtext(2)" @click="onClickMainCta" v-if="brightchampsExperiment != 'brightchamps'" />
+    <button-main-cta
+      v-if="brightchampsExperiment != 'brightchamps'"
+      :button-text="mainCtaButtonText(2)"
+      :subtext="mainCtaSubtext(2)"
+      @click="onClickMainCta"
+    />
     <page-parents-section-premium v-if="showPricing && brightchampsExperiment != 'brightchamps'" />
 
-
-    <div class="container-graphic-spacer" v-if="brightchampsExperiment != 'brightchamps'">
+    <div
+      v-if="brightchampsExperiment != 'brightchamps'"
+      class="container-graphic-spacer"
+    >
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_05.svg" style="margin: 0 auto;" loading="lazy"/>
+            <img
+              class="img-responsive"
+              src="/images/pages/parents/graphic_05.svg"
+              style="margin: 0 auto;"
+              loading="lazy"
+            >
           </div>
         </div>
       </div>
     </div>
-
 
     <div class="container-our-curriculum">
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h1 class="pixelated">Our Curriculum</h1>
+            <h1 class="pixelated">
+              Our Curriculum
+            </h1>
           </div>
         </div>
         <div class="row">
           <div class="col-lg-12 text-center">
             <img
-                class="img-responsive"
-                src="/images/pages/parents/learning_cycle.png"
-                alt="Diagram showing the cycle of learning. Live instruction to engage, with live instruction to explore concepts. Then game time to extend and evaluate."
-                loading="lazy"
-            />
+              class="img-responsive"
+              src="/images/pages/parents/learning_cycle.png"
+              alt="Diagram showing the cycle of learning. Live instruction to engage, with live instruction to explore concepts. Then game time to extend and evaluate."
+              loading="lazy"
+            >
           </div>
         </div>
         <div class="row">
@@ -367,25 +549,38 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_06.svg" loading="lazy"/>
+            <img
+              class="img-responsive"
+              src="/images/pages/parents/graphic_06.svg"
+              loading="lazy"
+            >
           </div>
         </div>
       </div>
     </div>
 
-
     <div class="container-student-outcomes">
       <div class="container">
         <div class="row carousel-row">
           <div class="col-lg-12 text-center student-outcomes">
-            <h1 class="pixelated">Student Outcomes</h1>
+            <h1 class="pixelated">
+              Student Outcomes
+            </h1>
           </div>
-          <div id="student-outcome-carousel" class="carousel slide" data-interval=8000>
+          <div
+            id="student-outcome-carousel"
+            class="carousel slide"
+            data-interval="8000"
+          >
             <div class="carousel-inner">
               <div class="item active">
                 <div class="row row-eq-height">
                   <div class="col-sm-7">
-                    <img class="img-responsive" src="/images/pages/parents/grit_carousel.png" loading="lazy"/>
+                    <img
+                      class="img-responsive"
+                      src="/images/pages/parents/grit_carousel.png"
+                      loading="lazy"
+                    >
                   </div>
                   <div class="col-sm-5">
                     <h3>Grit</h3>
@@ -396,7 +591,11 @@
               <div class="item">
                 <div class="row row-eq-height">
                   <div class="col-sm-7">
-                    <img class="img-responsive" src="/images/pages/parents/problem_solving_carousel.png" loading="lazy"/>
+                    <img
+                      class="img-responsive"
+                      src="/images/pages/parents/problem_solving_carousel.png"
+                      loading="lazy"
+                    >
                   </div>
                   <div class="col-sm-5">
                     <h3>Problem Solving Skills</h3>
@@ -407,7 +606,11 @@
               <div class="item">
                 <div class="row row-eq-height">
                   <div class="col-sm-7">
-                    <img class="img-responsive" src="/images/pages/parents/tech_list_carousel1.png" loading="lazy"/>
+                    <img
+                      class="img-responsive"
+                      src="/images/pages/parents/tech_list_carousel1.png"
+                      loading="lazy"
+                    >
                   </div>
                   <div class="col-sm-5">
                     <h3>Technological Literacy</h3>
@@ -420,15 +623,24 @@
 
           <div class="col-lg-12 text-center">
             <button-arrow
-                :point-left="true"
-                @click="onCarouselLeft"
+              :point-left="true"
+              @click="onCarouselLeft"
             />
             <!-- Reference https://getbootstrap.com/docs/3.4/javascript/ -->
-            <div class='carousel-dot' @click="() => onCarouselDirectMove(0)"></div>
-            <div class='carousel-dot' @click="() => onCarouselDirectMove(1)"></div>
-            <div class='carousel-dot' @click="() => onCarouselDirectMove(2)"></div>
+            <div
+              class="carousel-dot"
+              @click="() => onCarouselDirectMove(0)"
+            />
+            <div
+              class="carousel-dot"
+              @click="() => onCarouselDirectMove(1)"
+            />
+            <div
+              class="carousel-dot"
+              @click="() => onCarouselDirectMove(2)"
+            />
             <button-arrow
-                @click="onCarouselRight"
+              @click="onCarouselRight"
             />
           </div>
         </div>
@@ -439,22 +651,35 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_07.svg" style="margin: 0 auto; transform: translate(-47%, 0);" loading="lazy"/>
+            <img
+              class="img-responsive"
+              src="/images/pages/parents/graphic_07.svg"
+              style="margin: 0 auto; transform: translate(-47%, 0);"
+              loading="lazy"
+            >
           </div>
         </div>
       </div>
     </div>
 
-    <div class="container-concepts-covered" v-if="brightchampsExperiment != 'brightchamps'">
+    <div
+      v-if="brightchampsExperiment != 'brightchamps'"
+      class="container-concepts-covered"
+    >
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h1 class="pixelated">Concepts Covered</h1>
+            <h1 class="pixelated">
+              Concepts Covered
+            </h1>
           </div>
         </div>
         <div class="row row-eq-height">
           <div class="col-sm-4 col-xs-12 concept-covered-tab beginner xs-pb-50">
-            <img src="/images/pages/parents/trophy_bronze.svg" loading="lazy"/>
+            <img
+              src="/images/pages/parents/trophy_bronze.svg"
+              loading="lazy"
+            >
             <h3>Beginner</h3>
             <p><b>For students with little to no text-based coding experience.</b></p>
             <div class="topics">
@@ -471,7 +696,10 @@
             </div>
           </div>
           <div class="col-sm-4 col-xs-12 concept-covered-tab intermediate xs-pb-50">
-            <img src="/images/pages/parents/trophy_silver.svg" loading="lazy"/>
+            <img
+              src="/images/pages/parents/trophy_silver.svg"
+              loading="lazy"
+            >
             <h3>Intermediate</h3>
             <p><b>For students with some text-based coding experience.</b></p>
             <div class="topics">
@@ -488,7 +716,10 @@
             </div>
           </div>
           <div class="col-sm-4 col-xs-12 concept-covered-tab advanced xs-pb-50">
-            <img src="/images/pages/parents/trophy_gold.svg" loading="lazy"/>
+            <img
+              src="/images/pages/parents/trophy_gold.svg"
+              loading="lazy"
+            >
             <h3>Advanced</h3>
             <p><b>For students with substantial experience in text-based code and a good grasp of complex concepts.</b></p>
             <div class="topics">
@@ -508,23 +739,78 @@
       </div>
     </div>
 
-    <button-main-cta :buttonText="mainCtaButtonText(3)" :subtext="mainCtaSubtext(3)" @click="onClickMainCta" />
+    <button-main-cta
+      :button-text="mainCtaButtonText(3)"
+      :subtext="mainCtaSubtext(3)"
+      @click="onClickMainCta"
+    />
 
-    <div class="container-graphic-spacer" style="margin: 20px;">
+    <div
+      class="container-graphic-spacer"
+      style="margin: 20px;"
+    >
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_08.svg" style="margin: 0 auto;" loading="lazy"/>
+            <img
+              class="img-responsive"
+              src="/images/pages/parents/graphic_08.svg"
+              style="margin: 0 auto;"
+              loading="lazy"
+            >
           </div>
         </div>
       </div>
     </div>
 
-    <div class="container-background-faq" v-if="brightchampsExperiment != 'brightchamps'">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h1 class="pixelated">
+            AI Hints
+          </h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <p>
+            Our instructors offer the guidance and support your child needs, but can’t always be there. That’s where our innovative AI hints feature helps the learning continue between sessions. This support feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available students will still need to work through each level's coding challenge. Subscribers receive an allocation of <b>20 AI hints per day</b> to ensure they always have the support they need.
+          </p>
+          <p>
+            {{ $t('premium_features.ai_bot_notice') }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="container-graphic-spacer"
+      style="margin: 20px;"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <img
+              class="img-responsive"
+              src="/images/pages/parents/graphic_05.svg"
+              style="margin: 0 auto;"
+              loading="lazy"
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      v-if="brightchampsExperiment != 'brightchamps'"
+      class="container-background-faq"
+    >
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center container-background-header">
-            <h1 class="pixelated">FAQs</h1>
+            <h1 class="pixelated">
+              FAQs
+            </h1>
           </div>
         </div>
         <div class="row row-eq-height">
@@ -583,7 +869,10 @@
         <div class="text-center">
           <p>
             <span>{{ $t('new_home_faq.see_faq_prefix') }}</span>
-            <a href="https://codecombat.zendesk.com/hc/en-us/categories/360004855234-Live-Online-Classes" target="_blank">{{ $t('new_home_faq.see_faq_link') }}</a><span>{{ $t('new_home_faq.see_faq_suffix') }}</span>
+            <a
+              href="https://codecombat.zendesk.com/hc/en-us/categories/360004855234-Live-Online-Classes"
+              target="_blank"
+            >{{ $t('new_home_faq.see_faq_link') }}</a><span>{{ $t('new_home_faq.see_faq_suffix') }}</span>
           </p>
           <p>
             If you have any other questions about our online classes, please <a href="mailto:classes@codecombat.com">contact us.</a>
@@ -592,12 +881,11 @@
       </div>
     </div>
 
-    <div class="container-footer-mountains">
-    </div>
+    <div class="container-footer-mountains" />
   </div>
 </template>
 
-<script>
+<script> // eslint-disable-line vue/multi-word-component-names
 import PageParentsSectionPremium from './PageParentsSectionPremium'
 import PageParentsJumbotron from './PageParentsJumbotron'
 import ModalTimetapSchedule from './ModalTimetapSchedule'
@@ -607,12 +895,10 @@ import ButtonMainCta from './ButtonMainCta'
 import IconGem from './IconGem'
 import ButtonArrow from './ButtonArrow'
 import { mapGetters } from 'vuex'
-import ModalUserDetails from './ModalUserDetails'
 import { getAvailability } from 'core/api/parents'
 
 export default {
   components: {
-    ModalUserDetails,
     ModalTimetapSchedule,
     ModalScheduleFreeClass,
     PageParentsSectionPremium,
@@ -685,15 +971,15 @@ export default {
       )
     },
     onCarouselLeft () {
-      $("#student-outcome-carousel").carousel('prev')
+      $('#student-outcome-carousel').carousel('prev')
     },
 
     onCarouselRight () {
-      $("#student-outcome-carousel").carousel('next')
+      $('#student-outcome-carousel').carousel('next')
     },
 
-    onCarouselDirectMove(frameNum) {
-      $("#student-outcome-carousel").carousel(frameNum)
+    onCarouselDirectMove (frameNum) {
+      $('#student-outcome-carousel').carousel(frameNum)
     },
 
     async onClickMainCta () {
@@ -705,7 +991,7 @@ export default {
       if (isAvailable) {
         if (this.scheduleFreeClassExperiment === 'schedule-free-class') {
           this.showScheduleFreeClassModal = true
-          return;
+          return
         }
       }
 
@@ -734,7 +1020,7 @@ export default {
     },
 
     onGenericCtaClicked (e) {
-      this.timetapModalClassType = undefined;
+      this.timetapModalClassType = undefined
       this.onCtaClicked(e)
     },
 
@@ -743,19 +1029,14 @@ export default {
         e.preventDefault()
       }
 
-      if (this.type === 'parents' || this.type === 'sales' || this.type === 'chat') {
-        // We used to have a chat type, with Drift, but got rid of it
-        this.type = 'self-serve'
-      }
-
       this.trackCtaClicked()
 
-      if (this.type === 'parents' || this.type === 'sales') {
-        // We used to show Drift chat here
-      } else if (this.type === 'chat') {
-        // We used to show another type of Drift chat here, depending on what time it was
-      } else if (this.type === 'self-serve' || this.type === 'thank-you') {
+      if (this.type === 'parents' || this.type === 'sales' || this.type === 'self-serve' || this.type === 'thank-you' || this.type === 'chat') {
         this.showTimetapModal = true
+        if (this.type === 'parents' || this.type === 'sales' || this.type === 'chat') {
+          // We used to have a chat type, with Drift, but got rid of it
+          this.type = 'self-serve'
+        }
       } else if (this.type === 'call') {
         window.location.href = 'tel:818-873-2633'
       } else {
@@ -810,16 +1091,15 @@ export default {
     ]),
 
     showPricing: () => {
-      if (/^zh/.test(me.get('preferredLanguage')) && me.get('country') === 'australia')
-        return false  // Australia partner offering extended services for Chinese-language students
+      if (/^zh/.test(me.get('preferredLanguage')) && me.get('country') === 'australia') { return false } // Australia partner offering extended services for Chinese-language students
       return true
     },
 
     trialClassExperiment () {
-      let value = { 'true': 'trial-class', 'false': 'no-trial-class' }[this.$route.query['trial-class']]
+      let value = { true: 'trial-class', false: 'no-trial-class' }[this.$route.query['trial-class']]
       if (!value) {
         value = me.getExperimentValue('trial-class', null, 'no-trial-class')
-        if (value) value = 'trial-class'  // Switch to trial-class for members of previous no-trial-class group
+        if (value) value = 'trial-class' // Switch to trial-class for members of previous no-trial-class group
       }
       if (!value && new Date(me.get('dateCreated')) < new Date('2021-09-22')) {
         // Don't include users created before experiment start date
@@ -834,18 +1114,18 @@ export default {
         value = 'trial-class'
       }
       if (!value) {
-        //value = ['trial-class', 'no-trial-class'][Math.floor(me.get('testGroupNumber') / 2) % 2]
-        //me.startExperiment('trial-class', value, 0.5)
+        // value = ['trial-class', 'no-trial-class'][Math.floor(me.get('testGroupNumber') / 2) % 2]
+        // me.startExperiment('trial-class', value, 0.5)
         value = 'trial-class'
-        me.startExperiment('trial-class', value, 1)  // End experiment in favor of trial-class group; keep measuring
+        me.startExperiment('trial-class', value, 1) // End experiment in favor of trial-class group; keep measuring
       }
       return value
     },
 
     scheduleFreeClassExperiment () {
       let value = {
-        'true': 'schedule-free-class',
-        'false': 'no-schedule-free-class'
+        true: 'schedule-free-class',
+        false: 'no-schedule-free-class'
       }[this.$route.query['schedule-free-class']]
       if (!value) {
         value = me.getExperimentValue('schedule-free-class', null, 'no-schedule-free-class')
@@ -863,14 +1143,14 @@ export default {
     },
 
     brightchampsExperiment () {
-      let value = { 'true': 'brightchamps', 'false': 'control' }[this.$route.query['brightchamps']]
+      let value = { true: 'brightchamps', false: 'control' }[this.$route.query.brightchamps]
       if (!value) {
         value = me.getExperimentValue('brightchamps', null, 'control')
       }
       if (!value) {
         let trialClassExperimentDate = null
-        for (let experiment of me.get('experiments') || []) {
-          if (experiment.name == 'trial-class') {
+        for (const experiment of me.get('experiments') || []) {
+          if (experiment.name === 'trial-class') {
             trialClassExperimentDate = experiment.startDate
           }
         }
@@ -904,7 +1184,7 @@ export default {
       } else {
         return '3cba970325cb3c6df117c018f7862317'
       }
-    },
+    }
   }
 }
 </script>
@@ -1150,7 +1430,6 @@ export default {
   margin-bottom: 5px;
   margin-top: 20px;
 }
-
 
 .pricing-grid-container > .grid-item {
   display: flex;
@@ -1424,7 +1703,6 @@ export default {
   position: relative;
   padding: 30px;
 }
-
 
 .container-background-faq > .container > div:last-of-type {
   margin: 32px 0 0;

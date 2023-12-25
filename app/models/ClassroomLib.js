@@ -1,4 +1,4 @@
-import { orderedCourseIDs } from 'app/core/utils.coffee'
+import { orderedCourseIDs } from 'app/core/utils'
 
 /**
  * This file includes separate static methods that are assigned to
@@ -67,7 +67,6 @@ const ClassroomLib = {
   },
 
   isModifierActiveForStudent: (classroomAttributes, studentId, courseIdToCheck, level, modifier, modifierExpiryDate = null) => {
-
     if (!level) {
       return false
     }

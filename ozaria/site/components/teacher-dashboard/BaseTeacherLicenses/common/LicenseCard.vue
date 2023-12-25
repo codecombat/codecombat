@@ -1,90 +1,90 @@
 
 <script>
-  import moment from 'moment'
-  import IconButtonWithText from '../../common/buttons/IconButtonWithText'
-  export default {
-    components: {
-      IconButtonWithText
+import moment from 'moment'
+import IconButtonWithText from '../../common/buttons/IconButtonWithText'
+export default {
+  components: {
+    IconButtonWithText
+  },
+  props: {
+    total: {
+      type: Number,
+      required: true
     },
-    props: {
-      total: {
-        type: Number,
-        required: true
-      },
-      used: {
-        type: Number,
-        required: true
-      },
-      startDate: {
-        type: String,
-        required: true
-      },
-      endDate: {
-        type: String,
-        required: true
-      },
-      owner: {
-        type: Object,
-        default: () => {}
-      },
-      teacherId: {
-        type: String,
-        required: true
-      },
-      expired: {
-        type: Boolean,
-        default: false
-      },
-      displayOnly: {
-        type: Boolean,
-        default: false
-      },
-      disableApplyLicenses: {
-        type: Boolean,
-        default: false
+    used: {
+      type: Number,
+      required: true
+    },
+    startDate: {
+      type: String,
+      required: true
+    },
+    endDate: {
+      type: String,
+      required: true
+    },
+    owner: {
+      type: Object,
+      default: () => {}
+    },
+    teacherId: {
+      type: String,
+      required: true
+    },
+    expired: {
+      type: Boolean,
+      default: false
+    },
+    displayOnly: {
+      type: Boolean,
+      default: false
+    },
+    disableApplyLicenses: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    remaining () {
+      return this.total - this.used
+    },
+    startDateFormat () {
+      return moment(this.startDate).format('ll')
+    },
+    endDateFormat () {
+      return moment(this.endDate).format('ll')
+    },
+    licenseOwnerEmail () {
+      return (this.owner || {}).email
+    },
+    isLicenseOwner () {
+      return !this.owner || this.owner._id === this.teacherId
+    },
+    applyLicensesDisabled () {
+      return this.disableApplyLicenses || this.displayOnly || this.expired || this.remaining === 0
+    },
+    shareLicensesDisabled () {
+      return this.displayOnly || this.expired || !this.isLicenseOwner
+    },
+    applyLicensesIcon () {
+      if (this.applyLicensesDisabled) {
+        return 'IconApplyLicenses_Gray'
+      } else {
+        return 'IconApplyLicenses_Dusk'
       }
     },
-    computed: {
-      remaining () {
-        return this.total - this.used
-      },
-      startDateFormat () {
-        return moment(this.startDate).format('ll')
-      },
-      endDateFormat () {
-        return moment(this.endDate).format('ll')
-      },
-      licenseOwnerEmail () {
-        return (this.owner || {}).email
-      },
-      isLicenseOwner () {
-        return !this.owner || this.owner._id === this.teacherId
-      },
-      applyLicensesDisabled () {
-        return this.disableApplyLicenses || this.displayOnly || this.expired || this.remaining === 0
-      },
-      shareLicensesDisabled () {
-        return this.displayOnly || this.expired || !this.isLicenseOwner
-      },
-      applyLicensesIcon () {
-        if (this.applyLicensesDisabled) {
-          return 'IconApplyLicenses_Gray'
-        } else {
-          return 'IconApplyLicenses_Dusk'
-        }
-      },
-      shareLicensesIcon () {
-        if (this.shareLicensesDisabled) {
-          return 'IconShare_Gray'
-        } else {
-          return 'IconShare_Dusk'
-        }
-      },
-      licenseStatsIcon () {
-        return 'IconLicense_Blue'
+    shareLicensesIcon () {
+      if (this.shareLicensesDisabled) {
+        return 'IconShare_Gray'
+      } else {
+        return 'IconShare_Dusk'
       }
+    },
+    licenseStatsIcon () {
+      return 'IconLicense_Blue'
     }
   }
+}
 </script>
 
 <template>

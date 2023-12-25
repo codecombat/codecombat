@@ -1,8 +1,8 @@
 <template>
   <div
-    @click="$emit('click')"
     :class="pointLeft ? 'point-left' : ''"
-  ></div>
+    @click="$emit('click')"
+  />
 </template>
 
 <script>

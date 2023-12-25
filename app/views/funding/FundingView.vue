@@ -8,7 +8,7 @@ export default {
   },
 
   data: () => ({
-    showModalGetLicenses: false,
+    showModalGetLicenses: false
   }),
 
   beforeDestroy () {
@@ -26,7 +26,7 @@ export default {
     },
 
     onCarouselDirectMove (slideNum, skipMove) {
-      const $carousel = $("#solutions.carousel")
+      const $carousel = $('#solutions.carousel')
       if (!skipMove) {
         $carousel.carousel(slideNum)
       }
@@ -40,8 +40,8 @@ export default {
     onCarouselSlide (e) {
       const slideNum = parseInt($(e.relatedTarget).data('slide'), 10)
       this.onCarouselDirectMove(slideNum, true)
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -136,7 +136,7 @@ export default {
                     a.btn.btn-primary.btn-large.btn-moon.sales-btn(href="/professional-development") Try Sample PD Lesson
                 .col-md-6.col-sm-12
                   h4 Professional Development
-                  p ESSER and GEER funds may be used to provide professional development to educators on research-based strategies for meeting students' academic, social, emotional, mental health, and college, career, and future readiness needs. 
+                  p ESSER and GEER funds may be used to provide professional development to educators on research-based strategies for meeting students' academic, social, emotional, mental health, and college, career, and future readiness needs.
                   p Our PD was developed using #[strong evidence-based best practices] for teaching and learning.
                   p We provide the tools, resources, and training for educators to improve their teaching quality and effectiveness and better #[strong meet the needs of diverse learners and students suffering learning loss] as a result of COVID-19.
                   p Our online course includes modules on implementing activities to support students' #[strong social and emotional learning], #[strong growth mindset], #[strong scaffolding] instruction for diverse learners, #[strong digital citizenship], and #[strong diversity, equity, and inclusion awareness], among many other topics.
@@ -147,7 +147,7 @@ export default {
                 .col-md-6.col-sm-12
                   h4 Live Online Tutoring
                   p All federal funding and grants allow for "supporting learning programs for summer school, after school, extended day, and extended year" to accommodate learning loss due to the pandemic.
-                  p Our live online classes for individual students or small groups provide individualized instruction and feedback to ensure students get the #[strong personalized support] they need and are #[strong on-track for grade-level instruction]. 
+                  p Our live online classes for individual students or small groups provide individualized instruction and feedback to ensure students get the #[strong personalized support] they need and are #[strong on-track for grade-level instruction].
         .col-lg-12.text-center
           //- Reference https://getbootstrap.com/docs/3.4/javascript/
           .carousel-dot.active(data-selector="#solutions", data-slide-num="0", @click="() => onCarouselDirectMove(0)")
@@ -339,7 +339,7 @@ export default {
   #our-solutions {
     margin-top: 50px;
     margin-bottom: 50px;
-    
+
     p {
       font-size: 20px;
     }
@@ -481,4 +481,3 @@ export default {
   margin-top: 0;
 }
 </style>
-

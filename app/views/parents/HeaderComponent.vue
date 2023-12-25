@@ -2,7 +2,9 @@
   <header class="header">
     <div class="header__item header__item--1">
       <div class="header__content">
-        <p class="header__title">Hello, {{ name }}</p>
+        <p class="header__title">
+          Hello, {{ name }}
+        </p>
         <p
           class="header__subtitle"
         >
@@ -11,23 +13,31 @@
       </div>
       <div class="header__products">
         <div
-          :class="{ header__product: true, header__product__selected: selectedProduct === 'CodeCombat' }"
-          @click.prevent="() => onProductClicked('CodeCombat')"
+          :class="{ header__product: true, header__product__selected: selectedProduct === 'codecombat' }"
+          @click.prevent="() => onProductClicked('codecombat')"
         >
-          <img src="/images/pages/parents/dashboard/codecombat-logo.svg" alt="CodeCombat logo" class="header__logos">
+          <img
+            src="/images/pages/parents/dashboard/codecombat-logo.svg"
+            alt="CodeCombat logo"
+            class="header__logos"
+          >
         </div>
-<!--        <div-->
-<!--          :class="{ header__product: true, header__product__selected: selectedProduct === 'Ozaria' }"-->
-<!--          @click.prevent="() => onProductClicked('Ozaria')"-->
-<!--        >-->
-<!--          <img src="/images/pages/parents/dashboard/ozaria-logo.svg" alt="Ozaria logo" class="header__logos">-->
-<!--        </div>-->
-<!--        <div-->
-<!--          :class="{ header__product: true, header__product__selected: selectedProduct === 'Roblox' }"-->
-<!--          @click.prevent="() => onProductClicked('Roblox')"-->
-<!--        >-->
-<!--          <img src="/images/pages/parents/dashboard/roblox-logo.svg" alt="Roblox logo" class="header__logos">-->
-<!--        </div>-->
+        <div
+          :class="{ header__product: true, header__product__selected: selectedProduct === 'ozaria' }"
+          @click.prevent="() => onProductClicked('ozaria')"
+        >
+          <img
+            src="/images/pages/parents/dashboard/ozaria-logo.svg"
+            alt="Ozaria logo"
+            class="header__logos"
+          >
+        </div>
+        <!--        <div-->
+        <!--          :class="{ header__product: true, header__product__selected: selectedProduct === 'Roblox' }"-->
+        <!--          @click.prevent="() => onProductClicked('Roblox')"-->
+        <!--        >-->
+        <!--          <img src="/images/pages/parents/dashboard/roblox-logo.svg" alt="Roblox logo" class="header__logos">-->
+        <!--        </div>-->
       </div>
     </div>
     <div
@@ -38,17 +48,27 @@
         v-if="!child?.isPremium"
       >
         <div class="header__item__img-parent">
-          <img src="/images/pages/parents/dashboard/alejandro.png" alt="CodeCombat character" class="header__item__img">
+          <img
+            src="/images/pages/parents/dashboard/alejandro.png"
+            alt="CodeCombat character"
+            class="header__item__img"
+          >
         </div>
         <div class="header__item__data">
           <ul class="header__sell-info">
-            <li class="header__sell-item">Full access to CodeCombat and Ozaria</li>
-            <li class="header__sell-item">Unlock 500+ levels</li>
-            <li class="header__sell-item">Access to all learning resources</li>
+            <li class="header__sell-item">
+              Full access to CodeCombat and Ozaria
+            </li>
+            <li class="header__sell-item">
+              Unlock 500+ levels
+            </li>
+            <li class="header__sell-item">
+              Access to all learning resources
+            </li>
           </ul>
           <button
-            @click="onGetPremium"
             class="header__premium-btn header__btn"
+            @click="onGetPremium"
           >
             Get Premium
           </button>
@@ -57,32 +77,41 @@
       <div
         v-if="!child?.isPremium"
         class="header__item--line"
-      >
-      </div>
+      />
       <div class="">
         <div class="header__item__data">
           <ul class="header__sell-info">
-            <li class="header__sell-item">1:1 classes with an expert teacher</li>
-            <li class="header__sell-item">Bonus activities & projects</li>
-            <li class="header__sell-item">Monthly progress updates</li>
+            <li class="header__sell-item">
+              1:1 classes with an expert teacher
+            </li>
+            <li class="header__sell-item">
+              Bonus activities & projects
+            </li>
+            <li class="header__sell-item">
+              Monthly progress updates
+            </li>
           </ul>
           <button
-            @click="showTryFreeClassModal = true"
             class="header__online-class-btn header__btn"
+            @click="showTryFreeClassModal = true"
           >
             Try a Free Online Class
           </button>
         </div>
         <div class="header__item__img-parent">
-          <img src="/images/pages/parents/dashboard/illia-reading.png" alt="CodeCombat character" class="header__item__img">
+          <img
+            src="/images/pages/parents/dashboard/illia-reading.png"
+            alt="CodeCombat character"
+            class="header__item__img"
+          >
         </div>
       </div>
     </div>
     <backbone-modal-harness
       :modal-view="SubscribeModal"
       :open="isSubscribeModalOpen"
-      @close="isSubscribeModalOpen = false"
       :modal-options="{ forceShowMonthlySub: true, purchasingForId: child?.userId }"
+      @close="isSubscribeModalOpen = false"
     />
     <modal-timetap-schedule
       v-if="showTryFreeClassModal"
@@ -99,6 +128,13 @@ import ModalTimetapSchedule from '../landing-pages/parents/ModalTimetapSchedule'
 import getPremiumForChildMixin from './mixins/getPremiumForChildMixin'
 export default {
   name: 'HeaderComponent',
+  components: {
+    BackboneModalHarness,
+    ModalTimetapSchedule
+  },
+  mixins: [
+    getPremiumForChildMixin
+  ],
   props: {
     child: {
       type: Object,
@@ -109,24 +145,21 @@ export default {
     isOnlineClassPaidUser: {
       type: Boolean,
       default: false
+    },
+    product: {
+      type: String,
+      default: 'codecombat'
     }
   },
   data () {
     return {
       name: me.broadName(),
-      selectedProduct: 'CodeCombat',
+      selectedProduct: this.product || 'codecombat',
       SubscribeModal,
       isSubscribeModalOpen: false,
       showTryFreeClassModal: false
     }
   },
-  components: {
-    BackboneModalHarness,
-    ModalTimetapSchedule
-  },
-  mixins: [
-    getPremiumForChildMixin
-  ],
   methods: {
     onProductClicked (product) {
       this.selectedProduct = product

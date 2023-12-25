@@ -1,18 +1,18 @@
 <script>
-  module.exports = Vue.extend({
-    props: {
-      levelSlug: {
-        type: String,
-        required: true,
-        default: ''
-      }
-    },
-    computed: {
-      playLink: function () {
-        return `/play/level/${this.levelSlug}`
-      }
+module.exports = Vue.extend({
+  props: {
+    levelSlug: {
+      type: String,
+      required: true,
+      default: ''
     }
-  })
+  },
+  computed: {
+    playLink: function () {
+      return `/play/level/${this.levelSlug}`
+    }
+  }
+})
 </script>
 
 <template>

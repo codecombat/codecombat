@@ -3,15 +3,17 @@
     <sidebar-component
       :children="children"
       :default-tab="selectedView"
+      :product="selectedProduct"
+      :child-id="selectedChildrenId"
       @onAddAnotherChild="onAddAnotherChildClicked"
       @onSelectedChildrenChange="onSelectedChildrenChange"
-      :child-id="selectedChildrenId"
     />
     <header-component
-      @onSelectedProductChange="onSelectedProductChange"
+      v-if="showHeaderComponent"
       :child="selectedChildren"
+      :product="selectedProduct"
       :is-online-class-paid-user="isPaidOnlineClassUser()"
-      v-if="selectedView !== 'online-classes'"
+      @onSelectedProductChange="onSelectedProductChange"
     />
     <student-progress-view
       v-if="selectedView === 'dashboard' || selectedView === 'progress'"
@@ -29,9 +31,9 @@
       class="create-child"
     >
       <create-child-account-component
+        :hide-back-button="true"
         @onChildAccountSubmit="onChildAccountSubmit"
         @existingAccountLinked="onExistingAccountLink"
-        :hide-back-button="true"
       />
     </div>
     <toolkit-view
@@ -63,32 +65,6 @@ import OnlineClassesView from './OnlineClassesView'
 
 export default {
   name: 'DashboardMainView',
-  props: {
-    viewName: {
-      type: String,
-      default: 'add-another-child'
-    },
-    childId: {
-      type: String,
-      default: ''
-    }
-  },
-  data () {
-    return {
-      children: [],
-      selectedView: this.viewName,
-      selectedProduct: null,
-      selectedChildrenId: null
-    }
-  },
-  watch: {
-    viewName: function (newVal, oldVal) {
-      if (newVal !== oldVal) this.selectedView = newVal
-    }
-  },
-  mixins: [
-    createChildAccountMixin
-  ],
   components: {
     OnlineClassesView,
     StudentSummaryView,
@@ -98,6 +74,44 @@ export default {
     CreateChildAccountComponent,
     ToolkitView
   },
+  mixins: [
+    createChildAccountMixin
+  ],
+  props: {
+    viewName: {
+      type: String,
+      default: 'add-another-child'
+    },
+    childId: {
+      type: String,
+      default: ''
+    },
+    product: {
+      type: String,
+      default: 'codecombat'
+    }
+  },
+  data () {
+    return {
+      children: [],
+      selectedView: this.viewName,
+      selectedProduct: this.product,
+      selectedChildrenId: null
+    }
+  },
+  computed: {
+    selectedChildren () {
+      return this.children?.find(c => c.userId === this.selectedChildrenId)
+    },
+    showHeaderComponent () {
+      return this.selectedView !== 'online-classes' && this.selectedView !== 'summary' && this.selectedView !== 'toolkit'
+    }
+  },
+  watch: {
+    viewName: function (newVal, oldVal) {
+      if (newVal !== oldVal) this.selectedView = newVal
+    }
+  },
   async created () {
     if (!me.isParentHome()) {
       window.location.href = '/'
@@ -105,7 +119,7 @@ export default {
     }
     const resp = await me.getRelatedAccounts()
     const relatedAccounts = resp.data || []
-    this.children = relatedAccounts.filter(r => r.relation === 'children')
+    this.children = relatedAccounts || []
     const verifiedChildren = this.children.filter(c => c.verified)
     const lastChild = () => verifiedChildren.length > 0 ? verifiedChildren[verifiedChildren.length - 1].userId : null
     if (this.childId) {
@@ -135,7 +149,8 @@ export default {
       this.onChildAccountSubmitHelper(data)
     },
     onSelectedProductChange (data) {
-      this.selectedProduct = data
+      // this.selectedProduct = data
+      window.location.href = `/parents/${this.viewName}/${this.selectedChildrenId}/${data}`
     },
     onSelectedChildrenChange (data) {
       // this.$router.push({
@@ -153,11 +168,6 @@ export default {
     },
     isPaidOnlineClassUser () {
       return me.isPaidOnlineClassUser()
-    }
-  },
-  computed: {
-    selectedChildren () {
-      return this.children?.find(c => c.userId === this.selectedChildrenId)
     }
   }
 }

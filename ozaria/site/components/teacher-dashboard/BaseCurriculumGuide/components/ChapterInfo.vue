@@ -1,103 +1,105 @@
 <script>
-  import IconHelp from '../../common/icons/IconHelp'
-  import ButtonPlayChapter from './ButtonPlayChapter'
-  import ButtonSolutionGuide from './ButtonSolutionGuide'
-  import { getOzariaAssetUrl } from 'ozaria/site/common/ozariaUtils'
+import IconHelp from '../../common/icons/IconHelp'
+import ButtonPlayChapter from './ButtonPlayChapter'
+import ButtonSolutionGuide from './ButtonSolutionGuide'
+import { getOzariaAssetUrl } from 'ozaria/site/common/ozariaUtils'
 
-  import { mapGetters } from 'vuex'
-  import utils from 'app/core/utils'
+import { mapGetters } from 'vuex'
+import utils from 'app/core/utils'
 
-  export default {
-    components: {
-      IconHelp,
-      ButtonPlayChapter,
-      ButtonSolutionGuide
+export default {
+  components: {
+    IconHelp,
+    ButtonPlayChapter,
+    ButtonSolutionGuide
+  },
+
+  computed: {
+    ...mapGetters({
+      getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
+      getCapstoneInfo: 'baseCurriculumGuide/getCapstoneInfo',
+      getCourseUnitMapUrl: 'baseCurriculumGuide/getCourseUnitMapUrl',
+      getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
+      isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign',
+      getTrackCategory: 'teacherDashboard/getTrackCategory'
+    }),
+
+    courseName () {
+      return utils.i18n(this.getCurrentCourse, 'name') || ''
     },
 
-    computed: {
-      ...mapGetters({
-        getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
-        getCapstoneInfo: 'baseCurriculumGuide/getCapstoneInfo',
-        getCourseUnitMapUrl: 'baseCurriculumGuide/getCourseUnitMapUrl',
-        getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
-        isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign',
-        getTrackCategory: 'teacherDashboard/getTrackCategory'
-      }),
+    courseShortName () {
+      return utils.i18n(this.getCurrentCourse, 'shortName') || this.courseName
+    },
 
-      courseName () {
-        return utils.i18n(this.getCurrentCourse, 'name') || ''
-      },
+    courseDescription () {
+      return utils.i18n(this.getCurrentCourse, 'description') || ''
+    },
 
-      courseShortName () {
-        return utils.i18n(this.getCurrentCourse, 'shortName') || this.courseName
-      },
+    capstoneName () {
+      return utils.i18n(this.getCapstoneInfo, 'displayName') || utils.i18n(this.getCapstoneInfo, 'name')
+    },
 
-      courseDescription () {
-        return utils.i18n(this.getCurrentCourse, 'description') || ''
-      },
+    totalCourseDuration () {
+      return this.getCurrentCourse?.duration?.total || 0
+    },
 
-      capstoneName () {
-        return utils.i18n(this.getCapstoneInfo, 'displayName') || utils.i18n(this.getCapstoneInfo, 'name')
-      },
-
-      totalCourseDuration () {
-        return this.getCurrentCourse?.duration?.total || 0
-      },
-
-      getCourseThumbnail () {
-        if (this.getCurrentCourse?.screenshot) {
-          return getOzariaAssetUrl(this.getCurrentCourse.screenshot)
-        }
-        return ''
-      },
-
-      solutionGuideUrl () {
-        if (!this.getCurrentCourse || this.isOnLockedCampaign) {
-          return ''
-        }
-
-        return `/teachers/course-solution/${this.getCurrentCourse._id}/${this.getSelectedLanguage}?from-new-dashboard=true`
-      },
-
-      playChapterUrl () {
-        if (this.isOnLockedCampaign) {
-          return ''
-        }
-        return this.getCourseUnitMapUrl || ''
-      },
-
-      clickedLink () {
-        return !this.isOnLockedCampaign
+    getCourseThumbnail () {
+      if (this.getCurrentCourse?.screenshot) {
+        return getOzariaAssetUrl(this.getCurrentCourse.screenshot)
       }
+      return ''
     },
 
-    methods: {
-      tooltipTimeContent () {
-        const time = []
+    solutionGuideUrl () {
+      if (!this.getCurrentCourse || this.isOnLockedCampaign) {
+        return ''
+      }
 
-        if (this.getCurrentCourse?.duration?.totalTimeRange) {
-          time.push(`<p><b>${Vue.t('teacher_dashboard.class_time_range')}</b> ${utils.i18n(this.getCurrentCourse?.duration, 'totalTimeRange')}</p>`)
-        }
+      return `/teachers/course-solution/${this.getCurrentCourse._id}/${this.getSelectedLanguage}?from-new-dashboard=true`
+    },
 
-        if (this.getCurrentCourse?.duration?.inGame) {
-          time.push(`<p><b>${Vue.t('teacher_dashboard.in_game_play_time')}</b> ${utils.i18n(this.getCurrentCourse?.duration, 'inGame')}</p>`)
-        }
+    playChapterUrl () {
+      if (this.isOnLockedCampaign) {
+        return ''
+      }
+      return this.getCourseUnitMapUrl || ''
+    },
 
-        return time.join('')
-      },
+    clickedLink () {
+      return !this.isOnLockedCampaign
+    }
+  },
 
-      trackEvent (eventName) {
-        if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
-        }
+  methods: {
+    tooltipTimeContent () {
+      const time = []
+
+      if (this.getCurrentCourse?.duration?.totalTimeRange) {
+        time.push(`<p><b>${Vue.t('teacher_dashboard.class_time_range')}</b> ${utils.i18n(this.getCurrentCourse?.duration, 'totalTimeRange')}</p>`)
+      }
+
+      if (this.getCurrentCourse?.duration?.inGame) {
+        time.push(`<p><b>${Vue.t('teacher_dashboard.in_game_play_time')}</b> ${utils.i18n(this.getCurrentCourse?.duration, 'inGame')}</p>`)
+      }
+
+      return time.join('')
+    },
+
+    trackEvent (eventName) {
+      if (eventName) {
+        window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
       }
     }
   }
+}
 </script>
 <template>
   <div id="chapter-info">
-    <div class="img-container" :style="{'--chapterImage': `url(${getCourseThumbnail})`}">
-    </div>
+    <div
+      class="img-container"
+      :style="{'--chapterImage': `url(${getCourseThumbnail})`}"
+    />
     <div class="info-container">
       <h3>{{ courseShortName }}</h3>
       <p class="chapter-summary">
@@ -122,19 +124,33 @@
             />
           </div>
         </div>
-        <div v-if="!isOnLockedCampaign" class="btns">
-          <a :href="playChapterUrl" target="_blank" rel="noreferrer">
+        <div
+          v-if="!isOnLockedCampaign"
+          class="btns"
+        >
+          <a
+            :href="playChapterUrl"
+            target="_blank"
+            rel="noreferrer"
+          >
             <button-play-chapter
-              @click.native="trackEvent('Curriculum Guide: Play Chapter Clicked')"
               v-tooltip.top="{
                 content: $t('teacher_dashboard.want_to_save_tooltip'),
                 classes: 'teacher-dashboard-tooltip lighter-p'
               }"
+              @click.native="trackEvent('Curriculum Guide: Play Chapter Clicked')"
             />
           </a>
-          <a :href="solutionGuideUrl" target="_blank" rel="noreferrer"> <button-solution-guide @click.native="trackEvent('Curriculum Guide: Solution Guide Clicked')" /> </a>
+          <a
+            :href="solutionGuideUrl"
+            target="_blank"
+            rel="noreferrer"
+          > <button-solution-guide @click.native="trackEvent('Curriculum Guide: Solution Guide Clicked')" /> </a>
         </div>
-        <div v-else class="btns">
+        <div
+          v-else
+          class="btns"
+        >
           <span
             v-tooltip.top="{
               content: $t('teacher_dashboard.need_licenses_tooltip'),

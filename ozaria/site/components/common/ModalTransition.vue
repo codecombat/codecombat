@@ -17,327 +17,327 @@ import ClassroomLib from '../../../../app/models/ClassroomLib'
 import * as focusTrap from 'focus-trap'
 
 export default Vue.extend({
-    components: {
-      BaseModal,
-      ModalCharCustomization
+  components: {
+    BaseModal,
+    ModalCharCustomization
+  },
+  props: {
+    currentLevel: {
+      type: Object,
+      required: true
     },
-    props: {
-      currentLevel: {
-        type: Object,
-        required: true
-      },
-      capstoneStage: {
-        type: String,
-        default: null
-      },
-      courseId: {
-        type: String,
-        default: null
-      },
-      courseInstanceId: {
-        type: String,
-        default: null
-      },
-      currentIntroContent: {
-        type: Object,
-        default: () => { return undefined }
-      },
-      introLevelComplete: {
-        type: Boolean,
-        default: undefined
-      },
-      goToNextDirectly: {
-        type: Boolean,
-        default: false
-      },
-      showShareModal: {
-        type: Boolean,
-        default: false
-      },
-      supermodel: {
-        type: Object,
-        default: null
-      }
+    capstoneStage: {
+      type: String,
+      default: null
     },
-    data: () => ({
-      nextLevelLink: '',
-      loading: false,
-      editCapstoneLevelData: undefined,
-      capstoneLevelSession: {},
-      isFirstLevel: undefined,
-      showCharCx: false,
-      classroom: undefined,
-      nextLevelIsLocked: false,
-      focusTrapDeactivated: false,
-      focusTrap: null
+    courseId: {
+      type: String,
+      default: null
+    },
+    courseInstanceId: {
+      type: String,
+      default: null
+    },
+    currentIntroContent: {
+      type: Object,
+      default: () => { return undefined }
+    },
+    introLevelComplete: {
+      type: Boolean,
+      default: undefined
+    },
+    goToNextDirectly: {
+      type: Boolean,
+      default: false
+    },
+    showShareModal: {
+      type: Boolean,
+      default: false
+    },
+    supermodel: {
+      type: Object,
+      default: null
+    }
+  },
+  data: () => ({
+    nextLevelLink: '',
+    loading: false,
+    editCapstoneLevelData: undefined,
+    capstoneLevelSession: {},
+    isFirstLevel: undefined,
+    showCharCx: false,
+    classroom: undefined,
+    nextLevelIsLocked: false,
+    focusTrapDeactivated: false,
+    focusTrap: null
+  }),
+  computed: {
+    ...mapGetters({
+      levelsList: 'unitMap/getCurrentLevelsList',
+      userLocale: 'me/preferredLocale',
+      campaignData: 'campaigns/getCampaignData'
     }),
-    computed: {
-      ...mapGetters({
-        levelsList: 'unitMap/getCurrentLevelsList',
-        userLocale: 'me/preferredLocale',
-        campaignData: 'campaigns/getCampaignData'
-      }),
-      shareModal () {
-        return !me.isSessionless() && (this.showShareModal || this.editCapstoneLevelData)
-      },
-      currentContent () {
-        if (this.shareModal) {
-          return this.editCapstoneLevelData || {}
-        }
-        return this.currentIntroContent || this.currentLevel.attributes || this.currentLevel || {}
-      },
-      contentName () {
-        return utils.i18n(this.currentContent,'displayName') || utils.i18n(this.currentContent,'name')
-      },
-      contentType () {
-        if (this.currentContent.ozariaType) {
-          return internationalizeLevelType(this.currentContent.ozariaType, true)
-        } else {
-          return internationalizeContentType(this.currentContent.contentType)
-        }
-      },
-      learningGoals () {
-        const specificArticles = (this.currentContent.documentation || {}).specificArticles
-        const learningGoals = _.find(specificArticles, { name: 'Learning Goals' })
-        let learningGoalsText
-        if (learningGoals) {
-          learningGoalsText = internationalizeConfig(learningGoals, this.userLocale).body
-        }
-        return learningGoalsText
-      },
-      shareURL () {
-        if (this.editCapstoneLevelData && this.capstoneLevelSession) {
-          const shareUrlOptions = {
-            level: this.editCapstoneLevelData,
-            session: { _id: this.capstoneLevelSession._id }
-          }
-          if (this.courseId) {
-            shareUrlOptions.course = { _id: this.courseId }
-          }
-          if (this.courseInstanceId) {
-            shareUrlOptions.courseInstanceId = this.courseInstanceId
-          }
-          return urls.playDevLevel(shareUrlOptions)
-        }
-        return ''
-      },
-      charCxModal () {
-        return this.isFirstLevel && !(me.get('ozariaUserOptions') || {}).tints
-      },
-      codeLanguage () {
-        return utils.getQueryVariable('codeLanguage')
+    shareModal () {
+      return !me.isSessionless() && (this.showShareModal || this.editCapstoneLevelData)
+    },
+    currentContent () {
+      if (this.shareModal) {
+        return this.editCapstoneLevelData || {}
+      }
+      return this.currentIntroContent || this.currentLevel.attributes || this.currentLevel || {}
+    },
+    contentName () {
+      return utils.i18n(this.currentContent, 'displayName') || utils.i18n(this.currentContent, 'name')
+    },
+    contentType () {
+      if (this.currentContent.ozariaType) {
+        return internationalizeLevelType(this.currentContent.ozariaType, true)
+      } else {
+        return internationalizeContentType(this.currentContent.contentType)
       }
     },
-    async mounted () {
-      if (!this.currentLevel) {
-        // TODO handle_error_ozaria
-        console.error('Level data are required for victory modal')
-        return noty({ text: 'Error in victory screen', layout: 'topCenter', type: 'error', timeout: 2000 })
+    learningGoals () {
+      const specificArticles = (this.currentContent.documentation || {}).specificArticles
+      const learningGoals = _.find(specificArticles, { name: 'Learning Goals' })
+      let learningGoalsText
+      if (learningGoals) {
+        learningGoalsText = internationalizeConfig(learningGoals, this.userLocale).body
       }
-
-      // TODO: replace with Ozaria sound
-      // TODO Use new audio system post-august launch
-      // Backbone.Mediator.publish('audio-player:play-sound', { trigger: 'victory' })
-
-      try {
-        if (!this.currentIntroContent || this.introLevelComplete) { // Fetch next level only if its not an intro level, or all content in intro level is complete
-          await this.getNextLevelLink()
-        }
-        if (this.goToNextDirectly) {
-          return application.router.navigate(this.nextLevelLink, { trigger: true })
-        }
-      } catch (e) {
-        // TODO handle_error_ozaria
-        console.error('Error in victory modal', e)
-      }
-
-      _.delay(() => {
-        // Let screen reader users easily go to the next level by trapping focus into the modal and focusing the next button.
-        // Hack: can't focus it right away, have to wait a bit
-        // If we knew when we could focus it, we could use checkCanFocusTrap option to create a Promise for when it would be ready to trap. When some animation finishes? When some data loads? When some other Vue lifecycle step finishes?
-        // TODO: do this generally for all modals
-        if (this.focusTrapDeactivated) return
-        this.focusTrap = focusTrap.createFocusTrap($('.ozaria-modal')[0], {
-          initialFocus: '.next-button.ozaria-primary-button'
-        })
-        this.focusTrap.activate()
-
-        // fallback
-        if (this.focusTrapDeactivated) this.deactivateFocusTrap()
-      }, 1000)
+      return learningGoalsText
     },
-
-    beforeDestroy () {
-      // seems not work when this component is destroyed by parent conditional-render
-      this.deactivateFocusTrap()
-    },
-
-    methods: {
-      ...mapActions({
-        buildLevelsData: 'unitMap/buildLevelsData'
-      }),
-      deactivateFocusTrap () {
-        this.focusTrapDeactivated = true
-        this.focusTrap?.deactivate()
-      },
-      async fetchRequiredData (campaignHandle) {
-        this.loading = true;
-        // TODO: Fix duplicate fetching here. The `buildLevelsData` also fetches this.
-        //       Ideally we use vuex getters to get the already fetched classroom.
-        const promises = []
-
-        // Only do this load if we have a courseInstanceId. We won't have for hour of code for example.
+    shareURL () {
+      if (this.editCapstoneLevelData && this.capstoneLevelSession) {
+        const shareUrlOptions = {
+          level: this.editCapstoneLevelData,
+          session: { _id: this.capstoneLevelSession._id }
+        }
+        if (this.courseId) {
+          shareUrlOptions.course = { _id: this.courseId }
+        }
         if (this.courseInstanceId) {
-          promises.push(api.courseInstances.get({ courseInstanceID: this.courseInstanceId }).then(async courseInstance => {
-            const classroomId = courseInstance.classroomID
-            // classroom snapshot of the levels for the course
-            this.classroom = await api.classrooms.get({ classroomID: classroomId })
-          }))
+          shareUrlOptions.courseInstanceId = this.courseInstanceId
         }
+        return urls.playDevLevel(shareUrlOptions)
+      }
+      return ''
+    },
+    charCxModal () {
+      return this.isFirstLevel && !(me.get('ozariaUserOptions') || {}).tints
+    },
+    codeLanguage () {
+      return utils.getQueryVariable('codeLanguage')
+    }
+  },
+  async mounted () {
+    if (!this.currentLevel) {
+      // TODO handle_error_ozaria
+      console.error('Level data are required for victory modal')
+      return noty({ text: 'Error in victory screen', layout: 'topCenter', type: 'error', timeout: 2000 })
+    }
 
-        promises.push(this.buildLevelsData({ campaignHandle, courseInstanceId: this.courseInstanceId, courseId: this.courseId, classroom: this.classroom }))
-        await Promise.all(promises)
-        this.loading = false;
-      },
+    // TODO: replace with Ozaria sound
+    // TODO Use new audio system post-august launch
+    // Backbone.Mediator.publish('audio-player:play-sound', { trigger: 'victory' })
 
-      getNextLevel (currentLevelData) {
-        let currentLevelStage
-        if (currentLevelData.isPlayedInStages && this.capstoneStage) {
-          currentLevelStage = parseInt(this.capstoneStage)
-        }
-        const nextLevel = getNextLevelForLevel(currentLevelData, currentLevelStage) || {}
-        const nextLevelIsLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.courseId, nextLevel.original, 'locked')
-        const nextLevelIsOptional = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.courseId, nextLevel.original, 'optional')
-        if (nextLevelIsLocked && nextLevelIsOptional) {
-          // call getNextLevel recursively if level was skipped
-          return this.getNextLevel(this.levelsList[nextLevel.original || nextLevel.attributes.original])
-        }
-        return nextLevel
-      },
+    try {
+      if (!this.currentIntroContent || this.introLevelComplete) { // Fetch next level only if its not an intro level, or all content in intro level is complete
+        await this.getNextLevelLink()
+      }
+      if (this.goToNextDirectly) {
+        return application.router.navigate(this.nextLevelLink, { trigger: true })
+      }
+    } catch (e) {
+      // TODO handle_error_ozaria
+      console.error('Error in victory modal', e)
+    }
 
-      async getNextLevelLink () {
-        const campaignHandle = this.currentLevel.campaign || this.currentLevel.attributes.campaign
-        await this.fetchRequiredData(campaignHandle)
-        const currentLevelData = this.levelsList[this.currentLevel.original || this.currentLevel.attributes.original]
-        this.isFirstLevel = currentLevelData.first
+    _.delay(() => {
+      // Let screen reader users easily go to the next level by trapping focus into the modal and focusing the next button.
+      // Hack: can't focus it right away, have to wait a bit
+      // If we knew when we could focus it, we could use checkCanFocusTrap option to create a Promise for when it would be ready to trap. When some animation finishes? When some data loads? When some other Vue lifecycle step finishes?
+      // TODO: do this generally for all modals
+      if (this.focusTrapDeactivated) return
+      this.focusTrap = focusTrap.createFocusTrap($('.ozaria-modal')[0], {
+        initialFocus: '.next-button.ozaria-primary-button'
+      })
+      this.focusTrap.activate()
 
-        const nextLevel = this.getNextLevel(currentLevelData) || {}
-        if (this.classroom) {
-          this.nextLevelIsLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.courseId, nextLevel.original, 'locked')
-        }
+      // fallback
+      if (this.focusTrapDeactivated) this.deactivateFocusTrap()
+    }, 1000)
+  },
 
-        if (this.nextLevelIsLocked) {
-          this.deactivateFocusTrap()
-          noty({
-            layout: 'center',
-            type: 'info',
-            text: this.$t('teacher_dashboard.teacher_locked_message'),
-            buttons: [{
-              addClass: 'btn btn-primary',
-              text: this.$t('play.back_to_dashboard'),
-              onClick: ($noty) => {
-                $noty.close()
-                application.router.navigate('/students', { trigger: true })
-              }
-            }]
-          })
-        }
-        if (nextLevel.original && !this.showShareModal && this.levelsList[nextLevel.original]) {
-          const nextLevelLinkOptions = {
-            courseId: this.courseId,
-            courseInstanceId: this.courseInstanceId,
-            codeLanguage: this.codeLanguage
-          }
-          if (me.isSessionless()) {
-            nextLevelLinkOptions.nextLevelStage = nextLevel.nextLevelStage
-          }
-          // The next level reference may be outdated. We want to use the originalId
-          // and find the newest slug. This step is required due to renaming of slugs.
-          this.nextLevelLink = getNextLevelLink(this.levelsList[nextLevel.original], nextLevelLinkOptions)
-        } else { // last level of the campaign or this.showShareModal=true
-          const urlOptions = {
-            courseId: this.courseId,
-            courseInstanceId: this.courseInstanceId,
-            campaignId: campaignHandle,
-            codeLanguage: this.codeLanguage
-          }
-          this.nextLevelLink = urls.courseWorldMap(urlOptions)
-          this.editCapstoneLevelData = Object.values(this.levelsList).find((l) => l.ozariaType === 'capstone')
-          if (this.editCapstoneLevelData && !me.isSessionless()) {
-            this.nextLevelLink = this.getCapstoneNextLevelLink();
-            this.capstoneLevelSession = await this.getLevelSession(this.editCapstoneLevelData.slug)
-            window.tracker.trackEvent('Completed Capstone Level', {
-              category: 'Play Level',
-              levelOriginalId: this.editCapstoneLevelData.original,
-              levelSessionId: (this.capstoneLevelSession || {})._id
-            }, ['Google Analytics'])
-          }
-        }
-      },
+  beforeDestroy () {
+    // seems not work when this component is destroyed by parent conditional-render
+    this.deactivateFocusTrap()
+  },
 
-      getCapstoneNextLevelLink() {
-        if (me.isTeacher()) {
-          return '/teachers'
-        } else if (me.isStudent()) {
-          return '/students'
-        } else {
-          return '/'
-        }
-      },
+  methods: {
+    ...mapActions({
+      buildLevelsData: 'unitMap/buildLevelsData'
+    }),
+    deactivateFocusTrap () {
+      this.focusTrapDeactivated = true
+      this.focusTrap?.deactivate()
+    },
+    async fetchRequiredData (campaignHandle) {
+      this.loading = true
+      // TODO: Fix duplicate fetching here. The `buildLevelsData` also fetches this.
+      //       Ideally we use vuex getters to get the already fetched classroom.
+      const promises = []
 
-      async getLevelSession (levelIdOrSlug) {
-        try {
-          // TODO: drive level session from Vuex store
-          return await api.levels.upsertSession(levelIdOrSlug, { courseInstanceId: this.courseInstanceId, codeLanguage: this.codeLanguage })
-        } catch (err) {
-          console.error('Error in finding level session', err)
-        }
-      },
-      nextButtonClick () {
+      // Only do this load if we have a courseInstanceId. We won't have for hour of code for example.
+      if (this.courseInstanceId) {
+        promises.push(api.courseInstances.get({ courseInstanceID: this.courseInstanceId }).then(async courseInstance => {
+          const classroomId = courseInstance.classroomID
+          // classroom snapshot of the levels for the course
+          this.classroom = await api.classrooms.get({ classroomID: classroomId })
+        }))
+      }
+
+      promises.push(this.buildLevelsData({ campaignHandle, courseInstanceId: this.courseInstanceId, courseId: this.courseId, classroom: this.classroom }))
+      await Promise.all(promises)
+      this.loading = false
+    },
+
+    getNextLevel (currentLevelData) {
+      let currentLevelStage
+      if (currentLevelData.isPlayedInStages && this.capstoneStage) {
+        currentLevelStage = parseInt(this.capstoneStage)
+      }
+      const nextLevel = getNextLevelForLevel(currentLevelData, currentLevelStage) || {}
+      const nextLevelIsLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.courseId, nextLevel.original, 'locked')
+      const nextLevelIsOptional = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.courseId, nextLevel.original, 'optional')
+      if (nextLevelIsLocked && nextLevelIsOptional) {
+        // call getNextLevel recursively if level was skipped
+        return this.getNextLevel(this.levelsList[nextLevel.original || nextLevel.attributes.original])
+      }
+      return nextLevel
+    },
+
+    async getNextLevelLink () {
+      const campaignHandle = this.currentLevel.campaign || this.currentLevel.attributes.campaign
+      await this.fetchRequiredData(campaignHandle)
+      const currentLevelData = this.levelsList[this.currentLevel.original || this.currentLevel.attributes.original]
+      this.isFirstLevel = currentLevelData.first
+
+      const nextLevel = this.getNextLevel(currentLevelData) || {}
+      if (this.classroom) {
+        this.nextLevelIsLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, me.get('_id'), this.courseId, nextLevel.original, 'locked')
+      }
+
+      if (this.nextLevelIsLocked) {
         this.deactivateFocusTrap()
-        if (this.supermodel) {
-          // Hack: save the current supermodel globally so that the next content view can grab it during initialization and doesn't have to reload everything
-          window.temporarilyPreservedSupermodel = this.supermodel
-          const removeTemporarilyPreservedSupermodel = () => window.temporarilyPreservedSupermodel = undefined
-          _.defer(removeTemporarilyPreservedSupermodel)  // Have to grab it within one frame
-        }
-        if (this.currentIntroContent && !this.introLevelComplete) {
-          this.$emit('next-content') // handled by vue IntroLevelPage
-        } else if (this.charCxModal && this.nextLevelLink) {
-          this.showCharCx = true
-        } else if (this.nextLevelLink) {
-          return application.router.navigate(this.nextLevelLink, { trigger: true })
-        }
-      },
-      // PlayLevelView is a backbone view, so replay button dismisses modal for that
-      // IntroLevelPage is vue component and handles the event `replay`
-      replayButtonClick () {
-        this.deactivateFocusTrap()
-        this.$emit('replay', this.currentIntroContent)
-      },
-      continueEditingButtonClick () {
-        const capstoneLevelLinkOptions = {
+        noty({
+          layout: 'center',
+          type: 'info',
+          text: this.$t('teacher_dashboard.teacher_locked_message'),
+          buttons: [{
+            addClass: 'btn btn-primary',
+            text: this.$t('play.back_to_dashboard'),
+            onClick: ($noty) => {
+              $noty.close()
+              application.router.navigate('/students', { trigger: true })
+            }
+          }]
+        })
+      }
+      if (nextLevel.original && !this.showShareModal && this.levelsList[nextLevel.original]) {
+        const nextLevelLinkOptions = {
           courseId: this.courseId,
           courseInstanceId: this.courseInstanceId,
           codeLanguage: this.codeLanguage
         }
-        let capstoneLink = getNextLevelLink(this.editCapstoneLevelData, capstoneLevelLinkOptions) // if next level stage is not set, capstone is loaded from the last completed stage
-        let capstoneLinkAppend = `?continueEditing=true`
-        if (capstoneLink.split('?').length > 1) {
-          capstoneLinkAppend = `&continueEditing=true`
+        if (me.isSessionless()) {
+          nextLevelLinkOptions.nextLevelStage = nextLevel.nextLevelStage
         }
-        capstoneLink += capstoneLinkAppend
-        return application.router.navigate(capstoneLink, { trigger: true })
-      },
-      copyUrl () {
-        this.$refs['share-text-box'].select()
-        tryCopy()
-      },
-      onCharCxSaved () {
+        // The next level reference may be outdated. We want to use the originalId
+        // and find the newest slug. This step is required due to renaming of slugs.
+        this.nextLevelLink = getNextLevelLink(this.levelsList[nextLevel.original], nextLevelLinkOptions)
+      } else { // last level of the campaign or this.showShareModal=true
+        const urlOptions = {
+          courseId: this.courseId,
+          courseInstanceId: this.courseInstanceId,
+          campaignId: campaignHandle,
+          codeLanguage: this.codeLanguage
+        }
+        this.nextLevelLink = urls.courseWorldMap(urlOptions)
+        this.editCapstoneLevelData = Object.values(this.levelsList).find((l) => l.ozariaType === 'capstone')
+        if (this.editCapstoneLevelData && !me.isSessionless()) {
+          this.nextLevelLink = this.getCapstoneNextLevelLink()
+          this.capstoneLevelSession = await this.getLevelSession(this.editCapstoneLevelData.slug)
+          window.tracker.trackEvent('Completed Capstone Level', {
+            category: 'Play Level',
+            levelOriginalId: this.editCapstoneLevelData.original,
+            levelSessionId: (this.capstoneLevelSession || {})._id
+          }, ['Google Analytics'])
+        }
+      }
+    },
+
+    getCapstoneNextLevelLink () {
+      if (me.isTeacher()) {
+        return '/teachers'
+      } else if (me.isStudent()) {
+        return '/students'
+      } else {
+        return '/'
+      }
+    },
+
+    async getLevelSession (levelIdOrSlug) {
+      try {
+        // TODO: drive level session from Vuex store
+        return await api.levels.upsertSession(levelIdOrSlug, { courseInstanceId: this.courseInstanceId, codeLanguage: this.codeLanguage })
+      } catch (err) {
+        console.error('Error in finding level session', err)
+      }
+    },
+    nextButtonClick () {
+      this.deactivateFocusTrap()
+      if (this.supermodel) {
+        // Hack: save the current supermodel globally so that the next content view can grab it during initialization and doesn't have to reload everything
+        window.temporarilyPreservedSupermodel = this.supermodel
+        const removeTemporarilyPreservedSupermodel = () => window.temporarilyPreservedSupermodel = undefined
+        _.defer(removeTemporarilyPreservedSupermodel) // Have to grab it within one frame
+      }
+      if (this.currentIntroContent && !this.introLevelComplete) {
+        this.$emit('next-content') // handled by vue IntroLevelPage
+      } else if (this.charCxModal && this.nextLevelLink) {
+        this.showCharCx = true
+      } else if (this.nextLevelLink) {
         return application.router.navigate(this.nextLevelLink, { trigger: true })
       }
+    },
+    // PlayLevelView is a backbone view, so replay button dismisses modal for that
+    // IntroLevelPage is vue component and handles the event `replay`
+    replayButtonClick () {
+      this.deactivateFocusTrap()
+      this.$emit('replay', this.currentIntroContent)
+    },
+    continueEditingButtonClick () {
+      const capstoneLevelLinkOptions = {
+        courseId: this.courseId,
+        courseInstanceId: this.courseInstanceId,
+        codeLanguage: this.codeLanguage
+      }
+      let capstoneLink = getNextLevelLink(this.editCapstoneLevelData, capstoneLevelLinkOptions) // if next level stage is not set, capstone is loaded from the last completed stage
+      let capstoneLinkAppend = '?continueEditing=true'
+      if (capstoneLink.split('?').length > 1) {
+        capstoneLinkAppend = '&continueEditing=true'
+      }
+      capstoneLink += capstoneLinkAppend
+      return application.router.navigate(capstoneLink, { trigger: true })
+    },
+    copyUrl () {
+      this.$refs['share-text-box'].select()
+      tryCopy()
+    },
+    onCharCxSaved () {
+      return application.router.navigate(this.nextLevelLink, { trigger: true })
     }
-  })
+  }
+})
 </script>
 
 <template>
@@ -419,7 +419,7 @@ export default Vue.extend({
     v-else-if="showCharCx"
     class="char-cx-modal"
 
-    :showCancelButton="false"
+    :show-cancel-button="false"
 
     @saved="onCharCxSaved"
   />

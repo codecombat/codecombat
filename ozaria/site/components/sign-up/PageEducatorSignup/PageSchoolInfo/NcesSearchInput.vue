@@ -1,108 +1,108 @@
 
 <script>
-  import algolia from 'core/services/algolia'
+import algolia from 'core/services/algolia'
 
-  export default {
-    props: {
-      displayKey: {
-        type: String,
-        default: ''
-      },
-      initialValue: {
-        type: String,
-        default: ''
-      },
-      name: {
-        type: String,
-        default: ''
-      },
-      placeholder: {
-        type: String,
-        default: ''
-      },
-      isOptional: {
-        type: Boolean,
-        default: false
-      },
-      showRequiredError: {
-        type: Boolean,
-        default: false
-      },
-      label: {
-        type: String,
-        default: ''
-      }
+export default {
+  props: {
+    displayKey: {
+      type: String,
+      default: ''
     },
-    data: () => {
-      return {
-        mouseOnSuggestion: false,
-        suggestions: [],
-        suggestionIndex: 0,
-        filledSuggestion: '',
-        value: ''
-      }
+    initialValue: {
+      type: String,
+      default: ''
+    },
+    name: {
+      type: String,
+      default: ''
+    },
+    placeholder: {
+      type: String,
+      default: ''
+    },
+    isOptional: {
+      type: Boolean,
+      default: false
+    },
+    showRequiredError: {
+      type: Boolean,
+      default: false
+    },
+    label: {
+      type: String,
+      default: ''
+    }
+  },
+  data: () => {
+    return {
+      mouseOnSuggestion: false,
+      suggestions: [],
+      suggestionIndex: 0,
+      filledSuggestion: '',
+      value: ''
+    }
+  },
+
+  watch: {
+    initialValue (value) {
+      this.value = value
+    }
+  },
+
+  mounted () {
+    this.value = this.initialValue
+  },
+
+  methods: {
+    onInput () {
+      const value = event.target.value
+      this.$emit('updateValue', this.name, value)
+      this.searchNces(value)
     },
 
-    watch: {
-      initialValue (value) {
-        this.value = value
-      }
+    searchNces (term) {
+      this.suggestions = []
+      this.filledSuggestion = ''
+      algolia.schoolsIndex.search(term, { hitsPerPage: 5, aroundLatLngViaIP: false })
+        .then(({ hits }) => {
+          if (this.value !== term) {
+            return
+          }
+          this.suggestions = hits
+          this.suggestionIndex = 0
+        })
     },
 
-    mounted () {
-      this.value = this.initialValue
+    navSearchUp () {
+      this.suggestionIndex = Math.max(0, this.suggestionIndex - 1)
     },
 
-    methods: {
-      onInput () {
-        const value = event.target.value
-        this.$emit('updateValue', this.name, value)
-        this.searchNces(value)
-      },
+    navSearchDown () {
+      this.suggestionIndex = Math.min(this.suggestions.length, this.suggestionIndex + 1)
+    },
 
-      searchNces (term) {
-        this.suggestions = []
-        this.filledSuggestion = ''
-        algolia.schoolsIndex.search(term, { hitsPerPage: 5, aroundLatLngViaIP: false })
-          .then(({ hits }) => {
-            if (this.value !== term) {
-              return
-            }
-            this.suggestions = hits
-            this.suggestionIndex = 0
-          })
-      },
-
-      navSearchUp () {
-        this.suggestionIndex = Math.max(0, this.suggestionIndex - 1)
-      },
-
-      navSearchDown () {
-        this.suggestionIndex = Math.min(this.suggestions.length, this.suggestionIndex + 1)
-      },
-
-      navSearchChoose () {
-        const suggestion = this.suggestions[this.suggestionIndex]
-        if (!suggestion) {
-          return
-        }
-        this.navSearchClear()
-        this.$emit('navSearchChoose', this.displayKey, suggestion)
-      },
-
-      onBlur () {
-        this.navSearchClear()
-      },
-
-      navSearchClear () {
-        this.suggestions = []
-      },
-
-      suggestionHover (index) {
-        this.suggestionIndex = index
+    navSearchChoose () {
+      const suggestion = this.suggestions[this.suggestionIndex]
+      if (!suggestion) {
+        return
       }
+      this.navSearchClear()
+      this.$emit('navSearchChoose', this.displayKey, suggestion)
+    },
+
+    onBlur () {
+      this.navSearchClear()
+    },
+
+    navSearchClear () {
+      this.suggestions = []
+    },
+
+    suggestionHover (index) {
+      this.suggestionIndex = index
     }
   }
+}
 </script>
 
 <template>
@@ -159,7 +159,10 @@
           >
             <span v-html="suggestion._highlightResult.district.value" />
             <div class="city-state">
-              <span v-if="suggestion._highlightResult.city" v-html="suggestion._highlightResult.city.value" />
+              <span
+                v-if="suggestion._highlightResult.city"
+                v-html="suggestion._highlightResult.city.value"
+              />
               <span> , </span>
               <span v-html="suggestion._highlightResult.state.value" />
             </div>

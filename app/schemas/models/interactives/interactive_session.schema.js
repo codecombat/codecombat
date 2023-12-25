@@ -11,10 +11,10 @@ const interactiveSessionSchema = {
   properties: {
     interactiveId: schema.objectId(),
     interactiveType: {
-      'enum': ['draggable-ordering', 'insert-code', 'draggable-classification', 'multiple-choice', 'fill-in-code', 'draggable-statement-completion']
+      enum: ['draggable-ordering', 'insert-code', 'draggable-classification', 'multiple-choice', 'fill-in-code', 'draggable-statement-completion']
     },
     userId: schema.objectId(),
-    sessionCodeLanguage: { 'enum': ['python', 'javascript'] }, // this will come from the course instance(for classroom) / me.aceConfig (for home users)
+    sessionCodeLanguage: { enum: ['python', 'javascript'] }, // this will come from the course instance(for classroom) / me.aceConfig (for home users)
     submissionCount: { type: 'number' },
     complete: { type: 'boolean' },
     created: schema.stringDate(),
@@ -24,50 +24,50 @@ const interactiveSessionSchema = {
   allOf: [
     {
       if: {
-        'properties': { 'interactiveType': { 'const': 'draggable-ordering' } }
+        properties: { interactiveType: { const: 'draggable-ordering' } }
       },
       then: {
-        'properties': { 'submissions': { type: 'array', items: submissionSchema.draggableOrderingSubmissionSchema } }
+        properties: { submissions: { type: 'array', items: submissionSchema.draggableOrderingSubmissionSchema } }
       }
     },
     {
       if: {
-        'properties': { 'interactiveType': { 'const': 'insert-code' } }
+        properties: { interactiveType: { const: 'insert-code' } }
       },
       then: {
-        'properties': { 'submissions': { type: 'array', items: submissionSchema.insertCodeSubmissionSchema } }
+        properties: { submissions: { type: 'array', items: submissionSchema.insertCodeSubmissionSchema } }
       }
     },
     {
       if: {
-        'properties': { 'interactiveType': { 'const': 'draggable-classification' } }
+        properties: { interactiveType: { const: 'draggable-classification' } }
       },
       then: {
-        'properties': { 'submissions': { type: 'array', items: submissionSchema.draggableClassificationSubmissionSchema } }
+        properties: { submissions: { type: 'array', items: submissionSchema.draggableClassificationSubmissionSchema } }
       }
     },
     {
       if: {
-        'properties': { 'interactiveType': { 'const': 'multiple-choice' } }
+        properties: { interactiveType: { const: 'multiple-choice' } }
       },
       then: {
-        'properties': { 'submissions': { type: 'array', items: submissionSchema.multipleChoiceSubmissionSchema } }
+        properties: { submissions: { type: 'array', items: submissionSchema.multipleChoiceSubmissionSchema } }
       }
     },
     {
       if: {
-        'properties': { 'interactiveType': { 'const': 'fill-in-code' } }
+        properties: { interactiveType: { const: 'fill-in-code' } }
       },
       then: {
-        'properties': { 'submissions': { type: 'array', items: submissionSchema.fillInCodeSubmissionSchema } }
+        properties: { submissions: { type: 'array', items: submissionSchema.fillInCodeSubmissionSchema } }
       }
     },
     {
       if: {
-        'properties': { 'interactiveType': { 'const': 'draggable-statement-completion' } }
+        properties: { interactiveType: { const: 'draggable-statement-completion' } }
       },
       then: {
-        'properties': { 'submissions': { type: 'array', items: submissionSchema.draggableStatementCompletionSubmissionSchema } }
+        properties: { submissions: { type: 'array', items: submissionSchema.draggableStatementCompletionSubmissionSchema } }
       }
     }
   ]

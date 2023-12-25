@@ -2,6 +2,7 @@ class Agent
   constructor: () ->
     @$iframe = $('<iframe id="frame" src="/nothing.html"></iframe>')
     @iframe = @$iframe[0]
+    @globalVar = require 'core/globalVar'
 
   clear: () ->
     @navigate('/nothing.html').then () =>

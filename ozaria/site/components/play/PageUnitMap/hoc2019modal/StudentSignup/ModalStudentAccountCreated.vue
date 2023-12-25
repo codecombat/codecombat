@@ -7,7 +7,7 @@ export default {
     email () {
       return me.get('email')
     }
-  },
+  }
 }
 </script>
 

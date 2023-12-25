@@ -1,4 +1,3 @@
-
 SpellView = require './SpellView'
 SpellTopBarView = require './SpellTopBarView'
 {me} = require 'core/auth'
@@ -6,6 +5,7 @@ SpellTopBarView = require './SpellTopBarView'
 { translateJS } = require 'lib/translate-utils'
 utils = require 'core/utils'
 
+# while migrating to JS, function: hasChangedSignificantly doesn't work correctly and throws errors when loading a level
 module.exports = class Spell
   loaded: false
   view: null
@@ -24,7 +24,7 @@ module.exports = class Spell
     @level = options.level
     @createFromProgrammableMethod options.programmableMethod, options.language
     if @canRead()  # We can avoid creating these views if we'll never use them.
-      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel, levelID: options.levelID, classroomAceConfig: options.classroomAceConfig, spectateView: @spectateView}
+      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel, levelID: options.levelID, classroomAceConfig: options.classroomAceConfig, spectateView: @spectateView, courseID: options.courseID, blocks: options.blocks}
       @view.render()  # Get it ready and code loaded in advance
       @topBarView = new SpellTopBarView
         hintsState: options.hintsState
@@ -35,6 +35,9 @@ module.exports = class Spell
         session: options.session
         courseID: options.courseID
         courseInstanceID: options.courseInstanceID
+        blocks: options.blocks
+        blocksHidden: options.blocksHidden
+        teacherID: options.teacherID
       @topBarView.render()
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 
@@ -236,7 +239,8 @@ module.exports = class Spell
 
   updateLanguageAether: (@language) ->
     @thang?.aether?.setLanguage @language
-    @thang?.castAether = null
+    if @thang
+      @thang.castAether = null
     Backbone.Mediator.publish 'tome:spell-changed-language', spell: @, language: @language
     if @worker
       workerMessage =
@@ -299,11 +303,13 @@ module.exports = class Spell
         source = switch codeType
           when 'start' then @languages[codeLanguage]
           when 'solution' then @getSolution codeLanguage
-          when 'current' then if codeLanguage is @language then @source else ''
+          when 'current'
+            if codeLanguage is @language then @source else ''
         jsSource = switch codeType
           when 'start' then @languages.javascript
           when 'solution' then @getSolution 'javascript'
-          when 'current' then if @language is 'javascript' then @source else ''
+          when 'current'
+            if @language is 'javascript' then @source else ''
         if jsSource and not source
           source = translateJS jsSource, codeLanguage
         continue unless source

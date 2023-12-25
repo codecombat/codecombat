@@ -1,29 +1,29 @@
 <script>
-  const fetchJson = require("../../../core/api/fetch-json")
-  export default Vue.extend({
-    props: ['hide'],
-    data() {
-     return {
-       hours: 0,
-       pending: 10,
-     }
-    },
-    methods: {
-      submit: async function(){
-        await fetchJson('/admin/maintenance-time', {json: {hours: this.hours}, method: 'POST' })
-      },
-      countDown () {
-        this.pending -= 1
-        if(this.pending) {
-          setTimeout(this.countDown, 1000)
-        }
-      }
-    },
-    mounted() {
-      this.pending = 10
-      this.countDown()
+const fetchJson = require('../../../core/api/fetch-json')
+export default Vue.extend({
+  props: ['hide'],
+  data () {
+    return {
+      hours: 0,
+      pending: 10
     }
-  })
+  },
+  mounted () {
+    this.pending = 10
+    this.countDown()
+  },
+  methods: {
+    submit: async function () {
+      await fetchJson('/admin/maintenance-time', { json: { hours: this.hours }, method: 'POST' })
+    },
+    countDown () {
+      this.pending -= 1
+      if (this.pending) {
+        setTimeout(this.countDown, 1000)
+      }
+    }
+  }
+})
 </script>
 <template lang="pug">
 #modal-base-flat

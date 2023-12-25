@@ -1,40 +1,40 @@
 <script>
-  import utils from 'core/utils'
-  import { getOzariaAssetUrl } from '../../../common/ozariaUtils'
+import utils from 'core/utils'
+import { getOzariaAssetUrl } from '../../../common/ozariaUtils'
 
-  export default {
-    props: {
-      capstoneLevel: {
-        type: Object,
-        default: () => {}
-      },
-      course: {
-        type: Object,
-        default: () => {}
-      }
+export default {
+  props: {
+    capstoneLevel: {
+      type: Object,
+      default: () => {}
     },
-    computed: {
-      learningGoals () {
-        const specificArticles = (this.capstoneLevel.documentation || {}).specificArticles || []
-        const learningGoals = specificArticles.filter((s) => s.name === 'Learning Goals').map((l) => utils.i18n(l, 'body'))
+    course: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  computed: {
+    learningGoals () {
+      const specificArticles = (this.capstoneLevel.documentation || {}).specificArticles || []
+      const learningGoals = specificArticles.filter((s) => s.name === 'Learning Goals').map((l) => utils.i18n(l, 'body'))
 
-        return learningGoals
-      },
-      utils () {
-        return utils
-      },
-      conceptsCovered () {
-        return this.course.concepts || []
-      },
-      capstoneImageUrl () {
-        if (this.capstoneLevel.screenshot) {
-          return getOzariaAssetUrl(this.capstoneLevel.screenshot)
-        } else {
-          return ''
-        }
+      return learningGoals
+    },
+    utils () {
+      return utils
+    },
+    conceptsCovered () {
+      return this.course.concepts || []
+    },
+    capstoneImageUrl () {
+      if (this.capstoneLevel.screenshot) {
+        return getOzariaAssetUrl(this.capstoneLevel.screenshot)
+      } else {
+        return ''
       }
     }
   }
+}
 </script>
 
 <template>

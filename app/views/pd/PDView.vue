@@ -10,16 +10,16 @@ export default {
   },
 
   state: {
-    pageTitle: 'pd',
+    pageTitle: 'pd'
   },
-
-  data: () => ({
-    showModalGetLicenses: false,
-  }),
 
   beforeRouteUpdate (to, from, next) {
     next()
   },
+
+  data: () => ({
+    showModalGetLicenses: false
+  }),
 
   watch: {
 
@@ -89,14 +89,13 @@ export default {
         console.log('Unhandled EdApp iframe message:', e.data)
         return
       }
-      let [matched, action, restArgsGroup, data] = backboneEventMatch
-      if (data)
-        data = JSON.parse(data)
+      let [matched, action, restArgsGroup, data] = backboneEventMatch // eslint-disable-line no-unused-vars
+      if (data) { data = JSON.parse(data) }
       if (action === 'lesson-ready') {
-        this.lessonReady = true;
+        this.lessonReady = true
       } else if (!this.lessonReady) {
         // Ignore messages before the lesson is ready (like unloading of old lesson)
-        return
+
       } else if (action === 'slide-start') {
         const currentSlide = data.slideId
         this.slidesSeen[currentSlide] = new Date()
@@ -113,7 +112,7 @@ export default {
       } else if (action === 'exit') {
         console.log('Seen all those slides! Ya done it.')
         const salesBtn = $('#pd-trial-section .sales-btn')
-        $('html, body').animate({scrollTop: salesBtn.offset().top - 60 - (window.innerHeight - 60) / 2 + salesBtn.outerHeight() / 2}, 1000)
+        $('html, body').animate({ scrollTop: salesBtn.offset().top - 60 - (window.innerHeight - 60) / 2 + salesBtn.outerHeight() / 2 }, 1000)
         me.trackActivity('complete-pd-trial')
       } else {
         // slide-completed, slide-rendered, view, thomas-ready
@@ -121,13 +120,13 @@ export default {
       }
     },
 
-    onWindowResize() {
+    onWindowResize () {
       $('#pd-trial-embed').css('height', Math.max(640, Math.min(900, window.innerHeight - 100)))
     }
   },
 
   computed: {
-    me: me,
+    me,
     ...mapGetters({
       isTeacher: 'me/isTeacher',
       isStudent: 'me/isStudent',
@@ -667,4 +666,3 @@ export default {
   margin-top: 0;
 }
 </style>
-

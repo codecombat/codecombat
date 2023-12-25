@@ -1,132 +1,144 @@
 <script>
-  import { mapMutations } from 'vuex'
-  import LayoutSplit from '../layout/LayoutSplit'
-  import CloseModalBar from '../layout/CloseModalBar'
-  import * as focusTrap from 'focus-trap'
+import { mapMutations } from 'vuex'
+import LayoutSplit from '../layout/LayoutSplit'
+import CloseModalBar from '../layout/CloseModalBar'
+import * as focusTrap from 'focus-trap'
 
-  const Classroom = require('models/Classroom')
-  const utils = require('core/utils')
+const Classroom = require('models/Classroom')
+const utils = require('core/utils')
 
-  export default {
-    data: () => ({
-      classCode: '',
-      classroom: {},
-      validClassCodes: new Set(),
-      focusTrapDeactivated: false,
-      focusTrap: null
+export default {
+
+  components: {
+    LayoutSplit,
+    CloseModalBar
+  },
+  data: () => ({
+    classCode: '',
+    classroom: {},
+    validClassCodes: new Set(),
+    focusTrapDeactivated: false,
+    focusTrap: null
+  }),
+
+  mounted () {
+    const { _cc } = utils.getQueryVariables()
+    this.classCode = _cc
+    // TODO: do this generally for all modals
+    // TODO: do it on parent? Can't get to back button this way
+    this.focusTrap = focusTrap.createFocusTrap(this.$el, {
+      initialFocus: 'input',
+      onDeactivate: () => {
+        this.focusTrapDeactivated = true
+      }
+    })
+    this.focusTrap.activate()
+    // fallback
+    if (this.focusTrapDeactivated) this.deactivateFocusTrap()
+  },
+
+  beforeDestroy () {
+    // seems not work when this component is destroyed by parent conditional-render
+    this.deactivateFocusTrap()
+  },
+
+  methods: {
+    ...mapMutations({
+      updateClassDetails: 'studentModal/updateClassDetails'
     }),
 
-    components: {
-      LayoutSplit,
-      CloseModalBar
+    async onSubmitForm (e) {
+      const isValid = await this.isClassCodeValid()
+      if (isValid) {
+        this.updateClassDetails({ classCode: this.classCode, classroom: this.classroom.data })
+        this.$emit('done')
+      } else if (this.classCode) {
+        noty({ text: 'Invalid class code', type: 'error', layout: 'center', timeout: 2000 })
+      }
     },
 
-    mounted() {
-      const { _cc } = utils.getQueryVariables()
-      this.classCode = _cc
-      // TODO: do this generally for all modals
-      // TODO: do it on parent? Can't get to back button this way
-      this.focusTrap = focusTrap.createFocusTrap(this.$el, {
-        initialFocus: 'input',
-        onDeactivate: () => {
-          this.focusTrapDeactivated = true
-        }
-      })
-      this.focusTrap.activate()
-      // fallback
-      if (this.focusTrapDeactivated) this.deactivateFocusTrap()
-    },
-
-    beforeDestroy () {
-      // seems not work when this component is destroyed by parent conditional-render
-      this.deactivateFocusTrap()
-    },
-
-    methods: {
-      ...mapMutations({
-        updateClassDetails: 'studentModal/updateClassDetails'
-      }),
-
-      async onSubmitForm (e) {
-        const isValid = await this.isClassCodeValid()
-        if (isValid) {
-          this.updateClassDetails({ classCode: this.classCode, classroom: this.classroom.data })
-          this.$emit('done')
-        } else if (this.classCode) {
-          noty({ text: 'Invalid class code', type: 'error', layout: 'center', timeout: 2000 })
-        }
-      },
-
-      async isClassCodeValid () {
-        if (!this.classCode) {
-          return false
-        }
-        if (this.validClassCodes.has(this.classCode)) {
+    async isClassCodeValid () {
+      if (!this.classCode) {
+        return false
+      }
+      if (this.validClassCodes.has(this.classCode)) {
+        return true
+      }
+      try {
+        this.classroom = await new Promise(new Classroom().fetchByCode(this.classCode).then)
+        if (this.classroom) {
+          this.validClassCodes.add(this.classCode)
           return true
         }
-        try {
-          this.classroom = await new Promise(new Classroom().fetchByCode(this.classCode).then)
-          if (this.classroom) {
-            this.validClassCodes.add(this.classCode)
-            return true
-          }
-          return false
-        } catch (err) {
-          console.error('Error in validating class code', err)
-          return false
-        }
-      },
-
-      deactivateFocusTrap () {
-        this.focusTrapDeactivated = true
-        this.focusTrap?.deactivate()
+        return false
+      } catch (err) {
+        console.error('Error in validating class code', err)
+        return false
       }
+    },
+
+    deactivateFocusTrap () {
+      this.focusTrapDeactivated = true
+      this.focusTrap?.deactivate()
     }
   }
+}
 </script>
 
 <template>
-    <LayoutSplit @back="$emit('back')">
-      <CloseModalBar @click="$emit('closeModal')"/>
-      <div id="student-signup">
-        <h1>{{$t("hoc_2019.have_a_class_code")}}</h1>
-        <div>
-          <p class="student-subtitle">{{ $t("hoc_2019.enter_it_here") }}</p>
-          <form @submit.prevent="onSubmitForm">
-            <div class="form-group">
-              <label class="label-cc" for="class-code-input">{{$t("hoc_2019.class_code")}}</label>
-              <input
-                id="class-code-input"
-                class="ozaria-input-field"
-                v-model="classCode"
-                type="text"
-                required
-                :input="isClassCodeValid"
-              >
+  <LayoutSplit @back="$emit('back')">
+    <CloseModalBar @click="$emit('closeModal')" />
+    <div id="student-signup">
+      <h1>{{ $t("hoc_2019.have_a_class_code") }}</h1>
+      <div>
+        <p class="student-subtitle">
+          {{ $t("hoc_2019.enter_it_here") }}
+        </p>
+        <form @submit.prevent="onSubmitForm">
+          <div class="form-group">
+            <label
+              class="label-cc"
+              for="class-code-input"
+            >{{ $t("hoc_2019.class_code") }}</label>
+            <input
+              id="class-code-input"
+              v-model="classCode"
+              class="ozaria-input-field"
+              type="text"
+              required
+              :input="isClassCodeValid"
+            >
 
-              <button
-                id="done-btn"
-                class="ozaria-btn"
-                type="submit"
-                :disabled="!isClassCodeValid"
-              >
-                {{ $t("common.submit") }}
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <div class="or">
-          <div class="yellow-bar-1"></div>
-          <div class='or-text'><span>{{$t("general.or")}}</span></div>
-          <div class="yellow-bar-2"></div>
-        </div>
-
-        <div class="text-center">
-          <button class="play-now-btn" @click="$emit('closeModal')">{{ $t("new_home.play_now") }}</button>
-        </div>
+            <button
+              id="done-btn"
+              class="ozaria-btn"
+              type="submit"
+              :disabled="!isClassCodeValid"
+            >
+              {{ $t("common.submit") }}
+            </button>
+          </div>
+        </form>
       </div>
-    </LayoutSplit>
+
+      <div class="or">
+        <div class="yellow-bar-1" />
+        <div class="or-text">
+          <span>{{ $t("general.or") }}</span>
+        </div>
+        <div class="yellow-bar-2" />
+      </div>
+
+      <div class="text-center">
+        <button
+          class="play-now-btn"
+          @click="$emit('closeModal')"
+        >
+          {{ $t("new_home.play_now") }}
+        </button>
+      </div>
+    </div>
+  </LayoutSplit>
 </template>
 
 <style lang="scss" scoped>

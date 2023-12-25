@@ -2,7 +2,10 @@
   <div class="sidebar">
     <div class="sidebar__top">
       <div class="sidebar__child">
-        <select name="child-select" id="sidebar__child__select-id" class="sidebar__child__select"
+        <select
+          id="sidebar__child__select-id"
+          name="child-select"
+          class="sidebar__child__select"
           @change="onChildSelectionChange"
         >
           <optgroup>
@@ -14,46 +17,73 @@
               :disabled="!child.verified"
               :selected="child.userId === selectedChildrenId"
             >
-              {{ child.broadName }}
+              {{ child.broadName }} {{ !child.verified ? '(Not Verified)' : '' }}
             </option>
-            <option value="No other children added" class="sidebar__child__option" disabled v-if="children.length > 0">No other children added</option>
-            <option value="No children added" class="sidebar__child__option" disabled v-if="children.length === 0" :selected="children.length === 0">No children added</option>
+            <option
+              v-if="children.length > 0"
+              value="No other children added"
+              class="sidebar__child__option"
+              disabled
+            >
+              No other children added
+            </option>
+            <option
+              v-if="children.length === 0"
+              value="No children added"
+              class="sidebar__child__option"
+              disabled
+              :selected="children.length === 0"
+            >
+              No children added
+            </option>
           </optgroup>
         </select>
       </div>
       <ul class="sidebar__tabs">
-        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'progress', childId: this.selectedChildrenId } }">
+        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'progress', childId: selectedChildrenId, product: product } }">
           <li
             :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'progress' || selectedTab === 'dashboard' }"
           >
-            <img src="/images/pages/parents/dashboard/icon-productivity-black.svg" alt="Progress" class="sidebar__tabs__img">
+            <img
+              src="/images/pages/parents/dashboard/icon-productivity-black.svg"
+              alt="Progress"
+              class="sidebar__tabs__img"
+            >
             <span class="sidebar__tabs__name">Progress</span>
           </li>
         </router-link>
-        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'summary', childId: this.selectedChildrenId } }">
+        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'summary', childId: selectedChildrenId } }">
           <li
             :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'summary' }"
           >
-            <img src="/images/pages/parents/dashboard/icon-summary.svg" alt="Summary" class="sidebar__tabs__img">
+            <img
+              src="/images/pages/parents/dashboard/icon-summary.svg"
+              alt="Summary"
+              class="sidebar__tabs__img"
+            >
             <span class="sidebar__tabs__name">Summary</span>
           </li>
         </router-link>
-        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'online-classes', childId: this.selectedChildrenId } }">
+        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'online-classes', childId: selectedChildrenId } }">
           <li
             :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'online-classes' }"
           >
-            <img src="/images/pages/parents/dashboard/icon-online-classes.svg" alt="Online Classes" class="sidebar__tabs__img">
+            <img
+              src="/images/pages/parents/dashboard/icon-online-classes.svg"
+              alt="Online Classes"
+              class="sidebar__tabs__img"
+            >
             <span class="sidebar__tabs__name">Online Classes</span>
           </li>
         </router-link>
-<!--        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'ai-league', childId: this.selectedChildrenId } }">-->
-<!--          <li-->
-<!--            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'ai-league' }"-->
-<!--          >-->
-<!--            <img src="/images/pages/parents/dashboard/icon-ai-league.svg" alt="AI League" class="sidebar__tabs__img">-->
-<!--            <span class="sidebar__tabs__name">AI League</span>-->
-<!--          </li>-->
-<!--        </router-link>-->
+        <!--        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'ai-league', childId: this.selectedChildrenId } }">-->
+        <!--          <li-->
+        <!--            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'ai-league' }"-->
+        <!--          >-->
+        <!--            <img src="/images/pages/parents/dashboard/icon-ai-league.svg" alt="AI League" class="sidebar__tabs__img">-->
+        <!--            <span class="sidebar__tabs__name">AI League</span>-->
+        <!--          </li>-->
+        <!--        </router-link>-->
       </ul>
       <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'add-another-child' } }">
         <div class="sidebar__add-child">
@@ -68,10 +98,11 @@
     <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'toolkit' } }">
       <div class="sidebar__bottom">
         <div
-          class="sidebar__bottom__item">
+          :class="{ sidebar__bottom__item: true, sidebar__tabs__item__sel: selectedTab === 'toolkit' }"
+        >
           Parent toolkit
         </div>
-  <!--      <div class="sidebar__bottom__item">Account</div>-->
+        <!--      <div class="sidebar__bottom__item">Account</div>-->
       </div>
     </router-link>
   </div>
@@ -89,6 +120,9 @@ export default {
       type: String
     },
     childId: {
+      type: String
+    },
+    product: {
       type: String
     }
   },
@@ -165,7 +199,7 @@ export default {
       cursor: pointer;
 
       &__sel {
-        color: $color-twilight;
+        color: $color-twilight !important;
       }
     }
 

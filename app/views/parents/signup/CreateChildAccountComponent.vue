@@ -10,39 +10,77 @@
       v-if="!showExistingAccountView"
       class="account__existing account__link-text"
     >
-      Does your child already have a CodeCombat or Ozaria account? <a href="#" @click.prevent="linkAccountClicked">Link Accounts</a>
+      Does your child already have a CodeCombat or Ozaria account? <a
+        href="#"
+        @click.prevent="linkAccountClicked"
+      >Link Accounts</a>
     </div>
     <div
       v-else
       class="account__create account__link-text"
     >
-      Create <a href="#" @click.prevent="createAccountClicked">child account</a>
+      Create <a
+        href="#"
+        @click.prevent="createAccountClicked"
+      >child account</a>
     </div>
     <form
       v-if="!showExistingAccountView"
-      @submit.prevent="onFormSubmit"
       class="account__form"
+      @submit.prevent="onFormSubmit"
     >
       <div class="form-group">
-        <label for="name" class="required">Child's Full Name</label>
-        <input type="text" id="name" class="form-control" v-model="name" required />
+        <label
+          for="name"
+          class="required"
+        >Child's Full Name</label>
+        <input
+          id="name"
+          v-model="name"
+          type="text"
+          class="form-control"
+          required
+        >
       </div>
       <div class="form-group">
-        <label for="uname" class="required">Username</label>
-        <input type="text" id="uname" class="form-control" v-model="username" required />
+        <label
+          for="uname"
+          class="required"
+        >Username</label>
+        <input
+          id="uname"
+          v-model="username"
+          type="text"
+          class="form-control"
+          required
+        >
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" class="form-control" v-model="email" />
+        <input
+          id="email"
+          v-model="email"
+          type="email"
+          class="form-control"
+        >
       </div>
       <div class="form-group">
-        <label for="password" class="required">Password</label>
-        <input type="password" id="password" class="form-control" v-model="password" required />
+        <label
+          for="password"
+          class="required"
+        >Password</label>
+        <input
+          id="password"
+          v-model="password"
+          type="password"
+          class="form-control"
+          required
+        >
       </div>
-<!--      <div class="form-group">-->
-<!--        <label for="bday">Birthday</label>-->
-<!--        <input type="text" id="bday" class="form-control" v-model="birthday" />-->
-<!--      </div>-->
+      <!--      <div class="form-group">-->
+      <!--        <label for="bday">Birthday</label>-->
+      <!--        <input type="text" id="bday" class="form-control" v-model="birthday" />-->
+      <!--      </div>-->
       <div
         v-if="errMsg"
         class="form-group account__error"
@@ -68,8 +106,9 @@
     <add-user-component
       v-if="showExistingAccountView"
       :hide-bidirectional-check="true"
-      :hide-relation-dropdown="true"
+      :hide-relation-dropdown="false"
       :hide-create-account="true"
+      prefill-relation="Child"
       @onAddSwitchAccount="onExistingAccountLink"
     />
   </div>
@@ -77,8 +116,12 @@
 
 <script>
 import AddUserComponent from '../../user/switch-account/AddUserComponent'
+const { validateEmail } = require('../../../lib/common-utils')
 export default {
   name: 'CreateChildAccountComponent',
+  components: {
+    AddUserComponent
+  },
   props: {
     initialData: {
       type: Object
@@ -99,9 +142,6 @@ export default {
       errMsg: null
     }
   },
-  components: {
-    AddUserComponent
-  },
   methods: {
     linkAccountClicked () {
       this.showExistingAccountView = true
@@ -110,6 +150,15 @@ export default {
       this.errMsg = null
       if (!this.name || !this.username || !this.password) {
         this.errMsg = 'Required field data missing'
+        return
+      }
+      if (this.email && !validateEmail(this.email)) {
+        this.errMsg = 'Invalid email'
+        return
+      }
+      const filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i
+      if (filter.test(this.username)) {
+        this.errMsg = 'Username may not be an email'
         return
       }
       this.$emit('onChildAccountSubmit', this.$data)

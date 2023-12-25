@@ -1,68 +1,66 @@
 <script>
-  import { mapState } from 'vuex'
+import { mapState } from 'vuex'
 
-  export default {
-    props: {
-      classrooms: {
-        type: Array,
-        default: () => []
-      }
-    },
-    created () {
-      this.me = me
-    } ,
-    computed: {
-      ...mapState('teacherDashboard', {
-        currentSelectedClassroom: state => state.classroomId
-      }),
+export default {
+  props: {
+    classrooms: {
+      type: Array,
+      default: () => []
+    }
+  },
 
-      classesTabSelected () {
-        return this.$route.path.startsWith('/teachers/classes') || this.$route.path === '/teachers'
-      },
+  computed: {
+    ...mapState('teacherDashboard', {
+      currentSelectedClassroom: state => state.classroomId
+    }),
 
-      studentProjectsSelected () {
-        return this.$route.path.startsWith('/teachers/projects')
-      },
-
-      licensesSelected () {
-        return this.$route.path.startsWith('/teachers/licenses')
-      },
-
-      resourceHubSelected () {
-        return this.$route.path.startsWith('/teachers/resources')
-      },
-
-      pdSelected () {
-        return this.$route.path.startsWith('/teachers/professional-development')
-      },
-
-      // Check for the "All Classes" dropdown menu button in the classesTab.
-      allClassesSelected () {
-        return this.$route.path === '/teachers' || this.$route.path === '/teachers/classes'
-      },
-
-      classroomSelected () {
-        if (this.allClassesSelected) {
-          return undefined
-        }
-        return this.currentSelectedClassroom
-      }
+    classesTabSelected () {
+      return this.$route.path.startsWith('/teachers/classes') || this.$route.path === '/teachers'
     },
 
-    methods: {
-      trackEvent (e) {
-        const eventName = e.target.dataset['action']
-        const eventLabel = e.target.dataset['label']
-        if (eventName) {
-          if (eventLabel) {
-            window.tracker?.trackEvent(eventName, { category: 'Teachers', label: eventLabel })
-          } else {
-            window.tracker?.trackEvent(eventName, { category: 'Teachers' })
-          }
+    studentProjectsSelected () {
+      return this.$route.path.startsWith('/teachers/projects')
+    },
+
+    licensesSelected () {
+      return this.$route.path.startsWith('/teachers/licenses')
+    },
+
+    resourceHubSelected () {
+      return this.$route.path.startsWith('/teachers/resources')
+    },
+
+    pdSelected () {
+      return this.$route.path.startsWith('/teachers/professional-development')
+    },
+
+    // Check for the "All Classes" dropdown menu button in the classesTab.
+    allClassesSelected () {
+      return this.$route.path === '/teachers' || this.$route.path === '/teachers/classes'
+    },
+
+    classroomSelected () {
+      if (this.allClassesSelected) {
+        return undefined
+      }
+      return this.currentSelectedClassroom
+    }
+  },
+
+  methods: {
+    trackEvent (e) {
+      const eventName = e.target.dataset.action
+      const eventLabel = e.target.dataset.label
+      if (eventName) {
+        if (eventLabel) {
+          window.tracker?.trackEvent(eventName, { category: 'Teachers', label: eventLabel })
+        } else {
+          window.tracker?.trackEvent(eventName, { category: 'Teachers' })
         }
       }
     }
   }
+}
 </script>
 
 <template>
@@ -93,7 +91,14 @@
         aria-labelledby="ClassesDropdown"
       >
         <li :class="allClassesSelected ? 'selected': null">
-          <router-link tag="a" to="/teachers" class="dropdown-item underline-item" @click.native="trackEvent" data-action="All Classes: Nav Clicked" data-toggle="dropdown">
+          <router-link
+            tag="a"
+            to="/teachers"
+            class="dropdown-item underline-item"
+            data-action="All Classes: Nav Clicked"
+            data-toggle="dropdown"
+            @click.native="trackEvent"
+          >
             {{ $t('teacher_dashboard.all_classes') }}
           </router-link>
         </li>
@@ -106,10 +111,10 @@
             tag="a"
             :to="`/teachers/classes/${classroom._id}`"
             class="dropdown-item"
-            @click.native="trackEvent"
             data-action="Track Progress: Nav Clicked"
             data-toggle="dropdown"
             :data-label="$route.path"
+            @click.native="trackEvent"
           >
             {{ classroom.name }}
           </router-link>
@@ -146,9 +151,9 @@
           <router-link
             :to="`/teachers/projects/${classroom._id}`"
             class="dropdown-item"
-            @click.native="trackEvent"
             data-action="Student Projects: Nav Clicked"
             data-toggle="dropdown"
+            @click.native="trackEvent"
           >
             {{ classroom.name }}
           </router-link>
@@ -167,19 +172,37 @@
       </ul>
     </li>
     <li>
-      <router-link to="/teachers/resources" id="ResourceAnchor" :class="{ 'current-route': resourceHubSelected }" @click.native="trackEvent" data-action="Resource Hub: Nav Clicked">
+      <router-link
+        id="ResourceAnchor"
+        to="/teachers/resources"
+        :class="{ 'current-route': resourceHubSelected }"
+        data-action="Resource Hub: Nav Clicked"
+        @click.native="trackEvent"
+      >
         <div id="IconResourceHub" />
         {{ $t('teacher_dashboard.resource_hub') }}
       </router-link>
     </li>
     <li>
-      <router-link to="/teachers/licenses" id="LicensesAnchor" :class="{ 'current-route': licensesSelected } " @click.native="trackEvent" data-action="My Licenses: Nav Clicked">
+      <router-link
+        id="LicensesAnchor"
+        to="/teachers/licenses"
+        :class="{ 'current-route': licensesSelected } "
+        data-action="My Licenses: Nav Clicked"
+        @click.native="trackEvent"
+      >
         <div id="IconLicense" />
         {{ $t('teacher_dashboard.my_licenses') }}
       </router-link>
     </li>
     <li>
-      <router-link to="/teachers/professional-development" id="PDAnchor" :class="{ 'current-route': pdSelected }" @click.native="trackEvent" data-action="PD: Nav Clicked">
+      <router-link
+        id="PDAnchor"
+        to="/teachers/professional-development"
+        :class="{ 'current-route': pdSelected }"
+        data-action="PD: Nav Clicked"
+        @click.native="trackEvent"
+      >
         <div id="IconPD" />
         <!-- <div id="IconNew">New!</div> -->
         {{ $t('teacher_dashboard.pd_short') }}

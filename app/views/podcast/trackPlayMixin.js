@@ -5,7 +5,7 @@ export default {
     trackPlayClicked () {
       const elemId = document.activeElement.id
       this.allowIframeTracking()
-      if(elemId?.includes('podcast')){
+      if (elemId?.includes('podcast')) {
         const podcastId = elemId.split('-').pop()
         if (this.isPlayed(podcastId)) {
           return
@@ -21,7 +21,7 @@ export default {
       }, 3000)
     },
     storageKey (podcastId) {
-     return `podcast-played-${podcastId}-${me.get('_id')}`
+      return `podcast-played-${podcastId}-${me.get('_id')}`
     },
     isPlayed (podcastId) {
       return storage.load(this.storageKey(podcastId))
@@ -30,7 +30,7 @@ export default {
   mounted () {
     window.addEventListener('blur', this.trackPlayClicked)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     window.removeEventListener('blur', this.trackPlayClicked)
   }
 }

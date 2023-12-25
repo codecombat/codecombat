@@ -2,10 +2,15 @@
   <modal
     @close="$emit('close')"
   >
-    <iframe :src="transistorUrl"
-      width='80%' height='180' frameborder='0' scrolling='no'
-      seamless='true' style='width:80%; height:180px;'>
-    </iframe>
+    <iframe
+      :src="transistorUrl"
+      width="80%"
+      height="180"
+      frameborder="0"
+      scrolling="no"
+      seamless="true"
+      style="width:80%; height:180px;"
+    />
   </modal>
 </template>
 
@@ -13,13 +18,13 @@
 import Modal from '../../components/common/Modal'
 export default {
   name: 'AudioPlayerComponent',
+  components: {
+    Modal
+  },
   props: {
     transistorEpisodeId: {
       type: String
     }
-  },
-  components: {
-    Modal
   },
   computed: {
     transistorUrl () {

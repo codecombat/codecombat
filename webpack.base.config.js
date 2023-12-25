@@ -12,6 +12,7 @@ const glob = require('glob')
 require('coffee-script')
 require('coffee-script/register')
 const product = process.env.COCO_PRODUCT || 'codecombat'
+const shaTag = process.env.GIT_SHA || 'dev'
 const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
 require.extensions[`.${productSuffix}.coffee`] = require.extensions['.coffee']
 const CompileStaticTemplatesPlugin = require('./compile-static-templates')
@@ -106,7 +107,7 @@ module.exports = (env) => {
         './vendor/scripts/coffeescript.js'
       ]),
       lodash: 'lodash', // For worker_world
-      aether: './app/lib/aether/aether.coffee' // For worker_world
+      aether: './app/lib/aether/aether' // For worker_world
       // esper: './bower_components/esper.js/esper.js',
       // vendor: './app/vendor.js'
     },
@@ -264,12 +265,14 @@ module.exports = (env) => {
         `.${productSuffix}.coffee`, `.${productSuffix}.js`, `.${productSuffix}.pug`, `.${productSuffix}.sass`, `.${productSuffix}.vue`,  //, `.${productSuffix}.scss` ?
       ],
       alias: { // Replace Backbone's underscore with lodash
-        'underscore': 'lodash'
+        'underscore': 'lodash',
+        'ace-builds': path.resolve(__dirname, 'bower_components/ace-builds') //y-ace requires
       },
       // https://github.com/facebook/create-react-app/issues/11756#issuecomment-1047253186
       fallback: {
         util: require.resolve('util/'), // because of 'console-browserify' package used by jshint, details: https://github.com/facebook/create-react-app/issues/11756
         assert: require.resolve('assert/'), // because of 'console-browserify'
+        'process/browser': require.resolve('process/browser') // because of Yjs
       },
       plugins: [new ProductResolverPlugin()]
     },
@@ -278,7 +281,8 @@ module.exports = (env) => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        "COCO_PRODUCT": JSON.stringify(product) // Has to stringify
+        "COCO_PRODUCT": JSON.stringify(product), // Has to stringify
+        "SHA_TAG": JSON.stringify(shaTag)
       }),
       new webpack.ProgressPlugin({ profile: false }), // Always show build progress
       new MiniCssExtractPlugin({ // Move CSS into external file

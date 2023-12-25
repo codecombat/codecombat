@@ -7,7 +7,7 @@ export default class SearchCollection extends Backbone.Collection {
     this.url = `${modelURL}?project=`
     if (this.projection != null ? this.projection.length : undefined) {
       this.url += 'created'
-      for (let projected of Array.from(this.projection)) {
+      for (const projected of Array.from(this.projection)) {
         this.url += ',' + projected
       }
     } else {
@@ -18,7 +18,7 @@ export default class SearchCollection extends Backbone.Collection {
     }
   }
 
-  comparator(a, b) {
+  comparator (a, b) {
     let score = 0
     if (a.getOwner() === me.id) { score -= 9001900190019001 }
     if (b.getOwner() === me.id) { score += 9001900190019001 }

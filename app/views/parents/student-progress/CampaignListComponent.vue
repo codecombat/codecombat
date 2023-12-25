@@ -7,19 +7,30 @@
       class="campaigns"
     >
       <li
-        @click="onLeftArrowClick"
         :class="{ arrow: true, 'left-active': isLeftArrowActive }"
+        @click="onLeftArrowClick"
       >
-        <img v-if="isLeftArrowActive" class="left-rotate" src="/images/pages/parents/dashboard/arrow-blue.png" alt="Move left" />
-        <img v-else src="/images/pages/parents/dashboard/arrow-grey.png" alt="Move left" />
+        <img
+          v-if="isLeftArrowActive"
+          class="left-rotate"
+          src="/images/pages/parents/dashboard/arrow-blue.png"
+          alt="Move left"
+        >
+        <img
+          v-else
+          src="/images/pages/parents/dashboard/arrow-grey.png"
+          alt="Move left"
+        >
       </li>
       <li
         v-for="campaign in campaignsToShow"
-        class="campaign"
         :key="campaign._id"
+        class="campaign"
         @click="() => updateSelectedCampaign(campaign._id)"
       >
-        <div class="campaign__dot"></div>
+        <div
+          :class="{ campaign__dot: true, 'complete-dot': completionStatusMap[campaign._id] === 'complete', 'in-progress-dot': completionStatusMap[campaign._id] === 'in-progress' }"
+        />
         <div
           :class="{ campaign__name: true, campaign__name__sel: campaign._id === selectedCampaignId }"
         >
@@ -27,11 +38,20 @@
         </div>
       </li>
       <li
-        @click="onRightArrowClick"
         :class="{ arrow: true, 'right-active': isRightArrowActive }"
+        @click="onRightArrowClick"
       >
-        <img v-if="isRightArrowActive" src="/images/pages/parents/dashboard/arrow-blue.png" alt="Move right" />
-        <img v-else class="right-rotate" src="/images/pages/parents/dashboard/arrow-grey.png" alt="Move right" />
+        <img
+          v-if="isRightArrowActive"
+          src="/images/pages/parents/dashboard/arrow-blue.png"
+          alt="Move right"
+        >
+        <img
+          v-else
+          class="right-rotate"
+          src="/images/pages/parents/dashboard/arrow-grey.png"
+          alt="Move right"
+        >
       </li>
     </ul>
   </div>
@@ -46,6 +66,12 @@ export default {
     },
     initialCampaignId: {
       type: String
+    },
+    completionStatusMap: { // TODO: this should be array of completion status but it is expensive to compute for all so leaving it for now
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   data () {
@@ -67,6 +93,13 @@ export default {
       return this.currentIndex > 0 && this.campaignsToShow.length > 0
     }
   },
+  watch: {
+    initialCampaignId: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.selectedCampaignId = newVal
+      }
+    }
+  },
   methods: {
     onLeftArrowClick () {
       this.currentIndex = Math.max(this.currentIndex - 1, 0)
@@ -77,19 +110,6 @@ export default {
     updateSelectedCampaign (id) {
       this.selectedCampaignId = id
       this.$emit('selectedCampaignUpdated', id)
-    }
-  },
-  watch: {
-    campaigns: function (newVal, oldVal) {
-      if (newVal && newVal.length) {
-        this.selectedCampaignId = newVal[0]._id
-        this.$emit('selectedCampaignUpdated', this.selectedCampaignId)
-      }
-    },
-    initialCampaignId: function (newVal, oldVal) {
-      if (newVal !== oldVal) {
-        this.selectedCampaignId = newVal
-      }
     }
   }
 }
@@ -181,6 +201,14 @@ export default {
     border-radius: 1rem;
     margin-bottom: 1rem;
     z-index: 1;
+  }
+
+  .in-progress-dot {
+    background-color: $color-blue-2;
+  }
+
+  .complete-dot {
+    background-color: $color-green-3;
   }
 
   &__name {

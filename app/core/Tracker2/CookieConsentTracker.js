@@ -19,8 +19,8 @@ export default class CookieConsentTracker extends BaseTracker {
    * Requires that user locale has already been loaded on the page
    */
   _initializeTracker () {
-    const preferredLocale =  this.store.getters['me/preferredLocale']
-    const preferredLocaleLoaded = this.store.getters['localeLoaded'](preferredLocale)
+    const preferredLocale = this.store.getters['me/preferredLocale']
+    const preferredLocaleLoaded = this.store.getters.localeLoaded(preferredLocale)
 
     if (!preferredLocaleLoaded) {
       console.error('Preferred locale not loaded for user. This will result in consent tracker showing in incorrect language.')
@@ -34,7 +34,7 @@ export default class CookieConsentTracker extends BaseTracker {
     this.store.watch(
       (state, getters) => getters['me/preferredLocale'],
       () => this.onPreferredLocaleChanged()
-   )
+    )
 
     this.initializeCookieConsent()
     this.onInitializeSuccess()
@@ -45,14 +45,14 @@ export default class CookieConsentTracker extends BaseTracker {
   }
 
   onPreferredLocaleChanged () {
-    const preferredLocale =  this.store.getters['me/preferredLocale']
-    const preferredLocaleLoaded = this.store.getters['localeLoaded'](preferredLocale)
+    const preferredLocale = this.store.getters['me/preferredLocale']
+    const preferredLocaleLoaded = this.store.getters.localeLoaded(preferredLocale)
 
     if (preferredLocaleLoaded) {
       this.initializeCookieConsent()
     } else {
-      let unsubscribe = this.store.watch(
-        (state, getters) => getters['localeLoaded'](preferredLocale),
+      const unsubscribe = this.store.watch(
+        (state, getters) => getters.localeLoaded(preferredLocale),
         () => {
           unsubscribe()
           this.initializeCookieConsent()
@@ -79,8 +79,7 @@ export default class CookieConsentTracker extends BaseTracker {
 
       palette: {
         popup: { background: '#000' },
-        button: { background: "#f1d600"
-        }
+        button: { background: '#f1d600' }
       },
 
       hasTransition: false,

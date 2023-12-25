@@ -2,13 +2,20 @@ import {
   getAllEvents, getEvent, getEventsByUser,
   postEvent, updateEvent,
   postEventMember, putEventMember, deleteEventMember,
-  syncToGoogleFailed,
   getInstances,
   putInstance
 } from '../../api/events'
 
 import { getFullNames } from '../../api/users'
 import { getMembersByClassCode } from '../../api/classrooms'
+
+function fetchInstancesForEvents (events) {
+  const promises = []
+  for (const event of events) {
+    promises.push(getInstances(event._id))
+  }
+  return Promise.all(promises)
+}
 
 export default {
   namespaced: true,
@@ -28,7 +35,7 @@ export default {
     memberNames: {}
   },
   getters: {
-    events(state) {
+    events (state) {
       return state.events
     },
     eventPanelVisible (state) {
@@ -103,25 +110,29 @@ export default {
     }
   },
   actions: {
-    openEventPanel ({ commit }, { type = 'info', date, eventId, event, instance } = {}) {
+    openEventPanel ({ commit, state }, { type = 'info', date, eventId, event, instance } = {}) {
+      if (eventId) {
+        event = state.events[eventId]
+      }
       commit('selectEvent', { event, instance })
       commit('openPanel', { type, date })
     },
-    async fetchAllEvents ({ commit }) {
+    async fetchAllEvents ({ dispatch }) {
       const events = await getAllEvents()
-      for (const event of events) {
-        event.instances = await getInstances(event._id)
-      }
-      for (const event of events) {
-        commit('setEvent', event)
-      }
+
+      const eventsInstances = await fetchInstancesForEvents(events)
+      dispatch('setEventsInstances', { events, eventsInstances })
     },
-    async fetchUserEvents ({ commit }, uId) {
+    async fetchUserEvents ({ dispatch }, uId) {
       const events = await getEventsByUser(uId)
-      for (const event of events) {
-        event.instances = await getInstances(event._id)
-      }
-      for (const event of events) {
+      const eventsInstances = await fetchInstancesForEvents(events)
+      dispatch('setEventsInstances', { events, eventsInstances })
+    },
+    setEventsInstances ({ commit }, { events, eventsInstances }) {
+      for (let i = 0; i < events.length; i++) {
+        const event = events[i]
+        const instances = eventsInstances[i]
+        event.instances = instances
         commit('setEvent', event)
       }
     },
@@ -142,11 +153,8 @@ export default {
     async editEventMember ({ commit }, { eventId, member } = {}) {
       return await putEventMember(eventId, member)
     },
-    async delEventMember ({ commit }, {eventId, member} = {}) {
+    async delEventMember ({ commit }, { eventId, member } = {}) {
       return await deleteEventMember(eventId, member)
-    },
-    async syncToGoogleFailed ({ commit }, eventId) {
-      return await syncToGoogleFailed(eventId)
     },
     async saveInstance ({ commit }, instance) {
       return await putInstance(instance._id, instance)
@@ -160,6 +168,6 @@ export default {
     async importMembersFromClass ({ commit }, { classCode }) {
       const members = await getMembersByClassCode(classCode)
       return members
-    },
+    }
   }
 }

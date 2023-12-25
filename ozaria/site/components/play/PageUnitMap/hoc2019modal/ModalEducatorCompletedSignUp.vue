@@ -4,6 +4,11 @@ import CloseModalBar from './layout/CloseModalBar'
 import { tryCopy } from 'ozaria/site/common/ozariaUtils'
 
 export default {
+
+  components: {
+    LayoutSplit,
+    CloseModalBar
+  },
   props: {
     classCode: {
       type: String,
@@ -11,76 +16,87 @@ export default {
     }
   },
 
-  components: {
-    LayoutSplit,
-    CloseModalBar
+  computed: {
+    classCodeURL () {
+      return `${document.location.origin}/hoc?_cc=${this.classCode}`
+    }
   },
 
   methods: {
     copyClassCode () {
-      this.$refs['classCodeRef'].select()
+      this.$refs.classCodeRef.select()
       tryCopy()
     },
 
     copyUrl () {
-      this.$refs['urlCodeRef'].select()
+      this.$refs.urlCodeRef.select()
       tryCopy()
     },
 
     refreshTeacherLogin () {
       window.location.reload()
     }
-  },
-
-  computed: {
-    classCodeURL () {
-      return `${document.location.origin}/hoc?_cc=${this.classCode}`
-    }
   }
 }
 </script>
 
 <template>
-  <LayoutSplit :showBackButton="false">
-    <CloseModalBar @click="$emit('closeModal')" style="margin-bottom: -10px;"/>
+  <LayoutSplit :show-back-button="false">
+    <CloseModalBar
+      style="margin-bottom: -10px;"
+      @click="$emit('closeModal')"
+    />
     <div id="educator-completed-sign-up">
-      <h1>{{$t("hoc_2019.invite_students") + ":"}}</h1>
+      <h1>{{ $t("hoc_2019.invite_students") + ":" }}</h1>
       <div class="form-group">
-        <label class="label-cc" for="classCode">{{$t('hoc_2019.class_code')}}</label>
+        <label
+          class="label-cc"
+          for="classCode"
+        >{{ $t('hoc_2019.class_code') }}</label>
         <input
           id="class-code-input-field"
+          ref="classCodeRef"
           class="ozaria-input-field"
           type="text"
+
           :value="classCode"
 
           readonly
-
-          ref="classCodeRef"
         >
-        <a @click="copyClassCode"><img src="/images/pages/modal/hoc2019/Copy.png"/></a>
+        <a @click="copyClassCode"><img src="/images/pages/modal/hoc2019/Copy.png"></a>
       </div>
-      <p>{{$t("hoc_2019.enter_code")}}</p>
+      <p>{{ $t("hoc_2019.enter_code") }}</p>
       <div class="or">
-        <div class="yellow-bar-1"></div>
-        <div class='or-text'><span>{{$t("general.or")}}</span></div>
-        <div class="yellow-bar-2"></div>
+        <div class="yellow-bar-1" />
+        <div class="or-text">
+          <span>{{ $t("general.or") }}</span>
+        </div>
+        <div class="yellow-bar-2" />
       </div>
       <div class="form-group">
-        <label class="label-cc" for="classCode">{{$t("hoc_2019.class_url")}}</label>
+        <label
+          class="label-cc"
+          for="classCode"
+        >{{ $t("hoc_2019.class_url") }}</label>
         <input
-          class="ozaria-input-field"
-          :value="classCodeURL"
-
           ref="urlCodeRef"
+          class="ozaria-input-field"
+
+          :value="classCodeURL"
           type="text"
 
           readonly
         >
-        <a @click="copyUrl"><img src="/images/pages/modal/hoc2019/Copy.png"/></a>
+        <a @click="copyUrl"><img src="/images/pages/modal/hoc2019/Copy.png"></a>
       </div>
-      <p>{{$t("hoc_2019.share_url")}}</p>
+      <p>{{ $t("hoc_2019.share_url") }}</p>
       <div class="text-center">
-      <button class="ozaria-btn" @click="refreshTeacherLogin">{{$t("hoc_2019.start_activity")}}</button>
+        <button
+          class="ozaria-btn"
+          @click="refreshTeacherLogin"
+        >
+          {{ $t("hoc_2019.start_activity") }}
+        </button>
       </div>
     </div>
   </LayoutSplit>

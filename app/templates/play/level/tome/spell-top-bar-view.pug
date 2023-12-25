@@ -19,14 +19,29 @@ if showAmazonLogo
     .btn.btn-small.btn-illustrated.beautify-code(title=beautifyShortcutVerbose)
       .glyphicon.glyphicon-magnet
 
+  if !view.blocksHidden
+    .btn.btn-small.btn-illustrated.toggle-blocks(data-i18n="[title]play_level.blocks")
+      span(data-i18n="play_level.blocks")
+
   if false && view.options.level.isType('ladder')
     - var otherTeam = view.otherTeam()
     button#switch-team(class="btn btn-small btn-illustrated " + (otherTeam == 'ogres' ? 'btn-primary' : 'btn-danger'))
       span(data-i18n="play_level.play_as_" + otherTeam)
-    
+
+  img.spell-chatbot-hint(src="/images/ozaria/teachers/dashboard/svg_icons/IconHint.svg" alt="Hint")
+
   if me.canAutoFillCode()
-    button.btn.btn-small.btn-illustrated.btn-success#fill-solution
-      span(data-i18n="play_level.fill_in_solution")
+    if view.teaching
+      button.btn.btn-small.btn-illustrated.btn-success#toggle-solution
+        span(data-i18n="play_level.toggle_solution")
+    else
+      button.btn.btn-small.btn-illustrated.btn-success#fill-solution
+        span(data-i18n="play_level.fill_in_solution")
+
+  #ask-teacher-for-help
+    if view.courseID && me.isStudent() && view.teacherOnline()
+      button.btn.btn-small.btn-illustrated.btn-success(class=view.teacherOnline() ? '' : 'disabled', title=askingTeacher)
+        span(data-i18n="common.help")
 
   if view.hintsState && view.hintsState.get('total') > 0 && (!view.hideHint) && (me.get('clientCreator') != '60fa65059e17ca0019950fdd' || view.options.level.get('slug') == 'kithgard-librarian' || view.options.level.get('type').match('ladder'))
     .btn.btn-small.btn-illustrated.hints-button

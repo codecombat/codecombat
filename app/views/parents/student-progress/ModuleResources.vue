@@ -1,41 +1,74 @@
 <template>
   <div class="resources">
-    <div class="resources__text">Resources</div>
+    <div class="resources__text">
+      Resources
+    </div>
     <div class="resources__btns">
-      <div @click="onLessonSlidesClicked" class="resource resources__slides">
+      <a
+        v-if="canViewSlides"
+        :href="lessonSlidesUrl"
+        target="_blank"
+        class="resource resources__slides resources__link"
+      >
         <span class="resource__text">Lesson Slides</span>
-        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconComputer.svg" alt="Slides icon" class="resource__icon resource__slides">
+        <img
+          src="/images/ozaria/teachers/dashboard/svg_icons/IconComputer.svg"
+          alt="Slides icon"
+          class="resource__icon resource__slides"
+        >
+      </a>
+      <div
+        v-else
+        class="resource resources__slides"
+        @click="onLessonSlidesClicked"
+      >
+        <span class="resource__text">Lesson Slides</span>
+        <img
+          src="/images/ozaria/teachers/dashboard/svg_icons/IconComputer.svg"
+          alt="Slides icon"
+          class="resource__icon resource__slides"
+        >
       </div>
-<!--      <div class="resource resources__project">-->
-<!--        <span class="resource__text">Project Rubric</span>-->
-<!--        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconRubric.svg" alt="Project Rubric icon" class="resource__icon resource__project">-->
-<!--      </div>-->
-<!--      <div class="resource resources__exemplar">-->
-<!--        <span class="resource__text">Exemplar Project</span>-->
-<!--        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconExemplarProject.svg" alt="Example project icon" class="resource__icon resource__exemplar">-->
-<!--      </div>-->
+      <!--      <div class="resource resources__project">-->
+      <!--        <span class="resource__text">Project Rubric</span>-->
+      <!--        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconRubric.svg" alt="Project Rubric icon" class="resource__icon resource__project">-->
+      <!--      </div>-->
+      <!--      <div class="resource resources__exemplar">-->
+      <!--        <span class="resource__text">Exemplar Project</span>-->
+      <!--        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconExemplarProject.svg" alt="Example project icon" class="resource__icon resource__exemplar">-->
+      <!--      </div>-->
     </div>
   </div>
 </template>
 
 <script>
-const campaignSlidesMapping = {
-
-}
 export default {
   name: 'ModuleResources',
   props: {
-    campaign: {
-      type: Object,
-      default () {
-        return null
-      }
+    lessonSlidesUrl: {
+      type: String,
+      default: ''
+    },
+    isFree: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    canViewSlides () {
+      if (this.isFree || me.isPaidOnlineClassUser()) return true
+      return false
     }
   },
   methods: {
     onLessonSlidesClicked () {
+      console.log('lessonSlide', this.lessonSlidesUrl)
+      const url = this.lessonSlidesUrl
+      if (this.isFree) {
+        window.location = url
+        return
+      }
       if (me.isPaidOnlineClassUser()) {
-        const url = campaignSlidesMapping[this.campaign.slug]
         if (!url) {
           noty({
             text: 'Sorry, lesson not available for this campaign currently',
@@ -89,6 +122,11 @@ export default {
 
   &__slides {
     cursor: pointer;
+  }
+
+  &__link {
+    color: inherit;
+    text-decoration: none;
   }
 }
 

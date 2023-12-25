@@ -1,14 +1,14 @@
 // WARNING: This file is auto-generated from within AI HackStack. Do not edit directly.
 // Instead, edit the corresponding Zod schema in the HackStack repo and run `npm run build` or `npm run build:schemas
 //
-// Last updated: 2023-09-08T05:55:38.100Z
+// Last updated: 2023-12-04T11:56:21.103Z
 
 const _ = require('lodash')
 const c = require('./../schemas')
 
 const AIDocumentSchema = c.object({
   title: 'AI Document',
-  description: 'A code/image/whatever thing that is hacked on inside an AI project',
+  description: 'A code/image/whatever thing that is hacked on inside an AI project'
 })
 
 _.extend(AIDocumentSchema.properties, {

@@ -1,37 +1,37 @@
-<script>
-  import teacherDashboardNavTemplate from 'app/templates/courses/teacher-dashboard-nav.pug'
-  import BaseResourceHub from 'ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue';
-  import RawPugComponent from '../../../common/RawPugComponent'
+<script> // eslint-disable-line vue/multi-word-component-names
+import teacherDashboardNavTemplate from 'app/templates/courses/teacher-dashboard-nav.pug'
+import BaseResourceHub from 'ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue'
+import RawPugComponent from '../../../common/RawPugComponent'
 
-  const CocoResourceHub = {
-    name: 'CocoResourceHub',
-    extends: BaseResourceHub,
-    computed: {
-      relevantCategoryIds() {
-        return {
-          1500001145602: 'CodeCombat for Educators',
-        }
-      }
-    }
-  }
-
-  export default {
-    data () {
+const CocoResourceHub = {
+  name: 'CocoResourceHub',
+  extends: BaseResourceHub,
+  computed: {
+    relevantCategoryIds () {
       return {
-        teacherDashboardNavTemplate
+        1500001145602: 'CodeCombat for Educators'
       }
-    },
-
-    components: {
-      CocoResourceHub,
-      RawPugComponent
     }
   }
+}
+
+export default {
+
+  components: {
+    CocoResourceHub,
+    RawPugComponent
+  },
+  data () {
+    return {
+      teacherDashboardNavTemplate
+    }
+  }
+}
 </script>
 
 <template>
   <div class="base-resource-hub">
-    <raw-pug-component :pug="teacherDashboardNavTemplate"></raw-pug-component>
+    <raw-pug-component :pug="teacherDashboardNavTemplate" />
     <coco-resource-hub />
   </div>
 </template>

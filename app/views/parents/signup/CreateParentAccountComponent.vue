@@ -9,33 +9,60 @@
     <div class="account__subheading">
       Check out CodeCombat for free
     </div>
-    <form class="account__form" @submit.prevent="onFormSubmit">
+    <form
+      class="account__form"
+      @submit.prevent="onFormSubmit"
+    >
       <div class="form-group">
-        <label for="name" class="required">Parent's Full Name</label>
+        <label
+          for="name"
+          class="required"
+        >Parent's Full Name</label>
         <input
-          type="text" id="name" class="form-control" v-model="name" required
-        />
+          id="name"
+          v-model="name"
+          type="text"
+          class="form-control"
+          required
+        >
       </div>
       <div class="form-group">
-        <label for="email" class="required">Email</label>
+        <label
+          for="email"
+          class="required"
+        >Email</label>
         <input
-          type="email" id="email" class="form-control" v-model="email" required
-        />
+          id="email"
+          v-model="email"
+          type="email"
+          class="form-control"
+          required
+        >
       </div>
       <div class="form-group">
-        <label for="password" class="required">Password</label>
+        <label
+          for="password"
+          class="required"
+        >Password</label>
         <input
-          type="password" id="password" class="form-control" v-model="password" required
-        />
+          id="password"
+          v-model="password"
+          type="password"
+          class="form-control"
+          required
+        >
       </div>
-<!--      <div class="form-group">-->
-<!--        <label for="phone">Phone</label>-->
-<!--        <input type="text" id="phone" class="form-control" v-model="phone" required />-->
-<!--      </div>-->
-      <div class="account__empty-line"></div>
+      <!--      <div class="form-group">-->
+      <!--        <label for="phone">Phone</label>-->
+      <!--        <input type="text" id="phone" class="form-control" v-model="phone" required />-->
+      <!--      </div>-->
+      <div class="account__empty-line" />
       <div class="form-group account__google">
         <span class="account__or">Or:</span>
-        <div id="account__google-login-btn" :disabled="gplusBtnDisabled"></div>
+        <div
+          id="account__google-login-btn"
+          :disabled="gplusBtnDisabled"
+        />
       </div>
       <div
         v-if="errorMsg"
@@ -44,7 +71,12 @@
         {{ errorMsg }}
       </div>
       <div class="form-group account__submit">
-        <button class="btn account__submit__btn" type="submit">Continue to Child Account</button>
+        <button
+          class="btn account__submit__btn"
+          type="submit"
+        >
+          Continue to Child Account
+        </button>
       </div>
     </form>
   </div>
@@ -63,6 +95,15 @@ import GPlusHandler from 'app/core/social-handlers/GPlusHandler'
 const User = require('../../../models/User')
 export default {
   name: 'CreateParentAccountComponent',
+  props: {
+    initialData: {
+      type: Object
+    },
+    errorMsg: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       name: this.initialData?.name,
@@ -74,14 +115,15 @@ export default {
       gplusData: null
     }
   },
-  props: {
-    initialData: {
-      type: Object
-    },
-    errorMsg: {
-      type: String,
-      default: ''
+  created () {
+    if (!me.isAnonymous()) {
+      if (me.isParentHome()) {
+        window.location.href = '/parents/dashboard'
+        return
+      }
+      window.location.href = '/'
     }
+    this.startGplusSignup()
   },
   methods: {
     onFormSubmit () {
@@ -95,7 +137,7 @@ export default {
             elementId: 'account__google-login-btn',
             success: (resp = {}) => {
               gplus.loadPerson({
-                resp: resp,
+                resp,
                 context: this,
                 success: (gplusAttrs) => {
                   const existingUser = new User()
@@ -125,16 +167,6 @@ export default {
         }
       })
     }
-  },
-  created () {
-    if (!me.isAnonymous()) {
-      if (me.isParentHome()) {
-        window.location.href = '/parents/dashboard'
-        return
-      }
-      window.location.href = '/'
-    }
-    this.startGplusSignup()
   }
 }
 </script>

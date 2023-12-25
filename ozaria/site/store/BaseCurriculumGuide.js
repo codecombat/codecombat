@@ -27,7 +27,7 @@ export default {
     setSelectedLanguage (state, language) {
       state.selectedLanguage = language
     },
-    setAccessViaSharedClass(state, access) {
+    setAccessViaSharedClass (state, access) {
       state.hasAccessViaSharedClass = access
     }
   },
@@ -141,7 +141,7 @@ export default {
     setSelectedCampaign ({ state, commit }, campaignID) {
       commit('setSelectedCampaignId', campaignID)
     },
-    setAccessViaSharedClass({ commit }, access) {
+    setAccessViaSharedClass ({ commit }, access) {
       commit('setAccessViaSharedClass', access)
     }
   }

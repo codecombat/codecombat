@@ -12,14 +12,14 @@ export const archiveElement = (_id, elementType) => {
   }
 
   if (!_id) {
-    throw new Error(`You must pass an '_id' to be archived`)
+    throw new Error('You must pass an \'_id\' to be archived')
   }
 
   if (!elementType) {
-    throw new Error(`You must pass an 'elementType' to be archived`)
+    throw new Error('You must pass an \'elementType\' to be archived')
   }
 
-  return fetchJson(`/db/archived-elements`, {
+  return fetchJson('/db/archived-elements', {
     method: 'POST',
     json: {
       _id,
@@ -40,11 +40,11 @@ export const unarchiveElement = (_id, elementType) => {
   }
 
   if (!_id) {
-    throw new Error(`You must pass an '_id' to be un-archived`)
+    throw new Error('You must pass an \'_id\' to be un-archived')
   }
 
   if (!elementType) {
-    throw new Error(`You must pass an 'elementType' to be un-archived`)
+    throw new Error('You must pass an \'elementType\' to be un-archived')
   }
 
   return fetchJson(`/db/archived-elements/${_id}`, {

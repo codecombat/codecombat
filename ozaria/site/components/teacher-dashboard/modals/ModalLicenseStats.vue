@@ -1,52 +1,52 @@
 <script>
-  import moment from 'moment'
-  import Modal from '../../common/Modal'
-  import SecondaryButton from '../common/buttons/SecondaryButton'
+import moment from 'moment'
+import Modal from '../../common/Modal'
+import SecondaryButton from '../common/buttons/SecondaryButton'
 
-  import { mapGetters, mapActions } from 'vuex'
-  export default Vue.extend({
-    components: {
-      Modal,
-      SecondaryButton
+import { mapGetters, mapActions } from 'vuex'
+export default Vue.extend({
+  components: {
+    Modal,
+    SecondaryButton
+  },
+  props: ['prepaid'],
+  computed: {
+    ...mapGetters({
+      getName: 'users/getUserNameById'
+    }),
+    moment () {
+      return moment
     },
-    props: ['prepaid'],
-    computed: {
-      ...mapGetters({
-        getName: 'users/getUserNameById'
-      }),
-      moment () {
-        return moment
-      },
-      redeemers () {
-        return (this.prepaid.redeemers || []).map(redeemer => {
-          redeemer.name = this.getName(redeemer.userID)
-          return redeemer
-        })
-      },
-      removedRedeemers () {
-        return (this.prepaid.removedRedeemers || []).map(removedRedeemer => {
-          removedRedeemer.name = this.getName(removedRedeemer.userID)
-          return removedRedeemer
-        })
-      },
-      userIds () {
-        return [...this.redeemers.map(r => r.userID), ...this.removedRedeemers.map(r => r.userID)]
-      }
+    redeemers () {
+      return (this.prepaid.redeemers || []).map(redeemer => {
+        redeemer.name = this.getName(redeemer.userID)
+        return redeemer
+      })
     },
-    methods: {
-      ...mapActions({
-        fetchName: 'users/fetchUserNamesById'
-      }),
-      trackEvent (eventName) {
-        if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: 'Teachers' })
-        }
-      }
+    removedRedeemers () {
+      return (this.prepaid.removedRedeemers || []).map(removedRedeemer => {
+        removedRedeemer.name = this.getName(removedRedeemer.userID)
+        return removedRedeemer
+      })
     },
-    mounted () {
-      this.fetchName(this.userIds)
+    userIds () {
+      return [...this.redeemers.map(r => r.userID), ...this.removedRedeemers.map(r => r.userID)]
     }
-  })
+  },
+  methods: {
+    ...mapActions({
+      fetchName: 'users/fetchUserNamesById'
+    }),
+    trackEvent (eventName) {
+      if (eventName) {
+        window.tracker?.trackEvent(eventName, { category: 'Teachers' })
+      }
+    }
+  },
+  mounted () {
+    this.fetchName(this.userIds)
+  }
+})
 </script>
 
 <template lang="pug">

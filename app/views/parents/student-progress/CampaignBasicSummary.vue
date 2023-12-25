@@ -6,7 +6,7 @@
     <div class="content">
       <div class="content__img">
         <img
-          :src="`/images/pages/play/campaign/${getCampaignImage(campaign.slug)}`"
+          :src="getCampaignImage(campaign)"
           alt="Campaign image"
           class="content__level-img"
         >
@@ -16,13 +16,15 @@
           {{ campaign.fullName || campaign.name }}
         </div>
         <div
-          v-if="campaign?.course?.description"
+          v-if="campaign?.course?.description || campaign?.description"
           class="content__subtitle"
         >
-          {{ campaign.course.description }}
+          {{ campaign?.course?.description || campaign?.description }}
         </div>
         <div class="content__proficiency">
-          <p class="content__proficiency__text">Concept proficiency</p>
+          <p class="content__proficiency__text">
+            Concept proficiency
+          </p>
           <div class="content__list">
             <div
               v-for="concept in levelConcepts"
@@ -39,14 +41,28 @@
           </p>
           <div class="content__lang-solution">
             <select
+              id="content__language-id"
+              name="content__language"
+              class="content__language"
               @change="updateLanguage"
-              name="content__language" id="content__language-id" class="content__language"
             >
-              <option :selected="selectedCodeLang === 'python'" value="python" class="content__language__option">Python</option>
-              <option :selected="selectedCodeLang === 'javascript'" value="javascript" class="content__language__option">Javascript</option>
+              <option
+                :selected="selectedCodeLang === 'python'"
+                value="python"
+                class="content__language__option"
+              >
+                Python
+              </option>
+              <option
+                :selected="selectedCodeLang === 'javascript'"
+                value="javascript"
+                class="content__language__option"
+              >
+                Javascript
+              </option>
             </select>
             <button
-              v-if="!isPaidUser"
+              v-if="!isPaidUser && !isFreeCampaign"
               class="content__solution__lock"
               @click="onLockSolutionGuideClick"
             >
@@ -54,7 +70,7 @@
                 src="/images/ozaria/teachers/dashboard/svg_icons/IconSolution.svg"
                 alt="Solution Guide Icon"
                 class="content__solution__icon"
-              />
+              >
               <span class="content__solution__text">
                 Solution Guide
               </span>
@@ -62,11 +78,11 @@
                 src="/images/pages/game-menu/lock.png"
                 alt="Solution Guide Icon"
                 class="content__solution__lock-icon"
-              />
+              >
             </button>
             <a
               v-else
-              :href="`/teachers/campaign-solution/${campaign.slug}/${selectedCodeLang}`"
+              :href="solutionGuideLink"
               target="_blank"
               class="content__solution-guide"
             >
@@ -74,7 +90,7 @@
                 src="/images/ozaria/teachers/dashboard/svg_icons/IconSolution.svg"
                 alt="Solution Guide Icon"
                 class="content__solution__icon"
-              />
+              >
               <span class="content__solution__text">
                 Solution Guide
               </span>
@@ -86,7 +102,7 @@
     <div class="certificate">
       <a
         v-if="isCampaignComplete"
-        :href="`/certificates/${childId}?campaign-id=${campaign._id}`"
+        :href="certificateUrl"
         target="_blank"
       >
         <img
@@ -145,6 +161,10 @@ export default {
     isPaidUser: {
       type: Boolean,
       default: false
+    },
+    product: {
+      type: String,
+      default: 'codecombat'
     }
   },
   data () {
@@ -155,7 +175,28 @@ export default {
   computed: {
     levelConcepts () {
       const capitalize = str => str[0].toUpperCase() + str.substring(1)
-      return this.campaign?.description?.split(',').map(d => d.trim().split(' ').map(capitalize).join(' '))
+      if (this.product === 'ozaria') {
+        return this.campaign?.concepts?.map(c => c.split('_').map(capitalize).join(' '))
+      } else {
+        return this.campaign?.description?.split(',').map(d => d.trim().split(' ').map(capitalize).join(' '))
+      }
+    },
+    isFreeCampaign () {
+      return this.campaign?.free
+    },
+    solutionGuideLink () {
+      if (this.product === 'ozaria') {
+        return `/teachers/course-solution/${this.campaign._id}/${this.selectedCodeLang}?callOz=true`
+      } else {
+        return `/teachers/campaign-solution/${this.campaign.slug}/${this.selectedCodeLang}`
+      }
+    },
+    certificateUrl () {
+      if (this.product === 'ozaria') {
+        return `/certificates/${this.childId}?course=${this.campaign._id}&callOz=true`
+      } else {
+        return `/certificates/${this.childId}?campaign-id=${this.campaign._id}`
+      }
     }
   },
   methods: {
@@ -163,13 +204,17 @@ export default {
       this.selectedCodeLang = e.target.value
       this.$emit('languageUpdated', this.selectedCodeLang)
     },
-    getCampaignImage (slug) {
-      return campignSlugImageMap[slug]
+    getCampaignImage (campaign) {
+      if (this.product === 'ozaria') {
+        return `/ozaria/file/${campaign.screenshot}`
+      } else {
+        return `/images/pages/play/campaign/${campignSlugImageMap[campaign.slug]}`
+      }
     },
     onLockSolutionGuideClick () {
       noty({
         type: 'information',
-        text: 'Only available to paid users',
+        text: 'Only available to online-classes paid users',
         timeout: 5000,
         layout: 'center'
       })
@@ -184,7 +229,7 @@ export default {
 
 .basic {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2.5fr 1fr;
   background: $color-grey-2;
 
   @media (max-width: $screen-lg) {
@@ -194,6 +239,7 @@ export default {
   .content {
     display: grid;
     grid-template-columns: 1fr 3fr;
+    grid-column-gap: 2rem;
     padding: 2rem;
 
     &__img {
@@ -203,7 +249,7 @@ export default {
 
     &__level {
       &-img {
-        height: 30rem;
+        height: 25rem;
       }
     }
 

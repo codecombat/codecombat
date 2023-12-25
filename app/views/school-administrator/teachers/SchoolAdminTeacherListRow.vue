@@ -1,82 +1,126 @@
 <script>
-  import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
-  export default {
-    props: {
-      teacher: {
-        type: Object,
-        default: () => ({})
-      }
-    },
+export default {
+  props: {
+    teacher: {
+      type: Object,
+      default: () => ({})
+    }
+  },
 
-    computed: Object.assign(
-      {},
-      mapState('classrooms', {
-        classroomsLoading: function (s) {
-          return s.loading.byTeacher[this.$props.teacher._id]
-        },
+  computed: Object.assign(
+    {},
+    mapState('classrooms', {
+      classroomsLoading: function (s) {
+        return s.loading.byTeacher[this.$props.teacher._id]
+      },
 
-        activeClassrooms: function (s) {
-          const classrooms = s.classrooms.byTeacher[this.$props.teacher._id] || {}
-          return classrooms.active || []
-        },
+      activeClassrooms: function (s) {
+        const classrooms = s.classrooms.byTeacher[this.$props.teacher._id] || {}
+        return classrooms.active || []
+      },
 
-        classroomStats: function () {
-          let totalStudentCount = 0
-          let activeStudentCount = 0
-          let totalProjectsCreated = 0
+      classroomStats: function () {
+        let totalStudentCount = 0
+        let activeStudentCount = 0
+        let totalProjectsCreated = 0
 
-          this.activeClassrooms.forEach((classroom) => {
-            const classroomStats = classroom.stats || {}
-            const studentStats = classroomStats.students || {}
-            const studentCountStats = studentStats.count || {}
+        this.activeClassrooms.forEach((classroom) => {
+          const classroomStats = classroom.stats || {}
+          const studentStats = classroomStats.students || {}
+          const studentCountStats = studentStats.count || {}
 
-            const activeStudents = studentCountStats.active || 0
-            const inactiveStudents = studentCountStats.inactive || 0
-            const projectsCreated = classroomStats.projectsCreated || 0
+          const activeStudents = studentCountStats.active || 0
+          const inactiveStudents = studentCountStats.inactive || 0
+          const projectsCreated = classroomStats.projectsCreated || 0
 
-            totalStudentCount += activeStudents + inactiveStudents
-            activeStudentCount += activeStudents
-            totalProjectsCreated += projectsCreated
-          })
+          totalStudentCount += activeStudents + inactiveStudents
+          activeStudentCount += activeStudents
+          totalProjectsCreated += projectsCreated
+        })
 
-          return {
-            totalStudents: totalStudentCount,
-            activeStudents: activeStudentCount,
-            projectsCreated: totalProjectsCreated
-          }
-        },
-
-        teacherLastLogin: function () {
-          const teacher = this.$props.teacher || {}
-          const teacherActivity = teacher.activity || {}
-          const loginActivity = teacherActivity.login || {}
-
-          return loginActivity.last
-        },
-
-        licenseStats: function () {
-          const teacherStats = this.$props.teacher.stats || {}
-          const licenseStats = teacherStats.licenses || {}
-          const usageStats = licenseStats.usage || {}
-
-          return {
-            licensesUsed: usageStats.used || 0,
-            licensesTotal: usageStats.total || 0
-          }
+        return {
+          totalStudents: totalStudentCount,
+          activeStudents: activeStudentCount,
+          projectsCreated: totalProjectsCreated
         }
-      })
-    ),
+      },
 
-    created () {
-      this.fetchClassroomsForTeacher({ teacherId: this.$props.teacher._id })
-    },
+      teacherLastLogin: function () {
+        const teacher = this.$props.teacher || {}
+        const teacherActivity = teacher.activity || {}
+        const loginActivity = teacherActivity.login || {}
 
-    methods: mapActions({
-      fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher'
-    }),
-  }
+        return loginActivity.last
+      },
+
+      licenseStats: function () {
+        const teacherStats = this.$props.teacher.stats || {}
+        const licenseStats = teacherStats.licenses || {}
+        const usageStats = licenseStats.usage || {}
+
+        return {
+          licensesUsed: usageStats.used || 0,
+          licensesTotal: usageStats.total || 0
+        }
+      }
+    })
+  ),
+
+  created () {
+    this.fetchClassroomsForTeacher({ teacherId: this.$props.teacher._id })
+  },
+
+  methods: mapActions({
+    fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher'
+  })
+}
 </script>
+
+<template>
+  <li class="teacher-row">
+    <div class="teacher-info">
+      <h4>{{ teacher.firstName }} {{ teacher.lastName }}</h4>
+      <a
+        class="teacher-email"
+        :href="`mailto:${teacher.email}`"
+      >{{ teacher.email }}</a>
+
+      <div class="last-login">
+        <span>{{ $t('school_administrator.last_login') }}:</span>
+        <span v-if="teacherLastLogin">{{ teacherLastLogin | moment("dddd, MMMM Do YYYY") }}</span>
+      </div>
+    </div>
+
+    <ul class="stats">
+      <li>
+        <span>{{ licenseStats.licensesUsed }} / {{ licenseStats.licensesTotal }}</span>
+        {{ $t('school_administrator.licenses_used') }}
+      </li>
+
+      <li>
+        <span :class="{ 'stat-hidden': classroomsLoading }">{{ classroomStats.totalStudents }}</span>
+        {{ $t('school_administrator.total_students') }}
+      </li>
+
+      <li>
+        <span :class="{ 'stat-hidden': classroomsLoading }">{{ classroomStats.activeStudents }}</span>
+        {{ $t('school_administrator.active_students') }}
+      </li>
+
+      <li>
+        <span :class="{ 'stat-hidden': classroomsLoading }">{{ classroomStats.projectsCreated }}</span>
+        {{ $t('school_administrator.projects_created') }}
+      </li>
+    </ul>
+
+    <router-link
+      class="dashboard-link glyphicon glyphicon-chevron-right"
+      :to="`/school-administrator/teacher/${teacher._id}`"
+    />
+  </li>
+</template>
 
 <style scoped>
     .teacher-row {
@@ -164,44 +208,3 @@
         visibility: hidden;
     }
 </style>
-
-<template>
-  <li class="teacher-row">
-    <div class="teacher-info">
-      <h4>{{ teacher.firstName }} {{ teacher.lastName }}</h4>
-      <a class="teacher-email" :href="`mailto:${teacher.email}`">{{ teacher.email }}</a>
-
-      <div class="last-login">
-        <span>{{ $t('school_administrator.last_login') }}:</span>
-        <span v-if="teacherLastLogin">{{ teacherLastLogin | moment("dddd, MMMM Do YYYY") }}</span>
-      </div>
-    </div>
-
-    <ul class="stats">
-      <li>
-        <span>{{ licenseStats.licensesUsed }} / {{ licenseStats.licensesTotal }}</span>
-        {{ $t('school_administrator.licenses_used') }}
-      </li>
-
-      <li>
-        <span :class="{ 'stat-hidden': classroomsLoading }">{{ classroomStats.totalStudents }}</span>
-        {{ $t('school_administrator.total_students') }}
-      </li>
-
-      <li>
-        <span :class="{ 'stat-hidden': classroomsLoading }">{{ classroomStats.activeStudents }}</span>
-        {{ $t('school_administrator.active_students') }}
-      </li>
-
-      <li>
-        <span :class="{ 'stat-hidden': classroomsLoading }">{{ classroomStats.projectsCreated }}</span>
-        {{ $t('school_administrator.projects_created') }}
-      </li>
-    </ul>
-
-    <router-link
-      class="dashboard-link glyphicon glyphicon-chevron-right"
-      :to="`/school-administrator/teacher/${teacher._id}`"
-    />
-  </li>
-</template>

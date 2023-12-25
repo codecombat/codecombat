@@ -1,80 +1,80 @@
 <script>
-  import { mapGetters, mapActions, mapMutations } from 'vuex'
-  import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
 
-  import PageNoLicenses from './PageNoLicenses'
-  import PageLicenses from './PageLicenses'
-  import ModalGetLicenses from 'ozaria/site/components/teacher-dashboard/modals/ModalGetLicenses'
-  import ModalShareLicenses from 'ozaria/site/components/teacher-dashboard/modals/ModalShareLicenses/index'
+import PageNoLicenses from './PageNoLicenses'
+import PageLicenses from './PageLicenses'
+import ModalGetLicenses from 'ozaria/site/components/teacher-dashboard/modals/ModalGetLicenses'
+import ModalShareLicenses from 'ozaria/site/components/teacher-dashboard/modals/ModalShareLicenses/index'
 
-  export default {
-    name: COMPONENT_NAMES.SCHOOL_ADMIN_LICENSES,
+export default {
+  name: COMPONENT_NAMES.SCHOOL_ADMIN_LICENSES,
 
-    components: {
-      PageNoLicenses,
-      PageLicenses,
-      ModalGetLicenses,
-      ModalShareLicenses
+  components: {
+    PageNoLicenses,
+    PageLicenses,
+    ModalGetLicenses,
+    ModalShareLicenses
+  },
+
+  data: () => {
+    return {
+      showModalGetLicenses: false,
+      showModalShareLicenses: false,
+      sharePrepaid: '' // for share licenses modal
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      loading: 'schoolAdminDashboard/getLoadingState',
+      schoolAdminId: 'schoolAdminDashboard/schoolAdminId',
+      activeLicenses: 'schoolAdminDashboard/getActiveLicenses',
+      expiredLicenses: 'schoolAdminDashboard/getExpiredLicenses'
+    }),
+
+    showLicensesPage () {
+      return this.activeLicenses.length > 0 || this.expiredLicenses.length > 0
     },
 
-    data: () => {
-      return {
-        showModalGetLicenses: false,
-        showModalShareLicenses: false,
-        sharePrepaid: '' // for share licenses modal
-      }
-    },
-
-    computed: {
-      ...mapGetters({
-        loading: 'schoolAdminDashboard/getLoadingState',
-        schoolAdminId: 'schoolAdminDashboard/schoolAdminId',
-        activeLicenses: 'schoolAdminDashboard/getActiveLicenses',
-        expiredLicenses: 'schoolAdminDashboard/getExpiredLicenses'
-      }),
-
-      showLicensesPage () {
-        return this.activeLicenses.length > 0 || this.expiredLicenses.length > 0
-      },
-
-      getLicensesMessage () { // TODO i18n?
-        if (this.showLicensesPage) {
-          return 'Hi Ozaria! I\'m interested in purchasing more licenses for my school or district.'
-        } else {
-          return 'Hi Ozaria! I\'m interested in learning more about your curriculum and discussing pricing options.'
-        }
-      }
-    },
-
-    mounted () {
-      this.setPageTitle(PAGE_TITLES[this.$options.name])
-      this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Admin Licenses: Loaded' } })
-    },
-
-    destroyed () {
-      this.resetLoadingState()
-    },
-
-    methods: {
-      ...mapActions({
-        fetchData: 'schoolAdminDashboard/fetchData'
-      }),
-
-      ...mapMutations({
-        resetLoadingState: 'schoolAdminDashboard/resetLoadingState',
-        setPageTitle: 'schoolAdminDashboard/setPageTitle'
-      }),
-
-      getLicenses () {
-        this.showModalGetLicenses = true
-      },
-      shareLicenses (prepaid) {
-        window.tracker?.trackEvent('Admin Licenses: Share Licenses Clicked', { category: 'SchoolAdmin' })
-        this.showModalShareLicenses = true
-        this.sharePrepaid = prepaid
+    getLicensesMessage () { // TODO i18n?
+      if (this.showLicensesPage) {
+        return 'Hi Ozaria! I\'m interested in purchasing more licenses for my school or district.'
+      } else {
+        return 'Hi Ozaria! I\'m interested in learning more about your curriculum and discussing pricing options.'
       }
     }
+  },
+
+  mounted () {
+    this.setPageTitle(PAGE_TITLES[this.$options.name])
+    this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Admin Licenses: Loaded' } })
+  },
+
+  destroyed () {
+    this.resetLoadingState()
+  },
+
+  methods: {
+    ...mapActions({
+      fetchData: 'schoolAdminDashboard/fetchData'
+    }),
+
+    ...mapMutations({
+      resetLoadingState: 'schoolAdminDashboard/resetLoadingState',
+      setPageTitle: 'schoolAdminDashboard/setPageTitle'
+    }),
+
+    getLicenses () {
+      this.showModalGetLicenses = true
+    },
+    shareLicenses (prepaid) {
+      window.tracker?.trackEvent('Admin Licenses: Share Licenses Clicked', { category: 'SchoolAdmin' })
+      this.showModalShareLicenses = true
+      this.sharePrepaid = prepaid
+    }
   }
+}
 </script>
 
 <template>

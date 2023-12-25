@@ -1,76 +1,76 @@
 <script>
-  import { inviteMembers } from 'core/api/classrooms'
-  import SecondaryButton from '../common/buttons/SecondaryButton'
-  import TertiaryButton from '../common/buttons/TertiaryButton'
+import { inviteMembers } from 'core/api/classrooms'
+import SecondaryButton from '../common/buttons/SecondaryButton'
+import TertiaryButton from '../common/buttons/TertiaryButton'
 
-  export default Vue.extend({
-    components: {
-      SecondaryButton,
-      TertiaryButton
+export default Vue.extend({
+  components: {
+    SecondaryButton,
+    TertiaryButton
+  },
+  props: {
+    classroomCode: {
+      type: String,
+      default: '',
+      required: true
     },
-    props: {
-      classroomCode: {
-        type: String,
-        default: '',
-        required: true
-      },
-      classroomId: {
-        type: String,
-        default: '',
-        required: true
-      },
-      from: {
-        type: String,
-        default: null
-      }
+    classroomId: {
+      type: String,
+      default: '',
+      required: true
     },
-    data: () => {
-      return {
-        emails: '',
-        recaptchaResponseToken: '',
-        recaptchaSiteKey: require('core/services/google').recaptcha_site_key
-      }
-    },
-    mounted () {
-      let recaptchaScript = document.createElement('script')
-      recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js')
-      document.head.appendChild(recaptchaScript)
-
-      window.recaptchaCallback = this.recaptchaCallback.bind(this)
-    },
-    methods: {
-      recaptchaCallback (token) {
-        this.recaptchaResponseToken = token
-      },
-      async sendInvitation () {
-        window.tracker?.trackEvent('Invite Modal: Done Clicked', { category: 'Teachers', label: this.from })
-        let emailList = this.emails.split(/[,\n]/)
-        emailList = emailList.map((e) => e.trim()).filter((e) => e.length > 0)
-        if (emailList.length === 0) {
-          this.$emit('done')
-          return
-        }
-        if (!this.recaptchaResponseToken) {
-          console.error('Tried to send student invites via email without recaptcha success token, resetting widget')
-          if (window.grecaptcha) {
-            window.grecaptcha.reset()
-          }
-        } else {
-          try {
-            await inviteMembers({ classroomID: this.classroomId, emails: emailList, recaptchaResponseToken: this.recaptchaResponseToken })
-            window.tracker?.trackEvent('Invite Modal: Done Successful', { category: 'Teachers', label: this.from })
-          } catch (e) {
-            noty({ type: 'error', text: 'Error in sending invites', layout: 'topCenter', timeout: 2000 })
-          }
-          this.$emit('done')
-        }
-      },
-      clickBack () {
-        window.tracker?.trackEvent('Invite Modal: Back Clicked', { category: 'Teachers', label: this.from })
-        this.$emit('back')
-      }
+    from: {
+      type: String,
+      default: null
     }
-  })
+  },
+  data: () => {
+    return {
+      emails: '',
+      recaptchaResponseToken: '',
+      recaptchaSiteKey: require('core/services/google').recaptcha_site_key
+    }
+  },
+  mounted () {
+    const recaptchaScript = document.createElement('script')
+    recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js')
+    document.head.appendChild(recaptchaScript)
+
+    window.recaptchaCallback = this.recaptchaCallback.bind(this)
+  },
+  methods: {
+    recaptchaCallback (token) {
+      this.recaptchaResponseToken = token
+    },
+    async sendInvitation () {
+      window.tracker?.trackEvent('Invite Modal: Done Clicked', { category: 'Teachers', label: this.from })
+      let emailList = this.emails.split(/[,\n]/)
+      emailList = emailList.map((e) => e.trim()).filter((e) => e.length > 0)
+      if (emailList.length === 0) {
+        this.$emit('done')
+        return
+      }
+      if (!this.recaptchaResponseToken) {
+        console.error('Tried to send student invites via email without recaptcha success token, resetting widget')
+        if (window.grecaptcha) {
+          window.grecaptcha.reset()
+        }
+      } else {
+        try {
+          await inviteMembers({ classroomID: this.classroomId, emails: emailList, recaptchaResponseToken: this.recaptchaResponseToken })
+          window.tracker?.trackEvent('Invite Modal: Done Successful', { category: 'Teachers', label: this.from })
+        } catch (e) {
+          noty({ type: 'error', text: 'Error in sending invites', layout: 'topCenter', timeout: 2000 })
+        }
+        this.$emit('done')
+      }
+    },
+    clickBack () {
+      window.tracker?.trackEvent('Invite Modal: Back Clicked', { category: 'Teachers', label: this.from })
+      this.$emit('back')
+    }
+  }
+})
 </script>
 
 <template>

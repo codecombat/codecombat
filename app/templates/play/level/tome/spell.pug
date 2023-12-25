@@ -1,6 +1,7 @@
 img(src="/images/level/code_editor_background.png").code-background
 span.code-background
 .ace
+#blockly-container
 .save-status(data-i18n="play_level.code_saved")
 .programming-language-container.rtl-allowed
   if view.spell.level.isType('web-dev')
@@ -19,3 +20,5 @@ span.code-background
     span.programming-language-label(data-i18n='play_level.programming_language')
     span.programming-language-label.spr :
     span.programming-language= view.spell.displayCodeLanguage
+
+.yjs-awareness-container.rtl-allowed

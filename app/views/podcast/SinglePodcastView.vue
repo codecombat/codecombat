@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="single-podcast" v-if="loaded && isPodcastVisible(podcast)">
+    <div
+      v-if="loaded && isPodcastVisible(podcast)"
+      class="single-podcast"
+    >
       <head-component
         :podcast="podcast"
       />
@@ -14,16 +17,27 @@
         <div class="container">
           <div class="row">
             <div class="col-md-offset-1 col-md-11">
-              <router-link :to="{ name: 'AllPodcasts' }" class="all-podcasts__link">{{ $t('podcast.all_episodes') }}</router-link>
+              <router-link
+                :to="{ name: 'AllPodcasts' }"
+                class="all-podcasts__link"
+              >
+                {{ $t('podcast.all_episodes') }}
+              </router-link>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="podcast-loading" v-else-if="!loaded">
+    <div
+      v-else-if="!loaded"
+      class="podcast-loading"
+    >
       {{ $t('common.loading') }}
     </div>
-    <div class="failure" v-else-if="loaded && !isPodcastVisible(podcast)">
+    <div
+      v-else-if="loaded && !isPodcastVisible(podcast)"
+      class="failure"
+    >
       {{ $t('podcast.no_permission') }}
     </div>
   </div>
@@ -54,17 +68,17 @@ export default {
   },
   methods: {
     ...mapActions({
-      'fetchPodcast': 'podcasts/fetch'
+      fetchPodcast: 'podcasts/fetch'
     })
   },
   computed: {
     ...mapGetters({
-      'getPodcast': 'podcasts/podcast'
+      getPodcast: 'podcasts/podcast'
     })
   },
   async created () {
     const handle = this.$route.params.handle
-    await this.fetchPodcast({ podcastId: handle  })
+    await this.fetchPodcast({ podcastId: handle })
     this.podcast = this.getPodcast(handle)
     this.loaded = true
   }

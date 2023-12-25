@@ -1,63 +1,63 @@
 <script>
-  import ClassInfoRow from '../../common/ClassInfoRow'
-  import IconEllipsis from '../../common/icons/IconEllipsis'
-  import IconButtonWithText from '../../common/buttons/IconButtonWithText'
-  import IconShareDusk from '../../common/icons/IconShareDusk'
+import ClassInfoRow from '../../common/ClassInfoRow'
+import IconEllipsis from '../../common/icons/IconEllipsis'
+import IconButtonWithText from '../../common/buttons/IconButtonWithText'
+import IconShareDusk from '../../common/icons/IconShareDusk'
 
-  export default {
-    components: {
-      ClassInfoRow,
-      IconEllipsis,
-      'icon-button-with-text': IconButtonWithText,
-      IconShareDusk,
+export default {
+  components: {
+    ClassInfoRow,
+    IconEllipsis,
+    'icon-button-with-text': IconButtonWithText,
+    IconShareDusk
+  },
+  props: {
+    classId: {
+      type: String,
+      required: true
     },
-    props: {
-      classId: {
-        type: String,
-        required: true
-      },
-      classroomName: {
-        type: String,
-        required: true
-      },
-      language: {
-        type: String,
-        required: true
-      },
-      numStudents: {
-        type: Number,
-        required: true
-      },
-      dateCreated: {
-        type: String,
-        required: true
-      },
-      // TODO: CodeCamel isn't set when spying with administrator teacher.
-      codeCamel: {
-        type: String,
-        default: undefined
-      },
-      archived: {
-        type: Boolean,
-        default: false
-      },
-      displayOnly: {
-        type: Boolean,
-        default: false
-      },
-      sharePermission: {
-        type: String,
-        default: undefined,
-      }
+    classroomName: {
+      type: String,
+      required: true
     },
-    methods: {
-      trackEvent (eventName) {
-        if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: 'Teachers' })
-        }
+    language: {
+      type: String,
+      required: true
+    },
+    numStudents: {
+      type: Number,
+      required: true
+    },
+    dateCreated: {
+      type: String,
+      required: true
+    },
+    // TODO: CodeCamel isn't set when spying with administrator teacher.
+    codeCamel: {
+      type: String,
+      default: undefined
+    },
+    archived: {
+      type: Boolean,
+      default: false
+    },
+    displayOnly: {
+      type: Boolean,
+      default: false
+    },
+    sharePermission: {
+      type: String,
+      default: undefined
+    }
+  },
+  methods: {
+    trackEvent (eventName) {
+      if (eventName) {
+        window.tracker?.trackEvent(eventName, { category: 'Teachers' })
       }
     }
   }
+}
 </script>
 
 <template>
@@ -123,7 +123,7 @@
           @click="$emit('clickShareClassWithTeacherModalButton')"
         >
           <icon-share-dusk />
-          <span class="share-text">{{this.$t('teacher_dashboard.share')}}</span>
+          <span class="share-text">{{ $t('teacher_dashboard.share') }}</span>
         </div>
       </div>
       <div

@@ -45,8 +45,18 @@ export default {
       :disabled="disabled"
       @change="e => $emit('change', e)"
     >
-      <option value="global" :selected="selected===''">--</option>
-      <option  v-for="clan in clansSanitized" :key="clan._id" :value="clan._id" :selected="selected===clan._id">
+      <option
+        value="global"
+        :selected="selected===''"
+      >
+        --
+      </option>
+      <option
+        v-for="clan in clansSanitized"
+        :key="clan._id"
+        :value="clan._id"
+        :selected="selected===clan._id"
+      >
         {{ clan.displayName || clan.name }}
       </option>
     </select>

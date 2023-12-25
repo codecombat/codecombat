@@ -7,56 +7,55 @@ import LockOrSkip from './table/LockOrSkip'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-    components: {
-      'dropdown': Dropdown,
-      'primary-button': PrimaryButton,
-      'icon-button-with-text': IconButtonWithText,
-      'lock-or-skip': LockOrSkip
+  components: {
+    dropdown: Dropdown,
+    'primary-button': PrimaryButton,
+    'icon-button-with-text': IconButtonWithText,
+    'lock-or-skip': LockOrSkip
+  },
+  props: {
+    arrowVisible: {
+      type: Boolean,
+      default: false
     },
-    props: {
-      arrowVisible: {
-        type: Boolean,
-        default: false
-      },
-      displayOnly: {
-        type: Boolean,
-        default: false
+    displayOnly: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data () {
+    return {
+      lockOrSkipShown: false
+    }
+  },
+  computed: {
+    ...mapGetters({
+      selectedStudentIds: 'baseSingleClass/selectedStudentIds',
+      selectedOriginals: 'baseSingleClass/selectedOriginals'
+    })
+  },
+  methods: {
+    ...mapActions({
+      applyLicenses: 'baseSingleClass/applyLicenses',
+      revokeLicenses: 'baseSingleClass/revokeLicenses',
+      resetProgress: 'baseSingleClass/resetProgress'
+    }),
+
+    clickArrow () {
+      if (this.arrowVisible) {
+        this.$emit('click-arrow')
       }
     },
-    data(){
-      return {
-        lockOrSkipShown: false,
-      }
-    },
-    computed: {
-      ...mapGetters({
-        selectedStudentIds: 'baseSingleClass/selectedStudentIds',
-        selectedOriginals: 'baseSingleClass/selectedOriginals'
-      })
-    },
-    methods: {
-      ...mapActions({
-        applyLicenses: 'baseSingleClass/applyLicenses',
-        revokeLicenses: 'baseSingleClass/revokeLicenses',
-        resetProgress: 'baseSingleClass/resetProgress'
-      }),
 
-
-      clickArrow () {
-        if (this.arrowVisible) {
-          this.$emit('click-arrow')
-        }
-      },
-
-      changeSortBy (event) {
-        // Will emit one of:
-        // 'Name'
-        // 'Progress'
-        // 'Progress (reversed)'
-        this.$emit('change-sort-by', event.target.value)
-      }
+    changeSortBy (event) {
+      // Will emit one of:
+      // 'Name'
+      // 'Progress'
+      // 'Progress (reversed)'
+      this.$emit('change-sort-by', event.target.value)
     }
   }
+}
 </script>
 
 <template>
@@ -117,33 +116,35 @@ export default {
           @click="resetProgress"
         />
 
-
         <v-popover
-            popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
-            trigger="click"
-            placement="left"
-            @show="lockOrSkipShown=true"
-            @hide="lockOrSkipShown=false"
+          popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
+          trigger="click"
+          placement="left"
+          @show="lockOrSkipShown=true"
+          @hide="lockOrSkipShown=false"
         >
           <!-- Triggers the tooltip -->
           <icon-button-with-text
-              class="icon-with-text"
-              icon-name="IconLock"
-              :text="$t('teacher_dashboard.lock_or_skip_levels')"
+            class="icon-with-text"
+            icon-name="IconLock"
+            :text="$t('teacher_dashboard.lock_or_skip_levels')"
           />
           <!-- The tooltip -->
           <template slot="popover">
-            <lock-or-skip  :shown="lockOrSkipShown"/>
+            <lock-or-skip :shown="lockOrSkipShown" />
           </template>
         </v-popover>
-
-
-
       </div>
     </div>
-    <div :class="[arrowVisible ? 'arrow-toggle' : 'arrow-disabled']" @click="clickArrow">
+    <div
+      :class="[arrowVisible ? 'arrow-toggle' : 'arrow-disabled']"
+      @click="clickArrow"
+    >
       <transition name="arrow-fade">
-        <div v-show="arrowVisible" class="arrow-icon"></div>
+        <div
+          v-show="arrowVisible"
+          class="arrow-icon"
+        />
       </transition>
     </div>
   </div>

@@ -149,11 +149,11 @@ export const getNextLevelForLevel = (level, capstoneStage = 1) => {
   } else {
     // Ensure that the next level is sorted by afterCapstoneStage
     nextLevel = Object.values(nextLevels).sort((a, b) => {
-      const afterCapstoneStageA = a.conditions?.afterCapstoneStage ?? 0;
-      const afterCapstoneStageB = b.conditions?.afterCapstoneStage ?? 0;
-  
-      return afterCapstoneStageA - afterCapstoneStageB;
-    });
+      const afterCapstoneStageA = a.conditions?.afterCapstoneStage ?? 0
+      const afterCapstoneStageB = b.conditions?.afterCapstoneStage ?? 0
+
+      return afterCapstoneStageA - afterCapstoneStageB
+    })
   }
   return nextLevel[0] // assuming there can only be one next level for a given level and/or capstone stage
 }
@@ -284,20 +284,20 @@ export function tryCopy () {
   }
 }
 
-export function internationalizeLevelType(type, withLevelSuffix, withProjectSuffix){
-  if (['challenge', 'capstone', 'practice', 'cutscene', 'intro'].indexOf(type) == -1){
+export function internationalizeLevelType (type, withLevelSuffix, withProjectSuffix) {
+  if (['challenge', 'capstone', 'practice', 'cutscene', 'intro'].indexOf(type) == -1) {
     type = 'practice'
   }
-  let key = 'play_level.level_type_' + type;
+  let key = 'play_level.level_type_' + type
   if (withProjectSuffix && type === 'capstone') {
     key += '_project'
-  } else if (withLevelSuffix){
+  } else if (withLevelSuffix) {
     key += '_level'
   }
   return $.i18n.t(key)
 }
 
-export function internationalizeContentType(type){
+export function internationalizeContentType (type) {
   switch (type) {
     case 'cutscene-video':
       return $.i18n.t('play_level.level_type_cutscene')
@@ -310,7 +310,7 @@ export function internationalizeContentType(type){
     case 'interactive':
       return $.i18n.t('play_level.content_type_interactive')
     default:
-      return this.currentContent.contentType
+      return $.i18n.t('play_level.level_type_challenge') // show everything else as "challenge" for now
   }
 }
 
@@ -361,6 +361,9 @@ export function getGameContentDisplayNameWithType (contentData, withLevelSuffix 
 // `withLevelSuffix` will append 'Level' to the names for practice/capstone/challenge levels
 // `withProjectSuffix` will append 'Project' to the capstone name
 export function getGameContentDisplayType (contentType, withLevelSuffix = true, withProjectSuffix = false) {
+  if (!contentType) {
+    contentType = 'hero'
+  }
   if (contentType.startsWith('practice')) {
     return internationalizeLevelType('practice', withLevelSuffix, withProjectSuffix)
   } else if (contentType.startsWith('capstone')) {

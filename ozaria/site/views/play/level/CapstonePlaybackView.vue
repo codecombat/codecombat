@@ -1,14 +1,38 @@
 <template>
-<div id="capstone-playback-view" v-bind:style="{ display: isPlaying ? 'none': ''}">
-  <button @click="clickedPlay"> {{$t("common.play") }} </button>
-</div>
+  <div
+    id="capstone-playback-view"
+    :style="{ display: isPlaying ? 'none': ''}"
+  >
+    <button @click="clickedPlay">
+      {{ $t("common.play") }}
+    </button>
+  </div>
 </template>
 
 <script>
 import store from 'core/store'
 
 module.exports = Vue.extend({
-  mounted() {
+  data: () => ({
+    worldCompletelyLoaded: false,
+    realTime: false,
+    lastProgress: 0,
+    wasEnded: false,
+    isPlaying: false
+  }),
+  watch: {
+    isPlaying (newPlay, oldPlay) {
+      // Toggle Vega message so it isn't visible while capstone is playing.
+      if (!oldPlay && newPlay) {
+        $('#level-dialogue-view').addClass('hidden')
+        $('#level-view #canvas-wrapper').addClass('undo-vega-spacing')
+      } else if (oldPlay && !newPlay) {
+        $('#level-dialogue-view').removeClass('hidden')
+        $('#level-view #canvas-wrapper').removeClass('undo-vega-spacing')
+      }
+    }
+  },
+  mounted () {
     Backbone.Mediator.subscribe('surface:frame-changed', this.onFrameChanged, this)
     Backbone.Mediator.subscribe('tome:cast-spells', this.onTomeCast, this)
     Backbone.Mediator.subscribe('playback:real-time-playback-ended', this.onRealTimePlaybackEnded, this)
@@ -20,34 +44,15 @@ module.exports = Vue.extend({
     Backbone.Mediator.unsubscribe('playback:real-time-playback-ended', this.onRealTimePlaybackEnded, this)
     Backbone.Mediator.unsubscribe('playback:stop-real-time-playback', this.onStopRealTimePlayback, this)
   },
-  data: () => ({
-    worldCompletelyLoaded: false,
-    realTime: false,
-    lastProgress: 0,
-    wasEnded: false,
-    isPlaying: false,
-  }),
-  watch: {
-    isPlaying (newPlay, oldPlay) {
-      // Toggle Vega message so it isn't visible while capstone is playing.
-      if (!oldPlay && newPlay) {
-        $('#level-dialogue-view').addClass("hidden")
-        $('#level-view #canvas-wrapper').addClass("undo-vega-spacing")
-      } else if (oldPlay && !newPlay) {
-        $('#level-dialogue-view').removeClass("hidden")
-        $('#level-view #canvas-wrapper').removeClass("undo-vega-spacing")
-      }
-    }
-  },
   methods: {
-    clickedPlay() {
+    clickedPlay () {
       store.dispatch('game/setHasPlayedGame', true)
       Backbone.Mediator.publish('tome:manual-cast', { realTime: true })
       Backbone.Mediator.publish('level:set-playing', { playing: true })
     },
 
-    onFrameChanged(e) {
-      const {progress, world} = e
+    onFrameChanged (e) {
+      const { progress, world } = e
       if (progress !== this.lastProgress) {
         const wasLoaded = this.worldCompletelyLoaded
         let ended = false
@@ -78,13 +83,13 @@ module.exports = Vue.extend({
       }
     },
 
-    onStopRealTimePlayback(e) {
+    onStopRealTimePlayback (e) {
       this.isPlaying = false
-      Backbone.Mediator.publish('level:set-letterbox', {on: false})
+      Backbone.Mediator.publish('level:set-letterbox', { on: false })
       Backbone.Mediator.publish('playback:real-time-playback-ended', {})
     },
 
-    onRealTimePlaybackEnded(e) {
+    onRealTimePlaybackEnded (e) {
       if (!this.realTime) {
         return
       }
@@ -92,7 +97,7 @@ module.exports = Vue.extend({
       this.isPlaying = false
     },
 
-    onTomeCast(e) {
+    onTomeCast (e) {
       if (e.realTime !== true) {
         return
       }

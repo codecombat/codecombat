@@ -1,24 +1,21 @@
-<script>
+<script> // eslint-disable-line vue/multi-word-component-names
 import { cocoBaseURL, getQueryVariable, isCodeCombat, isOzaria, ozBaseURL } from 'core/utils'
 import { mapGetters } from 'vuex'
 import FinalFooter from './FinalFooter'
-import MakelogTracker from '../../core/Tracker2/MakelogTracker'
 
 /**
  * Unified footer component between CodeCombat and Ozaria.
  */
 export default Vue.extend({
-  data () {
-    return {
-      makelogLoaded: false
-    }
-  },
-  components:{
+  components: {
     FinalFooter
+  },
+  data () {
+    return {}
   },
   computed: {
     ...mapGetters({
-      'preferredLocale': 'me/preferredLocale',
+      preferredLocale: 'me/preferredLocale'
     }),
 
     isCodeCombat () {
@@ -86,8 +83,8 @@ export default Vue.extend({
             { url: '/teachers/resources', title: 'nav.resource_hub' },
             { url: '/teachers/classes', title: 'nav.my_classrooms' },
             { url: '/pricing', title: 'nav.pricing', hide: true },
-            { url: this.ozPath('/'), title: 'new_home.try_ozaria', attrs: { 'data-event-action': 'Click: Footer Try Ozaria' }, hide: this.isOzaria},
-            { url: this.cocoPath('/'), title: 'nav.return_coco', attrs: { 'data-event-action': 'Click: Footer Return to CodeCombat' }, hide: this.isCodeCombat},
+            { url: this.ozPath('/'), title: 'new_home.try_ozaria', attrs: { 'data-event-action': 'Click: Footer Try Ozaria' }, hide: this.isOzaria },
+            { url: this.cocoPath('/'), title: 'nav.return_coco', attrs: { 'data-event-action': 'Click: Footer Return to CodeCombat' }, hide: this.isCodeCombat },
             { url: this.cocoPath('/podcast'), title: 'nav.podcast' }
           ]
         },
@@ -103,7 +100,7 @@ export default Vue.extend({
             { url: this.cocoPath('/league'), title: 'nav.esports' },
             { url: this.cocoPath('/partners'), title: 'nav.partnerships' },
             { url: this.cocoPath('/libraries'), title: 'nav.libraries' },
-            { url: this.cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' },
+            { url: this.cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' }
           ]
         }
       ]
@@ -143,7 +140,7 @@ export default Vue.extend({
             { url: 'https://aishiqingsai.org.cn', extra: 'AI世青赛' },
 
             { url: 'https://koudashijie.com', extra: '扣哒世界', hide: !this.isChinaHome },
-            { url: 'https://codecombat.cn', extra: 'CodeCombat 个人版', hide: this.isChinaHome },
+            { url: 'https://codecombat.cn', extra: 'CodeCombat 个人版', hide: this.isChinaHome }
           ]
         }
       ]
@@ -160,9 +157,6 @@ export default Vue.extend({
     // Bind the global values to the vue component.
     this.me = me
     this.document = window.document
-    setTimeout(() => {
-      this.loadMakelog()
-    }, 3000)
   },
   methods: {
     footerEvent (e) {
@@ -180,7 +174,7 @@ export default Vue.extend({
       const properties = {
         category: 'Footer',
         // Inspired from the HomeView homePageEvent method
-        user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
+        user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser'
       }
 
       window.tracker.trackEvent(action, properties)
@@ -191,8 +185,8 @@ export default Vue.extend({
      */
     checkLocation (route) {
       const location = document.location.href
-          .replace(document.location.hash, '')
-          .replace(document.location.search, '')
+        .replace(document.location.hash, '')
+        .replace(document.location.search, '')
       return route === new URL(location).pathname
     },
 
@@ -212,13 +206,6 @@ export default Vue.extend({
 
     ozPath (relativePath) {
       return `${this.ozBaseURL}${relativePath}`
-    },
-    loadMakelog () {
-      const makelog = new MakelogTracker({})
-      makelog._initializeTracker()
-      setTimeout(() => {
-        this.makelogLoaded = true
-      }, 5000)
     }
   }
 })
@@ -240,23 +227,6 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
                   span.spr(v-if="l.extra") {{ l.extra }}
                 span.active(v-if="checkLocation(l.url)") {{ $t(l.title) }}
                   span.spr(v-if="l.extra") {{ l.extra }}
-              li(v-if="col.title === 'nav.general' && (!me.showChinaResourceInfo() || me.isAdmin())")
-                mklog-ledger(v-if="makelogLoaded" v-pre organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W' kind='popper')
-                  a(href="#changelog")
-                    span Changelog
-                    mklog-since-last-viewed(v-pre organization='org-2F8P67Q21Vm51O97wEnzbtwrg9W', color="candy")
-          .col-lg-3
-            template(v-if="!me.showingStaticPagesWhileLoading() && me.useSocialSignOn()")
-              h1.text-h3 {{ $t("nav.follow_us") }}
-              div.social-buttons
-                a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA" target="_blank" data-event-action="Click: Footer Youtube")
-                  img(src="/images/pages/base/youtube_symbol_button.png" width="40" alt="YouTube")
-                a(href="https://twitter.com/codecombat" target="_blank" data-event-action="Click: Footer Twitter")
-                  img(src="/images/pages/base/twitter_logo_btn.png" width="40" alt="Twitter")
-                a(href="https://www.facebook.com/codecombat" target="_blank" data-event-action="Click: Footer Facebook")
-                  img(src="/images/pages/base/facebook_logo_btn.png" width="40" alt="Facebook")
-                a(href="https://www.instagram.com/codecombat/" target="_blank" data-event-action="Click: Footer Instagram")
-                  img(src="/images/pages/base/instagram-logo.png" width="40" alt="Instagram")
             template(v-if="me.showChinaResourceInfo()")
               h1.text-h3 {{ $t("nav.follow_us") }}
               .follow_us
@@ -455,13 +425,6 @@ footer#site-footer
 
   .hover-link
     cursor: pointer
-
-  mklog-ledger
-    --mklog-color-brand-background: #0E4C60
-    --mklog-color-brand-text: #1FBAB4
-
-  mklog-since-last-viewed
-    margin-left: 5px
 
 footer#site-footer.dark-mode
   /*background-color: #0C1016*/

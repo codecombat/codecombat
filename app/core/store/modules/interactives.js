@@ -55,7 +55,7 @@ export default {
     },
 
     addInteractiveSessionsForClassroom (state, { classroomId, sessions }) {
-      Vue.set(state.interactiveSessionsByClassroom[classroomId], `sessions`, sessions)
+      Vue.set(state.interactiveSessionsByClassroom[classroomId], 'sessions', sessions)
     },
 
     initSessionsByClassroomState: (state, classroomId) => {
@@ -71,7 +71,7 @@ export default {
 
     addInteractiveSessionMapForClassroom: (state, { classroomId, interactiveSessionMapByUser }) => {
       Vue.set(state.interactiveSessionsByClassroom[classroomId], 'interactiveSessionMapByUser', interactiveSessionMapByUser)
-    },
+    }
   },
 
   getters: {

@@ -1,119 +1,119 @@
 <script>
-  import { mapMutations, mapGetters } from 'vuex'
-  import UnitedStatesSchoolForm from './UnitedStatesSchoolForm'
-  import OtherCountriesSchoolForm from './OtherCountriesSchoolForm'
-  import { COUNTRIES } from '../common/constants'
-  import { getSchoolFormFieldsConfig } from '../common/signUpConfig'
-  import { validationMixin } from 'vuelidate'
-  import { educatorOtherInfoValidations, validationMessages } from '../common/signUpValidations'
-  import SecondaryButton from '../../../teacher-dashboard/common/buttons/SecondaryButton'
+import { mapMutations, mapGetters } from 'vuex'
+import UnitedStatesSchoolForm from './UnitedStatesSchoolForm'
+import OtherCountriesSchoolForm from './OtherCountriesSchoolForm'
+import { COUNTRIES } from '../common/constants'
+import { getSchoolFormFieldsConfig } from '../common/signUpConfig'
+import { validationMixin } from 'vuelidate'
+import { educatorOtherInfoValidations, validationMessages } from '../common/signUpValidations'
+import SecondaryButton from '../../../teacher-dashboard/common/buttons/SecondaryButton'
 import utils from 'core/utils'
 
-  export default {
-    metaInfo: {
-      meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }]
-    },
-    components: {
-      'united-states-school-form': UnitedStatesSchoolForm,
-      'other-countries-school-form': OtherCountriesSchoolForm,
-      SecondaryButton
-    },
+export default {
+  metaInfo: {
+    meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }]
+  },
+  components: {
+    'united-states-school-form': UnitedStatesSchoolForm,
+    'other-countries-school-form': OtherCountriesSchoolForm,
+    SecondaryButton
+  },
 
-    mixins: [validationMixin],
+  mixins: [validationMixin],
 
-    props: {
-      creatingTeacherAccountLoad: {
-        required: false,
-        default: false,
-        type: Boolean
-      }
-    },
-    data: () => ({
-      phoneNumber: '',
-      numStudents: '',
-      marketingConsent: !me.inEU(),
-      gdprConsent: !me.inEU(),
-      validationMessages,
-      isChinaServerSignup: me.showChinaRegistration(),
+  props: {
+    creatingTeacherAccountLoad: {
+      required: false,
+      default: false,
+      type: Boolean
+    }
+  },
+  data: () => ({
+    phoneNumber: '',
+    numStudents: '',
+    marketingConsent: !me.inEU(),
+    gdprConsent: !me.inEU(),
+    validationMessages,
+    isChinaServerSignup: me.showChinaRegistration(),
     childFormValid: false,
     product: utils.getProductName()
+  }),
+
+  validations () {
+    return educatorOtherInfoValidations(this.country, this.role, this.isChinaServerSignup)
+  },
+
+  computed: {
+    ...mapGetters({
+      trialReqProps: 'teacherSignup/getTrialRequestProperties'
     }),
 
-    validations () {
-      return educatorOtherInfoValidations(this.country, this.role, this.isChinaServerSignup)
+    country () {
+      return this.trialReqProps.country
     },
 
-    computed: {
-      ...mapGetters({
-        trialReqProps: 'teacherSignup/getTrialRequestProperties'
-      }),
+    role () {
+      return this.trialReqProps.role
+    },
 
-      country () {
-        return this.trialReqProps.country
-      },
+    formFieldConfig () {
+      return getSchoolFormFieldsConfig(this.country, this.role, this.isChinaServerSignup)
+    },
 
-      role () {
-        return this.trialReqProps.role
-      },
+    isUS () {
+      return this.trialReqProps.country === COUNTRIES.US
+    },
 
-      formFieldConfig () {
-        return getSchoolFormFieldsConfig(this.country, this.role, this.isChinaServerSignup)
-      },
+    isEU () {
+      return me.inEU()
+    },
 
-      isUS () {
-        return this.trialReqProps.country === COUNTRIES.US
-      },
+    isFormValid () {
+      return !this.$v.$invalid && this.childFormValid
+    },
 
-      isEU () {
-        return me.inEU()
-      },
+    doneDisabled () {
+      return !this.isFormValid || !this.gdprConsent
+    }
+  },
 
-      isFormValid () {
-        return !this.$v.$invalid && this.childFormValid
-      },
+  watch: {
+    isFormValid (val) {
+      this.$emit('validityChange', val)
+    }
+  },
 
-      doneDisabled () {
-        return !this.isFormValid || !this.gdprConsent
+  mounted () {
+    // default country code
+    if (this.isChinaServerSignup) {
+      this.phoneNumber = '+86 '
+    } else {
+      this.phoneNumber = '+1 '
+    }
+  },
+
+  methods: {
+    ...mapMutations({
+      updateTrialRequestProperties: 'teacherSignup/updateTrialRequestProperties',
+      setMarketingConsent: 'teacherSignup/setMarketingConsent'
+    }),
+
+    onChangeValue (event = {}) {
+      const attrs = {}
+      if (event.target) {
+        attrs[event.target.name] = event.target.value
       }
+      this.updateTrialRequestProperties(attrs)
     },
 
-    watch: {
-      isFormValid (val) {
-        this.$emit('validityChange', val)
-      }
-    },
-
-    mounted () {
-      // default country code
-      if (this.isChinaServerSignup) {
-        this.phoneNumber = '+86 '
-      } else {
-        this.phoneNumber = '+1 '
-      }
-    },
-
-    methods: {
-      ...mapMutations({
-        updateTrialRequestProperties: 'teacherSignup/updateTrialRequestProperties',
-        setMarketingConsent: 'teacherSignup/setMarketingConsent'
-      }),
-
-      onChangeValue (event = {}) {
-        const attrs = {}
-        if (event.target) {
-          attrs[event.target.name] = event.target.value
-        }
-        this.updateTrialRequestProperties(attrs)
-      },
-
-      onClickNext () {
-        if (this.isFormValid) {
-          this.setMarketingConsent({ marketingConsent: this.marketingConsent })
-          this.$emit('goToNext')
-        }
+    onClickNext () {
+      if (this.isFormValid) {
+        this.setMarketingConsent({ marketingConsent: this.marketingConsent })
+        this.$emit('goToNext')
       }
     }
   }
+}
 </script>
 
 <template lang="pug">

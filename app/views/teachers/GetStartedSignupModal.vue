@@ -2,18 +2,18 @@
 import BaseModal from 'app/components/common/BaseModal'
 
 export default Vue.extend({
-  data: () => ({
-    show: true
-  }),
+  components: {
+    BaseModal
+  },
   props: {
     onNext: {
       type: Function,
       default: () => {}
     }
   },
-  components: {
-    BaseModal
-  },
+  data: () => ({
+    show: true
+  }),
   methods: {
     next () {
       this.show = false
@@ -27,25 +27,29 @@ export default Vue.extend({
 </script>
 
 <template>
-  <base-modal v-if="show" id="get-started-modal">
+  <base-modal
+    v-if="show"
+    id="get-started-modal"
+  >
     <template slot="body">
       <div class="content">
         <div class="header">
           <button
             class="close-button"
-            @click="close"
             aria-label="Close"
+            @click="close"
           >
-            <img alt="close icon" src="/images/common/modal/Exit_Dusk.svg" />
+            <img
+              alt="close icon"
+              src="/images/common/modal/Exit_Dusk.svg"
+            >
           </button>
         </div>
         <div class="modal-contents-container">
-
           <button>I'm an educator</button>
           <button>I'm a parent</button>
           <button>I'm a student</button>
           <button>I'm an individual</button>
-
         </div>
       </div>
     </template>
@@ -131,7 +135,6 @@ export default Vue.extend({
   text-transform: capitalize;
   border-radius: 4px;
 }
-
 
 #get-started-modal ::v-deep .modal-container {
   border-radius: 6px;

@@ -1,86 +1,92 @@
 <script>
-  import { resourceIcons } from 'app/schemas/schemas'
-  const store = require('core/store')
-  export default {
-    props: {
-      icon: {
-        type: String,
-        required: true,
-        validator: value => resourceIcons.indexOf(value) !== -1
-      },
-      label: {
-        type: String,
-        required: false,
-        default: ''
-      },
-      link: {
-        type: String,
-        default: null
-      },
-      from: {
-        type: String,
-        default: 'Resource Hub'
-      },
-      trackCategory: {
-        type: String,
-        default: ''
-      },
-      description: {
-        type: String,
-        default: ''
-      },
-      locked: {
-        type: Boolean,
-        default: false
-      },
-      section: {
-        type: String,
-        default: 'getting-started'
+import { resourceIcons } from 'app/schemas/schemas'
+const store = require('core/store')
+export default {
+  props: {
+    icon: {
+      type: String,
+      required: true,
+      validator: value => resourceIcons.indexOf(value) !== -1
+    },
+    label: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    link: {
+      type: String,
+      default: null
+    },
+    from: {
+      type: String,
+      default: 'Resource Hub'
+    },
+    trackCategory: {
+      type: String,
+      default: ''
+    },
+    description: {
+      type: String,
+      default: ''
+    },
+    locked: {
+      type: Boolean,
+      default: false
+    },
+    section: {
+      type: String,
+      default: 'getting-started'
+    }
+  },
+  computed: {
+    cssVariables () {
+      return {
+        '--backgroundImage': this.locked ? 'url(/images/pages/game-menu/lock.png)' : `url(/images/pages/teachers/resources/icons/Icon${this.icon}.svg)`
       }
     },
-    computed: {
-      cssVariables () {
-        return {
-          '--backgroundImage': this.locked ? 'url(/images/pages/game-menu/lock.png)' : `url(/images/pages/teachers/resources/icons/Icon${this.icon}.svg)`
-        }
-      },
-      formattedDescription () {
-        return marked(this.description)
-          .replace(/<a /g, '<a target=\'_blank\' ')
-          .replace(/href=.*?>/g, (match) => this.locked ? 'href="/teachers/licenses/">' : match)
-      },
-      displayClass () {
-        if (this.from === 'Zendesk') return 'resource-extra-wide'
-        if (this.from !== 'Resource Hub') return 'resource-icon-only'
-        if (this.section === 'lesson-slides') return 'resource-lesson-slides'
-        return 'resource-full'
-      },
-      showLabel () {
-        // If we aren't in the Resource Hub, only show in English, since we are hard-coding the other resource names without loading i18n
-        return this.label !== '' && (this.from === 'Resource Hub' || /^en/.test(store.getters['me/preferredLocale']))
-      }
+    formattedDescription () {
+      return marked(this.description)
+        .replace(/<a /g, '<a target=\'_blank\' ')
+        .replace(/href=.*?>/g, (match) => this.locked ? 'href="/teachers/licenses/">' : match)
     },
-    methods: {
-      clickIcon () {
-        const eventName = `Resource Icon Clicked: ${this.label}`
-        window.tracker?.trackEvent(eventName, { category: this.trackCategory || 'Teachers', label: this.from })
-        this.$emit('click')
-      }
+    displayClass () {
+      if (this.from === 'Zendesk') return 'resource-extra-wide'
+      if (this.from !== 'Resource Hub') return 'resource-icon-only'
+      if (this.section === 'lesson-slides') return 'resource-lesson-slides'
+      return 'resource-full'
+    },
+    showLabel () {
+      // If we aren't in the Resource Hub, only show in English, since we are hard-coding the other resource names without loading i18n
+      return this.label !== '' && (this.from === 'Resource Hub' || /^en/.test(store.getters['me/preferredLocale']))
+    }
+  },
+  methods: {
+    clickIcon () {
+      const eventName = `Resource Icon Clicked: ${this.label}`
+      window.tracker?.trackEvent(eventName, { category: this.trackCategory || 'Teachers', label: this.from })
+      this.$emit('click')
     }
   }
+}
 </script>
 
 <template>
   <a
     :href="locked ? '/teachers/licenses/' : link"
     :target="link === '#' ? '' : '_blank'"
-    @click="clickIcon"
     :class="displayClass"
+    @click="clickIcon"
   >
-    <div class='resource-icon' :style="cssVariables">
-      <div class='icon'/>
+    <div
+      class="resource-icon"
+      :style="cssVariables"
+    >
+      <div class="icon" />
       <h5 v-if="showLabel">{{ label }}</h5>
-      <p v-if="description" v-html="formattedDescription"></p>
+      <p
+        v-if="description"
+        v-html="formattedDescription"
+      />
     </div>
   </a>
 </template>

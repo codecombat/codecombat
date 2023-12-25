@@ -1,13 +1,13 @@
 <script>
-  import Modal from '../../../common/Modal'
-  import ModalAssignForm from './ModalAssignForm'
+import Modal from '../../../common/Modal'
+import ModalAssignForm from './ModalAssignForm'
 
-  export default Vue.extend({
-    components: {
-      Modal,
-      ModalAssignForm
-    }
-  })
+export default Vue.extend({
+  components: {
+    Modal,
+    ModalAssignForm
+  }
+})
 </script>
 
 <template>

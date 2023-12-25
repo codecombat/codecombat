@@ -1,85 +1,85 @@
 <script>
-  import { mapGetters, mapActions } from 'vuex'
-  import SecondaryButton from '../../common/buttons/SecondaryButton'
-  import TertiaryButton from '../../common/buttons/TertiaryButton'
+import { mapGetters, mapActions } from 'vuex'
+import SecondaryButton from '../../common/buttons/SecondaryButton'
+import TertiaryButton from '../../common/buttons/TertiaryButton'
 
-  import utils from 'app/core/utils'
-  import { hasSharedWriteAccessPermission } from '../../../../../../app/lib/classroom-utils'
+import utils from 'app/core/utils'
+import { hasSharedWriteAccessPermission } from '../../../../../../app/lib/classroom-utils'
 
-  export default {
-    components: {
-      SecondaryButton,
-      TertiaryButton
-    },
+export default {
+  components: {
+    SecondaryButton,
+    TertiaryButton
+  },
 
-    data: () => ({
-      latestReleasedCourses: [],
-      selected: '',
-      coursesModel: undefined
+  data: () => ({
+    latestReleasedCourses: [],
+    selected: '',
+    coursesModel: undefined
+  }),
+
+  computed: {
+    ...mapGetters({
+      loading: 'teacherDashboard/getLoadingState',
+      classroom: 'teacherDashboard/getCurrentClassroom',
+      classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
+      classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
+      selectedStudentIds: 'baseSingleClass/selectedStudentIds',
+      courses: 'courses/sorted'
     }),
 
-    computed: {
-      ...mapGetters({
-        loading: 'teacherDashboard/getLoadingState',
-        classroom: 'teacherDashboard/getCurrentClassroom',
-        classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
-        classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
-        selectedStudentIds: 'baseSingleClass/selectedStudentIds',
-        courses: 'courses/sorted'
-      }),
+    filteredCourses () {
+      return this.courses.filter(({ campaignID }) => !utils.freeCampaignIds.includes(campaignID))
+    }
+  },
 
-      filteredCourses () {
-        return this.courses.filter(({ campaignID }) => !utils.freeCampaignIds.includes(campaignID))
+  created () {
+    if (!Array.isArray(this.selectedStudentIds) || this.selectedStudentIds.length === 0) {
+      noty({ text: 'You need to select student(s) first before performing that action.', layout: 'center', type: 'information', killer: true, timeout: 8000 })
+      this.$emit('close')
+    }
+  },
+
+  methods: {
+    ...mapActions({
+      assignCourse: 'courseInstances/assignCourse',
+      removeCourse: 'courseInstances/removeCourse',
+      fetchData: 'baseSingleClass/fetchData'
+    }),
+
+    async handleClickedAssign () {
+      if (!this.selected) {
+        return
       }
-    },
+      const course = this.courses.find((v) => v.name === this.selected)
 
-    created () {
-      if (!Array.isArray(this.selectedStudentIds) || this.selectedStudentIds.length === 0) {
-        noty({ text: `You need to select student(s) first before performing that action.`, layout: 'center', type: 'information', killer: true, timeout: 8000 })
-        this.$emit('close')
-      }
-    },
-
-    methods: {
-      ...mapActions({
-        assignCourse: 'courseInstances/assignCourse',
-        removeCourse: 'courseInstances/removeCourse',
-        fetchData: 'baseSingleClass/fetchData'
-      }),
-
-      async handleClickedAssign () {
-        if (!this.selected) {
-          return
-        }
-        const course = this.courses.find((v) => v.name === this.selected)
-
-        const sharedClassroomId = hasSharedWriteAccessPermission(this.classroom) ? this.classroom._id : null
-        await this.assignCourse({
-          classroom: this.classroom,
-          course,
-          members: this.selectedStudentIds.map(id => this.classroomMembers.find(({ _id }) => id === _id)),
-          sharedClassroomId
-        })
-        if (this.classroomCourses.find((c) => c._id === course._id)) {
-          this.fetchData()
-        } else {
-          this.fetchData({ forceGameContentFetch: true }) // new course that didnt exist when classroom was created
-        }
-        this.$emit('close')
-      },
-
-      async handleClickedUnassign () {
-        if (!this.selected) {
-          return
-        }
-        const course = this.courses.find((v) => v.name === this.selected)
-
-        await this.removeCourse({ course, members: this.selectedStudentIds, classroom: this.classroom })
+      const sharedClassroomId = hasSharedWriteAccessPermission(this.classroom) ? this.classroom._id : null
+      await this.assignCourse({
+        classroom: this.classroom,
+        course,
+        members: this.selectedStudentIds.map(id => this.classroomMembers.find(({ _id }) => id === _id)),
+        sharedClassroomId
+      })
+      if (this.classroomCourses.find((c) => c._id === course._id)) {
         this.fetchData()
-        this.$emit('close')
+      } else {
+        this.fetchData({ forceGameContentFetch: true }) // new course that didnt exist when classroom was created
       }
+      this.$emit('close')
+    },
+
+    async handleClickedUnassign () {
+      if (!this.selected) {
+        return
+      }
+      const course = this.courses.find((v) => v.name === this.selected)
+
+      await this.removeCourse({ course, members: this.selectedStudentIds, classroom: this.classroom })
+      this.fetchData()
+      this.$emit('close')
     }
   }
+}
 </script>
 
 <template>
@@ -94,9 +94,9 @@
         <div class="col-xs-12">
           <span class="control-label">{{ $t('teacher_dashboard.select_chapter') }}</span>
           <select
+            v-model="selected"
             class="form-control"
             name="courseList"
-            v-model="selected"
           >
             <option
               disabled

@@ -1,9 +1,12 @@
 <template>
   <modal
-      title="Schedule a Free Class"
-      @close="$emit('close')"
+    title="Schedule a Free Class"
+    @close="$emit('close')"
   >
-    <form @submit.prevent="onFormSubmit" class="schedule-free-class-form">
+    <form
+      class="schedule-free-class-form"
+      @submit.prevent="onFormSubmit"
+    >
       <p>
         {{ $t('modal_free_class.paragraph_1') }}
       </p>
@@ -15,35 +18,67 @@
       <p>
         {{ $t('modal_free_class.paragraph_3') }}
       </p>
-      <div class="form-group" :class="{ 'has-error': !isValidName }">
+      <div
+        class="form-group"
+        :class="{ 'has-error': !isValidName }"
+      >
         <label for="name">{{ $t('modal_free_class.name') }}</label>
-        <input type="text" id="name" placeholder="Enter name" v-model="name" class="form-control"/>
+        <input
+          id="name"
+          v-model="name"
+          type="text"
+          placeholder="Enter name"
+          class="form-control"
+        >
       </div>
-      <div class="form-group" :class="{ 'has-error': !isValidPhoneNumber }">
+      <div
+        class="form-group"
+        :class="{ 'has-error': !isValidPhoneNumber }"
+      >
         <label for="phone">{{ $t('modal_free_class.phone_number') }}</label>
-        <VuePhoneNumberInput @update="updatePhoneNumber" v-model="phoneNumber"/>
+        <VuePhoneNumberInput
+          v-model="phoneNumber"
+          @update="updatePhoneNumber"
+        />
       </div>
       <div class="form-group">
         <label for="org">{{ $t('modal_free_class.available') }}</label>
         <div class="form-check">
           <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="available" value="yes" v-model="available">
+            <input
+              v-model="available"
+              type="radio"
+              class="form-check-input"
+              name="available"
+              value="yes"
+            >
             {{ $t('modal_free_class.yes') }}
           </label>
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="available" value="no" v-model="available">
+            <input
+              v-model="available"
+              type="radio"
+              class="form-check-input"
+              name="available"
+              value="no"
+            >
             {{ $t('modal_free_class.no') }}
           </label>
         </div>
       </div>
       <div class="form-group">
         <label for="userTimeZone">{{ $t('modal_free_class.time_zone') }}</label>
-        <select type="text" id="userTimeZone" v-model="timeZone" class="form-control">
+        <select
+          id="userTimeZone"
+          v-model="timeZone"
+          type="text"
+          class="form-control"
+        >
           <option
-              v-for="zone in timeZones"
-              :key="zone"
+            v-for="zone in timeZones"
+            :key="zone"
           >
             {{ zone }}
           </option>
@@ -51,32 +86,44 @@
       </div>
       <div class="form-group">
         <label for="role">{{ $t('modal_free_class.preferred_time') }}</label>
-        <select class="form-control" v-model="preferredTime">
+        <select
+          v-model="preferredTime"
+          class="form-control"
+        >
           <option
-              v-for="{value, label} in preferredTimeRanges"
-              :key="value"
-              :value="value"
+            v-for="{value, label} in preferredTimeRanges"
+            :key="value"
+            :value="value"
           >
             {{ label }}
           </option>
         </select>
       </div>
-      <div class="form-group" :class="{ 'has-error': !isValidEmail }">
+      <div
+        class="form-group"
+        :class="{ 'has-error': !isValidEmail }"
+      >
         <label for="email">{{ $t('modal_free_class.email') }}</label>
-        <input type="email" id="email" placeholder="Enter email" v-model="email" class="form-control"/>
+        <input
+          id="email"
+          v-model="email"
+          type="email"
+          placeholder="Enter email"
+          class="form-control"
+        >
       </div>
       <div class="form-group pull-right">
         <span
-            v-if="isSuccess"
-            class="success-msg"
+          v-if="isSuccess"
+          class="success-msg"
         >
           Success
         </span>
         <button
-            v-if="!isSuccess"
-            class="btn btn-success btn-lg"
-            type="submit"
-            :disabled="inProgress"
+          v-if="!isSuccess"
+          class="btn btn-success btn-lg"
+          type="submit"
+          :disabled="inProgress"
         >
           Submit
         </button>
@@ -105,8 +152,10 @@ export default {
   props: {
     availabilityPDT: {
       type: Object,
-      default: {}
-    },
+      default: function () {
+        return {}
+      }
+    }
 
   },
   data () {
@@ -137,8 +186,8 @@ export default {
         { value: 'Afternoon (12PM - 4PM)', label: $.i18n.t('modal_free_class.afternoon') },
         { value: 'Evening (4PM - 8PM)', label: $.i18n.t('modal_free_class.evening') }
       ].filter(({ value, allTimeZones }) => {
-        if(allTimeZones) {
-          return true;
+        if (allTimeZones) {
+          return true
         }
         const [from, to] = value.match(/\d+(?:AM|PM)/g)
         return [].concat(...Object.values(this.availabilityPDT)).map(range => range.split('-')).some((range) => {

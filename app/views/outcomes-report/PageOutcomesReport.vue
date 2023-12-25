@@ -18,21 +18,31 @@ const orgKinds = {
 
 const parameterDefaults = () => ({
   includeSubOrgs: true,
-  subOrgLimit: 10,  // TODO: different default limits for students vs. other types? Max value from number of sub orgs this org has?
+  subOrgLimit: 10, // TODO: different default limits for students vs. other types? Max value from number of sub orgs this org has?
   startDate: null,
   endDate: moment(new Date()).format('YYYY-MM-DD'),
-  editing: me.isAdmin(),
+  editing: me.isAdmin()
 })
 
 export default {
   components: {
-    OutcomesReportResultComponent,
+    OutcomesReportResultComponent
   },
 
   metaInfo () {
     return {
-      title: `CodeCombat Outcomes Report${ this.org ? ' - ' + (this.org.displayName || this.org.name) : ''}`,
+      title: `CodeCombat Outcomes Report${this.org ? ' - ' + (this.org.displayName || this.org.name) : ''}`
     }
+  },
+
+  beforeRouteUpdate (to, from, next) {
+    this.kind = to.params.kind || null // TODO: needed, automatic, irrelevant?
+    this.orgIdOrSlug = to.params.idOrSlug || null
+    this.country = to.params.country || null
+    this.org = null
+    this.subOrgs = []
+    this.editing = false
+    next()
   },
 
   data () {
@@ -43,109 +53,95 @@ export default {
       org: null,
       subOrgs: [],
       loading: true,
-      earliestProgressDate: null,
+      earliestProgressDate: null
     }
     const defaults = parameterDefaults()
-    for (let key in defaults) {
+    for (const key in defaults) {
       let value = this.$store.state.route.query[key]
       if (value === 'true') value = true
       if (value === 'false') value = false
       if (parseInt(value, 10).toString() === value) value = parseInt(value, 10)
-      if (value === '' || typeof value === 'undefined')
-        value = defaults[key]
+      if (value === '' || typeof value === 'undefined') { value = defaults[key] }
       obj[key] = value
     }
     return obj
   },
 
-  beforeRouteUpdate (to, from, next) {
-    this.kind = to.params.kind || null  // TODO: needed, automatic, irrelevant?
-    this.orgIdOrSlug = to.params.idOrSlug || null
-    this.country = to.params.country || null
-    this.org = null
-    this.subOrgs = []
-    this.editing = false
-    next()
-  },
-
   watch: {
     orgIdOrSlug (newSelectedOrg, lastSelectedOrg) {
-      if (newSelectedOrg !== lastSelectedOrg) {  // TODO: is this diff check needed?
+      if (newSelectedOrg !== lastSelectedOrg) { // TODO: is this diff check needed?
         this.addParametersToLocation()
         this.loadRequiredData()
       }
     },
     includeSubOrgs (newVal, lastVal) {
-      if (newVal !== lastVal) {  // TODO: is this diff check needed?
+      if (newVal !== lastVal) { // TODO: is this diff check needed?
         this.addParametersToLocation()
         this.loadRequiredData()
       }
     },
     startDate (newVal, lastVal) {
-      if (newVal === '')
-        return this.startDate = parameterDefaults().startDate
-      if (newVal === null && lastVal !== null)
-        null  // We do need to update, since we're nulling out the date
-      else if (newVal === lastVal || !(new Date(newVal) >= new Date(this.earliestDate)) || !(new Date(newVal) <= new Date(this.latestDate)))
-        return  // Return if invalid date
+      if (newVal === '') { this.startDate = parameterDefaults().startDate }
+      if (newVal === null && lastVal !== null) {
+        // nothing
+      } // We do need to update, since we're nulling out the date
+      else if (newVal === lastVal || !(new Date(newVal) >= new Date(this.earliestDate)) || !(new Date(newVal) <= new Date(this.latestDate))) { return } // Return if invalid date
       this.addParametersToLocation()
       this.loadRequiredData()
     },
     endDate (newVal, lastVal) {
-      if (newVal === '')
-        return this.endDate = parameterDefaults().endDate
-      if (newVal === lastVal)
-        return  // No need to re-fetch, a null date value is the same as today's date
-      if (newVal === null && lastVal !== null)
-        null  // We do need to update, since we're nulling out the date
-      else if (!(new Date(newVal) >= new Date(this.earliestDate)) || !(new Date(newVal) <= new Date(this.latestDate)))
-        return  // Return if invalid date
+      if (newVal === '') { this.endDate = parameterDefaults().endDate }
+      if (newVal === lastVal) { return } // No need to re-fetch, a null date value is the same as today's date
+      if (newVal === null && lastVal !== null) {
+        // nothing
+      } // We do need to update, since we're nulling out the date
+      else if (!(new Date(newVal) >= new Date(this.earliestDate)) || !(new Date(newVal) <= new Date(this.latestDate))) { return } // Return if invalid date
       this.addParametersToLocation()
       this.loadRequiredData()
     },
     subOrgLimit (newVal, lastVal) {
-      if (newVal !== lastVal) {  // TODO: is this diff check needed?
+      if (newVal !== lastVal) { // TODO: is this diff check needed?
         this.addParametersToLocation()
       }
     },
     editing (newVal, lastVal) {
-      if (newVal !== lastVal) {  // TODO: is this diff check needed?
+      if (newVal !== lastVal) { // TODO: is this diff check needed?
         this.addParametersToLocation()
       }
-    },
+    }
   },
 
   created () {
     this.kind = this.$route.params.kind || null
     this.orgIdOrSlug = this.$route.params.idOrSlug || null
     this.country = this.$route.params.country || null
+    this.newReport = this.$route.query.newReport || null
     this.fetchCourses()
   },
 
   mounted () {
-
     // Scroll to the current hash, once everything in the browser is set up
     // TODO: Should this be a general thing we do in all top-level Vue views, like it is on CocoViews?
-    let scrollTo = () => {
-      let link = $(document.location.hash)
+    const scrollTo = () => {
+      const link = $(document.location.hash)
       if (link.length) {
-        let scrollTo = link.offset().top - 100
+        const scrollTo = link.offset().top - 100
         $('html, body').animate({ scrollTop: scrollTo }, 300)
       }
     }
     _.delay(scrollTo, 1000)
   },
 
-  beforeDestroy() {
-    
+  beforeDestroy () {
+
   },
 
   methods: {
     ...mapActions({
-      fetchCourses: 'courses/fetch',
+      fetchCourses: 'courses/fetch'
     }),
 
-    //changeClanSelected (e) {
+    // changeClanSelected (e) {
     //  let newSelectedClan = ''
     //  if (e.target.value === 'global') {
     //  newSelectedClan = ''
@@ -156,7 +152,7 @@ export default {
     //  const leagueURL = newSelectedClan ? `league/${newSelectedClan}` : 'league'
     //
     //  application.router.navigate(leagueURL, { trigger: true })
-    //},
+    // },
 
     async loadRequiredData () {
       if (!this.orgIdOrSlug) {
@@ -169,15 +165,15 @@ export default {
       // TODO: cache the results in case we query again for the same parameters
       // TODO: if we load again while one load is still in progress, abort the old one
       // TODO: if we go from loaded subOrgs true to false, don't need to re-fetch
-      $('html, body').animate({ scrollTop: 0})
-      await this.fetchOutcomesReportStats({ kind: this.kind, orgIdOrSlug: this.orgIdOrSlug, includeSubOrgs: this.includeSubOrgs, country: this.country, startDate: this.startDate, endDate: this.endDate })  // TODO: date range
+      $('html, body').animate({ scrollTop: 0 })
+      await this.fetchOutcomesReportStats({ kind: this.kind, orgIdOrSlug: this.orgIdOrSlug, includeSubOrgs: this.includeSubOrgs, country: this.country, startDate: this.startDate, endDate: this.endDate, newReport: this.newReport }) // TODO: date range
       this.loading = false
     },
 
     // TODO: date range
-    async fetchOutcomesReportStats ({kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate}) {
+    async fetchOutcomesReportStats ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate, newReport }) {
       console.log('gonna load stats for', kind, orgIdOrSlug, country)
-      const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate } )
+      const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate, newReport })
       console.log(' ...', kind, orgIdOrSlug, country, 'got stats', stats)
 
       let subOrgs = []
@@ -185,17 +181,17 @@ export default {
         for (const childKind of orgKinds[kind].childKinds) {
           subOrgs = subOrgs.concat(stats[childKind + 's'] || [])
         }
-        for (let [index, subOrg] of subOrgs.entries()) {
+        for (const [index, subOrg] of subOrgs.entries()) {
           subOrg.initiallyIncluded = Boolean(!subOrg.archived && index < this.subOrgLimit && subOrg.progress && subOrg.progress.programs && (subOrgs.length > 1 || this.subOrgLimit === 1))
           // TODO: better way to get rid of redundant info if there is only one subOrg
         }
       }
-      this.subOrgs = Object.freeze(subOrgs)  // Don't add reactivity
+      this.subOrgs = Object.freeze(subOrgs) // Don't add reactivity
 
       const orgs = stats[kind + 's']
       if (orgs) {
         orgs[0].subOrgs = this.subOrgs
-        this.org = Object.freeze(orgs[0])  // Don't add reactivity
+        this.org = Object.freeze(orgs[0]) // Don't add reactivity
         console.log('   ... got our org', this.org)
       }
     },
@@ -214,7 +210,7 @@ export default {
       this.editing = !this.editing
     },
 
-    addParametersToLocation() {
+    addParametersToLocation () {
       const nonDefaultParameters = {}
       const defaults = parameterDefaults()
       for (const key in defaults) {
@@ -226,12 +222,12 @@ export default {
       history.pushState({}, null, this.$route.path + '?' + Object.keys(nonDefaultParameters).map(key => {
         return encodeURIComponent(key) + '=' + encodeURIComponent(nonDefaultParameters[key])
       }).join('&'))
-    },
+    }
   },
 
   computed: {
     ...mapGetters({
-      
+
     }),
 
     ...mapState('courses', {
@@ -258,22 +254,19 @@ export default {
     chinaInfra () {
       return features.chinaInfra
     },
-    
+
     dateRangeDisplay () {
       const endDate = this.endDate || new Date()
       const format = features.chinaInfra ? 'l' : 'MMM D, YYYY'
-      if (!this.startDate)
-        return moment(endDate).format(format)
+      if (!this.startDate) { return moment(endDate).format(format) }
       return moment(this.startDate).format(format) + ' – ' + moment(endDate).format(format)
     },
 
     earliestDate () {
-      if (this.startDate && this.earliestProgressDate)
-        return this.earliestProgressDate
-      if (!this.org || !this.org.progress || !this.org.progress.first || this.startDate)
-        return '2013-02-28'  // First user creation
+      if (this.startDate && this.earliestProgressDate) { return this.earliestProgressDate }
+      if (!this.org || !this.org.progress || !this.org.progress.first || this.startDate) { return '2013-02-28' } // First user creation
       // If we have fetched progress with no date filter, then we can remember when the first student played for when we do add a date filter
-      this.earliestProgressDate = this.org.progress.first.slice(0, 10)
+      this.earliestProgressDate = this.org.progress.first.slice(0, 10) // eslint-disable-line ue/no-side-effects-in-computed-properties
       return this.earliestProgressDate
     },
 
@@ -282,12 +275,7 @@ export default {
     },
 
     accountManager () {
-      if ((me.isAdmin() || /@codecombat\.com$/i.test(me.get('email'))) && !/@gmail\.com$/i.test(me.get('email')))
-        return { name: me.broadName(), email: me.get('email') }
-      else if (features.chinaInfra)
-        return { email: 'china@codecombat.com' }
-      else
-        return { email: 'schools@codecombat.com' }
+      if ((me.isAdmin() || /@codecombat\.com$/i.test(me.get('email'))) && !/@gmail\.com$/i.test(me.get('email'))) { return { name: me.broadName(), email: me.get('email') } } else if (features.chinaInfra) { return { email: 'china@codecombat.com' } } else { return { email: 'schools@codecombat.com' } }
     },
 
     childKind () {
@@ -295,11 +283,10 @@ export default {
       // TODO: filter out a kind if there's only one instance (one classroom for a teacher, maybe one teacher in a school)
       // TODO: filter out a kind if there are no instances (no subnetwork so go to schools)
       return orgKinds[this.kind].childKinds[0]
-    },
+    }
   }
 }
 </script>
-
 
 <template lang="pug">
 main#page-outcomes-report
@@ -382,7 +369,6 @@ main#page-outcomes-report
           input#subOrgLimit.form-control(type="number" v-model.number="subOrgLimit" name="subOrgLimit" min="1" step="1")
     .clearfix
 </template>
-
 
 <style lang="scss">
 #page-outcomes-report {
@@ -626,4 +612,3 @@ main#page-outcomes-report
   }
 }
 </style>
-

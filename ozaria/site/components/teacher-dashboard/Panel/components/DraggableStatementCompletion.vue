@@ -1,12 +1,12 @@
 <script>
-  export default {
-    props: {
-      panelSessionContent: {
-        type: Object,
-        required: true
-      }
+export default {
+  props: {
+    panelSessionContent: {
+      type: Object,
+      required: true
     }
   }
+}
 </script>
 
 <template>
@@ -42,7 +42,10 @@
         </h4>
       </div>
       <div class="flex-row">
-        <div v-for="{ text } in panelSessionContent.solutionText" :key="`${text}-sol`">
+        <div
+          v-for="{ text } in panelSessionContent.solutionText"
+          :key="`${text}-sol`"
+        >
           <p>{{ text }}</p>
         </div>
       </div>

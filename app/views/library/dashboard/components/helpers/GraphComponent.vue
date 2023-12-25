@@ -34,9 +34,9 @@
         {{ $t('library.age_demographics') }}
       </div>
       <d3-pie-chart
+        v-if="ageData.length > 0"
         :datum="ageData"
         :config="ageConfig"
-        v-if="ageData.length > 0"
       />
       <div
         v-else
@@ -70,15 +70,15 @@
 import { D3LineChart, D3BarChart, D3PieChart } from 'vue-d3-charts'
 export default {
   name: 'GraphComponent',
-  props: {
-    stats: {
-      type: Object
-    }
-  },
   components: {
     D3LineChart,
     D3BarChart,
     D3PieChart
+  },
+  props: {
+    stats: {
+      type: Object
+    }
   },
   data () {
     return {
@@ -173,7 +173,8 @@ export default {
     timeSpentData () {
       const arr = []
       for (const month in this.stats?.licenseDaysByMonth) {
-        arr.push({ date: this.formatDate(month, { shortenMonth: true }), time_spent: (this.stats?.licenseDaysByMonth[month]?.progress?.playtime || 0) / 60 })
+        const timeSpent = Math.floor((this.stats?.licenseDaysByMonth[month]?.progress?.playtime || 0) / 60)
+        arr.push({ date: this.formatDate(month, { shortenMonth: true }), time_spent: timeSpent })
       }
       return arr
     },

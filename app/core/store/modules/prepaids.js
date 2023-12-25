@@ -69,7 +69,7 @@ export default {
 
     revokeJoiner: (state, { prepaidId, joiner }) => {
       const joiners = state.joiners.byPrepaid[prepaidId] || []
-      const joinersWithoutJoiner = joiners.filter(item => item._id !== joiner._id);
+      const joinersWithoutJoiner = joiners.filter(item => item._id !== joiner._id)
       Vue.set(state.joiners.byPrepaid, prepaidId, joinersWithoutJoiner)
     }
   },
@@ -177,14 +177,14 @@ export default {
           if (user) {
             prepaidsApi.addJoiner({ prepaidID: prepaidId, userID: user._id })
               .then(() => {
-                commit('addJoinerForPrepaid', { prepaidId: prepaidId, joiner: user })
+                commit('addJoinerForPrepaid', { prepaidId, joiner: user })
               })
               .catch((e) => noty({ text: 'Error:' + e.message, type: 'error', layout: 'topCenter', timeout: 2000 }))
           }
         })
         .catch((e) => {
-          console.error('Error in adding prepaid joiner:', e);
-          throw e;
+          console.error('Error in adding prepaid joiner:', e)
+          throw e
         })
     },
 
@@ -194,7 +194,7 @@ export default {
         if (user) {
           try {
             await prepaidsApi.revokeJoiner({ prepaidID: prepaidId, userID: user._id })
-            commit('revokeJoiner', { prepaidId: prepaidId, joiner: user })
+            commit('revokeJoiner', { prepaidId, joiner: user })
           } catch (e) {
             noty({ text: 'Error:' + e.message, type: 'error', layout: 'topCenter', timeout: 2000 })
           }
@@ -208,7 +208,7 @@ export default {
     async applyLicenses ({ getters }, { members, teacherId, sharedClassroomId }) {
       const prepaids = getters.getPrepaidsByTeacher(teacherId)
       if (!prepaids) {
-        throw new Error(`no prepaids for the teacher`)
+        throw new Error('no prepaids for the teacher')
       }
 
       const students = members.map(data => new User(data))
@@ -296,7 +296,7 @@ export default {
 
       const existsLicenseToRevoke = students.length > 0
       if (!existsLicenseToRevoke) {
-        noty({ text: `No licenses applied to selected student(s).` })
+        noty({ text: 'No licenses applied to selected student(s).' })
         return
       }
 

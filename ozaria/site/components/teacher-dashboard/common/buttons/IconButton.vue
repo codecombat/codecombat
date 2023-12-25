@@ -1,26 +1,26 @@
 
 <script>
-  import PrimaryButton from './PrimaryButton'
-  export default {
-    components: {
-      'primary-button': PrimaryButton
+import PrimaryButton from './PrimaryButton'
+export default {
+  components: {
+    'primary-button': PrimaryButton
+  },
+  props: {
+    iconName: {
+      type: String,
+      required: true,
+      default: ''
     },
-    props: {
-      iconName: {
-        type: String,
-        required: true,
-        default: ''
-      },
-      iconStyle: {
-        type: String,
-        default: ''
-      },
-      link: {
-        type: String,
-        default: null
-      }
+    iconStyle: {
+      type: String,
+      default: ''
+    },
+    link: {
+      type: String,
+      default: null
     }
   }
+}
 </script>
 
 <template>

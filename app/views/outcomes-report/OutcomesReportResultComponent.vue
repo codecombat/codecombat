@@ -1,9 +1,9 @@
 <script>
-import { mapGetters, mapActions, mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import utils from 'core/utils'
 
 export default Vue.extend({
-  name: 'outcomes-report-result-component',
+  name: 'OutcomesReportResultComponent',
   props: {
     org: {
       type: Object,
@@ -20,7 +20,7 @@ export default Vue.extend({
     parentOrgKind: {
       type: String,
       default: null
-    },
+    }
   },
 
   data () {
@@ -48,20 +48,30 @@ export default Vue.extend({
       if (!this.org.progress) return
       let languageStats = {}
       let totalPrograms = 0
-      for (let language of ['python', 'javascript', 'cpp']) {
-        let programs = this.org.progress.programsByLanguage[language]
+      for (const language of ['python', 'javascript', 'cpp']) {
+        let programs
+        if (this.org.newProgress) {
+          programs = this.org.newProgress.languages[language] || 0
+        } else {
+          programs = this.org.progress.programsByLanguage[language]
+        }
         totalPrograms += programs
         languageStats[language] = { programs }
       }
-      for (let [language, stats] of Object.entries(languageStats)) {
+      if (this.org.newProgress) {
+        let programs = this.org.newProgress.languages.java || 0
+        totalPrograms += programs
+        languageStats['java'] = { programs }
+      }
+      for (const [language, stats] of Object.entries(languageStats)) {
         stats.percentage = Math.round(100 * stats.programs / totalPrograms)
         stats.name = utils.capitalLanguages[language]
         stats.language = language
       }
-      languageStats = _.omit(languageStats, (s) => !s.programs || s.programs < totalPrograms * 0.005)  // Skip low usage languages
-      languageStats = Object.values(languageStats).sort((a, b) => b.programs - a.programs)  // Sorted array
+      languageStats = _.omit(languageStats, (s) => !s.programs || s.programs < totalPrograms * 0.005) // Skip low usage languages
+      languageStats = Object.values(languageStats).sort((a, b) => b.programs - a.programs) // Sorted array
       let otherLanguagesCumulativePercentage = 0
-      for (let stats of languageStats) {
+      for (const stats of languageStats) {
         // Keep track of how much all languages have contributed so that we can draw our pie chart
         stats.otherLanguagesCumulativePercentage = otherLanguagesCumulativePercentage
         otherLanguagesCumulativePercentage += stats.percentage
@@ -70,33 +80,43 @@ export default Vue.extend({
     },
 
     coursesWithProgress () {
-      if (!this.org.progress) return []
+      if (!this.org.progress && !this.org.newProgress) return []
       let courses = _.cloneDeep(this.sortedCourses)
       let alreadyCoveredConcepts = []
-      for (let course of courses) {
+      for (const course of courses) {
         course.name = utils.i18n(course, 'name')
         course.acronym = utils.courseAcronyms[course._id]
         course.studentsStarting = (this.org.progress.studentsStartingCourse || {})[course._id] || 0
         course.studentsCompleting = (this.org.progress.studentsCompletingCourse || {})[course._id] || 0
         course.completion = course.studentsStarting ? Math.min(1, course.studentsCompleting / course.studentsStarting) : 0
+        if (this.org.newProgress) {
+          const courseCompleteLevels = this.org.newProgress.courseCompleteLevels || {}
+          const courseStartingStudents = this.org.newProgress.courseStartingStudents || {}
+          const completeLevels = Math.max(...Object.values(courseCompleteLevels[course._id] || {})) || 0
+          course.studentsStarting = courseStartingStudents[course._id] || 0
+          course.completeLevels = completeLevels
+          course.completion = Math.min(1, course.completeLevels / (this.org.newProgress.courseAllLevels[course._id] || 1))
+        }
         course.newConcepts = _.difference(course.concepts, alreadyCoveredConcepts)
         alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
       }
-      courses = _.filter(courses, (course) => (course.studentsStarting + course.studentsCompleting) >= Math.min(100, Math.max(2, Math.ceil(0.02 * this.org.progress.studentsWithCode))))
+      if (this.org.newProgress) {
+        courses = _.filter(courses, (course) => course.completeLevels >= 1)
+      } else {
+        courses = _.filter(courses, (course) => (course.studentsStarting + course.studentsCompleting) >= Math.min(100, Math.max(2, Math.ceil(0.02 * this.org.progress.studentsWithCode))))
+      }
       return courses
     },
 
-    mapUrl() {
+    mapUrl () {
       if (!this.org.address) return null
       let orgName = this.org.displayName || this.org.name
-      if (this.org.kind === 'school-district' && !/school.*district|isd|usd|unified/.test(orgName))
-        orgName += ' School District'
+      if (this.org.kind === 'school-district' && !/school.*district|isd|usd|unified/.test(orgName)) { orgName += ' School District' }
       const addresses = [orgName + ', ' + this.org.address]
-      for (let subOrg of this.org.subOrgs || []) {
+      for (const subOrg of this.org.subOrgs || []) {
         if (subOrg.address) {
           let subOrgName = subOrg.displayName || subOrg.name
-          if (subOrg.kind === 'school-district' && !/school.*district|isd|usd|unified/.test(subOrgName))
-            subOrgName += ' School District'
+          if (subOrg.kind === 'school-district' && !/school.*district|isd|usd|unified/.test(subOrgName)) { subOrgName += ' School District' }
           addresses.push(subOrgName + ', ' + subOrg.address)
         }
       }
@@ -105,20 +125,19 @@ export default Vue.extend({
       if (addresses.length > 1) {
         // Multiple addresses, abuse direction-type link to show them all
         // Could add &destination=${encodeURIComponent(addresses[0])} to activate the driving directions, but probably better without
-        let urlWithSubOrgs = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(addresses[0])}&waypoints=${addresses.slice(1).map(a => encodeURIComponent(a)).join('|')}`
-        if (urlWithSubOrgs.length < 8192)
-          url = urlWithSubOrgs
+        const urlWithSubOrgs = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(addresses[0])}&waypoints=${addresses.slice(1).map(a => encodeURIComponent(a)).join('|')}`
+        if (urlWithSubOrgs.length < 8192) { url = urlWithSubOrgs }
       }
       return url
     },
 
-    isAdmin() {
+    isAdmin () {
       return me.isAdmin()
     },
 
-    isSchoolAdmin() {
+    isSchoolAdmin () {
       return me.isSchoolAdmin()
-    },
+    }
   },
 
   created () {
@@ -133,7 +152,7 @@ export default Vue.extend({
 
   methods: {
     ...mapActions({
-      fetchCourses: 'courses/fetch',
+      fetchCourses: 'courses/fetch'
     }),
 
     phoneString (phone) {
@@ -142,18 +161,17 @@ export default Vue.extend({
     },
 
     formatNumber (num) {
-      if (num <         10000) return num.toLocaleString()
-      if (num <        999500) return Math.round(num / 1000) + 'K'
-      if (num <      10000000) return (num / 1000000).toFixed(1) + 'M'
-      if (num <     999500000) return Math.round(num / 1000000) + 'M'
-      if (num <   10000000000) return (num / 1000000000).toFixed(1) + 'B'
-      if (num <  999500000000) return Math.round(num / 1000000000) + 'B'
+      if (num < 10000) return num.toLocaleString()
+      if (num < 999500) return Math.round(num / 1000) + 'K'
+      if (num < 10000000) return (num / 1000000).toFixed(1) + 'M'
+      if (num < 999500000) return Math.round(num / 1000000) + 'M'
+      if (num < 10000000000) return (num / 1000000000).toFixed(1) + 'B'
+      if (num < 999500000000) return Math.round(num / 1000000000) + 'B'
       return Math.round(num / 1000000000000) + 'T'
     }
   }
-});
+})
 </script>
-
 
 <template lang="pug">
 .outcomes-report-result-component(v-if="included || editing")
@@ -246,7 +264,7 @@ export default Vue.extend({
         a(:href="'/outcomes-report/school-admin/' + org['school-admin']._id" target="_blank")
           b= org['school-admin'].displayName
 
-  .block(v-if="included && coursesLoaded && coursesWithProgress[0] && coursesWithProgress[0].studentsStarting > 1" :class="isSubOrg && coursesWithProgress.length > 1 ? 'dont-break' : ''")
+  .block(v-if="included && coursesLoaded && coursesWithProgress[0] && (coursesWithProgress[0].completion !== null || coursesWithProgress[0].studentsStarting > 1)" :class="isSubOrg && coursesWithProgress.length > 1 ? 'dont-break' : ''")
     h1= $t('teacher.course_progress')
     for course in coursesWithProgress
       if !isSubOrg || coursesWithProgress.length == 1
@@ -384,7 +402,6 @@ export default Vue.extend({
           span= licenses
 
 </template>
-
 
 <style lang="scss">
 #page-outcomes-report .outcomes-report-result-component {
@@ -678,5 +695,3 @@ export default Vue.extend({
   }
 }
 </style>
-
-

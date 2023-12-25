@@ -15,8 +15,8 @@ export default Vue.extend({
 
 <template>
   <div
-      v-if="show"
-      class="container"
+    v-if="show"
+    class="container"
   >
     <div class="row">
       <div class="col-xs-12">
@@ -24,7 +24,10 @@ export default Vue.extend({
           <p>
             Join us on {{ whenDisplay }} for our Hour of Code Walkthrough! Our team will take you through the latest
             activities and show you how you can best use them in your classroom.<br>
-            <a href="https://us06web.zoom.us/webinar/register/WN_-KLRylhdRqaYB_qZ9IrzUw" target="_blank">
+            <a
+              href="https://us06web.zoom.us/webinar/register/WN_-KLRylhdRqaYB_qZ9IrzUw"
+              target="_blank"
+            >
               Register here!
             </a>
           </p>

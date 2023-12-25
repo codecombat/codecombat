@@ -10,38 +10,38 @@ import {
 } from '../../../../app/schemas/models/selectors/cinematic'
 import { processText, getDefaultTextPosition } from './helper'
 import { WIDTH, HEIGHT, LETTER_ANIMATE_TIME } from '../constants'
+import store from 'app/core/store'
 
 const BUBBLE_PADDING = 10
-const SPEECH_BUBBLE_MAX_WIDTH = `37vmin`
-const SPEECH_BUBBLE_ZOOMED_MAX_WIDTH = `68vmin`
-import store from 'app/core/store'
+const SPEECH_BUBBLE_MAX_WIDTH = '37vmin'
+const SPEECH_BUBBLE_ZOOMED_MAX_WIDTH = '68vmin'
 
 /**
  * This system coordinates drawing HTML and SVG to the screen.
  * It is also responsible for localization and interpolation of the speech bubbles.
  */
 
-let _id = 0;
-const idTextMap = {};
+let _id = 0
+const idTextMap = {}
 const getIdFromElementId = (id) => {
-  return parseInt(id.split('-').pop(), 10);
+  return parseInt(id.split('-').pop(), 10)
 }
 
 export default class DialogSystem {
   constructor ({ canvasDiv }) {
     const div = this.div = document.createElement('div')
 
-    div.style.position = `absolute`
-    div.style.width = `100%`
-    div.style.height = `100%`
-    div.style.zIndex = `20`
-    div.style.pointerEvents = `none`
+    div.style.position = 'absolute'
+    div.style.width = '100%'
+    div.style.height = '100%'
+    div.style.zIndex = '20'
+    div.style.pointerEvents = 'none'
 
     canvasDiv.appendChild(div)
 
     this.shownDialogBubbles = []
     this._templateDataParameters = {}
-    _id = 0;
+    _id = 0
   }
 
   /**
@@ -79,8 +79,8 @@ export default class DialogSystem {
       const { zoom } = getCamera(shot)
       const { x, y } = getTextPosition(dialogNode) || getDefaultTextPosition(side, zoom)
       const width = getTextWidth(dialogNode)
-      const id = ++_id;
-      idTextMap[id] = this.getHashFromText(dialogNode.text);
+      const id = ++_id
+      idTextMap[id] = this.getHashFromText(dialogNode.text)
       commands.push((new SpeechBubble({
         div: this.div,
         htmlString: text,
@@ -91,7 +91,7 @@ export default class DialogSystem {
         textDuration: getTextAnimationLength(dialogNode),
         zoom,
         width,
-        id,
+        id
       })).createBubbleCommand())
     }
     return commands
@@ -108,7 +108,7 @@ export default class DialogSystem {
     const hideDialogueBubbleCommand = new SyncFunction(() => {
       scopedArrayOfHiddenElements = []
       this.shownDialogBubbles.forEach(el => {
-        if (el.style.display === `inline-block`) {
+        if (el.style.display === 'inline-block') {
           scopedArrayOfHiddenElements.push(el)
           el.style.display = 'none'
         }
@@ -119,8 +119,8 @@ export default class DialogSystem {
       return new SyncFunction(() => {
         scopedArrayOfHiddenElements.forEach(el => {
           el.style.display = 'inline-block'
-          const numericalId = getIdFromElementId(el.id);
-          store.dispatch('cinematicActionLog/changeCurrentPrompt', idTextMap[numericalId]);
+          const numericalId = getIdFromElementId(el.id)
+          store.dispatch('cinematicActionLog/changeCurrentPrompt', idTextMap[numericalId])
         })
       })
     }
@@ -129,8 +129,8 @@ export default class DialogSystem {
   }
 
   // since prompts dont have unique id - hashing the text to create a sort of uniqueId
-  getHashFromText(text) {
-    return Buffer.from(text || '').toString('base64').slice(0, 20);
+  getHashFromText (text) {
+    return Buffer.from(text || '').toString('base64').slice(0, 20)
   }
 }
 
@@ -184,9 +184,9 @@ class SpeechBubble {
     y -= (height - BUBBLE_PADDING)
     if (side === 'right') {
       speechBubbleDiv.style.right = `${(WIDTH - x) / WIDTH * 100}%`
-    }else if(side === 'center'){
+    } else if (side === 'center') {
       speechBubbleDiv.style.left = `calc( ${x / WIDTH * 100}% - 19vmin)`
-    }else {
+    } else {
       speechBubbleDiv.style.left = `${x / WIDTH * 100}%`
     }
 
@@ -215,8 +215,8 @@ class SpeechBubble {
     // array for future cleanup.
     this.resetSpeechBubble()
     this.animationFn = () => {
-      const numericalId = getIdFromElementId(this.id);
-      store.dispatch('cinematicActionLog/changeCurrentPrompt', idTextMap[numericalId]);
+      const numericalId = getIdFromElementId(this.id)
+      store.dispatch('cinematicActionLog/changeCurrentPrompt', idTextMap[numericalId])
       shownDialogBubbles.push(speechBubbleDiv)
       this.resetSpeechBubble()
       return anime

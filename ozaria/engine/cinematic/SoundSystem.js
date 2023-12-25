@@ -61,7 +61,7 @@ export class SoundSystem {
       const musicCommand = new SyncFunction(async () => {
         await store.dispatch('audio/stopTrack', 'background')
 
-        let srcFiles = []
+        const srcFiles = []
         if (music.files.mp3) {
           srcFiles.push(music.files.mp3)
         }
