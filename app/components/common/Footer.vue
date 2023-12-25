@@ -227,6 +227,28 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
                   span.spr(v-if="l.extra") {{ l.extra }}
                 span.active(v-if="checkLocation(l.url)") {{ $t(l.title) }}
                   span.spr(v-if="l.extra") {{ l.extra }}
+          template(v-if="me.showChinaResourceInfo()")
+            .col.footer-links__col.col-lg-3
+              h1.text-h3 {{ $t("nav.follow_us") }}
+              .follow_us
+                .socialicon
+                  .si.si-wechat
+                    .mpqrcode(v-if="isChinaHome")
+                      img.mpqr(src="https://assets.koudashijie.com/images/homeVersion/mpqr.jpeg")
+                    .mpqrcode(v-else)
+                      .span
+                        span='老师请扫'
+                        img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
+                      .span
+                        span='家长请扫'
+                        img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode-xuetang.jpeg")
+                  template(v-if="!isChinaHome")
+                    .si.si-tiktok
+                      .tkqrcode
+                        img.tkqr(src="https://assets.koudashijie.com/images/home/tiktokqr.jpg")
+                    a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
+                    a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
+
   final-footer
 </template>
 

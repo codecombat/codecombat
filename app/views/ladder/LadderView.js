@@ -300,7 +300,7 @@ module.exports = (LadderView = (function () {
       if(me.isAnonymous() && utils.getQueryVariable('requireLogin') == true ){
         window.nextURL=window.location.href
         const modal = new AuthModal()
-        @openModalView(modal)
+        this.openModalView(modal)
       }
       this.$el.toggleClass('single-ladder', this.level.isType('ladder'))
       // tournamentState condition

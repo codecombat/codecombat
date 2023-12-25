@@ -1420,7 +1420,7 @@ ${problem.category} - ${problem.score} points\
 
       if (me.showChinaResourceInfo() && !me.showChinaHomeVersion()) {
         const defaultAccess = ['short', 'china-classroom']
-        if(me.get('hourOfCode') || @campaign?.get('type') === 'hoc' || this.campaign?.get('slug') === 'intro' ) {
+        if(me.get('hourOfCode') || this.campaign?.get('type') === 'hoc' || this.campaign?.get('slug') === 'intro' ) {
           defaultAccess = defaultAccess.concat(['medium', 'long'])
         }
         const freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => defaultAccess.includes(faLevel.access)).map((faLevel) => faLevel.slug)
