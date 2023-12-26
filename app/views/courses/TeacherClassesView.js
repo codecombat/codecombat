@@ -378,6 +378,9 @@ module.exports = (TeacherClassesView = (function () {
     }
 
     onMyClansLoaded (clans) {
+      if (features.chinaInfra) {
+        return
+      }
       this.myClans = clans
       if (!(this.teacherClan = _.find((clans != null ? clans : []), c => /teacher/.test(c.name)))) { return }
       return clansApi.getAILeagueStats(this.teacherClan._id).then(stats => {

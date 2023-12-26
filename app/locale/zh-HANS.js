@@ -115,7 +115,7 @@ module.exports = {
       title_cn_home: 'CodeCombat - 玩游戏学编程|零基础Python, Javascript入门|CodeCombat 个人版',
       meta_keywords_coco: '扣哒世界, 青少年编程, 少儿编程, 信息学奥赛, CodeCombat官网,CodeCombat中文,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,CodeCombat中国',
       meta_keywords_ozar: 'CodeCombat,青少年编程,少儿编程,奥佳睿官网,Ozaria,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,Ozaria中文',
-      meta_description_coco: '扣哒世界，CodeCombat中国唯一官方网站，支持Python, C++, JavaScript, 美国大学理事会（AP)认证，AI世青赛全球独家技术平台，支持中美信息学奥赛(NOI, CSP-J/S, USACO)、电子学会考试和国际青少年编程认证。',
+      meta_description_coco: '扣哒世界是教育部白名单赛事平台，信奥CSP-J/S学习平台，AI世青赛、图灵计划和Code Quest官方竞赛平台，支持Python, C++, JavaScript。',
       meta_description_ozar: 'CodeCombat原创作品，支持Python, JavaScript 和编程英语学习，奥佳睿（Ozaria）既是计算机科学程序，扣人心弦的冒险游戏，也是一个让学生们掌握计算机代码魔法来拯救世界的科幻故事。',
       meta_og_url: 'https://koudashijie.com',
       become_investor: '成为 CodeCombat 的投资者',
@@ -157,7 +157,7 @@ module.exports = {
       creativity_rigor_blurb3: '扣哒世界自带竞赛系统(多人算法编程竞技场和创意编程顶峰项目)。已被中国、美国、新加坡、以色列等多个国家采用，是多个知名青少年编程竞赛指定平台。',
       featured_partners_title1: '媒体报道',
       featured_partners_title2: '荣誉及合作伙伴',
-      featured_partners_blurb1: 'AP认证', // {change}
+      featured_partners_blurb1: '美国大学理事会认证',
       featured_partners_blurb2: '学生最佳创造力工具',
       featured_partners_blurb3: '学习的最优选择',
       featured_partners_blurb4: 'Code.org 官方合作伙伴',
@@ -299,7 +299,7 @@ module.exports = {
       educator: '教育工作者',
       student: '学生',
       go_to_my_dashboard: '进入我的课程',
-      our_coding_programs: '我们的代码程序',
+      our_coding_programs: '我们的编程课程',
       codecombat: '扣哒世界 (CodeCombat) ',
       ozaria: '奥佳睿 (Ozaria) ',
       codecombat_blurb: '我们原创的编程游戏，推荐给家长、个人、教育工作者和学生，让他们体验世界上最受欢迎的编程游戏之一。',
@@ -374,6 +374,7 @@ module.exports = {
       events: '大事记',
       impact: '影响力',
       star: '扣哒之星',
+      coco_oj: '扣哒信奥',
       contact: '联系我们',
       press: '公司新闻',
       twitter_follow: '关注',
@@ -417,14 +418,14 @@ module.exports = {
       //    codecombat_admin_dashboard: "CodeCombat Admin Dashboard"
       //    professional_development: "Professional Development"
       //    new: "New!"
-      admin: '管理员'
-    },
+      admin: '管理员',
     //    api: "API"
+      teacher: '教师',
     //    api_dashboard: "API Dashboard"
     //    funding_resources_guide: "Funding Resources Guide"
     //    partnerships: "Partnerships"
     //    podcast: "Our Podcast"
-    //    dashboard: "Dashboard"
+      dashboard: "我的班级"
     //    products: "Products"
     //    live_online_classes: "Live Online Classes"
     //    codecombat_home: "CodeCombat Home"
@@ -434,6 +435,7 @@ module.exports = {
     //    help_center: "Help Center"
     //    research_efficacy: "Research - Efficacy"
     //    research_impact: "Research - Impact"
+    },
 
     modal: {
       close: '关闭',
@@ -704,7 +706,7 @@ module.exports = {
       confirm_individual_blurb: '记下这些信息，等会可能用得上。我们已发送验证邮件，验证后可用其重置密码！',
       //    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
       write_this_down: '记下来：',
-      start_playing: '开始',
+      start_playing: '开始！',
       sso_connected: '成功与以下账号关联：',
       select_your_starting_hero: '选择你的英雄：',
       you_can_always_change_your_hero_later: '之后你可以随时更换。',
@@ -1305,7 +1307,7 @@ module.exports = {
       thank_you: '感谢您支持CodeCombat。',
       sorry_to_see_you_go: '真舍不得亲离开啊！ 请一定要让我们知道哪里做的还不够好。',
       unsubscribe_feedback_placeholder: '噢, 我们做了神马?',
-      stripe_description: '每月订阅',
+      stripe_description: '季度订阅',
       stripe_yearly_description: '年度订阅',
       buy_now: '立即购买',
       subscription_required_to_play: '订阅后才可开始本关',
@@ -1331,6 +1333,7 @@ module.exports = {
       feature_aiyouth: 'AI世青赛参赛机会',
       //    feature_gems: "Earn __gems__ gems/mo (__gems12__ gems/yr)"
       month_price: '__price__元/月', // {change}
+      season_price: '__price__元/季度',
       //    month_price_without_currency: "__price__/mo"
       first_month_price: '第一个月仅需 $__price__！',
       lifetime: '终身订阅',
@@ -1635,6 +1638,7 @@ module.exports = {
       jobs_benefit_4: '无限制假期', // {change}
       jobs_benefit_5: '专业开发以及继续教育的支持 - 免费书籍/游戏！',
       jobs_benefit_6: '医疗 (金), 牙科, 视力，交通费', // {change}
+      jobs_benefit_7: '提供站立式办公桌',
       jobs_benefit_9: '10年公司期权',
       jobs_benefit_10: '产假：10周工资及未来6周55%工资',
       jobs_benefit_11: '陪产假: 10周工资', // {change}
@@ -1686,14 +1690,14 @@ module.exports = {
       no_new_students_imported: '没有新同学导入',
       error_in_importing_classrooms: '导入班级发生错误',
       error_in_importing_students: '导入学生发生错误',
-      //    classroom_items_description: "Whether students should earn gems and equip items during gameplay."
+      classroom_items_description: '学生们是否需要在关卡中赚取宝石并购买装备。',
       classroom_live_completion: '关闭该项会关闭所有学生的自动补全功能。启用该项则根据学生自己的设置开启自动补全。',
       not_allow_to_solution: '# 查看解法需要许可'
     },
 
     no_licenses_page: {
       are_your_students_ready: '学生有兴趣继续学习更多课程了吗？',
-      once_students_have_completed: '学生完成第一章后，他们需要许可继续学习更多课程章节。',
+      once_students_have_completed: '学生完成第一章免费部分后，他们需要许可继续学习更多课程章节。',
       get_licenses: '获取许可',
       get_full_access_to_ozaria: '获取全部访问奥佳睿的权限',
       unlock_all: '解锁所有以上课程和教学支持服务',
@@ -1712,7 +1716,7 @@ module.exports = {
       creative_projects: '创意项目',
       creative_projects_desc: '通过可分享的顶点项目激发想象力和释放创造力，例如第二章中学生设计自己的创意游戏。 ',
       looking_for_engaging: '寻找吸引人的计算机科学课程？',
-      licenses_are_required: '学生需要许可继续第一章以后的课程学习。',
+      licenses_are_required: '学生需要许可继续免费部分以后的课程学习。',
       real_world_skills: '真实世界的技能',
       real_world_skills_desc: '学生学习两门最受欢迎的编程语言Python和JavaScript, 学习批判性思维，创造力和实践韧性，这为学生未来的职业发展打好基础。',
       personalized_learning: '个性化学习和多层次教学',
@@ -2260,14 +2264,14 @@ module.exports = {
       //    view_winners: "View Winners"
       classroom_announcement: '班级公告',
       //    link_lms_classroom: "Link LMS Classroom"
-      //    classroom_items: "Items & Gems"
+      classroom_items: '装备与宝石',
       classroom_live_completion: '为学生启用自动补全：'
-    },
     //    learn_without_classroom_title: "You can still learn and play without a classroom"
     //    learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>."
     //    learn_without_classroom_blurb_coco: "Start by playing the free Hour of Code campaign by <a href='/play/intro'>clicking here</a>."
     //    all_courses_completed: "All Courses Completed!"
     //    all_units_completed: "All Units Completed!"
+    },
 
     project_gallery: {
       no_projects_published: '成为第一个在这个课程中发布项目的人吧！',
@@ -4112,7 +4116,7 @@ module.exports = {
     //    page_heading_latest_activities: "Our latest activities are easy to implement and fun to play"
 
     hoc_2018_interstitial: {
-      welcome: '欢迎来到 CodeCombat 的“2020 编码一小时” ',
+      welcome: '欢迎来到扣哒世界的“编程体验活动”',
       educator: '我是一名教育工作者',
       show_resources: '让我看看教师资源吧！',
       student: '我是一名学生',
@@ -4236,15 +4240,29 @@ module.exports = {
     //    timezone_tips: "Note - Your timezone: "
 
     teacher_dashboard: {
-    //    lock: "Lock"
-    //    unlock: "Unlock"
+      lock: '锁定',
+      unlock: '解锁',
+      unassign: '撤销',
+      choose_course: '点击选择课程',
+      teacher_locked_message: '老师锁定了下一个关卡',
+      plan_your_class_title: '计划您的课程',
+      plan_your_class1: '查看课程进度',
+      plan_your_class2: '查看课件和扩展活动',
+      plan_your_class3: '免费试用部分第一章节',
+      click_dismiss: '点击解散',
+      track_progress: '跟踪进度',
+      track_progress_desc: '点击你创建的班级，查看学生的详细进度',
+      add_classes_title: '这里添加班级',
+      add_classes: '添加班级，学生可以免费试用部分第一章',
+      all_classes: '所有班级',
+      my_licenses: '我的许可',
+      resource_hub: '资源中心',
     //    lock_until_date: "Lock until date"
     //    skip: "Skip"
     //    unskip: "Unskip"
     //    make_optional: "Make optional"
     //    remove_optional: "Remove Optional"
     //    until_date: "until __date__"
-    //    unassign: "Unassign"
     //    locked: "Locked"
     //    locked_by_previous: "Locked by previous level"
     //    locked_with_timeframe: "Locked"
@@ -4252,80 +4270,66 @@ module.exports = {
     //    optional: "Optional"
     //    assigned: "Assigned"
     //    unlocked: "Unlocked"
-    //    choose_course: "Click to Select from Dropdown"
-    //    teacher_locked_message: "Your teacher has locked the next level"
-    //    plan_your_class_title: "Plan your first class by"
-    //    plan_your_class1: "Viewing course progression info"
-    //    plan_your_class2: "Previewing lesson slides & extension activities"
-    //    plan_your_class3: "Trying the first chapter for free"
-    //    click_dismiss: "Click to Dismiss"
-    //    track_progress: "Track Progress"
-    //    track_progress_desc: "Click into the class you just created to view detailed student progress."
-    //    add_classes_title: "Add Classes Here"
-    //    add_classes: "Add classes and get students started with the first free chapter!"
-    //    all_classes: "All Classes"
-    //    my_licenses: "My Licenses"
-    //    resource_hub: "Teacher Toolkit"
     //    pd: "Professional Development"
-    //    pd_short: "PD"
-    //    curriculum_guide: "Curriculum Guide"
-    //    add_class: "Add New Class"
-    //    no_licenses_yet: "No licenses yet"
-    //    req_licenses: "Request Licenses"
-    //    license_ratio_used: "__totalUsedLicenses__ out of __totalSpots__"
-    //    licenses_applied: "Licenses Applied"
-    //    student_projects: "Student Projects"
-    //    no_classes_yet: "No classes yet"
-    //    exemplar_project: "Exemplar Project"
-    //    capstone_proj_for: "Capstone Project for __courseName__"
-    //    project_rubric: "Project Rubric"
-    //    select_chapter: "Select Chapter"
-    //    concept_flag: "Concept Flag"
-    //    support_learning: "Support Learning"
-    //    concept_flag_desc: "More than 50% of the class attempted a Concept Check 3 or more times."
-    //    concept_flag_desc2: "Student attempted a Concept Check 3 or more times."
-    //    click_progress_dot_tip: "Tip: Click on the progress bubbles for more details"
-    //    color_code: "Color Code"
-    //    content_guide: "Content Guide"
-    //    story: "Story"
-    //    cutscenes: "Cutscenes"
-    //    cutscenes_tooltip: "<h3>Cutscene</h3><p>Short videos that explain parts of the epic Ozaria narrative.</p>"
-    //    cinematics: "Cinematics"
-    //    concept_checks: "Concept Checks"
-    //    practice_levels: "Practice Levels"
-    //    challenge_levels: "Challenge Levels"
-    //    capstone_levels: "Capstone Levels"
-    //    intro: "Intro"
-    //    practice: "Practice"
-    //    assess: "Assess"
-    //    view_options: "View Options"
-    //    manage_class: "Manage Class"
-    //    assign_content: "Assign Content"
-    //    remove_students: "Remove Students"
-    //    revoke_licenses: "Revoke Licenses"
-    //    remaining_licenses: "__remaining__ license(s) remaining"
-    //    start_date: "Start: __date__"
-    //    end_date: "End: __date__"
-    //    license_questions: "Have questions about applying or revoking licenses?"
-    //    need_more_licenses: "Need more licenses? We'll help you build a solution that meets your needs."
+      curriculum_guide: '教学指导',
+      add_class: '添加新班级',
+      no_licenses_yet: '没有许可',
+      req_licenses: '获取许可',
+      license_ratio_used: '__totalUsedLicenses__/__totalSpots__',
+      licenses_applied: '已使用许可',
+      student_projects: '学生项目',
+      no_classes_yet: '班级不存在',
+      exemplar_project: '示例项目',
+      capstone_proj_for: '顶点项目 __courseName__',
+      project_rubric: '项目评分标准',
+      select_chapter: '已选章节',
+      concept_flag: '概念标记',
+      support_learning: '学习支持',
+      concept_flag_desc: '超过50%的学生尝试概念测试3次及以上',
+      concept_flag_desc2: '学生尝试概念测试3次及以上',
+      click_progress_dot_tip: '提示：点击进度标识了解更多信息  ',
+      color_code: '颜色标记',
+      content_guide: '内容指导',
+      story: '故事',
+      cutscenes: '剧情',
+      cutscenes_tooltip: '剧情短视频描述了奥佳睿史诗故事。',
+      cinematics: '剧情视频',
+      concept_checks: '概念测试',
+      practice_levels: '联系关卡',
+      challenge_levels: '挑战关卡',
+      capstone_levels: '顶点项目',
+      intro: '介绍',
+      practice: '练习',
+      assess: '评估',
+      view_options: '查看选项',
+      manage_class: '管理班级',
+      assign_content: '分配课程',
+      remove_students: '移除学生',
+      revoke_licenses: '收回许可',
+      remaining_licenses: '剩余许可数：__remaining__',
+      start_date: '开始时间：__date__',
+      end_date: '结束时间：__date__',
+      license_questions: '使用和收回许可有疑问吗？ ',
+      need_more_licenses: '需要更多学习许可吗? 我们会为您的需求定制方案。 ',
     //    see_also_our: "See also our"
     //    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
-    //    support_oz: "support@ozaria.com"
-    //    standards_alignment: "Standards Alignment"
-    //    standards_sample: "A sample of the standards covered in this Chapter:"
-    //    play_chapter: "Play Chapter"
-    //    class_time_range: "Class Time (Range):"
-    //    in_game_play_time: "In-Game Play Time:"
-    //    class_time: "Class Time"
-    //    solution_guide: "Solution Guide"
-    //    module: "Module"
-    //    need_licenses_tooltip: "<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>"
-    //    lesson_slides_tooltip: "<h3>Lesson Slides</h3><p>Downloadable, step-by-step presentation slides for guiding students through module learning objectives</p>"
-    //    project_rubric_tooltip: "<h3>Project Rubric</h3><p>Downloadable and modifiable scoring rubric for the Capstone Project</p>"
-    //    exemplar_projects_tooltip: "<h3>Exemplar Project</h3><p>Live view of the exemplar Capstone Project</p>"
-    //    want_to_save_tooltip: "<h3>Want to save your progress?</h3><p>Please create a student account and play Ozaria as a student if you would like to save your progress.</p>"
+
     //    intro_explain_tooltip: "<b>\"Intros\"</b> introduce new concepts or further the storyline in a scaffolded way. They typically include Cinematics and/or Concept Checks."
-    //    chapter_num: "Chapter __num__"
+      support_oz: 'china@codecombat.com',
+      standards_alignment: '符合标准',
+      standards_sample: '本章涉及的标准样例。',
+      play_chapter: '进入课程',
+      class_time_range: '班级时间区间：',
+      in_game_play_time: '学习时间',
+      class_time: '班级时间',
+      solution_guide: '解法说明',
+      module: '模块',
+      need_licenses_tooltip: "<h3>需要学习许可访问课程内容！</h3><p>请访问 <a href='/teachers/licenses'>我的许可</a> 页面了解更多信息</p>",
+      lesson_slides_tooltip: '<h3>教学课件</h3><p>可下载详细的教学课件用于课堂教学</p>',
+      project_rubric_tooltip: '<h3>项目评分标准</h3><p>顶点项目评分标准，可下载根据需要修改</p>',
+      exemplar_projects_tooltip: '<h3>项目示例</h3><p>顶点项目示例查看</p>',
+      want_to_save_tooltip: '<h3>想要保存你的学习进度吗？</h3><p>请创建学生账号，作为学生学习奥佳睿课程可以保存学习进度.</p>',
+      chapter_num: '章节 __num__',
       read: '只能查看',
       write: '全部权限',
       read_blurb: '只能查看权限允许添加的教师查看您的班级和学生进度，但是不能修改您的班级相关信息',
