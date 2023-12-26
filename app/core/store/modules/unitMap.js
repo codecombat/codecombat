@@ -34,8 +34,9 @@ export default {
         levels = campaignData.levels
       } else {
         try {
-          // TODO get courseInstance/classroom data from vuex store
-          const courseInstance = await api.courseInstances.get({ courseInstanceID: courseInstanceId })
+          await dispatch('courseInstances/fetchCourseInstanceForId', courseInstanceId, { root: true })
+          const courseInstance = rootGetters['courseInstances/getCourseInstanceById'](courseInstanceId)
+          console.log('buildLevelsData', courseInstance)
           const courseId = courseInstance.courseID
           const classroomId = courseInstance.classroomID
 

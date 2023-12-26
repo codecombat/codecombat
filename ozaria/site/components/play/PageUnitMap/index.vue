@@ -1,4 +1,4 @@
-<script>
+<script> // eslint-disable-line vue/multi-word-component-names
 
 import _ from 'lodash'
 import api from 'core/api'
@@ -66,7 +66,8 @@ export default Vue.extend({
   computed: {
     ...mapGetters({
       getCampaignData: 'campaigns/getCampaignData',
-      currentLevelsList: 'unitMap/getCurrentLevelsList'
+      currentLevelsList: 'unitMap/getCurrentLevelsList',
+      getCourseInstanceById: 'courseInstances/getCourseInstanceById'
     }),
 
     computedCodeLanguage: function () {
@@ -130,6 +131,7 @@ export default Vue.extend({
   },
 
   async mounted () {
+    console.log('pageUnitMap', this.campaign)
     await this.loadCampaign()
 
     // Fetch the hoc course instance for students playing hoc activity
@@ -164,7 +166,8 @@ export default Vue.extend({
       playSound: 'audio/playSound',
       fadeTrack: 'audio/fadeTrack',
       fadeAndStopTrack: 'audio/fadeAndStopTrack',
-      stopTrack: 'audio/stopTrack'
+      stopTrack: 'audio/stopTrack',
+      fetchCourseInstanceForId: 'courseInstances/fetchCourseInstanceForId'
     }),
 
     ...mapMutations({
@@ -255,7 +258,10 @@ export default Vue.extend({
     },
 
     async buildClassroomLevelMap () {
-      const courseInstance = await api.courseInstances.get({ courseInstanceID: this.computedCourseInstanceId })
+      console.log('buildClassroomLevelMap', this.computedCourseInstanceId)
+      await this.fetchCourseInstanceForId(this.computedCourseInstanceId)
+      const courseInstance = this.getCourseInstanceById(this.computedCourseInstanceId)
+      console.log('courseInstance', courseInstance)
       const courseId = courseInstance.courseID
       if (this.computedCourseId && this.computedCourseId !== courseId) {
         // TODO handle_error_ozaria
