@@ -378,6 +378,8 @@ export default Vue.extend({
 
     .background-img
       background-image: url(/images/ozaria/layout/chrome/AC_backer.jpg)
+      @supports (background-image: url(/images/ozaria/layout/chrome/AC_backer.webp))
+        background-image: url(/images/ozaria/layout/chrome/AC_backer.webp)
       background-position: center center
       background-size: cover
       background-repeat: no-repeat
@@ -403,9 +405,13 @@ export default Vue.extend({
 
     &.chrome-on-slice
       border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-on.png)
+      @supports (border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-on.webp))
+        border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-on.webp)
 
     &.chrome-off-slice
       border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-off.png)
+      @supports (border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-off.webp))
+        border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-off.webp)
 
     &.chrome-off-slice, &.chrome-on-slice
       border-image-slice: 182 194 130 118 fill
@@ -418,6 +424,8 @@ export default Vue.extend({
 
     .side-center-off
       background: url(/images/ozaria/layout/chrome/central_off.png)
+      @supports (background: url(/images/ozaria/layout/chrome/central_off.webp))
+        background: url(/images/ozaria/layout/chrome/central_off.webp)
 
     .side-center-off, .side-center-on
       width: 6.2vw
@@ -457,6 +465,8 @@ export default Vue.extend({
 
       .options-btn
         background: url(/images/ozaria/layout/chrome/Global_Neutral_LevelOptions.png)
+        @supports (background: url(/images/ozaria/layout/chrome/Global_Neutral_LevelOptions.webp))
+          background: url(/images/ozaria/layout/chrome/Global_Neutral_LevelOptions.webp)
 
         &:hover
           background: url(/images/ozaria/layout/chrome/Global_Hover_LevelOptions.png)

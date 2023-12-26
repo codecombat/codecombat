@@ -476,7 +476,9 @@ module.exports = {
       other_questions: 'If you have any other questions, please __contact__.',
       see_faq_prefix: 'See more',
       see_faq_link: 'frequently asked questions in our help center',
-      see_faq_suffix: '.'
+      see_faq_suffix: '.',
+      ai_bot_faq_title: 'What is the AI Level Help Bot and what measures are in place to ensure safety?',
+      ai_bot_faq_blurb: 'The AI Chat Level Help Bot in CodeCombat empowers learners with AI-driven hints for coding challenges, ensuring a guided yet independent learning experience. Safety is paramount, as the AI filters out personal data and is trained to handle improper requests.'
     },
 
     play: {
