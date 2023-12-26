@@ -1,4 +1,4 @@
-<script>
+<script> // eslint-disable-line vue/multi-word-component-names
 
 import _ from 'lodash'
 import api from 'core/api'
@@ -66,7 +66,9 @@ export default Vue.extend({
   computed: {
     ...mapGetters({
       getCampaignData: 'campaigns/getCampaignData',
-      currentLevelsList: 'unitMap/getCurrentLevelsList'
+      currentLevelsList: 'unitMap/getCurrentLevelsList',
+      getCourseInstanceById: 'courseInstances/getCourseInstanceById',
+      getClassroomById: 'classrooms/getClassroomById'
     }),
 
     computedCodeLanguage: function () {
@@ -164,7 +166,9 @@ export default Vue.extend({
       playSound: 'audio/playSound',
       fadeTrack: 'audio/fadeTrack',
       fadeAndStopTrack: 'audio/fadeAndStopTrack',
-      stopTrack: 'audio/stopTrack'
+      stopTrack: 'audio/stopTrack',
+      fetchCourseInstanceForId: 'courseInstances/fetchCourseInstanceForId',
+      fetchClassroomById: 'classrooms/fetchClassroomForId'
     }),
 
     ...mapMutations({
@@ -255,7 +259,8 @@ export default Vue.extend({
     },
 
     async buildClassroomLevelMap () {
-      const courseInstance = await api.courseInstances.get({ courseInstanceID: this.computedCourseInstanceId })
+      await this.fetchCourseInstanceForId(this.computedCourseInstanceId)
+      const courseInstance = this.getCourseInstanceById(this.computedCourseInstanceId)
       const courseId = courseInstance.courseID
       if (this.computedCourseId && this.computedCourseId !== courseId) {
         // TODO handle_error_ozaria
@@ -264,7 +269,8 @@ export default Vue.extend({
       }
       const classroomId = courseInstance.classroomID
 
-      const classroom = this.classroom = await api.classrooms.get({ classroomID: classroomId })
+      await this.fetchClassroomById(classroomId)
+      const classroom = this.classroom = this.getClassroomById(classroomId)
       const classroomCourseLevels = _.find(classroom.courses, { _id: courseId }).levels
 
       for (const level of classroomCourseLevels) {

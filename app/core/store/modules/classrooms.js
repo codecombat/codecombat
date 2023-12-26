@@ -273,29 +273,35 @@ export default {
         .catch((e) => noty({ text: 'Fetch classrooms failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
         .finally(() => commit('toggleLoadingForTeacher', teacherId))
     },
-    fetchClassroomForId: ({ commit }, classroomID) => {
+    fetchClassroomForId: async ({ commit, getters }, classroomID) => {
+      if (getters.getClassroomById(classroomID)) {
+        return
+      }
       commit('toggleLoadingForClassroom', classroomID)
 
-      return classroomsApi.get({ classroomID })
-        .then(res =>  {
-          if (res) {
-            commit('addClassroomForId', {
-              classroomID,
-              classroom: res
-            })
-            if (res.ownerID === me.get('_id') || (res.permissions || []).find(p => p.target === me.get('_id'))) {
-              commit('addNewClassroomForTeacher', {
-                classroom: res,
-                teacherId: me.get('_id')
-              })
-            }
-            commit('setMostRecentClassCode', res.codeCamel)
-          } else {
-            throw new Error('Unexpected response from get classroom API.')
-          }
+      let res
+      try {
+        res = await classroomsApi.get({ classroomID })
+      } catch (err) {
+        noty({ text: 'failed to fetch classroom:' + e, type: 'error', layout: 'topCenter', timeout: 5000 })
+        return
+      }
+      if (res) {
+        commit('addClassroomForId', {
+          classroomID,
+          classroom: res
         })
-        .catch((e) => noty({ text: 'failed to fetch classroom:' + e, type: 'error', layout: 'topCenter', timeout: 5000 }))
-        .finally(() => commit('toggleLoadingForClassroom', classroomID))
+        if (res.ownerID === me.get('_id') || (res.permissions || []).find(p => p.target === me.get('_id'))) {
+          commit('addNewClassroomForTeacher', {
+            classroom: res,
+            teacherId: me.get('_id')
+          })
+        }
+        commit('setMostRecentClassCode', res.codeCamel)
+      } else {
+        throw new Error('Unexpected response from get classroom API.')
+      }
+      commit('toggleLoadingForClassroom', classroomID)
     },
     fetchClassroomForCourseInstanceId: ({ commit }, courseInstanceId) => {
       commit('toggleLoadingForCourseInstanceId', courseInstanceId)
