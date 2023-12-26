@@ -91,6 +91,9 @@ export default Vue.extend({
       }
       return this.courseId || utils.getQueryVariable('course')
     },
+    computedClassroomId: function () {
+      return utils.getQueryVariable('classroom-id')
+    },
 
     hocCourseId: function () {
       return utils.hourOfCodeOptions.courseId
@@ -259,7 +262,13 @@ export default Vue.extend({
     },
 
     async buildClassroomLevelMap () {
-      await this.fetchCourseInstanceForId(this.computedCourseInstanceId)
+      const promises = [
+        this.fetchCourseInstanceForId(this.computedCourseInstanceId)
+      ]
+      if (this.computedClassroomId) {
+        promises.push(this.fetchClassroomById(this.computedClassroomId))
+      }
+      await Promise.all(promises)
       const courseInstance = this.getCourseInstanceById(this.computedCourseInstanceId)
       const courseId = courseInstance.courseID
       if (this.computedCourseId && this.computedCourseId !== courseId) {
@@ -269,7 +278,10 @@ export default Vue.extend({
       }
       const classroomId = courseInstance.classroomID
 
-      await this.fetchClassroomById(classroomId)
+      // fallback for when classroom-id is not passed in url
+      if (!this.computedClassroomId) {
+        await this.fetchClassroomById(classroomId)
+      }
       const classroom = this.classroom = this.getClassroomById(classroomId)
       const classroomCourseLevels = _.find(classroom.courses, { _id: courseId }).levels
 
