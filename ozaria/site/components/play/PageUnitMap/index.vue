@@ -246,10 +246,16 @@ export default Vue.extend({
         if (this.computedCourseInstanceId) {
           await this.buildClassroomLevelMap()
         }
-        await this.buildLevelsData({ campaignHandle: this.campaign, courseInstanceId: this.computedCourseInstanceId, courseId: this.computedCourseId })
-        this.levels = this.currentLevelsList
+        const promises = [
+          this.buildLevelsData({ campaignHandle: this.campaign, courseInstanceId: this.computedCourseInstanceId, courseId: this.computedCourseId })
+        ]
         if (!me.isTeacher()) {
-          this.levelSessions = await api.users.getLevelSessions({ userID: me.get('_id') })
+          promises.push(api.users.getLevelSessions({ userID: me.get('_id') }))
+        }
+        const resp = await Promise.all(promises)
+        this.levels = this.currentLevelsList
+        this.levelSessions = resp.length === 2 ? resp[1] : null
+        if (!me.isTeacher()) {
           this.createLevelStatusMap()
           this.determineNextLevel()
         }
