@@ -34,8 +34,8 @@ export default {
         levels = campaignData.levels
       } else {
         try {
-          // TODO get courseInstance/classroom data from vuex store
-          const courseInstance = await api.courseInstances.get({ courseInstanceID: courseInstanceId })
+          await dispatch('courseInstances/fetchCourseInstanceForId', courseInstanceId, { root: true })
+          const courseInstance = rootGetters['courseInstances/getCourseInstanceById'](courseInstanceId)
           const courseId = courseInstance.courseID
           const classroomId = courseInstance.classroomID
 
@@ -43,7 +43,10 @@ export default {
           const existingCampaignLevels = _.cloneDeep(campaignData.levels)
 
           // classroom snapshot of the levels for the course
-          classroom = classroom || await api.classrooms.get({ classroomID: classroomId })
+          if (!classroom) {
+            await dispatch('classrooms/fetchClassroomForId', classroomId, { root: true })
+            classroom = rootGetters['classrooms/getClassroomById'](classroomId)
+          }
           const classroomCourseLevels = _.find(classroom.courses, { _id: courseId }).levels
 
           // get levels data for the levels in the classroom snapshot

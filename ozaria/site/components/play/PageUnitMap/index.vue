@@ -1,4 +1,4 @@
-<script>
+<script> // eslint-disable-line vue/multi-word-component-names
 
 import _ from 'lodash'
 import api from 'core/api'
@@ -66,7 +66,9 @@ export default Vue.extend({
   computed: {
     ...mapGetters({
       getCampaignData: 'campaigns/getCampaignData',
-      currentLevelsList: 'unitMap/getCurrentLevelsList'
+      currentLevelsList: 'unitMap/getCurrentLevelsList',
+      getCourseInstanceById: 'courseInstances/getCourseInstanceById',
+      getClassroomById: 'classrooms/getClassroomById'
     }),
 
     computedCodeLanguage: function () {
@@ -88,6 +90,9 @@ export default Vue.extend({
         return this.courseId || utils.getQueryVariable('course') || this.hocCourseId
       }
       return this.courseId || utils.getQueryVariable('course')
+    },
+    computedClassroomId: function () {
+      return utils.getQueryVariable('classroom-id')
     },
 
     hocCourseId: function () {
@@ -164,7 +169,9 @@ export default Vue.extend({
       playSound: 'audio/playSound',
       fadeTrack: 'audio/fadeTrack',
       fadeAndStopTrack: 'audio/fadeAndStopTrack',
-      stopTrack: 'audio/stopTrack'
+      stopTrack: 'audio/stopTrack',
+      fetchCourseInstanceForId: 'courseInstances/fetchCourseInstanceForId',
+      fetchClassroomById: 'classrooms/fetchClassroomForId'
     }),
 
     ...mapMutations({
@@ -239,10 +246,16 @@ export default Vue.extend({
         if (this.computedCourseInstanceId) {
           await this.buildClassroomLevelMap()
         }
-        await this.buildLevelsData({ campaignHandle: this.campaign, courseInstanceId: this.computedCourseInstanceId, courseId: this.computedCourseId })
-        this.levels = this.currentLevelsList
+        const promises = [
+          this.buildLevelsData({ campaignHandle: this.campaign, courseInstanceId: this.computedCourseInstanceId, courseId: this.computedCourseId })
+        ]
         if (!me.isTeacher()) {
-          this.levelSessions = await api.users.getLevelSessions({ userID: me.get('_id') })
+          promises.push(api.users.getLevelSessions({ userID: me.get('_id') }))
+        }
+        const resp = await Promise.all(promises)
+        this.levels = this.currentLevelsList
+        this.levelSessions = resp.length === 2 ? resp[1] : null
+        if (!me.isTeacher()) {
           this.createLevelStatusMap()
           this.determineNextLevel()
         }
@@ -255,7 +268,14 @@ export default Vue.extend({
     },
 
     async buildClassroomLevelMap () {
-      const courseInstance = await api.courseInstances.get({ courseInstanceID: this.computedCourseInstanceId })
+      const promises = [
+        this.fetchCourseInstanceForId(this.computedCourseInstanceId)
+      ]
+      if (this.computedClassroomId) {
+        promises.push(this.fetchClassroomById(this.computedClassroomId))
+      }
+      await Promise.all(promises)
+      const courseInstance = this.getCourseInstanceById(this.computedCourseInstanceId)
       const courseId = courseInstance.courseID
       if (this.computedCourseId && this.computedCourseId !== courseId) {
         // TODO handle_error_ozaria
@@ -264,7 +284,11 @@ export default Vue.extend({
       }
       const classroomId = courseInstance.classroomID
 
-      const classroom = this.classroom = await api.classrooms.get({ classroomID: classroomId })
+      // fallback for when classroom-id is not passed in url
+      if (!this.computedClassroomId) {
+        await this.fetchClassroomById(classroomId)
+      }
+      const classroom = this.classroom = this.getClassroomById(classroomId)
       const classroomCourseLevels = _.find(classroom.courses, { _id: courseId }).levels
 
       for (const level of classroomCourseLevels) {
