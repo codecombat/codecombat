@@ -91,6 +91,9 @@ export default Vue.extend({
       }
       return this.courseId || utils.getQueryVariable('course')
     },
+    computedClassroomId: function () {
+      return utils.getQueryVariable('classroom-id')
+    },
 
     hocCourseId: function () {
       return utils.hourOfCodeOptions.courseId
@@ -243,10 +246,16 @@ export default Vue.extend({
         if (this.computedCourseInstanceId) {
           await this.buildClassroomLevelMap()
         }
-        await this.buildLevelsData({ campaignHandle: this.campaign, courseInstanceId: this.computedCourseInstanceId, courseId: this.computedCourseId })
-        this.levels = this.currentLevelsList
+        const promises = [
+          this.buildLevelsData({ campaignHandle: this.campaign, courseInstanceId: this.computedCourseInstanceId, courseId: this.computedCourseId })
+        ]
         if (!me.isTeacher()) {
-          this.levelSessions = await api.users.getLevelSessions({ userID: me.get('_id') })
+          promises.push(api.users.getLevelSessions({ userID: me.get('_id') }))
+        }
+        const resp = await Promise.all(promises)
+        this.levels = this.currentLevelsList
+        this.levelSessions = resp.length === 2 ? resp[1] : null
+        if (!me.isTeacher()) {
           this.createLevelStatusMap()
           this.determineNextLevel()
         }
@@ -259,7 +268,13 @@ export default Vue.extend({
     },
 
     async buildClassroomLevelMap () {
-      await this.fetchCourseInstanceForId(this.computedCourseInstanceId)
+      const promises = [
+        this.fetchCourseInstanceForId(this.computedCourseInstanceId)
+      ]
+      if (this.computedClassroomId) {
+        promises.push(this.fetchClassroomById(this.computedClassroomId))
+      }
+      await Promise.all(promises)
       const courseInstance = this.getCourseInstanceById(this.computedCourseInstanceId)
       const courseId = courseInstance.courseID
       if (this.computedCourseId && this.computedCourseId !== courseId) {
@@ -269,7 +284,10 @@ export default Vue.extend({
       }
       const classroomId = courseInstance.classroomID
 
-      await this.fetchClassroomById(classroomId)
+      // fallback for when classroom-id is not passed in url
+      if (!this.computedClassroomId) {
+        await this.fetchClassroomById(classroomId)
+      }
       const classroom = this.classroom = this.getClassroomById(classroomId)
       const classroomCourseLevels = _.find(classroom.courses, { _id: courseId }).levels
 
