@@ -106,7 +106,6 @@ export default {
     },
 
     fetchCourseInstanceForId: async ({ commit, getters }, id) => {
-      console.log('fetch ci', id, getters.getCourseInstanceById(id))
       if (getters.getCourseInstanceById(id)) {
         return
       }

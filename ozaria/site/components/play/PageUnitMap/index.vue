@@ -67,7 +67,8 @@ export default Vue.extend({
     ...mapGetters({
       getCampaignData: 'campaigns/getCampaignData',
       currentLevelsList: 'unitMap/getCurrentLevelsList',
-      getCourseInstanceById: 'courseInstances/getCourseInstanceById'
+      getCourseInstanceById: 'courseInstances/getCourseInstanceById',
+      getClassroomById: 'classrooms/getClassroomById'
     }),
 
     computedCodeLanguage: function () {
@@ -131,7 +132,6 @@ export default Vue.extend({
   },
 
   async mounted () {
-    console.log('pageUnitMap', this.campaign)
     await this.loadCampaign()
 
     // Fetch the hoc course instance for students playing hoc activity
@@ -167,7 +167,8 @@ export default Vue.extend({
       fadeTrack: 'audio/fadeTrack',
       fadeAndStopTrack: 'audio/fadeAndStopTrack',
       stopTrack: 'audio/stopTrack',
-      fetchCourseInstanceForId: 'courseInstances/fetchCourseInstanceForId'
+      fetchCourseInstanceForId: 'courseInstances/fetchCourseInstanceForId',
+      fetchClassroomById: 'classrooms/fetchClassroomForId'
     }),
 
     ...mapMutations({
@@ -258,10 +259,8 @@ export default Vue.extend({
     },
 
     async buildClassroomLevelMap () {
-      console.log('buildClassroomLevelMap', this.computedCourseInstanceId)
       await this.fetchCourseInstanceForId(this.computedCourseInstanceId)
       const courseInstance = this.getCourseInstanceById(this.computedCourseInstanceId)
-      console.log('courseInstance', courseInstance)
       const courseId = courseInstance.courseID
       if (this.computedCourseId && this.computedCourseId !== courseId) {
         // TODO handle_error_ozaria
@@ -270,7 +269,8 @@ export default Vue.extend({
       }
       const classroomId = courseInstance.classroomID
 
-      const classroom = this.classroom = await api.classrooms.get({ classroomID: classroomId })
+      await this.fetchClassroomById(classroomId)
+      const classroom = this.classroom = this.getClassroomById(classroomId)
       const classroomCourseLevels = _.find(classroom.courses, { _id: courseId }).levels
 
       for (const level of classroomCourseLevels) {
