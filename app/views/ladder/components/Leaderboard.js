@@ -55,7 +55,7 @@ module.exports = (LeaderboardView = (function () {
         { slug: 'country', col: 1, title: '🏴‍☠️' }
       ]
       if (this.hidesTeams) {
-        this.tableTitles.splice(7, 1)
+        _.remove(this.tableTitles, { slug: 'clan' })
       }
       this.propsData = { tableTitles: this.tableTitles, league: this.league, level: this.level, leagueType: this.leagueType, course: this.course, scoreType: 'tournament' }
       if (!this.tournament) {
@@ -71,7 +71,7 @@ module.exports = (LeaderboardView = (function () {
           { slug: 'fight', col: 1, title: '' }
         ]
         if (this.hidesTeams) {
-          this.propsData.tableTitles.splice(5, 1)
+          _.remove(this.propsData.tableTitles, { slug: 'clan' })
         }
         this.propsData.scoreType = 'arena'
       }
