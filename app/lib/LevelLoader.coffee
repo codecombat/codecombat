@@ -79,7 +79,7 @@ module.exports = class LevelLoader extends CocoClass
     if @level.loaded
       @onLevelLoaded()
     else
-      @level = @supermodel.loadModel(@level, 'level').model
+      @level = @supermodel.loadModel(@level, 'level', { data: { cacheEdge: true } }).model
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   reportLoadError: ->
