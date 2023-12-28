@@ -27,6 +27,7 @@ module.exports = {
     } else {
       options.data.releasePhase = 'released'
     }
+    options.data.cacheEdge = true
     return fetchJson('/db/course', options)
   },
 

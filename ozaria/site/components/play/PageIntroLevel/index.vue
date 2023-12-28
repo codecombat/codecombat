@@ -100,8 +100,12 @@ export default Vue.extend({
             course: this.courseId,
             codeLanguage: this.codeLanguage || defaultCodeLanguage // used for non-classroom anonymous users
           }
-          this.introLevelSession = await api.levels.upsertSession(this.introLevelData._id, sessionOptions)
           this.language = this.introLevelSession.codeLanguage
+          api.levels.upsertSession(this.introLevelData._id, sessionOptions)
+            .then((session) => {
+              this.introLevelSession = session
+              this.language = this.introLevelSession.codeLanguage
+            })
         }
 
         this.introContent = this.introLevelData.introContent
