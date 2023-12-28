@@ -105,7 +105,7 @@ export default {
       if (!campaignData) {
         // Without a classroom we are dealing with HoC, and have to hit the server to get the campaign:
         try {
-          campaignData = await campaignsApi.get({ campaignHandle })
+          campaignData = await campaignsApi.get({ campaignHandle }, { data: { cacheEdge: true } })
         } catch (e) {
           console.error('Error in fetching campaign', e)
           // TODO: update after a consistent error handling strategy is decided
