@@ -89,7 +89,6 @@ export default Vue.extend({
         if (utils.getQueryVariable('original')) {
           this.introLevelData = await api.levels.getByOriginal(this.introLevelIdOrSlug, { data: { cacheEdge: true } }) // this.introLevelIdOrSlug is expected to be the 'original' id in this case
         } else {
-          console.log('intro', this.introLevelIdOrSlug)
           this.introLevelData = await api.levels.getByIdOrSlug(this.introLevelIdOrSlug, { data: { cacheEdge: true } })
         }
         if (me.isSessionless()) { // not saving progress/session for teachers
