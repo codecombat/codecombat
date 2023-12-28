@@ -60,6 +60,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/bootstrap/variables";
 .day {
     align-items: center;
     border-radius: 24px;
@@ -69,7 +70,7 @@ export default {
     position: relative;
 
     &.for-all {
-        @media (min-width: 1200px) {
+        @media (min-width: $screen-lg) {
             &:nth-child(3) .content {
                 border-radius: 24px 0 0 24px;
                 border-right: none;
@@ -103,7 +104,7 @@ export default {
     overflow: hidden;
     &.for-all {
         border: 2px solid #4799A9;
-        @media (min-width: 1200px) {
+        @media (min-width: $screen-lg) {
             width: calc(100% + 30px);
         }
     }

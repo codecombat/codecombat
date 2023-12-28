@@ -139,6 +139,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/bootstrap/variables";
 .header {
     background-color: #ffffff;
     position: relative;
@@ -153,7 +154,7 @@ export default {
         display: flex;
         gap: 30px;
 
-        @media (max-width: 991px) {
+        @media (max-width: $screen-md-max) {
             flex-direction: column;
             align-items: center;
             gap: 60px;
@@ -212,7 +213,7 @@ export default {
             }
         }
 
-        @media (max-width: 991px) {
+        @media (max-width: $screen-md-max) {
             margin-top: 20%;
         }
 

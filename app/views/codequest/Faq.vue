@@ -72,6 +72,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/bootstrap/variables";
 .FA-qs {
   align-items: center;
   display: flex;
@@ -80,7 +81,7 @@ export default {
   justify-content: center;
   padding: 100px 135px;
   position: relative;
-  @media (max-width: 991px) {
+  @media (max-width: $screen-md-max) {
     padding: 100px 40px;
   }
 

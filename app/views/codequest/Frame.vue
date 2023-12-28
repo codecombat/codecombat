@@ -1,27 +1,27 @@
 <template>
   <div class="frame">
-    <Heading />
-    <Schedule />
+    <HeadingComponent />
+    <ScheduleComponent />
     <CoreCurriculum />
-    <ContentX />
-    <Cta />
+    <ContentComponent />
+    <CtaComponent />
   </div>
 </template>
 
 <script>
-import Heading from './frame/Heading'
-import Schedule from './frame/Schedule'
-import ContentX from './frame/Content'
-import Cta from './frame/Cta'
+import HeadingComponent from './frame/Heading'
+import ScheduleComponent from './frame/Schedule'
+import ContentComponent from './frame/Content'
+import CtaComponent from './frame/Cta'
 import CoreCurriculum from './frame/CoreCurriculum.vue'
 
 export default {
   name: 'FrameComponent',
   components: {
-    Heading,
-    Schedule,
-    ContentX,
-    Cta,
+    HeadingComponent,
+    ScheduleComponent,
+    ContentComponent,
+    CtaComponent,
     CoreCurriculum
   }
 }
@@ -42,6 +42,3 @@ export default {
   position: relative;
 }
 </style>
-
-Components in selection (1)
-Button_A

@@ -45,11 +45,12 @@
 
 <script>
 export default {
-  name: 'AOzaria'
+  name: 'InternationalComponent'
 }
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/bootstrap/variables";
 .a-ozaria {
   box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.15);
   background: linear-gradient(100deg, #F9F9FF 0%, #FFF 100%);
@@ -138,7 +139,7 @@ export default {
   width: 100%;
   position: absolute;
   bottom: 40px;
-  @media (max-width: 991px) {
+  @media (max-width: $screen-md-max) {
     position: relative;
     bottom: auto;
   }

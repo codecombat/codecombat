@@ -65,7 +65,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "app/styles/bootstrap/variables";
 .schedule {
   align-items: flex-start;
   display: flex;
@@ -75,7 +76,7 @@ export default {
   justify-content: space-between;
   width: 100%;
 }
-@media (min-width: 1200px) {
+@media (min-width: $screen-lg) {
   .schedule > * {
     flex: 0 0 calc(16.6667% - 25px);
     max-width: calc(16.6667% - 25px);
@@ -83,7 +84,7 @@ export default {
   }
 }
 
-@media (min-width: 768px) and (max-width: 1199px) {
+@media (min-width: $screen-sm) and (max-width: $screen-lg) {
   .schedule > * {
     flex: 0 0 calc(33.3333% - 20px);
     max-width: calc(33.3333% - 20px);
@@ -91,7 +92,7 @@ export default {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: $screen-sm-max) {
   .schedule > * {
     flex: 0 0 calc(50% - 20px);
     max-width: calc(50% - 20px);

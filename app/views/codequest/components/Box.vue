@@ -83,6 +83,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/bootstrap/variables";
 .box {
     align-items: flex-start;
     box-shadow: 0px 0px 22px #00000026;
@@ -94,7 +95,7 @@ export default {
     overflow: hidden;
 
     .horizontal & {
-        @media (min-width: 768px) {
+        @media (min-width: $screen-sm) {
             flex-direction: row;
             align-items: stretch;
         }
@@ -108,7 +109,7 @@ export default {
     flex: 1;
 
     .horizontal & {
-        @media (min-width: 768px) {
+        @media (min-width: $screen-sm) {
             width: auto;
             max-width: 25%;
             object-fit: cover;
@@ -130,11 +131,11 @@ export default {
 
     &.has-padding {
         padding: 40px 0 40px 50px;
-        @media (max-width: 768px) {
+        @media (max-width: $screen-sm) {
             padding: 40px 50px 0 40px;
         }
         img {
-            @media (max-width: 768px) {
+            @media (max-width: $screen-sm) {
                 object-fit: contain;
             }
         }

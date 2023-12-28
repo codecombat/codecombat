@@ -66,6 +66,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/bootstrap/variables";
 .content {
   align-items: center;
   display: flex;
@@ -94,7 +95,7 @@ export default {
     padding: 0px 40px;
     position: relative;
 
-    @media (max-width: 991px) {
+    @media (max-width: $screen-md-max) {
       flex-direction: column;
       align-items: center;
       gap: 60px;

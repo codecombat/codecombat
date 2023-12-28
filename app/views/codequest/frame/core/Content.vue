@@ -19,13 +19,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import 'app/styles/bootstrap/variables';
 .content {
   align-items: stretch;
   display: flex;
   gap: 30px;
   position: relative;
 
-  @media (max-width: 991px) {
+  @media (max-width: $screen-md-max) {
     flex-direction: column;
     align-items: center;
   }
