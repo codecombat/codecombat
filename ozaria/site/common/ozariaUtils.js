@@ -188,6 +188,9 @@ export const getNextLevelLink = (levelData, options) => {
     if (options.nextLevelStage) {
       link += `&capstoneStage=${encodeURIComponent(options.nextLevelStage)}`
     }
+    if (options.classroomId) {
+      link += `&classroom=${encodeURIComponent(options.classroomId)}`
+    }
   } else if (options.courseInstanceId) {
     link += `?course-instance=${encodeURIComponent(options.courseInstanceId)}`
     if (options.codeLanguage) {
@@ -285,7 +288,7 @@ export function tryCopy () {
 }
 
 export function internationalizeLevelType (type, withLevelSuffix, withProjectSuffix) {
-  if (['challenge', 'capstone', 'practice', 'cutscene', 'intro'].indexOf(type) == -1) {
+  if (['challenge', 'capstone', 'practice', 'cutscene', 'intro'].indexOf(type) === -1) {
     type = 'practice'
   }
   let key = 'play_level.level_type_' + type

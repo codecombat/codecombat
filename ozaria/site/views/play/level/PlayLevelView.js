@@ -20,8 +20,6 @@ const RootView = require('views/core/RootView')
 const template = require('ozaria/site/templates/play/play-level-view.pug')
 const { me } = require('core/auth')
 const ThangType = require('models/ThangType')
-const Classroom = require('models/Classroom')
-const CourseInstance = require('models/CourseInstance')
 const utils = require('core/utils')
 const storage = require('core/storage')
 
@@ -40,7 +38,6 @@ const createjs = require('lib/createjs-parts')
 const LevelLoadingView = require('app/views/play/level/LevelLoadingView')
 const ProblemAlertView = require('./tome/ProblemAlertView')
 const TomeView = require('./tome/TomeView')
-const LevelDialogueView = require('./LevelDialogueView')
 const ControlBarView = require('./ControlBarView')
 const LevelPlaybackView = require('./LevelPlaybackView')
 const CapstonePlaybackView = require('./CapstonePlaybackView.vue').default
@@ -86,6 +83,7 @@ class PlayLevelView extends RootView {
 
     this.courseID = options.courseID || utils.getQueryVariable('course')
     this.courseInstanceID = options.courseInstanceID || utils.getQueryVariable('course-instance')
+    this.classroomId = options.classroomId || utils.getQueryVariable('classroom')
     this.isEditorPreview = utils.getQueryVariable('dev')
     this.sessionID = utils.getQueryVariable('session') || this.options.sessionID
     this.observing = utils.getQueryVariable('observing')
@@ -172,7 +170,8 @@ class PlayLevelView extends RootView {
       team: utils.getQueryVariable('team'),
       observing: this.observing,
       courseID: this.courseID,
-      courseInstanceID: this.courseInstanceID
+      courseInstanceID: this.courseInstanceID,
+      classroomId: this.classroomId
     }
     if (me.isSessionless()) {
       levelLoaderOptions.fakeSessionConfig = {}
