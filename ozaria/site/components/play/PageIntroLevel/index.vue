@@ -87,9 +87,9 @@ export default Vue.extend({
         // Fetch by original to avoid bugs due to level renaming, keeping getByIdOrSlug for now to avoid regressions
         // TODO eventually change all references to send 'original' id instead of 'idOrSlug'
         if (utils.getQueryVariable('original')) {
-          this.introLevelData = await api.levels.getByOriginal(this.introLevelIdOrSlug) // this.introLevelIdOrSlug is expected to be the 'original' id in this case
+          this.introLevelData = await api.levels.getByOriginal(this.introLevelIdOrSlug, { data: { cacheEdge: true } }) // this.introLevelIdOrSlug is expected to be the 'original' id in this case
         } else {
-          this.introLevelData = await api.levels.getByIdOrSlug(this.introLevelIdOrSlug)
+          this.introLevelData = await api.levels.getByIdOrSlug(this.introLevelIdOrSlug, { data: { cacheEdge: true } })
         }
         if (me.isSessionless()) { // not saving progress/session for teachers
           // TODO: why do we need this.language, instead of setting this.codeLanguage to default if necessary?
@@ -100,8 +100,12 @@ export default Vue.extend({
             course: this.courseId,
             codeLanguage: this.codeLanguage || defaultCodeLanguage // used for non-classroom anonymous users
           }
-          this.introLevelSession = await api.levels.upsertSession(this.introLevelData._id, sessionOptions)
           this.language = this.introLevelSession.codeLanguage
+          api.levels.upsertSession(this.introLevelData._id, sessionOptions)
+            .then((session) => {
+              this.introLevelSession = session
+              this.language = this.introLevelSession.codeLanguage
+            })
         }
 
         this.introContent = this.introLevelData.introContent

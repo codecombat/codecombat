@@ -300,7 +300,7 @@ module.exports = class LevelBus extends Bus
 
   updateSessionConcepts: ->
     return unless @session.get('codeLanguage') in ['javascript', 'python']
-    @loadConcepts (concepts) => 
+    @loadConcepts (concepts) =>
       try
         tags = tagger({ast: @session.lastAST, language: @session.get('codeLanguage')}, concepts)
         tags = _.without(tags, 'basic_syntax')
@@ -316,7 +316,7 @@ module.exports = class LevelBus extends Bus
   loadConcepts: (onConceptsLoaded) ->
     concepts = new Concepts([])
     @listenTo(concepts, 'sync', onConceptsLoaded)
-    concepts.fetch(data: { skip: 0, limit: 1000 })
+    concepts.fetch(data: { skip: 0, limit: 1000, cacheEdge: true })
 
   subscribeTeacher: (teacherId) ->
     return unless @wsBus

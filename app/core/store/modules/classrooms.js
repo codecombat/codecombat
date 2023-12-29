@@ -13,6 +13,10 @@ function getTeacherIdBasedOnSharedWritePermission(classroom) {
   return teacherId
 }
 
+function classroomCourseLevelsKey(classroomID, courseID) {
+  return `${classroomID}-${courseID}`
+}
+
 export default {
   namespaced: true,
 
@@ -33,6 +37,7 @@ export default {
       byTeacher: {}, // used for teacher dashboard, TODO combine byClassroom/byTeacher?
       byCourseInstanceId: {}
     },
+    classroomCourseLevels: {},
 
     // TODO: Handle HoC classrooms and "most recent classroom" better. This is a hack
     // for HoC 2020, so classCode is shown in the LayoutChrome
@@ -204,8 +209,10 @@ export default {
         classroom[key] = updates[key]
       }
       Vue.set(state.classrooms.byClassroom, classroomID, classroom)
+    },
+    setClassroomCourseLevels: (state, { classroomID, courseID, levels }) => {
+      Vue.set(state.classroomCourseLevels, classroomCourseLevelsKey(classroomID, courseID), levels)
     }
-
   },
 
   getters: {
@@ -242,6 +249,9 @@ export default {
     getClassroomById: (state) => (id) => {
       return state.classrooms.byClassroom[id]
     },
+    getCourseLevels: (state) => (classroomId, courseId) => {
+      return state.classroomCourseLevels[classroomCourseLevelsKey(classroomId, courseId)]
+    }
   },
 
   actions: {
@@ -437,6 +447,13 @@ export default {
       if (codeCamel) {
         commit('setMostRecentClassCode', codeCamel)
       }
+    },
+    fetchCourseLevels: async ({ commit, getters }, { classroomID, courseID }) => {
+      if (getters.getCourseLevels(classroomID, courseID)) {
+        return
+      }
+      const levels = await classroomsApi.getCourseLevels({ classroomID, courseID })
+      commit('setClassroomCourseLevels', { classroomID, courseID, levels })
     }
   }
 }
