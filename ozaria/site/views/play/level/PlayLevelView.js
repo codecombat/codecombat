@@ -1428,9 +1428,9 @@ class PlayLevelView extends RootView {
       this.lastWorldFramesLoaded = this.world.frames.length
     }
     for (let [spriteName, message] of Array.from(
-      this.world.thangDialogueSounds(startFrame )
+      this.world.thangDialogueSounds(startFrame)
     )) {
-      let sound, thangType
+      let sound, thangType;
       if (
         !(thangType = _.find(thangTypes, m => m.get('name') === spriteName))
       ) {

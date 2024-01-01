@@ -23,9 +23,7 @@ jobs:
         run: npm ci  # OR: yarn
 
       - name: Run eslint on changed files
-        uses: tj-actions/eslint-changed-files@v21
+        uses: reviewdog/action-eslint@v1
         with:
-          config_path: ".eslintrc.js"
-          ignore_path: ".eslintignore"
-          extra_args: "--max-warnings=0"
+          eslint_flags: "--max-warnings=0"
           reporter: "github-check"
