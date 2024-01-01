@@ -1,0 +1,29 @@
+name: ESLint CI
+
+# Triggering workflow on all push
+on: [push]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: [18.10.0]
+
+      - name: Install dependencies
+        run: npm ci  # OR: yarn
+
+      - name: Run eslint on changed files
+        uses: tj-actions/eslint-changed-files@v21
+        with:
+          config_path: ".eslintrc"
+          ignore_path: ".eslintignore"
+          extra_args: "--max-warnings=0"
