@@ -23,7 +23,4 @@ jobs:
         run: npm ci  # OR: yarn
 
       - name: Run eslint on changed files
-        uses: reviewdog/action-eslint@v1
-        with:
-          eslint_flags: "--max-warnings=0"
-          reporter: "github-check"
+        run: npm run ci-lint
