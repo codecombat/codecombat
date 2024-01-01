@@ -17,6 +17,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18.10.0
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci  # OR: yarn
@@ -24,6 +25,6 @@ jobs:
       - name: Run eslint on changed files
         uses: tj-actions/eslint-changed-files@v21
         with:
-          config_path: ".eslintrc"
+          config_path: ".eslintrc.js"
           ignore_path: ".eslintignore"
           extra_args: "--max-warnings=0"

@@ -292,8 +292,8 @@ export function internationalizeLevelType (type, withLevelSuffix, withProjectSuf
     type = 'practice'
   }
   let key = 'play_level.level_type_' + type
-  if (withProjectSuffix && type === 'capstone' ) {
-    key += '_project'
+  if (withProjectSuffix && type === 'capstone') {
+    key += "_project"
   } else if (withLevelSuffix) {
     key += '_level'
   }
