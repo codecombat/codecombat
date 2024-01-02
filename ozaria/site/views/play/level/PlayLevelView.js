@@ -1455,8 +1455,8 @@ class PlayLevelView extends RootView {
 
   // Real-time playback
   onRealTimePlaybackStarted (e) {
-    this.$el.addClass('real-time').focus();
-    this.willUpdateStudentGoals = true
+    this.$el.addClass('real-time').focus()
+    this.willUpdateStudentGoals = true;
     this.updateStudentGoals()
     this.updateLevelName()
     this.onWindowResize()
