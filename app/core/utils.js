@@ -1304,7 +1304,7 @@ const arenas = [
   { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-10T07:00:00.000-07:00'), levelOriginal: '', image: '' },
   { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
   { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-07-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
-  { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
+  { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
   { season: 12, slug: 'supercharged', type: 'championship', start: new Date('2024-12-01T00:00:00.000-08:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
 ]
 
