@@ -1427,10 +1427,10 @@ class PlayLevelView extends RootView {
     } else {
       this.lastWorldFramesLoaded = this.world.frames.length
     }
-    for (let [spriteName, message] of Array.from(
+    for ( let [spriteName, message] of Array.from(
       this.world.thangDialogueSounds(startFrame)
     )) {
-      let sound, thangType;
+      let sound, thangType
       if (
         !(thangType = _.find(thangTypes, m => m.get('name') === spriteName))
       ) {
@@ -1444,7 +1444,7 @@ class PlayLevelView extends RootView {
       ) {
         continue
       }
-      AudioPlayer.preloadSoundReference(sound);
+      AudioPlayer.preloadSoundReference(sound)
     }
     if (this.level.isType('game-dev', 'hero', 'course')) {
       this.session.updateKeyValueDb(e.keyValueDb)
@@ -1454,7 +1454,7 @@ class PlayLevelView extends RootView {
   }
 
   // Real-time playback
-  onRealTimePlaybackStarted (e) {
+  onRealTimePlaybackStarted(e) {
     this.$el.addClass('real-time').focus()
     this.willUpdateStudentGoals = true
     this.updateStudentGoals()
