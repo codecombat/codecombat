@@ -5,7 +5,7 @@ module.exports = {
   extends: [
     'standard',
     'plugin:vue/recommended',
-    'plugin:diff/ci',
+    // 'plugin:diff/ci',
     'plugin:json/recommended'
   ],
 

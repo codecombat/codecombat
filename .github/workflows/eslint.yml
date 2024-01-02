@@ -24,11 +24,11 @@ jobs:
       - name: Install dependencies
         run: npm ci  # OR: yarn
 
-      - name: Run eslint on changed files
-        run: npm run ci-lint
-
       - name: Fetch the base branch, so we can use `git diff`
         run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
+
+      - name: Run eslint on changed files
+        run: npm run ci-lint
 
       - name: Test eslint setup works on CI
         env:

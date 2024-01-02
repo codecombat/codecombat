@@ -1466,8 +1466,8 @@ class PlayLevelView extends RootView {
     }
   }
 
-  updateStudentGoals () {
-    if (!this.level.isType('game-dev')){
+  updateStudentGoals() {
+    if (!this.level.isType('game-dev')) {
       return
     }
     // Set by users. Defined in `game.GameUI` component in the level editor.
