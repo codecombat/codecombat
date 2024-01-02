@@ -1466,7 +1466,7 @@ class PlayLevelView extends RootView {
     }
   }
 
-  updateStudentGoals() {
+  updateStudentGoals (){
     if (!this.level.isType('game-dev')) {
       return
     }
