@@ -1,0 +1,5 @@
+# copy the below contents to .git/hooks/pre-commit inside your repo and make it executable
+#!/bin/sh
+# copy this file to .git/hooks of repo and make it executable
+# npx eslint $(git diff --name-only --diff-filter=d --cached HEAD | xargs)
+npx @automattic/eslint-changed --git --git-staged --ext .js,.vue
