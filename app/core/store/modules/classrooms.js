@@ -452,7 +452,7 @@ export default {
       if (getters.getCourseLevels(classroomID, courseID)) {
         return
       }
-      const levels = await classroomsApi.getCourseLevels({ classroomID, courseID })
+      const levels = await classroomsApi.getCourseLevels({ classroomID, courseID }, { data: { cacheEdge: true } })
       commit('setClassroomCourseLevels', { classroomID, courseID, levels })
     }
   }

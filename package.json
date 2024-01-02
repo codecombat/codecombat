@@ -48,7 +48,8 @@
     "proxy:ozaria": "COCO_PRODUCT=ozaria COCO_PORT=3001 npm run proxy",
     "proxy-win": "cross-env COCO_PROXY='true' nodemon",
     "analyzer": "COCO_ANALYZER_BUNDLE=1 NODE_OPTIONS='--max-old-space-size=4096' webpack --profile --json > stats.json",
-    "lint": "eslint --max-warnings 0 '**/*.{js,vue}'"
+    "lint": "eslint --max-warnings 0 '**/*.{js,vue}' --debug",
+    "ci-lint": "npx @automattic/eslint-changed --git --git-base HEAD~1 --in-diff-only --debug --ext .js,.vue"
   },
   "main": "index.js",
   "standard": {
@@ -74,7 +75,7 @@
     "multiplayer"
   ],
   "dependencies": {
-    "@blockly/block-plus-minus": "^4.0.5",
+   "@blockly/block-plus-minus": "^4.0.5",
     "@blockly/continuous-toolbox": "^3.0.5",
     "@blockly/plugin-cross-tab-copy-paste": "^2.0.6",
     "@datadog/browser-rum": "^5.4.0",
@@ -188,6 +189,7 @@
     "yjs": "^13.6.8"
   },
   "devDependencies": {
+    "@automattic/eslint-changed": "^2.0.7",
     "@babel/core": "^7.18.9",
     "@babel/eslint-parser": "^7.18.9",
     "@babel/eslint-plugin": "^7.17.7",
