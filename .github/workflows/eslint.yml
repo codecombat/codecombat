@@ -28,4 +28,4 @@ jobs:
         run: npm run ci-lint
 
       - name: Test eslint setup works on CI
-        run: npm run lint
+        run: npm run lint --verbose
