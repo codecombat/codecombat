@@ -25,10 +25,10 @@ jobs:
         run: npm ci  # OR: yarn
 
       - name: Fetch the base branch, so we can use `git diff`
-        run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
+        run: git fetch origin ${{ github.event.pull_request.base.sha }}:${{ github.event.pull_request.base.sha }}
 
-      - name: Fetch the master branch, so we can use `git diff`
-        run: git fetch origin master:master
+      - name: Fetch the head branch, so we can use `git diff`
+        run: git fetch origin ${{ github.event.pull_request.head.sha }}:${{ github.event.pull_request.head.sha }}
 
       - name: Run eslint on changed files
-        run: npm run ci-lint
+        run: npx @automattic/eslint-changed --git --git-base ${{ github.event.pull_request.base.sha }} --in-diff-only --debug --ext .js,.vue
