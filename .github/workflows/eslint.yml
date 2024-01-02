@@ -29,8 +29,3 @@ jobs:
 
       - name: Run eslint on changed files
         run: npm run ci-lint
-
-      - name: Test eslint setup works on CI
-        env:
-          ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
-        run: npx eslint ozaria/site/views/play/level/PlayLevelView.js --debug
