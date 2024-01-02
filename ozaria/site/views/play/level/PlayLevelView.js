@@ -1427,7 +1427,7 @@ class PlayLevelView extends RootView {
     } else {
       this.lastWorldFramesLoaded = this.world.frames.length
     }
-    for ( let [spriteName, message] of Array.from(
+    for (const [spriteName, message] of Array.from(
       this.world.thangDialogueSounds(startFrame)
     )) {
       let sound, thangType
@@ -1457,7 +1457,7 @@ class PlayLevelView extends RootView {
   onRealTimePlaybackStarted (e) {
     this.$el.addClass('real-time').focus()
     this.willUpdateStudentGoals = true
-    this.updateStudentGoals();
+    this.updateStudentGoals()
     this.updateLevelName()
     this.onWindowResize()
     this.realTimePlaybackWaitingForFrames = true

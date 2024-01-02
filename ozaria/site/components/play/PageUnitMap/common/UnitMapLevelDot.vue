@@ -63,7 +63,7 @@ export default Vue.extend({
       }
     },
 
-    playLevelLink: function() {
+    playLevelLink: function () {
       if (this.levelData.locked) { return '#' }
 
       const nextLevelOptions = {
@@ -73,7 +73,7 @@ export default Vue.extend({
         classroomId: this.classroomId
       }
 
-      const link = getNextLevelLink(this.levelData, nextLevelOptions);
+      const link = getNextLevelLink(this.levelData, nextLevelOptions)
       return link || '#'
     },
 
