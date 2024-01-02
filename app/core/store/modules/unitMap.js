@@ -1,4 +1,3 @@
-import api from 'core/api'
 import _ from 'lodash'
 
 export default {
@@ -50,7 +49,8 @@ export default {
           const classroomCourseLevels = _.find(classroom.courses, { _id: courseId }).levels
 
           // get levels data for the levels in the classroom snapshot
-          const classroomCourseLevelsData = await api.classrooms.getCourseLevels({ classroomID: classroomId, courseID: courseId })
+          await dispatch('classrooms/fetchCourseLevels', { classroomID: classroomId, courseID: courseId }, { root: true })
+          const classroomCourseLevelsData = rootGetters['classrooms/getCourseLevels'](classroomId, courseId)
 
           const classroomLevelMap = {}
           for (const level of classroomCourseLevels) {

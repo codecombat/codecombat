@@ -60,10 +60,12 @@ export default Vue.extend({
     this.OZARIA = OZARIA
   },
   mounted () {
-    this.checkAnnouncements('fromNav')
-    if (!this.announcementInterval) { // todo: using websocket to get new announcements
-      this.startInterval('fromNav')
-    }
+    setTimeout(() => {
+      this.checkAnnouncements('fromNav')
+      if (!this.announcementInterval) { // todo: using websocket to get new announcements
+        this.startInterval('fromNav')
+      }
+    }, 2000)
   },
   beforeUnmounted () {
     if (this.announcementInterval) { clearInterval(this.announcementInterval) }
