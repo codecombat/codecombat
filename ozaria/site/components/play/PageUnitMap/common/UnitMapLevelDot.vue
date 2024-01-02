@@ -73,7 +73,7 @@ export default Vue.extend({
         classroomId: this.classroomId
       }
 
-      const link = getNextLevelLink(this.levelData, nextLevelOptions)
+      const link = getNextLevelLink(this.levelData, nextLevelOptions);
       return link || '#'
     },
 
