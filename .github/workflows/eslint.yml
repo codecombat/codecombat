@@ -26,3 +26,6 @@ jobs:
 
       - name: Run eslint on changed files
         run: npm run ci-lint
+
+      - name: Test eslint setup works on CI
+        run: npm run lint
