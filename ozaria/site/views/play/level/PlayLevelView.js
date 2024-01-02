@@ -1454,7 +1454,7 @@ class PlayLevelView extends RootView {
   }
 
   // Real-time playback
-  onRealTimePlaybackStarted(e) {
+  onRealTimePlaybackStarted (e) {
     this.$el.addClass('real-time').focus()
     this.willUpdateStudentGoals = true
     this.updateStudentGoals()
@@ -1466,7 +1466,7 @@ class PlayLevelView extends RootView {
     }
   }
 
-  updateStudentGoals () {
+  updateStudentGoals() {
     if (!this.level.isType('game-dev')) {
       return
     }

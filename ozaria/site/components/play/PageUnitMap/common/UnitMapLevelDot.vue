@@ -63,7 +63,7 @@ export default Vue.extend({
       }
     },
 
-    playLevelLink: function () {
+    playLevelLink: function() {
       if (this.levelData.locked) { return '#' }
 
       const nextLevelOptions = {
