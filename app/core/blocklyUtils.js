@@ -326,13 +326,15 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
   }
 
   // console.log 'Defining new block', name, setup
-  Blockly.Blocks[name] = {
+  const blockInitializer = {
     init () {
       this.jsonInit(setup)
       this.docFormatter = setup.docFormatter
       this.tooltipImg = setup.tooltipImg
-    }
+    },
+    setupInfo: setup
   }
+  Blockly.Blocks[name] = blockInitializer
   const blockDefinition = {
     kind: 'block',
     type: `${name.replace(/\"/g, '\'')}` // eslint-disable-line no-useless-escape

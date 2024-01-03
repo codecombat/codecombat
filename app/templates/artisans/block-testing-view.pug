@@ -8,14 +8,20 @@ block content
       span Artisans Home
     h1= "Block Testing"
 
-    .col-md-6
-      #blockly-container
-
     for testCase in view.testCases
-      .col-md-6
-        .row
+      .row.test-case
+        .col-md-12
           h2= testCase.name
-          pre= testCase.code
+        .col-md-3
+          .row
+            .ace-input
+          .row
+            .ace-output
+          .row
+            pre.rob-debug
+        .col-md-9
+          .blockly-container
+          .blockly-container-rob
 
     .row
       .col-xs-3.col-xs-offset-8.go-button
