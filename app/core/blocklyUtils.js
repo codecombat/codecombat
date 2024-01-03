@@ -102,8 +102,11 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         type: 'function'
       },
       include () {
-        let needle = level.get('slug')
-        return !Array.from(superBasicLevels).includes(needle) && ((level.get('slug') === 'wakka-maul') || !level.isLadder())
+        const slug = level?.get('slug')
+        if (!slug) {
+          return false
+        }
+        return !Array.from(superBasicLevels).includes(slug) && (slug === 'wakka-maul' || !level.isLadder())
       }
     }),
     createBlock({ owner: 'hero', generator, codeLanguage, level, superBasicLevels, prop: { type: 'ref' }, include () { return propNames.has('if/else') } }) // TODO: better targeting of when we introduce this (hero used as a value)
@@ -159,7 +162,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
           kind: 'block',
           type: 'text',
           include () {
-            let needle = level.get('slug')
+            let needle = level?.get('slug')
             return !Array.from(superBasicLevels).includes(needle)
           }
         },
@@ -167,7 +170,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
           kind: 'block',
           type: 'math_number',
           include () {
-            let needle = level.get('slug')
+            let needle = level?.get('slug')
             return !Array.from(superBasicLevels).includes(needle)
           }
         },
@@ -177,7 +180,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
           kind: 'block',
           type: 'comment',
           include () {
-            let needle = level.get('slug')
+            let needle = level?.get('slug')
             return !Array.from(superBasicLevels).includes(needle)
           }
         },
