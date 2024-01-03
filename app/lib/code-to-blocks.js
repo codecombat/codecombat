@@ -45,25 +45,24 @@ function findAllBlocks (thing) {
   return result
 }
 
-function doParse(blocklySource) {
+function doParse (blocklySource) {
   const { parse } = esper.plugins.babylon.babylon
-  if (/^continue;\s*/.test(blocklySource)) return { type: "ContinueStatement" };
-  if (/^break;\s*/.test(blocklySource)) return { type: "BreakStatement" };
-
+  if (/^continue;\s*/.test(blocklySource)) return { type: 'ContinueStatement' }
+  if (/^break;\s*/.test(blocklySource)) return { type: 'BreakStatement' }
 
   const ast = parse(blocklySource, { errorRecovery: true })
   let node = ast.program.body[0]
   if (!node) return ast
   let expression = false
-  if (node.type === "ExpressionStatement") {
+  if (node.type === 'ExpressionStatement') {
     expression = true
     node = node.expression
   }
   return { ...node, expression }
 }
 
-function prepare ({ toolbox, blocklyState, workspace }) {
-  let plan = [];
+function prepare ({ toolbox, blocklyState, workspace, codeLanguage }) {
+  const plan = []
 
   console.log('prepare', arguments[0])
   window.ws = workspace
@@ -86,7 +85,7 @@ function prepare ({ toolbox, blocklyState, workspace }) {
             block: {
               type: 'text',
               fields: {
-                TEXT: "$ARGUMENT$" + entry.name
+                TEXT: '$ARGUMENT$' + entry.name
               }
             }
           }
@@ -98,25 +97,25 @@ function prepare ({ toolbox, blocklyState, workspace }) {
     const state = Blockly.serialization.workspaces.save(workspace)
     console.log(state)
     const blocklySource = javascriptGenerator.workspaceToCode(workspace)
-    console.log("BS[" + blocklySource + "]")
+    console.log('BS[' + blocklySource + ']')
     plan.push([block, doParse(blocklySource), blocklySource])
   }
 
   return { RobIsAwesome: true, plan }
 }
 
-function codeToBlocks ({ code, codeLanguage, toolbox, blocklyState, debugDiv, prepData }) {
+function codeToBlocks ({ code, codeLanguage, toolbox, blocklyState, debugDiv, debugBlocklyWorkspace, prepData }) {
   console.log('codeToBlocks', arguments[0])
 
   const { parse } = esper.plugins.babylon.babylon
-  console.log("PLAN", prepData);
+  console.log('PLAN', prepData)
   const out = convert(parse(code).program)
   $(debugDiv).text(JSON.stringify(out))
 
   return {
     blocks: {
       blocks: [
-        { type: 'Sword of the Temple Guard_attack', next: {block: { type: 'Sword of the Temple Guard_attack' }} }
+        { type: 'Sword of the Temple Guard_attack', next: { block: { type: 'Sword of the Temple Guard_attack' } } }
       ]
     }
   }

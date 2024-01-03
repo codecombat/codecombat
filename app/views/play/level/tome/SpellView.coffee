@@ -14,6 +14,7 @@ LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
 aceUtils = require 'core/aceUtils'
 blocklyUtils = require 'core/blocklyUtils'
+{ codeToBlocks, prepare } = require 'lib/code-to-blocks'
 CodeLog = require 'models/CodeLog'
 Autocomplete = require './editor/autocomplete'
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
@@ -21,6 +22,7 @@ LZString = require 'lz-string'
 utils = require 'core/utils'
 Aether = require 'lib/aether/aether'
 Blockly = require 'blockly'
+blocklyUtils.registerBlocklyTheme()
 storage = require 'core/storage'
 AceDiff = require 'ace-diff'
 globalVar = require 'core/globalVar'
@@ -460,26 +462,25 @@ module.exports = class SpellView extends CocoView
       @awaitingBlockly = true
       return
     codeLanguage = @spell.language
-    toolbox = blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage, level: @options.level })
-    blocklyUtils.registerBlocklyTheme()
+    @blocklyToolbox = blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage, level: @options.level })
     targetDiv = @$('#blockly-container')
-    blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox })
+    blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: @blocklyToolbox })
     @blockly = Blockly.inject targetDiv[0], blocklyOptions
     @blocklyActive = true
     blocklyUtils.initializeBlocklyTooltips()
 
-    lastBlocklyState = if @session.fake then null else storage.load "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}"
-    if lastBlocklyState
-      blocklyUtils.loadBlocklyState lastBlocklyState, @blockly
+    @lastBlocklyState = if @session.fake then null else storage.load "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}"
+    if @lastBlocklyState
+      blocklyUtils.loadBlocklyState @lastBlocklyState, @blockly
       # Rerun the code
       @blocklyToAce()
       for block in @blockly.getAllBlocks() when block.type is 'comment'
         # Make long comments not so long. (The full comments will be visible, wrapped, in text version anyway.)
         block.setCollapsed true
       @recompile()
-    #else
-    #  # Initialize Blockly from the text code
-    #  @aceToBlockly true
+    else
+      # Initialize Blockly from the text code
+      @aceToBlockly true
 
     @resizeBlockly()
 
@@ -490,9 +491,10 @@ module.exports = class SpellView extends CocoView
     blocklyUtils.getBlocklySource @blockly, @spell.language
 
   blocklyToAce: =>
-    return if @eventsSuppressed
+    return if @eventsSuppressed  # Doesn't work: blockly's change listener fires on a delay, not as soon as a change is made
     return unless @blockly
     { blocklyState, blocklySource, combined } = @getBlocklySource()
+    @lastBlocklyState = blocklyState
     aceSource = @getSource()
 
     # For debugging, including Blockly JSON serialization
@@ -511,21 +513,19 @@ module.exports = class SpellView extends CocoView
   aceToBlockly: (force) =>
     return if @eventsSuppressed and not force
     return unless @blockly
-    # TODO: this is currently not doing anything until we update it with code -> blockly generation
-    return
-    aceCombined = @ace.getValue()
-    match = aceCombined.match(/^[#\/\-]+BLOCKLY. ([^\n]*)\n\n(.*)/)  # TODO: check if this can do multiline or use something else
-    if match?
-      aceState = match[1]
-      aceSource = match[2]
-    { blocklyState, blocklySource, combined } = @getBlocklySource()
+    { blocklyState, blocklySource } = @getBlocklySource()
+    unless @codeToBlocksPrepData
+      @codeToBlocksPrepData = prepare { toolbox: @blocklyToolbox, blocklyState, workspace: @blockly, codeLanguage: @spell.language }
+    aceSource = @ace.getValue()
     return if not aceSource? or aceSource is blocklySource
+    newBlocklyState = codeToBlocks { code: @ace.getValue(), codeLanguage: @spell.language, toolbox: @blocklyToolbox, blocklyState, prepData: @codeToBlocksPrepData }
     console.log 'A2B: Changing blockly source from', blocklySource, 'to', aceSource
     @eventsSuppressed = true
-    #console.log 'would set to', blocklyState
-    Blockly.serialization.workspaces.load blocklyState, @blockly
+    #console.log 'would set to', newBlocklyState
+    Blockly.serialization.workspaces.load newBlocklyState, @blockly
     #@resizeBlockly()  # Needed?
     @eventsSuppressed = false
+    @lastBlocklyState = newBlocklyState
 
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?

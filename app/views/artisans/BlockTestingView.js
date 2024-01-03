@@ -63,6 +63,7 @@ module.exports = (BlockTestingView = (function () {
     }
 
     addBlockly ({ testCase, testContainer, inputAce, outputAce }) {
+      // Initialize Blockly
       const toolbox = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: testCase.codeLanguage })
       const blocklyDiv = testContainer.find('.blockly-container')[0]
       const blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox })
@@ -81,29 +82,28 @@ module.exports = (BlockTestingView = (function () {
       // If this is the first time, get some prep data for initial codeToBlocks setup and debugging
       if (!prepData) {
         try {
-          prepData = prepare({ toolbox, blocklyState, workspace: debugBlocklyWorkspace })
+          prepData = prepare({ toolbox, blocklyState, workspace: debugBlocklyWorkspace, codeLanguage: testCase.codeLanguage })
         } catch (err) {
           console.error(err)
           prepData = {}
         }
       }
-      const newBlocklyState = this.runCodeToBlocks({ code: testCase.code.trim(), codeLanguage: testCase.codeLanguage, toolbox, blocklyState, debugDiv, debugBlocklyWorkspace, prepData })
-      if (newBlocklyState) {
-        blocklyUtils.loadBlocklyState(newBlocklyState, blocklyWorkspace)
-      }
 
-      inputAce.getSession().getDocument().on('change', () => {
+      // Hook up input ace -> Blockly change listener
+      const onAceChange = () => {
         const newBlocklyState = this.runCodeToBlocks({ code: inputAce.getValue(), codeLanguage: testCase.codeLanguage, toolbox, blocklyState, debugDiv, debugBlocklyWorkspace, prepData })
         if (newBlocklyState) {
           blocklyUtils.loadBlocklyState(newBlocklyState, blocklyWorkspace)
         }
-      })
-      window.inputAce = inputAce
+      }
+      inputAce.getSession().getDocument().on('change', onAceChange)
+      onAceChange()
 
+      // Hook up Blockly -> output ace change listener
       blocklyWorkspace.addChangeListener((event) => {
         const { blocklyState, blocklySource } = blocklyUtils.getBlocklySource(blocklyWorkspace, testCase.codeLanguage)
         storage.save(`lastBlocklyState_${testCase.name}`, blocklyState)
-        console.log('New blockly state is', blocklyState)
+        console.log('New blockly state for', testCase.name, 'is', blocklyState)
         outputAce.setValue(blocklySource)
         outputAce.clearSelection()
       })
@@ -113,7 +113,7 @@ module.exports = (BlockTestingView = (function () {
       try {
         const newBlocklyState = codeToBlocks({ code, codeLanguage, toolbox, blocklyState, debugDiv, debugBlocklyWorkspace, prepData })
         if (newBlocklyState) {
-          console.log('codeToBlocks produced new blockly state:', newBlocklyState)
+          console.log('codeToBlocks produced new blockly state for', testCase.name, 'as', newBlocklyState)
           return newBlocklyState
         }
       } catch (err) {
