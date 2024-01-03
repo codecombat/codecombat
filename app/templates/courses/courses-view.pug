@@ -87,7 +87,7 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, 
         else
           button.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.unit_complete")
     else if nextLevel
-      - var url = view.urls.courseWorldMap({course: course, courseInstance: courseInstance});
+      - var url = view.urls.courseWorldMap({course: course, courseInstance: courseInstance, classroom: classroom});
       if view.utils.isOzaria && isLocked
         button.play-btn.btn.btn-forest.btn-lg.m-b-1(disabled=isLocked)
           span(data-i18n="common.locked")
@@ -184,7 +184,7 @@ mixin classrooms_content()
              if nextLevel
                - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
                - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
-               - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID});
+               - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID, classroomId: courseInstance.get('classroomID')});
 
              if course
                h6

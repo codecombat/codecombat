@@ -49,6 +49,7 @@ module.exports = class LevelLoader extends CocoClass
     @observing = options.observing
     @courseID = options.courseID
     @courseInstanceID = options.courseInstanceID
+    @classroomId = options.classroomId
 
     @worldNecessities = []
     @listenTo @supermodel, 'resource-loaded', @onWorldNecessityLoaded
@@ -79,7 +80,7 @@ module.exports = class LevelLoader extends CocoClass
     if @level.loaded
       @onLevelLoaded()
     else
-      @level = @supermodel.loadModel(@level, 'level').model
+      @level = @supermodel.loadModel(@level, 'level', { data: { cacheEdge: true } }).model
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   reportLoadError: ->
@@ -179,6 +180,8 @@ module.exports = class LevelLoader extends CocoClass
         url += "?course=#{@courseID}"
         if @courseInstanceID
           url += "&courseInstance=#{@courseInstanceID}"
+        if @classroomId
+          url += "&classroom=#{@classroomId}"
       else if codeLanguage = utils.getQueryVariable 'codeLanguage'
         url += "?codeLanguage=#{codeLanguage}" # For non-classroom anonymous users
       if password = utils.getQueryVariable 'password'

@@ -26,6 +26,9 @@ export default {
     },
     getCourseInstancesOfClass: (state) => (classroomId) => {
       return state.courseInstanceByClassroom[classroomId]
+    },
+    getCourseInstanceById: (state) => (id) => {
+      return state.courseInstanceById[id]
     }
   },
 
@@ -102,23 +105,22 @@ export default {
         .catch((e) => noty({ text: 'Failed to fetch course instances: ' + e, type: 'error', layout: 'topCenter', timeout: 5000 }))
     },
 
-    fetchCourseInstancesForId: ({ commit }, id) => {
+    fetchCourseInstanceForId: async ({ commit, getters }, id) => {
+      if (getters.getCourseInstanceById(id)) {
+        return
+      }
       commit('toggleIdLoading', id)
 
-      return courseInstancesApi
-        .get(id)
-        .then(res => {
-          if (res) {
-            commit('setCourseInstancesForId', {
-              id,
-              instance: res
-            })
-          } else {
-            throw new Error('Unexpected response from course instances by id API.')
-          }
+      const res = await courseInstancesApi.get({ courseInstanceID: id })
+      if (res) {
+        commit('setCourseInstanceForId', {
+          id,
+          instance: res
         })
-      .catch((e) => noty({ text: 'Fetch course instances failure: ' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
-      .finally(() => commit('toggleIdLoading', id))
+      } else {
+        throw new Error('Unexpected response from course instances by id API.')
+      }
+      commit('toggleIdLoading', id)
     },
 
     async assignCourse ({ rootGetters, state }, { course, members, classroom, sharedClassroomId }) {

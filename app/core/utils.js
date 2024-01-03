@@ -1298,8 +1298,14 @@ const arenas = [
   { season: 7, slug: 'equinox', type: 'championship', start: new Date('2023-04-01T00:00:00.000-07:00'), end: new Date('2023-05-01T00:00:00.000-07:00'), results: new Date('2023-05-10T07:00:00.000-07:00'), levelOriginal: '6406d8b2da5aca06eb3560d7', tournament: '642609bf54cb921c6d8cf3df', image: '/file/db/level/6406d8b2da5aca06eb3560d7/AILeague-Banner-Equinox-Cup-01.jpg' },
   { season: 8, slug: 'farmers-feud', type: 'regular', start: new Date('2023-05-01T00:00:00.000-07:00'), end: new Date('2023-09-01T00:00:00.000-07:00'), results: new Date('2023-09-14T07:00:00.000-07:00'), levelOriginal: '6436ae25bb80330019b127c6', tournament: '64c836a5d95277dfd69f9ae3', image: '/file/db/level/6436ae25bb80330019b127c6/AILeague-Banner-Farmer\'s-Feud-02.jpg' },
   { season: 8, slug: 'farmscape', type: 'championship', start: new Date('2023-07-01T00:00:00.000-07:00'), end: new Date('2023-09-01T00:00:00.000-07:00'), results: new Date('2023-09-14T07:00:00.000-07:00'), levelOriginal: '649ab0387be08b00fdf31e8a', tournament: '64c836c5d95277dfd69f9af1', image: '/file/db/level/649ab0387be08b00fdf31e8a/AILeague-Banner-Farmer\'s-Feud-03.jpg' },
-  { season: 9, slug: 'storm-siege', type: 'regular', start: new Date('2023-09-01T00:00:00.000-07:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '64c792d1562b9a008d3e2e1a', image: '/file/db/level/64c792d1562b9a008d3e2e1a/StormSiegeBannerv3.png' },
-  { season: 9, slug: 'snowhold', type: 'championship', start: new Date('2023-12-01T00:00:00.000-08:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '654a306ba0c557007a807ead', image: '/file/db/level/654a306ba0c557007a807ead/SnowholdClashBannerv2.png' }
+  { season: 9, slug: 'storm-siege', type: 'regular', start: new Date('2023-09-01T00:00:00.000-07:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '64c792d1562b9a008d3e2e1a', tournament: '658cfc449ac7fb700b08d815', image: '/file/db/level/64c792d1562b9a008d3e2e1a/StormSiegeBannerv3.png' },
+  { season: 9, slug: 'snowhold', type: 'championship', start: new Date('2023-12-01T00:00:00.000-08:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '654a306ba0c557007a807ead', tournament: '658cfc869ac7fb700b08d82c', image: '/file/db/level/654a306ba0c557007a807ead/SnowholdClashBannerv2.png' },
+  { season: 10, slug: 'fierce-forces', type: 'regular', start: new Date('2024-01-01T00:00:00.000-08:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-10T07:00:00.000-07:00'), levelOriginal: '6576ff2b1457f600193d2cc9', image: '/file/db/level/6576ff2b1457f600193d2cc9/FierceForcesBannerNew.png' },
+  { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-10T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-07-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
+  { season: 12, slug: 'supercharged', type: 'championship', start: new Date('2024-12-01T00:00:00.000-08:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
 ]
 
 // AI League seasons
@@ -1312,7 +1318,10 @@ const AILeagueSeasons = [
   { number: 6, championshipType: 'clash', image: '/images/pages/league/lava-lake-clash.png', video: '6650f5c84f65ecd1709cca1210c4e9ab', videoThumbnailTime: '1762s' },
   { number: 7, championshipType: 'cup', image: '/images/pages/league/equinox-cup.png', video: '4832912db10162e24cb2eb86df6c36d7', videoThumbnailTime: '1021s' },
   { number: 8, championshipType: 'blitz', image: '/images/pages/league/farmscape-blitz.png', video: 'eae72056cd1e54f77ec35612c2d0c4b5', videoThumbnailTime: '2681s' },
-  { number: 9, championshipType: 'clash', image: '/images/pages/league/snowhold-clash.png', video: '', videoThumbnailTime: '' }
+  { number: 9, championshipType: 'clash', image: '/images/pages/league/snowhold-clash.png', video: '', videoThumbnailTime: '' },
+  { number: 10, championshipType: 'cup', image: '/images/pages/league/anti-gravity-cup.png', video: '', videoThumbnailTime: '' },
+  { number: 11, championshipType: 'blitz', image: '/images/pages/league/sunfire-blitz.png', video: '', videoThumbnailTime: '' },
+  { number: 12, championshipType: 'clash', image: '/images/pages/league/supercharged-clash.png', video: '', videoThumbnailTime: '' },
 ]
 
 const activeArenas = function () {

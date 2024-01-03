@@ -20,6 +20,10 @@ export default Vue.extend({
     codeLanguage: {
       type: String,
       default: undefined
+    },
+    classroomId: {
+      type: String,
+      default: ''
     }
   },
 
@@ -65,7 +69,8 @@ export default Vue.extend({
       const nextLevelOptions = {
         courseId: this.courseId,
         courseInstanceId: this.courseInstanceId,
-        codeLanguage: this.codeLanguage
+        codeLanguage: this.codeLanguage,
+        classroomId: this.classroomId
       }
 
       const link = getNextLevelLink(this.levelData, nextLevelOptions)

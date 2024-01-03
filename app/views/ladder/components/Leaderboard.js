@@ -30,13 +30,16 @@ module.exports = (LeaderboardView = (function () {
       this.prototype.id = 'new-leaderboard-view'
       this.prototype.template = require('templates/play/ladder/leaderboard-view')
       this.prototype.VueComponent = LeaderboardComponent
+      this.prototype.hidesTeam = false
     }
 
     constructor (options, level, sessions, anonymousPlayerName) {
       super(options)
       this.level = level
       this.sessions = sessions
-      this.anonymousPlayerName = anonymousPlayerName;
+      this.anonymousPlayerName = anonymousPlayerName
+      this.hidesTeams = utils.getQueryVariable('tournament') === '65775da26dd00500194eaf3f'; // Hide team display for this particular tournament
+
       ({ league: this.league, tournament: this.tournament, leagueType: this.leagueType, course: this.course } = options)
       // params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
       this.tableTitles = [
@@ -51,6 +54,9 @@ module.exports = (LeaderboardView = (function () {
         { slug: 'age', col: 1, title: $.i18n.t('ladder.age_bracket') },
         { slug: 'country', col: 1, title: '🏴‍☠️' }
       ]
+      if (this.hidesTeams) {
+        _.remove(this.tableTitles, { slug: 'clan' })
+      }
       this.propsData = { tableTitles: this.tableTitles, league: this.league, level: this.level, leagueType: this.leagueType, course: this.course, scoreType: 'tournament', showContactUs: this.anonymousPlayerName && me.isTeacher() }
       if (!this.tournament) {
         this.propsData.tableTitles = [
@@ -64,6 +70,9 @@ module.exports = (LeaderboardView = (function () {
           { slug: 'when', col: 1, title: $.i18n.t('general.when') },
           { slug: 'fight', col: 1, title: '' }
         ]
+        if (this.hidesTeams) {
+          _.remove(this.propsData.tableTitles, { slug: 'clan' })
+        }
         this.propsData.scoreType = 'arena'
       }
       this.rankings = []
@@ -179,10 +188,10 @@ module.exports = (LeaderboardView = (function () {
             wins,
             losses,
             (((wins || 0) / (((wins || 0) + (losses || 0)) || 1)) * 100).toFixed(2) + '%',
-            this.getClanName(model),
+            this.hidesTeams ? '__hide' : this.getClanName(model),
             this.getAgeBracket(model),
             model.get('creatorCountryCode')
-          ]
+          ].filter(x => x !== '__hide')
         } else {
           return [
             model.get('creator'),
@@ -190,11 +199,11 @@ module.exports = (LeaderboardView = (function () {
             model.rank || (index + 1),
             this.mapFullName((model.get('fullName')) || model.get('creatorName') || $.i18n.t('play.anonymous')),
             this.correctScore(model),
-            this.getClanName(model),
+            this.hidesTeams ? '__hide' : this.getClanName(model),
             this.getAgeBracket(model),
             moment(model.get('submitDate')).fromNow().replace('a few ', ''),
             model.get('_id')
-          ]
+          ].filter(x => x !== '__hide')
         }
       })
     }

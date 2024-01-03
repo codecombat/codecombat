@@ -38,6 +38,10 @@ export default Vue.extend({
     codeLanguage: {
       type: String,
       default: undefined
+    },
+    classroomId: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
@@ -126,6 +130,7 @@ export default Vue.extend({
       :course-id="courseId"
       :course-instance-id="courseInstanceId"
       :code-language="codeLanguage"
+      :classroom-id="classroomId"
     />
     <unit-map-nav
       :back-button-link="backButtonLink"
