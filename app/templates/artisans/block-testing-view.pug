@@ -9,19 +9,19 @@ block content
     h1= "Block Testing"
 
     for testCase in view.testCases
-      .row.test-case
+      .col-md-6.test-case
         .col-md-12
           h2= testCase.name
-        .col-md-3
-          .row
-            .ace-input
-          .row
-            .ace-output
-          .row
-            pre.rob-debug
-        .col-md-9
+        .col-md-6
+          .side-label Input
+          .ace-input
+          .side-label Output
+          .ace-output
+          .side-label Debug
+          pre.debug-scratchpad
+        .col-md-6
           .blockly-container
-          .blockly-container-rob
+          .blockly-container-debug
 
     .row
       .col-xs-3.col-xs-offset-8.go-button

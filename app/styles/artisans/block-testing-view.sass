@@ -3,10 +3,22 @@
 @import "../play/ace-editor"
 
 #block-testing-view
-  .go-button
-    margin-top: 33px
+  .container
+    width: 1920px
 
-  .rob-debug
+  .test-case
+    outline: 1px solid #eee
+    margin-bottom: 20px
+    padding-bottom: 20px
+
+    h2
+      text-align: center
+
+    .side-label
+      position: absolute
+      transform: rotate(270deg) translateX(-10px) translateY(-43px)
+
+  .debug-scratchpad
     min-height: 90px
 
   .ace_editor
@@ -15,14 +27,14 @@
     font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
     margin-bottom: 10px
     width: 100%
-    height: 190px
+    height: 255px
 
     body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
       font-family: "Cousine", "Courier", "Courier New", monospace !important
 
   .blockly-container
     z-index: 4
-    height: 500px
+    height: 620px
     width: 100%
 
     .blocklyTreeLabel
