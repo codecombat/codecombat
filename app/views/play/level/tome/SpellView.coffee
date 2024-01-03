@@ -515,14 +515,22 @@ module.exports = class SpellView extends CocoView
     return unless @blockly
     { blocklyState, blocklySource } = @getBlocklySource()
     unless @codeToBlocksPrepData
-      @codeToBlocksPrepData = prepare { toolbox: @blocklyToolbox, blocklyState, workspace: @blockly, codeLanguage: @spell.language }
+      try
+        @codeToBlocksPrepData = prepare { toolbox: @blocklyToolbox, blocklyState, workspace: @blockly, codeLanguage: @spell.language }
+      catch err
+        console.error 'Error preparing Blockly code to blocks conversion:', err
+        return
     aceSource = @ace.getValue()
     return if not aceSource? or aceSource is blocklySource
-    newBlocklyState = codeToBlocks { code: @ace.getValue(), codeLanguage: @spell.language, toolbox: @blocklyToolbox, blocklyState, prepData: @codeToBlocksPrepData }
+    try
+      newBlocklyState = codeToBlocks { code: @ace.getValue(), codeLanguage: @spell.language, toolbox: @blocklyToolbox, blocklyState, prepData: @codeToBlocksPrepData }
+    catch err
+      console.log "Couldn't parse code to get new blockly state:", err, '\nCode:', aceSource
+      return
     console.log 'A2B: Changing blockly source from', blocklySource, 'to', aceSource
     @eventsSuppressed = true
     #console.log 'would set to', newBlocklyState
-    Blockly.serialization.workspaces.load newBlocklyState, @blockly
+    blocklyUtils.loadBlocklyState newBlocklyState, @blockly
     #@resizeBlockly()  # Needed?
     @eventsSuppressed = false
     @lastBlocklyState = newBlocklyState

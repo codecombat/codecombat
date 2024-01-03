@@ -98,13 +98,13 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       prop: {
         name: 'say',
         owner: 'this',
-        args: [{ name: 'what' }],
+        args: [{ name: 'what', type: 'string' }],
         type: 'function'
       },
       include () {
         const slug = level?.get('slug')
         if (!slug) {
-          return false
+          return true
         }
         return !Array.from(superBasicLevels).includes(slug) && (slug === 'wakka-maul' || !level.isLadder())
       }
@@ -150,7 +150,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'controls_repeat_ext', include () { return propNames.has('for-loop') } },
         // { kind: 'block', type: 'controls_for', include: -> propNames.has('for-loop') }  # Too wide  # TODO: introduce this later than the simpler repeat_ext loop above? Or just use this one, but defaults start at 0 and increment by 1?
         { kind: 'block', type: 'controls_forEach', include () { return propNames.has('for-in-loop') } },
-        { kind: 'block', type: 'controls_flow_statements', include () { return propNames.has('break') || propNames.has('continue') } }
+        { kind: 'block', type: 'controls_flow_statements', include () { return propNames.has('break') } },
+        { kind: 'block', type: 'controls_flow_statements', fields: { FLOW: 'CONTINUE' }, include () { return propNames.has('continue') } }
       ]
     },
     {
@@ -493,8 +494,14 @@ let rewriteBlocklySource = source => // Fix any weird code generation coming fro
 module.exports.loadBlocklyState = function (blocklyState, blockly, tries) {
   if (tries == null) { tries = 0 }
   if (tries > 10) { return false }
-  if (!(blocklyState != null ? blocklyState.blocks : undefined)) { return false }
+  if (!blocklyState?.blocks?.blocks) { return false }
+  const oldBlocklyState = Blockly.serialization.workspaces.save(blockly)
   try {
+    console.log('Need to load', blocklyState, 'into', blockly, 'comparing to', oldBlocklyState)
+    const mergeProgress = {}
+    for (let i = 0; i < blocklyState?.blocks?.blocks?.length; ++i) {
+      mergeBlocklyStates(oldBlocklyState?.blocks?.blocks?.[i], blocklyState.blocks.blocks[i], mergeProgress)
+    }
     Blockly.serialization.workspaces.load(blocklyState, blockly)
     return true
   } catch (err) {
@@ -509,6 +516,50 @@ module.exports.loadBlocklyState = function (blocklyState, blockly, tries) {
       return false
     }
   }
+}
+
+const blockHeight = 25
+function mergeBlocklyStates(oldState, newState, mergeProgress) {
+  if (!newState) {
+    return
+  }
+  if (!oldState) {
+    if (mergeProgress.lastX === undefined) {
+      mergeProgress.lastX = 20
+      mergeProgress.lastY = 20
+      mergeProgress.blocksSinceLastYSet = -2
+    }
+    newState.x = mergeProgress.lastX
+    newState.y = mergeProgress.lastY + blockHeight * (mergeProgress.blocksSinceLastYSet + 2)
+    // console.log('Setting new state that did not exist', newState, 'to', mergeProgress.lastX, mergeProgress.lastY + blockHeight * (mergeProgress.blocksSinceLastYSet + 2), 'from mp', mergeProgress)
+    mergeProgress.blocksSinceLastYSet += countBlocks(newState) + 2
+    return
+  }
+  if (oldState.type === newState.type) {
+    // TODO: check more properties for equality
+    console.log('merging', oldState.type, oldState.id, oldState.x, oldState.y, oldState, newState)
+    newState.id = oldState.id
+    if (oldState.x !== undefined) {
+      newState.x = mergeProgress.lastX = oldState.x
+      newState.y = mergeProgress.lastY = oldState.y
+      mergeProgress.blocksSinceLastYSet = 0
+    } else {
+      ++mergeProgress.blocksSinceLastYSet
+    }
+    if (newState.next) {
+      mergeBlocklyStates(oldState.next?.block, newState.next.block, mergeProgress)
+    }
+  }
+}
+
+function countBlocks(newState) {
+  // TODO: this should probably count nested blocks, arguments, also account for taller blocks
+  let count = 0
+  while (newState?.next) {
+    ++count
+    newState = newState.next.block
+  }
+  return count
 }
 
 let filterBlocklyState = function (blocklyState, blockType) {

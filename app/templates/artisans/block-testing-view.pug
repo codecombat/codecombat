@@ -6,12 +6,22 @@ block content
     a(href="/artisans")
       span.glyphicon.glyphicon-chevron-left
       span Artisans Home
-    h1= "Block Testing"
+    if view.focusTest
+      a(href="/artisans/block-testing")
+        span= ' '
+        span.glyphicon.glyphicon-chevron-left
+        span All Tests
+
+    if view.focusTest
+      h1= "Block Testing - " + view.focusTest
+    else
+      h1= "Block Testing - " + view.testCases.length + " tests"
 
     for testCase in view.testCases
-      .col-md-6.test-case
-        .col-md-12
-          h2= testCase.name
+      .col-md-12.test-case
+        if !view.focusTest
+          h2
+            a(href="/artisans/block-testing?test=" + testCase.name)= testCase.name
         .col-md-6
           .side-label Input
           .ace-input
@@ -19,10 +29,7 @@ block content
           .ace-output
           .side-label Debug
           pre.debug-scratchpad
+          pre.error-scratchpad.hide
         .col-md-6
           .blockly-container
           .blockly-container-debug
-
-    .row
-      .col-xs-3.col-xs-offset-8.go-button
-        button.btn.btn-primary.btn-lg#go-button Go
