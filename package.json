@@ -75,9 +75,9 @@
     "multiplayer"
   ],
   "dependencies": {
-   "@blockly/block-plus-minus": "^4.0.5",
-    "@blockly/continuous-toolbox": "^3.0.5",
-    "@blockly/plugin-cross-tab-copy-paste": "^2.0.6",
+    "@blockly/block-plus-minus": "^7.0.1",
+    "@blockly/continuous-toolbox": "^5.0.10",
+    "@blockly/plugin-cross-tab-copy-paste": "^5.0.5",
     "@datadog/browser-rum": "^5.4.0",
     "@stripe/stripe-js": "^1.32.0",
     "@usesuperflow/client": "^1.0.2",
@@ -92,7 +92,7 @@
     "async": "2.5.0",
     "backbone": "~1.1.1",
     "basic-auth": "^1.0.4",
-    "blockly": "^9.2.1",
+    "blockly": "^10.3.0",
     "bluebird": "^3.5.4",
     "body-parser": "^1.19.2",
     "bootstrap": "^3.3.7",
