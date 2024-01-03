@@ -49,7 +49,9 @@
     "proxy-win": "cross-env COCO_PROXY='true' nodemon",
     "analyzer": "COCO_ANALYZER_BUNDLE=1 NODE_OPTIONS='--max-old-space-size=4096' webpack --profile --json > stats.json",
     "lint": "eslint --max-warnings 0 '**/*.{js,vue}' --debug",
-    "ci-lint": "npx @automattic/eslint-changed --git --git-base HEAD~1 --in-diff-only --debug --ext .js,.vue"
+    "ci-lint": "npx @automattic/eslint-changed --git --git-base HEAD~1 --in-diff-only --debug --ext .js,.vue",
+    "coco-pre-commit-lint": "npx @automattic/eslint-changed --git --git-staged --ext .js,.vue",
+    "prepare": "husky install"
   },
   "main": "index.js",
   "standard": {
@@ -75,7 +77,7 @@
     "multiplayer"
   ],
   "dependencies": {
-   "@blockly/block-plus-minus": "^4.0.5",
+    "@blockly/block-plus-minus": "^4.0.5",
     "@blockly/continuous-toolbox": "^3.0.5",
     "@blockly/plugin-cross-tab-copy-paste": "^2.0.6",
     "@datadog/browser-rum": "^5.4.0",
@@ -230,6 +232,7 @@
     "globby": "^13.1.2",
     "html-minifier": "^4.0.0",
     "http-proxy": "^1.13.2",
+    "husky": "^8.0.3",
     "import-glob-loader": "^1.1.0",
     "imports-loader": "^0.8.0",
     "jasmine": "2.4.1",
