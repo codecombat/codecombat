@@ -280,6 +280,15 @@ while (true) {
 })
 
 testCases.push({
+  name: 'String concatenation',
+  code: `
+    hero.say("I'm glad my health is " + hero.health + ' and not potato.')
+`,
+  codeLanguage: 'javascript'
+})
+
+
+testCases.push({
   name: 'Break/continue',
   code: `
 while (true) {

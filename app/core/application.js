@@ -177,7 +177,7 @@ const Application = {
   },
 
   isProduction () {
-    return document.location.href.search('https?://localhost') === -1
+    return document.location.href.search('https?://localhost') === -1 && document.location.href.search('https?://192.168.') === -1
   },
 
   loadedStaticPage: (window.alreadyLoadedView != null),
