@@ -135,6 +135,7 @@ module.exports = (CocoRouter = (function () {
         'artisans/student-solutions': go('artisans/StudentSolutionsView'),
         'artisans/sandbox': go('artisans/SandboxView'),
         'artisans/arena-balancer(/:levelSlug)': go('artisans/ArenaBalancerView'),
+        'artisans/block-testing': go('artisans/BlockTestingView'),
 
         careers: () => { window.location.href = 'https://jobs.lever.co/codecombat' },
 
