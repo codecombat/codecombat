@@ -25,6 +25,7 @@ module.exports = (AILeaguePromotionModal = (function () {
       this.prototype.closesOnClickOutside = false
 
       this.prototype.events = {
+        'click .close-modal': 'hide',
         'click .play-button': 'onClickPlayButton'
       }
     }

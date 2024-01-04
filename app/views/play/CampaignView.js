@@ -43,7 +43,6 @@ const Classroom = require('models/Classroom')
 const Course = require('models/Course')
 const CourseInstance = require('models/CourseInstance')
 const Levels = require('collections/Levels')
-const payPal = require('core/services/paypal')
 const createjs = require('lib/createjs-parts')
 const PlayItemsModal = require('views/play/modal/PlayItemsModal')
 const PlayHeroesModal = require('views/play/modal/PlayHeroesModal')
@@ -60,6 +59,7 @@ const CourseVideosModal = require('views/play/level/modal/CourseVideosModal')
 const globalVar = require('core/globalVar')
 const paymentUtils = require('app/lib/paymentUtils')
 const userUtils = require('lib/user-utils')
+const AILeaguePromotionModal = require('views/core/AILeaguePromotionModal')
 
 require('lib/game-libraries')
 
@@ -260,8 +260,8 @@ module.exports = (CampaignView = (function () {
         const earned = me.get('earned')
         let hadMissedAny = false
         for (const m of Array.from(this.earnedAchievements.models)) {
-          var loadedEarned
-          if (!(loadedEarned = m.get('earnedRewards'))) { continue }
+          const loadedEarned = m.get('earnedRewards')
+          if (!loadedEarned) { continue }
           for (const group of ['heroes', 'levels', 'items']) {
             if (!loadedEarned[group]) { continue }
             for (const reward of Array.from(loadedEarned[group])) {
@@ -376,7 +376,6 @@ module.exports = (CampaignView = (function () {
         })
       }
 
-      this.listenToOnce(this.campaign, 'sync', this.getLevelPlayCounts)
       $(window).on('resize', this.onWindowResize)
       this.probablyCachedMusic = storage.load('loaded-menu-music')
       const musicDelay = this.probablyCachedMusic ? 1000 : 10000
@@ -417,13 +416,13 @@ module.exports = (CampaignView = (function () {
     }
 
     destroy () {
-      let ambientSound
       if (this.setupManager != null) {
         this.setupManager.destroy()
       }
       this.$el.find('.ui-draggable').off().draggable('destroy')
       $(window).off('resize', this.onWindowResize)
-      if (ambientSound = this.ambientSound) {
+      const ambientSound = this.ambientSound
+      if (ambientSound) {
         // Doesn't seem to work; stops immediately.
         createjs.Tween.get(ambientSound).to({ volume: 0.0 }, 1500).call(() => ambientSound.stop())
       }
@@ -451,9 +450,7 @@ module.exports = (CampaignView = (function () {
 
     openPromotionModal (e) {
       if (e) {
-        if (window.tracker != null) {
-          window.tracker.trackEvent('Click Promotion Modal Button')
-        }
+        window.tracker?.trackEvent('Click Promotion Modal Button')
       }
       return this.openModalView(new PromotionModal())
     }
@@ -541,36 +538,6 @@ module.exports = (CampaignView = (function () {
       return (window.tracker != null ? window.tracker.trackEvent('Click Play AI League Button', { category: 'World Map', label: arenaSlug }) : undefined)
     }
 
-    getLevelPlayCounts () {
-      let level
-      if (!me.isAdmin()) { return }
-      return // TODO: get rid of all this? It's redundant with new campaign editor analytics, unless we want to show player counts on leaderboards buttons.
-      const success = levelPlayCounts => {
-        if (this.destroyed) { return }
-        for (level of Array.from(levelPlayCounts)) {
-          this.levelPlayCountMap[level._id] = { playtime: level.playtime, sessions: level.sessions }
-        }
-        if (this.fullyRendered) { return this.render() }
-      }
-
-      const levelSlugs = ((() => {
-        const result = []
-        const object = this.getLevels()
-        for (const levelID in object) {
-          level = object[levelID]
-          result.push(level.slug)
-        }
-        return result
-      })())
-      const levelPlayCountsRequest = this.supermodel.addRequestResource('play_counts', {
-        url: '/db/level/-/play_counts',
-        data: { ids: levelSlugs },
-        method: 'POST',
-        success
-      }, 0)
-      return levelPlayCountsRequest.load()
-    }
-
     onLoaded () {
       if (this.isChinaOldBrowser()) {
         if (!storage.load('hideBrowserRecommendation')) {
@@ -651,7 +618,8 @@ module.exports = (CampaignView = (function () {
           }
           if (this.courseInstance.get('classroomID') === '5d12e7e36eea5a00ac71dc8f') { // Tarena national final classroom
             if (!this.levelStatusMap['game-dev-2-final-project']) { // make sure all players could access GD2 final on competition day
-              return this.levelStatusMap['game-dev-2-final-project'] = 'started'
+              this.levelStatusMap['game-dev-2-final-project'] = 'started'
+              return this.levelStatusMap['game-dev-2-final-project']
             }
           }
         }
@@ -962,7 +930,8 @@ module.exports = (CampaignView = (function () {
       this.endHighlight()
       this.openModalView(new SubscribeModal())
       // TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
-      return window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label, level: slug, levelID: slug }) : undefined
+      window.tracker?.trackEvent('Show subscription modal', { category: 'Subscription', label, level: slug, levelID: slug })
+      this.openModalView(new AILeaguePromotionModal(), true)
     }
 
     isPremiumCampaign (slug) {

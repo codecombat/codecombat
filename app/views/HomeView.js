@@ -17,7 +17,6 @@ require('app/styles/home-view.scss')
 const RootView = require('views/core/RootView')
 const cocoTemplate = require('templates/coco-home-view')
 const ozarTemplate = require('templates/ozar-home-view')
-const CocoCollection = require('collections/CocoCollection')
 const utils = require('core/utils')
 let storage = require('core/storage')
 const { logoutUser, me } = require('core/auth')
@@ -27,7 +26,6 @@ const paymentUtils = require('app/lib/paymentUtils')
 const fetchJson = require('core/api/fetch-json')
 const DOMPurify = require('dompurify')
 const MineModal = require('views/core/MineModal') // Roblox modal
-const AILeaguePromotionModal = require('views/core/AILeaguePromotionModal') // AI League modal
 storage = require('core/storage')
 
 const PRODUCT_SUFFIX = utils.isCodeCombat ? 'coco' : 'ozar'
@@ -75,7 +73,7 @@ module.exports = (HomeView = (function () {
       context.i18nData = {
         slides: `<a href='https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing' target='_blank'>${$.i18n.t('new_home.lesson_slides')}</a>`,
         clever: `<a href='/teachers/resources/clever-faq'>${$.i18n.t('new_home_faq.clever_integration_faq')}</a>`,
-        contact: me.isTeacher() ? `<a class='contact-modal'>${$.i18n.t('general.contact_us')}</a>` : `<a href=\"mailto:support@codecombat.com\">${$.i18n.t('general.contact_us')}</a>`,
+        contact: me.isTeacher() ? `<a class='contact-modal'>${$.i18n.t('general.contact_us')}</a>` : `<a href="mailto:support@codecombat.com">${$.i18n.t('general.contact_us')}</a>`,
         funding: `<a href='https://www.ozaria.com/funding' target='_blank'>${$.i18n.t('nav.funding_resources_guide')}</a>`,
         codecombatHome: `<a href='/premium' target='_blank'>${$.i18n.t('new_home.codecombat_home')}</a>`,
         pd: `<a href='/professional-development'>${$.i18n.t('nav.professional_development')}</a>`,
@@ -234,7 +232,8 @@ module.exports = (HomeView = (function () {
       }
       this.getStartedSignupContainer = document.createElement('div')
       document.body.appendChild(this.getStartedSignupContainer)
-      return this.getStartedSignupModal = new GetStartedSignupModal({ el: this.getStartedSignupContainer })
+      this.getStartedSignupModal = new GetStartedSignupModal({ el: this.getStartedSignupContainer })
+      return this.getStartedSignupModal
     }
 
     onCarouselDirectMovev2 (e) {
@@ -305,7 +304,6 @@ module.exports = (HomeView = (function () {
       }
 
       _.defer(() => { if (!storage.load('roblox-clicked') && !this.destroyed) { return this.openModalView(new MineModal()) } })
-      _.defer(() => { if (!this.destroyed && me.isAdmin()) { return this.openModalView(new AILeaguePromotionModal()) } })
 
       if (utils.isCodeCombat) {
         let needle, needle1, paymentResult, title, type
