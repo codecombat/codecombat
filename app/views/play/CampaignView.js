@@ -673,7 +673,7 @@ module.exports = (CampaignView = (function () {
     userQualifiesForRobloxModal () {
       if (me.freeOnly()) { return false }
       if (storage.load('roblox-clicked')) { return false }
-      if (userUtils.isInLibraryNetwork() || userUtils.libraryName() || me.get('isCreatedViaLibrary')) { return false }
+      if (userUtils.isInLibraryNetwork() || userUtils.libraryName() || userUtils.isCreatedViaLibrary()) { return false }
       if (me.isPremium()) { return true }
       if (me.get('hourOfCode')) { return false }
       if (storage.load('paywall-reached')) { return true }
@@ -2044,7 +2044,7 @@ ${problem.category} - ${problem.score} points\
       }
 
       if (['clans'].includes(what)) {
-        return !isStudentOrTeacher && !this.editorMode && !me.get('isCreatedViaLibrary')
+        return !isStudentOrTeacher && !this.editorMode && !userUtils.isCreatedViaLibrary()
       }
 
       if (['back-to-classroom'].includes(what)) {
@@ -2113,7 +2113,7 @@ ${problem.category} - ${problem.score} points\
 
       if (what === 'league-arena') {
         // Note: Currently the tooltips don't work in the campaignView overworld.
-        return !me.isAnonymous() && (this.campaign != null ? this.campaign.get('slug') : undefined) && !this.editorMode && !me.get('isCreatedViaLibrary')
+        return !me.isAnonymous() && (this.campaign != null ? this.campaign.get('slug') : undefined) && !this.editorMode && !userUtils.isCreatedViaLibrary()
       }
 
       if (what === 'roblox-level') {
@@ -2121,7 +2121,7 @@ ${problem.category} - ${problem.score} points\
       }
 
       if (what === 'hackstack') {
-        return ((typeof me.getHackStackExperimentValue === 'function' ? me.getHackStackExperimentValue() : undefined) === 'beta') && !me.get('isCreatedViaLibrary')
+        return ((typeof me.getHackStackExperimentValue === 'function' ? me.getHackStackExperimentValue() : undefined) !== 'beta') && !userUtils.isCreatedViaLibrary()
       }
 
       return true

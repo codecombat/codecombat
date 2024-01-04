@@ -3,11 +3,13 @@ const localStorage = require('../core/storage')
 
 function provisionPremium () {
   usersApi.provisionSubscription({ userId: me.get('_id') })
-    .then(({ premiumAdded, isInLibraryNetwork, hideEmail, libraryName, showLoginModal }) => {
-      if (isInLibraryNetwork) localStorage.save(libraryNetworkLSKey(), true, 24 * 60)
-      if (hideEmail) localStorage.save(hideEmailLibraryKey(), true, 24 * 60)
-      if (libraryName) localStorage.save(libraryNameKey(), libraryName, 24 * 60)
-      if (showLoginModal) localStorage.save(showLibraryLoginModalKey(), true, 60)
+    .then(({ premiumAdded, isInLibraryNetwork, hideEmail, libraryName, showLoginModal, isCreatedViaLibrary }) => {
+      handleStorage(libraryNetworkLSKey(), isInLibraryNetwork, 24 * 60)
+      handleStorage(hideEmailLibraryKey(), hideEmail, 24 * 60)
+      handleStorage(showLibraryLoginModalKey(), showLoginModal, 60)
+      handleStorage(isCreatedViaLibraryKey(), isCreatedViaLibrary, 24 * 60)
+      handleStorage(libraryNameKey(), libraryName, 24 * 60)
+
       const lib = me.get('library') || {}
       if (!lib.name && libraryName) {
         lib.name = libraryName
@@ -19,6 +21,14 @@ function provisionPremium () {
     .catch((err) => {
       console.error('provision err', err)
     })
+}
+
+function handleStorage (key, value, expirationInMinutes) {
+  if (value) {
+    localStorage.save(key, value, expirationInMinutes)
+  } else {
+    localStorage.remove(key)
+  }
 }
 
 function isInLibraryNetwork () {
@@ -53,10 +63,19 @@ function showLibraryLoginModalKey () {
   return `library-modal-${me.get('_id')}`
 }
 
+function isCreatedViaLibraryKey () {
+  return `is-created-via-library-${me.get('_id')}`
+}
+
+function isCreatedViaLibrary () {
+  return localStorage.load(isCreatedViaLibraryKey())
+}
+
 function removeLibraryKeys () {
   localStorage.remove(hideEmailLibraryKey())
   localStorage.remove(libraryNameKey())
   localStorage.remove(libraryNetworkLSKey())
+  localStorage.remove(isCreatedViaLibraryKey())
 }
 
 async function levelChatCreditsString () {
@@ -88,5 +107,6 @@ module.exports = {
   libraryName,
   removeLibraryKeys,
   shouldShowLibraryLoginModal,
-  levelChatCreditsString
+  levelChatCreditsString,
+  isCreatedViaLibrary
 }
