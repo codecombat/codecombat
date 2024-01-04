@@ -79,7 +79,7 @@ function removeLibraryKeys () {
 }
 
 async function levelChatCreditsString () {
-  const res = await me.getUserCredits('LEVEL_CHAT_BOT')
+  const res = await usersApi.getUserCredits('LEVEL_CHAT_BOT')
   const credits = res?.result
   if (!credits || credits.length === 0) {
     return $.i18n.t('user_credits.level_chat_no_credits_left')
