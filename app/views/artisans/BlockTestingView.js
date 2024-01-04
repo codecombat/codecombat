@@ -5,7 +5,7 @@ const template = require('templates/artisans/block-testing-view')
 const loadAetherLanguage = require('lib/loadAetherLanguage')
 const blocklyUtils = require('core/blocklyUtils')
 const Blockly = require('blockly')
-const { codeToBlocks, prepare } = require('lib/code-to-blocks')
+const { codeToBlocks, prepareBlockIntelligence } = require('lib/code-to-blocks')
 const aceLib = require('lib/aceContainer')
 const aceUtils = require('core/aceUtils')
 const storage = require('core/storage')
@@ -30,6 +30,7 @@ module.exports = (BlockTestingView = (function () {
       blocklyUtils.registerBlocklyTheme()
       blocklyUtils.initializeBlocklyTooltips()
       this.focusTest = utils.getQueryVariable('test')
+      this.focusLanguage = utils.getQueryVariable('codeLanguage')
       // Ensure Esper is fully loaded, including babylon (used in Python)
       loadAetherLanguage('python').then((aetherLang) => {
         loadAetherLanguage('javascript').then((aetherLang) => {
@@ -44,6 +45,10 @@ module.exports = (BlockTestingView = (function () {
         const testCase = testCases[i]
         const testContainer = $(this.$el.find('.test-case')[i])
         if (this.focusTest && this.focusTest !== testCase.name) {
+          testContainer.hide()
+          continue
+        }
+        if (this.focusLanguage && this.focusLanguage !== testCase.codeLanguage) {
           testContainer.hide()
           continue
         }
@@ -72,6 +77,8 @@ module.exports = (BlockTestingView = (function () {
     addBlockly ({ testCase, testContainer, inputAce, outputAce }) {
       // Initialize Blockly
       const toolbox = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: testCase.codeLanguage })
+      // codeToBlocks prepareBlockIntelligence function needs the JavaScript version of the toolbox
+      const toolboxJS = testCase.codeLanguage === 'javascript' ? toolbox : blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: 'javascript' })
       const blocklyDiv = testContainer.find('.blockly-container')[0]
       const blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox })
       const blocklyWorkspace = Blockly.inject(blocklyDiv, blocklyOptions)
@@ -91,7 +98,7 @@ module.exports = (BlockTestingView = (function () {
       let prepDataError
       if (!prepData) {
         try {
-          prepData = prepare({ toolbox, blocklyState, workspace: debugBlocklyWorkspace, codeLanguage: testCase.codeLanguage })
+          prepData = prepareBlockIntelligence({ toolbox: toolboxJS, blocklyState, workspace: debugBlocklyWorkspace })
         } catch (err) {
           console.error(err)
           prepData = {}
@@ -248,22 +255,6 @@ hero.attack("Treg");`,
 })
 
 testCases.push({
-  name: 'Python, newlines',
-  code: `
-# Defeat the ogres.
-# Remember that they each take two hits.
-
-hero.attack("Rig")
-hero.attack("Rig")
-
-hero.attack("Gurt")
-hero.attack("Gurt")
-
-hero.attack("Ack")`,
-  codeLanguage: 'python'
-})
-
-testCases.push({
   name: 'Legal thing to do',
   code: `
 hero.moveLeft(hero.attackDamage)
@@ -405,10 +396,293 @@ for (const val of foo) {
 })
 
 testCases.push({
+  name: 'For loops',
+  code: `
+for (let i = 0; i < 10; i++) {
+    hero.say(i)
+}
+`,
+  codeLanguage: 'javascript'
+})
+
+testCases.push({
   name: 'Ternary Operator',
   code: `
 const foo = true ? 'bar' : 'baz'
 hero.say(foo)
+`,
+  codeLanguage: 'javascript'
+})
+
+testCases.push({
+  name: 'Python, newlines',
+  code: `
+# Defeat the ogres.
+# Remember that they each take two hits.
+
+hero.attack("Rig")
+hero.attack("Rig")
+
+hero.attack("Gurt")
+hero.attack("Gurt")
+
+hero.attack("Ack")`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, Numeric arguments',
+  code: `
+hero.moveRight()
+hero.moveDown(1)
+hero.moveUp(2)
+hero.moveRight()`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, String arguments',
+  code: `
+hero.say("Hello")
+hero.say('World')`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, Variable',
+  code: `
+greeting = "Hello"
+hero.say(greeting)
+hero.say("World")`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, Comment lines',
+  code: `
+# Defend against "Brak" and "Treg"!
+# You must attack small ogres twice.
+
+hero.moveRight()
+hero.attack("Brak")
+hero.attack("Brak")
+hero.moveRight()
+hero.attack("Treg")
+hero.attack("Treg")`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, Legal thing to do',
+  code: `
+hero.moveLeft(hero.attackDamage)
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, While loops',
+  code: `
+while True:
+    hero.moveRight()
+    hero.moveDown()
+
+    hero.moveLeft()
+    hero.moveUp()
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, String concatenation',
+  code: `
+    hero.say("I'm glad my health is " + hero.health + ' and not potato.')
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, Break/continue',
+  code: `
+while True:
+    hero.moveRight()
+
+    if hero.health <= 25:
+        break
+
+    if hero.health < hero.maxHealth * 2:
+        continue
+
+    hero.moveLeft()
+
+while hero.health != 'potato':
+    hero.say("I'm glad my health is " + hero.health + ' and not potato.')
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, Functions',
+  code: `
+def foobar():
+    hero.say("foo")
+    hero.say("bar")
+
+foobar()
+
+def baz(x):
+    return x * x
+
+hero.say(baz(baz(baz(2))))
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, Arrays',
+  code: `
+quux = 'I think, therefore I am'
+quuux = ['a', 2, ['c', 'd'], quux]
+
+hero.say(quuux[quuux.length - 1][3])
+
+primes = [
+    2,
+    3,
+    4,
+    5,
+    7
+]
+
+del primes[2]
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, Objects',
+  code: `
+foo = {
+    'bar': 2,
+    'baz': 'quux'
+}
+
+hero.say(foo['bar'])
+hero.say(foo['baz'])
+
+foo['quux'] = foo['bar']
+foo['quux'] = foo['baz']
+foo['foo'] = foo
+foo['foo']['foo'] = foo
+
+for key in foo:
+    hero.say(key + ' is ' + foo[key])
+
+for val in foo:
+    hero.say(val)
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, Ternary Operator',
+  code: `
+foo = 'bar' if True else 'baz'
+hero.say(foo)
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, Functions - Arrow',
+  code: `
+baz = lambda x: x * x
+
+hero.say(baz(baz(baz(2))))
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, Arrays - Push',
+  code: `
+list = ['a', 'b']
+list.append(c)
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, For loops',
+  code: `
+for i in range(0, 10):
+    hero.say(i)
+
+for i in range(0, 10, 2):
+    hero.say(i)
+
+for i in range(10, 0, -1):
+    hero.say(i)
+
+for i in range(10, 0, -2):
+    hero.say(i)
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, For loops - Array',
+  code: `
+for i in [1, 2, 3]:
+    hero.say(i)
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, For loops - Array - String',
+  code: `
+for i in 'abc':
+    hero.say(i)
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, For loops - Array - String - Break',
+  code: `
+for i in 'abc':
+    hero.say(i)
+    break
+
+for i in 'abc':
+    hero.say(i)
+    continue
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'D',
+  code: `
+// Grab all the gems using your movement commands.
+
+hero.moveRight();
+d
+`,
+  codeLanguage: 'javascript'
+})
+
+testCases.push({
+  name: 'Raw',
+  code: `
+const foo = {
+    bar: 2,
+    baz: 'quux'
+}
+
+var x = 10
+hero.attack(x)
 `,
   codeLanguage: 'javascript'
 })

@@ -59,7 +59,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   const commentBlock = {
     type: 'comment',
     message0: '%1',
-    args0: [{ type: 'field_input', name: 'Comment', text: 'Comment' }],
+    args0: [{ type: 'field_input', name: 'COMMENT', text: 'Comment' }],
     previousStatement: null,
     nextStatement: null,
     colour: 180,
@@ -67,14 +67,14 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   }
   Blockly.Blocks.comment = { init () { return this.jsonInit(commentBlock) } }
   generator.comment = function (block) {
-    const text = block.getFieldValue('Comment')
+    const text = block.getFieldValue('COMMENT')
     return `${commentStart} ${text}\n`
   }
 
   const codeCommentBlock = {
     type: 'code_comment',
     message0: 'Commented %1',
-    args0: [{ type: 'input_statement', name: 'CodeComment' }],
+    args0: [{ type: 'input_statement', name: 'CODE_COMMENT' }],
     inputsInline: true,
     previousStatement: null,
     nextStatement: null,
@@ -83,7 +83,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   }
   Blockly.Blocks.code_comment = { init () { return this.jsonInit(codeCommentBlock) } }
   generator.code_comment = function (block) {
-    const text = generator.statementToCode(block, 'CodeComment')
+    const text = generator.statementToCode(block, 'CODE_COMMENT')
     if (!text) { return '' }
     return (Array.from(text.trim().split('\n')).map((line) => `${commentStart}${line.replace(/^ {4}/g, '')}`)).join('\n') + '\n'
   }
@@ -150,6 +150,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         // check: 'Number',
       }
     ],
+    previousStatement: null,
     inputsInline: true,
     style: 'procedure_blocks',
     // helpUrl: '%{BKY_PROCEDURES_IFRETURN_HELPURL}', // ??
@@ -160,11 +161,32 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   Blockly.Blocks.procedures_return = { init () { return this.jsonInit(returnBlock) } }
   generator.procedures_return = function (block) {
     if (block.hasReturnValue_) {
-      const value = generator.valueToCode(block, 'VALUE', Order.NONE) || 'null'
+      const value = generator.valueToCode(block, 'VALUE', 99) || 'null'
       return 'return ' + value + ';\n'
     } else {
       return 'return;\n';
     }
+  }
+
+  const rawCodeBlock = {
+    type: 'raw_code',
+    message0: '%1',
+    args0: [
+      {
+        type: 'field_multilinetext',
+        name: 'CODE',
+        check: 'String',
+      }
+    ],
+    previousStatement: null,
+    nextStatement: null,
+    // inputsInline: true,
+    colour: 1,
+  }
+  Blockly.Blocks.raw_code = { init () { return this.jsonInit(rawCodeBlock) } }
+  generator.raw_code = function (block) {
+    const value = (block.getFieldValue('CODE') || '') + '\n'
+    return value
   }
 
   const miscBlocks = [
@@ -206,7 +228,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'logic_negate', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         // { kind: 'block', type: 'math_arithmetic', include () { return propNames.has('else') } } // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'math_or_string_arithmetic', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
-        { kind: 'block', type: 'procedures_return', include () { return propNames.has('else') } } // TODO: when to introduce? also move this to procedures
+        { kind: 'block', type: 'procedures_return', include () { return propNames.has('else') } }, // TODO: when to introduce? also move this to procedures
+        { kind: 'block', type: 'raw_code', include () { return false } } // TODO: move this
       ]
     },
     {
@@ -233,7 +256,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'controls_forEach', include () { return propNames.has('for-in-loop') } },
         { kind: 'block', type: 'controls_flow_statements', include () { return propNames.has('break') } },
         // { kind: 'block', type: 'controls_flow_statements', fields: { FLOW: 'CONTINUE' }, include () { return propNames.has('continue') } }  // Wide, should figure out how to not have this
-        { kind: 'block', type: 'controls_flow_statements', fields: { FLOW: 'CONTINUE' }, include () { return false } }  // Only in full block toolbox, not shown to user
+        { kind: 'block', type: 'controls_flow_statements', fields: { FLOW: 'CONTINUE' }, include () { return false } }, // Only in full block toolbox, not shown to user
       ]
     },
     {
@@ -267,7 +290,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
             return !Array.from(superBasicLevels).includes(needle)
           }
         },
-        { kind: 'block', type: 'code_comment', include () { return propNames.has('if/else') } } // TODO: introduce this around when we start having commented-out code in sample code
+        { kind: 'block', type: 'code_comment', include () { return propNames.has('if/else') } }, // TODO: introduce this around when we start having commented-out code in sample code
+        { kind: 'block', type: 'logic_ternary', include () { return false } },
       ]
     },
     {
@@ -292,7 +316,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         // Some of the extra list operations
         { kind: 'block', type: 'lists_getSublist', include () { return propNames.has('arrays') && false } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'lists_split', include () { return propNames.has('arrays') && false } }, // TODO: better targeting of when we introduce this logic?
-        { kind: 'block', type: 'lists_sort', include () { return propNames.has('arrays') && false } } // TODO: better targeting of when we introduce this logic?
+        { kind: 'block', type: 'lists_sort', include () { return propNames.has('arrays') && false } }, // TODO: better targeting of when we introduce this logic?
       ]
     },
     {
@@ -331,7 +355,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   const toolbox = {
     kind: 'categoryToolbox',
     contents: blockCategories,
-    fullContents: fullBlockCategories
+    fullContents: fullBlockCategories,
   }
 
   return toolbox
@@ -481,6 +505,9 @@ module.exports.registerBlocklyTheme = function () {
       scrollbarOpacity: 0.4,
       cursorColour: '#d0d0d0',
       blackBackground: '#333'
+    },
+    fontStyle: {
+      family: 'Menlo, Monaco, Consolas, "Courier New", monospace'
     }
   }
   )

@@ -14,7 +14,7 @@ LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
 aceUtils = require 'core/aceUtils'
 blocklyUtils = require 'core/blocklyUtils'
-{ codeToBlocks, prepare } = require 'lib/code-to-blocks'
+{ codeToBlocks, prepareBlockIntelligence } = require 'lib/code-to-blocks'
 CodeLog = require 'models/CodeLog'
 Autocomplete = require './editor/autocomplete'
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
@@ -29,6 +29,8 @@ globalVar = require 'core/globalVar'
 fetchJson = require 'core/api/fetch-json'
 store = require 'core/store'
 require('app/styles/play/level/tome/ace-diff-spell.sass')
+
+PERSIST_BLOCK_STATE = false
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -463,13 +465,15 @@ module.exports = class SpellView extends CocoView
       return
     codeLanguage = @spell.language
     @blocklyToolbox = blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage, level: @options.level })
+    # codeToBlocks prepareBlockIntelligence function needs the JavaScript version of the toolbox
+    @blocklyToolboxJS = if codeLanguage is 'javascript' then @blocklyToolbox else blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage: 'javascript', level: @options.level })
     targetDiv = @$('#blockly-container')
     blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: @blocklyToolbox })
     @blockly = Blockly.inject targetDiv[0], blocklyOptions
     @blocklyActive = true
     blocklyUtils.initializeBlocklyTooltips()
 
-    @lastBlocklyState = if @session.fake then null else storage.load "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}"
+    @lastBlocklyState = if PERSIST_BLOCK_STATE and not @session.fake then storage.load "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}" else null
     if @lastBlocklyState
       blocklyUtils.loadBlocklyState @lastBlocklyState, @blockly
       # Rerun the code
@@ -507,7 +511,7 @@ module.exports = class SpellView extends CocoView
     console.log 'B2A: Changing ace source from', aceSource, 'to', blocklySource, 'with state', blocklyState
     @updateACEText blocklySource
 
-    unless @session.fake
+    if PERSIST_BLOCK_STATE and not @session.fake
       storage.save "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}", blocklyState
 
   aceToBlockly: (force) =>
@@ -516,7 +520,7 @@ module.exports = class SpellView extends CocoView
     { blocklyState, blocklySource } = @getBlocklySource()
     unless @codeToBlocksPrepData
       try
-        @codeToBlocksPrepData = prepare { toolbox: @blocklyToolbox, blocklyState, workspace: @blockly, codeLanguage: @spell.language }
+        @codeToBlocksPrepData = prepareBlockIntelligence { toolbox: @blocklyToolboxJS, blocklyState, workspace: @blockly }
       catch err
         console.error 'Error preparing Blockly code to blocks conversion:', err
         return
@@ -527,6 +531,42 @@ module.exports = class SpellView extends CocoView
     catch err
       console.log "Couldn't parse code to get new blockly state:", err, '\nCode:', aceSource
       return
+
+    keysToIgnore = ['x', 'y', 'id', 'start', 'end', 'languageVersion']
+    keysToIgnoreWhenEmpty = ['variables', 'inputs']
+
+    isEmptyOrUndefined = (value) ->
+      value is undefined or value is null or (_.isArray(value) and value.length is 0) or (_.isObject(value) and _.size(value) is 0)
+
+    isEqualIgnoringSomeKeys = (obj1, obj2) ->
+      # If both are the same object or both are null/undefined, they are equal
+      return true if obj1 is obj2
+
+      # If either is not an object (and they are not equal), they are not equal
+      return false unless _.isObject(obj1) and _.isObject(obj2)
+
+      # Get keys from both objects
+      keys1 = _.without(Object.keys(obj1), keysToIgnore...)
+      keys2 = _.without(Object.keys(obj2), keysToIgnore...)
+
+      for key in _.union(keys1, keys2)
+        # Treat as equal if the key should be ignored when empty and both values are empty
+        if key in keysToIgnoreWhenEmpty
+          continue if isEmptyOrUndefined(obj1[key]) and isEmptyOrUndefined(obj2[key])
+
+        # If both values are objects, compare recursively
+        if _.isObject(obj1[key]) and _.isObject(obj2[key])
+          return false unless isEqualIgnoringSomeKeys(obj1[key], obj2[key])
+        # For non-object values, use Lodash's isEqual for comparison
+        else
+          return false unless _.isEqual(obj1[key], obj2[key])
+      true
+
+    if isEqualIgnoringSomeKeys newBlocklyState, @lastBlocklyState
+      console.log 'new blockly state is the same as it ever was, so not updating blockly; new', newBlocklyState, 'old', @lastBlocklyState
+      return
+    else
+      console.log 'new blockly state', newBlocklyState, 'is different from last blockly state', @lastBlocklyState
     console.log 'A2B: Changing blockly source from', blocklySource, 'to', aceSource
     @eventsSuppressed = true
     #console.log 'would set to', newBlocklyState

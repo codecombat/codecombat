@@ -6,7 +6,7 @@ block content
     a(href="/artisans")
       span.glyphicon.glyphicon-chevron-left
       span Artisans Home
-    if view.focusTest
+    if view.focusTest || view.focusLanguage
       a(href="/artisans/block-testing")
         span= ' '
         span.glyphicon.glyphicon-chevron-left
@@ -14,6 +14,8 @@ block content
 
     if view.focusTest
       h1= "Block Testing - " + view.focusTest
+    else if view.focusLanguage
+      h1= "Block Testing - " + view.focusLanguage
     else
       h1= "Block Testing - " + view.testCases.length + " tests"
 
