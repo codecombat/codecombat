@@ -27,6 +27,7 @@ const paymentUtils = require('app/lib/paymentUtils')
 const fetchJson = require('core/api/fetch-json')
 const DOMPurify = require('dompurify')
 const MineModal = require('views/core/MineModal') // Roblox modal
+const AILeaguePromotionModal = require('views/core/AILeaguePromotionModal') // AI League modal
 storage = require('core/storage')
 
 const PRODUCT_SUFFIX = utils.isCodeCombat ? 'coco' : 'ozar'
@@ -304,6 +305,7 @@ module.exports = (HomeView = (function () {
       }
 
       _.defer(() => { if (!storage.load('roblox-clicked') && !this.destroyed) { return this.openModalView(new MineModal()) } })
+      _.defer(() => { if (!this.destroyed && me.isAdmin()) { return this.openModalView(new AILeaguePromotionModal()) } })
 
       if (utils.isCodeCombat) {
         let needle, needle1, paymentResult, title, type

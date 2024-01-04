@@ -4625,7 +4625,12 @@ module.exports = {
       more_details: 'for more details.',
       contact_sales_custom: 'Your custom tournament awaits. Choose the arena that you’d like to use for your custom tournament and contact your CodeCombat sales representative to confirm set up and scheduling details.',
       create_custom: 'Create Custom Tournament',
-      custom_tournament_text: 'Custom Tournament'
+      custom_tournament_text: 'Custom Tournament',
+      promotion_blurb: 'Competitive Coding - Free to Get Started',
+      promotion_part1: 'Join coding teams with friends and family',
+      promotion_part2: 'Access global coding arenas and leaderboards',
+      promotion_part3: 'Showcase your coding skills and win prizes',
+      promotion_part4: 'Earn points through practice and head-to-head matches'
     },
 
     tournament: {

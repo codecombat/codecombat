@@ -1,0 +1,28 @@
+.modal-dialog
+  .modal-content
+    img.modal-background(src="/images/pages/play/modal/subscribe-background-blank.png")
+
+    h1(data-i18n="league.codecombat_ai_league")
+
+    div#close-modal
+      span.glyphicon.glyphicon-remove
+
+    div.paper-area
+      div.big-text.text-center(data-i18n="league.promotion_blurb")
+
+      iframe(src="https://www.youtube.com/embed/dM3fUjqLpnI", frameborder="0", allowfullscreen="true", width="100%", height="250px")
+
+      hr
+
+      .container-fluid
+        ul.row
+          .col-xs-6
+            li.med-text(data-i18n="league.promotion_part1")
+            li.med-text(data-i18n="league.promotion_part2")
+          .col-xs-6
+            li.med-text(data-i18n="league.promotion_part3")
+            li.med-text(data-i18n="league.promotion_part4")
+
+      .actions
+        button.btn.btn-lg.btn-illustrated.play-button
+          span.buy-now-text(data-i18n="new_home.play_now")
