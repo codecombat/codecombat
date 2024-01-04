@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   build:
+    name: Node.js CI
 
     runs-on: ubuntu-20.04
 
