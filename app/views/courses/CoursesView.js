@@ -434,7 +434,7 @@ module.exports = (CoursesView = (function () {
           for (const level of Array.from(levels.models)) { this.originalLevelMap[level.get('original')] = level }
           return this.render()
         })
-        return this.supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: `original,primerLanguage,slug,name,i18n.${me.get('preferredLanguage', true)}` } }))
+        return this.supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: `original,primerLanguage,slug,name,i18n.${me.get('preferredLanguage', true)},displayName` } }))
       })
 
       if (utils.isOzaria && this.showHocProgress()) {
