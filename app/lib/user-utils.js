@@ -25,7 +25,7 @@ function provisionPremium () {
 
 function handleStorage (key, value, expirationInMinutes) {
   if (value) {
-    localStorage.save(key, true, expirationInMinutes)
+    localStorage.save(key, value, expirationInMinutes)
   } else {
     localStorage.remove(key)
   }
