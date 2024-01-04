@@ -472,14 +472,16 @@ module.exports = class SpellView extends CocoView
     @blockly = Blockly.inject targetDiv[0], blocklyOptions
     @blocklyActive = true
     blocklyUtils.initializeBlocklyTooltips()
+    if @onCodeChangeMetaHandler
+      @blockly.addChangeListener @onBlocklyEvent
 
     @lastBlocklyState = if PERSIST_BLOCK_STATE and not @session.fake then storage.load "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}" else null
     if @lastBlocklyState
+      @awaitingBlocklySerialization = true
       blocklyUtils.loadBlocklyState @lastBlocklyState, @blockly
-      # Rerun the code
-      @blocklyToAce()
       for block in @blockly.getAllBlocks() when block.type is 'comment'
         # Make long comments not so long. (The full comments will be visible, wrapped, in text version anyway.)
+        # TODO: do we like this?
         block.setCollapsed true
       @recompile()
     else
@@ -488,13 +490,19 @@ module.exports = class SpellView extends CocoView
 
     @resizeBlockly()
 
-    if @onCodeChangeMetaHandler
-      @blockly.addChangeListener @blocklyToAce
-
   getBlocklySource: ->
     blocklyUtils.getBlocklySource @blockly, @spell.language
 
-  blocklyToAce: =>
+  onBlocklyEvent: (e) =>
+    # console.log "--------- Got Blockly Event #{e.type} ------------", e
+    if e.type is Blockly.Events.FINISHED_LOADING
+      @awaitingBlocklySerialization = false
+
+    if e.type in [Blockly.Events.CHANGE, Blockly.Events.CREATE, Blockly.Events.DELETE, Blockly.Events.BLOCK_CHANGE, Blockly.Events.BLOCK_CREATE, Blockly.Events.BLOCK_DELETE, Blockly.Events.BLOCK_DRAG, Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE, Blockly.Events.BLOCK_MOVE, Blockly.Events.VAR_CREATE, Blockly.Events.VAR_DELETE, Blockly.Events.VAR_RENAME]
+      @blocklyToAce()
+
+  blocklyToAce: ->
+    return if @awaitingBlocklySerialization
     return if @eventsSuppressed  # Doesn't work: blockly's change listener fires on a delay, not as soon as a change is made. TODO: try matching blockly state, if it doesn't work, try blocking next change
     return unless @blockly
     { blocklyState, blocklySource, combined } = @getBlocklySource()
@@ -532,43 +540,14 @@ module.exports = class SpellView extends CocoView
       console.log "Couldn't parse code to get new blockly state:", err, '\nCode:', aceSource
       return
 
-    keysToIgnore = ['x', 'y', 'id', 'start', 'end', 'languageVersion']
-    keysToIgnoreWhenEmpty = ['variables', 'inputs']
-
-    isEmptyOrUndefined = (value) ->
-      value is undefined or value is null or (_.isArray(value) and value.length is 0) or (_.isObject(value) and _.size(value) is 0)
-
-    isEqualIgnoringSomeKeys = (obj1, obj2) ->
-      # If both are the same object or both are null/undefined, they are equal
-      return true if obj1 is obj2
-
-      # If either is not an object (and they are not equal), they are not equal
-      return false unless _.isObject(obj1) and _.isObject(obj2)
-
-      # Get keys from both objects
-      keys1 = _.without(Object.keys(obj1), keysToIgnore...)
-      keys2 = _.without(Object.keys(obj2), keysToIgnore...)
-
-      for key in _.union(keys1, keys2)
-        # Treat as equal if the key should be ignored when empty and both values are empty
-        if key in keysToIgnoreWhenEmpty
-          continue if isEmptyOrUndefined(obj1[key]) and isEmptyOrUndefined(obj2[key])
-
-        # If both values are objects, compare recursively
-        if _.isObject(obj1[key]) and _.isObject(obj2[key])
-          return false unless isEqualIgnoringSomeKeys(obj1[key], obj2[key])
-        # For non-object values, use Lodash's isEqual for comparison
-        else
-          return false unless _.isEqual(obj1[key], obj2[key])
-      true
-
-    if isEqualIgnoringSomeKeys newBlocklyState, @lastBlocklyState
-      console.log 'new blockly state is the same as it ever was, so not updating blockly; new', newBlocklyState, 'old', @lastBlocklyState
+    if blocklyUtils.isEqualBlocklyState newBlocklyState, @lastBlocklyState
+      #console.log 'new blockly state is the same as it ever was, so not updating blockly; new', newBlocklyState, 'old', @lastBlocklyState
       return
     else
-      console.log 'new blockly state', newBlocklyState, 'is different from last blockly state', @lastBlocklyState
+      #console.log 'new blockly state', newBlocklyState, 'is different from last blockly state', @lastBlocklyState
     console.log 'A2B: Changing blockly source from', blocklySource, 'to', aceSource
     @eventsSuppressed = true
+    @awaitingBlocklySerialization = true
     #console.log 'would set to', newBlocklyState
     blocklyUtils.loadBlocklyState newBlocklyState, @blockly
     #@resizeBlockly()  # Needed?
@@ -950,6 +929,7 @@ module.exports = class SpellView extends CocoView
     @spell.reloadCode() if cast
     @thang = @spell.thang.thang
     @updateACEText @spell.originalSource
+    @aceToBlockly()
     @lockDefaultCode true
     @recompile cast
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
@@ -1012,7 +992,7 @@ module.exports = class SpellView extends CocoView
     @aceDoc.on 'change', @onCodeChangeMetaHandler
 
     if @blockly
-      @blockly.addChangeListener @blocklyToAce
+      @blockly.addChangeListener @onBlocklyEvent
 
   onCursorActivity: =>  # Used to refresh autocast delay; doesn't do anything at the moment.
 

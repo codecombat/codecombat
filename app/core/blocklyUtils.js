@@ -1,16 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
- * DS104: Avoid inline assignments
- * DS204: Change includes calls to have a more natural evaluation order
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
 const utils = require('core/utils')
 const Blockly = require('blockly')
 
@@ -26,8 +13,6 @@ const { CrossTabCopyPaste } = require('@blockly/plugin-cross-tab-copy-paste')
 // { ZoomToFitControl } = require '@blockly/zoom-to-fit'  # Not that useful unless we increase zoom level range
 
 module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator, codeLanguage, level }) {
-  let owner
-  let prop
   if (!codeLanguage) { codeLanguage = 'javascript' }
   const commentStart = utils.commentStarts[codeLanguage] || '//'
   generator = module.exports.getBlocklyGenerator(codeLanguage)
@@ -42,18 +27,14 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   const userBlockCategories = []
 
   const propNames = new Set()
-  for (owner in propertyEntryGroups) {
-    // console.log "Adding #{owner}, which has", propertyEntryGroups[owner]
-    for (prop of Array.from(propertyEntryGroups[owner].props)) { propNames.add(prop.name) }
-    if (/programmaticon/i.test(owner)) { continue }
-    const userBlocks = ((() => {
-      const result = []
-      for (prop of Array.from(propertyEntryGroups[owner].props)) {
-        result.push(createBlock({ owner, prop, generator, codeLanguage, level, superBasicLevels }))
-      }
-      return result
-    })())
-    userBlockCategories.push({ kind: 'category', name: `${owner}`, colour: '190', contents: userBlocks })
+  for (const owner in propertyEntryGroups) {
+    for (const prop of propertyEntryGroups[owner].props) {
+      propNames.add(prop.name)
+    }
+    if (/programmaticon/i.test(owner)) continue
+    const userBlocks = propertyEntryGroups[owner].props.map(prop =>
+      createBlock({ owner, prop, generator, codeLanguage, level, superBasicLevels }))
+    userBlockCategories.push({ kind: 'category', name: owner, colour: '190', contents: userBlocks })
   }
 
   const commentBlock = {
@@ -85,7 +66,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   generator.code_comment = function (block) {
     const text = generator.statementToCode(block, 'CODE_COMMENT')
     if (!text) { return '' }
-    return (Array.from(text.trim().split('\n')).map((line) => `${commentStart}${line.replace(/^ {4}/g, '')}`)).join('\n') + '\n'
+    return text.trim().split('\n').map((line) => `${commentStart}${line.replace(/^ {4}/g, '')}`).join('\n') + '\n'
   }
 
   const mathOrStringArithmeticBlock = {
@@ -207,7 +188,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         if (!slug) {
           return true
         }
-        return !Array.from(superBasicLevels).includes(slug) && (slug === 'wakka-maul' || !level.isLadder())
+        return !superBasicLevels.includes(slug) && (slug === 'wakka-maul' || !level.isLadder())
       }
     }),
     createBlock({ owner: 'hero', generator, codeLanguage, level, superBasicLevels, prop: { type: 'ref' }, include () { return propNames.has('if/else') } }) // TODO: better targeting of when we introduce this (hero used as a value)
@@ -264,32 +245,11 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       name: 'Literals',
       colour: '10',
       contents: [
-        {
-          kind: 'block',
-          type: 'text',
-          include () {
-            let needle = level?.get('slug')
-            return !Array.from(superBasicLevels).includes(needle)
-          }
-        },
-        {
-          kind: 'block',
-          type: 'math_number',
-          include () {
-            let needle = level?.get('slug')
-            return !Array.from(superBasicLevels).includes(needle)
-          }
-        },
+        { kind: 'block', type: 'text', include () { return !superBasicLevels.includes(level?.get('slug')) } },
+        { kind: 'block', type: 'math_number', include () { return !superBasicLevels.includes(level?.get('slug')) } },
         { kind: 'block', type: 'logic_boolean', include () { return propNames.has('if/else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'logic_null', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
-        {
-          kind: 'block',
-          type: 'comment',
-          include () {
-            let needle = level?.get('slug')
-            return !Array.from(superBasicLevels).includes(needle)
-          }
-        },
+        { kind: 'block', type: 'comment', include () { return !superBasicLevels.includes(level?.get('slug')) } },
         { kind: 'block', type: 'code_comment', include () { return propNames.has('if/else') } }, // TODO: introduce this around when we start having commented-out code in sample code
         { kind: 'block', type: 'logic_ternary', include () { return false } },
       ]
@@ -338,7 +298,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   let blockCategories = userBlockCategories.concat(builtInBlockCategories)
   const fullBlockCategories = _.cloneDeep(userBlockCategories.concat(builtInBlockCategories))
 
-  for (const category of Array.from(blockCategories)) {
+  for (const category of blockCategories) {
     if (category.contents) {
       category.contents = category.contents.filter(block => (block.include === undefined) || block.include())
       const numBlocks = category.contents.length
@@ -362,63 +322,58 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
 }
 
 let createBlock = function ({ owner, prop, generator, codeLanguage, include, level, superBasicLevels }) {
-  let needle, propName
-  if (prop.name) { propName = prop.name.replace(/"/g, '') }
+  const propName = prop.name ? prop.name.replace(/"/g, '') : undefined
   const returnsValue = (prop.returns != null) || (prop.userShouldCaptureReturn != null) || (!['function', 'snippet'].includes(prop.type))
   const name = `${owner}_${propName}`
   let args = prop.args || []
-  if (((needle = level != null ? level.get('slug') : undefined, Array.from(superBasicLevels).includes(needle))) && (['moveDown', 'moveLeft', 'moveRight', 'moveUp'].includes(propName))) {
+  if (superBasicLevels.includes(level?.get('slug')) && (['moveDown', 'moveLeft', 'moveRight', 'moveUp'].includes(propName))) {
     args = []
   }
 
   generator[name] = function (block) {
     const parts = []
-    if ((propName != null) && (['this', 'self', 'hero'].includes(prop.owner))) {
+    if (propName && ['this', 'self', 'hero'].includes(prop.owner)) {
       parts.push(`hero.${propName}`)
-    } else if ((prop.type === 'function') || ((prop.type === 'snippet') && args.length)) {
+    } else if (prop.type === 'function' || (prop.type === 'snippet' && args.length)) {
       parts.push(propName.replace(/\(.*/, ''))
-    } else if (propName != null) {
+    } else if (propName) {
       parts.push(propName)
     } else {
       parts.push(owner)
     }
 
-    if ((prop.type === 'function') || ((prop.type === 'snippet') && args.length)) {
+    if (prop.type === 'function' || (prop.type === 'snippet' && args.length)) {
       parts.push('(')
-      for (const idx in args) {
-        let left, left1, left2
+      Object.keys(args).forEach((idx) => {
+        if (idx > 0) parts.push(', ')
         const arg = args[idx]
-        if (idx > 0) { parts.push(', ') }
-        const code = generator.valueToCode(block, arg.name, generator.ORDER_NONE)
+        const code = generator.valueToCode(block, arg.name, generator.ORDER_NONE) || arg.default
         switch (codeLanguage) {
           case 'javascript':
-            parts.push((left = code != null ? code : arg.default) != null ? left : `undefined /* ${arg.name} */`)
+            parts.push(code ?? `undefined /* ${arg.name} */`)
             break
           case 'python':
-            parts.push((left1 = code != null ? code : arg.default) != null ? left1 : 'None')
+            parts.push(code ?? 'None')
             break
           case 'lua':
-            parts.push((left2 = code != null ? code : arg.default) != null ? left2 : 'nil')
+            parts.push(code ?? 'nil')
             break
         }
-      }
+      })
       parts.push(')')
     }
 
     switch (codeLanguage) {
       case 'javascript':
-        if (!returnsValue) { parts.push(';\n') }
+        if (!returnsValue) parts.push(';\n')
         break
-      case 'python': case 'lua':
-        if (!returnsValue) { parts.push('\n') }
+      case 'python':
+      case 'lua':
+        if (!returnsValue) parts.push('\n')
         break
     }
 
-    if (returnsValue) {
-      return [parts.join(''), generator.ORDER_NONE]
-    } else {
-      return parts.join('')
-    }
+    return returnsValue ? [parts.join(''), generator.ORDER_NONE] : parts.join('')
   }
 
   const setup = {
@@ -454,7 +409,7 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
     type: `${name.replace(/\"/g, '\'')}` // eslint-disable-line no-useless-escape
   }
   if (include != null) { blockDefinition.include = include }
-  for (const arg of Array.from(args)) {
+  for (const arg of args) {
     if (arg.default != null) {
       if (blockDefinition.inputs == null) { blockDefinition.inputs = {} }
       const type = { string: 'text', number: 'math_number', int: 'math_number', boolean: 'logic_boolean' }[arg.type] || 'text' // TODO: more types
@@ -521,24 +476,20 @@ module.exports.initializeBlocklyLanguage = function () {
   initializedLanguage = true
   const language = me.get('preferredLanguage', true).toLowerCase()
   const languageParts = language.split('-')
-  return (() => {
-    const result = []
-    while (languageParts.length) {
-      try {
-        const localePath = `blockly/msg/${languageParts.join('-')}`
-        console.log('trying to load', localePath)
-        // TODO: fix this up with proper webpackery, maybe like https://github.com/codecombat/codecombat/blob/master/app/locale/locale.coffee#L78-L102
-        // blocklyLocale = require(localePath)  # doesn't work
-        // blocklyLocale = require("blockly/msg/#{languageParts.join('-')}")  # works but throws a ton of errors
-        Blockly.setLocale(blocklyLocale)
-        break
-      } catch (e) {
-        console.log(e)
-        result.push(languageParts.pop())
-      }
+  while (languageParts.length) {
+    try {
+      const localePath = `blockly/msg/${languageParts.join('-')}`
+      console.log('trying to load', localePath)
+      // TODO: fix this up with proper webpackery, maybe like https://github.com/codecombat/codecombat/blob/master/app/locale/locale.coffee#L78-L102
+      // blocklyLocale = require(localePath)  // doesn't work
+      // blocklyLocale = require(`blockly/msg/${languageParts.join('-')}`)  // works but throws a ton of errors
+      Blockly.setLocale(blocklyLocale)
+      break
+    } catch (e) {
+      console.log(e)
+      languageParts.pop()
     }
-    return result
-  })()
+  }
 }
 
 module.exports.createBlocklyOptions = function ({ toolbox }) {
@@ -613,7 +564,7 @@ module.exports.loadBlocklyState = function (blocklyState, blockly, tries) {
   if (!blocklyState?.blocks?.blocks) { return false }
   const oldBlocklyState = Blockly.serialization.workspaces.save(blockly)
   try {
-    console.log('Need to load', blocklyState, 'into', blockly, 'comparing to', oldBlocklyState)
+    // console.log('Need to load', blocklyState, 'into', blockly, 'comparing to', oldBlocklyState)
     const mergeProgress = {}
     for (let i = 0; i < blocklyState?.blocks?.blocks?.length; ++i) {
       mergeBlocklyStates(oldBlocklyState?.blocks?.blocks?.[i], blocklyState.blocks.blocks[i], mergeProgress)
@@ -626,7 +577,7 @@ module.exports.loadBlocklyState = function (blocklyState, blockly, tries) {
   } catch (err) {
     // Example error: Invalid block definition for type: Esper.str_undefined
     // TODO: For some reason, this requires a page reload after filtering before Blockly code starts editing again. Not sure where problem is.
-    const blockType = __guard__(err.message.match(/Invalid block definition for type: (.*)/), x => x[1])
+    const blockType = err.message.match(/Invalid block definition for type: (.*)/)?.[1]
     if (blockType) {
       blocklyState = filterBlocklyState(blocklyState, blockType)
       return module.exports.loadBlocklyState(blocklyState, blockly, tries + 1)
@@ -657,8 +608,10 @@ function mergeBlocklyStates(oldState, newState, mergeProgress) {
     return
   }
   if (oldState.type === newState.type) {
-    // TODO: check more properties for equality
-    console.log('merging', oldState.type, oldState.id, oldState.x, oldState.y, oldState, newState)
+    // TODO: check more properties for equality.
+    // For example, let's say we reordered blocks in Blockly that have same type but different inputs, like hero.say("hello") and hero.say("world").
+    // This current logic will not realize the blocks have changed, and will effectively undo the order change when edited in code.
+    // console.log('merging', oldState.type, oldState.id, oldState.x, oldState.y, _.cloneDeep(oldState), _.cloneDeep(newState))
     newState.id = oldState.id
     if (oldState.x !== undefined) {
       newState.x = mergeProgress.lastX = oldState.x
@@ -685,7 +638,7 @@ function countBlocks(newState) {
 
 let filterBlocklyState = function (blocklyState, blockType) {
   // Stubs out all blocks of the given type from the blockly state. Useful for not throwing away all code just because a block definition is missing.
-  console.log('Trying to remove', blockType, 'from blockly state', blocklyState, 'with', __guard__(blocklyState.blocks != null ? blocklyState.blocks.blocks : undefined, x => x.length), 'blocks')
+  console.log('Trying to remove', blockType, 'from blockly state', blocklyState, 'with', blocklyState?.blocks?.blocks?.length ?? 0, 'blocks')
   // console.log 'Trying to remove', blockType, 'from blockly state', _.cloneDeep(blocklyState), 'with', blocklyState.blocks?.blocks?.length, 'blocks'  # debugging
   // Recursively walk through all properties of the blockly state, and transform the ones with type: blockType to be comment blocks
   let transformBlock = function (parent, key, value) {
@@ -704,6 +657,45 @@ let filterBlocklyState = function (blocklyState, blockType) {
   return blocklyState
 }
 
-function __guard__ (value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
+module.exports.isEqualBlocklyState = function (state1, state2) {
+    const keysToIgnore = ['x', 'y', 'id', 'start', 'end', 'languageVersion']
+    const keysToIgnoreWhenEmpty = ['variables', 'inputs']
+
+    function isEmptyOrUndefined(value) {
+        return value === undefined || value === null || (_.isArray(value) && value.length === 0) || (_.isObject(value) && _.size(value) === 0)
+    }
+
+    function isEqualIgnoringSomeKeys(obj1, obj2) {
+        // If both are the same object or both are null/undefined, they are equal
+        if (obj1 === obj2) return true
+
+        // If either is not an object (and they are not equal), they are not equal
+        if (!_.isObject(obj1) || !_.isObject(obj2)) return false
+
+        // Get keys from both objects
+        const keys1 = _.without(Object.keys(obj1), ...keysToIgnore)
+        const keys2 = _.without(Object.keys(obj2), ...keysToIgnore)
+
+        for (let key of _.union(keys1, keys2)) {
+            // Treat as equal if the key should be ignored when empty and both values are empty
+            if (keysToIgnoreWhenEmpty.includes(key)) {
+                if (isEmptyOrUndefined(obj1[key]) && isEmptyOrUndefined(obj2[key])) {
+                    continue
+                }
+            }
+
+            // If both values are objects, compare recursively
+            if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
+                if (!isEqualIgnoringSomeKeys(obj1[key], obj2[key])) return false
+            }
+            // For non-object values, use Lodash's isEqual for comparison
+            else {
+                if (!_.isEqual(obj1[key], obj2[key])) return false
+            }
+        }
+
+        return true
+    }
+
+    return isEqualIgnoringSomeKeys(state1, state2)
 }

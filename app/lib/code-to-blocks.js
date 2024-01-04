@@ -4,17 +4,13 @@ const { javascriptGenerator } = require('blockly/javascript')
 /*
 - [ ] Handle error case: if code to blocks didn't give a valid Blockly AST, don't try to update it
 - [ ] Fake do while false block to imitate empty comment pointing to do some code
-- [ ] Test ternary operator
 - [ ] Bring back tabbed flyout when there are many categories
 - [ ] Replace text, text_multiline blocks to not use same quote_ implementation, so we can use double-quoted strings and not escape apostrophes
 - [ ] List or text length block
-- [ ] Handle code -> blocks -> code change listener chaos
 - [ ] Fix performance issues
 - [ ] Get Skulpty rewrite included the right way
 - [ ] Clear out code generation warnings by moving to forBlock[blockType] dictionary
-- [ ] Fix cursor going to end when adding space inside comment (or just fix change listener chaos?)
 - [ ] Getting rid of all code should get rid of all blocks
-- [ ] Fill solution and other actions should also update blocks
 - [ ] Make it so that blocks don't move as soon as you update them on Blockly side
 - [ ] Highlight actively running blocks
 - [ ] Implement block limits
