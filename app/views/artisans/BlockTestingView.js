@@ -88,6 +88,7 @@ module.exports = (BlockTestingView = (function () {
       const errorDiv = testContainer.find('.error-scratchpad')[0]
 
       // If this is the first time, get some prep data for initial codeToBlocks setup and debugging
+      let prepDataError
       if (!prepData) {
         try {
           prepData = prepare({ toolbox, blocklyState, workspace: debugBlocklyWorkspace, codeLanguage: testCase.codeLanguage })
@@ -95,12 +96,13 @@ module.exports = (BlockTestingView = (function () {
           console.error(err)
           prepData = {}
           testContainer.find('debug-error').text(err.message).removeClass('hide')
+          prepDataError = err
         }
       }
 
       // Hook up input ace -> Blockly change listener
       const onAceChange = () => {
-        const newBlocklyState = this.runCodeToBlocks({ testCase, code: inputAce.getValue(), codeLanguage: testCase.codeLanguage, toolbox, blocklyState, debugDiv, errorDiv, debugBlocklyWorkspace, prepData })
+        const newBlocklyState = this.runCodeToBlocks({ testCase, code: inputAce.getValue(), codeLanguage: testCase.codeLanguage, toolbox, blocklyState, debugDiv, errorDiv, debugBlocklyWorkspace, prepData, prepDataError })
         if (newBlocklyState) {
           blocklyUtils.loadBlocklyState(newBlocklyState, blocklyWorkspace)
         }
@@ -120,16 +122,20 @@ module.exports = (BlockTestingView = (function () {
       })
     }
 
-    runCodeToBlocks ({ testCase, code, codeLanguage, toolbox, blocklyState, debugDiv, errorDiv, debugBlocklyWorkspace, prepData }) {
+    runCodeToBlocks ({ testCase, code, codeLanguage, toolbox, blocklyState, debugDiv, errorDiv, debugBlocklyWorkspace, prepData, prepDataError }) {
       try {
         const newBlocklyState = codeToBlocks({ code, codeLanguage, toolbox, blocklyState, debugDiv, debugBlocklyWorkspace, prepData })
+        if (!prepDataError) {
+          $(errorDiv).text('').addClass('hide')
+        }
         if (newBlocklyState) {
           console.log('codeToBlocks produced new blockly state for', testCase.name, 'as', newBlocklyState)
           return newBlocklyState
         }
       } catch (err) {
         console.error('codeToBlocks errored out:', err)
-        $(errorDiv).text(err.message).removeClass('hide')
+        const errMessage = (prepDataError ? prepDataError.message + '\n' : '') + err.message
+        $(errorDiv).text(errMessage).removeClass('hide')
         return null
       }
     }
@@ -322,6 +328,18 @@ function foobar() {
 
 foobar()
 
+function baz(x) {
+    return x * x
+}
+
+hero.say(baz(baz(baz(2))))
+`,
+  codeLanguage: 'javascript'
+})
+
+testCases.push({
+  name: 'Functions - Arrow',
+  code: `
 const baz = (x) => x * x
 
 hero.say(baz(baz(baz(2))))
@@ -332,9 +350,8 @@ hero.say(baz(baz(baz(2))))
 testCases.push({
   name: 'Arrays',
   code: `
-const quux
+const quux = 'I think, therefore I am'
 const quuux = ['a', 2, ['c', 'd'], quux]
-quuux.push(quuux)
 
 hero.say(quuux[quuux.length - 1][3])
 
@@ -352,6 +369,15 @@ delete primes[2]
 })
 
 testCases.push({
+  name: 'Arrays - Push',
+  code: `
+const list = ['a', 'b']
+list.push(c)
+`,
+  codeLanguage: 'javascript'
+})
+
+testCases.push({
   name: 'Objects',
   code: `
 const foo = {
@@ -361,6 +387,28 @@ const foo = {
 
 hero.say(foo.bar)
 hero.say(foo.baz)
+
+foo['quux'] = foo.bar
+foo.quux = foo.baz
+foo.foo = foo
+foo['foo'].foo = foo
+
+for (const key in foo) {
+    hero.say(key + ' is ' + foo[key])
+}
+
+for (const val of foo) {
+    hero.say(val)
+}
+`,
+  codeLanguage: 'javascript'
+})
+
+testCases.push({
+  name: 'Ternary Operator',
+  code: `
+const foo = true ? 'bar' : 'baz'
+hero.say(foo)
 `,
   codeLanguage: 'javascript'
 })

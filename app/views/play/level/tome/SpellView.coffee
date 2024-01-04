@@ -491,7 +491,7 @@ module.exports = class SpellView extends CocoView
     blocklyUtils.getBlocklySource @blockly, @spell.language
 
   blocklyToAce: =>
-    return if @eventsSuppressed  # Doesn't work: blockly's change listener fires on a delay, not as soon as a change is made
+    return if @eventsSuppressed  # Doesn't work: blockly's change listener fires on a delay, not as soon as a change is made. TODO: try matching blockly state, if it doesn't work, try blocking next change
     return unless @blockly
     { blocklyState, blocklySource, combined } = @getBlocklySource()
     @lastBlocklyState = blocklyState

@@ -88,6 +88,85 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     return (Array.from(text.trim().split('\n')).map((line) => `${commentStart}${line.replace(/^ {4}/g, '')}`)).join('\n') + '\n'
   }
 
+  const mathOrStringArithmeticBlock = {
+    type: 'math_or_string_arithmetic',
+    message0: '%1 %2 %3',
+    args0: [
+      {
+        type: 'input_value',
+        name: 'A',
+        // check: 'Number',
+      },
+      {
+        type: 'field_dropdown',
+        name: 'OP',
+        options: [
+          ['+', 'ADD'],
+          ['-', 'MINUS'],
+          ['×', 'MULTIPLY'],
+          ['÷', 'DIVIDE'],
+          ['^', 'POWER'],
+        ],
+      },
+      {
+        type: 'input_value',
+        name: 'B',
+        // 'check': 'Number',
+      },
+    ],
+    inputsInline: true,
+    output: 'Number', // TODO: number or string?
+    style: 'math_blocks',
+    helpUrl: '%{BKY_MATH_ARITHMETIC_HELPURL}',
+    extensions: ['math_op_tooltip'],
+    // colour: 180,
+  }
+  Blockly.Blocks.math_or_string_arithmetic = { init () { return this.jsonInit(mathOrStringArithmeticBlock) } }
+  generator.math_or_string_arithmetic = function (block) {
+    // Basic arithmetic operators, and power.
+    const OPERATORS= {
+      'ADD': [' + ', 6.2],
+      'MINUS': [' - ', 6.1],
+      'MULTIPLY': [' * ', 5.1],
+      'DIVIDE': [' / ', 5.2],
+      'POWER': [' ** ', 5.0],
+    }
+    const tuple = OPERATORS[block.getFieldValue('OP')]
+    const operator = tuple[0]
+    const order = tuple[1]
+    const argument0 = generator.valueToCode(block, 'A', order) || '0'
+    const argument1 = generator.valueToCode(block, 'B', order) || '0'
+    const code = argument0 + operator + argument1
+    return [code, order]
+  }
+
+  const returnBlock = {
+    type: 'procedures_return',
+    message0: 'return %1',
+    args0: [
+      {
+        type: 'input_value',
+        name: 'A',
+        // check: 'Number',
+      }
+    ],
+    inputsInline: true,
+    style: 'procedure_blocks',
+    // helpUrl: '%{BKY_PROCEDURES_IFRETURN_HELPURL}', // ??
+    // helpUrl: '%{PROCEDURES_IFRETURN_HELPURL}', // ??
+    // extensions: ['math_op_tooltip'],
+    // colour: 180,
+  }
+  Blockly.Blocks.procedures_return = { init () { return this.jsonInit(returnBlock) } }
+  generator.procedures_return = function (block) {
+    if (block.hasReturnValue_) {
+      const value = generator.valueToCode(block, 'VALUE', Order.NONE) || 'null'
+      return 'return ' + value + ';\n'
+    } else {
+      return 'return;\n';
+    }
+  }
+
   const miscBlocks = [
     createBlock({
       owner: 'hero',
@@ -125,7 +204,9 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'logic_compare', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'logic_operation', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'logic_negate', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
-        { kind: 'block', type: 'math_arithmetic', include () { return propNames.has('else') } } // TODO: better targeting of when we introduce this logic?
+        // { kind: 'block', type: 'math_arithmetic', include () { return propNames.has('else') } } // TODO: better targeting of when we introduce this logic?
+        { kind: 'block', type: 'math_or_string_arithmetic', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
+        { kind: 'block', type: 'procedures_return', include () { return propNames.has('else') } } // TODO: when to introduce? also move this to procedures
       ]
     },
     {
@@ -151,7 +232,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         // { kind: 'block', type: 'controls_for', include: -> propNames.has('for-loop') }  # Too wide  # TODO: introduce this later than the simpler repeat_ext loop above? Or just use this one, but defaults start at 0 and increment by 1?
         { kind: 'block', type: 'controls_forEach', include () { return propNames.has('for-in-loop') } },
         { kind: 'block', type: 'controls_flow_statements', include () { return propNames.has('break') } },
-        { kind: 'block', type: 'controls_flow_statements', fields: { FLOW: 'CONTINUE' }, include () { return propNames.has('continue') } }
+        // { kind: 'block', type: 'controls_flow_statements', fields: { FLOW: 'CONTINUE' }, include () { return propNames.has('continue') } }  // Wide, should figure out how to not have this
+        { kind: 'block', type: 'controls_flow_statements', fields: { FLOW: 'CONTINUE' }, include () { return false } }  // Only in full block toolbox, not shown to user
       ]
     },
     {
@@ -196,12 +278,17 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'lists_create_empty', include () { return propNames.has('arrays') } },
         { kind: 'block', type: 'lists_create_with', include () { return propNames.has('arrays') } },
         { kind: 'block', type: 'lists_length', include () { return propNames.has('arrays') } },
+        { kind: 'block', type: 'text_length', include () { return propNames.has('arrays') } },  // TODO: make a general version, determine when to use
         { kind: 'block', type: 'lists_isEmpty', include () { return propNames.has('arrays') } },
         // Removing wide blocks for now until we have a way to handle them in continuous flyout
-        // { kind: 'block', type: 'lists_repeat', inputs: { NUM: { block: { type: 'math_number', fields: { NUM: '5' } } } }, include: -> propNames.has('arrays') }
-        // { kind: 'block', type: 'lists_indexOf', include: -> propNames.has('arrays') }
-        // { kind: 'block', type: 'lists_getIndex', include: -> propNames.has('arrays') }
-        // { kind: 'block', type: 'lists_setIndex', include: -> propNames.has('arrays') }
+        // { kind: 'block', type: 'lists_repeat', inputs: { NUM: { block: { type: 'math_number', fields: { NUM: '5' } } } }, include () { return propNames.has('arrays') } },
+        // { kind: 'block', type: 'lists_indexOf', include () { return propNames.has('arrays') } },
+        // { kind: 'block', type: 'lists_getIndex', include () { return propNames.has('arrays') } },
+        // { kind: 'block', type: 'lists_setIndex', include () { return propNames.has('arrays') } },
+        { kind: 'block', type: 'lists_repeat', inputs: { NUM: { block: { type: 'math_number', fields: { NUM: '5' } } } }, include () { return false } },
+        { kind: 'block', type: 'lists_indexOf', include () { return false } },
+        { kind: 'block', type: 'lists_getIndex', include () { return false } },
+        { kind: 'block', type: 'lists_setIndex', include () { return false } },
         // Some of the extra list operations
         { kind: 'block', type: 'lists_getSublist', include () { return propNames.has('arrays') && false } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'lists_split', include () { return propNames.has('arrays') && false } }, // TODO: better targeting of when we introduce this logic?
@@ -221,10 +308,11 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       colour: '50',
       custom: 'PROCEDURE',
       include () { return propNames.has('functions') }
-    }
+    },
   ]
 
   let blockCategories = userBlockCategories.concat(builtInBlockCategories)
+  const fullBlockCategories = _.cloneDeep(userBlockCategories.concat(builtInBlockCategories))
 
   for (const category of Array.from(blockCategories)) {
     if (category.contents) {
@@ -242,7 +330,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
 
   const toolbox = {
     kind: 'categoryToolbox',
-    contents: blockCategories
+    contents: blockCategories,
+    fullContents: fullBlockCategories
   }
 
   return toolbox
@@ -503,6 +592,9 @@ module.exports.loadBlocklyState = function (blocklyState, blockly, tries) {
       mergeBlocklyStates(oldBlocklyState?.blocks?.blocks?.[i], blocklyState.blocks.blocks[i], mergeProgress)
     }
     Blockly.serialization.workspaces.load(blocklyState, blockly)
+    if (mergeProgress.unmatched) {
+      blockly.cleanUp()
+    }
     return true
   } catch (err) {
     // Example error: Invalid block definition for type: Esper.str_undefined
@@ -524,6 +616,9 @@ function mergeBlocklyStates(oldState, newState, mergeProgress) {
     return
   }
   if (!oldState) {
+    // We will make up a height, but it's probably wrong, so we'll automatically clean up workspace at the end.
+    mergeProgress.unmatched = true
+    // This logic will get y-ordering right, at least.
     if (mergeProgress.lastX === undefined) {
       mergeProgress.lastX = 20
       mergeProgress.lastY = 20
@@ -531,7 +626,6 @@ function mergeBlocklyStates(oldState, newState, mergeProgress) {
     }
     newState.x = mergeProgress.lastX
     newState.y = mergeProgress.lastY + blockHeight * (mergeProgress.blocksSinceLastYSet + 2)
-    // console.log('Setting new state that did not exist', newState, 'to', mergeProgress.lastX, mergeProgress.lastY + blockHeight * (mergeProgress.blocksSinceLastYSet + 2), 'from mp', mergeProgress)
     mergeProgress.blocksSinceLastYSet += countBlocks(newState) + 2
     return
   }
@@ -553,7 +647,7 @@ function mergeBlocklyStates(oldState, newState, mergeProgress) {
 }
 
 function countBlocks(newState) {
-  // TODO: this should probably count nested blocks, arguments, also account for taller blocks
+  // TODO: this should probably count nested blocks, arguments, also account for taller blocks. But, not important with auto blockly.cleanUp() function.
   let count = 0
   while (newState?.next) {
     ++count

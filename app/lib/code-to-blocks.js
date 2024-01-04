@@ -1,6 +1,17 @@
 const Blockly = require('blockly')
 const { javascriptGenerator } = require('blockly/javascript')
 
+/*
+- [ ] Handle error case: if code to blocks didn't give a valid Blockly AST, don't try to update it
+- [ ] Fake do while false block to imitate empty comment pointing to do some code
+- [ ] Test ternary operator
+- [ ] Bring back tabbed flyout when there are many categories
+- [ ] Replace text, text_multiline blocks to not use same quote_ implementation, so we can use double-quoted strings and not escape apostrophes
+- [ ] List or text length block
+- [ ] Handle code -> blocks -> code change listener chaos
+- [ ] Fix performance issues
+*/
+
 function fuzzyMatch (a, b) {
   if (a.type !== b.type) return false
   switch (a.type) {
@@ -15,6 +26,8 @@ function fuzzyMatch (a, b) {
     case 'StringLiteral':
     case 'BooleanLiteral':
       return true
+    case 'ArrayExpression':
+      return (a.elements.length === 0) === (b.elements.length === 0)
     case 'BreakStatement':
     case 'ContinueStatement':
       return true
@@ -47,7 +60,7 @@ class Converters {
     if (n.declarations.length !== 1) throw new Error('No multi decls pls')
     const [d] = n.declarations
 
-    ctx.scope[d.id.name] = d
+    ctx.scope[d.id.name] = 'var'
 
     if (!d.init) return null
     return {
@@ -84,7 +97,7 @@ class Converters {
   }
 
   static ConvertBlockStatement (n, ctx) {
-    return convert(n.body, ctx)
+    return convert(n.body, { ...ctx, context: 'statement' } )
   }
 
   static ConvertExpressionStatement (n, ctx) {
@@ -98,6 +111,20 @@ class Converters {
   static ConvertContinueStatement (n, ctx) {
     console.log(n)
     return findOne(ctx.plan, x => fuzzyMatch(n, x[1]), 'Can\'t find the continue statement')[0]
+  }
+
+  static ConvertArrayExpression (n, ctx) {
+    console.log(n)
+    const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), 'Can\'t find the array expression')
+    const o = {
+      type: found[0].type,
+      extraState: { itemCount: n.elements.length },
+      inputs: {}
+    }
+    for (let i = 0; i < n.elements.length; ++i) {
+      o.inputs['ADD' + i ] = { block: convert(n.elements[i], ctx) };
+    }
+    return o
   }
 
   static ConvertWhileStatement (n, ctx) {
@@ -137,10 +164,11 @@ class Converters {
 
   static ConvertBinaryExpression (n, ctx) {
     const [type, op] = ({
-      '+': ['math_arithmetic', 'ADD'],
-      '-': ['math_arithmetic', 'MINUS'],
-      '*': ['math_arithmetic', 'MULTIPLY'],
-      '/': ['math_arithmetic', 'DIVIDE'],
+      '+': ['math_or_string_arithmetic', 'ADD'],
+      '-': ['math_or_string_arithmetic', 'MINUS'],
+      '*': ['math_or_string_arithmetic', 'MULTIPLY'],
+      '/': ['math_or_string_arithmetic', 'DIVIDE'],
+      '**': ['math_or_string_arithmetic', 'POWER'],
 
       '&&': ['logic_operation', 'AND'],
       '||': ['logic_operation', 'OR'],
@@ -168,7 +196,34 @@ class Converters {
     }
   }
 
+  static ConvertReturnStatement (n, ctx) {
+    return {
+      type: "procedures_return"
+    }
+  }
+
   static ConvertCallExpression (n, ctx) {
+    if (n.callee.type === "Identifier") {
+      console.log("CALL", n, ctx.scope)
+      if (ctx.scope[n.callee.name] === "fx") {
+        if (ctx.context == "value") {
+          return {
+            type: "procedures_callreturn",
+            fields: {
+              NAME: n.callee.name
+            }
+          }
+        } else {
+          return {
+            type: "procedures_callnoreturn",
+            fields: {
+              NAME: n.callee.name
+            }
+          }
+        }
+      }
+    }
+
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), `Couldn't find match for ${JSON.stringify(n)}`)
     console.log('CALL', ctx, found[0])
 
@@ -189,6 +244,20 @@ class Converters {
     return out
   }
 
+  static ConvertFunctionDeclaration (n, ctx) {
+    ctx.scope[n.id.name] = 'fx'
+    console.log("FX", n)
+    return {
+      type: 'procedures_defnoreturn',
+      fields: {
+        NAME: n.id.name
+      },
+      inputs: {
+        STACK: { block: convert(n.body, { ...ctx, nospace: true })[0] }
+      }
+    }
+  }
+
   static ConvertIdentifier (n, ctx) {
     if (n.name in ctx.scope) {
       return {
@@ -202,7 +271,36 @@ class Converters {
     }
   }
 
+  static ConvertUnaryExpression (n, ctx) {
+    return null;
+  }
+
   static ConvertMemberExpression (n, ctx) {
+    if (n.computed === true) {
+      return {
+        type: "lists_getIndex",
+        fields: {
+          MODE: "GET",
+          WHERE: "FROM_START",
+        },
+        inputs: {
+          AT: { block: convert(n.property, ctx) },
+          VALUE: { block: convert(n.object, ctx) }
+        }
+      }
+    }
+
+    if (n.property.type === "Identifier" && n.property.name == "length") {
+      return {
+        type: "lists_length",
+        input: {
+          VALUE: { block: convert(n.object, ctx) }
+        }
+      }
+    }
+
+
+
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), `Couldn't find match for ${JSON.stringify(n)}`)
     console.log(found)
     return {
@@ -222,7 +320,8 @@ function convert (node, ctx) {
             fields: {
               Comment: c.value.substr(1)
             },
-            loc: c.loc.start.line
+            start: c.loc.start.line,
+            end: c.loc.end.line
           })
         }
       }
@@ -236,15 +335,18 @@ function convert (node, ctx) {
     throw new Error(`No converter for ${node.type}`)
   }
   const b = Converters[`Convert${node.type}`](node, ctx)
-  if (b) b.loc = node.loc.start.line
+  if (b) {
+    b.start = node.loc.start.line
+    b.end = node.loc.end.line
+  }
 
   return b
 }
 
 function findAllBlocks (thing) {
   const result = []
-  for (const o of thing.contents) {
-    if (o.contents) result.push(...findAllBlocks(o))
+  for (const o of thing) {
+    if (o.contents) result.push(...findAllBlocks(o.contents))
     else if (o.kind === 'block') result.push(o)
   }
   return result
@@ -254,6 +356,7 @@ function doParse (blocklySource) {
   const { parse } = esper.plugins.babylon.babylon
   if (/^continue;\s*/.test(blocklySource)) return { type: 'ContinueStatement' }
   if (/^break;\s*/.test(blocklySource)) return { type: 'BreakStatement' }
+  if (/^return;\s*/.test(blocklySource)) return { type: 'ReturnStatement' }
   if (/^'';\s*/.test(blocklySource)) return { type: 'StringLiteral' }
 
   const ast = parse(blocklySource, { errorRecovery: true })
@@ -276,7 +379,7 @@ function nextify (arr, ctx) {
     if (!result) {
       result = [e]
       target = e
-    } else if (target.loc === e.loc - 1 || ctx.nospace) {
+    } else if (target.end === e.start - 1 || ctx.nospace) {
       target.next = { block: e }
       target = e
     } else {
@@ -293,7 +396,7 @@ function prepare ({ toolbox, blocklyState, workspace, codeLanguage }) {
 
   console.log('prepare', arguments[0])
   window.ws = workspace
-  const blocks = findAllBlocks(toolbox)
+  const blocks = findAllBlocks(toolbox.fullContents)
 
   for (const block of blocks) {
     const zeblock = Blockly.Blocks[block.type]
