@@ -8,6 +8,7 @@ permissions:
 
 jobs:
   build:
+    name: ESLint CI
 
     runs-on: ubuntu-20.04
 
