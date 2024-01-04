@@ -216,5 +216,10 @@ module.exports = {
       method: 'POST',
       data: { ids }
     })
+  },
+  getUserCredits (operation) {
+    return fetchJson(`/db/user-credits/${operation}`, _.assign({}, {
+      method: 'GET'
+    }))
   }
 }
