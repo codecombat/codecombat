@@ -1418,37 +1418,38 @@ ${problem.category} - ${problem.score} points\
       const levelOriginal = levelElement.data('level-original')
       const level = _.find(_.values(this.getLevels()), { slug: levelSlug })
 
+      let requiresSubscription
       if (me.showChinaResourceInfo() && !me.showChinaHomeVersion()) {
         const defaultAccess = ['short', 'china-classroom']
         if(me.get('hourOfCode') || this.campaign?.get('type') === 'hoc' || this.campaign?.get('slug') === 'intro' ) {
           defaultAccess = defaultAccess.concat(['medium', 'long'])
         }
         const freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => defaultAccess.includes(faLevel.access)).map((faLevel) => faLevel.slug)
-        const requiresSubscription = level.requiresSubscription || (!(freeAccessLevels.includes(level.slug)))
+        requiresSubscription = level.requiresSubscription || (!(freeAccessLevels.includes(level.slug)))
       } else {
-      let defaultAccess = me.get('hourOfCode') || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') || ((this.campaign != null ? this.campaign.get('slug') : undefined) === 'intro') ? 'long' : 'short'
-        if (new Date(me.get('dateCreated')) < new Date('2021-09-21') && (!me.showChinaHomeVersion())) {
-        defaultAccess = 'all'
-      }
-      let access = me.getExperimentValue('home-content', defaultAccess)
-      if (me.showChinaResourceInfo() || (me.get('country') === 'japan')) {
-        access = 'short'
-      }
-      const freeAccessLevels = ((() => {
-        const result = []
-        for (const fal of Array.from(utils.freeAccessLevels)) {
-          if (_.any([
-            fal.access === 'short',
-            (fal.access === 'medium') && ['medium', 'long', 'extended'].includes(access),
-            (fal.access === 'long') && ['long', 'extended'].includes(access),
-            (fal.access === 'extended') && (access === 'extended')
-          ])) {
-            result.push(fal.slug)
+        let defaultAccess = me.get('hourOfCode') || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') || ((this.campaign != null ? this.campaign.get('slug') : undefined) === 'intro') ? 'long' : 'short'
+          if (new Date(me.get('dateCreated')) < new Date('2021-09-21') && (!me.showChinaHomeVersion())) {
+          defaultAccess = 'all'
           }
+        let access = me.getExperimentValue('home-content', defaultAccess)
+        if (me.showChinaResourceInfo() || (me.get('country') === 'japan')) {
+          access = 'short'
         }
-        return result
-      })())
-      const requiresSubscription = level.requiresSubscription || ((access !== 'all') && !Array.from(freeAccessLevels).includes(level.slug))
+        const freeAccessLevels = ((() => {
+          const result = []
+          for (const fal of Array.from(utils.freeAccessLevels)) {
+            if (_.any([
+              fal.access === 'short',
+              (fal.access === 'medium') && ['medium', 'long', 'extended'].includes(access),
+              (fal.access === 'long') && ['long', 'extended'].includes(access),
+              (fal.access === 'extended') && (access === 'extended')
+            ])) {
+              result.push(fal.slug)
+            }
+          }
+          return result
+        })())
+        requiresSubscription = level.requiresSubscription || ((access !== 'all') && !Array.from(freeAccessLevels).includes(level.slug))
       }
       const canPlayAnyway = _.any([
         !this.requiresSubscription,
