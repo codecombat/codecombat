@@ -11,7 +11,7 @@
             <!-- TODO apply i18n to possessive -->
             <h3 class="title">
               {{ broadName(teacher) }}'s {{ $t('courses.classes') }}
-              <a class="pull-right" :href="`/outcomes-report/teacher/${teacherId}`" target="_blank">{{ $t('outcomes.view_outcomes_report') }}</a>
+              <a class="pull-right" :href="outcomesReportUrl" target="_blank">{{ $t('outcomes.view_outcomes_report') }}</a>
             </h3>
 
             <div class="teacher-class-list">
@@ -47,6 +47,10 @@ export default {
         teacherId() {
           return this.$route.params.teacherId
         },
+        outcomesReportUrl () {
+          const params = me.isInternal() ? '?newReport=1' : ''
+          return `/outcomes-report/teacher/${this.teacherId}${params}`
+        }
       },
       mapState('courses', {
         coursesLoaded: 'loaded'

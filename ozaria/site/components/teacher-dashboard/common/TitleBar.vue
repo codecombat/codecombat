@@ -80,7 +80,8 @@ export default {
     outcomesReportLink () {
       const kind = this.allClassesPage ? 'teacher' : 'classroom'
       const org = this.allClassesPage ? me.get('_id') : this.classroom._id
-      return `/outcomes-report/${kind}/${org}`
+      const params = me.isInternal() ? '?newReport=1' : ''
+      return `/outcomes-report/${kind}/${org}${params}`
     }
   },
 

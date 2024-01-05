@@ -45,7 +45,8 @@ export default {
     outcomesReportLink () {
       const kind = 'school-admin'
       const org = me.get('_id')
-      return `/outcomes-report/${kind}/${org}`
+      const params = me.isInternal() ? '?newReport=1' : ''
+      return `/outcomes-report/${kind}/${org}${params}`
     }
   },
 

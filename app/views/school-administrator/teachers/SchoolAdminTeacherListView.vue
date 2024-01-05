@@ -79,6 +79,10 @@ export default {
       },
       me () {
         return me
+      },
+      outcomesReportUrl () {
+        const params = me.isInternal() ? '?newReport=1' : ''
+        return `/outcomes-report/school-admin/${me.get('_id')}${params}`
       }
     }
   ),
@@ -106,7 +110,7 @@ export default {
       <span>{{ $t('school_administrator.my_teachers') }}</span>
       <a
         class="pull-right"
-        :href="'/outcomes-report/school-admin/' + myId"
+        :href="outcomesReportUrl"
         target="_blank"
       > {{ $t('outcomes.view_outcomes_report') }}</a>
     </h3>

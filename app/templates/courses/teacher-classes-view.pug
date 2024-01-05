@@ -72,7 +72,8 @@ block content
 
       h3
         span(data-i18n='teacher.current_classes')
-        a.pull-right(href='/outcomes-report/teacher/' + me.get('_id') target="_blank" data-i18n='outcomes.view_outcomes_report')
+        - var params = me.isInternal() ? '?newReport=1' : ''
+        a.pull-right(href='/outcomes-report/teacher/' + me.get('_id') + params target="_blank" data-i18n='outcomes.view_outcomes_report')
 
     .classes.container
       // Loop each owned class

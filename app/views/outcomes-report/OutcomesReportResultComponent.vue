@@ -40,6 +40,7 @@ export default Vue.extend({
       return utils.orgKindString(this.org.kind, this.org)
     },
 
+
     codeLanguageString () {
       return utils.capitalLanguages[this.org.codeLanguage] || ''
     },
@@ -155,6 +156,11 @@ export default Vue.extend({
       fetchCourses: 'courses/fetch'
     }),
 
+    reportUrl (kind, id) {
+      const params = me.isInternal() ? '?newReport=1' : ''
+      return `/outcomes-report/${kind}/${id}${params}`
+    },
+
     phoneString (phone) {
       if (!/[0-9]{10}/.test(phone)) return phone
       return `(${phone.slice(0, 3)}) ${phone.slice(3, 6)}-${phone.slice(6, 10)}`
@@ -187,13 +193,13 @@ export default Vue.extend({
           span #{kindString}:
       span= " "
       if isSubOrg
-        a(:href="'/outcomes-report/' + org.kind + '/' + org._id" target="_blank")
+        a(:href="reportUrl(org.kind, org._id)" target="_blank")
           b= org.displayName || org.name
       else
         b= org.displayName || org.name
         if included && isAdmin && editing && org.kind == 'school-district' && org['administrative-region']
           span ,&nbsp;
-          a(:href="'/outcomes-report/administrative-region/' + org['administrative-region'].region.toLowerCase()" target="_blank")= org['administrative-region'].region
+          a(:href="reportUrl('administrative-region', org['administrative-region'].region.toLowerCase())" target="_blank")= org['administrative-region'].region
       if org.email
         span  (#{org.email})
       if org.kind == 'student' && org.displayName && org.name && (org.name.replace(/\W/g, '').toLowerCase() != org.displayName.replace(/\W/g, '').toLowerCase())
@@ -230,20 +236,20 @@ export default Vue.extend({
         for student in org.students
           br
           span= $t('courses.student') + ': '
-          a(:href="'/outcomes-report/student/' + student._id" target="_blank")
+          a(:href="reportUrl('student', student._id)" target="_blank")
             b= student.displayName
       if included && org.classrooms && org.kind == 'student' && parentOrgKind != 'classroom'
         for classroom in org.classrooms
           br
           span= $t('outcomes.classroom') + ': '
-          a(:href="'/outcomes-report/classroom/' + classroom._id" target="_blank")
+          a(:href="reportUrl('classroom', classroom._id)" target="_blank")
             b= classroom.name
           span  #{classroom.codeLanguage} - #{formatNumber(classroom.studentCount)} #{$t('courses.students').toLocaleLowerCase()}
       if included && org.teachers && ['classroom', 'student'].indexOf(org.kind) != -1 && ['teacher', 'classroom'].indexOf(parentOrgKind) == -1
         for teacher in org.teachers
           br
           span= $t('courses.teacher') + ': '
-          a(:href="'/outcomes-report/teacher/' + teacher._id" target="_blank")
+          a(:href="reportUrl('teacher', teacher._id)" target="_blank")
             b= teacher.displayName
           if teacher.email
             span  (#{teacher.email})
@@ -251,17 +257,17 @@ export default Vue.extend({
         for school in org.schools
           br
           span= 'School: '
-          a(:href="'/outcomes-report/school/' + school._id" target="_blank")
+          a(:href="reportUrl('school', school._id)" target="_blank")
             b= school.name
       if included && org['school-district'] && ['school', 'teacher', 'school-admin'].indexOf(org.kind) != -1 && ['school-district', 'school'].indexOf(parentOrgKind) == -1 && (isSchoolAdmin || (isAdmin && (editing || org.kind != 'teacher')))
         br
         span= 'District: '
-        a(:href="'/outcomes-report/school-district/' + org['school-district']._id" target="_blank")
+        a(:href="reportUrl('school-district', org['school-district']._id)" target="_blank")
           b= org['school-district'].name
       if included && org['school-admin'] && ['school', 'teacher'].indexOf(org.kind) != -1 && parentOrgKind != 'school-admin' && org['school-admin'].displayName != 'Anonymous'
         br
         span= $t('nav.admin') + ': '
-        a(:href="'/outcomes-report/school-admin/' + org['school-admin']._id" target="_blank")
+        a(:href="reportUrl('school-admin', org['school-admin']._id)" target="_blank")
           b= org['school-admin'].displayName
 
   .block(v-if="included && coursesLoaded && coursesWithProgress[0] && (coursesWithProgress[0].completion !== null || coursesWithProgress[0].studentsStarting > 1)" :class="isSubOrg && coursesWithProgress.length > 1 ? 'dont-break' : ''")
