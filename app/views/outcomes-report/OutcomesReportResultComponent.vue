@@ -40,7 +40,6 @@ export default Vue.extend({
       return utils.orgKindString(this.org.kind, this.org)
     },
 
-
     codeLanguageString () {
       return utils.capitalLanguages[this.org.codeLanguage] || ''
     },
