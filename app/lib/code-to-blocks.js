@@ -3,19 +3,15 @@ const { javascriptGenerator } = require('blockly/javascript')
 
 /*
 - [ ] Handle error case: if code to blocks didn't give a valid Blockly AST, don't try to update it
-- [ ] Fake do while false block to imitate empty comment pointing to do some code
 - [ ] Bring back tabbed flyout when there are many categories
 - [ ] Replace text, text_multiline blocks to not use same quote_ implementation, so we can use double-quoted strings and not escape apostrophes
 - [ ] List or text length block
-- [ ] Fix performance issues
 - [ ] Get Skulpty rewrite included the right way
-- [ ] Clear out code generation warnings by moving to forBlock[blockType] dictionary
 - [ ] Getting rid of all code should get rid of all blocks
 - [ ] Make it so that blocks don't move as soon as you update them on Blockly side
 - [ ] Highlight actively running blocks
 - [ ] Implement block limits
 - [ ] Implement more verifier-like testing harness, display problems in full but passed tests are collapsed
-- [ ] Load real CoCo levels' code
 */
 
 function fuzzyMatch (a, b) {
@@ -67,7 +63,7 @@ class Converters {
   static ConvertVariableDeclaration (n, ctx) {
     const result = []
     for (const d of n.declarations) {
-      ctx.scope[d.id.name] = 'var'
+      ctx.scope[d.id.name] = { type: 'var' }
 
       if (!d.init) continue
 
@@ -125,7 +121,7 @@ class Converters {
   }
 
   static ConvertExpressionStatement (n, ctx) {
-    return convert(n.expression, ctx, { ...ctx, context: 'value' })
+    return convert(n.expression, ctx, { ...ctx, context: 'statement' })
   }
 
   static ConvertBreakStatement (n, ctx) {
@@ -133,12 +129,10 @@ class Converters {
   }
 
   static ConvertContinueStatement (n, ctx) {
-    console.log(n)
     return findOne(ctx.plan, x => fuzzyMatch(n, x[1]), 'Can\'t find the continue statement')[0]
   }
 
   static ConvertArrayExpression (n, ctx) {
-    console.log(n)
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), 'Can\'t find the array expression')
     const o = {
       type: found[0].type,
@@ -154,59 +148,116 @@ class Converters {
   static ConvertWhileStatement (n, ctx) {
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), 'Can\'t find the while statement')
     const body = convert(n.body, { ...ctx, nospace: true, context: 'statement' })
-    return {
+    const o = {
       type: found[0].type,
       inputs: {
-        BOOL: { block: convert(n.test, ctx) },
-        DO: body ? { block: body[0] } : undefined
+        BOOL: { block: convert(n.test, { ...ctx, context: 'value' }) }
       }
     }
+    if (body && body.length > 0) o.inputs.DO = { block: body[0] }
+
+    return o
   }
 
-  static ConvertConditionalExpression (n,ctx) {
+  static ConvertConditionalExpression (n, ctx) {
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), 'Can\'t find the ternary expression')
     const yes = convert(n.consequent, { ...ctx, nospace: true, context: 'value' })
     const no = convert(n.alternate, { ...ctx, nospace: true, context: 'value' })
 
-    return {
+    const o = {
       type: found[0].type,
       inputs: {
-        IF: { block: convert(n.test, ctx) },
-        THEN: yes ? { block: yes } : undefined,
-        ELSE: no ? { block: no } : undefined
+        IF: { block: convert(n.test, ctx) }
       }
     }
+
+    if (yes) o.inputs.THEN = { block: yes }
+    if (no) o.inputs.ELSE = { block: no }
+
+    return o
+  }
+
+  static ConvertEmptyStatement (n, ctx) {
+    return null
   }
 
   static ConvertForStatement (n, ctx) {
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), 'Can\'t find the for statement')
-    console.log("FORL", n)
+    console.log('FORL', n)
     const init = convert(n.init, { ...ctx, nospace: true })
-    const body = convert(n.body, { ...ctx, nospace: true, context: "statement" })
+    const body = convert(n.body, { ...ctx, nospace: true, context: 'statement' })
 
-    return {
+    const o = {
       type: found[0].type,
       inputs: {
-        TIMES: { block: convert(n.test.right, ctx) },
-        DO: body ? { block: body[0] } : undefined
+        TIMES: { block: convert(n.test.right, ctx) }
       }
     }
+
+    if (body) o.inputs.DO = { block: body[0] }
+    return o
+  }
+
+  static ConvertForOfStatement (n, ctx) {
+    ctx.scope[n.left.name] = { type: 'var' }
+    const body = convert(n.body, { ...ctx, nospace: true, context: 'statement' })
+    const o = {
+      // type: 'controls_untyped_for_each',
+      type: 'controls_forEach',
+      fields: {
+        VAR: { id: n.left.name }
+      },
+      inputs: {
+        LIST: { block: convert(n.right, { ...ctx, context: 'value' }) }
+
+      }
+    }
+
+    if (body) o.inputs.DO = { block: body[0] }
+    return o
   }
 
   static ConvertIfStatement (n, ctx) {
+    // TODO: ELSE, ELSEIF
     console.log('IF', n)
-    const conq = convert(n.consequent, { ...ctx, nospace: true })
-    return {
+    const conq = convert(n.consequent, { ...ctx, context: 'statement', nospace: true })
+    const o = {
       type: 'controls_if',
+      extraState: {},
       inputs: {
-        IF0: { block: convert(n.test, ctx, { ...ctx, context: 'value' }) },
-        DO0: conq ? { block: conq[0] } : undefined
+        IF0: { block: convert(n.test, { ...ctx, context: 'value' }) }
       }
     }
+
+    if (conq) o.inputs.DO0 = { block: conq[0] }
+
+    let N = 0
+    let alt = n.alternate
+
+    while (alt && (alt.type === 'IfStatement' || alt.type === 'BlockStatement')) {
+      if (alt.type === 'BlockStatement') {
+        if (alt.body.length !== 1 || alt.body[0].type !== 'IfStatement') break
+        alt = alt.body[0]
+        continue
+      }
+      ++N
+      o.extraState.elseIfCount = N
+      o.inputs[`IF${N}`] = { block: convert(alt.test, ctx, { ...ctx, context: 'value' }) }
+      o.inputs[`DO${N}`] = { block: convert(alt.consequent, ctx, { ...ctx, context: 'statement', nospace: true })[0] }
+      alt = alt.alternate
+    }
+
+    if (alt) {
+      o.inputs.ELSE = { block: convert(alt, { ...ctx, context: 'statement', nospace: true })[0] }
+      o.extraState.hasElse = true
+    }
+    return o
   }
 
   static ConvertAssignmentExpression (n, ctx) {
     if (n.operator !== '=') throw new Error(`Weird assigment operator ${n.operator}`)
+    if (n.left.type !== 'Identifier') throw new Error('Can only assign to variables')
+
     return {
       type: 'variables_set',
       fields: { VAR: { id: n.left.name } },
@@ -251,33 +302,107 @@ class Converters {
   }
 
   static ConvertLogicalExpression (n, ctx) {
-    console.log('LE', n)
-    return null
+    return Converters.ConvertBinaryExpression(n, ctx)
   }
 
   static ConvertReturnStatement (n, ctx) {
-    return {
-      type: 'procedures_ifreturn'
+    const o = {
+      type: 'procedures_return'
     }
+
+    if (n.argument) {
+      o.inputs = { VALUE: { block: convert(n.argument, { ...ctx, context: 'value' }) } }
+    }
+
+    return o
   }
 
   static ConvertCallExpression (n, ctx) {
     if (n.callee.type === 'Identifier') {
       console.log('CALL', n, ctx.scope)
 
-      if (ctx.scope[n.callee.name] === 'fx') {
+      if (n.callee.name === '__comment__') {
+        return {
+          type: 'comment',
+          fields: {
+            COMMENT: n.arguments[0].value.trim()
+          }
+        }
+      }
+
+      if (n.callee.name === '__arrow__') {
+        return {
+          type: 'entry_point',
+          fields: {
+          }
+        }
+      }
+
+      if (n.callee.name === '__donothing__') {
+        return null
+      }
+
+      if (ctx.scope[n.callee.name] && ctx.scope[n.callee.name].type === 'fx') {
+        const inputs = {}
+        const extraState = { params: [] }
+        for (let i = 0; i < n.arguments.length; ++i) {
+          inputs[`ARG${i}`] = { block: convert(n.arguments[i], { ...ctx, context: 'value' }) }
+        }
+        for (const p of ctx.scope[n.callee.name].n.params) {
+          extraState.params.push(p.name)
+        }
+
         if (ctx.context === 'value') {
           return {
             type: 'procedures_callreturn',
             fields: {
               NAME: n.callee.name
-            }
+            },
+            inputs,
+            extraState
           }
         } else {
           return {
             type: 'procedures_callnoreturn',
             fields: {
               NAME: n.callee.name
+            },
+            inputs,
+            extraState
+          }
+        }
+      }
+    }
+
+    if (n.callee.type === 'MemberExpression') {
+      if (n.callee.object.type === 'Identifier' && ctx.scope[n.callee.object.name] && ctx.scope[n.callee.object.name].type === 'var') {
+        if (n.callee.property.name === 'push' || n.callee.property.name === 'append') {
+          const val = convert(n.arguments[0], { ...ctx, context: 'value' })
+          const vari = convert(n.callee.object, { ...ctx, context: 'value' })
+          return {
+            type: 'lists_setIndex',
+            fields: {
+              MODE: 'INSERT',
+              WHERE: 'LAST'
+            },
+            inputs: {
+              LIST: { block: vari },
+              TO: { block: val }
+            }
+          }
+        }
+
+        if (n.callee.property.name === 'pop') {
+          const vari = convert(n.callee.object, { ...ctx, context: 'value' })
+          return {
+            type: 'lists_getIndex',
+            extraState: { isStatement: ctx.context !== 'value' },
+            fields: {
+              MODE: ctx.context === 'value' ? 'GET_REMOVE' : 'REMOVE',
+              WHERE: 'LAST'
+            },
+            inputs: {
+              VALUE: { block: vari }
             }
           }
         }
@@ -301,25 +426,43 @@ class Converters {
     } else {
       console.log('NO INPUT', found[0])
     }
+
+    if (ctx.context !== 'value' && found[0].output) {
+      return {
+        type: 'expression_statement',
+        inputs: {
+          EXPRESSION: { block: out }
+        }
+      }
+    }
+
     return out
   }
 
   static ConvertFunctionDeclaration (n, ctx) {
-    ctx.scope[n.id.name] = 'fx'
+    ctx.scope[n.id.name] = { type: 'fx', n }
     console.log('FX', n)
-    return {
+    const o = {
       type: 'procedures_defnoreturn',
+      extraState: { params: [] },
       fields: {
         NAME: n.id.name
       },
-      inputs: {
-        STACK: { block: convert(n.body, { ...ctx, nospace: true })[0] }
-      }
+      inputs: {}
     }
+
+    for (const p of n.params) {
+      ctx.scope[p.name] = { type: 'var' }
+      o.extraState.params.push({ name: p.name, id: p.name })
+    }
+
+    if (n.body && n.body.body.length > 0) { o.inputs.STACK = { block: convert(n.body, { ...ctx, nospace: true })[0] } }
+
+    return o
   }
 
   static ConvertIdentifier (n, ctx) {
-    if (n.name in ctx.scope) {
+    if (n.name in ctx.scope && ctx.scope[n.name].type === 'var') {
       return {
         type: 'variables_get',
         fields: { VAR: { id: n.name } }
@@ -373,6 +516,8 @@ function convert (node, ctx) {
     for (const n of node) {
       if (n.leadingComments) {
         for (const c of n.leadingComments) {
+          if (/[Δ∆]/.test(c.value)) continue
+          c.handled = true
           result.push({
             type: 'comment',
             fields: {
@@ -400,16 +545,19 @@ function convert (node, ctx) {
     }
     return b
   } catch (e) {
-    if (ctx.context === 'value') throw e;
+    console.error('EN', ctx.context, node, e)
+    let code
+
+    if (node && node.range) code = ctx.code.substr(node.range[0], node.range[1] - node.range[0])
+    else if (node) code = ctx.code.substr(node.start, node.end - node.start)
+
     return {
-      type: 'raw_code',
+      type: ctx.context === 'value' ? 'raw_code_value' : 'raw_code',
       fields: {
-        CODE: ctx.code.substr(node.start, node.end - node.start) || '<CoDe>'
+        CODE: code || '<CoDe>'
       }
     }
   }
-
-
 }
 
 function findAllBlocks (thing) {
@@ -449,13 +597,21 @@ function nextify (arr, ctx) {
     if (!result) {
       result = [e]
       target = e
-    } else if (target.end === e.start - 1 || ctx.nospace) {
+    } else if (target.type === 'procedures_defnoreturn' || e.type === 'procedures_defnoreturn') {
+      result.push(e)
+      target = e
+    } else if (target.end === e.start - 1) {
       target.next = { block: e }
       target = e
     } else {
-      console.log('BREAK', e.loc, target.loc)
-      result.push(e)
-      target = e
+      if (ctx.nospace) {
+        target.next = { block: { type: 'newline', next: { block: e } } }
+        target = e
+      } else {
+        console.log('BREAK', e.loc, target.loc)
+        result.push(e)
+        target = e
+      }
     }
   }
   return result
@@ -473,21 +629,32 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
     console.log('Consiter', block, 'z', zeblock)
     workspace.clear()
     const defn = {
-      type: block.type,
-      fields: block.fields
+      type: block.type
     }
     defn.setupInfo = zeblock.setupInfo || 'NO SETUP INFO'
     if (zeblock.setupInfo) {
       if (zeblock.setupInfo.args0) {
         defn.inputs = {}
+        defn.output = zeblock.setupInfo.output === null
 
         for (const entry of zeblock.setupInfo.args0) {
           console.log(entry)
-          defn.inputs[entry.name] = {
-            block: {
-              type: 'text',
-              fields: {
-                TEXT: '$ARGUMENT$' + entry.name
+          if (entry.check === 'Number') {
+            defn.inputs[entry.name] = {
+              block: {
+                type: 'math_number',
+                fields: {
+                  NUM: 0
+                }
+              }
+            }
+          } else {
+            defn.inputs[entry.name] = {
+              block: {
+                type: 'text',
+                fields: {
+                  TEXT: '$ARGUMENT$' + entry.name
+                }
               }
             }
           }
@@ -510,24 +677,51 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
   return { RobIsAwesome: true, plan }
 }
 
-function codeToBlocks ({ code, codeLanguage, toolbox, blocklyState, debugDiv, debugBlocklyWorkspace, prepData }) {
-  console.log('codeToBlocks', arguments[0])
-
-  console.log('PLAN', prepData)
+function codeToBlocks ({ code, codeLanguage, prepData }) {
   let ast
   try {
     switch (codeLanguage) {
       case 'javascript':
       {
+        // Add special arrow block to point out blocks ending with empty lines, indicating code should go there
+        code = code.replace(/\n( {4,})\n([ ]*\})/gm, (_, s, s2) => `${s}\n__arrow__()${s2}`)
+
+        // Add special arrow block to point out code insertion points after comments (only after intro comment section end)
+        // TODO: add special characters to the right kinds of comments so that we only apply this to those
+        let pastIntroComments = false
+        let previousLineWasBlank = false
+        const codeLines = code.split('\n')
+        let i
+        for (i = 0; i < codeLines.length && !pastIntroComments; ++i) {
+          const line = codeLines[i]
+          const lineIsBlank = !line.trim()[0]
+          const lineHasCode = !lineIsBlank && line.trim()[0] !== '/'
+          if (lineHasCode || previousLineWasBlank) {
+            pastIntroComments = true
+          }
+          previousLineWasBlank = lineIsBlank
+        }
+        if (pastIntroComments) {
+          const introCode = codeLines.slice(0, i).join('\n')
+          const mainCode = codeLines.slice(i).join('\n')
+          console.log('zzzzz', { introCode, mainCode, replaced: mainCode.replace(/\n( {4,})\n([ ]*\})/gm, (_, s, s2) => `${s}\n__arrow__()${s2}`) })
+          code = introCode + '\n' + mainCode.replace(/^([ \t]*)\/\/(.+)\n[ \t]*\n/gm, (_, s, c) => `${_.trimEnd()}\n${s}__arrow__()\n`)
+        }
+
         const { parse } = esper.plugins.babylon.babylon
-        ast = parse(code, { errorRecovery: true })
+        ast = parse(code + '\n__donothing__()', { errorRecovery: true })
         break
       }
       case 'python':
       {
-        //const { parse } = esper.plugins['lang-python'].skulpty
+        // TODO: add arrow/insertion point handling for Python
+
+        // const { parse } = esper.plugins['lang-python'].skulpty
         const { parse } = require('skulpty')
-        ast = parse(code, { errorRecovery: true, naive: true })
+        code = code.replace(/^(\s*)#(.*)$/gm, (_, s, c) => `${s}__comment__(${JSON.stringify(c)})`)
+
+        ast = parse(code, { errorRecovery: true, naive: true, locations: true, startend: true })
+        // console.log("PGC", ast, require("@babel/generator").default(ast).code)
         ast = { type: 'File', program: ast }
         console.log('OYY', ast)
         break
@@ -539,6 +733,7 @@ function codeToBlocks ({ code, codeLanguage, toolbox, blocklyState, debugDiv, de
   const ctx = {
     plan: prepData.plan,
     scope: {},
+    context: 'statement',
     code
   }
   const out = {
@@ -546,9 +741,8 @@ function codeToBlocks ({ code, codeLanguage, toolbox, blocklyState, debugDiv, de
     variables: []
   }
   for (const v in ctx.scope) {
-    out.variables.push({ name: v, id: v })
+    if (ctx.scope[v].type === 'var') out.variables.push({ name: v, id: v })
   }
-  $(debugDiv).text('OK')
   console.log('OUT', out)
   return out
 }

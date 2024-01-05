@@ -498,7 +498,7 @@ module.exports = class SpellView extends CocoView
     if e.type is Blockly.Events.FINISHED_LOADING
       @awaitingBlocklySerialization = false
 
-    if e.type in [Blockly.Events.CHANGE, Blockly.Events.CREATE, Blockly.Events.DELETE, Blockly.Events.BLOCK_CHANGE, Blockly.Events.BLOCK_CREATE, Blockly.Events.BLOCK_DELETE, Blockly.Events.BLOCK_DRAG, Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE, Blockly.Events.BLOCK_MOVE, Blockly.Events.VAR_CREATE, Blockly.Events.VAR_DELETE, Blockly.Events.VAR_RENAME]
+    if e.type in blocklyUtils.blocklyMutationEvents
       @blocklyToAce()
 
   blocklyToAce: ->

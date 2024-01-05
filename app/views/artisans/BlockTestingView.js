@@ -2,6 +2,7 @@ let BlockTestingView
 require('app/styles/artisans/block-testing-view.sass')
 const RootView = require('views/core/RootView')
 const template = require('templates/artisans/block-testing-view')
+const testTemplate = require('templates/artisans/block-testing-test')
 const loadAetherLanguage = require('lib/loadAetherLanguage')
 const blocklyUtils = require('core/blocklyUtils')
 const Blockly = require('blockly')
@@ -10,12 +11,18 @@ const aceLib = require('lib/aceContainer')
 const aceUtils = require('core/aceUtils')
 const storage = require('core/storage')
 const utils = require('core/utils')
+const Campaigns = require('collections/Campaigns')
+const Level = require('models/Level')
 
 const testCases = []
+let levelTestsAdded = false
 let propertyEntryGroups
 let prepData = null
 
-const PERSIST_BLOCK_STATE = false
+/*
+- Sidebar display of tests
+- Fix my monkey patch of continuous toolbox to refresh debounced, not never (or new functions don't show up)
+*/
 
 module.exports = (BlockTestingView = (function () {
   BlockTestingView = class BlockTestingView extends RootView {
@@ -31,6 +38,88 @@ module.exports = (BlockTestingView = (function () {
       blocklyUtils.initializeBlocklyTooltips()
       this.focusTest = utils.getQueryVariable('test')
       this.focusLanguage = utils.getQueryVariable('codeLanguage')
+      this.focusCampaign = utils.getQueryVariable('campaign')
+      this.testSkip = parseInt(utils.getQueryVariable('skip', 0), 10)
+      this.testLimit = parseInt(utils.getQueryVariable('limit', 100))
+      this.blocklyWorkspaces = []
+
+      if (!levelTestsAdded && (!this.focusTest || !(/^Level - /.test(this.focusTest)))) {
+        this.campaigns = storage.load('blockly-test-campaigns')
+        if (this.campaigns) {
+          this.onLoaded()
+        } else {
+          this.campaignsCollection = new Campaigns()
+          this.supermodel.trackRequest(this.campaignsCollection.fetch({ data: { project: 'slug,type,levels' } }))
+          this.campaignsCollection.comparator = m => [
+            'intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6',
+            'dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano',
+            'campaign-game-dev-1', 'game-dev-1', 'campaign-game-dev-2', 'game-dev-2', 'campaign-game-dev-3', 'game-dev-3',
+            'hoc-2018', 'game-dev-hoc', 'game-dev-hoc-2', 'ai-league-hoc'].indexOf(m.get('slug'))
+        }
+      } else {
+        this.onLoaded()
+      }
+    }
+
+    onLoaded () {
+      super.onLoaded()
+      if (this.campaignsCollection) {
+        this.campaigns = this.campaignsCollection.models.map(m => m.attributes)
+        storage.load('blockly-test-campaigns', this.campaigns, 24 * 60)
+      }
+
+      const levelSlugsSet = new Set()
+      this.levelSlugs = []
+      this.levels = []
+      this.levelsToLoadRemaining = 0
+      for (const campaign of this.campaigns || []) {
+        if (levelTestsAdded) { break }
+        if (['auditions', 'picoctf', 'web-dev-1', 'web-dev-2', 'js-primer', 'js-primer-playtest', 'web-dev-1', 'web-dev-2', 'campaign-web-dev-1', 'campaign-web-dev-2'].includes(campaign.slug)) { continue }
+        if (this.focusCampaign && campaign.slug !== this.focusCampaign) { continue }
+        for (const levelInfo of _.values(campaign.levels)) {
+          const levelSlug = levelInfo.slug
+          if (levelSlugsSet.has(levelSlug)) { continue }
+          levelSlugsSet.add(levelSlug)
+          this.levelSlugs.push(levelSlug)
+          let level = storage.load(`blockly-test-level_${levelSlug}`)
+          if (!level) {
+            console.log(`Initial load to localStorage of level ${levelSlug}`)
+            level = new Level({ _id: levelSlug })
+            level.project = ['slug', 'thangs']
+            ++this.levelsToLoadRemaining
+            this.levels.push(level)
+            this.listenToOnce(this.supermodel.loadModel(level).model, 'sync', this.onLevelLoaded)
+          } else {
+            this.levels.push(level)
+          }
+        }
+      }
+      if (this.levelsToLoadRemaining === 0) {
+        this.onAllLevelsLoaded()
+      }
+    }
+
+    levelToCode (level) {
+      const result = {
+        slug: level.get('slug'),
+        sampleCode: level.getSampleCode(),
+        solutionCodes: level.getSolutions()
+      }
+      return result
+    }
+
+    onLevelLoaded (level) {
+      const result = this.levelToCode(level)
+      storage.save(`blockly-test-level_${level.get('slug')}`, result)
+      const idx = this.levels.indexOf(level)
+      this.levels[idx] = result
+      if (!--this.levelsToLoadRemaining) {
+        this.onAllLevelsLoaded()
+      }
+    }
+
+    onAllLevelsLoaded () {
+      this.addLevelTestCases()
       // Ensure Esper is fully loaded, including babylon (used in Python)
       loadAetherLanguage('python').then((aetherLang) => {
         loadAetherLanguage('javascript').then((aetherLang) => {
@@ -39,21 +128,50 @@ module.exports = (BlockTestingView = (function () {
       })
     }
 
+    addLevelTestCases () {
+      if (levelTestsAdded) { return }
+      for (const level of this.levels) {
+        // if (this.focusTest && this.focusTest.indexOf(`Level ${level.slug} - `) === -1) { continue }
+        for (const codeLanguage of ['python', 'javascript']) {
+          const sampleCode = level.sampleCode[codeLanguage]
+          if (sampleCode?.trim() && !/Should fill in some default source/.test(sampleCode)) {
+            testCases.push({ name: `Level ${level.slug} - ${codeLanguage} - Starter`, codeLanguage, code: sampleCode })
+          }
+          const solutionCodeLanguageIndex = 0
+          for (const solutionCode of level.solutionCodes) {
+            if (solutionCode.codeLanguage !== codeLanguage) { continue }
+            if (!solutionCode.source?.trim()) { continue }
+            testCases.push({ name: `Level ${level.slug} - ${codeLanguage} - Solution ${++solutionCodeLanguageIndex}`, codeLanguage, code: solutionCode.source })
+          }
+        }
+      }
+      levelTestsAdded = true
+    }
+
     addTestCases () {
       this.render()
-      for (let i = 0; i < testCases.length; ++i) {
+      const testCasesContainer = this.$el.find('#test-cases-container')
+      for (let i = this.testSkip; i < testCases.length && (this.focusTest || (i - this.testSkip < this.testLimit)); ++i) {
         const testCase = testCases[i]
-        const testContainer = $(this.$el.find('.test-case')[i])
-        if (this.focusTest && this.focusTest !== testCase.name) {
-          testContainer.hide()
-          continue
+        if (this.focusTest) {
+          if (this.focusTest === testCase.name) {
+            testCase.focused = true
+          } else {
+            continue
+          }
         }
         if (this.focusLanguage && this.focusLanguage !== testCase.codeLanguage) {
-          testContainer.hide()
           continue
         }
+
+        const testCaseHtml = testTemplate({ testCaseIndex: i, testCase })
+        let testContainer = $(testCaseHtml)
+        testContainer.appendTo(testCasesContainer)
+        testContainer = testCasesContainer.find('.test-case:last-child')
+        testCase.code = testCase.code.trim()
+        testCase.key = `${testCase.name}_${testCase.codeLanguage}_${hashString(testCase.code)}`
         const { inputAce, outputAce } = this.addAce({ testCase, testContainer })
-        this.addBlockly({ testCase, testContainer, inputAce, outputAce })
+        _.defer(() => this.addBlockly({ testCase, testContainer, inputAce, outputAce }))
       }
     }
 
@@ -64,7 +182,7 @@ module.exports = (BlockTestingView = (function () {
         const ace = aceLib.edit(testContainer.find(`.ace-${key}`)[0])
         this.configureAce(ace, testCase.codeLanguage)
         if (key === 'input') {
-          ace.setValue(testCase.code.trim())
+          ace.setValue(testCase.code)
           ace.clearSelection()
         } else {
           ace.setReadOnly(true)
@@ -76,29 +194,81 @@ module.exports = (BlockTestingView = (function () {
 
     addBlockly ({ testCase, testContainer, inputAce, outputAce }) {
       // Initialize Blockly
-      const toolbox = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: testCase.codeLanguage })
-      // codeToBlocks prepareBlockIntelligence function needs the JavaScript version of the toolbox
-      const toolboxJS = testCase.codeLanguage === 'javascript' ? toolbox : blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: 'javascript' })
-      const blocklyDiv = testContainer.find('.blockly-container')[0]
-      const blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox })
-      const blocklyWorkspace = Blockly.inject(blocklyDiv, blocklyOptions)
-      const lastBlocklyState = PERSIST_BLOCK_STATE ? storage.load(`lastBlocklyState_${testCase.name}`) : null
-      if (lastBlocklyState) {
-        blocklyUtils.loadBlocklyState(lastBlocklyState, blocklyWorkspace)
+      const testBlockly = { loaded: false, loading: false, div: testContainer.find('.blockly-container')[0] }
+      testBlockly.load = () => {
+        const toolbox = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: testCase.codeLanguage })
+        const blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox })
+        testBlockly.workspace = Blockly.inject(testBlockly.div, blocklyOptions)
+        this.blocklyWorkspaces.push(testBlockly.workspace)
+        testBlockly.loading = true
+        testBlockly.workspace.addChangeListener((event) => {
+          if (event.type === Blockly.Events.FINISHED_LOADING) {
+            testBlockly.loading = false
+            testBlockly.loaded = true
+          } else if (testBlockly.loading) {
+            return
+          } else if (!blocklyUtils.blocklyMutationEvents.includes(event.type)) {
+            return
+          }
+          // Blockly -> output ace
+          // TODO: make sure it's the kind of change we want to do, we don't fire multiple changes for same source?
+          const { blocklyState, blocklySource } = blocklyUtils.getBlocklySource(testBlockly.workspace, testCase.codeLanguage)
+          console.log('New blockly state for', testCase.name, 'is', blocklyState)
+          outputAce.setValue(blocklySource)
+          outputAce.clearSelection()
+          const inputSource = inputAce.getValue()
+          if (inputSource === testCase.code) {
+            let status = 'success'
+            let reason = 'matched'
+            const normalizeCode = (s) => {
+              return s
+                .replace(/"/g, '\'') // Treat single and double quotes the same
+                .replace(/\\'/g, '\'') // Ignore escapes of single quotes, from above step
+                .replace(/^(let|const) /gm, 'var ') // Treat var, let, and const the same
+                .replace(/(\n *\n *)(\n *)+/g, '$1') // Ignore more than 2 newlines in a row
+                .replace(/!==/g, '!=') // Ignore !== vs. !=
+                .replace(/===/g, '==') // Ignore !== vs. !=
+                .replace(/ +(\/\/|#|--) .*?[Δ∆].*$/gm, '') // Ignore in-line comments with deltas
+                .replace(/;\n/g, '\n') // Ignore trailing semicolons
+                .replace(/;\n +(\/\/|#|--).*?$/gm, '\n') // Ignore trailing semicolons before comments
+                .replace(/;$/g, '') // Ignore trailing semicolons at end of program
+                .replace(/(while|if|for|function) \(/g, '$1\(') // Ignore space between keyword and opening parenthesis
+                .replace(/( *(\/\/|#|--).*?) +$/gm, '$1') // Ignore trailing spaces after code comments
+                .trim()
+            }
+            // console.log('--------------------\n', normalizeCode(blocklySource), '\n================\n', normalizeCode(testCase.code), '\n++++++++++++++++++++++++')
+            if (normalizeCode(blocklySource) !== normalizeCode(testCase.code)) {
+              status = 'failure'
+              reason = 'code-mismatch'
+            } else if (blocklyUtils.blocklyStateIncludesBlockType(blocklyState, 'raw_code') || blocklyUtils.blocklyStateIncludesBlockType(blocklyState, 'raw_code_value')) {
+              status = 'failure'
+              reason = 'raw-code'
+            }
+            const result = { state: blocklyState, inputState: testCase.inputBlocklyState, outputCode: blocklySource, status, reason }
+            storage.save(`blockly-test-from-code_${testCase.key}_${hashString(testCase.code)}`, result)
+            testCase.status = status
+            testCase.reason = reason
+            testContainer.addClass(testCase.status)
+            testContainer.find('.test-status').text(`${testCase.status} - ${testCase.reason}`) // TODO: dedupe
+          }
+        })
       }
-      const { blocklyState, blocklySource } = blocklyUtils.getBlocklySource(blocklyWorkspace, testCase.codeLanguage)
-      console.log('Initialized Blockly for test case', testCase.name, '\nBlockly toolbox:', toolbox, '\nBlockly options:', blocklyOptions, '\nBlockly workspace:', blocklyWorkspace, '\Blockly state', blocklyState)
 
-      const debugBlocklyDiv = testContainer.find('.blockly-container-debug')[0]
-      const debugBlocklyWorkspace = Blockly.inject(debugBlocklyDiv, blocklyOptions)
-      const debugDiv = testContainer.find('.debug-scratchpad')[0]
       const errorDiv = testContainer.find('.error-scratchpad')[0]
 
-      // If this is the first time, get some prep data for initial codeToBlocks setup and debugging
+      // If this is the first time, get some prep data for initial codeToBlocks setup.
       let prepDataError
       if (!prepData) {
+        // debugBlocklyWorkspace is currently needed so we can go from block JSON -> block -> block output code using workspaceToCode
+        // TODO: try to just do valueToCode or something so we don't even need a workspace
+        // codeToBlocks prepareBlockIntelligence function needs the JavaScript version of the toolbox
+        const toolboxJS = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: 'javascript' })
+        const debugBlocklyDiv = testContainer.find('.blockly-container-debug')[0]
+        const debugBlocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: toolboxJS })
+        const debugBlocklyWorkspace = Blockly.inject(debugBlocklyDiv, debugBlocklyOptions)
+        this.blocklyWorkspaces.push(debugBlocklyWorkspace)
         try {
-          prepData = prepareBlockIntelligence({ toolbox: toolboxJS, blocklyState, workspace: debugBlocklyWorkspace })
+          prepData = prepareBlockIntelligence({ toolbox: toolboxJS, workspace: debugBlocklyWorkspace })
         } catch (err) {
           console.error(err)
           prepData = {}
@@ -107,31 +277,46 @@ module.exports = (BlockTestingView = (function () {
         }
       }
 
-      // Hook up input ace -> Blockly change listener
       const onAceChange = () => {
-        const newBlocklyState = this.runCodeToBlocks({ testCase, code: inputAce.getValue(), codeLanguage: testCase.codeLanguage, toolbox, blocklyState, debugDiv, errorDiv, debugBlocklyWorkspace, prepData, prepDataError })
-        if (newBlocklyState) {
-          blocklyUtils.loadBlocklyState(newBlocklyState, blocklyWorkspace)
+        const code = inputAce.getValue()
+        const newBlocklyState = this.runCodeToBlocks({ testCase, code, codeLanguage: testCase.codeLanguage, errorDiv, prepData, prepDataError })
+        if (!newBlocklyState) { return }
+        const cachedBlocklyTest = storage.load(`blockly-test-from-code_${testCase.key}_${hashString(code)}`)
+        if (!testBlockly.loaded &&
+            !testCase.focused &&
+            cachedBlocklyTest?.state &&
+            (blocklyUtils.isEqualBlocklyState(newBlocklyState, cachedBlocklyTest?.state) ||
+             blocklyUtils.isEqualBlocklyState(newBlocklyState, cachedBlocklyTest?.inputState))) {
+          console.log('Skipping Blockly instantiation for cached Blockly test', testCase.name, 'with status', cachedBlocklyTest.status, 'and reason', cachedBlocklyTest.reason)
+          testCase.status = cachedBlocklyTest.status
+          testCase.reason = cachedBlocklyTest.reason
+          if (cachedBlocklyTest.outputCode) {
+            testCase.outputCode = cachedBlocklyTest.outputCode
+            outputAce.setValue(cachedBlocklyTest.outputCode)
+            outputAce.clearSelection()
+          }
+          return
+        } else {
+          console.log('Must instantiate Blockly', testCase.name, 'with new state', newBlocklyState, 'because cached is', cachedBlocklyTest?.state, cachedBlocklyTest?.inputState, 'and loaded is', testBlockly.loaded, 'and focused is', testCase.focused)
         }
+        if (!testBlockly.loaded) {
+          testBlockly.load()
+        }
+        // Input ace -> Blockly
+        testCase.inputBlocklyState = newBlocklyState
+        blocklyUtils.loadBlocklyState(newBlocklyState, testBlockly.workspace)
       }
       inputAce.getSession().getDocument().on('change', onAceChange)
       onAceChange()
-
-      // Hook up Blockly -> output ace change listener
-      blocklyWorkspace.addChangeListener((event) => {
-        const { blocklyState, blocklySource } = blocklyUtils.getBlocklySource(blocklyWorkspace, testCase.codeLanguage)
-        if (PERSIST_BLOCK_STATE) {
-          storage.save(`lastBlocklyState_${testCase.name}`, blocklyState)
-        }
-        console.log('New blockly state for', testCase.name, 'is', blocklyState)
-        outputAce.setValue(blocklySource)
-        outputAce.clearSelection()
-      })
+      if (testCase.status) {
+        testContainer.addClass(testCase.status)
+        testContainer.find('.test-status').text(`${testCase.status} - ${testCase.reason}`)
+      }
     }
 
-    runCodeToBlocks ({ testCase, code, codeLanguage, toolbox, blocklyState, debugDiv, errorDiv, debugBlocklyWorkspace, prepData, prepDataError }) {
+    runCodeToBlocks ({ testCase, code, codeLanguage, errorDiv, prepData, prepDataError }) {
       try {
-        const newBlocklyState = codeToBlocks({ code, codeLanguage, toolbox, blocklyState, debugDiv, debugBlocklyWorkspace, prepData })
+        const newBlocklyState = codeToBlocks({ code, codeLanguage, prepData })
         if (!prepDataError) {
           $(errorDiv).text('').addClass('hide')
         }
@@ -168,6 +353,13 @@ module.exports = (BlockTestingView = (function () {
       ace.setAnimatedScroll(true)
       ace.setShowFoldWidgets(false)
       ace.$blockScrolling = Infinity
+    }
+
+    destroy () {
+      for (const blocklyWorkspace of this.blocklyWorkspaces) {
+        blocklyWorkspace.dispose()
+      }
+      return super.destroy()
     }
   }
 
@@ -284,7 +476,6 @@ testCases.push({
   codeLanguage: 'javascript'
 })
 
-
 testCases.push({
   name: 'Break/continue',
   code: `
@@ -307,6 +498,56 @@ while (hero.health !== 'potato') {
 }
 `,
   codeLanguage: 'javascript'
+})
+
+testCases.push({
+  name: 'If/else',
+  code: `
+if (hero.health < 25) {
+    hero.say("I'm dying!")
+} else {
+    hero.say("I'm fine!")
+}
+`,
+  codeLanguage: 'javascript'
+})
+
+testCases.push({
+  name: 'If/else if/else',
+  code: `
+if (hero.health < 25) {
+    hero.say("I'm dying!")
+} else if (hero.health < 50) {
+    hero.say("I'm hurt!")
+} else {
+    hero.say("I'm fine!")
+}
+`,
+  codeLanguage: 'javascript'
+})
+
+testCases.push({
+  name: 'Python if/else',
+  code: `
+if hero.health < 25:
+    hero.say("I'm dying!")
+else:
+    hero.say("I'm fine!")
+`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python if/elif/else',
+  code: `
+if hero.health < 25:
+    hero.say("I'm dying!")
+elif hero.health < 50:
+    hero.say("I'm hurt!")
+else:
+    hero.say("I'm fine!")
+`,
+  codeLanguage: 'python'
 })
 
 testCases.push({
@@ -363,7 +604,7 @@ testCases.push({
   name: 'Arrays - Push',
   code: `
 const list = ['a', 'b']
-list.push(c)
+list.push('c')
 `,
   codeLanguage: 'javascript'
 })
@@ -469,6 +710,19 @@ hero.attack("Brak")
 hero.moveRight()
 hero.attack("Treg")
 hero.attack("Treg")`,
+  codeLanguage: 'python'
+})
+
+testCases.push({
+  name: 'Python, nested comments',
+  code: `
+# I'm on top of the world!
+while True:
+    # I must go deeper.
+
+    while True:
+        # I drink your milkshake.
+  `,
   codeLanguage: 'python'
 })
 
@@ -607,7 +861,7 @@ testCases.push({
   name: 'Python, Arrays - Push',
   code: `
 list = ['a', 'b']
-list.append(c)
+list.append('c')
 `,
   codeLanguage: 'python'
 })
@@ -687,6 +941,35 @@ hero.attack(x)
   codeLanguage: 'javascript'
 })
 
+testCases.push({
+  name: 'While loop with comment',
+  code: `
+while (true) {
+    // Add some code to do ANYTHING
+    ` + `
+}
+`,
+  codeLanguage: 'javascript'
+})
+
+testCases.push({
+  name: 'Intro comment section entry points',
+  code: `
+// This has some comments at the top
+// Those comments should not produce an entry point
+
+var foo = "bar"
+// Now, young Jedi, use the Code Here
+
+
+while (true) {
+    // Add some code to do ANYTHING
+    ` + `
+}
+`,
+  codeLanguage: 'javascript'
+})
+
 propertyEntryGroups = {
   Deflector: {
     props: [
@@ -696,7 +979,7 @@ propertyEntryGroups = {
   },
   'Sword of the Temple Guard': {
     props: [
-      { args: [{ default: '', type: 'object', name: 'target' }], type: 'function', name: 'attack', owner: 'this', ownerName: 'hero' },
+      { returns: { type: 'number' }, args: [{ default: '', type: 'object', name: 'target' }], type: 'function', name: 'attack', owner: 'this', ownerName: 'hero' },
       { type: 'number', name: 'attackDamage', owner: 'this', ownerName: 'hero' },
       { type: 'function', name: 'powerUp', owner: 'this', ownerName: 'hero' }]
   },
@@ -714,14 +997,14 @@ propertyEntryGroups = {
         owner: 'this',
         ownerName: 'hero'
       },
-      { name: 'findEnemies', type: 'function', owner: 'this', ownerName: 'hero' },
-      { name: 'findFriends', type: 'function', owner: 'this', ownerName: 'hero' },
-      { name: 'findItems', type: 'function', owner: 'this', ownerName: 'hero' },
-      { name: 'findNearest', type: 'function', args: [{ name: 'units', type: 'array' }], owner: 'this', ownerName: 'hero' },
-      { name: 'findNearestEnemy', type: 'function', owner: 'this', ownerName: 'hero' },
-      { name: 'findNearestItem', type: 'function', owner: 'this', ownerName: 'hero' },
-      { name: 'findEnemyMissiles', type: 'function', owner: 'this', ownerName: 'hero' },
-      { name: 'findFriendlyMissiles', type: 'function', owner: 'this', ownerName: 'hero' },
+      { returns: { type: 'array' }, name: 'findEnemies', type: 'function', owner: 'this', ownerName: 'hero' },
+      { returns: { type: 'array' }, name: 'findFriends', type: 'function', owner: 'this', ownerName: 'hero' },
+      { returns: { type: 'array' }, name: 'findItems', type: 'function', owner: 'this', ownerName: 'hero' },
+      { returns: { type: 'object' }, name: 'findNearest', type: 'function', args: [{ name: 'units', type: 'array' }], owner: 'this', ownerName: 'hero' },
+      { returns: { type: 'object' }, name: 'findNearestEnemy', type: 'function', owner: 'this', ownerName: 'hero' },
+      { returns: { type: 'object' }, name: 'findNearestItem', type: 'function', owner: 'this', ownerName: 'hero' },
+      { returns: { type: 'array' }, name: 'findEnemyMissiles', type: 'function', owner: 'this', ownerName: 'hero' },
+      { returns: { type: 'array' }, name: 'findFriendlyMissiles', type: 'function', owner: 'this', ownerName: 'hero' },
       { returns: { type: 'array' }, type: 'function', name: 'findHazards', owner: 'this', ownerName: 'hero' },
       {
         name: 'isPathClear',
@@ -749,6 +1032,7 @@ propertyEntryGroups = {
   "Emperor's Gloves": {
     props: [
       {
+        returns: { type: 'boolean' },
         args: [
           { type: 'string', name: 'spell' },
           { type: 'object', name: 'target' }
@@ -798,7 +1082,8 @@ propertyEntryGroups = {
       { type: 'function', name: 'moveDown', args: [{ name: 'steps', type: 'number', default: 1 }], owner: 'this', ownerName: 'hero' },
       { type: 'function', name: 'moveLeft', args: [{ name: 'steps', type: 'number', default: 1 }], owner: 'this', ownerName: 'hero' },
       { type: 'function', name: 'moveRight', args: [{ name: 'steps', type: 'number', default: 1 }], owner: 'this', ownerName: 'hero' },
-      { type: 'function', name: 'moveUp', args: [{ name: 'steps', type: 'number', default: 1 }], owner: 'this', ownerName: 'hero' }]
+      { type: 'function', name: 'moveUp', args: [{ name: 'steps', type: 'number', default: 1 }], owner: 'this', ownerName: 'hero' },
+      { type: 'function', name: 'moveTo', args: [{ name: 'point', type: 'number', default: 1 }], owner: 'this', ownerName: 'hero' }]
   },
   'Ring of Earth': {
     props: [
@@ -822,11 +1107,11 @@ propertyEntryGroups = {
       { name: 'commandableMethods', type: 'array', owner: 'this', ownerName: 'hero' },
       { name: 'commandableTypes', type: 'array', owner: 'this', ownerName: 'hero' },
       { args: [{ default: '', type: 'string', name: 'buildType' }], returns: { type: 'number' }, type: 'function', name: 'costOf', owner: 'this', ownerName: 'hero' },
-      { owner: 'this', args: [{ default: '', type: 'string', name: 'summonType' }], type: 'function', name: 'summon', ownerName: 'hero' }]
+      { returns: { type: 'object' }, owner: 'this', args: [{ default: '', type: 'string', name: 'summonType' }], type: 'function', name: 'summon', ownerName: 'hero' }]
   },
   "Master's Flags": {
     props: [
-      { name: 'addFlag', type: 'function', owner: 'this', ownerName: 'hero' },
+      { returns: { type: 'object' }, name: 'addFlag', type: 'function', owner: 'this', ownerName: 'hero' },
       { args: [{ type: 'string', name: 'color' }], returns: { type: 'object' }, type: 'function', name: 'findFlag', owner: 'this', ownerName: 'hero' },
       { returns: { type: 'array' }, type: 'function', name: 'findFlags', owner: 'this', ownerName: 'hero' },
       { args: [{ type: 'flag', name: 'flag' }], type: 'function', name: 'pickUpFlag', owner: 'this', ownerName: 'hero' },
@@ -876,4 +1161,9 @@ propertyEntryGroups = {
       { owner: 'snippets', type: 'snippet', name: 'while-loop' },
       { owner: 'snippets', type: 'snippet', name: 'while-true loop' }]
   }
+}
+
+function hashString (str) {
+  // djb2 algorithm; hash * 33 + c
+  return Array.from(str).reduce((hash, char) => ((hash << 5) + hash) + char.charCodeAt(0), 5381)
 }

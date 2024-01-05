@@ -37,6 +37,37 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     userBlockCategories.push({ kind: 'category', name: owner, colour: '190', contents: userBlocks })
   }
 
+  const newlineBlock = {
+    type: 'newline',
+    message0: '(newline)',
+    args0: [],
+    previousStatement: null,
+    nextStatement: null,
+    colour: 180,
+    tooltip: 'Newline'
+  }
+  Blockly.Blocks.newline = { init () { return this.jsonInit(newlineBlock) } }
+  generator.forBlock.newline = function (block) {
+    return `\n`
+  }
+
+  // TODO: Make this yellow, custom rendering, more obvious entry point, like yellow arrows
+  const entryPointBlock = {
+    type: 'entry_point',
+    message0: 'Code\nHere%1',
+    args0: [{ type: 'input_statement', name: 'ENTRY_POINT' }],
+    previousStatement: null,
+    nextStatement: null,
+    colour: 270,
+    tooltip: 'Code Here'
+  }
+  Blockly.Blocks.entry_point = { init () { return this.jsonInit(entryPointBlock) } }
+  generator.forBlock.entry_point = function (block) {
+    let text = (generator.statementToCode(block, 'ENTRY_POINT') || '') + '\n'
+    text = text.trim().split('\n').map((line) => `${line.replace(/^ {4}/g, '')}`).join('\n') + '☃\n' // Add unicode snowman to avoid trimming
+    return text
+  }
+
   const commentBlock = {
     type: 'comment',
     message0: '%1',
@@ -47,7 +78,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     tooltip: 'Comment'
   }
   Blockly.Blocks.comment = { init () { return this.jsonInit(commentBlock) } }
-  generator.comment = function (block) {
+  generator.forBlock.comment = function (block) {
     const text = block.getFieldValue('COMMENT')
     return `${commentStart} ${text}\n`
   }
@@ -63,7 +94,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     tooltip: 'Commented-out code will have no effect'
   }
   Blockly.Blocks.code_comment = { init () { return this.jsonInit(codeCommentBlock) } }
-  generator.code_comment = function (block) {
+  generator.forBlock.code_comment = function (block) {
     const text = generator.statementToCode(block, 'CODE_COMMENT')
     if (!text) { return '' }
     return text.trim().split('\n').map((line) => `${commentStart}${line.replace(/^ {4}/g, '')}`).join('\n') + '\n'
@@ -103,9 +134,9 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     // colour: 180,
   }
   Blockly.Blocks.math_or_string_arithmetic = { init () { return this.jsonInit(mathOrStringArithmeticBlock) } }
-  generator.math_or_string_arithmetic = function (block) {
+  generator.forBlock.math_or_string_arithmetic = function (block) {
     // Basic arithmetic operators, and power.
-    const OPERATORS= {
+    const OPERATORS = {
       'ADD': [' + ', 6.2],
       'MINUS': [' - ', 6.1],
       'MULTIPLY': [' * ', 5.1],
@@ -121,13 +152,47 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     return [code, order]
   }
 
+  const untypedForEachBlock = {
+    type: 'controls_forEach', // Overwrite built-in block so that break/continue recognize it
+    message0: '%{BKY_CONTROLS_FOREACH_TITLE}',
+    args0: [
+      {
+        type: 'field_variable',
+        name: 'VAR',
+        variable: null,
+      },
+      {
+        type: 'input_value',
+        name: 'LIST',
+        // check: 'Array',
+      },
+    ],
+    message1: '%{BKY_CONTROLS_REPEAT_INPUT_DO} %1',
+    args1: [
+      {
+        type: 'input_statement',
+        name: 'DO',
+      },
+    ],
+    previousStatement: null,
+    nextStatement: null,
+    style: 'loop_blocks',
+    helpUrl: '%{BKY_CONTROLS_FOREACH_HELPURL}',
+    extensions: [
+      'contextMenu_newGetVariableBlock',
+      'controls_forEach_tooltip',
+    ],
+  }
+  // TODO: rewrite code gen so we can skip the "1" increment value if needed
+  Blockly.Blocks.controls_forEach = { init () { return this.jsonInit(untypedForEachBlock) } }
+
   const returnBlock = {
     type: 'procedures_return',
     message0: 'return %1',
     args0: [
       {
         type: 'input_value',
-        name: 'A',
+        name: 'VALUE',
         // check: 'Number',
       }
     ],
@@ -140,15 +205,16 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     // colour: 180,
   }
   Blockly.Blocks.procedures_return = { init () { return this.jsonInit(returnBlock) } }
-  generator.procedures_return = function (block) {
-    if (block.hasReturnValue_) {
-      const value = generator.valueToCode(block, 'VALUE', 99) || 'null'
-      return 'return ' + value + ';\n'
+  generator.forBlock.procedures_return = function (block) {
+    const returnValue = generator.valueToCode(block, 'VALUE', generator.ORDER_CONDITIONAL)
+    if (returnValue) {
+      return 'return ' + returnValue + ';\n'
     } else {
       return 'return;\n';
     }
   }
 
+  // Need a block to handle code that we couldn't properly convert to a block
   const rawCodeBlock = {
     type: 'raw_code',
     message0: '%1',
@@ -165,9 +231,86 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     colour: 1,
   }
   Blockly.Blocks.raw_code = { init () { return this.jsonInit(rawCodeBlock) } }
-  generator.raw_code = function (block) {
+  generator.forBlock.raw_code = function (block) {
     const value = (block.getFieldValue('CODE') || '') + '\n'
     return value
+  }
+
+  // Also need one that has output
+  const rawCodeValueBlock = {
+    type: 'raw_code_value',
+    message0: '%1',
+    args0: [
+      {
+        type: 'field_input',
+        name: 'CODE',
+        check: 'String',
+      }
+    ],
+    output: null,
+    // inputsInline: true,
+    colour: 1,
+  }
+  Blockly.Blocks.raw_code_value = { init () { return this.jsonInit(rawCodeValueBlock) } }
+  generator.forBlock.raw_code_value = function (block) {
+    const text = block.getFieldValue('CODE')
+    return [text, generator.ORDER_ATOMIC]
+  }
+
+  // Need a block to convert statements like `hero.summon('soldier')` when Blockly expects them to be expressions and use return values
+  const expressionStatementBlock = {
+    type: 'expression_statement',
+    message0: '%1',
+    args0: [
+      {
+        type: 'input_value',
+        name: 'EXPRESSION',
+      }
+    ],
+    previousStatement: null,
+    nextStatement: null,
+    inputsInline: true,
+    colour: 1,
+  }
+  Blockly.Blocks.expression_statement = { init () { return this.jsonInit(expressionStatementBlock) } }
+  generator.forBlock.expression_statement = function (block) {
+    const value = generator.valueToCode(block, 'EXPRESSION', generator.ORDER_CONDITIONAL) + '\n'
+    return value
+  }
+
+  // Need a block to handle `range(1, 10)` and `range(1, 100, 10)` kind of Python ranges
+  const rangeBlock = {
+    type: 'lists_range',
+    message0: 'range(%1, %2, %3)',
+    args0: [
+      {
+        type: 'input_value',
+        name: 'START',
+        check: 'Number',
+      },
+      {
+        type: 'input_value',
+        name: 'END',
+        check: 'Number',
+      },
+      {
+        type: 'input_value',
+        name: 'INCREMENT',
+        check: 'Number',
+      },
+    ],
+    inputsInline: true,
+    output: 'Array',
+    style: 'list_blocks',
+    // colour: 180,
+  }
+  Blockly.Blocks.lists_range = { init () { return this.jsonInit(rangeBlock) }, setupInfo: { args0: rangeBlock.args0 } }
+  generator.forBlock.lists_range = function (block) {
+    const start = generator.valueToCode(block, 'START', generator.ORDER_ATOMIC) || 0
+    const end = generator.valueToCode(block, 'END', generator.ORDER_ATOMIC) || 10
+    const increment = generator.valueToCode(block, 'INCREMENT', generator.ORDER_ATOMIC) || 1
+    const code = `range(${start}, ${end}, ${increment})`
+    return [code, generator.ORDER_ATOMIC]
   }
 
   const miscBlocks = [
@@ -180,7 +323,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       prop: {
         name: 'say',
         owner: 'this',
-        args: [{ name: 'what', type: 'string' }],
+        args: [{ name: 'what', /* type: string' */ }], // TODO: can we do String or Number? is it String or string?
         type: 'function'
       },
       include () {
@@ -210,7 +353,10 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         // { kind: 'block', type: 'math_arithmetic', include () { return propNames.has('else') } } // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'math_or_string_arithmetic', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'procedures_return', include () { return propNames.has('else') } }, // TODO: when to introduce? also move this to procedures
-        { kind: 'block', type: 'raw_code', include () { return false } } // TODO: move this
+        { kind: 'block', type: 'raw_code', include () { return false } }, // TODO: move this
+        { kind: 'block', type: 'raw_code_value', include () { return false } }, // TODO: move this
+        { kind: 'block', type: 'expression_statement', include () { return propNames.has('summon') } }, // TODO: move this
+        { kind: 'block', type: 'lists_range', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic? Also, move this. Also, make sure it's not available in JavaScript (but is available hidden, for prepareBlockIntelligence)
       ]
     },
     {
@@ -234,7 +380,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         // { kind: 'block', type: 'controls_whileUntil', include: -> propNames.has('while-loop') }  # Redundant, since while-true can just delete true
         { kind: 'block', type: 'controls_repeat_ext', include () { return propNames.has('for-loop') } },
         // { kind: 'block', type: 'controls_for', include: -> propNames.has('for-loop') }  # Too wide  # TODO: introduce this later than the simpler repeat_ext loop above? Or just use this one, but defaults start at 0 and increment by 1?
-        { kind: 'block', type: 'controls_forEach', include () { return propNames.has('for-in-loop') } },
+        // { kind: 'block', type: 'controls_forEach', include () { return propNames.has('for-in-loop') } },  // TODO: use sometimes?
+        { kind: 'block', type: 'controls_forEach', include () { return propNames.has('for-in-loop') } }, // TODO: better targeting of when we introduce this logic? Also, move this. Also, think about Python vs. JS and the general typed array forEach
         { kind: 'block', type: 'controls_flow_statements', include () { return propNames.has('break') } },
         // { kind: 'block', type: 'controls_flow_statements', fields: { FLOW: 'CONTINUE' }, include () { return propNames.has('continue') } }  // Wide, should figure out how to not have this
         { kind: 'block', type: 'controls_flow_statements', fields: { FLOW: 'CONTINUE' }, include () { return false } }, // Only in full block toolbox, not shown to user
@@ -249,6 +396,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'math_number', include () { return !superBasicLevels.includes(level?.get('slug')) } },
         { kind: 'block', type: 'logic_boolean', include () { return propNames.has('if/else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'logic_null', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
+        { kind: 'block', type: 'newline', include () { return !superBasicLevels.includes(level?.get('slug')) } },
+        { kind: 'block', type: 'entry_point', include () { return false } },  // TODO: organize
         { kind: 'block', type: 'comment', include () { return !superBasicLevels.includes(level?.get('slug')) } },
         { kind: 'block', type: 'code_comment', include () { return propNames.has('if/else') } }, // TODO: introduce this around when we start having commented-out code in sample code
         { kind: 'block', type: 'logic_ternary', include () { return false } },
@@ -330,7 +479,7 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
     args = []
   }
 
-  generator[name] = function (block) {
+  generator.forBlock[name] = function (block) {
     const parts = []
     if (propName && ['this', 'self', 'hero'].includes(prop.owner)) {
       parts.push(`hero.${propName}`)
@@ -347,7 +496,15 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
       Object.keys(args).forEach((idx) => {
         if (idx > 0) parts.push(', ')
         const arg = args[idx]
-        const code = generator.valueToCode(block, arg.name, generator.ORDER_NONE) || arg.default
+        // let code = generator.valueToCode(block, arg.name, generator.ORDER_ATOMIC)
+        let code = generator.valueToCode(block, arg.name, generator.ORDER_CONDITIONAL)
+        if (!code && arg.default) {
+          if (/move(Up|Left|Right|Down)/.test(propName)) {
+            // Don't add the default value
+          } else {
+            code = arg.default
+          }
+        }
         switch (codeLanguage) {
           case 'javascript':
             parts.push(code ?? `undefined /* ${arg.name} */`)
@@ -373,7 +530,7 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
         break
     }
 
-    return returnsValue ? [parts.join(''), generator.ORDER_NONE] : parts.join('')
+    return returnsValue ? [parts.join(''), generator.ORDER_ATOMIC] : parts.join('')
   }
 
   const setup = {
@@ -547,16 +704,13 @@ module.exports.getBlocklySource = function (blockly, codeLanguage) {
   const blocklyState = Blockly.serialization.workspaces.save(blockly)
   const generator = module.exports.getBlocklyGenerator(codeLanguage)
   let blocklySource = generator.workspaceToCode(blockly)
-  blocklySource = rewriteBlocklySource(blocklySource)
+  blocklySource = module.exports.rewriteBlocklyCode(blocklySource, codeLanguage)
   const commentStart = utils.commentStarts[codeLanguage] || '//'
   // console.log "Blockly state", blocklyState
   // console.log "Blockly source", blocklySource
   const combined = `${commentStart}BLOCKLY| ${JSON.stringify(blocklyState)}\n\n${blocklySource}`
   return { blocklyState, blocklySource, combined }
 }
-
-let rewriteBlocklySource = source => // Fix any weird code generation coming from Blockly (currently none)
-  source
 
 module.exports.loadBlocklyState = function (blocklyState, blockly, tries) {
   if (tries == null) { tries = 0 }
@@ -699,3 +853,63 @@ module.exports.isEqualBlocklyState = function (state1, state2) {
 
     return isEqualIgnoringSomeKeys(state1, state2)
 }
+
+function blockSubtreeIncludesBlockType (block, type) {
+  if (block?.type === type) { return true }
+  if (!block?.next) { return false }
+  return blockSubtreeIncludesBlockType(block.next, type)
+}
+
+module.exports.blocklyStateIncludesBlockType = function (state, type) {
+  for (let block of state?.blocks?.blocks) {
+    if (blockSubtreeIncludesBlockType(block, type)) {
+      return true
+    }
+  }
+  return false
+}
+
+module.exports.rewriteBlocklyCode = function(code, codeLanguage) {
+  code = code.replace(/^( *)☃/gm, '$1') // Undo our unicode snowman whitespace trimmer remover
+  codeLanguage = codeLanguage || 'javascript'
+  switch (codeLanguage) {
+  case 'javascript':
+    return rewriteBlocklyJS(code)
+  case 'python':
+    return rewriteBlocklyPython(code)
+  case 'lua':
+    return rewriteBlocklyLua(code)
+  default:
+    throw new Error(`Unknown code language ${codeLanguage}`)
+  }
+}
+
+function rewriteBlocklyJS(code) {
+  // Replace var greeting;\n\ngreeting = 'Hello'; with var greeting = 'Hello';
+  code = code.replace(/^var (\S+,? ?)+\n*/, '')
+  let found = []
+  code = code.replace(/^(\s*)([a-zA-Z0-9_-]+) = /mg, (m, s, n) => {
+    if ( found.indexOf(n) !== -1) return m
+    found.push(n)
+    return s + 'var ' + n + ' = '
+  });
+
+  return code.trim()
+}
+
+function rewriteBlocklyPython(code) {
+  let oldcode;
+  do {
+    oldcode = code;
+    code = code.replace(/^[a-zA-Z0-9_-s]+ = None\n/, '')
+  } while (code !== oldcode)
+
+  return code.trim()
+}
+
+function rewriteBlocklyLua(code) {
+
+  return code
+}
+
+module.exports.blocklyMutationEvents = [Blockly.Events.CHANGE, Blockly.Events.CREATE, Blockly.Events.DELETE, Blockly.Events.BLOCK_CHANGE, Blockly.Events.BLOCK_CREATE, Blockly.Events.BLOCK_DELETE, Blockly.Events.BLOCK_DRAG, Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE, Blockly.Events.BLOCK_MOVE, Blockly.Events.VAR_CREATE, Blockly.Events.VAR_DELETE, Blockly.Events.VAR_RENAME]
