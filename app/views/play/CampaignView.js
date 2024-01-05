@@ -60,7 +60,6 @@ const globalVar = require('core/globalVar')
 const paymentUtils = require('app/lib/paymentUtils')
 const userUtils = require('lib/user-utils')
 const AILeaguePromotionModal = require('views/core/AILeaguePromotionModal')
-
 require('lib/game-libraries')
 
 class LevelSessionsCollection extends CocoCollection {
@@ -928,9 +927,14 @@ module.exports = (CampaignView = (function () {
       if ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') { return console.log('Game dev HoC does not encourage subscribing.') }
       if (me.isStudent()) { return console.log("Students shouldn't be prompted to subscribe") }
       this.endHighlight()
+      const trackProperties = { category: 'Subscription', label, level: slug, levelID: slug }
+      if (me.isParentHome()) {
+        this.handleParentAccountPremiumPurchase({ trackProperties })
+        return
+      }
       this.openModalView(new SubscribeModal())
       // TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
-      window.tracker?.trackEvent('Show subscription modal', { category: 'Subscription', label, level: slug, levelID: slug })
+      window.tracker?.trackEvent('Show subscription modal', trackProperties)
       this.openModalView(new AILeaguePromotionModal(), true)
     }
 
@@ -1764,8 +1768,29 @@ ${problem.category} - ${problem.score} points\
     }
 
     onClickPremiumButton (e) {
-      this.openModalView(new SubscribeModal())
-      return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'campaignview premium button' }) : undefined)
+      const trackProperties = { category: 'Subscription', label: 'campaignview premium button' }
+      if (me.isParentHome()) {
+        this.handleParentAccountPremiumPurchase({ trackProperties })
+      } else {
+        this.openModalView(new SubscribeModal())
+        window.tracker?.trackEvent('Show subscription modal', trackProperties)
+      }
+    }
+
+    handleParentAccountPremiumPurchase ({ trackProperties }) {
+      const showModalAndTrack = () => {
+        this.openModalView(new SubscribeModal())
+        window.tracker?.trackEvent('Show subscription modal', trackProperties)
+      }
+
+      if (userUtils.hasSeenParentBuyingforSelfPrompt()) {
+        showModalAndTrack()
+      } else {
+        if (window.confirm($.i18n.t('subscribe.sure_buy_as_parent'))) {
+          showModalAndTrack()
+        }
+        userUtils.markParentBuyingForSelfPromptSeen()
+      }
     }
 
     onClickM7OffButton (e) {

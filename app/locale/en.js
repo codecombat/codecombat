@@ -1343,7 +1343,8 @@ module.exports = {
       subscription_status: 'Your Subscription Status',
       currently_not_free: "You don't have a Subscription yet.",
       online_classes: 'Online Classes',
-      feature_ai_level_bot: 'Accelerate learning with AI powered support'
+      feature_ai_level_bot: 'Accelerate learning with AI powered support',
+      sure_buy_as_parent: 'You are buying premium access for your account instead of your child\'s. Are you sure?'
     },
 
     announcement: {
