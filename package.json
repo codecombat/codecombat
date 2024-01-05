@@ -48,7 +48,10 @@
     "proxy:ozaria": "COCO_PRODUCT=ozaria COCO_PORT=3001 npm run proxy",
     "proxy-win": "cross-env COCO_PROXY='true' nodemon",
     "analyzer": "COCO_ANALYZER_BUNDLE=1 NODE_OPTIONS='--max-old-space-size=4096' webpack --profile --json > stats.json",
-    "lint": "eslint --max-warnings 0 '**/*.{js,vue}'"
+    "lint": "eslint --max-warnings 0 '**/*.{js,vue}' --debug",
+    "ci-lint": "npx @automattic/eslint-changed --git --git-base HEAD~1 --in-diff-only --debug --ext .js,.vue",
+    "coco-pre-commit-lint": "npx @automattic/eslint-changed --git --git-staged --ext .js,.vue",
+    "prepare": "husky install"
   },
   "main": "index.js",
   "standard": {
@@ -188,6 +191,7 @@
     "yjs": "^13.6.8"
   },
   "devDependencies": {
+    "@automattic/eslint-changed": "^2.0.7",
     "@babel/core": "^7.18.9",
     "@babel/eslint-parser": "^7.18.9",
     "@babel/eslint-plugin": "^7.17.7",
@@ -228,6 +232,7 @@
     "globby": "^13.1.2",
     "html-minifier": "^4.0.0",
     "http-proxy": "^1.13.2",
+    "husky": "^8.0.3",
     "import-glob-loader": "^1.1.0",
     "imports-loader": "^0.8.0",
     "jasmine": "2.4.1",

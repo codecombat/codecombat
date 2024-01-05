@@ -392,6 +392,7 @@ export default Vue.extend({
           :course-id="computedCourseId"
           :course-instance-id="computedCourseInstanceId"
           :code-language="computedCodeLanguage"
+          :classroom-id="computedClassroomId"
         />
       </layout-aspect-ratio-container>
     </layout-center-content>

@@ -1,0 +1,35 @@
+name: ESLint CI
+
+# Triggering workflow on all push
+on: [pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ESLint CI
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18.10.0
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci  # OR: yarn
+
+      - name: Fetch the base branch, so we can use `git diff`
+        run: git fetch origin ${{ github.event.pull_request.base.sha }}:${{ github.event.pull_request.base.sha }}
+
+      - name: Fetch the head branch, so we can use `git diff`
+        run: git fetch origin ${{ github.event.pull_request.head.sha }}:${{ github.event.pull_request.head.sha }}
+
+      - name: Run eslint on changed files
+        run: npx @automattic/eslint-changed --git --git-base ${{ github.event.pull_request.base.sha }} --in-diff-only --debug --ext .js,.vue
