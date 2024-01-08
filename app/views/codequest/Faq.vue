@@ -52,9 +52,8 @@
           rel="noopener noreferrer"
           target="_blank"
         >
-          <span class="text-wrapper-2">help center</span>
+          <span class="text-wrapper-2">help center</span><span class="span">.</span>
         </a>
-        <span class="span">.</span>
       </p>
     </div>
   </div>
