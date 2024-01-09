@@ -3,6 +3,10 @@
     id="home-sub-success-view"
     class="container-fluid"
   >
+    <live-online-classes-promotion-modal
+      v-if="showLocModal"
+      @close="showLocModal = false"
+    />
     <div class="container">
       <div class="head text-center">
         <h2 class="success-text">
@@ -26,15 +30,24 @@
 </template>
 
 <script>
+import LiveOnlineClassesPromotionModal from '../parents/LiveOnlineClassesPromotionModal.vue'
 const paymentUtils = require('app/lib/paymentUtils')
 export default {
   name: 'PaymentHomeSubscriptionsSuccessView',
+  components: {
+    LiveOnlineClassesPromotionModal
+  },
   props: {
     amount: {
       type: String
     },
     duration: {
       type: String // possible values: one_time, x_month, y_year
+    }
+  },
+  data () {
+    return {
+      showLocModal: true
     }
   },
   created () {
