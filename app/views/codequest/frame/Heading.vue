@@ -4,8 +4,7 @@
       <span class="text-wrapper">The paced schedule will fill the days with a mixture of </span>
       <span class="span">learning</span>
       <span class="text-wrapper"> and </span>
-      <span class="span">fun</span>
-      <span class="text-wrapper-2">.</span>
+      <span class="span">fun</span><span class="text-wrapper-2">.</span>
     </p>
   </div>
 </template>
