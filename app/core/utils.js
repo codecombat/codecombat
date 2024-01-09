@@ -1379,6 +1379,7 @@ const freeAccessLevels = [
   { access: 'long', slug: 'master-of-names' },
   { access: 'long', slug: 'the-final-kithmaze' },
   { access: 'long', slug: 'kithgard-gates' },
+  { access: 'long', slug: 'favorable-odds' },
   { access: 'extended', slug: 'defense-of-plainswood' },
   { access: 'extended', slug: 'winding-trail' },
   { access: 'china-classroom', slug: 'forgetful-gemsmith' },
@@ -1387,7 +1388,6 @@ const freeAccessLevels = [
   { access: 'china-classroom', slug: 'illusory-interruption' },
   { access: 'china-classroom', slug: 'careful-steps' },
   { access: 'china-classroom', slug: 'long-steps' },
-  { access: 'china-classroom', slug: 'favorable-odds' },
   // Yuqiang: we can directly add ozaria slugs here since all logics are based on slug and won't mess at all
   { access: 'short', slug: '1fhcutscene1b' },
   { access: 'short', slug: '1fhm1l1l1b' },
