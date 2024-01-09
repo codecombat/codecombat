@@ -1420,14 +1420,14 @@ ${problem.category} - ${problem.score} points\
 
       let requiresSubscription
       if (me.showChinaResourceInfo() && !me.showChinaHomeVersion()) {
-        const defaultAccess = ['short', 'china-classroom']
+        let defaultAccess = ['short', 'china-classroom']
         if(me.get('hourOfCode') || this.campaign?.get('type') === 'hoc' || this.campaign?.get('slug') === 'intro' ) {
           defaultAccess = defaultAccess.concat(['medium', 'long'])
         }
         const freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => defaultAccess.includes(faLevel.access)).map((faLevel) => faLevel.slug)
         requiresSubscription = level.requiresSubscription || (!(freeAccessLevels.includes(level.slug)))
       } else {
-        let defaultAccess = me.get('hourOfCode') || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') || ((this.campaign != null ? this.campaign.get('slug') : undefined) === 'intro') ? 'long' : 'short'
+        let defaultAccess = (me.get('hourOfCode') || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') || ((this.campaign != null ? this.campaign.get('slug') : undefined) === 'intro')) ? 'long' : 'short'
           if (new Date(me.get('dateCreated')) < new Date('2021-09-21') && (!me.showChinaHomeVersion())) {
           defaultAccess = 'all'
           }
