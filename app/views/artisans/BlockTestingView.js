@@ -19,11 +19,6 @@ let levelTestsAdded = false
 let propertyEntryGroups
 let prepData = null
 
-/*
-- Sidebar display of tests
-- Fix my monkey patch of continuous toolbox to refresh debounced, not never (or new functions don't show up)
-*/
-
 module.exports = (BlockTestingView = (function () {
   BlockTestingView = class BlockTestingView extends RootView {
     static initClass () {

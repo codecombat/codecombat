@@ -1,19 +1,6 @@
 const Blockly = require('blockly')
 const { javascriptGenerator } = require('blockly/javascript')
 
-/*
-- [ ] Handle error case: if code to blocks didn't give a valid Blockly AST, don't try to update it
-- [ ] Bring back tabbed flyout when there are many categories
-- [ ] Replace text, text_multiline blocks to not use same quote_ implementation, so we can use double-quoted strings and not escape apostrophes
-- [ ] List or text length block
-- [ ] Get Skulpty rewrite included the right way
-- [ ] Getting rid of all code should get rid of all blocks
-- [ ] Make it so that blocks don't move as soon as you update them on Blockly side
-- [ ] Highlight actively running blocks
-- [ ] Implement block limits
-- [ ] Implement more verifier-like testing harness, display problems in full but passed tests are collapsed
-*/
-
 function fuzzyMatch (a, b) {
   if (a.type !== b.type) return false
   switch (a.type) {
