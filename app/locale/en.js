@@ -4064,7 +4064,16 @@ module.exports = {
       enter_email_address: 'Please provide your email address to get started:',
       enter_parent_email_address: "If you are a student under 18 years of age, please enter your parent or guardian's email address.",
       email_sent_success: 'Awesome! An email has been sent to the address you provided.',
-      email_schedule_info: 'Please open and click the link to access our trial class scheduling portal and select any available time that works best for you.'
+      email_schedule_info: 'Please open and click the link to access our trial class scheduling portal and select any available time that works best for you.',
+      personalized_coding: 'Personalized Coding Instruction',
+      premium_access: 'Premium Access',
+      focus_choice: 'Your Focus, Your Choice',
+      get_free_coding_class: 'You Get a Free Coding Class',
+      tailored_guidance: 'Tailored guidance in Python, Javascript, Lua, and more',
+      enjoy_all_games: 'Enjoy all our web games and Roblox experiences',
+      choice_of_path: 'Select from Coding Fundamentals, Game Development, AI Applications, AP CSP Prep, and more for a personalized learning path',
+      classes_in_spanish_english: 'Classes are available in English or Spanish',
+      free_class: 'Free Class'
     },
 
     modal_timetap_confirmation: {
