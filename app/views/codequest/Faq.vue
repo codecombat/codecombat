@@ -49,7 +49,7 @@
           question="What accommodations can my child expect?"
           href="#collapseSix"
         >
-          All participants and chaperones will be staying at [hotel], with separate accommodations for participants and chaperones. Participants will share a room with a fellow participant. Staff members are never allowed to be alone with participants. Parents who wish to accompany their child will share a room together.
+          All participants and chaperones will be staying at the same hotel, with separate accommodations for participants and chaperones. Participants will share a room with a fellow participant. Staff members are never allowed to be alone with participants. Parents who wish to accompany their child will share a room together.
         </FaqItem>
         <FaqItem
           id="collapseSeven"
@@ -63,7 +63,7 @@
           question="Who will be chaperoning my child?"
           href="#collapseEight"
         >
-          Our pledge is to put your children in the company of the most trustworthy and capable individuals we can hire–[certified instructors and counselors] who are well suited to the task of caring for participants. Each staff member undergoes an intense background and reference check; the effort we put into screening and selecting our staff is part of that pledge.<br><br>
+          Our pledge is to put your children in the company of the most trustworthy and capable individuals we can hire–certified instructors and counselors who are well suited to the task of caring for participants. Each staff member undergoes an intense background and reference check; the effort we put into screening and selecting our staff is part of that pledge.<br><br>
           Our staff work with your children in the context of a visible, well scrutinized environment that has many built-in checks and balances. Instructors and counselors are guided by clear, firm policies regarding behavior. Their actions are visible to co-workers and participants.
         </FaqItem>
         <FaqItem
