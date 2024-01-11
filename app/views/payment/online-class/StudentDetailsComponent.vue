@@ -200,7 +200,7 @@ export default {
       return ['Beginner', 'Intermediate', 'Advanced']
     },
     getLanguages () {
-      return ['JavaScript', 'Python']
+      return ['JavaScript', 'Python', 'Lua']
     },
     getNumOfSessions () {
       return parseInt(this.selectedPlan.split('_').pop(), 10)
