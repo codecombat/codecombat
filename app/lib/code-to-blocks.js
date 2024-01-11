@@ -170,8 +170,7 @@ class Converters {
 
   static ConvertForStatement (n, ctx) {
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), 'Can\'t find the for statement')
-    console.log('FORL', n)
-    const init = convert(n.init, { ...ctx, nospace: true })
+    convert(n.init, { ...ctx, nospace: true })
     const body = convert(n.body, { ...ctx, nospace: true, context: 'statement' })
 
     const o = {
@@ -557,14 +556,14 @@ function findAllBlocks (thing) {
 }
 
 function doParse (blocklySource) {
-  const { parse } = esper.plugins.babylon.babylon
+  const { parse } = window.esper.plugins.babylon.babylon
   if (/^continue;\s*/.test(blocklySource)) return { type: 'ContinueStatement' }
   if (/^break;\s*/.test(blocklySource)) return { type: 'BreakStatement' }
   if (/^return;\s*/.test(blocklySource)) return { type: 'ReturnStatement' }
   if (/^'';\s*/.test(blocklySource)) return { type: 'StringLiteral' }
 
   const ast = parse(blocklySource, { errorRecovery: true })
-  if (ast.program.body.length != 1) return null
+  if (ast.program.body.length !== 1) return null
   let node = ast.program.body[0]
   if (!node) return ast
   let expression = false
@@ -651,7 +650,7 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
 
     try {
       Blockly.serialization.blocks.append(defn, workspace)
-      const state = Blockly.serialization.workspaces.save(workspace)
+      // const state = Blockly.serialization.workspaces.save(workspace) // I don't think we need this
       const blocklySource = javascriptGenerator.workspaceToCode(workspace)
       const blx = doParse(blocklySource)
       console.log('BS[' + blocklySource + ']', blx)
@@ -695,7 +694,7 @@ function codeToBlocks ({ code, codeLanguage, prepData }) {
           code = introCode + '\n' + mainCode.replace(/^([ \t]*)\/\/(.+)\n[ \t]*\n/gm, (_, s, c) => `${_.trimEnd()}\n${s}__arrow__()\n`)
         }
 
-        const { parse } = esper.plugins.babylon.babylon
+        const { parse } = window.esper.plugins.babylon.babylon
         ast = parse(code + '\n__donothing__()', { errorRecovery: true })
         break
       }
@@ -703,7 +702,7 @@ function codeToBlocks ({ code, codeLanguage, prepData }) {
       {
         // TODO: add arrow/insertion point handling for Python
 
-        const { parse } = esper.plugins['lang-python'].skulpty
+        const { parse } = window.esper.plugins['lang-python'].skulpty
         code = code.replace(/^(\s*)#(.*)$/gm, (_, s, c) => `${s}__comment__(${JSON.stringify(c)})`)
 
         ast = parse(code, { errorRecovery: true, naive: true, locations: true, startend: true })
