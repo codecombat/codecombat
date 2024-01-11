@@ -193,10 +193,8 @@ module.exports = class TeacherClassView extends RootView
       @debouncedRender?()
 
   fetchSessions: ->
-    debugger
     Promise.all(@classroom.sessions.fetchForAllClassroomMembers(@classroom))
     .then =>
-      debugger
       return if @destroyed
       @removeDeletedStudents() # TODO: Move this to mediator listeners?
       @calculateProgressAndLevels()
@@ -318,7 +316,6 @@ module.exports = class TeacherClassView extends RootView
           courseInstance = courseInstance.toJSON()
       students = @state.get('students').toJSON()
 
-      debugger
       propsData = {
         students
         levels,
@@ -401,7 +398,6 @@ module.exports = class TeacherClassView extends RootView
 
       levelOs = @levels.models.map((i) => i.get('original'))
       assessmentOs = assessmentLevels.map((i) => i.get('original')) 
-      console.log('AAAPC', course.id,{levelOs, assessmentOs})
 
       fullLevels = _.filter(@levels.models, (l) => l.get('original') in _.map(assessmentLevels, (l2)=>l2.get('original')))
       @courseAssessmentPairs.push([course, fullLevels])
