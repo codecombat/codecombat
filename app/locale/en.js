@@ -2710,7 +2710,15 @@ module.exports = {
       from_the_podcast: 'From the Podcast',
       edit_student_access_title: 'Edit Student Access to Levels',
       edit_student_access_subtitle: 'You have selected __levels__ levels for __students__ students.',
-      student_ask_for_help: 'Your studnet __name__ asking for your help.'
+      student_ask_for_help: 'Your student __name__ asking for your help.',
+      student_end_of_completion_free: 'Your Students Are Nearing the End of the Free Content',
+      unlock_licenses_for_student: 'Unlock Licenses to Continue Your Students’ Coding Journey With',
+      core_curriculum: 'Core Curriculum',
+      practice_apply: 'Practice & Application Experiences',
+      student_acceleration: 'Student Acceleration Tools',
+      gain_access_assist: 'Gain complete access to our comprehensive suite of products, curricula, and resources. Let us assist you in crafting a solution tailored to the needs of your class, school, or district.',
+      ai_league_esports: 'AI League Esports',
+      ai_hackstack: 'AI Hackstack'
     },
 
     teacher_licenses: {
