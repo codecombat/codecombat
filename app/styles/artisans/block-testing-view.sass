@@ -1,0 +1,85 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "../play/ace-editor"
+
+#block-testing-view
+  .container
+    width: 1071px
+    padding: 0
+
+  .test-case
+    outline: 1px solid #eee
+    margin-bottom: 20px
+    padding-bottom: 20px
+
+    h2
+      text-align: left
+
+    .side-label
+      position: absolute
+      transform: rotate(270deg) translateX(-10px) translateY(-43px)
+
+    &.success:not(.focused)
+      border: 2px solid green
+
+      .test-results
+        display: none
+
+    &.failure:not(.focused)
+      border: 2px solid red
+
+      .test-results
+        display: none
+
+  .error-scratchpad
+    min-height: 90px
+
+  .error-scratchpad
+    background-color: rgb(255, 200, 200)
+
+  .ace_editor
+    font-size: 16px
+    line-height: 20px
+    font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+    margin-bottom: 10px
+    width: 100%
+    height: 255px
+
+    body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+      font-family: "Cousine", "Courier", "Courier New", monospace !important
+
+  .blockly-container
+    z-index: 4
+    height: 620px
+    width: 100%
+
+    .blocklyTreeLabel
+      font-size: 12px
+      font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+
+    .blocklySvg
+      background-color: rgba(31, 31, 31, 0.1)
+
+    .blocklyScrollbarHandle
+      fill: #555
+
+    .blocklyScrollbarBackground:hover + .blocklyScrollbarHandle, .blocklyScrollbarHandle:hover
+      fill: #111
+
+    .blocklyZoom > image, image.zoomToFit
+      opacity: .6
+
+    .blocklyZoom > image:hover, image.zoomToFit:hover
+      opacity: .9
+
+    .blocklyZoom > image:active, image.zoomToFit:active
+      opacity: 1.0
+
+    @media screen and (max-width: 1376px)
+      & .blocklyZoom, image.zoomToFit
+        // Hide these on narrow screens to avoid overlapping code
+        display: none
+
+    .blocklyToolboxDiv
+      //max-width: 150px  // Don't get too wide with long method names
+      max-width: 0  // Just hide it, continuous flyout makes it unnecessary

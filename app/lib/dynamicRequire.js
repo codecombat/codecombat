@@ -48,6 +48,7 @@ module.exports = {
   'views/artisans/SandboxView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/SandboxView') },
   'views/artisans/ThangTasksView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ThangTasksView') },
   'views/artisans/ArenaBalancerView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ArenaBalancerView') },
+  'views/artisans/BlockTestingView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/BlockTestingView') },
   'views/CLAView': function () { return import(/* webpackChunkName: "CLAView" */ 'views/CLAView') },
   'views/clans/ClansView': function () { return import(/* webpackChunkName: "clans" */ 'views/clans/ClansView') },
   'views/clans/ClanDetailsView': function () { return import(/* webpackChunkName: "clans" */ 'views/clans/ClanDetailsView') },
