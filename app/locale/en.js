@@ -4064,7 +4064,16 @@ module.exports = {
       enter_email_address: 'Please provide your email address to get started:',
       enter_parent_email_address: "If you are a student under 18 years of age, please enter your parent or guardian's email address.",
       email_sent_success: 'Awesome! An email has been sent to the address you provided.',
-      email_schedule_info: 'Please open and click the link to access our trial class scheduling portal and select any available time that works best for you.'
+      email_schedule_info: 'Please open and click the link to access our trial class scheduling portal and select any available time that works best for you.',
+      personalized_coding: 'Personalized Coding Instruction',
+      premium_access: 'Premium Access',
+      focus_choice: 'Your Focus, Your Choice',
+      get_free_coding_class: 'You Get a Free Coding Class',
+      tailored_guidance: 'Tailored guidance in Python, Javascript, Lua, and more',
+      enjoy_all_games: 'Enjoy all our web games and Roblox experiences',
+      choice_of_path: 'Select from Coding Fundamentals, Game Development, AI Applications, AP CSP Prep, and more for a personalized learning path',
+      classes_in_spanish_english: 'Classes are available in English or Spanish',
+      free_class: 'Free Class'
     },
 
     modal_timetap_confirmation: {
@@ -4625,7 +4634,12 @@ module.exports = {
       more_details: 'for more details.',
       contact_sales_custom: 'Your custom tournament awaits. Choose the arena that you’d like to use for your custom tournament and contact your CodeCombat sales representative to confirm set up and scheduling details.',
       create_custom: 'Create Custom Tournament',
-      custom_tournament_text: 'Custom Tournament'
+      custom_tournament_text: 'Custom Tournament',
+      promotion_blurb: 'Competitive Coding - Free to Get Started',
+      promotion_part1: 'Join coding teams with friends and family',
+      promotion_part2: 'Access global coding arenas and leaderboards',
+      promotion_part3: 'Showcase your coding skills and win prizes',
+      promotion_part4: 'Earn points through practice and head-to-head matches'
     },
 
     tournament: {
