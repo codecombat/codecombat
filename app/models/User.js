@@ -1215,6 +1215,14 @@ module.exports = (User = (function () {
     showChinaRegistration () { return features?.china != null ? features?.china : false }
     enableCpp () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || this.isTeacher()) }
     enableJava () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || (this.isTeacher() && this.isBetaTester())) }
+
+    getEnabledLanguages () {
+      const languages = ['javascript', 'python']
+      if (this.enableCpp()) { languages.push('cpp') }
+      if (this.enableJava()) { languages.push('java') }
+      return languages
+    }
+
     useQiyukf () { return false }
     useChinaServices () { return features?.china != null ? features?.china : false }
     useGeneralArticle () { return !(features?.china != null ? features?.china : false) }

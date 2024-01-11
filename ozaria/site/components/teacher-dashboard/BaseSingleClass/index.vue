@@ -101,12 +101,12 @@ export default {
         })
 
         let moduleDisplayName
-        if (utils.isCodeCombat) { // CodeCombat only has one module per course.
+        if (!utils.courseModules[this.selectedCourseId]?.[moduleNum]) {
           const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
           moduleDisplayName = course.name
         } else {
           // Todo: Ozaria-i18n
-          moduleDisplayName = `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
+          moduleDisplayName = `${utils.isOzaria ? this.$t(`teacher.module${moduleNum}`) : ''}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
         }
 
         const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, translatedModuleContent, intros, moduleNum)

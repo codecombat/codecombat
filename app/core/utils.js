@@ -789,9 +789,6 @@ if (isCodeCombat) {
     ]
   }
 
-  // Ozaria uses this
-  courseModules = {}
-
   hourOfCodeOptions = {
     campaignId: freeCampaignIds[0],
     courseId: courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
@@ -2029,6 +2026,11 @@ const getProductUrl = function (product, url) {
   return url
 }
 
+const allowedLanguages= ({
+  [OZARIA]: ['javascript', 'python'],
+  [CODECOMBAT]: ['javascript', 'python', 'java', 'cpp']
+})[product]
+
 module.exports = {
   activeAndPastArenas,
   activeArenas,
@@ -2038,6 +2040,7 @@ module.exports = {
   ageBracketsChina,
   ageOfConsent,
   ageToBracket,
+  allowedLanguages,
   anonymizingUser,
   arenas,
   bracketToAge,
