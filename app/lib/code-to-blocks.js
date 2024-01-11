@@ -703,8 +703,7 @@ function codeToBlocks ({ code, codeLanguage, prepData }) {
       {
         // TODO: add arrow/insertion point handling for Python
 
-        // const { parse } = esper.plugins['lang-python'].skulpty
-        const { parse } = require('skulpty')
+        const { parse } = esper.plugins['lang-python'].skulpty
         code = code.replace(/^(\s*)#(.*)$/gm, (_, s, c) => `${s}__comment__(${JSON.stringify(c)})`)
 
         ast = parse(code, { errorRecovery: true, naive: true, locations: true, startend: true })
