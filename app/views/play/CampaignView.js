@@ -287,7 +287,7 @@ module.exports = (CampaignView = (function () {
         this.courseLevelsFake = {}
         this.courseInstanceID = utils.getQueryVariable('course-instance')
         this.courseInstance = new CourseInstance({ _id: this.courseInstanceID })
-        const jqxhr = this.courseInstance.fetch({ data: $.param({time: + new Date()})})
+        const jqxhr = this.courseInstance.fetch({ data: $.param({ time: +new Date() }) })
         this.supermodel.trackRequest(jqxhr)
         new Promise(jqxhr.then).then(() => {
           const courseID = this.courseInstance.get('courseID')
@@ -933,8 +933,10 @@ module.exports = (CampaignView = (function () {
       this.endHighlight()
       this.openModalView(new SubscribeModal())
       // TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
-      window.tracker?.trackEvent('Show subscription modal', { category: 'Subscription', label, level: slug, levelID: slug })
-      this.openModalView(new AILeaguePromotionModal(), true)
+      if (!me.useChinaResourceInfo()) {
+        window.tracker?.trackEvent('Show subscription modal', { category: 'Subscription', label, level: slug, levelID: slug })
+        this.openModalView(new AILeaguePromotionModal(), true)
+      }
     }
 
     isPremiumCampaign (slug) {
@@ -1390,16 +1392,16 @@ ${problem.category} - ${problem.score} points\
       let requiresSubscription
       if (me.showChinaResourceInfo() && !me.showChinaHomeVersion()) {
         let defaultAccess = ['short', 'china-classroom']
-        if(me.get('hourOfCode') || this.campaign?.get('type') === 'hoc' || this.campaign?.get('slug') === 'intro' ) {
+        if (me.get('hourOfCode') || this.campaign?.get('type') === 'hoc' || this.campaign?.get('slug') === 'intro') {
           defaultAccess = defaultAccess.concat(['medium', 'long'])
         }
         const freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => defaultAccess.includes(faLevel.access)).map((faLevel) => faLevel.slug)
         requiresSubscription = level.requiresSubscription || (!(freeAccessLevels.includes(level.slug)))
       } else {
         let defaultAccess = (me.get('hourOfCode') || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') || ((this.campaign != null ? this.campaign.get('slug') : undefined) === 'intro')) ? 'long' : 'short'
-          if (new Date(me.get('dateCreated')) < new Date('2021-09-21') && (!me.showChinaHomeVersion())) {
+        if (new Date(me.get('dateCreated')) < new Date('2021-09-21') && (!me.showChinaHomeVersion())) {
           defaultAccess = 'all'
-          }
+        }
         let access = me.getExperimentValue('home-content', defaultAccess)
         if (me.showChinaResourceInfo() || (me.get('country') === 'japan')) {
           access = 'short'
@@ -2095,7 +2097,7 @@ ${problem.category} - ${problem.score} points\
 
       if (what === 'league-arena') {
         // Note: Currently the tooltips don't work in the campaignView overworld.
-        if(!me.showChinaResourceInfo()){
+        if (!me.showChinaResourceInfo()) {
           return false
         }
         return !me.isAnonymous() && (this.campaign != null ? this.campaign.get('slug') : undefined) && !this.editorMode && !userUtils.isCreatedViaLibrary()

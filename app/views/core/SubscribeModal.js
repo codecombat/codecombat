@@ -408,7 +408,7 @@ module.exports = (SubscribeModal = (function () {
     }
 
     onClickGoPrepaid () {
-      window.locatio.href = '/account/prepaid'
+      window.location.href = '/account/prepaid'
     }
 
     onHidden () {
