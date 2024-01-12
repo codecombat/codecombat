@@ -49,13 +49,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/bootstrap/variables";
+
 .accessibility-rep {
   align-items: flex-start;
   display: flex;
   gap: 30px;
   margin: 160px 40px;
   position: relative;
-  @media (max-width: 991px) {
+  @media (max-width: $screen-md-max) {
     flex-direction: column;
     align-items: center;
     gap: 60px;

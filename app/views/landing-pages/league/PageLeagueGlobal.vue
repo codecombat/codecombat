@@ -859,11 +859,11 @@ export default {
       <div class="col-sm-10 video-backer video-iframe">
         <div style="position: relative; padding-top: 56.14583333333333%;">
           <iframe
-            src="https://iframe.videodelivery.net/eae72056cd1e54f77ec35612c2d0c4b5?poster=https://videodelivery.net/eae72056cd1e54f77ec35612c2d0c4b5/thumbnails/thumbnail.jpg%3Ftime%3D2681s"
+            src="https://iframe.videodelivery.net/5ee0896f86d690840104adaaa7ec96b6?poster=https://videodelivery.net/5ee0896f86d690840104adaaa7ec96b6/thumbnails/thumbnail.jpg%3Ftime%3D1730s"
             style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"
             allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
             allowfullscreen="true"
-            title="CodeCombat AI League Winners - Season 8 - Coder's Harvest"
+            title="CodeCombat AI League Winners - Season 9 - Reign of Code"
           />
         </div>
       </div>
@@ -973,95 +973,58 @@ export default {
         </div>
       </div>
       <div class="prize-section__winners clearfix">
-        <div class="prize-section__winners-1 prize-section-box">
-          <div class="prize-section__winners-text">
-            1<span class="prize-section__small-top">st</span> {{ $t('league.place') }}
-          </div>
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="prize-section__winners--product-link">
-                <div>
-                  <img
-                    src="/images/pages/league/hyperx-headphones-w-glow.png"
-                    alt="Cloud Revolver 7.1 Headset"
-                    class="prize-section__winners-1--img"
-                  >
-                </div>
-                Cloud Revolver 7.1 Headset
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="prize-section__winners--product-link">
-                <div>
-                  <img
-                    src="/images/pages/league/hyperx-keyboard-w-glow.png"
-                    alt="Alloy Origins Keyboard"
-                    class="prize-section__winners-1--img"
-                  >
-                </div>
-                Alloy Origins Keyboard
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="prize-section__winners--product-link">
-                <div>
-                  <img
-                    src="/images/pages/league/hyperx-mouse-w-glow.png"
-                    alt="Pulsefire FPS Pro Mouse"
-                    class="prize-section__winners-1--img"
-                  >
-                </div>
-                Pulsefire FPS Pro Mouse
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="prize-section__winners-2">
-          <div class="col-sm-6 prize-section-box">
+        <div class="prize-section__winners-container">
+          <div class="col-sm-4 prize-section__winners-1 prize-section-box">
             <div class="prize-section__winners-text">
-              2<span class="prize-section__small-top">nd</span> {{ $t('league.place') }}
-            </div>
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="prize-section__winners--product-link">
-                  <div>
-                    <img
-                      src="/images/pages/league/hyperx-cloud2-headphones-w-glow.png"
-                      alt="Cloud II Headset"
-                      class="prize-section__winners-2--img"
-                    >
-                  </div>
-                  Cloud II Headset
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="prize-section__winners--product-link">
-                  <div>
-                    <img
-                      src="/images/pages/league/hyperx-earbuds-w-glow.png"
-                      alt="Cloud Earbuds"
-                      class="prize-section__winners-2--img"
-                    >
-                  </div>
-                  Cloud Earbuds
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--          <div class="col-sm-3">&nbsp;</div>-->
-          <div class="col-sm-3 col-sm-offset-3 prize-section-box">
-            <div class="prize-section__winners-text">
-              3<span class="prize-section__small-top">rd</span> {{ $t('league.place') }}
+              1<span class="prize-section__small-top">st</span> {{ $t('league.place') }}
             </div>
             <div class="prize-section__winners--product-link">
               <div>
                 <img
-                  src="/images/pages/league/hyperx-cloud-stinger-headset-w-glow.png"
-                  alt="Cloud Stinger Core Headset"
-                  class="prize-section__winners-2--img"
+                  src="/images/pages/league/prizes/hyperx-2024-1st-grouped-glow.png"
+                  alt="HyperX prizes: Cloud Alpha S Headset, Alloy Origins Keyboard, Pulsefire Haste Mouse, Pulsefire Mat Mousepad, and Solocast Microphone"
+                  class="prize-section__winners-1--img"
                 >
               </div>
-              Cloud Stinger Core Headset
+              Cloud Alpha S Headset,
+              Alloy Origins Keyboard,
+              Pulsefire Haste Mouse,
+              Pulsefire Mat Mousepad, and
+              Solocast Microphone
+            </div>
+          </div>
+          <div class="prize-section__winners-2">
+            <div class="col-sm-4 prize-section-box">
+              <div class="prize-section__winners-text">
+                2<span class="prize-section__small-top">nd</span> {{ $t('league.place') }}
+              </div>
+              <div class="row">
+                <div class="prize-section__winners--product-link">
+                  <div>
+                    <img
+                      src="/images/pages/league/prizes/hyperx-2024-2nd-grouped-glow.png"
+                      alt="Cloud II Headset"
+                      class="prize-section__winners-2--img"
+                    >
+                  </div>
+                  Cloud Core 7.1 Headset and Alloy Origins Core Keyboard
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 prize-section-box">
+              <div class="prize-section__winners-text">
+                3<span class="prize-section__small-top">rd</span> {{ $t('league.place') }}
+              </div>
+              <div class="prize-section__winners--product-link">
+                <div>
+                  <img
+                    src="/images/pages/league/prizes/hyperx-cloud-core-71-headset-glow.png"
+                    alt="Cloud Stinger Core Headset"
+                    class="prize-section__winners-2--img"
+                  >
+                </div>
+                Cloud Core 7.1 Headset
+              </div>
             </div>
           </div>
         </div>
@@ -2055,6 +2018,9 @@ export default {
   }
 
   .prize-section {
+    border: 1px solid white;
+    box-shadow: 2px 2px 2px #888888;
+
     &__heading {
       text-transform: uppercase;
       text-align: center;
@@ -2126,8 +2092,8 @@ export default {
 
     &-box {
       padding: 10px;
-      border: 1px solid white;
-      box-shadow: 2px 2px 2px #888888;
+      /*border: 1px solid white;
+         box-shadow: 2px 2px 2px #888888;*/
     }
 
     &__winners {
@@ -2153,7 +2119,6 @@ export default {
 
       &-2 {
         text-align: center;
-        padding-top: 50px;
 
         &--img {
           width: 50%;

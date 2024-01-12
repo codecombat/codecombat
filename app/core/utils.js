@@ -1318,7 +1318,7 @@ const AILeagueSeasons = [
   { number: 6, championshipType: 'clash', image: '/images/pages/league/lava-lake-clash.png', video: '6650f5c84f65ecd1709cca1210c4e9ab', videoThumbnailTime: '1762s' },
   { number: 7, championshipType: 'cup', image: '/images/pages/league/equinox-cup.png', video: '4832912db10162e24cb2eb86df6c36d7', videoThumbnailTime: '1021s' },
   { number: 8, championshipType: 'blitz', image: '/images/pages/league/farmscape-blitz.png', video: 'eae72056cd1e54f77ec35612c2d0c4b5', videoThumbnailTime: '2681s' },
-  { number: 9, championshipType: 'clash', image: '/images/pages/league/snowhold-clash.png', video: '', videoThumbnailTime: '' },
+  { number: 9, championshipType: 'clash', image: '/images/pages/league/snowhold-clash.png', video: '5ee0896f86d690840104adaaa7ec96b6', videoThumbnailTime: '1730s' },
   { number: 10, championshipType: 'cup', image: '/images/pages/league/anti-gravity-cup.png', video: '', videoThumbnailTime: '' },
   { number: 11, championshipType: 'blitz', image: '/images/pages/league/sunfire-blitz.png', video: '', videoThumbnailTime: '' },
   { number: 12, championshipType: 'clash', image: '/images/pages/league/supercharged-clash.png', video: '', videoThumbnailTime: '' },

@@ -1,0 +1,30 @@
+//- DNT
+extends /templates/base-flat
+
+block content
+  .container
+    a(href="/artisans")
+      span.glyphicon.glyphicon-chevron-left
+      span Artisans Home
+    if view.focusTest || view.focusLanguage
+      span= ' '
+      a(href="/artisans/block-testing")
+        span.glyphicon.glyphicon-chevron-left
+        span All Tests
+
+    if view.focusLanguage
+      h1= "Block Testing - " + view.focusLanguage
+    else
+      if !view.focusTest
+        h1
+          span Block Testing
+          span.pull-right
+            if view.testSkip > 0
+              a(href="/artisans/block-testing?skip=" + Math.max(0, view.testSkip - view.testLimit) + "&limit=" + view.testLimit) <
+              span= ' '
+            span= (view.testSkip + 1) + ' - ' + (Math.min(view.testSkip + 1 + view.testLimit, view.testCases.length)) + ' / ' + view.testCases.length
+            if view.testSkip + view.testLimit < view.testCases.length
+              span= ' '
+              a(href="/artisans/block-testing?skip=" + (view.testSkip + view.testLimit) + "&limit=" + view.testLimit) >
+
+    #test-cases-container

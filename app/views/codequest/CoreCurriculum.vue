@@ -6,8 +6,7 @@
       <span class="text-wrapper"> designed to </span>
       <span class="span">inspire creativity</span>
       <span class="text-wrapper"> in coding and </span>
-      <span class="span">teach real world applications of AI</span>
-      <span class="text-wrapper">.</span>
+      <span class="span">teach real world applications of AI</span>.
     </p>
     <div class="content">
       <Box
@@ -23,12 +22,10 @@
     </div>
     <p class="heading">
       <span class="text-wrapper">Hackathons will be held at </span>
-      <span class="span">renowned universities</span>
-      <span class="text-wrapper">, offering a unique experience for students to </span>
+      <span class="span">renowned universities</span>, offering a unique experience for students to
       <span class="span">immerse</span>
       <span class="text-wrapper"> themselves in the </span>
-      <span class="span">collegiate setting</span>
-      <span class="text-wrapper">.</span>
+      <span class="span">collegiate setting</span>.
     </p>
     <div class="content">
       <Box
@@ -132,8 +129,7 @@
       <span class="text-wrapper">San Francisco and Silicon Valley offer students the unique opportunity to </span>
       <span class="span">experience life at a tech giant</span>
       <span class="text-wrapper"> and </span>
-      <span class="span">explore the sights of the city</span>
-      <span class="text-wrapper">.</span>
+      <span class="span">explore the sights of the city</span>.
     </p>
     <div class="content">
       <Box
@@ -189,6 +185,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import 'app/styles/bootstrap/variables';
 .core-curriculum {
     align-items: stretch;
     display: inline-flex;
@@ -209,9 +206,6 @@ export default {
     position: relative;
     text-align: center;
     width: 100%;
-}
-
-.core-curriculum .text-wrapper {
     color: #000000;
 }
 
@@ -235,7 +229,7 @@ export default {
         flex-direction: column;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: $screen-sm) {
         flex-direction: column;
     }
 }
