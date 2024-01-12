@@ -1,0 +1,16 @@
+.col-md-12.test-case(class=testCase.focused ? "focused" : "")
+  h2
+    span= (testCaseIndex + 1) + '. '
+    a(href="/artisans/block-testing?test=" + testCase.name)= testCase.name
+    span.pull-right.test-status
+  .row.test-results
+    .col-md-5
+      .side-label Input
+      .ace-input
+      .side-label Output
+      .ace-output
+      .side-label Error
+      pre.error-scratchpad.hide
+    .col-md-7
+      .blockly-container
+      .blockly-container-debug

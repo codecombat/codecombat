@@ -14,6 +14,7 @@ LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
 aceUtils = require 'core/aceUtils'
 blocklyUtils = require 'core/blocklyUtils'
+{ codeToBlocks, prepareBlockIntelligence } = require 'lib/code-to-blocks'
 CodeLog = require 'models/CodeLog'
 Autocomplete = require './editor/autocomplete'
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
@@ -21,12 +22,15 @@ LZString = require 'lz-string'
 utils = require 'core/utils'
 Aether = require 'lib/aether/aether'
 Blockly = require 'blockly'
+blocklyUtils.registerBlocklyTheme()
 storage = require 'core/storage'
 AceDiff = require 'ace-diff'
 globalVar = require 'core/globalVar'
 fetchJson = require 'core/api/fetch-json'
 store = require 'core/store'
 require('app/styles/play/level/tome/ace-diff-spell.sass')
+
+PERSIST_BLOCK_STATE = false
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -460,39 +464,49 @@ module.exports = class SpellView extends CocoView
       @awaitingBlockly = true
       return
     codeLanguage = @spell.language
-    toolbox = blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage, level: @options.level })
-    blocklyUtils.registerBlocklyTheme()
+    @blocklyToolbox = blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage, level: @options.level })
+    # codeToBlocks prepareBlockIntelligence function needs the JavaScript version of the toolbox
+    @blocklyToolboxJS = if codeLanguage is 'javascript' then @blocklyToolbox else blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage: 'javascript', level: @options.level })
     targetDiv = @$('#blockly-container')
-    blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox })
+    blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: @blocklyToolbox })
     @blockly = Blockly.inject targetDiv[0], blocklyOptions
     @blocklyActive = true
     blocklyUtils.initializeBlocklyTooltips()
+    if @onCodeChangeMetaHandler
+      @blockly.addChangeListener @onBlocklyEvent
 
-    lastBlocklyState = if @session.fake then null else storage.load "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}"
-    if lastBlocklyState
-      blocklyUtils.loadBlocklyState lastBlocklyState, @blockly
-      # Rerun the code
-      @blocklyToAce()
+    @lastBlocklyState = if PERSIST_BLOCK_STATE and not @session.fake then storage.load "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}" else null
+    if @lastBlocklyState
+      @awaitingBlocklySerialization = true
+      blocklyUtils.loadBlocklyState @lastBlocklyState, @blockly
       for block in @blockly.getAllBlocks() when block.type is 'comment'
         # Make long comments not so long. (The full comments will be visible, wrapped, in text version anyway.)
+        # TODO: do we like this?
         block.setCollapsed true
       @recompile()
-    #else
-    #  # Initialize Blockly from the text code
-    #  @aceToBlockly true
+    else
+      # Initialize Blockly from the text code
+      @aceToBlockly true
 
     @resizeBlockly()
-
-    if @onCodeChangeMetaHandler
-      @blockly.addChangeListener @blocklyToAce
 
   getBlocklySource: ->
     blocklyUtils.getBlocklySource @blockly, @spell.language
 
-  blocklyToAce: =>
+  onBlocklyEvent: (e) =>
+    # console.log "--------- Got Blockly Event #{e.type} ------------", e
+    if e.type is Blockly.Events.FINISHED_LOADING
+      @awaitingBlocklySerialization = false
+
+    if e.type in blocklyUtils.blocklyMutationEvents
+      @blocklyToAce()
+
+  blocklyToAce: ->
+    return if @awaitingBlocklySerialization
     return if @eventsSuppressed
     return unless @blockly
     { blocklyState, blocklySource, combined } = @getBlocklySource()
+    @lastBlocklyState = blocklyState
     aceSource = @getSource()
 
     # For debugging, including Blockly JSON serialization
@@ -505,27 +519,40 @@ module.exports = class SpellView extends CocoView
     console.log 'B2A: Changing ace source from', aceSource, 'to', blocklySource, 'with state', blocklyState
     @updateACEText blocklySource
 
-    unless @session.fake
+    if PERSIST_BLOCK_STATE and not @session.fake
       storage.save "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}", blocklyState
 
   aceToBlockly: (force) =>
     return if @eventsSuppressed and not force
     return unless @blockly
-    # TODO: this is currently not doing anything until we update it with code -> blockly generation
-    return
-    aceCombined = @ace.getValue()
-    match = aceCombined.match(/^[#\/\-]+BLOCKLY. ([^\n]*)\n\n(.*)/)  # TODO: check if this can do multiline or use something else
-    if match?
-      aceState = match[1]
-      aceSource = match[2]
-    { blocklyState, blocklySource, combined } = @getBlocklySource()
+    { blocklyState, blocklySource } = @getBlocklySource()
+    unless @codeToBlocksPrepData
+      try
+        @codeToBlocksPrepData = prepareBlockIntelligence { toolbox: @blocklyToolboxJS, blocklyState, workspace: @blockly }
+      catch err
+        console.error 'Error preparing Blockly code to blocks conversion:', err
+        return
+    aceSource = @ace.getValue()
     return if not aceSource? or aceSource is blocklySource
+    try
+      newBlocklyState = codeToBlocks { code: @ace.getValue(), codeLanguage: @spell.language, toolbox: @blocklyToolbox, blocklyState, prepData: @codeToBlocksPrepData }
+    catch err
+      console.log "Couldn't parse code to get new blockly state:", err, '\nCode:', aceSource
+      return
+
+    if blocklyUtils.isEqualBlocklyState newBlocklyState, @lastBlocklyState
+      #console.log 'new blockly state is the same as it ever was, so not updating blockly; new', newBlocklyState, 'old', @lastBlocklyState
+      return
+    else
+      #console.log 'new blockly state', newBlocklyState, 'is different from last blockly state', @lastBlocklyState
     console.log 'A2B: Changing blockly source from', blocklySource, 'to', aceSource
     @eventsSuppressed = true
-    #console.log 'would set to', blocklyState
-    Blockly.serialization.workspaces.load blocklyState, @blockly
+    @awaitingBlocklySerialization = true
+    #console.log 'would set to', newBlocklyState
+    blocklyUtils.loadBlocklyState newBlocklyState, @blockly
     #@resizeBlockly()  # Needed?
     @eventsSuppressed = false
+    @lastBlocklyState = newBlocklyState
 
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?
@@ -902,6 +929,7 @@ module.exports = class SpellView extends CocoView
     @spell.reloadCode() if cast
     @thang = @spell.thang.thang
     @updateACEText @spell.originalSource
+    @aceToBlockly()
     @lockDefaultCode true
     @recompile cast
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
@@ -964,7 +992,7 @@ module.exports = class SpellView extends CocoView
     @aceDoc.on 'change', @onCodeChangeMetaHandler
 
     if @blockly
-      @blockly.addChangeListener @blocklyToAce
+      @blockly.addChangeListener @onBlocklyEvent
 
   onCursorActivity: =>  # Used to refresh autocast delay; doesn't do anything at the moment.
 

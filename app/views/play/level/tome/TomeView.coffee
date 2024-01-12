@@ -88,18 +88,21 @@ module.exports = class TomeView extends CocoView
       commentedSource = spell.view.commentOutMyCode() + 'Commented out to stop infinite loop.\n' + spell.getSource()
       spell.view.updateACEText commentedSource
       spell.view.recompile false
+      spell.view.aceToBlockly()
     _.delay (=> @cast?()), 1000
 
   onResetMyCode: (e) ->
     for spellKey, spell of @spells when spell.canWrite()
       spell.view.updateACEText spell.originalSource
       spell.view.recompile false
+      spell.view.aceToBlockly()
     _.delay (=> @cast?()), 1000
 
   onChangeMyCode: (solution) ->
     for spellKey, spell of @spells when spell.canWrite()
       spell.view.updateACEText solution
       spell.view.recompile false
+      spell.view.aceToBlockly()
 
   createWorker: ->
     return null unless Worker?
