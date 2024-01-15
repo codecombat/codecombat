@@ -1,6 +1,7 @@
 SpellView = require './SpellView'
 {me} = require 'core/auth'
 {createAetherOptions} = require 'lib/aether_utils'
+{ translateJS } = require 'lib/translate-utils'
 utils = require 'core/utils'
 store = require 'core/store'
 
@@ -60,6 +61,8 @@ module.exports = class Spell
   setLanguage: (@language) ->
     @language = 'html' if @level.isType('web-dev')
     @displayCodeLanguage = utils.capitalLanguages[@language]
+    if @language in ['cpp', 'java', 'lua', 'coffeescript', 'python'] and not @languages[@language]
+      @languages[@language] = translateJS @languages.javascript, @language
     @originalSource = @languages[@language] ? @languages.javascript
     @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
 
