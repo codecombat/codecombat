@@ -41,7 +41,9 @@ export default Vue.extend({
       span= ' ©2023 CodeCombat Inc. '
       span {{ $t("nav.copyright_suffix") }}
       if me.showChinaResourceInfo()
-        if me.showChinaHomeVersion()
+        if isOzaria
+          a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-7
+        else if me.showChinaHomeVersion()
           a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-20
         else
           a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号

@@ -136,11 +136,10 @@ export default Vue.extend({
           condition: true,
           lists: [
             { url: 'https://xuetang.koudashijie.com', extra: '扣哒学堂' },
-            { url: 'https://aojiarui.com', extra: '奥佳睿' },
+            { url: 'https://aojiarui.com', extra: '奥佳睿', hide: this.isOzaria },
             { url: 'https://aishiqingsai.org.cn', extra: 'AI世青赛' },
-
-            { url: 'https://koudashijie.com', extra: '扣哒世界', hide: !this.isChinaHome },
-            { url: 'https://codecombat.cn', extra: 'CodeCombat 个人版', hide: this.isChinaHome }
+            { url: 'https://koudashijie.com', extra: '扣哒世界', hide: this.isCodeCombat && !this.isChinaHome },
+            { url: 'https://codecombat.cn', extra: 'CodeCombat 个人版', hide: this.isCodeCombat && this.isChinaHome }
           ]
         }
       ]

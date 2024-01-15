@@ -91,7 +91,7 @@ module.exports = (HomeView = (function () {
 
     getMeta () {
       return {
-        title: $.i18n.t('new_home.title' + (features?.chinaHome ? '_cn_home' : PRODUCT_SUFFIX)),
+        title: $.i18n.t('new_home.title_' + (features?.chinaHome ? 'cn_home' : PRODUCT_SUFFIX)),
         meta: [
           { vmid: 'meta-description', name: 'description', content: $.i18n.t('new_home.meta_description_' + PRODUCT_SUFFIX) },
           { vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }
