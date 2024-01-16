@@ -232,10 +232,10 @@ module.exports = {
       im_a_parent: '我是家长',
       //    im_a_parent_description: "Explore our live online coding classes"
       im_an_educator: '我是老师',
-      //    im_an_educator_description: "Teach Computer Science with CodeCombat"
+      im_an_educator_description: '用扣哒世界教授编程',
       im_a_teacher: '我是老师',
       im_a_student: '我是学生',
-      //    im_a_student_description: "Learn Computer Science with your class"
+      im_a_student_description: '加入班级学习编程',
       //    im_an_individual: "I'm an Individual"
       //    im_an_individual_description: "Play at home outside of a class setting"
       learn_more: '了解更多',
@@ -419,13 +419,13 @@ module.exports = {
       //    professional_development: "Professional Development"
       //    new: "New!"
       admin: '管理员',
-    //    api: "API"
+      //    api: "API"
       teacher: '教师',
-    //    api_dashboard: "API Dashboard"
-    //    funding_resources_guide: "Funding Resources Guide"
-    //    partnerships: "Partnerships"
-    //    podcast: "Our Podcast"
-      dashboard: "我的班级"
+      //    api_dashboard: "API Dashboard"
+      //    funding_resources_guide: "Funding Resources Guide"
+      //    partnerships: "Partnerships"
+      //    podcast: "Our Podcast"
+      dashboard: '我的班级'
     //    products: "Products"
     //    live_online_classes: "Live Online Classes"
     //    codecombat_home: "CodeCombat Home"
@@ -4257,20 +4257,20 @@ module.exports = {
       all_classes: '所有班级',
       my_licenses: '我的许可',
       resource_hub: '资源中心',
-    //    lock_until_date: "Lock until date"
-    //    skip: "Skip"
-    //    unskip: "Unskip"
-    //    make_optional: "Make optional"
-    //    remove_optional: "Remove Optional"
-    //    until_date: "until __date__"
-    //    locked: "Locked"
-    //    locked_by_previous: "Locked by previous level"
-    //    locked_with_timeframe: "Locked"
-    //    skipped: "Skipped"
-    //    optional: "Optional"
-    //    assigned: "Assigned"
-    //    unlocked: "Unlocked"
-    //    pd: "Professional Development"
+      //    lock_until_date: "Lock until date"
+      //    skip: "Skip"
+      //    unskip: "Unskip"
+      //    make_optional: "Make optional"
+      //    remove_optional: "Remove Optional"
+      //    until_date: "until __date__"
+      //    locked: "Locked"
+      //    locked_by_previous: "Locked by previous level"
+      //    locked_with_timeframe: "Locked"
+      //    skipped: "Skipped"
+      //    optional: "Optional"
+      //    assigned: "Assigned"
+      //    unlocked: "Unlocked"
+      //    pd: "Professional Development"
       curriculum_guide: '教学指导',
       add_class: '添加新班级',
       no_licenses_yet: '没有许可',
@@ -4311,10 +4311,10 @@ module.exports = {
       end_date: '结束时间：__date__',
       license_questions: '使用和收回许可有疑问吗？ ',
       need_more_licenses: '需要更多学习许可吗? 我们会为您的需求定制方案。 ',
-    //    see_also_our: "See also our"
-    //    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
+      //    see_also_our: "See also our"
+      //    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
 
-    //    intro_explain_tooltip: "<b>\"Intros\"</b> introduce new concepts or further the storyline in a scaffolded way. They typically include Cinematics and/or Concept Checks."
+      //    intro_explain_tooltip: "<b>\"Intros\"</b> introduce new concepts or further the storyline in a scaffolded way. They typically include Cinematics and/or Concept Checks."
       support_oz: 'china@codecombat.com',
       standards_alignment: '符合标准',
       standards_sample: '本章涉及的标准样例。',
