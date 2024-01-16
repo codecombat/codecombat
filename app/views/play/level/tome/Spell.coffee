@@ -38,6 +38,7 @@ module.exports = class Spell
         blocks: options.blocks
         blocksHidden: options.blocksHidden
         teacherID: options.teacherID
+        showLevelHelp: options.classroomAceConfig?.levelChat
       @topBarView.render()
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 

@@ -28,8 +28,9 @@ if showAmazonLogo
     button#switch-team(class="btn btn-small btn-illustrated " + (otherTeam == 'ogres' ? 'btn-primary' : 'btn-danger'))
       span(data-i18n="play_level.play_as_" + otherTeam)
 
-  span.spell-chatbot
-    img.spell-chatbot-hint(src="/images/ozaria/teachers/dashboard/svg_icons/IconHint.svg" alt="Hint")
+  if view.showLevelHelp
+    span.spell-chatbot
+      img.spell-chatbot-hint(src="/images/ozaria/teachers/dashboard/svg_icons/IconHint.svg" alt="Hint")
 
   if me.canAutoFillCode()
     if view.teaching
