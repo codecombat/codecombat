@@ -7,7 +7,7 @@ const moment = require('moment')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
-require('moment/min/locales')
+require('moment/min/locales.min')
 const glob = require('glob')
 require('coffee-script')
 require('coffee-script/register')
@@ -26,6 +26,13 @@ const possibleLocaleKeysFn = (keys) => {
   const current = [...keys]
   keys.forEach((key) => {
     if (key.includes('-')) {
+      const langs = {
+        'zh-HANS': 'zh-cn',
+        'zh-HANT': 'zh-tw'
+      }
+      if (langs[key]) {
+        current.push(langs[key])
+      }
       const possible = key.split('-')
       const temp = []
       for (let i = 0; i < possible.length - 1; i++) {
