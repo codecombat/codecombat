@@ -104,7 +104,7 @@ block modal-body-content
         .form-group
           label
             span(data-i18n="teachers.classroom_level_chat")
-            - var aceConfig = _.assign({levelChat: 'none'},  view.classroom.get('aceConfig'))
+            - var aceConfig = _.assign({levelChat: 'fixed_prompt_only'},  view.classroom.get('aceConfig'))
             - var levelChat = aceConfig.levelChat
             - var levelChatAllowed = levelChat === 'fixed_prompt_only'
             input#level-chat(name="levelChat" checked=levelChatAllowed value='fixed_prompt_only' type='checkbox')
