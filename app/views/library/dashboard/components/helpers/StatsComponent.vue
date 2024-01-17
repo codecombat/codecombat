@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="stats"
-    :class="{ printing: printing }"
-  >
+  <div class="stats">
     <stat-item-component
       img-path="/images/pages/library/icon-users.png"
       :name="$t('library.total_users')"
@@ -45,10 +42,6 @@ export default {
     },
     programsWritten: {
       type: Number
-    },
-    printing: {
-      type: Boolean,
-      default: false
     }
   }
 }
@@ -63,9 +56,10 @@ export default {
   background: $color-yellow-3 !important;
   -webkit-print-color-adjust: exact !important;
   padding: 2rem;
-
-  &.printing {
-    max-width: 1024px;
+}
+@media print {
+  .stats {
+    width: 1024px !important;
   }
 }
 </style>

@@ -11,7 +11,7 @@
     <div class="filter__dates">
       <div
         v-if="printing"
-        class="filter__date"
+        class="filter__date printing"
       >
         {{ startDate }}
       </div>
@@ -25,7 +25,7 @@
       <span class="filter__to">To:</span>
       <div
         v-if="printing"
-        class="filter__date"
+        class="filter__date printing"
       >
         {{ endDate }}
       </div>
@@ -112,12 +112,6 @@ export default {
 
     color: $color-dark-grey-1;
     font-size: 1.4rem;
-
-    &div {
-      display: inline-block;
-      font-size: 2rem;
-      font-weight: 600;
-    }
   }
 
   &__to {
@@ -126,6 +120,18 @@ export default {
 
     margin-left: 5px;
     margin-right: 5px;
+  }
+}
+
+@media print {
+  .filter {
+    width: 1024px !important;
+
+    &__date.printing {
+      display: inline-block;
+      font-size: 2rem;
+      font-weight: 600;
+    }
   }
 }
 </style>

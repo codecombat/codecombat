@@ -93,6 +93,13 @@ export default {
 <style scoped lang="scss">
 @import "./css-mixins/variables";
 
+@media print {
+  .library {
+    grid-template-columns: unset !important;
+    grid-template-rows: unset !important;
+  }
+}
+
 .library {
   font-size: 62.5%; // 10px/16px = 62.5% -> 1rem = 10px
   font-family: Work Sans, "Open Sans", sans-serif;
@@ -104,12 +111,13 @@ export default {
   &__name {
     grid-column: sidebar-start / sidebar-end;
 
-    background: $color-yellow-1;
+    background: $color-yellow-1 !important;
     box-shadow: 0px -4px 2rem 0px rgba(0, 0, 0, 0.20);
     text-transform: uppercase;
     text-align: center;
 
-    color: $color-blue-2;
+    color: $color-blue-2 !important;
+    -webkit-print-color-adjust: exact !important;
     font-feature-settings: 'clig' off, 'liga' off;
     font-size: 1.8rem;
     font-style: normal;
@@ -125,7 +133,7 @@ export default {
 
     background: $color-blue-1 !important;
     -webkit-print-color-adjust: exact !important;
-    color: $color-yellow-2;
+    color: $color-yellow-2 !important;
     font-feature-settings: 'clig' off, 'liga' off;
     font-size: 1.4rem;
     font-style: normal;
@@ -134,7 +142,8 @@ export default {
     letter-spacing: 0.44px;
 
     &__name {
-      color: $color-white;
+      color: $color-white !important;
+      -webkit-print-color-adjust: exact !important;
       text-transform: uppercase;
     }
 

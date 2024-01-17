@@ -13,12 +13,10 @@
       :lines-of-code="linesOfCode"
       :minutes-spent="minutesSpent"
       :programs-written="programsWritten"
-      :printing="printing"
     />
     <graph-component
       v-if="!loading"
       :stats="stats"
-      :printing="printing"
     />
     <div
       v-if="loading"
@@ -27,7 +25,6 @@
       {{ $t('library.loading_from') }} {{ startDate }} to {{ endDate }}.....
     </div>
     <div
-      v-if="!printing"
       class="ldata__old"
     >
       {{ $t('library.access_old_dashboard') }} <a
@@ -123,6 +120,12 @@ export default {
 
   &__link {
     color: $color-white;
+  }
+}
+
+@media print {
+  .ldata__old {
+    display: none;
   }
 }
 </style>
