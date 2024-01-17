@@ -10,6 +10,14 @@
         v-if="libraryName"
         class="library__desc__name"
       >{{ libraryName }}!</span> {{ $t('library.adjust_dates_explore') }}
+      <div class="library__download">
+        <button
+          class="btn btn-lg btn-debug"
+          @click="clickPrintButton"
+        >
+          Print
+        </button>
+      </div>
     </div>
     <sidebar-component
       :stats="licenseStats"
@@ -72,7 +80,16 @@ export default {
     },
     debouncedFetchStats: _.debounce(function () {
       this.fetchStats()
-    }, 3000)
+    }, 3000),
+    clickPrintButton () {
+      $('iframe#launcher').parent().hide()
+      this.printing = true
+      setTimeout(() => {
+        window.print()
+        this.printing = false
+        $('iframe#launcher').parent().show()
+      }, 500)
+    }
   },
   computed: {
     ...mapGetters({
@@ -97,6 +114,10 @@ export default {
   .library {
     grid-template-columns: unset !important;
     grid-template-rows: unset !important;
+
+    &__download {
+      display: none !important;
+    }
   }
 }
 
@@ -148,6 +169,11 @@ export default {
     }
 
     padding: 2rem;
+
+  }
+
+  &__download {
+    display: inline-block;
   }
 }
 </style>
