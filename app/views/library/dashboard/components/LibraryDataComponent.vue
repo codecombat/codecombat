@@ -3,6 +3,7 @@
     <filter-component
       :initial-start-date="startDate"
       :initial-end-date="endDate"
+      :printing="printing"
       @startDateChanged="(start) => $emit('startDateChanged', start)"
       @endDateChanged="(end) => $emit('endDateChanged', end)"
     />
@@ -23,7 +24,9 @@
     >
       {{ $t('library.loading_from') }} {{ startDate }} to {{ endDate }}.....
     </div>
-    <div class="ldata__old">
+    <div
+      class="ldata__old"
+    >
       {{ $t('library.access_old_dashboard') }} <a
         href="/api-dashboard?fromNew=1"
         target="_blank"
@@ -58,6 +61,10 @@ export default {
     loading: {
       type: Boolean,
       default: true
+    },
+    printing: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -113,6 +120,12 @@ export default {
 
   &__link {
     color: $color-white;
+  }
+}
+
+@media print {
+  .ldata__old {
+    display: none;
   }
 }
 </style>
