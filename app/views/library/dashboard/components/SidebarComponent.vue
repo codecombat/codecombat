@@ -73,6 +73,19 @@ export default {
     width: 1024px !important;
     flex-direction: row !important;
     justify-content: space-between !important;
+    padding-bottom: 0 !important;
+
+    &__licenses__number {
+      font-size: 2.5rem !important;
+      text-align: center !important;
+    }
+    &__renewal__date {
+      font-size: 2.5rem !important;
+    }
+
+    & > div {
+      margin-bottom: 1rem !important;
+    }
   }
 }
 

@@ -15,13 +15,12 @@
           class="btn btn-lg btn-debug"
           @click="clickPrintButton"
         >
-          Print
+          {{ $t('courses.certificate_btn_print') }} / PDF
         </button>
       </div>
     </div>
     <sidebar-component
       :stats="licenseStats"
-      :printing="printing"
     />
     <library-data-component
       :start-date="startDate"
@@ -161,6 +160,7 @@ export default {
     font-weight: 700;
     line-height: 2.4rem; /* 171.429% */
     letter-spacing: 0.44px;
+    position: relative;
 
     &__name {
       color: $color-white !important;
@@ -174,6 +174,9 @@ export default {
 
   &__download {
     display: inline-block;
+    position: absolute;
+    top: 10px;
+    right: 15px;
   }
 }
 </style>
