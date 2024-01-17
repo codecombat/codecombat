@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const PWD = __dirname
 const enTranslations = require(`../app/locale/en`).translation
+const { exec } = require('child_process')
 
 // TODO: better identification of empty sections after deleting entries.  Empy sections yield module load fails on run.
 
@@ -166,4 +167,12 @@ fs.writeFileSync(
   rewrittenEnSource
 )
 
-console.log('Done!')
+console.log('running eslint --fix app/locale/')
+exec('npx eslint --fix app/locale/', (err) => {
+  if (err) {
+    console.error('linting failed', err)
+  } else {
+    console.log('linting succeeded')
+  }
+  console.log('Done!')
+})
