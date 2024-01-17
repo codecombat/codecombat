@@ -175,8 +175,8 @@ export default {
   &__download {
     display: inline-block;
     position: absolute;
-    top: 10px;
-    right: 15px;
+    top: 1.2rem;
+    right: 2rem;
   }
 }
 </style>
