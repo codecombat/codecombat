@@ -3,6 +3,7 @@
     <filter-component
       :initial-start-date="startDate"
       :initial-end-date="endDate"
+      :printing="printing"
       @startDateChanged="(start) => $emit('startDateChanged', start)"
       @endDateChanged="(end) => $emit('endDateChanged', end)"
     />
@@ -12,10 +13,12 @@
       :lines-of-code="linesOfCode"
       :minutes-spent="minutesSpent"
       :programs-written="programsWritten"
+      :printing="printing"
     />
     <graph-component
       v-if="!loading"
       :stats="stats"
+      :printing="printing"
     />
     <div
       v-if="loading"
@@ -23,7 +26,10 @@
     >
       {{ $t('library.loading_from') }} {{ startDate }} to {{ endDate }}.....
     </div>
-    <div class="ldata__old">
+    <div
+      v-if="!printing"
+      class="ldata__old"
+    >
       {{ $t('library.access_old_dashboard') }} <a
         href="/api-dashboard?fromNew=1"
         target="_blank"
@@ -58,6 +64,10 @@ export default {
     loading: {
       type: Boolean,
       default: true
+    },
+    printing: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

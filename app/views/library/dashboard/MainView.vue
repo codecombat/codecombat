@@ -13,12 +13,14 @@
     </div>
     <sidebar-component
       :stats="licenseStats"
+      :printing="printing"
     />
     <library-data-component
       :start-date="startDate"
       :end-date="endDate"
       :stats="licenseStats"
       :loading="loading"
+      :printing="printing"
       @startDateChanged="onStartDateChanged"
       @endDateChanged="onEndDateChanged"
     />
@@ -42,7 +44,8 @@ export default {
     return {
       startDate: moment().subtract(3, 'months').format('YYYY-MM-DD'),
       endDate: moment().format('YYYY-MM-DD'),
-      clientId: null
+      clientId: null,
+      printing: false
     }
   },
   methods: {
@@ -120,7 +123,8 @@ export default {
   &__desc {
     grid-column: main-content-start / main-content-end;
 
-    background: $color-blue-1;
+    background: $color-blue-1 !important;
+    -webkit-print-color-adjust: exact !important;
     color: $color-yellow-2;
     font-feature-settings: 'clig' off, 'liga' off;
     font-size: 1.4rem;

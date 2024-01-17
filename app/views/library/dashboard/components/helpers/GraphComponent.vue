@@ -1,5 +1,8 @@
 <template>
-  <div class="graphs">
+  <div
+    class="graphs"
+    :class="{ printing }"
+  >
     <div class="graphs__item">
       <div class="graphs__heading">
         {{ $t('library.number_users') }}
@@ -78,6 +81,10 @@ export default {
   props: {
     stats: {
       type: Object
+    },
+    printing: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -211,9 +218,16 @@ export default {
   background: $color-grey-1;
   padding: 2rem;
 
+  &.printing {
+    grid-template-columns: 1fr;
+    grid-row-gap: 1rem;
+    max-width: 1024px;
+  }
+
   &__item {
     padding: 1rem;
     background: $color-white;
+    page-break-inside: avoid;
 
     border-radius: 1.4rem;
     border: 1px solid $color-grey-2;
