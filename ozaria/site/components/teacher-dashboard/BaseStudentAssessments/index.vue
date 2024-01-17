@@ -192,42 +192,61 @@ export default {
 <template>
   <div id="teacher-class-view">
     <div class="container">
-      <h4 class="m-b-2 m-t-3">{{ $t('teacher.progress_color_key') }}</h4>
-      <div id="progress-color-key-row" class="row m-b-3">
+      <h4 class="m-b-2 m-t-3">
+        {{ $t('teacher.progress_color_key') }}
+      </h4>
+      <div
+        id="progress-color-key-row"
+        class="row m-b-3"
+      >
         <div class="col col-md-2 col-xs-3">
-          <div class="progress-dot forest"></div>
+          <div class="progress-dot forest" />
           <div class="key-text">
             <span class="small">{{ $t('teacher.success') }}</span>
           </div>
-          <div class="clearfix"></div>
+          <div class="clearfix" />
         </div>
         <div class="col col-md-2 col-xs-3">
-          <div class="progress-dot gold"></div>
+          <div class="progress-dot gold" />
           <div class="key-text">
             <span class="small">{{ $t('teacher.in_progress') }}</span>
           </div>
-          <div class="clearfix"></div>
+          <div class="clearfix" />
         </div>
         <div class="col col-md-2 col-xs-3">
-          <div class="progress-dot"></div>
+          <div class="progress-dot" />
           <div class="key-text">
             <span class="small">{{ $t('teacher.not_started') }}</span>
           </div>
-          <div class="clearfix"></div>
+          <div class="clearfix" />
         </div>
         <div class="col col-md-2 col-xs-3">
-          <pie-chart :percent="100 * 2 / 3" :strokeWidth="10" color="#20572B" :opacity="1"></pie-chart>
+          <pie-chart
+            :percent="100 * 2 / 3"
+            :stroke-width="10"
+            color="#20572B"
+            :opacity="1"
+          />
           <div class="key-text">
-            <span class="small" data-i18n='TODO'>Partially Complete</span>
+            <span
+              class="small"
+              data-i18n="TODO"
+            >Partially Complete</span>
           </div>
-          <div class="clearfix"></div>
+          <div class="clearfix" />
         </div>
       </div>
       <div v-if="!loading">
         <div v-if="propsData && propsData.courseInstance && propsData.courseInstance.members.length > 0">
-          <teacher-class-assessments-table :students="propsData.students" :levels="propsData.levels"
-            :course="propsData.course" :course-instance="propsData.courseInstance" :classroom="propsData.classroom"
-            :progress="propsData.progress" :readOnly="propsData.readOnly" />
+          <teacher-class-assessments-table
+            :students="propsData.students"
+            :levels="propsData.levels"
+            :course="propsData.course"
+            :course-instance="propsData.courseInstance"
+            :classroom="propsData.classroom"
+            :progress="propsData.progress"
+            :read-only="propsData.readOnly"
+          />
         </div>
         <div v-else>
           <h2 class="text-center">

@@ -62,23 +62,23 @@ export default {
       setSelectedLanguage: 'baseCurriculumGuide/setSelectedLanguage',
       closeCurriculumGuide: 'baseCurriculumGuide/closeCurriculumGuide'
     }),
-    changeLanguage(e) {
+    changeLanguage (e) {
       window.tracker?.trackEvent('Curriculum Guide: Language Changed from dropdown', { category: this.getTrackCategory, label: this.courseName })
       this.setSelectedLanguage(e.target.value)
     },
     isCapstoneModule (moduleNum) {
-      if(utils.isCodeCombat){
+      if (utils.isCodeCombat) {
         return false
       }
       // Assuming that last module is the capstone module, TODO store `isCapstoneModule` with module details in the course schema.
-      return moduleNum === this.moduleNumbers[this.moduleNumbers.length-1]
+      return moduleNum === this.moduleNumbers[this.moduleNumbers.length - 1]
     }
   },
   watch: {
     defaultLanguage: {
-      handler(language) {
+      handler (language) {
         this.setSelectedLanguage(language)
-      },
+      }
     }
   }
 }

@@ -7,10 +7,9 @@ import NavSelectUnit from '../common/NavSelectUnit'
 import ClassInfoRow from './ClassInfoRow'
 import moment from 'moment'
 
-const Classroom = require('models/Classroom')
-
-
 import { mapActions, mapGetters } from 'vuex'
+
+const Classroom = require('models/Classroom')
 
 export default {
   components: {
@@ -48,10 +47,10 @@ export default {
     }
   },
 
-    computed: {
-      ...mapGetters({
-        activeClassrooms: 'teacherDashboard/getActiveClassrooms',
-      }),
+  computed: {
+    ...mapGetters({
+      activeClassrooms: 'teacherDashboard/getActiveClassrooms'
+    }),
 
     filteredCourses () {
       if (this.$route.path.startsWith('/teachers/assessments')) {

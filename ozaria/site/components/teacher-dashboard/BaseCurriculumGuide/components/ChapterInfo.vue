@@ -174,20 +174,20 @@ export default {
     },
 
     onClickVideoThumbnail (e) {
-      let video_url
+      let videoUrl
       $('#video-modal').modal('show')
-      const image_src = e.target.src.slice(e.target.src.search('/images'))
-      const video = (Object.values(this.videoLevels || {}).find(l => l.thumbnail_unlocked === image_src) || {})
+      const imageSrc = e.target.src.slice(e.target.src.search('/images'))
+      const video = (Object.values(this.videoLevels || {}).find(l => l.thumbnail_unlocked === imageSrc) || {})
       if (me.showChinaVideo()) {
-        video_url = video.cn_url
+        videoUrl = video.cn_url
       } else {
-        video_url = video.url
+        videoUrl = video.url
         const preferred = me.get('preferredLanguage') || 'en'
-        const video_language_code = (video.captions_available || [])
-          .find(language_code => (language_code === preferred) || (language_code === preferred.split('-')[0]))
-        video_url = video_url.replace(/defaultTextTrack=[\w\d-]+/, 'defaultTextTrack=' + (video_language_code || 'en'))
+        const videoLanguageCode = (video.captions_available || [])
+          .find(languageCode => (languageCode === preferred) || (languageCode === preferred.split('-')[0]))
+        videoUrl = videoUrl.replace(/defaultTextTrack=[\w\d-]+/, 'defaultTextTrack=' + (videoLanguageCode || 'en'))
       }
-      $('.video-player')[0].src = video_url
+      $('.video-player')[0].src = videoUrl
 
       return $('#video-modal').on(('hide.bs.modal'), e => {
         return $('.video-player').attr('src', '')

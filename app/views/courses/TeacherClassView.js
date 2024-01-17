@@ -32,26 +32,26 @@ const CourseNagSubview = require('views/teachers/CourseNagSubview')
 const viewContentTemplate = require('app/templates/courses/teacher-class-view')
 const viewContentTemplateWithLayout = require('app/templates/courses/teacher-class-view-full')
 
-const Classroom = require('models/Classroom');
-const Classrooms = require('collections/Classrooms');
-const Levels = require('collections/Levels');
-const LevelSession = require('models/LevelSession');
-const LevelSessions = require('collections/LevelSessions');
-const User = require('models/User');
-const Users = require('collections/Users');
-const Course = require('models/Course');
-const Courses = require('collections/Courses');
-const CourseInstance = require('models/CourseInstance');
-const CourseInstances = require('collections/CourseInstances');
-const Prepaids = require('collections/Prepaids');
-const TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default;
-const PieChart = require('core/components/PieComponent').default;
-const GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler');
-const clansApi = require('core/api/clans');
-const prepaids = require('core/store/modules/prepaids').default;
+const Classroom = require('models/Classroom')
+const Classrooms = require('collections/Classrooms')
+const Levels = require('collections/Levels')
+const LevelSession = require('models/LevelSession')
+const LevelSessions = require('collections/LevelSessions')
+const User = require('models/User')
+const Users = require('collections/Users')
+const Course = require('models/Course')
+const Courses = require('collections/Courses')
+const CourseInstance = require('models/CourseInstance')
+const CourseInstances = require('collections/CourseInstances')
+const Prepaids = require('collections/Prepaids')
+const TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default
+const PieChart = require('core/components/PieComponent').default
+const GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
+const clansApi = require('core/api/clans')
+const prepaids = require('core/store/modules/prepaids').default
 const _ = require('lodash')
-const DOMPurify = require('dompurify');
-const studentProgressCalculator = require('lib/studentProgressCalculator');
+const DOMPurify = require('dompurify')
+const studentProgressCalculator = require('lib/studentProgressCalculator')
 
 const getLastSelectedCourseKey = classroomId => 'selectedCourseId_' + classroomId + '_' + me.id
 
@@ -681,12 +681,12 @@ module.exports = (TeacherClassView = (function () {
       })
     }
 
-    onClickExportStudentProgress() {
-      const {classroom, sortedCourses, students, courses, courseInstances, levels} = this
+    onClickExportStudentProgress () {
+      const { classroom, sortedCourses, students, courses, courseInstances, levels } = this
       const progressData = this.state.get('progressData')
       return studentProgressCalculator.exportStudentProgress({
         classroom, sortedCourses, students, courses, courseInstances, levels, progressData
-      })     
+      })
     }
 
     onClickViewAILeague (e) {

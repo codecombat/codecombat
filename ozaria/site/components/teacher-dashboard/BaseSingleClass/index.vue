@@ -77,7 +77,7 @@ export default {
       if (modules === undefined) {
         return []
       }
-      
+
       const intros = (this.gameContent[selectedCourseId] || {}).introLevels
 
       const modulesForTable = []

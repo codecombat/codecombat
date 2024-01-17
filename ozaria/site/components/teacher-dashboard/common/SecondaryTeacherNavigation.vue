@@ -57,48 +57,106 @@ export default {
 </script>
 
 <template>
-  <ul id="secondaryNav" class="nav" role="navigation">
-    <li role="presentation" class="dropdown">
-      <a id="ClassesDropdown" :class="['dropdown-toggle', classesTabSelected ? 'current-route' : '']" href="#"
-        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <ul
+    id="secondaryNav"
+    class="nav"
+    role="navigation"
+  >
+    <li
+      role="presentation"
+      class="dropdown"
+    >
+      <a
+        id="ClassesDropdown"
+        :class="['dropdown-toggle', classesTabSelected ? 'current-route' : '']"
+        href="#"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
         <div id="IconMyClasses" />
         <span>{{ $t('nav.my_classrooms') }}</span>
         <span class="caret" />
       </a>
-      <ul class="dropdown-menu" aria-labelledby="ClassesDropdown">
+      <ul
+        class="dropdown-menu"
+        aria-labelledby="ClassesDropdown"
+      >
         <li :class="allClassesSelected ? 'selected' : null">
-          <router-link tag="a" to="/teachers" class="dropdown-item underline-item" data-action="All Classes: Nav Clicked"
-            data-toggle="dropdown" @click.native="trackEvent">
+          <router-link
+            tag="a"
+            to="/teachers"
+            class="dropdown-item underline-item"
+            data-action="All Classes: Nav Clicked"
+            data-toggle="dropdown"
+            @click.native="trackEvent"
+          >
             {{ $t('teacher_dashboard.all_classes') }}
           </router-link>
         </li>
-        <li v-for="classroom in classrooms" :key="classroom._id"
-          :class="classesTabSelected && classroomSelected === classroom._id ? 'selected' : null">
-          <router-link tag="a" :to="`/teachers/classes/${classroom._id}`" class="dropdown-item"
-            data-action="Track Progress: Nav Clicked" data-toggle="dropdown" :data-label="$route.path"
-            @click.native="trackEvent">
+        <li
+          v-for="classroom in classrooms"
+          :key="classroom._id"
+          :class="classesTabSelected && classroomSelected === classroom._id ? 'selected' : null"
+        >
+          <router-link
+            tag="a"
+            :to="`/teachers/classes/${classroom._id}`"
+            class="dropdown-item"
+            data-action="Track Progress: Nav Clicked"
+            data-toggle="dropdown"
+            :data-label="$route.path"
+            @click.native="trackEvent"
+          >
             {{ classroom.name }}
           </router-link>
         </li>
       </ul>
     </li>
-    <li role="presentation" class="dropdown">
-      <a id="ProjectsDropdown" :class="['dropdown-toggle', isCurrentRoute('/teachers/projects') ? 'current-route' : '']"
-        href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <li
+      role="presentation"
+      class="dropdown"
+    >
+      <a
+        id="ProjectsDropdown"
+        :class="['dropdown-toggle', isCurrentRoute('/teachers/projects') ? 'current-route' : '']"
+        href="#"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
         <div id="IconCapstone" />
         <span>{{ $t('teacher_dashboard.student_projects') }}</span>
         <span class="caret" />
       </a>
-      <ul v-if="classrooms.length > 0" class="dropdown-menu" aria-labelledby="ProjectsDropdown">
-        <li v-for="classroom in classrooms" :key="classroom._id"
-          :class="classroomSelected === classroom._id && isCurrentRoute('/teachers/projects') ? 'selected' : null">
-          <router-link :to="`/teachers/projects/${classroom._id}`" class="dropdown-item"
-            data-action="Student Projects: Nav Clicked" data-toggle="dropdown" @click.native="trackEvent">
+      <ul
+        v-if="classrooms.length > 0"
+        class="dropdown-menu"
+        aria-labelledby="ProjectsDropdown"
+      >
+        <li
+          v-for="classroom in classrooms"
+          :key="classroom._id"
+          :class="classroomSelected === classroom._id && isCurrentRoute('/teachers/projects') ? 'selected' : null"
+        >
+          <router-link
+            :to="`/teachers/projects/${classroom._id}`"
+            class="dropdown-item"
+            data-action="Student Projects: Nav Clicked"
+            data-toggle="dropdown"
+            @click.native="trackEvent"
+          >
             {{ classroom.name }}
           </router-link>
         </li>
       </ul>
-      <ul v-else class="dropdown-menu" aria-labelledby="ProjectsDropdown">
+      <ul
+        v-else
+        class="dropdown-menu"
+        aria-labelledby="ProjectsDropdown"
+      >
         <li>
           <a class="dropdown-item disabled-item">
             {{ $t('teacher_dashboard.no_classes_yet') }}
@@ -107,47 +165,82 @@ export default {
       </ul>
     </li>
     <li>
-      <router-link to="/teachers/resources" id="ResourceAnchor"
-        :class="{ 'current-route': isCurrentRoute('/teachers/resources') }" @click.native="trackEvent"
-        data-action="Resource Hub: Nav Clicked">
+      <router-link
+        id="ResourceAnchor"
+        to="/teachers/resources"
+        :class="{ 'current-route': isCurrentRoute('/teachers/resources') }"
+        data-action="Resource Hub: Nav Clicked"
+        @click.native="trackEvent"
+      >
         <div id="IconResourceHub" />
         {{ $t('teacher_dashboard.resource_hub') }}
       </router-link>
     </li>
     <li>
-      <router-link to="/teachers/licenses" id="LicensesAnchor"
-        :class="{ 'current-route': isCurrentRoute('/teachers/licenses') }" @click.native="trackEvent"
-        data-action="My Licenses: Nav Clicked">
+      <router-link
+        id="LicensesAnchor"
+        to="/teachers/licenses"
+        :class="{ 'current-route': isCurrentRoute('/teachers/licenses') }"
+        data-action="My Licenses: Nav Clicked"
+        @click.native="trackEvent"
+      >
         <div id="IconLicense" />
         {{ $t('teacher_dashboard.my_licenses') }}
       </router-link>
     </li>
     <li>
-      <router-link to="/teachers/professional-development" id="PDAnchor"
-        :class="{ 'current-route': isCurrentRoute('/teachers/professional-development') }" @click.native="trackEvent"
-        data-action="PD: Nav Clicked">
+      <router-link
+        id="PDAnchor"
+        to="/teachers/professional-development"
+        :class="{ 'current-route': isCurrentRoute('/teachers/professional-development') }"
+        data-action="PD: Nav Clicked"
+        @click.native="trackEvent"
+      >
         <div id="IconPD" />
         <!-- <div id="IconNew">New!</div> -->
         {{ $t('teacher_dashboard.pd_short') }}
       </router-link>
     </li>
     <li v-if="isCodeCombat">
-      <a id="AssessmentsDropdown" :class="['dropdown-toggle', isCurrentRoute('/teachers/projects') ? 'current-route' : '']"
-        href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a
+        id="AssessmentsDropdown"
+        :class="['dropdown-toggle', isCurrentRoute('/teachers/projects') ? 'current-route' : '']"
+        href="#"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
         <div id="IconRubric" />
         <span>{{ $t('teacher_dashboard.assessments_tab') }}</span>
         <span class="caret" />
       </a>
-      <ul v-if="classrooms.length > 0" class="dropdown-menu" aria-labelledby="AssessmentsDropdown">
-        <li v-for="classroom in classrooms" :key="classroom._id"
-          :class="classroomSelected === classroom._id && isCurrentRoute('/teachers/assessments') ? 'selected' : null">
-          <router-link :to="`/teachers/assessments/${classroom._id}`" class="dropdown-item" @click.native="trackEvent"
-            data-action="Student Assessments: Nav Clicked" data-toggle="dropdown">
+      <ul
+        v-if="classrooms.length > 0"
+        class="dropdown-menu"
+        aria-labelledby="AssessmentsDropdown"
+      >
+        <li
+          v-for="classroom in classrooms"
+          :key="classroom._id"
+          :class="classroomSelected === classroom._id && isCurrentRoute('/teachers/assessments') ? 'selected' : null"
+        >
+          <router-link
+            :to="`/teachers/assessments/${classroom._id}`"
+            class="dropdown-item"
+            data-action="Student Assessments: Nav Clicked"
+            data-toggle="dropdown"
+            @click.native="trackEvent"
+          >
             {{ classroom.name }}
           </router-link>
         </li>
       </ul>
-      <ul v-else class="dropdown-menu" aria-labelledby="AssessmentsDropdown">
+      <ul
+        v-else
+        class="dropdown-menu"
+        aria-labelledby="AssessmentsDropdown"
+      >
         <li>
           <a class="dropdown-item disabled-item">
             {{ $t('teacher_dashboard.no_classes_yet') }}

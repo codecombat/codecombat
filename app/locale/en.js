@@ -2671,7 +2671,7 @@ module.exports = {
       module4: 'Module 4: ',
       module5: 'Module 5: ',
       module6: 'Module 6: ',
-	    module7: 'Module 7: ',
+      module7: 'Module 7: ',
       module8: 'Module 8: ',
       algorithms_and_syntax: 'Algorithms and Syntax',
       debugging: 'Debugging',
