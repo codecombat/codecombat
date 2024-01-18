@@ -53,7 +53,13 @@ export default {
   display: flex;
   justify-content: center;
 
-  background: $color-yellow-3;
+  background: $color-yellow-3 !important;
+  -webkit-print-color-adjust: exact !important;
   padding: 2rem;
+}
+@media print {
+  .stats {
+    width: 1024px !important;
+  }
 }
 </style>

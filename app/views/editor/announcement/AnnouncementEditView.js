@@ -22,6 +22,9 @@ class AnnouncementEditView extends EditView {
     if (!this.resource.get('endDate')) {
       this.resource.set('endDate', moment(this.resource.get('startDate')).add(1, 'months').toISOString())
     }
+    if (!this.resource.get('query')) {
+      this.resource.set('query', { _id: { $in: [me.get('_id').toString()] } })
+    }
     this.supermodel.loadModel(this.resource)
 
     this.treemaOptions = {
