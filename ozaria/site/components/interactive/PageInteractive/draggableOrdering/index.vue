@@ -7,11 +7,13 @@ import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
 import { putSession } from 'ozaria/site/api/interactive'
 import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
 import { deterministicShuffleForUserAndDay } from '../../../../common/utils'
+import { translateJS } from '../../../../../../app/lib/translate-utils'
 
 import BaseButton from '../../../common/BaseButton'
 import ModalInteractive from '../common/ModalInteractive.vue'
 
 export default {
+  name: 'DragableOrderingIndex',
   components: {
     BaseButton,
     ModalInteractive,
@@ -39,6 +41,11 @@ export default {
     codeLanguage: {
       type: String,
       required: true
+    },
+
+    interactiveLanguage: {
+      type: String,
+      default: ''
     }
   },
 
@@ -69,7 +76,14 @@ export default {
     labels () {
       return (this.localizedInteractiveConfig.labels || []).map((label) => {
         if (typeof label === 'string') {
+          if (this.codeLanguage.toLowerCase() === 'cpp' && this.interactiveLanguage.toLowerCase() === 'javascript') {
+            return { text: translateJS(label, 'cpp', false) }
+          }
           return { text: label }
+        }
+
+        if (this.codeLanguage.toLowerCase() === 'cpp' && this.interactiveLanguage.toLowerCase() === 'javascript') {
+          label.text = translateJS(label.text, 'cpp', false)
         }
 
         return label

@@ -12,6 +12,7 @@ import { log } from 'ozaria/site/common/logger'
 import { HTTP_STATUS_CODES } from 'core/constants'
 
 export default Vue.extend({
+  name: 'PlayIntroIndex',
   components: {
     'interactives-component': interactivesComponent,
     'cinematics-component': cinematicsComponent,
@@ -204,15 +205,19 @@ export default Vue.extend({
       }
     },
     setCurrentContentId: function (content) {
+      let lang = this.language
       if (_.isObject(content.contentId)) {
-        if (!content.contentId[this.language]) {
-          console.error(`Intro content for language ${this.language} not found`)
+        if (lang === 'cpp' && !content.contentId.cpp) {
+          lang = 'javascript'
+        }
+        if (!content.contentId[lang]) {
+          console.error(`Intro content for language ${lang} not found`)
           // TODO handle_error_ozaria
           noty({ text: 'Invalid intro content', type: 'error', timeout: 2000 })
           this.currentContentId = ''
           return
         }
-        this.currentContentId = content.contentId[this.language]
+        this.currentContentId = content.contentId[lang]
       } else {
         this.currentContentId = content.contentId
       }

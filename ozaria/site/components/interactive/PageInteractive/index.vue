@@ -11,6 +11,7 @@ import {
 } from 'ozaria/site/common/ozariaUtils'
 
 module.exports = Vue.extend({
+  name: 'PageInteractiveIndex',
   components: {
     'draggable-ordering': draggableOrderingComponent,
     'insert-code': insertCodeComponent,
@@ -54,6 +55,10 @@ module.exports = Vue.extend({
         noty({ text: 'Interactive type is not set for the interactive', type: 'error', timeout: '2000' })
         throw new Error('Invalid interactive type provided for interactive')
       }
+    },
+
+    interactiveLanguage () {
+      return this.currentInteractive.unitCodeLanguage
     },
 
     localizedInteractiveConfig () {
@@ -133,6 +138,7 @@ module.exports = Vue.extend({
       :localized-interactive-config="localizedInteractiveConfig"
       :interactive-session="currentInteractiveSession"
       :code-language="codeLanguage"
+      :interactive-language="interactiveLanguage"
       @completed="onCompleted"
     />
   </div>
