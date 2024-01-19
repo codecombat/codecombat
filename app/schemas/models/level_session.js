@@ -423,6 +423,7 @@ _.extend(LevelSessionSchema.properties, {
     c.array({ description: 'Multiplayer data for the league corresponding to Clans and CourseInstances the player is a part of.' },
       c.object({}, {
         leagueID: { type: 'string', description: 'The _id of a Clan or CourseInstance the user belongs to.' },
+        displayTeamId: { type: 'string', description: 'The _id of a clan that the user want their team name shown in leaderboards belongs to' },
         stats: c.object({ description: 'Multiplayer match statistics corresponding to this entry in the league.' }),
         lastOpponentSubmitDate: c.date({ description: 'The submitDate of the last league session we selected to play against (for playing through league opponents in order).' })
       })),
