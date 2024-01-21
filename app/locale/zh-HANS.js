@@ -409,11 +409,11 @@ module.exports = {
       ozaria_classroom: '奥佳睿课程',
       codecombat_classroom: '扣哒世界课程',
       ozaria_dashboard: '奥佳睿班级',
-      //    ozaria_teacher_dashboard: "Ozaria Teacher Dashboard",
-      //    ozaria_admin_dashboard: "Ozaria Admin Dashboard",
+      ozaria_teacher_dashboard: '奥佳睿老师面板',
+      ozaria_admin_dashboard: '奥佳睿管理员面板',
       codecombat_dashboard: '扣哒世界班级',
-      //    codecombat_teacher_dashboard: "CodeCombat Teacher Dashboard"
-      //    codecombat_admin_dashboard: "CodeCombat Admin Dashboard"
+      codecombat_teacher_dashboard: '扣哒世界老师面板',
+      codecombat_admin_dashboard: '扣哒世界管理员面板',
       //    professional_development: "Professional Development"
       //    new: "New!"
       admin: '管理员',
