@@ -51,7 +51,9 @@ module.exports = {
       switchCase: 0,
       ignores: []
     }],
-    'vue/comment-directive': 'off'
+    'vue/comment-directive': 'off',
+    'eol-last': 'off', // Disables the enforcement for having no newline at the end of files
+    'comma-dangle': ['error', 'only-multiline']
   },
 
   ignorePatterns: [
