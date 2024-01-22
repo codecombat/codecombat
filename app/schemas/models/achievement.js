@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 const c = require('./../schemas')
 
 // TODO add these: http://docs.mongodb.org/manual/reference/operator/query/
