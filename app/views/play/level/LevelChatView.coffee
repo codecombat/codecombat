@@ -233,13 +233,18 @@ module.exports = class LevelChatView extends CocoView
 
   checkCreditsAndAddMessage: (message) ->
     uuid = crypto.randomUUID() || Date.now()
+    event = 'LevelChatBot Clicked'
+    props = { lid: @levelID, ls: @sessionID, redeem: false }
     userCreditApi.redeemCredits({
       operation: 'LEVEL_CHAT_BOT',
       id: "#{uuid}|#{message.slice(0, 20)}"
     })
       .then (res) =>
+        props.redeem = true
+        window.tracker?.trackEvent event, props
         @saveChatMessage { text:  message }
       .catch (err) =>
+        window.tracker?.trackEvent event, props
         console.log('user credit redemption error', err)
         message = err?.message || 'Internal error'
         if err.code is 402
