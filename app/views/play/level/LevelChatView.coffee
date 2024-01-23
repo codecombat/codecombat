@@ -233,8 +233,8 @@ module.exports = class LevelChatView extends CocoView
 
   checkCreditsAndAddMessage: (message) ->
     uuid = crypto.randomUUID() || Date.now()
-    const event = 'LevelChatBot Clicked'
-    const props = { lid: @levelID, ls: @sessionID, redeem: false }
+    event = 'LevelChatBot Clicked'
+    props = { lid: @levelID, ls: @sessionID, redeem: false }
     userCreditApi.redeemCredits({
       operation: 'LEVEL_CHAT_BOT',
       id: "#{uuid}|#{message.slice(0, 20)}"
