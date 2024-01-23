@@ -54,7 +54,6 @@ module.exports = class SpellView extends CocoView
     'tome:update-snippets': 'addAutocompleteSnippets'
     'tome:insert-snippet': 'onInsertSnippet'
     'tome:spell-beautify': 'onSpellBeautify'
-    'tome:maximize-toggled': 'onMaximizeToggled'
     'tome:problems-updated': 'onProblemsUpdated'
     'script:state-changed': 'onScriptStateChange'
     'playback:ended-changed': 'onPlaybackEndedChanged'
@@ -252,10 +251,6 @@ module.exports = class SpellView extends CocoView
       bindKey: {win: 'Ctrl-L', mac: 'Command-L'}
       passEvent: true
       exec: ->  # just prevent default ACE go-to-line alert
-    addCommand
-      name: 'open-fullscreen-editor'
-      bindKey: {win: 'Ctrl-Shift-M', mac: 'Command-Shift-M|Ctrl-Shift-M'}
-      exec: -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
     addCommand
       # TODO: Restrict to beginner campaign levels like we do backspaceThrottle
       name: 'enter-skip-delimiters'
@@ -1290,9 +1285,6 @@ module.exports = class SpellView extends CocoView
     ugly = @getSource()
     pretty = @spellThang.aether.beautify(ugly.replace /\bloop\b/g, 'while (__COCO_LOOP_CONSTRUCT__)').replace /while \(__COCO_LOOP_CONSTRUCT__\)/g, 'loop'
     @ace.setValue pretty
-
-  onMaximizeToggled: (e) ->
-    _.delay (=> @resize()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
 
   onWindowResize: (e) =>
     @spellPaletteHeight = null

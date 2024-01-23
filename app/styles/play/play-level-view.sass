@@ -362,18 +362,6 @@ body.is-playing
     background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)
     pointer-events: none
 
-  #fullscreen-editor-background-screen
-    background-color: black
-    opacity: 0.5
-    cursor: pointer
-    display: none
-    position: absolute
-    left: 0
-    right: 0
-    bottom: 0
-    top: 0
-    z-index: 19
-
   #stop-real-time-playback-button, #stop-cinematic-playback-button
     display: none
     position: absolute
@@ -483,17 +471,6 @@ body.is-playing
     top: 52px
     width: 20%
     bottom: 38px
-
-html.fullscreen-editor
-  #level-view
-    #fullscreen-editor-background-screen
-      display: block
-
-    #code-area
-      position: fixed
-      width: 95%
-      height: 100%
-      right: 0
 
 body.ipad #level-view
   // Full-width Surface, preserving aspect ratio, with space for control bar.

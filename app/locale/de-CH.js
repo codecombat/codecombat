@@ -1913,8 +1913,7 @@ module.exports = {
       toggle_debug: 'Debug Display ischalte/usschalte.',
       toggle_grid: 'Gitter ischalte/usschalte.',
       toggle_pathfinding: 'Wegfinder ischalte/usschalte.',
-      beautify: 'Mach din Code schöner, indem du sini Formatierig standartisiersch.',
-      maximize_editor: 'Maximize/minimize de code editor.'
+      beautify: 'Mach din Code schöner, indem du sini Formatierig standartisiersch.'
     },
 
     //  cinematic:

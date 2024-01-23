@@ -110,7 +110,6 @@ module.exports = class PlayLevelView extends RootView
     'click #level-done-button': 'onDonePressed'
     'click #stop-real-time-playback-button': -> Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
     'click #stop-cinematic-playback-button': -> Backbone.Mediator.publish 'playback:stop-cinematic-playback', {}
-    'click #fullscreen-editor-background-screen': (e) -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
     'click .contact-link': 'onContactClicked'
     'contextmenu #webgl-surface': 'onSurfaceContextMenu'
     'click': 'onClick'

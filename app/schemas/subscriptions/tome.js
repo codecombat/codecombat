@@ -133,10 +133,6 @@ module.exports = {
 
   'tome:focus-editor': c.object({ title: 'Focus Editor', description: 'Published whenever we want to give focus back to the editor' }),
 
-  'tome:toggle-maximize': c.object({ title: 'Toggle Maximize', description: 'Published when we want to make the Tome take up most of the screen' }),
-
-  'tome:maximize-toggled': c.object({ title: 'Maximize Toggled', description: 'Published when the Tome has changed maximize/minimize state.' }),
-
   'tome:select-primary-sprite': c.object({ title: 'Select Primary Sprite', description: 'Published to get the most important sprite\'s code selected.' }),
 
   'tome:toggle-blocks': c.object({ title: 'Toggle Blocks', description: 'Published when we want to toggle the blocks view', required: ['blocks'] },

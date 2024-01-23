@@ -1948,8 +1948,7 @@ module.exports = {
       toggle_debug: 'Toggle debug display.',
       toggle_grid: 'Toggle grid overlay.',
       toggle_pathfinding: 'Toggle pathfinding overlay.',
-      beautify: 'Beautify your code by standardizing its formatting.',
-      maximize_editor: 'Maximize/minimize code editor.'
+      beautify: 'Beautify your code by standardizing its formatting.'
     },
 
     cinematic: {

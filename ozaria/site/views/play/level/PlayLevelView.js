@@ -1812,9 +1812,6 @@ PlayLevelView.prototype.events = {
   'click #stop-cinematic-playback-button' () {
     return Backbone.Mediator.publish('playback:stop-cinematic-playback', {})
   },
-  'click #fullscreen-editor-background-screen' (e) {
-    return Backbone.Mediator.publish('tome:toggle-maximize', {})
-  },
   'click .contact-link': 'onContactClicked',
   'contextmenu #webgl-surface': 'onSurfaceContextMenu',
   click: 'onClick'
