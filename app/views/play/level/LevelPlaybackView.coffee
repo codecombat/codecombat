@@ -125,7 +125,7 @@ module.exports = class LevelPlaybackView extends CocoView
 
   updateBarWidth: (loadedFrameCount, maxTotalFrames, dt) ->
     @totalTime = (loadedFrameCount - 1) * dt
-    pct = parseInt(100 * loadedFrameCount / (maxTotalFrames - 1)) + '%'
+    pct = Math.min(parseInt(100 * loadedFrameCount / (maxTotalFrames - 1)), 100) + '%'
     @barWidth = $('.progress', @$el).css('width', pct).show().width()
     $('.scrubber .progress', @$el).slider('enable', true)
     @newTime = 0
