@@ -418,7 +418,6 @@ module.exports = class SpellView extends CocoView
     if not lockDefaultCode or (_.isNumber(lockDefaultCode) and lockDefaultCode < me.level())
       return
     return unless @spell.source is @spell.originalSource or force
-    return if @isIE()  # Temporary workaround for #2512
     aceConfig = me.get('aceConfig') ? {}
     return if aceConfig.keyBindings and aceConfig.keyBindings isnt 'default'  # Don't lock in vim/emacs mode
 

@@ -145,7 +145,6 @@ module.exports = (PlayHeroesModal = (function () {
       context.confirmButtonI18N = this.confirmButtonI18N
       context.visibleHero = this.visibleHero
       context.gems = me.gems()
-      context.isIE = this.isIE()
       return context
     }
 
@@ -159,7 +158,6 @@ module.exports = (PlayHeroesModal = (function () {
       super.afterRender()
       if (!this.supermodel.finished()) { return }
       this.playSound('game-menu-open')
-      if (this.isIE()) { this.$el.find('.hero-avatar').addClass('ie') }
       const heroes = this.heroes.models
       this.$el.find('.hero-indicator').each(function () {
         const heroID = $(this).data('hero-id')

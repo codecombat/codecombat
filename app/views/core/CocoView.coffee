@@ -204,7 +204,6 @@ module.exports = class CocoView extends Backbone.View
     context.pathname = document.location.pathname  # like '/play/level'
     context.fbRef = context.pathname.replace(/[^a-zA-Z0-9+/=\-.:_]/g, '').slice(0, 40) or 'home'
     context.isMobile = @isMobile()
-    context.isIE = @isIE()
     context.moment = moment
     context.translate = $.t
     context.view = @
@@ -570,8 +569,6 @@ module.exports = class CocoView extends Backbone.View
   isMobile: ->
     ua = navigator.userAgent or navigator.vendor or window.opera
     return mobileRELong.test(ua) or mobileREShort.test(ua.substr(0, 4))
-
-  isIE: utils.isIE
 
   isMac: ->
     navigator.platform.toUpperCase().indexOf('MAC') isnt -1

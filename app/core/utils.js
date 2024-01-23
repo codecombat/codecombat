@@ -581,8 +581,6 @@ const getByPath = function (target, path) {
 
 const isID = id => _.isString(id) && (id.length === 24) && (__guard__(id.match(/[a-f0-9]/gi), x1 => x1.length) === 24)
 
-const isIE = () => __guard__(typeof $ !== 'undefined' && $ !== null ? $.browser : undefined, x1 => x1.msie) != null ? __guard__(typeof $ !== 'undefined' && $ !== null ? $.browser : undefined, x1 => x1.msie) : false
-
 const isRegionalSubscription = name => /_basic_subscription/.test(name)
 
 const isSmokeTestEmail = email => /@example.com/.test(email) || /smoketest/.test(email)
@@ -1586,7 +1584,6 @@ module.exports = {
   injectCSS,
   internalCampaignIds,
   isID,
-  isIE,
   isRegionalSubscription,
   isSmokeTestEmail,
   isValidEmail,
