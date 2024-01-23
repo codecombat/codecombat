@@ -41,7 +41,7 @@ module.exports = class LevelChatView extends CocoView
 
     ## TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
     #@listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
-    @visible = @aceConfig.levelChat isnt 'none' or me.getLevelChatExperimentValue() is 'beta'  # not 'control'
+    @visible = true or @aceConfig.levelChat isnt 'none' or me.getLevelChatExperimentValue() is 'beta'  # not 'control'
 
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
@@ -55,7 +55,6 @@ module.exports = class LevelChatView extends CocoView
       console.error "Couldn't toggle the style on the LevelChatView to #{Boolean @session.get('multiplayer')} because of an error:", e
 
   afterRender: ->
-    console.log("on level  chat rendered")
     @chatTables = $('.table', @$el)
     #@updateMultiplayerVisibility()
     @$el.toggle @visible
@@ -281,7 +280,6 @@ module.exports = class LevelChatView extends CocoView
     return spell.source != aether.raw
 
   cleanUpApiProperties: (chat) ->
-    console.log('clean up api here, chat')
     context = chat.context
     currentCode = Object.values(context.code.current)[0]
     solutionCode = Object.values(context.code.solution || {})?[0] || '' # let's only keep properties in current code

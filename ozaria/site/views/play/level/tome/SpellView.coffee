@@ -481,7 +481,6 @@ module.exports = class SpellView extends CocoView
       @aceDiff.setOptions({showDiffs: e.finish?})
 
   onToggleSolution: (e)->
-    console.log('on toggle solution', e, @aceDiff)
     return unless @aceDiff
     if e.code
       @onUpdateSolution(e)
@@ -1549,7 +1548,6 @@ module.exports = class SpellView extends CocoView
       , (v) -> v isnt undefined
 
     spellContext = @spell.createChatMessageContext e.chat
-    console.log('assign spellContext here. chat')
     _.assign context, spellContext
 
   checkRequiredCode: =>

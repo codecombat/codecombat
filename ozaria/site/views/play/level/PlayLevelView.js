@@ -658,7 +658,6 @@ class PlayLevelView extends RootView {
     this.insertSubView(
       new GoalsView({ level: this.level, session: this.session })
     )
-    console.log('insert chat view here')
     this.insertSubView(
       new ChatView({ levelID: this.levelID, sessionID: this.session.id, session: this.session, aceConfig: this.classroomAceConfig })
     )
