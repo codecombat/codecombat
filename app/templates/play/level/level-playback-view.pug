@@ -4,14 +4,6 @@ button.btn.btn-xs.btn-inverse#play-button.paused
   if view.utils.isCodeCombat
     .glyphicon.glyphicon-repeat
   
-if view.utils.isCodeCombat
-  button.btn.btn-xs.btn-inverse.picoctf-hide#volume-button(title="Adjust volume")
-    .glyphicon.glyphicon-volume-off
-    .glyphicon.glyphicon-volume-down
-    .glyphicon.glyphicon-volume-up
-  button.btn.btn-xs.btn-inverse.picoctf-hide#music-button(title="Toggle Music")
-    span ♫
-
 if !view.options.level.isType('game-dev')
   .scrubber
     .scrubber-inner
@@ -26,9 +18,12 @@ if !view.options.level.isType('game-dev')
 
 if view.utils.isCodeCombat
   .btn-group.dropup#playback-settings
-    button.btn.btn-xs.btn-inverse.toggle-fullscreen(title="Toggle fullscreen")
+    button.btn.btn-xs.btn-inverse.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume")
+      .glyphicon.glyphicon-volume-off
+      .glyphicon.glyphicon-volume-down
+      .glyphicon.glyphicon-volume-up
+    button.btn.btn-xs.btn-inverse.picoctf-hide#music-button(data-i18n="[title]options.music_label")
+      span ♫
+    button.btn.btn-xs.btn-inverse.toggle-fullscreen(data-i18n="[title]play.toggle_fullscreen")
       .glyphicon.glyphicon-fullscreen
-    button.btn.btn-xs.btn-inverse#zoom-in-button(title="Zoom In (or scroll down)")
-      .glyphicon.glyphicon-zoom-in
-    button.btn.btn-xs.btn-inverse#zoom-out-button(title="Zoom Out (or scroll up)")
-      .glyphicon.glyphicon-zoom-out
+

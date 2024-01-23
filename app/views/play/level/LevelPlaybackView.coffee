@@ -29,8 +29,6 @@ module.exports = class LevelPlaybackView extends CocoView
 
   events:
     'click #music-button': 'onToggleMusic'
-    'click #zoom-in-button': -> Backbone.Mediator.publish 'camera:zoom-in', {} unless @shouldIgnore()
-    'click #zoom-out-button': -> Backbone.Mediator.publish 'camera:zoom-out', {} unless @shouldIgnore()
     'click #volume-button': 'onToggleVolume'
     'click #play-button': 'onTogglePlay'
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {} unless @realTime
@@ -59,8 +57,7 @@ module.exports = class LevelPlaybackView extends CocoView
     @hookUpScrubber() unless @options.level.isType('game-dev')
     @updateMusicButton()
     $(window).on('resize', @onWindowResize)
-    ua = navigator.userAgent.toLowerCase()
-    if /safari/.test(ua) and not /chrome/.test(ua)
+    unless @getFullscreenRequestMethod()
       @$el.find('.toggle-fullscreen').hide()
     @timePopup ?= new HoverPopup
     @second = $.i18n.t 'units.second'

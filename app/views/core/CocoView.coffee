@@ -593,6 +593,14 @@ module.exports = class CocoView extends Backbone.View
   scrollToTop: (speed=300) ->
     $('html, body').animate({ scrollTop: 0 }, speed)
 
+  getFullscreenRequestMethod: ->
+    d = document.documentElement
+    return d.requestFullScreen or
+    d.mozRequestFullScreen or
+    d.mozRequestFullscreen or
+    d.msRequestFullscreen or
+    (if d.webkitRequestFullscreen then -> d.webkitRequestFullscreen Element.ALLOW_KEYBOARD_INPUT else null)
+
   toggleFullscreen: (e) ->
     # https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode?redirectlocale=en-US&redirectslug=Web/Guide/DOM/Using_full_screen_mode
     # Whoa, even cooler: https://developer.mozilla.org/en-US/docs/WebAPI/Pointer_Lock
@@ -601,14 +609,9 @@ module.exports = class CocoView extends Backbone.View
            document.mozFullscreenElement or
            document.webkitFullscreenElement or
            document.msFullscreenElement
-    d = document.documentElement
     if not full
-      req = d.requestFullScreen or
-            d.mozRequestFullScreen or
-            d.mozRequestFullscreen or
-            d.msRequestFullscreen or
-            (if d.webkitRequestFullscreen then -> d.webkitRequestFullscreen Element.ALLOW_KEYBOARD_INPUT else null)
-      req?.call d
+      req = @getFullscreenRequestMethod()
+      req?.call(document.documentElement)
       @playSound 'full-screen-start' if req
     else
       nah = document.exitFullscreen or
@@ -616,8 +619,8 @@ module.exports = class CocoView extends Backbone.View
             document.mozCancelFullscreen or
             document.msExitFullscreen or
             document.webkitExitFullscreen
-      nah?.call document
-      @playSound 'full-screen-end' if req
+      nah?.call(document)
+      @playSound 'full-screen-end' if nah
     return
 
   playSound: (trigger, volume=1, delay=0, pos=null, pan=0) ->

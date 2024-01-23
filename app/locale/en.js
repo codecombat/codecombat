@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: 'Sign up as an Adventurer',
       awaiting_levels_adventurer_suffix: 'to be the first to play new levels.',
       adjust_volume: 'Adjust volume',
+      toggle_fullscreen: 'Toggle fullscreen',
       campaign_multiplayer: 'Multiplayer Arenas',
       campaign_multiplayer_description: '... in which you code head-to-head against other players.',
       brain_pop_done: 'You’ve defeated the Ogres with code! You win!',
