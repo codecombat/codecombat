@@ -11,7 +11,7 @@
       .width-container.row.border-red
         .col.col-lg-12
           h2.text-h2 {{ $t('apcsp_curriculum.no_license') }}
-          a.btn.btn-primary.btn-lg.btn-shadow(href="https://forms.gle/RAA37R3FJojZ7bfQ7" target="_blank") {{ $t('apcsp_curriculum.request_license') }}
+          a.btn.btn-primary.btn-lg.btn-shadow(href="/apcsp") {{ $t('apcsp_curriculum.about_apcsp_curriculum') }}
 
     #greed-banner.container-fluid(v-if="hasLicense")
       .width-container.row.row-eq-height
@@ -728,7 +728,7 @@ p,
       filter: none;
       display: block;
       margin: 50px auto;
-      max-width: 268px;
+      width: fit-content;
     }
   }
 
