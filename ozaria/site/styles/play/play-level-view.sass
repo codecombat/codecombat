@@ -4,6 +4,7 @@
 @import "ozaria/site/styles/play/variables"
 @import "ozaria/site/styles/common/variables.scss"
 @import "ozaria/site/styles/play/images"
+@import "app/styles/play/ace-editor"
 
 body
   height: 100vh
@@ -167,7 +168,7 @@ $level-resize-transition-time: 0.5s
     &.flag-color-selected
       cursor: crosshair
 
-  #code-area
+  #code-area, #solution-area
     @include box-sizing(border-box)
     width: $code-area-width
     background-size: 100% 100%
@@ -177,6 +178,69 @@ $level-resize-transition-time: 0.5s
     bottom: 0
     //@include transition(width $level-resize-transition-time ease-in-out, right $level-resize-transition-time ease-in-out)
     z-index: 2
+
+  #solution-area
+    right: 43.5%
+    right: $code-area-width
+    bottom: 0
+    width: 30%
+    width: calc(0.75 * $code-area-width)
+    transform: translate(64px, -110%)
+    transition: transform 1s
+    z-index: 1024
+    min-height: 800px
+    max-height: 100vh
+    box-shadow: none
+    background: transparent
+    opacity: 0
+
+    &.display
+      transform: translate(64px, 0)
+
+    #solution-view
+      position: absolute
+      width: 100%
+      top: 21.3%
+      height: 78.7%
+      display: flex
+      z-index: 5
+
+      span.code-background
+        border-right: 1px solid #F7D047
+        background-color: white
+        position: absolute
+        top: -26px
+        left: 0px
+        bottom: 0px
+        right: 0px
+        z-index: -1
+
+      .solution-label
+        position: absolute
+        top: -24px
+        left: 26px
+        z-index: 4
+        font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+        font-size: 14px
+        padding: 0px 10px
+        color: #6E654B
+        font-weight: bold
+        text-transform: uppercase
+
+      .close-solution-btn
+        cursor: pointer
+        position: absolute
+        top: -24px
+        right: 26px
+        z-index: 4
+        font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+        font-size: 24px
+        padding: 0px 10px
+        color: #6E654B
+        font-weight: bold
+        text-transform: uppercase
+
+      @include ace
 
   #game-area
     position: relative
@@ -452,3 +516,7 @@ body.ipad #level-view
   background-size: 100% 400px
   height: 400px
   z-index: -9001
+
+#level-chat-view
+  bottom: 45px
+  left: 25px

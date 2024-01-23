@@ -275,6 +275,7 @@ me.PropertyDocumentationSchema = me.object({
   required: ['name', 'type', 'description']
 }, {
   name: { type: 'string', title: 'Name', description: 'Name of the property.' },
+  componentName: { type: 'string', description: 'Component Name for ozaria.' },
   i18n: { type: 'object', format: 'i18n', props: ['name', 'shortDescription', 'description', 'context'], description: 'Help translate this property' },
   context: {
     type: 'object',

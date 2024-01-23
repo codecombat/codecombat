@@ -281,6 +281,7 @@ module.exports = class LevelChatView extends CocoView
     return spell.source != aether.raw
 
   cleanUpApiProperties: (chat) ->
+    console.log('clean up api here, chat')
     context = chat.context
     currentCode = Object.values(context.code.current)[0]
     solutionCode = Object.values(context.code.solution || {})?[0] || '' # let's only keep properties in current code
@@ -443,7 +444,7 @@ module.exports = class LevelChatView extends CocoView
   onWindowResize: (e) =>
     # Couldn't figure out the CSS to make this work, so doing it here
     return if @destroyed
-    maxHeight = $(window).height() - (($('#thang-hud')?.offset()?.top + $('#thang-hud').height() )|| -200)  - 25 - 30
+    maxHeight = $(window).height() - (($('#thang-hud')?.offset()?.top + $('#thang-hud').height() )|| 200)  - 25 - 30
     if maxHeight < 0
       # Just have to overlay the level, and have them close when done
       maxHeight = 0
