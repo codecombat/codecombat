@@ -142,6 +142,11 @@ module.exports = {
   'tome:toggle-blocks': c.object({ title: 'Toggle Blocks', description: 'Published when we want to toggle the blocks view', required: ['blocks'] },
     { blocks: { type: 'boolean', description: 'Whether blocks should be enabled' } }),
 
+  'tome:code-format-changed': c.object({ title: 'Set Code Format', description: 'Published when the Tome determines what the code format should be, or when it changes', required: ['codeFormat'] }, {
+    oldCodeFormat: { type: 'string', description: 'The old code format', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'] },
+    codeFormat: { type: 'string', description: 'The new code format', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'] }
+  }),
+
   'tome:required-code-fragment-deleted': c.object({ title: 'Required Code Fragment Deleted', description: 'Published when a required code fragment is deleted from the sample code.', required: ['codeFragment'] },
     { codeFragment: { type: 'string' } }),
 

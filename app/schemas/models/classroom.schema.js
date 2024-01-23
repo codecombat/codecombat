@@ -22,7 +22,13 @@ _.extend(ClassroomSchema.properties, {
   aceConfig: {
     language: { type: 'string', enum: ['python', 'javascript', 'cpp', 'java'] },
     liveCompletion: { type: 'boolean', default: true },
-    blocks: { type: 'string', enum: ['hidden', 'opt-in', 'opt-out'], description: 'Drag-and-drop blocks option for students. Default if unset: hidden.' },
+    codeFormats: c.object({ title: 'Code Formats', description: 'Enable these code formats for students' }, {
+      'blocks-icons': { type: 'boolean', default: false, title: 'Icon Blocks', description: 'Drag-and-drop blocks with icons only. Good for non-readers and phone screens.' },
+      'blocks-text': { type: 'boolean', default: false, title: 'Text Blocks', description: 'Drag-and-drop blocks with written method names. Good for K-2 students who can read and touchscreen devices without keyboards.' },
+      'blocks-and-code': { type: 'boolean', default: false, title: 'Blocks and Code', description: 'Text blocks side-by-side with real text-based code. Good for transitioning students from blocks to code.' },
+      'text-code': { type: 'boolean', default: true, title: 'Text Code', description: 'Real text-based code (Python, JavaScript, C++, or Java). Good default choice for students who can read and type, especially grades 3+.' }
+    }),
+    codeFormatDefault: { type: 'string', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'], description: 'Default code format option for students. Default if unset: text-code.' },
     levelChat: { type: 'string', enum: ['fixed_prompt_only', 'none'] }
   },
   averageStudentExp: { type: 'string' },

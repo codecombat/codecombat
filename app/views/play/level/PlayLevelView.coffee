@@ -103,6 +103,7 @@ module.exports = class PlayLevelView extends RootView
     'ipad:memory-warning': 'onIPadMemoryWarning'
     'store:item-purchased': 'onItemPurchased'
     'tome:manual-cast': 'onRunCode'
+    'tome:code-format-changed': 'onCodeFormatChanged'
     'world:update-key-value-db': 'updateKeyValueDb'
 
   events:
@@ -196,18 +197,26 @@ module.exports = class PlayLevelView extends RootView
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
 
-    blocksDefault = 'hidden'
-    blocksOverride = utils.getQueryVariable 'blocks'
-    if blocksOverride?
-      blocksDefault = { true: 'opt-out', false: 'hidden' }[blocksOverride] or blocksOverride
-    @classroomAceConfig = {liveCompletion: true, blocks: blocksDefault}  # default (home users, teachers, etc.)
+    codeFormat = 'text-code'
+    codeFormatOverride = utils.getQueryVariable('codeFormat') || utils.getQueryVariable('blocks')
+    if codeFormatOverride?
+      codeFormat = {
+        true: 'blocks-and-code',
+        false: 'text-code',
+        'blocks-icons': 'blocks-icons',
+        'blocks-text': 'blocks-text',
+        'blocks-and-code': 'blocks-and-code',
+        'text-code': 'text-code',
+        }[codeFormatOverride] or codeFormat
+    @classroomAceConfig = {liveCompletion: true, codeFormatDefault: codeFormat }  # default (home users, teachers, etc.)
     if @courseInstanceID
       fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members,ownerID")
       @supermodel.trackRequest fetchAceConfig
       fetchAceConfig.then (classroom) =>
         @classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion ? true
-        @classroomAceConfig.blocks = classroom.aceConfig?.blocks ? blocksDefault
-        @tome?.determineBlocksSettings()
+        @classroomAceConfig.codeFormatDefault = classroom.aceConfig?.codeFormatDefault ? codeFormatDefault
+        @classroomAceConfig.codeFormats = classroom.aceConfig?.codeFormats ? ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code']
+        @tome?.determineCodeFormat()
         @classroomAceConfig.levelChat = classroom.aceConfig?.levelChat ? 'none'
         @teacherID = classroom.ownerID
 
@@ -961,3 +970,9 @@ module.exports = class PlayLevelView extends RootView
   onRunCode: ->
     @updateKeyValueDb()
     store.commit('game/incrementTimesCodeRun')
+
+  onCodeFormatChanged: (e) ->
+    @codeFormat = e.codeFormat
+    if e.oldCodeFormat
+      @$el.removeClass(e.oldCodeFormat)
+    @$el.addClass(e.codeFormat)
