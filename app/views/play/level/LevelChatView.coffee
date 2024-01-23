@@ -41,7 +41,7 @@ module.exports = class LevelChatView extends CocoView
 
     ## TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
     #@listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
-    @visible = @aceConfig.levelChat isnt 'none' or me.getLevelChatExperimentValue() is 'beta'  # not 'control'
+    @visible = true or @aceConfig.levelChat isnt 'none' or me.getLevelChatExperimentValue() is 'beta'  # not 'control'
 
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
@@ -55,6 +55,7 @@ module.exports = class LevelChatView extends CocoView
       console.error "Couldn't toggle the style on the LevelChatView to #{Boolean @session.get('multiplayer')} because of an error:", e
 
   afterRender: ->
+    console.log("on level  chat rendered")
     @chatTables = $('.table', @$el)
     #@updateMultiplayerVisibility()
     @$el.toggle @visible
@@ -121,7 +122,8 @@ module.exports = class LevelChatView extends CocoView
     splitContent = content.split('\[Show Me\]')
     preContent = splitContent[0]
     if splitContent.length > 1
-      buttonContent = "<p><button class='btn btn-illustrated btn-small btn-primary fix-code-button'>#{$.i18n.t('play_level.chat_fix_' + if @diffShown then 'hide' else 'show')}</button></p>"
+      btnCls = if utils.isCodeCombat then  'btn-illustrated btn-primay' else 'ai-btn-active'
+      buttonContent = "<p><button class='btn btn-small #{btnCls} fix-code-button'>#{$.i18n.t('play_level.chat_fix_' + if @diffShown then 'hide' else 'show')}</button></p>"
       postContent = splitContent[1]
     else
       @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
@@ -154,7 +156,8 @@ module.exports = class LevelChatView extends CocoView
         tr.addClass('me')
         avatarTd = $("<div class='td player-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player'></a></div>")
       else
-        avatarTd = $("<div class='td chatbot-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/images/level/baby-griffin.png' alt='AI'></a></div>")
+        avatarImg = if utils.isCodeCombat then '/images/level/baby-frifin.png' else '/images/ozaria/avatar-selector/avatar_ghost.png'
+        avatarTd = $("<div class='td chatbot-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='#{avatarImg}' alt='AI'></a></div>")
       tr.addClass 'streaming' if message.streaming
       mbody.append(avatarTd)
       mbody.append(td)
@@ -440,7 +443,7 @@ module.exports = class LevelChatView extends CocoView
   onWindowResize: (e) =>
     # Couldn't figure out the CSS to make this work, so doing it here
     return if @destroyed
-    maxHeight = $(window).height() - $('#thang-hud').offset().top - $('#thang-hud').height() - 25 - 30
+    maxHeight = $(window).height() - (($('#thang-hud')?.offset()?.top + $('#thang-hud').height() )|| -200)  - 25 - 30
     if maxHeight < 0
       # Just have to overlay the level, and have them close when done
       maxHeight = 0
