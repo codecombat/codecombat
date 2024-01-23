@@ -57,7 +57,7 @@
     &.submit-button, &.done-button, &.rank-button
       margin-left: 10px
       border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
-      
+
       &:active
         border-image: url(/images/level/code_toolbar_submit_button_active_pressed.png) 14 20 20 20 fill round
 
@@ -71,16 +71,15 @@
       width: 100%
       font-size: 18px
 
-  
   .cast-button
     @include opacity(0.77)
-  
+
     &:hover, &.castable
       @include opacity(1)
 
   .submit-button > *, .done-button > *
     @include opacity(0.9)
-  
+
     &:hover
       @include opacity(1)
 
@@ -114,23 +113,19 @@
         &:active
           border-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png) 14 20 20 20 fill round
 
+  #stop-cinematic-playback-button
+    display: none
 
-  &:not(.winnable)
+  #level-view.junior &
     .btn.btn-illustrated
-      &.cast-button.castable
-        border: 0
-        background-image: url(/images/level/code_toolbar_run_button_zazz.png)
+      width: 100%
 
-        &:active
-          background-image: url(/images/level/code_toolbar_run_button_zazz_pressed.png)
+  #level-view.junior:not(.text-code) &, #level-view.junior.text-code.cinematic &
+    background: transparent
+    left: -15px
+    right: -15px
+    margin: 0
+    padding: 0
+    height: auto
 
-  &.winnable
-    .btn.btn-illustrated
-      &.submit-button, &.done-button
-        border: 0
-        background-image: url(/images/level/code_toolbar_submit_button_zazz.png)
 
-        &:active
-          border: 0
-          background-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png)
-          

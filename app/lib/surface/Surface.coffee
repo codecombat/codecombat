@@ -56,6 +56,7 @@ module.exports = Surface = class Surface extends CocoClass
     showInvisible: false
     frameRate: 30  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
     levelType: 'hero'
+    resizeStrategy: 'default'
 
   subscriptions:
     'level:disable-controls': 'onDisableControls'
@@ -635,26 +636,25 @@ module.exports = Surface = class Surface extends CocoClass
     oldWidth = parseInt @normalCanvas.attr('width'), 10
     oldHeight = parseInt @normalCanvas.attr('height'), 10
     aspectRatio = oldWidth / oldHeight
-    pageWidth = $('#page-container').width() - 17  # 17px nano scroll bar
+    pageWidth = $('#page-container').width()
     if application.isIPadApp
       newWidth = 1024
       newHeight = newWidth / aspectRatio
     else if @options.resizeStrategy is 'wrapper-size'
+      aspectRatio = 924 / 589  # TODO: it's likely this should always be hard-coded even for other types, as canvas might have accrued rounding errors
       canvasWrapperWidth = $('#canvas-wrapper').width()
-      pageHeight = window.innerHeight - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
-      newWidth = Math.min(pageWidth, pageHeight * aspectRatio, canvasWrapperWidth)
+      availableHeight = window.innerHeight
+      availableHeight -= $('#control-bar-view').outerHeight() unless @cinematic or parseInt($('#control-bar-view').css('left'), 10) > 0
+      newWidth = Math.min(pageWidth, availableHeight * aspectRatio, canvasWrapperWidth)
       newHeight = newWidth / aspectRatio
     else if @realTime or @cinematic or @options.spectateGame
-      pageHeight = window.innerHeight - $('#playback-view').outerHeight()
+      availableHeight = window.innerHeight - $('#playback-view').outerHeight()
       if @realTime or @options.spectateGame
-        pageHeight -= $('#control-bar-view').outerHeight()
-      newWidth = Math.min pageWidth, pageHeight * aspectRatio
-      newHeight = newWidth / aspectRatio
-    else if $('#thangs-tab-view')
-      newWidth = $('#canvas-wrapper').width()
+        availableHeight -= $('#control-bar-view').outerHeight()
+      newWidth = Math.min pageWidth, availableHeight * aspectRatio
       newHeight = newWidth / aspectRatio
     else
-      newWidth = 0.57 * pageWidth
+      newWidth = $('#canvas-wrapper').width()
       newHeight = newWidth / aspectRatio
     return unless newWidth > 100 and newHeight > 100
 

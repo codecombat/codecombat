@@ -360,6 +360,8 @@ module.exports = class PlayLevelView extends RootView
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
     @spellPalettePosition = @getSpellPalettePosition()
     @$el.addClass 'no-api' if @spellPalettePosition is 'bot'
+    if @level.get('product') is 'codecombat-junior'
+      @$el.addClass 'junior'
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
     @otherSession = @levelLoader.opponentSession
@@ -521,7 +523,7 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelLoaderLoaded: ->
     # Everything is now loaded
-    return unless @levelLoader.progress() is 1  # double check, since closing the guide may trigger this early
+    return unless @levelLoader?.progress() is 1  # double check, since closing the guide may trigger this early
 
     # Save latest level played.
     if not @observing and not @isEditorPreview and not @levelLoader.level.isType('ladder-tutorial')
@@ -554,6 +556,7 @@ module.exports = class PlayLevelView extends RootView
       levelType: @level.get('type', true)
       @gameUIState
       @level # TODO: change from levelType to level
+      resizeStrategy: 'wrapper-size'
     }
     @surface = new Surface(@world, normalSurface, webGLSurface, surfaceOptions)
     worldBounds = @world.getBounds()
@@ -733,6 +736,173 @@ module.exports = class PlayLevelView extends RootView
 
   onWindowResize: (e) =>
     @endHighlight()
+    # See CodeCombat Devices x Layouts spreadsheet https://docs.google.com/spreadsheets/d/1AJ4vh-XwYF95RW0QLBXEGyi-xqVET6qCcaqyT_PZLJ4/edit#gid=0
+    windowWidth = $(window).innerWidth()
+    windowHeight = $(window).innerHeight()
+    windowAspectRatio = windowWidth / windowHeight
+    canvasAspectRatio = 924 / 589
+    # TODO: set the cinematic class here, depending on whether we are running, rather than setting it elsewhere and then deciding whether to do anything with it here and in CSS
+    product = @level?.get('product', true) or 'codecombat'
+    cinematic = product is 'codecombat' and @$el.hasClass('cinematic') and (windowAspectRatio < 2 or windowWidth <= 1366) and windowAspectRatio > 1
+    tomeLocation = switch
+      when windowAspectRatio < 1 then 'bottom'
+      when windowAspectRatio < 1.35 and @codeFormat is 'blocks-and-code' and not cinematic then 'bottom'
+      else 'right'
+    workspaceLocation = switch
+      when not /blocks/.test(@codeFormat) then 'none'
+      when tomeLocation is 'bottom' and @codeFormat is 'blocks-and-code' then 'bottom-middle-third'
+      when tomeLocation is 'bottom' and @codeFormat isnt 'blocks-and-code' then 'bottom-left-half'
+      when cinematic then 'full-cinematic'
+      when @codeFormat is 'blocks-and-code' then 'middle-third'
+      else 'left-half'
+    toolboxLocation = switch
+      when not /blocks/.test(@codeFormat) or cinematic then 'none'
+      when tomeLocation is 'bottom' and @codeFormat is 'blocks-and-code' then 'bottom-right-third'
+      when tomeLocation is 'bottom' and @codeFormat isnt 'blocks-and-code' then 'bottom-right-half'
+      when @codeFormat is 'blocks-and-code' then 'right-third'
+      else 'right-half'
+    spellPaletteLocation = switch
+      when /blocks/.test(@codeFormat) or cinematic then 'none'
+      else 'bottom'
+    codeLocation = switch
+      when @codeFormat is 'blocks-and-code' and cinematic then 'none'
+      when @codeFormat is 'blocks-and-code' and tomeLocation is 'bottom' then 'bottom-left-third'
+      when @codeFormat is 'blocks-and-code' then 'left-third'
+      when @codeFormat is 'text-code' and cinematic then 'full-cinematic'
+      when @codeFormat is 'text-code' and not cinematic then 'full'
+      else 'none'
+    playButtonLocation = switch
+      when tomeLocation is 'bottom' then 'bottom-left'
+      when spellPaletteLocation is 'bottom' then 'middle'
+      else 'bottom'
+    minTomeHeight = switch
+      when cinematic then Math.max(windowHeight * 0.15, 150)
+      else  Math.max(windowHeight * 0.25, 250)
+    minCodeChars = switch
+      # CoCo Jr might have a line like "    hero.castFireball("right", 2);"
+      when product is 'codecombat-junior' then 34
+      # Cinematic playback probably doesn't need to show long lines at full width, especially comments
+      when cinematic then 40
+      # 85% of CodeCombat solution lines are under 60 characters; longer ones are mostly comments, Java/C++, or advanced
+      else 60
+    maxCodeChars = if product is 'codecombat-junior' then 40 else 80
+    minCodeCharWidth = 5  # TODO: test and measure this, correlate to a font size
+    maxCodeCharWidth = 24  # TODO: test and measure this, correlate to a font size
+    minCodeWidth = if codeLocation is 'none' then 0 else minCodeChars * minCodeCharWidth
+    maxCodeWidth = if codeLocation is 'none' then 0 else maxCodeChars * maxCodeCharWidth
+    minBlockChars = switch
+      when @codeFormat is 'blocks-icons' and product is 'codecombat-junior' then 5
+      when @codeFormat is 'blocks-icons' and cinematic then 5
+      when @codeFormat is 'blocks-icons' then 6
+      when product is 'codecombat-junior' then 30
+      else 35
+    maxBlockChars = switch
+      when @codeFormat is 'blocks-icons' and tomeLocation is 'bottom' then 15
+      when @codeFormat is 'blocks-icons' and product is 'codecombat-junior' then 8
+      when @codeFormat is 'blocks-icons' and product is 'codecombat' then 10
+      when product is 'codecombat-junior' then 40
+      else 50
+    minBlockCharWidth = if @codeFormat is 'blocks-icons' then 12 else 6
+    maxBlockCharWidth = if @codeFormat is 'blocks-icons' then 50 else 15
+    minWorkspaceWidth = if workspaceLocation is 'none' then 0 else minBlockChars * minBlockCharWidth
+    maxWorkspaceWidth = if workspaceLocation is 'none' then 0 else maxBlockChars * maxBlockCharWidth
+    minToolboxWidth = if toolboxLocation is 'none' then 0 else minBlockChars * minBlockCharWidth
+    maxToolboxWidth = if toolboxLocation is 'none' then 0 else maxBlockChars * maxBlockCharWidth
+
+    # Now determine if we should put the control bar as 'none', 'top', 'left', or 'right'.
+    # Right vs. left: put it on the right, unless it would lead to empty space below the canvas.
+    canvasHeightWhenControlBarRight = Math.min(windowHeight, (windowWidth - minCodeWidth - minWorkspaceWidth - minToolboxWidth) / canvasAspectRatio)
+    canvasWidthWhenControlBarRight = canvasHeightWhenControlBarRight * canvasAspectRatio
+    tomeWidthWhenControlBarRight = windowWidth - canvasWidthWhenControlBarRight
+    emptyHeightBelowCanvasWhenControlBarRight = windowHeight - canvasHeightWhenControlBarRight
+    controlBarLocation = switch
+      when cinematic then 'none'
+      when tomeLocation is 'bottom' then 'top'
+      when tomeWidthWhenControlBarRight > 160 and emptyHeightBelowCanvasWhenControlBarRight <= 0 then 'right'
+      else 'left'
+    controlBarHeight = if cinematic then 0 else 50
+    canvasHeight = switch
+      when tomeLocation is 'bottom' then Math.min(windowHeight - minTomeHeight - controlBarHeight, windowWidth / canvasAspectRatio)
+      else Math.min(windowHeight - (if controlBarLocation is 'left' then controlBarHeight else 0), (windowWidth - minCodeWidth - minWorkspaceWidth - minToolboxWidth) / canvasAspectRatio)
+    canvasWidth = canvasHeight * canvasAspectRatio
+    emptyHeightBelowCanvas = switch
+      when tomeLocation is 'bottom' then 0
+      else windowHeight - canvasHeight - (if controlBarLocation is 'left' then controlBarHeight else 0)
+    emptyWidthLeftOfCanvas = switch
+      when tomeLocation is 'right' then 0
+      else (windowWidth - canvasWidth) / 2
+    controlBarWidth = switch
+      when controlBarLocation in ['none', 'left'] then canvasWidth
+      when controlBarLocation is 'right' then windowWidth - canvasWidth
+      else windowWidth
+    controlBarLeft = if controlBarLocation is 'right' then canvasWidth else 0
+    tomeOverlap = 6
+    tomeWidth = if tomeLocation is 'right' then windowWidth - canvasWidth + tomeOverlap else windowWidth
+    tomeHeight = switch
+      when tomeLocation is 'bottom' then windowHeight - canvasHeight - controlBarHeight
+      when cinematic then windowHeight
+      when controlBarLocation in ['right', 'top'] then windowHeight - controlBarHeight
+      else windowHeight
+    tomeTop = switch
+      when tomeLocation is 'bottom' then controlBarHeight + canvasHeight
+      when controlBarLocation is 'right' then 50
+      else 0
+    playButtonWidth = tomeWidth
+    playButtonHeight = 46
+    workspaceWidth = switch
+      when workspaceLocation is 'none' then 0
+      when workspaceLocation in ['left-half', 'bottom-left-half'] then 0.5 * tomeWidth
+      when workspaceLocation in ['middle-third', 'bottom-middle-third'] then 0.3 * tomeWidth
+      else tomeWidth
+    workspaceHeight = if workspaceLocation is 'none' then 0 else tomeHeight - playButtonHeight
+    toolboxWidth = switch
+      when toolboxLocation is 'none' then 0
+      when toolboxLocation in ['right-half', 'bottom-right-half'] then 0.5 * tomeWidth
+      else 0.3 * tomeWidth
+    toolboxHeight = if toolboxLocation is 'none' then 0 else tomeHeight - playButtonHeight
+    spellPaletteWidth = if spellPaletteLocation is 'none' then 0 else tomeWidth
+    spellPaletteHeight = if spellPaletteLocation is 'none' then 0 else 150  # TODO: real spell palette height
+    codeWidth = switch
+      when codeLocation is 'none' then 0
+      when codeLocation in ['left-third', 'bottom-left-third'] then 0.4 * tomeWidth
+      else tomeWidth
+    codeHeight = if codeLocation is 'none' then 0 else tomeHeight - playButtonHeight
+    playbackLocation = if emptyHeightBelowCanvas > 15 then 'below' else 'bottom'
+    playbackHeight = 60  # Technically it's 60, it has funky margins and padding though for some overlap
+    playbackTopMargin = Math.min(emptyHeightBelowCanvas - 58, -5)
+    hudLocation = if emptyHeightBelowCanvas > 60 then 'below' else 'none'
+    footerTop = switch
+      when tomeLocation is 'bottom' then controlBarHeight + canvasHeight
+      when controlBarLocation is 'right' then canvasHeight + playbackHeight + playbackTopMargin
+      else controlBarHeight + canvasHeight + playbackHeight + playbackTopMargin
+    footerShadowTop = if playbackLocation is 'bottom' then footerTop - 10 else footerTop
+
+    # console.log 'Calculated PlayLevelView dimensions', { windowWidth, windowHeight, canvasAspectRatio, minCodeChars, maxCodeChars, minCodeCharWidth, maxCodeCharWidth, minCodeWidth, maxCodeWidth, minBlockChars, maxBlockChars, minBlockCharWidth, maxBlockCharWidth, minWorkspaceWidth, maxWorkspaceWidth, minToolboxWidth, maxToolboxWidth, controlBarLocation, controlBarHeight, canvasHeight, canvasWidth, emptyHeightBelowCanvas, emptyWidthLeftOfCanvas, controlBarWidth, controlBarLeft, tomeOverlap, tomeWidth, tomeHeight, tomeTop, playButtonWidth, playButtonHeight, workspaceWidth, workspaceHeight, toolboxWidth, toolboxHeight, spellPaletteWidth, spellPaletteHeight, codeWidth, codeHeight, playbackLocation, playbackHeight, playbackTopMargin, hudLocation, footerTop, footerShadowTop }
+
+    @$el[0].dataset.tomeLocation = tomeLocation
+    @$el[0].dataset.workspaceLocation = workspaceLocation
+    @$el[0].dataset.toolboxLocation = toolboxLocation
+    @$el[0].dataset.spellPaletteLocation = spellPaletteLocation
+    @$el[0].dataset.codeLocation = codeLocation
+    @$el[0].dataset.playButtonLocation = playButtonLocation
+    @$el[0].dataset.controlBarLocation = controlBarLocation
+    @$el[0].dataset.playbackLocation = playbackLocation
+    @$el[0].dataset.hudLocation = hudLocation
+
+    # Set the widths, heights, and positions on the appropriate elements
+    @$el.find('#canvas-wrapper').css width: canvasWidth, height: canvasHeight, left: emptyWidthLeftOfCanvas
+    @$el.find('#level-footer-shadow').css top: footerShadowTop
+    @$el.find('#control-bar-view').css width: controlBarWidth, height: controlBarHeight, left: controlBarLeft
+    @$el.find('#playback-view').css width: canvasWidth, marginTop: playbackTopMargin
+    @$el.find('#thang-hud').css width: canvasWidth
+    @$el.find('#gold-view').css right: windowWidth - canvasWidth + 12, top: 12
+    @$el.find('#code-area').css width: tomeWidth, height: tomeHeight, top: tomeTop
+    @$el.find('#code-area #tome-view #spell-view .ace_editor').css width: codeWidth, height: codeHeight
+    @$el.find('#code-area #tome-view #spell-view #blockly-container').css width: workspaceWidth + toolboxWidth, height: workspaceHeight, left: codeWidth
+    # TODO: figure out how to get workspace and toolbox to share width evenly
+    @$el.find('#code-area #tome-view #spell-view #cast-button-view').css width: playButtonWidth, height: playButtonHeight  # TODO: need this, or just let CSS handle it?
+
+    # TODO: set the font sizes on the appropriate elements (probably in SpellView)
 
   onDisableControls: (e) ->
     return if e.controls and not ('level' in e.controls)

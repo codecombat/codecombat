@@ -165,7 +165,7 @@ module.exports = class CastButtonView extends CocoView
           castText += ' ' + @castShortcut
       else
         castText = $.i18n.t('play_level.tome_cast_button_ran')
-      @castButton.text castText
+      @castButton.text castText unless @options.level.get('product') is 'codecombat-junior'
       #@castButton.prop 'disabled', not castable
       @ladderSubmissionView?.updateButton()
 

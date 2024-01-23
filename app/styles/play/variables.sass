@@ -1,5 +1,6 @@
 $api-bar-width: 200px
 $level-resize-transition-time: 0.25s
+$control-bar-height: 50px
 
 $max-code-area-width: 708px  // 80 characters on a line
 $max-code-area-width-blocks: 2560px  // extra space for Blockly
@@ -7,9 +8,9 @@ $min-code-area-width: 43.5%
 $min-code-area-width-blocks: 43.5%  // TODO: more?
 $max-widescreen-code-area-width: 50%
 $max-widescreen-code-area-width-blocks: 60%
-$code-area-width: Max(Min($max-code-area-width, $min-code-area-width), Min($max-widescreen-code-area-width, calc(100vw - $api-bar-width - 924 / 589 * (100vh - 50px - 43px - 80px))))
-$code-area-width-no-api: Max(Min($max-code-area-width, $min-code-area-width), Min($max-widescreen-code-area-width, calc(100vw - 924 / 589 * (100vh - 50px - 43px - 80px))))
-$code-area-width-blocks: Max(Min($max-code-area-width-blocks, $min-code-area-width-blocks), Min($max-widescreen-code-area-width-blocks, calc(100vw - 924 / 589 * (100vh - 50px - 43px - 80px))))
+$code-area-width: Max(Min($max-code-area-width, $min-code-area-width), Min($max-widescreen-code-area-width, calc(100vw - $api-bar-width - 924 / 589 * (100vh - $control-bar-height - 43px - 80px))))
+$code-area-width-no-api: Max(Min($max-code-area-width, $min-code-area-width), Min($max-widescreen-code-area-width, calc(100vw - 924 / 589 * (100vh - $control-bar-height - 43px - 80px))))
+$code-area-width-blocks: Max(Min($max-code-area-width-blocks, $min-code-area-width-blocks), Min($max-widescreen-code-area-width-blocks, calc(100vw - 924 / 589 * (100vh - $control-bar-height - 43px - 80px))))
 
 $code-area-overlap: 0.5%
 $game-view-width: calc(100% - $code-area-width + $code-area-overlap)

@@ -82,6 +82,8 @@ module.exports = class SpellView extends CocoView
     'level:close-solution': 'closeSolution'
     'level:streaming-solution': 'onStreamingSolution'
     'websocket:asking-help': 'onAskingHelp'
+    'playback:cinematic-playback-started': 'onCinematicPlaybackStarted'
+    'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded'
 
   events:
     'mouseout': 'onMouseOut'
@@ -810,9 +812,16 @@ module.exports = class SpellView extends CocoView
     @updateAceLines(screenLineCount, ace, aceCls, areaId)
 
   updateAceLines: (screenLineCount, ace=@ace, aceCls='.ace', areaId='#code-area') =>
+    isJunior = $('#level-view').hasClass('junior')
+    isCinematic = $('#level-view').hasClass('cinematic')
+    hasBlocks = @blocklyActive
     lineHeight = ace.renderer.lineHeight or 20
     spellPaletteView = $('#tome-view #spell-palette-view-bot')
     spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
+    controlBarHeight = $('#control-bar-view').outerHeight()
+    if spellTopBarHeight is 0 and parseInt($('#control-bar-view').css('left'), 10) > 0
+      # Spell top bar isn't there, but we've stacked level control bar above editor instead
+      spellTopBarHeight = controlBarHeight
     if aceCls == '.ace'
       spellPaletteHeight = spellPaletteView.outerHeight()
     else
@@ -824,13 +833,16 @@ module.exports = class SpellView extends CocoView
     heightScale = if aceCls == '.ace' then 1 else 0.5
 
     # If the spell palette is too tall, we'll need to shrink it.
-    maxHeightOffset = 75
-    minHeightOffset = 175
+    maxHeightOffset = spellTopBarHeight - 12
+    minHeightOffset = spellTopBarHeight + 88
+    minHeightOffset = maxHeightOffset = 0 if isJunior and (hasBlocks or isCinematic)
     maxHeight = Math.min(windowHeight, Math.max(windowHeight, 600)) - topOffset - spellPaletteAllowedHeight - maxHeightOffset
     minHeight = Math.min maxHeight * heightScale, Math.min(gameHeight, Math.max(windowHeight, 600)) - spellPaletteHeight - minHeightOffset
+    minHeight = maxHeight if isJunior and (hasBlocks or isCinematic)
 
     spellPalettePosition = if spellPaletteHeight > 0 then 'bot' else 'mid'
     minLinesBuffer = if spellPalettePosition is 'bot' then 0 else 2
+    minLinesBuffer = 0 if isJunior and (hasBlocks or isCinematic)
     linesAtMinHeight = Math.max(8, Math.floor(minHeight / lineHeight - minLinesBuffer))
     linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
     lines = Math.max linesAtMinHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), 8
@@ -839,13 +851,14 @@ module.exports = class SpellView extends CocoView
     ace.setOptions minLines: lines, maxLines: lines
 
     # If bot: move spell palette up, slightly overlapping us.
-    newTop = 185 + lineHeight * lines
+    newTop = 100 + spellTopBarHeight + lineHeight * lines
     if aceCls == '.ace'
       spellPaletteView.css('top', newTop)
 
       codeAreaBottom = if spellPaletteHeight then windowHeight - (newTop + spellPaletteHeight + 20) else 0
       $(areaId).css('bottom', codeAreaBottom)
     #console.log { lineHeight, spellTopBarHeight, spellPaletteHeight, spellPaletteAllowedHeight, windowHeight, topOffset, gameHeight, minHeight, maxHeight, linesAtMinHeight, linesAtMaxHeight, lines, newTop, screenLineCount }
+    null
 
   updateLines: =>
     # Make sure there are always blank lines for the player to type on, and that the editor resizes to the height of the lines.
@@ -1821,6 +1834,23 @@ module.exports = class SpellView extends CocoView
             console.log('provider get awareness update:', @yjsProvider.connections)
           )
       )
+
+  onCinematicPlaybackStarted: (e) ->
+    return if @cinematic
+    @cinematic = true
+    console.log 'cinematic started, tb visible?', @blockly?.getToolbox()?.visible
+    console.log 'cinematic started, fo visible?', @blockly?.getFlyout()?.visible
+    @blockly?.getToolbox()?.setVisible false
+    @blockly?.getFlyout()?.setVisible false
+
+  onCinematicPlaybackEnded: (e) ->
+    return unless @cinematic
+    @cinematic = false
+    console.log 'cinematic ended, tb visible?', @blockly?.getToolbox()?.visible
+    console.log 'cinematic ended, fo visible?', @blockly?.getFlyout()?.visible
+    @blockly?.getToolbox()?.setVisible true
+    @blockly?.getFlyout()?.setVisible true
+    null
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click mouseenter', '.ace_error, .ace_warning, .ace_info'
