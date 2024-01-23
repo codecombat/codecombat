@@ -13,7 +13,7 @@ export default {
     return {
       title: 'Competitive AI coding esports from CodeCombat',
       meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
       ]
     }
   },
