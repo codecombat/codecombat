@@ -64,6 +64,7 @@ module.exports = class SpellView extends CocoView
     'tome:update-aether': 'onUpdateAether'
     'tome:scroll-to-top': 'onScrollToTop'
     'tome:remove-all-markers': 'onRemoveAllMarkers'
+    'level:gather-chat-message-context': 'onGatherChatMessageContext'
 
 
   events:
@@ -1374,6 +1375,64 @@ module.exports = class SpellView extends CocoView
 
   onPlaybackEndedChanged: (e) ->
     $(@ace?.container).toggleClass 'playback-ended', e.ended
+
+  createUserCodeProblem: (aether, aetherProblem) ->
+    ucp = new UserCodeProblem()
+    ucp.set 'code', aether.raw
+    if aetherProblem.range
+      rawLines = aether.raw.split '\n'
+      errorLines = rawLines.slice aetherProblem.range[0].row, aetherProblem.range[1].row + 1
+      ucp.set 'codeSnippet', errorLines.join '\n'
+    ucp.set 'errHint', aetherProblem.hint if aetherProblem.hint
+    ucp.set 'errId', aetherProblem.id if aetherProblem.id
+    ucp.set 'errCode', aetherProblem.errorCode if aetherProblem.errorCode
+    ucp.set 'errLevel', aetherProblem.level if aetherProblem.level
+    if aetherProblem.message
+      ucp.set 'errMessage', aetherProblem.message
+      # Save error message without 'Line N: ' prefix
+      messageNoLineInfo = aetherProblem.message
+      if lineInfoMatch = messageNoLineInfo.match /^Line [0-9]+\: /
+        messageNoLineInfo = messageNoLineInfo.slice(lineInfoMatch[0].length)
+      ucp.set 'errMessageNoLineInfo', messageNoLineInfo
+    ucp.set 'errRange', aetherProblem.range if aetherProblem.range
+    ucp.set 'errType', aetherProblem.type if aetherProblem.type
+    ucp.set 'language', aether.language.id if aether.language?.id
+    ucp.set 'levelID', @options.levelID if @options.levelID
+    ucp
+
+  onGatherChatMessageContext: (e) ->
+    context = e.chat.context
+    context.codeLanguage = @spell.language or 'python'
+    if level = @options.level
+      context.levelOriginal = level.get('original')
+      context.levelName = level.get('displayName') or level.get('name')
+      if e.chat.example
+        context.i18n ?= {}
+        for language, translations of level.get('i18n')
+          if levelNameTranslation = translations.name
+            context.i18n[language] ?= {}
+            context.i18n[language].levelName = levelNameTranslation
+
+    aether = @displayedAether  # TODO: maybe use @spellThang.aether?
+    isCast = @displayedAether is @spellThang.aether or not _.isEmpty(aether.metrics) or _.some aether.getAllProblems(), {type: 'runtime'}
+    newProblems = @convertAetherProblems(aether, aether.getAllProblems(), false) # do not cast the problem here
+    if problem = newProblems[0]
+      ucp = @createUserCodeProblem aether, problem.aetherProblem
+      context.error = _.pick
+        codeSnippet: ucp.get 'codeSnippet'
+        hint: ucp.get 'errHint'
+        id: ucp.get 'errId'
+        errorCode: ucp.get 'errCode'
+        level: ucp.get 'errLevel'
+        message: ucp.get 'errMessage'
+        messageNoLineInfo: ucp.get 'errMessageNoLineInfo'
+        range: ucp.get 'errRange'
+        type: ucp.get 'errType'
+        i18nParams: problem.i18nParams
+      , (v) -> v isnt undefined
+
+    spellContext = @spell.createChatMessageContext e.chat
+    _.assign context, spellContext
 
   checkRequiredCode: =>
     return if @destroyed
