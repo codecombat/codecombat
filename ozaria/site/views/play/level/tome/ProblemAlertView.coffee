@@ -43,7 +43,7 @@ module.exports = class ProblemAlertView extends CocoView
     @duckImg = _.sample(@duckImages)
     $(window).on 'resize', @onWindowResize
     @creditMessage = ''
-    @showAiBotHelp = true
+    @showAiBotHelp = false
     if @aceConfig.levelChat != 'none'
       if me.isHomeUser() && me.getLevelChatExperimentValue() == 'beta'
         @showAiBotHelp = true
