@@ -231,10 +231,16 @@ module.exports = class LevelLoadingView extends CocoView
     @unveilPreviewTime = new Date().getTime()
 
   resize: ->
-    maxHeight = $('#page-container').outerHeight(true)
+    goalsHeight = @$el.find('.level-loading-goals').outerHeight(true) or 0
+    introDocHeight = @$el.find('.intro-doc-content').outerHeight(true) or 100
+    maxHeight = Math.min $('#level-view').outerHeight(true), goalsHeight + introDocHeight + 100 + 0.11 * $(window).innerHeight() + 40
     minHeight = $('#code-area').outerHeight(true)
-    minHeight -= 20
-    @$el.css height: maxHeight
+    if $('#code-area').offset().top > 100
+      # Code area is on the bottom; be just as tall as the game area instead
+      minHeight = $('#canvas-wrapper').outerHeight(true) + $('#control-bar-view').outerHeight(true)
+    minHeight -= 10
+    minHeight = Math.min minHeight, maxHeight
+    @$el.css height: '100%'
     @$loadingDetails.css minHeight: minHeight, maxHeight: maxHeight
     if @intro
       $intro = @$el.find('.intro-doc')

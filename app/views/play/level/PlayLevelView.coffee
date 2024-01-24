@@ -557,6 +557,7 @@ module.exports = class PlayLevelView extends RootView
       @loadingView.startUnveiling()
       @loadingView.unveil true
     else
+      $(window).trigger 'resize'
       @scriptManager?.initializeCamera()
 
   onLoadingViewUnveiling: (e) ->
