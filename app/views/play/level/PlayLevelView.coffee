@@ -758,10 +758,11 @@ module.exports = class PlayLevelView extends RootView
       # 85% of CodeCombat solution lines are under 60 characters; longer ones are mostly comments, Java/C++, or advanced
       else 60
     maxCodeChars = if product is 'codecombat-junior' then 40 else 80
-    minCodeCharWidth = 5  # TODO: test and measure this, correlate to a font size
+    minCodeCharWidth = 410.47 / 57 # 7.201px, measured at default font size. Can we get down to 5 if we shrink, on small screens? Don't want to shrink on large screens.
     maxCodeCharWidth = 24  # TODO: test and measure this, correlate to a font size
-    minCodeWidth = if codeLocation is 'none' then 0 else minCodeChars * minCodeCharWidth
-    maxCodeWidth = if codeLocation is 'none' then 0 else maxCodeChars * maxCodeCharWidth
+    acePaddingGutterAndMargin = 30 + 41 + 30  # 30px left and right padding, 41px gutter with 10-99 lines of code
+    minCodeWidth = if codeLocation is 'none' then 0 else minCodeChars * minCodeCharWidth + acePaddingGutterAndMargin
+    maxCodeWidth = if codeLocation is 'none' then 0 else maxCodeChars * maxCodeCharWidth + acePaddingGutterAndMargin
     minBlockChars = switch
       when @codeFormat is 'blocks-icons' and product is 'codecombat-junior' then 5
       when @codeFormat is 'blocks-icons' and cinematic then 5
