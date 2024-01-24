@@ -849,7 +849,6 @@ module.exports = class PlayLevelView extends RootView
       when tomeLocation is 'bottom' then controlBarHeight + canvasHeight
       when controlBarLocation is 'right' then 50
       else 0
-    playButtonWidth = tomeWidth
     playButtonHeight = 46
     workspaceWidth = switch
       when workspaceLocation is 'none' then 0
@@ -879,7 +878,7 @@ module.exports = class PlayLevelView extends RootView
       else controlBarHeight + canvasHeight + playbackHeight + playbackTopMargin
     footerShadowTop = if playbackLocation is 'bottom' then footerTop - 10 else footerTop
 
-    # console.log 'Calculated PlayLevelView dimensions', { windowWidth, windowHeight, canvasAspectRatio, minCodeChars, maxCodeChars, minCodeCharWidth, maxCodeCharWidth, minCodeWidth, maxCodeWidth, minBlockChars, maxBlockChars, minBlockCharWidth, maxBlockCharWidth, minWorkspaceWidth, maxWorkspaceWidth, minToolboxWidth, maxToolboxWidth, controlBarLocation, controlBarHeight, canvasHeight, canvasWidth, emptyHeightBelowCanvas, emptyWidthLeftOfCanvas, controlBarWidth, controlBarLeft, tomeOverlap, tomeWidth, tomeHeight, tomeTop, playButtonWidth, playButtonHeight, workspaceWidth, workspaceHeight, toolboxWidth, toolboxHeight, spellPaletteWidth, spellPaletteHeight, codeWidth, codeHeight, playbackLocation, playbackHeight, playbackTopMargin, hudLocation, footerTop, footerShadowTop }
+    # console.log 'Calculated PlayLevelView dimensions', { windowWidth, windowHeight, canvasAspectRatio, minCodeChars, maxCodeChars, minCodeCharWidth, maxCodeCharWidth, minCodeWidth, maxCodeWidth, minBlockChars, maxBlockChars, minBlockCharWidth, maxBlockCharWidth, minWorkspaceWidth, maxWorkspaceWidth, minToolboxWidth, maxToolboxWidth, controlBarLocation, controlBarHeight, canvasHeight, canvasWidth, emptyHeightBelowCanvas, emptyWidthLeftOfCanvas, controlBarWidth, controlBarLeft, tomeOverlap, tomeWidth, tomeHeight, tomeTop, playButtonHeight, workspaceWidth, workspaceHeight, toolboxWidth, toolboxHeight, spellPaletteWidth, spellPaletteHeight, codeWidth, codeHeight, playbackLocation, playbackHeight, playbackTopMargin, hudLocation, footerTop, footerShadowTop }
 
     @$el[0].dataset.tomeLocation = tomeLocation
     @$el[0].dataset.workspaceLocation = workspaceLocation
@@ -903,7 +902,6 @@ module.exports = class PlayLevelView extends RootView
     @$el.find('#code-area #tome-view #spell-view .ace_editor').css width: codeWidth, height: codeHeight
     @$el.find('#code-area #tome-view #spell-view #blockly-container').css width: workspaceWidth + toolboxWidth, height: workspaceHeight, left: codeWidth
     # TODO: figure out how to get workspace and toolbox to share width evenly
-    @$el.find('#code-area #tome-view #spell-view #cast-button-view').css width: playButtonWidth, height: playButtonHeight  # TODO: need this, or just let CSS handle it?
 
     # TODO: set the font sizes on the appropriate elements (probably in SpellView)
 

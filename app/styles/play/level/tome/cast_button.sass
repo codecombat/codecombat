@@ -26,18 +26,10 @@
 #cast-button-view
   display: none
   position: absolute
-
   z-index: 2
   width: 100%
-  border-radius: 6px
-
-  background: transparent url(/images/level/code_toolbar_background.png)
-  background-size: 100% 100%
   left: -15px
   right: 15px
-  height: 94px
-  margin-top: -8px
-  padding: 20px 2.8%
 
   .btn.btn-illustrated
     height: 46px
@@ -49,6 +41,9 @@
     border-style: solid
     border-image: url(/images/level/code_toolbar_run_button_active.png) 14 20 20 20 fill round
     border-width: 7px 10px 10px 10px
+
+    &.full-width
+      width: 100%
 
     &:active
       border-image: url(/images/level/code_toolbar_run_button_active_pressed.png) 14 20 20 20 fill round
@@ -120,12 +115,6 @@
     .btn.btn-illustrated
       width: 100%
 
-  #level-view.junior:not(.text-code) &, #level-view.junior.text-code.cinematic &
-    background: transparent
-    left: -15px
+  &:not(.text-code) &
     right: -15px
-    margin: 0
-    padding: 0
-    height: auto
-
 

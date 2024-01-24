@@ -55,11 +55,13 @@ module.exports = class CastButtonView extends CocoView
       @$el.find('.done-button').show()
     if @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
       @$el.find('.submit-button').hide()  # Hide submit until first win so that script can explain it.
+    @updateButtonWidth()
     @updateReplayability()
     @updateLadderSubmissionViews()
 
   attachTo: (spellView) ->
     @$el.detach().prependTo(spellView.toolbarView.$el).show()
+    @updateButtonWidth()
 
   castShortcutVerbose: ->
     shift = $.i18n.t 'keyboard_shortcuts.shift'
@@ -135,6 +137,7 @@ module.exports = class CastButtonView extends CocoView
       @$el.find('.done-button').toggle @winnable
     else if @winnable and @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
       @$el.find('.submit-button').show()  # Hide submit until first win so that script can explain it.
+    @updateButtonWidth()
 
   onGoalsCalculated: (e) ->
     # When preloading, with real-time playback enabled, we highlight the submit button when we think they'll win.
@@ -168,6 +171,10 @@ module.exports = class CastButtonView extends CocoView
       @castButton.text castText unless @options.level.get('product') is 'codecombat-junior'
       #@castButton.prop 'disabled', not castable
       @ladderSubmissionView?.updateButton()
+
+  updateButtonWidth: ->
+    numVisibleButtons = @$el.find('.btn:visible').length
+    @castButton.toggleClass 'full-width', numVisibleButtons is 1
 
   updateReplayability: =>
     return if @destroyed
