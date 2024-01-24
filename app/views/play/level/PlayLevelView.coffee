@@ -855,6 +855,7 @@ module.exports = class PlayLevelView extends RootView
       else footerTop
     duelStatsLeft = (canvasWidth - 500) / 2
     duelStatsTop = canvasHeight - 60 + (if playbackLocation is 'below' then playbackTopMargin else -32)
+    dialogueLeft = if tomeLocation is 'bottom' then (canvasWidth - 417) / 2 else canvasWidth - 417 - 50
 
     # console.log 'Calculated PlayLevelView dimensions', { @codeFormat, windowWidth, windowHeight, canvasAspectRatio, minCodeChars, maxCodeChars, minCodeCharWidth, maxCodeCharWidth, minCodeWidth, maxCodeWidth, minBlockChars, maxBlockChars, minBlockCharWidth, maxBlockCharWidth, minWorkspaceWidth, maxWorkspaceWidth, minToolboxWidth, maxToolboxWidth, controlBarLocation, controlBarHeight, canvasHeight, canvasWidth, emptyHeightBelowCanvas, emptyWidthLeftOfCanvas, controlBarWidth, controlBarLeft, tomeOverlap, tomeWidth, tomeHeight, tomeTop, playButtonHeight, workspaceWidth, workspaceHeight, toolboxWidth, toolboxHeight, spellPaletteWidth, spellPaletteHeight, codeWidth, codeHeight, playbackLocation, playbackHeight, playbackTopMargin, hudLocation, footerTop, footerShadowTop, duelStatsLeft, duelStatsTop }
 
@@ -880,6 +881,7 @@ module.exports = class PlayLevelView extends RootView
     @$el.find('#code-area #tome-view #spell-view .ace_editor').css width: codeWidth if /blocks/.test(@codeFormat)  # Let handle own height, and width if there are no blocks
     @$el.find('#code-area #tome-view #spell-view #blockly-container').css width: workspaceWidth + toolboxWidth, height: workspaceHeight, left: codeWidth
     @$el.find('#duel-stats-view').css left: duelStatsLeft, top: duelStatsTop
+    @$el.find('#level-dialogue-view').css left: dialogueLeft
     # TODO: figure out how to get workspace and toolbox to share width evenly
 
     # TODO: set the font sizes on the appropriate elements (probably in SpellView)
