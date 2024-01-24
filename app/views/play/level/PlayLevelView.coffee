@@ -715,6 +715,7 @@ module.exports = class PlayLevelView extends RootView
     product = @level?.get('product', true) or 'codecombat'
     cinematic = product is 'codecombat' and @$el.hasClass('cinematic') and (windowAspectRatio < 2 or windowWidth <= 1366) and windowAspectRatio > 1
     tomeLocation = switch
+      when @level.isType('web-dev') then 'right'
       when windowAspectRatio < 1 then 'bottom'
       when windowAspectRatio < 1.35 and @codeFormat is 'blocks-and-code' and not cinematic then 'bottom'
       else 'right'
@@ -749,6 +750,7 @@ module.exports = class PlayLevelView extends RootView
       when cinematic then Math.max(windowHeight * 0.15, 150)
       else  Math.max(windowHeight * 0.25, 250)
     minCodeChars = switch
+      when @level.isType('web-dev') then 80
       # CoCo Jr might have a line like "    hero.castFireball("right", 2);"
       when product is 'codecombat-junior' then 34
       # Cinematic playback probably doesn't need to show long lines at full width, especially comments
@@ -786,12 +788,14 @@ module.exports = class PlayLevelView extends RootView
     tomeWidthWhenControlBarRight = windowWidth - canvasWidthWhenControlBarRight
     emptyHeightBelowCanvasWhenControlBarRight = windowHeight - canvasHeightWhenControlBarRight
     controlBarLocation = switch
+      when @level.isType('web-dev') then 'left'
       when cinematic then 'none'
       when tomeLocation is 'bottom' then 'top'
       when tomeWidthWhenControlBarRight > 160 and emptyHeightBelowCanvasWhenControlBarRight <= 0 then 'right'
       else 'left'
     controlBarHeight = if cinematic then 0 else 50
     canvasHeight = switch
+      when @level.isType('web-dev') then windowHeight - controlBarHeight
       when tomeLocation is 'bottom' then Math.min(windowHeight - minTomeHeight - controlBarHeight, windowWidth / canvasAspectRatio)
       else Math.min(windowHeight - (if controlBarLocation is 'left' then controlBarHeight else 0), (windowWidth - minCodeWidth - minWorkspaceWidth - minToolboxWidth) / canvasAspectRatio)
     canvasWidth = canvasHeight * canvasAspectRatio
@@ -843,8 +847,12 @@ module.exports = class PlayLevelView extends RootView
     footerTop = switch
       when tomeLocation is 'bottom' then controlBarHeight + canvasHeight
       when controlBarLocation is 'right' then canvasHeight + playbackHeight + playbackTopMargin
+      when @level.isType('web-dev') then controlBarHeight + canvasHeight
       else controlBarHeight + canvasHeight + playbackHeight + playbackTopMargin
-    footerShadowTop = if playbackLocation is 'bottom' then footerTop - 10 else footerTop
+    footerShadowTop = switch
+      when @level.isType('web-dev') then footerTop - 10
+      when playbackLocation is 'bottom' then footerTop - 10
+      else footerTop
     duelStatsLeft = (canvasWidth - 500) / 2
     duelStatsTop = canvasHeight - 60 + (if playbackLocation is 'below' then playbackTopMargin else -32)
 
@@ -869,7 +877,7 @@ module.exports = class PlayLevelView extends RootView
     @$el.find('#thang-hud .center').css maxWidth: canvasWidth
     @$el.find('#gold-view').css right: windowWidth - canvasWidth + 12, top: 12
     @$el.find('#code-area').css width: tomeWidth, height: tomeHeight, top: tomeTop
-    @$el.find('#code-area #tome-view #spell-view .ace_editor').css width: codeWidth # , height: codeHeight  # SpellView handles updating Ace height
+    @$el.find('#code-area #tome-view #spell-view .ace_editor').css width: codeWidth if /blocks/.test(@codeFormat)  # Let handle own height, and width if there are no blocks
     @$el.find('#code-area #tome-view #spell-view #blockly-container').css width: workspaceWidth + toolboxWidth, height: workspaceHeight, left: codeWidth
     @$el.find('#duel-stats-view').css left: duelStatsLeft, top: duelStatsTop
     # TODO: figure out how to get workspace and toolbox to share width evenly

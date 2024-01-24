@@ -234,6 +234,7 @@ module.exports = class LevelLoadingView extends CocoView
     goalsHeight = @$el.find('.level-loading-goals').outerHeight(true) or 0
     introDocHeight = @$el.find('.intro-doc-content').outerHeight(true) or 100
     maxHeight = Math.min $('#level-view').outerHeight(true), goalsHeight + introDocHeight + 100 + 0.11 * $(window).innerHeight() + 40
+    maxHeight = Math.max maxHeight, 0.5 * $(window).innerHeight()
     minHeight = $('#code-area').outerHeight(true)
     if $('#code-area').offset().top > 100
       # Code area is on the bottom; be just as tall as the game area instead
