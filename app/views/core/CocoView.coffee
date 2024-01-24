@@ -525,6 +525,13 @@ module.exports = class CocoView extends Backbone.View
 
     @pointerRadialDistance = -47
     @pointerRotation = options.rotation ? Math.atan2(@$el.outerWidth() * 0.5 - targetLeft, targetTop - @$el.outerHeight() * 0.5)
+    initialRotation = @pointerRotation
+    while @pointerRotation < initialRotation + 2 * Math.PI and (
+      targetLeft - Math.sin(@pointerRotation) * 150 < 0 or
+      targetLeft - Math.sin(@pointerRotation) * 150 > @$el.outerWidth() or
+      targetTop - Math.cos(@pointerRotation) * 150 < 0 or
+      targetTop - Math.cos(@pointerRotation) * 150 > @$el.outerHeight())
+      @pointerRotation += Math.PI / 16
     initialScale = Math.max 1, 20 - me.level()
     $pointer.css
       opacity: 1.0
