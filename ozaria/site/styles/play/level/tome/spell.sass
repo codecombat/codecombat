@@ -55,18 +55,6 @@
     .programming-language
       color: darkred
 
-  .firepad
-    // When Firepad is active, it wraps .ace_editor in .firepad.
-    @include editor-height(0px)
-    width: 94%
-
-    .ace_editor
-      width: 100%
-      height: 100%
-
-    .powered-by-firepad
-      display: none
-
   .ace_editor
     // When Firepad isn't active, .ace_editor needs the width/height set itself.
     @include editor-height(0px)
