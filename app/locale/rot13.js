@@ -1931,8 +1931,7 @@ module.exports = {
       toggle_debug: 'Gbttyr qroht qvfcynl.',
       toggle_grid: 'Gbttyr tevq bireynl.',
       toggle_pathfinding: 'Gbttyr cngusvaqvat bireynl.',
-      beautify: 'Ornhgvsl lbhe pbqr ol fgnaqneqvmvat vgf sbeznggvat.',
-      maximize_editor: 'Znkvzvmr/zvavzvmr pbqr rqvgbe.'
+      beautify: 'Ornhgvsl lbhe pbqr ol fgnaqneqvmvat vgf sbeznggvat.'
     },
 
     cinematic: {

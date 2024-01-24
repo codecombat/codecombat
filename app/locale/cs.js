@@ -1913,8 +1913,7 @@ module.exports = {
       toggle_debug: 'Přepnout displej ladění.',
       toggle_grid: 'Přepnout překrytí mřížkou.',
       toggle_pathfinding: 'Přepnout překrytí nalezání cesty.',
-      beautify: 'Udělejte váš kod hezčí standardizováním jeho formátu.',
-      maximize_editor: 'Maximalizovat/minimalizovat editor kódu.'
+      beautify: 'Udělejte váš kod hezčí standardizováním jeho formátu.'
     },
 
     //  cinematic:

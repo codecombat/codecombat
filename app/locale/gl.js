@@ -1906,8 +1906,7 @@ module.exports = {
       //    toggle_debug: "Toggle debug display."
       //    toggle_grid: "Toggle grid overlay."
       //    toggle_pathfinding: "Toggle pathfinding overlay."
-      beautify: 'Embelece o teu código estandarizando o formato.',
-      maximize_editor: 'Maximizar/minimizar o editor de código.'
+      beautify: 'Embelece o teu código estandarizando o formato.'
     },
 
     //  cinematic:

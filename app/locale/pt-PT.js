@@ -1927,8 +1927,7 @@ module.exports = {
       toggle_debug: 'Ativar/desativar a janela de depuração.',
       toggle_grid: 'Ativar/desativar a sobreposição da grelha.',
       toggle_pathfinding: 'Ativar/desativar a sobreposição do encontrador de caminho.',
-      beautify: 'Embelezar o código ao estandardizar a formatação.',
-      maximize_editor: 'Maximizar/minimizar o editor de código.'
+      beautify: 'Embelezar o código ao estandardizar a formatação.'
     },
 
     //  cinematic:

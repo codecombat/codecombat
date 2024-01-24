@@ -1923,8 +1923,7 @@ module.exports = {
       toggle_debug: 'Debug-Anzeige an/aus.',
       toggle_grid: 'Grid-Overlay an/aus.',
       toggle_pathfinding: 'Wegfindungs-Overlay an/aus.',
-      beautify: 'Verschönere deinen Code durch die Standardisierung der Formatierung.',
-      maximize_editor: 'Maximiere/Minimiere Code Editor.'
+      beautify: 'Verschönere deinen Code durch die Standardisierung der Formatierung.'
     },
 
     //  cinematic:

@@ -1915,8 +1915,7 @@ module.exports = {
       toggle_debug: 'Skru på/av feilrettingsvindu',
       toggle_grid: 'Skru på/av rutenett',
       toggle_pathfinding: 'Skru på/av stifinnervindu',
-      beautify: 'Gjør koden penere med standard formattering.',
-      maximize_editor: 'Maksimer/minimer kode editor.'
+      beautify: 'Gjør koden penere med standard formattering.'
     },
 
     //  cinematic:

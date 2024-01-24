@@ -1925,8 +1925,7 @@ module.exports = {
       toggle_debug: '디버그 화면 전환.',
       toggle_grid: '디버그 오버레이 전환',
       toggle_pathfinding: '길 찾아주는 오버레이 전환.',
-      beautify: '서식을 표준화하여 코드를 아름답게합니다.',
-      maximize_editor: '코드 에디터 최대/최소.'
+      beautify: '서식을 표준화하여 코드를 아름답게합니다.'
     },
 
     cinematic: {

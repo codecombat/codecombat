@@ -1925,8 +1925,7 @@ module.exports = {
       toggle_debug: 'Comută afișaj debug.',
       toggle_grid: 'Comută afișaj grilă.',
       toggle_pathfinding: 'Comută afișaj pathfinding.',
-      beautify: 'Înfrumusețează codul standardizând formatarea lui.',
-      maximize_editor: 'Mărește/Micește editorul.'
+      beautify: 'Înfrumusețează codul standardizând formatarea lui.'
     },
 
     //  cinematic:

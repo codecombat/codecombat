@@ -1931,8 +1931,7 @@ module.exports = {
       toggle_debug: 'Mostrar/ocultar depuración.',
       toggle_grid: 'Mostrar/ocultar rejilla.',
       toggle_pathfinding: 'Mostrar/ocultar buscador de rutas.',
-      beautify: 'Hacer bello tu código estandarizando formato.',
-      maximize_editor: 'Maximizar/minimizar editor de código.'
+      beautify: 'Hacer bello tu código estandarizando formato.'
     },
 
     cinematic: {

@@ -1914,8 +1914,7 @@ module.exports = {
       toggle_debug: 'Tænd/Sluk debug skærmbillede.',
       toggle_grid: 'Tænd/Sluk gitter overlejring.',
       toggle_pathfinding: 'Tænd/Sluk stifinder overlejring.',
-      beautify: 'Forskøn din kode ved at standardisere dens formattering.',
-      maximize_editor: 'Maksimer/Minimer kodeeditor.'
+      beautify: 'Forskøn din kode ved at standardisere dens formattering.'
     },
 
     //  cinematic:

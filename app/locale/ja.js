@@ -1917,8 +1917,7 @@ module.exports = {
       toggle_debug: 'トグル：ディスプレイのデバッグ',
       toggle_grid: 'トグル：オーバーレイをグリッド',
       toggle_pathfinding: 'トグル：オーバーレイの経路探索',
-      beautify: 'フォーマットを標準化してコードを美しくする。',
-      maximize_editor: 'コードエディターの最大化/最小化。'
+      beautify: 'フォーマットを標準化してコードを美しくする。'
     },
 
     //  cinematic:

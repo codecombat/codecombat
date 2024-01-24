@@ -1924,8 +1924,7 @@ module.exports = {
       toggle_debug: 'Afficher la console de déboggage',
       toggle_grid: 'Afficher une grille',
       toggle_pathfinding: 'Toggle pathfinding overlay.',
-      beautify: 'Embellissez votre code en normalisant sa mise en forme.',
-      maximize_editor: "Maximiser/minimiser l'éditeur de code."
+      beautify: 'Embellissez votre code en normalisant sa mise en forme.'
     },
 
     //  cinematic:

@@ -1917,8 +1917,7 @@ module.exports = {
       toggle_debug: 'Įj./išj. klaidų aptikimo (debug) displejų.',
       toggle_grid: 'Įjungti tinklelį.',
       toggle_pathfinding: 'Perjungti kelio radimo sluoksnį.',
-      beautify: 'Tvarkyti Jūsų kodą standartizuojant jo formatą.',
-      maximize_editor: 'Išdidinti/sumažinti kodo redaktorių.'
+      beautify: 'Tvarkyti Jūsų kodą standartizuojant jo formatą.'
     },
 
     cinematic: {

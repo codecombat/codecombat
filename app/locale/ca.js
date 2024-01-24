@@ -1924,8 +1924,7 @@ module.exports = {
       toggle_debug: 'Canvia la visualització de depuració.',
       toggle_grid: 'Commuta la superposició de la graella.',
       toggle_pathfinding: "Canvia la superposició d'enfocament de camí.",
-      beautify: 'Embelleix el teu codi estandarditzant el format.',
-      maximize_editor: "Maximitza/minimitza l'editor de codi."
+      beautify: 'Embelleix el teu codi estandarditzant el format.'
     },
 
     //  cinematic:

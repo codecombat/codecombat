@@ -1931,8 +1931,7 @@ module.exports = {
       toggle_debug: '显示/关闭调试信息',
       toggle_grid: '显示/关闭网格提示',
       toggle_pathfinding: '显示/关闭路径寻找提示',
-      beautify: '利用标准编码格式美化您的代码。',
-      maximize_editor: '最大化/最小化代码编辑器'
+      beautify: '利用标准编码格式美化您的代码。'
     },
 
     cinematic: {

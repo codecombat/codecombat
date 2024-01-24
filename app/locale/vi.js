@@ -1902,7 +1902,7 @@ module.exports = {
       enter: 'Phím Enter',
       press_enter: 'Ấn Enter',
       escape: 'Phím Escape',
-      shift: 'Phím Shift',
+      shift: 'Phím Shift'
       //    run_code: "Run current code."
       //    run_real_time: "Run in real time."
       //    continue_script: "Continue past current script."
@@ -1915,7 +1915,6 @@ module.exports = {
       //    toggle_grid: "Toggle grid overlay."
       //    toggle_pathfinding: "Toggle pathfinding overlay."
       //    beautify: "Beautify your code by standardizing its formatting."
-      maximize_editor: 'Phong to/thu nhỏ trình soạn thảo code.'
     },
 
     //  cinematic:

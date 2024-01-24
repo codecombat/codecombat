@@ -1915,8 +1915,7 @@ module.exports = {
       toggle_debug: 'Virheenetsintänäyttö.',
       toggle_grid: 'Taustaruudukko.',
       toggle_pathfinding: 'Reitinhakunäyttö.',
-      beautify: 'Viimeistele ohjelmakoodisi, muotoilemalla se yhdenmukaisesti.',
-      maximize_editor: 'Laajenna/pienennä koodieditori.'
+      beautify: 'Viimeistele ohjelmakoodisi, muotoilemalla se yhdenmukaisesti.'
     },
 
     //  cinematic:

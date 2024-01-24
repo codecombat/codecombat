@@ -1916,8 +1916,7 @@ module.exports = {
       toggle_debug: 'Attiva/disattiva schermo debug.',
       toggle_grid: 'Attiva/disattiva griglia.',
       toggle_pathfinding: 'Attiva/disattiva sovrimpressione percorso.',
-      beautify: 'Rendi ordinato il codice sistemando la formattazione.',
-      maximize_editor: "Ingrandisci/rimpicciolisci l'editor di programmazione."
+      beautify: 'Rendi ordinato il codice sistemando la formattazione.'
     },
 
     //  cinematic:

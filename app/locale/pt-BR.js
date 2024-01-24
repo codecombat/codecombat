@@ -1926,8 +1926,7 @@ module.exports = {
       toggle_debug: 'Ligar/desligar informações de debug.',
       toggle_grid: 'Ligar/desligar exibição da grade.',
       toggle_pathfinding: 'Ligar/desligar exibição do pathfinding (caminho).',
-      beautify: 'Embeleze seu código a partir da padronização de formatação.',
-      maximize_editor: 'Maximizar/minimizar editor de código.'
+      beautify: 'Embeleze seu código a partir da padronização de formatação.'
     },
 
     cinematic: {

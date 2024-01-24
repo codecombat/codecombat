@@ -1922,8 +1922,7 @@ module.exports = {
       toggle_debug: '顯示/關閉除錯訊息',
       toggle_grid: '顯示/關閉網格提示',
       toggle_pathfinding: '顯示/關閉路徑尋找提示',
-      beautify: '利用標準格式來美化您的程式碼',
-      maximize_editor: '最大化/最小化程式碼編輯器'
+      beautify: '利用標準格式來美化您的程式碼'
     },
 
     cinematic: {

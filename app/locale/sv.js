@@ -1928,8 +1928,7 @@ module.exports = {
       toggle_debug: 'Toggla debug display.',
       toggle_grid: 'Toggla grid overlay.',
       toggle_pathfinding: 'Växla till översikt för sökvägen.',
-      beautify: 'Försköna din kod genom att standardisera dess formatering.',
-      maximize_editor: 'Maximera/minimera kodredigeraren.'
+      beautify: 'Försköna din kod genom att standardisera dess formatering.'
     },
 
     cinematic: {

@@ -1928,8 +1928,7 @@ module.exports = {
       toggle_debug: 'Toggle debug scherm.',
       toggle_grid: 'Toggle rooster weergave.',
       toggle_pathfinding: 'Toggle padvind weergave.',
-      beautify: 'Maak je code netter door de opmaak overal gelijk te maken.',
-      maximize_editor: 'Maximaliseer/minimaliseer code editor.'
+      beautify: 'Maak je code netter door de opmaak overal gelijk te maken.'
     },
 
     cinematic: {

@@ -1928,8 +1928,7 @@ module.exports = {
       toggle_debug: 'Beralih tampilan debug.',
       toggle_grid: 'Beralih lembaran kotak-kotak.',
       toggle_pathfinding: 'Beralih lembaran mencari jalan.',
-      beautify: 'Percantik kodemu dengan menstandarisasi formatnya.',
-      maximize_editor: 'Memaksimalkan/meminimalisasi editor kode.'
+      beautify: 'Percantik kodemu dengan menstandarisasi formatnya.'
     },
 
     cinematic: {

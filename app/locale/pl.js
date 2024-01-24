@@ -1923,8 +1923,7 @@ module.exports = {
       toggle_debug: 'Pokaż/ukryj debugowanie.',
       toggle_grid: 'Pokaż/ukryj siatkę.',
       toggle_pathfinding: 'Pokaż/ukryj ścieżkę bohatera.',
-      beautify: 'Upiększ kod standaryzując jego formatowanie.',
-      maximize_editor: 'Maksymalizuj/minimalizuj edytor kodu.'
+      beautify: 'Upiększ kod standaryzując jego formatowanie.'
     },
 
     //  cinematic:

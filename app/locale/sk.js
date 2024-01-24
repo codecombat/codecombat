@@ -1919,8 +1919,7 @@ module.exports = {
       toggle_debug: 'Prepni ladenie.',
       toggle_grid: 'Prepni zobrazenie mriežky.',
       toggle_pathfinding: 'Prepni zobrazenie hľadania cesty.',
-      beautify: 'Skrášli kód pomocou štandardizácie formátovania.',
-      maximize_editor: 'Zväčši maximálne/minimálne editor.'
+      beautify: 'Skrášli kód pomocou štandardizácie formátovania.'
     },
 
     //  cinematic:

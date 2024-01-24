@@ -1923,8 +1923,7 @@ module.exports = {
       toggle_debug: 'Hibakeresési nézet be-/kikapcsolása.',
       toggle_grid: 'Rácsos átfedő panel be-/kikapcsolása.',
       toggle_pathfinding: 'Útkeresési átfedő panel be-/kikapcsolása.',
-      beautify: 'A kód kicsinosítása és szabványos formátumra hozása.',
-      maximize_editor: 'Maximális/Minimális kód szerkesztő.'
+      beautify: 'A kód kicsinosítása és szabványos formátumra hozása.'
     },
 
     cinematic: {
