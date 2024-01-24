@@ -91,6 +91,9 @@ mixin price(name, p, nameWithoutCurrency)
                 button.stripe-annual-button.btn.btn-lg.btn-illustrated
                   span.buy-now-text(data-i18n="subscribe.buy_now")
                   span.buy-lock-icon &#x1F512;
+                  if features.chinaHome
+                     if isProduction
+                       img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/prod_annual_qr.png')
 
           else if view.lifetimeProduct
             .option-col(class=secondRowClass)
@@ -102,9 +105,6 @@ mixin price(name, p, nameWithoutCurrency)
                 button.stripe-lifetime-button.btn.btn-lg.btn-illustrated
                   span.buy-now-text(data-i18n="subscribe.buy_now")
                   span.buy-lock-icon &#x1F512;
-                  if features.chinaHome
-                     if isProduction
-                       img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/prod_annual_qr.png')
 
         div.support-blurb.text-center
           p

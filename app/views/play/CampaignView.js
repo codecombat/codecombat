@@ -2104,11 +2104,11 @@ ${problem.category} - ${problem.score} points\
       }
 
       if (what === 'roblox-level') {
-        return this.userQualifiesForRobloxModal()
+        return this.userQualifiesForRobloxModal() && !me.showChinaResourceInfo()
       }
 
       if (what === 'hackstack') {
-        return ((typeof me.getHackStackExperimentValue === 'function' ? me.getHackStackExperimentValue() : undefined) !== 'beta') && !userUtils.isCreatedViaLibrary()
+        return ((typeof me.getHackStackExperimentValue === 'function' ? me.getHackStackExperimentValue() : undefined) !== 'beta') && !userUtils.isCreatedViaLibrary() && !me.showChinaResourceInfo()
       }
 
       return true
