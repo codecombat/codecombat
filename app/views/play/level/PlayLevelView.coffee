@@ -493,6 +493,10 @@ module.exports = class PlayLevelView extends RootView
   onLevelLoaderLoaded: ->
     # Everything is now loaded
     return unless @levelLoader?.progress() is 1  # double check, since closing the guide may trigger this early
+    if not @level
+      console.warn 'Warning: somehow level loader loaded without having grabbed level loader data first? Trying again soon.'
+      _.delay (=> @onLevelLoaderLoaded?()), 2000
+      return
 
     # Save latest level played.
     if not @observing and not @isEditorPreview and not @levelLoader.level.isType('ladder-tutorial')
