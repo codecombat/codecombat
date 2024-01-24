@@ -62,6 +62,7 @@
 
 <script>
 export default Vue.extend({
+  name: 'CoCoStar',
   components: {
   },
 
@@ -77,6 +78,136 @@ export default Vue.extend({
     },
     events () {
       return [
+        {
+          ctype: 'title',
+          title: '“扣哒杯”全球青少年人工智能算法挑战活动',
+          data: [['2023年9月-2024年1月', '比赛时间'],
+                 ['CodeCombat', '技术支持'],
+                 ['4066人', '参数人数'],
+                 ['CodeCombat、全球青少年图灵计划', '主办单位']]
+        },
+        {
+          ctype: 'group-desc',
+          bg: 'dark',
+          title: '全国一等奖(小学组)',
+          members: [
+            ['方晨希', '伯乐码(金牌)'],
+            ['虞曜瑄', '张家港市大新中心小学(金牌)'],
+            ['宋沐云', '上外黄浦外国语小学(银牌)'],
+            ['闫承志', '孙桥小学(银牌)'],
+            ['徐祺浩', '伯乐码(银牌)'],
+            ['刘博渊', '码爸爸科技学创空间(银牌)'],
+            ['徐永', '伯乐码(银牌)'],
+            ['王镇杰', '六（9）(银牌)'],
+            ['段皓然', '张家港市塘桥中心小学(银牌)'],
+            ['金泽辰', '伯乐码(铜牌)'],
+            ['刘嘉祥', '叩嗒创客(铜牌)'],
+            ['朱彦择', '伯乐码(铜牌)'],
+            ['马一诺', '叩嗒创客(铜牌)'],
+            ['姜尚为', '叩嗒创客(铜牌)'],
+            ['王洛伊', '伯乐码(铜牌)'],
+            ['邓智睿', '成都市东城根街小学(铜牌)'],
+            ['游清凯', '叩嗒创客(铜牌)'],
+            ['解卜豪', '叩嗒创客(铜牌)'],
+            ['王靖博', '伯乐码(铜牌)'],
+            ['于佳润', '中关村一小(铜牌)'],
+            ['朱昱舟', '伯乐码(铜牌)'],
+            ['何思成', '西安经开第一学校(铜牌)'],
+            ['马正宇', '叩嗒创客(铜牌)'],
+            ['高宇泽', '叩嗒创客(铜牌)'],
+            ['陈政毅', '伯乐码(铜牌)'],
+            ['王子涵', '叩嗒创客(铜牌)'],
+            ['王立豪', '斯坦星球(铜牌)'],
+            ['徐梓恒', '张家港市塘桥中心小学(铜牌)'],
+            ['李宇阳', '码爸爸编程创客中心(铜牌)'],
+            ['严梓辰', '北京市新英才学校(铜牌)'],
+            ['沈嘉毅', '叩嗒创客(铜牌)'],
+            ['沈宇航', '伯乐码'],
+            ['宋文博', '未填写'],
+            ['韩一萌', '叩嗒创客'],
+            ['吴天立', '斯坦星球'],
+            ['司陆涵', '张家港市塘桥中心小学'],
+            ['陆泓旭', '伯乐码'],
+            ['司陆涵', '张家港市塘桥中心小学'],
+            ['王周阳', '张家港市塘桥中心小学'],
+            ['成昊谦', '塘桥中心小学'],
+            ['罗艺腾', '伯乐码'],
+            ['褚峻赫', '张家港市塘桥中兴小学'],
+            ['叶哲羽', '伯乐码'],
+            ['梁紫特', '叩嗒创客'],
+            ['吴虑', 'mababa'],
+            ['陈雨萱', '伯乐码'],
+            ['王镇杰', '六（9）'],
+            ['顾子博', '伯乐码'],
+            ['马恒洋', '叩嗒创客'],
+            ['wzj', '六（9）'],
+            ['许江南', '未填写'],
+            ['徐梓皓', '张家港市塘桥中心小学'],
+            ['王聆宇', '张家港农联实验小学'],
+            ['孙明昊', '张家港市凤凰镇恬庄小学'],
+            ['何银春', '编程猫'],
+            ['陈宇辉', '张家港市塘桥中心小学'],
+            ['钟雨墨', '伯乐码'],
+            ['司陆涵', '张家港市塘桥中心小学']
+          ]
+        },
+        {
+          ctype: 'group-desc',
+          bg: 'light',
+          title: '全国一等奖(中学组)',
+          members: [
+            ['路淏天', '叩嗒创客(金牌)'],
+            ['张宇涛', '叩嗒创客(金牌)'],
+            ['马力', '码爸爸科技学创空间(银牌)'],
+            ['官宏刚', '广州市东风实验学校(银牌)'],
+            ['李卓宸', '银川景博学校(银牌)'],
+            ['蒙启澈', '广州市荔湾区西关广雅实验学校(铜牌)'],
+            ['刘嘉威', '广州市东风实验学校(铜牌)'],
+            ['雷金儒', '中博科技教育培训学校(铜牌)'],
+            ['钦悦宸', '广州市东风实验学校(铜牌)'],
+            ['胡瑾颢', '码爸爸科技学创空间(铜牌)'],
+            ['高烁', '未填写(铜牌)'],
+            ['刘泽旭', '叩嗒创客(铜牌)'],
+            ['李成', '江苏省苏州中学相城实验项目·相城中学'],
+            ['钟雨芪', '昆明市第一中学附属西山区山海实验学校'],
+            ['龚钰涛', '少年老程'],
+            ['黎圳涛', '广州市东风实验学校'],
+            ['黄泓创', '广州市东风实验学校'],
+            ['张铉和', '深圳市第三高级中学'],
+            ['孙曼普', '编程猫阳江体验中心'],
+            ['余梓睿', '广州市东风实验学校'],
+            ['梁沛萱', '叩嗒创客'],
+            ['罗冠鸿', '编程猫阳江体验中心'],
+            ['曾冬鑫', '广州市荔湾区西关广雅实验学校'],
+            ['周睿阳', '上海市建平中学西校'],
+            ['王硕', '苏州南环实验中学校']
+          ]
+        },
+        {
+          ctype: 'group-desc',
+          bg: 'dark',
+          title: '全国一等奖(开放组)',
+          members: [
+            ['jams', '斯坦星球'],
+            ['王老师', '清华大学'],
+            ['max', '斯坦星球'],
+            ['JxBaby', '伯乐码'],
+            ['黎元', '广州市东风实验学校'],
+            ['封威', '双流中学九江实验学校'],
+            ['任sir', '伯乐码'],
+            ['谷爱琳', '斯坦福大学'],
+            ['DF杨老师', 'DF游戏编程俱乐部'],
+            ['GGBond', '未填写'],
+            ['王奕宁', '北京大学'],
+            ['陈珊', '北京市新英才学校'],
+            ['叶子老师', '编程猫阳江体验中心'],
+            ['韩冰', '叩嗒创客'],
+            ['邓骏岳', 'sicau'],
+            ['郭栋', '山西向尚教育']
+
+          ]
+        },
+
         {
           ctype: 'title',
           title: 'Code Quest全球青少年人工智能挑战活动总决赛',
@@ -622,7 +753,7 @@ export default Vue.extend({
                  ['扣哒世界', '技术支持'],
                  ['3977人', '参数人数'],
                  ['CodeCombat 斯坦福大学', '发起单位'],
-                 ['72个国家和地区', '覆盖区域'],
+                 ['72个国家和地区', '覆盖区域']
           ]
         },
         {
@@ -630,7 +761,7 @@ export default Vue.extend({
           bg: 'dark',
           rank: [
             ['Venneth', '（印尼）'],
-            ['李成',  '（中国）'],
+            ['李成', '（中国）'],
             ['Shininglice', '（加拿大）']
           ]
         },
@@ -671,7 +802,7 @@ export default Vue.extend({
               '何牧之（中国）、',
               '林群翰（中国台湾）、',
               '賴鼎安（中国台湾）、',
-              '陈雨博（中国）、',
+              '陈雨博（中国）、'
             ]
           }
         },
@@ -708,7 +839,7 @@ export default Vue.extend({
               'Kwan Cedric（中国香港）、',
               'Samuel422（英国）、',
               '宋铭灏（中国）、',
-              '唐鹏宇（中国）、',
+              '唐鹏宇（中国）、'
             ]
           }
         },
@@ -738,7 +869,7 @@ export default Vue.extend({
               'north626（泰国）、',
               'Lucas.Wu（中国台湾）、',
               'SzymonM_（波兰）、',
-              'ceri_rj（英国）、',
+              'ceri_rj（英国）、'
             ]
           }
         },
@@ -956,8 +1087,8 @@ export default Vue.extend({
           title: '第一届全球青少年图灵计划',
           data: [['2020年7-10月', '比赛时间'],
                  ['<div style="display: flex; flex-direction: column; align-items: center; font-size: 18px; line-height: 20px"><div>中国人民大学高瓴人工智能学院</div>' +
-                  '<div>中国人民大学附属中学</div>' +
-                  '<div>中国人民大学文化科技园</div>', '主办单位'],
+                   '<div>中国人民大学附属中学</div>' +
+                   '<div>中国人民大学文化科技园</div>', '主办单位'],
                  ['2299人', '参数人数']]
         },
         {
@@ -1094,9 +1225,9 @@ export default Vue.extend({
           bg: 'light',
           title: '创新创意奖',
           rank: [[{
-            t: 'Team Code Hack',
-            n: ['Feiran Zhang', 'Charlie Langendorf', 'Hongming Chen']
-          }],
+                   t: 'Team Code Hack',
+                   n: ['Feiran Zhang', 'Charlie Langendorf', 'Hongming Chen']
+                 }],
                  [{
                    t: 'Team Normal',
                    n: ['Hongyi Zeng', 'Jiaqi Zhang', 'Sabrina']
@@ -1107,16 +1238,16 @@ export default Vue.extend({
                  }, {
                    t: 'Team Winner',
                    n: ['Guofeng Liu, Ryan', 'Cobaxin, Ke Song']
-          }]]
+                 }]]
         },
         {
           ctype: 'champion',
           bg: 'dark',
           title: '计算思维奖',
           rank: [[{
-            t: 'Team Code Hack',
-            n: ['Feiran Zhang', 'Charlie Langendorf', 'Hongming Chen']
-          }],
+                   t: 'Team Code Hack',
+                   n: ['Feiran Zhang', 'Charlie Langendorf', 'Hongming Chen']
+                 }],
                  [{
                    t: 'Team Kings',
                    n: ['Owen Williams', 'Zhen Zhang', 'Minghao Wang']
@@ -1125,16 +1256,16 @@ export default Vue.extend({
                    t: 'Team Joker',
                    n: ['Zibo Jin', 'Kaustubh Pullea', 'Zifan Jia']
 
-          }]]
+                 }]]
         },
         {
           ctype: 'champion',
           bg: 'light',
           title: '项目合作奖',
           rank: [[{
-            t: 'Thunder Team',
-            n: ['Yiheng Lü', 'Langyue Wei']
-          }],
+                   t: 'Thunder Team',
+                   n: ['Yiheng Lü', 'Langyue Wei']
+                 }],
                  [{
                    t: 'Team Joker',
                    n: ['Zibo Jin', 'Kaustubh Pullea', 'Zifan Jia']
@@ -1145,16 +1276,16 @@ export default Vue.extend({
                  }, {
                    t: 'Team The X-Men',
                    n: [' Sebastian Vargas, Yipeng', 'Liu, Yeyi Chen']
-          }]]
+                 }]]
         },
         {
           ctype: 'champion',
           bg: 'dark',
           title: '演讲展示奖',
           rank: [[{
-            t: 'Team Honor',
-            n: ['Yiyang Liu', 'Tianci Nie', 'Anthony Rangel-Guerrero']
-          }],
+                   t: 'Team Honor',
+                   n: ['Yiyang Liu', 'Tianci Nie', 'Anthony Rangel-Guerrero']
+                 }],
                  [{
                    t: 'Team YKS',
                    n: ['Yining Wang', 'Zheyuan Li', 'Yariela Lizama-Diaz']
@@ -1165,9 +1296,9 @@ export default Vue.extend({
                  }, {
                    t: 'Team Little Yellow Crab',
                    n: ['Guangxuan Wu, Jinhao Jin', 'Adam Zhuang']
-          }]]
+                 }]]
         }
-]
+      ]
     }
   },
   mounted () {
