@@ -49,34 +49,33 @@ div.popover-header.closeBtn(role="button" dir="ltr")
     p(dir="auto")!= marked(doc.shortDescription || $.i18n.t("skill_docs.description_coming_soon"))
     div.clear(style="clear: both")
 
-  if !selectedMethod
-    if doc.example
-      p.example
-        strong
-          span(data-i18n="skill_docs.example") Example
-          | :
+  if doc.example
+    p.example
+      strong
+        span(data-i18n="skill_docs.example") Example
+        | :
+      .docs-ace-container
+        .docs-ace= doc.example
+  else if doc.type == 'function' && argumentExamples.length
+    p.example
+      strong
+        span(data-i18n="skill_docs.example") Example
+        | :
+      div
         .docs-ace-container
-          .docs-ace= doc.example
-    else if doc.type == 'function' && argumentExamples.length
-      p.example
-        strong
-          span(data-i18n="skill_docs.example") Example
-          | :
-        div
-          .docs-ace-container
-            .docs-ace
-              if language == 'javascript'
-                span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
-              else if language == 'coffeescript'
-                span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + docName + ' ' + argumentExamples.join(', ')
-              else if language == 'python'
-                span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ')'
-              else if language == 'clojure'
-                span= '(.' + docName + ' ' + doc.ownerName + ' ' + argumentExamples.join(', ') + ')'
-              else if language == 'lua'
-                span= doc.ownerName + ':' + docName + '(' + argumentExamples.join(', ') + ')'
-              else if language == 'io'
-                span= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + docName + '(' + argumentExamples.join(', ') + ')'
+          .docs-ace
+            if language == 'javascript'
+              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
+            else if language == 'coffeescript'
+              span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + docName + ' ' + argumentExamples.join(', ')
+            else if language == 'python'
+              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ')'
+            else if language == 'clojure'
+              span= '(.' + docName + ' ' + doc.ownerName + ' ' + argumentExamples.join(', ') + ')'
+            else if language == 'lua'
+              span= doc.ownerName + ':' + docName + '(' + argumentExamples.join(', ') + ')'
+            else if language == 'io'
+              span= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + docName + '(' + argumentExamples.join(', ') + ')'
 
   if doc.description
     .description.rtl-allowed.rtl-right-aligned(dir="auto")

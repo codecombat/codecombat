@@ -50,8 +50,6 @@ body.is-playing
           width: 1.8vw
           height: 1.8vw
     #duel-stats-view
-      right: calc(50% - 250px)
-      bottom: 50px
       .duel-stats-background
         opacity: 0.8
     #control-bar-view .title
@@ -89,7 +87,7 @@ body.is-playing
   #canvas-wrapper
     top: $control-bar-height
     width: calc(57% - 200px)
-    width: calc(#{$game-view-width} - #{$api-bar-width})
+    width: $game-view-width
     position: relative
     overflow: hidden
     background-color: black
@@ -130,13 +128,12 @@ body.is-playing
     &.flag-color-selected
       cursor: crosshair
 
-  &.no-api
-    #code-area
-      width: 43.5%
-      width: $code-area-width-no-api
-    #solution-area
-      right: 43.5%
-      right: $code-area-width-no-api
+  #code-area
+    width: 43.5%
+    width: $code-area-width
+  #solution-area
+    right: 43.5%
+    right: $code-area-width
 
   &.blocks #code-area
     width: 43.5%
@@ -296,9 +293,9 @@ body.is-playing
     height: 100%
     width: 2%
 
-  &.no-api #play-footer
+  #play-footer
     width: 57%
-    width: $game-view-width-no-api
+    width: $game-view-width
 
   &.blocks #play-footer
     width: 57%
@@ -308,7 +305,7 @@ body.is-playing
     position: absolute
     bottom: 0px
     width: calc(57% - 200px)
-    width: calc(#{$game-view-width} - #{$api-bar-width})
+    width: $game-view-width
     text-align: center
     font-family: $headings-font-family
     font-variant: small-caps
@@ -396,19 +393,16 @@ body.is-playing
   .game-container, .level-content
     height: 100%
 
-  &.no-api
-    #spell-palette-view-mid
-      display: none
-    #canvas-wrapper
-      width: 57%
-      width: $game-view-width-no-api
+  #canvas-wrapper
+    width: 57%
+    width: $game-view-width
 
-    &.real-time
-      #canvas-wrapper
-        width: 100%
+  &.real-time
+    #canvas-wrapper
+      width: 100%
 
   &.blocks
-    #spell-palette-view-mid
+    #spell-palette-view
       display: none
     #canvas-wrapper
       width: 57%
@@ -455,6 +449,10 @@ body.is-playing
 
   #canvas-wrapper
     top: 0
+
+  &.game-dev
+    #playback-view, #thang-hud, #level-footer-shadow
+      display: none
 
   &:not(.text-code), &.cinematic
     .game-container .level-content #code-area
@@ -687,8 +685,6 @@ body.is-playing
           width: 1.8vw
           height: 1.8vw
     #duel-stats-view
-      right: calc(50% - 250px)
-      bottom: 50px
       .duel-stats-background
         opacity: 0.8
     #control-bar-view .title

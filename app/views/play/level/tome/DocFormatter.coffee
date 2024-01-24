@@ -54,14 +54,16 @@ module.exports = class DocFormatter
     else
       @doc.owner ?= 'this'
       ownerName = if @doc.owner isnt 'this' then @doc.owner else switch @options.language
-        when 'python', 'lua' then (if @options.useHero then 'hero' else 'self')
+        when 'python', 'lua' then 'hero'
         when 'java' then 'hero'
         when 'cpp' then 'hero'
         when 'coffeescript' then '@'
-        else (if @options.useHero then 'hero' else 'this')
+        else 'hero'
       ownerName = 'game' if @options.level.isType('game-dev')
       @doc.ownerName = ownerName
-      if @doc.type is 'function'
+      if @doc.type is 'spawnable'
+        @doc.shortName = @doc.name
+      else if @doc.type is 'function'
         [docName, args] = @getDocNameAndArguments()
         argNames = args.join ', '
         argString = if argNames then '__ARGS__' else ''
@@ -100,6 +102,8 @@ module.exports = class DocFormatter
       if translatedName isnt @doc.name
         @doc.translatedShortName = @doc.shortName.replace(@doc.name, translatedName)
 
+    if @doc.type is 'spawnable' and not @doc.example
+      @doc.example = javascript: "var #{_.string.camelize(@doc.name)} = game.spawnXY(\"#{@doc.name}\", 21, 20)"
 
     # Grab the language-specific documentation for some sub-properties, if we have it.
     toTranslate = [{obj: @doc, prop: 'description'}, {obj: @doc, prop: 'example'}]
@@ -151,21 +155,25 @@ module.exports = class DocFormatter
         obj[prop] = @replaceSpriteName obj[prop]  # Do this before using the template, otherwise marked might get us first.
 
     # Temporary hack to replace self|this with hero until we can update the docs
-    if @options.useHero
-      thisToken =
-        'python': /self/g,
-        'javascript': /this/g,
-        'java': /this/g,
-        'cpp': /this/g,
-        'lua': /self/g
+    thisToken =
+      'python': /self/g,
+      'javascript': /this/g,
+      'java': /this/g,
+      'cpp': /this/g,
+      'lua': /self/g
 
-      if thisToken[@options.language]
-        if @doc.example
-          @doc.example = @doc.example.replace thisToken[@options.language], 'hero'
-        if @doc.snippets?[@options.language]?.code
-          @doc.snippets[@options.language].code.replace thisToken[@options.language], 'hero'
-        if @doc.args
-          arg.example = arg.example.replace thisToken[@options.language], 'hero' for arg in @doc.args when arg.example
+    if thisToken[@options.language]
+      if @doc.example
+        @doc.example = @doc.example.replace thisToken[@options.language], 'hero'
+      if @doc.snippets?[@options.language]?.code
+        @doc.snippets[@options.language].code.replace thisToken[@options.language], 'hero'
+      if @doc.args
+        arg.example = arg.example.replace thisToken[@options.language], 'hero' for arg in @doc.args when arg.example
+
+    if @doc.description and @options.thangType
+      @doc.description = "![#{@options.thangType.get('name')}](#{@options.thangType.getPortraitURL()}) #{@doc.description}"
+
+    null
 
   formatPopover: ->
     [docName, args] = @getDocNameAndArguments()
@@ -179,7 +187,6 @@ module.exports = class DocFormatter
       marked: marked
       argumentExamples: argumentExamples
       writable: @options.writable
-      selectedMethod: @options.selectedMethod
       cooldowns: @inferCooldowns()
       item: @options.item
       _: _

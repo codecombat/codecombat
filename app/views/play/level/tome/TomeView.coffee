@@ -23,7 +23,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'app/templates/play/level/tome/tome'
 {me} = require 'core/auth'
 Spell = require './Spell'
-SpellPaletteViewBot = require './SpellPaletteViewBot'
+SpellPaletteView = require './SpellPaletteView'
 CastButtonView = require './CastButtonView'
 utils = require 'core/utils'
 store = require 'core/store'
@@ -112,15 +112,14 @@ module.exports = class TomeView extends CocoView
 
   determineCodeFormat: ->
     language = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
-    if @options.level.isType('web-dev', 'game-dev') or (language not in ['python', 'javascript', 'lua'])
+    if @options.level.isType('web-dev') or (language not in ['python', 'javascript', 'lua'])
       # TODO: eventually we could get game-dev working, if we figure out how to list spawnables
-      @blocks = false
-      @blocksHidden = true
-      return
-    classroomCodeFormatDefault = @options.classroomAceConfig?.codeFormatDefault or 'text-code'
-    classroomCodeFormats = @options.classroomAceConfig?.codeFormats or ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code']
-    desiredCodeFormat = me.get('aceConfig')?.codeFormat or classroomCodeFormatDefault
-    newCodeFormat = if desiredCodeFormat in classroomCodeFormats then desiredCodeFormat else classroomCodeFormatDefault
+      newCodeFormat = 'text-code'
+    else
+      classroomCodeFormatDefault = @options.classroomAceConfig?.codeFormatDefault or 'text-code'
+      classroomCodeFormats = @options.classroomAceConfig?.codeFormats or ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code']
+      desiredCodeFormat = me.get('aceConfig')?.codeFormat or classroomCodeFormatDefault
+      newCodeFormat = if desiredCodeFormat in classroomCodeFormats then desiredCodeFormat else classroomCodeFormatDefault
     return if newCodeFormat is @codeFormat
     @blocks = /block/.test(newCodeFormat) # TODO: handle blocks class toggling better
     @blocksHidden = not _.intersection(classroomCodeFormats, ['blocks-icons', 'blocks-text', 'blocks-and-code']).length # TODO: handle blocks class toggling better
@@ -256,12 +255,9 @@ module.exports = class TomeView extends CocoView
     @spellView?.setThang thang
 
   updateSpellPalette: (thang, spell) ->
-    paletteManagedInParent = @options.playLevelView?.updateSpellPalette thang, spell
-    @$('#spell-palette-view-bot').toggleClass 'hidden', paletteManagedInParent
-    return if paletteManagedInParent
-    useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
+    @$('#spell-palette-view').toggleClass 'hidden', false
     @removeSubView @spellPaletteView if @spellPaletteView and not @spellPaletteView?.destroyed
-    @spellPaletteView = @insertSubView new SpellPaletteViewBot { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session, level: @options.level, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID, useHero }
+    @spellPaletteView = @insertSubView new SpellPaletteView { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session, level: @options.level, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID }
     @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view
 
   spellFor: (thang, spellName) ->
@@ -277,7 +273,6 @@ module.exports = class TomeView extends CocoView
 
   reloadAllCode: ->
     if utils.getQueryVariable 'dev'
-      @options.playLevelView?.spellPaletteView?.destroy()
       @updateSpellPalette @spellView.thang, @spellView.spell if @spellView
     spell.view.reloadCode false for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
     @cast false, false

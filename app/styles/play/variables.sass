@@ -1,4 +1,3 @@
-$api-bar-width: 200px
 $level-resize-transition-time: 0.25s
 $control-bar-height: 50px
 
@@ -8,13 +7,11 @@ $min-code-area-width: 43.5%
 $min-code-area-width-blocks: 43.5%  // TODO: more?
 $max-widescreen-code-area-width: 50%
 $max-widescreen-code-area-width-blocks: 60%
-$code-area-width: Max(Min($max-code-area-width, $min-code-area-width), Min($max-widescreen-code-area-width, calc(100vw - $api-bar-width - 924 / 589 * (100vh - $control-bar-height - 43px - 80px))))
-$code-area-width-no-api: Max(Min($max-code-area-width, $min-code-area-width), Min($max-widescreen-code-area-width, calc(100vw - 924 / 589 * (100vh - $control-bar-height - 43px - 80px))))
+$code-area-width: Max(Min($max-code-area-width, $min-code-area-width), Min($max-widescreen-code-area-width, calc(100vw - 924 / 589 * (100vh - $control-bar-height - 43px - 80px))))
 $code-area-width-blocks: Max(Min($max-code-area-width-blocks, $min-code-area-width-blocks), Min($max-widescreen-code-area-width-blocks, calc(100vw - 924 / 589 * (100vh - $control-bar-height - 43px - 80px))))
 
 $code-area-overlap: 0.5%
 $game-view-width: calc(100% - $code-area-width + $code-area-overlap)
-$game-view-width-no-api: calc(100% - $code-area-width-no-api + $code-area-overlap)
 $game-view-width-blocks: calc(100% - $code-area-width-blocks + $code-area-overlap)
 
 $spell-palette-right: calc(100% - $game-view-width)

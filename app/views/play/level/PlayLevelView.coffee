@@ -53,7 +53,6 @@ HintsView = require './HintsView'
 SurfaceContextMenuView = require './SurfaceContextMenuView'
 HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
-SpellPaletteViewMid = require './tome/SpellPaletteViewMid'
 store = require('core/store')
 
 require 'lib/game-libraries'
@@ -75,6 +74,7 @@ module.exports = class PlayLevelView extends RootView
   cache: false
   shortcutsEnabled: true
   isEditorPreview: false
+  codeFormat: 'text-code'
 
   subscriptions:
     'level:set-volume': 'onSetVolume'
@@ -358,8 +358,6 @@ module.exports = class PlayLevelView extends RootView
       @howToPlayText = marked(@howToPlayText, { sanitize: true })
       @renderSelectors('#how-to-play-game-dev-panel')
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
-    @spellPalettePosition = @getSpellPalettePosition()
-    @$el.addClass 'no-api' if @spellPalettePosition is 'bot'
     if @level.get('product') is 'codecombat-junior'
       @$el.addClass 'junior'
     # TODO: Update terminology to always be opponentSession or otherSession
@@ -428,37 +426,6 @@ module.exports = class PlayLevelView extends RootView
     @level.set 'goals', goals
     @goalManager.destroy()
     @initGoalManager()
-
-  getSpellPalettePosition: ->
-    return @spellPalettePosition if @spellPalettePosition
-    return position if position = utils.getQueryVariable('apis')
-    return 'bot'
-    # TODO: get rid of 'mid'
-    return 'mid' if @level.isType('game-dev', 'web-dev')
-    heroID = if @team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
-    return 'mid' unless heroThang = @world?.getThangByID(heroID)
-    programmablePropCount = 0
-    for propStorage in ['programmableProperties', 'programmableSnippets', 'moreProgrammableProperties']
-      programmablePropCount += heroThang[propStorage]?.length or 0
-    if programmablePropCount < 16
-      return 'bot'
-    else
-      return 'mid'
-
-  updateSpellPalette: (thang, spell) ->
-    return false unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
-    useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
-    @removeSubView @spellPaletteView if @spellPaletteView and not @spellPaletteView?.destroyed
-    @spellPaletteView = null
-    if @getSpellPalettePosition() is 'bot'
-      # We'l make it inside Tome instead
-      @$el.toggleClass 'no-api', true
-      return false
-    # We'll manage it here
-    @spellPaletteView = @insertSubView new SpellPaletteViewMid { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @session.get('codeLanguage'), session: @session, level: @level, courseID: @courseID, courseInstanceID: @courseInstanceID, useHero }
-    @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view
-    @$el.toggleClass 'no-api', false
-    return true
 
   insertSubviews: ->
     @hintsState = new HintsState({ hidden: true }, { @session, @level, @supermodel })
@@ -877,8 +844,10 @@ module.exports = class PlayLevelView extends RootView
       when controlBarLocation is 'right' then canvasHeight + playbackHeight + playbackTopMargin
       else controlBarHeight + canvasHeight + playbackHeight + playbackTopMargin
     footerShadowTop = if playbackLocation is 'bottom' then footerTop - 10 else footerTop
+    duelStatsLeft = (canvasWidth - 500) / 2
+    duelStatsTop = canvasHeight - 60 + (if playbackLocation is 'below' then playbackTopMargin else -32)
 
-    # console.log 'Calculated PlayLevelView dimensions', { windowWidth, windowHeight, canvasAspectRatio, minCodeChars, maxCodeChars, minCodeCharWidth, maxCodeCharWidth, minCodeWidth, maxCodeWidth, minBlockChars, maxBlockChars, minBlockCharWidth, maxBlockCharWidth, minWorkspaceWidth, maxWorkspaceWidth, minToolboxWidth, maxToolboxWidth, controlBarLocation, controlBarHeight, canvasHeight, canvasWidth, emptyHeightBelowCanvas, emptyWidthLeftOfCanvas, controlBarWidth, controlBarLeft, tomeOverlap, tomeWidth, tomeHeight, tomeTop, playButtonHeight, workspaceWidth, workspaceHeight, toolboxWidth, toolboxHeight, spellPaletteWidth, spellPaletteHeight, codeWidth, codeHeight, playbackLocation, playbackHeight, playbackTopMargin, hudLocation, footerTop, footerShadowTop }
+    # console.log 'Calculated PlayLevelView dimensions', { @codeFormat, windowWidth, windowHeight, canvasAspectRatio, minCodeChars, maxCodeChars, minCodeCharWidth, maxCodeCharWidth, minCodeWidth, maxCodeWidth, minBlockChars, maxBlockChars, minBlockCharWidth, maxBlockCharWidth, minWorkspaceWidth, maxWorkspaceWidth, minToolboxWidth, maxToolboxWidth, controlBarLocation, controlBarHeight, canvasHeight, canvasWidth, emptyHeightBelowCanvas, emptyWidthLeftOfCanvas, controlBarWidth, controlBarLeft, tomeOverlap, tomeWidth, tomeHeight, tomeTop, playButtonHeight, workspaceWidth, workspaceHeight, toolboxWidth, toolboxHeight, spellPaletteWidth, spellPaletteHeight, codeWidth, codeHeight, playbackLocation, playbackHeight, playbackTopMargin, hudLocation, footerTop, footerShadowTop, duelStatsLeft, duelStatsTop }
 
     @$el[0].dataset.tomeLocation = tomeLocation
     @$el[0].dataset.workspaceLocation = workspaceLocation
@@ -899,8 +868,9 @@ module.exports = class PlayLevelView extends RootView
     @$el.find('#thang-hud .center').css maxWidth: canvasWidth
     @$el.find('#gold-view').css right: windowWidth - canvasWidth + 12, top: 12
     @$el.find('#code-area').css width: tomeWidth, height: tomeHeight, top: tomeTop
-    @$el.find('#code-area #tome-view #spell-view .ace_editor').css width: codeWidth, height: codeHeight
+    @$el.find('#code-area #tome-view #spell-view .ace_editor').css width: codeWidth # , height: codeHeight  # SpellView handles updating Ace height
     @$el.find('#code-area #tome-view #spell-view #blockly-container').css width: workspaceWidth + toolboxWidth, height: workspaceHeight, left: codeWidth
+    @$el.find('#duel-stats-view').css left: duelStatsLeft, top: duelStatsTop
     # TODO: figure out how to get workspace and toolbox to share width evenly
 
     # TODO: set the font sizes on the appropriate elements (probably in SpellView)

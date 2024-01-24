@@ -593,9 +593,6 @@ class PlayLevelView extends RootView {
     ) {
       return
     }
-    const useHero =
-      /hero/.test(spell.getSource()) ||
-      !/(self[\.\:]|this\.|\@)/.test(spell.getSource())
     if (this.spellPaletteView && !this.spellPaletteView.destroyed) {
       this.removeSubView(this.spellPaletteView)
     }
@@ -613,8 +610,7 @@ class PlayLevelView extends RootView {
         session: this.session,
         level: this.level,
         courseID: this.courseID,
-        courseInstanceID: this.courseInstanceID,
-        useHero
+        courseInstanceID: this.courseInstanceID
       })
     )
   }

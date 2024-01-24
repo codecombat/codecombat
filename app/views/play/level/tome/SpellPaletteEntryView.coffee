@@ -29,6 +29,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
   constructor: (options) ->
     super options
     @thang = options.thang
+    @thangType = options.thangType
     @docFormatter = new DocFormatter options
     @doc = @docFormatter.doc
     @doc.initialHTML = @docFormatter.formatPopover()
@@ -38,7 +39,6 @@ module.exports = class SpellPaletteEntryView extends CocoView
   afterRender: ->
     super()
     @$el.addClass _.string.slugify @doc.type
-    return if @options.spellPalettePosition is 'mid'
     placement = -> if $('body').hasClass('dialogue-view-active') then 'top' else 'left'
     @$el.popover(
       animation: false
@@ -67,24 +67,23 @@ module.exports = class SpellPaletteEntryView extends CocoView
     popover?.$tip?.find('.docs-ace').each ->
       aceEditor = aceUtils.initializeACE @, codeLanguage
       aceEditors.push aceEditor
+    rightEdge = if $('#tome-view').offset().top > 100 then $(window).innerWidth() else $('#tome-view').offset().left
+    bottomEdge = if $('#tome-view').offset().top > 100 then $('#tome-view').offset().top else $('#spell-palette-view').offset().top
+    $('.spell-palette-popover.popover').css left: rightEdge - 30 - $('.spell-palette-popover.popover').width(), top: bottomEdge - 30 - $('.spell-palette-popover.popover').height()
 
   resetPopoverContent: ->
-    return if @options.spellPalettePosition is 'mid'
     @$el.data('bs.popover').options.content = @docFormatter.formatPopover()
     @$el.popover('setContent')
 
   onMouseEnter: (e) ->
-    return if @options.spellPalettePosition is 'mid'
     return if @popoverPinned or @otherPopoverPinned
     @resetPopoverContent()
     @$el.popover 'show'
 
   onMouseLeave: (e) ->
-    return if @options.spellPalettePosition is 'mid'
     @$el.popover 'hide' unless @popoverPinned or @otherPopoverPinned
 
   togglePinned: ->
-    return if @options.spellPalettePosition is 'mid'
     if @popoverPinned
       @popoverPinned = false
       @$el.add('.spell-palette-popover.popover').removeClass 'pinned'
