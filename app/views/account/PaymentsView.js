@@ -30,7 +30,11 @@ module.exports = (PaymentsView = (function () {
     constructor () {
       super()
       this.payments = new Payments()
-      this.supermodel.trackRequest(this.payments.fetchByRecipient(me.id))
+      let opts = null
+      if (me.isParentHome()) {
+        opts = { data: { includeAsPurchaser: true } }
+      }
+      this.supermodel.trackRequest(this.payments.fetchByRecipient(me.id, opts))
       this.prepaids = new Prepaids()
       this.supermodel.trackRequest(this.prepaids.fetchByCreator(me.id, { data: { allTypes: true } }))
       this.paymentDescription = {}
