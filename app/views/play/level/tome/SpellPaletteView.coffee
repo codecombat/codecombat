@@ -132,11 +132,13 @@ module.exports = class SpellPaletteView extends CocoView
 
   calculateNColumns: ->
     return 1 unless @isHero and @position is 'bot'
-    columnWidth = 212
-    columnWidth = 175 if @shortenize
-    columnWidth = 100 if @options.level.isType('web-dev')
     availableWidth = @$el.find('.properties-this').innerWidth() or $('#code-area').innerWidth() - 40
-    nColumns = Math.floor availableWidth / columnWidth   # Will always have at least 2 columns, since at 1024px screen we have 425px .properties
+    columnWidth = switch
+      when @options.level.isType('web-dev') then 100
+      when @shortenize then 175
+      else 212
+    nColumns = Math.floor availableWidth / columnWidth   # Aim to always have at least 2 columns
+    @hideImages = nColumns < 2  # Don't show 38px images if really short on space
     Math.max 2, nColumns
 
   updateMaxHeight: ->
@@ -160,7 +162,7 @@ module.exports = class SpellPaletteView extends CocoView
       for item in column.items
         item.detach().appendTo @$el.find('.properties-this')
     desiredHeight = 19 * (nRows + 1)
-    @$el.find('.properties').css('height', desiredHeight)
+    @$el.find('.properties').css('height', desiredHeight).toggleClass 'hide-images', @hideImages
 
   onResize: (e) =>
     @updateMaxHeight?()
@@ -184,17 +186,18 @@ module.exports = class SpellPaletteView extends CocoView
       propStorage =
         'this': 'programmableProperties'
         more: 'moreProgrammableProperties'
-        Math: 'programmableMathProperties'
-        Array: 'programmableArrayProperties'
-        Object: 'programmableObjectProperties'
-        String: 'programmableStringProperties'
-        Global: 'programmableGlobalProperties'
-        Function: 'programmableFunctionProperties'
-        RegExp: 'programmableRegExpProperties'
-        Date: 'programmableDateProperties'
-        Number: 'programmableNumberProperties'
-        JSON: 'programmableJSONProperties'
-        LoDash: 'programmableLoDashProperties'
+        # We used to include a ton of this stuff, but we usually don't have space, and it's JS-specific, and it's questionably useful
+        #Math: 'programmableMathProperties'
+        #Array: 'programmableArrayProperties'
+        #Object: 'programmableObjectProperties'
+        #String: 'programmableStringProperties'
+        #Global: 'programmableGlobalProperties'
+        #Function: 'programmableFunctionProperties'
+        #RegExp: 'programmableRegExpProperties'
+        #Date: 'programmableDateProperties'
+        #Number: 'programmableNumberProperties'
+        #JSON: 'programmableJSONProperties'
+        #LoDash: 'programmableLoDashProperties'
         Vector: 'programmableVectorProperties'
         HTML: 'programmableHTMLProperties'
         WebJavaScript: 'programmableWebJavaScriptProperties'

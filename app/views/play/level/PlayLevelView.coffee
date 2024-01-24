@@ -432,6 +432,8 @@ module.exports = class PlayLevelView extends RootView
   getSpellPalettePosition: ->
     return @spellPalettePosition if @spellPalettePosition
     return position if position = utils.getQueryVariable('apis')
+    return 'bot'
+    # TODO: get rid of 'mid'
     return 'mid' if @level.isType('game-dev', 'web-dev')
     heroID = if @team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
     return 'mid' unless heroThang = @world?.getThangByID(heroID)
@@ -895,6 +897,7 @@ module.exports = class PlayLevelView extends RootView
     @$el.find('#control-bar-view').css width: controlBarWidth, height: controlBarHeight, left: controlBarLeft
     @$el.find('#playback-view').css width: canvasWidth, marginTop: playbackTopMargin
     @$el.find('#thang-hud').css width: canvasWidth
+    @$el.find('#thang-hud .center').css maxWidth: canvasWidth
     @$el.find('#gold-view').css right: windowWidth - canvasWidth + 12, top: 12
     @$el.find('#code-area').css width: tomeWidth, height: tomeHeight, top: tomeTop
     @$el.find('#code-area #tome-view #spell-view .ace_editor').css width: codeWidth, height: codeHeight

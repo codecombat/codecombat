@@ -823,41 +823,50 @@ module.exports = class SpellView extends CocoView
       # Spell top bar isn't there, but we've stacked level control bar above editor instead
       spellTopBarHeight = controlBarHeight
     if aceCls == '.ace'
-      spellPaletteHeight = spellPaletteView.outerHeight()
+      spellPaletteHeight = spellPaletteView.find('.properties-this').outerHeight()
     else
       spellPaletteHeight = 0
     windowHeight = $(window).innerHeight()
-    spellPaletteAllowedHeight = Math.min spellPaletteHeight, windowHeight / 2
     topOffset = $(aceCls).offset().top
+    spellPaletteAllowedMinHeight = Math.min spellPaletteHeight, 0.4 * (windowHeight  - topOffset)
+    spellPaletteAllowedMinHeight = Math.max 150, spellPaletteAllowedMinHeight if spellPaletteHeight > 0  # At least room for four props
     gameHeight = $('#game-area').innerHeight()
     heightScale = if aceCls == '.ace' then 1 else 0.5
 
     # If the spell palette is too tall, we'll need to shrink it.
-    maxHeightOffset = spellTopBarHeight - 12
-    minHeightOffset = spellTopBarHeight + 88
-    minHeightOffset = maxHeightOffset = 0 if isJunior and (hasBlocks or isCinematic)
-    maxHeight = Math.min(windowHeight, Math.max(windowHeight, 600)) - topOffset - spellPaletteAllowedHeight - maxHeightOffset
-    minHeight = Math.min maxHeight * heightScale, Math.min(gameHeight, Math.max(windowHeight, 600)) - spellPaletteHeight - minHeightOffset
-    minHeight = maxHeight if isJunior and (hasBlocks or isCinematic)
+    maxHeightOffset = 0
+    minHeightOffset = if hasBlocks or isCinematic then 0 else 100
+    maxHeight = windowHeight - topOffset - spellPaletteAllowedMinHeight - maxHeightOffset
+    minHeight = Math.min maxHeight * heightScale, Math.min(gameHeight, windowHeight) - spellPaletteHeight - minHeightOffset
+    minHeight = maxHeight if hasBlocks or isCinematic
 
     spellPalettePosition = if spellPaletteHeight > 0 then 'bot' else 'mid'
     minLinesBuffer = if spellPalettePosition is 'bot' then 0 else 2
-    minLinesBuffer = 0 if isJunior and (hasBlocks or isCinematic)
-    linesAtMinHeight = Math.max(8, Math.floor(minHeight / lineHeight - minLinesBuffer))
+    minLinesBuffer = 0 if hasBlocks or isCinematic
+    tomePosition = if $('#tome-view').offset().top > 100 then 'bottom' else 'right'
+    hardMinLines = if tomePosition is 'bottom' then 5 else 8
+    linesAtMinHeight = Math.max(hardMinLines, Math.floor(minHeight / lineHeight - minLinesBuffer))
     linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
-    lines = Math.max linesAtMinHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), 8
+    lines = Math.max linesAtMinHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), hardMinLines
     lines = 8 if _.isNaN lines
 
     ace.setOptions minLines: lines, maxLines: lines
 
-    # If bot: move spell palette up, slightly overlapping us.
-    newTop = 100 + spellTopBarHeight + lineHeight * lines
-    if aceCls == '.ace'
-      spellPaletteView.css('top', newTop)
+    if spellPalettePosition is 'bot'
+      # Move spell palette up, overlapping us a bit
+      spellTopMargin = parseInt(@$el.css('marginTop'), 10)
+      spellTopPadding = parseInt(@$el.css('paddingTop'), 10)
+      spellBottomPadding = parseInt(@$el.css('paddingBottom'), 10)
+      verticalOverlap = 10
+      newTop = spellTopMargin + spellTopPadding + lineHeight * lines + spellBottomPadding - verticalOverlap
+      if aceCls == '.ace'
+        spellPaletteAllowedMaxHeight = Math.min(spellPaletteHeight, Math.max(spellPaletteAllowedMinHeight, windowHeight - newTop))
+        spellPaletteView.css top: newTop
+        spellPaletteView.find('.properties-scroll-container').css height: spellPaletteAllowedMaxHeight - 23  # TODO: not sure where this 23px overscroll is coming from
 
-      codeAreaBottom = if spellPaletteHeight then windowHeight - (newTop + spellPaletteHeight + 20) else 0
-      $(areaId).css('bottom', codeAreaBottom)
-    #console.log { lineHeight, spellTopBarHeight, spellPaletteHeight, spellPaletteAllowedHeight, windowHeight, topOffset, gameHeight, minHeight, maxHeight, linesAtMinHeight, linesAtMaxHeight, lines, newTop, screenLineCount }
+        codeAreaBottom = if spellPaletteHeight then spellPaletteAllowedMaxHeight else 0
+        $(areaId).css('bottom', codeAreaBottom)
+    console.log { lineHeight, spellTopBarHeight, controlBarHeight, spellPaletteHeight, windowHeight, topOffset, spellPaletteAllowedMinHeight, spellPaletteAllowedMaxHeight, gameHeight, heightScale, maxHeightOffset, minHeightOffset, minHeight, maxHeight, spellPalettePosition, minLinesBuffer, linesAtMinHeight, linesAtMaxHeight, lines, aceCls, areaId, codeAreaBottom, spellTopMargin, spellTopPadding, spellBottomPadding, verticalOverlap, newTop }
     null
 
   updateLines: =>
