@@ -1703,6 +1703,10 @@ class PlayLevelView extends RootView {
     return store.commit('game/incrementTimesCodeRun')
   }
 
+  onCloseSolution () {
+    window.Backbone.Mediator.publish('level:close-solution', {})
+  }
+
   onSpellChanged () {
     // This is triggered at very confusing times - for example when a capstone game is about to begin. At that
     // time, the code has not actually changed, but it is being built.
@@ -1822,7 +1826,8 @@ PlayLevelView.prototype.events = {
   },
   'click .contact-link': 'onContactClicked',
   'contextmenu #webgl-surface': 'onSurfaceContextMenu',
-  click: 'onClick'
+  click: 'onClick',
+  'click .close-solution-btn': 'onCloseSolution'
 }
 
 PlayLevelView.prototype.shortcuts = {

@@ -146,7 +146,10 @@ export default Vue.extend({
             <span class="control-label-desc">{{ $t("teachers.classroom_live_completion") }}</span>
           </div>
         </div>
-        <div class="form-group row levelChat">
+        <div
+          class="form-group row levelChat"
+          style="width: 100%"
+        >
           <div class="col-xs-12">
             <span class="control-label"> {{ $t('teachers.classroom_level_chat') }}</span>
             <input
@@ -154,7 +157,10 @@ export default Vue.extend({
               v-model="newLevelChat"
               type="checkbox"
             >
-            <span class="control-label-desc">{{ $t("teachers.classroom_level_chat_blurb") }}</span>
+            <span
+              class="control-label-desc"
+              style="width: 100%"
+            >{{ $t("teachers.classroom_level_chat_blurb") }}</span>
           </div>
         </div>
         <div class="form-group row buttons">
