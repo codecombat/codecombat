@@ -19,20 +19,31 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   // generator.STATEMENT_PREFIX = "#{commentStart} highlightBlock(%1)\n"  # TODO: can we highlight running blocks another way?
   generator.INDENT = '    '
 
-  let superBasicLevels = ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard']
+  let superBasicLevels = ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'the-gem']
   if (me.level() > 5) {
     superBasicLevels = [] // Coming back to them later should allow basic misc blocks
   }
 
   const userBlockCategories = []
 
-  const propNames = new Set()
+  const mergedPropertyEntryGroups = {}
   for (const owner in propertyEntryGroups) {
-    for (const prop of propertyEntryGroups[owner].props) {
+    // Merge groups like "Hero", "Hero 2", Hero 3" all into "Hero"
+    const ownerName = owner.replace(/ \d+$/, '')
+    if (mergedPropertyEntryGroups[ownerName]) {
+      mergedPropertyEntryGroups[ownerName].props = mergedPropertyEntryGroups[ownerName].props.slice().concat(propertyEntryGroups[owner].props.slice())
+    } else {
+      mergedPropertyEntryGroups[ownerName] = _.clone(propertyEntryGroups[owner])
+    }
+  }
+
+  const propNames = new Set()
+  for (const owner in mergedPropertyEntryGroups) {
+    for (const prop of mergedPropertyEntryGroups[owner].props) {
       propNames.add(prop.name)
     }
     if (/programmaticon/i.test(owner)) continue
-    const userBlocks = propertyEntryGroups[owner].props.map(prop =>
+    const userBlocks = mergedPropertyEntryGroups[owner].props.map(prop =>
       createBlock({ owner, prop, generator, codeLanguage, level, superBasicLevels }))
     userBlockCategories.push({ kind: 'category', name: owner, colour: '190', contents: userBlocks })
   }
@@ -477,12 +488,17 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
   let args = prop.args || []
   if (superBasicLevels.includes(level?.get('slug')) && (['moveDown', 'moveLeft', 'moveRight', 'moveUp'].includes(propName))) {
     args = []
+    // TODO: also introduce the `go(to, steps)` second `steps` argument only after first intro levels
   }
 
   generator.forBlock[name] = function (block) {
     const parts = []
     if (propName && ['this', 'self', 'hero'].includes(prop.owner)) {
-      parts.push(`hero.${propName}`)
+      if (level?.get('product') === 'codecombat-junior') {
+        parts.push(propName) // Functional
+      } else {
+        parts.push(`hero.${propName}`) // Object-oriented
+      }
     } else if (prop.type === 'function' || (prop.type === 'snippet' && args.length)) {
       parts.push(propName.replace(/\(.*/, ''))
     } else if (propName) {
@@ -541,7 +557,8 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
     })),
     colour: returnsValue ? 350 : 240,
     tooltip: prop.description || '',
-    docFormatter: prop.docFormatter
+    docFormatter: prop.docFormatter,
+    type: prop.type
   }
 
   if (returnsValue) {
@@ -572,7 +589,11 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
       const type = { string: 'text', number: 'math_number', int: 'math_number', boolean: 'logic_boolean' }[arg.type] || 'text' // TODO: more types
       const field = { string: 'TEXT', number: 'NUM', int: 'NUM', boolean: 'BOOL' }[arg.type]
       if (!type || !field) { continue }
-      blockDefinition.inputs[arg.name] = { shadow: { type, fields: { [field]: arg.default } } }
+      let defaultValue = arg.default
+      if (_.isString(defaultValue)) {
+        defaultValue = defaultValue.replace(/['"]/g, '')
+      }
+      blockDefinition.inputs[arg.name] = { shadow: { type, fields: { [field]: defaultValue } } }
     }
   }
   return blockDefinition

@@ -495,15 +495,21 @@ module.exports = class SpellView extends CocoView
     # We monkey-patch Blockly egregiously to make this work
     return unless $(e.block).offset().left > $('.blocklyFlyout').offset().left
     # This is a block in the toolbox flyout. If we can, let's just directly add it to the end of our program based on its text content.
-    method = e.text.trim().split(/\s/g)[0].trim()
-    matchingSnippet = _.find (_.values(@autocomplete?.snippetManager?.snippetMap?._ or {})), tabTrigger: method
-    if matchingSnippet
+    # Method 1: try to use its tooltip
+    blockSource = e.block.tooltip?.docFormatter?.doc?.example
+    if not blockSource
+      # Method 2: try to use our autocomplete snippets. (Should we even use this?)
+      method = e.text.trim().split(/\s/g)[0].trim()
+      matchingSnippet = _.find (_.values(@autocomplete?.snippetManager?.snippetMap?._ or {})), (snippet) ->
+        snippet.tabTrigger is method and snippet.autocompletePriority > 0  # Don't pull in auto-added snippets
+      blockSource = matchingSnippet.content
+    if blockSource
       source = @getSource()
       lastLine = _.last(source.split('\n'))
       indent = lastLine.match(/^\s*/)[0]
       if /\S/.test(lastLine)
         source += '\n' + indent
-      source += matchingSnippet.content + '\n' + indent
+      source += blockSource + '\n' + indent
       @updateACEText source
       @aceToBlockly()
       if @options.level.get('product') is 'codecombat-junior'
@@ -710,7 +716,7 @@ module.exports = class SpellView extends CocoView
         keywords: false
         snippets: @autocompleteOn
       autoLineEndings:
-        javascript: ';'
+        javascript: if @options.level.get('product') is 'codecombat-junior' then '' else ';'
         java: ';'
         c_cpp: ';' # Match ace editor language mode
       popupFontSizePx: popupFontSizePx
@@ -722,6 +728,8 @@ module.exports = class SpellView extends CocoView
 
   reallyAddUserSnippets: (source, lang, session) ->
     return unless @autocomplete and @autocompleteOn
+    return if @options.level.get('product') is 'codecombat-junior'
+    return if me.level() < 15  # Don't do this until later, to avoid custom user snippets before they are useful
     newIdentifiers = aceUtils.parseUserSnippets(source, lang, session)
     # console.log 'debug newIdentifiers: ', newIdentifiers
     @autocomplete?.addCustomSnippets Object.values(newIdentifiers), @editorLang if @editorLang?

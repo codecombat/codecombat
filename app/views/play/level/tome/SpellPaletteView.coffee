@@ -138,6 +138,7 @@ module.exports = class SpellPaletteView extends CocoView
         if doc.codeLanguages and not (@options.language in doc.codeLanguages)
           excludedDocs['__' + doc.name] = doc
           continue
+        doc = _.cloneDeep(doc)  # Don't accidentally modify the original copy
         allDocs['__' + doc.name] ?= []
         allDocs['__' + doc.name].push doc
         if doc.type is 'snippet' then doc.owner = 'snippets'

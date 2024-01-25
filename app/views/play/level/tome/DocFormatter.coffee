@@ -63,6 +63,8 @@ module.exports = class DocFormatter
       @doc.ownerName = ownerName
       if @doc.type is 'spawnable'
         @doc.shortName = @doc.name
+      else if @doc.ownerName is 'hero' and @options.level.get('product') is 'codecombat-junior'
+        @doc.shortName = @doc.name  # Functional programming: go() instead of hero.go()
       else if @doc.type is 'function'
         [docName, args] = @getDocNameAndArguments()
         argNames = args.join ', '
@@ -190,6 +192,7 @@ module.exports = class DocFormatter
       cooldowns: @inferCooldowns()
       item: @options.item
       _: _
+      product: @options.level.get('product')
     }
     owner = if @doc.owner is 'this' then @options.thang else window[@doc.owner]
     content = @replaceSpriteName content

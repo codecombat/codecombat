@@ -388,7 +388,7 @@ module.exports = (Level = (function () {
         const result = []
         for (const system of Array.from(levelSystems != null ? levelSystems : [])) {
           if (system.config == null) { system.config = {} }
-          TreemaUtils.populateDefaults(system.config, system.model.configSchema, tv4)
+          TreemaUtils.populateDefaults(system.config, system.model.configSchema || {}, tv4)
           this.lastType = 'system'
           result.push(this.lastOriginal = system.model.name)
         }

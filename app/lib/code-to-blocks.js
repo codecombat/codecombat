@@ -33,12 +33,28 @@ function fuzzyMatch (a, b) {
 
 function findOne (array, pred, why = 'Expected exactly one match') {
   const matches = array.filter(pred)
-  if (matches.length !== 1) {
-    console.log(matches)
-    console.log(array)
+  if (matches.length === 1) {
+    return matches[0]
+  }
+  if (matches.length > 1) {
+    const nonSnippets = matches.filter(x => x[0].setupInfo?.type !== 'snippet')
+    if (nonSnippets.length === 1) {
+      // There's one main match and then some duplicative snippets, it's ok
+      return nonSnippets[0]
+    }
+    if (nonSnippets.length === 0) {
+      // There are multiple matching snippets; it's ok to just pick one
+      return matches[0]
+    }
+    // There are multiple matching non-snippets; maybe this is bad and we should error out?
+    console.log('Multiple block matches:', matches + '\nfrom possibilities:', array)
     throw new Error(why + ', found ' + matches.length)
   }
-  return matches[0]
+  if (matches.length === 0) {
+    // There are no matches
+    console.log('No block matches from possibilities:', array)
+    throw new Error(why + ', found ' + matches.length)
+  }
 }
 class Converters {
   static ConvertProgram (n, ctx) {
@@ -205,7 +221,7 @@ class Converters {
 
   static ConvertIfStatement (n, ctx) {
     // TODO: ELSE, ELSEIF
-    console.log('IF', n)
+    // console.log('IF', n)
     const conq = convert(n.consequent, { ...ctx, context: 'statement', nospace: true })
     const o = {
       type: 'controls_if',
@@ -305,7 +321,7 @@ class Converters {
 
   static ConvertCallExpression (n, ctx) {
     if (n.callee.type === 'Identifier') {
-      console.log('CALL', n, ctx.scope)
+      // console.log('CALL', n, ctx.scope)
 
       if (n.callee.name === '__comment__') {
         return {
@@ -396,7 +412,7 @@ class Converters {
     }
 
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), `Couldn't find match for ${JSON.stringify(n)}`)
-    console.log('CALL', ctx, found[0])
+    // console.log('CALL', ctx, found[0])
 
     const out = {
       type: found[0].type,
@@ -410,7 +426,7 @@ class Converters {
         out.inputs[inputs[i]] = { block: args[i] }
       }
     } else {
-      console.log('NO INPUT', found[0])
+      // console.log('NO INPUT', found[0])
     }
 
     if (ctx.context !== 'value' && found[0].output) {
@@ -427,7 +443,7 @@ class Converters {
 
   static ConvertFunctionDeclaration (n, ctx) {
     ctx.scope[n.id.name] = { type: 'fx', n }
-    console.log('FX', n)
+    // console.log('FX', n)
     const o = {
       type: 'procedures_defnoreturn',
       extraState: { params: [] },
@@ -489,7 +505,7 @@ class Converters {
     }
 
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), `Couldn't find match for ${JSON.stringify(n)}`)
-    console.log(found)
+    // console.log(found)
     return {
       type: found[0].type
     }
@@ -594,7 +610,7 @@ function nextify (arr, ctx) {
         target.next = { block: { type: 'newline', next: { block: e } } }
         target = e
       } else {
-        console.log('BREAK', e.loc, target.loc)
+        // console.log('BREAK', e.loc, target.loc)
         result.push(e)
         target = e
       }
@@ -606,13 +622,13 @@ function nextify (arr, ctx) {
 function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
   const plan = []
 
-  console.log('prepareBlockIntelligence', arguments[0])
-  window.ws = workspace
+  // console.log('prepareBlockIntelligence', arguments[0])
+  // window.ws = workspace
   const blocks = findAllBlocks(toolbox.fullContents)
 
   for (const block of blocks) {
     const zeblock = Blockly.Blocks[block.type]
-    console.log('Consiter', block, 'z', zeblock)
+    // console.log('Consider', block, 'z', zeblock)
     workspace.clear()
     const defn = {
       type: block.type
@@ -624,7 +640,7 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
         defn.output = zeblock.setupInfo.output === null
 
         for (const entry of zeblock.setupInfo.args0) {
-          console.log(entry)
+          // console.log(entry)
           if (entry.check === 'Number') {
             defn.inputs[entry.name] = {
               block: {
@@ -653,7 +669,7 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
       // const state = Blockly.serialization.workspaces.save(workspace) // I don't think we need this
       const blocklySource = javascriptGenerator.workspaceToCode(workspace)
       const blx = doParse(blocklySource)
-      console.log('BS[' + blocklySource + ']', blx)
+      // console.log('BS[' + blocklySource + ']', blx)
       if (blx !== null) plan.push([defn, blx, blocklySource])
     } catch (e) {
       console.error(e)
@@ -690,7 +706,7 @@ function codeToBlocks ({ code, codeLanguage, prepData }) {
         if (pastIntroComments) {
           const introCode = codeLines.slice(0, i).join('\n')
           const mainCode = codeLines.slice(i).join('\n')
-          console.log('zzzzz', { introCode, mainCode, replaced: mainCode.replace(/\n( {4,})\n([ ]*\})/gm, (_, s, s2) => `${s}\n__arrow__()${s2}`) })
+          // console.log('zzzzz', { introCode, mainCode, replaced: mainCode.replace(/\n( {4,})\n([ ]*\})/gm, (_, s, s2) => `${s}\n__arrow__()${s2}`) })
           code = introCode + '\n' + mainCode.replace(/^([ \t]*)\/\/(.+)\n[ \t]*\n/gm, (_, s, c) => `${_.trimEnd()}\n${s}__arrow__()\n`)
         }
 
@@ -708,7 +724,7 @@ function codeToBlocks ({ code, codeLanguage, prepData }) {
         ast = parse(code, { errorRecovery: true, naive: true, locations: true, startend: true })
         // console.log("PGC", ast, require("@babel/generator").default(ast).code)
         ast = { type: 'File', program: ast }
-        console.log('OYY', ast)
+        // console.log('OYY', ast)
         break
       }
     }
@@ -728,7 +744,7 @@ function codeToBlocks ({ code, codeLanguage, prepData }) {
   for (const v in ctx.scope) {
     if (ctx.scope[v].type === 'var') out.variables.push({ name: v, id: v })
   }
-  console.log('OUT', out)
+  // console.log('OUT', out)
   return out
 }
 

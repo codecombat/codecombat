@@ -84,7 +84,9 @@ else if doc.type == 'function' && argumentExamples.length
     div
       .docs-ace-container
         .docs-ace
-          if /javascript|java|cpp/.test(language)
+          if product == 'codecombat-junior'
+            span= docName + '(' + argumentExamples.join(', ') + ')'
+          else if /javascript|java|cpp/.test(language)
             span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
           else if language == 'coffeescript'
             span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + docName + ' ' + argumentExamples.join(', ')
@@ -177,7 +179,7 @@ if doc.returns
       if doc.returns.description
         div!= marked(doc.returns.description)
 
-if item && (typeof item.get === 'function') && doc.owner != 'game'
+if item && (typeof item.get === 'function') && doc.owner != 'game' && product != 'codecombat-junior'
   p
     em
       span.spr(data-i18n="skill_docs.granted_by") Granted by
