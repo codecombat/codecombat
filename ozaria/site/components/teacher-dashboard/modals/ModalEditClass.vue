@@ -24,7 +24,8 @@ export default Vue.extend({
     return {
       newClassName: '',
       newProgrammingLanguage: '',
-      newLiveCompletion: true
+      newLiveCompletion: true,
+      newLevelChat: false
     }
   },
 
@@ -43,6 +44,9 @@ export default Vue.extend({
     },
     liveCompletion () {
       return _.assign({ liveCompletion: true }, (this.classroom || {}).aceConfig).liveCompletion
+    },
+    levelChat () {
+      return _.assign({ levelChat: false }, (this.classroom || {}).aceConfig).levelChat
     }
   },
 
@@ -50,6 +54,7 @@ export default Vue.extend({
     this.newClassName = this.classroomName
     this.newProgrammingLanguage = this.language
     this.newLiveCompletion = this.liveCompletion
+    this.newLevelChat = this.levelChat
   },
 
   methods: {
@@ -78,12 +83,14 @@ export default Vue.extend({
       const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
       if (this.newProgrammingLanguage && this.newProgrammingLanguage !== this.language) {
         aceConfig.language = this.newProgrammingLanguage
-        updates.aceConfig = aceConfig
       }
       if (this.newLiveCompletion !== this.liveCompletion) {
         aceConfig.liveCompletion = this.newLiveCompletion
-        updates.aceConfig = aceConfig
       }
+      if (this.newLevelChat !== this.levelChat) {
+        aceConfig.levelChat = this.newLevelChat
+      }
+      updates.aceConfig = aceConfig
       if (_.size(updates)) {
         this.updateClassroom({ classroom: this.classroom, updates })
         this.$emit('close')
@@ -137,6 +144,23 @@ export default Vue.extend({
               type="checkbox"
             >
             <span class="control-label-desc">{{ $t("teachers.classroom_live_completion") }}</span>
+          </div>
+        </div>
+        <div
+          class="form-group row levelChat"
+          style="width: 100%"
+        >
+          <div class="col-xs-12">
+            <span class="control-label"> {{ $t('teachers.classroom_level_chat') }}</span>
+            <input
+              id="levelChat"
+              v-model="newLevelChat"
+              type="checkbox"
+            >
+            <span
+              class="control-label-desc"
+              style="width: 100%"
+            >{{ $t("teachers.classroom_level_chat_blurb") }}</span>
           </div>
         </div>
         <div class="form-group row buttons">

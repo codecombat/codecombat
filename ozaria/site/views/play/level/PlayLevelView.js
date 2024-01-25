@@ -38,6 +38,8 @@ const createjs = require('lib/createjs-parts')
 const LevelLoadingView = require('app/views/play/level/LevelLoadingView')
 const ProblemAlertView = require('./tome/ProblemAlertView')
 const TomeView = require('./tome/TomeView')
+const ChatView = require('app/views/play/level/LevelChatView')
+// const HUDView = require('app/views/play/level/LevelHUDView')
 const ControlBarView = require('./ControlBarView')
 const LevelPlaybackView = require('./LevelPlaybackView')
 const CapstonePlaybackView = require('./CapstonePlaybackView.vue').default
@@ -187,9 +189,8 @@ class PlayLevelView extends RootView {
       const fetchAceConfig = $.get(`/db/course_instance/${this.courseInstanceID}/classroom?project=aceConfig,members`)
       this.supermodel.trackRequest(fetchAceConfig)
       fetchAceConfig.then(classroom => {
-        if (classroom.aceConfig?.liveCompletion !== null && classroom.aceConfig?.liveCompletion !== undefined) {
-          this.classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion
-        }
+        this.classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion || true
+        this.classroomAceConfig.levelChat = classroom.aceConfig?.levelChat || 'none'
       })
     }
 
@@ -657,6 +658,9 @@ class PlayLevelView extends RootView {
     this.insertSubView(
       new GoalsView({ level: this.level, session: this.session })
     )
+    this.insertSubView(
+      new ChatView({ levelID: this.levelID, sessionID: this.session.id, session: this.session, aceConfig: this.classroomAceConfig })
+    )
     if (this.$el.hasClass('flags')) {
       this.insertSubView(
         new LevelFlagsView({ levelID: this.levelID, world: this.world })
@@ -691,7 +695,8 @@ class PlayLevelView extends RootView {
       new ProblemAlertView({
         session: this.session,
         level: this.level,
-        supermodel: this.supermodel
+        supermodel: this.supermodel,
+        aceConfig: this.classroomAceConfig
       })
     )
     this.insertSubView(
@@ -1698,6 +1703,10 @@ class PlayLevelView extends RootView {
     return store.commit('game/incrementTimesCodeRun')
   }
 
+  onCloseSolution () {
+    window.Backbone.Mediator.publish('level:close-solution', {})
+  }
+
   onSpellChanged () {
     // This is triggered at very confusing times - for example when a capstone game is about to begin. At that
     // time, the code has not actually changed, but it is being built.
@@ -1817,7 +1826,8 @@ PlayLevelView.prototype.events = {
   },
   'click .contact-link': 'onContactClicked',
   'contextmenu #webgl-surface': 'onSurfaceContextMenu',
-  click: 'onClick'
+  click: 'onClick',
+  'click .close-solution-btn': 'onCloseSolution'
 }
 
 PlayLevelView.prototype.shortcuts = {
