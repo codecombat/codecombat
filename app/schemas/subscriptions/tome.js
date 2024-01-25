@@ -188,5 +188,7 @@ module.exports = {
     { code: { type: 'string' } }),
   'tome:fix-code-preview-start': c.object({ required: ['code'] },
     { code: { type: 'string' } }),
-  'tome:fix-code-preview-end': c.object({})
+  'tome:fix-code-preview-end': c.object({}),
+
+  'blockly:clicked-block': c.object({ required: ['block', 'text'] }, { block: { type: 'object' }, text: { type: 'string' } }),
 }

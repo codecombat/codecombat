@@ -1,3 +1,24 @@
+diff --git a/node_modules/blockly/blockly_compressed.js b/node_modules/blockly/blockly_compressed.js
+index 5e6bf29..9649bc1 100644
+--- a/node_modules/blockly/blockly_compressed.js
++++ b/node_modules/blockly/blockly_compressed.js
+@@ -282,8 +282,14 @@ wrapMutate$$module$build$src$core$utils$string=function(a,b,c){let d=wrapScore$$
+ wrapToText$$module$build$src$core$utils$string=function(a,b){const c=[];for(let d=0;d<a.length;d++)c.push(a[d]),void 0!==b[d]&&c.push(b[d]?"\n":" ");return c.join("")};$.isNumber$$module$build$src$core$utils$string=function(a){return/^\s*-?\d+(\.\d+)?\s*$/.test(a)};setCustomTooltip$$module$build$src$core$tooltip=function(a){customTooltip$$module$build$src$core$tooltip=a};getCustomTooltip$$module$build$src$core$tooltip=function(){return customTooltip$$module$build$src$core$tooltip};
+ isVisible$$module$build$src$core$tooltip=function(){return visible$$module$build$src$core$tooltip};getDiv$$module$build$src$core$tooltip=function(){return containerDiv$$module$build$src$core$tooltip};getTooltipOfObject$$module$build$src$core$tooltip=function(a){if(a=getTargetObject$$module$build$src$core$tooltip(a)){for(a=a.tooltip;"function"===typeof a;)a=a();if("string"!==typeof a)throw Error("Tooltip function must return a string.");return a}return""};
+ getTargetObject$$module$build$src$core$tooltip=function(a){for(;a&&a.tooltip;){if("string"===typeof a.tooltip||"function"===typeof a.tooltip)return a;a=a.tooltip}return null};createDom$$module$build$src$core$tooltip=function(){document.querySelector(".blocklyTooltipDiv")||(containerDiv$$module$build$src$core$tooltip=document.createElement("div"),containerDiv$$module$build$src$core$tooltip.className="blocklyTooltipDiv",(getParentContainer$$module$build$src$core$common()||document.body).appendChild(containerDiv$$module$build$src$core$tooltip))};
+-bindMouseEvents$$module$build$src$core$tooltip=function(a){a.mouseOverWrapper_=bind$$module$build$src$core$browser_events(a,"pointerover",null,onMouseOver$$module$build$src$core$tooltip);a.mouseOutWrapper_=bind$$module$build$src$core$browser_events(a,"pointerout",null,onMouseOut$$module$build$src$core$tooltip);a.addEventListener("pointermove",onMouseMove$$module$build$src$core$tooltip,!1)};
+-unbindMouseEvents$$module$build$src$core$tooltip=function(a){a&&(unbind$$module$build$src$core$browser_events(a.mouseOverWrapper_),unbind$$module$build$src$core$browser_events(a.mouseOutWrapper_),a.removeEventListener("pointermove",onMouseMove$$module$build$src$core$tooltip))};
++bindMouseEvents$$module$build$src$core$tooltip=function(a){a.mouseOverWrapper_=bind$$module$build$src$core$browser_events(a,"pointerover",null,onMouseOver$$module$build$src$core$tooltip);a.mouseOutWrapper_=bind$$module$build$src$core$browser_events(a,"pointerout",null,onMouseOut$$module$build$src$core$tooltip);a.addEventListener("pointermove",onMouseMove$$module$build$src$core$tooltip,!1),
++a.addEventListener("click",function(nickClickEvent) {
++  const block = a;
++  if (block && block.textContent && window.Backbone.Mediator) {
++    window.Backbone.Mediator.publish('blockly:clicked-block', {block: block, text: block.textContent});
++  }
++},!1);
++};unbindMouseEvents$$module$build$src$core$tooltip=function(a){a&&(unbind$$module$build$src$core$browser_events(a.mouseOverWrapper_),unbind$$module$build$src$core$browser_events(a.mouseOutWrapper_),a.removeEventListener("pointermove",onMouseMove$$module$build$src$core$tooltip))};
+ onMouseOver$$module$build$src$core$tooltip=function(a){blocked$$module$build$src$core$tooltip||(a=getTargetObject$$module$build$src$core$tooltip(a.currentTarget),element$$module$build$src$core$tooltip!==a&&(hide$$module$build$src$core$tooltip(),poisonedElement$$module$build$src$core$tooltip=null,element$$module$build$src$core$tooltip=a),clearTimeout(mouseOutPid$$module$build$src$core$tooltip))};
+ onMouseOut$$module$build$src$core$tooltip=function(a){blocked$$module$build$src$core$tooltip||(mouseOutPid$$module$build$src$core$tooltip=setTimeout(function(){poisonedElement$$module$build$src$core$tooltip=element$$module$build$src$core$tooltip=null;hide$$module$build$src$core$tooltip()},1),clearTimeout(showPid$$module$build$src$core$tooltip),showPid$$module$build$src$core$tooltip=0)};
+ onMouseMove$$module$build$src$core$tooltip=function(a){if(element$$module$build$src$core$tooltip&&element$$module$build$src$core$tooltip.tooltip&&!blocked$$module$build$src$core$tooltip)if(visible$$module$build$src$core$tooltip){const b=lastX$$module$build$src$core$tooltip-a.pageX;a=lastY$$module$build$src$core$tooltip-a.pageY;Math.sqrt(b*b+a*a)>RADIUS_OK$$module$build$src$core$tooltip&&hide$$module$build$src$core$tooltip()}else poisonedElement$$module$build$src$core$tooltip!==element$$module$build$src$core$tooltip&&
 diff --git a/node_modules/blockly/javascript_compressed.js b/node_modules/blockly/javascript_compressed.js
 index 8ca5c42..4351942 100644
 --- a/node_modules/blockly/javascript_compressed.js

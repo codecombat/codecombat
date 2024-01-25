@@ -84,6 +84,7 @@ module.exports = class SpellView extends CocoView
     'websocket:asking-help': 'onAskingHelp'
     'playback:cinematic-playback-started': 'onCinematicPlaybackStarted'
     'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded'
+    'blockly:clicked-block': 'onClickedBlock'
 
   events:
     'mouseout': 'onMouseOut'
@@ -489,6 +490,24 @@ module.exports = class SpellView extends CocoView
 
   getBlocklySource: ->
     blocklyUtils.getBlocklySource @blockly, @spell.language
+
+  onClickedBlock: (e) ->
+    # We monkey-patch Blockly egregiously to make this work
+    return unless $(e.block).offset().left > $('.blocklyFlyout').offset().left
+    # This is a block in the toolbox flyout. If we can, let's just directly add it to the end of our program based on its text content.
+    method = e.text.trim().split(/\s/g)[0].trim()
+    matchingSnippet = _.find (_.values(@autocomplete?.snippetManager?.snippetMap?._ or {})), tabTrigger: method
+    if matchingSnippet
+      source = @getSource()
+      lastLine = _.last(source.split('\n'))
+      indent = lastLine.match(/^\s*/)[0]
+      if /\S/.test(lastLine)
+        source += '\n' + indent
+      source += matchingSnippet.content + '\n' + indent
+      @updateACEText source
+      @aceToBlockly()
+      if @options.level.get('product') is 'codecombat-junior'
+        @recompile()
 
   onBlocklyEvent: (e) =>
     # console.log "--------- Got Blockly Event #{e.type} ------------", e
