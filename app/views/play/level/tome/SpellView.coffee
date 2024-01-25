@@ -496,7 +496,11 @@ module.exports = class SpellView extends CocoView
       @awaitingBlocklySerialization = false
 
     if e.type in blocklyUtils.blocklyMutationEvents
-      @blocklyToAce()
+      newSource = @blocklyToAce e
+
+      if newSource and @options.level.get('product') is 'codecombat-junior' and e.type in blocklyUtils.blocklyFinishedMutationEvents and newSource.trim().replace(/\n\s*\n/g, '\n') isnt @spell.source.trim().replace(/\n\s*\n/g, '\n')
+        # Immediate code execution on each significant block change that produces a program that differs by more than newlines
+        @recompile()
 
   blocklyToAce: ->
     return if @awaitingBlocklySerialization
@@ -512,12 +516,14 @@ module.exports = class SpellView extends CocoView
     #@updateACEText combined
 
     # Just the code
-    return if blocklySource is aceSource
+    return blocklySource if blocklySource is aceSource
     console.log 'B2A: Changing ace source from', aceSource, 'to', blocklySource, 'with state', blocklyState
     @updateACEText blocklySource
 
     if PERSIST_BLOCK_STATE and not @session.fake
       storage.save "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}", blocklyState
+
+    return blocklySource
 
   aceToBlockly: (force) =>
     return if @eventsSuppressed and not force

@@ -513,7 +513,7 @@ module.exports = Surface = class Surface extends CocoClass
     @setPlayingCalled = false  # Don't overwrite playing settings if they changed by, say, scripts.
     @frameBeforeCast = @currentFrame
     # This is where I wanted to trigger a rewind, but it turned out to be pretty complicated, since the new world gets updated everywhere, and you don't want to rewind through that.
-    @setProgress 0, 0
+    @setProgress 0, 0 unless @options.level.get('product') is 'codecombat-junior'
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
@@ -529,11 +529,16 @@ module.exports = Surface = class Surface extends CocoClass
 
     @setWorld event.world
     @onFrameChanged(true)
-    fastForwardBuffer = 2
-    if @playing and not @realTime and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length - 1)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
+    fastForwardBuffer = 2  # Don't fast forward in first two seconds
+    fastForwardBuffer = -9001 if @options.level.get('product') is 'codecombat-junior'  # Unless it's codecombat-junior, which always fast-forwards
+    ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length - 1)
+    if @playing and not @realTime and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
       @fastForwardingToFrame = ffToFrame
       if @cinematic
         @gameUIState.set 'fastForwardingSpeed', Math.max 1, Math.min(2, (ffToFrame * @world.dt) / 15)
+      else if @options.level.get('product') is 'codecombat-junior'
+        @gameUIState.set 'fastForwardingSpeed', Math.max 3, 3 * (@world.maxTotalFrames * @world.dt) / 60
+        @setProgress(@fastForwardingToFrame / @world.frames.length, 0)  # Just jump right there, if we can
       else
         @gameUIState.set 'fastForwardingSpeed', Math.max 3, 3 * (@world.maxTotalFrames * @world.dt) / 60
     else if @realTime

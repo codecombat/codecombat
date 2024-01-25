@@ -913,3 +913,4 @@ function rewriteBlocklyLua(code) {
 }
 
 module.exports.blocklyMutationEvents = [Blockly.Events.CHANGE, Blockly.Events.CREATE, Blockly.Events.DELETE, Blockly.Events.BLOCK_CHANGE, Blockly.Events.BLOCK_CREATE, Blockly.Events.BLOCK_DELETE, Blockly.Events.BLOCK_DRAG, Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE, Blockly.Events.BLOCK_MOVE, Blockly.Events.VAR_CREATE, Blockly.Events.VAR_DELETE, Blockly.Events.VAR_RENAME]
+module.exports.blocklyFinishedMutationEvents = _.without(module.exports.blocklyMutationEvents, Blockly.Events.CREATE, Blockly.Events.BLOCK_CREATE, Blockly.Events.BLOCK_DRAG, Blockly.Events.VAR_CREATE, Blockly.Events.VAR_DELETE, Blockly.Events.VAR_RENAME)
