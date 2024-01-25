@@ -224,9 +224,12 @@ kbd
     height: 60px
 
 .popover
-  border-style: solid
-  border-image: url(/images/level/popover_border_background.png) 16 12 fill stretch
-  border-width: 16px 12px
+  @if $is-codecombat
+    border-style: solid
+    border-image: url(/images/level/popover_border_background.png) 16 12 fill stretch
+    border-width: 16px 12px
+  @else
+    border: 4px solid #F7D047
   .arrow
     display: none
   .btn

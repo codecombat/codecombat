@@ -131,6 +131,11 @@ _.extend(ChatMessageSchema.properties, {
       title: 'Spoken Language',
       description: 'The spoken language of the player'
     },
+    replyLanguage: {
+      type: 'string',
+      title: 'Reply Language',
+      description: 'The reply language of the AI'
+    },
     player: c.objectId({
       links: [{ rel: 'db', href: '/db/user/{($)}' }],
       title: 'Player',

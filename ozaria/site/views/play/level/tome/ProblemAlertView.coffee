@@ -3,6 +3,7 @@ CocoView = require 'views/core/CocoView'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
 template = require 'ozaria/site/templates/play/level/tome/problem_alert'
 {me} = require 'core/auth'
+userUtils = require 'app/lib/user-utils'
 
 module.exports = class ProblemAlertView extends CocoView
   id: 'problem-alert-view'
@@ -26,12 +27,14 @@ module.exports = class ProblemAlertView extends CocoView
   events:
     'click .close': 'onRemoveClicked'
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
+    'click .ai-help-button': 'onAIHelpClicked'
 
   constructor: (options) ->
     @supermodel = options.supermodel # Has to go before super so events are hooked up
     super options
     @level = options.level
     @session = options.session
+    @aceConfig = options.aceConfig || {}
     if options.problem?
       @problem = options.problem
       @onWindowResize()
@@ -39,12 +42,23 @@ module.exports = class ProblemAlertView extends CocoView
       @$el.hide()
     @duckImg = _.sample(@duckImages)
     $(window).on 'resize', @onWindowResize
+    @creditMessage = ''
+    @showAiBotHelp = false
+    if @aceConfig.levelChat != 'none'
+      if me.isHomeUser() && me.getLevelChatExperimentValue() == 'beta'
+        @showAiBotHelp = true
+      else if not me.isHomeUser()
+        @showAiBotHelp = true
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
     super()
 
   afterRender: ->
+    @$('[data-toggle="popover"]').popover()
+    unless @creditMessage
+      @handleUserCreditsMessage()
+
     super()
     if @problem?
       @$el.addClass("alert-#{@problem.level}").hide().fadeIn('slow')
@@ -106,6 +120,12 @@ module.exports = class ProblemAlertView extends CocoView
     @$el.hide()
     Backbone.Mediator.publish 'tome:focus-editor', {}
 
+  onAIHelpClicked: (e) ->
+    rand = _.random(1, 13)
+    message = $.i18n.t('ai.prompt_level_chat_' + rand)
+    Backbone.Mediator.publish 'level:add-user-chat', { message }
+    _.delay (=> @handleUserCreditsMessage()), 5000
+
   onWindowResize: (e) =>
     # TODO: This all seems a little hacky
     if @problem?
@@ -129,3 +149,10 @@ module.exports = class ProblemAlertView extends CocoView
       else
         update = "Error: #{message}"
     $('#screen-reader-live-updates').append($("<div>#{update}</div>"))  # TODO: move this to a store or lib? Limit how many lines?
+
+  handleUserCreditsMessage: ->
+    userUtils.levelChatCreditsString()
+        .then (res) =>
+          if @creditMessage != res
+            @creditMessage = res
+            @render()
