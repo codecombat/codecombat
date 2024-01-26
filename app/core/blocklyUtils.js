@@ -12,10 +12,7 @@ const { ContinuousToolbox, ContinuousFlyout, ContinuousMetrics } = require('@blo
 const { CrossTabCopyPaste } = require('@blockly/plugin-cross-tab-copy-paste')
 // { ZoomToFitControl } = require '@blockly/zoom-to-fit'  # Not that useful unless we increase zoom level range
 
-// TODO: this is buggy, need to get it working through code-to-blocks. Disabled for now.
-const directionsAsDropdowns = false // Duplicated in code-to-blocks, change both
-
-module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator, codeLanguage, level }) {
+module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator, codeLanguage, codeFormat, level }) {
   if (!codeLanguage) { codeLanguage = 'javascript' }
   const commentStart = utils.commentStarts[codeLanguage] || '//'
   generator = module.exports.getBlocklyGenerator(codeLanguage)
@@ -47,7 +44,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     }
     if (/programmaticon/i.test(owner)) continue
     const userBlocks = mergedPropertyEntryGroups[owner].props.map(prop =>
-      createBlock({ owner, prop, generator, codeLanguage, level, superBasicLevels }))
+      createBlock({ owner, prop, generator, codeLanguage, codeFormat, level, superBasicLevels }))
     userBlockCategories.push({ kind: 'category', name: owner, colour: '190', contents: userBlocks })
   }
 
@@ -332,6 +329,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       owner: 'hero',
       generator,
       codeLanguage,
+      codeFormat,
       level,
       superBasicLevels,
       prop: {
@@ -348,7 +346,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         return !superBasicLevels.includes(slug) && (slug === 'wakka-maul' || !level.isLadder())
       }
     }),
-    createBlock({ owner: 'hero', generator, codeLanguage, level, superBasicLevels, prop: { type: 'ref' }, include () { return propNames.has('if/else') } }) // TODO: better targeting of when we introduce this (hero used as a value)
+    createBlock({ owner: 'hero', generator, codeLanguage, codeFormat, level, superBasicLevels, prop: { type: 'ref' }, include () { return propNames.has('if/else') } }) // TODO: better targeting of when we introduce this (hero used as a value)
   ]
   userBlockCategories.push({ kind: 'category', name: 'Misc', colour: '190', contents: miscBlocks })
 
@@ -484,7 +482,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   return toolbox
 }
 
-let createBlock = function ({ owner, prop, generator, codeLanguage, include, level, superBasicLevels }) {
+let createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat, include, level, superBasicLevels }) {
   const propName = prop.name ? prop.name.replace(/"/g, '') : undefined
   const returnsValue = (prop.returns != null) || (prop.userShouldCaptureReturn != null) || (!['function', 'snippet'].includes(prop.type))
   const name = `${owner}_${propName}`
@@ -517,6 +515,9 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
         const arg = args[idx]
         // let code = generator.valueToCode(block, arg.name, generator.ORDER_ATOMIC)
         let code = generator.valueToCode(block, arg.name, generator.ORDER_CONDITIONAL)
+        if (!code && arg.name === 'to') {
+          code = `'${block.getFieldValue(arg.name)}'`
+        }
         if (!code && arg.default) {
           if (/move(Up|Left|Right|Down)/.test(propName)) {
             // Don't add the default value
@@ -569,19 +570,43 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
     inputsInline: args.length <= 2,
   }
 
+  console.log('codeFormat', codeFormat)
+  if (codeFormat === 'blocks-icons' && blockMessage.startsWith('go ')) {
+    // Use an image instead of text
+    // setup.message0 = setup.message0.replace(/^go /, '%1')
+    setup.message0 = '%1%2 %3'
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-go.png',
+      width: 36,
+      height: 36,
+      alt: 'go'
+    })
+  }
+
   // Replace a `to` directional argument with a dropdown (field, not input)
-  if (directionsAsDropdowns && args[0]?.name === 'to' && args[0].type === 'string') {
-    setup.args0[0].type = 'field_dropdown'
-    setup.args0[0].options = [
-      ['up', 'up'],
-      ['down', 'down'],
-      ['left', 'left'],
-      ['right', 'right']
-    ]
-    setup.args0[0].default = args[0].default
-    if (_.isString(setup.args0[0].default)) {
-        setup.args0[0].default = setup.args0[0].default.replace(/['"]/g, '')
-      }
+  if (args[0]?.name === 'to' && args[0].type === 'string') {
+    const dropdownArg = setup.args0[codeFormat === 'blocks-icons' ? 1 : 0]
+    dropdownArg.type = 'field_dropdown'
+    if (codeFormat === 'blocks-icons') {
+      dropdownArg.options = [
+        [{ src: '/images/level/blocks/block-up.png', width: 36, height: 36 }, 'up'],
+        [{ src: '/images/level/blocks/block-down.png', width: 36, height: 36 }, 'down'],
+        [{ src: '/images/level/blocks/block-left.png', width: 36, height: 36 }, 'left'],
+        [{ src: '/images/level/blocks/block-right.png', width: 36, height: 36 }, 'right']
+      ]
+    } else {
+      dropdownArg.options = [
+        ['up', 'up'],
+        ['down', 'down'],
+        ['left', 'left'],
+        ['right', 'right']
+      ]
+    }
+    dropdownArg.default = args[0].default
+    if (_.isString(dropdownArg.default)) {
+      dropdownArg.default = dropdownArg.default.replace(/['"]/g, '')
+    }
   }
 
   if (returnsValue) {
@@ -595,10 +620,12 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
   const blockInitializer = {
     init () {
       this.jsonInit(setup)
-      if (setup.args0[0]?.type === 'field_dropdown') {
-        const defaultValue = setup.args0[0].default
-        if (defaultValue) {
-          this.inputList[0].fieldRow[1].setValue(defaultValue)
+      for (const arg of setup.args0) {
+        if (arg?.type === 'field_dropdown') {
+          const defaultValue = arg.default
+          if (defaultValue) {
+            this.inputList[0].fieldRow[1].setValue(defaultValue)
+          }
         }
       }
       this.docFormatter = setup.docFormatter
@@ -622,7 +649,7 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
       if (_.isString(defaultValue)) {
         defaultValue = defaultValue.replace(/['"]/g, '')
       }
-      if (directionsAsDropdowns && arg.name === 'to' && arg.type === 'string') {
+      if (arg.name === 'to' && arg.type === 'string') {
         // We're making this into a field_dropdown, not an input
         continue
       }
@@ -722,7 +749,11 @@ module.exports.createBlocklyOptions = function ({ toolbox }) {
       flyoutsVerticalToolbox: ContinuousFlyout,
       metricsManager: ContinuousMetrics
     },
-    sounds: me.get('volume') > 0
+    sounds: me.get('volume') > 0,
+    // Renderer choices: 'geras': default, 'thrasos': more modern take on geras, 'zelos': Scratch-like
+    // renderer: 'zelos', 
+    // renderer: 'thrasos',
+    renderer: $(window).innerHeight() > 500 ? 'zelos' : 'thrasos',
   }
 }
 

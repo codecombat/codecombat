@@ -462,9 +462,9 @@ module.exports = class SpellView extends CocoView
       @awaitingBlockly = true
       return
     codeLanguage = @spell.language
-    @blocklyToolbox = blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage, level: @options.level })
+    @blocklyToolbox = blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage, codeFormat: @options.codeFormat, level: @options.level })
     # codeToBlocks prepareBlockIntelligence function needs the JavaScript version of the toolbox
-    @blocklyToolboxJS = if codeLanguage is 'javascript' then @blocklyToolbox else blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage: 'javascript', level: @options.level })
+    @blocklyToolboxJS = if codeLanguage is 'javascript' then @blocklyToolbox else blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage: 'javascript', codeFormat: @options.codeFormat, level: @options.level })
     targetDiv = @$('#blockly-container')
     blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: @blocklyToolbox })
     @blockly = Blockly.inject targetDiv[0], blocklyOptions
@@ -503,6 +503,7 @@ module.exports = class SpellView extends CocoView
       matchingSnippet = _.find (_.values(@autocomplete?.snippetManager?.snippetMap?._ or {})), (snippet) ->
         snippet.tabTrigger is method and snippet.autocompletePriority > 0  # Don't pull in auto-added snippets
       blockSource = matchingSnippet?.content
+    # TODO: figure out what the block's field values are set to. For example, if we change a go block from "up" to "down", we should insert "down", not original "up"
     if blockSource
       source = @getSource()
       lastLine = _.last(source.split('\n'))

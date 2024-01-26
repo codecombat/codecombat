@@ -184,6 +184,7 @@ module.exports = class TomeView extends CocoView
           # TODO: replace @blocks and @blocksHidden logic, and blocks toggle UI, with something aware of multiple block choices
           blocks: @blocks
           blocksHidden: @blocksHidden
+          codeFormat: @codeFormat
           teacherID: @options.teacherID
 
     for thangID, spellKeys of @thangSpells

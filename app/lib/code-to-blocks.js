@@ -1,9 +1,6 @@
 const Blockly = require('blockly')
 const { javascriptGenerator } = require('blockly/javascript')
 
-// TODO: this is buggy, need to get it working. Disabled for now.
-const directionsAsDropdowns = false // Duplicated in blocklyUtils, change both
-
 function fuzzyMatch (a, b) {
   if (a.type !== b.type) return false
   switch (a.type) {
@@ -425,7 +422,7 @@ class Converters {
     const args = n.arguments.map(x => convert(x, { ...ctx, context: 'value' }))
     if (found[0].inputs) {
       const inputs = Object.keys(found[0].inputs)
-      if (directionsAsDropdowns && n.callee?.name === 'go') {
+      if (n.callee?.name === 'go') {
         // Remove first argument; convert to field
         // TODO: make general, not just based on callee.name being 'go'
         const dropdownArg = args.splice(0, 1)
@@ -650,29 +647,14 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
 
         for (const entry of zeblock.setupInfo.args0) {
           // console.log(entry)
-          if (entry.name === 'to' && entry.type === 'field_dropdown') {
-            // Actually, don't make an input for it
-            // defn.inputs[entry.name] = {
-            //   block: {
-            //     type: 'text',
-            //     fields: {
-            //       TEXT: 0
-            //     }
-            //   }
+          if (entry.type === 'field_image') {
+            // Don't add an input; it's just decoration
+          } else if (entry.name === 'to' && entry.type === 'field_dropdown') {
+            // Don't add an input.
+            // I thought we might set the field value, but it's appparently not needed.
+            // defn.fields = {
+            //   to: 'left' // TODO: what should it be?
             // }
-            // Make a field instead ???? (this probably doesn't do anything)
-            defn.fields = {
-              to: {
-                type: 'field_dropdown',
-                name: 'to',
-                options: [
-                  ['up', 'up'],
-                  ['down', 'down'],
-                  ['left', 'left'],
-                  ['right', 'right']
-                ]
-              }
-            }
           } else if (entry.check === 'Number') {
             defn.inputs[entry.name] = {
               block: {

@@ -190,7 +190,7 @@ module.exports = (BlockTestingView = (function () {
       // Initialize Blockly
       const testBlockly = { loaded: false, loading: false, div: testContainer.find('.blockly-container')[0] }
       testBlockly.load = () => {
-        const toolbox = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: testCase.codeLanguage })
+        const toolbox = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: testCase.codeLanguage, codeFormat: 'blocks-text' })
         const blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox })
         testBlockly.workspace = Blockly.inject(testBlockly.div, blocklyOptions)
         this.blocklyWorkspaces.push(testBlockly.workspace)
@@ -256,7 +256,7 @@ module.exports = (BlockTestingView = (function () {
         // debugBlocklyWorkspace is currently needed so we can go from block JSON -> block -> block output code using workspaceToCode
         // TODO: try to just do valueToCode or something so we don't even need a workspace
         // codeToBlocks prepareBlockIntelligence function needs the JavaScript version of the toolbox
-        const toolboxJS = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: 'javascript' })
+        const toolboxJS = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: 'javascript', codeFormat: 'blocks-text' })
         const debugBlocklyDiv = testContainer.find('.blockly-container-debug')[0]
         const debugBlocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: toolboxJS })
         const debugBlocklyWorkspace = Blockly.inject(debugBlocklyDiv, debugBlocklyOptions)
