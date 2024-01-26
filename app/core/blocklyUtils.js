@@ -12,6 +12,9 @@ const { ContinuousToolbox, ContinuousFlyout, ContinuousMetrics } = require('@blo
 const { CrossTabCopyPaste } = require('@blockly/plugin-cross-tab-copy-paste')
 // { ZoomToFitControl } = require '@blockly/zoom-to-fit'  # Not that useful unless we increase zoom level range
 
+// TODO: this is buggy, need to get it working through code-to-blocks. Disabled for now.
+const directionsAsDropdowns = false // Duplicated in code-to-blocks, change both
+
 module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator, codeLanguage, level }) {
   if (!codeLanguage) { codeLanguage = 'javascript' }
   const commentStart = utils.commentStarts[codeLanguage] || '//'
@@ -562,6 +565,19 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
     inputsInline: args.length <= 2,
   }
 
+  // Replace a `to` directional argument with a dropdown (field, not input)
+  if (directionsAsDropdowns && args[0]?.name === 'to' && args[0].type === 'string') {
+    setup.args0[0].type = 'field_dropdown'
+    setup.args0[0].options = [
+      ['up', 'up'],
+      ['down', 'down'],
+      ['left', 'left'],
+      ['right', 'right']
+    ]
+    setup.args0[0].default = args[0].default
+    if (_.isString(setup.args0[0].default)) {
+        setup.args0[0].default = setup.args0[0].default.replace(/['"]/g, '')
+      }
   }
 
   if (returnsValue) {
@@ -575,6 +591,12 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
   const blockInitializer = {
     init () {
       this.jsonInit(setup)
+      if (setup.args0[0]?.type === 'field_dropdown') {
+        const defaultValue = setup.args0[0].default
+        if (defaultValue) {
+          this.inputList[0].fieldRow[1].setValue(defaultValue)
+        }
+      }
       this.docFormatter = setup.docFormatter
       this.tooltipImg = setup.tooltipImg
     },
@@ -595,6 +617,10 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
       let defaultValue = arg.default
       if (_.isString(defaultValue)) {
         defaultValue = defaultValue.replace(/['"]/g, '')
+      }
+      if (directionsAsDropdowns && arg.name === 'to' && arg.type === 'string') {
+        // We're making this into a field_dropdown, not an input
+        continue
       }
       blockDefinition.inputs[arg.name] = { shadow: { type, fields: { [field]: defaultValue } } }
     }
