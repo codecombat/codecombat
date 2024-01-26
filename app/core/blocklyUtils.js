@@ -19,7 +19,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   // generator.STATEMENT_PREFIX = "#{commentStart} highlightBlock(%1)\n"  # TODO: can we highlight running blocks another way?
   generator.INDENT = '    '
 
-  let superBasicLevels = ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'the-gem']
+  let superBasicLevels = ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard']
   if (me.level() > 5) {
     superBasicLevels = [] // Coming back to them later should allow basic misc blocks
   }
@@ -404,14 +404,14 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       name: 'Literals',
       colour: '10',
       contents: [
-        { kind: 'block', type: 'text', include () { return !superBasicLevels.includes(level?.get('slug')) } },
-        { kind: 'block', type: 'math_number', include () { return !superBasicLevels.includes(level?.get('slug')) } },
+        { kind: 'block', type: 'text', include () { return !superBasicLevels.includes(level?.get('slug')) && level?.get('product') !== 'codecombat-junior' } },
+        { kind: 'block', type: 'math_number', include () { return !superBasicLevels.includes(level?.get('slug')) && level?.get('product') !== 'codecombat-junior' } },
         { kind: 'block', type: 'logic_boolean', include () { return propNames.has('if/else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'logic_null', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
-        { kind: 'block', type: 'newline', include () { return !superBasicLevels.includes(level?.get('slug')) } },
+        { kind: 'block', type: 'newline', include () { return false } },
         { kind: 'block', type: 'entry_point', include () { return false } },  // TODO: organize
-        { kind: 'block', type: 'comment', include () { return !superBasicLevels.includes(level?.get('slug')) } },
-        { kind: 'block', type: 'code_comment', include () { return propNames.has('if/else') } }, // TODO: introduce this around when we start having commented-out code in sample code
+        { kind: 'block', type: 'comment', include () { return false } },
+        { kind: 'block', type: 'code_comment', include () { return false } },
         { kind: 'block', type: 'logic_ternary', include () { return false } },
       ]
     },
@@ -488,8 +488,8 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat, 
   const name = `${owner}_${propName}`
   let args = prop.args || []
   if (superBasicLevels.includes(level?.get('slug')) && (['moveDown', 'moveLeft', 'moveRight', 'moveUp'].includes(propName))) {
+    // Don't include steps argument yet
     args = []
-    // TODO: also introduce the `go(to, steps)` second `steps` argument only after first intro levels
   }
 
   generator.forBlock[name] = function (block) {
@@ -570,11 +570,10 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat, 
     inputsInline: args.length <= 2,
   }
 
-  console.log('codeFormat', codeFormat)
-  if (codeFormat === 'blocks-icons' && blockMessage.startsWith('go ')) {
+  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('go ')) {
     // Use an image instead of text
-    // setup.message0 = setup.message0.replace(/^go /, '%1')
-    setup.message0 = '%1%2 %3'
+    setup.message0 = setup.message0.replace(/go %1 %2/, '%1%2 %3') // With steps
+    setup.message0 = setup.message0.replace(/go %1/, '%1%2') // Without steps
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-go.png',
