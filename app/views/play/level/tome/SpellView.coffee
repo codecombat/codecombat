@@ -564,7 +564,7 @@ module.exports = class SpellView extends CocoView
     aceSource = @ace.getValue()
     return if not aceSource? or aceSource is blocklySource
     try
-      newBlocklyState = codeToBlocks { code: @ace.getValue(), codeLanguage: @spell.language, toolbox: @blocklyToolbox, blocklyState, prepData: @codeToBlocksPrepData }
+      newBlocklyState = codeToBlocks { code: @ace.getValue(), originalCode: @spell.originalSource, codeLanguage: @spell.language, toolbox: @blocklyToolbox, blocklyState, prepData: @codeToBlocksPrepData }
     catch err
       console.log "Couldn't parse code to get new blockly state:", err, '\nCode:', aceSource
       return

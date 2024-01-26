@@ -693,48 +693,67 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
   return { RobIsAwesome: true, plan }
 }
 
-function codeToBlocks ({ code, codeLanguage, prepData }) {
+function addInsertionPoints ({ code, originalCode, codeLanguage }) {
+  if (codeLanguage === 'javascript') {
+    // Add special arrow block to point out blocks ending with empty lines, indicating code should go there
+    code = code.replace(/\n( {4,})\n([ ]*\})/gm, (_, s, s2) => `${s}\n__arrow__()${s2}`)
+  }
+
+  // Add special arrow block to point out code insertion points after comments (only after intro comment section end)
+  const codeLines = code.split('\n')
+  const originalLines = originalCode.split('\n')
+  let newCode = ''
+  let previousLine = null
+  let previousLineHadComment = false
+  let previousLineHadCode = false
+  let previousLineWasBlank = false
+  let pastIntroComments = false
+  const commentStart = { javascript: '//', python: '#', lua: '--' }[codeLanguage] || '//'
+  const singleLineCommentRegex = new RegExp(`[ \t]*(${commentStart})[^"'\n]*`)
+
+  for (let i = 0; i < codeLines.length; ++i) {
+    const line = codeLines[i]
+    const originalLine = originalLines[i]
+    // Find whether the line has changed. It might just be that the line was shifted around by the player inserting more code.
+    // We also look for the unchanged comment line in a new position to find what line we're really on.
+    const originalLineMovedIndex = originalLines.indexOf(previousLine)
+    const lineHasComment = singleLineCommentRegex.test(line)
+    const lineHasChanged = line !== originalLine && (originalLineMovedIndex === -1 || line !== originalLines[originalLineMovedIndex])
+    const lineIsBlank = !line.trim()[0]
+    const lineHasCode = !lineIsBlank && !lineHasComment
+    if (lineHasCode || previousLineWasBlank) {
+      pastIntroComments = true
+    }
+    const isEntryPoint = lineIsBlank && previousLineHadComment && !previousLineHadCode && pastIntroComments && !lineHasChanged
+    if (isEntryPoint) {
+      newCode += line + '__arrow__()\n'
+    } else {
+      newCode += line + '\n'
+    }
+    previousLine = line
+    previousLineHadComment = lineHasComment
+    previousLineHadCode = lineHasCode
+    previousLineWasBlank = lineIsBlank
+    pastIntroComments = pastIntroComments || lineHasCode || previousLineWasBlank
+  }
+  return newCode
+}
+
+function codeToBlocks ({ code, originalCode, codeLanguage, prepData }) {
   let ast
   try {
+    code = addInsertionPoints({ code, originalCode, codeLanguage })
     switch (codeLanguage) {
       case 'javascript':
       {
-        // Add special arrow block to point out blocks ending with empty lines, indicating code should go there
-        code = code.replace(/\n( {4,})\n([ ]*\})/gm, (_, s, s2) => `${s}\n__arrow__()${s2}`)
-
-        // Add special arrow block to point out code insertion points after comments (only after intro comment section end)
-        // TODO: add special characters to the right kinds of comments so that we only apply this to those
-        let pastIntroComments = false
-        let previousLineWasBlank = false
-        const codeLines = code.split('\n')
-        let i
-        for (i = 0; i < codeLines.length && !pastIntroComments; ++i) {
-          const line = codeLines[i]
-          const lineIsBlank = !line.trim()[0]
-          const lineHasCode = !lineIsBlank && line.trim()[0] !== '/'
-          if (lineHasCode || previousLineWasBlank) {
-            pastIntroComments = true
-          }
-          previousLineWasBlank = lineIsBlank
-        }
-        if (pastIntroComments) {
-          const introCode = codeLines.slice(0, i).join('\n')
-          const mainCode = codeLines.slice(i).join('\n')
-          // console.log('zzzzz', { introCode, mainCode, replaced: mainCode.replace(/\n( {4,})\n([ ]*\})/gm, (_, s, s2) => `${s}\n__arrow__()${s2}`) })
-          code = introCode + '\n' + mainCode.replace(/^([ \t]*)\/\/(.+)\n[ \t]*\n/gm, (_, s, c) => `${_.trimEnd()}\n${s}__arrow__()\n`)
-        }
-
         const { parse } = window.esper.plugins.babylon.babylon
         ast = parse(code + '\n__donothing__()', { errorRecovery: true })
         break
       }
       case 'python':
       {
-        // TODO: add arrow/insertion point handling for Python
-
         const { parse } = window.esper.plugins['lang-python'].skulpty
         code = code.replace(/^(\s*)#(.*)$/gm, (_, s, c) => `${s}__comment__(${JSON.stringify(c)})`)
-
         ast = parse(code, { errorRecovery: true, naive: true, locations: true, startend: true })
         // console.log("PGC", ast, require("@babel/generator").default(ast).code)
         ast = { type: 'File', program: ast }

@@ -310,7 +310,7 @@ module.exports = (BlockTestingView = (function () {
 
     runCodeToBlocks ({ testCase, code, codeLanguage, errorDiv, prepData, prepDataError }) {
       try {
-        const newBlocklyState = codeToBlocks({ code, codeLanguage, prepData })
+        const newBlocklyState = codeToBlocks({ code, originalCode: testCase.code, codeLanguage, prepData })
         if (!prepDataError) {
           $(errorDiv).text('').addClass('hide')
         }

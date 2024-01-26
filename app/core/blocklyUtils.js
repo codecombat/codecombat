@@ -989,7 +989,7 @@ module.exports.blocklyStateIncludesBlockType = function (state, type) {
 }
 
 module.exports.rewriteBlocklyCode = function(code, codeLanguage) {
-  code = code.replace(/^( *)☃/gm, '$1') // Undo our unicode snowman whitespace trimmer remover
+  code = code.replace(/^( *?)☃/gm, '$1') // Undo our unicode snowman whitespace trimmer remover
   codeLanguage = codeLanguage || 'javascript'
   switch (codeLanguage) {
   case 'javascript':
