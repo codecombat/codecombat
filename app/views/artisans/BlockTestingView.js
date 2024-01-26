@@ -191,7 +191,7 @@ module.exports = (BlockTestingView = (function () {
       const testBlockly = { loaded: false, loading: false, div: testContainer.find('.blockly-container')[0] }
       testBlockly.load = () => {
         const toolbox = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: testCase.codeLanguage, codeFormat: 'blocks-text' })
-        const blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox, renderer: 'thrasos' })
+        const blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox, codeLanguage: testCase.codeLanguage, codeFormat: 'blocks-text', renderer: 'thrasos' })
         testBlockly.workspace = Blockly.inject(testBlockly.div, blocklyOptions)
         this.blocklyWorkspaces.push(testBlockly.workspace)
         testBlockly.loading = true
@@ -258,7 +258,7 @@ module.exports = (BlockTestingView = (function () {
         // codeToBlocks prepareBlockIntelligence function needs the JavaScript version of the toolbox
         const toolboxJS = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: 'javascript', codeFormat: 'blocks-text' })
         const debugBlocklyDiv = testContainer.find('.blockly-container-debug')[0]
-        const debugBlocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: toolboxJS, renderer: 'thrasos' })
+        const debugBlocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: toolboxJS, codeLanguage: 'javascript', codeFormat: 'blocks-text', renderer: 'thrasos' })
         const debugBlocklyWorkspace = Blockly.inject(debugBlocklyDiv, debugBlocklyOptions)
         this.blocklyWorkspaces.push(debugBlocklyWorkspace)
         try {

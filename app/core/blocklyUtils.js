@@ -729,7 +729,7 @@ module.exports.initializeBlocklyLanguage = function () {
   }
 }
 
-module.exports.createBlocklyOptions = function ({ toolbox, renderer }) {
+module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguage, codeFormat }) {
   module.exports.initializeBlocklyLanguage()
   return {
     toolbox,
@@ -760,6 +760,21 @@ module.exports.createBlocklyOptions = function ({ toolbox, renderer }) {
       minScale: 1,
     },
     trashcan: false,
+    // oneBasedIndex: codeLanguage === 'lua' // TODO: Need to test. Default is true.
+    move: {
+      scrollbars: true,
+      drag: true,
+      wheel: true
+    },
+    // No grid. Thought we could maybe make fake "lines", but block heights are too unpredictable.
+    // grid: {
+    //   spacing: 48,
+    //   length: 48,
+    //   colour: '#000',
+    //   snap: true
+    // },
+    collapse: codeFormat !== 'blocks-icons', // Don't let blocks be collapsed in icon mode
+    disable: true, // Do let blocks be disabled
   }
 }
 
