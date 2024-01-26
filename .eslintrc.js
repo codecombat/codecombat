@@ -29,6 +29,8 @@ module.exports = {
     lscache: 'readonly',
     tv4: 'readonly',
     TreemaUtils: 'readonly',
+    TreemaObjectNode: 'readonly',
+    TreemaArrayNode: 'readonly',
     CoffeeScript: 'readonly',
     i18n: 'readonly',
     marked: 'readonly'

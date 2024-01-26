@@ -264,7 +264,8 @@ me.PropertyDocumentationSchema = me.object({
     type: 'object',
     description: 'The `foo` property can satisfy all the #{spriteName}\'s foobar needs. Use it wisely.'
   },
-  required: ['name', 'type', 'description']
+  required: ['name', 'type', 'description'],
+  format: 'property-documentation'
 }, {
   name: { type: 'string', title: 'Name', description: 'Name of the property.' },
   i18n: { type: 'object', format: 'i18n', props: ['name', 'shortDescription', 'description', 'context'], description: 'Help translate this property' },
