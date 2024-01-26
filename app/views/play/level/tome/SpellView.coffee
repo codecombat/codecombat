@@ -493,7 +493,7 @@ module.exports = class SpellView extends CocoView
 
   onClickedBlock: (e) ->
     # We monkey-patch Blockly egregiously to make this work
-    return unless $(e.block).offset().left > $('.blocklyFlyout').offset().left
+    return unless $(e.block).parents('.blocklyFlyout').length
     # This is a block in the toolbox flyout. If we can, let's just directly add it to the end of our program based on its text content.
     # Method 1: try to use its tooltip
     blockSource = e.block.tooltip?.docFormatter?.doc?.example
