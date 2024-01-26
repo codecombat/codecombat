@@ -729,7 +729,7 @@ module.exports.initializeBlocklyLanguage = function () {
   }
 }
 
-module.exports.createBlocklyOptions = function ({ toolbox }) {
+module.exports.createBlocklyOptions = function ({ toolbox, renderer }) {
   module.exports.initializeBlocklyLanguage()
   return {
     toolbox,
@@ -752,7 +752,14 @@ module.exports.createBlocklyOptions = function ({ toolbox }) {
     // Renderer choices: 'geras': default, 'thrasos': more modern take on geras, 'zelos': Scratch-like
     // renderer: 'zelos', 
     // renderer: 'thrasos',
-    renderer: $(window).innerHeight() > 500 ? 'zelos' : 'thrasos',
+    renderer: renderer || ($(window).innerHeight() > 500 ? 'zelos' : 'thrasos'),
+    zoom: {
+      // Hide so that we don't mess with width of toolbox
+      controls: false,
+      maxScale: 1,
+      minScale: 1,
+    },
+    trashcan: false,
   }
 }
 
