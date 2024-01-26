@@ -742,7 +742,7 @@ module.exports.initializeBlocklyLanguage = function () {
   }
 }
 
-module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguage, codeFormat }) {
+module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguage, codeFormat, product }) {
   module.exports.initializeBlocklyLanguage()
   return {
     toolbox,
@@ -765,7 +765,7 @@ module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguag
     // Renderer choices: 'geras': default, 'thrasos': more modern take on geras, 'zelos': Scratch-like
     // renderer: 'zelos', 
     // renderer: 'thrasos',
-    renderer: renderer || ($(window).innerHeight() > 500 ? 'zelos' : 'thrasos'),
+    renderer: renderer || ($(window).innerHeight() > 500 && product === 'codecombat-junior' ? 'zelos' : 'thrasos'),
     zoom: {
       // Hide so that we don't mess with width of toolbox
       controls: false,
