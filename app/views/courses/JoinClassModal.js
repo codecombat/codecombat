@@ -34,8 +34,23 @@ module.exports = (JoinClassModal = (function () {
       if (!me.get('emailVerified')) {
         this.supermodel.trackRequest($.post(`/db/user/${me.id}/request-verify-email`))
       }
-      this.listenTo(this.classroom, 'error', function () {
-        return this.trigger('error')
+      this.listenTo(this.classroom, 'error', function (classroom, response) {
+        let errorMessage = `${response.responseText}`
+
+        if (response.status === 422) {
+          errorMessage = 'Please enter a code.'
+        } else if (jqxhr.status === 404) {
+          errorMessage = $.t('signup.classroom_not_found')
+        } else if (jqxhr.status === 403) {
+          errorMessage = $.t('signup.activation_code_used')
+        }
+
+        return noty({
+          type: 'error',
+          layout: 'topCenter',
+          text: errorMessage,
+          timeout: '3000'
+        })
       })
       this.listenTo(this.classroom, 'sync', function () {
         return this.render
