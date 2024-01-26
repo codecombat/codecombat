@@ -834,7 +834,8 @@ module.exports.getBlocklySource = function (blockly, codeLanguage) {
 module.exports.loadBlocklyState = function (blocklyState, blockly, tries) {
   if (tries == null) { tries = 0 }
   if (tries > 10) { return false }
-  if (!blocklyState?.blocks?.blocks) { return false }
+  if (!blocklyState?.blocks) { return false }
+  if (!blocklyState.blocks.blocks) { blocklyState.blocks.blocks = [] }
   const oldBlocklyState = Blockly.serialization.workspaces.save(blockly)
   try {
     // console.log('Need to load', blocklyState, 'into', blockly, 'comparing to', oldBlocklyState)
