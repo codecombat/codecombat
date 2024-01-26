@@ -552,8 +552,12 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
     return returnsValue ? [parts.join(''), generator.ORDER_ATOMIC] : parts.join('')
   }
 
+  // CodeCombat Junior doesn't label arguments. (Should we label them for CodeCombat?)
+  const blockMessage = level?.get('product') === 'codecombat-junior' ?
+        `${(propName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `%${v + 1}`).join(' ') :
+        `${(propName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `${a.name}: %${v + 1}`).join(' ')
   const setup = {
-    message0: `${(propName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `${a.name}: %${v + 1}`).join(' '),
+    message0: blockMessage,
     args0: args.map(a => ({
       type: 'input_value',
       name: a.name
