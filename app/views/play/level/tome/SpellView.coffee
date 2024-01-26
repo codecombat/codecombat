@@ -465,7 +465,7 @@ module.exports = class SpellView extends CocoView
     @blocklyToolbox = blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage, codeFormat: @options.codeFormat, level: @options.level })
     # codeToBlocks prepareBlockIntelligence function needs the JavaScript version of the toolbox
     @blocklyToolboxJS = if codeLanguage is 'javascript' then @blocklyToolbox else blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage: 'javascript', codeFormat: @options.codeFormat, level: @options.level })
-    targetDiv = @$('#blockly-container')
+    targetDiv = @$('.blockly-container')
     blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: @blocklyToolbox })
     @blockly = Blockly.inject targetDiv[0], blocklyOptions
     @blocklyActive = true

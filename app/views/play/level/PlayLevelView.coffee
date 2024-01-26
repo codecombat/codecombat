@@ -884,7 +884,7 @@ module.exports = class PlayLevelView extends RootView
     @$el.find('#gold-view').css right: windowWidth - canvasWidth + 12, top: 12
     @$el.find('#code-area').css width: tomeWidth, height: tomeHeight, top: tomeTop
     @$el.find('#code-area #tome-view #spell-view .ace_editor').css width: codeWidth if /blocks/.test(@codeFormat)  # Let handle own height, and width if there are no blocks
-    @$el.find('#code-area #tome-view #spell-view #blockly-container').css width: workspaceWidth + toolboxWidth, height: workspaceHeight, left: codeWidth
+    @$el.find('#code-area #tome-view #spell-view .blockly-container').css width: workspaceWidth + toolboxWidth, height: workspaceHeight, left: codeWidth
     @$el.find('#duel-stats-view').css left: duelStatsLeft, top: duelStatsTop
     @$el.find('#level-dialogue-view').css left: dialogueLeft
     # TODO: figure out how to get workspace and toolbox to share width evenly
