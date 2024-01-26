@@ -15,7 +15,7 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
       # Insert semicolon after variable declarations if missing
       { regex: /(\b(let|var|const)\s+\w+\s*=.*[^;])\s*$/gm, replacement: "$1;" }
       # Insert semicolon after standalone expressions or function calls if missing
-      { regex: /((?<!for\s*\(.*);[^\n;{}]+[^;{}\n\s])\s*$/gm, replacement: "$1;" }
+      #{ regex: /((?<!for\s*\(.*);[^\n;{}]+[^;{}\n\s])\s*$/gm, replacement: "$1;" }  # Variable width lookbehind not supported in mobile Safari
       # Return statements without semicolon
       { regex: /(\breturn\s+.*[^;])\s*$/gm, replacement: "$1;" }
       # Correct lines ending with a semicolon followed by whitespace (avoid duplications)
@@ -25,7 +25,9 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
       # Ensure loops and conditionals are properly terminated
       { regex: /(\b(for|if|while|do)\s*\(.*\)\s*{[^\n}]*})\s*([^\n;{}\s])/gm, replacement: "$1;\n$3" }
       # Quick GPT-4 try #2
-      { regex: /(?<!for\s*\([^)]*\))([^\s{;][^\n{}]*[^\s};])\s*$/gm, replacement: "$1;" }
+      # { regex: /(?<!for\s*\([^)]*\))([^\s{;][^\n{}]*[^\s};])\s*$/gm, replacement: "$1;" }  # Variable width lookbehind not supported in mobile Safari
+      # Quick GPT-4 try #3, I probably should have just written it myself at this point
+      { regex: /^.*[^;\s{}]\s*$/gm, replacement: "$&;" }
     ]
     for { regex, replacement } in patterns
       jsCode = jsCode.replace regex, replacement

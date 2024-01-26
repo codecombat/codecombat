@@ -558,7 +558,10 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
     colour: returnsValue ? 350 : 240,
     tooltip: prop.description || '',
     docFormatter: prop.docFormatter,
-    type: prop.type
+    type: prop.type,
+    inputsInline: args.length <= 2,
+  }
+
   }
 
   if (returnsValue) {

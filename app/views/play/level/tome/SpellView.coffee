@@ -502,7 +502,7 @@ module.exports = class SpellView extends CocoView
       method = e.text.trim().split(/\s/g)[0].trim()
       matchingSnippet = _.find (_.values(@autocomplete?.snippetManager?.snippetMap?._ or {})), (snippet) ->
         snippet.tabTrigger is method and snippet.autocompletePriority > 0  # Don't pull in auto-added snippets
-      blockSource = matchingSnippet.content
+      blockSource = matchingSnippet?.content
     if blockSource
       source = @getSource()
       lastLine = _.last(source.split('\n'))
