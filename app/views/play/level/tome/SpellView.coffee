@@ -494,27 +494,34 @@ module.exports = class SpellView extends CocoView
   onClickedBlock: (e) ->
     # We monkey-patch Blockly egregiously to make this work
     return unless $(e.block).parents('.blocklyFlyout').length
-    # This is a block in the toolbox flyout. If we can, let's just directly add it to the end of our program based on its text content.
-    # Method 1: try to use its tooltip
+    return if e.block.classList?[0] is 'blocklyEditableText'  # Number?
+    # This is a block in the toolbox flyout. If we can, let's just directly add it to the end of our program.
+    blockNode = e.block
+    blockNode = blockNode.parentNode while not blockNode.dataset?.id and blockNode.parentNode
+    return unless blockNode.dataset?.id
+    # Method 1: try to create the block from the flyout
+    newBlock = blocklyUtils.createBlockById workspace: @blockly, id: blockNode.dataset.id, codeLanguage: @spell.language
+    return if newBlock
+    # Method 2: try to use its tooltip. Doesn't update if you changed the flyout block (for example, from "up" to "down")
     blockSource = e.block.tooltip?.docFormatter?.doc?.example
     if not blockSource
-      # Method 2: try to use our autocomplete snippets. (Should we even use this?)
+      # Method 3: try to use our autocomplete snippets. (Should we even use this? Also doesn't update.)
       method = e.text.trim().split(/\s/g)[0].trim()
       matchingSnippet = _.find (_.values(@autocomplete?.snippetManager?.snippetMap?._ or {})), (snippet) ->
         snippet.tabTrigger is method and snippet.autocompletePriority > 0  # Don't pull in auto-added snippets
       blockSource = matchingSnippet?.content
-    # TODO: figure out what the block's field values are set to. For example, if we change a go block from "up" to "down", we should insert "down", not original "up"
-    if blockSource
-      source = @getSource()
-      lastLine = _.last(source.split('\n'))
-      indent = lastLine.match(/^\s*/)[0]
-      if /\S/.test(lastLine)
-        source += '\n' + indent
-      source += blockSource + '\n' + indent
-      @updateACEText source
-      @aceToBlockly()
-      if @options.level.get('product') is 'codecombat-junior'
-        @recompile()
+    return unless blockSource
+    source = @getSource()
+    lastLine = _.last(source.split('\n'))
+    indent = lastLine.match(/^\s*/)[0]
+    if /\S/.test(lastLine)
+      source += '\n' + indent
+    source += blockSource + '\n' + indent
+    @updateACEText source
+    @aceToBlockly()
+    if @options.level.get('product') is 'codecombat-junior'
+      @recompile()
+    null
 
   onBlocklyEvent: (e) =>
     # console.log "--------- Got Blockly Event #{e.type} ------------", e

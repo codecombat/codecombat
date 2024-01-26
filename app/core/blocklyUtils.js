@@ -1031,5 +1031,16 @@ function rewriteBlocklyLua (code) {
   return code
 }
 
+module.exports.createBlockById = function ({ workspace, id, codeLanguage }) {
+  const flyoutBlock = workspace.getToolbox()?.getFlyout()?.getWorkspace()?.getBlockById(id)
+  if (!flyoutBlock) return null
+  const topBlocks = workspace.getTopBlocks(true)
+  const newWorkspaceBlock = workspace.getToolbox()?.getFlyout()?.createBlock(flyoutBlock)
+  if (!newWorkspaceBlock) return null
+  newWorkspaceBlock.moveBy(0, 1000, 'Putting this all the way down so that it goes in the right order when we clean up')
+  workspace.cleanUp()
+  return newWorkspaceBlock
+}
+
 module.exports.blocklyMutationEvents = [Blockly.Events.CHANGE, Blockly.Events.CREATE, Blockly.Events.DELETE, Blockly.Events.BLOCK_CHANGE, Blockly.Events.BLOCK_CREATE, Blockly.Events.BLOCK_DELETE, Blockly.Events.BLOCK_DRAG, Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE, Blockly.Events.BLOCK_MOVE, Blockly.Events.VAR_CREATE, Blockly.Events.VAR_DELETE, Blockly.Events.VAR_RENAME]
 module.exports.blocklyFinishedMutationEvents = _.without(module.exports.blocklyMutationEvents, Blockly.Events.CREATE, Blockly.Events.BLOCK_CREATE, Blockly.Events.BLOCK_DRAG, Blockly.Events.VAR_CREATE, Blockly.Events.VAR_DELETE, Blockly.Events.VAR_RENAME)
