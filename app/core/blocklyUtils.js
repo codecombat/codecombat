@@ -44,7 +44,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     }
     if (/programmaticon/i.test(owner)) continue
     const userBlocks = mergedPropertyEntryGroups[owner].props.map(prop =>
-      createBlock({ owner, prop, generator, codeLanguage, codeFormat, level, superBasicLevels }))
+      createBlock({ owner, prop, generator, codeLanguage, codeFormat, level, superBasicLevels })
+    )
     userBlockCategories.push({ kind: 'category', name: owner, colour: '190', contents: userBlocks })
   }
 
@@ -331,7 +332,6 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       codeLanguage,
       codeFormat,
       level,
-      superBasicLevels,
       prop: {
         name: 'say',
         owner: 'this',
@@ -343,12 +343,25 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         if (!slug) {
           return true
         }
-        return !superBasicLevels.includes(slug) && (slug === 'wakka-maul' || !level.isLadder())
+        return !superBasicLevels.includes(slug) && (slug === 'wakka-maul' || !level.isLadder()) && level?.get('product') !== 'codecombat-junior'
       }
     }),
-    createBlock({ owner: 'hero', generator, codeLanguage, codeFormat, level, superBasicLevels, prop: { type: 'ref' }, include () { return propNames.has('if/else') } }) // TODO: better targeting of when we introduce this (hero used as a value)
+    createBlock({
+      owner: 'hero',
+      generator,
+      codeLanguage,
+      codeFormat,
+      level,
+      prop: { type: 'ref' },
+      include () {
+        // TODO: better targeting of when we introduce this (hero used as a value)
+        return propNames.has('if/else') && level?.get('product') !== 'codecombat-junior'
+      }
+    })
   ]
-  userBlockCategories.push({ kind: 'category', name: 'Misc', colour: '190', contents: miscBlocks })
+  if (miscBlocks.filter(prop => prop.include()).length) {
+    userBlockCategories.push({ kind: 'category', name: 'Misc', colour: '190', contents: miscBlocks })
+  }
 
   const builtInBlockCategories = [
     {
@@ -487,7 +500,7 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat, 
   const returnsValue = (prop.returns != null) || (prop.userShouldCaptureReturn != null) || (!['function', 'snippet'].includes(prop.type))
   const name = `${owner}_${propName}`
   let args = prop.args || []
-  if (superBasicLevels.includes(level?.get('slug')) && (['moveDown', 'moveLeft', 'moveRight', 'moveUp'].includes(propName))) {
+  if (superBasicLevels?.includes(level?.get('slug')) && (['moveDown', 'moveLeft', 'moveRight', 'moveUp'].includes(propName))) {
     // Don't include steps argument yet
     args = []
   }
