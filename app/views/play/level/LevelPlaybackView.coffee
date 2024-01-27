@@ -257,6 +257,7 @@ module.exports = class LevelPlaybackView extends CocoView
       Backbone.Mediator.publish 'level:set-letterbox', on: false if @realTime or @cinematic
       Backbone.Mediator.publish 'playback:real-time-playback-ended', {} if @realTime
       Backbone.Mediator.publish 'playback:cinematic-playback-ended', {} if @cinematic
+      Backbone.Mediator.publish 'playback:playback-ended', {}
     if progress < 0.99 and @lastProgress >= 0.99
       playing = store.state.game.playing
       playButton.removeClass('ended')

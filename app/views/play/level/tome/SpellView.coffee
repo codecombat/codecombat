@@ -550,7 +550,7 @@ module.exports = class SpellView extends CocoView
 
     # Just the code
     return blocklySource if blocklySource is aceSource
-    console.log 'B2A: Changing ace source from', aceSource, 'to', blocklySource, 'with state', blocklyState
+    #console.log 'B2A: Changing ace source from', aceSource, 'to', blocklySource, 'with state', blocklyState
     @updateACEText blocklySource
 
     if PERSIST_BLOCK_STATE and not @session.fake
@@ -581,7 +581,7 @@ module.exports = class SpellView extends CocoView
       return
     else
       #console.log 'new blockly state', newBlocklyState, 'is different from last blockly state', @lastBlocklyState
-    console.log 'A2B: Changing blockly source from', blocklySource, 'to', aceSource
+    #console.log 'A2B: Changing blockly source from', blocklySource, 'to', aceSource
     @eventsSuppressed = true
     @awaitingBlocklySerialization = true
     #console.log 'would set to', newBlocklyState
