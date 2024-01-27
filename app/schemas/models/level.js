@@ -391,7 +391,8 @@ const LevelSchema = c.object({
       { id: 'ogres-die', name: 'Defeat the ogres.', killThangs: ['ogres'], worldEndsAfter: 3 },
       { id: 'humans-survive', name: 'Your hero must survive.', saveThangs: ['Hero Placeholder'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true }
     ],
-    concepts: ['basic_syntax']
+    concepts: ['basic_syntax'],
+    product: 'codecombat',
   }
 })
 c.extendNamedProperties(LevelSchema) // let's have the name be the first property

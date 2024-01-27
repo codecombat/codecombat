@@ -136,10 +136,10 @@ module.exports = class CastButtonView extends CocoView
     @world = e.world
 
   onPlaybackEnded: (e) ->
-    if @winnable and (
-      @options.level.get('product', true) is 'codecombat-junior' or
-      (@options.level.get('product', true) isnt 'codecombat' and @options.level.get('ozariaType') isnt 'capstone'))
-      Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
+    return unless @winnable
+    return if @options.level.get('product', true) is 'codecombat' and not utils.isOzaria
+    return if @options.level.get('ozariaType') is 'capstone'
+    Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
 
   onNewGoalStates: (e) ->
     @winnable = e.overallStatus is 'success'
