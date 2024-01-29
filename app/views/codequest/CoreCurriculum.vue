@@ -58,7 +58,7 @@
     <div class="content horizontal">
       <Box
         image="/images/pages/codequest/cc3-uc-berkley.webp"
-        title="UC Berkley Featured Speaker"
+        title="UC Berkeley Featured Speaker"
         :text="`
                             While immersed in the collegiate setting of this storied university, students will be welcomed by
             representatives from the Department of Electrical Engineering and Computer Sciences at UC Berkeley, who
