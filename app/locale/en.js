@@ -4760,7 +4760,12 @@ module.exports = {
       bd_includes_1: 'Full access to CodeCombat and Ozaria with over 200 hours of premium game-based content',
       bd_includes_2: 'Teacher dashboard for record keeping and progress tracking ',
       bd_includes_3: 'Online Resource Hub with walkthroughs and tutorials',
-      bd_help: 'For any help, contact'
+      bd_help: 'For any help, contact',
+      manage_stripe: 'Manage Stripe Billing',
+      manage_billing_info: 'This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.',
+      billing_portal: 'Customer Billing Portal',
+      email_not_verified: 'Your email is not verified, please verify it from the account settings!',
+      stripe_no_data: 'You do not have any data to manage on Stripe portal'
     },
 
     form_validation_errors: {
