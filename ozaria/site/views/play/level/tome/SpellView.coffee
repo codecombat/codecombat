@@ -437,6 +437,8 @@ module.exports = class SpellView extends CocoView
       solution = ''
     @aceSolution.setValue solution
     @aceSolution.clearSelection()
+    if @courseID && @courseID == utils.courseIDs.CHAPTER_ONE
+      @aceSolution.setFontSize 22
     @aceSolutionLastLineCount = 0
     @updateSolutionLines = _.throttle @updateSolutionLines, 1000
 
@@ -840,11 +842,6 @@ module.exports = class SpellView extends CocoView
       ++lineCount
       # Force the popup back
       @ace?.completer?.showPopup(@ace)
-
-    screenLineCount = @aceSession.getScreenLength()
-    if screenLineCount isnt @lastScreenLineCount
-      @lastScreenLineCount = screenLineCount
-      @updateAceLines(screenLineCount)
 
     # Ensure current user code line visible and not truncated at bottom of editor
     if cursorPosition.row >= lineCount - 2
