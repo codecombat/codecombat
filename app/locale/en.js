@@ -3927,7 +3927,16 @@ module.exports = {
       request_license: 'Join Pilot Program',
       page_title: 'AP Computer Science Principles Curriculum',
       explore_each_unit: 'Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>',
-      about_apcsp_curriculum: 'About AP CSP Curriculum'
+      about_apcsp_curriculum: 'About AP CSP Curriculum',
+      step_1_title: 'Get Started Today',
+      step_1_subtitle: 'Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.',
+      step_1_button_1: 'View the Syllabus',
+      step_1_button_2: 'Complete the Audit',
+      join_the_community: 'Join the AP Community',
+      ap_teachers: 'Teacher Central',
+      ap_classroom: 'AP Classroom',
+      slack: 'AP Workspace',
+      join: 'Join'
     },
 
     hoc_2019: {
