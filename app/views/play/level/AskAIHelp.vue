@@ -1,6 +1,5 @@
 <template>
   <modal
-    v-if="!hideModal"
     title="AI Hint"
     :backbone-dismiss-modal="true"
   >
@@ -18,6 +17,7 @@
         <div class="ask-ai__cta">
           <button
             class="btn btn-illustrated btn-primary ai-help-button"
+            data-dismiss="modal"
             @click="onAskAiClicked"
           >
             {{ $t('play_level.problem_alert_ask_the_ai') }}
@@ -45,8 +45,7 @@ export default Vue.extend({
   },
   data () {
     return {
-      creditMessage: '',
-      hideModal: false
+      creditMessage: ''
     }
   },
   async created () {
@@ -57,7 +56,6 @@ export default Vue.extend({
       this.$emit('ask-ai-clicked')
       const message = $.i18n.t('ai.prompt_level_chat_hint_' + _.random(1, 5))
       Backbone.Mediator.publish('level:add-user-chat', { message })
-      this.hideModal = true
     }
   }
 })

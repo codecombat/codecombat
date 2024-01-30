@@ -109,6 +109,10 @@ export default Vue.extend({
       this.$emit('pause-cutscene')
     },
 
+    onClickAIHint () {
+      window.Backbone.Mediator.publish('level:click-ai-hint', {})
+    },
+
     // Inspired from CocoView toggleFullscreen method.
     toggleFullScreen () {
       const full = document.fullscreenElement ||
@@ -239,6 +243,17 @@ export default Vue.extend({
         />
 
         <div class="spacer" />
+        k
+        <button
+          v-tooltip="{
+            content: $t('ozaria_chrome.max_browser'),
+            placement: 'right',
+            classes: 'layoutChromeTooltip',
+          }"
+          class="button-flex-item fullscreen-btn"
+          :aria-label="$t('ozaria_chrome.max_browser')"
+          @click="onClickAIHint"
+        />
 
         <a
           :href="mapLink"
