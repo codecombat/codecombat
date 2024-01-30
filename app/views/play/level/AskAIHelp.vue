@@ -6,7 +6,7 @@
     <div class="ask-ai">
       <div class="ask-ai__img">
         <img
-          src="/images/level/baby-griffin.png"
+          :src="aiHintAnimal"
           alt="AI Hint Animal"
         >
       </div>
@@ -16,7 +16,8 @@
         </div>
         <div class="ask-ai__cta">
           <button
-            class="btn btn-illustrated btn-primary ai-help-button"
+            class="btn ai-help-button"
+            :class="aiHintBtnStyle"
             data-dismiss="modal"
             @click="onAskAiClicked"
           >
@@ -38,6 +39,7 @@
 import Modal from 'app/components/common/Modal'
 const userUtils = require('app/lib/user-utils')
 const _ = require('lodash')
+const utils = require('core/utils')
 export default Vue.extend({
   name: 'AskAIHelp',
   components: {
@@ -46,6 +48,22 @@ export default Vue.extend({
   data () {
     return {
       creditMessage: ''
+    }
+  },
+  computed: {
+    aiHintAnimal () {
+      if (utils.isCodeCombat) {
+        return '/images/level/baby-griffin.png'
+      } else {
+        return '/images/ozaria/avatar-selector/avatar_ghost.png'
+      }
+    },
+    aiHintBtnStyle () {
+      if (utils.isCodeCombat) {
+        return 'btn-illustrated btn-primary'
+      } else {
+        return 'ai-btn-active'
+      }
     }
   },
   async created () {
@@ -62,6 +80,8 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+@import "ozaria/site/styles/play/images";
+
 .ask-ai {
   padding: 5px;
 
@@ -92,6 +112,17 @@ export default Vue.extend({
     color: #7b7575;
     text-align: center;
     margin-top: 5px;
+  }
+
+  .ai-btn-active {
+    background-image: url($Button);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.77px;
+    line-height: 18px;
   }
 }
 </style>

@@ -241,20 +241,18 @@ export default Vue.extend({
           :aria-label="$t('ozaria_chrome.restart_level')"
           @click="clickRestart"
         />
-
-        <div class="spacer" />
-        k
         <button
           v-tooltip="{
-            content: $t('ozaria_chrome.max_browser'),
+            content: $t('ozaria_chrome.ai_hint'),
             placement: 'right',
             classes: 'layoutChromeTooltip',
           }"
-          class="button-flex-item fullscreen-btn"
-          :aria-label="$t('ozaria_chrome.max_browser')"
+          class="button-flex-item ai-hint-btn"
+          :aria-label="$t('ozaria_chrome.ai_hint')"
           @click="onClickAIHint"
         />
 
+        <div class="spacer" />
         <a
           :href="mapLink"
           tabindex="-1"
@@ -491,6 +489,13 @@ export default Vue.extend({
 
         &:hover
           background: url(/images/ozaria/layout/chrome/Global_Hover_Restart.png)
+
+      .ai-hint-btn
+        background: url(/images/ozaria/layout/chrome/Global_Neutral_AI_Hint.png)
+
+        &:hover
+          background: url(/images/ozaria/layout/chrome/Global_Hover_AI_Hint.png)
+
       .map-btn
         background: url(/images/ozaria/layout/chrome/Global_Neutral_Map.png)
 
@@ -527,7 +532,7 @@ export default Vue.extend({
         &.menu-screen-reader-mode-enabled:hover
           background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOff.png)
 
-      .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn, .screen-reader-btn, .screen-reader-btn.menu-screen-reader-mode-enabled
+      .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .ai-hint-btn, .fullscreen-btn, .screen-reader-btn, .screen-reader-btn.menu-screen-reader-mode-enabled
         &, &:hover
           background-size: 100%
           background-position: center
@@ -622,7 +627,7 @@ export default Vue.extend({
         .spacer
           min-height: 224px
 
-        .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn, .screen-reader-btn, .screen-reader-btn.menu-screen-reader-mode-enabled
+        .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .ai-hint-btn, .fullscreen-btn, .screen-reader-btn, .screen-reader-btn.menu-screen-reader-mode-enabled
           background-size: 45px
 
 </style>
