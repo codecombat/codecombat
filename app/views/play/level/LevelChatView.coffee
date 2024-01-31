@@ -46,6 +46,7 @@ module.exports = class LevelChatView extends CocoView
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
     @diffShown = false
+    @creditUid = undefined
 
   updateMultiplayerVisibility: ->
     return unless @$el?
@@ -234,12 +235,18 @@ module.exports = class LevelChatView extends CocoView
     @checkCreditsAndAddMessage(e.message)
 
   checkCreditsAndAddMessage: (message) ->
+    if @creditUid
+      # console.log('too many attempts')
+      noty({text: 'too many attempts, please try again later', layout: 'topRight', type: 'error', timeout: 3000})
+      return
+
     uuid = crypto.randomUUID() || Date.now()
     event = 'LevelChatBot Clicked'
     props = { lid: @levelID, ls: @sessionID, redeem: false }
+    @creditUid = "#{uuid}|#{message.slice(0, 20)}"
     userCreditApi.redeemCredits({
       operation: 'LEVEL_CHAT_BOT',
-      id: "#{uuid}|#{message.slice(0, 20)}"
+      id: @creditUid
     })
       .then (res) =>
         props.redeem = true
@@ -312,6 +319,12 @@ module.exports = class LevelChatView extends CocoView
 
   onChatMessageSaved: (chatMessage) ->
     @onNewMessage message: chatMessage.get('message'), messageId: chatMessage.get('_id')  # TODO: temporarily putting this after save so we have message id link
+    userCreditApi.updateCreditUid({
+      operation: 'LEVEL_CHAT_BOT',
+      uid: @creditUid,
+      newId: chatMessage.get('_id')
+    }).finally () =>
+      @creditUid = undefined
     return if chatMessage.get('message')?.sender?.kind is 'bot'
     #fetchJson("/db/chat_message/#{chatMessage.id}/ai-response").then @onChatResponse
     @fetchChatMessageStream chatMessage.id
