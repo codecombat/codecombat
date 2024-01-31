@@ -26,6 +26,11 @@ export default Vue.extend({
     displayRestartMenuItem: {
       type: Boolean,
       default: false
+    },
+
+    displayAiHintButton: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -248,6 +253,7 @@ export default Vue.extend({
             classes: 'layoutChromeTooltip',
           }"
           class="button-flex-item ai-hint-btn"
+          :class="{ hideBtn: !displayAiHintButton }"
           :aria-label="$t('ozaria_chrome.ai_hint')"
           @click="onClickAIHint"
         />

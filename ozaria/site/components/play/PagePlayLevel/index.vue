@@ -3,6 +3,7 @@
     :title="title"
     :display-restart-menu-item="canRestart()"
     :display-options-menu-item="true"
+    :display-ai-hint-button="true"
     :chrome-on="isChromeOn"
     @click-restart="clickRestart"
     @click-options="clickOptions"
