@@ -82,7 +82,7 @@
   ],
   "dependencies": {
     "@blockly/block-plus-minus": "^7.0.1",
-    "@blockly/continuous-toolbox": "^5.0.10",
+    "@blockly/continuous-toolbox": "5.0.10",
     "@blockly/plugin-cross-tab-copy-paste": "^5.0.5",
     "@datadog/browser-rum": "^5.4.0",
     "@stripe/stripe-js": "^1.32.0",
