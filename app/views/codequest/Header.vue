@@ -7,6 +7,9 @@
             <span class="text-wrapper">CodeQuest </span>
             <span class="span">2024 </span>
           </p>
+          <p class="date-text">
+            <span class="text-wrapper">Date:</span> July 22 - July 27, 2024
+          </p>
           <p class="supporting-text">
             Join us for an immersive educational experience like no other, designed to inspire and empower the
             next
@@ -230,6 +233,20 @@ export default {
         line-height: 55px;
         margin-top: -1px;
         position: relative;
+    }
+
+    .date-text {
+        align-self: stretch;
+        color: #6B7280;
+        font-family: "Plus Jakarta Sans-Regular", Helvetica;
+        font-size: 24px;
+        font-weight: 400;
+        letter-spacing: 0;
+        line-height: 30px;
+        .text-wrapper {
+        color: #4799A9;
+    }
+        /* 125% */
     }
 
     .text-wrapper {
