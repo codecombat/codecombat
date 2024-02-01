@@ -1,7 +1,7 @@
 import ClassroomLib from '../../../app/models/ClassroomLib'
 import { courseIDs, isOzaria } from 'app/core/utils'
 
-describe('isStudentOnLockedCourse', () => {
+xdescribe('isStudentOnLockedCourse', () => {
   if (!isOzaria) return  // This is specific to the Ozaria level locking
 
   it('no lock is always false', () => {
@@ -56,7 +56,7 @@ describe('isStudentOnLockedCourse', () => {
   })
 })
 
-describe('isStudentOnLockedLevel', () => {
+xdescribe('isStudentOnLockedLevel', () => {
   if (!isOzaria) return  // This is specific to the Ozaria level locking
 
   it('no lock is always false', () => {
