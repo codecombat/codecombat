@@ -1,31 +1,19 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-/*
- * decaffeinate suggestions:
- * DS002: Fix invalid constructor
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-let VerifierTest
 const CocoClass = require('core/CocoClass')
 const SuperModel = require('models/SuperModel')
-const { createAetherOptions } = require('lib/aether_utils')
 const God = require('lib/God')
 const GoalManager = require('lib/world/GoalManager')
 const LevelLoader = require('lib/LevelLoader')
 const utils = require('core/utils')
 const aetherUtils = require('lib/aether_utils')
 
-module.exports = (VerifierTest = class VerifierTest extends CocoClass {
+module.exports = class VerifierTest extends CocoClass {
   constructor (levelID, updateCallback, supermodel, language, options) {
     super()
     this.onWorldNecessitiesLoaded = this.onWorldNecessitiesLoaded.bind(this)
     this.fetchToken = this.fetchToken.bind(this)
     this.configureSession = this.configureSession.bind(this)
     this.cleanup = this.cleanup.bind(this)
+    this.load = this.load.bind(this)
     this.levelID = levelID
     this.updateCallback = updateCallback
     this.supermodel = supermodel
@@ -44,10 +32,22 @@ module.exports = (VerifierTest = class VerifierTest extends CocoClass {
     this.name = ''
     if (this.language == null) { this.language = 'python' }
     this.userCodeProblems = []
+
+    this.checkClampedProperties = true
+    this.clampedProperties = {
+      inited: false
+    }
+    // hero.attackDamage
+    // hero.health
+    // hero.maxHealth
+    // hero.maxSpeed
+    // level.recommendedHealth
     this.load()
   }
 
   load () {
+    console.log('on load,', JSON.stringify(this.clampedProperties))
+    this.supermodel.resetProgress()
     this.loadStartTime = new Date()
     this.god = new God({ maxAngels: 1, headless: true })
     this.levelLoader = new LevelLoader({ supermodel: this.supermodel, levelID: this.levelID, headless: true, fakeSessionConfig: { codeLanguage: this.language, callback: this.configureSession } })
@@ -83,7 +83,6 @@ module.exports = (VerifierTest = class VerifierTest extends CocoClass {
     }
 
     const headers = { Accept: 'application/json', 'Content-Type': 'application/json' }
-    const m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
     const service = __guard__(typeof window !== 'undefined' && window !== null ? window.localStorage : undefined, x => x.kodeKeeperService) || 'https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper'
     return fetch(service, { method: 'POST', mode: 'cors', headers, body: JSON.stringify({ code: source, language }) })
       .then(x => x.json())
@@ -100,10 +99,10 @@ module.exports = (VerifierTest = class VerifierTest extends CocoClass {
       state.flagHistory = session.solution.flagHistory
       state.realTimeInputEvents = session.solution.realTimeInputEvents
       state.difficulty = session.solution.difficulty || 0
-      if (!_.isNumber(session.solution.seed)) { return session.solution.seed = undefined } // TODO: migrate away from submissionCount/sessionID seed objects
+      if (!_.isNumber(session.solution.seed)) { session.solution.seed = undefined } // TODO: migrate away from submissionCount/sessionID seed objects
     } catch (e) {
       this.state = 'error'
-      return this.error = `Could not load the session solution for ${level.get('name')}: ` + e.toString() + '\n' + e.stack
+      this.error = `Could not load the session solution for ${level.get('name')}: ` + e.toString() + '\n' + e.stack
     }
   }
 
@@ -115,13 +114,33 @@ module.exports = (VerifierTest = class VerifierTest extends CocoClass {
   }
 
   setupGod () {
-    this.god.setLevel(this.level.serialize({ supermodel: this.supermodel, session: this.session, otherSession: null, headless: true, sessionless: false }))
+    const level = this.level.serialize({ supermodel: this.supermodel, session: this.session, otherSession: null, headless: true, sessionless: false })
+    const hero = this.world.getThangByID('Hero Placeholder')
+    if (this.checkClampedProperties) {
+      level.constrainHeroHealth = true
+      if (!this.clampedProperties.inited) {
+        this.clampedProperties = {
+          inited: true,
+          maxHealth: { current: 1, lower: 1, upper: hero.maxHealth },
+          maxSpeed: { current: 1, lower: 1, upper: hero.maxSpeed },
+          attackDamage: { current: 1, lower: 1, upper: hero.attackDamage }
+        }
+      }
+      this.clampedProperties.maxHealth.current = Math.floor((this.clampedProperties.maxHealth.upper + this.clampedProperties.maxHealth.lower) / 2)
+      console.log('new current: ', this.clampedProperties.maxHealth.current)
+      // let find min first
+
+      level.recommendedHealth = this.clampedProperties.maxHealth.current
+      level.maximumHealth = this.clampedProperties.maxHealth.current
+      level.clampedProperties.maxHealth = { min: level.recommendHealth }
+    }
+    this.god.setLevel(level)
     this.god.setLevelSessionIDs([this.session.id])
     this.god.setWorldClassMap(this.world.classMap)
     this.god.lastFlagHistory = this.session.get('state').flagHistory
     this.god.lastDifficulty = this.session.get('state').difficulty
     this.god.lastFixedSeed = this.session.solution.seed
-    return this.god.lastSubmissionCount = 0
+    this.god.lastSubmissionCount = 0
   }
 
   initGoalManager () {
@@ -197,7 +216,29 @@ module.exports = (VerifierTest = class VerifierTest extends CocoClass {
   }
 
   scheduleCleanup () {
-    return setTimeout(this.cleanup, 100)
+    console.log('reportResults:', this.state)
+    if (this.checkClampedProperties && this.state !== 'running') {
+      if (this.clampedProperties.maxHealth.upper > this.clampedProperties.maxHealth.lower) {
+        const mid = this.clampedProperties.maxHealth.current
+        if (this.isSuccessful()) {
+          console.log('success, upper bound:', mid, this.clampedProperties.maxHealth.upper, this.clampedProperties.maxHealth.lower, this.state)
+          this.clampedProperties.maxHealth.upper = mid
+        } else {
+          console.log('failure, lower bound:', mid + 1, this.clampedProperties.maxHealth.upper, this.clampedProperties.maxHealth.lower)
+          this.clampedProperties.maxHealth.lower = mid + 1
+        }
+        return setTimeout(this.load, 500)
+      } else {
+        if (!this.isSuccessful()) {
+          this.state = 'error'
+          this.error = 'Could not find a solution within the clamped properties'
+          console.log("error, couldn't find a solution within the clamped properties")
+        } else {
+          console.log('find a solution within the clamped properties', JSON.stringify(this.clampedProperties))
+        }
+        return setTimeout(this.cleanup, 100)
+      }
+    }
   }
 
   cleanup () {
@@ -211,7 +252,7 @@ module.exports = (VerifierTest = class VerifierTest extends CocoClass {
     }
     return this.world = null
   }
-})
+}
 
 function __guard__ (value, transform) {
   return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined

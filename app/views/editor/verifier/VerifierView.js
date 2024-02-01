@@ -64,7 +64,8 @@ module.exports = (VerifierView = (function () {
 
       if (this.levelID) {
         this.levelIDs = [this.levelID]
-        this.testLanguages = ['python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript']
+        // this.testLanguages = ['python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript']
+        this.testLanguages = ['javascript'] // hack it for now
         this.codeLanguages = (Array.from(this.testLanguages).map((c) => ({ id: c, checked: true })))
         this.cores = 1
         this.startTestingLevels()
@@ -181,12 +182,10 @@ module.exports = (VerifierView = (function () {
       for (const levelID of Array.from(this.levelIDs)) {
         level = this.supermodel.getModel(Level, levelID)
         for (const codeLanguage of Array.from(this.testLanguages)) {
-          var left
-          let solutions = _.filter((left = (level != null ? level.getSolutions() : undefined)) != null ? left : [], { language: codeLanguage })
+          let solutions = _.filter((level?.getSolutions() || []), { language: codeLanguage })
           // If there are no target language solutions yet, generate them from JavaScript.
           if (['cpp', 'java', 'python', 'lua', 'coffeescript'].includes(codeLanguage) && (solutions.length === 0)) {
-            var left1
-            const transpiledSolutions = _.filter((left1 = (level != null ? level.getSolutions() : undefined)) != null ? left1 : [], { language: 'javascript' })
+            const transpiledSolutions = _.filter((level?.getSolutions() || []), { language: 'javascript' })
             for (const s of Array.from(transpiledSolutions)) {
               s.language = codeLanguage
               s.source = translateUtils.translateJS(s.source, codeLanguage)
