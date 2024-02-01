@@ -51,8 +51,8 @@ module.exports = {
     setHintsVisible (state, visible) {
       state.hintsVisible = visible
     },
-    setAIHintsVisible (state, visible) {
-      state.aiHintsVisible = visible
+    setAIHintVisible (state, visible) {
+      state.aiHintVisible = visible
     },
     incrementTimesCodeRun (state) {
       state.timesCodeRun += 1
