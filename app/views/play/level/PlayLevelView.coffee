@@ -768,7 +768,7 @@ module.exports = class PlayLevelView extends RootView
     minCodeWidth = if codeLocation is 'none' then 0 else minCodeChars * minCodeCharWidth + acePaddingGutterAndMargin
     maxCodeWidth = if codeLocation is 'none' then 0 else maxCodeChars * maxCodeCharWidth + acePaddingGutterAndMargin
     minBlockChars = switch
-      when @codeFormat is 'blocks-icons' and product is 'codecombat-junior' then 5
+      when @codeFormat is 'blocks-icons' and product is 'codecombat-junior' then 4
       when @codeFormat is 'blocks-icons' and cinematic then 5
       when @codeFormat is 'blocks-icons' then 6
       when product is 'codecombat-junior' then 30
@@ -779,7 +779,7 @@ module.exports = class PlayLevelView extends RootView
       when @codeFormat is 'blocks-icons' and product is 'codecombat' then 10
       when product is 'codecombat-junior' then 40
       else 50
-    minBlockCharWidth = if @codeFormat is 'blocks-icons' then 12 else 6
+    minBlockCharWidth = if @codeFormat is 'blocks-icons' then 40 else 6
     maxBlockCharWidth = if @codeFormat is 'blocks-icons' then 50 else 15
     minWorkspaceWidth = if workspaceLocation is 'none' then 0 else minBlockChars * minBlockCharWidth
     maxWorkspaceWidth = if workspaceLocation is 'none' then 0 else maxBlockChars * maxBlockCharWidth
