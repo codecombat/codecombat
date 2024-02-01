@@ -3287,7 +3287,8 @@ module.exports = {
       back_to_map: 'Back to Map',
       level_options: 'Level Options',
       restart_level: 'Restart Level',
-      max_browser: 'Maximize Browser'
+      max_browser: 'Maximize Browser',
+      ai_hint: 'AI Hint'
     },
 
     impact: {
