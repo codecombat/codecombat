@@ -22,6 +22,7 @@ module.exports = {
   state: {
     level: emptyLevel,
     hintsVisible: false,
+    aiHintVisible: false,
     timesCodeRun: 0,
     timesAutocompleteUsed: 0,
     playing: false,
@@ -49,6 +50,9 @@ module.exports = {
     },
     setHintsVisible (state, visible) {
       state.hintsVisible = visible
+    },
+    setAIHintsVisible (state, visible) {
+      state.aiHintsVisible = visible
     },
     incrementTimesCodeRun (state) {
       state.timesCodeRun += 1
