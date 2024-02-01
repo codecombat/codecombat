@@ -193,7 +193,7 @@ class PlayLevelView extends RootView {
         this.classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion || true
         const levelChat = classroom.aceConfig?.levelChat || 'none'
         this.classroomAceConfig.levelChat = levelChat
-        store.commit('game/setAIHintsVisible', levelChat !== 'none')
+        store.commit('game/setAIHintVisible', levelChat !== 'none')
       })
     }
 
