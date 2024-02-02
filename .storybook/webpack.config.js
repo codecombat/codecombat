@@ -1,4 +1,6 @@
 const path = require('path')
+const webpack = require('webpack');
+
 
 module.exports = function({ config }) {
   // Add support for sass style in Vue components.
@@ -6,11 +8,21 @@ module.exports = function({ config }) {
     test: /\.sass$/,
     use: [
       'vue-style-loader',
-      'css-loader',
+      {
+        loader: 'css-loader',
+        options: {
+          url: false
+        }
+      },
       {
         loader: 'sass-loader',
         options: {
-          indentedSyntax: true
+          implementation: require("sass"),
+          sassOptions: {
+            indentedSyntax: true,
+            includePaths: ['./node_modules'],
+          },
+          additionalData: `@import "./.storybook/temp.sass"`
         }
       }
     ],
@@ -20,9 +32,21 @@ module.exports = function({ config }) {
     test: /\.scss$/,
     use: [
       'vue-style-loader',
-      'css-loader',
       {
-        loader: 'sass-loader'
+        loader: 'css-loader',
+        options: {
+          url: false
+        }
+      },
+      {
+        loader: 'sass-loader',
+        options: {
+          implementation: require("sass"),
+          additionalData: `@import "./.storybook/temp.scss";`,
+          sassOptions: {
+            includePaths: ['./node_modules'],
+          }
+        }
       }
     ],
   });
@@ -34,11 +58,11 @@ module.exports = function({ config }) {
     path.resolve(__dirname, '../'), // Or you can use the full path /app/whatever
   ]
 
-  config.module.rules.push({
-    test: /\.stories\.jsx?$/,
-    loaders: [require.resolve('@storybook/addon-storysource/loader')],
-    enforce: 'pre',
-  });
+  config.devServer = {hot:true}
+  config.plugins.push(new webpack.HotModuleReplacementPlugin())
 
+  config.resolve.alias['/images'] = path.resolve(__dirname, '../app/assets/images/')
+  config.resolve.alias['/fonts'] = path.resolve(__dirname, '../app/assets/fonts/')
+  config.resolve.alias['bootstrap'] = path.resolve(__dirname, '../node_modules/bootstrap/fonts/')
   return config;
 };
