@@ -319,12 +319,15 @@ module.exports = class LevelChatView extends CocoView
 
   onChatMessageSaved: (chatMessage) ->
     @onNewMessage message: chatMessage.get('message'), messageId: chatMessage.get('_id')  # TODO: temporarily putting this after save so we have message id link
-    userCreditApi.updateCreditUid({
-      operation: 'LEVEL_CHAT_BOT',
-      uid: @creditUid,
-      newId: chatMessage.get('_id')
-    }).finally () =>
+    if @creditUid
+      creditUid = @creditUid
       @creditUid = undefined
+      userCreditApi.updateCreditUid({
+        operation: 'LEVEL_CHAT_BOT',
+        uid: creditUid,
+        newId: chatMessage.get('_id')
+      })
+      
     return if chatMessage.get('message')?.sender?.kind is 'bot'
     #fetchJson("/db/chat_message/#{chatMessage.id}/ai-response").then @onChatResponse
     @fetchChatMessageStream chatMessage.id
