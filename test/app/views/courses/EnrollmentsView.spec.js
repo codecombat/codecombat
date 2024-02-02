@@ -72,9 +72,9 @@ describe('EnrollmentsView', function() {
       return leadPriorityRequest.respondWith({status: 200, responseText: JSON.stringify({ priority: 'low' })});
     });
 
-    describe('shows the starter license upsell', function() {
-      if (features.chinaInfra) { return; }
-    });
+    // describe('shows the starter license upsell', function() {
+    //   if (features.chinaInfra) { return; }
+    // });
 //      it 'when only subscription prepaids exist', ->
 //        @view.prepaids.set([])
 //        @view.prepaids.add(factories.makePrepaid({
