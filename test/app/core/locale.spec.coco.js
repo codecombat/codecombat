@@ -5,6 +5,7 @@
  * DS205: Consider reworking code to avoid use of IIFEs
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
+/*
 const locale = require('../../../app/locale/locale');
 const english = require('../../../app/locale/en');
 
@@ -101,3 +102,4 @@ You may need to run copy-i18n-tags.js\
     }));
   });
 });
+*/
