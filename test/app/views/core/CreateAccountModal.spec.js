@@ -544,9 +544,9 @@ xdescribe('CreateAccountModal Vue Components', () => describe('TeacherSignupComp
       }));
     });
 
-    describe('clearDistrictNcesValues', function() {});
+    // describe('clearDistrictNcesValues', function() {});
 
-    describe('clearSchoolNcesValues', function() {});
+    // describe('clearSchoolNcesValues', function() {});
 
     describe('applySuggestion', function() {
       beforeEach(function() {
@@ -655,16 +655,16 @@ xdescribe('CreateAccountModal Vue Components', () => describe('TeacherSignupComp
       });
     });
 
-    describe('clickContinue', function() {});
+    // describe('clickContinue', function() {});
 
-    return describe('clickBack', function() {});
+    // return describe('clickBack', function() {});
   });
 
-  describe('NcesSearchInput', function() {});
+  // describe('NcesSearchInput', function() {});
 
-  describe('SetupAccountPanel', function() {});
+  // describe('SetupAccountPanel', function() {});
 
-  return describe('TeacherRolePanel', function() {});
+  // return describe('TeacherRolePanel', function() {});
 }));
 
 const api = require('core/api');
