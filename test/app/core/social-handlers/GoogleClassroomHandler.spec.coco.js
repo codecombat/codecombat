@@ -82,7 +82,7 @@ describe('importClassrooms()', () => {
   });
 
   it('updates the linked classrooms in me.googleClassrooms while keeping the importedToCoco value', async function(done) {
-    
+
     me.set('googleClassrooms', gClassrooms)
 
     // mark gClassrooms[0] as imported
@@ -132,14 +132,14 @@ describe('importClassrooms()', () => {
     importedClassroom.importedToCoco = true
 
     expect(me.get('googleClassrooms').length).toBe(1)
-    
+
     // new classrooms data recieved from google classroom API - does not contain classroom id1
     const newGClassrooms = [{
       id: "id2",
       name: "test class 2"
     }]
     spyOn(GoogleClassroomHandler.gcApiHandler, 'loadClassroomsFromAPI').and.returnValue(Promise.resolve(newGClassrooms))
-  
+
     try {
       await GoogleClassroomHandler.importClassrooms()
       // me.googleClassrooms should contain old imported classroom id1 as well as new classroom id2
@@ -186,11 +186,11 @@ const gcStudents = [
 describe('importStudentsToClassroom(cocoClassroom)', () => {
   beforeEach((done) => {
     me.set(factories.makeUser({role: 'teacher'}).attributes)
-    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValue(Promise.resolve({students: gcStudents})) 
+    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValue(Promise.resolve({students: gcStudents}))
     done()
   })
 
-  it('signs up the imported students on codecombat with their google id and adds them to the classroom', async function(done) {
+  it('signs up the imported students on codecombat with their google id and adds them to the classroom', async function () {
     const users = gcStudents.map((s) => {
       return factories.makeUser({
         gplusID: s.userId,
@@ -205,8 +205,8 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
     })
 
     const classroomWithNewMembers = factories.makeClassroom({googleClassroomId: "id1", members: users.map((u) => u._id)})
-    spyOn(api.classrooms, 'addMembers').and.returnValue(Promise.resolve(classroomWithNewMembers)) 
-    
+    spyOn(api.classrooms, 'addMembers').and.returnValue(Promise.resolve(classroomWithNewMembers))
+
     try {
       const cocoClassroom = factories.makeClassroom({googleClassroomId: "id1"})
       const classroomNewMembers = await GoogleClassroomHandler.importStudentsToClassroom(cocoClassroom)
@@ -216,15 +216,14 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
       expect(classroomNewMembers.length).toEqual(gcStudents.length)
       expect(classroomNewMembers[0].get('gplusID')).toBe(gcStudents[0].userId)
       expect(classroomNewMembers[1].get('gplusID')).toBe(gcStudents[1].userId)
-      done()
     }
     catch (err) {
-      done.fail(new Error("This should not have been called"))
+      expect(false).toBe(true)
     }
   });
 
   describe ('if students already exist on codecombat', () => {
-    it('does not add students if already exist in the classroom', async function(done) {
+    it('does not add students if already exist in the classroom', async function () {
       const signUpResult = gcStudents.map((s) => {
         let user = factories.makeUser({
           gplusID: s.userId,
@@ -248,17 +247,15 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
 
       try {
         await GoogleClassroomHandler.importStudentsToClassroom(classroomWithNewMembers)
-        done.fail(new Error("This should not have been called"))
       }
       catch (err) {
         expect(api.users.signupFromGoogleClassroom).toHaveBeenCalled()
         expect(api.users.signupFromGoogleClassroom.calls.count()).toEqual(gcStudents.length)
         expect(api.classrooms.addMembers).not.toHaveBeenCalled()
-        done()
       }
     });
 
-    it('adds students to classroom if do not exist already', async function(done) {
+    it('adds students to classroom if do not exist already', async function () {
       const signUpResult = gcStudents.map((s) => {
         let user = factories.makeUser({
           gplusID: s.userId,
@@ -287,20 +284,19 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
         expect(api.users.signupFromGoogleClassroom.calls.count()).toEqual(gcStudents.length)
         expect(api.classrooms.addMembers).toHaveBeenCalled()
         expect(newMembers.length).toEqual(gcStudents.length)
-        done()
       }
       catch (err) {
-        done.fail(new Error("This should not have been called"))
+        expect(false).toBe(true)
       }
     })
   })
 })
 
 describe('importStudentsToClassroom(cocoClassroom)', () => {
-  it('calls `loadStudentsFromAPI` multiple times until previous api call returns nextPageToken', async function(done) {
+  it('calls `loadStudentsFromAPI` multiple times until previous api call returns nextPageToken', async function () {
     me.set(factories.makeUser({role: 'teacher'}).attributes)
-    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValues(Promise.resolve({students: gcStudents[0], nextPageToken: 'abcd'}), Promise.resolve({students: gcStudents[1]})) 
-    
+    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValues(Promise.resolve({students: gcStudents[0], nextPageToken: 'abcd'}), Promise.resolve({students: gcStudents[1]}))
+
     const users = gcStudents.map((s) => {
       return factories.makeUser({
         gplusID: s.userId,
@@ -315,17 +311,16 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
     })
 
     const classroomWithNewMembers = factories.makeClassroom({googleClassroomId: "id1", members: users.map((u) => u._id)})
-    spyOn(api.classrooms, 'addMembers').and.returnValue(Promise.resolve(classroomWithNewMembers)) 
-    
+    spyOn(api.classrooms, 'addMembers').and.returnValue(Promise.resolve(classroomWithNewMembers))
+
     try {
       const cocoClassroom = factories.makeClassroom({googleClassroomId: "id1"})
       const classroomNewMembers = await GoogleClassroomHandler.importStudentsToClassroom(cocoClassroom)
       expect(GoogleClassroomHandler.gcApiHandler.loadStudentsFromAPI.calls.count()).toEqual(2)
       expect(classroomNewMembers.length).toEqual(gcStudents.length)
-      done()
     }
     catch (err) {
-      done.fail(new Error("This should not have been called"))
+      expect(false).toBe(true)
     }
   })
 })
