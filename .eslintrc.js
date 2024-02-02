@@ -31,7 +31,10 @@ module.exports = {
     TreemaUtils: 'readonly',
     CoffeeScript: 'readonly',
     i18n: 'readonly',
-    marked: 'readonly'
+    marked: 'readonly',
+    describe: 'readonly',
+    it: 'readonly',
+    expect: 'readonly'
   },
 
   env: {

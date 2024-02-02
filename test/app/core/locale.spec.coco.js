@@ -15,8 +15,15 @@ describe('esper error messages', () => langs.forEach(language => {
   return describe(`when language is ${language.englishDescription}`, function() {
     const esper = language.translation.esper || {};
     const englishEsper = english.translation.esper;
+    const keysToCheck = Object.keys(language.translation.esper || {})
+    if (keysToCheck.length === 0) {
+      it(`dummmy test to workaround empty describe/it - ${language.englishDescription}`, () => {
+        expect(true).toBe(true)
+      })
+      return
+    }
 
-    return Object.keys(language.translation.esper || {}).forEach(key => describe(`when key is ${key}`, function() {
+    Object.keys(language.translation.esper || {}).forEach(key => describe(`when key is ${key}`, function() {
       it('should have numbered placeholders $1 through $N', function() {
         const placeholders = (esper[key].match(/\$\d/g) || []).sort();
         const expectedPlaceholders = (Array.from(placeholders).map((val, index) => `$${index+1}`));
