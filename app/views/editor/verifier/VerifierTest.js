@@ -34,6 +34,8 @@ module.exports = class VerifierTest extends CocoClass {
     this.userCodeProblems = []
 
     this.checkClampedProperties = true
+    this.checkPropKeys = ['maxHealth', 'maxSpeed', 'attackDamage', 'maxxSpeed', 'maxxAttackDamage']
+    this.checkPropIndex = 0
     this.clampedProperties = {
       inited: false
     }
@@ -51,7 +53,7 @@ module.exports = class VerifierTest extends CocoClass {
     this.loadStartTime = new Date()
     this.god = new God({ maxAngels: 1, headless: true })
     this.levelLoader = new LevelLoader({ supermodel: this.supermodel, levelID: this.levelID, headless: true, fakeSessionConfig: { codeLanguage: this.language, callback: this.configureSession } })
-    return this.listenToOnce(this.levelLoader, 'world-necessities-loaded', function () { return _.defer(this.onWorldNecessitiesLoaded) })
+    this.listenToOnce(this.levelLoader, 'world-necessities-loaded', function () { return _.defer(this.onWorldNecessitiesLoaded) })
   }
 
   onWorldNecessitiesLoaded () {
@@ -73,7 +75,7 @@ module.exports = class VerifierTest extends CocoClass {
     me.team = (this.team = 'humans')
     this.setupGod()
     this.initGoalManager()
-    return this.fetchToken(this.solution.source, this.language)
+    this.fetchToken(this.solution.source, this.language)
       .then(token => this.register(token))
   }
 
@@ -83,7 +85,7 @@ module.exports = class VerifierTest extends CocoClass {
     }
 
     const headers = { Accept: 'application/json', 'Content-Type': 'application/json' }
-    const service = __guard__(typeof window !== 'undefined' && window !== null ? window.localStorage : undefined, x => x.kodeKeeperService) || 'https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper'
+    const service = window.localStorage?.kodeKeeperService || 'https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper'
     return fetch(service, { method: 'POST', mode: 'cors', headers, body: JSON.stringify({ code: source, language }) })
       .then(x => x.json())
       .then(x => x.token)
@@ -121,18 +123,28 @@ module.exports = class VerifierTest extends CocoClass {
       if (!this.clampedProperties.inited) {
         this.clampedProperties = {
           inited: true,
-          maxHealth: { current: 1, lower: 1, upper: hero.maxHealth },
-          maxSpeed: { current: 1, lower: 1, upper: hero.maxSpeed },
-          attackDamage: { current: 1, lower: 1, upper: hero.attackDamage }
+          // min
+          maxHealth: { prop: 'maxHealth', check: 'min', current: 1, lower: 5, upper: hero.maxHealth },
+          maxSpeed: { prop: 'maxSpeed', check: 'min', current: 1, lower: 3, upper: hero.maxSpeed },
+          attackDamage: { prop: 'attackDamage', check: 'min', current: 1, lower: 4, upper: hero.attackDamage },
+          // max
+          maxxSpeed: { prop: 'maxSpeed', check: 'max', current: 1, lower: hero.maxSpeed, upper: 50 },
+          maxxAttackDamage: { prop: 'attackDamage', check: 'max', current: 1, lower: hero.attackDamage, upper: 500 }
         }
       }
-      this.clampedProperties.maxHealth.current = Math.floor((this.clampedProperties.maxHealth.upper + this.clampedProperties.maxHealth.lower) / 2)
-      console.log('new current: ', this.clampedProperties.maxHealth.current)
+      const prop = this.checkPropKeys[this.checkPropIndex]
+      if (this.clampedProperties[prop].check === 'min') {
+        this.clampedProperties[prop].current = Math.floor((this.clampedProperties[prop].upper + this.clampedProperties[prop].lower) / 2)
+      } else {
+        this.clampedProperties[prop].current = Math.ceil((this.clampedProperties[prop].upper + this.clampedProperties[prop].lower) / 2)
+      }
+      console.log('new current: ', this.clampedProperties[prop].current)
       // let find min first
 
       level.recommendedHealth = this.clampedProperties.maxHealth.current
       level.maximumHealth = this.clampedProperties.maxHealth.current
-      level.clampedProperties.maxHealth = { min: level.recommendHealth }
+      level.clampedProperties[prop] = {}
+      level.clampedProperties[prop][this.clampedProperties[prop].check] = this.clampedProperties[prop].current
     }
     this.god.setLevel(level)
     this.god.setLevelSessionIDs([this.session.id])
@@ -145,7 +157,7 @@ module.exports = class VerifierTest extends CocoClass {
 
   initGoalManager () {
     this.goalManager = new GoalManager(this.world, this.level.get('goals'), this.team)
-    return this.god.setGoalManager(this.goalManager)
+    this.god.setGoalManager(this.goalManager)
   }
 
   register (tokenSource) {
@@ -154,12 +166,12 @@ module.exports = class VerifierTest extends CocoClass {
     this.listenToOnce(this.god, 'goals-calculated', this.processSingleGameResults)
     this.god.createWorld({ spells: aetherUtils.generateSpellsObject({ levelSession: this.session, token: tokenSource }) })
     this.state = 'running'
-    return this.reportResults()
+    this.reportResults()
   }
 
   extractTestLogs () {
     this.testLogs = []
-    for (const log of Array.from(__guard__(__guard__(__guard__(this.god != null ? this.god.angelsShare : undefined, x2 => x2.busyAngels), x1 => x1[0]), x => x.allLogs) != null ? __guard__(__guard__(__guard__(this.god != null ? this.god.angelsShare : undefined, x2 => x2.busyAngels), x1 => x1[0]), x => x.allLogs) : [])) {
+    for (const log of this.god?.angelsShare?.busyAngels?.[0]?.allLogs || []) {
       if (log.indexOf('[TEST]') === -1) { continue }
       this.testLogs.push(log.replace(/\|.*?\| \[TEST\] /, ''))
     }
@@ -177,7 +189,7 @@ module.exports = class VerifierTest extends CocoClass {
     this.simulationFrameRate = e.simulationFrameRate
     this.state = 'complete'
     this.reportResults()
-    return this.scheduleCleanup()
+    this.scheduleCleanup()
   }
 
   isSuccessful (careAboutFrames) {
@@ -197,7 +209,7 @@ module.exports = class VerifierTest extends CocoClass {
   onUserCodeProblem (e) {
     console.warn('Found user code problem:', e)
     this.userCodeProblems.push(e.problem)
-    return this.reportResults()
+    this.reportResults()
   }
 
   onNonUserCodeProblem (e) {
@@ -205,27 +217,34 @@ module.exports = class VerifierTest extends CocoClass {
     this.error = `Failed due to non-user-code problem: ${JSON.stringify(e)}`
     this.state = 'error'
     this.reportResults()
-    return this.scheduleCleanup()
+    this.scheduleCleanup()
   }
 
   fail (e) {
     this.error = 'Failed due to infinite loop.'
     this.state = 'error'
     this.reportResults()
-    return this.scheduleCleanup()
+    this.scheduleCleanup()
   }
 
   scheduleCleanup () {
     console.log('reportResults:', this.state)
     if (this.checkClampedProperties && this.state !== 'running') {
-      if (this.clampedProperties.maxHealth.upper > this.clampedProperties.maxHealth.lower) {
-        const mid = this.clampedProperties.maxHealth.current
+      const prop = this.checkPropKeys[this.checkPropIndex]
+      if (this.clampedProperties[prop].upper > this.clampedProperties[prop].lower) {
+        const mid = this.clampedProperties[prop].current
         if (this.isSuccessful()) {
-          console.log('success, upper bound:', mid, this.clampedProperties.maxHealth.upper, this.clampedProperties.maxHealth.lower, this.state)
-          this.clampedProperties.maxHealth.upper = mid
+          if (this.clampedProperties[prop].check === 'min') {
+            this.clampedProperties[prop].upper = mid
+          } else {
+            this.clampedProperties[prop].lower = mid
+          }
         } else {
-          console.log('failure, lower bound:', mid + 1, this.clampedProperties.maxHealth.upper, this.clampedProperties.maxHealth.lower)
-          this.clampedProperties.maxHealth.lower = mid + 1
+          if (this.clampedProperties[prop].check === 'min') {
+            this.clampedProperties[prop].lower = mid + 1
+          } else {
+            this.clampedProperties[prop].upper = mid - 1
+          }
         }
         return setTimeout(this.load, 500)
       } else {
@@ -235,6 +254,11 @@ module.exports = class VerifierTest extends CocoClass {
           console.log("error, couldn't find a solution within the clamped properties")
         } else {
           console.log('find a solution within the clamped properties', JSON.stringify(this.clampedProperties))
+          if (this.checkPropKeys.length > this.checkPropIndex + 1) {
+            this.checkPropIndex += 1
+            console.log('checking .. ', this.checkPropKeys[this.checkPropIndex])
+            return setTimeout(this.load, 500)
+          }
         }
         return setTimeout(this.cleanup, 100)
       }
@@ -250,10 +274,6 @@ module.exports = class VerifierTest extends CocoClass {
       this.stopListening(this.god)
       this.god.destroy()
     }
-    return this.world = null
+    this.world = null
   }
-}
-
-function __guard__ (value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
 }
