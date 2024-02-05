@@ -22,6 +22,17 @@ $heroCanvasHeight: 275px
     top: -59px
     left: -20px
 
+    @media screen and (max-height: 620px)
+      display: none
+
+  #play-heroes-background-600
+    display: none
+    position: absolute
+    top: -59px
+    left: -20px
+
+    @media screen and (max-height: 620px)
+      display: block
 
   //- Header
 
@@ -36,6 +47,36 @@ $heroCanvasHeight: 275px
     font-size: 38px
     text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0
 
+  //- Mobile
+
+  // Phone views
+  @media screen and (max-height: 668px)
+    .modal-dialog
+      margin-top: -29px
+
+  @media screen and (max-height: 620px)
+    .modal-dialog
+      margin-top: -29px
+
+    @media screen and (max-width: 900px)
+      .modal-dialog
+        transform: scale(0.75)
+        margin-top: -90px
+
+    @media screen and (max-width: 760px)
+      .modal-dialog
+        margin-left: -50px
+
+    @media screen and (max-width: 667px)
+      .modal-dialog
+        margin-left: -83px
+
+  // iPad views
+  @media screen and (min-height: 669px) and (max-width: 820px)
+    .modal-dialog
+      transform: scale(0.85)
+      margin-left: -28px
+      margin-top: 0
 
   //- Gems count
 
@@ -77,6 +118,7 @@ $heroCanvasHeight: 275px
     position: absolute
     left: 34px
     top: 67px
+    $AV_SCALE: 1
 
     .carousel-indicator-container
       position: relative
@@ -97,6 +139,13 @@ $heroCanvasHeight: 275px
           border: none
           float: left
 
+          @media screen and (max-height: 620px)
+            $AV_SCALE: 3/5
+            width: calc(90px * $AV_SCALE)
+            height: calc(91px * $AV_SCALE)
+            margin: 0 calc(-11px * $AV_SCALE) calc(-20px * $AV_SCALE) calc(-11px * $AV_SCALE)
+            background-size: 100%
+
           &:nth-child(15), &:nth-child(16)
             float: right
 
@@ -115,6 +164,13 @@ $heroCanvasHeight: 275px
             left: 21px
             top: 18px
 
+            @media screen and (max-height: 620px)
+              $AV_SCALE: 3/5
+              width: calc(61px * $AV_SCALE)
+              height: calc(61px * $AV_SCALE)
+              left: calc(21px * $AV_SCALE)
+              top: calc(18px * $AV_SCALE)
+
           &.subscribe-unlock
             background-image: url(/images/pages/play/modal/hero-portrait-silver.png)
             background-size: 100% 100%
@@ -131,6 +187,13 @@ $heroCanvasHeight: 275px
               height: 54px
               left: 22px
               top: 22px
+
+              @media screen and (max-height: 620px)
+                $AV_SCALE: 3/5
+                width: calc(54px * $AV_SCALE)
+                height: calc(54px * $AV_SCALE)
+                left: calc(22px * $AV_SCALE)
+                top: calc(22px * $AV_SCALE)
 
           &.premium
             background-image: url(/images/pages/play/modal/hero-portrait-gem.png)
@@ -149,8 +212,12 @@ $heroCanvasHeight: 275px
               left: 21px
               top: 19px
 
-              &.ie
-                @include opacity(0.35)
+              @media screen and (max-height: 620px)
+                $AV_SCALE: 3/5
+                width: calc(52px * $AV_SCALE)
+                height: calc(54px * $AV_SCALE)
+                left: calc(21px * $AV_SCALE)
+                top: calc(19px * $AV_SCALE)
 
             .lock-indicator
               position: absolute
@@ -172,6 +239,9 @@ $heroCanvasHeight: 275px
       position: absolute
       top: 166px
 
+      @media screen and (max-height: 620px)
+        top: 43px
+        transform: scale(0.7)
 
   //- Small transformations to jumble the hero icons a little
 
@@ -294,6 +364,9 @@ $heroCanvasHeight: 275px
       height: 84px
       font-size: 24px
 
+      @media screen and (max-height: 620px)
+        top: 134px
+
       .glyphicon
         position: relative
         top: 27px
@@ -320,6 +393,9 @@ $heroCanvasHeight: 275px
     left: 25px
     top: 522px
 
+    @media screen and (max-height: 620px)
+      top: calc(522px - 161px)
+
   #purchasable-hero-explanation, #loading-hero-explanation, #locked-hero-explanation
     position: absolute
     left: 32px
@@ -327,6 +403,9 @@ $heroCanvasHeight: 275px
     width: 541px
     height: 97px
     padding: 20px 40px
+
+    @media screen and (max-height: 620px)
+      top: calc(532px - 161px)
 
     h2
       color: #333
@@ -347,6 +426,9 @@ $heroCanvasHeight: 275px
     padding: 10px 40px
     text-align: center
 
+    @media screen and (max-height: 620px)
+      top: calc(527px - 161px)
+
     h2
       color: #333
       margin-top: 12px
@@ -364,6 +446,9 @@ $heroCanvasHeight: 275px
     font-size: 24.5px
     font-family: $headings-font-family
     color: white
+
+    @media screen and (max-height: 620px)
+      top: calc(522px - 161px)
 
   #subscribe-hero-button
     width: 209px
@@ -383,6 +468,8 @@ $heroCanvasHeight: 275px
     color: darken(white, 5%)
     background-color: black
 
+    @media screen and (max-height: 620px)
+      top: calc(522px - 161px)
 
     span
       pointer-events: none
@@ -422,6 +509,9 @@ $heroCanvasHeight: 275px
     width: 541px
     height: 102px
     padding: 10px 40px
+
+    @media screen and (max-height: 620px)
+      top: calc(527px - 161px)
 
     .help-block
       color: rgb(51,51,51)
@@ -510,6 +600,22 @@ $heroCanvasHeight: 275px
     font-size: 26px
     font-family: $headings-font-family
     color: white
+
+    @media screen and (max-height: 620px)
+      top: calc(522px - 161px)
+
+  .modal-dialog.codecombat-junior
+    #hero-carousel
+      .hero-item
+
+        canvas, .hero-pose-image
+          width: 100%
+
+        .hero-stats
+          width: 100%
+          position: absolute
+          text-align: center
+          text-shadow: 0 1px black, 0 -1px black, -1px 0 black, 1px 0 black
 
 body.ipad #play-heroes-modal
   // iPad is Python-only for now, and has its own reset button.

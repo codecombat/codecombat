@@ -1,7 +1,8 @@
-.modal-dialog
+.modal-dialog(class=level ? level.get('product', true) : '')
   .modal-content
 
-    img(src="/images/pages/play/modal/choosehero-background.png", draggable="false")#play-heroes-background
+    img(src="/images/pages/play/modal/choosehero-background.png", draggable="false" loading="lazy")#play-heroes-background
+    img(src="/images/pages/play/modal/choosehero-background-600.png", draggable="false" loading="lazy")#play-heroes-background-600
 
     h1(data-i18n="choose_hero.choose_hero")
 
@@ -27,9 +28,10 @@
               img(draggable="false")
             .hero-stats.rtl-allowed(dir="auto")
               h2= hero.name
-              .hero-description= hero.description
+              if (!level || level.get('product', true) != 'codecombat-junior')
+                .hero-description= hero.description
 
-              if !me.isStudent()
+              if !me.isStudent() && (!level || level.get('product', true) != 'codecombat-junior')
                 .hero-stat-row
                   .stat-label(data-i18n='leaderboard.difficulty')
                   .stat-value.hero-status-value(data-i18n=hero.class == 'ranger' ? 'general.medium' : (hero.class == 'wizard' ? 'general.hard' : 'general.easy'))
@@ -42,7 +44,7 @@
                   .stat-label(data-i18n='choose_hero.weapons')
                   .stat-value(data-i18n='choose_hero.weapons_'+hero.class)
 
-              if hero.stats
+              if hero.stats && (!level || level.get('product', true) != 'codecombat-junior')
                 if hero.stats.skills.length && !me.isStudent()
                   .hero-stat-row
                     .stat-label(data-i18n='choose_hero.skills')
