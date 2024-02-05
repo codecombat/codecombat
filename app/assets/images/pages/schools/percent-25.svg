@@ -1,0 +1,6 @@
+<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 1">
+<path id="Ellipse 1" d="M30 15C30 13.0302 29.612 11.0796 28.8582 9.25975C28.1044 7.43987 26.9995 5.78628 25.6066 4.3934C24.2137 3.00052 22.5601 1.89563 20.7402 1.14181C18.9204 0.38799 16.9698 2.88099e-06 15 2.62268e-06L15 15L30 15Z" fill="#7A65FC"/>
+<circle id="Ellipse 2" cx="15" cy="15" r="14" transform="rotate(180 15 15)" stroke="#7A65FC" stroke-width="2"/>
+</g>
+</svg>

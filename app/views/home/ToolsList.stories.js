@@ -1,7 +1,7 @@
 import ToolsList from './ToolsList.vue'
 
 export default {
-  title: 'Example/Home/ToolsList',
+  title: 'Pages/Home/ToolsList',
   component: ToolsList
 }
 

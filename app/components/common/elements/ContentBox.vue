@@ -1,5 +1,8 @@
 <template>
-  <div :class="{ box: true, horizontal: arrangement === 'horizontal' }">
+  <div
+    :class="{ box: true, horizontal: arrangement === 'horizontal' }"
+    :style="boxStyle"
+  >
     <div
       v-if="hasMainImage"
       class="rectangle"
@@ -63,7 +66,12 @@ export default {
     mainImageOriginal: {
       type: Boolean,
       default: false
+    },
+    equalWidth: {
+      type: Boolean,
+      default: false
     }
+
   },
   computed: {
     hasMainImage () {
@@ -86,6 +94,21 @@ export default {
         return key !== 'image' && value.length
       })
       return !hasOtherTemplate
+    },
+    boxStyle () {
+      if (this.arrangement === 'horizontal' && this.equalWidth) {
+        console.log('equalWidth')
+        return {
+          '--rectangle-width': '50%',
+          '--div-width': '50%'
+        }
+      } else {
+        console.log('not equalWidth')
+        return {
+          '--rectangle-width': '25%',
+          '--div-width': '75%'
+        }
+      }
     }
   }
 }
@@ -123,7 +146,7 @@ export default {
   .horizontal & {
     @media (min-width: $screen-sm) {
       width: auto;
-      max-width: 25%;
+      max-width: var(--rectangle-width);
       object-fit: cover;
       border-radius: 24px 0px 0px 24px;
       flex: 1;
@@ -188,7 +211,7 @@ export default {
   .horizontal & {
     @media (min-width: $screen-sm) {
       width: auto;
-      max-width: 75%;
+      max-width: var(--div-width);
       height: 100%;
       border-radius: 0px 24px 24px 0px;
       flex: 1;

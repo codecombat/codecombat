@@ -52,7 +52,6 @@ export default {
     &__link {
         color: $purple;
         letter-spacing: 0;
-        white-space: nowrap;
         width: fit-content;
     }
 

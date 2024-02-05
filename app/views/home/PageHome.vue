@@ -198,7 +198,7 @@ import BackgroundContainer from '../../components/common/backgrounds/BackgroundC
 import ContentBox from '../../components/common/elements/ContentBox.vue'
 import AvatarComponent from '../../components/common/elements/AvatarComponent.vue'
 import BoxPanel from '../../components/common/elements/BoxPanel.vue'
-import MissionComponent from './MissionComponent.vue'
+import MissionComponent from '../common/MissionComponent.vue'
 import ToolsList from './ToolsList.vue'
 import CTAButton from '../../components/common/buttons/CTAButton.vue'
 import PartnersList from './PartnersList.vue'

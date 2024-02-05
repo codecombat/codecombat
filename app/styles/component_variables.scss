@@ -1,4 +1,12 @@
 @import "app/styles/bootstrap/variables";
+
+$dark-grey: #0a2239;
+$dark-grey-2: #111928;
+$light-grey: #6b7280;
+$purple: #7a65fc;
+$middle-purple: #d5d5fc;
+$light-purple: #e9e8fd;
+
 %font-64-80 {
   font-size: 64px;
   line-height: 80px;
@@ -16,6 +24,24 @@
   @media screen and (max-width: $screen-sm) {
     font-size: 30px;
     line-height: 38px;
+  }
+}
+
+%font-44 {
+  font-size: 44px;
+  line-height: 125%;
+
+  @media screen and (max-width: $screen-sm) {
+    font-size: 32px;
+  }
+}
+
+%font-36 {
+  font-size: 36px;
+  line-height: 125%;
+
+  @media screen and (max-width: $screen-sm) {
+    font-size: 28px;
   }
 }
 
@@ -59,6 +85,16 @@
   }
 }
 
+%font-14 {
+  font-size: 14px;
+  line-height: 20px;
+
+  @media screen and (max-width: $screen-sm) {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
 %gap-70 {
   gap: 70px;
 
@@ -85,8 +121,46 @@
   }
 }
 
-$dark-grey: #0A2239;
-$dark-grey-2: #111928;
-$light-grey: #6B7280;
-$purple: #7A65FC;
-$light-purple: #E9E8FD;
+%frontend-page {
+  display: flex;
+  gap: 80px;
+  flex-direction: column;
+
+  ::v-deep &,
+  ::v-deep p,
+  ::v-deep span,
+  ::v-deep h1,
+  ::v-deep h2,
+  ::v-deep h3,
+  ::v-deep h4,
+  ::v-deep h5,
+  ::v-deep h6 {
+    font-family: "Plus Jakarta Sans";
+  }
+
+  ::v-deep .text-h1 {
+    @extend %font-32-46;
+    color: $dark-grey;
+    text-align: center;
+    font-style: normal;
+    font-weight: 500;
+    margin: 80px auto 40px auto;
+  }
+  
+  ::v-deep .text-h2 {
+    text-align: center;
+    margin: 40px auto;
+  }
+
+  p.text-24 {
+    @extend %font-24-34;
+    color: $light-grey;
+  }
+
+  p.text-14 {
+    @extend %font-14;
+  }
+
+}
+
+

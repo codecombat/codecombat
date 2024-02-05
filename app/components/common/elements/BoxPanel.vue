@@ -6,16 +6,24 @@
     >
       {{ title }}
     </h2>
-    <div class="row equal-height">
+    <div
+      class="row equal-height"
+    >
       <div
         v-for="(item, index) in items"
         :key="index"
-        class="col-md-6"
+        :class="{
+          'col-md-6': arrangement === 'vertical',
+          'col-md-12': arrangement === 'horizontal'
+        }"
       >
         <content-box
           class="box"
           :has-padding="item.hasPadding"
           :main-image-original="item.mainImageOriginal"
+          :arrangement="arrangement"
+          :main-image-bg="item.mainImageBg"
+          :equal-width="item.equalWidth"
         >
           <template #image>
             <img :src="item.image">
@@ -51,6 +59,8 @@ import ContentBox from './ContentBox.vue'
 import MixedColorLabel from '../labels/MixedColorLabel.vue'
 import LearnMoreButton from '../buttons/LearnMoreButton.vue'
 
+const ARRANGEMENT_OPTIONS = ['horizontal', 'vertical']
+
 export default {
   name: 'BoxPanel',
   components: {
@@ -67,6 +77,13 @@ export default {
     items: {
       type: Array,
       required: true
+    },
+    arrangement: {
+      type: String,
+      default: 'vertical',
+      validator: function (value) {
+        return ARRANGEMENT_OPTIONS.includes(value)
+      }
     }
   }
 }
