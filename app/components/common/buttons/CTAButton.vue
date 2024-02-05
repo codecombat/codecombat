@@ -1,14 +1,14 @@
 <template>
-  <button class="CTA">
-    <a
-      class="button-a"
-      :href="href"
-      :rel="rel"
-      :target="target"
-    >
+  <a
+    class="CTA"
+    :href="href"
+    :rel="rel"
+    :target="target"
+  >
+    <span class="CTA__button">
       <slot />
-    </a>
-  </button>
+    </span>
+  </a>
 </template>
 
 <script>
@@ -46,8 +46,9 @@ export default {
     gap: 8px;
     justify-content: center;
     position: relative;
+    cursor: pointer;
 
-    .button-a {
+    &__button {
         @extend %font-18-24;
         align-items: center;
         background-color: $purple;

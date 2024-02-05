@@ -291,7 +291,7 @@ module.exports = (CocoRouter = (function () {
         },
 
         'home-beta' () {
-          return this.routeDirectly('HomeView', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+          return this.routeDirectly('HomeViewBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
         },
 
         'league/academica': redirect('/league/autoclan-school-network-academica'), // Redirect for Academica.

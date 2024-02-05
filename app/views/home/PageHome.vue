@@ -28,15 +28,7 @@
           <div class="col-lg-12">
             <p>{{ $t('home_v3.innovative_play_experiences') }}</p>
             <div class="buttons">
-              <CTAButton href="/teachers/quote">
-                {{ $t('home_v3.im_an_educator') }}
-              </CTAButton>
-              <CTAButton href="/teachers/quote">
-                {{ $t('home_v3.im_a_parent') }}
-              </CTAButton>
-              <CTAButton href="/teachers/quote">
-                {{ $t('home_v3.im_a_student') }}
-              </CTAButton>
+              <ButtonSection />
             </div>
           </div>
         </div>
@@ -177,14 +169,19 @@
         <div class="col-md-12">
           <h2 class="text-h2">
             <h2 class="text-h2">
-              <mixed-color-label :text="$t('home_v3.faq_visit_help_center')" />
+              <mixed-color-label
+                :text="$t('home_v3.faq_visit_help_center')"
+                link="https://codecombat.zendesk.com/hc/en-us"
+              />
             </h2>
           </h2>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <CTAButton>{{ $t('home_v3.contact_us') }}</CTAButton>
+          <CTAButton class="contact-us">
+            {{ $t('home_v3.contact_us') }}
+          </CTAButton>
           <p>{{ $t('home_v3.for_further_questions') }}</p>
         </div>
       </div>
@@ -204,6 +201,7 @@ import MissionComponent from './MissionComponent.vue'
 import ToolsList from './ToolsList.vue'
 import CTAButton from '../../components/common/buttons/CTAButton.vue'
 import PartnersList from './PartnersList.vue'
+import ButtonSection from './ButtonSection.vue'
 
 export default Vue.extend({
   name: 'PageHome',
@@ -218,7 +216,8 @@ export default Vue.extend({
     BoxPanel,
     ToolsList,
     CTAButton,
-    PartnersList
+    PartnersList,
+    ButtonSection
   },
   data () {
     return {
@@ -466,14 +465,6 @@ export default Vue.extend({
 
   .header {
     .main-image {
-      margin-bottom: 40px;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 40px;
       margin-bottom: 40px;
     }
 

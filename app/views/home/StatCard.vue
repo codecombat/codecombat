@@ -20,10 +20,6 @@
 export default {
   name: 'StatCard',
   props: {
-    imgClass: {
-      type: String,
-      required: true
-    },
     imgSrc: {
       type: String,
       default: ''
