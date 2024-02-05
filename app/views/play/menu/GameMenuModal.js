@@ -67,11 +67,7 @@ module.exports = (GameMenuModal = (function () {
     }
 
     showsChooseHero () {
-      if ((this.level != null ? this.level.isType('course') : undefined) && me.showHeroAndInventoryModalsToStudents() && ((this.level != null ? this.level.get('assessment') : undefined) !== 'open-ended')) { return true }
-      if (this.level != null ? this.level.isType('course', 'course-ladder', 'game-dev', 'web-dev', 'ladder') : undefined) { return false }
-      if ((this.level != null ? this.level.get('assessment') : undefined) === 'open-ended') { return false }
-      if (this.level != null ? this.level.usesConfiguredMultiplayerHero() : undefined) { return false }
-      return true
+      return this.level.usesSessionHeroThangType()
     }
 
     afterRender () {

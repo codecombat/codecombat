@@ -120,18 +120,8 @@ module.exports = (Level = (function () {
       let config, heroThangType, isHero, placeholderComponent, placeholders, placeholdersUsed, thangComponent
       if (levelThang.components == null) { levelThang.components = [] }
       if (utils.isCodeCombat) {
-        if (/Hero Placeholder/.test(levelThang.id) && (this.get('assessment') !== 'open-ended')) {
-          if (this.isType('hero', 'hero-ladder', 'hero-coop') && !me.isStudent()) {
-            isHero = true
-          } else if (this.isType('course') && me.showHeroAndInventoryModalsToStudents() && !this.isAssessment()) {
-            isHero = true
-          } else {
-            isHero = false
-          }
-        }
-
-        if (isHero && this.usesConfiguredMultiplayerHero()) {
-          isHero = false // Don't use the hero from the session, but rather the one configured in this level
+        if (/Hero Placeholder/.test(levelThang.id)) {
+          isHero = this.usesSessionHeroInventory()
         }
 
         if (isHero && otherSession) {
@@ -248,7 +238,7 @@ module.exports = (Level = (function () {
           }
         }
       } else {
-        if (/Hero Placeholder/.test(levelThang.id) && this.isType('course') && !this.headless && !this.sessionless && !window.serverConfig.picoCTF && (this.get('assessment') !== 'open-ended') && (!me.showHeroAndInventoryModalsToStudents() || this.isAssessment())) {
+        if (/Hero Placeholder/.test(levelThang.id) && this.isType('course') && !this.headless && !this.sessionless && !window.serverConfig.picoCTF && (this.get('assessment') !== 'open-ended') && (!me.showHeroAndInventoryModalsToStudents() || this.isAssessment() || this.get('product', true) === 'codecombat-junior')) {
           heroThangType = __guard__(me.get('heroConfig'), x4 => x4.thangType) || ThangTypeConstants.heroes.captain
           // use default hero in class if classroomItems is on
           if (this.isAssessment() && me.showHeroAndInventoryModalsToStudents()) {
@@ -494,13 +484,31 @@ module.exports = (Level = (function () {
       return ['open-ended', 'cumulative'].includes(this.get('assessment'))
     }
 
-    usesConfiguredMultiplayerHero () {
+    usesLevelHeroLadderEquipment () {
       // For hero-ladder levels where we have configured Hero Placeholder inventory equipment, we must have intended to use it instead of letting the player choose their hero/equipment.
       let levelThang
       if (!this.isType('hero-ladder')) { return false }
       if (!(levelThang = _.find(this.get('thangs'), { id: 'Hero Placeholder' }))) { return false }
       const equips = _.find(levelThang.components, { original: LevelComponent.EquipsID })
       return (__guard__(equips != null ? equips.config : undefined, x => x.inventory) != null)
+    }
+
+    usesSessionHeroThangType () {
+      if (this.isType('ladder', 'course-ladder', 'game-dev', 'web-dev')) { return false }
+      if (this.get('assessment') === 'open-ended') { return false }
+      if (this.usesLevelHeroLadderEquipment()) { return false }
+      return true
+    }
+
+    usesSessionHeroInventory () {
+      if (utils.isOzaria) { return false }
+      if (this.get('product', true) === 'codecombat-junior') { return false }
+      if (this.isType('course') && !me.showHeroAndInventoryModalToStudents()) { return false }
+      if (this.isType('course') && this.isAssessment()) { return false }
+      if (this.get('assessment') === 'open-ended') { return false }
+      if (!this.isType('course', 'hero', 'hero-ladder', 'hero-coop')) { return false }
+      if (this.usesLevelHeroLadderEquipment()) { return false }
+      return true
     }
 
     isAssessment () { return (this.get('assessment') != null) }

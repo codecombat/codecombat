@@ -69,19 +69,12 @@ module.exports = class LevelSetupManager extends CocoClass
       @waitingToLoadModals = true
 
   loadModals: ->
-    # build modals and prevent them from disappearing.
-    if @level.usesConfiguredMultiplayerHero()
-     @onInventoryModalPlayClicked()
-     return
-
-    if @level.isType('course-ladder', 'game-dev', 'web-dev') or (utils.isCodeCombat and @level.isType('ladder')) or (@level.isType('course') and (not me.showHeroAndInventoryModalsToStudents() or @level.isAssessment())) or window.serverConfig.picoCTF
+    if not @level.usesSessionHeroThangType()
+      # Don't need to configure inventory; just skip it
       @onInventoryModalPlayClicked()
       return
 
-    if @level.isSummative()
-      @onInventoryModalPlayClicked()
-      return
-
+    # Build modals and prevent them from disappearing.
     @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, hadEverChosenHero: @options.hadEverChosenHero})
     @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, level: @level})
     @heroesModalDestroy = @heroesModal.destroy
@@ -121,6 +114,9 @@ module.exports = class LevelSetupManager extends CocoClass
      @inventoryModal.setHero(e.hero) if window.currentModal is @inventoryModal
 
   onHeroesModalConfirmClicked: (e) ->
+    if @options.level.get('product', true) is 'codecombat-junior'
+      # Skip inventory screen
+      return @onInventoryModalPlayClicked()
     @options.parent.openModalView(@inventoryModal)
     @inventoryModal.render()
     @inventoryModal.didReappear()

@@ -286,42 +286,57 @@ module.exports = class LevelLoader extends CocoClass
       @consolidateFlagHistory() if @opponentSession?.loaded
     else if session is @opponentSession
       @consolidateFlagHistory() if @session.loaded
-    # course-ladder is hard to handle because there's 2 sessions
-    if @level.isType('course') and (not me.showHeroAndInventoryModalsToStudents() or @level.isAssessment())
-      if utils.isOzaria
-        heroThangType = me.get('ozariaUserOptions')?.isometricThangTypeOriginal or ThangType.heroes['hero-b']
+
+    if not @level.usesSessionHeroThangType()
+      if @checkAllWorldNecessitiesRegisteredAndLoaded()
+        # Finish if all world necessities were completed by the time the session loaded.
+        @onWorldNecessitiesLoaded()
+      # Return before loading heroConfig ThangTypes.
+      return
+
+    # Load the hero ThangType
+    heroThangType = switch
+      when utils.isOzaria
+        # Use configured Ozaria hero
+        me.get('ozariaUserOptions')?.isometricThangTypeOriginal or ThangType.heroes['hero-b']
+      when @level.isAssessment() and me.showHeroAndInventoryModalsToStudents()
+        # Set default hero for assessment levels in class if classroomItems is on
+        ThangType.heroes.captain
+      when session.get('heroConfig')?.thangType
+        # Use the hero set in the session
+        session.get('heroConfig').thangType
+      when me.get('heroConfig')?.thangType and session is @session and not @headless
+        # Use the hero set for the user, if the user is me and it's my level
+        me.get('heroConfig').thangType
+      when @level.isType('course')
+        # Default to Anya in classroom mode
+        ThangType.heroes.captain
       else
-        heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
-      # set default hero for assessment levels in class if classroomItems is on
-      if @level.isAssessment() and me.showHeroAndInventoryModalsToStudents()
-        heroThangType = if utils.isOzaria then ThangType.heroes['hero-b'] else ThangType.heroes.captain
-      console.debug "Course mode, loading custom hero: ", heroThangType if LOG
-      url = "/db/thang.type/#{heroThangType}/version"
-      if heroResource = @maybeLoadURL(url, ThangType, 'thang')
-        console.debug "Pushing resource: ", heroResource if LOG
-        @worldNecessities.push heroResource
+        # Default to Tharin in home mode
+        ThangType.heroes.knight
+    url = "/db/thang.type/#{heroThangType}/version"
+    if heroResource = @maybeLoadURL(url, ThangType, 'thang')
+      console.debug "Pushing hero ThangType resource: ", heroResource if LOG
+      @worldNecessities.push heroResource
+
+    if not @level.usesSessionHeroInventory()
       @sessionDependenciesRegistered[session.id] = true
-    unless @level.isType('hero', 'hero-ladder', 'hero-coop')
-      unless @level.isType('course') and me.showHeroAndInventoryModalsToStudents() and not @level.isAssessment()
-        # Return before loading heroConfig ThangTypes. Finish if all world necessities were completed by the time the session loaded.
-        if @checkAllWorldNecessitiesRegisteredAndLoaded()
-          @onWorldNecessitiesLoaded()
-        return
+      if @checkAllWorldNecessitiesRegisteredAndLoaded()
+        # Finish if all world necessities were completed by the time the session loaded.
+        @onWorldNecessitiesLoaded()
+      # Return before loading heroConfig.inventory ThangTypes.
+      return
+
     # Load the ThangTypes needed for the session's heroConfig for these types of levels
     heroConfig = _.cloneDeep(session.get('heroConfig'))
     heroConfig ?= _.cloneDeep(me.get('heroConfig')) if session is @session and not @headless
     heroConfig ?= {}
     heroConfig.inventory ?= feet: '53e237bf53457600003e3f05'  # If all else fails, assign simple boots.
-    if utils.isOzaria
-      # This is where ozaria hero is being loaded from.
-      heroConfig.thangType = me.get('ozariaUserOptions')?.isometricThangTypeOriginal or ThangType.heroes['hero-b']  # If all else fails, assign Hero B as the hero.
-    else
-      heroConfig.thangType ?= '529ffbf1cf1818f2be000001'  # If all else fails, assign Tharin as the hero.
+    heroConfig.thangType ?= heroThangType
     session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
     url = "/db/thang.type/#{heroConfig.thangType}/version"
-    if heroResource = @maybeLoadURL(url, ThangType, 'thang')
-      @worldNecessities.push heroResource
-    else
+    if not heroResource
+      # We had already loaded it, so move to the next dependencies step now
       heroThangType = @supermodel.getModel url
       @loadDefaultComponentsForThangType heroThangType
       @loadThangsRequiredByThangType heroThangType
