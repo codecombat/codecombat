@@ -734,5 +734,4 @@ module.exports = class World
         hero.maxHealth = Math.min(hero.maxHealth, level.maximumHealth)
         hero.keepTrackedProperty 'maxHealth'
       hero.health = hero.maxHealth
-      console.log('hero health : ', hero.health)
       hero.keepTrackedProperty 'health'

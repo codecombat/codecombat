@@ -48,7 +48,6 @@ module.exports = class VerifierTest extends CocoClass {
   }
 
   load () {
-    console.log('on load,', JSON.stringify(this.clampedProperties))
     this.supermodel.resetProgress()
     this.loadStartTime = new Date()
     this.god = new God({ maxAngels: 1, headless: true })
@@ -143,8 +142,8 @@ module.exports = class VerifierTest extends CocoClass {
 
       level.recommendedHealth = this.clampedProperties.maxHealth.current
       level.maximumHealth = this.clampedProperties.maxHealth.current
-      level.clampedProperties[prop] = {}
-      level.clampedProperties[prop][this.clampedProperties[prop].check] = this.clampedProperties[prop].current
+      level.clampedProperties[this.clampedProperties[prop].prop] = {}
+      level.clampedProperties[this.clampedProperties[prop].prop][this.clampedProperties[prop].check] = this.clampedProperties[prop].current
     }
     this.god.setLevel(level)
     this.god.setLevelSessionIDs([this.session.id])
@@ -228,7 +227,6 @@ module.exports = class VerifierTest extends CocoClass {
   }
 
   scheduleCleanup () {
-    console.log('reportResults:', this.state)
     if (this.checkClampedProperties && this.state !== 'running') {
       const prop = this.checkPropKeys[this.checkPropIndex]
       if (this.clampedProperties[prop].upper > this.clampedProperties[prop].lower) {
@@ -253,9 +251,15 @@ module.exports = class VerifierTest extends CocoClass {
           this.error = 'Could not find a solution within the clamped properties'
           console.log("error, couldn't find a solution within the clamped properties")
         } else {
-          console.log('find a solution within the clamped properties', JSON.stringify(this.clampedProperties))
-          if (this.checkPropKeys.length > this.checkPropIndex + 1) {
+          while (this.checkPropKeys.length > this.checkPropIndex + 1) {
             this.checkPropIndex += 1
+            const newProp = this.checkPropKeys[this.checkPropIndex]
+            const trueProp = this.clampedProperties[newProp].prop
+            const check = this.clampedProperties[newProp].check
+            const clampedProperties = this.level.get('clampedProperties')
+            if (trueProp in clampedProperties && (check in clampedProperties[trueProp])) {
+              continue
+            }
             console.log('checking .. ', this.checkPropKeys[this.checkPropIndex])
             return setTimeout(this.load, 500)
           }
@@ -265,7 +269,31 @@ module.exports = class VerifierTest extends CocoClass {
     }
   }
 
+  printClampedPropertiesResult () {
+    console.log('==============================================')
+    console.log('find a solution within the clamped properties  for level: ', this.level.get('slug'))
+    console.log('current clamped properties:', this.level.get('clampedProperties'))
+
+    const clampedProperties = {}
+    for (const prop in this.clampedProperties) {
+      if (prop === 'inited') {
+        continue
+      }
+      const trueProp = this.clampedProperties[prop].prop
+      const check = this.clampedProperties[prop].check
+      if (this.clampedProperties[prop].upper === this.clampedProperties[prop].lower) {
+        clampedProperties[trueProp] = clampedProperties[trueProp] || {}
+        clampedProperties[trueProp][check] = this.clampedProperties[prop].current
+      }
+    }
+    console.log('suggested adding properties as:', clampedProperties)
+    console.log('==============================================')
+  }
+
   cleanup () {
+    if (this.checkClampedProperties) {
+      this.printClampedPropertiesResult()
+    }
     if (this.levelLoader) {
       this.stopListening(this.levelLoader)
       this.levelLoader.destroy()
