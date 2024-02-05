@@ -64,9 +64,8 @@ module.exports = (VerifierView = (function () {
 
       if (this.levelID) {
         this.levelIDs = [this.levelID]
-        // this.testLanguages = ['python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript']
-        this.testLanguages = ['javascript'] // hack it for now
-        this.codeLanguages = (Array.from(this.testLanguages).map((c) => ({ id: c, checked: true })))
+        this.testLanguages = (utils.getQueryVariable('languages') || 'python,javascript,java,cpp,lua,coffeescript').split(',')
+        this.codeLanguages = this.testLanguages.map((c) => ({ id: c, checked: true }))
         this.cores = 1
         this.startTestingLevels()
       } else {
@@ -118,7 +117,7 @@ module.exports = (VerifierView = (function () {
 
     filterCodeLanguages () {
       const defaultLanguages = utils.getQueryVariable('languages', 'python,javascript').split(/, ?/)
-      return this.codeLanguages != null ? this.codeLanguages : (this.codeLanguages = (['python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript'].map((c) => ({ id: c, checked: Array.from(defaultLanguages).includes(c) }))))
+      this.codeLanguage = this.codeLanguages || ['python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript'].map(c => ({ id: c, checked: defaultLanguages.includes(c) }))
     }
 
     onClickGoButton (e) {

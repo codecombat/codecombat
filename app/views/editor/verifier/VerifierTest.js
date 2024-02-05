@@ -33,7 +33,7 @@ module.exports = class VerifierTest extends CocoClass {
     if (this.language == null) { this.language = 'python' }
     this.userCodeProblems = []
 
-    this.checkClampedProperties = true
+    this.checkClampedProperties = utils.getQueryVariable('check_prop') || false
     this.checkPropKeys = ['maxHealth', 'maxSpeed', 'attackDamage', 'maxxSpeed', 'maxxAttackDamage']
     this.checkPropIndex = 0
     this.clampedProperties = {
