@@ -1343,7 +1343,8 @@ module.exports = {
       subscription_status: 'Lbhe Fhofpevcgvba Fgnghf',
       currently_not_free: "Lbh qba'g unir n Fhofpevcgvba lrg.",
       online_classes: 'Bayvar Pynffrf',
-      feature_ai_level_bot: 'Nppryrengr yrneavat jvgu NV cbjrerq fhccbeg'
+      feature_ai_level_bot: 'Nppryrengr yrneavat jvgu NV cbjrerq fhccbeg',
+      sure_buy_as_parent: 'Lbh ner ohlvat cerzvhz npprff sbe lbhe nppbhag vafgrnq bs lbhe puvyq\'f. Ner lbh fher?'
     },
 
     announcement: {
@@ -3286,7 +3287,8 @@ module.exports = {
       back_to_map: 'Onpx gb Znc',
       level_options: 'Yriry Bcgvbaf',
       restart_level: 'Erfgneg Yriry',
-      max_browser: 'Znkvzvmr Oebjfre'
+      max_browser: 'Znkvzvmr Oebjfre',
+      ai_hint: 'NV Uvag'
     },
 
     impact: {
@@ -3921,10 +3923,20 @@ module.exports = {
       professional_development_description: 'PbqrPbzong bssref na bayvar, frys-cnprq cebsrffvbany qrirybczrag pbhefr sbe rqhpngbef bs nyy yriryf bs NC PFC rkcregvfr. Cnegvpvcnagf jvyy rkcyber gur PbqrPbzong pheevphyhz naq yrnea ubj vg pna or hfrq gb cercner fghqragf gb fhpprrq ba gur NC PFC rknz. Guebhtu nflapuebabhf qvfphffvbaf jvgu sryybj grnpuref naq ivqrb pbasreraprf jvgu PbqrPbzong pheevphyhz qrirybcref, lbh jvyy or rdhvccrq jvgu gur gbbyf naq grpuavdhrf lbh arrq gb fhccbeg nyy bs lbhe fghqragf va NC PFC. Ng gur raq bs gur pbhefr, lbh jvyy rnea n Pregvsvpngr bs Pbzcyrgvba gung pna or hfrq sbe gur erarjny bs lbhe grnpuvat perqragvny. Jr bssre bhe Pheevphyhz ba __rqncc__.',
       contact: 'Pbagnpg __ncpfc_rznvy__ gb trg npprff.',
       role: 'Ebyr',
-      no_license: "Bhe NC PFC pheevphyhz erdhverf n cnvq yvprafr be cnegvpvcngvba va bhe NC PFC cvybg cebtenz. Vs lbh'er vagrerfgrq va gur cvybg cebtenz, cyrnfr svyy bhg guvf sbez",
+      no_license: "Bhe NC PFC pheevphyhz erdhverf n cnvq yvprafr gb ivrj. Yrnea zber nobhg PbqrPbzong'f NC PFC pheevphyhz ol ivfvgvat bhe Nobhg cntr, yvaxrq orybj.",
       request_license: 'Wbva Cvybg Cebtenz',
       page_title: 'NC Pbzchgre Fpvrapr Cevapvcyrf Pheevphyhz',
-      explore_each_unit: 'Rkcyber rnpu havg, vapyhqvat <oe> <fgebat>yrffba cynaf</fgebat> naq <fgebat>yrffba fyvqrf</fgebat>'
+      explore_each_unit: 'Rkcyber rnpu havg, vapyhqvat <oe> <fgebat>yrffba cynaf</fgebat> naq <fgebat>yrffba fyvqrf</fgebat>',
+      about_apcsp_curriculum: 'Nobhg NC PFC Pheevphyhz',
+      step_1_title: 'Trg Fgnegrq Gbqnl',
+      step_1_subtitle: 'Hcybnq PbqrPbzong’f NC PFC flyynohf gb Pbyyrtr Obneq’f Pbhefr Nhqvg.',
+      step_1_button_1: 'Ivrj gur Flyynohf',
+      step_1_button_2: 'Pbzcyrgr gur Nhqvg',
+      join_the_community: 'Wbva gur NC Pbzzhavgl',
+      ap_teachers: 'Grnpure Prageny',
+      ap_classroom: 'NC Pynffebbz',
+      slack: 'NC Jbexfcnpr',
+      join: 'Wbva'
     },
 
     hoc_2019: {
@@ -4758,7 +4770,12 @@ module.exports = {
       bd_includes_1: 'Shyy npprff gb PbqrPbzong naq Bmnevn jvgu bire 200 ubhef bs cerzvhz tnzr-onfrq pbagrag',
       bd_includes_2: 'Grnpure qnfuobneq sbe erpbeq xrrcvat naq cebterff genpxvat ',
       bd_includes_3: 'Bayvar Erfbhepr Uho jvgu jnyxguebhtuf naq ghgbevnyf',
-      bd_help: 'Sbe nal uryc, pbagnpg'
+      bd_help: 'Sbe nal uryc, pbagnpg',
+      manage_stripe: 'Znantr Fgevcr Ovyyvat',
+      manage_billing_info: 'Guvf jvyy gnxr lbh gb Fgevcr, jurer lbh pna unaqyr fhofpevcgvba-eryngrq gnfxf fhpu nf erivrjvat lbhe ovyyvat uvfgbel naq hcqngvat lbhe cnlzrag zrgubq.',
+      billing_portal: 'Phfgbzre Ovyyvat Cbegny',
+      email_not_verified: 'Lbhe rznvy vf abg irevsvrq, cyrnfr irevsl vg sebz gur nppbhag frggvatf!',
+      stripe_no_data: 'Lbh qb abg unir nal qngn gb znantr ba Fgevcr cbegny'
     },
 
     form_validation_errors: {

@@ -1,0 +1,92 @@
+@import "app/styles/bootstrap/variables";
+%font-64-80 {
+  font-size: 64px;
+  line-height: 80px;
+
+  @media screen and (max-width: $screen-sm) {
+    font-size: 40px;
+    line-height: 50px;
+  }
+}
+
+%font-40 {
+  font-size: 40px;
+  line-height: 50px;
+
+  @media screen and (max-width: $screen-sm) {
+    font-size: 30px;
+    line-height: 38px;
+  }
+}
+
+%font-32-46 {
+  font-size: 32px;
+  line-height: 46px;
+
+  @media screen and (max-width: $screen-sm) {
+    font-size: 22px;
+    line-height: 28px;
+  }
+}
+
+%font-24-34 {
+  font-size: 24px;
+  line-height: 34px;
+
+  @media screen and (max-width: $screen-sm) {
+    font-size: 18px;
+    line-height: 28px;
+  }
+}
+
+%font-18-24 {
+  font-size: 18px;
+  line-height: 24px;
+
+  @media screen and (max-width: $screen-sm) {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+%font-16 {
+  font-size: 16px;
+  line-height: 24px;
+
+  @media screen and (max-width: $screen-sm) {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+%gap-70 {
+  gap: 70px;
+
+  @media screen and (max-width: $screen-sm) {
+    gap: 35px;
+  }
+}
+
+%height-350 {
+  height: 350px;
+
+  @media screen and (max-width: $screen-sm) {
+    height: auto;
+  }
+}
+
+%padding-vertical-140 {
+  padding-top: 140px;
+  padding-bottom: 140px;
+
+  @media screen and (max-width: $screen-sm) {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+}
+
+$dark-grey: #0A2239;
+$dark-grey-2: #111928;
+$light-grey: #6B7280;
+$purple: #7A65FC;
+$light-purple: #E9E8FD;

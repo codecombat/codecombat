@@ -196,6 +196,9 @@ class PlayLevelView extends RootView {
         store.commit('game/setAIHintVisible', levelChat !== 'none')
       })
     }
+    if (me.isTeacher()) {
+      store.commit('game/setAIHintVisible', true)
+    }
 
     return this.listenTo(
       this.levelLoader,
