@@ -32,7 +32,7 @@ _.extend(AIChatMessageSchema.properties, {
     title: 'Documents',
     type: 'array',
     description: 'The attached AI Document objects',
-    items: { type: 'string', links: [{ rel: 'db', href: '/db/level/{($)}/version' }], format: 'ai-document-link' }
+    items: { type: ['string', 'object'], links: [{ rel: 'db', href: '/db/level/{($)}/version' }], format: 'ai-document-link' }
   },
   actionData: {
     title: 'Action Data',
