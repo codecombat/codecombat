@@ -503,7 +503,7 @@ module.exports = (Level = (function () {
     usesSessionHeroInventory () {
       if (utils.isOzaria) { return false }
       if (this.get('product', true) === 'codecombat-junior') { return false }
-      if (this.isType('course') && !me.showHeroAndInventoryModalToStudents()) { return false }
+      if (this.isType('course') && !me.showHeroAndInventoryModalsToStudents()) { return false }
       if (this.isType('course') && this.isAssessment()) { return false }
       if (this.get('assessment') === 'open-ended') { return false }
       if (!this.isType('course', 'hero', 'hero-ladder', 'hero-coop')) { return false }

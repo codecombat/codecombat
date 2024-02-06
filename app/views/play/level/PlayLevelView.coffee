@@ -213,7 +213,7 @@ module.exports = class PlayLevelView extends RootView
       @supermodel.trackRequest fetchAceConfig
       fetchAceConfig.then (classroom) =>
         @classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion ? true
-        @classroomAceConfig.codeFormatDefault = classroom.aceConfig?.codeFormatDefault ? codeFormatDefault
+        @classroomAceConfig.codeFormatDefault = classroom.aceConfig?.codeFormatDefault ? codeFormat
         @classroomAceConfig.codeFormats = classroom.aceConfig?.codeFormats ? ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code']
         @tome?.determineCodeFormat()
         @classroomAceConfig.levelChat = classroom.aceConfig?.levelChat ? 'none'
