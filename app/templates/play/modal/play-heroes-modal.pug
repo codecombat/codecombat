@@ -109,9 +109,14 @@
               .image-block
                 img(src= "/images/pages/play/modal/language-selector-background.png")
             .form
-              .form-group.select-group
-                span.help-block(data-i18n="choose_hero.programming_language_description") Which programming language do you want to use?
+              .form-group.select-group.half-width
+                span.help-block(data-i18n="choose_hero.programming_language")
                 select#option-code-language(name="code-language")
                   for option in codeLanguages
                     option(value=option.id, selected=codeLanguage === option.id)= option.name
+              .form-group.select-group.half-width
+                span.help-block Code Format
+                select#option-code-format(name="code-format")
+                  for option in codeFormats
+                    option(value=option.id, selected=codeFormat === option.id)= option.name
           a#confirm-button(data-i18n=confirmButtonI18N)

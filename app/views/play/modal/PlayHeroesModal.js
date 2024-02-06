@@ -39,6 +39,7 @@ module.exports = (PlayHeroesModal = (function () {
       this.prototype.events = {
         'slide.bs.carousel #hero-carousel': 'onHeroChanged',
         'change #option-code-language': 'onCodeLanguageChanged',
+        'change #option-code-format': 'onCodeFormatChanged',
         'click #close-modal': 'hide',
         'click #confirm-button': 'saveAndHide',
         'click .unlock-button': 'onUnlockButtonClicked',
@@ -70,6 +71,7 @@ module.exports = (PlayHeroesModal = (function () {
       this.layers = []
       this.session = options.session
       this.initCodeLanguageList(options.hadEverChosenHero)
+      this.initCodeFormatList(options.hadEverChosenHero)
       this.heroAnimationInterval = setInterval(this.animateHeroes, 1000)
       this.trackTimeVisible()
     }
@@ -135,13 +137,14 @@ module.exports = (PlayHeroesModal = (function () {
     }
 
     getRenderData (context) {
-      let left, left1
       if (context == null) { context = {} }
       context = super.getRenderData(context)
       context.heroes = this.heroes.models
       context.level = this.options.level
       context.codeLanguages = this.codeLanguageList
-      context.codeLanguage = (this.codeLanguage = (left = (left1 = __guard__(this.options != null ? this.options.session : undefined, x => x.get('codeLanguage'))) != null ? left1 : __guard__(me.get('aceConfig'), x1 => x1.language)) != null ? left : 'python')
+      context.codeLanguage = this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'python'
+      context.codeFormats = this.codeFormatList
+      context.codeFormat = this.codeFormat = me.get('aceConfig')?.codeFormat || 'python'
       context.confirmButtonI18N = this.confirmButtonI18N
       context.visibleHero = this.visibleHero
       context.gems = me.gems()
@@ -171,13 +174,15 @@ module.exports = (PlayHeroesModal = (function () {
       this.$el.find(`.hero-item:nth-child(${heroIndex + 1}), .hero-indicator:nth-child(${heroIndex + 1})`).addClass('active')
       this.onHeroChanged({ direction: null, relatedTarget: this.$el.find('.hero-item')[heroIndex] })
       this.$el.find('.hero-stat').addClass('has-tooltip').tooltip()
-      return this.buildCodeLanguages()
+      this.buildCodeLanguages()
+      this.buildCodeFormats()
     }
 
     rerenderFooter () {
       this.formatHero(this.visibleHero)
       this.renderSelectors('#hero-footer')
       this.buildCodeLanguages()
+      this.buildCodeFormats()
       return this.$el.find('#gems-count-container').toggle(Boolean(this.visibleHero.purchasable))
     }
 
@@ -204,6 +209,15 @@ module.exports = (PlayHeroesModal = (function () {
           this.codeLanguageList = _.filter(this.codeLanguageList, language => language.id !== 'coffeescript')
         }
       }
+    }
+
+    initCodeFormatList (hadEverChosenHero) {
+      this.codeFormatList = [
+        { id: 'text-code', name: `${$.i18n.t('choose_hero.text_code')} (${$.i18n.t('choose_hero.default')})` },
+        { id: 'blocks-and-code', name: `${$.i18n.t('choose_hero.blocks_and_code')}` },
+        { id: 'blocks-text', name: `${$.i18n.t('choose_hero.blocks_text')}` },
+        { id: 'blocks-icons', name: `${$.i18n.t('choose_hero.blocks_icons')}` },
+      ]
     }
 
     onHeroChanged (e) {
@@ -289,7 +303,35 @@ module.exports = (PlayHeroesModal = (function () {
     onCodeLanguageChanged (e) {
       this.codeLanguage = this.$el.find('#option-code-language').val()
       this.codeLanguageChanged = true
-      return (window.tracker != null ? window.tracker.trackEvent('Campaign changed code language', { category: 'Campaign Hero Select', codeLanguage: this.codeLanguage, levelSlug: (this.options.level != null ? this.options.level.get('slug') : undefined) }) : undefined)
+      window.tracker?.trackEvent('Campaign changed code language', { category: 'Campaign Hero Select', codeLanguage: this.codeLanguage, levelSlug: this.options.level?.get('slug') })
+      if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
+        // Blockly can't support languages like C++/Java. (Some day we'll have Lua.)
+        noty({ text: `Can't show blocks and code with ${this.codeLanguage}`, layout: 'bottomCenter', type: 'error', killer: false, timeout: 3000 })
+        this.$el.find('#option-code-format').val('text-code').change()
+      }
+    }
+
+    buildCodeFormats () {
+      const $select = this.$el.find('#option-code-format')
+      return $select.fancySelect().parent().find('.options li').each(function () {
+        const formatName = $(this).text()
+        const formatID = $(this).data('value')
+        const blurb = $.i18n.t(`choose_hero.${formatID}_blurb`.replace(/-/g, '_'))
+        if (formatName.indexOf(blurb) === -1) { // Avoid doubling blurb if this is called 2x
+          return $(this).text(`${formatName} - ${blurb}`)
+        }
+      })
+    }
+
+    onCodeFormatChanged (e) {
+      this.codeFormat = this.$el.find('#option-code-format').val()
+      this.codeFormatChanged = true
+      window.tracker?.trackEvent('Campaign changed code format', { category: 'Campaign Hero Select', codeFormat: this.codeFormat, levelSlug: this.options.level?.get('slug') })
+      if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
+        // Blockly can't support languages like C++/Java. (Some day we'll have Lua.)
+        noty({ text: `Can't show blocks and code with ${this.codeLanguage}`, layout: 'bottomCenter', type: 'error', killer: false, timeout: 3000 })
+        this.$el.find('#option-code-language').val('javascript').change()
+      }
     }
 
     // - Purchasing the hero
@@ -420,6 +462,11 @@ module.exports = (PlayHeroesModal = (function () {
       const aceConfig = _.clone(me.get('aceConfig')) || {}
       if (this.codeLanguage !== aceConfig.language) {
         aceConfig.language = this.codeLanguage
+        me.set('aceConfig', aceConfig)
+        changed = true
+      }
+      if (this.codeFormat !== aceConfig.codeFormat) {
+        aceConfig.codeFormat = this.codeFormat
         me.set('aceConfig', aceConfig)
         changed = true
       }
