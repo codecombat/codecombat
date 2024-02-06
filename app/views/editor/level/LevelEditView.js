@@ -30,6 +30,7 @@ const Course = require('models/Course')
 
 const RevertModal = require('views/modal/RevertModal')
 const GenerateTerrainModal = require('views/editor/level/modals/GenerateTerrainModal')
+const levelGeneration = require('../../../lib/level-generation')
 
 const ThangsTabView = require('./thangs/ThangsTabView')
 const SettingsTabView = require('./settings/SettingsTabView')
@@ -99,11 +100,17 @@ module.exports = (LevelEditView = (function () {
         'click #load-branch': 'onClickLoadBranch',
         'mouseup .nav-tabs > li a': 'toggleTab',
         'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal',
-        'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal'
+        'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal',
+        'click #generate-level-button': 'generateLevel',
       }
 
-      this.prototype.subscriptions =
-        { 'editor:thang-deleted': 'onThangDeleted' }
+      this.prototype.subscriptions = {
+        'editor:thang-deleted': 'onThangDeleted',
+      }
+
+      this.prototype.shortcuts = {
+        'ctrl+g': 'generateLevel',
+      }
     }
 
     constructor (options, levelID) {
@@ -111,6 +118,7 @@ module.exports = (LevelEditView = (function () {
       this.incrementBuildTime = this.incrementBuildTime.bind(this)
       this.checkPresence = this.checkPresence.bind(this)
       this.levelID = levelID
+      this.previouslyLoadedSubviewData = {}
       this.supermodel.shouldSaveBackups = model => ['Level', 'LevelComponent', 'LevelSystem', 'ThangType'].includes(model.constructor.className)
       this.levelLoader = new LevelLoader({ supermodel: this.supermodel, levelID: this.levelID, headless: true, sessionless: true, loadArticles: true })
       this.level = this.levelLoader.level
@@ -197,9 +205,11 @@ module.exports = (LevelEditView = (function () {
     afterRender () {
       super.afterRender()
       if (!this.supermodel.finished()) { return }
-      this.listenTo(this.level, 'change:tasks', () => this.renderSelectors('#tasks-tab'))
-      this.thangsTabView = this.insertSubView(new ThangsTabView({ world: this.world, supermodel: this.supermodel, level: this.level }))
-      this.insertSubView(new SettingsTabView({ supermodel: this.supermodel }))
+      if (!this.fullyRenderedOnce) {
+        this.listenTo(this.level, 'change:tasks', () => this.renderSelectors('#tasks-tab'))
+      }
+      this.thangsTabView = this.insertSubView(new ThangsTabView({ world: this.world, supermodel: this.supermodel, level: this.level, previouslyLoadedData: this.previouslyLoadedSubviewData }))
+      this.insertSubView(new SettingsTabView({ supermodel: this.supermodel, previouslyLoadedData: this.previouslyLoadedSubviewData }))
       this.insertSubView(new ScriptsTabView({ world: this.world, supermodel: this.supermodel, files: this.files }))
       this.insertSubView(new ComponentsTabView({ supermodel: this.supermodel }))
       this.insertSubView(new SystemsTabView({ supermodel: this.supermodel, world: this.world }))
@@ -214,7 +224,7 @@ module.exports = (LevelEditView = (function () {
       })
 
       Backbone.Mediator.publish('editor:level-loaded', { level: this.level })
-      if (me.get('anonymous')) { this.showReadOnly() }
+      if (!this.fullyRenderedOnce && me.get('anonymous')) { this.showReadOnly() }
       this.patchesView = this.insertSubView(new PatchesView(this.level), this.$el.find('.patches-view'))
       this.listenTo(this.patchesView, 'accepted-patch', function (attrs) {
         if (attrs != null ? attrs.save : undefined) {
@@ -225,6 +235,7 @@ module.exports = (LevelEditView = (function () {
         }
       }) // Reload to make sure changes propagate, unless secret shift shortcut
       if (this.level.watching()) { return this.$el.find('#level-watch-button').find('> span').toggleClass('secret') }
+      this.fullyRenderedOnce = true
     }
 
     insertKeyThangTabViews () {
@@ -262,6 +273,33 @@ module.exports = (LevelEditView = (function () {
     openGenerateTerrainModal (e) {
       e.stopPropagation()
       return this.openModalView(new GenerateTerrainModal())
+    }
+
+    async generateLevel (e) {
+      const parameters = {} // Temp: totally random parameters
+      levelGeneration.generateLevel(parameters).then(level => {
+        if (this.destroyed) return
+        console.log('generated level', level)
+        for (const key in level) {
+          if (Level.schema.properties[key]) {
+            this.level.set(key, level[key])
+          }
+        }
+
+        this.previouslyLoadedSubviewData = {}
+        for (const subview of Object.values(this.subviews)) {
+          if (subview.getDataForReplacementView) {
+            const subviewData = subview.getDataForReplacementView()
+            this.previouslyLoadedSubviewData = { ...this.previouslyLoadedSubviewData, ...subviewData }
+            if (subviewData.addThangsView) {
+              // Don't destroy this one, we are going to reuse it
+              delete subview.subviews.add_thangs_view
+            }
+          }
+          this.removeSubView(subview)
+        }
+        this.render()
+      })
     }
 
     onPlayLevelTeamSelect (e) {

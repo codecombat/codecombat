@@ -2880,6 +2880,7 @@ module.exports = {
       fork_title: 'Fork New Version',
       fork_creating: 'Creating Fork...',
       generate_terrain: 'Generate Terrain',
+      generate_level: 'Generate Level',
       more: 'More',
       wiki: 'Wiki',
       live_chat: 'Live Chat',
