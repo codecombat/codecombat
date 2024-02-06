@@ -561,7 +561,7 @@ generateProperty('clampedProperties', function (level, parameters) {
 
 // allowedHeroes: { type: 'array', title: 'Allowed Heroes', description: 'Which heroes can play this level. For any hero, leave unset.', inEditor: 'codecombat', items: {
 generateProperty('allowedHeroes', function (level, parameters) {
-  return []
+  return null
 })
 
 // scoreTypes: c.array({title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).'}, {inEditor: 'codecombat'}, {

@@ -80,7 +80,7 @@ module.exports = (LevelComponent = (function () {
       try {
         js = CoffeeScript.compile(code, { bare: true })
       } catch (e) {
-        // console.log 'couldn\'t compile', code, 'for', @get('name'), 'because', e
+        console.log('couldn\'t compile', code, 'for', this.get('name'), 'because', e)
         js = this.get('js')
       }
       return js

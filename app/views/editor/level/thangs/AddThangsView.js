@@ -14,7 +14,7 @@
 let AddThangsView
 require('app/styles/editor/level/add-thangs-view.sass')
 const CocoView = require('views/core/CocoView')
-const add_thangs_template = require('app/templates/editor/level/add-thangs-view')
+const addThangsTemplate = require('app/templates/editor/level/add-thangs-view')
 const ThangType = require('models/ThangType')
 const CocoCollection = require('collections/CocoCollection')
 const utils = require('core/utils')
@@ -38,7 +38,7 @@ module.exports = (AddThangsView = (function () {
     static initClass () {
       this.prototype.id = 'add-thangs-view'
       this.prototype.className = 'add-thangs-palette'
-      this.prototype.template = add_thangs_template
+      this.prototype.template = addThangsTemplate
 
       this.prototype.events =
         { 'keyup input#thang-search': 'runSearch' }
