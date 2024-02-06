@@ -57,7 +57,7 @@ module.exports = class LevelLoader extends CocoClass
     @loadLevel()
     @loadAudio()
     @playJingle()
-    if @supermodel.finished()
+    if @supermodel.finished() and @level.loaded
       @onSupermodelLoaded()
     else
       @loadTimeoutID = setTimeout @reportLoadError.bind(@), 30000
@@ -78,8 +78,10 @@ module.exports = class LevelLoader extends CocoClass
   loadLevel: ->
     @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
     if @level.loaded
+      console.debug 'LevelLoader: level already loaded:', @level if LOG
       @onLevelLoaded()
     else
+      console.debug 'LevelLoader: loading level:', @level if LOG
       @level = @supermodel.loadModel(@level, 'level', { data: { cacheEdge: true } }).model
       @listenToOnce @level, 'sync', @onLevelLoaded
 
@@ -91,6 +93,7 @@ module.exports = class LevelLoader extends CocoClass
       unloaded: JSON.stringify(@supermodel.report().map (m) -> _.result(m.model, 'url'))
 
   onLevelLoaded: ->
+    console.debug 'LevelLoader: loaded level:', @level if LOG
     if not @sessionless and @level.isType('hero', 'hero-ladder', 'hero-coop', 'course')
       @sessionDependenciesRegistered = {}
     if @level.isType('web-dev')
