@@ -422,9 +422,9 @@ class Converters {
     const args = n.arguments.map(x => convert(x, { ...ctx, context: 'value' }))
     if (found[0].inputs) {
       const inputs = Object.keys(found[0].inputs)
-      if (n.callee?.name === 'go') {
+      if (['go', 'hit', 'zap', 'look'].indexOf(n.callee?.name) !== -1) {
         // Remove first argument; convert to field
-        // TODO: make general, not just based on callee.name being 'go'
+        // TODO: make general, not just based on callee.name being one of the methods where we do this
         const dropdownArg = args.splice(0, 1)
         out.fields = { to: dropdownArg[0].fields.TEXT }
       }

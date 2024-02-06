@@ -596,6 +596,58 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     })
   }
 
+  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('hit ')) {
+    // Use an image instead of text
+    setup.message0 = setup.message0.replace(/hit %1 %2/, '%1%2 %3') // With times
+    setup.message0 = setup.message0.replace(/hit %1/, '%1%2') // Without times
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-hit.png',
+      width: 36,
+      height: 36,
+      alt: 'hit'
+    })
+  }
+
+  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('zap ')) {
+    // Use an image instead of text
+    setup.message0 = setup.message0.replace(/zap %1 %2/, '%1%2 %3') // With times
+    setup.message0 = setup.message0.replace(/zap %1/, '%1%2') // Without times
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-zap.png',
+      width: 36,
+      height: 36,
+      alt: 'zap'
+    })
+  }
+
+  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('spin ')) {
+    // Use an image instead of text
+    setup.message0 = setup.message0.replace(/spin %1/, '%1 %2') // With times
+    setup.message0 = setup.message0.replace(/spin/, '%1') // Without times
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-spin.png',
+      width: 36,
+      height: 36,
+      alt: 'spin'
+    })
+  }
+
+  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('look ')) {
+    // Use an image instead of text
+    setup.message0 = setup.message0.replace(/look %1 %2/, '%1%2 %3') // With squares
+    setup.message0 = setup.message0.replace(/look %1/, '%1%2') // Without squares
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-look.png',
+      width: 36,
+      height: 36,
+      alt: 'look'
+    })
+  }
+
   // Replace a `to` directional argument with a dropdown (field, not input)
   if (args[0]?.name === 'to' && args[0].type === 'string') {
     const dropdownArg = setup.args0[codeFormat === 'blocks-icons' ? 1 : 0]
