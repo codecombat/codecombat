@@ -238,13 +238,16 @@ module.exports = (Level = (function () {
           }
         }
       } else {
-        if (/Hero Placeholder/.test(levelThang.id) && this.isType('course') && !this.headless && !this.sessionless && !window.serverConfig.picoCTF && (this.get('assessment') !== 'open-ended') && (!me.showHeroAndInventoryModalsToStudents() || this.isAssessment() || this.get('product', true) === 'codecombat-junior')) {
-          heroThangType = __guard__(me.get('heroConfig'), x4 => x4.thangType) || ThangTypeConstants.heroes.captain
-          // use default hero in class if classroomItems is on
+        if (/Hero Placeholder/.test(levelThang.id) && this.usesSessionHeroThangType() && !this.usesSessionHeroInventory() && !this.headless) {
+          // Grab the hero from my config, not the session hero config (so that switching heroes globally applies to existing sessions), when we are using configured heroes but not their inventory.
+          heroThangType = me.get('heroConfig')?.thangType || ThangTypeConstants.heroes.captain
+          // For assessments, use default hero in class if classroomItems is on
           if (this.isAssessment() && me.showHeroAndInventoryModalsToStudents()) {
             heroThangType = ThangTypeConstants.heroes.captain
           }
-          if (heroThangType) { levelThang.thangType = heroThangType }
+          if (heroThangType) {
+            levelThang.thangType = heroThangType
+          }
         }
       }
     }
