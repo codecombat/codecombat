@@ -199,6 +199,10 @@ module.exports = (PlayHeroesModal = (function () {
           { id: 'lua', name: 'Lua' },
           ...Array.from(this.subscriberCodeLanguageList)
         ]
+        if (this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language !== 'coffeescript') {
+          // Not really useful to show this any more. Let's get rid of it unless they're currently using it.
+          this.codeLanguageList = _.filter(this.codeLanguageList, language => language.id !== 'coffeescript')
+        }
       }
     }
 

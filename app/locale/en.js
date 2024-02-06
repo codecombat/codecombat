@@ -4478,7 +4478,7 @@ module.exports = {
       free_3: 'Join competitive coding teams with friends, family, or classmates',
       free_4: 'Showcase your coding skills and take home great prizes',
       compete_season: 'Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.',
-      season_subheading1: 'For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.',
+      season_subheading1: 'For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.',
       season_subheading2: 'Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.',
       team_derbezt: 'Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.',
       invite_link: 'Invite players to this team by sending them this link:',
