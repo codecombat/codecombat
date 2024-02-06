@@ -156,7 +156,7 @@ module.exports = class LevelChatView extends CocoView
         tr.addClass('me')
         avatarTd = $("<div class='td player-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player'></a></div>")
       else
-        avatarImg = if utils.isCodeCombat then '/images/level/baby-frifin.png' else '/images/ozaria/avatar-selector/avatar_ghost.png'
+        avatarImg = if utils.isCodeCombat then '/images/level/baby-griffin.png' else '/images/ozaria/avatar-selector/avatar_ghost.png'
         avatarTd = $("<div class='td chatbot-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='#{avatarImg}' alt='AI'></a></div>")
       tr.addClass 'streaming' if message.streaming
       mbody.append(avatarTd)
