@@ -5,7 +5,6 @@
  * DS002: Fix invalid constructor
  * DS101: Remove unnecessary use of Array.from
  * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
  * DS104: Avoid inline assignments
  * DS204: Change includes calls to have a more natural evaluation order
  * DS205: Consider reworking code to avoid use of IIFEs
@@ -165,7 +164,7 @@ module.exports = (ThangsTabView = (function () {
     }
 
     onThangCollectionSynced (collection) {
-      if (!__guard__(collection != null ? collection.models : undefined, x => x.length)) { return }
+      if (!collection?.models?.length) { return }
       const getMore = collection.models.length === PAGE_SIZE
       this.thangTypes.add(collection.models)
       if (getMore) {
@@ -376,7 +375,7 @@ module.exports = (ThangsTabView = (function () {
         // TODO: figure out some adjustment to get it centered vertically when the canvas is taller than the screen viewport
         sup.y += ($('canvas#webgl-surface').height() - screenViewport.height) / 4 * viewportAspectRatio / (924 / 589) * height / 68 // Not right but better than nothing
       }
-      return this.surface.camera.zoomTo(sup, zoom, 0)
+      this.surface.camera.zoomTo(sup, zoom, 0)
     }
 
     destroy () {
@@ -394,7 +393,7 @@ module.exports = (ThangsTabView = (function () {
 
     onViewSwitched (e) {
       this.selectAddThang(null, true)
-      return __guard__(this.surface != null ? this.surface.lankBoss : undefined, x => x.selectLank(null, null))
+      this.surface?.lankBoss?.selectLank(null, null)
     }
 
     onStageMouseDown (e) {
@@ -405,22 +404,22 @@ module.exports = (ThangsTabView = (function () {
 
       if ((this.addThangLank != null ? this.addThangLank.thangType.get('kind') : undefined) === 'Wall') {
         this.paintingWalls = true
-        return this.gameUIState.set('canDragCamera', false)
+        this.gameUIState.set('canDragCamera', false)
       } else if (this.addThangLank) {
         // We clicked on the background when we had an add Thang selected, so add it
         return this.addThang(this.addThangType, this.addThangLank.thang.pos)
       } else if (e.onBackground) {
-        return this.gameUIState.set('selected', [])
+        this.gameUIState.set('selected', [])
       }
     }
 
     onStageMouseMove (e) {
-      return this.dragged += 1
+      this.dragged += 1
     }
 
     onStageMouseUp (e) {
       this.paintingWalls = false
-      return $('#contextmenu').hide()
+      $('#contextmenu').hide()
     }
 
     onSpriteMouseDown (e) {
@@ -564,14 +563,17 @@ module.exports = (ThangsTabView = (function () {
     }
 
     onChangeSelected (gameUIState, selected) {
+      const previousAttributes = gameUIState.previousAttributes()
+      const previousSprite = previousAttributes?.selected?.sprite
       let needle
-      const previousSprite = __guard__(__guard__(gameUIState.previousAttributes(), x1 => x1.selected), x => x.sprite)
       const sprite = selected != null ? selected.sprite : undefined
       const thang = selected != null ? selected.thang : undefined
 
-      if (previousSprite !== sprite) { __guardMethod__(previousSprite, 'setNameLabel', o => o.setNameLabel(null)) }
+      if (previousSprite !== sprite && previousSprite?.setNameLabel) {
+        previousSprite.setNameLabel(null)
+      }
 
-      if (thang && !(this.addThangLank && (needle = this.addThangType.get('name'), Array.from(overlappableThangTypeNames).includes(needle)))) {
+      if (thang && !(this.addThangLank && (needle = this.addThangType.get('name'), overlappableThangTypeNames.includes(needle)))) {
         // We clicked on a Thang (or its Treema), so select the Thang
         this.selectAddThang(null, true)
         this.selectedExtantThangClickTime = new Date()
@@ -595,7 +597,9 @@ module.exports = (ThangsTabView = (function () {
       const wasSelected = target.hasClass('selected')
       this.$el.find('.add-thangs-palette .add-thang-palette-icon.selected').removeClass('selected')
       if (!key.alt && !key.meta) { this.selectAddThangType(wasSelected ? null : target.attr('data-thang-type')) }
-      __guardMethod__(this.addThangLank, 'playSound', o => o.playSound('selected'))
+      if (this.addThangLank?.playSound) {
+        this.addThangLank.playSound('selected')
+      }
       if (this.addThangType) { return target.addClass('selected') }
     }
 
@@ -631,10 +635,13 @@ module.exports = (ThangsTabView = (function () {
     }
 
     createEssentialComponents (defaultComponents) {
-      let physicalOriginal
       const physicalConfig = { pos: { x: 10, y: 10, z: 1 } }
-      if (physicalOriginal = _.find(defaultComponents != null ? defaultComponents : [], { original: LevelComponent.PhysicalID })) {
-        physicalConfig.pos.z = __guard__(physicalOriginal.config != null ? physicalOriginal.config.pos : undefined, x => x.z) != null ? __guard__(physicalOriginal.config != null ? physicalOriginal.config.pos : undefined, x => x.z) : 1 // Get the z right
+      const physicalOriginal = _.find(defaultComponents || [], { original: LevelComponent.PhysicalID })
+      if (physicalOriginal) {
+        physicalConfig.pos.z = physicalOriginal.config?.pos?.z // Get the z right
+        if (physicalConfig.pos.z == null) {
+          physicalConfig.pos.z = 1
+        }
       }
       return [
         { original: LevelComponent.ExistsID, majorVersion: 0, config: {} },
@@ -667,9 +674,17 @@ module.exports = (ThangsTabView = (function () {
         pos.x = Math.round(pos.x)
         pos.y = Math.round(pos.y)
       } else {
-        const snap = __guard__(sprite != null ? sprite.data : undefined, x => x.snap) || __guard__(sprite != null ? sprite.thangType : undefined, x1 => x1.get('snap')) || { x: 0.01, y: 0.01 } // Centimeter resolution by default
-        pos.x = (Math.round((pos.x - ((thang.width != null ? thang.width : 1) / 2)) / snap.x) * snap.x) + ((thang.width != null ? thang.width : 1) / 2)
-        pos.y = (Math.round((pos.y - ((thang.height != null ? thang.height : 1) / 2)) / snap.y) * snap.y) + ((thang.height != null ? thang.height : 1) / 2)
+        const snap = sprite?.data?.snap || sprite?.thangType?.get('snap') || { x: 0.01, y: 0.01 } // Centimeter resolution by default
+        snap.width = thang.width || 1
+        snap.height = thang.height || 1
+        snap.offsetX = snap.offsetY = 0
+        if (snap.x === 8 && snap.y === 8 && /Junior/.test(sprite?.thangType?.get('name'))) {
+          // First snap point offset is at (6, 6) to match movement system and leave 6m room for walls (4m) and margin (2m)
+          snap.offsetX = snap.offsetY = 2
+          snap.width = snap.height = 8
+        }
+        pos.x = snap.offsetX + Math.round((pos.x - snap.width / 2) / snap.x) * snap.x + snap.width / 2
+        pos.y = snap.offsetY + Math.round((pos.y - snap.height / 2) / snap.y) * snap.y + snap.height / 2
       }
       pos.z = thang.depth / 2
       thang.pos = pos
@@ -880,12 +895,12 @@ module.exports = (ThangsTabView = (function () {
     }
 
     onTreemaThangDoubleClicked (e, treema) {
-      const {
-        nativeEvent
-      } = e.originalEvent
+      const nativeEvent = e.originalEvent.nativeEvent
       if (nativeEvent && (nativeEvent.ctrlKey || nativeEvent.metaKey)) { return }
-      const id = __guard__(treema != null ? treema.data : undefined, x => x.id)
-      if (id) { return this.editThang({ thangID: id }) }
+      const id = treema?.data?.id
+      if (id) {
+        this.editThang({ thangID: id })
+      }
     }
 
     getThangByID (id) {
@@ -923,7 +938,7 @@ module.exports = (ThangsTabView = (function () {
         const positionComponent = _.find(components || [], c => Array.from(LevelComponent.positionIDs).includes(c.original))
         if (positionComponent) {
           if (positionComponent.config == null) { positionComponent.config = {} }
-          positionComponent.config.pos = { x: pos.x, y: pos.y, z: __guard__(positionComponent.config != null ? positionComponent.config.pos : undefined, x => x.z) || 0 }
+          positionComponent.config.pos = { x: pos.x, y: pos.y, z: positionComponent.config?.pos?.z || 0 }
         }
       }
       const thang = { thangType: thangType.get('original'), id: thangID, components }
@@ -1212,7 +1227,7 @@ class ThangNode extends TreemaObjectNode {
   }
 
   buildValueForDisplay (valEl, data) {
-    const pos = __guard__(_.find(data.components, c => (c.config != null ? c.config.pos : undefined) != null), x => x.config.pos) // TODO: hack
+    const pos = _.find(data.components, c => c.config?.pos)?.config.pos // TODO: hack
     let s = data.id
     if (pos) {
       s += ` (${Math.round(pos.x)}, ${Math.round(pos.y)})`
@@ -1232,14 +1247,3 @@ class ThangNode extends TreemaObjectNode {
   }
 }
 ThangNode.initClass()
-
-function __guard__ (value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
-}
-function __guardMethod__ (obj, methodName, transform) {
-  if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {
-    return transform(obj, methodName)
-  } else {
-    return undefined
-  }
-}
