@@ -1213,6 +1213,7 @@ module.exports = {
       inventory_tab: 'Inventory',
       save_load_tab: 'Save/Load',
       options_tab: 'Options',
+      my_code_tab: 'My Code',
       guide_tab: 'Guide',
       guide_video_tutorial: 'Video Tutorial',
       guide_tips: 'Tips',
@@ -1221,6 +1222,7 @@ module.exports = {
       inventory_caption: 'Equip your hero',
       choose_hero_caption: 'Choose hero, language',
       options_caption: 'Configure settings',
+      my_code_caption: 'Quick Code Actions',
       guide_caption: 'Docs and tips',
       multiplayer_caption: 'Play with friends!',
       auth_caption: 'Save your progress.'

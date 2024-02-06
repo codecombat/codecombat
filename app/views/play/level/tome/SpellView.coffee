@@ -1602,7 +1602,7 @@ module.exports = class SpellView extends CocoView
     filters.darkenImage background, 'span.code-background', 0.8 unless @controlsEnabled
 
   onSpellBeautify: (e) ->
-    return unless @spellThang and (@ace.isFocused() or e.spell is @spell)
+    return unless @spellThang and (@ace.isFocused() or e.spell is @spell or not e.spell)
     ugly = @getSource()
     pretty = @spellThang.aether.beautify(ugly.replace /\bloop\b/g, 'while (__COCO_LOOP_CONSTRUCT__)').replace /while \(__COCO_LOOP_CONSTRUCT__\)/g, 'loop'
     @ace.setValue pretty

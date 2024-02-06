@@ -434,21 +434,21 @@ module.exports = class PlayLevelView extends RootView
       store.commit('game/setHintsVisible', !newHiddenValue)
     )
     @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState, @classroomAceConfig, @teacherID}
-    @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
-    @insertSubView new GoalsView {level: @level, session: @session}
-    @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
+    @insertSubView new LevelPlaybackView {@session, @level} unless @level.isType('web-dev')
+    @insertSubView new GoalsView {@level, @session}
+    @insertSubView new LevelFlagsView {@levelID, @world} if @$el.hasClass 'flags'
     goldInDuelStatsView = @level.get('slug') in ['wakka-maul', 'cross-bones']
     @insertSubView new GoldView {} unless @level.isType('web-dev', 'game-dev') or goldInDuelStatsView
     @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
-    @insertSubView new HUDView {level: @level} unless @level.isType('web-dev')
-    @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
-    @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session, aceConfig: @classroomAceConfig
-    @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel, aceConfig: @classroomAceConfig
-    @insertSubView new SurfaceContextMenuView session: @session, level: @level
-    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isLadder()
-    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID, @classroomAceConfig}
+    @insertSubView new HUDView {@level} unless @level.isType('web-dev')
+    @insertSubView new LevelDialogueView {@level, sessionID: @session.id}
+    @insertSubView new ChatView {@levelID, sessionID: @session.id, @session, aceConfig: @classroomAceConfig}
+    @insertSubView new ProblemAlertView {@session, @level, @supermodel, aceConfig: @classroomAceConfig}
+    @insertSubView new SurfaceContextMenuView {@session, @level}
+    @insertSubView new DuelStatsView {@level, @session, @otherSession, @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView} if @level.isLadder()
+    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), @session, @level, @supermodel, @courseID, @courseInstanceID, @classroomAceConfig, @hintsState, @teacherID, @team }
     @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
-    @insertSubView @webSurface = new WebSurfaceView {level: @level, @goalManager} if @level.isType('web-dev')
+    @insertSubView @webSurface = new WebSurfaceView {@level, @goalManager} if @level.isType('web-dev')
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
 
   initVolume: ->
@@ -478,7 +478,7 @@ module.exports = class PlayLevelView extends RootView
     return if @session
     Backbone.Mediator.publish "ipad:language-chosen", language: e.session.get('codeLanguage') ? "python"
     # Just the level and session have been loaded by the level loader
-    if e.level.isType('hero', 'hero-ladder', 'hero-coop') and not _.size(e.session.get('heroConfig')?.inventory ? {}) and e.level.get('assessment') isnt 'open-ended'
+    if e.level.usesSessionHeroInventory() and not _.size(e.session.get('heroConfig')?.inventory ? {})
       # Delaying this check briefly so LevelLoader.loadDependenciesForSession has a chance to set the heroConfig on the level session
       _.defer =>
         return if @destroyed or _.size(e.session.get('heroConfig')?.inventory ? {})

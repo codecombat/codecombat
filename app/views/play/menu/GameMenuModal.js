@@ -17,10 +17,12 @@ require('app/styles/play/menu/game-menu-modal.sass')
 if (utils.isOzaria) {
   submenuViews.push(require('ozaria/site/views/play/menu/OptionsView'))
 } else {
+  submenuViews.push(require('views/play/menu/MyCodeView'))
   submenuViews.push(require('views/play/menu/OptionsView'))
 }
 
 const ModalView = require('views/core/ModalView')
+const CourseVideosModal = require('views/play/level/modal/CourseVideosModal')
 const CreateAccountModal = require('views/core/CreateAccountModal')
 const template = require('app/templates/play/menu/game-menu-modal')
 
@@ -39,7 +41,9 @@ module.exports = (GameMenuModal = (function () {
         'shown.bs.tab #game-menu-nav a': 'onTabShown',
         'click #change-hero-tab' () { return this.trigger('change-hero') },
         'click .auth-tab': 'onClickSignupButton',
-        'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
+        'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal',
+        'click .hints-button': 'onClickHintsButton',
+        'click .course-videos-button': 'onClickCourseVideosButton',
       }
     }
 
@@ -55,15 +59,20 @@ module.exports = (GameMenuModal = (function () {
     getRenderData (context) {
       if (context == null) { context = {} }
       context = super.getRenderData(context)
-      const submenus = ['options']
+      const submenus = ['my-code', 'options']
       context.showTab = this.options.showTab != null ? this.options.showTab : submenus[0]
       context.iconMap = {
+        'my-code': 'list-alt',
         options: 'cog',
-        'save-load': 'floppy-disk'
+        'save-load': 'floppy-disk',
       }
       context.submenus = submenus
       context.isCodeCombat = utils.isCodeCombat
       return context
+    }
+
+    showsCourseVideos () {
+      return me.isStudent() && this.options.courseID === utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
     }
 
     showsChooseHero () {
@@ -73,7 +82,7 @@ module.exports = (GameMenuModal = (function () {
     afterRender () {
       super.afterRender()
       for (const SubmenuView of Array.from(submenuViews)) { this.insertSubView(new SubmenuView(this.options)) }
-      const firstView = this.subviews.options_view
+      const firstView = this.subviews.my_code_view
       firstView.$el.addClass('active')
       if (typeof firstView.onShown === 'function') {
         firstView.onShown()
@@ -109,6 +118,19 @@ module.exports = (GameMenuModal = (function () {
       }
       this.playSound('game-menu-close')
       return Backbone.Mediator.publish('music-player:exit-menu', {})
+    }
+
+    onClickHintsButton () {
+      if (!this.options.hintsState) { return }
+      this.options.hintsState.set('hidden', !this.options.hintsState.get('hidden'))
+      window.tracker?.trackEvent('Hints Clicked', { category: 'Students', levelSlug: this.options.level.get('slug'), hintCount: this.options.hintsState.get('hints')?.length || 0 })
+      const event = { state: this.options.hintsState.get('hidden') }
+      this.hide()
+      Backbone.Mediator.publish('level:hints-button', event)
+    }
+
+    onClickCourseVideosButton (e) {
+      this.openModalView(new CourseVideosModal({ courseInstanceID: this.options.courseInstanceID, courseID: this.options.courseID }))
     }
 
     openCreateAccountModal (e) {
