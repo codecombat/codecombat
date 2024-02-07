@@ -30,7 +30,9 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 30px;
-    margin: 100px auto;
+    &:not(:last-child){
+      margin: 100px auto;
+    }
 
     @media (min-width: 768px) {
       flex-direction: row;

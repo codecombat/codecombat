@@ -6,9 +6,9 @@
     >
 
       <a
-        v-if="word.isPurple && link"
+        v-if="word.isPurple && word.link"
         :class="{ 'mixed-color-label__highlight': word.isPurple, 'mixed-color-label__normal': !word.isPurple }"
-        :href="link"
+        :href="word.link"
         :target="target"
       >{{ word.text }}</a>
       <span
@@ -36,14 +36,19 @@ export default {
     target: {
       type: String,
       required: false,
-      default: null
+      default: '_blank'
     }
   },
   computed: {
     parsedWords () {
       if (!this.text) return []
       const words = this.text.split(/__|\*\*/)
-      return words.map((word, index) => ({ text: word, isPurple: index % 2 !== 0 }))
+      return words.map((word, index) => {
+        const urlMatch = word.match(/\[(.*?)\]/)
+        const link = urlMatch ? urlMatch[1] : null
+        const text = link ? word.replace(urlMatch[0], '') : word
+        return { text, isPurple: index % 2 !== 0, link: link || this.link }
+      })
     }
   }
 }

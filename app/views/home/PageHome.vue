@@ -144,10 +144,7 @@
       id="trends"
       type="colored"
     >
-      <box-panel
-        :title="$t('home_v3.trends_insights')"
-        :items="trends"
-      />
+      <trends-and-insights />
     </background-container>
 
     <div class="container">
@@ -203,6 +200,7 @@ import ToolsList from './ToolsList.vue'
 import CTAButton from '../../components/common/buttons/CTAButton.vue'
 import PartnersList from './PartnersList.vue'
 import ButtonSection from './ButtonSection.vue'
+import TrendsAndInsights from '../common/TrendsAndInsights.vue'
 
 export default Vue.extend({
   name: 'PageHome',
@@ -218,7 +216,8 @@ export default Vue.extend({
     ToolsList,
     CTAButton,
     PartnersList,
-    ButtonSection
+    ButtonSection,
+    TrendsAndInsights
   },
   data () {
     return {
@@ -386,22 +385,6 @@ export default Vue.extend({
           image: '/images/pages/home-v3/solutions/box_8.webp',
           linkText: this.$t('home_v3.solutions_6_linkText'),
           link: '/libraries'
-        }
-      ],
-      trends: [
-        {
-          title: 'AI isn’t Replacing Coding, It’s Accelerating it!',
-          image: '/images/pages/home-v3/trends/1.webp',
-          text: 'We\'ve officially entered the AI era. Along with hype and hyperbole comes a wave of fear and uncertainty concerning the future of computer science. Videos of AI writing code with simple inputs and stories of engineers replaced by AI bots fueled a dramatic yet ultimately flawed narrative. The truth is, AI isn’t replacing coding; it’s accelerating it!',
-          link: 'https://blog.codecombat.com/ai-isnt-replacing-coding-its-accelerating-it/',
-          linkText: 'Read the Blog'
-        },
-        {
-          title: 'Career Technical Education with Pat Keeney',
-          image: '/images/pages/home-v3/trends/2.webp',
-          text: 'Career Technical Education (CTE) prepares students to become lifelong learners and provides them with the skills and knowledge they need to succeed in their future careers. In this episode, Pat Keeney, CTE Champion at McGraw Hill, shares his experience',
-          link: 'https://codecombat.com/podcast/career-technical-education',
-          linkText: 'Listen to the Podcast'
         }
       ]
     }

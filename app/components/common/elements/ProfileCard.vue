@@ -7,7 +7,10 @@
     <span class="profile-card__name">
       {{ name }}
     </span>
-    <span v-if="name && title">/</span>
+    <span
+      v-if="name && title"
+      class="profile-card__divider"
+    >/</span>
     <span class="profile-card__title">
       {{ title }}
     </span>
@@ -46,19 +49,25 @@ export default {
 @import "app/styles/component_variables.scss";
 
 .profile-card {
+  color: $light-grey;
+
+  &__name {
+    @extend %font-16;
+    color: $dark-grey;
+    font-style: italic;
+    font-weight: 700;
+  }
+
+  &__divider {
+    @extend %font-16;
+    color: $dark-grey;
+    padding: 0 8px;
+  }
+
+  &__title {
+    @extend %font-16;
     color: $light-grey;
-
-    &__name {
-        @extend %font-16;
-        color: $dark-grey;
-        font-style: italic;
-        font-weight: 700;
-    }
-
-    &__title {
-        @extend %font-16;
-        color: $light-grey;
-        font-weight: 400;
-    }
+    font-weight: 400;
+  }
 }
 </style>

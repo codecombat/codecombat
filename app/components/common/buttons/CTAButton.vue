@@ -1,5 +1,6 @@
 <template>
-  <a
+  <component
+    :is="href ? 'a' : 'button'"
     class="CTA"
     :href="href"
     :rel="rel"
@@ -8,7 +9,7 @@
     <span class="CTA__button">
       <slot />
     </span>
-  </a>
+  </component>
 </template>
 
 <script>

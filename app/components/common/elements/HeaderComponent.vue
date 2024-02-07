@@ -9,7 +9,7 @@
           <img
             class="cubes"
             alt="Cubes"
-            src="/images/pages/codequest/cubes01.webp"
+            src="/images/components/cubes.webp"
           >
 
           <div class="image">
@@ -18,22 +18,22 @@
           <img
             class="overlap-cubes overlap-cubes-2"
             alt="Overlap cubes"
-            src="/images/pages/codequest/overlap_cubes_04.webp"
+            src="/images/components/cube001_4.webp"
           >
           <img
             class="overlap-cubes overlap-cubes-3"
             alt="Overlap cubes"
-            src="/images/pages/codequest/overlap_cubes_02.webp"
+            src="/images/components/cube001_2.webp"
           >
           <img
             class="overlap-cubes overlap-cubes-4"
             alt="Overlap cubes"
-            src="/images/pages/codequest/overlap_cubes_01.webp"
+            src="/images/components/cube001_1.webp"
           >
           <img
             class="overlap-cubes overlap-cubes-5"
             alt="Overlap cubes"
-            src="/images/pages/codequest/overlap_cubes_03.webp"
+            src="/images/components/cube001_3.webp"
           >
         </div>
       </div>

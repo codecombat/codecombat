@@ -2,7 +2,7 @@
   <div class="FA-qs">
     <div class="frame">
       <div class="heading">
-        Frequently Asked Questions
+        {{ $t('schools_page.faq_header') }}
       </div>
       <div
         id="accordion"
@@ -16,30 +16,38 @@
           :is-open="openItemId === index"
           @toggle="openItemId = openItemId === index ? null : index"
         >
-          {{ item.answer }}
+          <p v-if="!Array.isArray(item.answer)">
+            <mixed-color-label :text="item.answer" />
+          </p>
+          <ul v-else>
+            <li
+              v-for="(answer, answerIndex) in item.answer"
+              :key="answerIndex"
+            >
+              <mixed-color-label :text="answer" />
+            </li>
+          </ul>
         </FaqItem>
       </div>
       <p class="p">
-        <span class="span">See more frequently asked questions in our </span>
-        <a
-          href="https://codecombat.zendesk.com/hc/en-us"
-          rel="noopener noreferrer"
+        <mixed-color-label
+          :text="$t('schools_page.faq_see_more')"
           target="_blank"
-        >
-          <span class="text-wrapper-2">help center</span><span class="span">.</span>
-        </a>
+        />
       </p>
     </div>
   </div>
 </template>
 
 <script>
+import MixedColorLabel from '../labels/MixedColorLabel.vue'
 import FaqItem from './FaqItem.vue'
 
 export default {
   name: 'FaQs',
   components: {
-    FaqItem
+    FaqItem,
+    MixedColorLabel
   },
   props: {
     faqItems: {
@@ -57,6 +65,7 @@ export default {
 
 <style scoped lang="scss">
 @import "app/styles/bootstrap/variables";
+@import "app/styles/component_variables.scss";
 
 .FA-qs {
     align-items: center;
@@ -83,12 +92,7 @@ export default {
     }
 
     .heading {
-        font-family: "Plus Jakarta Sans-Medium", Helvetica;
-        font-size: 36px;
-        font-weight: 500;
-        letter-spacing: 0;
-        line-height: 45px;
-        margin-top: -1px;
+        @extend %font-36;
         position: relative;
         text-align: center;
     }
@@ -105,21 +109,17 @@ export default {
 
     .p {
         color: transparent;
-        font-family: "Plus Jakarta Sans-Medium", Helvetica;
-        font-size: 28px;
-        font-weight: 500;
-        letter-spacing: 0;
-        line-height: 36px;
+        @extend %font-28;
         position: relative;
         text-align: center;
     }
 
     .span {
-        color: #111928;
+        color: $dark-grey;
     }
 
     .text-wrapper-2 {
-        color: #4799A9;
+        color: $purple;
     }
 }
 </style>

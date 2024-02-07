@@ -1,11 +1,11 @@
 @import "app/styles/bootstrap/variables";
 
-$dark-grey: #0a2239;
-$dark-grey-2: #111928;
-$light-grey: #6b7280;
-$purple: #7a65fc;
+$dark-grey:     #0a2239;
+$dark-grey-2:   #111928;
+$light-grey:    #6b7280;
+$purple:        #7a65fc;
 $middle-purple: #d5d5fc;
-$light-purple: #e9e8fd;
+$light-purple:  #e9e8fd;
 
 %font-64-80 {
   font-size: 64px;
@@ -52,6 +52,15 @@ $light-purple: #e9e8fd;
   @media screen and (max-width: $screen-sm) {
     font-size: 22px;
     line-height: 28px;
+  }
+}
+
+%font-28 {
+  font-size: 28px;
+  line-height: 125%;
+
+  @media screen and (max-width: $screen-sm) {
+    font-size: 20px;
   }
 }
 
@@ -159,6 +168,10 @@ $light-purple: #e9e8fd;
 
   p.text-14 {
     @extend %font-14;
+  }
+  
+  ::v-deep .text-highlight {
+    color: $purple;
   }
 
 }

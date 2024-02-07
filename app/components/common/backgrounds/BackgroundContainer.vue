@@ -26,7 +26,6 @@ export default {
 .background {
   position: relative;
   z-index: 1;
-  overflow: hidden;
   min-height: 800px;
   display: flex;
   align-items: center;

@@ -102,6 +102,7 @@ export default {
 
 .text-h2 {
   text-align: center;
+  margin-bottom: 80px
 }
 
 </style>

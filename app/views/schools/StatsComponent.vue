@@ -88,6 +88,7 @@ export default {
     color: $purple;
     position: relative;
     text-align: center;
+    font-weight: 500;
   }
 
   .data-text {

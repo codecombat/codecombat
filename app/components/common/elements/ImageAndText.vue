@@ -3,15 +3,31 @@
     <template #column-one>
       <content-box :main-image-bg="true">
         <template #image>
-          <img :src="image">
+          <img
+            v-if="image"
+            :src="image"
+          >
+          <slot
+            v-else
+            name="image"
+          />
         </template>
       </content-box>
     </template>
     <template #column-two>
-      <h3 v-if="title">
+      <h3
+        v-if="title"
+        class="text-h3"
+      >
         {{ title }}
       </h3>
-      <p><mixed-color-label :text="text" /></p>
+      <p>
+        <mixed-color-label
+          :text="text"
+          :link="link"
+        />
+      </p>
+      <slot />
     </template>
   </two-column-block>
 </template>
@@ -47,10 +63,22 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    link: {
+      type: String,
+      required: false,
+      default: null
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/component_variables.scss";
+
+.text-h3 {
+  @extend %font-36;
+  margin-bottom: 40px;
+  color: $dark-grey;
+}
 </style>

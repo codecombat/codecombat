@@ -11,14 +11,14 @@
       class="features__column"
     >
       <div
-        v-if="percent!==null"
+        v-if="percent !== null"
         class="group"
       >
         <div class="overlap-group">
           <img :src="`/images/pages/schools/percent-${percent}.svg`">
         </div>
         <div class="text-wrapper">
-          {{ percent }}% of Time
+          {{ percent }}%<span> of Time</span>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@ export default {
   name: 'TableRowYear',
   props: {
     year: {
-      type: Number,
+      type: [String, Number],
       required: true
     },
     percents: {
@@ -43,77 +43,98 @@ export default {
 
 <style scoped lang="scss">
 @import "app/styles/component_variables.scss";
+@import "./variables.scss";
 
 .row-content {
+  align-items: flex-start;
+  border-color: transparent;
+  border-radius: 24px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  .features {
     align-items: flex-start;
-    border-color: transparent;
-    border-radius: 24px;
+    align-self: stretch;
+    background-color: $purple;
     display: flex;
-    overflow: hidden;
+    flex: 1;
+    flex-grow: 1;
+    @extend %table-paddings;
     position: relative;
-    width: 100%;
+  }
 
-    .features {
-        align-items: flex-start;
-        align-self: stretch;
-        background-color: $purple;
-        display: flex;
-        flex: 1;
-        flex-grow: 1;
-        padding: 0px 30px;
-        position: relative;
-    }
+  .features {
+    &__column {
+      align-items: center;
+      align-self: stretch;
+      background: $light-purple;
+      display: flex;
+      flex: 1;
+      flex-grow: 1;
+      @extend %table-gaps;
+      justify-content: center;
+      @extend %table-paddings;
+      position: relative;
+      min-height: 70px;
 
-    .features {
-        &__column {
-            align-items: center;
-            align-self: stretch;
-            background: $light-purple;
-            display: flex;
-            flex: 1;
-            flex-grow: 1;
-            gap: 16px;
-            justify-content: center;
-            padding: 0px 30px;
-            position: relative;
-            min-height: 70px;
+      &:first-child {
+        background: $purple;
 
-            &:first-child {
-                background: $purple;
-
-                .text-wrapper {
-                    color: white;
-                }
-            }
-
-            &:nth-child(2) {
-                background: $middle-purple;
-            }
-
+        .text-wrapper {
+          color: white;
         }
-    }
+      }
 
-    .group {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-
-        .overlap-group {
-            border-radius: 15px;
-            height: 30px;
-            position: relative;
-            width: 30px;
+      .text-wrapper {
+        @media screen and (max-width: $screen-sm) {
+          font-size: 0.6em;
         }
-    }
+          span {
+            @media screen and (max-width: $screen-sm) {
+              display: none;
+            }
+          }
+        }
 
-    .text-wrapper {
-        @extend %font-18-24;
-        color: $purple;
-        position: relative;
-        text-align: center;
-        width: fit-content;
+      &:nth-child(2) {
+        background: $middle-purple;
+      }
+
     }
+  }
+
+  .group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @extend %table-gaps;
+
+    .overlap-group {
+      border-radius: 15px;
+      height: 30px;
+      position: relative;
+      width: 30px;
+      display: flex;
+      @media screen and (max-width: $screen-sm) {
+        height: 20px;
+        width: 20px;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .text-wrapper {
+    @extend %font-18-24;
+    color: $purple;
+    position: relative;
+    text-align: center;
+    width: fit-content;
+  }
 }
 </style>

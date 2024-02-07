@@ -12,7 +12,7 @@
     </div>
     <div
       v-if="!onlyMainImage"
-      class="div"
+      class="box__div"
     >
       <div class="info">
         <div
@@ -97,13 +97,11 @@ export default {
     },
     boxStyle () {
       if (this.arrangement === 'horizontal' && this.equalWidth) {
-        console.log('equalWidth')
         return {
           '--rectangle-width': '50%',
           '--div-width': '50%'
         }
       } else {
-        console.log('not equalWidth')
         return {
           '--rectangle-width': '25%',
           '--div-width': '75%'
@@ -167,6 +165,7 @@ export default {
   &.has-padding {
     >* {
       padding: 40px 0 40px 50px;
+
       @media (max-width: $screen-sm) {
         padding: 40px 50px 0 40px;
         object-fit: contain;
@@ -192,29 +191,35 @@ export default {
   &.original-size {
     >* {
       object-fit: contain;
+      max-height: 100%;
     }
   }
 }
 
-.div {
-  align-items: center;
-  border-radius: 0px 0px 24px 24px;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 40px 50px;
-  position: relative;
-  height: 100%;
-  width: 100%;
-  justify-content: space-between;
+.box {
+  &__div {
+    align-items: center;
+    border-radius: 0px 0px 24px 24px;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px 50px;
+    @media screen and (max-width: $screen-sm) {
+      padding: 20px 25px;
+    }
+    position: relative;
+    height: 100%;
+    width: 100%;
+    justify-content: space-between;
 
-  .horizontal & {
-    @media (min-width: $screen-sm) {
-      width: auto;
-      max-width: var(--div-width);
-      height: 100%;
-      border-radius: 0px 24px 24px 0px;
-      flex: 1;
+    .horizontal & {
+      @media (min-width: $screen-sm) {
+        width: auto;
+        max-width: var(--div-width);
+        height: 100%;
+        border-radius: 0px 24px 24px 0px;
+        flex: 1;
+      }
     }
   }
 }
