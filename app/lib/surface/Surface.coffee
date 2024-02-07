@@ -163,7 +163,13 @@ module.exports = Surface = class Surface extends CocoClass
     @onResize()
 
   initCoordinates: ->
-    @coordinateGrid ?= new CoordinateGrid {camera: @camera, layer: @gridLayer, textLayer: @surfaceTextLayer}, @world.size()
+    gridOptions = {camera: @camera, layer: @gridLayer, textLayer: @surfaceTextLayer}
+    if @options.level?.get('product', true) is 'codecombat-junior'
+      gridOptions.resolution = 8
+      gridOptions.gridOffset = {x: 2, y: 2}
+      gridOptions.hideAxisLabels = true
+      gridOptions.alpha = 0.5
+    @coordinateGrid ?= new CoordinateGrid gridOptions, @world.size()
     @coordinateGrid.showGrid() if @world.showGrid or @options.grid
     @showCoordinates = if @options.coords? then @options.coords else @world.showCoordinates
     if @showCoordinates

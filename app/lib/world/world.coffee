@@ -248,6 +248,7 @@ module.exports = class World
     @levelID = level.slug
     @levelComponents = level.levelComponents
     @thangTypes = level.thangTypes
+    @product = level.product
     @loadScriptsFromLevel level
     @loadSystemsFromLevel level
     @loadThangsFromLevel level, willSimulate
@@ -362,6 +363,13 @@ module.exports = class World
       bounds.right = Math.max(bounds.right, rect.x + rect.width / 2)
       bounds.bottom = Math.min(bounds.bottom, rect.y - rect.height / 2)
       bounds.top = Math.max(bounds.top, rect.y + rect.height / 2)
+    if @product is 'codecombat-junior'
+      # For a default-sized CodeCombat Junior level, trim the space created by extra lands
+      bounds.left = 0 if bounds.left is -6
+      bounds.bottom = 0 if bounds.bottom is -6
+      if ((bounds.right - 2) % 8) is 0
+        bounds.right = bounds.right - 6  # Ex.: 66 -> 60
+        bounds.top = bounds.top - 6  # Ex.: 58 -> 52
     @width = bounds.right - bounds.left
     @height = bounds.top - bounds.bottom
     @bounds = bounds
@@ -446,7 +454,7 @@ module.exports = class World
     #console.log "... world serializing frames from", startFrame, "to", endFrame, "of", @totalFrames
     [transferableObjects, nontransferableObjects] = [0, 0]
     serializedFlagHistory = (_.omit(_.clone(flag), 'processed') for flag in @flagHistory)
-    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: serializedFlagHistory, difficulty: @difficulty, scores: @getScores(), randomSeed: @randomSeed, picoCTFFlag: @picoCTFFlag, keyValueDb: @keyValueDb}
+    o = {@totalFrames, @maxTotalFrames, @frameRate, @dt, @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: serializedFlagHistory, @difficulty, scores: @getScores(), @randomSeed, @picoCTFFlag, @keyValueDb, @product}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
 
     for thangID, methods of @userCodeMap
@@ -555,7 +563,7 @@ module.exports = class World
             w.userCodeMap[thangID][methodName][aetherStateKey] = serializedAether[aetherStateKey]
     else
       w = new World o.userCodeMap, classMap
-    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed, w.picoCTFFlag, w.keyValueDb] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed, o.picoCTFFlag, o.keyValueDb]
+    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed, w.picoCTFFlag, w.keyValueDb, w.product] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed, o.picoCTFFlag, o.keyValueDb, o.product]
     w[prop] = val for prop, val of o.trackedProperties
 
     perf.t1 = now()
