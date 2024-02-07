@@ -5301,7 +5301,14 @@ module.exports = {
       support_development_1_title: 'Live Online Classes',
       support_development_1_text: 'Want to provide high-quality CS instruction, but don’t have the staff to execute? Our team of master instructors can provide engaging virtual lessons perfect for in-class or after school programs.',
       support_development_1_link_text: 'Sign up for Beta Access',
-      faq_header: 'Frequently Asked Questions'
+      faq_header: 'Frequently Asked Questions',
+      faq_see_more: 'See more frequently asked questions in our **[https://codecombat.zendesk.com/hc/en-us]help center**.',
+      trends_1_title: 'AI isn’t Replacing Coding, It’s Accelerating it!',
+      trends_1_text: "We've officially entered the AI era. Along with hype and hyperbole comes a wave of fear and uncertainty concerning the future of computer science. Videos of AI writing code with simple inputs and stories of engineers replaced by AI bots fueled a dramatic yet ultimately flawed narrative. The truth is, AI isn’t replacing coding; it’s accelerating it!",
+      trends_1_linkText: 'Read the Blog',
+      trends_2_title: 'Career Technical Education with Pat Keeney',
+      trends_2_text: 'Career Technical Education (CTE) prepares students to become lifelong learners and provides them with the skills and knowledge they need to succeed in their future careers. In this episode, Pat Keeney, CTE Champion at McGraw Hill, shares his experience',
+      trends_2_linkText: 'Listen to the Podcast'
     }
   }
 }
