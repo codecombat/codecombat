@@ -1096,6 +1096,9 @@ module.exports = (User = (function () {
         console.log('starting hackstack experiment with value', value, 'prob', valueProbability)
         me.startExperiment('hackstack', value, valueProbability)
       }
+      if (me.isAdmin()) {
+        value = 'beta'
+      }
       return value
     }
 
