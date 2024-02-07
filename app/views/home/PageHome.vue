@@ -172,6 +172,7 @@
               <mixed-color-label
                 :text="$t('home_v3.faq_visit_help_center')"
                 link="https://codecombat.zendesk.com/hc/en-us"
+                target="_blank"
               />
             </h2>
           </h2>
@@ -179,7 +180,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <CTAButton class="contact-us">
+          <CTAButton class="contact-modal">
             {{ $t('home_v3.contact_us') }}
           </CTAButton>
           <p>{{ $t('home_v3.for_further_questions') }}</p>
@@ -230,7 +231,7 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.testimonals_2_title'),
           name: this.$t('home_v3.testimonals_2_name'),
-          image: '/images/pages/home-v3/testimonal/avatar.svg'
+          image: '/images/pages/home-v3/testimonal/scott.jpeg'
         },
         {
           title: this.$t('home_v3.testimonals_3_title'),
@@ -240,7 +241,7 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.testimonals_4_title'),
           name: this.$t('home_v3.testimonals_4_name'),
-          image: '/images/pages/home-v3/testimonal/avatar.svg'
+          image: '/images/pages/home-v3/testimonal/sandra.jpg'
         }
       ],
       carouselItems: [
@@ -349,7 +350,9 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.solutions_3_title'),
           text: this.$t('home_v3.solutions_3_text'),
-          image: '/images/pages/home-v3/solutions/box_3.webp'
+          image: '/images/pages/home-v3/solutions/box_3.webp',
+          linkText: this.$t('home_v3.solutions_6_linkText'),
+          link: '/grants'
         },
         {
           title: this.$t('home_v3.solutions_4_title'),
@@ -359,7 +362,9 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.solutions_5_title'),
           text: this.$t('home_v3.solutions_5_text'),
-          image: '/images/pages/home-v3/solutions/box_5.webp'
+          image: '/images/pages/home-v3/solutions/box_5.webp',
+          linkText: this.$t('home_v3.solutions_6_linkText'),
+          link: '/parents'
         },
         {
           title: this.$t('home_v3.solutions_6_title'),
@@ -371,12 +376,16 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.solutions_7_title'),
           text: this.$t('home_v3.solutions_7_text'),
-          image: '/images/pages/home-v3/solutions/box_7.webp'
+          image: '/images/pages/home-v3/solutions/box_7.webp',
+          linkText: this.$t('home_v3.solutions_6_linkText'),
+          link: '/partners'
         },
         {
           title: this.$t('home_v3.solutions_8_title'),
           text: this.$t('home_v3.solutions_8_text'),
-          image: '/images/pages/home-v3/solutions/box_8.webp'
+          image: '/images/pages/home-v3/solutions/box_8.webp',
+          linkText: this.$t('home_v3.solutions_6_linkText'),
+          link: '/libraries'
         }
       ],
       trends: [

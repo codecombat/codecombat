@@ -99,6 +99,7 @@ export default {
     .button-section {
       display: flex;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 12px;
       margin-top: 40px;
       margin-bottom: 40px;
