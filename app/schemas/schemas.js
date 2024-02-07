@@ -390,7 +390,7 @@ me.activity = me.object({ description: 'Stats on an activity' }, {
   count: { type: 'integer', minimum: 0 }
 })
 
-me.terrainString = me.shortString({ enum: ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano'], title: 'Terrain', description: 'Which terrain type this is.', inEditor: 'codecombat' })
+me.terrainString = me.shortString({ enum: ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano', 'Junior'], title: 'Terrain', description: 'Which terrain type this is.', inEditor: 'codecombat' })
 
 me.HeroConfigSchema = me.object({ description: 'Which hero the player is using, equipped with what inventory.' }, {
   inventory: {

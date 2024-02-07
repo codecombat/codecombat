@@ -28,8 +28,8 @@ module.exports = (GenerateTerrainModal = (function () {
 
     constructor (options) {
       super(options)
-      this.presets = presets
-      this.presetSizes = presetSizes
+      this.presets = _.omit(presets, 'junior')
+      this.presetSizes = _.omit(presetSizes, (v, k) => /junior/.test(k))
     }
 
     onRevertModel (e) {
@@ -41,10 +41,10 @@ module.exports = (GenerateTerrainModal = (function () {
 
     onGenerate (e) {
       const target = $(e.target)
-      const presetType = target.attr('data-preset-type')
+      const presetName = target.attr('data-preset-type')
       const presetSize = target.attr('data-preset-size')
-      const thangs = generateThangs({ presetType, presetSize })
-      Backbone.Mediator.publish('editor:random-terrain-generated', { thangs, terrain: presets[presetType].terrainName })
+      const thangs = generateThangs({ presetName, presetSize })
+      Backbone.Mediator.publish('editor:random-terrain-generated', { thangs, terrain: presets[presetName].terrainName })
       this.hide()
     }
 

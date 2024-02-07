@@ -8,6 +8,7 @@ module.exports = {
 }
 
 async function generateLevel (parameters) {
+  parameters.terrain = parameters.terrain || 'Junior'
   parameters = fillRandomParameters(parameters)
 
   const level = {
@@ -33,20 +34,18 @@ const ParametersSchema = schemas.object({ required: ['difficulty', 'kind'] }, {
   kind: schemas.shortString({ title: 'Kind', description: 'Similar to type, but just for our organization.', enum: ['demo', 'usage', 'mastery', 'advanced', 'practice', 'challenge'] }),
   difficulty: { type: 'integer', minimum: 1, maximum: 5 },
   combat: { type: 'boolean' },
-  size: schemas.shortString({ title: 'Size', description: 'How big the level is', enum: ['small', 'large'] }),
+  size: schemas.shortString({ title: 'Size', description: 'How big the level is', enum: ['junior-3x2', 'junior4x3', 'junior5x4', 'junior6x5', 'junior7x6', 'junior8x7', 'junior9x7', 'junior9x8'] }),
   skillReading: { type: 'number', minimum: 0, maximum: 1 },
   skillTyping: { type: 'number', minimum: 0, maximum: 1 },
   skillEditing: { type: 'number', minimum: 0, maximum: 1 },
-  skillSimpleMovement: { type: 'number', minimum: 0, maximum: 1 },
-  skillNumericArgumnets: { type: 'number', minimum: 0, maximum: 1 },
+  skillGo: { type: 'number', minimum: 0, maximum: 1 },
   skillStringArgumnets: { type: 'number', minimum: 0, maximum: 1 },
-  skillAttack: { type: 'number', minimum: 0, maximum: 1 },
-  skillWhileLoops: { type: 'number', minimum: 0, maximum: 1 },
-  skillSay: { type: 'number', minimum: 0, maximum: 1 },
-  skillVariables: { type: 'number', minimum: 0, maximum: 1 },
-  skillCoordinates: { type: 'number', minimum: 0, maximum: 1 },
-  skillBuild: { type: 'number', minimum: 0, maximum: 1 },
-  skillEquipment: { type: 'number', minimum: 0, maximum: 1 },
+  skillNumericArgumnets: { type: 'number', minimum: 0, maximum: 1 },
+  skillHit: { type: 'number', minimum: 0, maximum: 1 },
+  skillZap: { type: 'number', minimum: 0, maximum: 1 },
+  skillSpin: { type: 'number', minimum: 0, maximum: 1 },
+  skillLook: { type: 'number', minimum: 0, maximum: 1 },
+  skillForLoops: { type: 'number', minimum: 0, maximum: 1 },
 })
 
 function fillRandomParameters (parameters) {
@@ -265,6 +264,8 @@ generateProperty('documentation', function (level, parameters) {
 
 // scripts: c.array({title: 'Scripts', description: 'An array of scripts that trigger based on what the player does and affect things outside of the core level simulation.'}, ScriptSchema),
 generateProperty('scripts', function (level, parameters) {
+  const rows = parseInt(parameters.size.replace(/junior(.+?)x.+/, '$1'), 10)
+  // const cols = parseInt(parameters.size.replace(/junior.+?x(.+)/, '$1'), 10)
   return [{
     id: 'Introduction',
     channel: 'god:new-world-created',
@@ -279,8 +280,8 @@ generateProperty('scripts', function (level, parameters) {
                 y: 0
               },
               {
-                x: 80,
-                y: 68
+                x: 4 + 8 * rows,
+                y: (4 + 8 * rows) * 17 / 20 // Maintain aspect ratio
               }
             ],
             target: 'Hero Placeholder',
@@ -308,19 +309,60 @@ generateProperty('scripts', function (level, parameters) {
 // const LevelComponent = require('../models/LevelComponent')
 const PhysicalID = '524b75ad7fc0f6d519000001' // LevelComponent.ExistsID
 const ExistsID = '524b4150ff92f1f4f8000024' // LevelComponent.PhysicalID
-const ProgrammableID = '524b7b5a7fc0f6d51900000e' // LevelComponent.ProgrammableID
 
-function createEssentialComponents (defaultComponents, pos) {
+const defaultHeroComponentIDs = {
+  Physical: PhysicalID,
+  Exists: ExistsID,
+  Programmable: '524b7b5a7fc0f6d51900000e',
+  JuniorPlayer: '65b29e528f43392e778c9433',
+  Collides: '524b7b857fc0f6d519000012',
+  Attackable: '524b7bab7fc0f6d519000017',
+  HasEvents: '524b3e3fff92f1f4f800000d',
+  Spawns: '524cbdc03ea855e0ab0000bb',
+  Says: '524b7b9f7fc0f6d519000015',
+  Moves: '524b7b8c7fc0f6d519000013',
+  MovesSimply: '524b7b427fc0f6d51900000b',
+  HasAPI: '52e816058c875f0000000001',
+  Targets: '524b7b7c7fc0f6d519000011',
+}
+
+const defaultHeroComponentConfig = {
+  Attackable: { maxHealth: 3 },
+  JuniorPlayer: {
+    programmableSnippets: [],
+    requiredThangTypes: ['5467beaf69d1ba0000fb91fb']
+  },
+  Moves: { maxSpeed: 8 },
+  MovesSimply: { simpleMoveDistance: 8 },
+  Plans: { worldEndsAfter: 2 },
+}
+
+function createEssentialComponents (defaultComponents, pos, isHero) {
   const physicalConfig = { pos }
   const physicalComponent = _.find(defaultComponents || [], { original: PhysicalID })
   if (physicalComponent && physicalComponent.config) {
     physicalConfig.pos.z = physicalComponent.config.pos.z // Get the z right
   }
+  if (isHero) {
+    physicalConfig.pos.x = 6
+    physicalConfig.pos.y = 14
+  }
 
-  return [
+  const components = [
     { original: ExistsID, majorVersion: 0, config: {} },
     { original: PhysicalID, majorVersion: 0, config: physicalConfig }
   ]
+  if (isHero) {
+    for (const [name, id] of Object.entries(defaultHeroComponentIDs)) {
+      const component = { original: id, majorVersion: 0 }
+      const config = defaultHeroComponentConfig[name]
+      if (config) {
+        component.config = config
+      }
+      components.push(component)
+    }
+  }
+  return components
 }
 
 // Stores thangType with spriteName as the key
@@ -357,9 +399,10 @@ generateProperty('thangs', async function (level, parameters) {
   const resultThangs = []
   for (const terrainThang of terrainThangs) {
     const spriteName = terrainThang.id
-    const thangID = spriteName === 'Hero Placeholder' ? spriteName : `Random ${spriteName} ${resultThangs.length + 1}`
+    const isHero = spriteName === 'Hero Placeholder'
+    const thangID = isHero ? spriteName : `Random ${spriteName} ${resultThangs.length + 1}`
     const thangType = thangTypes[spriteName]
-    const components = createEssentialComponents(thangType.components, terrainThang.pos)
+    const components = createEssentialComponents(thangType.components, terrainThang.pos, isHero)
     const thang = { thangType: thangType.original, id: thangID, components }
     resultThangs.push(thang)
   }
@@ -369,7 +412,7 @@ generateProperty('thangs', async function (level, parameters) {
 
 // systems: c.array({title: 'Systems', description: 'Levels are configured by changing the Systems attached to them.', uniqueItems: true }, LevelSystemSchema),  // TODO: uniqueness should be based on 'original', not whole thing
 generateProperty('systems', function (level, parameters) {
-  const pathfindingAndLineOfSight = ['Dungeon', 'Indoor', 'Mountain', 'Glacier', 'Volcano'].includes(parameters.terrain)
+  const pathfindingAndLineOfSight = ['Dungeon', 'Indoor', 'Mountain', 'Glacier', 'Volcano', 'Junior'].includes(parameters.terrain)
   const systems = [
     // Copied from default systems list in SystemsTabView
     { original: '528112c00268d018e3000008', majorVersion: 0 }, // Event
@@ -385,11 +428,12 @@ generateProperty('systems', function (level, parameters) {
     { original: '528115040268d018e300001b', majorVersion: 0, config: { checksLineOfSight: pathfindingAndLineOfSight } }, // Vision
     { original: '5280dc4d251616c907000001', majorVersion: 0 }, // Inventory
     { original: '528111b30268d018e3000004', majorVersion: 0 }, // Alliance
-    { original: '528114e60268d018e300001a', majorVersion: 0, config: { showsCoordinates: parameters.skillCoordinates > 0.1 } }, // UI
+    { original: '528114e60268d018e300001a', majorVersion: 0, config: { showsCoordinates: false } }, // UI
     { original: '528114040268d018e3000011', majorVersion: 0 }, // Physics
     { original: '52ae4f02a4dcd4415200000b', majorVersion: 0 }, // Display
     { original: '52e953e81b2028d102000004', majorVersion: 0 }, // Effect
-    { original: '52f1354370fb890000000005', majorVersion: 0 } // Magic
+    { original: '52f1354370fb890000000005', majorVersion: 0 }, // Magic
+    { original: '65b26a9e720a3caed74828bc', majorVersion: 0 }, // Junior
   ]
   return systems
 })
@@ -561,7 +605,7 @@ generateProperty('clampedProperties', function (level, parameters) {
 
 // allowedHeroes: { type: 'array', title: 'Allowed Heroes', description: 'Which heroes can play this level. For any hero, leave unset.', inEditor: 'codecombat', items: {
 generateProperty('allowedHeroes', function (level, parameters) {
-  return null
+  return undefined
 })
 
 // scoreTypes: c.array({title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).'}, {inEditor: 'codecombat'}, {
@@ -601,40 +645,48 @@ generateProperty('permissions', function (level, parameters) {
   return [{ access: 'owner', target: '512ef4805a67a8c507000001' }] // Nick's id
 })
 
+generateProperty('product', function (level, parameters) {
+  return 'codecombat-junior'
+})
+
 // ---- Refining Outputs ----
 
 generateProperty(null, function (level, parameters) {
   // Come up with starter and solution code
   const apis = []
-  if (Math.random() > parameters.skillSimpleMovement) {
-    apis.push('moveUp')
-    apis.push('moveDown')
-    apis.push('moveLeft')
-    apis.push('moveRight')
+  if (Math.random() > parameters.skillGo) {
+    apis.push('go')
   } else {
-    apis.push('moveXY')
+    apis.push('go')
   }
   if (_.find(level.goals, (goal) => goal.killThangs)) {
-    apis.push('attack')
+    apis.push('hit')
   }
-  if (Math.random() > parameters.skillWhileLoops && parameters.difficulty > 2) {
-    apis.push('while-true')
+  if (Math.random() > parameters.skillForLoops && parameters.difficulty > 2) {
+    apis.push('for-loop')
   }
   let indent = 0
   const solutionCodeLines = []
+  const directions = ['up', 'down', 'left', 'right']
   while (solutionCodeLines.length < 3 + Math.random() * 10) {
     const api = _.sample(apis)
     let prefix = ''
     for (let i = 0; i < indent * 4; ++i) {
       prefix += ' '
     }
-    if (api === 'while-true') {
-      solutionCodeLines.push(prefix + 'while (true) {')
+    if (api === 'for-loop') {
+      solutionCodeLines.push(prefix + `for (let i = 0; i < ${Math.ceil(Math.random() * 5)}; ++i {`)
       ++indent
-    } else if (api === 'moveXY') {
-      solutionCodeLines.push(prefix + `hero.${api}(${Math.floor(10 + Math.random() * 40)}, ${Math.floor(10 + Math.random() * 34)});`)
+    } else if (api === 'go') {
+      solutionCodeLines.push(prefix + `${api}('${_.sample(directions)}', ${Math.ceil(Math.random() * 4)})`)
+    } else if (['hit', 'zap'].includes(api)) {
+      solutionCodeLines.push(prefix + `${api}('${_.sample(directions)}')`)
+    } else if (['spin'].includes(api)) {
+      solutionCodeLines.push(prefix + `${api}()`)
+    // } else if (['look'].includes(api)) {
+    //   solutionCodeLines.push(prefix + `${api}()`)
     } else {
-      solutionCodeLines.push(prefix + `hero.${api}();`)
+      solutionCodeLines.push(prefix + `${api}()`)
     }
   }
   while (indent > 0) {
@@ -649,31 +701,40 @@ generateProperty(null, function (level, parameters) {
   const starterCode = solutionCodeLines.slice(0, 1 + Math.floor(Math.random() * 3)).join('\n')
 
   const hero = _.find(level.thangs, (thang) => thang.id === 'Hero Placeholder')
-  hero.components.push({
-    original: ProgrammableID,
-    majorVersion: 0,
-    config: {
-      programmableMethods: {
-        plan: {
-          name: 'plan',
-          source: starterCode,
-          solutions: [
-            {
-              source: solutionCode,
-              language: 'javascript',
-              succeeds: true,
-              // goals: ...
-            },
-            {
-              source: starterCode,
-              language: 'javascript',
-              succeeds: false,
-              // goals: ...
-            },
-          ]
-        }
-      },
-      programmableProperties: apis,
-    }
-  })
+  const programmable = _.find(hero.components, (component) => component.original === defaultHeroComponentIDs.Programmable)
+  programmable.config = {
+    programmableMethods: {
+      plan: {
+        name: 'plan',
+        source: starterCode,
+        languages: {},
+        solutions: [
+          {
+            source: solutionCode,
+            language: 'javascript',
+            succeeds: true,
+            // goals: ...
+          },
+          {
+            source: starterCode,
+            language: 'javascript',
+            succeeds: false,
+            // goals: ...
+          },
+        ]
+      }
+    },
+    programmableProperties: apis,
+  }
+
+  const juniorPlayer = _.find(hero.components, (component) => component.original === defaultHeroComponentIDs.JuniorPlayer)
+  juniorPlayer.config = {
+    programmableSnippets: [],
+    requiredThangTypes: ['5467beaf69d1ba0000fb91fb']
+  }
+
+  const physical = _.find(hero.components, (component) => component.original === defaultHeroComponentIDs.Physical)
+  physical.config = {
+    pos: { x: 6, y: 14, z: 0.5 }
+  }
 })

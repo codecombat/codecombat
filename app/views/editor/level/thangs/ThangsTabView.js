@@ -306,7 +306,7 @@ module.exports = (ThangsTabView = (function () {
       const oldHeight = $('#thangs-list').height()
       $('#thangs-list').height(oldHeight - thangsHeaderHeight)
       if (data != null ? data.length : undefined) {
-        return this.$el.find('.generate-terrain-button').hide()
+        return this.$el.find('.generate-terrain-button, .generate-level-button').hide()
       }
     }
 
@@ -338,6 +338,7 @@ module.exports = (ThangsTabView = (function () {
         thangTypes: this.supermodel.getModels(ThangType),
         showInvisible: true,
         frameRate: 15,
+        level: this.level,
         levelType: this.level.get('type', true),
         gameUIState: this.gameUIState,
         handleEvents: false
@@ -911,7 +912,7 @@ module.exports = (ThangsTabView = (function () {
     addThang (thangType, pos, batchInsert) {
       let components, thangID
       if (batchInsert == null) { batchInsert = false }
-      this.$el.find('.generate-terrain-button').hide()
+      this.$el.find('.generate-terrain-button', '.generate-level-button').hide()
       if (batchInsert) {
         if (thangType.get('name') === 'Hero Placeholder') {
           thangID = 'Hero Placeholder'

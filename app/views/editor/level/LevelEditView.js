@@ -101,7 +101,7 @@ module.exports = (LevelEditView = (function () {
         'mouseup .nav-tabs > li a': 'toggleTab',
         'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal',
         'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal',
-        'click #generate-level-button': 'generateLevel',
+        'click .generate-level-button': 'generateLevel',
       }
 
       this.prototype.subscriptions = {
@@ -262,17 +262,17 @@ module.exports = (LevelEditView = (function () {
     onThangDeleted (e) {
       if (!Array.from(this.keyThangIDs != null ? this.keyThangIDs : []).includes(e.thangID)) { return }
       this.removeSubView(this.keyThangTabViews[e.thangID])
-      return this.keyThangTabViews[e.thangID] = null
+      this.keyThangTabViews[e.thangID] = null
     }
 
     openRevertModal (e) {
       e.stopPropagation()
-      return this.openModalView(new RevertModal())
+      this.openModalView(new RevertModal())
     }
 
     openGenerateTerrainModal (e) {
       e.stopPropagation()
-      return this.openModalView(new GenerateTerrainModal())
+      this.openModalView(new GenerateTerrainModal())
     }
 
     async generateLevel (e) {

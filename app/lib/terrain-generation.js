@@ -81,6 +81,10 @@ const clusters = {
     thangs: ['Indoor Floor'],
     margin: -1
   },
+  junior_floor: {
+    thangs: ['Junior Floor'],
+    margin: -1
+  },
   furniture: {
     thangs: ['Bookshelf', 'Chair', 'Table', 'Candle', 'Treasure Chest'],
     margin: -1
@@ -116,6 +120,27 @@ const clusters = {
 }
 
 const presets = {
+  junior: {
+    terrainName: 'Indoor',
+    type: 'indoor',
+    borders: 'indoor_wall',
+    borderNoise: 0,
+    borderSize: 4,
+    borderThickness: 1,
+    floors: 'junior_floor',
+    floorSize: { x: 8, y: 8 },
+    floorOffset: { x: -6, y: -6 },
+    decorations: {
+      hero: {
+        num: [1, 1],
+        width: 1,
+        height: 1,
+        clusters: {
+          hero: [1, 1]
+        }
+      },
+    }
+  },
   dungeon: {
     terrainName: 'Dungeon',
     type: 'dungeon',
@@ -310,6 +335,51 @@ const presets = {
 }
 
 const presetSizes = {
+  junior3x2: {
+    x: 28,
+    y: 23.8,
+    sizeFactor: 0.35,
+    doubleTopWall: true
+  },
+  junior4x3: {
+    x: 36,
+    y: 30.6,
+    sizeFactor: 0.45,
+    doubleTopWall: true
+  },
+  junior5x4: {
+    x: 44,
+    y: 37.4,
+    sizeFactor: 0.55,
+    doubleTopWall: true
+  },
+  junior6x5: {
+    x: 52,
+    y: 44.2,
+    sizeFactor: 0.65,
+    doubleTopWall: true
+  },
+  junior7x6: {
+    x: 60,
+    y: 51,
+    sizeFactor: 0.75
+  },
+  junior8x7: {
+    x: 68,
+    y: 58.1, // 57.8, // Nudged it up to get an extra land and make walls work; hmm
+    sizeFactor: 0.85
+  },
+  junior9x7: {
+    x: 76,
+    y: 64.6,
+    sizeFactor: 0.95,
+    doubleTopWall: true
+  },
+  junior9x8: {
+    x: 76,
+    y: 66.1, // 64.6, // Nudged it up to get an extra land and make walls work; hmm
+    sizeFactor: 0.95
+  },
   small: {
     x: 80,
     y: 68,
@@ -368,13 +438,13 @@ function generateThangs ({ presetName, presetSize, goals }) {
 }
 
 function generateFloor (result) {
-  _.range(0, result.presetSize.x, thangSizes.floorSize.x).forEach(i => {
-    _.range(0, result.presetSize.y, thangSizes.floorSize.y).forEach(j => {
+  _.range(result.preset.floorOffset?.x || 0, result.presetSize.x, result.preset.floorSize?.x || thangSizes.floorSize.x).forEach(i => {
+    _.range(result.preset.floorOffset?.y || 0, result.presetSize.y, result.preset.floorSize?.y || thangSizes.floorSize.y).forEach(j => {
       result.thangs.push({
         id: getRandomThang(clusters[result.preset.floors].thangs),
         pos: {
-          x: i + (thangSizes.floorSize.x / 2),
-          y: j + (thangSizes.floorSize.y / 2)
+          x: i + ((result.preset.floorSize?.x || thangSizes.floorSize.x) / 2),
+          y: j + ((result.preset.floorSize?.y || thangSizes.floorSize.y) / 2)
         },
         margin: clusters[result.preset.floors].margin
       })
@@ -387,7 +457,9 @@ function generateBorder (result) {
   if (noiseFactor === undefined) {
     noiseFactor = 1
   }
-  for (const i of _.range(0, result.presetSize.x, thangSizes.borderSize.x)) {
+  const topY = Math.ceil(result.presetSize.y / thangSizes.borderSize.y) * thangSizes.borderSize.y
+  const rightX = Math.ceil(result.presetSize.x / thangSizes.borderSize.x) * thangSizes.borderSize.x
+  for (const i of _.range(0, rightX, thangSizes.borderSize.x)) {
     for (const j of _.range(result.preset.borderThickness)) { // eslint-disable-line no-unused-vars
       // Bottom wall
       while (!addThang(result, {
@@ -406,7 +478,7 @@ function generateBorder (result) {
         id: getRandomThang(clusters[result.preset.borders].thangs),
         pos: {
           x: i + (result.preset.borderSize / 2) + (noiseFactor * _.random(-thangSizes.borderSize.x / 2, thangSizes.borderSize.x / 2)),
-          y: (result.presetSize.y - (result.preset.borderSize / 2)) + (noiseFactor * _.random(-thangSizes.borderSize.y, thangSizes.borderSize.y / 2))
+          y: (topY - (result.preset.borderSize / 2)) + (noiseFactor * _.random(-thangSizes.borderSize.y, thangSizes.borderSize.y / 2))
         },
         margin: clusters[result.preset.borders].margin
       })) {
@@ -414,21 +486,24 @@ function generateBorder (result) {
       }
 
       // Double wall on top
-      if (result.preset.type === 'dungeon') {
+      if (['dungeon'].includes(result.preset.type) || result.presetSize.doubleTopWall) {
         addThang(result, {
           id: getRandomThang(clusters[result.preset.borders].thangs),
           pos: {
             x: i + (result.preset.borderSize / 2),
-            y: result.presetSize.y - ((3 * result.preset.borderSize) / 2)
+            y: topY - ((3 * result.preset.borderSize) / 2)
           },
           margin: clusters[result.preset.borders].margin
         })
-        if (((i / result.preset.borderSize) % 2) && (i !== (result.presetSize.x - thangSizes.borderSize.x))) {
+      }
+      // Dungeon wall decorations
+      if (['dungeon'].includes(result.preset.type)) {
+        if (((i / result.preset.borderSize) % 2) && (i !== (rightX - thangSizes.borderSize.x))) {
           addThang(result, {
             id: getRandomThang(clusters.torch.thangs),
             pos: {
               x: i + result.preset.borderSize,
-              y: result.presetSize.y - (result.preset.borderSize / 2)
+              y: topY - (result.preset.borderSize / 2)
             },
             margin: clusters.torch.margin
           })
@@ -437,7 +512,7 @@ function generateBorder (result) {
             id: getRandomThang(clusters.chains.thangs),
             pos: {
               x: i + result.preset.borderSize,
-              y: result.presetSize.y - (result.preset.borderSize / 2)
+              y: topY - (result.preset.borderSize / 2)
             },
             margin: clusters.chains.margin
           })
@@ -446,7 +521,7 @@ function generateBorder (result) {
     }
   }
 
-  for (const i of _.range(0, result.presetSize.y, thangSizes.borderSize.y)) {
+  for (const i of _.range(0, topY, thangSizes.borderSize.y)) {
     for (const j of _.range(result.preset.borderThickness)) { // eslint-disable-line no-unused-vars
       // Left wall
       while (!addThang(result, {
@@ -464,7 +539,7 @@ function generateBorder (result) {
       while (!addThang(result, {
         id: getRandomThang(clusters[result.preset.borders].thangs),
         pos: {
-          x: (result.presetSize.x - (result.preset.borderSize / 2)) + (noiseFactor * _.random(-thangSizes.borderSize.x, thangSizes.borderSize.x / 2)),
+          x: (rightX - (result.preset.borderSize / 2)) + (noiseFactor * _.random(-thangSizes.borderSize.x, thangSizes.borderSize.x / 2)),
           y: i + (result.preset.borderSize / 2) + (noiseFactor * _.random(-thangSizes.borderSize.y / 2, thangSizes.borderSize.y / 2))
         },
         margin: clusters[result.preset.borders].margin
@@ -478,7 +553,7 @@ function generateBorder (result) {
 function generateDecorations (result) {
   for (const name in result.preset.decorations) {
     const decoration = result.preset.decorations[name]
-    for (const num of _.range(result.presetSize.sizeFactor * _.random(decoration.num[0], decoration.num[1]))) { // eslint-disable-line no-unused-vars
+    for (const num of _.range(Math.ceil(result.presetSize.sizeFactor * _.random(decoration.num[0], decoration.num[1])))) { // eslint-disable-line no-unused-vars
       let rect
       if (buildFunctions[name] !== undefined) {
         buildFunctions[name](result, decoration)

@@ -8,7 +8,9 @@ button.btn#thangs-palette-toggle
 
 .world-container
   #canvas-wrapper
-    button.generate-terrain-button.btn.btn-info.btn-lg(data-toggle="coco-modal", data-target="editor/level/modals/GenerateTerrainModal", data-i18n="editor.generate_terrain") Generate Terrain
+    button.generate-terrain-button.btn.btn-info.btn-lg(data-toggle="coco-modal", data-target="editor/level/modals/GenerateTerrainModal", data-i18n="editor.generate_terrain")
+    if me.isAdmin()
+      button.generate-level-button.btn.btn-info.btn-lg(data-i18n="editor.generate_level")
     ul.dropdown-menu#contextmenu
       li#delete
         a(data-i18n="editor.delete") Delete
