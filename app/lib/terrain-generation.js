@@ -606,7 +606,6 @@ function generateDecorations (result) {
 }
 
 function generateEnemies (result, defeatThangsGoal) {
-  console.log('generate enemies', defeatThangsGoal)
   let i
   for (i = 0; i < Math.ceil(Math.random() * 8);) {
     const enemy = {
@@ -629,7 +628,6 @@ function generateEnemies (result, defeatThangsGoal) {
 }
 
 function generateGetToLocations (result, getToLocationsGoal) {
-  console.log('generate get to locations thangs', getToLocationsGoal)
   while (true) {
     const locationThang = {
       id: 'Goal Junior',
@@ -648,7 +646,6 @@ function generateGetToLocations (result, getToLocationsGoal) {
 }
 
 function generateCollectThangs (result, collectThangsGoal) {
-  console.log('generate collect thangs', collectThangsGoal)
   for (let i = 0; i <= Math.floor(Math.random() * 8);) {
     const collectThang = {
       id: getRandomThang(['Gem Junior']),
@@ -670,7 +667,6 @@ function generateCollectThangs (result, collectThangsGoal) {
 }
 
 function generateDefendThangs (result, defendThangsGoal) {
-  console.log('generate defend thangs', defendThangsGoal)
   for (let i = 0; i <= Math.floor(Math.random() * 8);) {
     const defendThang = {
       id: getRandomThang(['Soldier M', 'Soldier F', 'Archer M', 'Archer F', 'Peasant M', 'Peasant F']),

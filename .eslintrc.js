@@ -33,7 +33,8 @@ module.exports = {
     TreemaArrayNode: 'readonly',
     CoffeeScript: 'readonly',
     i18n: 'readonly',
-    marked: 'readonly'
+    marked: 'readonly',
+    key: 'readonly'
   },
 
   env: {

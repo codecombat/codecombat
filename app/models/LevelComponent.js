@@ -30,6 +30,7 @@ module.exports = (LevelComponent = (function () {
       this.FindsPathsID = '52872b0ead92b98561000002'
       this.AttackableID = '524b7bab7fc0f6d519000017'
       this.RefereeID = '54977ce657e90bd1903dea72'
+      this.JuniorPlayerID = '65b29e528f43392e778c9433'
 
       this.ProgrammableIDs = [
         '524b7b5a7fc0f6d51900000e',
