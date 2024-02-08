@@ -635,11 +635,11 @@ function generateGetToLocations (result, getToLocationsGoal) {
       margin: 0
     }
     if (addThang(result, locationThang)) {
-      getToLocationsGoal.targets = [locationThang.id]
+      getToLocationsGoal.getToLocations.targets = [locationThang.id]
       break
     }
   }
-  if (!getToLocationsGoal.targets.length) {
+  if (!getToLocationsGoal.getToLocations.targets.length) {
     console.log("Couldn't find space for a goal; removing getToLocationsGoal")
     result.goals = _.without(result.goals, getToLocationsGoal)
   }
@@ -654,13 +654,13 @@ function generateCollectThangs (result, collectThangsGoal) {
     }
     if (addThang(result, collectThang)) {
       if (i === 0) {
-        collectThangsGoal.targets = []
+        collectThangsGoal.collectThangs.targets = []
       }
-      collectThangsGoal.targets.push(collectThang.id)
+      collectThangsGoal.collectThangs.targets.push(collectThang.id)
       ++i
     }
   }
-  if (!collectThangsGoal.targets.length) {
+  if (!collectThangsGoal.collectThangs.targets.length) {
     console.log("Couldn't find space for a gem; removing collectThangsGoal")
     result.goals = _.without(result.goals, collectThangsGoal)
   }
