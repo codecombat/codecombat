@@ -85,7 +85,7 @@ function generateProperty (property, fn) {
     if (property && result !== undefined) {
       const { errors } = tv4.validateMultiple(result, levelSchema.properties[property])
       if (errors?.length) {
-        console.error(`Couldn't validate assignment of ${property}: ${result}. Validation error: ${errors}`)
+        console.error(`Couldn't validate assignment of ${property}:`, result, `Validation error: ${errors}`)
         return
       }
       level[property] = result
@@ -121,17 +121,13 @@ generateProperty('goals', function (level, parameters) {
       hiddenGoal: false,
       worldEndsAfter: 1,
       howMany: 1,
-      saveThangs: [
-        'humans'
-      ],
+      saveThangs: ['humans'],
       name: 'Your hero must survive.',
       id: 'hero-survives'
     },
 
     avoidSpikes: {
-      saveThangs: [
-        'humans'
-      ],
+      saveThangs: ['humans'],
       hiddenGoal: false,
       howMany: 1,
       worldEndsAfter: 3,
@@ -156,9 +152,7 @@ generateProperty('goals', function (level, parameters) {
 
     cleanCode: {
       hiddenGoal: true,
-      codeProblems: [
-        'humans'
-      ],
+      codeProblems: ['humans'],
       optional: false,
       id: 'clean-code',
       name: 'No code problems.'
@@ -166,9 +160,7 @@ generateProperty('goals', function (level, parameters) {
 
     shortCode: {
       optional: false,
-      linesOfCode: {
-        humans: 5
-      },
+      linesOfCode: { humans: 5 },
       id: 'short-code',
       name: 'Under 6 statements.'
     },
@@ -176,21 +168,15 @@ generateProperty('goals', function (level, parameters) {
     moveToTarget: {
       worldEndsAfter: 1,
       getToLocations: {
-        targets: [
-          'Goal Trigger'
-        ],
-        who: [
-          'Hero Placeholder'
-        ]
+        targets: ['Goal Junior'], // Placeholder
+        who: ['Hero Placeholder']
       },
       id: 'touch-goal',
-      name: 'Move to the X.'
+      name: 'Go to the X.'
     },
 
     defeatEnemies: {
-      killThangs: [
-        'ogres'
-      ],
+      killThangs: ['ogres'],
       id: 'ogres-die',
       name: 'Defeat the enemies.'
     },
@@ -198,38 +184,15 @@ generateProperty('goals', function (level, parameters) {
     defeatDoor: {
       name: 'Break the door.',
       id: 'break-door',
-      killThangs: [
-        'Weak Door'
-      ],
+      killThangs: ['Weak Door'],
       howMany: 1,
     },
 
-    collectGem: {
-      collectThangs: {
-        targets: [
-          'Gem'
-        ],
-        who: [
-          'Hero Placeholder'
-        ]
-      },
-      id: 'collect-gem',
-      name: 'Collect the gem.'
-    },
-
     collectGems: {
-      worldEndsAfter: 2,
+      // worldEndsAfter: 2, // TODO: make this happen after all positive goals are achieved, not just one
       collectThangs: {
-        targets: [
-          'Gem',
-          'Gem 1',
-          'Gem 2',
-          'Gem 3',
-          'Gem 4'
-        ],
-        who: [
-          'humans'
-        ]
+        targets: ['Gem Junior'], // Placeholder
+        who: ['humans']
       },
       id: 'collect-gems',
       name: 'Collect the gems.'
@@ -241,7 +204,7 @@ generateProperty('goals', function (level, parameters) {
     goals.push(exampleGoals.defeatEnemies)
   }
   if (Math.random() < 0.5) {
-    goals.push(exampleGoals.collectGem)
+    goals.push(exampleGoals.collectGems)
   }
   if (Math.random() < 0.5 || goals.length === 2) {
     goals.push(exampleGoals.moveToTarget)
@@ -318,6 +281,7 @@ const defaultHeroComponentIDs = {
   MovesSimply: '524b7b427fc0f6d51900000b',
   HasAPI: '52e816058c875f0000000001',
   Targets: '524b7b7c7fc0f6d519000011',
+  Collects: '524b7bbe7fc0f6d519000019',
 }
 
 const defaultHeroComponentConfig = {
@@ -420,7 +384,7 @@ generateProperty('systems', function (level, parameters) {
     { original: '52810ffa33e01a6e86000012', majorVersion: 0 }, // Action
     { original: '528114b20268d018e3000017', majorVersion: 0 }, // Targeting
     { original: '528105f833e01a6e86000007', majorVersion: 0 }, // Collision
-    { original: '528113240268d018e300000c', majorVersion: 0 }, // Movement
+    { original: '528113240268d018e300000c', majorVersion: 0, config: { simpleMoveDistance: 8 } }, // Movement
     { original: '528112530268d018e3000007', majorVersion: 0 }, // Combat
     { original: '52810f4933e01a6e8600000c', majorVersion: 0 }, // Hearing
     { original: '528115040268d018e300001b', majorVersion: 0, config: { checksLineOfSight: pathfindingAndLineOfSight } }, // Vision

@@ -3,7 +3,7 @@ const _ = require('lodash')
 const clusters = {
   hero: {
     thangs: ['Hero Placeholder'],
-    margin: 1
+    margin: -1
   },
   rocks: {
     thangs: ['Rock 1', 'Rock 2', 'Rock 3', 'Rock 4', 'Rock 5', 'Rock Cluster 1', 'Rock Cluster 2', 'Rock Cluster 3'],
@@ -605,21 +605,26 @@ function generateDecorations (result) {
   }
 }
 
-function generateEnemies (result, killThangsGoal) {
-  console.log('generate enemies', killThangsGoal)
-  for (let i = 0; i < Math.ceil(Math.random() * 8);) {
+function generateEnemies (result, defeatThangsGoal) {
+  console.log('generate enemies', defeatThangsGoal)
+  let i
+  for (i = 0; i < Math.ceil(Math.random() * 8);) {
     const enemy = {
       id: getRandomThang(['Skeleton Junior']),
       pos: getRandomPosition(result),
-      margin: 1
+      margin: 0
+    }
+    if (result.falseCount === 99) {
+      result.falseCount = 0
+      break
     }
     if (addThang(result, enemy)) {
       ++i
     }
-    // if (addThang(result, enemy)) {
-    //   killThangsGoal.thangIDs.push(enemy.id)
-    //   ++i
-    // }
+  }
+  if (!i) {
+    console.log("Couldn't find space for an enemy; removing defeatThangsGoal")
+    result.goals = _.without(result.goals, defeatThangsGoal)
   }
 }
 
@@ -629,11 +634,16 @@ function generateGetToLocations (result, getToLocationsGoal) {
     const locationThang = {
       id: 'Goal Junior',
       pos: getRandomPosition(result),
-      margin: 2
+      margin: 0
     }
     if (addThang(result, locationThang)) {
+      getToLocationsGoal.targets = [locationThang.id]
       break
     }
+  }
+  if (!getToLocationsGoal.targets.length) {
+    console.log("Couldn't find space for a goal; removing getToLocationsGoal")
+    result.goals = _.without(result.goals, getToLocationsGoal)
   }
 }
 
@@ -643,15 +653,19 @@ function generateCollectThangs (result, collectThangsGoal) {
     const collectThang = {
       id: getRandomThang(['Gem Junior']),
       pos: getRandomPosition(result),
-      margin: 1
+      margin: 0
     }
     if (addThang(result, collectThang)) {
+      if (i === 0) {
+        collectThangsGoal.targets = []
+      }
+      collectThangsGoal.targets.push(collectThang.id)
       ++i
     }
-    // if (addThang(result, collectThang)) {
-    //   collectThangsGoal.thangIDs.push(collectThang.id)
-    //   ++i
-    // }
+  }
+  if (!collectThangsGoal.targets.length) {
+    console.log("Couldn't find space for a gem; removing collectThangsGoal")
+    result.goals = _.without(result.goals, collectThangsGoal)
   }
 }
 
@@ -661,7 +675,7 @@ function generateDefendThangs (result, defendThangsGoal) {
     const defendThang = {
       id: getRandomThang(['Soldier M', 'Soldier F', 'Archer M', 'Archer F', 'Peasant M', 'Peasant F']),
       pos: getRandomPosition(result),
-      margin: 1
+      margin: 0
     }
     if (addThang(result, defendThang)) {
       ++i
@@ -826,6 +840,11 @@ function addThang (result, thang) {
       continue
     }
     if ((Math.abs(existingThang.pos.x - thang.pos.x) < (thang.margin + existingThang.margin)) && (Math.abs(existingThang.pos.y - thang.pos.y) < (thang.margin + existingThang.margin))) {
+      result.falseCount++
+      return false
+    }
+    if (thang.pos.x === 6 && thang.pos.y === 14) {
+      // This is where we are going to start the hero, by default
       result.falseCount++
       return false
     }
