@@ -1,0 +1,22 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3(data-i18n="editor.generate_level")
+
+block modal-body-content
+  div#normal-view
+    each sizeObject, size in view.presetSizes
+      a(href="#")
+        div.choose-option(data-preset-size=size)
+          - for (var y = -1; y < sizeObject.rows; ++y) {
+            div.diagram-row
+              span= ' | '
+              - for (var x = -1; x < sizeObject.cols; ++x) {
+              span= (y === -1 || y === sizeObject.rows - 1) ? ' - ' : ' . '
+              - }
+              span= ' | '
+          - }
+          div.preset-size.name-label.capitalize
+            span(data-i18n="editor."+size) #{size}
+    .clearfix
+block modal-footer
