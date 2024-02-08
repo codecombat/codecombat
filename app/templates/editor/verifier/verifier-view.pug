@@ -65,7 +65,7 @@ block content
               if !test.level
                 h2 Loading Level...
                 - continue
-              .test(data-test-slug=test.level.get('slug'), data-test-language=test.language, data-test-status=test.isSuccessful() ? 'success' : test.goals ? 'failure' : 'pending')
+              .test(data-test-slug=test.level.get('slug'), data-test-language=test.language, data-test-status=test.isSuccessful(view.careAboutFrames) ? 'success' : test.goals ? 'failure' : 'pending')
                 .pull-right
                   - var last = test.level.get('slug') + view.linksQueryString
                   a.btn.btn-primary(href="/editor/verifier/" + last) Focus
@@ -76,14 +76,14 @@ block content
                 if !test.goals
                   h2.test-running= test.level.get('name')
                     small= ' in ' + test.language + (test.solution.transpiled ? ' (transpiled)' : '') + ' ' + test.simpleDescription + ' - running'
-                else if test.isSuccessful()
+                else if test.isSuccessful(view.careAboutFrames)
                   h2.test-success= test.level.get('name')
                     small= ' in ' + test.language + (test.solution.transpiled ? ' (transpiled)' : '') + ' ' + test.simpleDescription + ' - success'
                 else
                   h2.test-failed= test.level.get('name')
                     small= ' in ' + test.language + (test.solution.transpiled ? ' (transpiled)' : '') + ' ' + test.simpleDescription + ' - failure'
 
-                div.row(class=(test.isSuccessful() && !test.error ? 'collapse' : 'collapse in'), id='verifier-test-' + test.level.get('slug') + '-' + test.language + '-' + id)
+                div.row(class=(test.isSuccessful(view.careAboutFrames) && !test.error ? 'collapse' : 'collapse in'), id='verifier-test-' + test.level.get('slug') + '-' + test.language + '-' + id)
                   div.col-xs-8
                     if test.solution
                       pre.solution #{test.solution.source}
