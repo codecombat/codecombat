@@ -286,6 +286,9 @@ module.exports = (LevelEditView = (function () {
       const parameters = {} // Temp: totally random parameters
       if (e?.size) {
         parameters.size = e.size
+        this.lastLevelGenerationSize = e.size
+      } else if (this.lastLevelGenerationSize) {
+        parameters.size = this.lastLevelGenerationSize
       }
       levelGeneration.generateLevel(parameters).then(level => {
         if (this.destroyed) return
@@ -304,11 +307,13 @@ module.exports = (LevelEditView = (function () {
             if (subviewData.addThangsView) {
               // Don't destroy this one, we are going to reuse it
               delete subview.subviews.add_thangs_view
+              subviewData.addThangsView.willDisappear()
             }
           }
           this.removeSubView(subview)
         }
         this.render()
+        this.previouslyLoadedSubviewData.addThangsView?.didReappear()
       })
     }
 
