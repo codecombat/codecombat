@@ -94,7 +94,7 @@ module.exports = (AddThangsView = (function () {
       }
 
       groups = _.sortBy(groups, function (group) {
-        const index = ['Wall', 'Floor', 'Unit', 'Doodad', 'Misc'].indexOf(group.name)
+        const index = ['Wall', 'Junior', 'Floor', 'Unit', 'Doodad', 'Misc'].indexOf(group.name)
         if (index === -1) { return 9001 } else { return index }
       })
 
