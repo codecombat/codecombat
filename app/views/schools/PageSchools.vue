@@ -739,7 +739,7 @@ export default Vue.extend({
       margin-top: 8px;
       color: $purple;
       text-align: center;
-      font-size: 14px;
+      @extend %font-14;
       font-style: normal;
       font-weight: 700;
       line-height: 32px;

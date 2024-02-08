@@ -13,7 +13,12 @@
       <div
         class="text-wrapper"
       >
-        {{ $t(item.text) }}
+        <div
+          v-for="(line, lineIndex) in $t(item.text).split('\n')"
+          :key="`line-${lineIndex}`"
+        >
+          {{ line }}
+        </div>
       </div>
     </div>
   </div>
@@ -86,8 +91,7 @@ export default {
 
     .text-wrapper {
         color: $light-grey;
-        font-family: "Plus Jakarta Sans-Regular", Helvetica;
-        font-size: 18px;
+        @extend %font-18-24;
         font-weight: 400;
         letter-spacing: 0;
         line-height: 27px;
