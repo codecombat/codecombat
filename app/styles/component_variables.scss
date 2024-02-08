@@ -4,6 +4,7 @@ $dark-grey:     #0a2239;
 $dark-grey-2:   #111928;
 $light-grey:    #6b7280;
 $purple:        #7a65fc;
+$purple-2:      #9487FF;
 $middle-purple: #d5d5fc;
 $light-purple:  #e9e8fd;
 
@@ -71,6 +72,16 @@ $light-purple:  #e9e8fd;
   @media screen and (max-width: $screen-sm) {
     font-size: 18px;
     line-height: 28px;
+  }
+}
+
+%font-20 {
+  font-size: 20px;
+  line-height: 28px;
+
+  @media screen and (max-width: $screen-sm) {
+    font-size: 16px;
+    line-height: 24px;
   }
 }
 
@@ -143,7 +154,10 @@ $light-purple:  #e9e8fd;
   ::v-deep h3,
   ::v-deep h4,
   ::v-deep h5,
-  ::v-deep h6 {
+  ::v-deep h6,
+  ::v-deep a,
+  ::v-deep button,
+  ::v-deep div {
     font-family: "Plus Jakarta Sans";
   }
 

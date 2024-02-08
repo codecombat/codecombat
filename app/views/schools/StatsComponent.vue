@@ -40,7 +40,7 @@
                 what definitely helped them was learning CodeCombat and Python.”`"
                 name="Andrew Forsman"
                 title="Engineering Teacher"
-                image="/images/pages/schools/avatar/avatar_andrew.png"
+                image="/images/pages/schools/avatar/avatar_andrew.webp"
               />
               <learn-more-button
                 link="https://codecombat.com/impact"
@@ -134,6 +134,7 @@ export default {
 
   .text {
     @extend %font-24-34;
+    font-weight: 700;
     align-self: stretch;
     color: $dark-grey;
     font-style: italic;

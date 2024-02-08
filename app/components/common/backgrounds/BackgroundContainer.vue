@@ -34,6 +34,7 @@ export default {
     min-height: unset;
     background: #F9F9FF;
     box-shadow: 0px 4px 22px 0px rgba(122, 101, 252, 0.15);
+    padding-bottom: 80px;
   }
 
   &__sides {
@@ -48,12 +49,10 @@ export default {
     background-image: url('/images/components/bg-image.webp');
     background-position: center;
     background-repeat: repeat-x;
-    background-size: min(100vw, 1440px);
-    width: 300vw;
+    width: 100%;
     position: absolute;
     top: 20px;
     bottom: 20px;
-    left: -100vw;
   }
 
   &__overlap-sides {

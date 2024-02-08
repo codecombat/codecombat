@@ -1,6 +1,9 @@
 <template>
   <div class="carousel-component">
-    <div class="content-template-carousel">
+    <div
+      class="content-template-carousel"
+      :class="{ 'has-background': hasBackground }"
+    >
       <div
         v-if="showTabs"
         class="carousel-tabs content-tabs"
@@ -52,11 +55,9 @@
         </div>
       </div>
 
-      <div
-        :class="{'carousel-dots': true, 'carousel-tabs-default': showDots}"
-      >
+      <div :class="{ 'carousel-dots': true, 'carousel-tabs-default': showDots }">
         <img
-          :src="`/images/components/arrow${currentIndex <= 0?'-light':''}.svg`"
+          :src="`/images/components/arrow${currentIndex <= 0 ? '-light' : ''}.svg`"
           @click="goTo(currentIndex - 1)"
         >
         <button
@@ -68,7 +69,7 @@
           {{ index + 1 }}
         </button>
         <img
-          :src="`/images/components/arrow${currentIndex >= items.length - 1?'-light':''}.svg`"
+          :src="`/images/components/arrow${currentIndex >= items.length - 1 ? '-light' : ''}.svg`"
           @click="goTo(currentIndex + 1)"
         >
       </div>
@@ -131,7 +132,8 @@ export default {
   @media screen and (max-width: 768px) {
     display: flex;
   }
-  &.carousel-tabs-default{
+
+  &.carousel-tabs-default {
     display: flex;
   }
 
@@ -164,8 +166,13 @@ export default {
   display: flex;
   box-sizing: border-box;
   min-height: 365px;
+  margin-bottom: 20px;
   width: 100%;
-  gap: 40px;
+
+  &.has-background {
+    gap: 40px;
+  }
+
   flex-direction: column;
 
   @media screen and (max-width: 768px) {
@@ -318,7 +325,8 @@ export default {
         border-radius: 20px;
         border: 2px solid $light-purple;
         background: $light-purple;
-        &.active{
+
+        &.active {
           border-color: $purple;
           background: $purple;
         }

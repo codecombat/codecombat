@@ -17,7 +17,7 @@ const Template = (args, { argTypes }) => ({
 
 export const Default = Template.bind({})
 Default.args = {
-  contents: ['Content 1', 'Content 2', 'Content 3', 'Content 4']
+  contents: ['Content 1', 'Content 2-1 \n Content long 2-2 \n Content 2-3', 'Content 3', 'Content 4']
 }
 
 export const FiveColumns = Template.bind({})

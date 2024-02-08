@@ -13,7 +13,12 @@
           class="text-wrapper"
           :class="{ header: header }"
         >
-          {{ content }}
+          <div
+            v-for="(line, lineIndex) in splitContent(content)"
+            :key="`line-${lineIndex}`"
+          >
+            {{ line }}
+          </div>
         </div>
       </div>
     </div>
@@ -32,6 +37,11 @@ export default {
     contents: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    splitContent (content) {
+      return content.split('\n')
     }
   }
 }

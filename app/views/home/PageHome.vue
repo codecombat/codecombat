@@ -334,7 +334,8 @@ export default Vue.extend({
           text: this.$t('home_v3.solutions_1_text'),
           link: 'https://www.ozaria.com/pd',
           linkText: this.$t('home_v3.solutions_1_linkText'),
-          frameImage: '/images/pages/home-v3/logo/southern-new-hampshire-university.webp',
+          middleText: this.$t('home_v3.solutions_1_middleText'),
+          middleImage: '/images/pages/schools/logo/southern-new-hampshire-university_small.webp',
           image: '/images/pages/home-v3/solutions/box_1.webp'
         },
         {

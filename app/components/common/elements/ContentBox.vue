@@ -1,6 +1,8 @@
 <template>
-  <div
-    :class="{ box: true, horizontal: arrangement === 'horizontal' }"
+  <component
+    :is="link ? 'a' : 'div'"
+    :href="link"
+    :class="{ box: true, horizontal: arrangement === 'horizontal', clickable: link}"
     :style="boxStyle"
   >
     <div
@@ -29,6 +31,14 @@
           <slot name="title" />
         </div>
         <slot name="text" />
+
+        <p
+          v-if="middleText && middleImage"
+          class="middle-text"
+        >
+          <span>{{ middleText }}</span>
+          <img :src="middleImage">
+        </p>
         <slot name="button" />
       </div>
       <div
@@ -38,7 +48,7 @@
         <slot name="frameImage" />
       </div>
     </div>
-  </div>
+  </component>
 </template>
 
 <script>
@@ -70,8 +80,19 @@ export default {
     equalWidth: {
       type: Boolean,
       default: false
+    },
+    link: {
+      type: String,
+      default: null
+    },
+    middleText: {
+      type: String,
+      default: null
+    },
+    middleImage: {
+      type: String,
+      default: null
     }
-
   },
   computed: {
     hasMainImage () {
@@ -127,6 +148,11 @@ export default {
   border-radius: 24px;
   overflow: hidden;
 
+  &.clickable:hover {
+    text-decoration: none;
+    box-shadow: 0px 6px 22px 0px rgba(0, 0, 0, 0.20);
+  }
+
   &.horizontal {
     @media (min-width: $screen-sm) {
       flex-direction: row;
@@ -180,6 +206,8 @@ export default {
     aspect-ratio: 16 / 9;
     overflow: hidden;
     position: relative;
+    object-fit: cover;
+    object-position: top;
 
     @media (max-width: $screen-sm) {
       max-height: 210px;
@@ -210,7 +238,7 @@ export default {
     position: relative;
     height: 100%;
     width: 100%;
-    justify-content: space-between;
+    flex-grow: 1;
 
     .horizontal & {
       @media (min-width: $screen-sm) {
@@ -233,6 +261,16 @@ export default {
   gap: 12px;
   padding: 4px 0px 0px;
   position: relative;
+  height: 100%;
+  >:last-child{
+    margin-top: auto;
+  }
+
+  .middle-text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 
 .title {

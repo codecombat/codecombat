@@ -53,6 +53,9 @@ export default {
         @extend %font-18-24;
         align-items: center;
         background-color: $purple;
+        &:hover {
+            background-color: $purple-2;
+        }
         border-radius: 8px;
         display: inline-flex;
 
@@ -65,6 +68,9 @@ export default {
         position: relative;
         white-space: nowrap;
         width: fit-content;
+        @media screen and (min-width: $screen-md-min){
+          min-width: 260px;
+        }
     }
 }
 </style>

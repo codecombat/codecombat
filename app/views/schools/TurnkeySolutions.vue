@@ -13,8 +13,15 @@
           class="vector"
           :src="item.src"
         >
-        <div class="text-wrapper">
-          {{ item.text }}
+        <div
+          class="text-wrapper"
+        >
+          <div
+            v-for="(line, lineIndex) in item.text.split('\n')"
+            :key="`line-${lineIndex}`"
+          >
+            {{ line }}
+          </div>
         </div>
       </div>
     </div>
@@ -43,6 +50,7 @@ export default {
   <!-- Styles remain the same -->
 
 <style lang="scss" scoped>
+@import "app/styles/component_variables.scss";
 .solutions {
     align-items: center;
     display: flex;
@@ -83,16 +91,13 @@ export default {
     .vector {
         position: relative;
         width: 70px;
+        height: 70px;
     }
 
     .text-wrapper {
         align-self: stretch;
         color: #000000;
-        font-family: "Plus Jakarta Sans-Regular", Helvetica;
-        font-size: 20px;
-        font-weight: 400;
-        letter-spacing: 0;
-        line-height: 26px;
+        @extend %font-20;
         position: relative;
         text-align: center;
     }

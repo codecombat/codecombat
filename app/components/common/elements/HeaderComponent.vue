@@ -120,13 +120,14 @@ export default {
             margin-top: 20%;
         }
 
-        margin-bottom: 20%;
+        margin-bottom: 10%;
     }
 
     .overlap-cubes {
         position: absolute;
         width: 18%;
         z-index: 4;
+        transform: rotate(12deg);
     }
 
     .overlap-cubes-2 {

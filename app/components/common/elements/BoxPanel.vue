@@ -24,6 +24,9 @@
           :arrangement="arrangement"
           :main-image-bg="item.mainImageBg"
           :equal-width="item.equalWidth"
+          :link="item.link"
+          :middle-text="item.middleText"
+          :middle-image="item.middleImage"
         >
           <template #image>
             <img :src="item.image">

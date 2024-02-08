@@ -21,9 +21,9 @@
             <template #image>
               <div style="position: relative; padding-top: 56.25%;">
                 <iframe
-                  src="https://customer-burj9xtby325x4f1.cloudflarestream.com/8dc59ba8779cdb63f9cf5a3cb7493b09/iframe?muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F8dc59ba8779cdb63f9cf5a3cb7493b09%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+                  src="https://customer-burj9xtby325x4f1.cloudflarestream.com/8dc59ba8779cdb63f9cf5a3cb7493b09/iframe?letterboxColor=transparent&muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F8dc59ba8779cdb63f9cf5a3cb7493b09%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
                   loading="lazy"
-                  style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+                  style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: transparent;"
                   allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
                   allowfullscreen="true"
                 />
@@ -77,9 +77,9 @@
         <template #image>
           <div style="position: relative; padding-top: 57.2202166064982%;">
             <iframe
-              src="https://customer-burj9xtby325x4f1.cloudflarestream.com/c01bf2665cc40c18e1b728516b3ed4fb/iframe?muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fc01bf2665cc40c18e1b728516b3ed4fb%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+              src="https://customer-burj9xtby325x4f1.cloudflarestream.com/c01bf2665cc40c18e1b728516b3ed4fb/iframe?letterboxColor=transparent&muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fc01bf2665cc40c18e1b728516b3ed4fb%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
               loading="lazy"
-              style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+              style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: transparent;"
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
               allowfullscreen="true"
             />
@@ -94,9 +94,9 @@
         <template #image>
           <div style="position: relative; padding-top: 56.39999999999999%;">
             <iframe
-              src="https://customer-burj9xtby325x4f1.cloudflarestream.com/16ca174da271510477cc042ef2c976be/iframe?preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F16ca174da271510477cc042ef2c976be%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+              src="https://customer-burj9xtby325x4f1.cloudflarestream.com/16ca174da271510477cc042ef2c976be/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F16ca174da271510477cc042ef2c976be%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
               loading="lazy"
-              style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+              style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: transparent;"
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
               allowfullscreen="true"
             />
@@ -117,7 +117,7 @@
         <template #image>
           <div style="position: relative; padding-top: 47.8125%;">
             <iframe
-              src="https://customer-burj9xtby325x4f1.cloudflarestream.com/cfd3f5540ac68830bb1ac43f9863a220/iframe?preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fcfd3f5540ac68830bb1ac43f9863a220%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+              src="https://customer-burj9xtby325x4f1.cloudflarestream.com/cfd3f5540ac68830bb1ac43f9863a220/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fcfd3f5540ac68830bb1ac43f9863a220%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
               loading="lazy"
               style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
@@ -139,7 +139,7 @@
         <template #image>
           <div style="position: relative; padding-top: 72.3%;">
             <iframe
-              src="https://customer-burj9xtby325x4f1.cloudflarestream.com/df52cfd5a4af158c164380a0fb223e69/iframe?preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fdf52cfd5a4af158c164380a0fb223e69%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+              src="https://customer-burj9xtby325x4f1.cloudflarestream.com/df52cfd5a4af158c164380a0fb223e69/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fdf52cfd5a4af158c164380a0fb223e69%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
               loading="lazy"
               style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
@@ -156,7 +156,10 @@
     >
       <div class="row">
         <div class="col-md-12">
-          <CTAButton class="contact-modal">
+          <CTAButton
+            href="https://codecombat.com/teachers/quote"
+            target="_blank"
+          >
             {{ $t('schools_page.request_a_demo') }}
           </CTAButton>
         </div>
@@ -374,7 +377,7 @@
         </p>
         <custom-table
           :header-contents="[
-            $t('schools_page.middle_school'),
+            $t('schools_page.high_school'),
             $t('schools_page.codecombat'),
             $t('schools_page.codecombat_worlds'),
             $t('schools_page.ai_hackstack'),
@@ -434,7 +437,7 @@
     >
       <div class="row">
         <div class="col-md-12">
-          <CTAButton class="contact-modal">
+          <CTAButton link="https://codecombat.com/teachers/quote">
             {{ $t('new_home.request_quote') }}
           </CTAButton>
         </div>
@@ -614,6 +617,8 @@ export default Vue.extend({
           title: this.$t('schools_page.student_acceleration_2_title'),
           text: this.$t('schools_page.student_acceleration_2_text'),
           image: '/images/pages/schools/boxes/maximize_6.webp',
+          linkText: this.$t('schools_page.learn_more_text'),
+          link: 'https://codecombat.com/apcsp',
           mainImageOriginal: true
         }
       ],
@@ -649,8 +654,8 @@ export default Vue.extend({
         {
           title: this.$t('schools_page.support_development_1_title'),
           text: this.$t('schools_page.support_development_1_text'),
-          link: '#',
-          linkText: this.$t('schools_page.support_development_1_link_text'),
+          link: 'https://codecombat.com/teachers/quote',
+          linkText: this.$t('schools_page.learn_more_text'),
           image: '/images/pages/schools/boxes/maximize_10.webp'
         },
         {
@@ -658,7 +663,8 @@ export default Vue.extend({
           text: this.$t('home_v3.solutions_1_text'),
           link: 'https://www.ozaria.com/pd',
           linkText: this.$t('home_v3.solutions_1_linkText'),
-          frameImage: '/images/pages/home-v3/logo/southern-new-hampshire-university.webp',
+          middleText: this.$t('home_v3.solutions_1_middleText'),
+          middleImage: '/images/pages/schools/logo/southern-new-hampshire-university_small.webp',
           image: '/images/pages/home-v3/solutions/box_1.webp'
         }
       ]
@@ -689,7 +695,7 @@ export default Vue.extend({
 
   .container {
     &__header {
-      padding-top: 80px;
+      padding-top: 200px;
 
       .text-h1 {
         margin-top: 0;
@@ -701,8 +707,6 @@ export default Vue.extend({
       @extend %font-44;
       text-align: left;
     }
-
-    padding-bottom: 80px;
   }
 
   #trends {
