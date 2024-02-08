@@ -27,9 +27,13 @@
           :link="item.link"
           :middle-text="item.middleText"
           :middle-image="item.middleImage"
+          :middle-image-alt="item.middleImageAlt"
         >
           <template #image>
-            <img :src="item.image">
+            <img
+              :src="item.image"
+              :alt="`Image to illustrate ${item.title}`"
+            >
           </template>
           <template #title>
             {{ item.title }}

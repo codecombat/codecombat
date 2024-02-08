@@ -14,7 +14,8 @@
               <template #image>
                 <div style="position: relative; padding-top: 56.25%;">
                   <iframe
-                    src="https://customer-burj9xtby325x4f1.cloudflarestream.com/da0d63c489741f4bd20448af1846292a/iframe?preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fda0d63c489741f4bd20448af1846292a%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+                    alt="CodeCombat Home Page Video"
+                    src="https://customer-burj9xtby325x4f1.cloudflarestream.com/da0d63c489741f4bd20448af1846292a/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fda0d63c489741f4bd20448af1846292a%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
                     style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
                     allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
                     allowfullscreen="true"
@@ -230,7 +231,7 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.testimonals_2_title'),
           name: this.$t('home_v3.testimonals_2_name'),
-          image: '/images/pages/home-v3/testimonal/scott.jpeg'
+          image: '/images/pages/home-v3/testimonal/scott.webp'
         },
         {
           title: this.$t('home_v3.testimonals_3_title'),
@@ -240,7 +241,7 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.testimonals_4_title'),
           name: this.$t('home_v3.testimonals_4_name'),
-          image: '/images/pages/home-v3/testimonal/sandra.jpg'
+          image: '/images/pages/home-v3/testimonal/sandra.webp'
         }
       ],
       carouselItems: [
@@ -336,6 +337,7 @@ export default Vue.extend({
           linkText: this.$t('home_v3.solutions_1_linkText'),
           middleText: this.$t('home_v3.solutions_1_middleText'),
           middleImage: '/images/pages/schools/logo/southern-new-hampshire-university_small.webp',
+          middleImageAlt: 'Southern New Hampshire University logo',
           image: '/images/pages/home-v3/solutions/box_1.webp'
         },
         {

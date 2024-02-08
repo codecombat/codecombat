@@ -6,6 +6,7 @@
           <img
             v-if="image"
             :src="image"
+            :alt="alt || `Image to illustrate ${title}`"
           >
           <slot
             v-else
@@ -55,6 +56,11 @@ export default {
       default: null
     },
     image: {
+      type: String,
+      required: false,
+      default: null
+    },
+    alt: {
       type: String,
       required: false,
       default: null

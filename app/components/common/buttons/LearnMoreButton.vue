@@ -9,6 +9,7 @@
       <img
         v-if="hasArrow"
         class="text-button-link__vector"
+        alt="arrow pointing right"
         src="/images/components/arrow.svg"
       >
     </a>

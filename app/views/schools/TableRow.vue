@@ -93,6 +93,9 @@ export default {
       }
 
       .text-wrapper {
+        @media screen and (max-width: $screen-md) {
+          font-size: 0.8em;
+        }
         @media screen and (max-width: $screen-sm) {
           font-size: 0.6em;
         }

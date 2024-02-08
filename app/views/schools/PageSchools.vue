@@ -21,6 +21,7 @@
             <template #image>
               <div style="position: relative; padding-top: 56.25%;">
                 <iframe
+                  alt="CodeCombat Schools Page video"
                   src="https://customer-burj9xtby325x4f1.cloudflarestream.com/8dc59ba8779cdb63f9cf5a3cb7493b09/iframe?letterboxColor=transparent&muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F8dc59ba8779cdb63f9cf5a3cb7493b09%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
                   loading="lazy"
                   style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: transparent;"
@@ -77,6 +78,7 @@
         <template #image>
           <div style="position: relative; padding-top: 57.2202166064982%;">
             <iframe
+              alt="Video to illustrate flexible standards-aligned curriculum"
               src="https://customer-burj9xtby325x4f1.cloudflarestream.com/c01bf2665cc40c18e1b728516b3ed4fb/iframe?letterboxColor=transparent&muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fc01bf2665cc40c18e1b728516b3ed4fb%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
               loading="lazy"
               style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: transparent;"
@@ -94,6 +96,7 @@
         <template #image>
           <div style="position: relative; padding-top: 56.39999999999999%;">
             <iframe
+              alt="Video to illustrate comprehensive tools and resources"
               src="https://customer-burj9xtby325x4f1.cloudflarestream.com/16ca174da271510477cc042ef2c976be/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F16ca174da271510477cc042ef2c976be%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
               loading="lazy"
               style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: transparent;"
@@ -117,6 +120,7 @@
         <template #image>
           <div style="position: relative; padding-top: 47.8125%;">
             <iframe
+              alt="Video to illustrate accessible data insights"
               src="https://customer-burj9xtby325x4f1.cloudflarestream.com/cfd3f5540ac68830bb1ac43f9863a220/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fcfd3f5540ac68830bb1ac43f9863a220%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
               loading="lazy"
               style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
@@ -134,11 +138,15 @@
       >
         <p class="hq-prof">
           <span>{{ $t('schools_page.earn_up_to_3_graduate_credits') }}</span>
-          <img src="/images/pages/schools/logo/southern-new-hampshire-university_small.webp">
+          <img
+            src="/images/pages/schools/logo/southern-new-hampshire-university_small.webp"
+            alt="Southern New Hampshire University logo"
+          >
         </p>
         <template #image>
           <div style="position: relative; padding-top: 72.3%;">
             <iframe
+              alt="Video to illustrate high quality professional development"
               src="https://customer-burj9xtby325x4f1.cloudflarestream.com/df52cfd5a4af158c164380a0fb223e69/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fdf52cfd5a4af158c164380a0fb223e69%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
               loading="lazy"
               style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
@@ -665,6 +673,7 @@ export default Vue.extend({
           linkText: this.$t('home_v3.solutions_1_linkText'),
           middleText: this.$t('home_v3.solutions_1_middleText'),
           middleImage: '/images/pages/schools/logo/southern-new-hampshire-university_small.webp',
+          middleImageAlt: 'Southern New Hampshire University logo',
           image: '/images/pages/home-v3/solutions/box_1.webp'
         }
       ]

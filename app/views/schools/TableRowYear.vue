@@ -15,7 +15,10 @@
         class="group"
       >
         <div class="overlap-group">
-          <img :src="`/images/pages/schools/percent-${percent}.svg`">
+          <img
+            :src="`/images/pages/schools/percent-${percent}.svg`"
+            :alt="`${percent} %`"
+          >
         </div>
         <div class="text-wrapper">
           {{ percent }}%<span> of Time</span>
@@ -88,15 +91,19 @@ export default {
       }
 
       .text-wrapper {
+        @media screen and (max-width: $screen-md) {
+          font-size: 0.8em;
+        }
         @media screen and (max-width: $screen-sm) {
           font-size: 0.6em;
         }
-          span {
-            @media screen and (max-width: $screen-sm) {
-              display: none;
-            }
+
+        span {
+          @media screen and (max-width: $screen-sm) {
+            display: none;
           }
         }
+      }
 
       &:nth-child(2) {
         background: $middle-purple;
@@ -118,10 +125,12 @@ export default {
       position: relative;
       width: 30px;
       display: flex;
+
       @media screen and (max-width: $screen-sm) {
         height: 20px;
         width: 20px;
       }
+
       img {
         width: 100%;
         height: 100%;

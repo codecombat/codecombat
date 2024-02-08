@@ -3,6 +3,7 @@
     <avatar-component
       v-if="image"
       :img="image"
+      :alt="name"
     />
     <span class="profile-card__name">
       {{ name }}

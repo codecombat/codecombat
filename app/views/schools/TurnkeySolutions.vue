@@ -12,6 +12,7 @@
         <img
           class="vector"
           :src="item.src"
+          :alt="`Vector image to illustrate ${item.text}`"
         >
         <div
           class="text-wrapper"

@@ -37,7 +37,10 @@
           class="middle-text"
         >
           <span>{{ middleText }}</span>
-          <img :src="middleImage">
+          <img
+            :src="middleImage"
+            :alt="middleImageAlt"
+          >
         </p>
         <slot name="button" />
       </div>
@@ -90,6 +93,10 @@ export default {
       default: null
     },
     middleImage: {
+      type: String,
+      default: null
+    },
+    middleImageAlt: {
       type: String,
       default: null
     }
@@ -270,6 +277,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
   }
 }
 

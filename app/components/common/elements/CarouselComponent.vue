@@ -42,6 +42,7 @@
             <img
               class="content-icon"
               :src="item.image"
+              :alt="item.alt || item.title"
             >
           </div>
           <div class="content-text">
@@ -58,6 +59,7 @@
       <div :class="{ 'carousel-dots': true, 'carousel-tabs-default': showDots }">
         <img
           :src="`/images/components/arrow${currentIndex <= 0 ? '-light' : ''}.svg`"
+          :alt="`Arrow to go to the previous item in the carousel${currentIndex <= 0 ? ' - disabled' : ''}`"
           @click="goTo(currentIndex - 1)"
         >
         <button
@@ -70,6 +72,8 @@
         </button>
         <img
           :src="`/images/components/arrow${currentIndex >= items.length - 1 ? '-light' : ''}.svg`"
+          :alt="`Arrow to go to the next item in the carousel${currentIndex >= items.length - 1 ? ' - disabled' : ''}`"
+
           @click="goTo(currentIndex + 1)"
         >
       </div>
