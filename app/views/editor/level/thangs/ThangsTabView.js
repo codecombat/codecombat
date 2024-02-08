@@ -857,7 +857,7 @@ module.exports = (ThangsTabView = (function () {
       Backbone.Mediator.publish('editor:level-thangs-changed', { thangs })
       if (this.editThangView) { return }
       if (skipSerialization) { return }
-      const serializedLevel = this.level.serialize({ supermodel: this.supermodel, session: null, otherSession: null, headless: false, sessionless: true, cached: true })
+      const serializedLevel = this.level.serialize({ supermodel: this.supermodel, session: null, otherSession: null, headless: false, sessionless: true, cached: true, isEditorPreview: true })
       try {
         this.world.loadFromLevel(serializedLevel, false)
       } catch (error) {

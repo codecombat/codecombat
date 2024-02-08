@@ -14,10 +14,6 @@ async function generateLevel (parameters) {
   const level = {
     parameters,
     parametersKey: generateKeyForParameters(parameters),
-    code: {
-      start: 'hero.moveDown()',
-      solution: 'hero.moveDown()\nhero.moveRight(2)'
-    },
   }
 
   for (const generationFunction of generationFunctions) {
@@ -34,7 +30,7 @@ const ParametersSchema = schemas.object({ required: ['difficulty', 'kind'] }, {
   kind: schemas.shortString({ title: 'Kind', description: 'Similar to type, but just for our organization.', enum: ['demo', 'usage', 'mastery', 'advanced', 'practice', 'challenge'] }),
   difficulty: { type: 'integer', minimum: 1, maximum: 5 },
   combat: { type: 'boolean' },
-  size: schemas.shortString({ title: 'Size', description: 'How big the level is', enum: ['junior-3x2', 'junior4x3', 'junior5x4', 'junior6x5', 'junior7x6', 'junior8x7', 'junior9x7', 'junior9x8'] }),
+  size: schemas.shortString({ title: 'Size', description: 'How big the level is', enum: ['junior3x2', 'junior4x3', 'junior5x4', 'junior6x5', 'junior7x6', 'junior8x7', 'junior9x7', 'junior9x8'] }),
   skillReading: { type: 'number', minimum: 0, maximum: 1 },
   skillTyping: { type: 'number', minimum: 0, maximum: 1 },
   skillEditing: { type: 'number', minimum: 0, maximum: 1 },
@@ -98,15 +94,15 @@ function generateProperty (property, fn) {
   generationFunctions.push(generationFunction)
 }
 
-// name: c.shortString()
-generateProperty('name', function (level, parameters) {
-  return `autolevel-${generateKeyForParameters(parameters)}`
-})
+// // name: c.shortString()
+// generateProperty('name', function (level, parameters) {
+//   return `autolevel-${generateKeyForParameters(parameters)}`
+// })
 
-// displayName: c.shortString({title: 'Display Name', inEditor: 'ozaria'}),
-generateProperty('displayName', function (level, parameters) {
-  return `Autolevel ${parameters.terrain} ${parameters.kind} ${parameters.difficulty}`
-})
+// // displayName: c.shortString({title: 'Display Name', inEditor: 'ozaria'}),
+// generateProperty('displayName', function (level, parameters) {
+//   return `Autolevel ${parameters.terrain} ${parameters.kind} ${parameters.difficulty}`
+// })
 
 // description: {title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, format: 'markdown', inEditor: true},
 generateProperty('description', function (level, parameters) {
@@ -191,12 +187,12 @@ generateProperty('goals', function (level, parameters) {
       name: 'Move to the X.'
     },
 
-    defeatOgres: {
+    defeatEnemies: {
       killThangs: [
         'ogres'
       ],
       id: 'ogres-die',
-      name: 'Defeat the ogres.'
+      name: 'Defeat the enemies.'
     },
 
     defeatDoor: {
@@ -242,7 +238,7 @@ generateProperty('goals', function (level, parameters) {
 
   const goals = [exampleGoals.heroSurvives, exampleGoals.cleanCode]
   if (!parameters.combat && Math.random() < 0.75) {
-    goals.push(exampleGoals.defeatOgres)
+    goals.push(exampleGoals.defeatEnemies)
   }
   if (Math.random() < 0.5) {
     goals.push(exampleGoals.collectGem)
@@ -311,8 +307,6 @@ const PhysicalID = '524b75ad7fc0f6d519000001' // LevelComponent.ExistsID
 const ExistsID = '524b4150ff92f1f4f8000024' // LevelComponent.PhysicalID
 
 const defaultHeroComponentIDs = {
-  Physical: PhysicalID,
-  Exists: ExistsID,
   Programmable: '524b7b5a7fc0f6d51900000e',
   JuniorPlayer: '65b29e528f43392e778c9433',
   Collides: '524b7b857fc0f6d519000012',
@@ -397,14 +391,18 @@ generateProperty('thangs', async function (level, parameters) {
   const thangTypes = await loadThangTypes(terrainThangs)
 
   const resultThangs = []
+  const resultThangsByNameCount = {}
   for (const terrainThang of terrainThangs) {
     const spriteName = terrainThang.id
     const isHero = spriteName === 'Hero Placeholder'
-    const thangID = isHero ? spriteName : `Random ${spriteName} ${resultThangs.length + 1}`
+    const numExistingThangsForSpriteName = resultThangsByNameCount[spriteName] || 0
+    // Match existing level editor naming logic: Gem, Gem 1, Gem 2, etc.
+    const thangID = numExistingThangsForSpriteName > 0 ? `${spriteName} ${numExistingThangsForSpriteName}` : spriteName
     const thangType = thangTypes[spriteName]
     const components = createEssentialComponents(thangType.components, terrainThang.pos, isHero)
     const thang = { thangType: thangType.original, id: thangID, components }
     resultThangs.push(thang)
+    resultThangsByNameCount[spriteName] = (resultThangsByNameCount[spriteName] || 0) + 1
   }
 
   return resultThangs
@@ -733,7 +731,7 @@ generateProperty(null, function (level, parameters) {
     requiredThangTypes: ['5467beaf69d1ba0000fb91fb']
   }
 
-  const physical = _.find(hero.components, (component) => component.original === defaultHeroComponentIDs.Physical)
+  const physical = _.find(hero.components, (component) => component.original === PhysicalID)
   physical.config = {
     pos: { x: 6, y: 14, z: 0.5 }
   }

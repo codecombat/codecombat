@@ -339,46 +339,62 @@ const presetSizes = {
     x: 28,
     y: 23.8,
     sizeFactor: 0.35,
-    doubleTopWall: true
+    doubleTopWall: true,
+    cols: 3,
+    rows: 2,
   },
   junior4x3: {
     x: 36,
     y: 30.6,
     sizeFactor: 0.45,
-    doubleTopWall: true
+    doubleTopWall: true,
+    cols: 4,
+    rows: 3,
   },
   junior5x4: {
     x: 44,
     y: 37.4,
     sizeFactor: 0.55,
-    doubleTopWall: true
+    doubleTopWall: true,
+    cols: 5,
+    rows: 4,
   },
   junior6x5: {
     x: 52,
     y: 44.2,
     sizeFactor: 0.65,
-    doubleTopWall: true
+    doubleTopWall: true,
+    cols: 6,
+    rows: 5,
   },
   junior7x6: {
     x: 60,
     y: 51,
-    sizeFactor: 0.75
+    sizeFactor: 0.75,
+    cols: 7,
+    rows: 6,
   },
   junior8x7: {
     x: 68,
     y: 58.1, // 57.8, // Nudged it up to get an extra land and make walls work; hmm
-    sizeFactor: 0.85
+    sizeFactor: 0.85,
+    cols: 8,
+    rows: 7,
   },
   junior9x7: {
     x: 76,
     y: 64.6,
     sizeFactor: 0.95,
-    doubleTopWall: true
+    doubleTopWall: true,
+    cols: 9,
+    rows: 7,
   },
   junior9x8: {
     x: 76,
     y: 66.1, // 64.6, // Nudged it up to get an extra land and make walls work; hmm
-    sizeFactor: 0.95
+    sizeFactor: 0.95,
+    cols: 9,
+    rows: 8,
   },
   small: {
     x: 80,
@@ -591,13 +607,10 @@ function generateDecorations (result) {
 
 function generateEnemies (result, killThangsGoal) {
   console.log('generate enemies', killThangsGoal)
-  for (let i = 0; i < Math.floor(Math.random() * 8);) {
+  for (let i = 0; i < Math.ceil(Math.random() * 8);) {
     const enemy = {
-      id: getRandomThang(['Ogre Munchkin M', 'Ogre Munchkin F']),
-      pos: {
-        x: _.random(result.presetSize.x / 2, result.presetSize.x - (result.preset.borderSize / 2)),
-        y: _.random(result.presetSize.y / 2, result.presetSize.y - (result.preset.borderSize / 2))
-      },
+      id: getRandomThang(['Skeleton Junior']),
+      pos: getRandomPosition(result),
       margin: 1
     }
     if (addThang(result, enemy)) {
@@ -614,17 +627,11 @@ function generateGetToLocations (result, getToLocationsGoal) {
   console.log('generate get to locations thangs', getToLocationsGoal)
   while (true) {
     const locationThang = {
-      id: 'Goal Trigger',
-      pos: {
-        x: _.random(result.presetSize.x / 2, result.presetSize.x - (result.preset.borderSize / 2)),
-        y: _.random(result.presetSize.y / 2, result.presetSize.y - (result.preset.borderSize / 2))
-      },
+      id: 'Goal Junior',
+      pos: getRandomPosition(result),
       margin: 2
     }
     if (addThang(result, locationThang)) {
-      const visibleXMarkThang = _.cloneDeep(locationThang)
-      visibleXMarkThang.id = 'X Mark Red'
-      result.thangs.push(visibleXMarkThang)
       break
     }
   }
@@ -632,13 +639,10 @@ function generateGetToLocations (result, getToLocationsGoal) {
 
 function generateCollectThangs (result, collectThangsGoal) {
   console.log('generate collect thangs', collectThangsGoal)
-  for (let i = 0; i < Math.floor(Math.random() * 8);) {
+  for (let i = 0; i <= Math.floor(Math.random() * 8);) {
     const collectThang = {
-      id: getRandomThang(['Gem', 'Gem Pile Small', 'Gem Pile Medium', 'Chest of Gems']),
-      pos: {
-        x: _.random(result.presetSize.x / 2, result.presetSize.x - (result.preset.borderSize / 2)),
-        y: _.random(result.presetSize.y / 2, result.presetSize.y - (result.preset.borderSize / 2))
-      },
+      id: getRandomThang(['Gem Junior']),
+      pos: getRandomPosition(result),
       margin: 1
     }
     if (addThang(result, collectThang)) {
@@ -653,13 +657,10 @@ function generateCollectThangs (result, collectThangsGoal) {
 
 function generateDefendThangs (result, defendThangsGoal) {
   console.log('generate defend thangs', defendThangsGoal)
-  for (let i = 0; i < Math.floor(Math.random() * 8);) {
+  for (let i = 0; i <= Math.floor(Math.random() * 8);) {
     const defendThang = {
       id: getRandomThang(['Soldier M', 'Soldier F', 'Archer M', 'Archer F', 'Peasant M', 'Peasant F']),
-      pos: {
-        x: _.random(result.presetSize.x / 2, result.presetSize.x - (result.preset.borderSize / 2)),
-        y: _.random(result.presetSize.y / 2, result.presetSize.y - (result.preset.borderSize / 2))
-      },
+      pos: getRandomPosition(result),
       margin: 1
     }
     if (addThang(result, defendThang)) {
@@ -854,6 +855,13 @@ function addRect (result, rect) {
 
 function getRandomThang (thangList) {
   return thangList[_.random(0, thangList.length - 1)]
+}
+
+function getRandomPosition (result) {
+  const row = Math.floor(Math.random() * result.presetSize.rows)
+  const col = Math.floor(Math.random() * result.presetSize.cols)
+  const pos = { x: 6 + 8 * col, y: 6 + 8 * row }
+  return pos
 }
 
 module.exports = {

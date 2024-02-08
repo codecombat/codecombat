@@ -10,7 +10,6 @@ let GenerateTerrainModal
 require('app/styles/editor/level/modal/generate-terrain-modal.sass')
 const ModalView = require('views/core/ModalView')
 const template = require('app/templates/editor/level/modal/generate-terrain-modal')
-const CocoModel = require('models/CocoModel')
 
 const { presets, presetSizes, generateThangs } = require('app/lib/terrain-generation')
 
@@ -30,13 +29,6 @@ module.exports = (GenerateTerrainModal = (function () {
       super(options)
       this.presets = _.omit(presets, 'junior')
       this.presetSizes = _.omit(presetSizes, (v, k) => /junior/.test(k))
-    }
-
-    onRevertModel (e) {
-      const id = $(e.target).val()
-      CocoModel.backedUp[id].revert()
-      $(e.target).closest('tr').remove()
-      this.reloadOnClose = true
     }
 
     onGenerate (e) {

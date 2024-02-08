@@ -44,7 +44,7 @@ module.exports = (Level = (function () {
 
     serialize (options) {
       let cached, otherSession, session, supermodel;
-      ({ supermodel, session, otherSession, headless: this.headless, sessionless: this.sessionless, cached } = options)
+      ({ supermodel, session, otherSession, headless: this.headless, sessionless: this.sessionless, cached, isEditorPreview: this.isEditorPreview } = options)
       if (cached == null) { cached = false }
       const o = this.denormalize(supermodel, session, otherSession) // hot spot to optimize
 
@@ -238,7 +238,7 @@ module.exports = (Level = (function () {
           }
         }
       } else {
-        if (/Hero Placeholder/.test(levelThang.id) && this.usesSessionHeroThangType() && !this.usesSessionHeroInventory() && !this.headless) {
+        if (/Hero Placeholder/.test(levelThang.id) && this.usesSessionHeroThangType() && !this.usesSessionHeroInventory() && !this.headless && !this.isEditorPreview) {
           // Grab the hero from my config, not the session hero config (so that switching heroes globally applies to existing sessions), when we are using configured heroes but not their inventory.
           heroThangType = me.get('heroConfig')?.thangType || ThangTypeConstants.heroes.captain
           // For assessments, use default hero in class if classroomItems is on

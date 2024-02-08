@@ -30,6 +30,7 @@ const Course = require('models/Course')
 
 const RevertModal = require('views/modal/RevertModal')
 const GenerateTerrainModal = require('views/editor/level/modals/GenerateTerrainModal')
+const GenerateLevelModal = require('views/editor/level/modals/GenerateLevelModal')
 const levelGeneration = require('../../../lib/level-generation')
 
 const ThangsTabView = require('./thangs/ThangsTabView')
@@ -101,11 +102,12 @@ module.exports = (LevelEditView = (function () {
         'mouseup .nav-tabs > li a': 'toggleTab',
         'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal',
         'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal',
-        'click .generate-level-button': 'generateLevel',
+        'click .generate-level-button': 'onClickGenerateLevel',
       }
 
       this.prototype.subscriptions = {
         'editor:thang-deleted': 'onThangDeleted',
+        'editor:generate-random-level': 'generateLevel',
       }
 
       this.prototype.shortcuts = {
@@ -275,8 +277,16 @@ module.exports = (LevelEditView = (function () {
       this.openModalView(new GenerateTerrainModal())
     }
 
+    onClickGenerateLevel (e) {
+      e.stopPropagation()
+      this.openModalView(new GenerateLevelModal())
+    }
+
     async generateLevel (e) {
       const parameters = {} // Temp: totally random parameters
+      if (e?.size) {
+        parameters.size = e.size
+      }
       levelGeneration.generateLevel(parameters).then(level => {
         if (this.destroyed) return
         console.log('generated level', level)
