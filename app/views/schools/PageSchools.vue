@@ -159,8 +159,8 @@
     </div>
 
     <div
-      id="contact-us"
-      class="container"
+      id="request-a-demo"
+      class="container contact-us"
     >
       <div class="row">
         <div class="col-md-12">
@@ -440,8 +440,7 @@
     </div>
 
     <div
-      id="contact-us"
-      class="container"
+      class="container contact-us"
     >
       <div class="row">
         <div class="col-md-12">
@@ -702,6 +701,13 @@ export default Vue.extend({
 #page-schools {
   @extend %frontend-page;
 
+  #request-a-demo {
+    margin-bottom: -40px;
+    @media screen and (min-width: $screen-md) {
+      margin-bottom: -80px;
+    }
+  }
+
   .container {
     &__header {
       padding-top: 200px;
@@ -726,7 +732,7 @@ export default Vue.extend({
     padding-bottom: 160px;
   }
 
-  #contact-us, .pathway .contact-row {
+  .contact-us, .pathway .contact-row {
     text-align: center;
 
     p {
