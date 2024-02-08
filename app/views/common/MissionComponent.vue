@@ -10,7 +10,7 @@
     </div>
     <div class="div">
       <StatCard
-        img-src="/images/pages/home-v3/mission/vector.svg"
+        img-src="/images/pages/home-v3/mission/vector-1.svg"
         :text="$t('home_v3.stat_card_1_text')"
         :description="$t('home_v3.stat_card_1_description')"
       />
