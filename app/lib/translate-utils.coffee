@@ -209,7 +209,7 @@ translateJSWhitespace = (jsCode, language='lua') ->
   # Rewrite for-loops
   # for(i=0; i < archers.length; i++) {
   #     var archer = archers[i];
-  cStyleForInLoopWithVariableAssignmentRegex = /for ?\((?:var )?(.+?) ?= ?0; ?\1 ?< ?(.+?).length; ?(?:.*?\+\+.*?)\) *\{?\n(.*)var (.+?) ?= ?\2\[\1\];? *$/gm
+  cStyleForInLoopWithVariableAssignmentRegex = /for ?\((?:(?:var|let) )?(.+?) ?= ?0; ?\1 ?< ?(.+?).length; ?(?:.*?\+\+.*?)\) *\{?\n(.*)(?:var|let) (.+?) ?= ?\2\[\1\];? *$/gm
   if language is 'lua'
     # for i, archer in pairs(archers) do
     s = s.replace cStyleForInLoopWithVariableAssignmentRegex, 'for $1, $4 in pairs($2) do'
@@ -221,7 +221,7 @@ translateJSWhitespace = (jsCode, language='lua') ->
     s = s.replace cStyleForInLoopWithVariableAssignmentRegex, 'for $4, $1 in $2'
 
   # for(i=0; i < archers.length; i++) {
-  cStyleForInLoopRegex = /for ?\((?:var )?(.+?) ?= ?0; ?\1 ?< ?(.+?).length; ?(?:.*?\+\+.*?)\) *\{?/g
+  cStyleForInLoopRegex = /for ?\((?:(?:var|let) )?(.+?) ?= ?0; ?\1 ?< ?(.+?).length; ?(?:.*?\+\+.*?)\) *\{?/g
   if language is 'lua'
     # for i in pairs(archers) do
     s = s.replace cStyleForInLoopRegex, 'for $1 in pairs($2) do'
@@ -233,7 +233,7 @@ translateJSWhitespace = (jsCode, language='lua') ->
     s = s.replace cStyleForInLoopRegex, 'for $1 in [0...$2.length]'
 
   # for(i=0; i < 10; i++) {
-  cStyleForLoopRegex = /for ?\((?:var )?(.+?) ?= ?(\d+); ?\1 ?< ?(.+?); ?(?:.*?\+\+.*?)\) *\{?/g
+  cStyleForLoopRegex = /for ?\((?:(?:var|let) )?(.+?) ?= ?(\d+); ?\1 ?< ?(.+?); ?(?:.*?\+\+.*?)\) *\{?/g
   if language is 'lua'
     # for i=0, 10 do
     s = s.replace cStyleForLoopRegex, 'for $1=$2, $3 do'
@@ -242,11 +242,11 @@ translateJSWhitespace = (jsCode, language='lua') ->
     s = s.replace cStyleForLoopRegex, 'for $1 in range($2, $3):'
   else if language is 'coffeescript'
     # for i in [0...10]
-    s = s.replace cStyleForLoopRegex, 'for $1 [$2...$3]'
+    s = s.replace cStyleForLoopRegex, 'for $1 in [$2...$3]'
 
   # for(y=110; y >= 38; i -= 18) {
   # This is brittle and will not get inclusive vs. exclusive ranges right, but better than nothing
-  cStyleForLoopWithArithmeticRegex = /for ?\((?:var )?(.+?) ?= ?(\d+); ?\1 ?(<=|<|>=|>) ?(.+?); ?\1 ?\+?(-?)= ?(.*)\) *\{?/g
+  cStyleForLoopWithArithmeticRegex = /for ?\((?:(?:var|let) )?(.+?) ?= ?(\d+); ?\1 ?(<=|<|>=|>) ?(.+?); ?\1 ?\+?(-?)= ?(.*)\) *\{?/g
   if language is 'lua'
     # for y=110, 38, -18 do
     s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1=$2, $4, $5$6 do'
@@ -255,7 +255,7 @@ translateJSWhitespace = (jsCode, language='lua') ->
     s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1 in range($2, $4, $5$6):'
   else if language is 'coffeescript'
     # for y in [110...38, -18]
-    s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1 [$2...$4, $5$6]'
+    s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1 in [$2...$4, $5$6]'
 
   # There are a lot of other for-loop possibilities, but we'll handle those with manual solutions
 
