@@ -390,7 +390,7 @@ generateProperty('systems', function (level, parameters) {
     { original: '528115040268d018e300001b', majorVersion: 0, config: { checksLineOfSight: pathfindingAndLineOfSight } }, // Vision
     { original: '5280dc4d251616c907000001', majorVersion: 0 }, // Inventory
     { original: '528111b30268d018e3000004', majorVersion: 0 }, // Alliance
-    { original: '528114e60268d018e300001a', majorVersion: 0, config: { showsCoordinates: false } }, // UI
+    { original: '528114e60268d018e300001a', majorVersion: 0, config: { showCoordinates: false } }, // UI
     { original: '528114040268d018e3000011', majorVersion: 0 }, // Physics
     { original: '52ae4f02a4dcd4415200000b', majorVersion: 0 }, // Display
     { original: '52e953e81b2028d102000004', majorVersion: 0 }, // Effect
