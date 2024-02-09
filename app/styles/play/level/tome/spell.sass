@@ -54,6 +54,11 @@
     .programming-language
       color: darkred
 
+    @media screen and (max-aspect-ratio: 2 / 1)
+      @media screen and (min-aspect-ratio: 1 / 1)
+        // Narrow screens might have a very narrow code editor without space for this
+        display: none
+
   @include ace
 
 .ace_autocomplete .ace_line:not(.ace_selected) .ace_completion-meta
