@@ -1392,7 +1392,14 @@ const freeAccessLevels = [
   { access: 'short', slug: '1fhm1l1l5b' },
   { access: 'short', slug: '1fhm1l1l6b' },
   { access: 'short', slug: '1fhm1l1l7b' },
-  { access: 'short', slug: '1fhm1l1l8b' }
+  { access: 'short', slug: '1fhm1l1l8b' },
+  // Test set of free CoCo Jr levels
+  { access: 'short', slug: 'the-gem' },
+  { access: 'short', slug: 'snake-maze' },
+  { access: 'short', slug: 'doors' },
+  { access: 'short', slug: 'spin-eternally' },
+  { access: 'short', slug: 'gem-weave' },
+  { access: 'short', slug: 'zap-smart' },
 ]
 
 const orgKindString = function (kind, org = null) {

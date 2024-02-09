@@ -1504,7 +1504,7 @@ ${problem.category} - ${problem.score} points\
     onWindowResize (e) {
       let iPadHeight, resultingHeight, resultingWidth
       const mapHeight = (iPadHeight = 1536)
-      const mapWidth = { dungeon: 2350, forest: 2500, auditions: 2500, desert: 2411, mountain: 2422, glacier: 2421 }[this.terrain] || 2350
+      const mapWidth = { dungeon: 2350, forest: 2500, auditions: 2500, desert: 2411, mountain: 2422, glacier: 2421, junior: 2500 }[this.terrain] || 2350
       const aspectRatio = mapWidth / mapHeight
       const pageWidth = this.$el.width()
       const pageHeight = this.$el.height()
