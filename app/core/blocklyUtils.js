@@ -83,7 +83,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   const commentBlock = {
     type: 'comment',
     message0: '%1',
-    args0: [{ type: 'field_input', name: 'COMMENT', text: 'Comment' }],
+    args0: [{ type: 'field_label_serializable', name: 'COMMENT', text: 'Comment', 'class': 'comment-block' }],
     previousStatement: null,
     nextStatement: null,
     colour: 180,
