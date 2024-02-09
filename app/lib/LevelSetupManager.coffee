@@ -101,9 +101,13 @@ module.exports = class LevelSetupManager extends CocoClass
       unless (utils.isOzaria and _.contains allowedHeroOriginals, me.get('ozariaUserOptions')?.isometricThangTypeOriginal) or (utils.isCodeCombat and _.contains allowedHeroOriginals, me.get('heroConfig')?.thangType)
         firstModal = @heroesModal
 
-
     lastHeroesEarned = me.get('earned')?.heroes ? []
     lastHeroesPurchased = me.get('purchased')?.heroes ? []
+
+    if firstModal is @inventoryModal and @level.get('product', true) is 'codecombat-junior'
+      # Skip inventory screen
+      return @onInventoryModalPlayClicked()
+
     @options.parent.openModalView(firstModal)
     @trigger 'open'
     #    @inventoryModal.onShown() # replace?
@@ -114,7 +118,7 @@ module.exports = class LevelSetupManager extends CocoClass
      @inventoryModal.setHero(e.hero) if window.currentModal is @inventoryModal
 
   onHeroesModalConfirmClicked: (e) ->
-    if @options.level.get('product', true) is 'codecombat-junior'
+    if @level.get('product', true) is 'codecombat-junior'
       # Skip inventory screen
       return @onInventoryModalPlayClicked()
     @options.parent.openModalView(@inventoryModal)
