@@ -1089,7 +1089,28 @@ module.exports.createBlockById = function ({ workspace, id, codeLanguage }) {
   const topBlocks = workspace.getTopBlocks(true)
   const newWorkspaceBlock = workspace.getToolbox()?.getFlyout()?.createBlock(flyoutBlock)
   if (!newWorkspaceBlock) return null
-  newWorkspaceBlock.moveBy(0, 1000, 'Putting this all the way down so that it goes in the right order when we clean up')
+  let lastBlock = _.last(topBlocks)
+  while (lastBlock.getChildren(true)?.length) {
+    const foundNextConnection = false
+    for (const block of lastBlock.getChildren(true)) {
+      if (block.nextConnection) {
+        lastBlock = block
+        break
+      }
+    }
+    if (!foundNextConnection) {
+      break
+    }
+  }
+  if (lastBlock) {
+    const parentConnection = lastBlock.nextConnection
+    const childConnection = newWorkspaceBlock.previousConnection
+    if (parentConnection && childConnection) {
+      parentConnection.connect(childConnection)
+      return
+    }
+  }
+  newWorkspaceBlock.moveBy(0, 1000, 'Could not automatically connect. Putting this all the way down so that it goes in the right order when we clean up.')
   workspace.cleanUp()
   return newWorkspaceBlock
 }
