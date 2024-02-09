@@ -83,6 +83,8 @@ module.exports = class Spell
   setLanguage: (@language) ->
     @language = 'html' if @level.isType('web-dev')
     @displayCodeLanguage = utils.capitalLanguages[@language]
+    if @language is 'python' and @languages[@language] is '# Should fill in some default source\n'
+      @languages[@language] = null
     if @language in ['cpp', 'java', 'lua', 'coffeescript', 'python'] and not @languages[@language]
       @languages[@language] = translateJS @languages.javascript, @language
     @originalSource = @languages[@language] ? @languages.javascript
