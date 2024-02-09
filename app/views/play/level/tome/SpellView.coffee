@@ -827,6 +827,8 @@ module.exports = class SpellView extends CocoView
     @updateAceLines(screenLineCount, ace, aceCls, areaId)
 
   updateAceLines: (screenLineCount, ace=@ace, aceCls='.ace', areaId='#code-area') =>
+    # Figure out how many lines we should set ace to and update it.
+    # Also update spell palette size and position, if it is shown.
     isCinematic = $('#level-view').hasClass('cinematic')
     hasBlocks = @blocklyActive
     lineHeight = ace.renderer.lineHeight or 20
@@ -903,6 +905,90 @@ module.exports = class SpellView extends CocoView
     if @firstEntryToScrollLine? and @ace?.renderer?.$cursorLayer?.config
       @ace.scrollToLine @firstEntryToScrollLine, true, true
       @firstEntryToScrollLine = undefined
+
+    # Determine how wide the editor can/should be, in terms of max code line length in current code and solution
+    isJunior = @options.level.get('product', true) is 'codecombat-junior'
+    isWebDev = @options.level.isType('web-dev')
+    lineLengthWrappingComments = (line) =>
+      if @singleLineCommentOnlyRegex().test(line)
+        # 85% of CodeCombat solution lines are under 60 characters; longer ones are mostly comments, Java/C++, or advanced
+        return Math.min(line.length, 60)
+      return line.length
+    lineLengthWithoutComments = (line) =>
+      if @singleLineCommentOnlyRegex().test(line)
+        return 0
+      return line.length
+    currentCodeLineLengthFunction = if @blocklyActive then lineLengthWithoutComments else lineLengthWrappingComments
+    longestLineChars = Math.max @aceDoc.getAllLines().map(currentCodeLineLengthFunction)...
+    solution = store.getters['game/getSolutionSrc'](@spell.language)
+    if solution
+      longestLineChars = Math.max longestLineChars, solution.split('\n').map(lineLengthWithoutComments)...
+    wrapperIndentationChars = { cpp: 4, java: 8 }[@spell.language] or 0  # main, class + main
+    if longestLineChars < 8
+      # No (complete) lines of code yet, so let's guess at how long a line will be
+      # A long Junior line might be like this (28 characters):
+      # for (let i = 0; i < 5; ++i) {
+      # A long CodeCombat line might be like this (39 characters):
+      #     var enemy = hero.findNearestEnemy();
+      longestLineChars = (if isJunior then 30 else 40) + wrapperIndentationChars
+    longestLineChars = Math.max(longestLineChars, 40) if isWebDev
+    hardMinCodeChars = switch
+      when isJunior then 12 + wrapperIndentationChars
+      when @blocklyActive then 18 + wrapperIndentationChars
+      else 29  # Enough for two spell palette columns
+    hardMaxCodeChars = (if isJunior is 'codecombat-junior' then 40 else 80) + wrapperIndentationChars
+    desiredCodeChars = Math.min(hardMaxCodeChars, Math.max(hardMinCodeChars, longestLineChars + 1))
+    previousDesiredCodeChars = @codeChars?.desired
+    @codeChars = min: hardMinCodeChars, max: hardMaxCodeChars, desired: desiredCodeChars
+    resizing = false
+    if previousDesiredCodeChars and desiredCodeChars isnt previousDesiredCodeChars
+      if not @resizeWindowDebounced
+        resizeWindow = => $(window).trigger('resize') unless @destroyed
+        @resizeWindowDebounced = _.debounce resizeWindow, 600
+      resizing = true
+      @resizeWindowDebounced()
+
+    return unless @blocklyActive
+    # Determine how wide the workspace and toolbox can/should be
+    currentScale = @blockly.getScale()
+    desiredToolboxWidth = @$el.find('.blocklyFlyout').width() / currentScale
+    desiredWorkspaceWidth = @blockly.getBlocksBoundingBox().getWidth() + 40
+
+    # TODO: DRY from PlayLevelView
+    tomePosition = if $('#tome-view').offset()?.top > 100 then 'bottom' else 'right'
+    availableWidth = $(window).width()
+    availableWidth -= ($(window).height() - 50) * 924 / 589 if tomePosition is 'right'
+    availableWidth -= desiredCodeChars * 410.47 / 57 + 30 + 41 + 30 if @options.codeFormat is 'blocks-and-code'
+    availableWidth = Math.max availableWidth, $(window).width() * (if @options.codeFormat is 'blocks-and-code' then 0.2 else 0.3)
+    # Split the difference between current desires and the min/max with zoom, as low as 0.5 or as high as 1.5
+    if desiredToolboxWidth + desiredWorkspaceWidth > availableWidth
+      desiredScale = Math.max 0.5, Math.min 1, availableWidth / (desiredToolboxWidth + desiredWorkspaceWidth)
+    else if desiredToolboxWidth + desiredWorkspaceWidth < 0.8 * availableWidth
+      desiredScale = Math.max 1, Math.min 1.5, 0.8 * availableWidth / (desiredToolboxWidth + desiredWorkspaceWidth)
+    else
+      desiredScale = currentScale
+    desiredScale = (desiredScale + currentScale) / 2
+    if Math.abs(desiredScale - currentScale) > 0.02
+      @blockly.setScale desiredScale
+    else
+      desiredScale = currentScale
+    desiredToolboxWidth *= desiredScale
+    desiredWorkspaceWidth *= desiredScale
+
+    minToolboxWidth = 144
+    maxToolboxWidth = if isJunior then 221 else 346
+    @toolboxWidth = min: minToolboxWidth, max: maxToolboxWidth, desired: Math.min(maxToolboxWidth, Math.max(minToolboxWidth, desiredToolboxWidth))
+    minWorkspaceWidth = 128
+    maxWorkspaceWidth = if isJunior then 512 else 665
+    @workspaceWidth = min: minWorkspaceWidth, max: maxWorkspaceWidth, desired: Math.min(maxWorkspaceWidth, Math.max(minWorkspaceWidth, desiredWorkspaceWidth))
+    previousDesiredWorkspaceWidth = @workspaceWidth?.desired
+    if previousDesiredWorkspaceWidth and desiredWorkspaceWidth isnt previousDesiredWorkspaceWidth and not resizing
+      if not @resizeWindowDebounced
+        resizeWindow = => $(window).trigger('resize') unless @destroyed
+        @resizeWindowDebounced = _.debounce resizeWindow, 600
+      resizing = true
+      @resizeWindowDebounced()
+    return
 
   hideProblemAlert: ->
     return if @destroyed

@@ -798,14 +798,6 @@ module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguag
   module.exports.initializeBlocklyLanguage()
   return {
     toolbox,
-    zoom: {
-      controls: true,
-      wheel: true,
-      startScale: 0.8,
-      maxScale: 1,
-      minScale: 0.6,
-      scaleSpeed: 1.2
-    },
     toolboxPosition: 'end',
     theme: 'coco-dark',
     plugins: {
@@ -821,8 +813,9 @@ module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguag
     zoom: {
       // Hide so that we don't mess with width of toolbox
       controls: false,
-      maxScale: 1,
-      minScale: 1,
+      startScale: 1,
+      minScale: 0.5,
+      maxScale: 1.5,
     },
     trashcan: false,
     // oneBasedIndex: codeLanguage === 'lua' // TODO: Need to test. Default is true.

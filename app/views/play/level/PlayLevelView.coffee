@@ -752,16 +752,20 @@ module.exports = class PlayLevelView extends RootView
       else 'bottom'
     minTomeHeight = switch
       when cinematic then Math.max(windowHeight * 0.15, 150)
-      else  Math.max(windowHeight * 0.25, 250)
-    minCodeChars = switch
+      else Math.max(windowHeight * 0.25, 250)
+    # Used to think min/max/desired code/workspace/toolbox width would be handled here, but actually currently SpellView is figuring that out and changing block zoom levels as needed.
+    # Future work could be to also change font size and to move the relevant logic just to one place.
+    minCodeChars = @tome?.spellView?.codeChars?.desired  # Also have min available. TODO: be smart here about min vs. desired based on how much space we have
+    minCodeChars ?= switch
       when @level?.isType('web-dev') then 80
-      # CoCo Jr might have a line like "    hero.castFireball("right", 2);"
-      when product is 'codecombat-junior' then 34
+      # CoCo Jr might have a line like "for (let i = 0; i < 5; ++i) {"
+      when product is 'codecombat-junior' then 28
       # Cinematic playback probably doesn't need to show long lines at full width, especially comments
       when cinematic then 40
       # 85% of CodeCombat solution lines are under 60 characters; longer ones are mostly comments, Java/C++, or advanced
       else 60
-    maxCodeChars = if product is 'codecombat-junior' then 40 else 80
+    maxCodeChars = @tome?.spellView?.codeChars?.max
+    maxCodeChars ?= if product is 'codecombat-junior' then 40 else 80
     minCodeCharWidth = 410.47 / 57 # 7.201px, measured at default font size. Can we get down to 5 if we shrink, on small screens? Don't want to shrink on large screens.
     maxCodeCharWidth = 24  # TODO: test and measure this, correlate to a font size
     acePaddingGutterAndMargin = 30 + 41 + 30  # 30px left and right padding, 41px gutter with 10-99 lines of code
@@ -769,8 +773,8 @@ module.exports = class PlayLevelView extends RootView
     maxCodeWidth = if codeLocation is 'none' then 0 else maxCodeChars * maxCodeCharWidth + acePaddingGutterAndMargin
     minBlockChars = switch
       when @codeFormat is 'blocks-icons' and product is 'codecombat-junior' then 4
-      when @codeFormat is 'blocks-icons' and cinematic then 5
-      when @codeFormat is 'blocks-icons' then 6
+      when @codeFormat is 'blocks-icons' and cinematic then 6
+      when @codeFormat is 'blocks-icons' then 7
       when product is 'codecombat-junior' then 30
       else 35
     maxBlockChars = switch
@@ -779,12 +783,16 @@ module.exports = class PlayLevelView extends RootView
       when @codeFormat is 'blocks-icons' and product is 'codecombat' then 10
       when product is 'codecombat-junior' then 40
       else 50
-    minBlockCharWidth = if @codeFormat is 'blocks-icons' then 40 else 6
-    maxBlockCharWidth = if @codeFormat is 'blocks-icons' then 50 else 15
-    minWorkspaceWidth = if workspaceLocation is 'none' then 0 else minBlockChars * minBlockCharWidth
-    maxWorkspaceWidth = if workspaceLocation is 'none' then 0 else maxBlockChars * maxBlockCharWidth
-    minToolboxWidth = if toolboxLocation is 'none' then 0 else minBlockChars * minBlockCharWidth
-    maxToolboxWidth = if toolboxLocation is 'none' then 0 else maxBlockChars * maxBlockCharWidth
+    minBlockCharWidth = if @codeFormat is 'blocks-icons' then 50 else 10
+    maxBlockCharWidth = if @codeFormat is 'blocks-icons' then 70 else 15
+    minWorkspaceWidth = @tome?.spellView?.workspaceWidth?.desired
+    minWorkspaceWidth ?= if workspaceLocation is 'none' then 0 else minBlockChars * minBlockCharWidth
+    maxWorkspaceWidth = @tome?.spellView?.workspaceWidth?.max
+    maxWorkspaceWidth ?= if workspaceLocation is 'none' then 0 else maxBlockChars * maxBlockCharWidth
+    minToolboxWidth = @tome?.spellView?.toolboxWidth?.desired
+    minToolboxWidth ?= if toolboxLocation is 'none' then 0 else minBlockChars * minBlockCharWidth
+    maxToolboxWidth = @tome?.spellView?.toolboxWidth?.max
+    maxToolboxWidth ?= if toolboxLocation is 'none' then 0 else maxBlockChars * maxBlockCharWidth
 
     # Now determine if we should put the control bar as 'none', 'top', 'left', or 'right'.
     # Right vs. left: put it on the right, unless it would lead to empty space below the canvas.
@@ -803,7 +811,9 @@ module.exports = class PlayLevelView extends RootView
       when @level?.isType('web-dev') then windowHeight - controlBarHeight
       when tomeLocation is 'bottom' then Math.min(windowHeight - minTomeHeight - controlBarHeight, windowWidth / canvasAspectRatio)
       else Math.min(windowHeight - (if controlBarLocation is 'left' then controlBarHeight else 0), (windowWidth - minCodeWidth - minWorkspaceWidth - minToolboxWidth) / canvasAspectRatio)
-    canvasWidth = canvasHeight * canvasAspectRatio
+    canvasWidth = switch
+      when @level?.isType('web-dev') then windowWidth - minCodeWidth
+      else canvasHeight * canvasAspectRatio
     emptyHeightBelowCanvas = switch
       when tomeLocation is 'bottom' then 0
       else windowHeight - canvasHeight - (if controlBarLocation is 'left' then controlBarHeight else 0)
@@ -829,20 +839,20 @@ module.exports = class PlayLevelView extends RootView
     playButtonHeight = 46
     workspaceWidth = switch
       when workspaceLocation is 'none' then 0
-      when workspaceLocation in ['left-half', 'bottom-left-half'] then 0.5 * tomeWidth
-      when workspaceLocation in ['middle-third', 'bottom-middle-third'] then 0.3 * tomeWidth
+      when workspaceLocation in ['left-half', 'bottom-left-half'] then tomeWidth - minToolboxWidth
+      when workspaceLocation in ['middle-third', 'bottom-middle-third'] then (minWorkspaceWidth / (minWorkspaceWidth + minCodeWidth)) * (tomeWidth - minToolboxWidth)
       else tomeWidth
     workspaceHeight = if workspaceLocation is 'none' then 0 else tomeHeight - playButtonHeight
     toolboxWidth = switch
       when toolboxLocation is 'none' then 0
-      when toolboxLocation in ['right-half', 'bottom-right-half'] then 0.5 * tomeWidth
-      else 0.3 * tomeWidth
+      when toolboxLocation in ['right-half', 'bottom-right-half'] then minToolboxWidth
+      else minToolboxWidth
     toolboxHeight = if toolboxLocation is 'none' then 0 else tomeHeight - playButtonHeight
     spellPaletteWidth = if spellPaletteLocation is 'none' then 0 else tomeWidth
     spellPaletteHeight = if spellPaletteLocation is 'none' then 0 else 150  # TODO: real spell palette height
     codeWidth = switch
       when codeLocation is 'none' then 0
-      when codeLocation in ['left-third', 'bottom-left-third'] then 0.4 * tomeWidth
+      when codeLocation in ['left-third', 'bottom-left-third'] then tomeWidth - workspaceWidth - toolboxWidth
       else tomeWidth
     codeHeight = if codeLocation is 'none' then 0 else tomeHeight - playButtonHeight
     playbackLocation = if emptyHeightBelowCanvas > 15 then 'below' else 'bottom'
