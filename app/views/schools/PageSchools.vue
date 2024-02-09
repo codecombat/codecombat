@@ -419,7 +419,10 @@
     >
       <div class="row">
         <div class="col-md-12">
-          <CTAButton link="https://codecombat.com/teachers/quote">
+          <CTAButton
+            href="https://codecombat.com/teachers/quote"
+            target="_blank"
+          >
             {{ $t('new_home.request_quote') }}
           </CTAButton>
         </div>
@@ -728,6 +731,11 @@ export default Vue.extend({
   }
 
   .pathway {
+
+    .text-h2 {
+      margin-bottom: 0;
+    }
+
     .container {
       display: flex;
       flex-direction: column;
