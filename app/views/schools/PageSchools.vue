@@ -436,7 +436,7 @@
 
     <div
       id="contact-us"
-      class="container"
+      class="container contact-us"
     >
       <div class="row">
         <div class="col-md-12">
