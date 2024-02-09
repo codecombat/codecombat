@@ -1076,24 +1076,26 @@ function rewriteBlocklyLua (code) {
   return code
 }
 
+function findLastBlockWithNextConnection (block) {
+  let lastBlockWithNextConnection
+  if (block.nextConnection) {
+    lastBlockWithNextConnection = block
+  }
+  for (const child of block.getChildren(true)) {
+    lastBlockWithNextConnection = findLastBlockWithNextConnection(child) || lastBlockWithNextConnection
+  }
+  return lastBlockWithNextConnection
+}
+
 module.exports.createBlockById = function ({ workspace, id, codeLanguage }) {
   const flyoutBlock = workspace.getToolbox()?.getFlyout()?.getWorkspace()?.getBlockById(id)
   if (!flyoutBlock) return null
   const topBlocks = workspace.getTopBlocks(true)
   const newWorkspaceBlock = workspace.getToolbox()?.getFlyout()?.createBlock(flyoutBlock)
   if (!newWorkspaceBlock) return null
-  let lastBlock = _.last(topBlocks)
-  while (lastBlock.getChildren(true)?.length) {
-    const foundNextConnection = false
-    for (const block of lastBlock.getChildren(true)) {
-      if (block.nextConnection) {
-        lastBlock = block
-        break
-      }
-    }
-    if (!foundNextConnection) {
-      break
-    }
+  let lastBlock
+  for (const block of topBlocks) {
+    lastBlock = findLastBlockWithNextConnection(block) || lastBlock
   }
   if (lastBlock) {
     const parentConnection = lastBlock.nextConnection
