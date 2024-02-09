@@ -646,6 +646,8 @@ function generateGetToLocations (result, getToLocationsGoal) {
 }
 
 function generateCollectThangs (result, collectThangsGoal) {
+  let lastThangCount = result.thangs.length
+  let addedThangCount = 0
   for (let i = 0; i <= Math.floor(Math.random() * 8);) {
     const collectThang = {
       id: getRandomThang(['Gem Junior']),
@@ -653,10 +655,14 @@ function generateCollectThangs (result, collectThangsGoal) {
       margin: 0
     }
     if (addThang(result, collectThang)) {
+      if (result.thangs.length === lastThangCount) { break }
+      lastThangCount = result.thangs.length
       if (i === 0) {
         collectThangsGoal.collectThangs.targets = []
       }
-      collectThangsGoal.collectThangs.targets.push(collectThang.id)
+      const newID = collectThang.id + (addedThangCount ? ' ' + addedThangCount : '')
+      collectThangsGoal.collectThangs.targets.push(newID)
+      ++addedThangCount
       ++i
     }
   }
