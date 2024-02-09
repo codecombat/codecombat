@@ -12,15 +12,11 @@
               class="main-image"
             >
               <template #image>
-                <div style="position: relative; padding-top: 56.25%;">
-                  <iframe
-                    alt="CodeCombat Home Page Video"
-                    src="https://customer-burj9xtby325x4f1.cloudflarestream.com/da0d63c489741f4bd20448af1846292a/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fda0d63c489741f4bd20448af1846292a%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
-                    style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
-                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                    allowfullscreen="true"
-                  />
-                </div>
+                <video-box
+                  alt="CodeCombat Home Page Video"
+                  padding="56.25%"
+                  src="https://customer-burj9xtby325x4f1.cloudflarestream.com/da0d63c489741f4bd20448af1846292a/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fda0d63c489741f4bd20448af1846292a%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+                />
               </template>
             </content-box>
           </div>
@@ -126,15 +122,11 @@
         <div class="col-md-12">
           <content-box>
             <template #image>
-              <div style="position: relative; padding-top: 56.25%;">
-                <iframe
-                  :src="'https://iframe.videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e?preload=true&poster=https://videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg%3Ftime%3D2s&defaultTextTrack=en'"
-                  style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"
-                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                  allowfullscreen="true"
-                  title="CodeCombat online classes video"
-                />
-              </div>
+              <video-box
+                padding="56.25%"
+                alt="CodeCombat online classes video"
+                src="https://iframe.videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e?letterboxColor=transparent&preload=true&poster=https://videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg%3Ftime%3D2s&defaultTextTrack=en"
+              />
             </template>
           </content-box>
         </div>
@@ -196,6 +188,7 @@ import BackgroundContainer from '../../components/common/backgrounds/BackgroundC
 import ContentBox from '../../components/common/elements/ContentBox.vue'
 import AvatarComponent from '../../components/common/elements/AvatarComponent.vue'
 import BoxPanel from '../../components/common/elements/BoxPanel.vue'
+import VideoBox from '../../components/common/image-containers/VideoBox.vue'
 import MissionComponent from '../common/MissionComponent.vue'
 import ToolsList from './ToolsList.vue'
 import CTAButton from '../../components/common/buttons/CTAButton.vue'
@@ -218,7 +211,8 @@ export default Vue.extend({
     CTAButton,
     PartnersList,
     ButtonSection,
-    TrendsAndInsights
+    TrendsAndInsights,
+    VideoBox
   },
   data () {
     return {
@@ -278,53 +272,63 @@ export default Vue.extend({
       ],
       engagingBoxes: [
         {
-          title: this.$t('home_v3.engaging_boxes_1_title'),
-          text: this.$t('home_v3.engaging_boxes_1_text'),
-          link: 'https://www.ozaria.com/',
-          image: '/images/pages/home-v3/engaging-boxes/box_1.webp'
+          title: this.$t('schools_page.core_curriculum_1_title'),
+          text: this.$t('schools_page.core_curriculum_1_text'),
+          link: 'https://ozaria.com',
+          linkText: this.$t('schools_page.core_curriculum_1_link_text'),
+          image: '/images/pages/schools/boxes/maximize_1.webp'
         },
         {
-          title: this.$t('home_v3.engaging_boxes_2_title'),
-          text: this.$t('home_v3.engaging_boxes_2_text'),
-          image: '/images/pages/home-v3/engaging-boxes/box_2.webp'
+          title: this.$t('schools_page.core_curriculum_2_title'),
+          text: this.$t('schools_page.core_curriculum_2_text'),
+          link: 'https://codecombat.com/#teacher-signup',
+          linkText: this.$t('schools_page.core_curriculum_2_link_text'),
+          image: '/images/pages/schools/boxes/maximize_2.webp'
         },
         {
-          title: this.$t('home_v3.engaging_boxes_3_title'),
-          text: this.$t('home_v3.engaging_boxes_3_text'),
+          title: this.$t('schools_page.practice_enrichment_2_title'),
+          text: this.$t('schools_page.practice_enrichment_2_text'),
           link: 'https://codecombat.com/roblox',
-          image: '/images/pages/home-v3/engaging-boxes/box_3.webp'
+          linkText: this.$t('schools_page.practice_enrichment_2_link_text'),
+          image: '/images/pages/schools/boxes/maximize_4.webp'
         },
         {
-          title: this.$t('home_v3.engaging_boxes_4_title'),
-          text: this.$t('home_v3.engaging_boxes_4_text'),
+          title: this.$t('schools_page.practice_enrichment_1_title'),
+          text: this.$t('schools_page.practice_enrichment_1_text'),
           link: 'https://codecombat.com/league',
-          image: '/images/pages/home-v3/engaging-boxes/box_4.webp'
+          linkText: this.$t('schools_page.practice_enrichment_1_link_text'),
+          image: '/images/pages/schools/boxes/maximize_3.webp'
         },
         {
-          title: this.$t('home_v3.engaging_boxes_5_title'),
-          text: this.$t('home_v3.engaging_boxes_5_text'),
-          link: 'https://codecombat.com/hackstack',
-          image: '/images/pages/home-v3/engaging-boxes/box_5.webp'
+          title: this.$t('schools_page.student_acceleration_1_title'),
+          text: this.$t('schools_page.student_acceleration_1_text'),
+          link: 'https://codecombat.com/ai/',
+          linkText: this.$t('schools_page.student_acceleration_1_link_text'),
+          video: {
+            padding: '62.7906976744186%',
+            src: 'https://customer-burj9xtby325x4f1.cloudflarestream.com/50770b9a2fb36de457a37693a3f632c7/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F50770b9a2fb36de457a37693a3f632c7%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false',
+            alt: 'Video to illustrate student acceleration'
+          }
         },
         {
           title: this.$t('home_v3.engaging_boxes_6_title'),
           text: this.$t('home_v3.engaging_boxes_6_text'),
           link: 'https://codecombat.com/home',
-          image: '/images/pages/home-v3/engaging-boxes/box_4.webp'
+          image: '/images/pages/home-v3/engaging-boxes/box_6.webp'
         }
       ],
       youngLearners: [
         {
           title: this.$t('home_v3.young_learners_1_title'),
           text: this.$t('home_v3.young_learners_1_text'),
-          link: 'https://codecombat.com/home',
+          link: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform',
           linkText: this.$t('home_v3.young_learners_1_linkText'),
           image: '/images/pages/home-v3/young-learners/box_1.webp'
         },
         {
           title: this.$t('home_v3.young_learners_2_title'),
           text: this.$t('home_v3.young_learners_2_text'),
-          link: 'https://codecombat.com/league',
+          link: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform',
           linkText: this.$t('home_v3.young_learners_2_linkText'),
           image: '/images/pages/home-v3/young-learners/box_2.webp'
         }
@@ -359,7 +363,11 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.solutions_4_title'),
           text: this.$t('home_v3.solutions_4_text'),
-          image: '/images/pages/home-v3/solutions/box_4.gif'
+          video: {
+            padding: '50.8%;',
+            src: 'https://customer-burj9xtby325x4f1.cloudflarestream.com/cb37e75e3af57c91bab8af6ea85481d3/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fcb37e75e3af57c91bab8af6ea85481d3%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false',
+            alt: `Video to illustrate ${this.$t('home_v3.solutions_4_title')}`
+          }
         },
         {
           title: this.$t('home_v3.solutions_5_title'),

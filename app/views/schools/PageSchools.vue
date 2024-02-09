@@ -19,16 +19,11 @@
         <template #image>
           <content-box :main-image-bg="true">
             <template #image>
-              <div style="position: relative; padding-top: 56.25%;">
-                <iframe
-                  alt="CodeCombat Schools Page video"
-                  src="https://customer-burj9xtby325x4f1.cloudflarestream.com/8dc59ba8779cdb63f9cf5a3cb7493b09/iframe?letterboxColor=transparent&muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F8dc59ba8779cdb63f9cf5a3cb7493b09%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
-                  loading="lazy"
-                  style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: transparent;"
-                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                  allowfullscreen="true"
-                />
-              </div>
+              <video-box
+                alt="CodeCombat Schools Page video"
+                padding="56.25%"
+                src="https://customer-burj9xtby325x4f1.cloudflarestream.com/8dc59ba8779cdb63f9cf5a3cb7493b09/iframe?letterboxColor=transparent&muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F8dc59ba8779cdb63f9cf5a3cb7493b09%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+              />
             </template>
           </content-box>
         </template>
@@ -76,16 +71,11 @@
         :text="$t('schools_page.flexible_standards_aligned_curriculum_text')"
       >
         <template #image>
-          <div style="position: relative; padding-top: 57.2202166064982%;">
-            <iframe
-              alt="Video to illustrate flexible standards-aligned curriculum"
-              src="https://customer-burj9xtby325x4f1.cloudflarestream.com/c01bf2665cc40c18e1b728516b3ed4fb/iframe?letterboxColor=transparent&muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fc01bf2665cc40c18e1b728516b3ed4fb%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
-              loading="lazy"
-              style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: transparent;"
-              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-              allowfullscreen="true"
-            />
-          </div>
+          <video-box
+            padding="57.2202166064982%"
+            alt="Video to illustrate flexible standards-aligned curriculum"
+            src="https://customer-burj9xtby325x4f1.cloudflarestream.com/c01bf2665cc40c18e1b728516b3ed4fb/iframe?letterboxColor=transparent&muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fc01bf2665cc40c18e1b728516b3ed4fb%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+          />
         </template>
       </image-and-text>
       <image-and-text
@@ -94,16 +84,11 @@
         :reverse="true"
       >
         <template #image>
-          <div style="position: relative; padding-top: 56.39999999999999%;">
-            <iframe
-              alt="Video to illustrate comprehensive tools and resources"
-              src="https://customer-burj9xtby325x4f1.cloudflarestream.com/16ca174da271510477cc042ef2c976be/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F16ca174da271510477cc042ef2c976be%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
-              loading="lazy"
-              style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: transparent;"
-              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-              allowfullscreen="true"
-            />
-          </div>
+          <video-box
+            padding="56.39999999999999%"
+            alt="Video to illustrate comprehensive tools and resources"
+            src="https://customer-burj9xtby325x4f1.cloudflarestream.com/16ca174da271510477cc042ef2c976be/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F16ca174da271510477cc042ef2c976be%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+          />
         </template>
       </image-and-text>
     </div>
@@ -118,16 +103,11 @@
         :text="$t('schools_page.accessible_data_insights_text')"
       >
         <template #image>
-          <div style="position: relative; padding-top: 47.8125%;">
-            <iframe
-              alt="Video to illustrate accessible data insights"
-              src="https://customer-burj9xtby325x4f1.cloudflarestream.com/cfd3f5540ac68830bb1ac43f9863a220/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fcfd3f5540ac68830bb1ac43f9863a220%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
-              loading="lazy"
-              style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
-              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-              allowfullscreen="true"
-            />
-          </div>
+          <video-box
+            padding="47.8125%"
+            alt="Video to illustrate accessible data insights"
+            src="https://customer-burj9xtby325x4f1.cloudflarestream.com/cfd3f5540ac68830bb1ac43f9863a220/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fcfd3f5540ac68830bb1ac43f9863a220%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+          />
         </template>
       </image-and-text>
 
@@ -144,16 +124,11 @@
           >
         </p>
         <template #image>
-          <div style="position: relative; padding-top: 72.3%;">
-            <iframe
-              alt="Video to illustrate high quality professional development"
-              src="https://customer-burj9xtby325x4f1.cloudflarestream.com/df52cfd5a4af158c164380a0fb223e69/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fdf52cfd5a4af158c164380a0fb223e69%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
-              loading="lazy"
-              style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
-              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-              allowfullscreen="true"
-            />
-          </div>
+          <video-box
+            padding="72.3%"
+            alt="Video to illustrate high quality professional development"
+            src="https://customer-burj9xtby325x4f1.cloudflarestream.com/df52cfd5a4af158c164380a0fb223e69/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fdf52cfd5a4af158c164380a0fb223e69%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+          />
         </template>
       </image-and-text>
     </div>
@@ -491,6 +466,7 @@ import MissionComponent from '../common/MissionComponent.vue'
 import TestimonialComponent from '../../components/common/elements/TestimonialComponent.vue'
 import FaqComponent from '../../components/common/elements/FaqComponent.vue'
 import TrendsAndInsights from '../common/TrendsAndInsights.vue'
+import VideoBox from '../../components/common/image-containers/VideoBox.vue'
 
 import TurnkeySolutions from './TurnkeySolutions.vue'
 import StatsComponent from './StatsComponent.vue'
@@ -514,7 +490,8 @@ export default Vue.extend({
     CustomTable,
     TestimonialComponent,
     FaqComponent,
-    TrendsAndInsights
+    TrendsAndInsights,
+    VideoBox
   },
   data () {
     return {
@@ -618,7 +595,11 @@ export default Vue.extend({
           text: this.$t('schools_page.student_acceleration_1_text'),
           link: 'https://codecombat.com/ai/',
           linkText: this.$t('schools_page.student_acceleration_1_link_text'),
-          image: '/images/pages/schools/boxes/maximize_5.webp'
+          video: {
+            padding: '62.7906976744186%',
+            src: 'https://customer-burj9xtby325x4f1.cloudflarestream.com/50770b9a2fb36de457a37693a3f632c7/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F50770b9a2fb36de457a37693a3f632c7%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false',
+            alt: 'Video to illustrate student acceleration'
+          }
         },
         {
           title: this.$t('schools_page.student_acceleration_2_title'),
@@ -631,18 +612,18 @@ export default Vue.extend({
       ],
       youngLearners: [
         {
-          title: this.$t('schools_page.young_learners_1_title'),
-          text: this.$t('schools_page.young_learners_1_text'),
-          link: '#',
-          linkText: this.$t('schools_page.young_learners_1_link_text'),
-          image: '/images/pages/schools/boxes/maximize_7.webp'
+          title: this.$t('home_v3.young_learners_1_title'),
+          text: this.$t('home_v3.young_learners_1_text'),
+          link: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform',
+          linkText: this.$t('home_v3.young_learners_1_linkText'),
+          image: '/images/pages/home-v3/young-learners/box_1.webp'
         },
         {
-          title: this.$t('schools_page.young_learners_2_title'),
-          text: this.$t('schools_page.young_learners_2_text'),
-          link: '#',
-          linkText: this.$t('schools_page.young_learners_2_link_text'),
-          image: '/images/pages/schools/boxes/maximize_8.webp'
+          title: this.$t('home_v3.young_learners_2_title'),
+          text: this.$t('home_v3.young_learners_2_text'),
+          link: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform',
+          linkText: this.$t('home_v3.young_learners_2_linkText'),
+          image: '/images/pages/home-v3/young-learners/box_2.webp'
         }
       ],
       fundingSolutions: [

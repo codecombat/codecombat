@@ -30,7 +30,15 @@
           :middle-image-alt="item.middleImageAlt"
         >
           <template #image>
+            <div v-if="item.video">
+              <video-box
+                :alt="item.video.alt || `Video to illustrate ${item.title}`"
+                :src="item.video.src"
+                :padding="item.video.padding"
+              />
+            </div>
             <img
+              v-else
               :src="item.image"
               :alt="`Image to illustrate ${item.title}`"
             >
@@ -65,6 +73,7 @@
 import ContentBox from './ContentBox.vue'
 import MixedColorLabel from '../labels/MixedColorLabel.vue'
 import LearnMoreButton from '../buttons/LearnMoreButton.vue'
+import VideoBox from '../image-containers/VideoBox.vue'
 
 const ARRANGEMENT_OPTIONS = ['horizontal', 'vertical']
 
@@ -73,7 +82,8 @@ export default {
   components: {
     ContentBox,
     MixedColorLabel,
-    LearnMoreButton
+    LearnMoreButton,
+    VideoBox
   },
   props: {
     title: {
