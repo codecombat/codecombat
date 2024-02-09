@@ -831,6 +831,7 @@ module.exports = class SpellView extends CocoView
     # Also update spell palette size and position, if it is shown.
     isCinematic = $('#level-view').hasClass('cinematic')
     hasBlocks = @blocklyActive
+    tomePosition = if $('#tome-view').offset()?.top > 100 then 'bottom' else 'right'
     lineHeight = ace.renderer.lineHeight or 20
     spellPaletteView = $('#tome-view #spell-palette-view')
     spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
@@ -838,10 +839,10 @@ module.exports = class SpellView extends CocoView
     if spellTopBarHeight is 0 and parseInt($('#control-bar-view').css('left'), 10) > 0
       # Spell top bar isn't there, but we've stacked level control bar above editor instead
       spellTopBarHeight = controlBarHeight
-    if aceCls == '.ace'
-      spellPaletteHeight = spellPaletteView.find('.properties-this').outerHeight()
-    else
-      spellPaletteHeight = 0
+    spellPaletteHeight = switch
+      when hasBlocks then 0
+      when aceCls == '.ace' then spellPaletteView.find('.properties-this').outerHeight()
+      else 0
     windowHeight = $(window).innerHeight()
     topOffset = $(aceCls).offset()?.top or 0
     spellPaletteAllowedMinHeight = Math.min spellPaletteHeight, 0.4 * (windowHeight  - topOffset)
@@ -859,7 +860,6 @@ module.exports = class SpellView extends CocoView
     spellPaletteShown = spellPaletteHeight > 0
     minLinesBuffer = if spellPaletteShown then 0 else 2
     minLinesBuffer = 0 if hasBlocks or isCinematic
-    tomePosition = if $('#tome-view').offset()?.top > 100 then 'bottom' else 'right'
     hardMinLines = if tomePosition is 'bottom' then 5 else 8
     linesAtMinHeight = Math.max(hardMinLines, Math.floor(minHeight / lineHeight - minLinesBuffer))
     linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
