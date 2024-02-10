@@ -5057,7 +5057,16 @@ module.exports = {
       prompt_level_chat_hint_2: "What's the next thing I should do?",
       prompt_level_chat_hint_3: 'Please help me with the next part of my code.',
       prompt_level_chat_hint_4: 'Coding hint, please.',
-      prompt_level_chat_hint_5: 'I need a hint on the next step.'
+      prompt_level_chat_hint_5: 'I need a hint on the next step.',
+      hackstack_promotion: 'Unlock the Full Potential of Generative AI',
+      try_it_free: 'Try it free',
+      hackstack_promotion_blurb: 'New to AI? Explore <b>CodeCombat AI HackStack</b> – the simplest route to AI literacy. Unlock the potential of ChatGPT-4, Claude, Stable Diffusion, and DALL-E. This innovative tool offers hands-on AI training, making creation effortless.',
+      generate: 'Generate',
+      games: 'Games',
+      art: 'Art',
+      websites: 'Websites',
+      code_more: 'Code and more',
+      ideal_endeavour: "It's the ideal companion for any endeavor."
     },
     user_credits: {
       level_chat_left_in_duration: '__credits__ AI Bot queries left for the __duration_key__',

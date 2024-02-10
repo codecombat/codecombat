@@ -33,6 +33,10 @@ export const findNextLevelsBySession = (sessions, levels, levelStatusMap, classr
     levelDataMap = levels || {}
   }
   for (const [levelOriginal, level] of Object.entries(levelDataMap)) {
+    if (classroom && classroom.isStudentOnSkippedLevel(me.get('_id'), courseId, levelOriginal)) {
+      continue
+    }
+
     const levelStatus = levelStatusMap[levelOriginal]
     const isLevelStarted = typeof levelStatus === 'string' && levelStatus === 'started'
     const isLevelCompleted = typeof levelStatus === 'string' && levelStatus === 'complete'

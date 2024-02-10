@@ -60,6 +60,7 @@ const globalVar = require('core/globalVar')
 const paymentUtils = require('app/lib/paymentUtils')
 const userUtils = require('lib/user-utils')
 const AILeaguePromotionModal = require('views/core/AILeaguePromotionModal')
+const HackstackPromotionModalView = require('views/ai/HackstackPromotionModalView').default
 require('lib/game-libraries')
 
 class LevelSessionsCollection extends CocoCollection {
@@ -100,6 +101,7 @@ module.exports = (CampaignView = (function () {
         'click #anon-classroom-signup-btn': 'onClickAnonClassroomSignup',
         'click .roblox-level': 'onRobloxLevelClick',
         'click .hackstack-level': 'onHackStackLevelClick',
+        'click .hackstack-menu-icon': 'onHackStackLevelClick',
         'click .map-background': 'onClickMap',
         'click .level': 'onClickLevel',
         'dblclick .level': 'onDoubleClickLevel',
@@ -661,11 +663,9 @@ module.exports = (CampaignView = (function () {
     }
 
     onHackStackLevelClick (e) {
-      if (window.tracker != null) {
-        window.tracker.trackEvent('HackStack Explored', { engageAction: 'campaign_level_click' })
-      }
+      window.tracker?.trackEvent('HackStack Explored', { engageAction: 'campaign_level_click' })
       // Backbone.Mediator.publish 'router:navigate', route: '/ai/new_project'
-      return window.open('/ai/new_project', '_blank')
+      this.openModalView(new HackstackPromotionModalView())
     }
 
     setCampaign (campaign) {
@@ -2119,7 +2119,7 @@ ${problem.category} - ${problem.score} points\
       }
 
       if (what === 'hackstack') {
-        return ((typeof me.getHackStackExperimentValue === 'function' ? me.getHackStackExperimentValue() : undefined) !== 'beta') && !userUtils.isCreatedViaLibrary()
+        return me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary()
       }
 
       return true

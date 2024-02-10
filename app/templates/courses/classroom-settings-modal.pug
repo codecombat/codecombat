@@ -122,7 +122,7 @@ block modal-body-content
           label
             span(data-i18n="teachers.classroom_level_chat")
             span= ': '
-            - var aceConfig = _.assign({levelChat: 'none'},  view.classroom.get('aceConfig'))
+            - var aceConfig = _.assign({levelChat: 'fixed_prompt_only'},  view.classroom.get('aceConfig'))
             - var levelChat = aceConfig.levelChat
             - var levelChatAllowed = levelChat === 'fixed_prompt_only'
             input#level-chat(name="levelChat" checked=levelChatAllowed value='fixed_prompt_only' type='checkbox')
@@ -178,9 +178,9 @@ block modal-body-content
             span(data-i18n="courses.estimated_class_dates_label")
             i.spl.text-muted(data-i18n="signup.optional")
           div
-            input.class-dates.form-control(name="classDateStart" type="date" value=view.classroom.get('classDateStart'))
+            input.class-dates.form-control(name="classDateStart" type="date" value=view.classroom.get('classDateStart') max="9999-12-31")
             span.spl.spr(data-i18n="courses.student_age_range_to")
-            input.class-dates.form-control(name="classDateEnd" type="date" value=view.classroom.get('classDateEnd'))
+            input.class-dates.form-control(name="classDateEnd" type="date" value=view.classroom.get('classDateEnd') max="9999-12-31")
 
         .form-group
           label

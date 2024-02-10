@@ -1083,7 +1083,10 @@ module.exports = (User = (function () {
         // Don't include users other than home users
         value = 'control'
       }
-      if ((value == null)) {
+      if (me.isAdmin()) {
+        value = 'beta'
+      }
+      if ((!value)) {
         let valueProbability
         const probability = window.serverConfig?.experimentProbabilities?.hackstack?.beta != null ? window.serverConfig?.experimentProbabilities?.hackstack?.beta : 0.05
         if (Math.random() < probability) {
